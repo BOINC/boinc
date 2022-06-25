@@ -7,6 +7,10 @@ on:
   schedule:
     - cron:  '20 12 * * 0'
 
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: ${{matrix.type}}-build
@@ -39,6 +43,19 @@ jobs:
       - name: libs cmake
         if: matrix.type == 'libs-cmake'
         run: osx/ci_build_libs_cmake.sh
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: python ./deploy/prepare_deployment.py logs
+      
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
 
       - name: deploy
         if: success() && ! contains(matrix.type, 'libs')

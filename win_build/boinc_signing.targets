@@ -3,18 +3,6 @@
         <FilesToSign Include="$(OutDir)$(TargetName)$(TargetExt)" Condition="('$(TargetExt)' == '.exe' or '$(TargetExt)' == '.dll' or '$(TargetExt)' == '.scr')"/>
     </ItemGroup>
     <Target Name="Signing" DependsOnTargets="Build" AfterTargets="Build" Condition="('@(FilesToSign)' != '' and Exists('$(BUILDCODESIGN)\boinc.pfx'))">
-        <Exec Command='signtool sign /f "$(BUILDCODESIGN)/boinc.pfx" /p "$(CODESIGNBOINC)" /fd sha256 /d "BOINC Client Software" /du "http://boinc.berkeley.edu" /t "http://timestamp.verisign.com/scripts/timstamp.dll" "@(FilesToSign)"' WorkingDirectory="$(MSBuildProjectDirectory)" ContinueOnError="WarnAndContinue">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-        </Exec>
-        <Exec Command='signtool sign /f "$(BUILDCODESIGN)/boinc.pfx" /p "$(CODESIGNBOINC)" /fd sha256 /d "BOINC Client Software" /du "http://boinc.berkeley.edu" /t "http://timestamp.globalsign.com/scripts/timstamp.dll" "@(FilesToSign)"' WorkingDirectory="$(MSBuildProjectDirectory)" Condition="'$(ErrorCode)'=='1'" ContinueOnError="WarnAndContinue">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-        </Exec>
-        <Exec Command='signtool sign /f "$(BUILDCODESIGN)/boinc.pfx" /p "$(CODESIGNBOINC)" /fd sha256 /d "BOINC Client Software" /du "http://boinc.berkeley.edu" /t "http://timestamp.comodoca.com/authenticode" "@(FilesToSign)"' WorkingDirectory="$(MSBuildProjectDirectory)" Condition="'$(ErrorCode)'=='1'" ContinueOnError="WarnAndContinue">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-        </Exec>
-        <Exec Command='signtool sign /f "$(BUILDCODESIGN)/boinc.pfx" /p "$(CODESIGNBOINC)" /fd sha256 /d "BOINC Client Software" /du "http://boinc.berkeley.edu" /t "http://www.startssl.com/timestamp" "@(FilesToSign)"' WorkingDirectory="$(MSBuildProjectDirectory)" Condition="'$(ErrorCode)'=='1'" ContinueOnError="WarnAndContinue">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-        </Exec>
-        <Exec Command='signtool sign /f "$(BUILDCODESIGN)/boinc.pfx" /p "$(CODESIGNBOINC)" /fd sha256 /d "BOINC Client Software" /du "http://boinc.berkeley.edu" /t "http://timestamp.sectigo.com" "@(FilesToSign)"' WorkingDirectory="$(MSBuildProjectDirectory)" Condition="'$(ErrorCode)'=='1'"/>
+        <Exec Command='signtool sign /f "$(BUILDCODESIGN)/boinc.pfx" /p "$(CODESIGNBOINC)" /fd sha256 /d "BOINC Client Software" /du "http://boinc.berkeley.edu" /t "http://timestamp.sectigo.com" "@(FilesToSign)"' WorkingDirectory="$(MSBuildProjectDirectory)" />
     </Target>
 </Project>

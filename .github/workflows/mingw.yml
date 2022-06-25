@@ -7,6 +7,10 @@ on:
   schedule:
     - cron:  '0 12 * * 0'
 
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
@@ -85,6 +89,19 @@ jobs:
         if: success() && endsWith(matrix.type, 'cmake')
         run: 
           cmake --build build
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: python ./deploy/prepare_deployment.py logs
+      
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: mingw_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
         if: success() && ! contains(matrix.type, 'libs')

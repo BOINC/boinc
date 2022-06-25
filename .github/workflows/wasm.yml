@@ -7,13 +7,17 @@ on:
   schedule:
     - cron:  '10 12 * * 0'
 
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: ${{ matrix.type }}-build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [client]
+        type: [client, client-debug]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -52,6 +56,10 @@ jobs:
         if: success() && matrix.type == 'client'
         run: wasm/ci_configure_client.sh
 
+      - name: Configure client as webassembly
+        if: success() && matrix.type == 'client-debug'
+        run: wasm/ci_configure_client.sh debug
+
       - name: Make
         if: success()
         run: wasm/ci_make.sh
@@ -60,7 +68,7 @@ jobs:
         if: ${{ failure() }}
         uses: edgarrc/action-7z@v1.0.4
         with:
-          args: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/wasm/vcpkg/buildtrees/*.log
+          args: python ./deploy/prepare_deployment.py logs
       
       - name: Upload logs on failure
         if: ${{ failure() }}
@@ -70,11 +78,18 @@ jobs:
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: success() && ! contains(matrix.type, 'libs') 
+        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'debug') 
         env:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
         run: python ./deploy/prepare_deployment.py wasm_${{ matrix.type }}
+
+      - name: Prepare artifacts for debug deploy
+        if: success() && matrix.type == 'client-debug'
+        env:
+          PULL_REQUEST: ${{ github.event.number }}
+          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
+        run:  python ./deploy/prepare_deployment.py wasm_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
