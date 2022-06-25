@@ -51,6 +51,11 @@ jobs:
         run: |
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
+      - name: Unset ANDROID_NDK_ROOT environment variable
+        if: ${{ success() }}
+        run: |
+          echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
+
       - name: Build manager
         if: ${{ success() && matrix.type == 'manager' }}
         run:  |
