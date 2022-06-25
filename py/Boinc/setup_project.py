@@ -442,6 +442,7 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
             'parse_config',
             'run_in_ops',
             'sign_executable',
+            'stage_file.php',
             'stage_file',
             'update_versions',
             'xadd',

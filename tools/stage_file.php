@@ -24,7 +24,7 @@
 //
 // Usage (from project dir):
 //
-// bin/stage_file [options] path
+// bin/stage_file.php [options] path
 //
 // options:
 // --gzip       Make a gzipped version of the file.
@@ -54,7 +54,7 @@ require_once("util_basic.inc");
 chdir($dir);
 
 function usage() {
-    error_exit("usage: stage_file [--gzip] [--copy] path
+    error_exit("usage: stage_file.php [--gzip] [--copy] path
     --gzip      make a gzipped version of file for compressed download
                 (use with <gzip/> in the input template)
     --copy      copy the file (default is to move it)
