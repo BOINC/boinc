@@ -12,7 +12,7 @@ toolbin_PROGRAMS = \
 	dir_hier_path \
 	remote_submit_test \
 	sign_executable \
-	stage_file
+	run_stage_file
 
 dist_toolbin_SCRIPTS = \
 	    boinc_submit \
@@ -36,7 +36,7 @@ dist_tools_SCRIPTS = \
     appmgr \
     manage_privileges \
     run_in_ops \
-    stage_file.php
+    stage_file
 
 dist_tools_DATA = \
     project.xml \
@@ -60,8 +60,8 @@ dir_hier_move_LDADD = $(SERVERLIBS)
 sign_executable_SOURCES = sign_executable.cpp
 sign_executable_LDADD = $(SERVERLIBS_MIN)
 
-stage_file_SOURCES = stage_file.cpp
-stage_file_LDADD = $(SERVERLIBS)
+run_stage_file_SOURCES = stage_file.cpp
+run_stage_file_LDADD = $(SERVERLIBS)
 
 remote_submit_test_SOURCES = remote_submit_test.cpp ../lib/remote_submit.cpp
 remote_submit_test_LDADD = $(SERVERLIBS) -lcurl
