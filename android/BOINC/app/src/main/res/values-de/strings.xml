@@ -25,15 +25,15 @@
   <string name="attachproject_conflict_unknown_user">Konto existiert nicht</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">Dieses Konto existiert nicht! Bitte besuchen Sie die Projektwebseite, um ein neues Konto zu erstellen.</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Füge hinzu: %1$s</string>
+  <string name="attachproject_working_attaching">%1$s hinzufügen</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
-  <string name="attachproject_hints_header">Hinweis</string>
+  <string name="attachproject_hints_header">Tipp</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">So können Sie beitragen:</string>
   <string name="attachproject_hint_contribtion_wifi">1. WLAN Verbindung herstellen</string>
   <string name="attachproject_hint_contribtion_charger">2. Ladegerät anschließen</string>
-  <string name="attachproject_hint_contribtion_app">BOINC ausführen und offen lassen</string>
+  <string name="attachproject_hint_contribtion_app">3. BOINC ausführen und geöffnet lassen</string>
   <string name="attachproject_hint_contribtion_screen">4. Bildschirm ausschalten</string>
   <string name="attachproject_hint_projectwebsite_header">Die Projektwebseite besuchen um:</string>
   <string name="attachproject_hint_projectwebsite_science">Mehr über die Wissenschaft zu erfahren</string>
@@ -54,9 +54,10 @@
   <string name="attachproject_login_button_login">Anmelden</string>
   <string name="attachproject_login_button_forgotpw">Passwort vergessen</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Eine BOINC-Kontoverwaltung nutzen, um mehrere Projekte hinzuzufügen und zu verwalten. </string>
+  <string name="attachproject_acctmgr_list_desc">Eine Kontoverwaltung benutzen um dieses Gerät zu verwalten</string>
   <string name="attachproject_acctmgr_header">Kontoverwaltung benutzen</string>
   <string name="attachproject_attach_projects_header">Projekte hinzufügen</string>
+  <string name="attachproject_attach_projects_desc">Projekte von der Projekte-Liste hinzufügen</string>
   <string name="attachproject_acctmgr_header_url">Adresse</string>
   <string name="attachproject_acctmgr_header_name">Benutzer:</string>
   <string name="attachproject_acctmgr_header_pwd">Passwort:</string>
@@ -105,18 +106,19 @@
   <string name="prefs_category_memory">Arbeitsspeicher</string>
   <string name="prefs_category_other">Sonstiges</string>
   <string name="prefs_category_debug">Fehlerdiagnose</string>
+  <string name="prefs_category_remote">Fernkontrolle</string>
   <string name="prefs_show_advanced_header">Erweiterte Einstellungen anzeigen</string>
   <string name="prefs_suspend_when_screen_on">Die Berechnung anhalten wenn der Bildschirm eingeschaltet ist</string>
   <string name="prefs_general_device_name_header">Gerätename</string>
   <string name="prefs_theme_header">Thema</string>
   <string name="prefs_stationary_device_mode_header">Modus für feststehende Geräte</string>
-  <string name="prefs_stationary_device_mode_description">Erlaubt die Berechnung unabhängig von den Energieeinstellungen. Nur für Geräte ohne Akku auswählen.</string>
+  <string name="prefs_stationary_device_mode_description">Erlaubt Berechnungen, unabhängig von den Energieeinstellungen. Nur aktivieren, wenn das Gerät über keinen Akku verfügt.</string>
   <string name="prefs_power_source_header">Energiequellen für Berechnung</string>
   <string name="prefs_power_source_ac">Steckdose</string>
   <string name="prefs_power_source_usb">USB Verbindung</string>
   <string name="prefs_power_source_wireless">Kabelloses Ladegerät</string>
   <string name="prefs_power_source_battery">Akku</string>
-  <string name="battery_charge_min_pct_header">Minimales Batterie-Niveau (%)</string>
+  <string name="battery_charge_min_pct_header">Min. Akku-Ladestand (%)</string>
   <string name="battery_temperature_max_header">Maximale Batterie-Temperatur (°C)</string>
   <string name="prefs_disk_max_pct_header">Maximaler Speicherplatz (%)</string>
   <string name="prefs_disk_min_free_gb_header">min. freizuhaltender Speicher (GB)</string>
@@ -125,18 +127,23 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">Tägliche Transferbegrenzung (Tage)</string>
   <string name="prefs_network_wifi_only_header">Übertrage Aufgaben nur per WLAN</string>
   <string name="prefs_autostart_header">Automatisch starten</string>
+  <string name="prefs_remote_header">Fernkontrolle ermöglichen</string>
+  <string name="prefs_remote_summary">Bei Änderung wird der BOINC-Client neu gestartet</string>
   <string name="prefs_show_notification_notices_header">Zeige Meldung für neue Nachrichten</string>
   <string name="prefs_cpu_number_cpus_header">Benutzte Prozessoren</string>
   <string name="prefs_cpu_number_cpus_description">Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf.</string>
   <string name="prefs_cpu_other_load_suspension_header">Anhalten, wenn Prozessornutzung über (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Legt fest, wann BOINC aufgrund der CPU-Nutzung anderer Apps pausiert wird</string>
+  <string name="prefs_cpu_other_load_suspension_description">Legt fest, wann BOINC aufgrund der CPU-Nutzung anderer Apps pausiert wird.</string>
   <string name="prefs_cpu_time_max_header">Prozessorbegrenzung (%)</string>
   <string name="prefs_cpu_time_max_description">Limitiert die Prozessorzeit, die BOINC nutzen darf.</string>
   <string name="prefs_memory_max_idle_header">Arbeitsspeicherlimit (%)</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeitspuffer (Tage)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Max. zusätzlicher Arbeitspuffer (Tage)</string>
+  <string name="prefs_remote_authentication_key">GUI Authentifizierungs-Schlüssel</string>
   <string name="prefs_remote_empty_password">Passwortänderung fehlgeschlagen: Passwort kann nicht leer sein</string>
+  <string name="prefs_remote_boinc_relaunched">BOINC wird nach der Passwortänderung neu gestartet.</string>
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
+  <string name="prefs_gui_log_categories">BOINC GUI Log Kategorien</string>
   <string name="prefs_gui_log_level_header">GUI Protokollierstufe</string>
   <string name="prefs_gui_log_level_description">Einstellung der Detailiertheit der GUI Protokollmeldungen.</string>
   <string name="prefs_theme_light">Hell</string>
@@ -147,6 +154,8 @@
   <string name="projects_icon">Projektsymbol</string>
   <string name="projects_credits">Punkte:</string>
   <string name="projects_credits_host_and_user">%1$,d (auf diesem Gerät) %2$,d (insgesamt)</string>
+  <string name="projects_disk_usage">Speicherplatzbedarf:</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Angehalten durch Benutzer</string>
   <string name="projects_status_dontrequestmorework">Keine neuen Arbeitspakete</string>
@@ -235,7 +244,7 @@
   <string name="suspend_os">Gestoppt von Android.</string>
   <string name="suspend_wifi">Nicht per WLAN verbunden.</string>
   <string name="suspend_battery_charging">Warten bis der Akku geladen ist.</string>
-  <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt, wenn der Ladezustand größer %1$d%% ist (aktuell: %2$d%%)</string>
+  <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt, wenn die Batterieladung  %1$d %% erreicht (momentan %2$d%%)</string>
   <string name="suspend_battery_overheating">Warten bis der Akku abgekühlt ist</string>
   <string name="suspend_user_req">Berechnung wird fortgesetzt…</string>
   <!--rpc reasons-->
@@ -262,9 +271,8 @@
   <string name="about_title">Über</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
-  <string name="about_copyright">\u00A9 2003–2021 Universität von Kalifornien, Berkeley.</string>
   <string name="about_copyright_reserved">Alle Rechte vorbehalten.</string>
-  <string name="about_credits">Dank dem Max Planck Institut für Gravitationsphysik, IBM und HTC, für die Unterstützung.</string>
+  <string name="about_credits">Dank an das Max Planck Institut für Gravitationsphysik, IBM und HTC für die Unterstützung.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Neue Nachricht von %1$s</item>
@@ -272,18 +280,20 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Volunteer Computing App gefunden</string>
-  <string name="nonexcl_dialog_text">Eine weitere Volunteer Computing App läuft auf diesem Gerät. Es kann immer nur eine App verwendet werden.</string>
+  <string name="nonexcl_dialog_text">Eine weiteres freiwilliges Berechnungsprogramm läuft bereits auf diesem Gerät. Es kann immer nur ein Programm zurzeit verwendet werden.</string>
   <string name="nonexcl_dialog_exit">Beenden</string>
   <!--social integration-->
   <string name="social_invite_button">Freunde einladen</string>
   <string name="social_invite_intent_title">Wie möchten Sie andere informieren?</string>
   <string name="social_invite_content_title">Ich betreibe Forschung mit meinem Smartphone!</string>
-  <string name="social_invite_content_body">Ich benutze mein %1$s um für die Forschung zu rechnen. Du kannst das auch! Hier gibt es die App: %2$s</string>
+  <string name="social_invite_content_body">Ich benutze meinen %1$s, um Berechnungen für die Forschung durchzuführen. Du kannst auch unterstützen! Hier gibt es die App: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">https://www.amazon.de/gp/product/B00DCCGLAG</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Zeige nicht-Projekt Mitteilungen an.</string>
   <string name="notice_notification_channel_name">Nachrichten</string>
   <string name="notice_notification_channel_description">Nachrichten von den Projekten anzeigen.</string>
+  <string name="agree_button">Zustimmen</string>
 </resources>
