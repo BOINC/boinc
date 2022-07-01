@@ -2453,7 +2453,7 @@
 		<row><td>WEBx64</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx64</td><td>ProductName</td><td/></row>
 		<row><td>WEBx64</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.20.0_windows_x86_64</td></row>
+		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.20.1_windows_x86_64</td></row>
 		<row><td>WEBx64</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -4544,7 +4544,7 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{7647E591-2E4C-453C-A4ED-FF81A94120BA}</td><td/></row>
+		<row><td>ProductCode</td><td>{AAC1B9D0-47E2-4C76-A4CD-90DAC5F2F50A}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>BOINC</td><td/></row>
