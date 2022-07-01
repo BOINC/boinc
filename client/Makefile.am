@@ -129,6 +129,14 @@ libwhetvfp_a_SOURCES = whetstone.cpp
 libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_VFP -mfloat-abi=softfp -mfpu=vfpv3-d16
 endif
 
+if BUILD_WITH_WASM
+boinccmd_CPPFLAGS += -pthread
+boinccmd_LDFLAGS += -lwebsocket.js -sPROXY_POSIX_SOCKETS -sUSE_PTHREADS -sPROXY_TO_PTHREAD
+
+boinc_client_CXXFLAGS += -pthread
+boinc_client_LDFLAGS += -lwebsocket.js -sPROXY_POSIX_SOCKETS -sUSE_PTHREADS -sPROXY_TO_PTHREAD
+endif
+
 switcher_SOURCES = switcher.cpp
 switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib
 switcher_LDADD = $(LIBBOINC)

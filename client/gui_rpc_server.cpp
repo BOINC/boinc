@@ -67,6 +67,14 @@
 #include "client_state.h"
 #include "sandbox.h"
 
+#if WASM
+    #include <emscripten.h>
+    #include <emscripten/websocket.h>
+    #include <emscripten/threading.h>
+    #include <emscripten/posix_socket.h>
+
+#endif
+
 using std::string;
 using std::vector;
 

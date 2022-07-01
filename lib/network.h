@@ -48,6 +48,7 @@ extern bool is_localhost(sockaddr_storage& s);
 extern bool same_ip_addr(sockaddr_storage& s1, sockaddr_storage& s2);
 extern int resolve_hostname(const char* hostname, sockaddr_storage& ip_addr);
 extern int resolve_hostname_or_ip_addr(const char* hostname, sockaddr_storage& ip_addr);
+extern void init_wasm_network();
 extern int boinc_socket(int& sock, int protocol=AF_INET);
     // create a stream-mode socket of the given family
 extern int boinc_socket_asynch(int sock, bool asynch);

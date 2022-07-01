@@ -614,7 +614,7 @@ int CLIENT_STATE::init() {
     parse_state_file();
 
     bool new_client = is_new_client();
-
+    init_wasm_network();
     // this follows parse_state_file() since we need to have read
     // domain_name for Android
     //

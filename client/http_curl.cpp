@@ -862,7 +862,11 @@ fd_set read_fds, write_fds, error_fds;
 //
 int curl_init() {
     curl_global_init(CURL_GLOBAL_ALL);
+#if WASM
+    g_curlMulti = NULL;
+#else
     g_curlMulti = curl_multi_init();
+#endif
     return (int)(g_curlMulti == NULL);
 }
 

@@ -44,6 +44,15 @@
 using std::perror;
 using std::sprintf;
 
+#if WASM
+    #include <emscripten.h>
+    #include <emscripten/websocket.h>
+    #include <emscripten/threading.h>
+    #include <emscripten/posix_socket.h>
+
+    static EMSCRIPTEN_WEBSOCKET_T bridgeSocket = 0;
+#endif
+
 const char* socket_error_str() {
     static char buf[80];
 #if defined(_WIN32) && defined(USE_WINSOCK)
@@ -217,6 +226,18 @@ int resolve_hostname_or_ip_addr(
     return resolve_hostname(hostname, ip_addr);
 }
 
+void init_wasm_network() {
+#ifdef WASM
+    bridgeSocket = emscripten_init_websocket_to_posix_socket_bridge("ws://websockets.chilkat.io/wsChilkatEcho.ashx");
+    // Synchronously wait until connection has been established.
+    uint16_t readyState = 0;
+    do {
+    emscripten_websocket_get_ready_state(bridgeSocket, &readyState);
+    emscripten_thread_sleep(100);
+    } while (readyState == 0);
+#endif
+}
+
 int boinc_socket(int& fd, int protocol) {
     fd = (int)socket(protocol, SOCK_STREAM, 0);
     if (fd < 0) {
@@ -267,7 +288,9 @@ int boinc_socket_asynch(int fd, bool asynch) {
 }
 
 void boinc_close_socket(int sock) {
-#if defined(_WIN32) && defined(USE_WINSOCK)
+#if WASM
+    shutdown(sock, SHUT_RDWR);
+#elif defined(_WIN32) && defined(USE_WINSOCK)
     closesocket(sock);
 #else
     close(sock);

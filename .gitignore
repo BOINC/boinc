@@ -232,7 +232,9 @@ build-*/
 *.wasm
 a.out.js
 boinc_client.js
+boinc_client.worker.js
 boinccmd.js
+boinccmd.worker.js
 switcher.js
 boinc.html
 boinc_client.html

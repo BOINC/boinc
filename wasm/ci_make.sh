@@ -10,4 +10,7 @@ BUILD_DIR="$PWD/3rdParty/wasm"
 EMSDK_ROOT="$BUILD_DIR/emsdk"
 
 source $EMSDK_ROOT/emsdk_env.sh
-emmake make
+if [ "debug" == "$1" ]; then
+    MAKE_FLAGS="AM_DEFAULT_VERBOSITY=1"
+fi
+emmake make $MAKE_FLAGS
