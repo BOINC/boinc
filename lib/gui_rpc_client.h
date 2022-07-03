@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -329,6 +329,7 @@ struct FILE_TRANSFER {
     double next_request_time;
     int status;
     double time_so_far;
+    double estimated_xfer_time_remaining;
     double bytes_xferred;
     double file_offset;
     double xfer_speed;
