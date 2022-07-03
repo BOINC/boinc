@@ -658,10 +658,10 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
             }
             break;
         case COLUMN_TOCOMPLETION:
-            GetDocTimeToCompletion(m_iSortedIndexes[iRowIndex], x);
-            if (x != transfer->m_fTimeToCompletion) {
-                transfer->m_fTimeToCompletion = x;
-                transfer->m_strTimeToCompletion = FormatTime(x);
+            GetDocTimeToCompletion(m_iSortedIndexes[iRowIndex], fDocumentDouble);
+            if (fDocumentDouble != transfer->m_fTimeToCompletion) {
+                transfer->m_fTimeToCompletion = fDocumentDouble;
+                transfer->m_strTimeToCompletion = FormatTime(fDocumentDouble);
                 bNeedRefresh = true;
             }
             break;
