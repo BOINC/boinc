@@ -119,7 +119,10 @@ RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
         // don't fetch unless an instance is actually idle
         // (for case where users compete to return tasks first)
         //
-        double x = std::min(gstate.work_buf_min(), (double)WF_EST_FETCH_TIME);
+        double x = std::min(
+            gstate.global_prefs.work_buf_min_days * 86400,
+            (double)WF_EST_FETCH_TIME
+        );
         if (rwf.saturated_time > x) {
             return RSC_REASON_ZERO_SHARE;
         }
