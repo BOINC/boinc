@@ -2,9 +2,9 @@
 	<Target Name="CopyCertificateAndLocaleFiles" DependsOnTargets="Build" AfterTargets="Build">
 		<ItemGroup>
 			<LOCALE Include="..\locale\**\*.mo" />
-			<CERT   Include="..\curl\ca-bundle.crt" />
+			<SKINS   Include="..\clientgui\skins\**" />
 		</ItemGroup>
 		<Copy SourceFiles="@(LOCALE)" DestinationFolder="$(OutDir)\locale\%(RecursiveDir)" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(CERT)"   DestinationFolder="$(OutDir)"                        SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(SKINS)"  DestinationFolder="$(OutDir)\skins\%(RecursiveDir)"  SkipUnchangedFiles="true" />
 	</Target>
 </Project>
