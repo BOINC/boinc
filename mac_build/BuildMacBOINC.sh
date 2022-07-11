@@ -172,7 +172,8 @@ done
 
 ## For unknown reasons, this xcodebuild call generates syntax errors under zsh
 ## unless we enclose the command in quotes and invoke it with eval.
-eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings};result=$?"
+eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
+result=$?
 
 if [ $result -eq 0 ]; then
     # build ibboinc_zip.a for -all or -lib or default, where
@@ -184,7 +185,5 @@ if [ $result -eq 0 ]; then
         fi
     fi
 fi
-
-echo "Result is: ${result}"
 
 return $result
