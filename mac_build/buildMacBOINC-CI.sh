@@ -108,53 +108,77 @@ if [ "${style}" == "Development" ]; then
     libSearchPathDbg="${cache_dir}/lib/debug"
 fi
 target="mgr_boinc"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 ## Target gfx2libboinc also build dependent target jpeg
 target="gfx2libboinc"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../samples/jpeglib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="libboinc"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="api_libboinc"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="PostInstall"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="switcher"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="gfx_switcher"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="Install_BOINC"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 # screensaver disabled because Travis can't build some library correctly, see https://github.com/BOINC/boinc/issues/2662
 libSearchPath="./build/Deployment"
@@ -162,51 +186,75 @@ if [ "${style}" == "Development" ]; then
    libSearchPath="./build/Development"
 fi
 target="ss_app"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
-   cd ..; exit 1;
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="ScreenSaver"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting GCC_ENABLE_OBJC_GC "unsupported" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="boinc_opencl"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="setprojectgrp"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="cmd_boinc"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="Uninstaller"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="SetUpSecurity"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 target="AddRemoveUser"
+echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Building ${target}...done"
 
 cd ..
