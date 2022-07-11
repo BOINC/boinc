@@ -171,7 +171,7 @@ for f in "${settings[@]}"; do
 done
 
 ## For unknown reasons, this xcodebuild call generates syntax errors under zsh
-## unless we enclose the command in quotes and invoke it with eval. 
+## unless we enclose the command in quotes and invoke it with eval.
 eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings};result=$?"
 
 if [ $result -eq 0 ]; then
@@ -184,5 +184,7 @@ if [ $result -eq 0 ]; then
         fi
     fi
 fi
+
+echo "Result is: ${result}"
 
 return $result
