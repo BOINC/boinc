@@ -543,42 +543,68 @@ namespace vboxmanage {
                 // See: https://www.virtualbox.org/manual/ch05.html#hdimagewrites
                 //      https://www.virtualbox.org/manual/ch05.html#diffimages
                 // the vdi file downloaded to the projects dir becomes the parent (read only)
-                // "--setuid" must not be used
                 // each task gets it's own differencing image (writable)
                 // differencing images are written to the VM's snapshot folder
                 //
+                string set_new_uuid = "";
+                size_t type_start;
+                size_t type_end;
                 string medium_file = aid.project_dir;
                 medium_file += "/" + multiattach_vdi_file;
 
-#ifdef _WIN32
-                replace(medium_file.begin(), medium_file.end(), '\\', '/');
-#endif
-
                 vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
-                command = "list hdds";
+                command = "showhdinfo \"" + medium_file + "\" ";
 
-                retval = vbm_popen(command, output, "check if parent hdd is registered", false, false);
-                if (retval) return retval;
+                retval = vbm_popen(command, output, "check if parent hdd is registered");
+                if (retval) {
+                    // showhdinfo implicitly registers unregistered hdds.
+                    // Hence, this has to be handled first.
+                    //
+                    if ((output.rfind("VBoxManage: error:", 0) != string::npos) &&
+                        (output.find("Cannot register the hard disk") != string::npos) &&
+                        (output.find("because a hard disk") != string::npos) &&
+                        (output.find("with UUID") != string::npos) &&
+                        (output.find("already exists") != string::npos)) {
+                            // May happen if the project admin didn't set a new UUID.
+                            set_new_uuid = "--setuuid \"\" ";
+                    } else {
+                        // other errors
+                        return retval;
+                    }
+                }
 
-#ifdef _WIN32
-                replace(output.begin(), output.end(), '\\', '/');
-#endif
+                // Output from showhdinfo should look a little like this:
+                //   UUID:           c119bcaf-636c-41f6-86c9-384739a31339
+                //   Parent UUID:    base
+                //   State:          created
+                //   Type:           multiattach
+                //   Location:       C:\Users\romw\VirtualBox VMs\test2\test2.vdi
+                //   Storage format: VDI
+                //   Format variant: dynamic default
+                //   Capacity:       2048 MBytes
+                //   Size on disk:   2 MBytes
+                //   Encryption:     disabled
+                //   Property:       AllocationBlockSize=1048576
+                //   Child UUIDs:    dcb0daa5-3bf9-47cb-bfff-c65e74484615
 
-                if (output.find(medium_file) == string::npos) {
-                    // parent hdd is not registered
-                    // vdi files can't be registered and set to multiattach mode within 1 step.
+                type_start = output.find("\nType: ") + 1;
+                type_end = output.find("\n", type_start) - type_start;
+
+                if (output.substr(type_start, type_end).find("multiattach") == string::npos) {
+                    // Parent hdd is not (yet) of type multiattach.
+                    // Vdi files can't be registered and set to multiattach mode within 1 step.
                     // They must first be attached to a VM in normal mode, then detached from the VM
                     //
                     command  = command_fix_part;
-                    command += "--medium \"" + medium_file + "\" ";
+                    command += set_new_uuid + "--medium \"" + medium_file + "\" ";
 
-                    retval = vbm_popen(command, output, "register parent hdd", false, false);
+                    retval = vbm_popen(command, output, "register parent hdd");
                     if (retval) return retval;
 
                     command  = command_fix_part;
                     command += "--medium none ";
 
-                    retval = vbm_popen(command, output, "detach parent vdi", false, false);
+                    retval = vbm_popen(command, output, "detach parent vdi");
                     if (retval) return retval;
                     // the vdi file is now registered and ready to be attached in multiattach mode
                     //
