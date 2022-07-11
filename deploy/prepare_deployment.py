@@ -214,6 +214,7 @@ logs_list = [
     '3rdParty/mingw/vcpkg/buildtrees/*.log',
     '3rdParty/Windows/vcpkg/buildtrees/*.log',
     'android/BOINC/app/build/reports/',
+    'mac_build/*.log',
 ]
 
 def prepare_7z_archive(archive_name, target_directory, files_list):
