@@ -192,7 +192,7 @@ int check_download_file(const char* file_path, const char* dl_hier_path) {
         return -2;
     }
 
-    sprintf(md5_file_path, "%s.md5", dl_hier_path);
+    snprintf(md5_file_path, MAXPATHLEN, "%s.md5", dl_hier_path);
     if (boinc_file_exists(md5_file_path)) {
         retval = read_file_string(md5_file_path, file_content);
         if (retval) {
@@ -211,7 +211,7 @@ int check_download_file(const char* file_path, const char* dl_hier_path) {
     if (retval) {
         return -2;
     }
-    int hashes_equal = !strcmp(md5_hash_src, md5_hash_dst);
+    int hashes_equal = !strncmp(md5_hash_src, md5_hash_dst, MD5_LEN);
     if (md5_file_exists && hashes_equal) {
         // the right file with correct .md5 is there
         return 0;

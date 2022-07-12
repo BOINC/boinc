@@ -40,7 +40,7 @@ static int create_md5_file(const char* file_path, const char* md5_file_path, boo
         return retval;
     }
 
-    sprintf(path, "%s.md5", md5_file_path);
+    snprintf(path, MAXPATHLEN, "%s.md5", md5_file_path);
     md5_filep  = boinc_fopen(path, "w");
     if (!md5_filep) {
         return ERR_FOPEN;
@@ -134,7 +134,7 @@ int stage_file(
         std::stringstream file_buf;
         file_buf << file.rdbuf();
 
-        sprintf(gz_path, "%s.gz", dl_hier_path);
+        snprintf(gz_path, MAXPATHLEN, "%s.gz", dl_hier_path);
         gzFile gz = gzopen(gz_path, "w");
         if (!gz) {
             fprintf(stderr, "failed to open gz: %s\n", strerror(errno));
@@ -225,13 +225,13 @@ int main(int argc, char** argv) {
             usage(1);
         }
     }
-    sprintf(path, "%s", argv[argc - 1]);
+    snprintf(path, MAXPATHLEN, "%s", argv[argc - 1]);
 
     if (is_dir(path)) {
         std::string file_name;
         DirScanner dir(path);
         while (dir.scan(file_name)) {
-            sprintf(file_path, "%s/%s", path, file_name.c_str());
+            snprintf(file_path, MAXPATHLEN, "%s/%s", path, file_name.c_str());
             if (!is_file(file_path)) {
                 continue;
             }
