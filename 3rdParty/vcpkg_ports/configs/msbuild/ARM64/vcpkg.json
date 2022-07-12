@@ -10,7 +10,10 @@
       },
       "openssl",
       "rappture",
-      "wxwidgets",
+      {
+        "name": "wxwidgets",
+        "default-features": false
+      },
       "gtest",
       "opencl"
   ]
