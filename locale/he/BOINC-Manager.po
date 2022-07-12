@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2022-04-30 23:50 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Tal Regev <tal.regev@gmail.com>, 2021-2022\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2020,2022\n"
 "Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +83,7 @@ msgstr "&כתובת דוא\"ל או תעודת LDAP:"
 
 #: clientgui/AccountInfoPage.cpp:445
 msgid "&Email address:"
-msgstr "&כתובת דוא\"ל:"
+msgstr "&כתובת דוא״ל:"
 
 #: clientgui/AccountInfoPage.cpp:453
 #, c-format
@@ -107,7 +107,7 @@ msgstr "אתר האינטרנט של מנהל החשבון"
 
 #: clientgui/AccountInfoPage.cpp:512
 msgid "Add project"
-msgstr "הוסף מיזם"
+msgstr "הוספת מיזם"
 
 #: clientgui/AccountInfoPage.cpp:514
 msgid "Update account manager"
@@ -133,17 +133,17 @@ msgstr "אנא הכנס סיסמה בת לפחות %d תווים."
 #: clientgui/AccountInfoPage.cpp:545
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "הסיסמה וסיסמת האימות אינן תואמות. אנא הזן אותן מחדש."
+msgstr "הסיסמה וסיסמת האימות אינן תואמות. נא להזין אותן מחדש."
 
 #: clientgui/AccountManagerInfoPage.cpp:269
 msgid "Choose an account manager"
-msgstr "בחר מנהל חשבונות"
+msgstr "בחירת מנהל חשבונות"
 
 #: clientgui/AccountManagerInfoPage.cpp:272
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "כדי לבחור מנהל חשבונות, לחץ על השם שלו או \nרשום את כתובת האינטרנט שלו למטה. "
+msgstr "כדי לבחור מנהל חשבון, יש ללחוץ על השם או \nלהקליד את הכתובת להלן. "
 
 #: clientgui/AccountManagerInfoPage.cpp:276
 msgid "Account manager details:"
@@ -151,11 +151,11 @@ msgstr "פרטי מנהל החשבון:"
 
 #: clientgui/AccountManagerInfoPage.cpp:280
 msgid "Account manager &URL:"
-msgstr "כתובת האינטרנט של מנהל החשבון"
+msgstr "&כתובת מנהל החשבון:"
 
 #: clientgui/AccountManagerInfoPage.cpp:284
 msgid "Open web page"
-msgstr "פתח דף אינטרנט"
+msgstr "פתיחת דף אינטרנט"
 
 #: clientgui/AccountManagerInfoPage.cpp:287
 msgid "Visit this account manager's web site"
@@ -177,7 +177,7 @@ msgstr "מתקשר עם שרת."
 #: clientgui/AccountManagerProcessingPage.cpp:198
 #: clientgui/AccountManagerPropertiesPage.cpp:204
 msgid "Please wait..."
-msgstr "אנא המתן..."
+msgstr "נא להמתין…"
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
@@ -231,7 +231,7 @@ msgstr "סגור חלון"
 #: clientgui/sg_BoincSimpleFrame.cpp:162
 #, c-format
 msgid "Exit %s"
-msgstr "צא מ-%s"
+msgstr "יציאה מ־%s"
 
 #: clientgui/AdvancedFrame.cpp:389 clientgui/sg_BoincSimpleFrame.cpp:176
 msgid "Preferences..."
@@ -296,12 +296,12 @@ msgstr "החלף לתצוגה פשוטה"
 #: clientgui/AdvancedFrame.cpp:451 clientgui/AdvancedFrame.cpp:475
 #: clientgui/sg_BoincSimpleFrame.cpp:231 clientgui/sg_BoincSimpleFrame.cpp:255
 msgid "&Add project..."
-msgstr "&הוסף מיזם..."
+msgstr "הו&ספת מיזם…"
 
 #: clientgui/AdvancedFrame.cpp:452 clientgui/AdvancedFrame.cpp:476
 #: clientgui/sg_BoincSimpleFrame.cpp:232 clientgui/sg_BoincSimpleFrame.cpp:256
 msgid "Add a project"
-msgstr "הוסף מיזם"
+msgstr "הוספת מיזם"
 
 #: clientgui/AdvancedFrame.cpp:456 clientgui/sg_BoincSimpleFrame.cpp:236
 msgid "&Use account manager..."
@@ -314,12 +314,12 @@ msgstr "השתמש במנהל חשבונות כדי לנהל מחשב זה"
 #: clientgui/AdvancedFrame.cpp:461 clientgui/sg_BoincSimpleFrame.cpp:241
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "&התסנכרן עם %s"
+msgstr "&סנכרון מול %s"
 
 #: clientgui/AdvancedFrame.cpp:465 clientgui/sg_BoincSimpleFrame.cpp:245
 #, c-format
 msgid "Get current settings from %s"
-msgstr "קבל הגדרות נוכחיות מ-%s"
+msgstr "משיכת הגדרות נוכחיות מ־%s"
 
 #: clientgui/AdvancedFrame.cpp:479 clientgui/sg_BoincSimpleFrame.cpp:259
 #, c-format

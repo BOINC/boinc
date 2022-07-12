@@ -384,12 +384,14 @@ void CPanelPreferences::CreateControls()
     m_vTimeValidator->SetCharIncludes(wxT("0123456789:"));
 
     m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcIdleFor->SetMaxLength(16);
     m_txtProcEveryDayStart->SetValidator(*m_vTimeValidator);
     m_txtProcEveryDayStop->SetValidator(*m_vTimeValidator);
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetEveryDayStart->SetValidator(*m_vTimeValidator);
     m_txtNetEveryDayStop->SetValidator(*m_vTimeValidator);
     m_txtDiskMaxSpace->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtDiskMaxSpace->SetMaxLength(16);
 ////@end CPanelPreferences content construction
 }
 
@@ -614,8 +616,9 @@ wxString CPanelPreferences::DoubleToTimeString(double dt) {
 // precision of saved values to .01.  This prevents unexpected
 // behavior when, for example, a zero value means no restriction
 // and the value is displayed as 0.00 but is actually 0.001.
+//
 double CPanelPreferences::RoundToHundredths(double td) {
-    int i = (int)((td + .005) * 100.);
+    int64_t i = (int64_t)((td + .005) * 100.);
     return ((double)(i) / 100.);
 }
 
@@ -632,7 +635,7 @@ void CPanelPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxCheck
             return;
         }
     }
-    buffer.Printf(wxT("%g"), value);
+    buffer.Printf(wxT("%.2f"), value);
     textCtrl->ChangeValue(buffer);
     textCtrl->Enable();
 }
@@ -793,7 +796,7 @@ bool CPanelPreferences::ValidateInput() {
 
     if(m_txtProcIdleFor->IsEnabled()) {
         buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
             return false;
         }
@@ -845,7 +848,7 @@ bool CPanelPreferences::ValidateInput() {
 
     if (m_chkDiskMaxSpace->IsChecked()) {
         buffer = m_txtDiskMaxSpace->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
             return false;
         }

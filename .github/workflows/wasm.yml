@@ -11,6 +11,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+env:
+  AWS_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY}}
+  AWS_SECRET_ACCESS_KEY: ${{secrets.S3_SECRET_KEY}}
+  AWS_DEFAULT_REGION: us-west-2
+
 jobs:
   build:
     name: ${{ matrix.type }}-build
@@ -66,9 +71,7 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        uses: edgarrc/action-7z@v1.0.4
-        with:
-          args: python ./deploy/prepare_deployment.py logs
+        run: python ./deploy/prepare_deployment.py logs
       
       - name: Upload logs on failure
         if: ${{ failure() }}
