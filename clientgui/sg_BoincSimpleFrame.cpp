@@ -470,6 +470,7 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     wxMenu* menuFile = NULL;
     wxMenu* menuHelp = NULL;
     wxMenu* menuChangeGUI = NULL;
+    wxMenu* menuSkinSelector = NULL;
 
     wxASSERT(pDoc);
 
@@ -480,10 +481,11 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     menu->FindItem(ID_CLOSEWINDOW, &menuFile);
     menu->FindItem(ID_HELPBOINC, &menuHelp);
     menu->FindItem(ID_CHANGEGUI, &menuChangeGUI);
+    menu->FindItem(ID_SGDEFAULTSKINSELECTOR, &menuSkinSelector);
     size_t numItems = menu->GetMenuItemCount();
     for (size_t pos = 0; pos < numItems; ++pos) {
         wxMenuItem * item = menu->FindItemByPosition(pos);
-        if ((menu == menuFile) || (menu == menuHelp) || (menu == menuChangeGUI)) {
+        if ((menu == menuFile) || (menu == menuHelp) || (menu == menuChangeGUI) || (menu == menuSkinSelector)) {
             // Always enable all items in File menu or Help menu:
             // ID_CLOSEWINDOW, wxID_EXIT, ID_HELPBOINC, ID_HELPBOINCMANAGER,
             // ID_HELPBOINCWEBSITE, wxID_ABOUT, ID_CHANGEGUI
