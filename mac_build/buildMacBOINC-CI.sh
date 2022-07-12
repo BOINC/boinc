@@ -187,7 +187,7 @@ if [ "${style}" == "Development" ]; then
 fi
 target="ss_app"
 echo "Building ${target}..."
-source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib ../lib" -setting LDFLAGS "-v" | tee xcodebuild_${target}.log; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
