@@ -181,8 +181,8 @@ static void filename_hash(const char* filename, int fanout, char* dir) {
 //
 int check_download_file(const char* file_path, const char* dl_hier_path) {
     bool md5_file_exists = false;
-    char md5_file_path[256];
-    char md5_hash_src[33], md5_hash_dst[33];
+    char md5_file_path[MAXPATHLEN];
+    char md5_hash_src[MD5_LEN], md5_hash_dst[MD5_LEN];
     double nbytes;
     std::string file_content, file_hash;
     int file_size;

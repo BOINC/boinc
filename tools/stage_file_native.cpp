@@ -30,7 +30,7 @@
 #include <fstream>
 
 static int create_md5_file(const char* file_path, const char* md5_file_path, bool verbose) {
-    char md5_file_hash[256], path[256];
+    char md5_file_hash[MD5_LEN], path[MAXPATHLEN];
     FILE* md5_filep;
     int retval;
     double nbytes;
@@ -61,7 +61,8 @@ int stage_file(
     bool copy,
     bool verbose
 ) {    
-    char dl_hier_path[256], gz_path[256], md5_file_path[256], md5_file_hash[33];
+    char dl_hier_path[MAXPATHLEN], gz_path[MAXPATHLEN];
+    char md5_file_path[MAXPATHLEN], md5_file_hash[MD5_LEN];
     char* file_name;
     double nbytes;
     int retval;
@@ -189,8 +190,8 @@ int main(int argc, char** argv) {
     bool gzip = false;
     bool copy = false;
     bool verbose = false;
-    char path[256];
-    char file_path[256];
+    char path[MAXPATHLEN];
+    char file_path[MAXPATHLEN];
 
     if (!boinc_file_exists("html/inc/dir_hier.inc") || !boinc_file_exists("config.xml")) {
         fprintf(stderr, "This program must be run in the project root directory.\n");
