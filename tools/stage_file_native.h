@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef BOINC_STAGE_FILE_H
-#define BOINC_STAGE_FILE_H
+#ifndef BOINC_STAGE_FILE_NATIVE_H
+#define BOINC_STAGE_FILE_NATIVE_H
 
 #include "sched_config.h"
 

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stage_file.h"
+#include "stage_file_native.h"
 #include "filesys.h"
 #include "error_numbers.h"
 #include "sched_util_basic.h"

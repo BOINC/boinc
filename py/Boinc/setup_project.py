@@ -443,7 +443,7 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
             'run_in_ops',
             'sign_executable',
             'stage_file',
-            'run_stage_file',
+            'stage_file_native',
             'update_versions',
             'xadd',
         ]
