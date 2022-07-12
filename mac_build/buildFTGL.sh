@@ -61,7 +61,7 @@ while [[ $# -gt 0 ]]; do
         -prefix|--prefix)
         lprefix="$2"
         libPath="${lprefix}/lib"
-        libftpath="${lprefix}"
+#        libftpath="${lprefix}"
         shift
         ;;
         -q|--quiet)
@@ -104,12 +104,12 @@ if [ "${doclean}" != "yes" ]; then
             lipo "${libPath}/libftgl.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
             lipo "${libPath}/libftgl.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ]; then
             cwd=$(pwd)
             dirname=${cwd##*/}
