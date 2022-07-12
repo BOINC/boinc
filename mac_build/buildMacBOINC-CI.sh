@@ -181,7 +181,7 @@ fi
 echo "Building ${target}...done"
 
 # screensaver disabled because Travis can't build some library correctly, see https://github.com/BOINC/boinc/issues/2662
-libSearchPath="./build/Deployment"
+libSearchPath=""
 if [ "${style}" == "Development" ]; then
    libSearchPath="./build/Development"
 fi
