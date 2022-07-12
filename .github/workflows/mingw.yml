@@ -92,9 +92,7 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        uses: edgarrc/action-7z@v1.0.4
-        with:
-          args: python ./deploy/prepare_deployment.py logs
+        run: python ./deploy/prepare_deployment.py logs
       
       - name: Upload logs on failure
         if: ${{ failure() }}
