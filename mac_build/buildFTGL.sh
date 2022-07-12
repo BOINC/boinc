@@ -61,7 +61,7 @@ while [[ $# -gt 0 ]]; do
         -prefix|--prefix)
         lprefix="$2"
         libPath="${lprefix}/lib"
-#        libftpath="${lprefix}"
+        libftpath="${lprefix}"
         shift
         ;;
         -q|--quiet)
