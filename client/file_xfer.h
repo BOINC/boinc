@@ -67,6 +67,8 @@ public:
     bool poll();
     void check_active(bool&, bool&);
     void set_bandwidth_limits(bool is_upload);
+    void enforce_bandwidth_limits(bool is_upload);
+    void clear_bandwidth_limits(bool is_upload);
 };
 
 #endif
