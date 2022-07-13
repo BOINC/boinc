@@ -555,7 +555,7 @@ namespace vboxmanage {
                 vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
                 command = "showhdinfo \"" + medium_file + "\" ";
 
-                retval = vbm_popen(command, output, "check if parent hdd is registered");
+                retval = vbm_popen(command, output, "check if parent hdd is registered", false);
                 if (retval) {
                     // showhdinfo implicitly registers unregistered hdds.
                     // Hence, this has to be handled first.
@@ -569,6 +569,10 @@ namespace vboxmanage {
                             set_new_uuid = "--setuuid \"\" ";
                     } else {
                         // other errors
+                        vboxlog_msg("Error in check if parent hdd is registered.\nCommand:\n%s\nOutput:\n%s",
+                            command.c_str(),
+                            output.c_str()
+                            );
                         return retval;
                     }
                 }
@@ -586,7 +590,7 @@ namespace vboxmanage {
                 //   Encryption:     disabled
                 //   Property:       AllocationBlockSize=1048576
                 //   Child UUIDs:    dcb0daa5-3bf9-47cb-bfff-c65e74484615
-
+                //
                 type_start = output.find("\nType: ") + 1;
                 type_end = output.find("\n", type_start) - type_start;
 
@@ -598,7 +602,7 @@ namespace vboxmanage {
                     command  = command_fix_part;
                     command += set_new_uuid + "--medium \"" + medium_file + "\" ";
 
-                    retval = vbm_popen(command, output, "register parent hdd");
+                    retval = vbm_popen(command, output, "register parent vdi");
                     if (retval) return retval;
 
                     command  = command_fix_part;
