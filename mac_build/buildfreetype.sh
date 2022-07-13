@@ -170,7 +170,7 @@ export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.10
 
-./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --host=x86_64
+./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --without-brotli --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
 
 if [ "${doclean}" = "yes" ]; then
