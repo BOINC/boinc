@@ -110,12 +110,12 @@ if [ "${doclean}" != "yes" ]; then
             lipo "${libPath}/libfreetype.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
             lipo "${libPath}/libfreetype.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ]; then
             cwd=$(pwd)
             dirname=${cwd##*/}
@@ -192,7 +192,7 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=10.10
 
-    ./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --host=arm
+    ./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --without-brotli --host=arm
     if [ $? -ne 0 ]; then
         echo "              ******"
         echo "Freetype: x86_64 build succeeded but could not build for arm64."
@@ -206,7 +206,7 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
         make clean 1>$stdout_target
 
         make 1>$stdout_target
-        if [ $? -ne 0 ]; then 
+        if [ $? -ne 0 ]; then
             rm -f objs/.libs/libfreetype_x86_64.a
             return 1
         fi
