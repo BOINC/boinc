@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,6 +49,7 @@
 #define COLUMN_TIME                 4
 #define COLUMN_SPEED                5
 #define COLUMN_STATUS               6
+#define COLUMN_TOCOMPLETION         7
 
 // DefaultShownColumns is an array containing the
 // columnIDs of the columns to be shown by default,
@@ -57,7 +58,7 @@
 //
 // For now, show all columns by default
 static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_FILE, COLUMN_PROGRESS, 
-                                COLUMN_SIZE, COLUMN_TIME, COLUMN_SPEED,
+                                COLUMN_SIZE, COLUMN_TIME, COLUMN_TOCOMPLETION, COLUMN_SPEED,
                                 COLUMN_STATUS};
 
 // buttons in the "tasks" area
@@ -70,6 +71,7 @@ CTransfer::CTransfer() {
     m_fBytesXferred = -1.0;
     m_fTotalBytes = -1.0;
     m_dTime = -1.0;
+    m_fTimeToCompletion = -1.0;
     m_dSpeed = -1.0;
 }
 
@@ -78,6 +80,12 @@ CTransfer::~CTransfer() {
     m_strProjectName.Clear();
     m_strFileName.Clear();
     m_strStatus.Clear();
+    m_strProjectURL.Clear();
+    m_strProgress.Clear();
+    m_strSize.Clear();
+    m_strTime.Clear();
+    m_strTimeToCompletion.Clear();
+    m_strSpeed.Clear();
 }
 
 
@@ -146,6 +154,14 @@ static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
             result = 1;
         }
         break;
+    case COLUMN_TOCOMPLETION:
+        if (transfer1->m_fTimeToCompletion < transfer2->m_fTimeToCompletion) {
+            result = -1;
+        }
+        else if (transfer1->m_fTimeToCompletion > transfer2->m_fTimeToCompletion) {
+            result = 1;
+        }
+        break;
     case COLUMN_SPEED:
         if (transfer1->m_dSpeed < transfer2->m_dSpeed) {
             result = -1;
@@ -211,6 +227,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Progress"), COLUMN_PROGRESS);
     m_aStdColNameOrder->Insert(_("Size"), COLUMN_SIZE);
     m_aStdColNameOrder->Insert(_("Elapsed"), COLUMN_TIME);
+    m_aStdColNameOrder->Insert(_("Remaining (estimated)"), COLUMN_TOCOMPLETION);
     m_aStdColNameOrder->Insert(_("Speed"), COLUMN_SPEED);
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
 
@@ -226,6 +243,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_iStdColWidthOrder.Insert(60, COLUMN_PROGRESS);
     m_iStdColWidthOrder.Insert(80, COLUMN_SIZE);
     m_iStdColWidthOrder.Insert(80, COLUMN_TIME);
+    m_iStdColWidthOrder.Insert(100, COLUMN_TOCOMPLETION);
     m_iStdColWidthOrder.Insert(80, COLUMN_SPEED);
     m_iStdColWidthOrder.Insert(150, COLUMN_STATUS);
 
@@ -272,6 +290,10 @@ void CViewTransfers::AppendColumn(int columnID){
         case COLUMN_TIME:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TIME],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_TIME]);
+            break;
+        case COLUMN_TOCOMPLETION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TOCOMPLETION],
+                wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_TOCOMPLETION]);
             break;
         case COLUMN_SPEED:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_SPEED],
@@ -498,6 +520,9 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
         case COLUMN_TIME:
             strBuffer = transfer->m_strTime;
             break;
+        case COLUMN_TOCOMPLETION:
+            strBuffer = transfer->m_strTimeToCompletion;
+            break;
         case COLUMN_SPEED:
             strBuffer = transfer->m_strSpeed;
             break;
@@ -630,6 +655,14 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
                 transfer->m_dTime = fDocumentDouble;
                 transfer->m_strTime = FormatTime(fDocumentDouble);
                 bNeedRefresh =  true;
+            }
+            break;
+        case COLUMN_TOCOMPLETION:
+            GetDocTimeToCompletion(m_iSortedIndexes[iRowIndex], fDocumentDouble);
+            if (fDocumentDouble != transfer->m_fTimeToCompletion) {
+                transfer->m_fTimeToCompletion = fDocumentDouble;
+                transfer->m_strTimeToCompletion = FormatTime(fDocumentDouble);
+                bNeedRefresh = true;
             }
             break;
         case COLUMN_SPEED:
@@ -799,6 +832,22 @@ void CViewTransfers::GetDocTime(wxInt32 item, double& fBuffer) const {
     if (transfer) {
         fBuffer = transfer->time_so_far;
     } else {
+        fBuffer = 0.0;
+    }
+}
+
+void CViewTransfers::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
+
+    if (transfer) {
+        fBuffer = transfer->estimated_xfer_time_remaining;
+    }
+    else {
         fBuffer = 0.0;
     }
 }
