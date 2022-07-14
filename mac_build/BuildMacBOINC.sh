@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2022 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -35,6 +35,7 @@
 # Updated 10/14/18 for Xcode 10 (use this script only with BOINC 7.15 or later)
 # Updated 3/31/21 To eliminate redundant -c++11 arg since C++11 build is now standard
 # Updated 5/19/21 for compatibility with zsh
+# Updated 7/12/22 result is moved out of eval string to get correct status on CI if build fails
 #
 ## This script requires OS 10.8 or later
 #
@@ -171,8 +172,9 @@ for f in "${settings[@]}"; do
 done
 
 ## For unknown reasons, this xcodebuild call generates syntax errors under zsh
-## unless we enclose the command in quotes and invoke it with eval. 
-eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings};result=$?"
+## unless we enclose the command in quotes and invoke it with eval.
+eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
+result=$?
 
 if [ $result -eq 0 ]; then
     # build ibboinc_zip.a for -all or -lib or default, where

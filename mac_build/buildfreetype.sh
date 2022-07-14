@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# Copyright (C) 2022 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -34,6 +34,7 @@
 # Updated 8/22/20 to build Apple Silicon / arm64 and x86_64 Universal binary
 # Updated 5/18/21 for compatibility with zsh
 # Updated 10/18/21 for for building freetype 2.11.0
+# Updated 7/13/22 specify to build freetype without brotli support
 #
 ## This script requires OS 10.8 or later
 #
@@ -110,12 +111,12 @@ if [ "${doclean}" != "yes" ]; then
             lipo "${libPath}/libfreetype.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
             lipo "${libPath}/libfreetype.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ]; then
             cwd=$(pwd)
             dirname=${cwd##*/}
@@ -170,7 +171,7 @@ export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.10
 
-./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --host=x86_64
+./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --without-brotli --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
 
 if [ "${doclean}" = "yes" ]; then
@@ -192,7 +193,7 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=10.10
 
-    ./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --host=arm
+    ./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --without-brotli --host=arm
     if [ $? -ne 0 ]; then
         echo "              ******"
         echo "Freetype: x86_64 build succeeded but could not build for arm64."
@@ -206,7 +207,7 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
         make clean 1>$stdout_target
 
         make 1>$stdout_target
-        if [ $? -ne 0 ]; then 
+        if [ $? -ne 0 ]; then
             rm -f objs/.libs/libfreetype_x86_64.a
             return 1
         fi
