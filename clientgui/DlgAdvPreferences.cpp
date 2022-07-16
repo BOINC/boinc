@@ -304,7 +304,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
     DisplayValue(prefs.max_ncpus_pct, m_txtProcUseProcessors);
 
-            //cpu limit
+    //cpu limit
     // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
     DisplayValue(prefs.cpu_usage_limit, m_txtProcUseCPUTime);
@@ -469,7 +469,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     //
     m_txtNoRecentInput->GetValue().ToDouble(&td);
     prefs.suspend_if_no_recent_input = RoundToHundredths(td);
-       mask.suspend_if_no_recent_input = true;
+    mask.suspend_if_no_recent_input = true;
 
     //
     if (m_chkMaxLoad->IsChecked()) {
@@ -690,8 +690,6 @@ bool CDlgAdvPreferences::ValidateInput() {
     wxString invMsgLimit1_100 = _("Number must be between 1 and 100");
     wxString invMsgIdle = _("Warning:  'When to suspend' time settings will not allow any CPU and/or GPU tasks to compute.  Reduce time to compute after idle or increase time to suspend after idle.");
     wxString buffer;
-    wxString bufferPIF;  //variable to store Processor Idle For string.
-    wxString bufferNRI;  //variable to store No Recent Input string.
     double startTime, endTime;
 
     // ######### proc usage page
@@ -707,16 +705,10 @@ bool CDlgAdvPreferences::ValidateInput() {
         return false;
     }
 
-    if(m_txtProcIdleFor->IsEnabled()) {
-        buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
-            ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
-            return false;
-        }
-    }
-
-    buffer = m_txtNoRecentInput->GetValue();
-    if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
+   // Validate No Recent Input
+    //
+    wxString bufferNRI = m_txtNoRecentInput->GetValue();  // variable to store No Recent Input string.
+    if (!IsValidFloatValueBetween(bufferNRI, 0, 9999999999999.99)) {
         ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
         return false;
     }
@@ -725,8 +717,8 @@ bool CDlgAdvPreferences::ValidateInput() {
     // this will first validate the input.
     //
     if (m_txtProcIdleFor->IsEnabled()) {
-        bufferPIF = m_txtProcIdleFor->GetValue();
-        if (!IsValidFloatValueBetween(bufferPIF, 0, 10000)) {
+        wxString bufferPIF = m_txtProcIdleFor->GetValue();  // variable to store Processor Idle For string.
+        if (!IsValidFloatValueBetween(bufferPIF, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtProcIdleFor);
             return false;
         }
