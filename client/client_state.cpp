@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -645,7 +645,7 @@ int CLIENT_STATE::init() {
 
     // inform the user if there's a newer version of client
     // NOTE: this must be called AFTER
-    // read_vc_config_file()
+    // read_nvc_config_file()
     //
     newer_version_startup_check();
 
@@ -1202,7 +1202,8 @@ PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     for (unsigned int i=0; i<projects.size(); i++) {
         char* q = strstr(projects[i]->master_url, "//");
         if (!q) continue;
-        if (!strcmp(p, q)) {
+        if (!strcasecmp(p, q)) {
+            // note: canonicalize_master_url() doesn't lower-case
             return projects[i];
         }
     }

@@ -17,6 +17,28 @@ else
   MAKEFILE_LDFLAGS  = -lpthread
 endif
 
+CXXFLAGS += \
+    -I$(BOINC_DIR) \
+    -I$(BOINC_SOURCE_API_DIR) \
+    -I$(BOINC_SOURCE_LIB_DIR) \
+    -I$(BOINC_SOURCE_ZIP_DIR) \
+    -I$(FREETYPE_DIR) \
+    -L$(BOINC_API_DIR) \
+    -L$(BOINC_LIB_DIR) \
+    -L$(BOINC_ZIP_DIR)
+
+
+ifdef BUILD_WITH_VCPKG
+  BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
+  VCPKG_DIR     ?= $(BUILD_DIR)/vcpkg/installed/x64-linux
+
+  CXXFLAGS += \
+    -I$(VCPKG_DIR)/include \
+    -L$(VCPKG_DIR)/lib
+
+  CURL_EXTRA_LDFLAGS ?= -lz -ldl
+endif
+
 PROGS = boinc_gahp
 
 all: $(PROGS)
@@ -29,6 +51,6 @@ distclean: clean
 distclean-recursive: clean
 
 boinc_gahp: boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.h $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp $(BOINC_DIR)/svn_version.h $(BOINC_DIR)/version.h
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_FLAGS) -g -O2 -I$(BOINC_DIR) -I$(BOINC_SOURCE_LIB_DIR) \
-	-I$(VCPKG_DIR)/include -o boinc_gahp boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp \
-	-L$(BOINC_LIB_DIR) -L$(VCPKG_DIR)/lib -lcurl $(MINGW_CURL) -lssl -lcrypto -lboinc $(MAKEFILE_LDFLAGS) $(STDCPPTC)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_FLAGS) -g -O2 \
+	-o boinc_gahp boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp \
+	-lcurl -lssl -lcrypto -lboinc $(CURL_EXTRA_LDFLAGS) $(MAKEFILE_LDFLAGS) $(STDCPPTC)

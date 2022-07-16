@@ -40,6 +40,7 @@ import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.TransferStatus;
 import edu.berkeley.boinc.utils.Logging;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -71,6 +72,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public String getDiskUsage(int position) {
+        double diskUsage = entries.get(position).getProject().getDiskUsage();
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(diskUsage/(1024*1024));
     }
 
     public String getName(int position) {
@@ -286,6 +293,10 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             ((TextView) vi.findViewById(R.id.project_credits)).setText(hostCredit == userCredit ?
                                                                        NumberFormat.getIntegerInstance().format(hostCredit) :
                                                                        this.activity.getString(R.string.projects_credits_host_and_user, hostCredit, userCredit));
+
+            TextView tvDiskUsage = vi.findViewById(R.id.project_disk_usage);
+            String diskUsage = getDiskUsage(position);
+            tvDiskUsage.setText(this.activity.getString(R.string.projects_disk_usage_with_unit, diskUsage));
 
             // server notice
             Notice notice = data.getLastServerNotice();

@@ -89,6 +89,7 @@ define('KW_CHEMISTRY',      62);
 define('KW_GAMES',          63);
 define('KW_VIRUS',          64);
 define('KW_FRANCE',         65);
+define('KW_CANADA',         66);
 
 $job_keywords = array();
 
@@ -266,6 +267,9 @@ keyword('KW_OCEANIA', KW_CATEGORY_LOC, 0, 0,
 keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
     'Americas'
 );
+    keyword('KW_CANADA', KW_CATEGORY_LOC, 1, KW_AMERICAS,
+        'Canada'
+    );
     keyword('KW_US', KW_CATEGORY_LOC, 1, KW_AMERICAS,
         'United States'
     );

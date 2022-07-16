@@ -1,0 +1,21 @@
+{
+    "name": "boinc-msbuild-x64",
+    "version-string": "7.21.0",
+    "dependencies":
+    [
+        {
+          "name": "curl",
+          "features": ["schannel"],
+          "default-features": false
+        },
+        "openssl",
+        "rappture",
+        {
+          "name": "wxwidgets",
+          "default-features": false
+        },
+        "gtest",
+        "ftgl",
+        "opencl"
+    ]
+}

@@ -616,7 +616,7 @@ void CViewWork::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
 
 bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
     bool bReturnValue = true;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -624,17 +624,24 @@ bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-    if (!m_pTaskPane->OnSaveState(pConfig)) {
+    if (!pConfig) {
+        return false;
+    }
+
+    if (!m_pTaskPane || !m_pTaskPane->OnSaveState(pConfig)) {
         bReturnValue = false;
     }
-    if (!m_pListPane->OnSaveState(pConfig)) {
+    if (!m_pListPane || !m_pListPane->OnSaveState(pConfig)) {
         bReturnValue = false;
     }
 
-    wxString    strBaseConfigLocation = wxEmptyString;
-    strBaseConfigLocation = wxT("/Tasks");
-    pConfig->SetPath(strBaseConfigLocation);
-    pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
+    if (pConfig && pDoc) {
+        const wxString strBaseConfigLocation = wxT("/Tasks");
+        pConfig->SetPath(strBaseConfigLocation);
+        pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
+    } else {
+        bReturnValue = false;
+    }
 
     return bReturnValue;
 }

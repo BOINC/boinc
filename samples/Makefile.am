@@ -10,6 +10,10 @@ if BUILD_WITH_GUI
     export BUILD_WITH_GUI="yes"
 endif
 
+if BUILD_WITH_VCPKG
+    export BUILD_WITH_VCPKG="yes"
+endif
+
 ## list the apps that should be build
 ## NOTE: nvcuda and wrappture need external libraries
 SUBDIRS = condor example_app multi_thread sleeper worker wrapper

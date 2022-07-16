@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -613,7 +613,7 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
         if (context->frameArray != NULL) {
             size_t          byteCount;
             size_t          byteIndex;
-            const char *    byteBase;
+            const char *    byteBase __attribute__((unused));
             
             byteCount = context->frameArrayCount * sizeof(*context->frameArray);
             byteBase  = (const char *) context->frameArray;

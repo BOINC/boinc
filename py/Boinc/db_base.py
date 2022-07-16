@@ -318,7 +318,7 @@ class DatabaseTable:
         return
 
     def _create_objects_from_sql_results(self, results, kwargs):
-        return [ self._create_object_from_sql_result for result in  results ]
+        return [ self._create_object_from_sql_result(result) for result in results ]
 
     def _create_object_from_sql_result(self, result):
         id = result['id']

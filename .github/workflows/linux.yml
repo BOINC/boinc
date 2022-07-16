@@ -7,13 +7,22 @@ on:
   schedule:
     - cron:  '10 12 * * 0'
 
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
 jobs:
   build:
     name: ${{ matrix.type }}-build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -22,9 +31,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo add-apt-repository 'deb http://archive.ubuntu.com/ubuntu bionic main universe'
           sudo apt-get -qq update
-          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
+          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.0-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
 
       - name: Install dependencies for integration testing
         if: matrix.type == 'integration-test'
@@ -39,18 +47,17 @@ jobs:
           path: |
             3rdParty/buildCache
             !3rdParty/buildCache/linux/vcpkgcache/
-          key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh') }}
-          restore-keys: linux-${{ matrix.type }}-
+          key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh', '.github/workflows/linux.yml') }}
 
-      - name: Configure Python
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
         run: |
-          pip install boto3==1.19.12
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
 
-      - name: Download vcpkg binary cache
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
         run: |
-          python ./deploy/manage_vcpkg_archive_cache.py download 3rdParty/buildCache/linux/vcpkgcache/vcpkg/archives/ linux "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: Automake
         if: success()
@@ -80,6 +87,14 @@ jobs:
         if: success() && matrix.type == 'apps-vcpkg'
         run: linux/ci_configure_apps.sh
 
+      - name: Configure libs with cmake vcpkg
+        if: success() && matrix.type == 'libs-cmake'
+        run: linux/ci_configure_libs_cmake.sh
+
+      - name: Configure manager with webview and vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg'
+        run: linux/ci_configure_manager.sh
+
       - name: Configure server
         if: success() && matrix.type == 'server'
         run: ./configure --enable-server --disable-client --disable-manager
@@ -97,8 +112,13 @@ jobs:
         run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
       - name: Make
-        if: success() && ! contains(matrix.type, 'integration-test')
+        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake')
         run: make
+
+      - name: Make for cmake
+        if: success() && endsWith(matrix.type, 'cmake')
+        run: 
+          cmake --build build
 
       - name: Execute unit-test and report coverage
         if: success() && matrix.type == 'unit-test'
@@ -110,7 +130,7 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        run: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
+        run: python ./deploy/prepare_deployment.py logs
 
       - name: Upload logs on failure
         if: ${{ failure() }}
@@ -137,21 +157,10 @@ jobs:
           name: Linux_tests_results
           path: "tests/gtest/**/*_xml_report.xml"
 
-      - name: Run GCov
-        if: success() && matrix.type == 'unit-test'
-        run: bash -c "find . -type f -name '*.gcno' -exec gcov -pb {} +" || true
-
       - name: Upload coverage report
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         if: success() && matrix.type == 'unit-test'
         with:
           fail_ci_if_error: true
+          gcov: true
           verbose: false
-
-      - name: Upload vcpkg binary cache
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
-        env:
-          ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
-          SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
-        run: |
-          python ./deploy/manage_vcpkg_archive_cache.py upload 3rdParty/buildCache/linux/vcpkgcache/vcpkg/archives/ linux "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "$ACCESS_KEY" "$SECRET_KEY"          

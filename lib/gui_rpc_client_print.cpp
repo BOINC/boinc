@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -207,6 +207,7 @@ void FILE_TRANSFER::print() {
     printf("   sticky: %s\n", sticky?"yes":"no");
     printf("   xfer active: %s\n", xfer_active?"yes":"no");
     printf("   time_so_far: %f\n", time_so_far);
+    if (xfer_active) printf("   estimated_xfer_time_remaining: %f\n", estimated_xfer_time_remaining);
     printf("   bytes_xferred: %f\n", bytes_xferred);
     printf("   xfer_speed: %f\n", xfer_speed);
 }

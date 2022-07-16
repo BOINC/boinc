@@ -7,13 +7,22 @@ on:
   schedule:
     - cron:  '20 12 * * 0'
 
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
 jobs:
   build:
-    name: ${{ matrix.type }}-build
+    name: ${{matrix.type}}-build
     runs-on: macos-latest
     strategy:
       matrix:
-        type: [manager]
+        type: [manager, libs-cmake]
       fail-fast: false
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
@@ -26,17 +35,42 @@ jobs:
         uses: actions/cache@v2
         with:
           path: 3rdParty/buildCache
-          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh') }}
-          restore-keys: osx-${{ matrix.type }}-
+          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/setupForBOINC.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh', '.github/workflows/osx.yml') }}
+
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: install dependencies
+        if: ${{! contains(matrix.type, 'cmake')}}
         run: ./3rdParty/buildMacDependencies.sh -q
 
       - name: make
-        if: success()
+        if: success() && ! contains(matrix.type, 'cmake')
         run: ./mac_build/buildMacBOINC-CI.sh --no_shared_headers
 
+      - name: libs cmake
+        if: matrix.type == 'libs-cmake'
+        run: osx/ci_build_libs_cmake.sh
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+      
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
       - name: deploy
-        if: ${{ success() }}
+        if: success() && ! contains(matrix.type, 'libs')
         run: echo "Would start deployment now"
         #run: ./deploy/prepare_deployment.sh osx_${BOINC_TYPE} deploy/osx_${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/osx_${BOINC_TYPE}/

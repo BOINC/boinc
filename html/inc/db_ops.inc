@@ -314,7 +314,7 @@ class SqlQueryString {
         } else {
              $order = null;
         }
-        if (strlen($value)) {
+        if ($value) {
             if ($order == 'asc') {
                 $this->query .= " order by $value asc";
                 $this->urlquery .= "&sort_by_order=".urlencode($order);
@@ -371,7 +371,7 @@ class SqlQueryString {
         $this->addeq_not_CHOOSE_ALL('client_state');
         $this->addeq_not_CHOOSE_ALL('validate_state');
         $clauses = get_str("clauses", true);
-        if (strstr($clauses, ";")) error_page("bad clause");
+        if ($clauses && strstr($clauses, ";")) error_page("bad clause");
         if ($clauses) {
             $this->addclause($clauses);
         }

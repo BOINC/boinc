@@ -43,7 +43,9 @@ linux_apps_list = [
 ]
 
 linux_manager_list = [
-    './clientgui/boincmgr'
+    './clientgui/boincmgr',
+    './clientgui/skins',
+    'locale/*/*.mo',
 ]
 
 mingw_apps_list = [
@@ -146,9 +148,7 @@ windows_apps_list = [
     './win_build/Build/x64/Release/worker*.exe',
     './win_build/Build/x64/Release/sleeper*.exe',
     './win_build/Build/x64/Release/boinclog.exe',
-    './win_build/Build/x64/Release/boincsim.exe',
     './win_build/Build/x64/Release/multi_thread*.exe',
-    './win_build/Build/x64/Release/slide_show.exe',
     './win_build/Build/x64/Release/test*.exe',
     './win_build/Build/x64/Release/wrappture*.exe',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
@@ -160,9 +160,7 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/worker*.exe',
     './win_build/Build/ARM64/Release/sleeper*.exe',
     './win_build/Build/ARM64/Release/boinclog.exe',
-    './win_build/Build/ARM64/Release/boincsim.exe',
     './win_build/Build/ARM64/Release/multi_thread*.exe',
-    './win_build/Build/ARM64/Release/slide_show.exe',
     './win_build/Build/ARM64/Release/test*.exe',
     './win_build/Build/ARM64/Release/wrappture*.exe'
 ]
@@ -185,18 +183,49 @@ windows_manager_list = [
     './win_build/Build/x64/Release/boinctray.exe',
     './win_build/Build/x64/Release/boincmgr.exe',
     './win_build/Build/ARM64/Release/boinctray.exe',
-    './win_build/Build/ARM64/Release/boincmgr.exe'
+    './win_build/Build/ARM64/Release/boincmgr.exe',
+    './clientgui/skins',
+    'locale/*/*.mo',
+]
+
+wasm_client_list = [
+    './client/boinc_client.wasm',
+    './client/boinc_client.js',
+    './client/boinc.html',
+    './samples/wasm/index.html',
+]
+
+wasm_client_debug_folder_list = [
+    'lib/*.cpp',
+    'lib/*.h',
+    'client/*.cpp',
+    'client/*.h',
+    'client/boinc_client.html',
+    'client/boinc_client.js',
+    'client/boinc_client.wasm',
+]
+
+logs_list = [
+    'config.log',
+    '3rdParty/wasm/vcpkg/buildtrees/*.log',
+    '3rdParty/linux/vcpkg/buildtrees/*.log',
+    '3rdParty/osx/vcpkg/buildtrees/*.log',
+    '3rdParty/android/vcpkg/buildtrees/*.log',
+    '3rdParty/mingw/vcpkg/buildtrees/*.log',
+    '3rdParty/Windows/vcpkg/buildtrees/*.log',
+    'android/BOINC/app/build/reports/',
+    'mac_build/xcodebuild_*.log',
 ]
 
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
-    command = '7z a -t7z -mx=9 ' + archive_path + ' ' + ' '.join(files_list)
+    command = f'7z a -t7z -mx=9 {archive_path} {" ".join(files_list)}'
     os.system(command)
 
 def help():
     print('Usage: python preprare_deployment.py BOINC_TYPE')
-    print('BOINC_TYPE : [linux_client | linux_client-vcpkg | linux_apps | linux_apps-vcpkg | linux_manager-with-webview | linux_manager-without-webview | win_apps-mingw | win_apps-mingw-vcpkg | android_manager | android_manager-vcpkg | android_apps | android_apps-vcpkg | win_apps | win_client | win_manager]')
+    print(f'BOINC_TYPE : [{" | ".join(boinc_types.keys())}]')
 
 def prepare_linux_client(target_directory):
     prepare_7z_archive('linux_client', target_directory, linux_client_list)
@@ -212,6 +241,9 @@ def prepare_linux_apps_vcpkg(target_directory):
 
 def prepare_linux_manager_with_webview(target_directory):
     prepare_7z_archive('linux_manager-with-webview', target_directory, linux_manager_list)
+
+def prepare_linux_manager_with_webview_vcpkg(target_directory):
+    prepare_7z_archive('linux_manager-with-webview-vcpkg', target_directory, linux_manager_list)
 
 def prepare_linux_manager_without_webview(target_directory):
     prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
@@ -247,12 +279,22 @@ def prepare_win_client(target_directory):
 def prepare_win_manager(target_directory):
     prepare_7z_archive('win_manager', target_directory, windows_manager_list)
 
+def prepare_wasm_client(target_directory):
+    prepare_7z_archive('wasm_client', target_directory, wasm_client_list)
+
+def prepare_wasm_client_debug(target_directory):
+    prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
+
+def prepare_logs(target_directory):
+    prepare_7z_archive('logs', target_directory, logs_list)
+
 boinc_types = {
     'linux_client': prepare_linux_client,
     'linux_client-vcpkg': prepare_linux_client_vcpkg,
     'linux_apps': prepare_linux_apps,
     'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
+    'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
     'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
@@ -262,13 +304,15 @@ boinc_types = {
     'android_apps-vcpkg': prepare_android_apps_vcpkg,
     'win_apps': prepare_win_apps,
     'win_client': prepare_win_client,
-    'win_manager': prepare_win_manager
+    'win_manager': prepare_win_manager,
+    'wasm_client': prepare_wasm_client,
+    'wasm_client-debug': prepare_wasm_client_debug,
+    'logs': prepare_logs,
 }
 
 if (len(sys.argv) != 2):
     help()
     sys.exit(1)
-
 
 boinc_type = sys.argv[1]
 target_dir = 'deploy'

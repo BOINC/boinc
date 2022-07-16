@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -244,7 +244,7 @@ extern int QCRCreateFromTask(
 {
     int                     err;
     kern_return_t           kr;
-    kern_return_t           krJunk;
+    kern_return_t           krJunk __attribute__((unused));
     QCrashReportRef         crRef;
     size_t                  threadIndex;
     
@@ -360,7 +360,7 @@ extern int QCRCreateFromSelf(QCrashReportRef *crRefPtr)
 extern void QCRDestroy(QCrashReportRef crRef)
     // See comment in header.
 {
-    kern_return_t   krJunk;
+    kern_return_t   krJunk __attribute__((unused));
     size_t          threadIndex;
     
     if (crRef != NULL) {

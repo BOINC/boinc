@@ -1,19 +1,20 @@
 # BOINC client localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Francesc Famadas, 2018
 # Kintu, 2020
+# Max Martínez, 2022
 # Xavier Mor-Mur <xavi.mormur@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:19+0000\n"
-"Last-Translator: David Anderson <davea@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: Max Martínez, 2022\n"
 "Language-Team: Catalan (http://www.transifex.com/boinc/boinc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,17 +27,17 @@ msgstr ""
 msgid "Message from account manager"
 msgstr "Missatge de l'administrador de comptes"
 
-#: client/client_msgs.cpp:82
+#: client/client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Missatge del servidor"
 
-#: client/client_state.cpp:338
+#: client/client_state.cpp:330
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Algunes tasques necessiten més memòria de la permesa a les seves preferències.  Si us plau, reviseu les preferències."
 
-#: client/client_state.cpp:706
+#: client/client_state.cpp:698
 msgid "Couldn't write state file; check directory permissions"
 msgstr "No s'ha pogut escriure el fitxer d'estat, comproveu els permisos del directori"
 
@@ -44,46 +45,46 @@ msgstr "No s'ha pogut escriure el fitxer d'estat, comproveu els permisos del dir
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "La variable d'entorn HTTP_PROXY ha d'especificar un proxy HTTP"
 
-#: client/cs_scheduler.cpp:624
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"This project is using an old URL.  When convenient, remove the project, then"
-" add %s"
-msgstr "Aquest projecte utilitza una URL antiga. Quan sigui puguis, elimina el projecte, a continuació afegeix %s"
+"This project seems to have changed its URL.  When convenient, remove the "
+"project, then add %s"
+msgstr "Sembla que el projecte ha canviat de URL. Quan puguis, elimini el projecte i llavors afegeix %s"
 
-#: client/cs_statefile.cpp:861
+#: client/cs_statefile.cpp:857
 msgid "Syntax error in app_info.xml"
 msgstr "Error de sintaxi en app_info.xml"
 
-#: client/cs_statefile.cpp:905
+#: client/cs_statefile.cpp:901
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Un arxiu de app_info.xml no existeix: "
 
-#: client/current_version.cpp:55
+#: client/current_version.cpp:66
 msgid "Missing start tag in nvc_config.xml"
 msgstr "Falta l'etiqueta inicial a nvc_config.xml"
 
-#: client/current_version.cpp:64
+#: client/current_version.cpp:75
 msgid "Unexpected text in nvc_config.xml"
 msgstr "Text inesperat a nvc_config.xml"
 
-#: client/current_version.cpp:91
+#: client/current_version.cpp:102
 msgid "Unrecognized tag in nvc_config.xml"
 msgstr "Etiqueta no reconeguda a nvc_config.xml"
 
-#: client/current_version.cpp:99
+#: client/current_version.cpp:110
 msgid "Missing end tag in nvc_config.xml"
 msgstr "Falta l'etiqueta final a nvc_config.xml"
 
-#: client/current_version.cpp:177
+#: client/current_version.cpp:244
 msgid "A new version of BOINC is available"
 msgstr "Una nova versió de BOINC està disponible."
 
-#: client/current_version.cpp:180 client/current_version.cpp:191
+#: client/current_version.cpp:247 client/current_version.cpp:258
 msgid "Download"
 msgstr "Descarregar"
 
-#: client/current_version.cpp:183
+#: client/current_version.cpp:250
 #, c-format
 msgid "A new version of %s is available"
 msgstr "Una nova versió de %s està disponible"
@@ -93,23 +94,23 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "no es pot utilitzar per CUDA o computació OpenCL amb controladors CUDA 6.5 o posteriors"
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:510
+#: client/log_flags.cpp:326 client/log_flags.cpp:506
 msgid "Unexpected text in cc_config.xml"
 msgstr "Text inesperat a cc_config.xml"
 
-#: client/log_flags.cpp:484 client/log_flags.cpp:539
+#: client/log_flags.cpp:480 client/log_flags.cpp:535
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Etiqueta no reconeguda en cc_config.xml"
 
-#: client/log_flags.cpp:501
+#: client/log_flags.cpp:497
 msgid "Missing start tag in cc_config.xml"
 msgstr "Falta el codi d'inici a cc_config.xml"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:525
 msgid "Error in cc_config.xml options"
 msgstr "Error en les opcions de cc_config.xml"
 
-#: client/log_flags.cpp:547
+#: client/log_flags.cpp:543
 msgid "Missing end tag in cc_config.xml"
 msgstr "Falta l'etiqueta final a cc_config.xml"
 

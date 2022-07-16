@@ -23,7 +23,7 @@
   <string name="attachproject_conflict_not_unique">Tili on olemassa toisella salasanalla</string>
   <string name="attachproject_conflict_bad_password">Salasana virheellinen</string>
   <string name="attachproject_conflict_unknown_user">Tiliä ei ole olemassa</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Tiliä ei ole olemassa, käy projektin nettisivulla rekisteröitymässä</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Tiliä ei ole olemassa, käy projektin verkkosivulla rekisteröitymässä</string>
   <!--working-->
   <string name="attachproject_working_attaching">Liitetään %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -35,7 +35,7 @@
   <string name="attachproject_hint_contribtion_charger">2. Kytke laturi</string>
   <string name="attachproject_hint_contribtion_app">3. Käynnistä BOINC ja pidä se avoinna</string>
   <string name="attachproject_hint_contribtion_screen">4. Sammuta näyttö</string>
-  <string name="attachproject_hint_projectwebsite_header">Käy projektin nettisivuilla:</string>
+  <string name="attachproject_hint_projectwebsite_header">Käy projektin verkkosivuilla:</string>
   <string name="attachproject_hint_projectwebsite_science">Lisätietoa tieteestä</string>
   <string name="attachproject_hint_projectwebsite_stats">Katso osallistujatilastoja</string>
   <string name="attachproject_hint_projectwebsite_community">Ole yhteydessä muihin vapaaehtoisiin</string>
@@ -46,7 +46,7 @@
   <string name="attachproject_login_header_specific_area">Erityisalue:</string>
   <string name="attachproject_login_header_description">Kuvaus:</string>
   <string name="attachproject_login_header_home">Kotisivu:</string>
-  <string name="attachproject_login_header_url">Nettisivu:</string>
+  <string name="attachproject_login_header_url">Verkkosivu:</string>
   <string name="attachproject_login_header_id_email">Sähköposti:</string>
   <string name="attachproject_login_header_id_name">Nimi:</string>
   <string name="attachproject_login_header_pwd">Salasana:</string>
@@ -54,7 +54,8 @@
   <string name="attachproject_login_button_login">Kirjaudu sisään</string>
   <string name="attachproject_login_button_forgotpw">Salasana unohtunut</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Käytä tilihallitsijaa tämän laitteen hallintaan</string>
+  <string name="attachproject_acctmgr_list_desc">Käytä tilihallitsijaa tämän laitteen hallintaan
+    </string>
   <string name="attachproject_acctmgr_header">Käytä tilihallitsijaa</string>
   <string name="attachproject_attach_projects_header">Lisää projekteja</string>
   <string name="attachproject_attach_projects_desc">Lisää projekteja projektiluettelosta</string>
@@ -153,6 +154,8 @@
   <string name="projects_icon">Projektin kuvake</string>
   <string name="projects_credits">Pisteet:</string>
   <string name="projects_credits_host_and_user">%1$,d (tällä laitteella) %2$,d (kaikkiaan)</string>
+  <string name="projects_disk_usage">Levyn käyttö:</string>
+  <string name="projects_disk_usage_with_unit">%1$s Mt</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Käyttäjän hyllyttämä</string>
   <string name="projects_status_dontrequestmorework">Ei uusia töitä</string>
@@ -164,7 +167,7 @@
   <string name="projects_status_backoff">Seuraava yhteydenotto: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projektin komennot:</string>
-  <string name="projects_control_visit_website">Käy sivulla</string>
+  <string name="projects_control_visit_website">Käy verkkosivulla</string>
   <string name="projects_control_update">Päivitä</string>
   <string name="projects_control_remove">Poista</string>
   <string name="projects_control_suspend">Hyllytä</string>
@@ -176,6 +179,7 @@
   <string name="projects_control_sync_acctmgr">Synkronoi</string>
   <string name="projects_control_remove_acctmgr">Poista</string>
   <!--project confirm dialog-->
+  <string name="projects_confirm_title">%1$s projekti?</string>
   <string name="projects_confirm_detach_message">BOINCista</string>
   <string name="projects_confirm_detach_confirm">Poista</string>
   <string name="projects_confirm_reset_confirm">Nollaa</string>

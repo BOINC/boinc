@@ -246,7 +246,7 @@ private:
     wxStaticBitmap *m_statbmp;  // the control for the bitmap
 
     // Whether user called SetBorder()
-    bool m_calledSetBorder;
+//    bool m_calledSetBorder;
     // Border around page area sizer requested using SetBorder()
     int m_border;
 

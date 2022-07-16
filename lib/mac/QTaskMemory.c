@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -363,7 +363,7 @@ extern int  QTMRemap(task_t task, QTMAddr addrWithinTask, size_t size, const voi
 extern void QTMFree(const void *buf, size_t size)
     // See comment in header.
 {
-    kern_return_t   junk;
+    kern_return_t   junk __attribute__((unused));
 
     if (buf == NULL) {
         assert(size > 0);
@@ -553,7 +553,7 @@ static int is_pid_native(pid_t pid)
 extern bool QTMTaskIsNative(task_t task)
     // See comments in header.
 {
-    kern_return_t   kr;
+    kern_return_t   kr __attribute__((unused));
     pid_t           pid;
     
     assert(task != MACH_PORT_NULL);

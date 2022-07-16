@@ -115,8 +115,6 @@ extern int create_work2(
     char* query_string = 0
 );
 
-extern int stage_file(const char*, bool);
-
 // the following functions return XML that can be put in
 // scheduler replies to do file operations
 //

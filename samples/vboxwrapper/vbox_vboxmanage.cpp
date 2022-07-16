@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef _WIN32
+#include <algorithm>
 #include "boinc_win.h"
 #include "win_util.h"
 #else
@@ -246,8 +247,25 @@ namespace vboxmanage {
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--acpi on ";
         command += "--ioapic on ";
+        if (is_hostrtc_set_to_utc()) {
+            command += "--rtcuseutc on ";
+        } else {
+            command += "--rtcuseutc off ";
+        }
 
         retval = vbm_popen(command, output, "modifychipset");
+        if (retval) return retval;
+
+        // Tweak the VM's Graphics Controller Options
+        //
+        vboxlog_msg("Setting Graphics Controller Options for VM.");
+        sprintf(buf, "%d", (int)vram_size_mb);
+
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--vram " + string(buf) + " ";
+        command += "--graphicscontroller " + vm_graphics_controller_type + " ";
+
+        retval = vbm_popen(command, output, "modifygraphicscontroller");
         if (retval) return retval;
 
         // Tweak the VM's Boot Options
@@ -500,18 +518,80 @@ namespace vboxmanage {
 
             // Adding virtual hard drive to VM
             //
-            vboxlog_msg("Adding virtual disk drive to VM. (%s)", image_filename.c_str());
+            string command_fix_part;
 
-            command  = "storageattach \"" + vm_name + "\" ";
-            command += "--storagectl \"Hard Disk Controller\" ";
-            command += "--port 0 ";
-            command += "--device 0 ";
-            command += "--type hdd ";
-            command += "--setuuid \"\" ";
-            command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+            command_fix_part  = "storageattach \"" + vm_name + "\" ";
+            command_fix_part += "--storagectl \"Hard Disk Controller\" ";
+            command_fix_part += "--port 0 ";
+            command_fix_part += "--device 0 ";
+            command_fix_part += "--type hdd ";
 
-            retval = vbm_popen(command, output, "storage attach (fixed disk)");
-            if (retval) return retval;
+            if (!multiattach_vdi_file.size()) {
+                // the traditional method:
+                // copy the vdi file from the projects dir to the slots dir and rename it vm_image.vdi
+                // each copy must get a new (random) UUID
+                //
+                vboxlog_msg("Adding virtual disk drive to VM. (%s)", image_filename.c_str());
+                command  = command_fix_part;
+                command += "--setuuid \"\" ";
+                command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+
+                retval = vbm_popen(command, output, "storage attach (fixed disk)");
+                if (retval) return retval;
+            } else {
+                // Use MultiAttach mode and differencing images
+                // See: https://www.virtualbox.org/manual/ch05.html#hdimagewrites
+                //      https://www.virtualbox.org/manual/ch05.html#diffimages
+                // the vdi file downloaded to the projects dir becomes the parent (read only)
+                // "--setuid" must not be used
+                // each task gets it's own differencing image (writable)
+                // differencing images are written to the VM's snapshot folder
+                //
+                string medium_file = aid.project_dir;
+                medium_file += "/" + multiattach_vdi_file;
+
+#ifdef _WIN32
+                replace(medium_file.begin(), medium_file.end(), '\\', '/');
+#endif
+
+                vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
+                command = "list hdds";
+
+                retval = vbm_popen(command, output, "check if parent hdd is registered", false, false);
+                if (retval) return retval;
+
+#ifdef _WIN32
+                replace(output.begin(), output.end(), '\\', '/');
+#endif
+
+                if (output.find(medium_file) == string::npos) {
+                    // parent hdd is not registered
+                    // vdi files can't be registered and set to multiattach mode within 1 step.
+                    // They must first be attached to a VM in normal mode, then detached from the VM
+                    //
+                    command  = command_fix_part;
+                    command += "--medium \"" + medium_file + "\" ";
+
+                    retval = vbm_popen(command, output, "register parent hdd", false, false);
+                    if (retval) return retval;
+
+                    command  = command_fix_part;
+                    command += "--medium none ";
+
+                    retval = vbm_popen(command, output, "detach parent vdi", false, false);
+                    if (retval) return retval;
+                    // the vdi file is now registered and ready to be attached in multiattach mode
+                    //
+                }
+
+                command  = command_fix_part;
+                command += "--mtype multiattach ";
+                command += "--medium \"" + medium_file + "\" ";
+
+                retval = vbm_popen(command, output, "storage attach (fixed disk - multiattach mode)");
+                if (retval) return retval;
+            }
+
 
             // Add guest additions to the VM
             //
@@ -2072,6 +2152,46 @@ namespace vboxmanage {
         if (vm_pid) {
             setpriority(PRIO_PROCESS, vm_pid, PROCESS_NORMAL_PRIORITY);
         }
+#endif
+    }
+
+    bool VBOX_VM::is_hostrtc_set_to_utc() {
+#ifdef _WIN32
+        bool  rtc_is_set_to_utc = false;
+        LONG  lReturnValue;
+        HKEY  hkSetupHive;
+
+        // If the key is present and set to "1" assume the host's rtc is set to UTC.
+        // Otherwise or in case of an error assume the host's rtc is set to localtime.
+        lReturnValue = RegOpenKeyEx(
+            HKEY_LOCAL_MACHINE,
+            _T("SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation"),
+            0,
+            KEY_READ,
+            &hkSetupHive
+            );
+
+        if (lReturnValue == ERROR_SUCCESS) {
+            DWORD dwvalue = 0;
+            DWORD dwsize = sizeof(DWORD);
+
+            lReturnValue = RegQueryValueEx(
+                hkSetupHive,
+                _T("RealTimeIsUniversal"),
+                NULL,
+                NULL,
+                (LPBYTE)&dwvalue,
+                &dwsize
+                );
+
+            if (lReturnValue == ERROR_SUCCESS && dwvalue == 1) rtc_is_set_to_utc = true;
+        }
+
+        if (hkSetupHive) RegCloseKey(hkSetupHive);
+        return rtc_is_set_to_utc;
+#else
+        // Non-Windows Systems usually set their rtc to UTC.
+        return true;
 #endif
     }
 }

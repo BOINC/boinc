@@ -524,7 +524,7 @@ function team_edit_form($team, $label, $url) {
 function team_decay_credit($team) {
     $avg = $team->expavg_credit;
     $avg_time = $team->expavg_time;
-    $now = time(0);
+    $now = time();
     update_average($now, 0, 0, $avg, $avg_time);
     $team->update("expavg_credit=$avg, expavg_time=$now");
 

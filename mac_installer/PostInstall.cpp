@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2021 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -193,7 +193,6 @@ enum { launchWhenDone,
 
 int main(int argc, char *argv[])
 {
-    Boolean                 Success;
     long                    brandID = 0;
     long                    oldBrandID = 0;
     int                     major = 0;
@@ -310,29 +309,6 @@ int main(int argc, char *argv[])
     
     sleep (2);
 
-    // OS 10.6 and OS10.7 require screensavers built with Garbage Collection, but
-    // Xcode 5.0.2 was the last version of Xcode which supported building with
-    // Garbage Collection, so we have saved the screensaver executable with GC as
-    // a binary. The installer build script added it to the screen saver, which
-    // now contains both the code with Garbage Collection and the code with
-    // Automatic Reference Counting. Determine the correct one to use for this
-    // version of OS X and remove the other one.
-    if (compareOSVersionTo(10, 8) < 0) {
-        // "rm -rf \"/Library/Screen Savers/GridRepublic.saver/Contents/MacOS/BOINCSaver\""
-        sprintf(s, "rm -f \"/Library/Screen Savers/%s.saver/Contents/MacOS/%s\"", saverName[brandID], saverName[brandID]);
-        err = callPosixSpawn (s);
-        REPORT_ERROR(err);
-        sprintf(s, "mv -f \"/Library/Screen Savers/%s.saver/Contents/MacOS/BOINCSaver_MacOS10_6_7\" \"/Library/Screen Savers/%s.saver/Contents/MacOS/%s\"",
-            saverName[brandID], saverName[brandID], saverName[brandID]);
-        err = callPosixSpawn (s);
-        REPORT_ERROR(err);
-    } else {
-        // "rm -rf \"/Library/Screen Savers/GridRepublic.saver/Contents/MacOS/BOINCSaver_MacOS10_6_7\""
-        sprintf(s, "rm -f \"/Library/Screen Savers/%s.saver/Contents/MacOS/BOINCSaver_MacOS10_6_7\"", saverName[brandID]);
-        err = callPosixSpawn (s);
-        REPORT_ERROR(err);
-    }
-
     // Install all_projects_list.xml file, but only if one doesn't 
     // already exist, since a pre-existing one is probably newer.
     f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
@@ -361,8 +337,6 @@ int main(int argc, char *argv[])
         optionally_install_rosetta2();
     }
 #endif  // __arm64__
-
-    Success = false;
     
 #ifdef SANDBOX
 
@@ -412,6 +386,8 @@ int main(int argc, char *argv[])
     
 #else   // ! defined(SANDBOX)
 
+    Boolean                 Success = false;
+    
     // The BOINC Manager and Core Client have the set-user-ID-on-execution 
     // flag set, so their ownership is important and must match the 
     // ownership of the BOINC Data directory.
@@ -1595,7 +1571,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     Boolean             allNonAdminUsersAreSet = true;
     Boolean             allowNonAdminUsersToRunBOINC = false;
     int                 err;
-    Boolean             isAdminGroupMember, isBMGroupMember, isBPGroupMember;
+    Boolean             isAdminGroupMember, isBMGroupMember;
     struct stat         sbuf;
     char                cmd[256];
 #ifdef SANDBOX
@@ -1747,7 +1723,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 #ifdef SANDBOX
         isAdminGroupMember = false;
         isBMGroupMember = false;
-        isBPGroupMember = false;
 
         isAdminGroupMember = IsUserMemberOfGroup(pw->pw_name, admin_group_name);
         if (isAdminGroupMember) {
@@ -1794,9 +1769,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 REPORT_ERROR(err);
                 printf("[2] %s returned %d\n", cmd, err);
                 fflush(stdout);
-                isBPGroupMember = true;
             } else {
-                isBPGroupMember = true;
                 for (i=1; i<BPGroupMembershipCount; ++i) {
                     sprintf(cmd, "dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
                     err = callPosixSpawn(cmd);
@@ -2355,7 +2328,7 @@ static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* repl
 #define IN_DOUBLE_QUOTED_TOKEN      2
 #define IN_UNQUOTED_TOKEN           3
 
-static int parse_posic_spawn_command_line(char* p, char** argv) {
+static int parse_posix_spawn_command_line(char* p, char** argv) {
     int state = NOT_IN_TOKEN;
     int argc=0;
 
@@ -2412,16 +2385,16 @@ int callPosixSpawn(const char *cmdline) {
     char progName[1024];
     char progPath[MAXPATHLEN];
     char* argv[100];
-    int argc = 0;
+    int argc __attribute__((unused)) = 0;
     char *p;
     pid_t thePid = 0;
     int result = 0;
     int status = 0;
     extern char **environ;
     
-    // Make a copy of cmdline because parse_posic_spawn_command_line modifies it
+    // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
-    argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
+    argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
     strlcpy(progPath, argv[0], sizeof(progPath));
     strlcpy(progName, argv[0], sizeof(progName));
     p = strrchr(progName, '/');

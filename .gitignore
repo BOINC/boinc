@@ -24,13 +24,6 @@
 /win_build/installerv2/WCG
 /win_build/installerv2/Progress
 
-# Visual Studio Build Directories for BOINCCAS
-/win_build/installerv2/redist/Windows/src/boinccas/Debug
-/win_build/installerv2/redist/Windows/src/boinccas/Debug95
-/win_build/installerv2/redist/Windows/src/boinccas/Release
-/win_build/installerv2/redist/Windows/src/boinccas/Release95
-/win_build/installerv2/redist/Windows/src/boinccas/x64
-
 # Netbeans project files
 /html/nbproject/
 *.project
@@ -46,8 +39,6 @@
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
 /win_build/ipch
-/win_build/installerv2/redist/Windows/src/boinccas/*.filters
-/win_build/installerv2/redist/Windows/src/boinccas/boinccas.sdf
 
 # Android (Studio, build scripts, artefacts, redundancies)
 /android/**/*.iml
@@ -76,12 +67,14 @@
 ## files created by _autosetup (autoreconf):
 *.in
 *.in~
+!*.pc.in
 aclocal.m4
 autom4te.cache/
 compile
 config.guess
 config.sub
 configure
+configure~
 depcomp
 install-sh
 ltmain.sh
@@ -96,6 +89,7 @@ test-driver
 ## files created by configure:
 Makefile
 .deps/
+*.pc
 boinc_path_config.py
 pkginfo
 prototype
@@ -229,3 +223,18 @@ vda/vdad
 
 # OS-specific files
 .DS_Store
+
+# cmake build
+build/
+build-*/
+
+# WASM
+*.wasm
+a.out.js
+boinc_client.js
+boinccmd.js
+switcher.js
+boinc.html
+boinc_client.html
+boinccmd.html
+switcher.html

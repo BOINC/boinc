@@ -17,7 +17,6 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="edu.berkeley.boinc"
         android:installLocation="internalOnly">
     <!-- installation on SD card would break boot receiver -->
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
@@ -27,6 +26,7 @@
             android:normalScreens="true"
             android:smallScreens="true"
             android:xlargeScreens="true" /> <!-- Required Permissions -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET" />

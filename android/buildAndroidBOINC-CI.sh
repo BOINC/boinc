@@ -24,8 +24,6 @@ export REV=1
 export ARMV6_REV=1
 export OPENSSL_VERSION=1.1.1l
 export CURL_VERSION=7.80.0
-export NDK_VERSION=21d
-export NDK_ARMV6_VERSION=15c
 
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
@@ -121,6 +119,7 @@ if [ "x$build_dir" != "x" ]; then
 else
     cd ../
     BUILD_DIR="$(pwd)/3rdParty/android"
+    THIRD_PARTY="$(pwd)/3rdParty"
     cd android/
 fi
 
@@ -145,10 +144,10 @@ if [ "${silent}" = "yes" ]; then
     export STDOUT_TARGET="/dev/null"
 fi
 
+. $(pwd)/ndk_common.sh
+. $(pwd)/../3rdParty/vcpkg_ports/vcpkg_link.sh
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
-export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
-export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 export VCPKG_ROOT="$BUILD_DIR/vcpkg"
@@ -167,19 +166,7 @@ else
     export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_VERSION}-${arch}-${REV}_done"
 fi
 
-createNDKFolder()
-{
-    rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
-    wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
-}
 
-createNDKARMV6Folder()
-{
-    rm -rf "$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}"
-    wget -c --no-verbose -O /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_ARMV6_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip -d $BUILD_DIR
-}
 
 if [ ! -e "${NDK_FLAGFILE}" ]; then
     createNDKFolder
@@ -253,20 +240,23 @@ getTripletName()
 }
 
 if [ $build_with_vcpkg = "yes" ]; then
-    export XDG_CACHE_HOME=$cache_dir/vcpkgcache/
     if [ $ci = "yes" ]; then
         triplets_setup="ci"
     else
         triplets_setup="default"
     fi
-    packages="rappture curl[core,openssl]"
-    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
+    manifest_dir=$THIRD_PARTY/vcpkg_ports/configs/$component
+    if [ $component = "apps" ]; then
+        manifest_dir=$manifest_dir/android
+    fi
+    manifests="--x-manifest-root=$manifest_dir --x-install-root=$VCPKG_ROOT/installed/"
+    vcpkg_overlay="--overlay-ports=$vcpkg_ports_dir/ports --overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup"
+    vcpkg_flags="$vcpkg_overlay  --feature-flags=versions --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
-        git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+        git -C $BUILD_DIR clone $VCPKG_LINK
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
-        git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
@@ -274,31 +264,29 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ $arch = "armv6" ]; then
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
 
-        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
+        $VCPKG_ROOT/vcpkg install $manifests $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "arm" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
-        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName neon)
+        $VCPKG_ROOT/vcpkg install $manifests $vcpkg_flags --triplet=$(getTripletName neon)
+        $VCPKG_ROOT/vcpkg install $manifests $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "arm64" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
+        $VCPKG_ROOT/vcpkg install $manifests $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "x86" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
+        $VCPKG_ROOT/vcpkg install $manifests $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "x86_64" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
+        $VCPKG_ROOT/vcpkg install $manifests $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
-
-    $VCPKG_ROOT/vcpkg upgrade --no-dry-run
 fi
 
 vcpkgDir()

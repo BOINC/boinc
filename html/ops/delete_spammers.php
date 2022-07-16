@@ -398,7 +398,7 @@ function delete_team_id_range($id1, $id2) {
     }
 }
 
-echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+echo "Starting: ".date(DATE_RFC2822)."\n";
 
 // get settings first
 //
@@ -461,6 +461,6 @@ for ($i=1; $i<$argc; $i++) {
         delete_users(true, true, true, false);
     }
 }
-echo "Finished: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+echo "Finished: ".date(DATE_RFC2822)."\n";
 
 ?>

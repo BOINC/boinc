@@ -23,7 +23,7 @@
   <string name="attachproject_conflict_not_unique">Невірний пароль існуючого облікового запису</string>
   <string name="attachproject_conflict_bad_password">Невірний пароль</string>
   <string name="attachproject_conflict_unknown_user">Такий обліковий запис не існує</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Такий обліковий запис не існує, перейдіть на сторінку проекта для реєстрації</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Обліковий запис не існує, зайдіть на сторінку проєкту для реєстрації</string>
   <!--working-->
   <string name="attachproject_working_attaching">Додавання %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -39,7 +39,7 @@
   <string name="attachproject_hint_projectwebsite_science">Дізнатися більше про науковий аспект</string>
   <string name="attachproject_hint_projectwebsite_stats">Переглянути статистику участі</string>
   <string name="attachproject_hint_projectwebsite_community">Контактувати з іншими волонтерами</string>
-  <string name="attachproject_hint_platforms_header">BOINC також доступний для вашого комп’ютера або ноутбука, відвідайте boinc.berkeley.edu, щоб дізнатися більше.</string>
+  <string name="attachproject_hint_platforms_header">BOINC також доступний для компʼютера або ноутбука, щоб дізнатися більше, відвідайте boinc.berkeley.edu.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Встановлення з’єднання із сервером проекту</string>
   <string name="attachproject_login_header_general_area">Загальна область:</string>
@@ -54,10 +54,10 @@
   <string name="attachproject_login_button_login">Увійти</string>
   <string name="attachproject_login_button_forgotpw">Забули пароль?</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Використовуй менеджер акаунтів для керування цим пристроєм</string>
+  <string name="attachproject_acctmgr_list_desc">Користуйтеся менеджером облікових записів для управління цим пристроєм</string>
   <string name="attachproject_acctmgr_header">Використати менеджер проектів</string>
   <string name="attachproject_attach_projects_header">Додати проекти</string>
-  <string name="attachproject_attach_projects_desc">Додати новий проект зі списку проектів</string>
+  <string name="attachproject_attach_projects_desc">Додайте проєкти зі списку</string>
   <string name="attachproject_acctmgr_header_url">Адреса (URL)</string>
   <string name="attachproject_acctmgr_header_name">Користувач:</string>
   <string name="attachproject_acctmgr_header_pwd">Пароль:</string>
@@ -112,7 +112,7 @@
   <string name="prefs_general_device_name_header">Ім\'я пристрою</string>
   <string name="prefs_theme_header">Тема</string>
   <string name="prefs_stationary_device_mode_header">Стаціонарний режим роботи пристрою</string>
-  <string name="prefs_stationary_device_mode_description">Дозволяє робити обчислення не дивлячись на налаштування Живлення. Вмикати, тільки якщо пристрой не має акумулятора.</string>
+  <string name="prefs_stationary_device_mode_description">Дозволяє проводити обчислення незалежно від параметрів живлення. Дозвольте це лише якщо пристрій не має батареї.</string>
   <string name="prefs_power_source_header">Джерела живлення для обчислювання</string>
   <string name="prefs_power_source_ac">Розетка</string>
   <string name="prefs_power_source_usb">Підключення по USB</string>
@@ -128,12 +128,12 @@
   <string name="prefs_network_wifi_only_header">Передавати завдання тільки через WiFi</string>
   <string name="prefs_autostart_header">Автозапуск</string>
   <string name="prefs_remote_header">Увімкнути віддалене керування</string>
-  <string name="prefs_remote_summary">При зміні, клієнт BOINC буде перезапущений.</string>
+  <string name="prefs_remote_summary">Після зміни клієнт BOINC буде перезапущено.</string>
   <string name="prefs_show_notification_notices_header">Сповіщати про нові повідомлення</string>
   <string name="prefs_cpu_number_cpus_header">Використано ядер ЦП</string>
   <string name="prefs_cpu_number_cpus_description">Обмежує кількість ядер ЦП, які BOINC використовує для обчислень.</string>
   <string name="prefs_cpu_other_load_suspension_header">Призупиняти, коли використання ЦП вище, ніж (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через використання процессора іншими додатками.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через те, що инші застосунки використовують процесор.</string>
   <string name="prefs_cpu_time_max_header">Обмеження ЦП (%)</string>
   <string name="prefs_cpu_time_max_description">Обмежує процесорний час роботи, який BOINC використовує для обчислень.</string>
   <string name="prefs_memory_max_idle_header">Обмеження RAM (%)</string>
@@ -141,8 +141,9 @@
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Додатковий буфер для задач (днів)</string>
   <string name="prefs_remote_authentication_key">GUI ключ автентифікації</string>
   <string name="prefs_remote_empty_password">Помилка при зміні паролю: пароль не має бути порожнім </string>
-  <string name="prefs_remote_boinc_relaunched">Клієнт BOINC буде перезапущений після зміни пароля.</string>
+  <string name="prefs_remote_boinc_relaunched">Клієнт BOINC буде перезапущено після зміни пароля.</string>
   <string name="prefs_client_log_flags_header">Прапорці журналу клієнта BOINC</string>
+  <string name="prefs_gui_log_categories">Категорії протоколювання графічного інтерфейсу BOINC</string>
   <string name="prefs_gui_log_level_header">Рівень журналу GUI</string>
   <string name="prefs_gui_log_level_description">Задає рівень деталізації повідомлень журналу GUI.</string>
   <string name="prefs_theme_light">Світла</string>
@@ -153,6 +154,8 @@
   <string name="projects_icon">Іконка проекту</string>
   <string name="projects_credits">Бали:</string>
   <string name="projects_credits_host_and_user">%1$,d (на цьому пристрої) %2$,d (всього)</string>
+  <string name="projects_disk_usage">Використання диска:</string>
+  <string name="projects_disk_usage_with_unit">%1$s МБ</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Призупинено користувачем</string>
   <string name="projects_status_dontrequestmorework">Не приймати нові завдання</string>
@@ -241,7 +244,7 @@
   <string name="suspend_os">Зупинено Android-ом.</string>
   <string name="suspend_wifi">Відсутнє підключення до WiFi.</string>
   <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора.</string>
-  <string name="suspend_battery_charging_long">Обчислення буде відновлено коли рівень батареї досягне %1$d%% (наразі %2$d%%)</string>
+  <string name="suspend_battery_charging_long">Обчислення буде відновлено коли рівень батареї досягне 1%1$d 2%% (наразі 3%2$d 2%%)</string>
   <string name="suspend_battery_overheating">Очікування охолодження акумулятора</string>
   <string name="suspend_user_req">Поновлення обчислень...</string>
   <!--rpc reasons-->
@@ -268,9 +271,8 @@
   <string name="about_title">Про додаток</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія %1$s</string>
-  <string name="about_copyright">\u00A9 2003–2021 Каліфорнійський університет, Берклі.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Каліфорнійський університет, Берклі, США.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
-  <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC Corporation за їх підтримку.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Нова примітка від %1$s</item>
@@ -280,20 +282,17 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Знайдено додаток добровільних обчислень</string>
-  <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цьому пристрої. Тільки один додаток може працювати одночасно.</string>
   <string name="nonexcl_dialog_exit">Вийти</string>
   <!--social integration-->
   <string name="social_invite_button">Запросити друзів</string>
   <string name="social_invite_intent_title">Як ви бажаєто поділитися?</string>
   <string name="social_invite_content_title">Я приймаю участь у наукових обчисленнях на моєму смартфоні!</string>
-  <string name="social_invite_content_body">Я вікористовую %1$s для наукових обчислень. Ти також можешь прийняти участь! Завантажуй додаток звідси: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="main_notification_channel_description">Відображати важливі сповіщення</string>
   <string name="notice_notification_channel_name">Повідомлення</string>
-  <string name="notice_notification_channel_description">Відображає повідомлення про ваші проекти.</string>
+  <string name="notice_notification_channel_description">Відображає повідомлення про ваші проєкти.</string>
   <string name="agree_button">Погоджуюсь</string>
 </resources>

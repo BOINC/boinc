@@ -32,7 +32,7 @@ if ENABLE_CLIENT
 endif
 
 if ENABLE_MANAGER
-   CLIENTGUI_SUBDIRS = clientgui locale clientgui/res
+   CLIENTGUI_SUBDIRS = clientgui locale clientgui/res clientgui/skins
 if BUILD_X11_SCREENSAVER
    CLIENTGUI_SUBDIRS += clientscr
 endif
@@ -65,7 +65,10 @@ endif
 # Define files for distclean command
 DISTCLEANFILES =                                \
    clientgui/res/Makefile                       \
-   packages/generic/sea/Makefile
+   packages/generic/sea/Makefile                \
+   `find . -name "*.wasm"`                      \
+   `find client -name "*.js"`                   \
+   `find client -name "*.html"`
 
 # Define files for maintainer-clean command
 MAINTAINERCLEANFILES =                          \

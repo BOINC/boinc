@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,7 +18,7 @@
 #ifndef BOINC_SG_PANELBASE_H
 #define BOINC_SG_PANELBASE_H
 
-#include "sg_CustomControls.h" 
+#include "sg_CustomControls.h"
 #include "sg_BoincSimpleFrame.h"
 #include "MainDocument.h"
 
@@ -35,8 +35,7 @@
 #define LARGE_FONT 16
 #endif
 
-#define SIDEMARGINS ADJUSTFORXDPI(30)
-
+const int sideMargins = 30;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class CSimplePanelBase
@@ -49,7 +48,7 @@
 #endif
 
 
-class CSimplePanelBase : public wxPanel 
+class CSimplePanelBase : public wxPanel
 {
     DECLARE_DYNAMIC_CLASS( CSimplePanelBase )
     DECLARE_EVENT_TABLE()
