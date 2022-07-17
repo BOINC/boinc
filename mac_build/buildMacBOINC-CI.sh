@@ -30,6 +30,8 @@
 # --no_shared_headers will build targets individually instead of in one call of BuildMacBOINC.sh (NOT recommended)
 
 # check working directory because the script needs to be called like: ./mac_build/buildMacBOINC-CI.sh
+set -e
+
 if [ ! -d "mac_build" ]; then
     echo "start this script in the source root directory"
     exit 1

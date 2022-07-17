@@ -155,12 +155,12 @@ fi
 source "${ROOTDIR}/mac_build/dependencyNames.sh"
 
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT $PRODUCTNAME $ARCHS
-download_and_build "${opensslDirName}" "${opensslFileName}" "${opensslURL}" "${ROOTDIR}/mac_build/buildopenssl.sh" "libssl.a" "x86_64"
-download_and_build "${caresDirName}" "${caresFileName}" "${caresURL}" "${ROOTDIR}/mac_build/buildc-ares.sh" "libcares.a" "x86_64"
-download_and_build "${curlDirName}" "${curlFileName}" "${curlURL}" "${ROOTDIR}/mac_build/buildcurl.sh" "libcurl.a" "x86_64"
-download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}" "${ROOTDIR}/mac_build/buildWxMac.sh ${wxoption}" "libwx_osx_cocoa_static.a" "x86_64"
-download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "x86_64"
-download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64"
+download_and_build "${opensslDirName}" "${opensslFileName}" "${opensslURL}" "${ROOTDIR}/mac_build/buildopenssl.sh" "libssl.a" "x86_64 arm64"
+download_and_build "${caresDirName}" "${caresFileName}" "${caresURL}" "${ROOTDIR}/mac_build/buildc-ares.sh" "libcares.a" "x86_64 arm64"
+download_and_build "${curlDirName}" "${curlFileName}" "${curlURL}" "${ROOTDIR}/mac_build/buildcurl.sh" "libcurl.a" "x86_64 arm64"
+download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}" "${ROOTDIR}/mac_build/buildWxMac.sh ${wxoption}" "libwx_osx_cocoa_static.a" "x86_64 arm64"
+download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "x86_64 arm64"
+download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1

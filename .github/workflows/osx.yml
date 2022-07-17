@@ -59,6 +59,10 @@ jobs:
         if: matrix.type == 'libs-cmake'
         run: osx/ci_build_libs_cmake.sh
 
+      - name: test universal cmake
+        if: success() && matrix.type == 'libs-cmake'
+        run: ./osx/test_universal.sh        
+
       - name: Prepare logs on failure
         if: ${{ failure() }}
         run: python3 ./deploy/prepare_deployment.py logs
