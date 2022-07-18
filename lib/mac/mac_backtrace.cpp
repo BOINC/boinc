@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,7 +49,7 @@
 *  * For more information on using atos, see the atos man page.
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  You may need to prefix C++ symbols with an additional underscore before 
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -102,7 +102,7 @@ enum {
 static void PrintOSVersion(int *majorVersion, int *minorVersion);
 
 void PrintBacktrace(void) {
-    int                         err;
+    int                         err __attribute__((unused));
     QCrashReportRef             crRef = NULL;
 
     char                        nameBuf[256], pathToThisProcess[1024];
@@ -221,6 +221,8 @@ void PrintBacktrace(void) {
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
 #elif defined (__i386__)
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
+#elif defined (__arm64__)
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch arm", pathToThisProcess);
 #else
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
 #endif
@@ -232,7 +234,7 @@ void PrintBacktrace(void) {
     }
 
     if (cppfiltExists) {
-        cppfiltPipe = popen("/usr/bin/c++filt -s gnu-v3 -n", "r+");
+        cppfiltPipe = popen("/usr/bin/c++filt -s gnu -n", "r+");
         if (cppfiltPipe) {
             setbuf(cppfiltPipe, 0);
         }

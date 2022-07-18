@@ -137,11 +137,12 @@ if [ "${doclean}" = "yes" ]; then
     echo ${build_config} >${PREFIX}/build-config
 fi
 
+wx_ver="3.2.0"
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
 if [ "${gtest_only}" = "yes" ]; then
     download_and_build "googletest-release-1.8.1" "release-1.8.1.tar.gz" "https://github.com/google/googletest/archive/release-1.8.1.tar.gz" "${ROOTDIR}/3rdParty/buildGoogletestLinux.sh"
 else
-    download_and_build "wxWidgets-3.0.2" "wxWidgets-3.0.2.tar.bz2" "https://sourceforge.net/projects/wxwindows/files/3.0.2/wxWidgets-3.0.2.tar.bz2" "${ROOTDIR}/3rdParty/buildWxLinux.sh ${wxoption}"
+    download_and_build "wxWidgets-$wx_ver" "wxWidgets-$wx_ver.tar.bz2" "https://github.com/wxWidgets/wxWidgets/releases/download/v$wx_ver/wxWidgets-$wx_ver.tar.bz2" "${ROOTDIR}/3rdParty/buildWxLinux.sh ${wxoption}"
 fi
 
 # change back to root directory

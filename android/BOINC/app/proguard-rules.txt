@@ -1,0 +1,18 @@
+# Add project specific ProGuard rules here.
+# You can control the set of applied configuration files using the
+# proguardFiles setting in build.gradle.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Uncomment this to preserve the line number information for
+# debugging stack traces.
+#-keepattributes SourceFile,LineNumberTable
+
+# Useful for debugging
+#-printusage build/usage.txt     # Prints unused APIs removed by ProGuard
+#-printmapping build/mapping.txt # Prints mappings of class names to their obfuscated names
+
+#-dontobfuscate
+
+-dontwarn java.lang.ClassValue # Ignore it from Guava

@@ -27,10 +27,6 @@
 #include <ctime>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
@@ -937,8 +933,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 }
 #endif
 
-USER_MESSAGE::USER_MESSAGE(char* m, char* p) {
-    message = m;
-    priority = p;
+USER_MESSAGE::USER_MESSAGE(char* m, char* p) : message(m), priority(p) {
 }
 

@@ -152,7 +152,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 NULL,
                 _T("Generating 'boinc_master' password")
             );
-            GenerateRandomPassword(strBOINCMasterAccountPassword, 12);
+            GenerateRandomPassword(strBOINCMasterAccountPassword, 32);
             strBOINCMasterAccountPassword = _T("!") + strBOINCMasterAccountPassword;
         }
 
@@ -314,7 +314,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 NULL,
                 _T("Generating 'boinc_project' password")
             );
-            GenerateRandomPassword(strBOINCProjectAccountPassword, 12);
+            GenerateRandomPassword(strBOINCProjectAccountPassword, 32);
             strBOINCProjectAccountPassword = _T("!") + strBOINCProjectAccountPassword;
         }
 
@@ -458,7 +458,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 // Function:    CreateBOINCAccounts
 //
 // Description: This custom action creates the two user accounts that'll
-//              be used to enfore the account based sandboxing scheme
+//              be used to enforce the account based sandboxing scheme
 //              on Windows.
 //
 /////////////////////////////////////////////////////////////////////

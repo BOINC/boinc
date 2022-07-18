@@ -121,7 +121,11 @@ struct LOG_FLAGS {
     bool work_fetch_debug;
         // work fetch policy 
 
-    LOG_FLAGS(){}
+    LOG_FLAGS() {
+        task = true;
+        file_xfer = true;
+        sched_ops = true;
+    }
     void init();
     int parse(XML_PARSER&);
     void show();
@@ -172,8 +176,8 @@ struct CC_CONFIG {
     int max_event_log_lines;
     int max_file_xfers;
     int max_file_xfers_per_project;
-    int max_stderr_file_size;
-    int max_stdout_file_size;
+    double max_stderr_file_size;
+    double max_stdout_file_size;
     int max_tasks_reported;
     int ncpus;
     bool no_alt_platform;
@@ -182,7 +186,7 @@ struct CC_CONFIG {
     bool no_opencl;
     bool no_priority_change;
     bool os_random_only;
-    int process_priority;
+    int process_priority;       // values in common_defs.h
     int process_priority_special;
     PROXY_INFO proxy_info;
     double rec_half_life;
@@ -200,6 +204,8 @@ struct CC_CONFIG {
     bool use_certs_only;
         // overrides use_certs
     bool vbox_window;
+    std::vector<std::string> ignore_tty;
+    std::string device_name;
 
     CC_CONFIG();
     void defaults();

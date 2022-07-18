@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SetupPrereq>
+	<conditions>
+		<condition Type="32" Comparison="2" Path="HKEY_LOCAL_MACHINE\SOFTWARE\Oracle\VirtualBox" FileName="VersionExt" ReturnValue="6.1.34" Bits="2"></condition>
+	</conditions>
+	<files>
+		<file LocalFile=".\VirtualBox-6.1.34-r150636.msi" CheckSum="097F7C1796F1ABB7FF9CE5901BBD9D40" FileSize="0,107290624"></file>
+	</files>
+	<execute file="VirtualBox-6.1.34-r150636.msi" requiresmsiengine="1"></execute>
+	<properties Id="{99360D9A-6C66-4E9E-B1DA-CFBECEBD9668}" Description="Oracle VM VirtualBox 6.1.34"></properties>
+	<behavior Optional="1" MsiProgress="1" Failure="4"></behavior>
+</SetupPrereq>

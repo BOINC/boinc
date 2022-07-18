@@ -230,7 +230,8 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'filter_pathologic_local_paths_4';
-  $strongarm->value = '/';
+  $strongarm->value = '/
+';
   $export['filter_pathologic_local_paths_4'] = $strongarm;
 
   $strongarm = new stdClass;

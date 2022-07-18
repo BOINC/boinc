@@ -46,7 +46,7 @@ function show_page($x, $y) {
     ";
 }
 
-function xml_error($num, $msg=null, $file=null, $line=null) {
+function xml_error($num=-1, $msg=null, $file=null, $line=null) {
     global $xml_outer_tag;
     if (!$msg) {
         switch($num) {
@@ -123,6 +123,7 @@ function parse_next_element($xml, $tag, &$cursor) {
         }
         $cursor = (strlen($xml) - strlen($x)) + strlen($tag) + strlen($closetag) + strlen($element);
     }
+    if (!$element) return null;
     return trim($element);
 }
 

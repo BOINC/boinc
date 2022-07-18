@@ -85,10 +85,14 @@ int DB_CONN::open(
     // CLIENT_FOUND_ROWS means that the # of affected rows for an update
     // is the # matched by the where, rather than the # actually changed
     //
-    mysql = mysql_real_connect(
+    MYSQL* mysql2 = mysql_real_connect(
         mysql, host, db_user, dbpassword, db_name, port, 0, CLIENT_FOUND_ROWS
     );
-    if (mysql == 0) return ERR_DB_CANT_CONNECT;
+    if (mysql2 == 0) {
+        fprintf(stderr, "mysql_real_connect(): %d: %s\n", mysql_errno(mysql), mysql_error(mysql));
+        return ERR_DB_CANT_CONNECT;
+    }
+    mysql = mysql2;
 
     if (set_opt_after) {
         bool mbReconnect = 1;
@@ -149,7 +153,7 @@ int DB_CONN::affected_rows() {
     return (int)x;
 }
 
-int DB_CONN::insert_id() {
+DB_ID_TYPE DB_CONN::insert_id() {
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* rp;
@@ -158,7 +162,7 @@ int DB_CONN::insert_id() {
     if (retval) return retval;
     rp = mysql_store_result(mysql);
     row = mysql_fetch_row(rp);
-    int x = atoi(row[0]);
+    DB_ID_TYPE x = atol(row[0]);
     mysql_free_result(rp);
     return x;
 }

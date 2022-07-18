@@ -5,6 +5,7 @@
 *.user
 *.ncb
 *.suo
+*.pdb
 
 # Visual Studio build directories
 /win_build/Build/
@@ -23,16 +24,12 @@
 /win_build/installerv2/WCG
 /win_build/installerv2/Progress
 
-# Visual Studio Build Directories for BOINCCAS
-/win_build/installerv2/redist/Windows/src/boinccas/Debug
-/win_build/installerv2/redist/Windows/src/boinccas/Debug95
-/win_build/installerv2/redist/Windows/src/boinccas/Release
-/win_build/installerv2/redist/Windows/src/boinccas/Release95
-/win_build/installerv2/redist/Windows/src/boinccas/x64
-
 # Netbeans project files
 /html/nbproject/
 *.project
+
+# CLion files
+.idea
 
 #
 *.pfx
@@ -42,8 +39,6 @@
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
 /win_build/ipch
-/win_build/installerv2/redist/Windows/src/boinccas/*.filters
-/win_build/installerv2/redist/Windows/src/boinccas/boinccas.sdf
 
 # Android (Studio, build scripts, artefacts, redundancies)
 /android/**/*.iml
@@ -60,6 +55,8 @@
 /android/**/captures
 /android/**/.externalNativeBuild
 /android/**/.vagrant
+/android/**/.settings/
+/android/**/.classpath
 /stage
 /android/BOINC/app/src/main/assets/arm*
 /android/BOINC/app/src/main/assets/mips*
@@ -70,12 +67,14 @@
 ## files created by _autosetup (autoreconf):
 *.in
 *.in~
+!*.pc.in
 aclocal.m4
 autom4te.cache/
 compile
 config.guess
 config.sub
 configure
+configure~
 depcomp
 install-sh
 ltmain.sh
@@ -90,6 +89,7 @@ test-driver
 ## files created by configure:
 Makefile
 .deps/
+*.pc
 boinc_path_config.py
 pkginfo
 prototype
@@ -124,9 +124,11 @@ drupal/sites/default/project
 locale/*/*.flag
 
 ## dependency builds and CI cache directories
+3rdParty/Windows/
 3rdParty/linux/
 3rdParty/mac/
 3rdParty/buildCache/
+3rdParty/android/
 
 .libs/
 svn_version.h
@@ -154,15 +156,22 @@ lib/crypt_prog
 lib/parse_test
 py/lib.*/
 py/build/
-samples/condor/boinc_gahp
-samples/example_app/uc2
-samples/example_app/ucn
-samples/multi_thread/multi_thread
-samples/sleeper/sleeper
-samples/vboxmonitor/vboxmonitor
-samples/vboxwrapper/vboxwrapper
-samples/worker/worker
-samples/wrapper/wrapper
+samples/condor/*boinc_gahp
+samples/example_app/*uc2
+samples/example_app/*ucn
+samples/example_app/uc2_graphics
+samples/example_app/slide_show
+samples/example_app/ttfont.cpp
+samples/multi_thread/*multi_thread
+samples/sleeper/*sleeper
+samples/vboxmonitor/*vboxmonitor
+samples/vboxwrapper/*vboxwrapper
+samples/worker/*worker
+samples/wrapper/*wrapper
+samples/openclapp/*openclapp
+samples/wrappture/*wrappture_example
+samples/wrappture/*fermi
+samples/**/*.exe
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census
@@ -214,3 +223,18 @@ vda/vdad
 
 # OS-specific files
 .DS_Store
+
+# cmake build
+build/
+build-*/
+
+# WASM
+*.wasm
+a.out.js
+boinc_client.js
+boinccmd.js
+switcher.js
+boinc.html
+boinc_client.html
+boinccmd.html
+switcher.html

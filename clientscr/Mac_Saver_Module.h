@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,6 +27,7 @@
 // The declarations below must be kept in sync with
 // the corresponding ones in Mac_Saver_ModuleView.h
 #ifdef _DEBUG
+    #undef _T
     #define _T(x) x
 #endif
 
@@ -56,10 +57,10 @@ void            launchedGfxApp(char * appPath, pid_t thePID, int slot);
 void            print_to_log_file(const char *format, ...);
 void            strip_cr(char *buf);
 void            PrintBacktrace(void);
+extern char     gUserName[64];
 extern bool     gIsMojave;
 extern bool     gIsCatalina;
 extern bool     gIsHighSierra;
-extern bool     gUseLaunchAgent;
 
 #ifdef __cplusplus
 }	// extern "C"

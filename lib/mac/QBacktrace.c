@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,7 +36,7 @@
 *  Note: if address 1a23 is hex, use 0x1a23.  
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  You may need to prefix C++ symbols with an additional underscore before 
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -154,8 +154,11 @@ First checked in.
 
 #if TARGET_CPU_PPC
 #include <mach/ppc/thread_status.h>
-#endif
+#elif TARGET_CPU_X86_64
 #include <mach/i386/thread_status.h>
+#elif TARGET_CPU_ARM64
+#include <mach/arm/thread_status.h>
+#endif
 
 #if defined(__cplusplus)
 	}
@@ -167,7 +170,7 @@ First checked in.
 
 // A new architecture will require substantial changes to this file.
 
-#if ! (TARGET_CPU_PPC || TARGET_CPU_PPC64 || TARGET_CPU_X86 || TARGET_CPU_X86_64)
+#if ! (TARGET_CPU_PPC || TARGET_CPU_PPC64 || TARGET_CPU_X86 || TARGET_CPU_X86_64 || TARGET_CPU_ARM64)
 	#error QBacktrace: What architecture?
 #endif
 
@@ -558,6 +561,7 @@ static int ReadAddr(QBTContext *context, QTMAddr addr, QTMAddr *valuePtr)
 	return err;
 }
 
+#if ! TARGET_CPU_ARM64
 static void AddFrame(QBTContext *context, QTMAddr pc, QTMAddr fp, QBTFlags flags)
 	// Adds a frame to the end of the output array with the 
 	// value specified by pc, fp, and flags.
@@ -582,6 +586,7 @@ static void AddFrame(QBTContext *context, QTMAddr pc, QTMAddr fp, QBTFlags flags
 	
 	context->frameCountOut += 1;	
 }
+#endif
 
 static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 	// The core backtrace code.  This routine is called by all of the various 
@@ -608,7 +613,7 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
         if (context->frameArray != NULL) {
             size_t          byteCount;
             size_t          byteIndex;
-            const char *    byteBase;
+            const char *    byteBase __attribute__((unused));
             
             byteCount = context->frameArrayCount * sizeof(*context->frameArray);
             byteBase  = (const char *) context->frameArray;
@@ -1950,7 +1955,7 @@ static int Intel64CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
         err = 0;
         
         // If none of the alignments worked, just take a guess.  This is 
-        // sufficienly bad that we want to know about it in the debug version.
+        // sufficiently bad that we want to know about it in the debug version.
         
         if (align == 0x020) {
             assert(false);
@@ -2511,6 +2516,15 @@ extern int QBTCreateThreadStateSelf(
             state->rip = (uintptr_t) pc;
             state->rbp = (uintptr_t) fp;
 #endif
+        }
+    #elif TARGET_CPU_ARM64
+        arm_thread_state64_t *  state;
+        
+        flavor = ARM_THREAD_STATE64;
+        state = (arm_thread_state64_t *) calloc(1, sizeof(*state));
+        if (state != NULL) {
+            state->pc = (uintptr_t) pc;
+            state->fp    = (uintptr_t) fp;
         }
     #else
         #error What architecture?

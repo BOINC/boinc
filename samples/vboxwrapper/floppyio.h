@@ -68,10 +68,10 @@ namespace FloppyIONS {
     //
     // Error code constants
     //
-    #define FPIO_NOERR          0  // No error occured
+    #define FPIO_NOERR          0  // No error occurred
     #define FPIO_ERR_IO        -1  // There was an I/O error on the strea,
     #define FPIO_ERR_TIMEOUT   -2  // The operation timed out
-    #define FPIO_ERR_CREATE    -3  // Unable to freate the floppy file
+    #define FPIO_ERR_CREATE    -3  // Unable to create the floppy file
     #define FPIO_ERR_NOTREADY  -4  // The I/O object is not ready
 
     //
@@ -83,7 +83,7 @@ namespace FloppyIONS {
     //
     // It's purpose is to force the entire floppy image
     // to be re-written/re-read by the hypervisor/guest OS and
-    // to synchronize the I/O in case of large ammount of
+    // to synchronize the I/O in case of large amount of
     // data being exchanged.
     //
     typedef struct fpio_ctlbyte {

@@ -1,0 +1,10 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="CopyCertificateAndLocaleFiles" DependsOnTargets="Build" AfterTargets="Build">
+		<ItemGroup>
+			<LOCALE Include="..\locale\**\*.mo" />
+			<SKINS   Include="..\clientgui\skins\**" />
+		</ItemGroup>
+		<Copy SourceFiles="@(LOCALE)" DestinationFolder="$(OutDir)\locale\%(RecursiveDir)" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(SKINS)"  DestinationFolder="$(OutDir)\skins\%(RecursiveDir)"  SkipUnchangedFiles="true" />
+	</Target>
+</Project>

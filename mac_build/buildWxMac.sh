@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2021 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -38,6 +38,11 @@
 # Fix wxWidgets 3.1.0 bug when wxStaticBox has no label 3/20/18
 # Fix wxWidgets 3.1.0 to not use backingScaleFactor API on OS 10.6 6/8/18
 # Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
+# Add patches to build with Xcode 11 and OS 10.15 sdk 3/1/20
+# Updated 8/4/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 5/18/21 for compatibility with zsh
+# Updated 9/30/21 for wxCocoa 3.1.5
+# Updated 10/18/21 to add -Werror=unguarded-availability compiler flag
 #
 ## This script requires OS 10.6 or later
 ##
@@ -68,145 +73,117 @@ fi
 
 echo ""
 
-# Patch wxWidgets-3.1.0/src/png/pngstruct.h
-if [ ! -f src/png/pngstruct.h.orig ]; then
-    cat >> /tmp/pngstruct_h_diff << ENDOFFILE
---- pngstruct.h	2013-11-11 05:10:39.000000000 -0800
-+++ pngstruct_patched.h	2014-02-18 01:31:53.000000000 -0800
-@@ -33,6 +33,13 @@
- #  undef const
- #endif
-
-+/* BOINC workaround patch to fix crashes on OS 10.5 or 10.6 when
-+ * built with OS 10.7 SDK or later.
-+ */
-+#undef ZLIB_VERNUM
-+#define ZLIB_VERNUM 0x1230
-+/* End of BOINC workaround patch */
-+
- /* zlib.h has mediocre z_const use before 1.2.6, this stuff is for compatibility
-  * with older builds.
-  */
+## Add our custom method SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
+## to wxChoice. We use this to create our own custom CBOINCBitmapComboBox 
+## which uses native Mac controls instead of wxBitmapComboBox which does not.
+## By using only native Mac controls in BOINC SImple View, MacOS will provide
+## accessibility support automatically.
+##
+## We patch 4 files to accomplish this.
+##
+# Patch wxWidgets-3.1.5/include/wx/osx/choice.h
+if [ ! -f include/wx/osx/choice.h.orig ]; then
+    cat >> /tmp/choice_h_diff << ENDOFFILE
+--- include/wx/osx/choice.h    2021-04-12 15:23:58.000000000 -0700
++++ include/wx/osx/choice_patched.h    2021-09-29 23:47:19.000000000 -0700
+@@ -73,6 +73,7 @@
+     virtual int FindString(const wxString& s, bool bCase = false) const wxOVERRIDE;
+     virtual wxString GetString(unsigned int n) const wxOVERRIDE;
+     virtual void SetString(unsigned int pos, const wxString& s) wxOVERRIDE;
++    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
+     // osx specific event handling common for all osx-ports
+ 
+     virtual bool OSXHandleClicked(double timestampsec) wxOVERRIDE;
 ENDOFFILE
-    patch -bfi /tmp/pngstruct_h_diff src/png/pngstruct.h
-    rm -f /tmp/pngstruct_h_diff
+    patch -bfi /tmp/choice_h_diff include/wx/osx/choice.h
+    rm -f /tmp/choice_h_diff
 else
-    echo "src/png/pngstruct.h already patched"
+    echo "include/wx/osx/choice.h already patched"
 fi
 
 echo ""
 
-# Patch build/osx/setup/cocoa/include/wx/setup.h
-if [ ! -f build/osx/setup/cocoa/include/wx/setup.h.orig ]; then
-
-# First run wxWidget's built-in script to copy setup.h into place
-    cd build/osx || return 1
-    ../../distrib/mac/pbsetup-sh ../../src ../../build/osx/setup/cocoa
-    cd ../.. || return 1
-
-    cat >> /tmp/setup_h_diff << ENDOFFILE
---- setup.h    2017-10-25 02:22:00.000000000 -0700
-+++ setup_patched.h    2017-10-25 02:32:21.000000000 -0700
-@@ -343,7 +343,10 @@
- // Recommended setting: 1 if you use the standard streams anyhow and so
- //                      dependency on the standard streams library is not a
- //                      problem
--#define wxUSE_STD_IOSTREAM  wxUSE_STD_DEFAULT
-+/* BOINC workaround patch to fix crashes on OS 10.5 when built
-+ * with OS 10.7 SDK or later.
-+ */
-+#define wxUSE_STD_IOSTREAM 0 // wxUSE_STD_DEFAULT
-
- // Enable minimal interoperability with the standard C++ string class if 1.
- // "Minimal" means that wxString can be constructed from std::string or
-@@ -668,7 +671,7 @@
- // Default is 1.
- //
- // Recommended setting: 1
--#define wxUSE_MEDIACTRL     1
-+#define wxUSE_MEDIACTRL     0   // 1
-
- // Use wxWidget's XRC XML-based resource system.  Recommended.
- //
-ENDOFFILE
-    patch -bfi /tmp/setup_h_diff build/osx/setup/cocoa/include/wx/setup.h
-    rm -f /tmp/setup_h_diff
-else
-    echo "build/osx/setup/cocoa/include/wx/setup.h already patched"
-fi
-
-# Patch src/osx/window_osx.cpp
-if [ ! -f src/osx/window_osx.cpp.orig ]; then
-    cat >> /tmp/window_osx_cpp_diff << ENDOFFILE
---- window_osx.cpp    2016-02-28 13:33:37.000000000 -0800
-+++ window_osx_patched.cpp    2018-03-20 01:17:35.000000000 -0700
-@@ -353,7 +353,8 @@
-         if ( !m_hasFont )
-             DoSetWindowVariant( m_windowVariant );
-         
--        if ( !m_label.empty() )
-+// Fix wxWidgets 3.1.0 bug drawing wxStaticBox with empty label (fixed in wxWidgets 3.1.1)
-+//        if ( !m_label.empty() )
-             GetPeer()->SetLabel( wxStripMenuCodes(m_label, wxStrip_Mnemonics), GetFont().GetEncoding() ) ;
-         
-         // for controls we want to use best size for wxDefaultSize params )
-ENDOFFILE
-    patch -bfi /tmp/window_osx_cpp_diff src/osx/window_osx.cpp
-    rm -f /tmp/window_osx_cpp_diff
-else
-    echo "src/osx/window_osx.cpp already patched"
-fi
-
-# Patch src/osx/carbon/utilscocoa.mm
-if [ ! -f src/osx/carbon/utilscocoa.mm.orig ]; then
-    cat >> /tmp/utilscocoa_mm_diff << ENDOFFILE
---- utilscocoa.mm    2016-02-28 13:33:37.000000000 -0800
-+++ utilscocoa-patched.mm    2018-06-03 01:31:43.000000000 -0700
-@@ -476,7 +476,10 @@
- 
- double wxOSXGetMainScreenContentScaleFactor()
- {
--    return [[NSScreen mainScreen] backingScaleFactor];
-+    if ([[NSScreen mainScreen] respondsToSelector:@selector(backingScaleFactor)])
-+        return [[NSScreen mainScreen] backingScaleFactor];
-+    else
-+        return 1.0;
+# Patch wxWidgets-3.1.5/src/osx/choice_osx.cpp
+if [ ! -f src/osx/choice_osx.cpp.orig ]; then
+    cat >> /tmp/choice_osx_cpp_diff << ENDOFFILE
+--- src/osx/choice_osx.cpp    2021-04-12 15:23:58.000000000 -0700
++++ src/osx/choice_osx_patched.cpp    2021-09-30 00:26:06.000000000 -0700
+@@ -212,6 +212,13 @@
+     return m_strings[n] ;
  }
  
- CGImageRef wxOSXCreateCGImageFromNSImage( WX_NSImage nsimage, double *scaleptr )
-ENDOFFILE
-    patch -bfi /tmp/utilscocoa_mm_diff src/osx/carbon/utilscocoa.mm
-    rm -f /tmp/utilscocoa_mm_diff
-else
-    echo "src/osx/carbon/utilscocoa.mm already patched"
-fi
-
-# Patch src/osx/cocoa/window.mm
-if [ ! -f src/osx/cocoa/window.mm.orig ]; then
-    cat >> /tmp/window_mm_diff << ENDOFFILE
---- window.mm    2016-02-28 13:33:37.000000000 -0800
-+++ window-patched.mm    2018-06-08 01:28:01.000000000 -0700
-@@ -1869,7 +1869,10 @@
- double wxWidgetCocoaImpl::GetContentScaleFactor() const
- {
-     NSWindow* tlw = [m_osxView window];
--    return [tlw backingScaleFactor];
-+    if ([tlw respondsToSelector:@selector(backingScaleFactor)])
-+        return [tlw backingScaleFactor];
-+    else
-+        return 1.0;
- }
- 
++void wxChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
++{
++    wxCHECK_RET( IsValid(n), wxT("wxChoice::SetItemBitmap(): invalid index") );
++
++    dynamic_cast<wxChoiceWidgetImpl*>(GetPeer())->SetItemBitmap(n, bitmap);
++}
++
+ // ----------------------------------------------------------------------------
+ // client data
  // ----------------------------------------------------------------------------
 ENDOFFILE
-    patch -bfi /tmp/window_mm_diff src/osx/cocoa/window.mm
-    rm -f /tmp/window_mm_diff
+    patch -bfi /tmp/choice_osx_cpp_diff src/osx/choice_osx.cpp
+    rm -f /tmp/choice_osx_cpp_diff
 else
-    echo "src/osx/cocoa/window.mm already patched"
+    echo "src/osx/choice_osx.cpp already patched"
 fi
 
+echo ""
+
+# Patch wxWidgets-3.1.5/include/wx/osx/core/private.h
+if [ ! -f include/wx/osx/core/private.h.orig ]; then
+    cat >> /tmp/private_h_cpp_diff << ENDOFFILE
+--- include/wx/osx/core/private.h    2021-04-12 15:23:58.000000000 -0700
++++ include/wx/osx/core/private_patched.h    2021-09-30 01:11:28.000000000 -0700
+@@ -809,6 +809,8 @@
+     }
+ 
+     virtual void SetItem(int pos, const wxString& item) = 0;
++    
++    virtual void SetItemBitmap(unsigned int n, const wxBitmap& bitmap) = 0;
+ };
+ 
+ 
+ENDOFFILE
+    patch -bfi /tmp/private_h_cpp_diff include/wx/osx/core/private.h
+    rm -f /tmp/private_h_cpp_diff
+else
+    echo "include/wx/osx/core/private.h already patched"
+fi
 
 echo ""
+
+# Patch wxWidgets-3.1.5/src/osx/cocoa/choice.mm
+if [ ! -f src/osx/cocoa/choice.mm.orig ]; then
+    cat >> /tmp/choice_mm_diff << ENDOFFILE
+--- src/osx/cocoa/choice.mm    2021-09-28 22:52:32.000000000 -0700
++++ src/osx/cocoa/choice_patched.mm    2021-09-30 01:08:32.000000000 -0700
+@@ -130,6 +130,12 @@
+         m_popUpMenu->FindItemByPosition( pos )->SetItemLabel( s ) ;
+     }
+ 
++    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
++    {
++        if ( bitmap.Ok() )
++            m_popUpMenu->FindItemByPosition( n )->SetBitmap( bitmap ); ;
++    }
++
+ private:
+     wxMenu* m_popUpMenu;
+ };
+ENDOFFILE
+    patch -bfi /tmp/choice_mm_diff src/osx/cocoa/choice.mm 
+    rm -f /tmp/choice_mm_diff
+else
+    echo "src/osx/cocoa/choice.mm already patched"
+fi
+
+echo ""
+
+##***********************************************************
+##*************** End of patches section ********************
+##***********************************************************
 
 doclean=""
 stdout_target="/dev/stdout"
@@ -245,19 +222,33 @@ fi
 retval=0
 alreadyBuilt=0
 
+# First run wxWidget's built-in script to copy setup.h into place
+cd build/osx || return 1
+../../distrib/mac/pbsetup-sh ../../src ../../build/osx/setup/cocoa
+cd ../.. || return 1
+
 if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" ]; then
-    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
-    if [ $? -eq 0 ]; then
-        alreadyBuilt=1
-        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch i386
-        if [ $? -eq 0 ]; then
-            # already built for both 32 and 64 bit, rebuild for only 64 bit
-            alreadyBuilt=0
-            doclean="clean"
-        fi
-    else
-        # already built but not for correct architecture
-        doclean="clean"
+    GCCPATH=`xcrun -find gcc`
+    if [ $? -ne 0 ]; then
+        echo "ERROR: can't find gcc compiler"
+        return 1
+    fi
+
+    alreadyBuilt=1
+    GCC_can_build_x86_64="no"
+    GCC_can_build_arm64="no"
+
+    GCC_archs=`lipo -archs "${GCCPATH}"`
+    if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+    if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+    if [ $GCC_can_build_x86_64 = "yes" ]; then
+        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
+    fi
+    
+    if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
+        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
 fi
 
@@ -270,7 +261,18 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    
+    ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
+    ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
+    ## Xcode versions that can, otherwise it builds only the X86_64 library.
+    
+    ## The "-Werror=unguarded-availability" compiler flag generates an error if
+    ## there is an unguarded API not available in our Deployment Target. This
+    ## helps ensure wxWidgets won't try to use unavailable APIs on older Mac
+    ## systems supported by BOINC.
+
+    set -o pipefail
+     xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.10" GCC_C_LANGUAE_STANDARD="compiler-default" CLANG_CXX_LANGUAGE_SANDARD="c++0x" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER NO_CXX11_REGEX WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy library and headers to $lprefix
@@ -289,18 +291,21 @@ fi
 
 alreadyBuilt=0
 if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" ]; then
-    lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch x86_64
-    if [ $? -eq 0 ]; then
-        alreadyBuilt=1
-        lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch i386
-        if [ $? -eq 0 ]; then
-            # already built for both 32 and 64 bit, rebuild for only 64 bit
-            alreadyBuilt=0
-            doclean="clean" ## Not acutally used; see comment below
-        fi
-    else
-        # already built but not for correct architectures
-        doclean="clean" ## Not acutally used; see comment below
+    alreadyBuilt=1
+    GCC_can_build_x86_64="no"
+    GCC_can_build_arm64="no"
+
+    GCC_archs=`lipo -archs "${GCCPATH}"`
+    if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+    if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+    if [ GCC_can_build_x86_64 = "yes" ]; then
+        lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch x86_64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
+    fi
+    
+    if [ $alreadyBuilt -eq 1 ] && [ GCC_can_build_arm64 = "yes" ]; then
+        lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch arm64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
 fi
 
@@ -319,7 +324,11 @@ else
     ## * If there is a previous build of wrong architecture, both Xcode 10 and 
     ## earlier versions of Xcode correctly overwrite it with x86_64-only build.
     ##
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="x86_64" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
+    ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
+    ## Xcode versions that can, otherwise it builds only the X86_64 library.
+    set -o pipefail
+   xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.10" GCC_C_LANGUAE_STANDARD="compiler-default" CLANG_CXX_LANGUAGE_SANDARD="c++0x" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER NO_CXX11_REGEX WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy debug library to $PREFIX

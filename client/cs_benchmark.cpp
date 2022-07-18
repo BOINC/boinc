@@ -54,10 +54,6 @@
 #include <ctime>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -177,6 +173,9 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     bdp->error_str[0] = '\0';
 
 #if defined(ANDROID) && defined(__arm__)
+#if defined(ARMV6)
+    retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+#else 
     // check for FP accelerator: VFP, Neon, or none;
     // run the appropriate version of Whetstone
     // (separated using namespaces)
@@ -190,6 +189,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     } else { // just run normal test
         retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     }
+#endif    
 #else
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
 #endif
@@ -278,7 +278,7 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
         );
         int n = host_info.p_ncpus;
         int j = (i >= n/2)? 2*i+1-n : 2*i;
-        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<j);
+        SetThreadAffinityMask(benchmark_descs[i].handle, 1ull<<j);
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
@@ -311,7 +311,13 @@ void CLIENT_STATE::check_if_need_benchmarks() {
     if (diff < 0) {
         run_cpu_benchmarks = true;
     } else if (diff > BENCHMARK_PERIOD) {
-        msg_printf(NULL, MSG_INFO, "Last benchmark was %s ago", timediff_format(diff).c_str());
+        if (host_info.p_calculated) {
+            msg_printf(NULL, MSG_INFO,
+                "Last CPU benchmark was %s ago", timediff_format(diff).c_str()
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "No CPU benchmark yet");
+        }
         run_cpu_benchmarks = true;
     }
 }
@@ -584,4 +590,5 @@ void CLIENT_STATE::cpu_benchmarks_set_defaults() {
     if (!host_info.p_iops) host_info.p_iops = DEFAULT_IOPS;
     if (!host_info.p_membw) host_info.p_membw = DEFAULT_MEMBW;
     if (!host_info.m_cache) host_info.m_cache = DEFAULT_CACHE;
+    host_info.p_calculated = now;
 }

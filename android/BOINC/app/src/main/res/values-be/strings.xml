@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_no_internet">Адсутнічае сувязь з інтэрнэтам.</string>
+  <!--credential input-->
+  <!--conflicts-->
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <!--e.g. Hint 1/2-->
+  <!--project login-->
+  <string name="attachproject_login_header_pwd">Пароль:</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_pwd">Пароль:</string>
+  <!--error strings-->
+  <string name="attachproject_error_invalid_url">Не карэктны адрас (URL)</string>
+  <!--tab names-->
+  <string name="tab_status">Стан</string>
+  <string name="tab_projects">Праекты</string>
+  <string name="tab_tasks">Заданні</string>
+  <string name="tab_transfers">Перадача</string>
+  <string name="tab_preferences">Налады</string>
+  <!--status strings-->
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">Агульныя</string>
+  <string name="prefs_category_network">сетка</string>
+  <string name="prefs_category_cpu">Цэнтральны працэсар</string>
+  <string name="prefs_category_memory">Памяць</string>
+  <!--projects tab strings-->
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Прыпынена карыстачом</string>
+  <string name="projects_status_dontrequestmorework">Не запытваць новыя заданні</string>
+  <string name="projects_status_schedrpcpending">Запыт інфармацыі ў планіроўніка</string>
+  <!--project controls-->
+  <string name="projects_control_update">Абнавіць</string>
+  <string name="projects_control_remove">Выдаліць</string>
+  <string name="projects_control_suspend">Прыпыніць</string>
+  <string name="projects_control_resume">Запусціць</string>
+  <string name="projects_control_nonewtasks">Не запытваць заданні</string>
+  <string name="projects_control_allownewtasks">Атрымоўваць новыя заданні</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_confirm">Выдаліць</string>
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_confirm">Перапыніць апрацоўку</string>
+  <string name="confirm_cancel">Адмяніць</string>
+  <!--transfers tab strings-->
+  <string name="trans_download">Спампаваць</string>
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">Запыт ініцыяваны карыстачом</string>
+  <!--menu-->
+  <string name="menu_run_mode_disable">Прыпыніць</string>
+  <string name="menu_run_mode_enable">Запусціць</string>
+  <string name="menu_help">Дапамога</string>
+  <!--about dialog-->
+  <string name="about_name">BOINC</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+</resources>

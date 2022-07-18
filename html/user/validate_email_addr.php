@@ -19,12 +19,12 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
+require_once("../inc/account.inc");
 
 function send_validate_email() {
     global $master_url;
     $user = get_logged_in_user();
-    $x2 = uniqid(rand(), true);
-    $user->update("signature='$x2'");
+    $x2 = make_login_token($user);
     send_email(
         $user,
         tra("Validate BOINC email address"),
@@ -33,6 +33,8 @@ function send_validate_email() {
     );
     page_head(tra("Validate email sent"));
     echo tra("An email has been sent to %1. Visit the link it contains to validate your email address.", $user->email_addr);
+    echo "<p>";
+    echo tra("If you don't receive this email, check your spam folder.");
     page_tail();
 }
 
@@ -44,7 +46,7 @@ function validate() {
         error_page(tra("No such user."));
     }
 
-    $x2 = $user->signature;
+    $x2 = $user->login_token;
     if ($x2 != $x) {
         error_page(tra("Error in URL data - can't validate email address"));
     }

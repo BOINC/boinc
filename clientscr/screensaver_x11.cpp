@@ -28,7 +28,7 @@
 //
 // When run, this screensaver connects to the BOINC client via RPC, asks for
 // graphics providing tasks and starts a random graphics application. The window
-// created by the graphics appliacation is then searched for using X11 window
+// created by the graphics application is then searched for using X11 window
 // properties, such as "WM_COMMAND". Not every graphics application seems to
 // support this, but this method has been successfully tested with Einstein@Home
 // and climateprediction.net. When the graphics application window
@@ -60,7 +60,7 @@ extern "C" {
 /// A screensaver window class.
 /** Creates a window in the size of the given parent.
     When not in windowed mode, it is overwrite-redirected.
-    It shows the text "screensaver loading" when redrwan.
+    It shows the text "screensaver loading" when redrawn.
     A client window may be xembedded into it, which will also be resized.
 */
 class scr_window {
@@ -165,7 +165,7 @@ public:
         // directly use the parent window
         win = parent;
 
-        // cahnge window attributes like above
+        // change window attributes like above
         mask = XCB_CW_BACK_PIXEL | XCB_CW_EVENT_MASK;
         values[0] = scr->black_pixel;
         values[1] = XCB_EVENT_MASK_EXPOSURE;
@@ -222,7 +222,7 @@ public:
 
   /// Redraws the window.
   /** Draws a black background with white text.
-      Should be calld when an expose event is received.
+      Should be called when an expose event is received.
   */
   void redraw() {
     // convert the text to be displayed.

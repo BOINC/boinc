@@ -56,14 +56,14 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     int retval;
     unsigned int i;
-    char buf[256];
+    char buf[1024];
 
     ami = _ami;
 
     error_num = ERR_IN_PROGRESS;
-    error_str = "";
+    error_str.clear();
     via_gui = _via_gui;
-    global_prefs_xml = "";
+    global_prefs_xml.clear();
 
     // if null URL, detach from current AMS
     //
@@ -251,6 +251,17 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     }
     gstate.time_stats.write(mf, true);
     gstate.net_stats.write(mf);
+
+#ifndef SIM
+    // send task descriptions if requested by AM
+    //
+    if (ami.send_tasks_all || ami.send_tasks_active) {
+        mf.printf("<results>\n");
+        gstate.write_tasks_gui(mf, !ami.send_tasks_all);
+        mf.printf("</results>\n");
+    }
+#endif
+
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     snprintf(buf, sizeof(buf), "%srpc.php", ami.master_url);
@@ -287,9 +298,9 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     detach_when_done.init();
     suspend.init();
     abort_not_started.init();
-    url = "";
+    url.clear();
     safe_strcpy(url_signature, "");
-    authenticator = "";
+    authenticator.clear();
     resource_share.init();
 
     while (!xp.get_tag()) {
@@ -381,13 +392,15 @@ int ACCT_MGR_OP::parse(FILE* f) {
     XML_PARSER xp(&mf);
 
     accounts.clear();
-    error_str = "";
+    error_str.clear();
     error_num = 0;
     repeat_sec = 0;
     safe_strcpy(host_venue, "");
     safe_strcpy(ami.opaque, "");
     ami.no_project_notices = false;
     ami.dynamic = false;
+    ami.send_tasks_all = false;
+    ami.send_tasks_active = false;
     rss_feeds.clear();
     if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
@@ -416,6 +429,8 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (xp.parse_string("error_msg", error_str)) continue;
         if (xp.parse_double("repeat_sec", repeat_sec)) continue;
         if (xp.parse_bool("dynamic", ami.dynamic)) continue;
+        if (xp.parse_bool("send_tasks_active", ami.send_tasks_active)) continue;
+        if (xp.parse_bool("send_tasks_all", ami.send_tasks_all)) continue;
         if (xp.parse_string("message", message)) {
             msg_printf(NULL, MSG_INFO, "Account manager: %s", message.c_str());
             continue;
@@ -486,7 +501,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
 }
 
 static inline bool is_weak_auth(const char* auth) {
-    return (strstr(auth, "_") != NULL);
+    return (strchr(auth, '_') != NULL);
 }
 
 #ifdef SIM
@@ -627,6 +642,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         safe_strcpy(gstate.acct_mgr_info.authenticator, ami.authenticator);
         gstate.acct_mgr_info.no_project_notices = ami.no_project_notices;
         gstate.acct_mgr_info.dynamic = ami.dynamic;
+        gstate.acct_mgr_info.send_tasks_active = ami.send_tasks_active;
+        gstate.acct_mgr_info.send_tasks_all = ami.send_tasks_all;
 
         // process projects
         //
@@ -655,12 +672,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                                     "Received new authenticator from account manager"
                                 );
                             } else {
-                                // otherwise skip this update
+                                // otherwise keep using the old one
                                 //
                                 msg_printf(pp, MSG_INFO,
                                     "Already attached to a different account"
                                 );
-                                continue;
                             }
                         }
                     }
@@ -724,6 +740,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             } else {
                 // here we don't already have the project.
                 //
+                if (acct.detach || (acct.detach_when_done.present && acct.detach_when_done.value)) {
+                    continue;
+                }
+
                 retval = check_string_signature2(
                     acct.url.c_str(), acct.url_signature, ami.signing_key, verified
                 );
@@ -741,32 +761,30 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     continue;
                 }
 
-                // Attach to it, unless the acct mgr is telling us to detach
+                // Attach to it
                 //
-                if (!acct.detach && !(acct.detach_when_done.present && acct.detach_when_done.value)) {
-                    msg_printf(NULL, MSG_INFO,
-                        "Attaching to %s", acct.url.c_str()
-                    );
-                    gstate.add_project(
-                        acct.url.c_str(), acct.authenticator.c_str(), "", true
-                    );
-                    pp = gstate.lookup_project(acct.url.c_str());
-                    if (pp) {
-                        for (int j=0; j<MAX_RSC; j++) {
-                            pp->no_rsc_ams[j] = acct.no_rsc[j];
-                        }
-                        if (acct.dont_request_more_work.present) {
-                            pp->dont_request_more_work = acct.dont_request_more_work.value;
-                        }
-                        if (acct.suspend.present && acct.suspend.value) {
-                            pp->suspend();
-                        }
-                    } else {
-                        msg_printf(NULL, MSG_INTERNAL_ERROR,
-                            "Failed to add project: %s",
-                            acct.url.c_str()
-                        );
+                msg_printf(NULL, MSG_INFO,
+                    "Attaching to %s", acct.url.c_str()
+                );
+                gstate.add_project(
+                    acct.url.c_str(), acct.authenticator.c_str(), "", true
+                );
+                pp = gstate.lookup_project(acct.url.c_str());
+                if (pp) {
+                    for (int j=0; j<MAX_RSC; j++) {
+                        pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
+                    if (acct.dont_request_more_work.present) {
+                        pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    }
+                    if (acct.suspend.present && acct.suspend.value) {
+                        pp->suspend();
+                    }
+                } else {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
+                        "Failed to add project: %s",
+                        acct.url.c_str()
+                    );
                 }
             }
         }
@@ -937,6 +955,8 @@ void ACCT_MGR_INFO::clear() {
     starved_rpc_backoff = 0;
     starved_rpc_min_time = 0;
     dynamic = false;
+    send_tasks_active = false;
+    send_tasks_all = false;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {

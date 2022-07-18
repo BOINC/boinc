@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,6 +32,9 @@ $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 
 check_banished($logged_in_user);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($logged_in_user);
+}
 
 $forumid = get_int("id");
 $forum = BoincForum::lookup_id($forumid);
@@ -120,7 +123,9 @@ if ($force_title && $title){
     row2(tra("Title"), htmlspecialchars($title)."<input type=\"hidden\" name=\"title\" value=\"".htmlspecialchars($title)."\">");
 } else {
     row2(tra("Title").$submit_help,
-        '<input type="text" class="form-control" name="title" value="'.htmlspecialchars($title).'">'
+        sprintf('<input type="text" class="form-control" name="title" value="%s">',
+            $title?htmlspecialchars($title):''
+        )
     );
 }
 
@@ -128,7 +133,9 @@ row2_init(tra("Message").bbcode_info().post_warning($forum).$body_help, "");
 start_table();
 echo $bbcode_html;
 end_table();
-echo '<textarea class="form-control" name="content" rows="12" cols="80">'.htmlspecialchars($content).'</textarea>';
+echo sprintf('<textarea class="form-control" name="content" rows="12" cols="80">%s</textarea>',
+    $content?htmlspecialchars($content):''
+);
 echo "</td></tr>";
 
 if (!$logged_in_user->prefs->no_signature_by_default) {

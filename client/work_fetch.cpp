@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,10 +24,6 @@
 #include <cmath>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "util.h"
 #include "str_replace.h"
 
@@ -40,6 +36,7 @@
 #include "work_fetch.h"
 
 using std::vector;
+using std::min;
 
 RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
 WORK_FETCH work_fetch;
@@ -77,6 +74,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
     nused_total = 0;
     deadlines_missed = 0;
     mc_shortfall = 0;
+    last_mc_limit_reltime = 0;
     max_nused = p->app_configs.project_min_mc;
 }
 
@@ -114,10 +112,20 @@ RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
     if (p->rsc_pwf[rsc_type].has_deferred_job) return RSC_REASON_DEFER_SCHED;
 
     // if project has zero resource share,
-    // only fetch work if a device is idle
+    // only fetch work if an instance is close to being idle
     //
-    if (p->resource_share == 0 && rwf.saturated_time > WF_EST_FETCH_TIME) {
-        return RSC_REASON_ZERO_SHARE;
+    if (p->resource_share == 0) {
+        // if in addition min buffer is zero,
+        // don't fetch unless an instance is actually idle
+        // (for case where users compete to return tasks first)
+        //
+        double x = std::min(
+            gstate.global_prefs.work_buf_min_days * 86400,
+            (double)WF_EST_FETCH_TIME
+        );
+        if (rwf.saturated_time > x) {
+            return RSC_REASON_ZERO_SHARE;
+        }
     }
 
     // if project has excluded GPUs of this type,
@@ -141,6 +149,20 @@ RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
             && queue_est > (gstate.work_buf_min() * n_not_excluded)/rwf.ninstances
         ) {
             return RSC_REASON_BUFFER_FULL;
+        }
+    }
+
+    if (p->app_configs.project_has_mc) {
+        RSC_PROJECT_WORK_FETCH &rsc_pwf = p->rsc_pwf[rsc_type];
+        if (log_flags.work_fetch_debug) {
+            msg_printf(p, MSG_INFO,
+                "rsc type %d last MC limit time %f total buf %f",
+                rsc_type, rsc_pwf.last_mc_limit_reltime, gstate.work_buf_total()
+            );
+        }
+
+        if (rsc_pwf.last_mc_limit_reltime > gstate.work_buf_total()) {
+            return RSC_REASON_MAX_CONCURRENT;
         }
     }
 
@@ -1233,6 +1255,7 @@ const char* rsc_reason_string(RSC_REASON reason) {
     case RSC_REASON_NOT_HIGHEST_PRIO: return "not highest priority project";
     case RSC_REASON_BACKED_OFF: return "project is backed off";
     case RSC_REASON_DEFER_SCHED: return "a job is deferred";
+    case RSC_REASON_MAX_CONCURRENT: return "max concurrent job limit";
     }
     return "unknown project reason";
 }

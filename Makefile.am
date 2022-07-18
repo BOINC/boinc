@@ -32,7 +32,7 @@ if ENABLE_CLIENT
 endif
 
 if ENABLE_MANAGER
-   CLIENTGUI_SUBDIRS = clientgui locale
+   CLIENTGUI_SUBDIRS = clientgui locale clientgui/res clientgui/skins
 if BUILD_X11_SCREENSAVER
    CLIENTGUI_SUBDIRS += clientscr
 endif
@@ -58,11 +58,40 @@ EXTRA_DIST =                                    \
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
     version.h \
-    svn_version.h
+    svn_version.h \
+    project_specific_defines.h
 endif
 
-# svn_version.h should always be rebuilt.
+# Define files for distclean command
+DISTCLEANFILES =                                \
+   clientgui/res/Makefile                       \
+   packages/generic/sea/Makefile                \
+   `find . -name "*.wasm"`                      \
+   `find client -name "*.js"`                   \
+   `find client -name "*.html"`
 
+# Define files for maintainer-clean command
+MAINTAINERCLEANFILES =                          \
+    config.h.in                                 \
+    Makefile.in                                 \
+    aclocal.m4                                  \
+    autom4te.cache/*                            \
+    compile                                     \
+    config.guess                                \
+    config.sub                                  \
+    configure                                   \
+    depcomp                                     \
+    install-sh                                  \
+    ltmain.sh                                   \
+    m4/libtool.m4                               \
+    m4/ltoptions.m4                             \
+    m4/ltsugar.m4                               \
+    m4/ltversion.m4                             \
+    m4/lt~obsolete.m4                           \
+    missing                                     \
+    test-driver
+
+# svn_version.h should always be rebuilt.
 BUILT_SOURCES = svn_version.h
 svn_version.h: generate_svn_version.sh
 	cd $(srcdir) && sh generate_svn_version.sh
@@ -71,7 +100,7 @@ svn_version.h: generate_svn_version.sh
 # Add a stage target for staging a distribution
 
 clean-generic:
-	rm -rf stage *.gcov
+	rm -rf stage *.gcov $(BUILT_SOURCES)
 
 stage: all
 	if [ ! -d stage ] ; then mkdir stage ; fi
@@ -79,5 +108,8 @@ stage: all
 	$(MAKE) DESTDIR=$(PWD)/stage install
 
 dist-hook:
-	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
+	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS -name Makefile`
 #	cd $(distdir) && ./_autosetup
+
+distclean-local:
+	cd packages/solaris/CSW && make distclean

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,12 +49,12 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     m_arrTabPageIds.Add(ID_TABPAGE_NET);
     m_arrTabPageIds.Add(ID_TABPAGE_DISK);
     m_arrTabPageIds.Add(ID_TABPAGE_SCHED);
-    
+
     //setting warning bitmap
     if (m_bmpWarning) {
-        m_bmpWarning->SetBitmap(GetScaledBitmapFromXPMData(warning_xpm));
+        m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
     }
-    
+
     wxCheckBox* proc_cb[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
     wxTextCtrl* proc_tstarts[] = {m_txtProcSundayStart,m_txtProcMondayStart,m_txtProcTuesdayStart,m_txtProcWednesdayStart,m_txtProcThursdayStart,m_txtProcFridayStart,m_txtProcSaturdayStart};
     wxTextCtrl* proc_tstops[] = {m_txtProcSundayStop,m_txtProcMondayStop,m_txtProcTuesdayStop,m_txtProcWednesdayStop,m_txtProcThursdayStop,m_txtProcFridayStop,m_txtProcSaturdayStop};
@@ -69,7 +69,7 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
         netDayStartTxts[i] = net_tstarts[i];
         netDayStopTxts[i] = net_tstops[i];
     }
-    
+
     // init special tooltips
     SetSpecialTooltips();
     //setting the validators for correct input handling
@@ -97,7 +97,7 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
 
     success = TabCtrl_GetItemRect(m_Notebook->GetHWND(), m_Notebook->GetPageCount()-1, &r);
     if (success) {
-        tabwidth = r.right - tabStart + ADJUSTFORXDPI(4);
+        tabwidth = r.right - tabStart + 4;
     }
     wxSize sz = m_Notebook->GetBestSize();
     if (sz.x < tabwidth) {
@@ -118,7 +118,13 @@ CDlgAdvPreferences::~CDlgAdvPreferences() {
     delete m_vTimeValidator;
 }
 
-/* set validators for input filtering purposes only */
+// set validators for input filtering purposes only
+// maximum length for variables storing doubles is set to 16.  Rounding errors
+// occur when storing values >13 digits to the left of the decimal.  A maximum length
+// of 16 will allow 13 digits, the decimal itself, and 2 digits to the right of the decimal.
+//  This is only intended to prevent users from entering a very large string to process,
+// the IsValidFloatBetween function will determine if the double is within range.
+//
 void CDlgAdvPreferences::SetValidators() {
     m_vTimeValidator = new wxTextValidator(wxFILTER_INCLUDE_CHAR_LIST);
     m_vTimeValidator->SetCharIncludes(wxT("0123456789:"));
@@ -128,22 +134,34 @@ void CDlgAdvPreferences::SetValidators() {
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 
     m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcIdleFor->SetMaxLength(16);
+    m_txtNoRecentInput->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNoRecentInput->SetMaxLength(16);
     m_txtMaxLoad->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
-    
+
     m_txtNetConnectInterval->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetAdditionalDays->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcSwitchEvery->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcSwitchEvery->SetMaxLength(16);
     m_txtDiskWriteToDisk->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
-    
+    m_txtDiskWriteToDisk->SetMaxLength(16);
+
+
     // ######### net usage page
     m_txtNetDownloadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNetDownloadRate->SetMaxLength(16);
     m_txt_daily_xfer_limit_mb->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txt_daily_xfer_limit_mb->SetMaxLength(16);
     m_txt_daily_xfer_period_days->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txt_daily_xfer_period_days->SetMaxLength(10);
     m_txtNetUploadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNetUploadRate->SetMaxLength(16);
 
     // ######### disk and memory page
     m_txtDiskMaxSpace->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtDiskMaxSpace->SetMaxLength(16);
     m_txtDiskLeastFree->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtDiskLeastFree->SetMaxLength(16);
     m_txtDiskMaxOfTotal->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtMemoryMaxInUse->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtMemoryMaxOnIdle->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -152,10 +170,10 @@ void CDlgAdvPreferences::SetValidators() {
     // ######### daily schedules page
     m_txtProcEveryDayStart->SetValidator(*m_vTimeValidator);
     m_txtProcEveryDayStop->SetValidator(*m_vTimeValidator);
-    
+
     m_txtNetEveryDayStart->SetValidator(*m_vTimeValidator);
     m_txtNetEveryDayStop->SetValidator(*m_vTimeValidator);
-    
+
     for (int i=0; i<7; ++i) {
         procDayStartTxts[i]->SetValidator(*m_vTimeValidator);
         procDayStopTxts[i]->SetValidator(*m_vTimeValidator);
@@ -188,9 +206,9 @@ bool CDlgAdvPreferences::SaveState() {
 
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("CurrentPage"),m_Notebook->GetSelection());
-    
+
     pConfig->Flush();
-    
+
     return true;
 }
 
@@ -234,8 +252,9 @@ wxString CDlgAdvPreferences::DoubleToTimeString(double dt) {
 // precision of saved values to .01.  This prevents unexpected
 // behavior when, for example, a zero value means no restriction
 // and the value is displayed as 0.00 but is actually 0.001.
+//
 double CDlgAdvPreferences::RoundToHundredths(double td) {
-    int i = (int)((td + .005) * 100.);
+    int64_t i = (int64_t)((td + .005) * 100.);
     return ((double)(i) / 100.);
 }
 
@@ -243,7 +262,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
     wxString buffer;
 
     wxASSERT(textCtrl);
-    
+
     if (checkBox) {
         if (! checkBox->IsChecked()) {
             textCtrl->Clear();
@@ -251,7 +270,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
             return;
         }
     }
-    buffer.Printf(wxT("%g"), value);
+    buffer.Printf(wxT("%.2f"), value);
     textCtrl->ChangeValue(buffer);
     textCtrl->Enable();
 }
@@ -276,34 +295,34 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_bOKToShow = false;
         return;
     }
-    
+
     m_bOKToShow = true;
 
     // ######### proc usage page
     // max cpus
-    // 0 means "no retriction" but we don't use a checkbox here
+    // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
     DisplayValue(prefs.max_ncpus_pct, m_txtProcUseProcessors);
-    
+
             //cpu limit
-    // 0 means "no retriction" but we don't use a checkbox here
+    // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
     DisplayValue(prefs.cpu_usage_limit, m_txtProcUseCPUTime);
-    
+
     // on batteries
     m_chkProcOnBatteries->SetValue(! prefs.run_on_batteries);
 
     // in use
     m_chkProcInUse->SetValue(! prefs.run_if_user_active);
     m_chkGPUProcInUse->SetValue(! prefs.run_gpu_if_user_active);
-    
+
     //"Suspend while computer in use" implies "Suspend GPU while computer in use" so set
     // and disable "Suspend GPU ..." checkbox, overriding its saved value if necessary.
     if (m_chkProcInUse->IsChecked()) {
         m_chkGPUProcInUse->SetValue(true);
         m_chkGPUProcInUse->Disable();
     }
-    
+
     // idle for X minutes
     if (m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked()) {
         m_txtProcIdleFor->Enable();
@@ -313,6 +332,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_txtProcIdleFor->Disable();
     }
 
+    DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput);
     m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
     DisplayValue(prefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
 
@@ -341,7 +361,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     m_chk_daily_xfer_limit->SetValue((prefs.daily_xfer_limit_mb > 0.0) && (prefs.daily_xfer_period_days > 0.0));
     DisplayValue(prefs.daily_xfer_limit_mb, m_txt_daily_xfer_limit_mb, m_chk_daily_xfer_limit);
     DisplayValue(prefs.daily_xfer_period_days, m_txt_daily_xfer_period_days, m_chk_daily_xfer_limit);
-    
+
     //
     // skip image verification
     m_chkNetSkipImageVerification->SetValue(prefs.dont_verify_images);
@@ -362,7 +382,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // max used percentage
     m_chkDiskMaxOfTotal->SetValue(prefs.disk_max_used_pct < 100.0);
     DisplayValue(prefs.disk_max_used_pct, m_txtDiskMaxOfTotal, m_chkDiskMaxOfTotal);
-    
+
     // max VM used
     DisplayValue((prefs.ram_max_used_busy_frac*100.0), m_txtMemoryMaxInUse);
 
@@ -392,14 +412,14 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
             procDayStopTxts[i]->ChangeValue(DoubleToTimeString(cpu.end_hour));
         }
     }
-    
+
     // use network between
     m_chkNetEveryDay->SetValue(prefs.net_times.start_hour != prefs.net_times.end_hour);
     if (m_chkNetEveryDay->IsChecked()) {
         m_txtNetEveryDayStart->ChangeValue(DoubleToTimeString(prefs.net_times.start_hour));
         m_txtNetEveryDayStop->ChangeValue(DoubleToTimeString(prefs.net_times.end_hour));
     }
-    
+
     //special net times
     for(int i=0; i< 7;i++) {
         TIME_SPAN& net = prefs.net_times.week.days[i];
@@ -430,7 +450,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     m_txtProcUseCPUTime->GetValue().ToDouble(&td);
     prefs.cpu_usage_limit=RoundToHundredths(td);
     mask.cpu_usage_limit=true;
-    
+
     prefs.run_on_batteries = ! (m_chkProcOnBatteries->GetValue());
     mask.run_on_batteries=true;
     //
@@ -446,6 +466,12 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         mask.idle_time_to_run=true;
     }
 
+    //
+    m_txtNoRecentInput->GetValue().ToDouble(&td);
+    prefs.suspend_if_no_recent_input = RoundToHundredths(td);
+       mask.suspend_if_no_recent_input = true;
+
+    //
     if (m_chkMaxLoad->IsChecked()) {
         m_txtMaxLoad->GetValue().ToDouble(&td);
         prefs.suspend_cpu_usage=RoundToHundredths(td);
@@ -621,13 +647,13 @@ void CDlgAdvPreferences::UpdateControlStates() {
     if (shouldEnable && !wasEnabled) {
         DisplayValue(defaultPrefs.idle_time_to_run, m_txtProcIdleFor);
     }
-    
+
     // If we suspend work when in use, disable and check "Use GPU when in use"
     m_chkGPUProcInUse->Enable(! m_chkProcInUse->IsChecked());
     if (m_chkProcInUse->IsChecked()) m_chkGPUProcInUse->SetValue(true);
 
     m_txtMaxLoad->Enable(m_chkMaxLoad->IsChecked());
-    
+
     // ######### disk and memory usage page
     m_txtDiskMaxSpace->Enable(m_chkDiskMaxSpace->IsChecked());
     m_txtDiskLeastFree->Enable(m_chkDiskLeastFree->IsChecked());
@@ -645,7 +671,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
 
     m_txtNetEveryDayStart->Enable(m_chkNetEveryDay->IsChecked());
     m_txtNetEveryDayStop->Enable(m_chkNetEveryDay->IsChecked());
-    
+
     for (int i=0; i<7; ++i) {
         procDayStartTxts[i]->Enable(procDayChks[i]->IsChecked());
         procDayStopTxts[i]->Enable(procDayChks[i]->IsChecked());
@@ -671,19 +697,25 @@ bool CDlgAdvPreferences::ValidateInput() {
         ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessors);
         return false;
     }
-    
+
     buffer = m_txtProcUseCPUTime->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgLimit100, m_txtProcUseCPUTime);
         return false;
     }
-    
+
     if(m_txtProcIdleFor->IsEnabled()) {
         buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
             return false;
         }
+    }
+
+    buffer = m_txtNoRecentInput->GetValue();
+    if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
+        ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
+        return false;
     }
 
     if (m_chkMaxLoad->IsChecked()) {
@@ -693,14 +725,14 @@ bool CDlgAdvPreferences::ValidateInput() {
             return false;
         }
     }
-    
+
     //limit additional days from 0 to 10
     buffer = m_txtNetConnectInterval->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
         ShowErrorMessage(invMsgLimit10,m_txtNetConnectInterval);
         return false;
     }
-    
+
     buffer = m_txtNetAdditionalDays->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
         ShowErrorMessage(invMsgLimit10,m_txtNetAdditionalDays);
@@ -708,72 +740,66 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
 
     buffer = m_txtProcSwitchEvery->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 1.0, 9999999999999.99)) {
         ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
         return false;
-    } else {
-        double td;
-        if((!buffer.ToDouble(&td)) || (td < 1.0)) {
-            ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
-            return false;
-        }
     }
-    
+
     buffer = m_txtDiskWriteToDisk->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
         ShowErrorMessage(invMsgFloat, m_txtDiskWriteToDisk);
         return false;
     }
-    
+
     // ######### net usage page
 
     if (m_chkNetDownloadRate->IsChecked()) {
         buffer = m_txtNetDownloadRate->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtNetDownloadRate);
             return false;
         }
     }
-    
+
     if (m_chkNetUploadRate->IsChecked()) {
         buffer = m_txtNetUploadRate->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtNetUploadRate);
             return false;
         }
     }
-    
+
     if (m_chk_daily_xfer_limit->IsChecked()) {
         buffer = m_txt_daily_xfer_limit_mb->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_limit_mb);
             return false;
         }
-    
+
         buffer = m_txt_daily_xfer_period_days->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 2147483647.0)) {
             ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_period_days);
             return false;
         }
     }
- 
+
     // ######### disk and memory page
     if (m_chkDiskMaxSpace->IsChecked()) {
         buffer = m_txtDiskMaxSpace->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
             return false;
         }
     }
-    
+
     if (m_chkDiskLeastFree->IsChecked()) {
         buffer = m_txtDiskLeastFree->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskLeastFree);
             return false;
         }
     }
-    
+
     if (m_chkDiskMaxOfTotal->IsChecked()) {
         buffer = m_txtDiskMaxOfTotal->GetValue();
         if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
@@ -781,13 +807,13 @@ bool CDlgAdvPreferences::ValidateInput() {
             return false;
         }
     }
-    
+
     buffer = m_txtMemoryMaxInUse->GetValue();
     if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
         ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxInUse);
         return false;
     }
-    
+
     buffer = m_txtMemoryMaxOnIdle->GetValue();
     if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
         ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxOnIdle);
@@ -799,7 +825,7 @@ bool CDlgAdvPreferences::ValidateInput() {
         ShowErrorMessage(invMsgLimit1_100, m_txtDiskMaxSwap);
         return false;
     }
-    
+
     // ######### daily schedules page
     if (m_chkProcEveryDay->IsChecked()) {
         buffer = m_txtProcEveryDayStart->GetValue();
@@ -819,7 +845,7 @@ bool CDlgAdvPreferences::ValidateInput() {
             return false;
         }
     }
-    
+
     //all text ctrls in proc special time textBox
     for(int i=0; i< 7;i++) {
         if(procDayChks[i]->GetValue()) {
@@ -860,7 +886,7 @@ bool CDlgAdvPreferences::ValidateInput() {
             return false;
         }
     }
-    
+
     //all text ctrls in net special time textBox
     for(int i=0; i< 7;i++) {
         if(netDayChks[i]->GetValue()) {
@@ -1009,7 +1035,7 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     case ID_CHKMAXLOAD:
         DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
         break;
-    
+
     // network usage page
     case ID_CHKNETDOWNLOADRATE:
         DisplayValue((defaultPrefs.max_bytes_sec_down / 1024), m_txtNetDownloadRate, m_chkNetDownloadRate);
@@ -1021,7 +1047,7 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
         DisplayValue(defaultPrefs.daily_xfer_limit_mb, m_txt_daily_xfer_limit_mb, m_chk_daily_xfer_limit);
         DisplayValue(defaultPrefs.daily_xfer_period_days, m_txt_daily_xfer_period_days, m_chk_daily_xfer_limit);
         break;
-        
+
     // disk usage page
     case ID_CHKDISKMAXSPACE:
         DisplayValue(defaultPrefs.disk_max_used_gb, m_txtDiskMaxSpace, m_chkDiskMaxSpace);
@@ -1080,7 +1106,7 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
         }
         break;
-    
+
     default:
         break;
     }

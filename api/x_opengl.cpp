@@ -392,7 +392,7 @@ void KillWindow() {
             glutReshapeWindow(win_width, win_height);
         }
         
-        // On Intel Macs (but not on PowerPC Macs) GLUT's destuctors often crash when 
+        // On Intel Macs (but not on PowerPC Macs) GLUT's destructors often crash when 
         // glutDestroyWindow() is called.  So far, this has only been reported for
         // SETI@home. Since it doesn't occur on PowerPC Macs, we suspect a bug in GLUT.  
         // To work around this, we just hide the window instead.  Though this does not 

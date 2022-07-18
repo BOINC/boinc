@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">继续</string>
+  <string name="generic_button_finish">完成</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">选择你想要提供帮助的科研项目：</string>
+  <string name="attachproject_list_header">选择一个项目</string>
+  <string name="attachproject_list_manual_button">通过URL链接添加项目</string>
+  <string name="attachproject_list_manual_dialog_title">输入项目的URL链接</string>
+  <string name="attachproject_list_no_internet">无法连接到互联网</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">输入账户信息</string>
+  <string name="attachproject_credential_input_desc">输入账户信息来设置项目</string>
+  <string name="attachproject_credential_input_show_pwd">显示密码</string>
+  <string name="attachproject_individual_credential_input">单独添加项目</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">添加项目时出现了一点问题</string>
+  <string name="attachproject_conflict_undefined">无法连接</string>
+  <string name="attachproject_conflict_not_unique">账户已存在</string>
+  <string name="attachproject_conflict_bad_password">密码错误</string>
+  <string name="attachproject_conflict_unknown_user">账户不存在</string>
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">提示</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">如何做贡献</string>
+  <string name="attachproject_hint_contribtion_wifi">1.连接到WiFi</string>
+  <string name="attachproject_hint_contribtion_charger">2.连接好电源</string>
+  <string name="attachproject_hint_contribtion_screen">4.关闭显示器</string>
+  <string name="attachproject_hint_projectwebsite_science">了解更多关于科学的信息</string>
+  <string name="attachproject_hint_projectwebsite_stats">查看贡献统计</string>
+  <string name="attachproject_hint_projectwebsite_community">和其他志愿者接触交流</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">正在连接到项目服务器……</string>
+  <string name="attachproject_login_header_general_area">通用领域：</string>
+  <string name="attachproject_login_header_specific_area">特定领域：</string>
+  <string name="attachproject_login_header_description">描述：</string>
+  <string name="attachproject_login_header_home">主页：</string>
+  <string name="attachproject_login_header_url">网页：</string>
+  <string name="attachproject_login_header_id_email">邮箱：</string>
+  <string name="attachproject_login_header_id_name">昵称：</string>
+  <string name="attachproject_login_header_pwd">密码：</string>
+  <string name="attachproject_login_button_registration">注册</string>
+  <string name="attachproject_login_button_login">登陆</string>
+  <string name="attachproject_login_button_forgotpw">忘记密码</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header">使用项目管理器</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">用户：</string>
+  <string name="attachproject_acctmgr_header_pwd">密码：</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">用户不存在</string>
+  <string name="attachproject_error_short_pwd">密码太短</string>
+  <string name="attachproject_error_no_internet">连接失败</string>
+  <string name="attachproject_error_no_url">请输入网址</string>
+  <string name="attachproject_error_no_email">请输入邮箱</string>
+  <string name="attachproject_error_no_pwd">请输入密码</string>
+  <string name="attachproject_error_no_name">请输入用户名</string>
+  <string name="attachproject_error_unknown">失败</string>
+  <string name="attachproject_error_bad_username">用户名不可用</string>
+  <string name="attachproject_error_email_in_use">邮箱已被注册</string>
+  <string name="attachproject_error_email_bad_syntax">邮箱不可用</string>
+  <string name="attachproject_error_bad_pwd">密码不可用</string>
+  <string name="attachproject_error_creation_disabled">本项目禁止用户注册</string>
+  <string name="attachproject_error_invalid_url">链接无效</string>
+  <!--tab names-->
+  <string name="tab_status">统计</string>
+  <string name="tab_projects">项目</string>
+  <string name="tab_tasks">任务</string>
+  <string name="tab_transfers">传输</string>
+  <string name="tab_preferences">属性</string>
+  <string name="tab_notices">通知</string>
+  <!--status strings-->
+  <string name="status_running_long">谢谢参与。</string>
+  <string name="status_paused">暂停</string>
+  <string name="status_idle">无事可做</string>
+  <string name="status_idle_long">等待任务</string>
+  <string name="status_computing_disabled">暂停</string>
+  <string name="status_launching">启动中……</string>
+  <string name="status_noproject">选择要加入的项目。</string>
+  <string name="status_benchmarking">正在跑分……</string>
+  <string name="status_image_description">项目图像</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_network">网络</string>
+  <string name="prefs_category_storage">存储</string>
+  <string name="prefs_category_memory">内存</string>
+  <string name="prefs_category_debug">调试</string>
+  <string name="prefs_suspend_when_screen_on">屏幕开启时暂停计算</string>
+  <string name="prefs_general_device_name_header">设备名称</string>
+  <string name="prefs_power_source_usb">USB连接</string>
+  <string name="prefs_power_source_wireless">无线充电</string>
+  <string name="prefs_power_source_battery">电池</string>
+  <string name="prefs_network_wifi_only_header">只通过WiFi传输</string>
+  <string name="prefs_autostart_header">自动开始</string>
+  <string name="prefs_show_notification_notices_header">显示通知消息</string>
+  <string name="prefs_cpu_number_cpus_header">使用的CPU核心数</string>
+  <string name="prefs_cpu_number_cpus_description">限制BOINC计算时使用的CPU核心数</string>
+  <!--projects tab strings-->
+  <string name="projects_add">添加项目</string>
+  <!--project status strings-->
+  <!--project controls-->
+  <string name="projects_control_sync_acctmgr">同步</string>
+  <!--project confirm dialog-->
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <string name="confirm_cancel">取消</string>
+  <!--transfers tab strings-->
+  <string name="trans_failed">失败</string>
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_help">帮助</string>
+  <!--about dialog-->
+  <string name="about_name">BOINC</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">通知</string>
+</resources>

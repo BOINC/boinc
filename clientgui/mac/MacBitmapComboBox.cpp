@@ -14,10 +14,17 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+//
 
+// On Macintosh we use only native controls in Simple View so the macOS
+// automatically provides accessibility support. Though wxBitmapComboBox
+// does not use MacOS native controls, wxChoice uses NSPopUpButton, so 
+// we create our own BitmapComboBox on Macintosh based on wxChoice, which
+// we have hacked to allow adding bitmaps.
+//
 #include "stdwx.h"
 #include "MacBitmapComboBox.h"
-
+#include "mac_util.h"
 #define POPUPBUTTONCONTROLHEIGHT 40
 
 // wxChoice uses CreatePopupButtonControl
@@ -53,13 +60,9 @@ CBOINCBitmapChoice::~CBOINCBitmapChoice() {
 }
 
 void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
-    wxMenuItem *item = m_popUpMenu->FindItemByPosition(n);
-
-    if ( item && bitmap.Ok() )
-    {
-        item->SetBitmap(bitmap);
-    }
+    wxChoice::SetItemBitmap(n, bitmap);
 }
+
 void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {
     wxToolTip::Enable(false);
     event.Skip();
@@ -275,7 +278,7 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
     wxBrush oldBrush = myDC.GetBrush();
     int oldMode = myDC.GetBackgroundMode();
 
-    myDC.SetPen(*wxMEDIUM_GREY_PEN);
+    myDC.SetPen(*wxLIGHT_GREY_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
     myDC.SetBackgroundMode(wxSOLID);
 
@@ -287,8 +290,10 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
     myDC.SetPen(oldPen);
     myDC.SetBrush(oldBrush);
 
-    CDrawLargeBitmapEvent newEvent(wxEVT_DRAW_LARGEBITMAP, this);
-    AddPendingEvent(newEvent);
+    if (compareOSVersionTo(10, 14) < 0) {
+        CDrawLargeBitmapEvent newEvent(wxEVT_DRAW_LARGEBITMAP, this);
+        AddPendingEvent(newEvent);
+    }
 }
 
 

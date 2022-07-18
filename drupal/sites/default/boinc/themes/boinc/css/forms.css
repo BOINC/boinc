@@ -637,6 +637,24 @@ html.js fieldset.collapsible legend a,
   padding: 16px;
 }
 
+/*
+ * CKEditor
+ */
+
+body.cke_editable {
+  background: #ffffff;
+  font-size: 12px;
+  line-height: 1.4em;
+  margin: 16px;
+}
+
+.form-item label[for=edit-signature],
+.form-item label[for=edit-body],
+.form-item label[for=edit-field-background-0-value],
+.form-item label[for=edit-field-opinions-0-value] {
+  float: inherit;
+}
+
 /* Re-captcha tweaks */
 .captcha {
 	margin-left: 360px;
@@ -647,6 +665,10 @@ html.js fieldset.collapsible legend a,
 /* This id cancels out the above margin-left for .captcha*/
 #captcha-on-left {
         margin-left: -360px;
+}
+/*Custom captcha margin for password reset form*/
+#captcha-password-reset {
+	margin-left: -200px;
 }
 
 /* Task App filter */
@@ -666,3 +688,4 @@ select.task-app-filter {
   line-height: 24px;
   margin-right: 40px;
 }
+

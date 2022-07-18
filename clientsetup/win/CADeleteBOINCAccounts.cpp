@@ -153,7 +153,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
 // Function:    DeleteBOINCAccounts
 //
 // Description: This custom action delete the two user accounts that
-//              are used to enfore the account based sandboxing scheme
+//              are used to enforce the account based sandboxing scheme
 //              on Windows.
 //
 /////////////////////////////////////////////////////////////////////

@@ -44,7 +44,7 @@ using std::string;
 // or fatal errors.
 // Fatal errors have nonzero error_num.
 //
-struct ERROR {
+struct RS_ERROR {
     int error_num;
     char error_msg[256];
     char type[256];
@@ -203,7 +203,7 @@ int query_files(
                 }
             }
         } else if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -259,7 +259,7 @@ int upload_files (
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -314,7 +314,7 @@ int create_batch(
 #endif
         if (xp.parse_int("batch_id", batch_id)) continue;
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -375,7 +375,7 @@ int estimate_batch(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -510,7 +510,7 @@ int submit_jobs_params(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -587,7 +587,7 @@ int query_batch_set(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -698,7 +698,7 @@ int query_batches(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -827,7 +827,7 @@ int abort_jobs(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -881,7 +881,7 @@ int get_templates(
             retval = td.parse(xp);
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -999,7 +999,7 @@ int query_completed_job(
             retval = jd.parse(xp);
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -1048,7 +1048,7 @@ int retire_batch(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -1101,7 +1101,7 @@ int set_expire_time(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;
@@ -1144,7 +1144,7 @@ int ping_server(
             continue;
         }
         if (xp.match_tag("error")) {
-            ERROR error;
+            RS_ERROR error;
             error.parse(xp);
             if (error.error_num) {
                 retval = error.error_num;

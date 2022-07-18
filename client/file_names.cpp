@@ -19,9 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -296,7 +293,7 @@ bool is_statistics_file(const char* filename) {
     if (p != filename) return false;
     q = filename + strlen("statistics_");
 
-    p = strstr(q, ".");
+    p = strchr(q, '.');
     if (!p) return false;
     if (p == q) return false;
 

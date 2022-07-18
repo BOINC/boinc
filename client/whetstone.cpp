@@ -98,7 +98,7 @@ int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
     SPDP x,y,z;
     long j,k,l, jjj;
     SPDP e1[4];
-    double startsec, finisec;
+    double startsec = 0.0, finisec = 0.0;
     double KIPS;
     int xtra, ii;
     int x100 = 1000;   // chosen to make each pass take about 0.1 sec
@@ -239,7 +239,7 @@ int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
      }
     extern_array[8] = x;
 
-    /* Section 7, Array refrences */
+    /* Section 7, Array references */
     j = 0;
     k = 1;
     l = 2;

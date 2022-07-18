@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# $Id$
-
 # configxml.py - module to read and parse config.xml, run_state.xml
 
 '''
@@ -21,6 +19,7 @@ USAGE:     from Boinc import configxml
 
 '''
 
+from __future__ import print_function
 import sys
 from Boinc import boinc_project_path
 from Boinc.boincxml import *

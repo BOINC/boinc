@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
 #include <fcntl.h>
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #if HAVE_UNISTD_H
@@ -35,10 +33,6 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "error_numbers.h"
@@ -173,7 +167,7 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
         if (retval == EAI_SYSTEM) {
             perror(buf);
         } else {
-            fprintf(stderr, "%s: %s", buf, gai_strerror(retval));
+            fprintf(stderr, "%s: %s\n", buf, gai_strerror(retval));
         }
         return ERR_GETADDRINFO;
     }

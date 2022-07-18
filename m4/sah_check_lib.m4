@@ -129,7 +129,7 @@ AC_DEFUN([SAH_LINKAGE_FLAGS],[
 #    3) linking with the static flags "$STATIC_FLAGS -l{name}"
 AC_DEFUN([SAH_STATIC_LIB_REQUIRED],[
 SAH_LINKAGE_FLAGS
-# upercase the library name for our definition
+# uppercase the library name for our definition
 ac_uc_defn=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
     -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
 # Build our cache variable names

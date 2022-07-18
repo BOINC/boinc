@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,10 +25,6 @@
 #include "boinc_win.h"
 #include "sysmon_win.h"
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #else
 #include "config.h"
 #if HAVE_SYS_SOCKET_H
@@ -190,18 +186,19 @@ static void init_core_client(int argc, char** argv) {
     gstate.now = dtime();
 
 #ifdef _WIN32
-    if (!cc_config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
         chdir_to_data_dir();
     }
 #endif
 
 #ifndef _WIN32
-    if (g_use_sandbox)
+    if (g_use_sandbox) {
         // Set file creation mask to be writable by both user and group and
         // world-executable but neither world-readable nor world-writable
         // Our umask will be inherited by all our child processes
         //
         umask (6);
+    }
 #endif
 
     // Initialize the BOINC Diagnostics Framework
@@ -236,8 +233,10 @@ static void init_core_client(int argc, char** argv) {
     read_config_file(true);
     
     // NOTE: this must be called BEFORE newer_version_startup_check()
+    // Only branded builds of BOINC should have an nvc_config.xml file
+    // in the BOINC Data directory. See comments in current_version.cpp.
     //
-    if (read_vc_config_file()) {
+    if (read_nvc_config_file()) {
        // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
     }
     
@@ -364,9 +363,11 @@ int boinc_main_loop() {
     if (retval) return retval;
 
 #ifdef __APPLE__
-    // If we run too soon during system boot we can cause a kernel panic
+    // If we run too soon during system boot we can cause a kernel panic.
+    // Sleep if system has been up for less than 2 minutes
+    //
     if (gstate.executing_as_daemon) {
-        if (get_system_uptime() < 120) {    // If system has been up for less than 2 minutes
+        if (get_system_uptime() < 120) {
             boinc_sleep(30.);
         }
     }
@@ -482,8 +483,10 @@ int main(int argc, char** argv) {
             memset(&si, 0, sizeof(si));
             si.cb = sizeof(si);
 
-            // If process creation succeeds, we exit, if it fails punt and continue
-            // as usual.  We won't detach properly, but the program will run.
+            // If process creation succeeds, we exit,
+            // if it fails punt and continue as usual.
+            // We won't detach properly, but the program will run.
+            //
             if (CreateProcess(NULL, commandLine, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
                 exit(0);
             }
@@ -522,6 +525,7 @@ int main(int argc, char** argv) {
     // current user is a member of both groups boinc_master and boinc_project.
     // However, this has not been thoroughly tested. Please see the comments
     // in SetupSecurity.cpp and check_security.cpp for more details.
+    //
     int securityErr = check_security(g_use_sandbox, false, NULL, 0);
     if (securityErr) {
 #if (defined(__APPLE__) && defined (_DEBUG))
@@ -550,6 +554,6 @@ int main(int argc, char** argv) {
     retval = boinc_main_loop();
 
 #endif
+    main_exited = true;
     return retval;
 }
-

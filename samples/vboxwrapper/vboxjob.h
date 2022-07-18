@@ -22,6 +22,20 @@
 #define JOB_FILENAME "vbox_job.xml"
 
 
+#ifndef VBOX_VRAM_MIN
+// Default value suggested by VirtualBox v6.1.30
+// when a VM is created manually using a Linux 64-bit template.
+// VirtualBox does not complain if lower values are used (9-16 MB)
+// but certain VMs occasionally hang when they boot (Rosetta).
+// They don't hang if vram is at least 16 MB.
+#define VBOX_VRAM_MIN 16.0
+#endif
+#ifndef VBOX_VRAM_MAX
+// highest value currently accepted by VirtualBox v6.1.30
+#define VBOX_VRAM_MAX 128.0
+#endif
+
+
 // Represents the state of a intermediate upload
 class VBOX_INTERMEDIATE_UPLOAD {
 public:
@@ -67,6 +81,14 @@ public:
 
     std::string vm_disk_controller_model;
         // the disk controller model to emulate
+
+    std::string vm_graphics_controller_type;
+        // the graphics controller type to emulate
+
+    double vram_size_mb;
+        // size of the video memory allocation for the VM, in megabytes
+        // should be between VBOX_VRAM_MIN and VBOX_VRAM_MAX MB
+        // default: VBOX_VRAM_MIN MB
 
     double memory_size_mb;
         // size of the memory allocation for the VM, in megabytes
@@ -166,6 +188,10 @@ public:
         // File can optionally contain is_notice bool (second line)
         // and stderr text (subsequent lines).
         // Addresses a problem where VM doesn't shut down properly
+
+    std::string multiattach_vdi_file;
+        // Name of the vdi file (without path) to be attached in multiattach mode.
+        // The file is expected to be in the project's base directory.
 };
 
 #endif

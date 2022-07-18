@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
@@ -32,9 +30,6 @@
 
 #ifdef _WIN32
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -191,7 +186,7 @@ void COPROCS::summary_string(char* buf, int len) {
     }
     if (ati.count) {
         snprintf(buf2, sizeof(buf2),
-            "[CAL|%s|%d|%dMB|%s|%d]",
+            "[CAL|%s|%d|%uMB|%s|%d]",
             ati.name, ati.count,
             ati.attribs.localRAM, ati.version,
             ati.opencl_prop.opencl_device_version_int
@@ -408,7 +403,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_NVIDIA::clear() {
-    static const COPROC_NVIDIA x;
+    static const COPROC_NVIDIA x(0);
     *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
     estimated_delay = -1;   // mark as absent
@@ -570,9 +565,20 @@ void COPROC_NVIDIA::set_peak_flops() {
             }
             break;
         case 7:    // for both cc7.0 (Titan V, Tesla V100) and cc7.5 (RTX, Tesla T4)
-        default:
             flops_per_clock = 2;
             cores_per_proc = 64;
+            break;
+        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102 and above)
+        default:
+            flops_per_clock = 2;
+            switch (minor) {
+            case 0:    // special for A100 Tensor Core datacenter GPU
+                cores_per_proc = 64;
+                break;
+            default:
+                cores_per_proc = 128;
+                break;
+            }
             break;
         }
 
@@ -717,7 +723,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_ATI::clear() {
-    static const COPROC_ATI x;
+    static const COPROC_ATI x(0);
     *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
     estimated_delay = -1;
@@ -832,7 +838,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
 
 void COPROC_ATI::description(char* buf, int buflen) {
     snprintf(buf, buflen,
-        "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
+        "%s (CAL version %s, %uMB, %.0fMB available, %.0f GFLOPS peak)",
         name, version, attribs.localRAM,
         available_ram/MEGA, peak_flops/1.e9
     );
@@ -924,7 +930,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_INTEL::clear() {
-    static const COPROC_INTEL x;
+    static const COPROC_INTEL x(0);
     *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     estimated_delay = -1;

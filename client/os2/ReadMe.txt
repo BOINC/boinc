@@ -46,7 +46,7 @@ Please use the seti-warp mailing list at http://groups.yahoo.com
 Donations
 ---------
 Since this software is ported for free, donations are welcome! you can use PayPal
-to donate me and support OS/2 developement. See my homepage for details, or ask :-)
+to donate me and support OS/2 development. See my homepage for details, or ask :-)
 At least, a post card is welcome!
 
 

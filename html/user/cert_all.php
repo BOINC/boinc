@@ -25,7 +25,7 @@ check_get_args(array("border"));
 $user = get_logged_in_user();
 
 $join = gmdate('j F Y', $user->create_time);
-$today = gmdate('j F Y', time(0));
+$today = gmdate('j F Y', time());
 
 $border = get_str("border", true);
 
@@ -38,6 +38,11 @@ if ($border=="no") {
 $font = "\"Optima,Lucida Bright,Times New Roman\"";
 
 $user = get_other_projects($user);
+
+if (!$user->projects) {
+    error_page("No accounts found");
+}
+
 $total_credit = 0;
 foreach ($user->projects as $p) {
     $total_credit += $p->total_credit;

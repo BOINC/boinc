@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2022 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -33,6 +33,9 @@
 # Updated 10/17/17 to fix bug when -all argument is implied but not explicitly passed
 # Updated 10/19/17 Special handling of screensaver build is no longer needed
 # Updated 10/14/18 for Xcode 10 (use this script only with BOINC 7.15 or later)
+# Updated 3/31/21 To eliminate redundant -c++11 arg since C++11 build is now standard
+# Updated 5/19/21 for compatibility with zsh
+# Updated 7/12/22 result is moved out of eval string to get correct status on CI if build fails
 #
 ## This script requires OS 10.8 or later
 #
@@ -46,10 +49,10 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-c++11] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-target targetName] [-setting name value] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version.
@@ -60,7 +63,6 @@
 ##
 ## -libstdc++   build using libstdc++ instead of libc++
 ##
-## -c++11       build using c++11 language dialect instead of default (incompatible with libstdc++)
 ##
 ##  The following arguments determine which targets to build
 ##
@@ -84,7 +86,6 @@
 
 targets=""
 doclean="clean"
-cplusplus11dialect=""
 uselibcplusplus=""
 buildall=0
 buildlibs=0
@@ -98,14 +99,13 @@ while [ $# -gt 0 ]; do
     -noclean ) doclean="" ; shift 1 ;;
     -dev ) style="Development" ; shift 1 ;;
     -libstdc++ ) uselibcplusplus="CLANG_CXX_LIBRARY=libstdc++" ; shift 1 ;;
-    -c++11 ) cplusplus11dialect="CLANG_CXX_LANGUAGE_STANDARD=c++11" ; shift 1 ;;
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
-    -target ) shift 1 ; targets="-target $1" ; buildzip=0 ; shift 1 ;;
+    -target ) shift 1 ; targets="$targets -target $1" ; buildzip=0 ; shift 1 ;;
     -setting ) shift 1 ; name="$1" ;
                 shift 1 ; unset value ; value=("$1");
-                settings+=("$name=""${value[@]}") ;
+                settings+=("$name=""\"${value[@]}\"") ;
                 shift 1 ;;
     * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]  [-target targetName] [-setting name value] [-help]" ; return 1 ;;
   esac
@@ -163,7 +163,17 @@ echo ""
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 result=0
 
-xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ${uselibcplusplus} ${cplusplus11dialect} "${settings[@]}"
+## Passing "${settings[@]}" to xcodebuild generates an error under zsh if
+## the settings array is empty, so we build a single string from the array.
+theSettings=""
+for f in "${settings[@]}"; do
+    theSettings+="${f}"
+    theSettings+=" "
+done
+
+## For unknown reasons, this xcodebuild call generates syntax errors under zsh
+## unless we enclose the command in quotes and invoke it with eval.
+eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
 result=$?
 
 if [ $result -eq 0 ]; then
@@ -171,7 +181,7 @@ if [ $result -eq 0 ]; then
     # default is none of { -all, -lib, -client }
     if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "0" ]; then
         if [ "${buildzip}" = "1" ]; then
-            xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk "${SDKPATH}" ${doclean} build  ${uselibcplusplus} ${cplusplus11dialect}
+            xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk "${SDKPATH}" ${doclean} build  ${uselibcplusplus}
             result=$?
         fi
     fi

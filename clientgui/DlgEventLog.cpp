@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -48,10 +48,10 @@
 ////@begin XPM images
 ////@end XPM images
 
-#define DLGEVENTLOG_INITIAL_WIDTH ADJUSTFORXDPI(640)
-#define DLGEVENTLOG_INITIAL_HEIGHT ADJUSTFORYDPI(480)
-#define DLGEVENTLOG_MIN_WIDTH ADJUSTFORXDPI(600)
-#define DLGEVENTLOG_MIN_HEIGHT ADJUSTFORYDPI(250)
+const int dlgEventlogInitialWidth = 640;
+const int dlgEventLogInitialHeight = 480;
+const int dlgEventlogMinWidth = 600;
+const int dlgEventlogMinHeight = 250;
 
 #define COLUMN_PROJECT              0
 #define COLUMN_TIME                 1
@@ -105,7 +105,7 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
- 
+
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
@@ -144,7 +144,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     m_iPreviousRowCount = 0;
     m_iTotalDocCount = 0;
     m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
@@ -152,7 +152,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     m_iNumDeletedFilteredRows = 0;
     m_iTotalDeletedFilterRows = 0;
-    
+
     if (!s_bIsFiltered) {
         s_strFilteredProjectName.clear();
     }
@@ -188,7 +188,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         if ( oTempSize.GetWidth() > rDisplay.width ) oTempSize.SetWidth(rDisplay.width);
         if ( oTempSize.GetHeight() > rDisplay.height ) oTempSize.SetHeight(rDisplay.height);
 
-        // Check if part of the display was going to be off the screen, if so, center the 
+        // Check if part of the display was going to be off the screen, if so, center the
         // display on that axis
 		if ( oTempPoint.x < rDisplay.x ) {
 			oTempPoint.x = rDisplay.x;
@@ -205,7 +205,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         delete display;
 #endif
 #ifdef __WXMAC__
-        // If the user has changed the arrangement of multiple 
+        // If the user has changed the arrangement of multiple
         // displays, make sure the window title bar is still on-screen.
     if (!IsWindowOnScreen(oTempPoint.x, oTempPoint.y, oTempSize.GetWidth(), oTempSize.GetHeight())) {
         oTempPoint.y = oTempPoint.x = 30;
@@ -218,7 +218,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     DlgEventLogBase::Create( parent, id, caption, oTempPoint, oTempSize, style );
 
-    SetSizeHints(DLGEVENTLOG_MIN_WIDTH, DLGEVENTLOG_MIN_HEIGHT);
+    SetSizeHints(dlgEventlogMinWidth, dlgEventlogMinHeight);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
 
     // Initialize Application Title
@@ -299,7 +299,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     OnRefresh();
     // Register that we had the Event Log open immediately
     SaveState();
-    
+
     m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'F', ID_SGDIAGNOSTICLOGFLAGS);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
 
@@ -324,7 +324,7 @@ void CDlgEventLog::CreateControls()
     itemFlexGridSizer2->Add(m_pList, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-    
+
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
 
     m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("&Show only this project"),  wxDefaultPosition, wxDefaultSize);
@@ -365,7 +365,7 @@ void CDlgEventLog::CreateControls()
     wxButton* itemButton44 = new wxButton(this, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    SetFilterButtonText(); 
+    SetFilterButtonText();
 }
 
 
@@ -475,7 +475,7 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
 
     wxInt32 iIndex = -1;
     MESSAGE* message;
-    
+
     wxASSERT(m_pList);
 
     m_iFilteredIndexes.Clear();
@@ -503,10 +503,10 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
            }
         }
     }
-    
+
     s_bFilteringChanged = true;
     SetFilterButtonText();
-    
+
     // Force a complete update
     m_iPreviousRowCount = 0;
     m_pList->DeleteAllItems();
@@ -534,7 +534,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     m_iTotalDocCount = pDoc->GetMessageCount();
 
     numDeletedRows = pDoc->GetFirstMsgSeqNum() - m_iPreviousFirstMsgSeqNum;
@@ -552,13 +552,13 @@ wxInt32 CDlgEventLog::GetDocCount() {
                 m_iNumDeletedFilteredRows++;
                 m_iTotalDeletedFilterRows++;
             }
-            
+
             // Adjust the remaining indexes
             for (i = m_iFilteredIndexes.GetCount()-1; i >= 0; i--) {
                 m_iFilteredIndexes[i] -= numDeletedRows;
             }
         }
-        
+
         // Add indexes of new messages to filtered list as appropriate
         i = m_iTotalDocCount - (pDoc->GetLastMsgSeqNum() - m_iPreviousLastMsgSeqNum);
         if (i < 0) i = 0;
@@ -577,7 +577,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
     if (numDeletedRows > 0) {
         // Adjust the selected row numbers
         wxArrayInt arrSelRows;
-        
+
         i = -1;
         for (;;) {
             i = m_pList->GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
@@ -595,7 +595,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
             }
         }
     }
-    
+
     return s_bIsFiltered ? m_iFilteredDocCount : m_iTotalDocCount;
 }
 
@@ -610,7 +610,7 @@ void CDlgEventLog::OnRefresh() {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     if (!IsShown()) return;
 
     if (!m_bProcessingRefreshEvent) {
@@ -619,7 +619,7 @@ void CDlgEventLog::OnRefresh() {
 
         wxInt32 iRowCount = GetDocCount();
         long topItem = m_pList->GetTopItem();
-        
+
         if (0 >= iRowCount) {
             m_pList->DeleteAllItems();
             ResetMessageFiltering();
@@ -686,7 +686,7 @@ void CDlgEventLog::OnRefresh() {
             m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
             m_iPreviousLastMsgSeqNum = pDoc->GetLastMsgSeqNum();
         }
-        
+
         UpdateButtons();
 
         m_bProcessingRefreshEvent = false;
@@ -809,16 +809,16 @@ void CDlgEventLog::GetWindowDimensions( wxPoint& position, wxSize& size ) {
 
     pConfig->Read(wxT("YPos"), &iTop, 30);
     pConfig->Read(wxT("XPos"), &iLeft, 30);
-    pConfig->Read(wxT("Width"), &iWidth, DLGEVENTLOG_INITIAL_WIDTH);
-    pConfig->Read(wxT("Height"), &iHeight, DLGEVENTLOG_INITIAL_HEIGHT);
+    pConfig->Read(wxT("Width"), &iWidth, dlgEventlogInitialWidth);
+    pConfig->Read(wxT("Height"), &iHeight, dlgEventLogInitialHeight);
 
     // Guard against a rare situation where registry values are zero
-    if (iWidth < 50) iWidth = DLGEVENTLOG_INITIAL_WIDTH;
-    if (iHeight < 50) iHeight = DLGEVENTLOG_INITIAL_HEIGHT;
+    if (iWidth < 50) iWidth = dlgEventlogInitialWidth;
+    if (iHeight < 50) iHeight = dlgEventLogInitialHeight;
     position.y = iTop;
     position.x = iLeft;
-    size.x = std::max(iWidth, DLGEVENTLOG_MIN_WIDTH);
-    size.y = std::max(iHeight, DLGEVENTLOG_MIN_HEIGHT);
+    size.x = std::max(iWidth, dlgEventlogMinWidth);
+    size.y = std::max(iHeight, dlgEventlogMinHeight);
 }
 
 
@@ -866,7 +866,7 @@ void CDlgEventLog::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     OpenClipboard( iRowCount * 1024 );
 
     for (iIndex = 0; iIndex < iRowCount; iIndex++) {
-        CopyToClipboard(iIndex);            
+        CopyToClipboard(iIndex);
     }
 
     CloseClipboard();
@@ -894,7 +894,7 @@ void CDlgEventLog::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
         );
         if (iIndex == -1) break;
 
-        iRowCount++;            
+        iRowCount++;
     }
 
     OpenClipboard( iRowCount * 1024 );
@@ -908,7 +908,7 @@ void CDlgEventLog::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
         );
         if (iIndex == -1) break;
 
-        CopyToClipboard(iIndex);            
+        CopyToClipboard(iIndex);
     }
 
     CloseClipboard();
@@ -968,14 +968,14 @@ void CDlgEventLog::ResetMessageFiltering() {
 
 
 void CDlgEventLog::UpdateButtons() {
-    bool enableFilterButton = s_bIsFiltered; 
-    bool enableCopySelectedButon = false; 
+    bool enableFilterButton = s_bIsFiltered;
+    bool enableCopySelectedButton = false;
     if (m_iTotalDocCount > 0) {
         int n = m_pList->GetSelectedItemCount();
         if (n > 0) {
-            enableCopySelectedButon = true;
+            enableCopySelectedButton = true;
         }
-        
+
         if ((n == 1) && (! s_bIsFiltered)) {
             n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
             MESSAGE* message = wxGetApp().GetDocument()->message(n);
@@ -985,7 +985,7 @@ void CDlgEventLog::UpdateButtons() {
         }
     }
     m_pFilterButton->Enable(enableFilterButton);
-    m_pCopySelectedButton->Enable(enableCopySelectedButon);
+    m_pCopySelectedButton->Enable(enableCopySelectedButton);
 }
 
 
@@ -1039,11 +1039,11 @@ bool CDlgEventLog::EnsureLastItemVisible() {
 
     // Auto-scroll only if already at bottom of list
     if ((m_iPreviousRowCount > numVisible)
-         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousRowCount-1)) 
+         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousRowCount-1))
     ) {
         return false;
     }
-    
+
     return true;
 }
 
@@ -1085,7 +1085,7 @@ wxInt32 CDlgEventLog::FormatTime(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CDlgEventLog::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
-    
+
     if (message) {
         strBuffer = wxString(message->body.c_str(), wxConvUTF8);
         remove_eols(strBuffer);

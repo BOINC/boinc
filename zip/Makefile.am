@@ -60,6 +60,7 @@ libboinc_zip_sources += \
 endif
 
 lib_LTLIBRARIES = libboinc_zip.la
+pkgconfig_DATA = libboinc_zip.pc
 libboinc_zip_la_SOURCES = $(libboinc_zip_sources)
 libboinc_zip_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 libboinc_zip_la_LIBADD =
@@ -81,3 +82,5 @@ $(LIBBOINC_ZIP_STATIC): libboinc_zip.la
 	rm -f $(LIBBOINC_ZIP_STATIC)
 	$(LN) .libs/$(LIBBOINC_ZIP_STATIC) .
 
+clean:
+	rm -f $(LIBBOINC_ZIP_STATIC) *.a *.o *.lo *.la

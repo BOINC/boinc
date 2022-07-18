@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2019 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
-"PO-Revision-Date: 2019-09-23 13:34+0000\n"
-"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-05 12:11+0000\n"
+"Last-Translator: Jabier <j.lasa@koniker.coop>\n"
 "Language-Team: Basque (http://www.transifex.com/boinc/boinc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,47 +26,51 @@ msgstr "LANG_NAME_NATIVE"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "LANG_NAME_INTERNATIONAL"
 
-#: html/inc/account.inc:72 html/user/signup.php:35
+#: html/inc/account.inc:56
+msgid "Show password"
+msgstr "Erakutsi pasahitza"
+
+#: html/inc/account.inc:73 html/user/signup.php:35
 msgid "An invitation code is required to create an account."
 msgstr "Gonbidapen-kodea beharrezkoa da kontua sortzeko."
 
-#: html/inc/account.inc:73 html/user/signup.php:36
+#: html/inc/account.inc:74 html/user/signup.php:36
 msgid "Invitation code"
 msgstr "Gonbidapen-kodea"
 
-#: html/inc/account.inc:81 html/user/account_finish.php:41
+#: html/inc/account.inc:82 html/user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "Gure webgunean identifikatzen zaitu. Erabili zure benetako izena edo erabiltzaile-izen bat."
 
-#: html/inc/account.inc:82
+#: html/inc/account.inc:83
 msgid "Screen name"
 msgstr "Pantailaren izena"
 
-#: html/inc/account.inc:88
+#: html/inc/account.inc:89
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "'izena@domeinua' itxura duen baliozko helbide bat izan behar da."
 
-#: html/inc/account.inc:89 html/inc/user.inc:244 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:244 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Helbide elektronikoa"
 
-#: html/inc/account.inc:100 html/user/signup.php:63
+#: html/inc/account.inc:101 html/user/signup.php:63
 msgid "Must be at least %1 characters"
 msgstr "Gutxienez %1 karaktere izan behar ditu"
 
 #. we need the password here not for verification,
 #. but because we store it salted with email address,
 #. which is about to change.
-#: html/inc/account.inc:101 html/user/delete_account_confirm.php:54
+#: html/inc/account.inc:102 html/user/delete_account_confirm.php:54
 #: html/user/delete_account_request.php:51 html/user/edit_email_form.php:47
 msgid "Password"
 msgstr "Pasahitza"
 
-#: html/inc/account.inc:108 html/user/account_finish.php:45
+#: html/inc/account.inc:109 html/user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
 msgstr "Aukeratu ordezkatu nahi duzun herrialdea, baldin badago."
 
-#: html/inc/account.inc:109 html/inc/team.inc:44 html/inc/team.inc:136
+#: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
 #: html/inc/user.inc:253 html/inc/user.inc:456 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
@@ -76,39 +80,44 @@ msgstr "Aukeratu ordezkatu nahi duzun herrialdea, baldin badago."
 msgid "Country"
 msgstr "Herrialdea"
 
-#: html/inc/account.inc:117 html/user/account_finish.php:52
+#: html/inc/account.inc:118 html/user/account_finish.php:52
 msgid "Postal or ZIP Code"
 msgstr "Posta-kodea"
 
-#: html/inc/account.inc:117
+#: html/inc/account.inc:118
 msgid "Optional"
 msgstr "Aukerakoa"
 
-#: html/inc/account.inc:127 html/inc/account.inc:171
+#: html/inc/account.inc:128 html/inc/account.inc:172
 msgid "Terms of Use"
 msgstr "Erabilpen baldintzak"
 
-#: html/inc/account.inc:134 html/inc/account.inc:178
+#: html/inc/account.inc:135 html/inc/account.inc:179
 msgid "Do you agree to the terms of use above?"
 msgstr "Onartzen al dituzu goiko erabiltzeko baldintzak?"
 
-#: html/inc/account.inc:146
+#: html/inc/account.inc:147
 msgid "Email address:"
 msgstr "Helbide elektronikoa:"
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "Password:"
 msgstr "Pasahitza:"
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "forgot password?"
 msgstr "pasahitza ahaztu al duzu?"
 
-#: html/inc/account.inc:157
+#: html/inc/account.inc:158
 msgid "Stay logged in"
 msgstr "Jarraitu konektatuta"
 
-#: html/inc/account.inc:184
+#. kludge
+#: html/inc/account.inc:162 html/inc/util.inc:346 html/user/login_form.php:43
+msgid "Log in"
+msgstr "Hasi saioa"
+
+#: html/inc/account.inc:185
 msgid "I agree"
 msgstr "Onartzen dut"
 
@@ -243,112 +252,117 @@ msgstr "Itxi irekita dauden bbCode etiketa guztiak"
 msgid "Close Tags"
 msgstr "Itxi etiketak"
 
-#: html/inc/bootstrap.inc:156 html/inc/user.inc:187
-msgid "Account"
-msgstr "Kontua"
-
-#: html/inc/bootstrap.inc:157 html/user/signup.php:89
+#: html/inc/bootstrap.inc:95 html/inc/bootstrap.inc:160
+#: html/user/signup.php:89 html/user/signup.php:99
 msgid "Join"
 msgstr "Batu"
 
-#: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
-#: html/inc/bootstrap.inc:195 html/inc/user.inc:300
+#: html/inc/bootstrap.inc:97
+msgid "Login"
+msgstr "Hasi saioa"
+
+#: html/inc/bootstrap.inc:159 html/inc/user.inc:187
+msgid "Account"
+msgstr "Kontua"
+
+#: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:300
 msgid "Preferences"
 msgstr "Hobespenak"
 
-#: html/inc/bootstrap.inc:160
+#: html/inc/bootstrap.inc:163
 msgid "About %1"
 msgstr "%1(r)i buruz"
 
-#: html/inc/bootstrap.inc:161
+#: html/inc/bootstrap.inc:164
 msgid "Help"
 msgstr "Laguntza"
 
-#: html/inc/bootstrap.inc:162 html/inc/user.inc:129
+#: html/inc/bootstrap.inc:165 html/inc/user.inc:129
 msgid "Project"
 msgstr "Proiektua"
 
-#: html/inc/bootstrap.inc:168
+#: html/inc/bootstrap.inc:171
 msgid "Participate"
 msgstr "Parte hartu"
 
-#: html/inc/bootstrap.inc:169
+#: html/inc/bootstrap.inc:172
 msgid "Do work"
 msgstr "Lan egin"
 
-#: html/inc/bootstrap.inc:175 html/user/server_status.php:117
+#: html/inc/bootstrap.inc:178 html/user/server_status.php:117
 msgid "Server status"
 msgstr "Zerbitzariaren egoera"
 
-#: html/inc/bootstrap.inc:176
+#: html/inc/bootstrap.inc:179
 msgid "Credit statistics"
 msgstr "Kreditu estatistika"
 
-#: html/inc/bootstrap.inc:177 html/user/apps.php:32
+#: html/inc/bootstrap.inc:180 html/user/apps.php:32
 msgid "Applications"
 msgstr "Programak"
 
-#: html/inc/bootstrap.inc:178
+#: html/inc/bootstrap.inc:181
 msgid "GPU models"
 msgstr "GPU modeloak"
 
-#: html/inc/bootstrap.inc:179
+#: html/inc/bootstrap.inc:182
 msgid "CPU models"
 msgstr "PUZ modeloak"
 
-#: html/inc/bootstrap.inc:180
+#: html/inc/bootstrap.inc:183
 msgid "Computer types"
 msgstr "Ordenagailu motak"
 
-#: html/inc/bootstrap.inc:187 html/inc/prefs.inc:241 html/inc/prefs.inc:482
+#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:241 html/inc/prefs.inc:482
 #: html/inc/user.inc:163 html/user/explain_state.php:94
 msgid "Computing"
 msgstr "Prozesatzen"
 
-#: html/inc/bootstrap.inc:190 html/inc/user.inc:571 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:571 html/user/welcome.php:79
 msgid "Community"
 msgstr "Komunitatea"
 
-#: html/inc/bootstrap.inc:191 html/inc/forum.inc:174 html/inc/forum.inc:206
+#: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
 #: html/inc/user.inc:382 html/inc/user.inc:516 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Foroak"
 
 #. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
-#: html/inc/bootstrap.inc:193 html/user/stats.php:40 html/user/team.php:27
+#: html/inc/bootstrap.inc:196 html/user/stats.php:40 html/user/team.php:27
 msgid "Teams"
 msgstr "Taldea"
 
-#: html/inc/bootstrap.inc:193
+#: html/inc/bootstrap.inc:196
 msgid "create or join a team"
 msgstr "sortu edo batu talde batera"
 
-#: html/inc/bootstrap.inc:194 html/user/profile_menu.php:34
+#: html/inc/bootstrap.inc:197 html/user/profile_menu.php:34
 msgid "Profiles"
 msgstr "Profilak"
 
-#: html/inc/bootstrap.inc:196
+#: html/inc/bootstrap.inc:199 html/user/user_search.php:46
 msgid "User search"
 msgstr "Erabiltzaile bilaketa"
 
-#: html/inc/bootstrap.inc:197
+#: html/inc/bootstrap.inc:200
 msgid "User of the day"
 msgstr "Eguneko erabiltzailea"
 
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:192
+#: html/inc/bootstrap.inc:201 html/inc/user.inc:192
 msgid "Certificate"
 msgstr "Ziurtagiria"
 
-#: html/inc/bootstrap.inc:200
+#: html/inc/bootstrap.inc:203
 msgid "Site"
 msgstr "Webgunea"
 
-#: html/inc/bootstrap.inc:201
+#: html/inc/bootstrap.inc:204 html/user/site_search.php:22
 msgid "Site search"
 msgstr "Gunearen bilaketa"
 
-#: html/inc/bootstrap.inc:202
+#: html/inc/bootstrap.inc:205
 msgid "Languages"
 msgstr "Hizkuntzak"
 
@@ -447,315 +461,315 @@ msgstr "Galderak eta erantzunak"
 msgid "%1 message board"
 msgstr "%1(r)en foroa"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:784
+#: html/inc/forum.inc:257 html/inc/result.inc:787
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:793
+#: html/inc/forum.inc:295 html/inc/result.inc:796
 msgid "Next"
 msgstr "Hurrengoa"
 
-#: html/inc/forum.inc:424 html/inc/forum.inc:1311
+#: html/inc/forum.inc:424 html/inc/forum.inc:1317
 #: html/user/forum_forum.php:146 html/user/forum_reply.php:127
-#: html/user/forum_report_post.php:86
+#: html/user/forum_report_post.php:89
 msgid "Author"
 msgstr "Egilea"
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
 #: html/user/forum_edit.php:141 html/user/forum_post.php:127
-#: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
+#: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr "Mezua"
 
-#: html/inc/forum.inc:610 html/inc/pm.inc:95 html/inc/pm.inc:177
+#: html/inc/forum.inc:611 html/inc/pm.inc:95 html/inc/pm.inc:177
 msgid "Send message"
 msgstr "Bidali mezua"
 
-#: html/inc/forum.inc:610
+#: html/inc/forum.inc:611
 msgid "Send %1 a private message"
 msgstr "Bidali %1(r)i mezu pribatu bat"
 
-#: html/inc/forum.inc:611
+#: html/inc/forum.inc:612
 msgid "Joined: %1"
 msgstr "Batu da: %1"
 
-#: html/inc/forum.inc:620
+#: html/inc/forum.inc:621
 msgid "Posts: %1"
 msgstr "Mezuak: %1"
 
-#: html/inc/forum.inc:626
+#: html/inc/forum.inc:627
 msgid "Credit: %1"
 msgstr "Kreditua: %1"
 
-#: html/inc/forum.inc:627
+#: html/inc/forum.inc:628
 msgid "RAC: %1"
 msgstr "RAC: %1"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "You haven't read this message yet"
 msgstr "Oraindik ez duzu mezu hau irakurri"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "Unread"
 msgstr "Irakurri gabea"
 
-#: html/inc/forum.inc:660 html/inc/forum.inc:665 html/inc/forum.inc:778
+#: html/inc/forum.inc:661 html/inc/forum.inc:666 html/inc/forum.inc:784
 msgid "Message %1"
 msgstr "%1 mezua"
 
-#: html/inc/forum.inc:661 html/inc/user.inc:474 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:474 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "ezkutatuta"
 
-#: html/inc/forum.inc:662
+#: html/inc/forum.inc:663
 msgid "Posted: %1"
 msgstr "Bidalita: %1"
 
-#: html/inc/forum.inc:665
+#: html/inc/forum.inc:666
 msgid " - in response to "
 msgstr " - ondorengoari erantzunez"
 
-#: html/inc/forum.inc:668 html/inc/prefs_util.inc:734
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
 #: html/inc/prefs_util.inc:736
 msgid "Edit"
 msgstr "Editatu"
 
-#: html/inc/forum.inc:668
+#: html/inc/forum.inc:669
 msgid "Edit this message"
 msgstr "Editatu mezu hau"
 
-#: html/inc/forum.inc:674
+#: html/inc/forum.inc:675
 msgid "Last modified: %1"
 msgstr "Azken aldaketa: %1"
 
-#: html/inc/forum.inc:678
+#: html/inc/forum.inc:679
 msgid ""
 "This post is hidden because the sender is on your 'ignore' list.  Click %1 "
 "here %2 to view hidden posts"
 msgstr "Mezu hau ezkutatuta dago bidaltzailea zure 'baztertuen' zerrendan dagoelako. Klik egin %1 hemen %2 ezkutatuta dauden mezuak ikusteko"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report this post as offensive"
 msgstr "Salatu mezu hau iraingarri bezala"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report as offensive"
 msgstr "Salatu iraingarri bezala"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "Rating: %1"
 msgstr "Balorazioa: %1"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "rate: "
 msgstr "balorazioa:"
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Click if you like this message"
 msgstr "Klik egin mezu hau gustatzen bazaizu"
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Rate +"
 msgstr "Balorazio +"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Click if you don't like this message"
 msgstr "Klik egin mezu hau gustatzen ez bazaizu"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Rate -"
 msgstr "Balorazio -"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:734 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:735 html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "Erantzun"
 
-#: html/inc/forum.inc:734
+#: html/inc/forum.inc:735
 msgid "Post a reply to this message"
 msgstr "Bidali erantzun bat mezu honi"
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Quote"
 msgstr "Aipatu"
 
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Post a reply by quoting this message"
 msgstr "Bidali erantzun bat mezu honi aipamen eginez"
 
-#: html/inc/forum.inc:759
+#: html/inc/forum.inc:765
 msgid "Hidden by a moderator"
 msgstr "Moderatzaile batek ezkutatua"
 
-#: html/inc/forum.inc:780
+#: html/inc/forum.inc:786
 msgid "Posted %1 by %2"
 msgstr "%2(e)k %1 bidalia"
 
-#: html/inc/forum.inc:800
+#: html/inc/forum.inc:806
 msgid "You may not post or rate messages until %1"
 msgstr "Ezin duzu mezurik bidali edo mezuak baloratu %1(r)a bitartean"
 
-#: html/inc/forum.inc:825
+#: html/inc/forum.inc:831
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
 msgstr "Mezuak 'umeentzako aproposak' izan behar dira: ez dira onartzen eduki lizunak, gorrotagarriak, sexualki esplizituak edo iradokitzaileak."
 
-#: html/inc/forum.inc:826
+#: html/inc/forum.inc:832
 msgid "No commercial advertisements."
 msgstr "Iragarki komertzialik gabe."
 
-#: html/inc/forum.inc:827
+#: html/inc/forum.inc:833
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
 msgstr "Eduki sexualekin, xenofoboekin edo apustuen munduarekin harremana duten webgunetako estekarik gabe."
 
-#: html/inc/forum.inc:828
+#: html/inc/forum.inc:834
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
 msgstr "Inor gogaitzeko edo inoren aurka egiteko asmoa duten mezurik gabe, edo elkarrizketa-hariaz jabetzeko arriskurik gabe."
 
-#: html/inc/forum.inc:829
+#: html/inc/forum.inc:835
 msgid "No messages that are deliberately hostile, threatening, or insulting."
 msgstr "Nahita idatzitako mezu erasokorrik edo iraingarririk gabe."
 
-#: html/inc/forum.inc:830
+#: html/inc/forum.inc:836
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
 msgstr "Arraza, erlijioa, herritartasuna, generoa, klase soziala edo sexualitatea tarteko, neurrigabeko iruzkinik gabe."
 
-#: html/inc/forum.inc:831
+#: html/inc/forum.inc:837
 msgid "Posts that violate these rules may be deleted."
 msgstr "Arau hauek urratzen dituzten mezuak ezabatu egin daitezke."
 
-#: html/inc/forum.inc:832
+#: html/inc/forum.inc:838
 msgid "The posting privileges of violators may be suspended or revoked."
 msgstr "Arau-hausleen argitaratze-pribilegioak eten edo baliogabetu daitezke."
 
-#: html/inc/forum.inc:833
+#: html/inc/forum.inc:839
 msgid "If your account is suspended, don't create a new one."
 msgstr "Zure kontua bertan behera utzita badago, ez sortu berri bat."
 
-#: html/inc/forum.inc:852
+#: html/inc/forum.inc:858
 msgid "Rules:"
 msgstr "Arauak:"
 
-#: html/inc/forum.inc:1172 html/user/forum_thread.php:195
+#: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "Bistaratu"
 
-#: html/inc/forum.inc:1172
+#: html/inc/forum.inc:1178
 msgid "Unhide this post"
 msgstr "Bistaratu mezu hau"
 
-#: html/inc/forum.inc:1174 html/user/forum_thread.php:201
+#: html/inc/forum.inc:1180 html/user/forum_thread.php:201
 msgid "Hide"
 msgstr "Ezkutatu"
 
-#: html/inc/forum.inc:1174
+#: html/inc/forum.inc:1180
 msgid "Hide this post"
 msgstr "Ezkutatu mezu hau"
 
-#: html/inc/forum.inc:1179 html/user/forum_thread.php:234
+#: html/inc/forum.inc:1185 html/user/forum_thread.php:234
 msgid "Move"
 msgstr "Lekualdatu"
 
-#: html/inc/forum.inc:1179
+#: html/inc/forum.inc:1185
 msgid "Move post to a different thread"
 msgstr "Lekualdatu mezu hau elkarrizketa-hari ezberdin batera"
 
-#: html/inc/forum.inc:1184
+#: html/inc/forum.inc:1190
 msgid "Banish author"
 msgstr "Kanporatu egilea"
 
-#: html/inc/forum.inc:1191
+#: html/inc/forum.inc:1197
 msgid "Vote to banish author"
 msgstr "Bozkatu egilea kanporatzea"
 
-#: html/inc/forum.inc:1195
+#: html/inc/forum.inc:1201
 msgid "Vote not to banish author"
 msgstr "Bozkatu egilea ez kanporatzea"
 
-#: html/inc/forum.inc:1200
+#: html/inc/forum.inc:1206
 msgid "Start vote to banish author"
 msgstr "Hasi egilea kanporatzeko bozketa"
 
-#: html/inc/forum.inc:1205 html/inc/user.inc:373
+#: html/inc/forum.inc:1211 html/inc/user.inc:373
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: html/inc/forum.inc:1205
+#: html/inc/forum.inc:1211
 msgid "Delete this post"
 msgstr "Ezabatu mezu hau"
 
-#: html/inc/forum.inc:1245
+#: html/inc/forum.inc:1251
 msgid "Only team members can post to the team message board"
 msgstr "Taldekideek soilik idatz ditzakete mezuak taldeko foroan"
 
-#: html/inc/forum.inc:1255
+#: html/inc/forum.inc:1261
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr "%1(e)n elkarrizketa-hari berri bat sortzeko batezbesteko kreditu kopuru jakin bat izan behar duzu. Sistemaren neurrigabeko erabilera saihesteko da horrela."
 
-#: html/inc/forum.inc:1262
+#: html/inc/forum.inc:1268
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr "Oraingoz ezin duzu elkarrizketa-haririk sortu. Itxaron pixka bat berriro saiatu aurretik. Sistemaren neurrigabeko erabilera saihesteko da horrela."
 
-#: html/inc/forum.inc:1269
+#: html/inc/forum.inc:1275
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr "Elkarrizketa-hari hau itxita dago. Foroko moderatzaileek eta administratzaileek soilik dute baimena hemen idazteko."
 
-#: html/inc/forum.inc:1274
+#: html/inc/forum.inc:1280
 msgid "Can't post to a hidden thread."
 msgstr "Ezin duzu mezurik idatzi ezkutuko elkarrizketa-hari batean."
 
-#: html/inc/forum.inc:1309
+#: html/inc/forum.inc:1315
 msgid "Thread"
 msgstr "Elkarrizketa-haria"
 
-#: html/inc/forum.inc:1310 html/inc/team.inc:142 html/user/forum_forum.php:145
+#: html/inc/forum.inc:1316 html/inc/team.inc:142 html/user/forum_forum.php:145
 #: html/user/forum_index.php:98
 msgid "Posts"
 msgstr "Mezuak"
 
-#: html/inc/forum.inc:1312 html/user/forum_forum.php:147
+#: html/inc/forum.inc:1318 html/user/forum_forum.php:147
 msgid "Views"
 msgstr "ikustaldiak"
 
-#: html/inc/forum.inc:1313 html/inc/team.inc:142 html/user/forum_forum.php:148
+#: html/inc/forum.inc:1319 html/inc/team.inc:142 html/user/forum_forum.php:148
 #: html/user/forum_help_desk.php:49 html/user/forum_index.php:99
 msgid "Last post"
 msgstr "Azken mezua"
 
-#: html/inc/forum.inc:1370
+#: html/inc/forum.inc:1377
 msgid "New posts in the thread %1"
 msgstr "Mezu berriak daude %1 elkarrizketa-harian"
 
-#: html/inc/forum.inc:1375
+#: html/inc/forum.inc:1382
 msgid "New posts in subscribed thread"
 msgstr "Mezu berriak daude harpidetutako elkarrizketa-harian"
 
-#: html/inc/forum.inc:1376
+#: html/inc/forum.inc:1383
 msgid "There are new posts in the thread '%1'"
 msgstr "Mezu berriak daude '%1' elkarrizketa-harian"
 
-#: html/inc/forum.inc:1386
+#: html/inc/forum.inc:1393
 msgid "Mark all threads as read"
 msgstr "Markatu elkarrizketa-hari guztiak irakurrita bezala"
 
-#: html/inc/forum.inc:1387
+#: html/inc/forum.inc:1394
 msgid "Mark all threads in all message boards as read."
 msgstr "Markatu foro guztietan elkarrizketa-hari guztiak irakurrita bezala."
 
@@ -1359,9 +1373,9 @@ msgid "Compute only during a particular period each day."
 msgstr "Prozesatu soilik eguneko denbora-tarte jakin batean."
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
+#: html/user/forum_banishment_vote.php:70
 #: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_banishment_vote.php:70 html/user/forum_moderate_post.php:65
-#: html/user/forum_moderate_thread.php:61
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
 msgid "Other"
 msgstr "Besteak"
 
@@ -1518,7 +1532,7 @@ msgstr "Adibidea: 30 eguneko epean BOINCek gehienez ere 2000 MB datu transferitu
 msgid "MB every"
 msgstr "MB"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:393
+#: html/inc/prefs.inc:212 html/inc/util.inc:417
 msgid "days"
 msgstr "egun"
 
@@ -2084,7 +2098,7 @@ msgstr "PUZ denbora<br />(seg)"
 msgid "Credit"
 msgstr "Kreditua"
 
-#: html/inc/result.inc:407 html/inc/result.inc:813
+#: html/inc/result.inc:407 html/inc/result.inc:816
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Aplikazioa"
@@ -2141,15 +2155,15 @@ msgstr "Aplikazioaren bertsioa"
 msgid "Output files"
 msgstr "Irteerako fitxategiak"
 
-#: html/inc/result.inc:735
+#: html/inc/result.inc:738
 msgid "Stderr output"
 msgstr "Stderr irteera"
 
-#: html/inc/result.inc:795
+#: html/inc/result.inc:798
 msgid "State"
 msgstr "Estatua"
 
-#: html/inc/result.inc:836
+#: html/inc/result.inc:839
 msgid "Task name:"
 msgstr "Atazaren izena:"
 
@@ -2173,7 +2187,7 @@ msgstr "Talde mota"
 msgid "Show only active teams"
 msgstr "Erakutsi soilik talde aktiboak"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1135 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1159 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Bilatu"
@@ -2686,89 +2700,76 @@ msgstr "Ezin izan da sortu kontua"
 msgid "database error, please contact site administrators"
 msgstr "errorea datu-basean, jarri harremanetan webgunearen administratzaileekin"
 
-#: html/inc/util.inc:204
+#: html/inc/util.inc:207
 msgid "log out"
 msgstr "amaitu saioa"
 
-#: html/inc/util.inc:206
+#: html/inc/util.inc:209
 msgid "log in"
 msgstr "hasi saioa"
 
-#. kludge
-#: html/inc/util.inc:322 html/user/login_form.php:40
-msgid "Log in"
-msgstr "Hasi saioa"
-
-#: html/inc/util.inc:323
+#: html/inc/util.inc:347
 msgid "Create an account"
 msgstr "Sortu kontu bat"
 
-#: html/inc/util.inc:324
+#: html/inc/util.inc:348
 msgid "Server status page"
 msgstr "Zerbitzariaren egoera-orria"
 
-#: html/inc/util.inc:367
+#: html/inc/util.inc:391
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "Datu-basean errorea gertatu da zure eskaera prozesatzean. Saiatu berriro beranduago."
 
-#: html/inc/util.inc:376
+#: html/inc/util.inc:400
 msgid "Unable to handle request"
 msgstr "Ezin izan da zure eskaera prozesatu"
 
-#: html/inc/util.inc:396
+#: html/inc/util.inc:420
 msgid "hours"
 msgstr "ordu"
 
-#: html/inc/util.inc:399
+#: html/inc/util.inc:423
 msgid "min"
 msgstr "min"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:426
 msgid "sec"
 msgstr "seg"
 
-#: html/inc/util.inc:583
+#: html/inc/util.inc:607
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "Esteka denboraz kanpo gelditu da. Klik egin Atzera-n, eguneratu orria, eta saiatu berriro."
 
-#: html/inc/util.inc:658
+#: html/inc/util.inc:682
 msgid "Use BBCode tags to format your text"
 msgstr "Erabili BBCode etiketak zure testua formateatzeko"
 
-#: html/inc/util.inc:902
+#: html/inc/util.inc:926
 msgid "Project down for maintenance"
 msgstr "Proiektua ez dago aktibo mantentze-lanak tarteko"
 
-#: html/inc/util.inc:905
+#: html/inc/util.inc:929
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 proiektua behin-behinean ez dago erabilgarri. Saiatu berriro beranduago."
 
-#: html/inc/util.inc:932
+#: html/inc/util.inc:956
 msgid "Unable to connect to database - please try again later"
 msgstr "Ezin izan da konektatu datu-basera - saiatu berriro beranduago"
 
-#: html/inc/util.inc:936
+#: html/inc/util.inc:960
 msgid "Unable to select database - please try again later"
 msgstr "Ezin izan da aukeratu datu-basea - saiatu berriro beranduago"
 
-#: html/inc/util.inc:1114
+#: html/inc/util.inc:1138
 msgid "characters remaining"
 msgstr "gainerako karaktereak"
 
 #: html/inc/util_ops.inc:132
 msgid "Stay logged in on this computer"
 msgstr "Mantendu saioa ordenagailu honetan"
-
-#: html/user/account_finish_action.php:27
-msgid "You must supply a name for your account"
-msgstr "Zure kontuari izen bat esleitu behar diozu"
-
-#: html/user/account_finish_action.php:30
-msgid "HTML tags not allowed in name"
-msgstr "HTML etiketak ez dira onartzen izenean"
 
 #: html/user/account_finish.php:34
 msgid "Finish account setup"
@@ -2777,6 +2778,14 @@ msgstr "Amaitu kontuaren konfigurazioa"
 #: html/user/account_finish.php:52
 msgid "Optional; not shown to others"
 msgstr "Aukerakoa; ez zaie besteei erakusten"
+
+#: html/user/account_finish_action.php:27
+msgid "You must supply a name for your account"
+msgstr "Zure kontuari izen bat esleitu behar diozu"
+
+#: html/user/account_finish_action.php:30
+msgid "HTML tags not allowed in name"
+msgstr "HTML etiketak ez dira onartzen izenean"
 
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
@@ -2808,7 +2817,7 @@ msgstr "Sinaduraren egiaztapenak huts egin du. Jarri harremanetan proiektuaren a
 msgid ""
 "An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
-msgstr ""
+msgstr "Errore bat gertatu da sinadura egiaztatzerakoan. Jarri harremanetan proiektuaren administratzailearekin arazoa konpontzeko."
 
 #. User data input invalid
 #: html/user/account_ownership.php:115
@@ -3335,123 +3344,123 @@ msgstr "BOINC instalatu eta exekutatzeko argibideak dituzu %1 hemen %2."
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "Zerrenda hau %1 BOINCen webgunetik %2 kudeatzen da."
 
-#: html/user/download_software.php:174
+#: html/user/download_software.php:182
 msgid "This project requires VirtualBox."
 msgstr "Proiektu honek VirtualBox eskatzen du."
 
-#: html/user/download_software.php:177
+#: html/user/download_software.php:185
 msgid "This project recommends VirtualBox."
 msgstr "Proiektu honek VirtualBox gomendatzen du."
 
-#: html/user/download_software.php:183
+#: html/user/download_software.php:191
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
 msgstr "Ordenagailu honetan instalatuta ez badago, lortu %1hemen%2, ondoren berrabiarazi BOINC."
 
-#: html/user/download_software.php:191
+#: html/user/download_software.php:199
 msgid "Use the BOINC+VirtualBox installer."
 msgstr "Erabili BOINC+VirtualBox instalatzailea."
 
-#: html/user/download_software.php:194
+#: html/user/download_software.php:202
 msgid "If it is not installed on this computer, get it %1here%2."
 msgstr "Ordenagailu honetan instalatuta ez badago, lortu %1hemen%2."
 
-#: html/user/download_software.php:208
+#: html/user/download_software.php:216
 msgid "Download BOINC"
 msgstr "Jaitsi BOINC"
 
-#: html/user/download_software.php:217
+#: html/user/download_software.php:225
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
 "        "
 msgstr "BOINC deskargatzeko eta instalatzeko\nklik egin beheko estekan eta jarraitu argibideak."
 
-#: html/user/download_software.php:220
+#: html/user/download_software.php:228
 msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "            Select %1 from the list,\n"
 "            or enter this project's URL: %2"
 msgstr "BOINC lehenengo aldiz exekutatzen denean proiektu bat aukeratzeko eskatuko dizu.\nAukeratu %1 zerrendatik\nedo sartu proiektu honen URLa: %2"
 
-#: html/user/download_software.php:229
+#: html/user/download_software.php:237
 msgid "Go to the BOINC download page."
 msgstr "Joan BOINCen deskarga-orrira."
 
-#: html/user/download_software.php:258
+#: html/user/download_software.php:266
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "BOINCen eta VirtualBox-en uneko bertsioak"
 
-#: html/user/download_software.php:259
+#: html/user/download_software.php:267
 msgid "these versions are"
 msgstr "bertsio hauek dira"
 
-#: html/user/download_software.php:260
+#: html/user/download_software.php:268
 msgid "BOINC and VirtualBox"
 msgstr "BOINC eta VirtualBox"
 
-#: html/user/download_software.php:262
+#: html/user/download_software.php:270
 msgid "the current version of BOINC"
 msgstr "BOINCen uneko bertsioa"
 
-#: html/user/download_software.php:263
+#: html/user/download_software.php:271
 msgid "this version is"
 msgstr "bertsio hau da"
 
-#: html/user/download_software.php:266
+#: html/user/download_software.php:274
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "%1(e)n parte hartzeko, zure ordenagailuan %2 instalatuta egon behar da."
 
-#: html/user/download_software.php:270
+#: html/user/download_software.php:278
 msgid "If %1 already installed, %2click here%3."
 msgstr "%1 dagoeneko instalatuta badago, 1%2klik egin hemen%3."
 
-#: html/user/download_software.php:296
+#: html/user/download_software.php:304
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "Deskarga amaitutakoan, exekutatu jaitsitako fitxategia %1 instalatzeko."
 
-#: html/user/download_software.php:298
+#: html/user/download_software.php:306
 msgid "All done? %1Click here to finish%2."
 msgstr "Dena amaituta? %1Klik egin hemen amaitzeko%2."
 
-#: html/user/download_software.php:308
+#: html/user/download_software.php:316
 msgid "Use %1"
 msgstr "Erabili %1"
 
-#: html/user/download_software.php:317
+#: html/user/download_software.php:325
 msgid "To use %1 on this computer:"
 msgstr "Ordenagailu honetan %1 erabiltzeko:"
 
-#: html/user/download_software.php:318 html/user/download_software.php:335
+#: html/user/download_software.php:326 html/user/download_software.php:343
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "BOINC administratzailean, joan Tresnak menura"
 
-#: html/user/download_software.php:319
+#: html/user/download_software.php:327
 msgid "Select Use Account Manager"
 msgstr "Aukeratu Erabili kontu-administratzailea"
 
-#: html/user/download_software.php:320 html/user/download_software.php:337
+#: html/user/download_software.php:328 html/user/download_software.php:345
 msgid "Select %1 from the list"
 msgstr "Aukeratu %1 zerrendan"
 
-#: html/user/download_software.php:321 html/user/download_software.php:338
+#: html/user/download_software.php:329 html/user/download_software.php:346
 msgid "Enter your %1 email address and password."
 msgstr "Sartu zure %1 helbide elektronikoa eta pasahitza."
 
-#: html/user/download_software.php:324
+#: html/user/download_software.php:332
 msgid "Add %1"
 msgstr "Gehitu %1"
 
-#: html/user/download_software.php:334
+#: html/user/download_software.php:342
 msgid "To add %1 on this computer:"
 msgstr "Ordenagailu honetan %1 gehitzeko:"
 
-#: html/user/download_software.php:336
+#: html/user/download_software.php:344
 msgid "Select Add Project"
 msgstr "Aukeratu Gehitu Proiektua"
 
-#: html/user/download_software.php:344 html/user/sample_index.php:90
+#: html/user/download_software.php:352 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "Jarraitu zure hasiera-orrira"
@@ -3946,32 +3955,10 @@ msgid "Send"
 msgstr "Bidali"
 
 #. Can't moderate without being moderator
-#: html/user/forum_banishment_vote_action.php:35
 #: html/user/forum_banishment_vote.php:37
+#: html/user/forum_banishment_vote_action.php:35
 msgid "You are not authorized to banish users."
 msgstr "Ez duzu erabiltzaileak debekatzeko baimenik."
-
-#: html/user/forum_banishment_vote_action.php:41
-#: html/user/forum_moderate_post_action.php:66
-msgid "You must specify an action..."
-msgstr "Ekintza bat zehaztu behar duzu..."
-
-#: html/user/forum_banishment_vote_action.php:59
-#: html/user/forum_banishment_vote.php:67 html/user/forum_moderate_post.php:60
-#: html/user/forum_moderate_thread.php:58
-msgid "Obscene"
-msgstr "Lizuna"
-
-#: html/user/forum_banishment_vote_action.php:61
-#: html/user/forum_banishment_vote.php:68 html/user/forum_moderate_post.php:61
-#: html/user/forum_moderate_thread.php:59
-msgid "Flame/Hate mail"
-msgstr "Zirikatzaile/Gorroto posta"
-
-#: html/user/forum_banishment_vote_action.php:63
-#: html/user/forum_banishment_vote.php:69 html/user/forum_moderate_post.php:64
-msgid "User Request"
-msgstr "Erabiltzailearen eskaera"
 
 #: html/user/forum_banishment_vote.php:43
 #: html/user/forum_banishment_vote.php:48
@@ -4004,6 +3991,24 @@ msgstr "Aukeratu arrazoi-kategoria, nahi izanez gero eman azalpen xeheago bat er
 msgid "Category"
 msgstr "Kategoria"
 
+#: html/user/forum_banishment_vote.php:67
+#: html/user/forum_banishment_vote_action.php:59
+#: html/user/forum_moderate_post.php:60 html/user/forum_moderate_thread.php:58
+msgid "Obscene"
+msgstr "Lizuna"
+
+#: html/user/forum_banishment_vote.php:68
+#: html/user/forum_banishment_vote_action.php:61
+#: html/user/forum_moderate_post.php:61 html/user/forum_moderate_thread.php:59
+msgid "Flame/Hate mail"
+msgstr "Zirikatzaile/Gorroto posta"
+
+#: html/user/forum_banishment_vote.php:69
+#: html/user/forum_banishment_vote_action.php:63
+#: html/user/forum_moderate_post.php:64
+msgid "User Request"
+msgstr "Erabiltzailearen eskaera"
+
 #: html/user/forum_banishment_vote.php:72 html/user/forum_moderate_post.php:56
 #: html/user/forum_moderate_thread.php:100
 msgid "Reason"
@@ -4017,6 +4022,11 @@ msgstr "Posta elektroniko bidez bidalia hutsik ez badago"
 #: html/user/forum_banishment_vote.php:78
 msgid "Proceed with vote"
 msgstr "Jarraitu bozketarekin"
+
+#: html/user/forum_banishment_vote_action.php:41
+#: html/user/forum_moderate_post_action.php:66
+msgid "You must specify an action..."
+msgstr "Ekintza bat zehaztu behar duzu..."
 
 #: html/user/forum_edit.php:41
 msgid ""
@@ -4162,34 +4172,6 @@ msgstr "Galderarik edo arazorik baduzu, begiratu foroetako %1 Galderak eta erant
 msgid "Subscribed threads"
 msgstr "Harpidetutako elkarrizketa-hariak"
 
-#: html/user/forum_moderate_post_action.php:60
-msgid "You are not authorized to moderate this post."
-msgstr "Ez duzu mezu hau moderatzeko baimenik."
-
-#: html/user/forum_moderate_post_action.php:105
-msgid "Can't move to different category type"
-msgstr "Ezin da kategoria mota ezberdinera mugitu"
-
-#: html/user/forum_moderate_post_action.php:109
-msgid "Can't move to different category"
-msgstr "Ezin da kategoria ezberdin batera mugitu"
-
-#: html/user/forum_moderate_post_action.php:130
-msgid "Not authorized to banish users"
-msgstr "Erabiltzaileak debekatzeko baimenik ez"
-
-#: html/user/forum_moderate_post_action.php:146
-msgid "Banishment"
-msgstr "Debekua"
-
-#: html/user/forum_moderate_post_action.php:148
-msgid "User %1 has been banished."
-msgstr "%1 erabiltzailea kanporatua izan da."
-
-#: html/user/forum_moderate_post_action.php:151
-msgid "Action failed: possible database problem"
-msgstr "Akatsa: beharbada datu-basean arazoa"
-
 #: html/user/forum_moderate_post.php:45
 msgid "Moderate post"
 msgstr "Moderatu mezua"
@@ -4252,7 +4234,7 @@ msgstr "Betiko"
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
 #: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:144
-#: html/user/forum_report_post.php:99 html/user/forum_rss.php:51
+#: html/user/forum_report_post.php:102 html/user/forum_rss.php:51
 #: html/user/friend.php:83
 msgid "OK"
 msgstr "Onartu"
@@ -4260,6 +4242,34 @@ msgstr "Onartu"
 #: html/user/forum_moderate_post.php:112
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr "Aukerako azalpena %1 Erabiltzaileari bidalitako mezuan sartuta dago hau.%2"
+
+#: html/user/forum_moderate_post_action.php:60
+msgid "You are not authorized to moderate this post."
+msgstr "Ez duzu mezu hau moderatzeko baimenik."
+
+#: html/user/forum_moderate_post_action.php:105
+msgid "Can't move to different category type"
+msgstr "Ezin da kategoria mota ezberdinera mugitu"
+
+#: html/user/forum_moderate_post_action.php:109
+msgid "Can't move to different category"
+msgstr "Ezin da kategoria ezberdin batera mugitu"
+
+#: html/user/forum_moderate_post_action.php:130
+msgid "Not authorized to banish users"
+msgstr "Erabiltzaileak debekatzeko baimenik ez"
+
+#: html/user/forum_moderate_post_action.php:146
+msgid "Banishment"
+msgstr "Debekua"
+
+#: html/user/forum_moderate_post_action.php:148
+msgid "User %1 has been banished."
+msgstr "%1 erabiltzailea kanporatua izan da."
+
+#: html/user/forum_moderate_post_action.php:151
+msgid "Action failed: possible database problem"
+msgstr "Akatsa: beharbada datu-basean arazoa"
 
 #: html/user/forum_moderate_thread.php:38
 msgid "not authorized"
@@ -4328,8 +4338,8 @@ msgid "You have already rated this post."
 msgstr "Mezu hau baloratu duzu dagoeneko."
 
 #: html/user/forum_rate.php:61 html/user/forum_rate.php:77
-#: html/user/forum_rate.php:82 html/user/forum_report_post.php:74
-#: html/user/forum_report_post.php:108 html/user/forum_subscribe.php:56
+#: html/user/forum_rate.php:82 html/user/forum_report_post.php:77
+#: html/user/forum_report_post.php:111 html/user/forum_subscribe.php:56
 #: html/user/forum_subscribe.php:71 html/user/forum_thread_status.php:56
 msgid "Return to thread"
 msgstr "Itzuli elkarrizketa-harira"
@@ -4381,55 +4391,55 @@ msgstr "Bidali erantzuna"
 msgid "Add my signature to this reply"
 msgstr "Gehitu nire sinadura erantzun honetan"
 
-#: html/user/forum_report_post.php:48
+#: html/user/forum_report_post.php:51
 msgid "You need more average or total credit to report a post."
 msgstr "Batezbesteko edo guztizko kreditu gehiago behar duzu mezu bat salatzeko."
 
-#: html/user/forum_report_post.php:70
+#: html/user/forum_report_post.php:73
 msgid "Report Registered"
 msgstr "Salaketa erregistratuta"
 
-#: html/user/forum_report_post.php:71
+#: html/user/forum_report_post.php:74
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Zure salaketa jaso da. Eskerrik asko zure sarreragatik."
 
-#: html/user/forum_report_post.php:72
+#: html/user/forum_report_post.php:75
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr "Moderatzaile batek zure salaketa aztertuko du eta zer egin erabakiko du - denbora apur bat eraman dezake honek, beraz pazientzia izan"
 
-#: html/user/forum_report_post.php:76
+#: html/user/forum_report_post.php:79
 msgid "Report a forum post"
 msgstr "Salatu foroko mezu bat"
 
-#: html/user/forum_report_post.php:78
+#: html/user/forum_report_post.php:81
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If"
 " enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr "Mezu hau salatu aurretik kontuan hartu +/- balorazio sistema erabiltzeko aukera dagoela. Behar adina erabiltzailek mezu bat negatiboki baloratzen badute ezabatu egingo da.<br />Mezuaren behealdean aurki dezakezu balorazio sistema."
 
-#: html/user/forum_report_post.php:90
+#: html/user/forum_report_post.php:93
 msgid "Report post"
 msgstr "Salatu mezua"
 
-#: html/user/forum_report_post.php:93
+#: html/user/forum_report_post.php:96
 msgid ""
 "Why do you find the post offensive: %1 Please include enough information so "
 "that a person that has not yet read the thread will quickly be able to "
 "identify the issue. %2"
 msgstr "Zergatik jo duzu mezua iraingarritzat: %1 Eman behar adina informazio, elkarrizketa-haria oraindik irakurri ez duen batek arazoa zein den berehala jakin dezan. %2"
 
-#: html/user/forum_report_post.php:104
+#: html/user/forum_report_post.php:107
 msgid "Report not registered"
 msgstr "Salaketa erregistratu gabe"
 
-#: html/user/forum_report_post.php:105
+#: html/user/forum_report_post.php:108
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr "Zure salaketa ezin izan da jaso. Itxaron pixka bat eta saiatu berriro."
 
-#: html/user/forum_report_post.php:106
+#: html/user/forum_report_post.php:109
 msgid ""
 "If this is not a temporary error, please report it to the project "
 "developers."
@@ -4458,32 +4468,6 @@ msgstr "Gehitu soilik azken %1 egunetako mezuak (lehenetsitakoa: 30)."
 #: html/user/forum_rss.php:49
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr "Elkarrizketa-hariak: %1 (Elkarrizketa-hari bakoitzeko lehenengo mezua soilik gehitu)"
-
-#: html/user/forum_search_action.php:143
-msgid "Forum search results"
-msgstr "Foroan egindako bilaketaren emaitzak"
-
-#: html/user/forum_search_action.php:177
-msgid "Thread titles matching your query:"
-msgstr "Zure bilaketarekin bat datozen elkarrizketa-harien izenburuak:"
-
-#: html/user/forum_search_action.php:196
-msgid "Messages matching your query:"
-msgstr "Zure bilaketarekin bat datozen mezuak:"
-
-#: html/user/forum_search_action.php:219
-msgid ""
-"Sorry, couldn't find anything matching your search query. You can try to "
-"broaden your search by using less words (or less specific words)."
-msgstr "Barkatu, ezin izan da zure bilaketarekin bat datorren ezer aurkitu. Bilaketa-eremua zabal dezakezu hitz gutxiago erabiliz (edo zehaztasun gutxiagoko hitzak erabiliz)."
-
-#: html/user/forum_search_action.php:221
-msgid "You can also %1 try the same search on Google. %2"
-msgstr "%1 Bilaketa bera Google-n %2 ere proba dezakezu."
-
-#: html/user/forum_search_action.php:226
-msgid "Perform another search"
-msgstr "Egin beste bilaketa bat"
 
 #: html/user/forum_search.php:29
 msgid "Forum search"
@@ -4552,6 +4536,32 @@ msgstr "Ordenatu"
 #: html/user/forum_search.php:90
 msgid "Start the search"
 msgstr "Hasi bilaketa"
+
+#: html/user/forum_search_action.php:143
+msgid "Forum search results"
+msgstr "Foroan egindako bilaketaren emaitzak"
+
+#: html/user/forum_search_action.php:177
+msgid "Thread titles matching your query:"
+msgstr "Zure bilaketarekin bat datozen elkarrizketa-harien izenburuak:"
+
+#: html/user/forum_search_action.php:196
+msgid "Messages matching your query:"
+msgstr "Zure bilaketarekin bat datozen mezuak:"
+
+#: html/user/forum_search_action.php:219
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr "Barkatu, ezin izan da zure bilaketarekin bat datorren ezer aurkitu. Bilaketa-eremua zabal dezakezu hitz gutxiago erabiliz (edo zehaztasun gutxiagoko hitzak erabiliz)."
+
+#: html/user/forum_search_action.php:221
+msgid "You can also %1 try the same search on Google. %2"
+msgstr "%1 Bilaketa bera Google-n %2 ere proba dezakezu."
+
+#: html/user/forum_search_action.php:226
+msgid "Perform another search"
+msgstr "Egin beste bilaketa bat"
 
 #: html/user/forum_subscribe.php:48
 msgid "Subscription successful"
@@ -4860,15 +4870,15 @@ msgstr "Sartu zure kontuko helbide elektronikoa behean eta sakatu \"onartu\". Zu
 msgid "Reset password"
 msgstr "Berrezarri pasahitza"
 
-#: html/user/gpu_list.php:150 html/user/gpu_list.php:176
+#: html/user/gpu_list.php:163 html/user/gpu_list.php:189
 msgid "No GPU tasks reported"
 msgstr "GPU atazarik ez da bidali"
 
-#: html/user/gpu_list.php:209
+#: html/user/gpu_list.php:222
 msgid "Top GPU models"
 msgstr "GPU modelo hoberenak"
 
-#: html/user/gpu_list.php:210
+#: html/user/gpu_list.php:223
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -4993,23 +5003,6 @@ msgstr "ostalari-izenik ez"
 msgid "Merge hosts"
 msgstr "Bateratu ordenagailuak"
 
-#: html/user/hosts_user.php:53
-msgid "Computers belonging to %1"
-msgstr "%1(r)en ordenagailuak"
-
-#: html/user/hosts_user.php:55
-msgid "Computers hidden"
-msgstr "Ezkutuko ordenagailuak"
-
-#: html/user/hosts_user.php:56
-msgid ""
-"This user has chosen not to show information about his or her computers."
-msgstr "Bere ordenagailuei buruzko informazioa ez erakustea aukeratu du erabiltzaile honek."
-
-#: html/user/hosts_user.php:64
-msgid "Your computers"
-msgstr "Zure ordenagailuak"
-
 #: html/user/host_update_credit.php:27
 msgid "Updating computer credit"
 msgstr "Ordenagailuaren kreditua eguneratzen"
@@ -5039,6 +5032,23 @@ msgstr "Ordenagailua proiektu honekin komunikatzen den hurrengoan gauzatuko da a
 #: html/user/host_venue_action.php:50
 msgid "Return to host page"
 msgstr "Itzuli orri nagusira"
+
+#: html/user/hosts_user.php:53
+msgid "Computers belonging to %1"
+msgstr "%1(r)en ordenagailuak"
+
+#: html/user/hosts_user.php:55
+msgid "Computers hidden"
+msgstr "Ezkutuko ordenagailuak"
+
+#: html/user/hosts_user.php:56
+msgid ""
+"This user has chosen not to show information about his or her computers."
+msgstr "Bere ordenagailuei buruzko informazioa ez erakustea aukeratu du erabiltzaile honek."
+
+#: html/user/hosts_user.php:64
+msgid "Your computers"
+msgstr "Zure ordenagailuak"
 
 #: html/user/html.php:23
 msgid "Allowed HTML tags"
@@ -5249,8 +5259,7 @@ msgstr "Aukeratu %1 zerrendan edo erabili %2"
 msgid "In the BOINC Manager, select Tools / Add Project."
 msgstr "BOINC Manager-en, aukeratu Tresnak / Gehitu proiektua."
 
-#. use auto-attach if possible
-#: html/user/join.php:102 html/user/sample_index.php:128
+#: html/user/join.php:102 html/user/sample_index.php:131
 #: html/user/team_join_form.php:34
 msgid "Join %1"
 msgstr "Batu %1(e)ra"
@@ -5289,7 +5298,19 @@ msgid ""
 "incomplete, %1 you can help translate %2."
 msgstr "Itzulpenak, bolondresek egiten dituzte. Zure berezko hizkuntza falta bada edo osatugabe badago, %1 itzultzen lagundu dezakezu %2."
 
-#: html/user/login_form.php:56
+#: html/user/login_form.php:32
+msgid "Already logged in"
+msgstr ""
+
+#: html/user/login_form.php:33
+msgid "You are logged in as %1."
+msgstr ""
+
+#: html/user/login_form.php:36
+msgid "Log out"
+msgstr ""
+
+#: html/user/login_form.php:59
 msgid "or %1 create an account %2."
 msgstr "edo %1 sortu kontu bat %2."
 
@@ -5517,14 +5538,6 @@ msgstr "Desblokeatzeko, begiratu %1 foroaren hobespenak %2"
 msgid "Unknown action"
 msgstr "Ekintza ezezaguna"
 
-#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
-msgid "%1 for %2"
-msgstr "%1 %2(r)entzat"
-
-#: html/user/prefs_edit.php:112
-msgid "Back to preferences"
-msgstr "Itzuli hobespenetara"
-
 #: html/user/prefs.php:36
 msgid ""
 "Your preferences have been updated, and\n"
@@ -5538,6 +5551,14 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr "Zure lehenetsitako hobespenak berrezarri dira, eta\n           zure ordenagailua %1(r)ekin komunikatzen denean gauzatuko dira\n           edo BOINC Manager-eko %2 Eguneratu %3 agindua erabiltzen duzunean. "
+
+#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
+msgid "%1 for %2"
+msgstr "%1 %2(r)entzat"
+
+#: html/user/prefs_edit.php:112
+msgid "Back to preferences"
+msgstr "Itzuli hobespenetara"
 
 #: html/user/prefs_remove.php:46
 msgid "Confirm delete preferences"
@@ -5573,7 +5594,7 @@ msgid ""
 "others to see!"
 msgstr "Oraindik ez baduzu egin, %1 zeure erabiltzaile-profila sor dezakezu %2 eta besteek ikusiko dute!"
 
-#: html/user/profile_menu.php:44 html/user/sample_index.php:141
+#: html/user/profile_menu.php:44 html/user/sample_index.php:144
 msgid "User of the Day"
 msgstr "Eguneko erabiltzailea"
 
@@ -5755,11 +5776,11 @@ msgstr "Instalatu BOINC zure beste ordenagailuetan, tabletetan eta telefonoetan.
 msgid "Tell your friends about BOINC, and show them how to join %1."
 msgstr "Hitz egin zure lagunei BOINCi buruz eta erakuts iezaiezu nola batu %1(e)ra."
 
-#: html/user/sample_index.php:130
+#: html/user/sample_index.php:133
 msgid "Already joined? %1Log in%2."
 msgstr "Dagoeneko batuta? 1%1Hasi saioa%2."
 
-#: html/user/sample_index.php:151
+#: html/user/sample_index.php:154
 msgid "News"
 msgstr "Berriak"
 
@@ -5872,6 +5893,65 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1 home page %2."
 msgstr "BOINC proiektu guztiak batzen dituen zeure estatistika propioa ere lor dezakezu hainbat webgunetatik; ikusi zure %1 hasiera orria %2."
+
+#: html/user/team.php:29
+msgid "%1 participants may form %2 teams %3."
+msgstr "%1 partaideek %2 taldeak %3 era ditzakete."
+
+#: html/user/team.php:31
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr "Talde bakar bateko kide izan zaitezke. Nahi duzunean taldera batu edo taldetik irten zaitezke."
+
+#: html/user/team.php:33
+msgid "Each team has a %1 founder %2 who may:"
+msgstr "Ondorengoak egin ditzakeen %1 sortzaile %2 bat du talde bakoitzak:"
+
+#: html/user/team.php:35
+msgid "edit the team's name and description"
+msgstr "editatu taldearen izena eta deskribapena"
+
+#: html/user/team.php:36
+msgid "add or remove team admins"
+msgstr "taldearen administratzaileak gehitu edo kendu"
+
+#: html/user/team.php:37
+msgid "remove members from the team"
+msgstr "taldekideak kendu"
+
+#: html/user/team.php:38
+msgid "disband a team if it has no members"
+msgstr "taldeak taldekiderik ez badu, berau deuseztatu"
+
+#: html/user/team.php:41
+msgid "To join a team, visit its team page and click %1 Join this team %2."
+msgstr "Talde batera batzeko, begiratu taldearen orria eta sakatu %1 Batu talde honetara %2."
+
+#: html/user/team.php:42 html/user/team_search.php:203
+msgid "Find a team"
+msgstr "Bilatu talde bat"
+
+#: html/user/team.php:47
+msgid "Top teams"
+msgstr "Talde hoberenak"
+
+#: html/user/team.php:49
+msgid "All teams"
+msgstr "Talde guztiak"
+
+#: html/user/team.php:53
+msgid "%1 teams"
+msgstr "%1 talde"
+
+#: html/user/team.php:59
+msgid "Create a new team"
+msgstr "Sortu talde berria"
+
+#: html/user/team.php:60
+msgid ""
+"If you cannot find a team that is right for you, you can %1 create a team "
+"%2."
+msgstr "Zuretzako aproposa izan daitekeen talderik aurkitzen ez baduzu, %1 talde bat sor dezakezu %2."
 
 #: html/user/team_admins.php:36
 msgid "Remove Team Admin status from this member"
@@ -6310,18 +6390,22 @@ msgid ""
 "are not allowed. Please try again later."
 msgstr "Azken 90 egunetan sortzaile aldaketa bat gauzatu da, beraz ez dira eskaera berriak onartzen. Saiatu berriro beranduago."
 
-#: html/user/team_join_action.php:34 html/user/team_join_form.php:31
-#: html/user/team_join.php:34
+#: html/user/team_join.php:34 html/user/team_join_action.php:34
+#: html/user/team_join_form.php:31
 msgid "The team %1 is not joinable."
 msgstr "Ezin da %1 taldera batu."
 
-#: html/user/team_join_action.php:37 html/user/team_join.php:37
+#: html/user/team_join.php:37 html/user/team_join_action.php:37
 msgid "Already a member"
 msgstr "Dagoeneko kide zara"
 
-#: html/user/team_join_action.php:38 html/user/team_join.php:38
+#: html/user/team_join.php:38 html/user/team_join_action.php:38
 msgid "You are already a member of %1."
 msgstr "Dagoeneko %1(e)ko kide zara."
+
+#: html/user/team_join.php:44 html/user/team_join_action.php:45
+msgid "Couldn't join team - please try again later."
+msgstr "Ezin izan da taldera batu - saiatu berriro beranduago."
 
 #: html/user/team_join_action.php:42
 msgid "Joined %1"
@@ -6330,10 +6414,6 @@ msgstr "%1(e)ra batu da"
 #: html/user/team_join_action.php:43
 msgid "You have joined %1."
 msgstr "%1(e)ra batu zara."
-
-#: html/user/team_join_action.php:45 html/user/team_join.php:44
-msgid "Couldn't join team - please try again later."
-msgstr "Ezin izan da taldera batu - saiatu berriro beranduago."
 
 #: html/user/team_join_form.php:35
 msgid "Please note:"
@@ -6473,65 +6553,6 @@ msgstr "%1 taldea ezabatuta"
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "Muga gainditu da: lehen 1000 kideak soilik bistara daitezke."
 
-#: html/user/team.php:29
-msgid "%1 participants may form %2 teams %3."
-msgstr "%1 partaideek %2 taldeak %3 era ditzakete."
-
-#: html/user/team.php:31
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
-msgstr "Talde bakar bateko kide izan zaitezke. Nahi duzunean taldera batu edo taldetik irten zaitezke."
-
-#: html/user/team.php:33
-msgid "Each team has a %1 founder %2 who may:"
-msgstr "Ondorengoak egin ditzakeen %1 sortzaile %2 bat du talde bakoitzak:"
-
-#: html/user/team.php:35
-msgid "edit the team's name and description"
-msgstr "editatu taldearen izena eta deskribapena"
-
-#: html/user/team.php:36
-msgid "add or remove team admins"
-msgstr "taldearen administratzaileak gehitu edo kendu"
-
-#: html/user/team.php:37
-msgid "remove members from the team"
-msgstr "taldekideak kendu"
-
-#: html/user/team.php:38
-msgid "disband a team if it has no members"
-msgstr "taldeak taldekiderik ez badu, berau deuseztatu"
-
-#: html/user/team.php:41
-msgid "To join a team, visit its team page and click %1 Join this team %2."
-msgstr "Talde batera batzeko, begiratu taldearen orria eta sakatu %1 Batu talde honetara %2."
-
-#: html/user/team.php:42 html/user/team_search.php:203
-msgid "Find a team"
-msgstr "Bilatu talde bat"
-
-#: html/user/team.php:47
-msgid "Top teams"
-msgstr "Talde hoberenak"
-
-#: html/user/team.php:49
-msgid "All teams"
-msgstr "Talde guztiak"
-
-#: html/user/team.php:53
-msgid "%1 teams"
-msgstr "%1 talde"
-
-#: html/user/team.php:59
-msgid "Create a new team"
-msgstr "Sortu talde berria"
-
-#: html/user/team.php:60
-msgid ""
-"If you cannot find a team that is right for you, you can %1 create a team "
-"%2."
-msgstr "Zuretzako aproposa izan daitekeen talderik aurkitzen ez baduzu, %1 talde bat sor dezakezu %2."
-
 #: html/user/team_quit_action.php:34
 msgid "Unable to quit team"
 msgstr "Ezin da taldea utzi"
@@ -6665,6 +6686,14 @@ msgstr "Ez da aukeratu eguneko erabiltzailerik."
 msgid "User of the Day for %1: %2"
 msgstr "%1(r)en eguneko erabiltzailea: %2"
 
+#: html/user/user_agreetermsofuse.php:27
+msgid "You are not logged in. Please login to agree to our terms of use."
+msgstr "Ez duzu saiorik hasi. Hasi saioa gure erabiltzeko baldintzak onartzeko."
+
+#: html/user/user_agreetermsofuse.php:41
+msgid "Agree to our Terms of Use."
+msgstr "Gure erabiltzeko baldintzekin ados."
+
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
 msgid ""
@@ -6685,14 +6714,6 @@ msgstr "Errorea webgunean erabiltzeko baldintzak onartzen saiatzerakoan."
 #: html/user/user_agreetermsofuse_action.php:69
 msgid "Authentication error attempting to agree to terms of use."
 msgstr "Autentifikazio errorea erabiltzeko baldintzak onartzen saiatzerakoan."
-
-#: html/user/user_agreetermsofuse.php:27
-msgid "You are not logged in. Please login to agree to our terms of use."
-msgstr "Ez duzu saiorik hasi. Hasi saioa gure erabiltzeko baldintzak onartzeko."
-
-#: html/user/user_agreetermsofuse.php:41
-msgid "Agree to our Terms of Use."
-msgstr "Gure erabiltzeko baldintzekin ados."
 
 #: html/user/user_search.php:51
 msgid "Filters"

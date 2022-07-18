@@ -18,16 +18,9 @@
 // This file is the underlying mechanism of GUI RPC client
 // (not the actual RPCs)
 
-
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_) 
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "../version.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #ifdef __EMX__
@@ -292,7 +285,9 @@ int RPC_CLIENT::authorize(const char* passwd) {
     }
 
     n = snprintf(buf, sizeof(buf), "%s%s", nonce, passwd);
-    if (n >= (int)sizeof(buf)) return ERR_AUTHENTICATOR;
+    if (n >= (int)sizeof(buf)) {
+        return ERR_AUTHENTICATOR;
+    }
     md5_block((const unsigned char*)buf, (int)strlen(buf), nonce_hash);
     snprintf(buf, sizeof(buf), "<auth2>\n<nonce_hash>%s</nonce_hash>\n</auth2>\n", nonce_hash);
     retval = rpc.do_rpc(buf);
@@ -383,8 +378,9 @@ int RPC::parse_reply() {
     char buf[256], error_msg[256];
     int n;
     while (fin.fgets(buf, 256)) {
-        if (strstr(buf, "boinc_gui_rpc_reply>"))
-                continue;
+        if (strstr(buf, "boinc_gui_rpc_reply>")) {
+            continue;
+        }
         if (strstr(buf, "<success")) return 0;
         if (parse_int(buf, "<status>", n)) {
             return n;
@@ -404,21 +400,114 @@ int RPC::parse_reply() {
     return -1;
 }
 
-// If there's a password file, read it
+// Look for a GUI RPC password file and read it.
+// If fail, return a prescriptive message.
+// Win/Mac: look in
+//  - current dir
+// Linux: look in:
+//  - current dir
+//  - a directory specified in /etc/boinc-client/config.properties
+//  - /var/lib/boinc-client
 //
-int read_gui_rpc_password(char* buf) {
+// Note: the Manager (on all platforms) has a -datadir cmdline option.
+// If present, it chdirs to that directory.
+
+int read_gui_rpc_password(char* buf, string& msg) {
+    char msg_buf[1024];
     FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
-    if (!f) return ERR_FOPEN;
-    char* p = fgets(buf, 256, f);
-    if (p) {
-        // trim CR
-        //
-        int n = (int)strlen(buf);
-        if (n && buf[n-1]=='\n') {
-            buf[n-1] = 0;
+    if (!f) {
+#if defined(__linux__)
+#define HELP_URL "https://boinc.berkeley.edu/gui_rpc.php"
+        char path[MAXPATHLEN];
+        if (errno == EACCES) {
+            sprintf(msg_buf,
+                "%s exists but can't be read.  See %s",
+                GUI_RPC_PASSWD_FILE, HELP_URL
+            );
+            msg = msg_buf;
+            return ERR_FOPEN;
         }
+
+        // look for config file
+        //
+        FILE* g = fopen(LINUX_CONFIG_FILE, "r");
+        if (g) {
+            char buf2[MAXPATHLEN];
+            char *p = 0;
+            while (fgets(buf2, MAXPATHLEN, g)) {
+                strip_whitespace(buf2);
+                p = strstr(buf2, "data_dir=");
+                if (p) break;
+            }
+            fclose(g);
+            if (p) {
+                p += strlen("data_dir=");
+                sprintf(path, "%s/%s", p, GUI_RPC_PASSWD_FILE);
+                f = fopen(path, "r");
+                if (!f) {
+                    if (errno == EACCES) {
+                        sprintf(msg_buf,
+                            "%s exists but can't be read.  See %s",
+                            path, HELP_URL
+                        );
+                    } else {
+                        sprintf(msg_buf, "%s not found.  See %s",
+                            path, HELP_URL
+                        );
+                    }
+                    msg = msg_buf;
+                    return ERR_FOPEN;
+                }
+            } else {
+                sprintf(msg_buf,
+                    "No data_dir= found in %s.  See %s",
+                    LINUX_CONFIG_FILE, HELP_URL
+                );
+                msg = msg_buf;
+                return ERR_FOPEN;
+            }
+        } else {
+            // no config file; look in default data dir
+            //
+            sprintf(path, "%s/%s", LINUX_DEFAULT_DATA_DIR, GUI_RPC_PASSWD_FILE);
+            f = fopen(path, "r");
+            if (!f) {
+                if (errno == EACCES) {
+                    sprintf(msg_buf,
+                        "%s exists but can't be read.  See %s",
+                        path, HELP_URL
+                    );
+                    msg = msg_buf;
+                    return ERR_FOPEN;
+                }
+                sprintf(msg_buf, "%s not found.  See %s",
+                    GUI_RPC_PASSWD_FILE, HELP_URL
+                );
+                msg = msg_buf;
+                return ERR_FOPEN;
+            }
+        }
+#else
+        // non-Linux
+
+        if (errno == EACCES) {
+            sprintf(msg_buf,
+                "%s exists but can't be read.  Make sure your account is in the 'boinc_users' group",
+                GUI_RPC_PASSWD_FILE
+            );
+        } else {
+            sprintf(msg_buf, "%s not found.  Try reinstalling BOINC.",
+                GUI_RPC_PASSWD_FILE
+            );
+        }
+        msg = msg_buf;
+        return ERR_FOPEN;
+#endif
+    }
+    buf[0] = 0;
+    if (fgets(buf, 256, f)) {
+        strip_whitespace(buf);
     }
     fclose(f);
     return 0;
 }
-

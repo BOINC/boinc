@@ -249,7 +249,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
         m_dwBlankTime = (DWORD)time(0) + m_dwBlankTime;
     }
     
-    // Create the infrastructure mutexes so we can properly aquire them to report
+    // Create the infrastructure mutexes so we can properly acquire them to report
     //   errors
     if (!CreateInfrastructureMutexes()) {
         return E_FAIL;

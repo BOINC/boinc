@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2019 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -73,7 +73,9 @@ int getBatteryChargeStatus();           // implement: return getDeviceStatus().g
 String getAuthFilePath();               // implement: return Monitor.getAuthFilePath();
 int getBoincPlatform();                        // should be not necessary to be implemented as monitor interface
 void cancelNoticeNotification();
-
+boolean getWelcomeStateFile();
+void setWelcomeStateFile();
+boolean quitClient();
 /////// client status //////////////////////////////////////////
 boolean getAcctMgrInfoPresent();  // clientStatus.getAcctMgrInfo().present;
 int getSetupStatus();         // clientStatus.setupStatus;
@@ -87,7 +89,8 @@ GlobalPreferences getPrefs();        // clientStatus.getPrefs()
 List<Project> getProjects();    // clientStatus.getProjects();
 AcctMgrInfo getClientAcctMgrInfo();   // clientStatus.getAcctMgrInfo();
 List<Transfer> getTransfers();   // clientStatus.getTransfers();
-List<Result> getTasks();          // clientStatus.getTasks();
+List<Result> getTasks(in int start, in int count, in boolean isActive);          // clientStatus.getTasks(int, int, boolean);
+int getTasksCount(); // clientStatus.getTasksCount();
 Bitmap getProjectIconByName(in String name);  // clientStatus.getProjectIconByName(entries.get(position).project_name);
 Bitmap getProjectIcon(in String id);        // clientStatus.getProjectIcon(entries.get(position).id);
 String getProjectStatus(in String url);   // clientStatus.getProjectStatus(url);
@@ -97,13 +100,14 @@ List<ImageWrapper> getSlideshowForProject(in String url);   // clientStatus.getS
 ////// app preference ////////////////////////////////////////////
 void setAutostart(in boolean isAutoStart);          // Monitor.getAppPrefs().setAutostart(boolean);
 void setShowNotificationForNotices(in boolean isShow);   // Monitor.getAppPrefs().setShowNotificationForNotices(boolean);
-void setShowNotificationDuringSuspend(in boolean isShow);   // Monitor.getAppPrefs().setShowNotificationDuringSuspend(boolean);
 boolean getShowAdvanced();           // Monitor.getAppPrefs().getShowAdvanced();
+boolean getIsRemote();              // Monitor.getAppPrefs().getIsRemote();
 boolean getAutostart();              // Monitor.getAppPrefs().getAutostart();
 boolean getShowNotificationForNotices();       // Monitor.getAppPrefs().getShowNotificationForNotices();
-boolean getShowNotificationDuringSuspend();       // Monitor.getAppPrefs().getShowNotificationDuringSuspend();
 int getLogLevel();                   // Monitor.getAppPrefs().getLogLevel();
 void setLogLevel(in int level);               // Monitor.getAppPrefs().setLogLevel(int);
+List<String> getLogCategories();
+void setLogCategories(in List<String> categories);
 void setPowerSourceAc(in boolean src);      // Monitor.getAppPrefs().setPowerSourceAc(boolean);
 void setPowerSourceUsb(in boolean src);     // Monitor.getAppPrefs().setPowerSourceUsb(boolean);
 void setPowerSourceWireless(in boolean src); // Monitor.getAppPrefs().setPowerSourceWireless(boolean);
@@ -112,6 +116,7 @@ boolean getPowerSourceAc();
 boolean getPowerSourceUsb();
 boolean getPowerSourceWireless();
 void setShowAdvanced(in boolean isShow);
+void setIsRemote(in boolean isRemote);
 void setStationaryDeviceMode(in boolean mode);
 boolean getSuspendWhenScreenOn();
 void setSuspendWhenScreenOn(in boolean swso);

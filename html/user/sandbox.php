@@ -37,16 +37,17 @@ ini_set('display_startup_errors', true);
 
 require_once("../inc/sandbox.inc");
 require_once("../inc/submit_db.inc");
+require_once("../inc/submit_util.inc");
 
 function list_files($user, $err_msg) {
     $dir = sandbox_dir($user);
     $d = opendir($dir);
     if (!$d) error_page("Can't open sandbox directory");
-    page_head("File sandbox for $user->name");
+    page_head("File sandbox");
     echo "
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
-        Upload a file to your sandbox:
+        Upload files to your sandbox:
         <p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
         <p> <input class=\"btn btn-default\" type=submit value=Upload>
         </form>
@@ -131,7 +132,7 @@ function upload_file($user) {
             $dir = sandbox_dir($user);
             $link_path = "$dir/$name";
             sandbox_write_link_file($link_path, $size, $md5);
-            $notice .= "Successfully uploaded file <strong>$name</strong>!<br/>";
+            $notice .= "Uploaded file <strong>$name</strong><br/>";
         }
     }
     list_files($user, $notice);
@@ -186,9 +187,7 @@ function view_file($user) {
 }
 
 $user = get_logged_in_user();
-//print_r($user);
-$user_submit = BoincUserSubmit::lookup_userid($user->id);
-if (!$user_submit) error_page("no job submission access");
+if (!submit_permissions($user)) error_page("no job submission access");
 
 $action = get_str('action', true);
 if (!$action) $action = post_str('action', true);

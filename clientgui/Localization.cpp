@@ -35,9 +35,9 @@ CLocalization::CLocalization() {
         _("Help");
     m_strSAHHelpDescription =
         _("Ask questions and report problems");
-    m_strSAHYourAccuontName = 
+    m_strSAHYourAccountName = 
         _("Your account");
-    m_strSAHYourAccuontDescription =
+    m_strSAHYourAccountDescription =
         _("View your account information and credit totals");
     m_strSAHYourPreferencesName =
         _("Your preferences");
@@ -61,9 +61,9 @@ CLocalization::CLocalization() {
         _("Common questions");
     m_strEAHCommonQuestionsDesc =
         _("Read the Einstein@Home Frequently Asked Question list");
-    m_strEAHSceensaverInfoName =
+    m_strEAHScreensaverInfoName =
         _("Screensaver info");
-    m_strEAHSceensaverInfoDesc =
+    m_strEAHScreensaverInfoDesc =
         _("Read a detailed description of the Einstein@Home screensaver");
     m_strEAHMessageBoardsName =
         _("Message boards");
@@ -116,7 +116,7 @@ CLocalization::CLocalization() {
     m_strPAHTeamDesc =
         _("Info about your Team");
 
-    // ClimatePrediciton.net
+    // ClimatePrediction.net
     m_strCPDNHelpName =
         _("Help");
     m_strCPDNHelpDesc =

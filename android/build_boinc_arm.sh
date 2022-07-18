@@ -11,57 +11,86 @@ STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 export BOINC=".." #BOINC source code
 
+export NDK_ROOT=${NDK_ROOT:-$HOME/Android/Ndk}
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
 export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC/arm}"
-export TCBINARIES="$ANDROIDTC/bin"
+export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64"
+export TCBINARIES="$TOOLCHAINROOT/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
-export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/armv7-a/libstdc++.a"
+export TCSYSROOT="$TOOLCHAINROOT/sysroot"
+export VCPKG_DIR=$VCPKG_ROOT/installed/arm-android
+
+CONFIG_FLAGS=""
+CONFIG_LDFLAGS=""
+
+if [ $BUILD_WITH_VCPKG = "yes" ]; then
+    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
+    export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
+else
+    CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
+    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
+    export _libcurl_pc="$TCINCLUDES/lib/pkgconfig/libcurl.pc"
+fi
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
-export CC=arm-linux-androideabi-clang
-export CXX=arm-linux-androideabi-clang++
+export CC=armv7a-linux-androideabi16-clang
+export CXX=armv7a-linux-androideabi16-clang++
 export LD=arm-linux-androideabi-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -D__ANDROID_API__=19"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -D__ANDROID_API__=19"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv7-a -Wl,--fix-cortex-a8"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16"
+export LDFLAGS="$CONFIG_LDFLAGS -llog -fPIE -pie -latomic -static-libstdc++ -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
-# Prepare android toolchain and environment
-./build_androidtc_arm.sh
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
 
 if [ -n "$COMPILEBOINC" ]; then
-    echo "===== building BOINC for arm from $BOINC ====="
     cd "$BOINC"
+    echo "===== building BOINC for arm from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-        make distclean 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = "no" ]; then
+            make distclean 1>$STDOUT_TARGET 2>&1
+        else
+            make distclean SHELL="/bin/bash -x"
+        fi
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
-        sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
-        mv client/Makefile.out client/Makefile
+        ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" $CONFIG_FLAGS --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
     fi
-    make --silent
-    make stage --silent
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make stage $MAKE_FLAGS
 
     echo "Stripping Binaries"
     cd stage/usr/local/bin
-    arm-linux-androideabi-strip *
+    llvm-strip *
     cd ../../../../
 
     echo "Copy Assets"
     cd android
     mkdir -p "BOINC/app/src/main/assets"
     cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/armeabi-v7a/boinc"
-    cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/armeabi-v7a/boinccmd"
     cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
     cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-    echo "===== BOINC for arm build done ====="
+    echo "\e[1;32m===== BOINC for arm build done =====\e[0m"
 
 fi

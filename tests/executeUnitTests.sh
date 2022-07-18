@@ -36,11 +36,15 @@ ROOTDIR=$(pwd)
 CI_RUN="${TRAVIS:-false}"
 report=""
 doclean=""
+xml=""
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
         --report-coverage)
         report="yes"
+        ;;
+        --report-xml)
+        xml="yes"
         ;;
         --clean)
         doclean="yes"
@@ -56,7 +60,6 @@ command -v cmake >/dev/null 2>&1 || { echo >&2 "cmake is needed but not installe
 
 if [ "${report}" = "yes" ]; then
     command -v gcov >/dev/null 2>&1 || { echo >&2 "gcov (lcov) is needed but not installed.  Aborting."; exit 1; }
-    command -v codecov >/dev/null 2>&1 || { echo >&2 "codecov (pip install codecov) is needed but not installed.  Aborting."; exit 1; }
 fi
 
 cd tests || exit 1
@@ -73,13 +76,9 @@ make
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 
 for T in lib sched; do
-    [ -d "${T}" ] && ./${T}/test_${T};
+    XML_FLAGS=""
+    if [ "${xml}" = "yes" ]; then
+        XML_FLAGS="--gtest_output=xml:${T}_xml_report.xml"
+    fi
+    [ -d "${T}" ] && ./${T}/test_${T} ${XML_FLAGS};
 done
-
-cd ../..
-if [ "${report}" = "yes" ]; then
-    #for T in lib sched; do
-    #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
-    #done
-    codecov
-fi

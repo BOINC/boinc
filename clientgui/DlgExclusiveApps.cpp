@@ -162,20 +162,17 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_panelButtons->SetSizer( buttonSizer );
     m_panelButtons->Layout();
     buttonSizer->Fit( m_panelButtons );
-    dialogSizer->Add( m_panelButtons, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
+    dialogSizer->Add( m_panelButtons, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
 
     m_removeExclusiveAppButton->Disable();
     m_removeExclusiveGPUAppButton->Disable();
 
     ReadPreferenceSettings();
 
-// CAF  SetSizerAndFit(dialogSizer);
-     Layout();
-     dialogSizer->Fit( this );
-     SetSizer( dialogSizer );
+    Layout();
+    SetSizerAndFit(dialogSizer);
 
-// CAF    Fit();
-    Centre();
+    Centre();   // Center the dialog over the main window
 }
 
 /* destructor */

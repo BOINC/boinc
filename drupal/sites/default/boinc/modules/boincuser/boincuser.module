@@ -557,6 +557,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         // remove them before continuing to core Drupal routines
         $edit['update_source'] = null;
         $edit['boincuser_name'] = null;
+        $edit['current_pass'] = null;
       }
       break;
 
@@ -1309,7 +1310,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       $form['register_captcha'] = array(
         '#type' => 'captcha',
         '#weight' => 0,
-        '#prefix' => '<div id="captcha-on-left">',
+        '#prefix' => '<div id="captcha-password-reset">',
         '#suffix' => '</div>'
       );
     }
@@ -2241,7 +2242,7 @@ function boincuser_get_stats_user_data($cpid = null) {
   // Load XML from RPC
   $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
   $result = drupal_http_request($target_url);
-  if (in_array($result->code, array(200, 304))) {
+  if (in_array($result->code, array(200, 304)) || in_array($result->redirect_code, array(200, 304))) {
     return simplexml_load_string($result->data);
   }
   return NULL;

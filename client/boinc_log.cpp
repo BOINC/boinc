@@ -15,23 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// boinclog: command-line interface to a BOINC client,
-// using GUI RPCs.
+// boinc_log: show stream of event-log messages from a client
 //
-// usage: boinccmd [--host hostname] [--passwd passwd] command
-
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
-#if defined(_WIN32) && !defined(__CYGWIN32__)
-#define snprintf    _snprintf
-#define strdate     _strdate
-#define strtime     _strtime
-#define chdir       _chdir
-#endif
+// usage: boinc_log [--host hostname] [--passwd passwd] 
 
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "win_util.h"
 #else
 #include "config.h"
@@ -176,7 +165,8 @@ int main(int argc, char** argv) {
 #endif
     }
 
-    read_gui_rpc_password(passwd_buf);
+    std::string msg;
+    read_gui_rpc_password(passwd_buf, msg);
 
     retval = rpc.init(hostname, port);
     if (retval) {

@@ -332,8 +332,8 @@ int CLIENT_STATE::parse_account_files() {
         if (!f) continue;
         project = new PROJECT;
 
-        // Assume master_url_fetch_pending, sched_rpc_pending are
-        // true until we read client_state.xml
+        // Assume we need to fetch master file and do sched RPC
+        // unless client_state.xml says otherwise
         //
         project->master_url_fetch_pending = true;
         project->sched_rpc_pending = RPC_REASON_INIT;
@@ -427,10 +427,10 @@ int CLIENT_STATE::parse_statistics_files() {
 
     DirScanner dir(".");
     while (dir.scan(name)) {
-        PROJECT temp;
         if (is_statistics_file(name.c_str())) {
             f = boinc_fopen(name.c_str(), "r");
             if (!f) continue;
+            PROJECT temp;
             retval = temp.parse_statistics(f);
             fclose(f);
             if (retval) {
@@ -542,6 +542,8 @@ int CLIENT_STATE::add_project(
     safe_strcpy(project->authenticator, auth);
     safe_strcpy(project->project_name, project_name);
     project->attached_via_acct_mgr = attached_via_acct_mgr;
+    project->master_url_fetch_pending = true;
+    project->sched_rpc_pending = RPC_REASON_INIT;
 
     retval = project->write_account_file();
     if (retval) {

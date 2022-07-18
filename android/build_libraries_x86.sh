@@ -8,47 +8,81 @@ set -e
 # Script to compile various BOINC libraries for Android to be used
 # by science applications
 
+STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 export BOINC=".." #BOINC source code
 
+export NDK_ROOT=${NDK_ROOT:-$HOME/Android/Ndk}
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
 export ANDROIDTC="${ANDROID_TC_X86:-$ANDROID_TC/x86}"
-export TCBINARIES="$ANDROIDTC/bin"
+export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64"
+export TCBINARIES="$TOOLCHAINROOT/bin"
 export TCINCLUDES="$ANDROIDTC/i686-linux-android"
-export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+export TCSYSROOT="$TOOLCHAINROOT/sysroot"
+export VCPKG_DIR=$VCPKG_ROOT/installed/x86-android
+
+CONFIG_FLAGS=""
+CONFIG_LDFLAGS=""
+
+if [ $BUILD_WITH_VCPKG = "yes" ]; then
+    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
+    export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
+else
+    CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
+    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
+    export _libcurl_pc="$TCINCLUDES/lib/pkgconfig/libcurl.pc"
+fi
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
-export CC=i686-linux-android-gcc
-export CXX=i686-linux-android-g++
+export CC=i686-linux-android16-clang
+export CXX=i686-linux-android16-clang++
 export LD=i686-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
+export LDFLAGS="$CONFIG_LDFLAGS -llog -fPIE -pie -latomic -static-libstdc++"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
-# Prepare android toolchain and environment
-./build_androidtc_x86.sh
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
 
 if [ -n "$COMPILEBOINC" ]; then
 
-echo "==================building Libraries from $BOINC=========================="
-cd "$BOINC"
-if [ -n "$MAKECLEAN" ]; then
-make clean
-fi
-if [ -n "$CONFIGURE" ]; then
-./_autosetup
-./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
-fi
-make
-make stage
-make install
-
-echo "=============================BOINC done============================="
+    cd "$BOINC"
+    echo "===== building BOINC Libraries for x86 from $PWD ====="
+    if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
+        if [ "$VERBOSE" = "no" ]; then
+            make distclean 1>$STDOUT_TARGET 2>&1
+        else
+            make distclean SHELL="/bin/bash -x"
+        fi
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        ./_autosetup
+        ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" $CONFIG_FLAGS --disable-server --disable-manager --disable-client --disable-shared --enable-static --disable-largefile --enable-boinczip
+    fi
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make stage $MAKE_FLAGS
+    make install $MAKE_FLAGS
+    
+    echo "\e[1;32m===== building BOINC Libraries for x86 done =====\e[0m"
 
 fi

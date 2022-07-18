@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,7 +40,7 @@ typedef struct {
 
 
 ///
-/// Bitmask values for GetCurrentViewPage() 
+/// Bitmask values for GetCurrentViewPage()
 /// Used by CMainDocument::RunPeriodicRPCs() and Mac Accessibility
 ///
 #define VW_PROJ   1
@@ -59,6 +59,8 @@ extern bool g_use_sandbox;
 class CMainDocument;
 class CBOINCClientManager;
 
+// GUI RPC connection to a client (should change the name)
+//
 class CNetworkConnection : public wxObject {
 public:
     CNetworkConnection(CMainDocument* pDocument);
@@ -85,6 +87,7 @@ public:
     bool           IsConnectEventSignaled() { return m_bConnectEvent; };
     bool           IsConnected() { return m_bConnected; };
     bool           IsReconnecting() { return m_bReconnecting; };
+    std::string    password_msg;
 
 private:
     CMainDocument* m_pDocument;
@@ -174,11 +177,11 @@ public:
     AsyncRPC                    rpc;
     RPC_CLIENT                  rpcClient;
     PROJECTS                    async_projects_update_buf;
-    
+
     CC_STATE                    state;
     CC_STATE                    async_state_buf;
     int                         m_iGet_state_rpc_result;
-    
+
     CC_STATUS                   status;
     CC_STATUS                   async_status_buf;
     int                         m_iGet_status_rpc_result;
@@ -239,6 +242,12 @@ public:
     int                         ProjectReset(int iIndex);
     int                         ProjectSuspend(int iIndex);
     int                         ProjectResume(int iIndex);
+    RUNNING_GFX_APP*            GetRunningGraphicsApp(RESULT* result);
+#ifdef _WIN32
+    void                        KillGraphicsApp(HANDLE pid);
+#else
+    void                        KillGraphicsApp(int tpid);
+#endif
 
     //
     // Work Tab
@@ -249,21 +258,15 @@ private:
     double                      m_fResultsRPCExecutionTime;
     wxDateTime                  m_dtKillInactiveGfxTimestamp;
     std::vector<RUNNING_GFX_APP> m_running_gfx_apps;
-    RUNNING_GFX_APP*            GetRunningGraphicsApp(RESULT* result, int slot);
     void                        KillAllRunningGraphicsApps();
     void                        KillInactiveGraphicsApps();
-#ifdef _WIN32
-    void                        KillGraphicsApp(HANDLE pid);
-#else
-    void                        KillGraphicsApp(int tpid);
-#endif
 
 public:
     RESULTS                     results;
     RESULTS                     async_results_buf;
     int                         m_iGet_results_rpc_result;
     bool                        m_ActiveTasksOnly;
-    
+
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);
 
@@ -291,7 +294,7 @@ private:
 public:
     NOTICES                     notices;
     int                         m_iGet_notices_rpc_result;
-    
+
     NOTICE*                     notice(unsigned int);
     int                         CachedNoticeUpdate();
 
@@ -314,7 +317,7 @@ private:
 public:
     MESSAGES                    messages;
     int                         m_iGet_messages_rpc_result;
-    
+
     MESSAGE*                    message(unsigned int);
     int                         CachedMessageUpdate();
 
@@ -339,7 +342,7 @@ public:
     FILE_TRANSFERS              ft;
     FILE_TRANSFERS              async_ft_buf;
     int                         m_iGet_file_transfers_rpc_result;
-    
+
     FILE_TRANSFER*              file_transfer(unsigned int);
     FILE_TRANSFER*              file_transfer(const wxString& fileName, const wxString& project_url);
 
@@ -361,7 +364,7 @@ public:
     DISK_USAGE                  disk_usage;
     DISK_USAGE                  async_disk_usage_buf;
     int                         m_iGet_dsk_usage_rpc_result;
-    
+
     PROJECT*                    DiskUsageProject(unsigned int);
     int                         CachedDiskUsageUpdate();
 
@@ -379,7 +382,7 @@ public:
     int                         m_iGet_statistics_rpc_result;
 
     int                         GetStatisticsCount();
-	
+
 
 	//
 	// Proxy Configuration
@@ -422,17 +425,7 @@ extern wxString FormatTime(double secs);
 extern wxTimeSpan convert_to_timespan(double secs);
 extern bool autoattach_in_progress();
 
-#ifdef __WXMSW__
-#define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())
-#define ADJUSTFORYDPI(y) (int)(y * GetYDPIScaling())
-extern double GetXDPIScaling();
-extern double GetYDPIScaling();
-#else
-#define ADJUSTFORXDPI(x) x
-#define ADJUSTFORYDPI(y) y
-#endif
 
-wxBitmap GetScaledBitmapFromXPMData(const char** XPMData);
 wxString format_number(double x, int nprec);
 
 #ifdef SANDBOX

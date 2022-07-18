@@ -112,7 +112,7 @@ struct DATA_UNIT {
     virtual int compute_min_failures(){return 0;};
     virtual int upload_all(){return 0;};
 
-    char name[64];
+    char name[256];
     char dir[1024];
 
     // the following are determined during recovery_plan()
@@ -193,6 +193,7 @@ struct CHUNK : DATA_UNIT {
     bool present_on_server;
 
     CHUNK(META_CHUNK* mc, double s, int index);
+    virtual ~CHUNK(){}
 
     int start_upload();
     void host_failed(VDA_CHUNK_HOST* p);

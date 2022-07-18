@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
-#endif
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -36,10 +32,6 @@
 #endif
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #ifdef __EMX__
 #define INCL_DOS
 #include <os2.h>
@@ -51,6 +43,7 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 #include "util.h"
 #ifdef _WIN32
 #include "run_app_windows.h"
@@ -128,6 +121,7 @@ CLIENT_STATE::CLIENT_STATE()
     safe_strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
+    cmdline_dir = false;
     exit_before_upload = false;
     run_test_app = false;
 #ifndef _WIN32
@@ -430,7 +424,7 @@ static void set_client_priority() {
 #ifdef __linux__
     char buf[1024];
     snprintf(buf, sizeof(buf), "ionice -c 3 -p %d", getpid());
-    system(buf);
+    if (!system(buf)) {}
 #endif
 }
 
@@ -502,9 +496,10 @@ int CLIENT_STATE::init() {
 
     FILE* f = fopen(CLIENT_BRAND_FILENAME, "r");
     if (f) {
-        fgets(client_brand, sizeof(client_brand), f);
-        strip_whitespace(client_brand);
-        msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        if (fgets(client_brand, sizeof(client_brand), f)) {
+            strip_whitespace(client_brand);
+            msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        }
         fclose(f);
     }
 
@@ -650,7 +645,7 @@ int CLIENT_STATE::init() {
 
     // inform the user if there's a newer version of client
     // NOTE: this must be called AFTER
-    // read_vc_config_file()
+    // read_nvc_config_file()
     //
     newer_version_startup_check();
 
@@ -764,6 +759,12 @@ int CLIENT_STATE::init() {
     process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
+    // if project_init.xml specifies an account, attach
+    //
+    if (strlen(project_init.url) && strlen(project_init.account_key)) {
+        add_project(project_init.url, project_init.account_key, project_init.name, false);
+        project_init.remove();
+    }
 
     log_show_projects();    // this must follow acct_mgr_info.init()
 
@@ -953,9 +954,6 @@ bool CLIENT_STATE::poll_slow_events() {
     static bool tasks_restarted = false;
     static bool first=true;
     double old_now = now;
-#ifdef __APPLE__
-    double idletime;
-#endif
 
     set_now();
 
@@ -989,12 +987,8 @@ bool CLIENT_STATE::poll_slow_events() {
 #ifdef ANDROID
     user_active = device_status.user_active;
 #else
-    user_active = !host_info.users_idle(
-        check_all_logins, global_prefs.idle_time_to_run
-#ifdef __APPLE__
-         , &idletime
-#endif
-    );
+    long idle_time = host_info.user_idle_time(check_all_logins);
+    user_active = idle_time < global_prefs.idle_time_to_run * 60;
 #endif
 
     if (user_active != old_user_active) {
@@ -1021,7 +1015,7 @@ bool CLIENT_STATE::poll_slow_events() {
     // If screensaver started client, this code tells client
     // to exit when user becomes active, accounting for all these factors.
     //
-    if (started_by_screensaver && (idletime < 30) && (getppid() == 1)) {
+    if (started_by_screensaver && (idle_time < 30) && (getppid() == 1)) {
         // pid is 1 if parent has exited
         requested_exit = true;
     }
@@ -1194,21 +1188,22 @@ bool CLIENT_STATE::poll_slow_events() {
 
 #endif // ifndef SIM
 
-// See if the project specified by master_url already exists
-// in the client state record.  Ignore any trailing "/" characters
+// Find the project with the given master_url.
+// Ignore differences in protocol, case, and trailing /
 //
 PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
-    int len1, len2;
-    char *mu;
+    char buf[256];
 
-    len1 = (int)strlen(master_url);
-    if (master_url[strlen(master_url)-1] == '/') len1--;
+    safe_strcpy(buf, master_url);
+    canonicalize_master_url(buf, sizeof(buf));
+    char* p = strstr(buf, "//");
+    if (!p) return NULL;
 
     for (unsigned int i=0; i<projects.size(); i++) {
-        mu = projects[i]->master_url;
-        len2 = (int)strlen(mu);
-        if (mu[strlen(mu)-1] == '/') len2--;
-        if (!strncmp(master_url, projects[i]->master_url, max(len1,len2))) {
+        char* q = strstr(projects[i]->master_url, "//");
+        if (!q) continue;
+        if (!strcasecmp(p, q)) {
+            // note: canonicalize_master_url() doesn't lower-case
             return projects[i];
         }
     }
@@ -1320,11 +1315,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         }
 
         if (!strcmp(file_ref.open_name, GRAPHICS_APP_FILENAME)) {
-            char relpath[MAXPATHLEN], path[MAXPATHLEN];
-            get_pathname(fip, relpath, sizeof(relpath));
-            relative_to_absolute(relpath, path);
-            safe_strcpy(avp->graphics_exec_path, path);
-            safe_strcpy(avp->graphics_exec_file, fip->name);
+            avp->graphics_exec_fip = fip;
         }
 
         // any file associated with an app version must be signed
@@ -1439,7 +1430,8 @@ void CLIENT_STATE::print_summary() {
     }
     msg_printf(0, MSG_INFO, "%d persistent file xfers", (int)pers_file_xfers->pers_file_xfers.size());
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s http op state: %d", pers_file_xfers->pers_file_xfers[i]->fip->name, (pers_file_xfers->pers_file_xfers[i]->fxp?pers_file_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
+        const PERS_FILE_XFER* pers_file_xfer = pers_file_xfers->pers_file_xfers[i];
+        msg_printf(0, MSG_INFO, "    %s http op state: %d", pers_file_xfer->fip->name, pers_file_xfer->fxp?pers_file_xfer->fxp->http_op_state:-1);
     }
     msg_printf(0, MSG_INFO, "%d active tasks", (int)active_tasks.active_tasks.size());
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -1943,7 +1935,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
         // called from:
         // ACTIVE_TASK::start (if couldn't start app)
         // ACTIVE_TASK::restart (if files missing)
-        // ACITVE_TASK_SET::restart_tasks (catch other error returns)
+        // ACTIVE_TASK_SET::restart_tasks (catch other error returns)
         // ACTIVE_TASK::handle_exited_app (on nonzero exit or signal)
         // ACTIVE_TASK::abort_task (if exceeded resource limit)
         // CLIENT_STATE::schedule_cpus (catch-all for resume/start errors)

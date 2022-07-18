@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,10 +24,8 @@
 //
 // 2) a better one (class XML_PARSER) which parses arbitrary XML
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstring>
@@ -53,6 +51,28 @@
 #include "parse.h"
 
 using std::string;
+
+unsigned long long boinc_strtoull(const char *str, char **endptr, int base) {
+#if (defined (__cplusplus) && __cplusplus > 199711L) || defined(HAVE_STRTOULL) || defined(__MINGW32__)
+    return strtoull(str, endptr, base);
+#elif defined(_WIN32) && !defined(__MINGW32__)
+    return _strtoui64(str, endptr, base);
+#else
+    char buf[64];
+    char *p;
+    unsigned long long y;
+    strncpy(buf, str, sizeof(buf)-1);
+    strip_whitespace(buf);
+    p = strstr(buf, "0x");
+    if (!p) p = strstr(buf, "0X");
+    if (p) {
+        sscanf(p, "%llx", &y);
+    } else {
+        sscanf(buf, "%llu", &y);
+    }
+    return y;
+#endif
+}
 
 // Parse a boolean; tag is of form "foobar"
 // Accept either <foobar/>, <foobar />, or <foobar>0|1</foobar>
@@ -309,7 +329,7 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
 char* sgets(char* buf, int len, char*& in) {
     char* p;
 
-    p = strstr(in, "\n");
+    p = strchr(in, '\n');
     if (!p) return NULL;
     *p = 0;
     strlcpy(buf, in, len);

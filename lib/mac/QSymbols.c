@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,7 +36,7 @@
 *  Note: if address 1a23 is hex, use 0x1a23.  
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  You may need to prefix C++ symbols with an additional underscore before 
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -246,7 +246,7 @@ typedef struct QSymbols QSymbols;
 extern void QSymDestroy(QSymbolsRef symRef)
     // See comment in header.
 {
-    kern_return_t   krJunk;
+    kern_return_t   krJunk __attribute__((unused));
     size_t          imageIndex;
     
     if (symRef != NULL) {
@@ -674,7 +674,7 @@ extern int QSymGetImageForAddress(
     // See comment in header.
 {
 	int					err;
-	int                 junk;
+	int                 junk __attribute__((unused));
 	size_t              imageIndex;
 	QTMAddr             slide;
 	uint32_t            sectCount;

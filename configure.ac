@@ -6,15 +6,15 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.15.0)
+AC_INIT(BOINC, 7.21.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
-WRAPPER_RELEASE=26016
+WRAPPER_RELEASE=26017
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26202
+VBOXWRAPPER_RELEASE=26205
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -35,10 +35,6 @@ AC_CONFIG_SRCDIR(lib/shmem.cpp)
 AC_REVISION([$Revision$])
 REV=`echo '$Revision$' | awk "{print $2}"`
 RDATE=`date '+%Y.%m.%d'`
-if test -d .svn ; then
-  REV=`svn info | grep Revision | awk '{print $2}'`
-  RDATE=`svn info | grep "Last Changed Date:" | awk '{print $4}' | sed 's/-/./g'`
-fi
 AC_SUBST(REV)
 AC_SUBST(RDATE)
 
@@ -67,6 +63,9 @@ AC_PROG_MAKE_SET
 SAH_LINKS
 AC_LANG_PUSH(C)
 AM_PROG_CC_C_O
+
+PKG_PROG_PKG_CONFIG
+PKG_INSTALLDIR
 
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))
@@ -125,6 +124,36 @@ AC_ARG_ENABLE(apps,
                    [enable building the boinc example apps]),
     [enable_apps=${enableval}],
     [enable_apps=no])
+
+AC_ARG_ENABLE(apps-vcpkg,
+    AS_HELP_STRING([--enable-apps-vcpkg],
+                   [enable building the boinc apps that depend on vcpkg]),
+    [enable_apps_vcpkg=${enableval}],
+    [enable_apps_vcpkg=no])
+
+AC_ARG_ENABLE(apps-mingw,
+    AS_HELP_STRING([--enable-apps-mingw],
+                   [enable building the boinc apps with mingw]),
+    [enable_apps_mingw=${enableval}],
+    [enable_apps_mingw=no])
+
+AC_ARG_ENABLE(apps-vbox,
+    AS_HELP_STRING([--enable-apps-vbox],
+                   [enable building the boinc apps that depend on vbox]),
+    [enable_apps_vbox=${enableval}],
+    [enable_apps_vbox=no])
+
+AC_ARG_ENABLE(apps-gui,
+    AS_HELP_STRING([--enable-apps-gui],
+                   [enable building the boinc apps that depend on gui]),
+    [enable_apps_gui=${enableval}],
+    [enable_apps_gui=no])
+
+AC_ARG_ENABLE(wasm,
+    AS_HELP_STRING([--enable-wasm],
+                   [enable building the boinc wasm]),
+    [enable_wasm=${enableval}],
+    [enable_wasm=no])
 
 AC_ARG_ENABLE(unit-tests,
     AS_HELP_STRING([--enable-unit-tests],
@@ -349,6 +378,10 @@ dnl the manpages only if docbook2x-man is available.
 AC_PATH_PROG(DOCBOOK2X_MAN, docbook2x-man)
 AM_CONDITIONAL(HAVE_DOCBOOK2X_MAN, [test -n "${DOCBOOK2X_MAN}"])
 
+if test "${enable_wasm}" = yes ; then
+  EXEEXT=.html
+fi
+
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc${EXEEXT}])
 AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd${EXEEXT}])
 AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr${EXEEXT}])
@@ -371,10 +404,14 @@ OBJCFLAGS="-ObjC"
 AC_SUBST(OBJCFLAGS)
 
 dnl LT_INIT
+enable_shared_user=$enable_shared
 AC_LIBTOOL_DLOPEN
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 AC_SUBST(PICFLAGS,${lt_prog_compiler_pic})
+if test "$enable_shared_user" != no -a "$enable_shared" = no ; then
+  AC_MSG_ERROR([Project is configured to produce shared libraries, but compiler doesn't support shared libraries creation.])
+fi
 
 SAH_OPTION_BITNESS
 
@@ -409,7 +446,7 @@ if test "${enable_server}" = yes; then
    if test "${no_mysql}" = yes; then
       AC_MSG_ERROR([
 ================================================================================
-ERROR: trying to build BOINC-server, but MYSQL was not be found.
+ERROR: trying to build BOINC-server, but MYSQL was not found.
 
 If you do not want to build the server you should use --disable-server.
 
@@ -427,7 +464,7 @@ dnl installed everywhere should be linked statically when building portable
 dnl binaries.  Put libraries that should be linked statically on every platform
 dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only
 dnl the '*' wildcard is supported).
-STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2 sqlite3"
+STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2"
 
 dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later
 dnl post-processing instead of the default-action, which would append
@@ -455,7 +492,7 @@ AS_IF([test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes"],
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 dnl curl is needed for client
 
-AS_IF([test "x${enable_client}" = "xyes"],
+AS_IF([test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes"],
   [
     LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
@@ -559,6 +596,12 @@ dnl check for X11
 AC_PATH_X
 AC_PATH_XTRA
 
+dnl Check for CL library opencl
+AX_CHECK_CL
+if test "x$with_opencl" = "xno"; then
+  AC_MSG_WARN([OpenCL is missing, OpenClApp example is disabled])
+fi
+
 dnl check for GL library
 AX_CHECK_GL
 AX_CHECK_GLU
@@ -630,10 +673,14 @@ AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes -a "$have_jpeg" = 1
 
 dnl check for X screen saver lib (X-based idle detection on Linux)
 if test "$enable_xss" = yes; then
-    AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
-    AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
-    if test "$have_Xss" = no; then
-        AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+    if test "X${no_x}" = "Xyes" ; then
+        AC_MSG_WARN([X Window include files/libs excluded or location unknown, disabling X ScreenSaver user idle detection])
+    else
+        AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
+        AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
+        if test "$have_Xss" = no; then
+            AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+        fi
     fi
 fi
 
@@ -670,15 +717,27 @@ AC_TYPE_SIGNAL
 if test "${isWIN32}" = "yes" ; then
   AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h)
 fi
-AC_CHECK_HEADERS([sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h xlocale.h])
+AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h xlocale.h)
+
+if test "${enable_wasm}" != yes ; then
+  AC_CHECK_HEADERS(sys/shm.h)
+fi
 
 save_cxxflags="${CXXFLAGS}"
 save_cppflags="${CPPFLAGS}"
-CXXFLAGS="${CXXFLAGS} -msse3"
-CPPFLAGS="${CPPFLAGS} -msse3"
+sse3_flags="-msse3"
+avx_flags="-mavx"
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
+CPPFLAGS="${save_cppflags} ${sse3_flags}"
+AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [sse_flags=""])
+CXXFLAGS="${save_cxxflags} ${avx_flags}"
+CPPFLAGS="${save_cppflags} ${avx_flags}"
+AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [avx_flags=""])
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
-CXXFLAGS="${save_cxxflags} -mavx"
-CPPFLAGS="${save_cppflags} -mavx"
+CXXFLAGS="${save_cxxflags} ${avx_flags}"
+CPPFLAGS="${save_cppflags} ${avx_flags}"
 AC_CHECK_HEADERS([immintrin.h avxintrin.h])
 
 AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
@@ -849,11 +908,21 @@ AC_CHECK_HEADER(net/if_arp.h, [], [], [[
 #endif
 ]])
 
-AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
+AC_CHECK_HEADERS(sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
 #ifdef HAVE_SYS_PARAM_H
 # include <sys/param.h>
 #endif
 ]])
+
+dnl check for broken Linux sysctl.h that causes deprecation warnings
+saved_sysctl_h_CFLAGS=$CFLAGS
+test "x${GCC}" != xyes || CFLAGS="$CFLAGS -Werror"
+AC_CHECK_HEADERS([sys/sysctl.h], [], [], [[
+#ifdef HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+]])
+CFLAGS=$saved_sysctl_h_CFLAGS
 
 AC_CHECK_HEADER(resolv.h, [], [], [[
 #ifdef HAVE_NETINET_IN_H
@@ -1022,11 +1091,6 @@ if test "${enable_manager}" = yes ; then
   PKG_CHECK_MODULES(LIBNOTIFY, [libnotify])
 fi
 
-dnl ---------- Sqlite3 ----------------------------------------------------
-if test "${enable_manager}" = yes ; then
-  AM_PATH_SQLITE3
-fi
-
 dnl ---------- XCB --------------------------------------------------------
 if test "${enable_manager}" = yes; then
     PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",[echo "WARNING: Xcb not found, x11_screensaver will not be built"])
@@ -1051,6 +1115,18 @@ AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
 AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
+AM_CONDITIONAL(OS_ARMV6_LINUX, [echo $host_alias | grep '^armv6-linux' > /dev/null])
+AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
+
+AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
+AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
+AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
+AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])
+AM_CONDITIONAL(BUILD_WITH_WASM, [test "${enable_wasm}" = yes])
+if test "${enable_wasm}" = yes ; then
+  AC_DEFINE([WASM], [1], [build boinc wasm])
+fi
+
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -1067,6 +1143,7 @@ AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
+AM_CONDITIONAL(BUILD_WITH_OPENCL, [test "x$with_opencl" = "xyes"])
 
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)
@@ -1237,13 +1314,13 @@ else
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNDEBUG"
 fi
 
-CLIENTGUILIBS="${WX_LIBS} ${SQLITE3_LIBS}"
+CLIENTGUILIBS="${WX_LIBS}"
 
 if test "${enable_client_release}" = "yes" ; then
    if test "x${WX_LIBS_STATIC}" = "x" ; then
      WX_LIBS_STATIC="${WX_LIBS}"
    fi
-   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC} ${SQLITE3_LIBS} ${GTK_LIBS}],[CLIENTGUILIBS])
+   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC} ${GTK_LIBS}],[CLIENTGUILIBS])
    SAH_STATICIZE_LDFLAGS([${GLUT_LIBS}],[GLUT_LIBS])
    SAH_STATICIZE_LDFLAGS([${BOINC_EXTRA_LIBS}],[BOINC_EXTRA_LIBS])
 
@@ -1289,9 +1366,13 @@ AC_SUBST(FULLNAME)
 AC_CONFIG_FILES([
                  version.h
                  api/Makefile
+                 api/libboinc_api.pc
+                 api/libboinc_graphics2.pc
+                 api/libboinc_opencl.pc
                  apps/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
+                 clientgui/skins/Makefile
                  clientscr/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/boinc_path_config.py.in
@@ -1303,6 +1384,9 @@ AC_CONFIG_FILES([
                  doc/manpages/Makefile
                  html/Makefile
                  lib/Makefile
+                 lib/libboinc.pc
+                 lib/libboinc_crypt.pc
+                 lib/libboinc_fcgi.pc
                  locale/Makefile
                  Makefile
                  py/Boinc/version.py
@@ -1330,6 +1414,7 @@ AC_CONFIG_FILES([
                  tools/Makefile
                  vda/Makefile
                  zip/Makefile
+                 zip/libboinc_zip.pc
                  zip/zip/Makefile
                  zip/unzip/Makefile
                  m4/Makefile
@@ -1340,6 +1425,26 @@ dnl AC_CONFIG_HEADER([config.h])
 AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT
+
+if test "$enable_libraries" = "yes" -a "$have_glut" = yes -a "$have_jpeg" = 1; then
+  configured_to_build="${configured_to_build} libraries_graphics"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_gui" = yes; then
+  configured_to_build="${configured_to_build} apps_gui"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_vcpkg" = yes; then
+  configured_to_build="${configured_to_build} apps_vcpkg"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_vbox" = yes; then
+  configured_to_build="${configured_to_build} apps_vbox"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_mingw" = yes; then
+  configured_to_build="${configured_to_build} apps_mingw"
+fi
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
 echo "--- Build Components: (${configured_to_build}) ---"

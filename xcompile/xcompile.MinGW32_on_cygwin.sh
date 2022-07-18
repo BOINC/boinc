@@ -176,25 +176,6 @@ if test $build_manager != no ; then
   fi
 fi
 
-if test $build_manager != no ; then
-  if ! test -f ${XCOMPILE_ROOT}/lib/libsqlite3.a ; then
-    sqlite_year=2014
-    sqlite_ver=3080403
-    filename=sqlite-autoconf-${sqlite_ver}.tar.gz
-    wget http://www.sqlite.org/${sqlite_year}/$filename
-    tar zxf $filename
-    cd sqlite-autoconf-${sqlite_ver}
-    ./configure -C --host=$TARGET_HOST --build=$BUILD_HOST --prefix=${XCOMPILE_ROOT} --with-sysroot=${XCOMPILE_ROOT} 
-    make all
-    make install
-    cd ..
-    /bin/rm -f $filename
-    /bin/rm -rf sqlite-autoconf-${sqlite_ver}
-  fi
-fi
-
-  
-
 if test $build_manager != no -o $build_libs != no ; then
   if ! test -f ${XCOMPILE_ROOT}/include/GL/glut.h -a -f ${XCOMPILE_ROOT}/lib/libfreeglut_static.a  ; then
     svn co http://svn.code.sf.net/p/freeglut/code/trunk/freeglut/freeglut freeglut

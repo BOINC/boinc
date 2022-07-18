@@ -53,8 +53,30 @@
 #include "util.h"
 
 #include "client_msgs.h"
+#include "client_state.h"
 
 #include "hostinfo.h"
+
+#if WASM
+    #include <emscripten.h>
+#endif
+
+#if WASM
+    // unique user device in js.
+    EM_JS(int, get_uuid, (char* buf), {
+        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then(FingerprintJS => FingerprintJS.load());
+
+        // Get the visitor identifier when you need it.
+        fpPromise.then(fp => fp.get()).then(result => {
+                // This is the visitor identifier:
+                const visitorId = result.visitorId;
+                for (let i = 0; i < visitorId.length; i++) {
+                    buf[i] = visitorId[i];
+                }
+        });
+        return 0;
+    });
+#endif
 
 // get domain name and IP address of this host
 // Android: if domain_name is empty, set it to android_xxxxxxxx
@@ -95,6 +117,9 @@ int HOST_INFO::get_local_network_info() {
         inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), ip_addr, 256);
     }
 #endif
+    if (!cc_config.device_name.empty()) {
+        safe_strcpy(domain_name, cc_config.device_name.c_str());
+    }
     return 0;
 }
 
@@ -119,6 +144,20 @@ void HOST_INFO::make_random_string(const char* salt, char* out) {
     md5_block((const unsigned char*) buf, (int)strlen(buf), out);
 }
 
+void make_secure_random_string(char* out) {
+    int retval = make_secure_random_string_os(out);
+    if (retval) {
+        if (cc_config.os_random_only) {
+            msg_printf(
+                NULL, MSG_INTERNAL_ERROR,
+                "OS random string generation failed, exiting"
+            );
+            exit(1);
+        }
+        gstate.host_info.make_random_string("guirpc", out);
+    }
+}
+
 // make a host cross-project ID.
 // Should be unique across hosts with very high probability
 //
@@ -127,11 +166,16 @@ void HOST_INFO::generate_host_cpid() {
     char buf[256+MAXPATHLEN];
     char dir[MAXPATHLEN];
 
+#if WASM
+    // unique user device in js.
+    retval = get_uuid(buf);
+#else
     // if a MAC address is available, compute an ID based on it;
     // this has the advantage of stability
     // (a given host will get the same ID each time BOINC is reinstalled)
     //
     retval = get_mac_address(buf);
+#endif
     if (retval) {
         make_random_string("", host_cpid);
         return;

@@ -1,6 +1,8 @@
 codecov:
+  require_ci_to_pass: yes
   notify:
-    require_ci_to_pass: yes
+    after_n_builds: 3
+    wait_for_ci: yes
 
 coverage:
   status:
@@ -15,7 +17,9 @@ comment:
   require_changes: yes    # if true: only post the comment if coverage changes
   require_base: no        # [yes :: must have a base report to post]
   require_head: yes       # [yes :: must have a head report to post]
-  branch: master
+  branches: 
+    - master
+  after_n_builds: 3
 
 flags:
   # filter the folder(s) you wish to measure by that flag
@@ -34,6 +38,9 @@ flags:
       - sched/
       - db/
       - tools/
+  android:
+    paths:
+      - android/BOINC/app/src/main/java/edu/berkeley/boinc
 
 # don't gather statistics for test and external libraries
 ignore:

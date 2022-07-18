@@ -76,15 +76,17 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
    AM_CONDITIONAL([GUI_GTK], echo $wx_default_config | grep -i ^gtk 2>&1 >/dev/null)
    if echo $wx_default_config | grep -i gtk 2>&1 >/dev/null ; then
      case ${wx_default_config} in
-        gtk3-*)  gtkver=gtk+-3.0
+        gtk3-*|*-gtk3-*)  gtkver=gtk+-3.0
 	         ;;
-        gtk2-*)  gtkver=gtk+-2.0
+        gtk2-*|*-gtk2-*)  gtkver=gtk+-2.0
 	         ;;
-        gtk-*)   gtkver=gtk+
+        gtk-*|*-gtk-*)    gtkver=gtk+
 	         ;;
       esac
       GTK_CFLAGS="`pkg-config --cflags $gtkver`"
-      GTK_LIBS="`pkg-config --libs  $gtkver`"
+      if test "x$GTK_LIBS" = "x" ; then
+        GTK_LIBS="`pkg-config --libs $gtkver`"
+      fi
    fi
    AC_SUBST([GTK_CFLAGS])
    AC_SUBST([GTK_LIBS])

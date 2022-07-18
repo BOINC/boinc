@@ -24,10 +24,6 @@
 #include <string>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "parse.h"
 #include "url.h"
 #include "filesys.h"
@@ -50,7 +46,7 @@ RSS_FEED_OP rss_feed_op;
 
 ////////////// UTILITY FUNCTIONS ///////////////
 
-static bool cmp(NOTICE n1, NOTICE n2) {
+static bool cmp(const NOTICE& n1, const NOTICE& n2) {
     if (n1.arrival_time > n2.arrival_time) return true;
     if (n1.arrival_time < n2.arrival_time) return false;
     return (strcmp(n1.guid, n2.guid) > 0);
@@ -512,7 +508,6 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
     MIOFILE fout;
     fout.init_file(f);
     fout.printf("<notices>\n");
-    if (!f) return;
     for (unsigned int i=0; i<notices.size(); i++) {
         NOTICE& n = notices[i];
         if (rfp) {
@@ -543,9 +538,6 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
             break;
         case REMOVE_SCHEDULER_MSG:
             remove = !strcmp(n.category, "scheduler");
-            break;
-        case REMOVE_NO_WORK_MSG:
-            remove = !strstr(n.description.c_str(), NO_WORK_MSG);
             break;
         case REMOVE_CONFIG_MSG:
             remove = (strstr(n.description.c_str(), "cc_config.xml") != NULL);
@@ -684,7 +676,7 @@ void RSS_FEED::write(MIOFILE& fout) {
     );
 }
 
-static inline bool create_time_asc(NOTICE n1, NOTICE n2) {
+static inline bool create_time_asc(const NOTICE& n1, const NOTICE& n2) {
     return n1.create_time < n2.create_time;
 }
 
@@ -769,7 +761,6 @@ void RSS_FEED::delete_files() {
 
 RSS_FEED_OP::RSS_FEED_OP() {
     error_num = BOINC_SUCCESS;
-    rfp = NULL;
     gui_http = &gstate.gui_http;
 }
 
@@ -785,7 +776,7 @@ bool RSS_FEED_OP::poll() {
         if (gstate.now > rf.next_poll_time) {
             rf.next_poll_time = gstate.now + rf.poll_interval;
             rf.feed_file_name(file_name, sizeof(file_name));
-            rfp = &rf;
+            canceled = false;
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
                     "[notice] start fetch from %s", rf.url
@@ -806,7 +797,17 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     char file_name[256];
     int nitems;
 
-    if (!rfp) return;   // op was canceled
+    if (canceled) return;   // op was canceled
+
+    RSS_FEED* rfp = rss_feeds.lookup_url(gui_http->http_op.m_url);
+    if (!rfp) {
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice] RSS feed %s not found", gui_http->http_op.m_url
+            );
+        }
+        return;
+    }
 
     if (http_op_retval) {
         if (log_flags.notice_debug) {
@@ -965,11 +966,11 @@ void RSS_FEEDS::update_feed_list() {
         } else {
             // cancel op if active
             //
-            if (rss_feed_op.rfp == &(*iter)) {
+            if (!strcmp(rss_feed_op.gui_http->http_op.m_url, rf.url)) {
                 if (rss_feed_op.gui_http->is_busy()) {
                     gstate.http_ops->remove(&rss_feed_op.gui_http->http_op);
                 }
-                rss_feed_op.rfp = NULL;
+                rss_feed_op.canceled = true;
             }
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,

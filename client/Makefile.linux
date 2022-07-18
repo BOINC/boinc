@@ -1,66 +1,155 @@
-CC = g++ -g -I ../ -I ../lib/
+# Makefile for building boinc client and boinccmd on Linux
+#
+# to build:
+# 1) in boinc/, do _autosetup and configure (to generate config.h)
+# 2) in ../lib:
+#    make -f Makefile.linux clean all
+# 3) do the same in this dir
 
-PROGS = boinc_client
+CC = g++ -O4 -Wall -I ../ -I ../lib/
+
+PROGS = boinc boinccmd
 
 all: $(PROGS)
 
-OBJ = \
+BOINC_OBJ = \
     acct_mgr.o \
     acct_setup.o \
     app.o \
+    app_config.o \
     app_control.o \
-    app_graphics.o \
     app_start.o \
+    async_file.o \
     check_state.o \
     client_msgs.o \
     client_state.o \
     client_types.o \
+	coproc_sched.o \
     cpu_sched.o \
     cs_account.o \
     cs_apps.o \
     cs_benchmark.o \
     cs_cmdline.o \
-    cs_data.o \
     cs_files.o \
+    cs_notice.o \
+    cs_platforms.o \
     cs_prefs.o \
+    cs_proxy.o \
     cs_scheduler.o \
     cs_statefile.o \
     cs_trickle.o \
+    current_version.o \
     dhrystone.o \
     dhrystone2.o \
     file_names.o \
     file_xfer.o \
+    gpu_amd.o \
+    gpu_detect.o \
+    gpu_intel.o \
+    gpu_nvidia.o \
+    gpu_opencl.o \
     gui_http.o \
     gui_rpc_server.o \
     gui_rpc_server_ops.o \
     hostinfo_linux.o \
-    hostinfo_network.o \
     hostinfo_unix.o \
+    hostinfo_network.o \
     http_curl.o \
     log_flags.o \
+    mac_address.o \
     main.o \
     net_stats.o \
     pers_file_xfer.o \
+    project.o \
+    project_list.o \
+    result.o \
+    rr_sim.o \
+    sandbox.o \
     scheduler_op.o \
-    time_stats.o  \
-    whetstone.o
+    thread.o \
+    time_stats.o \
+    whetstone.o \
+    work_fetch.o
+
+SRC = \
+    acct_mgr.cpp \
+    acct_setup.cpp \
+    app.cpp \
+    app_config.cpp \
+    app_control.cpp \
+    app_start.cpp \
+    async_file.cpp \
+    check_state.cpp \
+    client_msgs.cpp \
+    client_state.cpp \
+    client_types.cpp \
+	coproc_sched.cpp \
+    cpu_sched.cpp \
+    cs_account.cpp \
+    cs_apps.cpp \
+    cs_benchmark.cpp \
+    cs_cmdline.cpp \
+    cs_files.cpp \
+    cs_notice.cpp \
+    cs_platforms.cpp \
+    cs_prefs.cpp \
+    cs_proxy.cpp \
+    cs_scheduler.cpp \
+    cs_statefile.cpp \
+    cs_trickle.cpp \
+    current_version.cpp \
+    dhrystone.cpp \
+    dhrystone2.cpp \
+    file_names.cpp \
+    file_xfer.cpp \
+    gpu_amd.cpp \
+    gpu_detect.cpp \
+    gpu_intel.cpp \
+    gpu_nvidia.cpp \
+    gpu_opencl.cpp \
+    gui_http.cpp \
+    gui_rpc_server.cpp \
+    gui_rpc_server_ops.cpp \
+    hostinfo_linux.cpp \
+    hostinfo_unix.cpp \
+    hostinfo_network.cpp \
+    http_curl.cpp \
+    log_flags.cpp \
+    mac_address.cpp \
+    main.cpp \
+    net_stats.cpp \
+    pers_file_xfer.cpp \
+    project.cpp \
+    project_list.cpp \
+    result.cpp \
+    rr_sim.cpp \
+    sandbox.cpp \
+    scheduler_op.cpp \
+    thread.cpp \
+    time_stats.cpp \
+    whetstone.cpp \
+    work_fetch.cpp
 
 clean:
-	rm $(PROGS) $(OBJ)
+	rm -f $(PROGS) $(BOINC_OBJ) dependencies
 
-LIBS = -L ../lib \
-    -lboinc \
+LIBS = ../lib/lib.a \
+    -L /usr/local/lib/ \
     -lpthread \
-    -lssl \
-    -L /usr/local/lib/ -lcurl
+    -lX11 -lXss \
+    -lcurl -lssl -lcrypto \
+    -lz -ldl
 
 .cpp.o:
 	$(CC) -c -o $*.o $<
 
-boinc_client: $(OBJ)
-	$(CC) $(OBJ) $(LIBS) -o boinc_client
+boinc: $(BOINC_OBJ)
+	$(CC) $(BOINC_OBJ) $(LIBS) -o boinc
 
-dependencies: *.cpp
-	$(CC) -M *.cpp > dependencies
+boinccmd: boinc_cmd.o
+	$(CC) boinc_cmd.o ../lib/boinc_cmd.a -o boinccmd
+
+dependencies: $(SRC)
+	$(CC) -M $(SRC) > dependencies
 
 include dependencies

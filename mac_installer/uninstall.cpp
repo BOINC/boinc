@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -62,6 +62,7 @@ static void DeleteLoginItemOSAScript(char *userName);
 static Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw);
 static void DeleteScreenSaverLaunchAgent(passwd *pw);
 long GetBrandID(char *path);
+static Boolean IsUserLoggedIn(const char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
@@ -81,7 +82,6 @@ static char gBrandName[256];
 static char gCatalogsDir[MAXPATHLEN];
 static char * gCatalog_Name = (char *)"BOINC-Setup";
 static char loginName[256];
-static Boolean usedScreenSaverLaunchAgent = false;
 
 
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
@@ -101,9 +101,6 @@ int main(int argc, char *argv[])
     FILE                        *f;
     OSStatus                    err = noErr;
     
-    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
-    usedScreenSaverLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
-
     pathToSelf[0] = '\0';
     // Get the full path to our executable inside this application's bundle
     getPathToThisApp(pathToSelf, sizeof(pathToSelf));
@@ -371,7 +368,7 @@ static OSStatus DoUninstall(void) {
     int                     i;
     char                    cmd[1024];
     passwd                  *pw;
-    OSStatus                err = noErr;
+    OSStatus                err __attribute__((unused)) = noErr;
 #if SEARCHFORALLBOINCMANAGERS
     char                    myRmCommand[MAXPATHLEN+10], plistRmCommand[MAXPATHLEN+10];
     char                    notBoot[] = "/Volumes/";
@@ -621,7 +618,8 @@ static OSStatus CleanupAllVisibleUsers(void)
    passwd              *pw;
     vector<string>      human_user_names;
     vector<uid_t>       human_user_IDs;
-    uid_t               saved_uid, saved_euid;
+//    uid_t               saved_uid;
+    uid_t               saved_euid;
     char                human_user_name[256];
     int                 i;
     int                 userIndex;
@@ -634,7 +632,7 @@ static OSStatus CleanupAllVisibleUsers(void)
     OSStatus            err;
     Boolean             changeSaver;
 
-    saved_uid = getuid();
+//    saved_uid = getuid();
     saved_euid = geteuid();
 
     err = noErr;
@@ -759,13 +757,11 @@ static OSStatus CleanupAllVisibleUsers(void)
             DeleteLoginItemLaunchAgent(brandID, pw);
         }
 
-        if (usedScreenSaverLaunchAgent) {
 #if TESTING
-            showDebugMsg("calling DeleteScreenSaverLaunchAgent for user %s, euid = %d\n", 
+        showDebugMsg("calling DeleteScreenSaverLaunchAgent for user %s, euid = %d\n", 
                 pw->pw_name);
 #endif
-            DeleteScreenSaverLaunchAgent(pw);
-        }
+        DeleteScreenSaverLaunchAgent(pw);
         
         // We don't delete the user's BOINC Manager preferences
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
@@ -981,7 +977,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
    
     if (!alreadyCopied) {
         getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(s)-1);
+        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
         snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Uninstall\"", path, appName[brandID]);
         err = callPosixSpawn(s);
          if (err) {
@@ -1039,19 +1035,31 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     chmod(s, 0644);
     chown(s, pw->pw_uid, pw->pw_gid);
 
+    if (IsUserLoggedIn(pw->pw_name)) {
+        sprintf(s, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+        sprintf(s, "su -l \"%s\" -c 'launchctl load /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+    }
+    
     return true;
 }
 
+// Some older versions of BOINC installed a Screensaver LaunchAgent for each user.
+// Even though we no longer do this, delete it if it exists, for backward compatibility
 void DeleteScreenSaverLaunchAgent(passwd *pw) {
     char                    cmd[MAXPATHLEN];
 
-    sprintf(cmd, "sudo -u \"%s\" -b launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name, pw->pw_name);
-    callPosixSpawn(cmd);
+    sprintf(cmd, "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
+    if (boinc_file_exists(cmd)) {
+        sprintf(cmd, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(cmd);
 
-    snprintf(cmd, sizeof(cmd), 
-        "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
-        pw->pw_name);
-    boinc_delete_file(cmd);
+        snprintf(cmd, sizeof(cmd), 
+            "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+            pw->pw_name);
+        boinc_delete_file(cmd);
+    }
 }
 
 
@@ -1071,6 +1079,23 @@ long GetBrandID(char *path)
         iBrandId = 0;
     }
     return iBrandId;
+}
+
+
+static Boolean IsUserLoggedIn(const char *userName){
+    char s[1024];
+    
+    sprintf(s, "w -h \"%s\"", userName);
+    FILE *f = popen(s, "r");
+    if (f) {
+        if (PersistentFGets(s, sizeof(s), f) != NULL) {
+            pclose (f);
+            printf("User %s is currently logged in\n", userName);
+            return true; // this user is logged in (perhaps via fast user switching)
+        }
+        pclose (f);         
+    }
+    return false;
 }
 
 
@@ -1587,7 +1612,7 @@ int callPosixSpawn(const char *cmdline, bool delayForResult) {
     char progName[1024];
     char progPath[MAXPATHLEN];
     char* argv[100];
-    int argc = 0;
+    int argc __attribute__((unused)) = 0;
     char *p;
     pid_t thePid = 0;
     int result = 0;

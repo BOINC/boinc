@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,6 +24,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <string>
+#include <locale.h>
 
 #if SHOW_TIMING
 #include <Carbon/Carbon.h>
@@ -46,6 +48,7 @@ int procinfo_setup(PROC_MAP& pm) {
     int c, real_mem, virtual_mem, hours;
     char* lf;
     static long iBrandID = -1;
+    std::string old_locale;
     
     // For branded installs, the Mac installer put a branding file in our data directory
     FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
@@ -109,6 +112,10 @@ int procinfo_setup(PROC_MAP& pm) {
         }
     } while (c != '\n');
 
+    // Ensure %lf works correctly if called from non-English Manager 
+    old_locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+    
     while (1) {
         p.clear();
         c = fscanf(fd, "%d%d%d%d%lu%d:%lf ",
@@ -156,5 +163,7 @@ int procinfo_setup(PROC_MAP& pm) {
 #endif
     
     find_children(pm);
+
+    setlocale(LC_ALL, old_locale.c_str());
     return 0;
 }

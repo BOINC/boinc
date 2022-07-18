@@ -188,18 +188,25 @@ struct FILE_REF {
     int write(MIOFILE&);
 };
 
-// file xfer backoff state for a project and direction (up/down)
-// if file_xfer_failures exceeds FILE_XFER_FAILURE_LIMIT,
+// File xfer backoff state for a project and direction (up/down).
+// If we get more than FILE_XFER_FAILURE_LIMIT (3) consecutive failures,
 // we switch from a per-file to a project-wide backoff policy
 // (separately for the up/down directions)
+// E.g. if we have 100 files to upload and the first 3 fail,
+// we don't try the other 97 immediately.
+//
 // NOTE: this refers to transient failures, not permanent.
 //
+
 #define FILE_XFER_FAILURE_LIMIT 3
+
 struct FILE_XFER_BACKOFF {
     int file_xfer_failures;
         // count of consecutive failures
     double next_xfer_time;
         // when to start trying again
+    bool is_upload;
+
     bool ok_to_transfer();
     void file_xfer_failed(PROJECT*);
     void file_xfer_succeeded();
@@ -296,6 +303,8 @@ struct GPU_USAGE {
     double usage;
 };
 
+// if you add anything, initialize it in init()
+//
 struct APP_VERSION {
     char app_name[256];
     int version_num;
@@ -317,8 +326,14 @@ struct APP_VERSION {
     PROJECT* project;
     std::vector<FILE_REF> app_files;
     int ref_cnt;
+
+    // graphics app, if any
+    // the strings are filled in after exec is downloaded and verified
+    //
+    FILE_INFO *graphics_exec_fip;
     char graphics_exec_path[MAXPATHLEN];
     char graphics_exec_file[256];
+
     double max_working_set_size;
         // max working set of tasks using this app version.
         // unstarted jobs using this app version are assumed
@@ -361,6 +376,7 @@ struct APP_VERSION {
     inline bool is_opencl() {
         return (strstr(plan_class, "opencl") != NULL);
     }
+    void check_graphics_exec();
 };
 
 struct WORKUNIT {
@@ -384,7 +400,7 @@ struct WORKUNIT {
         safe_strcpy(name, "");
         safe_strcpy(app_name, "");
         version_num = 0;
-        command_line = "";
+        command_line.clear();
         input_files.clear();
         job_keyword_ids.clear();
         project = NULL;

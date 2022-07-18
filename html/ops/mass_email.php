@@ -43,7 +43,9 @@ $receiver = 0;
 $receiver = post_int('receiver', true);
 $subject = post_str('subject', true);
 $body = post_str('body', true);
-$body = stripslashes($body);
+if ($body) {
+    $body = stripslashes($body);
+}
 
 admin_page_head("Send mass email");
 

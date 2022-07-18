@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -25,6 +25,7 @@
               android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
+            style="@style/BackgroundDayNight"
             android:id="@+id/center_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +33,6 @@
             android:orientation="horizontal"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:background="@drawable/shape_light_blue_background"
             android:visibility="gone">
 
         <ImageView
@@ -41,33 +41,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:contentDescription="@string/status_paused"
-                android:background="@android:color/transparent"/>
+                android:contentDescription="@string/status_paused"/>
 
         <LinearLayout
                 android:id="@+id/text_wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/transparent">
+                android:orientation="vertical">
 
             <TextView
                     android:id="@+id/status_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:background="@android:color/transparent"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
                     android:id="@+id/status_long"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:background="@android:color/transparent"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+            style="@style/BackgroundDayNight"
             android:id="@+id/restarting_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,16 +72,15 @@
             android:orientation="horizontal"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:background="@drawable/shape_light_blue_background"
             android:visibility="gone">
 
         <ProgressBar
                 android:id="@+id/restarting_progressBar"
+                style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"/>
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"/>
 
         <TextView
                 android:id="@+id/restarting_text"
@@ -92,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/suspend_user_req"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:maxWidth="300dp"
-                android:background="@android:color/transparent"/>
+                android:maxWidth="300dp"/>
     </LinearLayout>
 
 </LinearLayout>

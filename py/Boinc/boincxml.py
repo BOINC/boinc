@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
-# $Id$
+# boincxml.py - XML utilities for boinc
 
-# boincxml.py - xml utilities for boinc
-
+from __future__ import print_function
 import sys, os
 import xml.dom.minidom
 
@@ -29,7 +28,7 @@ def get_element(node, name, optional=True):
         raise SystemExit("ERROR: Couldn't find xml node <%s>"% name)
 
 def _None2Str(object):
-    if object == None:
+    if object is None:
         return ''
     else:
         return object
@@ -130,13 +129,13 @@ class XMLConfig:
             except:
                 if not failopen_ok:
                     raise Exception("Couldn't parse XML config\n")
-                print("Warning: couldn't parse XML file", sys.stderr)
+                print("Warning: couldn't parse XML file", file=sys.stderr)
                 self._init_empty_xml()
         try:
             self._get_elements()
         except:
             if not failopen_ok:
-                raise Exception("%s: Couldn't get elements from XML file");
+                raise Exception("%s: Couldn't get elements from XML file")
         return self
     def _get_elements(self):
         pass

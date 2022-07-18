@@ -71,7 +71,7 @@ public:
     int do_query(const char*);
     int affected_rows();
     void close();
-    int insert_id();
+    DB_ID_TYPE insert_id();
     void print_error(const char*);
     const char* error_string();
     int ping();

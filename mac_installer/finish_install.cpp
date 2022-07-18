@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -58,14 +58,22 @@
 int callPosixSpawn(const char *cmd);
 long GetBrandID(char *path);
 static void FixLaunchServicesDataBase(void);
-void print_to_log_file(const char *format, ...);
+static Boolean IsUserActive(const char *userName);
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f);void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
 int main(int argc, const char * argv[]) {
     int                     i, err;
     char                    cmd[2048];
+    char                    *userName;
     passwd                  *pw;
 
+    // Wait until we are the active login (in case of fast user switching)
+    userName = getenv("USER");
+    while (!IsUserActive(userName)) {
+        sleep(1);
+    }
+    
     for (i=0; i<NUMBRANDS; i++) {
         snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", appName[i]);
         err = callPosixSpawn(cmd);
@@ -138,7 +146,7 @@ long GetBrandID(char *path)
 
 
 // If there are other copies of BOINC Manager with different branding
-// on the system, Noitifications may display the icon for the wrong
+// on the system, Notifications may display the icon for the wrong
 // branding, due to the Launch Services database having one of the
 // other copies of BOINC Manager as the first entry. Each user has
 // their own copy of the Launch Services database, so this must be
@@ -208,12 +216,47 @@ registerOurApp:
 }
 
 
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    int len = (int)buflen;
+    size_t datalen = 0;
+    memset(buf, 0, buflen);
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
+static Boolean IsUserActive(const char *userName){
+    char s[1024];
+
+    FILE *f = popen("ls -l /dev/console", "r");
+    if (f) {
+        while (PersistentFGets(s, sizeof(s), f) != NULL) {
+            if (strstr(s, userName)) {
+                pclose (f);         
+                return true;
+            }
+        } 
+        pclose (f);         
+    }
+    return false;
+}
+
+
 #define NOT_IN_TOKEN                0
 #define IN_SINGLE_QUOTED_TOKEN      1
 #define IN_DOUBLE_QUOTED_TOKEN      2
 #define IN_UNQUOTED_TOKEN           3
 
-static int parse_posic_spawn_command_line(char* p, char** argv) {
+static int parse_posix_spawn_command_line(char* p, char** argv) {
     int state = NOT_IN_TOKEN;
     int argc=0;
 
@@ -269,16 +312,16 @@ int callPosixSpawn(const char *cmdline) {
     char progName[1024];
     char progPath[MAXPATHLEN];
     char* argv[100];
-    int argc = 0;
+    int argc __attribute__((unused)) = 0;
     char *p;
     pid_t thePid = 0;
     int result = 0;
     int status = 0;
     extern char **environ;
     
-    // Make a copy of cmdline because parse_posic_spawn_command_line modifies it
+    // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
-    argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
+    argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
     strlcpy(progPath, argv[0], sizeof(progPath));
     strlcpy(progName, argv[0], sizeof(progName));
     p = strrchr(progName, '/');

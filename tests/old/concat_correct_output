@@ -529,7 +529,7 @@
       <li>
               <code>unparsed-entity-uri()</code>.</li>
       </ul>
-          <p CLASS="">As for the fuctions that <i>are</i> implemented, the
+          <p CLASS="">As for the functions that <i>are</i> implemented, the
       following is a list of differences from the spec:
       </p>
           <ul>

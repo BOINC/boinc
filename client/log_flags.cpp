@@ -19,10 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define chdir    _chdir
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -37,6 +33,7 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 
 #include "client_state.h"
 #include "client_msgs.h"
@@ -290,6 +287,14 @@ void CC_CONFIG::show() {
             );
         }
     }
+    for (i=0; i<ignore_tty.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: ignore tty: %s", ignore_tty[i].c_str()
+        );
+    }
+    if (!device_name.empty()) {
+        msg_printf(NULL, MSG_INFO, "Config: device name is %s", device_name.c_str());
+    }
 }
 
 // This is used by the BOINC client.
@@ -311,6 +316,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
     for (int i=1; i<NPROC_TYPES; i++) {
         ignore_gpu_instance[i].clear();
     }
+    ignore_tty.clear();
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -413,8 +419,8 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
@@ -452,11 +458,17 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
+        if (xp.parse_string("ignore_tty", s)) {
+            ignore_tty.push_back(s);
+            continue;
+        }
+        if (xp.parse_string("device_name", device_name)) continue;
 
-        // The following 3 tags have been moved to nvc_config and
-        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
+        // but CC_CONFIG::write() in older clients 
         // may have written their default values to CONFIG_FILE. 
         // Silently skip them if present.
+        //
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;
@@ -666,7 +678,7 @@ void process_gpu_exclusions() {
             for (j=0; j<cc_config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = cc_config.exclude_gpus[j];
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
-                if (strcmp(eg.url.c_str(), p->master_url)) continue;
+                if (!urls_match(eg.url.c_str(), p->master_url)) continue;
                 COPROC_INSTANCE_BITMAP mask;
                 if (eg.device_num >= 0) {
                     int index = cp.device_num_index(eg.device_num);
@@ -760,7 +772,7 @@ bool gpu_excluded(APP* app, COPROC& cp, int ind) {
     PROJECT* p = app->project;
     for (unsigned int i=0; i<cc_config.exclude_gpus.size(); i++) {
         EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
-        if (strcmp(eg.url.c_str(), p->master_url)) continue;
+        if (!urls_match(eg.url.c_str(), p->master_url)) continue;
         if (!eg.type.empty() && (eg.type != cp.type)) continue;
         if (!eg.appname.empty() && (eg.appname != app->name)) continue;
         if (eg.device_num >= 0 && eg.device_num != cp.device_nums[ind]) continue;

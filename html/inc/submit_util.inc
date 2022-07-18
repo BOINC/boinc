@@ -54,7 +54,25 @@ function job_file_name($md5) {
     return "jf_$md5";
 }
 
-function authenticate_user($r, $app) {
+// does user have submit permissions?
+//
+function submit_permissions($user) {
+    return BoincUserSubmit::lookup_userid($user->id);
+}
+
+// does user have submit permissions for given app?
+//
+function submit_permissions_app($user, $app) {
+    return BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+}
+
+// check whether user has permissions for a remote job submission
+// or job file request.
+// $r is a request message that includes an 'authenticator' field
+// $app is the app being submitted to (or null if file op)
+// returns [user, UserSubmit], or give XML error
+//
+function check_remote_submit_permissions($r, $app) {
     $auth = (string)$r->authenticator;
     if (!$auth) {
         log_write("no authenticator");
@@ -66,13 +84,13 @@ function authenticate_user($r, $app) {
         log_write("bad authenticator");
         xml_error(-1, "bad authenticator");
     }
-    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    $user_submit = submit_permissions($user);
     if (!$user_submit) {
         log_write("no submit access");
         xml_error(-1, "no submit access");
     }
     if ($app && !$user_submit->submit_all) {
-        $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+        $usa = submit_permissions_app($user, $app);
         if (!$usa) {
             log_write("no app submit access");
             xml_error(-1, "no app submit access");
@@ -181,6 +199,11 @@ function retire_batch($batch) {
         $wu->update(
             "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
         );
+        // remove output template if it's a temporary
+        //
+        if (strstr($wu->result_template_file, "templates/tmp/")) {
+            @unlink($wu->result_template_file);
+        }
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
 }

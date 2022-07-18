@@ -38,10 +38,11 @@ Author:
 
 --*/
 
-#include "../zip.h"
-
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#include "../zip.h"
+
 #ifdef __RSXNT__
 #  include "../win32/rsxntwin.h"
 #endif

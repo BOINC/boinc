@@ -18,14 +18,8 @@
 // Stuff related to catching SEH exceptions, monitoring threads, and trapping
 // debugger messages; used by both core client and by apps.
 
-#ifdef  _WIN32
-#ifndef __STDWX_H__
 #include "boinc_win.h"
-#else
-#include "stdwx.h"
-#endif
 #include "win_util.h"
-#endif
 
 #ifndef __CYGWIN32__
 #include "stackwalker_win.h"
@@ -112,7 +106,7 @@ static BOINC_PROCESSENTRY diagnostics_process;
 //   SEH exception is thrown.
 //
 
-// This structure is used to keep track of stuff nessassary
+// This structure is used to keep track of stuff necessary
 //   to dump backtraces for all threads during an abort or
 //   crash.  This is platform specific in nature since it
 //   depends on the OS datatypes.
@@ -160,7 +154,7 @@ int diagnostics_init_thread_list() {
     size_t i;
     size_t size;
 
-    // Create a Mutex that can be used to syncronize data access
+    // Create a Mutex that can be used to synchronize data access
     //   to the global thread list.
     hThreadListSync = CreateMutex(NULL, TRUE, NULL);
     if (!hThreadListSync) {
@@ -294,7 +288,7 @@ int diagnostics_update_thread_list() {
     // Lets start walking the structures to find the good stuff.
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     do {
-        // Okay, found the current procceses entry now we just need to
+        // Okay, found the current process entry now we just need to
         //   update the thread data.
         if (pProcesses->ProcessId == dwCurrentProcessId) {
 
@@ -519,9 +513,8 @@ char* diagnostics_format_thread_state(int thread_state) {
         case StateTerminated: return "Terminated";
         case StateWait: return "Waiting";
         case StateTransition: return "Transition";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 
@@ -551,9 +544,8 @@ char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
         case ThreadWaitReasonWrLpcReply: return "LPCReply";
         case ThreadWaitReasonWrVirtualMemory: return "VirtualMemory";
         case ThreadWaitReasonWrPageOut: return "PageOut";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 
@@ -569,9 +561,8 @@ char* diagnostics_format_process_priority(int process_priority) {
         case ABOVE_NORMAL_PRIORITY_CLASS: return "Above Normal";
         case HIGH_PRIORITY_CLASS: return "High";
         case REALTIME_PRIORITY_CLASS: return "Realtime";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 
@@ -588,13 +579,12 @@ char* diagnostics_format_thread_priority(int thread_priority) {
         case THREAD_PRIORITY_ABOVE_NORMAL: return "Above Normal";
         case THREAD_PRIORITY_HIGHEST: return "Highest";
         case THREAD_PRIORITY_TIME_CRITICAL: return "Time Critical";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 
-// Provide a mechinism to trap and report messages sent to the debugger's
+// Provide a mechanism to trap and report messages sent to the debugger's
 //   viewport.  This should only been enabled if a debugger isn't running
 //   against the current process already.
 //
@@ -644,7 +634,7 @@ int diagnostics_init_message_monitor() {
     SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE);
 
 
-    // Create a mutex that can be used to syncronize data access
+    // Create a mutex that can be used to synchronize data access
     //   to the global thread list.
     hMessageMonitorSync = CreateMutex(NULL, TRUE, NULL);
     if (!hMessageMonitorSync) {
@@ -769,7 +759,7 @@ int diagnostics_finish_message_monitor() {
     SetEvent(hMessageQuitEvent);
 
     // Wait until it is message monitoring thread is shutdown before
-    //   cleaning up the structure since we'll need to aquire the
+    //   cleaning up the structure since we'll need to acquire the
     //   MessageMonitorSync mutex.
     WaitForSingleObject(hMessageQuitFinishedEvent, INFINITE);
     WaitForSingleObject(hMessageMonitorSync, INFINITE);
@@ -1019,11 +1009,11 @@ int diagnostics_trace_to_debugger(const char* msg) {
 //   be referencing the same corrupted area of memory.  Previous
 //   implementations of the runtime debugger would have just terminated
 //   the process believing it was a nested unhandled exception instead
-//   of believing it to be two seperate exceptions thrown from different
+//   of believing it to be two separate exceptions thrown from different
 //   threads.
 //
 
-// This structure is used to keep track of stuff nessassary
+// This structure is used to keep track of stuff necessary
 //   to dump information about the top most window during
 //   a crash event.
 typedef struct _BOINC_WINDOWCAPTURE {
@@ -1073,7 +1063,7 @@ int diagnostics_init_unhandled_exception_monitor() {
 
     // The following event is thrown by a thread that has experienced an
     //   unhandled exception after storing its exception record but before
-    //   it attempts to aquire the halt mutex.
+    //   it attempts to acquire the halt mutex.
     hExceptionDetectedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionDetectedEvent) {
         fprintf(
@@ -1141,7 +1131,7 @@ int diagnostics_finish_unhandled_exception_monitor() {
     SetEvent(hExceptionQuitEvent);
 
     // Wait until it is message monitoring thread is shutdown before
-    //   cleaning up the structure since we'll need to aquire the
+    //   cleaning up the structure since we'll need to acquire the
     //   MessageMonitorSync mutex.
     WaitForSingleObject(hExceptionQuitFinishedEvent, INFINITE);
 
@@ -1557,7 +1547,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
     // We should not suspend our crash dump thread.
     diagnostics_set_thread_exempt_suspend();
 
-    // Aquire the mutex that will keep all the threads that throw an exception
+    // Acquire the mutex that will keep all the threads that throw an exception
     //   at bay until we are ready to deal with them.
     WaitForSingleObject(hExceptionMonitorHalt, INFINITE);
 
@@ -1611,7 +1601,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                 // Dump some basic stuff about runtime debugger version and date
                 diagnostics_unhandled_exception_dump_banner();
 
-#ifndef __CYGWIN__
+#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64)
                 // Kickstart the debugger extensions, look for the debugger files
                 //   in the install directory if it is defined, otherwise look
                 //   in the data directory.
@@ -1652,7 +1642,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                         }
 
                         if (diagnostics_is_flag_set(BOINC_DIAG_DUMPCALLSTACKENABLED)) {
-#ifndef __CYGWIN__
+#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64)
                             if (bDebuggerInitialized) {
                                 if (pThreadEntry->crash_exception_record ) {
                                     StackwalkFilter(

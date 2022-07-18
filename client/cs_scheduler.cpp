@@ -34,10 +34,6 @@
 #include <set>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "crypt.h"
 #include "error_numbers.h"
 #include "file_names.h"
@@ -596,25 +592,29 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
-    // check that master URL is correct
+    // compare our URL for this project with the one returned in the reply
+    // (which comes from the project's config.xml).
+    // - if http -> https transition, make the change
+    // - otherwise notify the user.
+    // This means that if a project changes its master URL,
+    // its users have to detach/reattach.
     //
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url, sizeof(sr.master_url));
-        string url1 = sr.master_url;
-        string url2 = project->master_url;
-        downcase_string(url1);
-        downcase_string(url2);
-        if (url1 != url2) {
-            p2 = lookup_project(sr.master_url);
-            if (p2) {
-                msg_printf(project, MSG_USER_ALERT,
-                    "You are attached to this project twice.  Please remove projects named %s, then add %s",
-                    project->project_name,
-                    sr.master_url
+        string reply_url = sr.master_url;
+        string current_url = project->master_url;
+        downcase_string(reply_url);
+        downcase_string(current_url);
+        if (reply_url != current_url) {
+            if (is_https_transition(current_url.c_str(), reply_url.c_str())) {
+                strcpy(project->master_url, reply_url.c_str());
+                project->write_account_file();
+                msg_printf(project, MSG_INFO,
+                    "Project URL changed from http:// to https://"
                 );
             } else {
                 msg_printf(project, MSG_USER_ALERT,
-                    _("This project is using an old URL.  When convenient, remove the project, then add %s"),
+                    _("This project seems to have changed its URL.  When convenient, remove the project, then add %s"),
                     sr.master_url
                 );
             }
@@ -662,9 +662,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
-    if (log_flags.sched_op_debug && sr.request_delay) {
+    if (log_flags.sched_ops && sr.request_delay) {
         msg_printf(project, MSG_INFO,
-            "[sched_op] Project requested delay of %.0f seconds", sr.request_delay
+            "Project requested delay of %.0f seconds", sr.request_delay
         );
     }
 
@@ -801,16 +801,17 @@ int CLIENT_STATE::handle_scheduler_reply(
     // copy new entities to client state
     //
     for (i=0; i<sr.apps.size(); i++) {
-        APP* app = lookup_app(project, sr.apps[i].name);
+        APP& checked_app = sr.apps[i];
+        APP* app = lookup_app(project, checked_app.name);
         if (app) {
             // update app attributes; they may have changed on server
             //
-            safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
-            app->non_cpu_intensive = sr.apps[i].non_cpu_intensive;
-            app->fraction_done_exact = sr.apps[i].fraction_done_exact;
+            safe_strcpy(app->user_friendly_name, checked_app.user_friendly_name);
+            app->non_cpu_intensive = checked_app.non_cpu_intensive;
+            app->fraction_done_exact = checked_app.fraction_done_exact;
         } else {
             app = new APP;
-            *app = sr.apps[i];
+            *app = checked_app;
             retval = link_app(project, app);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -939,21 +940,22 @@ int CLIENT_STATE::handle_scheduler_reply(
         got_work_for_rsc[j] = false;
     }
     for (i=0; i<sr.results.size(); i++) {
-        RESULT* rp2 = lookup_result(project, sr.results[i].name);
+        RESULT& checked_result = sr.results[i];
+        RESULT* rp2 = lookup_result(project, checked_result.name);
         if (rp2) {
             // see if project wants to change the job's deadline
             //
-            if (sr.results[i].report_deadline != rp2->report_deadline) {
-                rp2->report_deadline = sr.results[i].report_deadline;
+            if (checked_result.report_deadline != rp2->report_deadline) {
+                rp2->report_deadline = checked_result.report_deadline;
             } else {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Already have task %s\n", sr.results[i].name
+                    "Already have task %s\n", checked_result.name
                 );
             }
             continue;
         }
         RESULT* rp = new RESULT;
-        *rp = sr.results[i];
+        *rp = checked_result;
         retval = link_result(project, rp);
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,

@@ -66,6 +66,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     }
 
     // Intercept next_url if consent has not yet been given
+    //
     $next_url = intercept_login($user, $perm, $next_url);
     Header("Location: ".url_base()."$next_url");
 }
@@ -100,7 +101,8 @@ function login_via_link($id, $t, $h) {
     }
 
     // Intercept next_url if consent has not yet been given
-    $next_url = intercept_login($user, true, "home.php");
+    //
+    $next_url = intercept_login($user, true, USER_HOME);
     Header("Location: ".url_base()."$next_url");
 }
 
@@ -119,6 +121,7 @@ function login_with_auth($authenticator, $next_url, $perm) {
     } else {
 
         // Intercept next_url if consent has not yet been given
+        //
         $next_url = intercept_login($user, $perm, $next_url);
         Header("Location: ".url_base()."$next_url");
     }
@@ -142,6 +145,7 @@ function login_with_ldap($uid, $passwd, $next_url, $perm) {
         error_page("Couldn't create user");
     }
     // Intercept next_url if consent has not yet been given
+    //
     $next_url = intercept_login($user, $perm, $next_url);
     Header("Location: ".url_base()."$next_url");
     return;

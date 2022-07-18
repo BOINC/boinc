@@ -153,6 +153,7 @@ protected:
 
 private:
     CDlgMessages* dlgMsgsPtr;
+    wxBoxSizer* mainSizer;
 
     DECLARE_EVENT_TABLE()
 };

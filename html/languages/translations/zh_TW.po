@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2019 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -7,17 +7,19 @@
 # Died <doomdied@gmail.com>, 2015
 # Mingye Wang <arthur200126@gmail.com>, 2015,2019
 # Po-Chun Huang <aphroteus@gmail.com>, 2015
+# Robert Kwan, 2020
 # Willy Wu <df910105@yahoo.com.tw>, 2015
 # Willy Wu <df910105@yahoo.com.tw>, 2015-2016,2018
 # Yung Gaby <gabrielle@yungs.org>, 2018
+# 孟邦 王, 2020
 # 江昱輝 <darkanglephantom@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
-"PO-Revision-Date: 2019-09-23 13:34+0000\n"
-"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-05 12:11+0000\n"
+"Last-Translator: Mingye Wang <arthur200126@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,47 +34,51 @@ msgstr "繁體中文 (台灣)"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Traditional Chinese (Taiwan)"
 
-#: html/inc/account.inc:72 html/user/signup.php:35
+#: html/inc/account.inc:56
+msgid "Show password"
+msgstr "顯示密碼"
+
+#: html/inc/account.inc:73 html/user/signup.php:35
 msgid "An invitation code is required to create an account."
 msgstr "建立帳號時需要邀請碼。"
 
-#: html/inc/account.inc:73 html/user/signup.php:36
+#: html/inc/account.inc:74 html/user/signup.php:36
 msgid "Invitation code"
 msgstr "邀請碼"
 
-#: html/inc/account.inc:81 html/user/account_finish.php:41
+#: html/inc/account.inc:82 html/user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "您在我們網站上的標識，可以使用您的真實姓名或是暱稱。"
 
-#: html/inc/account.inc:82
+#: html/inc/account.inc:83
 msgid "Screen name"
 msgstr "名稱"
 
-#: html/inc/account.inc:88
+#: html/inc/account.inc:89
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "必須是有效的電子郵件地址，例如：用戶名@域名。"
 
-#: html/inc/account.inc:89 html/inc/user.inc:244 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:244 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "電子郵件地址"
 
-#: html/inc/account.inc:100 html/user/signup.php:63
+#: html/inc/account.inc:101 html/user/signup.php:63
 msgid "Must be at least %1 characters"
 msgstr "至少必須包含%1個字元"
 
 #. we need the password here not for verification,
 #. but because we store it salted with email address,
 #. which is about to change.
-#: html/inc/account.inc:101 html/user/delete_account_confirm.php:54
+#: html/inc/account.inc:102 html/user/delete_account_confirm.php:54
 #: html/user/delete_account_request.php:51 html/user/edit_email_form.php:47
 msgid "Password"
 msgstr "密碼"
 
-#: html/inc/account.inc:108 html/user/account_finish.php:45
+#: html/inc/account.inc:109 html/user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
 msgstr "選擇您的國家。"
 
-#: html/inc/account.inc:109 html/inc/team.inc:44 html/inc/team.inc:136
+#: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
 #: html/inc/user.inc:253 html/inc/user.inc:456 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
@@ -82,39 +88,44 @@ msgstr "選擇您的國家。"
 msgid "Country"
 msgstr "國家"
 
-#: html/inc/account.inc:117 html/user/account_finish.php:52
+#: html/inc/account.inc:118 html/user/account_finish.php:52
 msgid "Postal or ZIP Code"
 msgstr "郵遞區號"
 
-#: html/inc/account.inc:117
+#: html/inc/account.inc:118
 msgid "Optional"
 msgstr "可選擇"
 
-#: html/inc/account.inc:127 html/inc/account.inc:171
+#: html/inc/account.inc:128 html/inc/account.inc:172
 msgid "Terms of Use"
 msgstr "使用條款"
 
-#: html/inc/account.inc:134 html/inc/account.inc:178
+#: html/inc/account.inc:135 html/inc/account.inc:179
 msgid "Do you agree to the terms of use above?"
 msgstr "您是否同意以上的使用條款"
 
-#: html/inc/account.inc:146
+#: html/inc/account.inc:147
 msgid "Email address:"
 msgstr "電子郵件地址："
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "Password:"
 msgstr "密碼："
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "forgot password?"
 msgstr "忘記密碼?"
 
-#: html/inc/account.inc:157
+#: html/inc/account.inc:158
 msgid "Stay logged in"
 msgstr "保持登入狀態"
 
-#: html/inc/account.inc:184
+#. kludge
+#: html/inc/account.inc:162 html/inc/util.inc:346 html/user/login_form.php:43
+msgid "Log in"
+msgstr "登入"
+
+#: html/inc/account.inc:185
 msgid "I agree"
 msgstr "我同意"
 
@@ -249,112 +260,117 @@ msgstr "關閉所有bbCode代碼"
 msgid "Close Tags"
 msgstr "關閉標籤"
 
-#: html/inc/bootstrap.inc:156 html/inc/user.inc:187
-msgid "Account"
-msgstr "帳號"
-
-#: html/inc/bootstrap.inc:157 html/user/signup.php:89
+#: html/inc/bootstrap.inc:95 html/inc/bootstrap.inc:160
+#: html/user/signup.php:89 html/user/signup.php:99
 msgid "Join"
 msgstr "加入"
 
-#: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
-#: html/inc/bootstrap.inc:195 html/inc/user.inc:300
+#: html/inc/bootstrap.inc:97
+msgid "Login"
+msgstr "登入"
+
+#: html/inc/bootstrap.inc:159 html/inc/user.inc:187
+msgid "Account"
+msgstr "帳號"
+
+#: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:300
 msgid "Preferences"
 msgstr "偏好設定"
 
-#: html/inc/bootstrap.inc:160
+#: html/inc/bootstrap.inc:163
 msgid "About %1"
 msgstr "關於%1"
 
-#: html/inc/bootstrap.inc:161
+#: html/inc/bootstrap.inc:164
 msgid "Help"
 msgstr "協助"
 
-#: html/inc/bootstrap.inc:162 html/inc/user.inc:129
+#: html/inc/bootstrap.inc:165 html/inc/user.inc:129
 msgid "Project"
 msgstr "專案"
 
-#: html/inc/bootstrap.inc:168
+#: html/inc/bootstrap.inc:171
 msgid "Participate"
 msgstr "參與"
 
-#: html/inc/bootstrap.inc:169
+#: html/inc/bootstrap.inc:172
 msgid "Do work"
 msgstr "執行運算"
 
-#: html/inc/bootstrap.inc:175 html/user/server_status.php:117
+#: html/inc/bootstrap.inc:178 html/user/server_status.php:117
 msgid "Server status"
 msgstr "伺服器狀態"
 
-#: html/inc/bootstrap.inc:176
+#: html/inc/bootstrap.inc:179
 msgid "Credit statistics"
 msgstr "積分統計"
 
-#: html/inc/bootstrap.inc:177 html/user/apps.php:32
+#: html/inc/bootstrap.inc:180 html/user/apps.php:32
 msgid "Applications"
 msgstr "程式"
 
-#: html/inc/bootstrap.inc:178
+#: html/inc/bootstrap.inc:181
 msgid "GPU models"
 msgstr "GPU型號"
 
-#: html/inc/bootstrap.inc:179
+#: html/inc/bootstrap.inc:182
 msgid "CPU models"
 msgstr "CPU型號"
 
-#: html/inc/bootstrap.inc:180
+#: html/inc/bootstrap.inc:183
 msgid "Computer types"
 msgstr "電腦類型"
 
-#: html/inc/bootstrap.inc:187 html/inc/prefs.inc:241 html/inc/prefs.inc:482
+#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:241 html/inc/prefs.inc:482
 #: html/inc/user.inc:163 html/user/explain_state.php:94
 msgid "Computing"
 msgstr "運算"
 
-#: html/inc/bootstrap.inc:190 html/inc/user.inc:571 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:571 html/user/welcome.php:79
 msgid "Community"
 msgstr "社群"
 
-#: html/inc/bootstrap.inc:191 html/inc/forum.inc:174 html/inc/forum.inc:206
+#: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
 #: html/inc/user.inc:382 html/inc/user.inc:516 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "留言版"
 
 #. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
-#: html/inc/bootstrap.inc:193 html/user/stats.php:40 html/user/team.php:27
+#: html/inc/bootstrap.inc:196 html/user/stats.php:40 html/user/team.php:27
 msgid "Teams"
 msgstr "團隊"
 
-#: html/inc/bootstrap.inc:193
+#: html/inc/bootstrap.inc:196
 msgid "create or join a team"
 msgstr "建立或加入一個團隊"
 
-#: html/inc/bootstrap.inc:194 html/user/profile_menu.php:34
+#: html/inc/bootstrap.inc:197 html/user/profile_menu.php:34
 msgid "Profiles"
 msgstr "用戶檔案"
 
-#: html/inc/bootstrap.inc:196
+#: html/inc/bootstrap.inc:199 html/user/user_search.php:46
 msgid "User search"
 msgstr "搜尋使用者"
 
-#: html/inc/bootstrap.inc:197
+#: html/inc/bootstrap.inc:200
 msgid "User of the day"
 msgstr "本日用戶"
 
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:192
+#: html/inc/bootstrap.inc:201 html/inc/user.inc:192
 msgid "Certificate"
 msgstr "證書"
 
-#: html/inc/bootstrap.inc:200
+#: html/inc/bootstrap.inc:203
 msgid "Site"
 msgstr "網站"
 
-#: html/inc/bootstrap.inc:201
+#: html/inc/bootstrap.inc:204 html/user/site_search.php:22
 msgid "Site search"
 msgstr "搜尋網站"
 
-#: html/inc/bootstrap.inc:202
+#: html/inc/bootstrap.inc:205
 msgid "Languages"
 msgstr "語言"
 
@@ -453,317 +469,317 @@ msgstr "問與答"
 msgid "%1 message board"
 msgstr "%1留言版"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:784
+#: html/inc/forum.inc:257 html/inc/result.inc:787
 msgid "Previous"
 msgstr "上一個"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:793
+#: html/inc/forum.inc:295 html/inc/result.inc:796
 msgid "Next"
 msgstr "下一個"
 
-#: html/inc/forum.inc:424 html/inc/forum.inc:1311
+#: html/inc/forum.inc:424 html/inc/forum.inc:1317
 #: html/user/forum_forum.php:146 html/user/forum_reply.php:127
-#: html/user/forum_report_post.php:86
+#: html/user/forum_report_post.php:89
 msgid "Author"
 msgstr "作者"
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
 #: html/user/forum_edit.php:141 html/user/forum_post.php:127
-#: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
+#: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr "訊息"
 
-#: html/inc/forum.inc:610 html/inc/pm.inc:95 html/inc/pm.inc:177
+#: html/inc/forum.inc:611 html/inc/pm.inc:95 html/inc/pm.inc:177
 msgid "Send message"
 msgstr "傳送訊息"
 
-#: html/inc/forum.inc:610
+#: html/inc/forum.inc:611
 msgid "Send %1 a private message"
 msgstr "傳送私人訊息給%1"
 
-#: html/inc/forum.inc:611
+#: html/inc/forum.inc:612
 msgid "Joined: %1"
 msgstr "加入時間：%1"
 
-#: html/inc/forum.inc:620
+#: html/inc/forum.inc:621
 msgid "Posts: %1"
 msgstr "文章：%1"
 
-#: html/inc/forum.inc:626
+#: html/inc/forum.inc:627
 msgid "Credit: %1"
 msgstr "積分：%1"
 
-#: html/inc/forum.inc:627
+#: html/inc/forum.inc:628
 msgid "RAC: %1"
 msgstr "近期平均績分：%1"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "You haven't read this message yet"
 msgstr "您尚未閱讀此訊息"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "Unread"
 msgstr "未讀"
 
-#: html/inc/forum.inc:660 html/inc/forum.inc:665 html/inc/forum.inc:778
+#: html/inc/forum.inc:661 html/inc/forum.inc:666 html/inc/forum.inc:784
 msgid "Message %1"
 msgstr "訊息%1"
 
-#: html/inc/forum.inc:661 html/inc/user.inc:474 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:474 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "隱藏"
 
-#: html/inc/forum.inc:662
+#: html/inc/forum.inc:663
 msgid "Posted: %1"
 msgstr "發表於：%1"
 
-#: html/inc/forum.inc:665
+#: html/inc/forum.inc:666
 msgid " - in response to "
 msgstr " - 回應於 "
 
-#: html/inc/forum.inc:668 html/inc/prefs_util.inc:734
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
 #: html/inc/prefs_util.inc:736
 msgid "Edit"
 msgstr "編輯"
 
-#: html/inc/forum.inc:668
+#: html/inc/forum.inc:669
 msgid "Edit this message"
 msgstr "編輯此訊息"
 
-#: html/inc/forum.inc:674
+#: html/inc/forum.inc:675
 msgid "Last modified: %1"
 msgstr "最近修改日期：%1"
 
-#: html/inc/forum.inc:678
+#: html/inc/forum.inc:679
 msgid ""
 "This post is hidden because the sender is on your 'ignore' list.  Click %1 "
 "here %2 to view hidden posts"
 msgstr "這篇文章被隱藏是因為作者將您加到忽略列表裡。點擊%1這裡%2查看"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report this post as offensive"
 msgstr "檢舉違規文章"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report as offensive"
 msgstr "檢舉違規"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "Rating: %1"
 msgstr "評分：%1"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "rate: "
 msgstr "評分："
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Click if you like this message"
 msgstr "如果你喜歡此訊息請點擊"
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Rate +"
 msgstr "加分 +"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Click if you don't like this message"
 msgstr "如果你不喜歡此訊息請點擊"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Rate -"
 msgstr "扣分 -"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:734 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:735 html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "回覆"
 
-#: html/inc/forum.inc:734
+#: html/inc/forum.inc:735
 msgid "Post a reply to this message"
 msgstr "回覆此訊息"
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Quote"
 msgstr "引用"
 
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Post a reply by quoting this message"
 msgstr "回覆並引用此訊息"
 
-#: html/inc/forum.inc:759
+#: html/inc/forum.inc:765
 msgid "Hidden by a moderator"
 msgstr "被管理員隱藏"
 
-#: html/inc/forum.inc:780
+#: html/inc/forum.inc:786
 msgid "Posted %1 by %2"
 msgstr "%2發表於：%1 "
 
-#: html/inc/forum.inc:800
+#: html/inc/forum.inc:806
 msgid "You may not post or rate messages until %1"
 msgstr "你必須等到%1後才能回覆或給文章評分"
 
-#: html/inc/forum.inc:825
+#: html/inc/forum.inc:831
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
 msgstr "內容必須兒童適宜：不包含淫穢、仇恨，色情或性暗示的內容。"
 
-#: html/inc/forum.inc:826
+#: html/inc/forum.inc:832
 msgid "No commercial advertisements."
 msgstr "不可包含商業性廣告"
 
-#: html/inc/forum.inc:827
+#: html/inc/forum.inc:833
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
 msgstr "網站連結勿涉及性愛，賭博或侵犯他人。"
 
-#: html/inc/forum.inc:828
+#: html/inc/forum.inc:834
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
 msgstr "留言請勿騷擾或攻擊他人，或是歪樓。"
 
-#: html/inc/forum.inc:829
+#: html/inc/forum.inc:835
 msgid "No messages that are deliberately hostile, threatening, or insulting."
 msgstr "留言請勿故意造成敵對，威脅或侮辱。"
 
-#: html/inc/forum.inc:830
+#: html/inc/forum.inc:836
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
 msgstr "留言請勿涉及種族，宗教，國籍，性別，階級或性虐待。"
 
-#: html/inc/forum.inc:831
+#: html/inc/forum.inc:837
 msgid "Posts that violate these rules may be deleted."
 msgstr "違反以上規條的文章可能會被刪除。"
 
-#: html/inc/forum.inc:832
+#: html/inc/forum.inc:838
 msgid "The posting privileges of violators may be suspended or revoked."
 msgstr "違規者的權限可能會被暫停或撤銷。"
 
-#: html/inc/forum.inc:833
+#: html/inc/forum.inc:839
 msgid "If your account is suspended, don't create a new one."
 msgstr "如果您的帳號被停用，請勿再建立新帳號。"
 
-#: html/inc/forum.inc:852
+#: html/inc/forum.inc:858
 msgid "Rules:"
 msgstr "規定："
 
-#: html/inc/forum.inc:1172 html/user/forum_thread.php:195
+#: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "取消隱藏"
 
-#: html/inc/forum.inc:1172
+#: html/inc/forum.inc:1178
 msgid "Unhide this post"
 msgstr "取消隱藏文章"
 
-#: html/inc/forum.inc:1174 html/user/forum_thread.php:201
+#: html/inc/forum.inc:1180 html/user/forum_thread.php:201
 msgid "Hide"
 msgstr "隱藏"
 
-#: html/inc/forum.inc:1174
+#: html/inc/forum.inc:1180
 msgid "Hide this post"
 msgstr "隱藏這篇文章"
 
-#: html/inc/forum.inc:1179 html/user/forum_thread.php:234
+#: html/inc/forum.inc:1185 html/user/forum_thread.php:234
 msgid "Move"
 msgstr "移動"
 
-#: html/inc/forum.inc:1179
+#: html/inc/forum.inc:1185
 msgid "Move post to a different thread"
 msgstr "移動文章到其他主題"
 
-#: html/inc/forum.inc:1184
+#: html/inc/forum.inc:1190
 msgid "Banish author"
 msgstr "封鎖作者"
 
-#: html/inc/forum.inc:1191
+#: html/inc/forum.inc:1197
 msgid "Vote to banish author"
 msgstr "投票封鎖作者"
 
-#: html/inc/forum.inc:1195
+#: html/inc/forum.inc:1201
 msgid "Vote not to banish author"
 msgstr "投票不要封鎖作者"
 
-#: html/inc/forum.inc:1200
+#: html/inc/forum.inc:1206
 msgid "Start vote to banish author"
 msgstr "開始投票封鎖作者"
 
-#: html/inc/forum.inc:1205 html/inc/user.inc:373
+#: html/inc/forum.inc:1211 html/inc/user.inc:373
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "刪除"
 
-#: html/inc/forum.inc:1205
+#: html/inc/forum.inc:1211
 msgid "Delete this post"
 msgstr "刪除文章"
 
-#: html/inc/forum.inc:1245
+#: html/inc/forum.inc:1251
 msgid "Only team members can post to the team message board"
 msgstr "只有團隊成員才能在團隊的留言板中發文"
 
-#: html/inc/forum.inc:1255
+#: html/inc/forum.inc:1261
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr "你需要在獲得了一定的積分後才能在%1發表一個新主題。以防止論壇系統的遭濫用。"
 
-#: html/inc/forum.inc:1262
+#: html/inc/forum.inc:1268
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr "您還不能發表新主題。請稍後再試，這是為了防止論壇系統遭濫用而採取的延​​時措施。"
 
-#: html/inc/forum.inc:1269
+#: html/inc/forum.inc:1275
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr "此主題已被鎖定，只有論壇管理員能夠在該主題下發文。"
 
-#: html/inc/forum.inc:1274
+#: html/inc/forum.inc:1280
 msgid "Can't post to a hidden thread."
 msgstr "不能回覆隱藏主題"
 
-#: html/inc/forum.inc:1309
+#: html/inc/forum.inc:1315
 msgid "Thread"
 msgstr "主題"
 
-#: html/inc/forum.inc:1310 html/inc/team.inc:142 html/user/forum_forum.php:145
+#: html/inc/forum.inc:1316 html/inc/team.inc:142 html/user/forum_forum.php:145
 #: html/user/forum_index.php:98
 msgid "Posts"
 msgstr "文章"
 
-#: html/inc/forum.inc:1312 html/user/forum_forum.php:147
+#: html/inc/forum.inc:1318 html/user/forum_forum.php:147
 msgid "Views"
 msgstr "瀏覽數"
 
-#: html/inc/forum.inc:1313 html/inc/team.inc:142 html/user/forum_forum.php:148
+#: html/inc/forum.inc:1319 html/inc/team.inc:142 html/user/forum_forum.php:148
 #: html/user/forum_help_desk.php:49 html/user/forum_index.php:99
 msgid "Last post"
 msgstr "最新的文章"
 
-#: html/inc/forum.inc:1370
+#: html/inc/forum.inc:1377
 msgid "New posts in the thread %1"
 msgstr "主題 %1 的新回覆"
 
-#: html/inc/forum.inc:1375
+#: html/inc/forum.inc:1382
 msgid "New posts in subscribed thread"
 msgstr "已訂閱主題的新回覆"
 
-#: html/inc/forum.inc:1376
+#: html/inc/forum.inc:1383
 msgid "There are new posts in the thread '%1'"
 msgstr "主題 “%1” 有新回覆"
 
-#: html/inc/forum.inc:1386
+#: html/inc/forum.inc:1393
 msgid "Mark all threads as read"
-msgstr "標示所有已閱讀的文章"
+msgstr "標記所有主題為已閱讀"
 
-#: html/inc/forum.inc:1387
+#: html/inc/forum.inc:1394
 msgid "Mark all threads in all message boards as read."
-msgstr "標記留言板的所有主題為已閱讀。"
+msgstr "標記所有留言板的全部主題為已閱讀。"
 
 #: html/inc/host.inc:25
 msgid "No host"
@@ -1365,9 +1381,9 @@ msgid "Compute only during a particular period each day."
 msgstr "僅在每天特定時段運算。"
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
+#: html/user/forum_banishment_vote.php:70
 #: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_banishment_vote.php:70 html/user/forum_moderate_post.php:65
-#: html/user/forum_moderate_thread.php:61
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
 msgid "Other"
 msgstr "其他"
 
@@ -1524,7 +1540,7 @@ msgstr "例如： BOINC能在每30天傳送2000MB的數據。"
 msgid "MB every"
 msgstr "MB 每"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:393
+#: html/inc/prefs.inc:212 html/inc/util.inc:417
 msgid "days"
 msgstr "天"
 
@@ -1755,7 +1771,7 @@ msgstr "你的用戶檔案在經過審核後就可以被其他用戶看到，這
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr "你的用戶檔案已標識為不核准，其他用戶也將無法查看，請進行適當的修改。"
+msgstr "您的使用者個人檔案已被標記為難以忍受，其他人也無法瀏覽，請進行適當的修改。"
 
 #: html/inc/profile.inc:171 html/user/friend.php:107 html/user/friend.php:184
 msgid "Database error"
@@ -1868,7 +1884,7 @@ msgstr "已完成，通過驗證"
 
 #: html/inc/result.inc:197
 msgid "Completed, marked as invalid"
-msgstr "已完成，標記為錯誤"
+msgstr "已完成，標記為無效"
 
 #: html/inc/result.inc:198
 msgid "Completed, can't validate"
@@ -2090,7 +2106,7 @@ msgstr "CPU 時間<br /> (秒)"
 msgid "Credit"
 msgstr "積分"
 
-#: html/inc/result.inc:407 html/inc/result.inc:813
+#: html/inc/result.inc:407 html/inc/result.inc:816
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "程式"
@@ -2147,15 +2163,15 @@ msgstr "程式版本"
 msgid "Output files"
 msgstr "檔案輸出"
 
-#: html/inc/result.inc:735
+#: html/inc/result.inc:738
 msgid "Stderr output"
 msgstr "標準錯誤輸出"
 
-#: html/inc/result.inc:795
+#: html/inc/result.inc:798
 msgid "State"
 msgstr "狀態"
 
-#: html/inc/result.inc:836
+#: html/inc/result.inc:839
 msgid "Task name:"
 msgstr "任務名稱："
 
@@ -2179,7 +2195,7 @@ msgstr "團隊類型"
 msgid "Show only active teams"
 msgstr "只顯示活躍的團隊"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1135 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1159 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "搜尋"
@@ -2692,89 +2708,76 @@ msgstr "無法建立帳號"
 msgid "database error, please contact site administrators"
 msgstr "資料庫錯誤，請連聯繫網站管理員"
 
-#: html/inc/util.inc:204
+#: html/inc/util.inc:207
 msgid "log out"
 msgstr "登出"
 
-#: html/inc/util.inc:206
+#: html/inc/util.inc:209
 msgid "log in"
 msgstr "登入"
 
-#. kludge
-#: html/inc/util.inc:322 html/user/login_form.php:40
-msgid "Log in"
-msgstr "登入"
-
-#: html/inc/util.inc:323
+#: html/inc/util.inc:347
 msgid "Create an account"
 msgstr "建立一個帳號"
 
-#: html/inc/util.inc:324
+#: html/inc/util.inc:348
 msgid "Server status page"
 msgstr "伺服器狀態頁"
 
-#: html/inc/util.inc:367
+#: html/inc/util.inc:391
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "資料庫在處理你的請求過程中發生一次資料庫錯誤，請稍後重試。"
 
-#: html/inc/util.inc:376
+#: html/inc/util.inc:400
 msgid "Unable to handle request"
 msgstr "無法處理請求"
 
-#: html/inc/util.inc:396
+#: html/inc/util.inc:420
 msgid "hours"
 msgstr "小時"
 
-#: html/inc/util.inc:399
+#: html/inc/util.inc:423
 msgid "min"
 msgstr "分鐘"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:426
 msgid "sec"
 msgstr "秒"
 
-#: html/inc/util.inc:583
+#: html/inc/util.inc:607
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "連線已超時，請點擊返回並刷新頁面後再重試。"
 
-#: html/inc/util.inc:658
+#: html/inc/util.inc:682
 msgid "Use BBCode tags to format your text"
 msgstr "用 BBCode 代碼來格式化您的文字"
 
-#: html/inc/util.inc:902
+#: html/inc/util.inc:926
 msgid "Project down for maintenance"
 msgstr "專案已停止維護"
 
-#: html/inc/util.inc:905
+#: html/inc/util.inc:929
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 已經臨時關閉並進行維護工作，請稍候再重試。"
 
-#: html/inc/util.inc:932
+#: html/inc/util.inc:956
 msgid "Unable to connect to database - please try again later"
 msgstr "無法連接資料庫 - 請稍候重試"
 
-#: html/inc/util.inc:936
+#: html/inc/util.inc:960
 msgid "Unable to select database - please try again later"
 msgstr "無法選擇資料庫 - 請稍候重試"
 
-#: html/inc/util.inc:1114
+#: html/inc/util.inc:1138
 msgid "characters remaining"
 msgstr "剩餘字元數"
 
 #: html/inc/util_ops.inc:132
 msgid "Stay logged in on this computer"
 msgstr "保持這台電腦的登入狀態"
-
-#: html/user/account_finish_action.php:27
-msgid "You must supply a name for your account"
-msgstr "您必須為您的帳號取一個名字"
-
-#: html/user/account_finish_action.php:30
-msgid "HTML tags not allowed in name"
-msgstr "名字中不允許使用 HTML 語法"
 
 #: html/user/account_finish.php:34
 msgid "Finish account setup"
@@ -2783,6 +2786,14 @@ msgstr "完成帳號設定"
 #: html/user/account_finish.php:52
 msgid "Optional; not shown to others"
 msgstr "可選，其他人不可見"
+
+#: html/user/account_finish_action.php:27
+msgid "You must supply a name for your account"
+msgstr "您必須為您的帳號取一個名字"
+
+#: html/user/account_finish_action.php:30
+msgid "HTML tags not allowed in name"
+msgstr "名字中不允許使用 HTML 語法"
 
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
@@ -2807,30 +2818,30 @@ msgstr "帳號所有權證明並未沒妥善設定。請聯繫專案管理員來
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "簽名認證失敗。請與項目管理員聯繫以解決此問題。"
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
 "An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
-msgstr ""
+msgstr "簽名驗證過程中發生錯誤。請聯繫項目管理員解決此問題。"
 
 #. User data input invalid
 #: html/user/account_ownership.php:115
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "輸入無效。用戶輸入的長度必須大於0且小於4096。<form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "生成帳戶所有權證明"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "生成"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3341,123 +3352,123 @@ msgstr "安裝及執行BOINC的說明請看%1這裡%2。"
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "此列表由%1BOINC官方網站%2統一管理。"
 
-#: html/user/download_software.php:174
+#: html/user/download_software.php:182
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "這個項目需要VirtualBox。"
 
-#: html/user/download_software.php:177
+#: html/user/download_software.php:185
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "該項目推薦使用VirtualBox。"
 
-#: html/user/download_software.php:183
+#: html/user/download_software.php:191
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "如果它未安裝在此計算機上，從%1這裡%2下載它，然後重新啟動BOINC。"
 
-#: html/user/download_software.php:191
+#: html/user/download_software.php:199
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "使用BOINC + VirtualBox安裝程序。"
 
-#: html/user/download_software.php:194
+#: html/user/download_software.php:202
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "如果它未安裝在此計算機上，從%1這裡%2下載它。"
 
-#: html/user/download_software.php:208
+#: html/user/download_software.php:216
 msgid "Download BOINC"
 msgstr "下載BOINC"
 
-#: html/user/download_software.php:217
+#: html/user/download_software.php:225
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
 "        "
 msgstr "如要下載及安裝BOINC，\n請點擊以下連結並跟從指引。"
 
-#: html/user/download_software.php:220
+#: html/user/download_software.php:228
 msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "            Select %1 from the list,\n"
 "            or enter this project's URL: %2"
 msgstr "當BOINC首次執行時，它會要求您選擇一個專案。\n            從列表中選擇%1，\n            或輸入此專案的網址：%2"
 
-#: html/user/download_software.php:229
+#: html/user/download_software.php:237
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "訪問 BOINC 下載頁面。"
 
-#: html/user/download_software.php:258
+#: html/user/download_software.php:266
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "BOINC + VirtualBox的最新版本"
 
-#: html/user/download_software.php:259
+#: html/user/download_software.php:267
 msgid "these versions are"
 msgstr "此版本"
 
-#: html/user/download_software.php:260
+#: html/user/download_software.php:268
 msgid "BOINC and VirtualBox"
 msgstr "BOINC + VirtualBox"
 
-#: html/user/download_software.php:262
+#: html/user/download_software.php:270
 msgid "the current version of BOINC"
 msgstr "BOINC的最新版本"
 
-#: html/user/download_software.php:263
+#: html/user/download_software.php:271
 msgid "this version is"
 msgstr "此版本"
 
-#: html/user/download_software.php:266
+#: html/user/download_software.php:274
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "要參加 %1，必須在電腦上安裝 %2。"
 
-#: html/user/download_software.php:270
+#: html/user/download_software.php:278
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "如果%1已經安裝，%2c點擊這裡%3。"
 
-#: html/user/download_software.php:296
+#: html/user/download_software.php:304
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "如果下載完成，請開啟下載好的檔案安裝%1。"
 
-#: html/user/download_software.php:298
+#: html/user/download_software.php:306
 msgid "All done? %1Click here to finish%2."
 msgstr "都完成了? %1點擊此處完成%2。"
 
-#: html/user/download_software.php:308
+#: html/user/download_software.php:316
 msgid "Use %1"
 msgstr "使用 %1"
 
-#: html/user/download_software.php:317
+#: html/user/download_software.php:325
 msgid "To use %1 on this computer:"
 msgstr "在電腦上使用%1："
 
-#: html/user/download_software.php:318 html/user/download_software.php:335
+#: html/user/download_software.php:326 html/user/download_software.php:343
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "在BOINC Manager中，選擇工具選單"
 
-#: html/user/download_software.php:319
+#: html/user/download_software.php:327
 msgid "Select Use Account Manager"
 msgstr "選用帳號管理服務"
 
-#: html/user/download_software.php:320 html/user/download_software.php:337
+#: html/user/download_software.php:328 html/user/download_software.php:345
 msgid "Select %1 from the list"
 msgstr "在列表中選擇%1"
 
-#: html/user/download_software.php:321 html/user/download_software.php:338
+#: html/user/download_software.php:329 html/user/download_software.php:346
 msgid "Enter your %1 email address and password."
 msgstr "輸入您在%1上的電子郵件地址和密碼。"
 
-#: html/user/download_software.php:324
+#: html/user/download_software.php:332
 msgid "Add %1"
 msgstr "新增 %1"
 
-#: html/user/download_software.php:334
+#: html/user/download_software.php:342
 msgid "To add %1 on this computer:"
 msgstr "新增%1到電腦上："
 
-#: html/user/download_software.php:336
+#: html/user/download_software.php:344
 msgid "Select Add Project"
 msgstr "選擇新增專案"
 
-#: html/user/download_software.php:344 html/user/sample_index.php:90
+#: html/user/download_software.php:352 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "返回您的首頁"
@@ -3952,32 +3963,10 @@ msgid "Send"
 msgstr "傳送"
 
 #. Can't moderate without being moderator
-#: html/user/forum_banishment_vote_action.php:35
 #: html/user/forum_banishment_vote.php:37
+#: html/user/forum_banishment_vote_action.php:35
 msgid "You are not authorized to banish users."
 msgstr "您沒有權限封鎖用戶。"
-
-#: html/user/forum_banishment_vote_action.php:41
-#: html/user/forum_moderate_post_action.php:66
-msgid "You must specify an action..."
-msgstr "您必須指定一個操作..."
-
-#: html/user/forum_banishment_vote_action.php:59
-#: html/user/forum_banishment_vote.php:67 html/user/forum_moderate_post.php:60
-#: html/user/forum_moderate_thread.php:58
-msgid "Obscene"
-msgstr "猥褻"
-
-#: html/user/forum_banishment_vote_action.php:61
-#: html/user/forum_banishment_vote.php:68 html/user/forum_moderate_post.php:61
-#: html/user/forum_moderate_thread.php:59
-msgid "Flame/Hate mail"
-msgstr "侮辱"
-
-#: html/user/forum_banishment_vote_action.php:63
-#: html/user/forum_banishment_vote.php:69 html/user/forum_moderate_post.php:64
-msgid "User Request"
-msgstr "用戶請求"
 
 #: html/user/forum_banishment_vote.php:43
 #: html/user/forum_banishment_vote.php:48
@@ -4010,6 +3999,24 @@ msgstr "選擇原因分類，並附上為什麼要封鎖此用戶的原因。"
 msgid "Category"
 msgstr "分類"
 
+#: html/user/forum_banishment_vote.php:67
+#: html/user/forum_banishment_vote_action.php:59
+#: html/user/forum_moderate_post.php:60 html/user/forum_moderate_thread.php:58
+msgid "Obscene"
+msgstr "猥褻"
+
+#: html/user/forum_banishment_vote.php:68
+#: html/user/forum_banishment_vote_action.php:61
+#: html/user/forum_moderate_post.php:61 html/user/forum_moderate_thread.php:59
+msgid "Flame/Hate mail"
+msgstr "侮辱"
+
+#: html/user/forum_banishment_vote.php:69
+#: html/user/forum_banishment_vote_action.php:63
+#: html/user/forum_moderate_post.php:64
+msgid "User Request"
+msgstr "用戶請求"
+
 #: html/user/forum_banishment_vote.php:72 html/user/forum_moderate_post.php:56
 #: html/user/forum_moderate_thread.php:100
 msgid "Reason"
@@ -4023,6 +4030,11 @@ msgstr "如果空白請填電子郵件"
 #: html/user/forum_banishment_vote.php:78
 msgid "Proceed with vote"
 msgstr "繼續投票"
+
+#: html/user/forum_banishment_vote_action.php:41
+#: html/user/forum_moderate_post_action.php:66
+msgid "You must specify an action..."
+msgstr "您必須指定一個操作..."
 
 #: html/user/forum_edit.php:41
 msgid ""
@@ -4168,34 +4180,6 @@ msgstr "如果你有問題希望得到解答，請使用留言板中的%1問題�
 msgid "Subscribed threads"
 msgstr "已訂閱的主題"
 
-#: html/user/forum_moderate_post_action.php:60
-msgid "You are not authorized to moderate this post."
-msgstr "您沒有權限修改這篇文章"
-
-#: html/user/forum_moderate_post_action.php:105
-msgid "Can't move to different category type"
-msgstr "無法移動到不同的版面類型"
-
-#: html/user/forum_moderate_post_action.php:109
-msgid "Can't move to different category"
-msgstr "無法移動到不同的版面"
-
-#: html/user/forum_moderate_post_action.php:130
-msgid "Not authorized to banish users"
-msgstr "沒有權限封鎖用戶"
-
-#: html/user/forum_moderate_post_action.php:146
-msgid "Banishment"
-msgstr "封鎖"
-
-#: html/user/forum_moderate_post_action.php:148
-msgid "User %1 has been banished."
-msgstr "用戶 %1 已被封鎖。"
-
-#: html/user/forum_moderate_post_action.php:151
-msgid "Action failed: possible database problem"
-msgstr "操作失敗：可能是資料庫故障"
-
 #: html/user/forum_moderate_post.php:45
 msgid "Moderate post"
 msgstr "處理文章"
@@ -4258,7 +4242,7 @@ msgstr "永久"
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
 #: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:144
-#: html/user/forum_report_post.php:99 html/user/forum_rss.php:51
+#: html/user/forum_report_post.php:102 html/user/forum_rss.php:51
 #: html/user/friend.php:83
 msgid "OK"
 msgstr "確認"
@@ -4266,6 +4250,34 @@ msgstr "確認"
 #: html/user/forum_moderate_post.php:112
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr "封鎖原因 %1將發送到用戶的電子郵件中。 %2"
+
+#: html/user/forum_moderate_post_action.php:60
+msgid "You are not authorized to moderate this post."
+msgstr "您沒有權限修改這篇文章"
+
+#: html/user/forum_moderate_post_action.php:105
+msgid "Can't move to different category type"
+msgstr "無法移動到不同的版面類型"
+
+#: html/user/forum_moderate_post_action.php:109
+msgid "Can't move to different category"
+msgstr "無法移動到不同的版面"
+
+#: html/user/forum_moderate_post_action.php:130
+msgid "Not authorized to banish users"
+msgstr "沒有權限封鎖用戶"
+
+#: html/user/forum_moderate_post_action.php:146
+msgid "Banishment"
+msgstr "封鎖"
+
+#: html/user/forum_moderate_post_action.php:148
+msgid "User %1 has been banished."
+msgstr "用戶 %1 已被封鎖。"
+
+#: html/user/forum_moderate_post_action.php:151
+msgid "Action failed: possible database problem"
+msgstr "操作失敗：可能是資料庫故障"
 
 #: html/user/forum_moderate_thread.php:38
 msgid "not authorized"
@@ -4334,8 +4346,8 @@ msgid "You have already rated this post."
 msgstr "您已經評價過此文章。"
 
 #: html/user/forum_rate.php:61 html/user/forum_rate.php:77
-#: html/user/forum_rate.php:82 html/user/forum_report_post.php:74
-#: html/user/forum_report_post.php:108 html/user/forum_subscribe.php:56
+#: html/user/forum_rate.php:82 html/user/forum_report_post.php:77
+#: html/user/forum_report_post.php:111 html/user/forum_subscribe.php:56
 #: html/user/forum_subscribe.php:71 html/user/forum_thread_status.php:56
 msgid "Return to thread"
 msgstr "返回主題"
@@ -4387,55 +4399,55 @@ msgstr "發表回覆"
 msgid "Add my signature to this reply"
 msgstr "在回覆中附上我的簽名"
 
-#: html/user/forum_report_post.php:48
+#: html/user/forum_report_post.php:51
 msgid "You need more average or total credit to report a post."
 msgstr "您需要更高的日均積分或總積分才能舉報一個文章。"
 
-#: html/user/forum_report_post.php:70
+#: html/user/forum_report_post.php:73
 msgid "Report Registered"
 msgstr "舉報已記錄"
 
-#: html/user/forum_report_post.php:71
+#: html/user/forum_report_post.php:74
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "您的回報已經記錄，感謝您的幫忙。"
 
-#: html/user/forum_report_post.php:72
+#: html/user/forum_report_post.php:75
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr "管理員將會查看您的舉報並決定如何處理 - 可能需要一些時間，請耐心等待"
 
-#: html/user/forum_report_post.php:76
+#: html/user/forum_report_post.php:79
 msgid "Report a forum post"
 msgstr "舉報論壇文章"
 
-#: html/user/forum_report_post.php:78
+#: html/user/forum_report_post.php:81
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If"
 " enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr "在舉報之前，可以考慮使用+/- 評分系統。如果足夠多的用戶給一篇文章負面評價，該文章將自動隱藏。 <br />您可以在文章下方找到評分系統。"
 
-#: html/user/forum_report_post.php:90
+#: html/user/forum_report_post.php:93
 msgid "Report post"
 msgstr "舉報文章"
 
-#: html/user/forum_report_post.php:93
+#: html/user/forum_report_post.php:96
 msgid ""
 "Why do you find the post offensive: %1 Please include enough information so "
 "that a person that has not yet read the thread will quickly be able to "
 "identify the issue. %2"
 msgstr "為什麼認為這篇文章冒犯到您：%1請清楚描述以便不了解來龍去脈的人，也能快速辨明問題。%2"
 
-#: html/user/forum_report_post.php:104
+#: html/user/forum_report_post.php:107
 msgid "Report not registered"
 msgstr "舉報未記錄"
 
-#: html/user/forum_report_post.php:105
+#: html/user/forum_report_post.php:108
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr "您的舉報未被記錄，請等待片刻後重試。"
 
-#: html/user/forum_report_post.php:106
+#: html/user/forum_report_post.php:109
 msgid ""
 "If this is not a temporary error, please report it to the project "
 "developers."
@@ -4464,32 +4476,6 @@ msgstr "只包含最近多少天內的文章（默認：30）。"
 #: html/user/forum_rss.php:49
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr "僅主題：%1（只包含每個主題的第一篇文章）"
-
-#: html/user/forum_search_action.php:143
-msgid "Forum search results"
-msgstr "論壇搜尋結果"
-
-#: html/user/forum_search_action.php:177
-msgid "Thread titles matching your query:"
-msgstr "符合您的查詢條件的主題："
-
-#: html/user/forum_search_action.php:196
-msgid "Messages matching your query:"
-msgstr "符合你的查詢條件的訊息："
-
-#: html/user/forum_search_action.php:219
-msgid ""
-"Sorry, couldn't find anything matching your search query. You can try to "
-"broaden your search by using less words (or less specific words)."
-msgstr "對不起，無法根據您的查詢條件找到任何結果。您可以試著放寬查詢條件，比如使用更少的關鍵字詞或者更寬泛的字詞。"
-
-#: html/user/forum_search_action.php:221
-msgid "You can also %1 try the same search on Google. %2"
-msgstr "你也可以 %1 用 Google 搜尋。 %2"
-
-#: html/user/forum_search_action.php:226
-msgid "Perform another search"
-msgstr "重新搜尋"
 
 #: html/user/forum_search.php:29
 msgid "Forum search"
@@ -4558,6 +4544,32 @@ msgstr "排序"
 #: html/user/forum_search.php:90
 msgid "Start the search"
 msgstr "開始搜尋"
+
+#: html/user/forum_search_action.php:143
+msgid "Forum search results"
+msgstr "論壇搜尋結果"
+
+#: html/user/forum_search_action.php:177
+msgid "Thread titles matching your query:"
+msgstr "符合您的查詢條件的主題："
+
+#: html/user/forum_search_action.php:196
+msgid "Messages matching your query:"
+msgstr "符合你的查詢條件的訊息："
+
+#: html/user/forum_search_action.php:219
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr "對不起，無法根據您的查詢條件找到任何結果。您可以試著放寬查詢條件，比如使用更少的關鍵字詞或者更寬泛的字詞。"
+
+#: html/user/forum_search_action.php:221
+msgid "You can also %1 try the same search on Google. %2"
+msgstr "你也可以 %1 用 Google 搜尋。 %2"
+
+#: html/user/forum_search_action.php:226
+msgid "Perform another search"
+msgstr "重新搜尋"
 
 #: html/user/forum_subscribe.php:48
 msgid "Subscription successful"
@@ -4866,15 +4878,15 @@ msgstr "輸入您帳號的電子郵件地址，點擊確定後。你將收到關
 msgid "Reset password"
 msgstr "重設密碼"
 
-#: html/user/gpu_list.php:150 html/user/gpu_list.php:176
+#: html/user/gpu_list.php:163 html/user/gpu_list.php:189
 msgid "No GPU tasks reported"
 msgstr "還沒有已上傳的 GPU 運算任務"
 
-#: html/user/gpu_list.php:209
+#: html/user/gpu_list.php:222
 msgid "Top GPU models"
 msgstr "GPU 型號排名"
 
-#: html/user/gpu_list.php:210
+#: html/user/gpu_list.php:223
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -4999,23 +5011,6 @@ msgstr "沒有主機名稱"
 msgid "Merge hosts"
 msgstr "合併主機"
 
-#: html/user/hosts_user.php:53
-msgid "Computers belonging to %1"
-msgstr "%1 的電腦"
-
-#: html/user/hosts_user.php:55
-msgid "Computers hidden"
-msgstr "電腦已隱藏"
-
-#: html/user/hosts_user.php:56
-msgid ""
-"This user has chosen not to show information about his or her computers."
-msgstr "該用戶已設定為不顯示其電腦的詳細信息。"
-
-#: html/user/hosts_user.php:64
-msgid "Your computers"
-msgstr "您的電腦"
-
 #: html/user/host_update_credit.php:27
 msgid "Updating computer credit"
 msgstr "正在更新電腦積分"
@@ -5045,6 +5040,23 @@ msgstr "更改將在該主機下一次和專案通訊的時候生效。"
 #: html/user/host_venue_action.php:50
 msgid "Return to host page"
 msgstr "返回主機頁面"
+
+#: html/user/hosts_user.php:53
+msgid "Computers belonging to %1"
+msgstr "%1 的電腦"
+
+#: html/user/hosts_user.php:55
+msgid "Computers hidden"
+msgstr "電腦已隱藏"
+
+#: html/user/hosts_user.php:56
+msgid ""
+"This user has chosen not to show information about his or her computers."
+msgstr "該用戶已設定為不顯示其電腦的詳細信息。"
+
+#: html/user/hosts_user.php:64
+msgid "Your computers"
+msgstr "您的電腦"
 
 #: html/user/html.php:23
 msgid "Allowed HTML tags"
@@ -5255,8 +5267,7 @@ msgstr "從列表中選擇%1，或是輸入%2"
 msgid "In the BOINC Manager, select Tools / Add Project."
 msgstr "在BOINC Manager，選擇工具/新增專案。"
 
-#. use auto-attach if possible
-#: html/user/join.php:102 html/user/sample_index.php:128
+#: html/user/join.php:102 html/user/sample_index.php:131
 #: html/user/team_join_form.php:34
 msgid "Join %1"
 msgstr "加入%1"
@@ -5295,7 +5306,19 @@ msgid ""
 "incomplete, %1 you can help translate %2."
 msgstr "翻譯工作都是由志工完成，如果沒有您的語言，希望您可以%1協助翻譯%2。"
 
-#: html/user/login_form.php:56
+#: html/user/login_form.php:32
+msgid "Already logged in"
+msgstr ""
+
+#: html/user/login_form.php:33
+msgid "You are logged in as %1."
+msgstr ""
+
+#: html/user/login_form.php:36
+msgid "Log out"
+msgstr ""
+
+#: html/user/login_form.php:59
 msgid "or %1 create an account %2."
 msgstr "或者%1建立一個新帳號%2。"
 
@@ -5523,14 +5546,6 @@ msgstr "想解除封鎖，請至%1留言板偏好設定%2"
 msgid "Unknown action"
 msgstr "未知的操作"
 
-#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
-msgid "%1 for %2"
-msgstr "%1（用於%2）"
-
-#: html/user/prefs_edit.php:112
-msgid "Back to preferences"
-msgstr "回到偏好設定"
-
 #: html/user/prefs.php:36
 msgid ""
 "Your preferences have been updated, and\n"
@@ -5544,6 +5559,14 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr "您的偏好設定已還原為預設值，\n將在你的電腦與%1進行通訊時生效\n或者您也可以直接在BOINC Manager執行%2更新%3。"
+
+#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
+msgid "%1 for %2"
+msgstr "%1（用於%2）"
+
+#: html/user/prefs_edit.php:112
+msgid "Back to preferences"
+msgstr "回到偏好設定"
 
 #: html/user/prefs_remove.php:46
 msgid "Confirm delete preferences"
@@ -5579,7 +5602,7 @@ msgid ""
 "others to see!"
 msgstr "如果您還沒有用戶檔案，馬上%1建立屬於您的用戶檔案%2！"
 
-#: html/user/profile_menu.php:44 html/user/sample_index.php:141
+#: html/user/profile_menu.php:44 html/user/sample_index.php:144
 msgid "User of the Day"
 msgstr "每日用戶"
 
@@ -5761,11 +5784,11 @@ msgstr "於您的其他電腦、平板電腦、智能電話上安裝BOINC。"
 msgid "Tell your friends about BOINC, and show them how to join %1."
 msgstr "將BOINC分享給你的朋友，並告訴他們如何加入%1。"
 
-#: html/user/sample_index.php:130
+#: html/user/sample_index.php:133
 msgid "Already joined? %1Log in%2."
 msgstr "已經加入? %1登入%2。"
 
-#: html/user/sample_index.php:151
+#: html/user/sample_index.php:154
 msgid "News"
 msgstr "新聞"
 
@@ -5878,6 +5901,65 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1 home page %2."
 msgstr "另外，您還可以在%1您的帳號%2中查看所有你參加BOINC專案中的個人統計資訊。"
+
+#: html/user/team.php:29
+msgid "%1 participants may form %2 teams %3."
+msgstr "%1的用戶們可以組成%2團隊%3。"
+
+#: html/user/team.php:31
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr "你最多只能加入一個團隊。你可以在任何時候加入或退出一個團隊。"
+
+#: html/user/team.php:33
+msgid "Each team has a %1 founder %2 who may:"
+msgstr "每個團隊都有一個%1創始人%2，他可以："
+
+#: html/user/team.php:35
+msgid "edit the team's name and description"
+msgstr "編輯團隊的名稱及描述"
+
+#: html/user/team.php:36
+msgid "add or remove team admins"
+msgstr "增加或移除團隊管理員"
+
+#: html/user/team.php:37
+msgid "remove members from the team"
+msgstr "移除團隊中的成員"
+
+#: html/user/team.php:38
+msgid "disband a team if it has no members"
+msgstr "解散沒有成員的團隊"
+
+#: html/user/team.php:41
+msgid "To join a team, visit its team page and click %1 Join this team %2."
+msgstr "要加入一個團隊，請訪問該團隊頁面並點擊%1加入此團隊%2。"
+
+#: html/user/team.php:42 html/user/team_search.php:203
+msgid "Find a team"
+msgstr "尋找團隊"
+
+#: html/user/team.php:47
+msgid "Top teams"
+msgstr "團隊排名"
+
+#: html/user/team.php:49
+msgid "All teams"
+msgstr "所有團隊"
+
+#: html/user/team.php:53
+msgid "%1 teams"
+msgstr "%1 團隊"
+
+#: html/user/team.php:59
+msgid "Create a new team"
+msgstr "建立新團隊"
+
+#: html/user/team.php:60
+msgid ""
+"If you cannot find a team that is right for you, you can %1 create a team "
+"%2."
+msgstr "如果找不到適合您的團隊，您可以%1建立一個團隊%2。"
 
 #: html/user/team_admins.php:36
 msgid "Remove Team Admin status from this member"
@@ -6316,18 +6398,22 @@ msgid ""
 "are not allowed. Please try again later."
 msgstr "因為過去 90 天已經有過程創始人資格更改請求，目前不允許發起新的請求，請稍後再試。"
 
-#: html/user/team_join_action.php:34 html/user/team_join_form.php:31
-#: html/user/team_join.php:34
+#: html/user/team_join.php:34 html/user/team_join_action.php:34
+#: html/user/team_join_form.php:31
 msgid "The team %1 is not joinable."
 msgstr "團隊 %1 不允許加入。"
 
-#: html/user/team_join_action.php:37 html/user/team_join.php:37
+#: html/user/team_join.php:37 html/user/team_join_action.php:37
 msgid "Already a member"
 msgstr "已經是團隊成員"
 
-#: html/user/team_join_action.php:38 html/user/team_join.php:38
+#: html/user/team_join.php:38 html/user/team_join_action.php:38
 msgid "You are already a member of %1."
 msgstr "你已經是 %1 的成員了。"
+
+#: html/user/team_join.php:44 html/user/team_join_action.php:45
+msgid "Couldn't join team - please try again later."
+msgstr "無法加入團隊 - 請稍後再試。"
 
 #: html/user/team_join_action.php:42
 msgid "Joined %1"
@@ -6336,10 +6422,6 @@ msgstr "已加入 %1"
 #: html/user/team_join_action.php:43
 msgid "You have joined %1."
 msgstr "你已經加入了 %1。"
-
-#: html/user/team_join_action.php:45 html/user/team_join.php:44
-msgid "Couldn't join team - please try again later."
-msgstr "無法加入團隊 - 請稍後再試。"
 
 #: html/user/team_join_form.php:35
 msgid "Please note:"
@@ -6479,65 +6561,6 @@ msgstr "團隊 %1 已刪除"
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "超出限制：只能顯示前 1000 名成員。"
 
-#: html/user/team.php:29
-msgid "%1 participants may form %2 teams %3."
-msgstr "%1的用戶們可以組成%2團隊%3。"
-
-#: html/user/team.php:31
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
-msgstr "你最多只能加入一個團隊。你可以在任何時候加入或退出一個團隊。"
-
-#: html/user/team.php:33
-msgid "Each team has a %1 founder %2 who may:"
-msgstr "每個團隊都有一個%1創始人%2，他可以："
-
-#: html/user/team.php:35
-msgid "edit the team's name and description"
-msgstr "編輯團隊的名稱及描述"
-
-#: html/user/team.php:36
-msgid "add or remove team admins"
-msgstr "增加或移除團隊管理員"
-
-#: html/user/team.php:37
-msgid "remove members from the team"
-msgstr "移除團隊中的成員"
-
-#: html/user/team.php:38
-msgid "disband a team if it has no members"
-msgstr "解散沒有成員的團隊"
-
-#: html/user/team.php:41
-msgid "To join a team, visit its team page and click %1 Join this team %2."
-msgstr "要加入一個團隊，請訪問該團隊頁面並點擊%1加入此團隊%2。"
-
-#: html/user/team.php:42 html/user/team_search.php:203
-msgid "Find a team"
-msgstr "尋找團隊"
-
-#: html/user/team.php:47
-msgid "Top teams"
-msgstr "團隊排名"
-
-#: html/user/team.php:49
-msgid "All teams"
-msgstr "所有團隊"
-
-#: html/user/team.php:53
-msgid "%1 teams"
-msgstr "%1 團隊"
-
-#: html/user/team.php:59
-msgid "Create a new team"
-msgstr "建立新團隊"
-
-#: html/user/team.php:60
-msgid ""
-"If you cannot find a team that is right for you, you can %1 create a team "
-"%2."
-msgstr "如果找不到適合您的團隊，您可以%1建立一個團隊%2。"
-
 #: html/user/team_quit_action.php:34
 msgid "Unable to quit team"
 msgstr "不能退出團隊"
@@ -6671,34 +6694,34 @@ msgstr "還未選擇每日用戶。"
 msgid "User of the Day for %1: %2"
 msgstr "%1 的每日用戶：%2"
 
+#: html/user/user_agreetermsofuse.php:27
+msgid "You are not logged in. Please login to agree to our terms of use."
+msgstr "您尚未登錄。請登錄以同意我們的使用條款。"
+
+#: html/user/user_agreetermsofuse.php:41
+msgid "Agree to our Terms of Use."
+msgstr "同意我們的使用條款。"
+
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."
-msgstr ""
+msgstr "嘗試同意使用條款時出現網站錯誤。請與網站管理員聯繫。"
 
 #: html/user/user_agreetermsofuse_action.php:42
 msgid ""
 "You have not agreed to our terms of use. You may not continue until you do "
 "so."
-msgstr ""
+msgstr "您尚未同意我們的使用條款。你必須同意才能繼續。"
 
 #: html/user/user_agreetermsofuse_action.php:49
 msgid "Website error when attempting to agree to terms of use."
-msgstr ""
+msgstr "嘗試同意使用條款時出現網站錯誤。"
 
 #: html/user/user_agreetermsofuse_action.php:69
 msgid "Authentication error attempting to agree to terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:27
-msgid "You are not logged in. Please login to agree to our terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:41
-msgid "Agree to our Terms of Use."
-msgstr ""
+msgstr "嘗試同意使用條款時出現身份驗證錯誤。"
 
 #: html/user/user_search.php:51
 msgid "Filters"
@@ -7079,10 +7102,10 @@ msgstr "最多 # 個CPU"
 
 #: db/content.sql:8
 msgid "General terms-of-use for this BOINC project."
-msgstr ""
+msgstr "本BOINC項目的一般使用條款。"
 
 #: db/content.sql:9
 msgid ""
 "Do you consent to exporting your data to BOINC statistics aggregation Web "
 "sites?"
-msgstr ""
+msgstr "您是否同意將數據分享到BOINC統計聚合網站？"

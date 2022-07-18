@@ -21,9 +21,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -145,7 +142,7 @@ static bool compare_pci_slots(int NVIDIA_GPU_Index1, int NVIDIA_GPU_Index2) {
 // -1 if the OS version we are running on is less than x.y
 //  0 if the OS version we are running on is equal to x.y
 // +1 if the OS version we are running on is lgreater than x.y
-static int compareOSVersionTo(int toMajor, int toMinor) {
+int compareOSVersionTo(int toMajor, int toMinor) {
     static SInt32 major = -1;
     static SInt32 minor = -1;
 
@@ -282,7 +279,7 @@ void COPROCS::get_opencl(
         );
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
-                "Couldn't get PLATFORM_VERSION for platform #%d; error %d",
+                "Couldn't get PLATFORM_VERSION for platform #%u; error %d",
                 platform_index, ciErrNum
             );
             warnings.push_back(buf);
@@ -295,7 +292,7 @@ void COPROCS::get_opencl(
         );
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
-                "Couldn't get PLATFORM_VENDOR for platform #%d; error %d",
+                "Couldn't get PLATFORM_VENDOR for platform #%u; error %d",
                 platform_index, ciErrNum
             );
             warnings.push_back(buf);
@@ -312,7 +309,7 @@ void COPROCS::get_opencl(
             num_devices = 0;                 // No devices
             if (ciErrNum != CL_DEVICE_NOT_FOUND) {
                 snprintf(buf, sizeof(buf),
-                    "Couldn't get CPU Device IDs for platform #%d: error %d",
+                    "Couldn't get CPU Device IDs for platform #%u: error %d",
                     platform_index, ciErrNum
                 );
                 warnings.push_back(buf);
@@ -352,7 +349,7 @@ void COPROCS::get_opencl(
 
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
-                "Couldn't get Device IDs for platform #%d: error %d",
+                "Couldn't get Device IDs for platform #%u: error %d",
                 platform_index, ciErrNum
             );
             warnings.push_back(buf);
@@ -439,7 +436,7 @@ void COPROCS::get_opencl(
                     // Mac OpenCL does not recognize all NVIDIA GPUs returned by
                     // CUDA but we assume that OpenCL and CUDA return devices 
                     // with identical model name strings and that OpenCL returns
-                    // devices in order of acending PCI slot.
+                    // devices in order of ascending PCI slot.
                     //
                     // On other systems, assume OpenCL and CUDA return devices 
                     // in the same order.
@@ -449,7 +446,7 @@ void COPROCS::get_opencl(
                     while (1) {
                         if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
                             snprintf(buf, sizeof(buf),
-                                "OpenCL NVIDIA index #%d does not match any CUDA device",
+                                "OpenCL NVIDIA index #%u does not match any CUDA device",
                                 device_index
                             );
                             warnings.push_back(buf);
@@ -522,7 +519,7 @@ void COPROCS::get_opencl(
                     while (1) {
                         if (current_CAL_index >= num_CAL_devices) {
                             snprintf(buf, sizeof(buf),
-                                "OpenCL ATI device #%d does not match any CAL device",
+                                "OpenCL ATI device #%u does not match any CAL device",
                                 device_index
                             );
                             warnings.push_back(buf);
@@ -626,7 +623,7 @@ void COPROCS::get_opencl(
                 if (prop.peak_flops <= 0 || prop.peak_flops > GPU_MAX_PEAK_FLOPS) {
                     char buf2[256];
                     sprintf(buf2,
-                        "OpenCL generic: bad peak FLOPS; Max units %d, max freq %d MHz",
+                        "OpenCL generic: bad peak FLOPS; Max units %u, max freq %u MHz",
                         prop.max_compute_units, prop.max_clock_frequency
                     );
                     warnings.push_back(buf2);

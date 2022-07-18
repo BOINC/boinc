@@ -91,7 +91,7 @@ UINT CASetPermissionBOINC::OnExecution()
     uiReturnValue = GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
     if ( uiReturnValue ) return uiReturnValue;
 
-    // We should only tweek the permissions on the executable directory if we are installing
+    // We should only tweak the permissions on the executable directory if we are installing
     // as a service.
     if (_T("1") != strEnableProtectedApplicationExecution) {
         return ERROR_SUCCESS;

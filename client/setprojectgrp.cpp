@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     fflush(stderr);
 #endif
 
-    // chown() doesn't change ownershp of symbolic links; it follows the link and 
+    // chown() doesn't change ownership of symbolic links; it follows the link and 
     // changes the file is not available in OS 10.3.9.
     //
     // But we don't really need to worry about this, because the system ignores 

@@ -85,8 +85,6 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 
 ////@begin CAccountInfoPage member initialisation
     m_pTitleStaticCtrl = NULL;
-    m_pCookieDetectionFailedStaticCtrl = NULL;
-    m_pCookieDetectionFailedCtrl = NULL;
     m_pAccountQuestionStaticCtrl = NULL;
     m_pAccountInformationStaticCtrl = NULL;
     m_pAccountCreateCtrl = NULL;
@@ -129,16 +127,6 @@ void CAccountInfoPage::CreateControls()
     m_pTitleStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer57->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxGROW|wxALL, 5);
-
-    m_pCookieDetectionFailedStaticCtrl = new wxStaticText;
-    m_pCookieDetectionFailedStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    m_pCookieDetectionFailedStaticCtrl->Hide();
-    itemBoxSizer57->Add(m_pCookieDetectionFailedStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_pCookieDetectionFailedCtrl = new wxHyperlinkCtrl;
-    m_pCookieDetectionFailedCtrl->Create( itemWizardPage56, ID_ACCOUNTCOOKIEDETECTIONFAILEDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
-    m_pCookieDetectionFailedCtrl->Hide();
-    itemBoxSizer57->Add(m_pCookieDetectionFailedCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pAccountQuestionStaticCtrl = new wxStaticText;
     m_pAccountQuestionStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -207,11 +195,11 @@ void CAccountInfoPage::CreateControls()
 
     m_pAccountManagerLinkLabelStaticCtrl = new wxStaticText;
     m_pAccountManagerLinkLabelStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTLINKLABELSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer57->Add(m_pAccountManagerLinkLabelStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer57->Add(m_pAccountManagerLinkLabelStaticCtrl, 0, wxGROW|wxALL, 5);
 
     m_pAccountForgotPasswordCtrl = new wxHyperlinkCtrl;
     m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
-    itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALL, 5);
     ////@end CAccountInfoPage content construction
 
 }
@@ -294,7 +282,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
 
     pWA->EnableNextButton();
 
-    // We are entering this page, so reterieve the previously used email
+    // We are entering this page, so retrieve the previously used email
     // address and/or username.
     pConfig->SetPath(strBaseConfigLocation);
     m_strAccountEmailAddress = pConfig->Read(wxT("DefaultEmailAddress"));
@@ -311,14 +299,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
     }
 
     if (IS_ACCOUNTMANAGERWIZARD()) {
-        if (!(pWA->IsCookieRequired() && !pWA->IsCredentialsDetected())) {
-            m_pCookieDetectionFailedStaticCtrl->Hide();
-            m_pCookieDetectionFailedCtrl->Hide();
-        } else {
-            m_pCookieDetectionFailedStaticCtrl->Show();
-            m_pCookieDetectionFailedCtrl->Show();
-        }
-
         m_pAccountQuestionStaticCtrl->Hide();
         m_pAccountCreateCtrl->SetValue(false);
         m_pAccountCreateCtrl->Hide();
@@ -327,14 +307,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
         m_pAccountConfirmPasswordStaticCtrl->Hide();
         m_pAccountConfirmPasswordCtrl->Hide();
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
-
-        if (pWA->IsCookieRequired() && !pWA->IsCredentialsDetected()) {
-            m_pAccountManagerLinkLabelStaticCtrl->Hide();
-            m_pAccountForgotPasswordCtrl->Hide();
-        }
     } else {
-        m_pCookieDetectionFailedStaticCtrl->Hide();
-        m_pCookieDetectionFailedCtrl->Hide();
         if (pc.account_creation_disabled || pc.client_account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
             m_pAccountCreateCtrl->Hide();
@@ -350,7 +323,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
 
     wxString str;
     wxString name = wxString(pc.name.c_str(), wxConvUTF8);
-    str.Printf(_("Identify your account at %s"), name.c_str());
+    str.Printf(_("Identify your account at %s"),
+        name.empty()? pWA->GetProjectName().c_str() : name.c_str()
+            // one or the other is populated depending on how project was selected
+    );
     m_pTitleStaticCtrl->SetLabel(str);
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
@@ -374,18 +350,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
             _("&Yes, existing user")
         );
     } else {
-        if (pWA->IsCookieRequired() && !pWA->IsCredentialsDetected()) {
-            m_pCookieDetectionFailedStaticCtrl->SetLabel(
-                _("We were not able to set up your account information\nautomatically.\n\nPlease click on the 'Find login information' link\nbelow to find out what to put in the email address and\npassword fields.")
-            );
-            m_pCookieDetectionFailedCtrl->SetLabel(
-                _("Find login information")
-            );
-            m_pCookieDetectionFailedCtrl->SetURL(
-                pWA->GetCookieFailureURL()
-            );
-        }
-
         if (pSkinAdvanced->IsBranded() && 
             !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
             m_pAccountInformationStaticCtrl->SetLabel(
@@ -543,7 +507,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
         pConfig->Flush();
         
-        // Construct potiental dialog title
+        // Construct potential dialog title
         if (IS_ATTACHTOPROJECTWIZARD()) {
             strTitle = _("Add project");
         } else if (IS_ACCOUNTMANAGERWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {

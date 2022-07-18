@@ -36,6 +36,8 @@
 #include "wslinfo.h"
 #endif
 
+#define USER_IDLE_TIME_INF   86400
+
 enum LINUX_OS_INFO_PARSER {
     lsbrelease,
     osrelease,
@@ -48,6 +50,8 @@ const char file_redhatrelease[] = "/etc/redhat-release";
 
 // if you add fields, update clear_host_info()
 
+#define P_FEATURES_SIZE 1024
+
 class HOST_INFO {
 public:
     int timezone;                 // local STANDARD time - UTC time (in seconds)
@@ -59,7 +63,7 @@ public:
     int p_ncpus;
     char p_vendor[256];
     char p_model[256];
-    char p_features[1024];
+    char p_features[P_FEATURES_SIZE];
     double p_fpops;
     double p_iops;
     double p_membw;
@@ -95,12 +99,13 @@ public:
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
-    HOST_INFO(int){}
-    HOST_INFO(){}
-    void clear() {
-        static const HOST_INFO x(0);
-        *this = x;
-    }
+#ifdef _WIN32
+    int n_processor_groups;
+#endif
+
+    void clear_host_info();
+    HOST_INFO();
+
     int parse(XML_PARSER&, bool static_items_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
     int parse_cpu_benchmarks(FILE*);
@@ -108,11 +113,8 @@ public:
     void print();
 
     bool host_is_running_on_batteries();
-#ifdef __APPLE__
-    bool users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time=NULL);
-#else
-    bool users_idle(bool check_all_logins, double idle_time_to_run);
-#endif
+    long user_idle_time(bool check_all_logins);
+        // seconds since last user interaction
     int get_host_info(bool init);
     int get_cpu_info();
     int get_cpu_count();
@@ -124,20 +126,38 @@ public:
     int get_virtualbox_version();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
-    static bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
-        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
-    static bool parse_linux_os_info(const std::string& line, const LINUX_OS_INFO_PARSER parser,
-        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
-    static bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
-        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
+    static bool parse_linux_os_info(
+        FILE* file, const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version,
+        const int os_version_size
+    );
+    static bool parse_linux_os_info(
+        const std::string& line, const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version,
+        const int os_version_size
+    );
+    static bool parse_linux_os_info(
+        const std::vector<std::string>& lines,
+        const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version,
+        const int os_version_size
+    );
+#ifdef _WIN32
+    void win_get_processor_info();
+#endif
 };
 
+extern void make_secure_random_string(char*);
+
 #ifdef _WIN64
-int get_wsl_information(bool& wsl_available, WSLS& wsls);
+extern int get_wsl_information(bool& wsl_available, WSLS& wsls);
+extern int get_processor_group(HANDLE);
 #endif
 
 #ifdef __APPLE__
-    int get_system_uptime();
+extern int get_system_uptime();
+extern bool can_run_on_this_CPU(char* exec_path);
+    // can the app run on this CPU architecture?
 
 #ifdef __cplusplus
 extern "C" {
@@ -147,7 +167,7 @@ extern "C" {
 #include <IOKit/hidsystem/IOHIDParameter.h>
 #include <IOKit/hidsystem/event_status_driver.h>
 
-bool isDualGPUMacBook();
+extern bool isDualGPUMacBook();
 
 // Apple has removed NxIdleTime() beginning with OS 10.6, so we must try
 // loading it at run time to avoid a link error.  For details, please see

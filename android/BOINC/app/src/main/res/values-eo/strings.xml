@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">Daǔrigi</string>
+  <string name="generic_button_finish">Fini</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Electi sciencan projekton, kiun vi volas kundoni:</string>
+  <string name="attachproject_list_header">Elekti projekton</string>
+  <string name="attachproject_list_no_internet">Mankas retkonekto</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_show_pwd">Montri pasvorton</string>
+  <!--conflicts-->
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <!--e.g. Hint 1/2-->
+  <!--project login-->
+  <string name="attachproject_login_header_description">Priskribo:</string>
+  <string name="attachproject_login_header_home">Hejmen:</string>
+  <string name="attachproject_login_header_url">Retejo:</string>
+  <string name="attachproject_login_header_id_name">Nomo:</string>
+  <string name="attachproject_login_header_pwd">Pasvorto:</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header">Uzi kontadministrilon</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Uzanto:</string>
+  <string name="attachproject_acctmgr_header_pwd">Pasvorto:</string>
+  <!--error strings-->
+  <string name="attachproject_error_unknown">malsukcesas</string>
+  <string name="attachproject_error_invalid_url">Nevalida URL-adreso</string>
+  <!--tab names-->
+  <string name="tab_status">Stato</string>
+  <string name="tab_projects">Projektoj</string>
+  <string name="tab_tasks">Taskoj</string>
+  <string name="tab_transfers">Transmetoj</string>
+  <string name="tab_notices">Rimarkoj</string>
+  <!--status strings-->
+  <string name="status_running">Komputado</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">Ĝeneralaj</string>
+  <string name="prefs_category_network">Reto</string>
+  <string name="prefs_category_cpu">Procesoro</string>
+  <string name="prefs_category_memory">Memoro</string>
+  <string name="prefs_category_other">Alio</string>
+  <!--projects tab strings-->
+  <string name="projects_add">Aldoni projekton</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Prokrastita de uzanto</string>
+  <string name="projects_status_dontrequestmorework">Ne peti novajn taskojn</string>
+  <string name="projects_status_ended">Proeto finiĝis - decas ĝin forigi</string>
+  <string name="projects_status_detachwhendone">Estos forigita post kiam taskoj estos komputitaj</string>
+  <string name="projects_status_schedrpcpending">Atendado de peto al planilo</string>
+  <string name="projects_status_schedrpcinprogress">Sendado de peto al planilo</string>
+  <string name="projects_status_trickleuppending">Atendado nefinan mesaĝon</string>
+  <!--project controls-->
+  <string name="projects_control_update">Aktualigi</string>
+  <string name="projects_control_remove">Forigi</string>
+  <string name="projects_control_suspend">Prokrasti </string>
+  <string name="projects_control_resume">Reaktivigi</string>
+  <string name="projects_control_nonewtasks">Ne peti novajn taskojn</string>
+  <string name="projects_control_allownewtasks">Permesi novajn taskojn</string>
+  <string name="projects_control_sync_acctmgr">Sinkronigi</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_confirm">Forigi</string>
+  <!--tasks tab strings-->
+  <string name="tasks_result_new">nova</string>
+  <string name="tasks_active_suspended">prokrastita</string>
+  <string name="tasks_custom_suspended_via_gui">prokrastita</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_confirm">Ĉesigu</string>
+  <string name="confirm_cancel">Nuligi</string>
+  <!--transfers tab strings-->
+  <string name="trans_upload">Alŝuti</string>
+  <string name="trans_download">Elŝuti</string>
+  <string name="trans_failed">malsukcesas</string>
+  <string name="trans_suspended">prokrastita</string>
+  <string name="trans_active">aktiva</string>
+  <string name="trans_pending">atendas</string>
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">Laŭ peto de uzanto</string>
+  <string name="rpcreason_needwork">Peti taskojn</string>
+  <string name="rpcreason_resultsdue">Raporti pri finkomputitaj taskoj</string>
+  <string name="rpcreason_trickleup">Sendi nefinan mesaĝon</string>
+  <string name="rpcreason_acctmgrreq">Laŭ peto de  kontadministrilo</string>
+  <string name="rpcreason_init">Projekto estas pravalorizata</string>
+  <string name="rpcreason_projectreq">Laŭ peto de projekto</string>
+  <string name="rpcreason_unknown">Nekonata kialo</string>
+  <!--menu-->
+  <string name="menu_run_mode_disable">Prokrasti </string>
+  <string name="menu_run_mode_enable">Reaktivigi</string>
+  <string name="menu_about">Pri</string>
+  <string name="menu_help">Helpilo</string>
+  <string name="menu_report_issue">Raporto-Afero</string>
+  <!--about dialog-->
+  <string name="about_title">Pri</string>
+  <string name="about_name">BOINC</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <string name="social_invite_button">Inviti amikojn</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Rimarkoj</string>
+</resources>

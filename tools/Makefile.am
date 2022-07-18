@@ -11,7 +11,8 @@ toolbin_PROGRAMS = \
 	dir_hier_move \
 	dir_hier_path \
 	remote_submit_test \
-	sign_executable
+	sign_executable \
+	stage_file_native
 
 dist_toolbin_SCRIPTS = \
 	    boinc_submit \
@@ -38,7 +39,8 @@ dist_tools_SCRIPTS = \
     stage_file
 
 dist_tools_DATA = \
-    project.xml
+    project.xml \
+    gui_urls.xml
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
 AM_LDFLAGS += -static
@@ -57,6 +59,9 @@ dir_hier_move_LDADD = $(SERVERLIBS)
 
 sign_executable_SOURCES = sign_executable.cpp
 sign_executable_LDADD = $(SERVERLIBS_MIN)
+
+stage_file_native_SOURCES = stage_file_native.cpp
+stage_file_native_LDADD = $(SERVERLIBS)
 
 remote_submit_test_SOURCES = remote_submit_test.cpp ../lib/remote_submit.cpp
 remote_submit_test_LDADD = $(SERVERLIBS) -lcurl

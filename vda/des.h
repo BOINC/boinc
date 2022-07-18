@@ -33,6 +33,7 @@ using std::vector;
 struct EVENT {
     double t;
     virtual void handle(){}
+    virtual ~EVENT(){}
 };
 
 inline bool compare(EVENT* e1, EVENT* e2) {

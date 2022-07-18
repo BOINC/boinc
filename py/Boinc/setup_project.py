@@ -1,10 +1,9 @@
-## $Id$
-
 # module for setting up a new project (either a real project or a test project
 # see tools/makeproject, test/testbase.py).
 
 # TODO: make sure things work if build_dir != src_dir
 
+from __future__ import print_function
 import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
 from Boinc.boinc_db import *
@@ -58,7 +57,7 @@ def verbose_sleep(msg, wait):
 
 def get_env_var(name, default = None):
     value = os.environ.get(name, default)
-    if value == None:
+    if value is None:
         print("Environment variable %s not defined" % name)
         sys.exit(1)
     return value
@@ -210,7 +209,7 @@ def _check_vars(dict, **names):
     for key in names:
         value = names[key]
         if not key in dict:
-            if value == None:
+            if value is None:
                 raise SystemExit('error in test script: required parameter "%s" not specified'%key)
             dict[key] = value
     for key in dict:
@@ -310,7 +309,7 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
             location = os.path.join(location, d )
         return location
 
-    create_project_dirs(dest_dir);
+    create_project_dirs(dest_dir)
 
     # copy html/ops files in all cases.
     # The critical one is db_update.php,
@@ -434,7 +433,6 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
             'cancel_jobs',
             'create_work',
             'dbcheck_files_exist',
-            'db_query',
             'demo_query',
             'demo_submit',
             'dir_hier_move',
@@ -445,8 +443,8 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
             'run_in_ops',
             'sign_executable',
             'stage_file',
+            'stage_file_native',
             'update_versions',
-            'watch_tcp',
             'xadd',
         ]
     for f in command:
@@ -556,13 +554,13 @@ class Project:
         if os.path.exists(self.dest()):
             raise SystemExit('Project directory "%s" already exists; this would clobber it!'%self.dest())
 
-        verbose_echo(1, "Creating directories");
+        verbose_echo(1, "Creating directories")
 
-        create_project_dirs(self.project_dir);
+        create_project_dirs(self.project_dir)
 
         if not self.web_only:
             if not self.keys_exist():
-                verbose_echo(1, "Generating encryption keys");
+                verbose_echo(1, "Generating encryption keys")
                 self.create_keys()
 
         # copy the user and administrative PHP files to the project dir,

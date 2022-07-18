@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# $Id$
 '''
 Checks project permissions and php modules.
 
@@ -26,15 +25,15 @@ def check_user(user):
    try:
       mypwdb = pwd.getpwnam(user)
    except KeyError as e:
-      print "ERROR: ", e
-      print "ERROR: Specified apache user (%s) not found, Aborting"%(user)
+      print("ERROR: ", e)
+      print("ERROR: Specified apache user (%s) not found, Aborting"%(user))
       sys.exit(1)
    #try
 # check_user
 
 def check_dir(dir):
    if not os.path.isdir(dir):
-      print "ERROR: project directory %s does not exist, Aborting"%(dir)
+      print("ERROR: project directory %s does not exist, Aborting"%(dir))
       sys.exit(1)
    #try
    return dir
@@ -64,10 +63,10 @@ def determineapacheuser(user):
       if len(out1)==1:
          return out1.pop()
 
-      print "WARNING: Script could not determine which user runs apache Web server. Aborting"
-      print "         You should specify the apache user with the -a/--apache_user flag"
-      print "         Try running the following command with apache Web server running:"
-      print "           ps -ef | egrep '(httpd|apache2|apache)' | grep -v `whoami` | grep -v root"
+      print("WARNING: Script could not determine which user runs apache Web server. Aborting")
+      print("         You should specify the apache user with the -a/--apache_user flag")
+      print("         Try running the following command with apache Web server running:")
+      print("           ps -ef | egrep '(httpd|apache2|apache)' | grep -v `whoami` | grep -v root")
       sys.exit(1)
    else:
       check_user(user)
@@ -82,7 +81,7 @@ def check_permissions(user, fpath):
    try:
       mystat = os.stat(fpath)
    except OSError as e:
-      print "ERROR: ", e
+      print("ERROR: ", e)
       return 1
    #try
 
@@ -101,11 +100,11 @@ def check_permissions(user, fpath):
    '''
 
    if (file_owner == user and owner_permissions >=5) or (user in group_members and group_permissions >=5) or (mypwdb.pw_gid==mystat.st_gid and group_permissions >=5) :
-      print "Info:  User %s can write to file/dir %s"%(user, fpath)
+      print("Info:  User %s can write to file/dir %s"%(user, fpath))
       return 0
    #end if
 
-   print "WARNING: User %s can NOT write to %s"%(user, fpath)
+   print("WARNING: User %s can NOT write to %s"%(user, fpath))
    return 2
 #check_permissions
 
@@ -118,18 +117,19 @@ def check_php_modules(modulestocheck):
    try:
       phpout = subprocess.check_output(phpcmd)
    except Exception as e:
-      print "ERROR: ",e
-      print "ERROR: Can't execute %s"%(" ".join(phpcmd))
+      print("ERROR: ",e)
+      print("ERROR: Can't execute %s"%(" ".join(phpcmd)))
    #try
+   phpout = str(phpout)
    phpmodules = phpout.split("\n")
 
    modulesnotfound = set(modulestocheck).difference(phpmodules)
 
    if len(modulesnotfound)>0:
-      print "WARNING: The following php modules were not found on your system: %s"%(" ".join(modulesnotfound))
+      print("WARNING: The following php modules were not found on your system: %s"%(" ".join(modulesnotfound)))
       return 1
 
-   print "Info:  All required/recommended php modules found."
+   print("Info:  All required/recommended php modules found.")
    return 0
 
 #check_php_modules
@@ -141,18 +141,18 @@ def check_tool(command):
 
     # make sure command is a valid list to pass to subprocess.call()
     if not isinstance(command, list):
-        command = shlex.split(command.encode('ascii'))
+        command = shlex.split(command)
 
     try:
         cmdout = subprocess.check_output(command,stderr=subprocess.STDOUT)
     except OSError as e:
-        print "WARNING: The following tool was not found on your system: %s"%(command[0])
+        print("WARNING: The following tool was not found on your system: %s"%(command[0]))
         if e.errno != os.errno.ENOENT:
-            print "ERROR: ",e
-            print "ERROR: Can't execute %s"%(" ".join(command))
+            print("ERROR: ",e)
+            print("ERROR: Can't execute %s"%(" ".join(command)))
         return 1
     except subprocess.CalledProcessError as cpe:
-        print "WARNING: The following tool reported a non-zero returncode: %s"%(" ".join(command))
+        print("WARNING: The following tool reported a non-zero returncode: %s"%(" ".join(command)))
         return 2
 
     return 0
@@ -168,7 +168,7 @@ parser.add_argument("-a","--apache_user", action="store", dest="apache_user", de
 try:
    args = parser.parse_args()
 except Exception as e:
-   print "ERROR: command-line parser error", e
+   print("ERROR: command-line parser error", e)
    sys.exit(1)
 #try
 
@@ -196,8 +196,8 @@ rcphp = check_php_modules(MODULES)
 rctools = map(check_tool,TOOLS)
 
 if sum(rcperm)+rcphp+sum(rctools) == 0:
-   print "---All permissions checks passed, necessary php modules and tools installed. Your BOINC project should be ready to start.---"
+   print("---All permissions checks passed, necessary php modules and tools installed. Your BOINC project should be ready to start.---")
 else:
-   print "WARNING: Some problems were found with your BOINC installation, please check the messages above for details."
+   print("WARNING: Some problems were found with your BOINC installation, please check the messages above for details.")
 
 sys.exit(0)

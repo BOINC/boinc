@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -23,6 +23,7 @@
               android:orientation="horizontal">
 
     <LinearLayout
+            style="@style/BackgroundDayNight"
             android:id="@+id/main_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,16 +31,14 @@
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/shape_light_blue_background">
+            android:paddingBottom="20dp">
 
         <ProgressBar
                 android:id="@+id/loading_progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?android:attr/progressBarStyleSmall"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"/>
+                android:layout_marginRight="10dp"/>
 
         <TextView
                 android:id="@+id/loading_header"
@@ -47,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/status_launching"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:maxWidth="100dp"
-                android:background="@android:color/transparent"/>
+                android:maxWidth="100dp"/>
     </LinearLayout>
 </LinearLayout>
