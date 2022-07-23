@@ -598,7 +598,13 @@ namespace vboxmanage {
                     // Parent hdd is not (yet) of type multiattach.
                     // Vdi files can't be registered and set to multiattach mode within 1 step.
                     // They must first be attached to a VM in normal mode, then detached from the VM
-                    //
+
+                    // ensure the medium is not registered in the global media store
+                    command = "closemedium \"" + medium_file + "\" ";
+
+                    retval = vbm_popen(command, output, "deregister parent vdi");
+                    if (retval) return retval;
+
                     command  = command_fix_part;
                     command += set_new_uuid + "--medium \"" + medium_file + "\" ";
 
