@@ -167,7 +167,7 @@
     <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
   <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
-    <Exec Command="git clone https://github.com/microsoft/vcpkg" WorkingDirectory="$(Windows3rdPartyBuildDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgRootDir))" />
+    <Exec Command="git clone https://github.com/dg0yt/vcpkg -b wxwidgets-3.2" WorkingDirectory="$(Windows3rdPartyBuildDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgRootDir))" />
     <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
