@@ -1147,7 +1147,7 @@ CLEANUP:
 int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout, bool log_trace) {
     int retval = 0;
     int retry_count = 0;
-    double sleep_interval = 1.0;
+    double sleep_interval = 2.0;
     string retry_notes;
 
     // Initialize command line
