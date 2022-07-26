@@ -16,10 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef _WIN32
-#include <algorithm>
 #include "boinc_win.h"
 #include "win_util.h"
 #else
+#include <algorithm>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -546,86 +546,135 @@ namespace vboxmanage {
                 // each task gets it's own differencing image (writable)
                 // differencing images are written to the VM's snapshot folder
                 //
-                string set_new_uuid = "";
-                size_t type_start;
-                size_t type_end;
                 string medium_file = aid.project_dir;
                 medium_file += "/" + multiattach_vdi_file;
 
                 vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
-                command = "showhdinfo \"" + medium_file + "\" ";
 
-                retval = vbm_popen(command, output, "check if parent hdd is registered", false);
-                if (retval) {
-                    // showhdinfo implicitly registers unregistered hdds.
-                    // Hence, this has to be handled first.
-                    //
-                    if ((output.rfind("VBoxManage: error:", 0) != string::npos) &&
-                        (output.find("Cannot register the hard disk") != string::npos) &&
-                        (output.find("because a hard disk") != string::npos) &&
-                        (output.find("with UUID") != string::npos) &&
-                        (output.find("already exists") != string::npos)) {
-                            // May happen if the project admin didn't set a new UUID.
-                            set_new_uuid = "--setuuid \"\" ";
-                    } else {
-                        // other errors
-                        vboxlog_msg("Error in check if parent hdd is registered.\nCommand:\n%s\nOutput:\n%s",
-                            command.c_str(),
-                            output.c_str()
-                            );
-                        return retval;
+                bool vbox_bug_mitigation = false;
+
+                do {
+                    string set_new_uuid = "";
+                    string type_line = "";
+                    size_t type_start;
+                    size_t type_end;
+                    int retry_count = 0;
+                    bool log_error = false;
+
+                    command = "showhdinfo \"" + medium_file + "\" ";
+
+                    retval = vbm_popen(command, output, "check if parent hdd is registered", false);
+                    if (retval) {
+                        // showhdinfo implicitly registers unregistered hdds.
+                        // Hence, this has to be handled first.
+                        //
+                        if ((output.rfind("VBoxManage: error:", 0) != string::npos) &&
+                            (output.find("Cannot register the hard disk") != string::npos) &&
+                            (output.find("because a hard disk") != string::npos) &&
+                            (output.find("with UUID") != string::npos) &&
+                            (output.find("already exists") != string::npos)) {
+                                // May happen if the project admin didn't set a new UUID.
+                                set_new_uuid = "--setuuid \"\" ";
+                        } else {
+                            // other errors
+                            vboxlog_msg("Error in check if parent hdd is registered.\nCommand:\n%s\nOutput:\n%s",
+                                command.c_str(),
+                                output.c_str()
+                                );
+                            return retval;
+                        }
                     }
-                }
 
-                // Output from showhdinfo should look a little like this:
-                //   UUID:           c119bcaf-636c-41f6-86c9-384739a31339
-                //   Parent UUID:    base
-                //   State:          created
-                //   Type:           multiattach
-                //   Location:       C:\Users\romw\VirtualBox VMs\test2\test2.vdi
-                //   Storage format: VDI
-                //   Format variant: dynamic default
-                //   Capacity:       2048 MBytes
-                //   Size on disk:   2 MBytes
-                //   Encryption:     disabled
-                //   Property:       AllocationBlockSize=1048576
-                //   Child UUIDs:    dcb0daa5-3bf9-47cb-bfff-c65e74484615
-                //
-                type_start = output.find("\nType: ") + 1;
-                type_end = output.find("\n", type_start) - type_start;
-
-                if (output.substr(type_start, type_end).find("multiattach") == string::npos) {
-                    // Parent hdd is not (yet) of type multiattach.
-                    // Vdi files can't be registered and set to multiattach mode within 1 step.
-                    // They must first be attached to a VM in normal mode, then detached from the VM
-
-                    // ensure the medium is not registered in the global media store
-                    command = "closemedium \"" + medium_file + "\" ";
-
-                    retval = vbm_popen(command, output, "deregister parent vdi");
-                    if (retval) return retval;
-
-                    command  = command_fix_part;
-                    command += set_new_uuid + "--medium \"" + medium_file + "\" ";
-
-                    retval = vbm_popen(command, output, "register parent vdi");
-                    if (retval) return retval;
-
-                    command  = command_fix_part;
-                    command += "--medium none ";
-
-                    retval = vbm_popen(command, output, "detach parent vdi");
-                    if (retval) return retval;
-                    // the vdi file is now registered and ready to be attached in multiattach mode
+                    // Output from showhdinfo should look a little like this:
+                    //   UUID:           c119bcaf-636c-41f6-86c9-384739a31339
+                    //   Parent UUID:    base
+                    //   State:          created
+                    //   Type:           multiattach
+                    //   Location:       C:\Users\romw\VirtualBox VMs\test2\test2.vdi
+                    //   Storage format: VDI
+                    //   Format variant: dynamic default
+                    //   Capacity:       2048 MBytes
+                    //   Size on disk:   2 MBytes
+                    //   Encryption:     disabled
+                    //   Property:       AllocationBlockSize=1048576
+                    //   Child UUIDs:    dcb0daa5-3bf9-47cb-bfff-c65e74484615
                     //
+
+                    type_line = output;
+                    transform(type_line.cbegin(), type_line.cend(),
+                        type_line.begin(), [](unsigned char c) { return tolower(c); });
+                    type_start = type_line.find("\ntype: ") + 1;
+                    type_end   = type_line.find("\n", type_start) - type_start;
+                    type_line  = type_line.substr(type_start, type_end);
+
+                    if (type_line.find("multiattach") == string::npos) {
+                        // Parent hdd is not (yet) of type multiattach.
+                        // Vdi files can't be registered and set to multiattach mode within 1 step.
+                        // They must first be attached to a VM in normal mode, then detached from the VM
+
+                        command  = command_fix_part;
+                        command += set_new_uuid + "--medium \"" + medium_file + "\" ";
+
+                        retval = vbm_popen(command, output, "register parent vdi");
+                        if (retval) return retval;
+
+                        command  = command_fix_part;
+                        command += "--medium none ";
+
+                        retval = vbm_popen(command, output, "detach parent vdi");
+                        if (retval) return retval;
+                        // the vdi file is now registered and ready to be attached in multiattach mode
+                        //
+                    }
+
+                    do {
+                        command  = command_fix_part;
+                        command += "--mtype multiattach ";
+                        command += "--medium \"" + medium_file + "\" ";
+
+                        retval = vbm_popen(command, output, "storage attach (fixed disk - multiattach mode)", log_error);
+                        if (retval) {
+                            // VirtualBox occasionally writes the 'MultiAttach' attribute to
+                            // the disk entry in VirtualBox.xml although this is not allowed there.
+                            // As a result all VMs trying to connect that disk fail.
+                            // The error needs to be cleaned here to allow vboxwrapper to
+                            // succeed even with uncorrected VirtualBox versions.
+                            //
+                            // After cleanup attaching the disk should be tried again.
+
+                            if ((output.find("Cannot attach medium") != string::npos) &&
+                                (output.find("the media type") != string::npos) &&
+                                (output.find("MultiAttach") != string::npos) &&
+                                (output.find("can only be attached to machines that were created with VirtualBox 4.0 or later") != string::npos)) {
+                                    // try to deregister the medium from the global media store
+                                    command = "closemedium \"" + medium_file + "\" ";
+
+                                    retval = vbm_popen(command, output, "deregister parent vdi");
+                                    if (retval) return retval;
+                                    break;
+                            }
+
+                            if (retry_count >= 1) {
+                                // in case of other errors or if retry try also failed
+                                vboxlog_msg("Error in storage attach (fixed disk - multiattach mode).\nCommand:\n%s\nOutput:\n%s",
+                                    command.c_str(),
+                                    output.c_str()
+                                    );
+                                return retval;
+                            }
+
+                            retry_count++;
+                            log_error = true;
+                            boinc_sleep(1.0);
+
+                        } else {
+                            vbox_bug_mitigation = true;
+                            break;
+                        }
+                    }
+                    while (true);
                 }
-
-                command  = command_fix_part;
-                command += "--mtype multiattach ";
-                command += "--medium \"" + medium_file + "\" ";
-
-                retval = vbm_popen(command, output, "storage attach (fixed disk - multiattach mode)");
-                if (retval) return retval;
+                while (!vbox_bug_mitigation);
             }
 
 
