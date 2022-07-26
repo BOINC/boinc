@@ -141,14 +141,14 @@ int stage_file(
             return -1;
         }
         int bytes = gzwrite(gz, file_buf.str().c_str(), file_buf.str().size());
-        if (!bytes) {
-            fprintf(stderr, "failed to write to gz: %s\n", strerror(errno));
-            return -1;
-        }
         retval = gzclose(gz);
         if (retval != Z_OK) {
             fprintf(stderr, "failed to close gz\n");
             return retval;
+        }
+        if (!bytes) {
+            fprintf(stderr, "failed to write to gz: %s\n", strerror(errno));
+            return -1;
         }
         if (verbose) {
             fprintf(stdout, "created .gzip file for %s\n", dl_hier_path);
