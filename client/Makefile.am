@@ -20,13 +20,11 @@ endif ## ENABLE_CLIENT_RELEASE
 
 LIBS += $(CLIENTLIBS)
 
+bin_PROGRAMS = boinc_client boinccmd boinc
+
 if OS_DARWIN
    LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework CoreServices
-endif
-
-bin_PROGRAMS = boinc_client boinccmd boinc
-if !OS_WIN32
-bin_PROGRAMS += switcher
+   bin_PROGRAMS += switcher
 endif
 
 boinccmd_SOURCES = boinc_cmd.cpp
