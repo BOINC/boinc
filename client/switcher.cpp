@@ -115,14 +115,14 @@ int main(int /*argc*/, char** argv) {
         // effective group ID and saved set_group-ID for this process
         grp = getgrnam(boinc_project_group_name);
         if (grp) {
-            (void) setgid(grp->gr_gid);
+            if (setgid(grp->gr_gid)) {;}
         }
 
         // We are running setuid root, so setuid() sets real user ID,
         // effective user ID and saved set_user-ID for this process
         pw = getpwnam(boinc_project_user_name);
         if (pw) {
-            (void) setuid(pw->pw_uid);
+            if (setuid(pw->pw_uid)) {;}
         }
     }
 
