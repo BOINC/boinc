@@ -575,6 +575,10 @@ namespace vboxmanage {
                             (output.find("already exists") != string::npos)) {
                                 // May happen if the project admin didn't set a new UUID.
                                 set_new_uuid = "--setuuid \"\" ";
+
+                                vboxlog_msg("Disk UUID conflicts with an already existing disk.\nWill set a new UUID for '%s'.\nThe project admin should be informed to do this server side running:\nvboxmanage clonemedium <inputfile> <outputfile>\n",
+                                    multiattach_vdi_file.c_str()
+                                );
                         } else {
                             // other errors
                             vboxlog_msg("Error in check if parent hdd is registered.\nCommand:\n%s\nOutput:\n%s",
