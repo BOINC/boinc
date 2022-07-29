@@ -21,8 +21,7 @@ import sys
 
 linux_client_list = [
     './client/boinc',
-    './client/boinccmd',
-    './client/switcher'
+    './client/boinccmd'
 ]
 
 linux_apps_list = [
