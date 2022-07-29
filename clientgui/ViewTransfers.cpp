@@ -47,9 +47,9 @@
 #define COLUMN_PROGRESS             2
 #define COLUMN_SIZE                 3
 #define COLUMN_TIME                 4
-#define COLUMN_SPEED                5
-#define COLUMN_STATUS               6
-#define COLUMN_TOCOMPLETION         7
+#define COLUMN_TOCOMPLETION         5
+#define COLUMN_SPEED                6
+#define COLUMN_STATUS               7
 
 // DefaultShownColumns is an array containing the
 // columnIDs of the columns to be shown by default,
