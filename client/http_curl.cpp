@@ -602,7 +602,7 @@ int HTTP_OP::libcurl_exec(
     if (is_post) {
         want_upload = true;
         want_download = false;
-        if (infile && strlen(infile)>0) {
+        if (strlen(infile)>0) {
             fileIn = boinc_fopen(infile, "rb");
             if (!fileIn) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "No HTTP input file %s", infile);
