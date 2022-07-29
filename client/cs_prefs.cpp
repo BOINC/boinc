@@ -203,6 +203,8 @@ void CLIENT_STATE::get_disk_shares() {
 // and if it's zero set gpu_suspend_reason
 //
 int CLIENT_STATE::check_suspend_processing() {
+    static double last_cpu_usage_suspend=0;
+
     if (benchmarks_running) {
         return SUSPEND_REASON_BENCHMARKS;
     }
@@ -247,8 +249,18 @@ int CLIENT_STATE::check_suspend_processing() {
         if (now - exclusive_app_running < MEMORY_USAGE_PERIOD + EXCLUSIVE_APP_WAIT) {
             return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
         }
-        if (global_prefs.suspend_cpu_usage && non_boinc_cpu_usage*100 > global_prefs.suspend_cpu_usage) {
-            return SUSPEND_REASON_CPU_USAGE;
+
+        // if we suspended because of CPU usage,
+        // don't unsuspend for at least 2*MEMORY_USAGE_PERIOD
+        //
+        if (global_prefs.suspend_cpu_usage) {
+            if (now < last_cpu_usage_suspend+2*MEMORY_USAGE_PERIOD) {
+                return SUSPEND_REASON_CPU_USAGE;
+            }
+            if (non_boinc_cpu_usage*100 > global_prefs.suspend_cpu_usage) {
+                last_cpu_usage_suspend = now;
+                return SUSPEND_REASON_CPU_USAGE;
+            }
         }
     }
 

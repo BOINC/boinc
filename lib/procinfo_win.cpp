@@ -149,3 +149,16 @@ int procinfo_setup(PROC_MAP& pm) {
     }
     return 0;
 }
+
+// get total CPU time
+// see https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getsystemtimes
+//
+double total_cpu_time() {
+    FILETIME i, s, u;
+    GetSystemTimes(&i, &s, &u);
+    ULARGE_INTEGER x;
+    x.LowPart = u.dwLowDateTime;
+    x.HighPart = u.dwHighDateTime;
+    user  = (double)x.QuadPart/1e7;
+    return user;
+}

@@ -359,8 +359,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     unsigned int i;
     int retval;
     static bool first = true;
-    static double last_cpu_time;
     double diff=0;
+    bool using_vbox = false;
 
     if (!first) {
         diff = gstate.now - last_mem_time;
@@ -412,6 +412,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
         procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
         if (atp->app_version->is_vm_app) {
+            using_vbox = true;
             // the memory of virtual machine apps is not reported correctly,
             // at least on Windows.  Use the VM size instead.
             //
@@ -485,13 +486,32 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
-    // get info on non-BOINC processes.
+#if defined(__linux__) || defined(_WIN32)
+    // compute non_boinc_cpu_usage
+    // Improved version for systems where we can get total CPU (Win, Linux)
+    //
+    static double last_nbrc=0;
+    double nbrc = total_cpu_time() - boinc_related_cpu_time(pm, using_vbox);
+    double delta_nbrc = nbrc - last_nbrc;
+    if (delta_nbrc < 0) delta_nbrc = 0;
+    last_nbrc = nbrc;
+    if (!first) {
+        non_boinc_cpu_usage = delta_nbrc/(diff*gstate.host_info.p_ncpus);
+        //printf("non_boinc_cpu_usage %f\n", non_boinc_cpu_usage);
+    }
+#else
+    // compute non_boinc_cpu_usage
+    //
+    // NOTE: this is flawed because it doesn't count short-lived processes
+    // correctly.  Linux and Win use a better approach (see above).
+    //
     // mem usage info is not useful because most OSs don't
     // move idle processes out of RAM, so physical memory is always full.
     // Also (at least on Win) page faults are used for various things,
     // not all of them generate disk I/O,
     // so they're not useful for detecting paging/thrashing.
     //
+    static double last_cpu_time;
     PROCINFO pi;
     procinfo_non_boinc(pi, pm);
     if (log_flags.mem_usage_debug) {
@@ -508,13 +528,17 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         // processes might have exited in the last 10 sec,
         // causing this to be negative.
         if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
+    }
+    last_cpu_time = new_cpu_time;
+#endif
+
+    if (!first) {
         if (log_flags.mem_usage_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[mem_usage] non-BOINC CPU usage: %.2f%%", non_boinc_cpu_usage*100
             );
         }
     }
-    last_cpu_time = new_cpu_time;
     first = false;
 }
 

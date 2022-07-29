@@ -135,8 +135,32 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
         procinfo.working_set_size += p.working_set_size;
     }
 #if 0
-    fprintf(stderr, "total non-boinc: %f %f\n", procinfo.user_time, procinfo.kernel_time);
+    fprintf(stderr,
+        "total non-boinc: %f %f\n", procinfo.user_time, procinfo.kernel_time
+    );
 #endif
+}
+
+// get CPU time of BOINC-related processes, low-priority processes,
+// and (if we're using Vbox) the Vbox daemon.
+//
+double boinc_related_cpu_time(PROC_MAP& pm, bool using_vbox) {
+    double sum = 0;
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); ++i) {
+        PROCINFO& p = i->second;
+#ifdef _WIN32
+        if (p.id == 0) continue;    // idle process
+#endif
+        if (
+            p.is_boinc_app
+            || p.is_low_priority
+            || (using_vbox && strstr(p.command, "VBoxSVC"))
+        ) {
+            sum += p.user_time;
+        }
+    }
+    return sum;
 }
 
 double process_tree_cpu_time(int pid) {

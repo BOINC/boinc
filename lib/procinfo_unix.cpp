@@ -263,3 +263,24 @@ int procinfo_setup(PROC_MAP& pm) {
     find_children(pm);
     return 0;
 }
+
+// get total user-mode CPU time
+// see https://www.baeldung.com/linux/get-cpu-usage
+//
+double total_cpu_time() {
+    char buf[1024];
+    static FILE *f=NULL;
+    static double scale;
+    if (!f) {
+        f = fopen("/proc/stat", "r");
+        long hz = sysconf(_SC_CLK_TCK);
+        scale = 1./hz;
+    } else {
+        fflush(f);
+        rewind(f);
+    }
+    if (!fgets(buf, 256, f)) return 0;
+    double user, nice;
+    sscanf(buf, "cpu %lf %lf", &user, &nice);
+    return (user+nice)*scale;
+}
