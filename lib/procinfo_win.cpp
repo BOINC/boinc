@@ -159,6 +159,5 @@ double total_cpu_time() {
     ULARGE_INTEGER x;
     x.LowPart = u.dwLowDateTime;
     x.HighPart = u.dwHighDateTime;
-    user  = (double)x.QuadPart/1e7;
-    return user;
+    return (double)x.QuadPart/1e7;
 }
