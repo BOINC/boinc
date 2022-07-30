@@ -88,7 +88,7 @@ if [ "x$cache_dir" != "x" ]; then
         exit 1
     fi
 else
-    PREFIX="$(pwd)/3rdParty/buildCache/linux"
+    PREFIX="$(pwd)/3rdParty/buildCache/linux/wxwidgets"
 fi
 
 if [ -f "${PREFIX}/build-config" ]; then

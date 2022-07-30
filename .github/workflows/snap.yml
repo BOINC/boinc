@@ -1,0 +1,99 @@
+name: Snap
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+  schedule:
+  - cron:  '10 12 * * 0'
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
+jobs:
+  build:
+    name: snap-build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get -qq update
+        sudo apt-get install -y p7zip-full
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          3rdParty/buildCache
+          !3rdParty/buildCache/linux/vcpkgcache/
+        key: snap-${{ hashFiles('3rdParty/*Linux*.sh', '.github/workflows/snap.yml', 'snap/snapcraft.yaml') }}
+
+    - name: Check if build is running from origin repo
+      if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+      run: |
+        echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+    - name: Check if build is running from fork
+      if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+      run: |
+        echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+    - name: Build snap
+      if: success()
+      uses: snapcore/action-build@v1
+      with:
+        snapcraft-args: snap --output boinc_amd64.snap
+
+    - name: Install snap
+      if: success()
+      run: sudo snap install --devmode boinc_amd64.snap
+
+    - name: Test boinc client snap
+      if: success()
+      run: | 
+        boinc --version
+        boinc.client --version
+
+    - name: Cache wxwidgets
+      if: success()
+      run: |
+        if [ ! -d 3rdParty/buildCache/linux/wxwidgets ]; then
+          mkdir -p 3rdParty/buildCache/linux
+          unsquashfs -f -d 3rdParty/buildCache/linux boinc_amd64.snap wxwidgets
+        fi
+    
+    - name: Prepare logs on failure
+      if: ${{ failure() }}
+      run: python ./deploy/prepare_deployment.py logs
+
+    - name: Upload logs on failure
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: snap_logs_${{ github.event.pull_request.head.sha }}
+        path: deploy/logs.7z
+
+    - name: Prepare artifacts for deploy
+      if: success() 
+      run: python ./deploy/prepare_deployment.py linux_snap
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      if: success()
+      with:
+        name: linux_snap_${{ github.event.pull_request.head.sha }}
+        path: deploy/linux_snap.7z

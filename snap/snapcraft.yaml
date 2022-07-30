@@ -1,0 +1,104 @@
+name: boinc # you probably want to 'snapcraft register <name>'
+base: core20 # the base snap is the execution environment for this snap
+version: '7.21.0' # just for humans, typically '1.2+git' or '1.3.2'
+summary: BOINC lets you help cutting-edge science research using your computer. # 79 char long summary
+description: |
+  BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
+  About 30 science projects use BOINC. They investigate diseases, study climate change, discover pulsars, and do many other types of scientific research.
+  The BOINC and Science United projects are located at the University of California, Berkeley and are supported by the National Science Foundation.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+apps:
+
+  boinc:
+    command: usr/bin/boinc --dir $HOME
+    plugs:
+    - network
+    - network-bind
+
+  client:
+    command: usr/bin/boinc --dir $HOME
+    plugs:
+    - network
+    - network-bind
+
+  manager:
+    environment:
+      XAUTHORITY: $SNAP_REAL_HOME/.Xauthority
+    command: usr/bin/boincmgr --datadir $HOME
+    extensions:
+    - gnome-3-38
+    plugs:
+    - network
+    - network-bind
+    slots:
+      - dbus-daemon
+    common-id: boinc.manager
+
+slots:
+  dbus-daemon:
+    interface: dbus
+    bus: session
+    name: boinc.manager
+
+parts:
+  boinc:
+    build-packages:
+    - pkg-config
+    - libftgl-dev 
+    - freeglut3-dev
+    - libxmu-dev
+    - libxi-dev
+    - libfcgi-dev 
+    - libxss-dev 
+    - libxcb-util0-dev
+    - libxxf86vm-dev 
+    - libjpeg-dev
+    # vcpkg
+    - build-essential
+    - tar
+    - curl
+    - zip
+    - unzip
+    - git
+    # wxwidgets script
+    - wget
+    build-snaps:
+    - amz-aws-cli
+    stage-packages:
+    - freeglut3-dev
+    - libxss-dev
+    source: .
+    plugin: autotools
+    build-environment:
+    - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/x64-linux"
+    - WX_PREFIX: "$PWD/3rdParty/buildCache/linux/wxwidgets"
+    - _libcurl_pc: "$PWD/3rdParty/linux/vcpkg/installed/x64-linux/lib/pkgconfig/libcurl.pc"
+    - VCPKG_BINARY_SOURCES: $VCPKG_BINARY_SOURCES
+    - AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    - AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+    - prefix: /usr
+    autotools-configure-parameters:
+    - --prefix=$prefix
+    - --with-libcurl=$VCPKG_DIR
+    - --with-ssl=$VCPKG_DIR
+    - --with-wx-prefix=$WX_PREFIX
+    - --enable-client
+    - --enable-manager
+    - --disable-server
+    - GTK_LIBS="`pkg-config --libs gtk+-3.0` -lgmodule-2.0 -ldl -lffi -lpcre -lmount -lselinux -lresolv -lz"
+    override-build: |
+      sudo snap alias amz-aws-cli aws
+      linux/update_vcpkg_client.sh
+      3rdParty/buildLinuxDependencies.sh
+      cp -R 3rdParty/buildCache/linux/wxwidgets $SNAPCRAFT_PART_INSTALL
+      ./_autosetup
+      snapcraftctl build
+    filesets:
+      all:
+      - "*"
+    prime:
+    - $all
