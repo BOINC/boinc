@@ -551,6 +551,8 @@ namespace vboxmanage {
 
                 vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
 
+                int retry_count = 0;
+                bool log_error = false;
                 bool vbox_bug_mitigation = false;
 
                 do {
@@ -558,8 +560,6 @@ namespace vboxmanage {
                     string type_line = "";
                     size_t type_start;
                     size_t type_end;
-                    int retry_count = 0;
-                    bool log_error = false;
 
                     command = "showhdinfo \"" + medium_file + "\" ";
 
@@ -655,11 +655,15 @@ namespace vboxmanage {
 
                                     retval = vbm_popen(command, output, "deregister parent vdi");
                                     if (retval) return retval;
+
+                                    retry_count++;
+                                    log_error = true;
+                                    boinc_sleep(1.0);
                                     break;
                             }
 
                             if (retry_count >= 1) {
-                                // in case of other errors or if retry try also failed
+                                // in case of other errors or if retry also failed
                                 vboxlog_msg("Error in storage attach (fixed disk - multiattach mode).\nCommand:\n%s\nOutput:\n%s",
                                     command.c_str(),
                                     output.c_str()
