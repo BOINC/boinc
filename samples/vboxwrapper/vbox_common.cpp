@@ -661,7 +661,7 @@ int VBOX_BASE::get_scratch_directory(string& dir) {
 int VBOX_BASE::get_slot_directory(string& dir) {
     char slot_dir[256];
 
-    if (getcwd(slot_dir, sizeof(slot_dir))) {;}
+    getcwd(slot_dir, sizeof(slot_dir));
     dir = slot_dir;
 
     if (!dir.empty()) {
