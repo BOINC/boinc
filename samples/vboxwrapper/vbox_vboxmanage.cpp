@@ -646,7 +646,8 @@ namespace vboxmanage {
                             //
                             // After cleanup attaching the disk should be tried again.
 
-                            if ((output.find("Cannot attach medium") != string::npos) &&
+                            if ((retry_count < 1) &&
+                                (output.find("Cannot attach medium") != string::npos) &&
                                 (output.find("the media type") != string::npos) &&
                                 (output.find("MultiAttach") != string::npos) &&
                                 (output.find("can only be attached to machines that were created with VirtualBox 4.0 or later") != string::npos)) {
