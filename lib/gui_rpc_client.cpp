@@ -413,7 +413,7 @@ int RPC::parse_reply() {
 // If present, it chdirs to that directory.
 
 int read_gui_rpc_password(char* buf, string& msg) {
-    char msg_buf[1024];
+    char msg_buf[5120];
     FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
     if (!f) {
 #if defined(__linux__)
