@@ -82,4 +82,10 @@ extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
 extern double process_tree_cpu_time(int pid);
     // get the CPU time of the given process and its descendants
 
+extern double total_cpu_time();
+    // total user-mode CPU time, as reported by OS
+
+extern double boinc_related_cpu_time(PROC_MAP&, bool using_vbox);
+    // total CPU of current BOINC processes, low-priority processes,
+    // and (if using vbox) the Vbox daemon
 #endif
