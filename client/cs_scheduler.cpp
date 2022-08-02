@@ -211,7 +211,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // update hardware info, and write host info
     //
     host_info.get_host_info(false);
-    set_ncpus();
+    set_n_usable_cpus();
     host_info.write(mf, !cc_config.suppress_net_info, false);
 
     // get and write disk usage

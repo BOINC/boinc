@@ -636,7 +636,7 @@ static void handle_reset_host_info(GUI_RPC_CONN& grc) {
     gstate.host_info.get_host_info(true);
     // the amount of RAM or #CPUs may have changed
     //
-    gstate.set_ncpus();
+    gstate.set_n_usable_cpus();
     gstate.request_schedule_cpus("reset_host_info");
     gstate.show_host_info();
     grc.mfout.printf("<success/>\n");
@@ -1331,7 +1331,7 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     read_config_file(false);
     cc_config.show();
     log_flags.show();
-    gstate.set_ncpus();
+    gstate.set_n_usable_cpus();
     process_gpu_exclusions();
 
     // also reread app_config.xml files
@@ -1349,12 +1349,12 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
 
 #ifdef __APPLE__
 static void stop_graphics_app(pid_t thePID, 
-                            long iBrandID, 
-                            char current_dir[], 
-                            char switcher_path[], 
-                            string theScreensaverLoginUser, 
-                            GUI_RPC_CONN& grc
-                            ) {
+    long iBrandID, 
+    char current_dir[], 
+    char switcher_path[], 
+    string theScreensaverLoginUser, 
+    GUI_RPC_CONN& grc
+) {
     char* argv[16];
     int argc;
     char screensaverLoginUser[256];
@@ -1365,19 +1365,19 @@ static void stop_graphics_app(pid_t thePID,
         char pidString[10];
         
         snprintf(pidString, sizeof(pidString), "%d", thePID);
-    #if 1
+#if 1
         argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
         argv[1] = saverName[iBrandID];
         argv[2] = "-kill_gfx";
         argv[3] = pidString;
         argc = 4;
-    #else 
+#else 
         argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
         argv[1] = "/bin/kill";
         argv[2] = "-kill";
         argv[3] = (char *)pidString;
         argc = 4;
-    #endif
+#endif
         if (!theScreensaverLoginUser.empty()) {
             argv[argc++] = "--ScreensaverLoginUser";
             safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());

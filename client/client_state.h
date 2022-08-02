@@ -18,7 +18,6 @@
 #ifndef BOINC_CLIENT_STATE_H
 #define BOINC_CLIENT_STATE_H
 
-#define NEW_CPU_THROTTLE
 // do CPU throttling using a separate thread.
 // This makes it possible to throttle faster than the client's 1-sec poll period
 // NOTE: we can't actually do this because the runtime system's
@@ -35,9 +34,7 @@ using std::vector;
 
 #include "coproc.h"
 #include "util.h"
-#ifdef NEW_CPU_THROTTLE
 #include "thread.h"
-#endif
 
 #include "acct_mgr.h"
 #include "acct_setup.h"
@@ -345,7 +342,7 @@ struct CLIENT_STATE {
         // - an app fails to start (CS::schedule_cpus())
         // - any project op is done via RPC (suspend/resume)
         // - any result op is done via RPC (suspend/resume)
-    void set_ncpus();
+    void set_n_usable_cpus();
 
 // --------------- cs_account.cpp:
     int add_project(
@@ -363,12 +360,13 @@ struct CLIENT_STATE {
     double get_fraction_done(RESULT* result);
     int input_files_available(RESULT*, bool, FILE_INFO** f=0);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
-    int ncpus;
-        // Act like there are this many CPUs.
+    int n_usable_cpus;
+        // number of usable CPUs
         // By default this is the # of physical CPUs,
         // but it can be changed in two ways:
-        // - type <ncpus>N</ncpus> in the config file
-        // - type the max_ncpus_pct pref
+        // - <ncpus>N</ncpus> in cc_config.xml
+        //      (for debugging; can be > # physical CPUs)
+        // - the max_ncpus_pct and niu_max_ncpus_pct prefs
 
     int latest_version(APP*, char*);
     int app_finished(ACTIVE_TASK&);
@@ -521,6 +519,24 @@ struct CLIENT_STATE {
 #endif
 
     KEYWORDS keywords;
+
+    double current_cpu_usage_limit() {
+        double x = global_prefs.cpu_usage_limit;
+        if (!user_active && global_prefs.niu_cpu_usage_limit>=0) {
+            x = global_prefs.niu_cpu_usage_limit;
+        }
+        if (x < 0.005 || x > 99) {
+            x = 100;
+        }
+        return x;
+    }
+    double current_suspend_cpu_usage() {
+        double x = global_prefs.suspend_cpu_usage;
+        if (!user_active && global_prefs.niu_suspend_cpu_usage>=0) {
+            x = global_prefs.niu_suspend_cpu_usage;
+        }
+        return x;
+    }
 };
 
 extern CLIENT_STATE gstate;
@@ -535,10 +551,8 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
-#ifdef NEW_CPU_THROTTLE
 extern THREAD_LOCK client_mutex;
 extern THREAD throttle_thread;
-#endif
 
 //////// TIME-RELATED CONSTANTS ////////////
 

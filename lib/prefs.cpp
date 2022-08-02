@@ -60,6 +60,9 @@ void GLOBAL_PREFS_MASK::set_all() {
     net_end_hour = true;
     net_start_hour = true;
     network_wifi_only = true;
+    niu_max_ncpus_pct = true;
+    niu_cpu_usage_limit = true;
+    niu_suspend_cpu_usage = true;
     ram_max_used_busy_frac = true;
     ram_max_used_idle_frac = true;
     run_gpu_if_user_active = true;
@@ -97,6 +100,9 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (net_start_hour) return true;
     if (network_wifi_only) return true;
     if (net_end_hour) return true;
+    if (niu_max_ncpus_pct) return true;
+    if (niu_cpu_usage_limit) return true;
+    if (niu_suspend_cpu_usage) return true;
     if (ram_max_used_busy_frac) return true;
     if (ram_max_used_idle_frac) return true;
     if (run_gpu_if_user_active) return true;
@@ -232,6 +238,9 @@ void GLOBAL_PREFS::defaults() {
 #else
     network_wifi_only = false;
 #endif
+    niu_max_ncpus_pct = -1;     // -1 means unspecified, use max_ncpus_pct
+    niu_cpu_usage_limit = -1;
+    niu_suspend_cpu_usage = -1;
     ram_max_used_busy_frac = 0.5;
 #ifdef ANDROID
     ram_max_used_idle_frac = 0.5;
@@ -460,6 +469,10 @@ int GLOBAL_PREFS::parse_override(
             mask.suspend_cpu_usage = true;
             continue;
         }
+        if (xp.parse_double("niu_suspend_cpu_usage", niu_suspend_cpu_usage)) {
+            mask.niu_suspend_cpu_usage = true;
+            continue;
+        }
         if (xp.parse_double("start_hour", cpu_times.start_hour)) {
             mask.start_hour = true;
             continue;
@@ -510,6 +523,12 @@ int GLOBAL_PREFS::parse_override(
             if (max_ncpus_pct < 0) max_ncpus_pct = 0;
             if (max_ncpus_pct > 100) max_ncpus_pct = 100;
             mask.max_ncpus_pct = true;
+            continue;
+        }
+        if (xp.parse_double("niu_max_ncpus_pct", niu_max_ncpus_pct)) {
+            if (niu_max_ncpus_pct < 0) niu_max_ncpus_pct = 0;
+            if (niu_max_ncpus_pct > 100) niu_max_ncpus_pct = 100;
+            mask.niu_max_ncpus_pct = true;
             continue;
         }
         if (xp.parse_int("max_cpus", max_ncpus)) {
@@ -570,6 +589,13 @@ int GLOBAL_PREFS::parse_override(
             if (dtemp > 0 && dtemp <= 100) {
                 cpu_usage_limit = dtemp;
                 mask.cpu_usage_limit = true;
+            }
+            continue;
+        }
+        if (xp.parse_double("niu_cpu_usage_limit", dtemp)) {
+            if (dtemp > 0 && dtemp <= 100) {
+                niu_cpu_usage_limit = dtemp;
+                mask.niu_cpu_usage_limit = true;
             }
             continue;
         }
@@ -652,6 +678,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <work_buf_additional_days>%f</work_buf_additional_days>\n"
         "   <max_ncpus_pct>%f</max_ncpus_pct>\n"
+        "   <niu_max_ncpus_pct>%f</niu_max_ncpus_pct>\n"
+        "   <niu_cpu_usage_limit>%f</niu_cpu_usage_limit>\n"
+        "   <niu_suspend_cpu_usage>%f</niu_suspend_cpu_usage>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
         "   <disk_interval>%f</disk_interval>\n"
         "   <disk_max_used_gb>%f</disk_max_used_gb>\n"
@@ -688,6 +717,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         work_buf_min_days,
         work_buf_additional_days,
         max_ncpus_pct,
+        niu_max_ncpus_pct,
+        niu_cpu_usage_limit,
+        niu_suspend_cpu_usage,
         cpu_scheduling_period_minutes,
         disk_interval,
         disk_max_used_gb,
@@ -778,7 +810,6 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         );
     }
     if (mask.suspend_cpu_usage) {
-
         f.printf("   <suspend_cpu_usage>%f</suspend_cpu_usage>\n",
             suspend_cpu_usage
         );
@@ -833,6 +864,17 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.max_ncpus_pct) {
         f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
+    }
+    if (mask.niu_max_ncpus_pct) {
+        f.printf("   <niu_max_ncpus_pct>%f</niu_max_ncpus_pct>\n", niu_max_ncpus_pct);
+    }
+    if (mask.niu_cpu_usage_limit) {
+        f.printf("   <niu_cpu_usage_limit>%f</niu_cpu_usage_limit>\n", niu_cpu_usage_limit);
+    }
+    if (mask.niu_suspend_cpu_usage) {
+        f.printf("   <niu_suspend_cpu_usage>%f</niu_suspend_cpu_usage>\n",
+            niu_suspend_cpu_usage
+        );
     }
     if (mask.max_ncpus) {
         f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);

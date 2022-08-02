@@ -154,7 +154,7 @@ double gpu_peak_flops() {
 }
 
 double cpu_peak_flops() {
-    return gstate.ncpus * gstate.host_info.p_fpops;
+    return gstate.n_usable_cpus * gstate.host_info.p_fpops;
 }
 
 void print_project_results(FILE* f) {
@@ -600,8 +600,8 @@ bool ACTIVE_TASK_SET::poll() {
     // if CPU is overcommitted, compute cpu_scale
     //
     double cpu_scale = 1;
-    if (cpu_usage > gstate.ncpus) {
-        cpu_scale = (gstate.ncpus - cpu_usage_gpu) / (cpu_usage - cpu_usage_gpu);
+    if (cpu_usage > gstate.n_usable_cpus) {
+        cpu_scale = (gstate.n_usable_cpus - cpu_usage_gpu) / (cpu_usage - cpu_usage_gpu);
     }
 
     double used = 0;

@@ -657,9 +657,9 @@ int ACTIVE_TASK::get_free_slot(RESULT* rp) {
 
         // paranoia - don't allow unbounded slots
         //
-        if (j > gstate.ncpus*100) {
+        if (j > gstate.n_usable_cpus*100) {
             msg_printf(rp->project, MSG_INTERNAL_ERROR,
-                "exceeded limit of %d slot directories", gstate.ncpus*100
+                "exceeded limit of %d slot directories", gstate.n_usable_cpus*100
             );
             return ERR_NULL;
         }
@@ -1205,16 +1205,14 @@ void* throttler(void*) {
 
     while (1) {
         client_mutex.lock();
-        if (gstate.tasks_suspended
-            || gstate.global_prefs.cpu_usage_limit > 99
-            || gstate.global_prefs.cpu_usage_limit < 0.005
-            ) {
+        double limit = gstate.current_cpu_usage_limit();
+        if (gstate.tasks_suspended || limit == 0) {
             client_mutex.unlock();
 //            ::Sleep((int)(1000*10));  // for Win debugging
             boinc_sleep(10);
             continue;
         }
-        double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
+        double on, off, on_frac = limit / 100;
 #if 0
 // sub-second CPU throttling
 // DOESN'T WORK BECAUSE OF 1-SEC API POLL

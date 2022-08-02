@@ -1546,7 +1546,7 @@ void ACTIVE_TASK_SET::get_msgs() {
     last_time = gstate.now;
 
     double et_diff = delta_t;
-    double et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
+    double et_diff_throttle = delta_t * gstate.current_cpu_usage_limit()/100;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];

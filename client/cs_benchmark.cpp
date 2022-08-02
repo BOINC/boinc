@@ -262,9 +262,9 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
     cpu_benchmarks_start = dtime();
 
     benchmark_descs.clear();
-    benchmark_descs.resize(ncpus);
+    benchmark_descs.resize(n_usable_cpus);
 
-    bm_ncpus = ncpus;
+    bm_ncpus = n_usable_cpus;
     benchmarks_running = true;
 
     for (i=0; i<bm_ncpus; i++) {

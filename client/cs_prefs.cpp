@@ -253,11 +253,11 @@ int CLIENT_STATE::check_suspend_processing() {
         // if we suspended because of CPU usage,
         // don't unsuspend for at least 2*MEMORY_USAGE_PERIOD
         //
-        if (global_prefs.suspend_cpu_usage) {
+        if (current_suspend_cpu_usage()) {
             if (now < last_cpu_usage_suspend+2*MEMORY_USAGE_PERIOD) {
                 return SUSPEND_REASON_CPU_USAGE;
             }
-            if (non_boinc_cpu_usage*100 > global_prefs.suspend_cpu_usage) {
+            if (non_boinc_cpu_usage*100 > current_suspend_cpu_usage()) {
                 last_cpu_usage_suspend = now;
                 return SUSPEND_REASON_CPU_USAGE;
             }
@@ -298,26 +298,6 @@ int CLIENT_STATE::check_suspend_processing() {
     // 3. "turn screen off to continue computing"
     if (!global_prefs.run_if_user_active && user_active) {
         return SUSPEND_REASON_USER_ACTIVE;
-    }
-#endif
-
-#ifndef NEW_CPU_THROTTLE
-    // CPU throttling.
-    // Do this check last; that way if suspend_reason is CPU_THROTTLE,
-    // the GUI knows there's no other source of suspension
-    //
-    if (global_prefs.cpu_usage_limit < 99) {        // round-off?
-        static double last_time=0, debt=0;
-        double diff = now - last_time;
-        last_time = now;
-        if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
-            debt += diff*global_prefs.cpu_usage_limit/100;
-            if (debt < 0) {
-                return SUSPEND_REASON_CPU_THROTTLE;
-            } else {
-                debt -= diff;
-            }
-        }
     }
 #endif
 
@@ -686,10 +666,10 @@ void CLIENT_STATE::read_global_prefs(
 #endif
     // max_cpus, bandwidth limits may have changed
     //
-    set_ncpus();
-    if (ncpus != host_info.p_ncpus) {
+    set_n_usable_cpus();
+    if (n_usable_cpus != host_info.p_ncpus) {
         msg_printf(NULL, MSG_INFO,
-            "   max CPUs used: %d", ncpus
+            "   max CPUs used: %d", n_usable_cpus
         );
     }
     if (!global_prefs.run_if_user_active) {
@@ -707,6 +687,12 @@ void CLIENT_STATE::read_global_prefs(
         msg_printf(NULL, MSG_INFO,
             "   suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.suspend_cpu_usage
+        );
+    }
+    if (global_prefs.niu_suspend_cpu_usage > 0) {
+        msg_printf(NULL, MSG_INFO,
+            "   when idle, suspend work if non-BOINC CPU load exceeds %.0f%%",
+            global_prefs.niu_suspend_cpu_usage
         );
     }
     if (global_prefs.max_bytes_sec_down) {

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -42,13 +42,32 @@
 include_once("../inc/prefs_util.inc");
 include_once("../inc/translation.inc");
 
-global $cpu_prefs;
+global $in_use_prefs;
+global $not_in_use_prefs;
+global $job_prefs;
 global $disk_prefs;
-global $mem_prefs;
 global $net_prefs;
 
-$cpu_prefs = array(
-    tra("Usage limits"),
+$in_use_prefs = [
+    new PREF_NUM(
+        tra("'In use' means mouse/keyboard input in last"),
+        tra("This determines when the computer is considered 'in use'."),
+        "idle_time_to_run",
+        new NUM_SPEC(tra("minutes"), 1, 9999, 3),
+        true
+    ),
+    new PREF_BOOL(
+        tra("Suspend all computing"),
+        tra("Check this to suspend computing and file transfers when you're using the computer."),
+        "run_if_user_active",
+        true, true
+    ),
+    new PREF_BOOL(
+        tra("Suspend GPU computing"),
+        tra("Check this to suspend GPU computing when you're using the computer."),
+        "run_gpu_if_user_active",
+        false, true
+    ),
     new PREF_NUM(
         tra("Use at most"),
         // xgettext:no-php-format
@@ -65,31 +84,49 @@ $cpu_prefs = array(
         // xgettext:no-php-format
         new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
     ),
-    tra("When to suspend"),
-    new PREF_BOOL(
-        tra("Suspend when computer is on battery"),
-        tra("Check this to suspend computing on portables when running on battery power."),
-        "run_on_batteries",
-        false, true
-    ),
-    new PREF_BOOL(
-        tra("Suspend when computer is in use"),
-        tra("Check this to suspend computing and file transfers when you're using the computer."),
-        "run_if_user_active",
-        true, true
-    ),
-    new PREF_BOOL(
-        tra("Suspend GPU computing when computer is in use"),
-        tra("Check this to suspend GPU computing when you're using the computer."),
-        "run_gpu_if_user_active",
-        false, true
+    new PREF_OPT_NUM(
+        tra("Suspend when non-BOINC CPU usage is above"),
+        tra("Suspend computing when your computer is busy running other programs."),
+        "suspend_cpu_usage",
+        new NUM_SPEC("%", 0, 100, 25)
     ),
     new PREF_NUM(
-        tra("'In use' means mouse/keyboard input in last"),
-        tra("This determines when the computer is considered 'in use'."),
-        "idle_time_to_run",
-        new NUM_SPEC(tra("minutes"), 1, 9999, 3),
-        true
+        tra("Use at most"),
+        tra("Limit the memory used by BOINC when you're using the computer."),
+        "ram_max_used_busy_pct",
+        // xgettext:no-php-format
+        new NUM_SPEC(tra("% of memory"), 1, 100, 50)
+    ),
+];
+$not_in_use_prefs = [
+    new PREF_NUM(
+        tra("Use at most"),
+        // xgettext:no-php-format
+        tra("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."),
+        "niu_max_ncpus_pct",
+        // xgettext:no-php-format
+        new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
+    ),
+    new PREF_NUM(
+        tra("Use at most"),
+        // xgettext:no-php-format
+        tra("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."),
+        "niu_cpu_usage_limit",
+        // xgettext:no-php-format
+        new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
+    ),
+    new PREF_OPT_NUM(
+        tra("Suspend when non-BOINC CPU usage is above"),
+        tra("Suspend computing when your computer is busy running other programs."),
+        "niu_suspend_cpu_usage",
+        new NUM_SPEC("%", 0, 100, 25)
+    ),
+    new PREF_NUM(
+        tra("Use at most"),
+        tra("Limit the memory used by BOINC when you're not using the computer."),
+        "ram_max_used_idle_pct",
+        // xgettext:no-php-format
+        new NUM_SPEC(tra("% of memory"), 1, 100, 90)
     ),
     new PREF_OPT_NUM(
         tra("Suspend when no mouse/keyboard input in last"),
@@ -97,29 +134,13 @@ $cpu_prefs = array(
         "suspend_if_no_recent_input",
         new NUM_SPEC(tra("minutes"), 0, 9999, 0, 1, 60)
     ),
-    new PREF_OPT_NUM(
-        tra("Suspend when non-BOINC CPU usage is above"),
-        tra("Suspend computing when your computer is busy running other programs."),
-        "suspend_cpu_usage",
-        new NUM_SPEC("%", 0, 100, 25)
-    ),
-    new PREF_HOUR_RANGE(
-        tra("Compute only between"),
-        tra("Compute only during a particular period each day."),
-        "start_hour", "end_hour"
-    ),
-    tra("Other"),
-    new PREF_NUM(
-        tra("Store at least"),
-        tra("Store at least enough tasks to keep the computer busy for this long."),
-        "work_buf_min_days",
-        new NUM_SPEC(tra("days of work"), 0, 10, .1)
-    ),
-    new PREF_NUM(
-        tra("Store up to an additional"),
-        tra("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."),
-        "work_buf_additional_days",
-        new NUM_SPEC(tra("days of work"), 0, 10, .5)
+];
+$job_prefs = [
+    new PREF_BOOL(
+        tra("Suspend when computer is on battery"),
+        tra("Check this to suspend computing on portables when running on battery power."),
+        "run_on_batteries",
+        false, true
     ),
     new PREF_NUM(
         tra("Switch between tasks every"),
@@ -133,7 +154,37 @@ $cpu_prefs = array(
         "disk_interval",
         new NUM_SPEC(tra("seconds"), 0, 9999999, 60)
     ),
-);
+    new PREF_BOOL(
+        tra("Leave non-GPU tasks in memory while suspended"),
+        tra("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint."),
+        "leave_apps_in_memory",
+        false
+    ),
+    new PREF_NUM(
+        tra("Store at least"),
+        tra("Store at least enough tasks to keep the computer busy for this long."),
+        "work_buf_min_days",
+        new NUM_SPEC(tra("days of work"), 0, 10, .1)
+    ),
+    new PREF_NUM(
+        tra("Store up to an additional"),
+        tra("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."),
+        "work_buf_additional_days",
+        new NUM_SPEC(tra("days of work"), 0, 10, .5)
+    ),
+    new PREF_HOUR_RANGE(
+        tra("Compute only between"),
+        tra("Compute only during a particular period each day."),
+        "start_hour", "end_hour"
+    ),
+    new PREF_NUM(
+        tra("Page/swap file: use at most"),
+        tra("Limit the swap space (page file) used by BOINC."),
+        "vm_max_used_pct",
+        // xgettext:no-php-format
+        new NUM_SPEC(tra("%"), 1, 100, 75)
+    ),
+];
 
 $dp = get_disk_space_config();
 
@@ -159,38 +210,7 @@ $disk_prefs = array(
     ),
 );
 
-$mem_prefs = array(
-    new PREF_NUM(
-        tra("When computer is in use, use at most"),
-        tra("Limit the memory used by BOINC when you're using the computer."),
-        "ram_max_used_busy_pct",
-        // xgettext:no-php-format
-        new NUM_SPEC(tra("%"), 1, 100, 50)
-    ),
-    new PREF_NUM(
-        tra("When computer is not in use, use at most"),
-        tra("Limit the memory used by BOINC when you're not using the computer."),
-        "ram_max_used_idle_pct",
-        // xgettext:no-php-format
-        new NUM_SPEC(tra("%"), 1, 100, 90)
-    ),
-    new PREF_BOOL(
-        tra("Leave non-GPU tasks in memory while suspended"),
-        tra("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint."),
-        "leave_apps_in_memory",
-        false
-    ),
-    new PREF_NUM(
-        tra("Page/swap file: use at most"),
-        tra("Limit the swap space (page file) used by BOINC."),
-        "vm_max_used_pct",
-        // xgettext:no-php-format
-        new NUM_SPEC(tra("%"), 1, 100, 75)
-    ),
-);
-
 $net_prefs = array(
-    tra("Usage limits"),
     new PREF_OPT_NUM(
         tra("Limit download rate to"),
         tra("Limit the download rate of file transfers."),
@@ -211,13 +231,11 @@ $net_prefs = array(
         new NUM_SPEC(tra("MB every"), 0, 9999999, 0, 1, 10000),
         new NUM_SPEC(tra("days"), 0, 9999999, 0, 1, 30)
     ),
-    tra("When to suspend"),
     new PREF_HOUR_RANGE(
         tra("Transfer files only between"),
         tra("Transfer files only during a particular period each day."),
         "net_start_hour", "net_end_hour"
     ),
-    tra("Other"),
     new PREF_BOOL(
         tra("Skip data verification for image files"),
         tra("Check this only if your Internet provider modifies image files. Skipping verification reduces the security of BOINC."),
@@ -238,10 +256,11 @@ $net_prefs = array(
     ),
 );
 
-define("CPU_LIMIT_DESC", tra("Computing"));
-define("DISK_LIMIT_DESC", tra("Disk"));
-define("MEM_LIMIT_DESC", tra("Memory"));
-define("NETWORK_LIMIT_DESC", tra("Network"));
+define("IN_USE_DESC", tra("When computer is in use"));
+define("NOT_IN_USE_DESC", tra("When computer is not in use"));
+define("JOBS_DESC", tra("Tasks"));
+define("DISK_DESC", tra("Disk"));
+define("NET_DESC", tra("Network"));
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
@@ -323,13 +342,23 @@ function element_end_global($parser, $name) {
     global $parse_result;
     global $top_parse_result;
     global $venue_name;
-    global $cpu_prefs;
+    global $in_use_prefs;
+    global $not_in_use_prefs;
+    global $job_prefs;
     global $disk_prefs;
-    global $mem_prefs;
     global $net_prefs;
 
-    foreach ($cpu_prefs as $p) {
-        if (is_string($p)) continue;
+    foreach ($in_use_prefs as $p) {
+        if ($p->xml_parse($parse_result, $name, $text)) {
+            return;
+        }
+    }
+    foreach ($not_in_use_prefs as $p) {
+        if ($p->xml_parse($parse_result, $name, $text)) {
+            return;
+        }
+    }
+    foreach ($job_prefs as $p) {
         if ($p->xml_parse($parse_result, $name, $text)) {
             return;
         }
@@ -339,13 +368,7 @@ function element_end_global($parser, $name) {
             return;
         }
     }
-    foreach ($mem_prefs as $p) {
-        if ($p->xml_parse($parse_result, $name, $text)) {
-            return;
-        }
-    }
     foreach ($net_prefs as $p) {
-        if (is_string($p)) continue;
         if ($p->xml_parse($parse_result, $name, $text)) {
             return;
         }
@@ -374,24 +397,26 @@ function char_handler($parser, $x) {
 // state of prefs before parsing; defines prefs for new users
 //
 function default_prefs_global() {
-    global $cpu_prefs;
+    global $in_use_prefs;
+    global $not_in_use_prefs;
+    global $job_prefs;
     global $disk_prefs;
-    global $mem_prefs;
     global $net_prefs;
 
     $p = new StdClass;
-    foreach ($cpu_prefs as $pref) {
-        if (is_string($pref)) continue;
+    foreach ($in_use_prefs as $pref) {
+        $pref->set_default($p);
+    }
+    foreach ($not_in_use_prefs as $pref) {
+        $pref->set_default($p);
+    }
+    foreach ($job_prefs as $pref) {
         $pref->set_default($p);
     }
     foreach ($disk_prefs as $pref) {
         $pref->set_default($p);
     }
-    foreach ($mem_prefs as $pref) {
-        $pref->set_default($p);
-    }
     foreach ($net_prefs as $pref) {
-        if (is_string($pref)) continue;
         $pref->set_default($p);
     }
     return $p;
@@ -414,66 +439,60 @@ function prefs_parse_global($prefs_xml) {
 // Display all venues as columns next to descriptions
 //
 function prefs_show_columns_global($prefs) {
-    global $cpu_prefs;
+    global $in_use_prefs;
+    global $not_in_use_prefs;
+    global $job_prefs;
     global $disk_prefs;
-    global $mem_prefs;
     global $net_prefs;
 
-    row_top(CPU_LIMIT_DESC);
-    foreach ($cpu_prefs as $p) {
-        if (is_string($p)) {
-            group_header($p);
-            continue;
-        }
+    row_top(IN_USE_DESC);
+    foreach ($in_use_prefs as $p) {
         $p->show_cols($prefs);
     }
-    row_top(DISK_LIMIT_DESC);
+    row_top(NOT_IN_USE_DESC);
+    foreach ($not_in_use_prefs as $p) {
+        $p->show_cols($prefs);
+    }
+    row_top(JOBS_DESC);
+    foreach ($job_prefs as $p) {
+        $p->show_cols($prefs);
+    }
+    row_top(DISK_DESC);
     foreach ($disk_prefs as $p) {
         $p->show_cols($prefs);
     }
-    row_top(MEM_LIMIT_DESC);
-    foreach ($mem_prefs as $p) {
-        $p->show_cols($prefs);
-    }
-    row_top(NETWORK_LIMIT_DESC);
+    row_top(NET_DESC);
     foreach ($net_prefs as $p) {
-        if (is_string($p)) {
-            group_header($p);
-            continue;
-        }
         $p->show_cols($prefs);
     }
     row_links("global", $prefs);
 }
 
 function prefs_show_global($prefs) {
-    global $cpu_prefs;
+    global $in_use_prefs;
+    global $not_in_use_prefs;
+    global $job_prefs;
     global $disk_prefs;
-    global $mem_prefs;
     global $net_prefs;
 
-    row1(CPU_LIMIT_DESC);
-    foreach ($cpu_prefs as $p) {
-        if (is_string($p)) {
-            group_header($p);
-            continue;
-        }
+    row1(IN_USE_DESC);
+    foreach ($in_use_prefs as $p) {
         $p->show($prefs);
     }
-    row1(DISK_LIMIT_DESC);
+    row1(NOT_IN_USE_DESC);
+    foreach ($not_in_use_prefs as $p) {
+        $p->show($prefs);
+    }
+    row1(JOBS_DESC);
+    foreach ($job_prefs as $p) {
+        $p->show($prefs);
+    }
+    row1(DISK_DESC);
     foreach ($disk_prefs as $p) {
         $p->show($prefs);
     }
-    row1(MEM_LIMIT_DESC);
-    foreach ($mem_prefs as $p) {
-        $p->show($prefs);
-    }
-    row1(NETWORK_LIMIT_DESC);
+    row1(NET_DESC);
     foreach ($net_prefs as $p) {
-        if (is_string($p)) {
-            group_header($p);
-            continue;
-        }
         $p->show($prefs);
     }
 }
@@ -491,7 +510,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
 
     if ($x) {
         start_table();
-        row_heading(tra("Separate preferences for %1", $venue));
+        row_heading(tra("Separate preferences for %1", $venue), 'bg-info');
         if ($subset == "global") {
             prefs_show_global($x);
         } else {
@@ -604,33 +623,30 @@ function print_prefs_form(
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs, $error=false) {
-    global $cpu_prefs;
+    global $in_use_prefs;
+    global $not_in_use_prefs;
+    global $job_prefs;
     global $disk_prefs;
-    global $mem_prefs;
     global $net_prefs;
 
-    row1(CPU_LIMIT_DESC);
-    foreach ($cpu_prefs as $p) {
-        if (is_string($p)) {
-            group_header($p);
-            continue;
-        }
+    row1(IN_USE_DESC);
+    foreach ($in_use_prefs as $p) {
         $p->show_form_row($prefs, $error);
     }
-    row1(DISK_LIMIT_DESC);
+    row1(NOT_IN_USE_DESC);
+    foreach ($not_in_use_prefs as $p) {
+        $p->show_form_row($prefs, $error);
+    }
+    row1(JOBS_DESC);
+    foreach ($job_prefs as $p) {
+        $p->show_form_row($prefs, $error);
+    }
+    row1(DISK_DESC);
     foreach ($disk_prefs as $p) {
         $p->show_form_row($prefs, $error);
     }
-    row1(MEM_LIMIT_DESC);
-    foreach ($mem_prefs as $p) {
-        $p->show_form_row($prefs, $error);
-    }
-    row1(NETWORK_LIMIT_DESC);
+    row1(NET_DESC);
     foreach ($net_prefs as $p) {
-        if (is_string($p)) {
-            group_header($p);
-            continue;
-        }
         $p->show_form_row($prefs, $error);
     }
 }
@@ -697,24 +713,26 @@ function venue_parse_form(&$user) {
 // returns an object with errorvalues or false in success case
 //
 function prefs_global_parse_form(&$prefs) {
-    global $cpu_prefs;
+    global $in_use_prefs;
+    global $not_in_use_prefs;
+    global $job_prefs;
     global $disk_prefs;
-    global $mem_prefs;
     global $net_prefs;
 
     $error = false;
-    foreach ($cpu_prefs as $p) {
-        if (is_string($p)) continue;
+    foreach ($in_use_prefs as $p) {
+        $p->parse_form($prefs, $error);
+    }
+    foreach ($not_in_use_prefs as $p) {
+        $p->parse_form($prefs, $error);
+    }
+    foreach ($job_prefs as $p) {
         $p->parse_form($prefs, $error);
     }
     foreach ($disk_prefs as $p) {
         $p->parse_form($prefs, $error);
     }
-    foreach ($mem_prefs as $p) {
-        $p->parse_form($prefs, $error);
-    }
     foreach ($net_prefs as $p) {
-        if (is_string($p)) continue;
         $p->parse_form($prefs, $error);
     }
     return $error;
@@ -726,9 +744,10 @@ function prefs_global_parse_form(&$prefs) {
 // convert prefs from structure to XML
 //
 function global_prefs_make_xml($prefs, $primary=true) {
-    global $cpu_prefs;
+    global $in_use_prefs;
+    global $not_in_use_prefs;
+    global $job_prefs;
     global $disk_prefs;
-    global $mem_prefs;
     global $net_prefs;
 
     $xml = "";
@@ -738,18 +757,19 @@ function global_prefs_make_xml($prefs, $primary=true) {
         $xml = $xml."<mod_time>$now</mod_time>\n";
     }
 
-    foreach ($cpu_prefs as $p) {
-        if (is_string($p)) continue;
+    foreach ($in_use_prefs as $p) {
+        $xml .= $p->xml_string($prefs);
+    }
+    foreach ($not_in_use_prefs as $p) {
+        $xml .= $p->xml_string($prefs);
+    }
+    foreach ($job_prefs as $p) {
         $xml .= $p->xml_string($prefs);
     }
     foreach ($disk_prefs as $p) {
         $xml .= $p->xml_string($prefs);
     }
-    foreach ($mem_prefs as $p) {
-        $xml .= $p->xml_string($prefs);
-    }
     foreach ($net_prefs as $p) {
-        if (is_string($p)) continue;
         $xml .= $p->xml_string($prefs);
     }
 

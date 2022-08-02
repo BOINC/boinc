@@ -368,7 +368,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                         continue;
                     }
                 } else {
-                    if (rsc_work_fetch[rt].sim_nused >= gstate.ncpus) break;
+                    if (rsc_work_fetch[rt].sim_nused >= gstate.n_usable_cpus) break;
                 }
                 ++rsc_pwf.pending_iter;
             }
@@ -403,7 +403,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
 // after the initial assignment of jobs
 //
 static void record_nidle_now() {
-    rsc_work_fetch[0].nidle_now = gstate.ncpus - rsc_work_fetch[0].sim_nused;
+    rsc_work_fetch[0].nidle_now = gstate.n_usable_cpus - rsc_work_fetch[0].sim_nused;
     if (rsc_work_fetch[0].nidle_now < 0) rsc_work_fetch[0].nidle_now = 0;
     for (int i=1; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].nidle_now = coprocs.coprocs[i].count - rsc_work_fetch[i].sim_nused;

@@ -1077,7 +1077,7 @@ void WORK_FETCH::set_initial_work_request(PROJECT* p) {
 // called once, at client startup
 //
 void WORK_FETCH::init() {
-    rsc_work_fetch[0].init(0, gstate.ncpus, 1);
+    rsc_work_fetch[0].init(0, gstate.n_usable_cpus, 1);
     double cpu_flops = gstate.host_info.p_fpops;
 
     // use 20% as a rough estimate of GPU efficiency
@@ -1127,7 +1127,7 @@ void CLIENT_STATE::compute_nuploading_results() {
             rp->project->nuploading_results++;
         }
     }
-    int n = gstate.ncpus;
+    int n = gstate.n_usable_cpus;
     for (int j=1; j<coprocs.n_rsc; j++) {
         if (coprocs.coprocs[j].count > n) {
             n = coprocs.coprocs[j].count;
