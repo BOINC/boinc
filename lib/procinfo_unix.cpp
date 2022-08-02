@@ -273,14 +273,25 @@ double total_cpu_time() {
     static double scale;
     if (!f) {
         f = fopen("/proc/stat", "r");
+        if (!f) {
+            fprintf(stderr, "can't open /proc/stat\n");
+            return 0;
+        }
         long hz = sysconf(_SC_CLK_TCK);
         scale = 1./hz;
     } else {
         fflush(f);
         rewind(f);
     }
-    if (!fgets(buf, 256, f)) return 0;
+    if (!fgets(buf, 256, f)) {
+        fprintf(stderr, "can't read /proc/stat\n");
+        return 0;
+    }
     double user, nice;
-    sscanf(buf, "cpu %lf %lf", &user, &nice);
+    int n = sscanf(buf, "cpu %lf %lf", &user, &nice);
+    if (n != 2) {
+        fprintf(stderr, "can't parse /proc/stat: %s\n", buf);
+        return 0;
+    }
     return (user+nice)*scale;
 }
