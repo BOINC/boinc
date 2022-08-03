@@ -62,9 +62,9 @@ char* sim_time_string(int t) {
         int n = t/86400;
         t %= 86400;
         if (n == 1) {
-            sprintf(buf2, "1 day ");
+            snprintf(buf2, sizeof(buf2), "1 day ");
         } else {
-            sprintf(buf2, "%d days ", n);
+            snprintf(buf2, sizeof(buf2), "%d days ", n);
         }
     } else {
         safe_strcpy(buf2, "");
@@ -73,7 +73,7 @@ char* sim_time_string(int t) {
     t %= 3600;
     int mins = t/60;
     int secs = t%60;
-    sprintf(buf, "%s%02d:%02d:%02d", buf2, hours, mins, secs);
+    snprintf(buf, sizeof(buf), "%s%02d:%02d:%02d", buf2, hours, mins, secs);
     return buf;
 }
 
@@ -129,7 +129,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
-    sprintf(buf, "Starting %s<br>&nbsp;&nbsp;%s<br>&nbsp;&nbsp;deadline %s<br>",
+    snprintf(buf, sizeof(buf), "Starting %s<br>&nbsp;&nbsp;%s<br>&nbsp;&nbsp;deadline %s<br>",
         result->name, result->project->get_project_name(),
         sim_time_string(result->report_deadline)
     );

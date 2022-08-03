@@ -98,7 +98,7 @@ void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
     const char* now_timestamp = precision_time_to_string(dtime());
     if (!v_message_wanted(kind)) return;
     if (pid) {
-        sprintf(buf, " [PID=%-5d]", pid);
+        snprintf(buf, sizeof(buf), " [PID=%-5d]", pid);
     } else {
         buf[0] = 0;
     }

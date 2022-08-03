@@ -144,7 +144,7 @@ int main(int /*argc*/, char** argv) {
         } else {
             projectDirName = aid.project_dir;
         }
-        sprintf(newlibs, "../../%s:.:../..", projectDirName);
+        snprintf(newlibs, sizeof(newlibs), "../../%s:.:../..", projectDirName);
 #ifdef __APPLE__
         strcat(newlibs, ":/usr/local/cuda/lib/");
 #endif
@@ -161,7 +161,7 @@ int main(int /*argc*/, char** argv) {
 #ifdef __APPLE__
         p = getenv("DYLD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "%s:%s", newlibs, p);
+            snprintf(libpath, sizeof(libpath), "%s:%s", newlibs, p);
         } else {
             safe_strcpy(libpath, newlibs);
         }

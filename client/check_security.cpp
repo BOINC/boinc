@@ -261,7 +261,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if (use_sandbox) {
             for (int i=0; i<NUMBRANDS; i++) {
                 // Does gfx_switcher exist in screensaver bundle?
-                sprintf(full_path, "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher", saverName[i]);
+                snprintf(full_path, sizeof(full_path), "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher", saverName[i]);
                 retval = stat(full_path, &sbuf);
                 if (! retval) {
 #ifdef _DEBUG
@@ -631,7 +631,7 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
 
     *outbuf = '\0';
     
-    sprintf(buf, "ps -xwo command -p %d", (int)aPID);
+    snprintf(buf, sizeof(buf), "ps -xwo command -p %d", (int)aPID);
     f = popen(buf, "r");
     if (f == NULL)
         return;
