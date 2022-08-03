@@ -778,7 +778,7 @@ static int boinc_rename_aux(const char* old, const char* newf) {
     int retval = rename(old, newf);
     if (retval) {
         char buf[MAXPATHLEN+MAXPATHLEN];
-        sprintf(buf, "mv \"%s\" \"%s\"", old, newf);
+        snprintf(buf, sizeof(buf), "mv \"%s\" \"%s\"", old, newf);
 #ifdef __APPLE__
         // system() is deprecated in Mac OS 10.10.
         // Apple says to call posix_spawn instead.

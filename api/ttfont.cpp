@@ -98,7 +98,7 @@ void ttf_load_fonts(
     char vpath[MAXPATHLEN];
     g_iFont = -1;
     for (unsigned int i=0 ; i < NUM_FONT; i++){
-        sprintf(vpath, "%s/%s", dir, g_cstrFont[i]);
+        snprintf(vpath, sizeof(vpath), "%s/%s", dir, g_cstrFont[i]);
         if (boinc_file_exists(vpath)) {
             //g_font[i] = new FTBitmapFont(vpath);
             //g_font[i] = new FTPixmapFont(vpath);

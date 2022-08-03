@@ -455,7 +455,7 @@ int RESULT::write_gui(MIOFILE& out) {
                     safe_strcpy(buf, n>1?" (devices ":" (device ");
                     for (int i=0; i<n; i++) {
                         char buf2[256];
-                        sprintf(buf2, "%d", cp.device_nums[coproc_indices[i]]);
+                        snprintf(buf2, sizeof(buf2), "%d", cp.device_nums[coproc_indices[i]]);
                         if (i > 0) {
                             safe_strcat(buf, ", ");
                         }

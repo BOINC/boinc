@@ -1451,7 +1451,7 @@ int RPC_CLIENT::exchange_versions(string client_name, VERSION_INFO& server) {
     char buf[256];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<exchange_versions>\n"
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
@@ -1496,7 +1496,7 @@ int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
 
     t.clear();
 
-    sprintf(buf, "<get_results>\n<active_only>%d</active_only>\n</get_results>\n",
+    snprintf(buf, sizeof(buf), "<get_results>\n<active_only>%d</active_only>\n</get_results>\n",
         active_only?1:0
     );
     retval = rpc.do_rpc(buf);

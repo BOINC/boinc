@@ -122,7 +122,7 @@ static void coproc_cmdline(
             );
             k = 0;
         }
-        sprintf(buf, " --device %d", coproc->device_nums[k]);
+        snprintf(buf, sizeof(buf), " --device %d", coproc->device_nums[k]);
         strlcat(cmdline, buf, cmdline_len);
     }
 }
@@ -137,7 +137,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 
     bool try_global = (sandbox_account_service_token != NULL);
     for (i=0; i<1024; i++) {
-        sprintf(seg_name, "%sboinc_%d", SHM_PREFIX, i);
+        snprintf(seg_name, sizeof(seg_name), "%sboinc_%d", SHM_PREFIX, i);
         shm_handle = create_shmem(
             seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm,
             try_global
@@ -145,7 +145,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
         if (shm_handle) break;
     }
     if (!shm_handle) return ERR_SHMGET;
-    sprintf(shmem_seg_name, "boinc_%d", i);
+    snprintf(shmem_seg_name, sizeof(shmem_seg_name), "boinc_%d", i);
 #else
     char init_data_path[MAXPATHLEN];
 #ifndef __EMX__
@@ -155,7 +155,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
         return 0;
     }
 #endif
-    sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
+    snprintf(init_data_path, sizeof(init_data_path), "%s/%s", slot_dir, INIT_DATA_FILE);
 
     // ftok() only works if there's a file at the given location
     //
@@ -293,7 +293,7 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     );
 #endif
 
-    sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
+    snprintf(init_data_path, sizeof(init_data_path), "%s/%s", slot_dir, INIT_DATA_FILE);
 
     // delete the file using the switcher (Unix)
     // in case it's owned by another user and we don't have write access
@@ -869,7 +869,7 @@ int ACTIVE_TASK::start(bool test) {
     //
     retval = chdir(slot_dir);
     if (retval) {
-        sprintf(buf, "Can't change directory to %s: %s", slot_dir, boincerror(retval));
+        snprintf(buf, sizeof(buf), "Can't change directory to %s: %s", slot_dir, boincerror(retval));
         goto error;
     }
 

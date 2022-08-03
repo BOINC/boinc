@@ -191,7 +191,7 @@ int procinfo_setup(PROC_MAP& pm) {
 
 #if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)  // solaris
         psinfo_t psinfo;
-        sprintf(pidpath, "/proc/%s/psinfo", piddir->d_name);
+        snprintf(pidpath, sizeof(pidpath), "/proc/%s/psinfo", piddir->d_name);
         fd = fopen(pidpath, "r");
         if (!fd) continue;
         PROCINFO p;
@@ -204,7 +204,7 @@ int procinfo_setup(PROC_MAP& pm) {
             strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
         }
         fclose(fd);
-        sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
+        snprintf(pidpath, sizeof(pidpath), "/proc/%s/usage", piddir->d_name);
         prusage_t prusage;
         fd = fopen(pidpath, "r");
         if (!fd) continue;
@@ -220,7 +220,7 @@ int procinfo_setup(PROC_MAP& pm) {
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
 #else  // linux
-        sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
+        snprintf(pidpath, sizeof(pidpath), "/proc/%s/stat", piddir->d_name);
         fd = fopen(pidpath, "r");
         if (!fd) continue;
         if (fgets(buf, sizeof(buf), fd) == NULL) {

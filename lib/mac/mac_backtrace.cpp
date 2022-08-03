@@ -341,7 +341,7 @@ void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbu
     *outbuf = '\0';
     *nameBuf = '\0';
     
-    sprintf(buf, "ps -wo command -p %d", (int)aPID);
+    snprintf(buf, sizeof(buf), "ps -wo command -p %d", (int)aPID);
     f = popen(buf, "r");
     if (f == NULL)
         return;
@@ -350,7 +350,7 @@ void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbu
     BT_PersistentFGets (outbuf, outBufLen, f);     // Get the UNIX command which ran us
     pclose(f);
 
-    sprintf(buf, "ps -p %d -c -o command", aPID);
+    snprintf(buf, sizeof(buf), "ps -p %d -c -o command", aPID);
     f = popen(buf,  "r");
     if (!f)
         return;

@@ -82,7 +82,7 @@ static void auth_failure(MIOFILE& fout) {
 }
 
 void GUI_RPC_CONN::handle_auth1(MIOFILE& fout) {
-    sprintf(nonce, "%f", dtime());
+    snprintf(nonce, sizeof(nonce), "%f", dtime());
     fout.printf("<nonce>%s</nonce>\n", nonce);
 }
 
@@ -1202,7 +1202,7 @@ static void handle_get_app_config(GUI_RPC_CONN& grc) {
         grc.mfout.printf("<error>no such project</error>");
         return;
     }
-    sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
+    snprintf(path, sizeof(path), "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
     int retval = read_file_string(path, s);
     if (retval) {
         grc.mfout.printf("<error>app_config.xml not found</error>\n");
@@ -1263,7 +1263,7 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
         return;
     }
     char path[MAXPATHLEN];
-    sprintf(path, "%s/app_config.xml", p->project_dir());
+    snprintf(path, sizeof(path), "%s/app_config.xml", p->project_dir());
     FILE* f = boinc_fopen(path, "w");
     if (!f) {
         msg_printf(p, MSG_INTERNAL_ERROR,
@@ -1545,7 +1545,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argc = 5;
         } else {
             char theSlot[10];
-            sprintf(theSlot, "%d", slot);
+            snprintf(theSlot, sizeof(theSlot), "%d", slot);
             argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
             argv[1] = execDir;
             argv[2] = saverName[iBrandID];
