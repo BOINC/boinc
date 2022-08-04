@@ -1712,10 +1712,10 @@ void CMainDocument::KillGraphicsApp(int pid) {
 
     if (g_use_sandbox) {
         snprintf(thePIDbuf, sizeof(thePIDbuf), "%d", pid);
-        argv[0] = "switcher";
-        argv[1] = "/bin/kill";
-        argv[2] =  "kill";
-        argv[3] = "-KILL";
+        argv[0] = (char *)"switcher";
+        argv[1] = (char *)"/bin/kill";
+        argv[2] = (char *)"kill";
+        argv[3] = (char *)"-KILL";
         argv[4] = thePIDbuf;
         argv[5] = 0;
 
@@ -1767,7 +1767,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 #ifndef __WXMSW__
         char* argv[4];
 
-        argv[0] = "switcher";
+        argv[0] = (char *)"switcher";
         // For unknown reasons on Macs, the graphics application
         // exits with "RegisterProcess failed (error = -50)" unless
         // we pass its full path twice in the argument list to execv.
@@ -2645,7 +2645,7 @@ static void hsv2rgb(
 //
 void color_cycle(int i, int n, wxColour& color) {
     double h = (double)i/(double)n;
-    double r, g, b;
+    double r = 0.0, g = 0.0, b = 0.0;
     double v = .75;
     if (n > 6) v = .6 + (i % 3)*.1;
         // cycle through 3 different brightnesses
