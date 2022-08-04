@@ -224,7 +224,7 @@ namespace vboxmanage {
         // Tweak the VM's Memory Size
         //
         vboxlog_msg("Setting Memory Size for VM. (%dMB)", (int)memory_size_mb);
-        sprintf(buf, "%d", (int)memory_size_mb);
+        snprintf(buf, sizeof(buf), "%d", (int)memory_size_mb);
 
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--memory " + string(buf) + " ";
@@ -259,7 +259,7 @@ namespace vboxmanage {
         // Tweak the VM's Graphics Controller Options
         //
         vboxlog_msg("Setting Graphics Controller Options for VM.");
-        sprintf(buf, "%d", (int)vram_size_mb);
+        snprintf(buf, sizeof(buf), "%d", (int)vram_size_mb);
 
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--vram " + string(buf) + " ";
@@ -768,7 +768,7 @@ namespace vboxmanage {
 
                 // Add new firewall rule
                 //
-                sprintf(buf, ",tcp,%s,%d,,%d",
+                snprintf(buf, sizeof(buf), ",tcp,%s,%d,,%d",
                         pf.is_remote?"":"127.0.0.1",
                         pf.host_port, pf.guest_port
                        );
@@ -790,7 +790,7 @@ namespace vboxmanage {
                 retval = boinc_get_port(false, rd_host_port);
                 if (retval) return retval;
 
-                sprintf(buf, "%d", rd_host_port);
+                snprintf(buf, sizeof(buf), "%d", rd_host_port);
                 command  = "modifyvm \"" + vm_name + "\" ";
                 command += "--vrde on ";
                 command += "--vrdeextpack default ";
@@ -1533,7 +1533,7 @@ namespace vboxmanage {
         pause();
 
         // Create new snapshot
-        sprintf(buf, "%d", (int)elapsed_time);
+        snprintf(buf, sizeof(buf), "%d", (int)elapsed_time);
         command = "snapshot \"" + vm_name + "\" ";
         command += "take boinc_";
         command += buf;
@@ -2161,7 +2161,7 @@ namespace vboxmanage {
         // the arg to controlvm is percentage
         //
         vboxlog_msg("Setting CPU throttle for VM. (%d%%)", percentage);
-        sprintf(buf, "%d", percentage);
+        snprintf(buf, sizeof(buf), "%d", percentage);
         command  = "controlvm \"" + vm_name + "\" ";
         command += "cpuexecutioncap ";
         command += buf;
@@ -2198,7 +2198,7 @@ namespace vboxmanage {
                 retval = vbm_popen(command, output, "network throttle (set default value)");
                 if (retval) return retval;
             } else {
-                sprintf(buf, "%d", kilobytes);
+                snprintf(buf, sizeof(buf), "%d", kilobytes);
                 command  = "bandwidthctl \"" + vm_name + "\" ";
                 command += "set \"" + vm_name + "_net\" ";
                 command += "--limit ";
@@ -2211,7 +2211,7 @@ namespace vboxmanage {
 
         } else {
 
-            sprintf(buf, "%d", kilobytes);
+            snprintf(buf, sizeof(buf), "%d", kilobytes);
             command  = "modifyvm \"" + vm_name + "\" ";
             command += "--nicspeed1 ";
             command += buf;

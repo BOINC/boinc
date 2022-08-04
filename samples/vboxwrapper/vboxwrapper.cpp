@@ -92,20 +92,20 @@ using std::string;
 
 bool shared_file_exists(std::string& filename) {
     char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", filename.c_str());
+    snprintf(path, sizeof(path), "shared/%s", filename.c_str());
     if (filename.size() && boinc_file_exists(path)) return true;
     return false;
 }
 
 void shared_delete_file(std::string& filename) {
     char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", filename.c_str());
+    snprintf(path, sizeof(path), "shared/%s", filename.c_str());
     boinc_delete_file(path);
 }
 
 int shared_stat(std::string& filename, struct stat* stat_file) {
     char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", filename.c_str());
+    snprintf(path, sizeof(path), "shared/%s", filename.c_str());
     return stat(path, stat_file);
 }
 
@@ -114,7 +114,7 @@ bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     char buf[256];
     double temp, frac = 0;
 
-    sprintf(path, "shared/%s", vm.fraction_done_filename.c_str());
+    snprintf(path, sizeof(path), "shared/%s", vm.fraction_done_filename.c_str());
     FILE* f = fopen(path, "r");
     if (!f) return false;
 
@@ -147,7 +147,7 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     exit_code = 0;
     message = "";
 
-    sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
+    snprintf(path, sizeof(path), "shared/%s", vm.completion_trigger_file.c_str());
     FILE* f = fopen(path, "r");
     if (f) {
         if (fgets(buf, 1024, f) != NULL) {
@@ -170,7 +170,7 @@ void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& mes
     temp_delay = 0;
     message = "";
 
-    sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
+    snprintf(path, sizeof(path), "shared/%s", vm.temporary_exit_trigger_file.c_str());
     FILE* f = fopen(path, "r");
     if (f) {
         if (fgets(buf, 1024, f) != NULL) {
@@ -249,16 +249,16 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
             scratch  = "BOINC_USERNAME=" + string(aid.user_name) + "\n";
             scratch += "BOINC_AUTHENTICATOR=" + string(aid.authenticator) + "\n";
 
-            sprintf(buf, "%d", aid.userid);
+            snprintf(buf, sizeof(buf), "%d", aid.userid);
             scratch += "BOINC_USERID=" + string(buf) + "\n";
 
-            sprintf(buf, "%d", aid.hostid);
+            snprintf(buf, sizeof(buf), "%d", aid.hostid);
             scratch += "BOINC_HOSTID=" + string(buf) + "\n";
 
-            sprintf(buf, "%.17g", aid.user_total_credit);
+            snprintf(buf, sizeof(buf), "%.17g", aid.user_total_credit);
             scratch += "BOINC_USER_TOTAL_CREDIT=" + string(buf) + "\n";
 
-            sprintf(buf, "%.17g", aid.host_total_credit);
+            snprintf(buf, sizeof(buf), "%.17g", aid.host_total_credit);
             scratch += "BOINC_HOST_TOTAL_CREDIT=" + string(buf) + "\n";
         }
         vm.write_floppy(scratch);
@@ -270,7 +270,7 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
 void report_web_graphics_url(VBOX_VM& vm) {
     char buf[256];
     if (vm.pf_host_port && !boinc_file_exists("graphics_app")) {
-        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
+        snprintf(buf, sizeof(buf), "http://localhost:%d", vm.pf_host_port);
         vboxlog_msg("Detected: Web Application Enabled (%s)", buf);
         boinc_web_graphics_url(buf);
     }
@@ -281,7 +281,7 @@ void report_web_graphics_url(VBOX_VM& vm) {
 void report_remote_desktop_info(VBOX_VM& vm) {
     char buf[256];
     if (vm.rd_host_port) {
-        sprintf(buf, "localhost:%d", vm.rd_host_port);
+        snprintf(buf, sizeof(buf), "localhost:%d", vm.rd_host_port);
         vboxlog_msg("Detected: Remote Desktop Enabled (%s)", buf);
         boinc_remote_desktop_addr(buf);
     }
@@ -295,7 +295,7 @@ void check_trickle_triggers(VBOX_VM& vm) {
     std::string text;
     for (unsigned int i=0; i<vm.trickle_trigger_files.size(); i++) {
         strcpy(filename, vm.trickle_trigger_files[i].c_str());
-        sprintf(path, "shared/%s", filename);
+        snprintf(path, sizeof(path), "shared/%s", filename);
         if (!boinc_file_exists(path)) continue;
         vboxlog_msg("Reporting a trickle. (%s)", filename);
         retval = read_file_string(path, text);
@@ -322,7 +322,7 @@ void check_intermediate_uploads(VBOX_VM& vm) {
     char filename[256], path[MAXPATHLEN];
     for (unsigned int i=0; i<vm.intermediate_upload_files.size(); i++) {
         strcpy(filename, vm.intermediate_upload_files[i].file.c_str());
-        sprintf(path, "shared/%s", filename);
+        snprintf(path, sizeof(path), "shared/%s", filename);
         if (!boinc_file_exists(path)) continue;
         if (!vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
             vboxlog_msg("Reporting an intermediate file. (%s)", vm.intermediate_upload_files[i].file.c_str());
@@ -354,7 +354,7 @@ void check_trickle_period(double& elapsed_time, double& trickle_period) {
     }
     last_trickle_report_time = elapsed_time;
     vboxlog_msg("Status Report: Trickle-Up Event.");
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
             "<cpu_time>%f</cpu_time>", last_trickle_report_time
            );
     int retval = boinc_send_trickle_up(
@@ -629,7 +629,7 @@ int main(int argc, char** argv) {
         pVM->vm_master_name += "standalone";
         pVM->vm_master_description = "standalone";
         if (pVM->enable_floppyio) {
-            sprintf(buf, "%s.%s",
+            snprintf(buf, sizeof(buf), "%s.%s",
                     FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION
                    );
             pVM->floppy_image_filename = buf;
@@ -638,13 +638,13 @@ int main(int argc, char** argv) {
         pVM->vm_master_name += md5_string(std::string(aid.result_name)).substr(0, 16);
         pVM->vm_master_description = aid.result_name;
         if (vm_image) {
-            sprintf(buf, "%s_%d.%s",
+            snprintf(buf, sizeof(buf), "%s_%d.%s",
                     IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION
                    );
             pVM->image_filename = buf;
         }
         if (pVM->enable_floppyio) {
-            sprintf(buf, "%s_%d.%s",
+            snprintf(buf, sizeof(buf), "%s_%d.%s",
                     FLOPPY_IMAGE_FILENAME, aid.slot,
                     FLOPPY_IMAGE_FILENAME_EXTENSION
                    );
@@ -666,9 +666,9 @@ int main(int argc, char** argv) {
             ncpus = 32.0;
         }
         if (ncpus) {
-            sprintf(buf, "%d", (int)ceil(ncpus));
+            snprintf(buf, sizeof(buf), "%d", (int)ceil(ncpus));
         } else {
-            sprintf(buf, "%d", (int)ceil(aid.ncpus));
+            snprintf(buf, sizeof(buf), "%d", (int)ceil(aid.ncpus));
         }
         pVM->vm_cpu_count = buf;
     } else {
@@ -1065,7 +1065,7 @@ int main(int argc, char** argv) {
                 if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to pause, rescheduling task for a later time.");
                     pVM->poweroff();
-                    sprintf(buf, 
+                    snprintf(buf, sizeof(buf), 
                         "VM suspend failed. Will exit and restart in %d sec.",
                         RESTART_DELAY
                     );
@@ -1078,7 +1078,7 @@ int main(int argc, char** argv) {
                 if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to resume, rescheduling task for a later time.");
                     pVM->poweroff();
-                    sprintf(buf,
+                    snprintf(buf, sizeof(buf),
                         "VM resume failed. Will exit and restart in %d sec.",
                         RESTART_DELAY
                     );
@@ -1157,7 +1157,7 @@ int main(int argc, char** argv) {
                         //
                         vboxlog_msg("ERROR: Checkpoint maintenance failed, rescheduling task for a later time. (%d)", retval);
                         pVM->poweroff();
-                        sprintf(buf,
+                        snprintf(buf, sizeof(buf),
                             "VM snapshot failed. Will exit and restart in %d sec.",
                             RESTART_DELAY
                         );
