@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -50,19 +50,21 @@
 #define COLUMN_CPUTIME              3
 #define COLUMN_TOCOMPLETION         4
 #define COLUMN_ESTIMATEDCOMPLETION  5
-#define COLUMN_REPORTDEADLINE       6
-#define COLUMN_APPLICATION          7
-#define COLUMN_NAME                 8
+#define COLUMN_DEADLINEDIFF         6
+#define COLUMN_REPORTDEADLINE       7
+#define COLUMN_APPLICATION          8
+#define COLUMN_NAME                 9
 
 
 // DefaultShownColumns is an array containing the
 // columnIDs of the columns to be shown by default,
 // in ascending order.  It may or may not include
 // all columns.
+// Columns ESTIMATEDCOMPLETION and DEADLINEDIFF are hidden by default.
+// Not all users may want to see those columns.
 //
-// For now, show all columns by default
 static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, COLUMN_STATUS, 
-                                COLUMN_CPUTIME, COLUMN_TOCOMPLETION, COLUMN_ESTIMATEDCOMPLETION,
+                                COLUMN_CPUTIME, COLUMN_TOCOMPLETION,
                                 COLUMN_REPORTDEADLINE, COLUMN_APPLICATION, 
                                 COLUMN_NAME };
 
@@ -195,6 +197,9 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
                    estimated_completion_work1.IsEqualTo(estimated_completion_work2)) {
             result = 1;
         }
+        break;
+    case COLUMN_DEADLINEDIFF:
+        // SOMETHING GOES IN HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         break;
     }
 
@@ -351,6 +356,10 @@ void CViewWork::AppendColumn(int columnID){
         case COLUMN_ESTIMATEDCOMPLETION:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ESTIMATEDCOMPLETION],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ESTIMATEDCOMPLETION]);
+            break;
+        case COLUMN_DEADLINEDIFF:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_DEADLINEDIFF],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_DEADLINEDIFF]);
             break;
     }
 }
@@ -774,7 +783,10 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strStatus;
                 break;
             case COLUMN_ESTIMATEDCOMPLETION:
-                //if ((work->m_fCPUTime > 0) && (work->m_strStatus.IsSameAs("Running"))) {
+                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // Need to fix the following:
+                // - replace "running"
+                // - See how strBuffer should be addressed?  Why is this not refereshing properly?
                 if ((work->m_fCPUTime > 0) && (work->m_strStatus.Contains("Running"))) {
                     wxDateTime now = wxDateTime::Now();
                     wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
@@ -788,6 +800,9 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                     // running, pass 0 to FormatTime to display "---" as the Estimated
                     // Completion time
                 }
+                break;
+            case COLUMN_DEADLINEDIFF:
+                // Fill out something here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 break;
         }
     }
@@ -907,7 +922,7 @@ void CViewWork::UpdateSelection() {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;     // Should never happen
-        
+
         result = pDoc->result(m_iSortedIndexes[row]);
         if (!result) continue;
         if (i == 0) {
@@ -956,7 +971,7 @@ void CViewWork::UpdateSelection() {
                 enableShowGraphics = false;
             }
         }
-        
+
         // Disable Show VM console if the selected task hasn't registered a remote
         // desktop connection
         //
@@ -978,7 +993,7 @@ void CViewWork::UpdateSelection() {
                 enableShowGraphics = false;
             }
         }
-       
+
         // Disable Abort button if any selected task already aborted
         if (
             result->active_task_state == PROCESS_ABORT_PENDING ||
@@ -996,7 +1011,7 @@ void CViewWork::UpdateSelection() {
                 all_same_project = false;
             }
         }
-        
+
         if (n == 1) {
             enableProperties = true;
         }
@@ -1222,6 +1237,7 @@ void CViewWork::GetDocCPUTime(wxInt32 item, double& fBuffer) const {
     }
 }
 
+
 void CViewWork::GetDocProgress(wxInt32 item, double& fBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
@@ -1355,7 +1371,7 @@ int CViewWork::GetWorkCacheAtIndex(CWork*& workPtr, int index) {
         workPtr = NULL;
         return -1;
     }
-    
+
     return 0;
 }
 
