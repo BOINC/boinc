@@ -81,6 +81,7 @@ enum {
     ID_CHKPROCEVERYDAY,
     ID_CHKPROCINUSE,
     ID_CHKMAXLOAD,
+    ID_CHKMAXLOADNOTINUSE,
     ID_CHKPROCONBATTERIES,
     ID_TABPAGE_SCHED,
     ID_TABPAGE_DISK,
@@ -113,6 +114,7 @@ enum {
     ID_TXTNETWEDNESDAYSTART,
     ID_TXTNETWEDNESDAYSTOP,
     ID_TXTPROCUSECPUTIME,
+    ID_TXTPROCUSECPUTIMENOTINUSE,
     ID_TXTPROCEVERYDAYSTART,
     ID_TXTPROCEVERYDAYSTOP,
     ID_TXTPROCFRIDAYSTART,
@@ -131,36 +133,83 @@ enum {
     ID_TXTPROCTUESDAYSTART,
     ID_TXTPROCTUESDAYSTOP,
     ID_TXTPROCUSEPROCESSORS,
+    ID_TXTPROCUSEPROCESSORSNOTINUSE,
     ID_TXTPROCWEDNESDAYSTART,
     ID_TXTPROCWEDNESDAYSTOP,
     ID_CHKGPUPROCINUSE,
     ID_TXTMAXLOAD,
+    ID_TXTMAXLOADNOTINUSE,
     ID_DAILY_XFER_LIMIT_MB,
     ID_DAILY_XFER_PERIOD_DAYS,
     ID_ADV_PREFS_LAST
 };
 
 
-/**
- * Class CDlgAdvPreferencesBase
- */
-class CDlgAdvPreferencesBase : public wxDialog 
-{
+class CDlgAdvPreferencesBase : public wxDialog {
 protected:
     wxStaticBitmap* m_bmpWarning;
     wxButton* m_btnClear;
     wxPanel* m_panelControls;
     wxNotebook* m_Notebook;
+
+    // Computing panel
+    //
+    // In-use items
     wxPanel* m_panelProcessor;
-    wxTextCtrl* m_txtProcUseProcessors;
-    wxTextCtrl* m_txtProcUseCPUTime;
-    wxCheckBox* m_chkProcOnBatteries;
+    wxTextCtrl* m_txtProcIdleFor;
     wxCheckBox* m_chkProcInUse;
     wxCheckBox* m_chkGPUProcInUse;
-    wxTextCtrl* m_txtProcIdleFor;
-    wxTextCtrl* m_txtNoRecentInput;
+    wxTextCtrl* m_txtProcUseProcessors;
+    wxTextCtrl* m_txtProcUseCPUTime;
     wxCheckBox* m_chkMaxLoad;
     wxTextCtrl* m_txtMaxLoad;
+    wxTextCtrl* m_txtMemoryMaxInUse;
+    // Not in Use items
+    //
+    wxTextCtrl* m_txtProcUseProcessorsNotInUse;
+    wxTextCtrl* m_txtProcUseCPUTimeNotInUse;
+    wxCheckBox* m_chkMaxLoadNotInUse;
+    wxTextCtrl* m_txtMaxLoadNotInUse;
+    wxTextCtrl* m_txtMemoryMaxOnIdle;
+    wxTextCtrl* m_txtNoRecentInput;
+    // General items
+    //
+    wxCheckBox* m_chkProcOnBatteries;
+    wxTextCtrl* m_txtProcSwitchEvery;
+    wxTextCtrl* m_txtDiskWriteToDisk;
+    wxCheckBox* m_chkMemoryWhileSuspended;
+    wxTextCtrl* m_txtNetConnectInterval;
+    wxTextCtrl* m_txtNetAdditionalDays;
+    wxTextCtrl* m_txtDiskMaxSwap;
+
+    // Network panel
+    //
+    wxPanel* m_panelNetwork;
+    wxCheckBox* m_chkNetDownloadRate;
+    wxTextCtrl* m_txtNetDownloadRate;
+    wxCheckBox* m_chkNetUploadRate;
+    wxTextCtrl* m_txtNetUploadRate;
+
+    wxCheckBox * m_chk_daily_xfer_limit;
+    wxTextCtrl* m_txt_daily_xfer_limit_mb;
+    wxTextCtrl* m_txt_daily_xfer_period_days;
+
+    wxCheckBox* m_chkNetSkipImageVerification;
+    wxCheckBox* m_chkNetConfirmBeforeConnect;
+    wxCheckBox* m_chkNetDisconnectWhenDone;
+
+    // Disk panel
+    //
+    wxPanel* m_panelDiskAndMemory;
+    wxCheckBox* m_chkDiskMaxSpace;
+    wxTextCtrl* m_txtDiskMaxSpace;
+    wxCheckBox* m_chkDiskLeastFree;
+    wxTextCtrl* m_txtDiskLeastFree;
+    wxCheckBox* m_chkDiskMaxOfTotal;
+    wxTextCtrl* m_txtDiskMaxOfTotal;
+
+    // Daily schedules panel
+    wxPanel* m_panelDailySchedules;
     wxCheckBox* m_chkNetEveryDay;
     wxCheckBox* m_chkProcEveryDay;
     wxTextCtrl* m_txtProcEveryDayStart;
@@ -186,23 +235,7 @@ protected:
     wxCheckBox* m_chkProcSunday;
     wxTextCtrl* m_txtProcSundayStart;
     wxTextCtrl* m_txtProcSundayStop;
-    wxTextCtrl* m_txtProcSwitchEvery;
-    wxTextCtrl* m_txtDiskWriteToDisk;
-    wxPanel* m_panelNetwork;
-    wxCheckBox* m_chkNetDownloadRate;
-    wxTextCtrl* m_txtNetDownloadRate;
-    wxCheckBox* m_chkNetUploadRate;
-    wxTextCtrl* m_txtNetUploadRate;
 
-    wxCheckBox * m_chk_daily_xfer_limit;
-    wxTextCtrl* m_txt_daily_xfer_limit_mb;
-    wxTextCtrl* m_txt_daily_xfer_period_days;
-
-    wxTextCtrl* m_txtNetConnectInterval;
-    wxTextCtrl* m_txtNetAdditionalDays;
-    wxCheckBox* m_chkNetSkipImageVerification;
-    wxCheckBox* m_chkNetConfirmBeforeConnect;
-    wxCheckBox* m_chkNetDisconnectWhenDone;
     wxTextCtrl* m_txtNetEveryDayStart;
     wxTextCtrl* m_txtNetEveryDayStop;
     wxCheckBox* m_chkNetMonday;
@@ -226,18 +259,6 @@ protected:
     wxCheckBox* m_chkNetSunday;
     wxTextCtrl* m_txtNetSundayStart;
     wxTextCtrl* m_txtNetSundayStop;
-    wxPanel* m_panelDiskAndMemory;
-    wxCheckBox* m_chkDiskMaxSpace;
-    wxTextCtrl* m_txtDiskMaxSpace;
-    wxCheckBox* m_chkDiskLeastFree;
-    wxTextCtrl* m_txtDiskLeastFree;
-    wxCheckBox* m_chkDiskMaxOfTotal;
-    wxTextCtrl* m_txtDiskMaxOfTotal;
-    wxTextCtrl* m_txtDiskMaxSwap;
-    wxTextCtrl* m_txtMemoryMaxInUse;
-    wxTextCtrl* m_txtMemoryMaxOnIdle;
-    wxCheckBox* m_chkMemoryWhileSuspended;
-    wxPanel* m_panelDailySchedules;
     
     wxPanel* m_panelButtons;
     wxButton* m_btnOK;
