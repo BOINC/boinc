@@ -258,7 +258,7 @@ $net_prefs = array(
 
 define("IN_USE_DESC", tra("When computer is in use"));
 define("NOT_IN_USE_DESC", tra("When computer is not in use"));
-define("JOBS_DESC", tra("Tasks"));
+define("JOBS_DESC", tra("General"));
 define("DISK_DESC", tra("Disk"));
 define("NET_DESC", tra("Network"));
 
