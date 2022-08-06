@@ -246,7 +246,7 @@ struct COPROC {
     inline bool bad_gpu_peak_flops(const char* source, std::string& msg) {
         if (peak_flops <= 0 || peak_flops > GPU_MAX_PEAK_FLOPS) {
             char buf[256];
-            sprintf(buf, "%s reported bad GPU peak FLOPS %f; using %f",
+            snprintf(buf, sizeof(buf), "%s reported bad GPU peak FLOPS %f; using %f",
                 source, peak_flops, GPU_DEFAULT_PEAK_FLOPS
             );
             msg = buf;

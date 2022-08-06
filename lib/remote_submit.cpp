@@ -127,7 +127,7 @@ static int do_http_post(
         CURLFORM_END
     );
     for (unsigned int i=0; i<send_files.size(); i++) {
-        sprintf(buf, "file_%d", i);
+        snprintf(buf, sizeof(buf), "file_%d", i);
         string s = send_files[i];
         curl_formadd(&formpost, &lastptr,
             CURLFORM_COPYNAME, buf,
@@ -165,20 +165,20 @@ int query_files(
     string req_msg;
     char buf[256];
     req_msg = "<query_files>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     req_msg += string(buf);
     if (batch_id) {
-        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+        snprintf(buf, sizeof(buf), "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
     for (unsigned int i=0; i<boinc_names.size(); i++) {
-        sprintf(buf, "   <phys_name>%s</phys_name>\n", boinc_names[i].c_str());
+        snprintf(buf, sizeof(buf), "   <phys_name>%s</phys_name>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</query_files>\n";
     FILE* reply = tmpfile();
     char url[256];
-    sprintf(url, "%sjob_file.php", project_url);
+    snprintf(url, sizeof(url), "%sjob_file.php", project_url);
     vector<string> xx;
     int retval = do_http_post(url, req_msg.c_str(), reply, xx);
     if (retval) {
@@ -225,20 +225,20 @@ int upload_files (
 ) {
     char buf[1024];
     string req_msg = "<upload_files>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     req_msg += string(buf);
     if (batch_id) {
-        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+        snprintf(buf, sizeof(buf), "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
     for (unsigned int i=0; i<boinc_names.size(); i++) {
-        sprintf(buf, "<phys_name>%s</phys_name>\n", boinc_names[i].c_str());
+        snprintf(buf, sizeof(buf), "<phys_name>%s</phys_name>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</upload_files>\n";
     FILE* reply = tmpfile();
     char url[256];
-    sprintf(url, "%sjob_file.php", project_url);
+    snprintf(url, sizeof(url), "%sjob_file.php", project_url);
     int retval = do_http_post(url, req_msg.c_str(), reply, paths);
     if (retval) {
         fclose(reply);
@@ -282,7 +282,7 @@ int create_batch(
 ) {
     char request[1024];
     char url[1024];
-    sprintf(request,
+    snprintf(request, sizeof(request),
         "<create_batch>\n"
         "   <authenticator>%s</authenticator>\n"
         "   <batch_name>%s</batch_name>\n"
@@ -294,7 +294,7 @@ int create_batch(
         app_name,
         expire_time
     );
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request, reply, x);
@@ -335,7 +335,7 @@ int estimate_batch(
     string& error_msg
 ) {
     char buf[1024], url[1024];
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<estimate_batch>\n"
         "<authenticator>%s</authenticator>\n"
         "<batch>\n"
@@ -353,7 +353,7 @@ int estimate_batch(
         request += "</job>\n";
     }
     request += "</batch>\n</estimate_batch>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -420,7 +420,7 @@ int submit_jobs_params(
     int app_version_num
 ) {
     char buf[1024], url[1024];
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<submit_batch>\n"
         "<authenticator>%s</authenticator>\n"
         "<batch>\n"
@@ -448,7 +448,7 @@ int submit_jobs_params(
     for (unsigned int i=0; i<jobs.size(); i++) {
         JOB job = jobs[i];
         request += "<job>\n";
-        sprintf(buf, "  <name>%s</name>\n", job.job_name);
+        snprintf(buf, sizeof(buf), "  <name>%s</name>\n", job.job_name);
         request += buf;
         if (!job.cmdline_args.empty()) {
             request += "<command_line>" + job.cmdline_args + "</command_line>\n";
@@ -457,7 +457,7 @@ int submit_jobs_params(
             INFILE infile = job.infiles[j];
             switch (infile.mode) {
             case FILE_MODE_LOCAL_STAGED:
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "<input_file>\n"
                     "<mode>local_staged</mode>\n"
                     "<source>%s</source>\n"
@@ -466,7 +466,7 @@ int submit_jobs_params(
                 );
                 break;
             case FILE_MODE_REMOTE:
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "<input_file>\n"
                     "<mode>remote</mode>\n"
                     "<url>%s</url>\n"
@@ -487,7 +487,7 @@ int submit_jobs_params(
         request += "</job>\n";
     }
     request += "</batch>\n</submit_batch>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -535,16 +535,16 @@ int query_batch_set(
     int batch_size;
 
     request = "<query_batch2>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    sprintf(buf, "<min_mod_time>%f</min_mod_time>\n", min_mod_time);
+    snprintf(buf, sizeof(buf), "<min_mod_time>%f</min_mod_time>\n", min_mod_time);
     request += string(buf);
     for (unsigned int i=0; i<batch_names.size(); i++) {
-        sprintf(buf, "<batch_name>%s</batch_name>\n", batch_names[i].c_str());
+        snprintf(buf, sizeof(buf), "<batch_name>%s</batch_name>\n", batch_names[i].c_str());
         request += string(buf);
     }
     request += "</query_batch2>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -667,10 +667,10 @@ int query_batches(
     string request;
     char url[1024], buf[256];
     request = "<query_batches>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
     request += "</query_batches>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -747,16 +747,16 @@ int query_batch(
     string request;
     char url[1024], buf[256];
     request = "<query_batch>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
     if (batch_id) {
-        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+        snprintf(buf, sizeof(buf), "<batch_id>%d</batch_id>\n", batch_id);
     } else {
-        sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name);
+        snprintf(buf, sizeof(buf), "<batch_name>%s</batch_name>\n", batch_name);
     }
     request += string(buf);
     request += "</query_batch>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -797,14 +797,14 @@ int abort_jobs(
     string request;
     char url[1024], buf[256];
     request = "<abort_jobs>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
     for (unsigned int i=0; i<job_names.size(); i++) {
-        sprintf(buf, "<job_name>%s</job_name>\n", job_names[i].c_str());
+        snprintf(buf, sizeof(buf), "<job_name>%s</job_name>\n", job_names[i].c_str());
         request += string(buf);
     }
     request += "</abort_jobs>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -850,17 +850,17 @@ int get_templates(
     string request;
     char url[1024], buf[256];
     request = "<get_templates>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
     if (app_name) {
-        sprintf(buf, "<app_name>%s</app_name>\n", app_name);
+        snprintf(buf, sizeof(buf), "<app_name>%s</app_name>\n", app_name);
         request += string(buf);
     } else {
-        sprintf(buf, "<job_name>%s</job_name>\n", job_name);
+        snprintf(buf, sizeof(buf), "<job_name>%s</job_name>\n", job_name);
         request += string(buf);
     }
     request += "</get_templates>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -949,7 +949,7 @@ int get_output_file(
 ) {
     char url[1024], job_name_esc[1024];
     escape_url(job_name, job_name_esc, sizeof(job_name_esc));
-    sprintf(url, "%sget_output.php?cmd=workunit_file&auth_str=%s&wu_name=%s&file_num=%d",
+    snprintf(url, sizeof(url), "%sget_output.php?cmd=workunit_file&auth_str=%s&wu_name=%s&file_num=%d",
         project_url, authenticator, job_name_esc, file_num
     );
     //printf("fetching %s to %s\n", url, dst_path);
@@ -957,7 +957,7 @@ int get_output_file(
     error_msg = "";
     if (retval) {
         char buf[1024];
-        sprintf(buf, "couldn't fetch %s: %d", url, retval);
+        snprintf(buf, sizeof(buf), "couldn't fetch %s: %d", url, retval);
         error_msg = string(buf);
     }
     return retval;
@@ -973,12 +973,12 @@ int query_completed_job(
     string request;
     char url[1024], buf[256];
     request = "<query_completed_job>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    sprintf(buf, "<job_name>%s</job_name>\n", job_name);
+    snprintf(buf, sizeof(buf), "<job_name>%s</job_name>\n", job_name);
     request += string(buf);
     request += "</query_completed_job>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -1020,12 +1020,12 @@ int retire_batch(
     string request;
     char url[1024], buf[256];
     request = "<retire_batch>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name);
+    snprintf(buf, sizeof(buf), "<batch_name>%s</batch_name>\n", batch_name);
     request += string(buf);
     request += "</retire_batch>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -1070,14 +1070,14 @@ int set_expire_time(
     string request;
     char url[1024], buf[256];
     request = "<set_expire_time>\n";
-    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name);
+    snprintf(buf, sizeof(buf), "<batch_name>%s</batch_name>\n", batch_name);
     request += string(buf);
-    sprintf(buf, "<expire_time>%f</expire_time>\n", expire_time);
+    snprintf(buf, sizeof(buf), "<expire_time>%f</expire_time>\n", expire_time);
     request += string(buf);
     request += "</set_expire_time>\n";
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);
@@ -1120,7 +1120,7 @@ int ping_server(
     string request;
     char url[1024];
     request = "<ping> </ping>\n";   // the space is needed
-    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    snprintf(url, sizeof(url), "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
     int retval = do_http_post(url, request.c_str(), reply, x);

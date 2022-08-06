@@ -61,7 +61,7 @@ sign_executable_SOURCES = sign_executable.cpp
 sign_executable_LDADD = $(SERVERLIBS_MIN)
 
 stage_file_native_SOURCES = stage_file_native.cpp
-stage_file_native_LDADD = $(SERVERLIBS)
+stage_file_native_LDADD = $(SERVERLIBS) -lz
 
 remote_submit_test_SOURCES = remote_submit_test.cpp ../lib/remote_submit.cpp
 remote_submit_test_LDADD = $(SERVERLIBS) -lcurl

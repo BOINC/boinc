@@ -397,7 +397,7 @@ static void show_connect_error(sockaddr_storage& s) {
         sockaddr_in6* sin = (sockaddr_in6*)&s;
         inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), buf, 256);
     } else {
-        sprintf(buf, "Unknown address family %d", s.ss_family);
+        snprintf(buf, sizeof(buf), "Unknown address family %d", s.ss_family);
     }
 #endif
     msg_printf(NULL, MSG_INFO,

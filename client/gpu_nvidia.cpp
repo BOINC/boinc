@@ -304,7 +304,7 @@ void* cudalib = NULL;
     cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif
     if (!cudalib) {
-        sprintf(buf, "NVIDIA: %s", dlerror());
+        snprintf(buf, sizeof(buf), "NVIDIA: %s", dlerror());
         warnings.push_back(buf);
         return;
     }
@@ -378,14 +378,14 @@ void* cudalib = NULL;
 #endif
     
     if (retval) {
-        sprintf(buf, "NVIDIA drivers present but no GPUs found");
+        snprintf(buf, sizeof(buf), "NVIDIA drivers present but no GPUs found");
         warnings.push_back(buf);
         goto leave;
     }
 
     retval = (*p_cuDriverGetVersion)(&cuda_version);
     if (retval) {
-        sprintf(buf, "cuDriverGetVersion() returned %d", retval);
+        snprintf(buf, sizeof(buf), "cuDriverGetVersion() returned %d", retval);
         warnings.push_back(buf);
         goto leave;
     }
@@ -394,11 +394,11 @@ void* cudalib = NULL;
 
     retval = (*p_cuDeviceGetCount)(&cuda_ndevs);
     if (retval) {
-        sprintf(buf, "cuDeviceGetCount() returned %d", retval);
+        snprintf(buf, sizeof(buf), "cuDeviceGetCount() returned %d", retval);
         warnings.push_back(buf);
         goto leave;
     }
-    sprintf(buf, "NVIDIA library reports %d GPU%s", cuda_ndevs, (cuda_ndevs==1)?"":"s");
+    snprintf(buf, sizeof(buf), "NVIDIA library reports %d GPU%s", cuda_ndevs, (cuda_ndevs==1)?"":"s");
     warnings.push_back(buf);
 
     for (j=0; j<cuda_ndevs; j++) {
@@ -406,13 +406,13 @@ void* cudalib = NULL;
         CUdevice device;
         retval = (*p_cuDeviceGet)(&device, j);
         if (retval) {
-            sprintf(buf, "cuDeviceGet(%d) returned %d", j, retval);
+            snprintf(buf, sizeof(buf), "cuDeviceGet(%d) returned %d", j, retval);
             warnings.push_back(buf);
             goto leave;
         }
         retval = (*p_cuDeviceGetName)(cc.prop.name, 256, device);
         if (retval) {
-            sprintf(buf, "cuDeviceGetName(%d) returned %d", j, retval);
+            snprintf(buf, sizeof(buf), "cuDeviceGetName(%d) returned %d", j, retval);
             warnings.push_back(buf);
             goto leave;
         }

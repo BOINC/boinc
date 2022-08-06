@@ -226,7 +226,7 @@ void COPROCS::get_opencl(
     }
 #endif
     if (!opencl_lib) {
-        sprintf(buf, "OpenCL: %s", dlerror());
+        snprintf(buf, sizeof(buf), "OpenCL: %s", dlerror());
         warnings.push_back(buf);
         return;
     }
@@ -622,7 +622,7 @@ void COPROCS::get_opencl(
                 }
                 if (prop.peak_flops <= 0 || prop.peak_flops > GPU_MAX_PEAK_FLOPS) {
                     char buf2[256];
-                    sprintf(buf2,
+                    snprintf(buf2, sizeof(buf2),
                         "OpenCL generic: bad peak FLOPS; Max units %u, max freq %u MHz",
                         prop.max_compute_units, prop.max_clock_frequency
                     );

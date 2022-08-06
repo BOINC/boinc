@@ -306,7 +306,7 @@ static int setup_shared_mem() {
     app_client_shm = new APP_CLIENT_SHM;
 
 #ifdef _WIN32
-    sprintf(buf, "%s%s", SHM_PREFIX, aid.shmem_seg_name);
+    snprintf(buf, sizeof(buf), "%s%s", SHM_PREFIX, aid.shmem_seg_name);
     hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
     if (hSharedMem == NULL) {
         delete app_client_shm;
@@ -412,7 +412,7 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
 
     if (standalone) return true;
 
-    sprintf(msg_buf,
+    snprintf(msg_buf, sizeof(msg_buf),
         "<current_cpu_time>%e</current_cpu_time>\n"
         "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n",
         cpu_t, cp_cpu_t
@@ -423,15 +423,15 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
-        sprintf(buf, "<fraction_done>%e</fraction_done>\n", fdone);
+        snprintf(buf, sizeof(buf), "<fraction_done>%e</fraction_done>\n", fdone);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_sent) {
-        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
+        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_received) {
-        sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
+        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", bytes_received);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
 #ifdef MSGS_FROM_FILE
@@ -962,7 +962,7 @@ int boinc_report_app_status_aux(
     char msg_buf[MSG_CHANNEL_SIZE], buf[1024];
     if (standalone) return 0;
 
-    sprintf(msg_buf,
+    snprintf(msg_buf, sizeof(msg_buf),
         "<current_cpu_time>%e</current_cpu_time>\n"
         "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n"
         "<fraction_done>%e</fraction_done>\n",
@@ -971,15 +971,15 @@ int boinc_report_app_status_aux(
         _fraction_done
     );
     if (other_pid) {
-        sprintf(buf, "<other_pid>%d</other_pid>\n", other_pid);
+        snprintf(buf, sizeof(buf), "<other_pid>%d</other_pid>\n", other_pid);
         safe_strcat(msg_buf, buf);
     }
     if (_bytes_sent) {
-        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
+        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
         safe_strcat(msg_buf, buf);
     }
     if (_bytes_received) {
-        sprintf(buf, "<bytes_received>%f</bytes_received>\n", _bytes_received);
+        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", _bytes_received);
         safe_strcat(msg_buf, buf);
     }
 #ifdef MSGS_FROM_FILE
@@ -1338,7 +1338,7 @@ static void timer_handler() {
     // send graphics-related messages
     //
     if (send_web_graphics_url && !app_client_shm->shm->graphics_reply.has_msg()) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "<web_graphics_url>%s</web_graphics_url>",
             web_graphics_url
         );
@@ -1346,7 +1346,7 @@ static void timer_handler() {
         send_web_graphics_url = false;
     }
     if (send_remote_desktop_addr && !app_client_shm->shm->graphics_reply.has_msg()) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "<remote_desktop_addr>%s</remote_desktop_addr>",
             remote_desktop_addr
         );
@@ -1625,7 +1625,7 @@ int boinc_upload_file(std::string& name) {
 
     retval = boinc_resolve_filename_s(name.c_str(), pname);
     if (retval) return retval;
-    sprintf(buf, "%s%s", UPLOAD_FILE_REQ_PREFIX, name.c_str());
+    snprintf(buf, sizeof(buf), "%s%s", UPLOAD_FILE_REQ_PREFIX, name.c_str());
     FILE* f = boinc_fopen(buf, "w");
     if (!f) return ERR_FOPEN;
     have_new_upload_file = true;

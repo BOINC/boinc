@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgDiagnosticLogFlags.cpp"
+#pragma implementation "DlgDiagnosticLogFlags.h"
 #endif
 
 #include "stdwx.h"

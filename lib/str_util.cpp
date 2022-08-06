@@ -137,41 +137,41 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     seconds = fmod(x*24*60*60, 60);
 
     if (smallest_timescale==4) {
-        sprintf( year_buf, "%.3f yr ", years );
+        snprintf( year_buf, sizeof(year_buf), "%.3f yr ", years );
     } else if (years > 1 && smallest_timescale < 4) {
-        sprintf( year_buf, "%d yr ", (int)years );
+        snprintf( year_buf, sizeof(year_buf), "%d yr ", (int)years );
     } else {
         safe_strcpy( year_buf, "" );
     }
 
     if (smallest_timescale==3) {
-        sprintf( day_buf, "%.2f day%s ", days, (days>1?"s":"") );
+        snprintf( day_buf, sizeof(day_buf), "%.2f day%s ", days, (days>1?"s":"") );
     } else if (days > 1 && smallest_timescale < 3) {
-        sprintf( day_buf, "%d day%s ", (int)days, (days>1?"s":"") );
+        snprintf( day_buf, sizeof(day_buf), "%d day%s ", (int)days, (days>1?"s":"") );
     } else {
         safe_strcpy( day_buf, "" );
     }
 
     if (smallest_timescale==2) {
-        sprintf( hour_buf, "%.2f hr ", hours );
+        snprintf( hour_buf, sizeof(hour_buf), "%.2f hr ", hours );
     } else if (hours > 1 && smallest_timescale < 2) {
-        sprintf( hour_buf, "%d hr ", (int)hours );
+        snprintf( hour_buf, sizeof(hour_buf), "%d hr ", (int)hours );
     } else {
         safe_strcpy( hour_buf, "" );
     }
 
     if (smallest_timescale==1) {
-        sprintf( min_buf, "%.2f min ", minutes );
+        snprintf( min_buf, sizeof(min_buf), "%.2f min ", minutes );
     } else if (minutes > 1 && smallest_timescale < 1) {
-        sprintf( min_buf, "%d min ", (int)minutes );
+        snprintf( min_buf, sizeof(min_buf), "%d min ", (int)minutes );
     } else {
         safe_strcpy( min_buf, "" );
     }
 
     if (smallest_timescale==0) {
-        sprintf( sec_buf, "%.2f sec ", seconds );
+        snprintf( sec_buf, sizeof(sec_buf), "%.2f sec ", seconds );
     } else if (seconds > 1 && smallest_timescale < 0) {
-        sprintf( sec_buf, "%d sec ", (int)seconds );
+        snprintf( sec_buf, sizeof(sec_buf), "%d sec ", (int)seconds );
     } else {
         safe_strcpy( sec_buf, "" );
     }
@@ -207,27 +207,27 @@ void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
 
     if (total_bytes != 0) {
         if (total_bytes >= xTera) {
-            sprintf(buf, "%0.2f/%0.2f TB", nbytes/xTera, total_bytes/xTera);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f TB", nbytes/xTera, total_bytes/xTera);
         } else if (total_bytes >= xGiga) {
-            sprintf(buf, "%0.2f/%0.2f GB", nbytes/xGiga, total_bytes/xGiga);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f GB", nbytes/xGiga, total_bytes/xGiga);
         } else if (total_bytes >= xMega) {
-            sprintf(buf, "%0.2f/%0.2f MB", nbytes/xMega, total_bytes/xMega);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f MB", nbytes/xMega, total_bytes/xMega);
         } else if (total_bytes >= xKilo) {
-            sprintf(buf, "%0.2f/%0.2f KB", nbytes/xKilo, total_bytes/xKilo);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f KB", nbytes/xKilo, total_bytes/xKilo);
         } else {
-            sprintf(buf, "%0.0f/%0.0f bytes", nbytes, total_bytes);
+            snprintf(buf, sizeof(buf), "%0.0f/%0.0f bytes", nbytes, total_bytes);
         }
     } else {
         if (nbytes >= xTera) {
-            sprintf(buf, "%0.2f TB", nbytes/xTera);
+            snprintf(buf, sizeof(buf), "%0.2f TB", nbytes/xTera);
         } else if (nbytes >= xGiga) {
-            sprintf(buf, "%0.2f GB", nbytes/xGiga);
+            snprintf(buf, sizeof(buf), "%0.2f GB", nbytes/xGiga);
         } else if (nbytes >= xMega) {
-            sprintf(buf, "%0.2f MB", nbytes/xMega);
+            snprintf(buf, sizeof(buf), "%0.2f MB", nbytes/xMega);
         } else if (nbytes >= xKilo) {
-            sprintf(buf, "%0.2f KB", nbytes/xKilo);
+            snprintf(buf, sizeof(buf), "%0.2f KB", nbytes/xKilo);
         } else {
-            sprintf(buf, "%0.0f bytes", nbytes);
+            snprintf(buf, sizeof(buf), "%0.0f bytes", nbytes);
         }
     }
 
@@ -428,7 +428,7 @@ char* precision_time_to_string(double t) {
     struct tm* tm = localtime(&x);
 
     strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
-    sprintf(finer, ".%04d", hundreds_of_microseconds);
+    snprintf(finer, sizeof(finer), ".%04d", hundreds_of_microseconds);
     safe_strcat(buf, finer);
     return buf;
 }
@@ -440,25 +440,25 @@ string timediff_format(double diff) {
     int sex = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "00:00:%02d", sex);
+        snprintf(buf, sizeof(buf), "00:00:%02d", sex);
         return buf;
     }
 
     int min = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "00:%02d:%02d", min, sex);
+        snprintf(buf, sizeof(buf), "00:%02d:%02d", min, sex);
         return buf;
     }
 
     int hours = tdiff % 24;
     tdiff /= 24;
     if (!tdiff) {
-        sprintf(buf, "%02d:%02d:%02d", hours, min, sex);
+        snprintf(buf, sizeof(buf), "%02d:%02d:%02d", hours, min, sex);
         return buf;
     }
 
-    sprintf(buf, "%d days %02d:%02d:%02d", tdiff, hours, min, sex);
+    snprintf(buf, sizeof(buf), "%d days %02d:%02d:%02d", tdiff, hours, min, sex);
     return buf;
 
 }
@@ -627,7 +627,7 @@ const char* boincerror(int which_error) {
         case ERR_ACCT_REQUIRE_CONSENT: return "This project requires to consent to its terms of use";
     }
     static char buf[128];
-    sprintf(buf, "Error %d", which_error);
+    snprintf(buf, sizeof(buf), "Error %d", which_error);
     return buf;
 }
 

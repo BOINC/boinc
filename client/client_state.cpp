@@ -1910,7 +1910,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
     res.set_ready_to_report();
     res.completed_time = now;
 
-    sprintf(buf, "Unrecoverable error for task %s", res.name);
+    snprintf(buf, sizeof(buf), "Unrecoverable error for task %s", res.name);
 #ifndef SIM
     scheduler_op->project_rpc_backoff(res.project, buf);
 #endif
@@ -1952,7 +1952,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
         //
         for (i=0; i<res.output_files.size(); i++) {
             if (res.output_files[i].file_info->had_failure(failnum)) {
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "<upload_error>\n"
                     "    <file_name>%s</file_name>\n"
                     "    <error_code>%d</error_code>\n"
@@ -2297,7 +2297,7 @@ void CLIENT_STATE::log_show_projects() {
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->hostid) {
-            sprintf(buf, "%d", p->hostid);
+            snprintf(buf, sizeof(buf), "%d", p->hostid);
         } else {
             safe_strcpy(buf, "not assigned yet");
         }

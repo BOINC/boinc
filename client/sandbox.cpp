@@ -185,7 +185,7 @@ static int lookup_group(const char* name, gid_t& gid) {
 #endif
 
 int remove_project_owned_file_or_dir(const char* path) {
-    char cmd[1024];
+    char cmd[5120];
 
     if (g_use_sandbox) {
         snprintf(cmd, sizeof(cmd), "/bin/rm rm -fR \"%s\"", path);

@@ -258,12 +258,12 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
         RESULT* rp = *result_iter;
         if (rp->project == p && rp->ready_to_report) {
             if (gstate.now > rp->report_deadline) {
-                sprintf(buf, "result %s reported; "
+                snprintf(buf, sizeof(buf), "result %s reported; "
                     "<font color=#cc0000>MISSED DEADLINE by %f</font><br>\n",
                     rp->name, gstate.now - rp->report_deadline
                 );
             } else {
-                sprintf(buf, "result %s reported; "
+                snprintf(buf, sizeof(buf), "result %s reported; "
                     "<font color=#00cc00>MADE DEADLINE</font><br>\n",
                     rp->name
                 );
@@ -354,7 +354,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
     p->last_rpc_time = now;
     if (!avail) {
-        sprintf(buf, "RPC to %s skipped - project down<br>", p->project_name);
+        snprintf(buf, sizeof(buf), "RPC to %s skipped - project down<br>", p->project_name);
         html_msg += buf;
         msg_printf(p, MSG_INFO, "RPC skipped: project down");
         gstate.scheduler_op->project_rpc_backoff(p, "project down");
@@ -389,7 +389,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
 
     work_fetch.request_string(buf2, sizeof(buf2));
-    sprintf(buf, "RPC to %s: %s<br>", p->project_name, buf2);
+    snprintf(buf, sizeof(buf), "RPC to %s: %s<br>", p->project_name, buf2);
     html_msg += buf;
 
     msg_printf(p, MSG_INFO, "RPC: %s", buf2);
@@ -443,7 +443,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         results.push_back(rp);
         new_results.push_back(rp);
 #if 0
-        sprintf(buf, "got job %s: CPU time %.2f, deadline %s<br>",
+        snprintf(buf, sizeof(buf), "got job %s: CPU time %.2f, deadline %s<br>",
             rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
         );
         html_msg += buf;
@@ -453,7 +453,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
 
     njobs += (int)new_results.size();
     msg_printf(0, MSG_INFO, "Got %lu tasks", new_results.size());
-    sprintf(buf, "got %lu tasks<br>", new_results.size());
+    snprintf(buf, sizeof(buf), "got %lu tasks<br>", new_results.size());
     html_msg += buf;
 
     SCHEDULER_REPLY sr;
@@ -629,7 +629,7 @@ bool ACTIVE_TASK_SET::poll() {
             rp->ready_to_report = true;
             gstate.request_schedule_cpus("job finished");
             gstate.request_work_fetch("job finished");
-            sprintf(buf, "result %s finished<br>", rp->name);
+            snprintf(buf, sizeof(buf), "result %s finished<br>", rp->name);
             html_msg += buf;
             action = true;
         }
@@ -859,7 +859,7 @@ void show_resource(int rsc_type) {
             );
         }
         if (rsc_type) {
-            sprintf(buf, "<td>%d</td>", rp->coproc_indices[0]);
+            snprintf(buf, sizeof(buf), "<td>%d</td>", rp->coproc_indices[0]);
         } else {
             safe_strcpy(buf, "");
         }
@@ -900,7 +900,7 @@ void show_resource(int rsc_type) {
 void html_start() {
     char buf[256];
 
-    sprintf(buf, "%s%s", outfile_prefix, TIMELINE_FNAME);
+    snprintf(buf, sizeof(buf), "%s%s", outfile_prefix, TIMELINE_FNAME);
     html_out = fopen(buf, "w");
     if (!html_out) {
         fprintf(stderr, "can't open %s for writing\n", buf);
@@ -1033,7 +1033,7 @@ void write_recs() {
 void make_graph(const char* title, const char* fname, int field) {
     char gp_fname[256], cmd[256], png_fname[256];
 
-    sprintf(gp_fname, "%s%s.gp", outfile_prefix, fname);
+    snprintf(gp_fname, sizeof(gp_fname), "%s%s.gp", outfile_prefix, fname);
     FILE* f = fopen(gp_fname, "w");
     fprintf(f,
         "set terminal png small size 1024, 768\n"
@@ -1050,15 +1050,15 @@ void make_graph(const char* title, const char* fname, int field) {
         );
     }
     fclose(f);
-    sprintf(png_fname, "%s%s.png", outfile_prefix, fname);
-    sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
+    snprintf(png_fname, sizeof(png_fname), "%s%s.png", outfile_prefix, fname);
+    snprintf(cmd, sizeof(cmd), "gnuplot < %s > %s", gp_fname, png_fname);
     fprintf(index_file, "<br><a href=%s.png>Graph of %s</a>\n", fname, title);
     system(cmd);
 }
 
 static void write_inputs() {
     char buf[256];
-    sprintf(buf, "%s/%s", outfile_prefix, INPUTS_FNAME);
+    snprintf(buf, sizeof(buf), "%s/%s", outfile_prefix, INPUTS_FNAME);
     FILE* f = fopen(buf, "w");
     fprintf(f,
         "Existing jobs only: %s\n"
@@ -1413,12 +1413,12 @@ void do_client_simulation() {
     int retval;
     FILE* f;
 
-    sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
+    snprintf(buf, sizeof(buf), "%s%s", infile_prefix, CONFIG_FILE);
     cc_config.defaults();
     read_config_file(true, buf);
 
     log_flags.init();
-    sprintf(buf, "%s%s", outfile_prefix, "log_flags.xml");
+    snprintf(buf, sizeof(buf), "%s%s", outfile_prefix, "log_flags.xml");
     f = fopen(buf, "r");
     if (f) {
         MIOFILE mf;
@@ -1430,7 +1430,7 @@ void do_client_simulation() {
     }
 
     gstate.add_platform("client simulator");
-    sprintf(buf, "%s%s", infile_prefix, STATE_FILE_NAME);
+    snprintf(buf, sizeof(buf), "%s%s", infile_prefix, STATE_FILE_NAME);
     if (!boinc_file_exists(buf)) {
         fprintf(stderr, "No client state file\n");
         exit(1);
@@ -1457,8 +1457,8 @@ void do_client_simulation() {
     cc_config.show();
     log_flags.show();
 
-    sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
-    sprintf(buf2, "%s%s", infile_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
+    snprintf(buf, sizeof(buf), "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
+    snprintf(buf2, sizeof(buf2), "%s%s", infile_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
     gstate.read_global_prefs(buf, buf2);
     fprintf(index_file,
         "<h3>Output files</h3>\n"
@@ -1507,11 +1507,11 @@ void do_client_simulation() {
 
     sim_results.compute_figures_of_merit();
 
-    sprintf(buf, "%s%s", outfile_prefix, RESULTS_DAT_FNAME);
+    snprintf(buf, sizeof(buf), "%s%s", outfile_prefix, RESULTS_DAT_FNAME);
     f = fopen(buf, "w");
     sim_results.print(f);
     fclose(f);
-    sprintf(buf, "%s%s", outfile_prefix, RESULTS_TXT_FNAME);
+    snprintf(buf, sizeof(buf), "%s%s", outfile_prefix, RESULTS_TXT_FNAME);
     f = fopen(buf, "w");
     sim_results.print(f, true);
     fclose(f);
@@ -1588,10 +1588,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sprintf(buf, "%s%s", outfile_prefix, "index.html");
+    snprintf(buf, sizeof(buf), "%s%s", outfile_prefix, "index.html");
     index_file = fopen(buf, "w");
 
-    sprintf(log_filename, "%s%s", outfile_prefix, LOG_FNAME);
+    snprintf(log_filename, sizeof(log_filename), "%s%s", outfile_prefix, LOG_FNAME);
     logfile = fopen(log_filename, "w");
     if (!logfile) {
         fprintf(stderr, "Can't open %s\n", buf);
@@ -1599,10 +1599,10 @@ int main(int argc, char** argv) {
     }
     setbuf(logfile, 0);
 
-    sprintf(buf, "%s%s", outfile_prefix, REC_FNAME);
+    snprintf(buf, sizeof(buf), "%s%s", outfile_prefix, REC_FNAME);
     rec_file = fopen(buf, "w");
 
-    sprintf(buf, "%s%s", outfile_prefix, SUMMARY_FNAME);
+    snprintf(buf, sizeof(buf), "%s%s", outfile_prefix, SUMMARY_FNAME);
     summary_file = fopen(buf, "w");
 
     srand(1);       // make it deterministic

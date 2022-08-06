@@ -878,7 +878,7 @@ wxString CSimpleTaskPanel::GetStatusString(RESULT* result) {
 void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
     RESULT* state_result;
     char proj_dir[1024];
-    char fileName[1024];
+    char fileName[1536];
     char resolvedFileName[1024];
     int j;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
