@@ -100,7 +100,7 @@ $in_use_prefs = [
 ];
 $not_in_use_prefs = [
     new PREF_NUM(
-        tra("Use at most"),
+        tra("Use at most")."<br><font size=-2>Requires BOINC 7.20.3+</font>",
         // xgettext:no-php-format
         tra("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."),
         "niu_max_ncpus_pct",
@@ -108,7 +108,7 @@ $not_in_use_prefs = [
         new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
     ),
     new PREF_NUM(
-        tra("Use at most"),
+        tra("Use at most") ."<br><font size=-2>Requires BOINC 7.20.3+</font>",
         // xgettext:no-php-format
         tra("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."),
         "niu_cpu_usage_limit",
@@ -116,7 +116,7 @@ $not_in_use_prefs = [
         new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
     ),
     new PREF_OPT_NUM(
-        tra("Suspend when non-BOINC CPU usage is above"),
+        tra("Suspend when non-BOINC CPU usage is above")."<br><font size=-2>Requires BOINC 7.20.3+</font>",
         tra("Suspend computing when your computer is busy running other programs."),
         "niu_suspend_cpu_usage",
         new NUM_SPEC("%", 0, 100, 25)
