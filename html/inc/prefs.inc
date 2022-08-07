@@ -177,13 +177,6 @@ $job_prefs = [
         tra("Compute only during a particular period each day."),
         "start_hour", "end_hour"
     ),
-    new PREF_NUM(
-        tra("Page/swap file: use at most"),
-        tra("Limit the swap space (page file) used by BOINC."),
-        "vm_max_used_pct",
-        // xgettext:no-php-format
-        new NUM_SPEC(tra("%"), 1, 100, 75)
-    ),
 ];
 
 $dp = get_disk_space_config();
@@ -207,6 +200,13 @@ $disk_prefs = array(
         "disk_max_used_pct",
         // xgettext:no-php-format
         new NUM_SPEC(tra("% of total"), 0, 100, $dp->disk_max_used_pct)
+    ),
+    new PREF_NUM(
+        tra("Page/swap file: use at most"),
+        tra("Limit the swap space (page file) used by BOINC."),
+        "vm_max_used_pct",
+        // xgettext:no-php-format
+        new NUM_SPEC(tra("%"), 1, 100, 75)
     ),
 );
 
