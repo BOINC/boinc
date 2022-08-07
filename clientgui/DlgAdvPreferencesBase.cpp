@@ -383,10 +383,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
 
     // max CPU load
     //
-
     wxString MaxLoadCheckBoxTextniu = wxEmptyString;
     MaxLoadCheckBoxTextniu.Printf(_("Suspend when non-BOINC CPU usage is above"));
-    wxString MaxLoadTTniu(_("Suspend computing when your computer is busy running other programs."));
     m_chkMaxLoadNotInUse = new wxCheckBox(
         box, ID_CHKMAXLOADNOTINUSE, MaxLoadCheckBoxTextniu, wxDefaultPosition, wxDefaultSize, 0
     );
@@ -396,6 +394,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     wxStaticText* staticText26niu = new wxStaticText(box, ID_DEFAULT, wxT("%"),
         wxDefaultPosition, wxDefaultSize, 0
     );
+    wxString MaxLoadTTniu(_("Suspend computing when your computer is busy running other programs."));
     addNewRowToSizer(box_sizer, MaxLoadTTniu, m_chkMaxLoadNotInUse, m_txtMaxLoadNotInUse, staticText26niu);
 
     // max memory when not in use
@@ -410,7 +409,11 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
 
     // suspend after idle time
     //
-    wxString NoRecentInputTT(_("This allows some computers to enter low-power mode when not in use."));
+    wxString str0 = wxEmptyString;
+    str0.Printf(_("Suspend when non-BOINC CPU usage is above"));
+    m_chkNoRecentInput = new wxCheckBox(
+        box, ID_CHKNORECENTINPUT, str0, wxDefaultPosition, wxDefaultSize, 0
+    );
     wxStaticText* staticText27 = new wxStaticText(
         box, ID_DEFAULT,
         _("Suspend when no mouse/keyboard input in last"),
@@ -424,8 +427,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     m_txtNoRecentInput = new wxTextCtrl(
         box, ID_TXTNORECENTINPUT, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT
     );
+    wxString NoRecentInputTT(_("This allows some computers to enter low-power mode when not in use."));
     addNewRowToSizer(box_sizer, NoRecentInputTT, staticText27, m_txtNoRecentInput, staticText28);
-
 
     processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
     processorTabSizer->Add(box_sizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE);

@@ -337,7 +337,9 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_txtProcIdleFor->Disable();
     }
 
+    m_chkNoRecentInput->SetValue(prefs.suspend_if_no_recent_input > 0.0);
     DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput);
+
     m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
     DisplayValue(prefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
     m_chkMaxLoadNotInUse->SetValue(prefs.niu_suspend_cpu_usage > 0.0);
@@ -479,9 +481,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         mask.idle_time_to_run=true;
     }
 
-    m_txtNoRecentInput->GetValue().ToDouble(&td);
-    prefs.suspend_if_no_recent_input = RoundToHundredths(td);
-       mask.suspend_if_no_recent_input = true;
+    if (m_chkNoRecentInput->IsChecked()) {
+        m_txtNoRecentInput->GetValue().ToDouble(&td);
+        prefs.suspend_if_no_recent_input = RoundToHundredths(td);
+    } else {
+        prefs.suspend_if_no_recent_input = 0;
+    }
+    mask.suspend_if_no_recent_input = true;
 
     if (m_chkMaxLoad->IsChecked()) {
         m_txtMaxLoad->GetValue().ToDouble(&td);
@@ -673,6 +679,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
 
     m_txtMaxLoad->Enable(m_chkMaxLoad->IsChecked());
     m_txtMaxLoadNotInUse->Enable(m_chkMaxLoadNotInUse->IsChecked());
+    m_txtNoRecentInput->Enable(m_chkNoRecentInput->IsChecked());
 
     // ######### disk and memory usage page
     m_txtDiskMaxSpace->Enable(m_chkDiskMaxSpace->IsChecked());
@@ -737,10 +744,12 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
     }
 
-    buffer = m_txtNoRecentInput->GetValue();
-    if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
-        ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
-        return false;
+    if (m_chkNoRecentInput->IsChecked()) {
+        buffer = m_txtNoRecentInput->GetValue();
+        if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
+            ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
+            return false;
+        }
     }
 
     if (m_chkMaxLoad->IsChecked()) {
@@ -750,6 +759,7 @@ bool CDlgAdvPreferences::ValidateInput() {
             return false;
         }
     }
+
     if (m_chkMaxLoadNotInUse->IsChecked()) {
         buffer = m_txtMaxLoadNotInUse->GetValue();
         if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
@@ -1069,6 +1079,9 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
         break;
     case ID_CHKMAXLOADNOTINUSE:
         DisplayValue(defaultPrefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
+        break;
+    case ID_CHKNORECENTINPUT:
+        DisplayValue(defaultPrefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
         break;
     // network usage page
     case ID_CHKNETDOWNLOADRATE:

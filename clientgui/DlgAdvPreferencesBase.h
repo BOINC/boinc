@@ -137,6 +137,7 @@ enum {
     ID_TXTPROCWEDNESDAYSTART,
     ID_TXTPROCWEDNESDAYSTOP,
     ID_CHKGPUPROCINUSE,
+    ID_CHKNORECENTINPUT,
     ID_TXTMAXLOAD,
     ID_TXTMAXLOADNOTINUSE,
     ID_DAILY_XFER_LIMIT_MB,
@@ -171,6 +172,7 @@ protected:
     wxCheckBox* m_chkMaxLoadNotInUse;
     wxTextCtrl* m_txtMaxLoadNotInUse;
     wxTextCtrl* m_txtMemoryMaxOnIdle;
+    wxCheckBox* m_chkNoRecentInput;
     wxTextCtrl* m_txtNoRecentInput;
     // General items
     //
@@ -190,7 +192,7 @@ protected:
     wxCheckBox* m_chkNetUploadRate;
     wxTextCtrl* m_txtNetUploadRate;
 
-    wxCheckBox * m_chk_daily_xfer_limit;
+    wxCheckBox* m_chk_daily_xfer_limit;
     wxTextCtrl* m_txt_daily_xfer_limit_mb;
     wxTextCtrl* m_txt_daily_xfer_period_days;
 
