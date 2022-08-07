@@ -39,9 +39,6 @@
 #include <wx/panel.h>
 #include <wx/statbmp.h>
 
-///////////////////////////////////////////////////////////////////////////
-
-
 #define PROC_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day of the week, compute only during these hours.")
 #define NET_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day of the week, transfer files only during these hours.")
 
@@ -145,7 +142,6 @@ enum {
     ID_ADV_PREFS_LAST
 };
 
-
 class CDlgAdvPreferencesBase : public wxDialog {
 protected:
     wxStaticBitmap* m_bmpWarning;
@@ -202,7 +198,7 @@ protected:
 
     // Disk panel
     //
-    wxPanel* m_panelDiskAndMemory;
+    wxPanel* m_panelDisk;
     wxCheckBox* m_chkDiskMaxSpace;
     wxTextCtrl* m_txtDiskMaxSpace;
     wxCheckBox* m_chkDiskLeastFree;
@@ -271,15 +267,19 @@ protected:
     bool m_bUsingLocalPrefs;
 
 public:
-    CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE );
+    CDlgAdvPreferencesBase(
+        wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition,
+        wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE
+    );
 
 private:
     void addNewRowToSizer(wxSizer* toSizer, wxString& toolTipText,
-                wxWindow* first, wxWindow* second, wxWindow* third,
-                wxWindow* fourth=NULL, wxWindow* fifth=NULL);
+        wxWindow* first, wxWindow* second, wxWindow* third,
+        wxWindow* fourth=NULL, wxWindow* fifth=NULL
+    );
     wxPanel* createProcessorTab(wxNotebook* notebook);
     wxPanel* createNetworkTab(wxNotebook* notebook);
-    wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
+    wxPanel* createDiskTab(wxNotebook* notebook);
     wxPanel* createDailySchedulesTab(wxNotebook* notebook);
     wxSize getTextCtrlSize(wxString maxText);
     bool doesLocalPrefsFileExist();

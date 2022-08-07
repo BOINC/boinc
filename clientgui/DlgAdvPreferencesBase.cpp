@@ -154,9 +154,9 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     iImageIndex = pImageList->Add(wxBitmap(xfer_xpm));
     m_Notebook->AddPage( m_panelNetwork, _("Network"), true, iImageIndex );
 
-    m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
+    m_panelDisk = createDiskTab(m_Notebook);
     iImageIndex = pImageList->Add(wxBitmap(usage_xpm));
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk"), true, iImageIndex );
+    m_Notebook->AddPage( m_panelDisk, _("Disk"), true, iImageIndex );
 
     m_panelDailySchedules = createDailySchedulesTab(m_Notebook);
     iImageIndex = pImageList->Add(wxBitmap(clock_xpm));
@@ -323,19 +323,19 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
 
     // max CPU load
     //
-    wxString MaxLoadCheckBoxText = wxEmptyString;
-    MaxLoadCheckBoxText.Printf(_("Suspend when non-BOINC CPU usage is above"));
-    wxString MaxLoadTT(_("Suspend computing when your computer is busy running other programs."));
     m_chkMaxLoad = new wxCheckBox(
-        box, ID_CHKMAXLOAD, MaxLoadCheckBoxText, wxDefaultPosition, wxDefaultSize, 0
+        box, ID_CHKMAXLOAD,
+        wxString(_("Suspend when non-BOINC CPU usage is above")),
+        wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtMaxLoad = new wxTextCtrl(
         box, ID_TXTMAXLOAD, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("100.00")), wxTE_RIGHT
     );
-    wxStaticText* staticText26 = new wxStaticText( box, ID_DEFAULT, wxT("%"),
-        wxDefaultPosition, wxDefaultSize, 0
+    addNewRowToSizer(box_sizer,
+        wxString (_("Suspend computing when your computer is busy running other programs.")),
+        m_chkMaxLoad, m_txtMaxLoad,
+        new wxStaticText(box, ID_DEFAULT, wxT("%"), wxDefaultPosition, wxDefaultSize, 0)
     );
-    addNewRowToSizer(box_sizer, MaxLoadTT, m_chkMaxLoad, m_txtMaxLoad, staticText26);
 
     // max memory while in use
     //
@@ -410,14 +410,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     // suspend after idle time
     //
     wxString str0 = wxEmptyString;
-    str0.Printf(_("Suspend when non-BOINC CPU usage is above"));
+    str0.Printf(_("Suspend when no mouse/keyboard input in last"));
     m_chkNoRecentInput = new wxCheckBox(
         box, ID_CHKNORECENTINPUT, str0, wxDefaultPosition, wxDefaultSize, 0
-    );
-    wxStaticText* staticText27 = new wxStaticText(
-        box, ID_DEFAULT,
-        _("Suspend when no mouse/keyboard input in last"),
-        wxDefaultPosition, wxDefaultSize, 0
     );
     wxStaticText* staticText28 = new wxStaticText(
         box, ID_DEFAULT,
@@ -428,7 +423,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
         box, ID_TXTNORECENTINPUT, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT
     );
     wxString NoRecentInputTT(_("This allows some computers to enter low-power mode when not in use."));
-    addNewRowToSizer(box_sizer, NoRecentInputTT, staticText27, m_txtNoRecentInput, staticText28);
+    addNewRowToSizer(box_sizer, NoRecentInputTT, m_chkNoRecentInput, m_txtNoRecentInput, staticText28);
 
     processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
     processorTabSizer->Add(box_sizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE);
@@ -641,7 +636,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook) {
     return networkTab;
 }
 
-wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook) {
+wxPanel* CDlgAdvPreferencesBase::createDiskTab(wxNotebook* notebook) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
 
@@ -650,7 +645,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook) {
     wxPanel* diskMemoryTab = new wxPanel( notebook, ID_TABPAGE_DISK, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     diskMemoryTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
-    wxBoxSizer* diskAndMemoryTabSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer* diskTabSizer = new wxBoxSizer( wxVERTICAL );
 
     wxStaticBox* diskUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Disk usage") );
     wxStaticBoxSizer* diskUsageBoxSizer = new wxStaticBoxSizer( diskUsageStaticBox, wxVERTICAL );
@@ -703,12 +698,12 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook) {
     wxStaticText* staticText49 = new wxStaticText(diskUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
     addNewRowToSizer(diskUsageBoxSizer, DiskMaxSwapTT, staticText48, m_txtDiskMaxSwap, staticText49);
 
-    diskAndMemoryTabSizer->AddSpacer(STATICBOXVERTICALSPACER);
-    diskAndMemoryTabSizer->Add(diskUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE);
+    diskTabSizer->AddSpacer(STATICBOXVERTICALSPACER);
+    diskTabSizer->Add(diskUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE);
 
-    diskMemoryTab->SetSizer( diskAndMemoryTabSizer );
+    diskMemoryTab->SetSizer( diskTabSizer );
     diskMemoryTab->Layout();
-    diskAndMemoryTabSizer->Fit( diskMemoryTab );
+    diskTabSizer->Fit( diskMemoryTab );
 
     return diskMemoryTab;
 }

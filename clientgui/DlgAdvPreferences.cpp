@@ -338,7 +338,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     }
 
     m_chkNoRecentInput->SetValue(prefs.suspend_if_no_recent_input > 0.0);
-    DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput);
+    DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
 
     m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
     DisplayValue(prefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
