@@ -238,9 +238,9 @@ void GLOBAL_PREFS::defaults() {
 #else
     network_wifi_only = false;
 #endif
-    niu_max_ncpus_pct = -1;     // -1 means unspecified, use max_ncpus_pct
-    niu_cpu_usage_limit = -1;
-    niu_suspend_cpu_usage = -1;
+    niu_max_ncpus_pct = 100;
+    niu_cpu_usage_limit = 100;
+    niu_suspend_cpu_usage = 50;
     ram_max_used_busy_frac = 0.5;
 #ifdef ANDROID
     ram_max_used_idle_frac = 0.5;

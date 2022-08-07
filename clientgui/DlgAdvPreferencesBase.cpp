@@ -341,15 +341,15 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     //
     wxString MemoryMaxInUseTT = wxEmptyString;
     MemoryMaxInUseTT.Printf(_("Limit the memory used by %s when you're using the computer."), pSkinAdvanced->GetApplicationShortName().c_str());
-    wxStaticText* staticText50 = new wxStaticText(box, ID_DEFAULT, _("When computer is in use, use at most"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText50 = new wxStaticText(box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
     textCtrlSize = getTextCtrlSize(wxT("100.00"));
     m_txtMemoryMaxInUse = new wxTextCtrl( box, ID_TXTMEMORYMAXINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     /*xgettext:no-c-format*/
-    wxStaticText* staticText51 = new wxStaticText( box, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText51 = new wxStaticText( box, ID_DEFAULT, _("% of memory"), wxDefaultPosition, wxDefaultSize, 0 );
     addNewRowToSizer(box_sizer, MemoryMaxInUseTT, staticText50, m_txtMemoryMaxInUse, staticText51);
 
     processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
-    processorTabSizer->Add(box, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
+    processorTabSizer->Add(box_sizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
     // ------------ Not-in-use box --------------
     //
@@ -361,32 +361,51 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     // max # CPUs
     //
     /*xgettext:no-c-format*/
-    m_txtProcUseProcessorsNotInUse = new wxTextCtrl(box, ID_TXTPROCUSEPROCESSORSNOTINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    addNewRowToSizer(box_sizer, MaxCPUPctTT, staticText20, m_txtProcUseProcessorsNotInUse, staticText21);
+    wxString MaxCPUPctTTniu(_("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."));
+    wxStaticText* staticText20niu = new wxStaticText(
+        box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0
+    );
+    m_txtProcUseProcessorsNotInUse = new wxTextCtrl(box, ID_TXTPROCUSEPROCESSORSNOTINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT);
+    /*xgettext:no-c-format*/
+    wxStaticText* staticText21niu = new wxStaticText(box, ID_DEFAULT, _("% of the CPUs"), wxDefaultPosition, wxDefaultSize, 0);
+    addNewRowToSizer(box_sizer, MaxCPUPctTTniu, staticText20niu, m_txtProcUseProcessorsNotInUse, staticText21niu);
 
     // CPU throttling
     //
-    m_txtProcUseCPUTimeNotInUse = new wxTextCtrl(box, ID_TXTPROCUSECPUTIMENOTINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    addNewRowToSizer(box_sizer, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTimeNotInUse, staticText23);
+    wxString MaxCPUTimeTTniu(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."));
+    wxStaticText* staticText22niu = new wxStaticText(
+        box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0
+    );
+    m_txtProcUseCPUTimeNotInUse = new wxTextCtrl(box, ID_TXTPROCUSECPUTIMENOTINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT);
+    /*xgettext:no-c-format*/
+    wxStaticText* staticText23niu = new wxStaticText(box, ID_DEFAULT, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0);
+    addNewRowToSizer(box_sizer, MaxCPUTimeTTniu, staticText22niu, m_txtProcUseCPUTimeNotInUse, staticText23niu);
 
     // max CPU load
     //
+
+    wxString MaxLoadCheckBoxTextniu = wxEmptyString;
+    MaxLoadCheckBoxTextniu.Printf(_("Suspend when non-BOINC CPU usage is above"));
+    wxString MaxLoadTTniu(_("Suspend computing when your computer is busy running other programs."));
     m_chkMaxLoadNotInUse = new wxCheckBox(
-        box, ID_CHKMAXLOADNOTINUSE, MaxLoadCheckBoxText, wxDefaultPosition, wxDefaultSize, 0
+        box, ID_CHKMAXLOADNOTINUSE, MaxLoadCheckBoxTextniu, wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtMaxLoadNotInUse = new wxTextCtrl(
         box, ID_TXTMAXLOADNOTINUSE, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("100.00")), wxTE_RIGHT
     );
-    addNewRowToSizer(box_sizer, MaxLoadTT, m_chkMaxLoadNotInUse, m_txtMaxLoadNotInUse, staticText26);
+    wxStaticText* staticText26niu = new wxStaticText(box, ID_DEFAULT, wxT("%"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
+    addNewRowToSizer(box_sizer, MaxLoadTTniu, m_chkMaxLoadNotInUse, m_txtMaxLoadNotInUse, staticText26niu);
 
     // max memory when not in use
     //
     wxString MemoryMaxOnIdleTT = wxEmptyString;
     MemoryMaxOnIdleTT.Printf(_("Limit the memory used by %s when you're not using the computer."), pSkinAdvanced->GetApplicationShortName().c_str());
-    wxStaticText* staticText52 = new wxStaticText( box, ID_DEFAULT, _("When computer is not in use, use at most"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText52 = new wxStaticText( box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
     m_txtMemoryMaxOnIdle = new wxTextCtrl( box, ID_TXTMEMORYMAXONIDLE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     /*xgettext:no-c-format*/
-    wxStaticText* staticText53 = new wxStaticText( box, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText53 = new wxStaticText( box, ID_DEFAULT, _("% of memory"), wxDefaultPosition, wxDefaultSize, 0 );
     addNewRowToSizer(box_sizer, MemoryMaxOnIdleTT, staticText52, m_txtMemoryMaxOnIdle, staticText53);
 
     // suspend after idle time
@@ -407,10 +426,6 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     );
     addNewRowToSizer(box_sizer, NoRecentInputTT, staticText27, m_txtNoRecentInput, staticText28);
 
-    box_sizer->Add(
-        new wxStaticText(box, ID_DEFAULT, _("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
-        0, wxALL, 5
-    );
 
     processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
     processorTabSizer->Add(box_sizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE);
@@ -470,6 +485,12 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     );
     addNewRowToSizer(box_sizer, DiskWriteToDiskTT, staticText46, m_txtDiskWriteToDisk, staticText47);
 
+    // leave non-GPU tasks in memory while suspended
+//
+    m_chkMemoryWhileSuspended = new wxCheckBox(box, ID_CHKMEMORYWHILESUSPENDED, _("Leave non-GPU tasks in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0);
+    m_chkMemoryWhileSuspended->SetToolTip(_("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint."));
+    box_sizer->Add(m_chkMemoryWhileSuspended, 0, wxALL, 5);
+
     // work buffer min
     //
     wxString NetConnectIntervalTT(_("Store at least enough tasks to keep the computer busy for this long."));
@@ -511,6 +532,11 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     );
     addNewRowToSizer(box_sizer, NetAdditionalDaysTT, staticText331, m_txtNetAdditionalDays, staticText341);
 
+    box_sizer->Add(
+        new wxStaticText(box, ID_DEFAULT, _("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
+        0, wxALL, 5
+    );
+
     box_sizer->AddSpacer(1); // Ensure staticText22 is fully visible on Mac
 
     processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
@@ -535,7 +561,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook) {
 
     wxBoxSizer* networkTabSizer = new wxBoxSizer( wxVERTICAL );
 
-    wxStaticBox* box = new wxStaticBox( networkTab, -1, _("Usage limits") );
+    wxStaticBox* box = new wxStaticBox( networkTab, -1, _("Network usage") );
     wxStaticBoxSizer* box_sizer = new wxStaticBoxSizer(box, wxVERTICAL);
     makeStaticBoxLabelItalic(box);
 
@@ -612,8 +638,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook) {
     return networkTab;
 }
 
-wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
-{
+wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
 
@@ -624,15 +649,9 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     wxBoxSizer* diskAndMemoryTabSizer = new wxBoxSizer( wxVERTICAL );
 
-    wxStaticBox* diskUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Disk") );
+    wxStaticBox* diskUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Disk usage") );
     wxStaticBoxSizer* diskUsageBoxSizer = new wxStaticBoxSizer( diskUsageStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(diskUsageStaticBox);
-
-    wxString MostRestrictiveText = wxEmptyString;
-    MostRestrictiveText.Printf(_("%s will use the most restrictive of these settings:"), pSkinAdvanced->GetApplicationShortName().c_str());
-    diskUsageBoxSizer->Add(new wxStaticText( diskUsageStaticBox, -1, MostRestrictiveText, wxDefaultPosition, wxDefaultSize, 0),
-        0, wxALL, 5
-    );
 
     // total disk usage
     //
@@ -665,34 +684,24 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     wxStaticText* staticText45 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of total"), wxDefaultPosition, wxDefaultSize, 0 );
     addNewRowToSizer(diskUsageBoxSizer, DiskMaxOfTotalTT, m_chkDiskMaxOfTotal, m_txtDiskMaxOfTotal, staticText45);
 
-    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
-    diskAndMemoryTabSizer->Add( diskUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
-
-    wxStaticBox* memoryUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Memory") );
-    wxStaticBoxSizer* memoryUsageBoxSizer = new wxStaticBoxSizer( memoryUsageStaticBox, wxVERTICAL );
-    makeStaticBoxLabelItalic(memoryUsageStaticBox);
-
-    // leave non-GPU tasks in memory while suspended
+    wxString MostRestrictiveText = wxEmptyString;
+    MostRestrictiveText.Printf(_("%s will use the most restrictive of the above settings"), pSkinAdvanced->GetApplicationShortName().c_str());
+    diskUsageBoxSizer->Add(new wxStaticText(diskUsageStaticBox, -1, MostRestrictiveText, wxDefaultPosition, wxDefaultSize, 0),
+        0, wxALL, 5
+    ); 
+ 
+    // swap space limit
     //
-    m_chkMemoryWhileSuspended = new wxCheckBox( memoryUsageStaticBox, ID_CHKMEMORYWHILESUSPENDED, _("Leave non-GPU tasks in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_chkMemoryWhileSuspended->SetToolTip( _("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint.") );
-    memoryUsageBoxSizer->Add(m_chkMemoryWhileSuspended, 0, wxALL, 5 );
-
     wxString DiskMaxSwapTT = wxEmptyString;
     DiskMaxSwapTT.Printf(_("Limit the swap space (page file) used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
-
-    wxStaticText* staticText48 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Page/swap file: use at most"), wxDefaultPosition, wxDefaultSize, 0 );
-
-    m_txtDiskMaxSwap = new wxTextCtrl( memoryUsageStaticBox, ID_TXTDISKWRITETODISK, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-
+    wxStaticText* staticText48 = new wxStaticText(diskUsageStaticBox, ID_DEFAULT, _("Page/swap file: use at most"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_txtDiskMaxSwap = new wxTextCtrl(diskUsageStaticBox, ID_TXTDISKWRITETODISK, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     /*xgettext:no-c-format*/
-    wxStaticText* staticText49 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText49 = new wxStaticText(diskUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
+    addNewRowToSizer(diskUsageBoxSizer, DiskMaxSwapTT, staticText48, m_txtDiskMaxSwap, staticText49);
 
-    addNewRowToSizer(memoryUsageBoxSizer, DiskMaxSwapTT, staticText48, m_txtDiskMaxSwap, staticText49);
-
-    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
-    diskAndMemoryTabSizer->Add( memoryUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
-    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    diskAndMemoryTabSizer->AddSpacer(STATICBOXVERTICALSPACER);
+    diskAndMemoryTabSizer->Add(diskUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE);
 
     diskMemoryTab->SetSizer( diskAndMemoryTabSizer );
     diskMemoryTab->Layout();

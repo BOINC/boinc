@@ -672,6 +672,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
     if (m_chkProcInUse->IsChecked()) m_chkGPUProcInUse->SetValue(true);
 
     m_txtMaxLoad->Enable(m_chkMaxLoad->IsChecked());
+    m_txtMaxLoadNotInUse->Enable(m_chkMaxLoadNotInUse->IsChecked());
 
     // ######### disk and memory usage page
     m_txtDiskMaxSpace->Enable(m_chkDiskMaxSpace->IsChecked());
@@ -1066,7 +1067,9 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     case ID_CHKMAXLOAD:
         DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
         break;
-
+    case ID_CHKMAXLOADNOTINUSE:
+        DisplayValue(defaultPrefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
+        break;
     // network usage page
     case ID_CHKNETDOWNLOADRATE:
         DisplayValue((defaultPrefs.max_bytes_sec_down / 1024), m_txtNetDownloadRate, m_chkNetDownloadRate);
