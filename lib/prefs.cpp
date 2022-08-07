@@ -397,6 +397,17 @@ int GLOBAL_PREFS::parse_override(
             if (net_times.start_hour == net_times.end_hour) {
                 mask.net_start_hour = mask.net_end_hour = false;
             }
+            // if not-in-use prefs weren't specified, use in-use counterpart
+            //
+            if (!mask.niu_max_ncpus_pct) {
+                niu_max_ncpus_pct = max_ncpus_pct;
+            }
+            if (!mask.niu_cpu_usage_limit) {
+                niu_cpu_usage_limit = cpu_usage_limit;
+            }
+            if (!mask.niu_suspend_cpu_usage) {
+                niu_suspend_cpu_usage = suspend_cpu_usage;
+            }
             return 0;
         }
         if (in_venue) {
