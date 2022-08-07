@@ -331,8 +331,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     m_txtMaxLoad = new wxTextCtrl(
         box, ID_TXTMAXLOAD, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("100.00")), wxTE_RIGHT
     );
+    wxString load_tt(_("Suspend computing when your computer is busy running other programs."));
     addNewRowToSizer(box_sizer,
-        wxString (_("Suspend computing when your computer is busy running other programs.")),
+        load_tt,
         m_chkMaxLoad, m_txtMaxLoad,
         new wxStaticText(box, ID_DEFAULT, wxT("%"), wxDefaultPosition, wxDefaultSize, 0)
     );
