@@ -26,6 +26,8 @@
 #include <unistd.h>
 #include <string>
 #include <locale.h>
+#include <sys/sysctl.h>
+#include <mach/mach.h>
 
 #if SHOW_TIMING
 #include <Carbon/Carbon.h>
@@ -166,4 +168,43 @@ int procinfo_setup(PROC_MAP& pm) {
 
     setlocale(LC_ALL, old_locale.c_str());
     return 0;
+}
+
+// get total user-mode CPU time
+//
+// From usr/include/mach/processor_info.h:
+// struct processor_cpu_load_info {             /* number of ticks while running... */
+//	 unsigned int    cpu_ticks[CPU_STATE_MAX]; /* ... in the given mode */
+// };
+//
+double total_cpu_time() {
+    static natural_t processorCount = 0;
+    processor_cpu_load_info_t cpuLoad;
+    mach_msg_type_number_t processorMsgCount;
+    static double scale;
+    uint64_t totalUserTime = 0;
+
+    if (processorCount == 0) {
+        long hz = sysconf(_SC_CLK_TCK);
+        scale = 1./hz;
+    }
+
+    kern_return_t err = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &processorCount, (processor_info_array_t *)&cpuLoad, &processorMsgCount);
+
+    if (err != KERN_SUCCESS) {
+        return 0.0;
+    }
+    
+    for (natural_t i = 0; i < processorCount; i++) {
+        // Calc user and nice CPU usage, with guards against 32-bit overflow
+        // (values are natural_t)
+        uint64_t user = 0, nice = 0;
+
+        user = cpuLoad[i].cpu_ticks[CPU_STATE_USER];
+        nice = cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
+
+        totalUserTime = totalUserTime + user + nice;
+    }
+
+    return totalUserTime * scale;
 }
