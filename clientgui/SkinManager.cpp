@@ -982,7 +982,7 @@ wxString CSkinManager::GetSkinsLocation() {
     strSkinLocation = wxGetApp().GetRootDirectory();
     wxString strLinuxSkinLocation = strSkinLocation + wxT("/../share/boinc-manager/skins");
     struct stat info;
-    # check if folder in linux location exist
+    // check if folder in linux location exist
     if (stat( strLinuxSkinLocation.mb_str(), &info ) == 0 && info.st_mode & S_IFDIR) {
         strSkinLocation = strLinuxSkinLocation;
     }
