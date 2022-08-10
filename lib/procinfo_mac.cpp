@@ -178,13 +178,15 @@ int procinfo_setup(PROC_MAP& pm) {
 // };
 //
 double total_cpu_time() {
-    static natural_t processorCount = 0;
+    static bool first = true;
+    natural_t processorCount = 0;
     processor_cpu_load_info_t cpuLoad;
     mach_msg_type_number_t processorMsgCount;
     static double scale;
     uint64_t totalUserTime = 0;
 
-    if (processorCount == 0) {
+    if (!first) {
+        first = false;
         long hz = sysconf(_SC_CLK_TCK);
         scale = 1./hz;
     }
