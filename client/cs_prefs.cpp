@@ -673,72 +673,72 @@ void CLIENT_STATE::print_global_prefs() {
 
     // in use
     //
-    msg_printf(NULL, MSG_INFO, "   When computer is in use:");
+    msg_printf(NULL, MSG_INFO, "-  When computer is in use:");
     msg_printf(NULL, MSG_INFO,
-        "      'In use' means mouse/keyboard in put in last %.1f minutes",
+        "-     'In use' means mouse/keyboard in put in last %.1f minutes",
         global_prefs.idle_time_to_run
     );
     if (!global_prefs.run_if_user_active) {
-        msg_printf(NULL, MSG_INFO, "      don't compute");
+        msg_printf(NULL, MSG_INFO, "-     don't compute");
     }
     if (!global_prefs.run_gpu_if_user_active) {
-        msg_printf(NULL, MSG_INFO, "      don't use GPU");
+        msg_printf(NULL, MSG_INFO, "-     don't use GPU");
     }
     double p = global_prefs.max_ncpus_pct;
     if (p) {
         int n = (int)((host_info.p_ncpus * p)/100);
         msg_printf(NULL, MSG_INFO,
-            "      max CPUs used: %d", n
+            "-     max CPUs used: %d", n
         );
     }
     if (global_prefs.cpu_usage_limit) {
         msg_printf(NULL, MSG_INFO,
-            "      Use at most %.0f%% of the CPU time",
+            "-     Use at most %.0f%% of the CPU time",
             global_prefs.cpu_usage_limit
         );
     }
     if (global_prefs.suspend_cpu_usage) {
         msg_printf(NULL, MSG_INFO,
-            "      suspend work if non-BOINC CPU load exceeds %.0f%%",
+            "-     suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.suspend_cpu_usage
         );
     }
     msg_printf(NULL, MSG_INFO,
-        "      max memory usage: %.2f GB",
+        "-     max memory usage: %.2f GB",
         (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/GIGA
     );
 
     // not in use
     //
     msg_printf(NULL, MSG_INFO,
-        "   When computer is not in use (defaults: same as in use)"
+        "-  When computer is not in use (defaults: same as in use)"
     );
     p = global_prefs.niu_max_ncpus_pct;
     if (p) {
         int n = (int)((host_info.p_ncpus * p)/100);
         msg_printf(NULL, MSG_INFO,
-            "      max CPUs used: %d", n
+            "-     max CPUs used: %d", n
         );
     }
     if (global_prefs.niu_cpu_usage_limit) {
         msg_printf(NULL, MSG_INFO,
-            "      Use at most %.0f%% of the CPU time",
+            "-     Use at most %.0f%% of the CPU time",
             global_prefs.niu_cpu_usage_limit
         );
     }
     if (global_prefs.niu_suspend_cpu_usage > 0) {
         msg_printf(NULL, MSG_INFO,
-            "      suspend work if non-BOINC CPU load exceeds %.0f%%",
+            "-     suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.niu_suspend_cpu_usage
         );
     }
     msg_printf(NULL, MSG_INFO,
-        "      max memory usage: %.2f GB",
+        "-     max memory usage: %.2f GB",
         (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/GIGA
     );
     if (global_prefs.suspend_if_no_recent_input > 0) {
         msg_printf(NULL, MSG_INFO,
-            "      Suspend if no input in last %f minutes",
+            "-     Suspend if no input in last %f minutes",
             global_prefs.suspend_if_no_recent_input
         );
     }
@@ -748,20 +748,20 @@ void CLIENT_STATE::print_global_prefs() {
 
     if (!global_prefs.run_on_batteries) {
         msg_printf(NULL, MSG_INFO,
-            "   Suspend if running on batteries"
+            "-  Suspend if running on batteries"
         );
     }
     if (global_prefs.leave_apps_in_memory) {
         msg_printf(NULL, MSG_INFO,
-            "   Leave apps in memory if not running"
+            "-  Leave apps in memory if not running"
         );
     }
     msg_printf(NULL, MSG_INFO,
-        "   Store at least %.2f days of work",
+        "-  Store at least %.2f days of work",
         global_prefs.work_buf_min_days
     );
     msg_printf(NULL, MSG_INFO,
-        "   Store up to an additional %.2f days of work",
+        "-  Store up to an additional %.2f days of work",
         global_prefs.work_buf_additional_days
     );
 
@@ -769,13 +769,13 @@ void CLIENT_STATE::print_global_prefs() {
     //
     if (global_prefs.max_bytes_sec_down) {
         msg_printf(NULL, MSG_INFO,
-            "   max download rate: %.0f bytes/sec",
+            "-  max download rate: %.0f bytes/sec",
             global_prefs.max_bytes_sec_down
         );
     }
     if (global_prefs.max_bytes_sec_up) {
         msg_printf(NULL, MSG_INFO,
-            "   max upload rate: %.0f bytes/sec",
+            "-  max upload rate: %.0f bytes/sec",
             global_prefs.max_bytes_sec_up
         );
     }
@@ -784,12 +784,12 @@ void CLIENT_STATE::print_global_prefs() {
     //
 #ifndef SIM
     msg_printf(NULL, MSG_INFO,
-        "   max disk usage: %.2f GB",
+        "-  max disk usage: %.2f GB",
         allowed_disk_usage(total_disk_usage)/GIGA
     );
 #endif
     msg_printf(NULL, MSG_INFO,
-        "   (to change preferences, visit a project web site or select Preferences in the Manager)"
+        "-  (to change preferences, visit a project web site or select Preferences in the Manager)"
     );
 }
 
