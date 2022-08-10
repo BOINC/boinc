@@ -424,6 +424,7 @@ struct CLIENT_STATE {
         const char* fname = GLOBAL_PREFS_FILE_NAME,
         const char* override_fname = GLOBAL_PREFS_OVERRIDE_FILE
     );
+    void print_global_prefs();
     int save_global_prefs(const char* prefs, char* url, char* sched);
     double available_ram();
     double max_available_ram();
@@ -525,7 +526,7 @@ struct CLIENT_STATE {
         if (!user_active && global_prefs.niu_cpu_usage_limit>=0) {
             x = global_prefs.niu_cpu_usage_limit;
         }
-        if (x < 0.005 || x > 99) {
+        if (x < 0.005 || x > 99.99) {
             x = 100;
         }
         return x;

@@ -648,53 +648,125 @@ void CLIENT_STATE::read_global_prefs(
         }
     }
 
-    msg_printf(NULL, MSG_INFO, "Preferences:");
-    msg_printf(NULL, MSG_INFO,
-        "   max memory usage when active: %.2f MB",
-        (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
-    );
-    msg_printf(NULL, MSG_INFO,
-        "   max memory usage when idle: %.2f MB",
-        (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
-    );
 #ifndef SIM
     get_disk_usages();
-    msg_printf(NULL, MSG_INFO,
-        "   max disk usage: %.2f GB",
-        allowed_disk_usage(total_disk_usage)/GIGA
-    );
 #endif
-    // max_cpus, bandwidth limits may have changed
-    //
     set_n_usable_cpus();
-    if (n_usable_cpus != host_info.p_ncpus) {
-        msg_printf(NULL, MSG_INFO,
-            "   max CPUs used: %d", n_usable_cpus
-        );
-    }
-    if (!global_prefs.run_if_user_active) {
-        msg_printf(NULL, MSG_INFO, "   don't compute while active");
+
 #ifdef ANDROID
-    } else {
-        msg_printf(NULL, MSG_INFO, "   Android: don't compute while active");
-        global_prefs.run_if_user_active = false;
+    global_prefs.run_if_user_active = false;
 #endif
+#ifndef SIM
+    file_xfers->set_bandwidth_limits(true);
+    file_xfers->set_bandwidth_limits(false);
+#endif
+    print_global_prefs();
+    request_schedule_cpus("Prefs update");
+    request_work_fetch("Prefs update");
+#ifndef SIM
+    active_tasks.request_reread_app_info();
+#endif
+}
+
+void CLIENT_STATE::print_global_prefs() {
+    msg_printf(NULL, MSG_INFO, "Preferences:");
+
+    // in use
+    //
+    msg_printf(NULL, MSG_INFO, "   When computer is in use:");
+    msg_printf(NULL, MSG_INFO,
+        "      'In use' means mouse/keyboard in put in last %.1f minutes",
+        global_prefs.idle_time_to_run
+    );
+    if (!global_prefs.run_if_user_active) {
+        msg_printf(NULL, MSG_INFO, "      don't compute");
     }
     if (!global_prefs.run_gpu_if_user_active) {
-        msg_printf(NULL, MSG_INFO, "   don't use GPU while active");
+        msg_printf(NULL, MSG_INFO, "      don't use GPU");
+    }
+    double p = global_prefs.max_ncpus_pct;
+    if (p) {
+        int n = (int)((host_info.p_ncpus * p)/100);
+        msg_printf(NULL, MSG_INFO,
+            "      max CPUs used: %d", n
+        );
+    }
+    if (global_prefs.cpu_usage_limit) {
+        msg_printf(NULL, MSG_INFO,
+            "      Use at most %.0f%% of the CPU time",
+            global_prefs.cpu_usage_limit
+        );
     }
     if (global_prefs.suspend_cpu_usage) {
         msg_printf(NULL, MSG_INFO,
-            "   suspend work if non-BOINC CPU load exceeds %.0f%%",
+            "      suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.suspend_cpu_usage
+        );
+    }
+    msg_printf(NULL, MSG_INFO,
+        "      max memory usage: %.2f GB",
+        (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/GIGA
+    );
+
+    // not in use
+    //
+    msg_printf(NULL, MSG_INFO,
+        "   When computer is not in use (defaults: same as in use)"
+    );
+    p = global_prefs.niu_max_ncpus_pct;
+    if (p) {
+        int n = (int)((host_info.p_ncpus * p)/100);
+        msg_printf(NULL, MSG_INFO,
+            "      max CPUs used: %d", n
+        );
+    }
+    if (global_prefs.niu_cpu_usage_limit) {
+        msg_printf(NULL, MSG_INFO,
+            "      Use at most %.0f%% of the CPU time",
+            global_prefs.niu_cpu_usage_limit
         );
     }
     if (global_prefs.niu_suspend_cpu_usage > 0) {
         msg_printf(NULL, MSG_INFO,
-            "   when idle, suspend work if non-BOINC CPU load exceeds %.0f%%",
+            "      suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.niu_suspend_cpu_usage
         );
     }
+    msg_printf(NULL, MSG_INFO,
+        "      max memory usage: %.2f GB",
+        (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/GIGA
+    );
+    if (global_prefs.suspend_if_no_recent_input > 0) {
+        msg_printf(NULL, MSG_INFO,
+            "      Suspend if no input in last %f minutes",
+            global_prefs.suspend_if_no_recent_input
+        );
+    }
+
+    // general
+    //
+
+    if (!global_prefs.run_on_batteries) {
+        msg_printf(NULL, MSG_INFO,
+            "   Suspend if running on batteries"
+        );
+    }
+    if (global_prefs.leave_apps_in_memory) {
+        msg_printf(NULL, MSG_INFO,
+            "   Leave apps in memory if not running"
+        );
+    }
+    msg_printf(NULL, MSG_INFO,
+        "   Store at least %.2f days of work",
+        global_prefs.work_buf_min_days
+    );
+    msg_printf(NULL, MSG_INFO,
+        "   Store up to an additional %.2f days of work",
+        global_prefs.work_buf_additional_days
+    );
+
+    // network
+    //
     if (global_prefs.max_bytes_sec_down) {
         msg_printf(NULL, MSG_INFO,
             "   max download rate: %.0f bytes/sec",
@@ -707,18 +779,18 @@ void CLIENT_STATE::read_global_prefs(
             global_prefs.max_bytes_sec_up
         );
     }
+
+    // disk
+    //
 #ifndef SIM
-    file_xfers->set_bandwidth_limits(true);
-    file_xfers->set_bandwidth_limits(false);
+    msg_printf(NULL, MSG_INFO,
+        "   max disk usage: %.2f GB",
+        allowed_disk_usage(total_disk_usage)/GIGA
+    );
 #endif
     msg_printf(NULL, MSG_INFO,
         "   (to change preferences, visit a project web site or select Preferences in the Manager)"
     );
-    request_schedule_cpus("Prefs update");
-    request_work_fetch("Prefs update");
-#ifndef SIM
-    active_tasks.request_reread_app_info();
-#endif
 }
 
 int CLIENT_STATE::save_global_prefs(
