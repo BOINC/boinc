@@ -488,49 +488,53 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 
 #if defined(__linux__) || defined(_WIN32) || defined(__APPLE__)
     // compute non_boinc_cpu_usage
-    // Improved version for systems where we can get total CPU (Win, Linux)
+    // Improved version for systems where we can get total CPU (Win, Linux, Mac)
     //
     static double last_nbrc=0;
-    double nbrc = total_cpu_time() - boinc_related_cpu_time(pm, using_vbox);
-    double delta_nbrc = nbrc - last_nbrc;
-    if (delta_nbrc < 0) delta_nbrc = 0;
-    last_nbrc = nbrc;
-    if (!first) {
-        non_boinc_cpu_usage = delta_nbrc/(diff*gstate.host_info.p_ncpus);
-        //printf("non_boinc_cpu_usage %f\n", non_boinc_cpu_usage);
-    }
-#else
-    // compute non_boinc_cpu_usage
-    //
-    // NOTE: this is flawed because it doesn't count short-lived processes
-    // correctly.  Linux and Win use a better approach (see above).
-    //
-    // mem usage info is not useful because most OSs don't
-    // move idle processes out of RAM, so physical memory is always full.
-    // Also (at least on Win) page faults are used for various things,
-    // not all of them generate disk I/O,
-    // so they're not useful for detecting paging/thrashing.
-    //
-    static double last_cpu_time;
-    PROCINFO pi;
-    procinfo_non_boinc(pi, pm);
-    if (log_flags.mem_usage_debug) {
-        //procinfo_show(pm);
-        msg_printf(NULL, MSG_INFO,
-            "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
-            pi.working_set_size/MEGA, pi.swap_size/MEGA,
-            pi.user_time, pi.kernel_time
-        );
-    }
-    double new_cpu_time = pi.user_time + pi.kernel_time;
-    if (!first) {
-        non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
-        // processes might have exited in the last 10 sec,
-        // causing this to be negative.
-        if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
-    }
-    last_cpu_time = new_cpu_time;
+    double total_cpu_time_now = total_cpu_time();
+    if (total_cpu_time_now != 0.0) {    // total_cpu_time() returns 0.0 on error
+        double nbrc = total_cpu_time_now - boinc_related_cpu_time(pm, using_vbox);
+        double delta_nbrc = nbrc - last_nbrc;
+        if (delta_nbrc < 0) delta_nbrc = 0;
+        last_nbrc = nbrc;
+        if (!first) {
+            non_boinc_cpu_usage = delta_nbrc/(diff*gstate.host_info.p_ncpus);
+            //printf("non_boinc_cpu_usage %f\n", non_boinc_cpu_usage);
+        }
+    } else
 #endif
+    {
+        // compute non_boinc_cpu_usage the old way
+        //
+        // NOTE: this is flawed because it doesn't count short-lived processes
+        // correctly.  Linux and Win use a better approach (see above).
+        //
+        // mem usage info is not useful because most OSs don't
+        // move idle processes out of RAM, so physical memory is always full.
+        // Also (at least on Win) page faults are used for various things,
+        // not all of them generate disk I/O,
+        // so they're not useful for detecting paging/thrashing.
+        //
+        static double last_cpu_time;
+        PROCINFO pi;
+        procinfo_non_boinc(pi, pm);
+        if (log_flags.mem_usage_debug) {
+            //procinfo_show(pm);
+            msg_printf(NULL, MSG_INFO,
+                "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
+                pi.working_set_size/MEGA, pi.swap_size/MEGA,
+                pi.user_time, pi.kernel_time
+            );
+        }
+        double new_cpu_time = pi.user_time + pi.kernel_time;
+        if (!first) {
+            non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
+            // processes might have exited in the last 10 sec,
+            // causing this to be negative.
+            if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
+        }
+        last_cpu_time = new_cpu_time;
+    }
 
     if (!first) {
         if (log_flags.mem_usage_debug) {
@@ -542,7 +546,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     first = false;
 }
 
-#endif
+#endif  // ! defined (SIM)
 
 // There's a new trickle file.
 // Move it from slot dir to project dir
