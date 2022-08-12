@@ -77,7 +77,7 @@ public:
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
     void                    OnColResize( wxListEvent& event);
-    
+
     std::vector<CWork*>     m_WorkCache;
 
 protected:
@@ -114,7 +114,7 @@ protected:
     virtual wxString        GetProgressText( long item);
 
     int                     GetWorkCacheAtIndex(CWork*& workPtr, int index);
-    
+
     DECLARE_EVENT_TABLE()
 };
 
