@@ -277,6 +277,14 @@ private:
         wxWindow* first, wxWindow* second, wxWindow* third,
         wxWindow* fourth=NULL, wxWindow* fifth=NULL
     );
+    // variant with separate tooltip per item
+    void add_row_to_sizer2(wxSizer* toSizer,
+        wxWindow* item1, wxString& tt1,
+        wxWindow* item2, wxString& tt2,
+        wxWindow* item3, wxString& tt3,
+        wxWindow* item4, wxString& tt4,
+        wxWindow* item5, wxString& tt5
+    );
     wxPanel* createProcessorTab(wxNotebook* notebook);
     wxPanel* createNetworkTab(wxNotebook* notebook);
     wxPanel* createDiskTab(wxNotebook* notebook);

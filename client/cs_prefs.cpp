@@ -673,9 +673,9 @@ void CLIENT_STATE::print_global_prefs() {
 
     // in use
     //
-    msg_printf(NULL, MSG_INFO, "-  When computer is in use:");
+    msg_printf(NULL, MSG_INFO, "-  When computer is in use");
     msg_printf(NULL, MSG_INFO,
-        "-     'In use' means mouse/keyboard in put in last %.1f minutes",
+        "-     'In use' means mouse/keyboard input in last %.1f minutes",
         global_prefs.idle_time_to_run
     );
     if (!global_prefs.run_if_user_active) {
@@ -699,7 +699,7 @@ void CLIENT_STATE::print_global_prefs() {
     }
     if (global_prefs.suspend_cpu_usage) {
         msg_printf(NULL, MSG_INFO,
-            "-     suspend work if non-BOINC CPU load exceeds %.0f%%",
+            "-     suspend if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.suspend_cpu_usage
         );
     }
@@ -728,7 +728,7 @@ void CLIENT_STATE::print_global_prefs() {
     }
     if (global_prefs.niu_suspend_cpu_usage > 0) {
         msg_printf(NULL, MSG_INFO,
-            "-     suspend work if non-BOINC CPU load exceeds %.0f%%",
+            "-     suspend if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.niu_suspend_cpu_usage
         );
     }

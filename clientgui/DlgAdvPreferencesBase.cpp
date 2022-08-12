@@ -85,15 +85,16 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
         if (m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                            _("Using local preferences.\n"
-                            "Click \"Use web prefs\" to use web-based preferences from"
-                            ), wxDefaultPosition, wxDefaultSize, 0 ),
+                    _("Using local prefs.")
+                    + "  "
+                    +_("Click to use web prefs from"),
+                    wxDefaultPosition, wxDefaultSize, 0 ),
                 0, wxALL, 1
             );
         } else {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                            _("Using web-based preferences from"),
+                            _("Using web prefs from"),
                             wxDefaultPosition, wxDefaultSize, 0 ),
                 0, wxALL, 1
             );
@@ -110,7 +111,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
         if (!m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                     _("Set values and click Save to use local preferences instead."),
+                     _("Set values and click Save to use local prefs instead."),
                      wxDefaultPosition, wxDefaultSize, 0 ),
                 0, wxALL, 1
             );
@@ -201,42 +202,71 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     this->SetSizer( dialogSizer );
 }
 
+#define PAD0    1
+#define PAD1    3
+
+// this version lets you attach different tooltips to different items
+//
+void CDlgAdvPreferencesBase::add_row_to_sizer2(wxSizer* toSizer,
+    wxWindow* item1, wxString& tt1,
+    wxWindow* item2, wxString& tt2,
+    wxWindow* item3, wxString& tt3,
+    wxWindow* item4, wxString& tt4,
+    wxWindow* item5, wxString& tt5
+) {
+    wxBoxSizer* rowSizer = new wxBoxSizer(wxHORIZONTAL);
+
+    rowSizer->Add(item1, 0, wxALL, PAD1);
+    item1->SetToolTip(tt1);
+    rowSizer->Add(item2, 0, wxALL, PAD0);
+    item2->SetToolTip(tt2);
+    rowSizer->Add(item3, 0, wxALL, PAD1);
+    item3->SetToolTip(tt3);
+    rowSizer->Add(item4, 0, wxALL, PAD0);
+    item4->SetToolTip(tt4);
+    rowSizer->Add(item5, 0, wxALL, PAD1);
+    item5->SetToolTip(tt5);
+
+    toSizer->Add(rowSizer, 0, 0, 1);
+}
+
 void CDlgAdvPreferencesBase::addNewRowToSizer(
-                wxSizer* toSizer, wxString& toolTipText,
-                wxWindow* first, wxWindow* second, wxWindow* third,
-                wxWindow* fourth, wxWindow* fifth)
-{
-    wxBoxSizer* rowSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxSizer* toSizer, wxString& toolTipText,
+    wxWindow* first, wxWindow* second, wxWindow* third,
+    wxWindow* fourth, wxWindow* fifth
+) {
+    wxBoxSizer* rowSizer = new wxBoxSizer(wxHORIZONTAL);
 
 #ifdef __WXMSW__
     // MSW adds space to the right of checkbox label
     if (first->IsKindOf(CLASSINFO(wxCheckBox))) {
-        rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, 5 );
+        rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, PAD1 );
     } else
 #endif
-        rowSizer->Add(first, 0, wxALL, 5 );
+        rowSizer->Add(first, 0, wxALL, PAD1 );
+
+    // the last arg is padding.  Less for text fields, to make things line up
 
     first->SetToolTip(toolTipText);
 
-    rowSizer->Add(second, 0, wxALL, 2 );
+    rowSizer->Add(second, 0, wxALL, PAD0 );
     second->SetToolTip(toolTipText);
 
-    rowSizer->Add(third, 0, wxALL, 5 );
+    rowSizer->Add(third, 0, wxALL, PAD1);
     third->SetToolTip(toolTipText);
 
     if (fourth) {
-        rowSizer->Add(fourth, 0, wxALL, 2 );
+        rowSizer->Add(fourth, 0, wxALL, PAD0);
         fourth->SetToolTip(toolTipText);
     }
 
     if (fifth) {
-        rowSizer->Add(fifth, 0, wxALL, 5 );
+        rowSizer->Add(fifth, 0, wxALL, PAD1);
         fifth->SetToolTip(toolTipText);
     }
 
     toSizer->Add( rowSizer, 0, 0, 1 );
 }
-
 
 wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -260,8 +290,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     wxString ProcIdleForTT(_("This determines when the computer is considered 'in use'."));
     wxStaticText* staticText24 = new wxStaticText(
         box, ID_DEFAULT,
-        // context: 'In use' means mouse/keyboard input in last ___ minutes
-        _("'In use' means mouse/keyboard input in last"),
+        // context: 'In use' means mouse or keyboard input in last ___ minutes
+        _("'In use' means mouse or keyboard input in last"),
         wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtProcIdleFor = new wxTextCtrl(
@@ -269,7 +299,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     );
     wxStaticText* staticText25 = new wxStaticText(
         box, ID_DEFAULT,
-        // context: 'In use' means mouse/keyboard input in last ___ minutes
+        // context: 'In use' means mouse or keyboard input in last ___ minutes
         _("minutes"),
         wxDefaultPosition, wxDefaultSize, 0
     );
@@ -297,29 +327,29 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     );
     box_sizer->Add( m_chkGPUProcInUse, 0, wxALL, 5 );
 
-    // max # CPUs
+    // max # CPUs and throttling
     //
-    /*xgettext:no-c-format*/
-    wxString MaxCPUPctTT(_("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."));
     wxStaticText* staticText20 = new wxStaticText(
         box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtProcUseProcessors = new wxTextCtrl(box, ID_TXTPROCUSEPROCESSORS, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    /*xgettext:no-c-format*/
-    wxStaticText* staticText21 = new wxStaticText(box, ID_DEFAULT, _("% of the CPUs"), wxDefaultPosition, wxDefaultSize, 0 );
-    addNewRowToSizer(box_sizer, MaxCPUPctTT, staticText20, m_txtProcUseProcessors, staticText21);
-
-    // CPU throttling
-    //
-    /*xgettext:no-c-format*/
-    wxString MaxCPUTimeTT(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."));
     wxStaticText* staticText22 = new wxStaticText(
-        box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0
+        box, ID_DEFAULT, _("% of the CPUs and at most"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtProcUseCPUTime = new wxTextCtrl(box, ID_TXTPROCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     /*xgettext:no-c-format*/
     wxStaticText* staticText23 = new wxStaticText(box, ID_DEFAULT, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
-    addNewRowToSizer(box_sizer, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
+    /*xgettext:no-c-format*/
+    wxString tt_ncpus(_("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."));
+    /*xgettext:no-c-format*/
+    wxString tt_throttle(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."));
+    add_row_to_sizer2(box_sizer,
+        staticText20, tt_ncpus,
+        m_txtProcUseProcessors, tt_ncpus,
+        staticText22, tt_ncpus,
+        m_txtProcUseCPUTime, tt_throttle,
+        staticText23, tt_throttle
+    );
 
     // max CPU load
     //
@@ -359,28 +389,26 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     box_sizer = new wxStaticBoxSizer(box, wxVERTICAL);
     makeStaticBoxLabelItalic(box);
 
-    // max # CPUs
+    // max # CPUs and throttling
     //
-    /*xgettext:no-c-format*/
-    wxString MaxCPUPctTTniu(_("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."));
     wxStaticText* staticText20niu = new wxStaticText(
         box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtProcUseProcessorsNotInUse = new wxTextCtrl(box, ID_TXTPROCUSEPROCESSORSNOTINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT);
-    /*xgettext:no-c-format*/
-    wxStaticText* staticText21niu = new wxStaticText(box, ID_DEFAULT, _("% of the CPUs"), wxDefaultPosition, wxDefaultSize, 0);
-    addNewRowToSizer(box_sizer, MaxCPUPctTTniu, staticText20niu, m_txtProcUseProcessorsNotInUse, staticText21niu);
-
-    // CPU throttling
-    //
-    wxString MaxCPUTimeTTniu(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."));
     wxStaticText* staticText22niu = new wxStaticText(
-        box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0
+        /*xgettext:no-c-format*/
+        box, ID_DEFAULT, _("% of the CPUs and at most"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtProcUseCPUTimeNotInUse = new wxTextCtrl(box, ID_TXTPROCUSECPUTIMENOTINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT);
     /*xgettext:no-c-format*/
     wxStaticText* staticText23niu = new wxStaticText(box, ID_DEFAULT, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0);
-    addNewRowToSizer(box_sizer, MaxCPUTimeTTniu, staticText22niu, m_txtProcUseCPUTimeNotInUse, staticText23niu);
+    add_row_to_sizer2(box_sizer,
+        staticText20niu, tt_ncpus,
+        m_txtProcUseProcessorsNotInUse, tt_ncpus,
+        staticText22niu, tt_ncpus,
+        m_txtProcUseCPUTimeNotInUse, tt_throttle,
+        staticText23niu, tt_throttle
+    );
 
     // max CPU load
     //
@@ -411,7 +439,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     // suspend after idle time
     //
     wxString str0 = wxEmptyString;
-    str0.Printf(_("Suspend when no mouse/keyboard input in last"));
+    str0.Printf(_("Suspend when no mouse or keyboard input in last"));
     m_chkNoRecentInput = new wxCheckBox(
         box, ID_CHKNORECENTINPUT, str0, wxDefaultPosition, wxDefaultSize, 0
     );
@@ -490,6 +518,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     m_chkMemoryWhileSuspended->SetToolTip(_("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint."));
     box_sizer->Add(m_chkMemoryWhileSuspended, 0, wxALL, 5);
 
+#if 0
     // work buffer min
     //
     wxString NetConnectIntervalTT(_("Store at least enough tasks to keep the computer busy for this long."));
@@ -530,17 +559,55 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
         wxDefaultPosition, wxDefaultSize, 0
     );
     addNewRowToSizer(box_sizer, NetAdditionalDaysTT, staticText331, m_txtNetAdditionalDays, staticText341);
+#else
+    // work buffer
+    //
+    wxString tt_min(_("Store at least enough tasks to keep the computer busy for this long."));
+    wxStaticText* staticText30 = new wxStaticText(
+        box, ID_DEFAULT,
+        // context: Store at least ___ days of work
+        _("Store at least"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
+    m_txtNetConnectInterval = new wxTextCtrl(
+        box, ID_TXTNETCONNECTINTERVAL, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT
+    );
+    wxStaticText* staticText31 = new wxStaticText(
+        box, ID_DEFAULT,
+        // context: Store at least ___ days of work
+        _("days and up to an additional"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
+    wxString tt_extra(_("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."));
+    m_txtNetAdditionalDays = new wxTextCtrl(
+        box, ID_TXTNETADDITIONALDAYS, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT
+    );
+    wxStaticText* staticText341 = new wxStaticText(
+        box, ID_DEFAULT,
+        // context: Store up to an additional ___ days of work
+        _("days of work"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
+    add_row_to_sizer2(box_sizer,
+        staticText30, tt_min,
+        m_txtNetConnectInterval, tt_min,
+        staticText31, tt_min,
+        m_txtNetAdditionalDays, tt_extra,
+        staticText341, tt_extra
+    );
+#endif
 
+#if 0
     box_sizer->Add(
         new wxStaticText(box, ID_DEFAULT, _("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
-
+#endif
     box_sizer->AddSpacer(1); // Ensure staticText22 is fully visible on Mac
 
-    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    //processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
     processorTabSizer->Add( box_sizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
-    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    //processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
 
     processorTab->SetSizer( processorTabSizer );
     processorTab->Layout();
