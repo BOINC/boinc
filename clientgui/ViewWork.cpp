@@ -49,11 +49,11 @@
 #define COLUMN_STATUS               2
 #define COLUMN_CPUTIME              3
 #define COLUMN_TOCOMPLETION         4
-#define COLUMN_ESTIMATEDCOMPLETION  5
-#define COLUMN_DEADLINEDIFF         6
-#define COLUMN_REPORTDEADLINE       7
-#define COLUMN_APPLICATION          8
-#define COLUMN_NAME                 9
+#define COLUMN_REPORTDEADLINE       5
+#define COLUMN_APPLICATION          6
+#define COLUMN_NAME                 7
+#define COLUMN_ESTIMATEDCOMPLETION  8
+//#define COLUMN_DEADLINEDIFF         9
 
 
 // DefaultShownColumns is an array containing the
@@ -198,9 +198,9 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
             result = 1;
         }
         break;
-    case COLUMN_DEADLINEDIFF:
+    //case COLUMN_DEADLINEDIFF:
         // SOMETHING GOES IN HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        break;
+    //    break;
     }
 
     // Always return FALSE for equality (result == 0)
@@ -282,10 +282,11 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
     m_aStdColNameOrder->Insert(_("Elapsed"), COLUMN_CPUTIME);
     m_aStdColNameOrder->Insert(_("Remaining (estimated)"), COLUMN_TOCOMPLETION);
-    m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
     m_aStdColNameOrder->Insert(_("Deadline"), COLUMN_REPORTDEADLINE);
     m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
+    m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
+    //m_aStdColNameOrder->Insert(_("Completion Before Deadline"), COLUMN_DEADLINEDIFF);
     
     // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initialize
@@ -299,10 +300,11 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_iStdColWidthOrder.Insert(135, COLUMN_STATUS);
     m_iStdColWidthOrder.Insert(80, COLUMN_CPUTIME);
     m_iStdColWidthOrder.Insert(100, COLUMN_TOCOMPLETION);
-    m_iStdColWidthOrder.Insert(150, COLUMN_ESTIMATEDCOMPLETION);
     m_iStdColWidthOrder.Insert(150, COLUMN_REPORTDEADLINE);
     m_iStdColWidthOrder.Insert(95, COLUMN_APPLICATION);
     m_iStdColWidthOrder.Insert(285, COLUMN_NAME);
+    m_iStdColWidthOrder.Insert(150, COLUMN_ESTIMATEDCOMPLETION);
+    //m_iStdColWidthOrder.Insert(150, COLUMN_DEADLINEDIFF);
 
     wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
@@ -357,10 +359,10 @@ void CViewWork::AppendColumn(int columnID){
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ESTIMATEDCOMPLETION],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ESTIMATEDCOMPLETION]);
             break;
-        case COLUMN_DEADLINEDIFF:
+/*        case COLUMN_DEADLINEDIFF:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_DEADLINEDIFF],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_DEADLINEDIFF]);
-            break;
+            break; */
     }
 }
 
@@ -783,30 +785,14 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strStatus;
                 break;
             case COLUMN_ESTIMATEDCOMPLETION:
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                // Need to fix the following:
-                // - replace "running"
-                // - See how strBuffer should be addressed?  Why is this not refereshing properly?
-                if ((work->m_fCPUTime > 0) && (work->m_strStatus.Contains("Running"))) {
-                    wxDateTime now = wxDateTime::Now();
-                    wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
-                    wxDateTime estimated_completion = now.Add(time_to_completion);
-                    FormatDateTime(estimated_completion.GetTicks(), strBuffer);
-                    // Only display the Estimated Completion time if the task has
-                    // been started and is currently running.
-                } else {
-                    strBuffer = FormatTime(0);
-                    // If the task has not started (CPUTime <= 0) or is not currently
-                    // running, pass 0 to FormatTime to display "---" as the Estimated
-                    // Completion time
-                }
+                strBuffer = work->m_strEstimatedCompletion;
                 break;
-            case COLUMN_DEADLINEDIFF:
+          //   case COLUMN_DEADLINEDIFF:
                 // Fill out something here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                break;
+         //       break;
         }
     }
-    
+
     return strBuffer;
 }
 
@@ -1054,7 +1040,7 @@ void CViewWork::UpdateSelection() {
 bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
-    double       x = 0.0;
+    double      x = 0.0;
     time_t      tDocumentTime = (time_t)0;
     CWork*      work;
 
@@ -1063,9 +1049,9 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
      if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
         return false;
     }
-    
+
     if (iColumnIndex < 0) return false;
-    
+
     switch (m_iColumnIndexToColumnID[iColumnIndex]) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
@@ -1119,6 +1105,26 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             if (tDocumentTime != work->m_tReportDeadline) {
                 work->m_tReportDeadline = tDocumentTime;
                 FormatDateTime(tDocumentTime, work->m_strReportDeadline);
+                return true;
+            }
+            break;
+        case COLUMN_ESTIMATEDCOMPLETION:
+            //  TODO:  NEED TO ADD A WAY TO DISPLAY '---' if the date is the original date.
+            // Also todo:  Let's change all time_t pointers from 'time' to something else, like 'pt'.
+            //  Function to pass 0 (to read '---' is:  strBuffer = FormatTime(0)
+            // TODO:  Figure out logic to be most efficient for this case.
+            //  - what happens if time returned in 0 (because task is not active)
+            //  - what happens if no change in time
+            //  -what happens if there is a change in time.
+            GetDocEstCompletionDate(m_iSortedIndexes[iRowIndex], tDocumentTime);
+            if (tDocumentTime != work->m_tEstimatedCompletion) {
+                work->m_tEstimatedCompletion = tDocumentTime;
+                if (work->m_tEstimatedCompletion = 0) {
+                    work->m_strEstimatedCompletion << 0;
+                }
+                else {
+                    FormatDateTime(tDocumentTime, work->m_strEstimatedCompletion);
+                }
                 return true;
             }
             break;
@@ -1281,6 +1287,41 @@ void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
     } else {
         time = (time_t)0;
     }
+}
+
+// Calculates the estimated date and time a task will be completed.
+// This is only calculated for active tasks.  If a task is not active,
+// time pt will remain at zero.  The intent is for the command calling this
+// function to use that value to display '---', not the epoch time.
+//
+void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& pt) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    pt = 0;
+    if (result->active_task_state == 1) {
+        time_t ttime = time(0);
+        pt = ttime;
+        pt += (time_t)result->estimated_cpu_time_remaining;
+    }
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//  Figure out what "strBuffer" needs to be down below.
+// double check what passing variables need to be.
+//  Add function to header
+/*    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    if ((work->m_fCPUTime > 0) && (result->active_task_state == 1)) {
+        wxDateTime now = wxDateTime::Now();
+        wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
+        wxDateTime estimated_completion = now.Add(time_to_completion);
+        FormatDateTime(estimated_completion.GetTicks(), strBuffer);
+        // Only display the Estimated Completion time if the task has
+        // been started and is currently running.
+    }
+    else {
+        strBuffer = FormatTime(0);
+        // If the task has not started (CPUTime <= 0) or is not currently
+        // running, pass 0 to FormatTime to display "---" as the Estimated
+        // Completion time
+    }*/
 }
 
 

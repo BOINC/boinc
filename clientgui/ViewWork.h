@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,12 +39,14 @@ public:
     double m_fProgress;
     double m_fTimeToCompletion;
     time_t m_tReportDeadline;
+    time_t m_tEstimatedCompletion;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
     wxString m_strCPUTime;
     wxString m_strProgress;
     wxString m_strTimeToCompletion;
     wxString m_strReportDeadline;
+    wxString m_strEstimatedCompletion;
 };
 
 
@@ -107,6 +109,7 @@ protected:
     wxInt32                 FormatProgress( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const;
     void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
+    void                    GetDocEstCompletionDate(wxInt32 item, time_t& time) const;
     wxInt32                 FormatDateTime( time_t datetime, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
