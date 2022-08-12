@@ -86,6 +86,7 @@ CWork::CWork() {
     m_fProgress = -1.0;
     m_fTimeToCompletion = -1.0;
     m_tReportDeadline = (time_t)0;
+    m_tEstimatedCompletion = (time_t)0;
 }
 
 
@@ -1119,7 +1120,7 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocEstCompletionDate(m_iSortedIndexes[iRowIndex], tDocumentTime);
             if (tDocumentTime != work->m_tEstimatedCompletion) {
                 work->m_tEstimatedCompletion = tDocumentTime;
-                if (work->m_tEstimatedCompletion = 0) {
+                if (work->m_tEstimatedCompletion == 0) {
                     work->m_strEstimatedCompletion << 0;
                 }
                 else {
