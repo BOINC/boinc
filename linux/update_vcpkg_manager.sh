@@ -6,8 +6,15 @@ if [ ! -d "linux" ]; then
     exit 1
 fi
 
+if [ -z "$1" ]; then
+    TRIPLET="x64-linux"
+else
+    TRIPLET="$1"
+fi
+
+echo TRIPLET=$TRIPLET
+
 . $PWD/3rdParty/vcpkg_ports/vcpkg_link.sh
-CACHE_DIR="$PWD/3rdParty/buildCache/linux"
 BUILD_DIR="$PWD/3rdParty/linux"
 VCPKG_PORTS="$PWD/3rdParty/vcpkg_ports"
 VCPKG_ROOT="$BUILD_DIR/vcpkg"
@@ -18,6 +25,5 @@ if [ ! -d $VCPKG_ROOT ]; then
 fi
 
 git -C $VCPKG_ROOT pull
-$VCPKG_ROOT/bootstrap-vcpkg.sh
-$VCPKG_ROOT/vcpkg install curl[core,openssl] wxwidgets[core] --clean-after-build --overlay-triplets=$VCPKG_PORTS/triplets/ci
-$VCPKG_ROOT/vcpkg install freeglut ftgl --clean-after-build --overlay-triplets=$VCPKG_PORTS/triplets/ci
+$VCPKG_ROOT/bootstrap-vcpkg.sh -musl
+$VCPKG_ROOT/vcpkg install --x-manifest-root=3rdParty/vcpkg_ports/configs/manager/ --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=$TRIPLET --clean-after-build

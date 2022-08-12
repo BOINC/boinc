@@ -238,3 +238,9 @@ boinc.html
 boinc_client.html
 boinccmd.html
 switcher.html
+
+# snap
+parts/
+prime/
+stage/
+*.snap

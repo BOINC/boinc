@@ -19,6 +19,7 @@
 #pragma implementation "SkinManager.h"
 #endif
 
+#include <cstdlib>
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "parse.h"
@@ -978,7 +979,9 @@ wxString CSkinManager::GetSkinsLocation() {
     strSkinLocation += wxT("skins");
 #elif defined(__WXGTK__)
     strSkinLocation = wxGetApp().GetRootDirectory();
-    if (strSkinLocation.StartsWith("/usr/")) {
+    wxString prefixLinux = std::getenv("SNAP");
+    prefixLinux += wxT("/usr/");
+    if (strSkinLocation.StartsWith(prefixLinux)) {
         strSkinLocation += wxT("/../share/boinc-manager/skins");
     }
     else {
