@@ -277,7 +277,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
     textCtrl->Enable();
 }
 
-void CDlgAdvPreferences::EnableDisableNotInUseItem(wxTextCtrl* textCtrl, bool doEnable, double value) {
+void CDlgAdvPreferences::EnableDisableInUseItem(wxTextCtrl* textCtrl, bool doEnable, double value) {
     if (doEnable) {
         if (! textCtrl->IsEnabled()) {
             textCtrl->Enable();
@@ -289,14 +289,14 @@ void CDlgAdvPreferences::EnableDisableNotInUseItem(wxTextCtrl* textCtrl, bool do
     }
 }
 
-void CDlgAdvPreferences::EnableDisableNotInUseItems() {
+void CDlgAdvPreferences::EnableDisableInUseItems() {
     bool doEnable = !(m_chkProcInUse->IsChecked());
-    EnableDisableNotInUseItem(m_txtProcUseProcessors, doEnable, 
+    EnableDisableInUseItem(m_txtProcUseProcessors, doEnable, 
                             defaultPrefs.max_ncpus_pct > 0.0 ? defaultPrefs.max_ncpus_pct : 100.0);
-    EnableDisableNotInUseItem(m_txtProcUseCPUTime, doEnable, defaultPrefs.cpu_usage_limit);
+    EnableDisableInUseItem(m_txtProcUseCPUTime, doEnable, defaultPrefs.cpu_usage_limit);
     m_chkMaxLoad->Enable(doEnable);
-    EnableDisableNotInUseItem(m_txtMaxLoad, doEnable && m_chkMaxLoad->IsChecked(), defaultPrefs.suspend_cpu_usage);
-    EnableDisableNotInUseItem(m_txtMemoryMaxInUse, doEnable, defaultPrefs.ram_max_used_busy_frac*100.0);
+    EnableDisableInUseItem(m_txtMaxLoad, doEnable && m_chkMaxLoad->IsChecked(), defaultPrefs.suspend_cpu_usage);
+    EnableDisableInUseItem(m_txtMemoryMaxInUse, doEnable, defaultPrefs.ram_max_used_busy_frac*100.0);
 }
 
 // read preferences from core client and initialize control values
@@ -705,7 +705,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
     if (m_chkProcInUse->IsChecked()) m_chkGPUProcInUse->SetValue(true);
 
     m_txtMaxLoadNotInUse->Enable(m_chkMaxLoadNotInUse->IsChecked());
-    EnableDisableNotInUseItems();
+    EnableDisableInUseItems();
     m_txtNoRecentInput->Enable(m_chkNoRecentInput->IsChecked());
 
     // ######### disk and memory usage page
