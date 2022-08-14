@@ -333,6 +333,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
         box, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_txtProcUseProcessors = new wxTextCtrl(box, ID_TXTPROCUSEPROCESSORS, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    /*xgettext:no-c-format*/
     wxStaticText* staticText22 = new wxStaticText(
         box, ID_DEFAULT, _("% of the CPUs and at most"), wxDefaultPosition, wxDefaultSize, 0
     );
