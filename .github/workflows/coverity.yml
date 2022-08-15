@@ -33,7 +33,7 @@ jobs:
 
       - name: Prepare for scan
         if: success()
-        run: ./3rdParty/buildLinuxDependencies.sh && ./configure --enable-apps --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+        run: ./3rdParty/buildLinuxDependencies.sh && ./configure --enable-apps --enable-apps-condor --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
 
       - name: Coverity Scan
         uses: vapier/coverity-scan-action@v0

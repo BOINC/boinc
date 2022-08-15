@@ -149,6 +149,12 @@ AC_ARG_ENABLE(apps-gui,
     [enable_apps_gui=${enableval}],
     [enable_apps_gui=no])
 
+AC_ARG_ENABLE(apps-condor,
+    AS_HELP_STRING([--enable-apps-condor],
+                   [enable building the boinc condor app]),
+    [enable_apps_condor=${enableval}],
+    [enable_apps_condor=no])
+
 AC_ARG_ENABLE(wasm,
     AS_HELP_STRING([--enable-wasm],
                    [enable building the boinc wasm]),
@@ -1122,6 +1128,7 @@ AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
 AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])
+AM_CONDITIONAL(BUILD_WITH_CONDOR, [test "${enable_apps_condor}" = yes])
 AM_CONDITIONAL(BUILD_WITH_WASM, [test "${enable_wasm}" = yes])
 if test "${enable_wasm}" = yes ; then
   AC_DEFINE([WASM], [1], [build boinc wasm])
@@ -1440,6 +1447,10 @@ fi
 
 if test "$enable_apps" = yes -a "$enable_apps_vbox" = yes; then
   configured_to_build="${configured_to_build} apps_vbox"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_condor" = yes; then
+  configured_to_build="${configured_to_build} apps_condor"
 fi
 
 if test "$enable_apps" = yes -a "$enable_apps_mingw" = yes; then
