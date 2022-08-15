@@ -28,7 +28,7 @@ CONFIG_LDFLAGS=""
 
 if [ $BUILD_WITH_VCPKG = "yes" ]; then
     CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
-    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg"
+    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg --enable-apps-condor"
     export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 else
     CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"

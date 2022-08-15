@@ -13,7 +13,7 @@ else
   BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
   BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
   BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
-  
+
   MAKEFILE_LDFLAGS  = -lpthread
 endif
 
@@ -51,6 +51,7 @@ distclean: clean
 distclean-recursive: clean
 
 boinc_gahp: boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.h $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp $(BOINC_DIR)/svn_version.h $(BOINC_DIR)/version.h
+	echo "CXX is $(CXX)"
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_FLAGS) -g -O2 \
 	-o boinc_gahp boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp \
 	-lcurl -lssl -lcrypto -lboinc $(CURL_EXTRA_LDFLAGS) $(MAKEFILE_LDFLAGS) $(STDCPPTC)

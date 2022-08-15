@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -34,8 +34,13 @@ jobs:
           sudo apt-get -qq update
           sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.0-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
 
+      - name: Install dependencies for arm64
+        if: success() && endsWith(matrix.type, 'arm64')
+        run: |
+          sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+
       - name: Install dependencies for integration testing
-        if: matrix.type == 'integration-test'
+        if: success() && matrix.type == 'integration-test'
         run: |
           sudo apt-get install ansible
           sudo service mysql stop
@@ -73,7 +78,11 @@ jobs:
 
       - name: Configure apps
         if: success() && matrix.type == 'apps'
-        run: ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
+        run: ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --enable-apps-condor --disable-server --disable-client --disable-manager
+
+      - name: Configure apps for arm64
+        if: success() && matrix.type == 'apps-arm64'
+        run: ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-client --disable-manager CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" LD="aarch64-linux-gnu-ld" CFLAGS="${CFLAGS} -march=armv8-a" CXXFLAGS="${CXXFLAGS} -march=armv8-a" LDFLAGS="${LDFLAGS} -march=armv8-a -static-libstdc++ -static"
 
       - name: Configure libs with vcpkg
         if: success() && matrix.type == 'libs-vcpkg'
@@ -90,6 +99,10 @@ jobs:
       - name: Configure libs with cmake vcpkg
         if: success() && matrix.type == 'libs-cmake'
         run: linux/ci_configure_libs_cmake.sh
+
+      - name: Configure libs for arm64
+        if: success() && matrix.type == 'libs-arm64'
+        run: ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --disable-server --disable-client --disable-manager CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" LD="aarch64-linux-gnu-ld" CFLAGS="${CFLAGS} -march=armv8-a" CXXFLAGS="${CXXFLAGS} -march=armv8-a" LDFLAGS="${LDFLAGS} -march=armv8-a -static-libstdc++ -static"
 
       - name: Configure manager with webview and vcpkg
         if: success() && matrix.type == 'manager-with-webview-vcpkg'
@@ -112,8 +125,19 @@ jobs:
         run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
       - name: Make
-        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake')
+        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'arm64')
         run: make
+
+      - name: Make for arm64
+        if: success() && endsWith(matrix.type, 'arm64')
+        run: |
+          export CC="aarch64-linux-gnu-gcc"
+          export CXX="aarch64-linux-gnu-g++"
+          export LD="aarch64-linux-gnu-ld"
+          export CFLAGS="-march=armv8-a"
+          export CXXFLAGS="-march=armv8-a"
+          export LDFLAGS="${LDFLAGS} -march=armv8-a -static-libstdc++ -static"
+          make
 
       - name: Make for cmake
         if: success() && endsWith(matrix.type, 'cmake')

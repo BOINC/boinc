@@ -16,7 +16,11 @@ endif
 
 ## list the apps that should be build
 ## NOTE: nvcuda and wrappture need external libraries
-SUBDIRS = condor example_app multi_thread sleeper worker wrapper
+SUBDIRS = example_app multi_thread sleeper worker wrapper
+
+if BUILD_WITH_CONDOR
+    SUBDIRS += condor
+endif
 
 if BUILD_WITH_VBOX
     SUBDIRS += vboxmonitor vboxwrapper
