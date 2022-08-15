@@ -53,7 +53,7 @@
 #define COLUMN_APPLICATION          6
 #define COLUMN_NAME                 7
 #define COLUMN_ESTIMATEDCOMPLETION  8
-//#define COLUMN_DEADLINEDIFF         9
+#define COLUMN_DEADLINEDIFF         9
 
 
 // DefaultShownColumns is an array containing the
@@ -187,21 +187,19 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
         result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
         break;
     case COLUMN_ESTIMATEDCOMPLETION:
-        wxDateTime now = wxDateTime::Now();
-        wxTimeSpan time_to_completion_work1 = convert_to_timespan(work1->m_fTimeToCompletion);
-        wxTimeSpan time_to_completion_work2 = convert_to_timespan(work2->m_fTimeToCompletion);
-        wxDateTime estimated_completion_work1 = now.Add(time_to_completion_work1);
-        wxDateTime estimated_completion_work2 = now.Add(time_to_completion_work2);
-        if (estimated_completion_work1.IsEarlierThan(estimated_completion_work2)) {
+        if (work1->m_tEstimatedCompletion < work2->m_tEstimatedCompletion) {
             result = -1;
-        } else if (estimated_completion_work1.IsLaterThan(estimated_completion_work2) ||
-                   estimated_completion_work1.IsEqualTo(estimated_completion_work2)) {
+        } else if (work1->m_tEstimatedCompletion > work2->m_tEstimatedCompletion) {
             result = 1;
         }
         break;
-    //case COLUMN_DEADLINEDIFF:
-        // SOMETHING GOES IN HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //    break;
+    case COLUMN_DEADLINEDIFF:
+        if (work1->m_tDeadlineDiff < work2->m_tDeadlineDiff) {
+            result = -1;
+        } else if (work1->m_tDeadlineDiff > work2->m_tDeadlineDiff) {
+            result = 1;
+        }
+        break;
     }
 
     // Always return FALSE for equality (result == 0)
@@ -287,7 +285,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
     m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
-    //m_aStdColNameOrder->Insert(_("Completion Before Deadline"), COLUMN_DEADLINEDIFF);
+    m_aStdColNameOrder->Insert(_("Completion Before Deadline"), COLUMN_DEADLINEDIFF);
     
     // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initialize
@@ -305,7 +303,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_iStdColWidthOrder.Insert(95, COLUMN_APPLICATION);
     m_iStdColWidthOrder.Insert(285, COLUMN_NAME);
     m_iStdColWidthOrder.Insert(150, COLUMN_ESTIMATEDCOMPLETION);
-    //m_iStdColWidthOrder.Insert(150, COLUMN_DEADLINEDIFF);
+    m_iStdColWidthOrder.Insert(150, COLUMN_DEADLINEDIFF);
 
     wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
@@ -360,10 +358,10 @@ void CViewWork::AppendColumn(int columnID){
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ESTIMATEDCOMPLETION],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ESTIMATEDCOMPLETION]);
             break;
-/*        case COLUMN_DEADLINEDIFF:
+        case COLUMN_DEADLINEDIFF:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_DEADLINEDIFF],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_DEADLINEDIFF]);
-            break; */
+            break;
     }
 }
 
@@ -788,9 +786,9 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
             case COLUMN_ESTIMATEDCOMPLETION:
                 strBuffer = work->m_strEstimatedCompletion;
                 break;
-          //   case COLUMN_DEADLINEDIFF:
-                // Fill out something here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         //       break;
+            case COLUMN_DEADLINEDIFF:
+                strBuffer = work->m_strDeadlineDiff;
+                break;
         }
     }
 
@@ -1128,6 +1126,13 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
                 }
                 return true;
             }
+            break;
+        case COLUMN_DEADLINEDIFF:
+            //something!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // - find estimated completion date
+            // - get deadline (should not change...right?
+            // make the delta between those.
+            //  If not equal, store
             break;
         case COLUMN_STATUS:
             int i = m_iSortedIndexes[iRowIndex];

@@ -40,6 +40,7 @@ public:
     double m_fTimeToCompletion;
     time_t m_tReportDeadline;
     time_t m_tEstimatedCompletion;
+    time_t m_tDeadlineDiff;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
     wxString m_strCPUTime;
@@ -47,6 +48,7 @@ public:
     wxString m_strTimeToCompletion;
     wxString m_strReportDeadline;
     wxString m_strEstimatedCompletion;
+    wxString m_strDeadlineDiff;
 };
 
 
