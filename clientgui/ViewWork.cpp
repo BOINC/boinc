@@ -85,8 +85,9 @@ CWork::CWork() {
     m_fCPUTime = -1.0;
     m_fProgress = -1.0;
     m_fTimeToCompletion = -1.0;
-    m_tReportDeadline = (time_t)0;
-    m_tEstimatedCompletion = (time_t)0;
+    m_fDeadlineDiff = -1.0;
+    m_tReportDeadline = (time_t)-1;
+    m_tEstimatedCompletion = (time_t)-1;
 }
 
 
@@ -100,6 +101,8 @@ CWork::~CWork() {
     m_strProgress.Clear();
     m_strTimeToCompletion.Clear();
     m_strReportDeadline.Clear();
+    m_strEstimatedCompletion.Clear();
+    m_strDeadlineDiff.Clear();
 }
 
 
@@ -194,9 +197,9 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
         }
         break;
     case COLUMN_DEADLINEDIFF:
-        if (work1->m_tDeadlineDiff < work2->m_tDeadlineDiff) {
+        if (work1->m_fDeadlineDiff < work2->m_fDeadlineDiff) {
             result = -1;
-        } else if (work1->m_tDeadlineDiff > work2->m_tDeadlineDiff) {
+        } else if (work1->m_fDeadlineDiff > work2->m_fDeadlineDiff) {
             result = 1;
         }
         break;
@@ -1108,18 +1111,11 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             }
             break;
         case COLUMN_ESTIMATEDCOMPLETION:
-            //  TODO:  NEED TO ADD A WAY TO DISPLAY '---' if the date is the original date.
-            // Also todo:  Let's change all time_t pointers from 'time' to something else, like 'pt'.
-            //  Function to pass 0 (to read '---' is:  strBuffer = FormatTime(0)
-            // TODO:  Figure out logic to be most efficient for this case.
-            //  - what happens if time returned in 0 (because task is not active)
-            //  - what happens if no change in time
-            //  -what happens if there is a change in time.
             GetDocEstCompletionDate(m_iSortedIndexes[iRowIndex], tDocumentTime);
             if (tDocumentTime != work->m_tEstimatedCompletion) {
                 work->m_tEstimatedCompletion = tDocumentTime;
                 if (work->m_tEstimatedCompletion == 0) {
-                    work->m_strEstimatedCompletion << 0;
+                    work->m_strEstimatedCompletion = _("---");
                 }
                 else {
                     FormatDateTime(tDocumentTime, work->m_strEstimatedCompletion);
@@ -1128,11 +1124,23 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             }
             break;
         case COLUMN_DEADLINEDIFF:
-            //something!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // - find estimated completion date
-            // - get deadline (should not change...right?
-            // make the delta between those.
-            //  If not equal, store
+            GetDocEstDeadlineDiff(m_iSortedIndexes[iRowIndex], x);
+            if (x != work->m_fDeadlineDiff) {
+                work->m_fDeadlineDiff = x;
+                if (x < 0) {
+                    // A negative difference means the task will not meet the
+                    // deadline. Because FormatTime does not recognize negative
+                    // numbers, the adjustment will be made here.
+                    //
+                    x *= -1;
+                    work->m_strDeadlineDiff = _("-");
+                    work->m_strDeadlineDiff += FormatTime(x);
+                }
+                else {
+                    work->m_strDeadlineDiff = FormatTime(x);
+                }
+                return true;
+            }
             break;
         case COLUMN_STATUS:
             int i = m_iSortedIndexes[iRowIndex];
@@ -1285,49 +1293,43 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
 }
 
 
-void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
+void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& tBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
-        time = (time_t)result->report_deadline;
+        tBuffer = (time_t)result->report_deadline;
     } else {
-        time = (time_t)0;
+        tBuffer = (time_t)0;
     }
 }
+
 
 // Calculates the estimated date and time a task will be completed.
 // This is only calculated for active tasks.  If a task is not active,
 // time pt will remain at zero.  The intent is for the command calling this
 // function to use that value to display '---', not the epoch time.
 //
-void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& pt) const {
+void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& tBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
-    pt = 0;
+    tBuffer = 0;
     if (result->active_task_state == 1) {
         time_t ttime = time(0);
-        pt = ttime;
-        pt += (time_t)result->estimated_cpu_time_remaining;
+        tBuffer = ttime;
+        tBuffer += (time_t)result->estimated_cpu_time_remaining;
+    }
+}
+
+
+void CViewWork::GetDocEstDeadlineDiff(wxInt32 item, double& fBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    fBuffer = 0;
+    if (result->active_task_state == 1) {
+        time_t tdeadline, testcompletion;
+        GetDocEstCompletionDate(item, testcompletion);
+        GetDocReportDeadline(item, tdeadline);
+        fBuffer = (double)(tdeadline - testcompletion);
     }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//  Figure out what "strBuffer" needs to be down below.
-// double check what passing variables need to be.
-//  Add function to header
-/*    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
-    if ((work->m_fCPUTime > 0) && (result->active_task_state == 1)) {
-        wxDateTime now = wxDateTime::Now();
-        wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
-        wxDateTime estimated_completion = now.Add(time_to_completion);
-        FormatDateTime(estimated_completion.GetTicks(), strBuffer);
-        // Only display the Estimated Completion time if the task has
-        // been started and is currently running.
-    }
-    else {
-        strBuffer = FormatTime(0);
-        // If the task has not started (CPUTime <= 0) or is not currently
-        // running, pass 0 to FormatTime to display "---" as the Estimated
-        // Completion time
-    }*/
 }
 
 
