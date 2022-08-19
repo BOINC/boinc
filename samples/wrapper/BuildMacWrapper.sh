@@ -24,6 +24,7 @@
 # Updated 11/16/11 for XCode 4.1 and OS 10.7 
 # Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 8/28/20 for compatibility with Xcode 10
+# Updated 8/19/22 to build Universal M1 / x86_64 binary
 #
 ## This script requires OS 10.6 or later
 #
@@ -81,19 +82,60 @@ echo
 
 export CC="${GCCPATH}";export CPP="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070 -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000 -fvisibility=hidden -fvisibility-inlines-hidden"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.7
-
+export MACOSX_DEPLOYMENT_TARGET=10.10
 
 rm -f *.o
 rm -f wrapper
 make -f Makefile_mac clean
 make -f Makefile_mac all
 
-    if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then
+    rm -f *.o
+    rm -f wrapper
+    exit 1
+fi
+
+mv -f wrapper wrapper_x86_64
+
+echo
+echo "***************************************************"
+echo "******* Building arm64 Application *********"
+echo "***************************************************"
+echo
+
+export CC="${GCCPATH}";export CPP="${GPPPATH}"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch arm64 -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000 -fvisibility=hidden -fvisibility-inlines-hidden"
+export SDKROOT="${SDKPATH}"
+export MACOSX_DEPLOYMENT_TARGET=10.10
 
 rm -f *.o
+make -f Makefile_mac clean
+make -f Makefile_mac all
+
+if [  $? -ne 0 ]; then
+    rm -f *.o
+    rm -f wrapper_x86_64
+    rm -f wrapper
+    exit 1
+fi
+
+rm -f *.o
+
+mv -f wrapper wrapper_arm64
+
+lipo -create wrapper_x86_64 wrapper_arm64 -output wrapper
+if [ $? -ne 0 ]; then
+    rm -f wrapper_x86_64
+    rm -f wrapper_arm64
+    rm -f wrapper
+    exit 1
+fi
+
+rm -f wrapper_x86_64
+rm -f wrapper_arm64
 
 echo
 echo "***************************************************"
