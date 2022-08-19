@@ -14,7 +14,7 @@
 
 // wrapper version number
 // when you change this, change .exe file names in VS project files
-#define WRAPPER_RELEASE 26017
+#define WRAPPER_RELEASE 26018
 
 // vboxwrapper version number
 // when you change this, change .exe file names in VS project files
