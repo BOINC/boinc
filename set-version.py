@@ -62,6 +62,19 @@ def set_version_h(version):
                     line = '#define BOINC_PRERELEASE 1\n'
             f.write(line)
 
+def set_version_h_in(version):
+    _, minor, _ = split_version(version)
+    with open('version.h.in', 'r') as f:
+        lines = f.readlines()
+    with open('version.h.in', 'w') as f:
+        for line in lines:
+            if line.find('#define BOINC_PRERELEASE 1') != -1:
+                if is_release(minor):
+                    line = '//#define BOINC_PRERELEASE 1\n'
+                else:
+                    line = '#define BOINC_PRERELEASE 1\n'
+            f.write(line)
+
 def set_version_log(version):
     with open('version.log', 'w') as f:
         line = f'{version}\n'
@@ -123,6 +136,7 @@ print(f'Setting BOINC version to {version}...')
 
 set_configure_ac(version)
 set_version_h(version)
+set_version_h_in(version)
 set_version_log(version)
 set_build_gradle(version)
 set_vcpkg_json(version)
