@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -132,7 +132,7 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
     for (iIndex = 0; iIndex < iActualColumnCount; iIndex++) {
         m_pParentView->m_iStdColWidthOrder[m_pParentView->m_iColumnIndexToColumnID[iIndex]] = GetColumnWidth(iIndex);
     }
-    
+
     for (iIndex = 0; iIndex < iStdColumnCount; iIndex++) {
         pConfig->SetPath(strBaseConfigLocation + m_pParentView->m_aStdColNameOrder->Item(iIndex));
         pConfig->Write(wxT("Width"), m_pParentView->m_iStdColWidthOrder[iIndex]);
@@ -158,9 +158,9 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
         aOrder[i] = i;
     }
 #endif
-    
+
     strColumnOrder.Printf(wxT("%s"), pView->m_aStdColNameOrder->Item(pView->m_iColumnIndexToColumnID[aOrder[0]]));
-    
+
     for (i = 1; i < iActualColumnCount; ++i)
     {
         strBuffer.Printf(wxT(";%s"), pView->m_aStdColNameOrder->Item(pView->m_iColumnIndexToColumnID[aOrder[i]]));
@@ -185,7 +185,7 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
         strHiddenColumns += pView->m_aStdColNameOrder->Item(i);
     }
     pConfig->Write(wxT("HiddenColumns"), strHiddenColumns);
-    
+
     return true;
 }
 
@@ -207,7 +207,6 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     // Cycle through the possible columns updating column widths
     for (iIndex = 0; iIndex < iStdColumnCount; iIndex++) {
         pConfig->SetPath(strBaseConfigLocation + m_pParentView->m_aStdColNameOrder->Item(iIndex));
-
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
             m_pParentView->m_iStdColWidthOrder[iIndex] = iTempValue;
@@ -240,19 +239,24 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         //
         // This will also be triggered if the locale is changed, which will cause 
         // SetListColumnOrder() to be called again so the wxListCtrl will be set 
-        // up with the correctly labeled columns. 
+        // up with the correctly labeled columns.
+        //
         bool foundNewColumns = false;
+        bool foundNewDefaultColumns = false;
+        bool foundNewHiddenColumns = false;
         
         if (pConfig->Read(wxT("HiddenColumns"), &strHiddenColumns)) {
             wxArrayString hiddenArray;
+            wxArrayString defaultArray;
             TokenizedStringToArray(strHiddenColumns, ";", &hiddenArray);
             int shownCount = orderArray.size();
             int hiddenCount = hiddenArray.size();
             int totalCount = pView->m_aStdColNameOrder->size();
-            for (int i = 0; i < totalCount; ++i) {
+            int defaultCount = pView->m_iNumDefaultShownColumns;
+            for (int i = 0; i < totalCount; ++i) {  // cycles through updated array of columns.
                 wxString columnNameToFind = pView->m_aStdColNameOrder->Item(i);
                 bool found = false;
-                for (int j = 0; j < shownCount; ++j) {
+                for (int j = 0; j < shownCount; ++j) {  // cycles through list of visible columns.
                     if (orderArray[j].IsSameAs(columnNameToFind)) {
                         found = true;
                         break;
@@ -260,22 +264,42 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
                 }
                 if (found) continue;
 
-                for (int j = 0; j < hiddenCount; ++j) {
+                for (int j = 0; j < hiddenCount; ++j) {  // cycles through the hidden columns.
                     if (hiddenArray[j].IsSameAs(columnNameToFind)) {
                         found = true;
                         break;
                     }
                 }
                 if (found) continue;
-                
-                foundNewColumns =  true;
-                orderArray.Add(columnNameToFind);
+
+                foundNewColumns = true;
+                // If we got this far, then we know this column is new.
+                // Now it needs to be determined if the new column should be shown by default or not.
+                // Create array of default columns.
+                //
+                defaultArray.Clear();
+                for (int k = 0; k < pView->m_iNumDefaultShownColumns; ++k) {
+                    defaultArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[k]));
+                }
+                for (int k = 0; k < defaultCount; ++k) {
+                    if (defaultArray[k].IsSameAs(columnNameToFind)) {
+                        orderArray.Add(columnNameToFind);
+                        foundNewDefaultColumns = true;
+                        break;
+                    }
+                }
+                if (!foundNewDefaultColumns) {
+                    hiddenArray.Add(columnNameToFind);  // No need to order new hidden columns since they are hidden.
+                    foundNewHiddenColumns = true;
+                }
             }
         }
         if (foundNewColumns) {
-            bool wasInStandardOrder = IsColumnOrderStandard();
-            SetListColumnOrder(orderArray);
-            if (wasInStandardOrder) SetStandardColumnOrder();
+            if (foundNewDefaultColumns) {
+                bool wasInStandardOrder = IsColumnOrderStandard();
+                SetListColumnOrder(orderArray);
+                if (wasInStandardOrder) SetStandardColumnOrder();
+            }
         }
     } else {
         // No "ColumnOrder" tag in pConfig
