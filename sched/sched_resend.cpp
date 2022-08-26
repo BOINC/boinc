@@ -28,6 +28,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 #include <string>
 
 #include "error_numbers.h"

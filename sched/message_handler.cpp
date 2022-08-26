@@ -28,6 +28,7 @@
 #include "config.h"
 #include <unistd.h>
 #include <cstdlib>
+#include <ctime>
 #include <string>
 
 #include "boinc_db.h"

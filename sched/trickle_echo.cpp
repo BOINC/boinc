@@ -31,6 +31,8 @@
 
 #include "trickle_handler.h"
 
+#include <ctime>
+
 int handle_trickle_init(int, char**) {
     return 0;
 }

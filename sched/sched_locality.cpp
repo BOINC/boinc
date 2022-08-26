@@ -26,6 +26,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <ctime>
 #include <vector>
 
 #include <cstdio>
