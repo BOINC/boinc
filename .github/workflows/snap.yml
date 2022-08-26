@@ -25,10 +25,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        type:
-        - arm
-        - arm64
-        - x64
         include:
         - type: arm
           architecture: linux/arm/v7
@@ -66,27 +62,19 @@ jobs:
       run: |
         echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
       
-    - name: Configure docker arm64
-      if: success() && (matrix.type == 'arm64')
-      uses: docker/setup-qemu-action@v2
-      with:
-        image: tonistiigi/binfmt@sha256:df15403e06a03c2f461c1f7938b171fda34a5849eb63a70e2a2109ed5a778bde      
-
-    - name: Configure docker arm
-      if: success() && (matrix.type == 'arm')
+    - name: Configure docker qemu
+      if: success()
       uses: docker/setup-qemu-action@v2
       
     - name: Build boinc snap
-      if: success() && (matrix.type == 'arm' || matrix.type == 'arm64')
+      if: success()
       run: |
-        # Run snapcraft
-        docker run --rm --tty \
+        docker run \
+          --rm \
+          --tty \
           --privileged \
-          --device /dev/fuse \
-          --volume /sys \
-          --volume /sys/fs/cgroup:/sys/fs/cgroup:ro \
-          --volume $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
-          --workdir $GITHUB_WORKSPACE \
+          --volume $PWD:$PWD \
+          --workdir $PWD \
           --platform "${{ matrix.architecture }}" \
           --env VCPKG_BINARY_SOURCES=$VCPKG_BINARY_SOURCES \
           --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
@@ -95,12 +83,10 @@ jobs:
           diddledan/snapcraft:core20 \
           snapcraft snap --destructive-mode --output ${{ matrix.snap_file }}
 
-          # && snap install --devmode ${{ matrix.snap_file }} && boinc --version && boinc.client --version"
-
           sudo chown $USER ${{ matrix.snap_file }}
 
     - name: cache aws-cli and ninja
-      if: success() && (matrix.type == 'arm' || matrix.type == 'arm64')
+      if: success()
       run: |
         if [ ! -d "3rdParty/buildCache/linux/awscli/" ]; then
           echo "Caching aws-cli"
@@ -115,17 +101,27 @@ jobs:
           cp -R parts/boinc/build/3rdParty/buildCache/linux/ninja/ 3rdParty/buildCache/linux/
         fi
 
-    - name: Build boinc snap
+    - name: Install boinc inside docker x64
       if: success() && matrix.type == 'x64'
-      run: | 
-        sudo snap install snapcraft --classic
-        snapcraft snap --destructive-mode --output ${{ matrix.snap_file }}
+      run: |
+        docker run \
+          --rm \
+          --tty \
+          --privileged \
+          --volume $PWD:$PWD \
+          --workdir $PWD \
+          --platform "${{ matrix.architecture }}" \
+          --env VCPKG_BINARY_SOURCES=$VCPKG_BINARY_SOURCES \
+          --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+          --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+          --env AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
+          diddledan/snapcraft:core20 "snap install --devmode ${{ matrix.snap_file }} && boinc --version && boinc.client --version"
 
-    - name: Install boinc snap
+    - name: Install boinc snap x64
       if: success() && matrix.type == 'x64'
       run: sudo snap install --devmode ${{ matrix.snap_file }}
 
-    - name: Test boinc client snap
+    - name: Test boinc client snap x64
       if: success() && matrix.type == 'x64'
       run: | 
         boinc --version

@@ -139,13 +139,9 @@ parts:
       }
 
       echo ARCH=$SNAPCRAFT_TARGET_ARCH
-      if [ $SNAPCRAFT_TARGET_ARCH = "amd64" ]; then
-        sudo snap install amz-aws-cli
-      else
-        awsCli
-        ninjaBuild
-      fi
-
+      awsCli
+      ninjaBuild
+      
       linux/update_vcpkg_manager.sh $triplet
       ./_autosetup
       snapcraftctl build
