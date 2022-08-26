@@ -51,6 +51,7 @@
 #include <unistd.h>
 #include <climits>
 #include <cmath>
+#include <ctime>
 #include <vector>
 #include <cstdlib>
 #include <string>

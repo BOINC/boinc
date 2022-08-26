@@ -23,6 +23,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <ctime>
 
 #include "parse.h"
 #include "error_numbers.h"

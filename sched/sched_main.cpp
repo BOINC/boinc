@@ -30,6 +30,7 @@
 
 #include "config.h"
 #include <cassert>
+#include <ctime>
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #else
