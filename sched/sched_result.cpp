@@ -30,6 +30,7 @@
 #include "sched_config.h"
 
 #include "sched_result.h"
+#include <ctime>
 
 // got a SUCCESS result; double max jobs per day.
 // TODO: shouldn't we do this only for valid results?

@@ -125,12 +125,12 @@ jobs:
         run:
           cmake --build build
 
-      - name: Build libraries for amd64
+      - name: Build libraries for arm64
         if: success() && matrix.type == 'libs-arm64'
         run: |
           ./linux/arm64/build_libraries_arm64.sh
 
-      - name: Build apps for amd64
+      - name: Build apps for arm64
         if: success() && matrix.type == 'apps-arm64'
         run: |
           ./linux/arm64/build_libraries_arm64.sh

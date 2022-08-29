@@ -274,6 +274,9 @@ int EXCLUDE_GPU::parse(XML_PARSER& xp) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/exclude_gpu")) {
             if (!found_url) return ERR_XML_PARSE;
+            if (device_num >= MAX_COPROC_INSTANCES) {
+                return ERR_XML_PARSE;
+            }
             return 0;
         }
         if (xp.parse_string("url", url)) {
