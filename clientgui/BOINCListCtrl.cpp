@@ -252,7 +252,6 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
             int shownCount = orderArray.size();
             int hiddenCount = hiddenArray.size();
             int totalCount = pView->m_aStdColNameOrder->size();
-            int defaultCount = pView->m_iNumDefaultShownColumns;
             for (int i = 0; i < totalCount; ++i) {  // cycles through updated array of columns.
                 wxString columnNameToFind = pView->m_aStdColNameOrder->Item(i);
                 bool found = false;
@@ -281,7 +280,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
                 for (int k = 0; k < pView->m_iNumDefaultShownColumns; ++k) {
                     defaultArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[k]));
                 }
-                for (int k = 0; k < defaultCount; ++k) {
+                for (int k = 0; k < defaultArray.GetCount(); ++k) {
                     if (defaultArray[k].IsSameAs(columnNameToFind)) {
                         orderArray.Add(columnNameToFind);
                         foundNewDefaultColumns = true;
@@ -305,7 +304,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         // No "ColumnOrder" tag in pConfig
         // Show all columns in default column order
         wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
-    
+
         SetDefaultColumnDisplay();
     }
 
@@ -319,7 +318,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
 void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array) {
     wxString name;
-    
+
     array->Clear();
     wxStringTokenizer tok(tokenized, delimiters);
     while (tok.HasMoreTokens())
@@ -346,22 +345,22 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
     int columnID = 0;       // ID of column, e.g. COLUMN_PROJECT, COLUMN_STATUS, etc.
     int sortColumnIndex = -1;
     wxArrayInt aOrder(shownColCount);
-    
+
     CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
     wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
-    
+
     pView->m_iColumnIndexToColumnID.Clear();
     for (i=colCount-1; i>=0; --i) {
         DeleteColumn(i);
     }
-    
+
     stdCount = pView->m_aStdColNameOrder->GetCount();
 
     pView->m_iColumnIDToColumnIndex.Clear();
     for (columnID=0; columnID<stdCount; ++columnID) {
         pView->m_iColumnIDToColumnIndex.Add(-1);
     }
-    
+
     for (columnID=0; columnID<stdCount; ++columnID) {
         for (columnPosition=0; columnPosition<shownColCount; ++columnPosition) {
             if (orderArray[columnPosition].IsSameAs(pView->m_aStdColNameOrder->Item(columnID))) {
@@ -375,7 +374,7 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
             }
         }
     }
-    
+
     // Prevent a crash bug if we just changed to a new locale.
     //
     // If a column has the same name in both the old and new locale, we guard against
@@ -393,7 +392,7 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
             pView->m_iColumnIDToColumnIndex[columnID] = columnID;
         }
     }
-    
+
     // If sort column is now hidden, set the new first column as sort column
     if (pView->m_iSortColumnID >= 0) {
         sortColumnIndex = pView->m_iColumnIDToColumnIndex[pView->m_iSortColumnID];
@@ -406,7 +405,7 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
             pView->SetSortColumn(sortColumnIndex);
         }
     }
-    
+
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
     colCount = GetColumnCount();
     if ((shownColCount > 0) && (shownColCount <= stdCount) && (colCount == shownColCount)) {
@@ -449,14 +448,14 @@ void CBOINCListCtrl::SetDefaultColumnDisplay() {
     int i;
     wxArrayString orderArray;
     CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
-    
+
     wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
 
     orderArray.Clear();
     for (i=0; i<pView->m_iNumDefaultShownColumns; ++i) {
         orderArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[i]));
     }
-    
+
     SetListColumnOrder(orderArray);
     SetStandardColumnOrder();
 }
@@ -503,11 +502,11 @@ void CBOINCListCtrl::DrawProgressBars()
     wxRect r, rr;
     int w = 0, x = 0, xx, yy, ww;
     int progressColumn = -1;
-    
+
     if (m_pParentView->GetProgressColumn() >= 0) {
         progressColumn = m_pParentView->m_iColumnIDToColumnIndex[m_pParentView->GetProgressColumn()];
     }
-    
+
 #if USE_NATIVE_LISTCONTROL
     wxClientDC dc(this);
     m_bProgressBarEventPending = false;
@@ -522,10 +521,10 @@ void CBOINCListCtrl::DrawProgressBars()
 
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
-    
+
     wxColour progressColor = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
     wxBrush progressBrush(progressColor);
-    
+
     numItems = GetItemCount();
     if (numItems) {
         topItem = GetTopItem();     // Doesn't work properly for Mac Native control in wxMac-2.8.7
@@ -541,7 +540,7 @@ void CBOINCListCtrl::DrawProgressBars()
             x += GetColumnWidth(GetColumnIndexFromOrder(i));
         }
         w = GetColumnWidth(progressColumn);
-        
+
 #if USE_NATIVE_LISTCONTROL
         x -= GetScrollPos(wxHORIZONTAL);
 #else
@@ -549,12 +548,12 @@ void CBOINCListCtrl::DrawProgressBars()
 #endif
         wxFont theFont = GetFont();
         dc.SetFont(theFont);
-        
+
         for (int i=0; i<n; ++i) {
             row = m_iRowsNeedingProgressBars[i];
             if (row < topItem) continue;
             if (row > (topItem + numVisibleItems -1)) continue;
-        
+
 
             GetItemRect(row, r);
 #if ! USE_NATIVE_LISTCONTROL
@@ -567,9 +566,9 @@ void CBOINCListCtrl::DrawProgressBars()
 
             wxString progressString = m_pParentView->GetProgressText(row);
             dc.GetTextExtent(progressString, &xx, &yy);
-            
+
             r.y += (r.height - yy - 1) / 2;
-            
+
             // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
             if (xx > r.width) {
                 int ellipsisWidth;
@@ -586,7 +585,7 @@ void CBOINCListCtrl::DrawProgressBars()
                     xx += ellipsisWidth;
                 }
             }
-            
+
             dc.SetLogicalFunction(wxCOPY);
             dc.SetBackgroundMode(wxSOLID);
             dc.SetPen(progressColor);
@@ -634,7 +633,7 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
 
 void CBOINCListCtrl::PostDrawProgressBarEvent() {
     if (m_bProgressBarEventPending) return;
-    
+
     CDrawProgressBarEvent newEvent(wxEVT_DRAW_PROGRESSBAR, this);
     AddPendingEvent(newEvent);
     m_bProgressBarEventPending = true;
@@ -700,7 +699,7 @@ void CBOINCListCtrl::OnMouseDown(wxMouseEvent& event) {
 // on Mac, which is double-buffered to eliminate flicker.)
 void CBOINCListCtrl::RefreshCell(int row, int col) {
     wxRect r;
-    
+
     GetSubItemRect(row, col, r);
     RefreshRect(r);
 }
