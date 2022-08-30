@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -52,17 +52,21 @@
 #define COLUMN_REPORTDEADLINE       5
 #define COLUMN_APPLICATION          6
 #define COLUMN_NAME                 7
+#define COLUMN_ESTIMATEDCOMPLETION  8
+#define COLUMN_DEADLINEDIFF         9
+
 
 // DefaultShownColumns is an array containing the
 // columnIDs of the columns to be shown by default,
 // in ascending order.  It may or may not include
 // all columns.
+// Columns ESTIMATEDCOMPLETION and DEADLINEDIFF are hidden by default.
+// Not all users may want to see those columns.
 //
-// For now, show all columns by default
 static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, COLUMN_STATUS, 
                                 COLUMN_CPUTIME, COLUMN_TOCOMPLETION,
                                 COLUMN_REPORTDEADLINE, COLUMN_APPLICATION, 
-                                COLUMN_NAME};
+                                COLUMN_NAME };
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -81,7 +85,9 @@ CWork::CWork() {
     m_fCPUTime = -1.0;
     m_fProgress = -1.0;
     m_fTimeToCompletion = -1.0;
-    m_tReportDeadline = (time_t)0;
+    m_fDeadlineDiff = -1.0;
+    m_tReportDeadline = (time_t)-1;
+    m_tEstimatedCompletion = (time_t)-1;
 }
 
 
@@ -95,6 +101,8 @@ CWork::~CWork() {
     m_strProgress.Clear();
     m_strTimeToCompletion.Clear();
     m_strReportDeadline.Clear();
+    m_strEstimatedCompletion.Clear();
+    m_strDeadlineDiff.Clear();
 }
 
 
@@ -181,6 +189,20 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
     case COLUMN_STATUS:
         result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
         break;
+    case COLUMN_ESTIMATEDCOMPLETION:
+        if (work1->m_tEstimatedCompletion < work2->m_tEstimatedCompletion) {
+            result = -1;
+        } else if (work1->m_tEstimatedCompletion > work2->m_tEstimatedCompletion) {
+            result = 1;
+        }
+        break;
+    case COLUMN_DEADLINEDIFF:
+        if (work1->m_fDeadlineDiff < work2->m_fDeadlineDiff) {
+            result = -1;
+        } else if (work1->m_fDeadlineDiff > work2->m_fDeadlineDiff) {
+            result = 1;
+        }
+        break;
     }
 
     // Always return FALSE for equality (result == 0)
@@ -265,6 +287,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Deadline"), COLUMN_REPORTDEADLINE);
     m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
+    m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
+    m_aStdColNameOrder->Insert(_("Completion Before Deadline"), COLUMN_DEADLINEDIFF);
     
     // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initialize
@@ -281,6 +305,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_iStdColWidthOrder.Insert(150, COLUMN_REPORTDEADLINE);
     m_iStdColWidthOrder.Insert(95, COLUMN_APPLICATION);
     m_iStdColWidthOrder.Insert(285, COLUMN_NAME);
+    m_iStdColWidthOrder.Insert(150, COLUMN_ESTIMATEDCOMPLETION);
+    m_iStdColWidthOrder.Insert(150, COLUMN_DEADLINEDIFF);
 
     wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
@@ -330,6 +356,14 @@ void CViewWork::AppendColumn(int columnID){
         case COLUMN_NAME:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_NAME],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_NAME]);
+            break;
+        case COLUMN_ESTIMATEDCOMPLETION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ESTIMATEDCOMPLETION],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ESTIMATEDCOMPLETION]);
+            break;
+        case COLUMN_DEADLINEDIFF:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_DEADLINEDIFF],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_DEADLINEDIFF]);
             break;
     }
 }
@@ -752,9 +786,15 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
             case COLUMN_STATUS:
                 strBuffer = work->m_strStatus;
                 break;
+            case COLUMN_ESTIMATEDCOMPLETION:
+                strBuffer = work->m_strEstimatedCompletion;
+                break;
+            case COLUMN_DEADLINEDIFF:
+                strBuffer = work->m_strDeadlineDiff;
+                break;
         }
     }
-    
+
     return strBuffer;
 }
 
@@ -870,7 +910,7 @@ void CViewWork::UpdateSelection() {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;     // Should never happen
-        
+
         result = pDoc->result(m_iSortedIndexes[row]);
         if (!result) continue;
         if (i == 0) {
@@ -919,7 +959,7 @@ void CViewWork::UpdateSelection() {
                 enableShowGraphics = false;
             }
         }
-        
+
         // Disable Show VM console if the selected task hasn't registered a remote
         // desktop connection
         //
@@ -941,7 +981,7 @@ void CViewWork::UpdateSelection() {
                 enableShowGraphics = false;
             }
         }
-       
+
         // Disable Abort button if any selected task already aborted
         if (
             result->active_task_state == PROCESS_ABORT_PENDING ||
@@ -959,7 +999,7 @@ void CViewWork::UpdateSelection() {
                 all_same_project = false;
             }
         }
-        
+
         if (n == 1) {
             enableProperties = true;
         }
@@ -1002,7 +1042,7 @@ void CViewWork::UpdateSelection() {
 bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
-    double       x = 0.0;
+    double      x = 0.0;
     time_t      tDocumentTime = (time_t)0;
     CWork*      work;
 
@@ -1011,9 +1051,9 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
      if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
         return false;
     }
-    
+
     if (iColumnIndex < 0) return false;
-    
+
     switch (m_iColumnIndexToColumnID[iColumnIndex]) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
@@ -1066,7 +1106,39 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocReportDeadline(m_iSortedIndexes[iRowIndex], tDocumentTime);
             if (tDocumentTime != work->m_tReportDeadline) {
                 work->m_tReportDeadline = tDocumentTime;
-                FormatReportDeadline(tDocumentTime, work->m_strReportDeadline);
+                FormatDateTime(tDocumentTime, work->m_strReportDeadline);
+                return true;
+            }
+            break;
+        case COLUMN_ESTIMATEDCOMPLETION:
+            GetDocEstCompletionDate(m_iSortedIndexes[iRowIndex], tDocumentTime);
+            if (tDocumentTime != work->m_tEstimatedCompletion) {
+                work->m_tEstimatedCompletion = tDocumentTime;
+                if (work->m_tEstimatedCompletion == 0) {
+                    work->m_strEstimatedCompletion = _("---");
+                }
+                else {
+                    FormatDateTime(tDocumentTime, work->m_strEstimatedCompletion);
+                }
+                return true;
+            }
+            break;
+        case COLUMN_DEADLINEDIFF:
+            GetDocEstDeadlineDiff(m_iSortedIndexes[iRowIndex], x);
+            if (x != work->m_fDeadlineDiff) {
+                work->m_fDeadlineDiff = x;
+                if (x < 0) {
+                    // A negative difference means the task will not meet the
+                    // deadline. Because FormatTime does not recognize negative
+                    // numbers, the adjustment will be made here.
+                    //
+                    x *= -1;
+                    work->m_strDeadlineDiff = _("-");
+                    work->m_strDeadlineDiff += FormatTime(x);
+                }
+                else {
+                    work->m_strDeadlineDiff = FormatTime(x);
+                }
                 return true;
             }
             break;
@@ -1185,6 +1257,7 @@ void CViewWork::GetDocCPUTime(wxInt32 item, double& fBuffer) const {
     }
 }
 
+
 void CViewWork::GetDocProgress(wxInt32 item, double& fBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
@@ -1219,35 +1292,63 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
     }
 }
 
-void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
+
+void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& tBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
-        time = (time_t)result->report_deadline;
+        tBuffer = (time_t)result->report_deadline;
     } else {
-        time = (time_t)0;
+        tBuffer = (time_t)0;
     }
 }
 
 
-wxInt32 CViewWork::FormatReportDeadline(time_t deadline, wxString& strBuffer) const {
+// Calculates the estimated date and time a task will be completed.
+// This is only calculated for active tasks.  If a task is not active,
+// time pt will remain at zero.  The intent is for the command calling this
+// function to use that value to display '---', not the epoch time.
+//
+void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& tBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    tBuffer = 0;
+    if (result->active_task_state == 1) {
+        time_t ttime = time(0);
+        tBuffer = ttime;
+        tBuffer += (time_t)result->estimated_cpu_time_remaining;
+    }
+}
+
+
+void CViewWork::GetDocEstDeadlineDiff(wxInt32 item, double& fBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    fBuffer = 0;
+    if (result->active_task_state == 1) {
+        time_t tdeadline, testcompletion;
+        GetDocEstCompletionDate(item, testcompletion);
+        GetDocReportDeadline(item, tdeadline);
+        fBuffer = (double)(tdeadline - testcompletion);
+    }
+
+}
+
+
+wxInt32 CViewWork::FormatDateTime(time_t datetime, wxString& strBuffer) const {
 #ifdef __WXMAC__
     // Work around a wxCocoa bug(?) in wxDateTime::Format()
     char buf[80];
-    struct tm * timeinfo = localtime(&deadline);
+    struct tm * timeinfo = localtime(&datetime);
     strftime(buf, sizeof(buf), "%c", timeinfo);
     strBuffer = buf;
 #else
     wxDateTime     dtTemp;
 
-    dtTemp.Set(deadline);
+    dtTemp.Set(datetime);
     strBuffer = dtTemp.Format();
 #endif
 
     return 0;
 }
-
-
 
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
@@ -1319,7 +1420,7 @@ int CViewWork::GetWorkCacheAtIndex(CWork*& workPtr, int index) {
         workPtr = NULL;
         return -1;
     }
-    
+
     return 0;
 }
 
