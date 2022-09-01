@@ -105,7 +105,7 @@ $not_in_use_prefs = [
         tra("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."),
         "niu_max_ncpus_pct",
         // xgettext:no-php-format
-        new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
+        new NUM_SPEC(tra("% of the CPUs"), 1, 100, 0)
     ),
     new PREF_NUM(
         tra("Use at most") ."<br><font size=-2>Requires BOINC 7.20.3+</font>",
@@ -113,13 +113,13 @@ $not_in_use_prefs = [
         tra("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."),
         "niu_cpu_usage_limit",
         // xgettext:no-php-format
-        new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
+        new NUM_SPEC(tra("% of CPU time"), 1, 100, 0)
     ),
     new PREF_OPT_NUM(
         tra("Suspend when non-BOINC CPU usage is above")."<br><font size=-2>Requires BOINC 7.20.3+</font>",
         tra("Suspend computing when your computer is busy running other programs."),
         "niu_suspend_cpu_usage",
-        new NUM_SPEC("%", 0, 100, 25)
+        new NUM_SPEC("%", 0, 100, 0)
     ),
     new PREF_NUM(
         tra("Use at most"),
@@ -422,9 +422,22 @@ function default_prefs_global() {
     return $p;
 }
 
+// if not-in-use prefs undefined, copy from in-use
+//
+function set_niu_prefs($prefs) {
+    if (!$prefs->niu_max_ncpus_pct) {
+        $prefs->niu_max_ncpus_pct = $prefs->max_ncpus_pct;
+    }
+    if (!$prefs->niu_cpu_usage_limit) {
+        $prefs->niu_cpu_usage_limit = $prefs->cpu_usage_limit;
+    }
+    if (!$prefs->niu_suspend_cpu_usage) {
+        $prefs->niu_suspend_cpu_usage = $prefs->suspend_cpu_usage;
+    }
+}
+
 // parse prefs from XML to a struct
 //
-
 function prefs_parse_global($prefs_xml) {
     global $parse_result;
     $parse_result = default_prefs_global();
@@ -433,6 +446,7 @@ function prefs_parse_global($prefs_xml) {
     xml_set_element_handler($xml_parser, "element_start_global", "element_end_global");
     xml_set_character_data_handler($xml_parser, "char_handler");
     xml_parse($xml_parser, $prefs_xml, 1);
+    set_niu_prefs($parse_result);
     return $parse_result;
 }
 
