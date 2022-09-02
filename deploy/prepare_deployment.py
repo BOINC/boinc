@@ -21,7 +21,7 @@ import sys
 
 linux_client_list = [
     './client/boinc',
-    './client/boinccmd'
+    './client/boinccmd',
 ]
 
 linux_apps_list = [
@@ -38,7 +38,7 @@ linux_apps_list = [
     './samples/wrapper/wrapper',
     './samples/openclapp/openclapp',
     './samples/wrappture/wrappture_example',
-    './samples/wrappture/fermi'
+    './samples/wrappture/fermi',
 ]
 
 linux_manager_list = [
@@ -48,7 +48,7 @@ linux_manager_list = [
 ]
 
 mingw_apps_list = [
-    './lib/wrapper.exe'
+    './lib/wrapper.exe',
 ]
 
 mingw_apps_vcpkg_list = [
@@ -62,22 +62,22 @@ mingw_apps_vcpkg_list = [
     './samples/worker/worker.exe',
     './samples/wrapper/wrapper.exe',
     './samples/wrappture/wrappture_example.exe',
-    './samples/wrappture/fermi.exe'
+    './samples/wrappture/fermi.exe',
 ]
 
 android_manager_generic_list = [
     './android/BOINC/app/build/outputs/apk/debug/app-debug.apk',
-    './android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk'
+    './android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk',
 ]
 
 android_manager_xiaomi_list = [
     './android/BOINC/app/build/outputs/apk/xiaomi_debug/app-xiaomi_debug.apk',
-    './android/BOINC/app/build/outputs/apk/xiaomi_release/app-xiaomi_release-unsigned.apk'
+    './android/BOINC/app/build/outputs/apk/xiaomi_release/app-xiaomi_release-unsigned.apk',
 ]
 
 android_manager_armv6_list = [
     './android/BOINC/app/build/outputs/apk/armv6_debug/app-armv6_debug.apk',
-    './android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk'
+    './android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk',
 ]
 
 android_apps_list = [
@@ -134,7 +134,7 @@ android_apps_list = [
     './samples/wrappture/android_arm_fermi',
     './samples/wrappture/android_arm64_fermi',
     './samples/wrappture/android_x86_fermi',
-    './samples/wrappture/android_x86_64_fermi'
+    './samples/wrappture/android_x86_64_fermi',
 ]
 
 windows_apps_list = [
@@ -161,7 +161,7 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/boinclog.exe',
     './win_build/Build/ARM64/Release/multi_thread*.exe',
     './win_build/Build/ARM64/Release/test*.exe',
-    './win_build/Build/ARM64/Release/wrappture*.exe'
+    './win_build/Build/ARM64/Release/wrappture*.exe',
 ]
 
 windows_client_list = [
@@ -175,7 +175,7 @@ windows_client_list = [
     './win_build/Build/ARM64/Release/boinccmd.exe',
     './win_build/Build/ARM64/Release/boincscr.exe',
     './win_build/Build/ARM64/Release/boinc.scr',
-    './curl/ca-bundle.crt'
+    './curl/ca-bundle.crt',
 ]
 
 windows_manager_list = [
@@ -205,9 +205,11 @@ wasm_client_debug_folder_list = [
 ]
 
 snap_list = [
-    './boinc_armhf.snap',
-    './boinc_arm64.snap',
-    './boinc_amd64.snap',
+    './boinc_*.snap',
+]
+
+flatpak_list = [
+    './boinc_*.flatpak',
 ]
 
 logs_list = [
@@ -222,79 +224,106 @@ logs_list = [
     'mac_build/xcodebuild_*.log',
 ]
 
+
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
     command = f'7z a -t7z -mx=9 {archive_path} {" ".join(files_list)}'
     os.system(command)
 
+
 def help():
     print('Usage: python preprare_deployment.py BOINC_TYPE')
     print(f'BOINC_TYPE : [{" | ".join(boinc_types.keys())}]')
 
+
 def prepare_linux_client(target_directory):
     prepare_7z_archive('linux_client', target_directory, linux_client_list)
+
 
 def prepare_linux_client_vcpkg(target_directory):
     prepare_7z_archive('linux_client-vcpkg', target_directory, linux_client_list)
 
+
 def prepare_linux_apps(target_directory):
     prepare_7z_archive('linux_apps', target_directory, linux_apps_list)
+
 
 def prepare_linux_apps_vcpkg(target_directory):
     prepare_7z_archive('linux_apps-vcpkg', target_directory, linux_apps_list)
 
+
 def prepare_linux_manager_with_webview(target_directory):
     prepare_7z_archive('linux_manager-with-webview', target_directory, linux_manager_list)
+
 
 def prepare_linux_manager_with_webview_vcpkg(target_directory):
     prepare_7z_archive('linux_manager-with-webview-vcpkg', target_directory, linux_manager_list)
 
+
 def prepare_linux_manager_without_webview(target_directory):
     prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
+
 
 def prepare_win_apps_mingw(target_directory):
     prepare_7z_archive('win_apps-mingw', target_directory, mingw_apps_list)
 
+
 def prepare_win_apps_mingw_vcpkg(target_directory):
     prepare_7z_archive('win_apps-mingw-vcpkg', target_directory, mingw_apps_vcpkg_list)
+
 
 def prepare_android_manager(target_directory):
     prepare_7z_archive('android_manager', target_directory, android_manager_generic_list)
     prepare_7z_archive('android_manager_xiaomi', target_directory, android_manager_xiaomi_list)
     prepare_7z_archive('android_manager_armv6', target_directory, android_manager_armv6_list)
 
+
 def prepare_android_manager_vcpkg(target_directory):
     prepare_7z_archive('android_manager-vcpkg', target_directory, android_manager_generic_list)
     prepare_7z_archive('android_manager-vcpkg_xiaomi', target_directory, android_manager_xiaomi_list)
     prepare_7z_archive('android_manager-vcpkg_armv6', target_directory, android_manager_armv6_list)
 
+
 def prepare_android_apps(target_directory):
     prepare_7z_archive('android_apps', target_directory, android_apps_list)
+
 
 def prepare_android_apps_vcpkg(target_directory):
     prepare_7z_archive('android_apps-vcpkg', target_directory, android_apps_list)
 
+
 def prepare_win_apps(target_directory):
     prepare_7z_archive('win_apps', target_directory, windows_apps_list)
+
 
 def prepare_win_client(target_directory):
     prepare_7z_archive('win_client', target_directory, windows_client_list)
 
+
 def prepare_win_manager(target_directory):
     prepare_7z_archive('win_manager', target_directory, windows_manager_list)
+
 
 def prepare_wasm_client(target_directory):
     prepare_7z_archive('wasm_client', target_directory, wasm_client_list)
 
+
 def prepare_wasm_client_debug(target_directory):
     prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
+
 
 def prepare_linux_snap(target_directory):
     prepare_7z_archive('linux_snap', target_directory, snap_list)
 
+
+def prepare_linux_flatpak(target_directory):
+    prepare_7z_archive('linux_flatpak', target_directory, flatpak_list)
+
+
 def prepare_logs(target_directory):
     prepare_7z_archive('logs', target_directory, logs_list)
+
 
 boinc_types = {
     'linux_client': prepare_linux_client,
@@ -316,6 +345,7 @@ boinc_types = {
     'wasm_client': prepare_wasm_client,
     'wasm_client-debug': prepare_wasm_client_debug,
     'linux_snap': prepare_linux_snap,
+    'linux_flatpak': prepare_linux_flatpak,
     'logs': prepare_logs,
 }
 

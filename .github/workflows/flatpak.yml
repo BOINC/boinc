@@ -1,4 +1,4 @@
-name: Snap
+name: Flatpak
 on:
   push:
     branches:
@@ -19,38 +19,30 @@ env:
   AWS_DEFAULT_REGION: us-west-2
 
 jobs:
-  docker_build:
-    name: snap-${{ matrix.type }}-build
+  flatpak:
+    name: flatpak-${{ matrix.type }}-build
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-        - type: arm
-          architecture: linux/arm/v7
-          snap_file: boinc_armhf.snap
-        - type: arm64
-          architecture: linux/arm64
-          snap_file: boinc_arm64.snap
+        # - type: arm
+        #   architecture: linux/arm/v7
+        #   snap_file: boinc_armhf.flatpak
+        # - type: arm64
+        #   architecture: linux/arm64
+        #   snap_file: boinc_arm64.flatpak
         - type: x64
           architecture: linux/amd64
-          snap_file: boinc_amd64.snap
+          flatpak_file: boinc_amd64.flatpak
 
     steps:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
       run: |
-        sudo apt-get -qq update
-        sudo apt-get install -y p7zip-full
-
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          3rdParty/buildCache
-          !3rdParty/buildCache/linux/vcpkgcache/
-        key: snap-${{ matrix.type }}-${{ hashFiles('3rdParty/vcpkg_ports/aws_version.txt', '3rdParty/vcpkg_ports/ninja_version.txt') }}
+        sudo apt -qq update
+        sudo apt install -y p7zip-full
 
     - name: Running from origin repo
       if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
@@ -61,12 +53,12 @@ jobs:
       if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
       run: |
         echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
-      
+    
     - name: Configure docker qemu
       if: success()
       uses: docker/setup-qemu-action@v2
-      
-    - name: Build boinc snap
+
+    - name: Build flatpak boinc
       if: success()
       run: |
         docker run \
@@ -80,29 +72,20 @@ jobs:
           --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
           --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
           --env AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
-          diddledan/snapcraft:core20 \
-          snapcraft snap --destructive-mode --output ${{ matrix.snap_file }}
+          ubuntu:focal \
+          bash -c " \
+            export DEBIAN_FRONTEND=noninteractive; export TZ=Etc/UTC; \
+            apt -qq update && \
+            apt install -y flatpak flatpak-builder && \
+            flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
+            flatpak install -y flathub org.gnome.Sdk//42 flathub org.gnome.Platform//42 && \
+            flatpak-builder build-dir edu.berkeley.BOINC.yml --verbose && \
+            flatpak build-export export build-dir && \
+            flatpak build-bundle export ${{ matrix.flatpak_file }} edu.berkeley.BOINC \
+          "
 
-          sudo chown $USER ${{ matrix.snap_file }}
-
-    - name: cache aws-cli and ninja
+    - name: Install boinc flatpak
       if: success()
-      run: |
-        if [ ! -d "3rdParty/buildCache/linux/awscli/" ]; then
-          echo "Caching aws-cli"
-          mkdir -p 3rdParty/buildCache/linux/awscli/
-          sudo chown -R $USER parts/boinc/build/3rdParty/buildCache/linux/awscli/
-          cp -R parts/boinc/build/3rdParty/buildCache/linux/awscli/ 3rdParty/buildCache/linux/
-        fi
-        if [ ! -d "3rdParty/buildCache/linux/ninja/" ]; then
-          echo "Caching ninja"
-          mkdir -p 3rdParty/buildCache/linux/ninja/
-          sudo chown -R $USER parts/boinc/build/3rdParty/buildCache/linux/ninja/
-          cp -R parts/boinc/build/3rdParty/buildCache/linux/ninja/ 3rdParty/buildCache/linux/
-        fi
-
-    - name: Install boinc inside docker x64
-      if: success() && matrix.type == 'x64'
       run: |
         docker run \
           --rm \
@@ -115,17 +98,19 @@ jobs:
           --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
           --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
           --env AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
-          diddledan/snapcraft:core20 "snap install --devmode ${{ matrix.snap_file }} && boinc --version && boinc.client --version"
+          ubuntu:focal \
+          bash -c " \
+            export DEBIAN_FRONTEND=noninteractive; export TZ=Etc/UTC; \
+            apt -qq update && \
+            apt install -y flatpak flatpak-builder && \
+            flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
+            flatpak install -y flathub org.gnome.Platform//42 && \
+            flatpak install -y --bundle ${{ matrix.flatpak_file }} \
+          "
 
-    - name: Install boinc snap x64
-      if: success() && matrix.type == 'x64'
-      run: sudo snap install --devmode ${{ matrix.snap_file }}
-
-    - name: Test boinc client snap x64
-      if: success() && matrix.type == 'x64'
-      run: | 
-        boinc --version
-        boinc.client --version
+    - name: Prepare flatpak boinc file to upload
+      if: success()
+      run: sudo chown $USER ${{ matrix.flatpak_file }}
 
     - name: Prepare logs on failure
       if: ${{ failure() }}
@@ -140,11 +125,11 @@ jobs:
 
     - name: Prepare artifacts for deploy
       if: success() 
-      run: python ./deploy/prepare_deployment.py linux_snap
+      run: python ./deploy/prepare_deployment.py linux_flatpak
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       if: success()
       with:
-        name: linux_snap_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-        path: deploy/linux_snap.7z
+        name: linux_flatpak_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+        path: deploy/linux_flatpak.7z
