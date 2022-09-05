@@ -711,21 +711,19 @@ void CLIENT_STATE::print_global_prefs() {
     // not in use
     //
     msg_printf(NULL, MSG_INFO,
-        "-  When computer is not in use (defaults: same as in use)"
+        "-  When computer is not in use"
     );
     p = global_prefs.niu_max_ncpus_pct;
-    if (p) {
-        int n = (int)((host_info.p_ncpus * p)/100);
-        msg_printf(NULL, MSG_INFO,
-            "-     max CPUs used: %d", n
-        );
-    }
-    if (global_prefs.niu_cpu_usage_limit) {
-        msg_printf(NULL, MSG_INFO,
-            "-     Use at most %.0f%% of the CPU time",
-            global_prefs.niu_cpu_usage_limit
-        );
-    }
+    int n = (int)((host_info.p_ncpus * p)/100);
+    msg_printf(NULL, MSG_INFO,
+        "-     max CPUs used: %d", n
+    );
+
+    msg_printf(NULL, MSG_INFO,
+        "-     Use at most %.0f%% of the CPU time",
+        global_prefs.niu_cpu_usage_limit
+    );
+
     if (global_prefs.niu_suspend_cpu_usage > 0) {
         msg_printf(NULL, MSG_INFO,
             "-     suspend if non-BOINC CPU load exceeds %.0f%%",

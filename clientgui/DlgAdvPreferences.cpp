@@ -327,12 +327,14 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
     DisplayValue(prefs.max_ncpus_pct, m_txtProcUseProcessors);
+    if (prefs.niu_max_ncpus_pct == 0.0) prefs.niu_max_ncpus_pct = 100.0;
     DisplayValue(prefs.niu_max_ncpus_pct, m_txtProcUseProcessorsNotInUse);
 
     // cpu limit
     // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
     DisplayValue(prefs.cpu_usage_limit, m_txtProcUseCPUTime);
+    if (prefs.niu_cpu_usage_limit == 0.0) prefs.niu_cpu_usage_limit = 100.0;
     DisplayValue(prefs.niu_cpu_usage_limit, m_txtProcUseCPUTimeNotInUse);
 
     // on batteries

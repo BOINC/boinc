@@ -537,7 +537,7 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_double("niu_max_ncpus_pct", niu_max_ncpus_pct)) {
-            if (niu_max_ncpus_pct < 0) niu_max_ncpus_pct = 0;
+            if (niu_max_ncpus_pct <= 0) niu_max_ncpus_pct = 100;
             if (niu_max_ncpus_pct > 100) niu_max_ncpus_pct = 100;
             mask.niu_max_ncpus_pct = true;
             continue;
@@ -604,10 +604,10 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_double("niu_cpu_usage_limit", dtemp)) {
-            if (dtemp > 0 && dtemp <= 100) {
-                niu_cpu_usage_limit = dtemp;
-                mask.niu_cpu_usage_limit = true;
-            }
+            if (dtemp <= 0) dtemp = 100;
+            if (dtemp > 100) dtemp = 100;
+            niu_cpu_usage_limit = dtemp;
+            mask.niu_cpu_usage_limit = true;
             continue;
         }
         if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {
