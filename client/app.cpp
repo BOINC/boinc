@@ -150,6 +150,9 @@ ACTIVE_TASK::ACTIVE_TASK() {
     safe_strcpy(remote_desktop_addr, "");
     async_copy = NULL;
     finish_file_time = 0;
+
+    throttler_start_tick = 0;
+    throttler_remaining_runtime = 0;
 }
 
 bool ACTIVE_TASK::process_exists() {
@@ -1197,58 +1200,148 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 
 #ifndef SIM
 #ifdef NEW_CPU_THROTTLE
+/**
+ * This algo allows active BOINC tasks to be scheduled inside a 100 second timeslot.
+ * The % of runtime is taken from the global preference.
+ * If the % is 100 no action is taken on the tasks.
+ */
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
+    static int (*gcd)(int, int) = [](int a, int b) -> int {
+        if (a == 0) return b;
+	if (b == 0) return a;
+	if (a == b) return a;
+	if (a  > b) return gcd(a - b, b);
+	return gcd(a, b - a);
+    };
+
+    //* NEW ALGORITHM
+    unsigned int current_tick = 0;
+    unsigned int task_count;
+    bool throttled;
+    unsigned int run_time;
+    unsigned int sleep_time;
+    unsigned int divider;
+    float stride;
+    float window_size;
+    float cpu_usage_limit;
 
     // Initialize diagnostics framework for this thread
     //
     diagnostics_thread_init();
 
-    while (1) {
-        client_mutex.lock();
-        if (gstate.tasks_suspended
-            || gstate.global_prefs.cpu_usage_limit > 99
-            || gstate.global_prefs.cpu_usage_limit < 0.005
-            ) {
-            client_mutex.unlock();
-//            ::Sleep((int)(1000*10));  // for Win debugging
-            boinc_sleep(10);
-            continue;
-        }
-        double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
-#if 0
-// sub-second CPU throttling
-// DOESN'T WORK BECAUSE OF 1-SEC API POLL
-#define THROTTLE_PERIOD 1.
-        on = THROTTLE_PERIOD * on_frac;
-        off = THROTTLE_PERIOD - on;
-#else
-// throttling w/ at least 1 sec between suspend/resume
-        if (on_frac > .5) {
-            off = 1;
-            on = on_frac/(1.-on_frac);
-        } else {
-            on = 1;
-            off = (1.-on_frac)/on_frac;
-        }
-#endif
+    /**
+     * Motivation for this new throttler algorithm:
+     * - The old algorithm enabled enable all tasks at the same time, starving CPU cache and memory bandwidth.
+     * - The old algorithm did not optimaly make use of XFR because again all threads where enabled and disable in sync
+     * - The old algorithm put more strain on PSU and VRMs as there are high power spikes every time
+     *
+     * The new algorithm should result on more stable and lower temperatures on most CPUs while increasing overall throuput.
+     */
 
-        gstate.tasks_throttled = true;
-        gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
+    /** @internal maybe not such a good idea to have an infinate loop here, should check thread exit condition, but there isn't one present */
+    while (1) {
+        client_mutex.lock(); //!< @todo a mutex should be in a RAII form
+
+        // Don't throttle if all tasks are suspended
+        if (gstate.tasks_suspended) {
+            gstate.tasks_throttled = false;
+            goto end;
+        } // if
+
+        // Get cpu usage limit
+        cpu_usage_limit = gstate.global_prefs.cpu_usage_limit;
+        if (cpu_usage_limit <   1.0f) cpu_usage_limit =   1.0f; // Run at least for one 1%
+        if (cpu_usage_limit > 100.0f) cpu_usage_limit = 100.0f;
+
+	// Determine shortest run_time and sleep_time in whole seconds
+        run_time = std::round(cpu_usage_limit);
+	throttled = (run_time != 100);
+	sleep_time = 100 - run_time;
+	divider = gcd(run_time, sleep_time);
+	run_time /= divider;
+	sleep_time /= divider;
+	window_size = run_time + sleep_time;
+
+        // Update global state
+        gstate.tasks_throttled = throttled;
+
+        // Count tasks; we need to know this to determine the stride; unsuspend if cpu_usage_limit == 100
+        task_count = 0;
+        for (auto apt : gstate.active_tasks.active_tasks) {
+            const auto task_state = apt->task_state();
+            // Filter out CPU tasks
+            if (apt->result->dont_throttle()) continue;
+            if (task_state != PROCESS_EXECUTING && task_state != PROCESS_SUSPENDED) continue;
+            // Unsuspend if no limit
+            if (cpu_usage_limit >= 100.0f && task_state == PROCESS_SUSPENDED) {
+                apt->throttler_remaining_runtime = 0;
+                apt->unsuspend(SUSPEND_REASON_CPU_THROTTLE);
+            } // if
+	    // Skip non-scheduled tasks
+	    if (apt->scheduler_state != CPU_SCHED_SCHEDULED) continue;
+            // Count tasks
+            ++task_count;
+        } // for
+        if (cpu_usage_limit >= 100.0f) goto end; // Nothing to do
+        if (task_count == 0) goto end; // Nothing to do
+
+        // Determine stride based on scheduled task count
+        stride = window_size / task_count;
+
+        // Determine start tick for every active task, update runtime remaining, resume/suspend tasks
+        {
+            float tick = 0.0f;
+            for (auto apt : gstate.active_tasks.active_tasks) {
+	        const auto task_state = apt->task_state();
+
+                // Filter out CPU tasks
+                if (apt->result->dont_throttle()) continue;
+                if (task_state != PROCESS_EXECUTING && task_state != PROCESS_SUSPENDED) continue;
+		// Skip non-scheduled tasks
+		if (apt->scheduler_state != CPU_SCHED_SCHEDULED) continue;
+
+                // Determine start tick; spread start of tasks evenly over 100 second window
+                apt->throttler_start_tick = std::round(std::fmod(tick, window_size));
+                tick += stride;
+
+                // Refresh remaining runtime if start tick matches current tick, and run task if suspended
+                if (current_tick == apt->throttler_start_tick) {
+                    apt->throttler_remaining_runtime = run_time;
+                    if (task_state == PROCESS_SUSPENDED) {
+                        apt->unsuspend(SUSPEND_REASON_CPU_THROTTLE);
+                    } // if
+                } // if
+
+                // Bog down remaining runtime when the user selects a shorter cpu usage limit
+                if (apt->throttler_remaining_runtime > run_time) {
+                    apt->throttler_remaining_runtime = run_time;
+                } // if
+
+                // Handle runtime
+                if (task_state == PROCESS_EXECUTING) {
+                    // Suspend task if runtime is over
+                    if (apt->throttler_remaining_runtime == 0) {
+                        apt->preempt(REMOVE_NEVER, SUSPEND_REASON_CPU_THROTTLE);
+                    } // if
+                    // Decrement remaining runtime for running process
+                    else {
+                        --apt->throttler_remaining_runtime;
+                    } // else
+                } // if
+            } // for
+        } // block
+
+end:
         client_mutex.unlock();
-        boinc_sleep(off);
-        client_mutex.lock();
-        if (!gstate.tasks_suspended) {
-            gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
-        }
-        gstate.tasks_throttled = false;
-        client_mutex.unlock();
-        boinc_sleep(on);
-    }
+        ++current_tick;
+        if (current_tick >= window_size) current_tick = 0;
+        boinc_sleep(1);
+    } // while
     return 0;
-}
+} // func
 #endif
 #endif

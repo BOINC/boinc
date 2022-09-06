@@ -158,6 +158,9 @@ struct ACTIVE_TASK {
         // running past end of time slice because not checkpointed;
         // when we do checkpoint, reschedule
     double last_deadline_miss_time;
+    
+    unsigned int throttler_start_tick; //!< Used by the throttler thread to detemine when an active task should resume running (valid values are between 0 and 99)
+    unsigned int throttler_remaining_runtime; //!< Used by the throttler thread; counting down seconds until 0 after which the throttler thread suspends this task (max value is 100)
 
     APP_CLIENT_SHM app_client_shm;
         // core/app shared mem segment
