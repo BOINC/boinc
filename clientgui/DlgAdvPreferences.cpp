@@ -292,11 +292,11 @@ void CDlgAdvPreferences::EnableDisableInUseItem(wxTextCtrl* textCtrl, bool doEna
 void CDlgAdvPreferences::EnableDisableInUseItems() {
     bool doEnable = !(m_chkProcInUse->IsChecked());
     EnableDisableInUseItem(m_txtProcUseProcessors, doEnable, 
-                            defaultPrefs.max_ncpus_pct > 0.0 ? defaultPrefs.max_ncpus_pct : 100.0);
-    EnableDisableInUseItem(m_txtProcUseCPUTime, doEnable, defaultPrefs.cpu_usage_limit);
+                            prefs.max_ncpus_pct > 0.0 ? prefs.max_ncpus_pct : 100.0);
+    EnableDisableInUseItem(m_txtProcUseCPUTime, doEnable, prefs.cpu_usage_limit);
     m_chkMaxLoad->Enable(doEnable);
-    EnableDisableInUseItem(m_txtMaxLoad, doEnable && m_chkMaxLoad->IsChecked(), defaultPrefs.suspend_cpu_usage);
-    EnableDisableInUseItem(m_txtMemoryMaxInUse, doEnable, defaultPrefs.ram_max_used_busy_frac*100.0);
+    EnableDisableInUseItem(m_txtMaxLoad, doEnable && m_chkMaxLoad->IsChecked(), prefs.suspend_cpu_usage);
+    EnableDisableInUseItem(m_txtMemoryMaxInUse, doEnable, prefs.ram_max_used_busy_frac*100.0);
 }
 
 // read preferences from core client and initialize control values
@@ -748,10 +748,12 @@ bool CDlgAdvPreferences::ValidateInput() {
     double startTime, endTime;
 
     // ######### proc usage page
-    buffer = m_txtProcUseProcessors->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessors);
-        return false;
+    if (m_txtProcUseProcessors->IsEnabled()) {
+        buffer = m_txtProcUseProcessors->GetValue();
+        if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessors);
+            return false;
+        }
     }
     buffer = m_txtProcUseProcessorsNotInUse->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
@@ -879,10 +881,12 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
     }
 
-    buffer = m_txtMemoryMaxInUse->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxInUse);
-        return false;
+    if(m_txtMemoryMaxInUse->IsEnabled()) {
+        buffer = m_txtMemoryMaxInUse->GetValue();
+        if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxInUse);
+            return false;
+        }
     }
 
     buffer = m_txtMemoryMaxOnIdle->GetValue();
