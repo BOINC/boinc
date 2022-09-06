@@ -349,11 +349,12 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
     CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
     wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
 
+    // Manager will crash if the scroll bar is not at the left-most position on the
+    // current view if columns are modified.
+    //
+    pView->Freeze();
     pView->m_iColumnIndexToColumnID.Clear();
-    for (i=colCount-1; i>=0; --i) {
-        DeleteColumn(i);
-    }
-
+    DeleteAllColumns();
     stdCount = pView->m_aStdColNameOrder->GetCount();
 
     pView->m_iColumnIDToColumnIndex.Clear();
@@ -412,6 +413,7 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
         SetColumnsOrder(aOrder);
     }
 #endif
+    pView->Thaw();
 }
 
 
