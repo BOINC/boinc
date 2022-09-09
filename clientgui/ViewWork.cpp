@@ -135,7 +135,7 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
     CWork*          work1;
     CWork*          work2;
     int             result = false;
-    
+
     try {
         work1 = myCViewWork->m_WorkCache.at(iRowIndex1);
     } catch ( std::out_of_range ) {
@@ -289,7 +289,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
     m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
     m_aStdColNameOrder->Insert(_("Completion Before Deadline"), COLUMN_DEADLINEDIFF);
-    
+
     // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initialize
     // it here to the default column widths.  It is updated by
@@ -481,7 +481,7 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         RESULT* result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
             if (result->suspended_via_gui) {
@@ -518,7 +518,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
             pDoc->WorkShowGraphics(result);
@@ -551,7 +551,7 @@ void CViewWork::OnWorkShowVMConsole( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
             pDoc->WorkShowVMConsole(result);
@@ -586,7 +586,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         return;
 
     n = m_pListPane->GetSelectedItemCount();
-    
+
     if (n == 1) {
         row = -1;
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
@@ -748,7 +748,7 @@ wxInt32 CViewWork::GetDocCount() {
 wxString CViewWork::OnListGetItemText(long item, long column) const {
     CWork*    work      = NULL;
     wxString  strBuffer = wxEmptyString;
-    
+
     m_pListPane->AddPendingProgressBar(item);
 
     try {
@@ -870,14 +870,14 @@ void CViewWork::UpdateSelection() {
     CBOINCBaseView::PreUpdateSelection();
 
     pGroup = m_TaskGroups[0];
-    
+
     n = m_pListPane->GetSelectedItemCount();
     if (n > 0) {
         enableShowGraphics = true;
         enableShowVMConsole = true;
         enableSuspendResume = true;
         enableAbort = true;
-        
+
         pDoc->GetCoreClientStatus(status);
         if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
             enableShowGraphics = false;
@@ -1209,7 +1209,7 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         } else {
             strAppBuffer = HtmlEntityDecode(wxString(state_result->avp->app_name, wxConvUTF8));
         }
-        
+
         if (strlen(avp->plan_class)) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
@@ -1312,10 +1312,12 @@ void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& tBuffer) const {
 void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& tBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
     tBuffer = 0;
-    if (result->active_task_state == 1) {
-        time_t ttime = time(0);
-        tBuffer = ttime;
-        tBuffer += (time_t)result->estimated_cpu_time_remaining;
+    if (result) {
+        if (result->active_task_state == 1) {
+            time_t ttime = time(0);
+            tBuffer = ttime;
+            tBuffer += (time_t)result->estimated_cpu_time_remaining;
+        }
     }
 }
 
@@ -1323,13 +1325,14 @@ void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& tBuffer) const {
 void CViewWork::GetDocEstDeadlineDiff(wxInt32 item, double& fBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
     fBuffer = 0;
-    if (result->active_task_state == 1) {
-        time_t tdeadline, testcompletion;
-        GetDocEstCompletionDate(item, testcompletion);
-        GetDocReportDeadline(item, tdeadline);
-        fBuffer = (double)(tdeadline - testcompletion);
+    if (result) {
+        if (result->active_task_state == 1) {
+            time_t tdeadline, testcompletion;
+            GetDocEstCompletionDate(item, testcompletion);
+            GetDocReportDeadline(item, tdeadline);
+            fBuffer = (double)(tdeadline - testcompletion);
+        }
     }
-
 }
 
 
