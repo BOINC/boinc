@@ -76,8 +76,6 @@ public:
         // a pointer to a form item for POST
     struct curl_httppost *pcurlFormEnd;
         // a pointer to a form item for POST
-    unsigned char* pByte;
-        // pointer to bytes for reading via libcurl_read function
 
     // request message stuff
     //
@@ -148,7 +146,7 @@ public:
     void init(PROJECT*);
     int get_ip_addr(int &ip_addr);
     void close_socket();
-    void close_file();
+    void close_files();
     void update_speed();
     void set_speed_limit(bool is_upload, double bytes_sec);
     void handle_messages(CURLMsg*);
