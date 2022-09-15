@@ -83,9 +83,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     locality_scheduling_workunit_file = new vector<regex_t>;
     locality_scheduling_sticky_file = new vector<regex_t>;
     max_wus_to_send = 10;
-    default_disk_max_used_gb = 100.;
-    default_disk_max_used_pct = 50.;
-    default_disk_min_free_gb = .001;
+    default_disk_min_free_gb = 1;
     sched_debug_level = MSG_NORMAL;
     fuh_debug_level = MSG_NORMAL;
     fuh_set_initial_permission = -1;
@@ -224,8 +222,6 @@ int SCHED_CONFIG::parse(FILE* f) {
             continue;
         }
         if (xp.parse_int("daily_result_quota", daily_result_quota)) continue;
-        if (xp.parse_double("default_disk_max_used_gb", default_disk_max_used_gb)) continue;
-        if (xp.parse_double("default_disk_max_used_pct", default_disk_max_used_pct)) continue;
         if (xp.parse_double("default_disk_min_free_gb", default_disk_min_free_gb)) continue;
         if (xp.parse_bool("dont_store_success_stderr", dont_store_success_stderr)) continue;
         if (xp.parse_int("file_deletion_strategy", file_deletion_strategy)) continue;
