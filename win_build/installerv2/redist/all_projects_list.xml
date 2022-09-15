@@ -14,6 +14,7 @@
         <name>x86_64-apple-darwin</name>
         <name>windows_x86_64</name>
         <name>arm-unknown-linux-gnueabihf</name>
+        <name>x86_64-openwrt-linux-musl</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/sidock.png</image>
       <summary>Study drugs to fight SARS-CoV-2</summary>
@@ -255,7 +256,6 @@
         <name>x86_64-apple-darwin[GW-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[BRP7-cuda55]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl-ati]</name>
