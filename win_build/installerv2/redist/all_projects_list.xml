@@ -904,22 +904,6 @@
         <keywords>9 10 14 64 29 23 24</keywords>
     </project>
     <project>
-        <name>BOINC@TACC</name>
-        <id>44</id>
-        <url>https://boinc.tacc.utexas.edu/</url>
-        <web_url>https://boinc.tacc.utexas.edu/</web_url>
-        <general_area>Multiple applications</general_area>
-        <specific_area>Multiple scientific areas</specific_area>
-        <description><![CDATA[BOINC@TACC provides computing power to U.S. researchers in multiple scientific areas.]]></description>
-        <home>Texas Advanced Computing Center</home>
-    <platforms>
-        <name>windows_x86_64[vbox64_mt]</name>
-        <name>x86_64-apple-darwin[vbox64_mt]</name>
-        <name>x86_64-pc-linux-gnu[vbox64_mt]</name>
-    </platforms>
-        <keywords>23 24</keywords>
-    </project>
-    <project>
         <name>MLC@Home</name>
         <id>47</id>
         <url>https://www.mlcathome.org/mlcathome/</url>
