@@ -1180,6 +1180,7 @@ void ACTIVE_TASK_SET::init() {
         atp->read_task_state_file();
         atp->current_cpu_time = atp->checkpoint_cpu_time;
         atp->elapsed_time = atp->checkpoint_elapsed_time;
+        atp->fraction_done = atp->checkpoint_fraction_done;
     }
 }
 

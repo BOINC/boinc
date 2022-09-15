@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -586,6 +586,7 @@ int ACTIVE_TASK::start(bool test) {
 
     current_cpu_time = checkpoint_cpu_time;
     elapsed_time = checkpoint_elapsed_time;
+    fraction_done = checkpoint_fraction_done;
 
     graphics_request_queue.init(result->name);        // reset message queues
     process_control_queue.init(result->name);
@@ -702,7 +703,7 @@ int ACTIVE_TASK::start(bool test) {
     char error_msg[1024];
     char error_msg2[1024];
     DWORD last_error = 0;
-    
+
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
