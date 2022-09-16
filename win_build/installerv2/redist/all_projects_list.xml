@@ -14,6 +14,7 @@
         <name>x86_64-apple-darwin</name>
         <name>windows_x86_64</name>
         <name>arm-unknown-linux-gnueabihf</name>
+        <name>x86_64-openwrt-linux-musl</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/sidock.png</image>
       <summary>Study drugs to fight SARS-CoV-2</summary>
@@ -255,7 +256,6 @@
         <name>x86_64-apple-darwin[GW-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[BRP7-cuda55]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl-ati]</name>
@@ -902,22 +902,6 @@
       <image>https://boinc.berkeley.edu/images/wcg.jpg</image>
       <summary>Do biomedical and environmental research</summary>
         <keywords>9 10 14 64 29 23 24</keywords>
-    </project>
-    <project>
-        <name>BOINC@TACC</name>
-        <id>44</id>
-        <url>https://boinc.tacc.utexas.edu/</url>
-        <web_url>https://boinc.tacc.utexas.edu/</web_url>
-        <general_area>Multiple applications</general_area>
-        <specific_area>Multiple scientific areas</specific_area>
-        <description><![CDATA[BOINC@TACC provides computing power to U.S. researchers in multiple scientific areas.]]></description>
-        <home>Texas Advanced Computing Center</home>
-    <platforms>
-        <name>windows_x86_64[vbox64_mt]</name>
-        <name>x86_64-apple-darwin[vbox64_mt]</name>
-        <name>x86_64-pc-linux-gnu[vbox64_mt]</name>
-    </platforms>
-        <keywords>23 24</keywords>
     </project>
     <project>
         <name>MLC@Home</name>
