@@ -906,6 +906,18 @@ void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
     );
 }
 
+
+// Function to check if the string is IPv4 or IPv6.
+// S is valid ip address: S is IPv4 or IPv6.
+std::string getIPAddressType(string IPAddress)
+{
+    int a, b, c, d;
+    if (sscanf(IPAddress.c_str(), "%d.%d.%d.%d", &a, &b, &c, &d) == 4) {
+        return "ipv4";
+    }
+    return "ipv6";
+}
+
 // we have a message for this HTTP_OP.
 // get the response code for this request
 //
@@ -919,6 +931,16 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
     curl_easy_getinfo(curlEasy,
         CURLINFO_OS_ERRNO, &connect_error
     );
+
+    char* ip;
+    curl_easy_getinfo(curlEasy, CURLINFO_PRIMARY_IP, &ip);
+    safe_strcpy(this->m_ip_version, getIPAddressType(ip).c_str());
+    log_flags.http_debug = true;
+    if (log_flags.http_debug) {
+        msg_printf(project, MSG_INFO,
+            "[http] IP version: %s", this->m_ip_version
+        );
+    }
 
     // update byte counts and transfer speed
     //

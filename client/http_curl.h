@@ -60,6 +60,7 @@ public:
     char m_url[1024];  
     char m_curl_user_credentials[1024];
         // string needed for proxy username/password
+    char m_ip_version[5];
 
     int content_length;
     unsigned int trace_id;
