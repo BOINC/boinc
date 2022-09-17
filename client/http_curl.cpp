@@ -923,19 +923,17 @@ std::string getIPAddressType(string IPAddress)
 //
 void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
     int retval;
+    char* ip;
 
     curl_easy_getinfo(curlEasy,
         CURLINFO_RESPONSE_CODE, &response
     );
-
     curl_easy_getinfo(curlEasy,
         CURLINFO_OS_ERRNO, &connect_error
-    );
-
-    char* ip;
+    );    
     curl_easy_getinfo(curlEasy, CURLINFO_PRIMARY_IP, &ip);
+
     safe_strcpy(this->m_ip_version, getIPAddressType(ip).c_str());
-    log_flags.http_debug = true;
     if (log_flags.http_debug) {
         msg_printf(project, MSG_INFO,
             "[http] IP version: %s", this->m_ip_version
