@@ -23,7 +23,7 @@
     <project>
         <name>DENIS@Home</name>
         <id>4</id>
-        <url>http://denis.usj.es/denisathome/</url>
+        <url>https://denis.usj.es/denisathome/</url>
         <web_url>https://denis.usj.es/denisathome/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Medical physiology</specific_area>
@@ -42,8 +42,8 @@
     <project>
         <name>RNA World</name>
         <id>5</id>
-        <url>http://www.rnaworld.de/rnaworld/</url>
-        <web_url>http://www.rnaworld.de/rnaworld/</web_url>
+        <url>https://www.rnaworld.de/rnaworld/</url>
+        <web_url>https://www.rnaworld.de/rnaworld/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Molecular biology</specific_area>
         <description><![CDATA[RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software.]]></description>
@@ -177,8 +177,8 @@
     <project>
         <name>Milkyway@home</name>
         <id>14</id>
-        <url>http://milkyway.cs.rpi.edu/milkyway/</url>
-        <web_url>http://milkyway.cs.rpi.edu/milkyway/</web_url>
+        <url>https://milkyway.cs.rpi.edu/milkyway/</url>
+        <web_url>https://milkyway.cs.rpi.edu/milkyway/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astronomy</specific_area>
         <description><![CDATA[The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.]]></description>
@@ -209,7 +209,7 @@
     <project>
         <name>Einstein@home</name>
         <id>16</id>
-        <url>http://einstein.phys.uwm.edu/</url>
+        <url>https://einstein.phys.uwm.edu/</url>
         <web_url>https://einsteinathome.org/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
@@ -379,7 +379,7 @@
     <project>
         <name>NumberFields@home</name>
         <id>24</id>
-        <url>http://numberfields.asu.edu/NumberFields/</url>
+        <url>https://numberfields.asu.edu/NumberFields/</url>
         <web_url>https://numberfields.asu.edu/NumberFields/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
@@ -445,8 +445,8 @@
     <project>
         <name>Moo! Wrapper</name>
         <id>26</id>
-        <url>http://moowrap.net/</url>
-        <web_url>http://moowrap.net/</web_url>
+        <url>https://moowrap.net/</url>
+        <web_url>https://moowrap.net/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Cryptography and combinatorics</specific_area>
         <description><![CDATA[Run applications from distributed.net]]></description>
@@ -544,8 +544,8 @@
     <project>
         <name>PrimeGrid</name>
         <id>30</id>
-        <url>http://www.primegrid.com/</url>
-        <web_url>http://www.primegrid.com/</web_url>
+        <url>https://www.primegrid.com/</url>
+        <web_url>https://www.primegrid.com/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number.]]></description>
@@ -714,8 +714,8 @@
     <project>
         <name>Gerasim@Home</name>
         <id>33</id>
-        <url>http://gerasim.boinc.ru/</url>
-        <web_url>http://gerasim.boinc.ru/</web_url>
+        <url>https://gerasim.boinc.ru/</url>
+        <web_url>https://gerasim.boinc.ru/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Computer engineering</specific_area>
         <description><![CDATA[Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems]]></description>
@@ -732,8 +732,8 @@
     <project>
         <name>SRBase</name>
         <id>34</id>
-        <url>http://srbase.my-firewall.org/sr5/</url>
-        <web_url>http://srbase.my-firewall.org/sr5/</web_url>
+        <url>https://srbase.my-firewall.org/sr5/</url>
+        <web_url>https://srbase.my-firewall.org/sr5/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.]]></description>
@@ -855,8 +855,8 @@
     <project>
         <name>Yoyo@home</name>
         <id>21</id>
-        <url>http://www.rechenkraft.net/yoyo/</url>
-        <web_url>http://www.rechenkraft.net/yoyo/</web_url>
+        <url>https://www.rechenkraft.net/yoyo/</url>
+        <web_url>https://www.rechenkraft.net/yoyo/</web_url>
         <general_area>Multiple applications</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[Yoyo@home is an adapter between BOINC and several existing volunteer computing projects.]]></description>
