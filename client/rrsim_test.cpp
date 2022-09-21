@@ -159,8 +159,8 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
     // if this project has fewer active results than CPUs,
     // scale up its share to reflect this
     //
-    if (nactive < gstate.ncpus) {
-        x *= ((double)gstate.ncpus)/nactive;
+    if (nactive < gstate.n_usable_cpus) {
+        x *= ((double)gstate.n_usable_cpus)/nactive;
     }
 
     // But its rate on a given CPU can't exceed 1
@@ -424,7 +424,7 @@ int main() {
     gstate.global_prefs.work_buf_min_days = 1;
     gstate.global_prefs.work_buf_additional_days = 1;
     gstate.global_prefs.cpu_scheduling_period_minutes = 60;
-    gstate.ncpus = 1;
+    gstate.n_usable_cpus = 1;
     gstate.now = 0;
 
     p = new PROJECT("project A", 33.);

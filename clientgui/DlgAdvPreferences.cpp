@@ -131,7 +131,9 @@ void CDlgAdvPreferences::SetValidators() {
 
     // ######### proc usage page
     m_txtProcUseProcessors->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcUseProcessorsNotInUse->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcUseCPUTimeNotInUse->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 
     m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcIdleFor->SetMaxLength(16);
@@ -275,8 +277,30 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
     textCtrl->Enable();
 }
 
+void CDlgAdvPreferences::EnableDisableInUseItem(wxTextCtrl* textCtrl, bool doEnable, double value) {
+    if (doEnable) {
+        if (! textCtrl->IsEnabled()) {
+            textCtrl->Enable();
+            DisplayValue(value, textCtrl);
+        }
+    } else {
+        textCtrl->Clear();
+        textCtrl->Disable();
+    }
+}
 
-/* read preferences from core client and initialize control values */
+void CDlgAdvPreferences::EnableDisableInUseItems() {
+    bool doEnable = !(m_chkProcInUse->IsChecked());
+    EnableDisableInUseItem(m_txtProcUseProcessors, doEnable, 
+                            prefs.max_ncpus_pct > 0.0 ? prefs.max_ncpus_pct : 100.0);
+    EnableDisableInUseItem(m_txtProcUseCPUTime, doEnable, prefs.cpu_usage_limit);
+    m_chkMaxLoad->Enable(doEnable);
+    EnableDisableInUseItem(m_txtMaxLoad, doEnable && m_chkMaxLoad->IsChecked(), prefs.suspend_cpu_usage);
+    EnableDisableInUseItem(m_txtMemoryMaxInUse, doEnable, prefs.ram_max_used_busy_frac*100.0);
+}
+
+// read preferences from core client and initialize control values
+//
 void CDlgAdvPreferences::ReadPreferenceSettings() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     int retval;
@@ -303,11 +327,15 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
     DisplayValue(prefs.max_ncpus_pct, m_txtProcUseProcessors);
+    if (prefs.niu_max_ncpus_pct == 0.0) prefs.niu_max_ncpus_pct = 100.0;
+    DisplayValue(prefs.niu_max_ncpus_pct, m_txtProcUseProcessorsNotInUse);
 
-            //cpu limit
+    // cpu limit
     // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
     DisplayValue(prefs.cpu_usage_limit, m_txtProcUseCPUTime);
+    if (prefs.niu_cpu_usage_limit == 0.0) prefs.niu_cpu_usage_limit = 100.0;
+    DisplayValue(prefs.niu_cpu_usage_limit, m_txtProcUseCPUTimeNotInUse);
 
     // on batteries
     m_chkProcOnBatteries->SetValue(! prefs.run_on_batteries);
@@ -332,9 +360,13 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_txtProcIdleFor->Disable();
     }
 
-    DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput);
+    m_chkNoRecentInput->SetValue(prefs.suspend_if_no_recent_input > 0.0);
+    DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
+
     m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
     DisplayValue(prefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
+    m_chkMaxLoadNotInUse->SetValue(prefs.niu_suspend_cpu_usage > 0.0);
+    DisplayValue(prefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
 
     // connection interval
     DisplayValue(prefs.work_buf_min_days, m_txtNetConnectInterval);
@@ -434,22 +466,32 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     this->UpdateControlStates();
 }
 
-/* write overridden preferences to disk (global_prefs_override.xml) */
-/* IMPORTANT: Any items added here must be checked in ValidateInput()! */
+// write overridden preferences to disk (global_prefs_override.xml)
+// IMPORTANT: Any items added here must be checked in ValidateInput()!
+//
 bool CDlgAdvPreferences::SavePreferencesSettings() {
     double td;
 
     mask.clear();
 
     // ######### proc usage page
-    m_txtProcUseProcessors->GetValue().ToDouble(&td);
-    prefs.max_ncpus_pct = RoundToHundredths(td);
-    mask.max_ncpus_pct=true;
-
-    //
-    m_txtProcUseCPUTime->GetValue().ToDouble(&td);
-    prefs.cpu_usage_limit=RoundToHundredths(td);
-    mask.cpu_usage_limit=true;
+    if (m_txtProcUseProcessors->IsEnabled()) {
+        m_txtProcUseProcessors->GetValue().ToDouble(&td);
+        prefs.max_ncpus_pct = RoundToHundredths(td);
+        mask.max_ncpus_pct=true;
+    }
+    m_txtProcUseProcessorsNotInUse->GetValue().ToDouble(&td);
+    prefs.niu_max_ncpus_pct = RoundToHundredths(td);
+    mask.niu_max_ncpus_pct=true;
+    
+    if (m_txtProcUseCPUTime->IsEnabled()) {
+        m_txtProcUseCPUTime->GetValue().ToDouble(&td);
+        prefs.cpu_usage_limit=RoundToHundredths(td);
+        mask.cpu_usage_limit=true;
+    }
+    m_txtProcUseCPUTimeNotInUse->GetValue().ToDouble(&td);
+    prefs.niu_cpu_usage_limit = RoundToHundredths(td);
+    mask.niu_cpu_usage_limit = true;
 
     prefs.run_on_batteries = ! (m_chkProcOnBatteries->GetValue());
     mask.run_on_batteries=true;
@@ -466,19 +508,29 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         mask.idle_time_to_run=true;
     }
 
-    //
-    m_txtNoRecentInput->GetValue().ToDouble(&td);
-    prefs.suspend_if_no_recent_input = RoundToHundredths(td);
-       mask.suspend_if_no_recent_input = true;
+    if (m_chkNoRecentInput->IsChecked()) {
+        m_txtNoRecentInput->GetValue().ToDouble(&td);
+        prefs.suspend_if_no_recent_input = RoundToHundredths(td);
+    } else {
+        prefs.suspend_if_no_recent_input = 0;
+    }
+    mask.suspend_if_no_recent_input = true;
 
-    //
-    if (m_chkMaxLoad->IsChecked()) {
+    if (m_txtMaxLoad->IsEnabled()) {
         m_txtMaxLoad->GetValue().ToDouble(&td);
         prefs.suspend_cpu_usage=RoundToHundredths(td);
     } else {
         prefs.suspend_cpu_usage = 0.0;
     }
     mask.suspend_cpu_usage=true;
+
+    if (m_chkMaxLoadNotInUse->IsChecked()) {
+        m_txtMaxLoadNotInUse->GetValue().ToDouble(&td);
+        prefs.niu_suspend_cpu_usage=RoundToHundredths(td);
+    } else {
+        prefs.niu_suspend_cpu_usage = 0.0;
+    }
+    mask.niu_suspend_cpu_usage=true;
 
     m_txtNetConnectInterval->GetValue().ToDouble(&td);
     prefs.work_buf_min_days=RoundToHundredths(td);
@@ -568,11 +620,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.disk_max_used_pct=true;
     //Memory
-    m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
-    td = RoundToHundredths(td);
-    td = td / 100.0;
-    prefs.ram_max_used_busy_frac=td;
-    mask.ram_max_used_busy_frac=true;
+    if (m_txtMemoryMaxInUse->IsEnabled()) {
+        m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
+        td = RoundToHundredths(td);
+        td = td / 100.0;
+        prefs.ram_max_used_busy_frac=td;
+        mask.ram_max_used_busy_frac=true;
+    }
     //
     m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
@@ -652,7 +706,9 @@ void CDlgAdvPreferences::UpdateControlStates() {
     m_chkGPUProcInUse->Enable(! m_chkProcInUse->IsChecked());
     if (m_chkProcInUse->IsChecked()) m_chkGPUProcInUse->SetValue(true);
 
-    m_txtMaxLoad->Enable(m_chkMaxLoad->IsChecked());
+    m_txtMaxLoadNotInUse->Enable(m_chkMaxLoadNotInUse->IsChecked());
+    EnableDisableInUseItems();
+    m_txtNoRecentInput->Enable(m_chkNoRecentInput->IsChecked());
 
     // ######### disk and memory usage page
     m_txtDiskMaxSpace->Enable(m_chkDiskMaxSpace->IsChecked());
@@ -692,15 +748,22 @@ bool CDlgAdvPreferences::ValidateInput() {
     double startTime, endTime;
 
     // ######### proc usage page
-    buffer = m_txtProcUseProcessors->GetValue();
+    if (m_txtProcUseProcessors->IsEnabled()) {
+        buffer = m_txtProcUseProcessors->GetValue();
+        if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessors);
+            return false;
+        }
+    }
+    buffer = m_txtProcUseProcessorsNotInUse->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessors);
+        ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessorsNotInUse);
         return false;
     }
 
-    buffer = m_txtProcUseCPUTime->GetValue();
+    buffer = m_txtProcUseCPUTimeNotInUse->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit100, m_txtProcUseCPUTime);
+        ShowErrorMessage(invMsgLimit100, m_txtProcUseCPUTimeNotInUse);
         return false;
     }
 
@@ -712,13 +775,15 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
     }
 
-    buffer = m_txtNoRecentInput->GetValue();
-    if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
-        ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
-        return false;
+    if (m_chkNoRecentInput->IsChecked()) {
+        buffer = m_txtNoRecentInput->GetValue();
+        if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
+            ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
+            return false;
+        }
     }
 
-    if (m_chkMaxLoad->IsChecked()) {
+    if (m_txtMaxLoad->IsEnabled()) {
         buffer = m_txtMaxLoad->GetValue();
         if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
             ShowErrorMessage(invMsgLimit1_100, m_txtMaxLoad);
@@ -726,7 +791,15 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
     }
 
-    //limit additional days from 0 to 10
+    if (m_chkMaxLoadNotInUse->IsChecked()) {
+        buffer = m_txtMaxLoadNotInUse->GetValue();
+        if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit1_100, m_txtMaxLoadNotInUse);
+            return false;
+        }
+    }
+
+    // limit additional days from 0 to 10
     buffer = m_txtNetConnectInterval->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
         ShowErrorMessage(invMsgLimit10,m_txtNetConnectInterval);
@@ -808,10 +881,12 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
     }
 
-    buffer = m_txtMemoryMaxInUse->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxInUse);
-        return false;
+    if(m_txtMemoryMaxInUse->IsEnabled()) {
+        buffer = m_txtMemoryMaxInUse->GetValue();
+        if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxInUse);
+            return false;
+        }
     }
 
     buffer = m_txtMemoryMaxOnIdle->GetValue();
@@ -1035,7 +1110,12 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     case ID_CHKMAXLOAD:
         DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
         break;
-
+    case ID_CHKMAXLOADNOTINUSE:
+        DisplayValue(defaultPrefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
+        break;
+    case ID_CHKNORECENTINPUT:
+        DisplayValue(defaultPrefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
+        break;
     // network usage page
     case ID_CHKNETDOWNLOADRATE:
         DisplayValue((defaultPrefs.max_bytes_sec_down / 1024), m_txtNetDownloadRate, m_chkNetDownloadRate);

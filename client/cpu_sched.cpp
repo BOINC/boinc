@@ -95,7 +95,7 @@ struct PROC_RESOURCES {
     COPROCS pr_coprocs;
 
     void init() {
-        ncpus = gstate.ncpus;
+        ncpus = gstate.n_usable_cpus;
         ncpus_used_st = 0;
         ncpus_used_mt = 0;
         pr_coprocs.clone(coprocs, false);
@@ -567,7 +567,7 @@ void CLIENT_STATE::reset_rec_accounting() {
 //
 static void update_rec() {
     double f = gstate.host_info.p_fpops;
-    double on_frac = gstate.global_prefs.cpu_usage_limit / 100;
+    double on_frac = gstate.current_cpu_usage_limit() / 100;
 
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
@@ -628,7 +628,7 @@ double total_peak_flops() {
     static double tpf;
     if (first) {
         first = false;
-        tpf = gstate.host_info.p_fpops * gstate.ncpus;
+        tpf = gstate.host_info.p_fpops * gstate.n_usable_cpus;
         for (int i=1; i<coprocs.n_rsc; i++) {
             COPROC& cp = coprocs.coprocs[i];
             tpf += rsc_work_fetch[i].relative_speed * gstate.host_info.p_fpops * cp.count;
@@ -1013,7 +1013,7 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
     vector<RESULT*>::iterator cur = runnable_jobs.begin();
     while(1) {
         if (cur == runnable_jobs.end()) break;
-        if (cpus_used >= gstate.ncpus) break;
+        if (cpus_used >= gstate.n_usable_cpus) break;
         RESULT* rp = *cur;
         if (rp->rr_sim_misses_deadline) break;
         double nc = rp->avp->avg_ncpus;
@@ -1251,9 +1251,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         // don't allow additional CPU jobs;
         // allow coproc jobs if the resulting CPU load is at most ncpus+1
         //
-        if (ncpus_used >= ncpus) {
+        if (ncpus_used >= n_usable_cpus) {
             if (rp->uses_coprocs()) {
-                if (ncpus_used + rp->avp->avg_ncpus > ncpus+1) {
+                if (ncpus_used + rp->avp->avg_ncpus > n_usable_cpus+1) {
                     if (log_flags.cpu_sched_debug) {
                         msg_printf(rp->project, MSG_INFO,
                             "[cpu_sched_debug] skipping GPU job %s; CPU committed",
@@ -1266,7 +1266,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[cpu_sched_debug] all CPUs used (%.2f >= %d), skipping %s",
-                        ncpus_used, ncpus,
+                        ncpus_used, n_usable_cpus,
                         rp->name
                     );
                 }
@@ -1350,11 +1350,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
     }
 
-    if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
+    if (log_flags.cpu_sched_debug && ncpus_used < n_usable_cpus) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] using %.2f out of %d CPUs",
-            ncpus_used, ncpus
+            ncpus_used, n_usable_cpus
         );
-        if (ncpus_used < ncpus) {
+        if (ncpus_used < n_usable_cpus) {
             request_work_fetch("CPUs idle");
         }
     }
@@ -1622,12 +1622,14 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
     return atp;
 }
 
-// called at startup (after get_host_info())
-// and when general prefs have been parsed.
-// NOTE: GSTATE.NCPUS MUST BE 1 OR MORE; WE DIVIDE BY IT IN A COUPLE OF PLACES
+// called:
+// - at startup (after get_host_info())
+// - when general prefs have been parsed
+// - when user_active changes
+// NOTE: n_usable_cpus MUST BE 1 OR MORE; WE DIVIDE BY IT IN A COUPLE OF PLACES
 //
-void CLIENT_STATE::set_ncpus() {
-    int ncpus_old = ncpus;
+void CLIENT_STATE::set_n_usable_cpus() {
+    int ncpus_old = n_usable_cpus;
 
     // config file can say to act like host has N CPUs
     //
@@ -1638,25 +1640,29 @@ void CLIENT_STATE::set_ncpus() {
         first = false;
     }
     if (cc_config.ncpus>0) {
-        ncpus = cc_config.ncpus;
-        host_info.p_ncpus = ncpus;  // use this in scheduler requests
+        n_usable_cpus = cc_config.ncpus;
+        host_info.p_ncpus = n_usable_cpus;  // use this in scheduler requests
     } else {
         host_info.p_ncpus = original_p_ncpus;
-        ncpus = host_info.p_ncpus;
-    }
-    if (ncpus <= 0) {
-        ncpus = 1;      // shouldn't happen
+        n_usable_cpus = host_info.p_ncpus;
     }
 
-    if (global_prefs.max_ncpus_pct) {
-        ncpus = (int)((ncpus * global_prefs.max_ncpus_pct)/100);
-        if (ncpus == 0) ncpus = 1;
+    double p = global_prefs.max_ncpus_pct;
+    if (!user_active && global_prefs.niu_max_ncpus_pct>=0) {
+        p = global_prefs.niu_max_ncpus_pct;
+    }
+    if (p) {
+        n_usable_cpus = (int)((n_usable_cpus * p)/100);
     }
 
-    if (initialized && ncpus != ncpus_old) {
+    if (n_usable_cpus <= 0) {
+        n_usable_cpus = 1;
+    }
+
+    if (initialized && n_usable_cpus != ncpus_old) {
         msg_printf(0, MSG_INFO,
             "Number of usable CPUs has changed from %d to %d.",
-            ncpus_old, ncpus
+            ncpus_old, n_usable_cpus
         );
         request_schedule_cpus("Number of usable CPUs has changed");
         request_work_fetch("Number of usable CPUs has changed");

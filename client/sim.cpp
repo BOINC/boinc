@@ -154,7 +154,7 @@ double gpu_peak_flops() {
 }
 
 double cpu_peak_flops() {
-    return gstate.ncpus * gstate.host_info.p_fpops;
+    return gstate.n_usable_cpus * gstate.host_info.p_fpops;
 }
 
 void print_project_results(FILE* f) {
@@ -298,8 +298,8 @@ void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
         IP_RESULT ipr(rp->name, rp->report_deadline-now, x);
         ip_results.push_back(ipr);
     }
-    //init_ip_results(work_buf_min(), ncpus, ip_results);
-    init_ip_results(0, ncpus, ip_results);
+    //init_ip_results(work_buf_min(), n_usable_ncpus, ip_results);
+    init_ip_results(0, n_usable_cpus, ip_results);
 }
 
 void get_apps_needing_work(PROJECT* p, vector<APP*>& apps) {
@@ -412,7 +412,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         double et = wup->rsc_fpops_est / rp->avp->flops;
         if (server_uses_workload) {
             IP_RESULT c(rp->name, rp->report_deadline-now, et);
-            if (check_candidate(c, ncpus, ip_results)) {
+            if (check_candidate(c, n_usable_cpus, ip_results)) {
                 ip_results.push_back(c);
             } else {
                 msg_printf(p, MSG_INFO, "job for %s misses deadline sim\n", rp->app->name);
@@ -600,8 +600,8 @@ bool ACTIVE_TASK_SET::poll() {
     // if CPU is overcommitted, compute cpu_scale
     //
     double cpu_scale = 1;
-    if (cpu_usage > gstate.ncpus) {
-        cpu_scale = (gstate.ncpus - cpu_usage_gpu) / (cpu_usage - cpu_usage_gpu);
+    if (cpu_usage > gstate.n_usable_cpus) {
+        cpu_scale = (gstate.n_usable_cpus - cpu_usage_gpu) / (cpu_usage - cpu_usage_gpu);
     }
 
     double used = 0;
@@ -1495,7 +1495,7 @@ void do_client_simulation() {
     clear_backoff();
 
     gstate.log_show_projects();
-    gstate.set_ncpus();
+    gstate.set_n_usable_cpus();
     work_fetch.init();
 
     //set_initial_rec();

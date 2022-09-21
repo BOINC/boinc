@@ -156,7 +156,7 @@ CLIENT_STATE::CLIENT_STATE()
     redirect_io = false;
     disable_graphics = false;
     cant_write_state_file = false;
-    ncpus = 1;
+    n_usable_cpus = 1;
     benchmarks_running = false;
     client_disk_usage = 0.0;
     total_disk_usage = 0.0;
@@ -202,8 +202,8 @@ void CLIENT_STATE::show_host_info() {
         "Processor: %d %s %s",
         host_info.p_ncpus, host_info.p_vendor, host_info.p_model
     );
-    if (ncpus != host_info.p_ncpus) {
-        msg_printf(NULL, MSG_INFO, "Using %d CPUs", ncpus);
+    if (n_usable_cpus != host_info.p_ncpus) {
+        msg_printf(NULL, MSG_INFO, "Using %d CPUs", n_usable_cpus);
     }
 #if 0
     if (host_info.m_cache > 0) {
@@ -626,7 +626,7 @@ int CLIENT_STATE::init() {
     //
     host_info.p_vm_extensions_disabled = false;
 
-    set_ncpus();
+    set_n_usable_cpus();
     show_host_info();
 
     // this follows parse_state_file() because that's where we read project names
@@ -992,6 +992,8 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif
 
     if (user_active != old_user_active) {
+        set_n_usable_cpus();
+            // if niu_max_ncpus_pct pref is set, # usable CPUs may change
         request_schedule_cpus(user_active?"Not idle":"Idle");
     }
 

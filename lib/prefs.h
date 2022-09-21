@@ -59,6 +59,9 @@ struct GLOBAL_PREFS_MASK {
     bool net_end_hour;
     bool net_start_hour;
     bool network_wifi_only;
+    bool niu_cpu_usage_limit;
+    bool niu_max_ncpus_pct;
+    bool niu_suspend_cpu_usage;
     bool ram_max_used_busy_frac;
     bool ram_max_used_idle_frac;
     bool run_if_user_active;
@@ -143,8 +146,8 @@ struct TIME_PREFS : public TIME_SPAN {
 struct GLOBAL_PREFS {
     double mod_time;
 
-    double battery_charge_min_pct;
-    double battery_max_temperature;
+    double battery_charge_min_pct;      // Android
+    double battery_max_temperature;     // Android
     bool confirm_before_connecting;
     double cpu_scheduling_period_minutes;
         // length of a time slice.
@@ -172,6 +175,9 @@ struct GLOBAL_PREFS {
         // not on public cell networks.
         // CAUTION: this only applies to file transfers.
         // scheduler RPCs are made regardless of this preference.
+    double niu_cpu_usage_limit;
+    double niu_max_ncpus_pct;
+    double niu_suspend_cpu_usage;
     double ram_max_used_busy_frac;
     double ram_max_used_idle_frac;
     bool run_gpu_if_user_active;
