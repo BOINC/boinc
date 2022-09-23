@@ -60,6 +60,8 @@ public:
     char m_url[1024];  
     char m_curl_user_credentials[1024];
         // string needed for proxy username/password
+    char m_http_version[100];
+    char m_ip_version[5];
 
     int content_length;
     unsigned int trace_id;
@@ -148,6 +150,7 @@ public:
     void close_socket();
     void close_files();
     void update_speed();
+    void update_http_ip_version();
     void set_speed_limit(bool is_upload, double bytes_sec);
     void handle_messages(CURLMsg*);
 

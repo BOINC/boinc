@@ -46,6 +46,8 @@ public:
     wxString m_strTime;
     wxString m_strTimeToCompletion;
     wxString m_strSpeed;
+    wxString m_strHttpVersion;
+    wxString m_strIpVersion;
 };
 
 
@@ -102,6 +104,8 @@ protected:
     wxInt32                 FormatSpeed( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
+    void                    GetDocHTTPVersion(wxInt32 item, wxString& strBuffer) const;
+    void                    GetDocIPVersion(wxInt32 item, wxString& strBuffer) const;
 
     virtual double          GetProgressValue(long item);
     virtual wxString        GetProgressText( long item);

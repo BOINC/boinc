@@ -451,12 +451,16 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
             "        <file_offset>%f</file_offset>\n"
             "        <xfer_speed>%f</xfer_speed>\n"
             "        <url>%s</url>\n"
+            "        <http_version>%s</http_version>\n"
+            "        <ip_version>%s</ip_version>\n"
             "    </file_xfer>\n",
             estimated_xfer_time_remaining(),
             fxp->bytes_xferred,
             fxp->file_offset,
             fxp->xfer_speed,
-            fxp->m_url
+            fxp->m_url,
+            fxp->m_http_version,
+            fxp->m_ip_version
         );
     }
     return 0;

@@ -336,6 +336,8 @@ struct FILE_TRANSFER {
     std::string hostname;
     double project_backoff;
     PROJECT* project;
+    std::string http_version;
+    std::string ip_version;
 
     FILE_TRANSFER();
 

@@ -140,7 +140,7 @@
       <AdditionalIncludeDirectories>../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;libcurl-d.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>nghttp2.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/debug/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -187,7 +187,7 @@
       <AdditionalIncludeDirectories>../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;libcurl-d.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>nghttp2.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/debug/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -233,7 +233,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;libcurl.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>nghttp2.lib;libcrypto.lib;libssl.lib;libcurl.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -280,7 +280,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;libcurl.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>nghttp2.lib;libcrypto.lib;libssl.lib;libcurl.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

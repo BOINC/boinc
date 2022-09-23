@@ -50,6 +50,8 @@
 #define COLUMN_TOCOMPLETION         5
 #define COLUMN_SPEED                6
 #define COLUMN_STATUS               7
+#define COLUMN_HTTP_VERSION         8
+#define COLUMN_IP_VERSION           9
 
 // DefaultShownColumns is an array containing the
 // columnIDs of the columns to be shown by default,
@@ -59,7 +61,7 @@
 // For now, show all columns by default
 static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_FILE, COLUMN_PROGRESS, 
                                 COLUMN_SIZE, COLUMN_TIME, COLUMN_TOCOMPLETION, COLUMN_SPEED,
-                                COLUMN_STATUS};
+                                COLUMN_STATUS, COLUMN_HTTP_VERSION, COLUMN_IP_VERSION};
 
 // buttons in the "tasks" area
 #define BTN_RETRY       0
@@ -86,6 +88,8 @@ CTransfer::~CTransfer() {
     m_strTime.Clear();
     m_strTimeToCompletion.Clear();
     m_strSpeed.Clear();
+    m_strHttpVersion.Clear();
+    m_strIpVersion.Clear();
 }
 
 
@@ -172,6 +176,11 @@ static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
     case COLUMN_STATUS:
 	result = transfer1->m_strStatus.CmpNoCase(transfer2->m_strStatus);
         break;
+    case COLUMN_HTTP_VERSION:
+    result = transfer1->m_strHttpVersion.CmpNoCase(transfer2->m_strHttpVersion);
+        break;
+    case COLUMN_IP_VERSION:
+    result = transfer1->m_strIpVersion.CmpNoCase(transfer2->m_strIpVersion);
     }
 
     // Always return FALSE for equality (result == 0)
@@ -230,6 +239,8 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Remaining (estimated)"), COLUMN_TOCOMPLETION);
     m_aStdColNameOrder->Insert(_("Speed"), COLUMN_SPEED);
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
+    m_aStdColNameOrder->Insert(_("HTTP Version"), COLUMN_HTTP_VERSION);
+    m_aStdColNameOrder->Insert(_("IP Version"), COLUMN_IP_VERSION);
 
     // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initialize
@@ -246,6 +257,8 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_iStdColWidthOrder.Insert(100, COLUMN_TOCOMPLETION);
     m_iStdColWidthOrder.Insert(80, COLUMN_SPEED);
     m_iStdColWidthOrder.Insert(150, COLUMN_STATUS);
+    m_iStdColWidthOrder.Insert(100, COLUMN_HTTP_VERSION);
+    m_iStdColWidthOrder.Insert(100, COLUMN_IP_VERSION);
 
     m_iDefaultShownColumns = DefaultShownColumns;
     m_iNumDefaultShownColumns = sizeof(DefaultShownColumns) / sizeof(int);
@@ -303,6 +316,14 @@ void CViewTransfers::AppendColumn(int columnID){
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_STATUS],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_STATUS]);
             break;
+        case COLUMN_HTTP_VERSION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_HTTP_VERSION],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_HTTP_VERSION]);
+            break;
+        case COLUMN_IP_VERSION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_IP_VERSION],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_IP_VERSION]);
+            break;            
     }
 }
 
@@ -529,6 +550,12 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
         case COLUMN_STATUS:
             strBuffer = transfer->m_strStatus;
             break;
+        case COLUMN_HTTP_VERSION:
+            strBuffer = transfer->m_strHttpVersion;
+            break;
+        case COLUMN_IP_VERSION:
+            strBuffer = transfer->m_strIpVersion;
+            break;                    
         }
     }
 
@@ -680,6 +707,20 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
                 return true;
             }
             break;
+        case COLUMN_HTTP_VERSION:
+            GetDocHTTPVersion(m_iSortedIndexes[iRowIndex], strDocumentText);
+            if (!strDocumentText.IsSameAs(transfer->m_strHttpVersion)) {
+                transfer->m_strHttpVersion = strDocumentText;
+                bNeedRefresh =  true;
+            }
+            break;
+        case COLUMN_IP_VERSION:
+            GetDocIPVersion(m_iSortedIndexes[iRowIndex], strDocumentText);
+            if (!strDocumentText.IsSameAs(transfer->m_strIpVersion)) {
+                transfer->m_strIpVersion = strDocumentText;
+                bNeedRefresh =  true;
+            }
+            break;                        
     }
 
     return bNeedRefresh;
@@ -712,6 +753,38 @@ void CViewTransfers::GetDocFileName(wxInt32 item, wxString& strBuffer) const {
 
     if (transfer) {
         strBuffer = wxString(transfer->name.c_str(), wxConvUTF8);
+    } else {
+        strBuffer = wxEmptyString;
+    }
+}
+
+
+void CViewTransfers::GetDocHTTPVersion(wxInt32 item, wxString& strBuffer) const {
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
+
+    if (transfer) {
+        strBuffer = wxString(transfer->http_version.c_str(), wxConvUTF8);
+    } else {
+        strBuffer = wxEmptyString;
+    }
+}
+
+
+void CViewTransfers::GetDocIPVersion(wxInt32 item, wxString& strBuffer) const {
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
+
+    if (transfer) {
+        strBuffer = wxString(transfer->ip_version.c_str(), wxConvUTF8);
     } else {
         strBuffer = wxEmptyString;
     }

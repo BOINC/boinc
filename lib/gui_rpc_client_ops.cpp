@@ -790,6 +790,8 @@ int FILE_TRANSFER::parse(XML_PARSER& xp) {
         if (xp.parse_double("xfer_speed", xfer_speed)) continue;
         if (xp.parse_string("hostname", hostname)) continue;
         if (xp.parse_double("project_backoff", project_backoff)) continue;
+        if (xp.parse_string("http_version", http_version)) continue;
+        if (xp.parse_string("ip_version", ip_version)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -817,6 +819,8 @@ void FILE_TRANSFER::clear() {
     hostname.clear();
     project = NULL;
     project_backoff = 0;
+    http_version.clear();
+    ip_version.clear();
 }
 
 MESSAGE::MESSAGE() {

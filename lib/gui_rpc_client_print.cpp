@@ -210,6 +210,8 @@ void FILE_TRANSFER::print() {
     if (xfer_active) printf("   estimated_xfer_time_remaining: %f\n", estimated_xfer_time_remaining);
     printf("   bytes_xferred: %f\n", bytes_xferred);
     printf("   xfer_speed: %f\n", xfer_speed);
+    printf("   http_version: %s\n", http_version.c_str());
+    printf("   ip_version: %s\n", ip_version.c_str());
 }
 
 void MESSAGE::print() {
