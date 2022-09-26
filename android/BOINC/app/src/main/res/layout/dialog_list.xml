@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/options"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
