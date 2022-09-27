@@ -36,8 +36,16 @@ class ProjectControlsListAdapter(
     var entries: List<ProjectControl>
 ) : RecyclerView.Adapter<ProjectControlsListAdapter.ViewHolder>() {
 
+    var onItemClick: ((ProjectControl) -> Unit)? = null
+
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val tvText: TextView = itemView.findViewById(R.id.text)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(entries[bindingAdapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
