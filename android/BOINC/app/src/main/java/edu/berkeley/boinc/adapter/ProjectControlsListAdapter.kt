@@ -36,55 +36,84 @@ class ProjectControlsListAdapter(
     var entries: List<ProjectControl>
 ) : RecyclerView.Adapter<ProjectControlsListAdapter.ViewHolder>() {
 
-    var onItemClick: ((ProjectControl) -> Unit)? = null
-
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    /**
+     * This [ViewHolder] method describes an item view and metadata about its place within the RecyclerView
+     *
+     * @param itemView View
+     */
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        //        declare UI components
         val tvText: TextView = itemView.findViewById(R.id.text)
-
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(entries[bindingAdapterPosition])
-            }
-        }
     }
 
+    /**
+     * This override [onCreateViewHolder] method inflate recycler view
+     *
+     * @param parent view group
+     * @param viewType view type
+     * @return [ProjectControlsListAdapter.ViewHolder]
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
 
-        val controlItemView = inflater.inflate(R.layout.projects_controls_listitem_layout, parent, false)
+        val controlItemView =
+            inflater.inflate(R.layout.projects_controls_listitem_layout, parent, false)
         return ViewHolder(controlItemView)
     }
 
+    /**
+     * This overridden [onBindViewHolder] method add items to recycler view
+     *
+     * @param holder [ProjectControlsListAdapter.ViewHolder]
+     * @param position position on each respective item
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = entries[position]
         var text = ""
         when (data.operation) {
-            RpcClient.PROJECT_UPDATE -> text = context.resources.getString(R.string.projects_control_update)
-            RpcClient.PROJECT_SUSPEND -> text = context.resources.getString(R.string.projects_control_suspend)
-            RpcClient.PROJECT_RESUME -> text = context.resources.getString(R.string.projects_control_resume)
-            RpcClient.PROJECT_ANW -> text = context.resources.getString(R.string.projects_control_allownewtasks)
-            RpcClient.PROJECT_NNW -> text = context.resources.getString(R.string.projects_control_nonewtasks)
-            RpcClient.PROJECT_RESET -> text = context.resources.getString(R.string.projects_control_reset)
+            RpcClient.PROJECT_UPDATE -> text =
+                context.resources.getString(R.string.projects_control_update)
+            RpcClient.PROJECT_SUSPEND -> text =
+                context.resources.getString(R.string.projects_control_suspend)
+            RpcClient.PROJECT_RESUME -> text =
+                context.resources.getString(R.string.projects_control_resume)
+            RpcClient.PROJECT_ANW -> text =
+                context.resources.getString(R.string.projects_control_allownewtasks)
+            RpcClient.PROJECT_NNW -> text =
+                context.resources.getString(R.string.projects_control_nonewtasks)
+            RpcClient.PROJECT_RESET -> text =
+                context.resources.getString(R.string.projects_control_reset)
             RpcClient.PROJECT_DETACH -> {
-                holder.tvText.background = AppCompatResources.getDrawable(context, R.drawable.shape_light_red_background)
+                holder.tvText.background =
+                    AppCompatResources.getDrawable(context, R.drawable.shape_light_red_background)
                 text = context.resources.getString(R.string.projects_control_remove)
             }
-            RpcClient.MGR_SYNC -> text = context.resources.getString(R.string.projects_control_sync_acctmgr)
+            RpcClient.MGR_SYNC -> text =
+                context.resources.getString(R.string.projects_control_sync_acctmgr)
             RpcClient.MGR_DETACH -> {
-                holder.tvText.background = AppCompatResources.getDrawable(context, R.drawable.shape_light_red_background)
+                holder.tvText.background =
+                    AppCompatResources.getDrawable(context, R.drawable.shape_light_red_background)
                 text = context.resources.getString(R.string.projects_control_remove_acctmgr)
             }
-            RpcClient.TRANSFER_RETRY -> text = context.resources.getString(R.string.trans_control_retry)
-            ProjectsFragment.VISIT_WEBSITE -> text = context.resources.getString(R.string.projects_control_visit_website)
+            RpcClient.TRANSFER_RETRY -> text =
+                context.resources.getString(R.string.trans_control_retry)
+            ProjectsFragment.VISIT_WEBSITE -> text =
+                context.resources.getString(R.string.projects_control_visit_website)
             else -> {
             }
         }
 
+        holder.tvText.setOnClickListener(entries[position].projectCommandClickListener)
         holder.tvText.text = text
     }
 
+    /**
+     * This overridden [getItemCount] method return item count
+     *
+     * @return [Int] no of items in given list
+     */
     override fun getItemCount(): Int {
-        return  entries.size
+        return entries.size
     }
 }
