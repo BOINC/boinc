@@ -164,13 +164,14 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         }
     }
 
-    override fun getDefaultInput(): List<String?> {
-        var values: List<String?> = ArrayList()
-        if (asIsBound) {
-            values = attachService!!.userDefaultValues
+    override val defaultInput: List<String?>
+        get() {
+            var values: List<String?> = ArrayList()
+            if (asIsBound) {
+                values = attachService!!.userDefaultValues
+            }
+            return values
         }
-        return values
-    }
 
     private suspend fun attachProject(project: ProjectAttachWrapper, login: Boolean, email: String,
                                       name: String, pwd: String) {
