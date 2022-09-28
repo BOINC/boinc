@@ -30,11 +30,11 @@ import edu.berkeley.boinc.ProjectsFragment.ProjectControl
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.rpc.RpcClient
 
-class ProjectControlsListAdapter(
+class ProjectControlsRecyclerViewAdapter(
     var context: Context,
     // ID of control texts in strings.xml
     var entries: List<ProjectControl>
-) : RecyclerView.Adapter<ProjectControlsListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ProjectControlsRecyclerViewAdapter.ViewHolder>() {
 
     /**
      * This [ViewHolder] method describes an item view and metadata about its place within the RecyclerView
@@ -51,7 +51,7 @@ class ProjectControlsListAdapter(
      *
      * @param parent view group
      * @param viewType view type
-     * @return [ProjectControlsListAdapter.ViewHolder]
+     * @return [ProjectControlsRecyclerViewAdapter.ViewHolder]
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
@@ -65,7 +65,7 @@ class ProjectControlsListAdapter(
     /**
      * This overridden [onBindViewHolder] method add items to recycler view
      *
-     * @param holder [ProjectControlsListAdapter.ViewHolder]
+     * @param holder [ProjectControlsRecyclerViewAdapter.ViewHolder]
      * @param position position on each respective item
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
