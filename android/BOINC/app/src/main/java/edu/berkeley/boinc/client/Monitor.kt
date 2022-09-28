@@ -925,7 +925,7 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun lookupCredentials(credentials: AccountIn): AccountOut {
+        override fun lookupCredentials(credentials: AccountIn): AccountOut? {
             return clientInterface.lookupCredentials(credentials)
         }
 
@@ -945,7 +945,7 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getProjectConfigPolling(url: String): ProjectConfig {
+        override fun getProjectConfigPolling(url: String): ProjectConfig? {
             return clientInterface.getProjectConfigPolling(url)
         }
 
@@ -995,7 +995,7 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun createAccountPolling(information: AccountIn): AccountOut {
+        override fun createAccountPolling(information: AccountIn): AccountOut? {
             return clientInterface.createAccountPolling(information)
         }
 
