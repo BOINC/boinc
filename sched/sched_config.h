@@ -111,8 +111,6 @@ struct SCHED_CONFIG {
     int daily_result_quota;         // max results per day is this * mult
     char debug_req_reply_dir[256];
         // keep sched_request and sched_reply in files in this directory
-    double default_disk_max_used_gb;
-    double default_disk_max_used_pct;
     double default_disk_min_free_gb;
     vector<int> dont_search_host_for_userid;
     bool dont_store_success_stderr;

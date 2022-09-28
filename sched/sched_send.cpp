@@ -348,20 +348,12 @@ static void get_reliability_and_trust() {
 double max_allowable_disk() {
     HOST host = g_request->host;
     GLOBAL_PREFS prefs = g_request->global_prefs;
-    double x1, x2, x3, x;
+    double x, x1=0, x2=0, x3;
 
     // defaults are from config.xml
     // if not there these are used:
-    // -default_max_used_gb= 100
-    // -default_max_used_pct = 50
-    // -default_min_free_gb = .001
+    // default_disk_min_free_gb = 1
     //
-    if (prefs.disk_max_used_gb == 0) {
-       prefs.disk_max_used_gb = config.default_disk_max_used_gb;
-    }
-    if (prefs.disk_max_used_pct == 0) {
-       prefs.disk_max_used_pct = config.default_disk_max_used_pct;
-    }
     if (prefs.disk_min_free_gb < config.default_disk_min_free_gb) {
        prefs.disk_min_free_gb = config.default_disk_min_free_gb;
     }
@@ -374,17 +366,32 @@ double max_allowable_disk() {
         // The post 4 oct 2005 case.
         // Compute the max allowable additional disk usage based on prefs
         //
-        x1 = prefs.disk_max_used_gb*GIGA - host.d_boinc_used_total;
-        x2 = host.d_total * prefs.disk_max_used_pct / 100.0
-            - host.d_boinc_used_total;
-        x3 = host.d_free - prefs.disk_min_free_gb*GIGA;      // may be negative
-        x = std::min(x1, std::min(x2, x3));
+        x3 = host.d_free - prefs.disk_min_free_gb*GIGA;
+            // may be negative
+        x = x3;
+        int which = 3;
+        if (prefs.disk_max_used_pct > 0) {
+            x2 = host.d_total * prefs.disk_max_used_pct / 100.0
+                - host.d_boinc_used_total;
+            if (x2 < x) {
+                x = x2;
+                which = 2;
+            }
+        }
+        if (prefs.disk_max_used_gb > 0) {
+            x1 = prefs.disk_max_used_gb*GIGA - host.d_boinc_used_total;
+            if (x1 < x) {
+                x = x1;
+                which = 1;
+            }
+        }
 
         // see which bound is the most stringent
+        // (for client notification in sched_locality.cpp)
         //
-        if (x==x1) {
+        if (which == 1) {
             g_reply->disk_limits.max_used = x;
-        } else if (x==x2) {
+        } else if (which == 2) {
             g_reply->disk_limits.max_frac = x;
         } else {
             g_reply->disk_limits.min_free = x;
