@@ -36,7 +36,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.berkeley.boinc.adapter.ProjectControlsListAdapter
+import edu.berkeley.boinc.adapter.ProjectControlsRecyclerViewAdapter
 import edu.berkeley.boinc.adapter.ProjectsListAdapter
 import edu.berkeley.boinc.attach.ManualUrlInputFragment
 import edu.berkeley.boinc.databinding.DialogConfirmBinding
@@ -312,7 +312,7 @@ class ProjectsFragment : Fragment() {
             }
 
             // list adapter
-            dialogBinding.options.adapter = ProjectControlsListAdapter(activity!!, controls)
+            dialogBinding.options.adapter = ProjectControlsRecyclerViewAdapter(activity!!, controls)
             dialogBinding.options.layoutManager = LinearLayoutManager(activity)
 
             Logging.logDebug(Logging.Category.USER_ACTION, "dialog list adapter entries: " + controls.size)
