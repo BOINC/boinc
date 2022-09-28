@@ -81,7 +81,7 @@ class ProjectsFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val binding = ProjectsLayoutBinding.inflate(inflater, container, false)
-        listAdapter = ProjectsListAdapter(activity, binding.projectsList, R.id.projects_list, data)
+        listAdapter = ProjectsListAdapter(activity!!, binding.projectsList, R.id.projects_list, data)
         return binding.root
     }
 
