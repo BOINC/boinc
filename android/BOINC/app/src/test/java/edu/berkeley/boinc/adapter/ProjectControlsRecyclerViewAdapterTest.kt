@@ -28,8 +28,8 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class ProjectControlsListAdapterTest {
-    private lateinit var projectControlsListAdapter: ProjectControlsListAdapter
+class ProjectControlsRecyclerViewAdapterTest {
+    private lateinit var projectControlsRecyclerViewAdapter: ProjectControlsRecyclerViewAdapter
 
     @Before
     fun setUp() {
@@ -60,7 +60,7 @@ class ProjectControlsListAdapterTest {
                 2
             )
         )
-        projectControlsListAdapter = ProjectControlsListAdapter(
+        projectControlsRecyclerViewAdapter = ProjectControlsRecyclerViewAdapter(
             ApplicationProvider.getApplicationContext(),
             projectControls
         )
@@ -68,24 +68,24 @@ class ProjectControlsListAdapterTest {
 
     @Test
     fun `Check that entry count equal passed count`() {
-        Assert.assertEquals(3, projectControlsListAdapter.itemCount)
+        Assert.assertEquals(3, projectControlsRecyclerViewAdapter.itemCount)
     }
 
     @Test
     fun `Check content of entries`() {
         Assert.assertEquals("Project 1",
-            projectControlsListAdapter.entries[0].data.project?.projectName
+            projectControlsRecyclerViewAdapter.entries[0].data.project?.projectName
         )
         Assert.assertEquals("Project 2",
-            projectControlsListAdapter.entries[1].data.project?.projectName
+            projectControlsRecyclerViewAdapter.entries[1].data.project?.projectName
         )
         Assert.assertEquals("Project 3",
-            projectControlsListAdapter.entries[2].data.project?.projectName
+            projectControlsRecyclerViewAdapter.entries[2].data.project?.projectName
         )
     }
 
     @Test(expected = IndexOutOfBoundsException::class)
     fun `Check that getItemCount() fails with IndexOutOfBoundsException when incorrect position provided`() {
-        projectControlsListAdapter.run { entries[42] }
+        projectControlsRecyclerViewAdapter.run { entries[42] }
     }
 }
