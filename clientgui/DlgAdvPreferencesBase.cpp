@@ -200,6 +200,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     dialogSizer->Fit( this );
     this->SetSizer( dialogSizer );
+    m_panelProcessor->SetVirtualSize(notebookSizer->GetMinSize());
 }
 
 #define PAD0    1
@@ -268,14 +269,14 @@ void CDlgAdvPreferencesBase::addNewRowToSizer(
     toSizer->Add( rowSizer, 0, 0, 1 );
 }
 
-wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
+wxScrolledWindow* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
 
     wxSize textCtrlSize = getTextCtrlSize(wxT("999.99"));
 
-    wxPanel* processorTab = new wxPanel( notebook, ID_TABPAGE_PROC, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-    processorTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
+    wxScrolledWindow* processorTab = new wxScrolledWindow( notebook, ID_TABPAGE_PROC, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxVSCROLL );
+    processorTab->SetScrollRate(0, 5);
 
     wxBoxSizer* processorTabSizer = new wxBoxSizer( wxVERTICAL );
 
@@ -612,7 +613,6 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
 
     processorTab->SetSizer( processorTabSizer );
     processorTab->Layout();
-    processorTabSizer->Fit( processorTab );
 
     return processorTab;
 }
@@ -1203,4 +1203,3 @@ void CDlgAdvPreferencesBase::makeStaticBoxLabelItalic(wxStaticBox* staticBox) {
     staticBox->SetOwnFont(myFont);
 #endif
 }
-
