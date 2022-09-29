@@ -30,6 +30,7 @@
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "SkinManager.h"
+#include "BOINCBaseFrame.h"
 
 #include "DlgAdvPreferencesBase.h"
 
@@ -64,6 +65,16 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     this->SetExtraStyle( this->GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
     this->Centre( wxBOTH );
     this->SetTitle(strCaption);
+
+    // Get the current display space for the current window
+    int iDisplay = wxNOT_FOUND;
+    if ( wxGetApp().GetFrame() != NULL )
+        iDisplay = wxDisplay::GetFromWindow(wxGetApp().GetFrame());
+    if ( iDisplay == wxNOT_FOUND )
+        iDisplay = 0;
+    wxDisplay *display = new wxDisplay(iDisplay);
+    wxRect rDisplay = display->GetClientArea();
+    const bool bNeedScrollableWindow = rDisplay.GetHeight() < 768;
 
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
 
@@ -147,7 +158,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     // Note: we must set the third AddPage argument ("select") to
     // true for each page or ToolTips won't initialize properly.
-    m_panelProcessor = createProcessorTab(m_Notebook);
+    m_panelProcessor = createProcessorTab(m_Notebook, bNeedScrollableWindow);
     iImageIndex = pImageList->Add(wxBitmap(proj_xpm));
     m_Notebook->AddPage( m_panelProcessor, _("Computing"), true, iImageIndex );
 
@@ -200,6 +211,9 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     dialogSizer->Fit( this );
     this->SetSizer( dialogSizer );
+    if (bNeedScrollableWindow) {
+        m_panelProcessor->SetVirtualSize(notebookSizer->GetMinSize());
+    }
 }
 
 #define PAD0    1
@@ -268,14 +282,16 @@ void CDlgAdvPreferencesBase::addNewRowToSizer(
     toSizer->Add( rowSizer, 0, 0, 1 );
 }
 
-wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
+wxScrolledWindow* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook, bool bScrollable) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
 
     wxSize textCtrlSize = getTextCtrlSize(wxT("999.99"));
 
-    wxPanel* processorTab = new wxPanel( notebook, ID_TABPAGE_PROC, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-    processorTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
+    wxScrolledWindow* processorTab = new wxScrolledWindow( notebook, ID_TABPAGE_PROC, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxVSCROLL );
+    if (bScrollable) {
+        processorTab->SetScrollRate(0, 5);
+    }
 
     wxBoxSizer* processorTabSizer = new wxBoxSizer( wxVERTICAL );
 
@@ -612,7 +628,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook) {
 
     processorTab->SetSizer( processorTabSizer );
     processorTab->Layout();
-    processorTabSizer->Fit( processorTab );
+    if (!bScrollable) {
+        processorTabSizer->Fit( processorTab );
+    }
 
     return processorTab;
 }
@@ -755,8 +773,8 @@ wxPanel* CDlgAdvPreferencesBase::createDiskTab(wxNotebook* notebook) {
     MostRestrictiveText.Printf(_("%s will use the most restrictive of the above settings"), pSkinAdvanced->GetApplicationShortName().c_str());
     diskUsageBoxSizer->Add(new wxStaticText(diskUsageStaticBox, -1, MostRestrictiveText, wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
-    ); 
- 
+    );
+
     // swap space limit
     //
     wxString DiskMaxSwapTT = wxEmptyString;
@@ -1203,4 +1221,3 @@ void CDlgAdvPreferencesBase::makeStaticBoxLabelItalic(wxStaticBox* staticBox) {
     staticBox->SetOwnFont(myFont);
 #endif
 }
-

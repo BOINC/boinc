@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,7 +35,7 @@
 #endif
 
 #include <wx/button.h>
-#include <wx/notebook.h> 
+#include <wx/notebook.h>
 #include <wx/panel.h>
 #include <wx/statbmp.h>
 
@@ -151,8 +151,8 @@ protected:
 
     // Computing panel
     //
+    wxScrolledWindow* m_panelProcessor;
     // In-use items
-    wxPanel* m_panelProcessor;
     wxTextCtrl* m_txtProcIdleFor;
     wxCheckBox* m_chkProcInUse;
     wxCheckBox* m_chkGPUProcInUse;
@@ -257,12 +257,12 @@ protected:
     wxCheckBox* m_chkNetSunday;
     wxTextCtrl* m_txtNetSundayStart;
     wxTextCtrl* m_txtNetSundayStop;
-    
+
     wxPanel* m_panelButtons;
     wxButton* m_btnOK;
     wxButton* m_btnCancel;
     wxButton* m_btnHelp;
-    
+
     wxString *web_prefs_url;
     bool m_bUsingLocalPrefs;
 
@@ -285,7 +285,7 @@ private:
         wxWindow* item4, wxString& tt4,
         wxWindow* item5, wxString& tt5
     );
-    wxPanel* createProcessorTab(wxNotebook* notebook);
+    wxScrolledWindow* createProcessorTab(wxNotebook* notebook, bool bScrollable);
     wxPanel* createNetworkTab(wxNotebook* notebook);
     wxPanel* createDiskTab(wxNotebook* notebook);
     wxPanel* createDailySchedulesTab(wxNotebook* notebook);
