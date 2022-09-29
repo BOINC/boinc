@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -352,7 +352,7 @@ static const char* cpu_string(double ncpus) {
     return (ncpus==1)?"CPU":"CPUs";
 }
 
-int RESULT::write_gui(MIOFILE& out) {
+int RESULT::write_gui(MIOFILE& out, bool check_resources) {
     out.printf(
         "<result>\n"
         "    <name>%s</name>\n"
@@ -404,9 +404,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (atp) {
         atp->write_gui(out);
     }
-    if (!strlen(resources)) {
-        // only need to compute this string once
-        //
+    if (!strlen(resources) || check_resources) { // update resource string only when zero or when app_config is updated.
         if (avp->gpu_usage.rsc_type) {
             if (avp->gpu_usage.usage == 1) {
                 snprintf(resources, sizeof(resources),
@@ -441,7 +439,8 @@ int RESULT::write_gui(MIOFILE& out) {
             safe_strcpy(resources, " ");
         }
     }
-    if (strlen(resources)>1) {
+    // update app version resources
+    if (strlen(resources)>1) { 
         char buf[256];
         safe_strcpy(buf, "");
         if (atp && atp->scheduler_state == CPU_SCHED_SCHEDULED) {

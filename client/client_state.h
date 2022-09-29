@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -442,7 +442,7 @@ struct CLIENT_STATE {
         // - task is completed or fails
         // - tasks are killed
         // - an RPC completes
-        // - project suspend/detch/attach/reset GUI RPC
+        // - project suspend/detach/attach/reset GUI RPC
         // - result suspend/abort GUI RPC
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url);
@@ -465,7 +465,7 @@ struct CLIENT_STATE {
     int parse_app_info(PROJECT*, FILE*);
     int write_state_gui(MIOFILE&);
     int write_file_transfers_gui(MIOFILE&);
-    int write_tasks_gui(MIOFILE&, bool);
+    int write_tasks_gui(MIOFILE&, bool active_only, bool ac_updated = false);
     void sort_results();
     void sort_projects_by_name();
 
