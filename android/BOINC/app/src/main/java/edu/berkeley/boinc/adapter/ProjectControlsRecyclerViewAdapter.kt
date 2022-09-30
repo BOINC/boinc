@@ -22,38 +22,54 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.recyclerview.widget.RecyclerView
 import edu.berkeley.boinc.ProjectsFragment
 import edu.berkeley.boinc.ProjectsFragment.ProjectControl
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.rpc.RpcClient
 
-class ProjectControlsListAdapter(
-    context: Context,
+class ProjectControlsRecyclerViewAdapter(
+    var context: Context,
     // ID of control texts in strings.xml
-    private val entries: List<ProjectControl>
-) : ArrayAdapter<ProjectControl>(
-    context, R.layout.projects_controls_listitem_layout, entries
-) {
-    override fun getCount(): Int {
-        return entries.size
+    var entries: List<ProjectControl>
+) : RecyclerView.Adapter<ProjectControlsRecyclerViewAdapter.ViewHolder>() {
+
+    /**
+     * This [ViewHolder] method describes an item view and metadata about its place within the RecyclerView
+     *
+     * @param itemView View
+     */
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        //        declare UI components
+        val tvText: TextView = itemView.findViewById(R.id.text)
     }
 
-    override fun getItem(position: Int): ProjectControl {
-        return entries[position]
+    /**
+     * This override [onCreateViewHolder] method inflate recycler view
+     *
+     * @param parent view group
+     * @param viewType view type
+     * @return [ProjectControlsRecyclerViewAdapter.ViewHolder]
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val context = parent.context
+        val inflater = LayoutInflater.from(context)
+
+        val controlItemView =
+            inflater.inflate(R.layout.projects_controls_listitem_layout, parent, false)
+        return ViewHolder(controlItemView)
     }
 
-    override fun getItemId(position: Int): Long {
-        return entries[position].operation.toLong()
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    /**
+     * This overridden [onBindViewHolder] method add items to recycler view
+     *
+     * @param holder [ProjectControlsRecyclerViewAdapter.ViewHolder]
+     * @param position position on each respective item
+     */
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = entries[position]
-        val vi = LayoutInflater.from(parent.context)
-            .inflate(R.layout.projects_controls_listitem_layout, null)
-        val tvText = vi.findViewById<TextView>(R.id.text)
         var text = ""
         when (data.operation) {
             RpcClient.PROJECT_UPDATE -> text =
@@ -69,14 +85,14 @@ class ProjectControlsListAdapter(
             RpcClient.PROJECT_RESET -> text =
                 context.resources.getString(R.string.projects_control_reset)
             RpcClient.PROJECT_DETACH -> {
-                tvText.background =
+                holder.tvText.background =
                     AppCompatResources.getDrawable(context, R.drawable.shape_light_red_background)
                 text = context.resources.getString(R.string.projects_control_remove)
             }
             RpcClient.MGR_SYNC -> text =
                 context.resources.getString(R.string.projects_control_sync_acctmgr)
             RpcClient.MGR_DETACH -> {
-                tvText.background =
+                holder.tvText.background =
                     AppCompatResources.getDrawable(context, R.drawable.shape_light_red_background)
                 text = context.resources.getString(R.string.projects_control_remove_acctmgr)
             }
@@ -88,11 +104,16 @@ class ProjectControlsListAdapter(
             }
         }
 
-        //set onclicklistener for expansion
-        vi.setOnClickListener(entries[position].projectCommandClickListener)
+        holder.tvText.setOnClickListener(entries[position].projectCommandClickListener)
+        holder.tvText.text = text
+    }
 
-        // set data of standard elements
-        tvText.text = text
-        return vi
+    /**
+     * This overridden [getItemCount] method return item count
+     *
+     * @return [Int] no of items in given list
+     */
+    override fun getItemCount(): Int {
+        return entries.size
     }
 }

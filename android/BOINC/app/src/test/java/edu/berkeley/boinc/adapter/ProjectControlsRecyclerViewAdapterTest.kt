@@ -28,8 +28,8 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class ProjectControlsListAdapterTest {
-    private lateinit var projectControlsListAdapter: ProjectControlsListAdapter
+class ProjectControlsRecyclerViewAdapterTest {
+    private lateinit var projectControlsRecyclerViewAdapter: ProjectControlsRecyclerViewAdapter
 
     @Before
     fun setUp() {
@@ -60,7 +60,7 @@ class ProjectControlsListAdapterTest {
                 2
             )
         )
-        projectControlsListAdapter = ProjectControlsListAdapter(
+        projectControlsRecyclerViewAdapter = ProjectControlsRecyclerViewAdapter(
             ApplicationProvider.getApplicationContext(),
             projectControls
         )
@@ -68,32 +68,24 @@ class ProjectControlsListAdapterTest {
 
     @Test
     fun `Check that entry count equal passed count`() {
-        Assert.assertEquals(3, projectControlsListAdapter.count)
+        Assert.assertEquals(3, projectControlsRecyclerViewAdapter.itemCount)
     }
 
     @Test
-    fun `Check content and order of entries`() {
+    fun `Check content of entries`() {
         Assert.assertEquals("Project 1",
-            projectControlsListAdapter.getItem(0).data.project?.projectName
+            projectControlsRecyclerViewAdapter.entries[0].data.project?.projectName
         )
-        Assert.assertEquals(0, projectControlsListAdapter.getItemId(0))
         Assert.assertEquals("Project 2",
-            projectControlsListAdapter.getItem(1).data.project?.projectName
+            projectControlsRecyclerViewAdapter.entries[1].data.project?.projectName
         )
-        Assert.assertEquals(1, projectControlsListAdapter.getItemId(1))
         Assert.assertEquals("Project 3",
-            projectControlsListAdapter.getItem(2).data.project?.projectName
+            projectControlsRecyclerViewAdapter.entries[2].data.project?.projectName
         )
-        Assert.assertEquals(2, projectControlsListAdapter.getItemId(2))
     }
 
     @Test(expected = IndexOutOfBoundsException::class)
-    fun `Check that getItem() fails with IndexOutOfBoundsException when incorrect position provided`() {
-        projectControlsListAdapter.run { getItem(42) }
-    }
-
-    @Test(expected = IndexOutOfBoundsException::class)
-    fun `Check that getItemId() fails with IndexOutOfBoundsException when incorrect position provided`() {
-        projectControlsListAdapter.run { getItemId(42) }
+    fun `Check that getItemCount() fails with IndexOutOfBoundsException when incorrect position provided`() {
+        projectControlsRecyclerViewAdapter.run { entries[42] }
     }
 }
