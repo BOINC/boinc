@@ -1,42 +1,52 @@
 package edu.berkeley.boinc.adapter
 
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.testing.launchFragmentInContainer
-import edu.berkeley.boinc.R
 import edu.berkeley.boinc.ProjectsFragment
+import edu.berkeley.boinc.R
 import edu.berkeley.boinc.rpc.Project
+import org.apache.commons.lang3.builder.EqualsBuilder
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.robolectric.RobolectricTestRunner
+
 
 @RunWith(RobolectricTestRunner::class)
 class ProjectsListAdapterTest {
     private lateinit var projectsListAdapter: ProjectsListAdapter
     private lateinit var fragActivity: FragmentActivity
-
+    private lateinit var projectsList: List<ProjectsFragment.ProjectsListData>
+    private lateinit var viewGroup: ViewGroup
+    private lateinit var view: View
 
     @Before
     fun setUp() {
         val projectsFragment = ProjectsFragment()
+        viewGroup = mock(ViewGroup::class.java)
+        view = mock(View::class.java)
         val scenario = launchFragmentInContainer<ProjectsFragment>()
         scenario.onFragment {
             fragActivity = it.activity!!
         }
-        val projectsList = listOf(
+        projectsList = listOf(
             projectsFragment.ProjectsListData(
-                Project(projectName = "Project 1"),
+                Project(projectName = "Project 1", diskUsage = 5000000.234),
                 null,
                 null
             ),
             projectsFragment.ProjectsListData(
-                Project(projectName = "Project 2"),
+                Project(projectName = "Project 2", diskUsage = 5000000.345),
                 null,
                 null
             ),
             projectsFragment.ProjectsListData(
-                Project(projectName = "Project 3"),
+                Project(projectName = "Project 3", diskUsage = 5000000.456),
                 null,
                 null
             ),
@@ -47,6 +57,21 @@ class ProjectsListAdapterTest {
     @Test
     fun `Check that entry count equal passed count`() {
         Assert.assertEquals(3, projectsListAdapter.count)
+    }
+
+    @Test
+    fun getItemTest() {
+        Assert.assertTrue(EqualsBuilder.reflectionEquals(projectsList[1], projectsListAdapter.getItem(1)))
+    }
+
+    @Test
+    fun getItemIdTest() {
+        Assert.assertEquals(2L, projectsListAdapter.getItemId(2))
+    }
+
+    @Test
+    fun getDiskUsageTest() {
+        Assert.assertEquals("4.77", projectsListAdapter.getDiskUsage(1))
     }
 
     @Test
