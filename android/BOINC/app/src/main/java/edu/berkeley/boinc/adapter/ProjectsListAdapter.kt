@@ -113,7 +113,7 @@ class ProjectsListAdapter(
         if (vi == null) {
             setup = true
         } else {
-            val viewId = vi.tag as String
+            val viewId = vi.tag?.toString().orEmpty()
             if (!StringUtils.equals(data.id, viewId)) {
                 setup = true
             }
