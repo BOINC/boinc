@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2022 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -168,7 +168,7 @@ class ProjectsListAdapter(
                 tvStatus.text = statusText
             }
             val ivIcon = vi.findViewById<ImageView>(R.id.project_icon)
-            val finalIconId = ivIcon.tag as String
+            val finalIconId = ivIcon.tag?.toString().orEmpty()
             if (!StringUtils.equals(finalIconId, data.id)) {
                 val icon = getIcon(position)
                 // if available set icon, if not boinc logo
