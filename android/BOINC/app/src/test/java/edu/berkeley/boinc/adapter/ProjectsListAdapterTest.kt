@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.adapter
 
+import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.testing.launchFragmentInContainer
 import edu.berkeley.boinc.ProjectsFragment
@@ -28,6 +29,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.powermock.api.mockito.PowerMockito.mock
 import org.robolectric.RobolectricTestRunner
 
 
@@ -36,10 +38,12 @@ class ProjectsListAdapterTest {
     private lateinit var projectsListAdapter: ProjectsListAdapter
     private lateinit var fragActivity: FragmentActivity
     private lateinit var projectsList: List<ProjectsFragment.ProjectsListData>
+    private lateinit var viewGroup: ViewGroup
 
     @Before
     fun setUp() {
         val projectsFragment = ProjectsFragment()
+        viewGroup = mock(ViewGroup::class.java)
         val scenario = launchFragmentInContainer<ProjectsFragment>()
         scenario.onFragment {
             fragActivity = it.activity!!
@@ -48,18 +52,18 @@ class ProjectsListAdapterTest {
             projectsFragment.ProjectsListData(
                 Project(projectName = "Project 1", diskUsage = 5000000.234),
                 null,
-                null
+                listOf()
             ),
             projectsFragment.ProjectsListData(
                 Project(projectName = "Project 2", diskUsage = 5000000.345),
                 null,
-                null
+                listOf()
             ),
             projectsFragment.ProjectsListData(
                 Project(projectName = "Project 3", diskUsage = 5000000.456),
                 null,
-                null
-            ),
+                listOf()
+            )
         )
         projectsListAdapter = ProjectsListAdapter(
             fragActivity,
@@ -97,6 +101,11 @@ class ProjectsListAdapterTest {
     @Test
     fun getNameTest() {
         Assert.assertEquals("Project 2", projectsListAdapter.getName(1))
+    }
+
+    @Test
+    fun getViewNotNullTest() {
+        Assert.assertNotNull(projectsListAdapter.getView(0, null, viewGroup))
     }
 
     @Test
