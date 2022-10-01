@@ -533,13 +533,13 @@ static void handle_file_transfer_op(GUI_RPC_CONN& grc, const char* op) {
         grc.mfout.printf("<error>Missing filename</error>\n");
         return;
     }
-    
+
     FILE_INFO* f = gstate.lookup_file_info(p, filename.c_str());
     if (!f) {
         grc.mfout.printf("<error>No such file</error>\n");
         return;
     }
-    
+
     PERS_FILE_XFER* pfx = f->pers_file_xfer;
     if (!pfx) {
         grc.mfout.printf("<error>No such transfer waiting</error>\n");
@@ -762,7 +762,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
         if (urls_match(p->master_url, gstate.project_init.url)) { 
             gstate.project_init.remove(); 
             break; 
-        } 
+        }
     }
 
     grc.mfout.printf(
@@ -914,40 +914,40 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
 	// or vice versa
 	// also clear last '/' character if present
 
-	const string http = "http://";
-	const string https = "https://";
+    const string http = "http://";
+    const string https = "https://";
 
-	string new_project_url = url;
-	size_t pos = new_project_url.find(http);
-	if (pos != string::npos) {
-		new_project_url.erase(pos, http.length());
-	}
-	else if ((pos = new_project_url.find(https)) != string::npos) {
-		new_project_url.erase(pos, https.length());
-	}
-	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
-		new_project_url.erase(new_project_url.length() - 1, 1);
+    string new_project_url = url;
+    size_t pos = new_project_url.find(http);
+    if (pos != string::npos) {
+        new_project_url.erase(pos, http.length());
+    }
+    else if ((pos = new_project_url.find(https)) != string::npos) {
+        new_project_url.erase(pos, https.length());
+    }
+    if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
+        new_project_url.erase(new_project_url.length() - 1, 1);
 	}
 
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-		string project_url = p->master_url;
+        string project_url = p->master_url;
 
-		pos = project_url.find(http);
-		if (pos != string::npos) {
-			project_url.erase(pos, http.length());
-		}
-		else if ((pos = project_url.find(https)) != string::npos) {
-			project_url.erase(pos, https.length());
-		}
-		if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
-			project_url.erase(project_url.length() - 1, 1);
-		}
+        pos = project_url.find(http);
+        if (pos != string::npos) {
+            project_url.erase(pos, http.length());
+        }
+        else if ((pos = project_url.find(https)) != string::npos) {
+            project_url.erase(pos, https.length());
+        }
+        if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
+            project_url.erase(project_url.length() - 1, 1);
+        }
 
-		if (new_project_url == project_url) {
-			already_attached = true;
-			break;
-		}
+        if (new_project_url == project_url) {
+            already_attached = true;
+            break;
+        }
     }
 
     if (already_attached) {
@@ -1059,7 +1059,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
             safe_strcpy(ami.login_name, name.c_str());
             safe_strcpy(ami.password_hash, password_hash.c_str());
             safe_strcpy(ami.authenticator, authenticator.c_str());
-       }
+        }
     }
 
     if (bad_arg) {
@@ -1337,7 +1337,7 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     // also reread app_config.xml files
     //
     check_app_config();
-
+    gstate.write_tasks_gui(grc.mfout, false, true);
     gstate.request_schedule_cpus("Core client configuration");
     gstate.request_work_fetch("Core client configuration");
     set_no_rsc_config();

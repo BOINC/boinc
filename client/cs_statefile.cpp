@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -567,7 +567,9 @@ void CLIENT_STATE::sort_results() {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        rp->name_md5 = md5_string(string(rp->name));
+        if (rp) {
+            rp->name_md5 = md5_string(string(rp->name));
+        }
     }
     std::sort(
         results.begin(),
@@ -576,7 +578,9 @@ void CLIENT_STATE::sort_results() {
     );
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        rp->index = i;
+        if (rp) {
+            rp->index = i;
+        }
     }
 }
 
@@ -1047,18 +1051,22 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     return 0;
 }
 
-int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only) {
+int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only, bool ac_updated) {
     unsigned int i;
 
     if (active_only) {
         for (i=0; i<active_tasks.active_tasks.size(); i++) {
             RESULT* rp = active_tasks.active_tasks[i]->result;
-            rp->write_gui(f);
+            if (rp) {
+                rp->write_gui(f, ac_updated);
+            }
         }
     } else {
         for (i=0; i<results.size(); i++) {
             RESULT* rp = results[i];
-            rp->write_gui(f);
+            if (rp) {
+                rp->write_gui(f, ac_updated);
+            }
         }
     }
     return 0;

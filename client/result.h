@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -103,7 +103,7 @@ struct RESULT {
     int parse_state(XML_PARSER&);
     int parse_name(XML_PARSER&, const char* end_tag);
     int write(MIOFILE&, bool to_server);
-    int write_gui(MIOFILE&);
+    int write_gui(MIOFILE&, bool check_resources = false);
     bool is_upload_done();    // files uploaded?
     void clear_uploaded_flags();
     FILE_REF* lookup_file(FILE_INFO*);
