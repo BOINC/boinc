@@ -1,7 +1,23 @@
+/*
+ * This file is part of BOINC.
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2022 University of California
+ *
+ * BOINC is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * BOINC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package edu.berkeley.boinc.adapter
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.testing.launchFragmentInContainer
 import edu.berkeley.boinc.ProjectsFragment
@@ -12,8 +28,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import org.robolectric.RobolectricTestRunner
 
 
@@ -22,14 +36,10 @@ class ProjectsListAdapterTest {
     private lateinit var projectsListAdapter: ProjectsListAdapter
     private lateinit var fragActivity: FragmentActivity
     private lateinit var projectsList: List<ProjectsFragment.ProjectsListData>
-    private lateinit var viewGroup: ViewGroup
-    private lateinit var view: View
 
     @Before
     fun setUp() {
         val projectsFragment = ProjectsFragment()
-        viewGroup = mock(ViewGroup::class.java)
-        view = mock(View::class.java)
         val scenario = launchFragmentInContainer<ProjectsFragment>()
         scenario.onFragment {
             fragActivity = it.activity!!
@@ -51,7 +61,12 @@ class ProjectsListAdapterTest {
                 null
             ),
         )
-        projectsListAdapter = ProjectsListAdapter(fragActivity, fragActivity.findViewById(R.id.projects_list), R.id.projects_list, projectsList)
+        projectsListAdapter = ProjectsListAdapter(
+            fragActivity,
+            fragActivity.findViewById(R.id.projects_list),
+            R.id.projects_list,
+            projectsList
+        )
     }
 
     @Test
@@ -61,7 +76,12 @@ class ProjectsListAdapterTest {
 
     @Test
     fun getItemTest() {
-        Assert.assertTrue(EqualsBuilder.reflectionEquals(projectsList[1], projectsListAdapter.getItem(1)))
+        Assert.assertTrue(
+            EqualsBuilder.reflectionEquals(
+                projectsList[1],
+                projectsListAdapter.getItem(1)
+            )
+        )
     }
 
     @Test
@@ -75,14 +95,22 @@ class ProjectsListAdapterTest {
     }
 
     @Test
+    fun getNameTest() {
+        Assert.assertEquals("Project 2", projectsListAdapter.getName(1))
+    }
+
+    @Test
     fun `Check content and order of entries`() {
-        Assert.assertEquals("Project 1", projectsListAdapter.getItem(0).project?.projectName
+        Assert.assertEquals(
+            "Project 1", projectsListAdapter.getItem(0).project?.projectName
         )
         Assert.assertEquals(0, projectsListAdapter.getItemId(0))
-        Assert.assertEquals("Project 2", projectsListAdapter.getItem(1).project?.projectName
+        Assert.assertEquals(
+            "Project 2", projectsListAdapter.getItem(1).project?.projectName
         )
         Assert.assertEquals(1, projectsListAdapter.getItemId(1))
-        Assert.assertEquals("Project 3", projectsListAdapter.getItem(2).project?.projectName
+        Assert.assertEquals(
+            "Project 3", projectsListAdapter.getItem(2).project?.projectName
         )
         Assert.assertEquals(2, projectsListAdapter.getItemId(2))
     }
