@@ -33,10 +33,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.core.net.toUri
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter
 import edu.berkeley.boinc.adapter.ProjectsListAdapter
@@ -74,47 +71,17 @@ class ProjectsFragment : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val menuHost: MenuHost = requireActivity()
-
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.projects_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                Logging.logDebug(
-                    Logging.Category.USER_ACTION,
-                    "AttachProjectListActivity onOptionsItemSelected()"
-                )
-                return when (menuItem.itemId) {
-                    R.id.projects_add_url -> {
-                        val dialog2 = ManualUrlInputFragment()
-                        dialog2.show(
-                            parentFragmentManager,
-                            getString(R.string.attachproject_list_manual_button)
-                        )
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true) // enables fragment specific menu
+        super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         Logging.logVerbose(Logging.Category.GUI_VIEW, "ProjectsFragment onCreateView")
 
         // Inflate the layout for this fragment
         val binding = ProjectsLayoutBinding.inflate(inflater, container, false)
-        listAdapter =
-            ProjectsListAdapter(requireActivity(), binding.projectsList, R.id.projects_list, data)
+        listAdapter = ProjectsListAdapter(requireActivity(), binding.projectsList, R.id.projects_list, data)
         return binding.root
     }
 
@@ -131,6 +98,25 @@ class ProjectsFragment : Fragment() {
         super.onResume()
         populateLayout()
         requireActivity().registerReceiver(mClientStatusChangeRec, ifcsc)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // appends the project specific menu to the main menu.
+        inflater.inflate(R.menu.projects_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Logging.logDebug(Logging.Category.USER_ACTION, "AttachProjectListActivity onOptionsItemSelected()")
+
+        return when (item.itemId) {
+            R.id.projects_add_url -> {
+                val dialog2 = ManualUrlInputFragment()
+                dialog2.show(parentFragmentManager, getString(R.string.attachproject_list_manual_button))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun populateLayout() {
@@ -154,34 +140,23 @@ class ProjectsFragment : Fragment() {
         }
     }
 
-    private fun updateData(
-        latestRpcProjectsList: List<Project>, acctMgrInfo: AcctMgrInfo,
-        serverNotices: List<Notice>?, ongoingTransfers: List<Transfer>
-    ) {
+    private fun updateData(latestRpcProjectsList: List<Project>, acctMgrInfo: AcctMgrInfo,
+                           serverNotices: List<Notice>?, ongoingTransfers: List<Transfer>) {
         // ACCOUNT MANAGER
         //loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
         val mgrIndex = data.indexOfFirst { it.isMgr }
         if (mgrIndex < 0) { // no manager present until now
-            Logging.logVerbose(
-                Logging.Category.GUI_VIEW,
-                "No manager found in layout list. New entry available: " +
-                        acctMgrInfo.isPresent
-            )
+            Logging.logVerbose(Logging.Category.GUI_VIEW, "No manager found in layout list. New entry available: " +
+                    acctMgrInfo.isPresent)
 
             if (acctMgrInfo.isPresent) {
                 // add new manager entry, at top of the list
                 data.add(ProjectsListData(null, acctMgrInfo, null))
 
-                Logging.logDebug(
-                    Logging.Category.GUI_VIEW,
-                    "New acct mgr found: " + acctMgrInfo.acctMgrName
-                )
+                Logging.logDebug(Logging.Category.GUI_VIEW, "New acct mgr found: " + acctMgrInfo.acctMgrName)
             }
         } else { // manager found in existing list
-            Logging.logDebug(
-                Logging.Category.GUI_VIEW,
-                "Manager found in layout list at index: $mgrIndex"
-            )
+            Logging.logDebug(Logging.Category.GUI_VIEW, "Manager found in layout list at index: $mgrIndex")
 
             if (!acctMgrInfo.isPresent) {
                 // manager got detached, remove from list
@@ -197,40 +172,22 @@ class ProjectsFragment : Fragment() {
             //check whether this project is new
             val index = data.indexOfFirst { it.id == rpcResult.masterURL }
             if (index < 0) { // Project is new, add
-                Logging.logDebug(
-                    Logging.Category.GUI_VIEW, "New project found, id: " + rpcResult.masterURL +
-                            ", managed: " + rpcResult.attachedViaAcctMgr
-                )
+                Logging.logDebug(Logging.Category.GUI_VIEW, "New project found, id: " + rpcResult.masterURL +
+                        ", managed: " + rpcResult.attachedViaAcctMgr)
 
                 if (rpcResult.attachedViaAcctMgr) {
-                    data.add(
-                        ProjectsListData(
-                            rpcResult, null,
-                            mapTransfersToProject(
-                                rpcResult.masterURL,
-                                ongoingTransfers
-                            )
-                        )
-                    ) // append to end of list (after manager)
+                    data.add(ProjectsListData(rpcResult, null,
+                            mapTransfersToProject(rpcResult.masterURL,
+                                    ongoingTransfers))) // append to end of list (after manager)
                 } else {
-                    data.add(
-                        0, ProjectsListData(
-                            rpcResult, null,
-                            mapTransfersToProject(
-                                rpcResult.masterURL,
-                                ongoingTransfers
-                            )
-                        )
-                    ) // put at top of list (before manager)
+                    data.add(0, ProjectsListData(rpcResult, null,
+                            mapTransfersToProject(rpcResult.masterURL,
+                                    ongoingTransfers))) // put at top of list (before manager)
                 }
             } else { // Project was present before, update its data
-                data[index].updateProjectData(
-                    rpcResult, null,
-                    mapTransfersToProject(
-                        rpcResult.masterURL,
-                        ongoingTransfers
-                    )
-                )
+                data[index].updateProjectData(rpcResult, null,
+                        mapTransfersToProject(rpcResult.masterURL,
+                                ongoingTransfers))
             }
         }
 
@@ -258,10 +215,7 @@ class ProjectsFragment : Fragment() {
                 }
             }
             if (mappedServerNotices != serverNotices.size) {
-                Logging.logError(
-                    Logging.Category.GUI_VIEW,
-                    "could not match notice: " + mappedServerNotices + "/" + serverNotices.size
-                )
+                Logging.logError(Logging.Category.GUI_VIEW, "could not match notice: " + mappedServerNotices + "/" + serverNotices.size)
             }
         }
     }
@@ -270,37 +224,28 @@ class ProjectsFragment : Fragment() {
     private fun mapTransfersToProject(id: String, allTransfers: List<Transfer>): List<Transfer> {
         // project id matches url in transfer, add to list
         val projectTransfers = allTransfers.filter { it.projectUrl == id }
-        Logging.logDebug(
-            Logging.Category.GUI_VIEW,
-            "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size +
-                    " transfers to project " + id
-        )
+        Logging.logDebug(Logging.Category.GUI_VIEW, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size +
+                " transfers to project " + id)
 
         return projectTransfers
     }
 
     // data wrapper for list view
     inner class ProjectsListData(
-        // can be either project or account manager
-        var project: Project?,
-        var acctMgrInfo: AcctMgrInfo?,
-        var projectTransfers: List<Transfer>?
+            // can be either project or account manager
+            var project: Project?,
+            var acctMgrInfo: AcctMgrInfo?,
+            var projectTransfers: List<Transfer>?
     ) {
         var lastServerNotice: Notice? = null
-
         // == url
         @JvmField
         var id: String = ""
-
         @JvmField
         var isMgr = false
         private var listEntry = this
 
-        fun updateProjectData(
-            data: Project?,
-            acctMgrInfo: AcctMgrInfo?,
-            projectTransfers: List<Transfer>?
-        ) {
+        fun updateProjectData(data: Project?, acctMgrInfo: AcctMgrInfo?, projectTransfers: List<Transfer>?) {
             if (isMgr) {
                 this.acctMgrInfo = acctMgrInfo
             } else {
@@ -368,10 +313,7 @@ class ProjectsFragment : Fragment() {
             // list adapter
             dialogBinding.options.adapter = ProjectControlsListAdapter(activity!!, controls)
 
-            Logging.logDebug(
-                Logging.Category.USER_ACTION,
-                "dialog list adapter entries: " + controls.size
-            )
+            Logging.logDebug(Logging.Category.USER_ACTION, "dialog list adapter entries: " + controls.size)
 
             // buttons
             dialogBinding.cancel.setOnClickListener { dialogControls!!.dismiss() }
@@ -399,129 +341,101 @@ class ProjectsFragment : Fragment() {
         @JvmField
         val projectCommandClickListener = View.OnClickListener {
             //check whether command requires confirmation
-            when (operation) {
-                RpcClient.PROJECT_DETACH, RpcClient.PROJECT_RESET, RpcClient.MGR_DETACH -> {
-                    val dialogBinding = DialogConfirmBinding.inflate(layoutInflater)
-                    val dialog = Dialog(activity!!).apply {
-                        requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        setContentView(dialogBinding.root)
-                    }
+            if (operation == RpcClient.PROJECT_DETACH || operation == RpcClient.PROJECT_RESET ||
+                    operation == RpcClient.MGR_DETACH) {
+                val dialogBinding = DialogConfirmBinding.inflate(layoutInflater)
+                val dialog = Dialog(activity!!).apply {
+                    requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    setContentView(dialogBinding.root)
+                }
 
-                    // operation-dependent texts
-                    when (operation) {
-                        RpcClient.PROJECT_DETACH -> {
-                            val removeStr = getString(R.string.projects_confirm_detach_confirm)
-                            dialogBinding.title.text =
-                                getString(R.string.projects_confirm_title, removeStr)
-                            dialogBinding.message.text = getString(
-                                R.string.projects_confirm_message,
-                                removeStr.lowercase(Locale.ROOT),
+                // operation-dependent texts
+                when (operation) {
+                    RpcClient.PROJECT_DETACH -> {
+                        val removeStr = getString(R.string.projects_confirm_detach_confirm)
+                        dialogBinding.title.text = getString(R.string.projects_confirm_title, removeStr)
+                        dialogBinding.message.text = getString(R.string.projects_confirm_message,
+                            removeStr.lowercase(Locale.ROOT),
                                 data.project!!.projectName + " "
-                                        + getString(R.string.projects_confirm_detach_message)
-                            )
-                            dialogBinding.confirm.text = removeStr
-                        }
-                        RpcClient.PROJECT_RESET -> {
-                            val resetStr = getString(R.string.projects_confirm_reset_confirm)
-                            dialogBinding.title.text =
-                                getString(R.string.projects_confirm_title, resetStr)
-                            dialogBinding.message.text = getString(
-                                R.string.projects_confirm_message,
-                                resetStr.lowercase(Locale.ROOT),
-                                data.project!!.projectName
-                            )
-                            dialogBinding.confirm.text = resetStr
-                        }
-                        RpcClient.MGR_DETACH -> {
-                            dialogBinding.title.setText(R.string.projects_confirm_remove_acctmgr_title)
-                            dialogBinding.message.text = getString(
-                                R.string.projects_confirm_message,
+                                        + getString(R.string.projects_confirm_detach_message))
+                        dialogBinding.confirm.text = removeStr
+                    }
+                    RpcClient.PROJECT_RESET -> {
+                        val resetStr = getString(R.string.projects_confirm_reset_confirm)
+                        dialogBinding.title.text = getString(R.string.projects_confirm_title, resetStr)
+                        dialogBinding.message.text = getString(R.string.projects_confirm_message,
+                            resetStr.lowercase(Locale.ROOT),
+                                data.project!!.projectName)
+                        dialogBinding.confirm.text = resetStr
+                    }
+                    RpcClient.MGR_DETACH -> {
+                        dialogBinding.title.setText(R.string.projects_confirm_remove_acctmgr_title)
+                        dialogBinding.message.text = getString(R.string.projects_confirm_message,
                                 getString(R.string.projects_confirm_remove_acctmgr_message),
-                                data.acctMgrInfo!!.acctMgrName
-                            )
-                            dialogBinding.confirm.setText(R.string.projects_confirm_remove_acctmgr_confirm)
-                        }
+                                data.acctMgrInfo!!.acctMgrName)
+                        dialogBinding.confirm.setText(R.string.projects_confirm_remove_acctmgr_confirm)
                     }
-                    dialogBinding.confirm.setOnClickListener {
-                        lifecycleScope.launch {
-                            performProjectOperationAsync(data, operation)
-                        }
-                        dialog.dismiss()
-                        dialogControls!!.dismiss()
-                    }
-                    dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
-                    dialog.show()
                 }
-                VISIT_WEBSITE -> { // command does not require confirmation and is not RPC based
-                    dialogControls!!.dismiss()
-                    startActivity(Intent(Intent.ACTION_VIEW, data.id.toUri()))
-                }
-                else -> { // command does not require confirmation, but is RPC based
+                dialogBinding.confirm.setOnClickListener {
                     lifecycleScope.launch {
                         performProjectOperationAsync(data, operation)
                     }
+                    dialog.dismiss()
                     dialogControls!!.dismiss()
                 }
+                dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
+                dialog.show()
+            } else if (operation == VISIT_WEBSITE) { // command does not require confirmation and is not RPC based
+                dialogControls!!.dismiss()
+                startActivity(Intent(Intent.ACTION_VIEW, data.id.toUri()))
+            } else { // command does not require confirmation, but is RPC based
+                lifecycleScope.launch {
+                    performProjectOperationAsync(data, operation)
+                }
+                dialogControls!!.dismiss()
             }
         }
     }
 
     // executes project operations in new thread
-    private suspend fun performProjectOperationAsync(data: ProjectsListData, operation: Int) =
-        coroutineScope {
-            val success =
-                withContext(Dispatchers.Default) { performProjectOperation(data, operation) }
+    private suspend fun performProjectOperationAsync(data: ProjectsListData, operation: Int) = coroutineScope {
+        val success = withContext(Dispatchers.Default) { performProjectOperation(data, operation) }
 
-            if (success) {
-                try {
-                    BOINCActivity.monitor!!.forceRefresh()
-                } catch (e: RemoteException) {
-                    e.printStackTrace()
-                }
-            } else {
-                Logging.logError(Logging.Category.USER_ACTION, "ProjectOperationAsync failed.")
+        if (success) {
+            try {
+                BOINCActivity.monitor!!.forceRefresh()
+            } catch (e: RemoteException) {
+                e.printStackTrace()
             }
+        } else {
+            Logging.logError(Logging.Category.USER_ACTION, "ProjectOperationAsync failed.")
         }
+    }
 
     private fun performProjectOperation(data: ProjectsListData, operation: Int): Boolean {
         try {
-            Logging.logVerbose(
-                Logging.Category.USER_ACTION,
-                "ProjectOperationAsync isMgr: ${data.isMgr}, url: ${data.id}," +
-                        " operation: $operation"
-            )
+            Logging.logVerbose(Logging.Category.USER_ACTION,
+                    "ProjectOperationAsync isMgr: ${data.isMgr}, url: ${data.id}," +
+                    " operation: $operation")
 
             when (operation) {
                 RpcClient.PROJECT_UPDATE, RpcClient.PROJECT_SUSPEND, RpcClient.PROJECT_RESUME,
                 RpcClient.PROJECT_NNW, RpcClient.PROJECT_ANW, RpcClient.PROJECT_DETACH,
-                RpcClient.PROJECT_RESET -> return BOINCActivity.monitor!!.projectOp(
-                    operation,
-                    data.id
-                )
+                RpcClient.PROJECT_RESET -> return BOINCActivity.monitor!!.projectOp(operation, data.id)
                 RpcClient.MGR_SYNC ->
                     return BOINCActivity.monitor!!.synchronizeAcctMgr(data.acctMgrInfo!!.acctMgrUrl)
                 RpcClient.MGR_DETACH ->
                     return BOINCActivity.monitor!!.addAcctMgrErrorNum("", "", "")
-                        .code == ERR_OK
+                            .code == ERR_OK
                 RpcClient.TRANSFER_RETRY ->
                     return data.projectTransfers.isNullOrEmpty() ||
-                            BOINCActivity.monitor!!.transferOperation(
-                                data.projectTransfers!!,
-                                operation
-                            )
+                         BOINCActivity.monitor!!.transferOperation(data.projectTransfers!!, operation)
                 else -> if (operation != RpcClient.TRANSFER_ABORT) {
-                    Logging.logError(
-                        Logging.Category.USER_ACTION,
-                        "ProjectOperationAsync could not match operation: $operation"
-                    )
+                    Logging.logError(Logging.Category.USER_ACTION, "ProjectOperationAsync could not match operation: $operation")
                 }
             }
         } catch (e: Exception) {
-            Logging.logException(
-                Logging.Category.USER_ACTION,
-                "ProjectOperationAsync error in do in background",
-                e
-            )
+            Logging.logException(Logging.Category.USER_ACTION, "ProjectOperationAsync error in do in background", e)
         }
         return false
     }
