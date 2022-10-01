@@ -416,6 +416,7 @@ ext {
     powermock_version = '2.0.9'
     junit5_version = '5.8.2'
     guava_version = '31.1-jre'
+    fragment_version = '1.5.3'
 }
 
 dependencies {
@@ -458,6 +459,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.8.1'
     testImplementation 'io.mockk:mockk:1.12.4'
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     // powermock dependencies
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
