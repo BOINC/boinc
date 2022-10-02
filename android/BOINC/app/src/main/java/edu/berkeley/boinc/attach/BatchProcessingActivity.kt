@@ -35,7 +35,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
-import edu.berkeley.boinc.attach.HintFragment.*
+import edu.berkeley.boinc.attach.HintFragment.Companion.HINT_TYPE_CONTRIBUTION
+import edu.berkeley.boinc.attach.HintFragment.Companion.HINT_TYPE_PLATFORMS
+import edu.berkeley.boinc.attach.HintFragment.Companion.HINT_TYPE_PROJECTWEBSITE
+import edu.berkeley.boinc.attach.HintFragment.Companion.newInstance
 import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_READY
 import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_SUCCESS
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
