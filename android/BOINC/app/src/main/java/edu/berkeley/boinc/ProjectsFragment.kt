@@ -33,6 +33,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.core.net.toUri
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -73,7 +75,28 @@ class ProjectsFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true) // enables fragment specific menu
+        val menuHost: MenuHost = requireActivity() // enables fragment specific menu
+
+        // add the project menu to the fragment
+        menuHost.addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.projects_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                Logging.logDebug(Logging.Category.USER_ACTION, "AttachProjectListActivity onOptionsItemSelected()")
+
+                return when (menuItem.itemId) {
+                    R.id.projects_add_url -> {
+                        val dialog2 = ManualUrlInputFragment()
+                        dialog2.show(parentFragmentManager, getString(R.string.attachproject_list_manual_button))
+                        true
+                    }
+                    else -> true
+                }
+            }
+        })
+
         super.onCreate(savedInstanceState)
     }
 
@@ -99,25 +122,6 @@ class ProjectsFragment : Fragment() {
         super.onResume()
         populateLayout()
         requireActivity().registerReceiver(mClientStatusChangeRec, ifcsc)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // appends the project specific menu to the main menu.
-        inflater.inflate(R.menu.projects_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Logging.logDebug(Logging.Category.USER_ACTION, "AttachProjectListActivity onOptionsItemSelected()")
-
-        return when (item.itemId) {
-            R.id.projects_add_url -> {
-                val dialog2 = ManualUrlInputFragment()
-                dialog2.show(parentFragmentManager, getString(R.string.attachproject_list_manual_button))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun populateLayout() {
