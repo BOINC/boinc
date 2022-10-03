@@ -457,6 +457,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.9'
     testImplementation 'io.mockk:mockk:1.13.2'
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     // powermock dependencies
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
