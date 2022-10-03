@@ -243,7 +243,6 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         //
         bool foundNewColumns = false;
         bool foundNewDefaultColumns = false;
-        bool foundNewHiddenColumns = false;
         
         if (pConfig->Read(wxT("HiddenColumns"), &strHiddenColumns)) {
             wxArrayString hiddenArray;
@@ -289,7 +288,6 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
                 }
                 if (!foundNewDefaultColumns) {
                     hiddenArray.Add(columnNameToFind);  // No need to order new hidden columns since they are hidden.
-                    foundNewHiddenColumns = true;
                 }
             }
         }
@@ -337,9 +335,9 @@ void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, char * delimiter
 // Unfortunately, we have no way of immediately calling OnSaveState() when
 // the user manually reorders columns because that does not generate a
 // notification from MS Windows so wxWidgets can't generate an event.
+//
 void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
-    int i, stdCount, columnPosition;
-    int colCount = GetColumnCount();
+    int stdCount, columnPosition;
     int shownColCount = orderArray.GetCount();
     int columnIndex = 0;    // Column number among shown columns before re-ordering
     int columnID = 0;       // ID of column, e.g. COLUMN_PROJECT, COLUMN_STATUS, etc.
@@ -408,7 +406,7 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
     }
 
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    colCount = GetColumnCount();
+    int colCount = GetColumnCount();
     if ((shownColCount > 0) && (shownColCount <= stdCount) && (colCount == shownColCount)) {
         SetColumnsOrder(aOrder);
     }
