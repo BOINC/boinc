@@ -35,7 +35,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.databinding.ProjectDetailsLayoutBinding
 import edu.berkeley.boinc.databinding.ProjectDetailsSlideshowImageLayoutBinding
@@ -103,8 +106,76 @@ class ProjectDetailsFragment : Fragment() {
         // get data
         url = requireArguments().getString("url") ?: ""
         currentProjectData
-        setHasOptionsMenu(true) // enables fragment specific menu
+
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val menuHost: MenuHost = requireActivity() // enables fragment specific menu
+
+        // add the project menu to the fragment
+        menuHost.addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.project_details_menu, menu)
+            }
+
+            override fun onPrepareMenu(menu: Menu) {
+                super.onPrepareMenu(menu)
+
+                if (project == null) {
+                    return
+                }
+
+                // no new tasks, adapt based on status
+                val nnt = menu.findItem(R.id.projects_control_nonewtasks)
+                if (project!!.doNotRequestMoreWork) {
+                    nnt.setTitle(R.string.projects_control_allownewtasks)
+                } else {
+                    nnt.setTitle(R.string.projects_control_nonewtasks)
+                }
+
+                // project suspension, adapt based on status
+                val suspend = menu.findItem(R.id.projects_control_suspend)
+                if (project!!.suspendedViaGUI) {
+                    suspend.setTitle(R.string.projects_control_resume)
+                } else {
+                    suspend.setTitle(R.string.projects_control_suspend)
+                }
+
+                // detach, only show when project not managed
+                val remove = menu.findItem(R.id.projects_control_remove)
+                if (project!!.attachedViaAcctMgr) {
+                    remove.isVisible = false
+                }
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                lifecycleScope.launch {
+                    when (menuItem.itemId) {
+                        R.id.projects_control_update -> performProjectOperation(RpcClient.PROJECT_UPDATE)
+                        R.id.projects_control_suspend -> if (project!!.suspendedViaGUI) {
+                            performProjectOperation(RpcClient.PROJECT_RESUME)
+                        } else {
+                            performProjectOperation(RpcClient.PROJECT_SUSPEND)
+                        }
+                        R.id.projects_control_nonewtasks -> if (project!!.doNotRequestMoreWork) {
+                            performProjectOperation(RpcClient.PROJECT_ANW)
+                        } else {
+                            performProjectOperation(RpcClient.PROJECT_NNW)
+                        }
+                        R.id.projects_control_reset -> showConfirmationDialog(RpcClient.PROJECT_RESET)
+                        R.id.projects_control_remove -> showConfirmationDialog(RpcClient.PROJECT_DETACH)
+                        else -> {
+                            Logging.logError(Logging.Category.USER_ACTION, "ProjectDetailsFragment onOptionsItemSelected: could not match ID")
+                        }
+                    }
+                }
+
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -145,65 +216,6 @@ class ProjectDetailsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity?.registerReceiver(mClientStatusChangeRec, ifcsc)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // appends the project specific menu to the main menu.
-        inflater.inflate(R.menu.project_details_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        if (project == null) {
-            return
-        }
-
-        // no new tasks, adapt based on status
-        val nnt = menu.findItem(R.id.projects_control_nonewtasks)
-        if (project!!.doNotRequestMoreWork) {
-            nnt.setTitle(R.string.projects_control_allownewtasks)
-        } else {
-            nnt.setTitle(R.string.projects_control_nonewtasks)
-        }
-
-        // project suspension, adapt based on status
-        val suspend = menu.findItem(R.id.projects_control_suspend)
-        if (project!!.suspendedViaGUI) {
-            suspend.setTitle(R.string.projects_control_resume)
-        } else {
-            suspend.setTitle(R.string.projects_control_suspend)
-        }
-
-        // detach, only show when project not managed
-        val remove = menu.findItem(R.id.projects_control_remove)
-        if (project!!.attachedViaAcctMgr) {
-            remove.isVisible = false
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        lifecycleScope.launch {
-            when (item.itemId) {
-                R.id.projects_control_update -> performProjectOperation(RpcClient.PROJECT_UPDATE)
-                R.id.projects_control_suspend -> if (project!!.suspendedViaGUI) {
-                    performProjectOperation(RpcClient.PROJECT_RESUME)
-                } else {
-                    performProjectOperation(RpcClient.PROJECT_SUSPEND)
-                }
-                R.id.projects_control_nonewtasks -> if (project!!.doNotRequestMoreWork) {
-                    performProjectOperation(RpcClient.PROJECT_ANW)
-                } else {
-                    performProjectOperation(RpcClient.PROJECT_NNW)
-                }
-                R.id.projects_control_reset -> showConfirmationDialog(RpcClient.PROJECT_RESET)
-                R.id.projects_control_remove -> showConfirmationDialog(RpcClient.PROJECT_DETACH)
-                else -> {
-                    Logging.logError(Logging.Category.USER_ACTION, "ProjectDetailsFragment onOptionsItemSelected: could not match ID")
-                }
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun showConfirmationDialog(operation: Int) {
