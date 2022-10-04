@@ -38,6 +38,7 @@ import androidx.core.net.toUri
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.databinding.ProjectDetailsLayoutBinding
 import edu.berkeley.boinc.databinding.ProjectDetailsSlideshowImageLayoutBinding
@@ -105,6 +106,13 @@ class ProjectDetailsFragment : Fragment() {
         // get data
         url = requireArguments().getString("url") ?: ""
         currentProjectData
+
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val menuHost: MenuHost = requireActivity() // enables fragment specific menu
 
         // add the project menu to the fragment
@@ -167,9 +175,7 @@ class ProjectDetailsFragment : Fragment() {
 
                 return true
             }
-        })
-
-        super.onCreate(savedInstanceState)
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
