@@ -36,6 +36,7 @@ import androidx.core.net.toUri
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.berkeley.boinc.adapter.ProjectControlsRecyclerViewAdapter
@@ -74,7 +75,18 @@ class ProjectsFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "ProjectsFragment onCreateView")
+
+        // Inflate the layout for this fragment
+        val binding = ProjectsLayoutBinding.inflate(inflater, container, false)
+        listAdapter = ProjectsListAdapter(requireActivity(), binding.projectsList, R.id.projects_list, data)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val menuHost: MenuHost = requireActivity() // enables fragment specific menu
 
         // add the project menu to the fragment
@@ -95,18 +107,8 @@ class ProjectsFragment : Fragment() {
                     else -> true
                 }
             }
-        })
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        Logging.logVerbose(Logging.Category.GUI_VIEW, "ProjectsFragment onCreateView")
-
-        // Inflate the layout for this fragment
-        val binding = ProjectsLayoutBinding.inflate(inflater, container, false)
-        listAdapter = ProjectsListAdapter(requireActivity(), binding.projectsList, R.id.projects_list, data)
-        return binding.root
     }
 
     override fun onPause() {
