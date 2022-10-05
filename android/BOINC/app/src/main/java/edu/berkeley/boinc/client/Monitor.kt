@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2021 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2022 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -130,13 +130,19 @@ class Monitor : LifecycleService() {
                 "ARM" in normalizedArch -> R.string.boinc_platform_name_arm
                 "86" in normalizedArch -> R.string.boinc_platform_name_x86
                 else -> {
-                    Logging.logWarning(Logging.Category.MONITOR, "could not map os.arch ($arch) to platform, default to arm.")
+                    Logging.logWarning(
+                        Logging.Category.MONITOR,
+                        "could not map os.arch ($arch) to platform, default to arm."
+                    )
 
                     R.string.boinc_platform_name_arm
                 }
             }
 
-            Logging.logInfo(Logging.Category.MONITOR, "BOINC platform: ${getString(platformId)} for os.arch: $arch")
+            Logging.logInfo(
+                Logging.Category.MONITOR,
+                "BOINC platform: ${getString(platformId)} for os.arch: $arch"
+            )
 
             return platformId
         }
@@ -155,9 +161,12 @@ class Monitor : LifecycleService() {
                 platformName = getString(R.string.boinc_platform_name_arm)
             else if ("X86_64" in normalizedArch)
                 platformName = getString(R.string.boinc_platform_name_x86)
-            
-            Logging.logInfo(Logging.Category.MONITOR, "BOINC Alt platform: $platformName for os.arch: $arch")
-            
+
+            Logging.logInfo(
+                Logging.Category.MONITOR,
+                "BOINC Alt platform: $platformName for os.arch: $arch"
+            )
+
             return platformName
         }
 
@@ -171,9 +180,9 @@ class Monitor : LifecycleService() {
 
     override fun onBind(intent: Intent): IBinder? {
         super.onBind(intent)
-        
+
         Logging.logDebug(Logging.Category.MONITOR, "Monitor onBind")
-        
+
         return mBinder
     }
 
@@ -197,7 +206,8 @@ class Monitor : LifecycleService() {
         fileNameNoMedia = getString(R.string.nomedia)
         fileNameWelcomeState = "welcome.state"
         clientStatusInterval = resources.getInteger(R.integer.status_update_interval_ms)
-        deviceStatusIntervalScreenOff = resources.getInteger(R.integer.device_status_update_screen_off_every_X_loop)
+        deviceStatusIntervalScreenOff =
+            resources.getInteger(R.integer.device_status_update_screen_off_every_X_loop)
         clientSocketAddress = getString(R.string.client_socket_address)
 
         Logging.logDebug(Logging.Category.MONITOR, "Monitor onCreate(): singletons initialized")
@@ -216,7 +226,7 @@ class Monitor : LifecycleService() {
         super.onDestroy()
 
         Logging.logDebug(Logging.Category.MONITOR, "Monitor onDestroy()")
-        
+
         updateBroadcastEnabled = false // prevent broadcast from currently running update task
         updateTimer.cancel() // cancel task
 
@@ -256,14 +266,20 @@ class Monitor : LifecycleService() {
             // when previous executions are delayed (e.g. during clientSetup() )
             updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval.toLong())
         }
-        if (!mutex.isAcquired) Logging.logError(Logging.Category.MONITOR, "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC.")
+        if (!mutex.isAcquired) Logging.logError(
+            Logging.Category.MONITOR,
+            "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC."
+        )
 
         // execute action if one is explicitly requested (e.g. from notification)
         if (intent != null) {
             val actionCode = intent.getIntExtra("action", -1)
-            
-            Logging.logDebug(Logging.Category.MONITOR, "Monitor.onStartCommand() with action code: $actionCode")
-            
+
+            Logging.logDebug(
+                Logging.Category.MONITOR,
+                "Monitor.onStartCommand() with action code: $actionCode"
+            )
+
             when (actionCode) {
                 1 -> lifecycleScope.launch { setClientRunMode(RUN_MODE_NEVER) }
                 2 -> lifecycleScope.launch { setClientRunMode(RUN_MODE_AUTO) }
@@ -285,9 +301,9 @@ class Monitor : LifecycleService() {
      */
     fun forceRefresh() {
         if (!mutex.isAcquired) return  // do not try to update if client is not running
-        
+
         Logging.logDebug(Logging.Category.MONITOR, "forceRefresh()")
-        
+
         try {
             updateTimer.schedule(StatusUpdateTimerTask(), 0)
         } catch (e: Exception) {
@@ -295,9 +311,9 @@ class Monitor : LifecycleService() {
         } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 
-    fun getWelcomeStateFile() : Boolean {
+    fun getWelcomeStateFile(): Boolean {
         val file = File(boincWorkingDir + fileNameWelcomeState)
-        return file.exists();
+        return file.exists()
     }
 
     fun setWelcomeStateFile() {
@@ -308,8 +324,8 @@ class Monitor : LifecycleService() {
     }
 
     //Kill boinc client nicely
-    fun quitClient() : Boolean {
-        if(clientInterface.isConnected) {
+    fun quitClient(): Boolean {
+        if (clientInterface.isConnected) {
             return clientInterface.quit()
         }
         return true
@@ -364,17 +380,22 @@ class Monitor : LifecycleService() {
             // forceCompleteUpdate: read complete status, independently of screen setting
             if (screenOn || forceCompleteUpdate) {
                 // complete status read, with broadcast
-                Logging.logVerbose(Logging.Category.MONITOR, "readClientStatus(): screen on, get complete status")
-                
+                Logging.logVerbose(
+                    Logging.Category.MONITOR,
+                    "readClientStatus(): screen on, get complete status"
+                )
+
                 status = clientInterface.ccStatus
                 val state = clientInterface.state
                 val transfers = clientInterface.fileTransfers
                 val acctMgrInfo = clientInterface.acctMgrInfo
                 val newNotices = clientInterface.getNotices(clientStatus.mostRecentNoticeSeqNo)
                 if (allNotNull(status, state, state?.hostInfo, acctMgrInfo)) {
-                    clientStatus.setClientStatus(status, state.results, state.projects,
-                            transfers, state.hostInfo, acctMgrInfo,
-                            newNotices)
+                    clientStatus.setClientStatus(
+                        status, state!!.results, state.projects,
+                        transfers, state.hostInfo, acctMgrInfo,
+                        newNotices
+                    )
                 } else {
                     var nullValues = ""
                     if (state == null) {
@@ -384,16 +405,24 @@ class Monitor : LifecycleService() {
                     }
                     if (transfers == null) nullValues += "transfers "
                     if (acctMgrInfo == null) nullValues += "acctMgrInfo "
-                    
-                    Logging.logError(Logging.Category.MONITOR, "readClientStatus(): connection problem, null: $nullValues")
+
+                    Logging.logError(
+                        Logging.Category.MONITOR,
+                        "readClientStatus(): connection problem, null: $nullValues"
+                    )
                 }
 
                 // update notices notification
-                noticeNotification.update(clientStatus.rssNotices, appPreferences.showNotificationForNotices)
+                noticeNotification.update(
+                    clientStatus.rssNotices,
+                    appPreferences.showNotificationForNotices
+                )
 
                 // check whether monitor is still intended to update, if not, skip broadcast and exit...
                 if (updateBroadcastEnabled) {
-                    applicationContext.sendBroadcast(Intent().apply { action = "edu.berkeley.boinc.clientstatus" })
+                    applicationContext.sendBroadcast(Intent().apply {
+                        action = "edu.berkeley.boinc.clientstatus"
+                    })
                 }
             } else {
                 // read only ccStatus to adjust wakelocks and service state independently of screen status
@@ -402,16 +431,23 @@ class Monitor : LifecycleService() {
             if (BuildConfig.DEBUG && status == null) {
                 error("Assertion failed")
             }
-            val computing = (status.taskSuspendReason == SUSPEND_NOT_SUSPENDED
+            val computing = (status!!.taskSuspendReason == SUSPEND_NOT_SUSPENDED
                     || status.taskSuspendReason == SUSPEND_REASON_CPU_THROTTLE)
-            
-            Logging.logVerbose(Logging.Category.MONITOR, "readClientStatus(): computation enabled: $computing")
-            
+
+            Logging.logVerbose(
+                Logging.Category.MONITOR,
+                "readClientStatus(): computation enabled: $computing"
+            )
+
             clientStatus.setWifiLock(computing)
             clientStatus.setWakeLock(computing)
             clientNotification.update(clientStatus, this, computing)
         } catch (e: Exception) {
-            Logging.logException(Logging.Category.MONITOR, "Monitor.readClientStatus exception: " + e.message, e)
+            Logging.logException(
+                Logging.Category.MONITOR,
+                "Monitor.readClientStatus exception: " + e.message,
+                e
+            )
         }
     }
 
@@ -421,17 +457,24 @@ class Monitor : LifecycleService() {
      */
     private fun reportDeviceStatus() {
         Logging.logVerbose(Logging.Category.MONITOR, "reportDeviceStatus()")
-        
+
         try {
             // set devices status
             // make sure deviceStatus is initialized
-            val reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)) // transmit device status via rpc
+            val reportStatusSuccess =
+                clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)) // transmit device status via rpc
             if (reportStatusSuccess)
                 screenOffStatusOmitCounter = 0
             else
-                Logging.logDebug(Logging.Category.MONITOR, "reporting device status returned false.")
+                Logging.logDebug(
+                    Logging.Category.MONITOR,
+                    "reporting device status returned false."
+                )
         } catch (e: Exception) {
-            Logging.logError(Logging.Category.MONITOR, "Monitor.reportDeviceStatus exception: " + e.message)
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "Monitor.reportDeviceStatus exception: " + e.message
+            )
         }
     }
     // --end-- multi-threaded frequent information polling
@@ -446,7 +489,7 @@ class Monitor : LifecycleService() {
      */
     private fun clientSetup(): Boolean {
         Logging.logVerbose(Logging.Category.MONITOR, "Monitor.clientSetup()")
-        
+
         clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING, true)
         val clientProcessName = boincWorkingDir + fileNameClient
         val md5AssetClient = computeMd5(fileNameClient, true)
@@ -456,20 +499,27 @@ class Monitor : LifecycleService() {
         // of the package. Shutdown the currently running client if needed.
         //
         if (forceReinstall || md5InstalledClient != md5AssetClient) {
-            Logging.logDebug(Logging.Category.MONITOR, "Hashes of installed client does not match binary in assets - re-install.")
+            Logging.logDebug(
+                Logging.Category.MONITOR,
+                "Hashes of installed client does not match binary in assets - re-install."
+            )
 
             // try graceful shutdown using RPC (faster)
             if (getPidForProcessName(clientProcessName) != null && connectClient()) {
                 clientInterface.quit()
-                val attempts = applicationContext.resources.getInteger(R.integer.shutdown_graceful_rpc_check_attempts)
-                val sleepPeriod = applicationContext.resources.getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms)
+                val attempts =
+                    applicationContext.resources.getInteger(R.integer.shutdown_graceful_rpc_check_attempts)
+                val sleepPeriod =
+                    applicationContext.resources.getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms)
                 var x = 0
                 while (x < attempts) {
                     Thread.sleep(sleepPeriod.toLong())
                     if (getPidForProcessName(clientProcessName) == null) { //client is now closed
-                        Logging.logDebug(Logging.Category.MONITOR,
-                                "quitClient: graceful RPC shutdown successful after " + x +
-                                " seconds")
+                        Logging.logDebug(
+                            Logging.Category.MONITOR,
+                            "quitClient: graceful RPC shutdown successful after " + x +
+                                    " seconds"
+                        )
 
                         x = attempts
                     }
@@ -493,10 +543,10 @@ class Monitor : LifecycleService() {
         val clientPid = getPidForProcessName(clientProcessName)
         if (clientPid == null) {
             Logging.logInfo(Logging.Category.MONITOR, "Starting the BOINC client")
-            
+
             if (!runClient(appPreferences.isRemote)) {
                 Logging.logError(Logging.Category.MONITOR, "BOINC client failed to start")
-                
+
                 return false
             }
         }
@@ -522,7 +572,8 @@ class Monitor : LifecycleService() {
 
                 // set Android model as hostinfo
                 // should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
-                val model = "${Build.MANUFACTURER} ${Build.MODEL} - SDK: ${Build.VERSION.SDK_INT} ABI: $abi"
+                val model =
+                    "${Build.MANUFACTURER} ${Build.MODEL} - SDK: ${Build.VERSION.SDK_INT} ABI: $abi"
                 val version = Build.VERSION.RELEASE
 
                 Logging.logInfo(Logging.Category.MONITOR, "reporting hostinfo model name: $model")
@@ -532,16 +583,25 @@ class Monitor : LifecycleService() {
                 clientInterface.setHostInfo(model, version)
                 init = true
             } catch (e: Exception) {
-                Logging.logError(Logging.Category.MONITOR, "Monitor.clientSetup() init failed: " + e.message)
+                Logging.logError(
+                    Logging.Category.MONITOR,
+                    "Monitor.clientSetup() init failed: " + e.message
+                )
             }
         }
         if (init) {
-            Logging.logDebug(Logging.Category.MONITOR, "Monitor.clientSetup() - setup completed successfully")
-            
+            Logging.logDebug(
+                Logging.Category.MONITOR,
+                "Monitor.clientSetup() - setup completed successfully"
+            )
+
             clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE, false)
         } else {
-            Logging.logError(Logging.Category.MONITOR, "Monitor.clientSetup() - setup experienced an error")
-            
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "Monitor.clientSetup() - setup experienced an error"
+            )
+
             clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR, true)
         }
         return connected
@@ -553,19 +613,25 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-    private fun runClient(remote : Boolean): Boolean {
+    private fun runClient(remote: Boolean): Boolean {
         isRemote = remote
         var success = false
         try {
             val param = if (remote) "--allow_remote_gui_rpc" else "--gui_rpc_unix_domain"
             val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", param)
-            
-            Logging.logInfo(Logging.Category.MONITOR, "Launching '${cmd[0]}' from '$boincWorkingDir'")
-            
+
+            Logging.logInfo(
+                Logging.Category.MONITOR,
+                "Launching '${cmd[0]}' from '$boincWorkingDir'"
+            )
+
             Runtime.getRuntime().exec(cmd, null, File(boincWorkingDir))
             success = true
         } catch (e: IOException) {
-            Logging.logError(Logging.Category.MONITOR, "Starting BOINC client failed with exception: " + e.message)
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "Starting BOINC client failed with exception: " + e.message
+            )
             Logging.logException(Logging.Category.MONITOR, "IOException", e)
         }
         return success
@@ -584,7 +650,7 @@ class Monitor : LifecycleService() {
         }
         if (!success) {
             Logging.logError(Logging.Category.MONITOR, "Connection failed!")
-            
+
             return false
         }
 
@@ -605,27 +671,27 @@ class Monitor : LifecycleService() {
     private fun installClient(): Boolean {
         if (!installFile(fileNameClient, true, "")) {
             Logging.logError(Logging.Category.MONITOR, INSTALL_FAILED + fileNameClient)
-            
+
             return false
         }
         if (!installFile(fileNameCABundle, false, "")) {
             Logging.logError(Logging.Category.MONITOR, INSTALL_FAILED + fileNameCABundle)
-            
+
             return false
         }
         if (!installFile(fileNameClientConfig, false, "")) {
             Logging.logError(Logging.Category.MONITOR, INSTALL_FAILED + fileNameClientConfig)
-            
+
             return false
         }
         if (!installFile(fileNameAllProjectsList, false, "")) {
             Logging.logError(Logging.Category.MONITOR, INSTALL_FAILED + fileNameAllProjectsList)
-            
+
             return false
         }
         if (!installFile(fileNameNoMedia, false, ".$fileNameNoMedia")) {
             Logging.logError(Logging.Category.MONITOR, INSTALL_FAILED + fileNameNoMedia)
-            
+
             return false
         }
         return true
@@ -660,8 +726,11 @@ class Monitor : LifecycleService() {
                 success = target.setExecutable(true) // return false, if not executable
             }
 
-            Logging.logDebug(Logging.Category.MONITOR, "Installation of " + source + " successful. Executable: " +
-                    executable + "/" + success)
+            Logging.logDebug(
+                Logging.Category.MONITOR,
+                "Installation of " + source + " successful. Executable: " +
+                        executable + "/" + success
+            )
         } catch (ioe: IOException) {
             Logging.logError(Logging.Category.MONITOR, IOEXCEPTION_LOG + ioe.message)
             Logging.logError(Logging.Category.MONITOR, "Install of $source failed.")
@@ -678,11 +747,16 @@ class Monitor : LifecycleService() {
         get() {
             var archAssetsDirectory = ""
             when (boincPlatform) {
-                R.string.boinc_platform_name_armv6 -> archAssetsDirectory = getString(R.string.assets_dir_armv6)
-                R.string.boinc_platform_name_arm -> archAssetsDirectory = getString(R.string.assets_dir_arm)
-                R.string.boinc_platform_name_arm64 -> archAssetsDirectory = getString(R.string.assets_dir_arm64)
-                R.string.boinc_platform_name_x86 -> archAssetsDirectory = getString(R.string.assets_dir_x86)
-                R.string.boinc_platform_name_x86_64 -> archAssetsDirectory = getString(R.string.assets_dir_x86_64)
+                R.string.boinc_platform_name_armv6 -> archAssetsDirectory =
+                    getString(R.string.assets_dir_armv6)
+                R.string.boinc_platform_name_arm -> archAssetsDirectory =
+                    getString(R.string.assets_dir_arm)
+                R.string.boinc_platform_name_arm64 -> archAssetsDirectory =
+                    getString(R.string.assets_dir_arm64)
+                R.string.boinc_platform_name_x86 -> archAssetsDirectory =
+                    getString(R.string.assets_dir_x86)
+                R.string.boinc_platform_name_x86_64 -> archAssetsDirectory =
+                    getString(R.string.assets_dir_x86_64)
                 else -> {
                 }
             }
@@ -730,12 +804,15 @@ class Monitor : LifecycleService() {
             isr.close()
         } catch (e: Exception) {
             Logging.logError(Logging.Category.MONITOR, "Exception: " + e.message)
-            
+
             return null
         }
         if (processLines.size < 2) {
-            Logging.logError(Logging.Category.MONITOR, "getPidForProcessName(): ps output has less than 2 lines, failure!")
-            
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "getPidForProcessName(): ps output has less than 2 lines, failure!"
+            )
+
             return null
         }
 
@@ -746,8 +823,11 @@ class Monitor : LifecycleService() {
             return null
         }
 
-        Logging.logDebug(Logging.Category.MONITOR, "getPidForProcessName(): PID at index: $pidIndex for output:" +
-                " ${processLines[0]}")
+        Logging.logDebug(
+            Logging.Category.MONITOR,
+            "getPidForProcessName(): PID at index: $pidIndex for output:" +
+                    " ${processLines[0]}"
+        )
 
         var pid: Int? = null
         for (y in 1 until processLines.size) {
@@ -755,8 +835,11 @@ class Monitor : LifecycleService() {
             val comps = processLines[y].split("[\\s]+".toRegex()).toTypedArray()
             for (arg in comps) {
                 if (arg == processName) {
-                    Logging.logDebug(Logging.Category.MONITOR, "getPidForProcessName(): $processName found in line: $y")
-                    
+                    Logging.logDebug(
+                        Logging.Category.MONITOR,
+                        "getPidForProcessName(): $processName found in line: $y"
+                    )
+
                     found = true
                     break // Break out of inner foreach (comps) loop
                 }
@@ -764,18 +847,24 @@ class Monitor : LifecycleService() {
             if (found) {
                 try {
                     pid = comps[pidIndex].toInt()
-                    
+
                     Logging.logDebug(Logging.Category.MONITOR, "getPidForProcessName(): pid: $pid")
                 } catch (e: NumberFormatException) {
-                    Logging.logError(Logging.Category.MONITOR, "getPidForProcessName(): NumberFormatException for " +
-                            "${comps[pidIndex]} at index: $pidIndex")
+                    Logging.logError(
+                        Logging.Category.MONITOR,
+                        "getPidForProcessName(): NumberFormatException for " +
+                                "${comps[pidIndex]} at index: $pidIndex"
+                    )
                 }
                 break // Break out of outer for (processLinesAr) loop
             }
         }
         // if not happen in ps output, not running?!
         if (pid == null)
-            Logging.logError(Logging.Category.MONITOR, "getPidForProcessName(): $processName not found in ps output!")
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "getPidForProcessName(): $processName not found in ps output!"
+            )
 
         // Find required pid
         return pid
@@ -791,13 +880,19 @@ class Monitor : LifecycleService() {
 
         // client PID could not be read, client already ended / not yet started?
         if (clientPid == null) {
-            Logging.logError(Logging.Category.MONITOR, "quitProcessOsLevel could not find PID, already ended or not" +
-                    " yet started?")
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "quitProcessOsLevel could not find PID, already ended or not" +
+                        " yet started?"
+            )
 
             return
         }
 
-        Logging.logDebug(Logging.Category.MONITOR, "quitProcessOsLevel for $processName, pid: $clientPid")
+        Logging.logDebug(
+            Logging.Category.MONITOR,
+            "quitProcessOsLevel for $processName, pid: $clientPid"
+        )
 
         // Do not just kill the client on the first attempt.  That leaves dangling
         // science applications running which causes repeated spawning of applications.
@@ -806,15 +901,20 @@ class Monitor : LifecycleService() {
         Process.sendSignal(clientPid, Process.SIGNAL_QUIT)
 
         // Wait for the client to shutdown gracefully
-        val attempts = applicationContext.resources.getInteger(R.integer.shutdown_graceful_os_check_attempts)
-        val sleepPeriod = applicationContext.resources.getInteger(R.integer.shutdown_graceful_os_check_rate_ms)
+        val attempts =
+            applicationContext.resources.getInteger(R.integer.shutdown_graceful_os_check_attempts)
+        val sleepPeriod =
+            applicationContext.resources.getInteger(R.integer.shutdown_graceful_os_check_rate_ms)
         var x = 0
         while (x < attempts) {
             Thread.sleep(sleepPeriod.toLong())
             if (getPidForProcessName(processName) == null) { //client is now closed
-                Logging.logDebug(Logging.Category.MONITOR, "quitClient: graceful SIGQUIT shutdown successful after" +
-                        " $x seconds")
-                
+                Logging.logDebug(
+                    Logging.Category.MONITOR,
+                    "quitClient: graceful SIGQUIT shutdown successful after" +
+                            " $x seconds"
+                )
+
                 x = attempts
             }
             x++
@@ -823,12 +923,15 @@ class Monitor : LifecycleService() {
         if (clientPid != null) {
             // Process is still alive, send SIGKILL
             Logging.logError(Logging.Category.MONITOR, "SIGQUIT failed. SIGKILL pid: $clientPid")
-            
+
             Process.killProcess(clientPid)
         }
         clientPid = getPidForProcessName(processName)
         if (clientPid != null) {
-            Logging.logError(Logging.Category.MONITOR, "SIGKILL failed. still living pid: $clientPid")
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "SIGKILL failed. still living pid: $clientPid"
+            )
         }
     }
     // --end-- BOINC client installation and run-time management
@@ -845,14 +948,17 @@ class Monitor : LifecycleService() {
                 // forces report of device status at next scheduled update
                 // allows timely reaction to screen off for resume of computation
                 screenOffStatusOmitCounter = deviceStatusIntervalScreenOff
-                
+
                 Logging.logDebug(Logging.Category.MONITOR, "screenOnOffReceiver: screen turned off")
             }
             if (action == Intent.ACTION_SCREEN_ON) {
                 screenOn = true
-                
-                Logging.logDebug(Logging.Category.MONITOR, "screenOnOffReceiver: screen turned on, force data refresh...")
-                
+
+                Logging.logDebug(
+                    Logging.Category.MONITOR,
+                    "screenOnOffReceiver: screen turned on, force data refresh..."
+                )
+
                 forceRefresh()
             }
         }
@@ -934,7 +1040,11 @@ class Monitor : LifecycleService() {
             try {
                 return deviceStatus.isStationaryDeviceSuspected
             } catch (e: Exception) {
-                Logging.logException(Logging.Category.MONITOR, "Monitor.IMonitor.Stub: isStationaryDeviceSuspected() error: ", e)
+                Logging.logException(
+                    Logging.Category.MONITOR,
+                    "Monitor.IMonitor.Stub: isStationaryDeviceSuspected() error: ",
+                    e
+                )
             }
             return false
         }
@@ -969,13 +1079,17 @@ class Monitor : LifecycleService() {
             try {
                 return deviceStatus.status.batteryChargePct
             } catch (e: Exception) {
-                Logging.logException(Logging.Category.MONITOR, "Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ", e)
+                Logging.logException(
+                    Logging.Category.MONITOR,
+                    "Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ",
+                    e
+                )
             }
             return 0
         }
 
         @Throws(RemoteException::class)
-        override fun getAcctMgrInfo(): AcctMgrInfo {
+        override fun getAcctMgrInfo(): AcctMgrInfo? {
             return clientInterface.acctMgrInfo
         }
 
@@ -1005,15 +1119,25 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun attachProject(url: String, projectName: String, authenticator: String): Boolean {
+        override fun attachProject(
+            url: String,
+            projectName: String,
+            authenticator: String
+        ): Boolean {
             return clientInterface.attachProject(url, projectName, authenticator)
         }
 
-        override fun addAcctMgrErrorNum(url: String, userName: String, pwd: String): ErrorCodeDescription {
+        override fun addAcctMgrErrorNum(
+            url: String,
+            userName: String,
+            pwd: String
+        ): ErrorCodeDescription {
             val acctMgr = clientInterface.addAcctMgr(url, userName, pwd)
             return if (acctMgr != null) {
-                ErrorCodeDescription(acctMgr.errorNum,
-                        if (acctMgr.messages.isEmpty()) "" else acctMgr.messages.toString())
+                ErrorCodeDescription(
+                    acctMgr.errorNum,
+                    if (acctMgr.messages.isEmpty()) "" else acctMgr.messages.toString()
+                )
             } else ErrorCodeDescription(-1)
         }
 
@@ -1256,8 +1380,9 @@ class Monitor : LifecycleService() {
         override fun boincMutexAcquired(): Boolean {
             return mutex.isAcquired
         }
+
         @Throws(RemoteException::class)
-        override fun quitClient() : Boolean {
+        override fun quitClient(): Boolean {
             return this@Monitor.quitClient()
         }
     } // --end-- remote service

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2021 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2022 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -42,6 +42,7 @@ class RpcClientTest {
     private var rpcClient = RpcClient()
     private lateinit var auth1Parser: Auth1Parser
     private lateinit var auth2Parser: Auth2Parser
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this, overrideRecordPrivateCalls = true)
@@ -325,7 +326,8 @@ class RpcClientTest {
         val expected = String.format(
             GLOBAL_PREFS_TEMPLATE, 0, 0.0, 0.0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0, 0, "$stringBuilder").replace("\\s+".toRegex(), "")
+            0.0, 0.0, 0.0, 0, 0, "$stringBuilder"
+        ).replace("\\s+".toRegex(), "")
         val globalPreferences = GlobalPreferences()
         for (i in 0..6) {
             globalPreferences.cpuTimes.weekPrefs[i] = TimeSpan()
@@ -344,7 +346,8 @@ class RpcClientTest {
         val expected = String.format(
             GLOBAL_PREFS_TEMPLATE, 0, 0.0, 0.0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0, 0, "$stringBuilder").replace("\\s+".toRegex(), "")
+            0.0, 0.0, 0.0, 0, 0, "$stringBuilder"
+        ).replace("\\s+".toRegex(), "")
         val globalPreferences = GlobalPreferences()
         for (i in 0..6) {
             globalPreferences.netTimes.weekPrefs[i] = TimeSpan()
