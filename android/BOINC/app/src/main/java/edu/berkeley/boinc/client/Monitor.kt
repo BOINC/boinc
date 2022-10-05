@@ -391,13 +391,11 @@ class Monitor : LifecycleService() {
                 val acctMgrInfo = clientInterface.acctMgrInfo
                 val newNotices = clientInterface.getNotices(clientStatus.mostRecentNoticeSeqNo)
                 if (allNotNull(status, state, state?.hostInfo, acctMgrInfo)) {
-                    if (state != null) {
-                        clientStatus.setClientStatus(
-                            status, state.results, state.projects,
-                            transfers, state.hostInfo, acctMgrInfo,
-                            newNotices
-                        )
-                    }
+                    clientStatus.setClientStatus(
+                        status, state!!.results, state.projects,
+                        transfers, state.hostInfo, acctMgrInfo,
+                        newNotices
+                    )
                 } else {
                     var nullValues = ""
                     if (state == null) {
