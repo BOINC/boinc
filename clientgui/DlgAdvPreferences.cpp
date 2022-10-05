@@ -1270,6 +1270,3 @@ bool CDlgAdvPreferences::ConfirmClear() {
 
     return res==wxYES;
 }
-
-
-
