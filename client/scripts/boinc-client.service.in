@@ -7,7 +7,7 @@ After=vboxdrv.service network-online.target
 [Service]
 Type=simple
 ProtectHome=true
-ProtectSystem=strict
+ProtectSystem=full
 ProtectControlGroups=true
 ReadWritePaths=-/var/lib/boinc -/etc/boinc-client
 Nice=10
