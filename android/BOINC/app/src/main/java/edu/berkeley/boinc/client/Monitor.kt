@@ -403,7 +403,6 @@ class Monitor : LifecycleService() {
                     } else {
                         if (state.hostInfo == null) nullValues += "state.host_info "
                     }
-                    if (transfers == null) nullValues += "transfers "
                     if (acctMgrInfo == null) nullValues += "acctMgrInfo "
 
                     Logging.logError(
