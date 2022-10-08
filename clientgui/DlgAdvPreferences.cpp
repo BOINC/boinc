@@ -744,6 +744,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     wxString invMsgLimit10 = _("Number must be between 0 and 10");
     wxString invMsgLimit100 = _("Number must be between 0 and 100");
     wxString invMsgLimit1_100 = _("Number must be between 1 and 100");
+    wxString invMsgIdle = _("Suspend when no mouse or keyboard input needs to be greater than 'in use' mouse or keyboard input.");
     wxString buffer;
     double startTime, endTime;
 
@@ -780,6 +781,31 @@ bool CDlgAdvPreferences::ValidateInput() {
         if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
             return false;
+        }
+    }
+
+ // It is possible that the computer will not process tasks
+ // if the time for no recent input is nonzero and is less than or
+ // equal to the idle time before computing resumes (ProcIdleFor).
+ // This will check that condition and return an error.
+ //
+    if (m_txtProcIdleFor->IsEnabled() && m_chkNoRecentInput->IsChecked()) {
+        wxString bufferNRI = m_txtNoRecentInput->GetValue();
+        double valueNRI;
+        bufferNRI.ToDouble(&valueNRI);
+        // Since these values will be stored rounded to the hundredth, it should
+        // be evaluated that way.
+        //
+        valueNRI = RoundToHundredths(valueNRI);
+        if (valueNRI > 0) {
+            wxString bufferPIF = m_txtProcIdleFor->GetValue();
+            double valuePIF;
+            bufferPIF.ToDouble(&valuePIF);
+            valuePIF = RoundToHundredths(valuePIF);
+            if (valueNRI <= valuePIF) {
+                ShowErrorMessage(invMsgIdle, m_txtNoRecentInput);
+                return false;
+            }
         }
     }
 
