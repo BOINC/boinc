@@ -27,11 +27,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PackageInfoFlags
 import android.content.res.Configuration
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -277,8 +279,13 @@ class BOINCActivity : AppCompatActivity() {
                     val returnB = dialog.findViewById<Button>(R.id.returnB)
                     val tvVersion = dialog.findViewById<TextView>(R.id.version)
                     try {
-                        tvVersion.text = getString(R.string.about_version,
-                                packageManager.getPackageInfo(packageName, 0).versionName)
+                        val packageInfo = if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                            packageManager.getPackageInfo(packageName, PackageInfoFlags.of(0))
+                        } else {
+                            @Suppress("DEPRECATION")
+                            packageManager.getPackageInfo(packageName, 0)
+                        }
+                        tvVersion.text = getString(R.string.about_version, packageInfo.versionName)
                     } catch (e: PackageManager.NameNotFoundException) {
                             Logging.logWarning(Logging.Category.USER_ACTION, "version name not found.")
                     }
