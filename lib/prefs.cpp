@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -408,6 +408,21 @@ int GLOBAL_PREFS::parse_override(
             if (!mask.niu_suspend_cpu_usage) {
                 niu_suspend_cpu_usage = suspend_cpu_usage;
             }
+            // Checks for a condition where no computing could occur if suspend until idle and
+            // suspend after being idle overlap.
+            if (mask.idle_time_to_run && mask.suspend_if_no_recent_input) {
+                if ((idle_time_to_run - suspend_if_no_recent_input + 0.005) >= 0) {
+                    // It is more likely the user will notice BOINC operating while computer is in
+                    // use.  Therefore setting idle time to run to 0 should give the user an indication that one
+                    // of the settings did not apply.
+                    idle_time_to_run = 0;
+                    mask.idle_time_to_run = false;
+                    run_if_user_active = true;
+                    mask.run_if_user_active = true;
+                    run_gpu_if_user_active = true;
+                    mask.run_gpu_if_user_active = true;
+                }
+            }
             return 0;
         }
         if (in_venue) {
@@ -765,7 +780,7 @@ void GLOBAL_PREFS::write_day_prefs(MIOFILE& f) {
         bool net_present = net_times.week.days[i].present;
         //write only when needed
         if (net_present || cpu_present) {
-            
+
             f.printf("   <day_prefs>\n");                
             f.printf("      <day_of_week>%d</day_of_week>\n", i);
             if (cpu_present) {
