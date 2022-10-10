@@ -82,7 +82,6 @@
 #include "proc_control.h"
 #include "procinfo.h"
 #include "str_util.h"
-#include "str_replace.h"
 #include "util.h"
 
 #include "regexp.h"
@@ -252,9 +251,9 @@ void str_replace_all(char* buf, const char* s1, const char* s2) {
     while (1) {
         char* p = strstr(buf, s1);
         if (!p) break;
-        strcpy(buf2, p+s1_len);
-        strcpy(p, s2);
-        strcat(p, buf2);
+        safe_strcpy(buf2, p+s1_len);
+        safe_strcpy(p, s2);
+        safe_strcat(p, buf2);
     }
 }
 
@@ -681,7 +680,7 @@ int TASK::run(int argct, char** argvt) {
         boinc_delete_file(fraction_done_filename.c_str());
     }
 
-    strcpy(buf, application.c_str());
+    safe_strcpy(buf, application.c_str());
     char* p = strstr(buf, "$PROJECT_DIR");
     if (p) {
         p += strlen("$PROJECT_DIR");
@@ -889,7 +888,7 @@ int TASK::run(int argct, char** argvt) {
         // TODO: use malloc instead of stack var
         //
         argv[0] = app_path;
-        strlcpy(arglist, command_line.c_str(), sizeof(arglist));
+        safe_strcpy(arglist, command_line.c_str());
         parse_command_line(arglist, argv+1);
         if (priority_val) {
             setpriority(PRIO_PROCESS, 0, priority_val);
