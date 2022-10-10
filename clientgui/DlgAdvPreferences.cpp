@@ -784,28 +784,19 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
     }
 
- // It is possible that the computer will not process tasks
- // if the time for no recent input is nonzero and is less than or
- // equal to the idle time before computing resumes (ProcIdleFor).
- // This will check that condition and return an error.
+ // Checks for a condition where no computing could occur if suspended until idle and
+ // suspend after being idle overlap.
  //
     if (m_txtProcIdleFor->IsEnabled() && m_chkNoRecentInput->IsChecked()) {
         wxString bufferNRI = m_txtNoRecentInput->GetValue();
+        wxString bufferPIF = m_txtProcIdleFor->GetValue();
         double valueNRI;
         bufferNRI.ToDouble(&valueNRI);
-        // Since these values will be stored rounded to the hundredth, it should
-        // be evaluated that way.
-        //
-        valueNRI = RoundToHundredths(valueNRI);
-        if (valueNRI > 0) {
-            wxString bufferPIF = m_txtProcIdleFor->GetValue();
-            double valuePIF;
-            bufferPIF.ToDouble(&valuePIF);
-            valuePIF = RoundToHundredths(valuePIF);
-            if (valueNRI <= valuePIF) {
-                ShowErrorMessage(invMsgIdle, m_txtNoRecentInput);
-                return false;
-            }
+        double valuePIF;
+        bufferPIF.ToDouble(&valuePIF);
+        if((valuePIF - valueNRI + 0.005) >=0) {  // 0.005 is included to factor in rounding to nearest hundredth
+            ShowErrorMessage(invMsgIdle, m_txtNoRecentInput);
+            return false;
         }
     }
 
