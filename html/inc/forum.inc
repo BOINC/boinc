@@ -1226,12 +1226,16 @@ function is_admin($user) {
     return false;
 }
 
+// return
+// 'yes' if logged in and can post (show New thread button)
+// 'login' if could post if logged in (show login to post msg)
+// 'no' if can't post (don't show anythin)
+//
 function user_can_create_thread($user, $forum) {
-    if (!$user) return false;
-    if ($forum->is_dev_blog && !is_admin($user)) {
-        return false;
+    if ($forum->is_dev_blog) {
+        return is_admin($user)?'yes':'no';
     }
-    return true;
+    return $user ?'yes':'login';
 }
 
 function check_post_access($user, $forum) {

@@ -95,10 +95,16 @@ echo '
     <td colspan=2>
 ';
 
-if (user_can_create_thread($user, $forum)) {
+
+switch (user_can_create_thread($user, $forum)) {
+case 'yes':
     show_button(
         "forum_post.php?id=$id", tra("New thread"), tra("Add a new thread to this forum")
     );
+    break;
+case 'login':
+    echo "To add a thread, you must <a href=login_form.php>log in</a>.";
+    break;
 }
 
 echo '</td>
