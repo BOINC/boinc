@@ -7,7 +7,7 @@ on:
   schedule:
     - cron:  '0 12 * * 0'
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -25,7 +25,7 @@ jobs:
         type: [libs-mingw, apps-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
@@ -87,16 +87,16 @@ jobs:
 
       - name: Make for cmake
         if: success() && endsWith(matrix.type, 'cmake')
-        run: 
+        run:
           cmake --build build
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
         run: python ./deploy/prepare_deployment.py logs
-      
+
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mingw_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -106,7 +106,7 @@ jobs:
         run: python ./deploy/prepare_deployment.py win_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{! contains(matrix.type, 'libs')}}
         with:
           name: win_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
