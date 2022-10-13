@@ -53,7 +53,7 @@ data class ProjectConfig(
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
         platforms = arrayListOf<PlatformInfo?>().apply {
             if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
-                parcel.readList(this as MutableList<PlatformInfo>, PlatformInfo::class.java.classLoader, PlatformInfo::class.java)
+                parcel.readList(this as MutableList<PlatformInfo?>, PlatformInfo::class.java.classLoader, PlatformInfo::class.java)
             } else {
                 @Suppress("DEPRECATION")
                 parcel.readList(this as MutableList<*>, PlatformInfo::class.java.classLoader)
