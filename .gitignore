@@ -68,6 +68,7 @@
 *.in
 *.in~
 !*.pc.in
+!wrapper_config.h.in
 aclocal.m4
 autom4te.cache/
 compile

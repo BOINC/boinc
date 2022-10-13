@@ -36,15 +36,13 @@
 //
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
-// comment out the following to disable checking that
-// executables are signed.
-// Doing so introduces a security vulnerability.
-//
-#define CHECK_EXECUTABLES
-
-#ifndef _WIN32
-#include "config.h"
+#ifdef CMAKE
+#include "wrapper_config.h"
+#include "compat.h"
+#else
+#include "str_replace.h" /* for strlcat and strlcpy */
 #endif
+
 #include <stdio.h>
 #include <vector>
 #include <string>

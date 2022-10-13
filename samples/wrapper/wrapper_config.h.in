@@ -1,0 +1,15 @@
+#ifndef BOINC_WRAPPER_CONFIG_H
+#define BOINC_WRAPPER_CONFIG_H
+
+#cmakedefine01 HAVE_SYS_RESOURCE_H
+#cmakedefine01 HAVE_SYS_TYPES_H
+#cmakedefine01 HAVE_SYS_TIME_H
+#cmakedefine01 HAVE_SYS_WAIT_H
+
+#cmakedefine01 DEBUG
+
+#cmakedefine CHECK_EXECUTABLES
+
+#define WRAPPER_RELEASE @PROJECT_VERSION@
+
+#endif /* BOINC_WRAPPER_CONFIG_H */
