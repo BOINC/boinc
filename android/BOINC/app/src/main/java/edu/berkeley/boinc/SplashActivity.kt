@@ -19,8 +19,14 @@
 package edu.berkeley.boinc
 
 import android.app.ActivityManager.TaskDescription
-import android.content.*
-import android.os.Build
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
@@ -119,14 +125,17 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding!!.root)
 
         // Use BOINC logo in Recent Apps Switcher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) { // API 21
             val label = title.toString()
-            val taskDescription: TaskDescription = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) { // API 28
+            val taskDescription: TaskDescription = if (VERSION.SDK_INT < VERSION_CODES.P) { // API 28
                 val icon = this.getBitmapFromVectorDrawable(R.drawable.ic_boinc)
                 @Suppress("DEPRECATION")
                 TaskDescription(label, icon)
-            } else {
+            } else if (VERSION.SDK_INT < VERSION_CODES.TIRAMISU) { // API 28 < x < API 33
+                @Suppress("DEPRECATION")
                 TaskDescription(label, R.drawable.ic_boinc)
+            } else { // > API 33
+                TaskDescription.Builder().setLabel(label).setIcon(R.drawable.ic_boinc).build()
             }
             setTaskDescription(taskDescription)
         }
@@ -193,13 +202,13 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun isMutexAcquiredAsync(callback: ((Boolean) -> Unit)? = null) =
-        TaskRunner(callback, {isMutexAcquired()})
+        TaskRunner(callback) { isMutexAcquired() }
 
     private fun isMutexAcquired(): Boolean {
-        var retryCount = 5;
+        var retryCount = 5
         while(!monitor!!.boincMutexAcquired() && retryCount > 0) {
-            Thread.sleep(1000);
-            --retryCount;
+            Thread.sleep(1000)
+            --retryCount
         }
         return monitor!!.boincMutexAcquired()
     }

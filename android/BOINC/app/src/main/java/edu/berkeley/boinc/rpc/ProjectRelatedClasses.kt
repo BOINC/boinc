@@ -18,6 +18,8 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ParcelCompat.readBoolean
@@ -50,7 +52,12 @@ data class ProjectConfig(
                     parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
         platforms = arrayListOf<PlatformInfo?>().apply {
-            parcel.readList(this as MutableList<*>, PlatformInfo::class.java.classLoader)
+            if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                parcel.readList(this as MutableList<PlatformInfo?>, PlatformInfo::class.java.classLoader, PlatformInfo::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                parcel.readList(this as MutableList<*>, PlatformInfo::class.java.classLoader)
+            }
         }
         termsOfUse = parcel.readString()
 
