@@ -170,15 +170,15 @@
     <ClInclude Include="..\samples\openclapp\openclapp.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="libboincapi_staticcrt_vs2019.vcxproj">
+    <ProjectReference Include="libboincapi_staticcrt.vcxproj">
       <Project>{07bda8f7-4aaf-4a3b-b96e-ea72a143c5ae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboincopencl_staticcrt_vs2019.vcxproj">
+    <ProjectReference Include="libboincopencl_staticcrt.vcxproj">
       <Project>{c0a2deee-2ec5-4f67-8048-53264b6bd14d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboinc_vs2019.vcxproj">
+    <ProjectReference Include="libboinc.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
     </ProjectReference>
   </ItemGroup>

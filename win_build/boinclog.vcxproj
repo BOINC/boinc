@@ -20,9 +20,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}</ProjectGuid>
+    <ProjectGuid>{3A8DFC5C-D169-4BB6-8282-EBD3D1318140}</ProjectGuid>
     <RootNamespace>boinc_guirpctest</RootNamespace>
-    <ProjectName>boinccmd</ProjectName>
+    <ProjectName>boinclog</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -291,7 +291,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\client\boinc_cmd.cpp" />
+    <ClCompile Include="..\client\boinc_log.cpp" />
     <ClCompile Include="..\lib\boinc_win.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Create</PrecompiledHeader>
@@ -303,19 +303,19 @@
     <ClCompile Include="..\lib\gui_rpc_client_print.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\client\win\boinc_cmd.h" />
+    <ClInclude Include="..\client\win\boinc_log.h" />
     <ClInclude Include="..\lib\boinc_win.h" />
     <ClInclude Include="..\lib\gui_rpc_client.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\client\win\boinc_cmd.rc" />
+    <ResourceCompile Include="..\client\win\boinc_log.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="boinc_cli_vs2019.vcxproj">
+    <ProjectReference Include="boinc_cli.vcxproj">
       <Project>{c04f0fcc-bb5d-4627-8656-6173b28bd69e}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboinc_vs2019.vcxproj">
+    <ProjectReference Include="libboinc.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
