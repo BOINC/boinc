@@ -24,7 +24,8 @@
     <RootNamespace>nvcuda</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>example_app_nvcuda</ProjectName>
-    <CudaToolkitCustomDir>$(CUDA_BIN_PATH)</CudaToolkitCustomDir>
+    <CudaToolkitCustomDir>
+    </CudaToolkitCustomDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -50,7 +51,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
     <Import Project="nvcuda.props" />
-    <Import Project="CUDA 11.8.props" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.8.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -222,9 +223,12 @@
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="..\samples\nvcuda\cuda_kernel.cu" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="CUDA 11.8.targets" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.8.targets" />
   </ImportGroup>
   <Import Project="boinc_signing.targets" />
 </Project>
