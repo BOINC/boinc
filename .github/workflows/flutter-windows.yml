@@ -7,7 +7,7 @@ on:
   schedule:
     - cron:  '25 12 * * 0'
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -25,12 +25,12 @@ jobs:
         type: [windows, web, winuwp]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
       - name: Setup msbuild
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1
 
       - name: Setup flutter
         uses: subosito/flutter-action@v1
@@ -46,7 +46,7 @@ jobs:
         run: flutter config --enable-windows-desktop
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: matrix.type == 'windows'
         with:
           path: |
@@ -111,7 +111,7 @@ jobs:
 
       - name: Upload ${{ matrix.type }}
         if: success()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.type }}_flutter_${{ github.event.pull_request.head.sha }}
           path: deploy/flutter_${{ matrix.type }}.7z

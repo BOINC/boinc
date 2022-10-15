@@ -7,7 +7,7 @@ on:
   schedule:
     - cron:  '25 12 * * 0'
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -20,7 +20,7 @@ jobs:
         type: [macos, ios]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
@@ -39,7 +39,7 @@ jobs:
         run: flutter config --enable-macos-desktop
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: matrix.type == 'macos'
         with:
           path: 3rdParty/buildCache
