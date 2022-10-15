@@ -7,7 +7,7 @@ on:
   schedule:
     - cron:  '10 12 * * 0'
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -25,7 +25,7 @@ jobs:
         type: [client, client-debug]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
@@ -35,7 +35,7 @@ jobs:
           sudo apt-get install -y p7zip-full zip
 
       - name: Cache dependencies
-        uses: actions/cache@v2.1.3
+        uses: actions/cache@v3
         with:
           path: |
             3rdParty/buildCache
@@ -72,16 +72,16 @@ jobs:
       - name: Prepare logs on failure
         if: ${{ failure() }}
         run: python ./deploy/prepare_deployment.py logs
-      
+
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: wasm_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'debug') 
+        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'debug')
         env:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
@@ -95,7 +95,7 @@ jobs:
         run:  python ./deploy/prepare_deployment.py wasm_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ ! contains(matrix.type, 'libs') }}
         with:
           name: wasm_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}

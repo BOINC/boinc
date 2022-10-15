@@ -12,6 +12,7 @@
       "rappture",
       {
         "name": "wxwidgets",
+        "features": ["webview"],
         "default-features": false
       },
       "gtest",
