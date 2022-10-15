@@ -221,6 +221,7 @@ vda/ssim
 vda/vda
 vda/vdad
 /win_build/*.sdf
+/win_build/x64
 
 # OS-specific files
 .DS_Store
