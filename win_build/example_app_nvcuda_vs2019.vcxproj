@@ -24,6 +24,7 @@
     <RootNamespace>nvcuda</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>example_app_nvcuda</ProjectName>
+    <CudaToolkitCustomDir>$(CUDA_BIN_PATH)</CudaToolkitCustomDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -49,6 +50,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
     <Import Project="nvcuda_2019.props" />
+    <Import Project="CUDA 11.8.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -119,6 +121,10 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
+    <CudaCompile>
+      <Include>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut</Include>
+      <Runtime>MTd</Runtime>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <CUDA_Build_Rule>
@@ -218,7 +224,7 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="nvcuda.targets" />
+    <Import Project="CUDA 11.8.targets" />
   </ImportGroup>
   <Import Project="boinc_signing.targets" />
 </Project>
