@@ -26,6 +26,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
+import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.BigTextStyle
@@ -45,6 +46,7 @@ import edu.berkeley.boinc.utils.getBitmapFromVectorDrawable
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@RequiresApi(VERSION_CODES.M)
 @Singleton
 class NoticeNotification @Inject constructor(
     private val context: Context,
@@ -64,7 +66,7 @@ class NoticeNotification @Inject constructor(
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         intent.putExtra("targetFragment", string.tab_notices)
         contentIntent =
-            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     /**
@@ -129,7 +131,7 @@ class NoticeNotification @Inject constructor(
         val notifications: MutableList<Notification> = ArrayList()
         for (notice in currentlyNotifiedNotices) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(notice.link))
-            val browserIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            val browserIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or 0)
 
             val builder = Builder(context, "notice-channel")
                 .setAutoCancel(true)
