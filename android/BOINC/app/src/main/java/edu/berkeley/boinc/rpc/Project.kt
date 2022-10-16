@@ -18,6 +18,8 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ParcelCompat.readBoolean
@@ -114,7 +116,13 @@ data class Project(
                     attachedViaAcctMgr = readBoolean(parcel), detachWhenDone = readBoolean(parcel),
                     ended = readBoolean(parcel), trickleUpPending = readBoolean(parcel),
                     noCPUPref = readBoolean(parcel), noCUDAPref = readBoolean(parcel), noATIPref = readBoolean(parcel),
-                    guiURLs = arrayListOf<GuiUrl?>().apply { parcel.readList(this as MutableList<*>, GuiUrl::class.java.classLoader) })
+                    guiURLs = arrayListOf<GuiUrl?>().apply { if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                        parcel.readList(this as MutableList<GuiUrl?>, GuiUrl::class.java.classLoader, GuiUrl::class.java)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        parcel.readList(this as MutableList<*>, GuiUrl::class.java.classLoader)
+                    }
+                    })
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

@@ -172,7 +172,7 @@ function show_status_html($x) {
         tra("Application"),
         tra("Unsent"),
         tra("In progress"),
-        tra("Runtime of last 100 tasks in hours: average, min, max"),
+        tra("Runtime of recent tasks in hours: average, min, max"),
         tra("Users in last 24 hours")
     );
     foreach ($j->apps as $app) {

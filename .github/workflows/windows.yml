@@ -7,7 +7,7 @@ on:
   schedule:
     - cron:  '15 12 * * 0'
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
@@ -64,7 +64,7 @@ jobs:
         run: vcpkg.exe integrate remove
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ${{github.workspace}}\3rdParty\Windows\cuda\
@@ -90,7 +90,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{failure()}}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_logs_${{matrix.type}}_${{github.event.pull_request.head.sha}}
           path: deploy/logs.7z
@@ -105,35 +105,35 @@ jobs:
 
       - name: Upload apps
         if: success() && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: win_apps_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_apps.7z
 
       - name: Upload client
         if: success() && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: win_client_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_client.7z
 
       - name: Upload manager
         if: success() && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: win_manager_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_manager.7z
 
       - name: Upload symbol files
-        if: success() && matrix.type == 'msbuild' 
-        uses: actions/upload-artifact@v2
+        if: success() && matrix.type == 'msbuild'
+        uses: actions/upload-artifact@v3
         with:
           name: win_pdb_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/*.pdb
 
       - name: Upload Google Tests Results
         if: always() && matrix.platform == 'x64' && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/**/gtest.xml"

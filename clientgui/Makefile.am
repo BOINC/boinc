@@ -1,7 +1,7 @@
 ## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
-## To build for Macintosh (Darwin), please read the instructions at 
+## To build for Macintosh (Darwin), please read the instructions at
 ## mac_build/HowToBuildBOINC_XCode.rtf
 
 include $(top_srcdir)/Makefile.incl
@@ -66,7 +66,7 @@ boincmgr_SOURCES = \
     ProjectInfoPage.cpp \
     ProjectProcessingPage.cpp \
     ProjectPropertiesPage.cpp \
-	ProjectWelcomePage.cpp \
+    ProjectWelcomePage.cpp \
     ProxyInfoPage.cpp \
     ProxyPage.cpp \
     sg_BoincSimpleFrame.cpp \
