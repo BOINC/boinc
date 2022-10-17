@@ -1,0 +1,1074 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemGroup>
+        <PropertyPageSchema Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+
+        <AvailableItemName Include="CudaCompile">
+            <Targets>CudaBuild</Targets>
+        </AvailableItemName>
+
+        <ProjectTools Include="CudaCompile" />
+        <ProjectTools Include="CudaLink" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CudaBuildRulesPath>$(MSBuildThisFileDirectory)CUDA $(CudToolkitMajorVersion).$(CudaToolkitMinorVersion).xml</CudaBuildRulesPath>
+        <CudaBuildTasksPath>$(MSBuildThisFileDirectory)/../3rdParty/Windows/cuda/nvcc/extras/visual_studio_integration/MSBuildExtensions/Nvda.Build.CudaTasks.v$(CudToolkitMajorVersion).$(CudaToolkitMinorVersion).dll</CudaBuildTasksPath>
+    </PropertyGroup>
+    
+    <UsingTask
+        TaskName="CudaCompile"
+        TaskFactory="XamlTaskFactory"
+        AssemblyName="Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+
+        <Task>$(CudaBuildRulesPath)</Task>
+    </UsingTask>
+
+    <UsingTask
+        TaskName="CudaLink"
+        TaskFactory="XamlTaskFactory"
+        AssemblyName="Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+
+        <Task>$(CudaBuildRulesPath)</Task>
+    </UsingTask>
+
+    <UsingTask TaskName="Nvda.Build.CudaTasks.CountItems" AssemblyFile="$(CudaBuildTasksPath)" />
+    <UsingTask TaskName="Nvda.Build.CudaTasks.GenerateDeps" AssemblyFile="$(CudaBuildTasksPath)" />
+    <UsingTask TaskName="Nvda.Build.CudaTasks.LogMetadata" AssemblyFile="$(CudaBuildTasksPath)" />
+    <UsingTask TaskName="Nvda.Build.CudaTasks.ReadMetadataLinesFromItems" AssemblyFile="$(CudaBuildTasksPath)" />
+    <UsingTask TaskName="Nvda.Build.CudaTasks.ResolvePaths" AssemblyFile="$(CudaBuildTasksPath)" />
+    <UsingTask TaskName="Nvda.Build.CudaTasks.SanitizePaths" AssemblyFile="$(CudaBuildTasksPath)" />
+    <UsingTask TaskName="Nvda.Build.CudaTasks.CudaSetEnvironmentVariable" AssemblyFile="$(CudaBuildTasksPath)" />
+    <UsingTask TaskName="Nvda.Build.CudaTasks.SplitToItemMetadata" AssemblyFile="$(CudaBuildTasksPath)" />
+
+    <Target Name="LogCudaToolkit">
+        <Message Text="CudaToolkitVersion     : '$(CudaToolkitVersion)'" />
+        <Message Text="CudaToolkitFullVersion : '$(CudaToolkitFullVersion)'" />
+        <Message Text="CudaToolkitDir         : '$(CudaToolkitDir)'" />
+        <Message Text="CudaToolkitCustomDir   : '$(CudaToolkitCustomDir)'" />
+        <Message Text="CudaToolkitBinDir      : '$(CudaToolkitBinDir)'" />
+        <Message Text="CudaToolkitIncludeDir  : '$(CudaToolkitIncludeDir)'" />
+        <Message Text="CudaToolkitLibDir      : '$(CudaToolkitLibDir)'" />
+        <Message Text="CudaToolkitNvccPath    : '$(CudaToolkitNvccPath)'" />
+    </Target>
+
+    <Target
+        Name="LogCudaCompile"
+        DependsOnTargets="AddCudaCompileMetadata;LogCudaToolkit">
+
+        <LogMetadata SourceItems="@(CudaCompile)" />
+    </Target>
+
+    <Target
+        Name="LogCudaLink"
+        DependsOnTargets="AddCudaLinkMetadata;LogCudaToolkit">
+
+        <LogMetadata SourceItems="@(CudaLink)" />
+    </Target>
+
+    <Target
+        Name="CudaFilterSelectedFiles"
+        Condition="'@(SelectedFiles)' != ''">
+        
+        <ItemGroup>
+            <CudaCompile
+                Condition="'%(Identity)' != '@(SelectedFiles)'"
+                Remove="@(CudaCompile)" />
+        </ItemGroup>
+    </Target>
+
+    <Target Name="InitializeCudaHostProperties">
+        <!--
+            Add temporary ClCompile/Link items in order to read default metadata that's defined in
+            ItemDefinitionGroup, then remove the items.
+          -->
+        <PropertyGroup>
+            <CudaHostItemName>{9C0A154E-BACB-4452-9EEA-C36BB2A2BCB7}</CudaHostItemName>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <ClCompile Include="$(CudaHostItemName)" />
+            <_CudaCompileHostDefinition Include="@(ClCompile->WithMetadataValue('Identity', '$(CudaHostItemName)'))" />
+            <ClCompile Remove="$(CudaHostItemName)" />
+
+            <Link Include="$(CudaHostItemName)" />
+            <_CudaLinkHostDefinition Include="@(Link->WithMetadataValue('Identity', '$(CudaHostItemName)'))" />
+            <Link Remove="$(CudaHostItemName)" />
+        </ItemGroup>
+
+        <PropertyGroup>
+            <_CudaCompileHostPreprocessorDefinitions>%(_CudaCompileHostDefinition.PreprocessorDefinitions)</_CudaCompileHostPreprocessorDefinitions>
+            <_CudaCompileHostAdditionalIncludeDirectories>%(_CudaCompileHostDefinition.AdditionalIncludeDirectories)</_CudaCompileHostAdditionalIncludeDirectories>
+            <_CudaCompileHostDebugInformationFormat>%(_CudaCompileHostDefinition.DebugInformationFormat)</_CudaCompileHostDebugInformationFormat>
+            <_CudaCompileHostOptimization>%(_CudaCompileHostDefinition.Optimization)</_CudaCompileHostOptimization>
+            <_CudaCompileHostBasicRuntimeChecks>%(_CudaCompileHostDefinition.BasicRuntimeChecks)</_CudaCompileHostBasicRuntimeChecks>
+            <_CudaCompileHostRuntimeLibrary>%(_CudaCompileHostDefinition.RuntimeLibrary)</_CudaCompileHostRuntimeLibrary>
+            <_CudaCompileHostWarningLevel>%(_CudaCompileHostDefinition.WarningLevel)</_CudaCompileHostWarningLevel>
+            <_CudaCompileHostRuntimeTypeInfo>%(_CudaCompileHostDefinition.RuntimeTypeInfo)</_CudaCompileHostRuntimeTypeInfo>
+            <_CudaCompileProgramDataBaseFileName>%(_CudaCompileHostDefinition.ProgramDataBaseFileName)</_CudaCompileProgramDataBaseFileName>
+
+            <_CudaLinkProgramDataBaseFileName>%(_CudaCompileHostDefinition.ProgramDataBaseFileName)</_CudaLinkProgramDataBaseFileName>
+            <_CudaLinkHostAdditionalLibraryDirectories>%(_CudaLinkHostDefinition.AdditionalLibraryDirectories)</_CudaLinkHostAdditionalLibraryDirectories>
+            <_CudaLinkHostAdditionalDependencies>%(_CudaLinkHostDefinition.AdditionalDependencies)</_CudaLinkHostAdditionalDependencies>
+        </PropertyGroup>
+    </Target>
+
+    <ItemGroup>
+        <CudaCompileHostDebugInformationFormatMap Include="Map">
+            <OldStyle>Z7</OldStyle>
+            <ProgramDatabase>Zi</ProgramDatabase>
+            <EditAndContinue>ZI</EditAndContinue>
+        </CudaCompileHostDebugInformationFormatMap>
+
+        <CudaCompileHostOptimizationMap Include="Map">
+            <Disabled>Od</Disabled>
+            <MinSpace>O1</MinSpace>
+            <MaxSpeed>O2</MaxSpeed>
+            <Full>O3</Full>
+        </CudaCompileHostOptimizationMap>
+
+        <CudaCompileHostRuntimeChecksMap Include="Map">
+            <Default>Default</Default>
+            <StackFrameRuntimeCheck>RTCs</StackFrameRuntimeCheck>
+            <UninitializedLocalUsageCheck>RTCu</UninitializedLocalUsageCheck>
+            <EnableFastChecks>RTC1</EnableFastChecks>
+        </CudaCompileHostRuntimeChecksMap>
+
+        <CudaCompileHostRuntimeMap Include="Map">
+            <MultiThreaded>MT</MultiThreaded>
+            <MultiThreadedDebug>MTd</MultiThreadedDebug>
+            <MultiThreadedDLL>MD</MultiThreadedDLL>
+            <MultiThreadedDebugDLL>MDd</MultiThreadedDebugDLL>
+            <SingleThreaded>ML</SingleThreaded>
+            <SingleThreadedDebug>MLd</SingleThreadedDebug>
+        </CudaCompileHostRuntimeMap>
+
+        <CudaCompileHostWarningMap Include="Map">
+            <TurnOffAllWarnings>W0</TurnOffAllWarnings>
+            <Level1>W1</Level1>
+            <Level2>W2</Level2>
+            <Level3>W3</Level3>
+            <Level4>W4</Level4>
+            <EnableAllWarnings>Wall</EnableAllWarnings>
+        </CudaCompileHostWarningMap>
+    </ItemGroup>
+
+    <Target
+        Name="AddCudaCompileMetadata"
+        DependsOnTargets="InitializeCudaHostProperties"
+        Outputs="%(CudaCompile.CompileOut)">
+        
+        <!-- Add dynamic metadata that cannot be added in the ItemDefinitionGroup for the CudaCompile item group. -->
+
+        <ItemGroup>
+            <CudaCompile Condition="'%(CudaCompile.NvccCompilation)' == 'compile' OR '%(CudaCompile.NvccCompilation)' == 'cuda'">
+                <Api>Runtime</Api>
+                <ApiCommandLineTemplate>%(CudaCompile.RuntimeApiCommandLineTemplate)</ApiCommandLineTemplate>
+            </CudaCompile>
+            
+            <CudaCompile Condition="'%(CudaCompile.NvccCompilation)' == 'cubin' OR '%(CudaCompile.NvccCompilation)' == 'fatbin' OR '%(CudaCompile.NvccCompilation)' == 'gpu' OR '%(CudaCompile.NvccCompilation)' == 'ptx' OR '%(CudaCompile.NvccCompilation)' == 'optix-ir'">
+                <Api>Driver</Api>
+                <ApiCommandLineTemplate>%(CudaCompile.DriverApiCommandLineTemplate)</ApiCommandLineTemplate>
+            </CudaCompile>
+        </ItemGroup>
+
+        <!-- Remove trailing back slashes, multiple double quotes, etc. -->
+        <SanitizePaths InputPaths="%(CudaCompile.Include)">
+            <Output TaskParameter="OutputPaths" ItemName="_SanitizedIncludes" />
+        </SanitizePaths>
+
+        <ItemGroup>
+            <CudaCompile>
+                <Include>@(_SanitizedIncludes)</Include>
+            </CudaCompile>
+        </ItemGroup>
+
+        <!--
+            Add metadata for deps.  To handle cases like multiple source files with the same name,
+            absolute source file paths, etc, we build a file name with a hash of the absolute file path.
+          -->
+
+        <PropertyGroup>
+            <CudaCompileItemFullPath>%(CudaCompile.FullPath)</CudaCompileItemFullPath>
+            <CudaCompileDepsOutputFile>%(CudaCompile.Filename)%(CudaCompile.Extension)$(CudaCompileItemFullPath.GetHashCode()).deps</CudaCompileDepsOutputFile>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <CudaCompile>
+                <DepsOutputFile>$(CudaCompileDepsOutputFile)</DepsOutputFile>
+                <DepsOutputDir>$(IntDir)</DepsOutputDir>
+                <DepsOutputPath>$(IntDir)$(CudaCompileDepsOutputFile)</DepsOutputPath>
+            </CudaCompile>
+        </ItemGroup>
+
+        <ReadLinesFromFile
+            Condition="Exists('%(CudaCompile.DepsOutputPath)')"
+            File="%(CudaCompile.DepsOutputPath)">
+
+            <Output TaskParameter="Lines" PropertyName="_CudaCompileDeps" />
+        </ReadLinesFromFile>
+
+        <ItemGroup>
+            <CudaCompile>
+                <DepsFromCached>true</DepsFromCached>
+                <Deps>$(_CudaCompileDeps)</Deps>
+
+                <!--
+                    Add phony dependency if compile is executed on a specific
+                    file instead of the project, otherwise build target will
+                    be skipped since it's up-to-date.
+                -->
+                <SelectedFilesDep Condition="'@(SelectedFiles)' != ''">SelectedFiles.{58e7a258-0433-4cfb-9ce7-27f320d678bc}</SelectedFilesDep>
+            </CudaCompile>
+        </ItemGroup>
+        
+        <ItemGroup>
+            <CudaCompile Condition="'$(Platform)' == 'Win32'">
+                <TargetMachinePlatform>32</TargetMachinePlatform>
+            </CudaCompile>
+            <CudaCompile Condition="'$(Platform)' == 'x64'">
+                <TargetMachinePlatform>64</TargetMachinePlatform>
+            </CudaCompile>
+        </ItemGroup>
+
+        <!-- Parse CodeGeneration metadata and format into the expected gencode format.  -->
+        <ItemGroup>
+            <CudaMetadataCodeGenerationItems Include="%(CudaCompile.CodeGeneration)" />
+
+            <CudaMetadataCodeGenerationMetadataNames Include="Arch" />
+            <CudaMetadataCodeGenerationMetadataNames Include="Code" />
+        </ItemGroup>
+
+        <SplitToItemMetadata
+            InputItemSpec="%(CudaCompile.Identity)"
+            InputItemName="Code Generation"
+            InputItems="@(CudaMetadataCodeGenerationItems)"
+            MetadataNames="@(CudaMetadataCodeGenerationMetadataNames)"
+            SplitSeparator=",">
+
+            <Output TaskParameter="OutputItems" ItemName="CudaMetadataCodeGenerationMetadataItems" />
+        </SplitToItemMetadata>
+
+        <ItemGroup>
+            <CudaMetadataCodeGenerationValues
+                Condition="'%(CudaCompile.EnableVirtualArchInFatbin)' != 'false'"
+                Include="@(CudaMetadataCodeGenerationMetadataItems->'arch=%(Arch),code=\&quot;%(Code),%(Arch)\&quot;')" />
+
+            <CudaMetadataCodeGenerationValues
+                Condition="'%(CudaCompile.EnableVirtualArchInFatbin)' == 'false'"
+                Include="@(CudaMetadataCodeGenerationMetadataItems->'arch=%(Arch),code=%(Code)')" />
+
+            <CudaCompile>
+                <CodeGenerationValues>@(CudaMetadataCodeGenerationValues)</CodeGenerationValues>
+            </CudaCompile>
+        </ItemGroup>
+
+        <!-- "Inherit" settings from host where applicable. -->
+        <ItemGroup>
+            <CudaCompile>
+                <Defines Condition="'%(CudaCompile.UseHostDefines)' == 'true'">%(CudaCompile.Defines);$(_CudaCompileHostPreprocessorDefinitions)</Defines>
+                <Include Condition="'%(CudaCompile.UseHostInclude)' == 'true'">%(CudaCompile.Include);$(_CudaCompileHostAdditionalIncludeDirectories)</Include>
+
+                <!-- Always inherit the .pdb name. -->
+                <ProgramDataBaseFileName>$(_CudaCompileProgramDataBaseFileName)</ProgramDataBaseFileName>
+
+                <DebugInformationFormat Condition="'%(CudaCompile.DebugInformationFormat)' == 'InheritFromHost'">@(CudaCompileHostDebugInformationFormatMap->Metadata('$(_CudaCompileHostDebugInformationFormat)'))</DebugInformationFormat>
+                <Optimization Condition="'%(CudaCompile.Optimization)' == 'InheritFromHost'">@(CudaCompileHostOptimizationMap->Metadata('$(_CudaCompileHostOptimization)'))</Optimization>
+                <RuntimeChecks Condition="'%(CudaCompile.RuntimeChecks)' == 'InheritFromHost'">@(CudaCompileHostRuntimeChecksMap->Metadata('$(_CudaCompileHostBasicRuntimeChecks)'))</RuntimeChecks>
+                <Runtime Condition="'%(CudaCompile.Runtime)' == 'InheritFromHost'">@(CudaCompileHostRuntimeMap->Metadata('$(_CudaCompileHostRuntimeLibrary)'))</Runtime>
+                <Warning Condition="'%(CudaCompile.Warning)' == 'InheritFromHost'">@(CudaCompileHostWarningMap->Metadata('$(_CudaCompileHostWarningLevel)'))</Warning>
+                <!-- No need to map TypeInfo, the property values are the same. -->
+                <TypeInfo Condition="'%(CudaCompile.TypeInfo)' == 'InheritFromHost'">$(_CudaCompileHostRuntimeTypeInfo)</TypeInfo>
+            </CudaCompile>
+        </ItemGroup>
+    </Target>
+
+    <Target
+        Name="InitializeCudaProjectProperties"
+        DependsOnTargets="InitializeCudaHostProperties;AddCudaCompileMetadata">
+
+        <!--
+            Add temporary CudaCompile item in order to read default metadata that's defined in
+            ItemDefinitionGroup, then remove the item.
+          -->
+        <PropertyGroup>
+            <CudaProjectItemName>{1DFF980A-00F8-46C7-846A-F35F3A2EEFF0}</CudaProjectItemName>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <CudaCompile Include="$(CudaProjectItemName)" />
+            <_CudaCompileProjectDefinition Include="@(CudaCompile->WithMetadataValue('Identity', '$(CudaProjectItemName)'))" />
+            <CudaCompile Remove="$(CudaProjectItemName)" />
+        </ItemGroup>
+
+        <PropertyGroup>
+            <_CudaLinkProjectAdditionalCompilerOptions>%(_CudaCompileProjectDefinition.AdditionalCompilerOptions)</_CudaLinkProjectAdditionalCompilerOptions>
+
+            <_CudaLinkProjectNvccCompilation>%(_CudaCompileProjectDefinition.NvccCompilation)</_CudaLinkProjectNvccCompilation>
+
+            <_CudaLinkProjectGPUDebugInfo>%(_CudaCompileProjectDefinition.GPUDebugInfo)</_CudaLinkProjectGPUDebugInfo>
+
+            <_CudaLinkProjectDebugInformationFormat>%(_CudaCompileProjectDefinition.DebugInformationFormat)</_CudaLinkProjectDebugInformationFormat>
+            <_CudaLinkProjectDebugInformationFormat Condition="'$(_CudaLinkProjectDebugInformationFormat)' == 'InheritFromHost'">@(CudaCompileHostDebugInformationFormatMap->Metadata('$(_CudaCompileHostDebugInformationFormat)'))</_CudaLinkProjectDebugInformationFormat>
+
+            <_CudaLinkProjectOptimization>%(_CudaCompileProjectDefinition.Optimization)</_CudaLinkProjectOptimization>
+            <_CudaLinkProjectOptimization Condition="'$(_CudaLinkProjectOptimization)' == 'InheritFromHost'">@(CudaCompileHostOptimizationMap->Metadata('$(_CudaCompileHostOptimization)'))</_CudaLinkProjectOptimization>
+
+            <_CudaLinkProjectCodeGeneration>%(_CudaCompileProjectDefinition.CodeGeneration)</_CudaLinkProjectCodeGeneration>
+
+            <_CudaLinkProjectRuntime>%(_CudaCompileProjectDefinition.Runtime)</_CudaLinkProjectRuntime>
+            <_CudaLinkProjectRuntime Condition="'$(_CudaLinkProjectRuntime)' == 'InheritFromHost'">@(CudaCompileHostRuntimeMap->Metadata('$(_CudaCompileHostRuntimeLibrary)'))</_CudaLinkProjectRuntime>
+
+            <_CudaLinkProjectRuntimeChecks>%(_CudaCompileProjectDefinition.RuntimeChecks)</_CudaLinkProjectRuntimeChecks>
+            <_CudaLinkProjectRuntimeChecks Condition="'$(_CudaLinkProjectRuntimeChecks)' == 'InheritFromHost'">@(CudaCompileHostRuntimeChecksMap->Metadata('$(_CudaCompileHostBasicRuntimeChecks)'))</_CudaLinkProjectRuntimeChecks>
+
+            <_CudaLinkProjectTypeInfo>%(_CudaCompileProjectDefinition.TypeInfo)</_CudaLinkProjectTypeInfo>
+            <!-- No need to map TypeInfo, the property values are the same. -->
+            <_CudaLinkProjectTypeInfo Condition="'$(_CudaLinkProjectTypeInfo)' == 'InheritFromHost'">$(_CudaCompileHostRuntimeTypeInfo)</_CudaLinkProjectTypeInfo>
+
+            <_CudaLinkProjectWarning>%(_CudaCompileProjectDefinition.Warning)</_CudaLinkProjectWarning>
+            <_CudaLinkProjectWarning Condition="'$(_CudaLinkProjectWarning)' == 'InheritFromHost'">@(CudaCompileHostWarningMap->Metadata('$(_CudaCompileHostWarningLevel)'))</_CudaLinkProjectWarning>
+        </PropertyGroup>
+
+        <!-- Parse CodeGeneration metadata and format into the expected gencode format.  -->
+        <ItemGroup>
+            <CudaLinkMetadataCodeGenerationItems Include="$(_CudaLinkProjectCodeGeneration)" />
+
+            <CudaLinkMetadataCodeGenerationMetadataNames Include="Arch" />
+            <CudaLinkMetadataCodeGenerationMetadataNames Include="Code" />
+        </ItemGroup>
+
+        <!-- Note InputItemSpec is generic name since this doesn't apply to a single item. -->
+        <SplitToItemMetadata
+            InputItemSpec="CudaLink"
+            InputItemName="Code Generation"
+            InputItems="@(CudaLinkMetadataCodeGenerationItems)"
+            MetadataNames="@(CudaLinkMetadataCodeGenerationMetadataNames)"
+            SplitSeparator=",">
+
+            <Output TaskParameter="OutputItems" ItemName="CudaLinkMetadataCodeGenerationMetadataItems" />
+        </SplitToItemMetadata>
+
+        <ItemGroup>
+            <CudaLinkMetadataCodeGenerationValues
+                Condition="'$(_CudaLinkNvccProjectCompilation)' == 'compile' OR '$(_CudaLinkNvccProjectCompilation)' == 'ptx'"
+                Include="@(CudaLinkMetadataCodeGenerationMetadataItems->'arch=%(Arch),code=\&quot;%(Code),%(Arch)\&quot;')" />
+
+            <CudaLinkMetadataCodeGenerationValues
+                Condition="'$(_CudaLinkNvccProjectCompilation)' != 'compile' AND '$(_CudaLinkNvccProjectCompilation)' != 'ptx'"
+                Include="@(CudaLinkMetadataCodeGenerationMetadataItems->'arch=%(Arch),code=%(Code)')" />
+        </ItemGroup>
+
+        <PropertyGroup>
+            <_CudaLinkProjectCodeGenerationValues>@(CudaLinkMetadataCodeGenerationValues)</_CudaLinkProjectCodeGenerationValues>
+        </PropertyGroup>
+    </Target>
+
+    <Target
+        Name="AddCudaLinkMetadata"
+        DependsOnTargets="AddCudaCompileMetadata;InitializeCudaProjectProperties"
+        Outputs="%(CudaCompile.CompileOut)">
+
+        <ItemGroup>
+            <CudaLink
+                Condition="('%(CudaCompile.GenerateRelocatableDeviceCode)' == 'true' OR '%(CudaCompile.ExtensibleWholeProgramCompilation)' == 'true') AND '%(CudaCompile.ExcludedFromBuild)' != 'true'"
+                Include="%(CudaCompile.CompileOut)">
+
+                <CodeGenerationValues>$(_CudaLinkProjectCodeGenerationValues)</CodeGenerationValues>
+
+                <GPUDebugInfo>$(_CudaLinkProjectGPUDebugInfo)</GPUDebugInfo>
+                <TargetMachinePlatform Condition="'$(Platform)' == 'Win32'">32</TargetMachinePlatform>
+                <TargetMachinePlatform Condition="'$(Platform)' == 'x64'">64</TargetMachinePlatform>
+
+                <!-- Xcompiler options -->
+                <AdditionalCompilerOptions>$(_CudaLinkProjectAdditionalCompilerOptions)</AdditionalCompilerOptions>
+                <DebugInformationFormat>$(_CudaLinkProjectDebugInformationFormat)</DebugInformationFormat>
+                <Optimization>$(_CudaLinkProjectOptimization)</Optimization>
+                <Runtime>$(_CudaLinkProjectRuntime)</Runtime>
+                <RuntimeChecks>$(_CudaLinkProjectRuntimeChecks)</RuntimeChecks>
+                <TypeInfo>$(_CudaLinkProjectTypeInfo)</TypeInfo>
+                <Warning>$(_CudaLinkProjectWarning)</Warning>
+            </CudaLink>
+        </ItemGroup>
+
+        <!-- "Inherit" settings from host where applicable. -->
+        <ItemGroup>
+            <CudaLink>
+                <AdditionalLibraryDirectories Condition="'%(CudaLink.UseHostLibraryDirectories)' == 'true'">%(AdditionalLibraryDirectories);$(_CudaLinkHostAdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+                <AdditionalDependencies Condition="'%(CudaLink.UseHostLibraryDependencies)' == 'true'">%(AdditionalDependencies);$(_CudaLinkHostAdditionalDependencies)</AdditionalDependencies>
+                <ProgramDataBaseFileName>$(_CudaLinkProgramDataBaseFileName)</ProgramDataBaseFileName>
+            </CudaLink>
+        </ItemGroup>
+
+        <ResolvePaths
+            Directories="%(CudaLink.AdditionalLibraryDirectories)"
+            Files="%(CudaLink.AdditionalDependencies)">
+
+            <Output TaskParameter="ResolvedPaths" ItemName="_CudaLinkAdditionalDependencyPaths" />
+        </ResolvePaths>
+
+        <ItemGroup>
+            <CudaLink>
+                <AdditionalDependencyPaths>@(_CudaLinkAdditionalDependencyPaths)</AdditionalDependencyPaths>
+            </CudaLink>
+        </ItemGroup>
+    </Target>
+
+    <PropertyGroup>
+        <AddCudaCompileDepsDependsOn>
+            SetBuildDefaultEnvironmentVariables;
+            SetUserMacroEnvironmentVariables;
+            PrepareForBuild;
+            AddCudaCompileMetadata;
+        </AddCudaCompileDepsDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="AddCudaCompileDeps"
+        DependsOnTargets="$(AddCudaCompileDepsDependsOn)"
+        Inputs="%(CudaCompile.Identity);%(CudaCompile.Deps)"
+        Outputs="%(CudaCompile.DepsOutputPath)">
+        
+        <ItemGroup>
+            <_CudaClAdditionalIncludeDirs Include="$(CudaToolkitBinDir)" />
+            <_CudaClAdditionalIncludeDirs Include="$(CudaToolkitIncludeDir)" />
+            <_CudaClAdditionalIncludeDirs Include="." />
+
+            <_CudaClForcedIncludeFiles Include="cuda_runtime.h" />
+        </ItemGroup>
+
+        <ItemGroup>
+            <_DepsAdditionalIncludeDirs Include="%(CudaCompile.Include)" />
+            <_DepsAdditionalIncludeDirs Include="@(_CudaClAdditionalIncludeDirs)" />
+        </ItemGroup>
+
+        <GenerateDeps
+            Condition="'%(CudaCompile.ExcludedFromBuild)' != 'true'"
+            AdditionalIncludeDirs="@(_DepsAdditionalIncludeDirs)"
+            ForcedIncludeFiles="@(_CudaClForcedIncludeFiles)"
+            PreprocessorDefinitions="__CUDACC__;__CUDACC_VER_MAJOR__=$(CudToolkitMajorVersion);__CUDACC_VER_MINOR__=$(CudaToolkitMinorVersion);%(CudaCompile.Defines)"
+            SourceFile="%(CudaCompile.FullPath)">
+
+            <Output TaskParameter="Deps" ItemName="_CudaCompileDeps" />
+        </GenerateDeps>
+
+        <MakeDir
+            Condition="'%(CudaCompile.ExcludedFromBuild)' != 'true'"
+            Directories="%(CudaCompile.DepsOutputDir)" />
+
+        <WriteLinesToFile
+            Condition="'%(CudaCompile.ExcludedFromBuild)' != 'true'"
+            File="%(CudaCompile.DepsOutputPath)"
+            Lines="@(_CudaCompileDeps)"
+            Overwrite="true" />
+
+        <ItemGroup>
+            <CudaCompile Condition="'%(CudaCompile.Deps)' == ''">
+                <DepsFromCached>false</DepsFromCached>
+                <Deps>@(_CudaCompileDeps)</Deps>
+            </CudaCompile>
+
+            <CudaCompileDeps Include="%(CudaCompile.DepsOutputPath)" />
+        </ItemGroup>
+
+        <ItemGroup>
+            <_CudaClAdditionalIncludeDirs Remove="@(_CudaClAdditionalIncludeDirs)" />
+            <_CudaClForcedIncludeFiles Remove="@(_CudaClForcedIncludeFiles)" />
+            
+            <_DepsAdditionalIncludeDirs Remove="@(_DepsAdditionalIncludeDirs)" />
+            <_CudaCompileDeps Remove="@(_CudaCompileDeps)" />
+        </ItemGroup>
+    </Target>
+
+    <PropertyGroup>
+        <AddCudaCompilePropsDepsDependsOn>
+            SetBuildDefaultEnvironmentVariables;
+            SetUserMacroEnvironmentVariables;
+            PrepareForBuild;
+            AddCudaCompileMetadata;
+        </AddCudaCompilePropsDepsDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="AddCudaCompilePropsDeps"
+        DependsOnTargets="$(AddCudaCompilePropsDepsDependsOn)"
+        Inputs="$(MSBuildProjectFullPath)"
+        Outputs="%(CudaCompile.PropsCacheOutputPath)">
+
+        <!--
+            If the project file changes, determine if the changes include changes to the
+            CUDA item build properties.  If so, add the project file as a dependency.
+
+            First, read build props from previous build if available.
+        -->
+
+        <ReadLinesFromFile
+            Condition="Exists('%(CudaCompile.PropsCacheOutputPath)')"
+            File="%(CudaCompile.PropsCacheOutputPath)">
+
+            <Output TaskParameter="Lines" ItemName="_CudaCompilePropsOld" />
+        </ReadLinesFromFile>
+
+        <!-- Determine build properties to read as determined by the rules file. -->
+        <XmlPeek
+            Namespaces="&lt;Namespace Prefix='x' Uri='clr-namespace:Microsoft.Build.Framework.XamlTypes;assembly=Microsoft.Build.Framework' /&gt;"
+            XmlInputPath="$(CudaBuildRulesPath)"
+            Query="//x:BoolProperty/@Name | //x:DynamicEnumProperty/@Name | //x:EnumProperty/@Name | //x:IntProperty/@Name | //x:StringProperty/@Name | //x:StringListProperty/@Name">
+
+            <Output TaskParameter="Result" ItemName="_CudaCompilePropNames" />
+        </XmlPeek>
+
+        <!-- Remove the CommandLineTemplate property, this has no effect on the build. -->
+        <ItemGroup>
+            <_CudaCompilePropNames Remove="CommandLineTemplate" />
+        </ItemGroup>
+
+        <!-- Read the CudaCompile build property names from the rules file. -->
+        <ReadMetadataLinesFromItems
+            Items="@(CudaCompile->Metadata('Identity'))"
+            MetadataNames="@(_CudaCompilePropNames)">
+
+            <Output TaskParameter="MetadataLines" ItemName="_CudaCompilePropsTemp" />
+        </ReadMetadataLinesFromItems>
+
+        <!-- ReadLinesFromFile trims lines as it reads, trim items here so they match -->
+        <ItemGroup>
+            <_CudaCompilePropsNew Include="@(_CudaCompilePropsTemp->'%(Identity)'->Trim())" />
+        </ItemGroup>
+
+        <!-- Cache build property values for comparison in successive builds. -->
+        <WriteLinesToFile
+            File="%(CudaCompile.PropsCacheOutputPath)"
+            Lines="@(_CudaCompilePropsNew)"
+            Overwrite="true" />
+
+        <!-- If the new props differ from the old props, add the project file as a dependency.  -->
+        <ItemGroup>
+            <CudaCompile Condition="'@(_CudaCompilePropsOld)' != '@(_CudaCompilePropsNew)'">
+                <ProjectDeps>$(MSBuildProjectFullPath)</ProjectDeps>
+            </CudaCompile>
+        </ItemGroup>
+    </Target>
+
+    <PropertyGroup>
+        <WriteCudaCompileTLogsDependsOn>
+            $(WriteCudaCompileTLogsDependsOn);
+            AddCudaCompileMetadata;
+            AddCudaCompilePropsDeps
+        </WriteCudaCompileTLogsDependsOn>
+
+        <CudaCompileReadTlogFile>$(TLogLocation)CudaCompile.read.1u.tlog</CudaCompileReadTlogFile>
+        <CudaCompileWriteTlogFile>$(TLogLocation)CudaCompile.write.1u.tlog</CudaCompileWriteTlogFile>
+    </PropertyGroup>
+
+    <Target
+        Name="WriteCudaCompileTlogs"
+        Condition="'@(CudaCompile)' != '' AND '@(SelectedFiles)' == ''"
+        Inputs="@(CudaCompile);@(CudaCompileDeps)"
+        Outputs="$(CudaCompileReadTlogFile);$(CudaCompileWriteTlogFile)"
+        DependsOnTargets="$(WriteCudaCompileTLogsDependsOn)">
+
+        <ItemGroup>
+            <_CudaCompileReadTlog
+                Condition="'%(CudaCompile.ExcludedFromBuild)' != 'true' AND '%(CudaCompile.CompileOut)' != ''"
+                Include="^%(CudaCompile.FullPath);%(CudaCompile.AdditionalDependencies);%(CudaCompile.ProjectDeps);%(CudaCompile.Deps)" />
+
+            <_CudaCompileWriteTlog
+                Condition="'%(CudaCompile.ExcludedFromBuild)' != 'true' AND '%(CudaCompile.CompileOut)' != ''"
+                Include="^%(CudaCompile.FullPath);%(CudaCompile.CompileOut)" />
+        </ItemGroup>
+
+        <WriteLinesToFile
+            Condition="'@(_CudaCompileReadTlog)' != ''"
+            File="$(CudaCompileReadTlogFile)"
+            Lines="@(_CudaCompileReadTlog->MetaData('Identity')->ToUpperInvariant());"
+            Overwrite="true"
+            Encoding="Unicode"/>
+
+        <WriteLinesToFile
+            Condition="'@(_CudaCompileWriteTlog)' != ''"
+            File="$(CudaCompileWriteTlogFile)"
+            Lines="@(_CudaCompileWriteTlog->MetaData('Identity')->ToUpperInvariant());"
+            Overwrite="true"
+            Encoding="Unicode"/>
+
+        <ItemGroup>
+            <_CudaCompileReadTlog Remove="@(_CudaCompileReadTlog)" />
+            <_CudaCompileWriteTlog Remove="@(_CudaCompileWriteTlog)" />
+        </ItemGroup>
+    </Target>
+
+
+    <Target Name="ValidateCudaBuild">
+
+        <!-- Validate CUDA Toolkit dir. -->
+        <Error
+            Condition="!Exists($(CudaToolkitDir))"
+            Text="The CUDA Toolkit $(CudaToolkitVersion) directory '$(CudaToolkitDir)' does not exist.  Please verify the CUDA Toolkit is installed properly or define the CudaToolkitDir property to resolve this error." />
+            
+    </Target>
+
+    <Target
+        Name="ValidateCudaCodeGeneration"
+        Outputs="%(CudaCompile.CompileOut)">
+
+        <ItemGroup>
+            <ValidateCudaCodeGenerationItems Include="%(CudaCompile.CodeGeneration)" />
+        </ItemGroup>
+
+        <CountItems InputItems="@(ValidateCudaCodeGenerationItems)">
+            <Output TaskParameter="ItemCount" PropertyName="ValidateCudaCodeGenerationCount" />
+        </CountItems>
+
+        <!-- Currently only CUDA allows more than 1 code generation option at a time. -->
+        <Error
+            Condition="'%(CudaCompile.NvccCompilation)' != 'compile' AND '%(CudaCompile.NvccCompilation)' != 'fatbin' AND $(ValidateCudaCodeGenerationCount) &gt; 1"
+            Text="More than 1 Code Generation option is specified, this is only allowed if NVCC Compilation Type is 'compile' or 'fatbin'." />
+    </Target>
+
+    <Target Name="PrepareForCudaBuild">
+        <SanitizePaths InputPaths="$(WindowsSdkDir)">
+            <Output TaskParameter="OutputPaths" PropertyName="CudafeWindowsSdkDir" />
+        </SanitizePaths>
+
+        <CudaSetEnvironmentVariable 
+            Name="CUDAFE_FLAGS"
+            Value="--sdk_dir &quot;$(CudafeWindowsSdkDir)&quot;" />
+    </Target>
+
+    <PropertyGroup>
+        <CudaCompileDependsOn>
+            $(CudaCompileDependsOn);
+            _SelectedFiles;
+            CudaFilterSelectedFiles;
+            AddCudaCompileMetadata;
+            AddCudaLinkMetadata;
+            AddCudaCompileDeps;
+            AddCudaCompilePropsDeps;
+            WriteCudaCompileTlogs;
+            ValidateCudaBuild;
+            ValidateCudaCodeGeneration;
+            ComputeCudaCompileOutput;
+            PrepareForCudaBuild
+        </CudaCompileDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="CudaBuild"
+        BeforeTargets="$(CudaCompileBeforeTargets)"
+        AfterTargets="$(CudaCompileAfterTargets)"
+        Condition="'@(CudaCompile)' != ''"
+        DependsOnTargets="$(CudaCompileDependsOn)">
+
+        <ItemGroup>
+            <CudaCompile Condition="'%(CudaCompile.Api)' == 'Runtime' AND '%(CudaCompile.AdditionalCompilerOptions)' != ''">
+                <ApiCommandLineTemplate>%(CudaCompile.ApiCommandLineTemplate) -Xcompiler [AdditionalCompilerOptions]</ApiCommandLineTemplate>
+            </CudaCompile>
+        </ItemGroup>
+
+        <ItemGroup>
+            <CudaCompileCore Include="%(CudaCompile.CudaCompileCoreProject)">
+                <!-- Prefix property names w/ double-underscore so that they don't conflict with project properties (eg, Include). -->
+                <Properties>
+                    Platform=$(Platform);
+                    Configuration=$(Configuration);
+
+                    __CompileIn=%(CudaCompile.FullPath);
+                    __CompileRelativeDir=%(CudaCompile.RelativeDir);
+                    __CompileFilename=%(CudaCompile.Filename);
+                    __CompileOut=%(CudaCompile.CompileOut);
+
+                    __ProjectDeps=%(CudaCompile.ProjectDeps);
+                    __Deps=%(CudaCompile.Deps);
+                    __AdditionalDependencies=%(CudaCompile.AdditionalDependencies);
+                    __SelectedFilesDep=%(CudaCompile.SelectedFilesDep);
+
+                    __ExcludedFromBuild=%(CudaCompile.ExcludedFromBuild);
+                    __ExecutionDescription=%(CudaCompile.ExecutionDescription);
+                    __ExclusionDescription=%(CudaCompile.ExclusionDescription);
+                    
+                    __Api=%(CudaCompile.Api);
+                    __AdditionalCompilerOptions=%(CudaCompile.AdditionalCompilerOptions);
+                    __AdditionalDeps=%(CudaCompile.AdditionalDeps);
+                    __Include=%(CudaCompile.Include);
+                    __GenerateRelocatableDeviceCode=%(CudaCompile.GenerateRelocatableDeviceCode);
+                    __ExtensibleWholeProgramCompilation=%(CudaCompile.ExtensibleWholeProgramCompilation);
+                    __NvccCompilation=%(CudaCompile.NvccCompilation);
+                    __CudaRuntime=%(CudaCompile.CudaRuntime);
+                    __NvccPath=$(CudaToolkitNvccPath);
+                    __RequiredIncludes=$(CudaToolkitIncludeDir);
+                    __TargetMachinePlatform=%(CudaCompile.TargetMachinePlatform);
+
+                    __InterleaveSourceInPTX=%(CudaCompile.InterleaveSourceInPTX);
+                    __CodeGeneration=$([System.Text.RegularExpressions.Regex]::Replace('%(CudaCompile.CodeGenerationValues)', ';', '%09'));
+                    __GPUDebugInfo=%(CudaCompile.GPUDebugInfo);
+                    __GenerateLineInfo=%(CudaCompile.GenerateLineInfo);
+                    __Keep=%(CudaCompile.Keep);
+                    __KeepDir=%(CudaCompile.KeepDir);
+                    __MaxRegCount=%(CudaCompile.MaxRegCount);
+                    __PtxAsOptionV=%(CudaCompile.PtxAsOptionV);
+                    
+                    __Defines=$([System.Text.RegularExpressions.Regex]::Replace('%(CudaCompile.Defines)', ';', '%09'));
+                    __Emulation=%(CudaCompile.Emulation);
+                    __HostDebugInfo=%(CudaCompile.HostDebugInfo);
+                    __FastMath=%(CudaCompile.FastMath);
+                    __DebugInformationFormat=%(CudaCompile.DebugInformationFormat);
+                    __Optimization=%(CudaCompile.Optimization);
+                    __ProgramDataBaseFileName=%(CudaCompile.ProgramDataBaseFileName);
+                    __Runtime=%(CudaCompile.Runtime);
+                    __RuntimeChecks=%(CudaCompile.RuntimeChecks);
+                    __TypeInfo=%(CudaCompile.TypeInfo);
+                    __AdditionalCompilerOptions=%(CudaCompile.AdditionalCompilerOptions);
+                    __Warning=%(CudaCompile.Warning);
+
+                    __AdditionalOptions=%(CudaCompile.AdditionalOptions);
+                    __CommandLineTemplate=&quot;$(CudaToolkitNvccPath)&quot; %(CudaCompile.BuildDynamicCommandLineTemplate) %(CudaCompile.BuildCommandLineTemplate) %(CudaCompile.ApiCommandLineTemplate)
+                </Properties>
+            </CudaCompileCore>
+        </ItemGroup>
+
+        <MSBuild
+            Projects="@(CudaCompileCore)"
+            Targets="CudaBuildCore"
+            BuildInParallel="$(BuildInParallel)" />
+    </Target>
+
+    <PropertyGroup>
+        <CudaBuildCoreDependsOn>
+            SetBuildDefaultEnvironmentVariables;
+            SetUserMacroEnvironmentVariables;
+            PrepareForCudaBuild;
+        </CudaBuildCoreDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="CudaBuildCore"
+        DependsOnTargets="$(CudaBuildCoreDependsOn)"
+        Inputs="
+            $(__CompileIn);
+            $(__ProjectDeps);
+            $(__Deps);
+            $(__AdditionalDependencies);
+            $(__SelectedFilesDep)"
+        Outputs="$(__CompileOut)">
+
+        <Message
+            Condition="'$(__ExcludedFromBuild)' != 'true'"
+            Importance="High"
+            Text="$(__ExecutionDescription)" />
+        
+        <Message
+            Condition="'$(__ExcludedFromBuild)' == 'true'"
+            Importance="High"
+            Text="$(__ExclusionDescription)" />
+
+        <PropertyGroup>
+            <CompileOutDir>$([System.IO.Directory]::GetParent('$(__CompileOut)').FullName)</CompileOutDir>
+        </PropertyGroup>
+
+        <!-- nvcc will produce an error if the output directories do not exist, so ensure they are created before building. -->
+        <MakeDir
+            Condition="!Exists('$(CompileOutDir)')"
+            Directories="$(CompileOutDir)" />
+
+        <MakeDir
+            Condition="'$(__Keep)' == 'true' AND !Exists('$(__KeepDir)')"
+            Directories="$(__KeepDir)" />
+
+        <ItemGroup>
+            <!-- CodeGeneration and Defines have to be treated specially because its value can contain ;'s and ='s. -->
+            <__CodeGeneration Include="$([System.Text.RegularExpressions.Regex]::Split('$(__CodeGeneration)', '%09'))" />
+            <__Defines Include="$([System.Text.RegularExpressions.Regex]::Split('$(__Defines)', '%09'))" />
+        </ItemGroup>
+
+        <CudaCompile
+            Condition="'$(__ExcludedFromBuild)' != 'true'"
+            StandardOutputImportance="High"
+            LogStandardErrorAsError="$(CudaLogStandardErrorAsError)"
+            ContinueOnError="$(CudaContinueOnError)"
+
+            AdditionalDeps="$(__AdditionalDeps)"
+            CompileOut="$(__CompileOut)"
+            Include="$(__Include)"
+            GenerateRelocatableDeviceCode="$(__GenerateRelocatableDeviceCode)"
+            ExtensibleWholeProgramCompilation="$(__ExtensibleWholeProgramCompilation)"
+            NvccCompilation="$(__NvccCompilation)"
+            CudaRuntime="$(__CudaRuntime)"
+            NvccPath="$(__NvccPath)"
+            RequiredIncludes="$(__RequiredIncludes)"
+            TargetMachinePlatform="$(__TargetMachinePlatform)"
+
+            InterleaveSourceInPTX="$(__InterleaveSourceInPTX)"
+            CodeGeneration="@(__CodeGeneration)"
+            GPUDebugInfo="$(__GPUDebugInfo)"
+            GenerateLineInfo="$(__GenerateLineInfo)"
+            Keep="$(__Keep)"
+            KeepDir="$(__KeepDir)"
+            MaxRegCount="$(__MaxRegCount)"
+            PtxAsOptionV="$(__PtxAsOptionV)"
+            
+            Defines="@(__Defines)"
+            Emulation="$(__Emulation)"
+            HostDebugInfo="$(__HostDebugInfo)"
+            FastMath="$(__FastMath)"
+            DebugInformationFormat="$(__DebugInformationFormat)"
+            Optimization="$(__Optimization)"
+            ProgramDataBaseFileName="$(__ProgramDataBaseFileName)"
+            Runtime="$(__Runtime)"
+            RuntimeChecks="$(__RuntimeChecks)"
+            TypeInfo="$(__TypeInfo)"
+            AdditionalCompilerOptions="$(__AdditionalCompilerOptions)"
+            Warning="$(__Warning)"
+
+            AdditionalOptions="$(__AdditionalOptions)"
+            CommandLineTemplate="$(__CommandLineTemplate)" />
+
+        <ItemGroup>
+            <_NvccIntermediateFiles Include="$(__CompileRelativeDir)tmpxft*$(__CompileFilename).cpp3.o" />
+        </ItemGroup>
+
+        <Delete
+            Condition="'$(__ExcludedFromBuild)' != 'true'"
+            Files="@(_NvccIntermediateFiles)" />
+    </Target>
+
+    <PropertyGroup>
+        <CudaLinkDependsOn>
+            $(CudaLinkDependsOn);
+            CudaBuild;
+            ComputeCudaLinkOutput;
+        </CudaLinkDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="CudaLink"
+        BeforeTargets="$(CudaLinkBeforeTargets)"
+        AfterTargets="$(CudaLinkAfterTargets)"
+        Condition="'@(CudaLink)' != ''"
+        DependsOnTargets="$(CudaLinkDependsOn)"
+        Inputs="
+            @(CudaLink);
+            %(CudaLink.AdditionalDependencyPaths)"
+        Outputs="%(CudaLink.LinkOut)">
+
+        <ItemGroup>
+            <!--
+                Pull additional dependencies into an item so we can use
+                Distinct item function below to avoid errors for multiple
+                defined symbols.
+            -->
+            <_CudaLinkAdditionalDependencies Include="%(CudaLink.AdditionalDependencies)" />
+
+            <CudaLink Condition="'%(CudaLink.AdditionalCompilerOptions)' != ''">
+                <LinkCommandLineTemplate>%(CudaLink.LinkCommandLineTemplate) -Xcompiler [AdditionalCompilerOptions]</LinkCommandLineTemplate>
+            </CudaLink>
+        </ItemGroup>
+
+        <ItemGroup>
+            <CudaCompile Condition="'%(CudaCompile.Api)' == 'Runtime' AND '%(CudaCompile.AdditionalCompilerOptions)' != ''">
+                <ApiCommandLineTemplate>%(CudaCompile.ApiCommandLineTemplate) -Xcompiler [AdditionalCompilerOptions]</ApiCommandLineTemplate>
+            </CudaCompile>
+        </ItemGroup>
+
+        <CudaLink
+            Condition="'%(CudaLink.PerformDeviceLink)' == 'true'"
+            StandardOutputImportance="High"
+            LogStandardErrorAsError="$(CudaLogStandardErrorAsError)"
+            ContinueOnError="$(CudaContinueOnError)"
+
+            CodeGeneration="%(CudaLink.CodeGenerationValues)"
+            AdditionalLibraryDirectories="%(CudaLink.AdditionalLibraryDirectories)"
+            AdditionalDependencies="@(_CudaLinkAdditionalDependencies->Distinct())"
+
+            GPUDebugInfo="%(CudaLink.GPUDebugInfo)"
+            TargetMachinePlatform="%(CudaLink.TargetMachinePlatform)"
+            LinkOut="%(CudaLink.LinkOut)"
+            Inputs="@(CudaLink)"
+
+            Warning="%(CudaLink.Warning)"
+            DebugInformationFormat="%(CudaLink.DebugInformationFormat)"
+            Optimization="%(CudaLink.Optimization)"
+            ProgramDataBaseFileName="%(CudaLink.ProgramDataBaseFileName)"
+            RuntimeChecks="%(CudaLink.RuntimeChecks)"
+            Runtime="%(CudaLink.Runtime)"
+            TypeInfo="%(CudaLink.TypeInfo)"
+            AdditionalCompilerOptions="%(CudaLink.AdditionalCompilerOptions)"
+
+            AdditionalOptions="%(CudaLink.AdditionalOptions)"
+            CommandLineTemplate="%(CudaLink.LinkCommandLineTemplate)" />
+    </Target>
+
+    <PropertyGroup>
+        <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputeCudaCompileOutput
+        </ComputeLinkInputsTargets>
+
+        <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputeCudaCompileOutput;
+            ComputeCudaLinkOutput
+        </ComputeLibInputsTargets>
+    </PropertyGroup>
+
+    <Target
+        Name="ComputeCudaCompileOutput"
+        Condition="'@(CudaCompile)' != ''"
+        Outputs="%(CudaCompile.CompileOut)">
+
+        <ItemGroup>
+            <Link
+                Condition="'%(CudaCompile.ExcludedFromBuild)' != 'true' AND '%(CudaCompile.NvccCompilation)' == 'compile' AND '$(ConfigurationType)' != 'StaticLibrary'"
+                Include="@(CudaCompile->Metadata('CompileOut')->Distinct()->ClearMetadata())" />
+
+            <Lib
+                Condition="'%(CudaCompile.ExcludedFromBuild)' != 'true' AND '%(CudaCompile.NvccCompilation)' == 'compile' AND '$(ConfigurationType)' == 'StaticLibrary'"
+                Include="@(CudaCompile->Metadata('CompileOut')->Distinct()->ClearMetadata())" />
+        </ItemGroup>
+    </Target>
+
+    <Target
+        Name="ComputeCudaLinkOutput"
+        Condition="'@(CudaLink)' != ''"
+        Outputs="%(CudaLink.LinkOut)">
+
+        <ItemGroup>
+            <Link
+                Condition="'$(ConfigurationType)' != 'StaticLibrary' AND '%(CudaLink.PerformDeviceLink)' == 'true'"
+                Include="@(CudaLink->Metadata('LinkOut')->Distinct()->ClearMetadata())" />
+
+            <Lib
+                Condition="'$(ConfigurationType)' == 'StaticLibrary' AND '%(CudaLink.PerformDeviceLink)' == 'true'"
+                Include="@(CudaLink->Metadata('LinkOut')->Distinct()->ClearMetadata())" />
+        </ItemGroup>
+    </Target>
+
+    <PropertyGroup>
+        <CppCleanDependsOn>
+            $(CppCleanDependsOn);
+            CudaClean
+        </CppCleanDependsOn>
+
+        <CudaCleanDependsOn>
+            AddCudaCompileMetadata;
+            ValidateCudaBuild;
+        </CudaCleanDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="CudaClean"
+        Condition="'@(CudaCompile)' != ''"
+        DependsOnTargets="$(CudaCleanDependsOn)">
+
+        <ItemGroup>
+            <CudaCleanCore Include="%(CudaCompile.CudaCompileCoreProject)">
+                <!-- Prefix property names w/ double-underscore so that they don't conflict with project properties (eg, Include). -->
+                <Properties>
+                    Platform=$(Platform);
+                    Configuration=$(Configuration);
+
+                    __CompileOut=%(CudaCompile.CompileOut);
+                    __ExcludedFromBuild=%(CudaCompile.ExcludedFromBuild);
+
+                    __AdditionalDeps=%(CudaCompile.AdditionalDeps);
+                    __Include=%(CudaCompile.Include);
+                    __NvccCompilation=%(CudaCompile.NvccCompilation);
+                    __TargetMachinePlatform=%(CudaCompile.TargetMachinePlatform);
+
+                    __InterleaveSourceInPTX=%(CudaCompile.InterleaveSourceInPTX);
+                    __CodeGeneration=$([System.Text.RegularExpressions.Regex]::Replace('%(CudaCompile.CodeGenerationValues)', ';', '%09'));
+                    __GPUDebugInfo=%(CudaCompile.GPUDebugInfo);
+                    __GenerateLineInfo=%(CudaCompile.GenerateLineInfo);
+                    __Keep=%(CudaCompile.Keep);
+                    __KeepDir=%(CudaCompile.KeepDir);
+                    __MaxRegCount=%(CudaCompile.MaxRegCount);
+                    __PtxAsOptionV=%(CudaCompile.PtxAsOptionV);
+
+                    __Defines=$([System.Text.RegularExpressions.Regex]::Replace('%(CudaCompile.Defines)', ';', '%09'));
+                    __Emulation=%(CudaCompile.Emulation);
+                    __HostDebugInfo=%(CudaCompile.HostDebugInfo);
+                    __FastMath=%(CudaCompile.FastMath);
+                    __DebugInformationFormat=%(CudaCompile.DebugInformationFormat);
+                    __Optimization=%(CudaCompile.Optimization);
+                    __ProgramDataBaseFileName=%(CudaCompile.ProgramDataBaseFileName);
+                    __Runtime=%(CudaCompile.Runtime);
+                    __RuntimeChecks=%(CudaCompile.RuntimeChecks);
+                    __TypeInfo=%(CudaCompile.TypeInfo);
+                    __Warning=%(CudaCompile.Warning);
+
+                    __AdditionalOptions=%(CudaCompile.AdditionalOptions);
+                    __CommandLineTemplate=&quot;$(CudaToolkitNvccPath)&quot; %(CudaCompile.ApiCommandLineTemplate) %(CudaCompile.BuildDynamicCommandLineTemplate) %(CudaCompile.CleanCommandLineTemplate);
+
+                    __DepsOutputPath=%(CudaCompile.DepsOutputPath);
+                </Properties>
+            </CudaCleanCore>
+        </ItemGroup>
+
+        <MSBuild
+            Projects="@(CudaCleanCore)"
+            Targets="CudaCleanCore"
+            BuildInParallel="$(BuildInParallel)" />
+    </Target>
+
+    <PropertyGroup>
+        <CudaCleanCoreDependsOn>
+            SetBuildDefaultEnvironmentVariables;
+            SetUserMacroEnvironmentVariables;
+        </CudaCleanCoreDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="CudaCleanCore"
+        DependsOnTargets="$(CudaCleanCoreDependsOn)"
+        Outputs="$(__CompileOut)">
+
+        <ItemGroup>
+            <!-- CodeGeneration and Defines have to be treated specially because its value can contain ;'s and ='s. -->
+            <__CodeGeneration Include="$([System.Text.RegularExpressions.Regex]::Split('$(__CodeGeneration)', '%09'))" />
+            <__Defines Include="$([System.Text.RegularExpressions.Regex]::Split('$(__Defines)', '%09'))" />
+        </ItemGroup>
+
+        <CudaCompile
+            Condition="'$(__ExcludedFromBuild)' != 'true' AND '$(__Keep)' == 'true'"
+            StandardOutputImportance="High"
+            LogStandardErrorAsError="$(CudaLogStandardErrorAsError)"
+            ContinueOnError="$(CudaContinueOnError)"
+
+            AdditionalDeps="$(__AdditionalDeps)"
+            CompileOut="$(__CompileOut)"
+            Include="$(__Include)"
+            GenerateRelocatableDeviceCode="false"
+            ExtensibleWholeProgramCompilation="false"
+            NvccCompilation="$(__NvccCompilation)"
+            NvccPath="$(CudaToolkitNvccPath)"
+            RequiredIncludes="$(CudaToolkitIncludeDir)"
+            TargetMachinePlatform="$(__TargetMachinePlatform)"
+
+            InterleaveSourceInPTX="$(__InterleaveSourceInPTX)"
+            CodeGeneration="@(__CodeGeneration)"
+            GPUDebugInfo="$(__GPUDebugInfo)"
+            GenerateLineInfo="$(__GenerateLineInfo)"
+            Keep="$(__Keep)"
+            KeepDir="$(__KeepDir)"
+            MaxRegCount="$(__MaxRegCount)"
+            PtxAsOptionV="$(__PtxAsOptionV)"
+            
+            Defines="@(__Defines)"
+            Emulation="$(__Emulation)"
+            HostDebugInfo="$(__HostDebugInfo)"
+            FastMath="$(__FastMath)"
+            DebugInformationFormat="$(__DebugInformationFormat)"
+            Optimization="$(__Optimization)"
+            Runtime="$(__Runtime)"
+            RuntimeChecks="$(__RuntimeChecks)"
+            TypeInfo="$(__TypeInfo)"
+            Warning="$(__Warning)"
+
+            AdditionalOptions="$(__AdditionalOptions)"
+            CommandLineTemplate="$(__CommandLineTemplate)" />
+
+        <Delete Files="$(__DepsOutputPath)" />
+
+    </Target>
+</Project>
