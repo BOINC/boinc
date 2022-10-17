@@ -162,8 +162,12 @@
     <Unzip SourceFiles="$(TMP)\7za920.zip" DestinationFolder="$(TMP)\7z" OverwriteReadOnlyFiles="true" />
     <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7z\7za x $(TMP)\nvcc.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
-    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/cudart.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7z\7za x $(TMP)\cudart.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+	<DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7z\7za x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/CUDAVisualStudioIntegration.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7z\7za x $(TMP)\CUDAVisualStudioIntegration.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
     <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
   <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
