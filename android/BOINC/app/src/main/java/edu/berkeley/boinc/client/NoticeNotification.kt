@@ -18,6 +18,7 @@
 **/
 package edu.berkeley.boinc.client
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
@@ -45,6 +46,7 @@ import edu.berkeley.boinc.utils.getBitmapFromVectorDrawable
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@SuppressLint("UnspecifiedImmutableFlag")
 @Singleton
 class NoticeNotification @Inject constructor(
     private val context: Context,
