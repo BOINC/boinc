@@ -386,10 +386,15 @@ void CDlgExclusiveApps::OnRemoveExclusiveApp(wxCommandEvent& ev) {
 
     // The selection indices are returned in random order.
     // We must sort them to ensure deleting the correct items.
+    //
     selections.Sort((sortcomparefunc)&myCompareInts);
     for (int i=numSelected-1; i>=0; --i) {
         m_exclusiveApsListBox->Delete(selections[i]);
         m_bExclusiveAppsDataChanged = true;
+    }
+    // Check if no more exclusive apps exist.  If no more, disable remove button.
+    if (!m_exclusiveApsListBox->HasClientObjectData()) {
+        m_removeExclusiveAppButton->Disable();
     }
     ev.Skip();
 }
@@ -400,10 +405,15 @@ void CDlgExclusiveApps::OnRemoveExclusiveGPUApp(wxCommandEvent& ev) {
 
     // The selection indices are returned in random order.
     // We must sort them to ensure deleting the correct items.
+    //
     selections.Sort((sortcomparefunc)&myCompareInts);
     for (int i=numSelected-1; i>=0; --i) {
         m_exclusiveGPUApsListBox->Delete(selections[i]);
         m_bExclusiveAppsDataChanged = true;
+    }
+    // Check if no more exclusive GPU apps exist.  If no more, disable remove button.
+    if (!m_exclusiveGPUApsListBox->HasClientObjectData()) {
+        m_removeExclusiveGPUAppButton->Disable();
     }
     ev.Skip();
 }
@@ -411,7 +421,7 @@ void CDlgExclusiveApps::OnRemoveExclusiveGPUApp(wxCommandEvent& ev) {
 // handles OK button clicked
 void CDlgExclusiveApps::OnOK(wxCommandEvent& ev) {
     SavePreferencesSettings();
-    
+
     ev.Skip();
 }
 
