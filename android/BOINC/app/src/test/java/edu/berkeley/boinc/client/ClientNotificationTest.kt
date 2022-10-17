@@ -52,8 +52,8 @@ class ClientNotificationTest {
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
 
         val notification = clientNotification.buildNotification(clientStatus, true, null)
-        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.get(Notification.EXTRA_TITLE))
-        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.get(Notification.EXTRA_TEXT))
+        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.getString(Notification.EXTRA_TITLE))
+        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.getString(Notification.EXTRA_TEXT))
     }
 
     @Test
@@ -62,8 +62,8 @@ class ClientNotificationTest {
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_IDLE
 
         val notification = clientNotification.buildNotification(clientStatus, true, null)
-        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.get(Notification.EXTRA_TITLE))
-        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.get(Notification.EXTRA_TEXT))
+        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.getString(Notification.EXTRA_TITLE))
+        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.getString(Notification.EXTRA_TEXT))
     }
 
     @Test
@@ -72,8 +72,8 @@ class ClientNotificationTest {
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_SUSPENDED
 
         val notification = clientNotification.buildNotification(clientStatus, true, null)
-        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.get(Notification.EXTRA_TITLE))
-        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.get(Notification.EXTRA_TEXT))
+        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.getString(Notification.EXTRA_TITLE))
+        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.getString(Notification.EXTRA_TEXT))
     }
 
     @Test
@@ -82,8 +82,8 @@ class ClientNotificationTest {
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_COMPUTING
 
         val notification = clientNotification.buildNotification(clientStatus, true, null)
-        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.get(Notification.EXTRA_TITLE))
-        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.get(Notification.EXTRA_TEXT))
+        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.getString(Notification.EXTRA_TITLE))
+        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.getString(Notification.EXTRA_TEXT))
     }
 
     @Test
@@ -92,8 +92,8 @@ class ClientNotificationTest {
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_COMPUTING
 
         val notification = clientNotification.buildNotification(clientStatus, true, listOf())
-        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.get(Notification.EXTRA_TITLE))
-        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.get(Notification.EXTRA_TEXT))
+        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.getString(Notification.EXTRA_TITLE))
+        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.getString(Notification.EXTRA_TEXT))
     }
 
 
@@ -108,8 +108,8 @@ class ClientNotificationTest {
         )
 
         val notification = clientNotification.buildNotification(clientStatus, true, activeTasks)
-        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.get(Notification.EXTRA_TITLE))
-        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.get(Notification.EXTRA_SUB_TEXT))
+        Assert.assertEquals(clientStatus.currentStatusTitle, notification.extras.getString(Notification.EXTRA_TITLE))
+        Assert.assertEquals(clientStatus.currentStatusDescription, notification.extras.getString(Notification.EXTRA_SUB_TEXT))
         Assert.assertEquals(activeTasks.size, notification.number)
         val lines = notification.extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES)
         Assert.assertNotNull(lines)

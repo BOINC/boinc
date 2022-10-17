@@ -141,7 +141,12 @@ data class ProjectInfo(
     private constructor(parcel: Parcel) :
             this(parcel.readString() ?: "", parcel.readString() ?: "", parcel.readString(),
                     parcel.readString(), parcel.readString(), parcel.readString(),
-                    parcel.readSerializable() as ArrayList<String>, parcel.readString(), parcel.readString())
+                    if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                        parcel.readSerializable(null, ArrayList::class.java) as ArrayList<String>
+                    } else {
+                        @Suppress("DEPRECATION")
+                        parcel.readSerializable() as ArrayList<String>
+                    }, parcel.readString(), parcel.readString())
 
     override fun describeContents() = 0
 
