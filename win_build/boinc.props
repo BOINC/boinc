@@ -14,26 +14,15 @@
         <CUDA_LIB_PATH Condition="'$(CUDA_LIB_PATH)|$(Platform)' == '|x64'">$(VcpkgRootDir)\..\cuda\nvcc\lib</CUDA_LIB_PATH>
         <CudaNvccPath Condition="'$(Platform)' == 'x64'">$(CUDA_BIN_PATH)\nvcc.exe</CudaNvccPath>
         <CudaRootDir Condition="'$(CudaRootDir)|$(Platform)' == '|x64'">$(CUDA_BIN_PATH)\..\..\</CudaRootDir>
-        <BuildConfig Condition="'$(BuildConfig)' == ''">default</BuildConfig>
     </PropertyGroup>
     <ItemDefinitionGroup>
         <ClCompile>
             <WarningLevel>Level4</WarningLevel>
         </ClCompile>
     </ItemDefinitionGroup>
-    <ItemDefinitionGroup Condition="'$(BuildConfig)|$(Configuration)' == 'ci|Release'">
-        <Link>
-            <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-        </Link>
-    </ItemDefinitionGroup>
-    <ItemDefinitionGroup Condition="'$(BuildConfig)|$(Configuration)' == 'default|Release'">
+    <ItemDefinitionGroup>
         <Link>
             <GenerateDebugInformation>true</GenerateDebugInformation>
-        </Link>
-    </ItemDefinitionGroup>
-    <ItemDefinitionGroup Condition="'$(Configuration)' == 'Debug'">
-        <Link>
-            <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
         </Link>
     </ItemDefinitionGroup>
 </Project>

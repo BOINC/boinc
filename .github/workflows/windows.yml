@@ -72,7 +72,7 @@ jobs:
 
       - name: Build
         if: success() && matrix.type == 'msbuild'
-        run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:BuildConfig=ci -m
+        run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
 
       - name: Build CMake
         if: success() && matrix.type == 'libs-cmake'
