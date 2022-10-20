@@ -123,6 +123,7 @@
     <CudaCompile>
       <Include>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut</Include>
       <Runtime>MTd</Runtime>
+      <CompileOut>$(IntDir)\%(Filename)%(Extension).obj</CompileOut>
     </CudaCompile>
     <CudaLink>
       <AdditionalDependencies>
