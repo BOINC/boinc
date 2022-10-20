@@ -1,21 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  This file is part of BOINC.
-  http://boinc.berkeley.edu
-  Copyright (C) 2021 University of California
-
-  BOINC is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Lesser General Public License
-  as published by the Free Software Foundation,
-  either version 3 of the License, or (at your option) any later version.
-
-  BOINC is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
--->
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         android:installLocation="internalOnly">
     <!-- installation on SD card would break boot receiver -->
@@ -29,7 +12,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -51,7 +34,7 @@
             android:required="false" />
     <uses-feature
             android:name="android.hardware.type.television"
-            android:required="false" /> <!-- Effectively a hint for the Google Play store only -->
+            android:required="false" />
 
     <application
             android:name=".BOINCApplication"
@@ -62,6 +45,14 @@
             android:largeHeap="true"
             android:theme="@style/AppTheme">
         <activity
+                android:name=".attach.AboutActivity"
+                android:label="@string/about_title"
+                android:exported="false">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="edu.berkeley.boinc.BOINCActivity" />
+        </activity>
+        <activity
                 android:name=".ui.eventlog.EventLogActivity"
                 android:label="@string/menu_eventlog">
             <meta-data
@@ -71,10 +62,10 @@
         <activity
                 android:name=".SplashActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
+                android:exported="true"
                 android:label="@string/app_name"
                 android:noHistory="true"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:exported="true">
+                android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -125,27 +116,34 @@
                 android:process=":remote" />
         <service android:name=".attach.ProjectAttachService" />
 
-        <receiver android:name=".receiver.BootReceiver"
-                  android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-                android:exported="true">
+        <receiver
+                android:name=".receiver.BootReceiver"
+                android:exported="true"
+                android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.PowerConnectedReceiver"
+        <receiver
+                android:name=".receiver.PowerConnectedReceiver"
                 android:exported="true">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.PackageReplacedReceiver"
+        <receiver
+                android:name=".receiver.PackageReplacedReceiver"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                         android:path="edu.berkeley.boinc"
                         android:scheme="package" />
