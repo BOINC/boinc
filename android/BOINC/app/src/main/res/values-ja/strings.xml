@@ -267,8 +267,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="menu_help">ヘルプ</string>
   <string name="menu_report_issue">問題を報告する</string>
   <!--about dialog-->
-  <string name="about_button">戻る</string>
-  <string name="about_title">バージョン情報</string>
+    <string name="about_title">バージョン情報</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">バージョン %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>

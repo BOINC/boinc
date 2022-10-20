@@ -246,7 +246,6 @@
     <string name="menu_help">Ajuda</string>
     <string name="menu_report_issue">Informa d\'un problema</string>
     <!--about dialog-->
-    <string name="about_button">Retorna</string>
     <string name="about_title">Sobre</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versió %1$s</string>

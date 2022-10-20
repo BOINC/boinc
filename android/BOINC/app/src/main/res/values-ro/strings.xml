@@ -245,7 +245,6 @@
     <string name="menu_help">Ajutor</string>
     <string name="menu_report_issue">Raportează Probleme</string>
     <!--about dialog-->
-    <string name="about_button">Înapoi</string>
     <string name="about_title">Despre</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versiune %1$s</string>

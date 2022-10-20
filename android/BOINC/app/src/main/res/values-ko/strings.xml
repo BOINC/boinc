@@ -255,8 +255,7 @@
   <string name="menu_help">도움말</string>
   <string name="menu_report_issue">문제 보고</string>
   <!--about dialog-->
-  <string name="about_button">뒤로</string>
-  <string name="about_title">정보</string>
+    <string name="about_title">정보</string>
   <string name="about_name">보잉크</string>
   <string name="about_version">버전 %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>

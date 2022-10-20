@@ -267,8 +267,7 @@
   <string name="menu_help">Справка</string>
   <string name="menu_report_issue">Сообщить о проблеме</string>
   <!--about dialog-->
-  <string name="about_button">Вернуться</string>
-  <string name="about_title">О</string>
+    <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 Калифорнийский Университет, Беркли.</string>
