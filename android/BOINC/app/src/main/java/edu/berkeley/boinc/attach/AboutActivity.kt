@@ -14,6 +14,9 @@ class AboutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
+        // about_title is used in AndroidManifest.xml but the compiler doesn't detect it
+        // So we use it here to keep it happy
+        val _about_title = R.string.about_title
 
         val tvVersion = findViewById<TextView>(R.id.BOINCVersionTextView)
 
