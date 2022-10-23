@@ -268,8 +268,7 @@
   <string name="menu_help">עזרה</string>
   <string name="menu_report_issue">דיווח על תקלה</string>
   <!--about dialog-->
-  <string name="about_button">חזור</string>
-  <string name="about_title">על אודות</string>
+    <string name="about_title">על אודות</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">גרסה %1$s</string>
   <string name="about_copyright">\u00A9‏ 2003–2021 אוניברסיטת קליפורניה, ברקלי.</string>

@@ -248,8 +248,7 @@
   <string name="menu_help">Pagalba</string>
   <string name="menu_report_issue">Pranešti apie problemą</string>
   <!--about dialog-->
-  <string name="about_button">Grįžti</string>
-  <string name="about_title">Apie</string>
+    <string name="about_title">Apie</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versija %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>

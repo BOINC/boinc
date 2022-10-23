@@ -219,6 +219,21 @@ def validateTranslations() {
         }
     }
 
+    new File('app/src/main/AndroidManifest.xml').each {
+        def source = it
+        mainStringsMap.each {
+            if (!it.value) {
+                def string = it
+                source.eachLine {
+                    if (it.contains(string.key)) {
+                        string.setValue(true)
+                        return
+                    }
+                }
+            }
+        }
+    }
+
     def mainStringsContainsRedundantKeys = false
     mainStringsMap.each {
         if (!it.value) {

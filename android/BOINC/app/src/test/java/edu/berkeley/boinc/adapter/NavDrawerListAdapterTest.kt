@@ -161,7 +161,7 @@ class NavDrawerListAdapterTest {
 
     @Test
     fun `Check that getItemForId() returns null when incorrect Id provided`() {
-        Assert.assertNull(navDrawerListAdapter.getItemForId(R.string.about_button))
+        Assert.assertNull(navDrawerListAdapter.getItemForId(R.string.about_title))
     }
 
     @Test

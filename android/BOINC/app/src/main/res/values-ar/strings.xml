@@ -245,7 +245,6 @@
     <string name="menu_about">عن</string>
     <string name="menu_help">مساعدة</string>
     <!--about dialog-->
-    <string name="about_button">العودة</string>
     <string name="about_title">عن</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">اصدار %1$s</string>

@@ -246,7 +246,6 @@
     <string name="menu_help">Yardım</string>
     <string name="menu_report_issue">Sorun Bildir</string>
     <!--about dialog-->
-    <string name="about_button">Geri dön</string>
     <string name="about_title">Hakkında</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Sürüm %1$s</string>
