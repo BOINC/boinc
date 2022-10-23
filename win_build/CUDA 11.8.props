@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Condition="'$(CudaCompileBeforeTargets)' == '' and '$(CudaCompileAfterTargets)' == '' and '$(SelectedFiles)' == '' and '$(ConfigurationType)' != 'Makefile'">
+        <CudaCompileBeforeTargets>Midl</CudaCompileBeforeTargets>
+        <CudaCompileAfterTargets>CustomBuild</CudaCompileAfterTargets>
+
+        <CudaLinkBeforeTargets>Link;Lib</CudaLinkBeforeTargets>
+        <CudaLinkAfterTargets>ManifestResourceCompile</CudaLinkAfterTargets>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <CudaToolkitDir Condition="'$(CudaToolkitDir)' == ''">$(CudaToolkitCustomDir)</CudaToolkitDir>
+        <CudToolkitMajorVersion>11</CudToolkitMajorVersion>
+        <CudaToolkitMinorVersion>8</CudaToolkitMinorVersion>
+        <CudaToolkitVersionedPath>$(CUDA_PATH_V11_8)</CudaToolkitVersionedPath>
+
+        <CudaToolkitVersion>v$(CudToolkitMajorVersion).$(CudaToolkitMinorVersion)</CudaToolkitVersion>
+        <CudaToolkitFullVersion>$(CudToolkitMajorVersion).$(CudaToolkitMinorVersion).0000.0000</CudaToolkitFullVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- Check CUDA Toolkit versioned environment variable. -->
+        <CudaToolkitDir Condition="'$(CudaToolkitDir)' == ''">$(CudaToolkitVersionedPath)</CudaToolkitDir>
+
+        <!-- Last, check the new CUDA Toolkit style/Nsight toolkit registry value. -->
+        <CudaToolkitDir Condition="'$(CudaToolkitDir)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\NVIDIA Corporation\GPU Computing Toolkit\Cuda\$(CudaToolkitVersion)', 'InstallDir', null, RegistryView.Registry64, RegistryView.Registry32))</CudaToolkitDir>
+
+        <!-- Ensure $(CudaToolkitDir) has a trailing backslash. -->
+        <CudaToolkitDir Condition="'$(CudaToolkitDir)' != '' AND !HasTrailingSlash('$(CudaToolkitDir)')">$(CudaToolkitDir)\</CudaToolkitDir>
+
+        <CudaToolkitIncludeDir Condition="'$(CudaToolkitIncludeDir)' == ''">$(CudaToolkitDir)include</CudaToolkitIncludeDir>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'Win32' or '$(Platform)' == 'x86'">
+        <CudaToolkitBinDir Condition="'$(CudaToolkitBinDir)' == ''">$(CudaToolkitDir)bin</CudaToolkitBinDir>
+
+        <CudaToolkitLibDir Condition="'$(CudaToolkitLibDir)' == '' AND Exists('$(CudaToolkitDir)lib\Win32')">$(CudaToolkitDir)lib\Win32</CudaToolkitLibDir>
+        <CudaToolkitLibDir Condition="'$(CudaToolkitLibDir)' == ''">$(CudaToolkitDir)lib</CudaToolkitLibDir>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'x64'">
+        <CudaToolkitBinDir Condition="'$(CudaToolkitBinDir)' == '' AND Exists('$(CudaToolkitDir)bin64')">$(CudaToolkitDir)bin64</CudaToolkitBinDir>
+        <CudaToolkitBinDir Condition="'$(CudaToolkitBinDir)' == ''">$(CudaToolkitDir)bin</CudaToolkitBinDir>
+
+        <CudaToolkitLibDir Condition="'$(CudaToolkitLibDir)' == '' AND Exists('$(CudaToolkitDir)lib\x64')">$(CudaToolkitDir)lib\x64</CudaToolkitLibDir>
+        <CudaToolkitLibDir Condition="'$(CudaToolkitLibDir)' == ''">$(CudaToolkitDir)lib64</CudaToolkitLibDir>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <CudaToolkitNvccPath Condition="'$(CudaToolkitNvccPath)' == ''">$(CudaToolkitBinDir)\nvcc.exe</CudaToolkitNvccPath>
+
+        <!--
+            2010 is no longer supported, continue to map the command-line arg
+            and let nvcc generate the error.
+          -->
+        <CudaClVersion Condition="'$(PlatformToolset)' == 'v100'">2010</CudaClVersion>
+        <CudaClVersion Condition="'$(PlatformToolset)' == 'Windows7.1SDK'">2010</CudaClVersion>
+        <CudaClVersion Condition="'$(PlatformToolset)' == 'v110'">2012</CudaClVersion>
+        <CudaClVersion Condition="'$(PlatformToolset)' == 'v120'">2013</CudaClVersion>
+        <CudaClVersion Condition="'$(PlatformToolset)' == 'v140'">2015</CudaClVersion>
+        <CudaClVersion Condition="'$(PlatformToolset)' == 'v141'">2017</CudaClVersion>
+        <CudaClVersion Condition="'$(PlatformToolset)' == 'v142'">2019</CudaClVersion>
+
+        <CudaClVersion Condition="'$(CudaClVersion)' == ''">2013</CudaClVersion>
+
+        <CudaContinueOnError>false</CudaContinueOnError>
+        <CudaLogStandardErrorAsError>false</CudaLogStandardErrorAsError>
+
+        <CudaIntDir>$(IntDir)</CudaIntDir>
+        <CudaIntDir Condition="HasTrailingSlash('$(CudaIntDir)')">$(CudaIntDir.Trim('\'))</CudaIntDir>
+
+        <!-- Newer versions of MSBuild can use [MSBuild]::NormalizePath, this emulates the same behavior -->
+        <CudaIntDirBasePath>$([System.IO.Path]::Combine('$(ProjectDir)', '$(CudaIntDir)'))</CudaIntDirBasePath>
+        <CudaIntDirFullPath>$(CudaIntDirBasePath.Replace('\\', '\'))</CudaIntDirFullPath>
+
+        <!--
+            $(PreferredToolArchitecture) is a new build property in VS 2013.  Use it if it's
+            available, otherwise define it as it's defined in VS 2013 (Microsoft.Cpp.Common.props).
+          -->
+        <CudaPreferredToolArchitecture>$(PreferredToolArchitecture)</CudaPreferredToolArchitecture>
+
+        <!-- UseNativeEnvironment and _IsNativeEnvironment was used in prev versions to define if we want to use 64-bit tools when building for x64 platform. -->
+        <CudaPreferredToolArchitecture Condition="'$(CudaPreferredToolArchitecture)' == '' and ('$(UseNativeEnvironment)' == 'true' or '$(_IsNativeEnvironment)' == 'true')">x64</CudaPreferredToolArchitecture>
+        
+        <!-- By default we use the same bitness as the hosting platform -->
+        <CudaPreferredToolArchitecture Condition="'$(CudaPreferredToolArchitecture)' == '' and ('$(PROCESSOR_ARCHITECTURE)' == 'AMD64' and '$(Platform)' == 'x64')">x64</CudaPreferredToolArchitecture>
+        <CudaPreferredToolArchitecture Condition="'$(CudaPreferredToolArchitecture)' == ''">x86</CudaPreferredToolArchitecture>
+         
+         <!-- If OS is not x64, we cannot use x64 tools even if preferred -->
+        <CudaPreferredToolArchitecture Condition="'$(CudaPreferredToolArchitecture)' == 'x64' and '$(PROCESSOR_ARCHITECTURE)' != 'AMD64' and '$(PROCESSOR_ARCHITEW6432)' != 'AMD64'">x86</CudaPreferredToolArchitecture>
+
+        <!-- cl.exe /FS is only supported on 2013 and above. -->
+        <CudaForceSynchronousPdbWrites>/FS</CudaForceSynchronousPdbWrites>
+        <CudaForceSynchronousPdbWrites Condition="'$(CudaClVersion)' == '2010' OR '$(CudaClVersion)' == '2012'"></CudaForceSynchronousPdbWrites>
+    </PropertyGroup>
+
+    <ItemDefinitionGroup>
+        <CudaCompile>
+            <!-- Project schema: Common properties -->
+            <CompileOut>$(CudaIntDirFullPath)\%(Filename)%(Extension).obj</CompileOut>
+            <Include></Include>
+            <UseHostInclude>true</UseHostInclude>
+            <Keep>false</Keep>
+            <KeepDir>$(CudaIntDir)</KeepDir>
+            <GenerateRelocatableDeviceCode>false</GenerateRelocatableDeviceCode>
+            <ExtensibleWholeProgramCompilation>false</ExtensibleWholeProgramCompilation>
+            <NvccCompilation>compile</NvccCompilation>
+            <CudaRuntime>Static</CudaRuntime>
+            <TargetMachinePlatform>32</TargetMachinePlatform>
+
+            <!-- Project schema: Driver properties -->
+            <InterleaveSourceInPTX>false</InterleaveSourceInPTX>
+            <CodeGeneration>compute_52,sm_52</CodeGeneration>
+            <EnableVirtualArchInFatbin>true</EnableVirtualArchInFatbin>
+            <GPUDebugInfo Condition="'$(Configuration)' == 'Debug'">true</GPUDebugInfo>
+            <GPUDebugInfo Condition="'$(Configuration)' != 'Debug'">false</GPUDebugInfo>
+            <GenerateLineInfo>false</GenerateLineInfo>
+            <MaxRegCount>0</MaxRegCount>
+            <PtxAsOptionV>false</PtxAsOptionV>
+
+            <!-- Project schema: Host properties -->
+            <Defines></Defines>
+            <UseHostDefines>true</UseHostDefines>
+            <AdditionalCompilerOptions></AdditionalCompilerOptions>
+            <Emulation>false</Emulation>
+            <HostDebugInfo Condition="'$(Configuration)' == 'Debug'">true</HostDebugInfo>
+            <HostDebugInfo Condition="'$(Configuration)' != 'Debug'">false</HostDebugInfo>
+            <FastMath>false</FastMath>
+
+            <DebugInformationFormat Condition="'$(Configuration)' == 'Release'">None</DebugInformationFormat>
+            <DebugInformationFormat Condition="'$(Configuration)' != 'Release'">ProgramDatabase</DebugInformationFormat>
+            <Optimization>InheritFromHost</Optimization>
+            <Runtime>InheritFromHost</Runtime>
+            <RuntimeChecks>InheritFromHost</RuntimeChecks>
+            <TypeInfo>InheritFromHost</TypeInfo>
+            <Warning>InheritFromHost</Warning>
+
+            <!-- Project schema: Command line properties -->
+            <!-- <AdditionalOptions></AdditionalOptions> -->
+
+            <!-- Added so that the correct platform's bin directory is used for ccbin -->
+            <VCBinDir Condition="'$(Platform)' == 'Win32'">$(VC_ExecutablePath_x86_x86)</VCBinDir>
+            <VCBinDir Condition="'$(Platform)' == 'Win32' AND '%(VCBinDir)' == ''">$(VCInstallDir)bin</VCBinDir>
+
+            <VCBinDir Condition="'$(Platform)' == 'x64'">$(VC_ExecutablePath_x86_x64)</VCBinDir>
+            <VCBinDir Condition="'$(Platform)' == 'x64' AND '%(VCBinDir)' == ''">$(VCInstallDir)bin\x86_amd64</VCBinDir>
+
+            <VCBinDir Condition="'$(Platform)' == 'Win32' AND '$(CudaPreferredToolArchitecture)' == 'x64'">$(VC_ExecutablePath_x64_x86)</VCBinDir>
+            <VCBinDir Condition="'$(Platform)' == 'Win32' AND '$(CudaPreferredToolArchitecture)' == 'x64' AND '%(VCBinDir)' == ''">$(VCInstallDir)bin\amd64_x86</VCBinDir>
+
+            <VCBinDir Condition="'$(Platform)' == 'x64'   AND '$(CudaPreferredToolArchitecture)' == 'x64'">$(VC_ExecutablePath_x64_x64)</VCBinDir>
+            <VCBinDir Condition="'$(Platform)' == 'x64'   AND '$(CudaPreferredToolArchitecture)' == 'x64' AND '%(VCBinDir)' == ''">$(VCInstallDir)bin\amd64</VCBinDir>
+
+            <BaseCommandLineTemplate>-ccbin "%(VCBinDir)" -x cu [GenerateRelocatableDeviceCode] [ExtensibleWholeProgramCompilation] [Include] [RequiredIncludes] [InterleaveSourceInPTX] [GPUDebugInfo] [GenerateLineInfo] [Keep] [KeepDir] [FastMath] [MaxRegCount] [PtxAsOptionV] [TargetMachinePlatform] [NvccCompilation] [CudaRuntime] [AdditionalOptions]</BaseCommandLineTemplate>
+            <BuildCommandLineTemplate>--use-local-env</BuildCommandLineTemplate>
+            <BuildDynamicCommandLineTemplate>[CodeGeneration]</BuildDynamicCommandLineTemplate>
+            <CleanCommandLineTemplate>-clean</CleanCommandLineTemplate>
+            <HostCommandLineTemplate>-Xcompiler &quot;/EHsc [Warning] /nologo [Optimization] [ProgramDataBaseFileName] $(CudaForceSynchronousPdbWrites) [DebugInformationFormat] [RuntimeChecks] [Runtime] [TypeInfo]&quot;</HostCommandLineTemplate>
+
+            <DriverApiCommandLineTemplate>%(BaseCommandLineTemplate) [Defines] [CompileOut] "%(FullPath)"</DriverApiCommandLineTemplate>
+            <RuntimeApiCommandLineTemplate>%(BaseCommandLineTemplate) [HostDebugInfo] [Emulation] [Defines] %(HostCommandLineTemplate) [CompileOut] "%(FullPath)"</RuntimeApiCommandLineTemplate>
+
+            <CommandLineTemplate>
+# (Approximate command-line.  Settings inherited from host are not visible below.)
+# (Please see the output window after a build for the full command-line)
+
+# Driver API (NVCC Compilation Type is .cubin, .gpu, or .ptx)
+set CUDAFE_FLAGS=--sdk_dir "$(WindowsSdkDir)"
+"$(CudaToolkitNvccPath)" %(BuildCommandLineTemplate) %(DriverApiCommandLineTemplate)
+
+# Runtime API (NVCC Compilation Type is hybrid object or .c file)
+set CUDAFE_FLAGS=--sdk_dir "$(WindowsSdkDir)"
+"$(CudaToolkitNvccPath)" %(BuildCommandLineTemplate) %(RuntimeApiCommandLineTemplate)
+            </CommandLineTemplate>
+            <ExecutionDescription>Compiling CUDA source file %(Identity)...</ExecutionDescription>
+            <ExclusionDescription>Skipping CUDA source file %(Identity) (excluded from build).</ExclusionDescription>
+
+            <!-- Miscellaneous -->
+            <PropsCacheOutputFile>%(Filename)%(Extension).cache</PropsCacheOutputFile>
+            <PropsCacheOutputPath>$(IntDir)%(PropsCacheOutputFile)</PropsCacheOutputPath>
+
+            <CudaCompileCoreProject>$(MSBuildProjectFullPath)</CudaCompileCoreProject>
+        </CudaCompile>
+
+        <CudaLink>
+            <PerformDeviceLink>true</PerformDeviceLink>
+            <LinkOut>$(IntDir)$(TargetName).device-link.obj</LinkOut>
+
+            <AdditionalLibraryDirectories>$(CudaToolkitBinDir)/crt</AdditionalLibraryDirectories>
+            <UseHostLibraryDirectories>true</UseHostLibraryDirectories>
+            <AdditionalDependencies></AdditionalDependencies>
+            <UseHostLibraryDependencies>true</UseHostLibraryDependencies>
+
+            <GPUDebugInfo>InheritFromProject</GPUDebugInfo>
+            <DebugInformationFormat Condition="'$(Configuration)' == 'Release'">None</DebugInformationFormat>
+            <DebugInformationFormat Condition="'$(Configuration)' != 'Release'">ProgramDatabase</DebugInformationFormat>
+            <Optimization>InheritFromProject</Optimization>
+
+            <!-- Implicitly inherited from the project via @(CudaCompile) -->
+            <CodeGeneration></CodeGeneration>
+            <RuntimeChecks></RuntimeChecks>
+            <Runtime></Runtime>
+            <TargetMachinePlatform></TargetMachinePlatform>
+            <TypeInfo></TypeInfo>
+            <Warning></Warning>
+
+            <Inputs></Inputs>
+
+            <HostCommandLineTemplate>-Xcompiler &quot;/EHsc [Warning] /nologo [Optimization] [ProgramDataBaseFileName] [DebugInformationFormat] [RuntimeChecks] [Runtime] [TypeInfo]&quot;</HostCommandLineTemplate>
+            <LinkCommandLineTemplate>"$(CudaToolkitNvccPath)" -dlink [LinkOut] %(HostCommandLineTemplate) [AdditionalLibraryDirectories] [AdditionalDependencies] [AdditionalOptions] [CodeGeneration] [GPUDebugInfo] [TargetMachinePlatform] [Inputs]</LinkCommandLineTemplate>
+            <CommandLineTemplate>
+# (Approximate command-line.  Settings inherited from host are not visible below.)
+# (Please see the output window after a build for the full command-line)
+
+%(LinkCommandLineTemplate)
+            </CommandLineTemplate>
+        </CudaLink>
+
+        <Link>
+            <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(CudaToolkitLibDir)</AdditionalLibraryDirectories>
+            <AdditionalDependencies>%(AdditionalDependencies);cudart.lib;cudadevrt.lib</AdditionalDependencies>
+        </Link>
+
+        <ClCompile>
+            <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(CudaToolkitIncludeDir)</AdditionalIncludeDirectories>
+        </ClCompile>
+    </ItemDefinitionGroup>
+</Project>

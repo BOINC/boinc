@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -148,7 +148,7 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <PropertyGroup>
-    <CudaGuardFile>$(CudaRootDir)\cuda.10.2.lock</CudaGuardFile>
+    <CudaGuardFile>$(CudaRootDir)\cuda.11.8.0.lock</CudaGuardFile>
   </PropertyGroup>
   <Target Name="CleanUpCudaFolder" BeforeTargets="CreateFolders" Condition="Exists($(CudaRootDir)) And !Exists($(CudaGuardFile))">
     <RemoveDir Directories="$(CudaRootDir)" />
@@ -160,10 +160,14 @@
   <Target Name="DownloadCUDA" BeforeTargets="InstallVcpkg" DependsOnTargets="CreateFolders" AfterTargets="CreateFolders" Condition="'$(Platform)' == 'x64' And !Exists($(CudaNvccPath)) And !Exists($(CudaGuardFile))">
     <DownloadFile SourceUrl="https://www.7-zip.org/a/7za920.zip" DestinationFolder="$(TMP)" />
     <Unzip SourceFiles="$(TMP)\7za920.zip" DestinationFolder="$(TMP)\7z" OverwriteReadOnlyFiles="true" />
-    <DownloadFile SourceUrl="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7z\7za x $(TMP)\nvcc.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
-    <DownloadFile SourceUrl="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/cudart.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7z\7za x $(TMP)\cudart.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+	<DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7z\7za x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/windows/x86_64/wddm2/CUDAVisualStudioIntegration.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7z\7za x $(TMP)\CUDAVisualStudioIntegration.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
     <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
   <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
@@ -171,7 +175,7 @@
     <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
-  <Target Name="Build3rdPartyLibraries"  BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
+  <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
     <Exec Command="vcpkg.exe install --x-manifest-root=$(VcpkgConfigsDir)/$(Platform) --x-install-root=$(VcpkgRootDir)/installed/ --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
 </Project>
