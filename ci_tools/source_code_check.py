@@ -81,6 +81,7 @@ exclude_extensions = [
     ".dll",
     ".exe",
     ".gif",
+    ".gz",
     ".icns",
     ".ico",
     ".jar",
