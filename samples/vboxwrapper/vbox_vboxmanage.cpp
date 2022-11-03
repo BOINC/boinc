@@ -605,9 +605,7 @@ namespace vboxmanage {
                     //
 
                     type_line = output;
-                    transform(type_line.cbegin(), type_line.cend(),
-                        type_line.begin(), [](unsigned char c) { return tolower(c); });
-                    type_start = type_line.find("\ntype: ") + 1;
+                    type_start = type_line.find("\nType: ") + 1;
                     type_end   = type_line.find("\n", type_start) - type_start;
                     type_line  = type_line.substr(type_start, type_end);
 
