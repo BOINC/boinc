@@ -18,7 +18,7 @@
 
 // vboxwrapper version number
 // when you change this, change .exe file names in VS project files
-#define VBOXWRAPPER_RELEASE 26205
+#define VBOXWRAPPER_RELEASE 26206
 
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.21.0"
