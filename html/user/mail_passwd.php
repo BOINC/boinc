@@ -37,6 +37,9 @@ function email_sent_message($email_addr) {
         <p>
         If the email doesn't arrive in a few minutes, check your spam folder.
     ";
+    if (defined('MAIL_PASSWD_EXTRA')) {
+        echo MAIL_PASSWD_EXTRA;
+    }
 }
 
 $email_addr = strtolower(post_str("email_addr"));
