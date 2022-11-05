@@ -555,6 +555,10 @@ function scan_apps() {
     }
 }
 
+if (count($argv)>1 && $argv[1]=='--noconfirm') {
+    $confirm = false;
+}
+
 scan_apps();
 touch("reread_db");     // if feeder is running, tell it to reread DB
 
