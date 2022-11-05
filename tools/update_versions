@@ -356,7 +356,7 @@ function check_main_program($fds) {
     return 0;
 }
 
-function confirm($fds, $v) {
+function confirm_update($fds, $v) {
     echo "    Files:\n";
     foreach ($fds as $fd) {
         echo "        $fd->physical_name";
@@ -471,7 +471,7 @@ function process_version($a, $v, $p) {
         $vers->api_version = get_api_version($a, $v, $p, $fds);
     }
 
-    if (!confirm($fds, $vers)) {
+    if (!confirm_update($fds, $vers)) {
         return;
     }
 
