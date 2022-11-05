@@ -35,6 +35,7 @@ chdir ("../..");
 
 $apps = BoincApp::enum("");
 $platforms = BoincPlatform::enum("");
+$confirm = true;
 
 $config = file_get_contents("config.xml");
 if (!$config) die("config.xml not found.  Run this in project root dir.\n");
@@ -179,7 +180,7 @@ function stage_file($a, $v, $p, $fd) {
         echo("cp $path $dl_path\n");
         system("cp $path $dl_path");
     }
-    
+
     if (!sizeof($fd->url)) {
         $fd->url = "$download_url/$name";
     }
@@ -237,7 +238,7 @@ function confirm_sig_gen($name) {
 // process a file
 //
 function process_file($a, $v, $p, $name, $fds) {
-    global $key_dir;
+    global $key_dir, $confirm;
     $fd = lookup_file($fds, $name);
     if (!$fd) {
         $fd = new StdClass;
@@ -259,7 +260,9 @@ function process_file($a, $v, $p, $name, $fds) {
     } else {
         $keypath = "$key_dir/code_sign_private";
         if (is_file($keypath)) {
-            confirm_sig_gen($name);
+            if ($confirm) {
+                confirm_sig_gen($name);
+            }
             $handle = popen("bin/sign_executable $path $keypath", "r");
             $fd->signature = fread($handle, 8192);
             pclose($handle);
@@ -283,7 +286,7 @@ function process_file($a, $v, $p, $name, $fds) {
 // scan the directory, and process files.
 // "fds" is the list of files described in version.xml;
 // return this list, augmented with any files not in version.xml
-// 
+//
 //
 function process_files($a, $v, $p, $fds) {
     $d = opendir("apps/$a/$v/$p");
@@ -471,8 +474,10 @@ function process_version($a, $v, $p) {
         $vers->api_version = get_api_version($a, $v, $p, $fds);
     }
 
-    if (!confirm_update($fds, $vers)) {
-        return;
+    if ($confirm) {
+        if (!confirm_update($fds, $vers)) {
+            return;
+        }
     }
 
     $xml = "";
