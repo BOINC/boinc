@@ -31,6 +31,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.berkeley.boinc.adapter.TaskRecyclerViewAdapter
 import edu.berkeley.boinc.databinding.DialogConfirmBinding
@@ -165,7 +166,8 @@ class TasksFragment : Fragment() {
     }
 
     inner class TaskData(var result: Result) {
-        var isExpanded = false
+        var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        var isExpanded = sharedPreferences.getBoolean("expandWuData", false)
         var id = result.name
         var nextState = -1
         private var loopCounter = 0

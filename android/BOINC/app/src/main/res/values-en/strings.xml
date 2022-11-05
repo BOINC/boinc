@@ -315,4 +315,5 @@
         I encourage all Mi Fans to download Boinc on their phones, contribute a piece of your power while your phone is not being used.</string>
     <string name="welcome_content_sixth">Last but not least, to my Chinese friends - Happy Chinese New Year! Xin Nian Kuai Le!</string>
     <string name="agree_button">Agree</string>
+    <string name="prefs_expand_wu_data">Always expand task information</string>
 </resources>

@@ -48,6 +48,13 @@
                 app:key="suspendWhenScreenOn"
                 app:title="@string/prefs_suspend_when_screen_on" />
 
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_expand_wu_data"
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="true"
+                app:key="expandWuData"
+                app:title="@string/prefs_expand_wu_data" />
+
         <EditTextPreference
                 app:iconSpaceReserved="false"
                 app:key="deviceName"
