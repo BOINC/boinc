@@ -331,15 +331,13 @@ CScreensaver::CScreensaver() {
     m_gfx_Cleanup_IPC = NULL;
     safe_strcpy(passwd_buf, "");
    
-    if (gIsCatalina) {
-        getcwd(saved_dir, sizeof(saved_dir));
-        chdir("/Library/Application Support/BOINC Data");
-        read_gui_rpc_password(passwd_buf, msg);
-        chdir(saved_dir);
-        
-        CFStringRef cf_gUserName = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
-        CFStringGetCString(cf_gUserName, gUserName, sizeof(gUserName), kCFStringEncodingUTF8);
-    }
+    getcwd(saved_dir, sizeof(saved_dir));
+    chdir("/Library/Application Support/BOINC Data");
+    read_gui_rpc_password(passwd_buf, msg);
+    chdir(saved_dir);
+    
+    CFStringRef cf_gUserName = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
+    CFStringGetCString(cf_gUserName, gUserName, sizeof(gUserName), kCFStringEncodingUTF8);
     
     // Get project-defined default values for GFXDefaultPeriod, GFXSciencePeriod, GFXChangePeriod
     GetDefaultDisplayPeriods(periods);
@@ -404,13 +402,11 @@ int CScreensaver::Create() {
         strlcat(m_gfx_Switcher_Path, "/gfx_switcher", sizeof(m_gfx_Switcher_Path));
         strlcat(m_gfx_Cleanup_Path, "/gfx_cleanup\"", sizeof(m_gfx_Switcher_Path));
 
-        if (gIsCatalina) {
-            // Launch helper app to work around a bug in OS 10.15 Catalina to
-            // kill current graphics app if ScreensaverEngine exits without 
-            // first calling [ScreenSaverView stopAnimation]
-            //TODO: Should we use this on OS 10.13+ ?
-            m_gfx_Cleanup_IPC = popen(m_gfx_Cleanup_Path, "w");
-        }
+        // Launch helper app to work around a bug in OS 10.15 Catalina to
+        // kill current graphics app if ScreensaverEngine exits without 
+        // first calling [ScreenSaverView stopAnimation]
+        //TODO: Should we use this on OS 10.13+ ?
+        m_gfx_Cleanup_IPC = popen(m_gfx_Cleanup_Path, "w");
         
         initBOINCApp();
 
@@ -440,11 +436,6 @@ int CScreensaver::Create() {
 
 
 OSStatus CScreensaver::initBOINCApp() {
-    char boincPath[2048];
-    pid_t myPid;
-    int status;
-    OSStatus err;
-
     saverState = SaverState_CantLaunchCoreClient;
     
     m_CoreClientPID = getClientPID();
@@ -457,56 +448,7 @@ OSStatus CScreensaver::initBOINCApp() {
     
     m_wasAlreadyRunning = false;
     
-    if (gIsCatalina) {
-        return noErr;   // Screensavers can't launch setuid /setgid processes as of Catalina
-    }
-    if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
-        return -1;
-
-    // Find boinc client within BOINCManager.app
-    // First, try default path
-    strcpy(boincPath, appPath[brandId]);
-    strcat(boincPath, "/Contents/Resources/boinc");
-
-    // If not at default path, search for it by creator code and bundle identifier
-    if (!boinc_file_exists(boincPath)) {
-        err = GetPathToAppFromID('BNC!', CFSTR("edu.berkeley.boinc"),  boincPath, sizeof(boincPath));
-        if (err) {
-            saverState = SaverState_CantLaunchCoreClient;
-            return err;
-        } else {
-            strcat(boincPath, "/Contents/Resources/boinc");
-        }
-    }
-
-    if ( (myPid = fork()) < 0)
-        return -1;
-    else if (myPid == 0)			// child
-    {
-      // We don't customize BOINC Data directory name for branding
-#if 0   // Code for separate data in each user's private directory
-        char buf[256];
-        safe_strcpy(buf, getenv("HOME"));
-        safe_strcat(buf, "/Library/Application Support/BOINC Data");
-        status = chdir(buf);
-#else   // All users share the same data
-        status = chdir("/Library/Application Support/BOINC Data");
-#endif
-        if (status) {
-            perror("chdir");
-            fflush(NULL);
-            _exit(status);
-        }
-
-        status = execl(boincPath, boincPath, "-redirectio", "-saver", (char *) 0);
-        fflush(NULL);
-        _exit(127);         // execl error (execl should never return)
-    } else {
-        m_CoreClientPID = myPid;		// make this available globally
-        saverState = SaverState_LaunchingCoreClient;
-    }
-
-    return noErr;
+    return noErr;   // Screensavers can't launch setuid /setgid processes as of Catalina
 }
 
 
@@ -572,15 +514,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             CreateDataManagementThread();
             // ToDo: Add a timeout after which we display error message
         } else {
-            if (gIsCatalina) {
-                return noErr;   // Screensavers can't launch setuid /setgid processes as of Catalina
-            }
-            // Take care of the possible race condition where the Core Client was in the  
-            // process of shutting down just as ScreenSaver started, so initBOINCApp() 
-            // found it already running but now it has shut down.
-            if (m_wasAlreadyRunning) { // If we launched it, then just wait for it to start
-                saverState = SaverState_RelaunchCoreClient;
-            }
+            return noErr;   // Screensavers can't launch setuid /setgid processes as of Catalina
         }
          break;
 
@@ -688,16 +622,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             break;
         }
         
-        if (gIsCatalina) {
-            setSSMessageText(CCNotRunningMsg);
-            break;
-        } else {
-            setSSMessageText(CantLaunchCCMsg);
-        }
-        
-        // Set up a separate thread for running screensaver graphics 
-        // even if we can't communicate with core client
-        CreateDataManagementThread();
+        setSSMessageText(CCNotRunningMsg);
         break;
 
     case SaverState_Idle:
@@ -776,8 +701,6 @@ void * CScreensaver::DataManagementProcStub(void* param) {
 
 
 void CScreensaver::HandleRPCError() {
-    static time_t last_RPC_retry = 0;
-    time_t now = time(0);
     int retval;
    
     // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
@@ -785,23 +708,7 @@ void CScreensaver::HandleRPCError() {
     m_bConnected = false;
     
     if (saverState == SaverState_CantLaunchCoreClient) {
-        if (gIsCatalina) {
-            return;   // Screensavers can't launch setuid /setgid processes as of Catalina
-        }
-        if ((now - last_RPC_retry) < RPC_RETRY_INTERVAL) {
-            return;
-        }
-        last_RPC_retry = now;
-    } else {
-        // There is a possible race condition where the Core Client was in the  
-        // process of shutting down just as ScreenSaver started, so initBOINCApp() 
-        // found it already running but now it has shut down.  This code takes 
-        // care of that and other situations where the Core Client quits unexpectedly.  
-        // Code in initBOINC_App() limits # launch retries to 3 to prevent thrashing.
-        if (getClientPID() == 0) {
-            saverState = SaverState_RelaunchCoreClient;
-            m_bResetCoreState = true;
-         }
+        return;   // Screensavers can't launch setuid /setgid processes as of Catalina
     }
     
     // If Core Client is hung, it might cause RPCs to hang, preventing us from 

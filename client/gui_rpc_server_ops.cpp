@@ -1864,7 +1864,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("project_reset", handle_project_reset,                  true,   true,   false),
     GUI_RPC("project_update", handle_project_update,                true,   true,   false),
     GUI_RPC("retry_file_transfer", handle_retry_file_transfer,      true,   true,   false),
-    GUI_RPC("run_graphics_app", handle_run_graphics_app,            true,   true,   false),
+    GUI_RPC("run_graphics_app", handle_run_graphics_app,            false,   false,   false),
 };
 
 // return nonzero only if we need to close the connection
