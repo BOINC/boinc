@@ -433,10 +433,10 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if (sbuf.st_gid != boinc_project_gid)
             return -1042;
 
-        if (sbuf.st_uid != boinc_master_uid)
+        if (sbuf.st_uid != 0)   // root
             return -1043;
 
-        if ((sbuf.st_mode & 07777) != 02500)
+        if ((sbuf.st_mode & 07777) != 04050)
             return -1044;
 
 #ifdef __APPLE__
