@@ -276,6 +276,9 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
                 break;
             }
         }
+        if (! graphics_application) {
+            return -1;
+        }
         // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
         // Inform our helper app what we launched 
         fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
@@ -401,6 +404,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
     // We have tested this on OS 10.13 High Sierra and it works there, too
     //
     int thePID = -1;
+    graphics_application = 0;
     retval = rpc->run_graphics_app("runfullscreen", thePID, gUserName);
     for (int i=0; i<800; i++) {
         boinc_sleep(0.01);      // Wait 8 seconds max
@@ -408,6 +412,9 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
             graphics_application = *pid_from_shmem;
             break;
         }
+    }
+    if (! graphics_application) {
+        return -1;
     }
     // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
     // Inform our helper app what we launched 
@@ -954,11 +961,6 @@ bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
     // whether that app is still running. If we sent an RPC to the client 
     // asking the client to launch a graphics app via switcher, we must 
     // send another RPC to the client to call waitpid() for that app.
-    //
-    // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
-    // between apps unless they are running as the same user, so we no
-    // longer run the graphics apps as user boinc_master, so we might be 
-    // able to just call waitpid directly now.
     //
     if (pid_from_shmem) {
         //fprintf(stderr, "screensaver HasProcessExited got pid_from_shmem = %d\n", *pid_from_shmem);

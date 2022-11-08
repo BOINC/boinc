@@ -122,6 +122,10 @@ int main(int argc, char** argv) {
         }
         ++i;
     }
+    
+    if (! screensaverLoginUser) {
+        screensaverLoginUser = user_name;
+    }
 
 #if 0       // For debugging only
     // Allow debugging without running as group boinc_project
@@ -157,78 +161,63 @@ int main(int argc, char** argv) {
         strlcpy(resolved_path, "/Library/Application Support/BOINC Data/boincscr", sizeof(resolved_path));
         argv[2] = resolved_path;
 
-        // For unknown reasons, the graphics application exits with 
-        // "RegisterProcess failed (error = -50)" unless we pass its 
-        // full path twice in the argument list to execv.
-        if (! screensaverLoginUser) {
 #if VERBOSE           // For debugging only
-        for (int i=2; i<argc; i++) {
-             print_to_log_file("gfx_switcher calling execv with arg %d: %s", i-2, argv[i]);
-        }
+        print_to_log_file("gfx_switcher using fork()");
 #endif
-            execv(resolved_path, argv+2);
-            // If we got here execv failed
-            fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-            return errno;
-        } else {   // if screensaverLoginUser
-#if VERBOSE           // For debugging only
-            print_to_log_file("gfx_switcher using fork()");
-#endif
-            int pid = fork();
-            // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
-            // between apps unless they are running as the same user, so we no
-            // longer run the graphics apps as user boinc_master. To replace the
-            // security that was provided by running as a different user, we use
-            // sandbox-exec() to launch the graphics apps. Note that sandbox-exec()
-            // is marked deprecated because it is an Apple private API so the syntax
-            // of the security specifications is subject to change without notice.
-            // But it is used widely in Apple's software, and the security profile
-            // elements we use are very unlikely to change.
-            //
-            if (pid == 0) {
-                // For unknown reasons, the graphics application exits with 
-                // "RegisterProcess failed (error = -50)" unless we pass its 
-                // full path twice in the argument list to execv.
-                strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
-                strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
-                char *slash = strrchr(cmd, '/');
-                if (slash) *slash = '\0';       // Directory containing this executable
-                strlcat(cmd, "/mac_restrict_access.sb\" \"", sizeof(cmd)); // path to sandboxing profile
-                strlcat(cmd, resolved_path, sizeof(cmd)); // path to graphics app
-                strlcat(cmd, "\"", sizeof(cmd)); // path to sandboxing profile
-                for (int i=3; i<argc; i++) {
-                    strlcat(cmd, " ", sizeof(cmd));
-                    strlcat(cmd, argv[i], sizeof(cmd)); // next argument to pass to graphics app
-                }
-#if VERBOSE           // For debugging only
-                print_to_log_file("gfx_switcher calling callPosixSpawn with command:\n%s\n", cmd);
-#endif
-                retval = callPosixSpawn(cmd);
-                if (retval) {
-#if VERBOSE           // For debugging only
-                    print_to_log_file("gfx_switcher: Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-#endif
-                    fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-                    return errno;
-                }
-            } else {
-                char shmem_name[MAXPATHLEN];
-#if VERBOSE           // For debugging only
-                print_to_log_file("gfx_switcher: Child PID=%d", pid);
-#endif
-                snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
-                retval = attach_shmem_mmap(shmem_name, (void**)&pid_for_shmem);
-                if (pid_for_shmem != 0) {
-                    *pid_for_shmem = pid;
-                }
-                pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
-                waitpid(pid, 0, 0);
-                pthread_cancel(monitorScreenSaverEngineThread);
-                if (pid_for_shmem != 0) {
-                    *pid_for_shmem = 0;
-                }
-                return 0;
+        int pid = fork();
+        // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
+        // between apps unless they are running as the same user, so we no
+        // longer run the graphics apps as user boinc_master. To replace the
+        // security that was provided by running as a different user, we use
+        // sandbox-exec() to launch the graphics apps. Note that sandbox-exec()
+        // is marked deprecated because it is an Apple private API so the syntax
+        // of the security specifications is subject to change without notice.
+        // But it is used widely in Apple's software, and the security profile
+        // elements we use are very unlikely to change.
+        //
+        if (pid == 0) {
+            // For unknown reasons, the graphics application exits with 
+            // "RegisterProcess failed (error = -50)" unless we pass its 
+            // full path twice in the argument list to execv.
+            strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
+            strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
+            char *slash = strrchr(cmd, '/');
+            if (slash) *slash = '\0';       // Directory containing this executable
+            strlcat(cmd, "/mac_restrict_access.sb\" \"", sizeof(cmd)); // path to sandboxing profile
+            strlcat(cmd, resolved_path, sizeof(cmd)); // path to graphics app
+            strlcat(cmd, "\"", sizeof(cmd)); // path to sandboxing profile
+            for (int i=3; i<argc; i++) {
+                strlcat(cmd, " ", sizeof(cmd));
+                strlcat(cmd, argv[i], sizeof(cmd)); // next argument to pass to graphics app
             }
+#if VERBOSE           // For debugging only
+            print_to_log_file("gfx_switcher calling callPosixSpawn with command:\n%s\n", cmd);
+#endif
+            retval = callPosixSpawn(cmd);
+            if (retval) {
+#if VERBOSE           // For debugging only
+                print_to_log_file("gfx_switcher: Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+#endif
+                fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+                return errno;
+            }
+    } else {
+            char shmem_name[MAXPATHLEN];
+#if VERBOSE           // For debugging only
+            print_to_log_file("gfx_switcher: Child PID=%d", pid);
+#endif
+            snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
+            retval = attach_shmem_mmap(shmem_name, (void**)&pid_for_shmem);
+            if (pid_for_shmem != 0) {
+                *pid_for_shmem = pid;
+            }
+            pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
+            waitpid(pid, 0, 0);
+            pthread_cancel(monitorScreenSaverEngineThread);
+            if (pid_for_shmem != 0) {
+                *pid_for_shmem = 0;
+            }
+            return 0;
         }
     }
     
@@ -242,74 +231,59 @@ int main(int argc, char** argv) {
         
         argv[2] = resolved_path;
 
-        if (! screensaverLoginUser) {
 #if VERBOSE           // For debugging only
-        for (int i=2; i<argc; i++) {
-             print_to_log_file("gfx_switcher calling execv with arg %d: %s", i-2, argv[i]);
-        }
+        print_to_log_file("gfx_switcher using fork()");;
 #endif
-            // For unknown reasons, the graphics application exits with 
+        int pid = fork();
+        // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
+        // between apps unless they are running as the same user, so we no
+        // longer run the graphics apps as user boinc_master. To replace the
+        // security that was provided by running as a different user, we use
+        // sandbox-exec() to launch the graphics apps. Note that sandbox-exec()
+        // is marked deprecated because it is an Apple private API so the syntax
+        // of the security specifications is subject to change without notice.
+        // But it is used widely in Apple's software, and the security profile
+        // elements we use are very unlikely to change.
+        if (pid == 0) {
+           // For unknown reasons, the graphics application exits with 
             // "RegisterProcess failed (error = -50)" unless we pass its 
             // full path twice in the argument list to execv.
-            execv(resolved_path, argv+2);
-            // If we got here execv failed
-            fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-            return errno;
-         } else {   // if useScreenSaverLaunchAgent            
-#if VERBOSE           // For debugging only
-            print_to_log_file("gfx_switcher using fork()");;
-#endif
-            int pid = fork();
-            // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
-            // between apps unless they are running as the same user, so we no
-            // longer run the graphics apps as user boinc_master. To replace the
-            // security that was provided by running as a different user, we use
-            // sandbox-exec() to launch the graphics apps. Note that sandbox-exec()
-            // is marked deprecated because it is an Apple private API so the syntax
-            // of the security specifications is subject to change without notice.
-            // But it is used widely in Apple's software, and the security profile
-            // elements we use are very unlikely to change.
-            if (pid == 0) {
-               // For unknown reasons, the graphics application exits with 
-                // "RegisterProcess failed (error = -50)" unless we pass its 
-                // full path twice in the argument list to execv.
-                strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
-                strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
-                char *slash = strrchr(cmd, '/');
-                if (slash) *slash = '\0';       // Directory containing this executable
-                strlcat(cmd, "/mac_restrict_access.sb\" \"", sizeof(cmd)); // path to sandboxing profile
-                strlcat(cmd, resolved_path, sizeof(cmd)); // path to graphics app
-                strlcat(cmd, "\"", sizeof(cmd));
-                for (int i=3; i<argc; i++) {
-                    strlcat(cmd, " ", sizeof(cmd));
-                    strlcat(cmd, argv[i], sizeof(cmd)); // next argument to pass to graphics app
-                }
-#if VERBOSE           // For debugging only
-                print_to_log_file("gfx_switcher calling callPosixSpawn with command:\n%s\n", cmd);
-#endif
-                retval = callPosixSpawn(cmd);
-                if (retval) {
-#if VERBOSE           // For debugging only
-                    print_to_log_file("gfx_switcher: Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-#endif
-                    fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-                    return errno;
-                }
-            } else {
-                char shmem_name[MAXPATHLEN];
-                snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
-                retval = attach_shmem_mmap(shmem_name, (void**)&pid_for_shmem);
-                if (pid_for_shmem != 0) {
-                    *pid_for_shmem = pid;
-                }
-                pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
-                waitpid(pid, 0, 0);
-                pthread_cancel(monitorScreenSaverEngineThread);
-                if (pid_for_shmem != 0) {
-                    *pid_for_shmem = 0;
-                }
-                return 0;
+            strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
+            strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
+            char *slash = strrchr(cmd, '/');
+            if (slash) *slash = '\0';       // Directory containing this executable
+            strlcat(cmd, "/mac_restrict_access.sb\" \"", sizeof(cmd)); // path to sandboxing profile
+            strlcat(cmd, resolved_path, sizeof(cmd)); // path to graphics app
+            strlcat(cmd, "\"", sizeof(cmd));
+            for (int i=3; i<argc; i++) {
+                strlcat(cmd, " ", sizeof(cmd));
+                strlcat(cmd, argv[i], sizeof(cmd)); // next argument to pass to graphics app
             }
+#if VERBOSE           // For debugging only
+            print_to_log_file("gfx_switcher calling callPosixSpawn with command:\n%s\n", cmd);
+#endif
+            retval = callPosixSpawn(cmd);
+            if (retval) {
+#if VERBOSE           // For debugging only
+                print_to_log_file("gfx_switcher: Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+#endif
+                fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+                return errno;
+            }
+        } else {
+            char shmem_name[MAXPATHLEN];
+            snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
+            retval = attach_shmem_mmap(shmem_name, (void**)&pid_for_shmem);
+            if (pid_for_shmem != 0) {
+                *pid_for_shmem = pid;
+            }
+            pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
+            waitpid(pid, 0, 0);
+            pthread_cancel(monitorScreenSaverEngineThread);
+            if (pid_for_shmem != 0) {
+                *pid_for_shmem = 0;
+            }
+            return 0;
         }
     }
 
