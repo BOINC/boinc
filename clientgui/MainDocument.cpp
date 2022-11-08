@@ -1646,6 +1646,10 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* rp) {
        }
 
         // Either the graphics app had already exited or we just killed it
+#ifdef __APPLE__
+        // Graphics app wrote files in slot directory as logged in user, not boinc_master
+        fix_slot_file_owners((*gfx_app_iter).slot);
+#endif
         (*gfx_app_iter).name.clear();
         (*gfx_app_iter).project_url.clear();
         m_running_gfx_apps.erase(gfx_app_iter);
@@ -1693,6 +1697,9 @@ void CMainDocument::KillInactiveGraphicsApps() {
             if (GetGFXPIDFromForkedPID(&(*gfx_app_iter))) { 
                 KillGraphicsApp((*gfx_app_iter).gfx_pid);
                 KillGraphicsApp((*gfx_app_iter).pid);
+            
+                // Graphics app wrote files in slot directory as logged in user, not boinc_master
+                fix_slot_file_owners((*gfx_app_iter).slot);
            }
 #else
             KillGraphicsApp((*gfx_app_iter).pid);
@@ -1724,9 +1731,13 @@ void CMainDocument::KillAllRunningGraphicsApps()
             continue;
         }
         KillGraphicsApp((*gfx_app_iter).gfx_pid);
-#endif
-
         KillGraphicsApp((*gfx_app_iter).pid);
+
+        // Graphics app wrote files in slot directory as logged in user, not boinc_master
+        fix_slot_file_owners((*gfx_app_iter).slot);
+#else
+        KillGraphicsApp((*gfx_app_iter).pid);
+#endif
         (*gfx_app_iter).name.clear();
         (*gfx_app_iter).project_url.clear();
         m_running_gfx_apps.erase(gfx_app_iter);
@@ -1775,6 +1786,15 @@ int CMainDocument::GetGFXPIDFromForkedPID(RUNNING_GFX_APP* gfx_app) {
     pclose(fp);
     return gfx_app->gfx_pid;
 }
+
+
+int CMainDocument::fix_slot_file_owners(int slot) {
+        // Graphics apps run by Manager write files in slot directory
+        // as logged in user, not boinc_master. This ugly hack tells 
+        // BOINC client to fix all ownerships in this slot directory
+        rpcClient.run_graphics_app("stop", slot, "");
+    return 0;
+}
 #endif
 
 
@@ -1820,6 +1840,8 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             } else {
                 KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
             }
+            
+            GetRunningGraphicsApp(rp);  // Let GetRunningGraphicsApp() do necessary clean up            
 #else
         // On other platforms, don't launch a second instance if graphics app is already running
 #endif
@@ -1832,7 +1854,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             NULL
         };
 
-#ifndef __WXMSW__
+#ifdef __APPLE__
         if (g_use_sandbox) {    // Used only by Mac
             int pid = fork();
             char path[MAXPATHLEN];
@@ -1867,7 +1889,10 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             gfx_app.pid = id;
             gfx_app.gfx_pid = 0;    // Initialize GetGFXPIDFromForkedPID()
             gfx_app.gfx_pid = GetGFXPIDFromForkedPID(&gfx_app);
-        } else {    // !g_use_sandbox
+        } else  // !g_use_sandbox
+#endif  // __APPLE__
+#ifndef __WXMSW__
+        {
             iRetVal = run_program(
                 rp->slot_path,
                 rp->graphics_exec_path,

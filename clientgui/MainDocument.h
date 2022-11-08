@@ -253,6 +253,7 @@ public:
 #endif
 #ifdef __APPLE__
     int                         GetGFXPIDFromForkedPID(RUNNING_GFX_APP* gfx_app);
+    int                         fix_slot_file_owners(int slot);
 #endif
 
     //
