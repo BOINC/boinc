@@ -1013,16 +1013,27 @@ int add_result_to_reply(
     }
     result.bav = *bavp;
     g_reply->insert_result(result);
+
+    // decrement the work requests (seconds and instances)
+    // based on the estimated duration of this job
+    // and how many instances it uses.
+    //
+    // If it's a GPU job, don't decrement the CPU requests,
+    // because the scheduling of GPU jobs is constrained by the # of GPUs
+    //
     if (g_wreq->rsc_spec_request) {
         int pt = bavp->host_usage.proc_type;
         if (pt == PROC_TYPE_CPU) {
-            g_wreq->req_secs[PROC_TYPE_CPU] -= est_dur;
+            double est_cpu_secs = est_dur*bavp->host_usage.avg_ncpus;
+            g_wreq->req_secs[PROC_TYPE_CPU] -= est_cpu_secs;
             g_wreq->req_instances[PROC_TYPE_CPU] -= bavp->host_usage.avg_ncpus;
         } else {
-            g_wreq->req_secs[pt] -= est_dur;
+            double est_gpu_secs = est_dur*bavp->host_usage.gpu_usage;
+            g_wreq->req_secs[pt] -= est_gpu_secs;
             g_wreq->req_instances[pt] -= bavp->host_usage.gpu_usage;
         }
     } else {
+        // extremely old clients don't send per-resource requests
         g_wreq->seconds_to_fill -= est_dur;
     }
     update_estimated_delay(*bavp, est_dur);
