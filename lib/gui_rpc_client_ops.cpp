@@ -1969,6 +1969,11 @@ int RPC_CLIENT::run_benchmarks() {
 // operand is slot number (for run or runfullscreen) or pid (for stop)
 // if slot = -1, start the default screensaver
 // screensaverLoginUser is the login name of the user running the screensaver
+//         
+// Graphics apps run by Manager write files in slot directory as logged
+// in user, not boinc_master. To tell BOINC client to fix all ownerships
+// in the slot directory, use operation "stop", slot number for operand 
+// and empty string for screensaverLoginUser after the graphics app stops.
 //
 int RPC_CLIENT::run_graphics_app(
     const char *operation, int& operand, const char *screensaverLoginUser

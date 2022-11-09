@@ -213,6 +213,28 @@ int get_project_gid() {
     return 0;
 }
 
+// Graphics apps run by Manager write files in slot directory
+// as logged in user, not boinc_master. This ugly hack uses 
+// setprojectgrp to fix all ownerships in this slot directory.
+int fix_slot_owners(const int slot){
+    char path[MAXPATHLEN];
+    DIR* dirp;
+    
+    snprintf(path, sizeof(path), "slots/%d", slot);
+    dirp = opendir(path);
+    if (!dirp) return ERR_READDIR;
+    while (1) {
+        dirent* dp = readdir(dirp);
+        if (!dp) break;
+        if (dp->d_name[0] == '.') continue;
+        snprintf(path, sizeof(path), "\"/Library/Application Support/BOINC Data/slots/%d/%s\"", slot, dp->d_name);
+        set_to_project_group(path);
+    }
+    closedir(dirp);
+
+    return 0;
+}
+
 int set_to_project_group(const char* path) {
     if (g_use_sandbox) {
         if (switcher_exec(SETPROJECTGRP_FILE_NAME, path)) {

@@ -59,7 +59,8 @@ int callPosixSpawn(const char *cmd);
 long GetBrandID(char *path);
 static void FixLaunchServicesDataBase(void);
 static Boolean IsUserActive(const char *userName);
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f);void print_to_log_file(const char *format, ...);
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
 int main(int argc, const char * argv[]) {

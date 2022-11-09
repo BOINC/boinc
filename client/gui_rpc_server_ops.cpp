@@ -1377,12 +1377,22 @@ static void stop_graphics_app(pid_t thePID,
         argv[2] = "-kill";
         argv[3] = (char *)pidString;
         argc = 4;
-    #endif
-        if (!theScreensaverLoginUser.empty()) {
-            argv[argc++] = "--ScreensaverLoginUser";
-            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
-            argv[argc++] = screensaverLoginUser;
+#endif
+        // Graphics apps run by Manager write files in slot directory
+        // as logged in user, not boinc_master. This ugly hack uses 
+        // setprojectgrp to fix all ownerships in this slot directory.
+        // To fix all ownerships in the slot directory, invoke the 
+        // run_graphics_app RPC with operation "stop", slot number 
+        // for the operand and empty string for screensaverLoginUser
+        // after the graphics app stops.
+        if (theScreensaverLoginUser.empty()) {
+            fix_slot_owners(thePID);    // Manager passes slot # instead of PID
+            return;
         }
+        
+        argv[argc++] = "--ScreensaverLoginUser";
+        safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+        argv[argc++] = screensaverLoginUser;
         argv[argc] = 0;
 
         retval = run_program(
@@ -1391,6 +1401,7 @@ static void stop_graphics_app(pid_t thePID,
         );
     } else {
         retval = kill_program(thePID);
+        
     }
     if (retval) {
         grc.mfout.printf("<error>attempt to kill graphics app failed</error>\n");
@@ -1448,7 +1459,17 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_string("ScreensaverLoginUser", theScreensaverLoginUser)) continue;
     }
     
-    if (stop || test) {
+    if (stop) {
+        if (theScreensaverLoginUser.empty() ){
+             if (thePID < 0) {
+                 grc.mfout.printf("<error>missing or invalid slot number</error>\n");
+            }
+        } else {
+            if (thePID < 1) {
+                grc.mfout.printf("<error>missing or invalid process id</error>\n");
+            }
+        }
+    } else if (test) {
         if (thePID < 1) {
             grc.mfout.printf("<error>missing or invalid process id</error>\n");
             return;
@@ -1864,7 +1885,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("project_reset", handle_project_reset,                  true,   true,   false),
     GUI_RPC("project_update", handle_project_update,                true,   true,   false),
     GUI_RPC("retry_file_transfer", handle_retry_file_transfer,      true,   true,   false),
-    GUI_RPC("run_graphics_app", handle_run_graphics_app,            true,   true,   false),
+    GUI_RPC("run_graphics_app", handle_run_graphics_app,            false,   false,   false),
 };
 
 // return nonzero only if we need to close the connection
