@@ -69,7 +69,7 @@
 # Updated 11/8/22 revised setprojectgrp wonership & permissions for MacOS 13
 #
 # WARNING: do not use this script with versions of BOINC older 
-# than 6.8.20 and 6.10.30
+# than 7.20.4
 
 function make_boinc_user() {
     DarwinVersion=`uname -r`;
