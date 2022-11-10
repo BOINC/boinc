@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -213,8 +213,9 @@ int get_project_gid() {
     return 0;
 }
 
-// Graphics apps run by Manager write files in slot directory
-// as logged in user, not boinc_master. This ugly hack uses 
+// Graphics apps called by screensaver or Manager (via Show 
+// Graphics button) now write files in their slot directory as
+// the logged in user, not boinc_master. This ugly hack uses 
 // setprojectgrp to fix all ownerships in this slot directory.
 int fix_slot_owners(const int slot){
     char path[MAXPATHLEN];

@@ -35,6 +35,7 @@
 #include "gui_rpc_client.h"
 #include "util.h"
 #include "mac_util.h"
+#include "shmem.h"
 
 #define CREATE_LOG 0
 #define USE_TIMER 0
@@ -49,6 +50,13 @@ pid_t parentPid;
 int GFX_PidFromScreensaver = 0;
 pthread_t MonitorParentThread = 0;
 bool quit_MonitorParentThread = false;
+
+struct ss_shmem_data {
+    pid_t gfx_pid;
+    int gfx_slot;
+};
+
+static struct ss_shmem_data* ss_shmem = NULL;
 
 #if USE_TIMER
 time_t startTime = 0;
@@ -104,6 +112,18 @@ void killGfxApp(pid_t thePID) {
     }
  print_to_log_file("in gfx_cleanup: killGfxApp(%d): rpc->run_graphics_app(test) returned pid %d, retval %d when i = %d", thePID, p, retval, i);   
 
+    // Graphics apps called by screensaver or Manager (via Show 
+    // Graphics button) now write files in their slot directory as
+    // the logged in user, not boinc_master. This ugly hack tells 
+    // BOINC client to fix all ownerships in this slot directory
+    char shmem_name[MAXPATHLEN];
+    snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", userName);
+    retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+    if (ss_shmem) {
+        rpc->run_graphics_app("stop", ss_shmem->gfx_slot, "");
+        ss_shmem->gfx_slot = -1;
+    }
+    
     rpc->close();
 #endif
     return;

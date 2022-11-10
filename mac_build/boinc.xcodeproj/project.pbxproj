@@ -554,6 +554,7 @@
 		DDF0776D236C4E420046EE44 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDF0776E236C4E650046EE44 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DDF0776F236C4E8A0046EE44 /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
+		DDF0C980291D2C3E00E72E0C /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
@@ -3301,6 +3302,7 @@
 				DD5F6551236064E4009ED2A2 /* gui_rpc_client_ops.cpp in Sources */,
 				DD5F656523606AED009ED2A2 /* hostinfo.cpp in Sources */,
 				DD5F656123606AA3009ED2A2 /* keyword.cpp in Sources */,
+				DDF0C980291D2C3E00E72E0C /* shmem.cpp in Sources */,
 				DD5F6559236067B3009ED2A2 /* mac_spawn.cpp in Sources */,
 				DDA70B4123632035007097BD /* mac_util.mm in Sources */,
 				DD5F655723606728009ED2A2 /* md5.cpp in Sources */,
