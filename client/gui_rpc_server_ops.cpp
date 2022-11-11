@@ -1378,9 +1378,11 @@ static void stop_graphics_app(pid_t thePID,
         argv[3] = (char *)pidString;
         argc = 4;
 #endif
-        // Graphics apps run by Manager write files in slot directory
-        // as logged in user, not boinc_master. This ugly hack uses 
-        // setprojectgrp to fix all ownerships in this slot directory.
+        // Graphics apps called by screensaver or Manager (via Show 
+        // Graphics button) now write files in their slot directory
+        // as the logged in user, not boinc_master. This ugly hack 
+        // uses setprojectgrp to fix all ownerships in this slot
+        // directory.
         // To fix all ownerships in the slot directory, invoke the 
         // run_graphics_app RPC with operation "stop", slot number 
         // for the operand and empty string for screensaverLoginUser
