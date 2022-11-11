@@ -23,10 +23,12 @@
 #include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <errno.h>
 #include <fcntl.h> 
 #include <unistd.h>
 #include <grp.h>
+#include <stdlib.h>
 #endif
 
 #include "error_numbers.h"
@@ -218,22 +220,42 @@ int get_project_gid() {
 // the logged in user, not boinc_master. This ugly hack uses 
 // setprojectgrp to fix all ownerships in this slot directory.
 int fix_slot_owners(const int slot){
-    char path[MAXPATHLEN];
-    DIR* dirp;
+    char relative_path[100];
+    char full_path[MAXPATHLEN];
     
-    snprintf(path, sizeof(path), "slots/%d", slot);
-    dirp = opendir(path);
+    snprintf(relative_path, sizeof(relative_path), "slots/%d", slot);
+    realpath(relative_path, full_path);
+    fix_owners_in_directory(full_path);
+    return 0;
+}
+
+int fix_owners_in_directory(char* dir_path) {
+    char item_path[MAXPATHLEN];
+    char quoted_item_path[MAXPATHLEN+2];
+    DIR* dirp;
+    struct stat sbuf;
+    int retval = 0;
+    bool isDirectory = false;
+
+    dirp = opendir(dir_path);
     if (!dirp) return ERR_READDIR;
     while (1) {
         dirent* dp = readdir(dirp);
         if (!dp) break;
         if (dp->d_name[0] == '.') continue;
-        snprintf(path, sizeof(path), "\"/Library/Application Support/BOINC Data/slots/%d/%s\"", slot, dp->d_name);
-        set_to_project_group(path);
+        snprintf(item_path, sizeof(item_path), "%s/%s", dir_path, dp->d_name);
+        retval = lstat(item_path, &sbuf);
+        if (retval)
+            break;              // Should never happen
+        isDirectory = S_ISDIR(sbuf.st_mode);
+        if (isDirectory) {
+            fix_owners_in_directory(item_path);
+        }
+        snprintf(quoted_item_path, sizeof(quoted_item_path),"\"%s\"", item_path);
+        set_to_project_group(quoted_item_path);
     }
     closedir(dirp);
-
-    return 0;
+    return retval;
 }
 
 int set_to_project_group(const char* path) {

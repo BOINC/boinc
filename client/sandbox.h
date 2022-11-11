@@ -18,6 +18,7 @@
 extern int kill_via_switcher(int pid);
 extern int get_project_gid();
 extern int fix_slot_owners(const int slot);
+extern int fix_owners_in_directory(char* dir_path);
 extern int set_to_project_group(const char* path);
 extern int switcher_exec(const char* util_filename, const char* cmdline);
 extern int client_clean_out_dir(
