@@ -29,6 +29,8 @@ extern int remove_project_owned_dir(const char* name);
 extern int remove_project_owned_file_or_dir(const char* path);
 extern int check_security(int use_sandbox, int isManager, char* path_to_error, int len);
 
+#define BOINC_MASTER_USER_NAME "boinc_master"
+#define BOINC_PROJECT_USER_NAME "boinc_project"
 #define BOINC_PROJECT_GROUP_NAME "boinc_project"
 
 extern bool g_use_sandbox;
