@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -97,7 +97,12 @@ typedef int GFXAPP_ID;
 RESULT* graphics_app_result_ptr = NULL;
 
 #ifdef __APPLE__
-pid_t* pid_from_shmem = NULL;
+struct ss_shmem_data {
+    pid_t gfx_pid;
+    int gfx_slot;
+};
+
+static struct ss_shmem_data* ss_shmem = NULL;
 bool canAccessProjectGFXApps = true; 
 #endif
 
@@ -255,6 +260,8 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
     if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
 #ifdef __APPLE__
+        graphics_application = 0;
+        
         // As of OS 10.15 (Catalina) screensavers can no longer:
         //  - launch apps that run setuid or setgid
         //  - launch apps downloaded from the Internet which have not been 
@@ -268,14 +275,17 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
         // between apps unless they are running as the same user, so we no
         // longer run the graphics apps as user boinc_master.
         //
-        retval = rpc->run_graphics_app("runfullscreen", rp->slot, gUserName);
-        for (int i=0; i<800; i++) {
-            boinc_sleep(0.01);      // Wait 8 seconds max
-            if (*pid_from_shmem != 0) {
-                graphics_application = *pid_from_shmem;
-                break;
+        if (ss_shmem) {
+            retval = rpc->run_graphics_app("runfullscreen", rp->slot, gUserName);
+            for (int i=0; i<800; i++) {
+                boinc_sleep(0.01);      // Wait 8 seconds max
+                if (ss_shmem->gfx_pid != 0) {
+                    graphics_application = ss_shmem->gfx_pid;
+                    break;
+                }
             }
         }
+
         if (! graphics_application) {
             return -1;
         }
@@ -405,12 +415,15 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
     //
     int thePID = -1;
     graphics_application = 0;
-    retval = rpc->run_graphics_app("runfullscreen", thePID, gUserName);
-    for (int i=0; i<800; i++) {
-        boinc_sleep(0.01);      // Wait 8 seconds max
-        if (*pid_from_shmem != 0) {
-            graphics_application = *pid_from_shmem;
-            break;
+    if (ss_shmem) {
+        ss_shmem->gfx_slot = -1;
+        retval = rpc->run_graphics_app("runfullscreen", thePID, gUserName);
+        for (int i=0; i<800; i++) {
+            boinc_sleep(0.01);      // Wait 8 seconds max
+            if (ss_shmem->gfx_pid != 0) {
+                graphics_application = ss_shmem->gfx_pid;
+                break;
+            }
         }
     }
     if (! graphics_application) {
@@ -531,15 +544,13 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     default_ss_dir_path = "/Library/Application Support/BOINC Data";
     char shmem_name[MAXPATHLEN];
     snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", gUserName);
-    retval = create_shmem_mmap(shmem_name, sizeof(int), (void**)&pid_from_shmem);
+    retval = create_shmem_mmap(shmem_name, sizeof(ss_shmem), (void**)&ss_shmem);
     // make sure user/group RW permissions are set, but not other.
     //
     if (retval == 0) {
         chmod(shmem_name, 0666);
-        retval = attach_shmem_mmap(shmem_name, (void**)&pid_from_shmem);
-    }
-    if (retval == 0) {
-        *pid_from_shmem = 0;
+        ss_shmem->gfx_pid = 0;
+        ss_shmem->gfx_slot = -1;
     }
     
     if (!IsUserMemberOfGroup(gUserName, "boinc_master")) canAccessProjectGFXApps = false;
@@ -962,9 +973,18 @@ bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
     // asking the client to launch a graphics app via switcher, we must 
     // send another RPC to the client to call waitpid() for that app.
     //
-    if (pid_from_shmem) {
-        //fprintf(stderr, "screensaver HasProcessExited got pid_from_shmem = %d\n", *pid_from_shmem);
-        if (*pid_from_shmem != 0) return false;
+    if (ss_shmem) {
+        if (ss_shmem->gfx_pid != 0) return false;
+        if (ss_shmem->gfx_slot > -1) { // -1 means Default GFX, which has no slot number
+            // Graphics apps called by screensaver or Manager (via Show 
+            // Graphics button) now write files in their slot directory as
+            // the logged in user, not boinc_master. This ugly hack tells 
+            // BOINC client to fix all ownerships in this slot directory
+            rpc->run_graphics_app("stop", ss_shmem->gfx_slot, "");
+            ss_shmem->gfx_pid = 0;
+            ss_shmem->gfx_slot = -1;
+        }
+
     }
     return true;
 }

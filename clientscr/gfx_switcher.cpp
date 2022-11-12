@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -82,7 +82,12 @@ static void strip_cr(char *buf);
 
 void * MonitorScreenSaverEngine(void* param);
 
-pid_t* pid_for_shmem = NULL;
+struct ss_shmem_data {
+    pid_t gfx_pid;
+    int gfx_slot;
+};
+
+static struct ss_shmem_data* ss_shmem = NULL;
 
 int main(int argc, char** argv) {
     passwd      *pw;
@@ -207,15 +212,16 @@ int main(int argc, char** argv) {
             print_to_log_file("gfx_switcher: Child PID=%d", pid);
 #endif
             snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
-            retval = attach_shmem_mmap(shmem_name, (void**)&pid_for_shmem);
-            if (pid_for_shmem != 0) {
-                *pid_for_shmem = pid;
+            retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+            if (ss_shmem != 0) {
+                ss_shmem->gfx_pid = pid;
+                ss_shmem->gfx_slot = -1;    // Default GFX has no slot number
             }
             pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
             waitpid(pid, 0, 0);
             pthread_cancel(monitorScreenSaverEngineThread);
-            if (pid_for_shmem != 0) {
-                *pid_for_shmem = 0;
+            if (ss_shmem != 0) {
+                ss_shmem->gfx_pid = 0;
             }
             return 0;
         }
@@ -229,8 +235,6 @@ int main(int argc, char** argv) {
         retval = boinc_resolve_filename(gfx_app_path, resolved_path, sizeof(resolved_path));
         if (retval) return retval;
         
-        argv[2] = resolved_path;
-
 #if VERBOSE           // For debugging only
         print_to_log_file("gfx_switcher using fork()");;
 #endif
@@ -273,15 +277,16 @@ int main(int argc, char** argv) {
         } else {
             char shmem_name[MAXPATHLEN];
             snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
-            retval = attach_shmem_mmap(shmem_name, (void**)&pid_for_shmem);
-            if (pid_for_shmem != 0) {
-                *pid_for_shmem = pid;
+            retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+            if (ss_shmem != 0) {
+                ss_shmem->gfx_pid = pid;
+                ss_shmem->gfx_slot = atoi(argv[2]);
             }
             pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
             waitpid(pid, 0, 0);
             pthread_cancel(monitorScreenSaverEngineThread);
-            if (pid_for_shmem != 0) {
-                *pid_for_shmem = 0;
+            if (ss_shmem != 0) {
+                ss_shmem ->gfx_pid = 0;
             }
             return 0;
         }
