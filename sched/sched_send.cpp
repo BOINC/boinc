@@ -1027,10 +1027,22 @@ int add_result_to_reply(
             double est_cpu_secs = est_dur*bavp->host_usage.avg_ncpus;
             g_wreq->req_secs[PROC_TYPE_CPU] -= est_cpu_secs;
             g_wreq->req_instances[PROC_TYPE_CPU] -= bavp->host_usage.avg_ncpus;
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] est_dur %f est_cpu_secs %f; new req_secs %f\n",
+                    est_dur, est_cpu_secs, g_wreq->req_secs[PROC_TYPE_CPU]
+                );
+            }
         } else {
             double est_gpu_secs = est_dur*bavp->host_usage.gpu_usage;
             g_wreq->req_secs[pt] -= est_gpu_secs;
             g_wreq->req_instances[pt] -= bavp->host_usage.gpu_usage;
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] est_dur %f est_gpu_secs %f; new req_secs %f\n",
+                    est_dur, est_gpu_secs, g_wreq->req_secs[pt]
+                );
+            }
         }
     } else {
         // extremely old clients don't send per-resource requests
