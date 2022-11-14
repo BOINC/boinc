@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdarg.h> 
 #include <cmath>
+#include <ctime>
 #include <string>
 #include <unistd.h>
 #endif
