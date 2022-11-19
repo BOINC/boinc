@@ -422,6 +422,7 @@ function convert_simplexml($x) {
 }
 
 function process_version($a, $v, $p) {
+    global $confirm;
     echo "Found app version directory for: $a $v $p\n";
     $app = lookup_app($a);
     parse_platform_name($p, $platform, $plan_class);
