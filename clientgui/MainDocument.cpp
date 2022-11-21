@@ -1630,23 +1630,24 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* rp) {
             }
 
             // Graphics app is still running but the slot now has a different task
-#ifdef __APPLE__
+#ifdef __WXMAC__
             // For some graphics apps (including Einstein), we must explicitly delete both
             // our forked process and its child graphics app, or the other will remain. A
             // race condition can occur because of the time it takes for our forked process
             // to launch the graphics app, so we periodically poll for the child's PID until
             // it is available. If we don't have it yet, we defer killing our forked process. 
-            if (GetGFXPIDFromForkedPID(&(*gfx_app_iter))) { 
+            if (g_use_sandbox) {
+                if (!GetGFXPIDFromForkedPID(&(*gfx_app_iter))) {
+                    return 0;    // Ignore "Stop graphics" button until we have graphics app's pid
+                }
                 KillGraphicsApp((*gfx_app_iter).gfx_pid);
-                KillGraphicsApp((*gfx_app_iter).pid);
            }
-#else
-            KillGraphicsApp((*gfx_app_iter).pid);
 #endif
+        KillGraphicsApp((*gfx_app_iter).pid);
        }
 
         // Either the graphics app had already exited or we just killed it
-#ifdef __APPLE__
+#ifdef __WXMAC__
         // Graphics app wrote files in slot directory as logged in user, not boinc_master
         fix_slot_file_owners((*gfx_app_iter).slot);
 #endif
@@ -1688,16 +1689,19 @@ void CMainDocument::KillInactiveGraphicsApps() {
         }
 
         if (!bStillRunning) {
-#ifdef __APPLE__
+#ifdef __WXMAC__
             // For some graphics apps (including Einstein), we must explicitly delete both
             // our forked process and its child graphics app, or the other will remain. A
             // race condition can occur because of the time it takes for our forked process
             // to launch the graphics app, so we periodically poll for the child's PID until
             // it is available. If we don't have it yet, we defer killing our forked process. 
-            if (GetGFXPIDFromForkedPID(&(*gfx_app_iter))) { 
+            if (g_use_sandbox) {
+                if (!GetGFXPIDFromForkedPID(&(*gfx_app_iter))) {
+                    return;    // Ignore "Stop graphics" button until we have graphics app's pid
+                }
                 KillGraphicsApp((*gfx_app_iter).gfx_pid);
                 KillGraphicsApp((*gfx_app_iter).pid);
-            
+                
                 // Graphics app wrote files in slot directory as logged in user, not boinc_master
                 fix_slot_file_owners((*gfx_app_iter).slot);
            }
@@ -1713,6 +1717,7 @@ void CMainDocument::KillInactiveGraphicsApps() {
 }
 
 
+// KillAllRunningGraphicsApps() is called only from our destructor
 void CMainDocument::KillAllRunningGraphicsApps()
 {
     size_t i, n;
@@ -1721,20 +1726,27 @@ void CMainDocument::KillAllRunningGraphicsApps()
     n = m_running_gfx_apps.size();
     for (i=0; i<n; i++) {
         gfx_app_iter = m_running_gfx_apps.begin();
-#ifdef __APPLE__
+#ifdef __WXMAC__
         // For some graphics apps (including Einstein), we must explicitly delete both
         // our forked process and its child graphics app, or the other will remain. A
         // race condition can occur because of the time it takes for our forked process
         // to launch the graphics app, so we periodically poll for the child's PID until
         // it is available. If we don't have it yet, we defer killing our forked process. 
-        if (!GetGFXPIDFromForkedPID(&(*gfx_app_iter))) {
-            continue;
-        }
-        KillGraphicsApp((*gfx_app_iter).gfx_pid);
-        KillGraphicsApp((*gfx_app_iter).pid);
+        if (g_use_sandbox) {
+            for (int j=0; j<100; ++j) { // Wait 1 second max for gfx app's pid
+                if (GetGFXPIDFromForkedPID(&(*gfx_app_iter))) {
+                    KillGraphicsApp((*gfx_app_iter).gfx_pid);
+                    break;
+                }
+                boinc_sleep(.01);
+            }
+            KillGraphicsApp((*gfx_app_iter).pid);
 
-        // Graphics app wrote files in slot directory as logged in user, not boinc_master
-        fix_slot_file_owners((*gfx_app_iter).slot);
+            // Graphics app wrote files in slot directory as logged in user, not boinc_master
+            fix_slot_file_owners((*gfx_app_iter).slot);
+        } else {
+            KillGraphicsApp((*gfx_app_iter).pid);
+        }
 #else
         KillGraphicsApp((*gfx_app_iter).pid);
 #endif
@@ -1759,7 +1771,7 @@ void CMainDocument::KillGraphicsApp(int pid) {
 #endif
 
 
-#ifdef __APPLE__
+#ifdef __WXMAC__
 // For some graphics apps (including Einstein), we must explicitly delete both
 // our forked process and its child graphics app, or the other will remain. A
 // race condition can occur because of the time it takes for our forked process
@@ -1789,10 +1801,12 @@ int CMainDocument::GetGFXPIDFromForkedPID(RUNNING_GFX_APP* gfx_app) {
 
 
 int CMainDocument::fix_slot_file_owners(int slot) {
+    if (g_use_sandbox) {
         // Graphics apps run by Manager write files in slot directory
         // as logged in user, not boinc_master. This ugly hack tells 
         // BOINC client to fix all ownerships in this slot directory
         rpcClient.run_graphics_app("stop", slot, "");
+    }
     return 0;
 }
 #endif
@@ -1822,7 +1836,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         previous_gfx_app = GetRunningGraphicsApp(rp);
 
         if (previous_gfx_app) {
-#ifdef __APPLE__
+#ifdef __WXMAC__
             if (g_use_sandbox) {
                 // If graphics app is already running, the button has changed to
                 // "Stop graphics", so we end the graphics app.
@@ -1833,18 +1847,14 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
                 // to launch the graphics app, so we periodically poll for the child's PID until
                 // it is available. If we don't have it yet, then defer responding to the "Stop 
                 // graphics" button.
-                if (GetGFXPIDFromForkedPID(previous_gfx_app)) {
-                    KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
-                    KillGraphicsApp(previous_gfx_app->gfx_pid);
+                if (!GetGFXPIDFromForkedPID(previous_gfx_app)) {
+                    return 0;    // Ignore "Stop graphics" button until we have graphics app's pid
                 }
-            } else {
-                KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
+                KillGraphicsApp(previous_gfx_app->gfx_pid);
             }
-            
+#endif            
+            KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
             GetRunningGraphicsApp(rp);  // Let GetRunningGraphicsApp() do necessary clean up            
-#else
-        // On other platforms, don't launch a second instance if graphics app is already running
-#endif
             return 0;
         }
 
@@ -1854,7 +1864,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             NULL
         };
 
-#ifdef __APPLE__
+#ifdef __WXMAC__
         if (g_use_sandbox) {    // Used only by Mac
             int pid = fork();
             char path[MAXPATHLEN];
@@ -1890,7 +1900,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             gfx_app.gfx_pid = 0;    // Initialize GetGFXPIDFromForkedPID()
             gfx_app.gfx_pid = GetGFXPIDFromForkedPID(&gfx_app);
         } else  // !g_use_sandbox
-#endif  // __APPLE__
+#endif  // __WXMAC__
 #ifndef __WXMSW__
         {
             iRetVal = run_program(
