@@ -263,7 +263,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             }
 
             if (pWA->project_config.uses_username) {
-                username = (const char*)pWA->GetAccountUsername().mb_str();
+                username = (const char*)pWA->GetAccountUsername().utf8_str();
             } else {
                 username = (const char*)pWA->GetAccountEmailAddress().mb_str();
             }
