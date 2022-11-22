@@ -400,7 +400,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 // Setup initial values for both the create and lookup API
 
                 if (pWA->project_config.uses_username) {
-                    ai->email_addr = (const char*)pWA->GetAccountUsername().mb_str();
+                    ai->email_addr = (const char*)pWA->GetAccountUsername().utf8_str();
                 } else {
                     ai->email_addr = (const char*)pWA->GetAccountEmailAddress().mb_str();
                 }
