@@ -405,7 +405,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     ai->email_addr = (const char*)pWA->GetAccountEmailAddress().mb_str();
                 }
                 ai->passwd = (const char*)pWA->GetAccountPassword().mb_str();
-                ai->user_name = (const char*)::wxGetUserName().mb_str();
+                ai->user_name = (const char*)::wxGetUserName().utf8_str();
                 if (ai->user_name.empty()) {
                     ai->user_name = (const char*)::wxGetUserId().mb_str();
                 }
