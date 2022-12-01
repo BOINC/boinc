@@ -45,7 +45,11 @@
     </platform>
     <platform>
         <name>arm-android-linux-gnu</name>
-        <user_friendly_name>Android running on ARM</user_friendly_name>
+        <user_friendly_name>Android running on ARM armeabi-v7a</user_friendly_name>
+    </platform>
+    <platform>
+        <name>aarch64-android-linux-gnu</name>
+        <user_friendly_name>Android running on ARM 64-bit arm64-v8a</user_friendly_name>
     </platform>
     <platform>
         <name>arm-unknown-linux-gnu</name>
