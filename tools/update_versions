@@ -471,7 +471,7 @@ function process_version($a, $v, $p) {
     // if API version isn't specified in version.xml,
     // try to find it embedded in the executable
     //
-    if (!strlen($vers->api_version)) {
+    if (empty($vers->api_version)) {
         $vers->api_version = get_api_version($a, $v, $p, $fds);
     }
 
