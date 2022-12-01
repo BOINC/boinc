@@ -18,9 +18,6 @@
 
 // recaptcha utilities
 
-// do not include the loader from somewhere else
-require('../inc/recaptcha_loader.php');
-
 function boinc_recaptcha_get_head_extra() {
     global $recaptcha_public_key;
     if ($recaptcha_public_key) {
@@ -38,18 +35,19 @@ function boinc_recaptcha_get_html($publickey) {
     }
 }
 
-// wrapper for ReCaptcha implementation
-// returns true if the captcha was correct or no $privatekey was supplied
-// everything else means there was an error verifying the captcha
+// returns true if the captcha was correct
+// see https://developers.google.com/recaptcha/docs/verify
 //
 function boinc_recaptcha_isValidated($privatekey) {
-    if ($privatekey) {
-        // tells ReCaptcha to use fsockopen() instead of get_file_contents()
-        $recaptcha = new \ReCaptcha\ReCaptcha($privatekey, new \ReCaptcha\RequestMethod\CurlPost());
-        $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-        return $resp->isSuccess();
-    }
-    return true;
+    $url = sprintf('%s?secret=%s&response=%s&remoteip=%s',
+        "https://www.google.com/recaptcha/api/siteverify",
+        $privatekey,
+        htmlspecialchars($_POST['g-recaptcha-response']),
+        filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_SANITIZE_URL)
+    );
+    $response_json = file_get_contents($url);
+    $response = json_decode($response_json);
+    return (!empty($response->success));
 }
 
 ?>
