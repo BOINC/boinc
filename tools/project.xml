@@ -64,8 +64,8 @@
         <user_friendly_name>Android running on Intel x86 compatible</user_friendly_name>
     </platform>
     <platform>
-        <name>arm-unknown-linux-gnu</name>
-        <user_friendly_name>Linux running on ARM</user_friendly_name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <user_friendly_name>Linux running on ARM, hardware FP</user_friendly_name>
     </platform>
     <platform>
         <name>aarch64-unknown-linux-gnu</name>
