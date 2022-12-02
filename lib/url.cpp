@@ -203,6 +203,7 @@ void escape_url_readable(char *in, char* out) {
 // or prepend it
 //   - Remove double slashes in the rest
 //   - Add a trailing slash if necessary
+//   - Convert all alphabet characters to lower case
 //
 void canonicalize_master_url(char* url, int len) {
     char buf[1024];
@@ -224,6 +225,11 @@ void canonicalize_master_url(char* url, int len) {
     n = strlen(buf);
     if (buf[n-1] != '/' && (n<sizeof(buf)-2)) {
         safe_strcat(buf, "/");
+    }
+    for (size_t i=0; i<n-1; i++) {
+        // stop converting to lower-case, if we've reached the boundary of the domain name
+        if (buf[i] == '/') break;
+        buf[i] = tolower(static_cast<unsigned char>(buf[i]));
     }
     snprintf(url, len, "http%s://%s", (bSSL ? "s" : ""), buf);
     url[len-1] = 0;
