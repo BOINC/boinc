@@ -1,5 +1,5 @@
 plugins {
-    id 'org.ajoberstar.grgit' version '4.1.0'
+    id 'org.ajoberstar.grgit' version '5.0.0'
     id 'jacoco'
 }
 
@@ -213,6 +213,21 @@ def validateTranslations() {
                                 return
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    new File('app/src/main/AndroidManifest.xml').each {
+        def source = it
+        mainStringsMap.each {
+            if (!it.value) {
+                def string = it
+                source.eachLine {
+                    if (it.contains(string.key)) {
+                        string.setValue(true)
+                        return
                     }
                 }
             }

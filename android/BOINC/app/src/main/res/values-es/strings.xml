@@ -261,7 +261,6 @@
     <string name="menu_help">Ayuda</string>
     <string name="menu_report_issue">Informar de incidencia</string>
     <!--about dialog-->
-    <string name="about_button">Volver</string>
     <string name="about_title">Acerca de</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versión %1$s</string>

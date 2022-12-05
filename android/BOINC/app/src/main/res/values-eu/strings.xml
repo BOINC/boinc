@@ -248,8 +248,7 @@
   <string name="menu_help">Laguntza</string>
   <string name="menu_report_issue">Arazoaren berri eman</string>
   <!--about dialog-->
-  <string name="about_button">Itzuli</string>
-  <string name="about_title">Honi buruz</string>
+    <string name="about_title">Honi buruz</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Bertsioa %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 Kaliforniako Unibertsitatea Berkeleyn.</string>

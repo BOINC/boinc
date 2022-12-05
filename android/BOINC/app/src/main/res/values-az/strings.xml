@@ -245,7 +245,6 @@
     <string name="menu_about">Haqqında</string>
     <string name="menu_help">Yardım</string>
     <!--about dialog-->
-    <string name="about_button">Qayıt</string>
     <string name="about_title">Haqqında</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versiya %1$s</string>

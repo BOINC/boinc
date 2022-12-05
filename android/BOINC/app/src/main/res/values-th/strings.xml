@@ -177,8 +177,7 @@
   <string name="menu_about">เกี่ยวกับ</string>
   <string name="menu_help">ช่วยเหลือ</string>
   <!--about dialog-->
-  <string name="about_button">กลับ</string>
-  <string name="about_title">เกี่ยวกับ</string>
+    <string name="about_title">เกี่ยวกับ</string>
   <string name="about_name">BOINC</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">

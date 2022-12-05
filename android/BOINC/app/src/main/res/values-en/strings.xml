@@ -267,7 +267,6 @@
     <string name="menu_help">Help</string>
     <string name="menu_report_issue">Report Issue</string>
     <!--about dialog-->
-    <string name="about_button">Return</string>
     <string name="about_title">About</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Version %1$s</string>
@@ -316,4 +315,5 @@
         I encourage all Mi Fans to download Boinc on their phones, contribute a piece of your power while your phone is not being used.</string>
     <string name="welcome_content_sixth">Last but not least, to my Chinese friends - Happy Chinese New Year! Xin Nian Kuai Le!</string>
     <string name="agree_button">Agree</string>
+    <string name="prefs_expand_wu_data">Always expand task information</string>
 </resources>

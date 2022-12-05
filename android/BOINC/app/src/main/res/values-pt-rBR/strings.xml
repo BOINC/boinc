@@ -255,8 +255,7 @@
   <string name="menu_help">Ajuda</string>
   <string name="menu_report_issue">Reportar problema</string>
   <!--about dialog-->
-  <string name="about_button">Voltar</string>
-  <string name="about_title">Sobre</string>
+    <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão %1$s</string>
   <string name="about_copyright">\u00A9 2003-2021 Universidade da Califórnia, Berkeley.</string>

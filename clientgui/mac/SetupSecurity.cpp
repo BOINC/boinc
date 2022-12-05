@@ -587,8 +587,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     isDirectory = S_ISDIR(sbuf.st_mode);
     if ((result == noErr) && (! isDirectory)) {
         // Set owner and group of setprojectgrp application
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
-        // chown boinc_master:boinc_project "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
+        sprintf(buf1, "root:%s", boinc_project_group_name);
+        // chown root:boinc_project "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
         err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
@@ -597,7 +597,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=rx,g=s,o= "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
         // 02500 = S_ISGID | S_IRUSR | S_IXUSR
         // Set setgid-on-execution plus read and execute permission for user only
-        err = DoSudoPosixSpawn(chmodPath, "u=rx,g=s,o=", fullpath, NULL, NULL, NULL, NULL);
+        err = DoSudoPosixSpawn(chmodPath, "u=s,g=rx,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }       // setprojectgrp application

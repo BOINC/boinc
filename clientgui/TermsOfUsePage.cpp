@@ -126,12 +126,12 @@ void CTermsOfUsePage::CreateControls()
     itemBoxSizer97->Add(m_pTermsOfUseCtrl, 0, wxGROW|wxALL, 5);
 
     m_pAgreeCtrl = new wxRadioButton;
-    m_pAgreeCtrl->Create( itemWizardPage96, ID_TERMSOFUSEAGREECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pAgreeCtrl->Create( itemWizardPage96, ID_TERMSOFUSEAGREECTRL, _("I agree to the terms of use."), wxDefaultPosition, wxDefaultSize, 0 );
     m_pAgreeCtrl->SetValue(false);
     itemBoxSizer97->Add(m_pAgreeCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pDisagreeCtrl = new wxRadioButton;
-    m_pDisagreeCtrl->Create( itemWizardPage96, ID_TERMSOFUSEDISAGREECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pDisagreeCtrl->Create( itemWizardPage96, ID_TERMSOFUSEDISAGREECTRL, _("I do not agree to the terms of use."), wxDefaultPosition, wxDefaultSize, 0 );
     m_pDisagreeCtrl->SetValue(true);
     itemBoxSizer97->Add(m_pDisagreeCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -244,20 +244,12 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
     }
     m_pTermsOfUseCtrl->SetPage(terms_of_use);
 
-    m_pAgreeCtrl->SetLabel(
-        _("I agree to the terms of use.")
-    );
     m_pAgreeCtrl->SetValue(false);
 
-
-    m_pDisagreeCtrl->SetLabel(
-        _("I do not agree to the terms of use.")
-    );
     m_pDisagreeCtrl->SetValue(true);
 
     SetUserAgrees(false);
     ((CWizardAttach*)GetParent())->DisableNextButton();
-
 
     Fit();
 }

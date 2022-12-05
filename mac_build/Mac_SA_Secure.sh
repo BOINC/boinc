@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2022 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -64,11 +64,12 @@
 
 # Updated 1/28/10 for BOINC version 6.8.20, 6.10.30 and 6.11.1
 # Updated 10/24/11 for OS 10.7.2 Lion
-# Last updated 3/3/12 to create users and groups with IDs > 500 
+# Updated 3/3/12 to create users and groups with IDs > 500 
 # and to create RealName key with empty string as value (for users)
+# Updated 11/8/22 revised setprojectgrp wonership & permissions for MacOS 13
 #
 # WARNING: do not use this script with versions of BOINC older 
-# than 6.8.20 and 6.10.30
+# than 7.20.4
 
 function make_boinc_user() {
     DarwinVersion=`uname -r`;
@@ -257,7 +258,7 @@ set_perm switcher/AppStats root boinc_master 4550
 fi
 
 set_perm switcher/switcher root boinc_master 04050
-set_perm switcher/setprojectgrp boinc_master boinc_project 2500
+set_perm switcher/setprojectgrp root boinc_project 04050
 set_perm switcher boinc_master boinc_master 0550
 
 if [ -d locale ] ; then

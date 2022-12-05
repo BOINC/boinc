@@ -42,11 +42,13 @@ bool IsUserInGroup(char* groupName);
 static int CheckNestedDirectories(
     char * basepath, int depth, 
     int use_sandbox, int isManager, 
-    char * path_to_error,
+    bool isSlotDir, char * path_to_error,
     int len
 );
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
+#include "sandbox.h"
+
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void GetPathToThisProcess(char* outbuf, size_t maxLen);
 #endif
@@ -348,7 +350,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
             return -1026;
 
         // Step through project directories
-        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, path_to_error, len);
+        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, false, path_to_error, len);
         if (retval)
             return retval;
     }
@@ -368,7 +370,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
             return -1029;
 
         // Step through slot directories
-        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, path_to_error, len);
+        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, true, path_to_error, len);
         if (retval)
             return retval;
     }
@@ -433,10 +435,10 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if (sbuf.st_gid != boinc_project_gid)
             return -1042;
 
-        if (sbuf.st_uid != boinc_master_uid)
+        if (sbuf.st_uid != 0)   // root
             return -1043;
 
-        if ((sbuf.st_mode & 07777) != 02500)
+        if ((sbuf.st_mode & 07777) != 04050)
             return -1044;
 
 #ifdef __APPLE__
@@ -483,6 +485,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
 static int CheckNestedDirectories(
     char * basepath, int depth,
     int use_sandbox, int isManager, 
+    bool isSlotDir, 
     char * path_to_error, int len
 ) {
     int             isDirectory;
@@ -527,10 +530,35 @@ static int CheckNestedDirectories(
             if (depth > 1)  {
                 // files and subdirectories created by projects may have owner boinc_master or boinc_project
                 if ( (sbuf.st_uid != boinc_master_uid) && (sbuf.st_uid != boinc_project_uid) ) {
-                    retval = -1202;
-                    break;
-                }
-            } else {
+                    if (!isSlotDir) {
+                            retval = -1202;
+                            break;
+                    } else {    // Slots
+                        // Graphics apps called by screensaver or Manager (via Show 
+                        // Graphics button) now write files in their slot directory
+                        // as the logged in user, not boinc_master. In most cases,
+                        // the manager or screensaver will tell the client to fix
+                        // all ownerships in that slot directory, but a crash can 
+                        // prevent that. As a backup strategy, we ignore ownership 
+                        // of files in slot directories under the Manager, and fix
+                        // them in the client.
+#if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
+                        char* s = strstr(full_path, "/slots/");
+                        if (s) {
+                            s = strchr(s+1, '/');
+                            if (s) {
+                                int slot = atoi(s+1);
+                                fix_slot_owners(slot);  // client
+                            }
+                        }
+
+#elif defined(_MAC_INSTALLER)
+                            retval = -1202;
+                            break;
+#endif
+                        }   // isSlotDir
+                    }       // bad uid
+                } else {    // depth == 1
                 // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.) 
                 // must have owner boinc_master
                 if (sbuf.st_uid != boinc_master_uid) {
@@ -581,7 +609,7 @@ static int CheckNestedDirectories(
 #endif
                     continue;       // Client can't check subdirectories owned by boinc_project
             }
-            retval = CheckNestedDirectories(full_path, depth + 1, use_sandbox, isManager, path_to_error, len);
+            retval = CheckNestedDirectories(full_path, depth + 1, use_sandbox, isManager, isSlotDir, path_to_error, len);
             if (retval)
                 break;
         }

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -38,6 +38,24 @@
 #include "mac_spawn.h"
 #endif
 
+#define VERBOSE 0
+
+#if VERBOSE
+#include <cstring>
+#include <time.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+static void print_to_log_file(const char *format, ...);
+#ifdef __cplusplus
+}
+static void strip_cr(char *buf);
+#endif
+#endif
+
 using std::strcpy;
 
 int main(int /*argc*/, char** argv) {
@@ -62,21 +80,21 @@ int main(int /*argc*/, char** argv) {
     strcpy(boinc_project_group_name, "boinc_project");
     strcpy(boinc_master_user_name, "boinc_master");
 
-#if 0           // For debugging only
-    fprintf(stderr, "\n\nEntered switcher with euid %d, egid %d, uid %d and gid %d\n", geteuid(), getegid(), getuid(), getgid());       
+#if VERBOSE     // For debugging only
+    print_to_log_file("\n\nEntered switcher with euid %d, egid %d, uid %d and gid %d\n", geteuid(), getegid(), getuid(), getgid());       
     getcwd( current_dir, sizeof(current_dir));
-    fprintf(stderr, "current directory = %s\n", current_dir);
+    print_to_log_file("current directory = %s\n", current_dir);
     fflush(stderr);
     
     i = 0;
     while(argv[i]) {
-        fprintf(stderr, "switcher arg %d: %s\n", i, argv[i]);
+        print_to_log_file("switcher arg %d: %s\n", i, argv[i]);
         fflush(stderr);
         ++i;
     }
 #endif
 
-#if 0       // For debugging only
+#if VERBOSE      // For debugging only
     // Allow debugging without running as user or group boinc_project
     pw = getpwuid(getuid());
     if (pw) {
@@ -85,7 +103,7 @@ int main(int /*argc*/, char** argv) {
     }
     grp = getgrgid(getgid());
     if (grp) {
-        strcpy(boinc_project_group_name, grp->gr_gid);
+        strcpy(boinc_project_group_name, grp->gr_name);
     }
 
 #endif
@@ -226,8 +244,8 @@ int main(int /*argc*/, char** argv) {
             }
         }
         safe_strcat(cmd, "\'");
-#if 0       // For debugging only
-        fprintf(stderr, "About to call Posix Spawn (%s)\n", cmd);
+#if VERBOSE      // For debugging only
+        print_to_log_file("About to call Posix Spawn (%s)\n", cmd);
         fflush(stderr);
 #endif
         if (launching_gfx) {
@@ -243,7 +261,56 @@ int main(int /*argc*/, char** argv) {
     if (retval == -1) {
         // If we got here execv failed
         fprintf(stderr, "Process creation (%s) failed: %s (errno = %d)\n", argv[1], strerror(errno), retval);
+ #if VERBOSE
+        print_to_log_file("Process creation (%s) failed: %s (errno = %d)\n", argv[1], strerror(errno), retval);
+ #endif
     }
 
     return retval;
 }
+
+
+#if VERBOSE
+
+static void print_to_log_file(const char *format, ...) {
+    FILE *f;
+    va_list args;
+    char buf[256];
+    time_t t;
+    
+    f = fopen("/Users/Shared/test_log_gfx_switcher.txt", "a");
+    if (!f) return;
+
+//  freopen(buf, "a", stdout);
+//  freopen(buf, "a", stderr);
+
+    time(&t);
+    strlcpy(buf, asctime(localtime(&t)), sizeof(buf));
+    strip_cr(buf);
+
+    fputs(buf, f);
+    fputs("   ", f);
+
+    va_start(args, format);
+    vfprintf(f, format, args);
+    va_end(args);
+    
+    fputs("\n", f);
+    fflush(f);
+    fclose(f);
+    chmod("/Users/Shared/test_log_gfx_switcher.txt", 0666);
+}
+
+static void strip_cr(char *buf)
+{
+    char *theCR;
+
+    theCR = strrchr(buf, '\n');
+    if (theCR)
+        *theCR = '\0';
+    theCR = strrchr(buf, '\r');
+    if (theCR)
+        *theCR = '\0';
+}
+#endif
+

@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 35ddac9813c1f084a9542fd088c573e2ee8675ff\n"
+"Project-Id-Version: BOINC 14023b2fe01319d74d68caa6ebbc03a83ae1cf89\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -45,7 +45,7 @@ msgstr ""
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr ""
 
-#: html/inc/account.inc:90 html/inc/user.inc:244 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:241 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgstr ""
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:253 html/inc/user.inc:456 html/user/account_finish.php:45
+#: html/inc/user.inc:250 html/inc/user.inc:453 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -108,7 +108,7 @@ msgid "Stay logged in"
 msgstr ""
 
 #. kludge
-#: html/inc/account.inc:162 html/inc/util.inc:349 html/user/login_form.php:43
+#: html/inc/account.inc:162 html/inc/util.inc:357 html/user/login_form.php:43
 msgid "Log in"
 msgstr ""
 
@@ -256,12 +256,12 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: html/inc/bootstrap.inc:159 html/inc/user.inc:187
+#: html/inc/bootstrap.inc:159 html/inc/user.inc:184
 msgid "Account"
 msgstr ""
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:300
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:297
 msgid "Preferences"
 msgstr ""
 
@@ -273,7 +273,7 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: html/inc/bootstrap.inc:165 html/inc/user.inc:129
+#: html/inc/bootstrap.inc:165 html/inc/user.inc:126
 msgid "Project"
 msgstr ""
 
@@ -309,17 +309,17 @@ msgstr ""
 msgid "Computer types"
 msgstr ""
 
-#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:241 html/inc/prefs.inc:482
-#: html/inc/user.inc:163 html/user/explain_state.php:94
+#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:515 html/inc/user.inc:160
+#: html/user/explain_state.php:94
 msgid "Computing"
 msgstr ""
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:571 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:568 html/user/welcome.php:79
 msgid "Community"
 msgstr ""
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:382 html/inc/user.inc:516 html/user/forum_forum.php:76
+#: html/inc/user.inc:379 html/inc/user.inc:513 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr ""
@@ -345,7 +345,7 @@ msgstr ""
 msgid "User of the day"
 msgstr ""
 
-#: html/inc/bootstrap.inc:201 html/inc/user.inc:192
+#: html/inc/bootstrap.inc:201 html/inc/user.inc:189
 msgid "Certificate"
 msgstr ""
 
@@ -444,7 +444,7 @@ msgstr ""
 msgid "Advanced search"
 msgstr ""
 
-#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:383 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr ""
@@ -472,7 +472,7 @@ msgstr ""
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
-#: html/user/forum_edit.php:141 html/user/forum_post.php:130
+#: html/user/forum_edit.php:141 html/user/forum_post.php:132
 #: html/user/forum_reply.php:130 html/user/forum_report_post.php:93
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
@@ -514,7 +514,7 @@ msgstr ""
 msgid "Message %1"
 msgstr ""
 
-#: html/inc/forum.inc:662 html/inc/user.inc:474 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:471 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr ""
 
@@ -695,7 +695,7 @@ msgstr ""
 msgid "Start vote to banish author"
 msgstr ""
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:373 html/user/forum_thread.php:248
+#: html/inc/forum.inc:1211 html/inc/user.inc:370 html/user/forum_thread.php:248
 #: html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr ""
@@ -776,16 +776,16 @@ msgstr ""
 msgid "Unavailable"
 msgstr ""
 
-#: html/inc/host.inc:56 html/inc/prefs.inc:682 html/inc/prefs_util.inc:664
+#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:664
 msgid "Home"
 msgstr ""
 
-#: html/inc/host.inc:57 html/inc/prefs.inc:683 html/inc/prefs_util.inc:666
+#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:666
 #: html/user/server_status.php:144
 msgid "Work"
 msgstr ""
 
-#: html/inc/host.inc:58 html/inc/prefs.inc:684 html/inc/prefs_util.inc:665
+#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:665
 msgid "School"
 msgstr ""
 
@@ -844,7 +844,7 @@ msgstr ""
 #: html/inc/host.inc:115 html/inc/host.inc:236 html/inc/host.inc:239
 #: html/inc/host.inc:745 html/inc/team.inc:111 html/inc/team.inc:233
 #: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:382
-#: html/inc/team.inc:385 html/inc/user.inc:130 html/inc/user.inc:147
+#: html/inc/team.inc:385 html/inc/user.inc:127 html/inc/user.inc:144
 #: html/user/profile_search_action.php:45
 #: html/user/team_change_founder_form.php:83 html/user/team_email_list.php:76
 #: html/user/team_remove_inactive_form.php:44 html/user/top_users.php:51
@@ -852,7 +852,7 @@ msgstr ""
 msgid "Total credit"
 msgstr ""
 
-#: html/inc/host.inc:116 html/inc/user.inc:131 html/user/team_search.php:84
+#: html/inc/host.inc:116 html/inc/user.inc:128 html/user/team_search.php:84
 #: html/user/user_search.php:130
 msgid "Average credit"
 msgstr ""
@@ -885,7 +885,7 @@ msgstr ""
 msgid "BOINC version"
 msgstr ""
 
-#: html/inc/host.inc:134 html/inc/prefs.inc:243
+#: html/inc/host.inc:134
 msgid "Memory"
 msgstr ""
 
@@ -963,7 +963,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: html/inc/host.inc:186 html/inc/host.inc:379 html/inc/user.inc:173
+#: html/inc/host.inc:186 html/inc/host.inc:379 html/inc/user.inc:170
 msgid "Tasks"
 msgstr ""
 
@@ -1035,7 +1035,7 @@ msgstr ""
 
 #: html/inc/host.inc:238 html/inc/team.inc:112 html/inc/team.inc:234
 #: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:381
-#: html/inc/team.inc:384 html/inc/user.inc:148
+#: html/inc/team.inc:384 html/inc/user.inc:145
 #: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
 #: html/user/team_remove_inactive_form.php:45 html/user/top_users.php:50
 #: html/user/top_users.php:53
@@ -1072,7 +1072,7 @@ msgid ", CPU does not have hardware virtualization support"
 msgstr ""
 
 #: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:418 html/inc/user.inc:511
+#: html/inc/user.inc:415 html/inc/user.inc:508
 msgid "None"
 msgstr ""
 
@@ -1145,7 +1145,7 @@ msgid "Computer ID"
 msgstr ""
 
 #: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:236 html/user/account_finish.php:41
+#: html/inc/team.inc:376 html/inc/user.inc:233 html/user/account_finish.php:41
 #: html/user/per_app_list.php:61 html/user/team_admins.php:65
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
@@ -1211,7 +1211,7 @@ msgstr ""
 #: html/inc/pm.inc:109 html/inc/pm.inc:177 html/user/forum_edit.php:107
 #: html/user/forum_edit.php:108 html/user/forum_edit.php:153
 #: html/user/forum_post.php:68 html/user/forum_post.php:100
-#: html/user/forum_post.php:101 html/user/forum_post.php:147
+#: html/user/forum_post.php:101 html/user/forum_post.php:151
 #: html/user/forum_reply.php:80 html/user/forum_reply.php:113
 #: html/user/forum_reply.php:118 html/user/forum_reply.php:173
 #: html/user/pm.php:175 html/user/pm.php:222
@@ -1223,7 +1223,7 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: html/inc/pm.inc:105 html/inc/user.inc:520
+#: html/inc/pm.inc:105 html/inc/user.inc:517
 msgid "Send private message"
 msgstr ""
 
@@ -1269,27 +1269,54 @@ msgstr ""
 msgid "Private message"
 msgstr ""
 
-#: html/inc/prefs.inc:51 html/inc/prefs.inc:193
-msgid "Usage limits"
+#: html/inc/prefs.inc:53
+msgid "'In use' means mouse/keyboard input in last"
 msgstr ""
 
-#: html/inc/prefs.inc:53 html/inc/prefs.inc:61
+#: html/inc/prefs.inc:54
+msgid "This determines when the computer is considered 'in use'."
+msgstr ""
+
+#: html/inc/prefs.inc:56 html/inc/prefs.inc:135 html/inc/prefs.inc:149
+msgid "minutes"
+msgstr ""
+
+#: html/inc/prefs.inc:60
+msgid "Suspend all computing"
+msgstr ""
+
+#: html/inc/prefs.inc:61
+msgid ""
+"Check this to suspend computing and file transfers when you're using the "
+"computer."
+msgstr ""
+
+#: html/inc/prefs.inc:66
+msgid "Suspend GPU computing"
+msgstr ""
+
+#: html/inc/prefs.inc:67
+msgid "Check this to suspend GPU computing when you're using the computer."
+msgstr ""
+
+#: html/inc/prefs.inc:72 html/inc/prefs.inc:80 html/inc/prefs.inc:94
+#: html/inc/prefs.inc:103 html/inc/prefs.inc:111 html/inc/prefs.inc:125
 msgid "Use at most"
 msgstr ""
 
-#: html/inc/prefs.inc:55
+#: html/inc/prefs.inc:74 html/inc/prefs.inc:105
 #, no-php-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
 msgstr ""
 
-#: html/inc/prefs.inc:58
+#: html/inc/prefs.inc:77 html/inc/prefs.inc:108
 #, no-php-format
 msgid "% of the CPUs"
 msgstr ""
 
-#: html/inc/prefs.inc:63
+#: html/inc/prefs.inc:82 html/inc/prefs.inc:113
 #, no-php-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
@@ -1297,354 +1324,322 @@ msgid ""
 "and repeat."
 msgstr ""
 
-#: html/inc/prefs.inc:66
+#: html/inc/prefs.inc:85 html/inc/prefs.inc:116
 #, no-php-format
 msgid "% of CPU time"
 msgstr ""
 
-#: html/inc/prefs.inc:68 html/inc/prefs.inc:214
-msgid "When to suspend"
+#: html/inc/prefs.inc:88 html/inc/prefs.inc:119
+msgid "Suspend when non-BOINC CPU usage is above"
 msgstr ""
 
-#: html/inc/prefs.inc:70
+#: html/inc/prefs.inc:89 html/inc/prefs.inc:120
+msgid "Suspend computing when your computer is busy running other programs."
+msgstr ""
+
+#: html/inc/prefs.inc:95
+msgid "Limit the memory used by BOINC when you're using the computer."
+msgstr ""
+
+#: html/inc/prefs.inc:98 html/inc/prefs.inc:129
+#, no-php-format
+msgid "% of memory"
+msgstr ""
+
+#: html/inc/prefs.inc:126
+msgid "Limit the memory used by BOINC when you're not using the computer."
+msgstr ""
+
+#: html/inc/prefs.inc:132
+msgid "Suspend when no mouse/keyboard input in last"
+msgstr ""
+
+#: html/inc/prefs.inc:133
+msgid "This allows some computers to enter low-power mode when not in use."
+msgstr ""
+
+#: html/inc/prefs.inc:140
 msgid "Suspend when computer is on battery"
 msgstr ""
 
-#: html/inc/prefs.inc:71
+#: html/inc/prefs.inc:141
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
 msgstr ""
 
-#: html/inc/prefs.inc:76
-msgid "Suspend when computer is in use"
-msgstr ""
-
-#: html/inc/prefs.inc:77
-msgid ""
-"Check this to suspend computing and file transfers when you're using the "
-"computer."
-msgstr ""
-
-#: html/inc/prefs.inc:82
-msgid "Suspend GPU computing when computer is in use"
-msgstr ""
-
-#: html/inc/prefs.inc:83
-msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr ""
-
-#: html/inc/prefs.inc:88
-msgid "'In use' means mouse/keyboard input in last"
-msgstr ""
-
-#: html/inc/prefs.inc:89
-msgid "This determines when the computer is considered 'in use'."
-msgstr ""
-
-#: html/inc/prefs.inc:91 html/inc/prefs.inc:98 html/inc/prefs.inc:128
-msgid "minutes"
-msgstr ""
-
-#: html/inc/prefs.inc:95
-msgid "Suspend when no mouse/keyboard input in last"
-msgstr ""
-
-#: html/inc/prefs.inc:96
-msgid "This allows some computers to enter low-power mode when not in use."
-msgstr ""
-
-#: html/inc/prefs.inc:101
-msgid "Suspend when non-BOINC CPU usage is above"
-msgstr ""
-
-#: html/inc/prefs.inc:102
-msgid "Suspend computing when your computer is busy running other programs."
-msgstr ""
-
-#: html/inc/prefs.inc:107
-msgid "Compute only between"
-msgstr ""
-
-#: html/inc/prefs.inc:108
-msgid "Compute only during a particular period each day."
-msgstr ""
-
-#: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
-#: html/user/forum_banishment_vote.php:70
-#: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
-msgid "Other"
-msgstr ""
-
-#: html/inc/prefs.inc:113
-msgid "Store at least"
-msgstr ""
-
-#: html/inc/prefs.inc:114
-msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr ""
-
-#: html/inc/prefs.inc:116 html/inc/prefs.inc:122
-msgid "days of work"
-msgstr ""
-
-#: html/inc/prefs.inc:119
-msgid "Store up to an additional"
-msgstr ""
-
-#: html/inc/prefs.inc:120
-msgid ""
-"Store additional tasks above the minimum level.  Determines how much work is "
-"requested when contacting a project."
-msgstr ""
-
-#: html/inc/prefs.inc:125
+#: html/inc/prefs.inc:146
 msgid "Switch between tasks every"
 msgstr ""
 
-#: html/inc/prefs.inc:126
+#: html/inc/prefs.inc:147
 msgid "If you run several projects, BOINC may switch between them this often."
 msgstr ""
 
-#: html/inc/prefs.inc:131
+#: html/inc/prefs.inc:152
 msgid "Request tasks to checkpoint at most every"
 msgstr ""
 
-#: html/inc/prefs.inc:132
+#: html/inc/prefs.inc:153
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
 msgstr ""
 
-#: html/inc/prefs.inc:134
+#: html/inc/prefs.inc:155
 msgid "seconds"
 msgstr ""
 
-#: html/inc/prefs.inc:142 html/inc/prefs.inc:154
-msgid "Use no more than"
-msgstr ""
-
-#: html/inc/prefs.inc:143
-msgid "Limit the total amount of disk space used by BOINC."
-msgstr ""
-
-#: html/inc/prefs.inc:145
-msgid "GB"
-msgstr ""
-
-#: html/inc/prefs.inc:148
-msgid "Leave at least"
-msgstr ""
-
-#: html/inc/prefs.inc:149
-msgid ""
-"Limit disk usage to leave this much free space on the volume where BOINC "
-"stores data."
-msgstr ""
-
-#: html/inc/prefs.inc:151
-msgid "GB free"
-msgstr ""
-
-#: html/inc/prefs.inc:155
-msgid ""
-"Limit the percentage of disk space used by BOINC on the volume where it "
-"stores data."
-msgstr ""
-
 #: html/inc/prefs.inc:158
-#, no-php-format
-msgid "% of total"
-msgstr ""
-
-#: html/inc/prefs.inc:164
-msgid "When computer is in use, use at most"
-msgstr ""
-
-#: html/inc/prefs.inc:165
-msgid "Limit the memory used by BOINC when you're using the computer."
-msgstr ""
-
-#: html/inc/prefs.inc:168 html/inc/prefs.inc:175 html/inc/prefs.inc:188
-#, no-php-format
-msgid "%"
-msgstr ""
-
-#: html/inc/prefs.inc:171
-msgid "When computer is not in use, use at most"
-msgstr ""
-
-#: html/inc/prefs.inc:172
-msgid "Limit the memory used by BOINC when you're not using the computer."
-msgstr ""
-
-#: html/inc/prefs.inc:178
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr ""
 
-#: html/inc/prefs.inc:179
+#: html/inc/prefs.inc:159
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If "
 "unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr ""
 
-#: html/inc/prefs.inc:184
-msgid "Page/swap file: use at most"
+#: html/inc/prefs.inc:164
+msgid "Store at least"
 msgstr ""
 
-#: html/inc/prefs.inc:185
-msgid "Limit the swap space (page file) used by BOINC."
+#: html/inc/prefs.inc:165
+msgid "Store at least enough tasks to keep the computer busy for this long."
+msgstr ""
+
+#: html/inc/prefs.inc:167 html/inc/prefs.inc:173
+msgid "days of work"
+msgstr ""
+
+#: html/inc/prefs.inc:170
+msgid "Store up to an additional"
+msgstr ""
+
+#: html/inc/prefs.inc:171
+msgid ""
+"Store additional tasks above the minimum level.  Determines how much work is "
+"requested when contacting a project."
+msgstr ""
+
+#: html/inc/prefs.inc:176
+msgid "Compute only between"
+msgstr ""
+
+#: html/inc/prefs.inc:177
+msgid "Compute only during a particular period each day."
+msgstr ""
+
+#: html/inc/prefs.inc:186 html/inc/prefs.inc:198
+msgid "Use no more than"
+msgstr ""
+
+#: html/inc/prefs.inc:187
+msgid "Limit the total amount of disk space used by BOINC."
+msgstr ""
+
+#: html/inc/prefs.inc:189
+msgid "GB"
+msgstr ""
+
+#: html/inc/prefs.inc:192
+msgid "Leave at least"
+msgstr ""
+
+#: html/inc/prefs.inc:193
+msgid ""
+"Limit disk usage to leave this much free space on the volume where BOINC "
+"stores data."
 msgstr ""
 
 #: html/inc/prefs.inc:195
-msgid "Limit download rate to"
+msgid "GB free"
 msgstr ""
 
-#: html/inc/prefs.inc:196
-msgid "Limit the download rate of file transfers."
-msgstr ""
-
-#: html/inc/prefs.inc:198 html/inc/prefs.inc:204
-msgid "KB/second"
-msgstr ""
-
-#: html/inc/prefs.inc:201
-msgid "Limit upload rate to"
+#: html/inc/prefs.inc:199
+msgid ""
+"Limit the percentage of disk space used by BOINC on the volume where it "
+"stores data."
 msgstr ""
 
 #: html/inc/prefs.inc:202
-msgid "Limit the upload rate of file transfers."
+#, no-php-format
+msgid "% of total"
 msgstr ""
 
-#: html/inc/prefs.inc:207
-msgid "Limit usage to"
+#: html/inc/prefs.inc:205
+msgid "Page/swap file: use at most"
 msgstr ""
 
-#: html/inc/prefs.inc:208
-msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
+#: html/inc/prefs.inc:206
+msgid "Limit the swap space (page file) used by BOINC."
 msgstr ""
 
-#: html/inc/prefs.inc:211
-msgid "MB every"
+#: html/inc/prefs.inc:209
+#, no-php-format
+msgid "%"
 msgstr ""
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:420
-msgid "days"
+#: html/inc/prefs.inc:215
+msgid "Limit download rate to"
 msgstr ""
 
 #: html/inc/prefs.inc:216
-msgid "Transfer files only between"
+msgid "Limit the download rate of file transfers."
 msgstr ""
 
-#: html/inc/prefs.inc:217
-msgid "Transfer files only during a particular period each day."
+#: html/inc/prefs.inc:218 html/inc/prefs.inc:224
+msgid "KB/second"
+msgstr ""
+
+#: html/inc/prefs.inc:221
+msgid "Limit upload rate to"
 msgstr ""
 
 #: html/inc/prefs.inc:222
+msgid "Limit the upload rate of file transfers."
+msgstr ""
+
+#: html/inc/prefs.inc:227
+msgid "Limit usage to"
+msgstr ""
+
+#: html/inc/prefs.inc:228
+msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
+msgstr ""
+
+#: html/inc/prefs.inc:231
+msgid "MB every"
+msgstr ""
+
+#: html/inc/prefs.inc:232 html/inc/util.inc:428
+msgid "days"
+msgstr ""
+
+#: html/inc/prefs.inc:235
+msgid "Transfer files only between"
+msgstr ""
+
+#: html/inc/prefs.inc:236
+msgid "Transfer files only during a particular period each day."
+msgstr ""
+
+#: html/inc/prefs.inc:240
 msgid "Skip data verification for image files"
 msgstr ""
 
-#: html/inc/prefs.inc:223
+#: html/inc/prefs.inc:241
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of BOINC."
 msgstr ""
 
-#: html/inc/prefs.inc:228
+#: html/inc/prefs.inc:246
 msgid "Confirm before connecting to Internet"
 msgstr ""
 
-#: html/inc/prefs.inc:229 html/inc/prefs.inc:235
+#: html/inc/prefs.inc:247 html/inc/prefs.inc:253
 msgid "Useful only if you have a modem, ISDN or VPN connection."
 msgstr ""
 
-#: html/inc/prefs.inc:234
+#: html/inc/prefs.inc:252
 msgid "Disconnect when done"
 msgstr ""
 
-#: html/inc/prefs.inc:242
+#: html/inc/prefs.inc:259
+msgid "When computer is in use"
+msgstr ""
+
+#: html/inc/prefs.inc:260
+msgid "When computer is not in use"
+msgstr ""
+
+#: html/inc/prefs.inc:261
+msgid "General"
+msgstr ""
+
+#: html/inc/prefs.inc:262
 msgid "Disk"
 msgstr ""
 
-#: html/inc/prefs.inc:244
+#: html/inc/prefs.inc:263
 msgid "Network"
 msgstr ""
 
 #. These texts are used in multiple places in prefs_edit.php and add_venue.php
-#: html/inc/prefs.inc:247
+#: html/inc/prefs.inc:266
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 
-#: html/inc/prefs.inc:250
+#: html/inc/prefs.inc:269
 msgid ""
 "%1 Unable to update preferences. %2 The values marked in red below were out "
 "of range or not numeric."
 msgstr ""
 
-#: html/inc/prefs.inc:494
+#: html/inc/prefs.inc:527
 msgid "Separate preferences for %1"
 msgstr ""
 
-#: html/inc/prefs.inc:502 html/inc/prefs.inc:543 html/inc/prefs_project.inc:324
+#: html/inc/prefs.inc:535 html/inc/prefs.inc:576 html/inc/prefs_project.inc:324
 msgid "Edit preferences"
 msgstr ""
 
-#: html/inc/prefs.inc:503 html/inc/prefs_util.inc:735
+#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:735
 #: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:36
 msgid "Remove"
 msgstr ""
 
-#: html/inc/prefs.inc:510 html/inc/prefs.inc:511
+#: html/inc/prefs.inc:543 html/inc/prefs.inc:544
 msgid "Add separate preferences for %1"
 msgstr ""
 
-#: html/inc/prefs.inc:520
+#: html/inc/prefs.inc:553
 msgid "These settings apply to all computers using this account except"
 msgstr ""
 
-#: html/inc/prefs.inc:522
+#: html/inc/prefs.inc:555
 msgid ""
 "computers where you have set preferences locally using the BOINC Manager"
 msgstr ""
 
-#: html/inc/prefs.inc:524
+#: html/inc/prefs.inc:557
 msgid "Android devices"
 msgstr ""
 
-#: html/inc/prefs.inc:527
+#: html/inc/prefs.inc:560
 msgid "(Switch view)"
 msgstr ""
 
-#: html/inc/prefs.inc:529 html/inc/prefs_project.inc:304
+#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:304
 msgid "Combined preferences"
 msgstr ""
 
-#: html/inc/prefs.inc:536 html/inc/prefs_project.inc:316
+#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:316
 msgid "Primary (default) preferences"
 msgstr ""
 
-#: html/inc/prefs.inc:553
+#: html/inc/prefs.inc:586
 msgid "Preferences last modified:"
 msgstr ""
 
-#: html/inc/prefs.inc:569
+#: html/inc/prefs.inc:602
 msgid "Add preferences"
 msgstr ""
 
-#: html/inc/prefs.inc:573
+#: html/inc/prefs.inc:606
 msgid "Update preferences"
 msgstr ""
 
-#: html/inc/prefs.inc:645 html/inc/prefs_util.inc:700
+#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:700
 #: html/inc/prefs_util.inc:703
 #: html/project.sample/project_specific_prefs.inc:71
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "yes"
 msgstr ""
 
-#: html/inc/prefs.inc:647 html/inc/prefs_util.inc:700
+#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:700
 #: html/inc/prefs_util.inc:703
 #: html/project.sample/project_specific_prefs.inc:73
 #: html/project.sample/project_specific_prefs.inc:257
@@ -1653,11 +1648,11 @@ msgstr ""
 
 #. TODO: make this a subclass of PREF
 #.
-#: html/inc/prefs.inc:655
+#: html/inc/prefs.inc:685
 msgid "Default computer location"
 msgstr ""
 
-#: html/inc/prefs.inc:656
+#: html/inc/prefs.inc:686
 msgid ""
 "New computers will use this location for computing and project preferences."
 msgstr ""
@@ -2183,7 +2178,7 @@ msgstr ""
 msgid "Show only active teams"
 msgstr ""
 
-#: html/inc/team.inc:53 html/inc/util.inc:1162 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1172 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr ""
@@ -2381,6 +2376,12 @@ msgstr ""
 msgid "Accept new members?"
 msgstr ""
 
+#: html/inc/team_types.inc:23 html/user/forum_banishment_vote.php:70
+#: html/user/forum_banishment_vote_action.php:65
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
+msgid "Other"
+msgstr ""
+
 #: html/inc/team_types.inc:24
 msgid "Company"
 msgstr ""
@@ -2429,207 +2430,207 @@ msgstr ""
 msgid "User profile"
 msgstr ""
 
-#: html/inc/user.inc:122
+#: html/inc/user.inc:119
 msgid "Projects in which you are participating"
 msgstr ""
 
-#: html/inc/user.inc:124
+#: html/inc/user.inc:121
 msgid "Projects in which %1 is participating"
 msgstr ""
 
-#: html/inc/user.inc:129
+#: html/inc/user.inc:126
 msgid "Click for user page"
 msgstr ""
 
-#: html/inc/user.inc:132
+#: html/inc/user.inc:129
 msgid "Since"
 msgstr ""
 
-#: html/inc/user.inc:170
+#: html/inc/user.inc:167
 msgid "Computers on this account"
 msgstr ""
 
-#: html/inc/user.inc:170 html/inc/user.inc:173 html/inc/user.inc:284
-#: html/inc/user.inc:373 html/inc/user.inc:472 html/inc/user.inc:544
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:281
+#: html/inc/user.inc:370 html/inc/user.inc:469 html/inc/user.inc:541
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr ""
 
-#: html/inc/user.inc:185
+#: html/inc/user.inc:182
 msgid "Cross-project ID"
 msgstr ""
 
-#: html/inc/user.inc:186
+#: html/inc/user.inc:183
 msgid "Cross-project statistics"
 msgstr ""
 
-#: html/inc/user.inc:189 html/inc/user.inc:418 html/inc/user.inc:509
-#: html/inc/user.inc:511 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:415 html/inc/user.inc:506
+#: html/inc/user.inc:508 html/user/user_search.php:129
 msgid "Team"
 msgstr ""
 
-#: html/inc/user.inc:191
+#: html/inc/user.inc:188
 msgid "Cross-project"
 msgstr ""
 
-#: html/inc/user.inc:193
+#: html/inc/user.inc:190
 msgid "Stats on your cell phone"
 msgstr ""
 
-#: html/inc/user.inc:249 html/inc/user.inc:464
+#: html/inc/user.inc:246 html/inc/user.inc:461
 msgid "URL"
 msgstr ""
 
-#: html/inc/user.inc:256
+#: html/inc/user.inc:253
 msgid "Postal code"
 msgstr ""
 
-#: html/inc/user.inc:258 html/inc/user.inc:454
+#: html/inc/user.inc:255 html/inc/user.inc:451
 msgid "%1 member since"
 msgstr ""
 
 #. LDAP accounts can't change email or password
 #.
-#: html/inc/user.inc:263 html/inc/user.inc:273
+#: html/inc/user.inc:260 html/inc/user.inc:270
 msgid "Change"
 msgstr ""
 
-#: html/inc/user.inc:270
+#: html/inc/user.inc:267
 msgid "delete account"
 msgstr ""
 
-#: html/inc/user.inc:274
+#: html/inc/user.inc:271
 msgid "email address"
 msgstr ""
 
-#: html/inc/user.inc:275
+#: html/inc/user.inc:272
 msgid "password"
 msgstr ""
 
-#: html/inc/user.inc:276
+#: html/inc/user.inc:273
 msgid "other account info"
 msgstr ""
 
-#: html/inc/user.inc:280 html/inc/user.inc:453
+#: html/inc/user.inc:277 html/inc/user.inc:450
 msgid "User ID"
 msgstr ""
 
-#: html/inc/user.inc:280
+#: html/inc/user.inc:277
 msgid "Used in community functions"
 msgstr ""
 
-#: html/inc/user.inc:283 html/user/weak_auth.php:23
+#: html/inc/user.inc:280 html/user/weak_auth.php:23
 msgid "Account keys"
 msgstr ""
 
-#: html/inc/user.inc:291
+#: html/inc/user.inc:288
 msgid "Account Ownership"
 msgstr ""
 
-#: html/inc/user.inc:303
+#: html/inc/user.inc:300
 msgid "When and how BOINC uses your computer"
 msgstr ""
 
-#: html/inc/user.inc:304 html/user/welcome.php:62
+#: html/inc/user.inc:301 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr ""
 
-#: html/inc/user.inc:307
+#: html/inc/user.inc:304
 msgid "Message boards and private messages"
 msgstr ""
 
-#: html/inc/user.inc:308 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:305 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr ""
 
-#: html/inc/user.inc:311
+#: html/inc/user.inc:308
 msgid "Preferences for this project"
 msgstr ""
 
-#: html/inc/user.inc:312 html/user/prefs.php:33
+#: html/inc/user.inc:309 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr ""
 
-#: html/inc/user.inc:329
+#: html/inc/user.inc:326
 msgid "View the profile of %1"
 msgstr ""
 
-#: html/inc/user.inc:330 html/inc/user.inc:377 html/inc/user.inc:544
+#: html/inc/user.inc:327 html/inc/user.inc:374 html/inc/user.inc:541
 msgid "Profile"
 msgstr ""
 
-#: html/inc/user.inc:375
+#: html/inc/user.inc:372
 msgid "Create"
 msgstr ""
 
-#: html/inc/user.inc:382 html/inc/user.inc:516
+#: html/inc/user.inc:379 html/inc/user.inc:513
 msgid "%1 posts"
 msgstr ""
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:400 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:397 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr ""
 
-#: html/inc/user.inc:406
+#: html/inc/user.inc:403
 msgid "Quit team"
 msgstr ""
 
-#: html/inc/user.inc:408 html/inc/user.inc:425
+#: html/inc/user.inc:405 html/inc/user.inc:422
 msgid "Administer"
 msgstr ""
 
-#: html/inc/user.inc:414 html/inc/user.inc:427
+#: html/inc/user.inc:411 html/inc/user.inc:424
 msgid "(foundership change request pending)"
 msgstr ""
 
-#: html/inc/user.inc:416
+#: html/inc/user.inc:413
 msgid "Member of team"
 msgstr ""
 
-#: html/inc/user.inc:418
+#: html/inc/user.inc:415
 msgid "find a team"
 msgstr ""
 
-#: html/inc/user.inc:429
+#: html/inc/user.inc:426
 msgid "Founder but not member of"
 msgstr ""
 
-#: html/inc/user.inc:435
+#: html/inc/user.inc:432
 msgid "Find friends"
 msgstr ""
 
-#: html/inc/user.inc:443 html/inc/user.inc:445 html/inc/user.inc:527
-#: html/inc/user.inc:529 html/inc/user.inc:538
+#: html/inc/user.inc:440 html/inc/user.inc:442 html/inc/user.inc:524
+#: html/inc/user.inc:526 html/inc/user.inc:535
 msgid "Friends"
 msgstr ""
 
-#: html/inc/user.inc:472 html/inc/user.inc:474 html/user/server_status.php:160
+#: html/inc/user.inc:469 html/inc/user.inc:471 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr ""
 
-#: html/inc/user.inc:520
+#: html/inc/user.inc:517
 msgid "Contact"
 msgstr ""
 
-#: html/inc/user.inc:523
+#: html/inc/user.inc:520
 msgid "This person is a friend"
 msgstr ""
 
-#: html/inc/user.inc:524 html/user/friend.php:250
+#: html/inc/user.inc:521 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr ""
 
-#: html/inc/user.inc:527 html/user/friend.php:39
+#: html/inc/user.inc:524 html/user/friend.php:39
 msgid "Request pending"
 msgstr ""
 
-#: html/inc/user.inc:529
+#: html/inc/user.inc:526
 msgid "Add as friend"
 msgstr ""
 
-#: html/inc/user.inc:553
+#: html/inc/user.inc:550
 msgid "Account information"
 msgstr ""
 
@@ -2697,69 +2698,69 @@ msgstr ""
 msgid "database error, please contact site administrators"
 msgstr ""
 
-#: html/inc/util.inc:210
+#: html/inc/util.inc:218
 msgid "log out"
 msgstr ""
 
-#: html/inc/util.inc:212
+#: html/inc/util.inc:220
 msgid "log in"
 msgstr ""
 
-#: html/inc/util.inc:350
+#: html/inc/util.inc:358
 msgid "Create an account"
 msgstr ""
 
-#: html/inc/util.inc:351
+#: html/inc/util.inc:359
 msgid "Server status page"
 msgstr ""
 
-#: html/inc/util.inc:394
+#: html/inc/util.inc:402
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
 
-#: html/inc/util.inc:403
+#: html/inc/util.inc:411
 msgid "Unable to handle request"
 msgstr ""
 
-#: html/inc/util.inc:423
+#: html/inc/util.inc:431
 msgid "hours"
 msgstr ""
 
-#: html/inc/util.inc:426
+#: html/inc/util.inc:434
 msgid "min"
 msgstr ""
 
-#: html/inc/util.inc:429
+#: html/inc/util.inc:437
 msgid "sec"
 msgstr ""
 
-#: html/inc/util.inc:610
+#: html/inc/util.inc:618
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
 
-#: html/inc/util.inc:685
+#: html/inc/util.inc:693
 msgid "Use BBCode tags to format your text"
 msgstr ""
 
-#: html/inc/util.inc:929
+#: html/inc/util.inc:937
 msgid "Project down for maintenance"
 msgstr ""
 
-#: html/inc/util.inc:932
+#: html/inc/util.inc:940
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
 
-#: html/inc/util.inc:959
+#: html/inc/util.inc:967
 msgid "Unable to connect to database - please try again later"
 msgstr ""
 
-#: html/inc/util.inc:963
+#: html/inc/util.inc:971
 msgid "Unable to select database - please try again later"
 msgstr ""
 
-#: html/inc/util.inc:1141
+#: html/inc/util.inc:1151
 msgid "characters remaining"
 msgstr ""
 
@@ -4043,7 +4044,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: html/user/forum_edit.php:152 html/user/forum_post.php:146
+#: html/user/forum_edit.php:152 html/user/forum_post.php:150
 msgid "Add my signature to this post"
 msgstr ""
 
@@ -4224,7 +4225,7 @@ msgid "Forever"
 msgstr ""
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
-#: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:147
+#: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:151
 #: html/user/forum_report_post.php:105 html/user/forum_rss.php:51
 #: html/user/friend.php:83
 msgid "OK"
@@ -4312,11 +4313,11 @@ msgstr ""
 msgid "Remember to add a title"
 msgstr ""
 
-#: html/user/forum_post.php:144
+#: html/user/forum_post.php:148
 msgid "Show this item as a Notice in the BOINC Manager"
 msgstr ""
 
-#: html/user/forum_post.php:144
+#: html/user/forum_post.php:148
 msgid "Do so only for items likely to be of interest to all volunteers."
 msgstr ""
 
@@ -5810,14 +5811,14 @@ msgid "Tasks by application"
 msgstr ""
 
 #: html/user/server_status.php:175
-msgid "Runtime of last 100 tasks in hours: average, min, max"
+msgid "Runtime of recent tasks in hours: average, min, max"
 msgstr ""
 
 #: html/user/server_status.php:176
 msgid "Users in last 24 hours"
 msgstr ""
 
-#: html/user/server_status.php:211
+#: html/user/server_status.php:216
 msgid "Database schema version: "
 msgstr ""
 
@@ -6814,23 +6815,27 @@ msgid ""
 "email address."
 msgstr ""
 
-#: html/user/validate_email_addr.php:44
+#: html/user/validate_email_addr.php:37
+msgid "If you don't receive this email, check your spam folder."
+msgstr ""
+
+#: html/user/validate_email_addr.php:46
 msgid "No such user."
 msgstr ""
 
-#: html/user/validate_email_addr.php:49
+#: html/user/validate_email_addr.php:51
 msgid "Error in URL data - can't validate email address"
 msgstr ""
 
-#: html/user/validate_email_addr.php:54
+#: html/user/validate_email_addr.php:56
 msgid "Database update failed - please try again later."
 msgstr ""
 
-#: html/user/validate_email_addr.php:57
+#: html/user/validate_email_addr.php:59
 msgid "Validate email address"
 msgstr ""
 
-#: html/user/validate_email_addr.php:58
+#: html/user/validate_email_addr.php:60
 msgid "The email address of your account has been validated."
 msgstr ""
 

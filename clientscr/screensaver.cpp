@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -97,7 +97,13 @@ typedef int GFXAPP_ID;
 RESULT* graphics_app_result_ptr = NULL;
 
 #ifdef __APPLE__
-pid_t* pid_from_shmem = NULL;
+struct ss_shmem_data {
+    pid_t gfx_pid;
+    int gfx_slot;
+};
+
+static struct ss_shmem_data* ss_shmem = NULL;
+bool canAccessProjectGFXApps = true; 
 #endif
 
 bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
@@ -223,6 +229,26 @@ bool CScreensaver::isIncompatible(char *appPath) {
     return false;
 }
 
+static Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
+    group               *grp;
+    short               i = 0;
+    char                *p;
+
+    grp = getgrnam(groupName);
+    if (!grp) {
+        printf("getgrnam(%s) failed\n", groupName);
+        fflush(stdout);
+        return false;  // Group not found
+    }
+
+    while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group groupName
+        if (strcmp(p, userName) == 0) {
+            return true;
+        }
+        ++i;
+    }
+    return false;
+}
 #endif
 
 
@@ -234,53 +260,39 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
     if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
 #ifdef __APPLE__
-        if (gIsCatalina) {
-            // As of OS 10.15 (Catalina) screensavers can no longer:
-            //  - launch apps that run setuid or setgid
-            //  - launch apps downloaded from the Internet which have not been 
-            //    specifically approved by the  user via Gatekeeper.
-            // So instead of launching graphics apps via gfx_switcher, we send an 
-            // RPC to the client asking the client to launch them via gfx_switcher.
-            // See comments in gfx_switcher.cpp for a more detailed explanation.
-            // We have tested this on OS 10.13 High Sierra and it works there, too
-            //
+        graphics_application = 0;
+        
+        // As of OS 10.15 (Catalina) screensavers can no longer:
+        //  - launch apps that run setuid or setgid
+        //  - launch apps downloaded from the Internet which have not been 
+        //    specifically approved by the  user via Gatekeeper.
+        // So instead of launching graphics apps via gfx_switcher, we send an 
+        // RPC to the client asking the client to launch them via gfx_switcher.
+        // See comments in gfx_switcher.cpp for a more detailed explanation.
+        // We have tested this on OS 10.13 High Sierra and it works there, too
+        //
+        // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
+        // between apps unless they are running as the same user, so we no
+        // longer run the graphics apps as user boinc_master.
+        //
+        if (ss_shmem) {
             retval = rpc->run_graphics_app("runfullscreen", rp->slot, gUserName);
             for (int i=0; i<800; i++) {
                 boinc_sleep(0.01);      // Wait 8 seconds max
-                if (*pid_from_shmem != 0) {
-                    graphics_application = *pid_from_shmem;
+                if (ss_shmem->gfx_pid != 0) {
+                    graphics_application = ss_shmem->gfx_pid;
                     break;
                 }
             }
-            // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
-            // Inform our helper app what we launched 
-            fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
-            fflush(m_gfx_Cleanup_IPC);
-        } else {
-            // For sandbox security, use gfx_switcher to launch gfx app 
-            // as user boinc_project and group boinc_project.
-            //
-            // For unknown reasons, the graphics application exits with 
-            // "RegisterProcess failed (error = -50)" unless we pass its 
-            // full path twice in the argument list to execv.
-            char* argv[5];
-            argv[0] = "gfx_Switcher";
-            argv[1] = "-launch_gfx";
-            argv[2] = strrchr(rp->slot_path, '/');
-            if (*argv[2]) argv[2]++;    // Point to the slot number in ascii
-            
-            argv[3] = "--fullscreen";
-            argv[4] = 0;
+        }
 
-           retval = run_program(
-                rp->slot_path,
-                m_gfx_Switcher_Path,
-                4,
-                argv,
-                0,
-                graphics_application
-            );
-    }
+        if (! graphics_application) {
+            return -1;
+        }
+        // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
+        // Inform our helper app what we launched 
+        fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
+        fflush(m_gfx_Cleanup_IPC);
     
     if (graphics_application) {
         launchedGfxApp(rp->graphics_exec_path, graphics_application, rp->slot);
@@ -313,91 +325,44 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application, RESU
 #ifdef __APPLE__
     pid_t thePID;
     
-    if (gIsCatalina) {
-        // As of OS 10.15 (Catalina) screensavers can no longer launch apps
-        // that run setuid or setgid. So instead of killing graphics apps 
-        // via gfx_switcher, we send an RPC to the client asking the client 
-        // to kill them via switcher.
-        // We have tested this on OS 10.13 High Sierra and it works there, too
-        //
-        int ignore;
+    // As of OS 10.15 (Catalina) screensavers can no longer launch apps
+    // that run setuid or setgid. So instead of killing graphics apps 
+    // via gfx_switcher, we send an RPC to the client asking the client 
+    // to kill them via switcher.
+    // We have tested this on OS 10.13 High Sierra and it works there, too
+    //
+    // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
+    // between apps unless they are running as the same user, so we no
+    // longer run the graphics apps as user boinc_master, so we might be 
+    // able to just call kill_program(graphics_application).
+    //
+    int ignore;
 
-        if (graphics_application == 0) return 0;
+    if (graphics_application == 0) return 0;
 
-        // MUTEX may help prevent crashes when terminating an older gfx app which
-        // we were displaying using CGWindowListCreateImage under OS X >= 10.13
-        // Also prevents reentry when called from our other thread
-        pthread_mutex_lock(&saver_mutex);
+    // MUTEX may help prevent crashes when terminating an older gfx app which
+    // we were displaying using CGWindowListCreateImage under OS X >= 10.13
+    // Also prevents reentry when called from our other thread
+    pthread_mutex_lock(&saver_mutex);
 
-        thePID = graphics_application;
-        // fprintf(stderr, "stopping pid %d\n", thePID);
-        retval = rpc->run_graphics_app("stop", thePID, gUserName);
-        //kill_program(graphics_application);
+    thePID = graphics_application;
+    // fprintf(stderr, "stopping pid %d\n", thePID);
+    retval = rpc->run_graphics_app("stop", thePID, gUserName);
+    //kill_program(graphics_application);
 
-        // Inform our helper app that we have stopped current graphics app 
-        fprintf(m_gfx_Cleanup_IPC, "0\n");
-        fflush(m_gfx_Cleanup_IPC);
+    // Inform our helper app that we have stopped current graphics app 
+    fprintf(m_gfx_Cleanup_IPC, "0\n");
+    fflush(m_gfx_Cleanup_IPC);
 
-        launchedGfxApp("", 0, -1);
+    launchedGfxApp("", 0, -1);
 
-        for (i=0; i<200; i++) {
-            boinc_sleep(0.01);      // Wait 2 seconds max
-            if (HasProcessExited(graphics_application, ignore)) {
-                break;
-            }
+    for (i=0; i<200; i++) {
+        boinc_sleep(0.01);      // Wait 2 seconds max
+        if (HasProcessExited(graphics_application, ignore)) {
+            break;
         }
-        pthread_mutex_unlock(&saver_mutex);
-    
-    } else {
-        // Under sandbox security, use gfx_switcher to kill default gfx app 
-        // as user boinc_master and group boinc_master (for default gfx app)
-        // or user boinc_project and group boinc_project (for project gfx 
-        // apps.) The man page for kill() says the user ID of the process 
-        // sending the signal must match that of the target process, though 
-        // in practice that seems not to be true on the Mac.
-        
-        char current_dir[PATH_MAX];
-        char gfx_pid[16];
-        
-        if (graphics_application == 0) return 0;
-        
-        // MUTEX may help prevent crashes when terminating an older gfx app which
-        // we were displaying using CGWindowListCreateImage under OS X >= 10.13
-        // Also prevents reentry when called from our other thread
-        pthread_mutex_lock(&saver_mutex);
-
-        sprintf(gfx_pid, "%d", graphics_application);
-        getcwd( current_dir, sizeof(current_dir));
-
-        char* argv[4];
-        argv[0] = "gfx_switcher";
-        argv[1] = "-kill_gfx";
-        argv[2] = gfx_pid;
-        argv[3] = 0;
-
-        retval = run_program(
-            current_dir,
-            m_gfx_Switcher_Path,
-            3,
-            argv,
-            0,
-            thePID
-        );
-
-        if (graphics_application) {
-            launchedGfxApp("", 0, -1);
-        }
-        
-        for (i=0; i<200; i++) {
-            boinc_sleep(0.01);      // Wait 2 seconds max
-            // Prevent gfx_switcher from becoming a zombie
-            if (waitpid(thePID, 0, WNOHANG) == thePID) {
-                break;
-            }
-        }
-        pthread_mutex_unlock(&saver_mutex);
     }
-    
+    pthread_mutex_unlock(&saver_mutex);    
 #endif
 
 #ifdef _WIN32
@@ -437,60 +402,37 @@ int CScreensaver::terminate_screensaver(GFXAPP_ID& graphics_application, RESULT*
 //
 int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics_application) {
     int retval = 0;
-    int num_args;
     
 #ifdef __APPLE__
-    if (gIsCatalina) {
-        // As of OS 10.15 (Catalina) screensavers can no longer:
-        //  - launch apps that run setuid or setgid
-        //  - launch apps downloaded from the Internet which have not been 
-        //    specifically approved by the  user via Gatekeeper.
-        // So instead of launching graphics apps via gfx_switcher, we send an 
-        // RPC to the client asking the client to launch them via gfx_switcher.
-        // See comments in gfx_switcher.cpp for a more detailed explanation.
-        // We have tested this on OS 10.13 High Sierra and it works there, too
-        //
-        int thePID = -1;
+    // As of OS 10.15 (Catalina) screensavers can no longer:
+    //  - launch apps that run setuid or setgid
+    //  - launch apps downloaded from the Internet which have not been 
+    //    specifically approved by the  user via Gatekeeper.
+    // So instead of launching graphics apps via gfx_switcher, we send an 
+    // RPC to the client asking the client to launch them via gfx_switcher.
+    // See comments in gfx_switcher.cpp for a more detailed explanation.
+    // We have tested this on OS 10.13 High Sierra and it works there, too
+    //
+    int thePID = -1;
+    graphics_application = 0;
+    if (ss_shmem) {
+        ss_shmem->gfx_slot = -1;
         retval = rpc->run_graphics_app("runfullscreen", thePID, gUserName);
         for (int i=0; i<800; i++) {
             boinc_sleep(0.01);      // Wait 8 seconds max
-            if (*pid_from_shmem != 0) {
-                graphics_application = *pid_from_shmem;
+            if (ss_shmem->gfx_pid != 0) {
+                graphics_application = ss_shmem->gfx_pid;
                 break;
             }
         }
-        // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
-        // Inform our helper app what we launched 
-        fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
-        fflush(m_gfx_Cleanup_IPC);
-    } else {
-        // For sandbox security, use gfx_switcher to launch default 
-        // gfx app as user boinc_master and group boinc_master.
-        char* argv[6];
-
-        argv[0] = "gfx_switcher";
-        argv[1] = "-default_gfx";
-        argv[2] = THE_DEFAULT_SS_EXECUTABLE;    // Will be changed by gfx_switcher
-        argv[3] = "--fullscreen";
-        argv[4] = 0;
-        argv[5] = 0;
-        if (!m_bConnected) {
-            BOINCTRACE(_T("launch_default_screensaver using --retry_connect argument\n"));
-            argv[4] = "--retry_connect";
-            num_args = 5;
-        } else {
-            num_args = 4;
-        }
-
-        retval = run_program(
-            dir_path,
-            m_gfx_Switcher_Path,
-            num_args,
-            argv,
-            0,
-            graphics_application
-        );
     }
+    if (! graphics_application) {
+        return -1;
+    }
+    // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
+    // Inform our helper app what we launched 
+    fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
+    fflush(m_gfx_Cleanup_IPC);
     
     if (graphics_application) {
         launchedGfxApp("boincscr", graphics_application, -1);
@@ -501,6 +443,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
 #else
     char* argv[4];
     char full_path[1024];
+    int num_args;
 
     strlcpy(full_path, dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
@@ -599,20 +542,20 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
 #ifdef __APPLE__
     m_vIncompatibleGfxApps.clear();
     default_ss_dir_path = "/Library/Application Support/BOINC Data";
-    if (gIsCatalina) {
-        char shmem_name[MAXPATHLEN];
-        snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", gUserName);
-        retval = create_shmem_mmap(shmem_name, sizeof(int), (void**)&pid_from_shmem);
-        // make sure user/group RW permissions are set, but not other.
-        //
-        if (retval == 0) {
-            chmod(shmem_name, 0666);
-            retval = attach_shmem_mmap(shmem_name, (void**)&pid_from_shmem);
-        }
-        if (retval == 0) {
-            *pid_from_shmem = 0;
-        }
+    char shmem_name[MAXPATHLEN];
+    snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", gUserName);
+    retval = create_shmem_mmap(shmem_name, sizeof(ss_shmem), (void**)&ss_shmem);
+    // make sure user/group RW permissions are set, but not other.
+    //
+    if (retval == 0) {
+        chmod(shmem_name, 0666);
+        ss_shmem->gfx_pid = 0;
+        ss_shmem->gfx_slot = -1;
     }
+    
+    if (!IsUserMemberOfGroup(gUserName, "boinc_master")) canAccessProjectGFXApps = false;
+    if (!IsUserMemberOfGroup(gUserName, "boinc_project")) canAccessProjectGFXApps = false;
+    if (!canAccessProjectGFXApps) m_bShow_default_ss_first = true;
 #else
     default_ss_dir_path = (char*)m_strBOINCInstallDirectory.c_str();
 #endif
@@ -759,6 +702,20 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
             }
         }
         
+#ifdef __APPLE__
+        // If user is not a member of both group bonc_master and group boinc_project, then
+        // it can't access the project graphics apps (via slots and projects directories.)
+        if (!canAccessProjectGFXApps) {
+             if (!m_bDefault_gfx_running) {
+                if (m_bDefault_ss_exists) {
+                    switch_to_default_gfx = true;
+                } else {
+                    SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
+                }
+            }
+        }
+#endif
+       
         if (switch_to_default_gfx) {
             if (m_bScience_gfx_running) {
                 if (m_hGraphicsApplication || previous_result_ptr) {
@@ -874,7 +831,15 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                     graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
                     previous_result_ptr = NULL;
                 }
-                
+
+#ifdef __APPLE__
+                // If user is not a member of both group bonc_master and group boinc_project, then
+                // it can't access the project graphics apps (via slots and projects directories.)
+                if (!canAccessProjectGFXApps) {
+                    graphics_app_result_ptr = NULL;
+                }
+#endif
+
                 if (graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {
                         terminate_default_screensaver(m_hGraphicsApplication);
@@ -1003,28 +968,25 @@ BOOL CScreensaver::HasProcessExited(HANDLE pid_handle, int &exitCode) {
 }
 #else
 bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
-    int status;
-    pid_t p;
-    
-    if (gIsCatalina) {
-        // Only the process which launched an app can use waitpid() to test 
-        // whether that app is still running. If we sent an RPC to the client 
-        // asking the client to launch a graphics app via switcher, we must 
-        // send another RPC to the client to call waitpid() for that app.
-        //
-        if (pid_from_shmem) {
-            //fprintf(stderr, "screensaver HasProcessExited got pid_from_shmem = %d\n", *pid_from_shmem);
-            if (*pid_from_shmem != 0) return false;
+    // Only the process which launched an app can use waitpid() to test 
+    // whether that app is still running. If we sent an RPC to the client 
+    // asking the client to launch a graphics app via switcher, we must 
+    // send another RPC to the client to call waitpid() for that app.
+    //
+    if (ss_shmem) {
+        if (ss_shmem->gfx_pid != 0) return false;
+        if (ss_shmem->gfx_slot > -1) { // -1 means Default GFX, which has no slot number
+            // Graphics apps called by screensaver or Manager (via Show 
+            // Graphics button) now write files in their slot directory as
+            // the logged in user, not boinc_master. This ugly hack tells 
+            // BOINC client to fix all ownerships in this slot directory
+            rpc->run_graphics_app("stop", ss_shmem->gfx_slot, "");
+            ss_shmem->gfx_pid = 0;
+            ss_shmem->gfx_slot = -1;
         }
-        return true;
+
     }
-    
-    p = waitpid(pid, &status, WNOHANG);
-    exitCode = WEXITSTATUS(status);
-    if (p == pid) return true;     // process has exited
-    if (p == -1) return true;      // PID doesn't exist
-    exitCode = 0;
-    return false;
+    return true;
 }
 #endif
 

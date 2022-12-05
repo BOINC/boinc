@@ -1013,16 +1013,39 @@ int add_result_to_reply(
     }
     result.bav = *bavp;
     g_reply->insert_result(result);
+
+    // decrement the work requests (seconds and instances)
+    // based on the estimated duration of this job
+    // and how many instances it uses.
+    //
+    // If it's a GPU job, don't decrement the CPU requests,
+    // because the scheduling of GPU jobs is constrained by the # of GPUs
+    //
     if (g_wreq->rsc_spec_request) {
         int pt = bavp->host_usage.proc_type;
         if (pt == PROC_TYPE_CPU) {
-            g_wreq->req_secs[PROC_TYPE_CPU] -= est_dur;
+            double est_cpu_secs = est_dur*bavp->host_usage.avg_ncpus;
+            g_wreq->req_secs[PROC_TYPE_CPU] -= est_cpu_secs;
             g_wreq->req_instances[PROC_TYPE_CPU] -= bavp->host_usage.avg_ncpus;
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] est_dur %f est_cpu_secs %f; new req_secs %f\n",
+                    est_dur, est_cpu_secs, g_wreq->req_secs[PROC_TYPE_CPU]
+                );
+            }
         } else {
-            g_wreq->req_secs[pt] -= est_dur;
+            double est_gpu_secs = est_dur*bavp->host_usage.gpu_usage;
+            g_wreq->req_secs[pt] -= est_gpu_secs;
             g_wreq->req_instances[pt] -= bavp->host_usage.gpu_usage;
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] est_dur %f est_gpu_secs %f; new req_secs %f\n",
+                    est_dur, est_gpu_secs, g_wreq->req_secs[pt]
+                );
+            }
         }
     } else {
+        // extremely old clients don't send per-resource requests
         g_wreq->seconds_to_fill -= est_dur;
     }
     update_estimated_delay(*bavp, est_dur);

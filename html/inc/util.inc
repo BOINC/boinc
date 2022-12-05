@@ -128,6 +128,7 @@ $did_page_head = false;
 define('KILO', 1024);
 define('MEGA', 1024*KILO);
 define('GIGA', 1024*MEGA);
+define('TERA', 1024*GIGA);
 
 // return true if this page is HTTPS
 //
@@ -1187,6 +1188,9 @@ function text_end() {
 // express a size in terms of GB or MB
 //
 function size_string($x) {
+    if ($x > TERA) {
+        return number_format($x/TERA, 2)." TB";
+    }
     if ($x > GIGA) {
         return number_format($x/GIGA, 2)." GB";
     }

@@ -744,6 +744,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     wxString invMsgLimit10 = _("Number must be between 0 and 10");
     wxString invMsgLimit100 = _("Number must be between 0 and 100");
     wxString invMsgLimit1_100 = _("Number must be between 1 and 100");
+    wxString invMsgIdle = _("Suspend when no mouse or keyboard input needs to be greater than 'in use' mouse or keyboard input.");
     wxString buffer;
     double startTime, endTime;
 
@@ -779,6 +780,22 @@ bool CDlgAdvPreferences::ValidateInput() {
         buffer = m_txtNoRecentInput->GetValue();
         if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
+            return false;
+        }
+    }
+
+ // Checks for a condition where no computing could occur if suspended until idle and
+ // suspend after being idle overlap.
+ //
+    if (m_txtProcIdleFor->IsEnabled() && m_chkNoRecentInput->IsChecked()) {
+        wxString bufferNRI = m_txtNoRecentInput->GetValue();
+        wxString bufferPIF = m_txtProcIdleFor->GetValue();
+        double valueNRI;
+        bufferNRI.ToDouble(&valueNRI);
+        double valuePIF;
+        bufferPIF.ToDouble(&valuePIF);
+        if((valuePIF - valueNRI + 0.005) >=0) {  // 0.005 is included to factor in rounding to nearest hundredth
+            ShowErrorMessage(invMsgIdle, m_txtNoRecentInput);
             return false;
         }
     }

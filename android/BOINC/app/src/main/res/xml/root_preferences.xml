@@ -1,7 +1,7 @@
 <!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2020 University of California
+  Copyright (C) 2022 University of California
 
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -47,6 +47,13 @@
                 app:isPreferenceVisible="true"
                 app:key="suspendWhenScreenOn"
                 app:title="@string/prefs_suspend_when_screen_on" />
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_expand_wu_data"
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="true"
+                app:key="expandWuData"
+                app:title="@string/prefs_expand_wu_data" />
 
         <EditTextPreference
                 app:iconSpaceReserved="false"

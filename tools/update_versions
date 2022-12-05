@@ -35,6 +35,7 @@ chdir ("../..");
 
 $apps = BoincApp::enum("");
 $platforms = BoincPlatform::enum("");
+$confirm = true;
 
 $config = file_get_contents("config.xml");
 if (!$config) die("config.xml not found.  Run this in project root dir.\n");
@@ -237,7 +238,7 @@ function confirm_sig_gen($name) {
 // process a file
 //
 function process_file($a, $v, $p, $name, $fds) {
-    global $key_dir;
+    global $key_dir, $confirm;
     $fd = lookup_file($fds, $name);
     if (!$fd) {
         $fd = new StdClass;
@@ -259,7 +260,9 @@ function process_file($a, $v, $p, $name, $fds) {
     } else {
         $keypath = "$key_dir/code_sign_private";
         if (is_file($keypath)) {
-            confirm_sig_gen($name);
+            if ($confirm) {
+                confirm_sig_gen($name);
+            }
             $handle = popen("bin/sign_executable $path $keypath", "r");
             $fd->signature = fread($handle, 8192);
             pclose($handle);
@@ -356,7 +359,7 @@ function check_main_program($fds) {
     return 0;
 }
 
-function confirm($fds, $v) {
+function confirm_update($fds, $v) {
     echo "    Files:\n";
     foreach ($fds as $fd) {
         echo "        $fd->physical_name";
@@ -419,6 +422,7 @@ function convert_simplexml($x) {
 }
 
 function process_version($a, $v, $p) {
+    global $confirm;
     echo "Found app version directory for: $a $v $p\n";
     $app = lookup_app($a);
     parse_platform_name($p, $platform, $plan_class);
@@ -467,12 +471,14 @@ function process_version($a, $v, $p) {
     // if API version isn't specified in version.xml,
     // try to find it embedded in the executable
     //
-    if (!strlen($vers->api_version)) {
+    if (empty($vers->api_version)) {
         $vers->api_version = get_api_version($a, $v, $p, $fds);
     }
 
-    if (!confirm($fds, $vers)) {
-        return;
+    if ($confirm) {
+        if (!confirm_update($fds, $vers)) {
+            return;
+        }
     }
 
     $xml = "";
@@ -548,6 +554,10 @@ function scan_apps() {
         }
         scan_app_dir($a);
     }
+}
+
+if (count($argv)>1 && $argv[1]=='--noconfirm') {
+    $confirm = false;
 }
 
 scan_apps();

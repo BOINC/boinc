@@ -35,6 +35,9 @@ typedef struct {
     HANDLE pid;
 #else
     int pid;
+#ifdef __APPLE__
+    int gfx_pid;  // Used only on Mac
+#endif
 #endif
 } RUNNING_GFX_APP;
 
@@ -247,6 +250,10 @@ public:
     void                        KillGraphicsApp(HANDLE pid);
 #else
     void                        KillGraphicsApp(int tpid);
+#endif
+#ifdef __APPLE__
+    int                         GetGFXPIDFromForkedPID(RUNNING_GFX_APP* gfx_app);
+    int                         fix_slot_file_owners(int slot);
 #endif
 
     //
