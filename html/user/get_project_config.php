@@ -121,10 +121,7 @@ if (defined('TERMSOFUSE_FILE')) {
 if (file_exists($tou_file)) {
     $terms_of_use = trim(file_get_contents($tou_file));
 
-    // Also check consent type ENROLL is enabled.
-    //
-    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-    if ($terms_of_use and $checkct) {
+    if ($terms_of_use) {
         echo "    <terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
     }
 }
