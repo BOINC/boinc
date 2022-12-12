@@ -5,207 +5,193 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# 246bd88cb52758bb444023b2931157d5_8dacb48 <2de2fc0e5f5f6e15035a315ffe43879d_386149>, 2016
-# Axel Lainerdo, 2022
-# b2b0c8b7180e1e75e6e97e0fb63dfbb9_36d8b66, 2015
-# Clément Jonglez <clement.jonglez@isae.fr>, 2015
-# Clément Marshall <7clement@gmail.com>, 2019
-# Poussinou, 2017
-# lentrad <lentrad@gmail.com>, 2015
-# Lionel HANNEQUIN <commerces-publicites+transifex-1@protonmail.com>, 2018
-# Lucas Mascaro <mascaro.lucas@yahoo.fr>, 2015
-# Petit Jérôme <yeromu@gmail.com>, 2015
-# Philippe Janocha, 2016-2018
-# Robin Petitdemange, 2017
-# Ruben Rouvière <ruben@caramail.com>, 2016
-# Sacha Muszlak, 2016
-# Theresa Jordan <foreverblessedbyhim@gmail.com>, 2015
+# Minh Phan, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
 "PO-Revision-Date: 2015-04-17 15:02+0000\n"
-"Last-Translator: Axel Lainerdo, 2022\n"
-"Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
+"Last-Translator: Minh Phan, 2022\n"
+"Language-Team: Vietnamese (http://www.transifex.com/boinc/boinc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"
-msgstr "Je suis nouveau"
+msgstr "Tôi là người mới"
 
 msgid "I'm a BOINC user"
-msgstr "Je suis déjà utilisateur de BOINC"
+msgstr "Tôi là một người dùng BOINC"
 
 msgid ""
 "You must earn @count more credits to be able to post comments on this site."
-msgstr "Vous devez gagner @count crédits supplémentaires pour pouvoir écrire des commentaires sur ce site."
+msgstr "Bạn phải kiếm được @count nhiều tín dụng hơn nữa để có thể đăng comment trên trang này."
 
 msgid "Enforced by version @number"
-msgstr "Imposé par la version @number"
+msgstr "Thực thi bởi phiên bản @number"
 
 msgid "Total Credit"
-msgstr "Crédit total"
+msgstr "Tổng số Tín Dụng"
 
 msgid "App ID"
-msgstr "ID d'application"
+msgstr "ID ứng dụng"
 
 msgid "Friends (@count)"
-msgstr "Amis (@count)"
+msgstr "Bạn bè (@count)"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home est un programme qui utilise les moments d'inactivité de votre ordinateur pour vous offrir un économiseur d'écran et chercher les ondes gravitationnelles issues de la rotation d'étoiles à neutrons (aussi appelées pulsars) dans les données provenant du détecteur d'ondes gravitationnelles LIGO."
+msgstr "Einstein@Home sử dụng thời gian rảnh của máy tính để tìm kiếm các tín hiệu vật lý thiên văn yếu ớt tới từ các sao neutron quay (thường được gọi là sao xung í) qua dữ liệu của máy dò sóng hấp dẫn LIGO, kính thiên văn vô tuyến Arecibo và vệ tinh tia gamma Fermi."
 
 msgid "Run while computer is on battery power?"
-msgstr "Calculer quand votre ordinateur portable est sur batterie ?"
+msgstr "Chạy khi máy tính dùng điện từ nguồn pin chứ?"
 
 msgid "Only applies to portable computers"
-msgstr "Applicable uniquement aux ordinateurs portables"
+msgstr "Chỉ áp dụng cho máy tính xách tay"
 
 msgid "Run while computer is in use?"
-msgstr "Calculer quand l'ordinateur est utilisé ?"
+msgstr "Chạy khi máy tính đang được sử dụng chứ?"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "Calculer sur la carte graphique pendant que l'ordinateur est utilisé ?"
+msgstr "Chạy công GPU khi đang sử dụng máy tính chứ?"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "'Est utilisé' signifie qu'il y a eu une activité de la souris ou du clavier dans les dernières"
+msgstr "\"Đang sử dụng\" có nghĩa là chuột/bàn phím hoạt động lần cuối trong"
 
 msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr "Suspendre le travail si aucune utilisation de la souris ou du clavier dans les dernières"
+msgstr "Tạm ngưng việc nếu không có chuột/bàn phím nào hoạt động lần cuối trong"
 
 msgid "Needed to enter low-power mode on some computers"
-msgstr "Requis pour pouvoir basculer en mode basse consommation sur certains ordinateurs"
+msgstr "Cần thiết để vào chế độ năng lượng thấp trên một số máy tính"
 
 msgid "Suspend work if CPU usage is above"
-msgstr "Suspendre la tâche si l’utilisation du processeur dépasse"
+msgstr "Tạm ngưng việc nếu mức sử dụng CPU là trên"
 
 msgid "0 means no restriction. Enforced by version @number"
-msgstr "0 signifie aucune restriction. Imposé par la version @number"
+msgstr "0 có nghĩa là không có hạn chế. Thực thi bởi phiên bản @number"
 
 msgid "Do work only between the hours of:"
-msgstr "Calculer uniquement entre les heures :"
+msgstr "Chỉ làm việc giữa những giờ:"
 
 msgid "No restriction if equal"
-msgstr "Aucune restriction si égaux"
+msgstr "Không hạn chế gì nếu bằng"
 
 msgid "Leave tasks in memory while suspended?"
-msgstr "Laisser les tâches en mémoire lorsqu'elles sont suspendues ?"
+msgstr "Có giữ lại nhiệm vụ trong bộ nhớ khi tạm ngưng không?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "Les tâches suspendues consommeront de l'espace d'échange, ou swap si \"oui\""
+msgstr "Các nhiệm vụ bị tạm ngưng sẽ tiêu tốn không gian hoán đổi nếu \"có\""
 
 msgid "Recommended: @period minutes"
-msgstr "Recommandé : @period minutes"
+msgstr "Đề xuất: @period phút"
 
 msgid "On multiprocessors, use at most"
-msgstr "Sur les systèmes multiprocesseurs, utiliser au plus"
+msgstr "Đối với bộ đa xử lý, sử dụng tối đa"
 
 msgid "processors"
-msgstr "processeurs"
+msgstr "bộ xử lý"
 
 msgid "Set to 0 for no limit"
-msgstr "Mettre à 0 pour l'illimité"
+msgstr "Đặt là 0 để đặt không giới hạn"
 
 msgid "Can be used to reduce CPU heat"
-msgstr "Peut être utilisé pour réduire la température du processeur"
+msgstr "Có thể được sử dụng để giảm nhiệt CPU"
 
 msgid "Disk: use at most"
-msgstr "Disque : utiliser au plus"
+msgstr "Ổ đĩa: sử dụng nhiều lắm là"
 
 msgid "Disk: leave free at least"
-msgstr "Disque : laisser un espace libre d'au moins"
+msgstr "Ổ đĩa: để trống ít nhất là"
 
 msgid "Values smaller than @number are ignored"
-msgstr "Les valeurs inférieures à @number sont ignorées"
+msgstr "Các giá trị nhỏ hơn @number bị bỏ qua"
 
 msgid "Tasks checkpoint to disk at most every"
-msgstr "Points de contrôle des tâches écrits sur disque au plus toutes les"
+msgstr "Kiểm chốt nhiệm vụ vào ổ đĩa tối đa nhiều nhất cứ mỗi"
 
 msgid "Swap space: use at most"
-msgstr "Espace d'échange (swap) : utiliser au plus"
+msgstr "Hoán đổi không gian: sử dụng tối đa"
 
 msgid "Computer is connected to the Internet about every"
-msgstr "L'ordinateur est connecté à Internet environ tous les"
+msgstr "Máy tính được kết nối với Internet mỗi"
 
 msgid ""
 "Leave blank or 0 if always connected. @project will try to maintain at least"
 " this much work."
-msgstr "Laisser vide ou égal à 0 pour une connexion permanente. @project essaiera de respecter cette quantité de travail."
+msgstr "Để trống hoặc 0 nếu luôn được kết nối. @project sẽ cố gắng duy trì ít nhất từng này công việc."
 
 msgid "Maintain enough work for an additional"
-msgstr "Conserver une quantité de travail suffisante pour une durée supplémentaire de "
+msgstr "Duy trì đủ công việc thêm"
 
 msgid "Matters only if you have a modem, ISDN, or VPN connection"
-msgstr "Importe uniquement si vous avez un modem ou une connexion VPN ou RNIS."
+msgstr "Chỉ quan trọng nếu bạn có kết nối modem, ISDN hoặc VPN"
 
 msgid "Maximum download rate"
-msgstr "Débit maximum de téléchargement descendant"
+msgstr "Tốc độ tải xuống cao nhất"
 
 msgid "Maximum upload rate"
-msgstr "Débit maximum de téléchargement ascendant"
+msgstr "Tốc độ tải lên cao nhất"
 
 msgid "Use network only between the hours of:"
-msgstr "Utiliser le réseau seulement entre les heures de :"
+msgstr "Chỉ sử dụng mạng trong khoảng thời gian:"
 
 msgid "Transfer at most"
-msgstr "Transférer au plus"
+msgstr "Truyền dữ liệu nhiều nhất là"
 
 msgid "Skip image file verification?"
-msgstr " Ignorer la vérification du fichier image ?"
+msgstr "Bỏ qua xác minh file tệp tin hình ảnh?"
 
 msgid ""
 "Check this ONLY if your Internet provider modifies image files (UMTS does "
 "this, for example). Skipping verification reduces the security of BOINC."
-msgstr "Cochez ceci SEULEMENT si votre fournisseur Internet modifie des fichiers images (comme l'UMTS par exemple). Ignorer la vérification réduit la sécurité de BOINC."
+msgstr "CHỈ chọn mục này nếu như nhà cung cấp Internet của bạn sửa đổi file tệp tin hình ảnh (ví dụ như UMTS thực hiện việc này). Bỏ qua xác minh sẽ làm giảm tính bảo mật của BOINC."
 
 msgid "What is @this_project?"
-msgstr "Qu'est ce que @this_project ?"
+msgstr "@This_project là gì?"
 
 msgid "Project"
-msgstr "Projet"
+msgstr "Dự án"
 
 msgid "Total credits"
-msgstr "Total des crédits"
+msgstr "Tổng các tín dụng"
 
 msgid "Recent avg credits"
-msgstr "Crédit moyen récent"
+msgstr "Tín dụng trung bình gần đây"
 
 msgid "Web site"
-msgstr "Site web"
+msgstr "Trang web"
 
 #: preference set
 msgctxt "preference set"
 msgid "Home"
-msgstr "Maison"
+msgstr "Trang chủ"
 
 msgid "Reply"
-msgstr "Répondre"
+msgstr "Trả lời lại"
 
 msgid "Reply to this comment with quote"
-msgstr "Répondre à ce commentaire avec une citation"
+msgstr "Trả lời lại bình luận với trích dẫn"
 
 msgid "this project"
-msgstr "ce projet"
+msgstr "dự án này"
 
 msgid "Featured"
-msgstr "Mis en avant"
+msgstr "Đặc tính"
 
 msgid "Locked"
-msgstr "Verrouillé"
+msgstr "Đã khoá"
 
 msgid "Seconds"
-msgstr "Secondes"
+msgstr "Giây"
 
 msgid "project"
-msgstr "Projet"
+msgstr "dự án"
 
 msgid ""
 "!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
@@ -217,20 +203,20 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name vous a ajouté comme ami sur !site. Vous pouvez accepter ou refuser cette demande. Rejeter une demande n'enverra pas de notification, mais supprimera la demande de vos deux comptes.\n\nSuivez le lien ci-dessous pour voir cette demande :\n\n!link\n\n!message\n\nMerci,\nl'équipe !site"
+msgstr "!name đã thêm bạn làm bạn trên trang web! Bạn có thể chấp thuận hoặc từ chối yêu cầu này. Từ chối yêu cầu sẽ không gửi thông báo nhưng sẽ xóa yêu cầu khỏi cả hai tài khoản của bạn.\n\nVào liên kết bên dưới để xem yêu cầu này:\n!link\n\n!message\n\nCảm ơn,\nteam !site"
 
 msgid "Please set the minimum time required between posts."
-msgstr "Définissez l'intervalle de temps minimum requis entre des messages."
+msgstr "Vui lòng đặt thời gian tối thiểu cần thiết giữa các bài viết."
 
 msgid ""
 "Please set the minimum total credit that a user must earn in order to post "
 "to this message board."
-msgstr "Définissez le crédit total minimum qu'un utilisateur doit avoir acquis pour poster."
+msgstr "Vui lòng đặt tổng tín dụng tối thiểu mà người dùng phải kiếm được để đăng lên bảng tin này."
 
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
-msgstr "Veuillez indiquer le crédit moyen minimal qu'un utilisateur doit avoir afin de pouvoir poster sur ce forum."
+msgstr "Vui lòng đặt mức tín dụng trung bình tối thiểu mà người dùng bắt buộc phải có để đăng lên bảng tin này."
 
 msgid ""
 "!name confirmed you as a friend on !site.\n"
@@ -242,69 +228,69 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name a confirmé que vous étiez son ami sur !site.\n\nSuivez ce lien pour afficher son profil :\n!link\n\n!message\n\nMerci,\nl'équipe !site."
+msgstr "!name đã xác nhận bạn là bạn bè trên !site.\n\nTruy cập địa chỉ sau để xem hồ sơ của họ:\n!link\n\n!message\n\nCảm ơn,\nteam !site"
 
 msgid ""
 "A team foundership change was already requested recently. Only one request "
 "is allowed within a period of 90 days."
-msgstr "Un changement de chef d'équipe a déjà été demandé récemment. Une seule requête est autorisée par période de 90 jours."
+msgstr "Gần đây, một sự thay đổi về tư cách thành lập team đã được yêu cầu. Chỉ một yêu cầu được cho phép trong khoảng thời gian 90 ngày."
 
 msgid "Team name is required."
-msgstr "Nom d'équipe requis."
+msgstr "Tên team là yêu cầu bắt buộc."
 
 msgid "You are banned from community participation until @date"
-msgstr "Vous êtes banni de cette communauté jusqu'au @date"
+msgstr "Bạn bị đuổi khỏi việc tham gia cộng đồng cho đến @date"
 
 msgid "There is no user on your team with that email address."
-msgstr "Cette adresse email ne correspond à aucun membre de votre équipe."
+msgstr "Chẳng có người dùng nào của team bạn có địa chỉ email như vậy hết á."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr "Einstein@Home est un programme qui utilise les temps d'inactivité de votre ordinateur afin de rechercher des ondes gravitationnelles provenant d'objets compacts isolés en rotation (parmi lesquels les pulsars) à l'aide de données provenant des détecteurs d'ondes gravitationnelles du LIGO."
+msgstr "Einstein@Home sử dụng thời gian rảnh của máy tính để tìm kiếm các tín hiệu vật lý thiên văn yếu ớt tới từ các sao neutron quay (thường được gọi là sao xung í) qua dữ liệu của máy dò sóng hấp dẫn LIGO, kính thiên văn vô tuyến Arecibo và vệ tinh tia gamma Fermi."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
 " gravitational waves from spinning isolated compact objects (among which are"
 " pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home est un programme qui utilise les temps d'inactivité de votre ordinateur afin de rechercher des ondes gravitationnelles provenant d'objets compacts isolés en rotation (parmi lesquels les pulsars) à l'aide de données provenant des détecteurs d'ondes gravitationnelles du LIGO."
+msgstr "Einstein@Home sử dụng thời gian rảnh của máy tính để tìm kiếm các tín hiệu vật lý thiên văn yếu ớt tới từ các sao neutron quay (thường được gọi là sao xung í) qua dữ liệu của máy dò sóng hấp dẫn LIGO, kính thiên văn vô tuyến Arecibo và vệ tinh tia gamma Fermi."
 
 msgid "Add separate preferences for @venue"
-msgstr "Ajouter des préférences séparées pour @venue"
+msgstr "Thêm các tùy chọn riêng biệt cho @địa điểm @venue"
 
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
 "left the team or have not had contact with the team for a long time."
-msgstr "Le membre @name se propose d’être chef d'équipe. C'est peut-être parce que vous avez quitté l'équipe ou que vous n'avez pas eu de contact avec l'équipe depuis longtemps."
+msgstr "Thành viên team @name đã yêu cầu tư cách thành lập team. Điều này có thể là do bạn đã rời khỏi team hoặc không có liên lạc với team trong một thời gian dài."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr "Le fondateur de l'équipe a 1 jour pour répondre à votre demande de transfert."
+msgstr "Người sáng lập team có 1 ngày để phản hồi yêu cầu chuyển đổi của bạn."
 
 msgid "Message board title is required."
-msgstr "Le titre du forum est requis."
+msgstr "Tiêu đề bảng tin là bắt buộc."
 
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr "Attention : votre contenu <a href=\"@url\">doit être réindexé</a> avant que Apache Solr ne puisse rechercher dans les commentaires."
+msgstr "Cảnh báo: Nội dung của bạn <a href=\"@url\">phải được lập chỉ mục lại</a> trước khi Apache Solr sẽ tìm kiếm các bình luận."
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr "Sélectionnez les types de contenu dont les commentaires seront indexés par Apace Solr. Votre contenu devra être réindexé après avoir modifié cette configuration."
+msgstr "Chọn loại nội dung mà các nhận xét được lập chỉ mục bởi Apache Solr. Nội dung của bạn phải được lập chỉ mục lại sau khi thay đổi cấu hình này."
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr "En changeant l'email d'un utilisateur, vous devrez aussi modifier le mot de passe en même temps."
+msgstr "Nếu thay đổi địa chỉ email người dùng, bạn phải đồng thời thay luôn cả mật khẩu nữa."
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr "Utilisation : 'Enregistrer la configuration' sauvegardera les préférences ci-dessus dans la base de données Drupal. Elles seront les préférences de calcul (globales) par défaut quand l'utilisateur chargera la page des préférences du compte."
+msgstr "Cách sử dụng: 'Lưu cấu hình' sẽ lưu các tùy chọn trên vào cơ sở dữ liệu drupal. Đây sẽ là các tùy chọn điện toán (toàn cầu) cài đặt trước. Chúng sẽ được điền vào biểu mẫu tùy chọn khi người dùng tải trang Tùy chọn tài khoản."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -314,27 +300,27 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr "\"Enregistrer la configuration avec les paramètres d'utilisation du disque de config.xml\" enregistrera les préférences ci-dessus dans la base de données Drupal, mais chargera également les paramètres d'utilisation du disque à partir du fichier config.xml du projet BOINC. Ceux-ci écraseront tous les paramètres d'utilisation du disque que vous avez placés ci-dessus. Attention : Les préférences personnelles d'un utilisateur ne changeront pas si vous chargez les paramètres d'utilisation du disque de config.xml dans la base de données Drupal. Ils doivent modifier leurs préférences manuellement."
+msgstr "'Lưu cấu hình với các cài đặt sử dụng đĩa từ file config.xml' sẽ lưu các tuỳ chọn vào cơ sở dữ liệu drupal, nhưng cũng đồng thời tải các cài đặt sử dụng đĩa từ file config.xml của dự án BOINC. Những điều này sẽ ghi đè lên bất kỳ cài đặt sử dụng đĩa nào bạn đã đặt ở trên. Thận trọng: tuỳ chọn của một người dùng sẽ không thay đổi nếu bạn tải cài đặt sử dụng đĩa từ file config.xml tại đây vào cơ sở dữ liệu drupal. Họ phải thay đổi cài đặt tùy chọn theo cách thủ công."
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "My stats"
-msgstr "Mes statistiques"
+msgstr "Thống kê của tôi"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Home"
-msgstr "Domicile"
+msgstr "Trang chủ"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Credentials"
-msgstr "Informations d'identification"
+msgstr "Xác thực"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Dashboard"
-msgstr "Tableau de bord"
+msgstr "Tổng quan"
 
 #: footer-link
 msgctxt "footer-link"
@@ -344,19 +330,19 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr "Votre parcours personnel"
+msgstr "Lý lịch cá nhân"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr "Parlez-nous de vous. Vous pouvez nous dire d'où vous venez, votre âge, vos occupations et hobbies, ou toutes autres choses vous concernant."
+msgstr "Cho chúng tôi biết về bạn một chút đi nào. Bạn có thể cho chúng tôi biết bạn đến từ đâu, tuổi tác, nghề nghiệp, sở thích hoặc bất kỳ điều gì khác về bản thân."
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr "Votre opinion concernant ce projet"
+msgstr "Ý kiến của bạn về dự án này"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -365,12 +351,12 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr "Dites-nous ce que vous pensez de @this_project\n    1. Pourquoi avoir choisi @this_project ?\n    2. Quelle est votre vision du projet ?\n    3. Des suggestions ?"
+msgstr "Hãy cho chúng tôi biết suy nghĩ của bạn về @this_project\n1. Tại sao bạn lại chạy @this_project?\n2. Quan điểm của bạn về dự án là gì?\n3. Bạn có gợi ý gì không?"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Postal code"
-msgstr "Code postal"
+msgstr "Mã bưu chính"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -380,317 +366,317 @@ msgstr "Avatar"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Country"
-msgstr "Pays"
+msgstr "Quốc gia"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr "Image du profil"
+msgstr "Ảnh hồ sơ"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr "URL du site Web"
+msgstr "Địa chỉ web URL"
 
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr "Avancement de @this_project"
+msgstr "Tiến độ @this_project"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Projects"
-msgstr "Projets"
+msgstr "Các dự án"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr "Aucun Ami n'a été ajouté."
+msgstr "Không có bạn bè nào đã được thêm vào."
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr "Voir tous les Amis"
+msgstr "Xem Tất cả Bạn bè"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Friend Requests"
-msgstr "Demande d'ami"
+msgstr "Yêu cầu Kết bạn"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr "En attente d'acceptation en ami"
+msgstr "Đang đợi chấp nhận kết bạn"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr "Rechercher un site"
+msgstr "Tìm kiếm trang"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "News"
-msgstr "Actualité"
+msgstr "Tin tức"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr "Certificats"
+msgstr "Chứng chỉ"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "All computers"
-msgstr "Tous les ordinateurs"
+msgstr "Tất cả máy tính"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr "Ordinateurs actifs durant les 30 derniers jours"
+msgstr "Những máy tính hoạt động trong 30 ngày qua"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Preferences"
-msgstr "Préférences"
+msgstr "Tùy chọn"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Community"
-msgstr "Communauté"
+msgstr "Cộng đồng"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr "Confidentialité"
+msgstr "Sự riêng tư"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr "Abonnement"
+msgstr "Sự đăng ký"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr "Abonnement"
+msgstr "Sự đăng ký"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr "Mis à jour"
+msgstr "Đã cập nhật"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr "File d'attente"
+msgstr "Hàng chờ"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Profile"
-msgstr "Profil"
+msgstr "Hồ sơ"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr "Actif durant les 30 derniers jours"
+msgstr "Hoạt động trong 30 ngày qua"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "All computers"
-msgstr "Tous les ordinateurs"
+msgstr "Tất cả máy tính"
 
 #: user-info
 msgctxt "user-info"
 msgid "Joined"
-msgstr "Rejoint"
+msgstr "Đã gia nhập"
 
 #: user-info
 msgctxt "user-info"
 msgid "Posts"
-msgstr "Messages"
+msgstr "Bài viết"
 
 #: user-info
 msgctxt "user-info"
 msgid "Credit"
-msgstr "Crédit"
+msgstr "Tín dụng"
 
 #: user-info
 msgctxt "user-info"
 msgid "RAC"
-msgstr "Crédit moyen récent"
+msgstr "RAC"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Inbox"
-msgstr "Messagerie"
+msgstr "Hộp thư đến"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Compose new"
-msgstr "Rédiger un nouveau contenu"
+msgstr "Soạn mới"
 
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr "Afficher les ordinateurs"
+msgstr "Hiển thị máy tính"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject profile"
-msgstr "Rejeter le profil"
+msgstr "Từ chối hồ sơ"
 
 #: moderate-ban-user
 msgctxt "moderate-ban-user"
 msgid "Ban user"
-msgstr "Bannir un utilisateur"
+msgstr "Cho người dùng ăn ban"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Authenticator login"
-msgstr "Identifiant de l'authentificateur"
+msgstr "Đăng nhập với xác thực"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr "Aucun contenu n'est en attente de modération."
+msgstr "Không có nội dung nào nằm trong hàng đợi kiểm duyệt."
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr "File d'attente de modération du profil utilisateur"
+msgstr "Hàng đợi kiểm duyệt hồ sơ người dùng"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr "Actif ces 30 derniers jours"
+msgstr "Hoạt động trong 30 ngày qua"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
 msgid "Comment form"
-msgstr "Formulaire de commentaire"
+msgstr "Dạng bình luận"
 
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr "Abonnement"
+msgstr "Sự đăng ký"
 
 #: country-of-origin
 msgctxt "country-of-origin"
 msgid "Country"
-msgstr "Pays"
+msgstr "Quốc gia"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Login"
-msgstr "Nom d'utilisateur"
+msgstr "Đăng nhập"
 
 #: email-address-to-login
 msgctxt "email-address-to-login"
 msgid "Email address"
-msgstr "Adresse email"
+msgstr "Địa chỉ email"
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Enter your @s email address."
-msgstr "Entrez votre adresse mail @s."
+msgstr "Nhập @s địa chỉ email của bạn."
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Log in"
-msgstr "Connexion"
+msgstr "Đăng nhập"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "search"
-msgstr "Rechercher"
+msgstr "tìm"
 
 #: front-page
 msgctxt "front-page"
 msgid "Join now"
-msgstr "Inscrivez-vous"
+msgstr "Tham gia ngay"
 
 #: user-account
 msgctxt "user-account"
 msgid "Account"
-msgstr "Compte"
+msgstr "Tài khoản"
 
 #: footer-link:-1:ignoreoverwrite
 msgctxt "footer-link:-1:ignoreoverwrite"
 msgid "Applications"
-msgstr "Applications"
+msgstr "Các ứng dụng"
 
 #: footer-link
 msgctxt "footer-link"
 msgid "Server status"
-msgstr "État du serveur"
+msgstr "Trạng thái máy chủ"
 
 #: team-id
 msgctxt "team-id"
 msgid "Team ID"
-msgstr "ID de l'équipe"
+msgstr "ID team"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Founder"
-msgstr "Chef d'équipe"
+msgstr "Thành lập viên"
 
 #: user-or-team-RAC
 msgctxt "user-or-team-RAC"
 msgid "Recent average credit"
-msgstr "Crédit moyen récent"
+msgstr "Tín dụng trung bình vừa qua"
 
 #: user-or-team-name
 msgctxt "user-or-team-name"
 msgid "Name"
-msgstr "Nom"
+msgstr "Tên"
 
 #: team-members
 msgctxt "team-members"
 msgid "Members"
-msgstr "Membres"
+msgstr "Thành viên"
 
 #: user-or-team-total-credits
 msgctxt "user-or-team-total-credits"
 msgid "Total credit"
-msgstr "Crédit total"
+msgstr "Tổng tín dụng"
 
 #: user-details
 msgctxt "user-details"
 msgid "User ID"
-msgstr "Identifiant utilisateur"
+msgstr "ID người dùng"
 
 #: user-on-team
 msgctxt "user-on-team"
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Người dùng"
 
 #: team-when-user-became-an-admin
 msgctxt "team-when-user-became-an-admin"
 msgid "Admin since"
-msgstr "Administrateur depuis le"
+msgstr "Admin kể từ"
 
 #: user-joined-or-leaving-team
 msgctxt "user-joined-or-leaving-team"
 msgid "User joined"
-msgstr "L’utilisateur a rejoint"
+msgstr "Người dùng đã tham gia"
 
 #: team-history-timestamp
 msgctxt "team-history-timestamp"
 msgid "Timestamp"
-msgstr "Horodatage"
+msgstr "Mốc thời gian"
 
 #: user-id
 msgctxt "user-id"
 msgid "Id"
-msgstr "ID"
+msgstr "Id"
 
 #: user-info
 msgctxt "user-info"
 msgid "Account Key"
-msgstr "Clé du compte"
+msgstr "Chìa khoá tài khoản"
 
 #: user-info
 msgctxt "user-info"
 msgid "Member since"
-msgstr "Membre depuis le"
+msgstr "Thành viên từ khi"
 
 #: user-info
 msgctxt "user-info"
@@ -700,109 +686,109 @@ msgstr "CPID"
 #: user-info
 msgctxt "user-info"
 msgid "Email Address"
-msgstr "Adresse email"
+msgstr "Địa chỉ Email"
 
 #: user-info
 msgctxt "user-info"
 msgid "Password Hash"
-msgstr "Hash du mot de passe"
+msgstr "Đồng thuận mật khẩu"
 
 #: user-info
 msgctxt "user-info"
 msgid "Postal Code"
-msgstr "Code postal"
+msgstr "Mã bưu chính"
 
 #: user-info
 msgctxt "user-info"
 msgid "Send Email"
-msgstr "Envoyer l'e-mail"
+msgstr "Gửi Email"
 
 #: user-info
 msgctxt "user-info"
 msgid "Show Hosts"
-msgstr "Voir les hôtes"
+msgstr "Hiển thị Máy chủ"
 
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
 msgid "URL"
-msgstr "URL"
+msgstr "Địa chỉ URL"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computer ID"
-msgstr "ID de l’ordinateur"
+msgstr "ID máy tính"
 
 #: host-list
 msgctxt "host-list"
 msgid "Location"
-msgstr "Localisation"
+msgstr "Vị trí"
 
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time work is allowed"
-msgstr "Lorsque BOINC fonctionne, % de temps de travail autorisé"
+msgstr "Trong khi BOINC đang chạy, % thời gian làm việc được cho phép"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average turnaround time"
-msgstr "Temps de cycle moyen"
+msgstr "Thời gian quay vòng trung bình"
 
 #: host-details
 msgctxt "host-details"
 msgid "Created"
-msgstr "Créé"
+msgstr "Đã tạo"
 
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "Lorsque BOINC fonctionne, % du temps où l'hôte a une connexion Internet"
+msgstr "Trong khi BOINC đang chạy, máy chủ có kết nối Internet % thời gian"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average CPU efficiency"
-msgstr "Performance moyenne du processeur"
+msgstr "Hiệu suất CPU trung bình"
 
 #: host-details
 msgctxt "host-details"
 msgid "Free disk space"
-msgstr "Espace disque libre"
+msgstr "Dung lượng trống ổ đĩa"
 
 #: host-details
 msgctxt "host-details"
 msgid "Total disk space"
-msgstr "Taille totale du disque"
+msgstr "Tổng không gian ổ đĩa"
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite
 msgctxt ""
 "details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-"
 "ignoreoverwrite"
 msgid "Name"
-msgstr "Nom"
+msgstr "Tên"
 
 #: host-details
 msgctxt "host-details"
 msgid "Task duration correction factor"
-msgstr "Facteur de correction de durée de tâche"
+msgstr "Hệ số hiệu chỉnh thời lượng tác vụ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Avg. credit"
-msgstr "Crédit moyen"
+msgstr "Tín dụng trung bình"
 
 #: host-details
 msgctxt "host-details"
 msgid "External IP address"
-msgstr "Adresse IP externe"
+msgstr "Địa chỉ IP ngoài"
 
 #: host-details
 msgctxt "host-details"
 msgid "Cross project ID"
-msgstr "ID Inter-projet"
+msgstr "ID dự án chéo"
 
 #: host-details
 msgctxt "host-details"
 msgid "Last IP address"
-msgstr "Dernière adresse IP"
+msgstr "Địa chỉ IP lần cuối"
 
 #: host-details
 msgctxt "host-details"
@@ -812,424 +798,424 @@ msgstr "Cache"
 #: host-details
 msgctxt "host-details"
 msgid "Memory"
-msgstr "Mémoire"
+msgstr "Bộ nhớ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Swap space"
-msgstr "Espace d'échange (swap)"
+msgstr "Không gian trao đổi"
 
 #: host-details
 msgctxt "host-details"
 msgid "Maximum daily WU quota per CPU"
-msgstr "Quota maximum journalier WU par processeur"
+msgstr "Chỉ tiêu WU tối đa hàng ngày trên mỗi CPU"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average download rate"
-msgstr "Débit moyen de téléchargement (download)"
+msgstr "Tỷ lệ tải xuống trung bình"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average upload rate"
-msgstr "Débit moyen en téléversement (upload)"
+msgstr "Tốc độ tải lên trung bình"
 
 #: host-details
 msgctxt "host-details"
 msgid "Same IP address count"
-msgstr "Compte de même adresse IP"
+msgstr "Số lượng địa chỉ IP giống nhau"
 
 #: host-details
 msgctxt "host-details"
 msgid "% of time BOINC client is running"
-msgstr "% de temps de fonctionnement de BOINC"
+msgstr "% thời gian ứng dụng BOINC chạy"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system"
-msgstr "Système d'exploitation"
+msgstr "Hệ điều hành"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system version"
-msgstr "Version du système d'exploitation"
+msgstr "Phiên bản hệ điều hành"
 
 #: host-details
 msgctxt "host-details"
 msgid "Measured floating point speed"
-msgstr "Vitesse mesurée pour les calculs en virgule flottante"
+msgstr "Tốc độ dấu chấm động đo được"
 
 #: host-details
 msgctxt "host-details"
 msgid "Measured integer speed"
-msgstr "Vitesse mesurée pour les calculs en nombres entiers"
+msgstr "Tốc độ integer đo được"
 
 #: host-details
 msgctxt "host-details"
 msgid "CPU model"
-msgstr "Type de processeur"
+msgstr "Mẫu CPU"
 
 #: host-details
 msgctxt "host-details"
 msgid "Number of processors"
-msgstr "Nombre de processeurs"
+msgstr "Số vi xử lý"
 
 #: host-details
 msgctxt "host-details"
 msgid "CPU"
-msgstr "Processeur"
+msgstr "CPU"
 
 #: host-details
 msgctxt "host-details"
 msgid "Number of times client has contacted server"
-msgstr "Nombre de fois où le client BOINC a contacté le serveur"
+msgstr "Số lần máy khách đã liên hệ với máy chủ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Last contact"
-msgstr "Dernier contact"
+msgstr "Liên lạc lần cuối"
 
 #: host-details
 msgctxt "host-details"
 msgid "Serial number"
-msgstr "Numéro de série"
+msgstr "Số seri"
 
 #: host-details
 msgctxt "host-details"
 msgid "Timezone"
-msgstr "Fuseau horaire"
+msgstr "Múi giờ"
 
 #: platform-details
 msgctxt "platform-details"
 msgid "Platform ID"
-msgstr "ID de plateforme"
+msgstr "ID nền tảng"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task ID"
-msgstr "ID de tâche"
+msgstr "ID nhiệm vụ"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit ID"
-msgstr "ID d'unité de travail (WU)"
+msgstr "ID đơn vị làm việc"
 
 #: task-details
 msgctxt "task-details"
 msgid "Host ID"
-msgstr "ID d’hôte"
+msgstr "ID máy chủ"
 
 #: application-details
 msgctxt "application-details"
 msgid "Application ID"
-msgstr "ID d'application "
+msgstr "ID chương trình"
 
 #: task-details
 msgctxt "task-details"
 msgid "Application version"
-msgstr "Version de l'application"
+msgstr "Phiên bản ứng dụng"
 
 #: task-details
 msgctxt "task-details"
 msgid "Claimed credit"
-msgstr "Crédit demandé"
+msgstr "Tín dụng đã kiếm được"
 
 #: task-details
 msgctxt "task-details"
 msgid "Client state"
-msgstr "État du client"
+msgstr "Trạng thái máy khách"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time"
-msgstr "Temps processeur"
+msgstr "Thời gian CPU"
 
 #: task-details:-1:ignoreoverwrite
 msgctxt "task-details:-1:ignoreoverwrite"
 msgid "Created"
-msgstr "Créé"
+msgstr "Đã tạo"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time"
-msgstr "Temps de fonctionnement"
+msgstr "Thời lượng chạy"
 
 #: task-details
 msgctxt "task-details"
 msgid "Exit status"
-msgstr "État à la sortie"
+msgstr "Trạng thái thoát"
 
 #: task-details
 msgctxt "task-details"
 msgid "Granted credit"
-msgstr "Crédit accordé"
+msgstr "Tín dụng được cấp"
 
 #: task-details
 msgctxt "task-details"
 msgid "Outcome"
-msgstr "Résultats"
+msgstr "Kết quả"
 
 #: task-details
 msgctxt "task-details"
 msgid "Received time"
-msgstr "Temps de réception"
+msgstr "Thời gian nhận được"
 
 #: task-details
 msgctxt "task-details"
 msgid "Report deadline"
-msgstr "Date limite de rapport"
+msgstr "Báo cáo hạn chót"
 
 #: task-details
 msgctxt "task-details"
 msgid "Sent"
-msgstr "Envoyé"
+msgstr "Đã gửi"
 
 #: task-details
 msgctxt "task-details"
 msgid "Server state"
-msgstr "État du serveur"
+msgstr "Trạng thái máy chủ"
 
 #: task-details
 msgctxt "task-details"
 msgid "Stderr out"
-msgstr "Stderr out"
+msgstr "Stderr rời"
 
 #: task-details
 msgctxt "task-details"
 msgid "Validation state"
-msgstr "État de validation "
+msgstr "Trạng thái xác nhận"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr "Espace mémoire alloué maximal"
+msgstr "Kích thước set làm việc cao nhất"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr "Fichier de pagination maximal"
+msgstr "Kích thước hoán đổi cao nhất"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr "Espace disque maximal"
+msgstr "Sử dụng ổ đĩa đạt đỉnh"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical credit"
-msgstr "Crédit canonique"
+msgstr "Tín dụng chính tắc"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result ID"
-msgstr "ID de résultat canonique"
+msgstr "ID kết quả chính tắc"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Created time"
-msgstr "Date de création"
+msgstr "Thời gian tạo"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Error mask"
-msgstr "Masque d'erreur"
+msgstr "Mặt nạ lỗi"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Minimum quorum"
-msgstr "Quorum minimum"
+msgstr "Số đại diện tối thiểu"
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreovewrite
 msgctxt ""
 "details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-"
 "ignoreovewrite"
 msgid "Name"
-msgstr "Nom"
+msgstr "Tên"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max error tasks"
-msgstr "Nombre de tâches erronées maximum"
+msgstr "Lỗi nhiệm vụ tối đa"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max success tasks"
-msgstr "Nombre de tâches réussies maximum"
+msgstr "Nhiệm vụ thành công tối đa"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max total tasks"
-msgstr "Nombre total de tâches maximum"
+msgstr "Tổng số nhiệm vụ tối đa"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Needs validation"
-msgstr "Validation requise"
+msgstr "Cần xác thực"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Initial replication"
-msgstr "Réplication initiale"
+msgstr "Sao chép ban đầu"
 
 #: application-details
 msgctxt "application-details"
 msgid "Target number of results"
-msgstr "Objectif de résultat"
+msgstr "Số lượng kết quả mục tiêu"
 
 #: application-details
 msgctxt "application-details"
 msgid "Application version ID"
-msgstr "ID de version de l'application"
+msgstr "ID phiên bản chương trình"
 
 #: application-details
 msgctxt "application-details"
 msgid "Plan class"
-msgstr "Classe de plan"
+msgstr "Lớp kế hoạch"
 
 #: application-details
 msgctxt "application-details"
 msgid "Version number"
-msgstr "Numéro de version"
+msgstr "Số phiên bản"
 
 #: host-details
 msgctxt "host-details"
 msgid "Computer"
-msgstr "Ordinateur"
+msgstr "Máy tính"
 
 #: application-details
 msgctxt "application-details"
 msgid "App version ID"
-msgstr "ID de version de l'application"
+msgstr "ID phiên bản App"
 
 #: application-details
 msgctxt "application-details"
 msgid "Consecutive valid tasks"
-msgstr "Nombre de tâches valides consécutives"
+msgstr "Các nhiệm vụ hợp lệ liên tiếp"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks completed"
-msgstr "Nombre de tâches terminées"
+msgstr "Số lượng nhiệm vụ đã hoàn thành"
 
 #: application-details
 msgctxt "application-details"
 msgid "Max tasks per day"
-msgstr "Nombre maximal de tâches par jour"
+msgstr "Nhiệm vụ tối đa mỗi ngày"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks today"
-msgstr "Nombre de tâches aujourd'hui"
+msgstr "Số lượng nhiệm vụ hôm nay"
 
 #: application-details:-1:ignoreoverwrite
 msgctxt "application-details:-1:ignoreoverwrite"
 msgid "Average turnaround time"
-msgstr "Temps de cycle moyen"
+msgstr "Thời gian quay vòng trung bình"
 
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Moderation"
-msgstr "Modération"
+msgstr "Kiểm duyệt"
 
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Unvetted profiles"
-msgstr "Profils non vérifiés"
+msgstr "Hồ sơ không được ưa thích"
 
 #: team-dashboard
 msgctxt "team-dashboard"
 msgid "Team"
-msgstr "Équipe"
+msgstr "Team"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Posts contributed"
-msgstr "Messages contribués"
+msgstr "Các bài đăng đã đóng góp"
 
 #: rss-feed-description
 msgctxt "rss-feed-description"
 msgid "The latest news from the @site_name project"
-msgstr "Les dernières actualités du projet @site_name"
+msgstr "Tin tức mới nhất từ dự án @site_name"
 
 #: forum-reply-to-comment-with-quote
 msgctxt "forum-reply-to-comment-with-quote"
 msgid "Quote"
-msgstr "Citer"
+msgstr "Trích dẫn"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr "Répondre à ce commentaire avec une citation"
+msgstr "Trả lời bình luận này với một trích dẫn"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr "Rejoint : @join_date"
+msgstr "Đã tham gia: @join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr "Messages : @post_count"
+msgstr "Bài đăng: @post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr "Crédit : @user_credits"
+msgstr "Tín dụng: @user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr "Crédit moyen récent : @user_rac"
+msgstr "RAC: @user_rac"
 
 #: message-header
 msgctxt "message-header"
 msgid "Message @id"
-msgstr "Message @id"
+msgstr "Tin nhắn @id"
 
 #: comment-action-links
 msgctxt "comment-action-links"
 msgid "moderation"
-msgstr "modération"
+msgstr "kiểm duyệt"
 
 #: task-dtails-errorlog
 msgctxt "task-dtails-errorlog"
 msgid "Stderr output"
-msgstr "Stderr output"
+msgstr "Đầu ra Stderr"
 
 #: message-header
 msgctxt "message-header"
 msgid "message @id"
-msgstr "message @id"
+msgstr "tin nhắn @id"
 
 #: message-header
 msgctxt "message-header"
 msgid " in response to !parent"
-msgstr "en réponse à !parent"
+msgstr "để đáp lại !parent"
 
 #: front-page
 msgctxt "front-page"
 msgid "Welcome back!"
-msgstr "Bienvenue !"
+msgstr "Chào mừng trở lại!"
 
 #: front-page
 msgctxt "front-page"
 msgid "Learn more"
-msgstr "Pour en savoir plus"
+msgstr "Tìm hiểu thêm"
 
 #: front-page
 msgctxt "front-page"
 msgid "View account"
-msgstr "Voir le compte"
+msgstr "Xem tài khoản"
 
 #: front-page
 msgctxt "front-page"
 msgid "User of the day"
-msgstr "Utilisateur du jour"
+msgstr "Người dùng của ngày"
 
 #: front-page
 msgctxt "front-page"
 msgid "Over 500,000 volunteers and counting."
-msgstr "Plus de 500 000 bénévoles et calculateurs."
+msgstr "Hơn 500.000 tình nguyện viên và đang tiếp tục tăng."
 
 #: front-page
 msgctxt "front-page"
@@ -1249,191 +1235,191 @@ msgstr "Linux"
 #: front-page
 msgctxt "front-page"
 msgid "Credits per day"
-msgstr "Crédits par jour"
+msgstr "Lượng tín dụng mỗi ngày"
 
 #: front-page-discuss-news
 msgctxt "front-page-discuss-news"
 msgid "discuss"
-msgstr "discuter"
+msgstr "trao đổi"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Logout"
-msgstr "Déconnecter"
+msgstr "Đăng xuất"
 
 #: footer-link
 msgctxt "footer-link"
 msgid "Create content"
-msgstr "Créer un contenu"
+msgstr "Khởi tạo nội dung"
 
 #: anonymous-user
 msgctxt "anonymous-user"
 msgid "Anonymous"
-msgstr "Anonyme"
+msgstr "Vô danh"
 
 #: help-with-user-input-with-BBCode
 msgctxt "help-with-user-input-with-BBCode"
 msgid "BBcode help"
-msgstr "Aide pour le BBcode"
+msgstr "hỗ trợ BBcode"
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post comment"
-msgstr "Publier le commentaire"
+msgstr "Đăng bình luận"
 
 #: form-cancel
 msgctxt "form-cancel"
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Huỷ bỏ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Details"
-msgstr "Détails"
+msgstr "Chi tiết"
 
 #: host-tasks-link
 msgctxt "host-tasks-link"
 msgid "Tasks"
-msgstr "Tâches"
+msgstr "Công việc"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computers pending"
-msgstr "Ordinateurs en attente"
+msgstr "Máy tính đang chờ xử lý"
 
 #: host-list
 msgctxt "host-list"
 msgid ""
 "This user does not yet have any associated computers. Computers will be "
 "displayed when they have earned their first credits."
-msgstr "Cet utilisateur n'a pas encore associé d'ordinateurs. Les ordinateurs s'afficheront lorsqu'ils auront gagné leurs premiers crédits."
+msgstr "Người dùng này chưa có bất kỳ máy tính nào được liên kết. Máy tính sẽ được hiển thị khi đã kiếm được các khoản tín dụng đầu tiên."
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Avg credit"
-msgstr "Crédit moyen"
+msgstr "Tín dụng trung bình"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "More"
-msgstr "Plus"
+msgstr "Nhiều hơn nữa"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computers hidden"
-msgstr "Ordinateurs masqués"
+msgstr "Các máy tính bị ẩn"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has chosen not to show information about their computers."
-msgstr "Cet utilisateur a choisi de ne pas montrer d'informations sur ses ordinateurs."
+msgstr "Người dùng này đã chọn không hiển thị thông tin về máy tính của họ."
 
 #: project-name:-1:ignoreoverwrite
 msgctxt "project-name:-1:ignoreoverwrite"
 msgid "Name"
-msgstr "Nom"
+msgstr "Tên"
 
 #: page-submitted-info
 msgctxt "page-submitted-info"
 msgid "Submitted by !username on !datetime"
-msgstr "Soumis par !username le !datetime"
+msgstr "Đệ trình bởi !username vào !datetime"
 
 #: user-profile
 msgctxt "user-profile"
 msgid "Background"
-msgstr "Fond d'écran"
+msgstr "Nền"
 
 #: user-profile
 msgctxt "user-profile"
 msgid "Opinion"
-msgstr "Avis"
+msgstr "Ý kiến"
 
 #: website-of-user-of-team
 msgctxt "website-of-user-of-team"
 msgid "Website"
-msgstr "Site Web"
+msgstr "Trang web"
 
 #: users-table
 msgctxt "users-table"
 msgid "View user profile."
-msgstr "Voir le profil de l'utilisateur."
+msgstr "Xem hồ sơ người dùng."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Enter your password to save changes"
-msgstr "Veuillez entrer votre mot de passe pour valider les changements"
+msgstr "Nhập mật khẩu của bạn vào để lưu thay đổi"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid ""
 "Enter your current password if changing your email\n"
 "          address or password."
-msgstr "Saisissez votre mot de passe actuel si vous souhaitez changer votre adresse email ou votre mot de passe."
+msgstr "Nhập mật khẩu hiện thời của bạn vào nếu muốn đổi\nđịa chỉ email hoặc mật khẩu nhé."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "BOINC user ID"
-msgstr "Nom d'utilisateur BOINC"
+msgstr "ID người dùng BOINC"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Drupal user ID"
-msgstr "Nom d'utilisateur Drupal"
+msgstr "ID người dùng Drupal"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Account key"
-msgstr "Clé de compte"
+msgstr "Chìa khoá tài khoản"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Weak account key"
-msgstr "Clé de compte non robuste"
+msgstr "Chìa khoá tài khoản yếu"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Cross-project ID"
-msgstr "Identifiant inter-projets"
+msgstr "ID dự án chéo"
 
 #: form-save
 msgctxt "form-save"
 msgid "Save changes"
-msgstr "Enregistrer les modifications"
+msgstr "Lưu thay đổi"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Change password"
-msgstr "Modifier le mot de passe"
+msgstr "Thay đổi mật khẩu"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
 msgid "Generic"
-msgstr "Générique"
+msgstr "Chung"
 
 #: account-preferences-location:-1:ignoreoverwrite
 msgctxt "account-preferences-location:-1:ignoreoverwrite"
 msgid "Home"
-msgstr "Domicile"
+msgstr "Trang chủ"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
 msgid "School"
-msgstr "École"
+msgstr "Trường học"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
 msgid "Work"
-msgstr "Travail"
+msgstr "Công việc"
 
 #: form-yes-no:-1:binary-form-option-pairs-with-no
 msgctxt "form-yes-no:-1:binary-form-option-pairs-with-no"
 msgid "yes"
-msgstr "oui"
+msgstr "có"
 
 #: form-yes-no:-1:binary-form-option-pairs-with-yes
 msgctxt "form-yes-no:-1:binary-form-option-pairs-with-yes"
 msgid "no"
-msgstr "non"
+msgstr "không"
 
 #: account-preferences-preset:-1:for a user to choose a computing or project
 #: preference preset.
@@ -1441,132 +1427,132 @@ msgctxt ""
 "account-preferences-preset:-1:for a user to choose a computing or project "
 "preference preset."
 msgid "Presets"
-msgstr "Préréglages"
+msgstr "Cài đặt trước"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Standard"
-msgstr "Standard"
+msgstr "Tiêu chuẩn"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Maximum"
-msgstr "Maximum"
+msgstr "Tối đa"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Green"
-msgstr "Vert"
+msgstr "Xanh lá"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Minimum"
-msgstr "Minimum"
+msgstr "Tối thiểu"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Custom"
-msgstr "Personnaliser"
+msgstr "Tùy chỉnh"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Update preset"
-msgstr "Mettre à jour le préréglage"
+msgstr "Cập nhật cài đặt trước"
 
 #: account-preferences-option
 msgctxt "account-preferences-option"
 msgid "Advanced settings"
-msgstr "Paramètres avancés"
+msgstr "Cài đặt nâng cao"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Processor usage"
-msgstr "Utilisation du processeur"
+msgstr "Sử dụng vi xử lý"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr "Suspendre quand l'ordinateur fonctionne sur batterie ?"
+msgstr "Tạm ngưng khi máy tính đang dùng pin không?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr "Suspendre le calcul sur les ordinateurs portables qui fonctionnent sur batterie."
+msgstr "Tạm ngưng tính toán trên thiết bị di động khi chạy bằng nguồn pin."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr "Suspendre les calculs lorsque l'ordinateur est utilisé ?"
+msgstr "Tạm ngưng khi máy tính đang được sử dụng không?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr "Suspendre le calcul et les transferts de fichiers lorsque vous utilisez l'ordinateur."
+msgstr "Tạm ngưng tính toán và truyền file tệp tin khi bạn đang sử dụng máy tính."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr "Suspendre les calculs du processeur graphique lorsque l'ordinateur est utilisé ?"
+msgstr "Tạm ngưng tính toán bằng GPU khi máy tính đang được sử dụng không?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr "Suspend les calculs du processeur graphique lorsque vous utilisez l'ordinateur."
+msgstr "Tạm ngưng tính toán bằng GPU khi bạn đang sử dụng máy tính."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr "\"En utilisation\" signifie qu'il y a eu une activité de la souris ou du clavier dans les dernières"
+msgstr "\"Đang sử dụng\" có nghĩa là đầu vào cuối cùng từ chuột/bàn phím trong vòng"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "minutes"
-msgstr "minutes"
+msgstr "phút"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr "Ceci permet de déterminer lorsque l'ordinateur est considéré comme \"en utilisation\"."
+msgstr "Mục này xác định khi nào máy tính được xem là \"đang được sử dụng\"."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when no mouse/keyboard input in last"
-msgstr "Suspendre si pas d'utilisation souris / clavier durant "
+msgstr "Tạm ngưng khi cuối cùng không có đầu vào input của chuột/bàn phím"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "Ceci permet à certains ordinateurs de se mettre en mode de consommation réduite s'ils ne sont pas utilisés."
+msgstr "Điều này cho phép một số máy tính chuyển sang chế độ năng lượng thấp khi không sử dụng."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspendre le calcul lorsque l'utilisation du processeur dépasse"
+msgstr "Tạm ngưng khi mức sử dụng CPU cho các nhiệm vụ không phải BOINC vượt trên mức"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Suspendre le calcul lorsque votre ordinateur est occupé à exécuter d'autres programmes."
+msgstr "Tạm ngưng máy tính khi máy tính của bạn đang bận chạy các chương trình khác."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr "Calculer uniquement entre :"
+msgstr "Chỉ tính toán giữa:"
 
 #: account-preference
 msgctxt "account-preference"
 msgid "and"
-msgstr "et"
+msgstr "và"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only during a particular period each day."
-msgstr "Calculer uniquement durant une certaine période chaque jour."
+msgstr "Chỉ làm tính toán trong một giai đoạn cụ thể mỗi ngày."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr "Laisser les tâches qui n'utilisent pas le processeur graphique en mémoire lorsqu'elles sont suspendues ?"
+msgstr "Có giữ lại các nhiệm vụ không phải GPU trong bộ nhớ khi đang tạm ngưng không?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1574,39 +1560,39 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr "Si \"Oui\" est coché, les tâches seront gardées en mémoire pour pouvoir reprendre le travail sans perte. Si \"non\" est coché, les tâches suspendues seront supprimées de la mémoire, et la reprise s'effectuera depuis leur dernier point de contrôle."
+msgstr "Nếu \"Có\", các nhiệm vụ bị tạm ngưng sẽ lưu giữ trong bộ nhớ và tiếp tục mà không bị mất công việc nào. Nếu \"Không\", các nhiệm vụ bị tạm ngưng sẽ bị xóa khỏi bộ nhớ và tiếp tục từ lần kiểm chốt cuối cùng của chúng."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Switch between tasks every"
-msgstr "Permuter d’une tâche à l’autre toutes les"
+msgstr "Thay phiên các nhiệm vụ cho nhau mỗi"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "If you run several projects, BOINC may switch between them this often."
-msgstr "Si vous exécutez plusieurs projets, BOINC peut basculer entre les tâches à cette fréquence."
+msgstr "Nếu bạn chạy một vài dự án, BOINC có thể chuyển đổi giữa chúng thường xuyên."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Use at most"
-msgstr "Utiliser au maximum"
+msgstr "Sử dụng nhiều nhất"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the processors"
-msgstr "% des processeurs"
+msgstr "% bộ xử lý"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Garder certains processeurs libres pour d'autres applications. Exemple : 75 % signifie utiliser 6 cœurs sur un processeur 8 cœurs."
+msgstr "Giữ một số CPU khả dụng cho các ứng dụng khác. Ví dụ: 75% có nghĩa là sử dụng 6 lõi trên CPU 8 lõi."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the CPU time"
-msgstr "% du temps processeur"
+msgstr "% thời lượng CPU"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1614,227 +1600,227 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Suspend puis reprend les calculs toutes les quelques secondes afin de réduire la température du processeur et la consommation d'énergie. Exemple : 75 % signifie calculer pendant 3 secondes, attendre 1 seconde et recommencer."
+msgstr "Tạm ngưng /Tiếp tục tính toán vài giây một lần để giảm nhiệt độ CPU và mức sử dụng năng lượng. Ví dụ: 75% có nghĩa là tính toán trong 3 giây, đợi 1 giây và lặp lại."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk and memory usage"
-msgstr "Utilisation disque et mémoire"
+msgstr "Sử dụng ổ đĩa và bộ nhớ"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr "Disque : ne pas utiliser plus de"
+msgstr "Ổ đĩa: sử dụng không quá"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the total amount of disk space used by BOINC."
-msgstr "Limiter la quantité totale d'espace disque utilisée par BOINC."
+msgstr "Giới hạn tổng dung lượng ổ đĩa mà BOINC sử dụng."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr "Disque : laisser au moins"
+msgstr "Ổ đĩa: để lại ít nhất"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where BOINC "
 "stores data."
-msgstr "Limiter l'utilisation du disque dur afin de laisser suffisamment d'espace libre sur le volume où BOINC stocke les données."
+msgstr "Giới hạn sử dụng ổ đĩa để dành ra nhiều từng này không gian trống trên ổ đĩa để BOINC trữ dữ liệu."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of total"
-msgstr "% de l’espace de stockage total"
+msgstr "% tổng số"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Limit the percentage of disk space used by BOINC on the volume where it "
 "stores data."
-msgstr "Limiter le pourcentage d'espace disque utilisée par BOINC sur le volume où il stocke les données."
+msgstr "Giới hạn phần trăm không gian ổ đĩa được BOINC sử dụng trên ổ lưu trữ dữ liệu."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Request tasks to checkpoint at most every"
-msgstr "Effectuer au minimum un point de contrôle des tâches toutes les"
+msgstr "Yêu cầu các nhiệm vụ kiểm chốt lại sau mỗi "
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "seconds"
-msgstr "secondes"
+msgstr "giây"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr "Ce paramètre règle la fréquence à laquelle les tâches enregistrent leur état sur le disque, de sorte qu'elles pourront être poursuivies ultérieurement à partir de cet état."
+msgstr "Điều này kiểm soát tần suất các nhiệm vụ lưu trạng thái của chúng vào ổ đĩa, để sau này chúng có thể được tiếp tục từ thời điểm đó."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Page/swap file: use at most"
-msgstr "Pour l’espace de pagination, utiliser la mémoire au maximum à"
+msgstr "Trang/Tệp hoán đổi: sử dụng tối đa nhiều lắm là"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the swap space (page file) used by BOINC."
-msgstr "Limiter l'espace d'échange utilisé par BOINC (pagefile.sys ou swap)."
+msgstr "Giới hạn không gian hoán đổi (tệp trang page file) được BOINC sử dụng."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is in use, use at most"
-msgstr "Mémoire : lorsque l'ordinateur est utilisé, utiliser au plus"
+msgstr "Bộ nhớ: khi sử dụng máy tính, sử dụng tối đa"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're using the computer."
-msgstr "Limiter la mémoire utilisée par BOINC lorsque vous utilisez l'ordinateur."
+msgstr "Giới hạn bộ nhớ được BOINC sử dụng khi bạn đang sử dụng máy tính."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Mémoire : lorsque l'ordinateur n'est pas utilisé, utiliser au plus"
+msgstr "Bộ nhớ: khi không sử dụng máy tính, sử dụng tối đa"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're not using the computer."
-msgstr "Limiter la mémoire utilisée par BOINC lorsque vous n'utilisez pas l'ordinateur."
+msgstr "Giới hạn bộ nhớ được BOINC sử dụng khi bạn không sử dụng máy tính."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Network usage"
-msgstr "Utilisation du réseau"
+msgstr "Sử dụng mạng"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least"
-msgstr "Stocker au moins"
+msgstr "Lưu trữ ít nhất"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "days of work"
-msgstr "jours de calcul"
+msgstr "ngày"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Stocker au minimum assez de tâches pour occuper l'ordinateur pendant cette durée."
+msgstr "Lưu trữ ít nhất đủ tác vụ để giữ cho máy tính bận rộn trong thời gian dài."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store up to an additional"
-msgstr "Stocker un supplément de"
+msgstr "Lưu trữ cộng thêm công việc dành cho"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "days"
-msgstr "jours"
+msgstr "các ngày"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Stocker des tâches supplémentaires au-delà du niveau minimum.  Cela détermine la quantité de travail demandée lorsque vous communiquez avec un projet."
+msgstr "Lưu trữ các nhiệm vụ bổ sung trên mức tối thiểu. Xác định lượng công việc được yêu cầu khi liên hệ với một dự án."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Confirm before connecting to Internet?"
-msgstr "Confirmer avant de se connecter à Internet ?"
+msgstr "Xác nhận trước khi kết nối tới Internet không?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Utile uniquement si vous avez un modem, une connexion VPN ou RNIS."
+msgstr "Chỉ hữu ích khi bạn có một chiếc modem, ISDN hoặc kết nối VPN."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disconnect when done?"
-msgstr "Se déconnecter une fois terminé ?"
+msgstr "Ngắt kết nối khi hoàn tất?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit download rate to"
-msgstr "Taux limite de téléchargement :"
+msgstr "Giới hạn tốc độ tải xuống còn"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the download rate of file transfers."
-msgstr "Limiter la vitesse de téléchargement des fichiers (download)."
+msgstr "Giới hạn tốc độ tải xuống khi truyền file tệp tin."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit upload rate to"
-msgstr "Taux limite de téléversement : "
+msgstr "Giới hạn tốc độ tải lên tới mức"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the upload rate of file transfers."
-msgstr "Limiter la vitesse de téléversement des fichiers (upload)."
+msgstr "Giới hạn tốc độ tải lên khi truyền file tệp tin."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only between"
-msgstr "Transférer des fichiers seulement entre"
+msgstr "Chỉ truyền dữ liệu file tệp tin trong khoảng thời gian giữa "
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only during a particular period each day."
-msgstr "Transférer les fichiers uniquement pendant une période donnée chaque jour."
+msgstr "Chỉ trao đổi dữ liệu file tệp tin trong một khoảng thời gian cụ thể mỗi ngày."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit usage to"
-msgstr "Limiter à"
+msgstr "Giới hạn sử dụng tới mức"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
-msgstr "Exemple : BOINC doit transférer au maximum 2000 Mo de données tous les 30 jours."
+msgstr "Ví dụ: BOINC nên chuyển tối đa 2000 MB dữ liệu sau mỗi 30 ngày."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr "Ignorer la vérification des données pour les fichiers image ?"
+msgstr "Bỏ qua xác minh dữ liệu cho các tệp hình ảnh?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr "Sélectionnez \"Oui\" seulement si votre fournisseur d'accès à internet modifie les fichiers image. Le fait de passer la vérification réduit la sécurité de BOINC."
+msgstr "Chỉ chọn \"Có\" nếu nhà cung cấp Internet của bạn sửa đổi file tệp tin hình ảnh. Bỏ qua xác minh làm giảm tính bảo mật của BOINC."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Show comparison view"
-msgstr "Afficher la vue de comparaison"
+msgstr "Hiển thị chế độ xem so sánh"
 
 #: host-details
 msgctxt "host-details"
 msgid "@count million ops/sec"
-msgstr "@count MIPS"
+msgstr "@count triệu phép toán/giây"
 
 #: host-details
 msgctxt "host-details"
 msgid "@rate KiB/sec"
-msgstr "@rate Ko/s"
+msgstr "@rate KB/giây"
 
 #: host-details
 msgctxt "host-details"
 msgid "@count days"
-msgstr "@count jours"
+msgstr "@count ngày"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Resource settings"
-msgstr "Configuration des ressources"
+msgstr "Cài đặt nguồn tài nguyên"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Resource share"
-msgstr "Partage des ressources"
+msgstr "Chia sẻ tài nguyên"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1843,265 +1829,265 @@ msgid ""
 "project. Example: if you participate in two BOINC projects with resource "
 "shares of 100 and 200, the first will get 1/3 of your resources and the "
 "second will get 2/3."
-msgstr "Détermine la proportion des ressources de votre ordinateur allouée à ce projet. Par exemple : si vous participez à deux projets BOINC avec un partage de ressources de 100 et 200, le premier aura 1/3 des vos ressources et le second 2/3."
+msgstr "Xác định tỷ lệ tài nguyên máy tính của bạn được phân bổ cho dự án này. Ví dụ: nếu bạn tham gia vào hai dự án BOINC với chia sẻ tài nguyên là 100 và 200, dự án đầu tiên sẽ nhận được 1/3 tài nguyên của bạn và dự án thứ hai sẽ nhận được 2/3."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use CPU"
-msgstr "Utiliser le processeur"
+msgstr "Dùng CPU"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr "Demander des tâches sans utilisation du processeur graphique à partir de ce projet."
+msgstr "Yêu cầu những nhiệm vụ chỉ dùng CPU từ dự án này."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use NVIDIA GPU"
-msgstr "Utiliser la carte graphique NVIDIA"
+msgstr "Dùng GPU NVIDIA"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr "Demander des tâches utilisant le processeur graphique NVIDIA à partir de ce projet."
+msgstr "Yêu cầu những nhiệm vụ dành cho GPU NVIDIA từ dự án này."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use ATI GPU"
-msgstr "Utiliser la carte graphique ATI"
+msgstr "Dùng GPU ATI"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr "Demander des tâches utilisant le processeur graphique ATI à partir de ce projet."
+msgstr "Yêu cầu những nhiệm vụ dành cho GPU ATI từ dự án này."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use INTEL GPU"
-msgstr "Utiliser la carte graphique INTEL"
+msgstr "Dùng GPU INTEL"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr "Demander des tâches utilisant le processeur graphique Intel à partir de ce projet."
+msgstr "Yêu cầu những nhiệm vụ dùng GPU Intel từ dự án này."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Beta settings"
-msgstr "Configuration Beta"
+msgstr "Các cài đặt Beta"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Run test applications?"
-msgstr "Exécuter les applications de test ? "
+msgstr "Chạy chương trình thử chứ?"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
-msgstr "Ceci nous aide à développer les applications, mais peut générer des erreurs de calcul sur votre ordinateur"
+msgstr "Điều này giúp chúng tôi phát triển các chương trình nhưng có thể khiến máy tính của bạn bị lỗi"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid " Default value: @default"
-msgstr "Valeur par défaut : @default"
+msgstr "Giá trị mặc đình: @default"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Applications"
-msgstr "Applications"
+msgstr "Các ứng dụng"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Default set"
-msgstr "Valeur par défaut"
+msgstr "Set mặc định"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Set used for new computers"
-msgstr "Valeur utilisée pour les nouveaux ordinateurs"
+msgstr "Set đã được dùng cho máy tính mới"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "General settings"
-msgstr "Paramètres généraux"
+msgstr "Cài đặt chung"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Time zone"
-msgstr "Fuseau horaire"
+msgstr "Múi giờ"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Notification settings"
-msgstr "Paramètres de notification"
+msgstr "Cài đặt thông báo"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for private messages?"
-msgstr "Voulez-vous recevoir un email de notification pour les messages privés ?"
+msgstr "Nhận thông báo email cho tin nhắn riêng tư chứ?"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for friend requests?"
-msgstr "Voulez-vous recevoir un mail de notification pour les messages d'amis ?"
+msgstr "Nhận thông báo email cho yêu cầu kết bạn chứ?"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Language settings"
-msgstr "Paramètres de langue"
+msgstr "Cài đặt ngôn ngữ"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Language"
-msgstr "Langue"
+msgstr "Ngôn ngữ"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "This account's default language for e-mails and preferred language for site "
 "presentation."
-msgstr "La langue par défaut de ce compte pour les e-mails et la langue préférée pour le contenu du site."
+msgstr "Ngôn ngữ mặc định của tài khoản này dùng cho e-mail và ngôn ngữ ưa dùng dùng cho trình bày trang web."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, it will be used for your user picture."
-msgstr "Si vous avez un avatar <a href=\"@gravatar-check\"> Gravatar <a> associé à votre adresse email, il sera utilisé comme image de profil."
+msgstr "Nếu bạn có một <a href=\"@gravatar-check\">Gravatar hợp lệ</a> liên kết với địa chỉ e-mail của bạn, nó sẽ được sử dụng cho hình ảnh đại diện của bạn."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "Votre image Gravatar ne sera pas affichée si vous téléchargez une image personnalisée."
+msgstr "Gravatar của bạn sẽ không được hiển thị nếu bạn tải ảnh người dùng lên."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, use it for your user picture."
-msgstr "Si vous avez un avatar <a href=\"@gravatar-check\"> Gravatar <a> associé à votre adresse email, il sera utilisé comme image de profil"
+msgstr "Nếu bạn có một <a href=\"@gravatar-check\">Gravatar hợp lệ</a> liên kết với địa chỉ email của bạn, sử dụng nó cho hình ảnh đại diện của bạn."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "Gravatar ne sera pas montré si un avatar est envoyé"
+msgstr "Gravatar sẽ không được hiển thị nếu hình đại diện avatar được tải lên."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Avatar settings"
-msgstr "Paramètres d'avatar"
+msgstr "Cài đặt ảnh đại diện avatar"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Upload an avatar"
-msgstr "Télécharger un avatar"
+msgstr "Tải lên một ảnh đại diện avatar"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Forum settings"
-msgstr "Paramètres du forum"
+msgstr "Cài đặt diễn đàn"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "In discussion topics, show at most @comments_per_page"
-msgstr "Dans les sujets de discussion, afficher au plus @comments_per_page"
+msgstr "Trong các chủ đề thảo luận, hãy hiển thị nhiều nhất @comments_per_page"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "comments per page"
-msgstr "commentaires par page"
+msgstr "bình luận trên mỗi trang"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Sort comments in discussions"
-msgstr "Trier les commentaires des discussions"
+msgstr "Sắp xếp các bình luận trong các cuộc thảo luận"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Newest post first"
-msgstr "Les messages les plus récents d'abord"
+msgstr "Bài viết mới hơn hiện trước"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Oldest post first"
-msgstr "Les messages les plus anciens d'abord"
+msgstr "Bài viết cũ hơn hiện trước"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Signature"
-msgstr "Signature"
+msgstr "Chữ ký"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your signature will be publicly displayed at the end of your comments."
-msgstr "Votre signature sera visible publiquement à la fin de vos commentaires."
+msgstr "Chữ ký của bạn sẽ được hiển thị công khai ở cuối phần bình luận của bạn."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Hide signatures in forums"
-msgstr "Masquer les signatures dans les forums"
+msgstr "Ẩn chữ ký trong diễn đàn"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr "Ignorer les utilisateurs dans les forums :"
+msgstr "Phớt lờ người dùng trong diễn đàn:"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr "<a href=\"@ignore-user-list\">Afficher / Éditer</a> votre liste d'utilisateurs ignorés."
+msgstr "<a href=\"@ignore-user-list\">Xem/Chỉnh sửa</a> danh sách người dùng bị phớt lờ."
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Privacy settings"
-msgstr "Paramètres de confidentialité"
+msgstr "Những thiết lập về riêng tư"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr "Acceptez-vous que @project et votre équipe (si vous en avez une) puissent vous envoyer des e-mails ?"
+msgstr "@Project và team của bạn (nếu có) có thể gửi email cho bạn không?"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Should @project show your computers on its web site?"
-msgstr "Acceptez-vous que @project affiche vos ordinateurs sur son site web ?"
+msgstr "@Project có nên hiển thị máy tính của bạn trên trang web của họ không?"
 
 #: host-list
 msgctxt "host-list"
 msgid "No active computers"
-msgstr "Pas d'ordinateur actif"
+msgstr "Không có máy tính đang hoạt động"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has no computers that have been active in the last 30 days."
-msgstr "Aucun ordinateur de l'utilisateur n'a été actif durant les 30 derniers jours."
+msgstr "Người dùng này không có máy tính nào hoạt động trong 30 ngày qua."
 
 #: forum-post-posted-time-not-available
 msgctxt "forum-post-posted-time-not-available"
 msgid "n/a"
-msgstr "non disponible"
+msgstr "không áp dụng"
 
 #: forum-post-posted-time-ago
 msgctxt "forum-post-posted-time-ago"
 msgid "@time ago"
-msgstr "Il y a @time"
+msgstr "@time trước đó"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Threads"
-msgstr "Sujets"
+msgstr "Chủ đề"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Posts"
-msgstr "Messages"
+msgstr "Bài viết"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Last post"
-msgstr "Dernier message"
+msgstr "Bài viết mới nhất"
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2111,7 +2097,7 @@ msgid ""
 "moderators without warning or discussion. Do not respond to offensive "
 "postings. Click on the \"report\" button at the bottom of the post to call "
 "it to the attention of the moderators."
-msgstr "Veuillez être responsable de ce que vous écrivez et ne créez pas de messages offensants ou insultants. Les messages ou sujets offensants peuvent être supprimés par les modérateurs du forum sans avertissement ni explication. Ne réagissez pas aux messages offensants. Cliquez sur le bouton \"signaler\" au bas du message afin d'attirer l'attention des modérateurs."
+msgstr "Vui lòng chịu trách nhiệm về những gì bạn viết và không tạo ra các bài viết xúc phạm hoặc mang tính xúc phạm. Các bài viết hoặc chủ đề xúc phạm có thể bị xóa bởi người điều hành diễn đàn mà không cần cảnh báo hoặc thảo luận. Không trả lời các bài đăng xúc phạm. Nhấp vào nút \"báo cáo\" ở cuối bài đăng để thu hút sự chú ý của người kiểm duyệt."
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2121,365 +2107,365 @@ msgid ""
 "where you are free to discuss anything relevant to the underlying science. "
 "Participants interested in broader discussions should post to unofficial "
 "forums for @project."
-msgstr "Nous vous demandons également de ne discuter que de BOINC ou de @project sur le forum, à l'exception du forum Science où vous êtes libre de discuter de tout ce qui se rapporte à la science sous-jacente aux projets. Les participants souhaitant discuter de sujets plus généraux sont invités à le faire sur les forums non-officiels de @project."
+msgstr "Chúng tôi cũng yêu cầu bạn giữ tất cả các cuộc thảo luận trên các bảng tin liên quan đến @project hoặc BOINC, ngoại trừ bảng tin Khoa học, nơi bạn có thể tự do thảo luận bất cứ điều gì liên quan đến khoa học liên quan. Những người tham gia quan tâm đến những cuộc thảo luận rộng hơn thì nên đăng lên các diễn đàn không chính thức cho @project."
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
 msgid "These message boards now support BBCode tags only."
-msgstr "Ces forums sont maintenant compatibles avec les balises BBCode."
+msgstr "Những bảng tin này hiện giờ chỉ hỗ trợ BBCode tag."
 
 #: forum-footer
 msgctxt "forum-footer"
 msgid "Manage subscriptions"
-msgstr "Gérer les inscriptions"
+msgstr "Quản lý các mục đăng kí"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "Teams"
-msgstr "Équipes"
+msgstr "Các team"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "access team members' email addresses"
-msgstr "accéder aux adresses email des membres de l'équipe"
+msgstr "truy cập địa chỉ email của các thành viên team"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "edit the team's name and description"
-msgstr "éditer le nom et la description de l'équipe"
+msgstr "thay đổi tên team và miêu tả về team"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "add or remove team admins"
-msgstr "Ajouter ou supprimer des administrateurs de l'équipe"
+msgstr "thêm hoặc loại bỏ các quản trị của team"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "remove members from the team"
-msgstr "supprimer des membres de l'équipe"
+msgstr "loại bỏ các thành viên ra khỏi team"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "disband a team if it has no members"
-msgstr "supprimer l'équipe si elle n'a aucun membre"
+msgstr "giải tán một team nếu nó chẳng có thành viên nào cả"
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "My team"
-msgstr "Mon équipe"
+msgstr "Team của tôi"
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "You are a member of @team."
-msgstr "Vous êtes membre de l'équipe @team"
+msgstr "Bạn là một thành viên của @team."
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "View my team"
-msgstr "Voir mon équipe"
+msgstr "Xem team của tôi"
 
 #: search-team
 msgctxt "search-team"
 msgid "Search teams"
-msgstr "Rechercher une équipe"
+msgstr "Tìm kiếm team"
 
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr "Les tâches sont en attente pour cette unité de travail."
+msgstr "Các nhiệm vụ đang được chờ xử lý cho đơn vị làm việc này"
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
 msgid "Submitted on !datetime"
-msgstr "Soumit le !datetime"
+msgstr "Đã đệ trình vào !datetime"
 
 #: Comments-section-header
 msgctxt "Comments-section-header"
 msgid "Comments"
-msgstr "Commentaires"
+msgstr "Bình luận"
 
 #: form-clear
 msgctxt "form-clear"
 msgid "Clear"
-msgstr "Supprimer"
+msgstr "Trống"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid ""
 "This will remove all of your settings from the @name preference set. Are you"
 " sure?"
-msgstr "Ceci supprimera tous vos paramètres de réglage de préférence @name. En êtes-vous sûr ?"
+msgstr "Điều này sẽ loại bỏ tất cả cài đặt của bạn khỏi bộ tùy chọn @tên @name. Bạn có chắc không?"
 
 #: task-list
 msgctxt "task-list"
 msgid "No @type tasks"
-msgstr "Pas de tâche @type"
+msgstr "Không nhiệm vụ @type"
 
 #: task-list
 msgctxt "task-list"
 msgid "There are no tasks of this type on record"
-msgstr "Il n'y a aucune tâche de ce type"
+msgstr "Chẳng có nhiệm vụ nào thuộc loại này trong hồ sơ lưu trữ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Show IP address"
-msgstr "Afficher l'adresse IP"
+msgstr "Hiển thị địa chỉ IP"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "hours"
-msgstr "heures"
+msgstr "giờ"
 
 #: form-merge
 msgctxt "form-merge"
 msgid "Merge"
-msgstr "Fusionner"
+msgstr "Hợp nhất"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Type"
-msgstr "Type"
+msgstr "Kiểu"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "New members in last day"
-msgstr "Nouveaux membres du jour"
+msgstr "Thành viên mới trong ngày qua"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Total members"
-msgstr "Total des membres"
+msgstr "Tổng thành viên"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Active members"
-msgstr "Membres actifs"
+msgstr "Thành viên hoạt động"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Members with credit"
-msgstr "Membres crédités"
+msgstr "Thành viên với tín dụng"
 
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
 msgid "Website"
-msgstr "Site Web"
+msgstr "Trang web"
 
 #: team-description
 msgctxt "team-description"
 msgid "Description"
-msgstr "Description"
+msgstr "Mô tả"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "no projects..."
-msgstr "aucun projet..."
+msgstr "không có dự án nào ..."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr "Pas de préférences trouvées pour \"@venue\". Cliquez sur \"Enregistrer les modifications\" ci-dessous pour enregistrer ces préférences dans votre compte."
+msgstr "Không tìm thấy tùy chọn nào cho tập hợp '@địa điểm @venue'. Nhấp vào LƯU THAY ĐỔI bên dưới để lưu các tùy chọn sau vào tài khoản của bạn."
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the desktop software"
-msgstr "Télécharger l'application"
+msgstr "Tải xuống phần mềm"
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer"
-msgstr "Lancer l'installation"
+msgstr "Chạy trình cài đặt"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr "répondre"
+msgstr "trả lời"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment"
-msgstr "Répondre à ce commentaire"
+msgstr "Trả lời lại bình luận này"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr "Répondre à ce sujet avec une citation"
+msgstr "Trả lời lại chủ đề này với một trích dẫn"
 
 #: private-message
 msgctxt "private-message"
 msgid "Send message"
-msgstr "Envoyer un message"
+msgstr "Gửi tin nhắn"
 
 #: forum-post-new-comment
 msgctxt "forum-post-new-comment"
 msgid "Post new comment"
-msgstr "Poster un nouveau commentaire"
+msgstr "Đăng một bình luận"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "commented on"
-msgstr "commentaires activés"
+msgstr "đã bình luận trên"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "started discussion"
-msgstr "discussion commencée"
+msgstr "đã bắt đầu thảo luận"
 
 #: forum-sticky-comment
 msgctxt "forum-sticky-comment"
 msgid "Make sticky"
-msgstr "Épingler"
+msgstr "Tạo sticky"
 
 #: forum-sticky-comment
 msgctxt "forum-sticky-comment"
 msgid "Make this topic sticky"
-msgstr "Épingler ce sujet"
+msgstr "Tạo sticky chủ đề này"
 
 #: forum-lock-comment
 msgctxt "forum-lock-comment"
 msgid "Lock"
-msgstr "Verrouiller"
+msgstr "Khoá"
 
 #: forum-lock-comment
 msgctxt "forum-lock-comment"
 msgid "Lock this thread for comments"
-msgstr "Verrouiller ce fil de commentaires"
+msgstr "Khoá chủ đề này cho việc bình luận"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide"
-msgstr "Masquer"
+msgstr "Ẩn"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide this topic"
-msgstr "Masquer ce mesage"
+msgstr "Ẩn chủ đề này"
 
 #: forum-convert-comment-to-topic
 msgctxt "forum-convert-comment-to-topic"
 msgid "Convert"
-msgstr "Convertir"
+msgstr "Chuyển đổi"
 
 #: forum-convert-comment-to-topic
 msgctxt "forum-convert-comment-to-topic"
 msgid "Convert this comment to a new topic"
-msgstr "Convertir ce commentaire en nouveau sujet"
+msgstr "Chuyển bình luận này tới một chủ đề mới"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide this comment"
-msgstr "Cacher ce commentaire"
+msgstr "Ẩn bình luận"
 
 #: forum-delete-comment
 msgctxt "forum-delete-comment"
 msgid "Delete this comment"
-msgstr "Supprimer ce commentaire"
+msgstr "Xoá bình luận này"
 
 #: forum-edit-comment
 msgctxt "forum-edit-comment"
 msgid "Edit this comment"
-msgstr "Modifier ce commentaire"
+msgstr "Chỉnh sửa bình luận này"
 
 #: search-with-no-results
 msgctxt "search-with-no-results"
 msgid "No results found..."
-msgstr "Aucun résultat trouvé..."
+msgstr "Không có kết quả nào được tìm thấy..."
 
 #: user-profile:-1:message-shown-when-awating-moderation
 msgctxt "user-profile:-1:message-shown-when-awating-moderation"
 msgid "Profile awaiting moderator approval"
-msgstr "Profil en attente de validation par un modérateur"
+msgstr "Hồ sơ đang chờ người kiểm duyệt phê duyệt"
 
 #: friend-add
 msgctxt "friend-add"
 msgid "Add as friend"
-msgstr "Ajouter en tant qu'ami"
+msgstr "Thêm làm bạn"
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site : commentaire posté sur le sujet \"!topic_name\""
+msgstr "!site: nhận xét được đăng lên \"!topic_name\""
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "L'!auteur a posté une réponse sur le sujet \"!topic_name\"."
+msgstr "!tác giả đã đăng một câu trả lời cho \"!topic_name\"."
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid ""
 "To view this topic at !site, click here: \n"
 "!comment_url"
-msgstr "Pour voir ce sujet sur le site !site, cliquez ici :\n!comment_url"
+msgstr "Để xem chủ đề này tại !site, bấm vào đây:\n!comment_url"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave team"
-msgstr "Quitter l'équipe "
+msgstr "Rời khỏi team"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Click here to revoke your membership with @this_team"
-msgstr "Cliquez ici pour vous retirer de l'équipe @this_team"
+msgstr "Nhấp vào đây để thu hồi tư cách thành viên của bạn với @this_team"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave this team"
-msgstr "Quitter cette équipe"
+msgstr "Rời khỏi team này"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Request foundership"
-msgstr "Demander à être à la tête de l'équipe"
+msgstr "Yêu cầu quyền sáng lập"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click below to request foundership of @this_team."
-msgstr "Si le chef d'équipe est inactif et que vous désirez assumer ce rôle, cliquez ci-dessous pour effectuer une requête de changement de chef pour @this_team"
+msgstr "Nếu người sáng lập team không hoạt động và bạn muốn đảm nhận vai trò người sáng lập, hãy nhấp vào bên dưới để yêu cầu quyền sáng lập @this_team."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Initiate request"
-msgstr "Initier la requête"
+msgstr "Yêu cầu đầu tiên"
 
 #: form-delete
 msgctxt "form-delete"
 msgid "Delete"
-msgstr "Supprimer"
+msgstr "Xoá"
 
 #: account-host-delete
 msgctxt "account-host-delete"
 msgid ""
 "This will delete host @id from your account forever. Are you sure this is "
 "OK?"
-msgstr "Ceci supprimera à jamais l'hôte @id de votre compte. En êtes-vous sûr ?"
+msgstr "Điều này sẽ xóa host @id khỏi tài khoản của bạn vĩnh viễn. Bạn có chắc điều này ổn OK chứ?"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a new team"
-msgstr "Créer une nouvelle équipe"
+msgstr "Khởi tạo một team"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid ""
 "If you cannot find a team that is right for you, you can create a team."
-msgstr "Si vous ne trouvez pas d'équipe vous correspondant, vous pouvez créer une équipe."
+msgstr "Nếu bạn không thể tìm thấy một team phù hợp với mình, bạn có thể tạo một team."
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr "Connectez-vous afin de créer une nouvelle équipe"
+msgstr "Đăng nhập để tạo một nhóm mới"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "If you're already running BOINC, select <i>Add\n"
 "      Project</i>."
-msgstr "Si vous exécutez déjà BOINC, sélectionnez <i>Ajouter\nun Projet</i>."
+msgstr "Nếu bạn đã chạy BOINC, hãy chọn <i>Thêm\nDự án</i>."
 
 #: join-page
 msgctxt "join-page"
@@ -2488,7 +2474,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version."
-msgstr "Si vous utilisez une version de BOINC en ligne de commande,\nutilisez d'abord le logiciel BOINC Manager (à un autre endroit si nécessaire)\npour créer un compte sur ce projet, puis utilisez ce compte pour se connecter\nà l'aide de la version en ligne de commande."
+msgstr "Nếu bạn đang chạy một phiên bản command-line của BOINC,\nđầu tiên dùng chương trình Quản lý BOINC (ở nơi khác cũng được nếu cần thiết) để tạo\nmột tài khoản tại dự án này, rồi dùng tài khoản đó để kết nối với\nphiên bản command-line."
 
 #: join-page
 msgctxt "join-page"
@@ -2496,147 +2482,147 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version to create an account\n"
 "        at this project."
-msgstr "Si vous utilisez une version de BOINC antérieure à 5.0, veuillez\nla mettre à jour vers une version plus récente afin de créer un compte\nsur ce projet."
+msgstr "Nếu bạn đang chạy một phiên bản BOINC trước phiên bản-5.0, xin hãy\nnâng cấp lên một phiên bản gần đây hơn để tạo một tài khoản\ntại dự án này"
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "ignore list"
-msgstr "Liste de personnes ignorées"
+msgstr "danh sách phớt lờ"
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "here"
-msgstr "ici"
+msgstr "tại đây"
 
 #: coment-from-ignored-user
 msgctxt "coment-from-ignored-user"
 msgid "!username is on your !ignore_list. Click !here to view this post."
-msgstr "!username est dans !ignore_list. Cliquer !here pour voir ce message."
+msgstr "!username có trong danh sách !ignore_list của bạn. Bấm vào !here để xem bài viết này."
 
 #: comment-preview-title
 msgctxt "comment-preview-title"
 msgid "Revise or post comment"
-msgstr "Corriger ou poster le commentaire"
+msgstr "Sửa lại hoặc đăng bình luận"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "This is not available until your profile is set up."
-msgstr "Ceci n'est pas possible tant que votre profil n'est pas établi."
+msgstr "Điều này không có sẵn cho đến khi hồ sơ của bạn được thiết lập."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Create a profile"
-msgstr "Créer un profil"
+msgstr "Tạo hồ sơ"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "You must earn 1 more credit!"
-msgstr "Vous devez gagner un crédit supplémentaire !"
+msgstr "Bạn phải kiếm thêm 1 tín dụng nữa!"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join team"
-msgstr "Rejoindre l'équipe"
+msgstr "Tham gia team"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Click here to become a member of @this_team"
-msgstr "Cliquez ici pour devenir membre de @this_team"
+msgstr "Bấm vào đây để trở thành thành viên của @this_team"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join this team"
-msgstr "Rejoindre cette équipe"
+msgstr "Tham gia team này"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "@count days remaining"
-msgstr "@name jours restants."
+msgstr "@count ngày còn lại"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Forgot password"
-msgstr "Mot de passe oublié"
+msgstr "Quên mật khẩu mất rồi"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "authenticator-based login"
-msgstr "Connexion à l'aide d'un authentificateur"
+msgstr "Đăng nhập với xác thực"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "Enter your email address to receive instructions for resetting your password"
 " (or use the !authenticator_login)."
-msgstr "Saisissez votre adresse email pour recevoir les instructions qui vous permettront de réinitialiser votre mot de passe (ou utilisez le !authenticator_login)."
+msgstr "Nhập địa chỉ email của bạn để nhận hướng dẫn đặt lại mật khẩu nhé (hoặc sử dụng! Authenticator_login)."
 
 #: form-send
 msgctxt "form-send"
 msgid "Send"
-msgstr "Envoyer"
+msgstr "Gửi"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr "Si vous avez oublié l'adresse email de votre compte, ou si vous ne pouvez pas recevoir d'email ici :"
+msgstr "Nếu như bạn lỡ quên địa chỉ email tài khoản, hoặc bạn không nhận được email trong hộp thư:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "If you have run BOINC under the account, you can still access it. Here's "
 "how:"
-msgstr "Si vous avez exécuté BOINC avec ce compte, vous pouvez toujours y avoir accès. Voici comment : "
+msgstr "Nếu bạn đã chạy BOINC dưới một tài khoản, bạn vẫn có thể truy cập nó. Đây là cách thực hiện:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "BOINC documentation"
-msgstr "Documentation de BOINC"
+msgstr "Tài liệu BOINC"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Go to the BOINC data directory on your computer (see !boinc_wiki for help "
 "finding this)."
-msgstr "Aller dans le répertoire de données de BOINC de votre ordinateur (voir !boinc_wiki pour obtenir de l'aide pour le trouver).                "
+msgstr "Vào thư mục dữ liệu BOINC trên máy tính của bạn (xem !boinc_wiki để tìm giúp đỡ cho điều này)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Find your account file for this project; it will have a name like %file "
 "(where the project URL is %url)."
-msgstr "Trouvez votre fichier de compte pour ce projet, il sera nommé %file (tandis que l'URL du projet est %url)."
+msgstr "Tìm file tệp tin tài khoản của bạn cho dự án này; nó sẽ có một cái tên như kiểu %file (với địa chỉ URL của dự án là %url)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "Ouvrez ce fichier dans un éditeur de texte tel que Notepad. Vous verrez quelque chose ressemblant à :"
+msgstr "Mở file tệp tin trong trình soạn thảo văn bản như Notepad. Bạn sẽ thấy một cái gì đó giống như:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Select and Copy the string between &lt;authenticator&gt; and "
 "&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "Sélectionnez et copiez la chaîne de caractères entre &lt;authenticator&gt; et &lt;/authenticator&gt;  (%auth dans l'exemple du dessus)."
+msgstr "Chọn và sao chép chuỗi giữa &lt;authenticator&gt; và &lt;/authenticator&gt; (%auth trong ví dụ bên trên)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Paste the string into the field below, and click OK."
-msgstr "Collez la chaîne de caractères dans le champ ci-dessous et cliquez sur OK."
+msgstr "Dán chuỗi vào phần bên dưới và nhấp vào OK."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr "Vous serez alors connecté à votre compte ; mettez à jour votre email et votre mot de passe."
+msgstr "Bây giờ bạn sẽ được đăng nhập vào tài khoản của mình; cập nhật email và mật khẩu tài khoản của bạn."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Log in with authenticator"
-msgstr "Connectez-vous avec l'authentificateur"
+msgstr "Đăng nhập với xác thực"
 
 #: form-ok
 msgctxt "form-ok"
@@ -2646,506 +2632,506 @@ msgstr "OK"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "Il n'existe pas de compte pour @email -- sélectionnez \"Créer un nouveau compte\" pour vous enregistrer"
+msgstr "Chẳng có tài khoản nào tồn tại cho @email -- chọn \"Tạo tài khoản mới\" để đăng ký"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid ""
 "Authentication is required when changing E-mail address or setting new "
 "password."
-msgstr "Une authentification est obligatoire pour changer l'adresse e-mail ou changer de mot de passe."
+msgstr "Việc xác thực là thiết yếu khi thay đổi địa chỉ E-mail hoặc đặt mật khẩu mới."
 
 #: forum-post-new-topic
 msgctxt "forum-post-new-topic"
 msgid "Post new topic"
-msgstr "Poster un nouveau sujet"
+msgstr "Đăng chủ đề mới"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Sorry, unrecognized email address or password."
-msgstr "Désolé, cette adresse email ou ce mot de passe n'ont pas été reconnus."
+msgstr "Rất tiếc, địa chỉ email hoặc mật khẩu không thể nhận dạng được."
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Have you forgotten your password?"
-msgstr "Avez-vous perdu votre mot de passe ?"
+msgstr "Bạn đã quên mật khẩu của mình chứ?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "These apply to all BOINC projects in which you participate."
-msgstr "Ceux-ci s'appliquent à tous les projets BOINC auxquels vous participez."
+msgstr "Những điều này áp dụng cho tất cả các dự án BOINC mà bạn tham gia."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
 "preferences will be used."
-msgstr "Sur les ordinateurs participants à plusieurs projets, les préférences le plus récemment modifiées seront utilisées."
+msgstr "Trên các máy tính được gắn với nhiều dự án, các tùy chọn được sửa đổi gần đây nhất sẽ được sử dụng."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Preferences last modified: @mod_time"
-msgstr "Dernière modification des préférences : @mod_time"
+msgstr "Tùy chọn được sửa đổi lần cuối: @thời gian_điều chỉnh @mod_time"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Combined preferences"
-msgstr "Préférences combinées"
+msgstr "Các tuỳ chọn kết hợp"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Switch View"
-msgstr "Basculer l'affichage"
+msgstr "Chuyển chế độ xem"
 
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr "Transférer des fichiers seulement entre :"
+msgstr "Chỉ truyền file tệp tin giữa:"
 
 #: account-preference
 msgctxt "account-preference"
 msgid "every"
-msgstr "chaque"
+msgstr "mỗi"
 
 #: form-edit
 msgctxt "form-edit"
 msgid "Edit"
-msgstr "Éditer"
+msgstr "Chỉnh sửa"
 
 #: form-add
 msgctxt "form-add"
 msgid "Add"
-msgstr "Ajouter"
+msgstr "Thêm vào"
 
 #: host-details
 msgctxt "host-details"
 msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (identique les dernières @count fois)"
+msgstr "@ip_address (giống như @count lần trước)"
 
 #: message-header
 msgctxt "message-header"
 msgid "parent removed"
-msgstr "parent supprimé"
+msgstr "nguyên gốc đã được loại bỏ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Unknown"
-msgstr "Inconnu"
+msgstr "Không xác định"
 
 #: add-new-user
 msgctxt "add-new-user"
 msgid "A BOINC account already exists for @email."
-msgstr "Un compte BOINC existe déjà pour l'email @email."
+msgstr "Đã có một tài khoản BOINC cho địa chỉ email rồi."
 
 #: friend-remove
 msgctxt "friend-remove"
 msgid "Remove friend"
-msgstr "Supprimer un ami"
+msgstr "Loại bỏ bạn bè"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create new team"
-msgstr "Créer une nouvelle équipe"
+msgstr "Tạo team mới"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Send request"
-msgstr "Envoyer la demande"
+msgstr "Gửi yêu cầu"
 
 #: friends-remove
 msgctxt "friends-remove"
 msgid "Remove friend"
-msgstr "Supprimer un ami"
+msgstr "Loại bỏ bạn bè"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "posted"
-msgstr "posté"
+msgstr "đã đăng"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your community preferences have been updated."
-msgstr "Vos préférences de communauté ont été mises à jour."
+msgstr "Tùy chọn cộng đồng của bạn đã được cập nhật."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Invalid setting for \"%preference\""
-msgstr "Réglage invalide pour \"%preference\""
+msgstr "Cài đặt không hợp lệ đối với \"%ptham chiếu\""
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Team forum"
-msgstr "Le forum de l'équipe"
+msgstr "Diễn đàn team"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "A discussion forum has been set up for team members."
-msgstr "Un forum de discussion a été mis en place pour les membres de l'équipe."
+msgstr "Một diễn đàn thảo luận đã được thiết lập cho các thành viên trong team."
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Enter forum"
-msgstr "Entrer dans le forum"
+msgstr "Vào diễn đàn"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Approve request"
-msgstr "Accepter la demande"
+msgstr "Chấp nhận yêu cầu"
 
 #: friend-request-email
 msgctxt "friend-request-email"
 msgid "!name accepted your friend request [!site]"
-msgstr "!name a accepté votre demande d'ami [!site]"
+msgstr "!name đã chấp nhận yêu cầu kết bạn [!site]"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve profile"
-msgstr "Approuver le profil"
+msgstr "Phê duyệt hồ sơ"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve this profile content"
-msgstr "Approuver le contenu de ce profil"
+msgstr "Phê duyệt nội dung hồ sơ"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject this profile content"
-msgstr "Rejeter le contenu de ce profil"
+msgstr "Từ chối nội dung hồ sơ này"
 
 #: forum-unsticky-comment
 msgctxt "forum-unsticky-comment"
 msgid "Make unsticky"
-msgstr "Ne plus épingler"
+msgstr "Tạo unsticky"
 
 #: forum-unsticky-comment
 msgctxt "forum-unsticky-comment"
 msgid "Remove sticky status from this topic"
-msgstr "Ne plus marquer ce sujet comme épinglé"
+msgstr "Bỏ trạng thái sticky khỏi chủ đề này"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide"
-msgstr "Faire apparaître"
+msgstr "Bỏ ẩn"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this comment"
-msgstr "Faire apparaître ce commentaire"
+msgstr "Bỏ ẩn bình luận này"
 
 #: comment-action-link
 msgctxt "comment-action-link"
 msgid "Unpublished"
-msgstr "Non publié"
+msgstr "Chưa được công bố"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a team"
-msgstr "Créer une équipe"
+msgstr "Tạo một team"
 
 #: form-choose
 msgctxt "form-choose"
 msgid "Choose type"
-msgstr "Choisissez le type"
+msgstr "Chọn kiểu"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name"
-msgstr "Nom de l'équipe"
+msgstr "Tên team"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "Text only, no HTML tags"
-msgstr "Texte uniquement, pas de balises HTML"
+msgstr "Chỉ văn bản, không nhãn HTML tag"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name -- HTML version (optional)"
-msgstr "Nom de l'équipe -- Version HTML (optionnelle)"
+msgstr "Tên team - Phiên bản HTML (tùy chọn)"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "You may use limited HTML tags"
-msgstr "Vous pouvez utiliser certaines balises HTML"
+msgstr "Bạn có thể dùng nhãn HTML tag đã được giới hạn"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team website (optional)"
-msgstr "Site internet de l'équipe (optionnel)"
+msgstr "Trang web team (không nhất thiết)"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Displayed on the team's page"
-msgstr "Affiché sur la page de l'équipe"
+msgstr "Hiển thị trên trang của nhóm"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Type of team"
-msgstr "Type d'équipe"
+msgstr "Kiểu team"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Accept new members?"
-msgstr "Accepter de nouveaux membres ?"
+msgstr "Chấp nhận thành viên mới chứ?"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Description of team"
-msgstr "Description de l'équipe"
+msgstr "Mô tả về team"
 
 #: team-form-save
 msgctxt "team-form-save"
 msgid "Save team"
-msgstr "Enregistrer l'équipe"
+msgstr "Lưu team"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team"
-msgstr "Gérer l'équipe"
+msgstr "Quản lý team"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "View member list"
-msgstr "Voir la liste des membres"
+msgstr "Xem danh sách thành viên"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Member names and emails"
-msgstr "E-mails et noms des membres"
+msgstr "Tên thành viên và địa chỉ email"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "View change history"
-msgstr "Afficher l'historique des changements"
+msgstr "Xem lịch sử thay đổi"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "See member activity"
-msgstr "Voir l'activité des membres"
+msgstr "Xem hoạt động thành viên"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team message board"
-msgstr "Gérer le forum de l'équipe"
+msgstr "Quản lý bảng tin team"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Create or manage message board"
-msgstr "Créer ou gérer un forum"
+msgstr "Tạo hoặc quản lý bảng tin team"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members"
-msgstr "Supprimer des membres"
+msgstr "Loại bỏ thành viên"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Change founder"
-msgstr "Changer de chef d'équipe"
+msgstr "Thay đổi sáng lập viên"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team admins"
-msgstr "Gérer les administrateurs de l'équipe"
+msgstr "Quản lý admin team"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Edit team info"
-msgstr "Éditer les informations de l'équipe"
+msgstr "Chỉnh sửa thông tin team"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Remove team"
-msgstr "Supprimer l'équipe"
+msgstr "Loại bỏ team"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
-msgstr "Dans certains cas, BOINC donne des identifiants séparés à un même ordinateur par erreur. Vous pouvez corriger cela en fusionnant les anciennes identités avec la nouvelle."
+msgstr "Đôi khi BOINC chỉ định nhầm lẫn các danh tính riêng biệt cho cùng một máy tính. Bạn có thể sửa lỗi này bằng cách hợp nhất danh tính cũ với danh tính mới nhất."
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Check the computers that are the same as @name (created on @date at @time "
 "with computer ID @id)"
-msgstr "Vérifier les ordinateurs qui sont les mêmes que @name (créé le @date à @time avec l’ID d’ordinateur @id)"
+msgstr "Kiểm tra các máy tính giống với @name (được tạo vào @date lúc @time với ID máy tính là @id)"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "Les ordinateurs @old_ids ont bien été changés en @id."
+msgstr "Máy tính @old_ids đã được hợp nhất thành công vào @id."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Le mot de passe entré n'est pas valide. Veuillez en vérifier l’exactitude."
+msgstr "Mật khẩu đã nhập không hợp lệ mất rồi. Hãy kiểm chứng rằng nó chính xác nhé."
 
 #: remove-team-member
 msgctxt "remove-team-member"
 msgid "Remove"
-msgstr "Supprimer"
+msgstr "Loại bỏ"
 
 #: team-emails-are-hidden
 msgctxt "team-emails-are-hidden"
 msgid "hidden"
-msgstr "caché"
+msgstr "đã ẩn"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computer @old_id has been merged successfully into @id."
-msgstr "L'ordinateur @old_id a bien été changé en @id."
+msgstr "Máy tính @old_id đã được hợp nhất thành công vào @id."
 
 #: link-to-BOINC-wide-teams-Website
 msgctxt "link-to-BOINC-wide-teams-Website"
 msgid "BOINC-wide teams site"
-msgstr "site d'équipes globales BOINC "
+msgstr "Trang web team trên toàn BOINC"
 
 #: team-edit-warning-message
 msgctxt "team-edit-warning-message"
 msgid "This is a BOINC-wide team. Changes can be made at the !site."
-msgstr "Ceci est une équipe globale BOINC. Les modifications peuvent être faite à !site."
+msgstr "Đây là team trên toàn BOINC. Các thay đổi có thể được thực hiện tại !site."
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post topic"
-msgstr "Poster le sujet"
+msgstr "Đăng chủ đề"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Maximum value exceeded for @field"
-msgstr "Valeur maximale dépassée pour @field"
+msgstr "Đã vượt quá giới hạn giá trị cao nhất cho @field"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "The team founder has @count days to respond to your transfer request."
-msgstr "Le chef d'équipe a @count jours pour répondre à votre demande de transfert."
+msgstr "Sáng lập viên team có @count ngày để phản hồi yêu cầu chuyển đổi của bạn."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Invalid data type for @field"
-msgstr "Type de donnée invalide pour @field"
+msgstr "Kiểu dữ liệu không hợp lệ cho @field"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Minimum value not met for @field"
-msgstr "La valeur minimale pour @field n'a pas été atteinte"
+msgstr "Chưa đạt giá trị nhỏ nhất cho @field"
 
 #: forum-unlock-comment
 msgctxt "forum-unlock-comment"
 msgid "Unlock"
-msgstr "Déverrouiller"
+msgstr "Mở khoá"
 
 #: forum-unlock-comment
 msgctxt "forum-unlock-comment"
 msgid "Unlock this thread for comments"
-msgstr "Déverrouiller ce fil de commentaires"
+msgstr "Mở khoá chủ đề này cho việc bình luận"
 
 #: friends-add
 msgctxt "friends-add"
 msgid "Add as friend"
-msgstr "Ajouter en tant qu'ami"
+msgstr "Thêm làm bạn"
 
 #: friend-request-email
 msgctxt "friend-request-email"
 msgid "Friend request from !name [!site]"
-msgstr "Demande d'ami de !name [!site]"
+msgstr "Yêu cầu kết bạn từ !name [!site]"
 
 #: friend-request-email:-1:a-private-message
 msgctxt "friend-request-email:-1:a-private-message"
 msgid "Message"
-msgstr "Message"
+msgstr "Tin nhắn"
 
 #: friend-cancel
 msgctxt "friend-cancel"
 msgid "Cancel friend request"
-msgstr "Annuler la demande d'ami"
+msgstr "Huỷ yêu cầu kết bạn"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "At least one application must be selected"
-msgstr "Veuillez sélectionner au moins une application"
+msgstr "Ít nhất một chương trình phải được chọn"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Create team message board"
-msgstr "Créer un forum de l’équipe"
+msgstr "Tạo bảng tin team"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Message board title"
-msgstr "Titre du message"
+msgstr "Tiêu đề bảng tin"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum time between posts"
-msgstr "Délai minimum entre les dépôts de messages"
+msgstr "Thời gian tối thiểu giữa các bài đăng"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum total credit to post"
-msgstr "Crédit total minimum pour pouvoir poster"
+msgstr "Tổng tín dụng tối thiểu để đăng"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum avg credit to post"
-msgstr "Crédit moyen minimum pour pouvoir poster"
+msgstr "Tín dụng trung bình tối thiểu để đăng"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Allow public to read board?"
-msgstr "Autoriser la lecture du forum à tout le monde ?"
+msgstr "Cho phép công chúng công cộng đọc bảng tin không?"
 
 #: team-forum-create/edit:-1:ignoreoverwrite
 msgctxt "team-forum-create/edit:-1:ignoreoverwrite"
 msgid "Description"
-msgstr "Description"
+msgstr "Mô tả"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Create message board"
-msgstr "Créer un forum"
+msgstr "Tạo bảng tin"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "About message boards"
-msgstr "À propos de ce message"
+msgstr "Về bảng tin"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Only members may post"
-msgstr "Seuls les membres peuvent poster"
+msgstr "Chỉ có thành viên mới có thể đăng"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Only members may read (optional)"
-msgstr "Seul les membres peuvent lire (optionnel) "
+msgstr "Chỉ có thành viên mới có thể đọc (không nhất thiết)"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Founder & Team Admins have moderator privileges"
-msgstr "Le chef d'équipe et les administrateurs de l'équipe ont les privilèges de modérateur."
+msgstr "Sáng lập viên & Admin team có những đặc quyền kiểm duyệt"
 
 #: search-user
 msgctxt "search-user"
 msgid "Search"
-msgstr "Recherche"
+msgstr "Tìm"
 
 #: team-founder-change
 msgctxt "team-founder-change"
 msgid "respond to the request"
-msgstr "répondre à la requête"
+msgstr "trả lời yêu cầu"
 
 #: team-founder-change
 msgctxt "team-founder-change"
 msgid ""
 "A foundership transfer request has been made for your team. Please !respond."
-msgstr "Une demande de changement de chef d'équipe a été faite pour votre équipe. Veuillez y répondre."
+msgstr "Một yêu cầu chuyển đổi quyền sáng lập đã được tạo cho team của bạn. Xin hãy !respond."
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
 msgid "Respond to transfer request"
-msgstr "Répondre à la requête de transfert"
+msgstr "Trả lời yêu cầu chuyển đổi"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
@@ -3153,164 +3139,164 @@ msgid ""
 "If you don't decline the request by @date, @name will have the option of "
 "assuming team foundership. (note: To accept the request, assign foundership "
 "to @name using the form below)"
-msgstr "Si vous ne répondez pas à la requête avant le @date, @name pourra devenir le fondateur de l'équipe. (remarque : Pour accepter la requête, assignez @name au rôle de fondateur comme décrit ci-dessous)."
+msgstr "Nếu bạn không từ chối yêu cầu trước @date, @name sẽ có tùy chọn giả định là người sáng lập team. (lưu ý: Để chấp nhận yêu cầu, hãy chỉ định quyền sáng lập cho @name bằng cách sử dụng biểu mẫu bên dưới)"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
 msgid "Deny request"
-msgstr "Refuser la demande"
+msgstr "Từ chối yêu cầu"
 
 #: team-make-founder
 msgctxt "team-make-founder"
 msgid "Make founder"
-msgstr "Le rendre chef d'équipe"
+msgstr "Tạo sáng lập viên"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Changing the team founder"
-msgstr "Changer le chef d'équipe"
+msgstr "Thay đổi sáng lập viên team"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Notes about changes in foundership:"
-msgstr "Notes à propos des changements de chef :"
+msgstr "Ghi chú về những thay đổi trong quyền sáng lập:"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Any member of the team is eligible"
-msgstr "Tout membre de l'équipe est éligible"
+msgstr "Mọi thành viên của team đều có tư cách"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Current founder becomes a normal user"
-msgstr "Le chef d'équipe actuel devient un utilisateur normal"
+msgstr "Sáng lập viên hiện tại trở thành người dùng bình thường"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Foundership can be requested by team members:"
-msgstr "La place de chef d'équipe peut être demandée par les membres de l’équipe :"
+msgstr "Các thành viên trong team có thể yêu cầu quyền sáng lập:"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "One request is allowed at a time"
-msgstr "Une seule requête est autorisée à la fois"
+msgstr "Một yêu cầu được cho phép tại một thời điểm"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "It must be 60 days since any previous request"
-msgstr "Il faut attendre 60 jours depuis la précédente requête"
+msgstr "Phải là 60 ngày kể từ khi có bất kỳ yêu cầu nào trước đó"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Any active request must be older than 90 days"
-msgstr "Une requête active doit dater de plus de 90 jours"
+msgstr "Mọi yêu cầu đang hoạt động phải cũ hơn 90 ngày"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Current founder has 60 days to respond to a request"
-msgstr "Le chef d'équipe actuel a 60 jours pour répondre à une requête "
+msgstr "Người sáng lập hiện tại có 60 ngày để phản hồi một yêu cầu"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "That authenticator is not valid."
-msgstr "Cette authentifiant n'est pas valide."
+msgstr "Trình xác thực đó không hợp lệ."
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "@email is not a well formed email address, please verify"
-msgstr "@email n'est pas une adresse email correcte, veuillez la vérifier"
+msgstr "@email không phải là một địa chỉ email được định dạng tốt, vui lòng xác minh lại nhé"
 
 #: friend-approve
 msgctxt "friend-approve"
 msgid "Approve friend request"
-msgstr "Approuver la demande d'ami"
+msgstr "Chấp thuận yêu cầu kết bạn"
 
 #: moderate-unban-user
 msgctxt "moderate-unban-user"
 msgid "Lift user ban"
-msgstr "Lever le bannissement de l'utilisateur"
+msgstr "Gỡ ban người dùng"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "1 day remaining"
-msgstr "1 jour restant"
+msgstr "còn 1 ngày"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "There is no account with that authenticator."
-msgstr "Il n'y a pas de compte avec cet authentificateur."
+msgstr "Chẳng có tài khoản nào với trình xác thực đó cả."
 
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Add team admin"
-msgstr "Ajouter un administrateur à l'équipe"
+msgstr "Thêm admin team"
 
 #: team--add-admin
 msgctxt "team--add-admin"
 msgid "Enter email address"
-msgstr "Entrez l'adresse e-mail"
+msgstr "Nhập địa chỉ email"
 
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Current team admins"
-msgstr "Administrateurs actuels de l'équipe"
+msgstr "Admin team hiện tại"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "About team admins"
-msgstr "À propos de l'équipe d'administrateurs"
+msgstr "Về admin team"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins can:"
-msgstr "Les administrateurs de l’équipe peuvent :"
+msgstr "Admin team có thể:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Edit team information"
-msgstr "Éditer les informations de l'équipe"
+msgstr "Chỉnh sửa thông tin team"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "View the team's join / quit history"
-msgstr "Voir l'historique des venues et des départs dans l'équipe"
+msgstr "Xem lịch sử tham gia / bỏ cuộc của nhóm"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Moderate the team forum"
-msgstr "Modérer le forum de l'équipe"
+msgstr "Kiểm duyệt diễn đàn team"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members from the team"
-msgstr "Supprimer des membres de l'équipe"
+msgstr "Loại bỏ thành viên khỏi team"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Disband a team if it has no members"
-msgstr "Supprimer l'équipe si elle n'a aucun membre"
+msgstr "Giải tán team nếu nó chẳng có thành viên nào"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins cannot:"
-msgstr "Les administrateurs de l'équipe ne peuvent pas :"
+msgstr "Admin team không thể:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Change the team founder"
-msgstr "Modifier le nom du chef d'équipe"
+msgstr "Thay sáng lập viên team"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Add / Remove team admins"
-msgstr "Ajouter / Supprimer un administrateur de l'équipe"
+msgstr "Thêm / Loại bỏ Admin team"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid ""
 "If a team admin quits the team, they cease to be a team admin. We recommend "
 "only selecting people you know and trust"
-msgstr "Si un administrateur quitte l'équipe, il cesse d'être un administrateur de l'équipe. Nous vous recommandons de sélectionner uniquement des personnes que vous connaissez et à qui vous faites confiance"
+msgstr "Nếu quản trị viên team rời khỏi team, họ sẽ không còn là quản trị viên team nữa. Chúng tôi khuyên bạn chỉ nên chọn những người bạn biết và thực sự tin tưởng"
 
 #: team-general-info
 msgctxt "team-general-info"
@@ -3318,241 +3304,241 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr "Les participants au projet @project peuvent former des équipes. Vous ne pouvez appartenir qu'à une seule équipe. Vous pouvez rejoindre ou quitter une équipe à tout moment. Pour rejoindre une équipe, visitez la page de l'équipe et cliquez sur \"Rejoindre cette équipe\". Chaque équipe a un chef d'équipe qui peut :"
+msgstr "@project những người tham gia có thể thành lập team. Bạn chỉ có thể thuộc về một team. Bạn có thể tham gia hoặc thoát khỏi một team bất kỳ lúc nào. Để tham gia một team, hãy truy cập trang của team đó và nhấp vào \"Tham gia team này\". Mỗi team có một người sáng lập có thể:"
 
 #: join-page
 msgctxt "join-page"
 msgid "When prompted enter @siteurl"
-msgstr "Lorsqu'on vous le demande, entrez l'adresse @siteurl"
+msgstr "Khi được nhắc, hãy nhập @siteurl"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr "Instructions"
+msgstr "Hướng dẫn"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr "Il n'existe pas de compte pour l'adresse @email -- merci de bien vouloir créer un compte en utilisant un client BOINC -- !instructions"
+msgstr "Chẳng có tài khoản nào tồn tại với @email -- vui lòng tạo một tài khoản bằng cách sử dụng một máy khách BOINC -- !hướng dẫn !instructions "
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "@count days have elapsed since your request and the founder has not "
 "responded."
-msgstr "@count jours se sont écoulés depuis votre requête et le chef d'équipe n'a pas répondu."
+msgstr "@count đã trôi qua kể từ khi bạn yêu cầu và người sáng lập đã không phản hồi."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "You now have @count days to assume foundership before another team member "
 "may submit a request."
-msgstr "Vous avez maintenant @count jours pour endosser le rôle de chef d'équipe avant qu'un autre membre de l'équipe ne puisse soumettre une demande."
+msgstr "Bạn hiện có @count ngày để đảm nhận vai trò sáng lập trước khi một thành viên khác trong team có thể gửi yêu cầu."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Assume foundership"
-msgstr "Prendre le titre de chef d'équipe"
+msgstr "Giả định quyền sáng lập"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Remove request"
-msgstr "Supprimer la demande"
+msgstr "Loại bỏ yêu cầu"
 
 #: workunit-detail
 msgctxt "workunit-detail"
 msgid "Pending"
-msgstr "En attente"
+msgstr "Đang chờ xử lý"
 
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr "Tâches pour votre compte"
+msgstr "Các nhiệm vụ cho tài khoản của bạn"
 
 #: task-table
 msgctxt "task-table"
 msgid "Application"
-msgstr "Application"
+msgstr "Ứng dụng"
 
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr "Toutes les applications"
+msgstr "Tất cả chương trình"
 
 #: task-table
 msgctxt "task-table"
 msgid "Task ID"
-msgstr "ID de tâche"
+msgstr "ID nhiệm vụ"
 
 #: task-table
 msgctxt "task-table"
 msgid "Workunit ID"
-msgstr "ID d'unité de travail (WU)"
+msgstr "ID đơn vị làm việc"
 
 #: task-table
 msgctxt "task-table"
 msgid "Computer"
-msgstr "Ordinateur"
+msgstr "Máy tính"
 
 #: task-table
 msgctxt "task-table"
 msgid "Sent"
-msgstr "Envoyé"
+msgstr "Đã gửi"
 
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr "Temps écoulé ou date limite"
+msgstr "Thời gian được báo cáo hoặc thời hạn"
 
 #: task-table
 msgctxt "task-table"
 msgid "Status"
-msgstr "État"
+msgstr "Trạng thái"
 
 #: task-table
 msgctxt "task-table"
 msgid "Run time"
-msgstr "Temps de fonctionnement"
+msgstr "Thời lượng chạy"
 
 #: task-table
 msgctxt "task-table"
 msgid "CPU time"
-msgstr "Temps processeur"
+msgstr "Thời gian CPU"
 
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr "Crédit demandé"
+msgstr "Tín dụng kiếm được"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr "Crédit accordé"
+msgstr "Tín dụng được cấp"
 
 #: task-table
 msgctxt "task-table"
 msgid "All"
-msgstr "Tous"
+msgstr "Tất cả"
 
 #: task-table
 msgctxt "task-table"
 msgid "In progress"
-msgstr "En cours"
+msgstr "Đang trong quá trình"
 
 #: task-table
 msgctxt "task-table"
 msgid "Pending"
-msgstr "En attente"
+msgstr "Đang chờ xử lý"
 
 #: task-table
 msgctxt "task-table"
 msgid "Valid"
-msgstr "Valide"
+msgstr "Hợp lệ"
 
 #: task-table
 msgctxt "task-table"
 msgid "Invalid"
-msgstr "Invalide"
+msgstr "Bất hợp lệ"
 
 #: task-table
 msgctxt "task-table"
 msgid "Error"
-msgstr "Erreur"
+msgstr "Lỗi"
 
 #: task-table
 msgctxt "task-table"
 msgid "Reset"
-msgstr "Réinitialiser"
+msgstr "Cài lại"
 
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr "Appliquer le filtre"
+msgstr "Áp dụng lọc"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr "Vous n'êtes pas autorisé à apporter des modifications à cet hôte."
+msgstr "Bạn không được phép thực hiện các thay đổi đối với máy chủ này."
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr "Tâches pour l'ordinateur @host_id"
+msgstr "Nhiệm vụ dành cho máy tính @host_id"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr "L'emplacement de cet hôte a été mis à jour."
+msgstr "Vị trí cho máy chủ này đã được cập nhật."
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr "Cela prendra effet la prochaine fois que l'hôte contactera le projet."
+msgstr "Điều này sẽ có hiệu lực lần tiếp theo máy chủ liên hệ với dự án."
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr "Le profil n'existe pas."
+msgstr "Hồ sơ không tồn tại."
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "Ceci supprimera tous vos paramètres de réglage de préférence \"@name\". En êtes-vous sûr ?"
+msgstr "Điều này sẽ loại bỏ tất cả cài đặt của bạn khỏi bộ tùy chọn \"@tên\". Bạn có chắc không?"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "Ceci supprimera tous vos paramètres de réglage de préférence \"@name\". En êtes-vous sûr ?"
+msgstr "Điều này sẽ loại bỏ tất cả cài đặt của bạn khỏi bộ tùy chọn \"@tên @name\". Bạn có chắc không?"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "You may create a message board for use by @team"
-msgstr "Vous pouvez créer un forum relatif à @team."
+msgstr "Bạn có thể tạo một bảng tin để @team sử dụng"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Please enter your email address"
-msgstr "Veuillez entrer votre adresse email"
+msgstr "Bạn hãy nhập địa chỉ email"
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the BOINC desktop software."
-msgstr "Télécharger le logiciel BOINC."
+msgstr "Tải xuống phần mềm BOINC cho máy tính."
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
-msgstr "Pour les appareils Android, téléchargez BOINC depuis le Google Play Store ou Amazon App Store."
+msgstr "Với thiết bị Android, tải BOINC xuống từ Google Play hoặc Amazon App Store."
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer."
-msgstr "Lancer l'installation"
+msgstr "Chạy phần mềm cài đặt."
 
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr "Choisissez un @sitename à partir de la liste, ou bien saisissez une @siteurl."
+msgstr "Chọn @sitename từ danh sách, hoặc nhập @siteurl."
 
 #: join-page
 msgctxt "join-page"
 msgid "Install BOINC on this device if not already present."
-msgstr "Installer BOINC sur cet appareil s'il n’est pas déjà présent."
+msgstr "Cài BOINC lên thiết bị này nếu chưa có."
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr "Sélectionner <i>Outils / Ajouter un projet</i>. Choisissez un @sitename à partir de la liste, ou bien saisissez une @siteurl."
+msgstr "Chọn <i>Công cụ / Thêm dự án</i>. Chọn @sitename từ danh sách, hoặc nhập @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3561,7 +3547,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr "Si vous utilisez BOINC en ligne de commande,\n  utilisez d'abord le logiciel BOINC Manager (à un autre endroit si nécessaire)\n  pour créer un compte sur ce projet, puis utilisez ce compte pour vous connecter\n  à l'aide de la version en ligne de commande en employant <b>!boinccmd</b>."
+msgstr "Nếu bạn đang chạy một phiên bản command-line của BOINC,\nđầu tiên dùng chương trình Quản lý BOINC (ở nơi khác cũng được nếu cần thiết) để tạo một\ntài khoản tại dự án này, rồi dùng tài khoản đó để kết nối với\nphiên bản command-line sử dụng <b>!boinccmd</b>. "
 
 #: join-page
 msgctxt "join-page"
@@ -3569,288 +3555,288 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr "Si vous utilisez une version de BOINC antérieure à 5.0, veuillez\n  la mettre à jour vers une version plus récente afin de créer un compte\n  pour @this_project."
+msgstr "Nếu bạn đang chạy một phiên bản BOINC trước phiên bản-5.0, xin hãy\nnâng cấp lên một phiên bản gần đây hơn của BOINC để tạo một tài khoản\ntại @this_project."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr "@user est le chef d'équipe de @team !"
+msgstr "@user là sáng lập viên của @team!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr "Le filtre de traduction BOINC aide à fractionner les textes avant traduction."
+msgstr "Bộ lọc bản dịch BOINC giúp chia nội dung thành nhiều phần cho phiên dịch."
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr "Fractionne les textes pour les traductions."
+msgstr "Tách nội dung nút thành nhiều phần để dịch."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr "Le filtre de traduction BOINC"
+msgstr "Bộ lọc dịch BOINC"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr "Types de contenu à filtrer"
+msgstr "Các loại nội dung cần lọc"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr "Choisissez les types de contenu (nœuds) qui seront divisés en morceaux pour la traduction."
+msgstr "Chọn loại nội dung (nút) nào sẽ được chia thành nhiều phần để dịch."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr "Afficher les informations de débogage"
+msgstr "In thông tin gỡ lỗi"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr "Afficher les informations supplémentaires de débogage. Cette option sera désactivée pour une meilleure productivité."
+msgstr "In thông tin gỡ lỗi bổ sung. Tùy chọn này sẽ bị vô hiệu hóa trên các trang web sản xuất."
 
 #: join-page
 msgctxt "join-page"
 msgid "Rules and Policies"
-msgstr "Règles et politique"
+msgstr "Quy tắc và Chính sách"
 
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr "Lire nos !rules_and_policies."
+msgstr "Đọc !rules_and_policies của chúng tôi."
 
 #: account-password
 msgctxt "account-password"
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "Mật khẩu"
 
 #: login-page
 msgctxt "login-page"
 msgid "Enter the password that accompanies your username."
-msgstr "Entrez le mot de passe correspondant à votre nom d'utilisateur."
+msgstr "Nhập mật khẩu đi kèm theo tên tài khoản của bạn."
 
 #: login-page
 msgctxt "login-page"
 msgid "Request new password"
-msgstr "Demander un nouveau mot de passe"
+msgstr "Yêu cầu mật khẩu mới"
 
 #: forum
 msgctxt "forum"
 msgid "Mark all topics read"
-msgstr "Marquer tous les sujets comme lus"
+msgstr "Đánh dấu tất cả các chủ đề đã đọc"
 
 #: forum
 msgctxt "forum"
 msgid "Mark all forums read"
-msgstr "Marquer tous les forums comme lus"
+msgstr "Đánh dấu tất cả các diễn đàn đã đọc"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
-msgstr "Erreur de validation du CAPTCHA : ID de session CAPTCHA inconnu. Contactez l'administrateur du site si le problème persiste."
+msgstr "Lỗi xác thực CAPTCHA: ID phiên CAPTCHA không xác định được. Liên hệ với quản trị viên trang web nếu sự cố này vẫn tiếp diễn nha bạn."
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr "Votre réponse au CAPTCHA est incorrecte."
+msgstr "Câu trả lời bạn đã nhập cho CAPTCHA không đúng mất rồi."
 
 #: general-access-error
 msgctxt "general-access-error"
 msgid "Access denied. You must login to view this page."
-msgstr "Accès refusé. Vous devez vous connecter pour voir cette page."
+msgstr "Truy cập bị từ chối. Bạn phải đăng nhập để xem trang này."
 
 #: general-access-error
 msgctxt "general-access-error"
 msgid "You are not authorized to access this page."
-msgstr "Vous n'êtes pas autorisé à accéder à cette page."
+msgstr "Bạn không có quyền truy cập trang này."
 
 #: forum
 msgctxt "forum"
 msgid "Disable rich-text"
-msgstr "Désactiver le RTF"
+msgstr "Tắt văn bản đa dạng thức rich-text"
 
 #: forum
 msgctxt "forum"
 msgid "Enable rich-text"
-msgstr "Activer le RTF"
+msgstr "Bật văn bản đa dạng thức rich-text"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr "Inscription"
+msgstr "theo dõi"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr "Désinscription"
+msgstr "bỏ theo dõi"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr "Envoyer"
+msgstr "Báo cáo"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr "Annuler l'envoi"
+msgstr "Bỏ báo cáo"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr "Réinitialiser les balises"
+msgstr "Đặt lại cờ"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr "Ignorer l'utilisateur"
+msgstr "Phớt lờ người dùng"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr "Toutes les tâches"
+msgstr "Tất cả nhiệm vụ"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr "Temps écoulé ou date limite"
+msgstr "Thời gian báo cáo hoặc thời hạn"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr "Temps de fonctionnement (s)"
+msgstr "Thời lượng chạy (giây)"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr "Temps processeur (s)"
+msgstr "Thời lượng CPU (giây)"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr "Résultats canoniques"
+msgstr "Kết quả chính tắc"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr "Nombre maximal de tâches en erreurs/totales/réussies"
+msgstr "Số tối đa # của lỗi/tổng số/nhiệm vụ thành công"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr "Message pour la page d'accueil du site"
+msgstr "Lời nhắn cho Trang chủ của trang web"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr "Texte à afficher sur la page d'accueil."
+msgstr "Văn bản được hiển thị trên Trang chủ của trang web."
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for rejecting this profile"
-msgstr "Raison du rejet de ce profil"
+msgstr "Lý do từ chối hồ sơ này"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of the problem and how to fix it."
-msgstr "Cette raison sera incluse dans un email envoyé a l'utilisateur. Veuillez écrire une brève explication sur le problème et comment le résoudre."
+msgstr "Lý do này sẽ được bao gồm trong một email tới người dùng. Vui lòng viết một đoạn giải thích ngắn gọn về vấn đề và cách khắc phục."
 
 #: form-submit
 msgctxt "form-submit"
 msgid "Submit"
-msgstr "Soumettre"
+msgstr "Nộp"
 
 #: comment-action-links
 msgctxt "comment-action-links"
 msgid "Unpublished"
-msgstr "Non publié"
+msgstr "Chưa được công bố"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr "Ne plus masquer ce sujet"
+msgstr "Bỏ ẩn chủ đề này"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for banning this user"
-msgstr "Raison pour bannir cet utilisateur"
+msgstr "Lý do ban người dùng này"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of why the user is being banned."
-msgstr "Cette raison sera incluse dans un email envoyé a l'utilisateur. Veuillez écrire une brève explication sur la cause du bannissement. "
+msgstr "Lý do này sẽ được bao gồm trong một email tới người dùng. Vui lòng viết một đoạn giải thích ngắn gọn vì sao người dùng bị ăn ban."
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Duration of the ban"
-msgstr "Durée du bannissement "
+msgstr "Thời lượng ban"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "Nombre de jour avant que le bannissement expire. Choisissez 0 pour bannir de manière définitive. "
+msgstr "Số ngày tới lúc hết hạn ban. Đặt số 0 để ban vĩnh viễn."
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "A team named \"@name\" already exists."
-msgstr "Une équipe appelée \"@name\" existe déjà."
+msgstr "Một team có tên \"@name\" đã tồn tại."
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Edit message board"
-msgstr "Éditer ce message "
+msgstr "Chỉnh sửa bảng tin"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Save message board"
-msgstr "Enregistrer ce message"
+msgstr "Lưu bảng tin"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "This is a team-only message board"
-msgstr "Ceci est un forum réservé à l'équipe"
+msgstr "Đây là bảng tin dành riêng cho team"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Please select a team type."
-msgstr "Veuillez sélectionner un type d'équipe."
+msgstr "Vui lòng lựa chọn một loại team."
 
 #: boincid
 msgctxt "boincid"
 msgid "BOINC ID"
-msgstr "Identifiant BOINC"
+msgstr "ID BOINC"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr "Tâche introuvable dans la base de données."
+msgstr "Nhiệm vụ không được tìm thấy trong cơ sở dữ liệu."
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr "Unité de calcul introuvable dans la base de données."
+msgstr "Đơn vị làm việc không được tìm thấy trong cơ sở dữ liệu."
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
 msgid "Stderr output"
-msgstr "Stderr output"
+msgstr "Đầu ra Stderr"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr "À noter : les profils utilisateurs sont sujets à modération."
+msgstr "Hãy lưu ý: hồ sơ người dùng có thể được kiểm duyệt."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3859,60 +3845,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr "Merci @user_name de rejoindre @site_name. Votre compte a été créé. Votre client BOINC devrait bientôt commencer à travailler sur les tâches assignées, sans action ou configuration supplémentaire. Vous pouvez visiter les liens ci-dessous pour plus d'informations et des options supplémentaires (les liens s'ouvriront dans une nouvelle fenêtre)."
+msgstr "Cảm ơn bạn @user_name đã tham gia @site_name nhìu nhé. Tài khoản của bạn đã được tạo rùi á. Ứng dụng khách BOINC của bạn sẽ sớm bắt đầu làm việc với các nhiệm vụ được giao mà không cần bất kỳ hành động hoặc cấu hình bổ sung nào. Vui lòng truy cập các liên kết bên dưới để biết thêm thông tin và các tùy chọn bổ sung nhé bạn. (Các liên kết sẽ mở trong một cửa sổ mới.)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr "Préférences de communauté"
+msgstr "Tuỳ chọn cộng đồng"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr "Changer de nom d'utilisateur dans !community_preferences."
+msgstr "Thay đổi tên người dùng của bạn tại !Tuỳ chọn_cộng đồng !Community_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr "Votre nom d'utilisateur vous identifie auprès des autres utilisateurs sur ce site."
+msgstr "Tên người dùng của bạn sẽ được dùng để nhận dạng chính bạn với các tình nguyện viên khác trên trang Web này."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr "En outre, vous pouvez choisir la langue par défaut de votre compte et ajuster les réglages de notifications."
+msgstr "Ngoài ra, bạn có thể cài đặt ngôn ngữ mặc định cho tài khoản của mình và điều chỉnh cài đặt thông báo."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr "Préférences de calcul"
+msgstr "Tùy chọn tính toán"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr "Modifier vos !computing_preferences."
+msgstr "Thay đổi !tuỳ chọn_tính toán !computing_preferences của bạn."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr "Vous pouvez régler l'espace disque, la mémoire vive et les processeurs alloués au client BOINC pour les calculs de votre ordinateur."
+msgstr "Bạn có thể điều chỉnh dung lượng CPU, RAM và Ổ đĩa mà ứng dụng khách BOINC được phép sử dụng cho các nhiệm vụ trên máy của bạn."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr "Par défaut, vous lancerez les tâches de @site_name sans autre configuration."
+msgstr "Theo mặc định, bạn sẽ chạy các nhiệm vụ @site_name mà không cần bất kỳ cấu hình bổ sung nào."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr "forums"
+msgstr "diễn đàn"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3920,131 +3906,131 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr "Il est recommandé aux nouveaux volontaires de laisser les paramètres par défaut jusqu' à ce qu'ils acquièrent de l'expérience. Posez des questions dans les !forums pour obtenir des conseils avant de modifier un paramètre que vous ne comprenez pas."
+msgstr "Các tình nguyện viên mới nên để lại cài đặt mặc định cho đến khi họ có kinh nghiệm chạy một số nhiệm vụ. Đặt câu hỏi trong !forums để nhận lời khuyên trước khi thực hiện thay đổi cài đặt mà bạn không hiểu."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr "Profil utilisateur"
+msgstr "Hồ sơ người dùng"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr "Créer un !user_profile."
+msgstr "Tạo một !user_profile."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr "Un profil d'utilisateur indiquera aux autres volontaires qui vous êtes et pourquoi vous avez rejoint @site_name."
+msgstr "Hồ sơ người dùng sẽ thông báo cho những tình nguyện viên khác biết bạn là ai và lý do bạn tham gia @site_name."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Team"
-msgstr "Équipe"
+msgstr "Team"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr "Rejoindre une !team."
+msgstr "Tham gia !team."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr "Vous pouvez vous joindre à une équipe composée d'autres bénévoles."
+msgstr "Bạn có thể tham gia một team, bao gồm các tình nguyện viên khác nữa."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr "Tableau de bord du compte"
+msgstr "Trang tổng quan tài khoản"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr "Aller à votre !account_dashboard."
+msgstr "Đi tới !account_dashboard của bạn."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr "Le tableau de bord de votre compte se compose d'informations et de liens à propos de votre/vos ordinateur(s) et de vos potentielles tâches assignées."
+msgstr "Trang tổng quan tài khoản của bạn có thông tin và liên kết về (các) máy tính và (các) nhiệm vụ được giao."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Help"
-msgstr "Aide"
+msgstr "Trợ giúp"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr "Consultez nos pages !help."
+msgstr "Hãy ghé thăm trang web hỗ trợ !help."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr "Demandez de l'aide aux !forums communautaires."
+msgstr "Tìm kiếm sự trợ giúp trong !forums diễn đàn cộng đồng của tụi tôi."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr "ERREUR : Il n'y a pas de compte avec cet authentifiant."
+msgstr "LỖI: Chẳng có cái tài khoản nào với trình xác thực đó cả."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Preferences last modified: @mod_time"
-msgstr "Dernière modification des préférences : @mod_time"
+msgstr "Tùy chọn được sửa đổi lần cuối: @thời gian_điều chỉnh @mod_time"
 
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr "Hôte introuvable dans la base de données."
+msgstr "Máy chủ không được tìm thấy trong cơ sở dữ liệu."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr "ERREUR : Il y a eu un problème pour charger votre compte. Essayez de vous connecter avec votre nom d'utilisateur et votre mot de passe."
+msgstr "LỖI: Đã xảy ra sự cố trong khi tải tài khoản của bạn. Hãy thử đăng nhập bằng tên người dùng và mật khẩu của bạn."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "There is no user on your team with that email address."
-msgstr "Cette adresse email ne correspond à aucun membre de votre équipe."
+msgstr "Chẳng có người dùng nào của team bạn có email như vậy hết á."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "moderation"
-msgstr "modération"
+msgstr "kiểm duyệt"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr "À noter : les profils utilisateurs sont sujets à !moderation."
+msgstr "Xin lưu ý: hồ sơ người dùng phải được kiểm duyệt !moderation."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr "Par défaut, une recherche correspond à N'IMPORTE LEQUEL des mots recherchés. Les résultats avec plus d'un mot trouvé seront présentés en premier dans les résultats de recherche."
+msgstr "Theo mặc định, một tìm kiếm khớp với BẤT KỲ từ tìm kiếm nào. Các kết quả có nhiều hơn một từ hoặc cụm từ sẽ hiển thị cao hơn trong kết quả tìm kiếm."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr "Vous pouvez taper \"AND\" entre chaque mot pour obtenir les résultats avec TOUS les mots recherchés."
+msgstr "Bạn có thể sử dụng 'AND' để công cụ tìm kiếm trả về kết quả với TẤT CẢ các cụm từ tìm kiếm."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr "Par exemple, chercher \"boinc AND client\" n'affichera que les contenus employant les deux mots \"boinc\" et \"client\"."
+msgstr "Ví dụ, tìm kiếm 'boinc AND client' sẽ chỉ chứa các kết quả có các từ boinc và client."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr "Aide à la recherche"
+msgstr "trợ giúp tìm kiếm"

@@ -267,7 +267,7 @@
   <string name="menu_help">Ajuda</string>
   <string name="menu_report_issue">Reportar anomalia</string>
   <!--about dialog-->
-    <string name="about_title">Sobre</string>
+  <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 Universidade da Califórnia, Berkeley.</string>
@@ -297,4 +297,5 @@
   <string name="notice_notification_channel_name">Notícias</string>
   <string name="notice_notification_channel_description">Mostrar notícias dos seus projetos.</string>
   <string name="agree_button">Concordar</string>
+  <string name="prefs_expand_wu_data">Expandir sempre as informações da tarefa </string>
 </resources>

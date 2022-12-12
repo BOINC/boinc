@@ -4,6 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Axel Lainerdo, 2022
 # b2b0c8b7180e1e75e6e97e0fb63dfbb9_36d8b66, 2015
 # Frederic94500 <frederictran@hotmail.fr>, 2017
 # Jerome Cadet <jerome.cadet@pobox.com>, 2017,2022
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>, 2017,2022\n"
+"Last-Translator: Axel Lainerdo, 2022\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,13 +52,13 @@ msgstr "La variable d'environnement HTTP_PROXY doit définir un proxy HTTP"
 msgid ""
 "This project seems to have changed its URL.  When convenient, remove the "
 "project, then add %s"
-msgstr "Ce projet semble avoir changé d'URL. Lorsque cela vous convient, supprimez le projet, puis ajoutez %s"
+msgstr "Ce projet semble avoir changé d'URL. Lorsque cela vous arrangera, supprimez le projet, puis ajoutez %s"
 
-#: client/cs_statefile.cpp:857
+#: client/cs_statefile.cpp:861
 msgid "Syntax error in app_info.xml"
 msgstr "Erreur de syntaxe dans app_info.xml"
 
-#: client/cs_statefile.cpp:901
+#: client/cs_statefile.cpp:905
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Le fichier référencé dans app_info.xml n'existe pas : "
 
@@ -142,40 +143,40 @@ msgstr "Votre logiciel client BOINC est trop ancien. Merci d'installer la derni�
 msgid "This project doesn't support computers of type"
 msgstr "Ce projet ne supporte pas les ordinateurs de ce type"
 
-#: sched/sched_send.cpp:1121
+#: sched/sched_send.cpp:1151
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Veuillez mettre à jour votre système avec les derniers drivers pour pouvoir calculer avec le GPU"
 
-#: sched/sched_send.cpp:1128
+#: sched/sched_send.cpp:1158
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Veuillez mettre à jour votre système avec les derniers drivers pour pouvoir calculer toutes les applications GPU de ce projet"
 
-#: sched/sched_send.cpp:1147
+#: sched/sched_send.cpp:1177
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Une version plus récente de BOINC est requise pour utiliser votre GPU NVIDIA ; merci de mettre à jour avec la dernière version"
 
-#: sched/sched_send.cpp:1181
+#: sched/sched_send.cpp:1211
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Un processeur graphique %s est nécessaire pour effectuer les tâches de ce projet"
 
-#: sched/sched_send.cpp:1297
+#: sched/sched_send.cpp:1327
 msgid "No tasks are available for the applications you have selected."
 msgstr "Aucune tâche disponible pour les applications que vous avez sélectionnées."
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1353
 msgid "Your computer type is not supported by this project"
 msgstr "Votre ordinateur n'est pas supporté par ce projet"
 
-#: sched/sched_send.cpp:1329
+#: sched/sched_send.cpp:1359
 msgid "Newer BOINC version required; please install current version"
 msgstr "La nouvelle version de BOINC est nécessaire ; merci d'installer la dernière version"
 
-#: sched/sched_send.cpp:1340
+#: sched/sched_send.cpp:1370
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
