@@ -1,7 +1,7 @@
 name: Webassembly
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'client_release/**' ]
   pull_request:
     branches: [ master ]
   schedule:
