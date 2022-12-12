@@ -19,7 +19,7 @@ env:
 jobs:
   build:
     name: ${{ matrix.type }}-build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg, libs-cmake]
