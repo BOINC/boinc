@@ -267,12 +267,12 @@
   <string name="menu_help">Справка</string>
   <string name="menu_report_issue">Сообщить о проблеме</string>
   <!--about dialog-->
-    <string name="about_title">О</string>
+  <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 Калифорнийский Университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>
-  <string name="about_credits">Спасибо Институту гравитационной физики им. Макса Планка, корпорациям IBM и корпорации HTC за их поддержку.</string>
+  <string name="about_credits">Спасибо Институту гравитационной физики им. Макса Планка, корпорациям IBM и HTC за их поддержку.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Новое уведомление от %1$s</item>
@@ -282,7 +282,7 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Обнаружено приложение добровольных вычислений</string>
-  <string name="nonexcl_dialog_text">На этом устройстве запущено еще одно вычислительное приложение для добровольцев. Одновременно может работать только одна версия.</string>
+  <string name="nonexcl_dialog_text">На этом устройстве запущено еще одно приложение для вычислений добровольцами. Одновременно может быть запущена только одна версия.</string>
   <string name="nonexcl_dialog_exit">Выход</string>
   <!--social integration-->
   <string name="social_invite_button">Пригласить друзей</string>
@@ -298,4 +298,5 @@
   <string name="notice_notification_channel_name">Уведомления</string>
   <string name="notice_notification_channel_description">Отображает уведомления из ваших проектов.</string>
   <string name="agree_button">Согласиться</string>
+  <string name="prefs_expand_wu_data">Всегда раскрывать информацию о задаче</string>
 </resources>

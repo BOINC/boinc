@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2021 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
-"PO-Revision-Date: 2021-07-05 12:11+0000\n"
-"Last-Translator: Rune Bjørge <runetbj@hotmail.com>\n"
+"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:29+0000\n"
+"Last-Translator: Jan Sherdahl, 2020\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/boinc/boinc/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +54,7 @@ msgstr "Visningsnavn"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Må være en gyldig adresse i formatet 'navn@domene'."
 
-#: html/inc/account.inc:90 html/inc/user.inc:244 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:241 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Epostadresse"
 
@@ -76,7 +76,7 @@ msgstr "Velg det landet du vil representere, hvis noen."
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:253 html/inc/user.inc:456 html/user/account_finish.php:45
+#: html/inc/user.inc:250 html/inc/user.inc:453 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -117,7 +117,7 @@ msgid "Stay logged in"
 msgstr "Forbli innlogget"
 
 #. kludge
-#: html/inc/account.inc:162 html/inc/util.inc:346 html/user/login_form.php:43
+#: html/inc/account.inc:162 html/inc/util.inc:357 html/user/login_form.php:43
 msgid "Log in"
 msgstr "Logg inn"
 
@@ -265,12 +265,12 @@ msgstr "Bli med"
 msgid "Login"
 msgstr "Logg inn"
 
-#: html/inc/bootstrap.inc:159 html/inc/user.inc:187
+#: html/inc/bootstrap.inc:159 html/inc/user.inc:184
 msgid "Account"
 msgstr "Konto"
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:300
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:297
 msgid "Preferences"
 msgstr "Innstillinger"
 
@@ -282,7 +282,7 @@ msgstr "Om %1"
 msgid "Help"
 msgstr "Hjelp"
 
-#: html/inc/bootstrap.inc:165 html/inc/user.inc:129
+#: html/inc/bootstrap.inc:165 html/inc/user.inc:126
 msgid "Project"
 msgstr "Prosjekt"
 
@@ -318,17 +318,17 @@ msgstr "CPU modeller"
 msgid "Computer types"
 msgstr "Datamaskin typer"
 
-#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:241 html/inc/prefs.inc:482
-#: html/inc/user.inc:163 html/user/explain_state.php:94
+#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:515 html/inc/user.inc:160
+#: html/user/explain_state.php:94
 msgid "Computing"
 msgstr "Beregning"
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:571 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:568 html/user/welcome.php:79
 msgid "Community"
 msgstr "Fellesskap"
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:382 html/inc/user.inc:516 html/user/forum_forum.php:76
+#: html/inc/user.inc:379 html/inc/user.inc:513 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Oppslagstavler"
@@ -354,7 +354,7 @@ msgstr "Søk etter bruker"
 msgid "User of the day"
 msgstr "Dagens bruker"
 
-#: html/inc/bootstrap.inc:201 html/inc/user.inc:192
+#: html/inc/bootstrap.inc:201 html/inc/user.inc:189
 msgid "Certificate"
 msgstr "Sertifikat"
 
@@ -452,7 +452,7 @@ msgstr "Søk i forumene"
 msgid "Advanced search"
 msgstr "Avansert søk"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:383 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "Private meldinger"
@@ -474,15 +474,15 @@ msgid "Next"
 msgstr "Neste"
 
 #: html/inc/forum.inc:424 html/inc/forum.inc:1317
-#: html/user/forum_forum.php:146 html/user/forum_reply.php:127
-#: html/user/forum_report_post.php:89
+#: html/user/forum_forum.php:146 html/user/forum_reply.php:130
+#: html/user/forum_report_post.php:92
 msgid "Author"
 msgstr "Forfatter"
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
-#: html/user/forum_edit.php:141 html/user/forum_post.php:127
-#: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
+#: html/user/forum_edit.php:141 html/user/forum_post.php:132
+#: html/user/forum_reply.php:130 html/user/forum_report_post.php:93
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr "Melding"
@@ -523,7 +523,7 @@ msgstr "Ulest"
 msgid "Message %1"
 msgstr "Melding %1"
 
-#: html/inc/forum.inc:662 html/inc/user.inc:474 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:471 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "skjult"
 
@@ -704,7 +704,7 @@ msgstr "Stem for ikke å forvise forfatter"
 msgid "Start vote to banish author"
 msgstr "Start avstemming for å forvise forfatter"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:373
+#: html/inc/forum.inc:1211 html/inc/user.inc:370
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Slett"
@@ -785,16 +785,16 @@ msgstr "Ingen vert"
 msgid "Unavailable"
 msgstr "Ikke tilgjengelig"
 
-#: html/inc/host.inc:56 html/inc/prefs.inc:682 html/inc/prefs_util.inc:664
+#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:664
 msgid "Home"
 msgstr "Hjem"
 
-#: html/inc/host.inc:57 html/inc/prefs.inc:683 html/inc/prefs_util.inc:666
+#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:666
 #: html/user/server_status.php:144
 msgid "Work"
 msgstr "Arbeid"
 
-#: html/inc/host.inc:58 html/inc/prefs.inc:684 html/inc/prefs_util.inc:665
+#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:665
 msgid "School"
 msgstr "Skole"
 
@@ -853,7 +853,7 @@ msgstr "Opprettet"
 #: html/inc/host.inc:115 html/inc/host.inc:236 html/inc/host.inc:239
 #: html/inc/host.inc:745 html/inc/team.inc:111 html/inc/team.inc:233
 #: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:382
-#: html/inc/team.inc:385 html/inc/user.inc:130 html/inc/user.inc:147
+#: html/inc/team.inc:385 html/inc/user.inc:127 html/inc/user.inc:144
 #: html/user/profile_search_action.php:45
 #: html/user/team_change_founder_form.php:83 html/user/team_email_list.php:76
 #: html/user/team_remove_inactive_form.php:44 html/user/top_users.php:51
@@ -861,7 +861,7 @@ msgstr "Opprettet"
 msgid "Total credit"
 msgstr "Totalt arbeid utført"
 
-#: html/inc/host.inc:116 html/inc/user.inc:131 html/user/team_search.php:84
+#: html/inc/host.inc:116 html/inc/user.inc:128 html/user/team_search.php:84
 #: html/user/user_search.php:130
 msgid "Average credit"
 msgstr "Gjennomsnittlig arbeid utført"
@@ -894,7 +894,7 @@ msgstr "Operativsystem"
 msgid "BOINC version"
 msgstr "BOINC versjon"
 
-#: html/inc/host.inc:134 html/inc/prefs.inc:243
+#: html/inc/host.inc:134
 msgid "Memory"
 msgstr "Minne"
 
@@ -972,7 +972,7 @@ msgstr "Programdetaljer"
 msgid "Show"
 msgstr "Vis"
 
-#: html/inc/host.inc:186 html/inc/host.inc:379 html/inc/user.inc:173
+#: html/inc/host.inc:186 html/inc/host.inc:379 html/inc/user.inc:170
 msgid "Tasks"
 msgstr "Oppgaver"
 
@@ -1044,7 +1044,7 @@ msgstr "Gj.sn. arbeid"
 
 #: html/inc/host.inc:238 html/inc/team.inc:112 html/inc/team.inc:234
 #: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:381
-#: html/inc/team.inc:384 html/inc/user.inc:148
+#: html/inc/team.inc:384 html/inc/user.inc:145
 #: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
 #: html/user/team_remove_inactive_form.php:45 html/user/top_users.php:50
 #: html/user/top_users.php:53
@@ -1081,7 +1081,7 @@ msgid ", CPU does not have hardware virtualization support"
 msgstr "CPU har ikke støtte for virtualisering"
 
 #: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:418 html/inc/user.inc:511
+#: html/inc/user.inc:415 html/inc/user.inc:508
 msgid "None"
 msgstr "Ingen"
 
@@ -1154,7 +1154,7 @@ msgid "Computer ID"
 msgstr "Datamaskin ID"
 
 #: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:236 html/user/account_finish.php:41
+#: html/inc/team.inc:376 html/inc/user.inc:233 html/user/account_finish.php:41
 #: html/user/per_app_list.php:61 html/user/team_admins.php:65
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
@@ -1217,11 +1217,11 @@ msgstr "Send melding til teamet"
 #: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94
 #: html/inc/pm.inc:107 html/inc/pm.inc:109 html/inc/pm.inc:177
 #: html/user/forum_edit.php:107 html/user/forum_edit.php:108
-#: html/user/forum_edit.php:153 html/user/forum_post.php:65
-#: html/user/forum_post.php:97 html/user/forum_post.php:98
-#: html/user/forum_post.php:144 html/user/forum_reply.php:77
-#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
-#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
+#: html/user/forum_edit.php:153 html/user/forum_post.php:68
+#: html/user/forum_post.php:100 html/user/forum_post.php:101
+#: html/user/forum_post.php:151 html/user/forum_reply.php:80
+#: html/user/forum_reply.php:113 html/user/forum_reply.php:118
+#: html/user/forum_reply.php:173 html/user/pm.php:175 html/user/pm.php:222
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
@@ -1230,7 +1230,7 @@ msgstr "Forhåndsvisning"
 msgid "Subject"
 msgstr "Emne"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:520
+#: html/inc/pm.inc:105 html/inc/user.inc:517
 msgid "Send private message"
 msgstr "Send en privat melding"
 
@@ -1276,27 +1276,54 @@ msgstr "For epostvarsling %1 rediger fellesskap inst.%2"
 msgid "Private message"
 msgstr "Private meldinger"
 
-#: html/inc/prefs.inc:51 html/inc/prefs.inc:193
-msgid "Usage limits"
-msgstr "Bruksbegrensninger"
+#: html/inc/prefs.inc:53
+msgid "'In use' means mouse/keyboard input in last"
+msgstr "'I bruk' betyr mus/tastatur benyttet de siste"
 
-#: html/inc/prefs.inc:53 html/inc/prefs.inc:61
+#: html/inc/prefs.inc:54
+msgid "This determines when the computer is considered 'in use'."
+msgstr "Dette avgjør når datamaskinen betraktes som 'i bruk'."
+
+#: html/inc/prefs.inc:56 html/inc/prefs.inc:135 html/inc/prefs.inc:149
+msgid "minutes"
+msgstr "minutter"
+
+#: html/inc/prefs.inc:60
+msgid "Suspend all computing"
+msgstr ""
+
+#: html/inc/prefs.inc:61
+msgid ""
+"Check this to suspend computing and file transfers when you're using the "
+"computer."
+msgstr "Kryss av for å sette beregning og filoverføring på pause når du bruker datamaskinen."
+
+#: html/inc/prefs.inc:66
+msgid "Suspend GPU computing"
+msgstr ""
+
+#: html/inc/prefs.inc:67
+msgid "Check this to suspend GPU computing when you're using the computer."
+msgstr "sett kryss om du ønsker at GPU beregning skal settes på pause når du bruker datamaskinen."
+
+#: html/inc/prefs.inc:72 html/inc/prefs.inc:80 html/inc/prefs.inc:94
+#: html/inc/prefs.inc:103 html/inc/prefs.inc:111 html/inc/prefs.inc:125
 msgid "Use at most"
 msgstr "Bruk på det meste"
 
-#: html/inc/prefs.inc:55
+#: html/inc/prefs.inc:74 html/inc/prefs.inc:105
 #, no-php-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
 msgstr "Reserver litt CPU tid for andre applikasjoner. Eksempel: 75% betyr benytt 6 kjerner av en 8 kjerner CPU."
 
-#: html/inc/prefs.inc:58
+#: html/inc/prefs.inc:77 html/inc/prefs.inc:108
 #, no-php-format
 msgid "% of the CPUs"
 msgstr "% av CPU"
 
-#: html/inc/prefs.inc:63
+#: html/inc/prefs.inc:82 html/inc/prefs.inc:113
 #, no-php-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
@@ -1304,355 +1331,323 @@ msgid ""
 "and repeat."
 msgstr "Paus/fortsett beregning med noen sekunder intervall for å redusere CPU temperatur og energiforbruk. Eksempel: 75% betyr beregn i 3 sekunder, vent 1 sekund og gjenta."
 
-#: html/inc/prefs.inc:66
+#: html/inc/prefs.inc:85 html/inc/prefs.inc:116
 #, no-php-format
 msgid "% of CPU time"
 msgstr "% av CPU tid"
 
-#: html/inc/prefs.inc:68 html/inc/prefs.inc:214
-msgid "When to suspend"
-msgstr "Sett på pause når"
+#: html/inc/prefs.inc:88 html/inc/prefs.inc:119
+msgid "Suspend when non-BOINC CPU usage is above"
+msgstr "Sett på pause når CPU bruk fra andre programmer overskrider"
 
-#: html/inc/prefs.inc:70
+#: html/inc/prefs.inc:89 html/inc/prefs.inc:120
+msgid "Suspend computing when your computer is busy running other programs."
+msgstr "Sett på pause når datamaskinen er opptatt med å kjøre andre programmer"
+
+#: html/inc/prefs.inc:95
+msgid "Limit the memory used by BOINC when you're using the computer."
+msgstr "Begrens mengden minne benyttet av BOINC når du bruker datamaskinen."
+
+#: html/inc/prefs.inc:98 html/inc/prefs.inc:129
+#, no-php-format
+msgid "% of memory"
+msgstr ""
+
+#: html/inc/prefs.inc:126
+msgid "Limit the memory used by BOINC when you're not using the computer."
+msgstr "Begrens mengden minne benyttet av BOINC når du ikke bruker datamaskinen."
+
+#: html/inc/prefs.inc:132
+msgid "Suspend when no mouse/keyboard input in last"
+msgstr "Sett på pause hvis mus/tastatur har vært inaktiv de siste"
+
+#: html/inc/prefs.inc:133
+msgid "This allows some computers to enter low-power mode when not in use."
+msgstr "Dette tillater noen datamaskiner å gå i strømsparingsmodus når de ikke er i bruk"
+
+#: html/inc/prefs.inc:140
 msgid "Suspend when computer is on battery"
 msgstr "Sett på pause når datamaskinen går på batteri."
 
-#: html/inc/prefs.inc:71
+#: html/inc/prefs.inc:141
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
 msgstr "Kryss av for å sette beregningene på pause når datamaskinen går på batteridrift."
 
-#: html/inc/prefs.inc:76
-msgid "Suspend when computer is in use"
-msgstr "Sett på pause når datamaskinen er i bruk"
-
-#: html/inc/prefs.inc:77
-msgid ""
-"Check this to suspend computing and file transfers when you're using the "
-"computer."
-msgstr "Kryss av for å sette beregning og filoverføring på pause når du bruker datamaskinen."
-
-#: html/inc/prefs.inc:82
-msgid "Suspend GPU computing when computer is in use"
-msgstr "Sett GPU beregning på pause nå datamaskinen er i bruk"
-
-#: html/inc/prefs.inc:83
-msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "sett kryss om du ønsker at GPU beregning skal settes på pause når du bruker datamaskinen."
-
-#: html/inc/prefs.inc:88
-msgid "'In use' means mouse/keyboard input in last"
-msgstr "'I bruk' betyr mus/tastatur benyttet de siste"
-
-#: html/inc/prefs.inc:89
-msgid "This determines when the computer is considered 'in use'."
-msgstr "Dette avgjør når datamaskinen betraktes som 'i bruk'."
-
-#: html/inc/prefs.inc:91 html/inc/prefs.inc:98 html/inc/prefs.inc:128
-msgid "minutes"
-msgstr "minutter"
-
-#: html/inc/prefs.inc:95
-msgid "Suspend when no mouse/keyboard input in last"
-msgstr "Sett på pause hvis mus/tastatur har vært inaktiv de siste"
-
-#: html/inc/prefs.inc:96
-msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "Dette tillater noen datamaskiner å gå i strømsparingsmodus når de ikke er i bruk"
-
-#: html/inc/prefs.inc:101
-msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Sett på pause når CPU bruk fra andre programmer overskrider"
-
-#: html/inc/prefs.inc:102
-msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Sett på pause når datamaskinen er opptatt med å kjøre andre programmer"
-
-#: html/inc/prefs.inc:107
-msgid "Compute only between"
-msgstr "Beregn bare mellom"
-
-#: html/inc/prefs.inc:108
-msgid "Compute only during a particular period each day."
-msgstr "Utfører beregninger kun innefor gitte tidsrom hver dag."
-
-#: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
-#: html/user/forum_banishment_vote.php:70
-#: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
-msgid "Other"
-msgstr "Annen"
-
-#: html/inc/prefs.inc:113
-msgid "Store at least"
-msgstr "Lagre minst"
-
-#: html/inc/prefs.inc:114
-msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Lagre nok oppgaver til å holde maskinen opptatt for denne perioe."
-
-#: html/inc/prefs.inc:116 html/inc/prefs.inc:122
-msgid "days of work"
-msgstr "dagers arbeid"
-
-#: html/inc/prefs.inc:119
-msgid "Store up to an additional"
-msgstr "Tillegslagre opptil"
-
-#: html/inc/prefs.inc:120
-msgid ""
-"Store additional tasks above the minimum level.  Determines how much work is"
-" requested when contacting a project."
-msgstr "Lagrer ekstra oppgaver utover minimums nivå. Avgjør hvor mange oppgaver som skal forespørres fra prosjektet."
-
-#: html/inc/prefs.inc:125
+#: html/inc/prefs.inc:146
 msgid "Switch between tasks every"
 msgstr "Bytt mellom oppgaver hver"
 
-#: html/inc/prefs.inc:126
+#: html/inc/prefs.inc:147
 msgid "If you run several projects, BOINC may switch between them this often."
 msgstr "Hvis du deltar i flere prosjekter kan BOINC bytte mellom dem så ofte."
 
-#: html/inc/prefs.inc:131
+#: html/inc/prefs.inc:152
 msgid "Request tasks to checkpoint at most every"
 msgstr "Forespør oppgaver til sjekkpunkt maks hver"
 
-#: html/inc/prefs.inc:132
+#: html/inc/prefs.inc:153
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
 msgstr "Dette styrer hvor ofte oppgaver lagrer tilstanden til disken, slik at de senere kan fortsettes fra det punktet."
 
-#: html/inc/prefs.inc:134
+#: html/inc/prefs.inc:155
 msgid "seconds"
 msgstr "sekunder"
 
-#: html/inc/prefs.inc:142 html/inc/prefs.inc:154
-msgid "Use no more than"
-msgstr "Ikke bruk mer enn"
-
-#: html/inc/prefs.inc:143
-msgid "Limit the total amount of disk space used by BOINC."
-msgstr "Begrens total diskforbruk til BOINC"
-
-#: html/inc/prefs.inc:145
-msgid "GB"
-msgstr "GB"
-
-#: html/inc/prefs.inc:148
-msgid "Leave at least"
-msgstr "La det minst være"
-
-#: html/inc/prefs.inc:149
-msgid ""
-"Limit disk usage to leave this much free space on the volume where BOINC "
-"stores data."
-msgstr "Begrens plassbruk så det er minst så mye plass ledig på disken hvor BOINC lagrer data."
-
-#: html/inc/prefs.inc:151
-msgid "GB free"
-msgstr "GB ledig"
-
-#: html/inc/prefs.inc:155
-msgid ""
-"Limit the percentage of disk space used by BOINC on the volume where it "
-"stores data."
-msgstr "Begrens prosentandelen av diskplass brukt av BOINC på den disken som benyttes til lagring av data."
-
 #: html/inc/prefs.inc:158
-#, no-php-format
-msgid "% of total"
-msgstr "% av total"
-
-#: html/inc/prefs.inc:164
-msgid "When computer is in use, use at most"
-msgstr "Maks utnyttelse når datamaskinen er i bruk"
-
-#: html/inc/prefs.inc:165
-msgid "Limit the memory used by BOINC when you're using the computer."
-msgstr "Begrens mengden minne benyttet av BOINC når du bruker datamaskinen."
-
-#: html/inc/prefs.inc:168 html/inc/prefs.inc:175 html/inc/prefs.inc:188
-#, no-php-format
-msgid "%"
-msgstr "%"
-
-#: html/inc/prefs.inc:171
-msgid "When computer is not in use, use at most"
-msgstr "Maks utnyttelse når datamaskinen ikke er i bruk"
-
-#: html/inc/prefs.inc:172
-msgid "Limit the memory used by BOINC when you're not using the computer."
-msgstr "Begrens mengden minne benyttet av BOINC når du ikke bruker datamaskinen."
-
-#: html/inc/prefs.inc:178
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr "La GPU oppgaver bli værende i minnet mens de er satt på pause"
 
-#: html/inc/prefs.inc:179
+#: html/inc/prefs.inc:159
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr "Hvis denne er krysset av vil oppgaver satt på pause forbli i minnet og fortsette der de slapp uten tap av fremdrift. Hvis denne ikke er krysset av vil oppgaver på pause fjernes fra minnet. Når oppgaven startes igjen vil den fortsette fra sist lagrede sjekkpunkt, noe som medfører tap av fremdrift."
 
-#: html/inc/prefs.inc:184
+#: html/inc/prefs.inc:164
+msgid "Store at least"
+msgstr "Lagre minst"
+
+#: html/inc/prefs.inc:165
+msgid "Store at least enough tasks to keep the computer busy for this long."
+msgstr "Lagre nok oppgaver til å holde maskinen opptatt for denne perioe."
+
+#: html/inc/prefs.inc:167 html/inc/prefs.inc:173
+msgid "days of work"
+msgstr "dagers arbeid"
+
+#: html/inc/prefs.inc:170
+msgid "Store up to an additional"
+msgstr "Tillegslagre opptil"
+
+#: html/inc/prefs.inc:171
+msgid ""
+"Store additional tasks above the minimum level.  Determines how much work is"
+" requested when contacting a project."
+msgstr "Lagrer ekstra oppgaver utover minimums nivå. Avgjør hvor mange oppgaver som skal forespørres fra prosjektet."
+
+#: html/inc/prefs.inc:176
+msgid "Compute only between"
+msgstr "Beregn bare mellom"
+
+#: html/inc/prefs.inc:177
+msgid "Compute only during a particular period each day."
+msgstr "Utfører beregninger kun innefor gitte tidsrom hver dag."
+
+#: html/inc/prefs.inc:186 html/inc/prefs.inc:198
+msgid "Use no more than"
+msgstr "Ikke bruk mer enn"
+
+#: html/inc/prefs.inc:187
+msgid "Limit the total amount of disk space used by BOINC."
+msgstr "Begrens total diskforbruk til BOINC"
+
+#: html/inc/prefs.inc:189
+msgid "GB"
+msgstr "GB"
+
+#: html/inc/prefs.inc:192
+msgid "Leave at least"
+msgstr "La det minst være"
+
+#: html/inc/prefs.inc:193
+msgid ""
+"Limit disk usage to leave this much free space on the volume where BOINC "
+"stores data."
+msgstr "Begrens plassbruk så det er minst så mye plass ledig på disken hvor BOINC lagrer data."
+
+#: html/inc/prefs.inc:195
+msgid "GB free"
+msgstr "GB ledig"
+
+#: html/inc/prefs.inc:199
+msgid ""
+"Limit the percentage of disk space used by BOINC on the volume where it "
+"stores data."
+msgstr "Begrens prosentandelen av diskplass brukt av BOINC på den disken som benyttes til lagring av data."
+
+#: html/inc/prefs.inc:202
+#, no-php-format
+msgid "% of total"
+msgstr "% av total"
+
+#: html/inc/prefs.inc:205
 msgid "Page/swap file: use at most"
 msgstr "Vekslingsfil (page file): bruk maks"
 
-#: html/inc/prefs.inc:185
+#: html/inc/prefs.inc:206
 msgid "Limit the swap space (page file) used by BOINC."
 msgstr "Begrens størrelsen på bruken av vekslingsfilen (page file) brukt av BOINC"
 
-#: html/inc/prefs.inc:195
+#: html/inc/prefs.inc:209
+#, no-php-format
+msgid "%"
+msgstr "%"
+
+#: html/inc/prefs.inc:215
 msgid "Limit download rate to"
 msgstr "Begrens nedlastningshastighet til"
 
-#: html/inc/prefs.inc:196
+#: html/inc/prefs.inc:216
 msgid "Limit the download rate of file transfers."
 msgstr "Begrens nedlastningshastighet til filoverføringer til"
 
-#: html/inc/prefs.inc:198 html/inc/prefs.inc:204
+#: html/inc/prefs.inc:218 html/inc/prefs.inc:224
 msgid "KB/second"
 msgstr "KB/sekund"
 
-#: html/inc/prefs.inc:201
+#: html/inc/prefs.inc:221
 msgid "Limit upload rate to"
 msgstr "Begrens opplastingshastighet til"
 
-#: html/inc/prefs.inc:202
+#: html/inc/prefs.inc:222
 msgid "Limit the upload rate of file transfers."
 msgstr "Begrens opplastingshastighet til filoverføring."
 
-#: html/inc/prefs.inc:207
+#: html/inc/prefs.inc:227
 msgid "Limit usage to"
 msgstr "Begrens bruk til"
 
-#: html/inc/prefs.inc:208
+#: html/inc/prefs.inc:228
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
 msgstr "Eksempel: BOINC kan overføre maks 2000 MB med data i løpet av 30 dager"
 
-#: html/inc/prefs.inc:211
+#: html/inc/prefs.inc:231
 msgid "MB every"
 msgstr "MB hver"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:417
+#: html/inc/prefs.inc:232 html/inc/util.inc:428
 msgid "days"
 msgstr "dager"
 
-#: html/inc/prefs.inc:216
+#: html/inc/prefs.inc:235
 msgid "Transfer files only between"
 msgstr "Overfør filer kun mellom"
 
-#: html/inc/prefs.inc:217
+#: html/inc/prefs.inc:236
 msgid "Transfer files only during a particular period each day."
 msgstr "Overfører filer bare innefor bestemte perioder hver dag."
 
-#: html/inc/prefs.inc:222
+#: html/inc/prefs.inc:240
 msgid "Skip data verification for image files"
 msgstr "Hopp over datavalidering for bildefiler"
 
-#: html/inc/prefs.inc:223
+#: html/inc/prefs.inc:241
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of BOINC."
 msgstr "merk denne hvis din Internettleverandør modifiserer avbildingsfilene. Utelukking av verifiseringen reduserer sikkerheten til BOINC."
 
-#: html/inc/prefs.inc:228
+#: html/inc/prefs.inc:246
 msgid "Confirm before connecting to Internet"
 msgstr "Bekreft før det kobles til Internet"
 
-#: html/inc/prefs.inc:229 html/inc/prefs.inc:235
+#: html/inc/prefs.inc:247 html/inc/prefs.inc:253
 msgid "Useful only if you have a modem, ISDN or VPN connection."
 msgstr "Kun nyttig dersom du har modem, ISDN eller VPN tilkobling."
 
-#: html/inc/prefs.inc:234
+#: html/inc/prefs.inc:252
 msgid "Disconnect when done"
 msgstr "Koble fra når ferdig"
 
-#: html/inc/prefs.inc:242
+#: html/inc/prefs.inc:259
+msgid "When computer is in use"
+msgstr ""
+
+#: html/inc/prefs.inc:260
+msgid "When computer is not in use"
+msgstr ""
+
+#: html/inc/prefs.inc:261
+msgid "General"
+msgstr "Generelle"
+
+#: html/inc/prefs.inc:262
 msgid "Disk"
 msgstr "Disk"
 
-#: html/inc/prefs.inc:244
+#: html/inc/prefs.inc:263
 msgid "Network"
 msgstr "Nettverk"
 
 #. These texts are used in multiple places in prefs_edit.php and add_venue.php
-#: html/inc/prefs.inc:247
+#: html/inc/prefs.inc:266
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr "Disse innstillingene gjelder for alle BOINC prosjektene du deltar i."
 
-#: html/inc/prefs.inc:250
+#: html/inc/prefs.inc:269
 msgid ""
 "%1 Unable to update preferences. %2 The values marked in red below were out "
 "of range or not numeric."
 msgstr "%1 Kan ikke oppdatere innstillingene. %2 Verdiene markert med rødt nedenfor var utenfor området eller ikke numeriske."
 
-#: html/inc/prefs.inc:494
+#: html/inc/prefs.inc:527
 msgid "Separate preferences for %1"
 msgstr "Separate innstillinger for %1"
 
-#: html/inc/prefs.inc:502 html/inc/prefs.inc:543
+#: html/inc/prefs.inc:535 html/inc/prefs.inc:576
 #: html/inc/prefs_project.inc:324
 msgid "Edit preferences"
 msgstr "Rediger innstillinger"
 
-#: html/inc/prefs.inc:503 html/inc/prefs_util.inc:735
+#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:735
 #: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:36
 msgid "Remove"
 msgstr "Fjern"
 
-#: html/inc/prefs.inc:510 html/inc/prefs.inc:511
+#: html/inc/prefs.inc:543 html/inc/prefs.inc:544
 msgid "Add separate preferences for %1"
 msgstr "Legg til separate innstillinger for %1"
 
-#: html/inc/prefs.inc:520
+#: html/inc/prefs.inc:553
 msgid "These settings apply to all computers using this account except"
 msgstr "Disse innstillingene gjelde alle datamaskinene som bruker denne kontoen bortsett fra"
 
-#: html/inc/prefs.inc:522
+#: html/inc/prefs.inc:555
 msgid ""
 "computers where you have set preferences locally using the BOINC Manager"
 msgstr "Datamaskiner hvor du har satt innstillinger lokalt med BOINC manager"
 
-#: html/inc/prefs.inc:524
+#: html/inc/prefs.inc:557
 msgid "Android devices"
 msgstr "Android enheter"
 
-#: html/inc/prefs.inc:527
+#: html/inc/prefs.inc:560
 msgid "(Switch view)"
 msgstr "(Bytt visning)"
 
-#: html/inc/prefs.inc:529 html/inc/prefs_project.inc:304
+#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:304
 msgid "Combined preferences"
 msgstr "Kombinerte innstillinger"
 
-#: html/inc/prefs.inc:536 html/inc/prefs_project.inc:316
+#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:316
 msgid "Primary (default) preferences"
 msgstr "Primære (standard) innstillinger"
 
-#: html/inc/prefs.inc:553
+#: html/inc/prefs.inc:586
 msgid "Preferences last modified:"
 msgstr "Innstillinger sist endret:"
 
-#: html/inc/prefs.inc:569
+#: html/inc/prefs.inc:602
 msgid "Add preferences"
 msgstr "Legg til innstillinger"
 
-#: html/inc/prefs.inc:573
+#: html/inc/prefs.inc:606
 msgid "Update preferences"
 msgstr "Oppdater innstillinger"
 
-#: html/inc/prefs.inc:645 html/inc/prefs_util.inc:700
+#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:700
 #: html/inc/prefs_util.inc:703
 #: html/project.sample/project_specific_prefs.inc:71
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "yes"
 msgstr "ja"
 
-#: html/inc/prefs.inc:647 html/inc/prefs_util.inc:700
+#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:700
 #: html/inc/prefs_util.inc:703
 #: html/project.sample/project_specific_prefs.inc:73
 #: html/project.sample/project_specific_prefs.inc:257
@@ -1660,11 +1655,11 @@ msgid "no"
 msgstr "nei"
 
 #. TODO: make this a subclass of PREF
-#: html/inc/prefs.inc:655
+#: html/inc/prefs.inc:685
 msgid "Default computer location"
 msgstr "Standard datamaskinplassering"
 
-#: html/inc/prefs.inc:656
+#: html/inc/prefs.inc:686
 msgid ""
 "New computers will use this location for computing and project preferences."
 msgstr "Nye datamaskiner vil bruke denne plasseringen for beregnings og prosjektinstillinger"
@@ -2191,7 +2186,7 @@ msgstr "Type team"
 msgid "Show only active teams"
 msgstr "Vis bare aktive team"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1159 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1172 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Søk"
@@ -2389,6 +2384,12 @@ msgstr "Beskrivelse av teamet"
 msgid "Accept new members?"
 msgstr "Tillat nye medlemmer?"
 
+#: html/inc/team_types.inc:23 html/user/forum_banishment_vote.php:70
+#: html/user/forum_banishment_vote_action.php:65
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
+msgid "Other"
+msgstr "Annen"
+
 #: html/inc/team_types.inc:24
 msgid "Company"
 msgstr "Firma"
@@ -2437,206 +2438,206 @@ msgstr "Sosial / politisk / religiøs"
 msgid "User profile"
 msgstr "Brukerprofil"
 
-#: html/inc/user.inc:122
+#: html/inc/user.inc:119
 msgid "Projects in which you are participating"
 msgstr "Prosjekter du deltar i."
 
-#: html/inc/user.inc:124
+#: html/inc/user.inc:121
 msgid "Projects in which %1 is participating"
 msgstr "Prosjekter som %1 deltar i"
 
-#: html/inc/user.inc:129
+#: html/inc/user.inc:126
 msgid "Click for user page"
 msgstr "Klikk for brukerside"
 
-#: html/inc/user.inc:132
+#: html/inc/user.inc:129
 msgid "Since"
 msgstr "Siden"
 
-#: html/inc/user.inc:170
+#: html/inc/user.inc:167
 msgid "Computers on this account"
 msgstr "Datamaskiner på denne kontoen"
 
-#: html/inc/user.inc:170 html/inc/user.inc:173 html/inc/user.inc:284
-#: html/inc/user.inc:373 html/inc/user.inc:472 html/inc/user.inc:544
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:281
+#: html/inc/user.inc:370 html/inc/user.inc:469 html/inc/user.inc:541
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "Vis"
 
-#: html/inc/user.inc:185
+#: html/inc/user.inc:182
 msgid "Cross-project ID"
 msgstr "Kryss-prosjekt ID"
 
-#: html/inc/user.inc:186
+#: html/inc/user.inc:183
 msgid "Cross-project statistics"
 msgstr "Kryss-prosjekt statistikk"
 
-#: html/inc/user.inc:189 html/inc/user.inc:418 html/inc/user.inc:509
-#: html/inc/user.inc:511 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:415 html/inc/user.inc:506
+#: html/inc/user.inc:508 html/user/user_search.php:129
 msgid "Team"
 msgstr "Team"
 
-#: html/inc/user.inc:191
+#: html/inc/user.inc:188
 msgid "Cross-project"
 msgstr "Kryssprosjekt"
 
-#: html/inc/user.inc:193
+#: html/inc/user.inc:190
 msgid "Stats on your cell phone"
 msgstr "Statistikk på din mobiltelefon"
 
-#: html/inc/user.inc:249 html/inc/user.inc:464
+#: html/inc/user.inc:246 html/inc/user.inc:461
 msgid "URL"
 msgstr "URL"
 
-#: html/inc/user.inc:256
+#: html/inc/user.inc:253
 msgid "Postal code"
 msgstr "Postnummer"
 
-#: html/inc/user.inc:258 html/inc/user.inc:454
+#: html/inc/user.inc:255 html/inc/user.inc:451
 msgid "%1 member since"
 msgstr "%1 medlem siden"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:263 html/inc/user.inc:273
+#: html/inc/user.inc:260 html/inc/user.inc:270
 msgid "Change"
 msgstr "Endre"
 
-#: html/inc/user.inc:270
+#: html/inc/user.inc:267
 msgid "delete account"
 msgstr "slett konto"
 
-#: html/inc/user.inc:274
+#: html/inc/user.inc:271
 msgid "email address"
 msgstr "epostadresse"
 
-#: html/inc/user.inc:275
+#: html/inc/user.inc:272
 msgid "password"
 msgstr "passord"
 
-#: html/inc/user.inc:276
+#: html/inc/user.inc:273
 msgid "other account info"
 msgstr "annen kontoinformasjon"
 
-#: html/inc/user.inc:280 html/inc/user.inc:453
+#: html/inc/user.inc:277 html/inc/user.inc:450
 msgid "User ID"
 msgstr "Bruker ID"
 
-#: html/inc/user.inc:280
+#: html/inc/user.inc:277
 msgid "Used in community functions"
 msgstr "Brukes i fellesskap funksjoner"
 
-#: html/inc/user.inc:283 html/user/weak_auth.php:23
+#: html/inc/user.inc:280 html/user/weak_auth.php:23
 msgid "Account keys"
 msgstr "Kontonøkler"
 
-#: html/inc/user.inc:291
+#: html/inc/user.inc:288
 msgid "Account Ownership"
 msgstr "Konto eierskap"
 
-#: html/inc/user.inc:303
+#: html/inc/user.inc:300
 msgid "When and how BOINC uses your computer"
 msgstr "Når og hvordan BOINC bruker din datamaskin"
 
-#: html/inc/user.inc:304 html/user/welcome.php:62
+#: html/inc/user.inc:301 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "Beregningsalternativer"
 
-#: html/inc/user.inc:307
+#: html/inc/user.inc:304
 msgid "Message boards and private messages"
 msgstr "Meldingstavle og private meldinger"
 
-#: html/inc/user.inc:308 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:305 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "Alternativer for felleskap"
 
-#: html/inc/user.inc:311
+#: html/inc/user.inc:308
 msgid "Preferences for this project"
 msgstr "Alternativer for dette prosjektet"
 
-#: html/inc/user.inc:312 html/user/prefs.php:33
+#: html/inc/user.inc:309 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 alternativer"
 
-#: html/inc/user.inc:329
+#: html/inc/user.inc:326
 msgid "View the profile of %1"
 msgstr "vis profilen til %1"
 
-#: html/inc/user.inc:330 html/inc/user.inc:377 html/inc/user.inc:544
+#: html/inc/user.inc:327 html/inc/user.inc:374 html/inc/user.inc:541
 msgid "Profile"
 msgstr "Profil"
 
-#: html/inc/user.inc:375
+#: html/inc/user.inc:372
 msgid "Create"
 msgstr "Opprett"
 
-#: html/inc/user.inc:382 html/inc/user.inc:516
+#: html/inc/user.inc:379 html/inc/user.inc:513
 msgid "%1 posts"
 msgstr "%1 innlegg"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:400 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:397 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "Varsler"
 
-#: html/inc/user.inc:406
+#: html/inc/user.inc:403
 msgid "Quit team"
 msgstr "Forlat team"
 
-#: html/inc/user.inc:408 html/inc/user.inc:425
+#: html/inc/user.inc:405 html/inc/user.inc:422
 msgid "Administer"
 msgstr "Administrer"
 
-#: html/inc/user.inc:414 html/inc/user.inc:427
+#: html/inc/user.inc:411 html/inc/user.inc:424
 msgid "(foundership change request pending)"
 msgstr "(anmodning om grunnlegger endring forestående)"
 
-#: html/inc/user.inc:416
+#: html/inc/user.inc:413
 msgid "Member of team"
 msgstr "Medlem av team"
 
-#: html/inc/user.inc:418
+#: html/inc/user.inc:415
 msgid "find a team"
 msgstr "Finn et team"
 
-#: html/inc/user.inc:429
+#: html/inc/user.inc:426
 msgid "Founder but not member of"
 msgstr "Grunnlegger men ikke medlem av"
 
-#: html/inc/user.inc:435
+#: html/inc/user.inc:432
 msgid "Find friends"
 msgstr "Finn venner"
 
-#: html/inc/user.inc:443 html/inc/user.inc:445 html/inc/user.inc:527
-#: html/inc/user.inc:529 html/inc/user.inc:538
+#: html/inc/user.inc:440 html/inc/user.inc:442 html/inc/user.inc:524
+#: html/inc/user.inc:526 html/inc/user.inc:535
 msgid "Friends"
 msgstr "Venner"
 
-#: html/inc/user.inc:472 html/inc/user.inc:474 html/user/server_status.php:160
+#: html/inc/user.inc:469 html/inc/user.inc:471 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "Datamaskiner"
 
-#: html/inc/user.inc:520
+#: html/inc/user.inc:517
 msgid "Contact"
 msgstr "Kontakt"
 
-#: html/inc/user.inc:523
+#: html/inc/user.inc:520
 msgid "This person is a friend"
 msgstr "Denne personen er en venn"
 
-#: html/inc/user.inc:524 html/user/friend.php:250
+#: html/inc/user.inc:521 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "Avbryt vennskap"
 
-#: html/inc/user.inc:527 html/user/friend.php:39
+#: html/inc/user.inc:524 html/user/friend.php:39
 msgid "Request pending"
 msgstr "Forespørsel venter"
 
-#: html/inc/user.inc:529
+#: html/inc/user.inc:526
 msgid "Add as friend"
 msgstr "Legg til som venn"
 
-#: html/inc/user.inc:553
+#: html/inc/user.inc:550
 msgid "Account information"
 msgstr "Kontoinformasjon"
 
@@ -2704,70 +2705,70 @@ msgstr "Kunne ikke opprette konto"
 msgid "database error, please contact site administrators"
 msgstr "database feil, vennligst kontakt en administrator"
 
-#: html/inc/util.inc:207
+#: html/inc/util.inc:218
 msgid "log out"
 msgstr "logg ut"
 
-#: html/inc/util.inc:209
+#: html/inc/util.inc:220
 msgid "log in"
 msgstr "logg inn"
 
-#: html/inc/util.inc:347
+#: html/inc/util.inc:358
 msgid "Create an account"
 msgstr "Opprett en konto"
 
-#: html/inc/util.inc:348
+#: html/inc/util.inc:359
 msgid "Server status page"
 msgstr "Tjener status side"
 
-#: html/inc/util.inc:391
+#: html/inc/util.inc:402
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "En databasefeil oppstod mens forespørselen ble behandlet. Vennligst prøv igjen senere."
 
-#: html/inc/util.inc:400
+#: html/inc/util.inc:411
 msgid "Unable to handle request"
 msgstr "Ikke mulig å behandle forespørselen"
 
-#: html/inc/util.inc:420
+#: html/inc/util.inc:431
 msgid "hours"
 msgstr "timer"
 
-#: html/inc/util.inc:423
+#: html/inc/util.inc:434
 msgid "min"
 msgstr "min"
 
-#: html/inc/util.inc:426
+#: html/inc/util.inc:437
 msgid "sec"
 msgstr "sek"
 
-#: html/inc/util.inc:607
+#: html/inc/util.inc:618
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "Linken har gått ut på tid. Vennligst trykk tilbake knappen, last siden på nytt og prøv igjen."
 
-#: html/inc/util.inc:682
+#: html/inc/util.inc:693
 msgid "Use BBCode tags to format your text"
 msgstr "Bruk BBkode tag's for å formatere teksten din"
 
-#: html/inc/util.inc:926
+#: html/inc/util.inc:937
 msgid "Project down for maintenance"
 msgstr "Prosjektet er nede for vedlikehold"
 
-#: html/inc/util.inc:929
+#: html/inc/util.inc:940
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 er midlertidig nede for vedlikehold. Vennligst prøv igjen senere."
 
-#: html/inc/util.inc:956
+#: html/inc/util.inc:967
 msgid "Unable to connect to database - please try again later"
 msgstr "Kan ikke koble til databasen - vennligst prøv igjen senere"
 
-#: html/inc/util.inc:960
+#: html/inc/util.inc:971
 msgid "Unable to select database - please try again later"
 msgstr "Kunne ikke velge database - vennligst prøv igjen senere"
 
-#: html/inc/util.inc:1138
+#: html/inc/util.inc:1151
 msgid "characters remaining"
 msgstr "tegn gjenstår"
 
@@ -3082,7 +3083,7 @@ msgstr "Vis din profil"
 msgid "Create a profile"
 msgstr "Opprett en profil"
 
-#: html/user/create_profile.php:345
+#: html/user/create_profile.php:349
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or"
 " edit a profile.  We apologize for this inconvenience."
@@ -3690,7 +3691,7 @@ msgstr "Ignorere innlegg på oppslagstavle og private meldinger fra disse bruker
 msgid "User ID (For instance: 123456789)"
 msgstr "Bruker ID (For eksempel: 123456789)"
 
-#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
+#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:293
 msgid "Add user to filter"
 msgstr "Legg bruker til filter"
 
@@ -4051,12 +4052,12 @@ msgid "Edit your message"
 msgstr "Rediger din melding"
 
 #: html/user/forum_edit.php:123 html/user/forum_edit.php:128
-#: html/user/forum_post.php:120 html/user/forum_post.php:122
+#: html/user/forum_post.php:123 html/user/forum_post.php:125
 #: html/user/team_forum.php:72
 msgid "Title"
 msgstr "Tittel"
 
-#: html/user/forum_edit.php:152 html/user/forum_post.php:143
+#: html/user/forum_edit.php:152 html/user/forum_post.php:150
 msgid "Add my signature to this post"
 msgstr "Legg til min signatur til dette innlegget"
 
@@ -4237,8 +4238,8 @@ msgid "Forever"
 msgstr "For evig"
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
-#: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:144
-#: html/user/forum_report_post.php:102 html/user/forum_rss.php:51
+#: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:151
+#: html/user/forum_report_post.php:105 html/user/forum_rss.php:51
 #: html/user/friend.php:83
 msgid "OK"
 msgstr "OK"
@@ -4301,35 +4302,35 @@ msgstr "Målforum"
 msgid "New title:"
 msgstr "Ny tittel:"
 
-#: html/user/forum_post.php:44
+#: html/user/forum_post.php:47
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
 "existing threads."
 msgstr "Kun prosjektadministrator kan opprette en tråd her, men du kan besvare eksisterende tråder her."
 
-#: html/user/forum_post.php:64
+#: html/user/forum_post.php:67
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr "Meldingen din har blitt merket som søppel av Akismet antispam system. Vennligst endre innlegget og prøv igjen"
 
-#: html/user/forum_post.php:78
+#: html/user/forum_post.php:81
 msgid "Create new thread"
 msgstr "Lag en ny tråd"
 
-#: html/user/forum_post.php:111
+#: html/user/forum_post.php:114
 msgid "Create a new thread"
 msgstr "Lag en ny tråd"
 
-#: html/user/forum_post.php:116
+#: html/user/forum_post.php:119
 msgid "Remember to add a title"
 msgstr "Husk å legge til en tittel"
 
-#: html/user/forum_post.php:141
+#: html/user/forum_post.php:148
 msgid "Show this item as a Notice in the BOINC Manager"
 msgstr "Vis dette som en Notis i BOINC oppgavebehandleren"
 
-#: html/user/forum_post.php:141
+#: html/user/forum_post.php:148
 msgid "Do so only for items likely to be of interest to all volunteers."
 msgstr "Gjøres bare dersom dette kan være interessant for andre frivillige"
 
@@ -4342,8 +4343,8 @@ msgid "You have already rated this post."
 msgstr "Du har allerede bedømt dette innlegget."
 
 #: html/user/forum_rate.php:61 html/user/forum_rate.php:77
-#: html/user/forum_rate.php:82 html/user/forum_report_post.php:77
-#: html/user/forum_report_post.php:111 html/user/forum_subscribe.php:56
+#: html/user/forum_rate.php:82 html/user/forum_report_post.php:80
+#: html/user/forum_report_post.php:114 html/user/forum_subscribe.php:56
 #: html/user/forum_subscribe.php:71 html/user/forum_thread_status.php:56
 msgid "Return to thread"
 msgstr "Returner til tråd"
@@ -4368,82 +4369,82 @@ msgstr "Din bedømming er registret. Takk for tilbakemeldingen."
 msgid "Vote Submission Problem"
 msgstr "Problem med å avgi stemme"
 
-#: html/user/forum_reply.php:76
+#: html/user/forum_reply.php:79
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr "Innlegget ditt har blitt merket som søppel av Akismet antispam system. Vennligst endre innlegget og prøv igjen"
 
-#: html/user/forum_reply.php:91 html/user/forum_thread.php:164
-#: html/user/forum_thread.php:293
+#: html/user/forum_reply.php:94 html/user/forum_thread.php:164
+#: html/user/forum_thread.php:299
 msgid "Post to thread"
 msgstr "Post til tråd"
 
-#: html/user/forum_reply.php:142
+#: html/user/forum_reply.php:145
 msgid "Message:"
 msgstr "Melding:"
 
-#: html/user/forum_reply.php:145
+#: html/user/forum_reply.php:148
 msgid "reply to %1 Message ID %2:"
 msgstr "svar på %1 Meldings-ID %2:"
 
-#: html/user/forum_reply.php:171
+#: html/user/forum_reply.php:174
 msgid "Post reply"
 msgstr "Skriv svar"
 
-#: html/user/forum_reply.php:174
+#: html/user/forum_reply.php:177
 msgid "Add my signature to this reply"
 msgstr "Legg til min signatur til dette svaret"
 
-#: html/user/forum_report_post.php:51
+#: html/user/forum_report_post.php:54
 msgid "You need more average or total credit to report a post."
 msgstr "Du trenger flere poeng totalt eller i gjennomsnitt for å rapportere et innlegg."
 
-#: html/user/forum_report_post.php:73
+#: html/user/forum_report_post.php:76
 msgid "Report Registered"
 msgstr "Rapport registrert"
 
-#: html/user/forum_report_post.php:74
+#: html/user/forum_report_post.php:77
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Din tilbakemelding er registrert. Takk for hjelpen."
 
-#: html/user/forum_report_post.php:75
+#: html/user/forum_report_post.php:78
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr "En moderator vil nå se på rapporten og avgjøre hva som skjer videre. Dette kan ta litt tid, vennligst vis tålmodighet."
 
-#: html/user/forum_report_post.php:79
+#: html/user/forum_report_post.php:82
 msgid "Report a forum post"
 msgstr "Rapporter et foruminnelgg"
 
-#: html/user/forum_report_post.php:81
+#: html/user/forum_report_post.php:84
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If"
 " enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr "Før du rapporterer dette innlegget ber vi deg vurdere å bruke bedømmelses systemet først. Dersom nok brukere gir denne posten negativ bedømmelse vil den bli skjult. </br> Du finner bedømmelses systemet på bunnen av innlegget"
 
-#: html/user/forum_report_post.php:93
+#: html/user/forum_report_post.php:96
 msgid "Report post"
 msgstr "Rapporter innlegg"
 
-#: html/user/forum_report_post.php:96
+#: html/user/forum_report_post.php:99
 msgid ""
 "Why do you find the post offensive: %1 Please include enough information so "
 "that a person that has not yet read the thread will quickly be able to "
 "identify the issue. %2"
 msgstr "Hvorfor synes du innlegget er støtende: %1 Vennligst ta med nok informasjon slik at en person som ennå ikke har lest tråden, raskt kan identifisere problemet. %2"
 
-#: html/user/forum_report_post.php:107
+#: html/user/forum_report_post.php:110
 msgid "Report not registered"
 msgstr "Rapport ikke registrert"
 
-#: html/user/forum_report_post.php:108
+#: html/user/forum_report_post.php:111
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr "Rapporten kunne ikke registreres. Vennligst prøv igjen senere."
 
-#: html/user/forum_report_post.php:109
+#: html/user/forum_report_post.php:112
 msgid ""
 "If this is not a temporary error, please report it to the project "
 "developers."
@@ -4633,7 +4634,7 @@ msgstr "Trykk her hvis spørsmålet ditt har blitt besvart tilfredsstillende."
 msgid "I've also got this question"
 msgstr "Jeg har også fått dette spørsmålet"
 
-#: html/user/forum_thread.php:165 html/user/forum_thread.php:294
+#: html/user/forum_thread.php:165 html/user/forum_thread.php:300
 msgid "Add a new message to this thread"
 msgstr "Legg til en ny melding til denne tråden"
 
@@ -5458,87 +5459,87 @@ msgstr "Avsender"
 msgid "Date"
 msgstr "Dato"
 
-#: html/user/pm.php:190 html/user/pm.php:220
+#: html/user/pm.php:193 html/user/pm.php:226
 msgid "You need to fill all fields to send a private message"
 msgstr "Du må fylle ut alle feltene for å sende en privat melding"
 
-#: html/user/pm.php:202
+#: html/user/pm.php:205
 msgid "Message sent"
 msgstr "Melding sendt"
 
-#: html/user/pm.php:203
+#: html/user/pm.php:206
 msgid "Your message was sent to %1 team members."
 msgstr "Meldingen din ble sendt til %1 teammedlemmer."
 
-#: html/user/pm.php:224
+#: html/user/pm.php:230
 msgid ""
 "Your message was flagged as spam\n"
 "            by the Akismet anti-spam system.\n"
 "            Please modify your text and try again."
 msgstr "Meldingen din ble markert som spam\nav Akismet anti-spam-systemet.\nEndre teksten og prøv igjen."
 
-#: html/user/pm.php:241
+#: html/user/pm.php:247
 msgid "Could not find user with id %1"
 msgstr "Kunne ikke finne bruker med id %1"
 
-#: html/user/pm.php:246
+#: html/user/pm.php:252
 msgid "Could not find user with username %1"
 msgstr "Kunne ikke finne bruker med brukernavn %1"
 
 #. Non-unique username
-#: html/user/pm.php:248
+#: html/user/pm.php:254
 msgid "%1 is not a unique username; you will have to use user ID"
 msgstr "%1 er ikke et unikt brukernavn; du må bruke bruker ID "
 
-#: html/user/pm.php:254
+#: html/user/pm.php:260
 msgid "User %1 (ID: %2) is not accepting private messages from you."
 msgstr "Bruker %1(ID: %2) godtar ikke private meldinger fra deg."
 
-#: html/user/pm.php:276 html/user/view_profile.php:28
+#: html/user/pm.php:282 html/user/view_profile.php:28
 msgid "No such user"
 msgstr "Ingen slik bruker"
 
-#: html/user/pm.php:278
+#: html/user/pm.php:284
 msgid "Really block %1?"
 msgstr "Virkelig blokkere %1?"
 
-#: html/user/pm.php:279
+#: html/user/pm.php:285
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr "Er du sikker på at du vil blokkere %1 fra å sende deg private meldinger?"
 
-#: html/user/pm.php:280
+#: html/user/pm.php:286
 msgid "Please note that you can only block a limited amount of users."
 msgstr "Obs: Du kan bare blokkere et begrenset antall brukere"
 
-#: html/user/pm.php:281
+#: html/user/pm.php:287
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
 msgstr "Når brukeren er blokkert kan du oppheve blokkeringen fra forum innstillings siden."
 
-#: html/user/pm.php:288
+#: html/user/pm.php:294
 msgid "No, cancel"
 msgstr "Nei, avbryt"
 
-#: html/user/pm.php:297 html/user/team_admins.php:101
+#: html/user/pm.php:303 html/user/team_admins.php:101
 msgid "no such user"
 msgstr "Ingen slik bruker"
 
-#: html/user/pm.php:300
+#: html/user/pm.php:306
 msgid "User %1 blocked"
 msgstr "Bruker %1 blokkert"
 
-#: html/user/pm.php:302
+#: html/user/pm.php:308
 msgid "User %1 has been blocked from sending you private messages."
 msgstr "Bruker %1 har blitt blokkert fra å sende deg private meldinger"
 
-#: html/user/pm.php:303
+#: html/user/pm.php:309
 msgid "To unblock, visit %1 message board preferences %2"
 msgstr "Hvis du vil oppheve blokkeringen, kan du gå til %1 tavleinnstillinger %2"
 
-#: html/user/pm.php:365
+#: html/user/pm.php:371
 msgid "Unknown action"
 msgstr "Ukjent handling"
 
@@ -5825,14 +5826,14 @@ msgid "Tasks by application"
 msgstr "Oppgaver per applikasjon"
 
 #: html/user/server_status.php:175
-msgid "Runtime of last 100 tasks in hours: average, min, max"
-msgstr "Kjøretid for siste 100 oppgaver i timer: snitt, min, maks"
+msgid "Runtime of recent tasks in hours: average, min, max"
+msgstr ""
 
 #: html/user/server_status.php:176
 msgid "Users in last 24 hours"
 msgstr "brukere siste 24t"
 
-#: html/user/server_status.php:211
+#: html/user/server_status.php:216
 msgid "Database schema version: "
 msgstr "Database versjon:"
 
@@ -6819,23 +6820,27 @@ msgid ""
 "email address."
 msgstr "En epost har blitt sendt til %1. Følg linken i eposten for å verifisere epost adressen din."
 
-#: html/user/validate_email_addr.php:44
+#: html/user/validate_email_addr.php:37
+msgid "If you don't receive this email, check your spam folder."
+msgstr ""
+
+#: html/user/validate_email_addr.php:46
 msgid "No such user."
 msgstr "Ingen slik bruker"
 
-#: html/user/validate_email_addr.php:49
+#: html/user/validate_email_addr.php:51
 msgid "Error in URL data - can't validate email address"
 msgstr "Feil i URL data - kan ikke verifisere epost adressen"
 
-#: html/user/validate_email_addr.php:54
+#: html/user/validate_email_addr.php:56
 msgid "Database update failed - please try again later."
 msgstr "Databaseoppdatering feilet - Vennligst prøv igjen senere."
 
-#: html/user/validate_email_addr.php:57
+#: html/user/validate_email_addr.php:59
 msgid "Validate email address"
 msgstr "Verifiser epost adresse"
 
-#: html/user/validate_email_addr.php:58
+#: html/user/validate_email_addr.php:60
 msgid "The email address of your account has been validated."
 msgstr "Epost adressen til din konto er verifisert"
 

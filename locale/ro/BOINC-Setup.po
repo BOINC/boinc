@@ -1,18 +1,20 @@
 # BOINC setup localization template
-# Copyright (C) 2018 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Cristian Belei <bicscoala@yahoo.com>, 2017
+# Ema Țiț <titdragos1@gmail.com>, 2019
 # I. F. <ifettich@netsoft.ro>, 2017
+# Mihai Michael, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-11-07 19:53+0000\n"
-"Last-Translator: I. F. <ifettich@netsoft.ro>\n"
+"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:29+0000\n"
+"Last-Translator: Mihai Michael, 2022\n"
 "Language-Team: Romanian (http://www.transifex.com/boinc/boinc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,31 +23,39 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:215
+#: mac_installer/uninstall.cpp:115
+#, c-format
+msgid "Branding array has too few entries: %s"
+msgstr "Aranjamentul brandingului are prea puține elemente: %s"
+
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:222
 msgid "Could not get user login name"
 msgstr "Nu s-a găsit numele utilizatorului"
 
-#: mac_installer/Installer.cpp:199
+#. Remove everything we've installed
+#. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:284
 #, c-format
-msgid "Sorry, this version of %s requires system 10.6 or higher."
-msgstr "Ne pare rău, această versiune de %s necesită versiune de sistem 10.6 sau mai mare."
+msgid "Sorry, this version of %s requires system %s or higher."
+msgstr "Scuze dar această versiune a %s necesită un sistem %s sau mai mare."
 
-#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
-#: mac_installer/uninstall.cpp:1512
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1469
+#: mac_installer/uninstall.cpp:1523
 msgid "Yes"
 msgstr "Da"
 
-#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
-#: mac_installer/uninstall.cpp:1513
+#: mac_installer/PostInstall.cpp:155 mac_installer/PostInstall.cpp:1470
+#: mac_installer/uninstall.cpp:1524
 msgid "No"
 msgstr "Nu"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:142
+#: mac_installer/PostInstall.cpp:157
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "BOINC trebuie să ruleze chiar dacă nu este nici un utilizator logat?"
 
-#: mac_installer/PostInstall.cpp:1501
+#: mac_installer/PostInstall.cpp:1670
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -53,27 +63,38 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Utilizatorii cu permisiuni de administrare ale acestui calculator vor avea automat permisiunea de a rula si controla %s.\n\nDoriţi să permiteţi şi utilizatorilor fără drepturi de administrare să ruleze şi să controleze %s pe acest Mac?"
 
-#: mac_installer/PostInstall.cpp:1529
+#: mac_installer/PostInstall.cpp:1698
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Doriţi să setaţi %s ca screensaver pentru toţi %s utilizatorii de pe acest Mac?"
 
-#: mac_installer/uninstall.cpp:84
+#: mac_installer/PostInstall.cpp:2233
+msgid ""
+"BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
+"\n"
+"Do you want to install Rosetta 2 now?"
+msgstr "BOINC poate rula aplicații scrise pentru computere Mac cu procesor Intel dacă Rosetta 2 este instalată.\n\nDorești să instalezi Rosetta 2 acum ?"
+
+#: mac_installer/uninstall.cpp:89
 msgid "OK"
 msgstr "OK"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:144
+#: mac_installer/uninstall.cpp:154
 msgid "Permission error after relaunch"
 msgstr "Eroare permisiuni după relansare"
 
-#: mac_installer/uninstall.cpp:149
+#: mac_installer/uninstall.cpp:159
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Ştergerea poate dura câteva minute.\nVă rugăm aşteptaţi."
 
-#: mac_installer/uninstall.cpp:164
+#: mac_installer/uninstall.cpp:175
+msgid "Error saving user name"
+msgstr "Eroare la salvarea numelui de utilizator"
+
+#: mac_installer/uninstall.cpp:186
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -81,22 +102,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Sunteţi sigur că doriţi să ştergeţi complet %s de pe calculatorul dumneavoastră?\n\nVor fi şterse executabilele dar nu vor fi atinse fişierele de date %s."
 
-#: mac_installer/uninstall.cpp:179
+#: mac_installer/uninstall.cpp:201
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Anulat: %s nu a fost atins."
 
-#: mac_installer/uninstall.cpp:243
+#: mac_installer/uninstall.cpp:264
 msgid "name  of user"
 msgstr "nume  al utilizatorului"
 
-#: mac_installer/uninstall.cpp:296
+#: mac_installer/uninstall.cpp:317
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Doriţi să ştergeţi şi VirtualBox de pe calculatorul dumneavoastră?\n(VirtualBox a fost instalat împreună cu BOINC.)"
 
-#: mac_installer/uninstall.cpp:334
+#: mac_installer/uninstall.cpp:355
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -108,10 +129,10 @@ msgid ""
 "\"%s\"."
 msgstr "Ştergere încheiată.\n\nDacă doriţi puteţi să ştergeţi elementele rămase folosind Finder: \ndirectorul \"%s\"\n\npentru fiecare utilizator, fişierul\n\"%s\"."
 
-#: mac_installer/uninstall.cpp:1510
+#: mac_installer/uninstall.cpp:1521
 msgid "Cancel"
 msgstr "Anulează"
 
-#: mac_installer/uninstall.cpp:1511
+#: mac_installer/uninstall.cpp:1522
 msgid "Continue..."
 msgstr "Continuă..."
