@@ -267,11 +267,12 @@
   <string name="menu_help">Довідка</string>
   <string name="menu_report_issue">Попередити про проблему</string>
   <!--about dialog-->
-    <string name="about_title">Про додаток</string>
+  <string name="about_title">Про додаток</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 Каліфорнійський університет, Берклі, США.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
+  <string name="about_credits">Висловлюємо подяку інституту гравітаційної фізики Макса Планка, а також корпораціям IBM та HTC за підтримку.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Нова примітка від %1$s</item>
@@ -281,17 +282,21 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Знайдено додаток добровільних обчислень</string>
+  <string name="nonexcl_dialog_text">На цьому пристрою наразі виконується інша програма розподілених обчислень. Запустити одночасно можна лише одну версію.</string>
   <string name="nonexcl_dialog_exit">Вийти</string>
   <!--social integration-->
   <string name="social_invite_button">Запросити друзів</string>
   <string name="social_invite_intent_title">Як ви бажаєто поділитися?</string>
   <string name="social_invite_content_title">Я приймаю участь у наукових обчисленнях на моєму смартфоні!</string>
+  <string name="social_invite_content_body">Я використовую %1$s для наукових обчислень. Ви тех можете! Завантажте додаток з: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="main_notification_channel_description">Відображати важливі сповіщення</string>
   <string name="notice_notification_channel_name">Повідомлення</string>
   <string name="notice_notification_channel_description">Відображає повідомлення про ваші проєкти.</string>
   <string name="agree_button">Погоджуюсь</string>
+  <string name="prefs_expand_wu_data">Завжди розкривати інформацію про завдання</string>
 </resources>

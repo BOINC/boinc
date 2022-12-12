@@ -4,15 +4,15 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018
+# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018,2022
 # hondakassi <kasvain@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018\n"
+"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018,2022\n"
 "Language-Team: Finnish (http://www.transifex.com/boinc/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,13 +48,13 @@ msgstr "HTTP_PROXY ympäristömuuttujalle pitää määritellä HTTP proxy"
 msgid ""
 "This project seems to have changed its URL.  When convenient, remove the "
 "project, then add %s"
-msgstr ""
+msgstr "Tämä projekti näyttää vaihtaneen URL-osoitettaan.  Poista projekti sopivassa vaiheessa ja lisää sitten %s"
 
-#: client/cs_statefile.cpp:857
+#: client/cs_statefile.cpp:861
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaksivirhe tiedostossa app_info.xml"
 
-#: client/cs_statefile.cpp:901
+#: client/cs_statefile.cpp:905
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml -tiedostossa olevaa tiedostoviittausta ei ole: "
 
@@ -139,40 +139,40 @@ msgstr "BOINC-versiosi on liian vanha.  Asenna uusin versio."
 msgid "This project doesn't support computers of type"
 msgstr "Tämä projekti ei tue tietokonetyyppejä"
 
-#: sched/sched_send.cpp:1121
+#: sched/sched_send.cpp:1151
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Päivitä uusimpaan ajuriin käyttääksesi tietokoneen GPUta laskennassa"
 
-#: sched/sched_send.cpp:1128
+#: sched/sched_send.cpp:1158
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Päivitä uusimpaan ajuriin käyttääksesi projektin kaikkia GPU-sovelluksia"
 
-#: sched/sched_send.cpp:1147
+#: sched/sched_send.cpp:1177
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "NVIDIA GPUn käyttöön tarvitaan uudempi versio BOINCista, päivitä versio"
 
-#: sched/sched_send.cpp:1181
+#: sched/sched_send.cpp:1211
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "%s GPU tarvitaan tämän projektin tehtävien suorittamiseen"
 
-#: sched/sched_send.cpp:1297
+#: sched/sched_send.cpp:1327
 msgid "No tasks are available for the applications you have selected."
 msgstr "Valitsemillesi sovelluksille ei ole tehtäviä."
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1353
 msgid "Your computer type is not supported by this project"
 msgstr "Tämä projekti ei tue tietokoneesi tyyppiä"
 
-#: sched/sched_send.cpp:1329
+#: sched/sched_send.cpp:1359
 msgid "Newer BOINC version required; please install current version"
 msgstr "Uudempi BOINC-versio tarvitaan, asenna uusin versio"
 
-#: sched/sched_send.cpp:1340
+#: sched/sched_send.cpp:1370
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

@@ -268,7 +268,7 @@
   <string name="menu_help">幫助</string>
   <string name="menu_report_issue">回報問題</string>
   <!--about dialog-->
-    <string name="about_title">關於</string>
+  <string name="about_title">關於</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">版本%1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 加州大學伯克利分校</string>

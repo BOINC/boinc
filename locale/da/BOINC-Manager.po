@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
 "Last-Translator: janitor, 2022\n"
 "Language-Team: Danish (http://www.transifex.com/boinc/boinc/language/da/)\n"
@@ -218,23 +218,23 @@ msgstr "Stop den forbundne klient …"
 msgid "Shut down the currently connected BOINC client"
 msgstr "Luk den aktuelt forbundne BOINC-klient ned"
 
-#: clientgui/AdvancedFrame.cpp:353 clientgui/sg_BoincSimpleFrame.cpp:145
+#: clientgui/AdvancedFrame.cpp:353 clientgui/sg_BoincSimpleFrame.cpp:148
 #, c-format
 msgid "Close the %s window"
 msgstr "Luk %s-vinduet"
 
-#: clientgui/AdvancedFrame.cpp:356 clientgui/sg_BoincSimpleFrame.cpp:148
+#: clientgui/AdvancedFrame.cpp:356 clientgui/sg_BoincSimpleFrame.cpp:151
 msgid "&Close window"
 msgstr "&Luk vindue"
 
 #: clientgui/AdvancedFrame.cpp:365 clientgui/AdvancedFrame.cpp:370
-#: clientgui/AdvancedFrame.cpp:375 clientgui/sg_BoincSimpleFrame.cpp:157
-#: clientgui/sg_BoincSimpleFrame.cpp:162
+#: clientgui/AdvancedFrame.cpp:375 clientgui/sg_BoincSimpleFrame.cpp:160
+#: clientgui/sg_BoincSimpleFrame.cpp:165
 #, c-format
 msgid "Exit %s"
 msgstr "Afslut %s"
 
-#: clientgui/AdvancedFrame.cpp:389 clientgui/sg_BoincSimpleFrame.cpp:176
+#: clientgui/AdvancedFrame.cpp:389 clientgui/sg_BoincSimpleFrame.cpp:179
 msgid "Preferences..."
 msgstr "Indstillinger …"
 
@@ -295,39 +295,39 @@ msgid "Switch to the Simple View"
 msgstr "Skift til simpel visning"
 
 #: clientgui/AdvancedFrame.cpp:451 clientgui/AdvancedFrame.cpp:475
-#: clientgui/sg_BoincSimpleFrame.cpp:231 clientgui/sg_BoincSimpleFrame.cpp:255
+#: clientgui/sg_BoincSimpleFrame.cpp:234 clientgui/sg_BoincSimpleFrame.cpp:258
 msgid "&Add project..."
 msgstr "Tilføj &projekt …"
 
 #: clientgui/AdvancedFrame.cpp:452 clientgui/AdvancedFrame.cpp:476
-#: clientgui/sg_BoincSimpleFrame.cpp:232 clientgui/sg_BoincSimpleFrame.cpp:256
+#: clientgui/sg_BoincSimpleFrame.cpp:235 clientgui/sg_BoincSimpleFrame.cpp:259
 msgid "Add a project"
 msgstr "Tilføj et projekt"
 
-#: clientgui/AdvancedFrame.cpp:456 clientgui/sg_BoincSimpleFrame.cpp:236
+#: clientgui/AdvancedFrame.cpp:456 clientgui/sg_BoincSimpleFrame.cpp:239
 msgid "&Use account manager..."
 msgstr "&Bug kontohåndtering …"
 
-#: clientgui/AdvancedFrame.cpp:457 clientgui/sg_BoincSimpleFrame.cpp:237
+#: clientgui/AdvancedFrame.cpp:457 clientgui/sg_BoincSimpleFrame.cpp:240
 msgid "Use an account manager to control this computer."
 msgstr "Brug kontohåndtering for at styre denne computer."
 
-#: clientgui/AdvancedFrame.cpp:461 clientgui/sg_BoincSimpleFrame.cpp:241
+#: clientgui/AdvancedFrame.cpp:461 clientgui/sg_BoincSimpleFrame.cpp:244
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Synkronisér med %s"
 
-#: clientgui/AdvancedFrame.cpp:465 clientgui/sg_BoincSimpleFrame.cpp:245
+#: clientgui/AdvancedFrame.cpp:465 clientgui/sg_BoincSimpleFrame.cpp:248
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Hent nuværende opsætning fra %s"
 
-#: clientgui/AdvancedFrame.cpp:479 clientgui/sg_BoincSimpleFrame.cpp:259
+#: clientgui/AdvancedFrame.cpp:479 clientgui/sg_BoincSimpleFrame.cpp:262
 #, c-format
 msgid "S&top using %s..."
 msgstr "S&top med at bruge %s …"
 
-#: clientgui/AdvancedFrame.cpp:485 clientgui/sg_BoincSimpleFrame.cpp:265
+#: clientgui/AdvancedFrame.cpp:485 clientgui/sg_BoincSimpleFrame.cpp:268
 msgid "Remove this computer from account manager control."
 msgstr "Fjern denne computer fra kontohåndtering."
 
@@ -347,7 +347,7 @@ msgstr "Prøv ventende overførsler igen"
 msgid "Retry deferred file transfers and task requests"
 msgstr "Prøv udsatte filoverførsler og opgaveforespørgsler igen"
 
-#: clientgui/AdvancedFrame.cpp:502 clientgui/sg_BoincSimpleFrame.cpp:271
+#: clientgui/AdvancedFrame.cpp:502 clientgui/sg_BoincSimpleFrame.cpp:274
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Hændelseslog …\tCtrl+Shift+E"
 
@@ -427,11 +427,11 @@ msgstr "Suspendér netværksaktivitet"
 msgid "Stop network activity"
 msgstr "Stop netværksaktivitet"
 
-#: clientgui/AdvancedFrame.cpp:602 clientgui/sg_BoincSimpleFrame.cpp:216
+#: clientgui/AdvancedFrame.cpp:602 clientgui/sg_BoincSimpleFrame.cpp:219
 msgid "Computing &preferences..."
 msgstr "&Beregningsindstillinger …"
 
-#: clientgui/AdvancedFrame.cpp:603 clientgui/sg_BoincSimpleFrame.cpp:217
+#: clientgui/AdvancedFrame.cpp:603 clientgui/sg_BoincSimpleFrame.cpp:220
 msgid "Configure computing preferences"
 msgstr "Konfigurér indstillinger for beregning"
 
@@ -459,7 +459,7 @@ msgstr "Indstillinger for hændelseslog …\tCtrl+Shift+F"
 msgid "Enable or disable various diagnostic messages"
 msgstr "Slå diverse diagnostistikbeskeder fra eller til"
 
-#: clientgui/AdvancedFrame.cpp:624 clientgui/sg_BoincSimpleFrame.cpp:222
+#: clientgui/AdvancedFrame.cpp:624 clientgui/sg_BoincSimpleFrame.cpp:225
 msgid "&Other options..."
 msgstr "&Andre indstillinger …"
 
@@ -484,27 +484,27 @@ msgstr "Læs lokal indstillingsfil"
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Læs indstillinger fra global_prefs_override.xml."
 
-#: clientgui/AdvancedFrame.cpp:644 clientgui/sg_BoincSimpleFrame.cpp:279
+#: clientgui/AdvancedFrame.cpp:644 clientgui/sg_BoincSimpleFrame.cpp:282
 #, c-format
 msgid "%s &help"
 msgstr "%s &hjælp"
 
-#: clientgui/AdvancedFrame.cpp:648 clientgui/sg_BoincSimpleFrame.cpp:283
+#: clientgui/AdvancedFrame.cpp:648 clientgui/sg_BoincSimpleFrame.cpp:286
 #, c-format
 msgid "Show information about %s"
 msgstr "Vis information om %s"
 
-#: clientgui/AdvancedFrame.cpp:658 clientgui/sg_BoincSimpleFrame.cpp:293
+#: clientgui/AdvancedFrame.cpp:658 clientgui/sg_BoincSimpleFrame.cpp:296
 #, c-format
 msgid "&%s help"
 msgstr "&%s hjælp"
 
-#: clientgui/AdvancedFrame.cpp:662 clientgui/sg_BoincSimpleFrame.cpp:297
+#: clientgui/AdvancedFrame.cpp:662 clientgui/sg_BoincSimpleFrame.cpp:300
 #, c-format
 msgid "Show information about the %s"
 msgstr "Vis information om %s"
 
-#: clientgui/AdvancedFrame.cpp:673 clientgui/sg_BoincSimpleFrame.cpp:307
+#: clientgui/AdvancedFrame.cpp:673 clientgui/sg_BoincSimpleFrame.cpp:310
 #, c-format
 msgid "%s &web site"
 msgstr "%s hjemmeside"
@@ -515,34 +515,34 @@ msgid "See more information about %s on the web"
 msgstr "Se mere information om %s på nettet"
 
 #: clientgui/AdvancedFrame.cpp:688 clientgui/AdvancedFrame.cpp:692
-#: clientgui/sg_BoincSimpleFrame.cpp:322 clientgui/sg_BoincSimpleFrame.cpp:326
+#: clientgui/sg_BoincSimpleFrame.cpp:325 clientgui/sg_BoincSimpleFrame.cpp:329
 #, c-format
 msgid "Check for new %s version"
 msgstr "Tjek for ny %s version"
 
-#: clientgui/AdvancedFrame.cpp:704 clientgui/sg_BoincSimpleFrame.cpp:338
+#: clientgui/AdvancedFrame.cpp:704 clientgui/sg_BoincSimpleFrame.cpp:341
 msgid "Report Issue"
 msgstr "Rapportér Problem"
 
-#: clientgui/AdvancedFrame.cpp:705 clientgui/sg_BoincSimpleFrame.cpp:339
+#: clientgui/AdvancedFrame.cpp:705 clientgui/sg_BoincSimpleFrame.cpp:342
 msgid "Report bug or enhancement request"
 msgstr "Rapportér bug eller indsend forespørgsel om forbedring"
 
 #: clientgui/AdvancedFrame.cpp:710 clientgui/BOINCTaskBar.cpp:541
-#: clientgui/sg_BoincSimpleFrame.cpp:344
+#: clientgui/sg_BoincSimpleFrame.cpp:347
 #, c-format
 msgid "&About %s..."
 msgstr "&Om %s …"
 
-#: clientgui/AdvancedFrame.cpp:716 clientgui/sg_BoincSimpleFrame.cpp:350
+#: clientgui/AdvancedFrame.cpp:716 clientgui/sg_BoincSimpleFrame.cpp:353
 msgid "Licensing and copyright information."
 msgstr "Licens- og copyrightinformation."
 
-#: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:357
+#: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:360
 msgid "&File"
 msgstr "&Filer"
 
-#: clientgui/AdvancedFrame.cpp:727 clientgui/sg_BoincSimpleFrame.cpp:361
+#: clientgui/AdvancedFrame.cpp:727 clientgui/sg_BoincSimpleFrame.cpp:364
 msgid "&View"
 msgstr "&Vis"
 
@@ -550,15 +550,15 @@ msgstr "&Vis"
 msgid "&Activity"
 msgstr "&Aktivitet"
 
-#: clientgui/AdvancedFrame.cpp:735 clientgui/sg_BoincSimpleFrame.cpp:365
+#: clientgui/AdvancedFrame.cpp:735 clientgui/sg_BoincSimpleFrame.cpp:368
 msgid "&Options"
 msgstr "&Indstillinger"
 
-#: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:369
+#: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:372
 msgid "&Tools"
 msgstr "&Værktøjer"
 
-#: clientgui/AdvancedFrame.cpp:743 clientgui/sg_BoincSimpleFrame.cpp:373
+#: clientgui/AdvancedFrame.cpp:743 clientgui/sg_BoincSimpleFrame.cpp:376
 #: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "&Hjælp"
@@ -643,7 +643,7 @@ msgstr "&Afslut %s"
 msgid "%s - Communication"
 msgstr "%s – Kommunikation"
 
-#: clientgui/AsyncRPC.cpp:1105 clientgui/DlgAdvPreferencesBase.cpp:183
+#: clientgui/AsyncRPC.cpp:1105 clientgui/DlgAdvPreferencesBase.cpp:195
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:360
 msgid "Cancel"
@@ -796,8 +796,8 @@ msgstr "Ejerskab eller tilladelser for %s er ikke indstillet korrekt; geninstall
 msgid " at "
 msgstr " – "
 
-#: clientgui/BOINCGUIApp.cpp:365 clientgui/MainDocument.cpp:2521
-#: clientgui/MainDocument.cpp:2580 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:365 clientgui/MainDocument.cpp:2629
+#: clientgui/MainDocument.cpp:2688 clientgui/ViewTransfers.cpp:920
 msgid ")"
 msgstr ")"
 
@@ -901,7 +901,7 @@ msgid "E&xit"
 msgstr "&Afslut"
 
 #: clientgui/BOINCTaskBar.cpp:626 clientgui/ViewProjects.cpp:788
-#: clientgui/ViewWork.cpp:874 clientgui/sg_BoincSimpleFrame.cpp:961
+#: clientgui/ViewWork.cpp:921 clientgui/sg_BoincSimpleFrame.cpp:966
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
@@ -1045,9 +1045,9 @@ msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:197
 msgid ""
-"(C) 2003-2020 University of California, Berkeley.\n"
+"(C) 2003-2022 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2020 University of California, Berkeley.\nAlle Rettigheder Forbeholdes."
+msgstr ""
 
 #: clientgui/DlgAbout.cpp:202
 #, c-format
@@ -1063,148 +1063,202 @@ msgstr "For mere information, besøg"
 msgid "&OK"
 msgstr "&O.k."
 
-#: clientgui/DlgAdvPreferences.cpp:667 clientgui/sg_DlgPreferences.cpp:787
+#: clientgui/DlgAdvPreferences.cpp:741 clientgui/sg_DlgPreferences.cpp:790
 msgid "Invalid number"
 msgstr "Ugyldigt tal"
 
-#: clientgui/DlgAdvPreferences.cpp:668 clientgui/sg_DlgPreferences.cpp:788
+#: clientgui/DlgAdvPreferences.cpp:742 clientgui/sg_DlgPreferences.cpp:791
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "Ugyldig tid; værdien skal være mellem 0:00 og 24:00, formatet er TT:MM"
 
-#: clientgui/DlgAdvPreferences.cpp:669 clientgui/sg_DlgPreferences.cpp:789
+#: clientgui/DlgAdvPreferences.cpp:743 clientgui/sg_DlgPreferences.cpp:792
 msgid "Start time must be different from end time"
 msgstr "Starttid skal være forskellig fra sluttid"
 
-#: clientgui/DlgAdvPreferences.cpp:670
+#: clientgui/DlgAdvPreferences.cpp:744
 msgid "Number must be between 0 and 10"
 msgstr "Tallet skal være mellem 0 og 10"
 
-#: clientgui/DlgAdvPreferences.cpp:671 clientgui/sg_DlgPreferences.cpp:790
+#: clientgui/DlgAdvPreferences.cpp:745 clientgui/sg_DlgPreferences.cpp:793
 msgid "Number must be between 0 and 100"
 msgstr "Tallet skal være mellem 0 og 100"
 
-#: clientgui/DlgAdvPreferences.cpp:672
+#: clientgui/DlgAdvPreferences.cpp:746
 msgid "Number must be between 1 and 100"
 msgstr "Nummeret skal være mellem 1 og 100"
 
-#: clientgui/DlgAdvPreferences.cpp:936 clientgui/sg_DlgPreferences.cpp:861
+#: clientgui/DlgAdvPreferences.cpp:747
+msgid ""
+"Suspend when no mouse or keyboard input needs to be greater than 'in use' "
+"mouse or keyboard input."
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:1040 clientgui/sg_DlgPreferences.cpp:864
 msgid "invalid input value detected"
 msgstr "ugyldig input-værdi registreret"
 
-#: clientgui/DlgAdvPreferences.cpp:948 clientgui/sg_DlgPreferences.cpp:873
+#: clientgui/DlgAdvPreferences.cpp:1052 clientgui/sg_DlgPreferences.cpp:876
 msgid "Validation Error"
 msgstr "Valideringsfejl"
 
-#: clientgui/DlgAdvPreferences.cpp:1132 clientgui/sg_DlgPreferences.cpp:1207
+#: clientgui/DlgAdvPreferences.cpp:1241 clientgui/sg_DlgPreferences.cpp:1210
 msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
 "there. Do you want to proceed?"
 msgstr "Ændres til at bruge de lokale præferencer, som er defineret på denne side. Dette vil overskrive dine webbaserede præferencer, også hvis du herefter laver ændringer. Ønsker du at forsætte?"
 
-#: clientgui/DlgAdvPreferences.cpp:1136 clientgui/DlgAdvPreferences.cpp:1177
-#: clientgui/sg_DlgPreferences.cpp:1199 clientgui/sg_DlgPreferences.cpp:1211
+#: clientgui/DlgAdvPreferences.cpp:1245 clientgui/DlgAdvPreferences.cpp:1286
+#: clientgui/sg_DlgPreferences.cpp:1202 clientgui/sg_DlgPreferences.cpp:1214
 msgid "Confirmation"
 msgstr "Bekræftelse"
 
-#: clientgui/DlgAdvPreferences.cpp:1176
+#: clientgui/DlgAdvPreferences.cpp:1285
 msgid "Discard local preferences and use web-based preferences?"
 msgstr "Kassér lokale indstillinger og brug web-baserede indstillinger?"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:61
+#: clientgui/DlgAdvPreferencesBase.cpp:62
 #, c-format
 msgid "%s - Computing preferences"
 msgstr "%s – Beregningsindstillinger"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:88 clientgui/sg_DlgPreferences.cpp:163
-msgid ""
-"Using local preferences.\n"
-"Click \"Use web prefs\" to use web-based preferences from"
-msgstr "Bruger lokale indstillinger.\nKlik \"Brug web-indstillinger\" for at bruge web-baserede indstillinger fra"
+#: clientgui/DlgAdvPreferencesBase.cpp:99
+msgid "Using local prefs."
+msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:96 clientgui/sg_DlgPreferences.cpp:171
-msgid "Using web-based preferences from"
-msgstr "Bruger web-baserede indstillinger fra"
+#: clientgui/DlgAdvPreferencesBase.cpp:101
+msgid "Click to use web prefs from"
+msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:113 clientgui/sg_DlgPreferences.cpp:189
-msgid "Set values and click Save to use local preferences instead."
-msgstr "Sæt værdier og klik Gem for at bruge de lokale præferencer i stedet."
+#: clientgui/DlgAdvPreferencesBase.cpp:108
+msgid "Using web prefs from"
+msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:121 clientgui/sg_DlgPreferences.cpp:217
+#: clientgui/DlgAdvPreferencesBase.cpp:125
+msgid "Set values and click Save to use local prefs instead."
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:133 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
 msgstr "Brug web-indstillinger"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:122 clientgui/sg_DlgPreferences.cpp:218
+#: clientgui/DlgAdvPreferencesBase.cpp:134 clientgui/sg_DlgPreferences.cpp:218
 msgid "Restore web-based preferences and close the dialog."
 msgstr "Genopret web-baserede indstillinger og luk vinduet."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:151
-#: clientgui/DlgAdvPreferencesBase.cpp:722
+#: clientgui/DlgAdvPreferencesBase.cpp:163
+#: clientgui/DlgAdvPreferencesBase.cpp:817
 msgid "Computing"
 msgstr "Beregner"
 
 #. Network schedule
-#: clientgui/DlgAdvPreferencesBase.cpp:155
-#: clientgui/DlgAdvPreferencesBase.cpp:924
+#: clientgui/DlgAdvPreferencesBase.cpp:167
+#: clientgui/DlgAdvPreferencesBase.cpp:1019
 msgid "Network"
 msgstr "Netværk"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:159
-msgid "Disk and memory"
-msgstr "Disk og hukommelse"
+#: clientgui/DlgAdvPreferencesBase.cpp:171 clientgui/ViewResources.cpp:118
+msgid "Disk"
+msgstr "Disk"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:163
+#: clientgui/DlgAdvPreferencesBase.cpp:175
 msgid "Daily schedules"
 msgstr "Daglige planlægninger"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:176
+#: clientgui/DlgAdvPreferencesBase.cpp:188
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgExclusiveApps.cpp:146
 #: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:353
 msgid "Save"
 msgstr "Gem"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:177 clientgui/sg_DlgPreferences.cpp:354
+#: clientgui/DlgAdvPreferencesBase.cpp:189 clientgui/sg_DlgPreferences.cpp:354
 msgid "Save all values and close the dialog."
 msgstr "Gem alle værdier og luk vinduet."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:184 clientgui/sg_DlgPreferences.cpp:361
+#: clientgui/DlgAdvPreferencesBase.cpp:196 clientgui/sg_DlgPreferences.cpp:361
 msgid "Close the dialog without saving."
 msgstr "Luk vinduet uden at gemme."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
+#: clientgui/DlgAdvPreferencesBase.cpp:202 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:997
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1002
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "Hjælp"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:191
+#: clientgui/DlgAdvPreferencesBase.cpp:203
 msgid "Shows the preferences web page."
 msgstr "Viser websiden med indstillinger."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:253
-#: clientgui/DlgAdvPreferencesBase.cpp:501
-msgid "Usage limits"
-msgstr "Forbrugsgrænser"
+#. ------------ In-use box --------------
+#: clientgui/DlgAdvPreferencesBase.cpp:300
+msgid "When computer is in use"
+msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:258
+#. in-use if input in last X min
+#. min idle time
+#: clientgui/DlgAdvPreferencesBase.cpp:306 clientgui/sg_DlgPreferences.cpp:264
+msgid "This determines when the computer is considered 'in use'."
+msgstr "Dette afgør, hvornår computeren opfattes som \"i brug\"."
+
+#. context: 'In use' means mouse or keyboard input in last ___ minutes
+#: clientgui/DlgAdvPreferencesBase.cpp:310
+msgid "'In use' means mouse or keyboard input in last"
+msgstr ""
+
+#. context: 'In use' means mouse or keyboard input in last ___ minutes
+#. context: Switch between tasks every ___ minutes
+#: clientgui/DlgAdvPreferencesBase.cpp:319
+#: clientgui/DlgAdvPreferencesBase.cpp:465
+#: clientgui/DlgAdvPreferencesBase.cpp:509 clientgui/sg_DlgPreferences.cpp:276
+msgid "minutes"
+msgstr "minutter"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:328 clientgui/sg_DlgPreferences.cpp:253
+msgid "Suspend when computer is in use"
+msgstr "Suspendér når computeren er i brug"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:331 clientgui/sg_DlgPreferences.cpp:249
+msgid ""
+"Check this to suspend computing and file transfers when you're using the "
+"computer."
+msgstr "Aktivér dette for at suspendere beregning og filoverførsler, når du bruger computeren."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:339
+msgid "Suspend GPU computing when computer is in use"
+msgstr "Suspendér GPU-beregning når computeren er i brug"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:342
+msgid "Check this to suspend GPU computing when you're using the computer."
+msgstr "Aktivér dette for at suspendere GPU-beregning, når du bruger computeren."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:392
+#: clientgui/DlgAdvPreferencesBase.cpp:412
+#: clientgui/DlgAdvPreferencesBase.cpp:450 clientgui/sg_DlgPreferences.cpp:286
+msgid "Use at most"
+msgstr "Brug højst"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:354
+#: clientgui/DlgAdvPreferencesBase.cpp:417
+#, no-c-format
+msgid "% of the CPUs and at most"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:358
+#: clientgui/DlgAdvPreferencesBase.cpp:421 clientgui/sg_DlgPreferences.cpp:291
+#, no-c-format
+msgid "% of CPU time"
+msgstr "% af CPU-tid"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:360
 #, no-c-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
 msgstr "Hold nogle CPUer fri til andre applikationer. Eksempel: 75% betyder, brug 6 kerner på en 8-kernet CPU."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:260
-#: clientgui/DlgAdvPreferencesBase.cpp:272 clientgui/sg_DlgPreferences.cpp:286
-msgid "Use at most"
-msgstr "Brug højst"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:265
-#, no-c-format
-msgid "% of the CPUs"
-msgstr "% af CPUerne"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:270 clientgui/sg_DlgPreferences.cpp:284
+#: clientgui/DlgAdvPreferencesBase.cpp:362 clientgui/sg_DlgPreferences.cpp:284
 #, no-c-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
@@ -1212,373 +1266,354 @@ msgid ""
 "and repeat."
 msgstr "Suspendér/genoptag beregning med få sekunders mellemrum for at reducere CPU-temparatur og energiforbrug. Eksempel: 75% betyder, beregn i 3 sekunder, vent i 1 sekund og gentag."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:277 clientgui/sg_DlgPreferences.cpp:291
+#: clientgui/DlgAdvPreferencesBase.cpp:375
+#: clientgui/DlgAdvPreferencesBase.cpp:433
+msgid "Suspend when non-BOINC CPU usage is above"
+msgstr "Suspendér når ikke-BOINC CPU-brug er højere end"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:381
+#: clientgui/DlgAdvPreferencesBase.cpp:443
+msgid "Suspend computing when your computer is busy running other programs."
+msgstr "Suspendér beregning når din computerer har travlt med at køre andre programmer."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:391
+#, c-format
+msgid "Limit the memory used by %s when you're using the computer."
+msgstr "Begræns den hukommelse, som %s bruger, når du bruger computeren."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:396
+#: clientgui/DlgAdvPreferencesBase.cpp:453
 #, no-c-format
-msgid "% of CPU time"
-msgstr "% af CPU-tid"
+msgid "% of memory"
+msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:284
-msgid "When to suspend"
-msgstr "Hvornår der skal suspenderes"
+#. ------------ Not-in-use box --------------
+#: clientgui/DlgAdvPreferencesBase.cpp:405
+msgid "When computer is not in use"
+msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:290 clientgui/sg_DlgPreferences.cpp:239
+#: clientgui/DlgAdvPreferencesBase.cpp:449
+#, c-format
+msgid "Limit the memory used by %s when you're not using the computer."
+msgstr "Begræns den hukommelse, som %s bruger, når du ikke bruger computeren."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:459
+msgid "Suspend when no mouse or keyboard input in last"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:471
+msgid "This allows some computers to enter low-power mode when not in use."
+msgstr "Dette tillader nogle computere at gå i energisparetilstand, når de ikke er i brug."
+
+#. ------------ General box --------------
+#. layout controls
+#: clientgui/DlgAdvPreferencesBase.cpp:480 clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgOptions.cpp:258
+msgid "General"
+msgstr "Generelt"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:488 clientgui/sg_DlgPreferences.cpp:239
 msgid "Suspend when computer is on battery"
 msgstr "Suspendér når computeren er på batteri"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:293 clientgui/sg_DlgPreferences.cpp:235
+#: clientgui/DlgAdvPreferencesBase.cpp:491 clientgui/sg_DlgPreferences.cpp:235
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
 msgstr "Aktivér dette for at suspendere beregning på en bærbar computer, når den kører på batteri."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:253
-msgid "Suspend when computer is in use"
-msgstr "Suspendér når computeren er i brug"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:302 clientgui/sg_DlgPreferences.cpp:249
-msgid ""
-"Check this to suspend computing and file transfers when you're using the "
-"computer."
-msgstr "Aktivér dette for at suspendere beregning og filoverførsler, når du bruger computeren."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:308
-msgid "Suspend GPU computing when computer is in use"
-msgstr "Suspendér GPU-beregning når computeren er i brug"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:311
-msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Aktivér dette for at suspendere GPU-beregning, når du bruger computeren."
-
-#. min idle time
-#: clientgui/DlgAdvPreferencesBase.cpp:316 clientgui/sg_DlgPreferences.cpp:264
-msgid "This determines when the computer is considered 'in use'."
-msgstr "Dette afgør, hvornår computeren opfattes som \"i brug\"."
-
-#. context: 'In use' means mouse/keyboard input in last ___ minutes
-#: clientgui/DlgAdvPreferencesBase.cpp:321 clientgui/sg_DlgPreferences.cpp:268
-msgid "'In use' means mouse/keyboard input in last"
-msgstr "\"I brug\" betyder mus-/tastaturinput inden for de seneste"
-
-#. context: 'In use' means mouse/keyboard input in last ___ minutes
-#. context: Switch between tasks every ___ minutes
-#: clientgui/DlgAdvPreferencesBase.cpp:332
-#: clientgui/DlgAdvPreferencesBase.cpp:349
-#: clientgui/DlgAdvPreferencesBase.cpp:451 clientgui/sg_DlgPreferences.cpp:276
-msgid "minutes"
-msgstr "minutter"
-
-#. suspend after max idle time
-#: clientgui/DlgAdvPreferencesBase.cpp:339
-msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "Dette tillader nogle computere at gå i energisparetilstand, når de ikke er i brug."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:343
-msgid "Suspend when no mouse/keyboard input in last"
-msgstr "Suspendér når mus/tastatur ikke har været brugt i de sidste"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:361
-msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspendér når ikke-BOINC CPU-brug er højere end"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:363
-msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Suspendér beregning når din computerer har travlt med at køre andre programmer."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:377
-msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "For at suspendere efter tidspunkt på dagen, se sektionen \"Daglige planlægninger\""
-
-#. Context: heading for a group of miscellaneous preferences
-#: clientgui/DlgAdvPreferencesBase.cpp:387
-#: clientgui/DlgAdvPreferencesBase.cpp:554
-msgid "Other"
-msgstr "Andre"
-
-#. buffer sizes
-#: clientgui/DlgAdvPreferencesBase.cpp:393
-msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Gem mindst nok opgaver til at holde computeren optaget så længe som dette."
-
-#. context: Store at least ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:397
-msgid "Store at least"
-msgstr "Gem mindst"
-
-#. context: Store at least ___ days of work
-#. context: Store up to an additional ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:408
-#: clientgui/DlgAdvPreferencesBase.cpp:430
-msgid "days of work"
-msgstr "dages arbejde"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:414
-msgid ""
-"Store additional tasks above the minimum level.  Determines how much work is"
-" requested when contacting a project."
-msgstr "Gem yderligere opgaver ud over minimumsniveauet. Afgør hvor meget arbejde, der forespørges, når et projekt kontaktes."
-
-#. context: Store up to an additional ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:418
-msgid "Store up to an additional"
-msgstr "Gem op til yderligere"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:437
+#: clientgui/DlgAdvPreferencesBase.cpp:498
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
 msgstr "Hvis du kører flere projekter, kan %s skifte mellem dem så ofte som dette."
 
 #. context: Switch between tasks every ___ minutes
-#: clientgui/DlgAdvPreferencesBase.cpp:442
+#: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Switch between tasks every"
 msgstr "Skift mellem opgaver hver"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:457
+#. checkpoint every X
+#: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
 msgstr "Dette styrer, hvor ofte opgaver gemmer deres tilstand til disken, sådan at de senere kan genoptage fra dette punkt."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
-#: clientgui/DlgAdvPreferencesBase.cpp:461
+#: clientgui/DlgAdvPreferencesBase.cpp:520
 msgid "Request tasks to checkpoint at most every"
 msgstr "Forespørg opgaver om højst at lave checkpoint hver"
 
 #. context: Request tasks to checkpoint at most every ___ seconds
-#: clientgui/DlgAdvPreferencesBase.cpp:470
+#: clientgui/DlgAdvPreferencesBase.cpp:527
 msgid "seconds"
 msgstr "sekunder"
 
-#. upload/download rates
-#: clientgui/DlgAdvPreferencesBase.cpp:507
-msgid "Limit the download rate of file transfers."
-msgstr "Begræns downloadhastigheden for filoverførsler."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:508
-msgid "Limit download rate to"
-msgstr "Begræns downloadhastighed til"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:512
-#: clientgui/DlgAdvPreferencesBase.cpp:521
-msgid "KB/second"
-msgstr "KB/sekund"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:516
-msgid "Limit the upload rate of file transfers."
-msgstr "Begræns uploadhastigheden for filoverførsler."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:517
-msgid "Limit upload rate to"
-msgstr "Begræns uploadhastighed til"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:528
-#, c-format
-msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
-msgstr "Eksempel: %s må højst overføre 2000 MB data for hver 30 dage."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:530
-msgid "Limit usage to"
-msgstr "Begræns forbrug til"
-
+#. leave non-GPU tasks in memory while suspended
 #: clientgui/DlgAdvPreferencesBase.cpp:534
-msgid "MB every"
-msgstr "MB for hver"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:538
-msgid "days"
-msgstr "dage"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:543
-msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "For at begrænse overførsler efter tidspunkt på dagen, se sektionen \"Daglige planlægninger\""
-
-#: clientgui/DlgAdvPreferencesBase.cpp:560
-#, c-format
-msgid ""
-"Check this only if your Internet provider modifies image files. Skipping "
-"verification reduces the security of %s."
-msgstr "Aktivér kun dette hvis din internetudbyder modificerer billedfiler. Ved at springe verificering over reduceres sikkerheden for %s."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:562
-msgid "Skip data verification for image files"
-msgstr "Spring dataverificering over for billedfiler"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:566
-msgid "Confirm before connecting to Internet"
-msgstr "Bekræft før forbindelse til Internet"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:567
-#: clientgui/DlgAdvPreferencesBase.cpp:571
-msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Kun nyttigt hvis du har en modem-, ISDN- eller VPN-forbindelse."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:570
-msgid "Disconnect when done"
-msgstr "Kobl af Internet når færdig"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/ViewResources.cpp:118
-msgid "Disk"
-msgstr "Disk"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:602
-#, c-format
-msgid "%s will use the most restrictive of these settings:"
-msgstr "%s vil bruge den mest restriktive af disse opsætninger:"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:608 clientgui/sg_DlgPreferences.cpp:335
-#, c-format
-msgid "Limit the total amount of disk space used by %s."
-msgstr "Begræns den totale mængd diskplads, der bruges af %s."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:611
-#: clientgui/DlgAdvPreferencesBase.cpp:635 clientgui/sg_DlgPreferences.cpp:338
-msgid "Use no more than"
-msgstr "Brug ikke mere end"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:615
-msgid "GB"
-msgstr "GB"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:620
-#, c-format
-msgid ""
-"Limit disk usage to leave this much free space on the volume where %s stores"
-" data."
-msgstr "Begræns diskforbrug så denne mængde fri plads efterlades på den enhed, hvor %s gemmer data."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:623
-msgid "Leave at least"
-msgstr "Frihold mindst"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:627
-msgid "GB free"
-msgstr "GB fri"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:632
-#, c-format
-msgid ""
-"Limit the percentage of disk space used by %s on the volume where it stores "
-"data."
-msgstr "Begræns procentdelen af diskplads, der bruges af %s på den enhed, hvor den gemmer data."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:640
-#, no-c-format
-msgid "% of total"
-msgstr "%"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:647
-msgid "Memory"
-msgstr "Hukommelse"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:652
-#, c-format
-msgid "Limit the memory used by %s when you're using the computer."
-msgstr "Begræns den hukommelse, som %s bruger, når du bruger computeren."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:654
-msgid "When computer is in use, use at most"
-msgstr "Når computeren er i brug, brug højst"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:660
-#: clientgui/DlgAdvPreferencesBase.cpp:672
-#: clientgui/DlgAdvPreferencesBase.cpp:688
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:665
-#, c-format
-msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "Begræns den hukommelse, som %s bruger, når du ikke bruger computeren."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:667
-msgid "When computer is not in use, use at most"
-msgstr "Når computeren ikke er i brug, brug højst"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:676
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr "Efterlad ikke-GPU-opgaver i hukommelsen under suspendering"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:677
+#: clientgui/DlgAdvPreferencesBase.cpp:535
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr "Hvis du aktiverer dette, vil suspenderede opgaver forblive i hukommelsen og fortsætte uden tabt arbejde. Hvis du ikke aktiverer dette, vil suspenderede opgaver blive fjernet fra hukommelsen og fortsætte fra deres seneste checkpoint."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:681
+#. work buffer min
+#. work buffer
+#: clientgui/DlgAdvPreferencesBase.cpp:541
+#: clientgui/DlgAdvPreferencesBase.cpp:582
+msgid "Store at least enough tasks to keep the computer busy for this long."
+msgstr "Gem mindst nok opgaver til at holde computeren optaget så længe som dette."
+
+#. context: Store at least ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:545
+#: clientgui/DlgAdvPreferencesBase.cpp:586
+msgid "Store at least"
+msgstr "Gem mindst"
+
+#. context: Store at least ___ days of work
+#. context: Store up to an additional ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:554
+#: clientgui/DlgAdvPreferencesBase.cpp:575
+#: clientgui/DlgAdvPreferencesBase.cpp:605
+msgid "days of work"
+msgstr "dages arbejde"
+
+#. work buffer additional
+#: clientgui/DlgAdvPreferencesBase.cpp:561
+#: clientgui/DlgAdvPreferencesBase.cpp:598
+msgid ""
+"Store additional tasks above the minimum level.  Determines how much work is"
+" requested when contacting a project."
+msgstr "Gem yderligere opgaver ud over minimumsniveauet. Afgør hvor meget arbejde, der forespørges, når et projekt kontaktes."
+
+#. context: Store up to an additional ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:565
+msgid "Store up to an additional"
+msgstr "Gem op til yderligere"
+
+#. context: Store at least ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:595
+msgid "days and up to an additional"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:619
+msgid "To suspend by time of day, see the \"Daily Schedules\" section."
+msgstr "For at suspendere efter tidspunkt på dagen, se sektionen \"Daglige planlægninger\""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:649
+msgid "Network usage"
+msgstr ""
+
+#. download rate
+#: clientgui/DlgAdvPreferencesBase.cpp:655
+msgid "Limit the download rate of file transfers."
+msgstr "Begræns downloadhastigheden for filoverførsler."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:656
+msgid "Limit download rate to"
+msgstr "Begræns downloadhastighed til"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:658
+#: clientgui/DlgAdvPreferencesBase.cpp:666
+msgid "KB/second"
+msgstr "KB/sekund"
+
+#. upload rate
+#: clientgui/DlgAdvPreferencesBase.cpp:663
+msgid "Limit the upload rate of file transfers."
+msgstr "Begræns uploadhastigheden for filoverførsler."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:664
+msgid "Limit upload rate to"
+msgstr "Begræns uploadhastighed til"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:672
+#, c-format
+msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
+msgstr "Eksempel: %s må højst overføre 2000 MB data for hver 30 dage."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:673
+msgid "Limit usage to"
+msgstr "Begræns forbrug til"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:675
+msgid "MB every"
+msgstr "MB for hver"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:677
+msgid "days"
+msgstr "dage"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:680
+msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
+msgstr "For at begrænse overførsler efter tidspunkt på dagen, se sektionen \"Daglige planlægninger\""
+
+#. Context: heading for a group of miscellaneous preferences
+#: clientgui/DlgAdvPreferencesBase.cpp:691
+msgid "Other"
+msgstr "Andre"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:699
+#, c-format
+msgid ""
+"Check this only if your Internet provider modifies image files. Skipping "
+"verification reduces the security of %s."
+msgstr "Aktivér kun dette hvis din internetudbyder modificerer billedfiler. Ved at springe verificering over reduceres sikkerheden for %s."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:700
+msgid "Skip data verification for image files"
+msgstr "Spring dataverificering over for billedfiler"
+
+#. confirm before connecting
+#: clientgui/DlgAdvPreferencesBase.cpp:706
+msgid "Confirm before connecting to Internet"
+msgstr "Bekræft før forbindelse til Internet"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:707
+#: clientgui/DlgAdvPreferencesBase.cpp:712
+msgid "Useful only if you have a modem, ISDN or VPN connection."
+msgstr "Kun nyttigt hvis du har en modem-, ISDN- eller VPN-forbindelse."
+
+#. disconnect when done
+#: clientgui/DlgAdvPreferencesBase.cpp:711
+msgid "Disconnect when done"
+msgstr "Kobl af Internet når færdig"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:737 clientgui/DlgItemProperties.cpp:277
+msgid "Disk usage"
+msgstr "Diskforbrug"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:744 clientgui/sg_DlgPreferences.cpp:335
+#, c-format
+msgid "Limit the total amount of disk space used by %s."
+msgstr "Begræns den totale mængd diskplads, der bruges af %s."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:746
+#: clientgui/DlgAdvPreferencesBase.cpp:766 clientgui/sg_DlgPreferences.cpp:338
+msgid "Use no more than"
+msgstr "Brug ikke mere end"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:748
+msgid "GB"
+msgstr "GB"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:754
+#, c-format
+msgid ""
+"Limit disk usage to leave this much free space on the volume where %s stores"
+" data."
+msgstr "Begræns diskforbrug så denne mængde fri plads efterlades på den enhed, hvor %s gemmer data."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:756
+msgid "Leave at least"
+msgstr "Frihold mindst"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:758
+msgid "GB free"
+msgstr "GB fri"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:764
+#, c-format
+msgid ""
+"Limit the percentage of disk space used by %s on the volume where it stores "
+"data."
+msgstr "Begræns procentdelen af diskplads, der bruges af %s på den enhed, hvor den gemmer data."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:769
+#, no-c-format
+msgid "% of total"
+msgstr "%"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:773
+#, c-format
+msgid "%s will use the most restrictive of the above settings"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:781
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
 msgstr "Begræns swapplads (sidefil), der bruges af %s."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:683
+#: clientgui/DlgAdvPreferencesBase.cpp:782
 msgid "Page/swap file: use at most"
 msgstr "Side/swapfil: brug højst"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:708 clientgui/sg_DlgPreferences.cpp:295
+#: clientgui/DlgAdvPreferencesBase.cpp:785
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:803 clientgui/sg_DlgPreferences.cpp:295
 msgid "and"
 msgstr "og"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:709
+#: clientgui/DlgAdvPreferencesBase.cpp:804
 msgid "to"
 msgstr "til"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:729 clientgui/sg_DlgPreferences.cpp:296
+#: clientgui/DlgAdvPreferencesBase.cpp:824 clientgui/sg_DlgPreferences.cpp:296
 msgid "Compute only during a particular period each day."
 msgstr "Beregn kun i løbet af en bestemt periode hver dag."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:732 clientgui/sg_DlgPreferences.cpp:299
+#: clientgui/DlgAdvPreferencesBase.cpp:827 clientgui/sg_DlgPreferences.cpp:299
 msgid "Compute only between"
 msgstr "Beregn kun mellem"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:756
-#: clientgui/DlgAdvPreferencesBase.cpp:940
+#: clientgui/DlgAdvPreferencesBase.cpp:851
+#: clientgui/DlgAdvPreferencesBase.cpp:1035
 msgid "Day-of-week override"
 msgstr "Tilsidesætning af ugedag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:765
-#: clientgui/DlgAdvPreferencesBase.cpp:944
+#: clientgui/DlgAdvPreferencesBase.cpp:860
+#: clientgui/DlgAdvPreferencesBase.cpp:1039
 msgid "Override the times above on the selected days:"
 msgstr "Tilsidesæt tiderne herover på de følgende dage:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:788
-#: clientgui/DlgAdvPreferencesBase.cpp:961
+#: clientgui/DlgAdvPreferencesBase.cpp:883
+#: clientgui/DlgAdvPreferencesBase.cpp:1056
 msgid "Monday"
 msgstr "Mandag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:815
-#: clientgui/DlgAdvPreferencesBase.cpp:976
+#: clientgui/DlgAdvPreferencesBase.cpp:910
+#: clientgui/DlgAdvPreferencesBase.cpp:1071
 msgid "Friday"
 msgstr "Fredag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:830
-#: clientgui/DlgAdvPreferencesBase.cpp:989
+#: clientgui/DlgAdvPreferencesBase.cpp:925
+#: clientgui/DlgAdvPreferencesBase.cpp:1084
 msgid "Tuesday"
 msgstr "Tirsdag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:845
-#: clientgui/DlgAdvPreferencesBase.cpp:1004
+#: clientgui/DlgAdvPreferencesBase.cpp:940
+#: clientgui/DlgAdvPreferencesBase.cpp:1099
 msgid "Saturday"
 msgstr "Lørdag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:858
-#: clientgui/DlgAdvPreferencesBase.cpp:1017
+#: clientgui/DlgAdvPreferencesBase.cpp:953
+#: clientgui/DlgAdvPreferencesBase.cpp:1112
 msgid "Wednesday"
 msgstr "Onsdag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:873
-#: clientgui/DlgAdvPreferencesBase.cpp:1032
+#: clientgui/DlgAdvPreferencesBase.cpp:968
+#: clientgui/DlgAdvPreferencesBase.cpp:1127
 msgid "Sunday"
 msgstr "Søndag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:886
-#: clientgui/DlgAdvPreferencesBase.cpp:1045
+#: clientgui/DlgAdvPreferencesBase.cpp:981
+#: clientgui/DlgAdvPreferencesBase.cpp:1140
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:928 clientgui/sg_DlgPreferences.cpp:317
+#: clientgui/DlgAdvPreferencesBase.cpp:1023
+#: clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only during a particular period each day."
 msgstr "Overfør kun filer i en bestemt periode hver dag."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:930 clientgui/sg_DlgPreferences.cpp:319
+#: clientgui/DlgAdvPreferencesBase.cpp:1025
+#: clientgui/sg_DlgPreferences.cpp:319
 msgid "Transfer files only between"
 msgstr "Overfør kun filer mellem"
 
@@ -1628,8 +1663,8 @@ msgstr "%s – Hændelseslog"
 #. Create List Pane Items
 #: clientgui/DlgEventLog.cpp:237 clientgui/ViewMessages.cpp:117
 #: clientgui/ViewProjects.cpp:251 clientgui/ViewStatistics.cpp:411
-#: clientgui/ViewStatistics.cpp:1988 clientgui/ViewTransfers.cpp:209
-#: clientgui/ViewWork.cpp:260
+#: clientgui/ViewStatistics.cpp:1988 clientgui/ViewTransfers.cpp:225
+#: clientgui/ViewWork.cpp:282
 msgid "Project"
 msgstr "Projekt"
 
@@ -1874,11 +1909,6 @@ msgstr "%s opgaveanmodninger udskydelsesinterval"
 msgid "Properties of project "
 msgstr "Egenskaber for projekt"
 
-#. layout controls
-#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:258
-msgid "General"
-msgstr "Generelt"
-
 #: clientgui/DlgItemProperties.cpp:264
 msgid "URL"
 msgstr "URL"
@@ -1906,10 +1936,6 @@ msgstr "Fildownload udsat med"
 #: clientgui/DlgItemProperties.cpp:275
 msgid "File uploads deferred for"
 msgstr "Filupload udsat med"
-
-#: clientgui/DlgItemProperties.cpp:277
-msgid "Disk usage"
-msgstr "Diskforbrug"
 
 #: clientgui/DlgItemProperties.cpp:278
 msgid "Computer ID"
@@ -2015,11 +2041,11 @@ msgstr "Seneste svar fra planlægger"
 msgid "Properties of task "
 msgstr "Egenskaber for opgave"
 
-#: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:288
 msgid "Application"
 msgstr "Applikation"
 
-#: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:289
 msgid "Name"
 msgstr "Navn"
 
@@ -2104,7 +2130,7 @@ msgstr "pr. sekund"
 msgid "Executable"
 msgstr "Eksekverbar"
 
-#: clientgui/DlgItemProperties.cpp:513 clientgui/ViewWork.cpp:1143
+#: clientgui/DlgItemProperties.cpp:513 clientgui/ViewWork.cpp:1222
 #: clientgui/sg_TaskPanel.cpp:821
 msgid "Local: "
 msgstr "Lokal:"
@@ -2503,191 +2529,191 @@ msgstr "Der er ingen ny version af %s tilgængelig til download."
 msgid "%s is not connected to the client"
 msgstr "%s er ikke forbundet til klienten"
 
-#: clientgui/MainDocument.cpp:1860
+#: clientgui/MainDocument.cpp:1968
 msgid "Missing application"
 msgstr "Manglende applikation"
 
-#: clientgui/MainDocument.cpp:1861
+#: clientgui/MainDocument.cpp:1969
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "Download og installér venligst CoRD-applikationen fra http://cord.sourceforge.net"
 
-#: clientgui/MainDocument.cpp:2469
+#: clientgui/MainDocument.cpp:2577
 msgid "on batteries"
 msgstr "på batterier"
 
-#: clientgui/MainDocument.cpp:2470
+#: clientgui/MainDocument.cpp:2578
 msgid "computer is in use"
 msgstr "computeren er i brug"
 
-#: clientgui/MainDocument.cpp:2471
+#: clientgui/MainDocument.cpp:2579
 msgid "user request"
 msgstr "brugerforespørgsel"
 
-#: clientgui/MainDocument.cpp:2472
+#: clientgui/MainDocument.cpp:2580
 msgid "time of day"
 msgstr "tidspunkt på dagen"
 
-#: clientgui/MainDocument.cpp:2473
+#: clientgui/MainDocument.cpp:2581
 msgid "CPU benchmarks in progress"
 msgstr "kører CPU-ydelsesmåling"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2582
 msgid "need disk space - check preferences"
 msgstr "behøver diskplads – check indstillinger"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2583
 msgid "computer is not in use"
 msgstr "computeren er ikke i brug"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2584
 msgid "starting up"
 msgstr "starter op"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2585
 msgid "an exclusive app is running"
 msgstr "en eksklusiv applikation kører"
 
-#: clientgui/MainDocument.cpp:2478
+#: clientgui/MainDocument.cpp:2586
 msgid "CPU is busy"
 msgstr "CPU er optaget"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2587
 msgid "network bandwidth limit exceeded"
 msgstr "begrænsning for netværksbåndbredde nået"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2588
 msgid "requested by operating system"
 msgstr "forespurgt af operativsystem"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2590
 msgid "unknown reason"
 msgstr "ukendt begrundelse"
 
-#: clientgui/MainDocument.cpp:2504
+#: clientgui/MainDocument.cpp:2612
 msgid "GPU missing, "
 msgstr "GPU mangler,"
 
-#: clientgui/MainDocument.cpp:2511
+#: clientgui/MainDocument.cpp:2619
 msgid "New"
 msgstr "Ny"
 
-#: clientgui/MainDocument.cpp:2515
+#: clientgui/MainDocument.cpp:2623
 msgid "Download failed"
 msgstr "Download mislykkedes"
 
-#: clientgui/MainDocument.cpp:2517
+#: clientgui/MainDocument.cpp:2625
 msgid "Downloading"
 msgstr "Downloader"
 
-#: clientgui/MainDocument.cpp:2519 clientgui/MainDocument.cpp:2578
+#: clientgui/MainDocument.cpp:2627 clientgui/MainDocument.cpp:2686
 msgid " (suspended - "
 msgstr "(suspenderet – "
 
-#: clientgui/MainDocument.cpp:2527
+#: clientgui/MainDocument.cpp:2635
 msgid "Project suspended by user"
 msgstr "Projekt suspenderet af bruger"
 
-#: clientgui/MainDocument.cpp:2529
+#: clientgui/MainDocument.cpp:2637
 msgid "Task suspended by user"
 msgstr "Opgave suspenderet af bruger"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2534
+#: clientgui/MainDocument.cpp:2642
 msgid "Suspended - "
 msgstr "Suspenderet – "
 
-#: clientgui/MainDocument.cpp:2537
+#: clientgui/MainDocument.cpp:2645
 msgid "GPU suspended - "
 msgstr "GPU suspenderet – "
 
-#: clientgui/MainDocument.cpp:2541
+#: clientgui/MainDocument.cpp:2649
 msgid "Waiting for memory"
 msgstr "Venter på hukommelse"
 
-#: clientgui/MainDocument.cpp:2543
+#: clientgui/MainDocument.cpp:2651
 msgid "Waiting for shared memory"
 msgstr "Venter på delt hukommelse"
 
-#: clientgui/MainDocument.cpp:2545
+#: clientgui/MainDocument.cpp:2653
 msgid "Running"
 msgstr "Kører"
 
-#: clientgui/MainDocument.cpp:2547
+#: clientgui/MainDocument.cpp:2655
 msgid " (non-CPU-intensive)"
 msgstr " (ikke CPU-intensiv)"
 
-#: clientgui/MainDocument.cpp:2550
+#: clientgui/MainDocument.cpp:2658
 msgid "Waiting to run"
 msgstr "Venter på at køre"
 
-#: clientgui/MainDocument.cpp:2552 clientgui/MainDocument.cpp:2555
+#: clientgui/MainDocument.cpp:2660 clientgui/MainDocument.cpp:2663
 msgid "Ready to start"
 msgstr "Klar til at starte"
 
-#: clientgui/MainDocument.cpp:2559
+#: clientgui/MainDocument.cpp:2667
 msgid "Postponed: "
 msgstr "Udsat:"
 
-#: clientgui/MainDocument.cpp:2562
+#: clientgui/MainDocument.cpp:2670
 msgid "Postponed"
 msgstr "Udsat"
 
-#: clientgui/MainDocument.cpp:2566
+#: clientgui/MainDocument.cpp:2674
 msgid "Waiting for network access"
 msgstr "Venter på netværksadgang"
 
-#: clientgui/MainDocument.cpp:2570
+#: clientgui/MainDocument.cpp:2678
 msgid "Computation error"
 msgstr "Beregningsfejl"
 
-#: clientgui/MainDocument.cpp:2574
+#: clientgui/MainDocument.cpp:2682
 msgid "Upload failed"
 msgstr "Upload mislykkedes"
 
-#: clientgui/MainDocument.cpp:2576
+#: clientgui/MainDocument.cpp:2684
 msgid "Uploading"
 msgstr "Uploader"
 
-#: clientgui/MainDocument.cpp:2587
+#: clientgui/MainDocument.cpp:2695
 msgid "Aborted by user"
 msgstr "Afbrudt af bruger"
 
-#: clientgui/MainDocument.cpp:2590
+#: clientgui/MainDocument.cpp:2698
 msgid "Aborted by project"
 msgstr "Afbrudt af projekt"
 
-#: clientgui/MainDocument.cpp:2593
+#: clientgui/MainDocument.cpp:2701
 msgid "Aborted: not started by deadline"
 msgstr "Afbrudt: Ikke startet før frist"
 
-#: clientgui/MainDocument.cpp:2596
+#: clientgui/MainDocument.cpp:2704
 msgid "Aborted: task disk limit exceeded"
 msgstr "Afbrudt: Diskgrænse for opgaver overskredet"
 
-#: clientgui/MainDocument.cpp:2599
+#: clientgui/MainDocument.cpp:2707
 msgid "Aborted: run time limit exceeded"
 msgstr "Afbrudt: Køretidsbegrænsning overskredet"
 
-#: clientgui/MainDocument.cpp:2602
+#: clientgui/MainDocument.cpp:2710
 msgid "Aborted: memory limit exceeded"
 msgstr "Afbrudt: Hukommelsesbegrænsning overskredet"
 
-#: clientgui/MainDocument.cpp:2605
+#: clientgui/MainDocument.cpp:2713
 msgid "Aborted"
 msgstr "Afbrudt"
 
-#: clientgui/MainDocument.cpp:2610
+#: clientgui/MainDocument.cpp:2718
 msgid "Acknowledged"
 msgstr "Anerkendt"
 
-#: clientgui/MainDocument.cpp:2612
+#: clientgui/MainDocument.cpp:2720
 msgid "Ready to report"
 msgstr "Klar til rapportering"
 
-#: clientgui/MainDocument.cpp:2614
+#: clientgui/MainDocument.cpp:2722
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Fejl: Ugydig tilstand \"%d\""
@@ -3024,8 +3050,8 @@ msgstr "\"%s\" indeholder ikke en gyldig sti."
 
 #. Setup View
 #: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:198
-#: clientgui/ViewStatistics.cpp:1957 clientgui/ViewTransfers.cpp:183
-#: clientgui/ViewWork.cpp:207
+#: clientgui/ViewStatistics.cpp:1957 clientgui/ViewTransfers.cpp:199
+#: clientgui/ViewWork.cpp:229
 msgid "Commands"
 msgstr "Kommandoer"
 
@@ -3077,7 +3103,7 @@ msgstr "Henter meddelelser; vent venligst …"
 msgid "There are no notices at this time."
 msgstr "Der er ingen meddelelser på nuværende tidspunkt."
 
-#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:979
+#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:984
 msgid "Notices"
 msgstr "Meddelelser"
 
@@ -3092,8 +3118,8 @@ msgid ""
 msgstr "Rapportér alle færdige opgaver, hent seneste points, indstillinger, og hvis muligt, flere opgaver."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:792
-#: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:880
-#: clientgui/sg_BoincSimpleFrame.cpp:960
+#: clientgui/ViewWork.cpp:254 clientgui/ViewWork.cpp:927
+#: clientgui/sg_BoincSimpleFrame.cpp:965
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -3132,7 +3158,7 @@ msgid ""
 "report any completed tasks)."
 msgstr "Fjerner dette projekt. Igangværende opgaver vil blive tabt (brug \"Opdatér\" først for at rapportere eventuelle færdige opgaver)."
 
-#: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
+#: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:268
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
 msgid "Properties"
@@ -3154,8 +3180,8 @@ msgstr "Udført arbejde"
 msgid "Avg. work done"
 msgstr "Gennemsnitligt udført arbejde"
 
-#: clientgui/ViewProjects.cpp:257 clientgui/ViewTransfers.cpp:215
-#: clientgui/ViewWork.cpp:262
+#: clientgui/ViewProjects.cpp:257 clientgui/ViewTransfers.cpp:232
+#: clientgui/ViewWork.cpp:284
 msgid "Status"
 msgstr "Status"
 
@@ -3418,61 +3444,65 @@ msgstr "Vis projektliste"
 msgid "Uses smaller area for graphs"
 msgstr "Bruger mindre område for grafer"
 
-#: clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewTransfers.cpp:203
 msgid "Retry Now"
 msgstr "Prøv igen nu"
 
-#: clientgui/ViewTransfers.cpp:188
+#: clientgui/ViewTransfers.cpp:204
 msgid "Retry the file transfer now"
 msgstr "Prøv filoverførslen nu"
 
-#: clientgui/ViewTransfers.cpp:194
+#: clientgui/ViewTransfers.cpp:210
 msgid "Abort Transfer"
 msgstr "Afbryd overførsel"
 
-#: clientgui/ViewTransfers.cpp:195
+#: clientgui/ViewTransfers.cpp:211
 msgid "Abort this file transfer.  You won't get credit for the task."
 msgstr "Afbryd denne filoverførsel. Du får ikke points for opgaven."
 
-#: clientgui/ViewTransfers.cpp:210
+#: clientgui/ViewTransfers.cpp:226
 msgid "File"
 msgstr "Fil"
 
-#: clientgui/ViewTransfers.cpp:211 clientgui/ViewWork.cpp:261
+#: clientgui/ViewTransfers.cpp:227 clientgui/ViewWork.cpp:283
 msgid "Progress"
 msgstr "Fremgang"
 
-#: clientgui/ViewTransfers.cpp:212
+#: clientgui/ViewTransfers.cpp:228
 msgid "Size"
 msgstr "Størrelse"
 
-#: clientgui/ViewTransfers.cpp:213 clientgui/ViewWork.cpp:263
+#: clientgui/ViewTransfers.cpp:229 clientgui/ViewWork.cpp:285
 msgid "Elapsed"
 msgstr "Forløben"
 
-#: clientgui/ViewTransfers.cpp:214
+#: clientgui/ViewTransfers.cpp:230 clientgui/ViewWork.cpp:286
+msgid "Remaining (estimated)"
+msgstr "Resterende (estimeret)"
+
+#: clientgui/ViewTransfers.cpp:231
 msgid "Speed"
 msgstr "Hastighed"
 
-#: clientgui/ViewTransfers.cpp:295
+#: clientgui/ViewTransfers.cpp:317
 msgid "Transfers"
 msgstr "Overførsler"
 
-#: clientgui/ViewTransfers.cpp:372
+#: clientgui/ViewTransfers.cpp:394
 msgid "Network activity is suspended - "
 msgstr "Netværksaktivitet er suspenderet – "
 
-#: clientgui/ViewTransfers.cpp:374
+#: clientgui/ViewTransfers.cpp:396
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ".\nDu kan slå det til vha. menuen Aktivitet."
 
-#: clientgui/ViewTransfers.cpp:377
+#: clientgui/ViewTransfers.cpp:399
 msgid "BOINC"
 msgstr "BOINC"
 
-#: clientgui/ViewTransfers.cpp:431
+#: clientgui/ViewTransfers.cpp:453
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3480,135 +3510,147 @@ msgid ""
 "will not receive credit for it."
 msgstr "Er du sikker på du vil afbryde denne filoverførsel \"%s\"?\nBEMÆRK: Hvis du afbryder en overførsel, vil opgaven\ninvalideres, og du vil ikke få points for den."
 
-#: clientgui/ViewTransfers.cpp:437
+#: clientgui/ViewTransfers.cpp:459
 msgid "Abort File Transfer"
 msgstr "Afbryd filoverførsel"
 
-#: clientgui/ViewTransfers.cpp:849
+#: clientgui/ViewTransfers.cpp:898
 msgid "Upload"
 msgstr "Upload"
 
-#: clientgui/ViewTransfers.cpp:849
+#: clientgui/ViewTransfers.cpp:898
 msgid "Download"
 msgstr "Download"
 
-#: clientgui/ViewTransfers.cpp:853
+#: clientgui/ViewTransfers.cpp:902
 msgid "retry in "
 msgstr "prøv igen om "
 
-#: clientgui/ViewTransfers.cpp:855
+#: clientgui/ViewTransfers.cpp:904
 msgid "failed"
 msgstr "mislykkedes"
 
-#: clientgui/ViewTransfers.cpp:858
+#: clientgui/ViewTransfers.cpp:907
 msgid "suspended"
 msgstr "suspenderet"
 
-#: clientgui/ViewTransfers.cpp:863
+#: clientgui/ViewTransfers.cpp:912
 msgid "active"
 msgstr "aktiv"
 
-#: clientgui/ViewTransfers.cpp:865
+#: clientgui/ViewTransfers.cpp:914
 msgid "pending"
 msgstr "afventer"
 
-#: clientgui/ViewTransfers.cpp:871
+#: clientgui/ViewTransfers.cpp:920
 msgid " (project backoff: "
 msgstr " (projekt backoff:"
 
-#: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:856
+#: clientgui/ViewWork.cpp:233 clientgui/ViewWork.cpp:903
 msgid "Show active tasks"
 msgstr "Vis aktive opgaver"
 
-#: clientgui/ViewWork.cpp:212 clientgui/ViewWork.cpp:857
+#: clientgui/ViewWork.cpp:234 clientgui/ViewWork.cpp:904
 msgid "Show only active tasks."
 msgstr "Vis kun aktive opgaver."
 
-#: clientgui/ViewWork.cpp:218 clientgui/ViewWork.cpp:897
+#: clientgui/ViewWork.cpp:240 clientgui/ViewWork.cpp:944
 #: clientgui/sg_TaskCommandPopup.cpp:66 clientgui/sg_TaskCommandPopup.cpp:155
 msgid "Show graphics"
 msgstr "Vis grafik"
 
-#: clientgui/ViewWork.cpp:219 clientgui/ViewWork.cpp:898
+#: clientgui/ViewWork.cpp:241 clientgui/ViewWork.cpp:945
 #: clientgui/sg_TaskCommandPopup.cpp:67 clientgui/sg_TaskCommandPopup.cpp:156
 msgid "Show application graphics in a window."
 msgstr "Viser applikationsgrafik i et vindue."
 
-#: clientgui/ViewWork.cpp:225
+#: clientgui/ViewWork.cpp:247
 msgid "Show VM Console"
 msgstr "Vis VM-konsol"
 
-#: clientgui/ViewWork.cpp:226
+#: clientgui/ViewWork.cpp:248
 msgid "Show VM Console in a window."
 msgstr "Vis VM-konsol i et vindue."
 
-#: clientgui/ViewWork.cpp:233
+#: clientgui/ViewWork.cpp:255
 msgid "Suspend work for this result."
 msgstr "Suspender arbejde for dette resultat."
 
-#: clientgui/ViewWork.cpp:239 clientgui/sg_TaskCommandPopup.cpp:78
+#: clientgui/ViewWork.cpp:261 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
 msgstr "Afbryd"
 
-#: clientgui/ViewWork.cpp:240
+#: clientgui/ViewWork.cpp:262
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "Opgiv arbejde på resultatet. Du vil ikke få points for det."
 
-#: clientgui/ViewWork.cpp:247 clientgui/sg_TaskCommandPopup.cpp:85
+#: clientgui/ViewWork.cpp:269 clientgui/sg_TaskCommandPopup.cpp:85
 msgid "Show task details."
 msgstr "Vis detaljer for opgave."
 
-#: clientgui/ViewWork.cpp:264
-msgid "Remaining (estimated)"
-msgstr "Resterende (estimeret)"
-
-#: clientgui/ViewWork.cpp:265
+#: clientgui/ViewWork.cpp:287
 msgid "Deadline"
 msgstr "Frist"
 
-#: clientgui/ViewWork.cpp:351
+#: clientgui/ViewWork.cpp:290
+msgid "Estimated Completion"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:291
+msgid "Completion Before Deadline"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:385
 msgid "Tasks"
 msgstr "Opgaver"
 
-#: clientgui/ViewWork.cpp:564
+#: clientgui/ViewWork.cpp:598
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr "Er du sikker på, at du vil afbryde denne opgave \"%s\"?\n(Udført: %s, Status: %s)"
 
-#: clientgui/ViewWork.cpp:570
+#: clientgui/ViewWork.cpp:604
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Er du sikker på, at du vil afbryde disse %d opgaver?"
 
-#: clientgui/ViewWork.cpp:575 clientgui/sg_TaskCommandPopup.cpp:283
+#: clientgui/ViewWork.cpp:609 clientgui/sg_TaskCommandPopup.cpp:283
 msgid "Abort task"
 msgstr "Afbryd opgave"
 
-#: clientgui/ViewWork.cpp:850
+#: clientgui/ViewWork.cpp:897
 msgid "Show all tasks"
 msgstr "Vis alle opgaver"
 
-#: clientgui/ViewWork.cpp:851
+#: clientgui/ViewWork.cpp:898
 msgid "Show all tasks."
 msgstr "Vis alle opgaver."
 
-#: clientgui/ViewWork.cpp:875 clientgui/sg_TaskCommandPopup.cpp:119
+#: clientgui/ViewWork.cpp:922 clientgui/sg_TaskCommandPopup.cpp:119
 msgid "Resume work for this task."
 msgstr "Genoptag arbejde for denne opgave."
 
-#: clientgui/ViewWork.cpp:881 clientgui/sg_TaskCommandPopup.cpp:123
+#: clientgui/ViewWork.cpp:928 clientgui/sg_TaskCommandPopup.cpp:123
 msgid "Suspend work for this task."
 msgstr "Suspendér arbejde for denne opgave."
 
-#: clientgui/ViewWork.cpp:889 clientgui/sg_TaskCommandPopup.cpp:149
+#: clientgui/ViewWork.cpp:936 clientgui/sg_TaskCommandPopup.cpp:149
 msgid "Stop graphics"
 msgstr "Stop grafik"
 
-#: clientgui/ViewWork.cpp:890 clientgui/sg_TaskCommandPopup.cpp:150
+#: clientgui/ViewWork.cpp:937 clientgui/sg_TaskCommandPopup.cpp:150
 msgid "Close application graphics window."
 msgstr "Luk applikationens grafik vindue"
+
+#: clientgui/ViewWork.cpp:1118
+msgid "---"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:1136
+msgid "-"
+msgstr ""
 
 #: clientgui/WizardAttach.cpp:572
 msgid "Do you really want to cancel?"
@@ -3618,52 +3660,52 @@ msgstr "Er du sikker på, at du vil annullere?"
 msgid "Question"
 msgstr "Spørgsmål"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:194
+#: clientgui/sg_BoincSimpleFrame.cpp:197
 msgid "Skin"
 msgstr "Tema"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:196
+#: clientgui/sg_BoincSimpleFrame.cpp:199
 msgid "Select the appearance of the user interface."
 msgstr "Vælg udseende for brugergrænseflade."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:206
+#: clientgui/sg_BoincSimpleFrame.cpp:209
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Avanceret visning …\tCtrl+Shift+A"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:207
+#: clientgui/sg_BoincSimpleFrame.cpp:210
 msgid "Display the advanced graphical interface."
 msgstr "Vis den avancerede grafiske grænseflade."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:223
+#: clientgui/sg_BoincSimpleFrame.cpp:226
 msgid "Configure display options and proxy settings"
 msgstr "Konfigurér visningsvalgmuligheder og proxy-opsætning"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:272
+#: clientgui/sg_BoincSimpleFrame.cpp:275
 msgid "Display diagnostic messages."
 msgstr "Vis diagnosticeringsbeskeder."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:311
+#: clientgui/sg_BoincSimpleFrame.cpp:314
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Vis information om BOINC og %s"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:535
+#: clientgui/sg_BoincSimpleFrame.cpp:540
 msgid "Default"
 msgstr "Standard"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:962
+#: clientgui/sg_BoincSimpleFrame.cpp:967
 msgid "Suspend Computing"
 msgstr "Suspendér beregning"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:963
+#: clientgui/sg_BoincSimpleFrame.cpp:968
 msgid "Resume Computing"
 msgstr "Genoptag beregning"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:980
+#: clientgui/sg_BoincSimpleFrame.cpp:985
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Åbn en vindue, for at se meddelelser fra projekter eller BOINC"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:1001 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1006 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "Få hjælp til %s"
@@ -3677,21 +3719,39 @@ msgstr "Luk"
 msgid "%s - Notices"
 msgstr "%s – Meddelelser"
 
+#: clientgui/sg_DlgPreferences.cpp:163
+msgid ""
+"Using local preferences.\n"
+"Click \"Use web prefs\" to use web-based preferences from"
+msgstr "Bruger lokale indstillinger.\nKlik \"Brug web-indstillinger\" for at bruge web-baserede indstillinger fra"
+
+#: clientgui/sg_DlgPreferences.cpp:171
+msgid "Using web-based preferences from"
+msgstr "Bruger web-baserede indstillinger fra"
+
+#: clientgui/sg_DlgPreferences.cpp:189
+msgid "Set values and click Save to use local preferences instead."
+msgstr "Sæt værdier og klik Gem for at bruge de lokale præferencer i stedet."
+
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr "For yderligere opsætning, vælg Beregningsindstillinger under Avanceret visning."
 
+#: clientgui/sg_DlgPreferences.cpp:268
+msgid "'In use' means mouse/keyboard input in last"
+msgstr "\"I brug\" betyder mus-/tastaturinput inden for de seneste"
+
 #: clientgui/sg_DlgPreferences.cpp:346
 msgid "GB of disk space"
 msgstr "GB diskplads"
 
-#: clientgui/sg_DlgPreferences.cpp:1117
+#: clientgui/sg_DlgPreferences.cpp:1120
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s – Beregningsindstillinger"
 
-#: clientgui/sg_DlgPreferences.cpp:1198
+#: clientgui/sg_DlgPreferences.cpp:1201
 msgid "Discard all local preferences and use web-based preferences?"
 msgstr "Kassér alle lokale indstillinger og brug web-baserede indstillinger?"
 

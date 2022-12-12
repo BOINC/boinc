@@ -4,160 +4,155 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Christian Beer <christian.beer@posteo.de>, 2018
-# Cristian Belei <bicscoala@yahoo.com>, 2017
-# Ema Țiț <titdragos1@gmail.com>, 2019
-# I. F. <ifettich@netsoft.ro>, 2017-2018
-# Marius Sirbu <marius.sirbu@outlook.com>, 2015
-# Mihai Michael, 2022
+# Minh Phan, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2022-12-01 23:46 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Mihai Michael, 2022\n"
-"Language-Team: Romanian (http://www.transifex.com/boinc/boinc/language/ro/)\n"
+"Last-Translator: Minh Phan, 2022\n"
+"Language-Team: Vietnamese (http://www.transifex.com/boinc/boinc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: clientgui/AccountInfoPage.cpp:326
 #, c-format
 msgid "Identify your account at %s"
-msgstr "Identificaţi contul dumneavoastră la %s"
+msgstr "Xác nhận tài khoản của bạn tại %s nhé"
 
 #: clientgui/AccountInfoPage.cpp:335
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr "Vă rugăm introduceţi informaţiile contului\n(pentru a crea una cont, vizitaţi situl web al proiectului)"
+msgstr "Vui lòng nhập thông tin tài khoản của bạn nhé\n(để tạo một tài khoản, hãy ghé thăm trang web của dự án)"
 
 #: clientgui/AccountInfoPage.cpp:339
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr "Acest proiect nu acceptă noi conturi.\nPuteţi să îl adăugaţi doar dacă aveţi deja un cont."
+msgstr "Dự án này hiện giờ không chấp nhận tài khoản mới mất rồi.\nBạn chỉ có thể thêm nó khi bạn đã có một tài khoản mà thôi."
 
 #: clientgui/AccountInfoPage.cpp:343
 msgid "Are you already running this project?"
-msgstr "Rulaţi deja acest proiect?"
+msgstr "Hiện giờ bạn có đang chạy dự án này không vậy?"
 
 #: clientgui/AccountInfoPage.cpp:347
 msgid "&No, new user"
-msgstr "&Nu, utilizator nou"
+msgstr "&Không, người dùng mới"
 
 #: clientgui/AccountInfoPage.cpp:350
 msgid "&Yes, existing user"
-msgstr "&Da, utilizator existent"
+msgstr "&Có, người dùng hiện tại"
 
 #: clientgui/AccountInfoPage.cpp:366 clientgui/AccountInfoPage.cpp:588
 msgid "&Password:"
-msgstr "&Parola:"
+msgstr "&Mật khẩu:"
 
 #: clientgui/AccountInfoPage.cpp:373 clientgui/AccountInfoPage.cpp:612
 msgid "Choose a &password:"
-msgstr "Alegeţi o &parolă:"
+msgstr "Chọn một &mật khẩu:"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "C&onfirm password:"
-msgstr "C&onfirmaţi parola:"
+msgstr "X&ác nhận mật khẩu:"
 
 #: clientgui/AccountInfoPage.cpp:383
 #, c-format
 msgid "Are you already running %s?"
-msgstr "Rulaţi deja %s?"
+msgstr "Bạn có đang chạy %s không đấy?"
 
 #: clientgui/AccountInfoPage.cpp:412
 msgid "&Username:"
-msgstr "Nume &utilizator:"
+msgstr "&Tên người dùng:"
 
 #: clientgui/AccountInfoPage.cpp:441
 msgid "&Email address or LDAP ID:"
-msgstr "Adresă &email sau ID LDAP:"
+msgstr "&Địa chỉ email hoặc ID của LDAP:"
 
 #: clientgui/AccountInfoPage.cpp:445
 msgid "&Email address:"
-msgstr "Adresa &email:"
+msgstr "&Địa chỉ email:"
 
 #: clientgui/AccountInfoPage.cpp:453
 #, c-format
 msgid "minimum length %d"
-msgstr "lungime minimă %d"
+msgstr "độ dài tối thiểu %d"
 
 #: clientgui/AccountInfoPage.cpp:460
 msgid "Forgot your password?"
-msgstr "Aţi uitat parola?"
+msgstr "Quên mật khẩu của bạn rồi ư?"
 
 #: clientgui/AccountInfoPage.cpp:467
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr "Daca nu v-aţi înregistrat deja la acest manager de cont,\nvă rugăm să o faceţi înainte de a continua.  Selectaţi legătura\nde mai jos pentru a vă înregistra sau a regăsi o parolă uitată."
+msgstr "Nếu bạn chưa có đăng ký bằng hệ thống quản lý tài khoản này,\nthì hãy làm điều đó trước khi tiếp tục nhé. Nhấn vào đường link phía dưới\nđể đăng ký hoặc lấy lại mật khẩu lãng quên."
 
 #: clientgui/AccountInfoPage.cpp:470
 msgid "Account manager web site"
-msgstr "Website manager de cont"
+msgstr "Trang web quản lý tài khoản"
 
 #: clientgui/AccountInfoPage.cpp:512
 msgid "Add project"
-msgstr "Adaugă proiect"
+msgstr "Thêm dự án"
 
 #: clientgui/AccountInfoPage.cpp:514
 msgid "Update account manager"
-msgstr "Actualizează managerul de cont"
+msgstr "Cập nhật quản lý tài khoản"
 
 #: clientgui/AccountInfoPage.cpp:516
 msgid "Use account manager"
-msgstr "Utilizaţi manager de cont"
+msgstr "Sử dụng trình quản lý tài khoản"
 
 #: clientgui/AccountInfoPage.cpp:523
 msgid "Please enter a user name."
-msgstr "Vă rugăm specificaţi un nume de utilizator."
+msgstr "Xin hãy nhập tên người dùng."
 
 #: clientgui/AccountInfoPage.cpp:525
 msgid "Please enter an email address."
-msgstr "Vă rugăm specificaţi o adresă de email."
+msgstr "Xin hãy nhập địa chỉ email."
 
 #: clientgui/AccountInfoPage.cpp:535
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr "Vă rugăm să introduceţi o parolă cu cel puţin %d caractere."
+msgstr "Hãy nhập mật khẩu với ít nhất %d ký tự nhé."
 
 #: clientgui/AccountInfoPage.cpp:545
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "Parola si confirmarea parolei nu sunt identice. Vă rugăm să le reintroduceţi."
+msgstr "Mật khẩu và xác nhận mật khẩu không trùng nhau mất rồi. Hãy nhập lại đi nào."
 
 #: clientgui/AccountManagerInfoPage.cpp:269
 msgid "Choose an account manager"
-msgstr "Alegeţi un manager de cont"
+msgstr "Chọn một hệ thống quản lý tài khoản"
 
 #: clientgui/AccountManagerInfoPage.cpp:272
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Pentru a alege un manager de cont, apăsaţi pe numele lui sau\nintroduceţi URL-ul lui mai jos."
+msgstr "Để chọn một hệ thống quản lý tài khoản, nhấp chuột vào tên của nó hoặc \nnhập địa chỉ URL bên dưới."
 
 #: clientgui/AccountManagerInfoPage.cpp:276
 msgid "Account manager details:"
-msgstr "Detalii manager de cont:"
+msgstr "Chi tiết quản lý tài khoản:"
 
 #: clientgui/AccountManagerInfoPage.cpp:280
 msgid "Account manager &URL:"
-msgstr "&URL Manager de cont:"
+msgstr "Địa chỉ &URL quản lý tài khoản:"
 
 #: clientgui/AccountManagerInfoPage.cpp:284
 msgid "Open web page"
-msgstr "Deschide pagină web"
+msgstr "Mở trang web"
 
 #: clientgui/AccountManagerInfoPage.cpp:287
 msgid "Visit this account manager's web site"
-msgstr "Vizitaţi site web al managerului de cont"
+msgstr "Ghé thăm trang web quản lý tài khoản"
 
 #. %s is the project name
 #. i.e. 'BOINC', 'GridRepublic'
@@ -165,412 +160,412 @@ msgstr "Vizitaţi site web al managerului de cont"
 #: clientgui/AccountManagerPropertiesPage.cpp:192
 #, c-format
 msgid "Communicating with %s."
-msgstr "Comunicare cu %s."
+msgstr "Đang liên lạc với %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:193
 #: clientgui/AccountManagerPropertiesPage.cpp:199
 msgid "Communicating with server."
-msgstr "Comunicare cu serverul."
+msgstr "Đang giao tiếp với máy chủ."
 
 #: clientgui/AccountManagerProcessingPage.cpp:198
 #: clientgui/AccountManagerPropertiesPage.cpp:204
 msgid "Please wait..."
-msgstr "Vă rugăm aşteptaţi..."
+msgstr "Vui lòng chờ..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "A intervenit o eroare internă server.\n"
+msgstr "Một lỗi nội bộ máy chủ đã xảy ra.\n"
 
 #: clientgui/AdvancedFrame.cpp:101
 msgid "Connected"
-msgstr "Conectat"
+msgstr "Đã kết nối"
 
 #: clientgui/AdvancedFrame.cpp:109
 msgid "Disconnected"
-msgstr "Deconectat"
+msgstr "Đã ngắt kết nối"
 
 #: clientgui/AdvancedFrame.cpp:327
 #, c-format
 msgid "New %s window..."
-msgstr "Fereastră %s nouă..."
+msgstr "Cửa sổ %s mới..."
 
 #: clientgui/AdvancedFrame.cpp:331
 #, c-format
 msgid "Open another %s window"
-msgstr "Deschideți o altă fereastră %s"
+msgstr "Mở một cửa sổ %s khác"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Select computer...\tCtrl+Shift+I"
-msgstr "Selectați computerul...\tCtrl+Shift+I"
+msgstr "Chọn máy tính...\tCtrl+Shift+I"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Connect to a BOINC client on another computer"
-msgstr "Conectați-vă la clientul BOINC pe un alt calculator"
+msgstr "Kết nối tới một máy khách BOINC trên một chiếc máy tính khác"
 
 #: clientgui/AdvancedFrame.cpp:347
 msgid "Shut down connected client..."
-msgstr "Opreşte clienul conectat..."
+msgstr "Tắt máy khách đã được kết nối..."
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "Shut down the currently connected BOINC client"
-msgstr "Opreşte clientul BOINC curent conectat"
+msgstr "Tắt máy khách BOINC hiện tại được kết nối"
 
 #: clientgui/AdvancedFrame.cpp:353 clientgui/sg_BoincSimpleFrame.cpp:148
 #, c-format
 msgid "Close the %s window"
-msgstr "Închide fereastra %s"
+msgstr "Đóng cửa sổ %s"
 
 #: clientgui/AdvancedFrame.cpp:356 clientgui/sg_BoincSimpleFrame.cpp:151
 msgid "&Close window"
-msgstr "În&chide fereastra"
+msgstr "&Đóng cửa sổ"
 
 #: clientgui/AdvancedFrame.cpp:365 clientgui/AdvancedFrame.cpp:370
 #: clientgui/AdvancedFrame.cpp:375 clientgui/sg_BoincSimpleFrame.cpp:160
 #: clientgui/sg_BoincSimpleFrame.cpp:165
 #, c-format
 msgid "Exit %s"
-msgstr "Închide %s"
+msgstr "Thoát %s"
 
 #: clientgui/AdvancedFrame.cpp:389 clientgui/sg_BoincSimpleFrame.cpp:179
 msgid "Preferences..."
-msgstr "Preferințe..."
+msgstr "Tuỳ chọn..."
 
 #: clientgui/AdvancedFrame.cpp:398
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "A&nunţuri\tCtrl+Shift+N"
+msgstr "&Thông báo \tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:399
 msgid "Show notices"
-msgstr "Arată atenționări"
+msgstr "Hiển thị thông báo"
 
 #: clientgui/AdvancedFrame.cpp:404
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "&Proiecte\tCtrl+Shift+P"
+msgstr "&Các dự án\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:405
 msgid "Show projects"
-msgstr "Arată proiecte"
+msgstr "Hiển thị các dự án"
 
 #: clientgui/AdvancedFrame.cpp:410
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "&Task-uri\tCtrl+Shift+T"
+msgstr "&Nhiệm vụ\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:411
 msgid "Show tasks"
-msgstr "Arată task-urile"
+msgstr "Hiển thị các nhiệm vụ"
 
 #: clientgui/AdvancedFrame.cpp:416
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Trans&feruri\tCtrl+Shift+X"
+msgstr "&Truyền dữ liệu file tệp tin\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:417
 msgid "Show file transfers"
-msgstr "Arată transferurile de fișiere"
+msgstr "Hiển thị truyền file tệp tin"
 
 #: clientgui/AdvancedFrame.cpp:422
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr "&Statistici\tCtrl+Shift+S"
+msgstr "&Thống kê\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "Show statistics"
-msgstr "Arată statistici"
+msgstr "Hiển thị các thống kê"
 
 #: clientgui/AdvancedFrame.cpp:428
 msgid "&Disk\tCtrl+Shift+D"
-msgstr "&Disc\tCtrl+Shift+D"
+msgstr "&Ổ đĩa\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:429
 msgid "Show disk usage"
-msgstr "Arată utilizare disc"
+msgstr "Hiển thị sử dụng ổ đĩa"
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Vizualizare Simplă...\tCtrl+Shift+V"
+msgstr "&Chế độ xem đơn giản...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:437
 msgid "Switch to the Simple View"
-msgstr "Comutați la Vizualizarea Simplă"
+msgstr "Chuyển sang Chế độ xem đơn giản"
 
 #: clientgui/AdvancedFrame.cpp:451 clientgui/AdvancedFrame.cpp:475
 #: clientgui/sg_BoincSimpleFrame.cpp:234 clientgui/sg_BoincSimpleFrame.cpp:258
 msgid "&Add project..."
-msgstr "&Adaugă proiect..."
+msgstr "&Thêm dự án..."
 
 #: clientgui/AdvancedFrame.cpp:452 clientgui/AdvancedFrame.cpp:476
 #: clientgui/sg_BoincSimpleFrame.cpp:235 clientgui/sg_BoincSimpleFrame.cpp:259
 msgid "Add a project"
-msgstr "Adaugă un proiect"
+msgstr "Thêm một dự án"
 
 #: clientgui/AdvancedFrame.cpp:456 clientgui/sg_BoincSimpleFrame.cpp:239
 msgid "&Use account manager..."
-msgstr "&Utilizaţi manager de cont"
+msgstr "&Sử dụng trình quản lý tài khoản..."
 
 #: clientgui/AdvancedFrame.cpp:457 clientgui/sg_BoincSimpleFrame.cpp:240
 msgid "Use an account manager to control this computer."
-msgstr "Utiizați un manager de cont pentru a controla acest calculator"
+msgstr "Sử dụng trình quản lý tài khoản để điều khiển máy tính này."
 
 #: clientgui/AdvancedFrame.cpp:461 clientgui/sg_BoincSimpleFrame.cpp:244
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "&Sincronizează cu %s"
+msgstr "&Đồng bộ với %s"
 
 #: clientgui/AdvancedFrame.cpp:465 clientgui/sg_BoincSimpleFrame.cpp:248
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Preia setările curente de la %s"
+msgstr "Nhận cài đặt tuỳ chọn hiện tại từ %s"
 
 #: clientgui/AdvancedFrame.cpp:479 clientgui/sg_BoincSimpleFrame.cpp:262
 #, c-format
 msgid "S&top using %s..."
-msgstr "Opreş&te utilizarea %s..."
+msgstr "&Dừng sử dụng %s..."
 
 #: clientgui/AdvancedFrame.cpp:485 clientgui/sg_BoincSimpleFrame.cpp:268
 msgid "Remove this computer from account manager control."
-msgstr "Elimină acest calculator de sub controlul managerului de cont."
+msgstr "Loại bỏ chiếc máy tính này khỏi sự kiểm soát của quản lý tài khoản."
 
 #: clientgui/AdvancedFrame.cpp:491
 msgid "Run CPU &benchmarks"
-msgstr "Rulează &benchmark CPU"
+msgstr "Chạy CPU &benchmarks"
 
 #: clientgui/AdvancedFrame.cpp:492
 msgid "Run tests that measure CPU speed"
-msgstr "Rulează teste care măsoară viteza CPU"
+msgstr "Chạy các bài kiểm tra đo tốc độ CPU"
 
 #: clientgui/AdvancedFrame.cpp:496
 msgid "Retry pending transfers"
-msgstr "Reîncercați transferurile în așteptare"
+msgstr "Thử truyền lại file tệp tin vẫn chưa được giải quyết"
 
 #: clientgui/AdvancedFrame.cpp:497
 msgid "Retry deferred file transfers and task requests"
-msgstr "Reîncercați transferurile amânate și cererile de task-uri"
+msgstr "Thử lại các yêu cầu nhiệm vụ và các lệnh truyền file tệp tin bị trì hoãn"
 
 #: clientgui/AdvancedFrame.cpp:502 clientgui/sg_BoincSimpleFrame.cpp:274
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "Log Evenimente...\tCtrl+Shift+E"
+msgstr "Nhật ký log sự kiện\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "Show diagnostic messages"
-msgstr "Afişează mesajele de diagnostic"
+msgstr "Hiển thị các tin báo chẩn đoán"
 
 #: clientgui/AdvancedFrame.cpp:511
 msgid "&Run always"
-msgstr "&Rulează continuu"
+msgstr "&Luôn luôn chạy"
 
 #: clientgui/AdvancedFrame.cpp:512
 msgid "Allow work regardless of preferences"
-msgstr "Rulează indiferent de preferinţe"
+msgstr "Cho phép công việc bất kể tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:516
 msgid "Run based on &preferences"
-msgstr "Rulează conform &preferinţelor"
+msgstr "Chạy dựa trên các &tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:517
 msgid "Allow work according to preferences"
-msgstr "Rulează conform preferinţelor"
+msgstr "Cho phép công việc theo như tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:521
 msgid "&Suspend"
-msgstr "&Suspendă"
+msgstr "&Tạm ngưng"
 
 #: clientgui/AdvancedFrame.cpp:522
 msgid "Stop work regardless of preferences"
-msgstr "Opreşte lucrul indiferent de preferinţe"
+msgstr "Dừng công việc bất kể tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:547
 msgid "Use GPU always"
-msgstr "Foloseşte GPU tot timpul"
+msgstr "Luôn sử dụng GPU"
 
 #: clientgui/AdvancedFrame.cpp:548
 msgid "Allow GPU work regardless of preferences"
-msgstr "Permite lucrul GPU indiferent de preferinţe"
+msgstr "Cho phép GPU làm việc bất kể tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:552
 msgid "Use GPU based on preferences"
-msgstr "Foloseşte GPU bazat pe preferinţe"
+msgstr "Sử dụng GPU dựa theo tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:553
 msgid "Allow GPU work according to preferences"
-msgstr "Permite lucrul GPU conform preferinţe"
+msgstr "Cho phép GPU làm việc theo như tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:557
 msgid "Suspend GPU"
-msgstr "Suspendă GPU"
+msgstr "Tạm ngưng GPU"
 
 #: clientgui/AdvancedFrame.cpp:558
 msgid "Stop GPU work regardless of preferences"
-msgstr "Opreşte lucrul GPU indiferent de preferinţe"
+msgstr "Dừng công việc GPU bất kể tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:582
 msgid "Network activity always"
-msgstr "Activitate rețea permanentă"
+msgstr "Luôn luôn hoạt động mạng"
 
 #: clientgui/AdvancedFrame.cpp:583
 msgid "Allow network activity regardless of preferences"
-msgstr "Acces la reţea indiferent de preferinţe"
+msgstr "Cho phép hoạt động mạng bất kể tùy chọn"
 
 #: clientgui/AdvancedFrame.cpp:587
 msgid "Network activity based on preferences"
-msgstr "Acces la reţea conform preferinţelor"
+msgstr "Hoạt động mạng dựa trên tùy chọn"
 
 #: clientgui/AdvancedFrame.cpp:588
 msgid "Allow network activity according to preferences"
-msgstr "Permite accesul la reţea conform preferinţelor"
+msgstr "Cho phép hoạt động mạng theo như tuỳ chọn"
 
 #: clientgui/AdvancedFrame.cpp:592
 msgid "Suspend network activity"
-msgstr "Suspendă activitatea de rețea"
+msgstr "Tạm ngưng hoạt động mạng"
 
 #: clientgui/AdvancedFrame.cpp:593
 msgid "Stop network activity"
-msgstr "Oprește activitatea de rețea"
+msgstr "Dừng hẳn hoạt động mạng"
 
 #: clientgui/AdvancedFrame.cpp:602 clientgui/sg_BoincSimpleFrame.cpp:219
 msgid "Computing &preferences..."
-msgstr "&Preferinţe calcul..."
+msgstr "&Tùy chọn tính toán..."
 
 #: clientgui/AdvancedFrame.cpp:603 clientgui/sg_BoincSimpleFrame.cpp:220
 msgid "Configure computing preferences"
-msgstr "Configurează preferinţele de calcul"
+msgstr "Cấu hình các tùy chọn tính toán"
 
 #: clientgui/AdvancedFrame.cpp:608
 msgid "Exclusive applications..."
-msgstr "Aplicații exclusive..."
+msgstr "Các ứng dụng riêng biệt..."
 
 #: clientgui/AdvancedFrame.cpp:609
 msgid "Configure exclusive applications"
-msgstr "Configurează aplicațiile exclusive"
+msgstr "Định cấu hình các ứng dụng riêng biệt"
 
 #: clientgui/AdvancedFrame.cpp:614
 msgid "Select columns..."
-msgstr "Selectează coloane..."
+msgstr "Lựa chọn cột..."
 
 #: clientgui/AdvancedFrame.cpp:615
 msgid "Select which columns to display"
-msgstr "Selectați ce coloane să fie afișate"
+msgstr "Chọn lựa cột nào để hiển thị"
 
 #: clientgui/AdvancedFrame.cpp:619
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Opțiuni Log Evenimente...\tCtrl+Shift+F"
+msgstr "Các lựa chọn Nhật ký log sự kiện...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:620
 msgid "Enable or disable various diagnostic messages"
-msgstr "Activați sau dezactivați diverse mesaje de diagnostic"
+msgstr "Bật hoặc tắt các thông báo chẩn đoán khác nhau"
 
 #: clientgui/AdvancedFrame.cpp:624 clientgui/sg_BoincSimpleFrame.cpp:225
 msgid "&Other options..."
-msgstr "Alte &opțiuni..."
+msgstr "&Các lựa chọn khác..."
 
 #: clientgui/AdvancedFrame.cpp:625
 msgid "Configure display options and network settings"
-msgstr "Configurați opțiunile de afișare și setările de rețea"
+msgstr "Định cấu hình các tùy chọn hiển thị và cài đặt mạng"
 
 #: clientgui/AdvancedFrame.cpp:630
 msgid "Read config files"
-msgstr "Citeşte fişierele de configurare"
+msgstr "Đọc tệp tin cấu hình"
 
 #: clientgui/AdvancedFrame.cpp:631
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "Citeşte informaţiile de configurare din fişierele cc_config.xml şi app_config.xml"
+msgstr "Đọc thông tin cấu hình từ tệp cc_config.xml và bất kỳ tệp app_config.xml nào"
 
 #: clientgui/AdvancedFrame.cpp:635
 msgid "Read local prefs file"
-msgstr "Citeşte fişierul local de preferinţe"
+msgstr "Đọc file tệp tin tuỳ chỉnh cục bộ prefs"
 
 #: clientgui/AdvancedFrame.cpp:636
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "Citeşte preferinţele din global_prefs_override.xml."
+msgstr "Đọc các tùy chọn từ file tệp tin global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:644 clientgui/sg_BoincSimpleFrame.cpp:282
 #, c-format
 msgid "%s &help"
-msgstr "&Ajutor %s"
+msgstr "%s &trợ giúp"
 
 #: clientgui/AdvancedFrame.cpp:648 clientgui/sg_BoincSimpleFrame.cpp:286
 #, c-format
 msgid "Show information about %s"
-msgstr "Arată informaţii despre %s"
+msgstr "Hiện thông tin về %s"
 
 #: clientgui/AdvancedFrame.cpp:658 clientgui/sg_BoincSimpleFrame.cpp:296
 #, c-format
 msgid "&%s help"
-msgstr "&Ajutor %s"
+msgstr "&%s trợ giúp"
 
 #: clientgui/AdvancedFrame.cpp:662 clientgui/sg_BoincSimpleFrame.cpp:300
 #, c-format
 msgid "Show information about the %s"
-msgstr "Arată informaţii despre %s"
+msgstr "Hiện thông tin về %s"
 
 #: clientgui/AdvancedFrame.cpp:673 clientgui/sg_BoincSimpleFrame.cpp:310
 #, c-format
 msgid "%s &web site"
-msgstr "%s &website"
+msgstr "%s&trang web"
 
 #: clientgui/AdvancedFrame.cpp:677
 #, c-format
 msgid "See more information about %s on the web"
-msgstr "Mai multe informații despre %s găsiți pe web"
+msgstr "Xem thêm thông tin về %s trên web"
 
 #: clientgui/AdvancedFrame.cpp:688 clientgui/AdvancedFrame.cpp:692
 #: clientgui/sg_BoincSimpleFrame.cpp:325 clientgui/sg_BoincSimpleFrame.cpp:329
 #, c-format
 msgid "Check for new %s version"
-msgstr "Verifică existența unei noi versiuni %s"
+msgstr "Thăm dò phiên bản %s mới"
 
 #: clientgui/AdvancedFrame.cpp:704 clientgui/sg_BoincSimpleFrame.cpp:341
 msgid "Report Issue"
-msgstr "Raportează Probleme"
+msgstr "Báo cáo vấn đề"
 
 #: clientgui/AdvancedFrame.cpp:705 clientgui/sg_BoincSimpleFrame.cpp:342
 msgid "Report bug or enhancement request"
-msgstr "Raportează erori sau sugestii de îmbunătățire"
+msgstr "Báo cáo lỗi hoặc yêu cầu nâng cao"
 
 #: clientgui/AdvancedFrame.cpp:710 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:347
 #, c-format
 msgid "&About %s..."
-msgstr "&Despre %s..."
+msgstr "&Về %s..."
 
 #: clientgui/AdvancedFrame.cpp:716 clientgui/sg_BoincSimpleFrame.cpp:353
 msgid "Licensing and copyright information."
-msgstr "Informaţii despre licenţă şi drepturi de autor."
+msgstr "Thông tin cấp phép và bản quyền."
 
 #: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:360
 msgid "&File"
-msgstr "&Fişier"
+msgstr "&File tệp"
 
 #: clientgui/AdvancedFrame.cpp:727 clientgui/sg_BoincSimpleFrame.cpp:364
 msgid "&View"
-msgstr "&Vizualizare"
+msgstr "&Chế độ xem"
 
 #: clientgui/AdvancedFrame.cpp:731
 msgid "&Activity"
-msgstr "&Activitate"
+msgstr "&Hoạt động"
 
 #: clientgui/AdvancedFrame.cpp:735 clientgui/sg_BoincSimpleFrame.cpp:368
 msgid "&Options"
-msgstr "&Opțiuni"
+msgstr "&Các lựa chọn"
 
 #: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:372
 msgid "&Tools"
-msgstr "&Unelte"
+msgstr "&Công cụ"
 
 #: clientgui/AdvancedFrame.cpp:743 clientgui/sg_BoincSimpleFrame.cpp:376
 #: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
 msgid "&Help"
-msgstr "&Ajutor"
+msgstr "&Trợ giúp"
 
 #: clientgui/AdvancedFrame.cpp:1347
 #, c-format
 msgid "%s - Shut down the current client..."
-msgstr "%s - Închide clientul curent..."
+msgstr "%s - Tắt máy khách hiện tại..."
 
 #: clientgui/AdvancedFrame.cpp:1356
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr "%s va opri clientul curent\nşi vă va cere o altă gazdă la care să se conecteze."
+msgstr "%s sẽ dừng máy khách hiện tại\nvà cất nhắc bạn cho một máy chủ khác để kết nối."
 
 #: clientgui/AdvancedFrame.cpp:1750 clientgui/DlgAbout.cpp:121
 #, c-format
@@ -580,7 +575,7 @@ msgstr "%s"
 #: clientgui/AdvancedFrame.cpp:1760
 #, c-format
 msgid "%s has successfully added %s"
-msgstr "%s a adăugat cu succes %s"
+msgstr "%s đã thêm vào %s thành công"
 
 #: clientgui/AdvancedFrame.cpp:1907
 #, c-format
@@ -590,16 +585,16 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:1911
 #, c-format
 msgid "Connecting to %s"
-msgstr "In curs de conectare la %s"
+msgstr "Đang kết nối tới %s"
 
 #: clientgui/AdvancedFrame.cpp:1914
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr "Conectat la %s (%s)"
+msgstr "Đã kết nối tới %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:184
 msgid "Username already in use"
-msgstr "Nume utilizator deja folosit"
+msgstr "Tên người dùng đã được sử dụng"
 
 #: clientgui/AlreadyExistsPage.cpp:187
 msgid ""
@@ -607,11 +602,11 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Exista deja un cont cu acest nume ude tilizator,\ndar cu o parolă diferită de cea pe care aţi introdus-o dvs.\n\nVa rugăm accesaţi web site-ul proiectului si urmaţi instrucţiunile de acolo."
+msgstr "Có một tài khoản cũng với tên người dùng đó hiện đã tồn tại và đã có một\nmật khẩu khác với mật khẩu bạn đã nhập cơ.\n\nHãy truy cập trang web của dự án và làm theo hướng dẫn nhé."
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr "Adresa de email este deja in uz"
+msgstr "Địa chỉ email đã được sử dụng rồi"
 
 #: clientgui/AlreadyExistsPage.cpp:194
 msgid ""
@@ -619,73 +614,73 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Exista deja un cont cu această adresă de email,\ndar cu o parolă diferită de cea pe care aţi introdus-o dvs.\n\nVa rugăm accesaţi web site-ul proiectului si urmaţi instrucţiunile de acolo."
+msgstr "Có một tài khoản cũng với địa chỉ email đó hiện đã tồn tại và đã có một\nmật khẩu khác với mật khẩu bạn đã nhập cơ.\n\nHãy truy cập trang web của dự án và làm theo hướng dẫn nhé."
 
 #: clientgui/AsyncRPC.cpp:1080
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Se comunică cu clientul BOINC.  Vă rugăm aşteptaţi ..."
+msgstr "Đang liên lạc với máy khách BOINC. Xin chờ..."
 
 #: clientgui/AsyncRPC.cpp:1083
 #, c-format
 msgid "&Quit %s"
-msgstr "&Închide %s"
+msgstr "&Từ bỏ %s"
 
 #: clientgui/AsyncRPC.cpp:1085
 #, c-format
 msgid "E&xit %s"
-msgstr "I&eşire %s"
+msgstr "&Thoát ra %s"
 
 #: clientgui/AsyncRPC.cpp:1089
 #, c-format
 msgid "%s - Communication"
-msgstr "%s - Comunicaţie"
+msgstr "%s - Giao tiếp"
 
 #: clientgui/AsyncRPC.cpp:1105 clientgui/DlgAdvPreferencesBase.cpp:195
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:360
 msgid "Cancel"
-msgstr "Anulează"
+msgstr "Huỷ bỏ"
 
 #: clientgui/BOINCBaseFrame.cpp:495
 #, c-format
 msgid "%s - Connection Error"
-msgstr "%s - Eroare Conexiune"
+msgstr "%s - Lỗi kết nối"
 
 #: clientgui/BOINCBaseFrame.cpp:550
 #, c-format
 msgid "%s - Connection Failed"
-msgstr "%s - Conexiune Nereuşită"
+msgstr "%s - Kết nối thất bại mất rồi"
 
 #: clientgui/BOINCBaseFrame.cpp:559
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr "%s nu se poate conecta la clientul %s .\nDoriţi să încerce să se conecteze din nou?"
+msgstr "%s không thể kết nối tới một máy khách %s.\nBạn có muốn thử kết nối lại không?"
 
 #: clientgui/BOINCBaseFrame.cpp:595
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr "%s - Pornirea Daemon Eşuată"
+msgstr "%s - Khởi động Daemon thất bại"
 
 #: clientgui/BOINCBaseFrame.cpp:605
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administrative Tools->Services applet and start the BOINC service."
-msgstr "%s nu este capabil să pornească un client %s.\nTe rugăm să deschizi Panoul de control->Unelte Administrative->Aplicație de servicii->Pornește aplicația BOINC."
+msgstr "%s không thể khởi động một máy khách %s.\nBạn hãy mở Control Panel->Administrative Tools->Services applet và khởi động tác vụ BOINC nhé."
 
 #: clientgui/BOINCBaseFrame.cpp:611
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please run the client and try again."
-msgstr "%s nu poate porni un client de %s.\nVă rugăm porniţi aplicația client şi încercaţi din nou."
+msgstr "%s không thể khởi động một máy khách %s.\nBạn hãy chạy máy khách và thử lại lần nữa đi nhé."
 
 #: clientgui/BOINCBaseFrame.cpp:657
 #, c-format
 msgid "%s - Connection Status"
-msgstr "%s - Stare Conexiune"
+msgstr "%s - Trạng thái kết nối"
 
 #: clientgui/BOINCBaseFrame.cpp:668
 #, c-format
@@ -693,12 +688,12 @@ msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr "%s nu este conectat la un client %s.\nVă rugăm folosiţi opţiunea din meniu 'Avansat\\Selectaţi Calculator...' pentru a vă conecta la un client %s.\nPentru a vă conecta la calculatorul local folosiţi 'localhst' ca şi nume gazdă."
+msgstr "%s hiện không kết nối tới một máy khách %s.\nHãy sử dụng tuỳ chọn menu 'Nâng Cao\\Chọn Máy...' để kết nối tới một máy khách %s nhé.\nĐể kết nối tới một máy tính cục bộ, hãy dùng 'tên máy chủ cục bộ/localhost' làm tên host."
 
 #: clientgui/BOINCBaseFrame.cpp:983
 #, c-format
 msgid "%s - Stop using %s"
-msgstr "%s - Opreşte utilizarea %s"
+msgstr "%s - Dừng sử dụng %s"
 
 #: clientgui/BOINCBaseFrame.cpp:988
 #, c-format
@@ -708,68 +703,68 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr "Dacă nu mai folosiţi %s,\nveţi păstra toate proiectele curente,\ndar va trebui să gestionaţi proiectele manual.\n\nDoriţi să nu mai folosiţi %s?"
+msgstr "Nếu bạn dừng sử dụng %s,\nbạn sẽ giữ lại tất cả các dự án hiện tại của bạn,\nnhưng bạn sẽ phải quản lý chúng bằng cách thủ công đấy.\n\nBạn có muốn dừng sử dụng %s không?"
 
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:789
 msgid "Project web pages"
-msgstr "Pagini web proiect"
+msgstr "Trang web dự án"
 
 #: clientgui/BOINCClientManager.cpp:532
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr "%s - Închidere Neaşteptată"
+msgstr "%s - Thoát ra không mong đợi"
 
 #: clientgui/BOINCClientManager.cpp:542
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr "Clientul %s s-a închis neaşteptat de 3 ori în ultimele %d minute.\nDoriţi să îl restartaţi din nou?"
+msgstr "Máy khách %sđã bất ngờ thoát ra ngoài 3 lần trong vòng %d phút qua.\nBạn có muốn khởi động lại lần nữa không?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
 msgid "%s - Network Status"
-msgstr "%s - Stare Reţea"
+msgstr "%s - Tình trạng mạng"
 
 #: clientgui/BOINCDialupManager.cpp:237
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr "%s necesită să se conecteze la Internet.\nPoate face asta acum?"
+msgstr "%s cần kết nối với internet.\nBạn có muốn thực hiện ngay bây giờ không nào?"
 
 #: clientgui/BOINCDialupManager.cpp:250
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr "%s se conectează la Internet."
+msgstr "%s đang kết nối với internet."
 
 #: clientgui/BOINCDialupManager.cpp:299
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s s-a conectat cu succes la Internet."
+msgstr "%s đã kết nối internet thành công."
 
 #: clientgui/BOINCDialupManager.cpp:327
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "%s nu a reuşit să se conecteze la Internet."
+msgstr "%s đã kết nối internet thất bại."
 
 #: clientgui/BOINCDialupManager.cpp:368
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr "%s a detectat că acum este conectat la Internet.\nActualizează toate proiectele şi reîncearcă toate transferurile."
+msgstr "%s đã phát hiện ra nó hiện đã được kết nối với Internet.\n Đang cập nhật tất cả các dự án và thử lại tất cả các lần truyền dữ liệu."
 
 #: clientgui/BOINCDialupManager.cpp:413
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr "%s s-a deconectat cu succes de la Internet."
+msgstr "%s đã ngắt khỏi kết nối Internet thành công."
 
 #: clientgui/BOINCDialupManager.cpp:429
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr "%s nu a reuşit să se deconecteze de la Internet."
+msgstr "%s đã thất bại khi định ngắt kết nối internet."
 
 #: clientgui/BOINCGUIApp.cpp:348
 #, c-format
@@ -780,18 +775,18 @@ msgid ""
 "- reinstall %s answering \"Yes\" to the question about non-administrative users\n"
 " or\n"
 "- contact your administrator to add you to the 'boinc_master' user group."
-msgstr "Nu sunteți autorizat să administrați %s.\n\nPentru a rula %s:\n- reinstalați %srăspunzînd \"Da\" la întrebarea despre utilizatori fără drepturi de administrare\nsau\n- contactați administratorul pentru a vă adăuga în grupul de utilizatori 'boinc_master'.     "
+msgstr "Bạn hiện không được uỷ quyền để quản lý %s.\n\nĐể chạy được %s với tư cách người dùng này, xin bạn hãy:\n- cài đặt lại %s và trả lời \"Có\" cho những câu hỏi về người dùng không phải quản trị viên\nhoặc là\n- liên hệ với quản trị viên của bạn để thêm bạn vào nhóm người dùng 'boinc_master'"
 
 #: clientgui/BOINCGUIApp.cpp:356
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr "%s proprietatea sau permisiunile nu sunt setate corespunzător; vă rugăm reinstalaţi %s.\n(Cod eroare %d"
+msgstr "Quyền sở hữu hoặc quyền sử dụng %s không được cài đặt đúng cách; Hãy cài đặt lại %s.\n(Mã lỗi error code %d"
 
 #: clientgui/BOINCGUIApp.cpp:362
 msgid " at "
-msgstr " la "
+msgstr "tại"
 
 #: clientgui/BOINCGUIApp.cpp:365 clientgui/MainDocument.cpp:2629
 #: clientgui/MainDocument.cpp:2688 clientgui/ViewTransfers.cpp:920
@@ -802,258 +797,258 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr "O repornire a calculatorului este necesară pentru ca BOINC să ruleze corespunzător.\nVă rugăm reporniţi calculatorul şi încercaţi din nou."
+msgstr "Cần phải khởi động lại máy để BOINC chạy bình thường.\nHãy khởi động lại máy tính của bạn và thử lại đi nhé."
 
 #: clientgui/BOINCGUIApp.cpp:396 clientgui/DlgAbout.cpp:158
 msgid "BOINC Manager"
-msgstr "BOINC Manager"
+msgstr "Quản lý BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:615
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "Managerul BOINC a fost pornit automat de către sistemul de operare"
+msgstr "Hệ điều hành đã tự động khởi động trình quản lý BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:617
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "Rulează BOINC numai în System Tray"
+msgstr "Khởi động BOINC để chỉ có mỗi biểu tượng khay hệ thống được hiển thị."
 
 #: clientgui/BOINCGUIApp.cpp:619
 msgid "Directory containing the BOINC Client executable"
-msgstr "Directorul care conţine executabilul Clientului BOINC"
+msgstr "Thư mục chứa 'máy khách BOINC thực thi được'"
 
 #: clientgui/BOINCGUIApp.cpp:620
 msgid "BOINC data directory"
-msgstr "Director date BOINC"
+msgstr "Thư mục dữ liệu BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:622
 msgid "Host name or IP address"
-msgstr "Nume gazdă sau adresă IP"
+msgstr "Tên máy chủ host hoặc địa chỉ IP"
 
 #: clientgui/BOINCGUIApp.cpp:623
 msgid "GUI RPC port number"
-msgstr "număr port GUI RPC"
+msgstr "Mã số cổng GUI RPC port"
 
 #: clientgui/BOINCGUIApp.cpp:624
 msgid "Password"
-msgstr "Parola"
+msgstr "Mật khẩu"
 
 #: clientgui/BOINCGUIApp.cpp:625
 msgid "Startup BOINC with these optional arguments"
-msgstr "Porneşte BOINC cu aceste argumente opţionale"
+msgstr "Khởi động BOINC với các thông số tùy chọn này"
 
 #: clientgui/BOINCGUIApp.cpp:626
 msgid "disable BOINC security users and permissions"
-msgstr "dezactivează utilizatorii şi permisiunile de securitate BOINC"
+msgstr "tắt quyền bảo mật và người dùng bảo mật BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:627
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr "setează skin în modul de depanare pentru a activa mesajele de eroare ale managerului de skin-uri"
+msgstr "đặt chế độ phát hiện và gỡ lỗi skin để bật thông báo lỗi của trình quản lý skin"
 
 #: clientgui/BOINCGUIApp.cpp:628
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "sunt permise mai multe insanţe ale Managerului BOINC"
+msgstr "cho phép trình Quản lý BOINC đọc và tải dữ liệu vào bộ nhớ nhiều lần"
 
 #: clientgui/BOINCGUIApp.cpp:630
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr "Nefolosit: soluţie temporară pentru bug în XCode 4.2"
+msgstr "Đã không được sử dụng: cách giải quyết lỗi ở trong XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:632
 msgid "Don't run the client"
-msgstr "Trebuie să NU rulați clientul"
+msgstr "Không chạy máy khách"
 
 #. These are just special tags so deal with them in a special way
 #: clientgui/BOINCGUIApp.cpp:901
 msgid "(Automatic Detection)"
-msgstr "(Detectare Automata)"
+msgstr "(Tự động phát hiện)"
 
 #: clientgui/BOINCGUIApp.cpp:902
 msgid "(Unknown)"
-msgstr "(Necunoscut)"
+msgstr "(Không xác định)"
 
 #: clientgui/BOINCGUIApp.cpp:903
 msgid "(User Defined)"
-msgstr "(Definit de utilizator)"
+msgstr "(đã được xác định bởi người dùng)"
 
 #: clientgui/BOINCTaskBar.cpp:519
 #, c-format
 msgid "Open %s Web..."
-msgstr "Deschide %s Web..."
+msgstr "Mở Web %s..."
 
 #: clientgui/BOINCTaskBar.cpp:526
 #, c-format
 msgid "Open %s..."
-msgstr "Deschide %s..."
+msgstr "Mở %s..."
 
 #: clientgui/BOINCTaskBar.cpp:533 clientgui/BOINCTaskBar.cpp:631
 #: clientgui/BOINCTaskBar.cpp:636
 msgid "Snooze"
-msgstr "Dormi"
+msgstr "Nghỉ một thời gian"
 
 #: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
 #: clientgui/BOINCTaskBar.cpp:655
 msgid "Snooze GPU"
-msgstr "GPU Dormi"
+msgstr "GPU nghỉ một thời gian"
 
 #: clientgui/BOINCTaskBar.cpp:553
 msgid "E&xit"
-msgstr "I&eşire"
+msgstr "&Thoát"
 
 #: clientgui/BOINCTaskBar.cpp:626 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:921 clientgui/sg_BoincSimpleFrame.cpp:966
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
-msgstr "Reluare"
+msgstr "Bắt đầu lại"
 
 #: clientgui/BOINCTaskBar.cpp:646
 msgid "Resume GPU"
-msgstr "Reluare GPU"
+msgstr "Tiếp tục cho GPU hoạt động lại"
 
 #: clientgui/BOINCTaskBar.cpp:717
 msgid "Computing is enabled"
-msgstr "Calculele sunt active"
+msgstr "Việc tính toán được bật"
 
 #: clientgui/BOINCTaskBar.cpp:721
 msgid "Computing is suspended - "
-msgstr "Calculele sunt suspendate - "
+msgstr "Việc tính toán được tạm ngưng -"
 
 #: clientgui/BOINCTaskBar.cpp:731
 msgid "GPU computing is enabled"
-msgstr "Calculele GPU sunt active"
+msgstr "Việc tính toán bằng GPU được bật"
 
 #: clientgui/BOINCTaskBar.cpp:734
 msgid "GPU computing is suspended - "
-msgstr "Calculele GPU sunt suspendate - "
+msgstr "Việc tính toán bằng GPU được tạm ngưng -"
 
 #: clientgui/BOINCTaskBar.cpp:743
 msgid "Network is enabled"
-msgstr "Accesul la reţea este pornit"
+msgstr "Mạng kết nối được bật"
 
 #: clientgui/BOINCTaskBar.cpp:746
 msgid "Network is suspended - "
-msgstr "Accesul la reţea este suspendat - "
+msgstr "Mạng kết nối được tạm ngưng"
 
 #: clientgui/BOINCTaskBar.cpp:754
 msgid "Reconnecting to client."
-msgstr "Se reconectează la client."
+msgstr "Đang kết nối lại tới máy khách."
 
 #: clientgui/BOINCTaskBar.cpp:756
 msgid "Not connected to a client."
-msgstr "Nu este conectat la client."
+msgstr "Không được kết nối tới một máy khách nào."
 
 #: clientgui/BOINCTaskBar.cpp:809
 #, c-format
 msgid "%s Notices"
-msgstr "%s Anunţuri"
+msgstr "%s Thông báo"
 
 #: clientgui/BOINCTaskBar.cpp:815
 msgid "There are new notices - click to view."
-msgstr "Există anunţuri noi - apăsaţi pentru vizualizare."
+msgstr "Có thông báo đó - nhấn để xem nào."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
-msgstr "Adăugarea proiectului a eşuat"
+msgstr "Đã thất bại khi thêm dự án"
 
 #: clientgui/CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
-msgstr "Actualizarea managerului de cont a eşuat"
+msgstr "Đã thất bại khi cập nhật quản lý tài khoản"
 
 #: clientgui/CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
-msgstr "Ştergerea managerului de cont a eşuat"
+msgstr "Đã thất bại khi loại bỏ quản lý tài khoản"
 
 #: clientgui/CompletionErrorPage.cpp:212
 msgid "Failed to add account manager"
-msgstr "Adăugarea managerului de cont a eşuat"
+msgstr "Đã thất bại khi thêm quản lý tài khoản"
 
 #: clientgui/CompletionErrorPage.cpp:221
 msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr "Vă rugăm încercaţi mai târziu.\n\nApăsaţi Finalizare pentru a închide."
+msgstr "Xin hãy thử lại lần nữa.\n\nNhấn 'Hoàn thành' để đóng."
 
 #: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:215
 #: clientgui/CompletionPage.cpp:235 clientgui/CompletionPage.cpp:266
 msgid "Click Finish to close."
-msgstr "Apăsaţi Finalizare pentru a inchide."
+msgstr "Nhấn 'Hoàn thành' để đóng."
 
 #: clientgui/CompletionErrorPage.cpp:234
 msgid "Messages from server:"
-msgstr "Mesaje de la server:"
+msgstr "Tin từ máy chủ:"
 
 #: clientgui/CompletionPage.cpp:200
 msgid "Project added"
-msgstr "Proiect adăugat"
+msgstr "Đã thêm dự án"
 
 #: clientgui/CompletionPage.cpp:206
 msgid "This project has been successfully added."
-msgstr "Acest proiect a fost adăugat cu succes."
+msgstr "Dự án này đã được thêm vào thành công."
 
 #: clientgui/CompletionPage.cpp:211
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr "Cand apăsati butonul Finalizare, browserul dumneavoastră va incărca o pagină unde \nputeţi seta numele contului dvs. si preferinţele."
+msgstr "Khi bạn nhấn 'Hoàn thành', trình duyệt web của bạn sẽ dẫn tới một trang web, nơi mà\nbạn có thể cài đặt tên tài khoản và các tuỳ chọn của bạn."
 
 #: clientgui/CompletionPage.cpp:225
 #, c-format
 msgid "Update from %s completed."
-msgstr "Actualizarea de la %s s-a încheiat."
+msgstr "Cập nhật từ %s đã hoàn tất."
 
 #: clientgui/CompletionPage.cpp:229
 msgid "Update completed."
-msgstr "Actualizare încheiată."
+msgstr "Cập nhật hoàn tất."
 
 #. Attach Completed
 #: clientgui/CompletionPage.cpp:240
 msgid "Now using account manager"
-msgstr "Acum se foloseşte manageruul de cont"
+msgstr "Hiện đang sử dụng quản lý tài khoản"
 
 #: clientgui/CompletionPage.cpp:245
 #, c-format
 msgid "Welcome to %s!"
-msgstr "Bine aţi venit la %s!"
+msgstr "Chào mừng bạn đến với %s!"
 
 #: clientgui/CompletionPage.cpp:256
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr "Acum folosiţi %s pentru a gestiona conturile."
+msgstr "Hiện bạn đang sử dụng %s để quản lý các tài khoản."
 
 #: clientgui/CompletionPage.cpp:260
 msgid "You are now using this account manager."
-msgstr "Acum folosiţi acest manager de cont."
+msgstr "Hiện bạn đang sử dụng trình quản lý tài khoản này."
 
 #: clientgui/DlgAbout.cpp:115
 #, c-format
 msgid "About %s"
-msgstr "Despre %s"
+msgstr "Về %s"
 
 #: clientgui/DlgAbout.cpp:177
 msgid "Version:"
-msgstr "Versiunea:"
+msgstr "Phiên bản:"
 
 #: clientgui/DlgAbout.cpp:185
 msgid "wxWidgets Version:"
-msgstr "Versiune wxWidgets:"
+msgstr "Phiên bản wxWidgets:"
 
 #: clientgui/DlgAbout.cpp:193
 msgid "Copyright:"
-msgstr "Drepturi de autor:"
+msgstr "Bản quyền:"
 
 #: clientgui/DlgAbout.cpp:197
 msgid ""
 "(C) 2003-2022 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2022 University of California, Berkeley.\nToate drepturile rezervate."
+msgstr "(C) 2003-2022 Đại học bang California, Berkeley.\nĐã đăng ký Bản quyền."
 
 #: clientgui/DlgAbout.cpp:202
 #, c-format
 msgid "%s is distributed under the GNU Lesser General Public License v3.0."
-msgstr "%s este distribuit sub Licenţa Publică GNU Redusă (Lesser General Public License) v3.0."
+msgstr "%sđược phân phối theo Giấy phép Công cộng Nhỏ GNU Lesser General Public License v3.0."
 
 #: clientgui/DlgAbout.cpp:214
 msgid "For more information, visit "
-msgstr "Pentru mai multe informații, vizitați"
+msgstr "Để biết thêm thông tin, hãy truy cập"
 
 #: clientgui/DlgAbout.cpp:226 clientgui/DlgExitMessage.cpp:185
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgSelectComputer.cpp:163
@@ -1062,146 +1057,146 @@ msgstr "&OK"
 
 #: clientgui/DlgAdvPreferences.cpp:741 clientgui/sg_DlgPreferences.cpp:790
 msgid "Invalid number"
-msgstr "Număr invalid"
+msgstr "Số không hợp lệ"
 
 #: clientgui/DlgAdvPreferences.cpp:742 clientgui/sg_DlgPreferences.cpp:791
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
-msgstr "Timp invalid, valoare trebuie să fie între 0:00 și 24:00, formatul este HH:MM"
+msgstr "Thời gian không hợp lệ mất rồi, giá trị phải là từ 0:00 đến 24:00, định dạng là Giờ:Phút cơ"
 
 #: clientgui/DlgAdvPreferences.cpp:743 clientgui/sg_DlgPreferences.cpp:792
 msgid "Start time must be different from end time"
-msgstr "Timpul de start trebuie să fie diferit de timpul de sfârșit"
+msgstr "Thời gian bắt đầu phải khác với thời gian kết thúc"
 
 #: clientgui/DlgAdvPreferences.cpp:744
 msgid "Number must be between 0 and 10"
-msgstr "Numărul trebuie să fie între 0 și 10"
+msgstr "Con số phải nằm trong khoảng từ 0 đến 10"
 
 #: clientgui/DlgAdvPreferences.cpp:745 clientgui/sg_DlgPreferences.cpp:793
 msgid "Number must be between 0 and 100"
-msgstr "Numărul trebuie să fie între 0 și 100"
+msgstr "Con số phải nằm trong khoảng từ 0 đến 100"
 
 #: clientgui/DlgAdvPreferences.cpp:746
 msgid "Number must be between 1 and 100"
-msgstr "Numărul trebuie să fie între 1 și 100."
+msgstr "Con số phải nằm trong khoảng từ 1 đến 100"
 
 #: clientgui/DlgAdvPreferences.cpp:747
 msgid ""
 "Suspend when no mouse or keyboard input needs to be greater than 'in use' "
 "mouse or keyboard input."
-msgstr "Suspendă dacă mouse-ul sau tastatura nu sunt folosite pe o perioadă mai mare față de ce este setat în opțiunea \"în folosire\"."
+msgstr "Tạm ngưng khi không cần đầu vào chuột hoặc bàn phím nào lớn hơn đầu vào chuột hoặc bàn phím 'đang sử dụng'."
 
 #: clientgui/DlgAdvPreferences.cpp:1040 clientgui/sg_DlgPreferences.cpp:864
 msgid "invalid input value detected"
-msgstr "valoare introdusă invalidă detectată"
+msgstr "giá trị đầu vào không hợp lệ bị phát hiện"
 
 #: clientgui/DlgAdvPreferences.cpp:1052 clientgui/sg_DlgPreferences.cpp:876
 msgid "Validation Error"
-msgstr "Eroare Validare"
+msgstr "Lỗi xác nhận"
 
 #: clientgui/DlgAdvPreferences.cpp:1241 clientgui/sg_DlgPreferences.cpp:1210
 msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
 "there. Do you want to proceed?"
-msgstr "Se comută la a utiliza preferințele locale definite pe această pagină. Acestea vor lua prioritate față de preferințele voastre setate pe web, chiar dacă veți face mai târziu schimbări acolo. Doriți să continuați?"
+msgstr "Thay đổi để sử dụng các tùy chọn cục bộ được hoạch định trên trang này. Điều này sẽ ghi đè các tùy chọn trên nền tảng web của bạn, ngay cả khi bạn thực hiện các thay đổi ở đó sau đó. Bạn có muốn tiếp tục không?"
 
 #: clientgui/DlgAdvPreferences.cpp:1245 clientgui/DlgAdvPreferences.cpp:1286
 #: clientgui/sg_DlgPreferences.cpp:1202 clientgui/sg_DlgPreferences.cpp:1214
 msgid "Confirmation"
-msgstr "Confirmare"
+msgstr "Xác nhận"
 
 #: clientgui/DlgAdvPreferences.cpp:1285
 msgid "Discard local preferences and use web-based preferences?"
-msgstr "Renunțați la preferințele locale și folosiți preferințele de pe web?"
+msgstr "Bỏ tùy chọn cục bộ và sử dụng tùy chọn dựa trên web?"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:62
 #, c-format
 msgid "%s - Computing preferences"
-msgstr "%s - Preferințe calcul"
+msgstr "%s - Tuỳ chọn tính toán"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:99
 msgid "Using local prefs."
-msgstr "Se folosesc preferințele locale."
+msgstr "Sử dụng tuỳ chỉnh cục bộ."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "Click to use web prefs from"
-msgstr "Click pentru a folosi preferințele web de la "
+msgstr "Nhấp vào để sử dụng tuỳ chỉnh web từ"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:108
 msgid "Using web prefs from"
-msgstr "Se folosesc preferințele web de la"
+msgstr "Đang sử dụng tuỳ chỉnh web từ"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:125
 msgid "Set values and click Save to use local prefs instead."
-msgstr "Setează valorile și apasă pe Salvare, pentru a folosi preferințele locale."
+msgstr "Cài đặt giá trị và nhấp vào Lưu để sử dụng tuỳ chỉnh cục bộ."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:133 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
-msgstr "Folosiți preferințele de pe web"
+msgstr "Sử dụng các tuỳ chọn web"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:134 clientgui/sg_DlgPreferences.cpp:218
 msgid "Restore web-based preferences and close the dialog."
-msgstr "Restaurează preferințele de pe web și închide dialogul."
+msgstr "Khôi phục các tùy chọn dựa trên nền tảng web và đóng hộp thoại."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:163
 #: clientgui/DlgAdvPreferencesBase.cpp:817
 msgid "Computing"
-msgstr "Se calculează"
+msgstr "Tính toán"
 
 #. Network schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 #: clientgui/DlgAdvPreferencesBase.cpp:1019
 msgid "Network"
-msgstr "Reţea"
+msgstr "Mạng"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:171 clientgui/ViewResources.cpp:118
 msgid "Disk"
-msgstr "Disc"
+msgstr "Ổ đĩa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:175
 msgid "Daily schedules"
-msgstr "Programe zilnice"
+msgstr "Lịch trình hằng ngày"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:188
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgExclusiveApps.cpp:146
 #: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:353
 msgid "Save"
-msgstr "Salvează"
+msgstr "Lưu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:189 clientgui/sg_DlgPreferences.cpp:354
 msgid "Save all values and close the dialog."
-msgstr "Salvează toate valorile și închide dialogul."
+msgstr "Lưu tất cả các giá trị và đóng hộp thoại."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:196 clientgui/sg_DlgPreferences.cpp:361
 msgid "Close the dialog without saving."
-msgstr "Închide dialogul fără a salva."
+msgstr "Đóng hộp thoại, không lưu."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:202 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1002
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
-msgstr "Ajutor"
+msgstr "Trợ giúp"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:203
 msgid "Shows the preferences web page."
-msgstr "Afișează pagina web de preferinţe."
+msgstr "Hiện trang web tuỳ chọn"
 
 #. ------------ In-use box --------------
 #: clientgui/DlgAdvPreferencesBase.cpp:300
 msgid "When computer is in use"
-msgstr "Când computerul este folosit"
+msgstr "Khi máy tính đang được sử dụng"
 
 #. in-use if input in last X min
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:306 clientgui/sg_DlgPreferences.cpp:264
 msgid "This determines when the computer is considered 'in use'."
-msgstr "Aceasta determină când calculatorul este considerat 'folosit'."
+msgstr "Mục này xác định thời điểm máy tính được coi là 'đang được sử dụng'."
 
 #. context: 'In use' means mouse or keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:310
 msgid "'In use' means mouse or keyboard input in last"
-msgstr "'Folosit' înseamnă activitate de la mouse/tastatură în ultimele"
+msgstr "'Đang sử dụng' có nghĩa là đầu vào chuột hoặc bàn phím lần cuối trong vòng"
 
 #. context: 'In use' means mouse or keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
@@ -1209,51 +1204,51 @@ msgstr "'Folosit' înseamnă activitate de la mouse/tastatură în ultimele"
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 #: clientgui/DlgAdvPreferencesBase.cpp:509 clientgui/sg_DlgPreferences.cpp:276
 msgid "minutes"
-msgstr "minute"
+msgstr "phút"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:328 clientgui/sg_DlgPreferences.cpp:253
 msgid "Suspend when computer is in use"
-msgstr "Suspendă când calculatorul este folosit"
+msgstr "Tạm ngưng khi máy tính đang được sử dụng"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:331 clientgui/sg_DlgPreferences.cpp:249
 msgid ""
 "Check this to suspend computing and file transfers when you're using the "
 "computer."
-msgstr "Bifați aici pentru a suspenda calculele și transferurile de fișiere când folosiți calculatorul."
+msgstr "Chọn tùy chọn này để tạm ngưng tính toán và truyền file tệp tin khi bạn đang sử dụng máy tính."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Suspendă GPU când calculatorul este folosit"
+msgstr "Tạm dừng tính toán trên GPU khi máy tính đang được sử dụng"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:342
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Bifați aici pentru a suspenda calculele GPU atunci când folosiți calculatorul."
+msgstr "Chọn tùy chọn này để tạm ngưng tính toán GPU khi bạn đang sử dụng máy tính."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 #: clientgui/DlgAdvPreferencesBase.cpp:392
 #: clientgui/DlgAdvPreferencesBase.cpp:412
 #: clientgui/DlgAdvPreferencesBase.cpp:450 clientgui/sg_DlgPreferences.cpp:286
 msgid "Use at most"
-msgstr "Foloseşte cel mult"
+msgstr "Sử dụng nhiều nhất"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:354
 #: clientgui/DlgAdvPreferencesBase.cpp:417
 #, no-c-format
 msgid "% of the CPUs and at most"
-msgstr "% din CPU și maxim"
+msgstr "% CPU và cao nhất"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:358
 #: clientgui/DlgAdvPreferencesBase.cpp:421 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
 msgid "% of CPU time"
-msgstr "% din timp CPU"
+msgstr "% của thời lượng CPU"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:360
 #, no-c-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Păstrează câteva CPU-uri libere pentru alte aplicații. Exemplu: 75% înseamnă 6 nuclee pe un CPU cu 8 nuclee."
+msgstr "Giữ một số CPU khả dụng cho các ứng dụng khác. Ví dụ: 75% có nghĩa là sử dụng 6 lõi trên CPU 8 lõi."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362 clientgui/sg_DlgPreferences.cpp:284
 #, no-c-format
@@ -1261,114 +1256,114 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Suspendă/reia calculele la fiecare câteva secunde pentru a reduce temperatura CPU și consumul de energie. Exemplu: 75% înseamnă calculează 3 secunde, așteaptă 1 secundă și repetă."
+msgstr "Tạm ngưng /Tiếp tục tính toán vài giây một lần để giảm nhiệt độ CPU và mức sử dụng năng lượng. Ví dụ: 75% có nghĩa là tính toán trong 3 giây, đợi 1 giây và lặp lại."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:375
 #: clientgui/DlgAdvPreferencesBase.cpp:433
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspendă când utilizarea CPU non-BOINC este peste"
+msgstr "Tạm ngưng khi mức sử dụng CPU cho các nhiệm vụ không phải BOINC vượt trên mức"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:381
 #: clientgui/DlgAdvPreferencesBase.cpp:443
 msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Suspendă calculele când calculatorul dumneavoastră este ocupat cu rularea altor programe."
+msgstr "Tạm ngưng máy tính khi máy tính của bạn đang bận chạy các chương trình khác."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:391
 #, c-format
 msgid "Limit the memory used by %s when you're using the computer."
-msgstr "Limitează memoria utilizată de %s când utilizați calculatorul."
+msgstr "Giới hạn lượng bộ nhớ được sử dụng bởi %s khi bạn đang dùng máy."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:396
 #: clientgui/DlgAdvPreferencesBase.cpp:453
 #, no-c-format
 msgid "% of memory"
-msgstr "% din memorie"
+msgstr "% bộ nhớ"
 
 #. ------------ Not-in-use box --------------
 #: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "When computer is not in use"
-msgstr "Când computerul nu este folosit"
+msgstr "Khi máy tính đang không được sử dụng"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "Limitează memoria utilizată de %s când nu utilizați calculatorul."
+msgstr "Giới hạn lượng bộ nhớ được sử dụng bởi %s khi bạn không dùng máy."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:459
 msgid "Suspend when no mouse or keyboard input in last"
-msgstr "Suspendă când nu există activitate mouse/tastatură în ultimele"
+msgstr "Tạm ngưng khi không có chuột hoặc bàn phím nào nhập vào trong vòng"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:471
 msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "Acest lucru face posibil ca unele calculatoare să intre în modul de lucru consum redus atunci când nu sunt folosite."
+msgstr "Mục này cho phép một số máy tính chuyển sang chế độ năng lượng thấp khi không sử dụng."
 
 #. ------------ General box --------------
 #. layout controls
 #: clientgui/DlgAdvPreferencesBase.cpp:480 clientgui/DlgItemProperties.cpp:263
 #: clientgui/DlgOptions.cpp:258
 msgid "General"
-msgstr "General"
+msgstr "Chung"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:488 clientgui/sg_DlgPreferences.cpp:239
 msgid "Suspend when computer is on battery"
-msgstr "Suspendă când calculatorul este pe baterie"
+msgstr "Tạm ngưng khi máy tính đang chạy bằng pin"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:491 clientgui/sg_DlgPreferences.cpp:235
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "Bifați aici pentru a suspenda calculele pe portabile când sunt pe baterie."
+msgstr "Chọn tùy chọn này để tạm ngưng tính toán trên thiết bị di động khi chạy bằng nguồn pin."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:498
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
-msgstr "Dacă rulați mai multe proiecte, %s va comuta între ele atât de des."
+msgstr "Nếu bạn chạy nhiều dự án, %s có thể làm chúng thay phiên cho nhau thường xuyên."
 
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Switch between tasks every"
-msgstr "Comută între task-uri la fiecare"
+msgstr "Thay phiên các nhiệm vụ cho nhau mỗi"
 
 #. checkpoint every X
 #: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
-msgstr "Aceasta controlează cât de des task-urile îți salvează starea pe disc, astfel încât să poată fi repornite ulterior."
+msgstr "Mục này kiểm soát tần suất các nhiệm vụ lưu trạng thái của chúng vào đĩa, để sau đó chúng có thể được tiếp tục từ thời điểm đó."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:520
 msgid "Request tasks to checkpoint at most every"
-msgstr "Task-urile creează punct de control cel mult la fiecare"
+msgstr "Yêu cầu các nhiệm vụ kiểm chốt lại sau mỗi "
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:527
 msgid "seconds"
-msgstr "secunde"
+msgstr "giây"
 
 #. leave non-GPU tasks in memory while suspended
 #: clientgui/DlgAdvPreferencesBase.cpp:534
 msgid "Leave non-GPU tasks in memory while suspended"
-msgstr "Lăsați task-urile non-GPU în memorie când sunt suspendate"
+msgstr "Cứ để lại các nhiệm vụ không liên quan GPU trong bộ nhớ khi bị tạm ngưng"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:535
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Dacă este bifat, task-urile suspendate rămân în memorie și repornesc fără să piardă activitate. Dacă nu este bifat, task-urile suspendate sunt eliminate din memorie și repornesc de la ultimul punct de control."
+msgstr "Nếu chọn mục này, các nhiệm vụ bị tạm ngưng vẫn nằm trong bộ nhớ, và khởi động lại mà không có công nào bị mất đi cả. Nếu bỏ chọn, các nhiệm vụ bị tạm ngưng sẽ bị loại khỏi bộ nhớ, và khởi động lại bắt đầu từ lần kiểm chốt gần nhất. "
 
 #. work buffer min
 #. work buffer
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 #: clientgui/DlgAdvPreferencesBase.cpp:582
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Stochează cel puțin atâtea task-uri câte sunt necesare pentru a ține calculatorul ocupat pentru atâta timp."
+msgstr "Lưu trữ ít nhất đủ tác vụ để giữ cho máy tính bận rộn trong thời gian dài."
 
 #. context: Store at least ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:545
 #: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "Store at least"
-msgstr "Stochează cel puțin"
+msgstr "Lưu trữ ít nhất công việc dành cho"
 
 #. context: Store at least ___ days of work
 #. context: Store up to an additional ___ days of work
@@ -1376,7 +1371,7 @@ msgstr "Stochează cel puțin"
 #: clientgui/DlgAdvPreferencesBase.cpp:575
 #: clientgui/DlgAdvPreferencesBase.cpp:605
 msgid "days of work"
-msgstr "zile de lucru"
+msgstr "ngày"
 
 #. work buffer additional
 #: clientgui/DlgAdvPreferencesBase.cpp:561
@@ -1384,114 +1379,114 @@ msgstr "zile de lucru"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Stochează task-uri adiționale peste nivelul minim. Determină cât de lucru este solicitat când se contactează un proiect."
+msgstr "Lưu trữ các nhiệm vụ bổ sung trên mức tối thiểu. Xác định lượng công việc được yêu cầu khi liên hệ với một dự án."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:565
 msgid "Store up to an additional"
-msgstr "Stocați în plus până la"
+msgstr "Lưu trữ cộng thêm công việc dành cho"
 
 #. context: Store at least ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:595
 msgid "days and up to an additional"
-msgstr "zile și maxim"
+msgstr "ngày và bổ sung thêm lên tới"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:619
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "Pentru a suspenda în timpul zilei, vezi la secțiunea \"Programări Zilnice\""
+msgstr "Để ra lệnh tạm ngưng dựa theo thời gian trong ngày, hãy xem mục \"Lịch trình hằng ngày\"."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:649
 msgid "Network usage"
-msgstr "Utilizare reţea"
+msgstr "Sử dụng mạng"
 
 #. download rate
 #: clientgui/DlgAdvPreferencesBase.cpp:655
 msgid "Limit the download rate of file transfers."
-msgstr "Limitează rata de descărcare a transferurilor de fișiere."
+msgstr "Giới hạn tốc độ tải xuống khi truyền file tệp tin."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:656
 msgid "Limit download rate to"
-msgstr "Limitează rata de descărcare la"
+msgstr "Giới hạn tốc độ tải xuống còn"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:658
 #: clientgui/DlgAdvPreferencesBase.cpp:666
 msgid "KB/second"
-msgstr "KB/secundă"
+msgstr "KB/giây"
 
 #. upload rate
 #: clientgui/DlgAdvPreferencesBase.cpp:663
 msgid "Limit the upload rate of file transfers."
-msgstr "Limitează rata de încărcare a transferurilor de fișiere."
+msgstr "Giới hạn tốc độ tải lên khi truyền file tệp tin."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:664
 msgid "Limit upload rate to"
-msgstr "Limitează rata de încărcare la"
+msgstr "Giới hạn tốc độ tải lên tới mức"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:672
 #, c-format
 msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
-msgstr "Exemplu: %s trebuie să transfere cel mult 2000 MB de date la fiecare 30 de zile."
+msgstr "Ví dụ: %s nên truyền dữ liệu nhiều nhất là 2000 MB dữ liệu mỗi 30 ngày."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:673
 msgid "Limit usage to"
-msgstr "Limitează utilizarea la"
+msgstr "Giới hạn sử dụng tới mức"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:675
 msgid "MB every"
-msgstr "MB fiecare"
+msgstr "MB mỗi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:677
 msgid "days"
-msgstr "zile"
+msgstr "các ngày"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:680
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "Pentru a limita transferurile în timpul zilei, vezi la secțiunea \"Programări Zilnice\""
+msgstr "Để giới hạn truyền file tệp tin dựa theo thời gian trong ngày, hãy xem mục \"Lịch trình hằng ngày\"."
 
 #. Context: heading for a group of miscellaneous preferences
 #: clientgui/DlgAdvPreferencesBase.cpp:691
 msgid "Other"
-msgstr "Altele"
+msgstr "Khác"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:699
 #, c-format
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of %s."
-msgstr "Bifați aici numai dacă furnizorul de Internet modifică fișierele imagine. Omiterea verificării reduce securitatea %s."
+msgstr "Chọn tùy chọn này chỉ khi nhà cung cấp Internet của bạn điều chỉnh các file tập tin hình ảnh. Bỏ qua việc kiểm chứng sẽ làm giảm mức độ bảo mật của %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:700
 msgid "Skip data verification for image files"
-msgstr "Sări peste verificarea datelor la fișierele imagine"
+msgstr "Bỏ qua kiểm chứng dữ liệu cho các file tệp hình ảnh"
 
 #. confirm before connecting
 #: clientgui/DlgAdvPreferencesBase.cpp:706
 msgid "Confirm before connecting to Internet"
-msgstr "Confirmare înainte de conectarea la Internet"
+msgstr "Xác nhận trước khi kết nối tới Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:707
 #: clientgui/DlgAdvPreferencesBase.cpp:712
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Folositor doar dacă aveți un modem, ISDN sau conexiune VPN."
+msgstr "Chỉ hữu dụng nếu bạn có một chiếc modem, ISDN hoặc kết nối VPN."
 
 #. disconnect when done
 #: clientgui/DlgAdvPreferencesBase.cpp:711
 msgid "Disconnect when done"
-msgstr "Deconectează la finalizare"
+msgstr "Ngắt kết nối khi xong"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:737 clientgui/DlgItemProperties.cpp:277
 msgid "Disk usage"
-msgstr "Utilizare disc"
+msgstr "Sử dụng ổ đĩa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:744 clientgui/sg_DlgPreferences.cpp:335
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
-msgstr "Limitează spațiul pe disc utilizat în total la %s."
+msgstr "Giới hạn tổng không gian đĩa sử dụng được dùng bởi %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:746
 #: clientgui/DlgAdvPreferencesBase.cpp:766 clientgui/sg_DlgPreferences.cpp:338
 msgid "Use no more than"
-msgstr "Nu folosi mai mult de"
+msgstr "Không dùng nhiều hơn"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:748
 msgid "GB"
@@ -1502,41 +1497,41 @@ msgstr "GB"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
-msgstr "Limitează utilizarea discului pentru a lăsă atât spațiu liber pe volumul unde %s stochează datele."
+msgstr "Giới hạn sử dụng ổ đĩa để dành ra nhiều từng này không gian trống trên ổ đĩa để %s trữ dữ liệu."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:756
 msgid "Leave at least"
-msgstr "Lasă cel puţin"
+msgstr "Để lại ít nhất"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:758
 msgid "GB free"
-msgstr "GB liberi"
+msgstr "GB khả dụng"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:764
 #, c-format
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "Limitează procentajul de utilizare a spațiului pe disc de către %s pe volumul unde își stochează datele."
+msgstr "Giới hạn phần trăm đĩa sử dụng được dùng bởi %s trên ổ đĩa nơi nó chứa dữ liệu."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:769
 #, no-c-format
 msgid "% of total"
-msgstr "% din total"
+msgstr "% tổng số"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:773
 #, c-format
 msgid "%s will use the most restrictive of the above settings"
-msgstr "%s va folosi cele mai restrictive din aceste setări:"
+msgstr "%s sẽ sử dụng cài đặt hạn chế nhất trong các cài đặt ở trên"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:781
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
-msgstr "Limitează spațiul swap (page file) folosit de %s."
+msgstr "Giới hạn không gian hoán đổi (page file tệp trang) được dùng bởi %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:782
 msgid "Page/swap file: use at most"
-msgstr "Spaţiu swap: foloseşte cel mult"
+msgstr "Trang/Tệp hoán đổi: sử dụng tối đa nhiều lắm là"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:785
 #, no-c-format
@@ -1545,117 +1540,117 @@ msgstr "%"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:803 clientgui/sg_DlgPreferences.cpp:295
 msgid "and"
-msgstr "şi"
+msgstr "và"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:804
 msgid "to"
-msgstr "la"
+msgstr "tới"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:824 clientgui/sg_DlgPreferences.cpp:296
 msgid "Compute only during a particular period each day."
-msgstr "Calculează doar într-o anume perioadă în fiecare zi."
+msgstr "Chỉ làm tính toán trong một khoảng thời gian cụ thể mỗi ngày."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:827 clientgui/sg_DlgPreferences.cpp:299
 msgid "Compute only between"
-msgstr "Lucrează doar între"
+msgstr "Chỉ tính toán trong khoảng thời gian giữa "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:851
 #: clientgui/DlgAdvPreferencesBase.cpp:1035
 msgid "Day-of-week override"
-msgstr "Modificări ziua săptămânii"
+msgstr "Ép thực hiện tác vụ vào Ngày-trong-tuần"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:860
 #: clientgui/DlgAdvPreferencesBase.cpp:1039
 msgid "Override the times above on the selected days:"
-msgstr "Ignoră timpii de mai sus în zilele selectate:"
+msgstr "Ép thực hiện tác vụ vào khoảng thời gian bên trên trong các ngày được lựa chọn trong tuần:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:883
 #: clientgui/DlgAdvPreferencesBase.cpp:1056
 msgid "Monday"
-msgstr "Luni"
+msgstr "Thứ Hai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:910
 #: clientgui/DlgAdvPreferencesBase.cpp:1071
 msgid "Friday"
-msgstr "Vineri"
+msgstr "Thứ Sáu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:925
 #: clientgui/DlgAdvPreferencesBase.cpp:1084
 msgid "Tuesday"
-msgstr "Marţi"
+msgstr "Thứ Ba"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:940
 #: clientgui/DlgAdvPreferencesBase.cpp:1099
 msgid "Saturday"
-msgstr "Sâmbătă"
+msgstr "Thứ Bảy"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:953
 #: clientgui/DlgAdvPreferencesBase.cpp:1112
 msgid "Wednesday"
-msgstr "Miercuri"
+msgstr "Thứ Tư"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:968
 #: clientgui/DlgAdvPreferencesBase.cpp:1127
 msgid "Sunday"
-msgstr "Duminică"
+msgstr "Chủ Nhật"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:981
 #: clientgui/DlgAdvPreferencesBase.cpp:1140
 msgid "Thursday"
-msgstr "Joi"
+msgstr "Thứ Năm"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:1023
 #: clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only during a particular period each day."
-msgstr "Transferă fișiere doar într-o anumită perioadă în fiecare zi."
+msgstr "Chỉ truyền dữ liệu file tệp tin trong một khoảng thời gian cụ thể mỗi ngày."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:1025
 #: clientgui/sg_DlgPreferences.cpp:319
 msgid "Transfer files only between"
-msgstr "Transferă fișiere doar între"
+msgstr "Chỉ truyền dữ liệu file tệp tin trong khoảng thời gian giữa "
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:66
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr "%s Flag-uri Jurnal Diagnostic"
+msgstr "%s Cờ đánh dấu nhật ký log chẩn đoán"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:84
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
-msgstr "Aceste flag-uri activează diverse tipuri de mesaje de diagnostic în Jurnalul de Evenimente."
+msgstr "Các cờ này cho phép các loại thông báo chẩn đoán khác nhau trong Nhật ký log sự kiện."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:100
 msgid "More info ..."
-msgstr "Mai multe informaţii ..."
+msgstr "Thông tin thêm ..."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
-msgstr "Salvează toate valorile și închide dialogul"
+msgstr "Lưu tất cả các giá trị và đóng hộp thoại"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:124 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
-msgstr "Implicite"
+msgstr "Mặc định"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:105
 msgid "Restore default settings"
-msgstr "Restaurează setările implicite"
+msgstr "Khôi phục lại các thiết lập mặc định"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
-msgstr "Închide dialogul fără a salva"
+msgstr "Đóng hộp thoại, không lưu"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:132
 msgid "Apply"
-msgstr "Aplică"
+msgstr "Áp dụng"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:133
 msgid "Save all values"
-msgstr "Salvează toate valorile"
+msgstr "Lưu tất cả các giá trị"
 
 #: clientgui/DlgEventLog.cpp:227
 #, c-format
 msgid "%s - Event Log"
-msgstr "%s - Jurnal Evenimente"
+msgstr "%s - Nhật ký log sự kiện"
 
 #. Create List Pane Items
 #: clientgui/DlgEventLog.cpp:237 clientgui/ViewMessages.cpp:117
@@ -1663,32 +1658,32 @@ msgstr "%s - Jurnal Evenimente"
 #: clientgui/ViewStatistics.cpp:1988 clientgui/ViewTransfers.cpp:225
 #: clientgui/ViewWork.cpp:282
 msgid "Project"
-msgstr "Proiect"
+msgstr "Dự án"
 
 #: clientgui/DlgEventLog.cpp:238 clientgui/ViewMessages.cpp:118
 msgid "Time"
-msgstr "Timp"
+msgstr "Thời gian"
 
 #: clientgui/DlgEventLog.cpp:239 clientgui/ViewMessages.cpp:119
 msgid "Message"
-msgstr "Mesaj"
+msgstr "Tin nhắn"
 
 #: clientgui/DlgEventLog.cpp:330 clientgui/DlgEventLog.cpp:380
 msgid "&Show only this project"
-msgstr "&Arată doar acest proiect"
+msgstr "&Chỉ hiện mỗi dự án này"
 
 #: clientgui/DlgEventLog.cpp:334 clientgui/DlgItemProperties.cpp:74
 msgid "Copy &All"
-msgstr "Copi&ază Tot"
+msgstr "Sao chép &tất cả"
 
 #: clientgui/DlgEventLog.cpp:336 clientgui/DlgEventLog.cpp:340
 #: clientgui/ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
-msgstr "Copiază toate mesajele in clipboard."
+msgstr "Sao chép tất cả tin nhắn vào khay nhớ tạm."
 
 #: clientgui/DlgEventLog.cpp:345 clientgui/DlgItemProperties.cpp:77
 msgid "Copy &Selected"
-msgstr "Copiază &Selectate"
+msgstr "Sao chép &đã lựa chọn"
 
 #: clientgui/DlgEventLog.cpp:348 clientgui/DlgEventLog.cpp:356
 #: clientgui/ViewMessages.cpp:97
@@ -1696,7 +1691,7 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on "
 "messages."
-msgstr "Copiază mesajele selectate in clipboard. Puteţi selecta mai multe mesaje prin apăsarea si menţinerea tastelor shift sau control în timp ce selectaţi cu mouse-ul mesajele."
+msgstr "Sao chép các tin nhắn đã chọn vào khay nhớ tạm. Bạn có thể chọn nhiều tin bằng cách nhấn giữ phím shift hoặc phím command trong khi nhấp vào các tin."
 
 #: clientgui/DlgEventLog.cpp:350 clientgui/DlgEventLog.cpp:358
 #: clientgui/ViewMessages.cpp:99
@@ -1704,99 +1699,99 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on "
 "messages."
-msgstr "Copiază mesajele selectate in clipboard. Puteţi selecta mai multe mesaje prin apăsarea si menţinerea tastelor shift sau control în timp ce selectaţi cu mouse-ul mesajele."
+msgstr "Sao chép các tin nhắn đã chọn vào khay nhớ tạm. Bạn có thể chọn nhiều tin bằng cách nhấn giữ phím shift hoặc phím control trong khi nhấp vào các tin."
 
 #: clientgui/DlgEventLog.cpp:365 clientgui/DlgItemProperties.cpp:81
 msgid "&Close"
-msgstr "&Închide"
+msgstr "&Đóng"
 
 #: clientgui/DlgEventLog.cpp:374
 msgid "Show all &messages"
-msgstr "Arată toate &mesajele"
+msgstr "Hiện tất cả &tin nhắn"
 
 #: clientgui/DlgEventLog.cpp:375 clientgui/DlgEventLog.cpp:377
 msgid "Show messages for all projects"
-msgstr "Arată mesaje de la toate proiectele"
+msgstr "Hiển thị tin cho tất cả các dự án"
 
 #: clientgui/DlgEventLog.cpp:381 clientgui/DlgEventLog.cpp:383
 msgid "Show only the messages for the selected project"
-msgstr "Arată doar mesajele pentru proiectul selectat"
+msgstr "Chỉ hiển thị các tin cho dự án đã chọn"
 
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
 msgid "%s - Exclusive Applications"
-msgstr "%s - Aplicații Exclusive"
+msgstr "%s - Các ứng dụng riêng biệt"
 
 #: clientgui/DlgExclusiveApps.cpp:72
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr "Suspendă folosirea procesorului şi a reţelei când rulează aceste aplicaţii:"
+msgstr "Tạm ngưng bộ xử lý và việc sử dụng mạng khi những ứng dụng này đang chạy:"
 
 #: clientgui/DlgExclusiveApps.cpp:80 clientgui/DlgExclusiveApps.cpp:104
 msgid "Add..."
-msgstr "Adaugă..."
+msgstr "Thêm..."
 
 #: clientgui/DlgExclusiveApps.cpp:81 clientgui/DlgExclusiveApps.cpp:105
 msgid "Add an application to this list"
-msgstr "Adaugă o aplicaţie la această listă"
+msgstr "Thêm một ứng dụng vào danh sách này"
 
 #: clientgui/DlgExclusiveApps.cpp:86 clientgui/DlgExclusiveApps.cpp:110
 #: clientgui/ViewProjects.cpp:230 clientgui/sg_ProjectCommandPopup.cpp:90
 msgid "Remove"
-msgstr "Şterge"
+msgstr "Loại bỏ"
 
 #: clientgui/DlgExclusiveApps.cpp:87 clientgui/DlgExclusiveApps.cpp:111
 msgid "Remove an application from this list"
-msgstr "Şterge o aplicaţie din această listă"
+msgstr "Loại bỏ một ứng dụng khỏi danh sách này"
 
 #: clientgui/DlgExclusiveApps.cpp:96
 msgid "Suspend GPU usage when these applications are running:"
-msgstr "Suspendă utilizarea GPU atunci când rulează aceste aplicații:"
+msgstr "Tạm ngưng sử dụng GPU khi các ứng dụng này đang chạy:"
 
 #: clientgui/DlgExclusiveApps.cpp:122
 msgid "For advanced options, refer to "
-msgstr "Pentru opţiuni avansate, consultaţi "
+msgstr "Để biết các tùy chọn nâng cao, hãy tham khảo"
 
 #: clientgui/DlgExclusiveApps.cpp:147
 msgid "save all values and close the dialog"
-msgstr "salvează toate valorile şi închide dialogul"
+msgstr "lưu tất cả các giá trị và đóng hộp thoại"
 
 #: clientgui/DlgExclusiveApps.cpp:152
 msgid "close the dialog without saving"
-msgstr "închide dialogul fără a salva"
+msgstr "đóng hộp thoại mà không lưu lại"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
-msgstr "arată pagina web de preferinţe"
+msgstr "hiển thị trang web các tùy chọn"
 
 #. TODO: fill in the default directory for MSW
 #. TODO: fill in the default directory for Linux
 #: clientgui/DlgExclusiveApps.cpp:303 clientgui/DlgExclusiveApps.cpp:309
 #: clientgui/DlgExclusiveApps.cpp:315
 msgid "Choose application or enter file name"
-msgstr "Alege aplicația sau introdu numele fișierului"
+msgstr "Chọn ứng dụng hoặc nhập tên file tệp tin"
 
 #: clientgui/DlgExclusiveApps.cpp:335
 msgid "Name of application to add?"
-msgstr "Numele aplicaţiei de adăugat?"
+msgstr "Tên của ứng dụng cần thêm vào?"
 
 #: clientgui/DlgExclusiveApps.cpp:335
 msgid "Add exclusive app"
-msgstr "Adaugă aplicaţie exclusiva"
+msgstr "Thêm ứng dụng riêng biệt"
 
 #: clientgui/DlgExclusiveApps.cpp:365
 #, c-format
 msgid "'%s' is already in the list."
-msgstr "'%s' este deja în listă."
+msgstr "'%s' đã có trong danh sách rồi."
 
 #: clientgui/DlgExclusiveApps.cpp:366
 msgid "Add Exclusive App"
-msgstr "Adaugă Aplicaţie Exclusivă"
+msgstr "Thêm ứng dụng riêng biệt"
 
 #: clientgui/DlgExitMessage.cpp:84
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr "%s - Confirmare Ieşire"
+msgstr "%s - Xác nhận thoát"
 
 #: clientgui/DlgExitMessage.cpp:132
 #, c-format
@@ -1807,7 +1802,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr "Aţi cerut să închideţi %s,\ncare vă permite să vizualizaţi şi să gestionaţi\ntask-urile care rulează pe calculatorul dumneavoastră.\n\nDacă doriţi să opriţi şi rularea task-urilor,\nalegeţi din următoarele opţiuni:"
+msgstr "Bạn đã yêu cầu thoát ra khỏi %s.\nđiều này cho phép bạn xem và quản lý\ncác nhiệm vụ đang chạy trên máy của bạn.\n\nhoặc nếu bạn cũng muôn dừng các nhiệm vụ lại,\nchọn ra từ trong những lựa chọn sau:"
 
 #: clientgui/DlgExitMessage.cpp:138
 #, c-format
@@ -1818,7 +1813,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Se va opri %s şi task-urile sale până când\n%s va rula din nou.\n\nÎn cele mai multe cazuri, este mai bine doar să închideţi fereastra %s\ndecât să închideţi aplicaţia; asta va permite %s să-şi ruleze\ntask-urile conform intervalelor de timp selectate în preferinţe."
+msgstr "Điều này sẽ tắt %s và các phần việc của nó cho tới khi\n%s chạy lại.\n\nHầu hết trường hợp, sẽ tốt hơn khi chỉ đóng cửa sổ %s\nhơn là thoát ứng dụng; điều đó sẽ cho phép %s chạy\ncác phần việc vào những thời điểm bạn lựa trong tuỳ chọn."
 
 #: clientgui/DlgExitMessage.cpp:146
 #, c-format
@@ -1829,198 +1824,198 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Se va opri %s şi task-urile sale până când fie\n%s sau screensaver-ul %s va rula din nou.\n\nÎn cele mai multe cazuri, este mai bine doar să închideţi fereastra %s\ndecât să închideţi aplicaţia; asta va permite %s să-şi ruleze\ntask-urile conform intervalelor de timp selectate în preferinţe."
+msgstr "Điều này sẽ tắt %s và các phần việc của nó cho tới khi hoặc\n%s hoặc trình bảo vệ màn hình %s chạy lại.\n\nHầu hết trường hợp, sẽ tốt hơn khi chỉ đóng cửa sổ %s\nhơn là thoát ứng dụng; điều đó sẽ cho phép %s chạy\ncác phần việc vào những thời điểm bạn lựa trong tuỳ chọn."
 
 #: clientgui/DlgExitMessage.cpp:165
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr "Opriţi rularea task-urilor când închideţi %s"
+msgstr "Dừng chạy các nhiệm vụ khi đang thoát ra %s"
 
 #: clientgui/DlgExitMessage.cpp:177
 msgid "Remember this decision and do not show this dialog."
-msgstr "Ţine minte această decizie şi nu mai arăta acest dialog."
+msgstr "Nhớ quyết định này và không hiện hộp thoại này."
 
 #: clientgui/DlgExitMessage.cpp:190 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:440 clientgui/DlgSelectComputer.cpp:168
 #: clientgui/wizardex.cpp:387
 msgid "&Cancel"
-msgstr "&Renunţă"
+msgstr "&Kết thúc"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr "Nu arăta acest dialog din nou."
+msgstr "Không hiển thị lại hộp thoại này."
 
 #: clientgui/DlgHiddenColumns.cpp:64
 #, c-format
 msgid "%s Column Selection"
-msgstr "%s Selecție Coloană"
+msgstr "%s Lựa chọn cột"
 
 #: clientgui/DlgHiddenColumns.cpp:77
 #, c-format
 msgid "Select which columns %s should show."
-msgstr "Selectați ce coloane %s să fie afișate."
+msgstr "Chọn lựa cột nào %s sẽ hiển thị."
 
 #: clientgui/DlgHiddenColumns.cpp:357
 msgid ""
 "Are you sure you want to reset all list columns to the default "
 "configurations?"
-msgstr "Sunteți sigur că doriți resetarea coloanelor listei la configurația implicită?"
+msgstr "Bạn có chắc chắn bạn muốn cài lại tất cả các cột danh sách về cấu hình mặc định không?"
 
 #: clientgui/DlgHiddenColumns.cpp:358
 msgid "Confirm defaults"
-msgstr "Confirmați implicite"
+msgstr "Xác nhận mặc định"
 
 #: clientgui/DlgItemProperties.cpp:206 clientgui/DlgItemProperties.cpp:209
 #: clientgui/DlgItemProperties.cpp:212 clientgui/DlgItemProperties.cpp:215
 msgid "Don't request tasks for "
-msgstr "Nu cere sarcini pentru"
+msgstr "Không yêu cầu nhiệm vụ cho"
 
 #: clientgui/DlgItemProperties.cpp:206
 msgid "Project preference"
-msgstr "Preferinţe proiect"
+msgstr "Tuỳ chọn dự án"
 
 #: clientgui/DlgItemProperties.cpp:209
 msgid "Account manager preference"
-msgstr "Preferinţe manager de cont"
+msgstr "Tuỳ chọn quản lý dự án"
 
 #: clientgui/DlgItemProperties.cpp:212
 msgid "Project has no apps for "
-msgstr "Proiectul nu are aplicaţii pentru "
+msgstr "Dự án không có ứng dụng nào cho"
 
 #: clientgui/DlgItemProperties.cpp:215
 msgid "Client configuration excludes "
-msgstr "Configurarea client exclude "
+msgstr "Cấu hình máy khách không bao gồm"
 
 #: clientgui/DlgItemProperties.cpp:221
 #, c-format
 msgid "%s task request deferred for"
-msgstr "%s cerere de sarcină amânată pentru"
+msgstr "%s yêu cầu nhiệm vụ được hoãn lại cho"
 
 #: clientgui/DlgItemProperties.cpp:225
 #, c-format
 msgid "%s task request deferral interval"
-msgstr "%s interval de amânare a cererii de sarcini"
+msgstr "%s khoảng thời gian trì hoãn yêu cầu nhiệm vụ"
 
 #. set dialog title
 #: clientgui/DlgItemProperties.cpp:259
 msgid "Properties of project "
-msgstr "Proprietăţi ale proiectului "
+msgstr "Các thuộc tính của dự án"
 
 #: clientgui/DlgItemProperties.cpp:264
 msgid "URL"
-msgstr "URL"
+msgstr "Địa chỉ URL"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "User name"
-msgstr "Nume utilizator"
+msgstr "Tên người dùng"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "Team name"
-msgstr "Nume echipă"
+msgstr "Tên team"
 
 #: clientgui/DlgItemProperties.cpp:267 clientgui/ViewProjects.cpp:256
 msgid "Resource share"
-msgstr "Resurse partajate"
+msgstr "Chia sẻ tài nguyên"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduler RPC deferred for"
-msgstr "RPC Planificator amânat pentru"
+msgstr "Bộ lịch trình RPC đã được hoãn lại cho"
 
 #: clientgui/DlgItemProperties.cpp:272
 msgid "File downloads deferred for"
-msgstr "Descărcările de fişiere amânate pentru"
+msgstr "Việc tải file tệp tin xuống đã được hoãn lại cho"
 
 #: clientgui/DlgItemProperties.cpp:275
 msgid "File uploads deferred for"
-msgstr "Încărcările de fişiere amânate pentru"
+msgstr "Việc tải file tệp tin lên đã được hoãn lại cho"
 
 #: clientgui/DlgItemProperties.cpp:278
 msgid "Computer ID"
-msgstr "ID calculator"
+msgstr "ID máy tính"
 
 #: clientgui/DlgItemProperties.cpp:280
 msgid "Non CPU intensive"
-msgstr "CPU neintensiv"
+msgstr "Không nhồi nhét CPU"
 
 #: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:283 clientgui/DlgItemProperties.cpp:285
 #: clientgui/DlgItemProperties.cpp:288 clientgui/DlgItemProperties.cpp:297
 #: clientgui/DlgItemProperties.cpp:300 clientgui/DlgItemProperties.cpp:303
 msgid "yes"
-msgstr "da"
+msgstr "có"
 
 #: clientgui/DlgItemProperties.cpp:282
 msgid "Suspended via GUI"
-msgstr "Suspendat din GUI"
+msgstr "Tạm ngưng thông qua GUI"
 
 #: clientgui/DlgItemProperties.cpp:282 clientgui/DlgItemProperties.cpp:283
 msgid "no"
-msgstr "nu"
+msgstr "không"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "Don't request tasks"
-msgstr "Nu cere sarcini"
+msgstr "Không yêu cầu nhiệm vụ"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Scheduler call in progress"
-msgstr "Apel planificator în curs"
+msgstr "Gọi tiến độ lịch trình"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Trickle-up pending"
-msgstr "Trickle-up în aşteptare"
+msgstr "Tin báo tiến độ đang chờ xử lý"
 
 #: clientgui/DlgItemProperties.cpp:291 clientgui/DlgItemProperties.cpp:293
 msgid "Host location"
-msgstr "Locaţie gazdă"
+msgstr "Vị trí máy chủ"
 
 #: clientgui/DlgItemProperties.cpp:293
 msgid "default"
-msgstr "implicit"
+msgstr "mặc định"
 
 #: clientgui/DlgItemProperties.cpp:297
 msgid "Added via account manager"
-msgstr "Adăugat prin manager de cont"
+msgstr "Đã được thêm vào quá trình Quản lý tài khoản"
 
 #: clientgui/DlgItemProperties.cpp:300
 msgid "Remove when tasks done"
-msgstr "Şterge când task-urile sunt gata"
+msgstr "Loại bỏ khi nhiệm vụ đã xong"
 
 #: clientgui/DlgItemProperties.cpp:303
 msgid "Ended"
-msgstr "Finalizat"
+msgstr "Đã kết thúc"
 
 #: clientgui/DlgItemProperties.cpp:305
 msgid "Tasks completed"
-msgstr "Task-uri finalizate"
+msgstr "Các nhiệm vụ đã hoàn thành"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "Tasks failed"
-msgstr "Task-uri eșuate"
+msgstr "Các nhiệm vụ đã thất bại"
 
 #: clientgui/DlgItemProperties.cpp:308
 msgid "Credit"
-msgstr "Credit"
+msgstr "Tín dụng"
 
 #: clientgui/DlgItemProperties.cpp:309
 msgid "User"
-msgstr "Utilizator"
+msgstr "Người dùng"
 
 #: clientgui/DlgItemProperties.cpp:312 clientgui/DlgItemProperties.cpp:320
 #, c-format
 msgid "%s total, %s average"
-msgstr "%s total, %s în medie"
+msgstr "%s tổng cộng, %s trung bình"
 
 #: clientgui/DlgItemProperties.cpp:317
 msgid "Host"
-msgstr "Gazdă"
+msgstr "Máy chủ"
 
 #: clientgui/DlgItemProperties.cpp:327
 msgid "Scheduling"
-msgstr "Planificare"
+msgstr "Lên lịch trình"
 
 #: clientgui/DlgItemProperties.cpp:328
 msgid "Scheduling priority"
-msgstr "Prioritate planificare"
+msgstr "Lên lịch trình ưu tiên"
 
 #: clientgui/DlgItemProperties.cpp:329
 msgid "CPU"
@@ -2028,715 +2023,715 @@ msgstr "CPU"
 
 #: clientgui/DlgItemProperties.cpp:353
 msgid "Duration correction factor"
-msgstr "Factor corecţie durată"
+msgstr "Hệ số hiệu chỉnh thời lượng"
 
 #: clientgui/DlgItemProperties.cpp:361
 msgid "Last scheduler reply"
-msgstr "Ultimul răspuns de la planificator"
+msgstr "Hồi âm cuối cùng của lịch trình"
 
 #: clientgui/DlgItemProperties.cpp:371
 msgid "Properties of task "
-msgstr "Propietăţi ale task-ului "
+msgstr "Thuộc tính của nhiệm vụ"
 
 #: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:288
 msgid "Application"
-msgstr "Aplicaţia"
+msgstr "Ứng dụng"
 
 #: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:289
 msgid "Name"
-msgstr "Nume"
+msgstr "Tên"
 
 #: clientgui/DlgItemProperties.cpp:385
 msgid "State"
-msgstr "Stare"
+msgstr "Trạng thái"
 
 #: clientgui/DlgItemProperties.cpp:388
 msgid "Received"
-msgstr "Primit"
+msgstr "Đã nhận"
 
 #: clientgui/DlgItemProperties.cpp:391
 msgid "Report deadline"
-msgstr "Ultima zi pentru raport"
+msgstr "Báo cáo hạn chót"
 
 #: clientgui/DlgItemProperties.cpp:393
 msgid "Resources"
-msgstr "Resurse"
+msgstr "Nguồn tài nguyên"
 
 #: clientgui/DlgItemProperties.cpp:396
 msgid "Estimated computation size"
-msgstr "Volum calcul estimat"
+msgstr "Ước chừng kích thước tính toán"
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "Keywords"
-msgstr "Cuvinte cheie"
+msgstr "Từ khóa"
 
 #: clientgui/DlgItemProperties.cpp:417 clientgui/DlgItemProperties.cpp:444
 msgid "CPU time"
-msgstr "Timp CPU"
+msgstr "Thời lượng CPU"
 
 #: clientgui/DlgItemProperties.cpp:418
 msgid "CPU time since checkpoint"
-msgstr "Timp CPU de la ultimul punct de control"
+msgstr "Thời lượng CPU kể từ điểm kiểm tra"
 
 #: clientgui/DlgItemProperties.cpp:420 clientgui/DlgItemProperties.cpp:445
 msgid "Elapsed time"
-msgstr "Timp scurs"
+msgstr "Thời lượng đã qua"
 
 #: clientgui/DlgItemProperties.cpp:422
 msgid "Estimated time remaining"
-msgstr "Timp rămas estimat"
+msgstr "Thời lượng ước tính còn lại"
 
 #: clientgui/DlgItemProperties.cpp:423
 msgid "Fraction done"
-msgstr "Proporţie finalizat"
+msgstr "Phần lượng đã xong"
 
 #: clientgui/DlgItemProperties.cpp:424
 msgid "Virtual memory size"
-msgstr "Dimensiune memorie virtuală"
+msgstr "Kích thước bộ nhớ ảo"
 
 #: clientgui/DlgItemProperties.cpp:425
 msgid "Working set size"
-msgstr "Dimensiune memorie de lucru"
+msgstr "Kích thước set làm việc"
 
 #: clientgui/DlgItemProperties.cpp:427
 msgid "Directory"
-msgstr "Director"
+msgstr "Thư mục"
 
 #: clientgui/DlgItemProperties.cpp:430
 msgid "Process ID"
-msgstr "ID Proces"
+msgstr "ID xử lý"
 
 #: clientgui/DlgItemProperties.cpp:436 clientgui/DlgItemProperties.cpp:438
 #: clientgui/DlgItemProperties.cpp:440
 msgid "Progress rate"
-msgstr "Rată progres"
+msgstr "Tiến độ"
 
 #: clientgui/DlgItemProperties.cpp:436
 msgid "per hour"
-msgstr "pe oră"
+msgstr "trên một giờ"
 
 #: clientgui/DlgItemProperties.cpp:438
 msgid "per minute"
-msgstr "pe minut"
+msgstr "trên một phút"
 
 #: clientgui/DlgItemProperties.cpp:440
 msgid "per second"
-msgstr "pe secundă"
+msgstr "trên một giây"
 
 #: clientgui/DlgItemProperties.cpp:448
 msgid "Executable"
-msgstr "Executabil"
+msgstr "Có thể thực thi"
 
 #: clientgui/DlgItemProperties.cpp:513 clientgui/ViewWork.cpp:1222
 #: clientgui/sg_TaskPanel.cpp:821
 msgid "Local: "
-msgstr "Local: "
+msgstr "Tại cục bộ:"
 
 #: clientgui/DlgOptions.cpp:134 clientgui/DlgOptions.cpp:140
 msgid "Options"
-msgstr "Opţiuni"
+msgstr "Các lựa chọn"
 
 #: clientgui/DlgOptions.cpp:183
 msgid "Language:"
-msgstr "Limba:"
+msgstr "Ngôn ngữ:"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "What language should BOINC use?"
-msgstr "Ce limbă să folosească BOINC?"
+msgstr "BOINC nên sử dụng ngôn ngữ gì?"
 
 #: clientgui/DlgOptions.cpp:194
 msgid "Notice reminder interval:"
-msgstr "Interval reamintere anunţuri:"
+msgstr "Khoảng thời gian thông báo nhắc nhở:"
 
 #: clientgui/DlgOptions.cpp:201
 msgid "How often should BOINC remind you of new notices?"
-msgstr "Cât de des trebuie ca BOINC să vă reamintească de noile anunţuri?"
+msgstr "Tần suất BOINC nên nhắc bạn về các thông báo mới sẽ là gì?"
 
 #: clientgui/DlgOptions.cpp:206
 msgid "Run Manager at login?"
-msgstr "Rulează Manager la login?"
+msgstr "Có chạy trình quản lý khi đăng nhập không?"
 
 #: clientgui/DlgOptions.cpp:212
 msgid "Run the BOINC Manager when you log on."
-msgstr "Rulează Manager BOINC la login."
+msgstr "Chạy trình quản lý BOINC khi bạn đăng nhập."
 
 #: clientgui/DlgOptions.cpp:217
 msgid "Run the client?"
-msgstr "Porniți clientul?"
+msgstr "Chạy máy khách chứ?"
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Run the client when launching the Manager."
-msgstr "Pornire client la lansarea Managerului."
+msgstr "Chạy máy khách khi khởi chạy Trình quản lý."
 
 #: clientgui/DlgOptions.cpp:227
 msgid "Enable Manager exit dialog?"
-msgstr "Activează dialog ieşire Manager?"
+msgstr "Bật hộp thoại thoát Trình quản lý chứ?"
 
 #: clientgui/DlgOptions.cpp:233
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "Afişează dialogul de ieşire la închiderea Managerului."
+msgstr "Hiển thị hộp thoại thoát khi tắt Trình quản lý."
 
 #: clientgui/DlgOptions.cpp:237
 msgid "Enable Client shutdown dialog?"
-msgstr "Activează dialogul de oprire al clientului ?"
+msgstr "Bật hộp thoại tắt máy khách chứ?"
 
 #: clientgui/DlgOptions.cpp:243
 msgid "Display confirmation dialog when shutting down the connected client."
-msgstr "Afişează dialogul de confirmare când se oprește clientul conectat."
+msgstr "Hiển thị hộp thoại xác nhận khi tắt máy khách được kết nối."
 
 #: clientgui/DlgOptions.cpp:248
 msgid "Show status in menu bar?"
-msgstr "Arată statusul în bara de meniu ?"
+msgstr "Hiển thị trạng thái trong thanh menu không?"
 
 #: clientgui/DlgOptions.cpp:254
 msgid "Display a status icon in the system menu bar."
-msgstr "Arată o pictogramă de status în bara de meniu a sistemului."
+msgstr "Hiển thị biểu tượng trạng thái trên thanh menu hệ thống."
 
 #: clientgui/DlgOptions.cpp:266
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "Setări Dial-up si Virtual Private Network"
+msgstr " Thiết lập cài đặt VPN và quay số Dial-up"
 
 #: clientgui/DlgOptions.cpp:280
 msgid "&Set Default"
-msgstr "&Setează ca implicit"
+msgstr "&Đặt mặc định"
 
 #: clientgui/DlgOptions.cpp:285
 msgid "&Clear Default"
-msgstr "Anulează setarea impli&cită"
+msgstr "&Xoá mặc định"
 
 #: clientgui/DlgOptions.cpp:292
 msgid "Default Connection:"
-msgstr "Conexiune implicită:"
+msgstr "Kết nối mặc định:"
 
 #: clientgui/DlgOptions.cpp:299
 msgid "Connections"
-msgstr "Conexiuni"
+msgstr "Các kết nối"
 
 #: clientgui/DlgOptions.cpp:308
 msgid "Connect via HTTP proxy server"
-msgstr "Conectare prin HTTP proxy server"
+msgstr "Kết nối thông qua máy chủ HTTP proxy"
 
 #: clientgui/DlgOptions.cpp:312
 msgid "HTTP Proxy Server Configuration"
-msgstr "Configurare HTTP Proxy server"
+msgstr "Cấu hình máy chủ HTTP Proxy"
 
 #: clientgui/DlgOptions.cpp:320 clientgui/DlgOptions.cpp:384
 msgid "Address:"
-msgstr "Adresa:"
+msgstr "Địa chỉ address:"
 
 #: clientgui/DlgOptions.cpp:328 clientgui/DlgOptions.cpp:392
 #: clientgui/ProxyPage.cpp:340 clientgui/ProxyPage.cpp:360
 msgid "Port:"
-msgstr "Port:"
+msgstr "Cổng port:"
 
 #: clientgui/DlgOptions.cpp:336 clientgui/DlgOptions.cpp:400
 msgid "Don't use proxy for:"
-msgstr "Nu folosi proxy pentru:"
+msgstr "Không sử dụng proxy cho:"
 
 #: clientgui/DlgOptions.cpp:343 clientgui/DlgOptions.cpp:407
 msgid "Leave these blank if not needed"
-msgstr "Nu completaţi dacă nu e necesar"
+msgstr "Cứ để khoảng trống như này nếu không thật sự cần nhé"
 
 #: clientgui/DlgOptions.cpp:349 clientgui/DlgOptions.cpp:413
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
 msgid "User Name:"
-msgstr "Nume utilizator:"
+msgstr "Tên người dùng:"
 
 #: clientgui/DlgOptions.cpp:357 clientgui/DlgOptions.cpp:421
 #: clientgui/DlgSelectComputer.cpp:152 clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
-msgstr "Parola:"
+msgstr "Mật khẩu:"
 
 #: clientgui/DlgOptions.cpp:364
 msgid "HTTP Proxy"
-msgstr "Proxy HTTP"
+msgstr "HTTP Proxy"
 
 #: clientgui/DlgOptions.cpp:372
 msgid "Connect via SOCKS proxy server"
-msgstr "Conectare prin SOCKS proxy server"
+msgstr "Kết nối thông qua máy chủ SOCKS proxy"
 
 #: clientgui/DlgOptions.cpp:376
 msgid "SOCKS Proxy Server Configuration"
-msgstr "Configurare SOCKS Proxy server"
+msgstr "Cấu hình máy chủ SOCKS Proxy"
 
 #: clientgui/DlgOptions.cpp:428
 msgid "SOCKS Proxy"
-msgstr "Proxy SOCKS"
+msgstr "SOCKS Proxy"
 
 #: clientgui/DlgOptions.cpp:436
 msgid "&Save"
-msgstr "&Salvează"
+msgstr "&Lưu"
 
 #: clientgui/DlgOptions.cpp:626
 msgid "always"
-msgstr "întotdeauna"
+msgstr "luôn luôn"
 
 #: clientgui/DlgOptions.cpp:627
 msgid "1 hour"
-msgstr "1 oră"
+msgstr "1 giờ"
 
 #: clientgui/DlgOptions.cpp:628
 msgid "6 hours"
-msgstr "6 ore"
+msgstr "6 giờ"
 
 #: clientgui/DlgOptions.cpp:629
 msgid "1 day"
-msgstr "1 zi"
+msgstr "1 ngày"
 
 #: clientgui/DlgOptions.cpp:630
 msgid "1 week"
-msgstr "1 săptămână"
+msgstr "1 tuần"
 
 #: clientgui/DlgOptions.cpp:631
 msgid "never"
-msgstr "niciodată"
+msgstr "không bao giờ"
 
 #: clientgui/DlgOptions.cpp:733
 #, c-format
 msgid "%s - Language Selection"
-msgstr "%s - Selecţie Limbă"
+msgstr "%s - Chọn lựa ngôn ngữ"
 
 #: clientgui/DlgOptions.cpp:740
 #, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr "Setările de limbă ale %s au fost modificate.  Pentru ca acestea să aibă efect, trebuie să reponiţi %s."
+msgstr "Ngôn ngữ của %sđã được thay đổi rồi đó. Để việc thay đổi này có hiệu lực, bạn cần phải khởi động lại %s đấy. "
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
-msgstr "%s - Selectează Calculator"
+msgstr "%s - Lựa chọn máy tính"
 
 #: clientgui/DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr "O altă instanţă de %s rulează deja \npe acest calculator.  Vă rugăm selectaţi un client pentru monitorizare."
+msgstr "Có một ca khác của %s đã chạy \ntrên chiếc máy tính này rồi. Bạn hãy chọn một máy khách để giám sát."
 
 #: clientgui/DlgSelectComputer.cpp:143
 msgid "Host name:"
-msgstr "Nume host:"
+msgstr "Tên máy chủ:"
 
 #: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
-msgstr "Panouri de mesaje"
+msgstr "Bảng tin"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr "Corespondează cu alţi useri de pe panourile de mesaje SETI@home"
+msgstr "Trao đổi tương tác với những người dùng khác trên bảng tin của SETI@home"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr "Intrebări şi probleme"
+msgstr "Hỏi khúc mắc và báo cáo vấn đề"
 
 #: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
 #: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
 msgid "Your account"
-msgstr "Contul dumneavoastră"
+msgstr "Tài khoản của bạn"
 
 #: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr "Vizualizaţii informaţii despre cont si total credit"
+msgstr "Xem thông tin tài khoản của bạn và tổng số tín dụng"
 
 #: clientgui/Localization.cpp:43
 msgid "Your preferences"
-msgstr "Preferinţele dumneavoastră"
+msgstr "Tuỳ chọn của bạn"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "Vizualizaţi şi modificaţi profilul si preferinţele contului dumneavoastră SETI@home"
+msgstr "Xem và sửa đổi tùy chọn và hồ sơ tài khoản SETI@home của bạn"
 
 #: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
 msgid "Your results"
-msgstr "Rezultatele dumneavoastră"
+msgstr "Kết quả của bạn"
 
 #: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr "Vizualizaţii rezultatele procesării din ultima saptamană (sau mai mult)"
+msgstr "Xem kết quả tính toán và công việc của bạn tuần trước (hoặc nhiều hơn)"
 
 #: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
-msgstr "Computerele dumneavoastră"
+msgstr "Máy tính của bạn"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "Vizualizaţi toate computerele dumneavoastră pe care rulează SETI@Home"
+msgstr "Xem danh sách tất cả các máy tính mà bạn đang chạy SETI@Home"
 
 #: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
 msgid "Your team"
-msgstr "Echipa dumneavoastră"
+msgstr "Team của bạn"
 
 #: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
 msgid "View information about your team"
-msgstr "Vizualizaţi informaţii despre echipa dumneavoastră"
+msgstr "Xem thông tin về team của bạn"
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
-msgstr "Întrebări comune"
+msgstr "Các khúc mắc thông thường"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "Citeşte lista Întrebărilor Frecvente Einstein@Home"
+msgstr "Đọc danh sách các câu hỏi thường xuyên của Einstein@Home"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr "Informaţii screensaver"
+msgstr "Thông tin về bảo vệ màn hình"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "Citiţi o descriere detaliată a screensaver-ului Einstein@Home"
+msgstr "Đọc mô tả chi tiết về trình bảo vệ màn hình Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Corespondaţi cu administratori şi alţi utilizatori pe forumurile Einstein@Home"
+msgstr "Trao đổi với quản trị viên và những người dùng khác trên bảng tin Einstein@Home"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
-msgstr "Stare Einstein"
+msgstr "Trạng thái của Einstein"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
-msgstr "Stare curentă server Einstein@Home"
+msgstr "Trạng thái hiện tại của máy chủ Einstein@Home"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
-msgstr "Raportează probleme"
+msgstr "Báo cáo vấn đề"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr "O legătură către forumul de probleme şi erori Einstein@Home"
+msgstr "Một đường dẫn link tới bảng tin báo cho các vấn đề và báo cáo lỗi của dự án Einstein@Home"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "Vizualizaţi şi modificaţi profilul si preferinţele contului dumneavoastră Einstein@Home"
+msgstr "Xem và sửa đổi tùy chọn và hồ sơ tài khoản Einstein@Home của bạn"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
-msgstr "Sumar cont"
+msgstr "Tổng quan về tài khoản"
 
 #: clientgui/Localization.cpp:95
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "Vizualizaţi toate computerele dumneavoastră pe care rulează Einstein@Home"
+msgstr "Xem danh sách tất cả các máy tính mà bạn đang chạy Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
-msgstr "Proiectul LIGO"
+msgstr "Dự án LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr "Pagina principală a proiectului Laser Interferometer Gravitational-wave Observatory (LIGO)"
+msgstr "Trang chủ của dự án Đài quan sát sóng hấp dẫn giao thoa kế La-de (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
-msgstr "Proiectul GEO-600"
+msgstr "Dự án GEO-600"
 
 #: clientgui/Localization.cpp:107
 msgid "The home page of the GEO-600 project"
-msgstr "Pagina principală a proiectului GEO-600"
+msgstr "Trang chủ của dự án GEO-600"
 
 #: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
 #: clientgui/ViewProjects.cpp:253 clientgui/ViewStatistics.cpp:441
 msgid "Team"
-msgstr "Echipa"
+msgstr "Team"
 
 #: clientgui/Localization.cpp:117
 msgid "Info about your Team"
-msgstr "Informaţii despre Echipa dumneavoastră"
+msgstr "Thông tin về team của bạn"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr "Ajutor pentru climateprediction.net"
+msgstr "Nhận trợ giúp cho climateprediction.net"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
-msgstr "Ştiri"
+msgstr "Tin tức"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
-msgstr "Ştiri climateprediction.net"
+msgstr "Tin tức climateprediction.net"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr "Vizualizaţi informaţiile despre cont, credite şi trickles"
+msgstr "Xem thông tin tài khoản của bạn, tín dụng và các tin báo tiến độ"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
-msgstr "Informaţii despre echipa dumneavoastră"
+msgstr "Thông tin về team của bạn"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
-msgstr "Caută ajutor în sistemul nostru de ajutor"
+msgstr "Tìm kiếm sự trợ giúp trong hệ thống trợ giúp của chúng tôi"
 
 #: clientgui/Localization.cpp:143
 msgid "Global Statistics"
-msgstr "Statistici Globale"
+msgstr "Thống kê toàn cầu"
 
 #: clientgui/Localization.cpp:145
 msgid "Summary statistics for World Community Grid"
-msgstr "Sumar statistici pentru World Community Grid"
+msgstr "Tóm tắt thống kê cho Lưới cộng đồng thế giới World Community Grid"
 
 #: clientgui/Localization.cpp:147
 msgid "My Grid"
-msgstr "Grid-ul Meu"
+msgstr "Lưới Grid của tôi"
 
 #: clientgui/Localization.cpp:149
 msgid "Your statistics and settings"
-msgstr "Statisticile şi setările dumneavoastră"
+msgstr "Số liệu thống kê và cài đặt của bạn"
 
 #: clientgui/Localization.cpp:151
 msgid "Device Profiles"
-msgstr "Profiluri Echipamente"
+msgstr "Hồ sơ thiết bị"
 
 #: clientgui/Localization.cpp:153
 msgid "Update your device settings"
-msgstr "Actualizaţi setările echipamentelor dumneavoastră"
+msgstr "Cập nhật cài đặt thiết bị của bạn"
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
-msgstr "Cercetare"
+msgstr "Nghiên cứu"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "Învăţaţi despre proecte găzduite de World Community Grid"
+msgstr "Cùng tìm hiểu về các dự án được tổ chức tại Lưới cộng đồng thế giới World Community Grid"
 
 #: clientgui/MainDocument.cpp:1299
 msgid "Version Update"
-msgstr "Actualizare versiune"
+msgstr "Cập nhật phiên bản"
 
 #: clientgui/MainDocument.cpp:1308
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
-msgstr "Este disponibilă o nouă versiunde de %s. O puteți descărca de aici: %s"
+msgstr "Một phiên bản mới của %s đã khả dụng rùi đó. Bạn có thể tải nó về ở đây nè: %s"
 
 #: clientgui/MainDocument.cpp:1311
 #, c-format
 msgid "There is no new version of %s available for download."
-msgstr "Nu există versiune nouă de %s."
+msgstr "Chẳng có phiên bản nào mới của %s để mà tải về cả."
 
 #: clientgui/MainDocument.cpp:1315
 #, c-format
 msgid "%s is not connected to the client"
-msgstr "%s nu este conectat la client"
+msgstr "%s không được kết nối tới máy khách"
 
 #: clientgui/MainDocument.cpp:1968
 msgid "Missing application"
-msgstr "Aplicaţie lipsă"
+msgstr "Ứng dụng đang thiếu"
 
 #: clientgui/MainDocument.cpp:1969
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
-msgstr "Vă rugăm descărcaţi şi instalaţi aplicaţia CoRD de la http://cord.sourceforge.net"
+msgstr "Vui lòng tải về và cài đặt ứng dụng CoRD từ trang web http://cord.sourceforge.net nhé"
 
 #: clientgui/MainDocument.cpp:2577
 msgid "on batteries"
-msgstr "pe baterii"
+msgstr "chạy pin"
 
 #: clientgui/MainDocument.cpp:2578
 msgid "computer is in use"
-msgstr "calculatorul este folosit"
+msgstr "máy tính đang được sử dụng"
 
 #: clientgui/MainDocument.cpp:2579
 msgid "user request"
-msgstr "cerere utilizator"
+msgstr "yêu cầu người dùng"
 
 #: clientgui/MainDocument.cpp:2580
 msgid "time of day"
-msgstr "timpul zilei"
+msgstr "thời gian trong ngày"
 
 #: clientgui/MainDocument.cpp:2581
 msgid "CPU benchmarks in progress"
-msgstr "Benchmarks CPU în curs"
+msgstr "Đánh giá điểm chuẩn CPU benchmarks đang tiến hành"
 
 #: clientgui/MainDocument.cpp:2582
 msgid "need disk space - check preferences"
-msgstr "este nevoie de spaţiu pe disc - verificaţi preferinţele"
+msgstr "cần không gian ổ đĩa - kiểm tra tuỳ chọn"
 
 #: clientgui/MainDocument.cpp:2583
 msgid "computer is not in use"
-msgstr "calculatorul nu este folosit"
+msgstr "máy tính đang không được sử dụng"
 
 #: clientgui/MainDocument.cpp:2584
 msgid "starting up"
-msgstr "porneşte"
+msgstr "đang khởi động"
 
 #: clientgui/MainDocument.cpp:2585
 msgid "an exclusive app is running"
-msgstr "rulează o aplicaţie exclusivă"
+msgstr "một ứng dụng riêng biệt đang chạy"
 
 #: clientgui/MainDocument.cpp:2586
 msgid "CPU is busy"
-msgstr "CPU este ocupat"
+msgstr "CPU đang bận"
 
 #: clientgui/MainDocument.cpp:2587
 msgid "network bandwidth limit exceeded"
-msgstr "limita lăţime bandă reţea depăşită"
+msgstr "đã vượt quá giới hạn băng thông mạng"
 
 #: clientgui/MainDocument.cpp:2588
 msgid "requested by operating system"
-msgstr "cerut de sistemul de operare"
+msgstr "được yêu cầu bởi hệ điều hành"
 
 #: clientgui/MainDocument.cpp:2590
 msgid "unknown reason"
-msgstr "motiv necunoscut"
+msgstr "nguyên nhân không xác định"
 
 #: clientgui/MainDocument.cpp:2612
 msgid "GPU missing, "
-msgstr "GPU lipsă, "
+msgstr "GPU thiếu,"
 
 #: clientgui/MainDocument.cpp:2619
 msgid "New"
-msgstr "Nou"
+msgstr "Mới tươm"
 
 #: clientgui/MainDocument.cpp:2623
 msgid "Download failed"
-msgstr "Download-ul a eşuat"
+msgstr "Tải về đã thất bại"
 
 #: clientgui/MainDocument.cpp:2625
 msgid "Downloading"
-msgstr "In curs de download"
+msgstr "Đang tải về"
 
 #: clientgui/MainDocument.cpp:2627 clientgui/MainDocument.cpp:2686
 msgid " (suspended - "
-msgstr " (suspendat - "
+msgstr "(đang tạm ngưng-"
 
 #: clientgui/MainDocument.cpp:2635
 msgid "Project suspended by user"
-msgstr "Proiect suspendat de utilizator"
+msgstr "Dự án đã được tạm ngưng bởi người dùng"
 
 #: clientgui/MainDocument.cpp:2637
 msgid "Task suspended by user"
-msgstr "Task suspendat de utilizator"
+msgstr "Nhiệm vụ đã được tạm ngưng bởi người dùng"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
 #: clientgui/MainDocument.cpp:2642
 msgid "Suspended - "
-msgstr "Suspendat - "
+msgstr "Đã tạm ngưng -"
 
 #: clientgui/MainDocument.cpp:2645
 msgid "GPU suspended - "
-msgstr "GPU Suspendat - "
+msgstr "GPU đã được tạm ngưng -"
 
 #: clientgui/MainDocument.cpp:2649
 msgid "Waiting for memory"
-msgstr "În aşteptare de memorie"
+msgstr "Đang chờ bộ nhớ"
 
 #: clientgui/MainDocument.cpp:2651
 msgid "Waiting for shared memory"
-msgstr "În aşteptare de memorie partajată"
+msgstr "Đang đợi bộ nhớ được chia sẻ"
 
 #: clientgui/MainDocument.cpp:2653
 msgid "Running"
-msgstr "Rulează"
+msgstr "Đang chạy"
 
 #: clientgui/MainDocument.cpp:2655
 msgid " (non-CPU-intensive)"
-msgstr " (CPU-neintensiv)"
+msgstr "(không-ép-việc-CPU)"
 
 #: clientgui/MainDocument.cpp:2658
 msgid "Waiting to run"
-msgstr "Aşteaptă să ruleze"
+msgstr "Đang chờ để chạy"
 
 #: clientgui/MainDocument.cpp:2660 clientgui/MainDocument.cpp:2663
 msgid "Ready to start"
-msgstr "Gata de start"
+msgstr "Sẵn sàng bắt đầu"
 
 #: clientgui/MainDocument.cpp:2667
 msgid "Postponed: "
-msgstr "Amânat:"
+msgstr "Đã trì hoãn:"
 
 #: clientgui/MainDocument.cpp:2670
 msgid "Postponed"
-msgstr "Amânat"
+msgstr "Đã trì hoãn"
 
 #: clientgui/MainDocument.cpp:2674
 msgid "Waiting for network access"
-msgstr "În așteptare de acces la rețea"
+msgstr "Đang đợi truy cập mạng"
 
 #: clientgui/MainDocument.cpp:2678
 msgid "Computation error"
-msgstr "Eroare de calcul"
+msgstr "Lỗi tính toán"
 
 #: clientgui/MainDocument.cpp:2682
 msgid "Upload failed"
-msgstr "Upload-ul a eşuat"
+msgstr "Tải lên đã thất bại"
 
 #: clientgui/MainDocument.cpp:2684
 msgid "Uploading"
-msgstr "In curs de upload"
+msgstr "Đang tải lên"
 
 #: clientgui/MainDocument.cpp:2695
 msgid "Aborted by user"
-msgstr "Abandonat de utilizator"
+msgstr "Bị đình chỉ bởi người dùng"
 
 #: clientgui/MainDocument.cpp:2698
 msgid "Aborted by project"
-msgstr "Abandonat de proiect"
+msgstr "Bị đình chỉ bởi dự án"
 
 #: clientgui/MainDocument.cpp:2701
 msgid "Aborted: not started by deadline"
-msgstr "Abandonat: nu a fost pornit până la termenul limită"
+msgstr "Bị đình chỉ: đã không bắt đầu trước thời hạn"
 
 #: clientgui/MainDocument.cpp:2704
 msgid "Aborted: task disk limit exceeded"
-msgstr "Abandonat: limită disc task depășită"
+msgstr "Bị đình chỉ: đã vượt quá giới hạn dung lượng ổ đĩa cho nhiệm vụ"
 
 #: clientgui/MainDocument.cpp:2707
 msgid "Aborted: run time limit exceeded"
-msgstr "Abandonat: limita de timp de rulare depăşită"
+msgstr "Bị đình chỉ: đã vượt quá giới hạn thời gian chạy"
 
 #: clientgui/MainDocument.cpp:2710
 msgid "Aborted: memory limit exceeded"
-msgstr "Abandonat: limita de memorie depăşită"
+msgstr "Bị đình chỉ: vượt quá giới hạn bộ nhớ"
 
 #: clientgui/MainDocument.cpp:2713
 msgid "Aborted"
-msgstr "Abandonat"
+msgstr "Đã bị đình chỉ"
 
 #: clientgui/MainDocument.cpp:2718
 msgid "Acknowledged"
-msgstr "Acreditat"
+msgstr "Đã được công nhận"
 
 #: clientgui/MainDocument.cpp:2720
 msgid "Ready to report"
-msgstr "Gata de raport"
+msgstr "Sẵn sàng báo cáo"
 
 #: clientgui/MainDocument.cpp:2722
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "Eroare: stare nevalidă cu codul '%d'"
+msgstr "Lỗi: trạng thái không hợp lệ '%d'"
 
 #: clientgui/NoInternetConnectionPage.cpp:179
 msgid "No Internet connection"
-msgstr "Lipsă conexiune Internet"
+msgstr "Không kết nối mạng"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
-msgstr "Vă rugăm conectaţi-vă la Internet si reîncercaţi."
+msgstr "Xin hãy kết nối tới internet và thử lại lần nữa nhé."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
-msgstr "Proiectul nu a fost găsit"
+msgstr "Dự án không được tìm thấy"
 
 #: clientgui/NotDetectedPage.cpp:184
 msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "URL-ul furnizat nu este al unui proiect BOINC.\n\nVă rugăm verificaţi URL-ul şi încercaţi din nou."
+msgstr "Địa chỉ URL bạn cung cấp không thuộc diện dự án dựa trên nền tảng BOINC.\n\nHãy thăm dò địa chỉ URL và thử lại nhé."
 
 #: clientgui/NotDetectedPage.cpp:188
 msgid "Account manager not found"
-msgstr "Nu s-a găsit managerul de cont"
+msgstr "Trình quản lý tài khoản không được tìm thấy"
 
 #: clientgui/NotDetectedPage.cpp:191
 msgid ""
@@ -2744,159 +2739,159 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "URL-ul furnizat nu este al unui manager de cont\nBOINC.\n\nVă rugăm verificaţi URL-ul şi încercaţi din nou."
+msgstr "Địa chỉ URL bạn cung cấp không thuộc diện trình quản\nlý tài khoản BOINC.\n\nHãy thăm dò địa chỉ URL và thử lại nhé."
 
 #: clientgui/NotFoundPage.cpp:181
 msgid "Login Failed."
-msgstr "Login Eşuat."
+msgstr "Đăng nhập thất bại."
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
-msgstr "Verificaţi numele de utilizator şi parola şi încercaţi din nou."
+msgstr "Hãy rà soát tên người dùng và mật khẩu, và thử lại lần nữa nhé."
 
 #: clientgui/NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "Verificaţi adresa de email şi parola şi încercaţi din nou."
+msgstr "Hãy rà soát địa chỉ email và mật khẩu, và thử lại lần nữa nhé."
 
 #: clientgui/NoticeListCtrl.cpp:235
 msgid "more..."
-msgstr "mai mult..."
+msgstr "hơn nữa..."
 
 #: clientgui/ProjectInfoPage.cpp:230
 msgid "Choose a project"
-msgstr "Alege un proiect"
+msgstr "Chọn một dự án"
 
 #: clientgui/ProjectInfoPage.cpp:235
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Pentru a alege un proiect, selectaţi numele sau introduceţi URL-ul mai jos."
+msgstr "Để chọn một dự án, hãy nhấp vào tên của nó hoặc nhập địa chỉ URL của nó bên dưới."
 
 #: clientgui/ProjectInfoPage.cpp:251
 msgid "Categories:"
-msgstr "Categorii:"
+msgstr "Phân loại:"
 
 #: clientgui/ProjectInfoPage.cpp:271 clientgui/sg_ProjectPanel.cpp:90
 msgid "Projects:"
-msgstr "Proiecte:"
+msgstr "Các dự án:"
 
 #: clientgui/ProjectInfoPage.cpp:283
 msgid "Project details"
-msgstr "Detalii proiect"
+msgstr "Các chi tiết dự án"
 
 #: clientgui/ProjectInfoPage.cpp:293
 msgid "Research area:"
-msgstr "Zona de cercetare:"
+msgstr "Mảng nghiên cứu:"
 
 #: clientgui/ProjectInfoPage.cpp:303
 msgid "Organization:"
-msgstr "Organizaţie:"
+msgstr "Tổ chức:"
 
 #: clientgui/ProjectInfoPage.cpp:313
 msgid "Web site:"
-msgstr "Site web:"
+msgstr "Trang web:"
 
 #: clientgui/ProjectInfoPage.cpp:324
 msgid "Supported systems:"
-msgstr "Sisteme suportate:"
+msgstr "Các hệ thống được hỗ trợ:"
 
 #: clientgui/ProjectInfoPage.cpp:331
 msgid "Supports Microsoft Windows"
-msgstr "Suportă Microsoft Windows"
+msgstr "Hỗ trợ Microsoft Windows"
 
 #: clientgui/ProjectInfoPage.cpp:335
 msgid "Supports Mac OS X"
-msgstr "Suportă Mac OS X"
+msgstr "Hỗ trợ Mac OS X"
 
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "Supports Linux on Intel"
-msgstr "Suportă Linux pe Intel"
+msgstr "Hỗ trợ Linux chạy trên Intel"
 
 #: clientgui/ProjectInfoPage.cpp:343
 msgid "Supports Android"
-msgstr "Suportă Android"
+msgstr "Hỗ trợ Android"
 
 #: clientgui/ProjectInfoPage.cpp:347
 msgid "Supports FreeBSD"
-msgstr "Suportă FreeBSD"
+msgstr "Hỗ trợ FreeBSD"
 
 #: clientgui/ProjectInfoPage.cpp:351
 msgid "Supports Linux on ARM (e.g. Raspberry Pi)"
-msgstr "Suportă Linux pe ARM (e.g. Raspberry Pi)"
+msgstr "Hỗ trợ Linux chạy trên ARM (ví dụ như Raspberry Pi)"
 
 #: clientgui/ProjectInfoPage.cpp:355
 msgid "Supports NVIDIA GPUs"
-msgstr "Suportă GPU-uri NVIDIA"
+msgstr "Hỗ trợ NVIDIA GPUs"
 
 #: clientgui/ProjectInfoPage.cpp:359
 msgid "Supports AMD GPUs"
-msgstr "Suportă GPU-uri AMD"
+msgstr "Hỗ trợ AMD GPUs"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "Supports Intel GPUs"
-msgstr "Suportă GPU-uri Intel"
+msgstr "Hỗ trợ Intel GPUs"
 
 #: clientgui/ProjectInfoPage.cpp:367
 msgid "Supports VirtualBox"
-msgstr "Suportă VirtualBox"
+msgstr "Hỗ trợ VirtualBox"
 
 #: clientgui/ProjectInfoPage.cpp:377
 msgid "Project URL:"
-msgstr "URL proiect:"
+msgstr "Địa chỉ URL của dự án:"
 
 #: clientgui/ProjectInfoPage.cpp:520 clientgui/ProjectInfoPage.cpp:754
 #: clientgui/ProjectInfoPage.cpp:758
 msgid "All"
-msgstr "Tot"
+msgstr "Tất cả"
 
 #: clientgui/ProjectInfoPage.cpp:803
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr "Acest proiect s-ar putea să nu aibă de lucru pentru tipul dumneavoastră de calculator.  Doriţi să-l adăugaţi oricum?"
+msgstr "Dự án này có thể không hoạt động cho loại máy tính của bạn. Dù sao thì bạn có muốn thêm nó không?"
 
 #: clientgui/ProjectInfoPage.cpp:862
 msgid "You already added this project. Please choose a different project."
-msgstr "Aţi adăugat deja acest proiect. Vă rugăm alegeţi un alt proiect."
+msgstr "Bạn đã thêm dự án này rồi cơ mà. Vui lòng chọn một dự án khác đi nhé."
 
 #: clientgui/ProjectProcessingPage.cpp:320
 #: clientgui/ProjectPropertiesPage.cpp:333
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr "În curs de comunicare cu proiectul\nVă rugăm să asteptaţi..."
+msgstr "Đang liên lạc với dự án\nVui lòng đợi xíu nhé..."
 
 #: clientgui/ProjectProcessingPage.cpp:517
 msgid "Required files not found on the server."
-msgstr "Fişierele necesare nu s-au găsit pe server."
+msgstr "Không thể tìm thấy tệp được yêu cầu trên máy chủ."
 
 #: clientgui/ProjectProcessingPage.cpp:520
 #: clientgui/ProjectProcessingPage.cpp:593
 msgid "An internal server error has occurred."
-msgstr "A apărut o eroare internă server."
+msgstr "Một lỗi nội bộ của máy chủ đã xảy ra mất rồi."
 
 #: clientgui/ProjectWelcomePage.cpp:228
 #, c-format
 msgid "Welcome to %s."
-msgstr "Bine aţi venit la %s."
+msgstr "Rất vui chào mừng bạn đến với %s nhé."
 
 #: clientgui/ProjectWelcomePage.cpp:231
 msgid "You have volunteered to compute for this project:"
-msgstr "V-ați oferit voluntar să calculați pentru aceste proiect:"
+msgstr "Bạn đã tình nguyện tính toán cho dự án này:"
 
 #: clientgui/ProjectWelcomePage.cpp:232
 msgid "Name:"
-msgstr "Nume:"
+msgstr "Tên:"
 
 #: clientgui/ProjectWelcomePage.cpp:234
 msgid "URL:"
-msgstr "URL:"
+msgstr "Địa chỉ URL:"
 
 #: clientgui/ProjectWelcomePage.cpp:238
 msgid "To continue, click Next."
-msgstr "Pentru a continua, apăsaţi Următorul."
+msgstr "Để tiếp tục, hãy nhấp vào Tiếp theo."
 
 #: clientgui/ProxyInfoPage.cpp:194
 msgid "Network communication failure"
-msgstr "Comunicare in reţea esuată"
+msgstr "Mạng giao tiếp thất bại"
 
 #: clientgui/ProxyInfoPage.cpp:198
 msgid ""
@@ -2913,7 +2908,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "Programul World Community Grid - BOINC nu a reuşit să comunice\nprin Internet. Cele mai probabile cauze sunt:\n\n1) Probleme de conectivitate.  Verificaţi conexiunea la reţea sau modem\nşi apoi apăsaţi Înapoi pentru a reîncerca.\n\n2) Un program firewall personal blochează programul World Community\nGrid - BOINC.  Configuraţi firewall-ul personal să permită\nBOINC şi Managerului BOINC să comunice pe portul 80 şi portul 443\nşi apoi apăsaţi Înapoi pentru a reîncerca.\n\n3) Folosiţi un server proxy.\nApăsaţi Următorul pentru a configura setările proxy ale BOINC."
+msgstr "Lưới cộng đồng thế giới The World Community Grid - phần mềm BOINC đã kết nối\nqua Internet thất bại. Những nguyên nhân có thể xảy ra nhất là:\n\n1) Vấn đề kết nối. Kiểm tra kết nối mạng hoặc kết nối modem của bạn\nvà rồi nhấp vào Quay Lại để thử lại lần nữa nhé.\n\n2) Phần mềm tường lửa cá nhân đang chặn The World Community\nGrid - phần mềm BOINC. Hiệu chỉnh tường lửa cá nhân của bạn để\ncho phép BOINC và trình Quản lý BOINC giao tiếp qua cổng 80 và cổng 443,\nsau đó nhấp vào Quay Lại để thử lại lần nữa nhé.\n\n3) Bạn đang sử dụng một máy chủ proxy.\nNhấp vào Tiếp Theo để định cấu hình cài đặt cho proxy của BOINC nhé."
 
 #: clientgui/ProxyInfoPage.cpp:202
 msgid ""
@@ -2930,102 +2925,102 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "BOINC nu a putut comunica prin Internet.\nCele mai probabile cauze sunt:\n\n1) Probleme de conectivitate.  Verificaţi conexiunea la reţea \nsau modem şi apoi apăsaţi Înapoi pentru a reîncerca.\n\n2) Un program firewall personal blochează programul BOINC.\nConfiguraţi firewall-ul personal să permită\nBOINC şi Managerului BOINC să comunice pe portul 80 \nşi apoi apăsaţi Înapoi pentru a reîncerca.\n\n3) Folosiţi un server proxy.\nApăsaţi Următorul pentru a configura setările proxy ale BOINC."
+msgstr "BOINC đã kết nối qua Internet thất bại.\nNhững nguyên nhân có thể xảy ra nhất là:\n\n1) Vấn đề kết nối. Kiểm tra kết nối mạng hoặc kết nối modem\ncủa bạn và rồi nhấp vào Quay Lại để thử lại lần nữa nhé.\n\n2) Phần mềm tường lửa cá nhân đang chặn BOINC.\nHiệu chỉnh tường lửa cá nhân của bạn để cho BOINC\nvà trình Quản lý BOINC giao tiếp qua cổng 80,\nsau đó nhấp vào Quay Lại để thử lại lần nữa nhé.\n\n3) Bạn đang sử dụng một máy chủ proxy.\nNhấp vào Tiếp Theo để định cấu hình cài đặt cho proxy của BOINC nhé."
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
-msgstr "Configuraţie proxy"
+msgstr "Cấu hình proxy"
 
 #: clientgui/ProxyPage.cpp:334
 msgid "HTTP proxy"
-msgstr "Proxy HTTP"
+msgstr "HTTP proxy"
 
 #: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
 msgid "Server:"
-msgstr "Server:"
+msgstr "Máy chủ:"
 
 #: clientgui/ProxyPage.cpp:350
 msgid "Autodetect"
-msgstr "Autodetectare"
+msgstr "Tự động dò tìm"
 
 #: clientgui/ProxyPage.cpp:354
 msgid "SOCKS proxy"
-msgstr "Proxy SOCKS"
+msgstr "SOCKS proxy"
 
 #: clientgui/TermsOfUsePage.cpp:230
 msgid "Terms of Use"
-msgstr "Condiţii de Utilizare"
+msgstr "Điều khoản sử dụng"
 
 #: clientgui/TermsOfUsePage.cpp:234
 msgid "Please read the following terms of use:"
-msgstr "Vă rugăm citiţi următoarele condiţii de utilizare:"
+msgstr "Vui lòng đọc các điều khoản sử dụng sau nhé:"
 
 #: clientgui/TermsOfUsePage.cpp:248
 msgid "I agree to the terms of use."
-msgstr "Sunt de acord cu condiţiile de utilizare."
+msgstr "Tôi đồng ý với các điều khoản sử dụng."
 
 #: clientgui/TermsOfUsePage.cpp:254
 msgid "I do not agree to the terms of use."
-msgstr "Nu sunt de acord cu condiţiile de utilizare."
+msgstr "Tôi không đồng ý với các điều khoản sử dụng."
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
-msgstr "Proiectul este temporar inaccesibil"
+msgstr "Dự án tạm thời không khả dụng"
 
 #: clientgui/UnavailablePage.cpp:186
 msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "Pentru moment proiectul nu este accesibil.\n\nVă rugăm încercaţi mai tarziu."
+msgstr "Dự án tạm thời không khả dụng.\n\nHãy thử lại lần nữa sau nhé."
 
 #: clientgui/UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
-msgstr "Managerul de contact este pentur moment inaccesibil"
+msgstr "Quản lý tài khoản tạm thời không khả dụng"
 
 #: clientgui/UnavailablePage.cpp:193
 msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "Pentru moment managerul de cont nu este accesibil.\n\nVă rugăm încercaţi mai tarziu."
+msgstr "Quản lý tài khoản tạm thời không khả dụng.\n\nHãy thử lại lần nữa sau nhé."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr "Vă rugăm specificaţi un cheie de cont pentru a continua."
+msgstr "Vui lòng chỉ định một chìa khóa tài khoản để tiếp tục."
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Cheie de Cont nevalidă; va rugăm să introduceţi o Cheie de Cont validă"
+msgstr "Chìa khoá tài khoản không hợp lệ rồi; hãy nhập một Chìa khoá tài khoản hợp lệ"
 
 #: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
-msgstr "Conflict de validare"
+msgstr "Xung đột trong việc xác nhận"
 
 #: clientgui/ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
-msgstr "Vă rugăm specificaţi o adresă de email"
+msgstr "Vui lòng chỉ định một địa chỉ email"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "Adresă email invalidă; vă rugăm introduceţi o adresă de email validă"
+msgstr "Địa chỉ email không hợp lệ rồi; hãy nhập một địa chỉ email hợp lệ"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
-msgstr "URL absent"
+msgstr "Địa chỉ URL còn thiếu"
 
 #: clientgui/ValidateURL.cpp:70
 msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr "Va rugăm specificaţi un URL.\nDe exemplu:\nhttp://www.example.com/"
+msgstr "Hãy xác định một địa chỉ URL.\nVí dụ:\nhttp://www.example.com/"
 
 #: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
 #: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
 #: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
-msgstr "URL nevalid"
+msgstr "Địa chỉ URL không hợp lệ"
 
 #: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
@@ -3033,86 +3028,86 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr "Va rugăm specificaţi un URL valid.\nDe exemplu:\nhttp://boincproject.example.com"
+msgstr "Hãy xác định một địa chỉ URL hợp lệ.\nVí dụ:\nhttp://boincproject.example.com"
 
 #: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr "'%s' nu conţine un nume de host valid."
+msgstr "'%s' chẳng chứa một cái tên máy chủ hợp lệ nào cả."
 
 #: clientgui/ValidateURL.cpp:111
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr "'%s' nu conţine o cale de căutare validă."
+msgstr "'%s' chẳng chứa một đường dẫn hợp lệ nào cả."
 
 #. Setup View
 #: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:198
 #: clientgui/ViewStatistics.cpp:1957 clientgui/ViewTransfers.cpp:199
 #: clientgui/ViewWork.cpp:229
 msgid "Commands"
-msgstr "Comenzi"
+msgstr "Các lệnh"
 
 #: clientgui/ViewMessages.cpp:88
 msgid "Copy all messages"
-msgstr "Copiază toate mesajele"
+msgstr "Sao chép tất cả các tin nhắn"
 
 #: clientgui/ViewMessages.cpp:95
 msgid "Copy selected messages"
-msgstr "Copiază mesajele selectate"
+msgstr "Sao chép những tin nhắn đã chọn"
 
 #: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
-msgstr "Arată doar acest proiect"
+msgstr "Chỉ hiển thị dự án này"
 
 #: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
-msgstr "Arată doar mesajele pentru proiectul selectat."
+msgstr "Chỉ hiển thị các tin nhắn cho dự án đã chọn."
 
 #: clientgui/ViewMessages.cpp:164
 msgid "Messages"
-msgstr "Mesaje"
+msgstr "Các tin nhắn"
 
 #: clientgui/ViewMessages.cpp:187
 msgid "Copying all messages to the clipboard..."
-msgstr "Se copiază toate mesajele in clipboard..."
+msgstr "Đang sao chép tất cả tin nhắn vào khay nhớ tạm..."
 
 #: clientgui/ViewMessages.cpp:223
 msgid "Copying selected messages to the clipboard..."
-msgstr "Se copiază mesajele selectate în clipboard..."
+msgstr "Đang sao chép các tin nhắn đã chọn vào khay nhớ tạm..."
 
 #: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
-msgstr "Se filtrează mesajele..."
+msgstr "Lọc các tin..."
 
 #: clientgui/ViewMessages.cpp:494
 msgid "Show all messages"
-msgstr "Arată toate mesajele"
+msgstr "Hiện tất cả tin nhắn"
 
 #: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
-msgstr "Arată mesajele pentru toate proiectele."
+msgstr "Hiện tin nhắn cho tất cả các dự án."
 
 #: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
-msgstr "Se primesc anunţuri, vă rugăm aşteptaţi..."
+msgstr "Đang kiếm tìm thông báo; hãy chờ nhé..."
 
 #: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
-msgstr "Nu există anunţuri noi în acest moment."
+msgstr "Giờ chẳng có thông báo nào cả."
 
 #: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:984
 msgid "Notices"
-msgstr "Anunţuri"
+msgstr "Thông báo"
 
 #: clientgui/ViewProjects.cpp:202 clientgui/sg_ProjectCommandPopup.cpp:66
 msgid "Update"
-msgstr "Actualizare"
+msgstr "Cập nhật"
 
 #: clientgui/ViewProjects.cpp:203 clientgui/sg_ProjectCommandPopup.cpp:67
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "Raportează toate sarcinile incheiate, actualizează creditul, actualizeazaă preferinţele si, eventual, cere alte task-uri."
+msgstr "Báo cáo tất cả các nhiệm vụ hoàn thành, nhận tín dụng mới nhất, nhận các tùy chọn mới nhất và có thể nhận được nhiều nhiệm vụ hơn."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:792
 #: clientgui/ViewWork.cpp:254 clientgui/ViewWork.cpp:927
@@ -3121,379 +3116,379 @@ msgstr "Raportează toate sarcinile incheiate, actualizează creditul, actualize
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
 msgid "Suspend"
-msgstr "Suspendă"
+msgstr "Tạm ngưng"
 
 #: clientgui/ViewProjects.cpp:210 clientgui/ViewProjects.cpp:792
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
 msgid "Suspend tasks for this project."
-msgstr "Suspendă task-urile pentru acest proiect."
+msgstr "Tạm ngưng các nhiệm vụ cho dự án này."
 
 #: clientgui/ViewProjects.cpp:216 clientgui/ViewProjects.cpp:811
 #: clientgui/sg_ProjectCommandPopup.cpp:78
 #: clientgui/sg_ProjectCommandPopup.cpp:136
 msgid "No new tasks"
-msgstr "Nici un task nou"
+msgstr "Không có công việc mới "
 
 #: clientgui/ViewProjects.cpp:217 clientgui/sg_ProjectCommandPopup.cpp:79
 msgid "Don't get new tasks for this project."
-msgstr "Nu lua task-uri noi pentru acest proiect."
+msgstr "Không lấy nhiệm vụ mới cho dự án này."
 
 #: clientgui/ViewProjects.cpp:223 clientgui/sg_ProjectCommandPopup.cpp:84
 msgid "Reset project"
-msgstr "Resetează proiectul"
+msgstr "Khởi động lại dự án"
 
 #: clientgui/ViewProjects.cpp:224 clientgui/sg_ProjectCommandPopup.cpp:85
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "Sterge toate fişierele si task-urile asociate acestui proiect şi preia noi task-uri.  Puteţi actualiza proiectul întâi, pentru a raporta sarcinile finalizate."
+msgstr "Xoá tất cả các file tệp tin và nhiệm vụ có liên quan đến dự án này, và lấy các nhiệm vụ mới. Bạn có thể cập nhật dự án trước để còn báo cáo được bất cứ nhiệm vụ nào đã hoàn thành."
 
 #: clientgui/ViewProjects.cpp:231 clientgui/sg_ProjectCommandPopup.cpp:91
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "Şterge acest proiect.  Task-urile în curs vor fi pierdute (folosiţi 'Actualizare' mai întâi pentru a raporta task-urile finalizate)."
+msgstr "Loại bỏ dự án này. Các nhiệm vụ đang tiến hành sẽ bị mất (sử dụng 'Cập nhật' trước tiên để còn báo cáo bất cứ nhiệm vụ đã hoàn thành nào)."
 
 #: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:268
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
 msgid "Properties"
-msgstr "Proprietăţi"
+msgstr "Các đặc tính"
 
 #: clientgui/ViewProjects.cpp:238 clientgui/sg_ProjectCommandPopup.cpp:97
 msgid "Show project details."
-msgstr "Afişează detaliile proiectului."
+msgstr "Hiển thị chi tiết dự án"
 
 #: clientgui/ViewProjects.cpp:252 clientgui/ViewStatistics.cpp:426
 msgid "Account"
-msgstr "Cont"
+msgstr "Tài khoản"
 
 #: clientgui/ViewProjects.cpp:254
 msgid "Work done"
-msgstr "Lucru efectuat"
+msgstr "Công việc hoàn tất"
 
 #: clientgui/ViewProjects.cpp:255
 msgid "Avg. work done"
-msgstr "Medie lucru efectuat"
+msgstr "Công việc hoàn tất trung bình"
 
 #: clientgui/ViewProjects.cpp:257 clientgui/ViewTransfers.cpp:232
 #: clientgui/ViewWork.cpp:284
 msgid "Status"
-msgstr "Stare"
+msgstr "Trạng thái"
 
 #: clientgui/ViewProjects.cpp:336
 msgid "Projects"
-msgstr "Proiecte"
+msgstr "Các dự án"
 
 #: clientgui/ViewProjects.cpp:517 clientgui/sg_ProjectCommandPopup.cpp:229
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Sunteti sigur ca doriţi să resetaţi proiectul '%s'?"
+msgstr "Bạn có chắc bạn muốn khởi động lại dự án '%s' không đấy?"
 
 #: clientgui/ViewProjects.cpp:523 clientgui/sg_ProjectCommandPopup.cpp:235
 msgid "Reset Project"
-msgstr "Resetare Proiect"
+msgstr "Khởi động lại dự án"
 
 #: clientgui/ViewProjects.cpp:571 clientgui/sg_ProjectCommandPopup.cpp:266
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Sunteti sigur ca doriţi să ştergeţi proiectul '%s'?"
+msgstr "Bạn có chắc bạn muốn loại bỏ dự án '%s' không đấy?"
 
 #: clientgui/ViewProjects.cpp:577 clientgui/sg_ProjectCommandPopup.cpp:272
 msgid "Remove Project"
-msgstr "Şterge Proiect"
+msgstr "Loại bỏ dự án"
 
 #: clientgui/ViewProjects.cpp:788 clientgui/sg_ProjectCommandPopup.cpp:126
 msgid "Resume tasks for this project."
-msgstr "Reluare task-uri pentru acest proiect."
+msgstr "Hồi phục lại nhiệm vụ cho dự án này."
 
 #: clientgui/ViewProjects.cpp:807 clientgui/sg_ProjectCommandPopup.cpp:133
 msgid "Allow new tasks"
-msgstr "Permite noi task-uri"
+msgstr "Cho phép công việc mới "
 
 #: clientgui/ViewProjects.cpp:807 clientgui/sg_ProjectCommandPopup.cpp:134
 msgid "Allow fetching new tasks for this project."
-msgstr "Acceptă preluarea de task-uri noi pentru acest proiect."
+msgstr "Cho phép tìm nạp các nhiệm vụ mới cho dự án này."
 
 #: clientgui/ViewProjects.cpp:811 clientgui/sg_ProjectCommandPopup.cpp:137
 msgid "Don't fetch new tasks for this project."
-msgstr "Nu prelua task-uri noi pentru acest proiect."
+msgstr "Đừng tìm nạp các nhiệm vụ mới cho dự án này."
 
 #: clientgui/ViewProjects.cpp:1115
 msgid "Requested by user"
-msgstr "Cerut de utilizator"
+msgstr "Do người dùng yêu cầu "
 
 #: clientgui/ViewProjects.cpp:1116
 msgid "To fetch work"
-msgstr "Pentru a prelua lucrări"
+msgstr "Tìm nạp công việc "
 
 #: clientgui/ViewProjects.cpp:1117
 msgid "To report completed tasks"
-msgstr "Pentru a raporta task-urile finalizate"
+msgstr "Báo cáo công việc hoàn tất"
 
 #: clientgui/ViewProjects.cpp:1118
 msgid "To send trickle-up message"
-msgstr "Pentru a trimite un mesaj trickle-up"
+msgstr "Để gửi tin báo tiến độ"
 
 #: clientgui/ViewProjects.cpp:1119
 msgid "Requested by account manager"
-msgstr "Cerut de managerul de cont"
+msgstr "Được yêu cầu bởi quản lý tài khoản"
 
 #: clientgui/ViewProjects.cpp:1120
 msgid "Project initialization"
-msgstr "Iniţializare proiect"
+msgstr "Khởi tạo dự án"
 
 #: clientgui/ViewProjects.cpp:1121
 msgid "Requested by project"
-msgstr "Cerut de proiect"
+msgstr "Yêu cầu bởi dự án"
 
 #: clientgui/ViewProjects.cpp:1122
 msgid "Unknown reason"
-msgstr "Motiv necunoscut"
+msgstr "Lý do không xác định"
 
 #: clientgui/ViewProjects.cpp:1136
 msgid "Suspended by user"
-msgstr "Suspendat de utilizator"
+msgstr "Đã tạm ngừng bởi người dùng"
 
 #: clientgui/ViewProjects.cpp:1139
 msgid "Won't get new tasks"
-msgstr "Nu vor fi preluate task-uri noi"
+msgstr "Sẽ không nhận công việc mới"
 
 #: clientgui/ViewProjects.cpp:1142
 msgid "Project ended - OK to remove"
-msgstr "Proiect terminat - OK pentru ştergere"
+msgstr "Dự án kết thúc - được phép rời"
 
 #: clientgui/ViewProjects.cpp:1145
 msgid "Will remove when tasks done"
-msgstr "Va fi şters când se finalizează task-urile"
+msgstr "Sẽ rời khi công việc hoàn tất"
 
 #: clientgui/ViewProjects.cpp:1148
 msgid "Scheduler request pending"
-msgstr "Cerere către planificator în aşteptare"
+msgstr "Yêu cầu của lịch trình đang chờ xử lý"
 
 #: clientgui/ViewProjects.cpp:1154
 msgid "Scheduler request in progress"
-msgstr "Cerere către planificator în curs"
+msgstr "Đang tiến hành yêu cầu của lịch trình"
 
 #: clientgui/ViewProjects.cpp:1157
 msgid "Trickle up message pending"
-msgstr "Mesaj trickle-up în aşteptare"
+msgstr "Tin báo tiến độ đang chờ xử lý"
 
 #: clientgui/ViewProjects.cpp:1163
 msgid "Communication deferred"
-msgstr "Comunicarea este amânată "
+msgstr "Giao tiếp bị trì hoãn"
 
 #: clientgui/ViewResources.cpp:62
 msgid "Total disk usage"
-msgstr "Utilizare disc totală"
+msgstr "Tổng sử dụng ổ đĩa"
 
 #: clientgui/ViewResources.cpp:83
 msgid "Disk usage by BOINC projects"
-msgstr "Utilizare disc de către proiectele BOINC"
+msgstr "Sử dụng ổ đĩa bởi các dự án BOINC"
 
 #: clientgui/ViewResources.cpp:227
 msgid "no projects: 0 bytes used"
-msgstr "nici un proiect: 0 bytes folosiţi"
+msgstr "không có dự án nào cả: 0 bytes đã sử dụng"
 
 #: clientgui/ViewResources.cpp:261
 msgid "used by BOINC: "
-msgstr "folosit de BOINC: "
+msgstr "sử dụng bởi BOINC:"
 
 #: clientgui/ViewResources.cpp:271
 msgid "free, available to BOINC: "
-msgstr "liber, disponibil pentru BOINC: "
+msgstr "trống, khả dụng cho BOINC:"
 
 #: clientgui/ViewResources.cpp:279
 msgid "free, not available to BOINC: "
-msgstr "liber, indisponibil pentru BOINC: "
+msgstr "trống, không khả dụng cho BOINC:"
 
 #: clientgui/ViewResources.cpp:289
 msgid "free: "
-msgstr "liber: "
+msgstr "trống:"
 
 #: clientgui/ViewResources.cpp:298
 msgid "used by other programs: "
-msgstr "folosit de alte programe: "
+msgstr "sử dụng bởi các chương trình khác:"
 
 #: clientgui/ViewStatistics.cpp:1184
 msgid "User Total"
-msgstr "Total utilizator"
+msgstr "Tổng của người dùng"
 
 #: clientgui/ViewStatistics.cpp:1185
 msgid "User Average"
-msgstr "Media utilizator"
+msgstr "Trung bình của người dùng"
 
 #: clientgui/ViewStatistics.cpp:1186
 msgid "Host Total"
-msgstr "Total host"
+msgstr "Tổng của máy chủ"
 
 #: clientgui/ViewStatistics.cpp:1187
 msgid "Host Average"
-msgstr "Media host"
+msgstr "Trung bình của máy chủ"
 
 #: clientgui/ViewStatistics.cpp:1334
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr "Ultima actualizare: acum %.0f zile"
+msgstr "Lần cuối cập nhật: %.0f ngày trước đây"
 
 #: clientgui/ViewStatistics.cpp:1961
 msgid "Show user total"
-msgstr "Afişează total utilizator"
+msgstr "Hiện tổng của người dùng"
 
 #: clientgui/ViewStatistics.cpp:1962
 msgid "Show total credit for user"
-msgstr "Afişează credit total pentru utilizator"
+msgstr "Hiện tổng tín dụng của người dùng"
 
 #: clientgui/ViewStatistics.cpp:1968
 msgid "Show user average"
-msgstr "Afisează media utilizator"
+msgstr "Hiện trung bình của người dùng"
 
 #: clientgui/ViewStatistics.cpp:1969
 msgid "Show average credit for user"
-msgstr "Afişează credit mediu pentru utilizator"
+msgstr "Hiện tín dụng trung bình của người dùng"
 
 #: clientgui/ViewStatistics.cpp:1975
 msgid "Show host total"
-msgstr "Afişează total host"
+msgstr "Hiện tổng của máy chủ"
 
 #: clientgui/ViewStatistics.cpp:1976
 msgid "Show total credit for host"
-msgstr "Afişează credit total pentru gazdă"
+msgstr "Hiện tổng tín dụng của máy chủ"
 
 #: clientgui/ViewStatistics.cpp:1982
 msgid "Show host average"
-msgstr "Afişează media pentru host"
+msgstr "Hiện trung bình của máy chủ"
 
 #: clientgui/ViewStatistics.cpp:1983
 msgid "Show average credit for host"
-msgstr "Afişează credit mediu pentru gazdă"
+msgstr "Hiện tín dụng trung bình của máy chủ"
 
 #: clientgui/ViewStatistics.cpp:1992
 msgid "< &Previous project"
-msgstr "< Proiectul &precedent"
+msgstr "< &Dự án trước đó"
 
 #: clientgui/ViewStatistics.cpp:1993
 msgid "Show chart for previous project"
-msgstr "Arată graficul pentru proiectul precedent"
+msgstr "Hiện biểu đồ cho dự án trước đó"
 
 #: clientgui/ViewStatistics.cpp:1998
 msgid "&Next project >"
-msgstr "&Următorul proiect >"
+msgstr "&Dự án tiếp theo >"
 
 #: clientgui/ViewStatistics.cpp:1999
 msgid "Show chart for next project"
-msgstr "Arată graficul pentru proiectul următor"
+msgstr "Hiện biểu đồ cho dự án tiếp theo"
 
 #: clientgui/ViewStatistics.cpp:2005 clientgui/ViewStatistics.cpp:2375
 msgid "Hide project list"
-msgstr "Ascunde lista proiecte"
+msgstr "Ẩn danh sách dự án"
 
 #: clientgui/ViewStatistics.cpp:2006 clientgui/ViewStatistics.cpp:2375
 msgid "Use entire area for graphs"
-msgstr "Foloseşte întreaga suprafaţă pentru grafice"
+msgstr "Sử dụng toàn bộ diện tích cho đồ thị"
 
 #: clientgui/ViewStatistics.cpp:2011
 msgid "Mode view"
-msgstr "Mod vizualizare"
+msgstr "Giao diện chế độ"
 
 #: clientgui/ViewStatistics.cpp:2015
 msgid "One project"
-msgstr "Un proiect"
+msgstr "Một dự án"
 
 #: clientgui/ViewStatistics.cpp:2016
 msgid "Show one chart with selected project"
-msgstr "Arată un grafic cu proiectul selectat"
+msgstr "Hiển thị một biểu đồ với dự án đã chọn"
 
 #: clientgui/ViewStatistics.cpp:2022
 msgid "All projects (separate)"
-msgstr "Toate proiectele (separat)"
+msgstr "Tất cả các dự án (riêng biệt)"
 
 #: clientgui/ViewStatistics.cpp:2023
 msgid "Show all projects, one chart per project"
-msgstr "Arată toate proiectele, un grafic pe proiect"
+msgstr "Hiển thị tất cả các dự án, một biểu đồ cho mỗi dự án"
 
 #: clientgui/ViewStatistics.cpp:2029
 msgid "All projects (together)"
-msgstr "Toate proiectele (împreună)"
+msgstr "Tất cả các dự án (cùng nhau)"
 
 #: clientgui/ViewStatistics.cpp:2030
 msgid "Show one chart with all projects"
-msgstr "Arată un grafic cu toate proiectele"
+msgstr "Hiển thị một biểu đồ với tất cả các dự án"
 
 #: clientgui/ViewStatistics.cpp:2036
 msgid "All projects (sum)"
-msgstr "Toate proiectele (sumă)"
+msgstr "Tất cả các dự án (tổng hợp)"
 
 #: clientgui/ViewStatistics.cpp:2037
 msgid "Show one chart with sum of projects"
-msgstr "Arată un singur grafic cu suma proiectelor"
+msgstr "Hiển thị một biểu đồ với tổng hợp lại của các dự án"
 
 #: clientgui/ViewStatistics.cpp:2058
 msgid "Statistics"
-msgstr "Statistici"
+msgstr "Thống kê"
 
 #: clientgui/ViewStatistics.cpp:2379
 msgid "Show project list"
-msgstr "Afişează lista de proiecte"
+msgstr "Hiển thị danh sách dự án"
 
 #: clientgui/ViewStatistics.cpp:2379
 msgid "Uses smaller area for graphs"
-msgstr "Foloseşte o suprafaţă mai mică pentru grafice"
+msgstr "Sử dụng diện tích nhỏ hơn cho đồ thị"
 
 #: clientgui/ViewTransfers.cpp:203
 msgid "Retry Now"
-msgstr "Reîncearcă"
+msgstr "Thử lại ngay"
 
 #: clientgui/ViewTransfers.cpp:204
 msgid "Retry the file transfer now"
-msgstr "Reîncearcă acum transferul de fişier"
+msgstr "Thử lại truyền file tập tin ngay bây giờ"
 
 #: clientgui/ViewTransfers.cpp:210
 msgid "Abort Transfer"
-msgstr "Renunţă la transfer"
+msgstr "Huỷ bỏ truyền file tập tin"
 
 #: clientgui/ViewTransfers.cpp:211
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr "Anulează acest transfer de fişier.  Nu veţi primi credit pentru acest task."
+msgstr "Đình chỉ truyền file tệp tin. Bạn sẽ không kiếm được tín dụng cho nhiệm vụ."
 
 #: clientgui/ViewTransfers.cpp:226
 msgid "File"
-msgstr "Fişier"
+msgstr "File tập tin"
 
 #: clientgui/ViewTransfers.cpp:227 clientgui/ViewWork.cpp:283
 msgid "Progress"
-msgstr "Progres"
+msgstr "Tiến độ"
 
 #: clientgui/ViewTransfers.cpp:228
 msgid "Size"
-msgstr "Dimensiune"
+msgstr "Kích thước"
 
 #: clientgui/ViewTransfers.cpp:229 clientgui/ViewWork.cpp:285
 msgid "Elapsed"
-msgstr "Scurs"
+msgstr "Đã trôi qua"
 
 #: clientgui/ViewTransfers.cpp:230 clientgui/ViewWork.cpp:286
 msgid "Remaining (estimated)"
-msgstr "Rămas (estimat)"
+msgstr "Còn lại (ước tính)"
 
 #: clientgui/ViewTransfers.cpp:231
 msgid "Speed"
-msgstr "Viteză"
+msgstr "Tốc độ"
 
 #: clientgui/ViewTransfers.cpp:317
 msgid "Transfers"
-msgstr "Transferuri"
+msgstr "Chuyển"
 
 #: clientgui/ViewTransfers.cpp:394
 msgid "Network activity is suspended - "
-msgstr "Accesul la retea este suspendat - "
+msgstr "Hoạt động mạng đã bị tạm ngưng -"
 
 #: clientgui/ViewTransfers.cpp:396
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ".\nPuteţi să îl activaţi folosind meniul Activitate."
+msgstr ".\nBạn có thể bật nó lên sử dụng menu Hoạt Động."
 
 #: clientgui/ViewTransfers.cpp:399
 msgid "BOINC"
@@ -3505,141 +3500,141 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr "Sunteţi sigur că doriţi să renunţaţi la acest transfer de fişier '%s'?\nNOTĂ: Renunţând la transfer se va invalida task-ul şi\nnu veţi primi credit pentur el."
+msgstr "Bạn có chắc chắn bạn muốn đình chỉ truyền dữ liệu file tệp tin '%s'?\nLƯU Ý: Việc hủy truyền sẽ làm mất hiệu lực của một nhiệm vụ và bạn\nsẽ không nhận được tín dụng cho nó."
 
 #: clientgui/ViewTransfers.cpp:459
 msgid "Abort File Transfer"
-msgstr "Renunţă la transferul fişierului"
+msgstr "Đình chỉ truyền file tệp tin"
 
 #: clientgui/ViewTransfers.cpp:898
 msgid "Upload"
-msgstr "Încarcă"
+msgstr "Tải lên"
 
 #: clientgui/ViewTransfers.cpp:898
 msgid "Download"
-msgstr "Descarcă"
+msgstr "Tải xuống"
 
 #: clientgui/ViewTransfers.cpp:902
 msgid "retry in "
-msgstr "reincearcă în "
+msgstr "thử lại trong"
 
 #: clientgui/ViewTransfers.cpp:904
 msgid "failed"
-msgstr "eşuat"
+msgstr "thất bại"
 
 #: clientgui/ViewTransfers.cpp:907
 msgid "suspended"
-msgstr "suspendat"
+msgstr "tạm ngưng"
 
 #: clientgui/ViewTransfers.cpp:912
 msgid "active"
-msgstr "activ"
+msgstr "đang hoạt động"
 
 #: clientgui/ViewTransfers.cpp:914
 msgid "pending"
-msgstr "în aşteptare"
+msgstr "đang chờ"
 
 #: clientgui/ViewTransfers.cpp:920
 msgid " (project backoff: "
-msgstr " (revenire proiect: "
+msgstr "(dự án tồn đọng:"
 
 #: clientgui/ViewWork.cpp:233 clientgui/ViewWork.cpp:903
 msgid "Show active tasks"
-msgstr "Arată task-urile active"
+msgstr "Hiển thị các nhiệm vụ đang hoạt động"
 
 #: clientgui/ViewWork.cpp:234 clientgui/ViewWork.cpp:904
 msgid "Show only active tasks."
-msgstr "Arată doar task-urile active."
+msgstr "Chỉ hiển thị các nhiệm vụ đang hoạt động."
 
 #: clientgui/ViewWork.cpp:240 clientgui/ViewWork.cpp:944
 #: clientgui/sg_TaskCommandPopup.cpp:66 clientgui/sg_TaskCommandPopup.cpp:155
 msgid "Show graphics"
-msgstr "Afişează graficele"
+msgstr "Hiển thị đồ họa"
 
 #: clientgui/ViewWork.cpp:241 clientgui/ViewWork.cpp:945
 #: clientgui/sg_TaskCommandPopup.cpp:67 clientgui/sg_TaskCommandPopup.cpp:156
 msgid "Show application graphics in a window."
-msgstr "Afişează graficele aplicaţiei într-o nouă fereastră."
+msgstr "Hiển thị đồ họa ứng dụng trong một cửa sổ."
 
 #: clientgui/ViewWork.cpp:247
 msgid "Show VM Console"
-msgstr "Afisează consola VM"
+msgstr "Hiển thị bảng điều khiển VM"
 
 #: clientgui/ViewWork.cpp:248
 msgid "Show VM Console in a window."
-msgstr "Afişează Consola VM într-o fereastră."
+msgstr "Hiển thị bảng điều khiển VM trong một cửa sổ."
 
 #: clientgui/ViewWork.cpp:255
 msgid "Suspend work for this result."
-msgstr "Suspendare lucru pentru acest rezultat."
+msgstr "Tạm ngưng công việc vì kết quả này."
 
 #: clientgui/ViewWork.cpp:261 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
-msgstr "Renunţă"
+msgstr "Huỷ bỏ"
 
 #: clientgui/ViewWork.cpp:262
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Abandonează lucrul la rezultat. Nu veţi primi credit pentru el."
+msgstr "Từ bỏ công việc dựa trên kết quả. Bạn sẽ không kiếm được tín dụng cho nó."
 
 #: clientgui/ViewWork.cpp:269 clientgui/sg_TaskCommandPopup.cpp:85
 msgid "Show task details."
-msgstr "Afişează detalii task."
+msgstr "Hiện chi tiết nhiệm vụ."
 
 #: clientgui/ViewWork.cpp:287
 msgid "Deadline"
-msgstr "Timp limită"
+msgstr "Thời hạn cuối cùng"
 
 #: clientgui/ViewWork.cpp:290
 msgid "Estimated Completion"
-msgstr "Finalizare estimată"
+msgstr "Hoàn thành dự kiến"
 
 #: clientgui/ViewWork.cpp:291
 msgid "Completion Before Deadline"
-msgstr "Finalizare înainte de termen"
+msgstr "Hoàn Thành Trước Hạn"
 
 #: clientgui/ViewWork.cpp:385
 msgid "Tasks"
-msgstr "Sarcini"
+msgstr "Nhiệm vụ"
 
 #: clientgui/ViewWork.cpp:598
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr "Sunteţi sigur că doriţi să renunţaţi la acest task '%s'?\n(Progres: %s, Stare: %s)"
+msgstr "Bạn có chắc chắn bạn muốn đình chỉ nhiệm vụ '%s' này không đấy?\n(Tiến độ: %s, Trạng thái: %s)"
 
 #: clientgui/ViewWork.cpp:604
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "Sunteţi sigur că doriţi să renunţaţi la aceste %d taskuri?"
+msgstr "Bạn có chắc chắn bạn muốn đình chỉ những nhiệm vụ %d này không đấy?"
 
 #: clientgui/ViewWork.cpp:609 clientgui/sg_TaskCommandPopup.cpp:283
 msgid "Abort task"
-msgstr "Renunţă la task"
+msgstr "Đình chỉ nhiệm vụ"
 
 #: clientgui/ViewWork.cpp:897
 msgid "Show all tasks"
-msgstr "Arată toate task-urile"
+msgstr "Hiện tất cả các nhiệm vụ"
 
 #: clientgui/ViewWork.cpp:898
 msgid "Show all tasks."
-msgstr "Arată toate task-urile."
+msgstr "Hiện tất cả các nhiệm vụ."
 
 #: clientgui/ViewWork.cpp:922 clientgui/sg_TaskCommandPopup.cpp:119
 msgid "Resume work for this task."
-msgstr "Reia lucrul pentru acest task."
+msgstr "Hồi phục lại công việc cho nhiệm vụ này."
 
 #: clientgui/ViewWork.cpp:928 clientgui/sg_TaskCommandPopup.cpp:123
 msgid "Suspend work for this task."
-msgstr "Suspendă lucrul pentru acest task."
+msgstr "Tạm ngưng công việc cho nhiệm vụ này."
 
 #: clientgui/ViewWork.cpp:936 clientgui/sg_TaskCommandPopup.cpp:149
 msgid "Stop graphics"
-msgstr "Oprește graficele"
+msgstr "Dừng đồ họa"
 
 #: clientgui/ViewWork.cpp:937 clientgui/sg_TaskCommandPopup.cpp:150
 msgid "Close application graphics window."
-msgstr "Închideți fereastra ce conține grafice a aplicației."
+msgstr "Đóng cửa sổ đồ họa ứng dụng."
 
 #: clientgui/ViewWork.cpp:1118
 msgid "---"
@@ -3651,203 +3646,203 @@ msgstr "-"
 
 #: clientgui/WizardAttach.cpp:572
 msgid "Do you really want to cancel?"
-msgstr "Sunteţi sigur că doriţi să abandonaţi?"
+msgstr "Bạn có thật sự muốn kết thúc không thế?"
 
 #: clientgui/WizardAttach.cpp:573
 msgid "Question"
-msgstr "Întrebare"
+msgstr "Câu hỏi"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:197
 msgid "Skin"
-msgstr "Skin"
+msgstr "Giao diện"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:199
 msgid "Select the appearance of the user interface."
-msgstr "Selectaţi aspectul interfeţei utilizator."
+msgstr "Chọn lựa vẻ ngoài của giao diện người dùng."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:209
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Vizualizare Avansată...\tCtrl+Shift+A"
+msgstr "Góc nhìn nâng cao...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:210
 msgid "Display the advanced graphical interface."
-msgstr "Afişează interfaţa grafică avansată."
+msgstr "Hiển thị giao diện đồ họa nâng cao."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:226
 msgid "Configure display options and proxy settings"
-msgstr "Configurează opţiunile de afişare şi setările proxy"
+msgstr "Định cấu hình các tùy chọn hiển thị và cài đặt proxy"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:275
 msgid "Display diagnostic messages."
-msgstr "Afişează mesajele de diagnostic."
+msgstr "Hiện các tin báo chẩn đoán."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:314
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Afişează informaţii despre BOINC şi %s"
+msgstr "Hiện thông tin về BOINC và %s"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:540
 msgid "Default"
-msgstr "Implicit"
+msgstr "Mặc định"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:967
 msgid "Suspend Computing"
-msgstr "Suspendă Calculele"
+msgstr "Tạm ngưng tính toán"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:968
 msgid "Resume Computing"
-msgstr "Reia Calculele"
+msgstr "Khôi phục tính toán"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:985
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Deschide o fereastră pentru a vedea anunţurile de la proiecte sau BOINC"
+msgstr "Mở một cửa sổ ra để xem thông báo từ các dự án hoặc BOINC nào"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:1006 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
-msgstr "Ajutor cu %s"
+msgstr "Nhận trợ giúp với %s"
 
 #: clientgui/sg_DlgMessages.cpp:146
 msgid "Close"
-msgstr "Închide"
+msgstr "Đóng"
 
 #: clientgui/sg_DlgMessages.cpp:394
 #, c-format
 msgid "%s - Notices"
-msgstr "%s - Anunţuri"
+msgstr "%s - Thông báo"
 
 #: clientgui/sg_DlgPreferences.cpp:163
 msgid ""
 "Using local preferences.\n"
 "Click \"Use web prefs\" to use web-based preferences from"
-msgstr "Se folosesc preferințele locale.\nApăsați \"Folosiți preferințele web\" pentru a utiliza preferințele web"
+msgstr "Sử dụng tuỳ chọn cục bộ.\nNhấp vào \"Sử dụng tuỳ chọn web\" để sử dụng tuỳ chọn dựa trên web"
 
 #: clientgui/sg_DlgPreferences.cpp:171
 msgid "Using web-based preferences from"
-msgstr "Folosețte preferințele de pe web"
+msgstr "Sử dụng các tùy chọn dựa trên nền tảng web từ"
 
 #: clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click Save to use local preferences instead."
-msgstr "Setați valorile și apăsați Save pentru a folosi preferințele locale."
+msgstr "Đặt các giá trị và nhấp Lưu để sử dụng tuỳ chọn cục bộ thay thế."
 
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Pentru setări adiţionale, selectaţi Preferinţe Calcul în Vizualizarea Avanasată."
+msgstr "Đối với các cài đặt bổ sung, chọn Tùy chọn Máy tính trong Chế độ xem Nâng cao."
 
 #: clientgui/sg_DlgPreferences.cpp:268
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'Folosit' înseamnă fără activitate mouse/tastatură în ultimele"
+msgstr "'Đang được sử dụng' có nghĩa là đầu vào input cuối cùng của chuột/bàn phím đã diễn ra cách đây "
 
 #: clientgui/sg_DlgPreferences.cpp:346
 msgid "GB of disk space"
-msgstr "GB de spațiu pe disc"
+msgstr "GB của không gian ổ đĩa"
 
 #: clientgui/sg_DlgPreferences.cpp:1120
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr "%s - Preferințe calcul"
+msgstr "%s - Tuỳ chọn tính toán"
 
 #: clientgui/sg_DlgPreferences.cpp:1201
 msgid "Discard all local preferences and use web-based preferences?"
-msgstr "Renunțați la toate preferințele locale și folosiți preferințele de pe web?"
+msgstr "Loại bỏ tất cả các tùy chọn cục bộ và sử dụng các tùy chọn dựa trên web?"
 
 #: clientgui/sg_ProjectPanel.cpp:73
 msgid "Add Project"
-msgstr "Adaugă Proiect"
+msgstr "Thêm dự án"
 
 #: clientgui/sg_ProjectPanel.cpp:74
 msgid "Synchronize"
-msgstr "Sincronizează"
+msgstr "Đồng bộ"
 
 #: clientgui/sg_ProjectPanel.cpp:75
 msgid "Work done for this project"
-msgstr "Lucrul terminat pentru acest proiect"
+msgstr "Công việc đã xong cho dự án này"
 
 #: clientgui/sg_ProjectPanel.cpp:77
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "Oferiţi-vă voluntar pentru unul sau toate din cele mai mult de 30 de proiecte în multe zone ale ştiinţei"
+msgstr "Tình nguyện cho bất kỳ hoặc tất cả hơn 30 dự án trong nhiều lĩnh vực khoa học"
 
 #: clientgui/sg_ProjectPanel.cpp:78
 msgid "Synchronize projects with account manager system"
-msgstr "Sincronizează proiectele cu sistemul managerului de cont"
+msgstr "Đồng bộ các dự án với hệ thống quản lý tài khoản"
 
 #. TODO: Might want better wording for Project Selection Combo Box tooltip
 #: clientgui/sg_ProjectPanel.cpp:125
 msgid "Select a project to access with the controls below"
-msgstr "Selectaţi un proiect pentru a avea acces la controalele de mai jos"
+msgstr "Chọn một dự án để truy cập bằng các điều khiển bên dưới"
 
 #: clientgui/sg_ProjectPanel.cpp:146
 msgid "Project Web Pages"
-msgstr "Pagini Web Proiect"
+msgstr "Các trang web dự án"
 
 #: clientgui/sg_ProjectPanel.cpp:150
 msgid "Project Commands"
-msgstr "Comenzi Proiect"
+msgstr "Lệnh dự án"
 
 #: clientgui/sg_ProjectPanel.cpp:279
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr "Deschide un meniu cu site-urile web pentru proiectul %s"
+msgstr "Bật popup một menu các trang web cho dự án %s"
 
 #: clientgui/sg_ProjectPanel.cpp:281
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr "Deschide un meniu cu comenzi care se pot aplica proiectului %s"
+msgstr "Bật popup một menu lệnh để áp dụng cho dự án %s"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Suspend this task."
-msgstr "Suspendă acest task."
+msgstr "Tạm ngưng nhiệm vụ này."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
-msgstr "Abandonaţi acest task. Nu veţi primi credit pentru el."
+msgstr "Bỏ nhiệm vụ này. Bạn sẽ không kiếm được tín dụng cho nó."
 
 #: clientgui/sg_TaskCommandPopup.cpp:278
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr "Sunteţi sigur că doriţi să renunţaţi la acest task '%s'?\n(Progres: %.1lf%%, Stare: %s)"
+msgstr "Bạn có chắc chắn bạn muốn đình chỉ nhiệm vụ '%s' này không đấy?\n(Tiến độ: %.1lf%%, Trạng thái: %s)"
 
 #: clientgui/sg_TaskPanel.cpp:461
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "Nu aveţi nici un proiect.  Vă rugăm Adăugaţi un Proiect."
+msgstr "Bạn chẳng có bất kỳ dự án nào cả. Vui lòng Thêm một dự án nhé."
 
 #: clientgui/sg_TaskPanel.cpp:462
 msgid "Not available"
-msgstr "Indisponibil"
+msgstr "Không khả dụng"
 
 #: clientgui/sg_TaskPanel.cpp:473
 msgid "Tasks:"
-msgstr "Task-uri:"
+msgstr "Các nhiệm vụ:"
 
 #. TODO: Might want better wording for Task Selection Combo Box tooltip
 #: clientgui/sg_TaskPanel.cpp:479
 msgid "Select a task to access"
-msgstr "Selectaţi un task pentru a accesa"
+msgstr "Lựa chọn một nhiệm vụ để truy cập"
 
 #. what project the task is from, e.g. "From: SETI@home"
 #: clientgui/sg_TaskPanel.cpp:491
 msgid "From:"
-msgstr "De la:"
+msgstr "Tới từ:"
 
 #: clientgui/sg_TaskPanel.cpp:545
 msgid "This task's progress"
-msgstr "Progresul acestui task"
+msgstr "Tiến độ nhiệm vụ này"
 
 #: clientgui/sg_TaskPanel.cpp:563
 msgid "Task Commands"
-msgstr "Comenzi Task"
+msgstr "Lệnh cho nhiệm vụ"
 
 #: clientgui/sg_TaskPanel.cpp:564
 msgid "Pop up a menu of commands to apply to this task"
-msgstr "Deschideţi un meniu de comenzi care se pot aplica acestui task"
+msgstr "Bật popup một menu lệnh để áp dụng cho nhiệm vụ này"
 
 #: clientgui/sg_TaskPanel.cpp:699
 #, c-format
 msgid "Application: %s"
-msgstr "Aplicaţia: %s"
+msgstr "Ứng dụng: %s"
 
 #: clientgui/sg_TaskPanel.cpp:722
 #, c-format
@@ -3856,109 +3851,109 @@ msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:730
 msgid "Application: Not available"
-msgstr "Aplicaţie: Indisponibil"
+msgstr "Ứng dụng: Không khả dụng"
 
 #: clientgui/sg_TaskPanel.cpp:830
 msgid "Not Available"
-msgstr "Indisponibil"
+msgstr "Không khả dụng"
 
 #: clientgui/sg_TaskPanel.cpp:845
 #, c-format
 msgid "Elapsed: %s"
-msgstr "Scurs: %s"
+msgstr "Đã trôi qua: %s"
 
 #: clientgui/sg_TaskPanel.cpp:859
 #, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Rămas (estimat): %s"
+msgstr "Còn lại (ước tính): %s"
 
 #: clientgui/sg_TaskPanel.cpp:874
 #, c-format
 msgid "Status: %s"
-msgstr "Stare: %s"
+msgstr "Trạng thái: %s"
 
 #: clientgui/sg_TaskPanel.cpp:1208
 msgid "Retrieving current status."
-msgstr "Se primeşte starea curentă."
+msgstr "Truy xuất trạng thái hiện tại."
 
 #: clientgui/sg_TaskPanel.cpp:1214
 msgid "Downloading work from the server."
-msgstr "Se descarcă de lucru de la server."
+msgstr "Đang tải xuống công việc từ máy chủ."
 
 #: clientgui/sg_TaskPanel.cpp:1219
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Procesare Suspendată:  Se Rulează Pe Baterii."
+msgstr "Xử lý bị tạm ngưng: Đang chạy bằng Pin."
 
 #: clientgui/sg_TaskPanel.cpp:1221
 msgid "Processing Suspended:  User Active."
-msgstr "Procesare Suspendată:  Utilizator Activ."
+msgstr "Xử lý bị tạm ngưng: Người dùng Hoạt động."
 
 #: clientgui/sg_TaskPanel.cpp:1223
 msgid "Processing Suspended:  User paused processing."
-msgstr "Procesare Suspendată:  Utilizatorul a oprit procesarea."
+msgstr "Xử lý bị tạm ngưng: Người dùng đã tạm dừng xử lý."
 
 #: clientgui/sg_TaskPanel.cpp:1225
 msgid "Processing Suspended:  Time of Day."
-msgstr "Procesare Suspendată:  Ora."
+msgstr "Xử lý bị tạm ngưng: Thời gian trong Ngày."
 
 #: clientgui/sg_TaskPanel.cpp:1227
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Procesare Suspendată:  Rulează Benchmarks."
+msgstr "Xử lý bị tạm ngưng: Đang chạy điểm chuẩn Benchmarks."
 
 #: clientgui/sg_TaskPanel.cpp:1229
 msgid "Processing Suspended:  need disk space."
-msgstr "Procesare suspendată: spațiu insuficient pe disc."
+msgstr "Xử lý bị tạm ngưng: cần không gian ổ đĩa."
 
 #: clientgui/sg_TaskPanel.cpp:1231
 msgid "Processing Suspended."
-msgstr "Procesare Suspendată."
+msgstr "Xử lý bị tạm ngưng."
 
 #: clientgui/sg_TaskPanel.cpp:1235
 msgid "Waiting to contact project servers."
-msgstr "În aşteptarea contactării serverelor de proiect."
+msgstr "Đang chờ liên lạc với máy chủ dự án."
 
 #: clientgui/sg_TaskPanel.cpp:1239 clientgui/sg_TaskPanel.cpp:1248
 msgid "Retrieving current status"
-msgstr "Se primeşte starea curentă"
+msgstr "Truy xuất trạng thái hiện tại"
 
 #: clientgui/sg_TaskPanel.cpp:1243
 msgid "No work available to process"
-msgstr "Nu există lucru disponibil pentru procesare"
+msgstr "Chẳng có công việc nào để xử lý"
 
 #: clientgui/sg_TaskPanel.cpp:1245
 msgid "Unable to connect to the core client"
-msgstr "Nu s-a putut conecta la nucleul clientului"
+msgstr "Không thể kết nối tới máy khách lõi"
 
 #: clientgui/wizardex.cpp:386 clientgui/wizardex.cpp:559
 msgid "&Next >"
-msgstr "&Următorul >"
+msgstr "Tiếp theo"
 
 #: clientgui/wizardex.cpp:392
 msgid "< &Back"
-msgstr "< &Înapoi"
+msgstr "Quay lại"
 
 #: clientgui/wizardex.cpp:559
 msgid "&Finish"
-msgstr "&Finalizare"
+msgstr "Hoàn thành"
 
 #: clientgui/mac/Mac_GUI.cpp:35
 msgid "Services"
-msgstr "Servicii"
+msgstr "Dịch vụ"
 
 #: clientgui/mac/Mac_GUI.cpp:36
 #, c-format
 msgid "Hide %s"
-msgstr "Ascunde %s"
+msgstr "Ẩn %s"
 
 #: clientgui/mac/Mac_GUI.cpp:37
 msgid "Hide Others"
-msgstr "Ascunde Restul"
+msgstr "Ẩn những thứ khác"
 
 #: clientgui/mac/Mac_GUI.cpp:38
 msgid "Show All"
-msgstr "Arată Tot"
+msgstr "Hiện tất cả"
 
 #: clientgui/mac/Mac_GUI.cpp:39
 #, c-format
 msgid "Quit %s"
-msgstr "Închide %s"
+msgstr "Thoát %s"

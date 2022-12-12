@@ -267,7 +267,7 @@
   <string name="menu_help">帮助</string>
   <string name="menu_report_issue">报告问题</string>
   <!--about dialog-->
-    <string name="about_title">关于</string>
+  <string name="about_title">关于</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">版本%1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 加州大学伯克利分校。</string>
@@ -295,4 +295,5 @@
   <string name="notice_notification_channel_name">通知</string>
   <string name="notice_notification_channel_description">显示项目发送的通知。</string>
   <string name="agree_button">同意</string>
+  <string name="prefs_expand_wu_data">始终展开任务信息</string>
 </resources>

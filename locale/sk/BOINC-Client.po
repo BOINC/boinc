@@ -4,15 +4,15 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# aceman444, 2016-2017,2019
+# aceman444, 2016-2017,2019,2022
 # Jakub Meisner <jakub@jlfoto.sk>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: aceman444, 2016-2017,2019\n"
+"Last-Translator: aceman444, 2016-2017,2019,2022\n"
 "Language-Team: Slovak (http://www.transifex.com/boinc/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,13 +48,13 @@ msgstr "Premenná prostredia HTTP_PROXY musí obsahovať HTTP proxy adresu"
 msgid ""
 "This project seems to have changed its URL.  When convenient, remove the "
 "project, then add %s"
-msgstr ""
+msgstr "Zdá sa, že tento projekt zmenil adresu URL. Keď to bude vhodné, odstráňte projekt a potom pridajte %s"
 
-#: client/cs_statefile.cpp:857
+#: client/cs_statefile.cpp:861
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaktická chyba v app_info.xml"
 
-#: client/cs_statefile.cpp:901
+#: client/cs_statefile.cpp:905
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Súbor odkazovaný v app_info.xml neexistuje: "
 
@@ -139,40 +139,40 @@ msgstr "Váš klient BOINC je príliš starý.  Prosím nainštalujte aktuálnu 
 msgid "This project doesn't support computers of type"
 msgstr "Tento projekt nepodporuje počítače typu"
 
-#: sched/sched_send.cpp:1121
+#: sched/sched_send.cpp:1151
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Aktualizujte na najnovší ovládač pre spracovanie úloh na vašom GPU"
 
-#: sched/sched_send.cpp:1128
+#: sched/sched_send.cpp:1158
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Aktualizujte na najnovší ovládač, aby ste mohli využiť všetky GPU aplikácie tohto projektu"
 
-#: sched/sched_send.cpp:1147
+#: sched/sched_send.cpp:1177
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Pre použitie NVIDIA GPU je potrebná novšia verzia BOINC; prosím aktualizujte na aktuálnu verziu"
 
-#: sched/sched_send.cpp:1181
+#: sched/sched_send.cpp:1211
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Pre spustenie úloh tohto projektu je požadovaná grafická karta (GPU) značky %s"
 
-#: sched/sched_send.cpp:1297
+#: sched/sched_send.cpp:1327
 msgid "No tasks are available for the applications you have selected."
 msgstr "Nie je dostupná žiadna práca pre aplikácie, ktoré ste zvolili."
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1353
 msgid "Your computer type is not supported by this project"
 msgstr "Typ Vášho počítača nie je podporovaný týmto projektom"
 
-#: sched/sched_send.cpp:1329
+#: sched/sched_send.cpp:1359
 msgid "Newer BOINC version required; please install current version"
 msgstr "Je vyžadovaná novšia verzia BOINC; prosím nainštalujte aktuálnu verziu"
 
-#: sched/sched_send.cpp:1340
+#: sched/sched_send.cpp:1370
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
