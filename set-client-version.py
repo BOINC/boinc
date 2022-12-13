@@ -121,7 +121,7 @@ def set_installshield(version):
                 f.write(line)
 
 if (len(sys.argv) != 2):
-    print('Usage: set-version.py VERSION')
+    print('Usage: set-client-version.py VERSION')
     exit(1)
 
 version = sys.argv[1]
@@ -132,7 +132,7 @@ if (not is_release(minor) and release != 0):
     print(f'ERROR: for development version release number should be 0 but it\'s set to {release}')
     exit(1)
 
-print(f'Setting BOINC version to {version}...')
+print(f'Setting BOINC client version to {version}...')
 
 set_configure_ac(version)
 set_version_h(version)
