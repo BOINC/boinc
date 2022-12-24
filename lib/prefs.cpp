@@ -32,8 +32,9 @@
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "parse.h"
+#include "str_util.h"
 #include "util.h"
-
+#include "..\client\client_msgs.h"
 #include "prefs.h"
 
 void GLOBAL_PREFS_MASK::set_all() {
@@ -410,17 +411,10 @@ int GLOBAL_PREFS::parse_override(
             }
             // Checks for a condition where no computing could occur if suspend until idle and
             // suspend after being idle overlap.
+            //
             if (mask.idle_time_to_run && mask.suspend_if_no_recent_input) {
                 if ((idle_time_to_run - suspend_if_no_recent_input + 0.005) >= 0) {
-                    // It is more likely the user will notice BOINC operating while computer is in
-                    // use.  Therefore setting idle time to run to 0 should give the user an indication that one
-                    // of the settings did not apply.
-                    idle_time_to_run = 0;
-                    mask.idle_time_to_run = false;
-                    run_if_user_active = true;
-                    mask.run_if_user_active = true;
-                    run_gpu_if_user_active = true;
-                    mask.run_gpu_if_user_active = true;
+                    msg_printf(NULL, MSG_USER_ALERT, "%s", "Test message.");
                 }
             }
             return 0;
