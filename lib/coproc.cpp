@@ -140,8 +140,8 @@ int COPROC::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/coproc")) {
-            // the client reports the type of Apple GPUs as the model
-            // (e.g. "Apple M1")
+            // The client reports the type of Apple GPUs as the model
+            // (e.g. "Apple M1").
             // Change it to just "Apple".
             //
             if (strstr(type, "Apple")) {
