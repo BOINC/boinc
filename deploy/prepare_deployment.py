@@ -150,6 +150,7 @@ windows_apps_list = [
     './win_build/Build/x64/Release/multi_thread*.exe',
     './win_build/Build/x64/Release/test*.exe',
     './win_build/Build/x64/Release/wrappture*.exe',
+    './win_build/Build/x64/Release/crypt_prog.exe',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
     './win_build/Build/ARM64/Release/wrapper*.exe',
     './win_build/Build/ARM64/Release/vboxwrapper*.exe',
@@ -161,7 +162,8 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/boinclog.exe',
     './win_build/Build/ARM64/Release/multi_thread*.exe',
     './win_build/Build/ARM64/Release/test*.exe',
-    './win_build/Build/ARM64/Release/wrappture*.exe'
+    './win_build/Build/ARM64/Release/wrappture*.exe',
+    './win_build/Build/ARM64/Release/crypt_prog.exe'
 ]
 
 windows_client_list = [
