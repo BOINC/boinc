@@ -22,17 +22,16 @@
       <MaxRegCount>32</MaxRegCount>
       <NvccCompilation>0</NvccCompilation>
       <compileout>0</compileout>
-      <Arch1>10</Arch1>
-      <Arch2>20</Arch2>
-      <Arch3>0</Arch3>
+      <Arch1>52</Arch1>
+      <Arch2>53</Arch2>
+      <Arch3>60</Arch3>
       <CompilerPath>0</CompilerPath>
       <Warning>3</Warning>
       <Optimization>2</Optimization>
       <RuntimeChecks>0</RuntimeChecks>
       <Runtime>0</Runtime>
-      <CommandLineTemplate>echo [CompilerPath] [Keep] [CInterleavedPTX] [ExtraNvccOptions] -ccbin "$(VCInstallDir)bin" [Emulation] [Debug] [FastMath] [Defines] -I"$(CUDA_INC_PATH)" [Include] -Xcompiler "/EHsc [Warning] /nologo [Optimization] /Zi [RuntimeChecks] [Runtime] [TypeInfo] [ExtraCppOptions]" [MaxRegCount] [PtxAsOptionV] [Arch1] [Arch2] [Arch3] [NvccCompilation] "%(FullPath)" 
- [CompilerPath] [Keep] [CInterleavedPTX] [ExtraNvccOptions] [Arch1] [Arch2] [Arch3]  -ccbin "$(VCInstallDir)bin" [Emulation] [Debug] [FastMath] [Defines] -I"$(CUDA_INC_PATH)" [Include] -Xcompiler "/EHsc [Warning] /nologo [Optimization] /Zi [RuntimeChecks] [Runtime] [TypeInfo] [ExtraCppOptions]" [Include] [MaxRegCount] [ptxasoptionv] [Arch1] [Arch2] [Arch3] [NvccCompilation] "%(FullPath)"</CommandLineTemplate>
-      <Outputs>[compileout]</Outputs>
+      <CommandLineTemplate>$(CUDA_BIN_PATH)\nvcc.exe [Keep] [CInterleavedPTX] [ExtraNvccOptions] [Arch1] [Arch2] [Arch3]  -ccbin "$(VC_ExecutablePath_x64_x64)" [Emulation] [Debug] [FastMath] [Defines] -I"$(CUDA_INC_PATH)" [Include] -Xcompiler "/EHsc [Warning] /nologo [Optimization] /Zi [RuntimeChecks] [Runtime] [TypeInfo] [ExtraCppOptions]" [Include] [MaxRegCount] [ptxasoptionv] [Arch1] [Arch2] [Arch3] --compile -o "$(IntDir)\%(Filename).cu.obj" "%(FullPath)"</CommandLineTemplate>
+      <Outputs>$(IntDir)\%(Filename).cu.obj</Outputs>
       <ExecutionDescription>Compiling with CUDA Build Rule...</ExecutionDescription>
       <AdditionalDependencies>[AddedDependencies]</AdditionalDependencies>
     </CUDA_Build_Rule>
