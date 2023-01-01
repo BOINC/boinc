@@ -645,6 +645,7 @@ void CLIENT_STATE::read_global_prefs(
             msg_printf(NULL, MSG_INFO, "Reading preferences override file");
             fclose(f);
             global_prefs.override_file_present = true;
+            validate_global_prefs(mask);
         }
     }
 
