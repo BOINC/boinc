@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -666,6 +666,167 @@ void CLIENT_STATE::read_global_prefs(
 #ifndef SIM
     active_tasks.request_reread_app_info();
 #endif
+}
+
+// Validates preferences that were parsed.  Uses the mask structure, so 
+// this should be called immediately after parsing.  Any new preferences variables
+// added should be validated here as well.
+//
+void CLIENT_STATE::validate_global_prefs(GLOBAL_PREFS_MASK& mask) {
+    if (mask.battery_charge_min_pct) {
+        if (global_prefs.battery_charge_min_pct < 0) {
+            global_prefs.battery_charge_min_pct = 0;
+        } else if (global_prefs.battery_charge_min_pct > 100) {
+            global_prefs.battery_charge_min_pct = 100;
+        }
+    }
+    if (mask.battery_max_temperature) {
+        if (global_prefs.battery_max_temperature < -273.15) {
+            global_prefs.battery_max_temperature = -273.15;
+        }
+    }
+    if (mask.idle_time_to_run) {
+        if (global_prefs.idle_time_to_run < 0) {
+            global_prefs.idle_time_to_run = 0;
+        }
+    }
+    if (mask.suspend_if_no_recent_input) {
+        if (global_prefs.suspend_if_no_recent_input < 0) {
+            global_prefs.suspend_if_no_recent_input = 0;
+        }
+    }
+    if (mask.idle_time_to_run && mask.suspend_if_no_recent_input) {
+        if ((global_prefs.idle_time_to_run - global_prefs.suspend_if_no_recent_input + 0.005) >= 0) {
+            // Don't make any changes, just send a message.
+        }
+    }
+    if (mask.suspend_cpu_usage) {
+        if (global_prefs.suspend_cpu_usage < 0) {
+            global_prefs.suspend_cpu_usage = 0;
+        } else if (global_prefs.suspend_cpu_usage > 100) {
+            global_prefs.suspend_cpu_usage = 100;
+        }
+    }
+    if (mask.niu_suspend_cpu_usage) {
+        if (global_prefs.niu_suspend_cpu_usage < 0) {
+            global_prefs.niu_suspend_cpu_usage = 0;
+        } else if (global_prefs.niu_suspend_cpu_usage > 100) {
+            global_prefs.niu_suspend_cpu_usage = 100;
+        }
+    }
+    // !!!!!do I need to fix start/end hours here?  YES!  can pass -1 or 25 (both invalid
+    // See ~ L394 of prefs.cpp...review this carefully and add here
+    // Same question for parse_day. -> This is already handled in the parse_day function.  Leaving it active in prefs.cpp for now.
+    if (mask.work_buf_min_days) {
+        if (global_prefs.work_buf_min_days < 0) {
+            global_prefs.work_buf_min_days = 0;
+        }
+    }
+    if (mask.work_buf_additional_days) {
+        if (global_prefs.work_buf_additional_days < 0) {
+            global_prefs.work_buf_additional_days = 0;
+        }
+    }
+    if (mask.max_ncpus_pct) {
+        if (global_prefs.max_ncpus_pct < 0) {
+            global_prefs.max_ncpus_pct = 0;
+        } else if (global_prefs.max_ncpus_pct > 100) {
+            global_prefs.max_ncpus_pct = 100;
+        }
+    }
+    if (mask.niu_max_ncpus_pct) {
+        if (global_prefs.niu_max_ncpus_pct < 0) {
+            global_prefs.niu_max_ncpus_pct = 0;
+        } else if (global_prefs.niu_max_ncpus_pct > 100) {
+            global_prefs.niu_max_ncpus_pct = 100;
+        }
+    }
+    if (mask.max_ncpus) {
+        if (global_prefs.max_ncpus) < 0) {
+            global_prefs.max_ncpus = 0;
+        }
+    }
+    if (mask.disk_interval) {
+        if (global_prefs.disk_interval < 0) {
+            global_prefs.disk_interval = 0;
+        }
+    }
+    if (mask.cpu_scheduling_period_minutes) {
+        if (global_prefs.cpu_scheduling_period_minutes < 0.0001) {
+            global_prefs.cpu_scheduling_period_minutes = 60;
+        }
+    }
+    if (mask.disk_max_used_gb) {
+        if (global_prefs.disk_max_used_gb < 0) {
+            global_prefs.disk_max_used_gb = 0;
+        }
+    }
+    if (mask.disk_max_used_pct) {
+        if (global_prefs.disk_max_used_pct < 0) {
+            global_prefs.disk_max_used_pct = 0;
+        } else if (global_prefs.disk_max_used_pct > 100) {
+            global_prefs.disk_max_used_pct = 100;
+        }
+    }
+    if (mask.disk_min_free_gb) {
+        if (global_prefs.disk_min_free_gb < 0) {
+            global_prefs.disk_min_free_gb = 0;
+        }
+    }
+    // Verify this in testing.
+    if (mask.vm_max_used_frac) {
+        if (global_prefs.vm_max_used_frac < 0) {
+            global_prefs.vm_max_used_frac = 0;
+        } else if (global_prefs.vm_max_used_frac > 1) {
+            global_prefs.vm_max_used_frac = 1;
+        }
+    }
+    if (mask.ram_max_used_busy_frac) {
+        if (global_prefs.ram_max_used_busy_frac < 0) {
+            global_prefs.ram_max_used_busy_frac = 0;
+        } else if (global_prefs.ram_max_used_busy_frac > 1) {
+            global_prefs.ram_max_used_busy_frac = 1;
+        }
+    }
+    if (mask.ram_max_used_idle_frac) {
+        if (global_prefs.ram_max_used_idle_frac < 0) {
+            global_prefs.ram_max_used_idle_frac = 0;
+        } else if (global_prefs.ram_max_used_idle_frac > 1) {
+            global_prefs.ram_max_used_idle_frac = 1;
+        }
+    }
+    if (mask.max_bytes_sec_up) {
+        if (global_prefs.max_bytes_sec_up < 0) {
+            global_prefs.max_bytes_sec_up = 0;
+        }
+    }
+    if (mask.max_bytes_sec_dn) {
+        if (global_prefs.max_bytes_sec_dn < 0) {
+            global_prefs.max_bytes_sec_dn = 0;
+        }
+    }
+    if (mask.cpu_usage_limit) {
+        if (global_prefs.cpu_usage_limit < 0) {
+            global_prefs.cpu_usage_limit = 0;
+        } else if (global_prefs.cpu_usage_limit > 1) {
+            global_prefs.cpu_usage_limit = 1;
+        }
+    }
+    if (mask.niu_cpu_usage_limit) {
+        if (global_prefs.niu_cpu_usage_limit <= 0 || global_prefs.niu_cpu_usage_limit > 1) {
+            global_prefs.niu_cpu_usage_limit = 1;
+        }
+    }
+    if (mask.daily_xfer_limit_mb) {
+        if (global_prefs.daily_xfer_limit_mb < 0) {
+            global_prefs.daily_xfer_limit_mb = 0;
+        }
+    }
+    if (mask.daily_xfer_period_days) {
+        if (global_prefs.daily_xfer_period_days < 0) {
+            global_prefs.daily_xfer_period_days = 0;
+        }
+    }
 }
 
 void CLIENT_STATE::print_global_prefs() {
