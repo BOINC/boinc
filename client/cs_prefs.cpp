@@ -743,7 +743,7 @@ void CLIENT_STATE::validate_global_prefs(GLOBAL_PREFS_MASK& mask) {
         }
     }
     if (mask.max_ncpus) {
-        if (global_prefs.max_ncpus) < 0) {
+        if (global_prefs.max_ncpus < 0) {
             global_prefs.max_ncpus = 0;
         }
     }
@@ -801,9 +801,9 @@ void CLIENT_STATE::validate_global_prefs(GLOBAL_PREFS_MASK& mask) {
             global_prefs.max_bytes_sec_up = 0;
         }
     }
-    if (mask.max_bytes_sec_dn) {
-        if (global_prefs.max_bytes_sec_dn < 0) {
-            global_prefs.max_bytes_sec_dn = 0;
+    if (mask.max_bytes_sec_down) {
+        if (global_prefs.max_bytes_sec_down < 0) {
+            global_prefs.max_bytes_sec_down = 0;
         }
     }
     if (mask.cpu_usage_limit) {
