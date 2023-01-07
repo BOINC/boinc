@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -39,11 +39,12 @@
 # Updated 8/22/20 to build Apple Silicon / arm64 and x86_64 Universal binary
 # Updated 12/24/20 for curl 7.73.0
 # Updated 5/18/21 for compatibility with zsh
-# Updated 10/11/21 to use Secure Transport instead of OpenSSL (uses MacOS certificate store 
+# Updated 10/11/21 to use Secure Transport instead of OpenSSL (uses MacOS certificate store
 #   instead of ca-bundle.crt)
 # Updated 11/16/21 for curl 7.79.1
+# Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 #
-## Curl's configure and make set the "-Werror=partial-availability" compiler flag, 
+## Curl's configure and make set the "-Werror=partial-availability" compiler flag,
 ## which generates an error if there is an API not available in our Deployment
 ## Target. This helps ensure curl won't try to use unavailable APIs on older Mac
 ## systems supported by BOINC.
@@ -67,10 +68,10 @@
 
 function patch_curl_config {
     # If building with some SDKs or version of Xcode, either or
-    # both of these patches will fail because config has already 
+    # both of these patches will fail because config has already
     # set our desired values.
     #
-    # The __builtin_available() function may cause problems in 
+    # The __builtin_available() function may cause problems in
     # static libraries or older versions of MacOS. It's unclear
     # to me whether this is still an issue, but I'm keeping this
     # patch in here for now to be safe. - CF 10/11/21
@@ -159,12 +160,12 @@ if [ "${doclean}" != "yes" ]; then
             lipo "${libPath}/libcurl.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
             lipo "${libPath}/libcurl.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ]; then
             cwd=$(pwd)
             dirname=${cwd##*/}
@@ -207,7 +208,7 @@ fi
 
 # c-ares configure creates a different ares_build.h file for each architecture
 # for a sanity check on size of long and socklen_t. But these are  identical for
-# x86_64 and arm64, so this is not currently an issue. 
+# x86_64 and arm64, so this is not currently an issue.
 ## cp -f ../"${caresDirName}"/ares_build_x86_64.h /tmp/installed-c-ares/include/ares_build.h
 
 # Build for x86_64 architecture
@@ -215,9 +216,9 @@ fi
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.10
-export MAC_OS_X_VERSION_MAX_ALLOWED=101000
-export MAC_OS_X_VERSION_MIN_REQUIRED=101000
+export MACOSX_DEPLOYMENT_TARGET=10.13
+export MAC_OS_X_VERSION_MAX_ALLOWED=101300
+export MAC_OS_X_VERSION_MIN_REQUIRED=101300
 
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
 export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
@@ -278,7 +279,7 @@ export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-app
 
 # c-ares configure creates a different ares_build.h file for each architecture
 # for a sanity check on size of long and socklen_t. But these are  identical for
-# x86_64 and arm64, so this is not currently an issue. 
+# x86_64 and arm64, so this is not currently an issue.
 ## cp -f ../"${caresDirName}"/ares_build_arm.h /tmp/installed-c-ares/include/ares_build.h
     if [ "x${lprefix}" != "x" ]; then
         PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
@@ -296,7 +297,7 @@ export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-app
         # save x86_64 header and lib for later use
         # curl configure creates a different curlbuild.h file for each architecture
         # for a sanity check on size of long and socklen_t. But these are  identical
-        # for x86_64 and arm64, so this is not currently an issue. 
+        # for x86_64 and arm64, so this is not currently an issue.
     ##    cp -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
         mv -f lib/.libs/libcurl.a lib/libcurl_x86_64.a
 
@@ -309,7 +310,7 @@ export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-app
         if [ $? -ne 0 ]; then return 1; fi
         # curl configure creates a different curlbuild.h file for each architecture
         # for a sanity check on size of long and socklen_t. But these are  identical
-        # for x86_64 and arm64, so this is not currently an issue. 
+        # for x86_64 and arm64, so this is not currently an issue.
     ##    mv -f include/curl/curlbuild.h include/curl/curlbuild_arm64.h
         mv -f lib/.libs/libcurl.a lib/libcurl_arm64.a
 
@@ -340,10 +341,10 @@ export SDKROOT=""
 
 # curl configure creates a different curlbuild.h file for each architecture
 # for a sanity check on size of long and socklen_t. But these are  identical
-# for x86_64 and arm64, so this is not currently an issue and so we return now. 
+# for x86_64 and arm64, so this is not currently an issue and so we return now.
 return 0
 
-# Create a custom curlbuild.h file which directs BOINC builds 
+# Create a custom curlbuild.h file which directs BOINC builds
 # to the correct curlbuild_xxx.h file for each architecture.
 cat >> include/curl/curlbuild.h << ENDOFFILE
 /***************************************************************************
