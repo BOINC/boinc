@@ -738,7 +738,7 @@ CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
 CXXFLAGS="${save_cxxflags} ${avx_flags}"
 CPPFLAGS="${save_cppflags} ${avx_flags}"
-AC_CHECK_HEADERS([immintrin.h avxintrin.h])
+AC_CHECK_HEADERS([immintrin.h])
 
 AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
     [],[],[[
@@ -747,9 +747,6 @@ AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
 #endif
 #if HAVE_IMMINTRIN_H
 # include <immintrin.h>
-#endif
-#if HAVE_AVXINTRIN_H
-# include <avxintrin.h>
 #endif
 #if HAVE_X86INTRIN_H
 # include <x86intrin.h>
