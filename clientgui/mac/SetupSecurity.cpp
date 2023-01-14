@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -587,7 +587,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     isDirectory = S_ISDIR(sbuf.st_mode);
     if ((result == noErr) && (! isDirectory)) {
         // Set owner and group of setprojectgrp application
-        sprintf(buf1, "root:%s", boinc_project_group_name);
+        sprintf(buf1, "root:%s", boinc_master_group_name);
         // chown root:boinc_project "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
         err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
