@@ -594,10 +594,9 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // compare our URL for this project with the one returned in the reply
     // (which comes from the project's config.xml).
-    // - if http -> https transition, make the change
+    // - if http -> https transition, use the https: one from now on
+    // - if https -> http transition, keep using the https: one
     // - otherwise notify the user.
-    // This means that if a project changes its master URL,
-    // its users have to detach/reattach.
     //
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url, sizeof(sr.master_url));
@@ -612,6 +611,9 @@ int CLIENT_STATE::handle_scheduler_reply(
                 msg_printf(project, MSG_INFO,
                     "Project URL changed from http:// to https://"
                 );
+            } else if (is_https_transition(reply_url.c_str(), current_url.c_str())) {
+                // project is advertising http://, but https:// works.
+                // keep using https://
             } else {
                 msg_printf(project, MSG_USER_ALERT,
                     _("This project seems to have changed its URL.  When convenient, remove the project, then add %s"),
