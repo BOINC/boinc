@@ -547,8 +547,14 @@ SAH_CHECK_LIB([freetype], [fopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-SAH_CHECK_LIB([z], [gzopen],
-    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([z], [gzopen], [
+      zlib_found=yes
+      BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+if test "x${zlib_found}" = "x" -a "${isWIN32}" = "no"; then
+    if test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" -o "x${enable_apps_vbox}" = "xyes"]; then
+        AC_MSG_ERROR([zlib is required but was not found])
+    fi
+fi
 SAH_CHECK_LIB([cups], [md5_finish],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 if test "${isWIN32}" = "yes" ; then
