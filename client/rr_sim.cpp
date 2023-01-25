@@ -273,10 +273,10 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
-            unsigned int s = rsc_pwf.pending.size();
+            size_t s = rsc_pwf.pending.size();
 #if 0
             if (log_flags.rrsim_detail) {
-                msg_printf(p, MSG_INFO, "[rr_sim] %u jobs for rsc %u", s, rt);
+                msg_printf(p, MSG_INFO, "[rr_sim] %u jobs for rsc %zu", s, rt);
             }
 #endif
             if (s == 0) continue;

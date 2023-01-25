@@ -1197,7 +1197,6 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 }
 
 #ifndef SIM
-#ifdef NEW_CPU_THROTTLE
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
@@ -1249,5 +1248,4 @@ void* throttler(void*) {
     }
     return 0;
 }
-#endif
 #endif
