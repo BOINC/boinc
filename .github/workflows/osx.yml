@@ -7,7 +7,7 @@ on:
   schedule:
     - cron:  '20 12 * * 0'
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -22,17 +22,17 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        type: [manager, libs-cmake]
+        type: [manager, libs-cmake, manager-vcpkg]
       fail-fast: false
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '12.5.1'
+          xcode-version: '14.2.0'
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: 3rdParty/buildCache
           key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/setupForBOINC.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh', '.github/workflows/osx.yml') }}
@@ -48,8 +48,12 @@ jobs:
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: install dependencies
-        if: ${{! contains(matrix.type, 'cmake')}}
+        if: ${{! contains(matrix.type, 'cmake', 'vcpkg')}}
         run: ./3rdParty/buildMacDependencies.sh -q
+
+      - name: install vcpkg dependencies
+        if: ${{ contains(matrix.type, 'vcpkg')}}
+        run: ./osx/build_vcpkg_3rdparty_for_manager.sh
 
       - name: make
         if: success() && ! contains(matrix.type, 'cmake')
@@ -62,10 +66,10 @@ jobs:
       - name: Prepare logs on failure
         if: ${{ failure() }}
         run: python3 ./deploy/prepare_deployment.py logs
-      
+
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
