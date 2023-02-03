@@ -83,7 +83,7 @@ final class CreateAccountTest extends TestCase
         $authenticator = (string) $xml->authenticator;
 	$this->assertCount( 1, $xml->authenticator);
     }
-	
+
     public function testCreateAndLookupAccount()
     {
 	$query = [
@@ -97,7 +97,7 @@ final class CreateAccountTest extends TestCase
     	$xml = simplexml_load_string($xml);
         $this->assertCount( 0, $xml->success);
     }
-    
+
     public function tearDown(): void
     {
         $this->http = null;
