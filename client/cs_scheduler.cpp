@@ -161,23 +161,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     global_prefs.write(mf);
     fprintf(f, "</working_global_preferences>\n");
 
-    // send master global preferences if present and not host-specific
-    //
-    if (!global_prefs.host_specific && boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
-        FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
-        if (fprefs) {
-            copy_stream(fprefs, f);
-            fclose(fprefs);
-        }
-        PROJECT* pp = lookup_project(global_prefs.source_project);
-        if (pp && strlen(pp->email_hash)) {
-            fprintf(f,
-                "<global_prefs_source_email_hash>%s</global_prefs_source_email_hash>\n",
-                pp->email_hash
-            );
-        }
-    }
-
     // Of the projects with same email hash as this one,
     // send the oldest cross-project ID.
     // Use project URL as tie-breaker.
