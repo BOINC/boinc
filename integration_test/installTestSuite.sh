@@ -97,7 +97,7 @@ if [ -d "$PREFIX" ]; then
     echo "$PREFIX already exists. Will not clone but use it instead."
 else
     git clone https://github.com/AenBleidd/boinc-server-test.git "${PREFIX}"
-    git checkout -c "${PREFIX}" --track origin/vko_fix_tests
+    git -C "${PREFIX}" checkout --track origin/vko_fix_tests
     if [ $? -ne 0 ]; then exit 1; fi
 fi
 
