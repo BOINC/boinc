@@ -18,11 +18,6 @@
 #if defined(_WIN32)
 #include "boinc_win.h"
 #else
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
@@ -47,6 +42,14 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "util.h"
+
+#if !defined(_WIN32)
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
+#endif
+#endif
 
 #include "coproc.h"
 
