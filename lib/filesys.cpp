@@ -26,11 +26,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <fcntl.h>
 #include <cerrno>
 #include <sys/stat.h>
@@ -70,6 +65,14 @@
 #include "str_util.h"
 #include "str_replace.h"
 #include "error_numbers.h"
+
+#if !defined(_WIN32) || defined(__CYGWIN32__)
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
+#endif
+#endif
 
 #include "filesys.h"
 
