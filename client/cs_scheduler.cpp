@@ -689,7 +689,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         // BAM! currently has mixed http, https; trim off
         char* p = strchr(global_prefs.source_project, '/');
         char* q = strchr(gstate.acct_mgr_info.master_url, '/');
-        if (gstate.acct_mgr_info.using_am() && p && q && !strcmp(p, q)) {
+        if (!global_prefs.override_file_present && gstate.acct_mgr_info.using_am() && p && q && !strcmp(p, q)) {
             if (log_flags.sched_op_debug) {
                 msg_printf(project, MSG_INFO,
                     "[sched_op] ignoring prefs from project; using prefs from AM"

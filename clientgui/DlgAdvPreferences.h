@@ -59,7 +59,7 @@ public:
     void OnHelp(wxCommandEvent& event);
     void OnClear(wxCommandEvent& event);
     void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
-    void EnableDisableInUseItem(wxTextCtrl* textCtrl, bool doEnable, double value);
+    void EnableDisableInUseItem(wxTextCtrl* textCtrl, bool doEnable);
     void EnableDisableInUseItems();
     bool OKToShow() { return m_bOKToShow; }
 private:
