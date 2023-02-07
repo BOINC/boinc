@@ -19,7 +19,7 @@ env:
 jobs:
   build:
     name: ${{ matrix.type }}-build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg, libs-cmake]
@@ -28,6 +28,12 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 2
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository universe
+          sudo apt-get -qq update
+          sudo apt-get install -y libncurses5
 
       - name: Setup Java
         uses: actions/setup-java@v3
