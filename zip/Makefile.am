@@ -10,8 +10,8 @@ AM_CFLAGS += -I$(top_srcdir) -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -
 AM_CXXFLAGS += -I$(top_srcdir) -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -I$(top_srcdir)/lib -DUNIX -DDLL -DUSE_ZIPMAIN -DNO_OFF_T -DNO_CRYPT -DNO_LCHOWN -DNO_LCHMOD -DIZ_PWLEN=80 -Dinflate=inflate_boinc -Ddeflate=deflate_boinc -Dget_crc_table=get_crc_table_boinc -Dlongest_match=longest_match_boinc -Dinflate_codes=inflate_codes_boinc -Dcrc32=crc32_boinc
 
 if OS_WIN32
-AM_CFLAGS += -DFORCE_WIN32_OVER_UNIX
-AM_CXXFLAGS += -DFORCE_WIN32_OVER_UNIX
+AM_CFLAGS += -DFORCE_WIN32_OVER_UNIX -fcommon
+AM_CXXFLAGS += -DFORCE_WIN32_OVER_UNIX -fcommon
 endif
 
 if INSTALL_HEADERS
@@ -43,7 +43,7 @@ boinc_zip.cpp \
     ./zip/z_globals.c \
     ./zip/zip.c \
     ./zip/zipfile.c \
-    ./zip/zipup.c 
+    ./zip/zipup.c
 
 if OS_WIN32
 libboinc_zip_sources += \
@@ -52,7 +52,7 @@ libboinc_zip_sources += \
     ./zip/win32/win32_boinc.c \
     ./zip/win32/win32i64.c \
     ./zip/win32/z_nt.c \
-    ./zip/win32/win32zip.c 
+    ./zip/win32/win32zip.c
 else
 libboinc_zip_sources += \
     ./unzip/unix/unix.c \
