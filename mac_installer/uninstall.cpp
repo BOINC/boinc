@@ -34,7 +34,7 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>   // For stat()
 #include <sys/time.h>
-#include <string.h>
+#include <cstring>
 #include <vector>
 #include <string>
 

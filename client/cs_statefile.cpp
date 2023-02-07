@@ -21,7 +21,7 @@
 #else
 #include "config.h"
 #include <cstring>
-#include <errno.h>
+#include <cerrno>
 #endif
 
 #ifdef __APPLE__

@@ -26,7 +26,7 @@
 #include <ctime>
 #include <cstdio>
 #include <cstring>
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/time.h>
 #include <unistd.h>
 

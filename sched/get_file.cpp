@@ -32,9 +32,9 @@
 #include <unistd.h>
 #endif
 #include <sys/param.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
-#include <time.h>
+#include <ctime>
 
 #include "backend_lib.h"
 #include "filesys.h"

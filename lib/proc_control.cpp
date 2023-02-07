@@ -31,7 +31,7 @@
 #elif HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #elif HAVE_SIGNAL_H
-#include <signal.h>
+#include <csignal>
 #endif
 #endif
 
@@ -47,7 +47,7 @@ using std::vector;
 //#define DEBUG
 
 #ifdef DEBUG
-#include <stdio.h>
+#include <cstdio>
 #endif
 
 static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
@@ -98,9 +98,9 @@ void get_descendants(int pid, vector<int>& pids) {
 //
 int suspend_or_resume_threads(
     vector<int>pids, DWORD calling_thread_id, bool resume, bool check_exempt
-) { 
+) {
     HANDLE threads, thread;
-    THREADENTRY32 te = {0}; 
+    THREADENTRY32 te = {0};
     int retval = 0;
     DWORD n;
     static vector<DWORD> suspended_threads;
@@ -114,16 +114,16 @@ int suspend_or_resume_threads(
     fprintf(stderr, "\n");
 #endif
 
-    threads = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0); 
+    threads = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (threads == INVALID_HANDLE_VALUE) {
         fprintf(stderr, "CreateToolhelp32Snapshot failed\n");
         return -1;
     }
- 
-    te.dwSize = sizeof(THREADENTRY32); 
-    if (!Thread32First(threads, &te)) { 
+
+    te.dwSize = sizeof(THREADENTRY32);
+    if (!Thread32First(threads, &te)) {
         fprintf(stderr, "Thread32First failed\n");
-        CloseHandle(threads); 
+        CloseHandle(threads);
         return -1;
     }
 
@@ -131,7 +131,7 @@ int suspend_or_resume_threads(
         suspended_threads.clear();
     }
 
-    do { 
+    do {
         if (check_exempt && !diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) {
 #ifdef DEBUG
             fprintf(stderr, "thread is exempt\n");
@@ -170,14 +170,14 @@ int suspend_or_resume_threads(
         }
         if (n == -1) retval = -1;
         CloseHandle(thread);
-    } while (Thread32Next(threads, &te)); 
+    } while (Thread32Next(threads, &te));
 
-    CloseHandle (threads); 
+    CloseHandle (threads);
 #ifdef DEBUG
     fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
 #endif
     return retval;
-} 
+}
 
 #else
 

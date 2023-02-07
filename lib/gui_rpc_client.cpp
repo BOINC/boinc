@@ -29,7 +29,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <cstdio>
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
@@ -131,14 +130,14 @@ int RPC_CLIENT::init(const char* host, int port) {
     DWORD dwTime = 30000;
     if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&dwTime,  sizeof dwTime)) {
         // not fatal
-    } 
+    }
 #else
     struct timeval tv;
     tv.tv_sec = 30;
     tv.tv_usec = 0;
     if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,  sizeof tv)) {
         // not fatal
-    } 
+    }
 #endif
     retval = connect(sock, (const sockaddr*)(&addr), addr_len(addr));
     if (retval) {

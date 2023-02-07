@@ -18,7 +18,7 @@
 // daemon to regulate the transition of results from INACTIVE to UNSENT,
 // to maintain a buffer of UNSENT results of each size class.
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "boinc_db.h"
 

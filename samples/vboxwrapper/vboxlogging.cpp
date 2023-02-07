@@ -22,8 +22,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <stdio.h>
-#include <stdarg.h> 
+#include <cstdio>
+#include <cstdarg> 
 #include <cmath>
 #include <ctime>
 #include <string>

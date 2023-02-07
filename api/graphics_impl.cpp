@@ -32,7 +32,7 @@ extern void win_graphics_event_loop();
 #include <cstdarg>
 #include <pthread.h>
 #include <sched.h>
-#include <signal.h>
+#include <csignal>
 #include <sys/resource.h>
 #include "x_opengl.h"
 #endif

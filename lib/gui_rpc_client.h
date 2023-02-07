@@ -36,7 +36,11 @@
 #include <netdb.h>
 #endif
 
+#ifdef __cplusplus
+#include <clocale>
+#else
 #include <locale.h>
+#endif
 
 #include <deque>
 
@@ -494,7 +498,7 @@ struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
     bool have_credentials;
-    
+
     ACCT_MGR_INFO();
 
     int parse(XML_PARSER&);

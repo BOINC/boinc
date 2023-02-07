@@ -32,7 +32,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
-#include <assert.h>
+#include <cassert>
 #include <algorithm>
 #endif
 

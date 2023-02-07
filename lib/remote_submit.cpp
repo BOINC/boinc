@@ -22,10 +22,9 @@
 // http://boinc.berkeley.edu/trac/wiki/RemoteJobs
 
 #include <curl/curl.h>
-#include <stdio.h>
 #include <vector>
 #include <string>
-#include <string.h>
+#include <cstring>
 
 #include "parse.h"
 #include "str_util.h"
@@ -107,7 +106,7 @@ static int do_http_post(
     CURL *curl;
     CURLcode res;
     char buf[256];
-     
+
     curl = curl_easy_init();
     if (!curl) {
         return -1;
@@ -135,7 +134,7 @@ static int do_http_post(
             CURLFORM_END
         );
     }
- 
+
     headerlist = curl_slist_append(headerlist, "Expect:");
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "BOINC Condor adapter");

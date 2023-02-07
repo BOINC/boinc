@@ -18,7 +18,7 @@
 //  mac_branding.cpp
 //
 
-#include <string.h>
+#include <cstring>
 #include "mac_branding.h"
 
 // The strings for these arrays are initialized here rather than in mac_branding.h, to avoid

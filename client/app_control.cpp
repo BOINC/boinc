@@ -48,7 +48,7 @@
 #elif HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #elif HAVE_SIGNAL_H
-#include <signal.h>
+#include <csignal>
 #endif
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>

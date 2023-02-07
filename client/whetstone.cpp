@@ -26,11 +26,11 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 #endif
 
 #include "util.h"

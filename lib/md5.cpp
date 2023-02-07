@@ -39,7 +39,7 @@
  */
 
 #include "md5.h"
-#include <string.h>
+#include <cstring>
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -49,7 +49,7 @@
  * For reference, here is the program that computed the T values.
  */
 #if 0
-#include <math.h>
+#include <cmath>
 main()
 {
     int i;

@@ -93,7 +93,7 @@
 #include <cstdio>
 #include <cstdarg>
 #include <sys/types.h>
-#include <errno.h>
+#include <cerrno>
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/resource.h>

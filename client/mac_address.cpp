@@ -18,7 +18,7 @@
 
 // find a MAC address for this host
 
-#include <string.h>
+#include <cstring>
 
 #if defined(_WIN32)
 #include <boinc_win.h>

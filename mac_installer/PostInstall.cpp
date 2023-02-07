@@ -80,7 +80,7 @@
 #include <netinet/in.h>
 #include <sys/time.h>
 #include <cerrno>
-#include <time.h>       // for time()
+#include <ctime>       // for time()
 #include <vector>
 #include <string>
 #define DLOPEN_NO_WARN

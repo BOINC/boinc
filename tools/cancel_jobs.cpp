@@ -20,7 +20,7 @@
 // cancel_jobs --name wuname
 //    cancel the job with the given name
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "backend_lib.h"
 #include "sched_config.h"

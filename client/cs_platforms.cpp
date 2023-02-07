@@ -28,7 +28,7 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #include "config.h"
 #include <cstdio>
 #include <cstdlib>
-#include <signal.h>
+#include <csignal>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif

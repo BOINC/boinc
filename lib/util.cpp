@@ -49,9 +49,9 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/wait.h>
-#include <signal.h>
+#include <csignal>
 #include <sys/resource.h>
-#include <errno.h>
+#include <cerrno>
 #include <string>
 #include <cstring>
 #include <cmath>

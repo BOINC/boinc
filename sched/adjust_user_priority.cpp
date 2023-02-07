@@ -24,8 +24,8 @@
 //
 // --no_update: don't update DB
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 #include "util.h"
 #include "backend_lib.h"

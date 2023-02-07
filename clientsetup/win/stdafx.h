@@ -84,11 +84,11 @@
 #include <winsafer.h>
 
 // CRT Header Files:
-#include <time.h>
+#include <ctime>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <stdio.h>
-#include <errno.h>
+#include <cstdio>
+#include <cerrno>
 
 // STL Header Files:
 #include <cassert>

@@ -40,15 +40,15 @@
 
 #include <Carbon/Carbon.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <sys/wait.h>    // waitpid
 #include <sys/param.h>  // for MAXPATHLEN
-#include <string.h>
-#include <ctype.h>
+#include <cstring>
+#include <cctype>
 #include <cerrno>
 #include <sys/time.h>
-#include <stdarg.h>
+#include <cstdarg>
 #include <unistd.h>
 #include <pwd.h>    // getpwname, getpwuid, getuid
 #include <spawn.h>

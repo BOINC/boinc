@@ -880,7 +880,7 @@ AC_CHECK_TYPES([socklen_t],[],[],[[
 #include <winhttp.h>
 #endif
 #ifdef HAVE_STDINT_H
-#include <stdint.h>
+#include <cstdint>
 #endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -1004,7 +1004,7 @@ AC_CHECK_FUNCS([ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcas
 
 AC_CHECK_DECLS([_fpreset, fpreset],
     [],[],[[
-#include <stdio.h>
+#include <cstdio>
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
@@ -1012,27 +1012,27 @@ AC_CHECK_DECLS([_fpreset, fpreset],
 # include <sys/stat.h>
 #endif
 #if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
+# include <cstdlib>
+# include <cstddef>
 #else
 # if HAVE_STDLIB_H
-#  include <stdlib.h>
+#  include <cstdlib>
 # endif
 #endif
 #if HAVE_STRING_H
 # if !STDC_HEADERS && HAVE_MEMORY_H
 #  include <memory.h>
 # endif
-# include <string.h>
+# include <cstring>
 #endif
 #if HAVE_STRINGS_H
 # include <strings.h>
 #endif
 #if HAVE_INTTYPES_H
-# include <inttypes.h>
+# include <cinttypes>
 #endif
 #if HAVE_STDINT_H
-# include <stdint.h>
+# include <cstdint>
 #endif
 #if HAVE_UNISTD_H
 # include <unistd.h>
@@ -1041,13 +1041,13 @@ AC_CHECK_DECLS([_fpreset, fpreset],
 #include <windows.h>
 #endif
 #ifdef HAVE_FLOAT_H
-#include <float.h>
+#include <cfloat>
 #endif
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
 #endif
 #ifdef HAVE_MATH_H
-#include <math.h>
+#include <cmath>
 #endif
 ]])
 

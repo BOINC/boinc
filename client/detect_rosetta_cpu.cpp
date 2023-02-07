@@ -20,8 +20,8 @@
 // It writes the feature string of the emulated CPU to a file
 // EMULATED_CPU_INFO_FILENAME in the current working directory.
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <sys/types.h>
 #include <sys/sysctl.h>
 

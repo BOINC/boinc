@@ -34,7 +34,7 @@
 
 #include <cstdio>
 #include <vector>
-#include <string.h>
+#include <cstring>
 
 #include "db_base.h"
 #include "boinc_db_types.h"

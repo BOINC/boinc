@@ -26,14 +26,14 @@
 //
 // Doesn't do checkpointing.
 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <signal.h>
+#include <csignal>
 #include <pthread.h>
 #endif
 

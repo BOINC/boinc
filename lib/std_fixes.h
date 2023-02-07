@@ -77,7 +77,7 @@ o_iterator transform(i_iterator first, i_iterator last, o_iterator res, OP op) {
     (defined(_LARGE_FILES) || (_FILE_OFFSET_BITS==64)) \
   && !defined(_USING_FCGI_) 
 
-#include <stdio.h>
+#include <cstdio>
 #include <fcntl.h>
 
 #undef fopen

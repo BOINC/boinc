@@ -20,7 +20,7 @@
 // usages:
 // vda add path     add a file
 
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include <set>
 #include <sys/resource.h>

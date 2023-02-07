@@ -437,8 +437,8 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_string("device_name", device_name)) continue;
 
         // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
-        // but CC_CONFIG::write() in older clients 
-        // may have written their default values to CONFIG_FILE. 
+        // but CC_CONFIG::write() in older clients
+        // may have written their default values to CONFIG_FILE.
         // Silently skip them if present.
         //
         if (xp.parse_string("client_download_url", s)) continue;

@@ -18,7 +18,7 @@
 #ifndef BOINC_BACKEND_LIB_H
 #define BOINC_BACKEND_LIB_H
 
-#include <limits.h>
+#include <climits>
 
 #include "crypt.h"
 #include "sched_config.h"

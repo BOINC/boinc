@@ -27,9 +27,9 @@
 #include <CL/opencl.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 #include <cstdlib>
 #include <iostream>
 #include <string>

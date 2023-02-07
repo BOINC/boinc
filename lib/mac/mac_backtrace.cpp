@@ -68,12 +68,12 @@
 #include <mach-o/stab.h>
 #include <mach-o/arch.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>     // for getpid()
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <time.h>
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
+#include <ctime>
 
 #include "QSymbols.h"
 #include "QMachOImageList.h"

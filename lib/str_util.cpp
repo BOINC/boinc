@@ -27,10 +27,10 @@
 #include <sstream>
 #include <string>
 #include <cmath>
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstring>
+#include <ctime>
+#include <cstdlib>
+#include <cctype>
 #endif
 
 #ifdef _USING_FCGI_

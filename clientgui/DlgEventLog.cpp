@@ -39,7 +39,7 @@
 #include "DlgDiagnosticLogFlags.h"
 
 #ifdef __WXMAC__
-#include <time.h>
+#include <ctime>
 #endif
 
 ////@begin includes

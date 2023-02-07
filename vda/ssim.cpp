@@ -48,7 +48,7 @@
 //      download_mean
 
 #include <set>
-#include <limits.h>
+#include <climits>
 #include <cmath>
 #include <sys/types.h>
 #include <unistd.h>

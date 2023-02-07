@@ -42,9 +42,9 @@
 
 #if VERBOSE
 #include <cstring>
-#include <time.h>
-#include <stdlib.h>
-#include <stdarg.h>
+#include <ctime>
+#include <cstdlib>
+#include <cstdarg>
 
 #ifdef __cplusplus
 extern "C" {

@@ -21,7 +21,7 @@
 #include <cstring>
 #include <cerrno>
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 
 #include "unix_util.h"
 
@@ -106,8 +106,6 @@ int setenv(const char *name, const char *value, int overwrite) {
 
 #ifndef HAVE_DAEMON
 
-#include <cstdio>
-#include <cstdlib>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -143,9 +141,9 @@ int daemon(int nochdir, int noclose) {
         // setsid() failed
         return -1;
     }
- 
+
     // success
     return 0;
-}    
+}
 
 #endif /* !HAVE_DAEMON */

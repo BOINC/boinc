@@ -23,7 +23,7 @@ Environment:
 
 #include "stdafx.h"
 #include <windows.h>
-#include <stdio.h>
+#include <cstdio>
 #include <conio.h>
 #include <tchar.h>
 #include "ntsecapi.h"

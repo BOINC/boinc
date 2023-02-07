@@ -19,7 +19,6 @@
 #define BOINC_APP_IPC_H
 
 #ifdef __cplusplus
-
 #include <vector>
 #include <string>
 #include <cstdio>

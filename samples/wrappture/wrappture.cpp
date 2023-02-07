@@ -23,7 +23,7 @@
 // - parse the app's stdout (in a separate thread);
 //      look for "progress markers", convert to fraction done
 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #include <string>
 #ifdef _WIN32

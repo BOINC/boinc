@@ -27,7 +27,11 @@ typedef signed   __int64        cl_long;
 typedef unsigned __int64        cl_ulong;
 typedef unsigned __int16        cl_half;
 #else /* !_WIN32 */
+#ifdef __cplusplus
+#include <cstdint>
+#else
 #include <stdint.h>
+#endif
 typedef int8_t    cl_char;
 typedef uint8_t   cl_uchar;
 typedef int16_t   cl_short;

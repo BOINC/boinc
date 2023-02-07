@@ -26,7 +26,7 @@
 // and it will compare those two output files
 // (this only works if your functions expect 1 file per result)
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "svn_version.h"
 #include "sched_util_basic.h"

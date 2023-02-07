@@ -61,28 +61,28 @@
 
 #ifndef HAVE_STD_MAX
 #define HAVE_STD_MAX 1
-#endif 
+#endif
 
 #ifndef HAVE_STD_MIN
 #define HAVE_STD_MIN 1
-#endif 
+#endif
 
 #ifndef HAVE_STD_TRANSFORM
 #define HAVE_STD_TRANSFORM 1
-#endif 
+#endif
 
 #ifndef HAVE_ALLOCA
 #define HAVE_ALLOCA 1
-#endif 
+#endif
 
 #ifdef __MINGW32__
 #define HAVE_STRCASECMP 1
 #endif
 
-/* 
+/*
  * WINSOCK vs WINSOCK2 could be an issue in compiles because we include multiple
- * packages that have the same choice.  The wx currently packed with BOINC 
- * uses WINSOCK, so we have to not include WINSOCK2 by undefining 
+ * packages that have the same choice.  The wx currently packed with BOINC
+ * uses WINSOCK, so we have to not include WINSOCK2 by undefining
  * HAVE_WINSOCK2_H.  That limits what CURL in its header file as well.  We might
  * need something more complicated if CURL and wxWidgets decide to go in
  * opposite directions.
@@ -165,10 +165,15 @@
 #endif
 
 #ifndef HAVE_SOCKLEN_T
+#ifdef _cplusplus
+#include <cstddef>
+#else
+#include <stddef.h>
+#endif
 typedef size_t socklen_t;
 #endif
 
-#else 
+#else
 
 /* Under cygwin, curl was probably compiled to use <sys/socket.h> */
 #include <unistd.h>
@@ -263,7 +268,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <crtdbg.h>
 #endif
 
-#if defined(HAVE_DELAYIMP_H) 
+#if defined(HAVE_DELAYIMP_H)
 #include <delayimp.h>
 #endif
 

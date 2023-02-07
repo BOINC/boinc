@@ -32,7 +32,7 @@
 #include <resolv.h>
 #include <netdb.h>
 #include <fcntl.h>
-#include <errno.h>
+#include <cerrno>
 #endif
 
 #include "error_numbers.h"

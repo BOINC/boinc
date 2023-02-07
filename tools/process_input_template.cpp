@@ -20,7 +20,7 @@
 // by scanning the input template, macro-substituting the input files,
 // and putting in the command line element and additional XML
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <sys/types.h>
 #include <sys/stat.h>

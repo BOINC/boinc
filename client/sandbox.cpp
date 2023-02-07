@@ -24,12 +24,12 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include <errno.h>
+#include <cerrno>
 #include <fcntl.h> 
 #include <unistd.h>
 #include <grp.h>
 #include <pwd.h>
-#include <stdlib.h>
+#include <cstdlib>
 #endif
 
 #include "error_numbers.h"

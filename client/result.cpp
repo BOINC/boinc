@@ -19,7 +19,7 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <math.h>
+#include <cmath>
 #endif
 
 #include "str_replace.h"

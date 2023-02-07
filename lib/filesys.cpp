@@ -26,11 +26,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <fcntl.h>
 #include <cerrno>
 #include <sys/stat.h>
@@ -583,7 +578,11 @@ int dir_size_alloc(const char* dirpath, double& size, bool recurse) {
     return 0;
 }
 
+#ifdef _USING_FCGI_
+FCGI_FILE* boinc_fopen(const char* path, const char* mode) {
+#else
 FILE* boinc_fopen(const char* path, const char* mode) {
+#endif
     // if opening for read, and file isn't there,
     // leave now (avoid 5-second delay!!)
     //
@@ -627,10 +626,17 @@ FILE* boinc_fopen(const char* path, const char* mode) {
         }
     }
     if (f) {
+#ifdef _USING_FCGI_
+        if (-1 == fcntl(FCGI::fileno(f), F_SETFD, FD_CLOEXEC)) {
+            FCGI::fclose(f);
+            return 0;
+        }
+#else
         if (-1 == fcntl(fileno(f), F_SETFD, FD_CLOEXEC)) {
             fclose(f);
             return 0;
         }
+#endif
     }
 #endif
     return f;
@@ -681,7 +687,11 @@ int boinc_touch_file(const char *path) {
     FCGI_FILE *fp = FCGI::fopen(path, "w");
 #endif
     if (fp) {
+#ifndef _USING_FCGI_
         fclose(fp);
+#else
+        FCGI::fclose(fp);
+#endif
         return 0;
     }
     return -1;
@@ -698,14 +708,18 @@ int boinc_copy(const char* orig, const char* newf) {
     snprintf(cmd, sizeof(cmd), "copy \"%s\" \"%s\"", orig, newf);
     return system(cmd);
 #else
-    // POSIX requires that shells run from an application will use the 
-    // real UID and GID if different from the effective UID and GID.  
-    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
-    // system() invokes a shell, it may not properly copy the file's 
-    // ownership or permissions when called from the BOINC Client 
+    // POSIX requires that shells run from an application will use the
+    // real UID and GID if different from the effective UID and GID.
+    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since
+    // system() invokes a shell, it may not properly copy the file's
+    // ownership or permissions when called from the BOINC Client
     // under sandbox security, so we copy the file directly.
     //
+#ifdef _USING_FCGI_
+    FCGI_FILE *src, *dst;
+#else
     FILE *src, *dst;
+#endif
     int m, n;
     int retval = 0;
     unsigned char buf[65536];
@@ -713,35 +727,60 @@ int boinc_copy(const char* orig, const char* newf) {
     if (!src) return ERR_FOPEN;
     dst = boinc_fopen(newf, "w");
     if (!dst) {
+#ifdef _USING_FCGI_
+        FCGI::fclose(src);
+#else
         fclose(src);
+#endif
         return ERR_FOPEN;
     }
     while (1) {
+#ifdef _USING_FCGI_
+        n = FCGI::fread(buf, 1, sizeof(buf), src);
+#else
         n = fread(buf, 1, sizeof(buf), src);
+#endif
         if (n <= 0) {
             // could be either EOF or an error.
             // Check for error case.
             //
+#ifdef _USING_FCGI_
+            if (!FCGI::feof(src)) {
+#else
             if (!feof(src)) {
+#endif
                 retval = ERR_FREAD;
             }
             break;
         }
+#ifdef _USING_FCGI_
+        m = FCGI::fwrite(buf, 1, n, dst);
+#else
         m = fwrite(buf, 1, n, dst);
+#endif
         if (m != n) {
             retval = ERR_FWRITE;
             break;
         }
     }
+#ifdef _USING_FCGI_
+    if (FCGI::fclose(src)){
+       FCGI::fclose(dst);
+       return ERR_FCLOSE;
+    }
+    if (FCGI::fclose(dst)){
+       return ERR_FCLOSE;
+    }
+#else
     if (fclose(src)){
        fclose(dst);
        return ERR_FCLOSE;
     }
-
     if (fclose(dst)){
        return ERR_FCLOSE;
     }
     return retval;
+#endif
 #endif
 }
 
@@ -945,7 +984,7 @@ void boinc_getcwd(char* path) {
 #ifdef _WIN32
     getcwd(path, MAXPATHLEN);
 #else
-    char* p 
+    char* p
 #ifdef __GNUC__
       __attribute__ ((unused))
 #endif

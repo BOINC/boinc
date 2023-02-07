@@ -18,7 +18,7 @@
 #ifndef BOINC_SCHED_SEND_H
 #define BOINC_SCHED_SEND_H
 
-#include <string.h>
+#include <cstring>
 
 #include "boinc_db.h"
 #include "sched_shmem.h"

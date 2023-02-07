@@ -17,7 +17,7 @@
 
 #include "gtest/gtest.h"
 #include "util.h"
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 

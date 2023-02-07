@@ -27,9 +27,9 @@
 // vboxwrapper dumps the last 16k of the guest log to the stderr log
 // which is uploaded to the project server.
 
-#include <stdio.h>
+#include <cstdio>
 #include <sys/io.h>
-#include <errno.h>
+#include <cerrno>
 #include <iostream>
 #include <string>
 

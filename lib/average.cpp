@@ -18,7 +18,7 @@
 #include "average.h"
 
 #if 0
-#include <stdio.h>
+#include <cstdio>
 #include "util.h"
 int main() {
     AVERAGE_VAR avg;

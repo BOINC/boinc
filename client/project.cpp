@@ -18,7 +18,7 @@
 #include <boinc_win.h>
 #endif
 
-#include <string.h>
+#include <cstring>
 #include "str_replace.h"
 #include "url.h"
 #include "client_msgs.h"

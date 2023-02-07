@@ -39,7 +39,7 @@
 // 8) run the old core client and/or manager
 
 
-#include <stdio.h>
+#include <cstdio>
 #ifdef _WIN32
 #else
 #include <unistd.h>

@@ -76,8 +76,8 @@ dnl
       rm -f conf.gtktest
       AC_TRY_RUN([
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 int 
 main ()
@@ -169,7 +169,7 @@ main ()
           LIBS="$LIBS $GTK_LIBS"
           AC_TRY_LINK([
 #include <gtk/gtk.h>
-#include <stdio.h>
+#include <cstdio>
 ],      [ return ((gtk_major_version) || (gtk_minor_version) || (gtk_micro_version)); ],
         [ echo "*** The test program compiled, but did not run. This usually means"
           echo "*** that the run-time linker is not finding GTK+ or finding the wrong"

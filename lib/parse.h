@@ -18,10 +18,17 @@
 #ifndef BOINC_PARSE_H
 #define BOINC_PARSE_H
 
+#ifdef _cplusplus
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
+#else
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#endif
 
 #include "miofile.h"
 #include "error_numbers.h"

@@ -18,10 +18,10 @@
 // Code that's shared by the simulator, vda, and vdad
 
 #include <algorithm>
-#include <limits.h>
+#include <climits>
 #include <cmath>
 #include <set>
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 
 #include "vda_lib.h"

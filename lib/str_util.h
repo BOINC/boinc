@@ -20,7 +20,7 @@
 
 #include <string>
 #include <vector>
-#include <string.h>
+#include <cstring>
 
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 #define safe_strcat(x, y) strlcat(x, y, sizeof(x))

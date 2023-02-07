@@ -31,7 +31,7 @@
 #endif
 
 #ifdef ANDROID
-#include <stdlib.h>
+#include <cstdlib>
 #endif
 
 #include "error_numbers.h"
@@ -49,7 +49,7 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
 #ifndef _USING_FCGI_
     FILE *f = fopen(path, "rb");
 #else
-    FILE *f = FCGI::fopen(path, "rb");
+    FCGI_FILE *f = FCGI::fopen(path, "rb");
 #endif
     if (!f) {
         fprintf(stderr, "md5_file: can't open %s\n", path);
@@ -66,20 +66,36 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
     // check and skip gzip header if needed
     //
     if (is_gzip) {
+#ifdef _USING_FCGI_
+        n = (int)FCGI::fread(buf, 1, 10, f);
+#else
         n = (int)fread(buf, 1, 10, f);
+#endif
         if (n != 10) {
+#ifdef _USING_FCGI_
+            FCGI::fclose(f);
+#else
             fclose(f);
+#endif
             return ERR_BAD_FORMAT;
         }
         if (buf[0] != 0x1f || buf[1] != 0x8b || buf[2] != 0x08) {
+#ifdef _USING_FCGI_
+            FCGI::fclose(f);
+#else
             fclose(f);
+#endif
             return ERR_BAD_FORMAT;
-        } 
+        }
         nbytes = 10;
     }
 
     while (1) {
+#ifdef _USING_FCGI_
+        n = (int)FCGI::fread(buf, 1, 4096, f);
+#else
         n = (int)fread(buf, 1, 4096, f);
+#endif
         if (n<=0) break;
         nbytes += n;
         md5_append(&state, buf, n);
@@ -89,7 +105,11 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
         sprintf(output+2*i, "%02x", binout[i]);
     }
     output[32] = 0;
+#ifdef _USING_FCGI_
+    FCGI::fclose(f);
+#else
     fclose(f);
+#endif
     return 0;
 }
 
@@ -126,7 +146,7 @@ int make_secure_random_string_os(char* out) {
     char buf[256];
 #ifdef _WIN32
     HCRYPTPROV hCryptProv;
-        
+
     if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {
         if (GetLastError() == NTE_BAD_KEYSET) {
             if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET)) {
@@ -136,12 +156,12 @@ int make_secure_random_string_os(char* out) {
             return -2;
         }
     }
-    
+
     if(! CryptGenRandom(hCryptProv, (DWORD) 32, (BYTE *) buf)) {
         CryptReleaseContext(hCryptProv, 0);
         return -3;
     }
-        
+
     CryptReleaseContext(hCryptProv, 0);
 #elif defined ANDROID
     return -1;
@@ -149,13 +169,18 @@ int make_secure_random_string_os(char* out) {
 #ifndef _USING_FCGI_
     FILE* f = fopen("/dev/random", "r");
 #else
-    FILE* f = FCGI::fopen("/dev/random", "r");
+    FCGI_FILE* f = FCGI::fopen("/dev/random", "r");
 #endif
     if (!f) {
         return -1;
     }
+#ifdef _USING_FCGI_
+    size_t n = FCGI::fread(buf, 32, 1, f);
+    FCGI::fclose(f);
+#else
     size_t n = fread(buf, 32, 1, f);
     fclose(f);
+#endif
     if (n != 1) return -2;
 #endif
     md5_block((const unsigned char*)buf, 32, out);

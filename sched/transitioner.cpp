@@ -34,7 +34,7 @@
 #include <climits>
 #include <cstdlib>
 #include <string>
-#include <signal.h>
+#include <csignal>
 #include <sys/time.h>
 #include <sys/param.h>
 

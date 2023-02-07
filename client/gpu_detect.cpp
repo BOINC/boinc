@@ -61,8 +61,8 @@
 #include "win_util.h"
 #else
 #include "config.h"
-#include <setjmp.h>
-#include <signal.h>
+#include <csetjmp>
+#include <csignal>
 #include <sys/types.h>
 #include <sys/wait.h>
 #endif

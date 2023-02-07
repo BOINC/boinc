@@ -17,7 +17,7 @@
 
 // utility functions for keywords
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "parse.h"
 #include "keyword.h"

@@ -31,13 +31,13 @@
 #endif
 
 #include <cstdio>
-#include <string.h>
+#include <cstring>
 #include <sys/param.h>
-#include <ctype.h>
+#include <cctype>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <dirent.h>
-#include <signal.h>
+#include <csignal>
 
 #if HAVE_UNISTD_H
 #include <unistd.h>

@@ -18,7 +18,11 @@
 #ifndef BOINC_BOINC_API_H
 #define BOINC_BOINC_API_H
 
-#include <stddef.h>     // for NULL
+#ifdef __cplusplus
+#include <cstddef>     // for NULL
+#else
+#include <stddef.h>    // for NULL
+#endif
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -123,7 +127,7 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 } // extern "C" {
 #endif
 
-// C++ API follows 
+// C++ API follows
 #ifdef __cplusplus
 #include <string>
 

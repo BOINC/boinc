@@ -23,9 +23,17 @@
 #else
 #include <dirent.h>
 #include <grp.h>
-#include <stdio.h>
 #include <sys/types.h>
 #include <sys/param.h>
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#ifdef __cplusplus
+#include <cstdio>
+#else
+#include <stdio.h>
+#endif
+#endif
 #ifdef __cplusplus
 #include <string>
 #endif
@@ -50,7 +58,11 @@ extern "C" {
 #endif
     extern int boinc_delete_file(const char*);
     extern int boinc_touch_file(const char *path);
+#ifdef _USING_FCGI_
+    extern FCGI_FILE* boinc_fopen(const char* path, const char* mode);
+#else
     extern FILE* boinc_fopen(const char* path, const char* mode);
+#endif
         // like fopen(), except:
         // retry a few times on failure
         // Unix: set close-on-exec flag

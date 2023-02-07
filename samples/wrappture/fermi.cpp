@@ -1,7 +1,7 @@
 // fermi.cpp -- core calculation of Rappture example app-fermi
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <cmath>
 #include <unistd.h>
 

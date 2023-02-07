@@ -22,7 +22,7 @@
 // cmdline: in1 out1 ... inn outn
 //
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "boinc_api.h"
 #include "filesys.h"

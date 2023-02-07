@@ -22,7 +22,11 @@
 
 #ifndef _WIN32
 #include <sys/types.h>
+#ifdef __cplusplus
+#include <cctype>
+#else
 #include <ctype.h>
+#endif
 #endif
 
 #include "config.h"

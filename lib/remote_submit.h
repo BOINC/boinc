@@ -21,7 +21,7 @@
 #ifndef BOINC_REMOTE_SUBMIT_H
 #define BOINC_REMOTE_SUBMIT_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <map>

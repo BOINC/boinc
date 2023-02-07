@@ -22,7 +22,7 @@
 #ifndef _STATS_
 #define _STATS_
 
-#include <stdio.h>
+#include <cstdio>
 
 typedef enum {DISK, NETWORK, FAULT_TOLERANCE} STATS_KIND;
 

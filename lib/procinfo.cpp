@@ -25,8 +25,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <string.h>
-#include <signal.h>
+#include <cstring>
+#include <csignal>
 #endif
 
 #include "util.h"

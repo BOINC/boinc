@@ -21,7 +21,7 @@
 #include <algorithm>
 #include <deque>
 #include <string>
-#include <string.h>
+#include <cstring>
 
 #include "client_types.h"
 #include "common_defs.h"

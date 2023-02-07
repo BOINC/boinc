@@ -20,7 +20,7 @@
 // which is a list of regular expressions for names of files to be deleted.
 
 #include <regex.h>
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #include <string>
 

@@ -24,8 +24,8 @@
 // You must first run html/ops/credit_test.php to create a data file
 //
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 #include "sched_config.h"
 #include "sched_customize.h"

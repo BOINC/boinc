@@ -21,16 +21,16 @@
 // - This is currently Unix-only (mostly because of its use of pthreads)
 //   but with some work it could be made to run on Windows
 
-#include <stdio.h>
+#include <cstdio>
 #include <pthread.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <unistd.h>
-#include <string.h>
+#include <cstring>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
-#include <time.h>
+#include <ctime>
 
 #include "str_util.h"
 #include "md5_file.h"

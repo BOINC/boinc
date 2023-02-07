@@ -18,7 +18,7 @@
 #ifndef BOINC_UTIL_H
 #define BOINC_UTIL_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include <vector>
 

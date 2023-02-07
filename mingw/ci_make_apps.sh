@@ -13,7 +13,7 @@ export VCPKG_DIR="$VCPKG_ROOT/installed/x64-mingw-static"
 export CXX="x86_64-w64-mingw32-g++"
 export CC="x86_64-w64-mingw32-gcc"
 # condor
-export MINGW_FLAGS="-Dflockfile=_lock_file -Dfunlockfile=_unlock_file"
+export MINGW_FLAGS="-Dflockfile=_lock_file -Dfunlockfile=_unlock_file -fcommon"
 export CURL_EXTRA_LDFLAGS="-lcurl -lwinmm -lpthread -lssl -lcrypto -lws2_32 -lzlib -ladvapi32 -lcrypt32"
 # wrapper
 export MINGW_WRAPPER_FLAGS="-DEINSTEINATHOME_CROSS_BUILD -DMINGW_WIN32 -DHAVE_STRCASECMP -D_WINDOWS -D_WIN32 -DWIN32 -DWINVER=0x0500 -D_WIN32_WINNT=0x0500 -D_MT -DBOINC -DNODB -D_CONSOLE -fexceptions"

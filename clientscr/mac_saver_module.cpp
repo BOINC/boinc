@@ -34,13 +34,13 @@ extern "C" {
 }    // extern "C"
 #endif
 
-#include <stdio.h>
-#include <time.h>
+#include <cstdio>
+#include <ctime>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <unistd.h>
-#include <limits.h>
+#include <climits>
 #include <sys/stat.h>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <pthread.h>

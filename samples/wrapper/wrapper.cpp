@@ -45,7 +45,7 @@
 #ifndef _WIN32
 #include "config.h"
 #endif
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #include <string>
 #include <algorithm>

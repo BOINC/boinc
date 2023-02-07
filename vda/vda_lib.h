@@ -22,8 +22,8 @@
 
 #include <set>
 #include <vector>
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 #include "boinc_db.h"
 

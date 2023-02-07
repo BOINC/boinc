@@ -13,8 +13,8 @@
 
 #include "rappture.h"
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <cmath>
 #ifndef _WIN32
 #include <unistd.h>

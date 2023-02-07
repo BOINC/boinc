@@ -26,10 +26,10 @@
 //
 // THIS PROGRAM SHOULDN'T USE ANY BOINC CODE.  That's the whole point.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
 
 // do a billion floating-point ops
 // (note: I needed to add an arg to this;

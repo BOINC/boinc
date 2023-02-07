@@ -32,7 +32,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <errno.h>
+#include <cerrno>
 #include <unistd.h>
 #include <ctime>
 #include <vector>

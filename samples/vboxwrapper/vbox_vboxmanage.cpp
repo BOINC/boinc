@@ -28,8 +28,8 @@
 #include <sys/resource.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <string>
 #include <fstream>

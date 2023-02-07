@@ -29,7 +29,7 @@
 #import <Cocoa/Cocoa.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <pthread.h>
 
 #include "gui_rpc_client.h"
@@ -250,12 +250,12 @@ int main(int argc, char* argv[]) {
 // print_to_log_file.c
 
 #if CREATE_LOG
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstdarg>
 
-#include <time.h>
-#include <string.h>
+#include <ctime>
+#include <cstring>
 
 #ifdef unix
 //#include <unistd.h>

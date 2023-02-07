@@ -53,7 +53,7 @@
 #endif
 #include <pwd.h>	// getpwuid
 #include <grp.h>
-#include <signal.h> // For kill()
+#include <csignal> // For kill()
 #include <pthread.h>
 
 #include "boinc_api.h"

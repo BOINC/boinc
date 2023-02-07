@@ -19,7 +19,6 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
 #include <cstring>

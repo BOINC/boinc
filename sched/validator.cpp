@@ -55,7 +55,7 @@
 #include <vector>
 #include <cstdlib>
 #include <string>
-#include <signal.h>
+#include <csignal>
 
 #include "boinc_db.h"
 #include "util.h"

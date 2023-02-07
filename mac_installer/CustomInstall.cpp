@@ -34,7 +34,7 @@ Directions for creating a customized installer for the Macintosh:
 #include <Carbon/Carbon.h>
 
 #include <curl/curl.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "error_numbers.h"
 #include "filesys.h"

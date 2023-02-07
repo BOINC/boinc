@@ -20,10 +20,10 @@
 #else
 #include "config.h"
 #include <string>
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cctype>
+#include <cstdlib>
 #endif
 
 #include "str_util.h"

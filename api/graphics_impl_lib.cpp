@@ -38,7 +38,7 @@ int boinc_is_standalone() {
 // The following is a duplicate of function in boinc_api.C
 
 #include <sys/types.h>
-#include <signal.h>
+#include <csignal>
 #include <pthread.h>
 #ifndef _WIN32
 // block SIGALRM, so that the worker thread will be forced to handle it

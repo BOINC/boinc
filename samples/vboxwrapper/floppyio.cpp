@@ -44,7 +44,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <string.h>
+#include <cstring>
 #endif
 
 #include "util.h"

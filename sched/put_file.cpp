@@ -23,9 +23,9 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
-#include <time.h>
+#include <ctime>
 
 #include "backend_lib.h"
 #include "md5_file.h"

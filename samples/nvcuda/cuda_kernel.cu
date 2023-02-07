@@ -24,9 +24,9 @@
 // When VERIFY is defined, the sum of squared errors is calculated between the
 // identity matrix and the product A * incerse(A). For debugging...
 //#define VERIFY 1
-#include <stdio.h>
+#include <cstdio>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 #include "cuda_config.h"
 
 __global__ void GEStep1A(REAL * AI, int i, int n2, int lda2) {

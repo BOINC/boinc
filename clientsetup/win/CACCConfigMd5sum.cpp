@@ -21,8 +21,8 @@
 #include "stdafx.h"
 #include "boinccas.h"
 #include "CACCConfigMd5sum.h"
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 
 #define CUSTOMACTION_NAME               _T("CACCConfigMd5sum")
 #define CUSTOMACTION_PROGRESSTITLE      _T("Obtain the md5sum of the current cc_config.xml file.")

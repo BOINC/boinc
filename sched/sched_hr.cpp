@@ -20,7 +20,7 @@
 #include "config.h"
 #include <ctime>
 #include <cstdio>
-#include <stdlib.h>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 

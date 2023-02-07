@@ -24,7 +24,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
-#include <string.h>
+#include <cstring>
 #endif
 
 #include "crypt.h"

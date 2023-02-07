@@ -18,7 +18,11 @@
 #ifndef BOINC_NETWORK_H
 #define BOINC_NETWORK_H
 
+#ifdef _cplusplus
+#include <cstring>
+#else
 #include <string.h>
+#endif
 #ifdef _WIN32
 #include "boinc_win.h"
 // WxWidgets can't deal with modern network code (winsock2.h)

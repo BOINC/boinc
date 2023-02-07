@@ -38,9 +38,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
-#include <time.h>
-#include <errno.h>
-#include <string.h>
+#include <ctime>
+#include <cerrno>
+#include <cstring>
 #include "zlib.h"
 
 #include "boinc_db.h"

@@ -18,12 +18,12 @@
 #ifndef BOINC_MSG_LOG_H
 #define BOINC_MSG_LOG_H
 
-#include <cstdio>
-#include <cstdarg>
-
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
+#else
+#include <cstdio>
 #endif
+#include <cstdarg>
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler
 // do like-checking on printf-like arguments

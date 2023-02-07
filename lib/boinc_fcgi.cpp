@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // This file is an attempt to fix some of the epidemic build problems
-// caused by libraries redefining the C stdio.h functions that has struck.  
-// It's far better to use overloads in a C++ namespace to fix these issues 
+// caused by libraries redefining the C stdio.h functions that has struck.
+// It's far better to use overloads in a C++ namespace to fix these issues
 // for a variety of reasons.
 
 #include <cstring>
@@ -26,12 +26,12 @@
 
 namespace FCGI {
 
-FCGI_FILE *fopen(const char *path, const char *mode) { 
-    return FCGI_fopen(path,mode); 
+FCGI_FILE *fopen(const char *path, const char *mode) {
+    return FCGI_fopen(path,mode);
 }
 
-FCGI_FILE *freopen(const char *path, const char *mode, FCGI_FILE *file) { 
-    return FCGI_freopen(path,mode,file); 
+FCGI_FILE *freopen(const char *path, const char *mode, FCGI_FILE *file) {
+    return FCGI_freopen(path,mode,file);
 }
 
 int fflush(FCGI_FILE *file) {
@@ -95,6 +95,10 @@ int ferror(FCGI_FILE *f) {
 
 void perror(const char *s) {
     return FCGI_perror(s);
+}
+
+int fileno(FCGI_FILE *f) {
+    return FCGI_fileno(f);
 }
 
 } // end of namespace FCGI

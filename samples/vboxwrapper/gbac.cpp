@@ -3,7 +3,7 @@
 #include "boinc_win.h"
 #include "win_util.h"
 #else
-#include <stdio.h>
+#include <cstdio>
 #endif
 
 #include <iostream>

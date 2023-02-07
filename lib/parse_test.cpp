@@ -1,6 +1,6 @@
 // test program for XML parser
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 
 using std::string;
