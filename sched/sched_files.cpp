@@ -24,6 +24,13 @@
 #include <vector>
 #include <string>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_types.h"
