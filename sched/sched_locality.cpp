@@ -29,12 +29,18 @@
 #include <ctime>
 #include <vector>
 
-#include <cstdio>
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
 #include <glob.h>
 #include <sys/stat.h>
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "boinc_db.h"
 #include "error_numbers.h"
