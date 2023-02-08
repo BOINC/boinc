@@ -20,15 +20,8 @@
 
 #include "config.h"
 
-
 #include <sys/param.h>
 #include <unistd.h>
-
-#include "backend_lib.h"
-#include "boinc_db.h"
-#include "crypt.h"
-#include "error_numbers.h"
-#include "filesys.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
@@ -36,6 +29,12 @@ using namespace FCGI;
 #else
 #include <cstdio>
 #endif
+
+#include "backend_lib.h"
+#include "boinc_db.h"
+#include "crypt.h"
+#include "error_numbers.h"
+#include "filesys.h"
 
 #include "sched_check.h"
 #include "sched_main.h"
