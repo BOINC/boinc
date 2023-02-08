@@ -18,6 +18,13 @@
 // logic for handling limits on numbers of jobs in progress per client.
 // See http://boinc.berkeley.edu/trac/wiki/ProjectOptions#Joblimits
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "sched_main.h"
 
 #include "sched_limit.h"
