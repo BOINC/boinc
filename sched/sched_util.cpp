@@ -20,6 +20,13 @@
 #include "config.h"
 #include <ctime>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "boinc_db.h"
 #include "sched_util.h"
 
