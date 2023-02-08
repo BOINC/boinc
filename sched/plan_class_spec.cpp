@@ -20,6 +20,13 @@
 
 #include <cmath>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "util.h"
 #include "coproc.h"
 
@@ -157,7 +164,7 @@ int PLAN_CLASS_SPECS::parse_file(const char* path) {
 }
 
 bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
-    if (min_opencl_version && opencl_prop.opencl_device_version_int 
+    if (min_opencl_version && opencl_prop.opencl_device_version_int
         && min_opencl_version > opencl_prop.opencl_device_version_int
     ) {
         if (config.debug_version_select) {
@@ -169,7 +176,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (max_opencl_version && opencl_prop.opencl_device_version_int 
+    if (max_opencl_version && opencl_prop.opencl_device_version_int
         && max_opencl_version < opencl_prop.opencl_device_version_int
     ) {
         if (config.debug_version_select) {
@@ -181,7 +188,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int
         && min_opencl_driver_revision > opencl_prop.opencl_driver_revision
     ) {
         if (config.debug_version_select) {
@@ -193,7 +200,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int
         && max_opencl_driver_revision < opencl_prop.opencl_driver_revision
     ) {
         if (config.debug_version_select) {
@@ -682,8 +689,8 @@ bool PLAN_CLASS_SPEC::check(
             }
             return false;
         }
-        
-        // in analogy to ATI/AMD 
+
+        // in analogy to ATI/AMD
         driver_version=cp.display_driver_version;
 
         if (min_gpu_ram_mb) {
@@ -903,7 +910,7 @@ bool PLAN_CLASS_SPEC::check(
                 hu.avg_ncpus = avg_ncpus;
             }
             // I believe the first term here is just hu.projected_flops,
-            // but I'm leaving it spelled out to match GPU scheduling 
+            // but I'm leaving it spelled out to match GPU scheduling
             // code in sched_customize.cpp
             //
             hu.peak_flops = gpu_peak_flops_scale*gpu_usage*cpp->peak_flops
