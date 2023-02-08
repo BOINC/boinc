@@ -24,6 +24,13 @@
 #include <cstdarg>
 #endif
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "error_numbers.h"
 #include "str_replace.h"
 
