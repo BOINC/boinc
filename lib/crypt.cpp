@@ -41,6 +41,7 @@
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
+using namespace FCGI;
 #endif
 
 #include "md5_file.h"
@@ -105,7 +106,7 @@ int scan_raw_data(FILE *f, DATA_BLOCK& x) {
         x.data[i]=j;
         i++;
     }
-    x.len = i;    
+    x.len = i;
     return 0;
 }
 
@@ -644,14 +645,14 @@ int check_validity_of_cert(
         X509_STORE_CTX_free(ctx);
     }
     X509_STORE_free(store);
-    
+
     if (retval != 1) {
         fprintf(stderr,
             "%s: ERROR: Cannot verify certificate ('%s')\n",
             time_to_string(dtime()), cFile
         );
         return 0;
-    }        
+    }
     pubKey = X509_get_pubkey(cert);
     if (!pubKey) {
         X509_free(cert);
@@ -744,7 +745,7 @@ char *check_validity(
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
         snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
-        // TODO : replace '128'  
+        // TODO : replace '128'
         if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
             dir_close(dir);
             return strdup(fpath);
@@ -804,7 +805,7 @@ int cert_verify_file(
             FILE *f = fopen(fbuf, "r");
 #else
             FCGI_FILE *f = FCGI::fopen(fbuf, "r");
-#endif 
+#endif
             if (f==NULL)
                 break;
             fclose(f);
@@ -827,9 +828,9 @@ int cert_verify_file(
                 printf("Subject does not match ('%s' <-> '%s')\n", buf, signatures->signatures.at(i).subject);
                 file_counter++;
                 continue;
-            } 
+            }
             verified = check_validity_of_cert(fbuf, md5_md, sig_db.data, 128, trustLocation);
-            if (verified) 
+            if (verified)
                 break;
             file_counter++;
         }

@@ -27,6 +27,13 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
@@ -37,9 +44,6 @@
 #include "sched_msgs.h"
 #include "sched_util.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 const char* STOP_DAEMONS_FILENAME = "stop_daemons";
     // NOTE: this must be same as in the "start" script

@@ -19,24 +19,27 @@
 // which is written by census.cpp
 // and used by the feeder to assign job array slots to HR classes
 
-#include "hr_info.h"
+
+#include <cmath>
 
 #ifndef _USING_FCGI_
 #include <cstdio>
 #else
 #include "boinc_fcgi.h"
+using namespace FCGI;
 #endif
-#include <cmath>
 
 #include "error_numbers.h"
 #include "sched_msgs.h"
+
+#include "hr_info.h"
 
 int HR_INFO::write_file() {
     int i, j;
 
 #ifndef _USING_FCGI_
     FILE* f = fopen(HR_INFO_FILENAME, "w");
-#else 
+#else
     FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "w");
 #endif
     if (!f) return ERR_FOPEN;
@@ -54,7 +57,7 @@ int HR_INFO::read_file() {
     char buf[256];
 #ifndef _USING_FCGI_
     FILE* f = fopen(HR_INFO_FILENAME, "r");
-#else 
+#else
     FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "r");
 #endif
     if (!f) return ERR_FOPEN;

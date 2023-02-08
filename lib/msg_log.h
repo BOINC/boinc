@@ -21,10 +21,6 @@
 #include <cstdio>
 #include <cstdarg>
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
 // the __attribute((format...)) tags are GCC extensions that let the compiler
 // do like-checking on printf-like arguments
 //

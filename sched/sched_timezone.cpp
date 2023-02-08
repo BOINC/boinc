@@ -21,8 +21,14 @@
 #include "config.h"
 #include <sys/param.h>
 #include <string>
-#include <cstdio>
 #include <cstring>
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "filesys.h"
 #include "parse.h"
@@ -31,9 +37,6 @@
 #include "sched_msgs.h"
 #include "sched_config.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 typedef struct urltag {
     int zone;

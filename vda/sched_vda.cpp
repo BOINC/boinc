@@ -18,17 +18,18 @@
 // scheduler component for data archival.
 // Called on each scheduler request.
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
-
 #include <map>
 #include <string>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/resource.h>
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "filesys.h"
 

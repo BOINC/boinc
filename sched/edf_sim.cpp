@@ -22,16 +22,18 @@
 // This hasn't been shown to be beneficial.
 // It's turned off by default.
 
-#ifndef _USING_FCGI_
-#include <cstdio>
-#else
-#include "boinc_fcgi.h"
-#endif
 
 #include <vector>
 #include <algorithm>
 #include <cstring>
 #include <cstdarg>
+
+#ifndef _USING_FCGI_
+#include <cstdio>
+#else
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#endif
 
 #ifdef SIM
 const int MAX_CPUS=4096;

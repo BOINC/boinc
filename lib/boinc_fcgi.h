@@ -15,36 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef _USING_FCGI_
-#include <fcgi_stdio.h>
-// Undefine the macros that can be replaced with appropriate overloads
-#undef fread
-#undef fwrite
-#undef fscanf
-#undef setbuf
-#undef fputs
-#undef fgets
-#undef fgetc
-#undef vfprintf
-#undef fprintf
-#undef fopen
-#undef fflush
-#undef fclose
-#undef freopen
-#undef ferror
-#undef feof
-#undef perror
-#endif
+// This file is an attempt to fix some of the epidemic build problems
+// caused by libraries redefining the C stdio.h functions that has struck.
+// It's far better to use overloads in a C++ namespace to fix these issues
+// for a variety of reasons.
 
 #ifndef BOINC_FCGI_H
 #define BOINC_FCGI_H
 
-// This file is an attempt to fix some of the epidemic build problems
-// caused by libraries redefining the C stdio.h functions that has struck.  
-// It's far better to use overloads in a C++ namespace to fix these issues 
-// for a variety of reasons.
-
 #ifdef _USING_FCGI_
+#define NO_FCGI_DEFINES
+#include <fcgi_stdio.h>
 
 #if defined(__cplusplus) || defined(c_plusplus)
 
@@ -85,8 +66,7 @@ void perror(const char *s);
 // More left to do here.  Just the minimum for BOINC done.
 
 } // end of namespace FCGI
- 
-using namespace FCGI;
+
 #endif // __cplusplus
 
 #endif // _USING_FCGI_

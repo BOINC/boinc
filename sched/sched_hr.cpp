@@ -24,6 +24,13 @@
 #include <cstring>
 #include <string>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include "<cstdio>"
+#endif
+
 #include "error_numbers.h"
 
 #include "sched_types.h"
@@ -34,9 +41,6 @@
 #include "sched_hr.h"
 
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 // return true if HR rules out sending any work to this host
 //

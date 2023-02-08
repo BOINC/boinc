@@ -19,11 +19,6 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #endif
 
 #ifdef _WIN32
@@ -32,6 +27,13 @@
 
 #ifdef ANDROID
 #include <stdlib.h>
+#endif
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
 #endif
 
 #include "error_numbers.h"
@@ -74,7 +76,7 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
         if (buf[0] != 0x1f || buf[1] != 0x8b || buf[2] != 0x08) {
             fclose(f);
             return ERR_BAD_FORMAT;
-        } 
+        }
         nbytes = 10;
     }
 
@@ -126,7 +128,7 @@ int make_secure_random_string_os(char* out) {
     char buf[256];
 #ifdef _WIN32
     HCRYPTPROV hCryptProv;
-        
+
     if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {
         if (GetLastError() == NTE_BAD_KEYSET) {
             if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET)) {
@@ -136,12 +138,12 @@ int make_secure_random_string_os(char* out) {
             return -2;
         }
     }
-    
+
     if(! CryptGenRandom(hCryptProv, (DWORD) 32, (BYTE *) buf)) {
         CryptReleaseContext(hCryptProv, 0);
         return -3;
     }
-        
+
     CryptReleaseContext(hCryptProv, 0);
 #elif defined ANDROID
     return -1;

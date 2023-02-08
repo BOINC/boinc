@@ -25,6 +25,11 @@
 
 #include "config.h"
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#endif
+
 #include "sched_check.h"
 #include "sched_config.h"
 #include "sched_hr.h"
@@ -36,9 +41,6 @@
 #include "sched_util.h"
 #include "sched_version.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 #include "sched_array.h"
 

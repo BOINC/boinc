@@ -17,6 +17,12 @@
 
 #include <string.h>
 #include "config.h"
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#endif
+
 #include "sched_msgs.h"
 
 SCHED_MSG_LOG log_messages;

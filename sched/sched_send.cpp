@@ -30,6 +30,13 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "error_numbers.h"
 #include "parse.h"
 #include "util.h"
@@ -56,9 +63,6 @@
 
 #include "sched_send.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 // if host sends us an impossible RAM size, use this instead
 //
@@ -135,7 +139,7 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 void WORK_REQ::get_job_limits() {
     int ninstances[NPROC_TYPES];
     int i;
-    
+
     memset(ninstances, 0, sizeof(ninstances));
     int n;
     n = g_reply->host.p_ncpus;

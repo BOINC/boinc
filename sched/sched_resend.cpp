@@ -31,6 +31,13 @@
 #include <ctime>
 #include <string>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "error_numbers.h"
 
 #include "sched_check.h"
@@ -48,9 +55,6 @@
 #include "sched_resend.h"
 
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 // Assign a new deadline for the result;
 // if it's not likely to complete by this time, return nonzero.
@@ -81,7 +85,7 @@ static int possibly_give_result_new_deadline(
         }
         return 1;
     }
-    
+
     // update result with new report time and sent time
     //
     if (config.debug_resend) {
@@ -278,7 +282,7 @@ bool resend_lost_work() {
     if (num_eligible_to_resend && config.debug_resend) {
         log_messages.printf(MSG_NORMAL,
             "[resend] [HOST#%lu] %d lost results, resent %d\n",
-            g_reply->host.id, num_eligible_to_resend, num_resent 
+            g_reply->host.id, num_eligible_to_resend, num_resent
         );
     }
 

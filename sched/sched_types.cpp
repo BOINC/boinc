@@ -25,6 +25,13 @@
 #include <cstring>
 #include <ctime>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "parse.h"
 #include "error_numbers.h"
 #include "str_util.h"
@@ -38,9 +45,6 @@
 #include "time_stats_log.h"
 #include "sched_types.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 using std::string;
 
@@ -645,12 +649,12 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         "  </globals_prefs_xml>\n",
         global_prefs_xml
     );
-  
+
     fprintf(fout,
         "  <global_prefs_source_email_hash>%s</global_prefs_source_email_hash>\n",
         global_prefs_source_email_hash
     );
-  
+
     fprintf(fout,
         "  <host>\n"
         "    <id>%lu</id>\n"
@@ -687,7 +691,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
             results[i].app_version_num
         );
     }
-  
+
     for (i=0; i<msgs_from_host.size(); i++) {
         fprintf(fout,
             "  <msg_from_host>\n"
@@ -793,7 +797,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             min_delay_needed = config.min_sendwork_interval+1;
         }
         if (request_delay<min_delay_needed) {
-            request_delay = min_delay_needed; 
+            request_delay = min_delay_needed;
         }
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
@@ -1112,7 +1116,7 @@ void SCHEDULER_REPLY::set_delay(double delay) {
     if (request_delay > DELAY_MAX) {
         request_delay = DELAY_MAX;
     }
-} 
+}
 
 
 void SCHEDULER_REPLY::insert_app_unique(APP& app) {

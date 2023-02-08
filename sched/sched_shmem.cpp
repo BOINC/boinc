@@ -20,7 +20,6 @@
 // and instances of the scheduling server
 
 #include "config.h"
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <string>
@@ -29,13 +28,17 @@
 
 using std::vector;
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "filesys.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 #include "sched_config.h"
 #include "sched_msgs.h"

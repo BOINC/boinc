@@ -29,6 +29,7 @@ using std::memset;
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
+using namespace FCGI;
 #endif
 
 #include "error_numbers.h"

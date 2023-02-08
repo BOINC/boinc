@@ -19,11 +19,13 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
+#endif
+
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
+using namespace FCGI;
 #else
 #include <cstdio>
-#endif
 #endif
 
 #include "miofile.h"
@@ -42,7 +44,7 @@ CERT_SIG::~CERT_SIG() {
 void CERT_SIG::clear() {
     this->type = MD5_HASH;     // md5 hash by default
     memset(this->subject, 0, sizeof(this->subject));
-    memset(this->signature, 0, sizeof(this->signature));    
+    memset(this->signature, 0, sizeof(this->signature));
 }
 
 CERT_SIGS::CERT_SIGS() {
@@ -67,7 +69,7 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
     bool in_sig = false;
     bool parsed_one = false;
     char buf[256];
-    
+
     while (!xp.get_tag()) {
         if (xp.match_tag("/signatures")) {
             //printf("CERT_SIGS::parse() ends.\n");
@@ -78,7 +80,7 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
             in_sig = false;
             snprintf(sig.signature, sizeof(sig.signature), "%s", xp.parsed_tag);
             continue;
-        } 
+        }
         if (!xp.is_tag) {
             printf("(CERT_SIGS): unexpected text: %s\n", xp.parsed_tag);
             continue;
@@ -97,7 +99,7 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
                 }
                 this->signatures.push_back(sig);
                 parsed_one = true;
-                sig.clear();                
+                sig.clear();
                 continue;
             }
             if (xp.match_tag("signature")) {
@@ -116,7 +118,7 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
                 if ((!strcmp(buf,"md5")) || (!strcmp(buf,"MD5"))) {
                     sig.type = MD5_HASH;
                 } else if ((!strcmp(buf,"sha1")) || (!strcmp(buf,"SHA1"))) {
-                    sig.type = SHA1_HASH;                    
+                    sig.type = SHA1_HASH;
                 }
                 continue;
             }
@@ -126,7 +128,7 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
                 continue;
             }
         }
-    
+
     }
     return false;
 }
@@ -189,7 +191,7 @@ int CERT_SIGS::write(MIOFILE &f) {
         f.printf("  <entry>\n");
         f.printf("    <signature>\n%s\n", this->signatures.at(i).signature);
         f.printf("    </signature>\n");
-        f.printf("    <subject>%s</subject>\n", this->signatures.at(i).subject);    
+        f.printf("    <subject>%s</subject>\n", this->signatures.at(i).subject);
         f.printf("    <type>%s</type>\n", (this->signatures.at(i).type == MD5_HASH) ? "md5" : "sha1");
         f.printf("    <hash>%s</hash>\n", this->signatures.at(i).hash);
         f.printf("  </entry>\n");

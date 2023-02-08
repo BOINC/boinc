@@ -18,10 +18,6 @@
 #ifndef BOINC_MIOFILE_H
 #define BOINC_MIOFILE_H
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
 #include <string>
 
 #include "mfile.h"

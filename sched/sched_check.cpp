@@ -17,6 +17,11 @@
 
 // Check whether a job can be sent to a host
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#endif
+
 #include "credit.h"
 #include "sched_config.h"
 #include "sched_hr.h"
@@ -26,9 +31,6 @@
 
 #include "sched_check.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 const char* infeasible_string(int code) {
     switch (code) {

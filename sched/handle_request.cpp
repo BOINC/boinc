@@ -18,11 +18,6 @@
 // Handle a scheduling server RPC
 
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <cassert>
 #include <cstdlib>
 #include <vector>
@@ -37,6 +32,13 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/stat.h>
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "backend_lib.h"
 #include "boinc_db.h"

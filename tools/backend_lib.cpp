@@ -16,11 +16,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <cstdlib>
 #include <cstring>
 #include <string>
@@ -32,6 +27,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "boinc_db.h"
 #include "common_defs.h"

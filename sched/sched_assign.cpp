@@ -20,11 +20,6 @@
 
 #include "config.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 
 #include <sys/param.h>
 #include <unistd.h>
@@ -34,6 +29,13 @@
 #include "crypt.h"
 #include "error_numbers.h"
 #include "filesys.h"
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "sched_check.h"
 #include "sched_main.h"
@@ -110,7 +112,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     static int seqno=0;
     static R_RSA_PRIVATE_KEY key;
     BEST_APP_VERSION* bavp;
-                                 
+
     if (first) {
         first = false;
         sprintf(path, "%s/upload_private", config.key_dir);

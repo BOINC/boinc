@@ -31,11 +31,6 @@
 #include "config.h"
 #include <cassert>
 #include <ctime>
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -48,6 +43,13 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -278,9 +280,9 @@ void set_core_dump_size_limit() {
         } else {
             short_message += sprintf(short_message,"%d\n", (int)limit.rlim_max);
         }
-      
+
         log_messages.printf(MSG_DEBUG, "%s", short_string);
-        
+
         // now set limit to the maximum allowed value
         limit.rlim_cur=limit.rlim_max;
         if (setrlimit(RLIMIT_CORE, &limit)) {
@@ -291,7 +293,7 @@ void set_core_dump_size_limit() {
             log_messages.printf(MSG_DEBUG,
                 "Set limit for core dump size to max value.\n"
             );
-        }   
+        }
     }
 }
 #endif
@@ -407,7 +409,7 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             simtime = atof(argv[i]);
-#endif 
+#endif
         } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);

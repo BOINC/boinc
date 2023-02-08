@@ -17,13 +17,17 @@
 
 // Parse a project configuration file (config.xml)
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 #include <cstring>
 #include <string>
 #include <unistd.h>
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
 
 #include "error_numbers.h"
 #include "filesys.h"
@@ -351,7 +355,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         // there are lots of tags the scheduler doesn't know about
 
         xp.skip_unexpected(false, "SCHED_CONFIG::parse");
-    }   
+    }
     return ERR_XML_PARSE;
 }
 

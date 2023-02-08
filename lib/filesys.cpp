@@ -26,11 +26,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <fcntl.h>
 #include <cerrno>
 #include <sys/stat.h>
@@ -64,6 +59,13 @@
 #else
 #define STATFS statfs
 #endif
+#endif
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
 #endif
 
 #include "util.h"
@@ -698,11 +700,11 @@ int boinc_copy(const char* orig, const char* newf) {
     snprintf(cmd, sizeof(cmd), "copy \"%s\" \"%s\"", orig, newf);
     return system(cmd);
 #else
-    // POSIX requires that shells run from an application will use the 
-    // real UID and GID if different from the effective UID and GID.  
-    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
-    // system() invokes a shell, it may not properly copy the file's 
-    // ownership or permissions when called from the BOINC Client 
+    // POSIX requires that shells run from an application will use the
+    // real UID and GID if different from the effective UID and GID.
+    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since
+    // system() invokes a shell, it may not properly copy the file's
+    // ownership or permissions when called from the BOINC Client
     // under sandbox security, so we copy the file directly.
     //
     FILE *src, *dst;
@@ -945,7 +947,7 @@ void boinc_getcwd(char* path) {
 #ifdef _WIN32
     getcwd(path, MAXPATHLEN);
 #else
-    char* p 
+    char* p
 #ifdef __GNUC__
       __attribute__ ((unused))
 #endif

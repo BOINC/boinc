@@ -18,11 +18,6 @@
 #if defined(_WIN32)
 #include "boinc_win.h"
 #else
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
@@ -40,6 +35,13 @@
 #include <dlfcn.h>
 #include <setjmp.h>
 #include <signal.h>
+#endif
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
 #endif
 
 #include "error_numbers.h"
@@ -105,7 +107,7 @@ void COPROC::write_xml(MIOFILE& f, bool scheduler_rpc) {
         "   <peak_flops>%f</peak_flops>\n",
         type, count, peak_flops
     );
-    
+
     if (scheduler_rpc) {
         write_request(f);
     }
@@ -113,7 +115,7 @@ void COPROC::write_xml(MIOFILE& f, bool scheduler_rpc) {
     if (have_opencl) {
         opencl_prop.write_xml(f, "coproc_opencl");
     }
-    
+
     f.printf("</coproc>\n");
 }
 
@@ -287,7 +289,7 @@ void COPROCS::write_xml(MIOFILE&, bool) {
 #else
 void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     mf.printf("    <coprocs>\n");
-    
+
     for (int i=1; i<n_rsc; i++) {
         switch (coproc_type_name_to_num(coprocs[i].type)) {
         case PROC_TYPE_NVIDIA_GPU:
@@ -303,7 +305,7 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
             coprocs[i].write_xml(mf, scheduler_rpc);
         }
     }
-    
+
     mf.printf("    </coprocs>\n");
 }
 #endif
@@ -404,7 +406,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
             pci_infos[i].write(f);
         }
     }
-    
+
     f.printf("</coproc_cuda>\n");
 }
 #endif
@@ -724,7 +726,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
     if (have_opencl) {
         opencl_prop.write_xml(f, "coproc_opencl");
     }
-        
+
     f.printf("</coproc_ati>\n");
 }
 #endif
@@ -865,8 +867,8 @@ void COPROC_ATI::set_peak_flops() {
         // Per: https://en.wikipedia.org/wiki/List_of_AMD_graphics_processing_units
         //
         // clock is in MHz
-        x = opencl_prop.max_compute_units * 
-            opencl_prop.amd_simd_per_compute_unit * 
+        x = opencl_prop.max_compute_units *
+            opencl_prop.amd_simd_per_compute_unit *
             opencl_prop.amd_simd_width *
             opencl_prop.amd_simd_instruction_width *
             2 *
@@ -931,7 +933,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
     if (have_opencl) {
         opencl_prop.write_xml(f, "coproc_opencl");
     }
-        
+
     f.printf("</coproc_intel_gpu>\n");
 }
 #endif
@@ -988,7 +990,7 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
 //
 // However, there is some question of the accuracy of this due to Intel's
 // Turbo Boost and Dynamic Frequency technologies.
-// 
+//
 void COPROC_INTEL::set_peak_flops() {
     double x = 0;
     if (opencl_prop.max_compute_units) {

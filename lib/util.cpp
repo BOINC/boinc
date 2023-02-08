@@ -30,10 +30,6 @@
 #define M_LN2      0.693147180559945309417
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#define perror FCGI::perror
-#endif
 
 #ifndef _WIN32
 #include "config.h"
@@ -61,6 +57,11 @@ extern "C" {
     int finite(double);
 }
 #endif
+#endif
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
 #endif
 
 #include "error_numbers.h"
@@ -559,7 +560,7 @@ bool process_exists(int pid) {
 #ifdef _WIN32
 static int get_client_mutex(const char*) {
     char buf[MAX_PATH] = "";
-    
+
     // Global mutex on Win2k and later
     //
     safe_strcpy(buf, "Global\\");

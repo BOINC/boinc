@@ -20,10 +20,6 @@
 
 #include "msg_log.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
 enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG, MSG_DETAIL };
 
 class SCHED_MSG_LOG : public MSG_LOG {
