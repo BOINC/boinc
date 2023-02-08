@@ -209,8 +209,8 @@ if ENABLE_FCGI
 lib_LTLIBRARIES += libboinc_fcgi.la
 pkgconfig_DATA += libboinc_fcgi.pc
 libboinc_fcgi_la_SOURCES = $(libfcgi_sources) $(mac_sources) $(win_sources)
-libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
-libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) -D__attr_dealloc_fclose
+libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) -D__attr_dealloc_fclose
 libboinc_fcgi_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 libboinc_fcgi_la_LIBADD =
 endif
