@@ -22,6 +22,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "filesys.h"
 #include "parse.h"
 
