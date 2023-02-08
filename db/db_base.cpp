@@ -16,7 +16,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config.h"
-#include <cstdio>
 #include <cstring>
 #include <cstdlib>
 #include <mysql.h>
@@ -27,8 +26,11 @@
 #include "db_base.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
+using namespace FCGI;
 #include "sched_msgs.h"
+#else
+#include <cstdio>
 #endif
 
 bool g_print_queries = false;
@@ -488,7 +490,7 @@ void escape_string(char* field, int len) {
     //
     while (*p && q < buf+len-3) {
         if (*p == '\'') {
-            // this does ' to \' transformation 
+            // this does ' to \' transformation
             //
             *q++ = '\\';
             *q++ = '\'';

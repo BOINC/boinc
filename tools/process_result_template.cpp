@@ -21,16 +21,19 @@
 #include <cstdlib>
 #include <cassert>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "parse.h"
 #include "sched_config.h"
 #include "str_replace.h"
 #include "crypt.h"
-
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
 
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"

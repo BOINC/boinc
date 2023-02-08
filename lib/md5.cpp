@@ -38,12 +38,15 @@
   1999-05-03 lpd Original version.
  */
 
-#include "md5.h"
 #include <string.h>
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
 #endif
+
+#include "md5.h"
 
 /*
  * For reference, here is the program that computed the T values.
