@@ -22,11 +22,17 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <cstdio>
 #include <cstring>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#endif
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
 #endif
 
 #include "error_numbers.h"
@@ -144,7 +150,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.match_tag("coprocs")) {
             this->coprocs.parse(xp);
         }
-        
+
         // The same CPU can have a different opencl_cpu_prop
         // for each of multiple OpenCL platforms
         //
@@ -261,8 +267,8 @@ int HOST_INFO::write(
     if (include_coprocs) {
         this->coprocs.write_xml(out, false);
     }
-    
-    // The same CPU can have a different opencl_cpu_prop 
+
+    // The same CPU can have a different opencl_cpu_prop
     // for each of multiple OpenCL platforms.
     // We send them all to the project server because:
     // - Different OpenCL platforms report different values
