@@ -73,6 +73,10 @@ int ferror(FCGI_FILE *f);
 
 void perror(const char *s);
 
+int fileno(FCGI_FILE *f);
+
+FCGI_FILE *fdopen(int fd, const char *mode);
+
 // More left to do here.  Just the minimum for BOINC done.
 
 } // end of namespace FCGI
