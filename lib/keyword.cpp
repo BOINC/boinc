@@ -19,6 +19,13 @@
 
 #include <stdio.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "parse.h"
 #include "keyword.h"
 
