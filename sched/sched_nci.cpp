@@ -18,6 +18,13 @@
 
 // Logic for sending non-compute-intensive (NCI) jobs
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "sched_check.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
