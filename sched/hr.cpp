@@ -17,6 +17,12 @@
 
 // Logic for assigning hosts to homogeneous redundancy (HR) classes
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
+#endif
+
 #include "error_numbers.h"
 #include "str_util.h"
 
