@@ -1009,7 +1009,11 @@ FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path) {
     if (fd < 0) {
         return 0;
     }
+#ifdef _USING_FCGI_
+    return FCGI::fdopen(fd, "wb");
+#else
     return fdopen(fd, "wb");
+#endif
 }
 
 #endif
