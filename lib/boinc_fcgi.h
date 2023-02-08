@@ -29,6 +29,16 @@
 
 #if defined(__cplusplus) || defined(c_plusplus)
 
+#undef  FILE
+#define	FILE     FCGI_FILE
+
+#undef  stdin
+#define	stdin    FCGI_stdin
+#undef  stdout
+#define	stdout   FCGI_stdout
+#undef  stderr
+#define	stderr   FCGI_stderr
+
 namespace FCGI {
 
 FCGI_FILE *fopen(const char *path, const char *mode);
