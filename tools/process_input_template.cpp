@@ -26,6 +26,13 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "filesys.h"
 #include "md5_file.h"
 #include "str_replace.h"
@@ -55,20 +62,20 @@ static bool got_md5_info(
     char endline='\0';
 
     sprintf(md5name, "%s.md5", path);
-    
+
     // get mod times for file
     //
     if (stat(path, &filestat)) {
         return false;
     }
-  
+
     // get mod time for md5 cache file
     //
     // coverity[toctou]
     if (stat(md5name, &md5stat)) {
         return false;
     }
-    
+
     // if cached md5 newer, then open it
 #ifndef _USING_FCGI_
     FILE *fp=fopen(md5name, "r");
@@ -78,7 +85,7 @@ static bool got_md5_info(
     if (!fp) {
         return false;
     }
-  
+
     // read two quantities: md5 sum and length.
     // If we can't read these, or there is MORE stuff in the file,
     // it's not an md5 cache file
@@ -112,7 +119,7 @@ static void write_md5_info(
     char md5name[512];
     struct stat statbuf;
     int retval;
-    
+
     // if file already exists with this name, don't touch it.
     //
     // coverity[toctou]
@@ -132,7 +139,7 @@ static void write_md5_info(
     if (!fp) {
         return;
     }
-  
+
     retval = fprintf(fp,"%s %.15e\n", md5, nbytes);
     fclose(fp);
 
@@ -141,7 +148,7 @@ static void write_md5_info(
     if (retval<0) {
         unlink(md5name);
     }
-  
+
     return;
 }
 
@@ -540,7 +547,7 @@ int process_input_template(
     int n_var_infiles=0;
         // number of non-constant infiles scanned
         // this is an index into var_infiles
-        
+
     // "out" is the XML we're creating
     //
     out = "";
