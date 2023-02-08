@@ -24,6 +24,13 @@
 #include <algorithm>
 #include <iterator>
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+using namespace FCGI;
+#else
+#include <cstdio>
+#endif
+
 #include "sched_main.h"
 #include "keyword.h"
 
