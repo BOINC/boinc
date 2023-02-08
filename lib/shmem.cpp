@@ -390,6 +390,14 @@ int detach_shmem_mmap(void* p, size_t size) {
     return munmap((char *)p, size);
 }
 
+inline void boinc_perror(const char *s) {
+#ifdef _USING_FCGI_
+    FCGI::perror(s);
+#else
+    perror(s);
+#endif
+}
+
 #if HAVE_SYS_SHM_H && !defined(ANDROID)
 
 // Compatibility routines for Unix/Linux/Mac V5 applications
@@ -414,7 +422,7 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }
     if (id < 0) {
-        perror("shmget");
+        boinc_perror("shmget");
         fprintf(stderr, "shmem size: %d\n", size);
         return ERR_SHMGET;
     }
@@ -427,13 +435,13 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
         // Set the shmem segment's group ID
         retval = shmctl(id, IPC_STAT, &buf);
         if (retval) {
-            perror("shmget: shmctl STAT");
+            boinc_perror("shmget: shmctl STAT");
             return ERR_SHMGET;
         }
         buf.shm_perm.gid = gid;
         retval = shmctl(id, IPC_SET, &buf);
         if (retval) {
-            perror("shmget: shmctl IPC_SET");
+            boinc_perror("shmget: shmctl IPC_SET");
             return ERR_SHMGET;
         }
     }
@@ -457,12 +465,12 @@ int destroy_shmem(key_t key){
     if (id < 0) return 0;           // assume it doesn't exist
     retval = shmctl(id, IPC_STAT, &buf);
     if (retval) {
-        perror("shmctl STAT");
+        boinc_perror("shmctl STAT");
         return ERR_SHMCTL;
     }
     retval = shmctl(id, IPC_RMID, 0);
     if (retval) {
-        perror("shmctl RMID");
+        boinc_perror("shmctl RMID");
         return ERR_SHMCTL;
     }
     return 0;
@@ -474,12 +482,12 @@ int attach_shmem(key_t key, void** pp){
 
     id = shmget(key, 0, 0);
     if (id < 0) {
-        perror("shmget in attach_shmem");
+        boinc_perror("shmget in attach_shmem");
         return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);
     if ((long)p == -1) {
-        perror("shmat");
+        boinc_perror("shmat");
         return ERR_SHMAT;
     }
     *pp = p;
@@ -515,19 +523,19 @@ int print_shmem_info(key_t key) {
 // or alternate implementations
 
 int create_shmem(key_t, int size, gid_t gid, void**) {
-   perror("create_shmem: not supported on this platform");
+   boinc_perror("create_shmem: not supported on this platform");
    return ERR_SHMGET;
 }
 int attach_shmem(key_t, void**) {
-   perror("attach_shmem: not supported on this platform");
+   boinc_perror("attach_shmem: not supported on this platform");
    return ERR_SHMGET;
 }
 int detach_shmem(void*) {
-   perror("detach_shmem: not supported on this platform");
+   boinc_perror("detach_shmem: not supported on this platform");
    return ERR_SHMGET;
 }
 int destroy_shmem(key_t) {
-   perror("destroy_shmem: not supported on this platform");
+   boinc_perror("destroy_shmem: not supported on this platform");
    return ERR_SHMCTL;
 }
 
