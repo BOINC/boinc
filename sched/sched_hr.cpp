@@ -19,7 +19,6 @@
 
 #include "config.h"
 #include <ctime>
-#include <cstdio>
 #include <stdlib.h>
 #include <cstring>
 #include <string>
@@ -28,7 +27,7 @@
 #include "boinc_fcgi.h"
 using namespace FCGI;
 #else
-#include "<cstdio>"
+#include <cstdio>
 #endif
 
 #include "error_numbers.h"
