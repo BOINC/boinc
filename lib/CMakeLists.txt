@@ -202,7 +202,11 @@ elseif(WIN32)
                                 $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
     )
 elseif(UNIX)
-    execute_process(COMMAND ./configure --disable-server --disable-client --disable-manager)
+    execute_process(COMMAND ${BOINC_DIR}/configure --disable-server --disable-client --disable-manager
+        WORKING_DIRECTORY ${BOINC_DIR}
+        ECHO_OUTPUT_VARIABLE
+        ECHO_ERROR_VARIABLE
+    )
     
     file(COPY ${BOINC_DIR}/config.h DESTINATION ${BOINC_DIR}/config-h)
 
@@ -237,13 +241,22 @@ target_link_libraries(boincapi PRIVATE
                         boinc
 )
 
-install(TARGETS boinc boincapi EXPORT boinc-config
-            RUNTIME DESTINATION bin
-            ARCHIVE DESTINATION lib
-            LIBRARY DESTINATION lib
-        )
 
-install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS} DESTINATION include/boinc)
-install(EXPORT boinc-config NAMESPACE BOINC::boinc:: DESTINATION share/boinc)
+include(GNUInstallDirs)
+
+install(TARGETS boinc boincapi EXPORT boinc-config
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/boinc
+)
+
+install(EXPORT boinc-config NAMESPACE BOINC::boinc::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/boinc
+)
+
 
 message(WARNING "This build is under development and may not work as expected")

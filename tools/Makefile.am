@@ -1,9 +1,9 @@
 ## -*- mode: makefile; tab-width: 4 -*-
 include $(top_srcdir)/Makefile.incl
 
-scheddir = $(prefix)/lib/boinc-server-maker/sched
-toolsdir = $(prefix)/lib/boinc-server-maker/tools
-toolbindir = $(prefix)/lib/boinc-server-maker/tools
+scheddir = $(libdir)/boinc-server-maker/sched
+toolsdir = $(libdir)/boinc-server-maker/tools
+toolbindir = $(libdir)/boinc-server-maker/tools
 
 toolbin_PROGRAMS = \
 	cancel_jobs \
