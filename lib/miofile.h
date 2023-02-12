@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,9 +18,7 @@
 #ifndef BOINC_MIOFILE_H
 #define BOINC_MIOFILE_H
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 #include <string>
 
@@ -53,11 +51,7 @@ public:
     MIOFILE();
     ~MIOFILE();
     void init_mfile(MFILE*);
-#ifndef _USING_FCGI_
     void init_file(FILE*);
-#else
-    void init_file(FCGI_FILE *);
-#endif
     void init_buf_read(const char*);
     void init_buf_write(char*, int len);
     int printf(const char* format, ...);
@@ -66,7 +60,7 @@ public:
     bool eof();
     inline int _getc() {
         if (f) {
-            return fgetc(f);
+            return boinc::fgetc(f);
         }
         return (*buf)?(*buf++):EOF;
     }

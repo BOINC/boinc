@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,14 +23,14 @@
 #else
 #include <dirent.h>
 #include <grp.h>
-#include <stdio.h>
 #include <sys/types.h>
 #include <sys/param.h>
 #ifdef __cplusplus
 #include <string>
 #endif
-
 #endif /* !WIN32 */
+
+#include "boinc_stdio.h"
 
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 4096

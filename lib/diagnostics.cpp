@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,9 +36,7 @@
 #include <time.h>
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
@@ -77,8 +75,8 @@ format_backtrace_line_t format_backtrace_line;
 
 #if defined(_WIN32) && defined(_MSC_VER)
 
-static _CrtMemState start_snapshot; 
-static _CrtMemState finish_snapshot; 
+static _CrtMemState start_snapshot;
+static _CrtMemState finish_snapshot;
 static _CrtMemState difference_snapshot;
 
 #endif
@@ -270,7 +268,7 @@ int diagnostics_init(
     safe_strcpy(boinc_proxy, "");
     safe_strcpy(symstore, "");
 
-    
+
     // Check for invalid parameter combinations
     //
     if ((flags & BOINC_DIAG_REDIRECTSTDERR) && (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE)) {
@@ -401,7 +399,7 @@ int diagnostics_init(
 
     if (flags & BOINC_DIAG_BOINCAPPLICATION) {
         if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED) {
-            _CrtMemCheckpoint(&start_snapshot); 
+            _CrtMemCheckpoint(&start_snapshot);
         }
     }
 
@@ -469,7 +467,7 @@ int diagnostics_init(
 #else
         p = FCGI::fopen(INIT_DATA_FILE, "r");
 #endif
- 
+
 		if (p) {
 			mf.init_file(p);
 			while(mf.fgets(buf, sizeof(buf))) {
@@ -488,7 +486,7 @@ int diagnostics_init(
 
         if (boinc_proxy_enabled) {
             int buffer_used = snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port);
-            if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) { 
+            if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) {
                 boinc_proxy[sizeof(boinc_proxy)-1] = '\0';
             }
         }
@@ -497,9 +495,9 @@ int diagnostics_init(
         // Lookup the location of where BOINC was installed to and store
         //   that for future use.
         lReturnValue = RegOpenKeyEx(
-            HKEY_LOCAL_MACHINE, 
-            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
-	        0, 
+            HKEY_LOCAL_MACHINE,
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
+	        0,
             KEY_READ,
             &hkSetupHive
         );
@@ -628,7 +626,7 @@ char* diagnostics_get_symstore() {
 int diagnostics_set_symstore(char* project_symstore) {
     if (!strlen(symstore)) {
         int buffer_used = snprintf(symstore, sizeof(symstore), "%s", project_symstore);
-        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) { 
+        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) {
             symstore[sizeof(symstore)-1] = '\0';
         }
     }
@@ -820,7 +818,7 @@ void boinc_catch_signal(int signal) {
     //
 #define DUMP_LINE_LEN 256
     static backtrace_frame_t backtrace[64];
-    static backtrace_symbol_t backtrace_symbols[64]; 
+    static backtrace_symbol_t backtrace_symbols[64];
     if (unwind_backtrace_signal_arch != NULL) {
         map_info_t *map_info = acquire_my_map_info_list();
         ssize_t size = unwind_backtrace_signal_arch(
@@ -915,7 +913,7 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         time_t t;
         char *theCR;
-    
+
         time(&t);
         safe_strcpy(szTime, asctime(localtime(&t)));
         theCR = strrchr(szTime, '\n');
@@ -1004,7 +1002,7 @@ void diagnostics_set_max_file_sizes(double stdout_size, double stderr_size) {
 }
 
 // Dump string to whatever the platform debuggers
-// 
+//
 #ifndef _WIN32
 int diagnostics_trace_to_debugger(const char*) {
     return 0;

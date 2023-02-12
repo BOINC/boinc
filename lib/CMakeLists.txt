@@ -203,7 +203,7 @@ elseif(WIN32)
     )
 elseif(UNIX)
     execute_process(COMMAND ./configure --disable-server --disable-client --disable-manager)
-    
+
     file(COPY ${BOINC_DIR}/config.h DESTINATION ${BOINC_DIR}/config-h)
 
 

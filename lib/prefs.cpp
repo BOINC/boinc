@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,10 +25,7 @@
 #include <time.h>
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "parse.h"
@@ -259,7 +256,7 @@ void GLOBAL_PREFS::defaults() {
     vm_max_used_frac = 0.75;
     work_buf_additional_days = 0.5;
     work_buf_min_days = 0.1;
-    
+
     override_file_present = false;
 
     // don't initialize source_project, source_scheduler,
@@ -765,8 +762,8 @@ void GLOBAL_PREFS::write_day_prefs(MIOFILE& f) {
         bool net_present = net_times.week.days[i].present;
         //write only when needed
         if (net_present || cpu_present) {
-            
-            f.printf("   <day_prefs>\n");                
+
+            f.printf("   <day_prefs>\n");
             f.printf("      <day_of_week>%d</day_of_week>\n", i);
             if (cpu_present) {
                 f.printf(
@@ -794,7 +791,7 @@ void GLOBAL_PREFS::write_day_prefs(MIOFILE& f) {
 //
 int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (!mask.are_prefs_set()) return 0;
-    
+
     f.printf("<global_preferences>\n");
     if (mask.run_on_batteries) {
         f.printf("   <run_on_batteries>%d</run_on_batteries>\n",

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -55,39 +55,35 @@ static bool got_md5_info(
     char endline='\0';
 
     sprintf(md5name, "%s.md5", path);
-    
+
     // get mod times for file
     //
     if (stat(path, &filestat)) {
         return false;
     }
-  
+
     // get mod time for md5 cache file
     //
     // coverity[toctou]
     if (stat(md5name, &md5stat)) {
         return false;
     }
-    
+
     // if cached md5 newer, then open it
-#ifndef _USING_FCGI_
-    FILE *fp=fopen(md5name, "r");
-#else
-    FCGI_FILE *fp=FCGI::fopen(md5name, "r");
-#endif
+    FILE *fp=boinc::fopen(md5name, "r");
     if (!fp) {
         return false;
     }
-  
+
     // read two quantities: md5 sum and length.
     // If we can't read these, or there is MORE stuff in the file,
     // it's not an md5 cache file
     //
-    int n = fscanf(fp, "%s %lf%c", md5data, nbytes, &endline);
-    int c = fgetc(fp);
-    fclose(fp);
+    int n = boinc::fscanf(fp, "%s %lf%c", md5data, nbytes, &endline);
+    int c = boinc::fgetc(fp);
+    boinc::fclose(fp);
     if ((n != 3) || (endline !='\n') || (c != EOF)) {
-        fprintf(stderr, "bad MD5 cache file %s; remove it and stage file again\n", md5name);
+        boinc::fprintf(stderr, "bad MD5 cache file %s; remove it and stage file again\n", md5name);
         return false;
     }
 
@@ -112,7 +108,7 @@ static void write_md5_info(
     char md5name[512];
     struct stat statbuf;
     int retval;
-    
+
     // if file already exists with this name, don't touch it.
     //
     // coverity[toctou]
@@ -121,27 +117,23 @@ static void write_md5_info(
         return;
     }
 
-#ifndef _USING_FCGI_
-    FILE *fp=fopen(md5name, "w");
-#else
-    FCGI_FILE *fp=FCGI::fopen(md5name, "w");
-#endif
+    FILE *fp=boinc::fopen(md5name, "w");
 
     // if can't open the file, give up
     //
     if (!fp) {
         return;
     }
-  
-    retval = fprintf(fp,"%s %.15e\n", md5, nbytes);
-    fclose(fp);
+
+    retval = boinc::fprintf(fp,"%s %.15e\n", md5, nbytes);
+    boinc::fclose(fp);
 
     // if we didn't write properly to the file, delete it.
     //
     if (retval<0) {
         unlink(md5name);
     }
-  
+
     return;
 }
 
@@ -212,7 +204,7 @@ static int process_file_info(
             //
             if (!strlen(physical_name)) {
                 if (n_var_infiles >= (int)var_infiles.size()) {
-                    fprintf(stderr,
+                    boinc::fprintf(stderr,
                         "Too few var input files given; need at least %d\n",
                         n_var_infiles+1
                     );
@@ -229,7 +221,7 @@ static int process_file_info(
                     config_loc.uldl_dir_fanout, path, true
                 );
                 if (!got_md5_info(path, md5, &nbytes)) {
-                    fprintf(stderr, "missing MD5 info file for %s\n",
+                    boinc::fprintf(stderr, "missing MD5 info file for %s\n",
                         physical_name
                     );
                     return ERR_FILE_MISSING;
@@ -257,13 +249,13 @@ static int process_file_info(
                 // remote file specified in template
                 //
                 if (md5str == "" || urlstr == "") {
-                    fprintf(stderr, "All file properties must be defined "
+                    boinc::fprintf(stderr, "All file properties must be defined "
                         "if at least one is defined (url, md5_cksum, nbytes)\n"
                     );
                     return ERR_XML_PARSE;
                 }
                 if (gzip && !gzipped_nbytes) {
-                    fprintf(stderr, "Must specify gzipped_nbytes\n");
+                    boinc::fprintf(stderr, "Must specify gzipped_nbytes\n");
                     return ERR_XML_PARSE;
                 }
                 urlstr = "";
@@ -332,7 +324,7 @@ static int process_file_info(
                 if (!config_loc.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
                     retval = md5_file(path, md5, nbytes);
                     if (retval) {
-                        fprintf(stderr,
+                        boinc::fprintf(stderr,
                             "process_input_template: md5_file %s\n",
                             boincerror(retval)
                         );
@@ -351,7 +343,7 @@ static int process_file_info(
                     sprintf(gzip_path, "%s.gz", path);
                     retval = file_size(gzip_path, gzipped_nbytes);
                     if (retval) {
-                        fprintf(stderr,
+                        boinc::fprintf(stderr,
                             "process_input_template: missing gzip file %s\n",
                             gzip_path
                         );
@@ -432,7 +424,7 @@ static int process_workunit(
             out += "<file_ref>\n";
             bool found_open_name = false, found_copy_file = false;
             if (n_file_refs >= (int)infiles.size()) {
-                fprintf(stderr, "too many <file_ref>s\n");
+                boinc::fprintf(stderr, "too many <file_ref>s\n");
                 return ERR_XML_PARSE;
             }
             INFILE_DESC& id = infiles[n_file_refs];
@@ -452,7 +444,7 @@ static int process_workunit(
                     continue;
                 } else if (xp.match_tag("/file_ref")) {
                     if (!found_open_name && !found_copy_file) {
-                        fprintf(stderr, "No open name found and copy_file not specified\n");
+                        boinc::fprintf(stderr, "No open name found and copy_file not specified\n");
                         return ERR_XML_PARSE;
                     } else if (!found_open_name && found_copy_file) {
                         sprintf(buf, "    <open_name>%s</open_name>\n", id.name);
@@ -461,7 +453,7 @@ static int process_workunit(
                     out += "</file_ref>\n";
                     break;
                 } else if (xp.parse_string("file_name", tmpstr)) {
-                    fprintf(stderr, "<file_name> ignored in <file_ref> element.\n");
+                    boinc::fprintf(stderr, "<file_name> ignored in <file_ref> element.\n");
                     continue;
                 } else {
                     retval = xp.copy_element(tmpstr);
@@ -473,7 +465,7 @@ static int process_workunit(
             n_file_refs++;
         } else if (xp.parse_string("command_line", cmdline)) {
             if (command_line) {
-                fprintf(stderr, "Can't specify command line twice\n");
+                boinc::fprintf(stderr, "Can't specify command line twice\n");
                 return ERR_XML_PARSE;
             }
             out += "<command_line>\n";
@@ -513,7 +505,7 @@ static int process_workunit(
         }
     }
     if (n_file_refs != (int)infiles.size()) {
-        fprintf(stderr, "#file refs != #file infos\n");
+        boinc::fprintf(stderr, "#file refs != #file infos\n");
         return ERR_XML_PARSE;
     }
     return 0;
@@ -540,7 +532,7 @@ int process_input_template(
     int n_var_infiles=0;
         // number of non-constant infiles scanned
         // this is an index into var_infiles
-        
+
     // "out" is the XML we're creating
     //
     out = "";
@@ -566,18 +558,18 @@ int process_input_template(
         }
     }
     if (!found_workunit) {
-        fprintf(stderr, "process_input_template: bad WU template - no <workunit>\n");
+        boinc::fprintf(stderr, "process_input_template: bad WU template - no <workunit>\n");
         return ERR_XML_PARSE;
     }
     if (n_var_infiles != (int)var_infiles.size()) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "process_input_template: %d input files given, but template has %d\n",
             (int)var_infiles.size(), n_var_infiles
         );
         return ERR_XML_PARSE;
     }
     if (out.size() > sizeof(wu.xml_doc)-1) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "create_work: WU XML field is too long (%d bytes; max is %d)\n",
             (int)out.size(), (int)sizeof(wu.xml_doc)-1
         );

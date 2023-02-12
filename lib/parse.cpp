@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,9 +39,7 @@
 #endif
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 #include "error_numbers.h"
 #include "str_replace.h"
@@ -155,10 +153,10 @@ void parse_attr(const char* buf, const char* name, char* dest, int len) {
 
 int copy_stream(FILE* in, FILE* out) {
     char buf[1024];
-    int n, m;
+    size_t n, m;
     while (1) {
-        n = (int)fread(buf, 1, 1024, in);
-        m = (int)fwrite(buf, 1, n, out);
+        n = boinc::fread(buf, 1, 1024, in);
+        m = boinc::fwrite(buf, 1, n, out);
         if (m != n) return ERR_FWRITE;
         if (n < 1024) break;
     }
@@ -226,7 +224,7 @@ int copy_element_contents(FILE* in, const char* end_tag, string& str) {
 
     str = "";
     while (1) {
-        c = fgetc(in);
+        c = boinc::fgetc(in);
         if (c == EOF) break;
         str += c;
         n++;
@@ -895,7 +893,7 @@ void XML_PARSER::skip_unexpected(
     char buf[TAG_BUF_LEN], end_tag[TAG_BUF_LEN];
 
     if (verbose) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "%s: Unrecognized XML tag '<%s>' in %s; skipping\n",
             time_to_string(dtime()), start_tag, where
         );
