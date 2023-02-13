@@ -1,0 +1,17 @@
+{
+    "name": "boinc-manager",
+    "version-string": "7.23.0",
+    "dependencies":
+    [
+        "ftgl",
+        {
+          "name": "curl",
+          "features": ["openssl"],
+          "default-features": false
+        },
+        {
+          "name": "wxwidgets",
+          "default-features": false
+        }
+    ]
+}
