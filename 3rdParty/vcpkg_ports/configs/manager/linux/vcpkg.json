@@ -1,6 +1,5 @@
 {
     "name": "boinc-manager",
-    "version-string": "7.23.0",
     "dependencies":
     [
         "ftgl",

@@ -1,6 +1,5 @@
 {
     "name": "boinc-client",
-    "version-string": "7.21.0",
     "dependencies":
     [
         {

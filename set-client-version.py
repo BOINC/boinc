@@ -92,25 +92,6 @@ def set_build_gradle(version):
                 line = f'    def version = \'{version} : DEVELOPMENT\'\n'
             f.write(line)
 
-def set_vcpkg_json(version):
-    for json in ['3rdParty/vcpkg_ports/configs/libs/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/libs/windows/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/client/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/apps/android/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/apps/linux/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/apps/mingw/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/manager/linux/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/msbuild/x64/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/msbuild/ARM64/vcpkg.json',
-                ]:
-        with open(json, 'r') as f:
-            lines = f.readlines()
-        with open(json, 'w') as f:
-            for line in lines:
-                if line.startswith('    "version-string":'):
-                    line = f'    "version-string": "{version}",\n'
-                f.write(line)
-
 def set_installshield(version):
     for ism in ['win_build/installerv2/BOINCx64_vbox.ism', 'win_build/installerv2/BOINCx64.ism']:
         with open(ism, 'r') as f:
@@ -140,7 +121,6 @@ set_version_h(version)
 set_version_h_in(version)
 set_version_log(version)
 set_build_gradle(version)
-set_vcpkg_json(version)
 set_installshield(version)
 
 if (os.name == 'posix' and sys.platform != 'darwin'):
