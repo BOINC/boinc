@@ -99,6 +99,7 @@ def set_vcpkg_json(version):
                  '3rdParty/vcpkg_ports/configs/apps/android/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/apps/linux/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/apps/mingw/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/manager/linux/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/msbuild/x64/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/msbuild/ARM64/vcpkg.json',
                 ]:
