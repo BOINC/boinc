@@ -36,7 +36,7 @@
 # Updated 3/31/21 To eliminate redundant -c++11 arg since C++11 build is now standard
 # Updated 5/19/21 for compatibility with zsh
 # Updated 7/12/22 result is moved out of eval string to get correct status on CI if build fails
-# Updated 2/6/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
+# Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
 #
 ## This script requires OS 10.8 or later
 #
@@ -79,7 +79,8 @@
 ##
 ## -zipapps     build two zip samples: boinc_zip_test and testzlibconflict
 ##
-## -uc2         build the UpperCase2 targets: UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64
+## -uc2         build the UpperCase2 targets: UC2-x86_64, UC2Gfx-x86_64 and
+##              slide_show-x86_64
 ##
 ## -vboxwrapper build the VBoxWrapper target
 ##
