@@ -4,6 +4,7 @@
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 4/10/15 to remove deleted files vboxlog.cpp and vboxlog.h
 # Updated 4/14/15 for compatibility with Xcode 6
+# Updated 2/6/23 to include additional search paths
 
 
 BOINC_DIR = ../..
@@ -20,7 +21,9 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(PREFIX)/include \
     -L$(BOINC_BUILD_DIR) \
+    -L$(PREFIX)/lib \
     -L.
 
 OBJ = \

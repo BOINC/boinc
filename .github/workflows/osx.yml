@@ -22,7 +22,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        type: [manager, libs-cmake]
+        type: [manager, samples-makefile, libs-cmake]
       fail-fast: false
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
@@ -51,13 +51,17 @@ jobs:
         if: ${{! contains(matrix.type, 'cmake')}}
         run: ./3rdParty/buildMacDependencies.sh -q
 
-      - name: make
-        if: success() && ! contains(matrix.type, 'cmake')
+      - name: make manager
+        if: success() && matrix.type == 'manager'
         run: ./mac_build/buildMacBOINC-CI.sh --no_shared_headers
 
       - name: libs cmake
         if: matrix.type == 'libs-cmake'
         run: osx/ci_build_libs_cmake.sh
+
+      - name: make samples makefile
+        if: matrix.type == 'samples-makefile'
+        run: ./mac_build/buildMacMakefiles-CI.sh
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -69,8 +73,3 @@ jobs:
         with:
           name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
-
-      - name: deploy
-        if: success() && ! contains(matrix.type, 'libs')
-        run: echo "Would start deployment now"
-        #run: ./deploy/prepare_deployment.sh osx_${BOINC_TYPE} deploy/osx_${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/osx_${BOINC_TYPE}/

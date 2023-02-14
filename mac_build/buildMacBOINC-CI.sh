@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2022 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -114,6 +114,54 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of libboinc.a..."
+lipo ./build/${style}/libboinc.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libboinc.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc.a...done"
+echo "Verifying architecture (x86_64 arm64) of BOINCManager..."
+lipo ./build/${style}/BOINCManager.app/Contents/MacOS/BOINCManager -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of BOINCManager...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of BOINCManager...done"
+echo "Verifying architecture (x86_64 arm64) of SetVersion..."
+lipo ./build/${style}/SetVersion -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of SetVersion...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of SetVersion...done"
+echo "Verifying architecture (x86_64 arm64) of boinc..."
+lipo ./build/${style}/boinc -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of boinc...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of boinc...done"
+echo "Verifying architecture (x86_64) of detect_rosetta_cpu..."
+lipo ./build/${style}/detect_rosetta_cpu -verify_arch x86_64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64) of detect_rosetta_cpu...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64) of detect_rosetta_cpu...done"
+echo "Verifying architecture (arm64) of detect_rosetta_cpu..."
+lipo ./build/${style}/detect_rosetta_cpu -verify_arch arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -eq 0 ]; then
+    echo "Verifying architecture (arm64) of detect_rosetta_cpu...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (arm64) of detect_rosetta_cpu...done"
 echo "Building ${target}...done"
 
 ## Target gfx2libboinc also build dependent target jpeg
@@ -124,6 +172,22 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of libjpeg.a..."
+lipo ./build/${style}/libjpeg.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libjpeg.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libjpeg.a...done"
+echo "Verifying architecture (x86_64 arm64) of libboinc_graphics2.a..."
+lipo ./build/${style}/libboinc_graphics2.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libboinc_graphics2.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_graphics2.a...done"
 echo "Building ${target}...done"
 
 target="libboinc"
@@ -133,6 +197,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of libboinc.a..."
+lipo ./build/${style}/libboinc.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libboinc.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc.a...done"
 echo "Building ${target}...done"
 
 target="api_libboinc"
@@ -142,6 +214,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_api.a..."
+lipo ./build/${style}/libboinc_api.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libboinc_api.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_api.a...done"
 echo "Building ${target}...done"
 
 target="PostInstall"
@@ -151,6 +231,30 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of boinc_finish_install..."
+lipo ./build/${style}/boinc_finish_install -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of boinc_finish_install...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of boinc_finish_install...done"
+echo "Verify architecture (x86_64 arm64) of SetVersion..."
+lipo ./build/${style}/SetVersion -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verify architecture (x86_64 arm64) of SetVersion...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verify architecture (x86_64 arm64) of SetVersion...done"
+echo "Verify architecture (x86_64 arm64) of PostInstall..."
+lipo ./build/${style}/PostInstall.app/Contents/MacOS/PostInstall -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verify architecture (x86_64 arm64) of PostInstall...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verify architecture (x86_64 arm64) of PostInstall...done"
 echo "Building ${target}...done"
 
 target="switcher"
@@ -160,6 +264,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of switcher..."
+lipo ./build/${style}/switcher -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of switcher...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of switcher...done"
 echo "Building ${target}...done"
 
 target="gfx_switcher"
@@ -169,6 +281,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of gfx_switcher..."
+lipo ./build/${style}/gfx_switcher -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of gfx_switcher...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of gfx_switcher...done"
 echo "Building ${target}...done"
 
 target="Install_BOINC"
@@ -178,6 +298,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of Install_BOINC..."
+lipo ./build/${style}/BOINC\ Installer.app/Contents/MacOS/BOINC\ Installer -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of Install_BOINC...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of Install_BOINC...done"
 echo "Building ${target}...done"
 
 libSearchPath=""
@@ -191,6 +319,22 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of libjpeg.a..."
+lipo ./build/${style}/libjpeg.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libjpeg.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libjpeg.a...done"
+echo "Verifying architecture (x86_64 arm64) of boincscr..."
+lipo ./build/${style}/boincscr -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of boincscr...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of boincscr...done"
 echo "Building ${target}...done"
 
 target="ScreenSaver"
@@ -200,6 +344,22 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of gfx_cleanup..."
+lipo ./build/${style}/gfx_cleanup -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of gfx_cleanup...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of gfx_cleanup...done"
+echo "Verifying architecture (x86_64 arm64) of BOINCSaver..."
+lipo ./build/${style}/BOINCSaver.saver/Contents/MacOS/BOINCSaver -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of BOINCSaver...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of BOINCSaver...done"
 echo "Building ${target}...done"
 
 target="boinc_opencl"
@@ -209,6 +369,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_opencl.a..."
+lipo ./build/${style}/libboinc_opencl.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libboinc_opencl.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_opencl.a...done"
 echo "Building ${target}...done"
 
 target="setprojectgrp"
@@ -218,6 +386,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of setprojectgrp..."
+lipo ./build/${style}/setprojectgrp -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of setprojectgrp...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of setprojectgrp...done"
 echo "Building ${target}...done"
 
 target="cmd_boinc"
@@ -227,6 +403,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of boinccmd..."
+lipo ./build/${style}/boinccmd -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of boinccmd...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of boinccmd...done"
 echo "Building ${target}...done"
 
 target="Uninstaller"
@@ -236,6 +420,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of Uninstaller..."
+lipo ./build/${style}/Uninstall\ BOINC.app/Contents/MacOS/Uninstall\ BOINC -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of Uninstaller...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of Uninstaller...done"
 echo "Building ${target}...done"
 
 target="SetUpSecurity"
@@ -245,6 +437,14 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of SetUpSecurity..."
+lipo ./build/${style}/SetUpSecurity -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of SetUpSecurity...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of SetUpSecurity...done"
 echo "Building ${target}...done"
 
 target="AddRemoveUser"
@@ -254,6 +454,97 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;
 fi
+echo "Verifying architecture (x86_64 arm64) of AddRemoveUser..."
+lipo ./build/${style}/AddRemoveUser -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of AddRemoveUser...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of AddRemoveUser...done"
+echo "Building ${target}...done"
+
+target="zip apps"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} -noclean -zipapps | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a..."
+lipo ./build/${style}/libboinc_zip.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a...done"
+echo "Verifying architecture (x86_64 arm64) of boinc_zip_test..."
+lipo ../zip/build/${style}/boinc_zip_test -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of boinc_zip_test...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of boinc_zip_test...done"
+echo "Verifying architecture (x86_64 arm64) of testzlibconflict..."
+lipo ../zip/build/${style}/testzlibconflict -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of testzlibconflict...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of testzlibconflict...done"
+echo "Building ${target}...done"
+
+target="UpperCase2"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} -noclean -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../zip/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of UC2_graphics-apple-darwin..."
+lipo ../samples/mac_build/build/${style}/UC2_graphics-apple-darwin -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of UC2_graphics-apple-darwin...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of UC2_graphics-apple-darwin...done"
+echo "Verifying architecture (x86_64 arm64) of UC2-apple-darwin..."
+lipo ../samples/mac_build/build/${style}/UC2-apple-darwin -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of UC2-apple-darwin...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of UC2-apple-darwin...done"
+echo "Verifying architecture (x86_64 arm64) of slide_show-apple-darwin..."
+lipo ../samples/mac_build/build/${style}/slide_show-apple-darwin -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of slide_show-apple-darwin...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of slide_show-apple-darwin...done"
+echo "Building ${target}...done"
+
+target="VBoxWrapper"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} -noclean -vboxwrapper -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../clientgui/mac/ ../samples/jpeglib ${cache_dir}/include"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of vboxwrapper..."
+lipo ../samples/vboxwrapper/build/${style}/vboxwrapper -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of vboxwrapper...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of vboxwrapper...done"
 echo "Building ${target}...done"
 
 cd ..
