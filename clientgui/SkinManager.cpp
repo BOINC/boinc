@@ -31,6 +31,9 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "version.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <cstdlib>
 
 
 ////@begin XPM images
@@ -978,8 +981,11 @@ wxString CSkinManager::GetSkinsLocation() {
     strSkinLocation += wxT("skins");
 #elif defined(__WXGTK__)
     strSkinLocation = wxGetApp().GetRootDirectory();
-    if (strSkinLocation.StartsWith("/usr/")) {
-        strSkinLocation += wxT("/../share/boinc-manager/skins");
+    wxString strLinuxSkinLocation = strSkinLocation + wxT("/../share/boinc-manager/skins");
+    struct stat info;
+    // check if folder exist
+    if (stat( strLinuxSkinLocation.mb_str(), &info ) == 0 && info.st_mode & S_IFDIR) {
+        strSkinLocation = strLinuxSkinLocation;
     }
     else {
         strSkinLocation += wxT("/skins");
