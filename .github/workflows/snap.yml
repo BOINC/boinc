@@ -29,6 +29,11 @@ jobs:
         - type: x64
           architecture: linux/amd64
           snap_file: boinc_amd64.snap
+          triplet: x64-linux-snap
+        - type: arm64
+          architecture: linux/arm64
+          snap_file: boinc_arm64.snap
+          triplet: arm64-linux-snap
 
     steps:
     - uses: actions/checkout@v3
@@ -62,6 +67,7 @@ jobs:
           --volume $PWD:/root \
           --workdir /root \
           --platform "${{ matrix.architecture }}" \
+          --env triplet=${{ matrix.triplet }} \
           --env VCPKG_BINARY_SOURCES=$VCPKG_BINARY_SOURCES \
           --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
           --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \

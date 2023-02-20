@@ -44,8 +44,6 @@ slots:
 parts:
   boinc:
     build-packages:
-    - libftgl-dev
-    - freeglut3-dev
     - libnotify-dev
     - libxmu-dev
     - libxi-dev
@@ -71,13 +69,12 @@ parts:
     build-snaps:
     - cmake
     stage-packages:
-    - freeglut3-dev
     - libxss-dev
     source: .
     plugin: autotools
     build-environment:
     - CRYPTOGRAPHY_DONT_BUILD_RUST: "1"
-    - triplet: snap-linux-$SNAPCRAFT_TARGET_ARCH
+    - triplet: $triplet
     - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
     - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
     - VCPKG_BINARY_SOURCES: "$VCPKG_BINARY_SOURCES"
