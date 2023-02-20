@@ -7,11 +7,24 @@ if [ ! -d "linux" ]; then
 fi
 
 TRIPLET="x64-linux"
-if [ ! -z "$1" ]; then
-    TRIPLET="$1"
-fi
+HOST_TRIPLET="x64-linux"
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        --triplet)
+        TRIPLET="$2"
+        shift
+        --host_triplet)
+        HOST_TRIPLET="$2"
+        shift
+        ;;
+    esac
+    shift # past argument or value
+done
 
 echo TRIPLET=$TRIPLET
+echo HOST_TRIPLET=$HOST_TRIPLET
 
 . $PWD/3rdParty/vcpkg_ports/vcpkg_link.sh
 BUILD_DIR="$PWD/3rdParty/linux"
@@ -25,4 +38,4 @@ fi
 
 git -C $VCPKG_ROOT pull
 $VCPKG_ROOT/bootstrap-vcpkg.sh
-$VCPKG_ROOT/vcpkg install  --x-manifest-root=3rdParty/vcpkg_ports/configs/manager/linux --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=$TRIPLET --clean-after-build
+$VCPKG_ROOT/vcpkg install --x-manifest-root=3rdParty/vcpkg_ports/configs/manager/linux --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=$TRIPLET --host-triplet=$TRIPLET --clean-after-build

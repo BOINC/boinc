@@ -44,8 +44,6 @@ slots:
 parts:
   boinc:
     build-packages:
-    - libftgl-dev
-    - freeglut3-dev
     - libnotify-dev
     - libxmu-dev
     - libxi-dev
@@ -71,13 +69,13 @@ parts:
     build-snaps:
     - cmake
     stage-packages:
-    - freeglut3-dev
     - libxss-dev
     source: .
     plugin: autotools
     build-environment:
     - CRYPTOGRAPHY_DONT_BUILD_RUST: "1"
-    - triplet: snap-linux-$SNAPCRAFT_TARGET_ARCH
+    - triplet: $triplet
+    - host_triplet: $host_triplet
     - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
     - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
     - VCPKG_BINARY_SOURCES: "$VCPKG_BINARY_SOURCES"
@@ -103,19 +101,10 @@ parts:
       cmake --version
 
       # aws
-      ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-      sudo add-apt-repository ppa:lizthegrey/misc
-      DEBIAN_FRONTEND=noninteractive sudo apt install awscli -y
       aws --version
-
-      # ninja
-      export PATH=$HOME/.local/bin:$PATH
-      pip install -U --user pip
-      pip install --user ninja
-      ninja --version
       
       export CFLAGS=-w
       export CMAKE_C_FLAGS=-w
-      linux/update_vcpkg_manager.sh $triplet
+      linux/update_vcpkg_manager.sh --triplet $triplet --host_triplet $host_triplet
       ./_autosetup
       snapcraftctl build
