@@ -102,6 +102,24 @@ def set_installshield(version):
                     line = f'		<row><td>ProductVersion</td><td>{version}</td><td/></row>\n'
                 f.write(line)
 
+def set_snapcraft(version):
+    with open('snap/snapcraft.yaml','r') as f:
+        lines = f.readlines()
+    with open('snap/snapcraft.yaml','w') as f:
+        for line in lines:
+            if line.startswith('version:'):
+                line = f'version: "{version}"\n'
+            f.write(line)
+
+def set_snap_boinc_desktop(version):
+    with open('snap/gui/boinc.desktop','r') as f:
+        lines = f.readlines()
+    with open('snap/gui/boinc.desktop','w') as f:
+        for line in lines:
+            if line.startswith('version='):
+                line = f'version="{version}"\n'
+            f.write(line)
+
 if (len(sys.argv) != 2):
     print('Usage: set-client-version.py VERSION')
     exit(1)
@@ -122,6 +140,8 @@ set_version_h_in(version)
 set_version_log(version)
 set_build_gradle(version)
 set_installshield(version)
+set_snapcraft(version)
+set_snap_boinc_desktop(version)
 
 if (os.name == 'posix' and sys.platform != 'darwin'):
     print('Running autosetup...')
