@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,14 +27,12 @@
 
 #include "msg_queue.h"
 
-using std::perror;
-
 int create_message_queue(key_t key) {
     int mq_id;
 
     mq_id = msgget(key, IPC_CREAT | IPC_EXCL | 0666);
     if (mq_id < 0) {
-        perror("create_message_queue: msgget");
+        boinc::perror("create_message_queue: msgget");
         return -1;
     }
     return 0;
@@ -45,13 +43,13 @@ int receive_message(key_t key, void *msg, size_t msg_size, bool wait) {
 
     mq_id = msgget(key, 0666);
     if (mq_id < 0) {
-        perror("receive_message: msgget");
+        boinc::perror("receive_message: msgget");
         return -1;
     }
 
     retval = msgrcv(mq_id, msg, msg_size, 0, (wait?0:IPC_NOWAIT));
     if (retval < 0) {
-        perror("receive_message: msgrcv");
+        boinc::perror("receive_message: msgrcv");
         return -1;
     }
 
@@ -63,13 +61,13 @@ int send_message(key_t key, void *msg, size_t msg_size, bool wait) {
 
     mq_id = msgget(key, 0666);
     if (mq_id < 0) {
-        perror("send_message: msgget");
+        boinc::perror("send_message: msgget");
         return -1;
     }
 
     retval = msgsnd(mq_id, msg, msg_size, (wait?0:IPC_NOWAIT));
     if (retval < 0) {
-        perror("send_message: msgsnd");
+        boinc::perror("send_message: msgsnd");
         return -1;
     }
 
@@ -81,12 +79,12 @@ int destroy_message_queue(key_t key) {
 
     mq_id = msgget(key, 0666);
     if (mq_id < 0) {
-        perror("delete_message_queue: msgget");
+        boinc::perror("delete_message_queue: msgget");
         return -1;
     }
     retval = msgctl(mq_id, IPC_RMID, NULL);
     if (retval) {
-        perror("delete_message_queue: msgctl");
+        boinc::perror("delete_message_queue: msgctl");
         return -1;
     }
     return 0;

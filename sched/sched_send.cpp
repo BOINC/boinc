@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,7 +35,6 @@
 #include "util.h"
 #include "str_util.h"
 #include "synch.h"
-
 #include "credit.h"
 #include "hr.h"
 #include "sched_array.h"
@@ -53,12 +52,8 @@
 #include "sched_types.h"
 #include "sched_util.h"
 #include "sched_version.h"
-
 #include "sched_send.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 // if host sends us an impossible RAM size, use this instead
 //
@@ -135,7 +130,7 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 void WORK_REQ::get_job_limits() {
     int ninstances[NPROC_TYPES];
     int i;
-    
+
     memset(ninstances, 0, sizeof(ninstances));
     int n;
     n = g_reply->host.p_ncpus;

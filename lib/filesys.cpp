@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,11 +26,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <fcntl.h>
 #include <cerrno>
 #include <sys/stat.h>
@@ -592,11 +587,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
             return 0;
         }
     }
-#ifndef _USING_FCGI_
-    FILE *f = fopen(path, mode);
-#else
-    FCGI_FILE *f = FCGI::fopen(path,mode);
-#endif
+    FILE *f = boinc::fopen(path, mode);
 
 #ifdef _WIN32
     // on Windows: if fopen fails, try again for 5 seconds
@@ -618,17 +609,13 @@ FILE* boinc_fopen(const char* path, const char* mode) {
         for (int i=0; i<5; i++) {
             boinc_sleep(drand());
             if (errno != EINTR) break;
-#ifndef _USING_FCGI_
-            f = fopen(path, mode);
-#else
-            f = FCGI::fopen(path, mode);
-#endif
+            f = boinc::fopen(path, mode);
             if (f) break;
         }
     }
     if (f) {
-        if (-1 == fcntl(fileno(f), F_SETFD, FD_CLOEXEC)) {
-            fclose(f);
+        if (-1 == fcntl(boinc::fileno(f), F_SETFD, FD_CLOEXEC)) {
+            boinc::fclose(f);
             return 0;
         }
     }
@@ -675,13 +662,9 @@ int boinc_touch_file(const char *path) {
     if (boinc_file_exists(path)) {
         return 0;
     }
-#ifndef _USING_FCGI_
-    FILE *fp = fopen(path, "w");
-#else
-    FCGI_FILE *fp = FCGI::fopen(path, "w");
-#endif
+    FILE *fp = boinc::fopen(path, "w");
     if (fp) {
-        fclose(fp);
+        boinc::fclose(fp);
         return 0;
     }
     return -1;
@@ -698,11 +681,11 @@ int boinc_copy(const char* orig, const char* newf) {
     snprintf(cmd, sizeof(cmd), "copy \"%s\" \"%s\"", orig, newf);
     return system(cmd);
 #else
-    // POSIX requires that shells run from an application will use the 
-    // real UID and GID if different from the effective UID and GID.  
-    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
-    // system() invokes a shell, it may not properly copy the file's 
-    // ownership or permissions when called from the BOINC Client 
+    // POSIX requires that shells run from an application will use the
+    // real UID and GID if different from the effective UID and GID.
+    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since
+    // system() invokes a shell, it may not properly copy the file's
+    // ownership or permissions when called from the BOINC Client
     // under sandbox security, so we copy the file directly.
     //
     FILE *src, *dst;
@@ -713,32 +696,32 @@ int boinc_copy(const char* orig, const char* newf) {
     if (!src) return ERR_FOPEN;
     dst = boinc_fopen(newf, "w");
     if (!dst) {
-        fclose(src);
+        boinc::fclose(src);
         return ERR_FOPEN;
     }
     while (1) {
-        n = fread(buf, 1, sizeof(buf), src);
+        n = boinc::fread(buf, 1, sizeof(buf), src);
         if (n <= 0) {
             // could be either EOF or an error.
             // Check for error case.
             //
-            if (!feof(src)) {
+            if (!boinc::feof(src)) {
                 retval = ERR_FREAD;
             }
             break;
         }
-        m = fwrite(buf, 1, n, dst);
+        m = boinc::fwrite(buf, 1, n, dst);
         if (m != n) {
             retval = ERR_FWRITE;
             break;
         }
     }
-    if (fclose(src)){
-       fclose(dst);
+    if (boinc::fclose(src)){
+       boinc::fclose(dst);
        return ERR_FCLOSE;
     }
 
-    if (fclose(dst)){
+    if (boinc::fclose(dst)){
        return ERR_FCLOSE;
     }
     return retval;
@@ -945,7 +928,7 @@ void boinc_getcwd(char* path) {
 #ifdef _WIN32
     getcwd(path, MAXPATHLEN);
 #else
-    char* p 
+    char* p
 #ifdef __GNUC__
       __attribute__ ((unused))
 #endif
@@ -1007,7 +990,7 @@ FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path) {
     if (fd < 0) {
         return 0;
     }
-    return fdopen(fd, "wb");
+    return boinc::fdopen(fd, "wb");
 }
 
 #endif
@@ -1052,11 +1035,7 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 
     int retval = STATFS(path, &fs_info);
     if (retval) {
-#ifndef _USING_FCGI_
-        perror("statvfs");
-#else
-        FCGI::perror("statvfs");
-#endif
+        boinc::perror("statvfs");
         return ERR_STATFS;
     }
 #if HAVE_SYS_STATVFS_H

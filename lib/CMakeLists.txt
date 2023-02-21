@@ -202,12 +202,14 @@ elseif(WIN32)
                                 $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
     )
 elseif(UNIX)
+    execute_process(COMMAND ./configure --disable-server --disable-client --disable-manager)
+
     execute_process(COMMAND ${BOINC_DIR}/configure --disable-server --disable-client --disable-manager
         WORKING_DIRECTORY ${BOINC_DIR}
         ECHO_OUTPUT_VARIABLE
         ECHO_ERROR_VARIABLE
     )
-    
+
     file(COPY ${BOINC_DIR}/config.h DESTINATION ${BOINC_DIR}/config-h)
 
 

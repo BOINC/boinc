@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -72,9 +72,9 @@ extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 
 extern int create_result(
     WORKUNIT&,
-    char* result_template_filename, 
+    char* result_template_filename,
     char* suffix,
-    R_RSA_PRIVATE_KEY& key, 
+    R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config,
     char* query_string=0,
     int priority_increase=0
@@ -82,9 +82,9 @@ extern int create_result(
 
 extern int create_result_ti(
     TRANSITIONER_ITEM&,
-    char* result_template_filename, 
+    char* result_template_filename,
     char* suffix,
-    R_RSA_PRIVATE_KEY& key, 
+    R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config,
     char* query_string=0,
     int priority_increase=0

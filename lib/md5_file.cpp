@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,11 +19,6 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #endif
 
 #ifdef _WIN32
@@ -34,6 +29,7 @@
 #include <stdlib.h>
 #endif
 
+#include "boinc_stdio.h"
 #include "error_numbers.h"
 #include "md5.h"
 
@@ -46,18 +42,10 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
     int i, n;
 
     nbytes = 0;
-#ifndef _USING_FCGI_
-    FILE *f = fopen(path, "rb");
-#else
-    FILE *f = FCGI::fopen(path, "rb");
-#endif
+    FILE *f = boinc::fopen(path, "rb");
     if (!f) {
-        fprintf(stderr, "md5_file: can't open %s\n", path);
-#ifndef _USING_FCGI_
-        std::perror("md5_file");
-#else
-        FCGI::perror("md5_file");
-#endif
+        boinc::fprintf(stderr, "md5_file: can't open %s\n", path);
+        boinc::perror("md5_file");
 
         return ERR_FOPEN;
     }
@@ -66,20 +54,20 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
     // check and skip gzip header if needed
     //
     if (is_gzip) {
-        n = (int)fread(buf, 1, 10, f);
+        n = (int)boinc::fread(buf, 1, 10, f);
         if (n != 10) {
-            fclose(f);
+            boinc::fclose(f);
             return ERR_BAD_FORMAT;
         }
         if (buf[0] != 0x1f || buf[1] != 0x8b || buf[2] != 0x08) {
-            fclose(f);
+            boinc::fclose(f);
             return ERR_BAD_FORMAT;
-        } 
+        }
         nbytes = 10;
     }
 
     while (1) {
-        n = (int)fread(buf, 1, 4096, f);
+        n = (int)boinc::fread(buf, 1, 4096, f);
         if (n<=0) break;
         nbytes += n;
         md5_append(&state, buf, n);
@@ -89,7 +77,7 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
         sprintf(output+2*i, "%02x", binout[i]);
     }
     output[32] = 0;
-    fclose(f);
+    boinc::fclose(f);
     return 0;
 }
 
@@ -126,7 +114,7 @@ int make_secure_random_string_os(char* out) {
     char buf[256];
 #ifdef _WIN32
     HCRYPTPROV hCryptProv;
-        
+
     if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {
         if (GetLastError() == NTE_BAD_KEYSET) {
             if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET)) {
@@ -136,26 +124,22 @@ int make_secure_random_string_os(char* out) {
             return -2;
         }
     }
-    
+
     if(! CryptGenRandom(hCryptProv, (DWORD) 32, (BYTE *) buf)) {
         CryptReleaseContext(hCryptProv, 0);
         return -3;
     }
-        
+
     CryptReleaseContext(hCryptProv, 0);
 #elif defined ANDROID
     return -1;
 #else
-#ifndef _USING_FCGI_
-    FILE* f = fopen("/dev/random", "r");
-#else
-    FILE* f = FCGI::fopen("/dev/random", "r");
-#endif
+    FILE* f = boinc::fopen("/dev/random", "r");
     if (!f) {
         return -1;
     }
-    size_t n = fread(buf, 32, 1, f);
-    fclose(f);
+    size_t n = boinc::fread(buf, 32, 1, f);
+    boinc::fclose(f);
     if (n != 1) return -2;
 #endif
     md5_block((const unsigned char*)buf, 32, out);

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,19 +64,15 @@ void write_time_stats_log() {
         }
     }
     sprintf(filename, "%s/%d", dirname, hostid);
-#ifndef _USING_FCGI_
-    FILE* f = fopen(filename, "w");
-#else
-    FCGI_FILE *f = FCGI::fopen(filename, "w");
-#endif
+    FILE* f = boinc::fopen(filename, "w");
     if (!f) {
         log_messages.printf(MSG_CRITICAL,
             "Can't create time stats file %s\n", filename
         );
         return;
     }
-    fputs(stats_buf, f);
-    fclose(f);
+    boinc::fputs(stats_buf, f);
+    boinc::fclose(f);
     free(stats_buf);
     stats_buf = 0;
 }

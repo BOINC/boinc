@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -30,10 +30,7 @@
 #define M_LN2      0.693147180559945309417
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#define perror FCGI::perror
-#endif
+#include "boinc_stdio.h"
 
 #ifndef _WIN32
 #include "config.h"
@@ -359,11 +356,7 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
 
     // Note: the fseek() below won't work unless we use binary mode in fopen
 
-#ifndef _USING_FCGI_
-    FILE *f = fopen(path, "rb");
-#else
-    FCGI_FILE *f = FCGI::fopen(path, "rb");
-#endif
+    FILE *f = boinc::fopen(path, "rb");
     if (!f) return ERR_FOPEN;
 
 #ifndef _USING_FCGI_
@@ -377,12 +370,12 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
     size_t isize = (size_t)size;
     buf = (char*)malloc(isize+1);
     if (!buf) {
-        fclose(f);
+        boinc::fclose(f);
         return ERR_MALLOC;
     }
-    size_t n = fread(buf, 1, isize, f);
+    size_t n = boinc::fread(buf, 1, isize, f);
     buf[n] = 0;
-    fclose(f);
+    boinc::fclose(f);
     return 0;
 }
 
@@ -477,12 +470,8 @@ int run_program(
             if (retval) return retval;
         }
         execvp(file, argv);
-#ifdef _USING_FCGI_
-        FCGI::perror("execvp");
-#else
-        perror("execvp");
-        fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
-#endif
+        boinc::perror("execvp");
+        boinc::fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
         exit(errno);
     }
 
@@ -559,7 +548,7 @@ bool process_exists(int pid) {
 #ifdef _WIN32
 static int get_client_mutex(const char*) {
     char buf[MAX_PATH] = "";
-    
+
     // Global mutex on Win2k and later
     //
     safe_strcpy(buf, "Global\\");
@@ -664,11 +653,7 @@ int get_real_executable_path(char* path, size_t max_len) {
         ssize_t ret = readlink(links[i], path, max_len - 1);
         if (ret < 0) {
             if (errno != ENOENT) {
-#ifdef _USING_FCGI_
-                FCGI::perror("readlink");
-#else
-                perror("readlink");
-#endif
+                boinc::perror("readlink");
             }
             continue;
         } else if ((size_t)ret == max_len - 1) {

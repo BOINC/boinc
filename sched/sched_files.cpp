@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,14 +39,10 @@ vector<string> file_delete_regex_string;
 
 int init_file_delete_regex() {
     char buf[256];
-#ifndef _USING_FCGI_
-    FILE* f = fopen("../file_delete_regex", "r");
-#else
-    FCGI_FILE* f = FCGI::fopen("../file_delete_regex", "r");
-#endif
+    FILE* f = boinc::fopen("../file_delete_regex", "r");
 
     if (!f) return 0;
-    while (fgets(buf, sizeof(buf), f)) {
+    while (boinc::fgets(buf, sizeof(buf), f)) {
         strip_whitespace(buf);
         if (!strlen(buf)) continue;
         regex_t re;
@@ -59,7 +55,7 @@ int init_file_delete_regex() {
             file_delete_regex_string.push_back(string(buf));
         }
     }
-    fclose(f);
+    boinc::fclose(f);
     return 0;
 }
 
