@@ -48,8 +48,12 @@ jobs:
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: install dependencies
-        if: ${{! contains(matrix.type, 'cmake')}}
+        if: matrix.type == 'manager' || matrix.type == 'samples-makefile'
         run: ./3rdParty/buildMacDependencies.sh -q
+
+      - name: install vcpkg dependencies
+        if: matrix.type == 'libs-cmake'
+        run: brew install pkg-config
 
       - name: make manager
         if: success() && matrix.type == 'manager'
