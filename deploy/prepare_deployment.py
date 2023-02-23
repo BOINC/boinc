@@ -212,13 +212,13 @@ snap_list = [
 
 logs_list = [
     'config.log',
-    '3rdParty/wasm/vcpkg/buildtrees/*/*.log',
-    '3rdParty/linux/vcpkg/buildtrees/*/*.log',
-    '3rdParty/osx/vcpkg/buildtrees/*/*.log',
-    '3rdParty/android/vcpkg/buildtrees/*/*.log',
-    '3rdParty/mingw/vcpkg/buildtrees/*/*.log',
-    '3rdParty/Windows/vcpkg/buildtrees/*/*.log',
-    'parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/*/*.log',
+    '3rdParty/wasm/vcpkg/buildtrees/*.log',
+    '3rdParty/linux/vcpkg/buildtrees/*.log',
+    '3rdParty/osx/vcpkg/buildtrees/*.log',
+    '3rdParty/android/vcpkg/buildtrees/*.log',
+    '3rdParty/mingw/vcpkg/buildtrees/*.log',
+    '3rdParty/Windows/vcpkg/buildtrees/*.log',
+    'parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/*.log',
     'android/BOINC/app/build/reports/',
     'mac_build/xcodebuild_*.log',
 ]
@@ -226,7 +226,7 @@ logs_list = [
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
-    command = f'7z a -t7z -mx=9 {archive_path} {" ".join(files_list)}'
+    command = f'7z a -t7z -r -mx=9 {archive_path} {" ".join(files_list)}'
     os.system(command)
 
 def help():
