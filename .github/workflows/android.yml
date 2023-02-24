@@ -143,3 +143,21 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: false
+  report:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: Android_tests_results
+        path: artifacts
+    - uses: dorny/test-reporter@v1
+      with:
+        name: Android Tests Report
+        path: 'artifacts/*.xml'
+        reporter: java-junit
+        fail-on-error: true

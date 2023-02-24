@@ -5,7 +5,7 @@
 | [![Build Status](https://github.com/BOINC/boinc/actions/workflows/android.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/android.yml) | [![codecov](https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg)](https://codecov.io/gh/BOINC/boinc) |
 | [![Build Status](https://github.com/BOINC/boinc/actions/workflows/linux.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/linux.yml) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) |
 | [![Build Status](https://github.com/BOINC/boinc/actions/workflows/mingw.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/mingw.yml) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master) |
-| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/snap.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/snap.yml) | [![Test Report](https://github.com/BOINC/boinc/actions/workflows/test-report.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/test-report.yml)|
+| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/snap.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/snap.yml) | |
 | [![Build Status](https://github.com/BOINC/boinc/actions/workflows/osx.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/osx.yml) | |
 | [![Build Status](https://github.com/BOINC/boinc/actions/workflows/windows.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/windows.yml) | |
 
