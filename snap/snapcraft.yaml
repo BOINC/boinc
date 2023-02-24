@@ -8,6 +8,13 @@ description: |
   The BOINC and Science United projects are located at the University of California, Berkeley and are supported by the National Science Foundation.
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
+architectures:
+  - build-on: amd64
+    build-for: amd64
+  - build-on: amd64
+    build-for: arm64
+  - build-on: amd64
+    build-for: armhf
 
 apps:
   boinc:
@@ -44,40 +51,57 @@ slots:
 parts:
   boinc:
     build-packages:
-    - libftgl-dev
-    - freeglut3-dev
-    - libnotify-dev
-    - libxmu-dev
-    - libxi-dev
-    - libfcgi-dev 
-    - libxss-dev 
-    - libxcb-util0-dev
-    - libxxf86vm-dev
-    - libxrender-dev
-    - libxrandr-dev
-    - libdbus-1-dev
-    - libxtst-dev
-    # vcpkg dependencies
-    - build-essential
-    - pkg-config
-    - tar
-    - curl
-    - zip
-    - unzip
-    - git
-    - bison
-    # awscli dependencies
-    - software-properties-common
-    build-snaps:
-    - cmake
+    - on amd64 to arm64: 
+      - libnotify-dev:arm64
+      - libxmu-dev:arm64
+      - libxi-dev:arm64
+      - libfcgi-dev:arm64
+      - libxss-dev:arm64
+      - libxcb-util0-dev:arm64
+      - libxxf86vm-dev:arm64
+      - libxrender-dev:arm64
+      - libxrandr-dev:arm64
+      - libdbus-1-dev:arm64
+      - libxtst-dev:arm64
+    - on amd64 to armhf: 
+      - libnotify-dev:armhf
+      - libxmu-dev:armhf
+      - libxi-dev:armhf
+      - libfcgi-dev:armhf
+      - libxss-dev:armhf
+      - libxcb-util0-dev:armhf
+      - libxxf86vm-dev:armhf
+      - libxrender-dev:armhf
+      - libxrandr-dev:armhf
+      - libdbus-1-dev:armhf
+      - libxtst-dev:armhf
+    - else:
+      - libnotify-dev
+      - libxmu-dev
+      - libxi-dev
+      - libfcgi-dev
+      - libxss-dev
+      - libxcb-util0-dev
+      - libxxf86vm-dev
+      - libxrender-dev
+      - libxrandr-dev
+      - libdbus-1-dev
+      - libxtst-dev
     stage-packages:
-    - freeglut3-dev
-    - libxss-dev
+    - on amd64 to arm64:
+      - libxss-dev:arm64
+    - on amd64 to armhf:
+      - libxss-dev:arm64
+    - else:
+      - libxss-dev
     source: .
     plugin: autotools
     build-environment:
     - CRYPTOGRAPHY_DONT_BUILD_RUST: "1"
-    - triplet: snap-linux-$SNAPCRAFT_TARGET_ARCH
+    - triplet: $triplet
+    - config_host: $config_host
+    - boinc_platform: $boinc_platform
+    - alt_platform: $alt_platform
     - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
     - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
     - VCPKG_BINARY_SOURCES: "$VCPKG_BINARY_SOURCES"
@@ -85,37 +109,22 @@ parts:
     - AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
     - AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
     - prefix: /usr
-    - PKG_CONFIG_PATH: $VCPKG_DIR/lib/pkgconfig/
+    - PKG_CONFIG_PATH: "$VCPKG_DIR/lib/pkgconfig/:$snap_pkg_config_path"
+    - on amd64 to armhf:
+      - CXXFLAGS: -mfloat-abi=hard
     autotools-configure-parameters:
     - --prefix=$prefix
     - --with-libcurl=$VCPKG_DIR
     - --with-ssl=$VCPKG_DIR
     - --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config
+    - --host=$config_host
+    - --with-boinc-platform=$boinc_platform
+    - --with-boinc-alt-platform=$alt_platform
     - --enable-client
     - --enable-manager
     - --disable-server
     - GTK_LIBS="`pkg-config --libs gtk+-3.0`"
     override-build: |
       echo ARCH=$SNAPCRAFT_TARGET_ARCH
-      
-      # cmake
-      export PATH=/snap/cmake/current/bin/:$PATH
-      cmake --version
-
-      # aws
-      ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-      sudo add-apt-repository ppa:lizthegrey/misc
-      DEBIAN_FRONTEND=noninteractive sudo apt install awscli -y
-      aws --version
-
-      # ninja
-      export PATH=$HOME/.local/bin:$PATH
-      pip install -U --user pip
-      pip install --user ninja
-      ninja --version
-      
-      export CFLAGS=-w
-      export CMAKE_C_FLAGS=-w
-      linux/update_vcpkg_manager.sh $triplet
       ./_autosetup
       snapcraftctl build

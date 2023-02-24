@@ -218,7 +218,6 @@ logs_list = [
     '3rdParty/android/vcpkg/buildtrees/*.log',
     '3rdParty/mingw/vcpkg/buildtrees/*.log',
     '3rdParty/Windows/vcpkg/buildtrees/*.log',
-    'parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/*.log',
     'android/BOINC/app/build/reports/',
     'mac_build/xcodebuild_*.log',
 ]

@@ -27,8 +27,46 @@ jobs:
       matrix:
         include:
         - type: x64
-          architecture: linux/amd64
+          architecture: amd64
           snap_file: boinc_amd64.snap
+          triplet: x64-linux-snap
+          host_triplet: x64-linux-snap
+          compilers: ""
+          pkg_config_path: ""
+          config_host: "x86_64-pc-linux-gnu"
+          boinc_platform: "x86_64-pc-linux-gnu"
+          alt_platform: ""
+        - type: arm64
+          architecture: arm64
+          snap_file: boinc_arm64.snap
+          triplet: arm64-linux-snap
+          host_triplet: x64-linux-snap
+          compilers: gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+          pkg_config_path: /usr/lib/aarch64-linux-gnu/pkgconfig/
+          config_host: aarch64-linux-gnu
+          boinc_platform: aarch64-unknown-linux-gnu
+          alt_platform: arm-unknown-linux-gnueabihf
+        - type: arm
+          architecture: armhf
+          snap_file: boinc_armhf.snap
+          triplet: arm-linux-snap
+          host_triplet: x64-linux-snap
+          compilers: gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+          pkg_config_path: /usr/lib/arm-linux-gnueabihf/pkgconfig/
+          config_host: arm-linux-gnueabihf
+          boinc_platform: arm-unknown-linux-gnueabihf
+          alt_platform: ""
+
+    env:
+      triplet: ${{ matrix.triplet }}
+      host_triplet: ${{ matrix.host_triplet }}
+      compilers: ${{ matrix.compilers }}
+      arch: ${{ matrix.architecture }}
+      config_host: ${{ matrix.config_host }}
+      boinc_platform: ${{ matrix.boinc_platform }}
+      alt_platform: ${{ matrix.alt_platform }}
+      snap_pkg_config_path: ${{ matrix.pkg_config_path }}
+      PKG_CONFIG_PATH: ${{ matrix.pkg_config_path }}
 
     steps:
     - uses: actions/checkout@v3
@@ -47,42 +85,72 @@ jobs:
       if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
       run: |
         echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
-    
+
     - name: Configure docker qemu
       if: success()
       uses: docker/setup-qemu-action@v2
 
+    - name: Install vcpkg dependencies
+      run: |
+        sudo apt install -y $compilers build-essential pkg-config tar curl zip unzip git bison
+
+        sudo dpkg --add-architecture arm64
+        sudo dpkg --add-architecture armhf
+        codename=$(lsb_release -cs)
+        cat <<EOT >> arm-cross-compile-sources.list
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename main restricted
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-updates main restricted
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename universe
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-updates universe
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename multiverse
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-updates multiverse
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-backports main restricted universe multiverse
+        EOT
+
+        cat /etc/apt/sources.list | sed "s|deb |deb [arch=amd64] |g" > sources.list
+
+        sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
+        sudo mv sources.list /etc/apt/        
+        sudo apt update
+    
+        # at-spi2-core
+        # cairo
+        # cairo others
+        # gtk
+        sudo apt install -y \
+            libdbus-1-dev:$arch \
+            libxi-dev:$arch \
+            libxtst-dev:$arch \
+            \
+            libx11-dev:$arch \
+            libxft-dev:$arch \
+            libxext-dev:$arch \
+            \
+            libxrender-dev:$arch \
+            libxcb1-dev:$arch \
+            libxcb-render0-dev:$arch \
+            libspectre-dev:$arch \
+            \
+            libxkbcommon-dev:$arch \
+            libxrandr-dev:$arch
+
+    - name: vcpkg libs
+      if: success()
+      run: |
+        linux/update_vcpkg_manager.sh --triplet $triplet --host_triplet $host_triplet
+
     - name: Build boinc snap
       if: success()
       run: |
-        docker run \
-          --rm \
-          --tty \
-          --privileged \
-          --volume $PWD:/root \
-          --workdir /root \
-          --platform "${{ matrix.architecture }}" \
-          --env VCPKG_BINARY_SOURCES=$VCPKG_BINARY_SOURCES \
-          --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-          --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-          --env AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
-          diddledani/snapcraft:core22 \
-          "snap run snapcraft --verbosity verbose pack --destructive-mode --output ${{ matrix.snap_file }}"
+        sudo snap install snapcraft --classic
+        sudo -E snapcraft \
+          --verbosity verbose \
+          pack \
+          --destructive-mode \
+          --output ${{ matrix.snap_file }} \
+          --build-for ${{ matrix.architecture }}
 
-          sudo chown $USER ${{ matrix.snap_file }}
-
-    - name: Install and test snap boinc inside docker
-      if: success()
-      run: |
-        docker run \
-          --rm \
-          --tty \
-          --privileged \
-          --volume $PWD:/root \
-          --workdir /root \
-          --platform "${{ matrix.architecture }}" \
-          diddledani/snapcraft:core22 \
-          "snap install --devmode ${{ matrix.snap_file }} && boinc --version && boinc.client --version"
+        sudo chown $USER ${{ matrix.snap_file }}
 
     - name: Install and test snap boinc x64
       if: success() && matrix.type == 'x64'
@@ -94,7 +162,6 @@ jobs:
     - name: Prepare logs on failure
       if: ${{ failure() }}
       run: |
-        sudo chown -R $USER parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/
         python ./deploy/prepare_deployment.py logs
 
     - name: Upload logs on failure
