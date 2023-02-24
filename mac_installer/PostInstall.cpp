@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -202,7 +202,6 @@ int main(int argc, char *argv[])
     OSStatus                err;
     FILE                    *f;
     char                    s[2048];
-    char                    path[MAXPATHLEN];
     
 #ifndef SANDBOX
     group                   *grp;
@@ -298,10 +297,13 @@ int main(int argc, char *argv[])
         err = callPosixSpawn (s);
         REPORT_ERROR(err);
 
-        // We don't customize BOINC Data directory name for branding
-        err = callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
-        REPORT_ERROR(err);
-
+        // Don't remove BOINC Data directory if previously present
+        if (!boinc_file_exists("/Library/Application Support/BOINC Data/stdoutdae.txt")){
+            // We don't customize BOINC Data directory name for branding
+            err = callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
+            REPORT_ERROR(err);
+        }
+        
         err = kill(installerPID, SIGKILL);
 
         return 0;
@@ -470,28 +472,6 @@ int main(int argc, char *argv[])
             CFRelease(urlref);
             REPORT_ERROR(err);
         }
-    }
-
-    if (compareOSVersionTo(10, 13) >= 0) {
-        getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_Finish_Install", sizeof(path)-1);
-        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Install\"", path, appName[brandID]);
-        err = callPosixSpawn(s);
-        REPORT_ERROR(err);
-        if (err) {
-            printf("Command %s returned error %d\n", s, err);
-            fflush(stdout);
-        }
-
-        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
-        chmod(s, 0755);
-#ifdef SANDBOX
-        group *bmgrp = getgrnam(boinc_master_group_name);
-        passwd *bmpw = getpwnam(boinc_master_user_name);
-        if (bmgrp && bmpw) {
-            chown(s, bmpw->pw_uid, bmgrp->gr_gid);
-        }
-#endif
     }
 
     err = UpdateAllVisibleUsers(brandID, oldBrandID);
@@ -1129,7 +1109,7 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
+    fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Install</string>\n", pw->pw_name, appName[brandID]);
     if (deleteLogInItem || (brandID != oldBrandID)) {
         // If this user was previously authorized to run the Manager, there 
         // may still be a Login Item for this user, and the Login Item may
@@ -1138,11 +1118,10 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
         // (for this user only) if it is running.
         //
         fprintf(f, "\t\t<string>-d</string>\n");
-        fprintf(f, "\t\t<string>%s</string>\n", appName[oldBrandID]);
-    }
-    if (!deleteLogInItem) {
+        fprintf(f, "\t\t<string>%d</string>\n", (int)oldBrandID);
+    } else {
         fprintf(f, "\t\t<string>-a</string>\n");
-        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+        fprintf(f, "\t\t<string>%d</string>\n", (int)brandID);
     }
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
@@ -1565,7 +1544,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
     char                human_user_name[256];
-    char                s[256];
+    char                s[2*MAXPATHLEN];
     Boolean             saverAlreadySetForAll = true;
     Boolean             setSaverForAllUsers = false;
     Boolean             allNonAdminUsersAreSet = true;
@@ -1573,12 +1552,13 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     int                 err;
     Boolean             isAdminGroupMember, isBMGroupMember;
     struct stat         sbuf;
-    char                cmd[256];
+    char                cmd[2*MAXPATHLEN];
 #ifdef SANDBOX
     int                 BMGroupMembershipCount, BPGroupMembershipCount; 
-    int                 i;
 #endif
+    int                 i;
     int                 userIndex;
+    char                path[MAXPATHLEN];
     
 //    char                nameOfSkin[256];
 //    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
@@ -1811,21 +1791,78 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
        if (useOSASript) {
             snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
             boinc_delete_file(s);
+
+            for (i=0; i< NUMBRANDS; i++) {
+                snprintf(s, sizeof(s), "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install\"", pw->pw_name, appName[i]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+
+                snprintf(s, sizeof(s), "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall\"", pw->pw_name, appName[i]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+            }
             printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
             SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
 
-            printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
-            fflush(stdout);
-            FixLaunchServicesDataBase(pw->pw_uid, brandID);
         } else {
+            snprintf(s, sizeof(s), "mkdir -p \"/Users/%s/Library/Application Support/BOINC/\"", pw->pw_name);   
+            err = callPosixSpawn(s);
+            REPORT_ERROR(err);
+            if (err) {
+                printf("Command %s returned error %d\n", s, err);
+                fflush(stdout);
+            }
+            snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC/", pw->pw_name);   
+            chmod(s, 0771);
+            chown(s, pw->pw_uid, pw->pw_gid);
+
+            getPathToThisApp(path, sizeof(path));
+            strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
+            snprintf(s, sizeof(s), "cp -f \"%s\" \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install\"", path, pw->pw_name, appName[brandID]);
+            err = callPosixSpawn(s);
+            REPORT_ERROR(err);
+            if (err) {
+                printf("Command %s returned error %d\n", s, err);
+                fflush(stdout);
+            }
+
+            snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC/%s_Finish_Install", pw->pw_name, appName[brandID]);
+            chmod(s, 0755);
+            chown(s, pw->pw_uid, pw->pw_gid);
+            
+            for (i=0; i< NUMBRANDS; i++) {
+                // If we previously ran the uninstaller but did not log in to this user,
+                // remove the user's unused BOINC_Manager_Finish_Uninstall file.
+                snprintf(s, sizeof(s), "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall\"", pw->pw_name, appName[i]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+            }
+            
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
             // SetLoginItemLaunchAgent will run helper app which will call FixLaunchServicesDataBase()
             SetLoginItemLaunchAgent(brandID, oldBrandID, deleteLoginItem, pw);
         }
+
+        printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
+        fflush(stdout);
+        FixLaunchServicesDataBase(pw->pw_uid, brandID);
+
         if (isBMGroupMember) {
             // For some reason we need to call getpwnam again on OS 10.5
             pw = getpwnam(human_user_name);
