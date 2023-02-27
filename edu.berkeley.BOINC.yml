@@ -1,0 +1,109 @@
+app-id: edu.berkeley.BOINC
+runtime: org.gnome.Platform
+runtime-version: '42'
+sdk: org.gnome.Sdk
+command: boincmgr
+finish-args:
+- --share=ipc
+- --socket=x11
+- --socket=pulseaudio
+- --share=network
+- --device=dri
+- --persist=.BOINC
+- --persist=.
+
+modules:
+# - name: glu
+#   config-opts: 
+#   - --disable-static
+#   sources:
+#   - type: archive
+#     url:  https://mesa.freedesktop.org/archive/glu/glu-9.0.2.tar.xz
+#     sha256: 6e7280ff585c6a1d9dfcdf2fca489251634b3377bfc33c29e4002466a38d02d4
+#   cleanup: 
+#   - /include
+#   - /lib/*.a
+#   - /lib/*.la 
+#   - /lib/pkgconfig
+
+# - name: wxWidgets
+#   buildsystem: cmake-ninja
+#   sources:
+#   - type: git
+#     url: https://github.com/wxWidgets/wxWidgets.git
+#     tag: v3.2.0
+#     commit: 5b5ec3804a31a3765d60ff351bbdf79eddb1e1f9
+#   cleanup:
+#   - /bin
+#   - /include
+#   - /share
+#   - /lib/wx/include
+
+##### freeglut and libXmu needed for projects that display graphics
+##### https://boinc.berkeley.edu/trac/wiki/GraphicsApi#api
+# - name: freeglut
+#   buildsystem: cmake-ninja
+#   build-options:
+#     cflags: -fcommon
+#   sources:
+#   - type: archive
+#     url: https://downloads.sourceforge.net/freeglut/freeglut-3.2.1.tar.gz
+#     sha256: d4000e02102acaf259998c870e25214739d1f16f67f99cb35e4f46841399da68
+#   cleanup:
+#   - /include
+
+# - name: libXmu
+#   sources:
+#   - type: archive
+#     url: https://www.x.org/releases/individual/lib/libXmu-1.1.3.tar.gz
+#     sha256: 5bd9d4ed1ceaac9ea023d86bf1c1632cd3b172dce4a193a72a94e1d9df87a62e
+#   cleanup:
+#   - /include
+#   - /share
+#####
+
+- name: boinc
+  buildsystem: autotools
+  build-options:
+    env:
+    - triplet: $triplet
+    - config_host: $config_host
+    - boinc_platform: $boinc_platform
+    - alt_platform: $alt_platform
+    - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
+    - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
+    - PKG_CONFIG_PATH: "$VCPKG_DIR/lib/pkgconfig/:$flat_pkg_config_path"      
+  config-opts:
+  - --disable-server
+  - --disable-fcgi
+  - --enable-unicode
+  - --with-libcurl=$VCPKG_DIR
+  - --with-ssl=$VCPKG_DIR
+  - --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config
+  - --host=$config_host
+  - --with-boinc-platform=$boinc_platform
+  - --with-boinc-alt-platform=$alt_platform
+  - --enable-client
+  - --enable-manager
+  make-install-args:
+  - DESTDIR=${FLATPAK_DEST}
+  - prefix=
+  - exec_prefix=
+  sources:
+  - type: dir
+    path: "."
+  - type: file
+    path: edu.berkeley.BOINC.metainfo.xml
+  - type: shell
+    commands:
+    - ./_autosetup
+  post-install:
+  ### Overwrite BOINCDIR or else it will warn that it can't find gui_rpc_auth.cfg
+  - sed -i 's:#BOINCDIR=/var/lib/boinc:BOINCDIR=/:' ${FLATPAK_DEST}/etc/boinc-client.conf
+  - install -Dm644 clientgui/res/boinc.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+  - install -Dm644 clientgui/res/boinc.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+  - install -Dm644 edu.berkeley.BOINC.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+  - desktop-file-edit --remove-key=Path ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+  - desktop-file-edit --set-icon=${FLATPAK_ID} ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+  cleanup:
+  - /usr

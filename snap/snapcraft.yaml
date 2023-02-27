@@ -97,18 +97,12 @@ parts:
     source: .
     plugin: autotools
     build-environment:
-    - CRYPTOGRAPHY_DONT_BUILD_RUST: "1"
     - triplet: $triplet
     - config_host: $config_host
     - boinc_platform: $boinc_platform
     - alt_platform: $alt_platform
     - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
     - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-    - VCPKG_BINARY_SOURCES: "$VCPKG_BINARY_SOURCES"
-    - AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
-    - AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
-    - AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
-    - prefix: /usr
     - PKG_CONFIG_PATH: "$VCPKG_DIR/lib/pkgconfig/:$snap_pkg_config_path"
     - on amd64 to armhf:
       - CXXFLAGS: -mfloat-abi=hard

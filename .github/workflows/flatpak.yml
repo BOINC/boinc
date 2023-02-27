@@ -1,0 +1,178 @@
+name: Flatpak
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+  schedule:
+  - cron:  '10 12 * * 0'
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
+jobs:
+  flatpak:
+    name: flatpak-${{ matrix.type }}-build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - type: x64
+          arch: x86_64
+          apt_arch: amd64
+          architecture: linux/amd64
+          flatpak_file: boinc_x86_64.flatpak
+          triplet: x64-linux-flatpak
+          host_triplet: x64-linux-flatpak
+          compilers: ""
+          pkg_config_path: ""
+          config_host: "x86_64-pc-linux-gnu"
+          boinc_platform: "x86_64-pc-linux-gnu"
+          alt_platform: ""
+        # - type: arm64
+        #   arch: aarch64
+        #   apt_arch: arm64
+        #   architecture: linux/arm64/v8
+        #   flatpak_file: boinc_aarch64.flatpak
+        #   triplet: arm64-linux-flatpak
+        #   host_triplet: x64-linux-flatpak 
+        #   compilers: gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+        #   pkg_config_path: /usr/lib/aarch64-linux-gnu/pkgconfig/
+        #   config_host: aarch64-linux-gnu
+        #   boinc_platform: aarch64-unknown-linux-gnu
+        #   alt_platform: arm-unknown-linux-gnueabihf
+         
+    env:
+      triplet: ${{ matrix.triplet }}
+      host_triplet: ${{ matrix.host_triplet }}
+      arch: ${{ matrix.arch }}
+      compilers: ${{ matrix.compilers }}
+      apt_arch: ${{ matrix.apt_arch }}
+      flatpak_file: ${{ matrix.flatpak_file }}
+      config_host: ${{ matrix.config_host }}
+      boinc_platform: ${{ matrix.boinc_platform }}
+      alt_platform: ${{ matrix.alt_platform }}
+      flat_pkg_config_path: ${{ matrix.pkg_config_path }}
+      PKG_CONFIG_PATH: ${{ matrix.pkg_config_path }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt -qq update
+        sudo apt install -y p7zip-full
+
+    - name: Running from origin repo
+      if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+      run: |
+        echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+    - name: Running from fork
+      if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+      run: |
+        echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+    
+    - name: Configure flatpak
+      if: success()
+      run: |
+        sudo add-apt-repository ppa:flatpak/stable -y
+        sudo apt install -y flatpak flatpak-builder qemu-system-arm qemu-user-static      
+        sudo systemctl restart systemd-binfmt.service
+        sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        sudo flatpak install -y flathub org.gnome.Sdk/$arch/42 org.gnome.Platform/$arch/42
+
+    - name: Configure docker qemu
+      if: success()
+      uses: docker/setup-qemu-action@v2
+
+    - name: Install vcpkg dependencies
+      run: |
+        sudo apt install -y $compilers build-essential pkg-config tar curl zip unzip git bison
+
+        sudo dpkg --add-architecture arm64
+        sudo dpkg --add-architecture armhf
+        codename=$(lsb_release -cs)
+        cat <<EOT >> arm-cross-compile-sources.list
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename main restricted
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-updates main restricted
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename universe
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-updates universe
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename multiverse
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-updates multiverse
+        deb [arch=armhf,arm64] http://ports.ubuntu.com/ $codename-backports main restricted universe multiverse
+        EOT
+
+        cat /etc/apt/sources.list | sed "s|deb |deb [arch=amd64] |g" > sources.list
+
+        sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
+        sudo mv sources.list /etc/apt/        
+        sudo apt update
+    
+        # at-spi2-core
+        # cairo
+        # cairo others
+        # gtk
+        sudo apt install -y \
+            libdbus-1-dev:$apt_arch \
+            libxi-dev:$apt_arch \
+            libxtst-dev:$apt_arch \
+            \
+            libx11-dev:$apt_arch \
+            libxft-dev:$apt_arch \
+            libxext-dev:$apt_arch \
+            \
+            libxrender-dev:$apt_arch \
+            libxcb1-dev:$apt_arch \
+            libxcb-render0-dev:$apt_arch \
+            libspectre-dev:$apt_arch \
+            \
+            libxkbcommon-dev:$apt_arch \
+            libxrandr-dev:$apt_arch
+
+    - name: vcpkg libs
+      if: success()
+      run: |
+        linux/update_vcpkg_manager.sh --triplet $triplet --host_triplet $host_triplet
+
+    - name: Build boinc flatpak
+      if: success()
+      run: |
+        flatpak-builder --arch $arch build-dir edu.berkeley.BOINC.yml
+        flatpak build-export --arch $arch export build-dir
+        flatpak build-bundle --arch $arch export $flatpak_file edu.berkeley.BOINC
+
+    - name: Install boinc flatpak
+      if: success()
+      run: sudo flatpak install -y --arch $arch --bundle $flatpak_file
+
+    - name: Prepare logs on failure
+      if: ${{ failure() }}
+      run: python ./deploy/prepare_deployment.py logs
+
+    - name: Upload logs on failure
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: snap_logs_${{ github.event.pull_request.head.sha }}
+        path: deploy/logs.7z
+
+    - name: Prepare artifacts for deploy
+      if: success() 
+      run: python ./deploy/prepare_deployment.py linux_flatpak
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      if: success()
+      with:
+        name: linux_flatpak_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+        path: deploy/linux_flatpak.7z

@@ -246,3 +246,9 @@ parts/
 prime/
 stage/
 *.snap
+
+# flatpak
+.flatpak-builder/
+build-dir/
+export/
+*.flatpak
