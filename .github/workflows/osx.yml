@@ -1,4 +1,4 @@
-name: OSX
+name: 🍎 OSX
 on:
   push:
     branches: [ master, 'client_release/**' ]

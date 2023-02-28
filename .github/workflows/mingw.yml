@@ -1,4 +1,4 @@
-name: Linux-MinGW
+name: 🐧🪟 Linux-MinGW
 on:
   push:
     branches: [ master, 'client_release/**' ]

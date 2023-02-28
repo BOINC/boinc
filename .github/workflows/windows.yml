@@ -1,4 +1,4 @@
-name: Windows
+name: 🪟 Windows
 on:
   push:
     branches: [ master, 'client_release/**' ]

@@ -1,4 +1,4 @@
-name: Snap
+name: 📦🐧 Snap
 on:
   push:
     branches:

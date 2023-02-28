@@ -1,4 +1,4 @@
-name: Webassembly
+name: 🌐 Webassembly
 on:
   push:
     branches: [ master, 'client_release/**' ]
