@@ -24,6 +24,7 @@
 #include "opencl_boinc.h"
 #include "parse.h"
 #include "wslinfo.h"
+#include "hostinfo.h"
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
 // The following is for regular blobs, 64KB

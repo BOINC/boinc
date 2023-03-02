@@ -50,7 +50,7 @@ const char file_redhatrelease[] = "/etc/redhat-release";
 
 // if you add fields, update clear_host_info()
 
-#define P_FEATURES_SIZE 1024
+#define P_FEATURES_SIZE 8192
 
 class HOST_INFO {
 public:
