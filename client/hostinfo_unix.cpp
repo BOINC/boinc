@@ -485,7 +485,7 @@ static void parse_meminfo_linux(HOST_INFO& host) {
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 //
 static void parse_cpuinfo_linux(HOST_INFO& host) {
-    char buf[1024], features[P_FEATURES_SIZE], model_buf[1024];
+    char buf[P_FEATURES_SIZE], features[P_FEATURES_SIZE], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
     bool model_hack=false, vendor_hack=false;
@@ -527,7 +527,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
     host.m_cache=-1;
     safe_strcpy(features, "");
-    while (fgets(buf, 1024, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         strip_whitespace(buf);
         if (
                 /* there might be conflicts if we dont #ifdef */
@@ -762,7 +762,7 @@ void use_cpuid(HOST_INFO& host) {
     u_int cpu_id;
     char vendor[13];
     int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt, hasAVX;
-    char capabilities[256];
+    char capabilities[P_FEATURES_SIZE];
 
     hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = hasAVX = 0;
     do_cpuid(0x0, p);
@@ -1075,7 +1075,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     int32 found = 0;
     int32 i;
-    char buf[12];
+    char buf[256];
 
     for (i = 0; i < 32; i++) {
         if ((cpuInfo.eax_1.features & (1UL << i)) && kFeatures[i] != NULL) {

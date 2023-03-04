@@ -1286,12 +1286,14 @@ int main() {
     }
 
     for (unsigned int i=0; i<pcs.classes.size(); i++) {
-        bool b = pcs.check(sreq, pcs.classes[i].name, hu);
+        WORKUNIT wu;
+        wu.id = 100;
+        wu.batch = 100;
+        bool b = pcs.check(sreq, pcs.classes[i].name, hu, &wu);
         if (b) {
             printf("%s: check succeeded\n", pcs.classes[i].name);
-            printf("\tncudas: %f\n\tnatis: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
-                hu.ncudas,
-                hu.natis,
+            printf("\tgpu_usage: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
+                hu.gpu_usage,
                 hu.gpu_ram/1e6,
                 hu.avg_ncpus,
                 hu.projected_flops/1e9,
