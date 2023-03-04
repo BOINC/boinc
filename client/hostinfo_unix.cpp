@@ -527,7 +527,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
     host.m_cache=-1;
     safe_strcpy(features, "");
-    while (fgets(buf, 1024, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         strip_whitespace(buf);
         if (
                 /* there might be conflicts if we dont #ifdef */
