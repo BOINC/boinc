@@ -19,7 +19,7 @@
 //  main.cpp
 //  boinc_Finish_Install
 
-// Usage: boinc_Finish_Install [-d] [appName]
+// Usage: boinc_Finish_Install [-d] [brandID]
 //
 // * Deletes Login Items of all possible branded and unbranded BOINC Managers for current user.
 // * If first argument is -d then also kills the application specified by the second argument.
@@ -87,7 +87,7 @@ int main(int argc, const char * argv[]) {
         }
     }
 
-    for (i=1; i<argc; i+=2) {
+    for (i=1; i<argc; i++) {
         if (strcmp(argv[i], "-d") == 0) {
             isUninstall = true;
         } else if (strcmp(argv[i], "-a") != 0) {
@@ -112,7 +112,7 @@ int main(int argc, const char * argv[]) {
         err = callPosixSpawn(cmd);
         if (err) {
             fprintf(stderr, "Command: %s\n", cmd);
-            fprintf(stderr, "Make new login item for %s returned error %d\n", appName[iBrandId], err);
+            fprintf(stderr, "Make new login item for %s returned error %d\n", appName[i], err);
             fflush(stderr);
         }
     
@@ -134,7 +134,7 @@ int main(int argc, const char * argv[]) {
     
     // We can't delete ourselves while we are running,
     // so launch a shell script to do it after we exit.
-    sprintf(scriptName, "/tmp/%s_Finish_%s_%s", appName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
+    sprintf(scriptName, "/tmp/%s_Finish_%s_%s", brandName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
     FILE* f = fopen(scriptName, "w");
     fprintf(f, "#!/bin/bash\n\n");
     fprintf(f, "sleep 3\n");
@@ -143,10 +143,10 @@ int main(int argc, const char * argv[]) {
         fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"\n", pw->pw_name);
     } else {
         // Delete only this executable
-        fprintf(f, "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install\"", pw->pw_name, appName[iBrandId]);
+        fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[iBrandId]);
     }
     fclose(f);
-    sprintf(cmd, "sh %s", scriptName);
+    sprintf(cmd, "sh \"%s\"", scriptName);
     callPosixSpawn (cmd);
 
     return 0;

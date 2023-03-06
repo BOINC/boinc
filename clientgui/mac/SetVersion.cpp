@@ -109,6 +109,10 @@ int main(int argc, char** argv) {
     err = FixInfoPlistFile("BoincCmd-Info.plist");
     if (err) retval = err;
     
+    // BOINCManager_Finish_Install & BOINCManager_Finish_Uninstall
+    err = FixInfoPlistFile("FinishInstall-Info.plist");
+    if (err) retval = err;
+    
     // WaitPermissions is not currently used
     err = FixInfoPlistFile("WaitPermissions-Info.plist");
     if (err) retval = err;

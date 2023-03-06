@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2022 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -58,6 +58,7 @@
 ## Updated 10/10/21 to eliminate ca-bundle.crt
 ## Updated 4/29/22 to eliminate obsolete clientscr/BOINCSaver_MacOS10_6_7.zip
 ## Updated 6/9/22 to eliminate harmless error message
+## Updated 3/1/23 for boinc_finish_install to be a full application bundle
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -321,6 +322,9 @@ cp -fpRL "${BUILDPATH}/BOINCManager.app" ../BOINC_Installer/Pkg_Root/Application
 
 cp -fpRL "${BUILDPATH}/BOINCSaver.saver" ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
 
+echo "BrandId=0" > "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app/Contents/Resources/Branding"
+echo "BrandId=0" > ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/Branding
+
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
 ## cp -fpRL locale/ ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
@@ -374,6 +378,18 @@ find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"local
 
 sudo cp -fpRL ../BOINC_Installer/locale "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources"
 
+# Copy BOINC_Finish_Install.app into BOINC Data folder for possible use by AddRemoveUser
+sudo cp -fpRL "${BUILDPATH}/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/"
+
+# Change BOINC_Finish_Install.app embedded in uninstaller to BOINC_Finish_Uninstall.app
+sudo mv "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app"
+
+# Change executable name of BOINC_Finish_Uninstall.app to match app name
+sudo mv "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/MacOS/BOINC_Finish_Install" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/MacOS/BOINC_Finish_Uninstall"
+
+# Change Bundle ID of BOINC_Finish_Uninstall.app 
+###sudo plutil -replace CFBundleIdentifier -string edu.berkeley.boinc.finish-uninstall "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
+
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
 sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
 
@@ -385,6 +401,8 @@ cp -fpRL "${BUILDPATH}/BOINC Installer.app" ../BOINC_Installer/New_Release_$1_$2
 /usr/libexec/PlistBuddy -c "Set :LSMinimumSystemVersion 10.0" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Info.plist"
 
 cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources"
+
+echo "BrandId=0" > "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
 
 
 ## If you wish to code sign the client, manager, installer and uninstaller,
@@ -416,6 +434,9 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     # Code Sign the detect_rosetta_cpu helper app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/detect_rosetta_cpu"
 
+    # Code Sign the BOINC_Finish_Install.app in the BOINC Data folder
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/BOINC_Finish_Install.app"
+
     # Code Sign the gfx_switcher utility embedded in BOINC screensaver if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
 
@@ -431,14 +452,14 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     # Code Sign the BOINC Manager if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app"
 
-    # Code Sign boinc_finish_install app embedded in the PostInstall app if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/boinc_finish_install"
+    # Code Sign BOINC_Finish_Install app embedded in the PostInstall app if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app"
 
     # Code Sign the PostInstall app embedded in the BOINC installer app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app"
 
-    # Code Sign boinc_finish_install app embedded in BOINC uninstaller app if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/boinc_finish_install"
+    # Code Sign BOINC_Finish_Install app embedded in BOINC uninstaller app if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app"
 
     # Code Sign the BOINC uninstaller app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app"
