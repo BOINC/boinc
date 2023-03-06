@@ -9,7 +9,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string> boinc cleanup</string>
+	<string>boinc cleanup</string>
 	<key>CFBundleVersion</key>
 	<string>5.10.7</string>
 </dict>
