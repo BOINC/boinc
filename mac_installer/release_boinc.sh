@@ -58,7 +58,7 @@
 ## Updated 10/10/21 to eliminate ca-bundle.crt
 ## Updated 4/29/22 to eliminate obsolete clientscr/BOINCSaver_MacOS10_6_7.zip
 ## Updated 6/9/22 to eliminate harmless error message
-## Updated 3/1/23 for boinc_finish_install to be a full application bundle
+## Updated 3/7/23 for boinc_finish_install to be a full application bundle
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -378,14 +378,21 @@ find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"local
 
 sudo cp -fpRL ../BOINC_Installer/locale "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources"
 
-# Copy BOINC_Finish_Install.app into BOINC Data folder for possible use by AddRemoveUser
-sudo cp -fpRL "${BUILDPATH}/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/"
-
 # Change BOINC_Finish_Install.app embedded in uninstaller to BOINC_Finish_Uninstall.app
 sudo mv "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app"
 
 # Change executable name of BOINC_Finish_Uninstall.app to match app name
 sudo mv "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/MacOS/BOINC_Finish_Install" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/MacOS/BOINC_Finish_Uninstall"
+
+# Fix version number in Info.plist file of BOINC_Finish_Uninstall.app
+sudo plutil -replace CFBundleVersion -string `plutil -extract CFBundleVersion raw "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Info.plist"` "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
+
+sudo plutil -remove CFBundleShortVersionString "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
+
+# Fix bundle name in Info.plist file of BOINC_Finish_Uninstall.app
+sudo plutil -replace CFBundleName -string "BOINC_Finish_Uninstall" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
+
+sudo plutil -replace CFBundleExecutable -string "BOINC_Finish_Uninstall" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
 
 # Change Bundle ID of BOINC_Finish_Uninstall.app 
 ###sudo plutil -replace CFBundleIdentifier -string edu.berkeley.boinc.finish-uninstall "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
@@ -404,6 +411,13 @@ cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_$1_$2_$3/
 
 echo "BrandId=0" > "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
 
+# Fix version number in Info.plist file of BOINC_Finish_Install.app
+sudo plutil -replace CFBundleVersion -string `plutil -extract CFBundleVersion raw "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Info.plist"` "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app/Contents/Info.plist"
+
+sudo plutil -remove CFBundleShortVersionString "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app/Contents/Info.plist"
+
+# Copy BOINC_Finish_Install.app into BOINC Data folder for possible use by AddRemoveUser
+sudo cp -fpRL "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/"
 
 ## If you wish to code sign the client, manager, installer and uninstaller,
 ## create a file ~/BOINCCodeSignIdentities.txt whose first line is the

@@ -986,6 +986,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     struct stat             sbuf;
     char                    path[MAXPATHLEN];
     char                    s[2*MAXPATHLEN];
+    int                     i;
     OSErr                   err;
    
     FixLaunchServicesDataBase(pw->pw_uid, "edu.berkeley.boinc.finish-install");
@@ -1000,14 +1001,26 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     chmod(s, 0771);
     chown(s, pw->pw_uid, pw->pw_gid);
                         
-    // If we previously ran the installer but did not log in to this user,
-    // remove the user's unused BOINC_Manager_Finish_Install file.
-    snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[brandID]);
-    err = callPosixSpawn(s);
-    if (err) {
-        printf("Command %s returned error %d\n", s, err);
-        fflush(stdout);
+    for (i=0; i< NUMBRANDS; i++) {
+        // If we previously ran the installer for any brand but did not log in to
+        // this user, remove the user's unused BOINC_Manager_Finish_Install file.
+        snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[i]);
+        err = callPosixSpawn(s);
+        if (err) {
+            printf("Command %s returned error %d\n", s, err);
+            fflush(stdout);
+        }
+
+        // If we previously ran the installer for any brand but did not log in to
+        // this user, remove the user's unused BOINC_Manager_Finish_Uninstall file.
+        snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, brandName[i]);
+        err = callPosixSpawn(s);
+        if (err) {
+            printf("Command %s returned error %d\n", s, err);
+            fflush(stdout);
+        }
     }
+            
    
     getPathToThisApp(path, sizeof(path));
     snprintf(s, sizeof(s), "cp -fR \"%s/Contents/Resources/%s_Finish_Uninstall.app\" \"/Users/%s/Library/Application Support/BOINC/\"", 

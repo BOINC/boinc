@@ -1846,6 +1846,28 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             chmod(s, 0771);
             chown(s, pw->pw_uid, pw->pw_gid);
 
+            for (i=0; i< NUMBRANDS; i++) {
+                // If we previously ran the installer for any brand but did not log in to
+                // this user, remove the user's unused BOINC_Manager_Finish_Install file.
+                snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[i]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+
+                // If we previously ran the installer for any brand but did not log in to
+                // this user, remove the user's unused BOINC_Manager_Finish_Uninstall file.
+                snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, brandName[i]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+            }
+            
             getPathToThisApp(path, sizeof(path));
             snprintf(s, sizeof(s), "cp -fR \"%s/Contents/Resources/%s_Finish_Install.app\" \"/Users/%s/Library/Application Support/BOINC/\"",
                         path, brandName[brandID], pw->pw_name);
@@ -1873,18 +1895,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 fflush(stdout);
             }
                         
-            for (i=0; i< NUMBRANDS; i++) {
-                // If we previously ran the uninstaller but did not log in to this user,
-                // remove the user's unused BOINC_Manager_Finish_Uninstall file.
-                snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, brandName[i]);
-                err = callPosixSpawn(s);
-                REPORT_ERROR(err);
-                if (err) {
-                    printf("Command %s returned error %d\n", s, err);
-                    fflush(stdout);
-                }
-            }
-            
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
