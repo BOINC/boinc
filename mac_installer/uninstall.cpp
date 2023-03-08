@@ -638,7 +638,12 @@ static OSStatus CleanupAllVisibleUsers(void)
     saved_euid = geteuid();
 
     err = noErr;
-    brandID = GetBrandID("/Library/Application Support/BOINC Data/Branding");
+
+    // The branding is in the resources of this uninstall app
+    getPathToThisApp(s, sizeof(s));
+    strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
+    brandID = GetBrandID(s);
+    fflush(stdout);
 
     // First, find all users on system
     f = popen("dscl . list /Users UniqueID", "r");

@@ -127,35 +127,41 @@
 ## NOTE: Do not use your normal Apple ID password. You must create an 
 ## app-specific password at https://appleid.apple.com/account/manage.
 ##
-## - Use the command line tools in Xcode 10 or later
+## NOTE: in the following instructions, subsitute the 3 part version number
+##       for x.y.z and the architecture (usually "universal" for $arch) so 
+##       substitute the quoted full path for ".../boinc_x.y.z_macOSX_$arch"
+## - Use the command line tools in Xcode 13 or later
 ## - Provide valid application & installer code signing identities as above
 ## - In the instructions below, substitute the appropriate architcture for $arch 
 ##     (either x86_64, arm64 or universal)
 ## - In Terminal:
-##  $ xcrun altool --notarize-app -t osx -f {path to ...macOSX_$arch.zip} --primary-bundle-id edu.berkeley.boinc.Installer -u {userID} -p {password}
-## - After a few minutes, check whether the notarize-app request succeeded:
-##  $ xcrun altool --notarization-info {UUID from last step} -u {userID} -p {password}
-## - If the notarize-app request succeeded, attach tickets to top level applications:
-##  $ xcrun stapler staple {path to "...macOSX_$arch.zip/BOINC Installer.app"}
-##  $ xcrun stapler staple {path to "...macOSX_$arch.zip/extras/Uninstall BOINC.app"}
-## - delete or rename the original "...macOSX_$arch.zip" file
-## - Run this ditto command again to create a new "...macOSX_$arch.zip" containing 
+##  $ xcrun notarytool submit ".../boinc_x.y.z_macOSX_$arch.zip" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
+## 
+## - If the notarytool submit request was approved, attach tickets to top level applications as follows:
+## NOTE: Stapling the original files never works. We must rename the original
+##       directory and recreate it from the zip file we just submitted
+##  $ mv ".../boinc_x.y.z_macOSX_$arch" ".../boinc_x.y.z_macOSX_$arch-orig"
+##  $ open ".../boinc_x.y.z_macOSX_$arch.zip"
+##  $ xcrun stapler staple ".../boinc_x.y.z_macOSX_$arch/BOINC Installer.app"
+##  $ xcrun stapler staple {path to ".../boinc_x.y.z_macOSX_$arch.zip/extras/Uninstall BOINC.app"
+## - delete or rename the original ".../boinc_x.y.z_macOSX_$arch.zip" file
+## - Run this ditto command again to create a new zip archive containing 
 ##   the updated (notarized) BOINC Installer.app and Uninstall BOINC.app:
-##  $ ditto -ck --sequesterRsrc --keepParent {path to "boinc_$1.$2.$3_macOSX_$arch"} {path to "boinc_$1.$2.$3_macOSX_$arch.zip"}
+##  $ ditto -ck --sequesterRsrc --keepParent ".../boinc_x.y.z_macOSX_$arch" ".../boinc_x.y.z_macOSX_$arch.zip"
 ##
 ## Then notarize the bare-core (apple-darwin) release as follows:
-## $ xcrun altool --notarize-app -t osx -f {path to ..._$arch-apple-darwin.dmg} --primary-bundle-id edu.berkeley.boinccmd -u {userID} -p {password}
-## - After a few minutes, check whether the notarize-app request succeeded:
+##  $ xcrun notarytool submit ".../boinc_x.y.z_$arch-apple-darwin.dmg" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
 ##  $ xcrun altool --notarization-info {UUID from last step} -u {userID} -p {password}
-## - If the notarize-app request succeeded, attach tickets to top level applications:
-##  $ xcrun stapler staple {path to ..._$arch-apple-darwin.dmg}
 ##
-## - Note: if you are running stapler under OS 10.13 and get an error 68, the local CRL
-##   cache may have become corrupted. You can resolve this by either running stapler
-##   under MacOS 10.14 Mojave or by running this command under OS 10.13:
-##     $ sudo killall -9 trustd; sudo rm /Library/Keychains/crls/valid.sqlite3 
+## - If the notarize-app request was approved, attach a ticket to the disk image:
+## NOTE: Stapling the original files never works. We must rename the original
+##       disk image we just submitted and make a copy of it
+##  $ mv ".../boinc_x.y.z_$arch-apple-darwin.dmg" ".../boinc_x.y.z_$arch-apple-darwin-orig.dmg"
+##  $ cp ".../boinc_x.y.z_$arch-apple-darwin-orig.dmg" ".../boinc_x.y.z_$arch-apple-darwin.dmg"
+##  $ xcrun stapler staple ".../boinc_x.y.z_$arch-apple-darwin.dmg"
+##
 ## - for more information:
-##  $ xcrun altool --help
+##  $ xcrun notarytool --help
 ##  $ man stapler
 ##
 ## TODO: Add code to optionally automate notarization either in this script or
@@ -214,7 +220,7 @@ if [ $Products_Have_arm64 = "yes" ]; then
     fi
 fi
 
-for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall"
+for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install"
 do
     Have_x86_64="no"
     Have_arm64="no"
@@ -377,6 +383,8 @@ find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_I
 find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"locale/"$0"\" \"../BOINC_Installer/locale/"$0"\""}' | bash
 
 sudo cp -fpRL ../BOINC_Installer/locale "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources"
+
+echo "BrandId=0" > "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/Branding"
 
 # Change BOINC_Finish_Install.app embedded in uninstaller to BOINC_Finish_Uninstall.app
 sudo mv "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app"
