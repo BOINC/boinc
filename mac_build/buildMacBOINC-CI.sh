@@ -232,7 +232,7 @@ if [ ${retval} -ne 0 ]; then
     cd ..; exit 1;
 fi
 echo "Verifying architecture (x86_64 arm64) of boinc_finish_install..."
-lipo ./build/${style}/boinc_finish_install -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+lipo ./build/${style}/BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Verifying architecture (x86_64 arm64) of boinc_finish_install...failed"
     echo "Building ${target}...failed"

@@ -511,9 +511,18 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
 {
     struct stat             sbuf;
     char                    s[2048];
+    int                     err;
 
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Ininstaller or by installing a differently branded BOINC.)
+
+    // Register BOINCFinish_Install.app, which may have been unregistered by our installer.
+    sprintf(s, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"//Library/Application Support/BOINC Data/%s_Finish_Install.app\"", pw->pw_uid, brandName[brandID]);
+    err = callPosixSpawn(s);
+    if (err) {
+        printf("*** user %s: lsregister call returned error %d for %s_Finish_Install.app\n", pw->pw_name, err, brandName[brandID]);
+        fflush(stdout);
+    }
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
@@ -522,7 +531,7 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
         chown(s, pw->pw_uid, pw->pw_gid);
     }
     
-    snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install", appName[brandID]);
+    snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install.app", brandName[brandID]);
     if (stat(s, &sbuf) != 0) {
         return SetLoginItemLaunchAgentShellScript(brandID, deleteLogInItem, pw);
     } else {
@@ -590,7 +599,7 @@ Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogI
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", brandName[brandID], brandName[brandID]);
     if (deleteLogInItem) {
         // If this user was previously authorized to run the Manager, there 
         // may still be a Login Item for this user, and the Login Item may
@@ -606,6 +615,10 @@ Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogI
     }
     fprintf(f, "</string>\n");
     fprintf(f, "\t</array>\n");
+    if (compareOSVersionTo(13, 0) >= 0) {
+        fprintf(f, "\t<key>AssociatedBundleIdentifiers</key>\n");
+        fprintf(f, "\t<string>edu.berkeley.boinc.finish-install</string>\n");
+    }
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
     fprintf(f, "</dict>\n");

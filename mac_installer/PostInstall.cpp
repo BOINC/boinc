@@ -119,7 +119,7 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 static void DeleteScreenSaverLaunchAgent(passwd *pw);
 void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
-static void FixLaunchServicesDataBase(uid_t userID, long brandID);
+static void FixLaunchServicesDataBase(uid_t userID, char *pathToKeep, char *theBundleID);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void LoadPreferredLanguages();
@@ -967,7 +967,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         fflush(stdout);
 
         for (j=0; j<5; ++j) {
-            sprintf(cmd, "sudo -u \"%s\" -b \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
+            sprintf(cmd, "sudo -u \"%s\" open \"%s\"", userName, systemEventsPath);
             err = callPosixSpawn(cmd);
             if (err) {
                 REPORT_ERROR(true);
@@ -1109,14 +1109,8 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Install</string>\n", pw->pw_name, appName[brandID]);
-    if (deleteLogInItem || (brandID != oldBrandID)) {
-        // If this user was previously authorized to run the Manager, there 
-        // may still be a Login Item for this user, and the Login Item may
-        // launch the Manager before the LaunchAgent deletes the Login Item.
-        // To guard against this, we have the LaunchAgent kill the Manager
-        // (for this user only) if it is running.
-        //
+    fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", pw->pw_name, brandName[brandID], brandName[brandID]);
+    if (deleteLogInItem) {
         fprintf(f, "\t\t<string>-d</string>\n");
         fprintf(f, "\t\t<string>%d</string>\n", (int)oldBrandID);
     } else {
@@ -1124,6 +1118,10 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
         fprintf(f, "\t\t<string>%d</string>\n", (int)brandID);
     }
     fprintf(f, "\t</array>\n");
+    if (compareOSVersionTo(13, 0) >= 0) {
+        fprintf(f, "\t<key>AssociatedBundleIdentifiers</key>\n");
+        fprintf(f, "\t<string>edu.berkeley.boinc.finish-install</string>\n");
+    }
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
     fprintf(f, "</dict>\n");
@@ -1240,18 +1238,27 @@ Boolean CheckDeleteFile(char *name)
 }
 
 
-// If there are other copies of BOINC Manager with different branding
+// FixLaunchServicesDataBase is used in two ways:
+//
+// [1] To delete references to old copies of BOINC_Finish_Install, whose
+// presence, for reasons I don't understand, causes its signing entity
+// to be shown instead of its application name in the Login Items System
+// Settings under MacOS 13 Ventura. 
+// NOTE: The new copy of BOINC_Finish_Install must then be registered.
+//
+// [2] If there are other copies of BOINC Manager with different branding
 // on the system, Notifications may display the icon for the wrong
 // branding, due to the Launch Services database having one of the
-// other copies of BOINC Manager as the first entry. Each user has
-// their own copy of the Launch Services database, so this must be
-// done for each user.
-//
+// other copies of BOINC Manager as the first entry.
 // This probably will happen only on BOINC development systems where
 // Xcode has generated copies of BOINC Manager.
-static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
+//
+// Each user has their own copy of the Launch Services database, so these
+// must be done for each user.
+//
+static void FixLaunchServicesDataBase(uid_t userID, char *pathToKeep, char *theBundleID) {
     uid_t saved_uid;
-    char boincPath[MAXPATHLEN];
+    char foundPath[MAXPATHLEN];
     char cmd[MAXPATHLEN+250];
     long i, n;
     CFArrayRef appRefs = NULL;
@@ -1262,19 +1269,20 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
     }
 
     saved_uid = geteuid();
-    CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
-
+    CFStringRef bundleID = CFStringCreateWithCString(NULL, theBundleID, kCFStringEncodingUTF8);
     if (LSCopyApplicationURLsForBundleIdentifier) { // Weak linked; not available before OS 10.10
         seteuid(userID);    // Temporarily set effective uid to this user
         appRefs = LSCopyApplicationURLsForBundleIdentifier(bundleID, NULL);
         seteuid(saved_uid);     // Set effective uid back to privileged user
-            if (appRefs == NULL) {
-                printf("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL\n");
-                fflush(stdout);
-                goto registerOurApp;
-            }
+        if (appRefs == NULL) {
+            printf("Call to LSCopyApplicationURLsForBundleIdentifier(%d, %s, %s) returned NULL\n", 
+                userID, pathToKeep ? pathToKeep : "NULL", theBundleID);
+            fflush(stdout);
+            goto registerOurApp;
+        }
         n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
-        printf("LSCopyApplicationURLsForBundleIdentifier returned %ld results\n", n);
+        printf("LSCopyApplicationURLsForBundleIdentifier(%d, %s, %s) returned %ld results\n", 
+            userID, pathToKeep ? pathToKeep : "NULL", theBundleID, n);
         fflush(stdout);
     } else {
         n = 500;    // Prevent infinite loop
@@ -1283,11 +1291,11 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
     for (i=0; i<n; ++i) {     // Prevent infinite loop
         if (appRefs) {
             CFURLRef appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, i);
-            boincPath[0] = '\0';
+            foundPath[0] = '\0';
             if (appURL) {
                 CFRetain(appURL);
                 CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
-                CFStringGetCString(CFPath, boincPath, sizeof(boincPath), kCFStringEncodingUTF8);
+                CFStringGetCString(CFPath, foundPath, sizeof(foundPath), kCFStringEncodingUTF8);
                 if (CFPath) CFRelease(CFPath);
                 CFRelease(appURL);
                 appURL = NULL;
@@ -1295,7 +1303,7 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
         } else {
             seteuid(userID);    // Temporarily set effective uid to this user
             // GetPathToAppFromID() returns only first result from database
-            err = GetPathToAppFromID('BNC!', bundleID,  boincPath, sizeof(boincPath));
+            err = GetPathToAppFromID('BNC!', bundleID,  foundPath, sizeof(foundPath));
             seteuid(saved_uid);     // Set effective uid back to privileged user
             if (err) {
                 printf("Call %ld to GetPathToAppFromID returned error %d\n", i, err);
@@ -1303,37 +1311,44 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
                 break;
             }
         }
-        if (strncmp(boincPath, appPath[brandID], sizeof(boincPath)) == 0) {
-            printf("**** Keeping %s\n", boincPath);
-            fflush(stdout);
-            if (appRefs) CFRelease(appRefs);
-            return;     // Our (possibly branded) BOINC Manager app is now at top of database
+        if (pathToKeep) {
+            if (strncmp(foundPath, pathToKeep, sizeof(foundPath)) == 0) {
+                printf("**** Keeping %s\n", foundPath);
+                fflush(stdout);
+                if (appRefs) CFRelease(appRefs);
+                CFRelease(bundleID);
+                return;     // Our (possibly branded) BOINC Manager app is now at top of database
+            }
         }
-        printf("Unregistering %3ld: %s\n", i, boincPath);
+        printf("Unregistering %3ld: %s\n", i, foundPath);
         fflush(stdout);
         // Remove this entry from the Launch Services database
-        sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -u \"%s\"", userID, boincPath);
+        sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -u \"%s\"", userID, foundPath);
         err = callPosixSpawn(cmd);
         if (err) {
-            printf("*** lsregister -u call returned error %d for %s\n", err, boincPath);
+            printf("*** lsregister -u call returned error %d for %s\n", err, foundPath);
             fflush(stdout);
         }
     }
 
 registerOurApp:
     if (appRefs) CFRelease(appRefs);
+    CFRelease(bundleID);
 
-    // We have exhausted the Launch Services database without finding our
-    // (possibly branded) BOINC Manager app, so add it to the dataabase
-    printf("%s was not found in Launch Services database; registering it now\n", appPath[brandID]);
-    fflush(stdout);
-    sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"%s\"", userID, appPath[brandID]);
-    err = callPosixSpawn(cmd);
-    if (err) {
-        printf("*** lsregister call returned error %d for %s\n", err, appPath[brandID]);
+    if (pathToKeep) {
+        // We have exhausted the Launch Services database without finding our
+        // (possibly branded) BOINC Manager app, so add it to the dataabase
+        printf("%s was not found in Launch Services database; registering it now\n", pathToKeep);
         fflush(stdout);
+        sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"%s\"", userID, pathToKeep);
+        err = callPosixSpawn(cmd);
+        if (err) {
+            printf("*** lsregister call returned error %d for %s\n", err, pathToKeep);
+            fflush(stdout);
+        }
     }
 }
+
 
 void SetEUIDBackToUser (void)
 {
@@ -1793,7 +1808,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             boinc_delete_file(s);
 
             for (i=0; i< NUMBRANDS; i++) {
-                snprintf(s, sizeof(s), "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install\"", pw->pw_name, appName[i]);
+                snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[i]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
                 if (err) {
@@ -1801,7 +1816,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
 
-                snprintf(s, sizeof(s), "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall\"", pw->pw_name, appName[i]);
+                snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, brandName[i]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
                 if (err) {
@@ -1815,6 +1830,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
 
         } else {
+        
+            printf("[2] calling FixLaunchServicesDataBase for Finish_Install for user %s\n", pw->pw_name);
+            fflush(stdout);
+            FixLaunchServicesDataBase(pw->pw_uid, NULL, "edu.berkeley.boinc.finish-install");
+
             snprintf(s, sizeof(s), "mkdir -p \"/Users/%s/Library/Application Support/BOINC/\"", pw->pw_name);   
             err = callPosixSpawn(s);
             REPORT_ERROR(err);
@@ -1826,24 +1846,20 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             chmod(s, 0771);
             chown(s, pw->pw_uid, pw->pw_gid);
 
-            getPathToThisApp(path, sizeof(path));
-            strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
-            snprintf(s, sizeof(s), "cp -f \"%s\" \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install\"", path, pw->pw_name, appName[brandID]);
-            err = callPosixSpawn(s);
-            REPORT_ERROR(err);
-            if (err) {
-                printf("Command %s returned error %d\n", s, err);
-                fflush(stdout);
-            }
-
-            snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC/%s_Finish_Install", pw->pw_name, appName[brandID]);
-            chmod(s, 0755);
-            chown(s, pw->pw_uid, pw->pw_gid);
-            
             for (i=0; i< NUMBRANDS; i++) {
-                // If we previously ran the uninstaller but did not log in to this user,
-                // remove the user's unused BOINC_Manager_Finish_Uninstall file.
-                snprintf(s, sizeof(s), "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall\"", pw->pw_name, appName[i]);
+                // If we previously ran the installer for any brand but did not log in to
+                // this user, remove the user's unused BOINC_Manager_Finish_Install file.
+                snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[i]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+
+                // If we previously ran the installer for any brand but did not log in to
+                // this user, remove the user's unused BOINC_Manager_Finish_Uninstall file.
+                snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, brandName[i]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
                 if (err) {
@@ -1852,6 +1868,33 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 }
             }
             
+            getPathToThisApp(path, sizeof(path));
+            snprintf(s, sizeof(s), "cp -fR \"%s/Contents/Resources/%s_Finish_Install.app\" \"/Users/%s/Library/Application Support/BOINC/\"",
+                        path, brandName[brandID], pw->pw_name);
+            err = callPosixSpawn(s);
+            REPORT_ERROR(err);
+            if (err) {
+                printf("Command %s returned error %d\n", s, err);
+                fflush(stdout);
+            }
+            
+            snprintf(s, sizeof(s), "chown -fR %s \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", 
+                        pw->pw_name, pw->pw_name, brandName[brandID]);
+            err = callPosixSpawn(s);
+            REPORT_ERROR(err);
+            if (err) {
+                printf("Command %s returned error %d\n", s, err);
+                fflush(stdout);
+            }
+
+            // Register this copy of BOINCFinish_Install.app. See comments on FixLaunchServicesDataBase.
+            sprintf(s, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_uid, pw->pw_name, brandName[brandID]);
+            err = callPosixSpawn(s);
+            if (err) {
+                printf("*** user %s: lsregister call returned error %d for %s_Finish_Install.app\n", pw->pw_name, err, brandName[brandID]);
+                fflush(stdout);
+            }
+                        
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
@@ -1859,9 +1902,9 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             SetLoginItemLaunchAgent(brandID, oldBrandID, deleteLoginItem, pw);
         }
 
-        printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
+        printf("[2] calling FixLaunchServicesDataBase for BOINC Manager for user %s\n", pw->pw_name);
         fflush(stdout);
-        FixLaunchServicesDataBase(pw->pw_uid, brandID);
+        FixLaunchServicesDataBase(pw->pw_uid, appPath[brandID], "edu.berkeley.boinc");
 
         if (isBMGroupMember) {
             // For some reason we need to call getpwnam again on OS 10.5
