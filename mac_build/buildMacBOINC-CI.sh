@@ -96,6 +96,9 @@ if [ ${share_paths} = "yes" ]; then
     return 0
 fi
 
+foundTargets=0
+target=" "
+
 ## This is code that builds each target individually in the main BOINC Xcode
 ## project, plus the zip apps, upper case and VBoxWrapper projects.
 for buildTarget in `xcodebuild -list -project boinc.xcodeproj`
