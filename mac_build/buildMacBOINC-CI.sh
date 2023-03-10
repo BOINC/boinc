@@ -111,7 +111,6 @@ do
     fi
     if [ ${target} = "Targets:" ]; then foundTargets=1; fi
     target=$buildTarget
-    fi
 done
 
 ## Now verify the architectures of the built products
