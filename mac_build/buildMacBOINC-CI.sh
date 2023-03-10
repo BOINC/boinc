@@ -112,8 +112,8 @@ do
     fi
     if [ ${target} = "Targets:" ]; then foundTargets=1; fi
     target=$buildTarget
+    fi
 done
-fi
 
 ## Now verify the architectures of the built products
 cd "./build/${style}"
