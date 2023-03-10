@@ -97,25 +97,25 @@ if [ ${share_paths} = "yes" ]; then
 fi
 
 foundTargets=0
-target=" "
+target="x"
 
 ## This is code that builds each target individually in the main BOINC Xcode
 ## project, plus the zip apps, upper case and VBoxWrapper projects.
 for buildTarget in `xcodebuild -list -project boinc.xcodeproj`
 do
-    if [[ ${target} = "Build" && $buildTarget = "Configurations:" ]]; then break; fi
+    if [[ "${target}" = "Build" && "${buildTarget}" = "Configurations:" ]]; then break; fi
     if [ $foundTargets -eq 1 ]; then
-        if [ ${target} != "Build_All" ]; then
+        if [ "${target}" != "Build_All" ]; then
             echo "Building ${target}..."
-            source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+            source BuildMacBOINC.sh ${config} ${doclean} -target "${target}" -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
             if [ ${retval} -ne 0 ]; then
                 echo "Building ${target}...failed"
                 cd "${savedPath}"; exit 1;
             fi
         fi
     fi
-    if [ ${target} = "Targets:" ]; then foundTargets=1; fi
-    target=$buildTarget
+    if [ "${target}" = "Targets:" ]; then foundTargets=1; fi
+    target="${buildTarget}"
 done
 
 ## Now verify the architectures of the built products
