@@ -71,10 +71,10 @@ if [ ! -d "$cache_dir" ] || [ ! -d "$cache_dir/lib" ] || [ ! -d "$cache_dir/incl
     echo "${cache_dir} is not a directory or does not contain dependencies"
 fi
 
-XCPRETTYPATH=`xcrun -find xcpretty 2>/dev/null`
-if [ $? -eq 0 ]; then
-    beautifier="xcpretty"
-fi
+##XCPRETTYPATH=`xcrun -find xcpretty 2>/dev/null`
+##if [ $? -eq 0 ]; then
+##    beautifier="xcpretty"
+###fi
 
 savedPath="${PWD}"
 
@@ -107,7 +107,10 @@ do
     if [ $foundTargets -eq 1 ]; then
         if [ "${target}" != "Build_All" ]; then
             echo "Building ${target}..."
-            source BuildMacBOINC.sh ${config} ${doclean} -target "${target}" -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+echo
+echo "calling: source BuildMacBOINC.sh" ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+echo
+            source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
             if [ ${retval} -ne 0 ]; then
                 echo "Building ${target}...failed"
                 cd "${savedPath}"; exit 1;
