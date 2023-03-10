@@ -19,7 +19,7 @@
 #
 #
 # Script to build the different targets in the BOINC xcode project using a
-# combined install directory for all dependencies
+# combined install directory for all dependencies, plus some samples.
 #
 # Usage:
 # ./mac_build/buildMacBOINC-CI.sh [--cache_dir PATH] [--debug] [--clean] [--no_shared_headers]
@@ -27,7 +27,8 @@
 # --cache_dir is the path where the dependencies are installed by 3rdParty/buildMacDependencies.sh.
 # --debug will build the debug Manager (needs debug wxWidgets library in cache_dir).
 # --clean will force a full rebuild.
-# --no_shared_headers will build targets individually instead of in one call of BuildMacBOINC.sh
+# --no_shared_headers will build targets individually instead of in one call of
+#   BuildMacBOINC.sh. Provides additional verification & details in build output.
 
 # check working directory because the script needs to be called like: ./mac_build/buildMacBOINC-CI.sh
 if [ ! -d "mac_build" ]; then
@@ -87,6 +88,7 @@ fi
 
 if [ ${share_paths} = "yes" ]; then
     ## all targets share the same header and library search paths
+    ## Note: this does not build zip apps, upper case or VBoxWrapper projects.
     libSearchPathDbg=""
     source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
@@ -94,8 +96,8 @@ if [ ${share_paths} = "yes" ]; then
     return 0
 fi
 
-## This is code that builds each target individually in case the above shared header paths version is giving problems
-## Note: currently this does not build the boinc_zip library
+## This is code that builds each target individually in the main BOINC Xcode
+## project, plus the zip apps, upper case and VBoxWrapper projects.
 for buildTarget in `xcodebuild -list -project boinc.xcodeproj`
 do
     if [[ ${target} = "Build" && $buildTarget = "Configurations:" ]]; then break; fi
