@@ -129,7 +129,7 @@ for (( i = 0; i < ${#files[*]}; ++ i )); do
         fileToCheck="${files[i]}/Contents/MacOS/${files[i]}"
     fi
     echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
-    lipo ./build/${style}/libboinc.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+    lipo ./build/${style}/"${fileToCheck}" -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then
         echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
         cd "${savedPath}"; exit 1;
