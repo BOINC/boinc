@@ -133,7 +133,7 @@ for (( i = 0; i < ${#files[*]}; ++ i )); do
     if [[ -z "${files[i]}" ]]; then continue; fi
     if [[ "${files[i]}" = *dSYM ]]; then continue; fi
     fileToCheck="${files[i]}"
-    if [[ -d $files[i] ]]; then
+    if [[ -d "$fileToCheck" ]]; then
         fileToCheck="${files[i]}/Contents/MacOS/${files[i]}"
     fi
     echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
