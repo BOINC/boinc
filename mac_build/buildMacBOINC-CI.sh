@@ -123,7 +123,7 @@ done
 
 ## Now verify the architectures of the built products
 cd "./build/${style}"
-if ($? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     cd "${savedPath}"
     exit 1
 fi
