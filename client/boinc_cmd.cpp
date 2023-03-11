@@ -188,6 +188,111 @@ void show_alerts(RPC_CLIENT &rpc) {
     }
 }
 
+////////////// --get_task_summary start ////////////////
+
+typedef vector<const char*> STR_LIST;
+
+// given: a list of lines, each consisting of n columns
+// for each column: find the longest entry.
+// Then display the lines so the columns line up.
+//
+void show_str_lists(vector<STR_LIST> lines, int ncols) {
+    vector<int> lengths;
+    int i;
+    for (i=0; i<ncols; i++) {
+        size_t max = 0;
+        for (STR_LIST& s: lines) {
+            max = std::max(max, strlen(s[i]));
+        }
+        lengths.push_back(max);
+    }
+    for (STR_LIST &line : lines) {
+        for (i=0; i<ncols; i++) {
+            printf("%-*s  ", lengths[i], line[i]);
+        }
+        printf("\n");
+    }
+}
+
+// given 
+// show list of tasks, 1 line per task,
+// similar to the Manager's Tasks pane
+// fields per task:
+// - project name
+// - progress %
+// - elapsed time
+// - deadline
+// - status
+// - resource usage
+// - WU name
+//
+
+struct RESULT_INFO {
+    char project_name[256];
+    char pct_done[256];
+    char elapsed_time[256];
+    char deadline[256];
+    char status[256];
+    char resource_usage[256];
+    char wu_name[256];
+};
+#define NCOLS 7
+
+int show_task_summary(RPC_CLIENT &rpc) {
+    int retval;
+    PROJECTS ps;    // need for project names
+    retval = rpc.get_project_status(ps);
+    if (retval) return retval;
+    RESULTS results;
+    retval = rpc.get_results(results);
+    if (retval) return retval;
+    vector<STR_LIST> lines;
+    STR_LIST title;
+    title.push_back("Project");
+    title.push_back("% Done");
+    title.push_back("Elapsed");
+    title.push_back("Deadline");
+    title.push_back("Status");
+    title.push_back("Procs");
+    title.push_back("WU name");
+    lines.push_back(title);
+    for (RESULT* r: results.results) {
+        RESULT_INFO* ri = new RESULT_INFO;
+        strcpy(ri->project_name, r->project_url);
+        for (PROJECT* p: ps.projects) {
+            if (!strcmp(p->master_url, r->project_url)) {
+                strcpy(ri->project_name, p->project_name.c_str());
+                break;
+            }
+        }
+        if (r->scheduler_state > CPU_SCHED_UNINITIALIZED) {
+            sprintf(ri->pct_done, "%.2f%%", r->fraction_done*100);
+            strcpy(ri->elapsed_time, timediff_format(r->elapsed_time).c_str());
+        } else {
+            strcpy(ri->pct_done, "---");
+            strcpy(ri->elapsed_time, "---");
+        }
+        strcpy(ri->deadline, time_to_string(r->report_deadline));
+        strcpy(ri->status, active_task_state_string(r->active_task_state));
+        downcase_string(ri->status);
+        strcpy(ri->resource_usage, strlen(r->resources)?r->resources:"1 CPU");
+        strcpy(ri->wu_name, r->wu_name);
+        STR_LIST line;
+        line.push_back(ri->project_name);
+        line.push_back(ri->pct_done);
+        line.push_back(ri->elapsed_time);
+        line.push_back(ri->deadline);
+        line.push_back(ri->status);
+        line.push_back(ri->resource_usage);
+        line.push_back(ri->wu_name);
+        lines.push_back(line);
+    }
+    show_str_lists(lines, 7);
+    return 0;
+}
+
+////////////// --get_task_summary end ////////////////
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i, retval, port=0;
@@ -335,6 +440,8 @@ int main(int argc, char** argv) {
         RESULTS results;
         retval = rpc.get_results(results);
         if (!retval) results.print();
+    } else if (!strcmp(cmd, "--get_task_summary")) {
+        retval = show_task_summary(rpc);
     } else if (!strcmp(cmd, "--get_old_tasks")) {
         vector<OLD_RESULT> ors;
         retval = rpc.get_old_results(ors);
