@@ -134,7 +134,7 @@ for (( i = 0; i < ${#files[*]}; ++ i )); do
     if [[ "${files[i]}" = *dSYM ]]; then continue; fi
     fileToCheck="${files[i]}"
     if [[ -d "$fileToCheck" ]]; then
-        fileToCheck="${files[i]}/Contents/MacOS/${files[i]}"
+        fileToCheck="${files[i]}/Contents/MacOS/${files[i]%.*}"
     fi
     echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
     lipo "${fileToCheck}" -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
