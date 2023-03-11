@@ -132,19 +132,28 @@ declare -a files=(*)
 for (( i = 0; i < ${#files[*]}; ++ i )); do
     if [[ -z "${files[i]}" ]]; then continue; fi
     if [[ "${files[i]}" = *dSYM ]]; then continue; fi
+    if [[ "${files[i]}" = detect_rosetta_cpu ]]; then continue; fi
     fileToCheck="${files[i]}"
     if [[ -d "$fileToCheck" ]]; then
         fileToCheck="${files[i]}/Contents/MacOS/${files[i]%.*}"
     fi
     echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
-    lipo "${fileToCheck}" -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-    if [ ${retval} -ne 0 ]; then
+    lipo "${fileToCheck}" -verify_arch x86_64 arm64
+    if [ $? -ne 0 ]; then
         echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
         cd "${savedPath}"; exit 1;
     fi
     echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ...done"
     echo
 done
+
+echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu..."
+if [[ `lipo detect_rosetta_cpu -archs` = "x86_64" ]]; then
+    echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu ...done"
+else
+    echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu failed"
+    cd ..; exit 1;
+fi
 
 cd "${savedPath}/mac_build"
 if ($? -ne 0 ]; then
