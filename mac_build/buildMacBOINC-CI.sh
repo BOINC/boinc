@@ -108,7 +108,10 @@ do
         if [ "${target}" != "Build_All" ]; then
             echo "Building ${target}..."
             source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-            if [ ${retval} -ne 0 ]; then
+            if [ ${retval} -eq 0 ]; then
+                echo "Building ${target}...success"
+                echo
+            else
                 echo "Building ${target}...failed"
                 cd "${savedPath}"; exit 1;
             fi
@@ -120,6 +123,11 @@ done
 
 ## Now verify the architectures of the built products
 cd "./build/${style}"
+if ($? -ne 0 ]; then
+    cd "${savedPath}"
+    exit 1
+fi
+
 declare -a files=(*)
 for (( i = 0; i < ${#files[*]}; ++ i )); do
     if [[ -z "${files[i]}" ]]; then continue; fi
@@ -129,13 +137,20 @@ for (( i = 0; i < ${#files[*]}; ++ i )); do
         fileToCheck="${files[i]}/Contents/MacOS/${files[i]}"
     fi
     echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
-    lipo ./build/${style}/"${fileToCheck}" -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+    lipo "${fileToCheck}" -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then
         echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
         cd "${savedPath}"; exit 1;
     fi
     echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ...done"
+    echo
 done
+
+cd "${savedPath}/mac_build"
+if ($? -ne 0 ]; then
+    cd "${savedPath}"
+    exit 1
+fi
 
 target="zip apps"
 echo "Building ${target}..."
