@@ -156,7 +156,7 @@ else
 fi
 
 cd "${savedPath}/mac_build"
-if ($? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     cd "${savedPath}"
     exit 1
 fi
