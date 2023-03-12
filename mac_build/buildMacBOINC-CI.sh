@@ -76,7 +76,7 @@ if [ $? -eq 0 ]; then
     beautifier="xcpretty"
 fi
 
-savedPath="${PWD}"
+rootPath="${PWD}"
 
 cd ./mac_build || exit 1
 retval=0
@@ -92,11 +92,17 @@ if [ ${share_paths} = "yes" ]; then
     libSearchPathDbg=""
     source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
-        cd "${savedPath}"; exit 1; fi
+        cd "${rootPath}"; exit 1; fi
     return 0
 fi
 
 verify_product_archs() {
+cd "${1}"
+if [ $? -ne 0 ]; then
+    cd "${rootPath}"
+    exit 1
+fi
+
     declare -a files=(*)
     for (( i = 0; i < ${#files[*]}; ++ i )); do
         if [[ -z "${files[i]}" ]]; then continue; fi
@@ -110,11 +116,17 @@ verify_product_archs() {
         lipo "${fileToCheck}" -verify_arch x86_64 arm64
         if [ $? -ne 0 ]; then
             echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
-            cd "${savedPath}"; exit 1;
+            cd "${rootPath}"; exit 1;
         fi
         echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ...done"
         echo
     done
+
+cd "${rootPath}/mac_build"
+if [ $? -ne 0 ]; then
+    cd "${rootPath}"
+    exit 1
+fi
 }
 
 foundTargets=0
@@ -134,7 +146,7 @@ do
                 echo
             else
                 echo "Building ${target}...failed"
-                cd "${savedPath}"; exit 1;
+                cd "${rootPath}"; exit 1;
             fi
         fi
     fi
@@ -143,13 +155,7 @@ do
 done
 
 ## Now verify the architectures of the built products
-cd "./build/${style}"
-if [ $? -ne 0 ]; then
-    cd "${savedPath}"
-    exit 1
-fi
-
-verify_product_archs
+verify_product_archs "${rootPath}/mac_build/build/${style}"
 
 echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu..."
 if [[ `lipo detect_rosetta_cpu -archs` = "x86_64" ]]; then
@@ -159,70 +165,34 @@ else
     cd ..; exit 1;
 fi
 
-cd "${savedPath}/mac_build"
-if [ $? -ne 0 ]; then
-    cd "${savedPath}"
-    exit 1
-fi
-
 target="zip apps"
 echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} ${doclean} -zipapps | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+    cd "${rootPath}"; exit 1;
 fi
 
-cd "../zip/build/${style}"
-if [ $? -ne 0 ]; then
-    cd "${savedPath}"
-    exit 1
-fi
-
-verify_product_archs
-
-cd "${savedPath}/mac_build"
-if [ $? -ne 0 ]; then
-    cd "${savedPath}"
-    exit 1
-fi
+verify_product_archs "${rootPath}/zip/build/${style}"
 
 target="UpperCase2"
 echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} ${doclean} -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../zip/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+    cd "${rootPath}"; exit 1;
 fi
 
-cd "../samples/mac_build/build/${style}"
-if [ $? -ne 0 ]; then
-    cd "${savedPath}"
-    exit 1
-fi
-
-verify_product_archs
-
-cd "${savedPath}/mac_build"
-if [ $? -ne 0 ]; then
-    cd "${savedPath}"
-    exit 1
-fi
+verify_product_archs "${rootPath}/samples/mac_build/build/${style}"
 
 target="VBoxWrapper"
 echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} ${doclean} -vboxwrapper -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../clientgui/mac/ ../samples/jpeglib ${cache_dir}/include"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+    cd "${rootPath}"; exit 1;
 fi
 
-cd "../samples/vboxwrapper/build/${style}"
-if [ $? -ne 0 ]; then
-    cd "${savedPath}"
-    exit 1
-fi
+verify_product_archs "${rootPath}/samples/vboxwrapper/build/${style}"
 
-verify_product_archs
-
-cd "${savedPath}"
+cd "${rootPath}"
