@@ -217,7 +217,7 @@ if [ ${retval} -ne 0 ]; then
     cd "${savedPath}"; exit 1;
 fi
 
-cd "./samples/vboxwrapper/build/${style}"
+cd "../samples/vboxwrapper/build/${style}"
 if [ $? -ne 0 ]; then
     cd "${savedPath}"
     exit 1
