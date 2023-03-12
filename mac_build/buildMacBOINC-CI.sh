@@ -158,7 +158,7 @@ done
 verify_product_archs "${rootPath}/mac_build/build/${style}"
 
 echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu..."
-if [[ `lipo "${rootPath}/mac_build/build/${style}/detect_rosetta_cpu -archs` = "x86_64" ]]; then
+if [[ `lipo "${rootPath}/mac_build/build/${style}/detect_rosetta_cpu" -archs` = "x86_64" ]]; then
     echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu ...done"
 else
     echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu failed"
