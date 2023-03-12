@@ -78,12 +78,12 @@ Commands:\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
  --get_tasks                        show tasks (detailed)\n\
- --get_task_summary [pcedsrw]       show tasks (1 line per task)\n\
+ --get_task_summary [pcedsrw]       show tasks (1 task per line)\n\
     p: project name\n\
     c: completion %%\n\
     e: elapsed time\n\
     d: deadline\n\
-    s: statue\n\
+    s: status\n\
     r: resource usage\n\
     w: WU name\n\
  --get_old_tasks                    show reported tasks from last 1 hour\n\
@@ -204,17 +204,17 @@ typedef vector<const char*> STR_LIST;
 // for each column: find the longest entry.
 // Then display the lines so the columns line up.
 //
-void show_str_lists(vector<STR_LIST> lines, int ncols) {
+void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
     vector<int> lengths;
-    int i;
+    uint i;
     for (i=0; i<ncols; i++) {
         size_t max = 0;
-        for (STR_LIST& s: lines) {
+        for (const STR_LIST& s: lines) {
             max = std::max(max, strlen(s[i]));
         }
         lengths.push_back(max);
     }
-    for (STR_LIST &line : lines) {
+    for (const STR_LIST &line : lines) {
         for (i=0; i<ncols; i++) {
             printf("%-*s  ", lengths[i], line[i]);
         }
@@ -264,7 +264,7 @@ void check_task_options(string &options) {
                 "   c: completion %%\n"
                 "   e: elapsed time\n"
                 "   d: deadline\n"
-                "   s: statue\n"
+                "   s: status\n"
                 "   r: processor usage\n"
                 "   w: workunit name\n"
             );
@@ -273,11 +273,10 @@ void check_task_options(string &options) {
     }
 }
 
-int show_task_summary(RPC_CLIENT &rpc, string &options) {
-    int retval;
+int show_task_summary(RPC_CLIENT &rpc, const string &options) {
     PROJECTS ps;    // need for project names
     RESULTS results;
-    retval = rpc.get_results(results);
+    int retval = rpc.get_results(results);
     if (retval) return retval;
     vector<STR_LIST> lines;
     STR_LIST title;
