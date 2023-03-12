@@ -37,6 +37,7 @@
 # Updated 5/19/21 for compatibility with zsh
 # Updated 7/12/22 result is moved out of eval string to get correct status on CI if build fails
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
+# Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 #
 ## This script requires OS 10.8 or later
 #
@@ -115,7 +116,7 @@ while [ $# -gt 0 ]; do
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
     -zipapps ) buildzipapps=1 ; buildlibs=1 ; shift 1 ;;
-    -uc2 ) builduc2=1 ; buildlibs=1 ; shift 1 ;;
+    -uc2 ) builduc2=1 ; shift 1 ;;
     -vboxwrapper ) buildvboxwrapper=1 ; buildlibs=1 ; shift 1 ;;
     -target ) shift 1 ; targets="$targets -target $1" ; shift 1 ;;
     -setting ) shift 1 ; name="$1" ;
@@ -125,6 +126,24 @@ while [ $# -gt 0 ]; do
     * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-zipapps] [-uc2] [-vboxwrapper] [-target targetName] [-setting name value] [-help]" ; return 1 ;;
   esac
 done
+
+if [ "${buildzipapps}" = "1" ]; then
+    if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_zip.a " ]; then buildlibs=1; fi
+fi
+
+if [ "${builduc2}" = "1" ]; then
+    if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_zip.a " ]; then buildlibs=1; fi
+fi
+
+if [ "${buildvboxwrapper}" = "1" ]; then
+    if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
+fi
 
 if [ "${doclean}" = "clean" ]; then
     echo "Clean each target before building"
