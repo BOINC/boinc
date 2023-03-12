@@ -128,46 +128,6 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-if [ "${buildzipapps}" = "1" ]; then
-    if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_zip.a " ]; then buildzip=1; fi
-fi
-
-if [ "${builduc2}" = "1" ]; then
-    if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libjpeg.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_zip.a " ]; then buildzip=1; fi
-fi
-
-if [ "${buildvboxwrapper}" = "1" ]; then
-    if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
-fi
-
-if [ "${doclean}" = "clean" ]; then
-    echo "Clean each target before building"
-fi
-
-if [ "${buildlibs}" = "1" ]; then
-    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg"
-fi
-
-if [ "${buildclient}" = "1" ]; then
-    targets="$targets -target BOINC_Client -target cmd_boinc"
-fi
-
-if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${buildzipapps}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ]; then
-    buildall=1
-fi
-
-## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" since it includes those targets
-if [ "${buildall}" = "1" ]; then
-    targets="-target Build_All"
-fi
-
 version=`uname -r`;
 
 major=`echo $version | sed 's/\([0-9]*\)[.].*/\1/' `;
@@ -198,6 +158,46 @@ else
 fi
 
 echo ""
+
+if [ "${buildzipapps}" = "1" ]; then
+    if [ ! -a "build/${style}/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
+fi
+
+if [ "${builduc2}" = "1" ]; then
+    if [ ! -a "build/${style}/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/${style}/libjpeg.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
+fi
+
+if [ "${buildvboxwrapper}" = "1" ]; then
+    if [ ! -a "build/${style}/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+fi
+
+if [ "${doclean}" = "clean" ]; then
+    echo "Clean each target before building"
+fi
+
+if [ "${buildlibs}" = "1" ]; then
+    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg"
+fi
+
+if [ "${buildclient}" = "1" ]; then
+    targets="$targets -target BOINC_Client -target cmd_boinc"
+fi
+
+if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${buildzipapps}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ]; then
+    buildall=1
+fi
+
+## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" since it includes those targets
+if [ "${buildall}" = "1" ]; then
+    targets="-target Build_All"
+fi
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 result=0
