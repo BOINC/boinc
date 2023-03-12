@@ -160,22 +160,22 @@ fi
 echo ""
 
 if [ "${buildzipapps}" = "1" ]; then
-    if [ ! -a "build/${style}/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
+    if [ ! -e "./build/${style}/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
 fi
 
 if [ "${builduc2}" = "1" ]; then
-    if [ ! -a "build/${style}/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/${style}/libjpeg.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
+    if [ ! -e "./build/${style}/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libjpeg.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
 fi
 
 if [ "${buildvboxwrapper}" = "1" ]; then
-    if [ ! -a "build/${style}/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc.a " ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
 fi
 
 if [ "${doclean}" = "clean" ]; then
