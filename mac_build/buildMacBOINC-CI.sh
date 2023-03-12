@@ -96,6 +96,27 @@ if [ ${share_paths} = "yes" ]; then
     return 0
 fi
 
+verify_product_archs() {
+    declare -a files=(*)
+    for (( i = 0; i < ${#files[*]}; ++ i )); do
+        if [[ -z "${files[i]}" ]]; then continue; fi
+        if [[ "${files[i]}" = *dSYM ]]; then continue; fi
+        if [[ "${files[i]}" = detect_rosetta_cpu ]]; then continue; fi
+        fileToCheck="${files[i]}"
+        if [[ -d "$fileToCheck" ]]; then
+            fileToCheck="${files[i]}/Contents/MacOS/${files[i]%.*}"
+        fi
+        echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
+        lipo "${fileToCheck}" -verify_arch x86_64 arm64
+        if [ $? -ne 0 ]; then
+            echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
+            cd "${savedPath}"; exit 1;
+        fi
+        echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ...done"
+        echo
+    done
+}
+
 foundTargets=0
 target="x"
 
@@ -128,24 +149,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-declare -a files=(*)
-for (( i = 0; i < ${#files[*]}; ++ i )); do
-    if [[ -z "${files[i]}" ]]; then continue; fi
-    if [[ "${files[i]}" = *dSYM ]]; then continue; fi
-    if [[ "${files[i]}" = detect_rosetta_cpu ]]; then continue; fi
-    fileToCheck="${files[i]}"
-    if [[ -d "$fileToCheck" ]]; then
-        fileToCheck="${files[i]}/Contents/MacOS/${files[i]%.*}"
-    fi
-    echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
-    lipo "${fileToCheck}" -verify_arch x86_64 arm64
-    if [ $? -ne 0 ]; then
-        echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
-        cd "${savedPath}"; exit 1;
-    fi
-    echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ...done"
-    echo
-done
+verify_product_archs
 
 echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu..."
 if [[ `lipo detect_rosetta_cpu -archs` = "x86_64" ]]; then
@@ -168,31 +172,20 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd "${savedPath}"; exit 1;
 fi
-echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a..."
-lipo ./build/${style}/libboinc_zip.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a...failed"
-    echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+
+cd "./build/${style}"
+if [ $? -ne 0 ]; then
+    cd "${savedPath}"
+    exit 1
 fi
-echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a...done"
-echo "Verifying architecture (x86_64 arm64) of boinc_zip_test..."
-lipo ../zip/build/${style}/boinc_zip_test -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64 arm64) of boinc_zip_test...failed"
-    echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+
+verify_product_archs
+
+cd "${savedPath}/mac_build"
+if [ $? -ne 0 ]; then
+    cd "${savedPath}"
+    exit 1
 fi
-echo "Verifying architecture (x86_64 arm64) of boinc_zip_test...done"
-echo "Verifying architecture (x86_64 arm64) of testzlibconflict..."
-lipo ../zip/build/${style}/testzlibconflict -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64 arm64) of testzlibconflict...failed"
-    echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
-fi
-echo "Verifying architecture (x86_64 arm64) of testzlibconflict...done"
-echo "Building ${target}...done"
 
 target="UpperCase2"
 echo "Building ${target}..."
@@ -201,31 +194,20 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd "${savedPath}"; exit 1;
 fi
-echo "Verifying architecture (x86_64 arm64) of UC2_graphics-apple-darwin..."
-lipo ../samples/mac_build/build/${style}/UC2_graphics-apple-darwin -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64 arm64) of UC2_graphics-apple-darwin...failed"
-    echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+
+cd "../samples/mac_build/build/${style}"
+if [ $? -ne 0 ]; then
+    cd "${savedPath}"
+    exit 1
 fi
-echo "Verifying architecture (x86_64 arm64) of UC2_graphics-apple-darwin...done"
-echo "Verifying architecture (x86_64 arm64) of UC2-apple-darwin..."
-lipo ../samples/mac_build/build/${style}/UC2-apple-darwin -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64 arm64) of UC2-apple-darwin...failed"
-    echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+
+verify_product_archs
+
+cd "${savedPath}/mac_build"
+if [ $? -ne 0 ]; then
+    cd "${savedPath}"
+    exit 1
 fi
-echo "Verifying architecture (x86_64 arm64) of UC2-apple-darwin...done"
-echo "Verifying architecture (x86_64 arm64) of slide_show-apple-darwin..."
-lipo ../samples/mac_build/build/${style}/slide_show-apple-darwin -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64 arm64) of slide_show-apple-darwin...failed"
-    echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
-fi
-echo "Verifying architecture (x86_64 arm64) of slide_show-apple-darwin...done"
-echo "Building ${target}...done"
 
 target="VBoxWrapper"
 echo "Building ${target}..."
@@ -234,14 +216,13 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd "${savedPath}"; exit 1;
 fi
-echo "Verifying architecture (x86_64 arm64) of vboxwrapper..."
-lipo ../samples/vboxwrapper/build/${style}/vboxwrapper -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64 arm64) of vboxwrapper...failed"
-    echo "Building ${target}...failed"
-    cd "${savedPath}"; exit 1;
+
+cd "./samples/vboxwrapper/build/${style}"
+if [ $? -ne 0 ]; then
+    cd "${savedPath}"
+    exit 1
 fi
-echo "Verifying architecture (x86_64 arm64) of vboxwrapper...done"
-echo "Building ${target}...done"
+
+verify_product_archs
 
 cd "${savedPath}"
