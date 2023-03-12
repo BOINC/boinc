@@ -173,7 +173,7 @@ if [ ${retval} -ne 0 ]; then
     cd "${savedPath}"; exit 1;
 fi
 
-cd "./build/${style}"
+cd "../zip/build/${style}"
 if [ $? -ne 0 ]; then
     cd "${savedPath}"
     exit 1
