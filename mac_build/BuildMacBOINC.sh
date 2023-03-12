@@ -115,9 +115,9 @@ while [ $# -gt 0 ]; do
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
-    -zipapps ) buildzipapps=1 ; buildlibs=1 ; shift 1 ;;
+    -zipapps ) buildzipapps=1 ; shift 1 ;;
     -uc2 ) builduc2=1 ; shift 1 ;;
-    -vboxwrapper ) buildvboxwrapper=1 ; buildlibs=1 ; shift 1 ;;
+    -vboxwrapper ) buildvboxwrapper=1 ; shift 1 ;;
     -target ) shift 1 ; targets="$targets -target $1" ; shift 1 ;;
     -setting ) shift 1 ; name="$1" ;
                 shift 1 ; unset value ; value=("$1");
