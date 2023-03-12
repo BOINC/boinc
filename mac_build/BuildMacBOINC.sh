@@ -101,6 +101,7 @@ uselibcplusplus=""
 buildall=0
 buildlibs=0
 buildclient=0
+buildzip=0
 buildzipapps=0
 builduc2=0
 buildvboxwrapper=0
@@ -130,14 +131,15 @@ done
 if [ "${buildzipapps}" = "1" ]; then
     if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
     if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_zip.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_zip.a " ]; then buildzip=1; fi
 fi
 
 if [ "${builduc2}" = "1" ]; then
     if [ ! -a "build/style/libboinc.a " ]; then buildlibs=1; fi
     if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
     if [ ! -a "build/style/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -a "build/style/libboinc_zip.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libjpeg.a " ]; then buildlibs=1; fi
+    if [ ! -a "build/style/libboinc_zip.a " ]; then buildzip=1; fi
 fi
 
 if [ "${buildvboxwrapper}" = "1" ]; then
@@ -221,6 +223,10 @@ fi
 if [ $result -eq 0 ]; then
     # build libboinc_zip.a for -all or -lib or -zipapps
     if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildzipapps}" = "1" ]; then
+        buildzip=1
+    fi
+    
+    if [ "${buildzip}" = "1" ]; then
         eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
