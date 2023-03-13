@@ -206,7 +206,7 @@ typedef vector<const char*> STR_LIST;
 //
 void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
     vector<int> lengths;
-    uint i;
+    size_t i;
     for (i=0; i<ncols; i++) {
         size_t max = 0;
         for (const STR_LIST& s: lines) {
