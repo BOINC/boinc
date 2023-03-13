@@ -269,6 +269,7 @@ bool gpus_usable = true;
 //
 bool check_coprocs_usable() {
 #ifdef _WIN32
+    if (cc_config.no_rdp_check) return false;
     unsigned int i;
     bool new_usable = !is_remote_desktop();
     if (gpus_usable) {
