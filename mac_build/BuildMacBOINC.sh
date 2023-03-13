@@ -159,32 +159,23 @@ fi
 
 echo ""
 
-## for testing only:
-echo "style is " ${style}
-ls -al "./build/${style}"
-echo "before tests, buildlibs = " ${buildlibs}
-
 if [ "${buildzipapps}" = "1" ]; then
-    if [ ! -e "./build/${style}/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
+    if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
 fi
 
 if [ "${builduc2}" = "1" ]; then
-    if [ ! -e "./build/${style}/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libjpeg.a " ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_zip.a " ]; then buildzip=1; fi
+    if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libjpeg.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
 fi
 
-if [ "${buildvboxwrapper}" = "1" ]; then
-    if [ ! -e "./build/${style}/libboinc.a " ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_api.a " ]; then buildlibs=1; fi
+if [ "${buildvboxwrapper}" = "1" ]; t
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
 fi
-
-## for testing only:
-echo "after tests, buildlibs = " ${buildlibs}
 
 if [ "${doclean}" = "clean" ]; then
     echo "Clean each target before building"
