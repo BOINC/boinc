@@ -218,8 +218,8 @@ int get_project_gid() {
 // Graphics button) now write files in their slot directory as
 // the logged in user, not boinc_master. This ugly hack uses 
 // setprojectgrp to fix all ownerships in this slot directory.
-int fix_slot_owners(const int slot){
 #ifdef __APPLE__
+int fix_slot_owners(const int slot){
     char relative_path[100];
     char full_path[MAXPATHLEN];
     
@@ -228,9 +228,13 @@ int fix_slot_owners(const int slot){
         realpath(relative_path, full_path);
         fix_owners_in_directory(full_path);
     }
-#endif
     return 0;
 }
+#else
+int fix_slot_owners(const int){
+    return 0;
+}
+#endif
 
 int fix_owners_in_directory(char* dir_path) {
     char item_path[MAXPATHLEN];
