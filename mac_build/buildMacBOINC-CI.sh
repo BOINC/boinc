@@ -195,7 +195,7 @@ fi
 
 verify_product_archs "${rootPath}/samples/vboxwrapper/build/${style}"
 
-## for testing only:
-force an error to try to create a log
-
 cd "${rootPath}"
+
+## for testing only:
+exit 1  ## force an error to try to create a log
