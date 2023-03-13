@@ -173,7 +173,7 @@ if [ "${builduc2}" = "1" ]; then
     if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
 fi
 
-if [ "${buildvboxwrapper}" = "1" ]; t
+if [ "${buildvboxwrapper}" = "1" ]; then
     if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
 fi
 
