@@ -37,6 +37,7 @@
 # Updated 5/19/21 for compatibility with zsh
 # Updated 7/12/22 result is moved out of eval string to get correct status on CI if build fails
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
+# Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 #
 ## This script requires OS 10.8 or later
 #
@@ -100,6 +101,7 @@ uselibcplusplus=""
 buildall=0
 buildlibs=0
 buildclient=0
+buildzip=0
 buildzipapps=0
 builduc2=0
 buildvboxwrapper=0
@@ -114,9 +116,9 @@ while [ $# -gt 0 ]; do
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
-    -zipapps ) buildzipapps=1 ; buildlibs=1 ; shift 1 ;;
-    -uc2 ) builduc2=1 ; buildlibs=1 ; shift 1 ;;
-    -vboxwrapper ) buildvboxwrapper=1 ; buildlibs=1 ; shift 1 ;;
+    -zipapps ) buildzipapps=1 ; shift 1 ;;
+    -uc2 ) builduc2=1 ; shift 1 ;;
+    -vboxwrapper ) buildvboxwrapper=1 ; shift 1 ;;
     -target ) shift 1 ; targets="$targets -target $1" ; shift 1 ;;
     -setting ) shift 1 ; name="$1" ;
                 shift 1 ; unset value ; value=("$1");
@@ -125,27 +127,6 @@ while [ $# -gt 0 ]; do
     * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-zipapps] [-uc2] [-vboxwrapper] [-target targetName] [-setting name value] [-help]" ; return 1 ;;
   esac
 done
-
-if [ "${doclean}" = "clean" ]; then
-    echo "Clean each target before building"
-fi
-
-if [ "${buildlibs}" = "1" ]; then
-    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg"
-fi
-
-if [ "${buildclient}" = "1" ]; then
-    targets="$targets -target BOINC_Client -target cmd_boinc"
-fi
-
-if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${buildzipapps}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ]; then
-    buildall=1
-fi
-
-## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" since it includes those targets
-if [ "${buildall}" = "1" ]; then
-    targets="-target Build_All"
-fi
 
 version=`uname -r`;
 
@@ -178,6 +159,45 @@ fi
 
 echo ""
 
+if [ "${buildzipapps}" = "1" ]; then
+    if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
+fi
+
+if [ "${builduc2}" = "1" ]; then
+    if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libjpeg.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
+fi
+
+if [ "${buildvboxwrapper}" = "1" ]; then
+    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
+fi
+
+if [ "${doclean}" = "clean" ]; then
+    echo "Clean each target before building"
+fi
+
+if [ "${buildlibs}" = "1" ]; then
+    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg"
+fi
+
+if [ "${buildclient}" = "1" ]; then
+    targets="$targets -target BOINC_Client -target cmd_boinc"
+fi
+
+if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${buildzipapps}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ]; then
+    buildall=1
+fi
+
+## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" since it includes those targets
+if [ "${buildall}" = "1" ]; then
+    targets="-target Build_All"
+fi
+
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 result=0
 
@@ -202,6 +222,10 @@ fi
 if [ $result -eq 0 ]; then
     # build libboinc_zip.a for -all or -lib or -zipapps
     if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildzipapps}" = "1" ]; then
+        buildzip=1
+    fi
+    
+    if [ "${buildzip}" = "1" ]; then
         eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
