@@ -415,6 +415,11 @@ case "$arch" in
     "armv6")
         ./build_androidtc_armv6.sh
         case "$component" in
+            "dependencies")
+                ./build_openssl_armv6.sh
+                ./build_curl_armv6.sh
+                exit 0
+            ;;
             "client")
                 ./build_openssl_armv6.sh
                 ./build_curl_armv6.sh
@@ -451,6 +456,11 @@ case "$arch" in
     ;;
     "arm")
         case "$component" in
+            "dependencies")
+                ./build_openssl_arm.sh
+                ./build_curl_arm.sh
+                exit 0
+            ;;
             "client")
                 ./build_openssl_arm.sh
                 ./build_curl_arm.sh
@@ -483,6 +493,11 @@ case "$arch" in
     ;;
     "arm64")
         case "$component" in
+            "dependencies")
+                ./build_openssl_arm64.sh
+                ./build_curl_arm64.sh
+                exit 0
+            ;;
             "client")
                 ./build_openssl_arm64.sh
                 ./build_curl_arm64.sh
@@ -511,6 +526,11 @@ case "$arch" in
     ;;
     "x86")
         case "$component" in
+            "dependencies")
+                ./build_openssl_x86.sh
+                ./build_curl_x86.sh
+                exit 0
+            ;;
             "client")
                 ./build_openssl_x86.sh
                 ./build_curl_x86.sh
@@ -539,6 +559,11 @@ case "$arch" in
     ;;
     "x86_64")
         case "$component" in
+            "dependencies")
+                ./build_openssl_x86_64.sh
+                ./build_curl_x86_64.sh
+                exit 0
+            ;;
             "client")
                 ./build_openssl_x86_64.sh
                 ./build_curl_x86_64.sh

@@ -17,13 +17,309 @@ env:
   AWS_DEFAULT_REGION: us-west-2
 
 jobs:
-  build:
-    name: ${{ matrix.type }}-build
+  build-dependencies:
+    name: ${{ matrix.arch }}-build-dependencies
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg, libs-cmake]
+        arch: [armv6, arm, arm64, x86, x86_64]
       fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository universe
+          sudo apt-get -qq update
+          sudo apt-get install -y libncurses5
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            3rdParty/buildCache
+          key: android-${{ matrix.arch }}-${{ hashFiles('android/*.sh', '.github/workflows/android.yml') }}
+
+      - name: Unset ANDROID_NDK_ROOT environment variable
+        if: ${{ success() }}
+        run: |
+          echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
+
+      - name: Build dependencies
+        if: ${{ success() }}
+        run:  |
+          ./android/ci_build_dependencies.sh --arch ${{ matrix.arch }}
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_logs_dependencies_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+  build-other-native:
+    name: ${{ matrix.component }}-${{ matrix.arch }}-build
+    runs-on: ubuntu-latest
+    needs: build-dependencies
+    strategy:
+      matrix:
+        component: [libs, apps]
+        arch: [armv6, arm, arm64, x86, x86_64]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository universe
+          sudo apt-get -qq update
+          sudo apt-get install -y libncurses5
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            3rdParty/buildCache
+            !3rdParty/buildCache/android/vcpkgcache/
+          key: android-${{ matrix.arch }}-${{ hashFiles('android/*.sh', '.github/workflows/android.yml') }}
+
+      - name: Unset ANDROID_NDK_ROOT environment variable
+        if: ${{ success() }}
+        run: |
+          echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
+
+      - name: Build libs
+        if: ${{ success() && matrix.component == 'libs' }}
+        run: ./android/ci_build_libraries.sh --arch ${{ matrix.arch }}
+
+      - name: Build apps
+        if: ${{ success() && matrix.component == 'apps' }}
+        run: ./android/ci_build_apps.sh --arch ${{ matrix.arch }}
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_logs_${{ matrix.component }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: ${{ success() && ! contains(matrix.component, 'libs') }}
+        run: python ./deploy/prepare_deployment.py android_${{ matrix.component }}
+
+      - name: Upload generic artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ ! contains(matrix.component, 'libs') }}
+        with:
+          name: android_${{ matrix.component }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_${{ matrix.component }}.7z
+
+  build-client-native:
+    name: client-${{ matrix.arch }}-build
+    runs-on: ubuntu-latest
+    needs: build-dependencies
+    strategy:
+      matrix:
+        arch: [armv6, arm, arm64, x86, x86_64]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository universe
+          sudo apt-get -qq update
+          sudo apt-get install -y libncurses5
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            3rdParty/buildCache
+            !3rdParty/buildCache/android/vcpkgcache/
+          key: android-${{ matrix.arch }}-${{ hashFiles('android/*.sh', '.github/workflows/android.yml') }}
+
+      - name: Unset ANDROID_NDK_ROOT environment variable
+        if: ${{ success() }}
+        run: |
+          echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
+
+      - name: Build client
+        if: ${{ success() }}
+        run: ./android/ci_build_client.sh --arch ${{ matrix.arch }}
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_logs_client_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets_${{ matrix.arch }}
+          path: android/BOINC/app/src/main/assets
+
+  build-other-vcpkg:
+    name: ${{ matrix.component }}-${{ matrix.arch }}-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: [libs-vcpkg, apps-vcpkg, libs-cmake]
+        arch: [armv6, arm, arm64, x86, x86_64]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository universe
+          sudo apt-get -qq update
+          sudo apt-get install -y libncurses5
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+      - name: Unset ANDROID_NDK_ROOT environment variable
+        if: ${{ success() }}
+        run: |
+          echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
+
+      - name: Build libs with vcpkg
+        if: ${{ success() && matrix.component == 'libs-vcpkg' }}
+        run: ./android/ci_build_vcpkg_libraries.sh --arch ${{ matrix.arch }}
+
+      - name: Build apps with vcpkg
+        if: ${{ success() && matrix.component == 'apps-vcpkg' }}
+        run: ./android/ci_build_vcpkg_apps.sh --arch ${{ matrix.arch }}
+
+      - name: Build libs with cmake
+        if: ${{ success() && matrix.component == 'libs-cmake' }}
+        run: ./android/ci_build_libs_cmake.sh --arch ${{ matrix.arch }}
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_logs_${{ matrix.component }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: ${{ success() && ! contains(matrix.component, 'libs') }}
+        run: python ./deploy/prepare_deployment.py android_${{ matrix.component }}
+
+      - name: Upload generic artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ ! contains(matrix.component, 'libs') }}
+        with:
+          name: android_${{ matrix.component }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_${{ matrix.component }}.7z
+
+  build-client-vcpkg:
+    name: client-vcpkg-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [armv6, arm, arm64, x86, x86_64]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository universe
+          sudo apt-get -qq update
+          sudo apt-get install -y libncurses5
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+      - name: Unset ANDROID_NDK_ROOT environment variable
+        if: ${{ success() }}
+        run: |
+          echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
+
+      - name: Build client
+        if: ${{ success() }}
+        run: ./android/ci_build_vcpkg_client.sh --arch ${{ matrix.arch }}
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_logs_client_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets_vcpkg_${{ matrix.arch }}
+          path: android/BOINC/app/src/main/assets
+
+  build-manager:
+    name: manager-build
+    runs-on: ubuntu-latest
+    needs: build-client-native
     steps:
       - uses: actions/checkout@v3
         with:
@@ -41,60 +337,35 @@ jobs:
           distribution: 'zulu'
           java-version: "17"
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - name: Download assets armv6
+        uses: actions/download-artifact@v3
         with:
-          path: |
-            3rdParty/buildCache
-            !3rdParty/buildCache/android/vcpkgcache/
-          key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh', '.github/workflows/android.yml') }}
+          name: assets_armv6
 
-      - name: Check if build is running from origin repo
-        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
-        run: |
-          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+      - name: Download assets arm
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_arm
 
-      - name: Check if build is running from fork
-        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
-        run: |
-          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+      - name: Download assets arm64
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_arm64
 
-      - name: Unset ANDROID_NDK_ROOT environment variable
-        if: ${{ success() }}
-        run: |
-          echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
+      - name: Download assets x86
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_x86
+
+      - name: Download assets x86_64
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_x86_64
 
       - name: Build manager
-        if: ${{ success() && matrix.type == 'manager' }}
+        if: ${{ success() }}
         run:  |
-          ./android/ci_build_manager.sh
-
-      - name: Build libs
-        if: ${{ success() && matrix.type == 'libs' }}
-        run: ./android/ci_build_libraries.sh
-
-      - name: Build apps
-        if: ${{ success() && matrix.type == 'apps' }}
-        run: ./android/ci_build_apps.sh
-
-      - name: Build manager with vcpkg
-        if: ${{ success() && matrix.type == 'manager-vcpkg' }}
-        run: ./android/ci_build_vcpkg_manager.sh
-
-      - name: Build libs with vcpkg
-        if: ${{ success() && matrix.type == 'libs-vcpkg' }}
-        run: ./android/ci_build_vcpkg_libraries.sh
-
-      - name: Build apps with vcpkg
-        if: ${{ success() && matrix.type == 'apps-vcpkg' }}
-        run: ./android/ci_build_vcpkg_apps.sh
-
-      - name: Build libs with cmake
-        if: ${{ success() && matrix.type == 'libs-cmake' }}
-        run: ./android/ci_build_libs_cmake.sh
+          ./android/ci_build_manager.sh --no-client-build
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -104,42 +375,144 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
-          name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          name: android_logs_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: ${{ success() && ! contains(matrix.type, 'libs') }}
-        run: python ./deploy/prepare_deployment.py android_${{ matrix.type }}
+        if: ${{ success() }}
+        run: python ./deploy/prepare_deployment.py android_manager
 
-      - name: Upload generic artifacts
+      - name: Upload manager
         uses: actions/upload-artifact@v3
-        if: ${{ ! contains(matrix.type, 'libs') }}
+        if: ${{ success() }}
         with:
-          name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_${{ matrix.type }}.7z
+          name: android_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_manager.7z
+
       - name: Upload xiaomi manager
         uses: actions/upload-artifact@v3
-        if: ${{ contains(matrix.type, 'manager') }}
+        if: ${{ success() }}
         with:
-          name: android_xiaomi_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_${{ matrix.type }}_xiaomi.7z
+          name: android_xiaomi_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_manager_xiaomi.7z
+
       - name: Upload armv6 only manager
         uses: actions/upload-artifact@v3
-        if: ${{ contains(matrix.type, 'manager') }}
+        if: ${{ success() }}
         with:
-          name: android_armv6_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_${{ matrix.type }}_armv6.7z
+          name: android_armv6_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_manager_armv6.7z
 
       - name: Upload JUnit Tests Results
         uses: actions/upload-artifact@v3
-        if: always() && matrix.type == 'manager'      # run this step even if previous step failed
+        if: always()
         with:
           name: Android_tests_results
           path: android/BOINC/app/build/test-results/testDebugUnitTest/TEST-*.xml
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3
-        if: ${{ success() && matrix.type == 'manager' }}
+        if: ${{ success() }}
+        with:
+          fail_ci_if_error: true
+          verbose: false
+
+  build-manager-vcpkg:
+    name: vcpkg-manager-build
+    runs-on: ubuntu-latest
+    needs: build-client-vcpkg
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository universe
+          sudo apt-get -qq update
+          sudo apt-get install -y libncurses5
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "17"
+
+      - name: Download assets armv6
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_vcpkg_armv6
+
+      - name: Download assets arm
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_vcpkg_arm
+
+      - name: Download assets arm64
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_vcpkg_arm64
+
+      - name: Download assets x86
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_vcpkg_x86
+
+      - name: Download assets x86_64
+        uses: actions/download-artifact@v3
+        with:
+          name: assets_vcpkg_x86_64
+
+      - name: Build manager with vcpkg
+        if: ${{ success() }}
+        run: ./android/ci_build_vcpkg_manager.sh --no-client-build
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_logs_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: ${{ success() }}
+        run: python ./deploy/prepare_deployment.py android_manager
+
+      - name: Upload manager
+        uses: actions/upload-artifact@v3
+        if: ${{ success() }}
+        with:
+          name: android_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_manager.7z
+
+      - name: Upload xiaomi manager
+        uses: actions/upload-artifact@v3
+        if: ${{ success() }}
+        with:
+          name: android_xiaomi_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_manager_xiaomi.7z
+
+      - name: Upload armv6 only manager
+        uses: actions/upload-artifact@v3
+        if: ${{ success() }}
+        with:
+          name: android_armv6_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_manager_armv6.7z
+
+      - name: Upload JUnit Tests Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Android_tests_results
+          path: android/BOINC/app/build/test-results/testDebugUnitTest/TEST-*.xml
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3
+        if: ${{ success() }}
         with:
           fail_ci_if_error: true
           verbose: false

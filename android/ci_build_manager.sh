@@ -13,9 +13,26 @@ if [ ! -d "android" ]; then
     exit 1
 fi
 
-android/ci_build_client.sh
+no_client_build=""
 
-cd android/BOINC 
+while [ $# -gt 0 ]; do
+    key="$1"
+    case $key in
+        --no-client-build)
+        no_client_build="yes"
+        ;;
+        *)
+        echo "unrecognized option $key"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+if [ "x$no_client_build" = "x" ]; then
+    android/ci_build_client.sh
+fi
+
+cd android/BOINC
 
 echo '===== BOINC Manager build start ====='
 

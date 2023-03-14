@@ -13,7 +13,29 @@ if [ ! -d "android" ]; then
     exit 1
 fi
 
-echo '===== BOINC apps for all platforms build start ====='
-android/build_component.sh --ci --component apps --with-vcpkg
-echo '===== BOINC apps for all platforms build done ====='
+arch=""
+
+while [ $# -gt 0 ]; do
+    key="$1"
+    case $key in
+        --arch)
+        arch="$2"
+        shift
+        ;;
+        *)
+        echo "unrecognized option $key"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+if [ "x$arch" = "x" ]; then
+    echo '===== BOINC apps for all platforms build start ====='
+    android/build_component.sh --ci --component apps --with-vcpkg
+    echo '===== BOINC apps for all platforms build done ====='
+else
+    echo '===== BOINC apps for ${arch} platform build start ====='
+    android/build_component.sh --ci --component apps --arch $arch --with-vcpkg
+    echo '===== BOINC apps for ${arch} platform build done ====='
+fi
 
