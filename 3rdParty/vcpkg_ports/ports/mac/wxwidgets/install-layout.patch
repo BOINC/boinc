@@ -1,0 +1,26 @@
+diff --git a/build/cmake/install.cmake b/build/cmake/install.cmake
+index 968dff859e..5b4fda96e6 100644
+--- a/build/cmake/install.cmake
++++ b/build/cmake/install.cmake
+@@ -45,7 +45,7 @@ else()
+ 
+     install(DIRECTORY DESTINATION "bin")
+     install(CODE "execute_process( \
+-        COMMAND ${CMAKE_COMMAND} -E create_symlink \
++        COMMAND ${CMAKE_COMMAND} -E copy \
+         ${CMAKE_INSTALL_PREFIX}/lib/wx/config/${wxBUILD_FILE_ID} \
+         ${CMAKE_INSTALL_PREFIX}/bin/wx-config \
+         )"
+diff --git a/build/cmake/utils/CMakeLists.txt b/build/cmake/utils/CMakeLists.txt
+index 4108d6a723..19d730e409 100644
+--- a/build/cmake/utils/CMakeLists.txt
++++ b/build/cmake/utils/CMakeLists.txt
+@@ -39,7 +39,7 @@ if(wxUSE_XRC)
+             )"
+         )
+         install(CODE "execute_process( \
+-            COMMAND ${CMAKE_COMMAND} -E create_symlink \
++            COMMAND ${CMAKE_COMMAND} -E copy \
+             ${CMAKE_INSTALL_PREFIX}/bin/wxrc-${wxMAJOR_VERSION}.${wxMINOR_VERSION}${EXE_SUFFIX} \
+             ${CMAKE_INSTALL_PREFIX}/bin/wxrc${EXE_SUFFIX} \
+             )"

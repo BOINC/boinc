@@ -76,9 +76,13 @@ jobs:
           name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-  cmake-build:
-    name: cmake-build
+  vcpkg-build:
+    name: ${{matrix.type}}-build
     runs-on: macos-latest
+    strategy:
+      matrix:
+        type: [manager-vcpkg, libs-cmake]
+      fail-fast: false    
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -97,7 +101,16 @@ jobs:
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: libs cmake
+        if: matrix.type == 'libs-cmake'
         run: osx/ci_build_libs_cmake.sh
+
+      - name: install vcpkg dependencies
+        if: matrix.type == 'manager-vcpkg'
+        run: ./osx/build_vcpkg_3rdparty_for_manager.sh
+
+      - name: vcpkg make manager
+        if: success() && matrix.type == 'manager-vcpkg'
+        run: ./mac_build/buildMacBOINC-CI.sh --no_shared_headers --cache_dir $(pwd)/3rdParty/osx/mac_vcpkg --vcpkg
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -107,5 +120,5 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
-          name: osx_logs_cmake-build_${{ github.event.pull_request.head.sha }}
+          name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z

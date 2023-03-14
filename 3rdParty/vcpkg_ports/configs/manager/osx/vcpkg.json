@@ -1,0 +1,16 @@
+{
+    "name": "boinc-manager",
+    "dependencies":
+    [
+        "ftgl",
+        {
+          "name": "curl",
+          "features": ["openssl","c-ares"],
+          "default-features": false
+        },
+        {
+          "name": "wxwidgets",
+          "default-features": false
+        }
+    ]
+}

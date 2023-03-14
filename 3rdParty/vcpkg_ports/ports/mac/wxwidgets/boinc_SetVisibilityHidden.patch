@@ -1,0 +1,14 @@
+diff --git a/build/cmake/init.cmake b/build/cmake/init.cmake
+index 0bc4f934b9..ec703ad19b 100644
+--- a/build/cmake/init.cmake
++++ b/build/cmake/init.cmake
+@@ -12,6 +12,9 @@ if(DEFINED wxBUILD_CXX_STANDARD AND NOT wxBUILD_CXX_STANDARD STREQUAL COMPILER_D
+     set(CMAKE_CXX_STANDARD ${wxBUILD_CXX_STANDARD})
+ endif()
+ 
++set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
++set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
++
+ if(MSVC)
+     # Determine MSVC runtime library flag
+     set(MSVC_LIB_USE "/MD")

@@ -46,6 +46,7 @@ config=""
 doclean="-noclean"
 beautifier="cat" # we need a fallback if xcpretty is not available
 share_paths="yes"
+vcpkg="no"
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -62,6 +63,9 @@ while [[ $# -gt 0 ]]; do
         ;;
         --no_shared_headers)
         share_paths="no"
+        ;;
+        --vcpkg)
+        vcpkg="yes"
         ;;
     esac
     shift # past argument or value
@@ -87,6 +91,7 @@ if [ "${style}" == "Development" ]; then
 fi
 
 if [ ${share_paths} = "yes" ]; then
+    echo "Building share_paths"
     ## all targets share the same header and library search paths
     ## Note: this does not build zip apps, upper case or VBoxWrapper projects.
     libSearchPathDbg=""
@@ -132,6 +137,70 @@ fi
 foundTargets=0
 target="x"
 
+if [ $vcpkg = "yes" ]; then
+    wx_includes_dirs_vcpkg=$(ls -d $cache_dir/include/wx-3.*/)
+    vcpkg_setting_pref_vcpkg="-setting OTHER_LDFLAGS"
+    vcpkg_setting_mgr=" \
+        -bind_at_load \
+        -D_THREAD_SAFE \
+        -L. \
+        -lboinc \
+        -lcurl \
+        -lcares \
+        -lresolv \
+        -lssl \
+        -lcrypto \
+        -lexpat \
+        -ldl \
+        -lz \
+        -lldap \
+        -lwx_osx_cocoau-3.1 \
+        -lwxregexu-3.1 \
+        -lwxscintilla-3.1 \
+        -lbrotlicommon-static \
+        -lbrotlidec-static \
+        -lbrotlienc-static \
+        -lbz2 \
+        -ljpeg \
+        -llzma \
+        -lpng \
+        -lpng16 \
+        -ltiff \
+        -lturbojpeg \
+        -liconv \
+        -lpthread \
+        -lm \
+    "
+    vcpkg_setting_scr=" \
+        -lresolv \
+        -ljpeg \
+        -lfreetype \
+        -lbrotlicommon-static \
+        -lbrotlidec-static \
+        -lbrotlienc-static \
+        -lpng \
+        -lpng16 \
+        -lm \
+        -lftgl \
+        -lz \
+        -lbz2 \
+    "
+
+    vcpkg_setting_client=" \
+        -L. \
+        -lboinc \
+        -lcurl \
+        -lcares \
+        -lresolv \
+        -lssl \
+        -lcrypto \
+        -ldl \
+        -lz \
+        -lldap \
+    "
+
+fi
+
 ## This is code that builds each target individually in the main BOINC Xcode
 ## project, plus the zip apps, upper case and VBoxWrapper projects.
 for buildTarget in `xcodebuild -list -project boinc.xcodeproj`
@@ -140,7 +209,28 @@ do
     if [ $foundTargets -eq 1 ]; then
         if [ "${target}" != "Build_All" ]; then
             echo "Building ${target}..."
-            source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+
+            if [[ $vcpkg = "yes" && ("${target}" = "mgr_boinc" || "${target}" = "ss_app" || "${target}" = "BOINC_Client") ]]; then
+                vcpkg_setting_pref=$vcpkg_setting_pref_vcpkg
+                if [ "${target}" = "mgr_boinc" ]; then
+                    vcpkg_setting=$vcpkg_setting_mgr
+                    wx_includes_dirs=$wx_includes_dirs_vcpkg
+                fi
+                if [ "${target}" = "ss_app" ]; then
+                    vcpkg_setting=$vcpkg_setting_scr
+                    wx_includes_dirs=""
+                fi
+                if [ "${target}" = "BOINC_Client" ]; then
+                    vcpkg_setting=$vcpkg_setting_client
+                    wx_includes_dirs=""
+                fi
+            else
+                vcpkg_setting_pref="-setting USER_HEADER_SEARCH_PATHS"
+                vcpkg_setting=""
+                wx_includes_dirs=""
+            fi
+
+            source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 $wx_includes_dirs" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib ../lib" $vcpkg_setting_pref "$vcpkg_setting" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
             if [ ${retval} -eq 0 ]; then
                 echo "Building ${target}...success"
                 echo
@@ -175,6 +265,7 @@ fi
 
 verify_product_archs "${rootPath}/zip/build/${style}"
 
+if [ $vcpkg -eq 0 ]; then
 target="UpperCase2"
 echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} ${doclean} -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../zip/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
@@ -195,4 +286,5 @@ fi
 
 verify_product_archs "${rootPath}/samples/vboxwrapper/build/${style}"
 
+fi
 cd "${rootPath}"
