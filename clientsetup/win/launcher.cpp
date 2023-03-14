@@ -256,7 +256,7 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
                                 &ProcInfo
                             );
                             if(!bRet) {
-								hr = HRESULT_FROM_WIN32(GetLastError());
+								return(HRESULT_FROM_WIN32(GetLastError()));
                             }
 						}
                         CloseHandle(hNewToken);
@@ -288,7 +288,7 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
             &ProcInfo
         );
         if(!bRet) {
-			hr = HRESULT_FROM_WIN32(GetLastError());
+			return(HRESULT_FROM_WIN32(GetLastError()));
         }
 	}
 
