@@ -267,7 +267,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
 
     if (checkBox) {
         if (! checkBox->IsChecked()) {
-            textCtrl->Clear();
+            //textCtrl->Clear();
             textCtrl->Disable();
             return;
         }
@@ -510,7 +510,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.suspend_if_no_recent_input = true;
 
-    if (m_txtMaxLoad->IsEnabled()) {
+    if (m_txtMaxLoad->IsEnabled() || !prefs.run_if_user_active) {
         m_txtMaxLoad->GetValue().ToDouble(&td);
         prefs.suspend_cpu_usage=RoundToHundredths(td);
     } else {
@@ -1115,15 +1115,21 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     // Note: use ChangeValue() here to avoid generating extra events.
     // m_txtProcIdleFor depends on 2 checkboxes, set it in UpdateControlStates().
     switch (ev.GetId()) {
-    // processor usage page
+        // processor usage page
     case ID_CHKMAXLOAD:
-        DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
+        if (!m_txtMaxLoad->GetValue()) {
+            DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
+        }
         break;
     case ID_CHKMAXLOADNOTINUSE:
-        DisplayValue(defaultPrefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
+        if (!m_txtMaxLoadNotInUse->GetValue()) {
+            DisplayValue(defaultPrefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
+        }
         break;
     case ID_CHKNORECENTINPUT:
-        DisplayValue(defaultPrefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
+        if (!m_txtNoRecentInput->GetValue()) {
+            DisplayValue(defaultPrefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
+        }
         break;
     // network usage page
     case ID_CHKNETDOWNLOADRATE:
