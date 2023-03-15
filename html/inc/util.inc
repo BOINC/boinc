@@ -1048,6 +1048,20 @@ function sanitize_email($x) {
     }
 }
 
+// pages like top_hosts.php, team_members.php etc. have a textual
+// "sort_by" argument.
+// Check this to avoid XSS vulnerability
+//
+function sanitize_sort_by($x) {
+    switch($x) {
+    case 'expavg_credit':
+    case 'total_credit':
+        return;
+    default:
+        error_page('bad sort_by');
+    }
+}
+
 function flops_to_credit($f) {
     return $f*(200/86400e9);
 }
