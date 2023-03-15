@@ -1,41 +1,45 @@
 [main]
 host = https://www.transifex.com
+
+[o:boinc:p:boinc:r:android]
+file_filter  = android/BOINC/app/src/main/res/values-<lang>/strings.xml
+source_file  = android/BOINC/app/src/main/res/values/strings.xml
+source_lang  = en
+type         = ANDROID
+lang_map     = pt_BR: pt-rBR, pt_PT: pt-rPT, zh_CN: zh-rCN, zh_TW: zh-rTW, fa_IR: fa_rIR, sr@latin: b+sr+Latn, it_IT: it-rIT
 minimum_perc = 97
 
-[boinc.manager]
-file_filter = locale/<lang>/BOINC-Manager.po
-source_file = locale/templates/BOINC-Manager.pot
-source_lang = en
-type = PO
+[o:boinc:p:boinc:r:client]
+file_filter  = locale/<lang>/BOINC-Client.po
+source_file  = locale/templates/BOINC-Client.pot
+source_lang  = en
+type         = PO
+minimum_perc = 97
 
-[boinc.client]
-file_filter = locale/<lang>/BOINC-Client.po
-source_file = locale/templates/BOINC-Client.pot
-source_lang = en
-type = PO
+[o:boinc:p:boinc:r:drupal]
+file_filter  = locale/<lang>/BOINC-Drupal.po
+source_file  = locale/templates/BOINC-Drupal.pot
+source_lang  = en
+type         = PO
+minimum_perc = 97
 
-[boinc.setup]
-file_filter = locale/<lang>/BOINC-Setup.po
-source_file = locale/templates/BOINC-Setup.pot
-source_lang = en
-type = PO
+[o:boinc:p:boinc:r:manager]
+file_filter  = locale/<lang>/BOINC-Manager.po
+source_file  = locale/templates/BOINC-Manager.pot
+source_lang  = en
+type         = PO
+minimum_perc = 97
 
-[boinc.project-generic]
-file_filter = html/languages/translations/<lang>.po
-source_file = locale/templates/BOINC-Project-Generic.pot
-source_lang = en
-type = PO
+[o:boinc:p:boinc:r:project-generic]
+file_filter  = html/languages/translations/<lang>.po
+source_file  = locale/templates/BOINC-Project-Generic.pot
+source_lang  = en
+type         = PO
+minimum_perc = 97
 
-[boinc.drupal]
-file_filter = locale/<lang>/BOINC-Drupal.po
-source_file = locale/templates/BOINC-Drupal.pot
-source_lang = en
-type = PO
-
-[boinc.android]
-file_filter = android/BOINC/app/src/main/res/values-<lang>/strings.xml
-lang_map = it_IT:it-rIT,pt_BR:pt-rBR,pt_PT:pt-rPT,zh_CN:zh-rCN,zh_TW:zh-rTW,fa_IR:fa_rIR,sr@latin:b+sr+Latn
-source_file = android/BOINC/app/src/main/res/values/strings.xml
-source_lang = en
-type = ANDROID
-
+[o:boinc:p:boinc:r:setup]
+file_filter  = locale/<lang>/BOINC-Setup.po
+source_file  = locale/templates/BOINC-Setup.pot
+source_lang  = en
+type         = PO
+minimum_perc = 97
