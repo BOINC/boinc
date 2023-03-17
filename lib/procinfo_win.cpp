@@ -97,6 +97,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
         p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
         p.is_low_priority = (pProcesses->BasePriority <= 4);
+        p.create_time = pProcesses->CreateTime;
         WideCharToMultiByte(CP_ACP, 0,
             pProcesses->ProcessName.Buffer,
             pProcesses->ProcessName.Length,
