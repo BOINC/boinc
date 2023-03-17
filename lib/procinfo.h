@@ -35,9 +35,11 @@ struct PROCINFO {
         // running at or below priority of BOINC apps
     char command[256];
     bool scanned;
-
     double page_fault_rate;        // derived by higher-level code
     std::vector<int> children;
+#ifdef _WIN32
+    LARGE_INTEGER create_time;
+#endif
 
     PROCINFO() {
       clear();
