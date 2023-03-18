@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg, libs-cmake]
+        type: [manager, libs, apps, libs-cmake]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -44,14 +44,6 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            3rdParty/buildCache
-            !3rdParty/buildCache/android/vcpkgcache/
-          key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh', '.github/workflows/android.yml') }}
-
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
         run: |
@@ -67,29 +59,16 @@ jobs:
         run: |
           echo ANDROID_NDK_ROOT="" >> $GITHUB_ENV
 
-      - name: Build manager
-        if: ${{ success() && matrix.type == 'manager' }}
-        run:  |
-          ./android/ci_build_manager.sh
-
-      - name: Build libs
-        if: ${{ success() && matrix.type == 'libs' }}
-        run: ./android/ci_build_libraries.sh
-
-      - name: Build apps
-        if: ${{ success() && matrix.type == 'apps' }}
-        run: ./android/ci_build_apps.sh
-
       - name: Build manager with vcpkg
-        if: ${{ success() && matrix.type == 'manager-vcpkg' }}
+        if: ${{ success() && matrix.type == 'manager' }}
         run: ./android/ci_build_vcpkg_manager.sh
 
       - name: Build libs with vcpkg
-        if: ${{ success() && matrix.type == 'libs-vcpkg' }}
+        if: ${{ success() && matrix.type == 'libs' }}
         run: ./android/ci_build_vcpkg_libraries.sh
 
       - name: Build apps with vcpkg
-        if: ${{ success() && matrix.type == 'apps-vcpkg' }}
+        if: ${{ success() && matrix.type == 'apps' }}
         run: ./android/ci_build_vcpkg_apps.sh
 
       - name: Build libs with cmake
