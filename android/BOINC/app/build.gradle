@@ -219,8 +219,7 @@ def validateTranslations() {
         }
     }
 
-    new File('app/src/main/AndroidManifest.xml').each {
-        def source = it
+    android.sourceSets.main.manifest.srcFile.each { source ->
         mainStringsMap.each {
             if (!it.value) {
                 def string = it
