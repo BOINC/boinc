@@ -900,19 +900,23 @@ function current_url() {
 // @param text The text to display on the button
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
+// @params extra Additional text in href tag
 //
 
-function button_text($url, $text, $desc=null, $class="btn-success btn-sm") {
+function button_text($url, $text, $desc=null, $class=null, $extra='') {
     if (!$desc) {
         $desc = $text;
     }
-    return sprintf(' <a href="%s" title="%s" class="btn %s">%s</a>',
-        $url, $desc, $class, $text
+    if (!$class) {
+        $class = "btn-success btn-sm";
+    }
+    return sprintf(' <a href="%s" title="%s" class="btn %s" %s>%s</a>',
+        $url, $desc, $class, $extra, $text
     );
 }
 
-function show_button($url, $text, $desc=null, $class="btn-success btn-sm") {
-    echo button_text($url, $text, $desc, $class);
+function show_button($url, $text, $desc=null, $class=null, $extra=null) {
+    echo button_text($url, $text, $desc, $class, $extra);
 }
 
 // for places with a bunch of buttons, like forum posts
