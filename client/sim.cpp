@@ -347,8 +347,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
 
     bool avail;
     if (p->last_rpc_time) {
-        double delta = now - p->last_rpc_time;
-        avail = p->available.sample(delta);
+        double dt = now - p->last_rpc_time;
+        avail = p->available.sample(dt);
     } else {
         avail = p->available.sample(0);
     }
@@ -402,12 +402,12 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
 
     bool sent_something = false;
     while (!existing_jobs_only) {
-        vector<APP*> apps;
-        get_apps_needing_work(p, apps);
-        if (apps.empty()) break;
+        vector<APP*> wapps;
+        get_apps_needing_work(p, wapps);
+        if (wapps.empty()) break;
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
-        make_job(p, wup, rp, apps);
+        make_job(p, wup, rp, wapps);
 
         double et = wup->rsc_fpops_est / rp->avp->flops;
         if (server_uses_workload) {
@@ -453,7 +453,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
 
     njobs += (int)new_results.size();
     msg_printf(0, MSG_INFO, "Got %lu tasks", new_results.size());
-    snprintf(buf, sizeof(buf), "got %lu tasks<br>", new_results.size());
+    snprintf(buf, sizeof(buf), "got %zu tasks<br>", new_results.size());
     html_msg += buf;
 
     SCHEDULER_REPLY sr;
