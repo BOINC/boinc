@@ -27,7 +27,7 @@
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4996)  // deprecated function names
-#pragma warning(disable: 4127)  // constant conditional expression
+//#pragma warning(disable: 4127)  // constant conditional expression
 #pragma warning(disable: 4244)  // conversion from int to char
 #define chdir       _chdir
 #define finite      _finite
@@ -38,10 +38,6 @@
 #define stricmp     _stricmp
 #define strtime     _strtime
 #define unlink      _unlink
-#define snprintf_s  _snprintf_s
-#if _MSC_VER < 1900
-#define snprintf    _snprintf
-#endif
 #endif
 
 #ifdef __MINGW32__

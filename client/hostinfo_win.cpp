@@ -472,7 +472,7 @@ int get_os_information(
     }
 
 
-    snprintf_s( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
+    snprintf( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
         osvi.dwMajorVersion, osvi.dwMinorVersion, (osvi.dwBuildNumber & 0xFFFF), 0
     );
 
