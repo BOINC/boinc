@@ -810,7 +810,7 @@ void show_project_colors() {
         PROJECT* p = gstate.projects[i];
         fprintf(html_out,
             "<tr><td bgcolor=%s><font color=ffffff>%s</font></td><td>%.0f</td></tr>\n",
-            colors[p->index%NCOLORS], p->project_name, p->resource_share
+            colors[p->proj_index%NCOLORS], p->project_name, p->resource_share
         );
     }
     fprintf(html_out, "</table>\n");
@@ -865,7 +865,7 @@ void show_resource(int rsc_type) {
         }
         fprintf(html_out, "<tr valign=top><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
             ninst,
-            colors[p->index%NCOLORS],
+            colors[p->proj_index%NCOLORS],
             rp->edf_scheduled?"*":"",
             rp->name,
             rp->sim_flops_left/1e9,
@@ -887,7 +887,7 @@ void show_resource(int rsc_type) {
         job_count(p, rsc_type, in_progress, done);
         if (in_progress || done) {
             fprintf(html_out, "<td bgcolor=%s><font color=#ffffff>%s</font></td><td>%d</td><td>%d</td><td>%.3f</td></tr>\n",
-                colors[p->index%NCOLORS], p->project_name, in_progress, done,
+                colors[p->proj_index%NCOLORS], p->project_name, in_progress, done,
                 p->pwf.rec
             );
             found = true;
@@ -1489,7 +1489,7 @@ void do_client_simulation() {
 
     int j=0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        gstate.projects[i]->index = j++;
+        gstate.projects[i]->proj_index = j++;
     }
 
     clear_backoff();
