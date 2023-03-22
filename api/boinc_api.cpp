@@ -1023,17 +1023,16 @@ int boinc_wu_cpu_time(double& cpu_t) {
 // Suspend this job.
 // Can be called from either timer or worker thread.
 //
-#ifdef VERBOSE
 static int suspend_activities(bool called_from_worker) {
+#ifdef VERBOSE
     char log_buf[256];
     fprintf(stderr, "%s suspend_activities() called from %s\n",
         boinc_msg_prefix(log_buf, sizeof(log_buf)),
         called_from_worker?"worker thread":"timer thread"
     );
-#else
-static int suspend_activities(bool) {
 #endif
 #ifdef _WIN32
+    (void) called_from_worker;  // suppress warning
     static vector<int> pids;
     if (options.multi_thread) {
         if (pids.size() == 0) {
