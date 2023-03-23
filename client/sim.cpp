@@ -252,21 +252,24 @@ void make_job(
 void CLIENT_STATE::handle_completed_results(PROJECT* p) {
     char buf[256];
     vector<RESULT*>::iterator result_iter;
+    int n;
 
     result_iter = results.begin();
     while (result_iter != results.end()) {
         RESULT* rp = *result_iter;
         if (rp->project == p && rp->ready_to_report) {
             if (gstate.now > rp->report_deadline) {
-                snprintf(buf, sizeof(buf), "result %s reported; "
+                n = snprintf(buf, sizeof(buf), "result %s reported; "
                     "<font color=#cc0000>MISSED DEADLINE by %f</font><br>\n",
                     rp->name, gstate.now - rp->report_deadline
                 );
+                (void)n;
             } else {
-                snprintf(buf, sizeof(buf), "result %s reported; "
+                n = snprintf(buf, sizeof(buf), "result %s reported; "
                     "<font color=#00cc00>MADE DEADLINE</font><br>\n",
                     rp->name
                 );
+                (void)n;
             }
             PROJECT* spp = rp->project;
             if (gstate.now > rp->report_deadline) {
@@ -344,6 +347,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     char buf[256], buf2[256];
     vector<IP_RESULT> ip_results;
     vector<RESULT*> new_results;
+    int n;
 
     bool avail;
     if (p->last_rpc_time) {
@@ -354,7 +358,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
     p->last_rpc_time = now;
     if (!avail) {
-        snprintf(buf, sizeof(buf), "RPC to %s skipped - project down<br>", p->project_name);
+        n = snprintf(buf, sizeof(buf), "RPC to %s skipped - project down<br>", p->project_name);
+        (void)n;
         html_msg += buf;
         msg_printf(p, MSG_INFO, "RPC skipped: project down");
         gstate.scheduler_op->project_rpc_backoff(p, "project down");
@@ -389,7 +394,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
 
     work_fetch.request_string(buf2, sizeof(buf2));
-    snprintf(buf, sizeof(buf), "RPC to %s: %s<br>", p->project_name, buf2);
+    n = snprintf(buf, sizeof(buf), "RPC to %s: %s<br>", p->project_name, buf2);
+    (void)n;
     html_msg += buf;
 
     msg_printf(p, MSG_INFO, "RPC: %s", buf2);
@@ -561,6 +567,7 @@ bool ACTIVE_TASK_SET::poll() {
         diff = 0;
     }
     PROJECT* p;
+    int n;
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
@@ -629,7 +636,8 @@ bool ACTIVE_TASK_SET::poll() {
             rp->ready_to_report = true;
             gstate.request_schedule_cpus("job finished");
             gstate.request_work_fetch("job finished");
-            snprintf(buf, sizeof(buf), "result %s finished<br>", rp->name);
+            n = snprintf(buf, sizeof(buf), "result %s finished<br>", rp->name);
+            (void)n;
             html_msg += buf;
             action = true;
         }
