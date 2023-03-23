@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -54,13 +54,6 @@ inline int strcasecmp(const char* s1, const char* s2) {
     if (*s2) return -1;
     return 0;
 }
-#endif
-
-#ifdef _WIN32
-#define snprintf _snprintf
-    // Yucky!  _snprintf() is not the same as snprintf();
-    // it doesn't null-terminate if buffer is too small.
-    // This is a workaround until we switch to VS2015, which has sprintf()
 #endif
 
 #endif

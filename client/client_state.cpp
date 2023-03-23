@@ -1628,7 +1628,9 @@ bool CLIENT_STATE::garbage_collect_always() {
             }
             rp->output_files[i].file_info->ref_cnt++;
         }
-#ifndef SIM
+#ifdef SIM
+        (void)found_error;
+#else
         if (found_error) {
             // check for process still running; this can happen
             // e.g. if an intermediate upload fails

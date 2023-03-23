@@ -364,7 +364,7 @@ struct PROJECT : PROJ_AM {
 
 #ifdef SIM
     RANDOM_PROCESS available;
-    int index;
+    int proj_index; // order among projects; used for color coding
     int result_index;
     double idle_time;
     double idle_time_sumsq;

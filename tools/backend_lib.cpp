@@ -158,8 +158,8 @@ int create_result(
     result.random = lrand48();
 
     result.priority += priority_increase;
-    sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
-    sprintf(base_outfile_name, "%s_r%ld_", result.name, lrand48());
+    snprintf(result.name, sizeof(result.name), "%s_%s", wu.name, result_name_suffix);
+    snprintf(base_outfile_name, sizeof(base_outfile_name), "%s_r%ld_", result.name, lrand48());
     retval = read_filename(
         result_template_filename, result_template, sizeof(result_template)
     );

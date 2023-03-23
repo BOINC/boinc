@@ -1032,6 +1032,7 @@ static int suspend_activities(bool called_from_worker) {
     );
 #endif
 #ifdef _WIN32
+    (void) called_from_worker;  // suppress warning
     static vector<int> pids;
     if (options.multi_thread) {
         if (pids.size() == 0) {

@@ -319,7 +319,9 @@ void NOTICES::unkeep(const char* url) {
             ++i;
         }
     }
-#ifndef SIM
+#ifdef SIM
+    (void)removed_something;
+#else
     if (removed_something) {
         gstate.gui_rpcs.set_notice_refresh();
     }
@@ -404,7 +406,9 @@ bool NOTICES::remove_dups(NOTICE& n) {
             ++i;
         }
     }
-#ifndef SIM
+#ifdef SIM
+    (void)removed_something;
+#else
     if (removed_something) {
         gstate.gui_rpcs.set_notice_refresh();
     }
