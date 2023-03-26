@@ -11,7 +11,7 @@
 
 # Social
 
-[![Slack](https://img.shields.io/badge/slack-boincworkspace-blue?logo=slack)](https://join.slack.com/t/boincworkspace/shared_invite/enQtNzA3MTQ4NDA0Njc4LTM4NTEyZTY1MWEwZjAyNTVmOTg3NDA2NjVjZDQzMWQ3NmFjYTc4MTNkNTEyNjRkOTQ4MWU5Nzk3NzRhNTg0NDI)
+[![Slack](https://img.shields.io/badge/slack-boincworkspace-blue?logo=slack)](https://boincworkspace.slack.com/)
 # BOINC
 
 Project Website: https://boinc.berkeley.edu
