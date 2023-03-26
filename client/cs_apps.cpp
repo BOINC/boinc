@@ -218,13 +218,15 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 // Check whether the input and app version files for a result are
 // marked as FILE_PRESENT.
 // If check_size is set, also check whether the exist and have right size.
-// Called from:
-// CLIENT_STATE::update_results (with check_existence=false)
-//      to transition result from DOWNLOADING to DOWNLOADED.
-// ACTIVE_TASK::start() (with check_existence=true)
-//      to check files before running a task
+// Side effect: files with size mismatch are deleted.
 //
 // If fipp is nonzero, return a pointer to offending FILE_INFO on error
+//
+// Called from:
+// CLIENT_STATE::update_results (with check_size=false)
+//      to transition result from DOWNLOADING to DOWNLOADED.
+// ACTIVE_TASK::start() (with check_size=true)
+//      to check files before running a task
 //
 int CLIENT_STATE::task_files_present(
     RESULT* rp, bool check_size, FILE_INFO** fipp
