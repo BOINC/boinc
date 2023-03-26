@@ -586,7 +586,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     string delete_file_name;
-    bool verify_files_on_app_start = false;
     bool non_cpu_intensive = false;
     bool ended = false;
 
@@ -649,7 +648,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // boolean project attributes.
             // If the scheduler reply didn't specify them, they're not set.
             //
-            project->verify_files_on_app_start = verify_files_on_app_start;
             project->non_cpu_intensive = non_cpu_intensive;
             project->ended = ended;
             return 0;
@@ -881,8 +879,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps(buf, project, true);
             }
-            continue;
-        } else if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) {
             continue;
         } else if (xp.parse_bool("send_full_workload", send_full_workload)) {
             continue;

@@ -1802,7 +1802,7 @@ bool CLIENT_STATE::update_results() {
             break;
 #ifndef SIM
         case RESULT_FILES_DOWNLOADING:
-            if (input_files_available(rp, false) == 0) {
+            if (task_files_present(rp, false) == 0) {
                 if (rp->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //

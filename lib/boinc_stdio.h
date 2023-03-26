@@ -66,7 +66,7 @@ namespace boinc {
 #ifdef _USING_FCGI_
         int i=FCGI_vfprintf(fp,format,va);
 #else
-        int i=::fprintf(fp,format,va);
+        int i=::vfprintf(fp,format,va);
 #endif
         va_end(va);
         return i;

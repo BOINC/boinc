@@ -540,7 +540,6 @@ int ACTIVE_TASK::start(bool test) {
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
-    FILE_INFO* fip;
     int retval;
     APP_INIT_DATA aid;
 #ifdef _WIN32
@@ -567,21 +566,17 @@ int ACTIVE_TASK::start(bool test) {
     if (app_version->avg_ncpus < 1) high_priority = true;
     if (app_version->is_wrapper) high_priority = true;
 
-    if (wup->project->verify_files_on_app_start) {
-        fip=0;
-        retval = gstate.input_files_available(result, true, &fip);
-        if (retval) {
-            if (fip) {
-                snprintf(
-                    buf, sizeof(buf),
-                    "Input file %s missing or invalid: %s",
-                    fip->name, boincerror(retval)
-                );
-            } else {
-                safe_strcpy(buf, "Input file missing or invalid");
-            }
-            goto error;
-        }
+    // make sure the task files exist
+    //
+    FILE_INFO* fip = 0;
+    retval = gstate.task_files_present(result, true, &fip);
+    if (retval) {
+        snprintf(
+            buf, sizeof(buf),
+            "Task file %s: %s",
+            fip->name, boincerror(retval)
+        );
+        goto error;
     }
 
     current_cpu_time = checkpoint_cpu_time;
@@ -1144,17 +1139,21 @@ int ACTIVE_TASK::start(bool test) {
     set_task_state(PROCESS_EXECUTING, "start");
     return 0;
 
-    // go here on error; "buf" contains error message, "retval" is nonzero
-    //
 error:
+    // here on error; "buf" contains error message, "retval" is nonzero
+    //
     if (test) {
         return retval;
     }
 
-    // if something failed, it's possible that the executable was munged.
-    // Verify it to trigger another download.
+    // if failed to run program, it's possible that the executable was munged.
+    // Verify the app version files to detect this
+    // and trigger another download if it's the case
     //
-    gstate.input_files_available(result, true);
+    if (retval == ERR_EXEC) {
+        gstate.verify_app_version_files(result);
+    }
+
     char err_msg[4096];
     snprintf(err_msg, sizeof(err_msg), "couldn't start app: %.256s", buf);
     gstate.report_result_error(*result, err_msg);
