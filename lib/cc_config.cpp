@@ -639,7 +639,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <no_info_fetch>%d</no_info_fetch>\n"
         "        <no_opencl>%d</no_opencl>\n"
         "        <no_priority_change>%d</no_priority_change>\n"
-        "        <no_rpd_check>%d</no_rpd_check>\n"
+        "        <no_rdp_check>%d</no_rdp_check>\n"
         "        <os_random_only>%d</os_random_only>\n"
         "        <process_priority>%d</process_priority>\n"
         "        <process_priority_special>%d</process_priority_special>\n",
