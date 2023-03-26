@@ -466,7 +466,8 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 }
 #endif
 
-// check whether file exists and has the right size
+// Check whether file exists and has the right size.
+// If the size on disk does not match the expected size, delete the file.
 //
 int FILE_INFO::check_size() {
     char path[MAXPATHLEN];
