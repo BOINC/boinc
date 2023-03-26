@@ -170,10 +170,6 @@ struct PROJECT : PROJ_AM {
     bool non_cpu_intensive;
         // All this project's apps are non-CPU-intensive.
         // Apps can also be individually marked as NCI
-    bool verify_files_on_app_start;
-        // Check app version and input files on app startup,
-        // to make sure they haven't been tampered with.
-        // This provides only the illusion of security.
     bool use_symlinks;
     bool report_results_immediately;
     bool sched_req_no_work[MAX_RSC];

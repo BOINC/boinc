@@ -466,6 +466,32 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 }
 #endif
 
+bool FILE_INFO::is_size_ok() {
+    char path[MAXPATHLEN];
+    get_pathname(this, path, sizeof(path));
+    double size;
+    int retval = file_size(path, size);
+    if (retval) {
+        delete_project_owned_file(path, true);
+        status = FILE_NOT_PRESENT;
+        msg_printf(project, MSG_INFO, "File %s not found", path);
+        return false;
+    }
+    if (gstate.global_prefs.dont_verify_images && is_image_file(path)) {
+        return true;
+    }
+    if (nbytes && (size != nbytes)) {
+        delete_project_owned_file(path, true);
+        status = FILE_NOT_PRESENT;
+        msg_printf(project, MSG_INFO,
+            "File %s has wrong size: expected %.0f, got %.0f",
+            path, nbytes, size
+        );
+        return false;
+    }
+    return true;
+}
+
 // for each FILE_INFO (i.e. each project file the client knows about)
 // check that the file exists and is of the right size.
 // Called at startup.
@@ -487,22 +513,8 @@ void CLIENT_STATE::check_file_existence() {
         }
         if (cc_config.dont_check_file_sizes) continue;
         if (fip->status == FILE_PRESENT) {
-            get_pathname(fip, path, sizeof(path));
-            double size;
-            int retval = file_size(path, size);
-            if (retval) {
-                delete_project_owned_file(path, true);
-                fip->status = FILE_NOT_PRESENT;
-                msg_printf(fip->project, MSG_INFO, "File %s not found", path);
-            } else if (fip->nbytes && (size != fip->nbytes)) {
-                if (gstate.global_prefs.dont_verify_images && is_image_file(path)) continue;
-                delete_project_owned_file(path, true);
-                fip->status = FILE_NOT_PRESENT;
-                msg_printf(fip->project, MSG_INFO,
-                    "File %s has wrong size: expected %.0f, got %.0f",
-                    path, fip->nbytes, size
-                );
-            }
+            fip->is_size_ok();
+
             // If an output file disappears before it's uploaded,
             // flag the job as an error.
             //

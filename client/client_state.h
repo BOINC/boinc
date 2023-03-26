@@ -358,7 +358,8 @@ struct CLIENT_STATE {
 
 // --------------- cs_apps.cpp:
     double get_fraction_done(RESULT* result);
-    int input_files_available(RESULT*, bool, FILE_INFO** f=0);
+    int task_files_present(RESULT*, bool check_size, FILE_INFO** f=0);
+    int verify_app_version_files(RESULT*);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int n_usable_cpus;
         // number of usable CPUs
