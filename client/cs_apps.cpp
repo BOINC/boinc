@@ -233,7 +233,7 @@ int CLIENT_STATE::task_files_present(
     FILE_INFO* fip;
     unsigned int i;
     APP_VERSION* avp = rp->avp; 
-    int ret = 0;
+    int retval, ret = 0;
 
     for (i=0; i<avp->app_files.size(); i++) {
         fip = avp->app_files[i].file_info;
@@ -241,9 +241,10 @@ int CLIENT_STATE::task_files_present(
             if (fipp) *fipp = fip;
             ret = ERR_FILE_MISSING;
         } else if (check_size) {
-            if (!fip->is_size_ok()) {
+            retval = fip->check_size();
+            if (retval) {
                 if (fipp) *fipp = fip;
-                ret = ERR_FILE_MISSING;
+                ret = retval;
             }
         }
     }
@@ -255,9 +256,10 @@ int CLIENT_STATE::task_files_present(
             if (fipp) *fipp = fip;
             ret = ERR_FILE_MISSING;
         } else if (check_size) {
-            if (!fip->is_size_ok()) {
+            retval = fip->check_size();
+            if (retval) {
                 if (fipp) *fipp = fip;
-                ret = ERR_FILE_MISSING;
+                ret = retval;
             }
         }
     }

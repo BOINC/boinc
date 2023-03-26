@@ -540,7 +540,6 @@ int ACTIVE_TASK::start(bool test) {
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
-    FILE_INFO* fip;
     int retval;
     APP_INIT_DATA aid;
 #ifdef _WIN32
@@ -569,18 +568,14 @@ int ACTIVE_TASK::start(bool test) {
 
     // make sure the task files exist
     //
-    fip=0;
+    FILE_INFO* fip = 0;
     retval = gstate.task_files_present(result, true, &fip);
     if (retval) {
-        if (fip) {
-            snprintf(
-                buf, sizeof(buf),
-                "Input file %s missing or invalid: %s",
-                fip->name, boincerror(retval)
-            );
-        } else {
-            safe_strcpy(buf, "Input file missing or invalid");
-        }
+        snprintf(
+            buf, sizeof(buf),
+            "Task file %s: %s",
+            fip->name, boincerror(retval)
+        );
         goto error;
     }
 

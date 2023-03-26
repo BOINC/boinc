@@ -153,7 +153,7 @@ struct FILE_INFO {
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
     int verify_file(bool, bool, bool);
-    bool is_size_ok();
+    int check_size();
     bool verify_file_certs();
     int gzip();
         // gzip file and add .gz to name

@@ -195,6 +195,7 @@
 #define ERR_TRUNCATE        -218
 #define ERR_WRONG_URL       -219
 #define ERR_DUP_NAME        -220
+#define ERR_FILE_WRONG_SIZE -221
 #define ERR_GETGRNAM        -222
 #define ERR_CHOWN           -223
 #define ERR_HTTP_PERMANENT  -224
