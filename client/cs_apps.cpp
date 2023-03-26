@@ -217,7 +217,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
 // Check whether the input and app version files for a result are
 // marked as FILE_PRESENT.
-// If check_size is set, also check whether the exist and have right size.
+// If check_size is set, also check whether they exist and have the right size.
+// (Side-effect: files with a size mismatch will be deleted.)
 // Side effect: files with size mismatch are deleted.
 //
 // If fipp is nonzero, return a pointer to offending FILE_INFO on error
