@@ -9,9 +9,6 @@
 | [![Build Status](https://github.com/BOINC/boinc/actions/workflows/osx.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/osx.yml) | |
 | [![Build Status](https://github.com/BOINC/boinc/actions/workflows/windows.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/windows.yml) | |
 
-# Social
-
-[![Slack](https://img.shields.io/badge/slack-boincworkspace-blue?logo=slack)](https://boincworkspace.slack.com/)
 # BOINC
 
 Project Website: https://boinc.berkeley.edu
