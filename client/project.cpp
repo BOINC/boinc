@@ -421,7 +421,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <njobs_error>%d</njobs_error>\n"
         "    <elapsed_time>%f</elapsed_time>\n"
         "    <last_rpc_time>%f</last_rpc_time>\n"
-        "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
