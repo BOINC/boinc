@@ -921,6 +921,11 @@ int TASK::run(int argct, char** argvt) {
         exit(ERR_EXEC);
     }  // pid = 0 i.e. child proc of the fork
 #endif
+
+    fprintf(stderr, "%s wrapper: created child process %d\n",
+        boinc_msg_prefix(buf, sizeof(buf)), (int)pid
+    );
+
     suspended = false;
     elapsed_time = 0;
     return 0;
