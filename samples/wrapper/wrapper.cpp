@@ -778,7 +778,7 @@ int TASK::run(int argct, char** argvt) {
         boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
         startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
     } else {
-        startup_info.hStdOutput = (HANDLE)_get_osfhandle(_fileno(stderr));
+        startup_info.hStdOutput = (HANDLE)_get_osfhandle(_fileno(stdout));
     }
     if (stdin_filename != "") {
         boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
