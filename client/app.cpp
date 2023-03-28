@@ -475,9 +475,9 @@ void ACTIVE_TASK_SET::get_memory_usage() {
                     "[mem_usage] exclusive app %s is running", eapp.c_str()
                 );
             }
-            if (log_flags.cpu_sched && eapp != exclusive_app_name) {
+            if (log_flags.task && eapp != exclusive_app_name) {
                 msg_printf(NULL, MSG_INFO,
-                    "[cpu_sched] Suspending computation because exclusive app %s is running",
+                    "Exclusive app %s is running",
                     eapp.c_str()
                 );
             }
@@ -487,11 +487,15 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
     if (exclusive_app_running != gstate.now) {
-        msg_printf(NULL, MSG_INFO,
-            "[cpu_sched] Exclusive app %s is no longer running",
-            exclusive_app_name.c_str()
-        );
-        exclusive_app_name = "";
+        if (!exclusive_app_name.empty()) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive app %s is no longer running",
+                    exclusive_app_name.c_str()
+                );
+            }
+            exclusive_app_name = "";
+        }
     }
 
     static string exclusive_gpu_app_name;
@@ -503,9 +507,9 @@ void ACTIVE_TASK_SET::get_memory_usage() {
                     "[mem_usage] exclusive GPU app %s is running", eapp.c_str()
                 );
             }
-            if (log_flags.cpu_sched && eapp != exclusive_gpu_app_name) {
+            if (log_flags.task && eapp != exclusive_gpu_app_name) {
                 msg_printf(NULL, MSG_INFO,
-                    "[cpu_sched] Suspending GPU computation because exclusive app %s is running",
+                    "Exclusive GPU app %s is running",
                     eapp.c_str()
                 );
             }
@@ -515,11 +519,15 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
     if (exclusive_gpu_app_running != gstate.now) {
-        msg_printf(NULL, MSG_INFO,
-            "[cpu_sched] Exclusive GPU app %s is no longer running",
-            exclusive_gpu_app_name.c_str()
-        );
-        exclusive_gpu_app_name = "";
+        if (!exclusive_gpu_app_name.empty()) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive GPU app %s is no longer running",
+                    exclusive_gpu_app_name.c_str()
+                );
+            }
+            exclusive_gpu_app_name = "";
+        }
     }
 
 #if defined(__linux__) || defined(_WIN32) || defined(__APPLE__)
