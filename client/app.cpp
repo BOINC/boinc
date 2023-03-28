@@ -463,27 +463,63 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
+    // check for exclusive apps
+    //
+    static string exclusive_app_name;
+        // name of currently running exclusive app, or blank if none
     for (i=0; i<cc_config.exclusive_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_apps[i].c_str())) {
+        string &eapp = cc_config.exclusive_apps[i];
+        if (app_running(pm, eapp.c_str())) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive app %s is running", cc_config.exclusive_apps[i].c_str()
+                    "[mem_usage] exclusive app %s is running", eapp.c_str()
                 );
             }
+            if (log_flags.cpu_sched && eapp != exclusive_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "[cpu_sched] Suspending computation because exclusive app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_app_name = eapp;
             exclusive_app_running = gstate.now;
             break;
         }
     }
+    if (exclusive_app_running != gstate.now) {
+        msg_printf(NULL, MSG_INFO,
+            "[cpu_sched] Exclusive app %s is no longer running",
+            exclusive_app_name.c_str()
+        );
+        exclusive_app_name = "";
+    }
+
+    static string exclusive_gpu_app_name;
     for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_gpu_apps[i].c_str())) {
+        string &eapp = cc_config.exclusive_gpu_apps[i];
+        if (app_running(pm, eapp.c_str())) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive GPU app %s is running", cc_config.exclusive_gpu_apps[i].c_str()
+                    "[mem_usage] exclusive GPU app %s is running", eapp.c_str()
                 );
             }
+            if (log_flags.cpu_sched && eapp != exclusive_gpu_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "[cpu_sched] Suspending GPU computation because exclusive app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_gpu_app_name = eapp;
             exclusive_gpu_app_running = gstate.now;
             break;
         }
+    }
+    if (exclusive_gpu_app_running != gstate.now) {
+        msg_printf(NULL, MSG_INFO,
+            "[cpu_sched] Exclusive GPU app %s is no longer running",
+            exclusive_gpu_app_name.c_str()
+        );
+        exclusive_gpu_app_name = "";
     }
 
 #if defined(__linux__) || defined(_WIN32) || defined(__APPLE__)
