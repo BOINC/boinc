@@ -124,6 +124,8 @@ void find_children(PROC_MAP& pm) {
 }
 
 // get resource usage of non-BOINC apps
+// NOTE: this is flawed because it doesn't account for short-lived processes.
+// It's not used on Win, Mac, or Linux, which have better ways of getting total CPU usage.
 //
 void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
     procinfo.clear();

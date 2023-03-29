@@ -157,8 +157,12 @@ int procinfo_setup(PROC_MAP& pm) {
 double total_cpu_time() {
     FILETIME i, s, u;
     GetSystemTimes(&i, &s, &u);
-    ULARGE_INTEGER x;
-    x.LowPart = u.dwLowDateTime;
-    x.HighPart = u.dwHighDateTime;
-    return (double)x.QuadPart/1e7;
+    ULARGE_INTEGER ix, sx,ux;
+    ix.LowPart = i.dwLowDateTime;
+    ix.HighPart = i.dwHighDateTime;
+    sx.LowPart = s.dwLowDateTime;
+    sx.HighPart = s.dwHighDateTime;
+    ux.LowPart = u.dwLowDateTime;
+    ux.HighPart = u.dwHighDateTime;
+    return ((double)ux.QuadPart + (double)sx.QuadPart - (double)ix.QuadPart)/1e7;
 }
