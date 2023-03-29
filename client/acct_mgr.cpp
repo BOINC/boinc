@@ -1097,6 +1097,7 @@ int ACCT_MGR_INFO::init() {
 #define STARVED_RPC_DELAY   600
     // do RPC after this much starvation
 
+// See if we need to contact the account manager.
 // called once a second
 //
 bool ACCT_MGR_INFO::poll() {
@@ -1105,9 +1106,10 @@ bool ACCT_MGR_INFO::poll() {
         return false;
     }
 
+    // see if time for a periodic RPC
+    //
     if (gstate.now > next_rpc_time) {
-
-        // default synch period is 1 day
+        // default synch period is 1 day; the AM can override this
         //
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(*this, false);
@@ -1115,11 +1117,16 @@ bool ACCT_MGR_INFO::poll() {
     }
 
     // if not dynamic AM, we're done
+    // ("dynamic" means the AM can change set of projects)
     //
     if (!dynamic) {
         return false;
     }
 
+    // it's possible that the set of projects given us by the AM
+    // is starting a resources
+    // e.g. they don't currently have jobs, or they're down.
+    //
     // See if some resource is starved with the current set of projects,
     // and if so possibly do a "starved" RPC asking for different projects
 
@@ -1132,12 +1139,30 @@ bool ACCT_MGR_INFO::poll() {
     idle_timer = 0;
     get_nidle();
     if (any_resource_idle()) {
+        if (log_flags.work_fetch_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[work_fetch] Using AM and some device idle"
+            );
+        }
+
         if (first_starved == 0) {
             first_starved = gstate.now;
             starved_rpc_backoff = STARVED_RPC_DELAY;
             starved_rpc_min_time = gstate.now + STARVED_RPC_DELAY;
+            if (log_flags.work_fetch_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[work_fetch] First time - delaying RPC for %d sec",
+                    STARVED_RPC_DELAY
+                );
+            }
         } else {
             if (gstate.now < starved_rpc_min_time) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[work_fetch] AM RPC backed off for %.0f sec",
+                        starved_rpc_min_time - gstate.now
+                    );
+                }
                 return false;
             }
             msg_printf(NULL, MSG_INFO,
