@@ -1124,11 +1124,10 @@ bool ACCT_MGR_INFO::poll() {
     }
 
     // it's possible that the set of projects given us by the AM
-    // is starting a resources
-    // e.g. they don't currently have jobs, or they're down.
-    //
-    // See if some resource is starved with the current set of projects,
-    // and if so possibly do a "starved" RPC asking for different projects
+    // is starving a resources
+    // e.g. those projects don't currently have jobs, or are down.
+    // In that case contact the AM, asking for other projects.
+    // Do this with exponential backoff to avoid overloading the AM
 
     // do this check once a minute
     //
@@ -1144,6 +1143,10 @@ bool ACCT_MGR_INFO::poll() {
                 "[work_fetch] Using AM and some device idle"
             );
         }
+
+        // "first_starved" is the time when starvation began.
+        // Let 10 min pass before contacting the AM
+        // (e.g. in case a scheduler request fails for some reason)
 
         if (first_starved == 0) {
             first_starved = gstate.now;
