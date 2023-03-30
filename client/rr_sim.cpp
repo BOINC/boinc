@@ -698,15 +698,14 @@ void rr_simulation(const char* why) {
     rr_sim.simulate();
 }
 
-// Compute the number of idle instances of each resource
+// Compute the number resources with > 0 idle instance
 // Put results in global state (rsc_work_fetch)
-// This is used from the account manager logic,
+// This is called from the account manager logic,
 // to decide if we need to get new projects from the AM.
-// ?? why not use RR sim result?
 //
-void get_nidle() {
+int n_idle_resources() {
     int nidle_rsc = coprocs.n_rsc;
-    for (int i=1; i<coprocs.n_rsc; i++) {
+    for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].nidle_now = coprocs.coprocs[i].count;
     }
     for (unsigned int i=0; i<gstate.results.size(); i++) {
@@ -738,13 +737,5 @@ void get_nidle() {
             break;
         }
     }
-}
-
-bool any_resource_idle() {
-    for (int i=1; i<coprocs.n_rsc; i++) {
-        if (rsc_work_fetch[i].nidle_now > 0) {
-            return true;
-        }
-    }
-    return false;
+    return nidle_rsc;
 }

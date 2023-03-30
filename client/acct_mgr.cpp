@@ -1136,11 +1136,10 @@ bool ACCT_MGR_INFO::poll() {
         return false;
     }
     idle_timer = 0;
-    get_nidle();
-    if (any_resource_idle()) {
+    if (n_idle_resources()>0) {
         if (log_flags.work_fetch_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[work_fetch] Using AM and some device idle"
+                "[work_fetch] Using dynamic AM and some device is idle"
             );
         }
 

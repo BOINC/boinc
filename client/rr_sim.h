@@ -20,7 +20,6 @@
 
 extern void rr_simulation(const char* why);
 extern void print_deadline_misses();
-extern void get_nidle();
-extern bool any_resource_idle();
+extern int n_idle_resources();
 
 #endif
