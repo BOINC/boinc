@@ -915,11 +915,15 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     m_astrLanguages.reserve(langs.size() + 1);  // +1 for the entry for "English"
     bool has_translation_en = false;
     for (const auto& pLI : langs) {
-        m_astrLanguages.push_back(
-            GUI_SUPPORTED_LANG({pLI->Language,
-                // The "NativeName (EnglishName)" format of the label matches that used
-                // for Web sites [language_select() in html/inc/language_names.inc]
-                pLI->DescriptionNative + wxT(" (") + pLI->Description + wxT(")")}));
+        wxString Label =
+#if wxCHECK_VERSION(3,1,7)
+            // The "NativeName (EnglishName)" format of the label matches that used
+            // for Web sites [language_select() in html/inc/language_names.inc]
+            pLI->DescriptionNative + wxT(" (") + pLI->Description + wxT(")");
+#else
+            pLI->Description;
+#endif
+        m_astrLanguages.push_back(GUI_SUPPORTED_LANG({pLI->Language, Label}));
         // We don't expect to find an English translation,
         // but check to avoid putting it in the list twice
         if (pLI->Language == wxLANGUAGE_ENGLISH) {
