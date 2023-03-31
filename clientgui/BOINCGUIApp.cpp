@@ -913,8 +913,13 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 
     // Synthesize labels to be used in the options dialog
     m_astrLanguages.reserve(langs.size() + 1);  // +1 for the entry for "English"
-    bool has_translation_en = false;
+    // English is a special case:
+    //  - it's guaranteed to be available because it's compiled in
+    //  - the label is unique because "English (English)" would look silly
+    //  - it must be added to the list even though we don't expect to find a translation for it
+    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, wxT("English")}));
     for (const auto& pLI : langs) {
+        if (pLI->Language == wxLANGUAGE_ENGLISH) continue;
         wxString Label =
 #if wxCHECK_VERSION(3,1,6)
             // The "NativeName (EnglishName)" format of the label matches that used
@@ -924,15 +929,6 @@ void CBOINCGUIApp::InitSupportedLanguages() {
             pLI->Description;
 #endif
         m_astrLanguages.push_back(GUI_SUPPORTED_LANG({pLI->Language, Label}));
-        // We don't expect to find an English translation,
-        // but check to avoid putting it in the list twice
-        if (pLI->Language == wxLANGUAGE_ENGLISH) {
-            has_translation_en = true;
-        }
-    }
-    if (!has_translation_en) {
-        // English is always available, because it's compiled in
-        m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, wxT("English")}));
     }
 
     // Sort by wxLanguage ID to match behavior of earlier Manager versions
