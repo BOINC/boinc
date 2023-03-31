@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -44,6 +44,11 @@ class CTaskBarIcon;
 class CSkinManager;
 class CDlgEventLog;
 class CRPCFinishedEvent;
+
+struct GUI_SUPPORTED_LANG {
+    int Language;
+    wxString Label;
+};
 
 #ifdef __WXMAC__
     OSErr               QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
@@ -117,11 +122,9 @@ protected:
     bool                m_bRunDaemon;  
     bool                m_bNeedRunDaemon;  
 
-    // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
-    // defined in: wx/intl.h
-    wxArrayString       m_astrLanguages;
+    std::vector<GUI_SUPPORTED_LANG> m_astrLanguages;
     wxString            m_strISOLanguageCode;
-    
+
     int                 m_bSafeMessageBoxDisplayed;
 
 public:
@@ -187,7 +190,7 @@ public:
     bool                GetNeedRunDaemon()  
                                                     { return m_bNeedRunDaemon; }  
 
-    wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+    const std::vector<GUI_SUPPORTED_LANG>& GetSupportedLanguages() const { return m_astrLanguages; }
     wxString            GetISOLanguageCode()        { return m_strISOLanguageCode; }
     void                SetISOLanguageCode(wxString strISOLanguageCode)
                                                     { m_strISOLanguageCode = strISOLanguageCode; }

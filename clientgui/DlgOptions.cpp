@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -183,9 +183,13 @@ void CDlgOptions::CreateControls() {
     itemStaticText7->Create( itemPanel4, wxID_STATIC, _("Language:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxString* m_LanguageSelectionCtrlStrings = NULL;
+    const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+    wxArrayString langLabels;
+    for (const auto& lang : langs) {
+        langLabels.emplace_back(lang.Label);
+    }
     m_LanguageSelectionCtrl = new wxComboBox;
-    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
+    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, langLabels, wxCB_READONLY );
     if (ShowToolTips())
         m_LanguageSelectionCtrl->SetToolTip(_("What language should BOINC use?"));
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -620,8 +624,25 @@ bool CDlgOptions::ReadSettings() {
 
 
     // General Tab
-    m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
-    m_LanguageSelectionCtrl->SetSelection(wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language);
+    const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode());
+    if (pLI) {
+        const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+        auto finder =   [pLI](const GUI_SUPPORTED_LANG& item) {
+                            // Previous auto-detection might have set preference to e.g. "de_CH"
+                            // But now selected language will appear as just "de"
+                            // Make sure we find a match in that case
+                            return  item.Language == pLI->Language ||
+                                    wxLocale::GetLanguageInfo(item.Language)->CanonicalName
+                                     == pLI->CanonicalName.BeforeFirst('_');
+                        };
+        const auto foundit = std::find_if(langs.begin(), langs.end(), finder);
+        if (foundit != langs.end()) {
+            int selLangIdx = foundit - langs.begin();
+            m_LanguageSelectionCtrl->SetSelection(selLangIdx);
+        } // else (probably) the user had previously selected a language for which
+          // no translation is available. In that case, we don't forcibly change
+          // their stored preference. They'll still see the UI in English.
+    }
 
     m_ReminderFrequencyCtrl->Append(_("always"));
     m_ReminderFrequencyCtrl->Append(_("1 hour"));
@@ -723,7 +744,26 @@ bool CDlgOptions::SaveSettings() {
 
 
     // General Tab
-    if (wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language != m_LanguageSelectionCtrl->GetSelection()) {
+    wxString oldLangCode = wxGetApp().GetISOLanguageCode();
+    wxString newLangCode = oldLangCode;
+    const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+    int selLangIdx = m_LanguageSelectionCtrl->GetSelection();
+    if (selLangIdx >= 0 && selLangIdx < langs.size()) {
+        const GUI_SUPPORTED_LANG& selLang = langs[selLangIdx];
+        const wxLanguageInfo* pLI = wxLocale::GetLanguageInfo(selLang.Language);
+        if (pLI) {
+            // Previous auto-detection might have set preference to e.g. "de_CH"
+            // But now selected language will appear as just "de"
+            // Make sure we don't consider that a change
+            bool isSelLangEquivalentToUserPref =
+                pLI->CanonicalName == oldLangCode ||
+                oldLangCode.StartsWith(pLI->CanonicalName+wxT("_"));
+            if (!isSelLangEquivalentToUserPref) {
+                newLangCode = pLI->CanonicalName;
+            }
+        }
+    }
+    if (newLangCode != oldLangCode) {
         wxString strDialogTitle;
         wxString strDialogMessage;
 
@@ -749,7 +789,7 @@ bool CDlgOptions::SaveSettings() {
         );
     }
 
-    wxGetApp().SetISOLanguageCode(wxLocale::GetLanguageInfo(m_LanguageSelectionCtrl->GetSelection())->CanonicalName);
+    wxGetApp().SetISOLanguageCode(newLangCode);
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {
         case 0:

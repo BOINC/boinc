@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -891,23 +891,44 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
 
 void CBOINCGUIApp::InitSupportedLanguages() {
-    wxInt32               iIndex = 0;
-    const wxLanguageInfo* liLanguage = NULL;
-
-    // Prepare the array
-    m_astrLanguages.Insert(wxEmptyString, 0, wxLANGUAGE_USER_DEFINED+1);
-
-    // These are just special tags so deal with them in a special way
-    m_astrLanguages[wxLANGUAGE_DEFAULT]                    = _("(Automatic Detection)");
-    m_astrLanguages[wxLANGUAGE_UNKNOWN]                    = _("(Unknown)");
-    m_astrLanguages[wxLANGUAGE_USER_DEFINED]               = _("(User Defined)");
-
-    for (iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++) {
-        liLanguage = wxLocale::GetLanguageInfo(iIndex);
-        if (liLanguage) {
-            m_astrLanguages[iIndex] = liLanguage->Description;
+    // Find available translations
+    std::vector<const wxLanguageInfo*> langs;
+    const wxTranslations* pTranslations = wxTranslations::Get();
+    if (pTranslations) {
+        wxArrayString langCodes = pTranslations->GetAvailableTranslations(wxT("BOINC-Manager"));
+        for (const auto& langCode : langCodes) {
+            const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(langCode);
+            if (pLI) {
+                langs.emplace_back(pLI);
+            }
         }
     }
+
+    // Synthesize labels to be used in the options dialog
+    m_astrLanguages.reserve(langs.size() + 1);  // +1 for the entry for "English"
+    bool has_translation_en = false;
+    for (const auto& pLI : langs) {
+        m_astrLanguages.emplace_back(
+            GUI_SUPPORTED_LANG({pLI->Language,
+                // The "NativeName (EnglishName)" format of the label matches that used
+                // for Web sites [language_select() in html/inc/language_names.inc]
+                pLI->DescriptionNative + wxT(" (") + pLI->Description + wxT(")")}));
+        // We don't expect to find an English translation,
+        // but check to avoid putting it in the list twice
+        if (pLI->Language == wxLANGUAGE_ENGLISH) {
+            has_translation_en = true;
+        }
+    }
+    if (!has_translation_en) {
+        // English is always available, because it's compiled in
+        m_astrLanguages.emplace_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, wxT("English")}));
+    }
+
+    // Sort by wxLanguage ID to match behavior of earlier Manager versions
+    auto cmp =  [](const GUI_SUPPORTED_LANG& a, const GUI_SUPPORTED_LANG& b) {
+                    return a.Language < b.Language;
+                };
+    std::sort(m_astrLanguages.begin(), m_astrLanguages.end(), cmp);
 }
 
 
