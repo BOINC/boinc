@@ -186,7 +186,7 @@ void CDlgOptions::CreateControls() {
     const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
     wxArrayString langLabels;
     for (const auto& lang : langs) {
-        langLabels.emplace_back(lang.Label);
+        langLabels.push_back(lang.Label);
     }
     m_LanguageSelectionCtrl = new wxComboBox;
     m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, langLabels, wxCB_READONLY );

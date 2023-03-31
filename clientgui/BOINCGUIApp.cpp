@@ -906,7 +906,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
         for (const auto& langCode : langCodes) {
             const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(langCode);
             if (pLI) {
-                langs.emplace_back(pLI);
+                langs.push_back(pLI);
             }
         }
     }
@@ -915,7 +915,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     m_astrLanguages.reserve(langs.size() + 1);  // +1 for the entry for "English"
     bool has_translation_en = false;
     for (const auto& pLI : langs) {
-        m_astrLanguages.emplace_back(
+        m_astrLanguages.push_back(
             GUI_SUPPORTED_LANG({pLI->Language,
                 // The "NativeName (EnglishName)" format of the label matches that used
                 // for Web sites [language_select() in html/inc/language_names.inc]
@@ -928,7 +928,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     }
     if (!has_translation_en) {
         // English is always available, because it's compiled in
-        m_astrLanguages.emplace_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, wxT("English")}));
+        m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, wxT("English")}));
     }
 
     // Sort by wxLanguage ID to match behavior of earlier Manager versions
