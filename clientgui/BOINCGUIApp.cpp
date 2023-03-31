@@ -916,7 +916,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     bool has_translation_en = false;
     for (const auto& pLI : langs) {
         wxString Label =
-#if wxCHECK_VERSION(3,1,7)
+#if wxCHECK_VERSION(3,1,6)
             // The "NativeName (EnglishName)" format of the label matches that used
             // for Web sites [language_select() in html/inc/language_names.inc]
             pLI->DescriptionNative + wxT(" (") + pLI->Description + wxT(")");
