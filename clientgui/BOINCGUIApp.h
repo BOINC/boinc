@@ -46,8 +46,8 @@ class CDlgEventLog;
 class CRPCFinishedEvent;
 
 struct GUI_SUPPORTED_LANG {
-    int Language;
-    wxString Label;
+    int Language;       // wxLanguage ID, used to set the locale
+    wxString Label;     // Text to display in the options dialog
 };
 
 #ifdef __WXMAC__
