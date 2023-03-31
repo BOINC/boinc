@@ -265,12 +265,19 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pLocale);
 
     //
-    if (m_strISOLanguageCode.IsEmpty()) {
-        iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
-        m_pLocale->Init(iDesiredLanguageCode);
-        m_strISOLanguageCode = m_pLocale->GetCanonicalName();
+    if (!m_strISOLanguageCode.IsEmpty()) {
+        const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(m_strISOLanguageCode);
+        if (pLI) {
+            iDesiredLanguageCode = pLI->Language;
+        } else {
+            iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
+        }
     } else {
-        m_pLocale->Init(wxLocale::FindLanguageInfo(m_strISOLanguageCode)->Language);
+        iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
+    }
+    m_pLocale->Init(iDesiredLanguageCode);
+    if (iDesiredLanguageCode == wxLANGUAGE_DEFAULT) {
+        m_strISOLanguageCode = m_pLocale->GetCanonicalName();
     }
 
     // Look for the localization files by absolute and relative locations.
