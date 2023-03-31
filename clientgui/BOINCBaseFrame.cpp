@@ -327,16 +327,21 @@ void CBOINCBaseFrame::OnActivate(wxActivateEvent& event) {
 void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
 
-    if (!event.CanVeto() || IsIconized()) {
+    if (
+#if defined(__WXMAC__)
+        IsIconized()
+#elif defined(__WXGTK__)
+        true
+#else
+        false
+#endif
+        || !event.CanVeto()) {
+        // Destroy the top-level window (which will cause the Manager to exit)
         wxGetApp().FrameClosed();
         Destroy();
     } else {
-#ifdef __WXGTK__
-        wxGetApp().FrameClosed();
-        Destroy();
-#else
+        // Hide the top-level window (and keep the Manager running)
         Hide();
-#endif
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function End"));
