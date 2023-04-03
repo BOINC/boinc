@@ -124,6 +124,7 @@ protected:
 
     std::vector<GUI_SUPPORTED_LANG> m_astrLanguages;
     wxString            m_strISOLanguageCode;
+    bool                m_bUseDefaultLocale;
 
     int                 m_bSafeMessageBoxDisplayed;
 
@@ -194,7 +195,9 @@ public:
     wxString            GetISOLanguageCode()        { return m_strISOLanguageCode; }
     void                SetISOLanguageCode(wxString strISOLanguageCode)
                                                     { m_strISOLanguageCode = strISOLanguageCode; }
-    
+    bool                UseDefaultLocale() const    { return m_bUseDefaultLocale; }
+    void                SetUseDefaultLocale(bool b) { m_bUseDefaultLocale = b; }
+
     void                SetEventLogWasActive(bool wasActive) { m_bEventLogWasActive = wasActive; }
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();

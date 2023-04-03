@@ -101,6 +101,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
     m_strISOLanguageCode = wxEmptyString;
+    m_bUseDefaultLocale = true;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
@@ -119,7 +120,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bNeedRunDaemon = true;
 
     // Initialize local variables
-    int      iDesiredLanguageCode = 0;
+    int      iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
 #ifdef SANDBOX
@@ -196,6 +197,10 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
+    bool bUseDefaultLocaleDefault =
+        // Migration: assume a selected language code that matches the system default means "auto select"
+        m_strISOLanguageCode == wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT)->CanonicalName;
+    m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
@@ -265,15 +270,11 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pLocale);
 
     //
-    if (!m_strISOLanguageCode.IsEmpty()) {
+    if (!m_bUseDefaultLocale && !m_strISOLanguageCode.IsEmpty()) {
         const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(m_strISOLanguageCode);
         if (pLI) {
             iDesiredLanguageCode = pLI->Language;
-        } else {
-            iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
         }
-    } else {
-        iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
     }
     m_pLocale->Init(iDesiredLanguageCode);
     if (iDesiredLanguageCode == wxLANGUAGE_DEFAULT) {
@@ -603,6 +604,7 @@ void CBOINCGUIApp::SaveState() {
         m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
     }
     m_pConfig->Write(wxT("LanguageISO"), m_strISOLanguageCode);
+    m_pConfig->Write(wxT("UseDefaultLocale"), m_bUseDefaultLocale);
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
@@ -912,7 +914,15 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     }
 
     // Synthesize labels to be used in the options dialog
-    m_astrLanguages.reserve(langs.size() + 1);  // +1 for the entry for "English"
+    m_astrLanguages.reserve(2 + langs.size());  // +2 for the entries for "Auto" and "English"
+    // CDlgOptions depends on "Auto" being the first item in the list
+    wxString strAutoEnglish = wxT("(Automatic Detection)");
+    wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
+    wxString lblAuto = strAutoTranslated;
+    if (strAutoTranslated != strAutoEnglish) {
+        lblAuto += wxT(" ") + strAutoEnglish;
+    }
+    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_DEFAULT, lblAuto}));
     // English is a special case:
     //  - it's guaranteed to be available because it's compiled in
     //  - the label is unique because "English (English)" would look silly

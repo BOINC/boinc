@@ -624,24 +624,27 @@ bool CDlgOptions::ReadSettings() {
 
 
     // General Tab
-    const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode());
-    if (pLI) {
-        const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
-        auto finder =   [pLI](const GUI_SUPPORTED_LANG& item) {
-                            // Previous auto-detection might have set preference to e.g. "de_CH"
-                            // But now selected language will appear as just "de"
-                            // Make sure we find a match in that case
-                            return  item.Language == pLI->Language ||
-                                    wxLocale::GetLanguageInfo(item.Language)->CanonicalName
-                                     == pLI->CanonicalName.BeforeFirst('_');
-                        };
-        const auto foundit = std::find_if(langs.begin(), langs.end(), finder);
-        if (foundit != langs.end()) {
-            int selLangIdx = foundit - langs.begin();
-            m_LanguageSelectionCtrl->SetSelection(selLangIdx);
-        } // else (probably) the user had previously selected a language for which
-          // no translation is available. In that case, we don't forcibly change
-          // their stored preference. They'll still see the UI in English.
+    if (wxGetApp().UseDefaultLocale()) {
+        // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list
+        m_LanguageSelectionCtrl->SetSelection(0);
+    } else {
+        const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode());
+        if (pLI) {
+            const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+            auto finder =   [pLI](const GUI_SUPPORTED_LANG& item) {
+                                return  item.Language == pLI->Language;
+                            };
+            const auto foundit = std::find_if(langs.begin(), langs.end(), finder);
+            if (foundit != langs.end()) {
+                int selLangIdx = foundit - langs.begin();
+                m_LanguageSelectionCtrl->SetSelection(selLangIdx);
+            } // else (probably) the user had previously selected a language for which no
+              // translation is available, or a regional variation that isn't the system default.
+              // In those cases, we don't forcibly change their stored preference.
+              // The language drop-down will have no selection, which looks a bit odd;
+              // and if they subsequently select one of the available languages,
+              // the previous setting (including any regional variation) will be lost.
+        }
     }
 
     m_ReminderFrequencyCtrl->Append(_("always"));
@@ -746,21 +749,15 @@ bool CDlgOptions::SaveSettings() {
     // General Tab
     wxString oldLangCode = wxGetApp().GetISOLanguageCode();
     wxString newLangCode = oldLangCode;
-    const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
     int selLangIdx = m_LanguageSelectionCtrl->GetSelection();
-    if (selLangIdx >= 0 && selLangIdx < langs.size()) {
-        const GUI_SUPPORTED_LANG& selLang = langs[selLangIdx];
-        const wxLanguageInfo* pLI = wxLocale::GetLanguageInfo(selLang.Language);
-        if (pLI) {
-            // Previous auto-detection might have set preference to e.g. "de_CH"
-            // But now selected language will appear as just "de"
-            // Make sure we don't consider that a change
-            bool isSelLangEquivalentToUserPref =
-                pLI->CanonicalName == oldLangCode ||
-                oldLangCode.StartsWith(pLI->CanonicalName+wxT("_"));
-            if (!isSelLangEquivalentToUserPref) {
-                newLangCode = pLI->CanonicalName;
-            }
+    if (selLangIdx == 0) {
+        // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list
+        newLangCode = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT)->CanonicalName;
+    } else if (selLangIdx > 0) {
+        const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+        if (selLangIdx < langs.size()) {
+            const GUI_SUPPORTED_LANG& selLang = langs[selLangIdx];
+            newLangCode = wxLocale::GetLanguageInfo(selLang.Language)->CanonicalName;
         }
     }
     if (newLangCode != oldLangCode) {
@@ -790,6 +787,7 @@ bool CDlgOptions::SaveSettings() {
     }
 
     wxGetApp().SetISOLanguageCode(newLangCode);
+    wxGetApp().SetUseDefaultLocale(selLangIdx == 0);
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {
         case 0:
