@@ -1349,3 +1349,89 @@ double RUN_MODE::delay() {
         return 0;
     }
 }
+
+int USER_CPID::parse(XML_PARSER& xp) {
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/user_cpid")) {
+            if (!strlen(email_hash) || !strlen(cpid) || !time) {
+                msg_printf(0, MSG_INTERNAL_ERROR, "USER_CPID::parse() failed");
+                return ERR_XML_PARSE;
+            }
+            break;
+        }
+        if (xp.parse_str("email_hash", email_hash, sizeof(email_hash))) continue;
+        if (xp.parse_str("cpid", cpid, sizeof(cpid))) continue;
+        if (xp.parse_double("time", time)) continue;
+    }
+    return 0;
+}
+
+int USER_CPID::write(MIOFILE& out) {
+    out.printf(
+        "   <user_cpid>\n"
+        "      <email_hash>%s</email_hash>\n"
+        "      <cpid>%s</cpid>\n"
+        "      <time>%f</time>\n"
+        "   </user_cpid>\n",
+        email_hash, cpid, time
+    );
+    return 0;
+}
+
+int USER_CPIDS::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/user_cpids")) {
+            break;
+        }
+        if (xp.match_tag("user_cpid")) {
+            USER_CPID uc;
+            int retval = uc.parse(xp);
+            if (retval) continue;
+            cpids.push_back(uc);
+        }
+    }
+    return 0;
+}
+
+int USER_CPIDS::write(MIOFILE& out) {
+    out.printf("<user_cpids>\n");
+    for (USER_CPID &cpid: cpids) {
+        cpid.write(out);
+    }
+    out.printf("</user_cpids>\n");
+    return 0;
+}
+
+USER_CPID* USER_CPIDS::lookup(const char* email_hash) {
+    for (USER_CPID &cpid: cpids) {
+        if (!strcmp(cpid.email_hash, email_hash)) {
+            return &cpid;
+        }
+    }
+    return NULL;
+}
+
+// if empty, initialize from projects
+// (should get done once, when updating to this client version)
+//
+void USER_CPIDS::init_from_projects() {
+    for (PROJECT *p: gstate.projects) {
+        USER_CPID* ucp = lookup(p->email_hash);
+        if (ucp) {
+            if (p->user_create_time < ucp->time) {
+                strcpy(ucp->cpid, p->cross_project_id);
+                ucp->time = p->user_create_time;
+            }
+        } else {
+            USER_CPID uc;
+            strcpy(uc.email_hash, p->email_hash);
+            strcpy(uc.cpid, p->cross_project_id);
+            uc.time = p->user_create_time;
+            cpids.push_back(uc);
+            
+        }
+    }
+}
+
+USER_CPIDS user_cpids;

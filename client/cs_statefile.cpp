@@ -511,6 +511,10 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             continue;
         }
+        if (xp.match_tag("user_cpids")) {
+            user_cpids.parse(xp);
+            continue;
+        }
 #ifdef ENABLE_AUTO_UPDATE
         if (xp.match_tag("auto_update")) {
             if (!project) {
@@ -554,6 +558,13 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             }
         }
     }
+
+    // this should happen once, on client update
+    //
+    if (user_cpids.cpids.empty()) {
+        user_cpids.init_from_projects();
+    }
+
     return 0;
 }
 
@@ -813,6 +824,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }
+    user_cpids.write(f);
     f.printf("</client_state>\n");
     return 0;
 }
