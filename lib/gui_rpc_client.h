@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -311,6 +311,13 @@ struct RESULT {
     int parse(XML_PARSER&);
     void print();
     void clear();
+
+    bool is_not_started() const {
+        if (state >= RESULT_COMPUTE_ERROR) return false;
+        if (ready_to_report) return false;
+        if (active_task) return false;
+        return true;
+    }
 };
 
 struct FILE_TRANSFER {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -462,6 +462,15 @@ void CViewWork::OnActiveTasksOnly( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
+// Comparator functions for sort operations in OnWorkSuspend() and OnWorkAbort()
+static bool sort_order_started(const RESULT* a, const RESULT* b) {
+    return !a->is_not_started() && b->is_not_started();
+}
+static bool sort_order_not_started(const RESULT* a, const RESULT* b) {
+    return a->is_not_started() && !b->is_not_started();
+}
+
+
 void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
 
@@ -476,6 +485,13 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
+    // It shouldn't be possible to get in here with a mixture of suspended and non-
+    // suspended tasks selected, so one of these lists should always end up empty.
+    // It is not possible for any one task to end up in both lists.
+    std::vector<RESULT*> results_to_resume;
+    std::vector<RESULT*> results_to_suspend;
+
+    // Collect the selected tasks, without actioning the request yet
     row = -1;
     while (1) {
         // Step through all selected items
@@ -485,11 +501,41 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
         RESULT* result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
             if (result->suspended_via_gui) {
-                pDoc->WorkResume(result->project_url, result->name);
+                results_to_resume.push_back(result);
             } else {
-                pDoc->WorkSuspend(result->project_url, result->name);
+                results_to_suspend.push_back(result);
             }
         }
+    }
+
+    // Sort
+    //
+    // Until/unless the client can accept requests to operate on a batch of tasks at once
+    // (and thus make its own decision about the order in which to perform the actions),
+    // sort the lists to avoid unwanted side-effects of the client asynchronously scheduling tasks.
+    // In particular this takes care of the case where the user wants to suspend all tasks,
+    // some of which are running and some of which have not yet started. Without this sorting,
+    // suspending the first running task will open up a slot to the client, which will immediately
+    // find a ready task and start it running, not knowing that we also want to suspend that one.
+    // Resume is the opposite: resume tasks that have already started before those that have not.
+    // Otherwise, the user probably expects to see requests take effect in the same order as the
+    // selection in the GUI - so use a stable sort.
+    std::stable_sort(results_to_resume.begin(), results_to_resume.end(), sort_order_started);
+    std::stable_sort(results_to_suspend.begin(), results_to_suspend.end(), sort_order_not_started);
+
+    // Do the action(s)
+    //
+    // One of these lists should always be empty, so the order in which we action
+    // the two makes no difference. If somehow we do end up with entries in both,
+    // sending the resume requests first gives the client a more up-to-date picture
+    // before the suspensions cause it to go looking for tasks that are ready to run.
+    for (std::vector<RESULT*>::iterator resultIt = results_to_resume.begin();
+         resultIt != results_to_resume.end(); ++resultIt) {
+        pDoc->WorkResume((*resultIt)->project_url, (*resultIt)->name);
+    }
+    for (std::vector<RESULT*>::iterator resultIt = results_to_suspend.begin();
+         resultIt != results_to_suspend.end(); ++resultIt) {
+        pDoc->WorkSuspend((*resultIt)->project_url, (*resultIt)->name);
     }
 
     UpdateSelection();
@@ -615,6 +661,8 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         return;
     }
 
+    std::vector<RESULT*> results_to_abort;
+
     row = -1;
     while (1) {
         // Step through all selected items
@@ -623,8 +671,17 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         
         RESULT* result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
-            pDoc->WorkAbort(result->project_url, result->name);
+            results_to_abort.push_back(result);
         }
+    }
+
+    // Abort tasks that have not yet started before those that have.
+    // See longer explanation in OnWorkSuspend()
+    std::stable_sort(results_to_abort.begin(), results_to_abort.end(), sort_order_not_started);
+
+    for (std::vector<RESULT*>::iterator resultIt = results_to_abort.begin();
+         resultIt != results_to_abort.end(); ++resultIt) {
+        pDoc->WorkAbort((*resultIt)->project_url, (*resultIt)->name);
     }
 
     UpdateSelection();
