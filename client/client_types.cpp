@@ -1417,6 +1417,9 @@ USER_CPID* USER_CPIDS::lookup(const char* email_hash) {
 //
 void USER_CPIDS::init_from_projects() {
     for (PROJECT *p: gstate.projects) {
+        if (!strlen(p->email_hash) || !strlen(p->cross_project_id) || !p->user_create_time) {
+            continue;
+        }
         USER_CPID* ucp = lookup(p->email_hash);
         if (ucp) {
             if (p->user_create_time < ucp->time) {
