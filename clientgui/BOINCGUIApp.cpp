@@ -914,29 +914,69 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     }
 
     // Synthesize labels to be used in the options dialog
+    //
+    // As we are building strings that potentially contain both left-to-right and
+    // right-to-left text, we must insert direction markers to ensure the layout is
+    // correct. Otherwise strange things happen - particularly when the strings contain
+    // parentheses, which can end up in the wrong place and pointing the wrong way.
+    // The usage here has been determined largely by trial and error, and may not be
+    // strictly correct...
+    const wxString LRM = wxUniChar(L'\x200E'/*LEFT-TO-RIGHT MARK*/);
+    const wxString RLM = wxUniChar(L'\x200F'/*RIGHT-TO-LEFT MARK*/);
+    const wxLanguageInfo* pLIui = wxLocale::FindLanguageInfo(GetISOLanguageCode());
+    wxLayoutDirection uiLayoutDirection = pLIui ? pLIui->LayoutDirection : wxLayout_Default;
     m_astrLanguages.reserve(2 + langs.size());  // +2 for the entries for "Auto" and "English"
+
     // CDlgOptions depends on "Auto" being the first item in the list
     wxString strAutoEnglish = wxT("(Automatic Detection)");
     wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
-    wxString lblAuto = strAutoTranslated;
+    wxString Label = strAutoTranslated;
     if (strAutoTranslated != strAutoEnglish) {
-        lblAuto += wxT(" ") + strAutoEnglish;
+        if (uiLayoutDirection == wxLayout_RightToLeft) {
+            Label += RLM;
+        } else if (uiLayoutDirection == wxLayout_LeftToRight) {
+            Label += LRM;
+        }
+        Label += wxT(" ");
+        if (uiLayoutDirection == wxLayout_RightToLeft) {
+            Label += RLM;
+        }
+        Label += LRM + strAutoEnglish + LRM;
     }
-    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_DEFAULT, lblAuto}));
+    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_DEFAULT, Label}));
+
     // English is a special case:
     //  - it's guaranteed to be available because it's compiled in
     //  - the label is unique because "English (English)" would look silly
     //  - it must be added to the list even though we don't expect to find a translation for it
-    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, wxT("English")}));
-    for (const auto& pLI : langs) {
+    Label = wxT("English") + LRM;
+    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, Label}));
+
+    // Now the rest of the available translations
+    for (const wxLanguageInfo* pLI : langs) {
         if (pLI->Language == wxLANGUAGE_ENGLISH) continue;
-        wxString Label =
 #if wxCHECK_VERSION(3,1,6)
+        if (pLI->DescriptionNative != pLI->Description &&
+            !pLI->DescriptionNative.empty()) {
             // The "NativeName (EnglishName)" format of the label matches that used
             // for Web sites [language_select() in html/inc/language_names.inc]
-            pLI->DescriptionNative + wxT(" (") + pLI->Description + wxT(")");
+            Label = pLI->DescriptionNative;
+            if (pLI->LayoutDirection == wxLayout_RightToLeft) {
+                Label += RLM;
+            } else if (pLI->LayoutDirection == wxLayout_LeftToRight) {
+                Label += LRM;
+            }
+            Label += wxT(" ");
+            if (uiLayoutDirection == wxLayout_RightToLeft) {
+                Label += RLM;
+            }
+            Label += LRM + wxT("(");
+            Label += pLI->Description + wxT(")") + LRM;
+        } else {
+            Label = pLI->Description + LRM;
+        }
 #else
-            pLI->Description;
+        Label = pLI->Description + LRM;
 #endif
         m_astrLanguages.push_back(GUI_SUPPORTED_LANG({pLI->Language, Label}));
     }
