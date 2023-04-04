@@ -529,10 +529,10 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     // the two makes no difference. If somehow we do end up with entries in both,
     // sending the resume requests first gives the client a more up-to-date picture
     // before the suspensions cause it to go looking for tasks that are ready to run.
-    for (RESULT* result : results_to_resume) {
+    for (const RESULT* result : results_to_resume) {
         pDoc->WorkResume(result->project_url, result->name);
     }
-    for (RESULT* result : results_to_suspend) {
+    for (const RESULT* result : results_to_suspend) {
         pDoc->WorkSuspend(result->project_url, result->name);
     }
 
@@ -677,7 +677,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     // See longer explanation in OnWorkSuspend()
     std::stable_sort(results_to_abort.begin(), results_to_abort.end(), sort_order_not_started);
 
-    for (RESULT* result : results_to_abort) {
+    for (const RESULT* result : results_to_abort) {
         pDoc->WorkAbort(result->project_url, result->name);
     }
 

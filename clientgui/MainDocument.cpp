@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1561,7 +1561,7 @@ int CMainDocument::GetWorkCount() {
 }
 
 
-int CMainDocument::WorkSuspend(char* url, char* name) {
+int CMainDocument::WorkSuspend(const char* url, const char* name) {
     int iRetVal = 0;
 
     RESULT* pStateResult = state.lookup_result(url, name);
@@ -1575,7 +1575,7 @@ int CMainDocument::WorkSuspend(char* url, char* name) {
 }
 
 
-int CMainDocument::WorkResume(char* url, char* name) {
+int CMainDocument::WorkResume(const char* url, const char* name) {
     int iRetVal = 0;
 
     RESULT* pStateResult = state.lookup_result(url, name);
@@ -1984,7 +1984,7 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
 }
 
 
-int CMainDocument::WorkAbort(char* url, char* name) {
+int CMainDocument::WorkAbort(const char* url, const char* name) {
     int iRetVal = 0;
 
     RESULT* pStateResult = state.lookup_result(url, name);

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -279,11 +279,11 @@ public:
 
     int                         GetWorkCount();
 
-    int                         WorkSuspend(char* url, char* name);
-    int                         WorkResume(char* url, char* name);
+    int                         WorkSuspend(const char* url, const char* name);
+    int                         WorkResume(const char* url, const char* name);
     int                         WorkShowGraphics(RESULT* result);
     int                         WorkShowVMConsole(RESULT* result);
-    int                         WorkAbort(char* url, char* name);
+    int                         WorkAbort(const char* url, const char* name);
     CC_STATE*                   GetState() { return &state; };
 
 
