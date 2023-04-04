@@ -529,13 +529,11 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     // the two makes no difference. If somehow we do end up with entries in both,
     // sending the resume requests first gives the client a more up-to-date picture
     // before the suspensions cause it to go looking for tasks that are ready to run.
-    for (std::vector<RESULT*>::iterator resultIt = results_to_resume.begin();
-         resultIt != results_to_resume.end(); ++resultIt) {
-        pDoc->WorkResume((*resultIt)->project_url, (*resultIt)->name);
+    for (RESULT* result : results_to_resume) {
+        pDoc->WorkResume(result->project_url, result->name);
     }
-    for (std::vector<RESULT*>::iterator resultIt = results_to_suspend.begin();
-         resultIt != results_to_suspend.end(); ++resultIt) {
-        pDoc->WorkSuspend((*resultIt)->project_url, (*resultIt)->name);
+    for (RESULT* result : results_to_suspend) {
+        pDoc->WorkSuspend(result->project_url, result->name);
     }
 
     UpdateSelection();
@@ -679,9 +677,8 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     // See longer explanation in OnWorkSuspend()
     std::stable_sort(results_to_abort.begin(), results_to_abort.end(), sort_order_not_started);
 
-    for (std::vector<RESULT*>::iterator resultIt = results_to_abort.begin();
-         resultIt != results_to_abort.end(); ++resultIt) {
-        pDoc->WorkAbort((*resultIt)->project_url, (*resultIt)->name);
+    for (RESULT* result : results_to_abort) {
+        pDoc->WorkAbort(result->project_url, result->name);
     }
 
     UpdateSelection();
