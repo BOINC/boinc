@@ -900,15 +900,26 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
 
 void CBOINCGUIApp::InitSupportedLanguages() {
+    m_astrLanguages.clear();
+
     // Find available translations
-    std::vector<const wxLanguageInfo*> langs;
+    std::vector<const wxLanguageInfo*> availableTranslations;
+    // English is a special case:
+    //  - it's guaranteed to be available because it's compiled in
+    //  - it must be added to the list even though we don't expect to find a translation for it
+    const wxLanguageInfo* pLIen = wxLocale::GetLanguageInfo(wxLANGUAGE_ENGLISH);
+    if (pLIen) {
+        availableTranslations.push_back(pLIen);
+    }
+    // Now fill in the rest from the available message catalogs
     const wxTranslations* pTranslations = wxTranslations::Get();
     if (pTranslations) {
         wxArrayString langCodes = pTranslations->GetAvailableTranslations(wxT("BOINC-Manager"));
-        for (const auto& langCode : langCodes) {
+        for (const wxString& langCode : langCodes) {
+            if (langCode == wxT("en")) continue;
             const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(langCode);
             if (pLI) {
-                langs.push_back(pLI);
+                availableTranslations.push_back(pLI);
             }
         }
     }
@@ -921,11 +932,10 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     // parentheses, which can end up in the wrong place and pointing the wrong way.
     // The usage here has been determined largely by trial and error, and may not be
     // strictly correct...
-    const wxString LRM = wxUniChar(L'\x200E'/*LEFT-TO-RIGHT MARK*/);
-    const wxString RLM = wxUniChar(L'\x200F'/*RIGHT-TO-LEFT MARK*/);
+    const wxString LRM = L'\x200E'/*LEFT-TO-RIGHT MARK*/;
+    const wxString RLM = L'\x200F'/*RIGHT-TO-LEFT MARK*/;
     const wxLanguageInfo* pLIui = wxLocale::FindLanguageInfo(GetISOLanguageCode());
     wxLayoutDirection uiLayoutDirection = pLIui ? pLIui->LayoutDirection : wxLayout_Default;
-    m_astrLanguages.reserve(2 + langs.size());  // +2 for the entries for "Auto" and "English"
 
     // CDlgOptions depends on "Auto" being the first item in the list
     wxString strAutoEnglish = wxT("(Automatic Detection)");
@@ -945,16 +955,26 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     }
     m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_DEFAULT, Label}));
 
-    // English is a special case:
-    //  - it's guaranteed to be available because it's compiled in
-    //  - the label is unique because "English (English)" would look silly
-    //  - it must be added to the list even though we don't expect to find a translation for it
-    Label = wxT("English") + LRM;
-    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_ENGLISH, Label}));
-
-    // Now the rest of the available translations
-    for (const wxLanguageInfo* pLI : langs) {
-        if (pLI->Language == wxLANGUAGE_ENGLISH) continue;
+    // Add known locales to the list
+    for (int langID = wxLANGUAGE_UNKNOWN+1; langID < wxLANGUAGE_USER_DEFINED; ++langID) {
+        const wxLanguageInfo* pLI = wxLocale::GetLanguageInfo(langID);
+        wxString lang_region = pLI->CanonicalName.BeforeFirst('@');
+        wxString lang = lang_region.BeforeFirst('_');
+        wxString script = pLI->CanonicalName.AfterFirst('@');
+        wxString lang_script = lang;
+        if (!script.empty()) {
+            lang_script += wxT("@") + script;
+        }
+        auto finder =   [&lang_script,pLI](const wxLanguageInfo* pLIavail) {
+                            return  pLIavail->CanonicalName == lang_script ||
+                                    pLIavail->CanonicalName == pLI->CanonicalName;
+                        };
+        const auto foundit = std::find_if(availableTranslations.begin(),
+                                availableTranslations.end(), finder);
+        // If we don't have a translation, don't add to the list -
+        // unless the locale has been explicitly selected by the user
+        // (setting migrated from an earlier version, or manually configured)
+        if (foundit == availableTranslations.end() && pLI != pLIui) continue;
 #if wxCHECK_VERSION(3,1,6)
         if (pLI->DescriptionNative != pLI->Description &&
             !pLI->DescriptionNative.empty()) {
@@ -978,14 +998,8 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 #else
         Label = pLI->Description + LRM;
 #endif
-        m_astrLanguages.push_back(GUI_SUPPORTED_LANG({pLI->Language, Label}));
+        m_astrLanguages.push_back(GUI_SUPPORTED_LANG({langID, Label}));
     }
-
-    // Sort by wxLanguage ID to match behavior of earlier Manager versions
-    auto cmp =  [](const GUI_SUPPORTED_LANG& a, const GUI_SUPPORTED_LANG& b) {
-                    return a.Language < b.Language;
-                };
-    std::sort(m_astrLanguages.begin(), m_astrLanguages.end(), cmp);
 }
 
 
