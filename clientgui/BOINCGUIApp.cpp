@@ -936,24 +936,26 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     const wxString RLM = L'\x200F'/*RIGHT-TO-LEFT MARK*/;
     const wxLanguageInfo* pLIui = wxLocale::FindLanguageInfo(GetISOLanguageCode());
     wxLayoutDirection uiLayoutDirection = pLIui ? pLIui->LayoutDirection : wxLayout_Default;
+    GUI_SUPPORTED_LANG newItem;
 
     // CDlgOptions depends on "Auto" being the first item in the list
+    newItem.Language = wxLANGUAGE_DEFAULT;
     wxString strAutoEnglish = wxT("(Automatic Detection)");
     wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
-    wxString Label = strAutoTranslated;
+    newItem.Label = strAutoTranslated;
     if (strAutoTranslated != strAutoEnglish) {
         if (uiLayoutDirection == wxLayout_RightToLeft) {
-            Label += RLM;
+            newItem.Label += RLM;
         } else if (uiLayoutDirection == wxLayout_LeftToRight) {
-            Label += LRM;
+            newItem.Label += LRM;
         }
-        Label += wxT(" ");
+        newItem.Label += wxT(" ");
         if (uiLayoutDirection == wxLayout_RightToLeft) {
-            Label += RLM;
+            newItem.Label += RLM;
         }
-        Label += LRM + strAutoEnglish + LRM;
+        newItem.Label += LRM + strAutoEnglish + LRM;
     }
-    m_astrLanguages.push_back(GUI_SUPPORTED_LANG({wxLANGUAGE_DEFAULT, Label}));
+    m_astrLanguages.push_back(newItem);
 
     // Add known locales to the list
     for (int langID = wxLANGUAGE_UNKNOWN+1; langID < wxLANGUAGE_USER_DEFINED; ++langID) {
@@ -965,40 +967,43 @@ void CBOINCGUIApp::InitSupportedLanguages() {
         if (!script.empty()) {
             lang_script += wxT("@") + script;
         }
-        auto finder =   [&lang_script,pLI](const wxLanguageInfo* pLIavail) {
-                            return  pLIavail->CanonicalName == lang_script ||
-                                    pLIavail->CanonicalName == pLI->CanonicalName;
-                        };
-        const auto foundit = std::find_if(availableTranslations.begin(),
-                                availableTranslations.end(), finder);
+        std::vector<const wxLanguageInfo*>::const_iterator foundit = availableTranslations.begin();
+        while (foundit != availableTranslations.end()) {
+            const wxLanguageInfo* pLIavail = *foundit;
+            if (pLIavail->CanonicalName == lang_script ||
+                pLIavail->CanonicalName == pLI->CanonicalName) {
+                break;
+            }
+            ++foundit;
+        }
         // If we don't have a translation, don't add to the list -
         // unless the locale has been explicitly selected by the user
         // (setting migrated from an earlier version, or manually configured)
         if (foundit == availableTranslations.end() && pLI != pLIui) continue;
+        newItem.Language = langID;
 #if wxCHECK_VERSION(3,1,6)
         if (pLI->DescriptionNative != pLI->Description &&
             !pLI->DescriptionNative.empty()) {
             // The "NativeName (EnglishName)" format of the label matches that used
             // for Web sites [language_select() in html/inc/language_names.inc]
-            Label = pLI->DescriptionNative;
+            newItem.Label = pLI->DescriptionNative;
             if (pLI->LayoutDirection == wxLayout_RightToLeft) {
-                Label += RLM;
+                newItem.Label += RLM;
             } else if (pLI->LayoutDirection == wxLayout_LeftToRight) {
-                Label += LRM;
+                newItem.Label += LRM;
             }
-            Label += wxT(" ");
+            newItem.Label += wxT(" ");
             if (uiLayoutDirection == wxLayout_RightToLeft) {
-                Label += RLM;
+                newItem.Label += RLM;
             }
-            Label += LRM + wxT("(");
-            Label += pLI->Description + wxT(")") + LRM;
+            newItem.Label += LRM + wxT("(") + pLI->Description + wxT(")") + LRM;
         } else {
-            Label = pLI->Description + LRM;
+            newItem.Label = pLI->Description + LRM;
         }
 #else
-        Label = pLI->Description + LRM;
+        newItem.Label = pLI->Description + LRM;
 #endif
-        m_astrLanguages.push_back(GUI_SUPPORTED_LANG({langID, Label}));
+        m_astrLanguages.push_back(newItem);
     }
 }
 

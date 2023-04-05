@@ -185,7 +185,7 @@ void CDlgOptions::CreateControls() {
 
     const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
     wxArrayString langLabels;
-    for (const auto& lang : langs) {
+    for (const GUI_SUPPORTED_LANG& lang : langs) {
         langLabels.push_back(lang.Label);
     }
     m_LanguageSelectionCtrl = new wxComboBox;
@@ -631,19 +631,15 @@ bool CDlgOptions::ReadSettings() {
         const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode());
         if (pLI) {
             const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
-            auto finder =   [pLI](const GUI_SUPPORTED_LANG& item) {
-                                return  item.Language == pLI->Language;
-                            };
-            const auto foundit = std::find_if(langs.begin(), langs.end(), finder);
-            if (foundit != langs.end()) {
-                int selLangIdx = foundit - langs.begin();
-                m_LanguageSelectionCtrl->SetSelection(selLangIdx);
-            } // else (probably) the user had previously selected a language for which no
-              // translation is available, or a regional variation that isn't the system default.
-              // In those cases, we don't forcibly change their stored preference.
-              // The language drop-down will have no selection, which looks a bit odd;
-              // and if they subsequently select one of the available languages,
-              // the previous setting (including any regional variation) will be lost.
+            for (std::vector<GUI_SUPPORTED_LANG>::const_iterator foundit = langs.begin();
+                 foundit != langs.end(); ++foundit) {
+                const GUI_SUPPORTED_LANG& item = *foundit;
+                if (item.Language == pLI->Language) {
+                    int selLangIdx = std::distance(langs.begin(), foundit);
+                    m_LanguageSelectionCtrl->SetSelection(selLangIdx);
+                    break;
+                }
+            }
         }
     }
 
