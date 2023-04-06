@@ -66,7 +66,8 @@
 # Updated 10/24/11 for OS 10.7.2 Lion
 # Updated 3/3/12 to create users and groups with IDs > 500 
 # and to create RealName key with empty string as value (for users)
-# Updated 11/8/22 revised setprojectgrp wonership & permissions for MacOS 13
+# Updated 11/8/22 revised setprojectgrp ownership & permissions for MacOS 13
+# Updated 4/6/23 revised setprojectgrp ownership to match PR #5061
 #
 # WARNING: do not use this script with versions of BOINC older 
 # than 7.20.4
@@ -258,7 +259,7 @@ set_perm switcher/AppStats root boinc_master 4550
 fi
 
 set_perm switcher/switcher root boinc_master 04050
-set_perm switcher/setprojectgrp root boinc_project 04050
+set_perm switcher/setprojectgrp root boinc_master 04050
 set_perm switcher boinc_master boinc_master 0550
 
 if [ -d locale ] ; then
