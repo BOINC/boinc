@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -410,13 +410,22 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
 // Rather than using an entire separate icon, overlay the Dock icon with a badge
 // so we don't need additional Snooze and Disconnected icons for branding.
-bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
+#if wxCHECK_VERSION(3,1,6)
+bool CTaskBarIcon::SetIcon(const wxBitmapBundle& newIcon, const wxString& )
+#else
+bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
+#endif
+{
     wxImage macIcon;
 #if wxDEBUG_LEVEL
     int err = noErr;
 #endif
     int w, h, x, y;
 
+#if wxCHECK_VERSION(3,1,6)
+    wxIcon icon = newIcon.GetIcon(wxDefaultSize);
+#endif
+    
     if (m_iconType != wxTBI_DOCK) {
         if (wxGetApp().GetBOINCMGRHideMenuBarIcon()) {
             RemoveIcon();
@@ -481,7 +490,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     return true;
 }
 
-#endif  // ! __WXMAC__
+#endif  // __WXMAC__
 
 
 void CTaskBarIcon::DisplayContextMenu() {

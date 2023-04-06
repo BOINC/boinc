@@ -49,9 +49,9 @@ curlDirName="curl-7.79.1"
 curlFileName="curl-7.79.1.tar.gz"
 curlURL="https://curl.se/download/curl-7.79.1.tar.gz"
 
-wxWidgetsDirName="wxWidgets-3.1.5"
-wxWidgetsFileName="wxWidgets-3.1.5.tar.bz2"
-wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.5/wxWidgets-3.1.5.tar.bz2"
+wxWidgetsDirName="wxWidgets-3.1.6"
+wxWidgetsFileName="wxWidgets-3.1.6.tar.bz2"
+wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.6/wxWidgets-3.1.6.tar.bz2"
 
 freetypeDirName="freetype-2.11.0"
 freetypeFileName="freetype-2.11.0.tar.gz"

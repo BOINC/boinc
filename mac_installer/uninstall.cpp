@@ -516,12 +516,14 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
     DIR                     *dirp;
     dirent                  *dp;
     CFStringRef             urlStringRef = NULL;
-    int                     index;
     CFStringRef             thisID = NULL;
     CFBundleRef             thisBundle = NULL;
     CFURLRef                bundleURLRef = NULL;
     char                    myRmCommand[MAXPATHLEN+10], *p;
     int                     pathOffset;
+#if TESTING
+    int                     index = -1;
+#endif
 
     dirp = opendir(dirPath);
     if (dirp == NULL) {      // Should never happen
@@ -529,10 +531,10 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
         return -1;
     }
     
-    index = -1;
     while (true) {
+#if TESTING
         index++;
-        
+#endif        
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
