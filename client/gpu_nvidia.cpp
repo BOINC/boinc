@@ -254,7 +254,7 @@ void COPROC_NVIDIA::get(
 #ifdef _WIN32
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
     if (!cudalib) {
-        warnings.push_back("No NVIDIA library found");
+        gpu_warning(warnings, "No NVIDIA library found");
         return;
     }
     p_cuDeviceGetCount = (CUDA_GDC)GetProcAddress( cudalib, "cuDeviceGetCount" );
@@ -305,7 +305,7 @@ void* cudalib = NULL;
 #endif
     if (!cudalib) {
         snprintf(buf, sizeof(buf), "NVIDIA: %s", dlerror());
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return;
     }
     p_cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
@@ -326,39 +326,39 @@ void* cudalib = NULL;
 #endif
 
     if (!p_cuDriverGetVersion) {
-        warnings.push_back("cuDriverGetVersion() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDriverGetVersion() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuInit) {
-        warnings.push_back("cuInit() missing from NVIDIA library");
+        gpu_warning(warnings, "cuInit() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuDeviceGetCount) {
-        warnings.push_back("cuDeviceGetCount() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceGetCount() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuDeviceGet) {
-        warnings.push_back("cuDeviceGet() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceGet() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuDeviceGetAttribute) {
-        warnings.push_back("cuDeviceGetAttribute() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceGetAttribute() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuDeviceTotalMem && !p_cuDeviceTotalMem_v2) {
-        warnings.push_back("cuDeviceTotalMem() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceTotalMem() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuDeviceComputeCapability) {
-        warnings.push_back("cuDeviceComputeCapability() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceComputeCapability() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuMemAlloc) {
-        warnings.push_back("cuMemAlloc() missing from NVIDIA library");
+        gpu_warning(warnings, "cuMemAlloc() missing from NVIDIA library");
         goto leave;
     }
     if (!p_cuMemFree) {
-        warnings.push_back("cuMemFree() missing from NVIDIA library");
+        gpu_warning(warnings, "cuMemFree() missing from NVIDIA library");
         goto leave;
     }
 
@@ -379,14 +379,14 @@ void* cudalib = NULL;
     
     if (retval) {
         snprintf(buf, sizeof(buf), "NVIDIA drivers present but no GPUs found");
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         goto leave;
     }
 
     retval = (*p_cuDriverGetVersion)(&cuda_version);
     if (retval) {
         snprintf(buf, sizeof(buf), "cuDriverGetVersion() returned %d", retval);
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         goto leave;
     }
 
@@ -395,11 +395,11 @@ void* cudalib = NULL;
     retval = (*p_cuDeviceGetCount)(&cuda_ndevs);
     if (retval) {
         snprintf(buf, sizeof(buf), "cuDeviceGetCount() returned %d", retval);
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         goto leave;
     }
     snprintf(buf, sizeof(buf), "NVIDIA library reports %d GPU%s", cuda_ndevs, (cuda_ndevs==1)?"":"s");
-    warnings.push_back(buf);
+    gpu_warning(warnings, buf);
 
     for (j=0; j<cuda_ndevs; j++) {
         cc.prop.clear();
@@ -407,13 +407,13 @@ void* cudalib = NULL;
         retval = (*p_cuDeviceGet)(&device, j);
         if (retval) {
             snprintf(buf, sizeof(buf), "cuDeviceGet(%d) returned %d", j, retval);
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             goto leave;
         }
         retval = (*p_cuDeviceGetName)(cc.prop.name, 256, device);
         if (retval) {
             snprintf(buf, sizeof(buf), "cuDeviceGetName(%d) returned %d", j, retval);
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             goto leave;
         }
         (*p_cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
@@ -462,13 +462,13 @@ void* cudalib = NULL;
         cc.device_num = j;
         cc.set_peak_flops();
         if (cc.bad_gpu_peak_flops("CUDA", s)) {
-            warnings.push_back(s);
+            gpu_warning(warnings, s.c_str());
         }
         get_available_nvidia_ram(cc, warnings);
         nvidia_gpus.push_back(cc);
     }
     if (!nvidia_gpus.size()) {
-        warnings.push_back("No CUDA-capable NVIDIA GPUs found");
+        gpu_warning(warnings, "No CUDA-capable NVIDIA GPUs found");
     }
     
 leave:
@@ -565,19 +565,19 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
     
     cc.available_ram = cc.prop.totalGlobalMem;
     if (!p_cuDeviceGet) {
-        warnings.push_back("cuDeviceGet() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceGet() missing from NVIDIA library");
         return;
     }
     if (!p_cuCtxCreate) {
-        warnings.push_back("cuCtxCreate() missing from NVIDIA library");
+        gpu_warning(warnings, "cuCtxCreate() missing from NVIDIA library");
         return;
     }
     if (!p_cuCtxDestroy) {
-        warnings.push_back("cuCtxDestroy() missing from NVIDIA library");
+        gpu_warning(warnings, "cuCtxDestroy() missing from NVIDIA library");
         return;
     }
     if (!p_cuMemGetInfo && !p_cuMemGetInfo_v2) {
-        warnings.push_back("cuMemGetInfo() missing from NVIDIA library");
+        gpu_warning(warnings, "cuMemGetInfo() missing from NVIDIA library");
         return;
     }
 
@@ -586,7 +586,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
         snprintf(buf, sizeof(buf),
             "[coproc] cuDeviceGet(%d) returned %d", cc.device_num, retval
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return;
     }
     retval = (*p_cuCtxCreate)(&ctx, 0, device);
@@ -594,7 +594,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
         snprintf(buf, sizeof(buf),
             "[coproc] cuCtxCreate(%d) returned %d", cc.device_num, retval
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return;
     }
     if (p_cuMemGetInfo_v2) {
@@ -607,7 +607,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
         snprintf(buf, sizeof(buf),
             "[coproc] cuMemGetInfo(%d) returned %d", cc.device_num, retval
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         (*p_cuCtxDestroy)(ctx);
         return;
     }
@@ -633,11 +633,11 @@ bool COPROC_NVIDIA::check_running_graphics_app() {
     int retval, j;
     bool change = false;
     if (!p_cuDeviceGet) {
-        warnings.push_back("cuDeviceGet() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceGet() missing from NVIDIA library");
         return;
     }
     if (!p_cuDeviceGetAttribute) {
-        warnings.push_back("cuDeviceGetAttribute() missing from NVIDIA library");
+        gpu_warning(warnings, "cuDeviceGetAttribute() missing from NVIDIA library");
         return;
     }
 

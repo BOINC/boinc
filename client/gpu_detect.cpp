@@ -122,7 +122,7 @@ void COPROCS::get(
             "launch_child_process_to_detect_gpus() returned error %d",
             retval
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
     }
     retval = read_coproc_info_file(warnings);
     if (retval) {
@@ -130,7 +130,7 @@ void COPROCS::get(
             "read_coproc_info_file() returned error %d",
             retval
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
     }
 #else
     detect_gpus(warnings);
@@ -149,32 +149,32 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
         nvidia.get(warnings);
     }
     catch (...) {
-        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
+        gpu_warning(warnings, "Caught SIGSEGV in NVIDIA GPU detection");
     }
 #endif
     try {
         ati.get(warnings);
     } 
     catch (...) {
-        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
+        gpu_warning(warnings, "Caught SIGSEGV in ATI GPU detection");
     }
     try {
         intel_gpu.get(warnings);
     } 
     catch (...) {
-        warnings.push_back("Caught SIGSEGV in INTEL GPU detection");
+        gpu_warning(warnings, "Caught SIGSEGV in INTEL GPU detection");
     }
     try {
         // OpenCL detection must come last
         get_opencl(warnings);
     }
     catch (...) {
-        warnings.push_back("Caught SIGSEGV in OpenCL detection");
+        gpu_warning(warnings, "Caught SIGSEGV in OpenCL detection");
     }
 #else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
-        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
+        gpu_warning(warnings, "Caught SIGSEGV in NVIDIA GPU detection");
     } else {
         nvidia.get(warnings);
     }
@@ -182,18 +182,18 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
 
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
     if (setjmp(resume)) {
-        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
+        gpu_warning(warnings, "Caught SIGSEGV in ATI GPU detection");
     } else {
         ati.get(warnings);
     }
 #endif
     if (setjmp(resume)) {
-        warnings.push_back("Caught SIGSEGV in INTEL GPU detection");
+        gpu_warning(warnings, "Caught SIGSEGV in INTEL GPU detection");
     } else {
         intel_gpu.get(warnings);
     }
     if (setjmp(resume)) {
-        warnings.push_back("Caught SIGSEGV in OpenCL detection");
+        gpu_warning(warnings, "Caught SIGSEGV in OpenCL detection");
     } else {
         // OpenCL detection must come last
         get_opencl(warnings);
@@ -741,4 +741,9 @@ void COPROCS::bound_counts() {
             coprocs[j].count = MAX_COPROC_INSTANCES;
         }
     }
+}
+
+void gpu_warning(vector<string> &warnings, const char* msg) {
+    fprintf(stderr, "%s\n", msg);
+    warnings.push_back(msg);
 }
