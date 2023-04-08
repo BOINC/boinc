@@ -1254,7 +1254,7 @@ void* throttler(void*) {
     while (1) {
         client_mutex.lock();
         double limit = gstate.current_cpu_usage_limit();
-        if (gstate.tasks_suspended || limit == 0) {
+        if (gstate.tasks_suspended || limit > 99.99) {
             client_mutex.unlock();
 //            ::Sleep((int)(1000*10));  // for Win debugging
             boinc_sleep(10);
