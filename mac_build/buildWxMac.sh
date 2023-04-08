@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build the wxMac-3.1.6 wxCocoa library for BOINC
+# Script to build the wxMac-3.1.7 wxCocoa library for BOINC
 #
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
@@ -45,11 +45,12 @@
 # Updated 10/18/21 to add -Werror=unguarded-availability compiler flag
 # Updated 2/6/23 changed MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/6/23 for wxCocoa 3.1.6 and for args now accepted by patch utility
+# Updated 4/8/23 for wxCocoa 3.1.7
 #
 ## This script requires OS 10.6 or later
 ##
-## In Terminal, CD to the wxWidgets-3.1.6 directory.
-##    cd [path]/wxWidgets-3.1.6/
+## In Terminal, CD to the wxWidgets-3.1.7 directory.
+##    cd [path]/wxWidgets-3.1.7/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ] [ -nodebug ] [--prefix PATH]
 ##
@@ -83,7 +84,7 @@ echo ""
 ##
 ## We patch 4 files to accomplish this.
 ##
-# Patch wxWidgets-3.1.6/include/wx/osx/choice.h
+# Patch wxWidgets-3.1.7/include/wx/osx/choice.h
 if [ ! -f include/wx/osx/choice.h.orig ]; then
     cat >> /tmp/choice_h_diff << ENDOFFILE
 --- include/wx/osx/choice.h
@@ -105,7 +106,7 @@ fi
 
 echo ""
 
-# Patch wxWidgets-3.1.6/src/osx/choice_osx.cpp
+# Patch wxWidgets-3.1.7/src/osx/choice_osx.cpp
 if [ ! -f src/osx/choice_osx.cpp.orig ]; then
     cat >> /tmp/choice_osx_cpp_diff << ENDOFFILE
 --- src/osx/choice_osx.cpp    2021-04-12 15:23:58.000000000 -0700
@@ -133,7 +134,7 @@ fi
 
 echo ""
 
-# Patch wxWidgets-3.1.6/include/wx/osx/core/private.h
+# Patch wxWidgets-3.1.7/include/wx/osx/core/private.h
 if [ ! -f include/wx/osx/core/private.h.orig ]; then
     cat >> /tmp/private_h_cpp_diff << ENDOFFILE
 --- include/wx/osx/core/private.h    2021-04-12 15:23:58.000000000 -0700
@@ -156,7 +157,7 @@ fi
 
 echo ""
 
-# Patch wxWidgets-3.1.6/src/osx/cocoa/choice.mm
+# Patch wxWidgets-3.1.7/src/osx/cocoa/choice.mm
 if [ ! -f src/osx/cocoa/choice.mm.orig ]; then
     cat >> /tmp/choice_mm_diff << ENDOFFILE
 --- src/osx/cocoa/choice.mm    2021-09-28 22:52:32.000000000 -0700
