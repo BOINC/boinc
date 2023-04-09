@@ -166,7 +166,7 @@ double linux_cpu_time(int pid) {
 
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -209,21 +209,13 @@ int run_program(
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 
-    if (nsecs) {
-        boinc_sleep(nsecs);
-        if (GetExitCodeProcess(process_info.hProcess, &status)) {
-            if (status != STILL_ACTIVE) {
-                return -1;
-            }
-        }
-    }
     if (process_info.hThread) CloseHandle(process_info.hThread);
     id = process_info.hProcess;
     return 0;
 }
 #else
 int run_program(
-    const char* dir, const char* file, int , char *const argv[], double nsecs, int& id
+    const char* dir, const char* file, int , char *const argv[], int& id
 ) {
     int retval;
     int pid = fork();
@@ -236,13 +228,6 @@ int run_program(
         boinc::perror("execvp");
         boinc::fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
         exit(errno);
-    }
-
-    if (nsecs) {
-        boinc_sleep(nsecs);
-        if (waitpid(pid, 0, WNOHANG) == pid) {
-            return -1;
-        }
     }
     id = pid;
     return 0;
@@ -266,13 +251,13 @@ int kill_program(int pid, int exit_code) {
     return retval;
 }
 
-int kill_program(HANDLE pid) {
+int kill_process(HANDLE pid) {
     if (TerminateProcess(pid, 0)) return 0;
     return ERR_KILL;
 }
 
 #else
-int kill_program(int pid) {
+int kill_process(int pid) {
     if (kill(pid, SIGKILL)) {
         if (errno == ESRCH) return 0;
         return ERR_KILL;
@@ -282,29 +267,36 @@ int kill_program(int pid) {
 #endif
 
 #ifdef _WIN32
-int get_exit_status(HANDLE pid_handle) {
-    unsigned long status=1;
-    WaitForSingleObject(pid_handle, INFINITE);
-    GetExitCodeProcess(pid_handle, &status);
-    return (int) status;
-}
-bool process_exists(HANDLE h) {
-    unsigned long status=1;
-    if (GetExitCodeProcess(h, &status)) {
-        if (status == STILL_ACTIVE) return true;
+int get_exit_status(HANDLE pid_handle, int &status, double dt) {
+    if (dt) {
+        DWORD dt_msec = (DWORD)dt*1000;
+        DWORD ret = WaitForSingleObject(pid_handle, dt_msec);
+        if (ret == WAIT_TIMEOUT) {
+            return ERR_NOT_FOUND;
+        }
+    } else {
+        WaitForSingleObject(pid_handle, INFINITE);
     }
-    return false;
+    unsigned long stat=1;
+    GetExitCodeProcess(pid_handle, &stat);
+    status = (int) stat;
+    return 0;
 }
 #else
-int get_exit_status(int pid) {
-    int status;
-    waitpid(pid, &status, 0);
-    return status;
-}
-bool process_exists(int pid) {
-    int retval = kill(pid, 0);
-    if (retval == -1 && errno == ESRCH) return false;
-    return true;
+int get_exit_status(int pid, int &status, double dt) {
+    if (dt) {
+        while (1) {
+            int ret = waitpid(pid, &status, WNOHANG);
+            if (ret > 0) return 0;
+            dt -= 1;
+            if (dt<0) break;
+            boinc_sleep(1);
+        }
+        return ERR_NOT_FOUND;
+    } else {
+        waitpid(pid, &status, 0);
+    }
+    return 0;
 }
 #endif
 

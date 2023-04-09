@@ -1373,8 +1373,7 @@ static void stop_graphics_app(pid_t thePID,
             argc, argv, 0, newPID
         );
     } else {
-        retval = kill_program(thePID);
-        
+        retval = kill_process(thePID);
     }
     if (retval) {
         grc.mfout.printf("<error>attempt to kill graphics app failed</error>\n");

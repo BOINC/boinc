@@ -1457,7 +1457,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
 #ifdef __WXMSW__
     HANDLE prog;
 #else
-    int prog;
+    int pid;
 #endif
     wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
     wxCharBuffer mbStrExecutable = strExecutable.mb_str();
@@ -1473,9 +1473,9 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
         mbStrExecutable,
         argc,
         argv,
-        2.0,
-        prog
+        pid
     );
+    // TODO: check error return; check for early exit
 #else
     char s[MAXPATHLEN];
     char path[MAXPATHLEN];

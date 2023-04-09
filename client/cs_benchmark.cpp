@@ -113,7 +113,7 @@ struct BENCHMARK_DESC {
     DWORD pid;
 #else
     char filename[256];
-    PROCESS_ID pid;
+    int pid;
 #endif
 };
 
@@ -282,7 +282,7 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
-        PROCESS_ID pid = fork();
+        int pid = fork();
         if (pid == 0) {
 #if HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {

@@ -1756,14 +1756,14 @@ void CMainDocument::KillAllRunningGraphicsApps()
 
 #ifdef _WIN32
 void CMainDocument::KillGraphicsApp(HANDLE pid) {
-    kill_program(pid);
+    kill_process(pid);
 }
 #else
 void CMainDocument::KillGraphicsApp(int pid) {
     // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
     // between apps unless they are running as the same user, so we no
     // longer run the graphics apps as user boinc_master.
-    kill_program(pid);
+    kill_process(pid);
 }
 #endif
 
@@ -1905,7 +1905,6 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
                 rp->graphics_exec_path,
                 1,
                 argv,
-                0,
                 id
             );
         }
@@ -1915,7 +1914,6 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             rp->graphics_exec_path,
             1,
             argv,
-            0,
             id
         );
 #endif

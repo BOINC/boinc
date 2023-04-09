@@ -38,7 +38,6 @@
 
 struct CLIENT_STATE;
 struct ASYNC_COPY;
-typedef int PROCESS_ID;
 
 #define MAX_STDERR_LEN  65536
     // The stderr output of an application is truncated to this length
@@ -62,7 +61,7 @@ struct ACTIVE_TASK {
     RESULT* result;
     WORKUNIT* wup;
     APP_VERSION* app_version;
-    PROCESS_ID pid;
+    int pid;
     PROCINFO procinfo;
 
     // START OF ITEMS SAVED IN TASK STATE FILE

@@ -31,7 +31,6 @@ extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 #else
 // setpriority(2) arg to run in background
-// (don't use 20 because
 //
 static const int PROCESS_IDLE_PRIORITY = 19;
 static const int PROCESS_MEDIUM_PRIORITY = 10;
@@ -44,29 +43,31 @@ extern double linux_cpu_time(int pid);
 
 extern int boinc_calling_thread_cpu_time(double&);
 
+// define type for references to a process.
+// Win also has an integer PID; that's not what we mean here
+//
 #ifdef _WIN32
-extern int run_program(
-    const char* dir,    // directory to run program in; NULL if current dir
-    const char* file,   // path of executable
-    int argc, char *const argv[],   // cmdline args, UNIX-style
-    double,             // if nonzero, wait for X seconds, then check
-                        // whether process is still running, return error if not
-    HANDLE&             // process handle
-);
-
-extern int kill_program(HANDLE);
-extern int kill_program(int, int exit_code=0);
-extern int get_exit_status(HANDLE);
-extern bool process_exists(HANDLE);
-
+#define PROCESS_ID  HANDLE
 #else
-// like Win version, but returns PID
+#define PROCESS_ID  int
+#endif
+
 extern int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double, int&
+    const char* dir,        // directory to run program in; NULL if current dir
+    const char* file,       // path of executable
+    int argc,
+    char *const argv[],     // cmdline args, UNIX-style
+    PROCESS_ID&             // ID of child process
 );
-extern int kill_program(int);
-extern int get_exit_status(int);
-extern bool process_exists(int);
+extern int kill_process(PROCESS_ID);
+extern int get_exit_status(PROCESS_ID, int& status, double dt);
+    // get exit code of process
+    // If dt is zero wait indefinitely;
+    // else wait for at most dt;
+    // if process hasn't exited by then, return error
+
+#ifdef _WIN32
+extern int kill_program(int, int exit_code=0);
 #endif
 
 extern int get_real_executable_path(char* path, size_t max_len);
