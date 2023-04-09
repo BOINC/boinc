@@ -767,7 +767,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     "Attaching to %s", acct.url.c_str()
                 );
                 gstate.add_project(
-                    acct.url.c_str(), acct.authenticator.c_str(), "", true
+                    acct.url.c_str(), acct.authenticator.c_str(), "", "", true
                 );
                 pp = gstate.lookup_project(acct.url.c_str());
                 if (pp) {

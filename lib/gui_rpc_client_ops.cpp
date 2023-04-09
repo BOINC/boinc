@@ -1825,7 +1825,7 @@ int RPC_CLIENT::project_attach_from_file() {
 }
 
 int RPC_CLIENT::project_attach(
-    const char* url, const char* auth, const char* name
+    const char* url, const char* auth, const char* name, const char* email_addr
 ) {
     int retval;
     SET_LOCALE sl;
@@ -1837,8 +1837,9 @@ int RPC_CLIENT::project_attach(
         "  <project_url>%s</project_url>\n"
         "  <authenticator>%s</authenticator>\n"
         "  <project_name>%s</project_name>\n"
+        "  <email_addr>%s</email_addr>\n"
         "</project_attach>\n",
-        url, auth, name
+        url, auth, name, email_addr
     );
     buf[sizeof(buf)-1] = 0;
 

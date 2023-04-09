@@ -381,7 +381,7 @@ void CLIENT_STATE::do_cmdline_actions() {
 
     if (strlen(attach_project_url)) {
         canonicalize_master_url(attach_project_url, sizeof(attach_project_url));
-        add_project(attach_project_url, attach_project_auth, "", false);
+        add_project(attach_project_url, attach_project_auth, "", "", false);
     }
 }
 

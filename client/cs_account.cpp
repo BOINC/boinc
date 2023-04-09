@@ -33,6 +33,7 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
+#include "md5_file.h"
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
@@ -502,6 +503,7 @@ int PROJECT::write_statistics_file() {
 
 int CLIENT_STATE::add_project(
     const char* master_url, const char* _auth, const char* project_name,
+    const char* email_addr,
     bool attached_via_acct_mgr
 ) {
     char path[MAXPATHLEN], canonical_master_url[256], auth[256];
@@ -588,6 +590,16 @@ int CLIENT_STATE::add_project(
     projects.push_back(project);
     sort_projects_by_name();
     project->sched_rpc_pending = RPC_REASON_INIT;
+
+    // compute email addr hash
+    //
+    if (strlen(email_addr)) {
+        md5_block(
+            (unsigned char*)email_addr,
+            strlen(email_addr),
+            project->email_hash
+        );
+    }
     set_client_state_dirty("Add project");
     return 0;
 }

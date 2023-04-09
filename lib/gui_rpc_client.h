@@ -738,7 +738,8 @@ struct RPC_CLIENT {
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
     int project_attach(
-        const char* url, const char* auth, const char* project_name
+        const char* url, const char* auth, const char* project_name,
+        const char* email_addr  // optional - pass empty string if unknown
     );
     int project_attach_from_file();
     int project_attach_poll(PROJECT_ATTACH_REPLY&);
