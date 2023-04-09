@@ -380,7 +380,8 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_pDoc->rpcClient).project_attach(
             (const char*)(current_request->arg1), 
             (const char*)(current_request->arg2), 
-            (const char*)(current_request->arg3)
+            (const char*)(current_request->arg3),
+            (const char*)(current_request->arg4)
         );
         break;
     case RPC_PROJECT_ATTACH_FROM_FILE:
