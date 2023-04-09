@@ -17,7 +17,7 @@
 
 #if defined(_WIN32)
 #include "boinc_win.h"
-#include "str_replace.h"
+#include "str_util.h"
 #include "win_util.h"
 #endif
 
@@ -52,14 +52,13 @@ extern "C" {
 #endif
 #endif
 
-#include "error_numbers.h"
-#include "common_defs.h"
-#include "filesys.h"
 #include "base64.h"
+#include "common_defs.h"
+#include "error_numbers.h"
+#include "filesys.h"
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
-
 #include "util.h"
 
 using std::min;

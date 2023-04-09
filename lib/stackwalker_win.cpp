@@ -47,7 +47,6 @@
 #endif
 
 #include "diagnostics.h"
-#include "str_replace.h"
 #include "str_util.h"
 #include "stackwalker_win.h"
 #include "stackwalker_imports.h"

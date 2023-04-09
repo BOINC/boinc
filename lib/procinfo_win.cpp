@@ -1,10 +1,9 @@
 // much of this code is public-domain
 //
 #include "boinc_win.h"
-#include "error_numbers.h"
 #include "diagnostics_win.h"
+#include "error_numbers.h"
 #include "str_util.h"
-#include "str_replace.h"
 
 #include "procinfo.h"
 
