@@ -68,12 +68,13 @@
 #endif
 
 #include "coproc.h"
-#include "gpu_detect.h"
 #include "file_names.h"
-#include "util.h"
+#include "proc_control.h"
 #include "str_replace.h"
+
 #include "client_msgs.h"
 #include "client_state.h"
+#include "gpu_detect.h"
 
 using std::string;
 using std::vector;

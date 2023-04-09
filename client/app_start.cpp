@@ -64,7 +64,7 @@ using std::string;
 #include "shmem.h"
 #include "str_replace.h"
 #include "str_util.h"
-#include "util.h"
+#include "proc_control.h"
 
 #include "async_file.h"
 #include "client_msgs.h"

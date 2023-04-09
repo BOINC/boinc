@@ -1068,3 +1068,81 @@ bool is_path_absolute(const std::string path) {
     return path.length() >= 1 && path[0] == '/';
 #endif
 }
+
+// read file (at most max_len chars, if nonzero) into malloc'd buf
+//
+#ifdef _USING_FCGI_
+int read_file_malloc(const char* path, char*& buf, size_t, bool) {
+#else
+int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
+#endif
+    int retval;
+    double size;
+
+    // Win: if another process has this file open for writing,
+    // wait for up to 5 seconds.
+    // This is because when a job exits, the write to stderr.txt
+    // sometimes (inexplicably) doesn't appear immediately
+
+#ifdef _WIN32
+    for (int i=0; i<5; i++) {
+        HANDLE h = CreateFileA(
+            path,
+            GENERIC_WRITE,
+            0,
+            NULL,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL,
+            NULL
+        );
+        if (h != INVALID_HANDLE_VALUE) {
+            CloseHandle(h);
+            break;
+        }
+        boinc_sleep(1);
+    }
+#endif
+
+    retval = file_size(path, size);
+    if (retval) return retval;
+
+    // Note: the fseek() below won't work unless we use binary mode in fopen
+
+    FILE *f = boinc::fopen(path, "rb");
+    if (!f) return ERR_FOPEN;
+
+#ifndef _USING_FCGI_
+    if (max_len && size > max_len) {
+        if (tail) {
+            fseek(f, (long)size-(long)max_len, SEEK_SET);
+        }
+        size = max_len;
+    }
+#endif
+    size_t isize = (size_t)size;
+    buf = (char*)malloc(isize+1);
+    if (!buf) {
+        boinc::fclose(f);
+        return ERR_MALLOC;
+    }
+    size_t n = boinc::fread(buf, 1, isize, f);
+    buf[n] = 0;
+    boinc::fclose(f);
+    return 0;
+}
+
+// read file (at most max_len chars, if nonzero) into string
+//
+int read_file_string(
+    const char* path, string& result, size_t max_len, bool tail
+) {
+    result.erase();
+    int retval;
+    char* buf;
+
+    retval = read_file_malloc(path, buf, max_len, tail);
+    if (retval) return retval;
+    result = buf;
+    free(buf);
+    return 0;
+}

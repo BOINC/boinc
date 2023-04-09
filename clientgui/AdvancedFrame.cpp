@@ -33,7 +33,8 @@
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
-#include "util.h"
+#include "proc_control.h"
+
 #include "BOINCGUIApp.h"
 #include "Events.h"
 #include "SkinManager.h"

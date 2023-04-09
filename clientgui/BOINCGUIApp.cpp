@@ -30,11 +30,12 @@
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "network.h"
-#include "util.h"
+#include "proc_control.h"
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
 #include "idlemon.h"
+
 #include "Events.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"

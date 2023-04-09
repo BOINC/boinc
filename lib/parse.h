@@ -26,6 +26,7 @@
 #include "miofile.h"
 #include "error_numbers.h"
 #include "str_util.h"
+#include "util.h"
 
 // see parse_test.cpp for example usage of XML_PARSER
 
@@ -266,8 +267,6 @@ struct XML_PARSER {
         skip_unexpected(parsed_tag, verbose, msg);
     }
 };
-
-extern bool boinc_is_finite(double);
 
 /////////////// START DEPRECATED XML PARSER
 // Deprecated because it makes assumptions about

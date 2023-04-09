@@ -1252,10 +1252,10 @@ void* throttler(void*) {
     diagnostics_thread_init();
 
     while (1) {
-        client_mutex.lock();
+        client_thread_mutex.lock();
         double limit = gstate.current_cpu_usage_limit();
         if (gstate.tasks_suspended || limit == 0) {
-            client_mutex.unlock();
+            client_thread_mutex.unlock();
 //            ::Sleep((int)(1000*10));  // for Win debugging
             boinc_sleep(10);
             continue;
@@ -1280,14 +1280,14 @@ void* throttler(void*) {
 
         gstate.tasks_throttled = true;
         gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
-        client_mutex.unlock();
+        client_thread_mutex.unlock();
         boinc_sleep(off);
-        client_mutex.lock();
+        client_thread_mutex.lock();
         if (!gstate.tasks_suspended) {
             gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
         }
         gstate.tasks_throttled = false;
-        client_mutex.unlock();
+        client_thread_mutex.unlock();
         boinc_sleep(on);
     }
     return 0;

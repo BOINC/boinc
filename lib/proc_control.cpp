@@ -24,6 +24,8 @@
 #include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #include <unistd.h>
 
 #if HAVE_CSIGNAL
@@ -49,6 +51,263 @@ using std::vector;
 #ifdef DEBUG
 #include <stdio.h>
 #endif
+
+#ifdef _WIN32
+
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetThreadTimes(
+        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+    ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart  = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart    = userTime.dwLowDateTime;
+        tUser.HighPart   = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    } else {
+        return -1;
+    }
+    return 0;
+}
+
+int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetProcessTimes(
+        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+    ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart  = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart    = userTime.dwLowDateTime;
+        tUser.HighPart   = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    } else {
+        return -1;
+    }
+    return 0;
+}
+
+static void get_elapsed_time(double& cpu) {
+    static double start_time;
+
+    double now = dtime();
+    if (start_time) {
+        cpu = now - start_time;
+    } else {
+        cpu = 0;
+    }
+    start_time = now;
+}
+
+int boinc_calling_thread_cpu_time(double& cpu) {
+    if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
+        get_elapsed_time(cpu);
+    }
+    return 0;
+}
+
+#else
+
+// Unix: pthreads doesn't provide an API for getting per-thread CPU time,
+// so just get the process's CPU time
+//
+int boinc_calling_thread_cpu_time(double &cpu_t) {
+    struct rusage ru;
+
+    int retval = getrusage(RUSAGE_SELF, &ru);
+    if (retval) return ERR_GETRUSAGE;
+    cpu_t = (double)ru.ru_utime.tv_sec + ((double)ru.ru_utime.tv_usec) / 1e6;
+    cpu_t += (double)ru.ru_stime.tv_sec + ((double)ru.ru_stime.tv_usec) / 1e6;
+    return 0;
+}
+
+#endif
+
+
+#ifndef _USING_FCGI_
+#ifndef _WIN32
+// (linux) return current CPU time of the given process
+//
+double linux_cpu_time(int pid) {
+    FILE *file;
+    char file_name[24];
+    unsigned long utime = 0, stime = 0;
+    int n;
+
+    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
+    if ((file = fopen(file_name,"r")) != NULL) {
+        n = fscanf(file,"%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu",&utime,&stime);
+        fclose(file);
+        if (n != 2) return 0;
+    }
+    return (double)(utime + stime)/100;
+}
+#endif
+#endif
+
+// chdir into the given directory, and run a program there.
+// If nsecs is nonzero, make sure it's still running after that many seconds.
+//
+// argv is set up Unix-style, i.e. argv[0] is the program name
+//
+
+#ifdef _WIN32
+int run_program(
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
+) {
+    int retval;
+    PROCESS_INFORMATION process_info;
+    STARTUPINFOA startup_info;
+    char cmdline[1024];
+    char error_msg[1024];
+    unsigned long status;
+
+    memset(&process_info, 0, sizeof(process_info));
+    memset(&startup_info, 0, sizeof(startup_info));
+    startup_info.cb = sizeof(startup_info);
+
+    // lpApplicationName needs to be NULL for CreateProcess to search path
+    // but argv[0] may be full path or just filename
+    // 'file' should be something runnable so use that as program name
+    snprintf(cmdline, sizeof(cmdline), "\"%s\"", file);
+    for (int i=1; i<argc; i++) {
+        safe_strcat(cmdline, " ");
+        safe_strcat(cmdline, argv[i]);
+    }
+
+    retval = CreateProcessA(
+        NULL,
+        cmdline,
+        NULL,
+        NULL,
+        FALSE,
+        0,
+        NULL,
+        dir,
+        &startup_info,
+        &process_info
+    );
+    if (!retval) {
+        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
+        fprintf(stderr,
+            "%s: CreateProcess failed: '%s'\n",
+            time_to_string(dtime()), error_msg
+        );
+        return -1; // CreateProcess returns 1 if successful, false if it failed.
+    }
+
+    if (nsecs) {
+        boinc_sleep(nsecs);
+        if (GetExitCodeProcess(process_info.hProcess, &status)) {
+            if (status != STILL_ACTIVE) {
+                return -1;
+            }
+        }
+    }
+    if (process_info.hThread) CloseHandle(process_info.hThread);
+    id = process_info.hProcess;
+    return 0;
+}
+#else
+int run_program(
+    const char* dir, const char* file, int , char *const argv[], double nsecs, int& id
+) {
+    int retval;
+    int pid = fork();
+    if (pid == 0) {
+        if (dir) {
+            retval = chdir(dir);
+            if (retval) return retval;
+        }
+        execvp(file, argv);
+        boinc::perror("execvp");
+        boinc::fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
+        exit(errno);
+    }
+
+    if (nsecs) {
+        boinc_sleep(nsecs);
+        if (waitpid(pid, 0, WNOHANG) == pid) {
+            return -1;
+        }
+    }
+    id = pid;
+    return 0;
+}
+#endif
+
+#ifdef _WIN32
+int kill_program(int pid, int exit_code) {
+    int retval;
+
+    HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
+    if (h == NULL) return 0;
+        // process isn't there, so no error
+
+    if (TerminateProcess(h, exit_code)) {
+        retval = 0;
+    } else {
+        retval = ERR_KILL;
+    }
+    CloseHandle(h);
+    return retval;
+}
+
+int kill_program(HANDLE pid) {
+    if (TerminateProcess(pid, 0)) return 0;
+    return ERR_KILL;
+}
+
+#else
+int kill_program(int pid) {
+    if (kill(pid, SIGKILL)) {
+        if (errno == ESRCH) return 0;
+        return ERR_KILL;
+    }
+    return 0;
+}
+#endif
+
+#ifdef _WIN32
+int get_exit_status(HANDLE pid_handle) {
+    unsigned long status=1;
+    WaitForSingleObject(pid_handle, INFINITE);
+    GetExitCodeProcess(pid_handle, &status);
+    return (int) status;
+}
+bool process_exists(HANDLE h) {
+    unsigned long status=1;
+    if (GetExitCodeProcess(h, &status)) {
+        if (status == STILL_ACTIVE) return true;
+    }
+    return false;
+}
+#else
+int get_exit_status(int pid) {
+    int status;
+    waitpid(pid, &status, 0);
+    return status;
+}
+bool process_exists(int pid) {
+    int retval = kill(pid, 0);
+    if (retval == -1 && errno == ESRCH) return false;
+    return true;
+}
+#endif
+
 
 static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
     PROC_MAP::iterator i = pm.find(pid);

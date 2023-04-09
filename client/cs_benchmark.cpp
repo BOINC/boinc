@@ -57,12 +57,12 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
-#include "util.h"
-#include "cpu_benchmark.h"
+#include "proc_control.h"
 
 #include "client_msgs.h"
-#include "log_flags.h"
 #include "client_state.h"
+#include "cpu_benchmark.h"
+#include "log_flags.h"
 
 #include <vector>
 

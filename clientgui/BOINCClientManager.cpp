@@ -24,7 +24,7 @@
 #include "diagnostics.h"
 #include "miofile.h"
 #include "str_replace.h"
-#include "util.h"
+#include "proc_control.h"
 
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
