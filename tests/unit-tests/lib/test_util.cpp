@@ -17,6 +17,7 @@
 
 #include "gtest/gtest.h"
 #include "util.h"
+#include "proc_control.h"
 #include <math.h>
 
 using namespace std;
