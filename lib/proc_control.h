@@ -67,7 +67,7 @@ extern int get_exit_status(PROCESS_ID, int& status, double dt);
     // if process hasn't exited by then, return error
 
 #ifdef _WIN32
-extern int kill_program(int, int exit_code=0);
+extern int kill_process_with_status(int, int exit_code=0);
 #endif
 
 extern int get_real_executable_path(char* path, size_t max_len);

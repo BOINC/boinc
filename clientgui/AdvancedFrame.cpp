@@ -1454,11 +1454,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function Begin"));
 
 #ifndef __WXMAC__
-#ifdef __WXMSW__
-    HANDLE prog;
-#else
-    int pid;
-#endif
+    PROCESS_ID pid;
     wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
     wxCharBuffer mbStrExecutable = strExecutable.mb_str();
     int argc = 2;

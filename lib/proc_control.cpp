@@ -173,7 +173,6 @@ int run_program(
     STARTUPINFOA startup_info;
     char cmdline[1024];
     char error_msg[1024];
-    unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -235,7 +234,7 @@ int run_program(
 #endif
 
 #ifdef _WIN32
-int kill_program(int pid, int exit_code) {
+int kill_process_with_status(int pid, int exit_code) {
     int retval;
 
     HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);

@@ -236,10 +236,10 @@ int ACTIVE_TASK::request_abort() {
 #ifdef _WIN32
 static void kill_app_process(int pid, bool will_restart) {
     int retval = 0;
-    retval = kill_process(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
+    retval = kill_process_with_status(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
     if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
-            "[task] kill_process(%d) failed: %s",
+            "[task] kill_process_with_status(%d) failed: %s",
             pid, boincerror(retval)
         );
     }
