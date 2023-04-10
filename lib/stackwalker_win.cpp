@@ -79,7 +79,6 @@ static tSSO pSSO = NULL;                    // SymSetOptions()
 static tSW pSW = NULL;                      // StackWalk()
 static tUDSN pUDSN = NULL;                  // UnDecorateSymbolName()
 static tSSSO pSSSO = NULL;                  // SymbolServerSetOptions
-static tSDD pSDD = NULL;                    // SetDllDirectory
 static tGFVIS pGFVIS = NULL;                // GetFileVersionInfoSize 
 static tGFVI pGFVI = NULL;                  // GetFileVersionInfo
 static tVQV pVQV = NULL;                    // VerQueryValue
@@ -301,10 +300,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", (char*)lpVar);
-                    if ((sizeof(szCompanyName) == uiVarSize) || (-1 == uiVarSize)) {
-                        szCompanyName[255] = '\0';
-                    }
+                    strlcpy(szCompanyName, (const char*)lpVar, sizeof(szCompanyName));
                 } else {
                     fprintf(stderr, "Get Company Name Failed.\n");
                 }
@@ -315,10 +311,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", (char*)lpVar);
-                    if ((sizeof(szProductName) == uiVarSize) || (-1 == uiVarSize)) {
-                        szProductName[255] = '\0';
-                    }
+                    strlcpy(szProductName, (const char*)lpVar, sizeof(szProductName));
                 } else {
                     fprintf(stderr, "Get Product Name Failed.\n");
                 }
@@ -329,10 +322,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", (char*)lpVar);
-                    if ((sizeof(szFileVersion) == uiVarSize) || (-1 == uiVarSize)) {
-                        szFileVersion[255] = '\0';
-                    }
+                    strlcpy(szFileVersion, (const char*)lpVar, sizeof(szFileVersion));
                 }
 
                 // Product Version.
@@ -341,10 +331,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", (char*)lpVar);
-                    if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
-                        szProductVersion[255] = '\0';
-                    }
+                    strlcpy(szProductVersion, (const char*)lpVar, sizeof(szProductVersion));
                 }
 
             }
@@ -760,7 +747,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         Context.Eip, Context.Esp, Context.Ebp
     );
     fprintf(stderr, 
-        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
+        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8lx\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #endif
@@ -917,10 +904,10 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             PFPO_DATA pFPO = (PFPO_DATA)StackFrame.FuncTableEntry;
             switch(pFPO->cbFrame) {
                 case FRAME_FPO:
-                    fprintf(stderr, "FPO: [%d,%d,%d] ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->cbRegs);
+                    fprintf(stderr, "FPO: [%u,%lu,%u] ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->cbRegs);
                     break;
                 case FRAME_TRAP:
-                    fprintf(stderr, "FPO: [%d,%d] TrapFrame @ 0x%.8x ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->ulOffStart);
+                    fprintf(stderr, "FPO: [%u,%lu] TrapFrame @ 0x%.8lx ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->ulOffStart);
                     break;
                 case FRAME_TSS:
                     fprintf(stderr, "FPO: TaskGate Segment: 0 ");
