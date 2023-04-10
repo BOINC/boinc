@@ -45,7 +45,7 @@ using std::string;
 #include "parse.h"
 #include "str_util.h"
 #include "str_replace.h"
-#include "proc_control.h"
+#include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
 #include "network.h"
@@ -1018,7 +1018,6 @@ namespace vboxmanage {
         string::iterator iter;
         string vmstate;
         static string vmstate_old = "poweredoff";
-        int status;
 
         boinc_get_init_data_p(&aid);
 
@@ -1026,14 +1025,14 @@ namespace vboxmanage {
         // Is our environment still sane?
         //
 #ifdef _WIN32
-        if (aid.using_sandbox && vboxsvc_pid_handle && !get_exit_status((vboxsvc_pid_handle, status, 0)) {
+        if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
             vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
         }
-        if (started_successfully && vm_pid_handle && !get_exit_status(vm_pid_handle, status, 0)) {
+        if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
             vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
         }
 #else
-        if (started_successfully && vm_pid && !get_exit_status(vm_pid, status, 0)) {
+        if (started_successfully && vm_pid && !process_exists(vm_pid)) {
             vboxlog_msg("Status Report: virtualbox/vboxheadless is no longer running.");
         }
 #endif
@@ -1164,7 +1163,6 @@ namespace vboxmanage {
 	static string vmstate_old = "poweroff";
 	size_t vmstate_start;
 	size_t vmstate_end;
-    int status;
 
 	boinc_get_init_data_p(&aid);
 
@@ -1172,14 +1170,14 @@ namespace vboxmanage {
 	// Is our environment still sane?
 	//
 #ifdef _WIN32
-	if (aid.using_sandbox && vboxsvc_pid_handle && !get_exit_status(vboxsvc_pid_handle, status, 0)) {
+	if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
 		vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
 	}
-	if (started_successfully && vm_pid_handle && !get_exit_status(vm_pid_handle, status, 0)) {
+	if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
 		vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
 	}
 #else
-	if (started_successfully && vm_pid && !get_exit_status(vm_pid, status, 0)) {
+	if (started_successfully && vm_pid && !process_exists(vm_pid)) {
 		vboxlog_msg("Status Report: virtualbox/vboxheadless is no longer running.");
 	}
 #endif
@@ -1394,7 +1392,7 @@ namespace vboxmanage {
                 vboxlog_msg("VM did not stop when requested.");
 
                 // Attempt to terminate the VM
-                retval = kill_process(vm_pid);
+                retval = kill_program(vm_pid);
                 if (retval) {
                     vboxlog_msg("VM was NOT successfully terminated.");
                 } else {
@@ -1437,7 +1435,7 @@ namespace vboxmanage {
                 vboxlog_msg("VM did not power off when requested.");
 
                 // Attempt to terminate the VM
-                retval = kill_process(vm_pid);
+                retval = kill_program(vm_pid);
                 if (retval) {
                     vboxlog_msg("VM was NOT successfully terminated.");
                 } else {

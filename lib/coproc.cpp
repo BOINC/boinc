@@ -41,7 +41,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
-#include "str_util.h"
+#include "str_replace.h"
 #include "util.h"
 
 #include "coproc.h"

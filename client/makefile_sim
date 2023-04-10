@@ -66,6 +66,7 @@ OBJS = \
     ../lib/opencl_boinc.o \
     ../lib/parse.o \
     ../lib/prefs.o \
+    ../lib/proc_control.o \
     ../lib/project_init.o \
     ../lib/proxy_info.o \
     ../lib/shmem.o \

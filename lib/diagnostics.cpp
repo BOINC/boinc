@@ -49,9 +49,10 @@
 #include "app_ipc.h"
 #include "error_numbers.h"
 #include "filesys.h"
-#include "parse.h"
-#include "str_util.h"
 #include "util.h"
+#include "str_replace.h"
+#include "parse.h"
+#include "str_replace.h"
 
 
 #include "diagnostics.h"

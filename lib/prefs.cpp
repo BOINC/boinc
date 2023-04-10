@@ -27,8 +27,8 @@
 
 #include "boinc_stdio.h"
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "parse.h"
-#include "str_util.h"
 #include "util.h"
 
 #include "prefs.h"

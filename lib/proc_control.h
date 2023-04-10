@@ -41,8 +41,6 @@ static const int PROCESS_REALTIME_PRIORITY = -20;
 extern double linux_cpu_time(int pid);
 #endif
 
-extern int boinc_calling_thread_cpu_time(double&);
-
 // define type for references to a process.
 // Win also has an integer PID; that's not what we mean here
 //

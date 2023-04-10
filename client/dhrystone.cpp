@@ -47,7 +47,7 @@
 #include <cstring>
 #endif
 
-#include "proc_control.h"
+#include "util.h"
 #include "cpu_benchmark.h"
 #include "dhrystone.h"
 

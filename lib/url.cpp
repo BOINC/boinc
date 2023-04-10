@@ -27,6 +27,7 @@
 #endif
 
 #include "str_util.h"
+#include "str_replace.h"
 
 #include "url.h"
 

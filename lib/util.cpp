@@ -40,6 +40,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/resource.h>
 #include <errno.h>
 #include <string>
 #include <cstring>
@@ -279,3 +280,29 @@ int get_real_executable_path(char* path, size_t max_len) {
     return ERR_NOT_IMPLEMENTED;
 #endif
 }
+
+#ifdef _WIN32
+
+int boinc_calling_thread_cpu_time(double& cpu) {
+    if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
+        get_elapsed_time(cpu);
+    }
+    return 0;
+}
+
+#else
+
+// Unix: pthreads doesn't provide an API for getting per-thread CPU time,
+// so just get the process's CPU time
+//
+int boinc_calling_thread_cpu_time(double &cpu_t) {
+    struct rusage ru;
+
+    int retval = getrusage(RUSAGE_SELF, &ru);
+    if (retval) return ERR_GETRUSAGE;
+    cpu_t = (double)ru.ru_utime.tv_sec + ((double)ru.ru_utime.tv_usec) / 1e6;
+    cpu_t += (double)ru.ru_stime.tv_sec + ((double)ru.ru_stime.tv_usec) / 1e6;
+    return 0;
+}
+
+#endif

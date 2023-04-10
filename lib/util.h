@@ -52,6 +52,9 @@ inline bool in_vector(int n, std::vector<int>& v) {
     return false;
 }
 
+// used in sim so put it here instead of proc_control
+extern int boinc_calling_thread_cpu_time(double&);
+
 // fake a crash
 //
 extern void boinc_crash();

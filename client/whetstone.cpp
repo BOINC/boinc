@@ -33,8 +33,7 @@
 #include <time.h>
 #endif
 
-#include "proc_control.h"
-
+#include "util.h"
 #include "cpu_benchmark.h"
 
 #ifndef SPDP
