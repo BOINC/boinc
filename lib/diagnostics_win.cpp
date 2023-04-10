@@ -504,7 +504,7 @@ int diagnostics_set_thread_crash_message(const char* message) {
 //
 // See: http://support.microsoft.com/?kbid=837372
 //
-char* diagnostics_format_thread_state(int thread_state) {
+const char* diagnostics_format_thread_state(int thread_state) {
     switch(thread_state) {
         case StateInitialized: return "Initialized";
         case StateReady: return "Ready";
@@ -522,7 +522,7 @@ char* diagnostics_format_thread_state(int thread_state) {
 //
 // See: http://support.microsoft.com/?kbid=837372
 //
-char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
+const char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
     switch(thread_wait_reason) {
         case ThreadWaitReasonExecutive: return "Executive";
         case ThreadWaitReasonFreePage: return "FreePage";
@@ -553,7 +553,7 @@ char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
 //
 // See: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/scheduling_priorities.asp
 //
-char* diagnostics_format_process_priority(int process_priority) {
+const char* diagnostics_format_process_priority(int process_priority) {
     switch(process_priority) {
         case IDLE_PRIORITY_CLASS: return "Idle";
         case BELOW_NORMAL_PRIORITY_CLASS: return "Below Normal";
@@ -570,7 +570,7 @@ char* diagnostics_format_process_priority(int process_priority) {
 //
 // See: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/scheduling_priorities.asp
 //
-char* diagnostics_format_thread_priority(int thread_priority) {
+const char* diagnostics_format_thread_priority(int thread_priority) {
     switch(thread_priority) {
         case THREAD_PRIORITY_IDLE: return "Idle";
         case THREAD_PRIORITY_LOWEST: return "Lowest";
