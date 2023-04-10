@@ -52,12 +52,7 @@ using std::vector;
 #include <stdio.h>
 #endif
 
-
-#
-
 // chdir into the given directory, and run a program there.
-// If nsecs is nonzero, make sure it's still running after that many seconds.
-//
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
 
