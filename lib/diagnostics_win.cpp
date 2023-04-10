@@ -159,7 +159,7 @@ int diagnostics_init_thread_list() {
     hThreadListSync = CreateMutex(NULL, TRUE, NULL);
     if (!hThreadListSync) {
         fprintf(
-            stderr, "diagnostics_init_thread_list(): Creating hThreadListSync failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_thread_list(): Creating hThreadListSync failed, GLE %lu\n", GetLastError()
         );
         retval = GetLastError();
     } else {
@@ -639,7 +639,7 @@ int diagnostics_init_message_monitor() {
     hMessageMonitorSync = CreateMutex(NULL, TRUE, NULL);
     if (!hMessageMonitorSync) {
         fprintf(
-            stderr, "diagnostics_init_message_monitor(): Creating hMessageMonitorSync failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_message_monitor(): Creating hMessageMonitorSync failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -673,28 +673,28 @@ int diagnostics_init_message_monitor() {
         hMessageAckEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
         if (!hMessageAckEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
         hMessageReadyEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
         if (!hMessageReadyEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
         hMessageQuitEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
         if (!hMessageQuitEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
         hMessageQuitFinishedEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
         if (!hMessageQuitFinishedEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
@@ -708,7 +708,7 @@ int diagnostics_init_message_monitor() {
         );
         if (!hMessageSharedMap) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): CreateFileMapping hMessageSharedMap failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): CreateFileMapping hMessageSharedMap failed, GLE %lu\n", GetLastError()
             );
         }
 
@@ -721,7 +721,7 @@ int diagnostics_init_message_monitor() {
         );
         if (!pMessageBuffer) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): MapViewOfFile pMessageBuffer failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): MapViewOfFile pMessageBuffer failed, GLE %lu\n", GetLastError()
             );
         }
 
@@ -1048,7 +1048,7 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionMonitorHalt = CreateMutex(NULL, FALSE, NULL);
     if (!hExceptionMonitorHalt) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorHalt failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorHalt failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1057,7 +1057,7 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionMonitorStartedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionMonitorStartedEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorStartedEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorStartedEvent failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1067,7 +1067,7 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionDetectedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionDetectedEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionDetectedEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionDetectedEvent failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1076,13 +1076,13 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionQuitEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitEvent failed, GLE %lu\n", GetLastError()
         );
     }
     hExceptionQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionQuitFinishedEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitFinishedEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitFinishedEvent failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1247,8 +1247,8 @@ int diagnostics_foreground_window_dump(PBOINC_WINDOWCAPTURE window_info) {
         "*** Foreground Window Data ***\n"
         "    Window Name      : %s\n"
         "    Window Class     : %s\n"
-        "    Window Process ID: %x\n"
-        "    Window Thread ID : %x\n\n",
+        "    Window Process ID: %lu\n"
+        "    Window Thread ID : %lu\n\n",
         window_info->window_name,
         window_info->window_class,
         window_info->window_process_id,
@@ -1336,7 +1336,7 @@ int diagnostics_dump_thread_information(BOINC_THREADLISTENTRY *pThreadEntry) {
 
     fprintf(
         stderr, 
-        "*** Dump of thread ID %d (state: %s): ***\n\n"
+        "*** Dump of thread ID %lu (state: %s): ***\n\n"
         "- Information -\n"
         "Status: %s, "
         "Kernel Time: %.3f, "
@@ -1360,7 +1360,7 @@ int diagnostics_dump_thread_information(BOINC_THREADLISTENTRY *pThreadEntry) {
 int diagnostics_dump_generic_exception(const char* exception_desc, DWORD exception_code, PVOID exception_address) {
     fprintf(
         stderr, 
-        "Reason: %s (0x%x) at address 0x%p\n\n",
+        "Reason: %s (0x%lx) at address 0x%p\n\n",
         exception_desc,
         exception_code,
         exception_address
@@ -1438,7 +1438,7 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
                 }
             }
             fprintf(stderr,
-                "Reason: %s (0x%x) at address 0x%p %s\n\n",
+                "Reason: %s (0x%lx) at address 0x%p %s\n\n",
                 status, exception_code, exception_address, substatus
             );
             break;

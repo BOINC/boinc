@@ -264,7 +264,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                 safe_strcpy( szSymbolType, "SYM" );
                 break;
             default:
-                snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%ld", (long) Module.SymType );
+                snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%d", Module.SymType );
                 break;
         }
     }
@@ -402,7 +402,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
                 fprintf(stderr, "SymbolServerSetOptions(): Register Unattended Failed, GetLastError = %lu\n", gle);
             }
             if (bProxyEnabled) {
-                if (!pSSSO(SSRVOPT_PROXY, (ULONG64)pszProxyServer)) {
+                if (!pSSSO(SSRVOPT_PROXY, (ULONG64)(ULONG_PTR)pszProxyServer)) {
                     fprintf(stderr, "SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n", gle);
                 }
             } else {
@@ -600,7 +600,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         goto error;
     }
 
-    if (!pSRC(g_hProcess, SymRegisterCallbackProc64, (ULONG64)g_hProcess))
+    if (!pSRC(g_hProcess, SymRegisterCallbackProc64, (ULONG64)(ULONG_PTR)g_hProcess))
     {
         fprintf(stderr, "SymRegisterCallback64(): GetLastError = %lu\n", gle);
     }
@@ -734,20 +734,20 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         Context.R14, Context.R15, Context.Rip, Context.Rsp, Context.Rbp
     );
     fprintf(stderr, 
-        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
+        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8lx\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #else
     fprintf(stderr, 
-        "eax=%.8x ebx=%.8x ecx=%.8x edx=%.8x esi=%.8x edi=%.8x\n",
+        "eax=%.8lx ebx=%.8lx ecx=%.8lx edx=%.8lx esi=%.8lx edi=%.8lx\n",
         Context.Eax, Context.Ebx, Context.Ecx, Context.Edx, Context.Esi, Context.Edi
     );
     fprintf(stderr, 
-        "eip=%.8x esp=%.8x ebp=%.8x\n",
+        "eip=%.8lx esp=%.8lx ebp=%.8lx\n",
         Context.Eip, Context.Esp, Context.Ebp
     );
     fprintf(stderr, 
-        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8lx\n\n",
+        "cs=%.4lx  ss=%.4lx  ds=%.4lx  es=%.4lx  fs=%.4lx  gs=%.4lx             efl=%.8lx\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #endif

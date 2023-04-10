@@ -933,7 +933,7 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
 #ifdef _WIN32
-            n = fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stderr, "[%s %s] TRACE [%lu]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
             n = fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
@@ -942,7 +942,7 @@ void boinc_trace(const char *pszFormat, ...) {
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
 #ifdef _WIN32
-            n = fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stdout, "[%s %s] TRACE [%lu]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
             n = fprintf(stdout, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
