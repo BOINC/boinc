@@ -267,7 +267,7 @@ int kill_process(int pid) {
 
 #ifdef _WIN32
 int get_exit_status(HANDLE pid_handle, int &status, double dt) {
-    if (dt) {
+    if (dt>=0) {
         DWORD dt_msec = (DWORD)dt*1000;
         DWORD ret = WaitForSingleObject(pid_handle, dt_msec);
         if (ret == WAIT_TIMEOUT) {
@@ -283,7 +283,7 @@ int get_exit_status(HANDLE pid_handle, int &status, double dt) {
 }
 #else
 int get_exit_status(int pid, int &status, double dt) {
-    if (dt) {
+    if (dt>=0) {
         while (1) {
             int ret = waitpid(pid, &status, WNOHANG);
             if (ret > 0) return 0;

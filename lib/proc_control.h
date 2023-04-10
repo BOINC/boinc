@@ -62,9 +62,12 @@ extern int run_program(
 extern int kill_process(PROCESS_ID);
 extern int get_exit_status(PROCESS_ID, int& status, double dt);
     // get exit code of process
-    // If dt is zero wait indefinitely;
+    // If dt is negative, wait indefinitely;
     // else wait for at most dt;
     // if process hasn't exited by then, return error
+    //
+    // Note: to see if a process has exited:
+    // get_exit_status(pid, status, 0) == 0
 
 #ifdef _WIN32
 extern int kill_process_with_status(int, int exit_code=0);
