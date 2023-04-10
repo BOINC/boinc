@@ -61,6 +61,7 @@
 #include "str_util.h"
 #include "url.h"
 #include "util.h"
+#include "proc_control.h"
 
 #include "client_state.h"
 #include "client_msgs.h"
@@ -1368,10 +1369,7 @@ static void stop_graphics_app(pid_t thePID,
         argv[argc++] = screensaverLoginUser;
         argv[argc] = 0;
 
-        retval = run_program(
-            current_dir, switcher_path,
-            argc, argv, 0, newPID
-        );
+        retval = run_program(current_dir, switcher_path, argc, argv, newPID);
     } else {
         retval = kill_process(thePID);
     }
@@ -1556,11 +1554,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argv[argc++] = screensaverLoginUser;
         }
         argv[argc] = 0;
-
-        retval = run_program(
-            execDir, switcher_path,
-            argc, argv, 0, newPID
-        );
+        retval = run_program(execDir, switcher_path, argc, argv, newPID);
     } else {    // not g_use_sandbox
         argv[0] = execName;
         if (runfullscreen) {
@@ -1575,10 +1569,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argv[argc++] = screensaverLoginUser;
         }
         argv[argc] = 0;
-        retval = run_program(
-            execDir, execPath,
-            argc, argv, 0, newPID
-        );
+        retval = run_program(execDir, execPath, argc, argv, newPID);
     }
     
     if (retval) {
