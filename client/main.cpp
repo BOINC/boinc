@@ -260,13 +260,14 @@ static void init_core_client(int argc, char** argv) {
 #endif
 }
 
-// Some dual-GPU laptops (e.g., Macbook Pro) don't power down
-// the more powerful GPU until all applications which used them exit.
-// To save battery life, the client launches a second instance
-// of the client as a child process to detect and get info
-// about the GPUs.
-// The child process writes the info to a temp file which our main
-// client then reads.
+// detect GPUs and write a description of them (and error/warning messages)
+// to coproc_info.xml.
+//
+// We do this in a separate process for two reasons:
+// 1) GPU detection can crash even if we catch signals
+// 2) Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+//  the more powerful GPU until all processes which used them exit.
+//  If we detected such GPUs in the client, they'd never power down.
 //
 static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
