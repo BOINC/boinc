@@ -22,10 +22,10 @@
 #include <boinc_win.h>
 #endif
 
-#include "util.h"
 #include "app_ipc.h"
-#include "shmem.h"
 #include "boinc_api.h"
+#include "proc_control.h"
+#include "shmem.h"
 #include "graphics2.h"
 #ifdef __APPLE__
 #include "x_opengl.h"
