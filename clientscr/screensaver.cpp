@@ -42,7 +42,7 @@ extern pthread_mutex_t saver_mutex;
 //
 #include "diagnostics.h"
 #include "common_defs.h"
-#include "util.h"
+#include "proc_control.h"
 #include "common_defs.h"
 #include "filesys.h"
 #include "error_numbers.h"
@@ -307,7 +307,6 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
             rp->graphics_exec_path,
             2,
             argv,
-            0,
             graphics_application
         );
 #endif
@@ -372,13 +371,13 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application, RESU
             Sleep(1000);
             hBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
             if (hBOINCGraphicsWindow) {
-                kill_program(graphics_application);
+                kill_process(graphics_application);
             }
         }
 #endif
 
     // For safety, call kill_program even under Apple sandbox security
-    kill_program(graphics_application);
+    kill_process(graphics_application);
     return retval;
 }
 
@@ -466,7 +465,6 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
         full_path,
         num_args,
         argv,
-        0,
         graphics_application
     );
     

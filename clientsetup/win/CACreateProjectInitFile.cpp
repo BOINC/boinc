@@ -20,8 +20,8 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "win_util.h"
-#include "base64.h"
+//#include "win_util.h"
+//#include "base64.h"
 #include "project_init.h"
 #include "common_defs.h"
 #include "CACreateProjectInitFile.h"

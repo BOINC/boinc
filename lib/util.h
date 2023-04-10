@@ -23,7 +23,9 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
-
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
 extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);
@@ -54,6 +56,15 @@ inline bool in_vector(int n, std::vector<int>& v) {
 
 // used in sim so put it here instead of proc_control
 extern int boinc_calling_thread_cpu_time(double&);
+#ifdef _WIN32
+extern bool process_exists(HANDLE);
+extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
+extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
+#else
+extern double linux_cpu_time(int pid);
+extern bool process_exists(int);
+#endif
+
 
 // fake a crash
 //

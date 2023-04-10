@@ -52,89 +52,8 @@ using std::vector;
 #include <stdio.h>
 #endif
 
-#ifdef _WIN32
 
-int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
-    FILETIME creationTime, exitTime, kernelTime, userTime;
-
-    if (GetThreadTimes(
-        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
-    ) {
-        ULARGE_INTEGER tKernel, tUser;
-        LONGLONG totTime;
-
-        tKernel.LowPart  = kernelTime.dwLowDateTime;
-        tKernel.HighPart = kernelTime.dwHighDateTime;
-        tUser.LowPart    = userTime.dwLowDateTime;
-        tUser.HighPart   = userTime.dwHighDateTime;
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-
-        // Runtimes in 100-nanosecond units
-        cpu = totTime / 1.e7;
-    } else {
-        return -1;
-    }
-    return 0;
-}
-
-int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
-    FILETIME creationTime, exitTime, kernelTime, userTime;
-
-    if (GetProcessTimes(
-        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
-    ) {
-        ULARGE_INTEGER tKernel, tUser;
-        LONGLONG totTime;
-
-        tKernel.LowPart  = kernelTime.dwLowDateTime;
-        tKernel.HighPart = kernelTime.dwHighDateTime;
-        tUser.LowPart    = userTime.dwLowDateTime;
-        tUser.HighPart   = userTime.dwHighDateTime;
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-
-        // Runtimes in 100-nanosecond units
-        cpu = totTime / 1.e7;
-    } else {
-        return -1;
-    }
-    return 0;
-}
-
-static void get_elapsed_time(double& cpu) {
-    static double start_time;
-
-    double now = dtime();
-    if (start_time) {
-        cpu = now - start_time;
-    } else {
-        cpu = 0;
-    }
-    start_time = now;
-}
-
-#endif
-
-
-#ifndef _USING_FCGI_
-#ifndef _WIN32
-// (linux) return current CPU time of the given process
-//
-double linux_cpu_time(int pid) {
-    FILE *file;
-    char file_name[24];
-    unsigned long utime = 0, stime = 0;
-    int n;
-
-    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
-    if ((file = fopen(file_name,"r")) != NULL) {
-        n = fscanf(file,"%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu",&utime,&stime);
-        fclose(file);
-        if (n != 2) return 0;
-    }
-    return (double)(utime + stime)/100;
-}
-#endif
-#endif
+#
 
 // chdir into the given directory, and run a program there.
 // If nsecs is nonzero, make sure it's still running after that many seconds.
@@ -294,6 +213,7 @@ static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
 // return a list of all descendants of the given process
 //
 void get_descendants(int pid, vector<int>& pids) {
+#ifndef SIM
     int retval;
     PROC_MAP pm;
     pids.clear();
@@ -305,6 +225,7 @@ void get_descendants(int pid, vector<int>& pids) {
     for (unsigned int i=0; i<pids.size(); i++) {
         fprintf(stderr, "   %d\n", pids[i]);
     }
+#endif
 #endif
 }
 
@@ -359,13 +280,15 @@ int suspend_or_resume_threads(
         suspended_threads.clear();
     }
 
-    do { 
+    do {
+#ifndef SIM
         if (check_exempt && !diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) {
 #ifdef DEBUG
             fprintf(stderr, "thread is exempt\n");
 #endif
             continue;
         }
+#endif
 #if 0
         fprintf(stderr, "thread %d PID %d %s\n",
             te.th32ThreadID, te.th32OwnerProcessID,

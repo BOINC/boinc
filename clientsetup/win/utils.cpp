@@ -20,7 +20,7 @@ Environment:
     Windows NT
 
 --*/
-
+#define _NTDEF_ 
 #include "stdafx.h"
 #include <windows.h>
 #include <stdio.h>

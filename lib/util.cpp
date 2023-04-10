@@ -283,11 +283,80 @@ int get_real_executable_path(char* path, size_t max_len) {
 
 #ifdef _WIN32
 
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetThreadTimes(
+        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+        ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart = userTime.dwLowDateTime;
+        tUser.HighPart = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    }
+    else {
+        return -1;
+    }
+    return 0;
+}
+
+static void get_elapsed_time(double& cpu) {
+    static double start_time;
+
+    double now = dtime();
+    if (start_time) {
+        cpu = now - start_time;
+    }
+    else {
+        cpu = 0;
+    }
+    start_time = now;
+}
+
 int boinc_calling_thread_cpu_time(double& cpu) {
     if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
         get_elapsed_time(cpu);
     }
     return 0;
+}
+
+int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetProcessTimes(
+        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+        ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart = userTime.dwLowDateTime;
+        tUser.HighPart = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    }
+    else {
+        return -1;
+    }
+    return 0;
+}
+
+bool process_exists(HANDLE h) {
+    unsigned long status = 1;
+    if (GetExitCodeProcess(h, &status)) {
+        if (status == STILL_ACTIVE) return true;
+    }
+    return false;
 }
 
 #else
@@ -303,6 +372,31 @@ int boinc_calling_thread_cpu_time(double &cpu_t) {
     cpu_t = (double)ru.ru_utime.tv_sec + ((double)ru.ru_utime.tv_usec) / 1e6;
     cpu_t += (double)ru.ru_stime.tv_sec + ((double)ru.ru_stime.tv_usec) / 1e6;
     return 0;
+}
+
+#ifndef _USING_FCGI_
+// (linux) return current CPU time of the given process
+//
+double linux_cpu_time(int pid) {
+    FILE* file;
+    char file_name[24];
+    unsigned long utime = 0, stime = 0;
+    int n;
+
+    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
+    if ((file = fopen(file_name, "r")) != NULL) {
+        n = fscanf(file, "%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu", &utime, &stime);
+        fclose(file);
+        if (n != 2) return 0;
+    }
+    return (double)(utime + stime) / 100;
+}
+#endif
+
+bool process_exists(int pid) {
+    int retval = kill(pid, 0);
+    if (retval == -1 && errno == ESRCH) return false;
+    return true;
 }
 
 #endif

@@ -27,8 +27,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
-extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 #else
 // setpriority(2) arg to run in background
 //
@@ -38,7 +36,6 @@ static const int PROCESS_NORMAL_PRIORITY = 0;
 static const int PROCESS_ABOVE_NORMAL_PRIORITY = -10;
 static const int PROCESS_HIGH_PRIORITY = -15;
 static const int PROCESS_REALTIME_PRIORITY = -20;
-extern double linux_cpu_time(int pid);
 #endif
 
 // define type for references to a process.

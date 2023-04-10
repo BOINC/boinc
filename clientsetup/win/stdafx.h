@@ -75,6 +75,8 @@
 #include <crtdbg.h>
 #include <delayimp.h>
 #include <msiquery.h>
+#include <Winternl.h> 
+#define _NTDEF_ 
 #include <ntsecapi.h>
 #include <lm.h>
 #include <shlobj.h>
