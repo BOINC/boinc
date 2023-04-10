@@ -115,29 +115,33 @@ static void*       libhandle;
 //   library this function will write whatever trace information it can and
 //   then throw a breakpoint exception to dump all the rest of the useful
 //   information.
-void boinc_catch_signal_invalid_parameter(
+static void boinc_catch_signal_invalid_parameter(
     const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t /* pReserved */
 ) {
-	fprintf(
-		stderr,
-        "ERROR: Invalid parameter detected in function %s. File: %s Line: %d\n",
-		function,
-		file,
-		line
-	);
-	fprintf(
-		stderr,
-		"ERROR: Expression: %s\n",
-		expression
-	);
+    if (function && file && expression) {
+        fprintf(
+            stderr,
+            "ERROR: Invalid parameter detected in function %S. File: %S Line: %d\n",
+            function,
+            file,
+            line
+        );
+        fprintf(
+            stderr,
+            "ERROR: Expression: %S\n",
+            expression
+        );
+    } else {
+        fputs("ERROR: Invalid parameter detected in CRT function\n", stderr);
+    }
 
-	// Cause a Debug Breakpoint.
-	DebugBreak();
+    // Cause a Debug Breakpoint.
+    DebugBreak();
 }
 
 // Override default terminate and abort functions, call DebugBreak instead.
 //
-void boinc_term_func() {
+static void boinc_term_func() {
 
     // Cause a Debug Breakpoint.
     DebugBreak();
@@ -496,7 +500,7 @@ int diagnostics_init(
         //   that for future use.
         lReturnValue = RegOpenKeyEx(
             HKEY_LOCAL_MACHINE,
-            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
+            TEXT("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
 	        0,
             KEY_READ,
             &hkSetupHive
@@ -505,9 +509,9 @@ int diagnostics_init(
             // How large does our buffer need to be?
             dwSize = sizeof(boinc_install_dir);
 
-            lReturnValue = RegQueryValueEx(
+            lReturnValue = RegQueryValueExA(
                 hkSetupHive,
-                _T("INSTALLDIR"),
+                "INSTALLDIR",
                 NULL,
                 NULL,
                 (LPBYTE)&boinc_install_dir,
@@ -623,13 +627,8 @@ char* diagnostics_get_symstore() {
 
 // store the location of the symbol store.
 //
-int diagnostics_set_symstore(char* project_symstore) {
-    if (!strlen(symstore)) {
-        int buffer_used = snprintf(symstore, sizeof(symstore), "%s", project_symstore);
-        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) {
-            symstore[sizeof(symstore)-1] = '\0';
-        }
-    }
+int diagnostics_set_symstore(const char* project_symstore) {
+    strlcpy(symstore, project_symstore, sizeof(symstore));
     return 0;
 }
 

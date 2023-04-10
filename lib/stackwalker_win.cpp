@@ -41,6 +41,7 @@
  *
  *//////////////////////////////////////////////////////////////////////////////
 
+ // Altered by BOINC
 
 #if defined(_WIN32)
 #include "boinc_win.h"
@@ -52,6 +53,11 @@
 #include "stackwalker_win.h"
 #include "stackwalker_imports.h"
 
+#ifdef _WIN64
+#define ADDR_XDIG "16"
+#else
+#define ADDR_XDIG "8"
+#endif
 
 // Link to dbghelp.dll and version.dll dynamically at runtime so we
 //   can be specific about which version we are getting and where
@@ -282,7 +288,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
 
                 // Version specified as part of the root record.
                 if (pVQV(lpData, "\\", (LPVOID*)&pFileInfo, &uiVarSize)) {
-                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%d.%d.%d.%d", 
+                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%u.%u.%u.%u",
                         HIWORD(pFileInfo->dwFileVersionMS),
                         LOWORD(pFileInfo->dwFileVersionMS),
                         HIWORD(pFileInfo->dwFileVersionLS),
@@ -295,7 +301,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", lpVar);
+                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", (char*)lpVar);
                     if ((sizeof(szCompanyName) == uiVarSize) || (-1 == uiVarSize)) {
                         szCompanyName[255] = '\0';
                     }
@@ -309,7 +315,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", lpVar);
+                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", (char*)lpVar);
                     if ((sizeof(szProductName) == uiVarSize) || (-1 == uiVarSize)) {
                         szProductName[255] = '\0';
                     }
@@ -323,7 +329,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", lpVar);
+                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", (char*)lpVar);
                     if ((sizeof(szFileVersion) == uiVarSize) || (-1 == uiVarSize)) {
                         szFileVersion[255] = '\0';
                     }
@@ -335,20 +341,20 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", lpVar);
+                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", (char*)lpVar);
                     if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
                         szProductVersion[255] = '\0';
                     }
                 }
 
-                free(lpData);
             }
+            free(lpData);
         }
     }
 
     fprintf(stderr, "ModLoad: ");
-    fprintf(stderr, "%.16x "                                , Module.BaseOfImage);
-    fprintf(stderr, "%.16x "                                , Module.ImageSize);
+    fprintf(stderr, "%." ADDR_XDIG "llx-"                   , Module.BaseOfImage);
+    fprintf(stderr, "%." ADDR_XDIG "llx "                   , Module.BaseOfImage + Module.ImageSize);
     fprintf(stderr, "%s "                                   , Module.LoadedImageName);
     if (bFileVersionSupported && bFileVersionRetrieved) {
         fprintf(stderr, "(%s) "                             , szVersionInfo);
@@ -658,7 +664,7 @@ int DebuggerDisplayDiagnostics()
 // Here the Stackwalk-Part begins.
 //   Some of the code is from an example from a book 
 //   But I couldn't find the reference anymore... sorry...
-//   If someone knowns, please let me know...
+//   If someone knows, please let me know...
 // #################################################################################
 // #################################################################################
 
@@ -729,15 +735,15 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     // Dump the Context data
 #if defined(_WIN64) && defined(_M_X64)
     fprintf(stderr, 
-        "rax=%.16x rbx=%.16x rcx=%.16x rdx=%.16x rsi=%.16x rdi=%.16x\n",
+        "rax=%.16llx rbx=%.16llx rcx=%.16llx rdx=%.16llx rsi=%.16llx rdi=%.16llx\n",
         Context.Rax, Context.Rbx, Context.Rcx, Context.Rdx, Context.Rsi, Context.Rdi
     );
     fprintf(stderr, 
-        "r8=%.16x r9=%.16x r10=%.16x r11=%.16x r12=%.16x r13=%.16x\n",
+        " r8=%.16llx  r9=%.16llx r10=%.16llx r11=%.16llx r12=%.16llx r13=%.16llx\n",
         Context.R8, Context.R9, Context.R10, Context.R11, Context.R12, Context.R13
     );
     fprintf(stderr, 
-        "r14=%.16x r15=%.16x rip=%.16x rsp=%.16x rbp=%.16x\n",
+        "r14=%.16llx r15=%.16llx rip=%.16llx rsp=%.16llx rbp=%.16llx\n",
         Context.R14, Context.R15, Context.Rip, Context.Rsp, Context.Rbp
     );
     fprintf(stderr, 
@@ -761,7 +767,11 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 
     // Stack Header
     fprintf(stderr, "- Callstack -\n");
+#ifdef _WIN64
+    fprintf(stderr, "ChildRBP         RetAddr          Args to Child\n");
+#else
     fprintf(stderr, "ChildEBP RetAddr  Args to Child\n");
+#endif
     fflush( stderr );
 
 
@@ -822,6 +832,13 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             break;
         }
 
+        BOOL isSymbolValid = FALSE;
+        BOOL isLineValid = FALSE;
+        BOOL isModuleValid = FALSE;
+        BOOL isUndNameValid = FALSE;
+        szMsgSymFromAddr[0] = '\0';
+        szMsgSymGetLineFromAddr[0] = '\0';
+        szMsgSymGetModuleInfo[0] = '\0';
         if ( StackFrame.AddrPC.Offset == 0 )
         {
             // Special case: If we are here, we have no valid callstack entry!
@@ -832,7 +849,8 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             // show procedure info (SymFromAddr())
             undName[0] = 0;
             offsetFromSymbol = 0;
-            if ( !pSFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, pSymbol ) )
+            isSymbolValid = pSFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, pSymbol );
+            if ( !isSymbolValid )
             {
                 if ( gle != 487 )
                 {
@@ -847,12 +865,13 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             else
             {
                 // UnDecorateSymbolName()
-                pUDSN( pSymbol->Name, undName, MAX_SYM_NAME, UNDNAME_NAME_ONLY );
+                isUndNameValid = pUDSN( pSymbol->Name, undName, MAX_SYM_NAME, UNDNAME_NAME_ONLY ) > 0;
             }
 
             // show line number info (SymGetLineFromAddr())
             offsetFromLine = 0;
-            if ( !pSGLFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromLine, &Line ) )
+            isLineValid = pSGLFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromLine, &Line );
+            if ( !isLineValid )
             {
                 if ( (gle != 487) && (frameNum > 0) )
                 {
@@ -866,7 +885,8 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             }
 
             // show module info (SymGetModuleInfo())
-            if ( !pSGMI( g_hProcess, StackFrame.AddrPC.Offset, &Module ) )
+            isModuleValid = pSGMI( g_hProcess, StackFrame.AddrPC.Offset, &Module );
+            if ( !isModuleValid )
             {
                 snprintf(
                     szMsgSymGetModuleInfo,
@@ -878,19 +898,19 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         } // we seem to have a valid PC
 
 
-        fprintf(stderr, "%.8x ", StackFrame.AddrFrame.Offset);
-        fprintf(stderr, "%.8x ", StackFrame.AddrReturn.Offset);
-        fprintf(stderr, "%.8x ", StackFrame.Params[0]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[1]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[2]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[3]);
-        fprintf(stderr, "%s",    Module.ModuleName);
-        fprintf(stderr, "!%s+",  undName);
-        fprintf(stderr, "0x%x ", offsetFromLine);
+        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.AddrFrame.Offset);
+        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.AddrReturn.Offset);
+        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[0]);
+        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[1]);
+        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[2]);
+        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[3]);
+        fprintf(stderr, "%s!", isModuleValid ? Module.ModuleName : "???");
+        fprintf(stderr, "%s", isUndNameValid ? undName : isSymbolValid ? pSymbol->Name : "???");
+        if (isSymbolValid) fprintf(stderr, "+0x%llx", offsetFromSymbol);
+        fputc(' ', stderr);
 
-        if (Line.LineNumber) {
-            fprintf(stderr, "(%s:%lu) ", Line.FileName, Line.LineNumber);
-        }
+        if (isLineValid)  fprintf(stderr, "(%s:%lu)", Line.FileName, Line.LineNumber);
+        fputc(' ', stderr);
 
         if (StackFrame.FuncTableEntry) {
             // FPO Data
@@ -908,14 +928,14 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             }
         }
 
-        if (strlen(szMsgSymFromAddr) || strlen(szMsgSymGetLineFromAddr) || strlen(szMsgSymGetModuleInfo)) {
+        if (szMsgSymFromAddr[0] || szMsgSymGetLineFromAddr[0] || szMsgSymGetModuleInfo[0]) {
             fprintf(
                 stderr,
-                "%s %s %s Address = '%.8x'",
+                "%s %s %s Address = '%." ADDR_XDIG "zx'",
                 szMsgSymFromAddr,
                 szMsgSymGetLineFromAddr,
                 szMsgSymGetModuleInfo,
-                StackFrame.AddrPC.Offset
+                (ULONG_PTR)StackFrame.AddrPC.Offset
             );
         }
 
