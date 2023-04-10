@@ -39,6 +39,7 @@
 #endif
 #include <unistd.h>
 #include <sys/types.h>
+#include <signal.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <errno.h>
