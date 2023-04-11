@@ -37,32 +37,32 @@
 ## build settings (except in the checkDpendentVesions.sh script.)
 ##
 
-opensslDirName="openssl-3.0.0"
+opensslDirName="openssl-3.1.0"
 opensslBaseName="openssl"
-opensslFileName="openssl-3.0.0.tar.gz"
-opensslURL="https://www.openssl.org/source/openssl-3.0.0.tar.gz"
+opensslFileName="openssl-3.1.0.tar.gz"
+opensslURL="https://www.openssl.org/source/openssl-3.1.0.tar.gz"
 
-caresDirName="c-ares-1.17.2"
+caresDirName="c-ares-1.19.0"
 caresBaseName="c-ares"
-caresFileName="c-ares-1.17.2.tar.gz"
-caresURL="https://c-ares.org/download/c-ares-1.17.2.tar.gz"
+caresFileName="c-ares-1.19.0.tar.gz"
+caresURL="https://c-ares.org/download/c-ares-1.19.0.tar.gz"
 
-curlDirName="curl-7.79.1"
+curlDirName="curl-8.0.1"
 curlBaseName="curl"
-curlFileName="curl-7.79.1.tar.gz"
-curlURL="https://curl.se/download/curl-7.79.1.tar.gz"
+curlFileName="curl-8.0.1.tar.gz"
+curlURL="https://curl.se/download/curl-8.0.1.tar.gz"
 
-wxWidgetsDirName="wxWidgets-3.1.6"
+wxWidgetsDirName="wxWidgets-3.2.2.1"
 wxWidgetsBaseName="wxWidgets"
-wxWidgetsFileName="wxWidgets-3.1.6.tar.bz2"
-wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.6/wxWidgets-3.1.6.tar.bz2"
+wxWidgetsFileName="wxWidgets-3.2.2.1.tar.bz2"
+wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1.tar.bz2"
 
-freetypeDirName="freetype-2.11.0"
+freetypeDirName="freetype-2.12.1"
 freetypeBaseName="freetype"
-freetypeFileName="freetype-2.11.0.tar.gz"
-freetypeURL="https://download.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz"
+freetypeFileName="freetype-2.12.1.tar.gz"
+freetypeURL="https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz"
 
-ftglDirName="ftgl-2.1.3~rc5"
+ftglDirName="ftgl-2.1.9~rc5"
 ftglBaseName="ftgl"
 ftglFileName="ftgl-2.1.3-rc5.tar.gz"
 ftglURL="https://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz"
