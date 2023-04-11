@@ -28,12 +28,12 @@
 typedef LONG       NTSTATUS;
 
 typedef LONG       KPRIORITY;
-#if 0
+
 typedef struct _CLIENT_ID {
     DWORD          UniqueProcess;
     DWORD          UniqueThread;
 } CLIENT_ID;
-#endif
+
 typedef struct _VM_COUNTERS {
     SIZE_T         PeakVirtualSize;
     SIZE_T         VirtualSize;
