@@ -52,7 +52,7 @@
 #include "error_numbers.h"
 #include "str_util.h"
 #include "str_replace.h"
-#include "proc_control.h"
+#include "util.h"
 #include "prefs.h"
 #include "filesys.h"
 #include "network.h"

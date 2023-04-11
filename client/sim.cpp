@@ -60,7 +60,7 @@
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "str_util.h"
-#include "proc_control.h"
+#include "util.h"
 #include "log_flags.h"
 #include "filesys.h"
 #include "../sched/edf_sim.h"

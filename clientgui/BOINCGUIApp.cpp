@@ -30,7 +30,7 @@
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "network.h"
-#include "proc_control.h"
+#include "util.h"
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"

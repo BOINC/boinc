@@ -98,8 +98,6 @@ using std::string;
 #include "translate.h"
 #include "file_names.h"
 #include "util.h"
-#include "proc_control.h"
-
 
 #define admin_group_name "admin"
 #define boinc_master_user_name "boinc_master"

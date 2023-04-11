@@ -33,7 +33,7 @@
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
-#include "proc_control.h"
+#include "util.h"
 
 #include "BOINCGUIApp.h"
 #include "Events.h"
@@ -1454,7 +1454,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function Begin"));
 
 #ifndef __WXMAC__
-    PROCESS_ID pid;
+    PROCESS_REF pid;
     wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
     wxCharBuffer mbStrExecutable = strExecutable.mb_str();
     int argc = 2;

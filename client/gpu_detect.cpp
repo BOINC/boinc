@@ -69,7 +69,7 @@
 
 #include "coproc.h"
 #include "file_names.h"
-#include "proc_control.h"
+#include "util.h"
 #include "str_replace.h"
 
 #include "client_msgs.h"

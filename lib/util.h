@@ -44,7 +44,23 @@ static inline double drand() {
 }
 extern double rand_normal();
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+// setpriority(2) arg to run in background
+//
+static const int PROCESS_IDLE_PRIORITY = 19;
+static const int PROCESS_MEDIUM_PRIORITY = 10;
+static const int PROCESS_NORMAL_PRIORITY = 0;
+static const int PROCESS_ABOVE_NORMAL_PRIORITY = -10;
+static const int PROCESS_HIGH_PRIORITY = -15;
+static const int PROCESS_REALTIME_PRIORITY = -20;
+extern double linux_cpu_time(int pid);
+#endif
+
 extern void update_average(double, double, double, double, double&, double&);
+
+extern int boinc_calling_thread_cpu_time(double&);
 
 inline bool in_vector(int n, std::vector<int>& v) {
     for (unsigned int i=0; i<v.size(); i++) {
@@ -53,21 +69,44 @@ inline bool in_vector(int n, std::vector<int>& v) {
     return false;
 }
 
-// used in sim so put it here instead of proc_control
-extern int boinc_calling_thread_cpu_time(double&);
-#ifdef _WIN32
-extern bool process_exists(HANDLE);
-extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
-extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
-#else
-extern double linux_cpu_time(int pid);
-extern bool process_exists(int);
-#endif
-
-
 // fake a crash
 //
 extern void boinc_crash();
+
+#ifdef _WIN32
+extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
+extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
+extern int kill_process_with_status(int, int exit_code=0);
+#endif
+
+// define a type for reference to a process.
+// Win also has an integer PID; that's not what we mean here
+//
+#ifdef _WIN32
+#define PROCESS_REF  HANDLE
+#else
+#define PROCESS_REF  int
+#endif
+
+extern bool process_exists(PROCESS_REF);
+extern int run_program(
+    const char* dir,        // directory to run program in; NULL if current dir
+    const char* file,       // path of executable
+    int argc,
+    char *const argv[],     // cmdline args, UNIX-style
+    PROCESS_REF&             // ID of child process
+);
+extern int kill_process(PROCESS_REF);
+extern int get_exit_status(PROCESS_REF, int& status, double dt);
+    // get exit code of process
+    // If dt is negative, wait indefinitely;
+    // else wait for at most dt;
+    // if process hasn't exited by then, return error
+    //
+    // Note: to see if a process has exited:
+    // get_exit_status(pid, status, 0) == 0
+
+extern int get_real_executable_path(char* path, size_t max_len);
 
 #ifdef GCL_SIMULATOR
 extern double simtime;

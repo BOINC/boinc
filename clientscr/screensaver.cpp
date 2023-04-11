@@ -42,7 +42,7 @@ extern pthread_mutex_t saver_mutex;
 //
 #include "diagnostics.h"
 #include "common_defs.h"
-#include "proc_control.h"
+#include "util.h"
 #include "common_defs.h"
 #include "filesys.h"
 #include "error_numbers.h"

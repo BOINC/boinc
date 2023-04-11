@@ -57,12 +57,12 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
-#include "proc_control.h"
+#include "util.h"
+#include "cpu_benchmark.h"
 
 #include "client_msgs.h"
-#include "client_state.h"
-#include "cpu_benchmark.h"
 #include "log_flags.h"
+#include "client_state.h"
 
 #include <vector>
 
@@ -113,7 +113,7 @@ struct BENCHMARK_DESC {
     DWORD pid;
 #else
     char filename[256];
-    int pid;
+    PROCESS_ID pid;
 #endif
 };
 
@@ -282,7 +282,7 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
-        int pid = fork();
+        PROCESS_ID pid = fork();
         if (pid == 0) {
 #if HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {

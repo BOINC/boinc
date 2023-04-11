@@ -322,9 +322,6 @@
     <ClCompile Include="..\lib\opencl_boinc.cpp" />
     <ClCompile Include="..\lib\parse.cpp" />
     <ClCompile Include="..\lib\prefs.cpp" />
-    <ClCompile Include="..\lib\procinfo.cpp" />
-    <ClCompile Include="..\lib\procinfo_win.cpp" />
-    <ClCompile Include="..\lib\proc_control.cpp" />
     <ClCompile Include="..\lib\proxy_info.cpp" />
     <ClCompile Include="..\clientscr\screensaver.cpp" />
     <ClCompile Include="..\clientscr\screensaver_win.cpp" />
@@ -360,8 +357,6 @@
     <ClInclude Include="..\lib\prefs.h" />
     <ClInclude Include="..\clientscr\screensaver.h" />
     <ClInclude Include="..\clientscr\screensaver_win.h" />
-    <ClInclude Include="..\lib\procinfo.h" />
-    <ClInclude Include="..\lib\proc_control.h" />
     <ClInclude Include="..\lib\stackwalker_imports.h" />
     <ClInclude Include="..\lib\stackwalker_win.h" />
     <ClInclude Include="stdafx.h" />

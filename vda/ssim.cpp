@@ -126,6 +126,10 @@ SIMULATOR sim;
 int next_file_id=0;
 int next_host_id=0;
 
+inline double drand() {
+    return (double)rand()/(double)RAND_MAX;
+}
+
 double ran_exp(double mean) {
     return -log(drand())*mean;
 }

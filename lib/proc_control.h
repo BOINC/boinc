@@ -15,60 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// functions for creating, controlling, and querying processes
+// functions for building the system-wide process tree,
+// and querying/controlling it
 
 #ifndef BOINC_PROC_CONTROL_H
 #define BOINC_PROC_CONTROL_H
 
 #include <vector>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
-
-#ifdef _WIN32
-#include "boinc_win.h"
-#else
-// setpriority(2) arg to run in background
-//
-static const int PROCESS_IDLE_PRIORITY = 19;
-static const int PROCESS_MEDIUM_PRIORITY = 10;
-static const int PROCESS_NORMAL_PRIORITY = 0;
-static const int PROCESS_ABOVE_NORMAL_PRIORITY = -10;
-static const int PROCESS_HIGH_PRIORITY = -15;
-static const int PROCESS_REALTIME_PRIORITY = -20;
-#endif
-
-// define type for references to a process.
-// Win also has an integer PID; that's not what we mean here
-//
-#ifdef _WIN32
-#define PROCESS_ID  HANDLE
-#else
-#define PROCESS_ID  int
-#endif
-
-extern int run_program(
-    const char* dir,        // directory to run program in; NULL if current dir
-    const char* file,       // path of executable
-    int argc,
-    char *const argv[],     // cmdline args, UNIX-style
-    PROCESS_ID&             // ID of child process
-);
-extern int kill_process(PROCESS_ID);
-extern int get_exit_status(PROCESS_ID, int& status, double dt);
-    // get exit code of process
-    // If dt is negative, wait indefinitely;
-    // else wait for at most dt;
-    // if process hasn't exited by then, return error
-    //
-    // Note: to see if a process has exited:
-    // get_exit_status(pid, status, 0) == 0
-
-#ifdef _WIN32
-extern int kill_process_with_status(int, int exit_code=0);
-#endif
-
-extern int get_real_executable_path(char* path, size_t max_len);
 
 extern void get_descendants(int pid, std::vector<int>& pids);
 extern bool any_process_exists(std::vector<int>& pids);

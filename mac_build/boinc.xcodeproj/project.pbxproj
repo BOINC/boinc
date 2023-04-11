@@ -40,13 +40,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		81746DAB29E4FF9700A52C02 /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
-		81746DAC29E500F800A52C02 /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
-		81746DAD29E55ADF00A52C02 /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
-		81746DAE29E5656600A52C02 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
-		81746DAF29E5658900A52C02 /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
-		81746DB029E565EF00A52C02 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
-		81746DB129E565EF00A52C02 /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */; };
 		DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
@@ -2009,8 +2002,8 @@
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
 				DD4AE04B13652BD700285859 /* cc_config.cpp */,
 				DD4AE04C13652BD700285859 /* cc_config.h */,
-				DD68022E0E701ACD0067D009 /* cert_sig.cpp */,
 				DD7168360AAD72040051642B /* common_defs.h */,
+				DD68022E0E701ACD0067D009 /* cert_sig.cpp */,
 				DD68022F0E701ACD0067D009 /* cert_sig.h */,
 				DDEFB8A3134689C7001E325E /* cl_boinc.h */,
 				DD7475500D86273300860636 /* coproc.cpp */,
@@ -3079,8 +3072,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81746DAF29E5658900A52C02 /* procinfo.cpp in Sources */,
-				81746DAE29E5656600A52C02 /* procinfo_mac.cpp in Sources */,
 				DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */,
 				DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */,
 				DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */,
@@ -3089,7 +3080,6 @@
 				DDD0CEAC1E1E15B2003BD920 /* mac_util.mm in Sources */,
 				DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */,
 				DDF93511176B0D0C00A2793C /* translate.cpp in Sources */,
-				81746DAD29E55ADF00A52C02 /* proc_control.cpp in Sources */,
 				DDB9EA9817BE2C1400651B07 /* filesys.cpp in Sources */,
 				DDB9EA9A17BE2C6B00651B07 /* util.cpp in Sources */,
 			);
@@ -3122,7 +3112,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81746DAC29E500F800A52C02 /* proc_control.cpp in Sources */,
 				DD3E14DF0A774397007E0084 /* AccountInfoPage.cpp in Sources */,
 				DD3E14E10A774397007E0084 /* AccountManagerInfoPage.cpp in Sources */,
 				DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */,
@@ -3471,9 +3460,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81746DB029E565EF00A52C02 /* procinfo_mac.cpp in Sources */,
-				81746DB129E565EF00A52C02 /* procinfo.cpp in Sources */,
-				81746DAB29E4FF9700A52C02 /* proc_control.cpp in Sources */,
 				DDEEAA991F73D3D70051E8C5 /* MultiGPUMig.defs in Sources */,
 				DD82D83E1F831E0500EEC6AD /* keyword.cpp in Sources */,
 				DD9917271E69A8D100555337 /* mac_spawn.cpp in Sources */,
@@ -4265,7 +4251,6 @@
 					"../../ftgl-2.1.3~rc5/src",
 					"../lib/**",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/ScreenSaver-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",
@@ -4301,7 +4286,6 @@
 					"../../ftgl-2.1.3~rc5/src",
 					"../lib/**",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/ScreenSaver-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",

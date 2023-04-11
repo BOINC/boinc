@@ -50,7 +50,6 @@ extern int compareOSVersionTo(int toMajor, int toMinor);
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-#include "proc_control.h"
 
 #include "client_types.h"
 #include "client_state.h"

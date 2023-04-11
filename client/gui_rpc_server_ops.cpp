@@ -61,7 +61,6 @@
 #include "str_util.h"
 #include "url.h"
 #include "util.h"
-#include "proc_control.h"
 
 #include "client_state.h"
 #include "client_msgs.h"

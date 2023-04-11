@@ -348,7 +348,6 @@
     <ClCompile Include="..\lib\network.cpp" />
     <ClCompile Include="..\lib\notice.cpp" />
     <ClCompile Include="..\lib\opencl_boinc.cpp" />
-    <ClCompile Include="..\lib\proc_control.cpp" />
     <ClCompile Include="..\lib\project_init.cpp" />
     <ClCompile Include="..\lib\proxy_info.cpp" />
     <ClCompile Include="..\lib\shmem.cpp" />
@@ -376,7 +375,6 @@
     <ClInclude Include="..\client\rr_sim.h" />
     <ClInclude Include="..\client\sim.h" />
     <ClInclude Include="..\client\time_stats.h" />
-    <ClInclude Include="..\lib\proc_control.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

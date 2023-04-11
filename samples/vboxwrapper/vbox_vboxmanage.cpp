@@ -46,7 +46,6 @@ using std::string;
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-#include "proc_control.h"
 #include "error_numbers.h"
 #include "procinfo.h"
 #include "network.h"

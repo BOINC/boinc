@@ -24,7 +24,6 @@
 
 #include "error_numbers.h"
 #include "str_replace.h"
-#include "proc_control.h"
 #include "util.h"
 
 #ifdef __WXMAC__

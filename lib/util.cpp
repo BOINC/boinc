@@ -41,6 +41,7 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <sys/time.h>
+#include <sys/wait.h>
 #include <sys/resource.h>
 #include <errno.h>
 #include <string>
@@ -203,6 +204,145 @@ void boinc_crash() {
     abort();
 #endif
 }
+
+// chdir into the given directory, and run a program there.
+// argv is set up Unix-style, i.e. argv[0] is the program name
+//
+
+#ifdef _WIN32
+int run_program(
+    const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
+) {
+    int retval;
+    PROCESS_INFORMATION process_info;
+    STARTUPINFOA startup_info;
+    char cmdline[1024];
+    char error_msg[1024];
+
+    memset(&process_info, 0, sizeof(process_info));
+    memset(&startup_info, 0, sizeof(startup_info));
+    startup_info.cb = sizeof(startup_info);
+
+    // lpApplicationName needs to be NULL for CreateProcess to search path
+    // but argv[0] may be full path or just filename
+    // 'file' should be something runnable so use that as program name
+    snprintf(cmdline, sizeof(cmdline), "\"%s\"", file);
+    for (int i=1; i<argc; i++) {
+        safe_strcat(cmdline, " ");
+        safe_strcat(cmdline, argv[i]);
+    }
+
+    retval = CreateProcessA(
+        NULL,
+        cmdline,
+        NULL,
+        NULL,
+        FALSE,
+        0,
+        NULL,
+        dir,
+        &startup_info,
+        &process_info
+    );
+    if (!retval) {
+        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
+        fprintf(stderr,
+            "%s: CreateProcess failed: '%s'\n",
+            time_to_string(dtime()), error_msg
+        );
+        return -1; // CreateProcess returns 1 if successful, false if it failed.
+    }
+
+    if (process_info.hThread) CloseHandle(process_info.hThread);
+    id = process_info.hProcess;
+    return 0;
+}
+#else
+int run_program(
+    const char* dir, const char* file, int , char *const argv[], int& id
+) {
+    int retval;
+    int pid = fork();
+    if (pid == 0) {
+        if (dir) {
+            retval = chdir(dir);
+            if (retval) return retval;
+        }
+        execvp(file, argv);
+        boinc::perror("execvp");
+        boinc::fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
+        exit(errno);
+    }
+    id = pid;
+    return 0;
+}
+#endif
+
+#ifdef _WIN32
+int kill_process_with_status(int pid, int exit_code) {
+    int retval;
+
+    HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
+    if (h == NULL) return 0;
+        // process isn't there, so no error
+
+    if (TerminateProcess(h, exit_code)) {
+        retval = 0;
+    } else {
+        retval = ERR_KILL;
+    }
+    CloseHandle(h);
+    return retval;
+}
+
+int kill_process(HANDLE pid) {
+    if (TerminateProcess(pid, 0)) return 0;
+    return ERR_KILL;
+}
+
+#else
+int kill_process(int pid) {
+    if (kill(pid, SIGKILL)) {
+        if (errno == ESRCH) return 0;
+        return ERR_KILL;
+    }
+    return 0;
+}
+#endif
+
+#ifdef _WIN32
+int get_exit_status(HANDLE pid_handle, int &status, double dt) {
+    if (dt>=0) {
+        DWORD dt_msec = (DWORD)dt*1000;
+        DWORD ret = WaitForSingleObject(pid_handle, dt_msec);
+        if (ret == WAIT_TIMEOUT) {
+            return ERR_NOT_FOUND;
+        }
+    } else {
+        WaitForSingleObject(pid_handle, INFINITE);
+    }
+    unsigned long stat=1;
+    GetExitCodeProcess(pid_handle, &stat);
+    status = (int) stat;
+    return 0;
+}
+#else
+int get_exit_status(int pid, int &status, double dt) {
+    if (dt>=0) {
+        while (1) {
+            int ret = waitpid(pid, &status, WNOHANG);
+            if (ret > 0) return 0;
+            dt -= 1;
+            if (dt<0) break;
+            boinc_sleep(1);
+        }
+        return ERR_NOT_FOUND;
+    } else {
+        waitpid(pid, &status, 0);
+    }
+    return 0;
+}
+#endif
 
 bool boinc_is_finite(double x) {
 #if defined (HPUX_SOURCE)
