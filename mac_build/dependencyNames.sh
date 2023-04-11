@@ -62,7 +62,7 @@ freetypeBaseName="freetype"
 freetypeFileName="freetype-2.12.1.tar.gz"
 freetypeURL="https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz"
 
-ftglDirName="ftgl-2.1.9~rc5"
+ftglDirName="ftgl-2.1.3~rc5"
 ftglBaseName="ftgl"
 ftglFileName="ftgl-2.1.3-rc5.tar.gz"
 ftglURL="https://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz"
