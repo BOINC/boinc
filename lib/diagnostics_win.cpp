@@ -41,6 +41,14 @@
 
 #include "diagnostics_win.h"
 
+#ifndef PRIz
+#ifdef _WIN64
+#define PRIz "ll"
+#else
+#define PRIz "l"
+#endif
+#endif
+
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(
     ULONG SystemInformationClass,
@@ -1289,17 +1297,17 @@ int diagnostics_dump_process_information() {
     fprintf(
         stderr, 
         "- Paged Pool Usage -\n"
-        "QuotaPagedPoolUsage: %zu, QuotaPeakPagedPoolUsage: %zu\n"
-        "QuotaNonPagedPoolUsage: %zu, QuotaPeakNonPagedPoolUsage: %zu\n"
+        "QuotaPagedPoolUsage: %" PRIz "u, QuotaPeakPagedPoolUsage: %" PRIz "u\n"
+        "QuotaNonPagedPoolUsage: %" PRIz "u, QuotaPeakNonPagedPoolUsage: %" PRIz "u\n"
         "\n"
         "- Virtual Memory Usage -\n"
-        "VirtualSize: %zu, PeakVirtualSize: %zu\n"
+        "VirtualSize: %" PRIz "u, PeakVirtualSize: %" PRIz "u\n"
         "\n"
         "- Pagefile Usage -\n"
-        "PagefileUsage: %zu, PeakPagefileUsage: %zu\n"
+        "PagefileUsage: %" PRIz "u, PeakPagefileUsage: %" PRIz "u\n"
         "\n"
         "- Working Set Size -\n"
-        "WorkingSetSize: %zu, PeakWorkingSetSize: %zu, PageFaultCount: %lu\n"
+        "WorkingSetSize: %" PRIz "u, PeakWorkingSetSize: %" PRIz "u, PageFaultCount: %lu\n"
         "\n",
         diagnostics_process.vm_counters.QuotaPagedPoolUsage,
         diagnostics_process.vm_counters.QuotaPeakPagedPoolUsage,

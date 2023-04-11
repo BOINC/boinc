@@ -929,7 +929,7 @@ void boinc_trace(const char *pszFormat, ...) {
         va_end(ptr);
 
 #if defined(_WIN32) && defined(_DEBUG)
-        n = _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
+        n = _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%lu]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
 #ifdef _WIN32

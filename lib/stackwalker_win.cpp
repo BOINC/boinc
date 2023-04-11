@@ -59,6 +59,14 @@
 #define ADDR_XDIG "8"
 #endif
 
+#ifndef PRIz
+#ifdef _WIN64
+#define PRIz "ll"
+#else
+#define PRIz "l"
+#endif
+#endif
+
 // Link to dbghelp.dll and version.dll dynamically at runtime so we
 //   can be specific about which version we are getting and where
 //   we are getting it from
@@ -885,12 +893,12 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         } // we seem to have a valid PC
 
 
-        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.AddrFrame.Offset);
-        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.AddrReturn.Offset);
-        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[0]);
-        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[1]);
-        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[2]);
-        fprintf(stderr, "%." ADDR_XDIG "zx ", (ULONG_PTR)StackFrame.Params[3]);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.AddrFrame.Offset);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.AddrReturn.Offset);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[0]);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[1]);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[2]);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[3]);
         fprintf(stderr, "%s!", isModuleValid ? Module.ModuleName : "???");
         fprintf(stderr, "%s", isUndNameValid ? undName : isSymbolValid ? pSymbol->Name : "???");
         if (isSymbolValid) fprintf(stderr, "+0x%llx", offsetFromSymbol);
@@ -918,7 +926,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         if (szMsgSymFromAddr[0] || szMsgSymGetLineFromAddr[0] || szMsgSymGetModuleInfo[0]) {
             fprintf(
                 stderr,
-                "%s %s %s Address = '%." ADDR_XDIG "zx'",
+                "%s %s %s Address = '%." ADDR_XDIG PRIz "x'",
                 szMsgSymFromAddr,
                 szMsgSymGetLineFromAddr,
                 szMsgSymGetModuleInfo,
