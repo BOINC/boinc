@@ -26,7 +26,9 @@
 #include "miofile.h"
 #include "error_numbers.h"
 #include "str_util.h"
-#include "util.h"
+
+extern bool boinc_is_finite(double);
+    // avoid including util.h (kludge)
 
 // see parse_test.cpp for example usage of XML_PARSER
 

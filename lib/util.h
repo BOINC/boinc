@@ -43,7 +43,6 @@ static inline double drand() {
     return (double)rand()/(double)RAND_MAX;
 }
 extern double rand_normal();
-extern bool boinc_is_finite(double);
 
 extern void update_average(double, double, double, double, double&, double&);
 
