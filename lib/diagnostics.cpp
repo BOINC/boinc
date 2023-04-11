@@ -628,7 +628,7 @@ char* diagnostics_get_symstore() {
 // store the location of the symbol store.
 //
 int diagnostics_set_symstore(const char* project_symstore) {
-    strlcpy(symstore, project_symstore, sizeof(symstore));
+    safe_strcpy(symstore, project_symstore);
     return 0;
 }
 

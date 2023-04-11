@@ -300,7 +300,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    strlcpy(szCompanyName, (const char*)lpVar, sizeof(szCompanyName));
+                    safe_strcpy(szCompanyName, (const char*)lpVar);
                 } else {
                     fprintf(stderr, "Get Company Name Failed.\n");
                 }
@@ -311,7 +311,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    strlcpy(szProductName, (const char*)lpVar, sizeof(szProductName));
+                    safe_strcpy(szProductName, (const char*)lpVar);
                 } else {
                     fprintf(stderr, "Get Product Name Failed.\n");
                 }
@@ -322,7 +322,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    strlcpy(szFileVersion, (const char*)lpVar, sizeof(szFileVersion));
+                    safe_strcpy(szFileVersion, (const char*)lpVar);
                 }
 
                 // Product Version.
@@ -331,7 +331,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    strlcpy(szProductVersion, (const char*)lpVar, sizeof(szProductVersion));
+                    safe_strcpy(szProductVersion, (const char*)lpVar);
                 }
 
             }

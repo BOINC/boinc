@@ -142,7 +142,7 @@ int diagnostics_init_thread_entry(BOINC_THREADLISTENTRY *entry) {
     entry->crash_state = 0;
     entry->crash_wait_reason = 0;
     entry->crash_exception_record = NULL;
-    strlcpy(entry->crash_message, "", sizeof(entry->crash_message));
+    entry->crash_message[0] = '\0';
     return 0;
 }
 
@@ -303,8 +303,8 @@ int diagnostics_update_thread_list() {
                 pThreadEntry = diagnostics_find_thread_entry((DWORD)(uintptr_t)pThread->ClientId.UniqueThread);
 
                 if (pThreadEntry) {
-                    pThreadEntry->crash_kernel_time = pThread->KernelTime.QuadPart / 10000000.0;
-                    pThreadEntry->crash_user_time = pThread->UserTime.QuadPart / 10000000.0;
+                    pThreadEntry->crash_kernel_time = pThread->KernelTime.QuadPart / 1e7;
+                    pThreadEntry->crash_user_time = pThread->UserTime.QuadPart / 1e7;
                     pThreadEntry->crash_wait_time = pThread->WaitTime;
                     pThreadEntry->crash_priority = pThread->Priority;
                     pThreadEntry->crash_base_priority = pThread->BasePriority;
@@ -321,8 +321,8 @@ int diagnostics_update_thread_list() {
                     diagnostics_init_thread_entry(pThreadEntry);
                     pThreadEntry->thread_id = (DWORD)(uintptr_t)(pThread->ClientId.UniqueThread);
                     pThreadEntry->thread_handle = hThread;
-                    pThreadEntry->crash_kernel_time = pThread->KernelTime.QuadPart / 10000000.0;
-                    pThreadEntry->crash_user_time = pThread->UserTime.QuadPart / 10000000.0;
+                    pThreadEntry->crash_kernel_time = pThread->KernelTime.QuadPart / 1e7;
+                    pThreadEntry->crash_user_time = pThread->UserTime.QuadPart / 1e7;
                     pThreadEntry->crash_wait_time = pThread->WaitTime;
                     pThreadEntry->crash_priority = pThread->Priority;
                     pThreadEntry->crash_base_priority = pThread->BasePriority;
