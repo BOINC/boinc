@@ -500,7 +500,7 @@ int diagnostics_init(
         //   that for future use.
         lReturnValue = RegOpenKeyEx(
             HKEY_LOCAL_MACHINE,
-            TEXT("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
 	        0,
             KEY_READ,
             &hkSetupHive
@@ -509,9 +509,9 @@ int diagnostics_init(
             // How large does our buffer need to be?
             dwSize = sizeof(boinc_install_dir);
 
-            lReturnValue = RegQueryValueExA(
+            lReturnValue = RegQueryValueEx(
                 hkSetupHive,
-                "INSTALLDIR",
+                _T("INSTALLDIR"),
                 NULL,
                 NULL,
                 (LPBYTE)&boinc_install_dir,
