@@ -98,6 +98,7 @@ using std::string;
 #include "translate.h"
 #include "file_names.h"
 #include "util.h"
+#include "proc_control.h"
 
 
 #define admin_group_name "admin"
@@ -2281,7 +2282,6 @@ int check_rosetta2_installed() {
         execpath,
         argc,
         argv,
-        0,
         prog
     );
 
@@ -2289,7 +2289,8 @@ int check_rosetta2_installed() {
          return retval;
     }
 
-    retval = get_exit_status(prog);
+    int status;
+    retval = get_exit_status(prog, status, -1);
     if (retval) {
         if (WIFEXITED(retval)) {
             return (WEXITSTATUS(retval));
