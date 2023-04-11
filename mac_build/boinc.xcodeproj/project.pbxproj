@@ -2861,7 +2861,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4529E5987F000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2879,7 +2879,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4629E5989F000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2897,7 +2897,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4729E598C1000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2915,7 +2915,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4829E598D6000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2933,7 +2933,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4929E59924000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2951,7 +2951,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4A29E59963000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2969,7 +2969,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4B29E5997E000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2987,7 +2987,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4D29E599CB000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3005,7 +3005,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4E29E599E1000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3023,7 +3023,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D4F29E599F9000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3041,7 +3041,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5029E59A11000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3059,7 +3059,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5129E59A25000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3077,7 +3077,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5229E59A41000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3095,7 +3095,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5329E59A52000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3113,7 +3113,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5429E59A6F000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3131,7 +3131,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5529E59A94000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3149,7 +3149,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5629E59AA6000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3167,7 +3167,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5829E59AE5000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3185,7 +3185,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5929E59AF7000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3203,7 +3203,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5A29E59B08000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3221,7 +3221,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5B29E59B19000CC8D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3239,7 +3239,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDpendentVesions.sh\"\nexit $?\n";
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD3B67F6140CFFA20088683F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
