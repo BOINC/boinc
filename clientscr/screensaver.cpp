@@ -50,6 +50,7 @@ extern pthread_mutex_t saver_mutex;
 #include "str_util.h"
 #include "str_replace.h"
 #include "screensaver.h"
+#include "util.h"
 
 #ifdef __APPLE__
 #undef BOINCTRACE
