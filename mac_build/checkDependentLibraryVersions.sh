@@ -26,10 +26,14 @@ source "${PROJECT_DIR}/dependencyNames.sh"
 errorFound=0
 
 function compareVersion {
+    ## BuildMacBOINC-CI.sh adds a path to a directory named freetype2
+    ## We treat this as a special case so as not to give a false
+    ## positive with freetypeBaseName and freetypeDirName
+    theSearchPath=`echo "${1}" | sed s/"freetype2"/"free-type2"/g`
     for (( i=0; i<${#baseNames[@]}; i++ )); do
-        if [[ "${1}" == *"${baseNames[$i]}"* ]]; then
+        if [[ "${theSearchPath}" == *"${baseNames[$i]}"* ]]; then
             ## This search path contans this dependent library name
-            if [[ "${1}" != *"${dirNames[$i]}"* ]]; then
+            if [[ "${theSearchPath}" != *"${dirNames[$i]}"* ]]; then
                 errorFound=1
                 s1=${1#*${baseNames[$i]}}
                 s2=${s1%%/*}
