@@ -37,7 +37,8 @@ function compareVersion {
                 errorFound=1
                 s1=${1#*${baseNames[$i]}}
                 s2=${s1%%/*}
-                echo "ERROR: Xcode project $2 has "${baseNames[$i]}${s2}" but dependencyNames has "${dirNames[$i]}
+                ## Output error to stderr to avoid suppression by xcpretty
+                echo "ERROR: Xcode project $2 has "${baseNames[$i]}${s2}" but dependencyNames has "${dirNames[$i]} >&2
             fi
         fi
     done
