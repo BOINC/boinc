@@ -72,7 +72,7 @@ CLIENT_STATE gstate;
 COPROCS coprocs;
 
 #ifndef SIM
-THREAD_LOCK client_mutex;
+THREAD_LOCK client_thread_mutex;
 THREAD throttle_thread;
 #endif
 
@@ -847,7 +847,7 @@ int CLIENT_STATE::init() {
     //
     project_priority_init(false);
 
-    client_mutex.lock();
+    client_thread_mutex.lock();
     throttle_thread.run(throttler, NULL);
 
     initialized = true;
@@ -888,7 +888,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         // otherwise do it for the remaining amount of time.
 
         double_to_timeval(have_async?0:time_remaining, tv);
-        client_mutex.unlock();
+        client_thread_mutex.unlock();
 
         if (all_fds.max_fd == -1) {
             boinc_sleep(time_remaining);
@@ -901,7 +901,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
             );
         }
         //printf("select in %d out %d\n", all_fds.max_fd, n);
-        client_mutex.lock();
+        client_thread_mutex.lock();
 
         // Note: curl apparently likes to have curl_multi_perform()
         // (called from net_xfers->got_select())

@@ -292,6 +292,51 @@ static void do_gpu_detection(int argc, char** argv) {
     warnings.clear();
 }
 
+//////// functions to prevent two clients from running on the same host
+
+#ifdef _WIN32
+static int get_client_mutex(const char*) {
+    char buf[MAX_PATH] = "";
+
+    // Global mutex on Win2k and later
+    //
+    safe_strcpy(buf, "Global\\");
+    safe_strcat(buf, RUN_MUTEX);
+
+    HANDLE h = CreateMutexA(NULL, true, buf);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#else
+static int get_client_mutex(const char* dir) {
+    char path[MAXPATHLEN];
+    static FILE_LOCK file_lock;
+
+    snprintf(path, sizeof(path), "%s/%s", dir, LOCK_FILE_NAME);
+    path[sizeof(path)-1] = 0;
+
+    int retval = file_lock.lock(path);
+    if (retval == ERR_FCNTL) {
+        return ERR_ALREADY_RUNNING;
+    } else if (retval) {
+        return retval;
+    }
+#endif
+    return 0;
+}
+
+int wait_client_mutex(const char* dir, double timeout) {
+    double start = dtime();
+    int retval = 0;
+    while (1) {
+        retval = get_client_mutex(dir);
+        if (!retval) return 0;
+        boinc_sleep(1);
+        if (dtime() - start > timeout) break;
+    }
+    return retval;
+}
+
 static int initialize() {
     int retval;
 

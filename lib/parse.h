@@ -27,6 +27,9 @@
 #include "error_numbers.h"
 #include "str_util.h"
 
+extern bool boinc_is_finite(double);
+    // avoid including util.h (kludge)
+
 // see parse_test.cpp for example usage of XML_PARSER
 
 #define XML_PARSE_COMMENT   1
@@ -266,8 +269,6 @@ struct XML_PARSER {
         skip_unexpected(parsed_tag, verbose, msg);
     }
 };
-
-extern bool boinc_is_finite(double);
 
 /////////////// START DEPRECATED XML PARSER
 // Deprecated because it makes assumptions about

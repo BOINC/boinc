@@ -35,6 +35,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "idlemon.h"
+
 #include "Events.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"

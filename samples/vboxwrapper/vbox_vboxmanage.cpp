@@ -1392,7 +1392,11 @@ namespace vboxmanage {
                 vboxlog_msg("VM did not stop when requested.");
 
                 // Attempt to terminate the VM
-                retval = kill_program(vm_pid);
+#ifdef _WIN32
+                retval = kill_process(vm_pid_handle);
+#else
+                retval = kill_process(vm_pid);
+#endif
                 if (retval) {
                     vboxlog_msg("VM was NOT successfully terminated.");
                 } else {
@@ -1435,7 +1439,11 @@ namespace vboxmanage {
                 vboxlog_msg("VM did not power off when requested.");
 
                 // Attempt to terminate the VM
-                retval = kill_program(vm_pid);
+#ifdef _WIN32
+                retval = kill_process(vm_pid_handle);
+#else
+                retval = kill_process(vm_pid);
+#endif
                 if (retval) {
                     vboxlog_msg("VM was NOT successfully terminated.");
                 } else {

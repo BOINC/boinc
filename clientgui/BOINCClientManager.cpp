@@ -301,7 +301,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
 //                m_lBOINCCoreProcessId = ::wxExecute(argv);
         run_program(
             "/Library/Application Support/BOINC Data",
-            buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId
+            buf, argv[3] ? 4 : 3, argv, m_lBOINCCoreProcessId
         );
 #endif
     }
@@ -360,7 +360,7 @@ void CBOINCClientManager::KillClient() {
     PSYSTEM_PROCESSES       pProcesses = NULL;
 
     if (m_hBOINCCoreProcess != NULL) {
-        kill_program(m_hBOINCCoreProcess);
+        kill_process(m_hBOINCCoreProcess);
         return;
     }
 
@@ -396,7 +396,7 @@ void CBOINCClientManager::KillClient() {
     int retval;
     
     if (m_lBOINCCoreProcessId) {
-        kill_program(m_lBOINCCoreProcessId);
+        kill_process(m_lBOINCCoreProcessId);
         return;
     }
 
@@ -407,7 +407,7 @@ void CBOINCClientManager::KillClient() {
     for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& procinfo = i->second;
         if (!strcmp(procinfo.command, "boinc")) {
-            kill_program(procinfo.id);
+            kill_process(procinfo.id);
             break;
         }
     }

@@ -553,7 +553,9 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
-extern THREAD_LOCK client_mutex;
+// mutual exclusion for the client's threads (main thread, throttle thread)
+//
+extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
 
 //////// TIME-RELATED CONSTANTS ////////////

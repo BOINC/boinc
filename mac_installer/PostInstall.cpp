@@ -99,7 +99,6 @@ using std::string;
 #include "file_names.h"
 #include "util.h"
 
-
 #define admin_group_name "admin"
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -2281,7 +2280,6 @@ int check_rosetta2_installed() {
         execpath,
         argc,
         argv,
-        0,
         prog
     );
 
@@ -2289,7 +2287,8 @@ int check_rosetta2_installed() {
          return retval;
     }
 
-    retval = get_exit_status(prog);
+    int status;
+    retval = get_exit_status(prog, status, -1);
     if (retval) {
         if (WIFEXITED(retval)) {
             return (WEXITSTATUS(retval));

@@ -24,6 +24,8 @@
 #include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #include <unistd.h>
 
 #if HAVE_CSIGNAL
@@ -131,14 +133,14 @@ int suspend_or_resume_threads(
         suspended_threads.clear();
     }
 
-    do { 
+    do {
         if (check_exempt && !diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) {
 #ifdef DEBUG
             fprintf(stderr, "thread is exempt\n");
 #endif
             continue;
         }
-#if 0
+#ifdef DEBUG
         fprintf(stderr, "thread %d PID %d %s\n",
             te.th32ThreadID, te.th32OwnerProcessID,
             precision_time_to_string(dtime())
