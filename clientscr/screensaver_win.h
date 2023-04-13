@@ -167,9 +167,9 @@ protected:
     DWORD WINAPI    DataManagementProc();
     static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );
 
-    int             terminate_v6_screensaver(HANDLE& graphics_application, RESULT* rp);
-    int             terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app);
-    int             terminate_default_screensaver(HANDLE& graphics_application);
+    int             terminate_v6_screensaver(HANDLE graphics_application);
+    int             terminate_screensaver(HANDLE graphics_application);
+    int             terminate_default_screensaver(HANDLE graphics_application);
 	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
 	int             launch_default_screensaver(char *dir_path, HANDLE& graphics_application);
     void            HandleRPCError(void);
@@ -189,7 +189,6 @@ protected:
     RPC_CLIENT*     rpc;
     CC_STATE        state;
     RESULTS         results;
-    RESULT          m_running_result;
 
     HANDLE          m_hDataManagementThread;
     HANDLE          m_hGraphicsApplication;
