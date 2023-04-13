@@ -84,6 +84,7 @@ retval=0
 show_version_errors() {
     if [ -f /tmp/depversions.txt ]; then
         cat /tmp/depversions.txt
+        rm -f /tmp/depversions.txt
     fi
 }
 
