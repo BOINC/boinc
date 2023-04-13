@@ -243,7 +243,7 @@ void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
             gspScreensaver->markAsIncompatible(appPath);
             launchedGfxApp("", 0, -1);
             msgstartTime = 0.0;
-            gspScreensaver->terminate_v6_screensaver(pid, graphics_app_result_ptr);
+            gspScreensaver->terminate_v6_screensaver(pid);
         }
     }
 }
@@ -774,7 +774,7 @@ bool CScreensaver::DestroyDataManagementThread() {
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
 
     if (m_hGraphicsApplication) {
-        terminate_v6_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+        terminate_v6_screensaver(m_hGraphicsApplication);
         m_hGraphicsApplication = 0;
     }
 
