@@ -38,19 +38,19 @@ function compareVersion {
                 s1=${1#*${baseNames[$i]}}
                 s2=${s1%%/*}
                 ## Output error to stderr to avoid suppression by xcpretty
-                echo "ERROR: Xcode project $2 has "${baseNames[$i]}${s2}" but dependencyNames has "${dirNames[$i]} >&2
+                echo "ERROR: Xcode project $2 has "${baseNames[$i]}${s2}" but dependencyNames.sh has "${dirNames[$i]} "(Building $3)" | tee -a /tmp/depversions.txt
             fi
         fi
     done
 }
 
 ##echo "checking HEADER_SEARCH_PATHS"
-compareVersion "${HEADER_SEARCH_PATHS}" "HEADER_SEARCH_PATHS"
+compareVersion "${HEADER_SEARCH_PATHS}" "HEADER_SEARCH_PATHS" "${TARGET_NAME}"
 
 ##echo "checking USER_HEADER_SEARCH_PATHS"
-compareVersion "${USER_HEADER_SEARCH_PATHS}" "USER_HEADER_SEARCH_PATHS"
+compareVersion "${USER_HEADER_SEARCH_PATHS}" "USER_HEADER_SEARCH_PATHS" "${TARGET_NAME}"
 
 ##echo "checking LIBRARY_SEARCH_PATHS"
-compareVersion "${LIBRARY_SEARCH_PATHS}" "LIBRARY_SEARCH_PATHS"
+compareVersion "${LIBRARY_SEARCH_PATHS}" "LIBRARY_SEARCH_PATHS" "${TARGET_NAME}"
 
 return $errorFound
