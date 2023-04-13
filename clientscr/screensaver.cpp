@@ -119,7 +119,7 @@ bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
 }
 
 int CScreensaver::count_active_graphic_apps(RESULTS& res, RESULT* exclude) {
-    int i = 0;
+    size_t i = 0;
     unsigned int graphics_app_count = 0;
 
     // Count the number of active graphics-capable apps excluding the specified result.
@@ -320,12 +320,9 @@ int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_applicati
 }
 
 
-// Terminate any screensaver graphics application
+// Terminate a screensaver graphics application
 //
-int CScreensaver::terminate_v6_screensaver(PROCESS_REF& graphics_application) {
-    int retval = 0;
-    int i;
-
+int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
 #ifdef __APPLE__
     pid_t thePID;
     
@@ -359,7 +356,7 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF& graphics_application) {
 
     launchedGfxApp("", 0, -1);
 
-    for (i=0; i<200; i++) {
+    for (int i=0; i<200; i++) {
         boinc_sleep(0.01);      // Wait 2 seconds max
         if (HasProcessExited(graphics_application, ignore)) {
             break;
@@ -371,6 +368,8 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF& graphics_application) {
 #ifdef _WIN32
     HWND hBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
     if (hBOINCGraphicsWindow) {
+        // try to close the window gracefully.
+        // If still there after 1 sec, kill the process
         CloseWindow(hBOINCGraphicsWindow);
         Sleep(1000);
         hBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
@@ -382,13 +381,13 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF& graphics_application) {
 
     // For safety, call kill_process() even under Apple sandbox security
     kill_process(graphics_application);
-    return retval;
+    return 0;
 }
 
 
 // Terminate the project (science) graphics application
 //
-int CScreensaver::terminate_screensaver(PROCESS_REF& graphics_application) {
+int CScreensaver::terminate_screensaver(PROCESS_REF graphics_application) {
     int retval = 0;
 
     if (graphics_application) {
@@ -480,7 +479,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, PROCESS_REF& graphi
 
 // Terminate the default graphics application
 //
-int CScreensaver::terminate_default_screensaver(PROCESS_REF& graphics_application) {
+int CScreensaver::terminate_default_screensaver(PROCESS_REF graphics_application) {
     int retval = 0;
 
     if (! graphics_application) return 0;
@@ -598,7 +597,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                         terminate_default_screensaver(m_hGraphicsApplication);
                     } else {
                         BOINCTRACE(_T("CScreensaver::DataManagementProc - Terminating screensaver\n"));
-                        terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                        terminate_screensaver(m_hGraphicsApplication);
                     }
                     graphics_app_result_ptr = NULL;
                     previous_result_ptr = NULL;
@@ -721,7 +720,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
             if (m_bScience_gfx_running) {
                 if (m_hGraphicsApplication || previous_result_ptr) {
                     // use previous_result_ptr because graphics_app_result_ptr may no longer be valid
-                    terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
+                    terminate_screensaver(m_hGraphicsApplication);
                     if (m_hGraphicsApplication == 0) {
                         graphics_app_result_ptr = NULL;
                         m_bScience_gfx_running = false;
@@ -790,7 +789,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                                 previous_result.graphics_exec_path
                             );
                         }
-                        terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
+                        terminate_screensaver(m_hGraphicsApplication);
                         previous_result_ptr = NULL;
                         if (m_hGraphicsApplication == 0) {
                             graphics_app_result_ptr = NULL;
@@ -808,7 +807,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                                     previous_result.name, previous_result.graphics_exec_path
                                 );
                             }
-                            terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                            terminate_screensaver(m_hGraphicsApplication);
                             if (m_hGraphicsApplication == 0) {
                                 graphics_app_result_ptr = NULL;
                                 m_bScience_gfx_running = false;

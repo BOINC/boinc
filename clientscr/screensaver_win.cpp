@@ -130,7 +130,6 @@ CScreensaver::CScreensaver() {
     m_bResetCoreState = TRUE;
     m_bQuitDataManagementProc = FALSE;
     m_bDataManagementProcStopped = FALSE;
-    memset(&m_running_result, 0, sizeof(m_running_result));
 
     ZeroMemory(m_Monitors, sizeof(m_Monitors));
     m_dwNumMonitors = 0;
@@ -1747,7 +1746,7 @@ VOID CScreensaver::ShutdownSaver() {
     }
 
     // Kill the currently executing graphics application
-    terminate_screensaver(m_hGraphicsApplication, &m_running_result);
+    terminate_screensaver(m_hGraphicsApplication);
 
     BOINCTRACE(_T("CScreensaver::ShutdownSaver Function End\n"));
 }
