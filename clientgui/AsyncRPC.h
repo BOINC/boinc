@@ -304,8 +304,12 @@ public:
     int create_account_poll(ACCOUNT_OUT& arg1)
             { return RPC_Wait(RPC_CREATE_ACCOUNT_POLL, (void*)&arg1); }
     int project_attach(
-        const char* url, const char* auth, const char* project_name 
-    )       { return RPC_Wait(RPC_PROJECT_ATTACH, (void*)url, (void*)auth, (void*)project_name); }
+        const char* url, const char* auth, const char* project_name, const char* email_addr
+    ) {
+        return RPC_Wait(
+            RPC_PROJECT_ATTACH, (void*)url, (void*)auth, (void*)project_name, (void*)email_addr
+        );
+    }
     int project_attach_from_file()
             { return RPC_Wait(RPC_PROJECT_ATTACH_FROM_FILE); }
     int project_attach_poll(PROJECT_ATTACH_REPLY& arg1)

@@ -869,7 +869,7 @@ void handle_create_account_poll(GUI_RPC_CONN& grc) {
 }
 
 static void handle_project_attach(GUI_RPC_CONN& grc) {
-    string url, authenticator, project_name;
+    string url, authenticator, project_name, email_addr;
     bool use_config_file = false;
     bool already_attached = false;
     unsigned int i;
@@ -880,6 +880,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_string("project_url", url)) continue;
         if (grc.xp.parse_string("authenticator", authenticator)) continue;
         if (grc.xp.parse_string("project_name", project_name)) continue;
+        if (grc.xp.parse_string("email_addr", email_addr)) continue;
     }
 
     // Get URL/auth from project_init.xml?
@@ -930,7 +931,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
     //
     gstate.project_attach.messages.clear();
     gstate.project_attach.error_num = gstate.add_project(
-        url.c_str(), authenticator.c_str(), project_name.c_str(), false
+        url.c_str(), authenticator.c_str(), project_name.c_str(), email_addr.c_str(), false
     );
 
     // if project_init.xml refers to this project,
