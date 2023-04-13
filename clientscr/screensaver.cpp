@@ -348,7 +348,7 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
 
     thePID = graphics_application;
     // fprintf(stderr, "stopping pid %d\n", thePID);
-    retval = rpc->run_graphics_app("stop", thePID, gUserName);
+    int retval = rpc->run_graphics_app("stop", thePID, gUserName);
 
     // Inform our helper app that we have stopped current graphics app 
     fprintf(m_gfx_Cleanup_IPC, "0\n");
