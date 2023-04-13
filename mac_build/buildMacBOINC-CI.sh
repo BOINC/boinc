@@ -98,7 +98,7 @@ if [ ${share_paths} = "yes" ]; then
     libSearchPathDbg=""
     source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
-        cd "${rootPath}"; show_version_errors; exit 1 fi
+        cd "${rootPath}"; show_version_errors; exit 1; fi
     return 0
 fi
 
