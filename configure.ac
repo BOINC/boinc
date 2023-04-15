@@ -1433,6 +1433,10 @@ if test "$enable_libraries" = "yes" -a "$have_glut" = yes -a "$have_jpeg" = 1; t
   configured_to_build="${configured_to_build} libraries_graphics"
 fi
 
+if test "${enable_manager}" = yes -a "$have_Xcb" = yes -a "$have_Xcbatom" = yes; then
+  configured_to_build="${configured_to_build} manager_clientscr"
+fi
+
 if test "$enable_apps" = yes -a "$enable_apps_gui" = yes; then
   configured_to_build="${configured_to_build} apps_gui"
 fi
