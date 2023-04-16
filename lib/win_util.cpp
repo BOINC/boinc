@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -142,6 +142,7 @@ char* windows_format_error_string(
     LPWSTR lpszTemp = NULL;
 
     dwRet = FormatMessageW(
+        FORMAT_MESSAGE_IGNORE_INSERTS |
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_ARGUMENT_ARRAY,
@@ -160,7 +161,7 @@ char* windows_format_error_string(
             LocalFree((HLOCAL)lpszTemp);
         }
     } else {
-        strlcpy(pszBuf, "(unknown error)", iSize);
+        snprintf(pszBuf, iSize, "(unknown error) (%lu)", GetLastError());
     }
 
     return pszBuf;
