@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -99,7 +99,7 @@ extern int diagnostics_is_flag_set(int flags);
 extern char* diagnostics_get_boinc_dir(void);
 extern char* diagnostics_get_boinc_install_dir(void);
 extern char* diagnostics_get_symstore(void);
-extern int diagnostics_set_symstore(char* symstore);
+extern int diagnostics_set_symstore(const char* symstore);
 extern int diagnostics_is_proxy_enabled(void);
 extern char* diagnostics_get_proxy(void);
 

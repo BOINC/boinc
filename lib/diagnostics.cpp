@@ -115,29 +115,33 @@ static void*       libhandle;
 //   library this function will write whatever trace information it can and
 //   then throw a breakpoint exception to dump all the rest of the useful
 //   information.
-void boinc_catch_signal_invalid_parameter(
+static void boinc_catch_signal_invalid_parameter(
     const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t /* pReserved */
 ) {
-	fprintf(
-		stderr,
-        "ERROR: Invalid parameter detected in function %s. File: %s Line: %d\n",
-		function,
-		file,
-		line
-	);
-	fprintf(
-		stderr,
-		"ERROR: Expression: %s\n",
-		expression
-	);
+    if (function && file && expression) {
+        fprintf(
+            stderr,
+            "ERROR: Invalid parameter detected in function %S. File: %S Line: %d\n",
+            function,
+            file,
+            line
+        );
+        fprintf(
+            stderr,
+            "ERROR: Expression: %S\n",
+            expression
+        );
+    } else {
+        fputs("ERROR: Invalid parameter detected in CRT function\n", stderr);
+    }
 
-	// Cause a Debug Breakpoint.
-	DebugBreak();
+    // Cause a Debug Breakpoint.
+    DebugBreak();
 }
 
 // Override default terminate and abort functions, call DebugBreak instead.
 //
-void boinc_term_func() {
+static void boinc_term_func() {
 
     // Cause a Debug Breakpoint.
     DebugBreak();
@@ -623,13 +627,8 @@ char* diagnostics_get_symstore() {
 
 // store the location of the symbol store.
 //
-int diagnostics_set_symstore(char* project_symstore) {
-    if (!strlen(symstore)) {
-        int buffer_used = snprintf(symstore, sizeof(symstore), "%s", project_symstore);
-        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) {
-            symstore[sizeof(symstore)-1] = '\0';
-        }
-    }
+int diagnostics_set_symstore(const char* project_symstore) {
+    safe_strcpy(symstore, project_symstore);
     return 0;
 }
 
@@ -930,11 +929,11 @@ void boinc_trace(const char *pszFormat, ...) {
         va_end(ptr);
 
 #if defined(_WIN32) && defined(_DEBUG)
-        n = _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
+        n = _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%lu]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
 #ifdef _WIN32
-            n = fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stderr, "[%s %s] TRACE [%lu]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
             n = fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
@@ -943,7 +942,7 @@ void boinc_trace(const char *pszFormat, ...) {
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
 #ifdef _WIN32
-            n = fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stdout, "[%s %s] TRACE [%lu]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
             n = fprintf(stdout, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif

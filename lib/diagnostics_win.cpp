@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,6 +40,14 @@
 #endif
 
 #include "diagnostics_win.h"
+
+#ifndef PRIz
+#ifdef _WIN64
+#define PRIz "ll"
+#else
+#define PRIz "l"
+#endif
+#endif
 
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(
@@ -114,9 +122,9 @@ struct BOINC_THREADLISTENTRY {
     DWORD               thread_id;
     HANDLE              thread_handle;
     BOOL                crash_suspend_exempt;
-    FLOAT               crash_kernel_time;
-    FLOAT               crash_user_time;
-    FLOAT               crash_wait_time;
+    double              crash_kernel_time;
+    double              crash_user_time;
+    ULONG               crash_wait_time;
     INT                 crash_priority;
     INT                 crash_base_priority;
     INT                 crash_state;
@@ -136,13 +144,13 @@ int diagnostics_init_thread_entry(BOINC_THREADLISTENTRY *entry) {
     entry->crash_suspend_exempt = FALSE;
     entry->crash_kernel_time = 0.0;
     entry->crash_user_time = 0.0;
-    entry->crash_wait_time = 0.0;
+    entry->crash_wait_time = 0;
     entry->crash_priority = 0;
     entry->crash_base_priority = 0;
     entry->crash_state = 0;
     entry->crash_wait_reason = 0;
     entry->crash_exception_record = NULL;
-    strlcpy(entry->crash_message, "", sizeof(entry->crash_message));
+    entry->crash_message[0] = '\0';
     return 0;
 }
 
@@ -159,7 +167,7 @@ int diagnostics_init_thread_list() {
     hThreadListSync = CreateMutex(NULL, TRUE, NULL);
     if (!hThreadListSync) {
         fprintf(
-            stderr, "diagnostics_init_thread_list(): Creating hThreadListSync failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_thread_list(): Creating hThreadListSync failed, GLE %lu\n", GetLastError()
         );
         retval = GetLastError();
     } else {
@@ -252,10 +260,10 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         );
 
         if (Status == STATUS_INFO_LENGTH_MISMATCH) {
-            HeapFree(hHeap, (DWORD)NULL, *ppBuffer);
+            HeapFree(hHeap, 0, *ppBuffer);
             *pcbBuffer *= 2;
         } else if (!NT_SUCCESS(Status)) {
-            HeapFree(hHeap, (DWORD)NULL, *ppBuffer);
+            HeapFree(hHeap, 0, *ppBuffer);
             retval = Status;
         }
     } while (Status == STATUS_INFO_LENGTH_MISMATCH);
@@ -303,9 +311,9 @@ int diagnostics_update_thread_list() {
                 pThreadEntry = diagnostics_find_thread_entry((DWORD)(uintptr_t)pThread->ClientId.UniqueThread);
 
                 if (pThreadEntry) {
-                    pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
-                    pThreadEntry->crash_user_time = (FLOAT)pThread->UserTime.QuadPart;
-                    pThreadEntry->crash_wait_time = (FLOAT)pThread->WaitTime;
+                    pThreadEntry->crash_kernel_time = pThread->KernelTime.QuadPart / 1e7;
+                    pThreadEntry->crash_user_time = pThread->UserTime.QuadPart / 1e7;
+                    pThreadEntry->crash_wait_time = pThread->WaitTime;
                     pThreadEntry->crash_priority = pThread->Priority;
                     pThreadEntry->crash_base_priority = pThread->BasePriority;
                     pThreadEntry->crash_state = pThread->State;
@@ -321,9 +329,9 @@ int diagnostics_update_thread_list() {
                     diagnostics_init_thread_entry(pThreadEntry);
                     pThreadEntry->thread_id = (DWORD)(uintptr_t)(pThread->ClientId.UniqueThread);
                     pThreadEntry->thread_handle = hThread;
-                    pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
-                    pThreadEntry->crash_user_time = (FLOAT)pThread->UserTime.QuadPart;
-                    pThreadEntry->crash_wait_time = (FLOAT)pThread->WaitTime;
+                    pThreadEntry->crash_kernel_time = pThread->KernelTime.QuadPart / 1e7;
+                    pThreadEntry->crash_user_time = pThread->UserTime.QuadPart / 1e7;
+                    pThreadEntry->crash_wait_time = pThread->WaitTime;
                     pThreadEntry->crash_priority = pThread->Priority;
                     pThreadEntry->crash_base_priority = pThread->BasePriority;
                     pThreadEntry->crash_state = pThread->State;
@@ -342,7 +350,7 @@ int diagnostics_update_thread_list() {
 
     // Release resources
     if (hThreadListSync) ReleaseMutex(hThreadListSync);
-    if (pBuffer) HeapFree(GetProcessHeap(), (DWORD)NULL, pBuffer);
+    if (pBuffer) HeapFree(GetProcessHeap(), 0, pBuffer);
 
     return 0;
 }
@@ -448,7 +456,7 @@ int diagnostics_is_thread_exempt_suspend(long thread_id) {
 
 
 // Set the current thread's crash message.
-int diagnostics_set_thread_crash_message(char* message) {
+int diagnostics_set_thread_crash_message(const char* message) {
     HANDLE hThread;
     BOINC_THREADLISTENTRY *pThreadEntry = NULL;
 
@@ -504,7 +512,7 @@ int diagnostics_set_thread_crash_message(char* message) {
 //
 // See: http://support.microsoft.com/?kbid=837372
 //
-char* diagnostics_format_thread_state(int thread_state) {
+const char* diagnostics_format_thread_state(int thread_state) {
     switch(thread_state) {
         case StateInitialized: return "Initialized";
         case StateReady: return "Ready";
@@ -522,7 +530,7 @@ char* diagnostics_format_thread_state(int thread_state) {
 //
 // See: http://support.microsoft.com/?kbid=837372
 //
-char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
+const char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
     switch(thread_wait_reason) {
         case ThreadWaitReasonExecutive: return "Executive";
         case ThreadWaitReasonFreePage: return "FreePage";
@@ -553,7 +561,7 @@ char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
 //
 // See: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/scheduling_priorities.asp
 //
-char* diagnostics_format_process_priority(int process_priority) {
+const char* diagnostics_format_process_priority(int process_priority) {
     switch(process_priority) {
         case IDLE_PRIORITY_CLASS: return "Idle";
         case BELOW_NORMAL_PRIORITY_CLASS: return "Below Normal";
@@ -570,7 +578,7 @@ char* diagnostics_format_process_priority(int process_priority) {
 //
 // See: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/scheduling_priorities.asp
 //
-char* diagnostics_format_thread_priority(int thread_priority) {
+const char* diagnostics_format_thread_priority(int thread_priority) {
     switch(thread_priority) {
         case THREAD_PRIORITY_IDLE: return "Idle";
         case THREAD_PRIORITY_LOWEST: return "Lowest";
@@ -639,7 +647,7 @@ int diagnostics_init_message_monitor() {
     hMessageMonitorSync = CreateMutex(NULL, TRUE, NULL);
     if (!hMessageMonitorSync) {
         fprintf(
-            stderr, "diagnostics_init_message_monitor(): Creating hMessageMonitorSync failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_message_monitor(): Creating hMessageMonitorSync failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -650,7 +658,7 @@ int diagnostics_init_message_monitor() {
     diagnostics_monitor_messages.clear();
 
     // Check the registry to see if we are allowed to capture debugger messages.
-    //   Apparently many audio and visual payback programs dump serious
+    //   Apparently many audio and visual playback programs dump serious
     //   amounts of data to the debugger viewport even on a release build.
     //   When this feature is enabled it slows down the replay of DVDs and CDs
     //   such that they become jerky and unpleasent to watch or listen too.
@@ -673,28 +681,28 @@ int diagnostics_init_message_monitor() {
         hMessageAckEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
         if (!hMessageAckEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
         hMessageReadyEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
         if (!hMessageReadyEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
         hMessageQuitEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
         if (!hMessageQuitEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
         hMessageQuitFinishedEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
         if (!hMessageQuitFinishedEvent) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %lu\n", GetLastError()
             );
         }
 
@@ -708,7 +716,7 @@ int diagnostics_init_message_monitor() {
         );
         if (!hMessageSharedMap) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): CreateFileMapping hMessageSharedMap failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): CreateFileMapping hMessageSharedMap failed, GLE %lu\n", GetLastError()
             );
         }
 
@@ -721,7 +729,7 @@ int diagnostics_init_message_monitor() {
         );
         if (!pMessageBuffer) {
             fprintf(
-                stderr, "diagnostics_init_message_monitor(): MapViewOfFile pMessageBuffer failed, GLE %d\n", GetLastError()
+                stderr, "diagnostics_init_message_monitor(): MapViewOfFile pMessageBuffer failed, GLE %lu\n", GetLastError()
             );
         }
 
@@ -836,7 +844,7 @@ UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
     HANDLE      hEvents[2];
 
     // Make sure this thread doesn't get suspended during
-    //   a crash dump, the DBGHELP library is pretty verbose.
+    //   a crash dump: the DBGHELP library is pretty verbose.
     //   Suspending this thread will cause a deadlock.
     diagnostics_set_thread_exempt_suspend();
 
@@ -1048,7 +1056,7 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionMonitorHalt = CreateMutex(NULL, FALSE, NULL);
     if (!hExceptionMonitorHalt) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorHalt failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorHalt failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1057,7 +1065,7 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionMonitorStartedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionMonitorStartedEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorStartedEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorStartedEvent failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1067,7 +1075,7 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionDetectedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionDetectedEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionDetectedEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionDetectedEvent failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1076,13 +1084,13 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionQuitEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitEvent failed, GLE %lu\n", GetLastError()
         );
     }
     hExceptionQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!hExceptionQuitFinishedEvent) {
         fprintf(
-            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitFinishedEvent failed, GLE %d\n", GetLastError()
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitFinishedEvent failed, GLE %lu\n", GetLastError()
         );
     }
 
@@ -1115,6 +1123,7 @@ int diagnostics_init_unhandled_exception_monitor() {
         // Wait until the exception monitor is ready for business.
         //
         WaitForSingleObject(hExceptionMonitorStartedEvent, INFINITE);
+        CloseHandle(hExceptionMonitorStartedEvent);
 
     }
 
@@ -1246,8 +1255,8 @@ int diagnostics_foreground_window_dump(PBOINC_WINDOWCAPTURE window_info) {
         "*** Foreground Window Data ***\n"
         "    Window Name      : %s\n"
         "    Window Class     : %s\n"
-        "    Window Process ID: %x\n"
-        "    Window Thread ID : %x\n\n",
+        "    Window Process ID: %lu\n"
+        "    Window Thread ID : %lu\n\n",
         window_info->window_name,
         window_info->window_class,
         window_info->window_process_id,
@@ -1271,10 +1280,10 @@ int diagnostics_dump_process_information() {
     fprintf(
         stderr, 
         "- I/O Operations Counters -\n"
-        "Read: %d, Write: %d, Other %d\n"
+        "Read: %llu, Write: %llu, Other %llu\n"
         "\n"
         "- I/O Transfers Counters -\n"
-        "Read: %d, Write: %d, Other %d\n"
+        "Read: %llu, Write: %llu, Other %llu\n"
         "\n",
         diagnostics_process.io_counters.ReadOperationCount,
         diagnostics_process.io_counters.WriteOperationCount,
@@ -1288,17 +1297,17 @@ int diagnostics_dump_process_information() {
     fprintf(
         stderr, 
         "- Paged Pool Usage -\n"
-        "QuotaPagedPoolUsage: %d, QuotaPeakPagedPoolUsage: %d\n"
-        "QuotaNonPagedPoolUsage: %d, QuotaPeakNonPagedPoolUsage: %d\n"
+        "QuotaPagedPoolUsage: %" PRIz "u, QuotaPeakPagedPoolUsage: %" PRIz "u\n"
+        "QuotaNonPagedPoolUsage: %" PRIz "u, QuotaPeakNonPagedPoolUsage: %" PRIz "u\n"
         "\n"
         "- Virtual Memory Usage -\n"
-        "VirtualSize: %d, PeakVirtualSize: %d\n"
+        "VirtualSize: %" PRIz "u, PeakVirtualSize: %" PRIz "u\n"
         "\n"
         "- Pagefile Usage -\n"
-        "PagefileUsage: %d, PeakPagefileUsage: %d\n"
+        "PagefileUsage: %" PRIz "u, PeakPagefileUsage: %" PRIz "u\n"
         "\n"
         "- Working Set Size -\n"
-        "WorkingSetSize: %d, PeakWorkingSetSize: %d, PageFaultCount: %d\n"
+        "WorkingSetSize: %" PRIz "u, PeakWorkingSetSize: %" PRIz "u, PageFaultCount: %lu\n"
         "\n",
         diagnostics_process.vm_counters.QuotaPagedPoolUsage,
         diagnostics_process.vm_counters.QuotaPeakPagedPoolUsage,
@@ -1325,24 +1334,22 @@ int diagnostics_dump_thread_information(BOINC_THREADLISTENTRY *pThreadEntry) {
     if (pThreadEntry->crash_state == StateWait) {
         strStatusExtra += "Wait Reason: ";
         strStatusExtra += diagnostics_format_thread_wait_reason(pThreadEntry->crash_wait_reason);
-        strStatusExtra += ", ";
     } else {
         strStatusExtra += "Base Priority: ";
         strStatusExtra += diagnostics_format_thread_priority(pThreadEntry->crash_base_priority);
         strStatusExtra += ", ";
         strStatusExtra += "Priority: ";
         strStatusExtra += diagnostics_format_thread_priority(pThreadEntry->crash_priority);
-        strStatusExtra += ", ";
     }
 
     fprintf(
         stderr, 
-        "*** Dump of thread ID %d (state: %s): ***\n\n"
+        "*** Dump of thread ID %lu (state: %s): ***\n\n"
         "- Information -\n"
         "Status: %s, "
-        "Kernel Time: %f, "
-        "User Time: %f, "
-        "Wait Time: %f\n"
+        "Kernel Time: %.3f, "
+        "User Time: %.3f, "
+        "Wait Time: %lu\n"
         "\n",
         pThreadEntry->thread_id,
         diagnostics_format_thread_state(pThreadEntry->crash_state),
@@ -1358,10 +1365,10 @@ int diagnostics_dump_thread_information(BOINC_THREADLISTENTRY *pThreadEntry) {
 
 // Provide a generic way to format exceptions
 //
-int diagnostics_dump_generic_exception(char* exception_desc, DWORD exception_code, PVOID exception_address) {
+int diagnostics_dump_generic_exception(const char* exception_desc, DWORD exception_code, PVOID exception_address) {
     fprintf(
         stderr, 
-        "Reason: %s (0x%x) at address 0x%p\n\n",
+        "Reason: %s (0x%lx) at address 0x%p\n\n",
         exception_desc,
         exception_code,
         exception_address
@@ -1411,29 +1418,35 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
             fprintf(stderr, "%s\n\n", windows_format_error_string(exception_code, message, sizeof(message)));
             break;
         case 0xE06D7363:
-            diagnostics_dump_generic_exception("Out Of Memory (C++ Exception)", exception_code, exception_address);
+            diagnostics_dump_generic_exception("(C++ Exception)", exception_code, exception_address);
             break;
         case EXCEPTION_ACCESS_VIOLATION:
             safe_strcpy(status, "Access Violation");
             safe_strcpy(substatus, "");
             if (pExPtrs->ExceptionRecord->NumberParameters == 2) {
                 switch(pExPtrs->ExceptionRecord->ExceptionInformation[0]) {
-                case 0: // read attempt
+                case EXCEPTION_READ_FAULT:
                     snprintf(substatus, sizeof(substatus),
-                        "read attempt to address 0x%8.8X",
-                        pExPtrs->ExceptionRecord->ExceptionInformation[1]
+                        "read attempt from address 0x%p",
+                        (void*)pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );
                     break;
-                case 1: // write attempt
+                case EXCEPTION_WRITE_FAULT:
                     snprintf(substatus, sizeof(substatus),
-                        "write attempt to address 0x%8.8X",
-                        pExPtrs->ExceptionRecord->ExceptionInformation[1]
+                        "write attempt to address 0x%p",
+                        (void*)pExPtrs->ExceptionRecord->ExceptionInformation[1]
+                    );
+                    break;
+                case EXCEPTION_EXECUTE_FAULT:
+                    snprintf(substatus, sizeof(substatus),
+                        "execute attempt at address 0x%p",
+                        (void*)pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );
                     break;
                 }
             }
             fprintf(stderr,
-                "Reason: %s (0x%x) at address 0x%p %s\n\n",
+                "Reason: %s (0x%lx) at address 0x%p %s\n\n",
                 status, exception_code, exception_address, substatus
             );
             break;
@@ -1570,7 +1583,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
             // hExceptionQuitEvent was signaled.
             case WAIT_OBJECT_0 + 0:
 
-                // We are shutting down so lets cleanup and exit.
+                // We are shutting down, so let's clean up and exit.
                 bContinue = false;
                 
                 break;
