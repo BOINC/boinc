@@ -1,27 +1,16 @@
-# Status
+BOINC is a software platform for "volunteer computing":
+large-scale computing using volunteered home computers and other resources.
 
-| Build Status | Code Quality |
-| --- | --- |
-| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/android.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/android.yml) | [![codecov](https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg)](https://codecov.io/gh/BOINC/boinc) |
-| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/linux.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/linux.yml) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) |
-| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/mingw.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/mingw.yml) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master) |
-| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/snap.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/snap.yml) | |
-| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/osx.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/osx.yml) | |
-| [![Build Status](https://github.com/BOINC/boinc/actions/workflows/windows.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/windows.yml) | |
+* If you're interested in volunteering computer power,
+go to the [BOINC web site](https://boinc.berkeley.edu).
 
-# BOINC
+* Learn about [other ways to help](CONTRIBUTING.md)
 
-Project Website: https://boinc.berkeley.edu
-
-## Want to create a project?
-See: https://boinc.berkeley.edu/trac/wiki/ProjectMain
-
-## Want to help?
-Read about all the [ways you can help](CONTRIBUTING.md)
-
-## Reporting Security Issues
+* Report bugs by creating issues in this repo.
 Please report security issues by emailing
 [David Anderson](https://boinc.berkeley.edu/anderson/).
+
+* For other information, [visit the wiki](https://github.com/BOINC/boinc/wiki)
 
 ## Copyright
 
