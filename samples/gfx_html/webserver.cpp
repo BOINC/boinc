@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014-2015 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -114,7 +114,7 @@ static int webserver_handler() {
 }
 
 #ifdef _WIN32
-DWORD WINAPI webserver_thread(void*) {
+static unsigned int WINAPI webserver_thread(void*) {
     while (webserver_handler()) {}
     return 0;
 }
@@ -127,9 +127,12 @@ static void* webserver_thread(void*) {
 
 int start_webserver_thread() {
 #ifdef _WIN32
-    if (!CreateThread(NULL, 0, webserver_thread, 0, 0, NULL)) {
+    unsigned int tid;
+    HANDLE hThread = (HANDLE)_beginthreadex(NULL, 0, webserver_thread, 0, 0, &tid);
+    if (!hThread) {
         return GetLastError();
     }
+    CloseHandle(hThread);
 #else
     int retval = pthread_create(NULL, NULL, webserver_thread, NULL);
     if (retval) {

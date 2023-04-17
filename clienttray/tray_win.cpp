@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -110,14 +110,14 @@ INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR /* lpCm
 // Create the thread that is used to talk to the daemon.
 //
 BOOL CBOINCTray::CreateDataManagementThread() {
-    DWORD dwThreadID = 0;
-    m_hDataManagementThread = CreateThread(
+    unsigned int tid = 0;
+    m_hDataManagementThread = (HANDLE)_beginthreadex(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
         DataManagementProcStub,      // thread function 
         NULL,                        // argument to thread function 
         0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
+        &tid );                      // returns the thread identifier
  
    if (m_hDataManagementThread == NULL) {
         return FALSE;
@@ -134,6 +134,8 @@ BOOL CBOINCTray::DestroyDataManagementThread() {
     if (!TerminateThread(m_hDataManagementThread, 0)) {
         return FALSE;
     }
+    CloseHandle(m_hDataManagementThread);
+    m_hDataManagementThread = NULL;
     return TRUE;
 }
 
@@ -163,7 +165,7 @@ DWORD WINAPI CBOINCTray::DataManagementProc() {
 // This function forwards to DataManagementProc, which has access to the
 //       "this" pointer.
 //
-DWORD WINAPI CBOINCTray::DataManagementProcStub(LPVOID) {
+unsigned int WINAPI CBOINCTray::DataManagementProcStub(void*) {
     return gspBOINCTray->DataManagementProc();
 }
 

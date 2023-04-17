@@ -19,6 +19,7 @@
 #define BOINC_THREAD_H
 
 #ifdef _WIN32
+#include <process.h>
 #else
 #include <pthread.h>
 #endif
@@ -27,7 +28,7 @@ struct THREAD {
     void* arg;
     bool quit_flag;
 #ifdef _WIN32
-    int run(LPTHREAD_START_ROUTINE, void*);
+    int run(_beginthreadex_proc_type, void*);
 #else
     int run(void*(*func)(void*), void*);
 #endif

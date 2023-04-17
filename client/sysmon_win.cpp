@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -224,7 +224,7 @@ static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
 }
 
 // Create a thread to monitor system events
-static DWORD WINAPI WindowsMonitorSystemPowerThread( LPVOID  ) {
+static unsigned int WINAPI WindowsMonitorSystemPowerThread(void*) {
     WNDCLASS wc;
     MSG msg;
 
@@ -384,7 +384,7 @@ static void windows_detect_autoproxy_settings() {
     }
 }
 
-static DWORD WINAPI WindowsMonitorSystemProxyThread( LPVOID  ) {
+static unsigned int WINAPI WindowsMonitorSystemProxyThread(void*) {
 
     // Initialize diagnostics framework for this thread
     //
@@ -424,7 +424,7 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
 
     // Create a thread to receive system power events.
     //
-    g_hWindowsMonitorSystemPowerThread = CreateThread(
+    g_hWindowsMonitorSystemPowerThread = (HANDLE)_beginthreadex(
         NULL,
         0,
         WindowsMonitorSystemPowerThread,
@@ -440,7 +440,7 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
     // Create a thread to handle proxy auto-detection.
     //
     if (!cc_config.proxy_info.no_autodetect) {
-        g_hWindowsMonitorSystemProxyThread = CreateThread(
+        g_hWindowsMonitorSystemProxyThread = (HANDLE)_beginthreadex(
             NULL,
             0,
             WindowsMonitorSystemProxyThread,

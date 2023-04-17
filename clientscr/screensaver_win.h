@@ -139,7 +139,7 @@ protected:
     BOOL            DestroyInputActivityThread();
 
     DWORD WINAPI    InputActivityProc();
-    static DWORD WINAPI InputActivityProcStub( LPVOID lpParam );
+    static unsigned int WINAPI InputActivityProcStub(void*);
 
     HANDLE          m_hInputActivityThread;
 
@@ -152,7 +152,7 @@ protected:
     BOOL            DestroyGraphicsWindowPromotionThread();
 
     DWORD WINAPI    GraphicsWindowPromotionProc();
-    static DWORD WINAPI GraphicsWindowPromotionProcStub( LPVOID lpParam );
+    static unsigned int WINAPI GraphicsWindowPromotionProcStub(void*);
 
     HANDLE          m_hGraphicsWindowPromotionThread;
 
@@ -165,7 +165,7 @@ protected:
     BOOL            DestroyDataManagementThread();
 
     DWORD WINAPI    DataManagementProc();
-    static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );
+    static unsigned int WINAPI DataManagementProcStub(void*);
 
     int             terminate_v6_screensaver(HANDLE graphics_application);
     int             terminate_screensaver(HANDLE graphics_application);

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -819,17 +819,17 @@ BOOL CScreensaver::GetTextForError(
 // Create the thread that is used to monitor input activity.
 //
 BOOL CScreensaver::CreateInputActivityThread() {
-    DWORD dwThreadID = 0;
+    unsigned int tid = 0;
 
     BOINCTRACE(_T("CScreensaver::CreateInputActivityThread Start\n"));
 
-    m_hInputActivityThread = CreateThread(
+    m_hInputActivityThread = (HANDLE)_beginthreadex(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
         InputActivityProcStub,       // thread function 
         NULL,                        // argument to thread function 
         0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
+        &tid );                      // returns the thread identifier
  
    if (m_hInputActivityThread == NULL) {
     	BOINCTRACE(_T("CScreensaver::CreateInputActivityThread: Failed to create input activity thread '%d'\n"), GetLastError());
@@ -852,6 +852,8 @@ BOOL CScreensaver::DestroyInputActivityThread() {
     	BOINCTRACE(_T("CScreensaver::DestroyInputActivityThread: Failed to terminate input activity thread '%d'\n"), GetLastError());
         return FALSE;
     }
+    CloseHandle(m_hInputActivityThread);
+    m_hInputActivityThread = NULL;
 
     return TRUE;
 }
@@ -862,7 +864,7 @@ BOOL CScreensaver::DestroyInputActivityThread() {
 // This function forwards to InputActivityProc, which has access to the
 //   "this" pointer.
 //
-DWORD WINAPI CScreensaver::InputActivityProcStub(LPVOID UNUSED(lpParam)) {
+unsigned int WINAPI CScreensaver::InputActivityProcStub(void* UNUSED(lpParam)) {
     return gspScreensaver->InputActivityProc();
 }
 
@@ -924,15 +926,15 @@ DWORD WINAPI CScreensaver::InputActivityProc() {
 // Create the thread that is used to promote the graphics window.
 //
 BOOL CScreensaver::CreateGraphicsWindowPromotionThread() {
-    DWORD dwThreadID = 0;
+    unsigned int tid = 0;
     BOINCTRACE(_T("CScreensaver::CreateGraphicsWindowPromotionThread Start\n"));
-    m_hGraphicsWindowPromotionThread = CreateThread(
+    m_hGraphicsWindowPromotionThread = (HANDLE)_beginthreadex(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
         GraphicsWindowPromotionProcStub,       // thread function 
         NULL,                        // argument to thread function 
         0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
+        &tid );                      // returns the thread identifier
  
    if (m_hGraphicsWindowPromotionThread == NULL) {
     	BOINCTRACE(_T("CScreensaver::CreateGraphicsWindowPromotionThread: Failed to create graphics window promotion thread '%d'\n"), GetLastError());
@@ -953,6 +955,8 @@ BOOL CScreensaver::DestroyGraphicsWindowPromotionThread() {
     	BOINCTRACE(_T("CScreensaver::DestroyGraphicsWindowPromotionThread: Failed to terminate graphics window promotion thread '%d'\n"), GetLastError());
         return FALSE;
     }
+    CloseHandle(m_hGraphicsWindowPromotionThread);
+    m_hGraphicsWindowPromotionThread = NULL;
 
     return TRUE;
 }
@@ -963,7 +967,7 @@ BOOL CScreensaver::DestroyGraphicsWindowPromotionThread() {
 // This function forwards to GraphicsWindowPromotionProc, which has access to the
 //   "this" pointer.
 //
-DWORD WINAPI CScreensaver::GraphicsWindowPromotionProcStub(LPVOID UNUSED(lpParam)) {
+unsigned int WINAPI CScreensaver::GraphicsWindowPromotionProcStub(void* UNUSED(lpParam)) {
     return gspScreensaver->GraphicsWindowPromotionProc();
 }
 
@@ -1044,17 +1048,17 @@ DWORD WINAPI CScreensaver::GraphicsWindowPromotionProc() {
 // Create the thread that is used to talk to the daemon.
 //
 BOOL CScreensaver::CreateDataManagementThread() {
-    DWORD dwThreadID = 0;
+    unsigned int tid = 0;
 
     BOINCTRACE(_T("CScreensaver::CreateDataManagementThread Start\n"));
 
-    m_hDataManagementThread = CreateThread(
+    m_hDataManagementThread = (HANDLE)_beginthreadex(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
         DataManagementProcStub,      // thread function 
         NULL,                        // argument to thread function 
         0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
+        &tid );                      // returns the thread identifier
  
    if (m_hDataManagementThread == NULL) {
     	BOINCTRACE(_T("CScreensaver::CreateDataManagementThread: Failed to create data management thread '%d'\n"), GetLastError());
@@ -1086,6 +1090,8 @@ BOOL CScreensaver::DestroyDataManagementThread() {
     	BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Failed to terminate thread '%d'\n"), GetLastError());
         return FALSE;
     }
+    CloseHandle(m_hDataManagementThread);
+    m_hDataManagementThread = NULL;
 
     return TRUE;
 }
@@ -1096,7 +1102,7 @@ BOOL CScreensaver::DestroyDataManagementThread() {
 // This function forwards to DataManagementProc, which has access to the
 //       "this" pointer.
 //
-DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
+unsigned int WINAPI CScreensaver::DataManagementProcStub(void* UNUSED(lpParam)) {
     return gspScreensaver->DataManagementProc();
 }
 

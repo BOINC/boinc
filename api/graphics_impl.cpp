@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,9 +64,9 @@ pthread_t graphics_thread;
 #endif
 
 #ifdef _WIN32
-DWORD WINAPI foobar(LPVOID) {
+static unsigned int WINAPI thread_proc(void*) {
 #else
-void* foobar(void*) {
+static void* thread_proc(void*) {
 #endif
     g_bmsp->start_timer_thread_hook();
     worker_main();
@@ -97,12 +97,12 @@ static int start_worker_thread(
         NULL      // object not named
     );
 
-    DWORD threadId;
+    unsigned int threadId;
 
     // Create and start worker thread
     //
-    worker_thread_handle = CreateThread(
-        NULL, 0, foobar, 0, CREATE_SUSPENDED, &threadId
+    worker_thread_handle = (HANDLE)_beginthreadex(
+        NULL, 0, thread_proc, 0, CREATE_SUSPENDED, &threadId
     );
     ResumeThread(worker_thread_handle);
 
@@ -146,7 +146,7 @@ static int start_worker_thread(
         );
     }
 
-    retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);
+    retval = pthread_create(&worker_thread, &worker_thread_attr, thread_proc, 0);
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );
 

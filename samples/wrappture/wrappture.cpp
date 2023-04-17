@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -424,7 +424,7 @@ void send_status_message(
 // looking for progress tags
 //
 #ifdef _WIN32
-DWORD WINAPI parse_app_stdout(void*) {
+static unsigned int WINAPI parse_app_stdout(void*) {
 #else
 static void block_sigalrm() {
     sigset_t mask;
@@ -459,10 +459,12 @@ static void* parse_app_stdout(void*) {
 
 int create_parser_thread() {
 #ifdef _WIN32
-    DWORD parser_thread_id;
-    if (!CreateThread(NULL, 0, parse_app_stdout, 0, 0, &parser_thread_id)) {
+    unsigned int parser_thread_id;
+    HANDLE hThread = (HANDLE)_beginthreadex(NULL, 0, parse_app_stdout, 0, 0, &parser_thread_id);
+    if (!hThread) {
         return ERR_THREAD;
     }
+    CloseHandle(hThread);
 #else
     pthread_t parser_thread_handle;
     pthread_attr_t thread_attrs;

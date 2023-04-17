@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,11 +19,18 @@
 #include <boinc_win.h>
 #endif
 
+#include "error_numbers.h"
+
 #include "thread.h"
 
 #ifdef _WIN32
-int THREAD::run(LPTHREAD_START_ROUTINE func, void* _arg) {
-    CreateThread(NULL, 0, func, this, 0, NULL);
+int THREAD::run(_beginthreadex_proc_type func, void* _arg) {
+    HANDLE hThread = (HANDLE)_beginthreadex(
+        NULL, 0, func, this, 0, NULL);
+    if (!hThread) {
+        return ERR_THREAD;
+    }
+    CloseHandle(hThread);
 #else
 int THREAD::run(void*(*func)(void*), void* _arg) {
     pthread_t id;

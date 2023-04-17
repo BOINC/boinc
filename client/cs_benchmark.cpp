@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -110,7 +110,7 @@ struct BENCHMARK_DESC {
     double int_time;
 #ifdef _WIN32
     HANDLE handle;
-    DWORD pid;
+    unsigned int tid;
 #else
     char filename[256];
     PROCESS_ID pid;
@@ -123,7 +123,7 @@ static int bm_ncpus;
     // user might change ncpus during benchmarks.
     // store starting value here.
 
-const char *file_names[2] = {"do_fp", "do_int"};
+static const char *file_names[2] = {"do_fp", "do_int"};
 
 static void remove_benchmark_file(int which) {
     boinc_delete_file(file_names[which]);
@@ -230,7 +230,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 }
 
 #ifdef _WIN32
-DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
+static unsigned int WINAPI win_cpu_benchmarks(void* p) {
     return cpu_benchmarks((BENCHMARK_DESC*)p);
 }
 #endif
@@ -272,9 +272,9 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
         benchmark_descs[i].done = false;
         benchmark_descs[i].error = false;
 #ifdef _WIN32
-        benchmark_descs[i].handle = CreateThread(
+        benchmark_descs[i].handle = (HANDLE)_beginthreadex(
             NULL, 0, win_cpu_benchmarks, &benchmark_descs[i], 0,
-            &benchmark_descs[i].pid
+            &benchmark_descs[i].tid
         );
         int n = host_info.p_ncpus;
         int j = (i >= n/2)? 2*i+1-n : 2*i;

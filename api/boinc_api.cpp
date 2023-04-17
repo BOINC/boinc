@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -664,7 +664,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             );
 #ifdef _WIN32
             char buf2[256];
-            windows_format_error_string(GetLastError(), buf2, 256);
+            windows_format_error_string(GetLastError(), buf2, sizeof(buf2));
             fprintf(stderr, "%s Error: %s\n", boinc_msg_prefix(buf, sizeof(buf)), buf2);
 #endif
             // if we can't acquire the lock file there must be
@@ -813,7 +813,7 @@ void boinc_exit(int status) {
         retval = file_lock.unlock(LOCKFILE);
         if (retval) {
 #ifdef _WIN32
-            windows_format_error_string(GetLastError(), buf, 256);
+            windows_format_error_string(GetLastError(), buf, sizeof(buf));
             fprintf(stderr,
                 "%s Can't unlock lockfile (%d): %s\n",
                 boinc_msg_prefix(buf, sizeof(buf)), retval, buf
@@ -1358,7 +1358,7 @@ static void timer_handler() {
 
 #ifdef _WIN32
 
-DWORD WINAPI timer_thread(void *) {
+static unsigned int WINAPI timer_thread(void*) {
     while (1) {
         Sleep((int)(TIMER_PERIOD*1000));
         timer_handler();
@@ -1444,13 +1444,17 @@ int start_timer_thread() {
 
     // Create the timer thread
     //
-    if (!CreateThread(NULL, 0, timer_thread, 0, 0, &timer_thread_id)) {
+    unsigned int tid;
+    HANDLE timer_thread_handle = (HANDLE)_beginthreadex(NULL, 0, timer_thread, 0, 0, &tid);
+    if (!timer_thread_handle) {
         fprintf(stderr,
             "%s start_timer_thread(): CreateThread() failed, errno %d\n",
             boinc_msg_prefix(buf, sizeof(buf)), errno
         );
         return errno;
     }
+    CloseHandle(timer_thread_handle);
+    timer_thread_id = tid;
 
     if (!options.normal_thread_priority) {
         // lower our (worker thread) priority
