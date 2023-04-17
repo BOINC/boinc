@@ -367,7 +367,7 @@ void CPanelPreferences::CreateControls()
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
-    wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
     wxString helpTip;
     helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
