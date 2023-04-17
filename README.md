@@ -1,7 +1,7 @@
 BOINC is a software platform for "volunteer computing":
-large-scale distributed computing using volunteered home computers and other resources.
+large-scale distributed high-throughput computing using volunteered home computers and other resources.
 
-* If you're interested in volunteering computer power,
+* If you're interested in donating your own computing power,
 go to the [BOINC web site](https://boinc.berkeley.edu).
 
 * Learn about [other ways to help](CONTRIBUTING.md)
