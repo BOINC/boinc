@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -350,15 +350,15 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton44->SetToolTip( _("Save all values and close the dialog.") );
+    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton44->SetToolTip( _("Save all values and close the dialog") );
     if (m_bUsingLocalPrefs) {
         itemButton44->SetDefault();
     }
     itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton45->SetToolTip( _("Close the dialog without saving.") );
+    itemButton45->SetToolTip( _("Close the dialog without saving") );
     if (!m_bUsingLocalPrefs) {
         itemButton45->SetDefault();
     }

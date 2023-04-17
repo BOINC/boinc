@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -432,14 +432,16 @@ void CDlgOptions::CreateControls() {
     wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer59, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxButton* itemButton60 = new wxButton;
-    itemButton60->Create( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer59->Add(itemButton60, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxButton* btnSave = new wxButton;
+    btnSave->Create( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnSave->SetToolTip( _("Save all values and close the dialog") );
+    itemBoxSizer59->Add(btnSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton61 = new wxButton;
-    itemButton61->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton61->SetDefault();
-    itemBoxSizer59->Add(itemButton61, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxButton* btnCancel = new wxButton;
+    btnCancel->Create( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnCancel->SetToolTip( _("Close the dialog without saving") );
+    btnCancel->SetDefault();
+    itemBoxSizer59->Add(btnCancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
 
