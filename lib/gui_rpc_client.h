@@ -788,9 +788,7 @@ struct RPC {
 };
 
 
-// MacOS 13.3.1 apparently broke per-thread locale uselocale() so we must
-// use our SET_LOCALE struct on MacOS even though HAVE_USELOCALE is defined.
-#if (defined(HAVE__CONFIGTHREADLOCALE) || defined(HAVE_USELOCALE)) && !defined(__APPLE__)
+#if defined(HAVE__CONFIGTHREADLOCALE) || defined(HAVE_USELOCALE)
 // no-op, the calling thread is already set to use C locale
 struct SET_LOCALE {
     SET_LOCALE() {}
