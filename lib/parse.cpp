@@ -39,6 +39,10 @@
 #endif
 #endif
 
+#ifdef __APPLE__
+#include <xlocale.h>
+#endif
+
 #include "boinc_stdio.h"
 
 #include "error_numbers.h"
@@ -743,7 +747,12 @@ bool XML_PARSER::parse_double(const char* start_tag, double& x) {
         }
     }
     errno = 0;
+#ifdef __APPLE__
+// MacOS 13.3.1 apparently broke per-thread locale uselocale()
+    double val = strtod_l(buf, &end, LC_C_LOCALE);
+#else
     double val = strtod(buf, &end);
+#endif
     if (errno) return false;
     if (end != buf+strlen(buf)) return false;
 
