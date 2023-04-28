@@ -22,6 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#ifdef __APPLE__
+#include <xlocale.h>
+#endif
 
 #include "miofile.h"
 #include "error_numbers.h"
@@ -309,7 +312,12 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     errno = 0;
+#ifdef __APPLE__
+// MacOS 13.3.1 apparently broke per-thread locale uselocale()
+    y = strtod_l(p+strlen(tag), NULL, LC_C_LOCALE);
+#else
     y = strtod(p+strlen(tag), NULL);
+#endif
     if (errno) return false;
     if (!boinc_is_finite(y)) {
         return false;
