@@ -343,7 +343,13 @@ static int initialize() {
     if (!cc_config.allow_multiple_clients) {
         retval = wait_client_mutex(".", 10);
         if (retval) {
-            log_message_error("Another instance of BOINC is running.");
+            if (retval == ERR_ALREADY_RUNNING) {
+                log_message_error("Another instance of BOINC is running.");
+            } else if (retval == ERR_OPEN) {
+                log_message_error("Failed to open lockfile. Check file/directory permissions.");
+            } else {
+                log_message_error("Failed to lock directory.", retval);
+            }
             return ERR_EXEC;
         }
     }
