@@ -31,7 +31,7 @@
 
 #define VERBOSE_TEST 0  /* for debugging callPosixSpawn */
 #if VERBOSE_TEST
-#define CREATE_LOG 1    /* for debugging */
+#define CREATE_LOG 0    /* for debugging */
 #else
 #define CREATE_LOG 0    /* for debugging */
 #endif
