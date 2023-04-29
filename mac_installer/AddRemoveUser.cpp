@@ -216,12 +216,6 @@ int main(int argc, char *argv[])
             sprintf(s, "dscl . -delete /Groups/boinc_project GroupMembership %s", pw->pw_name);
             callPosixSpawn(s);
         }
-
-        if (!AddUsers) {
-            // Delete per-user BOINC Manager and screensaver files
-            sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", pw->pw_name);
-            callPosixSpawn (s);
-        }
     
         // Set or remove login item for this user
         bool useOSASript = false;
@@ -237,6 +231,12 @@ int main(int argc, char *argv[])
         }
 #endif
        if (useOSASript) {
+            if (!AddUsers) {
+                // Delete per-user BOINC Manager and screensaver files
+                sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", pw->pw_name);
+                callPosixSpawn (s);
+            }
+
             snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
             boinc_delete_file(s);
             SetLoginItemOSAScript(brandID, !AddUsers, pw->pw_name);
@@ -535,6 +535,35 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
     if (stat(s, &sbuf) != 0) {
         return SetLoginItemLaunchAgentShellScript(brandID, deleteLogInItem, pw);
     } else {
+         snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC", pw->pw_name);
+        if (stat(s, &sbuf) != 0) {
+            snprintf(s, sizeof(s), "sudo -u \"%s\" mkdir -p -m 0775 \"/Users/%s/Library/Application Support/BOINC\"",
+                    pw->pw_name, pw->pw_name);
+            err = callPosixSpawn(s);
+            if (err) {
+                fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+                fflush(stderr);
+            }
+        }
+    
+        snprintf(s, sizeof(s), "cp -fR \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", brandName[brandID], pw->pw_name, brandName[brandID]);
+        err = callPosixSpawn(s);
+        if (err) {
+            fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+            fflush(stderr);
+        }
+        snprintf(s, sizeof(s), "chown -R %d:%d \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_uid, pw->pw_gid, pw->pw_name, brandName[brandID]);
+        err = callPosixSpawn(s);
+        if (err) {
+            fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+            fflush(stderr);
+        }
+        snprintf(s, sizeof(s), "chmod -R a+rw \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[brandID]);
+        if (err) {
+            fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+            fflush(stderr);
+        }
+
         return SetLoginItemLaunchAgentFinishInstallApp(brandID, deleteLogInItem, pw);    
     }
 }
@@ -599,8 +628,8 @@ Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogI
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", brandName[brandID], brandName[brandID]);
-    if (deleteLogInItem) {
+    fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", pw->pw_name, brandName[brandID], brandName[brandID]);
+     if (deleteLogInItem) {
         // If this user was previously authorized to run the Manager, there 
         // may still be a Login Item for this user, and the Login Item may
         // launch the Manager before the LaunchAgent deletes the Login Item.

@@ -773,6 +773,11 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
             DeleteLoginItemLaunchAgent(brandID, pw);
         }
+        
+        if (compareOSVersionTo(13, 0) >= 0) {
+            sprintf(s, "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
+            callPosixSpawn (s);
+        }
 
 #if TESTING
         showDebugMsg("calling DeleteScreenSaverLaunchAgent for user %s, euid = %d\n", 
@@ -1054,8 +1059,8 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
         fflush(stdout);
     }
     
-    // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
-    // previously (such as by Installer or by installing a differently branded BOINC.)
+    // Create a LaunchAgent to finish uninstall for the specified user, replacing any LaunchAgent
+    // created previously (such as by Uninstaller or by installing a differently branded BOINC.)
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);

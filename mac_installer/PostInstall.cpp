@@ -1087,8 +1087,8 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     struct stat             sbuf;
     char                    s[2048];
 
-    // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
-    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
+    // Create a LaunchAgent to finish installation for the specified user, replacing any LaunchAgent
+    // created previously (such as by Uninstaller or by installing a differently branded BOINC.)
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
@@ -1823,11 +1823,22 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
             }
+
+            if (compareOSVersionTo(13, 0) >= 0) {
+                deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
+                snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\"", brandName[brandID]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+            }
             printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
             SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
-
+            
         } else {
         
             printf("[2] calling FixLaunchServicesDataBase for Finish_Install for user %s\n", pw->pw_name);
