@@ -59,6 +59,7 @@
 ## Updated 4/29/22 to eliminate obsolete clientscr/BOINCSaver_MacOS10_6_7.zip
 ## Updated 6/9/22 to eliminate harmless error message
 ## Updated 3/7/23 for boinc_finish_install to be a full application bundle
+## Updated 4/30/23 code sign AddRemoveUser; eliminate old code signing workaround
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -220,7 +221,7 @@ if [ $Products_Have_arm64 = "yes" ]; then
     fi
 fi
 
-for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install"
+for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install" "AddRemoveUser"
 do
     Have_x86_64="no"
     Have_arm64="no"
@@ -359,6 +360,7 @@ mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables
+mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-AddRemoveUser
 
 cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/ReadMe.rtf
@@ -559,6 +561,7 @@ fi
 # Build the stand-alone client distribution
 cp -fpRL mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
 cp -fpRL mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
+cp -fpRL "${BUILDPATH}/AddRemoveUser" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-AddRemoveUser
 cp -fpRL COPYING ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYING.txt
 cp -fpRL COPYING.LESSER ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYING.LESSER.txt
 cp -fpRL COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYRIGHT.txt
@@ -593,6 +596,9 @@ if [ -n "${APPSIGNINGIDENTITY}" ]; then
     # Code Sign the stand-alone bare core boinc client if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinc"
 
+    # Code Sign the AddRemoveUser app if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-AddRemoveUser/AddRemoveUser"
+
     # Code Sign detect_rosetta_cpu for the stand-alone boinc client if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/detect_rosetta_cpu"
 
@@ -602,29 +608,8 @@ if [ -n "${APPSIGNINGIDENTITY}" ]; then
     # Code Sign switcher for the stand-alone boinc client if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/switcher"
 
-    if [ $arch = "universal" ]; then
-        # Workaround for code signing problem under Xcode 12.2:
-        # Code sign each architecture separately then combine into a uiversal binary
-        lipo "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd" -thin x86_64 -output "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-x86_64"
-
-        lipo "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd" -thin arm64 -output "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-arm64"
-
-        sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-x86_64"
-
-        sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-arm64"
-
-        rm -f "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd"
-
-        lipo "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-x86_64" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-arm64" -create -output "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd"
-
-        rm -f "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-x86_64"
-
-        rm -f "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-arm64"
-
-   else
-        # Code Sign boinccmd for the stand-alone boinc client if we have a signing identity
-        sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd"
-    fi
+    # Code Sign boinccmd for the stand-alone boinc client if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd"
 fi
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
@@ -640,6 +625,8 @@ if [ -d boinc_$1.$2.$3_macOSX_${arch}_vbox ]; then
     ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_${arch}_vbox boinc_$1.$2.$3_macOSX_${arch}_vbox.zip
 fi
 sudo hdiutil create -srcfolder boinc_$1.$2.$3_$arch-apple-darwin -ov -format UDZO boinc_$1.$2.$3_$arch-apple-darwin.dmg
+
+sudo hdiutil create -srcfolder boinc_$1.$2.$3_$arch-AddRemoveUser -ov -format UDZO boinc_$1.$2.$3_$arch-AddRemoveUser.dmg
 
 #popd
 cd "${BOINCPath}"
