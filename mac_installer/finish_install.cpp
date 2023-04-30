@@ -31,7 +31,7 @@
 
 #define VERBOSE_TEST 0  /* for debugging callPosixSpawn */
 #if VERBOSE_TEST
-#define CREATE_LOG 1    /* for debugging */
+#define CREATE_LOG 0    /* for debugging */
 #else
 #define CREATE_LOG 0    /* for debugging */
 #endif
@@ -44,6 +44,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>    // waitpid
 #include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>   // for chmod
 #include <string.h>
 #include <ctype.h>
 #include <cerrno>
@@ -55,12 +56,13 @@
 
 #include "mac_branding.h"
 
-int callPosixSpawn(const char *cmd);
+static int callPosixSpawn(const char *cmd);
+static Boolean MakeLaunchManagerLaunchAgent(long brandID, passwd *pw);
 static void FixLaunchServicesDataBase(int brandId, bool isUninstall);
 static Boolean IsUserActive(const char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
-void print_to_log_file(const char *format, ...);
-void strip_cr(char *buf);
+static int compareOSVersionTo(int toMajor, int toMinor);
+static void print_to_log_file(const char *format, ...);
 
 int main(int argc, const char * argv[]) {
     int                     i, err;
@@ -76,14 +78,16 @@ int main(int argc, const char * argv[]) {
     while (!IsUserActive(userName)) {
         sleep(1);
     }
+
+    pw = getpwuid(getuid());
+    
     
     for (i=0; i<NUMBRANDS; i++) {
         snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", appName[i]);
         err = callPosixSpawn(cmd);
         if (err) {
-            fprintf(stderr, "Command: %s\n", cmd);
-            fprintf(stderr, "Delete login item containing %s returned error %d\n", appName[i], err);
-            fflush(stderr);
+            print_to_log_file("Command: %s\n", cmd);
+            print_to_log_file("Delete login item containing %s returned error %d\n", appName[i], err);
         }
     }
 
@@ -103,32 +107,67 @@ int main(int argc, const char * argv[]) {
         snprintf(cmd, sizeof(cmd), "killall -u %d -9 \"%s\"", getuid(), appName[iBrandId]);
         err = callPosixSpawn(cmd);
         if (err) {
-            fprintf(stderr, "Command: %s\n", cmd);
-            fprintf(stderr, "killall %s returned error %d\n", appName[iBrandId], err);
-            fflush(stderr);
+            print_to_log_file("Command: %s\n", cmd);
+            print_to_log_file("killall %s returned error %d\n", appName[iBrandId], err);
         }
+
+        if (compareOSVersionTo(13, 0) >= 0) {
+            snprintf(cmd, sizeof(cmd), "launchctl unload \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
+            err = callPosixSpawn(cmd);
+            if (err) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("returned error %d\n", err);
+            }
+            sprintf(cmd, "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
+            callPosixSpawn (cmd);
+            if (err) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("returned error %d\n", err);
+            }
+        }
+
     } else {
-        snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"/Applications/%s.app\", hidden:true, name:\"%s\"}'", appName[iBrandId], appName[iBrandId]);
-        err = callPosixSpawn(cmd);
-        if (err) {
-            fprintf(stderr, "Command: %s\n", cmd);
-            fprintf(stderr, "Make new login item for %s returned error %d\n", appName[i], err);
-            fflush(stderr);
+        if (compareOSVersionTo(13, 0) >= 0) {
+            bool success = MakeLaunchManagerLaunchAgent(iBrandId, pw);
+            if (!success) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("MakeLaunchManagerLaunchAgent for %s failed\n", appName[iBrandId]);
+            }
+        } else {
+            snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}'", appPath[iBrandId], appName[iBrandId]);
+            err = callPosixSpawn(cmd);
+            if (err) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("Make new login item for %s returned error %d\n", appName[iBrandId], err);
+            }
         }
-    
-        snprintf(cmd, sizeof(cmd), "open -jg \"/Applications/%s.app\"", appName[iBrandId]);
-        err = callPosixSpawn(cmd);
-        if (err) {
-            fprintf(stderr, "Command: %s\n", cmd);
-            fprintf(stderr, "\"open -jg \"/Applications/%s.app\" returned error %d\n", appName[iBrandId], err);
-            fflush(stderr);
+        
+        if (compareOSVersionTo(13, 0) >= 0) {
+            snprintf(cmd, sizeof(cmd), "launchctl unload \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
+            err = callPosixSpawn(cmd);
+            if (err) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("returned error %d\n", err);
+            }
+
+            snprintf(cmd, sizeof(cmd), "launchctl load \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
+            err = callPosixSpawn(cmd);
+            if (err) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("returned error %d\n", err);
+            }
+        } else {
+            snprintf(cmd, sizeof(cmd), "open -jg \"%s\"", appPath[iBrandId]);
+            err = callPosixSpawn(cmd);
+            if (err) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("\"open -jg \"%s\" returned error %d\n", appPath[iBrandId], err);
+            }
         }
     }
 
     FixLaunchServicesDataBase(iBrandId, isUninstall);
 
-    pw = getpwuid(getuid());
-    
     snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
     callPosixSpawn(cmd);
     
@@ -152,6 +191,51 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
+
+static Boolean MakeLaunchManagerLaunchAgent(long brandID, passwd *pw)
+{
+    struct stat             sbuf;
+    char                    s[2048];
+
+    // Create a LaunchAgent for the specified user to autostart BOINC Manager on login, replacing
+    // any LaunchAgent created previously (such as by installing a differently branded BOINC.)
+
+    // Create LaunchAgents directory for this user if it does not yet exist
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
+    if (stat(s, &sbuf) != 0) {
+        mkdir(s, 0755);
+        chown(s, pw->pw_uid, pw->pw_gid);
+    }
+
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist", pw->pw_name);
+    FILE* f = fopen(s, "w");
+    if (!f) return false;
+    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+    fprintf(f, "<plist version=\"1.0\">\n");
+    fprintf(f, "<dict>\n");
+    fprintf(f, "\t<key>Label</key>\n");
+    fprintf(f, "\t<string>edu.berkeley.launchBOINCManager</string>\n");
+    fprintf(f, "\t<key>ProgramArguments</key>\n");
+    fprintf(f, "\t<array>\n");
+    fprintf(f, "\t\t<string>%s/Contents/MacOS/%s</string>\n", appPath[brandID], appName[brandID]);
+    fprintf(f, "\t\t<string>--autostart</string>\n");
+    fprintf(f, "\t</array>\n");
+    if (compareOSVersionTo(13, 0) >= 0) {
+        fprintf(f, "\t<key>AssociatedBundleIdentifiers</key>\n");
+        fprintf(f, "\t<string>edu.berkeley.boinc</string>\n");
+    }
+    fprintf(f, "\t<key>RunAtLoad</key>\n");
+    fprintf(f, "\t<true/>\n");
+    fprintf(f, "</dict>\n");
+    fprintf(f, "</plist>\n");
+    fclose(f);
+
+    chmod(s, 0644);
+    chown(s, pw->pw_uid, pw->pw_gid);
+
+    return true;
+}
 
 // If there are other copies of BOINC Manager with different branding
 // on the system, Notifications may display the icon for the wrong
@@ -260,6 +344,44 @@ static Boolean IsUserActive(const char *userName){
 }
 
 
+// Test OS version number on all versions of OS X without using deprecated Gestalt
+// compareOSVersionTo(x, y) returns:
+// -1 if the OS version we are running on is less than x.y
+//  0 if the OS version we are running on is equal to x.y
+// +1 if the OS version we are running on is lgreater than x.y
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    static SInt32 major = -1;
+    static SInt32 minor = -1;
+
+    if (major < 0) {
+        char vers[100], *p1 = NULL;
+        FILE *f;
+        vers[0] = '\0';
+        f = popen("sw_vers -productVersion", "r");
+        if (f) {
+            fscanf(f, "%s", vers);
+            pclose(f);
+        }
+        if (vers[0] == '\0') {
+            print_to_log_file("popen(\"sw_vers -productVersion\" failed\n");
+            return 0;
+        }
+        // Extract the major system version number
+        major = atoi(vers);
+        // Extract the minor system version number
+        p1 = strchr(vers, '.');
+        minor = atoi(p1+1);
+    }
+    
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    // if (major == toMajor) compare minor version numbers
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
+}
+
+
 #define NOT_IN_TOKEN                0
 #define IN_SINGLE_QUOTED_TOKEN      1
 #define IN_DOUBLE_QUOTED_TOKEN      2
@@ -316,7 +438,7 @@ static int parse_posix_spawn_command_line(char* p, char** argv) {
 }
 
 
-int callPosixSpawn(const char *cmdline) {
+static int callPosixSpawn(const char *cmdline) {
     char command[1024];
     char progName[1024];
     char progPath[MAXPATHLEN];
@@ -386,8 +508,21 @@ int callPosixSpawn(const char *cmdline) {
     return result;
 }
 
+#if CREATE_LOG
+void strip_cr(char *buf)
+{
+    char *theCR;
 
-void print_to_log_file(const char *format, ...) {
+    theCR = strrchr(buf, '\n');
+    if (theCR)
+        *theCR = '\0';
+    theCR = strrchr(buf, '\r');
+    if (theCR)
+        *theCR = '\0';
+}
+#endif    // CREATE_LOG
+
+static void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
     va_list args;
     char buf[256];
@@ -423,17 +558,3 @@ void print_to_log_file(const char *format, ...) {
 #endif
 #endif
 }
-
-#if CREATE_LOG
-void strip_cr(char *buf)
-{
-    char *theCR;
-
-    theCR = strrchr(buf, '\n');
-    if (theCR)
-        *theCR = '\0';
-    theCR = strrchr(buf, '\r');
-    if (theCR)
-        *theCR = '\0';
-}
-#endif    // CREATE_LOG
