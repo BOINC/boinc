@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -56,8 +56,7 @@
 #include "mac_branding.h"
 
 int callPosixSpawn(const char *cmd);
-long GetBrandID(char *path);
-static void FixLaunchServicesDataBase(void);
+static void FixLaunchServicesDataBase(int brandId, bool isUninstall);
 static Boolean IsUserActive(const char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 void print_to_log_file(const char *format, ...);
@@ -66,8 +65,11 @@ void strip_cr(char *buf);
 int main(int argc, const char * argv[]) {
     int                     i, err;
     char                    cmd[2048];
+    char                    scriptName[1024];
     char                    *userName;
     passwd                  *pw;
+    bool                    isUninstall = false;
+    int                     iBrandId = 0;
 
     // Wait until we are the active login (in case of fast user switching)
     userName = getenv("USER");
@@ -85,64 +87,69 @@ int main(int argc, const char * argv[]) {
         }
     }
 
-    FixLaunchServicesDataBase();
-
     for (i=1; i<argc; i+=2) {
         if (strcmp(argv[i], "-d") == 0) {
-            // If this user was previously authorized to run the Manager, the Login Item
-            // may have launched the Manager before this app deleted that Login Item. To
-            // guard against this, we kill the Manager (for this user only) if it is running.
-            // 
-            snprintf(cmd, sizeof(cmd), "killall -u %d -9 \"%s\"", getuid(), argv[i+1]);
-            err = callPosixSpawn(cmd);
-            if (err) {
-                fprintf(stderr, "Command: %s\n", cmd);
-                fprintf(stderr, "killall %s returned error %d\n", argv[i+1], err);
-                fflush(stderr);
-            }
-        } else if (strcmp(argv[i], "-a") == 0) {
-            snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"/Applications/%s.app\", hidden:true, name:\"%s\"}'", argv[i+1], argv[i+1]);
-            err = callPosixSpawn(cmd);
-            if (err) {
-                fprintf(stderr, "Command: %s\n", cmd);
-                fprintf(stderr, "Make new login item for %s returned error %d\n", argv[i+1], err);
-                fflush(stderr);
-            }
-        
-            snprintf(cmd, sizeof(cmd), "open -jg \"/Applications/%s.app\"", argv[i+1]);
-            err = callPosixSpawn(cmd);
-            if (err) {
-                fprintf(stderr, "Command: %s\n", cmd);
-                fprintf(stderr, "Make login item for %s returned error %d\n", argv[i+1], err);
-                fflush(stderr);
-            }
-        }   // end if (strcmp(argv[i], "-a") == 0)
+            isUninstall = true;
+        } else if (strcmp(argv[i], "-a") != 0) {
+            iBrandId = atoi(argv[i]);
+        }
     }   // end for (i=i; i<argc; i+=2)
+
+    if (isUninstall) {
+        // If this user was previously authorized to run the Manager, the Login Item
+        // may have launched the Manager before this app deleted that Login Item. To
+        // guard against this, we kill the Manager (for this user only) if it is running.
+        // 
+        snprintf(cmd, sizeof(cmd), "killall -u %d -9 \"%s\"", getuid(), appName[iBrandId]);
+        err = callPosixSpawn(cmd);
+        if (err) {
+            fprintf(stderr, "Command: %s\n", cmd);
+            fprintf(stderr, "killall %s returned error %d\n", appName[iBrandId], err);
+            fflush(stderr);
+        }
+    } else {
+        snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"/Applications/%s.app\", hidden:true, name:\"%s\"}'", appName[iBrandId], appName[iBrandId]);
+        err = callPosixSpawn(cmd);
+        if (err) {
+            fprintf(stderr, "Command: %s\n", cmd);
+            fprintf(stderr, "Make new login item for %s returned error %d\n", appName[iBrandId], err);
+            fflush(stderr);
+        }
     
+        snprintf(cmd, sizeof(cmd), "open -jg \"/Applications/%s.app\"", appName[iBrandId]);
+        err = callPosixSpawn(cmd);
+        if (err) {
+            fprintf(stderr, "Command: %s\n", cmd);
+            fprintf(stderr, "\"open -jg \"/Applications/%s.app\" returned error %d\n", appName[iBrandId], err);
+            fflush(stderr);
+        }
+    }
+
+    FixLaunchServicesDataBase(iBrandId, isUninstall);
+
     pw = getpwuid(getuid());
     
     snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
     callPosixSpawn(cmd);
     
+    // We can't delete ourselves while we are running,
+    // so launch a shell script to do it after we exit.
+    sprintf(scriptName, "/tmp/%s_Finish_%s_%s", appName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
+    FILE* f = fopen(scriptName, "w");
+    fprintf(f, "#!/bin/bash\n\n");
+    fprintf(f, "sleep 3\n");
+    if (isUninstall) {
+        // Delete per-user BOINC Manager and screensaver files, including this executable
+        fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"\n", pw->pw_name);
+    } else {
+        // Delete only this executable
+        fprintf(f, "rm -f \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install\"", pw->pw_name, appName[iBrandId]);
+    }
+    fclose(f);
+    sprintf(cmd, "sh %s", scriptName);
+    callPosixSpawn (cmd);
+
     return 0;
-}
-
-
-long GetBrandID(char *path)
-{
-    long iBrandId;
-
-    iBrandId = 0;   // Default value
-    
-    FILE *f = fopen(path, "r");
-    if (f) {
-        fscanf(f, "BrandId=%ld\n", &iBrandId);
-        fclose(f);
-    }
-    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
-        iBrandId = 0;
-    }
-    return iBrandId;
 }
 
 
@@ -155,27 +162,24 @@ long GetBrandID(char *path)
 //
 // This probably will happen only on BOINC development systems where
 // Xcode has generated copies of BOINC Manager.
-static void FixLaunchServicesDataBase() {
-    long brandID = 0;
+static void FixLaunchServicesDataBase(int brandID, bool isUninstall) {
     char boincPath[MAXPATHLEN];
     char cmd[MAXPATHLEN+250];
     long i, n;
     CFArrayRef appRefs = NULL;
     OSStatus err;
 
-    brandID = GetBrandID("/Library/Application Support/BOINC Data/Branding");
-
     CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
 
     // LSCopyApplicationURLsForBundleIdentifier is not available before OS 10.10,
     // but this app is used only for OS 10.13 and later
-        appRefs = LSCopyApplicationURLsForBundleIdentifier(bundleID, NULL);
-        if (appRefs == NULL) {
-            print_to_log_file("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL");
-            goto registerOurApp;
-        }
-        n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
-        print_to_log_file("LSCopyApplicationURLsForBundleIdentifier returned %ld results", n);
+    appRefs = LSCopyApplicationURLsForBundleIdentifier(bundleID, NULL);
+    if (appRefs == NULL) {
+        print_to_log_file("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL");
+        goto registerOurApp;
+    }
+    n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
+    print_to_log_file("LSCopyApplicationURLsForBundleIdentifier returned %ld results", n);
 
     for (i=0; i<n; ++i) {     // Prevent infinite loop
         CFURLRef appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, i);
@@ -188,10 +192,12 @@ static void FixLaunchServicesDataBase() {
             CFRelease(appURL);
             appURL = NULL;
         }
-        if (strncmp(boincPath, appPath[brandID], sizeof(boincPath)) == 0) {
-            print_to_log_file("**** Keeping %s", boincPath);
-            if (appRefs) CFRelease(appRefs);
-            return;     // Our (possibly branded) BOINC Manager app is now at top of database
+        if (! isUninstall) {
+            if (strncmp(boincPath, appPath[brandID], sizeof(boincPath)) == 0) {
+                print_to_log_file("**** Keeping %s", boincPath);
+                if (appRefs) CFRelease(appRefs);
+                return;     // Our (possibly branded) BOINC Manager app is now at top of database
+            }
         }
         print_to_log_file("Unregistering %3ld: %s", i, boincPath);
         // Remove this entry from the Launch Services database
@@ -204,6 +210,8 @@ static void FixLaunchServicesDataBase() {
 
 registerOurApp:
     if (appRefs) CFRelease(appRefs);
+
+    if (isUninstall) return;
 
     // We have exhausted the Launch Services database without finding our
     // (possibly branded) BOINC Manager app, so add it to the dataabase

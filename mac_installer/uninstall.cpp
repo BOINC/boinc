@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -625,12 +625,13 @@ static OSStatus CleanupAllVisibleUsers(void)
     int                 userIndex;
     int                 flag;
     char                buf[256];
-    char                s[1024];
+    char                s[2*MAXPATHLEN];
     FILE                *f;
     char                *p;
     int                 id;
     OSStatus            err;
     Boolean             changeSaver;
+    Boolean             isCatalinaOrLater = (compareOSVersionTo(10, 15) >= 0);
 
 //    saved_uid = getuid();
     saved_euid = geteuid();
@@ -749,6 +750,14 @@ static OSStatus CleanupAllVisibleUsers(void)
                 pw->pw_name, geteuid());
 #endif
             DeleteLoginItemOSAScript(pw->pw_name);
+            
+            // Under OS 10.13 High Sierra or later, this code deletes the per-user BOINC
+            // Manager files only for the user running this app. For each user other than
+            // one running this app, we put BOINCManager_Finish_Uninstall in its per-user
+            // BOINC directory, so we can't delete it now. BOINCManager_Finish_Uninstall
+            // will delete that user's per-user BOINC directory as its final task.
+            sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", pw->pw_name);
+            callPosixSpawn (s);
         } else {
 #if TESTING
             showDebugMsg("calling DeleteLoginItemLaunchAgent for user %s, euid = %d\n", 
@@ -767,13 +776,17 @@ static OSStatus CleanupAllVisibleUsers(void)
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
 //        callPosixSpawn (s);
         
-        // Delete per-user BOINC Manager and screensaver files
-        sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", human_user_name);
-        callPosixSpawn (s);
-        
         //  Set screensaver to "Flurry" screensaver only 
         //  if it was BOINC unbranded or branded screensaver.
         changeSaver = false;
+
+        if (isCatalinaOrLater) {
+            // As of Catalina, Screensaver output files are put in the user's Containers 
+            // directory.
+            snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\"",
+                    pw->pw_name);
+            callPosixSpawn(s);
+        }
 
         err = GetCurrentScreenSaverSelection(pw, s, sizeof(s) -1);
         if (err == noErr) {
@@ -953,7 +966,7 @@ cleanupSystemEvents:
 }
 
 
-// Under OS 10.13 High Sierra, telling System Events to modify Login Items for 
+// As of OS 10.13 High Sierra, telling System Events to modify Login Items for 
 // users who are not currently logged in no longer works, even when System Events 
 // is running as that user. 
 // So we create a LaunchAgent for that user. The next time that user logs in, the 
@@ -969,28 +982,34 @@ cleanupSystemEvents:
 //
 Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
 {
-    static bool             alreadyCopied = false;
     struct stat             sbuf;
     char                    path[MAXPATHLEN];
-    char                    s[2048];
+    char                    s[2*MAXPATHLEN];
     OSErr                   err;
    
-    if (!alreadyCopied) {
-        getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
-        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Uninstall\"", path, appName[brandID]);
-        err = callPosixSpawn(s);
-         if (err) {
-            printf("[2] Command %s returned error %d\n", s, err);
-            fflush(stdout);
-        } else {
-            alreadyCopied = true;
-        }
-
-        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
-        chmod(s, 0755);
-        chown(s, pw->pw_uid, pw->pw_gid);
+    snprintf(s, sizeof(s), "mkdir -p \"/Users/%s/Library/Application Support/BOINC/\"", pw->pw_name);   
+    err = callPosixSpawn(s);
+     if (err) {
+        printf("[2] Command %s returned error %d\n", s, err);
+        fflush(stdout);
     }
+    snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC/", pw->pw_name);   
+    chmod(s, 0771);
+    chown(s, pw->pw_uid, pw->pw_gid);
+   
+    getPathToThisApp(path, sizeof(path));
+    strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
+    snprintf(s, sizeof(s), "cp -f \"%s\" \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall\"", 
+            path, pw->pw_name, appName[brandID]);
+    err = callPosixSpawn(s);
+     if (err) {
+        printf("[2] Command %s returned error %d\n", s, err);
+        fflush(stdout);
+    }
+
+    snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall", pw->pw_name, appName[brandID]);
+    chmod(s, 0755);
+    chown(s, pw->pw_uid, pw->pw_gid);
     
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Installer or by installing a differently branded BOINC.)
@@ -1013,7 +1032,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Uninstall</string>\n", appName[brandID]);
+    fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall</string>\n", pw->pw_name, appName[brandID]);
     // If this user was previously authorized to run the Manager, there 
     // may still be a Login Item for this user, and the Login Item may
     // launch the Manager before the LaunchAgent deletes the Login Item.
@@ -1024,7 +1043,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     // that could happen, so this step is probably unnecessary.
     //
     fprintf(f, "\t\t<string>-d</string>\n");
-    fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+    fprintf(f, "\t\t<string>%d</string>\n", (int)brandID);
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
