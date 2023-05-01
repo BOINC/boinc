@@ -1945,7 +1945,19 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         wxExecute(strCommand);
 #elif defined(__WXGTK__)
         strCommand = wxT("rdesktop-vrdp ") + strConnection;
-        wxExecute(strCommand);
+        int pid = wxExecute(strCommand);
+        // newer versions of VirtualBox don't include rdesktop-vrdp;
+        // try a standard version instead
+        //
+        if (pid == 0) {
+            strCommand = wxT("rdesktop ") + strConnection;
+            pid = wxExecute(strCommand);
+        }
+        if (pid == 0) {
+            strCommand = wxT("xfreerdp ") + strConnection;
+            pid = wxExecute(strCommand);
+        }
+        // show an error if all the above fail?
 #elif defined(__WXMAC__)
         OSStatus status = noErr;
         char pathToCoRD[MAXPATHLEN];
