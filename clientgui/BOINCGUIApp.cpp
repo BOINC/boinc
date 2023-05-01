@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -146,12 +146,18 @@ bool CBOINCGUIApp::OnInit() {
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 #endif
 
+    // Commandline parsing is done in wxApp::OnInit()
+    if (!wxApp::OnInit()) {
+        return false;
+    }
+
 #ifdef __WXMAC__
     // Don't open main window if we were started automatically at login
-    // We are launched hidden if started from our login item (except if
-    // we had windows open at logout, the system "restores" them.)
-    m_bGUIVisible = IsApplicationVisible();
-
+    if (compareOSVersionTo(13, 0) >= 0) {
+        m_bGUIVisible = !m_bBOINCMGRAutoStarted;
+    } else {
+        m_bGUIVisible = IsApplicationVisible();
+    }
     if (getTimeSinceBoot() < 30.) {
         // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
@@ -159,11 +165,6 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif
 
-
-    // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit()) {
-        return false;
-    }
 
     if (g_use_sandbox) {
         wxCHANGE_UMASK(2);  // Set file creation mask to be writable by both user and group
