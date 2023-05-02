@@ -1367,7 +1367,7 @@ void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& tBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
     tBuffer = 0;
     if (result) {
-        if (result->active_task_state == 1) {
+        if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
             time_t ttime = time(0);
             tBuffer = ttime;
             tBuffer += (time_t)result->estimated_cpu_time_remaining;
@@ -1380,7 +1380,7 @@ void CViewWork::GetDocEstDeadlineDiff(wxInt32 item, double& fBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
     fBuffer = 0;
     if (result) {
-        if (result->active_task_state == 1) {
+        if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
             time_t tdeadline, testcompletion;
             GetDocEstCompletionDate(item, testcompletion);
             GetDocReportDeadline(item, tdeadline);
