@@ -23,6 +23,9 @@ if [ ! -d $VCPKG_ROOT ]; then
     git -C $BUILD_DIR clone $VCPKG_LINK
 fi
 
+echo "TEST_TEST"
+which g-ir-scanner
+
 git -C $VCPKG_ROOT pull
 $VCPKG_ROOT/bootstrap-vcpkg.sh
 $VCPKG_ROOT/vcpkg install  --x-manifest-root=3rdParty/vcpkg_ports/configs/manager/linux --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=$TRIPLET --clean-after-build
