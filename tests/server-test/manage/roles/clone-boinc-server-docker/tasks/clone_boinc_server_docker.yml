@@ -12,3 +12,9 @@
 
 - name: "Fetch some submodules for boinc-server-docker in {{base_dir}}"
   command: git submodule update images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
+
+- name: "Copy patch"
+  command: cp docker_fix.patch {{base_dir}}
+
+- name: "Patch boinc-server-docker"
+  command: git apply {{base_dir}}/docker_fix.patch chdir="{{base_dir}}/boinc-server-docker"
