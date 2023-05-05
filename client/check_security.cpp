@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -432,7 +432,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if (retval)
             return -1041;
         
-        if (sbuf.st_gid != boinc_project_gid)
+        if (sbuf.st_gid != boinc_master_gid)
             return -1042;
 
         if (sbuf.st_uid != 0)   // root
