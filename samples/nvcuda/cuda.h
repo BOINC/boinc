@@ -69,11 +69,11 @@ int do_checkpoint(MFILE& mf, int n, REAL *h_idata, int dimension);
 #ifdef APP_GRAPHICS
 void update_shmem() {
     if (!shmem) return;
-	
+
     // always do this; otherwise a graphics app will immediately
     // assume we're not alive
     shmem->update_time = dtime();
-	
+
     // Check whether a graphics app is running,
     // and don't bother updating shmem if so.
     // This doesn't matter here,

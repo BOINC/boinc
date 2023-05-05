@@ -53,7 +53,7 @@ function decode($x) {
 }
 
 function parse_team($f) {
-    $t = new stdClass(); 
+    $t = new stdClass();
     while ($s = fgets($f)) {
         if (strstr($s, '</team>')) {
             $t->name = decode($t->name);

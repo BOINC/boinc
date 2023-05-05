@@ -22,7 +22,7 @@ require_once('boinctranslate.admin.inc');
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
  * Implementation of hook_menu(); determine the actions that correspond
  * with defined URL paths
@@ -104,7 +104,7 @@ function boinctranslate_node_update($node) {
     $location = "node:{$node->nid}:body";
 
     // Query database for lid and location (hash) of this node.
-    $sql1 = "SELECT lid,location FROM locales_source 
+    $sql1 = "SELECT lid,location FROM locales_source
              WHERE location REGEXP '%s' AND textgroup = '%s' ORDER BY lid ASC";
 
     $myregexp = "node:{$node->nid}:body";

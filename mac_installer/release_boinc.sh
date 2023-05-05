@@ -62,7 +62,7 @@
 ## Updated 4/30/23 code sign AddRemoveUser; eliminate old code signing workaround
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
-##   tools.  So you must have installed XCode Developer Tools on the Mac 
+##   tools.  So you must have installed XCode Developer Tools on the Mac
 ##   before running this script. You must code sign using OS 10.9 or later
 ##   for compatibility with Gatekeeper on OS 10.10 or later.
 ##
@@ -106,38 +106,38 @@
 ## cd to the root directory of the boinc tree, for example:
 ##     cd [path]/boinc
 ##
-## Invoke this script with the three parts of version number as arguments.  
+## Invoke this script with the three parts of version number as arguments.
 ## For example, if the version is 3.2.1:
 ##     source [path_to_this_script] 3 2 1
 ##
-## This will create a director "BOINC_Installer" in the parent directory of 
+## This will create a director "BOINC_Installer" in the parent directory of
 ## the current directory
 ##
 ## For testing only, you can use the development build by adding a fourth argument -dev
 ## For example, if the version is 3.2.1:
 ##     source [path_to_this_script] 3 2 1 -dev
 
-## As of OS 10.14 Mojave, Apple has introduced a new level of security which 
-## Apple calls "notarization". Under OS 10.14, the only difference is that 
-## Gatekeeper adds the sentence "Apple checked it for malicious software and 
-## found none." However, Apple has warned: "In an upcoming release of macOS, 
-## Gatekeeper will require Developer ID–signed software to be notarized by 
+## As of OS 10.14 Mojave, Apple has introduced a new level of security which
+## Apple calls "notarization". Under OS 10.14, the only difference is that
+## Gatekeeper adds the sentence "Apple checked it for malicious software and
+## found none." However, Apple has warned: "In an upcoming release of macOS,
+## Gatekeeper will require Developer ID–signed software to be notarized by
 ## Apple."
-## 
+##
 ## To notarize the installer and uninstaller:
-## NOTE: Do not use your normal Apple ID password. You must create an 
+## NOTE: Do not use your normal Apple ID password. You must create an
 ## app-specific password at https://appleid.apple.com/account/manage.
 ##
 ## NOTE: in the following instructions, subsitute the 3 part version number
-##       for x.y.z and the architecture (usually "universal" for $arch) so 
+##       for x.y.z and the architecture (usually "universal" for $arch) so
 ##       substitute the quoted full path for ".../boinc_x.y.z_macOSX_$arch"
 ## - Use the command line tools in Xcode 13 or later
 ## - Provide valid application & installer code signing identities as above
-## - In the instructions below, substitute the appropriate architcture for $arch 
+## - In the instructions below, substitute the appropriate architcture for $arch
 ##     (either x86_64, arm64 or universal)
 ## - In Terminal:
 ##  $ xcrun notarytool submit ".../boinc_x.y.z_macOSX_$arch.zip" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
-## 
+##
 ## - If the notarytool submit request was approved, attach tickets to top level applications as follows:
 ## NOTE: Stapling the original files never works. We must rename the original
 ##       directory and recreate it from the zip file we just submitted
@@ -146,7 +146,7 @@
 ##  $ xcrun stapler staple ".../boinc_x.y.z_macOSX_$arch/BOINC Installer.app"
 ##  $ xcrun stapler staple {path to ".../boinc_x.y.z_macOSX_$arch.zip/extras/Uninstall BOINC.app"
 ## - delete or rename the original ".../boinc_x.y.z_macOSX_$arch.zip" file
-## - Run this ditto command again to create a new zip archive containing 
+## - Run this ditto command again to create a new zip archive containing
 ##   the updated (notarized) BOINC Installer.app and Uninstall BOINC.app:
 ##  $ ditto -ck --sequesterRsrc --keepParent ".../boinc_x.y.z_macOSX_$arch" ".../boinc_x.y.z_macOSX_$arch.zip"
 ##
@@ -166,7 +166,7 @@
 ##  $ man stapler
 ##
 ## TODO: Add code to optionally automate notarization either in this script or
-## TODO: in a separate script. Perhaps adapt notarization and stapler code from 
+## TODO: in a separate script. Perhaps adapt notarization and stapler code from
 ## TODO: <https://github.com/smittytone/scripts/blob/master/packcli.zsh>
 ##
 
@@ -276,7 +276,7 @@ fi
 
 ## Add a statement in the ReadMe telling Minimum required MacOS version, if known
 OSVersion=`/usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "${BUILDPATH}/BOINCManager.app/Contents/Info.plist"`
-if [ $? -eq 0 ]; then 
+if [ $? -eq 0 ]; then
 sed -i "" s/"<MINOSVERS>"/"^#NOTE: This version of BOINC requires MacOS <OSVERS> or later.^#"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 tr "^#" "\\\\\n" < ../BOINC_Installer/Installer\ Resources/ReadMe.rtf > /tmp/ReadMe.rtf
 cp -f /tmp/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
@@ -303,7 +303,7 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/sw
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
 
 # We must create virtualbox directory so installer will set up its
-# ownership and permissions correctly, because vboxwrapper won't 
+# ownership and permissions correctly, because vboxwrapper won't
 # have permission to set owner to boinc_master.
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/projects/virtualbox
 
@@ -404,7 +404,7 @@ sudo plutil -replace CFBundleName -string "BOINC_Finish_Uninstall" "../BOINC_Ins
 
 sudo plutil -replace CFBundleExecutable -string "BOINC_Finish_Uninstall" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
 
-# Change Bundle ID of BOINC_Finish_Uninstall.app 
+# Change Bundle ID of BOINC_Finish_Uninstall.app
 ###sudo plutil -replace CFBundleIdentifier -string edu.berkeley.boinc.finish-uninstall "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Info.plist"
 
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
@@ -413,7 +413,7 @@ sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpRL "${BUILDPATH}/BOINC Installer.app" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
 
-## Allow the installer wrapper application to run on older versions of MacOS 
+## Allow the installer wrapper application to run on older versions of MacOS
 ## so it can display an appropriate error message.
 /usr/libexec/PlistBuddy -c "Set :LSMinimumSystemVersion 10.0" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Info.plist"
 
@@ -436,7 +436,7 @@ sudo cp -fpRL "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$ar
 ## If you wish to also code sign the installer package, add a second line
 ## to ~/BOINCCodeSignIdentities.txt with the installer code signing identity.
 ##
-## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper
 ## with default settings to allow running downloaded applications under OS 10.8
 ## Although code signing the installer application is sufficient to satisfy
 ## GateKeeper, OS X's software firewall can interfere with RPCs between the
@@ -451,7 +451,7 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
 
     # Code Sign the setprojectgrp utility if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/switcher/setprojectgrp"
-    
+
     # Code Sign the boincscr graphics app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/boincscr"
 
@@ -554,7 +554,7 @@ if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
     else
         productbuild --quiet --resources "../Installer Resources" --version "BOINC Manager $1.$2.$3 + VirtualBox 4.3.12" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
     fi
-    
+
     cd "${BOINCPath}"
 fi
 
@@ -584,10 +584,10 @@ sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_
 cp -fpRL "${BUILDPATH}/boinc.dSYM" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 cp -fpRL "${BUILDPATH}/BOINCManager.app.dSYM" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
-## If you wish to code sign the installer and uninstaller, create a file 
+## If you wish to code sign the installer and uninstaller, create a file
 ## ~/BOINCCodeSignIdentities.txt whose first line is the code signing identity
 ##
-## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper
 ## with default settings to allow running downloaded applications under OS 10.8
 if [ -n "${APPSIGNINGIDENTITY}" ]; then
     # Code Sign the BOINC installer application if we have a signing identity
@@ -618,7 +618,7 @@ cd ../BOINC_Installer/New_Release_$1_$2_$3
 ## can delete it after inflating, modifying installer name and recompressing it.
 sudo chmod -R u+w ./boinc_$1.$2.$3_macOSX_$arch
 
-## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
+## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension)
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_$arch boinc_$1.$2.$3_macOSX_$arch.zip
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_SymbolTables boinc_$1.$2.$3_macOSX_SymbolTables.zip
 if [ -d boinc_$1.$2.$3_macOSX_${arch}_vbox ]; then

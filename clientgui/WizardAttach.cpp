@@ -57,36 +57,36 @@
 /*!
  * CWizardAttach type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CWizardAttach, CBOINCBaseWizard )
- 
+
 /*!
  * CWizardAttach event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CWizardAttach, CBOINCBaseWizard )
 ////@begin CWizardAttach event table entries
     EVT_WIZARDEX_FINISHED( ID_ATTACHWIZARD, CWizardAttach::OnFinished )
 ////@end CWizardAttach event table entries
 END_EVENT_TABLE()
- 
+
 /*!
  * CWizardAttach constructors
  */
- 
+
 CWizardAttach::CWizardAttach()
 {
 }
- 
-CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style ) 
+
+CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style )
 {
     Create(parent, id, title, pos, style);
 }
- 
+
 /*!
  * CWizardAttach creator
  */
- 
+
 bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* title */, const wxPoint& pos, long style )
 {
 
@@ -111,10 +111,10 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_ErrProxyPage = NULL;
     m_ErrUserDisagreesPage = NULL;
 ////@end CWizardAttach member initialisation
-  
+
     // Cancel Checking
     m_bCancelInProgress = false;
- 
+
     // Wizard Detection
 
     IsAttachToProjectWizard = true;
@@ -169,9 +169,9 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
  */
 
 void CWizardAttach::CreateControls()
-{    
+{
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttach::CreateControls - Function Begin"));
- 
+
 ////@begin CWizardAttach content construction
     CWizardAttach* itemWizard1 = this;
 
@@ -251,14 +251,14 @@ void CWizardAttach::CreateControls()
 
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttach::CreateControls - Function End"));
 }
- 
+
 /*!
  * Runs the wizard.
  */
 bool CWizardAttach::Run(
         wxString strProjectName,
         wxString strProjectURL,
-        wxString strProjectAuthenticator, 
+        wxString strProjectAuthenticator,
         wxString strProjectInstitution,
         wxString strProjectDescription,
         wxString strProjectKnown,
@@ -318,10 +318,10 @@ bool CWizardAttach::SyncToAccountManager() {
     } else {
         SetTitle(pSkinAdvanced->GetApplicationName());
     }
- 
+
     IsAttachToProjectWizard = false;
     IsAccountManagerWizard = true;
-    
+
 
     pDoc->rpc.acct_mgr_info(ami);
 
@@ -351,16 +351,16 @@ bool CWizardAttach::SyncToAccountManager() {
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CWizardAttach::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CWizardAttach::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -368,11 +368,11 @@ wxBitmap CWizardAttach::GetBitmapResource( const wxString& WXUNUSED(name) )
     return wxNullBitmap;
 ////@end CWizardAttach bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CWizardAttach::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -380,7 +380,7 @@ wxIcon CWizardAttach::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CWizardAttach icon retrieval
 }
- 
+
 /*!
  * Determine if the wizard page has a next page
  */
@@ -395,16 +395,16 @@ bool CWizardAttach::HasNextPage( wxWizardPageEx* page )
     bNoNextPageDetected |= (page == m_ErrUnavailablePage);
     bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
     bNoNextPageDetected |= (page == m_ErrAlreadyExistsPage);
-    
+
     if (bNoNextPageDetected)
         return false;
     return true;
 }
-  
+
 /*!
  * Determine if the wizard page has a previous page
  */
- 
+
 bool CWizardAttach::HasPrevPage( wxWizardPageEx* page )
 {
     bool bNoPrevPageDetected = false;
@@ -429,55 +429,55 @@ wxWizardPageEx* CWizardAttach::TranslatePage(unsigned long ulPageID) {
 
     if (ID_PROJECTINFOPAGE == ulPageID)
         pPage = m_ProjectInfoPage;
- 
+
     if (ID_PROJECTPROPERTIESPAGE == ulPageID)
         pPage = m_ProjectPropertiesPage;
- 
+
     if (ID_PROJECTPROCESSINGPAGE == ulPageID)
         pPage = m_ProjectProcessingPage;
- 
+
     if (ID_PROJECTWELCOMEPAGE == ulPageID)
         pPage = m_ProjectWelcomePage;
- 
+
     if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
         pPage = m_AccountManagerInfoPage;
- 
+
     if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
         pPage = m_AccountManagerPropertiesPage;
- 
+
     if (ID_ACCOUNTMANAGERPROCESSINGPAGE == ulPageID)
         pPage = m_AccountManagerProcessingPage;
- 
+
     if (ID_TERMSOFUSEPAGE == ulPageID)
         pPage = m_TermsOfUsePage;
- 
+
     if (ID_ACCOUNTINFOPAGE == ulPageID)
         pPage = m_AccountInfoPage;
- 
+
     if (ID_COMPLETIONPAGE == ulPageID)
         pPage = m_CompletionPage;
- 
+
     if (ID_COMPLETIONERRORPAGE == ulPageID)
         pPage = m_CompletionErrorPage;
- 
+
     if (ID_ERRNOTDETECTEDPAGE == ulPageID)
         pPage = m_ErrNotDetectedPage;
- 
+
     if (ID_ERRUNAVAILABLEPAGE == ulPageID)
         pPage = m_ErrUnavailablePage;
- 
+
     if (ID_ERRNOINTERNETCONNECTIONPAGE == ulPageID)
         pPage = m_ErrNoInternetConnectionPage;
- 
+
     if (ID_ERRNOTFOUNDPAGE == ulPageID)
         pPage = m_ErrNotFoundPage;
- 
+
     if (ID_ERRALREADYEXISTSPAGE == ulPageID)
         pPage = m_ErrAlreadyExistsPage;
- 
+
     if (ID_ERRPROXYINFOPAGE == ulPageID)
         pPage = m_ErrProxyInfoPage;
- 
+
     if (ID_ERRPROXYPAGE == ulPageID)
         pPage = m_ErrProxyPage;
 
@@ -569,7 +569,7 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     m_bCancelInProgress = true;
 
     int iRetVal = wxGetApp().SafeMessageBox(
-        _("Do you really want to cancel?"), 
+        _("Do you really want to cancel?"),
         _("Question"),
         wxICON_QUESTION | wxYES_NO,
         this

@@ -81,7 +81,7 @@ class SimpleReplyParser : BaseParser() {
             } catch (e: SAXException) {
                 Logging.logException(Logging.Category.RPC, "SimpleReplyParser: malformed XML ", e)
                 Logging.logDebug(Logging.Category.XML, "SimpleReplyParser: $reply")
-                
+
                 null
             }
         }

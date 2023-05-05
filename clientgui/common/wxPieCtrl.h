@@ -87,9 +87,9 @@ protected:
     wxScrollBar* m_scrollBar;
     int m_Scrollbar_width;
     int m_firstlabelToDraw;
-    
+
 	//internal methods
-	void GetPartAngles(wxArrayDouble & angles);	
+	void GetPartAngles(wxArrayDouble & angles);
 	void RecreateCanvas();
 	int GetCoveredPiePart(int x,int y);
 	void DrawParts(wxRect& pieRect);
@@ -103,7 +103,7 @@ public:
 		wxSize sz = wxDefaultSize, long style = 0, wxString name = wxT("wxPieCtrl"));
 
         ~wxPieCtrl();
-        
+
 	wxColour GetBackColour();
 	void SetBackColour(wxColour colour);
 
@@ -140,7 +140,7 @@ public:
 	void SetLegendBackColour(wxColour colour);
 
 	void SetLabel(const wxString& label);
-	
+
 
 	DECLARE_EVENT_TABLE()
 	void OnPaint(wxPaintEvent & event);
@@ -148,13 +148,13 @@ public:
 	void OnMouseMove(wxMouseEvent& ev);
 	void OnEraseBackground(wxEraseEvent & /*event*/);
 	void OnLegendScroll(wxScrollEvent& event);
-    
+
 #ifdef __WXMAC__
 private:
     void                    SetupMacAccessibilitySupport();
     void                    ResizeMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
-    
+
     void*                   m_fauxResourcesView;
 #endif
 

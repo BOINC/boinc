@@ -83,7 +83,7 @@ function formatting_as_bb($text){
 }
 
 function html_to_bbcode($text) {
-    $text = sanitize_html($text);    
+    $text = sanitize_html($text);
     $text = image_as_bb($text);
     $text = link_as_bb($text);
     $text = formatting_as_bb($text);

@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-extern int xwin_glut_is_initialized();  
+extern int xwin_glut_is_initialized();
 
 #ifdef __APPLE__
 extern void MacGLUTFix(bool isScreenSaver);

@@ -21,7 +21,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#else 
+#else
 #include <signal.h>
 #ifdef __cplusplus
 #include <cassert>
@@ -190,8 +190,8 @@ typedef struct {
 
 
 typedef ssize_t (*unwind_backtrace_signal_arch_t)(
-        siginfo_t *, void *, const map_info_t *, backtrace_frame_t *, 
-        size_t , size_t 
+        siginfo_t *, void *, const map_info_t *, backtrace_frame_t *,
+        size_t , size_t
     );
 extern unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
 
@@ -207,7 +207,7 @@ typedef void (*get_backtrace_symbols_t)(
 extern get_backtrace_symbols_t get_backtrace_symbols;
 
 typedef void (*free_backtrace_symbols_t)(backtrace_symbol_t* symbols,
-size_t frames);    
+size_t frames);
 extern free_backtrace_symbols_t free_backtrace_symbols;
 
 typedef symbol_table_t *(*load_symbol_table_t)(const char *);
@@ -280,7 +280,7 @@ extern format_backtrace_line_t format_backtrace_line;
 
 #else  // _DEBUG
 
-#define BOINCASSERT(expr)         
+#define BOINCASSERT(expr)
 #ifndef IRIX
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 #define BOINCTRACE
@@ -304,7 +304,7 @@ extern format_backtrace_line_t format_backtrace_line;
 #endif
 
 #ifndef BOINCTRACE
-#define BOINCTRACE			
+#define BOINCTRACE
 #endif
 
 #ifndef BOINCINFO

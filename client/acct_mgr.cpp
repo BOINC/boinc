@@ -185,7 +185,7 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             p->disk_usage,
             p->disk_share
         );
-        
+
         // send work and starvation-related info
         //
         if (ami.dynamic) {

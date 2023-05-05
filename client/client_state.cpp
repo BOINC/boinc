@@ -363,7 +363,7 @@ void CLIENT_STATE::set_now() {
 #ifdef _WIN32
     // On Win, check for evidence that we're awake after a suspension
     // (in case we missed the event announcing this)
-    // 
+    //
     if (os_requested_suspend) {
         if (x > now+10) {
             msg_printf(0, MSG_INFO, "Resuming after OS suspension");
@@ -584,9 +584,9 @@ int CLIENT_STATE::init() {
         }
     }
     coprocs.add_other_coproc_types();
-    
+
     host_info.coprocs = coprocs;
-    
+
     if (coprocs.none() ) {
         msg_printf(NULL, MSG_INFO, "No usable GPUs found");
     }
@@ -812,7 +812,7 @@ int CLIENT_STATE::init() {
 #endif
 
     http_ops->cleanup_temp_files();
-    
+
     // must parse env vars after parsing state file
     // otherwise items will get overwritten with state file info
     //

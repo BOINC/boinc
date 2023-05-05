@@ -60,7 +60,7 @@ fi
 
 if [ -n "$COMPILEBOINC" ]; then
     cd "$BOINC"
-    echo "===== building BOINC for arm from $PWD ====="    
+    echo "===== building BOINC for arm from $PWD ====="
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         if [ "$VERBOSE" = "no" ]; then
             make distclean 1>$STDOUT_TARGET 2>&1

@@ -16,13 +16,13 @@ Want to connect with contributors?
   * The BOINC Contributor call occurs every other week and is announced on the [BOINC Development email list](https://groups.google.com/a/ssl.berkeley.edu/forum/#!forum/boinc_dev)
 
 ### Promote Volunteer Computing
-Want to help promote volunteer computing and work on ways to attract new users? Join the #communications channel on [Slack](https://join.slack.com/t/boincworkspace/shared_invite/enQtNzA3MTQ4NDA0Njc4LTM4NTEyZTY1MWEwZjAyNTVmOTg3NDA2NjVjZDQzMWQ3NmFjYTc4MTNkNTEyNjRkOTQ4MWU5Nzk3NzRhNTg0NDI)  
+Want to help promote volunteer computing and work on ways to attract new users? Join the #communications channel on [Slack](https://join.slack.com/t/boincworkspace/shared_invite/enQtNzA3MTQ4NDA0Njc4LTM4NTEyZTY1MWEwZjAyNTVmOTg3NDA2NjVjZDQzMWQ3NmFjYTc4MTNkNTEyNjRkOTQ4MWU5Nzk3NzRhNTg0NDI)
 
 ### Help Translate
 See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
 
 ### Help Test
-You can help new versions of the client.  
+You can help new versions of the client.
 * Become an [Alpha Tester](https://boinc.berkeley.edu/trac/wiki/AlphaInstructions)
 * Signup to be a [BOINC Android Tester](https://groups.google.com/forum/#!forum/boinc-android-testing)
 

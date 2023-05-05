@@ -57,7 +57,7 @@
 // all columns.
 //
 // For now, show all columns by default
-static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_FILE, COLUMN_PROGRESS, 
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_FILE, COLUMN_PROGRESS,
                                 COLUMN_SIZE, COLUMN_TIME, COLUMN_TOCOMPLETION, COLUMN_SPEED,
                                 COLUMN_STATUS};
 
@@ -94,7 +94,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
-// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// We currently handle EVT_LIST_CACHE_HINT on Windows or
 // EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
 // or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
 #if USE_LIST_CACHE_HINT
@@ -202,14 +202,14 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 	pItem = new CTaskItem(
         _("Retry Now"),
         _("Retry the file transfer now"),
-        ID_TASK_TRANSFERS_RETRYNOW 
+        ID_TASK_TRANSFERS_RETRYNOW
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Abort Transfer"),
         _("Abort this file transfer.  You won't get credit for the task."),
-        ID_TASK_TRANSFERS_ABORT 
+        ID_TASK_TRANSFERS_ABORT
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -331,7 +331,7 @@ int CViewTransfers::GetViewCurrentViewPage() {
 
 wxString CViewTransfers::GetKeyValue1(int iRowIndex) {
     CTransfer*  transfer;
-    
+
     if (GetTransferCacheAtIndex(transfer, m_iSortedIndexes[iRowIndex])) {
         return wxEmptyString;
     }
@@ -347,11 +347,11 @@ wxString CViewTransfers::GetKeyValue1(int iRowIndex) {
 
 wxString CViewTransfers::GetKeyValue2(int iRowIndex) {
     CTransfer*  transfer;
-    
+
     if (GetTransferCacheAtIndex(transfer, m_iSortedIndexes[iRowIndex])) {
         return wxEmptyString;
     }
-    
+
     if (m_iColumnIDToColumnIndex[COLUMN_PROJECT] < 0) {
         // Column is hidden, so SynchronizeCacheItem() did not set its value
         GetDocProjectURL(m_iSortedIndexes[iRowIndex], transfer->m_strProjectURL);
@@ -408,7 +408,7 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         pDoc->TransferRetryNow(m_iSortedIndexes[row]);
     }
 
@@ -423,7 +423,7 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
 void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function Begin"));
 
-    wxInt32         iAnswer    = 0; 
+    wxInt32         iAnswer    = 0;
     wxString        strMessage = wxEmptyString;
     CMainDocument*  pDoc       = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame     = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -444,13 +444,13 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         if (GetTransferCacheAtIndex(pTransfer, m_iSortedIndexes[row])) {
             return;
         }
 
         strMessage.Printf(
-            _("Are you sure you want to abort this file transfer '%s'?\nNOTE: Aborting a transfer will invalidate a task and you\nwill not receive credit for it."), 
+            _("Are you sure you want to abort this file transfer '%s'?\nNOTE: Aborting a transfer will invalidate a task and you\nwill not receive credit for it."),
             pTransfer->m_strFileName.c_str()
         );
 
@@ -465,7 +465,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
             pDoc->TransferAbort(m_iSortedIndexes[row]);
         }
     }
-    
+
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -509,8 +509,8 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
             strBuffer = transfer->m_strFileName;
             break;
         case COLUMN_PROGRESS:
-            // CBOINCListCtrl::DrawProgressBars() will draw this using 
-            // data provided by GetProgressText() and GetProgressValue(), 
+            // CBOINCListCtrl::DrawProgressBars() will draw this using
+            // data provided by GetProgressText() and GetProgressValue(),
             // but we need it here for accessibility programs.
             strBuffer = transfer->m_strProgress;
             break;
@@ -640,7 +640,7 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
         case COLUMN_SIZE:
             GetDocBytesXferred(m_iSortedIndexes[iRowIndex], fDocumentDouble);
             GetDocTotalBytes(m_iSortedIndexes[iRowIndex], fDocumentDouble2);
-            if (( fDocumentDouble != transfer->m_fBytesXferred) || 
+            if (( fDocumentDouble != transfer->m_fBytesXferred) ||
                 (fDocumentDouble2 != transfer->m_fTotalBytes)
                 ) {
                 transfer->m_fBytesXferred = fDocumentDouble;
@@ -689,7 +689,7 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
 void CViewTransfers::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -705,7 +705,7 @@ void CViewTransfers::GetDocProjectName(wxInt32 item, wxString& strBuffer) const 
 void CViewTransfers::GetDocFileName(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -723,7 +723,7 @@ void CViewTransfers::GetDocProgress(wxInt32 item, double& fBuffer) const {
     double          fFileSize = 0;
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -756,7 +756,7 @@ wxInt32 CViewTransfers::FormatProgress(double fBuffer, wxString& strBuffer) cons
 void CViewTransfers::GetDocBytesXferred(wxInt32 item, double& fBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -772,7 +772,7 @@ void CViewTransfers::GetDocBytesXferred(wxInt32 item, double& fBuffer) const {
 void CViewTransfers::GetDocTotalBytes(wxInt32 item, double& fBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -824,7 +824,7 @@ wxInt32 CViewTransfers::FormatSize(double fBytesSent, double fFileSize, wxString
 void CViewTransfers::GetDocTime(wxInt32 item, double& fBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -855,7 +855,7 @@ void CViewTransfers::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const
 void CViewTransfers::GetDocSpeed(wxInt32 item, double& fBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -881,7 +881,7 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     int retval;
     strBuffer = wxString("", wxConvUTF8);
-    
+
     transfer = pDoc->file_transfer(item);
     if (!transfer) return;
     CC_STATUS      status;
@@ -925,7 +925,7 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
 void CViewTransfers::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(item);
     }
@@ -943,7 +943,7 @@ double CViewTransfers::GetProgressValue(long item) {
     double          fFileSize = 0;
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         transfer = pDoc->file_transfer(m_iSortedIndexes[item]);
     }
@@ -961,7 +961,7 @@ double CViewTransfers::GetProgressValue(long item) {
     }
 
     if ( 0.0 == fFileSize ) return 0.0;
-    
+
     return (fBytesSent / fFileSize);
 }
 
@@ -985,7 +985,7 @@ int CViewTransfers::GetTransferCacheAtIndex(CTransfer*& transferPtr, int index) 
         transferPtr = NULL;
         return -1;
     }
-    
+
     return 0;
 }
 

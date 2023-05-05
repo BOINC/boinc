@@ -1,4 +1,4 @@
-import sys, time 
+import sys, time
 
 CRITICAL=0
 NORMAL=1

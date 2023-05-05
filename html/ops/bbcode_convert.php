@@ -46,12 +46,12 @@ function fix_posts() {
     echo _mysql_error();
     $i=0;
     while ($post = _mysql_fetch_object($posts)){
-        $i++; 
+        $i++;
         if ($i%100 == 0) {                      //For every 100 posts
             echo $post->id.". "; flush();   // print out where we are
             //usleep(200000);
         }
-        
+
         if ($post->id > $start_id){
             fix_post($post);
         }

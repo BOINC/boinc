@@ -156,7 +156,7 @@ create table team (
     joinable                tinyint         not null default 1,
     mod_time                timestamp default current_timestamp on update current_timestamp,
     primary key (id)
-) engine=InnoDB;  
+) engine=InnoDB;
 
 create table host (
     id                      integer         not null auto_increment,
@@ -588,7 +588,7 @@ create table forum_preferences (
         -- 2 = digest email
     highlight_special       tinyint         not null default 1,
     primary key (userid)
-) engine=InnoDB; 
+) engine=InnoDB;
 
 -- keep track of last time a user read a thread
 create table forum_logging (

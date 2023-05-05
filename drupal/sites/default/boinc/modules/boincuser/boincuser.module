@@ -21,7 +21,7 @@ require_once('includes/boincuser.rules.inc');
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
  * Implementation of hook_menu(); determine the actions that correspond
  * with defined URL paths
@@ -180,7 +180,7 @@ function boincuser_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincuser.admin.inc'
   );
-  
+
   $items['create_account.php'] = array(
     'title' => 'Create Account RPC',
     'description' => 'RPC for creating user accounts.',
@@ -235,10 +235,10 @@ function boincuser_init() {
     boinc_get_path();
     boinc_get_scheduler_tags();
   }
-  
+
   // Check credits for the verified contributor role
   boincuser_check_credit_requirements();
-  
+
   if (module_exists('boincteam')) {
     // Display any persistent team messages
     boincteam_show_messages();
@@ -320,7 +320,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           name,
           authenticator,
           passwd_hash,
-          total_credit, 
+          total_credit,
           expavg_credit,
           expavg_time,
           cross_project_id,
@@ -368,7 +368,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         $account->uid, $account->uid
       ));
       break;
-      
+
     case 'view':
       // SAMPLE: Add BOINC data to the user profile
       /*$account->content['summary']['boinc_id'] = array(
@@ -386,7 +386,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         '#weight' => 10
       );*/
       break;
-      
+
     case 'validate':
       if (isset($edit['validation_source'])) {
         switch ($edit['validation_source']) {
@@ -394,27 +394,27 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
           // Validate data before updating user account info
           boincuser_account_validate($edit, $account);
           break;
-        
+
         default:
-          
+
         }
         // We don't want to save validation source, so remove it
         $edit['validation_source'] = null;
       }
       break;
-      
+
     case 'insert':
       // New user being added to the system
       $imported = $_SESSION['importedUser'];
       unset($_SESSION['importedUser']);
-      
+
       watchdog(
         'boincuser',
         'Creating user account for %email_addr',
         array('%email_addr' => $edit['mail']),
         WATCHDOG_NOTICE
       );
-      
+
       // The create_acount RPC will call this block of code when
       // user_save() is used. If user is registering using the Web
       // registration form, create a BOINC user and relationships.
@@ -458,7 +458,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         }
 
         // Add user to community role by default (not banned)
-        $unrestricted_role = array_search('community member', user_roles(true)); 
+        $unrestricted_role = array_search('community member', user_roles(true));
         $edit['roles'] = array(
           $unrestricted_role => ''
         );
@@ -490,7 +490,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         }
       }
       break;
-      
+
     case 'update':
       if (isset($edit['update_source'])) {
         require_boinc('boinc_db');
@@ -572,7 +572,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       break;
 
     default:
-      
+
     }
   }
 }
@@ -595,7 +595,7 @@ function boincuser_user_login(&$edit, $account) {
   }
 
   // Check if user has agreed to terms of use.
-  if ( (!empty($termsofuse)) and ($account->uid) and 
+  if ( (!empty($termsofuse)) and ($account->uid) and
        (!boincuser_check_termsofuse($account)) and ($existinguser_tou) ) {
 
     // Admins are exempted.
@@ -692,9 +692,9 @@ function boincuser_node_update($node) {
       drupal_set_message(t('Error saving BOINC profile.'), 'error');
     }
     break;
-    
+
   default:
-    
+
   }
 }
 
@@ -722,26 +722,26 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $action = arg(2);
     $flag_type = arg(3);
     $cancel_dest = isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '';
-    
+
     // Wrap action buttons for styling consistency
     $form['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
       '#weight' => 1001,
     );
-    
+
     switch ($flag_type) {
     case 'friend':
       $friend_id = $form['content_id']['#value'];
       $flag = flag_get_flag('friend');
       $friend_status = flag_friend_determine_friend_status($flag, $friend_id, $user->uid);
-      
+
       // General friend form overrides
       $form['flag_friend_submit']['#prefix'] = '<li class="first tab">';
       $form['flag_friend_submit']['#value'] = bts('Send request', array(), NULL, 'boinc:friends-page');
       $form['flag_friend_submit']['#type'] = 'submit';
       $form['flag_friend_submit']['#suffix'] = '</li>';
       $form['flag_friend_submit']['#weight'] = 1002;
-      
+
       switch ($friend_status) {
       case FLAG_FRIEND_BOTH:
       case FLAG_FRIEND_FLAGGED:
@@ -773,10 +773,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         );
       }
       break;
-      
+
     default:
     }
-    
+
     $form['cancel'] = array(
       '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $cancel_dest) . '</li>',
       '#weight' => 1004,
@@ -785,16 +785,16 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
-    
+
     break;
-    
+
   // General node edit form
   case 'news_node_form':
     $form['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
     );
-    
+
     // Wrap action buttons for styling consistency
     $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -821,18 +821,18 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
-    
+
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
 
     break;
-  
+
   case 'node_delete_confirm':
     $form['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
     );
-    
+
     // Wrap action buttons for styling consistency
     $form['actions']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -852,11 +852,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     );
     $form['#redirect'] = 'account/profile';
     break;
-    
+
   case 'privatemsg_new':
-    
+
     $form['privatemsg']['body']['#title'] = '';
-    
+
     // Wrap action buttons for styling consistency
     $form['privatemsg']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -877,11 +877,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
-    
+
     unset($form['privatemsg']['recipient_display']);
-    
+
     break;
-    
+
   // Login form
   case 'user_login':
   case 'user_login_block':
@@ -904,7 +904,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       )
     ));
     $form['#redirect'] = 'home';
-    
+
     // Wrap action buttons for styling consistency
     $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -920,7 +920,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1010,
     );
     unset($form['submit']);
-    
+
     // Set the tab indices to follow a logical procession...
     isset($form['pass']['#attributes']) ? array_push($form['pass']['#attributes'], array('tabindex' => '2')) : $form['pass']['#attributes'] = array('tabindex' => '2');
     isset($form['buttons']['submit']['#attributes']) ? array_push($form['buttons']['submit']['#attributes'], array('tabindex' => '3')) : $form['buttons']['submit']['#attributes'] = array('tabindex' => '3');
@@ -940,14 +940,14 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       }
     }
     break;
-    
+
   // User credentials form
   case 'user_profile_form':
 
     // Use the displaly name as the title, not the username
     $account = user_load($form['#uid']);
     drupal_set_title($account->boincuser_name);
-    
+
     // Message for admins
     if (user_access('administer users')) {
       drupal_set_message(
@@ -1022,7 +1022,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         ),
       );
     }
-    
+
     // Add account keys, CPID, etc
     $form['account']['boincuser_id'] = array(
       '#value' => '
@@ -1059,11 +1059,11 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
           <span>' . $account->boincuser_cpid . '</span>
         </div>',
     );
-    
+
     $form['account']['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>'
     );
-    
+
     // Wrap action buttons for styling consistency
     $form['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -1086,7 +1086,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
-    
+
     // Rearrange form elements
     $form['account']['name']['#weight'] = -2;
     $form['account']['boincuser_name']['#weight'] = -1;
@@ -1100,13 +1100,13 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['account']['cpid']['#weight'] = 65;
     $form['account']['separator_bottom']['#weight'] = 1000;
     $form['account']['current_pass']['#weight'] = 1001;
-    
+
     // Remove redundant / unnecessary form elements
     unset($form['theme_select']);
     if (!module_exists('boincuser_delete')) {
       unset($form['delete']);
     }
-    
+
     // These are on the Community preferences form (boincwork module)
     unset($form['enable_pm_mail']);
     unset($form['friend_notification']);
@@ -1114,10 +1114,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     unset($form['signature_settings']);
     unset($form['timezone']);
     unset($form['wysiwyg']);
-    
+
     // Built-in picture support is not used
     unset($form['picture']);
-    
+
     // Internal fields to indicate where these user changes are taking place
     array_unshift($form, array(
       'validation_source' => array(
@@ -1130,9 +1130,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       )
     ));
     break;
-    
+
   case 'profile_node_form':
-    
+
     // Use the display name as the title, not the username
     $account = user_load($form['uid']['#value']);
     drupal_set_title($account->boincuser_name);
@@ -1145,7 +1145,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
     );
-    
+
     if (module_exists('captcha')) {
       // Add an optional captcha
       $form['profile_captcha'] = array(
@@ -1153,7 +1153,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#weight' => 1000,
       );
     }
-    
+
     // Wrap action buttons for styling consistency
     $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -1182,15 +1182,15 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
-    
+
     $form['#after_build'][] = 'boincuser_profile_node_form_after_build';
-    
+
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
-    
+
     unset($form['body_field']);
     $form['#redirect'] = 'account/profile';
-    
+
     // Internal fields to indicate where these user changes are taking place
     array_unshift($form, array(
       'validation_source' => array(
@@ -1203,16 +1203,16 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       )
     ));
     break;
-  
+
   // Registration form
   case 'user_register':
     array_unshift($form, array(
       'boincuser_name' => array(
-        '#type' => 'textfield', 
-        '#title' => bts('Name', array(), NULL, 'boinc:user-or-team-name'), 
-        '#default_value' => $edit['boincuser_name'], 
-        '#maxlength' => USERNAME_MAX_LENGTH, 
-        '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.', array(), NULL, 'boinc:user-register'), 
+        '#type' => 'textfield',
+        '#title' => bts('Name', array(), NULL, 'boinc:user-or-team-name'),
+        '#default_value' => $edit['boincuser_name'],
+        '#maxlength' => USERNAME_MAX_LENGTH,
+        '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.', array(), NULL, 'boinc:user-register'),
         '#required' => TRUE
       ),
     ));
@@ -1274,12 +1274,12 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#weight' => 1000,
       );
     }
-    
+
     $form['#validate'][] = 'boincuser_register_validate';
 
     $form['submit']['#weight'] = 1001;
     break;
-    
+
   // Request new password form
   case 'user_pass':
     drupal_set_title(bts('Forgot password', array(), NULL, 'boinc:forgot-password'));
@@ -1304,7 +1304,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         , NULL, 'boinc:forgot-password'),
       ),
     ));
-    
+
     if (module_exists('captcha')) {
       // Add an optional captcha
       $form['register_captcha'] = array(
@@ -1334,14 +1334,14 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1010,
     );
     unset($form['submit']);
-    
+
     // If the form is being submitted, use BOINC validation handler.
     if (isset($form_state['post']['name'])) {
       // Prepend the BOINC validation function to local validation
       array_unshift($form['#validate'], 'boincuser_request_pass_validate');
     }
     break;
-    
+
   case 'views_exposed_form':
       $form['submit']['#value'] = bts('Search', array(), NULL, 'boinc:search-user');
     break;
@@ -1430,13 +1430,13 @@ function boincuser_views_pre_execute(&$view) {
         node.title AS node_title,
         node_revisions.body AS node_revisions_body,
         node_revisions.timestamp AS node_revisions_timestamp
-      FROM node_revisions node_revisions 
+      FROM node_revisions node_revisions
       LEFT JOIN node node ON node_revisions.nid = node.nid
       INNER JOIN users users ON node.uid = users.uid
       WHERE (node.type in ('forum', 'news', 'page', 'story')) AND (node.status = 1) AND (node.uid = {$account_id} )
-      
+
       UNION
-      
+
       SELECT comments.cid AS cid,
         node_comments.nid AS node_comments_nid,
         users_comments.uid AS users_comments_uid,
@@ -1449,7 +1449,7 @@ function boincuser_views_pre_execute(&$view) {
       INNER JOIN users users_comments ON comments.uid = users_comments.uid
       WHERE (node_comments.status = 1) AND (users_comments.uid = {$account_id} )
       ORDER BY node_revisions_timestamp DESC";
-    
+
     // count_query determines the pager.  Do this so the right item count is returned.
     $view->build_info['count_query'] = $view->build_info['query'];
   }
@@ -1704,10 +1704,10 @@ function boincuser_create_account() {
     'user_name' => isset($_GET['user_name']) ? $_GET['user_name'] : '',
     'passwd_hash' => isset($_GET['passwd_hash']) ? $_GET['passwd_hash'] : ''
   );
-  
+
   // Begin output
   xml_header();
-  
+
   // Account creation disabled
   $enablethisRPC = variable_get('boinc_weboptions_enableaccountcreateRPC', TRUE);
   if (!$enablethisRPC) {
@@ -1718,7 +1718,7 @@ function boincuser_create_account() {
     xml_error(-208, $mess);
   }
   // Invalid invite code
-  
+
   // Validate input
   if (user_validate_mail($params['email_addr']) or !is_valid_email_addr($params['email_addr'])) {
     xml_error(-205);
@@ -1732,7 +1732,7 @@ function boincuser_create_account() {
   if (strlen($params['passwd_hash']) != 32) {
     xml_error(-1, 'password hash length not 32');
   }
-  
+
   // Process input
   // Check this email against previous email addresses.
   $tmpuser = BoincUser::lookup_prev_email_addr($params['email_addr']);
@@ -2083,13 +2083,13 @@ function boincuser_moderate_user_ban($uid, $reason = '', $duration = '') {
         'penalty_expiration' => $penalty_expiration,
       );
       drupal_write_record('boincuser', $boincuser_record, 'uid');
-      
+
       $community_role = array_search('community member', user_roles(true));
       if (isset($account->roles[$community_role])) {
         unset($account->roles[$community_role]);
         user_save($account, array('roles' => $account->roles));
       }
-      
+
       global $user;
       global $base_url;
       global $base_path;
@@ -2139,9 +2139,9 @@ function boincuser_get_weak_auth($boinc_id = null) {
     $account = user_load($user->uid);
     $boinc_id = $account->boincuser_id;
   }
-  
+
   $boinc_user = boincuser_load($account->boincuser_id);
-  
+
   return weak_auth($boinc_user);
 }
 
@@ -2196,7 +2196,7 @@ function boincuser_get_projects_table($account = null) {
   }
   $projects = boincuser_get_projects($account);
   if (!$projects) return bts('no projects...', array(), NULL, 'boinc:account-dashboard');
-  
+
   $output = '';
   $output .= '<table class="user-projects">' . "\n";
   $output .= '<thead>' . "\n";
@@ -2211,7 +2211,7 @@ function boincuser_get_projects_table($account = null) {
     $url = rtrim($project->url, '/') . '/show_user.php?userid=' . $project->id;
     $output .= '  <tr>' . "\n";
     $output .= '    <td>' . l($project->name, $url) . '</td>' . "\n";
-    $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->expavg_credit) . '</td>' . "\n"; 
+    $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->expavg_credit) . '</td>' . "\n";
     $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->total_credit) . '</td>' . "\n";
     $output .= '  </tr>' . "\n";
   }
@@ -2226,11 +2226,11 @@ function boincuser_get_projects_table($account = null) {
  * Make an RPC call to the stats server and retreive user data
  */
 function boincuser_get_stats_user_data($cpid = null) {
-  
+
   // [TODO] Set this stuff in site config!
   $stats_server = 'stats.gridrepublic.org';
   $stats_rpc = 'rpc/get_user.php';
-  
+
   // Construct query string
   $get = array(
     'cpid' => $cpid
@@ -2238,7 +2238,7 @@ function boincuser_get_stats_user_data($cpid = null) {
   $args = array();
   foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
   $query = '?' . implode('&', $args);
-  
+
   // Load XML from RPC
   $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
   $result = drupal_http_request($target_url);
@@ -2252,15 +2252,15 @@ function boincuser_get_stats_user_data($cpid = null) {
  * Get the list of all BOINC projects of a user
  */
 function boincuser_get_projects($account = null) {
-  
+
   // Use the current user by default
   if (!$account) {
     global $user;
     $account = user_load($user->uid);
   }
-  
+
   $account_stats = boincuser_get_stats_user_data($account->boincuser_cpid);
-  
+
   return ($account_stats AND isset($account_stats->project)) ? $account_stats->project : null;
 }
 
@@ -2279,7 +2279,7 @@ function boincuser_get_profile_links($uid) {
     $is_own_profile = ($user->uid == $account->uid);
     $profile_moderation_path = "moderate/profile/{$account->uid}";
     $links = array();
-    
+
     if ($profile->moderate AND $user_is_moderator) {
       $links['approve_profile'] = array(
         'title' => bts('Approve profile', array(), NULL, 'boinc:moderate-user'),
@@ -2333,7 +2333,7 @@ function boincuser_get_profile_links($uid) {
 */
 }
 
-/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Call backs for apachesolr
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
@@ -2342,7 +2342,7 @@ function boincuser_get_profile_links($uid) {
  *
  * This function modifies the Apache Solr Document to use the user's
  * join date as the "ds_create" timestamp.
- * 
+ *
  * @param array $documents
  *   Array of ApacheSolrDocument which are to be indexed
  * @param string $entity
@@ -2378,8 +2378,8 @@ function boincuser_apachesolr_index_documents_alter(array &$documents, $entity, 
       $document->bundle = "User";
       $document->bundle_name = "User";
 
-      // Replace the Solr document's created field with the date the user 
-      // account was created. This replaces the node creation date typically 
+      // Replace the Solr document's created field with the date the user
+      // account was created. This replaces the node creation date typically
       // used for indexing nodes.
       $document->ds_created = apachesolr_date_iso($account->created);
     }

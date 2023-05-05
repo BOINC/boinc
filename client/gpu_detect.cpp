@@ -155,13 +155,13 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
 #endif
     try {
         ati.get(warnings);
-    } 
+    }
     catch (...) {
         gpu_warning(warnings, "Caught SIGSEGV in ATI GPU detection");
     }
     try {
         intel_gpu.get(warnings);
-    } 
+    }
     catch (...) {
         gpu_warning(warnings, "Caught SIGSEGV in INTEL GPU detection");
     }
@@ -179,7 +179,7 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
     } else {
         nvidia.get(warnings);
     }
-    
+
 
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
     if (setjmp(resume)) {
@@ -224,7 +224,7 @@ void COPROCS::correlate_gpus(
     intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
     correlate_opencl(use_all, ignore_gpu_instance);
 
-    // NOTE: OpenCL can report a max of only 4GB.  
+    // NOTE: OpenCL can report a max of only 4GB.
     //
     for (i=0; i<cpu_opencls.size(); i++) {
         gstate.host_info.opencl_cpu_prop[gstate.host_info.num_opencl_cpu_platforms++] = cpu_opencls[i];
@@ -339,7 +339,7 @@ void COPROCS::correlate_gpus(
         other_opencls[i].description(buf, sizeof(buf), other_opencls[i].name);
         descs.push_back(string(buf));
     }
-    
+
     // Create descriptions for OpenCL CPUs
     //
     for (i=0; i<cpu_opencls.size(); i++) {
@@ -358,19 +358,19 @@ void COPROCS::correlate_gpus(
 
 // This is called from CLIENT_STATE::init()
 // after adding NVIDIA, ATI and Intel GPUs
-// If we don't care about the order of GPUs in COPROCS::coprocs[], 
+// If we don't care about the order of GPUs in COPROCS::coprocs[],
 // this code could be included at the end of COPROCS::correlate_gpus().
 //
 int COPROCS::add_other_coproc_types() {
     int retval = 0;
-    
+
     for (unsigned int i=0; i<other_opencls.size(); i++) {
         if (other_opencls[i].is_used != COPROC_USED) continue;
         if (n_rsc >= MAX_RSC) {
             retval = ERR_BUFFER_OVERFLOW;
             break;
         }
-        
+
         COPROC c;
         // For device types other than NVIDIA, ATI or Intel GPU.
         // we put each instance into a separate other_opencls element,
@@ -391,9 +391,9 @@ int COPROCS::add_other_coproc_types() {
 
         // Don't call COPROCS::add() because duplicate type is legal here
         coprocs[n_rsc++] = c;
-        
+
     }
-    
+
     other_opencls.clear();
     return retval;
 }
@@ -408,18 +408,18 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     MIOFILE mf;
     unsigned int i, temp;
     FILE* f;
-    
+
     f = boinc_fopen(COPROC_INFO_FILENAME, "wb");
     if (!f) return ERR_FOPEN;
     mf.init_file(f);
-    
+
     mf.printf("    <coprocs>\n");
 
     if (nvidia.have_cuda) {
         mf.printf("    <have_cuda>1</have_cuda>\n");
         mf.printf("    <cuda_version>%d</cuda_version>\n", nvidia.cuda_version);
     }
-    
+
     for (i=0; i<ati_gpus.size(); ++i) {
        ati_gpus[i].write_xml(mf, false);
     }
@@ -492,7 +492,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         fclose(f);
         return ERR_XML_PARSE;
     }
-    
+
     while (!xp.get_tag()) {
         if (xp.match_tag("/coprocs")) {
             fclose(f);
@@ -536,7 +536,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             }
             continue;
         }
-        
+
         if (xp.match_tag("ati_opencl")) {
             ati_opencl.clear();
             retval = ati_opencl.parse(xp, "/ati_opencl");
@@ -596,7 +596,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             }
             continue;
         }
-        
+
         if (xp.parse_string("warning", s)) {
             warnings.push_back(s);
             continue;
@@ -606,7 +606,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         //  gstate.host_info.have_cpu_opencl
         //  gstate.host_info.cpu_opencl_prop
     }
-    
+
     fclose(f);
     return ERR_XML_PARSE;
 }
@@ -620,7 +620,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
     char quoted_data_dir[MAXPATHLEN+2];
     char data_dir[MAXPATHLEN];
     int retval = 0;
-    
+
     retval = boinc_delete_file(COPROC_INFO_FILENAME);
     if (retval) {
         msg_printf(0, MSG_INFO,
@@ -633,7 +633,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             boinc_sleep(0.01);
         }
     }
-    
+
     // use full path to exe if possible, otherwise keep using argv[0]
     char execpath[MAXPATHLEN];
     if (!get_real_executable_path(execpath, sizeof(execpath))) {
@@ -666,15 +666,15 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             quoted_data_dir
         );
     }
-            
+
     int argc = 4;
     char* const argv[5] = {
          const_cast<char *>(client_path),
-         const_cast<char *>("--detect_gpus"), 
-         const_cast<char *>("--dir"), 
+         const_cast<char *>("--detect_gpus"),
+         const_cast<char *>("--dir"),
          const_cast<char *>(quoted_data_dir),
          NULL
-    }; 
+    };
 
     retval = run_program(
         client_dir,

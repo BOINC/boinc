@@ -1190,7 +1190,7 @@ void ACTIVE_TASK_SET::network_available() {
 
 void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
     char path[MAXPATHLEN];
-    snprintf(path, sizeof(path), 
+    snprintf(path, sizeof(path),
         "%s/%s%s",
         slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name
     );

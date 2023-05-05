@@ -57,7 +57,7 @@ public:
     PROXY_INFO pi;
     PROJECT* project;   // associated project, if any
 
-    char m_url[1024];  
+    char m_url[1024];
     char m_curl_user_credentials[1024];
         // string needed for proxy username/password
 
@@ -90,7 +90,7 @@ public:
     //
     // reply is always written to a file
     char outfile[256];
-        // if specified, it's written to this file w/ optional offset 
+        // if specified, it's written to this file w/ optional offset
         // otherwise it's written to a temp file
     // if type POST2, copy output to req1 buffer
     int req1_len;
@@ -176,7 +176,7 @@ public:
 private:
     // take an init_get/post/post2 and turns it into a libcurl request
     //
-    int libcurl_exec(const char* url, const char* in, const char* out, 
+    int libcurl_exec(const char* url, const char* in, const char* out,
         double offset, double size, bool is_post
     );
 };

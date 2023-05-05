@@ -174,7 +174,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         char path[MAXPATHLEN];
         double manager_size = 0.0;
         OSStatus err = noErr;
-        
+
         retval = proc_pidpath(getppid(), path, sizeof(path));
         if (retval <= 0) {
             err = fnfErr;
@@ -757,11 +757,11 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     // If we're already attached to the project specified in the
     // project init file, delete the file.
     //
-    for (unsigned i=0; i<gstate.projects.size(); i++) { 
-        PROJECT* p = gstate.projects[i]; 
-        if (urls_match(p->master_url, gstate.project_init.url)) { 
-            gstate.project_init.remove(); 
-            break; 
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (urls_match(p->master_url, gstate.project_init.url)) {
+            gstate.project_init.remove();
+            break;
         }
     }
 
@@ -835,10 +835,10 @@ void handle_lookup_account_poll(GUI_RPC_CONN& grc) {
         );
     } else {
         const char *p = grc.lookup_account_op.reply.c_str();
-        const char *q = strstr(p, "<account_out"); 
+        const char *q = strstr(p, "<account_out");
         if (!q) q = strstr(p, "<error");
-        if (!q) q = "<account_out/>\n"; 
-        grc.mfout.printf("%s", q); 
+        if (!q) q = "<account_out/>\n";
+        grc.mfout.printf("%s", q);
     }
 }
 
@@ -1144,7 +1144,7 @@ static void read_all_projects_list_file(GUI_RPC_CONN& grc) {
     if (!retval) {
         strip_whitespace(s);
         const char *q = strstr(s.c_str(), "<projects");
-        if (!q) q = "<projects/>";        
+        if (!q) q = "<projects/>";
         grc.mfout.printf("%s\n", q);
     }
 }
@@ -1320,11 +1320,11 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
 }
 
 #ifdef __APPLE__
-static void stop_graphics_app(pid_t thePID, 
-    long iBrandID, 
-    char current_dir[], 
-    char switcher_path[], 
-    string theScreensaverLoginUser, 
+static void stop_graphics_app(pid_t thePID,
+    long iBrandID,
+    char current_dir[],
+    char switcher_path[],
+    string theScreensaverLoginUser,
     GUI_RPC_CONN& grc
 ) {
     char* argv[16];
@@ -1335,7 +1335,7 @@ static void stop_graphics_app(pid_t thePID,
 
     if (g_use_sandbox) {
         char pidString[10];
-        
+
         snprintf(pidString, sizeof(pidString), "%d", thePID);
 #if 1
         argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
@@ -1343,27 +1343,27 @@ static void stop_graphics_app(pid_t thePID,
         argv[2] = "-kill_gfx";
         argv[3] = pidString;
         argc = 4;
-#else 
+#else
         argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
         argv[1] = "/bin/kill";
         argv[2] = "-kill";
         argv[3] = (char *)pidString;
         argc = 4;
 #endif
-        // Graphics apps called by screensaver or Manager (via Show 
+        // Graphics apps called by screensaver or Manager (via Show
         // Graphics button) now write files in their slot directory
-        // as the logged in user, not boinc_master. This ugly hack 
+        // as the logged in user, not boinc_master. This ugly hack
         // uses setprojectgrp to fix all ownerships in this slot
         // directory.
-        // To fix all ownerships in the slot directory, invoke the 
-        // run_graphics_app RPC with operation "stop", slot number 
+        // To fix all ownerships in the slot directory, invoke the
+        // run_graphics_app RPC with operation "stop", slot number
         // for the operand and empty string for screensaverLoginUser
         // after the graphics app stops.
         if (theScreensaverLoginUser.empty()) {
             fix_slot_owners(thePID);    // Manager passes slot # instead of PID
             return;
         }
-        
+
         argv[argc++] = "--ScreensaverLoginUser";
         safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
         argv[argc++] = screensaverLoginUser;
@@ -1417,7 +1417,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     int newPID = 0;
     ACTIVE_TASK* atp = NULL;
     char cmd[256];
-    
+
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("/run_graphics_app")) break;
         if (grc.xp.parse_int("slot", slot)) continue;
@@ -1428,7 +1428,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_int("graphics_pid", thePID)) continue;
         if (grc.xp.parse_string("ScreensaverLoginUser", theScreensaverLoginUser)) continue;
     }
-    
+
     if (stop) {
         if (theScreensaverLoginUser.empty() ){
              if (thePID < 0) {
@@ -1485,14 +1485,14 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     getcwd(current_dir, sizeof(current_dir));
 
     if (g_use_sandbox) {
-        snprintf(switcher_path, sizeof(switcher_path), 
+        snprintf(switcher_path, sizeof(switcher_path),
             "%s/%s/%s",
             current_dir, SWITCHER_DIR, SWITCHER_FILE_NAME
         );
     }
 
     if (stop) {
-        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
+        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path,
                             theScreensaverLoginUser, grc);
         grc.mfout.printf("<success/>\n");
         return;
@@ -1520,7 +1520,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             grc.mfout.printf("<error>job has no graphics app</error>\n");
             return;
         }
-        
+
         execPath = atp->app_version->graphics_exec_path;
         execName = atp->app_version->graphics_exec_file;
         execDir = atp->slot_path;
@@ -1544,7 +1544,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argv[4] = (char *)theSlot;
             argc = 5;
         }
-        
+
         if (runfullscreen) {
             argv[argc++] = "--fullscreen";
         }
@@ -1571,10 +1571,10 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         argv[argc] = 0;
         retval = run_program(execDir, execPath, argc, argv, newPID);
     }
-    
+
     if (retval) {
         grc.mfout.printf("<error>couldn't run graphics app</error>\n");
-        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
+        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path,
                             theScreensaverLoginUser, grc);
     } else {
         grc.mfout.printf("<success/>\n");

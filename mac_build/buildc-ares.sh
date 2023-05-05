@@ -35,7 +35,7 @@
 # Updated 5/18/21 for compatibility with zsh
 # Updated 10/18/21 for building c-ares 1.17.2
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
-# Updated 4/5/23 to set mmacosx-version-min, arm64-apple-macos10.10 to 10.13 
+# Updated 4/5/23 to set mmacosx-version-min, arm64-apple-macos10.10 to 10.13
 
 #
 ## This script requires OS 10.8 or later

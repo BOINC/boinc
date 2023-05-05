@@ -282,11 +282,11 @@ global $venue_name;
 // preferences match the settings used by the scheduler.
 // Defaults are set if the tags are missing, they depend on
 // which scheduler is running:
-// - 'old' has the default hardcoded 
+// - 'old' has the default hardcoded
 // - 'new' uses config settings
 // if running the old scheduler, set <scheduler_disk_space_check_hardcoded>
 // in config.xml so the right default is set for minimum free disk space
-// 
+//
 function get_disk_space_config() {
     global $config;
     $config = get_config();
@@ -298,15 +298,15 @@ function get_disk_space_config() {
     if (!$dp->disk_max_used_gb) $dp->disk_max_used_gb = 0;  // no limit
     if (!$dp->disk_max_used_pct) $dp->disk_max_used_pct = 90; // 90 percent
     if (!$dp->disk_min_free_gb) $dp->disk_min_free_gb = 1;   // 1 GB
-    // set mininimum free space scheduler allows 
+    // set mininimum free space scheduler allows
     // - depends on which scheduler is running
     $dp->new_sched_flag = 1;
     $dp->sched_disk_min_free_gb = $dp->disk_min_free_gb;
     if (parse_config($config, "scheduler_disk_space_check_hardcoded>")) {
         $dp->new_sched_flag = 0;
         $dp->sched_disk_min_free_gb = 0;
-    }    
-       
+    }
+
     return $dp;
 }
 
@@ -613,7 +613,7 @@ function print_prefs_form(
     if ($cols) {
         echo "<input type=hidden name=cols value=$cols>\n";
     }
-    
+
     start_table();
     if ($subset == "global") {
         prefs_form_global($user, $prefs, $error);

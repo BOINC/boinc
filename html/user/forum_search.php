@@ -83,7 +83,7 @@ foreach ($thread_sort_styles as $id => $style){
         $sortlist.="<option value=\"".$id."\">".$style."</option>";
     }
 }
-row2(tra("Sort by"), 
+row2(tra("Sort by"),
     '<select class="form-control" name="search_sort">'.$sortlist.'</select');
 
 row1("&nbsp;");

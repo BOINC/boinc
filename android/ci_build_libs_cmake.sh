@@ -28,7 +28,7 @@ TRIPLETS_LIST="armv6-android arm-android arm-neon-android arm64-android x86-andr
 
 for TRIPLET in $TRIPLETS_LIST ; do
     echo "\e[0;35m building $TRIPLET ... \e[0m"
-    
+
     if [ "$TRIPLET" = "armv6-android" ]; then
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
     else

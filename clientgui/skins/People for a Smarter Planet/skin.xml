@@ -87,11 +87,11 @@
 					<imagesrc>graphic/project_image.png</imagesrc>
 				</image>
 			</project_image>
-	
-	
-	
-	
-	
+
+
+
+
+
 			<attach_project_button>
 				<button>
 					<imagesrc>graphic/attach_project_button.png</imagesrc>
@@ -161,7 +161,7 @@
 			<messages_link_image>
 				<image>
 					<imagesrc>graphic/messages_link_image.png</imagesrc>
-					<imagesrc_clicked>graphic/preferences_link_image.png</imagesrc_clicked>				
+					<imagesrc_clicked>graphic/preferences_link_image.png</imagesrc_clicked>
 					<background_color>255:255:255</background_color>
 					<border_color>255:255:255</border_color>
 				</image>
@@ -169,7 +169,7 @@
 			<messages_alert_link_image>
 				<image>
 					<imagesrc>graphic/messages_alert_link_image.png</imagesrc>
-					<imagesrc_clicked>graphic/preferences_link_image.png</imagesrc_clicked>				
+					<imagesrc_clicked>graphic/preferences_link_image.png</imagesrc_clicked>
 					<background_color>255:255:255</background_color>
 					<border_color>255:255:255</border_color>
 				</image>
@@ -187,7 +187,7 @@
 			<preferences_link_image>
 				<image>
 					<imagesrc>graphic/preferences_link_image.png</imagesrc>
-					<imagesrc_clicked>graphic/preferences_link_image.png</imagesrc_clicked>				
+					<imagesrc_clicked>graphic/preferences_link_image.png</imagesrc_clicked>
 					<background_color>255:255:255</background_color>
 					<border_color>255:255:255</border_color>
 					<link_line_color>0:0:0</link_line_color>
@@ -207,44 +207,44 @@
 			</dialog_background_image>
 		</simple>
 		<!-- this section can be omitted in which case it will use the BOINC defaults (shown below) -->
-		<advanced>  
+		<advanced>
 			<!-- name displayed in application title bar -->
-			<application_name>World Community Grid - BOINC Manager</application_name>  
+			<application_name>World Community Grid - BOINC Manager</application_name>
 			<application_icon>
 				<image>
 					<!-- Taskbar Icon -->
-					<imagesrc>graphic/wcg_play.png</imagesrc> 
+					<imagesrc>graphic/wcg_play.png</imagesrc>
 					<transparency_mask>255:0:255</transparency_mask>
 				</image>
 			</application_icon>
 			<application_icon32>
 				<image>
 					<!-- Icon -->
-					<imagesrc>graphic/wcg_about.ico</imagesrc> 
+					<imagesrc>graphic/wcg_about.ico</imagesrc>
 					<transparency_mask>255:0:255</transparency_mask>
 				</image>
 			</application_icon32>
 			<application_disconnected_icon>
 				<image>
 					<!-- Taskbar Icon when disconnected -->
-					<imagesrc>graphic/wcg_stop.png</imagesrc> 
+					<imagesrc>graphic/wcg_stop.png</imagesrc>
 					<transparency_mask>255:0:255</transparency_mask>
 				</image>
 			</application_disconnected_icon>
 			<application_snooze_icon>
 				<image>
 					<!-- Taskbar Icon when snoozing -->
-					<imagesrc>graphic/wcg_pause.png</imagesrc> 
+					<imagesrc>graphic/wcg_pause.png</imagesrc>
 					<transparency_mask>255:0:255</transparency_mask>
 				</image>
-			</application_snooze_icon> 
-			<organization_name>World Community Grid</organization_name> 
-			<organization_website>https://www.worldcommunitygrid.org</organization_website> 
-			<organization_help_url>https://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
+			</application_snooze_icon>
+			<organization_name>World Community Grid</organization_name>
+			<organization_website>https://www.worldcommunitygrid.org</organization_website>
+			<organization_help_url>https://www.worldcommunitygrid.org/boinc.do</organization_help_url>
 			<application_short_name>World Community Grid</application_short_name>
 			<!-- this setting makes the BOINC manager automatically open to a particular tab on the -->
 			<!-- advanced view, overriding a users last displayed view.  0 means use users last open tab -->
-			<open_tab>0</open_tab>  
+			<open_tab>0</open_tab>
 			<exit_message></exit_message>
 		</advanced>
 		<!-- this section can be omitted in which case it will use the BOINC defaults (shown below) -->

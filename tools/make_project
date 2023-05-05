@@ -358,7 +358,7 @@ content ='''
 
     Alias /%(project_shortname)s_ops %(proot)s/html/ops
     ScriptAlias /%(project_shortname)s_cgi %(proot)s/cgi-bin
-    
+
     # In the following, the "denied" and "granted" lines are for Apache 2.4
     # For Apache 2.2, replace them with the lines
     # Order deny,allow
@@ -366,7 +366,7 @@ content ='''
     #      or
     # Order allow,deny
     # Allow from all
-    
+
     # NOTE: Turn off access to certain default directories
     <Directory "%(proot)s/keys">
         Require all denied
@@ -451,7 +451,7 @@ if not options.web_only:
 
     bin/xadd
 '''%locals()
-    
+
 compute_msg = ''
 if not options.web_only:
     compute_msg = '''

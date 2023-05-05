@@ -138,7 +138,7 @@ void boinc_zip_(int* zipmode, const char* zipfile,
     zipfileff.strip_whitespace();
     pathff.strip_whitespace();
     boinc_zip(*zipmode,zipfileff.c_str(),pathff.c_str());
-} 
+}
 #endif
 
 }   // extern "C"

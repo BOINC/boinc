@@ -180,14 +180,14 @@ function count_uotd_candidates(){
     } else {
         $query = default_uotd_candidates_query();
     }
-    
+
     $db = BoincDb::get();
     $result = $db->do_query($query);
     if($result) {
         $n = $result->num_rows;
     }
     $result->free();
-    
+
     return $n;
 }
 

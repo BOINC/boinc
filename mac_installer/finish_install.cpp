@@ -80,8 +80,8 @@ int main(int argc, const char * argv[]) {
     }
 
     pw = getpwuid(getuid());
-    
-    
+
+
     for (i=0; i<NUMBRANDS; i++) {
         snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", appName[i]);
         err = callPosixSpawn(cmd);
@@ -103,7 +103,7 @@ int main(int argc, const char * argv[]) {
         // If this user was previously authorized to run the Manager, the Login Item
         // may have launched the Manager before this app deleted that Login Item. To
         // guard against this, we kill the Manager (for this user only) if it is running.
-        // 
+        //
         snprintf(cmd, sizeof(cmd), "killall -u %d -9 \"%s\"", getuid(), appName[iBrandId]);
         err = callPosixSpawn(cmd);
         if (err) {
@@ -141,7 +141,7 @@ int main(int argc, const char * argv[]) {
                 print_to_log_file("Make new login item for %s returned error %d\n", appName[iBrandId], err);
             }
         }
-        
+
         if (compareOSVersionTo(13, 0) >= 0) {
             snprintf(cmd, sizeof(cmd), "launchctl unload \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
             err = callPosixSpawn(cmd);
@@ -170,7 +170,7 @@ int main(int argc, const char * argv[]) {
 
     snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
     callPosixSpawn(cmd);
-    
+
     // We can't delete ourselves while we are running,
     // so launch a shell script to do it after we exit.
     sprintf(scriptName, "/tmp/%s_Finish_%s_%s", brandName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
@@ -334,11 +334,11 @@ static Boolean IsUserActive(const char *userName){
     if (f) {
         while (PersistentFGets(s, sizeof(s), f) != NULL) {
             if (strstr(s, userName)) {
-                pclose (f);         
+                pclose (f);
                 return true;
             }
-        } 
-        pclose (f);         
+        }
+        pclose (f);
     }
     return false;
 }
@@ -372,7 +372,7 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
         p1 = strchr(vers, '.');
         minor = atoi(p1+1);
     }
-    
+
     if (major < toMajor) return -1;
     if (major > toMajor) return 1;
     // if (major == toMajor) compare minor version numbers
@@ -449,7 +449,7 @@ static int callPosixSpawn(const char *cmdline) {
     int result = 0;
     int status = 0;
     extern char **environ;
-    
+
     // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
     argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
@@ -461,7 +461,7 @@ static int callPosixSpawn(const char *cmdline) {
     } else {
         argv[0] = progName;
     }
-    
+
 #if VERBOSE_TEST
     print_to_log_file("***********");
     for (int i=0; i<argc; ++i) {
@@ -504,7 +504,7 @@ static int callPosixSpawn(const char *cmdline) {
 #endif
         }   // end if (WIFEXITED(status)) else
     }       // end if waitpid returned 0 sstaus else
-    
+
     return result;
 }
 
@@ -550,7 +550,7 @@ static void print_to_log_file(const char *format, ...) {
     va_start(args, format);
     vfprintf(f, format, args);
     va_end(args);
-    
+
     fputs("\n", f);
 #if USE_SPECIAL_LOG_FILE
     fflush(f);

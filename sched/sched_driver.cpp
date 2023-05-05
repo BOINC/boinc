@@ -94,7 +94,7 @@ inline double req_time() {
 }
 
 inline double exponential(double mean) {
-        return -mean*log(1-drand()); 
+        return -mean*log(1-drand());
 }
 
 void make_request(int i) {

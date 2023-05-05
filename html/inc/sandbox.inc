@@ -147,7 +147,7 @@ function sandbox_file_in_use($user, $file){
     foreach ($pbatches as $batch){
         $wus = BoincWorkUnit::enum("batch = $batch->id limit 1" );
         if ($wus == null){
-            //echo " no workunit for this batch<br/>"; 
+            //echo " no workunit for this batch<br/>";
             continue;
         }
         foreach($wus as $wu){
@@ -171,7 +171,7 @@ function sandbox_file_in_use($user, $file){
             if (strcmp($f,$uf) == 0){
                 return true;
             }
-            
+
         }
     }
     return false;

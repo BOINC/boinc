@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         printf("Branding array has too few entries: %s\n", boincPath);
         return -1;
     }
-    
+
     err = CreateBOINCUsersAndGroups();
     if (err != noErr)
         return err;
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     err = AddAdminUserToGroups(getenv("USER"));
     if (err != noErr)
         return err;
-    
+
     boincPath[0] = 0;
     getwd(boincPath);
     //ShowSecurityError("Current Working Directory is %s", wd);

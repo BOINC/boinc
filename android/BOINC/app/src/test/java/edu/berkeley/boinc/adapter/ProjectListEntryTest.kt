@@ -26,11 +26,11 @@ class ProjectListEntryTest {
     @Test
     fun `Check that ProjectInfo is saved when passed to constructor`()
     {
-        val projectInfo = ProjectInfo("ProjectName", "https://testproject.com", 
-                                      "Mathematics", "Combinatorics", 
-                                      "Test Project Description", 
+        val projectInfo = ProjectInfo("ProjectName", "https://testproject.com",
+                                      "Mathematics", "Combinatorics",
+                                      "Test Project Description",
                                       "Home Sweet Home", listOf("windows"),
-                                      "https://testproject.com/favicon.png", 
+                                      "https://testproject.com/favicon.png",
                                       "Test Summary of the Project")
         val projectListEntry = ProjectListEntry(projectInfo)
 

@@ -4,7 +4,7 @@
 /**
  * Functions that are shared amongst files and dependent modules go
  * here to keep the clutter down in the main module file.
- */ 
+ */
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Drupal 7 forward compatibility functions
@@ -18,7 +18,7 @@ if (!function_exists('user_load_by_mail')) {
     return user_load(array('mail' => $mail));
   }
 }
- 
+
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * General utility functions
@@ -26,9 +26,9 @@ if (!function_exists('user_load_by_mail')) {
 
 /**
  * Get an image object from a given file and cck field
- */ 
+ */
 function get_cck_image_object($image_path, $field_name, $content_type, $ignore_resolution = FALSE) {
-  $field = content_fields($field_name, $content_type); 
+  $field = content_fields($field_name, $content_type);
   $validators = array_merge(filefield_widget_upload_validators($field), imagefield_widget_upload_validators($field));
   if ($ignore_resolution) {
     unset($validators['filefield_validate_image_resolution']);
@@ -44,7 +44,7 @@ function get_cck_image_object($image_path, $field_name, $content_type, $ignore_r
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
- * 
+ *
  */
 function boincuser_check_credit_requirements() {
   global $user;
@@ -55,7 +55,7 @@ function boincuser_check_credit_requirements() {
   $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
   $community_role = array_search('community member', user_roles(true));
   $unrestricted_role = array_search('verified contributor', user_roles(true));
-  
+
   // Set user roles based on current penalty status...
   if ($account->boincuser_penalty_expiration > time()) {
     drupal_set_message(bts(
@@ -505,14 +505,14 @@ function boinc_get_scheduler_tags() {
   elseif (!in_array($_GET['q'], $page_blacklist)) {
     watchdog('boincuser', 'The BOINC scheduling server settings are not yet
         configured. Please !verify for the settings to become effective.',
-          array('!verify' => l(t('verify the default values') . ' <strong>' . 
+          array('!verify' => l(t('verify the default values') . ' <strong>' .
             t('and') . '</strong> ' . t('save the configuration'),
             'admin/boinc/scheduler', array('html' => TRUE))
           ), WATCHDOG_WARNING);
     if (user_access('administer site configuration')) {
       drupal_set_message(t('The BOINC scheduling server settings are not yet
           configured. Please !verify for the settings to become effective',
-            array('!verify' => l(t('verify the default values') . ' <strong>' . 
+            array('!verify' => l(t('verify the default values') . ' <strong>' .
               t('and') . '</strong> ' . t('save the configuration'),
               'admin/boinc/scheduler', array('html' => TRUE))
             )), 'warning', FALSE);
@@ -591,7 +591,7 @@ function get_boinc_version($x) {
   require_boinc('host');
   return function_exists('boinc_version') ? boinc_version($x) : 'err!';
 }
-  
+
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Functions for use in displaying special case text in views
@@ -605,7 +605,7 @@ function boincuser_views_friends_block_header($context = null) {
   $view = views_get_current_view();
   $account_id = $view->args[0];
   $friend_count = flag_friend_get_friend_count($account_id);
-  return '<h2 class="pane-title">' . bts('Friends (@count)', 
+  return '<h2 class="pane-title">' . bts('Friends (@count)',
     array('@count' => $friend_count)) . '</h2>';
 }
 

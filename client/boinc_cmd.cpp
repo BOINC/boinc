@@ -222,7 +222,7 @@ void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
     }
 }
 
-// given 
+// given
 // show list of tasks, 1 line per task,
 // similar to the Manager's Tasks pane
 // fields per task:

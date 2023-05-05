@@ -37,4 +37,4 @@ AC_DEFUN([BOINC_CHECK_GTK],[
     fi
   fi
   AC_SUBST([GTK_LIBS])
-])      
+])

@@ -7,7 +7,7 @@
 function boincuser_install() {
   // Use schema API to create database table
   drupal_install_schema('boincuser');
-  // Add aliases for account pages 
+  // Add aliases for account pages
   if (module_exists('path')) {
     path_set_alias('dashboard', 'account');
     path_set_alias('dashboard', 'account/dashboard');
@@ -40,7 +40,7 @@ function boincuser_schema() {
   $schema['boincuser'] = array(
     'description' => t('Cross references user accounts in Drupal with BOINC user accounts.'),
     'fields' => array(
-      'uid' => array(               
+      'uid' => array(
         'description' => t('The {user}.uid of the Drupal user.'),
         'type' => 'int',
         'unsigned' => TRUE,
@@ -49,9 +49,9 @@ function boincuser_schema() {
       ),
       'boinc_id' => array(
         'description' => t('The uid of the user in the BOINC database.'),
-        'type' => 'int',      
+        'type' => 'int',
         'unsigned' => TRUE,
-        'not null' => TRUE,       
+        'not null' => TRUE,
         'default' => 0,
       ),
       'penalty_expiration' => array(

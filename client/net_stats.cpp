@@ -271,10 +271,10 @@ void NET_STATUS::poll() {
     // otherwise might show spurious "need connection" message
     //
     if (gstate.now < gstate.last_wakeup_time + 30) return;
-    // wait until after a round of automatic proxy detection 
+    // wait until after a round of automatic proxy detection
     // before attempting to contact the reference site
     //
-    if (working_proxy_info.autodetect_proxy_supported && 
+    if (working_proxy_info.autodetect_proxy_supported &&
         working_proxy_info.need_autodetect_proxy_settings &&
         !working_proxy_info.have_autodetect_proxy_settings) return;
 

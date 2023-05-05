@@ -49,7 +49,7 @@ if (($logged_in_user->id != $post_owner->id) || (can_reply($thread, $forum, $log
 
 $thread_owner = BoincUser::lookup_id($thread->owner);
 
-// If this post belongs to the creator of the thread and is at top-level 
+// If this post belongs to the creator of the thread and is at top-level
 // (ie. not a response to another post)
 // allow the user to modify the thread title
 //
@@ -67,7 +67,7 @@ if (post_str('submit',true) && (!$preview)) {
         error_page("Can't update post");
     }
     check_tokens($logged_in_user->authenticator);
-    
+
     $add_signature = (post_str('add_signature', true) == "1")?1:0;
     $content = substr($content, 0, 64000);
     $content = trim($content);
@@ -75,7 +75,7 @@ if (post_str('submit',true) && (!$preview)) {
         $content = BoincDb::escape_string($content);
         $now = time();
         $post->update("signature=$add_signature, content='$content', modified=$now");
-    
+
         if ($can_edit_title){
             $title = trim($title);
             $title = sanitize_tags($title);

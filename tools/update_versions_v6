@@ -174,7 +174,7 @@ def touch_file(fname):
 
 # Process an app that is a bundle of files in a directory of the same name,
 # possibly with signature files included.
- 
+
 def find_versions__process_bundle(app, match, dir):
     '''add executable + bundle as app version'''
     exec_files = []

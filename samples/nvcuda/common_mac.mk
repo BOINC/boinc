@@ -25,7 +25,7 @@ OSARCH= $(shell uname -m)
 
 # Basic directory setup for SDK
 # (override directories only if they are not already defined)
-SRCDIR     ?= 
+SRCDIR     ?=
 ROOTDIR    ?= /Developer/GPU\ Computing
 ROOTBINDIR ?= ../../samples/nvcuda
 BINDIR     ?= $(ROOTBINDIR)/$(OSLOWER)
@@ -48,7 +48,7 @@ INCLUDES  += -I. -I$(CUDA_INSTALL_PATH)/include -I$(COMMONDIR)/inc -I$(SHAREDDIR
 
 # Compilers
 NVCC       := $(CUDA_INSTALL_PATH)/bin/nvcc
-CXX        := g++ 
+CXX        := g++
 CC         := gcc
 # MODIFIED - edits LINK to have #(INCLUDES)
 LINK       := g++ -fPIC $(INCLUDES)
@@ -84,7 +84,7 @@ LIB_ARCH        := $(OSARCH)
 
 # Determining the necessary Cross-Compilation Flags
 # 32-bit OS, but we target 64-bit cross compilation
-ifeq ($(x86_64),1) 
+ifeq ($(x86_64),1)
     NVCCFLAGS       += -m64
     LIB_ARCH         = x86_64
     CUDPPLIB_SUFFIX  = x86_64
@@ -93,7 +93,7 @@ ifeq ($(x86_64),1)
     else
          CXX_ARCH_FLAGS += -m64
     endif
-else 
+else
 # 64-bit OS, and we target 32-bit cross compilation
     ifeq ($(i386),1)
         NVCCFLAGS       += -m32
@@ -104,7 +104,7 @@ else
         else
              CXX_ARCH_FLAGS += -m32
         endif
-    else 
+    else
         ifeq "$(strip $(HP_64))" ""
             LIB_ARCH        = i386
             CUDPPLIB_SUFFIX = i386
@@ -131,7 +131,7 @@ endif
 ifeq ($(noinline),1)
    NVCCFLAGS   += -Xopencc -noinline
    # Compiler-specific flags, when using noinline, we don't build for SM1x
-   GENCODE_SM10 := 
+   GENCODE_SM10 :=
    GENCODE_SM20 := -gencode=arch=compute_20,code=\"sm_20,compute_20\"
 else
    # Compiler-specific flags (by default, we always use sm_10 and sm_20), unless we use the SMVERSION template
@@ -160,10 +160,10 @@ ifeq ($(dbg),1)
 	CFLAGS      += -D_DEBUG
 	BINSUBDIR   := debug
 	LIBSUFFIX   := D
-else 
-	COMMONFLAGS += -O2 
+else
+	COMMONFLAGS += -O2
 	BINSUBDIR   := release
-	LIBSUFFIX   := 
+	LIBSUFFIX   :=
 	NVCCFLAGS   += --compiler-options -fno-strict-aliasing
 	CXXFLAGS    += -fno-strict-aliasing
 	CFLAGS      += -fno-strict-aliasing
@@ -175,13 +175,13 @@ CUBIN_ARCH_FLAG :=
 # OpenGL is used or not (if it is used, then it is necessary to include GLEW)
 ifeq ($(USEGLLIB),1)
     ifneq ($(DARWIN),)
-        OPENGLLIB := -L/System/Library/Frameworks/OpenGL.framework/Libraries 
+        OPENGLLIB := -L/System/Library/Frameworks/OpenGL.framework/Libraries
         OPENGLLIB += -lGL -lGLU $(COMMONDIR)/lib/$(OSLOWER)/libGLEW.a
     else
 # this case for linux platforms
 	OPENGLLIB := -lGL -lGLU -lX11 -lXi -lXmu
 # check if x86_64 flag has been set, otherwise, check HP_64 is i386/x86_64
-        ifeq ($(x86_64),1) 
+        ifeq ($(x86_64),1)
 	       OPENGLLIB += -lGLEW_x86_64 -L/usr/X11R6/lib64
         else
              ifeq ($(i386),)
@@ -212,14 +212,14 @@ ifeq ($(USEGLUT),1)
 	OPENGLLIB += -framework GLUT
     else
         ifeq ($(x86_64),1)
-	     OPENGLLIB += -lglut -L/usr/lib64 
+	     OPENGLLIB += -lglut -L/usr/lib64
         endif
         ifeq ($(i386),1)
-	     OPENGLLIB += -lglut -L/usr/lib 
+	     OPENGLLIB += -lglut -L/usr/lib
         endif
 
         ifeq ($(x86_64),)
-            ifeq ($(i386),)  
+            ifeq ($(i386),)
 	        OPENGLLIB += -lglut
             endif
         endif
@@ -250,11 +250,11 @@ endif
 
 # Libs
 ifneq ($(DARWIN),)
-    LIB       := -L$(CUDA_INSTALL_PATH)/lib -L$(LIBDIR) -L$(COMMONDIR)/lib/$(OSLOWER) -L$(SHAREDDIR)/lib $(NVCUVIDLIB) 
+    LIB       := -L$(CUDA_INSTALL_PATH)/lib -L$(LIBDIR) -L$(COMMONDIR)/lib/$(OSLOWER) -L$(SHAREDDIR)/lib $(NVCUVIDLIB)
 else
   ifeq "$(strip $(HP_64))" ""
     ifeq ($(x86_64),1)
-       LIB       := -L$(CUDA_INSTALL_PATH)/lib64 -L$(LIBDIR) -L$(COMMONDIR)/lib/$(OSLOWER) -L$(SHAREDDIR)/lib 
+       LIB       := -L$(CUDA_INSTALL_PATH)/lib64 -L$(LIBDIR) -L$(COMMONDIR)/lib/$(OSLOWER) -L$(SHAREDDIR)/lib
     else
        LIB       := -L$(CUDA_INSTALL_PATH)/lib -L$(LIBDIR) -L$(COMMONDIR)/lib/$(OSLOWER) -L$(SHAREDDIR)/lib
     endif
@@ -269,15 +269,15 @@ endif
 
 # If dynamically linking to CUDA and CUDART, we exclude the libraries from the LIB
 ifeq ($(USECUDADYNLIB),1)
-     LIB += ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) $(CUDPPLIB) ${LIB} -ldl -rdynamic 
+     LIB += ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) $(CUDPPLIB) ${LIB} -ldl -rdynamic
 else
 # static linking, we will statically link against CUDA and CUDART
   ifeq ($(USEDRVAPI),1)
-     LIB += -lcuda   ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) $(CUDPPLIB) ${LIB} 
+     LIB += -lcuda   ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) $(CUDPPLIB) ${LIB}
   else
-     ifeq ($(emu),1) 
+     ifeq ($(emu),1)
          LIB += -lcudartemu
-     else 
+     else
          LIB += -lcudart
      endif
      LIB += ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) $(CUDPPLIB) ${LIB}
@@ -314,7 +314,7 @@ else
 	# Device emulation configuration
 	ifeq ($(emu), 1)
 		NVCCFLAGS   += -deviceemu
-		CUDACCFLAGS += 
+		CUDACCFLAGS +=
 		BINSUBDIR   := emu$(BINSUBDIR)
 		# consistency, makes developing easier
 		CXXFLAGS		+= -D__DEVICE_EMULATION__
@@ -325,7 +325,7 @@ else
 	LINKLINE  = $(LINK) -o $(TARGET) $(OBJS) $(LIB)
 endif
 
-# check if verbose 
+# check if verbose
 ifeq ($(verbose), 1)
 	VERBOSE :=
 else
@@ -361,7 +361,7 @@ CXXFLAGS  += $(COMMONFLAGS)
 CFLAGS    += $(COMMONFLAGS)
 
 ifeq ($(nvcc_warn_verbose),1)
-	NVCCFLAGS += $(addprefix --compiler-options ,$(CXXWARN_FLAGS)) 
+	NVCCFLAGS += $(addprefix --compiler-options ,$(CXXWARN_FLAGS))
 	NVCCFLAGS += --compiler-options -fno-strict-aliasing
 endif
 
@@ -409,7 +409,7 @@ $(PTXDIR)/%.ptx : $(SRCDIR)%.cu ptxdirectory
 # The following definition is a template that gets instantiated for each SM
 # version (sm_10, sm_13, etc.) stored in SMVERSIONS.  It does 2 things:
 # 1. It adds to OBJS a .cu_sm_XX.o for each .cu file it finds in CUFILES_sm_XX.
-# 2. It generates a rule for building .cu_sm_XX.o files from the corresponding 
+# 2. It generates a rule for building .cu_sm_XX.o files from the corresponding
 #    .cu file.
 #
 # The intended use for this is to allow Makefiles that use common.mk to compile

@@ -448,9 +448,9 @@ void COPROC_ATI::correlate(
 // * It must be called from a separate child process on
 //   dual-GPU laptops (e.g., Macbook Pros) with the results
 //   communicated to the main client process via IPC or a
-//   temp file.  See the comments about dual-GPU laptops 
+//   temp file.  See the comments about dual-GPU laptops
 //   in gpu_detect.cpp and main.cpp for more details.
-// * The CAL library must be loaded and calInit() called 
+// * The CAL library must be loaded and calInit() called
 //   first.
 // * See client/coproc_detect.cpp and cpu_sched.cpp in
 //   BOINC 6.12.36 for an earlier attempt to call this

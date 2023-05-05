@@ -28,15 +28,15 @@
 
 #include "current_version.h"
 
-// NVC_CONFIG allows branded installers to have the client check for a new 
+// NVC_CONFIG allows branded installers to have the client check for a new
 // branded client on their serve instead of checking the Berkeley server for
 // a new standard (unbranded) BOINC client.
 //
-// If the nvc_config.xml file is absent from the BOINC Data folder, use 
+// If the nvc_config.xml file is absent from the BOINC Data folder, use
 // default values (Berkeley server.)
-// Unbranded BOINC should not have an nvc_config.xml file. 
+// Unbranded BOINC should not have an nvc_config.xml file.
 // Branded installers can create or replace this file to customize these values.
-// Standard (unbranded) BOINC installers should either delete the file or 
+// Standard (unbranded) BOINC installers should either delete the file or
 // create or replace it with one containing default values.
 
 NVC_CONFIG nvc_config;
@@ -167,7 +167,7 @@ static int get_current_macos_version() {
     if (buf[0] == '\0') {
         return 0;
     }
-    
+
     // Extract the major system version number
     vers = atoi(buf) * 10000;
     // Extract the minor system version number
@@ -201,7 +201,7 @@ static bool parse_version(FILE* f, char* new_version, int len) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/version")) {
 #ifdef __APPLE__
-            return (same_platform 
+            return (same_platform
                     && newer_version_exists
                     && min_macos_OK
                     && max_macos_OK
@@ -215,9 +215,9 @@ static bool parse_version(FILE* f, char* new_version, int len) {
         }
         if (xp.parse_str("version_num", buf2, sizeof(buf2))) {
             newer_version_exists = is_version_newer(
-                                    buf2, 
-                                    gstate.core_client_version.major, 
-                                    gstate.core_client_version.minor, 
+                                    buf2,
+                                    gstate.core_client_version.major,
+                                    gstate.core_client_version.minor,
                                     gstate.core_client_version.release
                                     );
             strlcpy(new_version, buf2, len);
@@ -247,7 +247,7 @@ static void show_newer_version_msg(const char* new_vers) {
             _("Download")
         );
     } else {
-        snprintf(buf, sizeof(buf), _("A new version of %s is available"), 
+        snprintf(buf, sizeof(buf), _("A new version of %s is available"),
             nvc_config.client_new_version_name.c_str()
         );
         msg_printf_notice(0, true, NULL,
@@ -282,11 +282,11 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         }
     }
     fclose(f);
-    
+
     if (newest_version[0]) {
         show_newer_version_msg(newest_version);
     }
-    
+
     // Cache neweer version number. Empty string if no newer version
     gstate.newer_version = string(newest_version);
 }
@@ -306,9 +306,9 @@ void newer_version_startup_check() {
     }
 
     if (!gstate.newer_version.empty()) {
-        if (is_version_newer(gstate.newer_version.c_str(), 
-                            gstate.core_client_version.major, 
-                            gstate.core_client_version.minor, 
+        if (is_version_newer(gstate.newer_version.c_str(),
+                            gstate.core_client_version.major,
+                            gstate.core_client_version.minor,
                             gstate.core_client_version.release)
                             ) {
             show_newer_version_msg(gstate.newer_version.c_str());

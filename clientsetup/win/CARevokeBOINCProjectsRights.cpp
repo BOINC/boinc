@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCProjectsRights::CARevokeBOINCProjectsRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CARevokeBOINCProjectsRights::CARevokeBOINCProjectsRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCProjectsRights::~CARevokeBOINCProjectsRights()
@@ -54,10 +54,10 @@ CARevokeBOINCProjectsRights::~CARevokeBOINCProjectsRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CARevokeBOINCProjectsRights::OnExecution()
@@ -77,7 +77,7 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
             L"boinc_projects",                       // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -132,7 +132,7 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -152,7 +152,7 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RevokeBOINCProjectsRights
 //
 // Description: This custom action grants the 'boinc_projects' group the

@@ -48,39 +48,39 @@
 /*!
  * CProjectWelcomePage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CProjectWelcomePage, wxWizardPageEx )
- 
+
 /*!
  * CProjectWelcomePage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CProjectWelcomePage, wxWizardPageEx )
- 
+
 ////@begin CProjectWelcomePage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectWelcomePage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CProjectWelcomePage::OnCancel )
 ////@end CProjectWelcomePage event table entries
- 
+
 END_EVENT_TABLE()
 
 /*!
  * CProjectWelcomePage constructors
  */
- 
+
 CProjectWelcomePage::CProjectWelcomePage( )
 {
 }
- 
+
 CProjectWelcomePage::CProjectWelcomePage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * WizardPage creator
  */
- 
+
 bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CProjectWelcomePage member initialisation
@@ -88,7 +88,7 @@ bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 ////@end CProjectWelcomePage member initialisation
 
 	((CWizardAttach*)parent)->IsFirstPass = false;
- 
+
 ////@begin CProjectWelcomePage creation
     wxWizardPageEx::Create( parent, ID_PROJECTWELCOMEPAGE );
 
@@ -98,13 +98,13 @@ bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 
 	return TRUE;
 }
- 
+
 /*!
  * Control creation for WizardPage
  */
- 
+
 void CProjectWelcomePage::CreateControls()
-{    
+{
 ////@begin CWelcomePage content construction
     CProjectWelcomePage* itemWizardPage2 = this;
 
@@ -155,16 +155,16 @@ void CProjectWelcomePage::CreateControls()
 /*
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CProjectWelcomePage::GetPrev() const
 {
     return NULL;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CProjectWelcomePage::GetNext() const
 {
     CWizardAttach* pWA  = ((CWizardAttach*)GetParent());
@@ -180,20 +180,20 @@ wxWizardPageEx* CProjectWelcomePage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
 }
- 
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CProjectWelcomePage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CProjectWelcomePage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -201,11 +201,11 @@ wxBitmap CProjectWelcomePage::GetBitmapResource( const wxString& WXUNUSED(name) 
     return wxNullBitmap;
 ////@end CWelcomePage bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CProjectWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -217,7 +217,7 @@ wxIcon CProjectWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTWELCOMEPAGE
  */
- 
+
 void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectWelcomePage::OnPageChanged - Function Begin"));
@@ -246,7 +246,7 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTWELCOMEPAGE
  */
- 
+
 void CProjectWelcomePage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }

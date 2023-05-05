@@ -117,27 +117,27 @@ static int start_worker_thread(
     //
     retval = pthread_attr_init(&worker_thread_attr);
     if (retval) return ERR_THREAD;
- 
+
     retval = pthread_attr_getschedparam(&worker_thread_attr, &param);
     if (retval) return ERR_THREAD;
- 
+
     // Note: this sets the scheduling policy for the worker thread to
     // be the same as the scheduling policy of the main thread.
     // This may not be a wise choice.
     //
     retval = pthread_attr_getschedpolicy(&worker_thread_attr, &currentpolicy);
     if (retval) return ERR_THREAD;
- 
+
     minpriority = sched_get_priority_min(currentpolicy);
     if (minpriority == -1) return ERR_THREAD;
- 
+
     param.sched_priority = minpriority;
     retval = pthread_attr_setschedparam(&worker_thread_attr, &param);
     if (retval) return ERR_THREAD;
 
     // initialize ID of calling thread (the graphics-thread!)
     graphics_thread = pthread_self();
-    
+
     // set worker stack size if specified
     //
     if (options.worker_thread_stack_size) {

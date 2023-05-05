@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
-#include <stdarg.h> 
+#include <stdarg.h>
 #include <cmath>
 #include <ctime>
 #include <string>

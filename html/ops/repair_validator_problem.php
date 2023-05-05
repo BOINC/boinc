@@ -27,10 +27,10 @@ require_once("../inc/util_ops.inc");
 if (1) {
   echo "
 This script needs to be activated before it can be run.
-Once you understand what the script does you can change the 
+Once you understand what the script does you can change the
 if (1) to if (0) at the top of the file to activate it.
 Be sure to deactivate the script after using it to make sure
-it is not accidentally run. 
+it is not accidentally run.
 ";
   exit;
 }

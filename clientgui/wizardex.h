@@ -66,17 +66,17 @@ public:
     /// Override the base functions to allow a validator to be assigned to this page.
     bool TransferDataToWindow()
     {
-        return GetValidator() ? GetValidator()->TransferToWindow() 
+        return GetValidator() ? GetValidator()->TransferToWindow()
                               : wxPanel::TransferDataToWindow();
     }
     bool TransferDataFromWindow()
     {
-        return GetValidator() ? GetValidator()->TransferFromWindow() 
+        return GetValidator() ? GetValidator()->TransferFromWindow()
                               : wxPanel::TransferDataFromWindow();
     }
     bool Validate()
     {
-        return GetValidator() ? GetValidator()->Validate(this) 
+        return GetValidator() ? GetValidator()->Validate(this)
                               : wxPanel::Validate();
     }
 #endif // wxUSE_VALIDATORS

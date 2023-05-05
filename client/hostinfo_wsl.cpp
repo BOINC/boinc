@@ -27,7 +27,7 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
     const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
 
     HKEY hKey;
-    
+
     default_wsl.clear();
 
     LONG lRet = RegOpenKeyEx(HKEY_CURRENT_USER,
@@ -44,7 +44,7 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
         (LPBYTE)default_wsl_guid, &default_wsl_guid_len);
     if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len))
         return false;
-    
+
     int i = 0;
     while(true) {
         char wsl_guid[buf_len];
@@ -84,7 +84,7 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
             }
 
             RegCloseKey(hSubKey);
-        }        
+        }
     }
 
     RegCloseKey(hKey);

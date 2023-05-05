@@ -100,7 +100,7 @@
  */
 
 class CDlgOptions: public wxDialog
-{    
+{
     DECLARE_DYNAMIC_CLASS( CDlgOptions )
     DECLARE_EVENT_TABLE()
 
@@ -111,7 +111,7 @@ public:
 
     /// Destructor
     ~CDlgOptions( );
-    
+
     /// Creation
     bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGOPTIONS_IDNAME, const wxString& caption = SYMBOL_CDLGOPTIONS_TITLE, const wxPoint& pos = SYMBOL_CDLGOPTIONS_POSITION, const wxSize& size = SYMBOL_CDLGOPTIONS_SIZE, long style = SYMBOL_CDLGOPTIONS_STYLE );
 

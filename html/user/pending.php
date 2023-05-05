@@ -37,7 +37,7 @@ $format = get_str("format", true);
 
 if ($format == "xml") {
     xml_header();
-    
+
     $auth = BoincDb::escape_string(get_str('authenticator'));
     $user = BoincUser::lookup("authenticator='$auth'");
     if (!$user) {
@@ -62,7 +62,7 @@ if ($format == "xml") {
 } else {
     $user = get_logged_in_user();
     $sum = 0;
-    
+
     page_head(tra("Pending credit"));
     start_table();
     echo "<tr><th>".tra("Result ID")."</th><th>".tra("Workunit ID")."</th><th>".tra("Host ID")."</th><th>".tra("Claimed credit")."</th></tr>\n";
@@ -77,7 +77,7 @@ if ($format == "xml") {
         $sum += $result->claimed_credit;
     }
     end_table();
-    
+
     echo tra("Pending credit: %1", format_credit($sum));
     page_tail();
 }

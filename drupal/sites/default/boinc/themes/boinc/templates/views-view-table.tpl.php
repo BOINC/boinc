@@ -15,10 +15,10 @@
  */
 ?>
 <?php
-  
+
   $sort_by = isset($_GET['order']) ? $_GET['order'] : NULL;
   $sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'asc';
-  
+
 ?>
 <table class="<?php print $class; ?>"<?php print $attributes; ?>>
   <?php if (!empty($title)) : ?>
@@ -27,7 +27,7 @@
   <thead>
     <tr>
       <?php foreach ($header as $field => $label): ?>
-        <?php 
+        <?php
           /*if (!$sort_by) {
             // TODO: Should this be the default...?
             $sort_by = $field;

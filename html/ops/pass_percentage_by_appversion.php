@@ -88,7 +88,7 @@ FROM   result LEFT JOIN (SELECT app_version.id AS id,
                          FROM app_version INNER JOIN platform
                                           ON platform.id = platformid
                         ) as platform_name
-              ON app_version_id = platform_name.id 
+              ON app_version_id = platform_name.id
 WHERE
        appid = '$query_appid' AND
        server_state = '5' AND outcome NOT IN (4,5)

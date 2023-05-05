@@ -13,7 +13,7 @@ if test "${ac_cv_header_sys_socket_h}" = "yes" ; then
 #include <sys/socket.h>
 "
 fi
-AC_CHECK_TYPES([socklen_t]) 
+AC_CHECK_TYPES([socklen_t])
 B_SV_CFLAGS="${CFLAGS}"
 B_SV_CPPFLAGS="${CPPFLAGS}"
 CPPFLAGS=""

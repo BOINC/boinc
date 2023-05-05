@@ -133,7 +133,7 @@ function show_form($all) {
         $v = $app->weight;
         echo "  <TD align='center'>
         <input type='text' size='4' name='weight' value='$v'></TD>\n";
-        
+
         if ($app->deprecated || ($total_weight == 0)) {
             echo '<td></td>';
         } else {

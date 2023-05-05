@@ -39,7 +39,7 @@ if (count($notifies)) {
 } else {
     $last_mod_time = time();
 }
-$create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT'; 
+$create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT';
 
 header("Expires: ".gmdate('D, d M Y H:i:s', time())." GMT");
 header("Last-Modified: ".$create_date);

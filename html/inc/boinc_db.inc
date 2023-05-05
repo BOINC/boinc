@@ -796,7 +796,7 @@ class BoincToken {
         $db = BoincDb::get();
         return $db->lookup('token', 'BoincToken', $clause);
     }
-    
+
     static function lookup_valid_token($userid, $token, $type) {
         $db = BoincDb::get();
         $token = BoincDb::escape_string($token);
@@ -804,7 +804,7 @@ class BoincToken {
         $now = time();
         return self::lookup("userid=$userid and token='$token' and expire_time > $now and type = '$type'");
     }
-    
+
     static function enum($where_clause) {
         $db = BoincDb::get();
         return $db->enum('token', 'BoincToken', $where_clause);
@@ -825,7 +825,7 @@ class BoincToken {
         $db->delete_aux('token', $where_clause);
         return $db->affected_rows();
     }
-    
+
     static function delete_expired() {
         $db = BoincDb::get();
         $now = time();
@@ -842,7 +842,7 @@ class BoincToken {
 }
 
 class BoincUserDeleted {
-    
+
     static function insert_user($user) {
         $now = time();
         $cpid = md5($user->cross_project_id.$user->email_addr);
@@ -850,7 +850,7 @@ class BoincUserDeleted {
         $db = BoincDb::get();
         return $db->insert('user_deleted', $clause);
     }
-    
+
     static function delete_expired() {
         $db = BoincDb::get();
         $expire_time = time() - 60*86400; //60 days ago
@@ -861,14 +861,14 @@ class BoincUserDeleted {
 }
 
 class BoincHostDeleted {
-    
+
     static function insert_hosts_for_user($user) {
         $now = time();
         $clause = "select id, host_cpid, $now from host where userid = $user->id";
         $db = BoincDb::get();
         return $db->insert('host_deleted', $clause);
     }
-    
+
     static function delete_expired() {
         $db = BoincDb::get();
         $expire_time = time() - 60*86400; //60 days ago
@@ -960,9 +960,9 @@ class BoincLatestConsent {
 }
 
 // DEPRECATED: use BoincDb::escape_string where possible
-// 
+//
 // apply this to any user-supplied strings used in queries
-// 
+//
 function boinc_real_escape_string($x) {
     if (version_compare(phpversion(),"4.3.0")>=0) {
         return BoincDb::escape_string($x);

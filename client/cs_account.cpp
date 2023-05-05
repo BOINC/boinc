@@ -466,7 +466,7 @@ int PROJECT::write_statistics_file() {
     get_statistics_filename(master_url, path, sizeof(path));
     f = boinc_fopen(TEMP_STATS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
-    fprintf(f, 
+    fprintf(f,
         "<project_statistics>\n"
         "    <master_url>%s</master_url>\n",
         master_url
@@ -475,7 +475,7 @@ int PROJECT::write_statistics_file() {
     for (std::vector<DAILY_STATS>::iterator i=statistics.begin();
         i!=statistics.end(); ++i
     ) {
-        fprintf(f, 
+        fprintf(f,
             "    <daily_statistics>\n"
             "        <day>%f</day>\n"
             "        <user_total_credit>%f</user_total_credit>\n"
@@ -491,7 +491,7 @@ int PROJECT::write_statistics_file() {
         );
     }
 
-    fprintf(f, 
+    fprintf(f,
         "</project_statistics>\n"
     );
 

@@ -27,3 +27,7 @@ jobs:
         if: ${{ success() }}
         run: |
           python ./ci_tools/source_code_check.py .
+      - name: Check source code for trailing whitespaces
+        if: ${{ success() }}
+        run: |
+          python ./ci_tools/trailing_whitespaces_check.py .

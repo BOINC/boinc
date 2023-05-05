@@ -188,7 +188,7 @@ struct PROJECT : PROJ_AM {
     bool dont_use_dcf;
 
     bool suspended_via_gui;
-    bool dont_request_more_work; 
+    bool dont_request_more_work;
         // Return work, but don't request more
         // Used for a clean exit to a project,
         // or if a user wants to pause doing work for the project
@@ -219,7 +219,7 @@ struct PROJECT : PROJ_AM {
         // If it's the last one, set project_files_downloaded_time to now
 
     void update_duration_correction_factor(ACTIVE_TASK*);
-    
+
     // fields used by CPU scheduler and work fetch
     // everything from here on applies only to CPU intensive projects
 
