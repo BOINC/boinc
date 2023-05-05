@@ -231,7 +231,7 @@ static void init_core_client(int argc, char** argv) {
 #endif
 
     read_config_file(true);
-    
+
     // NOTE: this must be called BEFORE newer_version_startup_check()
     // Only branded builds of BOINC should have an nvc_config.xml file
     // in the BOINC Data directory. See comments in current_version.cpp.
@@ -239,7 +239,7 @@ static void init_core_client(int argc, char** argv) {
     if (read_nvc_config_file()) {
        // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
     }
-    
+
     // Win32 - detach from console if requested
 #ifdef _WIN32
     if (gstate.detach_console) {
@@ -271,7 +271,7 @@ static void init_core_client(int argc, char** argv) {
 //
 static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
-    
+
     boinc_install_signal_handlers();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();

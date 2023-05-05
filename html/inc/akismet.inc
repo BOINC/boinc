@@ -70,6 +70,6 @@ function akismet_request($request, $host, $path, $port = 80) {
         $response = explode("\r\n\r\n", $response, 2);
     }
     return $response;
-}  
+}
 
 ?>

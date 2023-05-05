@@ -17,13 +17,13 @@
 
 /* CustomInstall.cpp */
 
-/* Customizable installer to allow use of features described at 
+/* Customizable installer to allow use of features described at
       http://boinc.berkeley.edu/client_startup.php
 Directions for creating a customized installer for the Macintosh:
  [1] Create a directory, with a name such as SETI@home_Mac_Installer
- [2] Place this CustomInstall application inside that directory.  You 
+ [2] Place this CustomInstall application inside that directory.  You
      may rename this application if you wish.
- [3] Create a new  directory named "boinc_startup_files" inside the  
+ [3] Create a new  directory named "boinc_startup_files" inside the
      directory created in step 1.
  [4] Place the custom .xml files in the "boinc_startup_files" directory.
  [5] Zip the directory created in step 1 (with all its contents).
@@ -105,13 +105,13 @@ int main(int argc, char *argv[])
     getcwd(path, 256);  // Directory containing this application
 #endif
 
-    // we use multiple threads to be able to run our progress dialogs during 
+    // we use multiple threads to be able to run our progress dialogs during
     //	copy and search operations
     if (!MPLibraryIsLoaded()) {
         printf("MultiProcessing Library not available.\n");
         ExitToShell();
     }
-	
+
     err = MPCreateQueue(&gTerminationQueue);	/* Create the queue which will report the completion of the task. */
     if (err != noErr) {
         printf("Cannot create the termination queue. err = %d\n", (short)err);
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
         show_message((StringPtr)"\pFailed to create zip file.");
         return -1;
     }
-    
+
     err = MPCreateTask(download_thread,             /* This is the task function. */
                         boinc_installer_zip_file,   /* This is the parameter to the task function. */
                         (500*1024),                 /* Stack size for thread. */
@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
     }
 
     err = runProgressDlog();
-    
+
     fclose(boinc_installer_zip_file);
 
     if (gQuitFlag)
@@ -149,17 +149,17 @@ int main(int argc, char *argv[])
         show_message((StringPtr)"\pCancelled by user.");
         return 0;
     }
-    
+
     if (gResult)
     {
         buf[0] = sprintf(buf+1, "Download error %d:\n%s", gResult, curl_easy_strerror(gResult));
         show_message((StringPtr)buf);
         return 0;
     }
-    
+
     sprintf(buf, "unzip -o %s", gDownLoadFileName);
     retval = system(buf);
-    
+
     if (retval)
     {
         show_message((StringPtr)"\pError expanding downloaded zip file.");
@@ -169,10 +169,10 @@ int main(int argc, char *argv[])
     // Copy the custom XML files
 #ifdef __APPLE__
     // On the Macintosh, BOINC puts its data at a fixed, predetermined path
-    // so we can just copy the custom files there.  On other platforms, this 
-    // application should copy the custom files to a temporary, intermediate 
-    // location which the standard installer can then find; the standard 
-    // installer should then copy the files to the correct directory and 
+    // so we can just copy the custom files there.  On other platforms, this
+    // application should copy the custom files to a temporary, intermediate
+    // location which the standard installer can then find; the standard
+    // installer should then copy the files to the correct directory and
     // possibly delete the temporary ones.
     retval = system("mkdir -p /Library/Application\\ Support/BOINC\\ Data");
     if (!retval)
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
     }
     if (!retval)
     {
-        sprintf(buf, "cp -f .%s%s%s*.xml /Library/Application\\ Support/BOINC\\ Data/", 
+        sprintf(buf, "cp -f .%s%s%s*.xml /Library/Application\\ Support/BOINC\\ Data/",
             PATH_SEPARATOR, gCustomDirectoryName, PATH_SEPARATOR);
         retval = system(buf);
     }
@@ -192,11 +192,11 @@ int main(int argc, char *argv[])
         show_message((StringPtr)"\pCouldn't copy custom BOINC startup files.");
         retval = 0;     // Should we continue anyway?
     }
-    
+
     // Search this directory for the expanded BOINC installer directory; it
     // should be the only directory other than the custom files directory.
     sprintf(buf, ".%s", PATH_SEPARATOR);
-    
+
     dirp = dir_open(path);
     if (dirp == NULL)
     {
@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
                 break;
         } while (retval == BOINC_SUCCESS);
     }
-    
+
     if (retval)
     {
         show_message((StringPtr)"\pCouldn't find downloaded additional BOINC installer software.");
@@ -232,7 +232,7 @@ int main(int argc, char *argv[])
 static void Initialize()	/* Initialize some managers */
 {
     OSErr	err;
-        
+
     InitCursor();
 
     err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
@@ -257,7 +257,7 @@ static OSErr download_boinc(FILE * out_file)
 {
     CURL *myHandle;
     CURLcode curlErr;
-    
+
     curlErr = curl_global_init(0);
 
     myHandle = curl_easy_init();
@@ -266,7 +266,7 @@ static OSErr download_boinc(FILE * out_file)
         show_message((StringPtr)"\pDownload initialization error.");
         return -1;
     }
-    
+
     curlErr = curl_easy_setopt(myHandle, CURLOPT_VERBOSE, 1);
     curlErr = curl_easy_setopt(myHandle, CURLOPT_NOPROGRESS, 0);
     curlErr = curl_easy_setopt(myHandle, CURLOPT_WRITEDATA, out_file);
@@ -281,7 +281,7 @@ static OSErr download_boinc(FILE * out_file)
 
     curl_easy_cleanup(myHandle);
     curl_global_cleanup();
-    
+
     return curlErr;
 }
 
@@ -315,12 +315,12 @@ static OSErr runProgressDlog()
     alertParams.defaultButton = kAlertStdAlertOKButton;
     alertParams.cancelButton = 0;
     alertParams.position = kWindowDefaultPosition;
-    
+
     ParamText("\pDownloading additional BOINC installer software:\n   0% complete", "\p", "\p", "\p");
-    
+
     err = StandardAlert(kAlertNoteAlert, "\p^0", NULL, &alertParams, &itemHit);
     if (itemHit == kAlertStdAlertOKButton)
-        gQuitFlag = true; 
+        gQuitFlag = true;
 
     return noErr;
 }
@@ -330,7 +330,7 @@ static pascal Boolean ProgDlgFilterProc(DialogPtr dp, EventRecord *event, short 
 {
     char buf[256];
     OSStatus err;
-    
+
     if (gTerminationQueue)
     {
         err = MPWaitOnQueue(gTerminationQueue, 0, 0, (void **)&gResult, kDurationImmediate);
@@ -340,16 +340,16 @@ static pascal Boolean ProgDlgFilterProc(DialogPtr dp, EventRecord *event, short 
             return true;
         }
     }
-    
+
     if (gProgressValue == gOldProgressValue)
         return false;
-    
+
     gOldProgressValue = gProgressValue;
-    
+
     buf[0] = sprintf(buf+1, "Downloading additional BOINC installer software:\n %3d%% complete", gProgressValue);
     ParamText("\pDownloading additional BOINC installer software:   0% complete", "\p", "\p", "\p");
     ParamText((StringPtr)buf, "\p", "\p", "\p");
-    
+
     DrawDialog(dp);
 
     return false;
@@ -365,7 +365,7 @@ static void show_message(StringPtr s1)
 {
     DialogItemIndex itemHit;
     OSErr err;
-    
+
     err = StandardAlert (kAlertStopAlert, s1, NULL, NULL, &itemHit);
 }
 
@@ -373,7 +373,7 @@ static void show_message(StringPtr s1)
 static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon )
 {
     gQuitFlag =  true;
-    
+
     return noErr;
 }
 
@@ -403,7 +403,7 @@ static void print_to_log_file(const char *format, ...) {
     va_start(args, format);
     vfprintf(f, format, args);
     va_end(args);
-    
+
     fputs("\n", f);
     fflush(f);
     fclose(f);

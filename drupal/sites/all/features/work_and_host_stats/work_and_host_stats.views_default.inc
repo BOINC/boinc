@@ -6036,7 +6036,7 @@ Cross-project stats:
       'hide_empty' => 0,
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
-      'value' => '<?php 
+      'value' => '<?php
 $uid = get_drupal_id($data->user_host_id);
 if ($data->user_host_show_hosts) {
   echo l($data->user_host_name, "account/{$uid}");
@@ -6860,7 +6860,7 @@ Cross-project stats:
       'hide_empty' => 0,
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
-      'value' => '<?php 
+      'value' => '<?php
 $uid = get_drupal_id($data->user_host_id);
 if ($data->user_host_show_hosts) {
   echo l($data->user_host_name, "account/{$uid}");

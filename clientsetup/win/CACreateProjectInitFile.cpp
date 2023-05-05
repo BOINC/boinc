@@ -30,10 +30,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateProjectInitFile::CACreateProjectInitFile(MSIHANDLE hMSIHandle) :
@@ -42,10 +42,10 @@ CACreateProjectInitFile::CACreateProjectInitFile(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateProjectInitFile::~CACreateProjectInitFile()
@@ -55,10 +55,10 @@ CACreateProjectInitFile::~CACreateProjectInitFile()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CACreateProjectInitFile::OnExecution()
@@ -88,7 +88,7 @@ UINT CACreateProjectInitFile::OnExecution()
 
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
@@ -138,10 +138,10 @@ UINT CACreateProjectInitFile::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    CreateProjectInitFile
 //
-// Description: This custom action stores the project init data 
+// Description: This custom action stores the project init data
 //                specified on the commandline in a file in the data
 //                directory.
 //

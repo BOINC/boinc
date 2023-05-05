@@ -835,7 +835,7 @@ int ACTIVE_TASK::start(bool test) {
     // see which one was used for this job, and show it
     //
     if (log_flags.task_debug && gstate.host_info.n_processor_groups > 0) {
-        msg_printf(wup->project, MSG_INFO, 
+        msg_printf(wup->project, MSG_INFO,
             "[task_debug] task is running in processor group %d",
             get_processor_group(process_handle)
         );
@@ -1096,7 +1096,7 @@ int ACTIVE_TASK::start(bool test) {
         }
         if (g_use_sandbox) {
             char switcher_path[MAXPATHLEN];
-            snprintf(switcher_path, sizeof(switcher_path), 
+            snprintf(switcher_path, sizeof(switcher_path),
                 "../../%s/%s",
                 SWITCHER_DIR, SWITCHER_FILE_NAME
             );

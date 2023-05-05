@@ -88,10 +88,10 @@ function forum_rss($forumid, $userid, $threads_only, $ndays) {
     if (sizeof($threads)) {
         $t = $threads[0];
         $last_mod_time = $threads_only?$t->create_time:$t->timestamp;
-        $create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT'; 
+        $create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT';
         header ("Last-Modified: " . $create_date);
     } else {
-        $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
+        $create_date  = gmdate('D, d M Y H:i:s') . ' GMT';
     }
     header ("Content-Type: application/xml");
 

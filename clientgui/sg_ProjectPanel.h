@@ -34,7 +34,7 @@ typedef struct {
 
 class CBOINCBitmapComboBox;
 
-class CSimpleProjectPanel : public CSimplePanelBase 
+class CSimpleProjectPanel : public CSimplePanelBase
 {
     DECLARE_DYNAMIC_CLASS( CSimpleProjectPanel )
     DECLARE_EVENT_TABLE()
@@ -43,11 +43,11 @@ class CSimpleProjectPanel : public CSimplePanelBase
         CSimpleProjectPanel();
 		CSimpleProjectPanel( wxWindow* parent);
 		~CSimpleProjectPanel();
-        
+
         ProjectSelectionData* GetProjectSelectionData();
         void UpdateInterface();
         void ReskinInterface();
-        
+
 	private:
         void OnProjectSelection(wxCommandEvent &event);
         void OnProjectCommandButton(wxCommandEvent& /*event*/);

@@ -19,13 +19,13 @@
  *  QBacktrace.c
  *
  */
- 
-/* This is part of a backtrace generator for boinc project applications.  
+
+/* This is part of a backtrace generator for boinc project applications.
 *
 * Adapted from Apple Developer Technical Support Sample Code QCrashReport
 *
-* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some 
-* adjustment for future OS versions; see the discussion of _sigtramp and 
+* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some
+* adjustment for future OS versions; see the discussion of _sigtramp and
 * PowerPC Signal Stack Frames below.
 *
 *  For useful tips on using backtrace information, see Apple Tech Note 2123:
@@ -33,10 +33,10 @@
 *
 *  To convert addresses to correct symbols, use the atos command-line tool:
 *  atos -o path/to/executable/with/symbols address
-*  Note: if address 1a23 is hex, use 0x1a23.  
+*  Note: if address 1a23 is hex, use 0x1a23.
 *
-*  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additional underscore before 
+*  To demangle mangled C++ symbols, use the c++filt command-line tool.
+*  You may need to prefix C++ symbols with an additional underscore before
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -78,7 +78,7 @@
                 patent rights that may be infringed by your derivative works or
                 by other works in which the Apple Software may be incorporated.
 
-                The Apple Software is provided by Apple on an "AS IS" basis. 
+                The Apple Software is provided by Apple on an "AS IS" basis.
                 APPLE MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
                 WITHOUT LIMITATION THE IMPLIED WARRANTIES OF NON-INFRINGEMENT,
                 MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, REGARDING
@@ -98,10 +98,10 @@
     Change History (most recent first):
 
 $Log: QBacktrace.c,v $
-Revision 1.2  2007/03/02 13:00:08         
+Revision 1.2  2007/03/02 13:00:08
 Quieten some warnings.
 
-Revision 1.1  2007/03/02 12:19:49         
+Revision 1.1  2007/03/02 12:19:49
 First checked in.
 
 
@@ -148,7 +148,7 @@ First checked in.
 // Again, we need C++ guards.
 
 // We want both PowerPC and Intel thread state information.
-// By default, the system only gives us the one that's appropriate 
+// By default, the system only gives us the one that's appropriate
 // for our machine.  So we include both here.
 
 
@@ -178,7 +178,7 @@ First checked in.
 #pragma mark ***** Architecture Specification
 
 // This is an extra flag for the flags field of the QBTFrame structure.
-// It is true if the symbol field of that structure was allocated by 
+// It is true if the symbol field of that structure was allocated by
 // QBacktrace and should be disposed by QBacktraceDisposeSymbols.
 
 enum {
@@ -191,10 +191,10 @@ typedef struct QBTContext QBTContext;
 // Architecture Callbacks -- Called by the core to do architecture-specific tasks.
 
 typedef int  (*QBTHandleLeafProc)(QBTContext *context, QTMAddr *pcPtr, QTMAddr *fpPtr);
-	// This callback is called by the core to start a backtrace. 
-	// It should extract the first PC and frame from the thread state 
-	// in the context and return them to the core.  Also, if the 
-	// routine detects a frameless leaf routine, it should add a 
+	// This callback is called by the core to start a backtrace.
+	// It should extract the first PC and frame from the thread state
+	// in the context and return them to the core.  Also, if the
+	// routine detects a frameless leaf routine, it should add a
 	// dummy frame for that routine (by calling AddFrame).
 	//
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
@@ -205,29 +205,29 @@ typedef int  (*QBTHandleLeafProc)(QBTContext *context, QTMAddr *pcPtr, QTMAddr *
 	// On success, *fpPtr must be the frame pointer of the first non-leaf frame.
 
 typedef bool (*QBTValidPCProc)(QBTContext *context, QTMAddr pc);
-	// This callback is called by the core to check whether a PC address 
-	// is valid.  This is architecture-specific; for example, on PowerPC a 
-	// PC value must be a multiple of 4, whereas an Intel an instruction 
+	// This callback is called by the core to check whether a PC address
+	// is valid.  This is architecture-specific; for example, on PowerPC a
+	// PC value must be a multiple of 4, whereas an Intel an instruction
 	// can start at any address.
 	//
-	// At a minimum, an implementation is expected to check the PC's alignment 
+	// At a minimum, an implementation is expected to check the PC's alignment
 	// and read the instruction at the PC.
 	//
 	// IMPORTANT:
-	// The core code assumes that (QTMAddr) -1 is never a valid PC. 
-	// If that isn't true for your architecture, you'll need to eliminate 
+	// The core code assumes that (QTMAddr) -1 is never a valid PC.
+	// If that isn't true for your architecture, you'll need to eliminate
 	// that assumption from the core.
-	// 
+	//
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
 	// On entry, pc can be any value.
 	// Returns true if the PC looks reasonably valid, false otherwise.
 
 typedef int  (*QBTGetFrameNextPCProc)(QBTContext *context, QTMAddr thisFrame, QTMAddr nextFrame, QTMAddr *nextPCPtr);
-	// This callback is called by the core to get the PC associated with 
-	// the next frame.  This is necessary because different architectures 
-	// store the PC in different places.  Specifically, PowerPC stores 
-	// the PC of a frame in that frame, whereas Intel stores the PC of 
-	// a frame in the previous frame (that is, the PC value in the frame 
+	// This callback is called by the core to get the PC associated with
+	// the next frame.  This is necessary because different architectures
+	// store the PC in different places.  Specifically, PowerPC stores
+	// the PC of a frame in that frame, whereas Intel stores the PC of
+	// a frame in the previous frame (that is, the PC value in the frame
 	// is actually a return address).
 	//
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
@@ -238,17 +238,17 @@ typedef int  (*QBTGetFrameNextPCProc)(QBTContext *context, QTMAddr thisFrame, QT
 	// On success, *nextPCPtr must be the PC associated with nextFrame.
 
 typedef int  (*QBTCrossSignalFrameProc)(QBTContext *context, QTMAddr thisFrame, QTMAddr *nextPCPtr, QTMAddr *nextFramePtr);
-	// This callback is called by the core when it detects a cross signal 
-	// frame and wants to cross that frame in an architecture-specific 
-	// manner.  The code gets a pointer to the cross-signal handler frame 
-	// and is expected to return the PC and frame pointer of the first 
-	// non-leaf frame on the other side.  Furthermore, it must detect if 
-	// the first frame on the other side is a leaf frame and add a 
+	// This callback is called by the core when it detects a cross signal
+	// frame and wants to cross that frame in an architecture-specific
+	// manner.  The code gets a pointer to the cross-signal handler frame
+	// and is expected to return the PC and frame pointer of the first
+	// non-leaf frame on the other side.  Furthermore, it must detect if
+	// the first frame on the other side is a leaf frame and add a
 	// dummy frame for that routine (by calling AddFrame) before returning.
 	//
-	// An implementation does not have to check the validity of the 
+	// An implementation does not have to check the validity of the
 	// returned PC and frame.  The core will do that for you.
-	// 
+	//
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
 	// On entry, thisFrame will be a valid cross-signal handler frame.
 	// On entry, nextPCPtr will not be NULL.
@@ -257,31 +257,31 @@ typedef int  (*QBTCrossSignalFrameProc)(QBTContext *context, QTMAddr thisFrame, 
 	// On success, *nextPCPtr must be the PC of the next non-leaf frame.
 	// On success, *nextFramePtr must be the PC of the next non-leaf frame.
 
-// Architecture Specification Structure -- Aggregates all of the information 
+// Architecture Specification Structure -- Aggregates all of the information
 // associated with a particular architecture.
 
 struct QBTArchInfo {
     const char *                name;                       // just for debugging
 
 	// Information to identify the architecture
-	
+
     cpu_type_t					cputype;					// per NXGetLocalArchInfo in <mach-o/arch.h>
     cpu_subtype_t				cpusubtype;					// per NXGetLocalArchInfo in <mach-o/arch.h>, 0 for wildcard
 	bool						is64Bit;
 
 	// Misc information about the architecture
-	
+
 	QTMAddr                     frameAlignMask;				// mask to detect frame misalignment
 															// FP & frameAlignMask must be 0 for a valid frame
 	// Architecture-specific backtrace callbacks
-	
+
 	QBTHandleLeafProc           handleLeaf;					// described in detail above
 	QBTValidPCProc              validPC;					// described in detail above
 	QBTGetFrameNextPCProc       getFrameNextPC;				// described in detail above
 	QBTCrossSignalFrameProc     crossSignalFrame;			// described in detail above
-	
+
 	// Specification of how to call thread_get_state
-	
+
 	thread_state_flavor_t		stateFlavor;
 	mach_msg_type_number_t		stateCount;
 };
@@ -291,34 +291,34 @@ static const QBTArchInfo kArchitectures[];
 	// forward declaration
 
 static const QBTArchInfo * GetTaskArch(QMOImageRef qmoImage)
-	// Returns a pointer to the architecture associated with the specific 
-	// task, or NULL if it's an architecture we don't know about. 
+	// Returns a pointer to the architecture associated with the specific
+	// task, or NULL if it's an architecture we don't know about.
 {
 	const QBTArchInfo *     result;
     const QBTArchInfo *     thisArch;
     bool                    is64Bit;
     cpu_type_t              cputype;
     cpu_subtype_t           cpusubtype;
-	
+
     assert(qmoImage != NULL);
-    
+
 	result = NULL;
 
     // Get the architecture characteristics from the image.
-    
+
     is64Bit    = QMOImageIs64Bit(qmoImage);
     cputype    = QMOImageGetCPUType(qmoImage);
     cpusubtype = QMOImageGetCPUSubType(qmoImage);
 
-    // Look through the architecture array for an architecture that matches the 
-    // target architecture.  Also, we prefer architectures with an exact CPU 
+    // Look through the architecture array for an architecture that matches the
+    // target architecture.  Also, we prefer architectures with an exact CPU
     // subtype match, but we'll accept those with a 0 CPU subtype.
-    
+
     thisArch = &kArchitectures[0];
     while ( (thisArch->cputype != 0) && (result == NULL) ) {
         if (   (thisArch->cputype == cputype)
             && ((thisArch->cpusubtype == 0) || (thisArch->cpusubtype == cpusubtype))
-            && (thisArch->is64Bit == is64Bit) 
+            && (thisArch->is64Bit == is64Bit)
            ) {
             result = thisArch;
         } else {
@@ -335,12 +335,12 @@ static const QBTArchInfo * GetTaskArch(QMOImageRef qmoImage)
 // Memory Read Callback
 
 typedef int (*QBTReadBytesProc)(QBTContext *context, QTMAddr src, void *dst, size_t size);
-	// This function pointer is called by the core backtrace code 
-	// when it needs to read memory.  The callback should do a safe 
-	// read of size bytes from src into the buffer specified by 
-	// dst.  By "safe" we mean that the routine should return an error 
-	// if the read can't be done (typically because src is a pointer to 
-	// unmapped memory).  It does not need to do any word size adjustment 
+	// This function pointer is called by the core backtrace code
+	// when it needs to read memory.  The callback should do a safe
+	// read of size bytes from src into the buffer specified by
+	// dst.  By "safe" we mean that the routine should return an error
+	// if the read can't be done (typically because src is a pointer to
+	// unmapped memory).  It does not need to do any word size adjustment
     // or byte swapping.
 	//
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
@@ -348,25 +348,25 @@ typedef int (*QBTReadBytesProc)(QBTContext *context, QTMAddr src, void *dst, siz
 	// On entry, dst will not be NULL.
 	// On entry, size will be greater than 0.
 	// Returns an errno-style error code.
-	// On success, the routine has copied size bytes of data from the address src 
+	// On success, the routine has copied size bytes of data from the address src
 	// in the remote task to the address dst in the local task.
 	// On error, the value at dst is unspecified.
 	//
 	// Note:
-	// In previous versions of QBacktrace, I supported alternative ways to 
-	// read bytes from the target.  For example, I could use the Carbon 
-	// exception handler mechanism <CoreServices/MachineExceptions.h> to read 
-	// data from the current task in a safe fashion.  This was useful because 
-	// it would work on both Mac OS X and traditional Mac OS.  Now that I 
-	// require Mac OS X and Mach-O, I can just use the Mach routines to do 
-	// my reading.  However, I've left the abstraction layer in place, 
+	// In previous versions of QBacktrace, I supported alternative ways to
+	// read bytes from the target.  For example, I could use the Carbon
+	// exception handler mechanism <CoreServices/MachineExceptions.h> to read
+	// data from the current task in a safe fashion.  This was useful because
+	// it would work on both Mac OS X and traditional Mac OS.  Now that I
+	// require Mac OS X and Mach-O, I can just use the Mach routines to do
+	// my reading.  However, I've left the abstraction layer in place,
 	// Just In Case (tm).
 
 struct QBTContext {
 
-	// Internal parameters that are set up by the caller 
+	// Internal parameters that are set up by the caller
 	// of the core backtrace code.
-	
+
 	const QBTArchInfo *		arch;                   // architecture specific info
 	task_t					task;                   // target task
     QSymbolsRef             symRef;                 // symbols object for target task
@@ -378,13 +378,13 @@ struct QBTContext {
 	QBTReadBytesProc		readBytes;				// described in detail above
 
 	// Stuff worked out internally by MachInitContextFromTask.
-	
+
 	bool					swapBytes;				// true if target and current task have different byte orders
 	QTMAddr					sigTrampLowerBound;		// bounds of _sigtramp in target task
 	QTMAddr					sigTrampUpperBound;
-	
+
 	// Parameters from client.
-	
+
 	QTMAddr                 stackBottom;            // bounds of stack in target task
 	QTMAddr                 stackTop;
 	QBTFrame *              frameArray;				// array contents filled out by core
@@ -394,8 +394,8 @@ struct QBTContext {
 
 #if 0 //! defined(NDEBUG)
 
-    // Because QBTContextIsValid is only referenced by assert macros, and these 
-    // are disabled by NDEBUG, we have to conditionalise this code based on 
+    // Because QBTContextIsValid is only referenced by assert macros, and these
+    // are disabled by NDEBUG, we have to conditionalise this code based on
     // NDEBUG lest we get a "defined but not used" warning.
 
     static bool QBTContextIsValid(const QBTContext *context)
@@ -415,13 +415,13 @@ struct QBTContext {
 #endif
 
 static int BacktraceAdorn(QBTContext *context)
-    // Add symbols to all of the backtrace frames referenced by the context. 
-    // Uses the 'bulk' symbols-to-address routine, in the hope that this will 
-    // be faster one day.  Also uses the kQBTFrameSymbolNeedsDisposeMask flag 
+    // Add symbols to all of the backtrace frames referenced by the context.
+    // Uses the 'bulk' symbols-to-address routine, in the hope that this will
+    // be faster one day.  Also uses the kQBTFrameSymbolNeedsDisposeMask flag
     // to tag each frame to indicate whether the client needs to dispose it.
     //
-    // Note that failing to find symbol information for a particular address 
-    // will not cause this routine to fail.  Rather, the only causes of failure 
+    // Note that failing to find symbol information for a particular address
+    // will not cause this routine to fail.  Rather, the only causes of failure
     // are really bad things, like running out of memory.
 {
     int                 err;
@@ -429,7 +429,7 @@ static int BacktraceAdorn(QBTContext *context)
     size_t              frameIndex;
     QTMAddr *           addrs;
     QSymSymbolInfo *    infos;
-    
+
     assert(context != NULL);
     assert(context->symRef != NULL);
     assert(context->frameArray != NULL);
@@ -437,15 +437,15 @@ static int BacktraceAdorn(QBTContext *context)
     assert(context->frameCountOut != 0);
 
     // Only do the frames that actually exist.
-    
+
     frameCount = context->frameCountOut;
     if (frameCount > context->frameArrayCount) {
         frameCount = context->frameArrayCount;
     }
     assert(frameCount > 0);         // because of our pre-conditions
-    
+
     // Allocate arrays for call QSymGetSymbolsForAddresses.
-    
+
     addrs = (QTMAddr *)        calloc(frameCount, sizeof(*addrs));
     infos = (QSymSymbolInfo *) calloc(frameCount, sizeof(*infos));
     err = 0;
@@ -454,12 +454,12 @@ static int BacktraceAdorn(QBTContext *context)
     }
 
     // Set up the addrs array and call QSymGetSymbolsForAddresses.
-    
+
     if (err == 0) {
         for (frameIndex = 0; frameIndex < frameCount; frameIndex++) {
             addrs[frameIndex] = context->frameArray[frameIndex].pc;
         }
-        
+
         err = QSymGetSymbolsForAddresses(
             context->symRef,
             frameCount,
@@ -467,32 +467,32 @@ static int BacktraceAdorn(QBTContext *context)
             infos
         );
     }
-    
+
     // Place the symbol information into the output frames.
     //
-    // For error handling to work, you must not error past this point.  Otherwise 
-    // we break the post-condition that the user doesn't need to do anything on 
+    // For error handling to work, you must not error past this point.  Otherwise
+    // we break the post-condition that the user doesn't need to do anything on
     // error.
-    
+
     if (err == 0) {
         for (frameIndex = 0; frameIndex < frameCount; frameIndex++) {
             if (infos[frameIndex].symbolType != kQSymNoSymbol) {
                 if (context->createdSymRef) {
                     const char *    libName;
-                    
-                    // Within this block, we ignore any failures; they just leave 
-                    // the relevant string NULL, which the dispose routine can 
+
+                    // Within this block, we ignore any failures; they just leave
+                    // the relevant string NULL, which the dispose routine can
                     // handle.
-                    
+
                     context->frameArray[frameIndex].symbol  = strdup(infos[frameIndex].symbolName);
-                    
+
                     libName = QMOImageGetFilePath(infos[frameIndex].symbolImage);
                     if (libName != NULL) {
                         context->frameArray[frameIndex].library = strdup(libName);
                     }
 
                     // Tell the dispose routine that we need to look at this frame.
-                    
+
                     context->frameArray[frameIndex].flags |= kQBTFrameSymbolNeedsDisposeMask;
                 } else {
                     assert(infos[frameIndex].symbolImage != NULL);
@@ -503,36 +503,36 @@ static int BacktraceAdorn(QBTContext *context)
             }
         }
     }
-    
+
     // Clean up.
-    
+
     free(addrs);
     free(infos);
-    
+
     return err;
 }
 
 static int ReadAddr(QBTContext *context, QTMAddr addr, QTMAddr *valuePtr)
-	// Reads an address (that is, a pointer) from the target task, 
+	// Reads an address (that is, a pointer) from the target task,
 	// returning an error if the memory is unmapped.
 	//
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
 	// On entry, addr can be any value.
 	// On entry, valuePtr must not be NULL.
 	// Returns an errno-style error code.
-	// On success, *valuePtr will be the value of the pointer stored at addr in 
+	// On success, *valuePtr will be the value of the pointer stored at addr in
 	// the target task.
 {
 	int			err;
 	QTMAddr     value;
-	
+
 	assert(QBTContextIsValid(context));
 	assert(valuePtr != NULL);
-	
+
 	if (context->arch->is64Bit) {
 
 		// Read directly into value, and then swap all 8 bytes.
-		
+
 		err = context->readBytes(context, addr, &value, sizeof(value));
 		if (err == 0) {
 			if (context->swapBytes) {
@@ -541,11 +541,11 @@ static int ReadAddr(QBTContext *context, QTMAddr addr, QTMAddr *valuePtr)
 		}
 	} else {
 		uint32_t	tmpAddr;
-		
-		// Read into a temporary address, swap 4 bytes, then copy that 
-		// into value.  tmpAddr is unsigned, so we zero fill the top 
+
+		// Read into a temporary address, swap 4 bytes, then copy that
+		// into value.  tmpAddr is unsigned, so we zero fill the top
 		// 32 bits.
-		
+
 		err = context->readBytes(context, addr, &tmpAddr, sizeof(tmpAddr));
 		if (err == 0) {
 			if (context->swapBytes) {
@@ -557,22 +557,22 @@ static int ReadAddr(QBTContext *context, QTMAddr addr, QTMAddr *valuePtr)
 	if (err == 0) {
 		*valuePtr = value;
 	}
-	
+
 	return err;
 }
 
 #if ! TARGET_CPU_ARM64
 static void AddFrame(QBTContext *context, QTMAddr pc, QTMAddr fp, QBTFlags flags)
-	// Adds a frame to the end of the output array with the 
+	// Adds a frame to the end of the output array with the
 	// value specified by pc, fp, and flags.
 	//
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
 {
-	// Only actually output the frame if the client supplied an array 
+	// Only actually output the frame if the client supplied an array
 	// and we we haven't filled it up yet.
-	
+
 	assert(QBTContextIsValid(context));
-	
+
 	if ( (context->frameArray != NULL) && (context->frameCountOut < context->frameArrayCount) ) {
 		QBTFrame *	frameOutPtr;
 
@@ -581,19 +581,19 @@ static void AddFrame(QBTContext *context, QTMAddr pc, QTMAddr fp, QBTFlags flags
 		frameOutPtr->fp    = fp;
 		frameOutPtr->flags = flags;
 	}
-	
+
 	// Always increment the frame count.
-	
-	context->frameCountOut += 1;	
+
+	context->frameCountOut += 1;
 }
 #endif
 
 static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
-	// The core backtrace code.  This routine is called by all of the various 
-	// exported routines.  It implements the core backtrace functionality. 
-	// All of the parameters to this routine are contained within 
-	// the context.  This routine traces back through the stack (using the 
-	// readBytes callback in the context to actually read memory) creating 
+	// The core backtrace code.  This routine is called by all of the various
+	// exported routines.  It implements the core backtrace functionality.
+	// All of the parameters to this routine are contained within
+	// the context.  This routine traces back through the stack (using the
+	// readBytes callback in the context to actually read memory) creating
 	// a backtrace.
 {
 	int			err;
@@ -602,19 +602,19 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 	QTMAddr		lowerBound;
 	QTMAddr		upperBound;
 	bool		stopNow;
-	
+
 	assert(QBTContextIsValid(context));
 
     // Check that the contents of the frame array, if any, are all zero.
-    // MachInitContextFromTask did this for us.  We need this to be done 
+    // MachInitContextFromTask did this for us.  We need this to be done
     // to maintain our post-condition, and it would be wasteful to do it twice.
-    
+
     #if ! defined(NDEBUG)
         if (context->frameArray != NULL) {
             size_t          byteCount;
             size_t          byteIndex;
             const char *    byteBase __attribute__((unused));
-            
+
             byteCount = context->frameArrayCount * sizeof(*context->frameArray);
             byteBase  = (const char *) context->frameArray;
             for (byteIndex = 0; byteIndex < byteCount; byteIndex++) {
@@ -622,33 +622,33 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
             }
         }
     #endif
-	
+
 	lowerBound = context->stackBottom;
 	upperBound = context->stackTop;
 	if (upperBound == 0) {
 		if (context->arch->is64Bit) {
-			// This actually generates a theoretical off-by-one error (a fp of 
-			// 0xFFFFFFFF FFFFFFFF is falsely considered invalid), but that's 
+			// This actually generates a theoretical off-by-one error (a fp of
+			// 0xFFFFFFFF FFFFFFFF is falsely considered invalid), but that's
 			// not a problem in practice.
 			upperBound = (QTMAddr)0xFFFFFFFFFFFFFFFFLL;
 		} else {
 			upperBound = (QTMAddr)0x0000000100000000LL;
 		}
 	}
-	
+
 	// If you supply bounds, they must make sense.
-	
+
 	assert(upperBound >= lowerBound);
 
-	// Handle any leaf frames, and also return to us the initial 
-	// PC and FP.  A failure here is worthy of being reported as a total 
+	// Handle any leaf frames, and also return to us the initial
+	// PC and FP.  A failure here is worthy of being reported as a total
     // failure of the routine, so we allow err to propagate.
 
 	assert(context->frameCountOut == 0);			// set up by memset in MachInitContextFromTask
 	err = context->arch->handleLeaf(context, &thisPC, &thisFrame);
-	
+
 	// Handle the normal frames.
-	
+
 	if (err == 0) {
 		stopNow = false;
 		do {
@@ -656,16 +656,16 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 			QBTFrame	tmpFrameOut;
 			QTMAddr 	nextFrame;
 			QTMAddr 	nextPC;
-			
-			// Output to a tmpFrameOut unless the client has supplied 
+
+			// Output to a tmpFrameOut unless the client has supplied
 			// a buffer and there's sufficient space left in it.
 			//
 			// IMPORTANT:
-			// You can't just add the frame information (possibly by calling 
-			// AddFrame) at the end of this loop, because the crossSignalFrame 
-			// callback may add its own frame, and we have to make sure that 
+			// You can't just add the frame information (possibly by calling
+			// AddFrame) at the end of this loop, because the crossSignalFrame
+			// callback may add its own frame, and we have to make sure that
 			// this frame is allocated before that one.
-			
+
 			if ( (context->frameArray != NULL) && (context->frameCountOut < context->frameArrayCount) ) {
 				frameOutPtr = &context->frameArray[context->frameCountOut];
 			} else {
@@ -673,34 +673,34 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 			}
 
 			// Record this entry.
-			
+
 			frameOutPtr->pc    = thisPC;
 			frameOutPtr->fp    = thisFrame;
 			frameOutPtr->flags = 0;
-			
-			// Now set the flags to indicate the validity of specific information. 
-			
-			// Check the validity of the PC.  Don't set the err here; a bad PC value 
+
+			// Now set the flags to indicate the validity of specific information.
+
+			// Check the validity of the PC.  Don't set the err here; a bad PC value
 			// does not cause us to quit the backtrace.
-			
+
 			if ( ! context->arch->validPC(context, thisPC) ) {
 				frameOutPtr->flags |= kQBTPCBadMask;
 			} else {
-				// On PowerPC I used to report the address of the call, 
-				// rather than the return address.  That was easy: I just 
-				// decremented the returned PC by 4.  However, this is 
-				// much harder on Intel, where instructions are of variable 
-				// length.  So, I decided to do what Apple's tools do, 
+				// On PowerPC I used to report the address of the call,
+				// rather than the return address.  That was easy: I just
+				// decremented the returned PC by 4.  However, this is
+				// much harder on Intel, where instructions are of variable
+				// length.  So, I decided to do what Apple's tools do,
 				// and just report the return address.
 			}
-			
-			// Check the validity of the frame pointer.  A bad frame pointer *does* 
+
+			// Check the validity of the frame pointer.  A bad frame pointer *does*
 			// cause us to stop tracing.
-			
-			if (	(thisFrame == 0) 
-				 || (thisFrame & context->arch->frameAlignMask) 
-				 || (thisFrame < lowerBound) 
-				 || (thisFrame >= upperBound) 
+
+			if (	(thisFrame == 0)
+				 || (thisFrame & context->arch->frameAlignMask)
+				 || (thisFrame < lowerBound)
+				 || (thisFrame >= upperBound)
 			   ) {
 				frameOutPtr->flags |= kQBTFrameBadMask;
 				stopNow = true;
@@ -708,24 +708,24 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 
 			if ( ! stopNow ) {
 
-				// Move to the next frame, either by crossing a signal handler frame 
+				// Move to the next frame, either by crossing a signal handler frame
 				// or by the usual mechanism.
-				
-				if (	!(frameOutPtr->flags & kQBTPCBadMask) 
-					  && ( thisPC >= context->sigTrampLowerBound ) 
-					  && ( thisPC <  context->sigTrampUpperBound ) 
+
+				if (	!(frameOutPtr->flags & kQBTPCBadMask)
+					  && ( thisPC >= context->sigTrampLowerBound )
+					  && ( thisPC <  context->sigTrampUpperBound )
 				   ) {
 
-					// If this frame is running in _sigtramp, get nextPC and nextFrame 
+					// If this frame is running in _sigtramp, get nextPC and nextFrame
 					// by delving into the signal handler stack block.
-                    
-                    // While developing the various per-architecture cross signal 
-                    // frame handlers, there are many cases where I want to look at 
-                    // the stack in detail.  In these circumstances, running under 
-                    // the debugger can be difficult because, for signals like 
-                    // SIGSEGV, GDB will catch the signal and not let you continue 
-                    // into the handler.  So I typically stop in the signal handler 
-                    // and then attach with GDB.  This code let's me do it without 
+
+                    // While developing the various per-architecture cross signal
+                    // frame handlers, there are many cases where I want to look at
+                    // the stack in detail.  In these circumstances, running under
+                    // the debugger can be difficult because, for signals like
+                    // SIGSEGV, GDB will catch the signal and not let you continue
+                    // into the handler.  So I typically stop in the signal handler
+                    // and then attach with GDB.  This code let's me do it without
                     // have to recompile.
 
 #if 0       // Added for BOINC
@@ -734,7 +734,7 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
                             static bool     sInited;
                             static bool     sStop;
                             const char *    envVar;
-                            
+
                             if ( ! sInited ) {
                                 envVar = getenv("QBACKTRACE_STOP_FOR_SIGNALS");
                                 sStop = ( (envVar != NULL) && (atoi(envVar) != 0) );
@@ -749,45 +749,45 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 #endif
 					frameOutPtr->flags |= kQBTSignalHandlerMask;
 					err = context->arch->crossSignalFrame(context, thisFrame, &nextPC, &nextFrame);
-                    
-                    // If we get an error crossing the signal frame, we just stop. 
+
+                    // If we get an error crossing the signal frame, we just stop.
                     // The trace up to this point is probably OK.
-                    
+
                     if (err != 0) {
                         stopNow = true;
                         err = 0;
                     }
 				} else {
-				
-					// Read the next frame pointer.  A failure here causes us to quit 
-					// backtracing.  Note that we set kQBTFrameBadMask in frameOutPtr 
-					// because, if we can't read the contents of the frame pointer, the 
+
+					// Read the next frame pointer.  A failure here causes us to quit
+					// backtracing.  Note that we set kQBTFrameBadMask in frameOutPtr
+					// because, if we can't read the contents of the frame pointer, the
 					// frame pointer itself must be bad.
-					
+
 					err = ReadAddr(context, thisFrame, &nextFrame);
 					if (err != 0) {
 						frameOutPtr->flags |= kQBTFrameBadMask;
 						nextFrame = (QTMAddr) -1;
-                        
+
                         stopNow = true;
                         err = 0;
 					}
-					
-					// Also get the PC of the next frame, or set it to dummy value if 
+
+					// Also get the PC of the next frame, or set it to dummy value if
 					// there is no next frame or we can't get the PC from that frame.
 
-					if (	(frameOutPtr->flags & kQBTFrameBadMask) 
-						 || (context->arch->getFrameNextPC(context, thisFrame, nextFrame, &nextPC) != 0) 
+					if (	(frameOutPtr->flags & kQBTFrameBadMask)
+						 || (context->arch->getFrameNextPC(context, thisFrame, nextFrame, &nextPC) != 0)
 					   ) {
 						nextPC = (QTMAddr) -1;		// an odd value, to trigger above check on next iteration
 					}
 				}
 
 				// Set up for the next iteration.
-				
+
 				if ( (err == 0) && ! stopNow ) {
                                         context->frameCountOut += 1;
-                                        
+
 					lowerBound = thisFrame;
 					thisPC     = nextPC;
 					thisFrame  = nextFrame;
@@ -797,13 +797,13 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 	}
 
     // Adorn the backtrace with symbol information.
-    
+
     if ( (err == 0) && (context->frameArray != NULL) && (context->frameArrayCount != 0) && (context->frameCountOut != 0) ) {
         err = BacktraceAdorn(context);
     }
 
     // Clean up.
-    
+
     if (err != 0) {
         QBacktraceDisposeSymbols(context->frameArray, context->frameArrayCount);
         if (context->frameArray != NULL) {
@@ -814,17 +814,17 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
     *frameCountPtr = context->frameCountOut;
 
 	assert(QBTContextIsValid(context));
-	
+
 	return err;
 }
 
 #pragma mark ***** Mach Infrastructure
 
 static int MachReadBytes(QBTContext *context, QTMAddr src, void *dst, size_t size)
-	// A memory read callback for Mach.  This simply calls through to our 
+	// A memory read callback for Mach.  This simply calls through to our
     // QTaskMemory abstraction layer, which in turns calls mach_vm_read_overwrite.
 	//
-	// See the description of QBTReadBytesProc for information about 
+	// See the description of QBTReadBytesProc for information about
 	// the parameters.
 {
 	assert(QBTContextIsValid(context));
@@ -835,11 +835,11 @@ static int MachReadBytes(QBTContext *context, QTMAddr src, void *dst, size_t siz
 }
 
 static void MachTermContext(QBTContext *context)
-    // Clean up after a MachInitContext.  It's safe to call this even 
+    // Clean up after a MachInitContext.  It's safe to call this even
     // if MachInitContext fails.
 {
     assert(context != NULL);
-    
+
     if (context->createdSymRef) {
         QSymDestroy(context->symRef);
     }
@@ -849,53 +849,53 @@ static int MachInitContextFromTask(
 	QBTContext *			context,
 	task_t					task,
     cpu_type_t              cputype,
-	QTMAddr                 stackBottom, 
+	QTMAddr                 stackBottom,
 	QTMAddr                 stackTop,
     QSymbolsRef             symRef,
-	QBTFrame *              frameArray, 
+	QBTFrame *              frameArray,
 	size_t					frameArrayCount
 )
-    // Initialise the backtrace context from numerous parameters, mostly supplied 
+    // Initialise the backtrace context from numerous parameters, mostly supplied
     // by the client.  Even if this fails, it's safe to call MachTermContext.
 {
     int             err;
     QMOImageRef     qmoImage = 0;
-    
+
     assert(context != NULL);
     assert(task != MACH_PORT_NULL);
 	assert( ((stackBottom == 0) && (stackBottom == stackTop)) || (stackBottom < stackTop) );
 	assert( (frameArrayCount == 0) || (frameArray != NULL) );
-    
+
     // Clear the context first, to make it safe to call MachTermContext.
-    
+
 	memset(context, 0, sizeof(*context));
 
     // Stuff that can't fail
-    
-    // Zap the input array; the BacktraceCore requires this to make error 
+
+    // Zap the input array; the BacktraceCore requires this to make error
     // handling easier.
-    
+
     if (frameArray != NULL) {
         memset(frameArray, 0, frameArrayCount * sizeof(*frameArray));
     }
-    
+
     // General stuff
-    
+
 	context->stackBottom     = stackBottom;
 	context->stackTop        = stackTop;
 	context->frameArray      = frameArray;
 	context->frameArrayCount = frameArrayCount;
 
     // Platform specific stuff
-    
+
 	context->readBytes       = MachReadBytes;
 	context->task            = task;
 
     // Stuff that might fail.
-    
-    // Create a symbols object for the task, if necessary, and use that to get 
+
+    // Create a symbols object for the task, if necessary, and use that to get
     // some basic information about it.
-    
+
     err = 0;
     if (symRef == NULL) {
         context->createdSymRef = true;
@@ -917,13 +917,13 @@ static int MachInitContextFromTask(
             err = EINVAL;
         }
     }
-    
+
     // Determine the address of _sigtramp.
-    
+
     if (err == 0) {
         QSymSymbolInfo symInfo;
         QSymSymbolInfo nextSymInfo;
-        
+
         err = QSymGetAddressForSymbol(context->symRef, "/usr/lib/libSystem.B.dylib", "__sigtramp", &symInfo);
         if (err == 0) {
             context->sigTrampLowerBound = symInfo.symbolValue;
@@ -934,7 +934,7 @@ static int MachInitContextFromTask(
                 context->sigTrampUpperBound = nextSymInfo.symbolValue;
             } else {
                 // If QSymGetNextSymbol fails, just take a guess.
-                
+
                 context->sigTrampUpperBound = context->sigTrampLowerBound + 256;
                 err = 0;
             }
@@ -954,8 +954,8 @@ static int MachInitContextFromTask(
 
 /*	PowerPC Stack Frame Basics
 	--------------------------
-	
-	
+
+
 						Offset	Size	Purpose
 						------	----	-------
 	low memory
@@ -965,40 +965,40 @@ static int MachInitContextFromTask(
 						3X		2X		reserved
 						5X		X		place to save TOC (CFM only)
 	high memory
-	
-						where X is the address size (4 bytes for 32-bits, 
+
+						where X is the address size (4 bytes for 32-bits,
 						8 bytes for 64-bits)
-					
-	To get from one frame to the next, you have to indirect an offset 
-	of 0.  To extract the PC from a frame (which, notably, is the 
-	address of the code running in that frame, not a return address), you 
+
+	To get from one frame to the next, you have to indirect an offset
+	of 0.  To extract the PC from a frame (which, notably, is the
+	address of the code running in that frame, not a return address), you
 	have to indirect an offset of 2X bytes (8 or 16).
-	
-	There's enough commonality between 32- and 64-bit PowerPC architectures 
+
+	There's enough commonality between 32- and 64-bit PowerPC architectures
 	that it's easy to handle them both with the same code.
 */
 
 static bool PowerPCIsSystemCall(QBTContext *context, QTMAddr pc)
-	// Using the PC from the thread state, walk back through 
-	// the code stream for 3 instructions looking for a "sc" instruction. 
-	// If we find one, it's almost certain that we're in a system call 
+	// Using the PC from the thread state, walk back through
+	// the code stream for 3 instructions looking for a "sc" instruction.
+	// If we find one, it's almost certain that we're in a system call
 	// frameless leaf routine.
 {
 	int			err;
 	bool		isSystemCall;
 	int			count;
 	uint8_t		inst[4];
-	
+
 	isSystemCall = false;
 	count = 0;
 	do {
 		err = context->readBytes(context, pc, &inst, sizeof(inst));
 		if (err == 0) {
 			isSystemCall = (inst[0] == 0x44)		// PPC "sc" instruction
-			            && (inst[1] == 0x00)		// PPC instructions are always big 
-						&& (inst[2] == 0x00)		// endian, so we compare it byte at 
+			            && (inst[1] == 0x00)		// PPC instructions are always big
+						&& (inst[2] == 0x00)		// endian, so we compare it byte at
 						&& (inst[3] == 0x02);		// time for endian neutrality
-						
+
 		}
 		if ( (err == 0) && ! isSystemCall ) {
 			count += 1;
@@ -1006,43 +1006,43 @@ static bool PowerPCIsSystemCall(QBTContext *context, QTMAddr pc)
 		}
 	} while ( (err == 0) && ! isSystemCall && (count < 3) );
 	err = 0;
-	
+
 	return isSystemCall;
 }
 
 static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *framePtr)
-	// This is the handleLeaf routine for the PowerPC 
-	// architecture.  See the description of QBTHandleLeafProc 
+	// This is the handleLeaf routine for the PowerPC
+	// architecture.  See the description of QBTHandleLeafProc
 	// for a detailed discussion of its parameters.
 	//
-	// The top most frame may be in a weird state because of the 
-	// possible variations in the routine prologue.  There are a 
+	// The top most frame may be in a weird state because of the
+	// possible variations in the routine prologue.  There are a
 	// variety of combinations, such as:
 	//
-	// 1. a normal routine, with its return address stored in 
+	// 1. a normal routine, with its return address stored in
 	//    its caller's stack frame
 	//
-	// 2. a system call routine, which is a leaf routine with 
+	// 2. a system call routine, which is a leaf routine with
 	//    no frame and the return address is in LR
 	//
-	// 3. a leaf routine with no frame, where the return address 
+	// 3. a leaf routine with no frame, where the return address
 	//    is in LR
 	//
-	// 4. a leaf routine with no frame that accesses a global, where 
+	// 4. a leaf routine with no frame that accesses a global, where
 	//    the return address is in r0
 	//
-	// 5. a normal routine that was stopped midway through 
-	//    constructing its prolog, where the return address is 
+	// 5. a normal routine that was stopped midway through
+	//    constructing its prolog, where the return address is
 	//    typically in r0
 	//
-	// Of these, 1 and 2 are most common, and they're the cases I 
-	// handle.  General support for all of the cases requires the 
-	// ability to accurately determine the start of the routine 
-	// which is not something that I can do with my current 
+	// Of these, 1 and 2 are most common, and they're the cases I
+	// handle.  General support for all of the cases requires the
+	// ability to accurately determine the start of the routine
+	// which is not something that I can do with my current
 	// infrastructure.
 	//
-	// Note that don't handle any cases where the return address is 
-	// in r0, although r0 is available as part of the threadState 
+	// Note that don't handle any cases where the return address is
+	// in r0, although r0 is available as part of the threadState
 	// if I need it in the future.
 {
 #ifdef __LP64__
@@ -1052,9 +1052,9 @@ static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *frame
 	QTMAddr	pc;
 	QTMAddr	lr;
     QTMAddr r1;
-	
+
 	// Get the pc and lr from the thread state.
-	
+
     err = 0;
     switch (context->threadStateFlavor) {
         case PPC_THREAD_STATE:
@@ -1073,8 +1073,8 @@ static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *frame
             break;
     }
 
-	// If we find that we're in a system call frameless leaf routine, 
-	// add a dummy stack frame (with no frame, because the frame actually 
+	// If we find that we're in a system call frameless leaf routine,
+	// add a dummy stack frame (with no frame, because the frame actually
 	// belows to frameArray[1]).
 
     if (err == 0) {
@@ -1086,7 +1086,7 @@ static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *frame
         }
 
         // Pass the initial pc and frame back to the caller.
-        
+
         *pcPtr    = pc;
         *framePtr = r1;
     }
@@ -1096,72 +1096,72 @@ static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *frame
 }
 
 static bool  PowerPCValidPC(QBTContext *context, QTMAddr pc)
-	// This is the validPC routine for the PowerPC 
-	// architecture.  See the description of 
-	// QBTValidPCProc for a detailed discussion 
+	// This is the validPC routine for the PowerPC
+	// architecture.  See the description of
+	// QBTValidPCProc for a detailed discussion
 	// of its parameters.
 	//
-	// PowerPC instructions must be word aligned.  Also, I check that 
-	// it's possible to read the instruction.  I don't do anything 
+	// PowerPC instructions must be word aligned.  Also, I check that
+	// it's possible to read the instruction.  I don't do anything
 	// clever like check that the resulting value is a valid instruction.
 {
 	uint32_t	junkInst;
-	
+
 	return ((pc & 0x03) == 0) && (context->readBytes(context, pc, &junkInst, sizeof(junkInst)) == 0);
 }
 
 static int PowerPCGetFrameNextPC(QBTContext *context, QTMAddr thisFrame, QTMAddr nextFrame, QTMAddr *nextPCPtr)
-	// This is the getFrameNextPC routine for the PowerPC 
-	// architecture.  See the description of 
-	// QBTGetFrameNextPCProc for a detailed discussion 
+	// This is the getFrameNextPC routine for the PowerPC
+	// architecture.  See the description of
+	// QBTGetFrameNextPCProc for a detailed discussion
 	// of its parameters.
 {
     #pragma unused(thisFrame)
     #pragma unused(nextFrame)
 	QTMAddr	offset;
-	
+
 	if ( context->arch->is64Bit ) {
 		offset = 16;
 	} else {
 		offset = 8;
 	}
-	
+
 	return ReadAddr(context, nextFrame + offset, nextPCPtr);
 }
 
 /*	PowerPC Signal Stack Frames
 	---------------------------
-	In the current Mac OS X architecture, there is no guaranteed reliable 
-	way to backtrace a PowerPC signal stack frame.  The problem is that the 
-	kernel pushes a variable amount of data on to the stack when it invokes the 
-	user space signal trampoline (_sigtramp), and the only handle to the 
-	information about how much data was pushed is passed in a register 
-	parameter to _sigtramp.  _sigtramp stashes that value away in a 
-	non-volatile register.  So, when _sigtramp calls the user-supplied 
-	signal handler, there's no way to work out where that register 
+	In the current Mac OS X architecture, there is no guaranteed reliable
+	way to backtrace a PowerPC signal stack frame.  The problem is that the
+	kernel pushes a variable amount of data on to the stack when it invokes the
+	user space signal trampoline (_sigtramp), and the only handle to the
+	information about how much data was pushed is passed in a register
+	parameter to _sigtramp.  _sigtramp stashes that value away in a
+	non-volatile register.  So, when _sigtramp calls the user-supplied
+	signal handler, there's no way to work out where that register
 	ends up being saved.
-	
-	Thus, we devolve into guesswork.  It turns out that the offset from 
-	the stack of the kernel data to the information we need (the place 
-	where the interrupted thread's registers were stored) is a (relatively) 
-	constant for any given system release.  So, we can just simply add the 
+
+	Thus, we devolve into guesswork.  It turns out that the offset from
+	the stack of the kernel data to the information we need (the place
+	where the interrupted thread's registers were stored) is a (relatively)
+	constant for any given system release.  So, we can just simply add the
 	appropriate offset to the frame pointer and grab the data we need.
-	
-	On recent systems (10.3 and later) this fails if the signal handle 
-	requests 'dual contexts', that is, it requests both 32- and 64-bit 
-	PowerPC registers.  In that case, the size of the pushed data changes, 
-	and that affects the relative alignment of the data and the stack 
-	pointer, and things break.  I don't know of any way to work around 
+
+	On recent systems (10.3 and later) this fails if the signal handle
+	requests 'dual contexts', that is, it requests both 32- and 64-bit
+	PowerPC registers.  In that case, the size of the pushed data changes,
+	and that affects the relative alignment of the data and the stack
+	pointer, and things break.  I don't know of any way to work around
 	this <rdar://problem/4411774>.
-	
-	Finally, these constant vary from release to release. 
-	This code handles the significant cases that I know about (Mac OS X 10.1.x 
-	and earlier, Mac OS X 10.2, and Mac OS 10.3 and later), but there's no 
+
+	Finally, these constant vary from release to release.
+	This code handles the significant cases that I know about (Mac OS X 10.1.x
+	and earlier, Mac OS X 10.2, and Mac OS 10.3 and later), but there's no
 	guarantee that this offset won't change again in the future.
 
-	When the kernel invokes the user space signal trampoline, it pushes 
+	When the kernel invokes the user space signal trampoline, it pushes
 	the following items on to the stack.
-	
+
 	Mac OS X 10.1.x
 	---------------
 					Size	Purpose
@@ -1174,11 +1174,11 @@ static int PowerPCGetFrameNextPC(QBTContext *context, QTMAddr thisFrame, QTMAddr
 					0x018	struct sigcontext
 					0x0e0	red zone
 	high memory
-					The previous frame's SP is at offset 0x00C within 
-					ppc_saved_state, which makes it equal to 
-					0x030 + 0x040 + 0x00C, or 0x07C.  The offset to 
+					The previous frame's SP is at offset 0x00C within
+					ppc_saved_state, which makes it equal to
+					0x030 + 0x040 + 0x00C, or 0x07C.  The offset to
 					the previous PC (0x84) follows from that.
-				                   			 
+
 	Mac OS X 10.2.x
 	---------------
 					Size	Purpose
@@ -1195,16 +1195,16 @@ static int PowerPCGetFrameNextPC(QBTContext *context, QTMAddr thisFrame, QTMAddr
 					0x040	siginfo_t
 					0x020	ucontext
 					0x0e0	red zone
-	high memory	
-					The previous frame's SP is at offset 0x00C within 
-					ppc_thread_state_t, which it equal to 
-					0x030 + 0x040 + 0x008 + 0x020 + 0x00C, or 0x0A4. 
-					The offsets to the previous PC and LR (0x98 and 0x128) 
+	high memory
+					The previous frame's SP is at offset 0x00C within
+					ppc_thread_state_t, which it equal to
+					0x030 + 0x040 + 0x008 + 0x020 + 0x00C, or 0x0A4.
+					The offsets to the previous PC and LR (0x98 and 0x128)
 					follow from that.
 
 	Mac OS X 10.3.x and 10.4.x
 	--------------------------
-                    
+
                     Size (process/hardware/requested)               Purpose
                     ---------------------------------               -------
 					32/32/x     32/64/32    32/64/64    64/64/x
@@ -1221,63 +1221,63 @@ static int PowerPCGetFrameNextPC(QBTContext *context, QTMAddr thisFrame, QTMAddr
 				    align16     align16     align16     align32		alignment
                     ?           ?           ?           ?           pad
 					0x0e0       0x0e0       0x0e0       0x140		red zone
-	high memory	
+	high memory
 					Some things to note about the above diagram:
-                    
+
                     o The number and type of mcontexts depends on:
                       - whether the process is 32- or 64-bit
                       - whether the process is running on 32- or 64-bit hardware
-                      - whether the process requests 64-bit registers when it 
+                      - whether the process requests 64-bit registers when it
                         installs its signal handler (the SA_64REGSET flag)
-                    
-                    o This, in turns, affects the amount of pad inserted to 
+
+                    o This, in turns, affects the amount of pad inserted to
                       get the proper alignment.
 
-					o For a 64-bit process, the kernel aligns the stack to a 
-					  32 byte boundary, even though the runtime architecture 
+					o For a 64-bit process, the kernel aligns the stack to a
+					  32 byte boundary, even though the runtime architecture
 					  only requires a 16 byte boundary.
-					  
-					o The final alignment is done last, but the pad that it 
-					  creates is effectively created between the parameter save 
-					  area and the [user_]siginfo_t because the C linkage area 
-					  and param save areas are both defined to be a fixed offset 
+
+					o The final alignment is done last, but the pad that it
+					  creates is effectively created between the parameter save
+					  area and the [user_]siginfo_t because the C linkage area
+					  and param save areas are both defined to be a fixed offset
 					  from the frame pointer.
-					
-                    o This means that we have to use some heuristics to find the 
-                      amount of pad.  These heuristics generally involve looking 
-                      into the mcontext[64] to see if the registers in there 
-                      match the registers in the [user_]siginfo_t.  However, 
-                      this is further complicated by the fact that the mcontext 
+
+                    o This means that we have to use some heuristics to find the
+                      amount of pad.  These heuristics generally involve looking
+                      into the mcontext[64] to see if the registers in there
+                      match the registers in the [user_]siginfo_t.  However,
+                      this is further complicated by the fact that the mcontext
                       might be an mcontext64, even on a 32-bit process.
-                      
-                    o The pad size is highly constrained.  This is because the 
-                      kernel aligns the frame as part of setting up the red 
-                      zone and again to set up the linkage.  Thus, the only cause 
-                      of misalignment is the amount of data between the two alignments 
-                      operations.  For a 64-bit process, there's no variation, 
-                      so the pad size is always 0x018.  For a 32-bit system, 
-                      there's also no variability; the pad size is always 0x008.  
-                      The issues arise for 32-bit code on a 64-bit system, 
+
+                    o The pad size is highly constrained.  This is because the
+                      kernel aligns the frame as part of setting up the red
+                      zone and again to set up the linkage.  Thus, the only cause
+                      of misalignment is the amount of data between the two alignments
+                      operations.  For a 64-bit process, there's no variation,
+                      so the pad size is always 0x018.  For a 32-bit system,
+                      there's also no variability; the pad size is always 0x008.
+                      The issues arise for 32-bit code on a 64-bit system,
                       where the pad size can be either 0x000 or 0x000.
 */
 
 static bool PPCCheckFrameStyle(
-    QBTContext *context, 
-    QTMAddr     nextFrame, 
+    QBTContext *context,
+    QTMAddr     nextFrame,
     QTMAddr     sigInfoFPOffset,
     QTMAddr     sigInfoSize,
     QTMAddr     ucontextSize,
     QTMAddr     padSize,
     QTMAddr     mcontextFPOffset
 )
-    // Returns true if it seems that we're looking at the frame in the right way.  
-    // That is, for the signal crossing frame at nextFrame, return true if it 
+    // Returns true if it seems that we're looking at the frame in the right way.
+    // That is, for the signal crossing frame at nextFrame, return true if it
     // can be interpreted correctly the specified padSize and mcontextFPOffset.
     //
     // To check whether we're interpreting the frame correctly, we check that:
     //
     // 1. the uc_mcontext64 field of the ucontext points to the mcontext[64]
-    // 2. the FP we get from the mcontext[64] matches the FP we get from the 
+    // 2. the FP we get from the mcontext[64] matches the FP we get from the
     //    sigInfo (stored in the pad[0] field at sigInfoFPOffset)
 {
     int         err;
@@ -1291,45 +1291,45 @@ static bool PPCCheckFrameStyle(
 
     assert(context != NULL);
     assert( ! context->arch->is64Bit);
-    
+
     result = false;
-    
-    // Get the sigInfo, ucontext and mcontext addresses.  This is, of course, 
+
+    // Get the sigInfo, ucontext and mcontext addresses.  This is, of course,
     // all provisional, based on the padSize.
-    
+
     sigInfo  = nextFrame + 0x030 + 0x040 + padSize;
     ucontext = sigInfo + sigInfoSize;
     mcontext = ucontext + ucontextSize;
 
     // Read the uc_mcontext64 field from the ucontext.
-    
+
     err = ReadAddr(context, ucontext + 0x01c, &mcontextFromUContext);
-    
+
     // Read the FP from the pad[0] of the siginfo_t.
-    
+
     if (err == 0) {
         err = ReadAddr(context, sigInfo + sigInfoFPOffset, &preSignalFP);
     }
-    
+
     // Read the FP from the mcontext[64].
-    
+
     if (err == 0) {
 		err = ReadAddr(context, mcontext + mcontextFPOffset, &preSignalFPFromMContext);
     }
-    
+
     // Return true if the mcontext is where we expected and the FPs match.
-    
+
     if (err == 0) {
         result = (mcontext == mcontextFromUContext)
               && (preSignalFP == preSignalFPFromMContext);
     }
-    
+
     return result;
 }
 
 static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAddr *nextPCPtr, QTMAddr *nextFramePtr)
-	// This is the crossSignalFrame routine for the PowerPC 
-	// architecture.  See the description of QBTCrossSignalFrameProc 
+	// This is the crossSignalFrame routine for the PowerPC
+	// architecture.  See the description of QBTCrossSignalFrameProc
 	// for a detailed discussion of its parameters.
 {
 	int         err;
@@ -1351,22 +1351,22 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
     QTMAddr     preSignalLRFromMContext;
 
     // The code depends on the version of the OS.  *sigh*
-    
+
     err = QTMGetDarwinOSRelease(&major, NULL, NULL);
 
-    // Read the address of the frame below the _sigtramp frame, because 
+    // Read the address of the frame below the _sigtramp frame, because
     // that where all the action is.
 
     if (err == 0) {
         err = ReadAddr(context, thisFrame, &nextFrame);
     }
-	
+
     // Sniff the frame to see which type it is:
-    
+
     if (err == 0) {
         if (context->arch->is64Bit) {
             // For 64-bit processes, everything is easy.
-            
+
             padSize          = 0x018;
             sigInfoSize      = 0x068;
             sigInfoFPOffset  = 0x030;
@@ -1379,17 +1379,17 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
                 #warning QBacktrace has not been tested properly on pre-10.3 systems.
             #endif
             /*
-                I used to have code (that was a lot more naive) that supported 
+                I used to have code (that was a lot more naive) that supported
                 pre-10.3 systems.  I've abandoned these systems for my new code.
-                However, I've left the following information around in case I 
+                However, I've left the following information around in case I
                 ever contemplate resurrecting the support for older systems.
-                
+
                 Some random numbers from the old pre-10.3 code:
-                
+
                 o 10.0 through 10.1.x
                     offsetToPC = 0x84;
                     offsetToFP = 0x7c;
-                    offsetToLR = 0;            
+                    offsetToLR = 0;
                 o 10.2.x
                     offsetToPC = 0x98;
                     offsetToFP = 0xa4;
@@ -1400,7 +1400,7 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
             err = ENOTSUP;
         } else {
             // For 32-bit processes on 10.3 and later, things are much trickier.
-            
+
             // padSize needs to be worked out
             sigInfoSize      = 0x040;
             sigInfoFPOffset  = 0x024;
@@ -1408,27 +1408,27 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
             // mcontextPCOffset needs to be worked out
             // mcontextFPOffset needs to be worked out
             // mcontextLROffset needs to be worked out
-            
+
             // Try all three frame style...
-            
+
             // 1. Start with the 32/64/64 case.
-            
+
             padSize = 8;
             // mcontext64 offsets
             mcontextPCOffset = 0x020 + 0x004;
             mcontextFPOffset = 0x020 + 0x01c;
             mcontextLROffset = 0x020 + 0x120;
-            
+
             // IMPORTANT:
-            // The above offsets are 4 larger than the equivalent offsets for a 
-            // 64-bit process.  That's because we'll read them using ReadAddr, 
+            // The above offsets are 4 larger than the equivalent offsets for a
+            // 64-bit process.  That's because we'll read them using ReadAddr,
             // and ReadAddr will only read a 32-bits word on a 32-bit process.
-            // Thus, we have to make sure it reads the bottom 32-bits of the 
+            // Thus, we have to make sure it reads the bottom 32-bits of the
             // mcontext64 field, which means we add 4 to the offset.
-            
+
             if ( ! PPCCheckFrameStyle(context, nextFrame, sigInfoFPOffset, sigInfoSize, ucontextSize, padSize, mcontextFPOffset) ) {
                 // 2. OK, it's not that, let's try 32/32/x.
-                
+
                 // mcontext offsets
                 mcontextPCOffset = 0x020 + 0x000;
                 mcontextFPOffset = 0x020 + 0x00c;
@@ -1438,7 +1438,7 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
                     // 3. OK, third time is a charm.  Let's try 32/64/32.
 
                     padSize = 0;
-                    
+
                     if ( ! PPCCheckFrameStyle(context, nextFrame, sigInfoFPOffset, sigInfoSize, ucontextSize, padSize, mcontextFPOffset) ) {
                         err = EINVAL;
                     }
@@ -1446,8 +1446,8 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
             }
         }
     }
-    
-    // Grab the pre-signal FP from the siginfo_t and the pre-signal FP, PC and LR 
+
+    // Grab the pre-signal FP from the siginfo_t and the pre-signal FP, PC and LR
     // from the mcontext and use them to set up the results for the client.
 
 	mcontext = 0;		// quieten a warning
@@ -1469,20 +1469,20 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
     }
     if (err == 0) {
         assert(preSignalFPFromMContext == preSignalFP);
-        
+
         *nextFramePtr = preSignalFP;
         *nextPCPtr    = preSignalPCFromMContext;
     }
-    	
-	// If the PC is a system call, add a dummy leaf for that PC 
+
+	// If the PC is a system call, add a dummy leaf for that PC
 	// and then get the next frame's PC from LR.
-	
+
 	if ( (err == 0) && PowerPCIsSystemCall(context, *nextPCPtr) ) {
 		AddFrame(context, *nextPCPtr, 0, kQBTFrameBadMask);
-		
+
         *nextPCPtr = preSignalLRFromMContext;
 	}
-	
+
 	return err;
 }
 #endif //TARGET_CPU_PPC
@@ -1492,7 +1492,7 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
 
 /*	Intel Stack Frame Basics
 	------------------------
-	
+
                         Offset	Size	Purpose
                         ------	----	-------
 	low memory
@@ -1503,23 +1503,23 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
                         -??		??		parameters
 	high memory
 
-                    where X is the address size (4 bytes for 32-bits, 
+                    where X is the address size (4 bytes for 32-bits,
                     8 bytes for 64-bits)
 
-	The stack frame on Intel is remarkably traditional.  Two registers 
-	are used to manage the stack: ESP/RSP points to the bottom of the stack, 
-	and EBP/RBP points to the stack frame itself.  The memory at offset 0 
-	off the frame stores the address of the next stack frame.  The memory at 
-	offset X stores the saved PC for the next stack frame (that is, the return 
+	The stack frame on Intel is remarkably traditional.  Two registers
+	are used to manage the stack: ESP/RSP points to the bottom of the stack,
+	and EBP/RBP points to the stack frame itself.  The memory at offset 0
+	off the frame stores the address of the next stack frame.  The memory at
+	offset X stores the saved PC for the next stack frame (that is, the return
 	address for this stack frame).
 */
 
 static bool IntelIsSystemCall(QBTContext *context, QTMAddr pc)
-	// Using the PC from the thread state, look back in the code 
-	// stream to see if the previous bytes look something like a 
-	// system call.  This is a heuristic rather than solid design. 
-	// Because Intel instructions are of variable length, there's no 
-	// guarantee that these bytes are part of some other instruction. 
+	// Using the PC from the thread state, look back in the code
+	// stream to see if the previous bytes look something like a
+	// system call.  This is a heuristic rather than solid design.
+	// Because Intel instructions are of variable length, there's no
+	// guarantee that these bytes are part of some other instruction.
 	// Still, it works most of the time.
 	//
 	// For 64-bit, all systems calls are done via SYSCALL.  Nice!
@@ -1528,14 +1528,14 @@ static bool IntelIsSystemCall(QBTContext *context, QTMAddr pc)
 	//
 	// o INT 81 -- used for Mach system calls
 	// o sysenter -- used by BSD system calls
-	// 
-	// We detect INT 81 simply by looking for its bytes.  It's no 
-	// so easy to detect sysenter, because the PC we get is an 
-	// address in the specific system call, which actually calls 
-	// another routine (_sysenter_trap) to do the sysenter.  
-	// We look for the CALL disp32 instruction and, if we see, 
-	// work out the address that it calls.  We then get the 
-	// instructions from that address.  If that looks like a 
+	//
+	// We detect INT 81 simply by looking for its bytes.  It's no
+	// so easy to detect sysenter, because the PC we get is an
+	// address in the specific system call, which actually calls
+	// another routine (_sysenter_trap) to do the sysenter.
+	// We look for the CALL disp32 instruction and, if we see,
+	// work out the address that it calls.  We then get the
+	// instructions from that address.  If that looks like a
 	// sysenter, we're probably looking at a system call.
 {
 	int	err;
@@ -1550,20 +1550,20 @@ static bool IntelIsSystemCall(QBTContext *context, QTMAddr pc)
             isSystemCall = ( buf[3] == 0x0f && buf [4] == 0x05 );           // syscall
         } else {
             isSystemCall = ( buf[3] == 0xcd && buf[4] == 0x81);				// INT 81
-            
+
             if ( ! isSystemCall && (buf[0] == 0xe8) ) {						// CALL disp32
                 // Get the disp32.
-                
+
                 sysEnterOffset = (buf[1] | (buf[2] << 8) | (buf[3] << 16) | (buf[4] << 24));
 
-                // Read the instructions at that offset from the PC and see if they're 
+                // Read the instructions at that offset from the PC and see if they're
                 // the standard _sysenter_trap code.
                 //
-                // It's a happy coincidence that the size of the _sysenter_trap code is 
-                // 5 bytes, which is also the size of the buffer that I have lying around 
-                // to read the instructions in front of the PC.  The upshot is that I can 
+                // It's a happy coincidence that the size of the _sysenter_trap code is
+                // 5 bytes, which is also the size of the buffer that I have lying around
+                // to read the instructions in front of the PC.  The upshot is that I can
                 // reuse buf rather than needing a second one.
-                
+
                 err = context->readBytes(context, pc + sysEnterOffset, buf, sizeof(buf));
                 if (err == 0) {
                     isSystemCall = (buf[0] == 0x5a)								// pop      %edx
@@ -1577,20 +1577,20 @@ static bool IntelIsSystemCall(QBTContext *context, QTMAddr pc)
 }
 
 static int IntelHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *framePtr)
-	// This is the handleLeaf routine for the Intel architecture.  See the 
-    // description of QBTHandleLeafProc for a detailed discussion of its 
+	// This is the handleLeaf routine for the Intel architecture.  See the
+    // description of QBTHandleLeafProc for a detailed discussion of its
     // parameters.
-	// 
-	// I don't have the experience or the time to fully analyse 
-	// the leaf routine problem for Intel.  Rather, I just implemented 
-	// a simple system call check, much like I did on PowerPC.  This 
+	//
+	// I don't have the experience or the time to fully analyse
+	// the leaf routine problem for Intel.  Rather, I just implemented
+	// a simple system call check, much like I did on PowerPC.  This
 	// seems to be effective in the cases that I care about.
 {
 	int		err;
 	QTMAddr	pc;
 	QTMAddr	sp;
 	QTMAddr	fp;
-	
+
     err = 0;
     switch (context->threadStateFlavor) {
 #ifdef __LP64__
@@ -1622,7 +1622,7 @@ static int IntelHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *framePt
             err = EINVAL;
     }
 
-	// If the PC is a system call, add a dummy leaf for that PC 
+	// If the PC is a system call, add a dummy leaf for that PC
 	// and then get the next frame's PC from the top of stack.
 
 	if (err == 0) {
@@ -1636,43 +1636,43 @@ static int IntelHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *framePt
             *framePtr = fp;
         }
     }
-	
+
 	return err;
 }
 
 static bool  IntelValidPC(QBTContext *context, QTMAddr pc)
-	// This is the validPC routine for the Intel 
-	// architecture.  See the description of 
-	// QBTValidPCProc for a detailed discussion 
+	// This is the validPC routine for the Intel
+	// architecture.  See the description of
+	// QBTValidPCProc for a detailed discussion
 	// of its parameters.
 	//
-	// Intel instructions are not aligned in any way.  All, I can do 
-	// is check for known bad values ((QTMAddr) -1 is used as a 
-	// known bad value by the core) and check that I can read at least 
+	// Intel instructions are not aligned in any way.  All, I can do
+	// is check for known bad values ((QTMAddr) -1 is used as a
+	// known bad value by the core) and check that I can read at least
 	// byte of instruction from the address.
 {
 	uint8_t	junkInst;
-	
+
 	return (pc != (QTMAddr) -1) && (context->readBytes(context, pc, &junkInst, sizeof(junkInst)) == 0);
 }
 
 static int IntelGetFrameNextPC(QBTContext *context, QTMAddr thisFrame, QTMAddr nextFrame, QTMAddr *nextPCPtr)
-	// This is the getFrameNextPC routine for the Intel architecture.  See the 
-    // description of QBTGetFrameNextPCProc for a detailed discussion of its 
+	// This is the getFrameNextPC routine for the Intel architecture.  See the
+    // description of QBTGetFrameNextPCProc for a detailed discussion of its
 	// parameters.
 	//
-	// This is very easy on Intel, because it's the return address, which is at a 
+	// This is very easy on Intel, because it's the return address, which is at a
     // fixed offset in the frame.
 {
     #pragma unused(nextFrame)
 	QTMAddr	offset;
-	
+
 	if ( context->arch->is64Bit ) {
 		offset = 8;
 	} else {
 		offset = 4;
 	}
-	
+
 	return ReadAddr(context, thisFrame + offset, nextPCPtr);
 }
 
@@ -1682,14 +1682,14 @@ static int IntelGetFrameNextPC(QBTContext *context, QTMAddr thisFrame, QTMAddr n
 
 /*	Intel 32-Bit Signal Stack Frames
 	--------------------------------
-	Cross signal stack frames is much more reliable on Intel.  The parameters 
-	to _sigtramp are stored on the stack, and you can reliably pick them up 
+	Cross signal stack frames is much more reliable on Intel.  The parameters
+	to _sigtramp are stored on the stack, and you can reliably pick them up
 	from there.
 
 					Size	Purpose
 					----	-------
 	low memory
-	
+
 	frame  ->		0x004	pre-signal frame pointer
 					0x018	struct sigframe32
 					0x020?	pad
@@ -1700,48 +1700,48 @@ static int IntelGetFrameNextPC(QBTContext *context, QTMAddr thisFrame, QTMAddr n
 					0x040	siginfo_t
 					0x020	struct ucontext
 	high memory
-	
-	As for other architectures, the kernel aligns the stack such that the catcher 
-    field of the (struct sigframe32) is aligned on a 16 byte boundary.  This means 
-    that there's a variable amount of pad between the (struct sigframe32) and the 
-    other fields.  However, for x86 this isn't a problem because the 
+
+	As for other architectures, the kernel aligns the stack such that the catcher
+    field of the (struct sigframe32) is aligned on a 16 byte boundary.  This means
+    that there's a variable amount of pad between the (struct sigframe32) and the
+    other fields.  However, for x86 this isn't a problem because the
     (struct sigframe32) contains pointers to the other structures that we need.
-    
-    Another thing to note is that SA_64REGSET flag isn't significant on x86.  
-    A 32-bit process will always get 32-bit structures and a 64-bit process will 
-    always get 64-bit structures.  This makes things somewhat easier than on 
+
+    Another thing to note is that SA_64REGSET flag isn't significant on x86.
+    A 32-bit process will always get 32-bit structures and a 64-bit process will
+    always get 64-bit structures.  This makes things somewhat easier than on
     PowerPC.
-    
+
     The three values we need to get are:
-    
+
     o pre-signal FP -- This is easy.  It's always pointed to by the current FP.
-    
-    o pre-signal PC -- This is hard because the obvious place that it's stored 
-      (the si_addr field of the siginfo_t) isn't reliable.  Specifically, for 
-      SIGBUS and SIGSEGV, this field holds the faulting address, not the faulting 
-      instruction's address.  *sigh*  So, we get this value by following the 
-      (struct sigframe32) to the (struct ucontext) to the (struct mcontext) to 
+
+    o pre-signal PC -- This is hard because the obvious place that it's stored
+      (the si_addr field of the siginfo_t) isn't reliable.  Specifically, for
+      SIGBUS and SIGSEGV, this field holds the faulting address, not the faulting
+      instruction's address.  *sigh*  So, we get this value by following the
+      (struct sigframe32) to the (struct ucontext) to the (struct mcontext) to
       the (x86_thread_state32_t) to the ebp field.  *phew*
-    
-    o pre-signal SP -- The kernel stores this in the pad[0] field of the siginfo_t, 
-      so we use that.  We also check it against the esp from the thread state, 
+
+    o pre-signal SP -- The kernel stores this in the pad[0] field of the siginfo_t,
+      so we use that.  We also check it against the esp from the thread state,
       just 'cause that's easy.
-    
-	The sinfo field of the sigframe32 structure is at offset 0x10 and the uctx 
-    field is at offset 0x14.  Once you account for the pre-signal frame pointer 
-    that's pushed on to the stack by _sigtramp, you need to go 0x14 bytes up the 
-    frame to get the sinfo field, which is a pointer to a siginfo_t structure.  
-    The kernel places the pre-signal PC and SP in fields in that structure (si_addr 
-    and pad[0], offset 0x18 and 0x24 respectively). 
-    
-	Finally, if we detect a frameless leaf routine past the signal frame, 
+
+	The sinfo field of the sigframe32 structure is at offset 0x10 and the uctx
+    field is at offset 0x14.  Once you account for the pre-signal frame pointer
+    that's pushed on to the stack by _sigtramp, you need to go 0x14 bytes up the
+    frame to get the sinfo field, which is a pointer to a siginfo_t structure.
+    The kernel places the pre-signal PC and SP in fields in that structure (si_addr
+    and pad[0], offset 0x18 and 0x24 respectively).
+
+	Finally, if we detect a frameless leaf routine past the signal frame,
 	we extract its return address from the top of stack.
 */
 
 static int Intel32CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAddr *nextPCPtr, QTMAddr *nextFramePtr)
-	// This is the crossSignalFrame routine for the Intel 
-	// architecture.  See the description of 
-	// QBTCrossSignalFrameProc for a detailed discussion 
+	// This is the crossSignalFrame routine for the Intel
+	// architecture.  See the description of
+	// QBTCrossSignalFrameProc for a detailed discussion
 	// of its parameters.
 {
 	int         err;
@@ -1755,47 +1755,47 @@ static int Intel32CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
     QTMAddr     preSignalFPFromMContext;
     QTMAddr     preSignalSPFromMContext;
     QTMAddr     preSignalPCFromMContext;
-    
+
     sigFrame = thisFrame + 4;
-    
-	// Get the pre-signal FP by simply reading from the frame pointer. 
+
+	// Get the pre-signal FP by simply reading from the frame pointer.
 	// Because of the way __sigtramp works, this ends up being correct.
-	
+
     err = ReadAddr(context, thisFrame, &preSignalFP);
-	
-	// Get the siginfo_t pointer from the parameters to _sigtramp 
+
+	// Get the siginfo_t pointer from the parameters to _sigtramp
 	// (the sinfo field of sigframe32).
-	
+
 	if (err == 0) {
         err = ReadAddr(context, sigFrame + 0x10, &sigInfo);
 	}
-	
+
     // Get the pre-signal SP from the pad[0] field of the siginfo_t.
 
     if (err == 0) {
 		err = ReadAddr(context, sigInfo + 0x24, &preSignalSP);
     }
 
-	// Get the ucontext address from the parameters to _sigtramp 
+	// Get the ucontext address from the parameters to _sigtramp
     // (the uctx field of the sigframe32).
-	
+
 	if (err == 0) {
 		err = ReadAddr(context, sigFrame + 0x14, &ucontext);
 	}
-    
+
     // Get the mcontext address from the uc_mcontext field of the ucontext.
-    
+
     if (err == 0) {
 		err = ReadAddr(context, ucontext + 0x1c, &mcontext);
     }
-    
-    // Get the address of the ss field of the mcontext.  This is the 
-    // x86_thread_state_32_t.  Then extract the ebp, esp, and eip fields from 
+
+    // Get the address of the ss field of the mcontext.  This is the
+    // x86_thread_state_32_t.  Then extract the ebp, esp, and eip fields from
     // that.
-    
+
     if (err == 0) {
         threadState = mcontext + 0x0c;
-        
+
         err = ReadAddr(context, threadState + 0x18, &preSignalFPFromMContext);
         if (err == 0) {
             err = ReadAddr(context, threadState + 0x1c, &preSignalSPFromMContext);
@@ -1807,21 +1807,21 @@ static int Intel32CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
     if (err == 0) {
         assert(preSignalFPFromMContext == preSignalFP);
         assert(preSignalSPFromMContext == preSignalSP);
-        
+
         *nextFramePtr = preSignalFP;
         *nextPCPtr    = preSignalPCFromMContext;
     }
-    
-	// Finally, if we detect a leaf routine, add a dummy frame for it 
-	// and then get the pre-signal SP and, assuming that the top word on 
+
+	// Finally, if we detect a leaf routine, add a dummy frame for it
+	// and then get the pre-signal SP and, assuming that the top word on
     // the stack is a return address, use it for the next PC.
-	
+
 	if ( (err == 0) && IntelIsSystemCall(context, *nextPCPtr) ) {
 		AddFrame(context, *nextPCPtr, 0, kQBTFrameBadMask);
-		
+
         err = ReadAddr(context, preSignalSP, nextPCPtr);
 	}
-	
+
 	return err;
 }
 
@@ -1832,14 +1832,14 @@ static int Intel32CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
 /*
 	Intel 64-Bit Signal Stack Frames
 	--------------------------------
-    Like PowerPC, x86-64 passes most parameters in registers.  This makes it 
-    hard to cross signal stack frames successfully.  However, like PowerPC, some 
+    Like PowerPC, x86-64 passes most parameters in registers.  This makes it
+    hard to cross signal stack frames successfully.  However, like PowerPC, some
     heuristics get us there most of the time.
-    
+
 					Size	Purpose
 					----	-------
 	low memory
-	
+
 	frame  ->		0x008	pre-signal frame pointer
                     0x008   space for return address (unused)
 					0x014?  alignment padding (typically 0x014 or 0x01c)
@@ -1853,42 +1853,42 @@ static int Intel32CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
 	high memory
 
 	Things to note about the above:
-	
-	o The kernel places the pre-signal SP in the pad[0] field (offset 0x30) of 
+
+	o The kernel places the pre-signal SP in the pad[0] field (offset 0x30) of
       the user_siginfo_t structure.
-    
+
     o Most of the time the kernel puts the pre-signal PC in the si_addr field
-      of the same structure.  However, for SIGBUS and SIGSEGV this is actually 
+      of the same structure.  However, for SIGBUS and SIGSEGV this is actually
       the address of the fault itself, so that doesn't help us.
-	
-	o The kernel aligns the stack such that the start of the alignment padding 
-      is on a 16 byte boundary.  This means that there's a variable amount of pad 
-      (from 0x10 through 0x1c) between the current frame and the user_siginfo_t.  
+
+	o The kernel aligns the stack such that the start of the alignment padding
+      is on a 16 byte boundary.  This means that there's a variable amount of pad
+      (from 0x10 through 0x1c) between the current frame and the user_siginfo_t.
       Argh!
 
-    o The reason why this alignment padding is typically either 0x014 or 0x01c is 
-      that the (struct mcontext64) is 0x2c4 bytes.  So, if the stack was reasonably 
-      aligned (that is, to an 8 byte boundary) when the signal occurs, by the time 
-      we've deducted space for all our junk (0x080 + 0x038 + 0x068 + 0x2c4) we've 
-      pushed the alignment to a 4 byte boundary.  To bring it back, we have to 
+    o The reason why this alignment padding is typically either 0x014 or 0x01c is
+      that the (struct mcontext64) is 0x2c4 bytes.  So, if the stack was reasonably
+      aligned (that is, to an 8 byte boundary) when the signal occurs, by the time
+      we've deducted space for all our junk (0x080 + 0x038 + 0x068 + 0x2c4) we've
+      pushed the alignment to a 4 byte boundary.  To bring it back, we have to
       pad to with either 0x014 or 0x01c.
-    
-      However, rather than just guess, I actually try all possible alignments 
+
+      However, rather than just guess, I actually try all possible alignments
       (0x000 through 0x01c) and see which one makes sense.
 
-    Another thing to note is that SA_64REGSET flag isn't significant on x86.  
-    A 32-bit process will always get 32-bit structures and a 64-bit process will 
-    always get 64-bit structures.  This makes things somewhat easier than on 
+    Another thing to note is that SA_64REGSET flag isn't significant on x86.
+    A 32-bit process will always get 32-bit structures and a 64-bit process will
+    always get 64-bit structures.  This makes things somewhat easier than on
     PowerPC.
 
-	Finally, if we detect a frameless leaf routine past the signal frame, 
+	Finally, if we detect a frameless leaf routine past the signal frame,
 	we extract its return address from the top of stack.
 */
 
 static int Intel64CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAddr *nextPCPtr, QTMAddr *nextFramePtr)
-	// This is the crossSignalFrame routine for the 64-bit Intel  
-	// architecture.  See the description of 
-	// QBTCrossSignalFrameProc for a detailed discussion 
+	// This is the crossSignalFrame routine for the 64-bit Intel
+	// architecture.  See the description of
+	// QBTCrossSignalFrameProc for a detailed discussion
 	// of its parameters.
 {
 	int         err;
@@ -1901,40 +1901,40 @@ static int Intel64CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
 	QTMAddr     preSignalFPFromMContext;
     QTMAddr     preSignalSPFromMContext;
     QTMAddr     align;
-    
-	// Get the previous frame by simply reading from the frame pointer. 
+
+	// Get the previous frame by simply reading from the frame pointer.
 	// Because of the way things work, this ends up being correct.
 
     err = ReadAddr(context, thisFrame, &preSignalFP);
-    
-    if (err == 0) {        
+
+    if (err == 0) {
         // Now try various alignments to see which one yields a valid result.
-        
+
         for (align = 0x010; align < 0x020; align += 4) {
-            // Use the 'Hail Mary (tm)' algorithm to get a pointer to the user_siginfo_t 
+            // Use the 'Hail Mary (tm)' algorithm to get a pointer to the user_siginfo_t
             // and the (struct user_ucontext64) that immediately follows it.
-            
+
             sigInfo = thisFrame + 0x008 + 0x08 + align + 0x2c4;
             ucontext = sigInfo + 0x068;
-            
+
             // Now check whether it makes sense...
-            
+
             // Get the previous SP from the pad[0] field of the user_siginfo_t.
-            
+
             err = ReadAddr(context, sigInfo + 0x030, &preSignalSP);
-            
-            // Get the uc_mcontext64 field of the (struct user_ucontext64) that 
-            // immediately follows the user_siginfo_t.  This results in a pointer 
+
+            // Get the uc_mcontext64 field of the (struct user_ucontext64) that
+            // immediately follows the user_siginfo_t.  This results in a pointer
             // to our (struct mcontext64).
-            
+
             if (err == 0) {
                 err = ReadAddr(context, ucontext + 0x030, &mcontext);
             }
-            
-            // Calculate the start of the x86_thread_state64_t structure at a fixed 
-            // offset from the start of the (struct mcontext64) and get the 
+
+            // Calculate the start of the x86_thread_state64_t structure at a fixed
+            // offset from the start of the (struct mcontext64) and get the
             // pre-signal FP and SP from that.
-            
+
             if (err == 0) {
                 threadState = mcontext + 0x10;
                 err = ReadAddr(context, threadState + 6 * 0x08, &preSignalFPFromMContext);
@@ -1942,79 +1942,79 @@ static int Intel64CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
             if (err == 0) {
                 err = ReadAddr(context, threadState + 7 * 0x08, &preSignalSPFromMContext);
             }
-            
-            if ( (err == 0) 
-              && (preSignalFP == preSignalFPFromMContext) 
+
+            if ( (err == 0)
+              && (preSignalFP == preSignalFPFromMContext)
               && (preSignalSP == preSignalSPFromMContext) ) {
                 break;
             }
         }
-        
+
         // At this point we throw away any error status from the above code.
 
         err = 0;
-        
-        // If none of the alignments worked, just take a guess.  This is 
+
+        // If none of the alignments worked, just take a guess.  This is
         // sufficiently bad that we want to know about it in the debug version.
-        
+
         if (align == 0x020) {
             assert(false);
             align = 0x014;
         }
     }
 
-    // Get the address of the sigInfo using the alignment calculated above 
+    // Get the address of the sigInfo using the alignment calculated above
     // and then use it to set the result.
-    
+
     if (err == 0) {
         // This value is /always/ right, so we copy it out to the client immediately.
-        
+
         *nextFramePtr = preSignalFP;
 
         sigInfo  = thisFrame + 0x008 + 0x08 + align + 0x2c4;
         ucontext = sigInfo + 0x068;
 
         // Get the pre-signal SP and mcontext as before.
-        
+
 		err = ReadAddr(context, sigInfo + 0x030, &preSignalSP);
         if (err == 0) {
             err = ReadAddr(context, ucontext + 0x030, &mcontext);
         }
-        
+
         // And from that the thread state and the previous PC.
-        
+
         if (err == 0) {
             threadState = mcontext + 0x10;
             err = ReadAddr(context, threadState + 16 * 0x08, nextPCPtr);
         }
 	}
-	
-	// Finally, if we detect a leaf routine, add a dummy frame for it 
-	// and then get the pre-signal SP and, assuming that the top word on 
+
+	// Finally, if we detect a leaf routine, add a dummy frame for it
+	// and then get the pre-signal SP and, assuming that the top word on
     // the stack is a return address, use it for the next PC.
-	
+
 	if ( (err == 0) && IntelIsSystemCall(context, *nextPCPtr) ) {
 		AddFrame(context, *nextPCPtr, 0, kQBTFrameBadMask);
 
         err = ReadAddr(context, preSignalSP, nextPCPtr);
 	}
-	
+
 	return err;
 }
 
 #endif
 
-// kArchitectures is an array of all the architectures we support.  
+// kArchitectures is an array of all the architectures we support.
 // Things to notes:
 //
-// o GetTaskArch processes this in a forward direction.  If you 
-//   list a more-specific architecture, you should list it before 
+// o GetTaskArch processes this in a forward direction.  If you
+//   list a more-specific architecture, you should list it before
 //   the less-specific one.
 //
-// o The table is terminated by a NULL architecture, signified by 
+// o The table is terminated by a NULL architecture, signified by
 //   a 0 in the cputype field.
 //
-// See the comments near QBTArchInfo for a detailed description of 
+// See the comments near QBTArchInfo for a detailed description of
 // each field.
 
 static const QBTArchInfo kArchitectures[] = {
@@ -2057,10 +2057,10 @@ static const QBTArchInfo kArchitectures[] = {
 		0,							// subcputype
 		false,						// is64Bit
 		3,							// frameAlignMask
-									// Apple's x86 ABI requires that the stack be 16 byte aligned, 
-									// but it says nothing about the frame.  It turns out that the 
-									// frame is typically 8 byte aligned, but I can't find any 
-							// documentation that requires that, so I'm only checking 4 byte 
+									// Apple's x86 ABI requires that the stack be 16 byte aligned,
+									// but it says nothing about the frame.  It turns out that the
+									// frame is typically 8 byte aligned, but I can't find any
+							// documentation that requires that, so I'm only checking 4 byte
 									// alignment.
 		IntelHandleLeaf,			// handleLeaf
 		IntelValidPC,				// validPC
@@ -2078,10 +2078,10 @@ static const QBTArchInfo kArchitectures[] = {
 		0,							// subcputype
 		true,						// is64Bit
 		3,							// frameAlignMask
-									// Apple's x86 ABI requires that the stack be 16 byte aligned, 
-									// but it says nothing about the frame.  It turns out that the 
-									// frame is typically 8 byte aligned, but I can't find any 
-									// documentation that requires that, so I'm only checking 4 byte 
+									// Apple's x86 ABI requires that the stack be 16 byte aligned,
+									// but it says nothing about the frame.  It turns out that the
+									// frame is typically 8 byte aligned, but I can't find any
+									// documentation that requires that, so I'm only checking 4 byte
 									// alignment.
 		IntelHandleLeaf,			// handleLeaf
 		IntelValidPC,				// validPC
@@ -2101,20 +2101,20 @@ static const QBTArchInfo kArchitectures[] = {
 #if 0 //! defined(NDEBUG)
 
     static bool FrameArrayNeedsDispose(const QBTFrame *frameArray, size_t frameArrayCount)
-        // We want to make sure that we don't leak symbol strings if we fail 
-        // with an error.  So, for debugging, we check that the output frame 
+        // We want to make sure that we don't leak symbol strings if we fail
+        // with an error.  So, for debugging, we check that the output frame
         // array has no strings that need disposing.
     {
         bool        needsDispose;
         size_t      frameIndex;
-        
+
         needsDispose = false;
         for (frameIndex = 0; frameIndex < frameArrayCount; frameIndex++) {
             if (frameArray[frameIndex].flags & kQBTFrameSymbolNeedsDisposeMask) {
                 needsDispose = true;
             }
         }
-        
+
         return needsDispose;
     }
 
@@ -2122,8 +2122,8 @@ static const QBTArchInfo kArchitectures[] = {
 
 extern int QBacktraceMachSelf(
     QSymbolsRef symRef,
-	QBTFrame *	frameArray, 
-	size_t		frameArrayCount, 
+	QBTFrame *	frameArray,
+	size_t		frameArrayCount,
 	size_t *	frameCountPtr
 )
 	// See comments in header.
@@ -2144,19 +2144,19 @@ extern int QBacktraceMachSelf(
     stateSize = 0;
 
     // Ask pthreads for our stack bounds.
-    
+
     stackTop    = (uintptr_t) pthread_get_stackaddr_np( pthread_self() );
     stackBottom =  stackTop - pthread_get_stacksize_np( pthread_self() );
     stackPtr    = (uintptr_t) &context;
 
-    // Due to a bug <rdar://problem/5007494>, the above calls can return bogus 
-    // results.  Specifically, you get bogus results for the main thread on 
+    // Due to a bug <rdar://problem/5007494>, the above calls can return bogus
+    // results.  Specifically, you get bogus results for the main thread on
     // pre-Leopard systems when running 64-bit code.
     //
-    // So, if the results are clearly bogus (because a known good stack address 
-    // (the address of one of our locals) is out of bounds), we just ignore 
+    // So, if the results are clearly bogus (because a known good stack address
+    // (the address of one of our locals) is out of bounds), we just ignore
     // the values we set up and use zeroes instead.
-    
+
     if ( (stackPtr < stackBottom) || (stackPtr >= stackTop) ) {
         stackBottom = 0;
         stackTop    = 0;
@@ -2167,9 +2167,9 @@ extern int QBacktraceMachSelf(
 	// Get the thread state for the current thread.
 
     err = QBTCreateThreadStateSelf(&stateFlavor, &state, &stateSize);
-    
+
 	// Do the backtrace.
-	
+
 	if (err == 0) {
         err = QBacktraceMachThreadState(
             mach_task_self(),
@@ -2185,28 +2185,28 @@ extern int QBacktraceMachSelf(
             frameCountPtr
         );
 	}
-	
+
 	// Clean up.
-	
+
     free(state);
 
     // Post condition
 
     assert( (err == 0) || ! FrameArrayNeedsDispose(frameArray, frameArrayCount) );
     assert( (err == 0) == (*frameCountPtr != 0) );
-	
+
 	return err;
 }
 
 extern int QBacktraceMachThread(
-	task_t		task, 
+	task_t		task,
 	thread_t	thread,
     cpu_type_t  cputype,
     QSymbolsRef symRef,
-	QTMAddr		stackBottom, 
+	QTMAddr		stackBottom,
 	QTMAddr		stackTop,
-	QBTFrame *	frameArray, 
-	size_t		frameArrayCount, 
+	QBTFrame *	frameArray,
+	size_t		frameArrayCount,
 	size_t *	frameCountPtr
 )
 	// See comments in header.
@@ -2215,7 +2215,7 @@ extern int QBacktraceMachThread(
     thread_state_flavor_t   stateFlavor;
     void *                  state;
     size_t                  stateSize;
-    
+
 	assert(task != MACH_PORT_NULL);
 	assert(thread != MACH_PORT_NULL);
 	assert( ((stackBottom == 0) && (stackBottom == stackTop)) || (stackBottom < stackTop) );
@@ -2224,12 +2224,12 @@ extern int QBacktraceMachThread(
 
     state = NULL;
     stateSize = 0;
-    
+
 	// Get the thread state for the target thread.
 
     if (thread == mach_thread_self()) {
         assert(task == mach_task_self());
-        
+
         err = QBTCreateThreadStateSelf(
             &stateFlavor,
             &state,
@@ -2246,7 +2246,7 @@ extern int QBacktraceMachThread(
             &stateSize
         );
     }
-    
+
 	// Do the backtrace.
 
     if (err == 0) {
@@ -2264,9 +2264,9 @@ extern int QBacktraceMachThread(
             frameCountPtr
         );
     }
-    
+
 	// Clean up.
-	
+
     free(state);
 
     // Post condition
@@ -2278,16 +2278,16 @@ extern int QBacktraceMachThread(
 }
 
 extern int QBacktraceMachThreadState(
-	task_t                  task, 
+	task_t                  task,
 	thread_state_flavor_t	stateFlavor,
 	const void *			state,
 	size_t					stateSize,
     cpu_type_t              cputype,
     QSymbolsRef				symRef,
-	QTMAddr					stackBottom, 
+	QTMAddr					stackBottom,
 	QTMAddr					stackTop,
-	QBTFrame *				frameArray, 
-	size_t					frameArrayCount, 
+	QBTFrame *				frameArray,
+	size_t					frameArrayCount,
 	size_t *				frameCountPtr
 )
 	// See comments in header.
@@ -2303,41 +2303,41 @@ extern int QBacktraceMachThreadState(
 	assert( frameCountPtr != NULL );
 
     // Initialise the context from the task.
-    
+
     err = MachInitContextFromTask(
-        &context, 
-        task, 
-        cputype, 
-        stackBottom, 
-        stackTop, 
-        symRef, 
-        frameArray, 
+        &context,
+        task,
+        cputype,
+        stackBottom,
+        stackTop,
+        symRef,
+        frameArray,
         frameArrayCount
     );
-    
+
     // Initialise the thread state from the input arguments.
-    
+
     if (err == 0) {
         context.threadStateFlavor = stateFlavor;
         context.threadState       = state;
         context.threadStateSize   = stateSize;
     }
-	
+
 	// Do the backtrace.
-	
+
 	if (err == 0) {
         err = BacktraceCore(&context, frameCountPtr);
 	}
-	
+
 	// Clean up.
-	
+
     MachTermContext(&context);
 
     // Post condition
 
     assert( (err == 0) || ! FrameArrayNeedsDispose(frameArray, frameArrayCount) );
     assert( (err == 0) == (*frameCountPtr != 0) );
-	
+
 	return err;
 }
 
@@ -2345,7 +2345,7 @@ extern void QBacktraceDisposeSymbols(QBTFrame frameArray[], size_t frameCount)
     // See comments in header.
 {
     size_t  frameIndex;
-    
+
     if (frameArray != NULL) {
         for (frameIndex = 0; frameIndex < frameCount; frameIndex++) {
             if (frameArray[frameIndex].flags & kQBTFrameSymbolNeedsDisposeMask) {
@@ -2358,7 +2358,7 @@ extern void QBacktraceDisposeSymbols(QBTFrame frameArray[], size_t frameCount)
 }
 
 extern int QBTCreateThreadState(
-	task_t                  task, 
+	task_t                  task,
 	thread_t                thread,
     cpu_type_t              cputype,
     QSymbolsRef             symRef,
@@ -2388,10 +2388,10 @@ extern int QBTCreateThreadState(
     state = NULL;
     dyld = NULL;
     didCreateDyld = false;
-    
-    // If the client supplied us with a sym, use it to get dyld.  Otherwise 
+
+    // If the client supplied us with a sym, use it to get dyld.  Otherwise
     // get dyld directly from the QMachOImage module.
-    
+
     if (symRef == NULL) {
         err = QMOImageCreateFromTaskDyld(task, cputype, &dyld);
         didCreateDyld = true;
@@ -2399,19 +2399,19 @@ extern int QBTCreateThreadState(
         dyld = QSymGetDyldImage(symRef);
         err = 0;
     }
-    
+
     // Use the dyld to get the architecture.
-    
+
     if (err == 0) {
         arch = GetTaskArch(dyld);
         if (arch == NULL) {
             err = EINVAL;
         }
     }
-    
-    // Use the parameters from the architecture to allocate and initialise the 
+
+    // Use the parameters from the architecture to allocate and initialise the
     // thread state buffer.
-    
+
     if (err == 0) {
         state = calloc(arch->stateCount, sizeof(integer_t));
         if (state == NULL) {
@@ -2431,14 +2431,14 @@ extern int QBTCreateThreadState(
         *stateFlavorPtr = arch->stateFlavor;
         *stateSizePtr   = arch->stateCount * sizeof(integer_t);
     }
-    
+
     // Clean up.
-    
+
     free(state);
     if (didCreateDyld) {
         QMOImageDestroy(dyld);
     }
-    
+
     assert( (err == 0) == (*statePtr != NULL) );
     assert( (err == 0) == (*stateSizePtr != 0) );
 
@@ -2452,33 +2452,33 @@ extern int QBTCreateThreadStateSelf(
 )
     // See comments in header.
     //
-    // I used to do this with a bundle of assembly language gunk, but now I take 
+    // I used to do this with a bundle of assembly language gunk, but now I take
     // advantage of GCC's built-in functions.
 {
     int         err;
     void *      pc;
     void *      fp;
     thread_state_flavor_t   flavor;
-    
+
     assert(stateFlavorPtr != NULL);
     assert( statePtr != NULL);
     assert(*statePtr == NULL);
     assert( stateSizePtr != NULL);
     assert(*stateSizePtr == 0);
-    
+
     // Use GCC intrinsics to get the information we need.
-    
+
     pc = __builtin_return_address(0);
     fp = __builtin_frame_address(1);
 
     // Use CPU-specific code to allocate and initialise a thread state buffer.
-    
+
     // *** Could do the allocation using information from the kArchitectures
     // array, but GetTaskArch needs an image object, which we don't have handy.
-    
+
     #if TARGET_CPU_PPC
         ppc_thread_state_t *    state;
-        
+
         flavor = PPC_THREAD_STATE;
         state = (ppc_thread_state_t *) calloc(1, sizeof(*state));
         if (state != NULL) {
@@ -2487,7 +2487,7 @@ extern int QBTCreateThreadStateSelf(
         }
     #elif TARGET_CPU_PPC64
         ppc_thread_state64_t *  state;
-        
+
         flavor = PPC_THREAD_STATE64;
         state = (ppc_thread_state64_t *) calloc(1, sizeof(*state));
         if (state != NULL) {
@@ -2496,7 +2496,7 @@ extern int QBTCreateThreadStateSelf(
         }
     #elif TARGET_CPU_X86
         x86_thread_state32_t *  state;
-        
+
         flavor = x86_THREAD_STATE32;
         state = (x86_thread_state32_t *) calloc(1, sizeof(*state));
         if (state != NULL) {
@@ -2505,7 +2505,7 @@ extern int QBTCreateThreadStateSelf(
         }
     #elif TARGET_CPU_X86_64
         x86_thread_state64_t *  state;
-        
+
         flavor = x86_THREAD_STATE64;
         state = (x86_thread_state64_t *) calloc(1, sizeof(*state));
         if (state != NULL) {
@@ -2519,7 +2519,7 @@ extern int QBTCreateThreadStateSelf(
         }
     #elif TARGET_CPU_ARM64
         arm_thread_state64_t *  state;
-        
+
         flavor = ARM_THREAD_STATE64;
         state = (arm_thread_state64_t *) calloc(1, sizeof(*state));
         if (state != NULL) {
@@ -2531,7 +2531,7 @@ extern int QBTCreateThreadStateSelf(
     #endif
 
     // Pass the information back to our client.
-    
+
     if (state == NULL) {
         err = ENOMEM;
     } else {

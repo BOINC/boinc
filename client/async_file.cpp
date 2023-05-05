@@ -128,7 +128,7 @@ int ASYNC_COPY::copy_chunk() {
                 "[async] async copy of %s finished", to_path
             );
         }
-    
+
         atp->async_copy = NULL;
         fip->set_permissions(to_path);
 

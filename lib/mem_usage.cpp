@@ -51,7 +51,7 @@ int mem_usage(double& vm_usage, double& resident_set) {
 #ifdef _WIN32
 
     // Figure out if we're on WinNT
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx( &osvi );
     if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) {

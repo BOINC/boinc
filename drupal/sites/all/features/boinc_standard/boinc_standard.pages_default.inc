@@ -224,7 +224,7 @@ function boinc_standard_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => 'Team summary',
       'title' => '',
-      'body' => '<?php 
+      'body' => '<?php
 if (module_exists(\'boincteam\')) {
   echo boincteam_dashboard_panel();
 }
@@ -452,7 +452,7 @@ return ($account->status);
     $pane->configuration = array(
       'admin_title' => 'Team summary',
       'title' => '',
-      'body' => '<?php 
+      'body' => '<?php
 if (module_exists(\'boincteam\')) {
   echo boincteam_dashboard_panel(%user:uid);
 }

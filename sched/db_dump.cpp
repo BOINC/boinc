@@ -329,7 +329,7 @@ class ZFILE {
 protected:
     string tag;     // enclosing XML tag
     OUTPUT_STREAM* stream;
-public:    
+public:
     ZFILE(string tag_, int comp): tag(tag_) {
         switch(comp) {
         case COMPRESSION_ZIP:
@@ -366,7 +366,7 @@ public:
 
         write(
             "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
-        );        
+        );
     }
 
     void open_num(const char* filename, int filenum) {

@@ -129,7 +129,7 @@ if ($forum->parent_type == 0) {
                     show_button(
                         "forum_thread_status.php?id=$thread->id&action=set",
                         tra("My question was answered"),
-                        tra("Click here if your question has been adequately answered") 
+                        tra("Click here if your question has been adequately answered")
                     );
                 }
             } else {

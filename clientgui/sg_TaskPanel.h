@@ -40,7 +40,7 @@ typedef struct {
 ///////////////////////////////////////////////////////////////////////////
 /// Class CScrolledTextBox
 ///////////////////////////////////////////////////////////////////////////////
-class CScrolledTextBox : public wxScrolledWindow 
+class CScrolledTextBox : public wxScrolledWindow
 {
     DECLARE_DYNAMIC_CLASS( CScrolledTextBox )
     DECLARE_EVENT_TABLE()
@@ -48,10 +48,10 @@ class CScrolledTextBox : public wxScrolledWindow
         CScrolledTextBox();
 		CScrolledTextBox( wxWindow* parent);
         ~CScrolledTextBox();
-		
+
         void SetValue(const wxString& s);
         virtual void OnEraseBackground(wxEraseEvent& event);
-    
+
     private:
         int Wrap(const wxString& text, int widthMax, int *lineHeight);
         bool IsStartOfNewLine();
@@ -69,7 +69,7 @@ class CScrolledTextBox : public wxScrolledWindow
 /// Class CSlideShowPanel
 ///////////////////////////////////////////////////////////////////////////////
 
-class CSlideShowPanel : public wxPanel 
+class CSlideShowPanel : public wxPanel
 {
     DECLARE_DYNAMIC_CLASS( CSlideShowPanel )
     DECLARE_EVENT_TABLE()
@@ -84,7 +84,7 @@ class CSlideShowPanel : public wxPanel
         void AdvanceSlideShow(bool changeSlide, bool reload);
         void OnPaint(wxPaintEvent& WXUNUSED(event));
         void OnEraseBackground(wxEraseEvent& event);
-                
+
     private:
         CScrolledTextBox*           m_description;
         wxTimer*                    m_ChangeSlideTimer;
@@ -106,7 +106,7 @@ class CSlideShowPanel : public wxPanel
 #define CBOINCBitmapComboBox wxBitmapComboBox
 #endif
 
-class CSimpleTaskPanel : public CSimplePanelBase 
+class CSimpleTaskPanel : public CSimplePanelBase
 {
     DECLARE_DYNAMIC_CLASS( CSimpleTaskPanel )
     DECLARE_EVENT_TABLE()

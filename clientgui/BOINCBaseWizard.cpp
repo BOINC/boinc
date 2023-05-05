@@ -37,13 +37,13 @@
 /*!
  * CBOINCBaseWizard type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CBOINCBaseWizard, wxWizardEx )
- 
+
 /*!
  * CBOINCBaseWizard constructors
  */
- 
+
 CBOINCBaseWizard::CBOINCBaseWizard() :
     wxWizardEx()
 {
@@ -60,7 +60,7 @@ CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& tit
  * Process Cancel Event
  */
 bool CBOINCBaseWizard::IsCancelInProgress() const
-{ 
+{
     return m_bCancelInProgress;
 }
 
@@ -78,7 +78,7 @@ void CBOINCBaseWizard::_ProcessCancelEvent( wxWizardExEvent& WXUNUSED(event) )
  * Button Controls
  */
 
-wxButton* CBOINCBaseWizard::GetNextButton() const { 
+wxButton* CBOINCBaseWizard::GetNextButton() const {
     return m_btnNext;
 }
 
@@ -105,7 +105,7 @@ void CBOINCBaseWizard::SimulateBackButton() {
     event.SetEventObject(GetNextButton());
     AddPendingEvent(event);
 }
- 
+
 void CBOINCBaseWizard::EnableBackButton() {
     m_btnPrev->Enable();
 }
@@ -123,7 +123,7 @@ void CBOINCBaseWizard::SimulateCancelButton() {
     event.SetEventObject(GetCancelButton());
     AddPendingEvent(event);
 }
- 
+
 void CBOINCBaseWizard::EnableCancelButton() {
     m_btnCancel->Enable();
 }

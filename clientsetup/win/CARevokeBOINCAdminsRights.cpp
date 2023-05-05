@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCAdminsRights::CARevokeBOINCAdminsRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CARevokeBOINCAdminsRights::CARevokeBOINCAdminsRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCAdminsRights::~CARevokeBOINCAdminsRights()
@@ -54,10 +54,10 @@ CARevokeBOINCAdminsRights::~CARevokeBOINCAdminsRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CARevokeBOINCAdminsRights::OnExecution()
@@ -77,7 +77,7 @@ UINT CARevokeBOINCAdminsRights::OnExecution()
             L"boinc_admins",                         // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -132,7 +132,7 @@ UINT CARevokeBOINCAdminsRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -152,7 +152,7 @@ UINT CARevokeBOINCAdminsRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RevokeBOINCAdminsRights
 //
 // Description: This custom action revokes the 'boinc_admins' group the

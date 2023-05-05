@@ -253,7 +253,7 @@ def connect(config = None, nodb = False):
         db = ''
     else:
         db = config.db_name
-    
+
     host=config.__dict__.get('db_host','')
     port=""
     if ':' in host:

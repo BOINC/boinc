@@ -71,10 +71,10 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     safe_strcpy(authenticator, a.authenticator);
     memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME));
     safe_strcpy(gpu_type, a.gpu_type);
-                
+
     // use assignment for the rest, especially the classes
     // (so that the overloaded operators are called!)
-    major_version               = a.major_version;               
+    major_version               = a.major_version;
     minor_version               = a.minor_version;
     release                     = a.release;
     app_version                 = a.app_version;

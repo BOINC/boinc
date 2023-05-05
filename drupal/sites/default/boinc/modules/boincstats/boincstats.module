@@ -23,7 +23,7 @@
 function boincstats_menu() {
   $items['admin/boinc/stats'] = array(
     'title' => 'Environment: Statistics setup',
-    'description' => 'Configure the stats system for generating charts and 
+    'description' => 'Configure the stats system for generating charts and
       providing cross project data.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincstats_admin_stats_system'),
@@ -48,31 +48,31 @@ function boincstats_menu() {
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
   * User stats chart menu callback
   * Called to generate the daily credit status chart for a user (dashboard)
   */
 function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
-  
+
   // pChart library inclusions
   module_load_include('php', 'boincstats', 'includes/pchart/class/pData.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pDraw.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
-  
+
   init_theme();
   global $theme_key;
   $cache_name = "{$theme_key}_";
-  
+
   $dataset_size = 0;
   $chart_height = 0;
   $chart_width = 0;
   $draw_x_lines = FALSE;
   $label_x_axis = FALSE;
-  
+
   $stats_xml = NULL;
-  
+
   switch($chart_size) {
   case 'small':
     $cache_name .= "{$cpid}_small";
@@ -92,16 +92,16 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     $draw_x_lines = TRUE;
     $label_x_axis = TRUE;
   }
-  
+
   // Sanity check for cache directory
   if (!boincstats_check_cache_dir()) {
     return;
   }
-  
+
   // Initialize the cache object and flush stale images
   $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path() . '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
-  
+
   if ($myCache->isInCache($cache_name)) {
     $myCache->strokeFromCache($cache_name);
   }
@@ -118,21 +118,21 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     else {
       for ($i = 0; $i <= $dataset_size; $i++) $dataset[] = 0;
     }
-    
+
     // Get color configuration
     $color_keys = array('R', 'G', 'B');
     $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
     $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
     $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
     $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
-    
+
     // Create and populate the pData object
     $MyData = new pData();
-    
+
     $MyData->addPoints($dataset, 'series1');
     $MyData->setPalette('series1', $palette_color);
     $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
-    
+
     // Create the pChart object
     $myPicture = new pImage($chart_width, $chart_height, $MyData);
 
@@ -147,7 +147,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     if ($backdrop_color) {
       $myPicture->drawFilledRectangle(0, 0, $chart_width, $chart_height, $backdrop_color);
     }
-    
+
     // Draw the scale
     $scaleSettings = array(
       'Mode' => SCALE_MODE_START0,
@@ -172,7 +172,7 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     );
     $myPicture->setFontProperties(array('FontSize' => 10));
     $myPicture->drawScale($scaleSettings);
-    
+
     if ($label_x_axis) {
       for ($i = 5; $i >= 0; $i--) {
         $label = ($i) ? -10*$i : 'Today';
@@ -182,10 +182,10 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
 
     // Draw the area chart
     $myPicture->drawAreaChart(array('ForceTransparency' => 100));
-    
+
     // Write the chart to the cache
     $myCache->writeToCache($cache_name, $myPicture);
-    
+
     // Render the picture (choose the best way)
     //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
     $myPicture->stroke();
@@ -202,28 +202,28 @@ function boincstats_get_project_stats_chart() {
   module_load_include('php', 'boincstats', 'includes/pchart/class/pDraw.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
   module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
-  
+
   init_theme();
   global $theme_key;
   $cache_name = "{$theme_key}_project_chart";
-  
+
   $color_keys = array('R', 'G', 'B');
-  
+
   // Get color configuration
   $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
   $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
   $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
   $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
-   
+
   // Sanity check for cache directory
   if (!boincstats_check_cache_dir()) {
     return;
   }
-  
+
   // Initialize the cache object and flush stale images
   $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path() . '/files/cache'));
   $myCache->removeOlderThan(60*60*24);
-  
+
   if ($myCache->isInCache($cache_name)) {
     $myCache->strokeFromCache($cache_name);
   }
@@ -240,10 +240,10 @@ function boincstats_get_project_stats_chart() {
     else {
       for ($i = 0; $i <= 30; $i++) $dataset[] = 0;
     }
-    
+
     // Create and populate the pData object
     $MyData = new pData();
-    
+
     $MyData->addPoints($dataset, 'series1');
     $MyData->setPalette('series1', $palette_color);
     $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
@@ -285,7 +285,7 @@ function boincstats_get_project_stats_chart() {
     );
     $myPicture->setFontProperties(array('FontSize' => 10));
     $myPicture->drawScale($scaleSettings);
-    
+
     /*for ($i = 5; $i >= 0; $i--) {
       $label = ($i) ? -10*$i : 'Today';
       $myPicture->drawText(598-596*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
@@ -293,7 +293,7 @@ function boincstats_get_project_stats_chart() {
 
     // Draw the area chart */
     $myPicture->drawAreaChart(array('ForceTransparency' => 100));
-    
+
     // Write the chart to the cache
     $myCache->writeToCache($cache_name, $myPicture);
 
@@ -341,13 +341,13 @@ function boincstats_check_cache_dir($cache_path = 'files/cache') {
  *
  */
 function boincstats_get_project_stats($type = 'total', $cpid = NULL) {
-  
+
   // Determine the stats environment
   boincstats_check_configuration();
   $stats_server = variable_get('boinc_stats_server', '');
   $stats_rpc = variable_get('boinc_stats_project_credit_history_rpc', '');
   $project_id = variable_get('boinc_stats_remote_project_id', '');
-  
+
   $get = array(
     'id' => $project_id
   );
@@ -358,13 +358,13 @@ function boincstats_get_project_stats($type = 'total', $cpid = NULL) {
   case 'total':
   default:
   }
-  
+
   if ($cpid) {
     // If a user CPID has been provided, limit scope to that user
     $stats_rpc = variable_get('boinc_stats_user_credit_history_rpc', '');
     $get['cpid'] = $cpid;
   }
-  
+
   // Construct query string
   $args = array();
   foreach ($get as $arg => $value) {
@@ -376,7 +376,7 @@ function boincstats_get_project_stats($type = 'total', $cpid = NULL) {
     }
   }
   $query = '?' . implode('&', $args);
-  
+
   // Load XML from RPC
   $stats_xml = NULL;
   $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";

@@ -30,7 +30,7 @@ function discussion_forums_default_fe_block_settings() {
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
     $nid = arg(1);
     $node = node_load(array(\'nid\' => $nid));
-    $type = $node->type; 
+    $type = $node->type;
     $match |= in_array($type, $types);
     // Don\'t show if comments aren\'t enabled...
     if ($node->comment != 2) {
@@ -70,7 +70,7 @@ function discussion_forums_default_fe_block_settings() {
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
     $nid = arg(1);
     $node = node_load(array(\'nid\' => $nid));
-    $type = $node->type; 
+    $type = $node->type;
     $match |= in_array($type, $types);
     // Don\'t show if comments aren\'t enabled...
     if ($node->comment != 2) {
@@ -110,7 +110,7 @@ function discussion_forums_default_fe_block_settings() {
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
     $nid = arg(1);
     $node = node_load(array(\'nid\' => $nid));
-    $type = $node->type; 
+    $type = $node->type;
     $match |= in_array($type, $types);
     // Don\'t show if comments aren\'t enabled...
     if ($node->comment != 2) {

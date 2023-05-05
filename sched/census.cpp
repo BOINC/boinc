@@ -48,7 +48,7 @@ void usage(char *name) {
 int main(int argc, char** argv) {
     HR_INFO hri;
     int retval;
-    
+
     for (int i=1; i<argc; i++) {
         if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
             usage(argv[0]);

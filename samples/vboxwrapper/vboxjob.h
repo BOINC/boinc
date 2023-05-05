@@ -101,9 +101,9 @@ public:
 
     bool enable_cache_disk;
         // whether to add an extra cache disk for systems like uCernVM
-    
-    bool boot_iso; 
-        // whether to put the iso as the first boot device 
+
+    bool boot_iso;
+        // whether to put the iso as the first boot device
 
     bool enable_network;
         // whether to allow network access
@@ -150,10 +150,10 @@ public:
         // name of the file to check for a heartbeat
         // (i.e. check mod time with stat)
 
-    double minimum_heartbeat_interval; 
+    double minimum_heartbeat_interval;
         // check heartbeat interval
 
-    int pf_guest_port;      
+    int pf_guest_port;
     int pf_host_port;
         // if nonzero, do port forwarding for Web GUI
 

@@ -68,9 +68,9 @@ private:
 
     // X screen
     xcb_screen_t *scr;
-    
+
     // window id
-    xcb_window_t win; 
+    xcb_window_t win;
 
     // text graphics context id
     xcb_gcontext_t txt_gc;
@@ -172,7 +172,7 @@ public:
                 std::cerr << "Could not configure window." << std::endl;
                 exit(1);
             }
-        } 
+        }
 
         // open a font. "fixed" should hopefully be available everywhere
         font = xcb_generate_id(con);
@@ -226,7 +226,7 @@ public:
         xcb_char2b_t *str = char2b(text);
 
         // get the dimensions of the text
-        xcb_query_text_extents_cookie_t cookie = 
+        xcb_query_text_extents_cookie_t cookie =
             xcb_query_text_extents(con, font, text.size(), str)
         ;
         delete[] str;
@@ -255,7 +255,7 @@ public:
     void resize(uint16_t w, uint16_t h) {
         width = w;
         height = h;
-        
+
         // resize client window, if any.
         if (client_win) {
             // moving the client back to (0, 0) is required when maximizing
@@ -304,7 +304,7 @@ public:
             std::cerr << "Could not reparent client." << std::endl;
             exit(1);
         }
-        
+
         // move and resize client window
         values[0] = 0;
         values[1] = 0;
@@ -349,7 +349,7 @@ void *event_loop(void*) {
                 xcb_expose_event_t *expose_event
                     = reinterpret_cast<xcb_expose_event_t*>(event)
                 ;
-                    
+
                 // ignore the expose event, if there are more waiting.
                 if (!expose_event->count
                     && window
@@ -364,7 +364,7 @@ void *event_loop(void*) {
                 xcb_configure_notify_event_t *configure_notify_event
                     = reinterpret_cast<xcb_configure_notify_event_t*>(event)
                 ;
-                    
+
                 if (window && window->get_window_id() == configure_notify_event->window) {
                     window->resize(configure_notify_event->width,
                         configure_notify_event->height
@@ -474,7 +474,7 @@ int main(int argc, char *argv[]) {
         // select a random result
         int n = random() % results.results.size();
         RESULT *result = results.results[n];
-            
+
         // change to slot dir
         std::stringstream stream;
         stream << boinc_wd << "/slots/" << result->slot << "/";
@@ -539,9 +539,9 @@ int main(int argc, char *argv[]) {
                 0, std::numeric_limits<uint32_t>::max()
             );
             reply2 = xcb_get_property_reply(con, cookie, &error);
-            if (!error) {    // ignore errors 
+            if (!error) {    // ignore errors
                 char *command = static_cast<char*>(xcb_get_property_value(reply2));
-            
+
                 if (command && graphics_cmd == command) {
                     client = clients[c];
                     break;
@@ -556,7 +556,7 @@ int main(int argc, char *argv[]) {
                 0, std::numeric_limits<uint32_t>::max()
             );
             reply2 = xcb_get_property_reply(con, cookie, &error);
-            if (!error) {    // ignore errors 
+            if (!error) {    // ignore errors
                 char *clas = static_cast<char*>(xcb_get_property_value(reply2));
 
                 size_t pos = graphics_cmd.find_last_of('/');
@@ -571,7 +571,7 @@ int main(int argc, char *argv[]) {
                     client = clients[c];
                     break;
                 }
-                            
+
                 free(reply2);
             }
 

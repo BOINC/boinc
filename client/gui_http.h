@@ -36,7 +36,7 @@
 //      GUI_RPC_CONN::get_project_config_op
 //      GUI_RPC_CONN::lookup_account_op
 //      GUI_RPC_CONN::create_account_op
-//      
+//
 // - one for the client itself
 //   GUI_HTTP_OPs that use this channel:
 //      CLIENT_STATE::lookup_website_op

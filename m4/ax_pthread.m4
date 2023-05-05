@@ -97,10 +97,10 @@ test -f $1
 m4_ifndef([AS_IF],
 [m4_defun([AS_IF],[
 if $1 >/dev/null 2>&1; then
-  $2 
+  $2
   test
 else
-  $3 
+  $3
   test
 fi
 ])]
@@ -115,9 +115,9 @@ AU_ALIAS([AC_CHECK_PROGS],[AC_PATH_PROGS])
 m4_ifndef([AS_CASE],
 [m4_defun([AS_CASE],[
 case $1 in
-   $2) $3 
+   $2) $3
    ;;
-   *) $4 
+   *) $4
    ;;
 esac
 ])])

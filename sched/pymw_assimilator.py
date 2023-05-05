@@ -6,9 +6,9 @@ import os, sys, shutil
 
 class PymwAssimilator(Assimilator):
     """
-    PyMW Assimilator. Copies workunit results to a predefined output directory. 
+    PyMW Assimilator. Copies workunit results to a predefined output directory.
     """
-    
+
     def __init__(self):
         Assimilator.__init__(self)
         self.pymwDir = None
@@ -19,7 +19,7 @@ class PymwAssimilator(Assimilator):
             self.logCritical("PyMW path does not exist or is inaccessible: %s\n", \
                             self.pymwDir)
             return
-        
+
         resultFullPath = self.get_file_path(result)
         resultName = re.search('<open_name>(.*)</open_name>',result.xml_doc_in).group(1)
 
@@ -28,7 +28,7 @@ class PymwAssimilator(Assimilator):
             self.logCritical("Result path does not exist or is inaccessible: %s\n", \
                             resultFullPath)
             return
-        
+
         # copy the file to the output directory where it
         # will be processed by PyMW
         try:
@@ -50,16 +50,16 @@ class PymwAssimilator(Assimilator):
         except (Exception, msg):
             self.logCritical("Error copying output\n" + \
                              "  - Source: %s\n" + \
-                             "  - Dest: %s\n" + 
+                             "  - Dest: %s\n" +
                              "  - Error: %s",
                              resultFullPath, dest, msg)
-    
+
     def assimilate_handler(self, wu, results, canonical_result):
         """
         Assimilates a canonical result by copying the result file
         to the PyMW pickup directory, self.pymwDir
         """
-        
+
         # check for valid wu.canonical_result
         if wu.canonical_result:
             self.logNormal("[%s] Found canonical result\n", wu.name)
@@ -106,13 +106,13 @@ class PymwAssimilator(Assimilator):
                     found = True
             else:
                 newArgs.append(arg)
-        
+
         if not found:
             self.logCritical("Error, path argument expected: -pymw_dir <PATH>\n")
             sys.exit(1)
-        
+
         Assimilator.parse_args(self, newArgs)
-        
+
 # allow the module to be executed as an application
 if __name__ == '__main__':
     asm = PymwAssimilator()

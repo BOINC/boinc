@@ -43,17 +43,17 @@
 
 // I put in it's own namespace so call TTFont::ttf_load_fonts() etc
 //
-namespace TTFont {  
+namespace TTFont {
 
-// The Liberation version 2.00.0 fonts referenced below are free 
-// fonts under the SIL Open Font License version 1.1.  You can 
+// The Liberation version 2.00.0 fonts referenced below are free
+// fonts under the SIL Open Font License version 1.1.  You can
 // download the license and fonts from
 // https://fedorahosted.org/liberation-fonts
 //
-// Another source of free fonts is the GNU FreeFont project 
+// Another source of free fonts is the GNU FreeFont project
 // at http://www.gnu.org/software/freefont
 
-// you'll want to define a 2-d array of char as appropriate for your 
+// you'll want to define a 2-d array of char as appropriate for your
 // truetype font filenames (path is set in the call to ttf_load_fonts)
 //
 static const char *g_cstrFont[] = {
@@ -70,7 +70,7 @@ static const char *g_cstrFont[] = {
     "LiberationMono-Italic.ttf",        // 10
     "LiberationMono-BoldItalic.ttf"     // 11
 };
-    
+
 // define the number of fonts supported
 #define NUM_FONT (sizeof(g_cstrFont) / sizeof(char*))
 
@@ -127,7 +127,7 @@ void ttf_load_fonts(
             }
 #endif
         }
-    }  
+    }
 }
 
 // remove our objects

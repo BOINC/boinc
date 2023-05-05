@@ -98,7 +98,7 @@ function node_comment_block_preprocess_node(&$variables) {
   if ($variables['type'] == 'news') {
     $variables['node']->comment = 0;
   }
-  
+
   /* Drupal 7...
   if ($node->comment !== 0 && $variables['view_mode'] == 'full') {
     if (isset($variables['content']['comments'])) {

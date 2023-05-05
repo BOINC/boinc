@@ -14,7 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 
 #ifndef __SCREENSAVER_H__
 #define __SCREENSAVER_H__
@@ -41,7 +41,7 @@ enum SS_PHASE {
 #define SCRAPPERR_BOINCNOTGRAPHICSCAPABLE                   0x82000004
 #define SCRAPPERR_BOINCNOAPPSEXECUTING                      0x82000005
 #define SCRAPPERR_BOINCNOPROJECTSDETECTED                   0x82000006
-#define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING              0x82000007  
+#define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING              0x82000007
 #define SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING              0x82000009
 #define SCRAPPERR_BOINCSHUTDOWNEVENT                        0x8200000a
 #define SCRAPPERR_NOPREVIEW                                 0x8200000f

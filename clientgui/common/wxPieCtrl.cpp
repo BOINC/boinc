@@ -122,14 +122,14 @@ wxColour wxPieCtrl::GetBackColour() {
 }
 
 /* event handlers */
-/* handles mouse motion events to show tooltips 
+/* handles mouse motion events to show tooltips
    for some (unkown) reason under X no tooltips are displayed
 */
 void wxPieCtrl::OnMouseMove(wxMouseEvent& ev) {
 	//get the pie part, over which the mouse pointer is
 	int piepart = GetCoveredPiePart(ev.GetX(),ev.GetY());
 	//part identified
-	if(piepart >=0) {		
+	if(piepart >=0) {
 		//prevent tooltip flicker
 		if(piepart != m_lastCoveredPart) {
 			wxString tooltip = this->m_Series[piepart].GetLabel();
@@ -140,8 +140,8 @@ void wxPieCtrl::OnMouseMove(wxMouseEvent& ev) {
 	else {
 		this->SetToolTip(wxEmptyString);
 		m_lastCoveredPart=-1;
-	}	
-	ev.Skip();	
+	}
+	ev.Skip();
 }
 
 void wxPieCtrl::OnSize(wxSizeEvent & /*event*/)
@@ -213,7 +213,7 @@ void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)
 	{
 		current += m_Series[i].GetValue();
 		angles.Add(360 * (double)current / (double)total);
-	}	
+	}
 }
 
 #define MINANGLE 2
@@ -227,9 +227,9 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	if(m_ShowEdges) {
 		m_CanvasDC.SetPen(*wxBLACK_PEN);
 	}
-        
+
         intAngles.clear();
-        
+
 	if(m_Series.Count() == 1)
 	{
 		m_CanvasDC.SetBrush(wxBrush(m_Series[0].GetColour()));
@@ -241,7 +241,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	}
 	else {
 		GetPartAngles(angles);
-                
+
                  if (angles.Count() > 1) {
                     // Try to adjust angles so each segment is visible
                     for(i = 0; i < angles.Count(); i++) {
@@ -254,7 +254,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
                             }
                         }
                     }
-                    
+
                     // If we expanded last segment past 360, go back and fix it
                     if (intAngles[angles.Count()-1] > 360) {
                         intAngles[angles.Count()-1] = 360;
@@ -268,7 +268,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
                         }
                     }
                 }
-                
+
 		for(i = 0; i < angles.Count(); i++)
 		{
 			if(i > 0)
@@ -288,7 +288,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 #else
 				t1 = intAngles[i-1];
 				t2 = intAngles[i];
-#endif 
+#endif
 				if(t1 != t2) {
 					m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
@@ -308,7 +308,7 @@ void wxPieCtrl::DrawLegend(int left, int top)
 	int dy(m_LegendVerBorder),tw,th=0,titlew,titleh;
     int totalNumLabels = (int)m_Series.Count();
     int vertSpaceForLabels,maxVisibleLabels,lastLabelToDraw,numSteps;
-    
+
 	// First determine the size of the legend box
 	m_CanvasDC.SetFont(m_TitleFont);
 	m_CanvasDC.GetTextExtent(m_szTitle,&titlew,&titleh);
@@ -352,11 +352,11 @@ void wxPieCtrl::DrawLegend(int left, int top)
             lastLabelToDraw = totalNumLabels - 1;
             m_firstlabelToDraw = totalNumLabels - maxVisibleLabels;
         }
-        
+
         m_scrollBar->SetScrollbar(m_firstlabelToDraw, 1, numSteps, 1);
         m_scrollBar->Show((maxVisibleLabels > 0));
     }
-    
+
 	// Now draw the legend title
 	dy = m_LegendVerBorder+titleh+5;
 	m_CanvasDC.SetFont(m_TitleFont);
@@ -365,7 +365,7 @@ void wxPieCtrl::DrawLegend(int left, int top)
     dy += 5;
  	// Draw the legend items
 	m_CanvasDC.SetFont(m_LabelFont);
-    
+
 	m_CanvasDC.SetTextForeground(m_LabelColour);
 	for(i = m_firstlabelToDraw; i <= lastLabelToDraw; i++)
 	{

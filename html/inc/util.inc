@@ -260,7 +260,7 @@ function page_head(
     if ($did_page_head) {
         return;
     }
-    
+
     $did_page_head = true;
     $url_base = url_base();
 

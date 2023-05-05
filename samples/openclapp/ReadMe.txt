@@ -50,9 +50,9 @@ type: may be PROC_TYPE_NVIDIA_GPU, PROC_TYPE_AMD_GPU or PROC_TYPE_INTEL_GPU.
 device: a pointer to the variable to receive the cl_device_id of the desired GPU.
 platform: a pointer to the variable to receive the cl_platform_id of the desired GPU.
 
-Currently, BOINC expects projects to provide separate production applications for each GPU vendor (GPU type), with a separate "plan class" for each.  BOINC currently supports GPUs from the three major vendors: AMD (ATI). NVIDIA or Intel (Ivy Bridge or later).  BOINC refers to the vendors as gpu "types."  
+Currently, BOINC expects projects to provide separate production applications for each GPU vendor (GPU type), with a separate "plan class" for each.  BOINC currently supports GPUs from the three major vendors: AMD (ATI). NVIDIA or Intel (Ivy Bridge or later).  BOINC refers to the vendors as gpu "types."
 
-Because older clients do not write the <gpu_type> field into the init_data.xml file, your application must pass the appropriate GPU type as the third argument in the boinc_get_opencl_ids() call, or it will not be compatible with older clients.  
+Because older clients do not write the <gpu_type> field into the init_data.xml file, your application must pass the appropriate GPU type as the third argument in the boinc_get_opencl_ids() call, or it will not be compatible with older clients.
 
 However, to avoid redundancy, this one sample is designed to work with OpenCl-capable GPUs from any of the three vendors.  To accomplish this, it does not pass a valid type in the boinc_get_opencl_ids() call; it requires init_data.xml file to have a valid <gpu_type> field, and so would not be compatible with older clients.  This shortcut is not acceptable for production OpenCL applications; you _must_ pass in a type of either PROC_TYPE_NVIDIA_GPU, PROC_TYPE_AMD_GPU or PROC_TYPE_INTEL_GPU.
 

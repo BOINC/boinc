@@ -171,7 +171,7 @@ int compareOSVersionTo(int toMajor, int toMinor) {
         p1 = strchr(vers, '.');
         minor = atoi(p1+1);
     }
-    
+
     if (major < toMajor) return -1;
     if (major > toMajor) return 1;
     // if (major == toMajor) compare minor version numbers

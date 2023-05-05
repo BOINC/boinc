@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCUsersRights::CARevokeBOINCUsersRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CARevokeBOINCUsersRights::CARevokeBOINCUsersRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCUsersRights::~CARevokeBOINCUsersRights()
@@ -54,10 +54,10 @@ CARevokeBOINCUsersRights::~CARevokeBOINCUsersRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CARevokeBOINCUsersRights::OnExecution()
@@ -77,7 +77,7 @@ UINT CARevokeBOINCUsersRights::OnExecution()
             L"boinc_users",                          // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -132,7 +132,7 @@ UINT CARevokeBOINCUsersRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -152,7 +152,7 @@ UINT CARevokeBOINCUsersRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RevokeBOINCUsersRights
 //
 // Description: This custom action revokes the 'boinc_users' group the

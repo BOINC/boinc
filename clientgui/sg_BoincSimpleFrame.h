@@ -123,7 +123,7 @@ public:
     void OnRefreshView( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
     void OnEventLog(wxCommandEvent& event);
-    
+
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 

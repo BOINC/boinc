@@ -3,7 +3,7 @@
 if not exist "windows" (
     echo start this script in the source root directory
     exit 1
-) 
+)
 
 if [%1] == [] (
     set "PLATFORM=x64"
@@ -13,8 +13,8 @@ if [%1] == [] (
 
 if [%2] == [] (
     set "CONFIGURATION=Release"
-) else ( 
-    set "CONFIGURATION=%2" 
+) else (
+    set "CONFIGURATION=%2"
 )
 
 echo PLATFORM: %PLATFORM%

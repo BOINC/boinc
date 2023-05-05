@@ -21,11 +21,11 @@
 #
 ##
 # Script to set up Macintosh to run BOINC client as a daemon / service
-# by Charlie Fenton 7/26/06 
+# by Charlie Fenton 7/26/06
 # revised 1/6/08 to use launchd
 ##
-## Note: this version of this script requires BOINC 5.10.34 or later 
-## and OS 10.4 or later.  
+## Note: this version of this script requires BOINC 5.10.34 or later
+## and OS 10.4 or later.
 ##
 
 ## Usage:
@@ -35,79 +35,79 @@
 ## path_to_client_dir is needed only for stand-alone client or if Manager
 ##  is at non-standard location.
 ##
-## path_to_data_dir is needed only for stand-alone client when data is in 
+## path_to_data_dir is needed only for stand-alone client when data is in
 ##  a different directory than the client.
 ##
 ## Directions for use:
 ##
-## (1) Install BOINC Manager using the BOINC.pkg Installer Package, or 
-##     install stand-alone client. 
-## (2) Make sure you are logged in as a user with administrator 
+## (1) Install BOINC Manager using the BOINC.pkg Installer Package, or
+##     install stand-alone client.
+## (2) Make sure you are logged in as a user with administrator
 ##     privileges.
 ## (3) Run the Terminal application.
 ## (4) In the Terminal window, type "source" and a space.
 ## (5) Drag this script file from the Finder into the Terminal window.
 ## (6) If using the stand-alone client, or if the Manager is in a non-
-##     standard location, drag the folder containing the client from 
-##     the Finder into the Terminal window (or type the path excluding 
+##     standard location, drag the folder containing the client from
+##     the Finder into the Terminal window (or type the path excluding
 ##     the trailing slash).
-## (7) If using the stand-alone client, but the client is not in the data 
-##     directory, drag the BOINC data folder from the Finder into the 
+## (7) If using the stand-alone client, but the client is not in the data
+##     directory, drag the BOINC data folder from the Finder into the
 ##     Terminal window (or type the path excluding the trailing slash).
 ## (8) Press the return key.
 ## (9) When prompted, enter your administrator password.
 ## (10) Restart the computer.
 ##
-## The system will now start BOINC client as a daemon / service at 
-## system startup.  You will still be able to control and monitor BOINC 
-## using the BOINC Manager, but BOINC client will remain running after 
-## you quit BOINC Manager, when the ScreenSaver quits, and even when 
+## The system will now start BOINC client as a daemon / service at
+## system startup.  You will still be able to control and monitor BOINC
+## using the BOINC Manager, but BOINC client will remain running after
+## you quit BOINC Manager, when the ScreenSaver quits, and even when
 ## no user is logged in.
 ##
-## Note: the BOINC ScreenSaver may not display graphics for some users 
-## when BOINC Client is running as a daemon / service.  Thus will be 
+## Note: the BOINC ScreenSaver may not display graphics for some users
+## when BOINC Client is running as a daemon / service.  Thus will be
 ## fixed with the release of BOINC 6.0 and project applications updated
 ## to use the BOINC 6 graphics API.
 ##
 
 ##
-## When the system has launched BOINC Client as a daemon, you can stop the 
+## When the system has launched BOINC Client as a daemon, you can stop the
 ## BOINC Client from the Terminal by typing:
 ##   sudo launchctl stop edu.berkeley.boinc
 ## and you can restart the BOINC Client from the Terminal by typing:
 ##   sudo launchctl start edu.berkeley.boinc
 ##
-## Note: The BOINC Client will quit immediately after launch if it detects 
-## another instance of BOINC Client already running.  So these launchctl 
-## commands will fail if the BOINC Client was started by the BOINC Manager 
+## Note: The BOINC Client will quit immediately after launch if it detects
+## another instance of BOINC Client already running.  So these launchctl
+## commands will fail if the BOINC Client was started by the BOINC Manager
 ## or ScreenSaver.
 ##
-## If BOINC Client is not already running when the BOINC Manager is launched, 
-## the Manager will start BOINC Client.  This will happen automatically at 
-## login if you have BOINC Manager set as a login item for that user.  If 
-## it was started by the Manager, then BOINC Client will quit when the BOINC 
+## If BOINC Client is not already running when the BOINC Manager is launched,
+## the Manager will start BOINC Client.  This will happen automatically at
+## login if you have BOINC Manager set as a login item for that user.  If
+## it was started by the Manager, then BOINC Client will quit when the BOINC
 ## Manager quits.
 ##
-## If BOINC Client is not already running when the BOINC ScreenSaver starts, 
-## the ScreenSaver will start BOINC Client and will quit BOINC Client when 
+## If BOINC Client is not already running when the BOINC ScreenSaver starts,
+## the ScreenSaver will start BOINC Client and will quit BOINC Client when
 ## the ScreenSaver is dismissed.
 ##
 
 ## REMOVAL:
-## To undo the effects of this script (i.e., to permanently stop running BOINC 
+## To undo the effects of this script (i.e., to permanently stop running BOINC
 ## as a daemon / service):
 ## (1) In the Finder, browse to the /Library/LaunchDaemons folder.
-## (2) Drag the file edu.berkeley.boinc.plist to the trash.  (Finder will ask 
+## (2) Drag the file edu.berkeley.boinc.plist to the trash.  (Finder will ask
 ##     for your administrator user name and password).
 ## (3) Restart the computer.
 ##
-## The system will no longer start BOINC client as a daemon / service 
-## at system startup.   
+## The system will no longer start BOINC client as a daemon / service
+## at system startup.
 ##
-## If you wish to completely remove BOINC from your computer, first 
-## complete the above steps, then follow the directions in the web 
-## page http://boinc.berkeley.edu/mac_advanced.php or in the README.rtf 
-## file supplied with the BOINC installer. 
+## If you wish to completely remove BOINC from your computer, first
+## complete the above steps, then follow the directions in the web
+## page http://boinc.berkeley.edu/mac_advanced.php or in the README.rtf
+## file supplied with the BOINC installer.
 ##
 
 if [ $# -eq 0 ] ; then
@@ -164,7 +164,7 @@ rm -fR ~/boincStartupTemp
 mkdir -p ~/boincStartupTemp/
 
 # Create file edu.berkeley.boinc.plist in temporary directory.
-# (For some reason, we can't create the file directly in the final 
+# (For some reason, we can't create the file directly in the final
 # destination directory, so we create it here and then move it.)
 cat >> ~/boincStartupTemp/edu.berkeley.boinc.plist << ENDOFFILE
 <?xml version="1.0" encoding="UTF-8"?>

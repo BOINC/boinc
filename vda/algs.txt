@@ -38,7 +38,7 @@ MC::decide_reconstruct
     if keep_present
         mark N PRESENT children as keep_present
     if not bottom-level
-        recurse 
+        recurse
 
 // - do encoding and decoding;
 // - delete all meta-chunk files when done;
@@ -60,7 +60,7 @@ MC::reconstruct_and_cleanup
                     delete C
                     npresent--
                     C.new_present_on_server = false
-            
+
 
 // called if this unit has been reconstructed.
 // Expand (i.e. encode) it if needed, and recurse.

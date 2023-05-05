@@ -33,9 +33,9 @@
 ?>
 <table id="forum-<?php print $forum_id; ?>">
   <tbody>
-  
+
   <?php foreach ($forums as $child_id => $forum): ?>
-  
+
     <?php if ($forum->is_container): ?>
       <tr class="heading">
         <td class="primary"><div class="name"><?php print $forum->name; ?></div></td>
@@ -68,11 +68,11 @@
         <td class="last-reply"><?php print $forum->last_reply ?></td>
       </tr>
     <?php endif; ?>
-    
+
   <?php endforeach; ?>
-  
+
   <?php // Show the team forum, if available ?>
-  
+
   <?php if (module_exists('boincteam_forum')
       AND $team_forums = boincteam_forum_list()): ?>
       <tr class="heading">
@@ -81,7 +81,7 @@
         <td><?php print bts('Posts', array(), NULL, 'boinc:forum-column'); ?></td>
         <td><?php print bts('Last post', array(), NULL, 'boinc:forum-column'); ?></td>
       </tr>
-  
+
     <?php foreach ($team_forums as $child_id => $forum): ?>
       <tr id="team-forum-list<?php print $child_id; ?>" class="<?php print $forum->zebra; ?>">
         <td class="forum">

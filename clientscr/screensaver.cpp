@@ -108,7 +108,7 @@ struct ss_shmem_data {
 };
 
 static struct ss_shmem_data* ss_shmem = NULL;
-bool canAccessProjectGFXApps = true; 
+bool canAccessProjectGFXApps = true;
 #endif
 
 bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
@@ -179,7 +179,7 @@ RESULT* CScreensaver::get_random_graphics_app(
         avoid = NULL;
         graphics_app_count = count_active_graphic_apps(res, avoid);
     }
-        
+
     // If no graphics app was found, return NULL
     if (0 == graphics_app_count) {
         goto CLEANUP;
@@ -261,17 +261,17 @@ static Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) 
 //
 int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_application) {
     int retval = 0;
-    
+
     if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
 #ifdef __APPLE__
         graphics_application = 0;
-        
+
         // As of OS 10.15 (Catalina) screensavers can no longer:
         //  - launch apps that run setuid or setgid
-        //  - launch apps downloaded from the Internet which have not been 
+        //  - launch apps downloaded from the Internet which have not been
         //    specifically approved by the  user via Gatekeeper.
-        // So instead of launching graphics apps via gfx_switcher, we send an 
+        // So instead of launching graphics apps via gfx_switcher, we send an
         // RPC to the client asking the client to launch them via gfx_switcher.
         // See comments in gfx_switcher.cpp for a more detailed explanation.
         // We have tested this on OS 10.13 High Sierra and it works there, too
@@ -295,10 +295,10 @@ int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_applicati
             return -1;
         }
         // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
-        // Inform our helper app what we launched 
+        // Inform our helper app what we launched
         fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
         fflush(m_gfx_Cleanup_IPC);
-    
+
         if (graphics_application) {
             launchedGfxApp(rp->graphics_exec_path, graphics_application, rp->slot);
         }
@@ -325,16 +325,16 @@ int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_applicati
 int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
 #ifdef __APPLE__
     pid_t thePID;
-    
+
     // As of OS 10.15 (Catalina) screensavers can no longer launch apps
-    // that run setuid or setgid. So instead of killing graphics apps 
-    // via gfx_switcher, we send an RPC to the client asking the client 
+    // that run setuid or setgid. So instead of killing graphics apps
+    // via gfx_switcher, we send an RPC to the client asking the client
     // to kill them via switcher.
     // We have tested this on OS 10.13 High Sierra and it works there, too
     //
     // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
     // between apps unless they are running as the same user, so we no
-    // longer run the graphics apps as user boinc_master, so we might be 
+    // longer run the graphics apps as user boinc_master, so we might be
     // able to just call kill_program(graphics_application).
     //
     int ignore;
@@ -350,7 +350,7 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
     // fprintf(stderr, "stopping pid %d\n", thePID);
     rpc->run_graphics_app("stop", thePID, gUserName);
 
-    // Inform our helper app that we have stopped current graphics app 
+    // Inform our helper app that we have stopped current graphics app
     fprintf(m_gfx_Cleanup_IPC, "0\n");
     fflush(m_gfx_Cleanup_IPC);
 
@@ -362,7 +362,7 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
             break;
         }
     }
-    pthread_mutex_unlock(&saver_mutex);    
+    pthread_mutex_unlock(&saver_mutex);
 #endif
 
 #ifdef _WIN32
@@ -403,13 +403,13 @@ int CScreensaver::terminate_screensaver(PROCESS_REF graphics_application) {
 //
 int CScreensaver::launch_default_screensaver(char *dir_path, PROCESS_REF& graphics_application) {
     int retval = 0;
-    
+
 #ifdef __APPLE__
     // As of OS 10.15 (Catalina) screensavers can no longer:
     //  - launch apps that run setuid or setgid
-    //  - launch apps downloaded from the Internet which have not been 
+    //  - launch apps downloaded from the Internet which have not been
     //    specifically approved by the  user via Gatekeeper.
-    // So instead of launching graphics apps via gfx_switcher, we send an 
+    // So instead of launching graphics apps via gfx_switcher, we send an
     // RPC to the client asking the client to launch them via gfx_switcher.
     // See comments in gfx_switcher.cpp for a more detailed explanation.
     // We have tested this on OS 10.13 High Sierra and it works there, too
@@ -431,16 +431,16 @@ int CScreensaver::launch_default_screensaver(char *dir_path, PROCESS_REF& graphi
         return -1;
     }
     // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
-    // Inform our helper app what we launched 
+    // Inform our helper app what we launched
     fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
     fflush(m_gfx_Cleanup_IPC);
-    
+
     if (graphics_application) {
         launchedGfxApp("boincscr", graphics_application, -1);
     }
 
     BOINCTRACE(_T("launch_default_screensaver returned %d\n"), retval);
-    
+
 #else
     char* argv[4];
     char full_path[1024];
@@ -461,7 +461,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, PROCESS_REF& graphi
     } else {
         num_args = 2;
     }
-    
+
     retval = run_program(
         dir_path,
         full_path,
@@ -469,7 +469,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, PROCESS_REF& graphi
         argv,
         graphics_application
     );
-    
+
      BOINCTRACE(_T("launch_default_screensaver %s returned %d\n"), full_path, retval);
 
 #endif
@@ -489,13 +489,13 @@ int CScreensaver::terminate_default_screensaver(PROCESS_REF graphics_application
 
 
 // If we cannot connect to the core client:
-//   - we retry connecting every 10 seconds 
-//   - we launch the default graphics application with the argument --retry_connect, so 
+//   - we retry connecting every 10 seconds
+//   - we launch the default graphics application with the argument --retry_connect, so
 //     it will continue running and will also retry connecting every 10 seconds.
 //
-// If we successfully connected to the core client, launch the default graphics application 
-// without the argument --retry_connect.  If it can't connect, it will return immediately 
-// with the exit code ERR_CONNECT.  In that case, we assume it was blocked by a firewall 
+// If we successfully connected to the core client, launch the default graphics application
+// without the argument --retry_connect.  If it can't connect, it will return immediately
+// with the exit code ERR_CONNECT.  In that case, we assume it was blocked by a firewall
 // and so we run only project (science) graphics.
 
 DataMgmtProcType CScreensaver::DataManagementProc() {
@@ -510,7 +510,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     double          default_phase_start_time    = 0.0;
     double          science_phase_start_time    = 0.0;
     double          last_change_time            = 0.0;
-    // If we run default screensaver during science phase because no science graphics 
+    // If we run default screensaver during science phase because no science graphics
     // are available, then shorten next default graphics phase by that much time.
     double          default_saver_start_time_in_science_phase    = 0.0;
     double          default_saver_duration_in_science_phase      = 0.0;
@@ -519,7 +519,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     bool            switch_to_default_gfx       = false;
     bool            killing_default_gfx         = false;
     int             exit_status                 = 0;
-    
+
     char*           default_ss_dir_path         = NULL;
     char            full_path[1024];
 
@@ -552,7 +552,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
         ss_shmem->gfx_pid = 0;
         ss_shmem->gfx_slot = -1;
     }
-    
+
     if (!IsUserMemberOfGroup(gUserName, "boinc_master")) canAccessProjectGFXApps = false;
     if (!IsUserMemberOfGroup(gUserName, "boinc_project")) canAccessProjectGFXApps = false;
     if (!canAccessProjectGFXApps) m_bShow_default_ss_first = true;
@@ -563,13 +563,13 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
     strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
-        
+
     if (boinc_file_exists(full_path)) {
         m_bDefault_ss_exists = true;
     } else {
         SetError(TRUE, SCRAPPERR_CANTLAUNCHDEFAULTGFXAPP);  // No GFX App is running: show moving BOINC logo
     }
-    
+
     if (m_bDefault_ss_exists && m_bShow_default_ss_first) {
         ss_phase = DEFAULT_SS_PHASE;
         default_phase_start_time = dtime();
@@ -628,7 +628,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
         if (!m_bConnected) {
             HandleRPCError();
         }
-        
+
         if (m_bConnected) {
             // Do we need to get the core client state?
             if (m_bResetCoreState) {
@@ -642,7 +642,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                     m_bResetCoreState = false;
                 }
             }
-    
+
             // Update our task list
             retval = rpc->get_screensaver_tasks(suspend_reason, results);
             if (retval) {
@@ -654,7 +654,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
         } else {
             results.clear();
         }
-        
+
         // Time to switch to default graphics phase?
         if (m_bDefault_ss_exists && (ss_phase == SCIENCE_SS_PHASE) && (m_fGFXDefaultPeriod > 0)) {
             if (science_phase_start_time && ((dtime() - science_phase_start_time) > m_fGFXSciencePeriod)) {
@@ -666,16 +666,16 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 science_phase_start_time = 0;
                 if (m_bDefault_gfx_running && default_saver_start_time_in_science_phase) {
                     // Remember how long default graphics ran during science phase
-                    default_saver_duration_in_science_phase += (dtime() - default_saver_start_time_in_science_phase); 
+                    default_saver_duration_in_science_phase += (dtime() - default_saver_start_time_in_science_phase);
                 }
                 default_saver_start_time_in_science_phase = 0;
             }
         }
-        
+
         // Time to switch to science graphics phase?
         if ((ss_phase == DEFAULT_SS_PHASE) && m_bConnected && (m_fGFXSciencePeriod > 0)) {
-            if (default_phase_start_time && 
-                    ((dtime() - default_phase_start_time + default_saver_duration_in_science_phase) 
+            if (default_phase_start_time &&
+                    ((dtime() - default_phase_start_time + default_saver_duration_in_science_phase)
                     > m_fGFXDefaultPeriod)) {
                 // BOINCTRACE(_T("CScreensaver::Ending Default phase: now=%f, default_phase_start_time=%f, default_saver_duration_in_science_phase=%f\n"),
                 // dtime(), default_phase_start_time, default_saver_duration_in_science_phase);
@@ -701,7 +701,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 }
             }
         }
-        
+
 #ifdef __APPLE__
         // If user is not a member of both group bonc_master and group boinc_project, then
         // it can't access the project graphics apps (via slots and projects directories.)
@@ -715,7 +715,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
             }
         }
 #endif
-       
+
         if (switch_to_default_gfx) {
             if (m_bScience_gfx_running) {
                 if (m_hGraphicsApplication || previous_result_ptr) {
@@ -751,7 +751,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
         }
 
         if ((ss_phase == SCIENCE_SS_PHASE) && !switch_to_default_gfx) {
-        
+
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
 
             if (!m_bDefault_gfx_running) {
@@ -765,7 +765,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
 
             if (m_bScience_gfx_running) {
                 // Is the current graphics app's associated task still running?
-                
+
                 if ((m_hGraphicsApplication) || (graphics_app_result_ptr)) {
                     iResultCount = (int)results.results.size();
                     graphics_app_result_ptr = NULL;
@@ -785,7 +785,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                     // V6 graphics only: if worker application has stopped running, terminate_screensaver
                     if ((graphics_app_result_ptr == NULL) && (m_hGraphicsApplication != 0)) {
                         if (previous_result_ptr) {
-                            BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), 
+                            BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"),
                                 previous_result.graphics_exec_path
                             );
                         }
@@ -803,7 +803,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                      if (last_change_time && (m_fGFXChangePeriod > 0) && ((dtime() - last_change_time) > m_fGFXChangePeriod) ) {
                         if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
                             if (previous_result_ptr) {
-                                BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s / %s\n"), 
+                                BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s / %s\n"),
                                     previous_result.name, previous_result.graphics_exec_path
                                 );
                             }
@@ -820,7 +820,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                     }
                 }
             }       // End if (m_bScience_gfx_running)
-        
+
             // If no current graphics app, pick an active task at random
             // and launch its graphics app
             //
@@ -846,7 +846,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                         killing_default_gfx = true;
                         // Remember how long default graphics ran during science phase
                         if (default_saver_start_time_in_science_phase) {
-                            default_saver_duration_in_science_phase += (dtime() - default_saver_start_time_in_science_phase); 
+                            default_saver_duration_in_science_phase += (dtime() - default_saver_start_time_in_science_phase);
                             //BOINCTRACE(_T("CScreensaver::During Science phase: now=%f, default_saver_start_time=%f, default_saver_duration=%f\n"),
                             //    dtime(), default_saver_start_time_in_science_phase, default_saver_duration_in_science_phase);
                         }
@@ -866,12 +866,12 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                             SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);
                             last_change_time = dtime();
                             m_bScience_gfx_running = true;
-                            // Make a local copy of current result, since original pointer 
+                            // Make a local copy of current result, since original pointer
                             // may have been freed by the time we perform later tests
                             previous_result = *graphics_app_result_ptr;
                             previous_result_ptr = &previous_result;
                             if (previous_result_ptr) {
-                                BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), 
+                                BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"),
                                     previous_result.graphics_exec_path
                                 );
                             }
@@ -880,7 +880,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 } else {
                     if (!m_bDefault_gfx_running) {
                         // We can't run a science graphics app, so run the default graphics if available
-                        SetError(TRUE, m_hrError); 
+                        SetError(TRUE, m_hrError);
                         if (m_bDefault_ss_exists) {
                             switch_to_default_gfx = true;
                         }
@@ -911,9 +911,9 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 }
             }
         }   // End if ((ss_phase == SCIENCE_SS_PHASE) && !switch_to_default_gfx)
-        
-        
-        
+
+
+
         // Is the graphics app still running?
         if (m_hGraphicsApplication) {
             if (HasProcessExited(m_hGraphicsApplication, exit_status)) {
@@ -922,7 +922,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics application isn't running, start a new one.\n"));
                 if (m_bDefault_gfx_running) {
                     // If we were able to connect to core client
-                    // but gfx app can't, don't use it. 
+                    // but gfx app can't, don't use it.
                     //
                     BOINCTRACE(_T("CScreensaver::DataManagementProc - Default graphics application exited with code %d.\n"), exit_status);
                     if (!killing_default_gfx) {     // If this is an unexpected exit
@@ -968,17 +968,17 @@ BOOL CScreensaver::HasProcessExited(HANDLE pid_handle, int &exitCode) {
 }
 #else
 bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
-    // Only the process which launched an app can use waitpid() to test 
-    // whether that app is still running. If we sent an RPC to the client 
-    // asking the client to launch a graphics app via switcher, we must 
+    // Only the process which launched an app can use waitpid() to test
+    // whether that app is still running. If we sent an RPC to the client
+    // asking the client to launch a graphics app via switcher, we must
     // send another RPC to the client to call waitpid() for that app.
     //
     if (ss_shmem) {
         if (ss_shmem->gfx_pid != 0) return false;
         if (ss_shmem->gfx_slot > -1) { // -1 means Default GFX, which has no slot number
-            // Graphics apps called by screensaver or Manager (via Show 
+            // Graphics apps called by screensaver or Manager (via Show
             // Graphics button) now write files in their slot directory as
-            // the logged in user, not boinc_master. This ugly hack tells 
+            // the logged in user, not boinc_master. This ugly hack tells
             // BOINC client to fix all ownerships in this slot directory
             rpc->run_graphics_app("stop", ss_shmem->gfx_slot, "");
             ss_shmem->gfx_pid = 0;
@@ -1014,7 +1014,7 @@ void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods) {
 
     f = boinc_fopen(buf, "r");
     if (!f) return;
-    
+
     mf.init_file(f);
     XML_PARSER xp(&mf);
 
@@ -1025,7 +1025,7 @@ void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods) {
         if (xp.parse_double("science_gfx_change_interval", periods.GFXChangePeriod)) continue;
     }
     fclose(f);
-    
+
     BOINCTRACE(
         _T("CScreensaver::GetDefaultDisplayPeriods: m_bShow_default_ss_first=%d, m_fGFXDefaultPeriod=%f, m_fGFXSciencePeriod=%f, m_fGFXChangePeriod=%f\n"),
         (int)periods.Show_default_ss_first,

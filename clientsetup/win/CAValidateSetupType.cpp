@@ -27,10 +27,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAValidateSetupType::CAValidateSetupType(MSIHANDLE hMSIHandle) :
@@ -39,10 +39,10 @@ CAValidateSetupType::CAValidateSetupType(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAValidateSetupType::~CAValidateSetupType()
@@ -52,10 +52,10 @@ CAValidateSetupType::~CAValidateSetupType()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAValidateSetupType::OnExecution()
@@ -86,7 +86,7 @@ UINT CAValidateSetupType::OnExecution()
             {
                 LogMessage(
                     INSTALLMESSAGE_FATALEXIT,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     NULL,
@@ -101,7 +101,7 @@ UINT CAValidateSetupType::OnExecution()
             {
                 LogMessage(
                     INSTALLMESSAGE_FATALEXIT,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     NULL,
@@ -158,10 +158,10 @@ UINT CAValidateSetupType::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    ValidateSetupType
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall ValidateSetupType(MSIHANDLE hInstall)

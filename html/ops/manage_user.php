@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Manage user settings
-//  
+//
 // Displays user settings, allows one to control special user status
 // and forum suspension (banishment).   Put this in html/ops,
 // (or could be used by moderators for bans < 24 hrs).
@@ -42,7 +42,7 @@ ini_set('display_startup_errors', true);
 function possibly_delete_user($user){
     if ($user->total_credit > 0.0){
         admin_error_page("Cannot delete user: User has credit.");
-    }  
+    }
 
     // Don't delete user if they have any outstanding Results
     //
@@ -101,7 +101,7 @@ function handle_suspend($user) {
             // put a timestamp in wiki to trigger re-validation of credentials
 
             if (function_exists('touch_wiki_user')){
-                touch_wiki_user($user);  
+                touch_wiki_user($user);
             }
 
             // Send suspension e-mail to user and administrators
@@ -110,7 +110,7 @@ function handle_suspend($user) {
                 $subject = PROJECT." posting privileges suspended for ". $user->name;
                 $body = "
 Forum posting privileges for the " .PROJECT. " user \"".$user->name."\"
-have been suspended for " .time_diff($dt). " by ".$g_logged_in_user->name.". 
+have been suspended for " .time_diff($dt). " by ".$g_logged_in_user->name.".
 The reason given was:
 
 $reason
@@ -307,5 +307,5 @@ if (isset($_POST['suspend_submit'])) {
 show_manage_user_form($user);
 
 $cvs_version_tracker[]=        //Generated automatically - do not edit
-    "\$Id$"; 
+    "\$Id$";
 ?>

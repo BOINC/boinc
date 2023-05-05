@@ -124,7 +124,7 @@
     // high-priority message from scheduler
     // (used internally within the client;
     // changed to MSG_USER_ALERT before passing to manager)
-    
+
 // values for suspend_reason, network_suspend_reason
 // Notes:
 // - doesn't need to be a bitmap, but keep for compatibility
@@ -323,8 +323,8 @@ struct VERSION_INFO {
     int minor;
     int release;
     bool prerelease;
-    int parse(MIOFILE&); 
-    void write(MIOFILE&); 
+    int parse(MIOFILE&);
+    void write(MIOFILE&);
     bool greater_than(VERSION_INFO&);
     VERSION_INFO() {
         major = 0;

@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCProjectsRights::CAGrantBOINCProjectsRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CAGrantBOINCProjectsRights::CAGrantBOINCProjectsRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCProjectsRights::~CAGrantBOINCProjectsRights()
@@ -54,10 +54,10 @@ CAGrantBOINCProjectsRights::~CAGrantBOINCProjectsRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGrantBOINCProjectsRights::OnExecution()
@@ -84,7 +84,7 @@ UINT CAGrantBOINCProjectsRights::OnExecution()
             tstring(L"boinc_projects").c_str(),      // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -121,7 +121,7 @@ UINT CAGrantBOINCProjectsRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -158,7 +158,7 @@ UINT CAGrantBOINCProjectsRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -178,7 +178,7 @@ UINT CAGrantBOINCProjectsRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GrantBOINCProjectsRights
 //
 // Description: This custom action grants the 'boinc_projects' group the

@@ -21,7 +21,7 @@
 // A FILE_XFER object represents a file transfer "episode"
 // (see pers_file_xfer.h), i.e. an HTTP transaction with a
 // particular data server.
-// 
+//
 
 #include "client_types.h"
 #include "http_curl.h"

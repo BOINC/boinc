@@ -485,7 +485,7 @@ def run_tasks():
             continue
         if task.disabled:
             continue
-        if task.always_run: 
+        if task.always_run:
             run_task(task)
             continue
         if run_state.enabled:

@@ -43,7 +43,7 @@ if ($user->email_addr_change_time + 604800 > time()) {
     // we need the password here not for verification,
     // but because we store it salted with email address,
     // which is about to change.
-    
+
     form_input_text(tra("Password"), "passwd", "", "password");
     form_submit(tra("Change email address"));
     form_end();

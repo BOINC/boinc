@@ -18,7 +18,7 @@ function boinccore_admin_community(&$form_state) {
     'moderator_mailing_list' => variable_get('boinc_moderator_mailing_list', ''),
     'moderator_force_individual_notifications' => variable_get('boinc_moderator_force_individual_notifications', 0),
   );
-  
+
   // Define the form
   $form['boinc_comment_min_credit'] = array(
     '#type' => 'textfield',
@@ -49,7 +49,7 @@ function boinccore_admin_community(&$form_state) {
     '#description' => t('Continue to send individual moderator notification
       emails even when a mailing list is provided.'),
   );
-  
+
   $form['tools'] = array(
     '#title' => t('Tools'),
     '#type' => 'fieldset',
@@ -63,7 +63,7 @@ function boinccore_admin_community(&$form_state) {
     '#value' => t('Force new UOTD'),
     '#submit' => array('boinccore_reset_user_of_the_day'),
   );
-  
+
   return system_settings_form($form);
 }
 
@@ -99,7 +99,7 @@ function boinccore_reset_user_of_the_day() {
   */
 function boinccore_admin_default_content(&$form_state) {
   $form = array();
-  
+
   // Define the form
   $form['page'] = array(
     '#type' => 'select',
@@ -117,7 +117,7 @@ function boinccore_admin_default_content(&$form_state) {
     '#type' => 'submit',
     '#value' => 'Generate content',
   );
-  
+
   return $form;
 }
 
@@ -143,7 +143,7 @@ function boinccore_admin_default_content_submit($form, &$form_state) {
     }
     drupal_set_message(t('Default content has been generated for the @listed
       @pages.', array(
-        '@listed' => $page_list, 
+        '@listed' => $page_list,
         '@pages' => format_plural($pages_generated, 'page', 'pages'),
       )
     ));
@@ -163,7 +163,7 @@ function boinccore_admin_default_content_submit($form, &$form_state) {
 }
 
 /**
-  * 
+  *
   */
 function boinccore_admin_default_content_generate($pages = array()) {
   if (!$pages) {
@@ -218,7 +218,7 @@ function boinccore_admin_default_content_generate($pages = array()) {
       );
       $node = (object) $node; // node_save requires an object
       node_save($node);
-      
+
       $item = array(
         'link_path' => drupal_get_normal_path('help'),
         'link_title' => t('Help'),

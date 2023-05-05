@@ -26,7 +26,7 @@ class BOINCCABase
 public:
 
     BOINCCABase(
-        MSIHANDLE          hMSIHandle, 
+        MSIHANDLE          hMSIHandle,
         const tstring      strActionName,
         const tstring      strProgressTitle
         );
@@ -53,34 +53,34 @@ public:
     BOOL IsUpgrading();
 
     // Registry Property Management
-    UINT GetRegistryValue( 
-        const tstring      strName, 
+    UINT GetRegistryValue(
+        const tstring      strName,
         tstring&           strValue,
         bool               bDisplayValue = true
         );
 
-    UINT SetRegistryValue( 
-        const tstring      strName, 
+    UINT SetRegistryValue(
+        const tstring      strName,
         const tstring      strValue,
         bool               bDisplayValue = true
         );
 
     // MSI Property Management
-    UINT GetProperty( 
-        const tstring      strPropertyName, 
+    UINT GetProperty(
+        const tstring      strPropertyName,
         tstring&           strPropertyValue,
         bool               bDisplayValue = true
         );
 
-    UINT SetProperty( 
-        const tstring      strPropertyName, 
+    UINT SetProperty(
+        const tstring      strPropertyName,
         const tstring      strPropertyValue,
         bool               bDisplayValue = true
         );
 
 	// MSI Database Management
     UINT GetComponentKeyFilename(
-        const tstring      strComponentName, 
+        const tstring      strComponentName,
         tstring&           strComponentKeyFilename
 		);
 

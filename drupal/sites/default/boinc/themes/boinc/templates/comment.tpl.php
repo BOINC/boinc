@@ -80,9 +80,9 @@
           ),
         NULL, 'boinc:coment-from-ignored-user');
       print '<div class="ignore-user-content">';
-    } 
+    }
     ?>
-  
+
   <?php
     $ddname = 'flag_abuse_reason-dropdown-comment-' . $comment->cid;
   ?>
@@ -157,7 +157,7 @@
     <div class="comment-id">
       <?php echo l(bts('Message @id', array('@id' => $comment->cid), NULL, 'boinc:message-header'),
         "goto/comment/{$comment->cid}"); ?>
-      <?php 
+      <?php
         if ($comment->pid):
           $parent = _comment_load($comment->pid);
           if ($parent->status == COMMENT_PUBLISHED) {

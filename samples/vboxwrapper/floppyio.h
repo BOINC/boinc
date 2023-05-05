@@ -1,5 +1,5 @@
 //  This file is part Floppy I/O, a Virtual Machine - Hypervisor intercommunication system.
-//  Copyright (C) 2011 Ioannis Charalampidis 
+//  Copyright (C) 2011 Ioannis Charalampidis
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by
@@ -17,16 +17,16 @@
 //  File:   FloppyIO.h
 //  Author: Ioannis Charalampidis <ioannis.charalampidis AT cern DOT ch>
 //  License: GNU Lesser General Public License - Version 3.0
-// 
+//
 //  Hypervisor-Virtual machine bi-directional communication
 //  through floppy disk.
-// 
+//
 //  This class provides the hypervisor-side of the script.
 //  For the guest-side, check the perl scripts that
 //  were available with this code.
-//  
+//
 //  Here is the layout of the floppy disk image (Example of 28k):
-// 
+//
 //  +-----------------+------------------------------------------------+
 //  | 0x0000 - 0x37FF |  Hypervisor -> Guest Buffer                    |
 //  | 0x3800 - 0x6FFE |  Guest -> Hypervisor Buffer                    |
@@ -92,7 +92,7 @@ namespace FloppyIONS {
     } fpio_ctlbytex;
 
     // Default floppy disk size (In bytes)
-    // 
+    //
     // VirtualBox complains if bigger than 28K
     // It's supposed to go till 1474560 however (1.44 Mb)
 
@@ -109,23 +109,23 @@ namespace FloppyIONS {
     //
     class FloppyIO {
     public:
-    
+
         // Construcors
         FloppyIO(const char * filename, int flags = 0);
         virtual ~FloppyIO();
-    
+
         // Functions
         void        reset();
         int         send(std::string strData);
         std::string receive();
         int         receive(std::string* strBuffer);
-    
+
         // Topology info
         int         ofsInput;   // Input buffer offset & size
         int         szInput;
         int         ofsOutput;  // Output buffer offset & size
         int         szOutput;
-    
+
         int         ofsCtrlByteIn;  // Control byte offset for input
         int         ofsCtrlByteOut; // Control byte offset for output
 
@@ -137,7 +137,7 @@ namespace FloppyIONS {
         int         error;
         std::string errorStr;
         bool        useExceptions;  // If TRUE errors will raise exceptions
-    
+
         void        clear();        // Clear errors
         bool        ready();        // Returns TRUE if there are no errors
 
@@ -150,7 +150,7 @@ namespace FloppyIONS {
         // Functions
         int         waitForSync(int controlByteOffset, char state, int timeout);
         int         setError(int code, std::string message);
-    
+
     };
 
     //
@@ -190,10 +190,10 @@ namespace FloppyIONS {
             ss << _message << ". Error code = " << _code;
             full_message = ss.str();
         }
-    
+
     };
 
 };
 
-#endif	// FLOPPYIO_H 
+#endif	// FLOPPYIO_H
 

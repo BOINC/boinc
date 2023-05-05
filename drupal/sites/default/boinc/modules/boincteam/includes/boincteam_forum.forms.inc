@@ -15,10 +15,10 @@
  */
 function boincteam_forum_create_form(&$form_state) {
   $form = array();
-  
+
   global $user;
   $account = user_load($user->uid);
-  
+
   $default = array(
     'title' => '',
     'min_time_between_posts' => '',
@@ -27,13 +27,13 @@ function boincteam_forum_create_form(&$form_state) {
     'public' => 0,
     'description' => '',
   );
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
     '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
-  
+
   // Form elements
   $form['title'] = array(
     '#title' => bts('Message board title', array(), NULL, 'boinc:team-forum-create/edit'),
@@ -74,7 +74,7 @@ function boincteam_forum_create_form(&$form_state) {
     '#default_value' => $default['description'],
     '#size' => 5,
   );
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -88,9 +88,9 @@ function boincteam_forum_create_form(&$form_state) {
   $form['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/forum/add', TRUE)) . '</li>'
   );
-  
+
   $form['#redirect'] = "community/teams/{$account->team}";
-  
+
   return $form;
 }
 
@@ -100,7 +100,7 @@ function boincteam_forum_create_form(&$form_state) {
 function boincteam_forum_create_form_validate($form, &$form_state) {
 
   $values = $form_state['values'];
-  
+
   if (!$values['title']) {
     form_set_error('name', bts('Message board title is required.', array(), NULL, 'boinc:team-forum-create/edit'));
   }
@@ -132,12 +132,12 @@ function boincteam_forum_create_form_validate($form, &$form_state) {
  * The create team forum submit handler
  */
 function boincteam_forum_create_form_submit($form, &$form_state) {
-  
+
   $values = $form_state['values'];
-  
+
   global $user;
   $account = user_load($user->uid);
-  
+
   // Add the team forum to the db
   db_query("
     INSERT INTO {boincteam_forum} SET
@@ -158,7 +158,7 @@ function boincteam_forum_create_form_submit($form, &$form_state) {
     ($values['public']) ? 1 : 0,
     $values['description']
   );
-  
+
   drupal_set_message(t('Message board "@forum" has been created.',
     array('@forum' => $values['title'])));
 }
@@ -173,9 +173,9 @@ function boincteam_forum_create_form_submit($form, &$form_state) {
 function boincteam_forum_edit_form(&$form_state, $tfid) {
   $form = array();
   $boincteam_forum = boincteam_forum_load($tfid);
-  
+
   $form_state['storage']['tfid'] = $tfid;
-  
+
   $default = array(
     'title' => $boincteam_forum->title,
     'min_time_between_posts' => $boincteam_forum->min_time_between_posts,
@@ -184,13 +184,13 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
     'public' => ($boincteam_forum->public) ? 1 : 0,
     'description' => $boincteam_forum->description,
   );
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
     '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
-  
+
   // Form elements
   $form['title'] = array(
     '#title' => bts('Message board title', array(), NULL, 'boinc:team-forum-create/edit'),
@@ -231,7 +231,7 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
     '#default_value' => $default['description'],
     '#size' => 5,
   );
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -245,9 +245,9 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
   $form['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/forum', TRUE)) . '</li>'
   );
-  
+
   $form['#redirect'] = "community/teams/{$boincteam_forum->nid}";
-  
+
   return $form;
 }
 
@@ -257,13 +257,13 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
 function boincteam_forum_edit_form_validate($form, &$form_state) {
 
   $values = $form_state['values'];
-  
+
   if (!$values['title']) {
     form_set_error('name', bts('Message board title is required.', array(), NULL, 'boinc:team-forum-create/edit'));
   }
   if (!is_numeric($values['min_time_between_posts']) OR
       $values['min_time_between_posts'] < 0) {
-    form_set_error('min_time_between_posts', 
+    form_set_error('min_time_between_posts',
       bts('Please set the minimum time required between posts.', array(), NULL, 'boinc:team-forum-create/edit')
     );
   }
@@ -277,7 +277,7 @@ function boincteam_forum_edit_form_validate($form, &$form_state) {
   }
   if (!is_numeric($values['min_avg_credit_to_post']) OR
       $values['min_avg_credit_to_post'] < 0) {
-    form_set_error('min_avg_credit_to_post', 
+    form_set_error('min_avg_credit_to_post',
       bts('Please set the minimum average credit that a user'
         . ' is required to have in order to post to this message board.',
         array(), NULL, 'boinc:team-forum-create/edit')
@@ -289,10 +289,10 @@ function boincteam_forum_edit_form_validate($form, &$form_state) {
  * The edit team forum submit handler
  */
 function boincteam_forum_edit_form_submit($form, &$form_state) {
-  
+
   $tfid = $form_state['storage']['tfid'];
   $values = $form_state['values'];
-  
+
   // Update the team forum in the db
   db_query("
     UPDATE {boincteam_forum} SET
@@ -312,10 +312,10 @@ function boincteam_forum_edit_form_submit($form, &$form_state) {
     $values['description'],
     $tfid
   );
-  
+
   drupal_set_message(t('Details for message board "@forum" have been updated.',
     array('@forum' => $values['title'])));
-  
+
   // The storage variable quietly kills redirection for some reason... unset it
   unset($form_state['storage']);
 }

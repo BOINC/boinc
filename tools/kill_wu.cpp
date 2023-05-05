@@ -49,7 +49,7 @@ int main(int argc, char** argv){
     string wuname;
     char buf[256];
     string config_dir = "";
-    //parse the input 
+    //parse the input
     if (argc<2){
         usage(0);
         return -1;
@@ -64,7 +64,7 @@ int main(int argc, char** argv){
            return -1;
        }
     }
-    wuname = argv[argc-1]; 
+    wuname = argv[argc-1];
     final =0;
     retval = config.parse_file(config_dir.c_str());
     if (retval) {
@@ -72,7 +72,7 @@ int main(int argc, char** argv){
         return -1;
     }
     retval = boinc_db.open(config.db_name, config.db_host,config.db_user, config.db_passwd);
-    
+
     if (retval) {
         cout << "boinc_db.open failed: " << retval<<endl;;
         return -1;
@@ -89,12 +89,12 @@ int main(int argc, char** argv){
         // and the results are set as server state over and outcome state
         // result not needed if the result is unsent
         // otherwise it is left to finish normally
-        // 
+        //
         sprintf(buf,"update result set server_state=5,outcome=5 where server_state=2 and workunitid='%d'",wu.id);
         boinc_db.do_query(buf);
         cout << "Workunit with name: " << wuname << " killed."endl;
     }
-    
+
     boinc_db.close();
     return final;
 }

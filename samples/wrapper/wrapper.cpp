@@ -120,7 +120,7 @@ struct TASK {
         // optional execution directory;
         // macro-substituted
     vector<string> vsetenv;
-        // vector of strings for environment variables 
+        // vector of strings for environment variables
         // macro-substituted
     string stdin_filename;
     string stdout_filename;
@@ -449,7 +449,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string("application", application)) continue;
         else if (xp.parse_str("exec_dir", buf, sizeof(buf))) {
             exec_dir = buf;
-            continue;  
+            continue;
         }
         else if (xp.parse_str("setenv", buf, sizeof(buf))) {
             vsetenv.push_back(buf);

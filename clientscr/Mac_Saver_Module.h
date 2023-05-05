@@ -90,7 +90,7 @@ public:
     int             Run();
 
     //
-    // Infrastructure layer 
+    // Infrastructure layer
     //
 protected:
     OSStatus        initBOINCApp(void);
@@ -104,7 +104,7 @@ protected:
     void            SetDiscreteGPU(bool setDiscrete);
     void            CheckDualGPUPowerSource();
     bool            Host_is_running_on_batteries();
-    
+
     bool            m_bErrorMode;        // Whether to draw moving logo and possibly display an error
     unsigned int    m_hrError;           // Error code to display
 
@@ -146,7 +146,7 @@ protected:
 //   was passed in.
 
     RESULT*         get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);
- 
+
     bool            m_bResetCoreState;
     bool            m_bQuitDataManagementProc;
     bool            m_bDataManagementProcStopped;

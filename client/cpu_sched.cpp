@@ -204,7 +204,7 @@ struct PROC_RESOURCES {
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[cpu_sched_debug] add to run list: %s (%s, %s) (prio %f)",
-                rp->name, 
+                rp->name,
                 rsc_name_long(rt),
                 is_edf?"EDF":"FIFO",
                 rp->project->sched_priority

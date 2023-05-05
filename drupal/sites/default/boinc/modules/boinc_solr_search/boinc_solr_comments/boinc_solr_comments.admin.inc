@@ -27,7 +27,7 @@ function boinc_solr_comments_form(&$form_state) {
     $options[$key] = $info['name'];
   }
   asort($options);
-  
+
   // Form defaults
   $default = array(
     'boinc_solr_comments_nodetypes' => variable_get('boinc_solr_comments_nodetypes', ''),
@@ -35,13 +35,13 @@ function boinc_solr_comments_form(&$form_state) {
   if (empty($default['boinc_solr_comments_nodetypes'])) {
     $default['boinc_solr_comments_nodetypes'] = array('forum','team_forum','news','page','story');
   }
-  
+
   // Define the form
   $form['config']['nodes'] = array(
     '#type'  => 'markup',
     '#value' => bts('Select the content types where the comments are indexed by Apace Solr. Your content must be re-indexed after changing this configuration.', array(), NULL, 'boinc:admin-solr-search-comments-option'),
   );
-      
+
   $form['config']['boinc_solr_comments_nodetypes'] = array(
     '#type'          => 'checkboxes',
     '#title'         => 'node',

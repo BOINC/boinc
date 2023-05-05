@@ -2,7 +2,7 @@
 
 /* Assigns uncompleted (and unassigned) workunits of a batch to hosts
      registered under a DEDICATED_USER_ID. The constant DEDICATED_USER_ID
-     should be defined accordingly below. 
+     should be defined accordingly below.
 
      The constant MAX_TO_ASSIGN should be defined according to the size of
      the feeder's shmem array.
@@ -29,7 +29,7 @@
 
 PLAIN OLD SCHEDULING OF A BATCH
 
-Works as long as boinc client is up-to-date.    
+Works as long as boinc client is up-to-date.
 
 -----------------------
 
@@ -55,7 +55,7 @@ Check that these tasks are only assigned to dedicated workers.
 
 OOO What cleans up the assignment table?
 
-*/ 
+*/
 
 
 #include "config.h"
@@ -152,7 +152,7 @@ LIMIT %d",
     // Tried moving "AND canonical_resultid = 0 AND batch = %d \" in line
     // where join appears, but the results of the query were wrong
 
-    
+
         retval = boinc_db.do_query(buf);
         if (retval) {
             printf ("Problem with db\n");
@@ -177,12 +177,12 @@ LIMIT %d",
         while ((row = mysql_fetch_row(rp))){
             workunit.db_parse(row);
             printf ("Assigning WU %d to user %ld\n", workunit.id, DEDICATED_USER_ID);
-        
+
             restrict_wu_to_user (workunit, DEDICATED_USER_ID);
 
             num_assigned++;
             printf ("End of this WU assignment\n\n");
-            
+
         }
 
         mysql_free_result(rp);

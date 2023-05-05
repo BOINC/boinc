@@ -28,10 +28,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CASetPermissionBOINCDataProjects::CASetPermissionBOINCDataProjects(MSIHANDLE hMSIHandle) :
@@ -40,10 +40,10 @@ CASetPermissionBOINCDataProjects::CASetPermissionBOINCDataProjects(MSIHANDLE hMS
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CASetPermissionBOINCDataProjects::~CASetPermissionBOINCDataProjects()
@@ -53,10 +53,10 @@ CASetPermissionBOINCDataProjects::~CASetPermissionBOINCDataProjects()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CASetPermissionBOINCDataProjects::OnExecution()
@@ -116,7 +116,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -131,7 +131,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -146,7 +146,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -211,11 +211,11 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
 
     // Create a new ACL that contains the new ACEs.
     dwRes = SetEntriesInAcl(ulEntries, &ea[0], NULL, &pACL);
-    if (ERROR_SUCCESS != dwRes) 
+    if (ERROR_SUCCESS != dwRes)
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -223,7 +223,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -233,7 +233,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
     }
 
     // Set the ACL on the Data Directory itself.
-    dwRes = SetNamedSecurityInfo( 
+    dwRes = SetNamedSecurityInfo(
         (LPWSTR)strBOINCDataProjectsDirectory.c_str(),
         SE_FILE_OBJECT,
         DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
@@ -242,11 +242,11 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
         pACL,
         NULL
     );
-    if (ERROR_SUCCESS != dwRes) 
+    if (ERROR_SUCCESS != dwRes)
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -254,7 +254,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -267,7 +267,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
     RecursiveSetPermissions(strBOINCDataProjectsDirectory, pACL);
 
 
-    if (pACL) 
+    if (pACL)
         LocalFree(pACL);
 
     return ERROR_SUCCESS;
@@ -275,10 +275,10 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    SetPermissionBOINCDataProjects
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall SetPermissionBOINCDataProjects(MSIHANDLE hInstall)

@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGetUsersGroupName::CAGetUsersGroupName(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CAGetUsersGroupName::CAGetUsersGroupName(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGetUsersGroupName::~CAGetUsersGroupName()
@@ -54,10 +54,10 @@ CAGetUsersGroupName::~CAGetUsersGroupName()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGetUsersGroupName::OnExecution()
@@ -79,7 +79,7 @@ UINT CAGetUsersGroupName::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 GetLastError(),
@@ -98,7 +98,7 @@ UINT CAGetUsersGroupName::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GetUsersGroupName
 //
 // Description: This custom action looks up the users group

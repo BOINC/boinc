@@ -10,7 +10,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////
 //    FUNCTION:    RemoveReadOnly
-//    DESCRIPTION:  Removes the write protection of a specific file (including full path), 
+//    DESCRIPTION:  Removes the write protection of a specific file (including full path),
 //                if case the file exists.
 //
 //    RETURN:          TRUE for success, FALSE for failure
@@ -19,7 +19,7 @@
 BOOL RemoveReadOnly(tstring& csFileName)
 {
         DWORD dwFileAttributes =  GetFileAttributes(csFileName.c_str());
-        
+
         // In case the file does not exist
         if (dwFileAttributes == -1)
             return FALSE;
@@ -43,16 +43,16 @@ BOOL RecursiveCopyFolder(tstring& csPath, tstring& csNewPath)
 
     if( !CreateDirectory(csNewPath.c_str(), NULL))
         bRet = FALSE;
-    
+
     tstring csPathMask;
     tstring csFullPath;
     tstring csNewFullPath;
-    
+
     csPath     += _T("\\");
     csNewPath  += _T("\\");
-    
+
     csPathMask = csPath + _T("*.*");
-        
+
     WIN32_FIND_DATA ffData;
     HANDLE hFind;
     hFind = FindFirstFile(csPathMask.c_str(), &ffData);
@@ -60,28 +60,28 @@ BOOL RecursiveCopyFolder(tstring& csPath, tstring& csNewPath)
     if (hFind == INVALID_HANDLE_VALUE){
         return FALSE;
     }
-    
+
 
     // Copying all the files
-    while (hFind && FindNextFile(hFind, &ffData)) 
+    while (hFind && FindNextFile(hFind, &ffData))
     {
         csFullPath    = csPath    + ffData.cFileName;
         csNewFullPath = csNewPath + ffData.cFileName;
 
         RemoveReadOnly(csNewFullPath);
 
-        if( !(ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ) 
+        if( !(ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
         {
-            if( !CopyFile(csFullPath.c_str(), csNewFullPath.c_str(), FALSE) ) 
+            if( !CopyFile(csFullPath.c_str(), csNewFullPath.c_str(), FALSE) )
             {
                 // Not stopping here, trying to copy the rest of the files
                 bRet = FALSE;
             }
         }
         else // it is a directory -> Copying recursively
-        { 
+        {
             if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
-                (_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
+                (_tcscmp(ffData.cFileName, _T("..")) != 0) )
             {
                 if( !RecursiveCopyFolder(csFullPath, csNewFullPath) )
                 {
@@ -109,10 +109,10 @@ BOOL RecursiveDeleteFolder(tstring& csPath)
 
 	tstring csPathMask;
 	tstring csFullPath;
-	
+
 	csPath     += _T("\\");
 	csPathMask = csPath + _T("*.*");
-		
+
 	WIN32_FIND_DATA ffData;
 	HANDLE hFind;
 	hFind = FindFirstFile(csPathMask.c_str(), &ffData);
@@ -120,27 +120,27 @@ BOOL RecursiveDeleteFolder(tstring& csPath)
 	if (hFind == INVALID_HANDLE_VALUE){
 		return FALSE;
 	}
-	
+
 
 	// Delete all the files
-	while (hFind && FindNextFile(hFind, &ffData)) 
+	while (hFind && FindNextFile(hFind, &ffData))
 	{
 		csFullPath    = csPath    + ffData.cFileName;
 
 		RemoveReadOnly(csFullPath);
 
-		if( !(ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ) 
+		if( !(ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
 		{
-			if( !DeleteFile(csFullPath.c_str()) ) 
+			if( !DeleteFile(csFullPath.c_str()) )
 			{
 				// Not stopping here, trying to copy the rest of the files
 				bRet = FALSE;
 			}
 		}
 		else // it is a directory -> Copying recursively
-		{ 
+		{
 			if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
-				(_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
+				(_tcscmp(ffData.cFileName, _T("..")) != 0) )
 			{
 				if( !RecursiveDeleteFolder(csFullPath) )
 				{
@@ -152,7 +152,7 @@ BOOL RecursiveDeleteFolder(tstring& csPath)
 	}
 
     FindClose(hFind);
-	
+
 	RemoveReadOnly(csPath);
 	if( !RemoveDirectory(csPath.c_str()))
 		bRet = FALSE;
@@ -170,7 +170,7 @@ BOOL RecursiveDeleteFolder(tstring& csPath)
 BOOL MoveFolder(tstring& csPath, tstring& csNewPath)
 {
 	BOOL bRet = TRUE;
-	
+
 	if(!RecursiveCopyFolder(csPath, csNewPath))
 		bRet = FALSE;
 
@@ -194,10 +194,10 @@ BOOL RecursiveSetPermissions(tstring& csPath, PACL pACL)
 
     tstring csPathMask;
     tstring csFullPath;
-    
+
     csPath     += _T("\\");
     csPathMask = csPath + _T("*.*");
-        
+
     WIN32_FIND_DATA ffData;
     HANDLE hFind;
     hFind = FindFirstFile(csPathMask.c_str(), &ffData);
@@ -205,18 +205,18 @@ BOOL RecursiveSetPermissions(tstring& csPath, PACL pACL)
     if (hFind == INVALID_HANDLE_VALUE){
         return FALSE;
     }
-    
+
 
     // Copying all the files
-    while (hFind && FindNextFile(hFind, &ffData)) 
+    while (hFind && FindNextFile(hFind, &ffData))
     {
         if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
-            (_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
+            (_tcscmp(ffData.cFileName, _T("..")) != 0) )
         {
             csFullPath = csPath + ffData.cFileName;
 
             // Set the ACL on the file.
-            SetNamedSecurityInfo( 
+            SetNamedSecurityInfo(
 #ifdef _UNICODE
                 (LPWSTR)csFullPath.c_str(),
 #else
@@ -230,7 +230,7 @@ BOOL RecursiveSetPermissions(tstring& csPath, PACL pACL)
                 NULL
             );
 
-            if( ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) 
+            if( ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
             {
                     RecursiveSetPermissions(csFullPath, pACL);
             }

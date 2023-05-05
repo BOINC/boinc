@@ -425,7 +425,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
 #if wxCHECK_VERSION(3,1,6)
     wxIcon icon = newIcon.GetIcon(wxDefaultSize);
 #endif
-    
+
     if (m_iconType != wxTBI_DOCK) {
         if (wxGetApp().GetBOINCMGRHideMenuBarIcon()) {
             RemoveIcon();
@@ -445,7 +445,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
         macIcon = wxImage(macsnoozebadge);
     else {
 #if wxDEBUG_LEVEL
-        err = 
+        err =
 #endif
         SetDockBadge(NULL);
         return true;
@@ -481,7 +481,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
 
     // Actually set the dock image
 #if wxDEBUG_LEVEL
-    err = 
+    err =
 #endif
     SetDockBadge(&bmp);
 

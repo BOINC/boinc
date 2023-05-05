@@ -450,8 +450,8 @@ int main(int argc, char** argv) {
         retval = pVM->initialize();
         if (retval) {
             vboxlog_msg("ERROR: VM initialization failed with return code: %s", retval);
-	    //Chose not to postpone the task but rather just fail it. In the majority of cases 
-	    //if the hypervisor does not get initialized correctly the configuration is wrong 
+	    //Chose not to postpone the task but rather just fail it. In the majority of cases
+	    //if the hypervisor does not get initialized correctly the configuration is wrong
 	    //and it will just keep failing to initialize.
 	    //
             boinc_finish(retval);
@@ -479,12 +479,12 @@ int main(int argc, char** argv) {
     }
 
     // Display trickle value if specified
-    //   
+    //
     if (trickle_period > 0.0) {
         vboxlog_msg(
                 "Feature: Enabling trickle-ups (Interval: %f)", trickle_period
                 );
-    }    
+    }
 
     // Check for architecture incompatibilities
     //
@@ -533,8 +533,8 @@ int main(int argc, char** argv) {
     // and 4.2.18 fails to restore from snapshots properly.
     //
 
-    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) || 
-            (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) || 
+    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) ||
+            (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) ||
             (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
         vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
@@ -700,7 +700,7 @@ int main(int argc, char** argv) {
 
     // Choose a random interleave value for checkpoint intervals
     // to stagger disk I/O.
-    // 
+    //
     if (!pVM->disable_automatic_checkpoints) {
         srand((int)getpid());
         random_checkpoint_factor = drand() * 600;
@@ -1065,7 +1065,7 @@ int main(int argc, char** argv) {
                 if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to pause, rescheduling task for a later time.");
                     pVM->poweroff();
-                    snprintf(buf, sizeof(buf), 
+                    snprintf(buf, sizeof(buf),
                         "VM suspend failed. Will exit and restart in %d sec.",
                         RESTART_DELAY
                     );

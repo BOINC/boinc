@@ -20,7 +20,7 @@
 #endif
 
 #include "stdwx.h"
-#include "sg_CustomControls.h" 
+#include "sg_CustomControls.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticLine, wxPanel)
@@ -37,7 +37,7 @@ CTransparentStaticLine::CTransparentStaticLine(wxWindow* parent, wxWindowID id, 
 }
 
 
-bool CTransparentStaticLine::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) { 
+bool CTransparentStaticLine::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
     bool bRetVal = wxPanel::Create(parent, id, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     SetBackgroundColour(parent->GetBackgroundColour());
@@ -52,7 +52,7 @@ void CTransparentStaticLine::OnPaint(wxPaintEvent& /*event*/) {
     wxPaintDC dc(this);
     wxPen pen = wxPen(GetLineColor(), 1);
     dc.SetPen(pen);
-    dc.DrawLine(0, 0, GetSize().GetWidth(), 0); 
+    dc.DrawLine(0, 0, GetSize().GetWidth(), 0);
 }
 
 
@@ -74,7 +74,7 @@ CTransparentStaticText::CTransparentStaticText(wxWindow* parent, wxWindowID id, 
 }
 
 
-bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) { 
+bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
     bool bRetVal = wxStaticText::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     SetBackgroundColour(parent->GetBackgroundColour());
@@ -198,7 +198,7 @@ void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& event)
     } else {
         event.Skip();
     }
-}                           								
+}
 #endif
 
 
@@ -218,7 +218,7 @@ CTransparentStaticTextAssociate::CTransparentStaticTextAssociate(wxWindow* paren
 }
 
 
-bool CTransparentStaticTextAssociate::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) { 
+bool CTransparentStaticTextAssociate::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
     bool bRetVal = wxPanel::Create(parent, id, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     m_pWnd = NULL;
@@ -317,7 +317,7 @@ bool CTransparentStaticBitmap::Create(wxWindow* parent, wxWindowID id, const wxB
 
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
-    
+
     m_bitMap = wxBitmap(bitmap);
 
     return bRetVal;
@@ -409,7 +409,7 @@ CLinkButton::CLinkButton(wxWindow* parent, wxWindowID id, const wxBitmap& bitmap
 }
 
 
-bool CLinkButton::Create(wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name ) { 
+bool CLinkButton::Create(wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name ) {
     bool bRetVal = wxBitmapButton::Create(parent, id, bitmap, pos, size, style, validator, name);
 
     m_HandCursor = wxCursor(wxCURSOR_HAND);

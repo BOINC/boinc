@@ -166,7 +166,7 @@ int compareOSVersionTo(int toMajor, int toMinor) {
         p1 = strchr(vers, '.');
         minor = atoi(p1+1);
     }
-    
+
     if (major < toMajor) return -1;
     if (major > toMajor) return 1;
     // if (major == toMajor) compare minor version numbers
@@ -337,7 +337,7 @@ void COPROCS::get_opencl(
         }
 
         //////////// GPUs and Accelerators //////////////
-        
+
         ciErrNum = (*p_clGetDeviceIDs)(
             platforms[platform_index],
             (CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_ACCELERATOR),
@@ -432,15 +432,15 @@ void COPROCS::get_opencl(
                 bool cuda_match_found = false;
                 if (nvidia.have_cuda) {
                     // Mac OpenCL does not recognize all NVIDIA GPUs returned by
-                    // CUDA but we assume that OpenCL and CUDA return devices 
+                    // CUDA but we assume that OpenCL and CUDA return devices
                     // with identical model name strings and that OpenCL returns
                     // devices in order of ascending PCI slot.
                     //
-                    // On other systems, assume OpenCL and CUDA return devices 
+                    // On other systems, assume OpenCL and CUDA return devices
                     // in the same order.
                     //
                     int saved_CUDA_index = current_CUDA_index;
-                    
+
                     while (1) {
                         if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
                             snprintf(buf, sizeof(buf),
@@ -494,16 +494,16 @@ void COPROCS::get_opencl(
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
                 }
-                
+
                 // Build nvidia_opencls vector in device_num order
                 for (it=nvidia_opencls.begin(); it != nvidia_opencls.end(); ++it) {
                     if (it->device_num > prop.device_num) break;
                 }
                 nvidia_opencls.insert(it, prop);
-                
+
                 if (cuda_match_found) ++current_CUDA_index;
             }
-            
+
             //////////// AMD / ATI //////////////
             else if (is_AMD(prop.vendor)) {
                 prop.opencl_device_index = device_index;
@@ -605,7 +605,7 @@ void COPROCS::get_opencl(
                         opencl_device_index++;  // Another OpenCL device from same vendor
                     }
                 }
-                
+
                 prop.device_num = 0;    // Each vector entry has only one device
                 prop.opencl_device_index = opencl_device_index;
                 prop.opencl_available_ram = prop.global_mem_size;
@@ -632,8 +632,8 @@ void COPROCS::get_opencl(
             }
         }
     }
-    
-    // Neither nvidia.count, ati.count nor intel_gpu.count have been set yet, 
+
+    // Neither nvidia.count, ati.count nor intel_gpu.count have been set yet,
     // so we can't test have_nvidia(), have_ati() or have_intel_gpu() here.
     //
     if ((nvidia_opencls.size() > 0) || nvidia.have_cuda) max_other_coprocs--;
@@ -693,7 +693,7 @@ void COPROCS::correlate_opencl(
             safe_strcpy(nvidia.prop.name, nvidia.opencl_prop.name);
         }
     }
-    
+
     if (ati_opencls.size() > 0) {
         if (ati.have_cal) { // If CAL already found the "best" CAL GPU
             ati.merge_opencl(ati_opencls, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
@@ -705,7 +705,7 @@ void COPROCS::correlate_opencl(
             safe_strcpy(ati.name, ati.opencl_prop.name);
         }
     }
-    
+
     if (intel_gpu_opencls.size() > 0) {
         intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
         intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
@@ -958,7 +958,7 @@ cl_int COPROCS::get_opencl_info(
             gpu_warning(warnings, buf);
             return ciErrNum;
         }
-    
+
         ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_PER_COMPUTE_UNIT_AMD, sizeof(prop.amd_simd_per_compute_unit), &prop.amd_simd_per_compute_unit, NULL);
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
@@ -1007,7 +1007,7 @@ void COPROC::merge_opencl(
 
     for (i=0; i<opencls.size(); i++) {
         opencls[i].is_used = COPROC_UNUSED;
-        
+
         if (in_vector(opencls[i].device_num, ignore_dev)) {
             opencls[i].is_used = COPROC_IGNORED;
             continue;
@@ -1337,40 +1337,40 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 {
     io_iterator_t iter;
     io_service_t serv, servicePort = 0;
-    
+
     CFMutableDictionaryRef matching = IOServiceMatching("IODisplayConnect");
-    
+
     // releases matching for us
     kern_return_t err = IOServiceGetMatchingServices(kIOMasterPortDefault,
                                                      matching,
                                                      &iter);
     if (err)
         return 0;
-    
+
     while ((serv = IOIteratorNext(iter)) != 0)
     {
         CFDictionaryRef info;
         CFIndex vendorID, productID, serialNumber;
         CFNumberRef vendorIDRef, productIDRef, serialNumberRef;
         Boolean success;
-        
+
         info = IODisplayCreateInfoDictionary(serv,
                                              kIODisplayOnlyPreferredName);
-        
+
         vendorIDRef = (CFNumberRef)CFDictionaryGetValue(info,
                                            CFSTR(kDisplayVendorID));
         productIDRef = (CFNumberRef)CFDictionaryGetValue(info,
                                             CFSTR(kDisplayProductID));
         serialNumberRef = (CFNumberRef)CFDictionaryGetValue(info,
                                                CFSTR(kDisplaySerialNumber));
-        
+
         success = CFNumberGetValue(vendorIDRef, kCFNumberCFIndexType,
                                    &vendorID);
         success &= CFNumberGetValue(productIDRef, kCFNumberCFIndexType,
                                     &productID);
         success &= CFNumberGetValue(serialNumberRef, kCFNumberCFIndexType,
                                     &serialNumber);
-        
+
         if (!success)
         {
             CFRelease(info);
@@ -1387,14 +1387,14 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
             CFRelease(info);
             continue;
         }
-        
+
         // The VendorID, Product ID, and the Serial Number all Match Up!
         // Therefore we have found the appropriate display io_service
         servicePort = serv;
         CFRelease(info);
         break;
     }
-    
+
     IOObjectRelease(iter);
     return servicePort;
 }

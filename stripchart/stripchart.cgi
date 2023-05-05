@@ -3,30 +3,30 @@
 # The contents of this file are subject to the Mozilla Public License
 # Version 1.0 (the "License"); you may not use this file except in
 # compliance with the License. You may obtain a copy of the License at
-# http://www.mozilla.org/MPL/ 
-# 
+# http://www.mozilla.org/MPL/
+#
 # Software distributed under the License is distributed on an "AS IS"
 # basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 # License for the specific language governing rights and limitations
-# under the License. 
-# 
-# The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-# 
+# under the License.
+#
+# The Original Code is the Berkeley Open Infrastructure for Network Computing.
+#
 # The Initial Developer of the Original Code is the SETI@home project.
 # Portions created by the SETI@home project are Copyright (C) 2002
-# University of California at Berkeley. All Rights Reserved. 
-# 
+# University of California at Berkeley. All Rights Reserved.
+#
 # Contributor(s):
 #
 
 # Stripchart.cgi - Version 2.1 by Matt Lebofsky  ( started: November 11, 2002 )
 #
-# Requires: stripchart 
+# Requires: stripchart
 #           stripchart.cnf (make sure you set the path the .cnf file below)
-#           apache or other CGI-enabled web server 
+#           apache or other CGI-enabled web server
 #
 # Stripchart.cgi is a web-based GUI interface for stripchart, allowing
-# users to display multiple plots from various data sources. 
+# users to display multiple plots from various data sources.
 #
 # You should only need to edit the variables in the section
 # "GLOBAL/DEFAULT VARS" below
@@ -40,15 +40,15 @@ $query = CGI::new();
 use File::Basename;
 
 ################
-# READ IN .cnf  
+# READ IN .cnf
 ################
- 
-# Where is the .cnf file? 
+
+# Where is the .cnf file?
 $cnfpath = "./stripchart.cnf";
 
-# Read it in: 
-open (CNFFILE,$cnfpath) or die "cannot open configuration file: $cnfpath\nmake sure this variable is set properly"; 
-while (<CNFFILE>) { eval } 
+# Read it in:
+open (CNFFILE,$cnfpath) or die "cannot open configuration file: $cnfpath\nmake sure this variable is set properly";
+while (<CNFFILE>) { eval }
 close (CNFFILE);
 
 ###############
@@ -76,7 +76,7 @@ foreach $element (@querylist) {
   ($thisname,$thisquery) = (split /:/, $element)[0,1];
   $queryoptionlist .= "<option value=\"stripchart.cgi?$thisquery\">$thisname</option>\n";
   }
- 
+
 # Make year list based on time right now, and other lists
 $yearlist = "";
 for ($i = $year; $i> 1999; $i--) { $yearlist .= "<option>$i</option>\n" }
@@ -116,7 +116,7 @@ sub to_unix_time {
 #############
 
 # ARE WE JUST PLOTTING A SINGLE GRAPH?
-# 
+#
 # stripchart.cgi calls itself via an "<IMG SRC=" tag, so we need to
 # act accordingly - if all we have to do is call stripchart to plot
 # a graph based on the user-selected flags, then do so and exit:
@@ -157,8 +157,8 @@ if ($query->param("sqname") ne "") {
       ($key,$value) = split /:/, $checkline;
       if ($key eq $sqname) { $found = 1 }
       }
-    # not found - add it to the end 
-    if (!$found) { 
+    # not found - add it to the end
+    if (!$found) {
       open (QUERYLIST,">>$queryfilelist");
       flock (QUERYLIST,2);
       $fullquery = $ENV{'QUERY_STRING'};
@@ -171,7 +171,7 @@ if ($query->param("sqname") ne "") {
 
 # PARSE INCOMING
 $datafile1 = $query->param("df1");
- 
+
 $numcharts = $query->param("numcharts");
 if ($numcharts == 0) { $numcharts = $defaultnumcharts }
 
@@ -232,7 +232,7 @@ foreach $which (1 .. $numcharts) {
   if ($query->param("ymax$which")) { $flags .= " -D " . $query->param("ymaxv$which") }
   if ($query->param("savem")) { $flags .= " -O /tmp/stripchart_plot_$which.gif" }
 
-  
+
   $flags .= " -i $fullpath -y $datacol -T \"$thisfile RANGE\"  $defaultflags";
 
   $fixflags = $flags;
@@ -256,7 +256,7 @@ print "<hr>";
 print << "EOF";
 <form name="Saved queries">
 <font size=2>
-Select a saved query if you like: 
+Select a saved query if you like:
 </font>
 <font size=1>
 <select onChange="location = this.options[selectedIndex].value">
@@ -266,7 +266,7 @@ $queryoptionlist
 </form>
 <font size=2>
 
-Number of stripcharts: 
+Number of stripcharts:
 EOF
 for ($i=1;$i<21;$i++) {
   $fullquery = $ENV{'QUERY_STRING'};
@@ -282,7 +282,7 @@ print << "EOF";
 <input type=submit value="click here" name=submit> to plot stripcharts -
 enter name:
 <input type=text name=sqname size=20>
-to save query (check here: 
+to save query (check here:
 <input type=checkbox name=delq value=y>
 to delete)
 <input type=hidden value=$numcharts name=numcharts>
@@ -291,10 +291,10 @@ EOF
 
 foreach $which (1 .. $numcharts) {
   $thisoptionlist = $optionlist;
-  if ($which > 1) { 
+  if ($which > 1) {
     $thisoptionlist = "<option>No plot</option>\n" .
-                      "<option>Same as datafile 1</option>\n" . 
-                      "<option>----------------------------</option>\n" . $optionlist 
+                      "<option>Same as datafile 1</option>\n" .
+                      "<option>----------------------------</option>\n" . $optionlist
     }
   if ($dummy = $query->param("df$which")) {
     $dummy = "<option>$dummy</option>";
@@ -337,38 +337,38 @@ foreach $which (1 .. $numcharts) {
   if ($query->param("ymin$which") eq "y") { $ymincheck = "checked"; $yminval = $query->param("yminv$which") }
   if ($query->param("ymax$which") eq "y") { $ymaxcheck = "checked"; $ymaxval = $query->param("ymaxv$which") }
 
-  if ($dummy = $query->param("dfy$which")) { 
+  if ($dummy = $query->param("dfy$which")) {
     $dfytop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dfytop = "" }
-  if ($dummy = $query->param("dfm$which")) { 
+  if ($dummy = $query->param("dfm$which")) {
     $dfmtop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dfmtop = "" }
-  if ($dummy = $query->param("dfd$which")) { 
+  if ($dummy = $query->param("dfd$which")) {
     $dfdtop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dfdtop = "" }
-  if ($dummy = $query->param("dfh$which")) { 
+  if ($dummy = $query->param("dfh$which")) {
     $dfhtop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dfhtop = "" }
-  if ($dummy = $query->param("dfn$which")) { 
+  if ($dummy = $query->param("dfn$which")) {
     $dfntop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dfntop = "" }
 
-  if ($dummy = $query->param("dty$which")) { 
+  if ($dummy = $query->param("dty$which")) {
     $dtytop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dtytop = "" }
-  if ($dummy = $query->param("dtm$which")) { 
+  if ($dummy = $query->param("dtm$which")) {
     $dtmtop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dtmtop = "" }
-  if ($dummy = $query->param("dtd$which")) { 
+  if ($dummy = $query->param("dtd$which")) {
     $dtdtop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dtdtop = "" }
-  if ($dummy = $query->param("dth$which")) { 
+  if ($dummy = $query->param("dth$which")) {
     $dthtop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dthtop = "" }
-  if ($dummy = $query->param("dtn$which")) { 
+  if ($dummy = $query->param("dtn$which")) {
     $dtntop = "<option>$dummy</option>\n<option>---</option>\n" }
   else { $dtntop = "" }
-  
+
   $lhourlist = "";
   if ($query->param("lhv$which")) {
     $lhourlist = "<option>" . $query->param("lhv$which") . "</option>";
@@ -377,7 +377,7 @@ foreach $which (1 .. $numcharts) {
     if ($hourval != $query->param("lhv$which")) {
       $lhourlist .= "<option>$hourval</option>";
       }
-    } 
+    }
 
   $ldaylist = "";
   if ($query->param("ldv$which")) {
@@ -387,15 +387,15 @@ foreach $which (1 .. $numcharts) {
     if ($dayval != $query->param("ldv$which")) {
       $ldaylist .= "<option>$dayval</option>";
       }
-    } 
-    
+    }
+
 print << "EOF";
-please select datafile $which: 
+please select datafile $which:
 <select name=df$which size=1>
 $thisoptionlist
 </select>
 <br>
-<input type=radio name=dr$which value=lh $lhc> Last 
+<input type=radio name=dr$which value=lh $lhc> Last
 <font size=1>
 <select name=lhv$which size=1>
 $lhourlist
@@ -403,7 +403,7 @@ $lhourlist
 </font>
 <font size=2>
 hours&nbsp;&nbsp;&nbsp;
-<input type=radio name=dr$which value=ld $ldc> Last 
+<input type=radio name=dr$which value=ld $ldc> Last
 </font>
 <font size=1>
 <select name=ldv$which size=1>
@@ -428,12 +428,12 @@ $samerange
 </select>/<select name=dtd$which size=1>$dtdtop$daylist
 </select> <select name=dth$which size=1>$dthtop$hourlist
 </select>:<select name=dtn$which size=1>$dtntop$minlist
-</select> 
+</select>
 </font>
 <font size=2>
 <br>
 <input type=checkbox name=log$which value=y $logcheck> Log y axis?
-<input type=checkbox name=bavg$which value=y $bavgcheck> Baseline average, or 
+<input type=checkbox name=bavg$which value=y $bavgcheck> Baseline average, or
 <input type=checkbox name=base$which value=y $basecheck> Baseline at:
 <input type=text name=basev$which value="$baseval" size=8>
 <input type=checkbox name=ymin$which value=y $ymincheck> Y min:
@@ -456,7 +456,7 @@ print << "EOF";
 <a href=stripchart.cgi>Reset Form</a><p>
 </font>
 <font size=1>
-Stripchart version $majorversion.$minorversion by 
+Stripchart version $majorversion.$minorversion by
 <a href="mailto:mattl\@ssl.berkeley.edu">Matt Lebofsky</a>.
 </body></html>
 EOF

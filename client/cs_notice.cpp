@@ -417,7 +417,7 @@ bool NOTICES::remove_dups(NOTICE& n) {
 }
 
 // add a notice.
-// 
+//
 bool NOTICES::append(NOTICE& n) {
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,

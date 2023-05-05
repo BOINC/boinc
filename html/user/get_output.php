@@ -65,7 +65,7 @@ function get_output_file($instance_name, $file_num, $auth_str) {
     if (!is_file($path)) {
         return_error("no such file $path");
     }
-    do_download($path);    
+    do_download($path);
 }
 
 // get all the output files of a batch (canonical instances only)

@@ -205,7 +205,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
                 "[gui_rpc] found allowed hosts list"
             );
         }
- 
+
         // read in each line, if it is not a comment
         // then resolve the address and add to our allowed list
         //
@@ -460,7 +460,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         // For unknown reasons, the FD_ISSET() above succeeds
         // after a SIGTERM, SIGHUP, SIGINT or SIGQUIT is received,
         // even if there is no data available on the socket.
-        // This causes the accept() call to block, preventing the main 
+        // This causes the accept() call to block, preventing the main
         // loop from processing the exit request.
         // This is a workaround for that problem.
         //
@@ -481,7 +481,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 #endif
 
         bool host_allowed;
-         
+
         // accept the connection if:
         // 1) allow_remote_gui_rpc is set or
         // 2) client host is included in "remote_hosts" file or
