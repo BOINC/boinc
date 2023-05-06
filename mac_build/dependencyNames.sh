@@ -52,10 +52,10 @@ curlBaseName="curl"
 curlFileName="curl-7.79.1.tar.gz"
 curlURL="https://curl.se/download/curl-7.79.1.tar.gz"
 
-wxWidgetsDirName="wxWidgets-3.1.6"
+wxWidgetsDirName="wxWidgets-3.2.2.1"
 wxWidgetsBaseName="wxWidgets"
-wxWidgetsFileName="wxWidgets-3.1.6.tar.bz2"
-wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.6/wxWidgets-3.1.6.tar.bz2"
+wxWidgetsFileName="wxWidgets-3.2.2.1.tar.bz2"
+wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1.tar.bz2"
 
 freetypeDirName="freetype-2.11.0"
 freetypeBaseName="freetype"

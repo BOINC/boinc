@@ -22,6 +22,9 @@
 #pragma interface "BOINCTaskBar.cpp"
 #endif
 
+#ifdef __APPLE__
+#define NSInteger int
+#endif
 
 #if   defined(__WXMSW__)
 #include "msw/taskbarex.h"
