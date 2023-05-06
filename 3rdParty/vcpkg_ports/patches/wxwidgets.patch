@@ -1,0 +1,24 @@
+diff --git a/wxwidgets/portfile.cmake b/wxwidgets/portfile.cmake
+index f812fd8c5..27e289f2b 100644
+--- a/wxwidgets/portfile.cmake
++++ b/wxwidgets/portfile.cmake
+@@ -12,6 +12,8 @@ vcpkg_from_github(
+         fix-pcre2.patch
+         gtk3-link-libraries.patch
+         sdl2.patch
++        boinc_SetItemBitmap.patch
++        boinc_SetVisibilityHidden.patch
+ )
+ 
+ vcpkg_check_features(
+@@ -75,6 +77,10 @@ vcpkg_cmake_configure(
+         -DwxUSE_UIACTIONSIMULATOR=OFF
+         -DCMAKE_DISABLE_FIND_PACKAGE_GSPELL=ON
+         -DCMAKE_DISABLE_FIND_PACKAGE_MSPACK=ON
++        -DwxBUILD_MONOLITHIC=ON
++        -DwxUSE_DIALUP_MANAGER=ON
++        -DwxUSE_UNICODE=ON
++        -DwxUSE_UNICODE_UTF8=ON
+         ${OPTIONS}
+         "-DPKG_CONFIG_EXECUTABLE=${PKGCONFIG}"
+         # The minimum cmake version requirement for Cotire is 2.8.12.

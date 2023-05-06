@@ -19,3 +19,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
 include(${VCPKG_ROOT}/triplets/arm64-osx.cmake)
 
 set(VCPKG_BUILD_TYPE release)
+set(VCPKG_OSX_DEPLOYMENT_TARGET 10.13)
+set(VCPKG_C_FLAGS -mmacosx-version-min=10.13)
+set(VCPKG_CXX_FLAGS -mmacosx-version-min=10.13)
