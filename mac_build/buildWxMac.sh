@@ -45,6 +45,7 @@
 # Updated 10/18/21 to add -Werror=unguarded-availability compiler flag
 # Updated 2/6/23 changed MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/6/23 for wxCocoa 3.1.6 and for args now accepted by patch utility
+# Updated 5/6/23/23 for wxCocoa 3.2.2.1
 #
 ## This script requires OS 10.6 or later
 ##
@@ -161,7 +162,7 @@ if [ ! -f src/osx/cocoa/choice.mm.orig ]; then
     cat >> /tmp/choice_mm_diff << ENDOFFILE
 --- src/osx/cocoa/choice.mm    2021-09-28 22:52:32.000000000 -0700
 +++ src/osx/cocoa/choice_patched.mm    2021-09-30 01:08:32.000000000 -0700
-@@ -130,6 +130,15 @@
+@@ -93,6 +93,15 @@
          m_popUpMenu->FindItemByPosition( pos )->SetItemLabel( s ) ;
      }
 
