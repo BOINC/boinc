@@ -6,6 +6,7 @@
 # 
 # Translators:
 # Bug Chong, 2018
+# Meng Pang Wang, 2023
 # Mingye Wang <arthur200126@gmail.com>, 2019
 # Po-Chun Huang <aphroteus@gmail.com>, 2015
 # Robert Kwan, 2020
@@ -14,15 +15,15 @@
 # Willy Wu <df910105@yahoo.com.tw>, 2018
 # Yung Gaby <gabrielle@yungs.org>, 2018
 # 江昱輝 <darkanglephantom@gmail.com>, 2019
-# 孟邦 王, 2016
+# Meng Pang Wang, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2020-01-05 00:47+0000\n"
-"Last-Translator: Robert Kwan\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/boinc/boinc/language/zh_TW/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Meng Pang Wang, 2023\n"
+"Language-Team: Chinese (Taiwan) (http://app.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2506,7 +2507,7 @@ msgstr "這裡"
 #: coment-from-ignored-user
 msgctxt "coment-from-ignored-user"
 msgid "!username is on your !ignore_list. Click !here to view this post."
-msgstr "!username在你的!ignore_list中。點擊!here來查看他的帖子。"
+msgstr "!username 在您的 !ignore_list 中。按這裡來檢視這則貼文。"
 
 #: comment-preview-title
 msgctxt "comment-preview-title"
