@@ -19,7 +19,7 @@
 // action = 'initiate_transfer':
 //    handle a user's request to initiate a foundership transfer
 // action = 'finalize_transfer':
-//    handle a user's request to finalize a foundership transfer 
+//    handle a user's request to finalize a foundership transfer
 // action = 'decline':
 //    handle the current founder's declining of the request
 
@@ -46,7 +46,7 @@ function send_founder_transfer_email($team, $user, $founder) {
     $body = "Team member ".$user->name." has asked that you
 transfer foundership of $team->name.
 Please go [url=".secure_url_base()."team_change_founder_form.php?teamid=$team->id]here[/url] to grant or decline the request.
-    
+
 If you do not respond within 60 days, ".$user->name." will
 be allowed to become the team founder.
 ";
@@ -59,10 +59,10 @@ transfer foundership of $team->name in ".PROJECT.".
 Please visit
 ".secure_url_base()."team_change_founder_form.php?teamid=".$team->id."
 to grant or decline the request.
-    
+
 If you do not respond within 60 days, ".$user->name." will
 be allowed to become the team founder.
-    
+
 Please do not respond to this email.
 The mailbox is not monitored and the email
 was sent using an automated system.";
@@ -73,11 +73,11 @@ function send_founder_transfer_decline_email($team, $user) {
     $body = "The founder of ".$team->name." has declined your request
 to become the founder in ".PROJECT.".
 You can repeat the request at least 90 days after the initial request.
-    
+
 Please do not respond to this email.
 The mailbox is not monitored and the email
 was sent using an automated system.";
-    
+
     return send_email($user, PROJECT." team founder transfer declined", $body);
 }
 
@@ -132,10 +132,10 @@ case "decline":
     $team = BoincTeam::lookup_id($teamid);
     require_founder_login($user, $team);
     page_head(tra("Decline founder change request"));
-    
+
     if ($team->ping_user) {
         $ping_user = BoincUser::lookup_id($team->ping_user);
-        
+
         $team->update("ping_user=0");
         send_founder_transfer_decline_email($team, $ping_user);
         echo "<p>".tra("The foundership request from %1 has been declined.", user_links($ping_user))

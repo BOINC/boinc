@@ -32,7 +32,7 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-const char *usage = 
+const char *usage =
 "\nUsage: dir_hier_path <filename>\n"
 "   Run this in a project's root directory.\n"
 "   Prints the absolute path of the file in the download hierarchy,\n"

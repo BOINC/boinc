@@ -160,7 +160,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
 
         if (is_vm_machine_configuration_available()) {
             retval = register_vm();
-          
+
             if (retval){
 
                 vboxlog_msg("Could not register");
@@ -172,7 +172,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
                 // was already initialized for the current slot directory but aborted
                 // while the task was suspended and unloaded from memory.
                 retval = deregister_stale_vm();
-              
+
                 if (retval){
 
                     vboxlog_msg("Could not deregister stale VM");
@@ -1040,7 +1040,7 @@ int VBOX_BASE::launch_vboxvm() {
     // Execute command
     if (!CreateProcess(
 
-                NULL, 
+                NULL,
                 cmdline,
                 NULL,
                 NULL,
@@ -1230,8 +1230,8 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
 
             // Retry?
 
-            if (!retry_failures && 
-                    (VBOX_E_INVALID_OBJECT_STATE != (unsigned int)retval) && 
+            if (!retry_failures &&
+                    (VBOX_E_INVALID_OBJECT_STATE != (unsigned int)retval) &&
                     (CO_E_SERVER_EXEC_FAILURE != (unsigned int)retval)
                ) {
                 break;
@@ -1322,7 +1322,7 @@ int VBOX_BASE::vbm_popen_raw(
     // Execute command
     if (!CreateProcess(
 
-                NULL, 
+                NULL,
 
                 (LPTSTR)command.c_str(),
                 NULL,

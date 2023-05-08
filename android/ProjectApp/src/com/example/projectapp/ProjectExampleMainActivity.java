@@ -2,17 +2,17 @@
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
- * 
+ *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
  * as published by the Free Software Foundation,
  * either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * BOINC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -38,16 +38,16 @@ import android.widget.Toast;
 public class ProjectExampleMainActivity extends Activity implements OnClickListener{
 
 	private final String TAG = "MainActivity";
-	
+
 	private BoincInteractionService bis;
 	private Boolean mIsBound;
-	
+
 	private BroadcastReceiver bisUpdateReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
     	Log.d(TAG, "onCreate");
-    	
+
     	bisUpdateReceiver = new BroadcastReceiver() {
     		@Override
     	    public void onReceive(Context context, Intent intent) {
@@ -55,11 +55,11 @@ public class ProjectExampleMainActivity extends Activity implements OnClickListe
     	    }
     	};
     	registerReceiver(bisUpdateReceiver, new IntentFilter(getResources().getString(R.string.bis_broadcast_name)));
-    	
+
 		super.onCreate(savedInstanceState);
-		
+
 		layout(BoincStatus.INITIALIZING); //default
-		
+
 		bindBoincInteractionService();
 	}
 
@@ -69,7 +69,7 @@ public class ProjectExampleMainActivity extends Activity implements OnClickListe
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	
+
     @Override
 	protected void onDestroy() {
     	Log.d(TAG, "onDestroy");
@@ -94,13 +94,13 @@ public class ProjectExampleMainActivity extends Activity implements OnClickListe
 	        Toast.makeText(getApplicationContext(), "service disconnected", Toast.LENGTH_SHORT).show();
 	    }
 	};
-	
+
 	private void bindBoincInteractionService() {
 	    // Establish a connection with the service, onServiceConnected gets called when finished.
 		Intent i = new Intent(this,BoincInteractionService.class);
 		bindService(i, mBoincInteractionServiceConnection, Context.BIND_AUTO_CREATE);
 	}
-	
+
 	private void unbindBoincInteractionService() {
 	    if (mIsBound) {
 	        // Detach existing connection.
@@ -109,7 +109,7 @@ public class ProjectExampleMainActivity extends Activity implements OnClickListe
 	        mIsBound = false;
 	    }
 	}
-	
+
 	private void layout(Integer boincStatus) {
 		Log.d(TAG,"layout boincStatus: " + boincStatus);
 		switch(boincStatus){
@@ -155,7 +155,7 @@ public class ProjectExampleMainActivity extends Activity implements OnClickListe
 				bis.downloadAndInstallClient();
 			}
 		}
-		
+
 	}
 
 }

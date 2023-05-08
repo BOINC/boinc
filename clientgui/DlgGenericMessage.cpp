@@ -89,7 +89,7 @@ bool CDlgGenericMessage::Create( wxWindow* parent, wxWindowID id, const wxString
  */
 
 void CDlgGenericMessage::CreateControls()
-{    
+{
 ////@begin CDlgGenericMessage content construction
     CDlgGenericMessage* itemDialog1 = this;
 

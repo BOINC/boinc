@@ -144,19 +144,19 @@ enum RPC_SELECTOR {
 
 
 enum ASYNC_RPC_TYPE {
-    // Demand RPC: wait for completion before returning (usually 
+    // Demand RPC: wait for completion before returning (usually
     // a user-initiated request.)
     RPC_TYPE_WAIT_FOR_COMPLETION = 1,
-    // Periodic RPC: post request on queue and return immediately 
+    // Periodic RPC: post request on queue and return immediately
     // (requested due to a timer interrupt.)
     RPC_TYPE_ASYNC_NO_REFRESH,
-    // Periodic RPC as above, but on completion also process a 
+    // Periodic RPC as above, but on completion also process a
     // wxEVT_FRAME_REFRESHVIEW event to refresh the display.
     RPC_TYPE_ASYNC_WITH_REFRESH_AFTER,
-    // Periodic RPC as above, but on completion also process a 
+    // Periodic RPC as above, but on completion also process a
     // wxEVT_FRAME_REFRESHVIEW event to refresh the display.
     RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER,
-    // Periodic RPC as above, but on completion also process a 
+    // Periodic RPC as above, but on completion also process a
     // wxEVT_TASKBAR_REFRESH event to refresh the taskbar icon.
     RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER,
     NUM_RPC_TYPES
@@ -167,19 +167,19 @@ enum ASYNC_RPC_TYPE {
 //
 //   arg1 is usually the buffer to read into
 //
-//   exchangeBuf is the (optional) buffer to exchange with after 
+//   exchangeBuf is the (optional) buffer to exchange with after
 //     completing the RPC, the buffer used by the Manager code.
 //     Pass NULL if you don't want the buffer exchanged.
 //
-//  arg2, arg3, arg4 are additional arguments when needed by the 
+//  arg2, arg3, arg4 are additional arguments when needed by the
 //      RPC call; their usage varies for different RPC requests.
 //
-//  rpcType is as described above 
+//  rpcType is as described above
 //
-//  completionTime is a pointer to a wxDateTime variable into which 
+//  completionTime is a pointer to a wxDateTime variable into which
 //      to write the completion time of the RPC.  It may be NULL.
 //
-//  resultPtr is a pointer to an int into which to write the result 
+//  resultPtr is a pointer to an int into which to write the result
 //      returned by the RPC call.  It may be NULL.
 //
 //  retval is for internal use by the async RPC logic; do not use.
@@ -216,13 +216,13 @@ public:
     ~AsyncRPC();
 
     int RPC_Wait(
-            RPC_SELECTOR which_rpc, void* arg1 = NULL, void* 
-            arg2 = NULL, void* arg3 = NULL, void* arg4 = NULL, 
+            RPC_SELECTOR which_rpc, void* arg1 = NULL, void*
+            arg2 = NULL, void* arg3 = NULL, void* arg4 = NULL,
             bool hasPriority = false
     );
 
-    // Manager must do all RPC data transfers through AsyncRPC calls, so 
-    // this class must have methods corresponding to all RPC_CLIENT data 
+    // Manager must do all RPC data transfers through AsyncRPC calls, so
+    // this class must have methods corresponding to all RPC_CLIENT data
     // transfer operations, but NOT init(), init_async(), close(), etc.
     int authorize(const char* passwd)
             { return RPC_Wait(RPC_AUTHORIZE, (void*)passwd); }
@@ -304,8 +304,12 @@ public:
     int create_account_poll(ACCOUNT_OUT& arg1)
             { return RPC_Wait(RPC_CREATE_ACCOUNT_POLL, (void*)&arg1); }
     int project_attach(
-        const char* url, const char* auth, const char* project_name 
-    )       { return RPC_Wait(RPC_PROJECT_ATTACH, (void*)url, (void*)auth, (void*)project_name); }
+        const char* url, const char* auth, const char* project_name, const char* email_addr
+    ) {
+        return RPC_Wait(
+            RPC_PROJECT_ATTACH, (void*)url, (void*)auth, (void*)project_name, (void*)email_addr
+        );
+    }
     int project_attach_from_file()
             { return RPC_Wait(RPC_PROJECT_ATTACH_FROM_FILE); }
     int project_attach_poll(PROJECT_ATTACH_REPLY& arg1)
@@ -351,14 +355,14 @@ private:
 class RPCThread : public wxThread
 {
 public:
-    RPCThread(CMainDocument *pDoc, 
-                BOINC_Mutex* pRPC_Thread_Mutex, 
-                BOINC_Condition* pRPC_Thread_Condition, 
-                BOINC_Mutex* pRPC_Request_Mutex, 
+    RPCThread(CMainDocument *pDoc,
+                BOINC_Mutex* pRPC_Thread_Mutex,
+                BOINC_Condition* pRPC_Thread_Condition,
+                BOINC_Mutex* pRPC_Request_Mutex,
                 BOINC_Condition* RPC_Request_Condition
             );
     virtual void                *Entry();
-    
+
 private:
     int                         ProcessRPCRequest();
     CMainDocument*              m_pDoc;

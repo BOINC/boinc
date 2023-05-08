@@ -41,12 +41,12 @@ void ThisDummyRoutineIsNeverCalled() {
 /* End items to include "BOINC Manager" Mac menu items in localization templates */
 
 
-// Determine if the currently logged-in user is authorized to 
-// perform operations which have potential security risks.  
+// Determine if the currently logged-in user is authorized to
+// perform operations which have potential security risks.
 // An example is "Attach to Project", where a dishonest user might
-// attach to a rogue project which could then read private files 
-// belonging to the user who owns the BOINC application.  This 
-// would be possible because the BOINC Manager runs with the 
+// attach to a rogue project which could then read private files
+// belonging to the user who owns the BOINC application.  This
+// would be possible because the BOINC Manager runs with the
 // effective user ID of its owner on the Mac.
 
 Boolean Mac_Authorize()
@@ -57,10 +57,10 @@ Boolean Mac_Authorize()
     AuthorizationFlags	ourAuthFlags;
     AuthorizationItem	ourAuthItem[1];
     OSStatus		err = noErr;
-    
+
     if (sIsAuthorized)
         return true;
-        
+
     // User is not the owner, so require admin authentication
     ourAuthItem[0].name = kAuthorizationRightExecute;
     ourAuthItem[0].value = NULL;
@@ -69,17 +69,17 @@ Boolean Mac_Authorize()
 
     ourAuthRights.count = 1;
     ourAuthRights.items = ourAuthItem;
-    
+
     ourAuthFlags = kAuthorizationFlagInteractionAllowed | kAuthorizationFlagExtendRights;
 
     err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, ourAuthFlags, &ourAuthRef);
 
     if (err == noErr) {
         sIsAuthorized = true;
-        // We have authenticated user's credentials; we won't actually use the 
+        // We have authenticated user's credentials; we won't actually use the
         // privileges / rights so destroy / discard them.
         err = AuthorizationFree(ourAuthRef, kAuthorizationFlagDestroyRights);
     }
-        
+
     return sIsAuthorized;
 }

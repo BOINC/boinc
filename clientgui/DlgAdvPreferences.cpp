@@ -267,7 +267,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
 
     if (checkBox) {
         if (! checkBox->IsChecked()) {
-            textCtrl->Clear();
+            //textCtrl->Clear();
             textCtrl->Disable();
             return;
         }
@@ -277,26 +277,23 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
     textCtrl->Enable();
 }
 
-void CDlgAdvPreferences::EnableDisableInUseItem(wxTextCtrl* textCtrl, bool doEnable, double value) {
+void CDlgAdvPreferences::EnableDisableInUseItem(wxTextCtrl* textCtrl, bool doEnable) {
     if (doEnable) {
         if (! textCtrl->IsEnabled()) {
             textCtrl->Enable();
-            DisplayValue(value, textCtrl);
         }
     } else {
-        textCtrl->Clear();
         textCtrl->Disable();
     }
 }
 
 void CDlgAdvPreferences::EnableDisableInUseItems() {
     bool doEnable = !(m_chkProcInUse->IsChecked());
-    EnableDisableInUseItem(m_txtProcUseProcessors, doEnable, 
-                            prefs.max_ncpus_pct > 0.0 ? prefs.max_ncpus_pct : 100.0);
-    EnableDisableInUseItem(m_txtProcUseCPUTime, doEnable, prefs.cpu_usage_limit);
+    EnableDisableInUseItem(m_txtProcUseProcessors, doEnable);
+    EnableDisableInUseItem(m_txtProcUseCPUTime, doEnable);
     m_chkMaxLoad->Enable(doEnable);
-    EnableDisableInUseItem(m_txtMaxLoad, doEnable && m_chkMaxLoad->IsChecked(), prefs.suspend_cpu_usage);
-    EnableDisableInUseItem(m_txtMemoryMaxInUse, doEnable, prefs.ram_max_used_busy_frac*100.0);
+    EnableDisableInUseItem(m_txtMaxLoad, doEnable && m_chkMaxLoad->IsChecked());
+    EnableDisableInUseItem(m_txtMemoryMaxInUse, doEnable);
 }
 
 // read preferences from core client and initialize control values
@@ -475,33 +472,30 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     mask.clear();
 
     // ######### proc usage page
-    if (m_txtProcUseProcessors->IsEnabled()) {
-        m_txtProcUseProcessors->GetValue().ToDouble(&td);
-        prefs.max_ncpus_pct = RoundToHundredths(td);
-        mask.max_ncpus_pct=true;
-    }
+    m_txtProcUseProcessors->GetValue().ToDouble(&td);
+    prefs.max_ncpus_pct = RoundToHundredths(td);
+    mask.max_ncpus_pct=true;
     m_txtProcUseProcessorsNotInUse->GetValue().ToDouble(&td);
     prefs.niu_max_ncpus_pct = RoundToHundredths(td);
     mask.niu_max_ncpus_pct=true;
-    
-    if (m_txtProcUseCPUTime->IsEnabled()) {
-        m_txtProcUseCPUTime->GetValue().ToDouble(&td);
-        prefs.cpu_usage_limit=RoundToHundredths(td);
-        mask.cpu_usage_limit=true;
-    }
+
+    m_txtProcUseCPUTime->GetValue().ToDouble(&td);
+    prefs.cpu_usage_limit=RoundToHundredths(td);
+    mask.cpu_usage_limit=true;
+
     m_txtProcUseCPUTimeNotInUse->GetValue().ToDouble(&td);
     prefs.niu_cpu_usage_limit = RoundToHundredths(td);
     mask.niu_cpu_usage_limit = true;
 
     prefs.run_on_batteries = ! (m_chkProcOnBatteries->GetValue());
     mask.run_on_batteries=true;
-    //
+
     prefs.run_if_user_active = (! m_chkProcInUse->GetValue());
     mask.run_if_user_active=true;
 
     prefs.run_gpu_if_user_active = (! m_chkGPUProcInUse->GetValue());
     mask.run_gpu_if_user_active=true;
-    //
+
     if(m_txtProcIdleFor->IsEnabled()) {
         m_txtProcIdleFor->GetValue().ToDouble(&td);
         prefs.idle_time_to_run=RoundToHundredths(td);
@@ -516,7 +510,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.suspend_if_no_recent_input = true;
 
-    if (m_txtMaxLoad->IsEnabled()) {
+    if (m_txtMaxLoad->IsEnabled() || !prefs.run_if_user_active) {
         m_txtMaxLoad->GetValue().ToDouble(&td);
         prefs.suspend_cpu_usage=RoundToHundredths(td);
     } else {
@@ -620,13 +614,11 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.disk_max_used_pct=true;
     //Memory
-    if (m_txtMemoryMaxInUse->IsEnabled()) {
-        m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
-        td = RoundToHundredths(td);
-        td = td / 100.0;
-        prefs.ram_max_used_busy_frac=td;
-        mask.ram_max_used_busy_frac=true;
-    }
+    m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
+    td = td / 100.0;
+    prefs.ram_max_used_busy_frac=td;
+    mask.ram_max_used_busy_frac=true;
     //
     m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
@@ -1123,15 +1115,21 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     // Note: use ChangeValue() here to avoid generating extra events.
     // m_txtProcIdleFor depends on 2 checkboxes, set it in UpdateControlStates().
     switch (ev.GetId()) {
-    // processor usage page
+        // processor usage page
     case ID_CHKMAXLOAD:
-        DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
+        if (!m_txtMaxLoad->GetValue()) {
+            DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
+        }
         break;
     case ID_CHKMAXLOADNOTINUSE:
-        DisplayValue(defaultPrefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
+        if (!m_txtMaxLoadNotInUse->GetValue()) {
+            DisplayValue(defaultPrefs.niu_suspend_cpu_usage, m_txtMaxLoadNotInUse, m_chkMaxLoadNotInUse);
+        }
         break;
     case ID_CHKNORECENTINPUT:
-        DisplayValue(defaultPrefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
+        if (!m_txtNoRecentInput->GetValue()) {
+            DisplayValue(defaultPrefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
+        }
         break;
     // network usage page
     case ID_CHKNETDOWNLOADRATE:

@@ -206,6 +206,10 @@ wasm_client_debug_folder_list = [
     'client/boinc_client.wasm',
 ]
 
+snap_list = [
+    './boinc_*.snap',
+]
+
 logs_list = [
     'config.log',
     '3rdParty/wasm/vcpkg/buildtrees/*.log',
@@ -214,6 +218,7 @@ logs_list = [
     '3rdParty/android/vcpkg/buildtrees/*.log',
     '3rdParty/mingw/vcpkg/buildtrees/*.log',
     '3rdParty/Windows/vcpkg/buildtrees/*.log',
+    'parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/*.log',
     'android/BOINC/app/build/reports/',
     'mac_build/xcodebuild_*.log',
 ]
@@ -221,7 +226,7 @@ logs_list = [
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
-    command = f'7z a -t7z -mx=9 {archive_path} {" ".join(files_list)}'
+    command = f'7z a -t7z -r -mx=9 {archive_path} {" ".join(files_list)}'
     os.system(command)
 
 def help():
@@ -289,6 +294,9 @@ def prepare_wasm_client(target_directory):
 def prepare_wasm_client_debug(target_directory):
     prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
 
+def prepare_linux_snap(target_directory):
+    prepare_7z_archive('linux_snap', target_directory, snap_list)
+
 def prepare_logs(target_directory):
     prepare_7z_archive('logs', target_directory, logs_list)
 
@@ -312,6 +320,7 @@ boinc_types = {
     'win_manager': prepare_win_manager,
     'wasm_client': prepare_wasm_client,
     'wasm_client-debug': prepare_wasm_client_debug,
+    'linux_snap': prepare_linux_snap,
     'logs': prepare_logs,
 }
 

@@ -37,7 +37,7 @@ function boincteam_forum_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
   // Team forum node edit form
   case 'team_forum_node_form':
-    
+
     // Internal fields to indicate where these changes are taking place
     array_unshift($form, array(
       'tfid' => array(
@@ -46,7 +46,7 @@ function boincteam_forum_form_alter(&$form, $form_state, $form_id) {
       ),
     ));
     break;
-  
+
   default:
   }
 }
@@ -114,9 +114,9 @@ function boincteam_forum_node_load($node) {
       WHERE nid = %d", $node->nid
     ));
     break;
-    
+
   default:
-    
+
   }
 }
 
@@ -127,11 +127,11 @@ function boincteam_forum_node_load($node) {
 function boincteam_forum_node_update($node) {
   switch($node->type) {
   case 'team_forum':
-    
+
     break;
-    
+
   default:
-    
+
   }
 }
 
@@ -254,7 +254,7 @@ function boincteam_forum_list($team_id = NULL) {
     );
     $row = 0;
     while ($team_forum = db_fetch_object($result)) {
-      
+
       $team_forum->link = url("community/teams/{$team_id}/forum/{$team_forum->tfid}");
       $team_forum->zebra = $row % 2 ? 'even' : 'odd';
       $team_forum->new_topics = 0; // TODO: Track user views of team topics
@@ -327,7 +327,7 @@ function boincteam_forum_create_form_panel() {
   $output .= '<h2 class="pane-title">' . bts('Create team message board', array(), NULL, 'boinc:team-forum')
     . '</h2>';
   $output .= drupal_get_form('boincteam_forum_create_form');
-  
+
   return $output;
 }
 
@@ -337,10 +337,10 @@ function boincteam_forum_create_form_panel() {
 function boincteam_forum_edit_form_panel($tfid) {
   $team_forum = boincteam_forum_load($tfid);
   $output = '';
-  $output .= '<h2 class="pane-title">' . bts('Edit message board', array(), NULL, 'boinc:team-forum') . ': ' . 
+  $output .= '<h2 class="pane-title">' . bts('Edit message board', array(), NULL, 'boinc:team-forum') . ': ' .
     $team_forum->title . '</h2>';
   $output .= drupal_get_form('boincteam_forum_edit_form', $tfid);
-  
+
   return $output;
 }
 
@@ -361,7 +361,7 @@ function boincteam_forum_link_panel($team_id) {
   $output .= '<ul class="tab-list action-list">';
   foreach ($forums as $forum) {
     if (!$show_public_only OR $forum->public) {
-      $output .= '  <li class="tab primary">' . 
+      $output .= '  <li class="tab primary">' .
         l(
           //$forum->title,
           bts('Enter forum', array(), NULL, 'boinc:team-forum'),
@@ -378,7 +378,7 @@ function boincteam_forum_link_panel($team_id) {
 
 /**
  * General info about team forums
- */                                         
+ */
 function boincteam_forum_topic_overview_panel($nid = NULL) {
   $output = '';
   $output .= '<h2 class="pane-title">' . bts('About message boards', array(), NULL, 'boinc:team-forum') . '</h2>';

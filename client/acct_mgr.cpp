@@ -185,7 +185,7 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             p->disk_usage,
             p->disk_share
         );
-        
+
         // send work and starvation-related info
         //
         if (ami.dynamic) {
@@ -767,7 +767,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     "Attaching to %s", acct.url.c_str()
                 );
                 gstate.add_project(
-                    acct.url.c_str(), acct.authenticator.c_str(), "", true
+                    acct.url.c_str(), acct.authenticator.c_str(), "", "", true
                 );
                 pp = gstate.lookup_project(acct.url.c_str());
                 if (pp) {
@@ -1097,6 +1097,7 @@ int ACCT_MGR_INFO::init() {
 #define STARVED_RPC_DELAY   600
     // do RPC after this much starvation
 
+// See if we need to contact the account manager.
 // called once a second
 //
 bool ACCT_MGR_INFO::poll() {
@@ -1105,9 +1106,10 @@ bool ACCT_MGR_INFO::poll() {
         return false;
     }
 
+    // see if time for a periodic RPC
+    //
     if (gstate.now > next_rpc_time) {
-
-        // default synch period is 1 day
+        // default synch period is 1 day; the AM can override this
         //
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(*this, false);
@@ -1115,13 +1117,17 @@ bool ACCT_MGR_INFO::poll() {
     }
 
     // if not dynamic AM, we're done
+    // ("dynamic" means the AM can change set of projects)
     //
     if (!dynamic) {
         return false;
     }
 
-    // See if some resource is starved with the current set of projects,
-    // and if so possibly do a "starved" RPC asking for different projects
+    // it's possible that the set of projects given us by the AM
+    // is starving a resources
+    // e.g. those projects don't currently have jobs, or are down.
+    // In that case contact the AM, asking for other projects.
+    // Do this with exponential backoff to avoid overloading the AM
 
     // do this check once a minute
     //
@@ -1130,14 +1136,35 @@ bool ACCT_MGR_INFO::poll() {
         return false;
     }
     idle_timer = 0;
-    get_nidle();
-    if (any_resource_idle()) {
+    if (n_idle_resources()>0) {
+        if (log_flags.work_fetch_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[work_fetch] Using dynamic AM and some device is idle"
+            );
+        }
+
+        // "first_starved" is the time when starvation began.
+        // Let 10 min pass before contacting the AM
+        // (e.g. in case a scheduler request fails for some reason)
+
         if (first_starved == 0) {
             first_starved = gstate.now;
             starved_rpc_backoff = STARVED_RPC_DELAY;
             starved_rpc_min_time = gstate.now + STARVED_RPC_DELAY;
+            if (log_flags.work_fetch_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[work_fetch] First time - delaying RPC for %d sec",
+                    STARVED_RPC_DELAY
+                );
+            }
         } else {
             if (gstate.now < starved_rpc_min_time) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[work_fetch] AM RPC backed off for %.0f sec",
+                        starved_rpc_min_time - gstate.now
+                    );
+                }
                 return false;
             }
             msg_printf(NULL, MSG_INFO,

@@ -15,14 +15,14 @@
  */
 ?>
 <?php
-  
+
   $sort_by = isset($_GET['order']) ? $_GET['order'] : NULL;
   $sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'asc';
-  
+
   $team_forum_id = arg(4);
-  
+
   $topics = $rows;
-  
+
   // Get the count of topics on this page
   $topic_count = count($topics);
   $topic_index = 0;
@@ -30,7 +30,7 @@
 ?>
 
 <table id="forum-topic-<?php print $team_forum_id; ?>">
-  
+
   <thead>
     <tr>
       <th></th>
@@ -91,7 +91,7 @@
         <?php endif; ?>
         <?php print $topic->comment_count; ?>
         <?php if ($topic->new_comments): ?>
-          </a>           
+          </a>
         <?php endif; ?>
       </td>
       <td class="created">

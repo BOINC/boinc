@@ -7,7 +7,7 @@
     <d_free>1e11</d_free>
 </host_info>
 <project>
-    <master_url>http://test.test</master_url>        
+    <master_url>http://test.test</master_url>
     <project_name>test_project</project_name>
 </project>
 

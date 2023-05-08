@@ -8,7 +8,7 @@ bin_PROGRAMS =
 # Stuff needed for server builds goes here.
 if ENABLE_SERVER
 
-serverbindir = $(prefix)/lib/boinc-server-maker/lib
+serverbindir = $(libdir)/boinc-server-maker/lib
 serverbin_PROGRAMS = crypt_prog parse_test
 
 endif
@@ -18,7 +18,6 @@ endif
 if ENABLE_LIBRARIES
 
 libfcgi_sources = \
-    boinc_fcgi.cpp \
     coproc.cpp \
     filesys.cpp \
     hostinfo.cpp \
@@ -140,7 +139,7 @@ pkginclude_HEADERS = \
     app_ipc.h \
     average.h \
     base64.h \
-    boinc_fcgi.h \
+    boinc_stdio.h \
     cal_boinc.h \
     cc_config.h \
     cert_sig.h \

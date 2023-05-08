@@ -4,14 +4,14 @@
 /**
  * Functions that are shared amongst files and dependent modules go
  * here to keep the clutter down in the main module file.
- */ 
+ */
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
- * 
+ *
  */
 function boinctranslate_initialize_languages() {
 
@@ -866,7 +866,7 @@ function boinctranslate_refresh_translations_finished($success, $results, $opera
       'Successfully completed @count import operations.',
       array('@count' => $count),
       WATCHDOG_INFO
-    ); 
+    );
   }
   else {
     // An error occurred.
@@ -1279,7 +1279,7 @@ function _boinctranslate_locale_import_one_string($op, $value = NULL, $mode = NU
  * Function will attempt t overwrite strings in textgroups other than
  * 'boinc' or 'project', without using the location field as a search
  * parameter. All found rows in locales_source are overwritten by the
- * translations. 
+ * translations.
  *
  * Textgroups 'boinc' and 'project' use the location string to
  * uniquely identify rows in the locales_source database.

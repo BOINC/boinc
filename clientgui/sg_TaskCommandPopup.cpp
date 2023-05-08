@@ -36,9 +36,9 @@ END_EVENT_TABLE()
 
 CSimpleTaskPopupButton::CSimpleTaskPopupButton() {
 }
-        
-CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id, 
-        const wxString& label, const wxPoint& pos, const wxSize& size, 
+
+CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
+        const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :
         CTransparentButton(parent, id, label, pos, size, style, validator, name)
     {
@@ -47,13 +47,13 @@ CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
     m_TaskCommandPopUpMenu = new wxMenu();
     AddMenuItems();
     Connect(
-        id, 
+        id,
         wxEVT_BUTTON,
         (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleTaskPopupButton::OnTaskCommandsKeyboardNav
     );
 
 }
-        
+
 
 CSimpleTaskPopupButton::~CSimpleTaskPopupButton() {
     delete m_TaskCommandPopUpMenu;
@@ -62,13 +62,13 @@ CSimpleTaskPopupButton::~CSimpleTaskPopupButton() {
 
 void CSimpleTaskPopupButton::AddMenuItems() {
     m_ShowGraphicsMenuItem = m_TaskCommandPopUpMenu->Append(
-        ID_TASK_WORK_SHOWGRAPHICS, 
+        ID_TASK_WORK_SHOWGRAPHICS,
         _("Show graphics"),
         _("Show application graphics in a window.")
     );
 
     m_SuspendResumeMenuItem = m_TaskCommandPopUpMenu->Append(
-        ID_TASK_WORK_SUSPEND, 
+        ID_TASK_WORK_SUSPEND,
         _("Suspend"),
         _("Suspend this task.")
     );
@@ -103,16 +103,16 @@ void CSimpleTaskPopupButton::ShowTaskCommandsMenu(wxPoint pos) {
     bool                enableAbort = true;
     CC_STATUS           status;
     wxString            strMachineName;
-    
+
     wxASSERT(pDoc);
-    
+
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
     RESULT* result = lookup_result(selData->project_url, selData->result_name);
 
     if (!result) return;
-    
+
     if (result->suspended_via_gui) {
         m_TaskSuspendedViaGUI = true;
         m_SuspendResumeMenuItem->SetItemLabel(_("Resume"));
@@ -139,30 +139,30 @@ void CSimpleTaskPopupButton::ShowTaskCommandsMenu(wxPoint pos) {
     }
 
     if (result->suspended_via_gui ||
-        result->project_suspended_via_gui || 
+        result->project_suspended_via_gui ||
         (result->scheduler_state != CPU_SCHED_SCHEDULED)
     ) {
         enableShowGraphics = false;
     }
-    
+
     if (pDoc->GetRunningGraphicsApp(result) != NULL) {
         m_ShowGraphicsMenuItem->SetItemLabel(_("Stop graphics"));
         m_ShowGraphicsMenuItem->SetHelp(_("Close application graphics window."));
         // Graphics might still be running even if task is suspended
         enableShowGraphics = true;
-        
+
     } else {
         m_ShowGraphicsMenuItem->SetItemLabel(_("Show graphics"));
         m_ShowGraphicsMenuItem->SetHelp(_("Show application graphics in a window."));
     }
 
     m_ShowGraphicsMenuItem->Enable(enableShowGraphics);
-   
+
     // Disable Abort button if any selected task already aborted
     if (
         result->active_task_state == PROCESS_ABORT_PENDING ||
         result->active_task_state == PROCESS_ABORTED ||
-        result->state == RESULT_ABORTED 
+        result->state == RESULT_ABORTED
     ) {
         enableAbort = false;
     }
@@ -181,14 +181,14 @@ void CSimpleTaskPopupButton::ShowTaskCommandsMenu(wxPoint pos) {
 /*** CAF *** FOR TESTING ONLY ***/
     static int i;
     wxString s;
-    
+
     if (i > 9) i = 0;
     if ( i < 5) {
         s = (wxT("This is a very very very and extremely long label."));
     } else {
         s = (wxT("short."));
     }
-        
+
     switch (i++) {
         case 0:
         case 5:
@@ -212,7 +212,7 @@ void CSimpleTaskPopupButton::ShowTaskCommandsMenu(wxPoint pos) {
             break;
     }
 
-	m_ProgressBar->SetValue( i * 10 ); 
+	m_ProgressBar->SetValue( i * 10 );
     int sel = i % 3;
 //    m_TaskSelectionCtrl->SetStringSelection(tempArray[sel]);
     m_TaskSelectionCtrl->SetSelection(sel);
@@ -228,7 +228,7 @@ void CSimpleTaskPopupButton::OnTaskShowGraphics(wxCommandEvent& WXUNUSED(event))
 
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
-    
+
     RESULT* result = lookup_result(selData->project_url, selData->result_name);
     if (result) {
         pDoc->WorkShowGraphics(result);
@@ -275,7 +275,7 @@ void CSimpleTaskPopupButton::OnTaskAbort(wxCommandEvent& WXUNUSED(event)) {
         wxString name = ((CSimpleTaskPanel*)GetParent())->GetSelectedTaskString();
 #endif
         strMessage.Printf(
-           _("Are you sure you want to abort this task '%s'?\n(Progress: %.1lf%%, Status: %s)"), 
+           _("Are you sure you want to abort this task '%s'?\n(Progress: %.1lf%%, Status: %s)"),
            name.c_str(), result->fraction_done * 100.0, result_description(result, false).c_str());
 
         iAnswer = wxGetApp().SafeMessageBox(
@@ -288,7 +288,7 @@ void CSimpleTaskPopupButton::OnTaskAbort(wxCommandEvent& WXUNUSED(event)) {
         if (wxYES != iAnswer) {
             return;
         }
-        
+
         pDoc->WorkAbort(result->project_url, result->name);
     }
 }
@@ -297,7 +297,7 @@ void CSimpleTaskPopupButton::OnTaskAbort(wxCommandEvent& WXUNUSED(event)) {
 void CSimpleTaskPopupButton::OnTaskShowProperties(wxCommandEvent& WXUNUSED(event)) {
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
-    
+
     RESULT* result = lookup_result(selData->project_url, selData->result_name);
     if (result) {
         CDlgItemProperties dlg(this);
@@ -307,7 +307,7 @@ void CSimpleTaskPopupButton::OnTaskShowProperties(wxCommandEvent& WXUNUSED(event
 }
 
 
-// CMainDocument::state.lookup_result() does not yield current scheduler_state; 
+// CMainDocument::state.lookup_result() does not yield current scheduler_state;
 // we must use CMainDocument::result() for that.
 RESULT* CSimpleTaskPopupButton::lookup_result(char* url, char* name) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();

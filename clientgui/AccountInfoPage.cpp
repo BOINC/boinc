@@ -44,15 +44,15 @@
 /*!
  * CAccountInfoPage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CAccountInfoPage, wxWizardPageEx )
- 
+
 /*!
  * CAccountInfoPage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPageEx )
- 
+
 ////@begin CAccountInfoPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CAccountInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CAccountInfoPage::OnPageChanging )
@@ -60,26 +60,26 @@ BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPageEx )
     EVT_RADIOBUTTON( ID_ACCOUNTCREATECTRL, CAccountInfoPage::OnAccountCreateCtrlSelected )
     EVT_RADIOBUTTON( ID_ACCOUNTUSEEXISTINGCTRL, CAccountInfoPage::OnAccountUseExistingCtrlSelected )
 ////@end CAccountInfoPage event table entries
- 
+
 END_EVENT_TABLE()
- 
+
 /*!
  * CAccountInfoPage constructors
  */
- 
+
 CAccountInfoPage::CAccountInfoPage( )
 {
 }
- 
+
 CAccountInfoPage::CAccountInfoPage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * AccountInfoPage creator
  */
- 
+
 bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 {
 
@@ -99,7 +99,7 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
     m_pAccountManagerLinkLabelStaticCtrl = NULL;
     m_pAccountForgotPasswordCtrl = NULL;
 ////@end CAccountInfoPage member initialisation
- 
+
 ////@begin CAccountInfoPage creation
     wxWizardPageEx::Create( parent, ID_ACCOUNTINFOPAGE );
 
@@ -109,13 +109,13 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 
     return TRUE;
 }
- 
+
 /*!
  * Control creation for AccountInfoPage
  */
- 
+
 void CAccountInfoPage::CreateControls()
-{    
+{
 
 ////@begin CAccountInfoPage content construction
     CAccountInfoPage* itemWizardPage56 = this;
@@ -216,7 +216,7 @@ wxWizardPageEx* CAccountInfoPage::GetPrev() const
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CAccountInfoPage::GetNext() const
 {
     if (CHECK_CLOSINGINPROGRESS()) {
@@ -229,20 +229,20 @@ wxWizardPageEx* CAccountInfoPage::GetNext() const
     }
     return NULL;
 }
- 
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CAccountInfoPage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CAccountInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -250,11 +250,11 @@ wxBitmap CAccountInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
     return wxNullBitmap;
 ////@end CAccountInfoPage bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CAccountInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -262,11 +262,11 @@ wxIcon CAccountInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CAccountInfoPage icon retrieval
 }
-  
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTINFOPAGE
  */
- 
+
 void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
     CWizardAttach*   pWA = ((CWizardAttach*)GetParent());
     CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -274,7 +274,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
     PROJECT_CONFIG&  pc = pWA->project_config;
     wxString         strBaseConfigLocation = wxString(wxT("/Wizards"));
     wxConfigBase*    pConfig = wxConfigBase::Get(FALSE);
- 
+
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATAM);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
@@ -350,7 +350,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
             _("&Yes, existing user")
         );
     } else {
-        if (pSkinAdvanced->IsBranded() && 
+        if (pSkinAdvanced->IsBranded() &&
             !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
             m_pAccountInformationStaticCtrl->SetLabel(
                 pSkinWizardATAM->GetAccountInfoMessage()
@@ -388,7 +388,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
 
     if (pc.uses_username) {
         if (IS_ACCOUNTMANAGERWIZARD()) {
-            if (pSkinAdvanced->IsBranded() && 
+            if (pSkinAdvanced->IsBranded() &&
                 !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
                     pSkinWizardATAM->GetAccountInfoMessage()
@@ -396,7 +396,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
             }
         }
 
-        m_pAccountEmailAddressCtrl->SetValidator( 
+        m_pAccountEmailAddressCtrl->SetValidator(
             wxTextValidator(wxFILTER_NONE, &m_strAccountEmailAddress)
         );
         m_pAccountUsernameCtrl->SetValidator(
@@ -414,7 +414,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
         m_pAccountUsernameCtrl->SetValue(m_strAccountUsername);
     } else {
         if (IS_ACCOUNTMANAGERWIZARD()) {
-            if (pSkinAdvanced->IsBranded() && 
+            if (pSkinAdvanced->IsBranded() &&
                 !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
                     pSkinWizardATAM->GetAccountInfoMessage()
@@ -482,11 +482,11 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
 
     Fit();
 }
-  
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE
  */
- 
+
 void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
@@ -506,7 +506,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         pConfig->Write(wxT("DefaultUsername"), m_strAccountUsername);
 
         pConfig->Flush();
-        
+
         // Construct potential dialog title
         if (IS_ATTACHTOPROJECTWIZARD()) {
             strTitle = _("Add project");
@@ -515,7 +515,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         } else if (IS_ACCOUNTMANAGERWIZARD()) {
             strTitle = _("Use account manager");
         }
- 
+
         // Verify minimum username length
         if (!m_pAccountUseExistingCtrl->GetValue()) {
             if (!(m_pAccountPasswordCtrl->GetValue().Length() > 0)) {
@@ -546,7 +546,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                 bDisplayError = true;
             }
         }
- 
+
         if (bDisplayError) {
 
             wxGetApp().SafeMessageBox(
@@ -567,19 +567,19 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         }
     }
 }
-  
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTINFOPAGE
  */
- 
+
 void CAccountInfoPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }
- 
+
 /*!
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTUSEXISTINGBUTTON
  */
- 
+
 void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& WXUNUSED(event) ) {
     CWizardAttach*         pWA = ((CWizardAttach*)GetParent());
     PROJECT_CONFIG&        pc = pWA->project_config;
@@ -599,11 +599,11 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& WXUNUSE
 
     Fit();
 }
-  
+
 /*!
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTCREATEBUTTON
  */
- 
+
 void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& WXUNUSED(event) ) {
     CWizardAttach*         pWA = ((CWizardAttach*)GetParent());
     PROJECT_CONFIG&        pc = pWA->project_config;

@@ -5,7 +5,7 @@
  * Responsive Javascript Styling
  *
  * Contains CSS styles to handle different screen sizes. This CSS file is used
- * for the responsive Javascript width theme. 
+ * for the responsive Javascript width theme.
  */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -85,7 +85,7 @@
 .has-js #navigation.usehamburger li.expanded ul.menu {
   padding: 0 20px;
 }
-  
+
 /* Set base mobile menu font color and size. */
 .has-js #navigation.usehamburger .block .menu li a {
   color: #faa341;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,16 +25,13 @@
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "util.h"
-#include "BOINCGUIApp.h"
-#include "MainDocument.h"
 
 #ifdef __WXMAC__
 #include "mac_util.h"
 #endif
-#ifdef _WIN32
-#include "proc_control.h"
-#endif
 
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
 #include "BOINCClientManager.h"
@@ -1561,7 +1558,7 @@ int CMainDocument::GetWorkCount() {
 }
 
 
-int CMainDocument::WorkSuspend(char* url, char* name) {
+int CMainDocument::WorkSuspend(const char* url, const char* name) {
     int iRetVal = 0;
 
     RESULT* pStateResult = state.lookup_result(url, name);
@@ -1575,7 +1572,7 @@ int CMainDocument::WorkSuspend(char* url, char* name) {
 }
 
 
-int CMainDocument::WorkResume(char* url, char* name) {
+int CMainDocument::WorkResume(const char* url, const char* name) {
     int iRetVal = 0;
 
     RESULT* pStateResult = state.lookup_result(url, name);
@@ -1635,7 +1632,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* rp) {
             // our forked process and its child graphics app, or the other will remain. A
             // race condition can occur because of the time it takes for our forked process
             // to launch the graphics app, so we periodically poll for the child's PID until
-            // it is available. If we don't have it yet, we defer killing our forked process. 
+            // it is available. If we don't have it yet, we defer killing our forked process.
             if (g_use_sandbox) {
                 if (!GetGFXPIDFromForkedPID(&(*gfx_app_iter))) {
                     return 0;    // Ignore "Stop graphics" button until we have graphics app's pid
@@ -1694,14 +1691,14 @@ void CMainDocument::KillInactiveGraphicsApps() {
             // our forked process and its child graphics app, or the other will remain. A
             // race condition can occur because of the time it takes for our forked process
             // to launch the graphics app, so we periodically poll for the child's PID until
-            // it is available. If we don't have it yet, we defer killing our forked process. 
+            // it is available. If we don't have it yet, we defer killing our forked process.
             if (g_use_sandbox) {
                 if (!GetGFXPIDFromForkedPID(&(*gfx_app_iter))) {
                     return;    // Ignore "Stop graphics" button until we have graphics app's pid
                 }
                 KillGraphicsApp((*gfx_app_iter).gfx_pid);
                 KillGraphicsApp((*gfx_app_iter).pid);
-                
+
                 // Graphics app wrote files in slot directory as logged in user, not boinc_master
                 fix_slot_file_owners((*gfx_app_iter).slot);
            }
@@ -1731,7 +1728,7 @@ void CMainDocument::KillAllRunningGraphicsApps()
         // our forked process and its child graphics app, or the other will remain. A
         // race condition can occur because of the time it takes for our forked process
         // to launch the graphics app, so we periodically poll for the child's PID until
-        // it is available. If we don't have it yet, we defer killing our forked process. 
+        // it is available. If we don't have it yet, we defer killing our forked process.
         if (g_use_sandbox) {
             for (int j=0; j<100; ++j) { // Wait 1 second max for gfx app's pid
                 if (GetGFXPIDFromForkedPID(&(*gfx_app_iter))) {
@@ -1759,14 +1756,14 @@ void CMainDocument::KillAllRunningGraphicsApps()
 
 #ifdef _WIN32
 void CMainDocument::KillGraphicsApp(HANDLE pid) {
-    kill_program(pid);
+    kill_process(pid);
 }
 #else
 void CMainDocument::KillGraphicsApp(int pid) {
     // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
     // between apps unless they are running as the same user, so we no
     // longer run the graphics apps as user boinc_master.
-    kill_program(pid);
+    kill_process(pid);
 }
 #endif
 
@@ -1776,18 +1773,18 @@ void CMainDocument::KillGraphicsApp(int pid) {
 // our forked process and its child graphics app, or the other will remain. A
 // race condition can occur because of the time it takes for our forked process
 // to launch the graphics app, so we periodically call this method to poll for
-// the child's PID until it is available.. 
+// the child's PID until it is available..
 //
 int CMainDocument::GetGFXPIDFromForkedPID(RUNNING_GFX_APP* gfx_app) {
     char buf[256];
 
     if (gfx_app->gfx_pid) return gfx_app->gfx_pid;    // We already found it
-    
+
     // The graphics app is the child of our forked process. Get its PID
     FILE *fp = (FILE*)popen("ps -xoppid,pid","r");
     fgets(buf, sizeof(buf), fp);    // Skip the header line
     int parent, child;
-    
+
     // Find the process whose parent is our forked process
     while (fscanf(fp, "%d %d\n", &parent, &child) == 2) {
         if (parent == gfx_app->pid) {
@@ -1803,7 +1800,7 @@ int CMainDocument::GetGFXPIDFromForkedPID(RUNNING_GFX_APP* gfx_app) {
 int CMainDocument::fix_slot_file_owners(int slot) {
     if (g_use_sandbox) {
         // Graphics apps run by Manager write files in slot directory
-        // as logged in user, not boinc_master. This ugly hack tells 
+        // as logged in user, not boinc_master. This ugly hack tells
         // BOINC client to fix all ownerships in this slot directory
         rpcClient.run_graphics_app("stop", slot, "");
     }
@@ -1845,16 +1842,16 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
                 // our forked process and its child graphics app, or the other will remain. A
                 // race condition can occur because of the time it takes for our forked process
                 // to launch the graphics app, so we periodically poll for the child's PID until
-                // it is available. If we don't have it yet, then defer responding to the "Stop 
+                // it is available. If we don't have it yet, then defer responding to the "Stop
                 // graphics" button.
                 if (!GetGFXPIDFromForkedPID(previous_gfx_app)) {
                     return 0;    // Ignore "Stop graphics" button until we have graphics app's pid
                 }
                 KillGraphicsApp(previous_gfx_app->gfx_pid);
             }
-#endif            
+#endif
             KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
-            GetRunningGraphicsApp(rp);  // Let GetRunningGraphicsApp() do necessary clean up            
+            GetRunningGraphicsApp(rp);  // Let GetRunningGraphicsApp() do necessary clean up
             return 0;
         }
 
@@ -1869,7 +1866,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             int pid = fork();
             char path[MAXPATHLEN];
             char cmd[2048];
-            
+
             // As of MacOS 13.0 Ventura IOSurface cannot be used to share graphics
             // between apps unless they are running as the same user, so we no
             // longer run the graphics apps as user boinc_master. To replace the
@@ -1880,8 +1877,8 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             // But it is used widely in Apple's software, and the security profile
             // elements we use are very unlikely to change.
             if (pid == 0) {
-                // For unknown reasons, the graphics application exits with 
-                // "RegisterProcess failed (error = -50)" unless we pass its 
+                // For unknown reasons, the graphics application exits with
+                // "RegisterProcess failed (error = -50)" unless we pass its
                 // full path twice in the argument list to execv.
                 strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
                 getPathToThisApp(path, sizeof(path));
@@ -1891,7 +1888,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
                 strlcat(cmd, "\"", sizeof(cmd)); // path to sandboxing profile
                 chdir(rp->slot_path);
                 iRetVal = callPosixSpawn(cmd);
-                
+
                 exit(0);
             }
             id = pid;
@@ -1908,7 +1905,6 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
                 rp->graphics_exec_path,
                 1,
                 argv,
-                0,
                 id
             );
         }
@@ -1918,7 +1914,6 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             rp->graphics_exec_path,
             1,
             argv,
-            0,
             id
         );
 #endif
@@ -1950,7 +1945,19 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         wxExecute(strCommand);
 #elif defined(__WXGTK__)
         strCommand = wxT("rdesktop-vrdp ") + strConnection;
-        wxExecute(strCommand);
+        int pid = wxExecute(strCommand);
+        // newer versions of VirtualBox don't include rdesktop-vrdp;
+        // try a standard version instead
+        //
+        if (pid == 0) {
+            strCommand = wxT("rdesktop ") + strConnection;
+            pid = wxExecute(strCommand);
+        }
+        if (pid == 0) {
+            strCommand = wxT("xfreerdp ") + strConnection;
+            pid = wxExecute(strCommand);
+        }
+        // show an error if all the above fail?
 #elif defined(__WXMAC__)
         OSStatus status = noErr;
         char pathToCoRD[MAXPATHLEN];
@@ -1984,7 +1991,7 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
 }
 
 
-int CMainDocument::WorkAbort(char* url, char* name) {
+int CMainDocument::WorkAbort(const char* url, const char* name) {
     int iRetVal = 0;
 
     RESULT* pStateResult = state.lookup_result(url, name);
@@ -2768,7 +2775,7 @@ wxString FormatTime(double secs) {
     if (secs <= 0) {
         return wxT("---");
     }
-    
+
     wxTimeSpan ts = convert_to_timespan(secs);
     return ts.Format((secs>=86400)?"%Dd %H:%M:%S":"%H:%M:%S");
 }

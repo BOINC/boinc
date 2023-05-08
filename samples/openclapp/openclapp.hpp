@@ -93,7 +93,7 @@ bool isStateFileInUse = false;
 const char *source;
 
 size_t globalThreads[1]; // 1D var for Total # of work items
-size_t localThreads[1];  // 1D var for # of work items in the work group	
+size_t localThreads[1];  // 1D var for # of work items in the work group
 
 /*
  * Input data is stored here.
@@ -196,7 +196,7 @@ char *convert_to_string(const char * filename);
 /*
  * This is called once the OpenCL context, memory etc. are set up,
  * the program is loaded into memory and the kernel handles are ready.
- * 
+ *
  * It sets the values for kernels' arguments and enqueues calls to the kernels
  * on to the command queue and waits till the calls have finished execution.
  *

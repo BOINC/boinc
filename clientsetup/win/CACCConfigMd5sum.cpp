@@ -48,15 +48,15 @@ bool CheckFile(TCHAR* pContents)
 	if ( _tcsstr(pContents, cc510) ) match = true;
 	TCHAR* cc602 = _T("<cc_config><log_flags></log_flags><options><version_check_server>www.worldcommunitygrid.org</version_check_server><proxy_test_server>www.ibm.com</proxy_test_server><start_delay>120</start_delay></options></cc_config>");
 	if ( _tcsstr(pContents, cc602) ) match = true;
-    return match; 
+    return match;
 }
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACCConfigMd5sum::CACCConfigMd5sum(MSIHANDLE hMSIHandle) :
@@ -65,10 +65,10 @@ CACCConfigMd5sum::CACCConfigMd5sum(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACCConfigMd5sum::~CACCConfigMd5sum()
@@ -78,10 +78,10 @@ CACCConfigMd5sum::~CACCConfigMd5sum()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CACCConfigMd5sum::OnExecution()

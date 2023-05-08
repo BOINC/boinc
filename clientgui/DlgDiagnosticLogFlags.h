@@ -55,13 +55,13 @@ private:
 	//generic layout methods
     bool SaveState();
     bool RestoreState();
-    
+
     void CreateCheckboxes();
     void SaveFlags();
-    
+
     LOG_FLAGS           log_flags;
     CC_CONFIG           m_cc_config;
-    
+
     wxGridSizer*        m_headingSizer;
     std::vector <wxCheckBox*> m_checkbox_list;
     wxButton*           m_btnApply;

@@ -1,0 +1,121 @@
+name: boinc
+base: core22
+version: "7.23.0"
+summary: BOINC lets you help cutting-edge science research using your computer.
+description: |
+  BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
+  About 30 science projects use BOINC. They investigate diseases, study climate change, discover pulsars, and do many other types of scientific research.
+  The BOINC and Science United projects are located at the University of California, Berkeley and are supported by the National Science Foundation.
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+apps:
+  boinc:
+    command: usr/bin/boinc --dir $HOME
+    plugs:
+    - network
+    - network-bind
+
+  client:
+    command: usr/bin/boinc --dir $HOME
+    plugs:
+    - network
+    - network-bind
+
+  manager:
+    command: usr/bin/boincmgr --datadir $HOME
+    plugs:
+    - network
+    - network-bind
+    extensions:
+    - gnome
+    slots:
+    - dbus-daemon
+    common-id: boinc.manager
+    environment:
+      XAUTHORITY: $SNAP_REAL_HOME/.Xauthority
+
+slots:
+  dbus-daemon:
+    interface: dbus
+    bus: session
+    name: boinc.manager
+
+parts:
+  boinc:
+    build-packages:
+    - libftgl-dev
+    - freeglut3-dev
+    - libnotify-dev
+    - libxmu-dev
+    - libxi-dev
+    - libfcgi-dev
+    - libxss-dev
+    - libxcb-util0-dev
+    - libxxf86vm-dev
+    - libxrender-dev
+    - libxrandr-dev
+    - libdbus-1-dev
+    - libxtst-dev
+    # vcpkg dependencies
+    - build-essential
+    - pkg-config
+    - tar
+    - curl
+    - zip
+    - unzip
+    - git
+    - bison
+    # awscli dependencies
+    - software-properties-common
+    build-snaps:
+    - cmake
+    stage-packages:
+    - freeglut3-dev
+    - libxss-dev
+    source: .
+    plugin: autotools
+    build-environment:
+    - CRYPTOGRAPHY_DONT_BUILD_RUST: "1"
+    - triplet: snap-linux-$SNAPCRAFT_TARGET_ARCH
+    - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
+    - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
+    - VCPKG_BINARY_SOURCES: "$VCPKG_BINARY_SOURCES"
+    - AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
+    - AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
+    - AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
+    - prefix: /usr
+    - PKG_CONFIG_PATH: $VCPKG_DIR/lib/pkgconfig/
+    autotools-configure-parameters:
+    - --prefix=$prefix
+    - --with-libcurl=$VCPKG_DIR
+    - --with-ssl=$VCPKG_DIR
+    - --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config
+    - --enable-client
+    - --enable-manager
+    - --disable-server
+    - GTK_LIBS="`pkg-config --libs gtk+-3.0`"
+    override-build: |
+      echo ARCH=$SNAPCRAFT_TARGET_ARCH
+
+      # cmake
+      export PATH=/snap/cmake/current/bin/:$PATH
+      cmake --version
+
+      # aws
+      ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+      sudo add-apt-repository ppa:lizthegrey/misc
+      DEBIAN_FRONTEND=noninteractive sudo apt install awscli -y
+      aws --version
+
+      # ninja
+      export PATH=$HOME/.local/bin:$PATH
+      pip install -U --user pip
+      pip install --user ninja
+      ninja --version
+
+      export CFLAGS=-w
+      export CMAKE_C_FLAGS=-w
+      linux/update_vcpkg_manager.sh $triplet
+      ./_autosetup
+      snapcraftctl build

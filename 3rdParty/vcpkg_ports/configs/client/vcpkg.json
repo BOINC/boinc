@@ -1,6 +1,5 @@
 {
     "name": "boinc-client",
-    "version-string": "7.22.0",
     "dependencies":
     [
         {
@@ -8,5 +7,5 @@
           "features": ["openssl"],
           "default-features": false
         }
-    ]   
+    ]
 }

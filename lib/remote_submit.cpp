@@ -107,7 +107,7 @@ static int do_http_post(
     CURL *curl;
     CURLcode res;
     char buf[256];
-     
+
     curl = curl_easy_init();
     if (!curl) {
         return -1;
@@ -135,7 +135,7 @@ static int do_http_post(
             CURLFORM_END
         );
     }
- 
+
     headerlist = curl_slist_append(headerlist, "Expect:");
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "BOINC Condor adapter");

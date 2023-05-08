@@ -17,9 +17,9 @@
 // For sample code to get preferred system language, see
 // wxLocale::GetSystemLanguage() in wxWidgets src/common/intl.cpp
 //
-// Those portions of this code which are taken from wxWidgets are 
-// Copyright:   (c) 1998 Vadim Zeitlin 
-// and are covered by the wxWidgets license which can be found here: 
+// Those portions of this code which are taken from wxWidgets are
+// Copyright:   (c) 1998 Vadim Zeitlin
+// and are covered by the wxWidgets license which can be found here:
 // <http://www.wxwidgets.org/about/licence3.txt>
 //
 // This code assumes all catalogs are encoded UTF-8

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Structures representing jobs, files, etc.
+//
 // If you change anything, make sure you also change:
-// client_types.C         (to write and parse it)
-// client_state.C  (to cross-link objects)
+// client_types.cpp (to write and parse it)
+// client_state.cpp (to cross-link objects)
 //
 
 #ifndef BOINC_CLIENT_TYPES_H
@@ -153,6 +155,7 @@ struct FILE_INFO {
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
     int verify_file(bool, bool, bool);
+    int check_size();
     bool verify_file_certs();
     int gzip();
         // gzip file and add .gz to name
@@ -440,6 +443,33 @@ struct RUN_MODE {
 struct PLATFORM {
     std::string name;
 };
+
+// the oldest CPID for a given email hash
+//
+struct USER_CPID {
+    char email_hash[MD5_LEN];
+    char cpid[MD5_LEN];
+    double time;
+    inline void clear() {
+        strcpy(email_hash, "");
+        strcpy(cpid, "");
+        time = 0;
+    }
+    int parse(XML_PARSER&);
+    int write(MIOFILE&);
+};
+
+// a list of the above
+//
+struct USER_CPIDS {
+    std::vector<USER_CPID> cpids;
+    int parse(XML_PARSER&);
+    int write(MIOFILE&);
+    USER_CPID *lookup(const char* email_hash);
+    void init_from_projects();
+};
+
+extern USER_CPIDS user_cpids;
 
 extern int parse_project_files(XML_PARSER&, std::vector<FILE_REF>&);
 

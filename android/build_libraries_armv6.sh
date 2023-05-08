@@ -27,15 +27,9 @@ export VCPKG_DIR=$VCPKG_ROOT/installed/armv6-android
 CONFIG_FLAGS=""
 CONFIG_LDFLAGS=""
 
-if [ $BUILD_WITH_VCPKG = "yes" ]; then
-    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
-    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
-    export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-else
-    CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
-    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
-    export _libcurl_pc="$TCINCLUDES/lib/pkgconfig/libcurl.pc"
-fi
+CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
+export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-clang
@@ -83,7 +77,7 @@ if [ -n "$COMPILEBOINC" ]; then
     make $MAKE_FLAGS
     make stage $MAKE_FLAGS
     make install $MAKE_FLAGS
-    
+
     echo "\e[1;32m===== building BOINC Libraries for armv6 done =====\e[0m"
 
 fi

@@ -204,7 +204,7 @@ struct PROC_RESOURCES {
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[cpu_sched_debug] add to run list: %s (%s, %s) (prio %f)",
-                rp->name, 
+                rp->name,
                 rsc_name_long(rt),
                 is_edf?"EDF":"FIFO",
                 rp->project->sched_priority
@@ -269,6 +269,7 @@ bool gpus_usable = true;
 //
 bool check_coprocs_usable() {
 #ifdef _WIN32
+    if (cc_config.no_rdp_check) return false;
     unsigned int i;
     bool new_usable = !is_remote_desktop();
     if (gpus_usable) {

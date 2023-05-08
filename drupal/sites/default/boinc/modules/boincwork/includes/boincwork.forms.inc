@@ -18,23 +18,23 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   $form = array();
   $prefs = null;
   $established = TRUE;
-  
+
   // Enable AHAH form support for dynamically updating content based on preset
   ahah_helper_register($form, $form_state);
-  
+
   if (!$prefs_preset) {
     if (isset($form_state['storage']['prefs']['preset'])) {
       $prefs_preset = $form_state['storage']['prefs']['preset'];
     }
-    
+
     // Load preferences from BOINC account
     $prefs = boincwork_load_prefs('general', $venue);
-    
+
     // Take note if this is not an established preference set on the account
     if (isset($prefs['@attributes']['cleared'])) {
       $established = FALSE;
     }
-    
+
     // Determine if a preset is selected or if these are custom settings
     // transform old way to store the preset into new way
     if (isset($prefs['@attributes']['preset'])) {
@@ -80,7 +80,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
           }// if $established
       }// if $prefs_preset
   }// if WIP
-  
+
   // This set of preferences is used in the form if no preferences
   // have been set above, in variable $prefs.
   require_boinc(array('db', 'prefs'));
@@ -141,16 +141,16 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   );
   $form['hour_options'] = array(
     '#type' => 'value',
-    '#value' => array('0:00','1:00','2:00','3:00','4:00', 
-     '5:00','6:00','7:00','8:00','9:00','10:00','11:00', 
+    '#value' => array('0:00','1:00','2:00','3:00','4:00',
+     '5:00','6:00','7:00','8:00','9:00','10:00','11:00',
      '12:00','13:00','14:00','15:00','16:00','17:00',
      '18:00','19:00','20:00','21:00','22:00','23:00')
   );
-  
+
   // Identify preference sets that are established to distinguish what has been
   // saved to the database from what is just showing default values
   $form['#established'] = $established;
-   
+
   // Set up the preference container for AHAH
   $form['prefs'] = array(
     '#title' => '',
@@ -161,7 +161,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#tree'   => TRUE
   );
   //$form['prefs']['debug'] = array('#value' => '<pre>' . print_r($form_state, true) . '</pre>');
-  
+
   // Hidden elements
   $form['prefs']['modified'] = array(
     '#type' => 'hidden',
@@ -171,11 +171,11 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#type' => 'hidden',
     '#value' => $venue
   );
-  
+
   $form['prefs']['separator_top'] = array(
     '#value' => '<div class="separator"></div>'
   );
-  
+
   // Simplified selectors
   $form['prefs']['preset'] = array(
       '#title' => bts('Presets', array(), NULL, 'boinc:account-preferences-preset:-1:for a user to choose a computing or project preference preset.'),
@@ -204,7 +204,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     // The 'no-js' class only displays this button if javascript is disabled
     '#attributes' => array('class' => 'no-js'),
   );
-  
+
   // Advanced preferences
   $form['prefs']['advanced'] = array(
     '#title' => bts('Advanced settings', array(), NULL, 'boinc:account-preferences-option'),
@@ -214,17 +214,17 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#collapsed' => !$advanced,
     '#attributes' => array('class' => 'advanced-settings'),
   );
-  
+
   // Processing preferences
-  
+
   $form['prefs']['advanced']['anchor'] = array(
     '#value' => '<a name="advanced"></a>'
   );
-  
+
   $form['prefs']['advanced']['separator_top'] = array(
     '#value' => '<div class="separator"></div>'
   );
-  
+
   $form['prefs']['advanced']['processor'] = array(
     '#title' => bts('Processor usage', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'fieldset',
@@ -331,7 +331,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#size' => 1,
     '#description' => bts('Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat.', array(), NULL, 'boinc:account-preferences-computing')
   );
-  
+
   // Disk and memory preferences
   $form['prefs']['advanced']['storage'] = array(
     '#title' => bts('Disk and memory usage', array(), NULL, 'boinc:account-preferences-computing'),
@@ -347,7 +347,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['disk_max_used_gb'],
     '#size' => 1,
     '#description' => bts('Limit the total amount of disk space used by BOINC.', array(), NULL, 'boinc:account-preferences-computing'),
-  ); 
+  );
   $form['prefs']['advanced']['storage']['disk_min_free_gb'] = array(
     '#title' => bts('Disk: leave at least', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'textfield',
@@ -363,7 +363,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['disk_max_used_pct'],
     '#size' => 1,
     '#description' => bts('Limit the percentage of disk space used by BOINC on the volume where it stores data.', array(), NULL, 'boinc:account-preferences-computing')
-  ); 
+  );
   $form['prefs']['advanced']['storage']['disk_interval'] = array(
     '#title' => bts('Request tasks to checkpoint at most every', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'textfield',
@@ -396,7 +396,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#size' => 1,
     '#description' => bts("Limit the memory used by BOINC when you're not using the computer.", array(), NULL, 'boinc:account-preferences-computing')
   );
-  
+
   // Network preferences
   $form['prefs']['advanced']['network'] = array(
     '#title' => bts('Network usage', array(), NULL, 'boinc:account-preferences-computing'),
@@ -412,7 +412,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['work_buf_min_days'],
     '#size' => 1,
     '#description' => bts('Store at least enough tasks to keep the computer busy for this long.', array(), NULL, 'boinc:account-preferences-computing')
-  ); 
+  );
   $form['prefs']['advanced']['network']['work_buf_additional_days'] = array(
     '#title' => bts('Store up to an additional', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'textfield',
@@ -420,7 +420,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['work_buf_additional_days'],
     '#size' => 1,
     '#description' => bts('Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project.', array(), NULL, 'boinc:account-preferences-computing')
-  ); 
+  );
   $form['prefs']['advanced']['network']['confirm_before_connecting'] = array(
     '#title' => bts('Confirm before connecting to Internet?', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'radios',
@@ -428,7 +428,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['confirm_before_connecting'],
     '#description' => bts('Useful only if you have a modem, ISDN or VPN connection.', array(), NULL, 'boinc:account-preferences-computing')
-  ); 
+  );
   $form['prefs']['advanced']['network']['hangup_if_dialed'] = array(
     '#title' => bts('Disconnect when done?', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'radios',
@@ -444,7 +444,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['max_bytes_sec_down']/1000,
     '#size' => 1,
     '#description' => bts('Limit the download rate of file transfers.', array(), NULL, 'boinc:account-preferences-computing')
-  ); 
+  );
   $form['prefs']['advanced']['network']['max_bytes_sec_up'] = array(
     '#title' => bts('Limit upload rate to', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'textfield',
@@ -471,14 +471,14 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   );
   $form['prefs']['advanced']['network']['hour_description'] = array(
     '#value' => '<div class="form-item slim"><div class="description">' . bts('Transfer files only during a particular period each day.', array(), NULL, 'boinc:account-preferences-computing') . '</div></div>'
-  ); 
+  );
   $form['prefs']['advanced']['network']['daily_xfer_limit_mb'] = array(
     '#title' => bts('Limit usage to', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'textfield',
     '#field_suffix' => 'Mbytes',
     '#default_value' => $default['daily_xfer_limit_mb'],
     '#size' => 1
-  ); 
+  );
   $form['prefs']['advanced']['network']['daily_xfer_period_days'] = array(
     '#field_prefix' => 'every',
     '#type' => 'textfield',
@@ -486,7 +486,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['daily_xfer_period_days'],
     '#size' => 1,
     '#description' => bts('Example: BOINC should transfer at most 2000 MB of data every 30 days.', array(), NULL, 'boinc:account-preferences-computing'),
-  ); 
+  );
   $form['prefs']['advanced']['network']['dont_verify_images'] = array(
     '#title' => bts('Skip data verification for image files?', array(), NULL, 'boinc:account-preferences-computing'),
     '#type' => 'radios',
@@ -495,7 +495,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#default_value' => $default['dont_verify_images'],
     '#description' => bts('Only select "Yes" if your Internet provider modifies image files. Skipping verification reduces the security of BOINC.', array(), NULL, 'boinc:account-preferences-computing')
   );
-  
+
   // The "fancy radios" are made via javascript on document load. In order for
   // these to work with AHAH, we need this crazy setTimeout() call.
   $form['prefs']['fancy-radios'] = array(
@@ -514,11 +514,11 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#type' => 'hidden',
     '#value' => 1
   );
-  
+
   $form['prefs']['separator_bottom'] = array(
     '#value' => '<div class="separator buttons"></div>'
   );
-  
+
   // Form control
   $form['prefs']['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -534,7 +534,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   );
   if ($venue AND $venue != 'generic') {
     global $base_path;
-    $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
+    $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' .
       l(bts('Clear', array(), NULL, 'boinc:form-clear'), "account/prefs/computing/clear/{$venue}",
         array(
           'query' => 'destination=' . urlencode(drupal_get_path_alias('account/prefs/computing/combined')),
@@ -552,7 +552,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#value' => '</ul>'
   );
   $form['#submit'][] = 'boincwork_generalprefs_form_submit';
-  
+
   return $form;
 }
 
@@ -562,10 +562,10 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
 function boincwork_generalprefs_form_validate($form, &$form_state) {
   require_boinc('util');
   $values = $form_state['values']['prefs']['advanced'];
-  
+
   //drupal_set_message('<pre>' . print_r($form_state['values'], true) . '</pre>');
   // Verify all non-boolean user input values and notify form API of failures
-  
+
   // Processing preferences
   if (!verify_numeric($values['processor']['idle_time_to_run'], 1, 9999)) form_set_error('idle_time_to_run', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['idle_time_to_run']['#title']} [x] {$form['prefs']['advanced']['processor']['idle_time_to_run']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
   if (!verify_numeric($values['processor']['suspend_if_no_recent_input'], 0, 9999)) form_set_error('suspend_if_no_recent_input', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['suspend_if_no_recent_input']['#title']} [x] {$form['prefs']['advanced']['processor']['suspend_if_no_recent_input']['#field_suffix']}"), NULL, 'boinc:account-preferences-computing'));
@@ -602,14 +602,14 @@ function boincwork_generalprefs_form_validate($form, &$form_state) {
 function boincwork_generalprefs_form_submit($form, &$form_state) {
   global $user;
   $account = user_load($user->uid);
-  
+
   $values = $form_state['values']['prefs']['advanced'];
   $venue = $form_state['values']['prefs']['venue'];
   $preset = $form_state['values']['prefs']['preset'];
-  
+
   // Load preferences from BOINC account
   $prefs = boincwork_load_prefs('general', $venue);
-  
+
   // Processing preferences
   $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 0 : 1;
   $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 0 : 1;
@@ -623,7 +623,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $prefs['cpu_scheduling_period_minutes'] = $values['processor']['cpu_scheduling_period_minutes'];
   $prefs['max_ncpus_pct'] = $values['processor']['max_ncpus_pct'];
   $prefs['cpu_usage_limit'] = $values['processor']['cpu_usage_limit'];
-  
+
   // Storage preferences
   $prefs['disk_max_used_gb'] = $values['storage']['disk_max_used_gb'];
   $prefs['disk_min_free_gb'] = $values['storage']['disk_min_free_gb'];
@@ -632,7 +632,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $prefs['vm_max_used_pct'] = $values['storage']['vm_max_used_pct'];
   $prefs['ram_max_used_busy_pct'] = $values['storage']['ram_max_used_busy_pct'];
   $prefs['ram_max_used_idle_pct'] = $values['storage']['ram_max_used_idle_pct'];
-  
+
   // Network preferences
   $prefs['work_buf_min_days'] = $values['network']['work_buf_min_days'];
   $prefs['work_buf_additional_days'] = $values['network']['work_buf_additional_days'];
@@ -659,15 +659,15 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   else {
     $prefs['preset'] = $preset;
   }
-  
+
   // If this is a new preference set, be sure to unset the "cleared" attribute
   if (isset($prefs['@attributes']['cleared'])) {
     unset($prefs['@attributes']['cleared']);
   }
-  
+
   // Update database
   $result = boincwork_save_prefs($prefs, 'general', $venue);
-  
+
   if (!$result) {
     watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
@@ -676,7 +676,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
     // Show this message if the set wasn't created automatically (in which case
     // there is a message tailored to that) {
     drupal_set_message(t('Your preferences have been updated.
-      Client-related preferences will take effect when your computer 
+      Client-related preferences will take effect when your computer
       communicates with @project or you issue the "Update"
       command from the BOINC client.', array('@project' => PROJECT)));
   }
@@ -685,7 +685,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Merge host form handlers and functions
- *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */ 
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
  * Find compatible hosts for merging
@@ -761,12 +761,12 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   $now = time();
   update_average($now, 0, 0, $old_host->expavg_credit, $old_host->expavg_time);
   update_average($now, 0, 0, $new_host->expavg_credit, $new_host->expavg_time);
-  
+
   // Update the database:
   // - add credit from old host to new host
   // - change results to refer to the new host
   // - put old host in "zombie" state (userid=0, rpc_seqno=[new_host_id])
-  
+
   $total_credit = $old_host->total_credit + $new_host->total_credit;
   $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
 
@@ -797,7 +797,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
     $message = 'Could not merge because the target host has userid=0. The site administrators have been contacted about this issue, and will investigate further.';
     return FALSE;
   }
-  
+
   // Move credit from the old host to the new host
   db_set_active('boinc_rw');
   $credit_updated = db_query("
@@ -816,7 +816,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
     }
     return FALSE;
   }
-  
+
   // Move results from the old host to the new host
   db_set_active('boinc_rw');
   $results_updated = db_query("
@@ -832,7 +832,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
     }
     return FALSE;
   }
-  
+
   // Retire the old host
   db_set_active('boinc_rw');
   $old_host_retired = db_query("
@@ -852,7 +852,7 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
     }
     return FALSE;
   }
-  
+
   return TRUE;
 }
 
@@ -864,21 +864,21 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
   if (!boincwork_host_user_is_owner($host_id)) {
     drupal_goto("host/{$host_id}");
   }
-  
+
   $form = array();
   $form_state['storage']['current_host_id'] = $host_id;
   $current_host = boincwork_host_get_info($host_id);
-  
+
   // Get hosts that could be merged with this one
   $hosts = boincwork_host_get_compatible_hosts($host_id);
-  
+
   if (!$hosts) {
     drupal_set_message(t('There are no computers eligible for merging with this
       one'), 'warning'
     );
     drupal_goto("host/{$host_id}");
   }
-  
+
   $form['overview'] = array(
     '#value' => '<p>' . bts('Sometimes BOINC assigns separate identities to'
       . ' the same computer by mistake. You can correct this by merging old'
@@ -894,7 +894,7 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
         ),
         NULL, 'boinc:account-host-merge') . '</p>',
   );
-  
+
   $options = array();
   foreach ($hosts as $host) {
     $options[$host->id] = array(
@@ -903,18 +903,18 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
       $host->id,
     );
   }
-  
+
   $form['merge'] = array(
     '#title' => '',
     '#type' => 'tableselect',
     '#header' => array(bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'), bts('Created', array(), NULL, 'boinc:host-details'), bts('Computer ID', array(), NULL, 'boinc:host-list')),
     '#options' => $options,
   );
-  
+
   $form['prefs']['separator_bottom'] = array(
   //  '#value' => '<div class="separator buttons"></div>'
   );
-  
+
   // Form control
   $form['prefs']['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -928,7 +928,7 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
   $form['prefs']['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), "host/{$host_id}") . '</li>'
   );
-  
+
   return $form;
 }
 
@@ -947,7 +947,7 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
   $current_host_id = $form_state['storage']['current_host_id'];
   $current_host = boincwork_host_get_info($current_host_id);
   $selected_hosts = array_filter($form_state['values']['merge']);
-  
+
   foreach ($selected_hosts as $host_id) {
     // Attempt to merge each host, noting the results
     $message = '';
@@ -960,7 +960,7 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
       $errors[$old_host->id] = $message;
     }
   }
-  
+
   if ($merged) {
     // Generate a natural language list of IDs that were merged
     $oxford_comma = ',';
@@ -995,7 +995,7 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
         NULL, 'boinc:account-host-merge'));
     }
   }
-  
+
   if ($errors) {
     // Report any hosts that failed to merge
     foreach ($errors as $id => $error) {
@@ -1010,31 +1010,31 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
       );
     }
   }
-  
+
   drupal_goto("host/{$current_host_id}");
 }
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Project preferences form handlers and functions
- *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */ 
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
  * The structure of the project preferences form
  */
 function boincwork_projectprefs_form(&$form_state, $venue) {
-  
+
   global $user;
   $account = user_load($user->uid);
-  
+
   $established = TRUE;
-  
+
   // Get availability of special BOINC preferences
   require_boinc(array('util'));
   $app_types = get_app_types();
-  
+
   // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
-  
+
   // Take note if this is not an established preference set on the account
   if (isset($prefs['@attributes']['cleared'])) {
     $established = FALSE;
@@ -1058,7 +1058,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   else {
     $venue_is_default = FALSE;
   }
-  
+
   // Define form defaults
   $default = array(
     'resource_share' => 100,
@@ -1081,20 +1081,20 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       }
     }
   }
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
     '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes'))
   );
-  
+
   // Identify preference sets that are established to distinguish what has been
   // saved to the database from what is just showing default values
   $form['#established'] = $established;
-  
+
   // Top level form options
   $form['#tree'] = TRUE;
-  
+
   // Hidden elements
   $form['modified'] = array(
     '#type' => 'hidden',
@@ -1104,12 +1104,12 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     '#type' => 'hidden',
     '#value' => $venue,
   );
-  
+
   $form['separator_top'] = array(
     '#value' => '<div class="separator"></div>'
   );
-  
-  // Common project preferences  
+
+  // Common project preferences
   $form['resource'] = array(
     '#title' => bts('Resource settings', array(), NULL, 'boinc:account-preferences-project'),
     '#type' => 'fieldset',
@@ -1166,7 +1166,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       );
     }
   }
-  
+
   if (variable_get('boinc_prefs_options_beta', FALSE)) {
     $form['beta'] = array(
       '#title' => bts('Beta settings', array(), NULL, 'boinc:account-preferences-project'),
@@ -1184,10 +1184,10 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       '#description' => bts('This helps us develop applications, but may cause jobs to fail on your computer', array(), NULL, 'boinc:account-preferences-project')
     );
   }
-  
+
   // Add project specific prefs to the form
   boincwork_add_project_specific_prefs($form, $prefs);
-  
+
   // Set whether to use this preference set by default for new computers
   $form['default_set'] = array(
     '#title' => bts('Default set', array(), NULL, 'boinc:account-preferences-project'),
@@ -1204,11 +1204,11 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     '#default_value' => $default['default_venue'] ? 1 : 0,
     '#description' => ''
   );
-  
+
   $form['prefs']['separator_bottom'] = array(
     '#value' => '<div class="separator buttons"></div>'
   );
-  
+
   // Form control
   $form['prefs']['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -1224,7 +1224,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   );
   if ($venue AND $venue != 'generic') {
     global $base_path;
-    $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' . 
+    $form['prefs']['form control tabs']['#value'] .= '<li class="tab">' .
       l(bts('Clear', array(), NULL, 'boinc:form-clear'), "account/prefs/project/clear/{$venue}",
         array(
           'query' => 'destination=' . urlencode(drupal_get_path_alias('account/prefs/project/combined')),
@@ -1241,7 +1241,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   $form['prefs']['form control tabs suffix'] = array(
     '#value' => '</ul>'
   );
-  
+
   return $form;
 }
 
@@ -1251,7 +1251,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
 function boincwork_add_project_specific_prefs(&$form, $prefs) {
   // Load project specific preferences from XML config
   $xml = boincwork_get_project_specific_config();
-  
+
   // Respect the order of the top level elements
   $ordered_array = array();
   $unordered_array = array();
@@ -1276,7 +1276,7 @@ function boincwork_add_project_specific_prefs(&$form, $prefs) {
   ksort($ordered_array);
   $primed_array = array_merge($ordered_array, $unordered_array);
   $xml = array('project_specific_preferences' => $primed_array);
-    
+
   foreach ($xml['project_specific_preferences'] as $wrapped_element) {
     $type = key($wrapped_element);
     $element= reset($wrapped_element);
@@ -1288,7 +1288,7 @@ function boincwork_add_project_specific_prefs(&$form, $prefs) {
   * Validate the project preferences form.
   */
 function boincwork_projectprefs_form_validate($form, &$form_state) {
-  
+
   // Verify all text user input values and notify form API of failures
   $validation_rules = array(
     'resource' => array(
@@ -1298,13 +1298,13 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
       ),
     ),
   );
-  
+
   // Add validation rules for project specific settings
   $validation_rules += boincwork_get_project_specific_config_validation_rules();
-  
+
   // Perform validation
   boincwork_validate_form($validation_rules, $form_state['values']);
-  
+
   // Check for app validation
   if (isset($validation_rules['apps'])) {
     if (isset($validation_rules['apps']['minimum selected'])
@@ -1335,17 +1335,17 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
 function boincwork_projectprefs_form_submit($form, &$form_state) {
   global $user;
   global $site_name;
-  
+
   require_boinc(array('util'));
   $app_types = get_app_types();
-  
+
   $account = user_load($user->uid);
   $edit = $form_state['values'];
   $venue = $edit['venue'];
-  
+
   // Load preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
-  
+
   // Resource preferences
   $prefs['resource_share'] = $edit['resource']['resource_share'];
   if ($app_types->count > 1) {
@@ -1354,33 +1354,33 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
     if ($app_types->ati) $prefs['no_ati'] = ($edit['resource']['no_ati']) ? 0 : 1;
     if ($app_types->intel_gpu) $prefs['no_intel_gpu'] = ($edit['resource']['no_intel_gpu']) ? 0 : 1;
   }
-  
+
   // Beta preferences
   if (variable_get('boinc_prefs_options_beta', FALSE)) {
     $prefs['allow_beta_work'] = ($edit['beta']['allow_beta_work']) ? 1 : 0;
   }
-  
+
   // Load project specific preferences from XML config
   $xml = boincwork_get_project_specific_config();
   $updated_prefs = array(
     'project_specific' => boincwork_format_project_specific_prefs_data($edit)
   );
   $prefs = $updated_prefs + $prefs;
-  
+
   // Don't specify apps if all are selected
   if (isset($form_state['storage']['all apps selected'])) {
     unset($prefs['project_specific']['app_id']);
     unset($form_state['storage']['all apps selected']);
   }
-  
+
   // If this is a new preference set, be sure to unset the "cleared" attribute
   if (isset($prefs['@attributes']['cleared'])) {
     unset($prefs['@attributes']['cleared']);
   }
-  
+
   // Save preferences back to the BOINC account
   $result = boincwork_save_prefs($prefs, 'project', $venue);
-  
+
   // Update the user's default preference set
   if ($edit['default_set']['default_venue']) {
     boincwork_set_default_venue($venue);
@@ -1389,7 +1389,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
     // User has cleared out the default venue setting
     boincwork_set_default_venue();
   }
-  
+
   if (!$result) {
     watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
@@ -1398,9 +1398,9 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
     // Show this message if the set wasn't created automatically (in which case
     // there is a message tailored to that)
     drupal_set_message(t('Your preferences have been updated.
-        Client-related preferences will take effect when your computer 
+        Client-related preferences will take effect when your computer
         communicates with @project or you issue the "Update"
-        command from the BOINC client.', 
+        command from the BOINC client.',
         array('@project' => $site_name)));
   }
 }
@@ -1412,7 +1412,7 @@ function communityprefs_form(&$form_state) {
   global $user;
   $account = user_load($user->uid);
   $form = array();
-  
+
   // Pull in some elements from the profile form
   $profile_form_state = array();
   $profile = new stdClass();
@@ -1421,24 +1421,24 @@ function communityprefs_form(&$form_state) {
   if ($profile_nid = content_profile_profile_exists($profile, $account->uid)) {
     $profile_node = node_load($profile_nid);
     $form_state['storage']['profile_node'] = $profile_node;
-    module_load_include('inc', 'node', 'node.pages');    
+    module_load_include('inc', 'node', 'node.pages');
     $profile_form = drupal_retrieve_form('profile_node_form', $profile_form_state, $profile_node);
     drupal_prepare_form('profile_node_form', $profile_form, $profile_form_state);
   }
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
     '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes'))
   );
-  
+
   $default = array(
     'pm_send_notification' => '', // This is set already in pm_email_notify_user
     'friend_notification' => isset($account->friend_notification) ? $account->friend_notification : 0,
     'comments_per_page' => (isset($account->comments_per_page) AND $account->comments_per_page) ? $account->comments_per_page : variable_get('comment_default_per_page_forum', 50),
     'comments_order' => (isset($account->sort) AND $account->sort) ? $account->sort : variable_get('comment_default_order_forum', COMMENT_ORDER_OLDEST_FIRST),
   );
-  
+
   // General options
   $form['general'] = array(
     '#type' => 'fieldset',
@@ -1468,7 +1468,7 @@ function communityprefs_form(&$form_state) {
       '#description' => '',
     );
   }
-  
+
   // Notification options
   $form['notifications'] = array(
     '#type' => 'fieldset',
@@ -1497,7 +1497,7 @@ function communityprefs_form(&$form_state) {
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['friend_notification']
   );
-  
+
   // Internationalization options
   if (module_exists('internationalization')) {
     $languages = language_list('enabled');
@@ -1526,7 +1526,7 @@ function communityprefs_form(&$form_state) {
       '#description' => ($mode == LANGUAGE_NEGOTIATION_PATH) ? bts("This account's default language for e-mails and preferred language for site presentation.", array(), NULL, 'boinc:account-preferences-community') : bts("This account's default language for e-mails.", array(), NULL, 'boinc:account-preferences-community'),
     );
   }
-  
+
   // Avatar options
   $form['gravatar'] = array(
     '#type' => 'item',
@@ -1561,7 +1561,7 @@ function communityprefs_form(&$form_state) {
   $form['field_image'][0]['#title'] = bts('Upload an avatar', array(), NULL, 'boinc:account-preferences-community');
   $form['field_image']['#weight'] = 20;
   $form['field_image']['#suffix'] = '</fieldset>';
-  
+
   // Forum options
   $form['forums'] = array(
     '#type' => 'fieldset',
@@ -1617,7 +1617,7 @@ function communityprefs_form(&$form_state) {
     '#value' => '<div class="separator buttons"></div>',
     '#weight' => 999,
   );
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">',
@@ -1679,7 +1679,7 @@ function communityprefs_form_submit($form, &$form_state) {
   $boinc_user = BoincUser::lookup_id($account->boincuser_id);
   $edit = $form_state['values'];
   $profile_node = $form_state['storage']['profile_node'];
-  
+
   // Display name
   if ($edit['boincuser_name'] != $boinc_user->name) {
     $boincuser_name = $edit['boincuser_name'];
@@ -1687,10 +1687,10 @@ function communityprefs_form_submit($form, &$form_state) {
         "name='{$boincuser_name}'"
     );
   }
-  
+
   // Private message settings
   pm_email_notify_user('submit', $edit, $user);
-  
+
   // Avatar settings - only set if profile_node exists.
   if ($profile_node) {
     if (!$edit['field_image']) $edit['field_image'] = array();
@@ -1725,7 +1725,7 @@ function communityprefs_form_submit($form, &$form_state) {
     }
   }
   user_save($user, $settings);
-  
+
   drupal_set_message(bts('Your community preferences have been updated.', array(), NULL, 'boinc:account-preferences-community'));
 
   // Form will not redirect if storage is set; not good if language changes
@@ -1737,18 +1737,18 @@ function communityprefs_form_submit($form, &$form_state) {
  */
 function boincwork_privacyprefs_form(&$form_state) {
   require_boinc(array('user', 'prefs', 'util', 'consent'));
-  
+
   global $user;
   $account = user_load($user->uid);
   $boincuser = BoincUser::lookup_id($account->boincuser_id);
-  
+
   // Load preferences from BOINC account
   $prefs = boincwork_load_prefs('project');
-  
+
   //if (!$prefs AND !$initialize_if_empty) return null;
 
   $privacy_consent_types = boincwork_load_privacyconsenttypes();
-  
+
   // Define form defaults
   $default = array(
     'privacy' => array(
@@ -1762,7 +1762,7 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#type' => 'value',
     '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes'))
   );
-  
+
   $form['privacy'] = array(
     '#title' => bts('Privacy settings', array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'fieldset',
@@ -1880,7 +1880,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   $form['prefs']['separator_bottom'] = array(
     '#value' => '<div class="separator buttons"></div>'
   );
-  
+
   // Form control
   $form['prefs']['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -1899,7 +1899,7 @@ function boincwork_privacyprefs_form(&$form_state) {
   $form['prefs']['form control tabs suffix'] = array(
     '#value' => '</ul>'
   );
-  
+
   return $form;
 }
 
@@ -1952,7 +1952,7 @@ function theme_boincwork_privacyprefs_form($form) {
   */
 function boincwork_privacyprefs_form_validate($form, &$form_state) {
   require_boinc('util');
-  
+
   // Verify all non-boolean user input values and notify form API of failures
   // ... currently there are no non-boolean values!
 }
@@ -1968,7 +1968,7 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
 
   // Load BOINC account
   $boincuser = BoincUser::lookup_id($account->boincuser_id);
-  
+
   // Privacy preferences
   $boincuser->send_email = ($form_state['values']['send_email']) ? true : false;
   $boincuser->show_hosts = ($form_state['values']['show_hosts']) ? true : false;
@@ -1989,11 +1989,11 @@ function boincwork_privacyprefs_form_submit($form, &$form_state) {
   }
 
   //project_prefs_update($boincuser, $main_prefs);
-  
+
   db_set_active('boinc_rw');
   db_query("UPDATE user SET send_email = '{$boincuser->send_email}', show_hosts = '{$boincuser->show_hosts}' WHERE id = '{$boincuser->id}'");
   db_set_active('default');
-  
+
   drupal_set_message(t('Your privacy preferences have been updated.'));
 }
 

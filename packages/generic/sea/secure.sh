@@ -72,7 +72,7 @@ set_perm_dir() {
 
 update_nested_dirs() {
    chmod u+x,g+x,o+x "${1}"
-   
+
    for file in $(ls "$1")
     do
 	if [ -d "${1}/${file}" ] ; then

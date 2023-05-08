@@ -33,8 +33,8 @@ for ($i=0; $i<S_NFLAGS; $i++) {
 echo "</tr>";
 
 $result = _mysql_query(
-    "SELECT prefs.userid, prefs.special_user, user.id, user.name 
-    FROM forum_preferences as prefs, user 
+    "SELECT prefs.userid, prefs.special_user, user.id, user.name
+    FROM forum_preferences as prefs, user
     WHERE CONVERT(special_user, DECIMAL) > 0 and prefs.userid=user.id"
 );
 for ($i=1; $i<=_mysql_num_rows($result); $i++){

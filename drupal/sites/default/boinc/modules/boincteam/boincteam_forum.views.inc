@@ -12,13 +12,13 @@
  * relationships exist; is data text, integer, float; what sort options exist).
  */
 function boincteam_forum_views_data() {
-  
+
   // -----------------------------------------------------------------------------------------------
   // Definition for team table
   // -----------------------------------------------------------------------------------------------
-  
+
   $data['boincteam_forum_node']['table']['group'] = t('BOINC');
-  
+
   $data['boincteam_forum_node']['table']['base'] = array(
       'field' => 'nid',
       'title' => t('BOINC team forum topic'),
@@ -29,9 +29,9 @@ function boincteam_forum_views_data() {
   // each field, you may define what field, sort, argument, and/or filter
   // handlers it supports. This will determine where in the Views interface you
   // may use the field.
-  
+
   // Primary keys allowed as arguments
-  
+
   $data['boincteam_forum_node']['tfid'] = array(
     'title' => t('Team forum ID'),
     'help' => t('The ID of the team forum containing this topic.'),
@@ -58,14 +58,14 @@ function boincteam_forum_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['boincteam_forum_node']['nid'] = array(
     'title' => t('Team forum node'),
     'help' => t('The node containing the content of this team forum topic.'),
     // This is a foreign key to the {node} table. When the view is configured
-    // with this relationship, all the fields for the related user node will be 
+    // with this relationship, all the fields for the related user node will be
     // available.
     'relationship' => array(
       'base' => 'node',
@@ -84,9 +84,9 @@ function boincteam_forum_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of general fields (alphabetized)
   // ...
-  
+
   return $data;
 }

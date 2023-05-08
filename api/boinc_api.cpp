@@ -274,7 +274,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         strlcpy(sbuf, "localtime() failed", len);
         return sbuf;
     }
-    if (strftime(buf, sizeof(buf)-1, "%H:%M:%S", tmp) == 0) {
+    if (strftime(buf, sizeof(buf)-1, "%F %H:%M:%S", tmp) == 0) {
         strlcpy(sbuf, "strftime() failed", len);
         return sbuf;
     }
@@ -1032,6 +1032,7 @@ static int suspend_activities(bool called_from_worker) {
     );
 #endif
 #ifdef _WIN32
+    (void) called_from_worker;  // suppress warning
     static vector<int> pids;
     if (options.multi_thread) {
         if (pids.size() == 0) {

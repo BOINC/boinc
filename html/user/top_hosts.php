@@ -42,13 +42,11 @@ function get_top_hosts($offset, $sort_by) {
     return BoincHost::enum(null, "order by $sort_order limit $offset, $hosts_per_page");
 }
 
-$sort_by = get_str("sort_by", true);
-switch ($sort_by) {
-case "total_credit":
-case "expavg_credit":
-    break;
-default:
-    $sort_by = "expavg_credit";
+$sort_by = get_str('sort_by', true);
+if ($sort_by) {
+    sanitize_sort_by($sort_by);
+} else {
+    $sort_by = 'expavg_credit';
 }
 
 $offset = get_int("offset", true);

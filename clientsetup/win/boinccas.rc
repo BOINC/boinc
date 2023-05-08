@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winresrc.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -72,7 +72,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Dynamic Link Library"
             VALUE "FileVersion", "1.0.0.171"
             VALUE "InternalName", "BOINC"
-            VALUE "LegalCopyright", "Copyright (C) 2005-2020"
+            VALUE "LegalCopyright", "Copyright (C) 2005-2023"
             VALUE "OriginalFilename", "BOINC.dll"
             VALUE "ProductName", " BOINC Dynamic Link Library"
             VALUE "ProductVersion", "1.0.0.171"

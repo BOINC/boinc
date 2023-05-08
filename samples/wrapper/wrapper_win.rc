@@ -58,7 +58,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Wrapper"
             VALUE "FileVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
             VALUE "InternalName", "wrapper"
-            VALUE "LegalCopyright", "© 2011-2019 University of California"
+            VALUE "LegalCopyright", "© 2011-2023 University of California"
             VALUE "OriginalFilename", "wrapper.exe"
             VALUE "ProductName", "BOINC Wrapper"
             VALUE "ProductVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)

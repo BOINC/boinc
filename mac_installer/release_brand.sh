@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2022 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -44,7 +44,7 @@
 ##  NEWVERSIONCHECKDIR="WCG"                            ##Where to get nvc_config.xml, empty string if none
 ##
 ##  This script expects the skin to be at "./clientgui/skins/${SKINDIR}"
-##  This script expects the nvc_config.xml file (if any) to be at 
+##  This script expects the nvc_config.xml file (if any) to be at
 ##  "./win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml"
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
@@ -61,51 +61,69 @@
 ## cd to the root directory of the boinc tree, for example:
 ##     cd <path>/boinc
 ##
-## Then invoke this script with the three parts of version number as arguments and the full path 
+## Then invoke this script with the three parts of version number as arguments and the full path
 ## to the brand description file. For example, if the version is 3.2.1:
 ##     source ./mac_installer/release_brand.sh 3 2 1 ./mac_installer/WCGridInstaller.environment
 ##
 ## This will create a directory "BOINC_Installer" in the parent directory of
-## the current directory 
+## the current directory
 ##
 ## For testing only, you can use the development build by adding a fifth argument -dev
 ## For example, if the version is 3.2.1:
 ##     source /mac_installer/release_brand.sh 3 2 1 ./mac_installer/WCGridInstaller.environment -dev
 
-## As of OS 10.14 Mojave, Apple has introduced a new level of security which 
-## Apple calls "notarization". Under OS 10.14, the only difference is that 
-## Gatekeeper adds the sentence "Apple checked it for malicious software and 
-## found none." However, Apple has warned: "In an upcoming release of macOS, 
-## Gatekeeper will require Developer ID–signed software to be notarized by 
+## As of OS 10.14 Mojave, Apple has introduced a new level of security which
+## Apple calls "notarization". Under OS 10.14, the only difference is that
+## Gatekeeper adds the sentence "Apple checked it for malicious software and
+## found none." However, Apple has warned: "In an upcoming release of macOS,
+## Gatekeeper will require Developer ID–signed software to be notarized by
 ## Apple."
-## 
+##
 ## To notarize the installer and uninstaller:
-## NOTE: Do not use your normal Apple ID password. You must create an 
+## NOTE: Do not use your normal Apple ID password. You must create an
 ## app-specific password at https://appleid.apple.com/account/manage.
 ##
-## - Use the command line tools in Xcode 10 or later
+## NOTE: in the following instructions, subsitute:
+##   * the 3 part version numberfor x.y.z
+##   * the ${SHORTBRANDNAME} for $SBN (for example, wcgrid for World Community Grid)
+##   * the architecture (usually "universal" for $arch)
+##   so substitute the quoted full path for ".../$SBN_x.y.z_macOSX_$arch"
+## - Use the command line tools in Xcode 13 or later
 ## - Provide valid application & installer code signing identities as above
-## - In Terminal":
-##  $ xcrun altool --notarize-app -t osx -f {path to ...macOSX_x86_64.zip} --primary-bundle-id edu.berkeley.boinc.Installer -u {userID} -p {password}
-## - After a few minutes, check whether the notarize-app request succeeded:
+## - In the instructions below, substitute the appropriate architcture for $arch
+##     (either x86_64, arm64 or universal)
+## - In Terminal:
+##  $ xcrun notarytool submit ".../$SBN_x.y.z_macOSX_$arch.zip" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
+##
+## - If the notarytool submit request was approved, attach tickets to top level applications as follows:
+## NOTE: Stapling the original files never works. We must rename the original
+##       directory and recreate it from the zip file we just submitted
+##  $ mv ".../$SBN.y.z_macOSX_$arch" ".../$SBN.y.z_macOSX_$arch-orig"
+##  $ open ".../$SBN.y.z_macOSX_$arch.zip"
+##  $ xcrun stapler staple ".../$SBN.y.z_macOSX_$arch/${INSTALLERAPPNAME}.app"
+##  $ xcrun stapler staple {path to ".../$SBN.y.z_macOSX_$arch.zip/extras/${UNINSTALLERAPPNAME}.app"
+## - delete or rename the original ".../$SBN.y.z_macOSX_$arch.zip" file
+## - Run this ditto command again to create a new zip archive containing
+##   the updated (notarized) Installer app and Uninstaller app:
+##  $ ditto -ck --sequesterRsrc --keepParent ".../$SBN.y.z_macOSX_$arch" ".../$SBN.y.z_macOSX_$arch.zip"
+##
+## Then notarize the bare-core (apple-darwin) release as follows:
+##  $ xcrun notarytool submit ".../$SBN.y.z_$arch-apple-darwin.dmg" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
 ##  $ xcrun altool --notarization-info {UUID from last step} -u {userID} -p {password}
-## - If the notarize-app request succeeded, attach tickets to top level applications:
-##  $ xcrun stapler staple {path to "...macOSX_x86_64/${INSTALLERAPPNAME}.app"}
-##  $ xcrun stapler staple {path to "...macOSX_x86_64/extras/${UNINSTALLERAPPNAME}.app"}
-## - delete or rename the original ...macOSX_x86_64.zip}
-## - Run this ditto command again to create a new ...macOSX_x86_64.zip containing 
-##   the updated (notarized) ${INSTALLERAPPNAME}.app and ${UNINSTALLERAPPNAME}.app:
-##  $ ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch ${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch.zip
-## - Note: if you are running stapler under OS 10.13 and get an error 68, the local CRL
-##   cache may have become corrupted. You can resolve this by either running stapler
-##   under MacOS 10.14 Mojave or by running this command under OS 10.13:
-##     $ sudo killall -9 trustd; sudo rm /Library/Keychains/crls/valid.sqlite3 
+##
+## - If the notarize-app request was approved, attach a ticket to the disk image:
+## NOTE: Stapling the original files never works. We must rename the original
+##       disk image we just submitted and make a copy of it
+##  $ mv ".../$SBN.y.z_$arch-apple-darwin.dmg" ".../$SBN.y.z_$arch-apple-darwin-orig.dmg"
+##  $ cp ".../$SBN.y.z_$arch-apple-darwin-orig.dmg" ".../$SBN.y.z_$arch-apple-darwin.dmg"
+##  $ xcrun stapler staple ".../$SBN.y.z_$arch-apple-darwin.dmg"
+##
 ## - for more information:
-##  $ xcrun altool --help
+##  $ xcrun notarytool --help
 ##  $ man stapler
 ##
 ## TODO: Add code to optionally automate notarization either in this script or
-## TODO: in a separate script. Perhaps adapt notarization and stapler code from 
+## TODO: in a separate script. Perhaps adapt notarization and stapler code from
 ## TODO: <https://github.com/smittytone/scripts/blob/master/packcli.zsh>
 ##
 
@@ -118,7 +136,7 @@ echo "   source ./mac_installer/release_brand.sh 7 11 0 ./mac_installer/WCGridIn
 return 1
 fi
 
-#source brand description file 
+#source brand description file
 if [ ! -f ${4} ]; then
     echo Brand description file ${4} not found
     return 1
@@ -143,7 +161,7 @@ BOINCPath=$PWD
 arch="x86_64"
 
 # XCode 3.x and 4.x use different paths for their build products.
-# Our scripts in XCode's script build phase write those paths to 
+# Our scripts in XCode's script build phase write those paths to
 # files to help this release script find the build products.
 if [ "$5" = "-dev" ]; then
     exec 7<"mac_build/Build_Development_Dir"
@@ -173,7 +191,7 @@ if [ $Products_Have_arm64 = "yes" ]; then
     fi
 fi
 
-for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall"
+for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install"
 do
     Have_x86_64="no"
     Have_arm64="no"
@@ -250,7 +268,7 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/sw
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
 
 # We must create virtualbox directory so installer will set up its
-# ownership and permissions correctly, because vboxwrapper won't 
+# ownership and permissions correctly, because vboxwrapper won't
 # have permission to set owner to boinc_master.
 #mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/projects/virtualbox
 
@@ -343,6 +361,7 @@ sudo chown -R 501:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$
 sudo chmod -R 644 ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/COPYRIGHT.txt
 
 cp -fpRL "${BUILDPATH}/Uninstall BOINC.app/." "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/"
+
 # Copy the localization files for the uninstaller into its bundle
 find locale -name 'BOINC-Setup.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_Installer/locale/"$0"\""}' | xargs mkdir -p
 
@@ -355,6 +374,8 @@ mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_
 sed -i "" s/"Uninstall BOINC"/"${UNINSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 cp -fpRL ./clientgui/res/${UNINSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/"
 rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/MacUninstaller.icns"
+
+echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/Branding"
 
 sudo chown -R root:admin "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
@@ -370,7 +391,43 @@ sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Re
 
 cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources"
 
+# Rename BOINC_Finish_Install.app embedded in PostInstall.app
+sudo mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app"
+
+# Change executable name of BOINC_Finish_Install.app to match app name
+sudo mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/MacOS/${LONGBRANDNAME}_Finish_Install"
+
+# Fix version number in Info.plist file of BOINC_Finish_Install.app
+sudo plutil -replace CFBundleVersion -string `plutil -extract CFBundleVersion raw "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Info.plist"` "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
+
+sudo plutil -remove CFBundleShortVersionString "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
+
+sudo plutil -replace CFBundleExecutable -string "${LONGBRANDNAME}_Finish_Install" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
+
+# Copy BOINC_Finish_Install.app into BOINC Data folder for possible use by AddRemoveUser
+sudo cp -fpRL "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/"
+
+# Change BOINC_Finish_Install.app embedded in uninstaller to BOINC_Finish_Uninstall.app
+sudo mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app"
+
+# Change executable name of BOINC_Finish_Uninstall.app to match app name
+sudo mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/MacOS/BOINC_Finish_Install" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/MacOS/${LONGBRANDNAME}_Finish_Uninstall"
+
+# Fix version number in Info.plist file of BOINC_Finish_Uninstall.app
+sudo plutil -replace CFBundleVersion -string `plutil -extract CFBundleVersion raw "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Info.plist"` "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
+
+sudo plutil -remove CFBundleShortVersionString "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
+
+# Fix bundle name in Info.plist file of BOINC_Finish_Uninstall.app
+sudo plutil -replace CFBundleName -string "BOINC_Finish_Uninstall" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
+
+sudo plutil -replace CFBundleExecutable -string "${LONGBRANDNAME}_Finish_Uninstall" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
+
+# Change Bundle ID of BOINC_Finish_Uninstall.app
+###sudo plutil -replace CFBundleIdentifier -string edu.berkeley.boinc.finish-uninstall "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
+
 echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
+
 cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
 
 
@@ -381,7 +438,7 @@ cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_$
 ## If you wish to also code sign the installer package, add a second line
 ## to ~/BOINCCodeSignIdentities.txt with the installer code signing identity.
 ##
-## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper
 ## with default settings to allow running downloaded applications under OS 10.8
 ## Although code signing the installer application is sufficient to satisfy
 ## GateKeeper, OS X's software firewall can interfere with RPCs between the
@@ -396,7 +453,7 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
 
     # Code Sign the setprojectgrp utility if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/switcher/setprojectgrp"
-    
+
     # Code Sign the boincscr graphics app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/boincscr"
 
@@ -418,17 +475,20 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     # Code Sign the BOINC Manager if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app"
 
-    # Code Sign boinc_finish_install app embedded in the PostInstall app if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/boinc_finish_install"
+    # Code Sign BOINC_Finish_Install app embedded in the PostInstall app if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app"
 
     # Code Sign the PostInstall app embedded in the BOINC installer app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app"
 
-    # Code Sign boinc_finish_install app embedded in BOINC uninstaller app if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/boinc_finish_install"
+    # Code Sign BOINC_Finish_Uninstall app embedded in BOINC uninstaller app if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app"
 
     # Code Sign the BOINC uninstaller app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
+
+    # Code Sign the BOINC_Finish_Install.app in the BOINC Data folder
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}"     "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app"
 fi
 
 # Build the installer package inside the wrapper application's bundle
@@ -469,10 +529,10 @@ sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_${SHORTBRANDNAM
 cp -fpRL "${BUILDPATH}/boinc.dSYM" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/
 cp -fpRL "${BUILDPATH}/BOINCManager.app.dSYM" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/"${MANAGERAPPNAME}.app.dSYM"
 
-## If you wish to code sign the installer and uninstaller, create a file 
+## If you wish to code sign the installer and uninstaller, create a file
 ## ~/BOINCCodeSignIdentities.txt whose first line is the code signing identity
 ##
-## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper
 ## with default settings to allow running downloaded applications under OS 10.8
 if [ -n "${APPSIGNINGIDENTITY}" ]; then
     # Code Sign the BOINC installer application if we have a signing identity
@@ -521,7 +581,7 @@ cd ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3
 ## can delete it after inflating, modifying installer name and recompressing it.
 sudo chmod -R u+w ./${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch
 
-## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
+## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension)
 ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch ${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch.zip
 ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin.zip
 ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables ${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables.zip

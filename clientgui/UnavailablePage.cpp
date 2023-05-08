@@ -39,63 +39,63 @@
 /*!
  * CErrUnavailablePage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CErrUnavailablePage, wxWizardPageEx )
- 
+
 /*!
  * CErrUnavailablePage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CErrUnavailablePage, wxWizardPageEx )
- 
+
 ////@begin CErrUnavailablePage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CErrUnavailablePage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CErrUnavailablePage::OnCancel )
 
 ////@end CErrUnavailablePage event table entries
- 
+
 END_EVENT_TABLE()
-  
+
 /*!
  * CErrUnavailablePage constructors
  */
- 
+
 CErrUnavailablePage::CErrUnavailablePage( )
 {
 }
-  
+
 CErrUnavailablePage::CErrUnavailablePage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * CErrUnavailablePage creator
  */
- 
+
 bool CErrUnavailablePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrUnavailablePage member initialisation
     m_pTitleStaticCtrl = NULL;
     m_pDirectionsStaticCtrl = NULL;
 ////@end CErrUnavailablePage member initialisation
- 
+
 ////@begin CErrUnavailablePage creation
     wxWizardPageEx::Create( parent, ID_ERRUNAVAILABLEPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrUnavailablePage creation
- 
+
     return TRUE;
 }
-  
+
 /*!
  * Control creation for CErrUnavailablePage
  */
- 
+
 void CErrUnavailablePage::CreateControls()
-{    
+{
 ////@begin CErrUnavailablePage content construction
     CErrUnavailablePage* itemWizardPage96 = this;
 
@@ -114,25 +114,25 @@ void CErrUnavailablePage::CreateControls()
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrUnavailablePage content construction
 }
-  
+
 /*!
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CErrUnavailablePage::GetPrev() const
 {
     return PAGE_TRANSITION_BACK;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CErrUnavailablePage::GetNext() const
 {
     return NULL;
 }
- 
+
 /*!
  * Should we show tooltips?
  */
@@ -141,20 +141,20 @@ bool CErrUnavailablePage::ShowToolTips()
 {
     return TRUE;
 }
-  
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CErrUnavailablePage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
- 
+
 ////@begin CErrUnavailablePage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrUnavailablePage bitmap retrieval
 }
-  
+
 /*!
  * Get icon resources
  */
@@ -167,7 +167,7 @@ wxIcon CErrUnavailablePage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CErrUnavailablePage icon retrieval
 }
-   
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTUNAVAILABLEPAGE
  */
@@ -198,7 +198,7 @@ void CErrUnavailablePage::OnPageChanged( wxWizardExEvent& event ) {
 
     Fit();
 }
- 
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTUNAVAILABLEPAGE
  */

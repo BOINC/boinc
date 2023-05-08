@@ -265,6 +265,9 @@ void CC_CONFIG::show() {
     if (no_priority_change) {
         msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
     }
+    if (no_rdp_check) {
+        msg_printf(NULL, MSG_INFO, "Config: allow GPU apps when using remote desktop");
+    }
     if (report_results_immediately) {
         msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
     }
@@ -428,6 +431,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
         if (xp.parse_bool("no_opencl", no_opencl)) continue;
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
+        if (xp.parse_bool("no_rdp_check", no_rdp_check)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
         if (xp.parse_int("process_priority_special", process_priority_special)) continue;
@@ -465,8 +469,8 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_string("device_name", device_name)) continue;
 
         // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
-        // but CC_CONFIG::write() in older clients 
-        // may have written their default values to CONFIG_FILE. 
+        // but CC_CONFIG::write() in older clients
+        // may have written their default values to CONFIG_FILE.
         // Silently skip them if present.
         //
         if (xp.parse_string("client_download_url", s)) continue;

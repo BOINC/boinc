@@ -34,8 +34,8 @@ function user_permissions_form() {
     echo "<th> </th></tr>";
 
     $result = _mysql_query(
-        "SELECT prefs.userid, prefs.special_user, user.id, user.name 
-        FROM forum_preferences as prefs, user 
+        "SELECT prefs.userid, prefs.special_user, user.id, user.name
+        FROM forum_preferences as prefs, user
         WHERE CONVERT(special_user, DECIMAL) > 0 and prefs.userid=user.id"
     );
     while ($foo = _mysql_fetch_object($result)) {

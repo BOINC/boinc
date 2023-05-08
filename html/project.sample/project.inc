@@ -41,7 +41,7 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
     // an existing scheduler request sufficient time to complete.  Some projects
     // might want to increase this to a longer time.  Simply uncomment and set the
     // delay to what the project needs.
-    
+
 //-------------- Caching
 
 //define("MEMCACHE_SERVERS", "127.0.0.1:11211");
@@ -212,7 +212,7 @@ function project_forum_post_rules() {
 
 function project_delete_account($user) {
     // a project defined function for deleting users if neither
-    // obfuscate_account($user) or wipe_account($user) in 
+    // obfuscate_account($user) or wipe_account($user) in
     // inc/delete_account.inc meets the need of the project
     die("This function must be implemented before it can be used");
 }

@@ -33,6 +33,7 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
+#include "md5_file.h"
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
@@ -465,7 +466,7 @@ int PROJECT::write_statistics_file() {
     get_statistics_filename(master_url, path, sizeof(path));
     f = boinc_fopen(TEMP_STATS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
-    fprintf(f, 
+    fprintf(f,
         "<project_statistics>\n"
         "    <master_url>%s</master_url>\n",
         master_url
@@ -474,7 +475,7 @@ int PROJECT::write_statistics_file() {
     for (std::vector<DAILY_STATS>::iterator i=statistics.begin();
         i!=statistics.end(); ++i
     ) {
-        fprintf(f, 
+        fprintf(f,
             "    <daily_statistics>\n"
             "        <day>%f</day>\n"
             "        <user_total_credit>%f</user_total_credit>\n"
@@ -490,7 +491,7 @@ int PROJECT::write_statistics_file() {
         );
     }
 
-    fprintf(f, 
+    fprintf(f,
         "</project_statistics>\n"
     );
 
@@ -502,6 +503,7 @@ int PROJECT::write_statistics_file() {
 
 int CLIENT_STATE::add_project(
     const char* master_url, const char* _auth, const char* project_name,
+    const char* email_addr,
     bool attached_via_acct_mgr
 ) {
     char path[MAXPATHLEN], canonical_master_url[256], auth[256];
@@ -588,6 +590,16 @@ int CLIENT_STATE::add_project(
     projects.push_back(project);
     sort_projects_by_name();
     project->sched_rpc_pending = RPC_REASON_INIT;
+
+    // compute email addr hash
+    //
+    if (strlen(email_addr)) {
+        md5_block(
+            (unsigned char*)email_addr,
+            strlen(email_addr),
+            project->email_hash
+        );
+    }
     set_client_state_dirty("Add project");
     return 0;
 }

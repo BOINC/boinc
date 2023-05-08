@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,10 +22,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#ifdef __APPLE__
+#include <xlocale.h>
+#endif
 
 #include "miofile.h"
 #include "error_numbers.h"
 #include "str_util.h"
+
+extern bool boinc_is_finite(double);
+    // avoid including util.h (kludge)
 
 // see parse_test.cpp for example usage of XML_PARSER
 
@@ -267,8 +273,6 @@ struct XML_PARSER {
     }
 };
 
-extern bool boinc_is_finite(double);
-
 /////////////// START DEPRECATED XML PARSER
 // Deprecated because it makes assumptions about
 // the format of the XML being parsed
@@ -308,7 +312,12 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     errno = 0;
+#ifdef __APPLE__
+// MacOS 13.3.1 apparently broke per-thread locale uselocale()
+    y = strtod_l(p+strlen(tag), NULL, LC_C_LOCALE);
+#else
     y = strtod(p+strlen(tag), NULL);
+#endif
     if (errno) return false;
     if (!boinc_is_finite(y)) {
         return false;

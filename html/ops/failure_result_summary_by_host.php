@@ -39,7 +39,7 @@ SELECT
            else 'Unknown'
        end AS OS_Name,
        case
-           when INSTR(host.os_name, 'Linux') then 
+           when INSTR(host.os_name, 'Linux') then
                case
                    when RIGHT(host.os_version, 1) = ']' then REVERSE(SUBSTR(REVERSE(host.os_version), 2, INSTR(REVERSE(host.os_version), '[') - 2))
                    when INSTR(LEFT(host.os_version, 10), '-') then LEFT(host.os_version, (INSTR(LEFT(host.os_version, 10), '-') - 1))
@@ -47,14 +47,14 @@ SELECT
                end
            else host.os_version
        end AS OS_Version,
-       host.nresults_today AS Results_Today, 
+       host.nresults_today AS Results_Today,
        COUNT(*) AS error_count
 FROM   result
-           left join host on result.hostid = host.id 
+           left join host on result.hostid = host.id
 WHERE
        appid = '$query_appid' and
        server_state = '5' and
-       outcome = '3' and 
+       outcome = '3' and
        received_time > '$query_received_time'
 GROUP BY
        app_version_id,

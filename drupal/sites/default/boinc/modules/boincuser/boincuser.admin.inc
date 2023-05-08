@@ -77,7 +77,7 @@ function boincuser_admin_environment(&$form_state) {
   $form['boinc_root_dir'] = array(
     '#type' => 'textfield',
     '#title' => t('BOINC project root directory'),
-    '#default_value' => $default['boinc_root_dir'], 
+    '#default_value' => $default['boinc_root_dir'],
     '#description' => t('The filesystem path to the BOINC project root. This
       directory should contain config.xml as well as the html subdirectory,
       which itself contains inc/, project/, and user_profile/.'),
@@ -277,7 +277,7 @@ function boincuser_admin_scheduler(&$form_state) {
     'boinc_scheduler_tag_format_old' => variable_get('boinc_scheduler_tag_format_old', 1),
     'boinc_scheduler_tag_format_new' => variable_get('boinc_scheduler_tag_format_new', 1)
   );
-  
+
   // Define the form
   $form['boinc_scheduler_urls'] = array(
     '#type' => 'textarea',
@@ -297,7 +297,7 @@ function boincuser_admin_scheduler(&$form_state) {
     '#title' => t('New format (@link tag)', array('@link' => '<link>')),
     '#default_value' => $default['boinc_scheduler_tag_format_new']
   );
-  
+
   return system_settings_form($form);
 }
 

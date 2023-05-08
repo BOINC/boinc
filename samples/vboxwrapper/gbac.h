@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class GBAC 
+class GBAC
 {
  private:
     char *hostdir;
@@ -19,8 +19,8 @@ class GBAC
     int argc;
     int doGunzip(const char* strGZ, const char* strInput, bool bKeep = true);
     int hasEnding(std::string const &fullString, std::string const &ending);
-    
- public:    
+
+ public:
     GBAC();
     ~GBAC();
     int init(int argc_, char **argv_);

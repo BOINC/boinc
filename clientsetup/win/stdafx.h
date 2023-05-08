@@ -75,6 +75,10 @@
 #include <crtdbg.h>
 #include <delayimp.h>
 #include <msiquery.h>
+// the following fixes mysterious/sporadic errors in Win include files; see
+// https://stackoverflow.com/questions/73025050/how-do-i-solve-c2371-errors-that-arise-from-including-both-ntsecapi-h-and-win
+//#include <Winternl.h>
+//#define _NTDEF_
 #include <ntsecapi.h>
 #include <lm.h>
 #include <shlobj.h>

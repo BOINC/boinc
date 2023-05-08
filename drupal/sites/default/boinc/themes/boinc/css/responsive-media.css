@@ -4,8 +4,8 @@
  * @file
  * Responsive Media Styling
  *
- * Contains CSS styles to handle different screen sizes. This CSS file is 
- * used mainly for browsers with Javascript DISABLED. 
+ * Contains CSS styles to handle different screen sizes. This CSS file is
+ * used mainly for browsers with Javascript DISABLED.
  */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -67,7 +67,7 @@
   }
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * CSS Style designed for mobile screens
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @media only screen and (max-width: 750px) {
@@ -118,7 +118,7 @@
   #navigation li.expanded ul.menu {
     padding: 0 20px;
   }
-  
+
   /* Set base mobile menu font color and size. */
   #navigation .block .menu li a {
     color: #faa341;
@@ -131,7 +131,7 @@
   #navigation .block .menu li a:hover {
     color: black;
   }
-  
+
   /* Add caret left/down icons to the mobile menu for items that
    expand. */
   #navigation li.expanded.dhtml-menu.collapsed>a:after {

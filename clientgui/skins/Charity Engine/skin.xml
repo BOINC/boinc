@@ -33,13 +33,13 @@
                <imagesrc>workunit_suspended_image.png</imagesrc>
             </image>
          </workunit_suspended_image>
-		 
+
 		     <dialog_background_image>
             <image>
                <imagesrc>dialog_background_image.png</imagesrc>
             </image>
          </dialog_background_image>
-		 
+
 		     <project_image>
             <image>
                <imagesrc>project_image.png</imagesrc>
@@ -79,16 +79,16 @@
           <transparency_mask>255:0:255</transparency_mask>
         </image>
       </application_snooze_icon>
-	  
+
 	  <is_branded>1</is_branded>
 
       <organization_name>Charity Engine</organization_name>
       <organization_website>https://www.charityengine.com</organization_website>
-      <organization_help_url>https://www.charityengine.com/manager_menu.php</organization_help_url> 
+      <organization_help_url>https://www.charityengine.com/manager_menu.php</organization_help_url>
 
     </advanced>
-	
-	<wizards>  
+
+	<wizards>
 			<attach_to_project>
 				<!-- title displayed on the attach to project wizard -->
 				<title>Charity Engine Desktop - Attach to Project</title>
@@ -97,9 +97,9 @@
 				<!-- title displayed on the attach to account manager wizard -->
 				<title></title>
 				<!-- additional message to user about attaching to an account manager -->
-				<account_info_message></account_info_message>  
+				<account_info_message></account_info_message>
 			</attach_to_account_manager>
 	</wizards>
-	
+
    </en>
 </skin>

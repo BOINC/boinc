@@ -77,7 +77,15 @@ Commands:\n\
  --get_proxy_settings\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
- --get_tasks                        show tasks\n\
+ --get_tasks                        show tasks (detailed)\n\
+ --get_task_summary [pcedsrw]       show tasks (1 task per line)\n\
+    p: project name\n\
+    c: completion %%\n\
+    e: elapsed time\n\
+    d: deadline\n\
+    s: status\n\
+    r: resource usage\n\
+    w: WU name\n\
  --get_old_tasks                    show reported tasks from last 1 hour\n\
  --join_acct_mgr URL name passwd    same as --acct_mgr attach\n\
  --lookup_account URL email passwd\n\
@@ -187,6 +195,166 @@ void show_alerts(RPC_CLIENT &rpc) {
         );
     }
 }
+
+////////////// --get_task_summary start ////////////////
+
+typedef vector<const char*> STR_LIST;
+
+// given: a list of lines, each consisting of n columns
+// for each column: find the longest entry.
+// Then display the lines so the columns line up.
+//
+void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
+    vector<int> lengths;
+    size_t i;
+    for (i=0; i<ncols; i++) {
+        size_t max = 0;
+        for (const STR_LIST& s: lines) {
+            max = std::max(max, strlen(s[i]));
+        }
+        lengths.push_back(max);
+    }
+    for (const STR_LIST &line : lines) {
+        for (i=0; i<ncols; i++) {
+            printf("%-*s  ", lengths[i], line[i]);
+        }
+        printf("\n");
+    }
+}
+
+// given
+// show list of tasks, 1 line per task,
+// similar to the Manager's Tasks pane
+// fields per task:
+// p: project name
+// c: completion %
+// e: elapsed time
+// d: deadline
+// s: status
+// r: resource usage
+// w: WU name
+//
+
+struct RESULT_INFO {
+    char project_name[256];
+    char pct_done[256];
+    char elapsed_time[256];
+    char deadline[256];
+    char status[256];
+    char resource_usage[256];
+    char wu_name[256];
+};
+#define NCOLS 7
+
+void check_task_options(string &options) {
+    for (char opt: options) {
+        switch (opt) {
+        case 'p':
+        case 'c':
+        case 'e':
+        case 'd':
+        case 's':
+        case 'r':
+        case 'w':
+            break;
+        default:
+            printf("Invalid options %s\n", options.c_str());
+            printf("Options:\n"
+                "   p: project name\n"
+                "   c: completion %%\n"
+                "   e: elapsed time\n"
+                "   d: deadline\n"
+                "   s: status\n"
+                "   r: processor usage\n"
+                "   w: workunit name\n"
+            );
+            exit(1);
+        }
+    }
+}
+
+int show_task_summary(RPC_CLIENT &rpc, const string &options) {
+    PROJECTS ps;    // need for project names
+    RESULTS results;
+    int retval = rpc.get_results(results);
+    if (retval) return retval;
+    vector<STR_LIST> lines;
+    STR_LIST title;
+
+    bool projects = false;
+    for (char opt: options) {
+        switch(opt) {
+        case 'p': title.push_back("Project"); projects = true; break;
+        case 'c': title.push_back("% Done"); break;
+        case 'e': title.push_back("Elapsed"); break;
+        case 'd': title.push_back("Deadline"); break;
+        case 's': title.push_back("Status"); break;
+        case 'r': title.push_back("Procs"); break;
+        case 'w': title.push_back("WU name"); break;
+        }
+    }
+    lines.push_back(title);
+    if (projects) {
+        retval = rpc.get_project_status(ps);
+        if (retval) return retval;
+    }
+    for (RESULT* r: results.results) {
+        RESULT_INFO* ri = new RESULT_INFO;
+        STR_LIST line;
+        for (char opt2: options) {
+            switch(opt2) {
+            case 'p':
+                strcpy(ri->project_name, r->project_url);
+                for (PROJECT* p: ps.projects) {
+                    if (!strcmp(p->master_url, r->project_url)) {
+                        strcpy(ri->project_name, p->project_name.c_str());
+                        break;
+                    }
+                }
+                line.push_back(ri->project_name);
+                break;
+            case 'c':
+                if (r->scheduler_state > CPU_SCHED_UNINITIALIZED) {
+                    sprintf(ri->pct_done, "%.2f%%", r->fraction_done*100);
+                } else {
+                    strcpy(ri->pct_done, "---");
+                }
+                line.push_back(ri->pct_done);
+                break;
+            case 'e':
+                if (r->scheduler_state > CPU_SCHED_UNINITIALIZED) {
+                    strcpy(ri->elapsed_time, timediff_format(r->elapsed_time).c_str());
+                } else {
+                    strcpy(ri->elapsed_time, "---");
+                }
+                line.push_back(ri->elapsed_time);
+                break;
+            case 'd':
+                strcpy(ri->deadline, time_to_string(r->report_deadline));
+                line.push_back(ri->deadline);
+                break;
+            case 's':
+                strcpy(ri->status, active_task_state_string(r->active_task_state));
+                downcase_string(ri->status);
+                line.push_back(ri->status);
+                break;
+            case 'r':
+                strcpy(ri->resource_usage, strlen(r->resources)?r->resources:"1 CPU");
+                line.push_back(ri->resource_usage);
+                break;
+            case 'w':
+                strcpy(ri->wu_name, r->wu_name);
+                line.push_back(ri->wu_name);
+                break;
+            }
+        }
+        lines.push_back(line);
+    }
+    show_str_lists(lines, options.length());
+    return 0;
+}
+
+////////////// --get_task_summary end ////////////////
 
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
@@ -335,6 +503,15 @@ int main(int argc, char** argv) {
         RESULTS results;
         retval = rpc.get_results(results);
         if (!retval) results.print();
+    } else if (!strcmp(cmd, "--get_task_summary")) {
+        string options;
+        if (i<argc) {
+            options = string(argv[i]);
+            check_task_options(options);
+        } else {
+            options = string("pcedsrw");
+        }
+        retval = show_task_summary(rpc, options);
     } else if (!strcmp(cmd, "--get_old_tasks")) {
         vector<OLD_RESULT> ors;
         retval = rpc.get_old_results(ors);
@@ -415,7 +592,7 @@ int main(int argc, char** argv) {
         safe_strcpy(url, next_arg(argc, argv, i));
         canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
-        retval = rpc.project_attach(url, auth, "");
+        retval = rpc.project_attach(url, auth, "", "");
         show_alerts(rpc);
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;

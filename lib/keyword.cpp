@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -92,14 +92,14 @@ void USER_KEYWORDS::write(FILE* f) {
         return;
     }
     unsigned int i;
-    fprintf(f, "<user_keywords>\n");
+    boinc::fprintf(f, "<user_keywords>\n");
     for (i=0; i<yes.size(); i++) {
-        fprintf(f, "   <yes>%d</yes>\n", yes[i]);
+        boinc::fprintf(f, "   <yes>%d</yes>\n", yes[i]);
     }
     for (i=0; i<no.size(); i++) {
-        fprintf(f, "   <no>%d</no>\n", no[i]);
+        boinc::fprintf(f, "   <no>%d</no>\n", no[i]);
     }
-    fprintf(f, "</user_keywords>\n");
+    boinc::fprintf(f, "</user_keywords>\n");
 }
 
 void JOB_KEYWORD_IDS::parse_str(char* buf) {

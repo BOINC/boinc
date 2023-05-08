@@ -6,6 +6,7 @@
 # Translators:
 # Died <doomdied@gmail.com>, 2015
 # Enfeng Tsao <doggie22768384@gmail.com>, 2021
+# Meng Pang Wang, 2023
 # Mingye Wang <arthur200126@gmail.com>, 2015,2019
 # Po-Chun Huang <aphroteus@gmail.com>, 2015
 # Robert Kwan, 2020
@@ -20,8 +21,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2022-12-01 23:46 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: Enfeng Tsao <doggie22768384@gmail.com>, 2021\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/boinc/boinc/language/zh_TW/)\n"
+"Last-Translator: Meng Pang Wang, 2023\n"
+"Language-Team: Chinese (Taiwan) (http://app.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -577,7 +578,7 @@ msgstr "評分："
 
 #: html/inc/forum.inc:724
 msgid "Click if you like this message"
-msgstr "如果你喜歡此訊息請點擊"
+msgstr "如果您喜歡這則訊息，請按這裡"
 
 #: html/inc/forum.inc:724
 msgid "Rate +"
@@ -585,7 +586,7 @@ msgstr "加分 +"
 
 #: html/inc/forum.inc:726
 msgid "Click if you don't like this message"
-msgstr "如果你不喜歡此訊息請點擊"
+msgstr "如果您不喜歡這則訊息，請按這裡"
 
 #: html/inc/forum.inc:726
 msgid "Rate -"
@@ -635,7 +636,7 @@ msgstr "不可包含商業性廣告"
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
-msgstr "網站連結勿涉及性愛，賭博或侵犯他人。"
+msgstr "網站連結請勿涉及與性相關、賭博或冒犯他人的內容。"
 
 #: html/inc/forum.inc:834
 msgid ""
@@ -2052,7 +2053,7 @@ msgstr "任務名稱"
 #: html/inc/result.inc:369 html/inc/result.inc:374 html/inc/result.inc:377
 #: html/inc/result.inc:380
 msgid "click for details"
-msgstr "點擊詳細查看"
+msgstr "點選查看詳細資料"
 
 #: html/inc/result.inc:369
 msgid "Show IDs"
@@ -2453,7 +2454,7 @@ msgstr "%1 已加入的專案"
 
 #: html/inc/user.inc:126
 msgid "Click for user page"
-msgstr "點擊進入用戶頁面"
+msgstr "點選進入使用者頁面"
 
 #: html/inc/user.inc:129
 msgid "Since"
@@ -3352,7 +3353,7 @@ msgstr "安裝及執行BOINC的說明請看%1這裡%2。"
 
 #: html/user/download_network.php:38
 msgid "This list is managed centrally at %1 the BOINC website %2."
-msgstr "此列表由%1BOINC官方網站%2統一管理。"
+msgstr "本列表由 %1 BOINC 官方網站 %2 統一管理。"
 
 #: html/user/download_software.php:182
 msgid "This project requires VirtualBox."
@@ -5169,7 +5170,7 @@ msgid ""
 "If you receive unwanted private messages from another %1 user, you may add "
 "them to your %2 message filter %3.  This will prevent you from seeing any "
 "public or private messages from that user."
-msgstr "在%1網站上傳送的私人訊息只有發送者和收件者可見。%1不會檢查或審查訊息的內容。如果您不想從%1的用戶收到私訊，可以把他加入到%訊息過濾器%3。這樣就可以避免收到來自該用戶的任何公共或私人訊息。"
+msgstr "在 %1 網站上的私人訊息只有寄件者與收件者能檢視。%1 不會檢查或審核私人訊息的內容。如果您不想收到其他 %1 使用者發送的訊息，您可以將他們加入 %2 訊息過濾器 %3。這樣就可以防止您看到任何來自該使用者的公開或私人訊息。"
 
 #: html/user/info.php:47
 msgid ""

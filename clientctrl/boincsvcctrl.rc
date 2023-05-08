@@ -43,19 +43,19 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "boincsvcctrl.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winresrc.h""\r\n"
     "#include ""version.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -100,7 +100,7 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -135,7 +135,7 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -170,7 +170,7 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -205,7 +205,7 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -240,7 +240,7 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"

@@ -48,19 +48,19 @@
 ##          gridrepublic_ss_logo.jpg
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
-##   tools.  So you must have installed XCode Developer Tools on the Mac 
+##   tools.  So you must have installed XCode Developer Tools on the Mac
 ##   before running this script.
 ##
-## If you wish to code sign the installer and uninstaller, create a file 
+## If you wish to code sign the installer and uninstaller, create a file
 ## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
 ##
 ## cd to the working directory:
 ##
-## Invoke this script with the three parts of version number as arguments.  
+## Invoke this script with the three parts of version number as arguments.
 ## For example, if the version is 3.2.1:
 ##     sh [path_to_this_script] 3 2 1
 ##
-## This will create a directory "BOINC_Installer" in the parent directory of 
+## This will create a directory "BOINC_Installer" in the parent directory of
 ## the current directory
 ##
 ## For different branding, modify the following 9 variables:
@@ -154,13 +154,13 @@ if [ -d "skins" ]; then
     sudo cp -fR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
 fi
 
-## Normally, we would put the account manager URL file into the Package Root folder 
-## for delivery to the BOINC Data folder.  But if the user later installs standard 
+## Normally, we would put the account manager URL file into the Package Root folder
+## for delivery to the BOINC Data folder.  But if the user later installs standard
 ## BOINC (without this file), the Apple installer would then delete the file.
-## So we "hide" it in the installer's resources, and have the PostInstall script copy 
+## So we "hide" it in the installer's resources, and have the PostInstall script copy
 ## it into the BOINC Data folder
 ##
-## If account manager URL file is present, copy it into installer resources for 
+## If account manager URL file is present, copy it into installer resources for
 ## eventual delivery into the BOINC Data folder
 if [ -f "acct_mgr_url.xml" ]; then
 ##    sudo cp -fR "acct_mgr_url.xml" "${PR_PATH}/Library/Application Support/BOINC Data/acct_mgr_url.xml"
@@ -299,7 +299,7 @@ sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_
 sudo mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/MacOS/BOINC Installer" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/MacOS/${BRAND_NAME} Installer"
 
 # Build the installer package inside the wrapper application's bundle
-# Because PackageMaker is now distributed separately from Xcode, we 
+# Because PackageMaker is now distributed separately from Xcode, we
 # emulate the following PackageMaker command:
 ###/Developer/usr/bin/packagemaker -r "${PR_PATH}" -e "${IR_PATH}" -s "${SCRIPTS_PATH}" -f "${NEW_DIR_PATH}/Pkg-Info.plist" -t "${MANAGER_NAME}" -n "$1.$2.$3" -b -o "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg"
 # Our PackageMaker emulation starts here
@@ -349,7 +349,7 @@ cp -fp "${NEW_DIR_PATH}/Description.plist" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.
 # Replace the PostInstall application's MacInstaller.icns file
 sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
 
-# Update the installer wrapper application's "BOINC.mpkg" metapackage (used if 
+# Update the installer wrapper application's "BOINC.mpkg" metapackage (used if
 # installer.app determines that we need user to restart OS X after installation)
 
 sudo mv "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/BOINC.mpkg" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.mpkg"
@@ -372,10 +372,10 @@ sudo rm -dfR "${IR_PATH}"
 sudo rm -dfR "${PR_PATH}"
 sudo rm -dfR "${SCRIPTS_PATH}"
 
-## If you wish to code sign the installer and uninstaller, create a file 
+## If you wish to code sign the installer and uninstaller, create a file
 ## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
 ##
-## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper
 ## with default settings to allow running downloaded applications under OS 10.8
 if [ -e "${HOME}/BOINCCodeSignIdentity.txt" ]; then
     exec 8<"${HOME}/BOINCCodeSignIdentity.txt"
@@ -390,14 +390,14 @@ fi
 
 # Compress the products
 cd ${NEW_DIR_PATH}
-## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
+## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension)
 ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686" "${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686.zip"
 ##### We've decided not to create branded command-line executables; they are identical to standard ones
 #### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_i686-apple-darwin" "${LC_BRAND_NAME}_$1.$2.$3_i686-apple-darwin.zip"
 ##### We've decided not to create branded symbol table file; it is identical to standard one
 #### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables" "${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip"
 
-# Force Finder to recognize changed icons by deleting the uncompressed products and expanding the zip file 
+# Force Finder to recognize changed icons by deleting the uncompressed products and expanding the zip file
 sudo rm -dfR "${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686"
 open "${LC_BRAND_NAME}_$1.$2.$3_macOSX_i686.zip"
 

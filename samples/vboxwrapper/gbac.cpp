@@ -20,7 +20,7 @@
 #define GBAC_EXEC_LOG  "gbac-exec.log"
 #define GBAC_VAUNZIP_STATUS "gbac-va-unzipped.status"
 
-static const char* dc_files[] = 
+static const char* dc_files[] =
 {
     "dc_stdout.txt",
     "dc_stderr.txt",
@@ -52,13 +52,13 @@ static const char* log_files[] =
 GBAC gbac;
 
 
-GBAC::GBAC() 
+GBAC::GBAC()
 {
     this->environment.clear();
 }
 
 
-GBAC::~GBAC() 
+GBAC::~GBAC()
 {
     free(this->hostdir);
     free(this->dirsep);
@@ -81,25 +81,25 @@ int GBAC::init(int argc_, char **argv_)
         this->dirsep = strdup("\\");
     #else
         this->dirsep = strdup("/");
-    #endif    
+    #endif
     if (this->dirsep == NULL)
         return EXIT_FAILURE;
 
     // need to create various files expected by DC-API
     // in case the application fails, DC-API still expects them
     FILE* f;
-    for (int i=0; dc_files[i] != NULL; i++) 
+    for (int i=0; dc_files[i] != NULL; i++)
     {
-        boinc_resolve_filename(dc_files[i], resolved_buffer, 
+        boinc_resolve_filename(dc_files[i], resolved_buffer,
                                sizeof(resolved_buffer));
-       
-       
+
+
         f = fopen(resolved_buffer, "w");
         if (f) {
             fclose(f);
         } else {
-            fprintf(stderr, 
-                    "%s failed to create DC-API file '%s'\n", 
+            fprintf(stderr,
+                    "%s failed to create DC-API file '%s'\n",
                     boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
                     dc_files[i]);
             return EXIT_FAILURE;
@@ -109,8 +109,8 @@ int GBAC::init(int argc_, char **argv_)
 }
 
 
-int GBAC::prepareHostSharedDir() 
-{   
+int GBAC::prepareHostSharedDir()
+{
     DIRREF mydir;
     char msg_buf[256];
     char buffer[1024];
@@ -118,20 +118,20 @@ int GBAC::prepareHostSharedDir()
     char resolved_buffer[2048];
 
     if (!boinc_file_exists(this->hostdir))
-    { 
+    {
         fprintf(stderr,
                 "%s creating host shared directory.\n",
                 boinc_msg_prefix(msg_buf, sizeof(msg_buf)));
-        if (boinc_mkdir(this->hostdir) != 0) 
+        if (boinc_mkdir(this->hostdir) != 0)
         {
             fprintf(stderr,
                    "%s could not create host shared directory"\
-                   ": %s\n", 
+                   ": %s\n",
                    boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
                    this->hostdir);
             return EXIT_FAILURE;
         }
-    } 
+    }
     else if (is_file(this->hostdir))
     {
         fprintf(stderr,
@@ -140,9 +140,9 @@ int GBAC::prepareHostSharedDir()
                 boinc_msg_prefix(msg_buf, sizeof(msg_buf)));
         return EXIT_FAILURE;
     }
-   
+
     fprintf(stderr,
-            "%s === copying files to host directory ===\n", 
+            "%s === copying files to host directory ===\n",
             boinc_msg_prefix(msg_buf, sizeof(msg_buf)));
     mydir = dir_open(".");
     while (dir_scan(buffer, mydir, sizeof(buffer))==0)
@@ -157,9 +157,9 @@ int GBAC::prepareHostSharedDir()
             strcmp(buffer, "boinc_task_state.xml") &&
             strcmp(buffer, "vbox_checkpoint.txt") &&
             strcmp(buffer, this->argv[0]) &&
-            !is_dir(buffer)) 
+            !is_dir(buffer))
         {
-                if (boinc_resolve_filename(buffer, 
+                if (boinc_resolve_filename(buffer,
                                            resolved_buffer,
                                            sizeof(resolved_buffer)) != 0)
                 {
@@ -169,18 +169,18 @@ int GBAC::prepareHostSharedDir()
                             buffer);
                     continue;
                 }
-                    
-                snprintf(dest_buffer, sizeof(dest_buffer), 
+
+                snprintf(dest_buffer, sizeof(dest_buffer),
                          "%s%s%s",
                          this->hostdir, this->dirsep, buffer);
-                boinc_copy(resolved_buffer, dest_buffer); 
+                boinc_copy(resolved_buffer, dest_buffer);
                 fprintf(stderr,
-                        "%s          '%s'  ->  '%s'\n", 
+                        "%s          '%s'  ->  '%s'\n",
                         boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
                         resolved_buffer, dest_buffer);
         }
     }
-    dir_close(mydir); 
+    dir_close(mydir);
 
     // create gbac_command_line.xml file
     int i;
@@ -189,17 +189,17 @@ int GBAC::prepareHostSharedDir()
     char cl_file_buffer[1024];
 
     string arguments = "";
-   
+
     memset(arg_buffer, 0, sizeof(arg_buffer));
- 
+
     for (i=1; i<this->argc; i++)
     {
         arguments.append(" ");
         arguments.append(this->argv[i]);
     }
-    
+
     fprintf(stderr,
-            "%s command line is: '%s'\n", 
+            "%s command line is: '%s'\n",
             boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
             arguments.c_str());
     snprintf(arg_buffer, sizeof(arg_buffer),
@@ -209,17 +209,17 @@ int GBAC::prepareHostSharedDir()
              arguments.c_str());
     snprintf(cl_file_buffer, sizeof(cl_file_buffer), "%s%s%s",
              this->hostdir, this->dirsep, "gbac_command_line.xml");
-   
+
     cl_file = fopen(cl_file_buffer, "w+");
     if (cl_file == NULL)
     {
         fprintf(stderr,
-                "%s cannot create command line file: '%s'\n", 
+                "%s cannot create command line file: '%s'\n",
                 boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
                 cl_file_buffer);
         return EXIT_FAILURE;
     }
-    fputs(arg_buffer, cl_file); 
+    fputs(arg_buffer, cl_file);
     fclose(cl_file);
     return 0;
 }
@@ -234,16 +234,16 @@ int GBAC::copyOutputFiles()
     char resolved_buffer[2048];
 
     if (!boinc_file_exists(this->hostdir))
-    { 
+    {
         fprintf(stderr,
                 "%s host shared directory does not exist.\n",
                 boinc_msg_prefix(msg_buf, sizeof(msg_buf)));
         return EXIT_FAILURE;
-    } 
+    }
     fprintf(stderr,
-            "%s === copying files back to project/slot directory ===\n", 
+            "%s === copying files back to project/slot directory ===\n",
             boinc_msg_prefix(msg_buf, sizeof(msg_buf)));
-    
+
     mydir = dir_open(this->hostdir);
     while (dir_scan(buffer, mydir, sizeof(buffer))==0)
     {
@@ -258,25 +258,25 @@ int GBAC::copyOutputFiles()
             strcmp(buffer, "gbac_exit_status") &&
             strcmp(buffer, "gbac_job.xml"))
         {
-            snprintf(src_buffer, sizeof(src_buffer), 
+            snprintf(src_buffer, sizeof(src_buffer),
                      "%s%s%s",
                      this->hostdir, this->dirsep, buffer);
             if (is_dir(src_buffer))
                 continue;
-            if (boinc_resolve_filename(buffer, 
+            if (boinc_resolve_filename(buffer,
                                        resolved_buffer,
                                        sizeof(resolved_buffer)) != 0)
             {
                 printf("cannot resolve '%s'\n", buffer);
                 continue;
             }
-            boinc_copy(src_buffer, resolved_buffer); 
+            boinc_copy(src_buffer, resolved_buffer);
             fprintf(stderr,
-                    "%s          '%s'  ->  '%s'\n", 
+                    "%s          '%s'  ->  '%s'\n",
                     boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
                     src_buffer, resolved_buffer);
         }
-      
+
     }
     return 0;
 }
@@ -285,32 +285,32 @@ int GBAC::copyOutputFiles()
 int GBAC::copyLogFiles()
 {
     ofstream output_file;
-    ifstream input_file; 
+    ifstream input_file;
     string line;
     char msg_buf[8192];
 
     fprintf(stderr,
             "%s Appending all output files to this logfile:\n",
             boinc_msg_prefix(msg_buf, sizeof(msg_buf)));
-      
-    for (int i=0; log_files[i] != NULL; i++) 
+
+    for (int i=0; log_files[i] != NULL; i++)
     {
         input_file.open(log_files[i], ios::in | ios::binary);
         if (!input_file.is_open())
         {
             // for gbac_job.xml we give just a notice
-            if (!strcmp(log_files[i], "shared/gbac_job.xml")) 
+            if (!strcmp(log_files[i], "shared/gbac_job.xml"))
             {
                 fprintf(stderr,
                         "%s NOTICE: Cannot open output file '%s' "
                         "for reading\n",
                         boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
-                        log_files[i]);                                
+                        log_files[i]);
             } else {
                 fprintf(stderr,
                         "%s Cannot open output file '%s' for reading\n",
                         boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
-                        log_files[i]);                
+                        log_files[i]);
             }
             continue;
         }
@@ -334,7 +334,7 @@ int GBAC::copyLogFiles()
            getline(input_file, line);
            output_file << "  > " << line << endl;
         }
-        input_file.close();       
+        input_file.close();
         output_file.flush();
         output_file.close();
         fprintf(stderr,
@@ -346,25 +346,25 @@ int GBAC::copyLogFiles()
     fprintf(stderr,
             "%s Done appending all output files to this logfile.\n",
             boinc_msg_prefix(msg_buf, sizeof(msg_buf)));
-    
+
     //
     // check if stderr.txt and stdout.txt are requested as output files, and copy
-    // the content of the gbac-app.stdout and gbac-app.stderr local files 
+    // the content of the gbac-app.stdout and gbac-app.stderr local files
     // (in the slot directory) to the output files (in the project directory).
-    // 
+    //
     // These files contain the stdout and stderr of the application run in the VM.
     std::string file_stderr;
-    std::string file_stdout; 
-    
+    std::string file_stdout;
+
     boinc_resolve_filename_s(STDERR_FILE, file_stderr);
     boinc_resolve_filename_s(STDOUT_FILE, file_stdout);
-    
+
     int cmpresult = 0;
     cmpresult = file_stdout.compare(STDOUT_FILE);
     if (cmpresult != 0) {
     	fprintf(stderr, "%s '%s' is requested as output file, copying "
   		    "contents of standard output of the application "
-  		    "(gbac-app.stdout) to this file.\n", 
+  		    "(gbac-app.stdout) to this file.\n",
 		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDOUT_FILE);
         std::ifstream ifs("gbac-app.stdout", std::ios::binary);
         std::ofstream ofs(file_stdout.c_str(), std::ios::binary);
@@ -375,14 +375,14 @@ int GBAC::copyLogFiles()
     	fprintf(stderr, "%s '%s' is NOT requested as output file.\n",
   		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDOUT_FILE);
     	fprintf(stderr, "%s ('%s'.compare('%s') == %d)\n",
-  		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDOUT_FILE, 
+  		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDOUT_FILE,
   		    file_stdout.c_str(), cmpresult);
     }
     cmpresult = file_stderr.compare(STDERR_FILE);
     if (cmpresult != 0) {
     	fprintf(stderr, "%s '%s' is requested as output file, copying "
   		    "contents of standard error of the application "
-  		    "(gbac-app.stderr) to this file.\n", 
+  		    "(gbac-app.stderr) to this file.\n",
   		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDERR_FILE);
       	std::ifstream ifs("gbac-app.stderr", std::ios::binary);
       	std::ofstream ofs(file_stderr.c_str(), std::ios::binary);
@@ -393,10 +393,10 @@ int GBAC::copyLogFiles()
     	fprintf(stderr, "%s '%s' is NOT requested as output file.\n",
   		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDERR_FILE);
     	fprintf(stderr, "%s ('%s'.compare('%s') == %d)\n",
-  		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDERR_FILE, 
+  		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDERR_FILE,
   		    file_stderr.c_str(), cmpresult);
     }
-   
+
     return 0;
 }
 
@@ -404,36 +404,36 @@ int GBAC::copyLogFiles()
 int GBAC::copyDebugLog()
 {
     // Copy the contents of the BOINC stderr to a special log file
-    // (GBAC_EXEC_LOG) if requested. This serves better debugging 
+    // (GBAC_EXEC_LOG) if requested. This serves better debugging
     // when submitting jobs from other DCI's, e.g., gLite.
     //
     // This method should be called right before boinc_finish().
 
     std::string file_debuglog;
     char msg_buf[8192];
-    
+
     boinc_resolve_filename_s(GBAC_EXEC_LOG, file_debuglog);
     int cmpresult = 0;
     cmpresult = file_debuglog.compare(GBAC_EXEC_LOG);
     if (cmpresult != 0) {
         fprintf(stderr, "%s '%s' is requested as output file, copying "
   		    "contents of standard error of BOINC (contains all logs) "
-  		    "to this file.\n", 
+  		    "to this file.\n",
   		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), GBAC_EXEC_LOG);
         fflush(stderr);
       	std::ifstream ifs(STDERR_FILE, std::ios::binary);
       	std::ofstream ofs(file_debuglog.c_str(), std::ios::binary);
       	ofs << ifs.rdbuf();
         ifs.close();
-        ofs.close();        
+        ofs.close();
     } else {
     	fprintf(stderr, "%s '%s' is NOT requested as output file.\n",
   		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDERR_FILE);
     	fprintf(stderr, "%s ('%s'.compare('%s') == %d)\n",
-  		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDERR_FILE, 
+  		    boinc_msg_prefix(msg_buf, sizeof(msg_buf)), STDERR_FILE,
   		    file_debuglog.c_str(), cmpresult);
     }
-    
+
     return 0;
 }
 
@@ -451,7 +451,7 @@ int GBAC::getExitStatus(int &status)
     char msg_buf[1024];
 
     input_file.open("shared/gbac_exit_status", ios::in | ios::binary);
-    if (input_file.is_open()) 
+    if (input_file.is_open())
     {
         getline(input_file, line);
         fprintf(stderr,
@@ -459,9 +459,9 @@ int GBAC::getExitStatus(int &status)
                 "is '%s'.\n",
                 boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
                 line.c_str());
-        input_file.close();       
+        input_file.close();
         status = strtol(line.c_str(), 0, 0);
-        if (errno == ERANGE) 
+        if (errno == ERANGE)
         {
             fprintf(stderr,
                     "%s getExitStatus(): Cannot convert value '%s'.\n",
@@ -482,7 +482,7 @@ int GBAC::getExitStatus(int &status)
 int GBAC::doGunzip(const char* strGZ, const char* strInput, bool bKeep) {
     unsigned char buf[1024];
     char msg_buf[MSG_CHANNEL_SIZE];
-    long lRead = 0, 
+    long lRead = 0,
          lWrite = 0;
     int iGZErr = 0;
     // take an input file (strInput) and turn it into a compressed file (strGZ)
@@ -490,7 +490,7 @@ int GBAC::doGunzip(const char* strGZ, const char* strInput, bool bKeep) {
     //s.quit_request = 0;
     //checkBOINCStatus();
     FILE* fIn = boinc_fopen(strInput, "wb");
-    if (!fIn) { 
+    if (!fIn) {
         fprintf(stderr,
                 "%s ERROR: doGunzip(): Error opening '%s'.\n",
                 boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
@@ -553,7 +553,7 @@ int GBAC::prepareVa(std::string &strVaFilename) {
         fprintf(stderr,
                 "%s INFO: prepareVa(): VA '%s' is already uncompressed\n",
                 boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
-                strVaFilename.c_str());        
+                strVaFilename.c_str());
         return 0;
     }
     if (!hasEnding(strVaFilename, ".gz")) {
@@ -564,7 +564,7 @@ int GBAC::prepareVa(std::string &strVaFilename) {
         return 1; // do nothing, filename should end with .gz
     }
     // remove '.gz' from the end
-    strVaUngzippedname = strVaFilename.substr(0, strVaFilename.size() - 3);    
+    strVaUngzippedname = strVaFilename.substr(0, strVaFilename.size() - 3);
     if (access(strVaFilename.c_str(), R_OK) == -1) {
         fprintf(stderr,
                 "%s ERROR: prepareVa(): Cannot access VA '%s'.\n",
@@ -577,7 +577,7 @@ int GBAC::prepareVa(std::string &strVaFilename) {
             boinc_msg_prefix(msg_buf, sizeof(msg_buf)),
             strVaFilename.c_str());
     if (!doGunzip(strVaFilename.c_str(), strVaUngzippedname.c_str(), true)) {
-        return 1;        
+        return 1;
     } else {
         outfile.open(GBAC_VAUNZIP_STATUS, ios::out | ios::trunc);
         outfile << "va unzipped" << std::endl;
@@ -598,8 +598,8 @@ int GBAC::hasEnding(std::string const &fullString, std::string const &ending) {
 
 int GBAC::printVersion() {
     char buf[256];
-   
-    fprintf(stderr, "%s GBAC %s (build date: %s)\n", 
+
+    fprintf(stderr, "%s GBAC %s (build date: %s)\n",
         boinc_msg_prefix(buf, sizeof(buf)), SVNREV, __DATE__);
     return 0;
 }

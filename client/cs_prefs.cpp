@@ -119,7 +119,7 @@ int CLIENT_STATE::get_disk_usages() {
 // - each project has a "disk_resource_share" (DRS)
 //   This is the resource share plus .1*(max resource share).
 //   This ensures that backup projects get some disk.
-// - each project has a "desired_disk_usage (DDU)", 
+// - each project has a "desired_disk_usage (DDU)",
 //   which is either its current usage
 //   or an amount sent from the scheduler.
 // - each project has a "quota": (available space)*(drs/total_drs).
@@ -289,7 +289,7 @@ int CLIENT_STATE::check_suspend_processing() {
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
     }
-    
+
     // user active.
     // Do this check after checks that user can not influence on Android.
     // E.g.
@@ -417,7 +417,7 @@ void CLIENT_STATE::check_suspend_network() {
     );
 
     switch(network_run_mode.get_current()) {
-    case RUN_MODE_ALWAYS: 
+    case RUN_MODE_ALWAYS:
         goto done;
     case RUN_MODE_NEVER:
         file_xfers_suspended = true;
@@ -463,7 +463,7 @@ void CLIENT_STATE::check_suspend_network() {
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
     }
-#endif    
+#endif
     if (global_prefs.net_times.suspended(now)) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;

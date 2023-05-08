@@ -366,7 +366,7 @@ bool CLIENT_STATE::rr_simulation() {
             if (end_time < buf_end) {
                 d_time = buf_end - end_time;
                 // if this is the last result for this project, account for the tail
-                if (!pbest->active.size()) { 
+                if (!pbest->active.size()) {
                     pbest->cpu_shortfall += d_time * proj_cpu_share;
                     if (log_flags.rr_simulation) {
                          msg_printf(pbest, MSG_INFO, "rr_sim proj out of work; shortfall %f d %f pcs %f",
@@ -379,7 +379,7 @@ bool CLIENT_STATE::rr_simulation() {
                 msg_printf(0, MSG_INFO,
                     "rr_sim total: idle cpus %d, last active %d, active %d, shortfall %f",
                     nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall
-                    
+
                 );
                 msg_printf(0, MSG_INFO,
                     "rr_sim proj %s: last active %d, active %d, shortfall %f",

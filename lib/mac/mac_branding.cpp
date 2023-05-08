@@ -26,7 +26,7 @@
 
 // appName[] is used by PostInstall.cpp, uninstall.cpp and AddRemoveuser.cpp
 char *appName[] = {
-                "BOINCManager", 
+                "BOINCManager",
                 "GridRepublic Desktop",
                 "Progress Thru Processors Desktop",
                 "Charity Engine Desktop",
@@ -51,7 +51,7 @@ char *brandName[] = {
                 "World Community Grid"
                 };
 
-// saverName[] is used by PostInstall.cpp, uninstall.cpp, AddRemoveuser.cpp, 
+// saverName[] is used by PostInstall.cpp, uninstall.cpp, AddRemoveuser.cpp,
 // check_security.cpp and SetupSecurity.cpp
 char *saverName[] = {
                 "BOINCSaver",
@@ -92,7 +92,7 @@ char *logoFile[] = {
 bool check_branding_arrays(char* badArrayNames, int len) {
     bool isOK = true;
     *badArrayNames = '\0';
-    
+
     if(appName[NUMBRANDS-1]==NULL) {
         isOK = false;
         strlcat(badArrayNames, "appName ", len);
@@ -121,6 +121,6 @@ bool check_branding_arrays(char* badArrayNames, int len) {
         isOK = false;
         strlcat(badArrayNames, "logoFile ", len);
     }
-    
+
     return isOK;
 }

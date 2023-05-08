@@ -273,10 +273,10 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
-            unsigned int s = rsc_pwf.pending.size();
+            size_t s = rsc_pwf.pending.size();
 #if 0
             if (log_flags.rrsim_detail) {
-                msg_printf(p, MSG_INFO, "[rr_sim] %u jobs for rsc %u", s, rt);
+                msg_printf(p, MSG_INFO, "[rr_sim] %u jobs for rsc %zu", s, rt);
             }
 #endif
             if (s == 0) continue;
@@ -698,15 +698,14 @@ void rr_simulation(const char* why) {
     rr_sim.simulate();
 }
 
-// Compute the number of idle instances of each resource
+// Compute the number resources with > 0 idle instance
 // Put results in global state (rsc_work_fetch)
-// This is used from the account manager logic,
+// This is called from the account manager logic,
 // to decide if we need to get new projects from the AM.
-// ?? why not use RR sim result?
 //
-void get_nidle() {
+int n_idle_resources() {
     int nidle_rsc = coprocs.n_rsc;
-    for (int i=1; i<coprocs.n_rsc; i++) {
+    for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].nidle_now = coprocs.coprocs[i].count;
     }
     for (unsigned int i=0; i<gstate.results.size(); i++) {
@@ -738,13 +737,5 @@ void get_nidle() {
             break;
         }
     }
-}
-
-bool any_resource_idle() {
-    for (int i=1; i<coprocs.n_rsc; i++) {
-        if (rsc_work_fetch[i].nidle_now > 0) {
-            return true;
-        }
-    }
-    return false;
+    return nidle_rsc;
 }

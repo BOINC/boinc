@@ -152,11 +152,11 @@ function delete_file($user) {
     $bused = sandbox_file_in_use($user, $name);
     if ($bused){
         $notice = "<strong>$name</strong> is being used by batch(es), you can not delete it now!<br/>";
-    } else{ 
+    } else{
         $notice = "<strong>$name</strong> is not being used by any batch(es) and successfully deleted from your sandbox<br/>";
         unlink("$dir/$name");
         unlink($p);
-    
+
     }
     list_files($user,$notice);
     //Header("Location: sandbox.php");

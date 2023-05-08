@@ -82,10 +82,10 @@ CDlgOptions::~CDlgOptions() {
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-    
+
     wxGetApp().SaveState();
     pFrame->SaveState();
-    
+
     wxConfigBase::Get(FALSE)->Flush();
 }
 
@@ -159,10 +159,10 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
  * Control creation for CDlgToolsOptions
  */
 
-// NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox 
+// NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox
 // don't refresh properly unless they are children of the wxStaticBox!
 //
-void CDlgOptions::CreateControls() {    
+void CDlgOptions::CreateControls() {
 ////@begin CDlgOptions content construction
     CDlgOptions* itemDialog1 = this;
 
@@ -242,7 +242,7 @@ void CDlgOptions::CreateControls() {
     if (ShowToolTips())
         m_EnableBOINCClientShutdownMessageCtrl->SetToolTip(_("Display confirmation dialog when shutting down the connected client."));
     itemFlexGridSizer6->Add(m_EnableBOINCClientShutdownMessageCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-    
+
 #ifdef __WXMAC__
     wxStaticText* itemStaticText14 = new wxStaticText;
     itemStaticText14->Create( itemPanel4, wxID_STATIC, _("Show status in menu bar?"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -596,7 +596,7 @@ wxIcon CDlgOptions::GetIconResource( const wxString& WXUNUSED(name) ) {
 #ifdef __WXMSW__
 
 wxString CDlgOptions::GetDefaultDialupConnection() const {
-    return m_DialupDefaultConnectionCtrl->GetLabel(); 
+    return m_DialupDefaultConnectionCtrl->GetLabel();
 }
 
 void CDlgOptions::SetDefaultDialupConnection(wxString value) {

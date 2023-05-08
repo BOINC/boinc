@@ -123,7 +123,7 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 } // extern "C" {
 #endif
 
-// C++ API follows 
+// C++ API follows
 #ifdef __cplusplus
 #include <string>
 

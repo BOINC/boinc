@@ -27,10 +27,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAVerifyInstallDirectories::CAVerifyInstallDirectories(MSIHANDLE hMSIHandle) :
@@ -39,10 +39,10 @@ CAVerifyInstallDirectories::CAVerifyInstallDirectories(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAVerifyInstallDirectories::~CAVerifyInstallDirectories()
@@ -52,10 +52,10 @@ CAVerifyInstallDirectories::~CAVerifyInstallDirectories()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAVerifyInstallDirectories::OnExecution()
@@ -105,29 +105,29 @@ UINT CAVerifyInstallDirectories::OnExecution()
 
     // Perform some basic sanity tests to see if we need to migrate
     //   anything.
-    BOOL bInstallDataSameDirectory = 
+    BOOL bInstallDataSameDirectory =
         (BOOL)(strInstallDirectory == strDataDirectory);
-    BOOL bInstallDirWindowsDirSame = 
+    BOOL bInstallDirWindowsDirSame =
         (BOOL)(strInstallDirectory == strWindowsDirectory);
-    BOOL bDataDirWindowsDirSame = 
+    BOOL bDataDirWindowsDirSame =
         (BOOL)(strDataDirectory == strWindowsDirectory);
-    BOOL bInstallDirSystemDriveSame = 
+    BOOL bInstallDirSystemDriveSame =
         (BOOL)(strInstallDirectory == strSystemDrive);
-    BOOL bDataDirSystemDriveSame = 
+    BOOL bDataDirSystemDriveSame =
         (BOOL)(strDataDirectory == strSystemDrive);
-    BOOL bInstallDirWindowsSystemDirSame = 
+    BOOL bInstallDirWindowsSystemDirSame =
         (BOOL)(strInstallDirectory == strWindowsSystemDirectory);
-    BOOL bDataDirWindowsSystemDirSame = 
+    BOOL bDataDirWindowsSystemDirSame =
         (BOOL)(strDataDirectory == strWindowsSystemDirectory);
-    BOOL bInstallDirProgramFilesDirSame = 
+    BOOL bInstallDirProgramFilesDirSame =
         (BOOL)(strInstallDirectory == strProgramFilesDirectory);
-    BOOL bDataDirProgramFilesDirSame = 
+    BOOL bDataDirProgramFilesDirSame =
         (BOOL)(strDataDirectory == strProgramFilesDirectory);
 
 
     if ( bInstallDataSameDirectory ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The program directory and data directory must be different. Please select a different data directory.")
         );
@@ -136,7 +136,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bInstallDirWindowsDirSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The program directory may not be the Windows directory. Please select a different program directory.")
         );
@@ -145,7 +145,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bDataDirWindowsDirSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The data directory may not be the Windows directory. Please select a different data directory.")
         );
@@ -154,7 +154,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bInstallDirSystemDriveSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The program directory may not be the system drive. Please select a different program directory.")
         );
@@ -163,7 +163,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bDataDirSystemDriveSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The data directory may not be the system drive. Please select a different data directory.")
         );
@@ -172,7 +172,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bInstallDirWindowsSystemDirSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The program directory may not be the Windows system directory. Please select a different program directory.")
         );
@@ -181,7 +181,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bDataDirWindowsSystemDirSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The data directory may not be the Windows system directory. Please select a different data directory.")
         );
@@ -190,7 +190,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bInstallDirProgramFilesDirSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The program directory may not be the program files directory. Please select a different program directory.")
         );
@@ -199,7 +199,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     } else if ( bDataDirProgramFilesDirSame ) {
         DisplayMessage(
-            MB_OK, 
+            MB_OK,
             MB_ICONERROR,
             _T("The data directory may not be the program files directory. Please select a different data directory.")
         );
@@ -215,10 +215,10 @@ UINT CAVerifyInstallDirectories::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    VerifyInstallDirectories
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall VerifyInstallDirectories(MSIHANDLE hInstall)

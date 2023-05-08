@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,14 +23,14 @@
 #else
 #include <dirent.h>
 #include <grp.h>
-#include <stdio.h>
 #include <sys/types.h>
 #include <sys/param.h>
 #ifdef __cplusplus
 #include <string>
 #endif
+#endif // WIN32
 
-#endif /* !WIN32 */
+#include "boinc_stdio.h"
 
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 4096
@@ -91,7 +91,8 @@ extern "C" {
 }
 #endif
 
-/* C++ specific prototypes/defines follow here */
+// C++ specific prototypes/defines
+
 #ifdef __cplusplus
 
 extern int file_size(const char*, double&);
@@ -101,6 +102,17 @@ extern int dir_size_alloc(const char* dirpath, double&, bool recurse=true);
 extern int clean_out_dir(const char*);
 extern int get_filesystem_info(double& total, double& free, char* path=const_cast<char *>("."));
 extern bool is_path_absolute(const std::string path);
+
+// read files into memory.
+// Use only for non-binary files; returns null-terminated string.
+//
+extern int read_file_malloc(
+    const char* path, char*& result, size_t max_len=0, bool tail=false
+);
+extern int read_file_string(
+    const char* path, std::string& result, size_t max_len=0, bool tail=false
+);
+
 
 // TODO TODO TODO
 // remove this code - the DirScanner class does the same thing.
@@ -151,7 +163,7 @@ struct FILE_LOCK {
     int unlock(const char* filename);
 };
 
-#endif /* c++ */
+#endif // c++
 
-#endif /* double-inclusion protection */
+#endif // double-inclusion protection
 

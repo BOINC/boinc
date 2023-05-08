@@ -27,7 +27,7 @@
  */
 
 class CErrUnavailablePage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CErrUnavailablePage )
     DECLARE_EVENT_TABLE()
 

@@ -23,8 +23,8 @@
 HINSTANCE g_hInstance = NULL;
 
 
-BOOL APIENTRY DllMain( HINSTANCE hInstance, 
-                       DWORD     dwReason, 
+BOOL APIENTRY DllMain( HINSTANCE hInstance,
+                       DWORD     dwReason,
                        LPVOID    lpReserved
 					 )
 {

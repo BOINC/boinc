@@ -485,7 +485,7 @@ static void parse_meminfo_linux(HOST_INFO& host) {
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 //
 static void parse_cpuinfo_linux(HOST_INFO& host) {
-    char buf[1024], features[P_FEATURES_SIZE], model_buf[1024];
+    char buf[P_FEATURES_SIZE], features[P_FEATURES_SIZE], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
     bool model_hack=false, vendor_hack=false;
@@ -527,7 +527,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
     host.m_cache=-1;
     safe_strcpy(features, "");
-    while (fgets(buf, 1024, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         strip_whitespace(buf);
         if (
                 /* there might be conflicts if we dont #ifdef */
@@ -762,7 +762,7 @@ void use_cpuid(HOST_INFO& host) {
     u_int cpu_id;
     char vendor[13];
     int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt, hasAVX;
-    char capabilities[256];
+    char capabilities[P_FEATURES_SIZE];
 
     hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = hasAVX = 0;
     do_cpuid(0x0, p);
@@ -1075,7 +1075,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     int32 found = 0;
     int32 i;
-    char buf[12];
+    char buf[256];
 
     for (i = 0; i < 32; i++) {
         if ((cpuInfo.eax_1.features & (1UL << i)) && kFeatures[i] != NULL) {
@@ -2151,29 +2151,29 @@ union headeru {
 };
 
 // Get the architecture of this computer's CPU: x86_64 or arm64.
-// Read the executable file's mach-o headers to determine the 
+// Read the executable file's mach-o headers to determine the
 // architecture(s) of its code.
 // Returns 1 if application can run natively on this computer,
 // else returns 0.
 //
-// ToDo: determine whether x86_64 graphics apps emulated on arm64 Macs 
-// properly run under Rosetta 2. Note: years ago, PowerPC apps emulated 
+// ToDo: determine whether x86_64 graphics apps emulated on arm64 Macs
+// properly run under Rosetta 2. Note: years ago, PowerPC apps emulated
 // by Rosetta on i386 Macs crashed when running graphics.
 //
 bool can_run_on_this_CPU(char* exec_path) {
     FILE *f;
     int retval = false;
-    
+
     headeru myHeader;
     fat_arch fatHeader;
-    
+
     static bool x86_64_CPU = false;
     static bool arm64_cpu = false;
     static bool need_CPU_architecture = true;
     uint32_t n, i, len;
     uint32_t theMagic;
     integer_t file_architecture;
-    
+
     if (need_CPU_architecture) {
         // Determine the architecture of the CPU we are running on
         // ToDo: adjust this code accordingly.
@@ -2181,21 +2181,21 @@ bool can_run_on_this_CPU(char* exec_path) {
         size_t size = sizeof (cputype);
         int res = sysctlbyname ("hw.cputype", &cputype, &size, NULL, 0);
         if (res) return false;  // Should never happen
-        // Since we require MacOS >= 10.7, the CPU must be x86_64 or arm64 
+        // Since we require MacOS >= 10.7, the CPU must be x86_64 or arm64
         x86_64_CPU = ((cputype &0xff) == CPU_TYPE_X86);
         arm64_cpu = ((cputype &0xff) == CPU_TYPE_ARM);
 
         need_CPU_architecture = false;
     }
-    
+
     f = boinc_fopen(exec_path, "rb");
     if (!f) {
         return retval;          // Should never happen
     }
-    
+
     myHeader.fat.magic = 0;
     myHeader.fat.nfat_arch = 0;
-    
+
     fread(&myHeader, 1, sizeof(fat_header), f);
     theMagic = myHeader.mach.magic;
     switch (theMagic) {

@@ -21,22 +21,22 @@
 
 #include "sg_CustomControls.h"
 
-class CSimpleTaskPopupButton : public CTransparentButton 
+class CSimpleTaskPopupButton : public CTransparentButton
 {
     DECLARE_DYNAMIC_CLASS( CSimpleTaskPopupButton )
     DECLARE_EVENT_TABLE()
 
     public:
         CSimpleTaskPopupButton();
-        
-		CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id, 
-        const wxString& label = wxEmptyString, 
-        const wxPoint& pos = wxDefaultPosition, 
-        const wxSize& size = wxDefaultSize, 
-        long style = 0, 
-        const wxValidator& validator = wxDefaultValidator, 
+
+		CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
+        const wxString& label = wxEmptyString,
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = 0,
+        const wxValidator& validator = wxDefaultValidator,
         const wxString& name = wxT("TaskCommandsPopupMenu"));
-        
+
 		~CSimpleTaskPopupButton();
 
 	private:
@@ -49,7 +49,7 @@ class CSimpleTaskPopupButton : public CTransparentButton
         void OnTaskAbort(wxCommandEvent& event);
         void OnTaskShowProperties(wxCommandEvent& event);
         RESULT* lookup_result(char* url, char* name);
-        
+
 	protected:
         wxMenu*                     m_TaskCommandPopUpMenu;
         wxMenuItem*                 m_ShowGraphicsMenuItem;

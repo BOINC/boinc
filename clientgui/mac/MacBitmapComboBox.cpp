@@ -18,7 +18,7 @@
 
 // On Macintosh we use only native controls in Simple View so the macOS
 // automatically provides accessibility support. Though wxBitmapComboBox
-// does not use MacOS native controls, wxChoice uses NSPopUpButton, so 
+// does not use MacOS native controls, wxChoice uses NSPopUpButton, so
 // we create our own BitmapComboBox on Macintosh based on wxChoice, which
 // we have hacked to allow adding bitmaps.
 //
@@ -41,7 +41,7 @@ END_EVENT_TABLE()
 CBOINCBitmapChoice::CBOINCBitmapChoice() {}
 
 CBOINCBitmapChoice::CBOINCBitmapChoice(wxWindow *parent, wxWindowID id,
-            const wxString& value, 
+            const wxString& value,
             const wxPoint& pos,
             const wxSize& size,
             int n, const wxString choices[],
@@ -84,7 +84,7 @@ END_EVENT_TABLE()
 CBOINCBitmapComboBox::CBOINCBitmapComboBox() {}
 
 CBOINCBitmapComboBox::CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
-            const wxString& value, 
+            const wxString& value,
             const wxPoint& pos,
             const wxSize& size,
             int n, const wxString choices[],
@@ -138,7 +138,7 @@ void CBOINCBitmapComboBox::SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
         m_BitmapCache.at(n) = *bm;
         delete bm;
     }
-    
+
     m_ChoiceControl->SetItemBitmap(n, bitmap);
     if (n == (unsigned int)m_ChoiceControl->GetSelection()) {
         Refresh();
@@ -162,7 +162,7 @@ int CBOINCBitmapComboBox::Append(const wxString& item, const wxBitmap& bitmap) {
     if (m_bHaveLargeBitmaps) {
         m_BitmapCache.push_back(bitmap);
     }
-    
+
     int n = m_ChoiceControl->Append(item);
     SetItemBitmap(n, bitmap);
     return n;
@@ -200,7 +200,7 @@ int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, u
         m_BitmapCache.insert(insertionPoint + pos, *bm);
         delete bm;
     }
-    
+
     int n = m_ChoiceControl->Insert(item, pos, clientData);
     SetItemBitmap(n, bitmap);
     return n;
@@ -213,7 +213,7 @@ void CBOINCBitmapComboBox::Delete(unsigned int n) {
             std::vector<wxBitmap>::iterator deletionPoint = m_BitmapCache.begin();
             m_BitmapCache.erase(deletionPoint + n);
         }
-        
+
         m_ChoiceControl->Delete(n);
         Refresh();
     }
@@ -248,7 +248,7 @@ void CBOINCBitmapComboBox::DrawLargeBitmap(CDrawLargeBitmapEvent&) {
     wxPen oldPen = myDC.GetPen();
     wxBrush oldBrush = myDC.GetBrush();
     int oldMode = myDC.GetBackgroundMode();
-    
+
     myDC.SetPen(*wxTRANSPARENT_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
     myDC.SetBackgroundMode(wxSOLID);
@@ -284,8 +284,8 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
 
     GetSize(&x, &y);
     myDC.DrawRectangle(7, 0, y+1, y);
-    
-    // Restore Mode, Pen and Brush 
+
+    // Restore Mode, Pen and Brush
     myDC.SetBackgroundMode(oldMode);
     myDC.SetPen(oldPen);
     myDC.SetBrush(oldBrush);
@@ -300,7 +300,7 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
 void CBOINCBitmapComboBox::EmptyBitmapCache() {
 #if 0
     unsigned int i, cacheSize;
-    
+
     cacheSize = m_BitmapCache.size();
     for (i=0; i<cacheSize; i++) {
         if (m_BitmapCache.at(i) != NULL) {

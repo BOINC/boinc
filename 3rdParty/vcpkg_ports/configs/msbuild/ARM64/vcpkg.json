@@ -1,6 +1,5 @@
 {
     "name": "boinc-msbuild-arm64",
-    "version-string": "7.22.0",
     "dependencies":
     [
       {

@@ -34,7 +34,7 @@
  */
 ?>
 <table id="forum-topic-<?php print $topic_id; ?>">
-  
+
   <?php
     // Get vocabulary name and use that as the title
     $topic = current($topics);
@@ -54,12 +54,12 @@
     $topic_index = 0;
     $first_non_sticky = FALSE;
   ?>
-  
+
   <h2 class="title">
     <?php print l($forum_vocab->name, 'community/forum') . ' &rsaquo; '; ?>
     <?php print $taxonomy->name; ?>
   </h2>
-  
+
   <thead>
     <tr><?php print $header; ?></tr>
   </thead>

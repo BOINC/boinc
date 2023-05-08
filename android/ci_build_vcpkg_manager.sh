@@ -15,7 +15,7 @@ fi
 
 android/ci_build_vcpkg_client.sh
 
-cd android/BOINC 
+cd android/BOINC
 
 echo '===== BOINC Manager build start ====='
 

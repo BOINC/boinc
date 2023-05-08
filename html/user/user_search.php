@@ -75,7 +75,7 @@ function user_search_form() {
     echo "
         <script>document.f.search_string.focus()</script>
     ";
-            
+
     page_tail();
 }
 

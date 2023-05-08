@@ -46,7 +46,7 @@ We are going to use Ubuntu 20.04 as an example, other versions should be similar
         ===== BOINC for all platforms build done =====
 
     If you ever had problem at this point, try `git clean -fxd ..` and run again
-    
+
     While waiting please do another repository cloning at Android Studio.
 
 ## Android Studio

@@ -130,7 +130,7 @@ void show_message(
 #endif
 
     // print message to the debugger view port
-    diagnostics_trace_to_debugger(evt_message);  
+    diagnostics_trace_to_debugger(evt_message);
 }
 #endif
 

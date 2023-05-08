@@ -72,7 +72,7 @@
  */
 
 class CDlgExitMessage: public wxDialog
-{    
+{
     DECLARE_DYNAMIC_CLASS( CDlgExitMessage )
     DECLARE_EVENT_TABLE()
 

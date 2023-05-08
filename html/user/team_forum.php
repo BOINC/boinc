@@ -113,7 +113,7 @@ function remove_confirm($user, $team) {
 function remove($team) {
     $forum = BoincForum::lookup("parent_type=1 and category=$team->id");
     if (!$forum) error_page("message board not found");
-    
+
     // delete threads and posts
     //
     $threads = BoincThread::enum("forum=$forum->id");

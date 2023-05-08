@@ -33,7 +33,7 @@ EXPORTS
 	SaveSetupState
 	ShutdownBOINCManager
 	CleanupOldBinaries
-	VerifyInstallDirectories	
+	VerifyInstallDirectories
 	ValidateInstall
 	ValidateRebootRequest
 	SaveExecutionState

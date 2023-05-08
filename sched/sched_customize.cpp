@@ -43,7 +43,7 @@
 // 2) put this in a differently-named file and change the Makefile.am
 //    (and write-protect that)
 // In either case, put your version under source-code control, e.g. SVN
-#include "config.h" 
+#include "config.h"
 
 #include <string>
 
@@ -256,7 +256,7 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
             int dev_rev=(c.version_num%10000);
             log_messages.printf(MSG_NORMAL,
                 "[version] Bad display driver revision %d.%d.%d<%d.%d.%d.\n",
-                dev_major,dev_minor,dev_rev,app_major,app_minor,app_rev 
+                dev_major,dev_minor,dev_rev,app_major,app_minor,app_rev
             );
         }
         return false;
@@ -424,7 +424,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
         return false;
     }
 
-    if (max_cc && cc >= max_cc) { 
+    if (max_cc && cc >= max_cc) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
@@ -555,8 +555,8 @@ static inline bool app_plan_nvidia(
         )) {
             return false;
         }
-    } else 
-#endif // SETIATHOME   
+    } else
+#endif // SETIATHOME
     if (!strcmp(plan_class, "cuda_fermi")) {
         if (!cuda_check(c, hu,
             200, 0,
@@ -672,7 +672,7 @@ static inline bool opencl_check(
         cp.opencl_prop.global_mem_size=cp.opencl_prop.local_mem_size;
     }
 #endif
-        
+
     if (cp.opencl_prop.global_mem_size && (cp.opencl_prop.global_mem_size < min_global_mem_size)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,

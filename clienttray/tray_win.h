@@ -14,7 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 
 #ifndef _BOINCTRAY_WIN_H
 #define _BOINCTRAY_WIN_H

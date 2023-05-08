@@ -12,17 +12,17 @@
 // boinc_submit [boinc-options] program [program-options]
 //
 // The boinc-options are:
-//   --infile name: specifies an input file. 
-//   --stdin name: direct the given file to the program's stdin. 
-//   --outfile name: specifies an output file. 
-//   --stdout name: direct the program's stdout to the given file. 
+//   --infile name: specifies an input file.
+//   --stdin name: direct the given file to the program's stdin.
+//   --outfile name: specifies an output file.
+//   --stdout name: direct the program's stdout to the given file.
 //   --platform: the platform on which the program is to be run
 //       (default: platform of server host; assumed to be Linux)
 //
 // You can include as many --infile and --outfile options as you want,
 // and at most one of others.
 // The program-options will be passed as command-line arguments to the program
-// when it runs on the remote machine. 
+// when it runs on the remote machine.
 //
 // Implementation notes:
 // - The jobs use the app "single_job_PLATFORM".

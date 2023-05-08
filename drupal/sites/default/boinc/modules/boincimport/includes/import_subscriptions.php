@@ -15,16 +15,16 @@
   require_once('./includes/bootstrap.inc');
   drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
   require_boinc('db');
-  
+
   // Parse arguments
   $record_offset = isset($argv[1]) ? $argv[1] : 0;
   $chunk_size = isset($argv[2]) ? $argv[2] : 100;
-  
+
   // Construct sql conditions
   $limit = sprintf('LIMIT %d,%d', $record_offset, $chunk_size);
-  
+
   $total_count = 0;
-  
+
   // Get the users with subscriptions to import
   db_set_active('boinc_rw');
   $subscribed_boinc_users = db_query("
@@ -32,7 +32,7 @@
     ORDER BY userid ASC %s", $limit
   );
   db_set_active('default');
-  
+
   // Import subscriptions
   while ($boinc_subscription = db_fetch_object($subscribed_boinc_users)) {
     $uid = get_drupal_id($boinc_subscription->userid);

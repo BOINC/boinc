@@ -463,26 +463,70 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
+    // check for exclusive apps
+    //
+    static string exclusive_app_name;
+        // name of currently running exclusive app, or blank if none
     for (i=0; i<cc_config.exclusive_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_apps[i].c_str())) {
+        string &eapp = cc_config.exclusive_apps[i];
+        if (app_running(pm, eapp.c_str())) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive app %s is running", cc_config.exclusive_apps[i].c_str()
+                    "[mem_usage] exclusive app %s is running", eapp.c_str()
                 );
             }
+            if (log_flags.task && eapp != exclusive_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_app_name = eapp;
             exclusive_app_running = gstate.now;
             break;
         }
     }
-    for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_gpu_apps[i].c_str())) {
-            if (log_flags.mem_usage_debug) {
+    if (exclusive_app_running != gstate.now) {
+        if (!exclusive_app_name.empty()) {
+            if (log_flags.task) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive GPU app %s is running", cc_config.exclusive_gpu_apps[i].c_str()
+                    "Exclusive app %s is no longer running",
+                    exclusive_app_name.c_str()
                 );
             }
+            exclusive_app_name = "";
+        }
+    }
+
+    static string exclusive_gpu_app_name;
+    for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
+        string &eapp = cc_config.exclusive_gpu_apps[i];
+        if (app_running(pm, eapp.c_str())) {
+            if (log_flags.mem_usage_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[mem_usage] exclusive GPU app %s is running", eapp.c_str()
+                );
+            }
+            if (log_flags.task && eapp != exclusive_gpu_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive GPU app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_gpu_app_name = eapp;
             exclusive_gpu_app_running = gstate.now;
             break;
+        }
+    }
+    if (exclusive_gpu_app_running != gstate.now) {
+        if (!exclusive_gpu_app_name.empty()) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive GPU app %s is no longer running",
+                    exclusive_gpu_app_name.c_str()
+                );
+            }
+            exclusive_gpu_app_name = "";
         }
     }
 
@@ -1146,7 +1190,7 @@ void ACTIVE_TASK_SET::network_available() {
 
 void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
     char path[MAXPATHLEN];
-    snprintf(path, sizeof(path), 
+    snprintf(path, sizeof(path),
         "%s/%s%s",
         slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name
     );
@@ -1197,7 +1241,6 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 }
 
 #ifndef SIM
-#ifdef NEW_CPU_THROTTLE
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
@@ -1209,10 +1252,10 @@ void* throttler(void*) {
     diagnostics_thread_init();
 
     while (1) {
-        client_mutex.lock();
+        client_thread_mutex.lock();
         double limit = gstate.current_cpu_usage_limit();
-        if (gstate.tasks_suspended || limit == 0) {
-            client_mutex.unlock();
+        if (gstate.tasks_suspended || limit >= 99.99) {
+            client_thread_mutex.unlock();
 //            ::Sleep((int)(1000*10));  // for Win debugging
             boinc_sleep(10);
             continue;
@@ -1237,17 +1280,16 @@ void* throttler(void*) {
 
         gstate.tasks_throttled = true;
         gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
-        client_mutex.unlock();
+        client_thread_mutex.unlock();
         boinc_sleep(off);
-        client_mutex.lock();
+        client_thread_mutex.lock();
         if (!gstate.tasks_suspended) {
             gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
         }
         gstate.tasks_throttled = false;
-        client_mutex.unlock();
+        client_thread_mutex.unlock();
         boinc_sleep(on);
     }
     return 0;
 }
-#endif
 #endif

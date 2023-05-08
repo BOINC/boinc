@@ -12,28 +12,28 @@
  * relationships exist; is data text, integer, float; what sort options exist).
  */
 function boincteam_views_data() {
-  
+
   // -----------------------------------------------------------------------------------------------
   // Definition for team table
   // -----------------------------------------------------------------------------------------------
-  
+
   $data['team']['table']['group'] = t('BOINC');
-  
+
   $data['team']['table']['base'] = array(
       'field' => 'id',
       'title' => t('BOINC team'),
       'help' => t('BOINC data for a team'),
       'database' => 'boinc_rw'
   );
-  
+
   // This table references the {user} table.
   // This join creates an 'implicit' relationship to the user table, so that when
   // "User" is the base table, the fields are automatically available.
-  
+
   // Index this array by the table name to which this table refers.
   // 'left_field' is the primary key in the referenced table.
   // 'field' is the foreign key in this table.
-  
+
   $data['team']['table']['join'] = array(
     'user' => array(
       'left_field' => 'id',
@@ -45,9 +45,9 @@ function boincteam_views_data() {
   // each field, you may define what field, sort, argument, and/or filter
   // handlers it supports. This will determine where in the Views interface you
   // may use the field.
-  
+
   // Primary keys allowed as arguments
-  
+
   $data['team']['id'] = array(
     'title' => bts('Team ID', array(), NULL, 'boinc:team-id'),
     'help' => t('The BOINC ID of the team.'),
@@ -75,14 +75,14 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['team']['userid'] = array(
     'title' => bts('Founder', array(), NULL, 'boinc:view-team-info'),
     'help' => t('The founder of this team.'),
     // This is a foreign key to the {user} table. When the view is configured
-    // with this relationship, all the fields for the related user node will be 
+    // with this relationship, all the fields for the related user node will be
     // available.
     'argument' => array(
       'handler' => 'views_handler_argument_boincuser_id',
@@ -107,7 +107,7 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of general fields (alphabetized)
   /*
   $data['team']['create_time'] = array(
@@ -139,7 +139,7 @@ function boincteam_views_data() {
     )
   );
   */
-   
+
   $data['team']['country'] = array(
     'title' => bts('Country', array(), NULL, 'boinc:country-of-origin'),
     'help' => t('The country of a team.'),
@@ -212,28 +212,28 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // -----------------------------------------------------------------------------------------------
   // Definition for team_admin table
   // -----------------------------------------------------------------------------------------------
-  
+
   $data['team_admin']['table']['group'] = t('BOINC');
-  
+
   $data['team_admin']['table']['base'] = array(
       'field' => 'id',
       'title' => t('BOINC team admins'),
       'help' => t('BOINC admins for a team'),
       'database' => 'boinc_rw'
   );
-  
+
   // This table references the {team} table.
   // This join creates an 'implicit' relationship to the team table, so that when
   // "Team" is the base table, the fields are automatically available.
-  
+
   // Index this array by the table name to which this table refers.
   // 'left_field' is the primary key in the referenced table.
   // 'field' is the foreign key in this table.
-  
+
   $data['team_admin']['table']['join'] = array(
     'team' => array(
       'left_field' => 'id',
@@ -245,9 +245,9 @@ function boincteam_views_data() {
   // each field, you may define what field, sort, argument, and/or filter
   // handlers it supports. This will determine where in the Views interface you
   // may use the field.
-  
+
   // Primary keys allowed as arguments
-  
+
   $data['team_admin']['teamid'] = array(
     'title' => bts('Team ID', array(), NULL, 'boinc:team-id'),
     'help' => t('The BOINC ID of the team on which this user is an admin.'),
@@ -274,14 +274,14 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['team_admin']['userid'] = array(
     'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The user that is a team admin.'),
     // This is a foreign key to the {user} table. When the view is configured
-    // with this relationship, all the fields for the related user node will be 
+    // with this relationship, all the fields for the related user node will be
     // available.
     'argument' => array(
       'handler' => 'views_handler_argument_boincteam_id',
@@ -306,9 +306,9 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of general fields (alphabetized)
-  
+
   $data['team_admin']['create_time'] = array(
     'title' => bts('Admin since', array(), NULL, 'boinc:team-when-user-became-an-admin'),
     'help' => t('When the BOINC user became a team admin.'),
@@ -323,25 +323,25 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_date'
     )
   );
-  
+
   // -----------------------------------------------------------------------------------------------
   // Definition for team_delta table
   // -----------------------------------------------------------------------------------------------
-  
+
   $data['team_delta']['table']['group'] = t('BOINC');
 
   // Describe each of the individual fields in this table to Views. For
   // each field, you may define what field, sort, argument, and/or filter
   // handlers it supports. This will determine where in the Views interface you
   // may use the field.
-  
+
   // Primary keys allowed as arguments
-  
+
   $data['team_delta']['teamid'] = array(
     'title' => bts('Team ID', array(), NULL, 'boinc:team-id'),
     'help' => t('The team ID for this team history event.'),
     // This is a foreign key to the {team} table. When the view is configured
-    // with this relationship, all the fields for the related user node will be 
+    // with this relationship, all the fields for the related user node will be
     // available.
     'argument' => array(
       'handler' => 'views_handler_argument_boincteam_id',
@@ -360,9 +360,9 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['team_delta']['userid'] = array(
     'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The user for this team history event.'),
@@ -383,9 +383,9 @@ function boincteam_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of general fields (alphabetized)
-  
+
   $data['team_delta']['joining'] = array(
     'title' => bts('User joined', array(), NULL, 'boinc:user-joined-or-leaving-team'),
     'help' => t('Whether the event is the user joining the team or leaving.'),
@@ -429,8 +429,8 @@ function boincteam_views_data() {
     'sort' => array(
       'handler' => 'views_handler_sort_numeric'
     )
-  ); 
-  
+  );
+
   return $data;
 }
 

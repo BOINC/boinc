@@ -87,9 +87,9 @@ endif
 
 if ENABLE_SERVER
 
-schedcgidir = $(prefix)/lib/boinc-server-maker/sched
-schedsharedir = $(prefix)/lib/boinc-server-maker/sched
-schedbindir = $(prefix)/lib/boinc-server-maker/sched
+schedcgidir = $(libdir)/boinc-server-maker/sched
+schedsharedir = $(libdir)/boinc-server-maker/sched
+schedbindir = $(libdir)/boinc-server-maker/sched
 
 schedbin_PROGRAMS = \
     adjust_user_priority \

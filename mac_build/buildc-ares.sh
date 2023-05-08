@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -34,6 +34,8 @@
 # Updated 8/22/20 to build Apple Silicon / arm64 and x86_64 Universal binary
 # Updated 5/18/21 for compatibility with zsh
 # Updated 10/18/21 for building c-ares 1.17.2
+# Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
+# Updated 4/5/23 to set mmacosx-version-min, arm64-apple-macos10.10 to 10.13
 
 #
 ## This script requires OS 10.8 or later
@@ -52,32 +54,6 @@
 ## if --prefix is given as absolute path the library is installed into there
 ## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
-
-function patch_ares_config() {
-    # Patch src/lib/ares_config.h to not use clock_gettime(), which is
-    # defined in OS 10.12 SDK but was not available before OS 10.12.
-    # If building with an older SDK, this patch will fail because
-    # config has already set our desired value.
-    rm -f src/lib/ares_config.h.orig
-    rm -f /tmp/ares_config_h_diff
-    cat >> /tmp/ares_config_h_diff << ENDOFFILE
---- src/lib/ares_config_orig.h    2018-01-25 04:15:37.000000000 -0800
-+++ src/lib/ares_config.h    2018-02-22 01:30:57.000000000 -0800
-@@ -74,7 +74,7 @@
- #define HAVE_BOOL_T 1
-
- /* Define to 1 if you have the clock_gettime function and monotonic timer. */
--#define HAVE_CLOCK_GETTIME_MONOTONIC 1
-+/* #undef HAVE_CLOCK_GETTIME_MONOTONIC */
-
- /* Define to 1 if you have the closesocket function. */
- /* #undef HAVE_CLOSESOCKET */
-ENDOFFILE
-
-    patch -bfi /tmp/ares_config_h_diff src/lib/ares_config.h
-    rm -f /tmp/ares_config_h_diff
-    rm -f src/lib/ares_config.h.rej
-}
 
 doclean=""
 stdout_target="/dev/stdout"
@@ -120,12 +96,12 @@ if [ "${doclean}" != "yes" ]; then
             lipo "${libPath}/libcares.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
             lipo "${libPath}/libcares.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
-        
+
         if [ $alreadyBuilt -eq 1 ]; then
             cwd=$(pwd)
             dirname=${cwd##*/}
@@ -172,24 +148,21 @@ fi
 ## there is an unguarded API not available in our Deployment Target. This
 ## helps ensure c-ares won't try to use unavailable APIs on older Mac
 ## systems supported by BOINC.
-## It also causes configure to reject any such APIs for which it tests;
-## this actually makes the call to the patch_ares_config function
-## redundant, but it does no harm to leave it in.
+## It also causes configure to reject any such APIs for which it tests.
 #
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -arch x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.13 -arch x86_64"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.10
-export MAC_OS_X_VERSION_MAX_ALLOWED=101000
-export MAC_OS_X_VERSION_MIN_REQUIRED=101000
+export MACOSX_DEPLOYMENT_TARGET=10.13
+export MAC_OS_X_VERSION_MAX_ALLOWED=101300
+export MAC_OS_X_VERSION_MIN_REQUIRED=101300
 
 ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
 
-patch_ares_config
 
 if [ "${doclean}" = "yes" ]; then
     make clean
@@ -207,12 +180,12 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export CPPFLAGS=""
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos10.10 -mmacosx-version-min=10.10 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -target arm64-apple-macos10.10"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos10.13 -mmacosx-version-min=10.13 -stdlib=libc++"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.13 -target arm64-apple-macos10.13"
     export SDKROOT="${SDKPATH}"
-    export MACOSX_DEPLOYMENT_TARGET=10.10
-    export MAC_OS_X_VERSION_MAX_ALLOWED=101000
-    export MAC_OS_X_VERSION_MIN_REQUIRED=101000
+    export MACOSX_DEPLOYMENT_TARGET=10.13
+    export MAC_OS_X_VERSION_MAX_ALLOWED=101300
+    export MAC_OS_X_VERSION_MIN_REQUIRED=101300
 
     ./configure --prefix=${lprefix} --enable-shared=NO --host=arm
     if [ $? -ne 0 ]; then
@@ -221,20 +194,18 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
         echo "              ******"
     else
 
-        patch_ares_config
-
         # save x86_64 header and lib for later use
         # c-ares configure creates a different ares_build.h file for each architecture
         # for a sanity check on size of long and socklen_t. But these are  identical
-        # for x86_64 and arm64, so this is not currently an issue. 
+        # for x86_64 and arm64, so this is not currently an issue.
         ##    cp -f ares_build.h ares_build_x86_64.h
         mv -f "src/lib/.libs/libcares.a" libcares_x86_64.a
 
         # Build for arm64 architecture
         make clean 1>$stdout_target
-        
+
         make 1>$stdout_target
-        if [ $? -ne 0 ]; then 
+        if [ $? -ne 0 ]; then
             rm -f libcares_x86_64.a
             rm -f ares_build_x86_64.h
             return 1
@@ -242,7 +213,7 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
         # c-ares configure creates a different ares_build.h file for each architecture
         # for a sanity check on size of long and socklen_t. But these are  identical
-        # for x86_64 and arm64, so this is not currently an issue. 
+        # for x86_64 and arm64, so this is not currently an issue.
         ##     cp -f ares_build.h ares_build_arm64.h
         mv -f "src/lib/.libs/libcares.a" libcares_arm64.a
 
@@ -252,9 +223,9 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
             rm -f libcares_x86_64.a libcares_arm64.a
             return 1
          fi
-         
+
         rm -f libcares_x86_64.a libcares_arm64.a
-        
+
         make install 1>$stdout_target
         if [ $? -ne 0 ]; then return 1; fi
     fi

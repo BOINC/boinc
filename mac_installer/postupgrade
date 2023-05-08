@@ -8,7 +8,7 @@ echo "Starting BOINC postupgrade script"
 echo "initial directory = $PWD"
 echo "argument 1 = $1"
 
-# Copy acct_mgr_url.xml into BOINC Data directory here so it won't be 
+# Copy acct_mgr_url.xml into BOINC Data directory here so it won't be
 # deleted if user later runs standard BOINC installer
 if [ -f "Contents/Resources/acct_mgr_url.xml" ]; then
     cp -fp Contents/Resources/acct_mgr_url.xml "/Library/Application Support/BOINC Data/acct_mgr_url.xml"
@@ -28,7 +28,7 @@ sleep 2
 else
 "$pipath" -part1 2>&1 | tee /tmp/BOINCInstallLog.txt
 sleep 2
-# part2 continues to run after Installer finishes, 
+# part2 continues to run after Installer finishes,
 # and fails unless we redirect stdout to a file
 "$pipath" -part2 >> /tmp/BOINCInstallLog.txt 2>&1 &
 fi

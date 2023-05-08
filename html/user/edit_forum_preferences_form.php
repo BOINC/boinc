@@ -103,7 +103,7 @@ if ($user->prefs->signature!=""){
 
 $forum_hide_avatars = $user->prefs->hide_avatars?"checked=\"checked\"":"";
 $forum_hide_signatures = $user->prefs->hide_signatures?"checked=\"checked\"":"";
-$forum_link_popup = $user->prefs->link_popup?"checked=\"checked\"":""; 
+$forum_link_popup = $user->prefs->link_popup?"checked=\"checked\"":"";
 $forum_image_as_link = $user->prefs->images_as_links?"checked=\"checked\"":"";
 $forum_jump_to_unread = $user->prefs->jump_to_unread?"checked=\"checked\"":"";
 $forum_ignore_sticky_posts = $user->prefs->ignore_sticky_posts?"checked=\"checked\"":"";

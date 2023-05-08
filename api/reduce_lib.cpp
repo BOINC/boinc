@@ -147,7 +147,7 @@ void REDUCED_ARRAY_RENDER::draw_row_rect_x(int row)  {
 			glVertex3f(x1, y0, z0);
 			glVertex3f(x1, y1, z0);
 			glVertex3f(x0, y1, z0);
-	
+
 			//back
 			glVertex3f(x0, y0, z1);
 			glVertex3f(x1, y0, z1);

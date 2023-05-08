@@ -28,7 +28,7 @@
  */
 
 class CErrProxyInfoPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CErrProxyInfoPage )
     DECLARE_EVENT_TABLE()
 

@@ -339,16 +339,19 @@ void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
     CWizardAttach* pWA = ((CWizardAttach*)GetParent());
-	CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(m_pProjectListCtrl->GetSelection()));
-
-    // Update authoritative data in CWizardAttach
-	if (m_pProjectUrlCtrl->GetValue() == pItem->GetURL()) {
-		pWA->SetProjectURL(pItem->GetURL());
-		pWA->SetProjectName(pItem->GetName());
-	} else {
-		pWA->SetProjectURL(m_pProjectUrlCtrl->GetValue());
-		pWA->SetProjectName(m_pProjectUrlCtrl->GetValue());
-	}
+    wxString url = m_pProjectUrlCtrl->GetValue();
+    wxString name = url;
+    int sel = m_pProjectListCtrl->GetSelection();
+    if (sel != wxNOT_FOUND) {
+        CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(sel));
+        // Update authoritative data in CWizardAttach
+        if (m_pProjectUrlCtrl->GetValue() == pItem->GetURL()) {
+            url = pItem->GetURL();
+            name = pItem->GetName();
+        }
+    }
+    pWA->SetProjectURL(url);
+    pWA->SetProjectName(name);
 }
 
 /*!

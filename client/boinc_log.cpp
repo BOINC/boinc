@@ -17,7 +17,7 @@
 
 // boinc_log: show stream of event-log messages from a client
 //
-// usage: boinc_log [--host hostname] [--passwd passwd] 
+// usage: boinc_log [--host hostname] [--passwd passwd]
 
 #ifdef _WIN32
 #include "boinc_win.h"

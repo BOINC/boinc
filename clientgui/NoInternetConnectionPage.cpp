@@ -94,7 +94,7 @@ bool CErrNoInternetConnectionPage::Create( CBOINCBaseWizard* parent )
  */
 
 void CErrNoInternetConnectionPage::CreateControls()
-{    
+{
 ////@begin CErrNoInternetConnectionPage content construction
     CErrNoInternetConnectionPage* itemWizardPage96 = this;
 
@@ -184,11 +184,11 @@ void CErrNoInternetConnectionPage::OnPageChanged( wxWizardExEvent& event ) {
 
     Fit();
 }
-  
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRNOINTERNETCONNECTIONPAGE
  */
- 
+
 void CErrNoInternetConnectionPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }

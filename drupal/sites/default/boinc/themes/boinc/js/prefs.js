@@ -4,7 +4,7 @@
       $('#edit-prefs-preset-custom').attr('checked', true);
     });
   };
-  
+
   $(document).ready(function(){
     customPrefsListener();
   });

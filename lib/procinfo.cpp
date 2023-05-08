@@ -100,11 +100,32 @@ void find_children(PROC_MAP& pm) {
         int parentid = i->second.parentid;
         PROC_MAP::iterator j = pm.find(parentid);
         if (j == pm.end()) continue;    // should never happen
+#ifdef _WIN32
+        // In Windows:
+        // 1) PIDs are reused, possibly quickly
+        // 2) if a process creates children and then exits,
+        //    the parentID of the children are not cleared,
+        //    so they may soon refer to an unrelated process.
+        //    (this is horrible design, BTW)
+        // This can cause problems:
+        // - when we abort a BOINC app we kill the process and its descendants
+        //   (based on parent ID).  These could be unrelated processes.
+        // - If a BOINC app gets a process ID that is the parentID of
+        //   orphan processes, its CPU time will be computed incorrectly.
+        // To fix this, don't create a parent/child link
+        // if the parent was created after the child.
+        //
+        if (j->second.create_time.QuadPart > i->second.create_time.QuadPart) {
+            continue;
+        }
+#endif
         j->second.children.push_back(i->first);
     }
 }
 
 // get resource usage of non-BOINC apps
+// NOTE: this is flawed because it doesn't account for short-lived processes.
+// It's not used on Win, Mac, or Linux, which have better ways of getting total CPU usage.
 //
 void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
     procinfo.clear();

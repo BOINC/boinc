@@ -288,7 +288,7 @@ function update_4_20_2005(){
 
 function update_4_30_2005(){
     do_query("ALTER TABLE `forum_preferences` ADD `ignore_sticky_posts` TINYINT( 1 ) UNSIGNED NOT NULL");
-}    
+}
 
 function update_6_22_2005() {
     do_query("alter table host add cpu_efficiency double not null after active_frac, add duration_correction_factor double not null after cpu_efficiency");
@@ -381,7 +381,7 @@ function update_4_07_2007() {
 
 function update_4_24_2007() {
     do_query('alter table host add error_rate double not null default 0');
-    
+
 }
 
 function update_4_29_2007() {
@@ -628,7 +628,7 @@ function update_10_7_2008() {
 
 function update_6_16_2009() {
     do_query("create table state_counts (
-            appid               integer     not null, 
+            appid               integer     not null,
             last_update_time    integer     not null,
             result_server_state_2       integer not null,
             result_server_state_4       integer not null,
@@ -639,7 +639,7 @@ function update_6_16_2009() {
             workunit_assimilate_state_1 integer not null,
             workunit_file_delete_state_1        integer not null,
             workunit_file_delete_state_2        integer not null,
-            primary key (appid) 
+            primary key (appid)
             ) engine=MyISAM
     ");
 }
@@ -919,7 +919,7 @@ function update_3_6_2014() {
 
 function update_4_2_2014() {
     do_query(
-        "alter table result 
+        "alter table result
             add peak_working_set_size double not null,
             add peak_swap_size double not null,
             add peak_disk_usage double not null
@@ -971,7 +971,7 @@ function update_8_15_2014() {
         "
     );
 }
- 
+
 function update_10_8_2014() {
     do_query("alter table user_submit add primary key(user_id)");
     do_query("alter table user_submit_app add primary key(user_id, app_id)");
@@ -1120,7 +1120,7 @@ function update_5_9_2018() {
             primary key (userid)
         ) engine=InnoDB;
     ");
-    
+
     $retval = $retval && do_query("create table host_deleted (
             hostid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
@@ -1128,35 +1128,35 @@ function update_5_9_2018() {
             primary key (hostid)
         ) engine=InnoDB;
     ");
-    
+
     $retval = $retval && do_query("alter table user_deleted
         add index user_deleted_create(create_time)
     ");
-    
+
     $retval = $retval && do_query("alter table host_deleted
         add index host_deleted_create(create_time)
     ");
-    
+
     $retval = $retval && do_query("alter table team_delta
         add index team_delta_userid (userid)
     ");
-    
+
     $retval = $retval && do_query("alter table donation_paypal
         add index donation_paypal_userid(userid)
     ");
-    
+
     $retval = $retval && do_query("alter table banishment_vote
         add index banishment_vote_userid(userid)
     ");
-    
+
     $retval = $retval && do_query("alter table post_ratings
         add index post_ratings_user(user)
     ");
-    
+
     $retval = $retval && do_query("alter table msg_from_host
         add index message_hostid(hostid)
     ");
-    
+
     return $retval && do_query("alter table sent_email
         add index sent_email_userid(userid)
     ");

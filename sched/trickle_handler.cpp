@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL,
                     "%s requires an argument\n\n", argv[--i]
-                    
+
                 );
                 usage(argv[0]);
                 exit(1);

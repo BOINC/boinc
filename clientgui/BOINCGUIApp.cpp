@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,6 +35,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "idlemon.h"
+
 #include "Events.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
@@ -145,12 +146,18 @@ bool CBOINCGUIApp::OnInit() {
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 #endif
 
+    // Commandline parsing is done in wxApp::OnInit()
+    if (!wxApp::OnInit()) {
+        return false;
+    }
+
 #ifdef __WXMAC__
     // Don't open main window if we were started automatically at login
-    // We are launched hidden if started from our login item (except if
-    // we had windows open at logout, the system "restores" them.)
-    m_bGUIVisible = IsApplicationVisible();
-
+    if (compareOSVersionTo(13, 0) >= 0) {
+        m_bGUIVisible = !m_bBOINCMGRAutoStarted;
+    } else {
+        m_bGUIVisible = IsApplicationVisible();
+    }
     if (getTimeSinceBoot() < 30.) {
         // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
@@ -158,11 +165,6 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif
 
-
-    // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit()) {
-        return false;
-    }
 
     if (g_use_sandbox) {
         wxCHANGE_UMASK(2);  // Set file creation mask to be writable by both user and group
@@ -202,7 +204,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Detect if the daemon should be launched
     m_bNeedRunDaemon = m_bNeedRunDaemon && m_bRunDaemon;
-    
+
     // Should we abort the BOINC Manager startup process?
     if (m_bBOINCMGRAutoStarted && m_iBOINCMGRDisableAutoStart) {
         return false;
@@ -240,7 +242,7 @@ bool CBOINCGUIApp::OnInit() {
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
@@ -318,7 +320,7 @@ bool CBOINCGUIApp::OnInit() {
     //
     char path_to_error[MAXPATHLEN];
     path_to_error[0] = '\0';
-    
+
     if (!iErrorCode) {
         iErrorCode = check_security(
             g_use_sandbox, true, path_to_error, sizeof(path_to_error)
@@ -363,14 +365,14 @@ bool CBOINCGUIApp::OnInit() {
                 strDialogMessage += wxString::FromUTF8(path_to_error);
             }
             strDialogMessage += _(")");
-            
+
             fprintf(stderr, "%s\n", (const char*)strDialogMessage.utf8_str());
         }
 
         wxMessageDialog* pDlg = new wxMessageDialog(
-                                    NULL, 
-                                    strDialogMessage, 
-                                    m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                                    NULL,
+                                    strDialogMessage,
+                                    m_pSkinManager->GetAdvanced()->GetApplicationName(),
                                     wxOK
                                     );
 
@@ -386,9 +388,9 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMSW__
     // Perform any last minute checks that should keep the manager
     // from starting up.
-    wxString strRebootPendingFile = 
+    wxString strRebootPendingFile =
         GetRootDirectory() + wxFileName::GetPathSeparator() + wxT("RebootPending.txt");
-    
+
     if (wxFile::Exists(strRebootPendingFile)) {
         wxMessageDialog dialog(
             NULL,
@@ -441,7 +443,7 @@ bool CBOINCGUIApp::OnInit() {
 #ifndef __WXGTK__
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+        m_pSkinManager->GetAdvanced()->GetApplicationName(),
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
@@ -453,7 +455,7 @@ bool CBOINCGUIApp::OnInit() {
 #endif // __WXGTK__
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+        m_pSkinManager->GetAdvanced()->GetApplicationName(),
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
@@ -464,7 +466,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Startup the System Idle Detection code
     IdleTrackerAttach();
-    
+
     // Show the UI
     SetActiveGUI(m_iGUISelected, m_bGUIVisible);
 
@@ -478,14 +480,14 @@ bool CBOINCGUIApp::OnInit() {
             m_pFrame->Raise();
         }
     }
-    
+
     return true;
 }
 
 #ifdef __WXMAC__
 // We can "show" (unhide) the main window when the
 // application is hidden and it won't be visible.
-// If we don't do this under wxCocoa 3.0, the Dock 
+// If we don't do this under wxCocoa 3.0, the Dock
 // icon will bounce (as in notification) when we
 // click on our menu bar icon.
 // But wxFrame::Show(true) makes the application
@@ -496,13 +498,13 @@ bool CBOINCGUIApp::OnInit() {
 // loop is running, so this is called from
 // CBOINCBaseFrame::OnPeriodicRPC() at the first
 // firing of ID_PERIODICRPCTIMER.
-// 
+//
 void CBOINCGUIApp::OnFinishInit() {
     if (!m_bGUIVisible) {
         HideThisApp();
-    
+
         m_pFrame->wxWindow::Show();
-        
+
         if (m_pEventLog) {
             m_pEventLog->wxWindow::Show();
         }
@@ -677,7 +679,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     if (m_strBOINCMGRDataDirectory.Last() != '/') {
         m_strBOINCMGRDataDirectory.Append('/');
     }
-#endif    
+#endif
 
     if (parser.Found(wxT("namehost"), &m_strHostNameArg)) {
         hostNameSpecified = true;
@@ -694,7 +696,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     } else {
         m_iRPCPortArg = GUI_RPC_PORT;
     }
-    
+
     if (parser.Found(wxT("password"), &m_strPasswordArg)) {
         passwordSpecified = true;
     } else {
@@ -749,7 +751,7 @@ void CBOINCGUIApp::DetectExecutableName() {
 
     // change the current directory to the boinc install directory
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
+
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
         pszProg++;
@@ -780,7 +782,7 @@ void CBOINCGUIApp::DetectRootDirectory() {
 
     // change the current directory to the boinc install directory
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
+
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
         szPath[pszProg - szPath + 1] = 0;
@@ -821,9 +823,9 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
     // change the current directory to the boinc data directory if it exists
 	lReturnValue = RegOpenKeyEx(
-        HKEY_LOCAL_MACHINE, 
+        HKEY_LOCAL_MACHINE,
         _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
-		0, 
+		0,
         KEY_READ,
         &hkSetupHive
     );
@@ -843,7 +845,7 @@ void CBOINCGUIApp::DetectDataDirectory() {
             (*lpszValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueEx( 
+            lReturnValue = RegQueryValueEx(
                 hkSetupHive,
                 _T("DATADIR"),
                 NULL,
@@ -856,13 +858,13 @@ void CBOINCGUIApp::DetectDataDirectory() {
             // We need to get the size of the buffer needed
             dwSize = 0;
             lReturnValue = ExpandEnvironmentStrings(lpszValue, NULL, dwSize);
-   
+
             if (lReturnValue) {
                 // Make the buffer big enough for the expanded string
                 lpszExpandedValue = (LPTSTR) malloc(lReturnValue*sizeof(TCHAR));
                 (*lpszExpandedValue) = NULL;
                 dwSize = lReturnValue;
-   
+
                 ExpandEnvironmentStrings(lpszValue, lpszExpandedValue, dwSize);
 
                 // Store the root directory for later use.
@@ -943,7 +945,7 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #endif
         {
             bool keepEventLogInFront = m_bEventLogWasActive;
-            
+
             if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
                 m_pEventLog->Raise();
             }
@@ -958,17 +960,17 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     }
 
     event.Skip();
-    
+
     m_bProcessingActivateAppEvent = false;
 }
 
 
 void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-   
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     pDoc->OnRPCComplete(event);
 }
 
@@ -1047,7 +1049,7 @@ void CBOINCGUIApp::OnEventLogClose() {
     }
 }
 
-    
+
 // The skin has changed and all UI elements need to reload their bitmaps.
 //
 void CBOINCGUIApp::FireReloadSkin() {
@@ -1095,7 +1097,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->Read(wxT("YPos"), &iTop, 30);
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
 
-            // We don't save Simple View's width & height since it's 
+            // We don't save Simple View's width & height since it's
             // window is not resizable, so don't try to read them
 #ifdef __WXMAC__
 //            m_pConfig->Read(wxT("Width"), &iWidth, 409);
@@ -1137,7 +1139,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         if (BOINC_ADVANCEDGUI == iGUISelection) {
             // Initialize the advanced gui window
             pNewFrame = new CAdvancedFrame(
-                m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                m_pSkinManager->GetAdvanced()->GetApplicationName(),
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
@@ -1145,7 +1147,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         } else {
             // Initialize the simple gui window
             pNewFrame = new CSimpleFrame(
-                m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                m_pSkinManager->GetAdvanced()->GetApplicationName(),
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
@@ -1160,7 +1162,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             // Store the new frame for future use
             m_pFrame = pNewFrame;
 
-            // Hide the old one if it exists.  We must do this 
+            // Hide the old one if it exists.  We must do this
             // after updating m_pFrame to prevent Mac OSX from
             // hiding the application
             if (pOldFrame) pOldFrame->Hide();
@@ -1177,7 +1179,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         }
     }
 
-    // Show the new frame if needed 
+    // Show the new frame if needed
     if (!m_bProcessingActivateAppEvent) {
         if (m_pFrame && bShowWindow) {
             if (m_pEventLog && !m_pEventLog->IsIconized()) {
@@ -1221,18 +1223,18 @@ int CBOINCGUIApp::ConfirmExit() {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-    
+
     pDoc->GetConnectedComputerName(strConnectedCompter);
     if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
         // Don't shut down remote clients on Manager exit
         return 1;
     }
 
-    // Don't run confirmation dialog if logging out or shutting down Mac, 
+    // Don't run confirmation dialog if logging out or shutting down Mac,
     // or if emergency exit from AsyncRPCDlg
     if (s_bSkipExitConfirmation) return 1;
 
-    // Don't run confirmation dialog if second instance of Manager 
+    // Don't run confirmation dialog if second instance of Manager
     if (IsMgrMultipleInstance()) return 1;
 
     if (!m_iDisplayExitDialog) {
@@ -1282,16 +1284,16 @@ int CBOINCGUIApp::ConfirmExit() {
 }
 
 
-// Use this instead of wxMessageBox from all tab Views to suppress 
+// Use this instead of wxMessageBox from all tab Views to suppress
 // Periodic RPCs.  See comment in CMainDocument::RunPeriodicRPCs()
 // for a fuller explanation.
 int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& caption, long style,
                  wxWindow *parent, int x, int y )
 {
     int retval;
-    
+
     m_bSafeMessageBoxDisplayed++;
-    
+
     retval = wxMessageBox(message, caption, style, parent, x, y);
 
     m_bSafeMessageBoxDisplayed--;
@@ -1307,7 +1309,7 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
 ///
 /// @return
 ///  true if the current process is visible, otherwise false.
-/// 
+///
 bool CBOINCGUIApp::IsApplicationVisible() {
     return false;
 }
@@ -1344,13 +1346,13 @@ bool CBOINCGUIApp::ShowNotifications() {
 
 bool CBOINCGUIApp::IsModalDialogDisplayed() {
     if (m_bSafeMessageBoxDisplayed) return true;
-    
-    // Search for the dialog by ID since all of BOINC Manager's 
+
+    // Search for the dialog by ID since all of BOINC Manager's
     // dialog IDs are 10000.
     if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
         return true;
     }
-    
+
     if (m_pDocument) {
         if (m_pDocument->WaitingForRPC()) {
             return true;
@@ -1370,14 +1372,14 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     theEventType = event.GetEventType();
 
     if (m_pDocument->WaitingForRPC()) {
-        // If in RPC Please Wait dialog, reject all command 
-        // and timer events except: 
+        // If in RPC Please Wait dialog, reject all command
+        // and timer events except:
         //  - RPC Finished
         //  - those for that dialog or its children
         //  - Open Manager menu item from system tray icon
 
         if ((theEventType == wxEVT_COMMAND_MENU_SELECTED) && (event.GetId() == wxID_OPEN)) {
-            return -1;        
+            return -1;
         }
 
         theRPCWaitDialog = m_pDocument->GetRPCWaitDialog();
@@ -1389,7 +1391,7 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
         }
         // Continue with rest of filtering below
     } else {
-        // Do limited filtering if shutting down to allow RPC 
+        // Do limited filtering if shutting down to allow RPC
         // completion events but not events which start new RPCs
         if (!m_bFilterEvents) return -1;
     }
@@ -1398,17 +1400,17 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     if (event.IsCommandEvent()) {
         return false;
     }
-    
+
     if (theEventType == wxEVT_TIMER) {
         return false;
     }
-    
+
 #ifdef __WXMSW__
     if (theEventType == wxEVT_TASKBAR_MOVE) {
         return false;
     }
 #endif
-   
+
     return -1;
 }
 
