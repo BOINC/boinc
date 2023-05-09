@@ -73,6 +73,7 @@
 
 #ifdef __MINGW32__
 #define HAVE_STRCASECMP 1
+#define HAVE_FTOK 1
 #endif
 
 /*
