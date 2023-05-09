@@ -36,6 +36,7 @@ set(LIBBOINC_HEADERS_APPLE
 set(LIBBOINC_HEADERS_GENERIC
     ${BOINC_DIR}/lib/app_ipc.h
     ${BOINC_DIR}/lib/base64.h
+    ${BOINC_DIR}/lib/boinc_stdio.h
     ${BOINC_DIR}/lib/cal_boinc.h
     ${BOINC_DIR}/lib/cc_config.h
     ${BOINC_DIR}/lib/cert_sig.h
