@@ -23,6 +23,7 @@
 #include "util.h"
 #include "filesys.h"
 #include "win_util.h"
+#include "str_replace.h"
 #include "str_util.h"
 
 /**
