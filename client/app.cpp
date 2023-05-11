@@ -1269,7 +1269,7 @@ void* throttler(void*) {
         // if limit is 100, make sure we're not throttled
         //
         if (limit >= 100) {
-            if (gstate.tasks_throttled) {
+            if (gstate.tasks_throttled && !gstate.tasks_suspended) {
                 gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
                 gstate.tasks_throttled = false;
             }
@@ -1287,16 +1287,19 @@ void* throttler(void*) {
 
         client_thread_mutex.lock();
         x += limit;
+        //msg_printf(NULL, MSG_INFO, "x %f tasks_throttled %d", x, gstate.tasks_throttled ? 1 : 0);
         if (x >= 100) {
             if (gstate.tasks_throttled) {
                 gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
                 gstate.tasks_throttled = false;
+                //msg_printf(NULL, MSG_INFO, "unthrottle");
             }
             x -= 100;
         } else {
             if (!gstate.tasks_throttled) {
                 gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
                 gstate.tasks_throttled = true;
+                //msg_printf(NULL, MSG_INFO, "throttle");
             }
         }
         client_thread_mutex.unlock();
