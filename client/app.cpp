@@ -1265,16 +1265,27 @@ void* throttler(void*) {
     diagnostics_thread_init();
     while (1) {
         double limit = gstate.current_cpu_usage_limit();
+
+        // if limit is 100, make sure we're not throttled
+        //
         if (limit >= 100) {
+            if (gstate.tasks_throttled) {
+                gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = false;
+            }
             boinc_sleep(1);
             continue;
         }
-        client_thread_mutex.lock();
+
+        // if tasks are suspended for some other reason,
+        // we don't need to do anything
+        //
         if (gstate.tasks_suspended) {
-            client_thread_mutex.unlock();
             boinc_sleep(1);
             continue;
         }
+
+        client_thread_mutex.lock();
         x += limit;
         if (x >= 100) {
             if (gstate.tasks_throttled) {
@@ -1282,8 +1293,7 @@ void* throttler(void*) {
                 gstate.tasks_throttled = false;
             }
             x -= 100;
-        }
-        else {
+        } else {
             if (!gstate.tasks_throttled) {
                 gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
                 gstate.tasks_throttled = true;
