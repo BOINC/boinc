@@ -1241,54 +1241,69 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 }
 
 #ifndef SIM
+#// CPU throttling is done by starting/stopping running jobs
+// with 1-sec resolution; we can't use finer resolution because the API
+// polls for start/stop messages every second.
+//
+// This is done in a separate thread so that it works smoothly
+// even if the main thread is doing something time-consuming.
+//
+// The throttling factor can change at any time;
+// we need to respond to these changes reasonably quickly.
+// We use the following algorithm:
+// Maintain a "level" X
+// every second, add usage limit (0..100) to X.
+// if it's over 100, don't throttle and subtract 100
+// if it's less than 100, throttle
+
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
-
-    // Initialize diagnostics framework for this thread
-    //
+    static double x = 100;
     diagnostics_thread_init();
-
     while (1) {
-        client_thread_mutex.lock();
         double limit = gstate.current_cpu_usage_limit();
-        if (gstate.tasks_suspended || limit >= 99.99) {
-            client_thread_mutex.unlock();
-//            ::Sleep((int)(1000*10));  // for Win debugging
-            boinc_sleep(10);
+
+        // if limit is 100, make sure we're not throttled
+        //
+        if (limit >= 100) {
+            if (gstate.tasks_throttled && !gstate.tasks_suspended) {
+                gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = false;
+            }
+            boinc_sleep(1);
             continue;
         }
-        double on, off, on_frac = limit / 100;
-#if 0
-// sub-second CPU throttling
-// DOESN'T WORK BECAUSE OF 1-SEC API POLL
-#define THROTTLE_PERIOD 1.
-        on = THROTTLE_PERIOD * on_frac;
-        off = THROTTLE_PERIOD - on;
-#else
-// throttling w/ at least 1 sec between suspend/resume
-        if (on_frac > .5) {
-            off = 1;
-            on = on_frac/(1.-on_frac);
-        } else {
-            on = 1;
-            off = (1.-on_frac)/on_frac;
-        }
-#endif
 
-        gstate.tasks_throttled = true;
-        gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
-        client_thread_mutex.unlock();
-        boinc_sleep(off);
-        client_thread_mutex.lock();
-        if (!gstate.tasks_suspended) {
-            gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+        // if tasks are suspended for some other reason,
+        // we don't need to do anything
+        //
+        if (gstate.tasks_suspended) {
+            boinc_sleep(1);
+            continue;
         }
-        gstate.tasks_throttled = false;
+
+        client_thread_mutex.lock();
+        x += limit;
+        //msg_printf(NULL, MSG_INFO, "x %f tasks_throttled %d", x, gstate.tasks_throttled ? 1 : 0);
+        if (x >= 100) {
+            if (gstate.tasks_throttled) {
+                gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = false;
+                //msg_printf(NULL, MSG_INFO, "unthrottle");
+            }
+            x -= 100;
+        } else {
+            if (!gstate.tasks_throttled) {
+                gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = true;
+                //msg_printf(NULL, MSG_INFO, "throttle");
+            }
+        }
         client_thread_mutex.unlock();
-        boinc_sleep(on);
+        boinc_sleep(1);
     }
     return 0;
 }

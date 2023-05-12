@@ -781,6 +781,11 @@ bool CLIENT_STATE::schedule_cpus() {
     //
     adjust_rec();
 
+    // this may run tasks that are currently throttled.
+    // Clear flag so that we throttle them again if needed
+    //
+    tasks_throttled = false;
+
     make_run_list(run_list);
     return enforce_run_list(run_list);
 }
