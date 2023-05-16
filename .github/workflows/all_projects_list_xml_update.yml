@@ -15,18 +15,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-name: Source Code Check
+name: all_projects_list.xml Update
 on:
-  push:
-    branches: [ master, 'client_release/**' ]
-  pull_request:
-    branches: [ master ]
   schedule:
     - cron:  '0 0 * * 0'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -34,17 +26,32 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [source-code-check]
+        type: [all_projects_list_xml_update]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 2
-      - name: Check source code for illegal symbols
-        if: ${{ success() }}
+      - name: Download latest all_projects_list.xml
+        if: success()
         run: |
-          python ./ci_tools/source_code_check.py .
-      - name: Check source code for trailing whitespaces
-        if: ${{ success() }}
+          curl https://boinc.berkeley.edu/project_list.php --output ./win_build/installerv2/redist/all_projects_list.xml
+      - name: Check file was updated
+        if: success()
         run: |
-          python ./ci_tools/trailing_whitespaces_check.py .
+          set +e
+          git diff --exit-code
+          echo "PR_REQUIRED=$?" >> $GITHUB_ENV
+      - name: Create PR
+        if: ${{ success() &&  env.PR_REQUIRED == 1 }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update all_projects_list.xml
+          title: Update all_projects_list.xml
+          body: |
+            This PR was automatically created by a GitHub Action.
+          branch: all_projects_list_xml_update
+          base: master
+          delete-branch: true
+          add-paths: |
+            win_build/installerv2/redist/all_projects_list.xml
