@@ -8,7 +8,7 @@ bin_PROGRAMS =
 # Stuff needed for server builds goes here.
 if ENABLE_SERVER
 
-serverbindir = $(libdir)/boinc-server-maker/lib
+serverbindir = $(libexecdir)/boinc-server-maker/lib
 serverbin_PROGRAMS = crypt_prog parse_test
 
 endif
