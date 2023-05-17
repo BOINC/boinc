@@ -21,7 +21,7 @@
 # Notarization Script for Macintosh BOINC Manager 5/17/23 by Charlie Fenton
 
 ##
-## This script will notarize and staple the release created by the script 
+## This script will notarize and staple the release created by the script
 ##    mac_installer/release_boinc.sh
 ##
 ## As of MacOS 10.15 Catalina, the OS does not allow the user to run downloaded
@@ -38,7 +38,7 @@
 ##  * Created an app-specific password by following the instructions on
 ##      "Using app-specific passwords" at <https://support.apple.com/en-us/HT204397>.
 ##      NOTE: You cannot use your normal Apple ID password.
-##  * Created a profile named "notarycredentials" in your keychain using the 
+##  * Created a profile named "notarycredentials" in your keychain using the
 ##      "notarytool store-credentials" command (see "man notarytool" for details.)
 ##  * Run the release_boinc.sh script
 ##
@@ -61,7 +61,7 @@ if [ $? -ne 0 ]; then return 1; fi
 ##       * REGENERATE THE DIRECTORY TREE FROM THE ZIP FILE WE SUBMITTED,
 ##       * STAPLE THE EXECUTABLES IN THE NEW TREE
 ##       * THEN CREATE A NEW ZIP FILE FROM THE STAPLED.
-##   FOR SAFETY, I FIRST RENAME THE ORIGINAL DIRECTORY TREE AND ZIP FILE RATHER THAN 
+##   FOR SAFETY, I FIRST RENAME THE ORIGINAL DIRECTORY TREE AND ZIP FILE RATHER THAN
 ##   TRASHING THEM ***
 
 mv "$basepath/boinc_$1.$2.$3_macOSX_universal" "$basepath/boinc_$1.$2.$3_macOSX_universal-orig"
