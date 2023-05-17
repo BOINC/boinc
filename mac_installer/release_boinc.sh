@@ -60,6 +60,7 @@
 ## Updated 6/9/22 to eliminate harmless error message
 ## Updated 3/7/23 for boinc_finish_install to be a full application bundle
 ## Updated 4/30/23 code sign AddRemoveUser; eliminate old code signing workaround
+## Updated 5/17/23 to add comments about notarize_BOINC.sh script
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
@@ -74,7 +75,7 @@
 
 ## To have this script build the combined BOINC+VirtualBox installer:
 ## * Create a directory named "VirtualBox Installer" in the same
-##   directory which contains he root directory of the boinc tree.
+##   directory which contains the root directory of the boinc tree.
 ## * Copy VirtualBox.pkg from the VirtualBox installer disk image (.dmg)
 ##   into this "VirtualBox Installer" directory.
 ## * Copy VirtualBox_Uninstall.tool from the VirtualBox installer disk
@@ -93,6 +94,8 @@
 ## We have asked Oracle to include their uninstall script inside the VirtualBox
 ## bundle, or some other standard place where our BOINC uninstaller can find
 ## the current version, but they have not yet done so.
+##
+## In addition, the notarize.sh script does not currently handle VirtualBox.
 
 ## Usage:
 ##
@@ -117,57 +120,12 @@
 ## For example, if the version is 3.2.1:
 ##     source [path_to_this_script] 3 2 1 -dev
 
-## As of OS 10.14 Mojave, Apple has introduced a new level of security which
-## Apple calls "notarization". Under OS 10.14, the only difference is that
-## Gatekeeper adds the sentence "Apple checked it for malicious software and
-## found none." However, Apple has warned: "In an upcoming release of macOS,
-## Gatekeeper will require Developer ID–signed software to be notarized by
-## Apple."
+## As of MacOS 10.15 Catalina, the OS does not allow the user to run downloaded
+## software unless it has been "notarized" by Apple.
 ##
-## To notarize the installer and uninstaller:
-## NOTE: Do not use your normal Apple ID password. You must create an
-## app-specific password at https://appleid.apple.com/account/manage.
-##
-## NOTE: in the following instructions, subsitute the 3 part version number
-##       for x.y.z and the architecture (usually "universal" for $arch) so
-##       substitute the quoted full path for ".../boinc_x.y.z_macOSX_$arch"
-## - Use the command line tools in Xcode 13 or later
-## - Provide valid application & installer code signing identities as above
-## - In the instructions below, substitute the appropriate architcture for $arch
-##     (either x86_64, arm64 or universal)
-## - In Terminal:
-##  $ xcrun notarytool submit ".../boinc_x.y.z_macOSX_$arch.zip" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
-##
-## - If the notarytool submit request was approved, attach tickets to top level applications as follows:
-## NOTE: Stapling the original files never works. We must rename the original
-##       directory and recreate it from the zip file we just submitted
-##  $ mv ".../boinc_x.y.z_macOSX_$arch" ".../boinc_x.y.z_macOSX_$arch-orig"
-##  $ open ".../boinc_x.y.z_macOSX_$arch.zip"
-##  $ xcrun stapler staple ".../boinc_x.y.z_macOSX_$arch/BOINC Installer.app"
-##  $ xcrun stapler staple {path to ".../boinc_x.y.z_macOSX_$arch.zip/extras/Uninstall BOINC.app"
-## - delete or rename the original ".../boinc_x.y.z_macOSX_$arch.zip" file
-## - Run this ditto command again to create a new zip archive containing
-##   the updated (notarized) BOINC Installer.app and Uninstall BOINC.app:
-##  $ ditto -ck --sequesterRsrc --keepParent ".../boinc_x.y.z_macOSX_$arch" ".../boinc_x.y.z_macOSX_$arch.zip"
-##
-## Then notarize the bare-core (apple-darwin) release as follows:
-##  $ xcrun notarytool submit ".../boinc_x.y.z_$arch-apple-darwin.dmg" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
-##  $ xcrun altool --notarization-info {UUID from last step} -u {userID} -p {password}
-##
-## - If the notarize-app request was approved, attach a ticket to the disk image:
-## NOTE: Stapling the original files never works. We must rename the original
-##       disk image we just submitted and make a copy of it
-##  $ mv ".../boinc_x.y.z_$arch-apple-darwin.dmg" ".../boinc_x.y.z_$arch-apple-darwin-orig.dmg"
-##  $ cp ".../boinc_x.y.z_$arch-apple-darwin-orig.dmg" ".../boinc_x.y.z_$arch-apple-darwin.dmg"
-##  $ xcrun stapler staple ".../boinc_x.y.z_$arch-apple-darwin.dmg"
-##
-## - for more information:
-##  $ xcrun notarytool --help
-##  $ man stapler
-##
-## TODO: Add code to optionally automate notarization either in this script or
-## TODO: in a separate script. Perhaps adapt notarization and stapler code from
-## TODO: <https://github.com/smittytone/scripts/blob/master/packcli.zsh>
+## To notarize the installer and uninstaller after successfully running this script,
+## follow the instructions in the comments at the start of the script
+##    mac_installer/notarize_boinc.sh.
 ##
 
 if [ $# -lt 3 ]; then
@@ -562,6 +520,7 @@ fi
 cp -fpRL mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
 cp -fpRL mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
 cp -fpRL "${BUILDPATH}/AddRemoveUser" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-AddRemoveUser
+cp -fp mac_installer/AddRemoveUser_ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-AddRemoveUser/ReadMe.rtf
 cp -fpRL COPYING ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYING.txt
 cp -fpRL COPYING.LESSER ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYING.LESSER.txt
 cp -fpRL COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/COPYRIGHT.txt
@@ -626,6 +585,11 @@ if [ -d boinc_$1.$2.$3_macOSX_${arch}_vbox ]; then
 fi
 sudo hdiutil create -srcfolder boinc_$1.$2.$3_$arch-apple-darwin -ov -format UDZO boinc_$1.$2.$3_$arch-apple-darwin.dmg
 
+## Command line tools such as AddRemoveuser cannot be notarized and so cannot be
+## launched directly from the Finder (e.g. by double-clicking them), even if
+## contained in a notarized dmg or zip file. But gatekeeper won't block them if
+## they are run from within Terminal. For more information about this, see
+## <https://developer.apple.com/forums/thread/127403>.
 sudo hdiutil create -srcfolder boinc_$1.$2.$3_$arch-AddRemoveUser -ov -format UDZO boinc_$1.$2.$3_$arch-AddRemoveUser.dmg
 
 #popd
