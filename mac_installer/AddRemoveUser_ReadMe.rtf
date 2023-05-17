@@ -1,0 +1,42 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;\f2\fmodern\fcharset0 Courier;
+\f3\fnil\fcharset0 TrebuchetMS;\f4\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red246\green247\blue249;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\cssrgb\c97255\c97647\c98039;}
+\margl1440\margr1440\vieww12740\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sa152\partightenfactor0
+
+\f0\fs32 \cf0 \cb2 \expnd0\expndtw0\kerning0
+NOTE: AddRemoveUser cannot be run from the Finder. You must run it from within the Terminal application
+\f1\i  
+\f2\i0 /Applications/Utilities/Terminal
+\f0  by a user with administrator privileges, as follows:\
+To add user1, user2 and user3 to group boinc_master, enter the following in the Terminal application:
+\f3 \cb1 \
+\pard\pardeftab720\partightenfactor0
+
+\f2 \cf0 \cb3  sudo \{path\}/AddRemoveUser -a user1 user2 user3
+\f4 \
+\pard\pardeftab720\sa152\partightenfactor0
+
+\f0 \cf0 \cb2 where 
+\f1\i \{path\}
+\f0\i0  is the path to the AddRemoveUser application. This also sets a login item for each specified user so that BOINC Manager will start automatically when that user logs in.\cb1 \
+\cb2 You can also use:\cb1 \
+\pard\pardeftab720\partightenfactor0
+
+\f2 \cf0 \cb3  sudo \{path\}/AddRemoveUser -s user1 user2 user3
+\f4 \
+\pard\pardeftab720\sa152\partightenfactor0
+
+\f0 \cf0 \cb2 This is the same as the -an option and also sets BOINC as the screensaver for the specified users.\cb1 \
+\cb2 To remove user1, user2 and user3 from group boinc_master, enter the following in the Terminal application:\cb1 \
+\pard\pardeftab720\partightenfactor0
+
+\f2 \cf0 \cb3  sudo \{path\}/AddRemoveUser -r user1 user2 user3
+\f4 \
+\pard\pardeftab720\sa152\partightenfactor0
+
+\f0 \cf0 \cb2 This also removes the BOINCManager login item for each specified user. If any of the specified users had BOINC set as their screensaver, it will change their screensaver to Flurry.\cb1 \
+}
