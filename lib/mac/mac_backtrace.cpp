@@ -199,7 +199,8 @@ void PrintBacktrace(void) {
     }
 
     atosExists = boinc_file_exists("/usr/bin/atos");
-    cppfiltExists = boinc_file_exists("/usr/bin/atos");
+    cppfiltExists = boinc_file_exists("/usr/bin/c++filt");
+
     if (atosExists || cppfiltExists) {
         // The bidirectional popen only works if the NSUnbufferedIO environment
         // variable is set, so we save and restore its current value.
@@ -222,7 +223,7 @@ void PrintBacktrace(void) {
 #elif defined (__i386__)
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
 #elif defined (__arm64__)
-        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch arm", pathToThisProcess);
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch arm64", pathToThisProcess);
 #else
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
 #endif
@@ -234,7 +235,7 @@ void PrintBacktrace(void) {
     }
 
     if (cppfiltExists) {
-        cppfiltPipe = popen("/usr/bin/c++filt -s gnu -n", "r+");
+        cppfiltPipe = popen("/usr/bin/c++filt --format=gnu -n", "r+");
         if (cppfiltPipe) {
             setbuf(cppfiltPipe, 0);
         }
