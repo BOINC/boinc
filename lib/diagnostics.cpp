@@ -443,11 +443,14 @@ int diagnostics_init(
     }
 #endif // ANDROID_VOODOO
 
+// Our PrintBactrace() won't work in MacOS screensaver so let
+// the MacOS handle signals and write backtrace to stderr.
+#if !(defined (__APPLE__) && defined(SCREENSAVER))
     // Install unhandled exception filters and signal traps.
     if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
         return ERR_SIGNAL_OP;
     }
-
+#endif
 
     // Store various pieces of inforation for future use.
     if (flags & BOINC_DIAG_BOINCAPPLICATION) {
