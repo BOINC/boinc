@@ -18,13 +18,12 @@
 name: Snap
 on:
   push:
-    branches:
-    - master
+    branches: [ master, 'client_release/**' ]
+    tags: [ 'client_release/**' ]
   pull_request:
-    branches:
-    - master
+    branches: [ master ]
   schedule:
-  - cron:  '0 0 * * 0'
+    - cron:  '0 0 * * 0'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}

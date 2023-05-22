@@ -19,6 +19,7 @@ name: Source Code Check
 on:
   push:
     branches: [ master, 'client_release/**' ]
+    tags: [ 'client_release/**' ]
   pull_request:
     branches: [ master ]
   schedule:
