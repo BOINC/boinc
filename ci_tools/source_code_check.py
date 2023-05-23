@@ -58,6 +58,7 @@ exclude_dirs = [
 
 exclude_files = [
     os.path.join(directory, "aclocal.m4"),
+    os.path.join(directory, "android", "BOINC", "gradlew"),
     os.path.join(directory, "client", "boinc_client"),
     os.path.join(directory, "client", "boinccmd"),
     os.path.join(directory, "client", "boinc"),
