@@ -272,6 +272,7 @@ void GLOBAL_PREFS::defaults() {
 //
 void GLOBAL_PREFS::enabled_defaults() {
     defaults();
+    suspend_if_no_recent_input = 60;
     disk_max_used_gb = 100;
     disk_min_free_gb = 1.0;
     daily_xfer_limit_mb = 10000;
