@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
+#include "SkinManager.h"
 #include "MainDocument.h"
 #include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
@@ -380,6 +381,7 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
 
     CMainDocument*  pDoc    = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     int row;
 
     wxASSERT(pDoc);
@@ -396,7 +398,7 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
         msg += _(".\nYou can enable it using the Activity menu.");
         wxGetApp().SafeMessageBox(
             msg,
-            _("BOINC"),
+            pSkinAdvanced->GetApplicationShortName(),
             wxOK | wxICON_INFORMATION,
             this
         );

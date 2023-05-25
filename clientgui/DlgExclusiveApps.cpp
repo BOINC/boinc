@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -143,18 +143,18 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_panelButtons = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnOK->SetToolTip( _("save all values and close the dialog") );
+    m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnOK->SetToolTip( _("Save all values and close the dialog") );
 
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
     m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnCancel->SetToolTip( _("close the dialog without saving") );
+    m_btnCancel->SetToolTip( _("Close the dialog without saving") );
     m_btnCancel->SetDefault();
 
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
 
-    m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("&Help"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnHelp->SetToolTip( _("shows the preferences web page") );
 
     buttonSizer->Add( m_btnHelp, 0, wxALL, 5 );

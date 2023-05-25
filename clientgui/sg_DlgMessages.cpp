@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -143,7 +143,7 @@ void CPanelMessages::CreateControls()
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
 
-    wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
+    wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
 
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
