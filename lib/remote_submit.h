@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // C++ interfaces to remote job submission and file management RPCs
-// See http://boinc.berkeley.edu/trac/wiki/RemoteJobs#Cinterface
+// See https://github.com/BOINC/boinc/wiki/RemoteJobs#c-interface
 
 #ifndef BOINC_REMOTE_SUBMIT_H
 #define BOINC_REMOTE_SUBMIT_H

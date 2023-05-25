@@ -19,7 +19,7 @@
 // Used directly for local job submission;
 // run from PHP script for remote job submission.
 //
-// see http://boinc.berkeley.edu/trac/wiki/JobSubmission
+// see https://github.com/BOINC/boinc/wiki/JobSubmission
 //
 // This program can be used in two ways:
 // - to create a single job, with everything passed on the cmdline
@@ -92,7 +92,7 @@ void usage() {
         "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
         "   [ --wu_name name ]              default: generate a name based on app name\n"
         "   [ --wu_template filename ]      default: appname_in\n"
-        "\nSee http://boinc.berkeley.edu/trac/wiki/JobSubmission\n"
+        "\nSee https://github.com/BOINC/boinc/wiki/JobSubmission\n"
     );
     exit(1);
 }

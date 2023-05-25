@@ -6,7 +6,7 @@
 //
 // add tra() around visible strings to make them translatable
 // see inc/translation.inc and
-// https://boinc.berkeley.edu/trac/wiki/TranslateProject for details
+// https://github.com/BOINC/boinc/wiki/TranslateProject for details
 
 require_once("../inc/util.inc");
 
@@ -58,7 +58,7 @@ define("FORUM_QA_MERGED_MODE", true);
     // Set to true to merge Message boards and Q&A section
 define ("DISABLE_PROFILES", true);
     // enable profiles only after enabling reCAPTCHA
-    // https://boinc.berkeley.edu/trac/wiki/ProtectionFromSpam
+    // https://github.com/BOINC/boinc/wiki/ProtectionFromSpam
 define("USE_STOPFORUMSPAM", true);
     // use http://www.stopforumspam.com to suppress spammer accounts
 define("RPC_DEBUG", false);

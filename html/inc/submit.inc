@@ -31,7 +31,7 @@
 //      boinc_submit_batch(): submit a batch
 //      boinc_set_timeout($x): set RPC timeout to X seconds
 //
-//  See https://boinc.berkeley.edu/trac/wiki/RemoteJobs#PHPinterface
+//  See https://github.com/BOINC/boinc/wiki/RemoteJobs#php-interface
 
 //// Implementation stuff follows
 

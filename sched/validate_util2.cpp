@@ -17,7 +17,7 @@
 
 // Simple validator framework:
 // Lets you create a custom validator by supplying three functions.
-// See http://boinc.berkeley.edu/trac/wiki/ValidationSimple
+// See https://github.com/BOINC/boinc/wiki/ValidationSimple
 //
 
 #include "config.h"

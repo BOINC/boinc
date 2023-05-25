@@ -224,7 +224,7 @@ function bb2html($text, $export=false) {
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
-            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc/wiki/\\1\">\\1</a>",
         );
     } else {
         $htmltags = array (
@@ -251,7 +251,7 @@ function bb2html($text, $export=false) {
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
-            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc/wiki/\\1\">\\1</a>",
         );
     }
 

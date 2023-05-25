@@ -200,7 +200,7 @@ if (!function_exists('auth_ops')) {
                 You must protect the admin interface
                 with either a .htaccess file or an auto_ops() function.
                 <p>
-                <a href=http://boinc.berkeley.edu/trac/wiki/HtmlOps>See how here</a>"
+                <a href=https://github.com/BOINC/boinc/wiki/HtmlOps>See how here</a>"
             );
         }
     }
