@@ -569,7 +569,7 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     m_bCancelInProgress = true;
 
     int iRetVal = wxGetApp().SafeMessageBox(
-        _("Do you really want to cancel?"), 
+        _("Do you really want to cancel?"),
         _("Confirmation"),
         wxICON_QUESTION | wxYES_NO,
         this
