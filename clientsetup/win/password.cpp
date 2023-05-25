@@ -16,19 +16,19 @@ BOOL GenPwd(TCHAR* ppwd, int nLen)
 	BOOL bResult = FALSE;	//assume failure
 	HCRYPTPROV hProv = NULL;
 	HCRYPTHASH hHash = NULL;
-	
+
 	//Storage for random string 4 times longer than the resulting password.
 	DWORD dwBufSize = nLen*4;
 	DWORD dwSize = Base64EncodeGetRequiredLength((int)dwBufSize);
 	LPSTR pEncodedString = NULL;
 	LPBYTE pRandomBuf = NULL;
 	TCHAR* pTRandomPwd = NULL;
-	
+
 	try
 	{
 		pEncodedString = new char[dwSize];
 		pRandomBuf = new BYTE[dwBufSize];
-		
+
 		// Try to acquire context to Crypto provider.
 		if (!CryptAcquireContext(&hProv, NULL, NULL, PROV_RSA_FULL, CRYPT_SILENT))
 		{
@@ -57,23 +57,23 @@ BOOL GenPwd(TCHAR* ppwd, int nLen)
 		{
 			throw(GetLastError());
 		}
-	
+
 		//Destroy the hash object.
 		CryptDestroyHash(hHash);
 		//Release Provider context
-		CryptReleaseContext(hProv, 0);	
-	
+		CryptReleaseContext(hProv, 0);
+
 		//Encode the hash value to base64.
 		if (!Base64Encode(pRandomBuf, dwBufSize, pEncodedString, (int*) &dwSize, 0))
 		{
 			throw(GetLastError());
 		}
-	
+
 		//Determine how many tchars you need to convert string to base64.
 		int nTchars = (int) strlen(pEncodedString);
-	
+
 		pTRandomPwd = new TCHAR[nTchars];
-	
+
 #ifdef UNICODE
 		if (MultiByteToWideChar(CP_UTF8, 0, pEncodedString, nTchars, pTRandomPwd, nTchars) == 0)
 		{
@@ -98,7 +98,7 @@ BOOL GenPwd(TCHAR* ppwd, int nLen)
 	}
 	catch (...)
 	{
-		//Unknown error, throw. 
+		//Unknown error, throw.
 		throw;
 	}
 

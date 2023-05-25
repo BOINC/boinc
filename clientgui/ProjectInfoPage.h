@@ -31,7 +31,7 @@ class CProjectInfo;
  */
 
 class CProjectInfoPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CProjectInfoPage )
     DECLARE_EVENT_TABLE()
 

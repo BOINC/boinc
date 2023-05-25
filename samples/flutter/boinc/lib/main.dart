@@ -193,7 +193,7 @@ class MyAppState extends State<MyApp> {
     if (kIsWeb) {
       http.Response response = await http.post(url, headers: headers, body: requestXml, encoding: latin1);
       return response.body;
-    } else {   
+    } else {
       HttpClient client = HttpClient();
       return await client.postUrl(url)
           .then((HttpClientRequest request) {
@@ -206,7 +206,7 @@ class MyAppState extends State<MyApp> {
         return request.close();
       }).then((HttpClientResponse response) {
         return response.transform(latin1.decoder).join();
-      });    
+      });
     }
   }
 

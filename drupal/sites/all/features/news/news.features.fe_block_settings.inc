@@ -30,7 +30,7 @@ function news_default_fe_block_settings() {
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
     $nid = arg(1);
     $node = node_load(array(\'nid\' => $nid));
-    $type = $node->type; 
+    $type = $node->type;
     $match |= in_array($type, $types);
   }
 
@@ -66,7 +66,7 @@ function news_default_fe_block_settings() {
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
     $nid = arg(1);
     $node = node_load(array(\'nid\' => $nid));
-    $type = $node->type; 
+    $type = $node->type;
     $match |= in_array($type, $types);
   }
 
@@ -102,7 +102,7 @@ function news_default_fe_block_settings() {
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
     $nid = arg(1);
     $node = node_load(array(\'nid\' => $nid));
-    $type = $node->type; 
+    $type = $node->type;
     $match |= in_array($type, $types);
   }
 

@@ -144,8 +144,8 @@ void get_sandbox_account_interactive_token() {
     std::string encoded_username_str;
     std::string encoded_password_str;
     std::string username_str;
-    std::string domainname_str; 
-    std::string password_str; 
+    std::string domainname_str;
+    std::string password_str;
     int         retval = 0;
     static bool first = true;
 
@@ -160,7 +160,7 @@ void get_sandbox_account_interactive_token() {
     }
     fclose(f);
 
-    password_str = r_base64_decode(encoded_password_str); 
+    password_str = r_base64_decode(encoded_password_str);
 
     if (std::string::npos != encoded_username_str.find('\\')) {
         domainname_str = encoded_username_str.substr(
@@ -170,22 +170,22 @@ void get_sandbox_account_interactive_token() {
             encoded_username_str.rfind(_T('\\')) + 1,
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
-        retval = LogonUserA( 
+        retval = LogonUserA(
             username_str.c_str(),
-            domainname_str.c_str(), 
-            password_str.c_str(), 
-            LOGON32_LOGON_INTERACTIVE, 
-            LOGON32_PROVIDER_DEFAULT, 
+            domainname_str.c_str(),
+            password_str.c_str(),
+            LOGON32_LOGON_INTERACTIVE,
+            LOGON32_PROVIDER_DEFAULT,
             &sandbox_account_interactive_token
         );
     } else {
         username_str = encoded_username_str;
-        retval = LogonUserA( 
+        retval = LogonUserA(
             username_str.c_str(),
-            NULL, 
-            password_str.c_str(), 
-            LOGON32_LOGON_INTERACTIVE, 
-            LOGON32_PROVIDER_DEFAULT, 
+            NULL,
+            password_str.c_str(),
+            LOGON32_LOGON_INTERACTIVE,
+            LOGON32_PROVIDER_DEFAULT,
             &sandbox_account_interactive_token
         );
     }
@@ -217,8 +217,8 @@ void get_sandbox_account_service_token() {
     std::string encoded_username_str;
     std::string encoded_password_str;
     std::string username_str;
-    std::string domainname_str; 
-    std::string password_str; 
+    std::string domainname_str;
+    std::string password_str;
     int retval = 0;
     static bool first=true;
 
@@ -233,7 +233,7 @@ void get_sandbox_account_service_token() {
     }
     fclose(f);
 
-    password_str = r_base64_decode(encoded_password_str); 
+    password_str = r_base64_decode(encoded_password_str);
 
     if (std::string::npos != encoded_username_str.find('\\')) {
         domainname_str = encoded_username_str.substr(
@@ -243,12 +243,12 @@ void get_sandbox_account_service_token() {
             encoded_username_str.rfind(_T('\\')) + 1,
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
-        retval = LogonUserA( 
+        retval = LogonUserA(
             username_str.c_str(),
-            domainname_str.c_str(), 
-            password_str.c_str(), 
-            LOGON32_LOGON_SERVICE, 
-            LOGON32_PROVIDER_DEFAULT, 
+            domainname_str.c_str(),
+            password_str.c_str(),
+            LOGON32_LOGON_SERVICE,
+            LOGON32_PROVIDER_DEFAULT,
             &sandbox_account_service_token
         );
         if (retval) {
@@ -256,12 +256,12 @@ void get_sandbox_account_service_token() {
         }
     } else {
         username_str = encoded_username_str;
-        retval = LogonUserA( 
+        retval = LogonUserA(
             username_str.c_str(),
-            NULL, 
-            password_str.c_str(), 
-            LOGON32_LOGON_SERVICE, 
-            LOGON32_PROVIDER_DEFAULT, 
+            NULL,
+            password_str.c_str(),
+            LOGON32_LOGON_SERVICE,
+            LOGON32_PROVIDER_DEFAULT,
             &sandbox_account_service_token
         );
         if (retval) {
@@ -373,7 +373,7 @@ void get_sandbox_account_service_token() {
             // Compute the size of the new ACL.
 
             dwNewAclSize = aclSizeInfo.AclBytesInUse +
-                (2*sizeof(ACCESS_ALLOWED_ACE)) + 
+                (2*sizeof(ACCESS_ALLOWED_ACE)) +
                 (2*GetLengthSid(pBOINCProjectSID)) +
                 (2*GetLengthSid(pBOINCMasterSID));
 
@@ -433,8 +433,8 @@ void get_sandbox_account_service_token() {
             pace1->Header.AceFlags = CONTAINER_INHERIT_ACE |
                                     INHERIT_ONLY_ACE |
                                     OBJECT_INHERIT_ACE;
-            pace1->Header.AceSize  = (WORD)sizeof(ACCESS_ALLOWED_ACE) + 
-                                    (WORD)GetLengthSid(pBOINCProjectSID) - 
+            pace1->Header.AceSize  = (WORD)sizeof(ACCESS_ALLOWED_ACE) +
+                                    (WORD)GetLengthSid(pBOINCProjectSID) -
                                     (WORD)sizeof(DWORD);
             pace1->Mask            = PROCESS_ALL_ACCESS;
 
@@ -467,8 +467,8 @@ void get_sandbox_account_service_token() {
             pace2->Header.AceFlags = CONTAINER_INHERIT_ACE |
                                     INHERIT_ONLY_ACE |
                                     OBJECT_INHERIT_ACE;
-            pace2->Header.AceSize  = (WORD)sizeof(ACCESS_ALLOWED_ACE) + 
-                                    (WORD)GetLengthSid(pBOINCMasterSID) - 
+            pace2->Header.AceSize  = (WORD)sizeof(ACCESS_ALLOWED_ACE) +
+                                    (WORD)GetLengthSid(pBOINCMasterSID) -
                                     (WORD)sizeof(DWORD);
             pace2->Mask            = PROCESS_ALL_ACCESS;
 
@@ -567,18 +567,18 @@ int run_app_windows(
             fprintf(stderr, "CreateEnvironmentBlock failed: %s\n", error_msg);
         }
 
-        retval = CreateProcessAsUserA( 
-            sandbox_account_interactive_token, 
-            file, 
-            cmdline, 
-            NULL, 
-            NULL, 
-            FALSE, 
-            CREATE_NEW_PROCESS_GROUP|CREATE_UNICODE_ENVIRONMENT, 
-            environment_block, 
-            dir, 
-            &startup_info, 
-            &process_info 
+        retval = CreateProcessAsUserA(
+            sandbox_account_interactive_token,
+            file,
+            cmdline,
+            NULL,
+            NULL,
+            FALSE,
+            CREATE_NEW_PROCESS_GROUP|CREATE_UNICODE_ENVIRONMENT,
+            environment_block,
+            dir,
+            &startup_info,
+            &process_info
         );
 
         if (!DestroyEnvironmentBlock(environment_block)) {

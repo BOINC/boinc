@@ -237,13 +237,13 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         // If the user installed a new version of BOINC, new columns may have
         // been added that didn't exist in the older version. Check for this.
         //
-        // This will also be triggered if the locale is changed, which will cause 
-        // SetListColumnOrder() to be called again so the wxListCtrl will be set 
+        // This will also be triggered if the locale is changed, which will cause
+        // SetListColumnOrder() to be called again so the wxListCtrl will be set
         // up with the correctly labeled columns.
         //
         bool foundNewColumns = false;
         bool foundNewDefaultColumns = false;
-        
+
         if (pConfig->Read(wxT("HiddenColumns"), &strHiddenColumns)) {
             wxArrayString hiddenArray;
             wxArrayString defaultArray;
@@ -695,7 +695,7 @@ void CBOINCListCtrl::OnMouseDown(wxMouseEvent& event) {
 #endif
 
 
-// To reduce flicker, refresh only changed columns (except 
+// To reduce flicker, refresh only changed columns (except
 // on Mac, which is double-buffered to eliminate flicker.)
 void CBOINCListCtrl::RefreshCell(int row, int col) {
     wxRect r;

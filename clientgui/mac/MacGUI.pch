@@ -34,7 +34,7 @@
 // NOTE: normally, wxWidgets internal asserts are always enabled when running the
 // Development build, and USE_DEBUG_WXMAC affects only wxAssert() calls in the
 // BOINC Manager code.  However, you can disable ALL wxAssert() calls by BOTH:
-// [1] calling wxSetAssertHandler(NULL) in the code AND 
+// [1] calling wxSetAssertHandler(NULL) in the code AND
 // [2] setting USE_DEBUG_WXMAC to 1.
 // (While setting USE_DEBUG_WXMAC to 1 seems counterintuitive in this case, it
 // is needed because wxSetAssertHandler() is ignored when wxDEBUG_LEVEL==0.)
@@ -49,7 +49,7 @@
 // Set both USE_DEBUG_WXMAC to 1 and wxUSE_LOG_TRACE to 1 to enable wxLogTrace() calls
 // in Manager Development builds.
 //
-// We are now building wxWidgets with wxDEBUG_LEVEL set to 0 in deployment builds, so all 
+// We are now building wxWidgets with wxDEBUG_LEVEL set to 0 in deployment builds, so all
 // debugging, including wxLogTrace() calls, is always disabled in Manager Deployment builds.
 #define wxUSE_LOG_TRACE 0
 

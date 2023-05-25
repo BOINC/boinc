@@ -33,7 +33,7 @@ if (!get_str('action')) {
 }
 $thread = BoincThread::lookup_id(get_int('thread'));
 $forum = BoincForum::lookup_id($thread->forum);
-        
+
 if (!is_moderator($logged_in_user, $forum)) {
     error_page(tra("not authorized"));
 }
@@ -65,18 +65,18 @@ case 'lock':
 case 'move':
     if ($forum->parent_type != 0) error_page("Nope");
     echo "<input type=hidden name=action value=move>";
-    $selectbox = '<select class="form-control" name="forumid">';  
+    $selectbox = '<select class="form-control" name="forumid">';
     $categories = BoincCategory::enum();
     foreach ($categories as $category) {
         $forums = BoincForum::enum("category=$category->id");
         foreach ($forums as $f) {
-            $selectbox .= '<option value="'.$f->id.'">'.$f->title.'</option>';  
-        }  
-    }  
-    $selectbox .= '</option>';  
-    
+            $selectbox .= '<option value="'.$f->id.'">'.$f->title.'</option>';
+        }
+    }
+    $selectbox .= '</option>';
+
     row2(tra("Current forum"), $forum->title);
-    row2(tra("Destination forum"), $selectbox);  
+    row2(tra("Destination forum"), $selectbox);
     break;
 case 'title':
     echo "<input type=hidden name=action value=title>";

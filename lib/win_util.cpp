@@ -23,6 +23,7 @@
 #include "util.h"
 #include "filesys.h"
 #include "win_util.h"
+#include "str_replace.h"
 #include "str_util.h"
 
 /**
@@ -56,9 +57,9 @@ void chdir_to_data_dir() {
     DWORD   dwSize = 0;
 
     lReturnValue = RegOpenKeyExA(
-        HKEY_LOCAL_MACHINE, 
-        "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup",  
-        0, 
+        HKEY_LOCAL_MACHINE,
+        "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup",
+        0,
         KEY_READ,
         &hkSetupHive
     );
@@ -78,7 +79,7 @@ void chdir_to_data_dir() {
             (*lpszValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueExA( 
+            lReturnValue = RegQueryValueExA(
                 hkSetupHive,
                 "DATADIR",
                 NULL,
@@ -91,13 +92,13 @@ void chdir_to_data_dir() {
             // We need to get the size of the buffer needed
             dwSize = 0;
             lReturnValue = ExpandEnvironmentStringsA(lpszValue, NULL, dwSize);
-   
+
             if (lReturnValue) {
                 // Make the buffer big enough for the expanded string
                 lpszExpandedValue = (LPSTR) malloc(lReturnValue);
                 (*lpszExpandedValue) = NULL;
                 dwSize = lReturnValue;
-   
+
                 ExpandEnvironmentStringsA(lpszValue, lpszExpandedValue, dwSize);
 
                 SetCurrentDirectoryA(lpszExpandedValue);

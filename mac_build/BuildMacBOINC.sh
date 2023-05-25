@@ -224,7 +224,7 @@ if [ $result -eq 0 ]; then
     if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildzipapps}" = "1" ]; then
         buildzip=1
     fi
-    
+
     if [ "${buildzip}" = "1" ]; then
         eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?

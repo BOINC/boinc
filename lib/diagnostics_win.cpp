@@ -65,15 +65,15 @@ BOOL diagnostics_get_registry_value(LPCSTR lpName, LPDWORD lpdwType, LPDWORD lpd
 	HKEY  hKey;
 
     // Detect platform information
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
 
     if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
 		lRetVal = RegOpenKeyExA(
-            HKEY_LOCAL_MACHINE, 
+            HKEY_LOCAL_MACHINE,
             "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics",
-			(DWORD)NULL, 
+			(DWORD)NULL,
             KEY_READ,
             &hKey
         );
@@ -466,12 +466,12 @@ int diagnostics_set_thread_crash_message(const char* message) {
     pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
     if (pThreadEntry) {
         int buffer_used = snprintf(
-            pThreadEntry->crash_message, 
+            pThreadEntry->crash_message,
             sizeof(pThreadEntry->crash_message),
             "%s",
             message
         );
-        if ((sizeof(pThreadEntry->crash_message) == buffer_used) || (-1 == buffer_used)) { 
+        if ((sizeof(pThreadEntry->crash_message) == buffer_used) || (-1 == buffer_used)) {
             pThreadEntry->crash_message[sizeof(pThreadEntry->crash_message)-1] = '\0';
         }
     } else {
@@ -490,12 +490,12 @@ int diagnostics_set_thread_crash_message(const char* message) {
         pThreadEntry->thread_id = GetCurrentThreadId();
         pThreadEntry->thread_handle = hThread;
         int buffer_used = snprintf(
-            pThreadEntry->crash_message, 
+            pThreadEntry->crash_message,
             sizeof(pThreadEntry->crash_message),
             "%s",
             message
         );
-        if ((sizeof(pThreadEntry->crash_message) == buffer_used) || (-1 == buffer_used)) { 
+        if ((sizeof(pThreadEntry->crash_message) == buffer_used) || (-1 == buffer_used)) {
             pThreadEntry->crash_message[sizeof(pThreadEntry->crash_message)-1] = '\0';
         }
         diagnostics_threads.push_back(pThreadEntry);
@@ -708,10 +708,10 @@ int diagnostics_init_message_monitor() {
 
         hMessageSharedMap = CreateFileMappingA(
             INVALID_HANDLE_VALUE,    // use paging file
-            &sa,                     // default security 
+            &sa,                     // default security
             PAGE_READWRITE,          // read/write access
-            0,                       // max. object size 
-            sizeof(DEBUGGERMESSAGE), // buffer size  
+            0,                       // max. object size
+            sizeof(DEBUGGERMESSAGE), // buffer size
             "DBWIN_BUFFER"           // name of mapping object
         );
         if (!hMessageSharedMap) {
@@ -771,7 +771,7 @@ int diagnostics_finish_message_monitor() {
     //   MessageMonitorSync mutex.
     WaitForSingleObject(hMessageQuitFinishedEvent, INFINITE);
     WaitForSingleObject(hMessageMonitorSync, INFINITE);
-  
+
 
     // Now clean up everything we can.
     //
@@ -805,12 +805,12 @@ int diagnostics_message_monitor_dump() {
     WaitForSingleObject(hMessageMonitorSync, INFINITE);
 
     fprintf(stderr, "\n*** Debug Message Dump ****\n");
-    
+
     // Clear out any previous messages.
     for (i=0; i<diagnostics_monitor_messages.size(); i++) {
         pMessageEntry = diagnostics_monitor_messages[i];
         fprintf(
-            stderr, 
+            stderr,
             "[%s] %s",
             time_to_string(pMessageEntry->timestamp),
             pMessageEntry->message.c_str()
@@ -828,7 +828,7 @@ int diagnostics_message_monitor_dump() {
 
 // This thread monitors the shared memory buffer used to pass debug messages
 //   around.  due to an anomaly in the Windows debug environment it is
-//   suggested that a sleep(0) be introduced before any 
+//   suggested that a sleep(0) be introduced before any
 //   SetEvent/ResetEvent/PulseEvent function is called.
 //
 // See: http://support.microsoft.com/kb/q173260/
@@ -861,7 +861,7 @@ UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
     SetEvent(hMessageAckEvent);
 
     while (bContinue) {
-        dwEvent = WaitForMultipleObjects( 
+        dwEvent = WaitForMultipleObjects(
             2,           // number of objects in array
             hEvents,     // array of objects
             FALSE,       // wait for any
@@ -873,7 +873,7 @@ UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
 
                 // We are shutting down so lets cleanup and exit.
                 bContinue = false;
-                
+
                 break;
 
             // hMessageReadyEvent was signaled.
@@ -897,7 +897,7 @@ UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
                     // Message from a different process.
 
                     // Is this the same message as before?
-                    if ((dwRepeatMessageProcessId != pMessageBuffer->dwProcessId) || 
+                    if ((dwRepeatMessageProcessId != pMessageBuffer->dwProcessId) ||
                         (strRepeatMessage != pMessageBuffer->data)
                     ) {
                         dwRepeatMessageCounter = 0;
@@ -1039,7 +1039,7 @@ static HANDLE hExceptionMonitorStartedEvent = NULL;
 static HANDLE hExceptionDetectedEvent = NULL;
 static HANDLE hExceptionQuitEvent = NULL;
 static HANDLE hExceptionQuitFinishedEvent = NULL;
-static CRITICAL_SECTION csExceptionMonitorFallback; 
+static CRITICAL_SECTION csExceptionMonitorFallback;
 
 // Initialize the needed structures and startup the unhandled exception
 //   monitor thread.
@@ -1229,7 +1229,7 @@ int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
 	    //   handler.
 	    if (window_info->window_process_id != GetCurrentProcessId()) {
 		    GetWindowTextA(
-			    window_info->hwnd, 
+			    window_info->hwnd,
 			    window_info->window_name,
 			    sizeof(window_info->window_name)
 		    );
@@ -1272,13 +1272,13 @@ int diagnostics_foreground_window_dump(PBOINC_WINDOWCAPTURE window_info) {
 int diagnostics_dump_process_information() {
     // Header
     fprintf(
-        stderr, 
+        stderr,
         "*** Dump of the Process Statistics: ***\n\n"
     );
 
     // I/O Counters
     fprintf(
-        stderr, 
+        stderr,
         "- I/O Operations Counters -\n"
         "Read: %llu, Write: %llu, Other %llu\n"
         "\n"
@@ -1295,7 +1295,7 @@ int diagnostics_dump_process_information() {
 
     // VM Counters
     fprintf(
-        stderr, 
+        stderr,
         "- Paged Pool Usage -\n"
         "QuotaPagedPoolUsage: %" PRIz "u, QuotaPeakPagedPoolUsage: %" PRIz "u\n"
         "QuotaNonPagedPoolUsage: %" PRIz "u, QuotaPeakNonPagedPoolUsage: %" PRIz "u\n"
@@ -1343,7 +1343,7 @@ int diagnostics_dump_thread_information(BOINC_THREADLISTENTRY *pThreadEntry) {
     }
 
     fprintf(
-        stderr, 
+        stderr,
         "*** Dump of thread ID %lu (state: %s): ***\n\n"
         "- Information -\n"
         "Status: %s, "
@@ -1367,7 +1367,7 @@ int diagnostics_dump_thread_information(BOINC_THREADLISTENTRY *pThreadEntry) {
 //
 int diagnostics_dump_generic_exception(const char* exception_desc, DWORD exception_code, PVOID exception_address) {
     fprintf(
-        stderr, 
+        stderr,
         "Reason: %s (0x%lx) at address 0x%p\n\n",
         exception_desc,
         exception_code,
@@ -1537,7 +1537,7 @@ UINT diagnostics_determine_exit_code() {
     size = diagnostics_threads.size();
     for (uiIndex = 0; uiIndex < size; uiIndex++) {
         if (diagnostics_threads[uiIndex]->crash_exception_record) {
-            uiReturn = 
+            uiReturn =
                 diagnostics_threads[uiIndex]->crash_exception_record->ExceptionRecord->ExceptionCode;
         }
     }
@@ -1573,7 +1573,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
     SetEvent(hExceptionMonitorStartedEvent);
 
     while (bContinue) {
-        dwEvent = WaitForMultipleObjects( 
+        dwEvent = WaitForMultipleObjects(
             2,           // number of objects in array
             hEvents,     // array of objects
             FALSE,       // wait for any
@@ -1585,7 +1585,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
 
                 // We are shutting down, so let's clean up and exit.
                 bContinue = false;
-                
+
                 break;
 
             // hExceptionDetectedEvent was signaled.
@@ -1663,10 +1663,10 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                                         EXCEPTION_EXECUTE_HANDLER
                                     );
                                 } else {
-                                    // Suspend thread before extracting the contexts, 
+                                    // Suspend thread before extracting the contexts,
                                     //   otherwise it'll be trash.
                                     SuspendThread(pThreadEntry->thread_handle);
-                                    
+
                                     // Get the thread context
                                     memset(&c, 0, sizeof(CONTEXT));
                                     c.ContextFlags = CONTEXT_FULL;
@@ -1743,7 +1743,7 @@ void setup_no_ignore() {
 
 LONG pass_to_signal_handler(int signum) {
     void (*handler)(int);
-    
+
     if (!setup_arrays) {
         setup_arrays=1;
         setup_no_ignore();
@@ -1764,8 +1764,8 @@ LONG pass_to_signal_handler(int signum) {
         if (!no_ignore[signum]) {
             // Yes? Attempt to ignore the exception.
             return EXCEPTION_CONTINUE_EXECUTION;
-        } else {  
-            return EXCEPTION_CONTINUE_SEARCH; 
+        } else {
+            return EXCEPTION_CONTINUE_SEARCH;
         }
     }
 
@@ -1785,7 +1785,7 @@ LONG pass_to_signal_handler(int signum) {
 // standard signals.
 LONG diagnostics_check_signal_handlers(PEXCEPTION_POINTERS pExPtrs) {
     switch (pExPtrs->ExceptionRecord->ExceptionCode) {
-      case CONTROL_C_EXIT:                
+      case CONTROL_C_EXIT:
                                        return pass_to_signal_handler(SIGINT);
       case EXCEPTION_BREAKPOINT:
       case EXCEPTION_SINGLE_STEP:
@@ -1799,14 +1799,14 @@ LONG diagnostics_check_signal_handlers(PEXCEPTION_POINTERS pExPtrs) {
       case EXCEPTION_FLT_INEXACT_RESULT:
       case EXCEPTION_FLT_INVALID_OPERATION:
       case EXCEPTION_FLT_OVERFLOW:
-      case EXCEPTION_FLT_UNDERFLOW:      
+      case EXCEPTION_FLT_UNDERFLOW:
                                        {
                                          LONG rv=pass_to_signal_handler(SIGFPE);
                                          /* MS claims ignoring an FP signal
                                           * results in an unknown FP state.
                                           * Does an _fpreset() help?
                                           */
-                                         if (rv != EXCEPTION_CONTINUE_SEARCH) 
+                                         if (rv != EXCEPTION_CONTINUE_SEARCH)
                                              _fpreset();
                                          return rv;
                                        }
@@ -1844,7 +1844,7 @@ LONG diagnostics_check_signal_handlers(PEXCEPTION_POINTERS pExPtrs) {
 LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
 
     // Check whether somone has installed a standard C signal handler to
-    // handle this exception. 
+    // handle this exception.
     if (diagnostics_check_signal_handlers(pExPtrs) == EXCEPTION_CONTINUE_EXECUTION) {
         return EXCEPTION_CONTINUE_EXECUTION;
     }

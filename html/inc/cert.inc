@@ -41,13 +41,13 @@ function credit_string($credit, $bolden) {
     $cobbs = number_format($credit, 0);
 
     credit_to_ops($credit, $ops, $unit);
-      
+
     if ($bolden) {
         $lbold="[[";
         $rbold="]]";
     } else {
         $lbold="";        $rbold="";
-    } 
+    }
     return " $lbold$cobbs Cobblestones$rbold of computation ($ops $unit floating-point operations)";
 }
 

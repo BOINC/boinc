@@ -41,7 +41,7 @@ extern int cleanup_system_monitor();
 #define SERVICE_ACCEPTED_ACTIONS  ( \
     SERVICE_ACCEPT_STOP | \
     SERVICE_ACCEPT_PAUSE_CONTINUE | \
-    SERVICE_ACCEPT_SHUTDOWN ) 
+    SERVICE_ACCEPT_SHUTDOWN )
 
 // Service Control Manager Routines
 extern VOID WINAPI BOINCServiceMain(DWORD dwArgc, LPTSTR *lpszArgv);

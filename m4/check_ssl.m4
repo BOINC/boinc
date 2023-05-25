@@ -26,7 +26,7 @@ if test "x${PKGCONFIG}" != "x" -a "x${check_ssl_dir}" = "x" ; then
     fi
     if test "x${enable_client_release}" = "xyes" -o "x${disable_static_linkage}" = "xno" ; then
       SSL_LIBS="`${PKGCONFIG} openssl --libs --static 2>/dev/null`"
-    fi  
+    fi
     if test "x${SSL_LIBS}" = "x" ; then
       SSL_LIBS="`${PKGCONFIG} openssl --libs 2>/dev/null`"
     fi
@@ -47,9 +47,9 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSL_CFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
       SSL_CXXFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
       SSL_LIBS="-lssl -lcrypto"
-      AC_CHECK_LIB([dl], [dlopen], 
+      AC_CHECK_LIB([dl], [dlopen],
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
-      AC_CHECK_LIB([z], [gzopen], 
+      AC_CHECK_LIB([z], [gzopen],
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
       break;
     fi
@@ -59,9 +59,9 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSL_CFLAGS="-I$ssldir/include/"
       SSL_CXXFLAGS="-I$ssldir/include/"
       SSL_LIBS="-lssl -lcrypto"
-      AC_CHECK_LIB([dl], [dlopen], 
+      AC_CHECK_LIB([dl], [dlopen],
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
-      AC_CHECK_LIB([z], [gzopen], 
+      AC_CHECK_LIB([z], [gzopen],
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
       break;
     fi

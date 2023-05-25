@@ -38,7 +38,7 @@ if (!$user->has_profile) {
         error_page(tra("This user has no profile"));
     }
 }
- 
+
 $logged_in_user = get_logged_in_user(false);
 check_whether_to_show_profile($user, $logged_in_user);
 

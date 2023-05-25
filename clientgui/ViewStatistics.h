@@ -30,31 +30,31 @@ class CPaintStatistics : public wxWindow
 public:
 	CPaintStatistics();
 	CPaintStatistics(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("panel"));
-	
+
     ~CPaintStatistics();
-    
+
 	void DrawMainHead(wxDC &dc, const wxString head_name);
-	
+
 	void DrawProjectHead(wxDC &dc, PROJECT* project1, const wxString head_name_last);
 
 	void DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc, int SelProj, bool bColour, int &m_Legend_Shift);
-	
+
 	void DrawAxis(wxDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x, wxColour pen_AxisColour, const double max_val_y_all, const double min_val_y_all);
-	
+
 	void DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic);
 
     void DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic);
-	
+
 	void DrawMarker(wxDC &dc);
 
 	void ClearXY();
 
 	void ClearLegendXY();
-	
+
 	void AB(const double x_coord1, const double y_coord1, const double x_coord2, const double y_coord2, const double x_val1, const double y_val1, const double x_val2, const double y_val2);
 
     void AddToStats(const DAILY_STATS &src, DAILY_STATS &dst);
-    
+
 //--------------------------
 	void DrawAll(wxDC &dc);
 //--------------------------
@@ -199,7 +199,7 @@ protected:
     void                    SetupMacAccessibilitySupport();
     void                    ResizeMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
-    
+
     void*                   m_fauxStatisticsView;
 #endif
 

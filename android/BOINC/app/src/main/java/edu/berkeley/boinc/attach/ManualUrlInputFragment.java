@@ -95,7 +95,7 @@ public class ManualUrlInputFragment extends DialogFragment {
         if(!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
-            
+
             Logging.logDebug(Logging.Category.GUI_ACTIVITY, "ManualUrlInputFragment not online, stop!");
         }
         return online;

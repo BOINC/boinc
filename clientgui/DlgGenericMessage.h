@@ -71,7 +71,7 @@
  */
 
 class CDlgGenericMessage: public wxDialog
-{    
+{
     DECLARE_DYNAMIC_CLASS( CDlgGenericMessage )
     DECLARE_EVENT_TABLE()
 

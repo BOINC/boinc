@@ -26,7 +26,7 @@ function draw_graph($xarr, $arr) {
 
 
     // Create the graph. These two calls are always required
-    $graph = new Graph(350,250,"auto");    
+    $graph = new Graph(350,250,"auto");
     //$graph->SetScale("lin");
     //$graph->SetScale("textlin");
     $graph->SetScale("loglin");

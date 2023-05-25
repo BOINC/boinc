@@ -28,7 +28,7 @@
  */
 
 class CAccountInfoPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CAccountInfoPage )
     DECLARE_EVENT_TABLE()
 

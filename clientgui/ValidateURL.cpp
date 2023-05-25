@@ -138,7 +138,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
 bool CValidateURL::TransferToWindow() {
     if(!CheckValidator())
         return FALSE;
-    
+
     if (!m_stringValue)
         return TRUE;
 

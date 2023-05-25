@@ -197,7 +197,7 @@ int main()
             // Compress and uncompress using boinc_zip
             retval = boinc_zip(ZIP_IT, zipfile, &zf);
             retval = boinc_zip(UNZIP_IT, zipfile, result_dir.c_str());
-    
+
             // Compress and uncompress using zlib
             source_file = zf[0].c_str();
             result_zipfile = result_dir + "/zlib_test.zip";

@@ -232,8 +232,8 @@ void draw_text_right(
 }
 
 
-MOVING_TEXT_PANEL::MOVING_TEXT_PANEL() : 
-	theta(0), dtheta(0), color(0), char_height(0), line_width(0), line_spacing(0), margin(0) 
+MOVING_TEXT_PANEL::MOVING_TEXT_PANEL() :
+	theta(0), dtheta(0), color(0), char_height(0), line_width(0), line_spacing(0), margin(0)
 {
 	int i;
 	for (i=0;i<3;i++) {

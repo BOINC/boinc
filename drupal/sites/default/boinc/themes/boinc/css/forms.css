@@ -129,7 +129,7 @@ table.ignore_user {
 }
 .form-radios .form-item {
   float: left;
-} 
+}
 .simple-form-controls .form-item .description,
 .simple-form-controls .form-item label {
   width: auto;
@@ -280,7 +280,7 @@ span.password-confirm {
  * Search form and results
  */
 .section-find .box{
-  
+
   margin-top: 2.0em;
   padding-top: 1.0em;
   border-top: 2px dotted #aaa;
@@ -328,7 +328,7 @@ span.password-confirm {
 }
 .section-find .result.user .user-stats {
   font-size: 0.85em;
-  
+
 }
 
 
@@ -533,7 +533,7 @@ html.js fieldset.collapsible legend a,
 }
 
 #edit-prefs-advanced-processor-start-hour-wrapper,
-#edit-prefs-advanced-processor-end-hour-wrapper, 
+#edit-prefs-advanced-processor-end-hour-wrapper,
 #edit-prefs-advanced-network-net-start-hour-wrapper,
 #edit-prefs-advanced-network-net-end-hour-wrapper,
 #edit-prefs-advanced-network-daily-xfer-limit-mb-wrapper,

@@ -273,7 +273,7 @@ class VBOX_BASE : public VBOX_JOB {
         virtual void report_clean(
             bool unrecoverable_error,
             bool skip_cleanup,
-            bool do_dump_hypervisor_logs, 
+            bool do_dump_hypervisor_logs,
             int retval,
             std::string error_reason,
             int temp_delay,

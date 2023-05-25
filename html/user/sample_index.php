@@ -37,7 +37,7 @@ require_once("../inc/bootstrap.inc");
 $config = get_config();
 $no_web_account_creation = parse_bool($config, "no_web_account_creation");
 $project_id = parse_config($config, "<project_id>");
-    
+
 $stopped = web_stopped();
 $user = get_logged_in_user(false);
 

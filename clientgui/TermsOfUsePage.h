@@ -27,7 +27,7 @@
  */
 
 class CTermsOfUsePage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CTermsOfUsePage )
     DECLARE_EVENT_TABLE()
 
@@ -42,7 +42,7 @@ public:
 
     /// Creates the controls and sizers
     void CreateControls();
-    
+
     /// Handles clicks on links
     void OnLinkClicked( wxHtmlLinkEvent & event );
 

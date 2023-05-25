@@ -107,14 +107,14 @@ bool CDlgExitMessage::Create( wxWindow* parent, wxWindowID id, const wxString& c
  */
 
 void CDlgExitMessage::CreateControls()
-{    
+{
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString strExitMessage = wxEmptyString;
     wxString strAlwaysExitMessage = wxEmptyString;
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-    
+
 ////@begin CDlgExitMessage content construction
     CDlgExitMessage* itemDialog1 = this;
 

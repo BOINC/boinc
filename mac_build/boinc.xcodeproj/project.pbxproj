@@ -4406,13 +4406,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.6/include",
-					"../../wxWidgets-3.1.6/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.2.2.1/include",
+					"../../wxWidgets-3.2.2.1/build/osx/setup/cocoa/include",
 					../clientgui,
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.6/build/osx/build/Debug";
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.2.2.1/build/osx/build/Debug";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -4484,13 +4484,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.6/include",
-					"../../wxWidgets-3.1.6/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.2.2.1/include",
+					"../../wxWidgets-3.2.2.1/build/osx/setup/cocoa/include",
 					../clientgui,
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.6/build/osx/build/Release";
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.2.2.1/build/osx/build/Release";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -4779,6 +4779,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSCREENSAVER",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4967,6 +4975,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-D_DEBUG",
+					"-DSCREENSAVER",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,

@@ -80,9 +80,9 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_addExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_ADDEXCLUSIVEAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
 	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
-    
+
     exclusiveAppsButtonSizer->AddStretchSpacer();
-    
+
     m_removeExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveAppButton->SetToolTip( _("Remove an application from this list"));
 	exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
@@ -104,9 +104,9 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_addExclusiveGPUAppButton = new wxButton( exclusiveGPUAppsListStaticBox, ID_ADDEXCLUSIVEGPUAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveGPUAppButton->SetToolTip( _("Add an application to this list"));
 	exclusiveGPUAppsButtonSizer->Add( m_addExclusiveGPUAppButton, 0, wxRIGHT, 5 );
-    
+
     exclusiveGPUAppsButtonSizer->AddStretchSpacer();
-    
+
     m_removeExclusiveGPUAppButton = new wxButton( exclusiveGPUAppsListStaticBox, ID_REMOVEEXCLUSIVEGPUAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveGPUAppButton->SetToolTip( _("Remove an application from this list"));
 	exclusiveGPUAppsButtonSizer->Add( m_removeExclusiveGPUAppButton, 0, wxLEFT, 5 );
@@ -128,7 +128,7 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     moreOptionsLinkSizer->Add(
         new wxHyperlinkCtrl(
             this, wxID_ANY, wxT("https://boinc.berkeley.edu/wiki/Client_configuration"),
-            wxT("https://boinc.berkeley.edu/wiki/Client_configuration"), 
+            wxT("https://boinc.berkeley.edu/wiki/Client_configuration"),
             wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
         ),
 #ifdef __WXMAC__

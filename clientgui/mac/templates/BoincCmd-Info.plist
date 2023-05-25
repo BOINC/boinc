@@ -11,6 +11,8 @@
 	<key>CFBundleName</key>
 	<string> boinccmd </string>
 	<key>CFBundleVersion</key>
-	<string>5.10.7</string>
+	<string>%VERSION%</string>
+	<key>CFBundleShortVersionString</key>
+	<string>%VERSION%</string>
 </dict>
 </plist>

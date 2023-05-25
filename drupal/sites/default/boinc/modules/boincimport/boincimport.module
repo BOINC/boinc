@@ -2,12 +2,12 @@
 // ; $Id$
 
 // Drupal forums are represented as a hierarchy of terms in a vocabulary. This
-// is accomplished through the taxonomy concept (see: http://drupal.org/node/774892). 
+// is accomplished through the taxonomy concept (see: http://drupal.org/node/774892).
 // The forum vocabulary has categories as terms (e.g. "Discussion", "Help Desk")
 // and subsequent sub terms that belong to one of these parent terms. This allows
 // an arbitrary number of layers to exist in forum organization. BOINC forums map
 // to Drupal as follows:
-// 
+//
 //   Category -> Root level term in the vocabulary
 //   Topic / forum -> Term in the vocabulary with parent term
 //   Thread -> Content node
@@ -20,7 +20,7 @@ ini_set('memory_limit', '256M');
  */
 function boincimport_menu() {
   $items = array();
-  
+
   $items['admin/boinc/import'] = array(
     'title' => 'Environment: Data import',
     'description' => 'Overview of the BOINC data import process.',
@@ -36,7 +36,7 @@ function boincimport_menu() {
       after data importation is complete.',
     'access callback' => 'user_access',
     'access arguments' => array('import boinc data'),
-    'page callback' => 'boincimport_post_configuration', 
+    'page callback' => 'boincimport_post_configuration',
     'file' => 'boincimport.pages.inc',
     'type' => MENU_CALLBACK,
   );
@@ -44,7 +44,7 @@ function boincimport_menu() {
     'title' => 'Cleanup',
     'access callback' => 'user_access',
     'access arguments' => array('import boinc data'),
-    'page callback' => 'boincimport_cleanup', 
+    'page callback' => 'boincimport_cleanup',
     'type' => MENU_CALLBACK,
   );
   $items['admin/boinc/import/complete/%'] = array(
@@ -59,7 +59,7 @@ function boincimport_menu() {
     'title' => 'Execute migration',
     'access callback' => 'user_access',
     'access arguments' => array('import boinc data'),
-    'page callback' => 'boincimport_process', 
+    'page callback' => 'boincimport_process',
     'type' => MENU_CALLBACK,
   );
   $items['admin/boinc/import/reset'] = array(
@@ -156,12 +156,12 @@ function _boincimport_db_connect($test= 0) {
     }
   }
   return 1;
-  
+
 }
 
 /**
  * Check if the module is enabled.
- * 
+ *
  * @return array
  *    $out['html'] = formatted html.
  *    $out['result'] = boolean.
@@ -182,7 +182,7 @@ function _boincimport_check_module($module) {
 
 /**
  * Check if the sql tables are installed.
- * 
+ *
  * @return array
  *   $out['html'] = formatted html.
  *   $out['result'] = boolean.
@@ -195,7 +195,7 @@ function _boincimport_check_tables($tables = array(), $db = 'default' , $prefix 
   foreach ($tables as $table) {
     if ($prefix) {
       $table = db_prefix_tables('{'. $table .'}');
-    }  
+    }
 
     db_set_active($db);
     if ($GLOBALS['db_type'] == 'pgsql') {
@@ -224,7 +224,7 @@ function _boincimport_check_tables($tables = array(), $db = 'default' , $prefix 
 function boincimport_process() {
   // Start with a quick sanity check on the BOINC environment
   boinc_get_path();
-  
+
   if (!variable_get('boincimport_ready', 0)) {
     return '<p>'. t('You cannot import the data now. Please <a href="@settings">complete the setup first</a>', array('@settings' => url('admin/boinc/import/settings'))) .'</p>';
   }
@@ -249,21 +249,21 @@ function boincimport_process_form() {
   // Check for a lock on the import process
   if (variable_get('boincimport_process_locked', 0)) {
     drupal_set_message(t('The import process is locked. If you are sure that
-      it is no longer running, you may !unlock_it', 
+      it is no longer running, you may !unlock_it',
       array('!unlock_it' => l(t('release the lock'),
         'admin/boinc/import/unlock')
       )), 'warning');
     watchdog('boincimport', 'The import process is locked. If you are sure that
-      it is no longer running, you may !unlock_it', 
+      it is no longer running, you may !unlock_it',
       array('!unlock_it' => l(t('release the lock'),
         'admin/boinc/import/unlock')
-      ), WATCHDOG_WARNING); 
+      ), WATCHDOG_WARNING);
   }
   else {
     $boincimport_functions = array(
       'users' => t('Import users'),
       'teams' => t('Import teams'),
-      'friends' => t('Import friendships'), 
+      'friends' => t('Import friendships'),
       'preferences' => t('Import user preferences'),
       'private messages' => t('Import private messages'),
       'categories' => t('Import forum containers'),
@@ -290,16 +290,16 @@ function boincimport_process_form() {
 }
 
 function boincimport_process_form_submit($form, $form_state) {
-  
+
   // Lock the import process
   if (!variable_get('boincimport_process_locked', 0)) {
     variable_set('boincimport_process_locked', 1);
   }
   else {
     watchdog('boincimport', 'The import process is locked, but another process
-      is trying to access it...', array(), WATCHDOG_WARNING); 
+      is trying to access it...', array(), WATCHDOG_WARNING);
   }
-  
+
   switch ($form_state['values']['import']) {
     case 'users':
       boincimport_users();
@@ -355,7 +355,7 @@ function boincimport_process_form_submit($form, $form_state) {
       }
       break;
 
-    case 'topics':      
+    case 'topics':
       boincimport_forum_topics();
       if (!variable_get('boincimport_import_topic_successful', 0)) {
         $_SESSION['boincimport_stage_selected'] = 'topics';
@@ -364,7 +364,7 @@ function boincimport_process_form_submit($form, $form_state) {
         $_SESSION['boincimport_stage_selected'] = 'posts';
       }
       break;
-      
+
     case 'posts':
       boincimport_forum_posts();
       if (!variable_get('boincimport_import_post_successful', 0)) {
@@ -385,7 +385,7 @@ function boincimport_process_form_submit($form, $form_state) {
       }
       break;
 
-    case 'team topics':      
+    case 'team topics':
       boincimport_team_forum_topics();
       if (!variable_get('boincimport_team_topic_successful', 0)) {
         $_SESSION['boincimport_stage_selected'] = 'team topics';
@@ -394,7 +394,7 @@ function boincimport_process_form_submit($form, $form_state) {
         $_SESSION['boincimport_stage_selected'] = 'team posts';
       }
       break;
-      
+
     case 'team posts':
       boincimport_team_forum_posts();
       if (!variable_get('boincimport_team_post_successful', 0)) {
@@ -413,7 +413,7 @@ function boincimport_process_form_submit($form, $form_state) {
       else {
         drupal_set_message('Congratulations.  Import Finished');
         drupal_set_message('Please visit the '. l('Post migration configuration', 'admin/boinc/import/post_configuration') .' page');
-        watchdog('boincimport', 'Import process is complete', array(), WATCHDOG_INFO); 
+        watchdog('boincimport', 'Import process is complete', array(), WATCHDOG_INFO);
         unset($_SESSION['boincimport_stage_selected']);
       }
       break;
@@ -431,15 +431,15 @@ function boincimport_complete($section) {
     $_SESSION['boincimport_stage_selected'] = 'teams';
     break;
   case 'teams':
-    
+
     break;
-  
+
   default:
   }
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
-  
+
   drupal_goto('admin/boinc/import/process');
 }
 
@@ -447,7 +447,7 @@ function boincimport_complete($section) {
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Users
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
  * Import users (at least those required for further data import)
  */
@@ -458,8 +458,8 @@ function boincimport_users() {
     watchdog(
       'boincimport', 'Note: user import has already run successfully',
       array(), WATCHDOG_INFO
-    ); 
-  } 
+    );
+  }
 
   if (!variable_get('boincimport_import_user_started', 0)) {
     // Could prepare database tables, if new fields are necessary, etc.
@@ -512,7 +512,7 @@ function boincimport_users() {
     $user_count = mysqli_num_rows($boinc_accounts);
   }
   db_set_active('default');
-  
+
   if (!$user_count) {
     drupal_set_message(
       t('There were no users found: Aborting script'), 'error'
@@ -528,20 +528,20 @@ function boincimport_users() {
   watchdog('boincimport',
     'Found %user_count users: Beginning import',
     array('%user_count' => $user_count), WATCHDOG_INFO
-  ); 
-  
+  );
+
   // User import relies on Drupal and BOINC APIs to manage data being read
   // from one database and saved to the other. This approach keeps things
   // clean and simple, but since a sizable user base will wreak havoc on system
   // resources, the job is broken into batches here and each batch is processed
-  // by a separate process. 
-  
+  // by a separate process.
+
   //$batch_size = variable_get('boincimport_user_batch_size', 50);
   //$batch_count = $user_count - ($user_count % $batch_size) + $batch_size;
   $operations = array();
   $existing_users = array();
   $duplicates = array();
-  
+
   // Get the list of users already in Drupal to be sure we're not importing
   // any twice
   $result = db_query('
@@ -550,7 +550,7 @@ function boincimport_users() {
   while ($row = db_fetch_object($result)) {
     $existing_users[$row->boinc_id] = $row->uid;
   }
-  
+
   // Create batches to process
   while ($boinc_account = db_fetch_object($boinc_accounts)) {
      if (isset($existing_users[$boinc_account->id])) {
@@ -565,7 +565,7 @@ function boincimport_users() {
       );
     }
   }
-  
+
   if ($duplicates) {
     drupal_set_message(t(
       'Skipped @count accounts that were already imported',
@@ -574,9 +574,9 @@ function boincimport_users() {
     watchdog('boincimport',
       'Skipped @count accounts that were already imported',
       array('@count' => count($duplicates)), WATCHDOG_INFO
-    ); 
+    );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_users_finished',
@@ -585,7 +585,7 @@ function boincimport_users() {
     'progress_message' => t('Processed @current out of @total users.'),
     'error_message' => t('User import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -593,7 +593,7 @@ function boincimport_users() {
  * Batch operation for importing users
  */
 function boincimport_users_op($boinc_id, &$context) {
-  
+
   // Use the $context['sandbox'] to store information needed to track progress
   // between successive calls.
   if (!isset($context['sandbox']['progress'])) {
@@ -605,7 +605,7 @@ function boincimport_users_op($boinc_id, &$context) {
   // Note about batch size: When a batch is processed, the batch update engine
   // determines whether it should continue processing in the same request or
   // provide progress feedback to the user and wait for the next request.
-  
+
   // Grab the BOINC user object and create a Drupal user from it
   $account = boincuser_register_make_drupal_user($boinc_id);
   $message = '';
@@ -620,9 +620,9 @@ function boincimport_users_op($boinc_id, &$context) {
     watchdog('boincimport',
       'Failed to import user @id!',
       array('@id' => $boinc_id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_user'] = $boinc_id;
@@ -653,7 +653,7 @@ function boincimport_users_finished($success, $results, $operations) {
       'Successfully imported @count users (@fail_count failures).',
       array('@count' => $total_imported, '@fail_count' => $total_failures),
       WATCHDOG_INFO
-    ); 
+    );
     // Set the user import successful flag in the variable table
     variable_set('boincimport_import_user_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'teams';
@@ -665,7 +665,7 @@ function boincimport_users_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -680,28 +680,28 @@ function boincimport_users_finished($success, $results, $operations) {
  * Create teams and assign members
  */
 function boincimport_teams() {
-  
+
   // Check whether the team table has been successfully imported already
   if (variable_get('boincimport_import_team_successful', 0)) {
     drupal_set_message(t('Note: team import has already run successfully'));
     watchdog(
       'boincimport', 'Note: team import has already run successfully',
       array(), WATCHDOG_INFO
-    ); 
+    );
   }
 
   if (!variable_get('boincimport_import_team_started', 0)) {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_team_started', 1);
   }
-  
+
   // Initialize the map of BOINC team types to taxonomy IDs, if needed
   $team_type_map = variable_get('boincimport_team_types', array());
   if (!$team_type_map) {
     // Import team types from BOINC to a Drupal vocabulary
     require_boinc('team_types');
     global $team_types;
-    
+
     // Create vocabulary if it isn't set
     $team_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Teams'));
     if (!$team_vid) {
@@ -712,7 +712,7 @@ function boincimport_teams() {
       taxonomy_save_vocabulary($team_vocab);
       $team_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Teams'));
     }
-    
+
     foreach ($team_types as $boinc_type_id => $name) {
       // Check for an existing term in the vocabulary
       $team_type_id = db_result(db_query("SELECT tid FROM {term_data} WHERE vid = '{$team_vid}' AND LOWER(name) = LOWER('%s')", trim($name)));
@@ -736,7 +736,7 @@ function boincimport_teams() {
     }
     variable_set('boincimport_team_types', $team_type_map);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the list of teams to import
@@ -765,11 +765,11 @@ function boincimport_teams() {
     'Found %team_count teams: Beginning Import',
     array('%team_count' => $team_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $existing_teams = array();
   $duplicates = array();
-  
+
   // Get the list of teams already in Drupal to be sure we're not importing
   // any twice
   $result = db_query('
@@ -778,7 +778,7 @@ function boincimport_teams() {
   while ($row = db_fetch_object($result)) {
     $existing_teams[$row->team_id] = $row->nid;
   }
-  
+
   // Create batches to process
   while ($boinc_team = db_fetch_object($boinc_teams)) {
      if (isset($existing_teams[$boinc_team->id])) {
@@ -793,14 +793,14 @@ function boincimport_teams() {
       );
     }
   }
-  
+
   if ($duplicates) {
     drupal_set_message(t(
       'Skipped @count teams that were already imported',
       array('@count' => count($duplicates))
     ));
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_teams_finished',
@@ -809,7 +809,7 @@ function boincimport_teams() {
     'progress_message' => t('Processed @current out of @total teams.'),
     'error_message' => t('Team import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -818,9 +818,9 @@ function boincimport_teams() {
  * Create a Drupal node from the given BOINC team object
  */
 function boincimport_teams_op($boincteam, &$context) {
-  
+
   $success = boincteam_import($boincteam);
-  
+
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
@@ -833,9 +833,9 @@ function boincimport_teams_op($boincteam, &$context) {
     watchdog('boincimport',
       'Failed to import team @id!',
       array('@id' => $boincteam->id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_team'] = $boincteam->id;
@@ -864,7 +864,7 @@ function boincimport_teams_finished($success, $results, $operations) {
     watchdog('boincimport',
       'Successfully imported @count teams.',
       array('@count' => $total_imported), WATCHDOG_INFO
-    ); 
+    );
     // Set the team import successful flag in the variable table
     variable_set('boincimport_import_team_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'friends';
@@ -876,7 +876,7 @@ function boincimport_teams_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -891,21 +891,21 @@ function boincimport_teams_finished($success, $results, $operations) {
  * Create friend relationships between users
  */
 function boincimport_friends() {
-  
+
   // Check whether friendships have been successfully imported already
   if (variable_get('boincimport_import_friend_successful', 0)) {
     drupal_set_message(t('Note: Friends import has already run successfully'));
     watchdog(
       'boincimport', 'Note: Friends import has already run successfully',
       array(), WATCHDOG_INFO
-    ); 
+    );
   }
 
   if (!variable_get('boincimport_import_friend_started', 0)) {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_friend_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get stuff to import
@@ -917,7 +917,7 @@ function boincimport_friends() {
       f1.create_time
     FROM %sfriend f1
     LEFT JOIN %sfriend f2
-      ON f2.user_src = f1.user_dest 
+      ON f2.user_src = f1.user_dest
       AND f2.user_dest = f1.user_src
       AND f2.user_src <> f2.user_dest
     WHERE f1.reciprocated = 1
@@ -944,12 +944,12 @@ function boincimport_friends() {
     'Found %count friend relationships: Beginning Import',
     array('%count' => $friendship_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
-  
+
   // It doesn't matter if a friend relationship has already been imported, just
   // do it again if so
-  
+
   // Create batches to process
   while ($friendship = db_fetch_object($friendships)) {
     $operations[] = array(
@@ -958,7 +958,7 @@ function boincimport_friends() {
       )
     );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_friends_finished',
@@ -967,7 +967,7 @@ function boincimport_friends() {
     'progress_message' => t('Processed @current out of @total friendships.'),
     'error_message' => t('Friend import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -976,11 +976,11 @@ function boincimport_friends() {
  * Create Drupal flags from the given BOINC friend relationship
  */
 function boincimport_friends_op($friendship, &$context) {
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
   $success = FALSE;
   $message = '';
-  
+
   // Convert BOINC friends to Drupal friends
   $uid = boincuser_lookup_uid($friendship->user_src);
   $friend_uid = boincuser_lookup_uid($friendship->user_dest);
@@ -995,7 +995,7 @@ function boincimport_friends_op($friendship, &$context) {
     $boinc_id = ($uid) ? $friendship->user_dest : $friendship->user_src;
     $message = "No Drupal account exists for BOINC user {$boinc_id}!";
   }
-  
+
   if ($success) {
     // Store some result for post-processing in the finished callback.
     $context['results']['success'][] = $uid;
@@ -1008,7 +1008,7 @@ function boincimport_friends_op($friendship, &$context) {
     }
     watchdog('boincimport', $message, array(), WATCHDOG_WARNING);
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_user'] = $uid;
@@ -1038,7 +1038,7 @@ function boincimport_friends_finished($success, $results, $operations) {
         '@failed' => $failures,
       )
     );
-    watchdog('boincimport', $message, array(), WATCHDOG_INFO); 
+    watchdog('boincimport', $message, array(), WATCHDOG_INFO);
     // Set the friend import successful flag in the variable table
     variable_set('boincimport_import_friend_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'preferences';
@@ -1050,7 +1050,7 @@ function boincimport_friends_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -1065,27 +1065,27 @@ function boincimport_friends_finished($success, $results, $operations) {
  * Import community preferences for users
  */
 function boincimport_preferences() {
-  
+
   // Check whether preferences have been successfully imported already
   if (variable_get('boincimport_import_preferences_successful', 0)) {
     drupal_set_message(t('Note: preferences import has already run successfully'));
     watchdog(
       'boincimport', 'Note: preferences import has already run successfully',
       array(), WATCHDOG_INFO
-    ); 
+    );
   }
 
   if (!variable_get('boincimport_import_preferences_started', 0)) {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_preferences_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
-  
+
   // Currently the only preferences being imported are BOINC "filtered users"
   // This concept of users blocking other users when they don't get along maps
   // to the Drupal ignore users module
-  
+
   // Find users who are involved in quarrels
   db_set_active('boinc_rw');
   $quarrelers = db_query("
@@ -1113,12 +1113,12 @@ function boincimport_preferences() {
     'Found %count quarreling users: Beginning Import',
     array('%count' => $quarreler_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
-  
+
   // It doesn't matter if a filtered user preference has already been imported,
   // just do it again if so
-  
+
   // Create batches to process
   while ($quarreler = db_fetch_object($quarrelers)) {
     $operations[] = array(
@@ -1127,7 +1127,7 @@ function boincimport_preferences() {
       )
     );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_preferences_finished',
@@ -1136,7 +1136,7 @@ function boincimport_preferences() {
     'progress_message' => t('Processed @current out of @total preferences.'),
     'error_message' => t('Preference import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -1145,7 +1145,7 @@ function boincimport_preferences() {
  * Convert BOINC ignored users to Drupal ignored users
  */
 function boincimport_quarrels_op($boinc_user, &$context) {
-  
+
   $success = FALSE;
   $uid = boincuser_lookup_uid($boinc_user->userid);
   $ignored_users = explode('|', trim($boinc_user->ignorelist, '|'));
@@ -1177,7 +1177,7 @@ function boincimport_quarrels_op($boinc_user, &$context) {
       );
     }
   }
-  
+
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
@@ -1190,9 +1190,9 @@ function boincimport_quarrels_op($boinc_user, &$context) {
     watchdog('boincimport',
       'Failed to import any user filter preferences for user @id!',
       array('@id' => $uid), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_user'] = $uid;
@@ -1235,7 +1235,7 @@ function boincimport_preferences_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -1250,7 +1250,7 @@ function boincimport_preferences_finished($success, $results, $operations) {
  * Import private messages from BOINC
  */
 function boincimport_private_msgs() {
-  
+
   // Check whether private messages have been successfully imported already
   if (variable_get('boincimport_import_private_msg_successful', 0)) {
     drupal_set_message(t('Private message import has already run successfully -- repeating this process could result in duplicate messages!'), 'warning');
@@ -1265,7 +1265,7 @@ function boincimport_private_msgs() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_private_msg_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get stuff to import
@@ -1294,12 +1294,12 @@ function boincimport_private_msgs() {
     'Found %count private messages: Beginning Import',
     array('%count' => $private_msg_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
-  
+
   // We don't know if a given private message has been imported already or not;
   // if this is needed, a relation table must be added to the Drupal DB
-  
+
   // Create batches to process
   while ($boinc_private_msg = db_fetch_object($boinc_private_msgs)) {
     $operations[] = array(
@@ -1308,7 +1308,7 @@ function boincimport_private_msgs() {
       )
     );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_private_msgs_finished',
@@ -1317,7 +1317,7 @@ function boincimport_private_msgs() {
     'progress_message' => t('Processed @current out of @total private messages.'),
     'error_message' => t('Private message import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -1326,15 +1326,15 @@ function boincimport_private_msgs() {
  * Create a Drupal message from the given BOINC message object
  */
 function boincimport_private_msgs_op($pm, &$context) {
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
-  
+
   $uid = boincuser_lookup_uid($pm->userid);
   $sender_uid = boincuser_lookup_uid($pm->senderid);
-  
+
   $pm->content = _boincimport_strip_bbcode($pm->content);
   $pm->content = _boincimport_text_sanitize($pm->content);
-  
+
   // First save the message
   $message_added = db_query("
     INSERT INTO {pm_message} (subject, author, body, format, timestamp)
@@ -1342,7 +1342,7 @@ function boincimport_private_msgs_op($pm, &$context) {
     $pm->subject, $sender_uid, $pm->content, $input_format, $pm->date
   );
   $mid = db_last_insert_id('pm_message', 'mid');
-  
+
   // Then attach recipients and set status (note that threads are not a BOINC
   // feature, so just consider every message to be a new thread)
   $recipient_added = db_query("
@@ -1356,7 +1356,7 @@ function boincimport_private_msgs_op($pm, &$context) {
     VALUES (%d, %d, %d, %d, 0)",
     $mid, $mid, $sender_uid, 0
   );
-  
+
   $message = '';
   if ($message_added AND $recipient_added AND $sender_added) {
     // Store some result for post-processing in the finished callback.
@@ -1369,9 +1369,9 @@ function boincimport_private_msgs_op($pm, &$context) {
     watchdog('boincimport',
       'Failed to import private message @id!',
       array('@id' => $pm->id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_pm'] = $pm->id;
@@ -1400,7 +1400,7 @@ function boincimport_private_msgs_finished($success, $results, $operations) {
     watchdog('boincimport',
       'Successfully imported @count private messages.',
       array('@count' => $total_imported), WATCHDOG_INFO
-    ); 
+    );
     // Set the private message import successful flag in the variable table
     variable_set('boincimport_import_private_msg_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'categories';
@@ -1412,7 +1412,7 @@ function boincimport_private_msgs_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -1427,21 +1427,21 @@ function boincimport_private_msgs_finished($success, $results, $operations) {
  * Create forum containers and forums
  */
 function boincimport_forum_categories() {
-  
+
   // Check whether forums have been successfully imported already
   if (variable_get('boincimport_import_forum_category_successful', 0)) {
     drupal_set_message(t('Note: forum container import has already run successfully'));
     watchdog(
       'boincimport', 'Note: forum container import has already run successfully',
       array(), WATCHDOG_INFO
-    ); 
+    );
   }
 
   if (!variable_get('boincimport_import_forum_category_started', 0)) {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_forum_category_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Retrieve the vocabulary vid named "Forums"
@@ -1463,7 +1463,7 @@ function boincimport_forum_categories() {
       'Forums'
     ));
   }
-  
+
   // Get both categories and forums from BOINC
   db_set_active('boinc_rw');
   $boinc_forum_categories = db_query('
@@ -1513,20 +1513,20 @@ function boincimport_forum_categories() {
       '%category_count' => $forum_category_count,
     ), WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $existing_categories = array();
   $existing_forums = array();
   $duplicate_categories = array();
   $duplicate_forums = array();
   $category_map = array();
-  
+
   // Get the list of categories already in Drupal so as not to import any twice
   $category_tree = taxonomy_get_tree($forum_vid, 0, -1, 1);
   foreach ($category_tree as $term) {
     $existing_categories[] = $term->name;
   }
-  
+
   // Get the list of forums already in Drupal
   $result = db_query('
     SELECT forum_id, tid FROM {boincimport_temp_forum}'
@@ -1534,9 +1534,9 @@ function boincimport_forum_categories() {
   while ($row = db_fetch_object($result)) {
     $existing_forums[$row->forum_id] = $row->tid;
   }
-  
+
   // Create batches to process
-  
+
   // Set up the "hidden" category, if necessary
   // This is to support automatic hiding of empty categories
   $hidden_forum_tid = db_result(db_query('
@@ -1552,7 +1552,7 @@ function boincimport_forum_categories() {
       )
     );
   }
-  
+
   // Import categories
   while ($boinc_forum_category = db_fetch_object($boinc_forum_categories)) {
     if (in_array($boinc_forum_category->name, $existing_categories)) {
@@ -1567,7 +1567,7 @@ function boincimport_forum_categories() {
       );
     }
   }
-  
+
   // Import forums
   while ($boinc_forum = db_fetch_object($boinc_forums)) {
      if (isset($existing_forums[$boinc_forum->id])) {
@@ -1582,7 +1582,7 @@ function boincimport_forum_categories() {
       );
     }
   }
-  
+
   // Report any duplicates that were skipped
   $skipped_message = array();
   $categories_skipped = count($duplicate_categories);
@@ -1606,7 +1606,7 @@ function boincimport_forum_categories() {
       array('@forums' => implode(' and ', $skipped_message))
     ));
   }
-  
+
   // Create and run the batch
   $batch = array(
     'operations' => $operations,
@@ -1616,7 +1616,7 @@ function boincimport_forum_categories() {
     'progress_message' => t('Processed @current out of @total forums.'),
     'error_message' => t('Forum import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -1625,16 +1625,16 @@ function boincimport_forum_categories() {
  * Create a Drupal taxonomy term from the given BOINC category object
  */
 function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hidden, &$context) {
-  
+
   // Set term parameters for categories
   $forum_id = 0;
   $parent_id = 0;
   $description = '';
   $weight = 0;
   $hidden = FALSE;
-  
+
   $category_map = variable_get('boincimport_forum_category_map', array());
-  
+
   if (!$category AND $create_hidden) {
     // Create the special "hidden" container
     $category = new stdClass();
@@ -1656,7 +1656,7 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
       $hidden = TRUE;
     }
   }
-  
+
   $forum = array(
     'name' => $category->name,
     'vid' => $forum_vid,
@@ -1668,18 +1668,18 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
 
   taxonomy_save_term($forum);
   $success = isset($forum['tid']);
-  
+
   // Serialize the forum containers
   $containers = variable_get('forum_containers', array());
   $containers[] = $forum['tid'];
   variable_set('forum_containers', $containers);
-  
+
   // Note the taxonomy ID for mapping forums to categories
   $category_map[$category->id] = $forum['tid'];
   variable_set('boincimport_forum_category_map', $category_map);
-  
+
   boincimport_forum_set_permissions($forum, $hidden);
-  
+
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
@@ -1697,9 +1697,9 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
     watchdog('boincimport',
       'Failed to import container @id!',
       array('@id' => $category->id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_category'] = $category->id;
@@ -1719,11 +1719,11 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
  * Create a Drupal taxonomy term from the given BOINC forum object
  */
 function boincimport_forums_op($boincforum, $forum_vid, $pre = '', &$context) {
-  
+
   $hidden_forum = FALSE;
   $open_forum = FALSE;
   $category_map = variable_get('boincimport_forum_category_map', array());
-  
+
   // Set term parameters for forums
   $forum_id = $boincforum->id;
   $parent_id = isset($category_map[$boincforum->category]) ? $category_map[$boincforum->category] : $category_map[0];
@@ -1738,7 +1738,7 @@ function boincimport_forums_op($boincforum, $forum_vid, $pre = '', &$context) {
     // Must allow users to post in this forum even if they have no credit!
     $open_forum = TRUE;
   }
-  
+
   // Try to detect a BOINC news forum and flag it so that news can be
   // imported into a Drupal news content type later
   if ($name == 'News') {
@@ -1757,16 +1757,16 @@ function boincimport_forums_op($boincforum, $forum_vid, $pre = '', &$context) {
     );
     $forum['description'] = strip_tags($forum['description']);
 
-    taxonomy_save_term($forum); 
+    taxonomy_save_term($forum);
     $success = isset($forum['tid']);
-    
+
     // Save the forum ID to a temporary reference table - yes this is hackish.
     db_query('INSERT INTO {boincimport_temp_forum} (forum_id, tid) VALUES (%d, %d)', $boincforum->id, $forum['tid']);
-    
+
     // Set access controls
     boincimport_forum_set_permissions($forum, $hidden_forum, $open_forum);
   }
-  
+
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
@@ -1777,7 +1777,7 @@ function boincimport_forums_op($boincforum, $forum_vid, $pre = '', &$context) {
     $context['results']['forums']['failure'][] = $forum_id;
     $message = "Failed to import forum {$forum_id}!";
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_forum'] = $forum_id;
@@ -1796,7 +1796,7 @@ function boincimport_forums_op($boincforum, $forum_vid, $pre = '', &$context) {
  * Helper function to set permissions on forums upon import
  */
 function boincimport_forum_set_permissions($forum, $hidden = FALSE, $open = FALSE) {
-  
+
   // Set access controls
   $forum_perms = array();
   $role_map = array_flip(user_roles());
@@ -1861,7 +1861,7 @@ function boincimport_forums_finished($success, $results, $operations) {
     // Let's count our successes
     $categories_imported = count($results['categories']['success']);
     $forums_imported = count($results['forums']['success']);
-    
+
     $success_message = array();
     if ($categories_imported) {
       $success_message[] = format_plural(
@@ -1884,7 +1884,7 @@ function boincimport_forums_finished($success, $results, $operations) {
     watchdog('boincimport',
       'Successfully imported @forums',
       array('@forums' => implode(' and ', $success_message)), WATCHDOG_INFO
-    ); 
+    );
     // Set the forum import successful flag in the variable table
     variable_set('boincimport_import_forum_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'topics';
@@ -1896,7 +1896,7 @@ function boincimport_forums_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -1910,7 +1910,7 @@ function boincimport_forums_finished($success, $results, $operations) {
  * Import BOINC topics as Drupal forum nodes
  */
 function boincimport_forum_topics() {
-  
+
   // Check whether topics have been successfully imported already
   if (variable_get('boincimport_import_topic_successful', 0)) {
     drupal_set_message(t('Topic import has already run successfully'), 'warning');
@@ -1927,7 +1927,7 @@ function boincimport_forum_topics() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_topic_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the count of non-team topics to import
@@ -1958,10 +1958,10 @@ function boincimport_forum_topics() {
     'Found %count topics: Beginning Import',
     array('%count' => $topic_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $batch_size = 100;
-  
+
   // Create batches to process
   for ($offset = 0; $offset < $topic_count; $offset+=$batch_size) {
     $topics_per_batch = $batch_size;
@@ -1974,7 +1974,7 @@ function boincimport_forum_topics() {
       )
     );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_topics_finished',
@@ -1985,7 +1985,7 @@ function boincimport_forum_topics() {
     )),
     'error_message' => t('Topic import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -1999,10 +1999,10 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = $batch_size;
   }
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
   $news_forum_id = variable_get('boincimport_news_forum_id', 0);
-  
+
   // Get the topic to import
   db_set_active('boinc_rw');
   $topics = db_query('
@@ -2017,11 +2017,11 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
     $pre, $pre, $pre, $offset, $batch_size
   );
   db_set_active('default');
-  
+
   while ($topic = db_fetch_object($topics)) {
-    
+
     $error_detail = '';
-    
+
     db_set_active('boinc_rw');
 
     // Get the content of the post that started the topic
@@ -2034,17 +2034,17 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
       $pre, $topic->id
     ));
     db_set_active('default');
-      
+
     $duplicate = db_result(db_query('
       SELECT COUNT(*) FROM {boincimport_temp_topic}
       WHERE topic_id = %d',
       $topic->id
     ));
-    
+
     if ($duplicate OR !$post) {
       $success = FALSE;
     }
-    
+
     else {
       // Get the user and term IDs along with other data to define the topic
       $uid = boincuser_lookup_uid($topic->owner);
@@ -2056,19 +2056,19 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
       if (!$topic->owner) {
         $uid = 0;
       }
-      
+
       $node_type = 'forum';
       $promote = 0;
       $comment = ($topic->locked) ? 1 : 2;
-      
+
       $post->content = _boincimport_strip_bbcode($post->content);
       $post->content = _boincimport_text_sanitize($post->content);
       $teaser = node_teaser($post->content);
-      
+
       if ($topic->timestamp < $topic->create_time) {
         $topic->timestamp = $topic->create_time;
       }
-      
+
       // If dealing with a News topic, be sure it is imported as such
       if ($news_forum_id AND $topic->forum == $news_forum_id) {
         $node_type = 'news';
@@ -2092,7 +2092,7 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
         'teaser' => $teaser,
       );
       $node['tid'] = $tid;
-      
+
       // Save the topic node
       $node = (object) $node; // node_save requires an object form
       node_save($node);
@@ -2118,7 +2118,7 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
         $error_detail = 'failed to save topic node to database';
       }
     }
-    
+
     // See if the import worked
     $message = '';
     if ($success) {
@@ -2144,9 +2144,9 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
           '@error' => $error_detail,
         ),
         WATCHDOG_WARNING
-      ); 
+      );
     }
-    
+
     // Update our progress information.
     $context['sandbox']['progress']++;
     $context['sandbox']['current_topic'] = $topic->id;
@@ -2186,7 +2186,7 @@ function boincimport_topics_finished($success, $results, $operations) {
         '@duplicates' => $duplicates,
         '@abandoned' => $empty_topics,
       ), WATCHDOG_INFO
-    ); 
+    );
     // Set the topic import successful flag in the variable table
     variable_set('boincimport_import_topic_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'posts';
@@ -2198,7 +2198,7 @@ function boincimport_topics_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -2213,7 +2213,7 @@ function boincimport_topics_finished($success, $results, $operations) {
  * Import BOINC forum posts as Drupal comments
  */
 function boincimport_forum_posts() {
-  
+
   // Check whether forum posts have been successfully imported already
   if (variable_get('boincimport_import_post_successful', 0)) {
     drupal_set_message(t('Forum post import has already run successfully'), 'warning');
@@ -2230,7 +2230,7 @@ function boincimport_forum_posts() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_post_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the BOINC threads and get a count of posts to import
@@ -2266,10 +2266,10 @@ function boincimport_forum_posts() {
     'Found %count posts: Beginning Import',
     array('%count' => $post_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $batch_size = 100;
-  
+
   // Create batches to process
   for ($offset = 0; $offset < $topic_count; $offset+=$batch_size) {
     $topics_per_batch = $batch_size;
@@ -2282,7 +2282,7 @@ function boincimport_forum_posts() {
       )
     );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_posts_finished',
@@ -2297,7 +2297,7 @@ function boincimport_forum_posts() {
     ),
     'error_message' => t('Post import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -2311,9 +2311,9 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = $batch_size;
   }
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
-  
+
  // Get the topics with posts to import
   db_set_active('boinc_rw');
   $boinc_topic_ids = db_query('
@@ -2322,11 +2322,11 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     JOIN %spost p ON p.thread = t.id
     WHERE f.parent_type = 0
     ORDER BY t.id
-    LIMIT %d,%d', 
+    LIMIT %d,%d',
     $pre, $pre, $pre, $offset, $batch_size
   );
   db_set_active('default');
-  
+
   while ($boinc_topic = db_fetch_object($boinc_topic_ids)) {
     // Get the posts in this topic
     db_set_active('boinc_rw');
@@ -2334,7 +2334,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
       SELECT id, user, thread, timestamp, content, parent_post, hidden
       FROM %spost WHERE thread = %d ORDER BY id ASC', $pre, $boinc_topic->id);
     db_set_active('default');
-    
+
     $first_post = true;
     $topic_has_responses = FALSE;
     $success = FALSE;
@@ -2344,16 +2344,16 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     $duplicate_posts = 0;
 
     while ($post = db_fetch_object($boinc_posts)) {
-      
+
       // Skip the first post as it has already been imported as a topic
       if ($first_post) {
         $first_post = false;
         continue;
       }
-      
+
       // Making it this far confirms that there are posts to import
       $topic_has_responses = TRUE;
-      
+
       $is_duplicate = db_result(db_query('
         SELECT COUNT(*) FROM {boincimport_temp_post}
         WHERE post_id = %d',
@@ -2365,10 +2365,10 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
         $duplicate_posts++;
         continue;
       }
-      
+
       // Make sure the post is valid
       if ($post->content) {
-        
+
         // Get user, node, and parent IDs for the post and sanitize
         $uid = boincuser_lookup_uid($post->user);
         $node = db_fetch_object(db_query('
@@ -2386,10 +2386,10 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
           $post->parent_post));
         if (is_null($pid)) $pid = 0;
         if (!$uid) $uid = 0;
-        
+
         $post->content = _boincimport_strip_bbcode($post->content);
         $post->content = _boincimport_text_sanitize($post->content);
-        
+
         $topic_reply = db_result(db_query('
           SELECT COUNT(*)
           FROM {comments}
@@ -2397,9 +2397,9 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
           $nid
         ));
         $post_reply = $pid;
-        
+
         if ($post_reply OR $topic_reply) {
-          // Create a subject for the post from the post content. The body may be in 
+          // Create a subject for the post from the post content. The body may be in
           // any format, so we:
           //  1) Filter it into HTML
           //  2) Strip out all HTML tags
@@ -2416,7 +2416,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
           // This is the first post in the topic
           $subject = $node->title;
         }
-        
+
         // Construct the post as a Drupal comment
         $comment = array(
           'pid' => $pid,
@@ -2428,7 +2428,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
           'status' => $post->hidden,
           'format' => $input_format
         );
-        
+
         // Save the comment
         if (boincimport_forum_comment_save($comment)) {
           $success = db_query('
@@ -2455,7 +2455,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
         $empty_posts++;
       }
     }
-    
+
     $message = '';
     if ($success OR !$topic_has_responses) {
       // Store some result for post-processing in the finished callback.
@@ -2465,16 +2465,16 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     else {
       $context['results']['failure'][] = $boinc_topic->id;
       $message = "Failed to import any posts for topic {$boinc_topic->id} (excluded {$error_posts} errors, {$duplicate_posts} duplicates, and {$empty_posts} empty)";
-      watchdog('boincimport', 'Failed to import any posts for topic @id (excluded @error_posts errors, @duplicate_posts duplicates, and @empty_posts empty)', 
+      watchdog('boincimport', 'Failed to import any posts for topic @id (excluded @error_posts errors, @duplicate_posts duplicates, and @empty_posts empty)',
         array(
           '@id' => $boinc_topic->id,
           '@error_posts' => $error_posts,
           '@duplicate_posts' => $duplicate_posts,
           '@empty_posts' => $empty_posts,
         ), WATCHDOG_WARNING
-      ); 
+      );
     }
-    
+
     // Update our progress information.
     $context['sandbox']['progress']++;
     $context['sandbox']['current_topic'] = $boinc_topic->id;
@@ -2520,7 +2520,7 @@ function boincimport_posts_finished($success, $results, $operations) {
     watchdog('boincimport',
       $message,
       array(), WATCHDOG_INFO
-    ); 
+    );
     // Set the post import successful flag in the variable table
     variable_set('boincimport_import_post_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'team forums';
@@ -2532,7 +2532,7 @@ function boincimport_posts_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -2547,7 +2547,7 @@ function boincimport_posts_finished($success, $results, $operations) {
  * Import team forums
  */
 function boincimport_team_forums() {
-  
+
   // Check whether team forums have been successfully imported already
   if (variable_get('boincimport_import_team_forum_successful', 0)) {
     drupal_set_message(t('Team forum import has already run successfully'), 'warning');
@@ -2561,7 +2561,7 @@ function boincimport_team_forums() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_team_forum_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get team forums from BOINC database
@@ -2593,11 +2593,11 @@ function boincimport_team_forums() {
     'Found %count team forums: Beginning Import',
     array('%count' => $team_forum_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $existing_team_forums = array();
   $duplicates = array();
-  
+
   // Get the list of team forums already in Drupal to be sure we're not
   // importing any twice
   $result = db_query('
@@ -2606,7 +2606,7 @@ function boincimport_team_forums() {
   while ($row = db_fetch_object($result)) {
     $existing_team_forums[$row->boinc_id] = $row->nid;
   }
-  
+
   // Create batches to process
   while ($boincteam_forum = db_fetch_object($boincteam_forums)) {
      if (isset($existing_team_forums[$boincteam_forum->id])) {
@@ -2621,14 +2621,14 @@ function boincimport_team_forums() {
       );
     }
   }
-  
+
   if ($duplicates) {
     drupal_set_message(t(
       'Skipped @count team forums that were already imported',
       array('@count' => count($duplicates))
     ));
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_team_forums_finished',
@@ -2637,7 +2637,7 @@ function boincimport_team_forums() {
     'progress_message' => t('Processed @current out of @total team forums.'),
     'error_message' => t('Team forum import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -2647,17 +2647,17 @@ function boincimport_team_forums() {
  * object
  */
 function boincimport_team_forums_op($boincteam_forum, &$context) {
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
-  
+
   // Set term parameters for forums
   $forum_id = $boincteam_forum->id;
   $team_id = boincteam_lookup_nid($boincteam_forum->category);
   $name = $boincteam_forum->title;
   $description = strip_tags($boincteam_forum->description);
-  
+
   $success = db_query("
-    INSERT INTO {boincteam_forum} SET 
+    INSERT INTO {boincteam_forum} SET
       boinc_id = %d,
       nid = %d,
       title = '%s',
@@ -2668,12 +2668,12 @@ function boincimport_team_forums_op($boincteam_forum, &$context) {
       min_time_between_posts = %d,
       min_total_credit_to_post = %d,
       min_avg_credit_to_post = %d",
-    $forum_id, $team_id, $name, $description, $boincteam_forum->timestamp, 
-    time(), 0, $boincteam_forum->post_min_interval, 
+    $forum_id, $team_id, $name, $description, $boincteam_forum->timestamp,
+    time(), 0, $boincteam_forum->post_min_interval,
     $boincteam_forum->post_min_total_credit,
     $boincteam_forum->post_min_expavg_credit
   );
-  
+
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
@@ -2686,9 +2686,9 @@ function boincimport_team_forums_op($boincteam_forum, &$context) {
     watchdog('boincimport',
       'Failed to import team forum @id!',
       array('@id' => $forum_id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_forum'] = $forum_id;
@@ -2717,7 +2717,7 @@ function boincimport_team_forums_finished($success, $results, $operations) {
     watchdog('boincimport',
       'Successfully imported @count team forums.',
       array('@count' => $total_imported), WATCHDOG_INFO
-    ); 
+    );
     // Set the team forum import successful flag in the variable table
     variable_set('boincimport_import_team_forum_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'team topics';
@@ -2729,7 +2729,7 @@ function boincimport_team_forums_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -2744,7 +2744,7 @@ function boincimport_team_forums_finished($success, $results, $operations) {
  * Import BOINC team topics to Drupal team_forum type nodes
  */
 function boincimport_team_forum_topics() {
-  
+
   // Check whether team forum topics have been successfully imported already
   if (variable_get('boincimport_import_team_topic_successful', 0)) {
     drupal_set_message(t('Team topic import has already run successfully'), 'warning');
@@ -2758,7 +2758,7 @@ function boincimport_team_forum_topics() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_team_topic_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get all team topics to import from BOINC
@@ -2798,11 +2798,11 @@ function boincimport_team_forum_topics() {
     'Found %count team topics: Beginning Import',
     array('%count' => $boincteam_topic_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $existing_team_topics = array();
   $duplicates = array();
-  
+
   // Get the list of team topics already in Drupal to be sure we're not
   // importing any twice
   $result = db_query('
@@ -2811,7 +2811,7 @@ function boincimport_team_forum_topics() {
   while ($row = db_fetch_object($result)) {
     $existing_team_topics[$row->topic_id] = $row->nid;
   }
-  
+
   // Create batches to process
   while ($boincteam_topic = db_fetch_object($boincteam_topics)) {
      if (isset($existing_team_topics[$boincteam_topic->id])) {
@@ -2826,14 +2826,14 @@ function boincimport_team_forum_topics() {
       );
     }
   }
-  
+
   if ($duplicates) {
     drupal_set_message(t(
       'Skipped @count team topics that were already imported',
       array('@count' => count($duplicates))
     ));
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_team_topics_finished',
@@ -2842,7 +2842,7 @@ function boincimport_team_forum_topics() {
     'progress_message' => t('Processed @current out of @total team topics.'),
     'error_message' => t('Team topic import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -2851,12 +2851,12 @@ function boincimport_team_forum_topics() {
  * Create a Drupal node from the given BOINC team topic object
  */
 function boincimport_team_topics_op($topic, &$context) {
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
   $success = FALSE;
   $missing_parent = array();
   $empty_topics = array();
-  
+
   // Verify that the team forum container has been imported
   $team_forum_id = db_result(db_query("
     SELECT tfid FROM {boincteam_forum}
@@ -2877,7 +2877,7 @@ function boincimport_team_topics_op($topic, &$context) {
       LIMIT 1',
       $pre, $topic->id);
     db_set_active('default');
-      
+
     // Skip this topic if there are no posts
     if (!$post = db_fetch_object($query)) {
       // Empty topics should have already been filtered out of the import, so
@@ -2890,15 +2890,15 @@ function boincimport_team_topics_op($topic, &$context) {
        if (!$topic->owner) {
         $uid = 0;
       }
-      
+
       $node_type = 'team_forum';
       $promote = 0;
       $comment = ($topic->locked) ? 1 : 2;
-      
+
       $post->content = _boincimport_strip_bbcode($post->content);
       $post->content = _boincimport_text_sanitize($post->content);
       $teaser = node_teaser($post->content);
-      
+
       if ($topic->timestamp < $topic->create_time) {
         $topic->timestamp = $topic->create_time;
       }
@@ -2920,7 +2920,7 @@ function boincimport_team_topics_op($topic, &$context) {
         'teaser' => $teaser,
         'tfid' => $team_forum_id,
       );
-      
+
       // Save the team topic node
       $node = (object) $node; // node_save requires an object form
       node_save($node);
@@ -2942,7 +2942,7 @@ function boincimport_team_topics_op($topic, &$context) {
       }
     }
   }
-  
+
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
@@ -2955,9 +2955,9 @@ function boincimport_team_topics_op($topic, &$context) {
     watchdog('boincimport',
       'Failed to import team topic @id!',
       array('@id' => $topic->id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_topic'] = $topic->id;
@@ -2986,7 +2986,7 @@ function boincimport_team_topics_finished($success, $results, $operations) {
     watchdog('boincimport',
       'Successfully imported @count team topics.',
       array('@count' => $total_imported), WATCHDOG_INFO
-    ); 
+    );
     // Set the BLAH import successful flag in the variable table
     variable_set('boincimport_import_team_topic_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'team posts';
@@ -2998,7 +2998,7 @@ function boincimport_team_topics_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -3013,7 +3013,7 @@ function boincimport_team_topics_finished($success, $results, $operations) {
  * Import BOINC team forum posts as Drupal comments
  */
 function boincimport_team_forum_posts() {
-  
+
   // Check whether team forum posts have been successfully imported already
   if (variable_get('boincimport_import_team_post_successful', 0)) {
     drupal_set_message(t('Team forum post import has already run successfully'), 'warning');
@@ -3030,7 +3030,7 @@ function boincimport_team_forum_posts() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_team_post_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get the BOINC threads and get a count of team posts to import
@@ -3073,11 +3073,11 @@ function boincimport_team_forum_posts() {
     'Found %count team posts: Beginning Import',
     array('%count' => $team_post_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $existing_posts = array();
   $duplicates = array();
-  
+
   // Get the list of team posts already in Drupal to be sure we're not
   // importing any twice
   $result = db_query('
@@ -3086,10 +3086,10 @@ function boincimport_team_forum_posts() {
   while ($row = db_fetch_object($result)) {
     $existing_posts[$row->post_id] = $row->cid;
   }
-  
+
   // Create batches to process
   while ($boincteam_topic = db_fetch_object($team_topic_ids)) {
-    
+
     db_set_active('boinc_rw');
     $boincteam_posts = db_query('
       SELECT id, user, thread, timestamp, content, parent_post, hidden
@@ -3099,11 +3099,11 @@ function boincimport_team_forum_posts() {
       $pre, $boincteam_topic->id
     );
     db_set_active('default');
-    
+
     $first_post = true;
 
     while ($boincteam_post = db_fetch_object($boincteam_posts)) {
-      
+
       // Skip the first post as it has already been imported as a topic
       if ($first_post) {
         $first_post = false;
@@ -3123,14 +3123,14 @@ function boincimport_team_forum_posts() {
       }
     }
   }
-  
+
   if ($duplicates) {
     drupal_set_message(t(
       'Skipped @count team posts that were already imported',
       array('@count' => count($duplicates))
     ));
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_team_posts_finished',
@@ -3139,7 +3139,7 @@ function boincimport_team_forum_posts() {
     'progress_message' => t('Processed @current out of @total team posts.'),
     'error_message' => t('Team post import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -3148,13 +3148,13 @@ function boincimport_team_forum_posts() {
  * Create a Drupal comment from the given BOINC team post object
  */
 function boincimport_team_posts_op($post, &$context) {
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
   $success = FALSE;
-  
+
   // Make sure the post is valid
   if ($post->content) {
-    
+
     // Get user, node, and parent IDs for the post and sanitize
     $uid = boincuser_lookup_uid($post->user);
     $node = db_fetch_object(db_query('
@@ -3172,10 +3172,10 @@ function boincimport_team_posts_op($post, &$context) {
       $post->parent_post));
     if (is_null($pid)) $pid = 0;
     if (!$uid) $uid = 0;
-    
+
     $post->content = _boincimport_strip_bbcode($post->content);
     $post->content = _boincimport_text_sanitize($post->content);
-    
+
     $topic_reply = db_result(db_query('
       SELECT COUNT(*)
       FROM {comments}
@@ -3183,9 +3183,9 @@ function boincimport_team_posts_op($post, &$context) {
       $nid
     ));
     $post_reply = $pid;
-    
+
     if ($post_reply OR $topic_reply) {
-      // Create a subject for the post from the post content. The body may be in 
+      // Create a subject for the post from the post content. The body may be in
       // any format, so we:
       //  1) Filter it into HTML
       //  2) Strip out all HTML tags
@@ -3202,7 +3202,7 @@ function boincimport_team_posts_op($post, &$context) {
       // This is the first post in the topic
       $subject = $node->title;
     }
-    
+
     // Construct the post as a Drupal comment
     $comment = array(
       'pid' => $pid,
@@ -3214,7 +3214,7 @@ function boincimport_team_posts_op($post, &$context) {
       'status' => $post->hidden,
       'format' => $input_format
     );
-    
+
     // Save the comment
     if (boincimport_forum_comment_save($comment)) {
       $success = db_query('
@@ -3224,7 +3224,7 @@ function boincimport_team_posts_op($post, &$context) {
       );
     }
   }
-  
+
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
@@ -3237,9 +3237,9 @@ function boincimport_team_posts_op($post, &$context) {
     watchdog('boincimport',
       'Failed to import team post @id!',
       array('@id' => $post->id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_post'] = $post->id;
@@ -3268,7 +3268,7 @@ function boincimport_team_posts_finished($success, $results, $operations) {
     watchdog('boincimport',
       'Successfully imported @count team posts.',
       array('@count' => $total_imported), WATCHDOG_INFO
-    ); 
+    );
     // Set the team post import successful flag in the variable table
     variable_set('boincimport_import_team_post_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'url';
@@ -3280,7 +3280,7 @@ function boincimport_team_posts_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -3295,7 +3295,7 @@ function boincimport_team_posts_finished($success, $results, $operations) {
  * Import subscriptions for users
  */
 function boincimport_subscriptions() {
-  
+
   // Check whether subscriptions have been successfully imported already
   if (variable_get('boincimport_import_subscription_successful', 0)) {
     drupal_set_message(t('Subscription import has already run successfully'), 'warning');
@@ -3309,7 +3309,7 @@ function boincimport_subscriptions() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_import_subscription_started', 1);
   }
-  
+
   $pre = variable_get('boincimport_table_prefix', '');
 
   // Get users with subscriptions to import
@@ -3339,9 +3339,9 @@ function boincimport_subscriptions() {
     'Found %count users with subscriptions: Beginning import',
     array('%count' => $user_count), WATCHDOG_INFO
   );
-  
+
   $operations = array();
-  
+
   // Create batches to process
   while ($subscribed_user = db_fetch_object($users_with_subscriptions)) {
     $operations[] = array(
@@ -3350,7 +3350,7 @@ function boincimport_subscriptions() {
       )
     );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_subscriptions_finished',
@@ -3359,7 +3359,7 @@ function boincimport_subscriptions() {
     'progress_message' => t('Processed @current out of @total subscriptions.'),
     'error_message' => t('Subscription import has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -3368,11 +3368,11 @@ function boincimport_subscriptions() {
  * Import subscriptions for the given user
  */
 function boincimport_subscriptions_op($boincuser_id, &$context) {
-  
+
   // Get the drupal user and pull subscriptions
   $uid = get_drupal_id($boincuser_id);
   $count = boincuser_pull_subscriptions($uid);
-  
+
   $message = '';
   if ($count) {
     // Store some result for post-processing in the finished callback.
@@ -3386,9 +3386,9 @@ function boincimport_subscriptions_op($boincuser_id, &$context) {
     watchdog('boincimport',
       'Failed to import subscriptions for user @id!',
       array('@id' => $boincuser_id), WATCHDOG_WARNING
-    ); 
+    );
   }
-  
+
   // Update our progress information.
   $context['sandbox']['progress']++;
   $context['sandbox']['current_user'] = $boincuser_id;
@@ -3419,7 +3419,7 @@ function boincimport_subscriptions_finished($success, $results, $operations) {
       'Successfully imported @count subscriptions for @distinct users.',
       array('@count' => $subscriptions_imported, '@distinct' => $user_count),
       WATCHDOG_INFO
-    ); 
+    );
     // Set the subscription import successful flag in the variable table
     variable_set('boincimport_import_subscription_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'url';
@@ -3431,7 +3431,7 @@ function boincimport_subscriptions_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -3445,7 +3445,7 @@ function boincimport_subscriptions_finished($success, $results, $operations) {
  * Update relative BOINC URLs to work with Drupal
  */
 function boincimport_replace_urls() {
-  
+
   // Check whether URLs have already been fixed
   if (variable_get('boincimport_replace_url_successful', 0)) {
     drupal_set_message(t('URLs have already been updated'), 'warning');
@@ -3459,25 +3459,25 @@ function boincimport_replace_urls() {
     // Could prepare database tables, if new fields are necessary, etc.
     variable_set('boincimport_replace_url_started', 1);
   }
-  
+
   // Get the count of nodes and comments to process for URL updates
   $node_count = db_result(db_query('
     SELECT COUNT(DISTINCT btt.nid)
     FROM {boincimport_temp_topic} AS btt
     LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid'
   ));
-  
+
   $comment_count = db_result(db_query('
     SELECT COUNT(c.cid)
     FROM {boincimport_temp_post} AS p
     LEFT JOIN {comments} AS c ON p.cid = c.cid'
   ));
-  
+
   $pm_count = db_result(db_query('
     SELECT COUNT(*)
     FROM {pm_message} pm'
   ));
-  
+
   if (!$node_count AND !$comment_count AND !$pm_count) {
     drupal_set_message(
       t('There were no nodes, comments, or private messages found: Aborting script'), 'warning'
@@ -3489,7 +3489,7 @@ function boincimport_replace_urls() {
     variable_del('boincimport_process_locked');
     return t('There were no nodes, comments, or private messages found: Aborting script.');
   }
-  
+
   watchdog('boincimport',
     'Found %node_count nodes, %comment_count comments, and %pm_count private messages: Updating URLs...',
     array(
@@ -3499,10 +3499,10 @@ function boincimport_replace_urls() {
     ),
     WATCHDOG_INFO
   );
-  
+
   $operations = array();
   $batch_size = 100;
-  
+
   // Create node batches to process
   for ($offset = 0; $offset < $node_count; $offset+=$batch_size) {
     $nodes_per_batch = $batch_size;
@@ -3539,7 +3539,7 @@ function boincimport_replace_urls() {
       )
     );
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_replace_urls_finished',
@@ -3550,7 +3550,7 @@ function boincimport_replace_urls() {
     )),
     'error_message' => t('URL update has encountered an error.'),
   );
-  
+
   batch_set($batch);
 }
 
@@ -3564,7 +3564,7 @@ function boincimport_replace_urls_node_op($offset, $batch_size, &$context) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = $batch_size;
   }
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
 
   // Since topics have just been imported, there should be only one vid for
@@ -3578,10 +3578,10 @@ function boincimport_replace_urls_node_op($offset, $batch_size, &$context) {
     LIMIT %d,%d',
     $offset, $batch_size
   );
-  
+
   while ($node = db_fetch_object($nodes)) {
     $updated = FALSE;
-    
+
     // Update URLs in node contents
     $original_body = $node->body;
     $original_teaser = $node->teaser;
@@ -3595,7 +3595,7 @@ function boincimport_replace_urls_node_op($offset, $batch_size, &$context) {
         $node->body, $node->teaser, $node->nid
       );
     }
-    
+
     $message = '';
     $context['results']['success'][] = $node->nid;
     if ($updated) {
@@ -3606,7 +3606,7 @@ function boincimport_replace_urls_node_op($offset, $batch_size, &$context) {
     else {
       $message = "No changes made to node {$node->nid}!";
     }
-    
+
     // Update our progress information.
     $context['sandbox']['progress']++;
     $context['sandbox']['current_node'] = $node->nid;
@@ -3632,9 +3632,9 @@ function boincimport_replace_urls_comment_op($offset, $batch_size, &$context) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = $batch_size;
   }
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
-  
+
   // Get comments to process
   $comments = db_query('
     SELECT c.cid, c.comment
@@ -3644,10 +3644,10 @@ function boincimport_replace_urls_comment_op($offset, $batch_size, &$context) {
     LIMIT %d,%d',
     $offset, $batch_size
   );
-  
+
   while ($comment = db_fetch_object($comments)) {
     $updated = FALSE;
-    
+
     // Update URLs in comment contents
     $original_comment = $comment->comment;
     $comment->comment = _boincimport_replace_links($comment->comment);
@@ -3659,7 +3659,7 @@ function boincimport_replace_urls_comment_op($offset, $batch_size, &$context) {
         $comment->comment, $comment->cid
       );
     }
-    
+
     $message = '';
     $context['results']['success'][] = $comment->cid;
     if ($updated) {
@@ -3670,7 +3670,7 @@ function boincimport_replace_urls_comment_op($offset, $batch_size, &$context) {
     else {
       $message = "No changes made to comment {$comment->cid}!";
     }
-    
+
     // Update our progress information.
     $context['sandbox']['progress']++;
     $context['sandbox']['current_comment'] = $comment->cid;
@@ -3696,9 +3696,9 @@ function boincimport_replace_urls_pm_op($offset, $batch_size, &$context) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = $batch_size;
   }
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
-  
+
   // Get private messages to process
   $messages = db_query('
     SELECT pm.mid, pm.body
@@ -3707,10 +3707,10 @@ function boincimport_replace_urls_pm_op($offset, $batch_size, &$context) {
     LIMIT %d,%d',
     $offset, $batch_size
   );
-  
+
   while ($pm = db_fetch_object($messages)) {
     $updated = FALSE;
-    
+
     // Update URLs in private message body
     $original_pm_body = $pm->body;
     $pm->body = _boincimport_replace_links($pm->body);
@@ -3722,7 +3722,7 @@ function boincimport_replace_urls_pm_op($offset, $batch_size, &$context) {
         $pm->body, $pm->mid
       );
     }
-    
+
     $message = '';
     $context['results']['success'][] = $pm->mid;
     if ($updated) {
@@ -3733,7 +3733,7 @@ function boincimport_replace_urls_pm_op($offset, $batch_size, &$context) {
     else {
       $message = "No changes made to private message {$pm->mid}!";
     }
-    
+
     // Update our progress information.
     $context['sandbox']['progress']++;
     $context['sandbox']['current_pm'] = $pm->mid;
@@ -3816,7 +3816,7 @@ function boincimport_replace_urls_finished($success, $results, $operations) {
     $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
   }
   drupal_set_message($message);
-  
+
   // Release the lock on the import process
   variable_del('boincimport_process_locked');
   drupal_goto('admin/boinc/import/process');
@@ -3832,7 +3832,7 @@ function boincimport_replace_urls_finished($success, $results, $operations) {
  */
 function boincimport_process_cleanup() {
   db_set_active('default');
-  
+
   variable_del('boincimport_base_url_boinc');
   variable_del('boincimport_base_url_drupal');
   variable_del('boincimport_import_user_successful');
@@ -3858,7 +3858,7 @@ function boincimport_process_cleanup() {
   variable_del('boincimport_team_types');
   variable_del('boincimport_time_limit');
   variable_del('boincimport_import_lurkers');
-  variable_del('boincimport_import_polls'); 
+  variable_del('boincimport_import_polls');
   variable_del('boincimport_import_poll_started');
   variable_del('boincimport_import_poll_successful');
   variable_del('boincimport_import_pm_successful');
@@ -3910,7 +3910,7 @@ function boincimport_forum_comment_save(&$edit) {
   $format = variable_get('boincimport_input_format', 0);
   $score = 0; // 0 default value, comments get higher score depending on the author's roles
   $users = serialize(array(0 => 1));  // default value for everybody!!
-  
+
   if ($edit['uid'] === $user->uid) { // '===' because we want to modify anonymous users too
     $edit['name'] = $user->name;
   }
@@ -3964,9 +3964,9 @@ function _boincimport_text_sanitize($text) {
  * Replace all types of links.
  */
 function _boincimport_replace_links($html) {
-  
+
   $transformer = new BoincImportUrlTransformer();
-  
+
   // Update links to posts, threads, and forums
   $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_thread\.php\?id=(\d+)&postid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformPostLinks'), $html);
   $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', array($transformer, 'transformOldPostLinks'), $html);
@@ -3979,10 +3979,10 @@ function _boincimport_replace_links($html) {
   $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)results\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostResultsLinks'), $html);
   $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)show_host_detail\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostLinks'), $html);
   $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)hosts_user\.php\?userid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformUserHostsLinks'), $html);
-  
+
   // Update any links to the top level index
   $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_index.php}i', array($transformer, 'transformForumIndexLinks'), $html);
-  
+
   return $html;
 }
 
@@ -3990,11 +3990,11 @@ function _boincimport_replace_links($html) {
  * Limit redundancy by using this class to do URL transformations
  */
 class BoincImportUrlTransformer {
-  
+
   var $basePath;
   var $boincDomain;
   var $drupalDomain;
-  
+
   /**
    * Constructor
    */
@@ -4015,7 +4015,7 @@ class BoincImportUrlTransformer {
     }
     if (!$this->boincDomains) {
       watchdog('boincimport', 'No valid BOINC base URLs found to transform!',
-        array(), WATCHDOG_WARNING); 
+        array(), WATCHDOG_WARNING);
     }
   }
 
@@ -4023,7 +4023,7 @@ class BoincImportUrlTransformer {
   function BoincImportUrlTransformer() {
     self::__construct();
   }
-  
+
   /**
    * Get what the new base URL should be (needed for every transformation)
    */
@@ -4045,7 +4045,7 @@ class BoincImportUrlTransformer {
       return $this->basePath;
     }
   }
-  
+
   /**
    * Replace links to specific posts. If the given post is the first in the
    * thread, it is a topic node in Drupal, not a comment.
@@ -4070,7 +4070,7 @@ class BoincImportUrlTransformer {
     }
     return $link;
   }
-  
+
   /**
    * Replace links that include anchors to specific posts. If the given post is
    * the first in the thread, it is a topic node in Drupal, not a comment.
@@ -4095,7 +4095,7 @@ class BoincImportUrlTransformer {
     }
     return $link;
   }
-  
+
   function transformTopicLinks($matches) {
     $link = $matches[0];
     $newBaseUrl = $this->getNewBaseUrl($matches);
@@ -4171,7 +4171,7 @@ class BoincImportUrlTransformer {
     }
     return $link;
   }
-  
+
   function transformUserResultsLinks($matches) {
     $link = $matches[0];
     $newBaseUrl = $this->getNewBaseUrl($matches);
@@ -4180,7 +4180,7 @@ class BoincImportUrlTransformer {
     }
     return $link;
   }
-  
+
   function transformHostLinks($matches) {
     $link = $matches[0];
     $newBaseUrl = $this->getNewBaseUrl($matches);
@@ -4190,7 +4190,7 @@ class BoincImportUrlTransformer {
     }
     return $link;
   }
-  
+
   function transformUserHostsLinks($matches) {
     $link = $matches[0];
     $newBaseUrl = $this->getNewBaseUrl($matches);
@@ -4202,7 +4202,7 @@ class BoincImportUrlTransformer {
     }
     return $link;
   }
-  
+
   function transformForumIndexLinks($matches) {
     $link = $matches[0];
     $newBaseUrl = $this->getNewBaseUrl($matches);

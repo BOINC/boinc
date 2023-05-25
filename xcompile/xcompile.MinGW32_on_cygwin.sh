@@ -1,10 +1,10 @@
-#! /bin/sh 
-case $1 in 
-     --help) echo Usage: 
+#! /bin/sh
+case $1 in
+     --help) echo Usage:
               echo "$0 \<target_host_triplet\>  (default i686-\*-mingw32)"
 	      echo "  Expects to find build root in /usr/\<target_host_triplet\>/sys-root/mingw"
 	      ;;
-      i686*mingw32|x86_64*mingw32) 
+      i686*mingw32|x86_64*mingw32)
               export TARGET_HOST=$1
               ;;
 esac
@@ -22,8 +22,8 @@ for target_host in ${TARGET_HOST} i686-w64-mingw32 i686-pc-mingw32 x86_64-w64-mi
    fi
 done
 
-case $TARGET_HOST in 
-	i686*)   openssl_cross=mingw 
+case $TARGET_HOST in
+	i686*)   openssl_cross=mingw
 	         ;;
 	x86_64*) openssl_cross=mingw64
 	         ;;
@@ -55,10 +55,10 @@ pkgsearchpath="dummy"
 for dir in `find /usr/${TARGET_HOST} -name pkgconfig` ; do
   pkgsearchpath="${pkgsearchpath}:${dir}"
 done
-for dir in `find /usr/lib -name pkgconfig` ; do 
+for dir in `find /usr/lib -name pkgconfig` ; do
   pkgsearchpath="${pkgsearchpath}:${dir}"
 done
-for dir in `find /usr/share -name pkgconfig` ; do 
+for dir in `find /usr/share -name pkgconfig` ; do
   pkgsearchpath="${pkgsearchpath}:${dir}"
 done
 export PKG_CONFIG_PATH=`echo ${pkgsearchpath} | sed 's/dummy://'`
@@ -133,13 +133,13 @@ if test $build_client != no ; then
   nvdir=
   if ! test -f ${XCOMPILE_ROOT}/lib/libnvapi.a ; then
     mkdir NVIDIA
-    case $target_host in 
+    case $target_host in
     	i[56]86-*)  nvdir=../coprocs/NVIDIA/mswin/Win32/Release/lib
 	            ;;
         x86*|x64*)  nvdir=../coprocs/NVIDIA/mswin/x64/Release/lib
 	            ;;
     esac
-    if test x$nvdir != x ; then 
+    if test x$nvdir != x ; then
       rsync -va $nvdir/* NVIDIA
       cd NVIDIA
       obj=`ar t nvapi.lib | head -1`
@@ -165,9 +165,9 @@ if test $build_manager != no ; then
 #    rm -f $filename
     cd wxWidgets-${wxver}
     enables="--with-msw  --with-libpng --with-libjpeg --with-libtiff --with-opengl --with-zlib  --enable-toolbar --enable-statusbar --enable-statbmp --enable-intl --enable-accessibility --enable-catch_segvs --enable-std_containers --enable-std_iostreams --enable-std_string --enable-std_string_conv_in_wxstring --enable-permissive  --enable-xlocale --enable-config --enable-protocols --enable-ftp --enable-http --enable-fileproto --enable-sockets --enable-ole --enable-dataobj --enable-ipc --enable-baseevtloop --enable-selectloop --enable-any --enable-base64 --enable-dialupman --enable-uxtheme "
-    ./configure -C --host=$TARGET_HOST --build=$BUILD_HOST ${enables} --with-libcurl=${XCOMPILE_ROOT} --with-ssl=${XCOMPILE_ROOT} --with-winsock --prefix=${XCOMPILE_ROOT} 
+    ./configure -C --host=$TARGET_HOST --build=$BUILD_HOST ${enables} --with-libcurl=${XCOMPILE_ROOT} --with-ssl=${XCOMPILE_ROOT} --with-winsock --prefix=${XCOMPILE_ROOT}
     make all
-    make install 
+    make install
     /bin/cp lib/*.a ${XCOMPILE_ROOT}/lib
     /bin/cp lib/*.dll ${XCOMPILE_ROOT}/bin
     /bin/mv -f ${XCOMPILE_ROOT}/lib/wx*.dll ${XCOMPILE_ROOT}/bin

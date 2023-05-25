@@ -30,10 +30,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CADeleteBOINCAccounts::CADeleteBOINCAccounts(MSIHANDLE hMSIHandle) :
@@ -42,10 +42,10 @@ CADeleteBOINCAccounts::CADeleteBOINCAccounts(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CADeleteBOINCAccounts::~CADeleteBOINCAccounts()
@@ -55,10 +55,10 @@ CADeleteBOINCAccounts::~CADeleteBOINCAccounts()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CADeleteBOINCAccounts::OnExecution()
@@ -79,7 +79,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -99,7 +99,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
     if (NERR_Success != nasReturnValue) {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -107,7 +107,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -127,7 +127,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
     if (NERR_Success != nasReturnValue) {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -135,7 +135,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -149,7 +149,7 @@ UINT CADeleteBOINCAccounts::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    DeleteBOINCAccounts
 //
 // Description: This custom action delete the two user accounts that

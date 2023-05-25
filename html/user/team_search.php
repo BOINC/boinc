@@ -29,7 +29,7 @@ check_get_args(array("keywords", "active", "country", "type", "submit", "xml"));
 // Merge list1 into list2.
 // list entries are of the form id => team,
 // where team includes a field "refcnt".
-// 
+//
 function merge_lists($list1, &$list2, $weight) {
     foreach($list1 as $team) {
         $id = $team->id;

@@ -60,7 +60,7 @@ int stage_file(
     bool gzip,
     bool copy,
     bool verbose
-) {    
+) {
     char dl_hier_path[MAXPATHLEN], gz_path[MAXPATHLEN];
     char md5_file_path[MAXPATHLEN], md5_file_hash[MD5_LEN];
     char* file_name;
@@ -72,7 +72,7 @@ int stage_file(
     }
 
     file_name = basename(file_path);
-    
+
     retval = dir_hier_path(
         file_name, config.download_dir,
         config.uldl_dir_fanout, dl_hier_path, true
@@ -115,7 +115,7 @@ int stage_file(
             }
             break;
         case -1:
-            fprintf(stderr, 
+            fprintf(stderr,
                 "There is already a file in your project's download directory with that name,\n"
                 "but with different contents. This is not allowed by BOINC, which requires that\n"
                 "files be immutable. Please use a different file name.\n"
@@ -178,7 +178,7 @@ void run_stage_file(
     bool copy,
     bool verbose
 ) {
-    int retval = stage_file(file_path, config, gzip, copy, verbose); 
+    int retval = stage_file(file_path, config, gzip, copy, verbose);
     if (retval) {
         fprintf(stderr, "stage_file failed for file %s: %s\n", file_path, boincerror(retval));
         exit(1);
@@ -219,7 +219,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "--copy")) {
             copy = true;
         } else if (!strcmp(argv[i], "--verbose")) {
-            verbose = true;           
+            verbose = true;
         } else {
             fprintf(stderr, "Unknown optional argument: %s\n", argv[i]);
             usage(1);

@@ -18,7 +18,7 @@
 
 // search for posts or a thread.
 // Takes input from forum_search.php
- 
+
 require_once('../inc/time.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/forum.inc');
@@ -37,7 +37,7 @@ function search_thread_titles(
     $search_string="%";
     foreach ($keyword_list as $key => $word) {
         $search_string .= BoincDb::escape_string($word)."%";
-    }        
+    }
     $query = "title like '".$search_string."'";
     if ($forum && $forum != "all") {
         $query .= " and forum = $forum->id";
@@ -90,7 +90,7 @@ function search_post_content(
     $search_string="%";
     foreach ($keyword_list as $key => $word){
         $search_string .= BoincDb::escape_string($word)."%";
-    } 
+    }
     $optional_join = "";
     // if looking in a single forum, need to join w/ thread table
     // because that's where the link to forum is

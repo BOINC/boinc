@@ -638,8 +638,8 @@ function error_code_str($x){
     case -192: return "ERR_MKDIR";
     case -193: return "ERR_INVALID_EVENT";
     case -194: return "ERR_ALREADY_RUNNING";
-    case -195: return "ERR_NO_APP_VERSION";  
-    case -196: return "ERR_WU_USER_RULE";    
+    case -195: return "ERR_NO_APP_VERSION";
+    case -196: return "ERR_WU_USER_RULE";
     case -197: return "ERR_ABORTED_VIA_GUI";
     case -198: return "ERR_INSUFFICIENT_RESOURCE";
     case -199: return "ERR_RETRY";

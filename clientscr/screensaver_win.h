@@ -1,4 +1,4 @@
-// 
+//
 // Contributor(s):
 //     DirectX 8.1 Screen Saver Framework from Microsoft.
 //     Microsoft Knowledge Base Article - 79212
@@ -98,7 +98,7 @@ public:
 
 
     //
-    // Infrastructure layer 
+    // Infrastructure layer
     //
 protected:
 	SaverMode       ParseCommandLine( TCHAR* pstrCommandLine );
@@ -175,7 +175,7 @@ protected:
     void            HandleRPCError(void);
     void            GetDefaultDisplayPeriods(struct ss_periods &periods);
     BOOL            HasProcessExited(HANDLE pid_handle, int &exitCode);
-    
+
     // Determine if two RESULT pointers refer to the same task
     bool            is_same_task(RESULT* taska, RESULT* taskb);
 

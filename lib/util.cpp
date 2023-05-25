@@ -17,6 +17,7 @@
 
 #if defined(_WIN32)
 #include "boinc_win.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "win_util.h"
 #endif

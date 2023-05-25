@@ -196,7 +196,7 @@ function show_status_html($x) {
         ";
     }
     end_table();
-    
+
     // show server software version.
     // If it's a release (minor# is even) link to github branch
     //

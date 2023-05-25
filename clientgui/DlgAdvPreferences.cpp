@@ -478,7 +478,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     m_txtProcUseProcessorsNotInUse->GetValue().ToDouble(&td);
     prefs.niu_max_ncpus_pct = RoundToHundredths(td);
     mask.niu_max_ncpus_pct=true;
-    
+
     m_txtProcUseCPUTime->GetValue().ToDouble(&td);
     prefs.cpu_usage_limit=RoundToHundredths(td);
     mask.cpu_usage_limit=true;

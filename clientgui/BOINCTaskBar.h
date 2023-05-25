@@ -22,6 +22,9 @@
 #pragma interface "BOINCTaskBar.cpp"
 #endif
 
+#ifdef __APPLE__
+#define NSInteger int
+#endif
 
 #if   defined(__WXMSW__)
 #include "msw/taskbarex.h"
@@ -91,7 +94,7 @@ public:
     bool IsBalloonsSupported();
 
     bool QueueBalloon(
-        const wxIcon& icon, 
+        const wxIcon& icon,
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO
@@ -101,7 +104,7 @@ public:
     wxIcon          m_iconTaskBarNormal;
     wxIcon          m_iconTaskBarDisconnected;
     wxIcon          m_iconTaskBarSnooze;
-    
+
     wxIcon          m_iconCurrentIcon;
 
     bool            m_bTaskbarInitiatedShutdown;

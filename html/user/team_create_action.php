@@ -46,7 +46,7 @@ if ($recaptcha_private_key) {
     }
 }
 
-$name = post_str("name", true); 
+$name = post_str("name", true);
 if (strlen($name) == 0) {
     error_page(tra("You must choose a non-blank team name"));
 }

@@ -69,13 +69,13 @@ int main(int argc, char** argv) {
     print_to_log_file("setprojectgrp: argc=%d, arg[1]= %s, boinc_project gid = %d\n", argc, argv[1], project_gid);
 #endif
 
-    // chown() doesn't change ownership of symbolic links; it follows the link and 
+    // chown() doesn't change ownership of symbolic links; it follows the link and
     // changes the file is not available in OS 10.3.9.
     //
-    // But we don't really need to worry about this, because the system ignores 
+    // But we don't really need to worry about this, because the system ignores
     // ownership & permissions of symbolic links anyway.
     //
-    // Also, the target of a symbolic link may not be present if the slot containing 
+    // Also, the target of a symbolic link may not be present if the slot containing
     // the link is no longer in use.
     //
     if (lstat(argv[1], &sbuf) == 0) {
@@ -101,7 +101,7 @@ static void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    
+
     f = fopen("/Users/Shared/test_log_gfx_switcher.txt", "a");
     if (!f) return;
 
@@ -118,7 +118,7 @@ static void print_to_log_file(const char *format, ...) {
     va_start(args, format);
     vfprintf(f, format, args);
     va_end(args);
-    
+
     fputs("\n", f);
     fflush(f);
     fclose(f);

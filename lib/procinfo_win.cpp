@@ -106,22 +106,22 @@ int get_procinfo_XP(PROC_MAP& pm) {
             NULL, NULL
         );
         p.is_boinc_app = (p.id == (int)pid) || (strcasestr(p.command, "boinc") != NULL);
-        
+
 #ifdef _CHARITYENGINE
         if (!strcmp(p.command, "charityengine.exe")) {
             p.is_boinc_app = true;
         }
-#endif        
+#endif
 #ifdef _GRIDREPUBLIC
         if (!strcmp(p.command, "gridrepublic.exe")) {
             p.is_boinc_app = true;
         }
-#endif        
+#endif
 #ifdef _PROGRESSTHRUPROCESSORS
         if (!strcmp(p.command, "progressthruprocessors.exe")) {
             p.is_boinc_app = true;
         }
-#endif        
+#endif
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
         if (!pProcesses->NextEntryDelta) {
             break;
@@ -137,7 +137,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
 // get a list of all running processes.
 //
 int procinfo_setup(PROC_MAP& pm) {
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
 

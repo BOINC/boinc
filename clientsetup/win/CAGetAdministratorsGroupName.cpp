@@ -28,10 +28,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGetAdministratorsGroupName::CAGetAdministratorsGroupName(MSIHANDLE hMSIHandle) :
@@ -40,10 +40,10 @@ CAGetAdministratorsGroupName::CAGetAdministratorsGroupName(MSIHANDLE hMSIHandle)
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGetAdministratorsGroupName::~CAGetAdministratorsGroupName()
@@ -53,10 +53,10 @@ CAGetAdministratorsGroupName::~CAGetAdministratorsGroupName()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGetAdministratorsGroupName::OnExecution()
@@ -78,7 +78,7 @@ UINT CAGetAdministratorsGroupName::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 GetLastError(),
@@ -97,7 +97,7 @@ UINT CAGetAdministratorsGroupName::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GetAdministratorsGroupName
 //
 // Description: This custom action looks up the administrators group

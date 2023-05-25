@@ -76,8 +76,8 @@
 <?php $first_page = (!isset($_GET['page']) OR ($_GET['page'] < 1)); ?>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
-  
-  <?php 
+
+  <?php
     if ($page) {
       // Set topic title as page title
       drupal_set_title($title);
@@ -109,7 +109,7 @@
       $subtitle = implode(' &rsaquo; ', $subtitle);
     }
   ?>
-  
+
   <div class="forum-links">
     <div class="breadcrumb">
       <h2 class="title"><?php print $subtitle; ?></h2>
@@ -130,12 +130,12 @@
     </div>
     <div class="clearfix"></div>
   </div>
-  
+
   <?php if ($unpublished): ?>
     <div class="unpublished"><?php print bts('Unpublished', array(), NULL, 'boinc:comment-action-links'); ?></div>
   <?php endif; ?>
-  
-  <?php 
+
+  <?php
     if (!$oldest_post_first) {
       print comment_render($node);
     }
@@ -205,13 +205,13 @@
         </div>
       <?php endif; ?>
     </div>
-    
+
     <div class="node-body">
-      
+
       <?php /* if ($terms): ?>
         <div class="terms terms-inline"><?php print $terms; ?></div>
       <?php endif; */ ?>
-      
+
       <?php if ($display_submitted): ?>
         <div class="submitted">
           <?php print date('j M Y G:i:s T', $node->created); ?>
@@ -230,7 +230,7 @@
           <span class="label">)</span>
         </div>
       <?php endif; ?>
-      
+
       <div class="dropdown">
         <div id="<?php print $ddname; ?>" class="dropdown-content">
           <?php print flag_create_link('abuse_node_1', $node->nid); ?>
@@ -249,12 +249,12 @@
         <?php endif; ?>
       </div>
 
-            
+
     </div> <!-- /.node-body -->
-    
+
   <?php endif; // page with topic starter post ?>
-  
-  <?php 
+
+  <?php
     if ($oldest_post_first) {
       print comment_render($node);
     }

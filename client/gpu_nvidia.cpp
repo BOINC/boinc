@@ -24,7 +24,7 @@
 #include "sal.h"
 /* These are just an annotations.  They don't do anything */
 #ifndef __success
-#define __success(x)  
+#define __success(x)
 #endif
 #ifndef __in
 #define __in
@@ -58,13 +58,13 @@
 #endif
 #ifndef __inout_ecount_part_opt
 #define __inout_ecount_part_opt(x,y)
-#endif 
+#endif
 #ifndef __inout_ecount_full_opt
 #define __inout_ecount_full_opt(x,y)
-#endif 
+#endif
 #ifndef __out_ecount_full_opt
 #define __out_ecount_full_opt(x)
-#endif 
+#endif
 
 #include "nvapi.h"
 
@@ -132,7 +132,7 @@ end:
     return dri_ver;
 }
 
-#endif 
+#endif
 #endif // SIM
 
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
@@ -376,7 +376,7 @@ void* cudalib = NULL;
         }
     }
 #endif
-    
+
     if (retval) {
         snprintf(buf, sizeof(buf), "NVIDIA drivers present but no GPUs found");
         gpu_warning(warnings, buf);
@@ -470,7 +470,7 @@ void* cudalib = NULL;
     if (!nvidia_gpus.size()) {
         gpu_warning(warnings, "No CUDA-capable NVIDIA GPUs found");
     }
-    
+
 leave:
 #ifdef _WIN32
     if (cudalib) FreeLibrary(cudalib);
@@ -490,7 +490,7 @@ void COPROC_NVIDIA::correlate(
     unsigned int i;
 
     if (!nvidia_gpus.size()) return;
-    
+
     // identify the most capable non-ignored instance
     //
     bool first = true;
@@ -542,14 +542,14 @@ void COPROC_NVIDIA::correlate(
 // See how much RAM is available on this GPU.
 //
 // CAUTION: as currently written, this method should be
-// called only from COPROC_NVIDIA::get().  If in the 
+// called only from COPROC_NVIDIA::get().  If in the
 // future you wish to call it from additional places:
 // * It must be called from a separate child process on
 //   dual-GPU laptops (e.g., Macbook Pros) with the results
 //   communicated to the main client process via IPC or a
-//   temp file.  See the comments about dual-GPU laptops 
+//   temp file.  See the comments about dual-GPU laptops
 //   in gpu_detect.cpp and main.cpp for more details.
-// * The CUDA library must be loaded and cuInit() called 
+// * The CUDA library must be loaded and cuInit() called
 //   first.
 // * See client/coproc_detect.cpp and cpu_sched.cpp in
 //   BOINC 6.12.36 for an earlier attempt to call this
@@ -562,7 +562,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
     int device;
     void* ctx;
     char buf[256];
-    
+
     cc.available_ram = cc.prop.totalGlobalMem;
     if (!p_cuDeviceGet) {
         gpu_warning(warnings, "cuDeviceGet() missing from NVIDIA library");
@@ -623,9 +623,9 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
 // * It must be called from a separate child process on
 //   dual-GPU laptops (e.g., Macbook Pros) with the results
 //   communicated to the main client process via IPC or a
-//   temp file.  See the comments about dual-GPU laptops 
+//   temp file.  See the comments about dual-GPU laptops
 //   in gpu_detect.cpp and main.cpp for more details.
-// * The CUDA library must be loaded and cuInit() called 
+// * The CUDA library must be loaded and cuInit() called
 //   first.
 //
 #if 0

@@ -4,7 +4,7 @@
 /**
  * Functions that are shared amongst files and dependent modules go
  * here to keep the clutter down in the main module file.
- */ 
+ */
 
 /**
  * When a venue is changed in preference forms, don't carry over the preset
@@ -20,7 +20,7 @@ function boincwork_ahah_helper_venue_submit($form, &$form_state) {
  */
 function boincwork_get_preset_prefs($preset = null) {
   $saved_state = variable_get('boincwork_preset_prefs', null);
-  
+
   // If not configured yet, use these values as for inital
   // computing/general preferences.
   if (!$saved_state) {
@@ -161,10 +161,10 @@ function boincwork_get_preset_prefs($preset = null) {
         </preset>
       </general_preferences>';
   }
-  
+
   // Convert XML data to array format
   $preset_prefs = load_configuration($saved_state);
-  
+
   if ($preset) {
     // Load preset from configuration
     $preset_prefs = (array) $preset_prefs['general_preferences'];
@@ -187,10 +187,10 @@ function boincwork_get_preset_prefs($preset = null) {
  */
 function boincwork_get_project_specific_config() {
   $raw_config_data = variable_get('boinc_project_specific_prefs_config', '');
-  
+
   $xsd = './' . drupal_get_path('module', 'boincwork') . '/includes/projectprefs.xsd';
   libxml_use_internal_errors(true);
-  
+
   $xml = new DomDocument();
   $xml->loadXML($raw_config_data, LIBXML_NOBLANKS);
   if (!$xml->schemaValidate($xsd)) {
@@ -200,7 +200,7 @@ function boincwork_get_project_specific_config() {
       ': <br/>' . htmlentities($lines[$errors[0]->line - 1]), 'error');
     return NULL;
   }
-  
+
   // Convert XML to array for validation
   $xml = load_configuration($raw_config_data);
   return $xml;
@@ -227,7 +227,7 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
         $rules[$name] = boincwork_get_project_specific_config_validation_rules($element['attributes']);
       }
       break;
-      
+
     case 'text':
       foreach ($elements as $element) {
         $name = $element['@attributes']['name'];
@@ -276,7 +276,7 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
         }
       }
       break;
-      
+
     case 'group':
       foreach ($elements as $element) {
         $name = $element['@attributes']['name'];
@@ -317,13 +317,13 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
       }
       $defaults += $default;
       break;
-      
+
     case 'group':
       foreach ($elements as $element) {
         $defaults += boincwork_format_project_specific_prefs_data($values, $element);
       }
       break;
-      
+
     case 'text':
     case 'radio':
     case 'dropdown':
@@ -338,7 +338,7 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
         }
       }
       break;
-    
+
     case 'apps':
       foreach ($elements as $element) {
         $defaults['app_id'] = array();
@@ -350,7 +350,7 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
         }
       }
       break;
-      
+
     default:
     }
   }
@@ -374,7 +374,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       if (isset($element['description'])) {
         $description = is_array($element['description']) ? $element['description']['@value'] : $element['description'];
       }
-      
+
       $value = $default;
       $user_pref = $user_prefs;
       $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
@@ -389,22 +389,22 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
           $value = $user_pref[$name];
         }
       }
-      
+
       // Use appropriate datatype
       if (isset($element['@attributes']['datatype'])) {
         switch($element['@attributes']['datatype']) {
         case 'integer':
           $value = (int) $value;
           break;
-          
+
         case 'float':
           $value = number_format((float) $value, 2);
           break;
-        
+
         default:
         }
       }
-      
+
       // Translate elements as appropriate
       if ($title) {
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
@@ -414,7 +414,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
         $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
-      
+
       $form[$name] = array(
         '#title' => $title,
         '#type' => 'textfield',
@@ -424,7 +424,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       );
     }
     break;
-    
+
   case 'boolean':
     if (!is_numeric(key($elements))) {
       $elements = array($elements);
@@ -437,7 +437,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       if (isset($element['description'])) {
         $description = is_array($element['description']) ? $element['description']['@value'] : $element['description'];
       }
-      
+
       $value = $default;
       $user_pref = $user_prefs;
       $entitytype = isset($element['@attributes']['entitytype']) ? $element['@attributes']['entitytype'] : 'element';
@@ -452,7 +452,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
           $value = $user_pref[$name];
         }
       }
-      
+
       // Translate elements as appropriate
       if ($title) {
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
@@ -462,7 +462,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
         $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
-      
+
       $form[$name] = array(
         '#title' => $title,
         '#type' => 'radios',
@@ -473,10 +473,10 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       );
     }
     break;
-    
+
   case 'radio':
   case 'dropdown':
-    
+
     if (!is_numeric(key($elements))) {
       $elements = array($elements);
     }
@@ -509,7 +509,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         $user_pref = $user_prefs['@attributes'];
       }
       $value = isset($user_pref[$name]) ? $user_pref[$name] : $default;
-      
+
       // Translate elements as appropriate
       if ($title) {
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
@@ -519,7 +519,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($description));
         $description = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($description));
       }
-      
+
       $form[$name] = array(
         '#title' => $title,
         '#type' => ($type == 'radio') ? 'radios' : 'select',
@@ -530,16 +530,16 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       );
     }
     break;
-    
+
   case 'apps':
     $title = is_array($elements['title']) ? $elements['title']['@value'] : $elements['title'];
-    
+
       // Translate elements as appropriate
       if ($title) {
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
         $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
-    
+
     $form['applications'] = array(
       '#title' => bts('Applications', array(), NULL, 'boinc:account-preferences'),
       '#type' => 'fieldset',
@@ -582,9 +582,9 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#disabled' => !$app_enabled
       );
     }
-    
+
     break;
-    
+
   case 'group':
     if (!is_numeric(key($elements))) {
       $elements = array($elements);
@@ -593,13 +593,13 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
       $name = str_replace(' ','_',strtolower($title));
       $name = "group_{$name}";
-      
+
       // Translate elements as appropriate
       if ($title) {
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
         $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
-      
+
       $form[$name] = array(
           '#title' => $title,
           '#type' => 'fieldset',
@@ -614,7 +614,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       }
     }
     break;
-    
+
   case 'compound':
     if (!is_numeric(key($elements))) {
       $elements = array($elements);
@@ -622,13 +622,13 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     foreach ($elements as $element) {
       $name = $element['@attributes']['name'];
       $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
-      
+
       // Translate elements as appropriate
       if ($title) {
         i18nstrings_update('project:prefs_xml', _boinctranslate_supertrim($title));
         $title = i18nstrings('project:prefs_xml', _boinctranslate_supertrim($title));
       }
-      
+
       $form[$name] = array(
           '#title' => $title,
           '#type' => 'fieldset',
@@ -642,7 +642,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       }
     }
     break;
-    
+
     default:
       // Don't generate form elements for things that aren't explicitly form
       // elements (i.e. 'title', '@attributes' keys, and the like)
@@ -657,10 +657,10 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
 
   $prefs_table = array();
   $uncategorized = array();
-  
+
   // Parse the project preferences form
   foreach ($prefs as $key => $element) {
-    
+
     // Determine which type of element this is and act accordingly
     $element_type = NULL;
     if (is_array($element) AND isset($element['#type'])) {
@@ -704,7 +704,7 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
     default:
     }
   }
-  
+
   if ($prefs_table AND $uncategorized) {
     // Throw any settings that don't fit elsewhere into "other"
     $prefs_table['other'] = array(
@@ -719,17 +719,17 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
       'elements' => $uncategorized,
     );
   }
-  
+
   return $prefs_table;
 }
- 
+
 /**
  * Load general or project preferences from BOINC account
  */
 function boincwork_load_prefs($type = 'general', $venue = null, $account = null) {
-  
+
   require_boinc(array('user'));
-  
+
   // Load the BOINC user object
   if (!$account) {
     global $user;
@@ -737,7 +737,7 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
   }
   $account = user_load($account->uid);
   $boincuser = BoincUser::lookup_id($account->boincuser_id);
-  
+
   // Load the desired preferences for the user
   $main_prefs = array();
   if ($type == 'project') {
@@ -752,7 +752,7 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
       $main_prefs = (array) $main_prefs['global_preferences'];
     }
   }
-  
+
   // Return general preferences or a subset based on venue
   if (!$venue OR $venue == 'generic') {
     unset($main_prefs['venue']);
@@ -785,9 +785,9 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
  * Save project preferences to BOINC account
  */
 function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account = null) {
-  
+
   require_boinc(array('user'));
-  
+
   // Load existing project prefs from the BOINC user object
   if (!$account) {
     global $user;
@@ -795,7 +795,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
   }
   $account = user_load($account->uid);
   $boincuser = BoincUser::lookup_id($account->boincuser_id);
-  
+
   // Load the specified preferences for the user
   $main_prefs = array();
   if ($type == 'project') {
@@ -810,7 +810,7 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       $main_prefs = (array) $main_prefs['global_preferences'];
     }
   }
-  
+
   // Save all preferences or a subset based on venue
   //drupal_set_message('<pre>' . print_r($main_prefs, true) . '</pre>');
   $new_venue = true;
@@ -1022,16 +1022,16 @@ function boincwork_load_privacyconsenttypes() {
 
 /**
  * Set the default preference set for the user
- */ 
+ */
 function boincwork_set_default_venue($venue = '') {
-  
+
   global $user;
   $account = user_load($user->uid);
-  
+
   if ($venue == 'generic') {
     $venue = '';
   }
-  
+
   db_set_active('boinc_rw');
   db_query("
     UPDATE user
@@ -1044,7 +1044,7 @@ function boincwork_set_default_venue($venue = '') {
 
 /**
  * Recursively validate submitted form values against a set of rules
- */ 
+ */
 function boincwork_validate_form($validation_rules, $values, $path = array()) {
   foreach ($validation_rules as $field => $rules) {
     $parents = $path;
@@ -1090,7 +1090,7 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
       return FALSE;
     }
     break;
-    
+
   case 'integer':
     if (!is_numeric($data)) {
       return FALSE;
@@ -1100,17 +1100,17 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
       return FALSE;
     }
     break;
-  
+
   case 'text':
   default:
-    
+
   }
   return TRUE;
 }
 
 /**
  * Format a number to be displayed using a maximum number of digits
- */ 
+ */
 function boincwork_format_stats($number, $max_digits = 4) {
   $suffix = array(
     0 => '',
@@ -1124,7 +1124,7 @@ function boincwork_format_stats($number, $max_digits = 4) {
     8 => 'Y'
   );
   if (!is_numeric($number)) $number = 0;
-  
+
   $digits = floor(log($number, 10)) + 1;
   $magnitude = 0;
   $precision = 0;
@@ -1134,36 +1134,36 @@ function boincwork_format_stats($number, $max_digits = 4) {
     $number = round($number / pow(1000, $magnitude), $precision);
   }
   $number = number_format($number, $precision) . (($magnitude) ? "{$suffix[$magnitude]}" : '');
-  
+
   return $number;
 }
 
   //------------------------------------------------------------------------------------------------
   //  load_configuration(): Convert structured text/xml to array
   //------------------------------------------------------------------------------------------------
-  
+
   function load_configuration($text)
   {
       if (preg_match('/^\<\?xml .*\?\>$/i', $text)) return null;
       if ($xml = text_to_xml($text)) return xml_to_array($xml);
       return false;
   }
-  
+
   //------------------------------------------------------------------------------------------------
   //  save_configuration(): Convert array to structured text/xml
   //------------------------------------------------------------------------------------------------
-  
+
   function save_configuration($array)
   {
       if ($xml = array_to_xml($array)) return xml_to_text($xml, false, true);
       return false;
   }
-  
+
   //------------------------------------------------------------------------------------------------
   //  array_to_xml(): Take a multidimensional array and convert it to a structured
   //  DOM XML object
   //------------------------------------------------------------------------------------------------
-  
+
   function array_to_xml($array, $dom = false, $parent_node = false) {
     $is_root = false;
     if (!$dom) $dom = new DomDocument('1.0');
@@ -1211,10 +1211,10 @@ function boincwork_format_stats($number, $max_digits = 4) {
         );
       }
     }
-    
+
     // Now append items without explicit positions at the end
     $primed_array = array_merge($ordered_array, $unordered_array);
-    
+
     // Convert to XML...
     foreach ($primed_array as $item) {
       list($name, $value) = each($item);
@@ -1286,11 +1286,11 @@ function boincwork_format_stats($number, $max_digits = 4) {
     }*/
     return $parent_node;
   }
-  
+
   //------------------------------------------------------------------------------------------------
   //  xml_to_text(): Convert an XML DOM object to string format
   //------------------------------------------------------------------------------------------------
-  
+
   function xml_to_text($xml, $include_xml_declaration = true, $add_carriage_returns = false)
   {
       $xml->formatOutput = true;
@@ -1303,22 +1303,22 @@ function boincwork_format_stats($number, $max_digits = 4) {
       }
       return trim($text);
   }
-  
+
   //------------------------------------------------------------------------------------------------
   //  text_to_xml(): Convert an XML DOM object to string format
   //------------------------------------------------------------------------------------------------
-  
+
   function text_to_xml($text) {
     $xml = new DomDocument();
     if ( !($xml->loadXML($text)) ) return false;
     return $xml;
   }
-  
-  
+
+
   //------------------------------------------------------------------------------------------------
   //  xml_to_array(): Convert an XML DOM object to array format
   //------------------------------------------------------------------------------------------------
-  
+
   function xml_to_array($xml) {
       $node = $xml->firstChild; //$xml->first_child();
       $result = '';
@@ -1333,14 +1333,14 @@ function boincwork_format_stats($number, $max_digits = 4) {
               $node_name = $node->nodeName;
               $parent = $node->parentNode;
               $sibling = $node->nextSibling;
-              
+
               // Determine if this node forms a set with siblings (share a node name)
               while (($sibling) AND (($sibling->nodeType != XML_ELEMENT_NODE) OR ($sibling->nodeName != $node->nodeName))) $sibling = $sibling->nextSibling;
               if (!$sibling) {
                   $sibling = $node->previousSibling;
                   while (($sibling) AND (($sibling->nodeType != XML_ELEMENT_NODE) OR ($sibling->nodeName != $node->nodeName))) $sibling = $sibling->previousSibling;
               }
-              
+
               if ($sibling) {
                   $result[$node_name][$index] = '';
                   if ($node->childNodes) {
@@ -1393,7 +1393,7 @@ function boincwork_format_stats($number, $max_digits = 4) {
       }
       return $result;
   }
-  
+
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Functions for use in displaying special case text in views
@@ -1403,14 +1403,14 @@ function boincwork_format_stats($number, $max_digits = 4) {
   * Determine output for host list views when no hosts are found.
   */
 function boincwork_views_host_list_empty_text($context = NULL) {
-  
-  // Pull the BOINC user ID from the view arguments to get show_hosts 
+
+  // Pull the BOINC user ID from the view arguments to get show_hosts
   // preference for that user
   require_boinc('boinc_db');
   $view = views_get_current_view();
   $account = user_load($view->args[0]);
   $boincuser = BoincUser::lookup_id($account->boincuser_id);
-  
+
   // Determine if hosts are associated at all or just hidden
   $output = '';
   if ($boincuser->show_hosts) {
@@ -1420,13 +1420,13 @@ function boincwork_views_host_list_empty_text($context = NULL) {
       $output .=  '<p>' . bts('This user has no computers that have been'
       . ' active in the last 30 days.', array(), NULL, 'boinc:host-list') . '</p>';
       break;
-      
+
     case 'preferences':
       $output .=  '<h2>' . bts('No computers', array(), NULL, 'boinc:host-list') . '</h2>';
       $output .=  '<p>' . bts('There are no computers assigned to this'
       . ' preference set.', array(), NULL, 'boinc:host-list') . '</p>';
       break;
-    
+
     default:
       $output .=  '<h2>' . bts('Computers pending', array(), NULL, 'boinc:host-list') . '</h2>';
       $output .=  '<p>' . bts('This user does not yet have any associated'
@@ -1446,8 +1446,8 @@ function boincwork_views_host_list_empty_text($context = NULL) {
   * Determine output for task list views when no tasks are found.
   */
 function boincwork_views_task_list_empty_text($context = NULL) {
-  
-  // 
+
+  //
   $output = '';
   switch($context) {
   default:
@@ -1555,7 +1555,7 @@ function boincwork_host_last_contact($timestamp, $host_id = NULL, $context = NUL
 }
 
 /**
- * 
+ *
  */
 function boincwork_host_venue_selector($host_id) {
   $output = '';
@@ -1737,7 +1737,7 @@ function boincwork_tasktable($category = 0, $queryid = 1, $tselect = NULL, $app_
   }
   else {
   }
-  
+
   // Entry for all applications.
   $allcount = $application_select_count ? array_sum($application_select_count) : 0;
   $applications[-1] = bts('Application', array(), NULL, 'boinc:task-table');

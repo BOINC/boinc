@@ -32,7 +32,7 @@
     <task>
         <virtualmachine>CernVM</virtualmachine>
         <image></image>
-        <app_pathVM></app_pathVM>  
+        <app_pathVM></app_pathVM>
         <application>./worker.py</application>
         <copy_app_to_VM>1</copy_app_to_VM>
         <copy_file_to_VM>in</copy_file_to_VM>

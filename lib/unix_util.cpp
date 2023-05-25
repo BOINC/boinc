@@ -143,9 +143,9 @@ int daemon(int nochdir, int noclose) {
         // setsid() failed
         return -1;
     }
- 
+
     // success
     return 0;
-}    
+}
 
 #endif /* !HAVE_DAEMON */

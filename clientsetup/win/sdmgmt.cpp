@@ -482,7 +482,7 @@ RemovePrincipalFromNamedValueSD (
     //
 
     if (!newSD)
-        MakeSDAbsolute ((PSECURITY_DESCRIPTOR) sd, (PSECURITY_DESCRIPTOR *) &sdAbsolute); 
+        MakeSDAbsolute ((PSECURITY_DESCRIPTOR) sd, (PSECURITY_DESCRIPTOR *) &sdAbsolute);
 	else
         sdAbsolute = sd;
 

@@ -45,7 +45,7 @@ struct WSLS {
     void clear();
 
     void write_xml(MIOFILE&);
-    int parse(XML_PARSER&);    
+    int parse(XML_PARSER&);
 };
 
 #endif

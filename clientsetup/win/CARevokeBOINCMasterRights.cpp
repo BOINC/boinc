@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCMasterRights::CARevokeBOINCMasterRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CARevokeBOINCMasterRights::CARevokeBOINCMasterRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCMasterRights::~CARevokeBOINCMasterRights()
@@ -54,10 +54,10 @@ CARevokeBOINCMasterRights::~CARevokeBOINCMasterRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CARevokeBOINCMasterRights::OnExecution()
@@ -84,7 +84,7 @@ UINT CARevokeBOINCMasterRights::OnExecution()
             strBOINCMasterAccountUsername.c_str(),   // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -139,7 +139,7 @@ UINT CARevokeBOINCMasterRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -159,7 +159,7 @@ UINT CARevokeBOINCMasterRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RevokeBOINCMasterRights
 //
 // Description: This custom action reads the BOINC_MASTER_USERNAME

@@ -204,7 +204,7 @@ struct PROC_RESOURCES {
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[cpu_sched_debug] add to run list: %s (%s, %s) (prio %f)",
-                rp->name, 
+                rp->name,
                 rsc_name_long(rt),
                 is_edf?"EDF":"FIFO",
                 rp->project->sched_priority
@@ -780,6 +780,11 @@ bool CLIENT_STATE::schedule_cpus() {
     // If you remove the following, make changes accordingly
     //
     adjust_rec();
+
+    // this may run tasks that are currently throttled.
+    // Clear flag so that we throttle them again if needed
+    //
+    tasks_throttled = false;
 
     make_run_list(run_list);
     return enforce_run_list(run_list);

@@ -409,7 +409,7 @@ int handle_results() {
                 );
             }
             got_good_result(*srip);
-            
+
             if (config.dont_store_success_stderr) {
                 strcpy(srip->stderr_out, "");
             }

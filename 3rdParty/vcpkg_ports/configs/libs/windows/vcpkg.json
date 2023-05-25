@@ -8,5 +8,5 @@
           "default-features": false
         },
         "openssl"
-    ]   
+    ]
 }

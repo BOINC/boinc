@@ -30,15 +30,15 @@
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-// When we first create the boinc_master and boinc_project groups and add the 
-// current user to the  new groups, there is a delay before the new group 
-// membership is recognized.  If we launch the BOINC Manager too soon, it will 
-// fail with either a -1037 or -1200 permissions error, so we wait until the 
+// When we first create the boinc_master and boinc_project groups and add the
+// current user to the  new groups, there is a delay before the new group
+// membership is recognized.  If we launch the BOINC Manager too soon, it will
+// fail with either a -1037 or -1200 permissions error, so we wait until the
 // current user can access the projects directory and the switcher application.
 //
-// Apparently, in order to get the changed permissions / group membership, we must 
-// launch a new process belonging to the user.  It may also need to be in a new 
-// process group or new session. Neither system() nor popen() works, even after 
+// Apparently, in order to get the changed permissions / group membership, we must
+// launch a new process belonging to the user.  It may also need to be in a new
+// process group or new session. Neither system() nor popen() works, even after
 // setting the uid and euid back to the logged in user, but LSOpenFSRef() does.
 // This tiny application loops until it can access the switcher application.
 
@@ -48,11 +48,11 @@ int main(int argc, char *argv[])
     int                     i;
     int                     retval = 0;
     DIR                     *dirp;
-    
+
     printf("WaitPermissions launched\n");
-    
+
     for (i=0; i<180; i++) {     // Limit delay to 3 minutes
-    
+
         retval = stat("/Library/Application Support/BOINC Data/projects", &sbuf);
         if (retval) {
             if (errno == EACCES) {      // if stat() had permissions error
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
                 continue;
             }
         }
-        
+
         retval = stat("/Library/Application Support/BOINC Data/switcher/switcher", &sbuf);
 //        print_to_log_file("WaitPermissions: stat(switcher path) returned %d, uid = %d, euid = %d\n", retval, (int)getuid(), (int)geteuid());
         if (retval == 0) {
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 void strip_cr(char *buf)
 {
     char *theCR;
-    
+
     theCR = strrchr(buf, '\n');
     if (theCR)
         *theCR = '\0';
@@ -104,25 +104,25 @@ void print_to_log_file(const char *format, ...) {
     //    strcat(path, "/Documents/test_log.txt");
     f = fopen(path, "a");
     if (!f) return;
-    
+
     //  freopen(buf, "a", stdout);
     //  freopen(buf, "a", stderr);
-    
+
     time(&t);
     safe_strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
-    
+
     fputs(buf, f);
     fputs("   ", f);
-    
+
     va_start(args, format);
     vfprintf(f, format, args);
     va_end(args);
-    
+
     fputs("\n", f);
     fflush(f);
     fclose(f);
     chmod(path, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
-    
+
 #endif
 }

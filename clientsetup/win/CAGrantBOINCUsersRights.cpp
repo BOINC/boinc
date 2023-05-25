@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCUsersRights::CAGrantBOINCUsersRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CAGrantBOINCUsersRights::CAGrantBOINCUsersRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCUsersRights::~CAGrantBOINCUsersRights()
@@ -54,10 +54,10 @@ CAGrantBOINCUsersRights::~CAGrantBOINCUsersRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGrantBOINCUsersRights::OnExecution()
@@ -84,7 +84,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
             L"boinc_users",                          // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -119,7 +119,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -133,7 +133,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -149,7 +149,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -176,7 +176,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -194,7 +194,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -214,7 +214,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GrantBOINCUsersRights
 //
 // Description: This custom action grants the 'boinc_users' group the

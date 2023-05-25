@@ -23,18 +23,20 @@
 
 // Important: To ensure that the relevant *info.plist and *InfoPlist.strings
 // files are available by the time they are needed for building a target:
-// [1] include SetVersion in that target's "Target Dependencies" phase, 
-// [2] if a target is dependent on a file created by SetVersion, make sure 
-// the file is listed as an Output File for SetVersion's script phase. 
+// [1] include SetVersion in that target's "Target Dependencies" phase,
+// [2] if a target is dependent on a file created by SetVersion, make sure
+// the file is listed as an Output File for SetVersion's script phase.
 // Otherwise, the build may fail due to a race condition.
 //
-// Also, make sure the template used by SetVersion to create the file exists 
+// Also, make sure the template used by SetVersion to create the file exists
 // in clientgui/mac/templates.
 //
 
 // Set STAND_ALONE TRUE if testing as a separate applicaiton
 #define STAND_ALONE 0
 #define VERBOSE_SPAWN 0  /* for debugging callPosixSpawn */
+
+#define VERSION_PLACEHOLDER "%VERSION%"
 
 #include <Carbon/Carbon.h>
 
@@ -45,6 +47,8 @@
 #include <time.h>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
+#include <sstream>
+#include <fstream>
 #include "version.h"
 
 int file_exists(const char* path);
@@ -70,37 +74,37 @@ int main(int argc, char** argv) {
             printf("Error %d creating directory English.lproj\n", retval);
         }
     }
-    
+
     // BOINC Manager
     err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC Manager");
     if (err) retval = err;
     err = FixInfoPlistFile("Info.plist");
     if (err) retval = err;
-    
+
     // BOINC Installer
     err = FixInfoPlist_Strings("./English.lproj/Installer-InfoPlist.strings", "BOINC Installer");
     if (err) retval = err;
     err = FixInfoPlistFile("Installer-Info.plist");
     if (err) retval = err;
-    
+
     // BOINC PostInstall app
     err = FixInfoPlist_Strings("./English.lproj/PostInstall-InfoPlist.strings", "Install BOINC");
     if (err) retval = err;
     err = FixInfoPlistFile("PostInstall-Info.plist");
     if (err) retval = err;
-    
+
     // BOINC Screen Saver
     err = FixInfoPlist_Strings("./English.lproj/ScreenSaver-InfoPlist.strings", "BOINC Screen Saver");
     if (err) retval = err;
     err = FixInfoPlistFile("ScreenSaver-Info.plist");
     if (err) retval = err;
-    
+
     // BOINC Uninstaller
     err = FixInfoPlist_Strings("./English.lproj/Uninstaller-InfoPlist.strings", "Uninstall BOINC");
     if (err) retval = err;
     err = FixInfoPlistFile("Uninstaller-Info.plist");
     if (err) retval = err;
-    
+
     // SystemMenu is not currently used
     err = FixInfoPlistFile("SystemMenu-Info.plist");
     if (err) retval = err;
@@ -108,18 +112,18 @@ int main(int argc, char** argv) {
     // BOINCCmd
     err = FixInfoPlistFile("BoincCmd-Info.plist");
     if (err) retval = err;
-    
+
     // WaitPermissions is not currently used
     err = FixInfoPlistFile("WaitPermissions-Info.plist");
     if (err) retval = err;
-    
+
     // The following are not used by Xcode, and are probably obsolete
     err = MakeBOINCPackageInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
     if (err) retval = err;
-    
+
     err = MakeBOINCRestartPackageInfoPlistFile("./Pkg_Restart-Info.plist", "BOINC Manager");
     if (err) retval = err;
-        
+
     err = MakeMetaPackageInfoPlistFile("./Mpkg-Info.plist", "BOINC Manager");
     return retval;
 }
@@ -142,7 +146,7 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
 
     cur_time = time(NULL);
     time_data = localtime( &cur_time );
-    
+
     f = fopen(myPath, "w");
     if (f)
     {
@@ -157,106 +161,63 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
         printf("Error creating file %s\n", myPath);
         retval = -1;
     }
-        
+
     return retval;
 }
 
 int FixInfoPlistFile(char* name) {
-    int retval = 0;
-    FILE *fin = NULL, *fout = NULL;
-    char *c, a, buf[1024];
-    char srcPath[MAXPATHLEN], dstPath[MAXPATHLEN];
-
-    strcpy(dstPath, "./");
-    strcat(dstPath, name);
-    
+    // Construct input and output paths
+    char srcPath[MAXPATHLEN];
     strcpy(srcPath, "../clientgui/mac/templates/");
     strcat(srcPath, name);
-    
-    // Save the old file in case there is an error updating it
-    if (file_exists(dstPath)) {
-        rename(dstPath, "./temp");
+    char dstPath[MAXPATHLEN];
+    strcpy(dstPath, "./");
+    strcat(dstPath, name);
+
+    // Check if input path exits
+    if (!file_exists(srcPath)) {
+        printf("Error cannot find template plist file %s\n", srcPath);
+        return -1;
     }
 
-    fin = fopen(srcPath, "r");
-    if (fin == NULL)
-        goto bail;
+    // Open input file and read it to a string
+    std::ifstream infile(srcPath);
+    if (!infile.is_open()) {
+        printf("Error cannot read template plist file %s\n", srcPath);
+        return -1;
+    }
+    std::stringstream infile_buffer;
+    infile_buffer << infile.rdbuf();
+    std::string plist_template = infile_buffer.str();
+    infile.close();
 
-    fout = fopen(dstPath, "w");
-    if (fout == NULL) {
-        goto bail;
+    // Open output file, and overwrite any existing file at that location
+    std::ofstream outfile(dstPath, std::ofstream::trunc);
+    if (!outfile.is_open()) {
+        printf("Error cannot write to plist file %s\n", dstPath);
+        return -1;
     }
 
-    // Copy everything up to version number
-    for (;;) {
-        c = fgets(buf, sizeof(buf), fin);
-        if (c == NULL)
-            goto bail;   // EOF
-        c = strstr(buf, "CFBundleVersion</key>");
-        if (c)
-            break;  // Found "CFBundleVersion</key>"
-        fputs(buf, fout);
+    // Copy template to output, replacing any occurences of VERSION_PLACEHOLDER with BOINC_VERSION_STRING
+    std::string::size_type n = 0;
+    while ((n = plist_template.find(VERSION_PLACEHOLDER)) != std::string::npos) {
+        outfile << plist_template.substr(0, n) << BOINC_VERSION_STRING;
+        plist_template.erase(0, n + strlen(VERSION_PLACEHOLDER));
     }
-        
-    c = strstr(buf, "<string>");
-    if (c == NULL) {
-        fputs(buf, fout);
-        c = fgets(buf, sizeof(buf), fin);
-        if (c == NULL)
-            goto bail;   // EOF
-        c = strstr(buf, "<string>");
-        if (c == NULL)
-            goto bail;   // "CFBundleVersion</key>" not followed by "<string>"
+    // Write remaining data
+    if (!plist_template.empty()) {
+        outfile << plist_template;
     }
-    
-    a = *(c+8);
-    *(c+8) = '\0';                      // Put terminator after "<string>"
-    fputs(buf, fout);                   // Copy up to end of "<string>"
-    fputs(BOINC_VERSION_STRING, fout);  // Write the current version number
-    *(c+8) = a;                         // Undo terminator we inserted
-    c = strstr(buf, "</string>");       // Skip over old version number in input
-    fputs(c, fout);                     // Copy rest of input line
+    outfile.close();
 
-    // Copy rest of file
-    for (;;) {
-        c = fgets(buf, sizeof(buf), fin);
-        if (c == NULL)
-            break;   // EOF
-        fputs(buf, fout);
-    }
-
-    fclose(fin);
-    fflush(fout);
-    fclose(fout);
-        
-    unlink("temp");
-    
-    return retval;
-
-bail:
-    if (fin)
-        fclose(fin);
-    if (fout)
-        fclose(fout);
-
-    if (file_exists("./temp")) {
-        rename("./temp", dstPath);
-//    sprintf(buf, "mv -f temp %s", myPath);
-//    retval = callPosixSpawn(buf);
-    } else {
-        sprintf(buf, "cp -f %s %s", srcPath, dstPath);
-        retval = callPosixSpawn(buf);
-    }
-    
-    printf("Error updating version number in file %s\n", dstPath);
-    return -1;
+    return 0;
 }
 
 
 int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
-    
+
     f = fopen(myPath, "w");
     if (f)
     {
@@ -290,7 +251,7 @@ int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
         printf("Error creating file %s\n", myPath);
         retval = -1;
     }
-        
+
     return retval;
 }
 
@@ -299,7 +260,7 @@ int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
 int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
-    
+
     f = fopen(myPath, "w");
     if (f)
     {
@@ -320,7 +281,7 @@ int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand) {
         fprintf(f, "\t<key>IFPkgFlagComponentDirectory</key>\n\t<string>../</string>\n");
 
         fprintf(f, "\t<key>IFPkgFlagPackageList</key>\n");
-        
+
         fprintf(f, "\t<array>\n");
         fprintf(f, "\t\t<dict>\n");
         fprintf(f, "\t\t\t<key>IFPkgFlagPackageLocation</key>\n\t\t\t<string>BOINC.pkg</string>\n");
@@ -338,7 +299,7 @@ int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand) {
         printf("Error creating file %s\n", myPath);
         retval = -1;
     }
-        
+
     return retval;
 }
 
@@ -347,7 +308,7 @@ int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand) {
 int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
-    
+
     f = fopen(myPath, "w");
     if (f)
     {
@@ -368,7 +329,7 @@ int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
         fprintf(f, "\t<key>IFPkgFlagComponentDirectory</key>\n\t<string>../</string>\n");
 
         fprintf(f, "\t<key>IFPkgFlagPackageList</key>\n");
-        
+
         fprintf(f, "\t<array>\n");
         fprintf(f, "\t\t<dict>\n");
         fprintf(f, "\t\t\t<key>IFPkgFlagPackageLocation</key>\n\t\t\t<string>BOINC.pkg</string>\n");
@@ -391,7 +352,7 @@ int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
         printf("Error creating file %s\n", myPath);
         retval = -1;
     }
-        
+
     return retval;
 }
 
@@ -467,7 +428,7 @@ int callPosixSpawn(const char *cmdline) {
     int result = 0;
     int status = 0;
     extern char **environ;
-    
+
     // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
     argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
@@ -479,7 +440,7 @@ int callPosixSpawn(const char *cmdline) {
     } else {
         argv[0] = progName;
     }
-    
+
 #if VERBOSE_SPAWN
     printf("***********");
     for (int i=0; i<argc; ++i) {
@@ -522,6 +483,6 @@ int callPosixSpawn(const char *cmdline) {
 #endif
         }   // end if (WIFEXITED(status)) else
     }       // end if waitpid returned 0 sstaus else
-    
+
     return result;
 }

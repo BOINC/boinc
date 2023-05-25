@@ -685,7 +685,7 @@ bool FILE_INFO::had_failure(int& failnum) {
 
 void FILE_INFO::failure_message(string& s) {
     char buf[1024];
-    snprintf(buf, sizeof(buf), 
+    snprintf(buf, sizeof(buf),
         "<file_xfer_error>\n"
         "  <file_name>%s</file_name>\n"
         "  <error_code>%d (%s)</error_code>\n",
@@ -1432,7 +1432,7 @@ void USER_CPIDS::init_from_projects() {
             strcpy(uc.cpid, p->cross_project_id);
             uc.time = p->user_create_time;
             cpids.push_back(uc);
-            
+
         }
     }
 }

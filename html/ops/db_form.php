@@ -35,9 +35,9 @@ echo "<input type=\"hidden\" name=\"table\" value=\"$table\">\n";
 start_table();
 
 switch($table){
-	case "platform": 
+	case "platform":
 		break;
-	case "app": 
+	case "app":
 		break;
     case "app_version":
         print_detail_field();

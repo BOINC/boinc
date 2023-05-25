@@ -33,7 +33,7 @@ if (!empty($_GET['post'])) {
     $choice = post_str('submit', true);
     $rating = post_int('rating', true);
     if (!$choice) $choice = get_str('choice', true);
-    
+
     if ($choice == SOLUTION or $choice=="p") {
         $rating = 1;
     } else {
@@ -56,7 +56,7 @@ if (!empty($_GET['post'])) {
     if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$forum->rate_min_expavg_credit) {
         error_page(tra("You need more average or total credit to rate a post."));
     }
-    
+
     if (BoincPostRating::lookup($user->id, $post->id)) {
         error_page(tra("You have already rated this post.")."<br /><br /><a href=\"forum_thread.php?nowrap=true&id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>");
     } else {
@@ -76,7 +76,7 @@ function show_result_page($success, $post, $thread, $choice) {
         }
         echo "<p><a href=\"forum_thread.php?nowrap=true&id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";
     } else {
-        page_head(tra("Vote Submission Problem"));    
+        page_head(tra("Vote Submission Problem"));
         if ($post) {
             echo "There was a problem recording your vote in our database. Please try again later.";
             echo "<a href=\"forum_thread.php?id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";

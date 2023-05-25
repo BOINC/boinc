@@ -76,9 +76,9 @@
       <p class="search-snippet"><?php print $snippet; ?></p>
     <?php endif; ?>
   </div>
-  
+
   <?php break; ?>
-  
+
 <?php
   case 'Forum':
   case 'forum':

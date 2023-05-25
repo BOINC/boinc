@@ -5,5 +5,5 @@ set UNIXDATE = `perl -e 'print time()'`
 set DBNAME = `./parse_config db_name`
 
 set COUNT = `echo "use $DBNAME; select count(*) from $1" | mysql | tail -1`
- 
+
 echo $CIVDATE $UNIXDATE $COUNT

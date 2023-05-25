@@ -41,7 +41,7 @@ function get_data() {
     // But SQL has no median function.
     // Instead, take the mean of plausible values
     //
-    $x = $db->enum_fields('host', 'StdClass', 
+    $x = $db->enum_fields('host', 'StdClass',
         'p_model, count(*) as nhosts, avg(p_ncpus) as ncores, avg(p_fpops) as fpops',
         'p_fpops>1e6 and p_fpops<1e11 and p_fpops <> 1e9 and expavg_credit>'.MIN_CREDIT.' group by p_model',
         null

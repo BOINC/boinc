@@ -1,15 +1,31 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 name: Snap
 on:
   push:
-    branches:
-    - master
+    branches: [ master, 'client_release/**' ]
+    tags: [ 'client_release/**' ]
   pull_request:
-    branches:
-    - master
+    branches: [ master ]
   schedule:
-  - cron:  '10 12 * * 0'
+    - cron:  '0 0 * * 0'
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -47,7 +63,7 @@ jobs:
       if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
       run: |
         echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
-    
+
     - name: Configure docker qemu
       if: success()
       uses: docker/setup-qemu-action@v2
@@ -105,7 +121,7 @@ jobs:
         path: deploy/logs.7z
 
     - name: Prepare artifacts for deploy
-      if: success() 
+      if: success()
       run: python ./deploy/prepare_deployment.py linux_snap
 
     - name: Upload artifacts

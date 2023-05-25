@@ -38,7 +38,7 @@
 #define ZIP_IT   1
 #define UNZIP_IT 0
 
-// bitmasks for sort type on the ZipFileList 
+// bitmasks for sort type on the ZipFileList
 // optional but CPDN SmallExecs likes reverse date order
 #define SORT_ASCENDING    0x01
 #define SORT_DESCENDING   0x02
@@ -55,7 +55,7 @@ typedef std::vector<std::string> ZipFileList;
 // note it's basically like running zip/unzip, just comprise an argc/argv
 // send in an input file or path wildcard, output filename, and basic options
 
-// default options for zip (bZip = true) are "-j9q" which is 
+// default options for zip (bZip = true) are "-j9q" which is
 // DON'T recurse/list subdirectories, best compression, quiet operation
 // call it with bZiptype = ZIP_IP to zip, bZip = UNZIP_IT to unzip (duh)
 
@@ -70,7 +70,7 @@ typedef std::vector<std::string> ZipFileList;
 bool boinc_filelist(
     const std::string directory,
     const std::string pattern,
-    ZipFileList* pList, 
+    ZipFileList* pList,
     const unsigned char ucSort = SORT_NAME | SORT_DESCENDING,
     const bool bClear = true
 );
