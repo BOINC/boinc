@@ -17,6 +17,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Utility functions for user file sandbox feature
+//
+// In this system:
+// - sandbox files live in the download hierarchy,
+//   with names of the form sb_userid_md5
+// - each user has a "sandbox dir" project/sandbox/userid.
+//   The files in this have user-visible names, and contents of the form
+//   sb file_size file_md5
 
 require_once("../inc/util.inc");
 require_once("../inc/submit_db.inc");
@@ -28,7 +35,9 @@ require_once("../inc/dir_hier.inc");
 if (!function_exists("sandbox_dir")){
 function sandbox_dir($user) {
     $dir = parse_config(get_config(), "<sandbox_dir>");
-    if (!$dir) { $dir = "../../sandbox/"; }
+    if (!$dir) {
+        $dir = "../../sandbox/";
+    }
     if (!is_dir($dir)) {
         mkdir($dir);
     }
@@ -44,20 +53,19 @@ function sandbox_write_link_file($path, $size, $md5) {
     file_put_contents($path, "sb $size $md5");
 }
 
-// check if a newly update files already exists in sandbox via its md5 sum
+// check if a link with the given md5 exists
 //
-function sandbox_lf_exist($user, $md5) {
-    $exist = 0;
+function sandbox_lf_exists($user, $md5) {
+    $exist = false;
     $elf = "";
     $dir = sandbox_dir($user);
     $files = sandbox_file_names($user);
     foreach ($files as $file) {
-        $path = $dir."/".$file;
-        list($err, $file_size, $file_md5) = sandbox_parse_link_file($path);
+        $path = "$dir/$file";
+        [$err, $file_size, $file_md5] = sandbox_parse_link_file($path);
         if (!$err){
             if (strcmp($md5, $file_md5) == 0) {
-                //echo "this file with $md5 already exisits with another name $file";
-                $exist = 1;
+                $exist = true;
                 $elf = $file;
                 break;
             }
@@ -116,18 +124,14 @@ function sandbox_file_names($user) {
 //
 if (!function_exists('sandbox_file_select')) {
 function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = false) {
-    if ($regexp === null) {
-        $regexp = $select_name;
-    }
     $x = "<select class=\"form-control\" name=$select_name>\n";
     if ($allow_none) {
         $x .= "<option value=\"\">--- None</option>\n";
     }
     $files = sandbox_file_names($user);
     foreach ($files as $f) {
-        if(preg_match("/$regexp/",$f)){
-            $x .= "<option value=\"$f\">$f</option>\n";
-        }
+        if ($regexp && !preg_match("/$regexp/",$f)) continue;
+        $x .= "<option value=\"$f\">$f</option>\n";
     }
     $x .= "</select>\n";
     return $x;
