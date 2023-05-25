@@ -21,7 +21,7 @@
 // for each multi-size app,
 // find the N quantiles of its effective speed,
 // and write them to a file.
-// See http://boinc.berkeley.edu/trac/wiki/JobSizeMatching
+// See https://github.com/BOINC/boinc/wiki/JobSizeMatching
 //
 // --all_apps: compute quantiles for all apps;
 // use this during setup and testing.

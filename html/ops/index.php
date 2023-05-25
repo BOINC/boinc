@@ -199,7 +199,7 @@ if ($show_deprecated) {
 
 echo "<h3>Periodic tasks</h3>
 The following scripts should be run as periodic tasks, not via this web page
-(see <a href=\"https://boinc.berkeley.edu/trac/wiki/ProjectTasks\">https://boinc.berkeley.edu/trac/wiki/ProjectTasks</a>):
+(see <a href=\"https://github.com/BOINC/boinc/wiki/ProjectTasks\">https://github.com/BOINC/boinc/wiki/ProjectTasks</a>):
 <pre>
     update_forum_activities.php, update_profile_pages.php, update_uotd.php, delete_expired_tokens.php, delete_expired_users_and_hosts.php
 </pre>

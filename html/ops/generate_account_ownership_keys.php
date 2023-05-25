@@ -22,7 +22,7 @@
 //
 // This script generates the public and private keys for the proof of
 // account ownership feature of the website that is described
-// here: https://boinc.berkeley.edu/trac/wiki/ProofOfOwnership
+// here: https://github.com/BOINC/boinc/wiki/ProofOfOwnership
 //
 // If the overwrite option is set, then the existing keys will be deleted and
 // new keys generated.  This will invalidate all existing account ownership

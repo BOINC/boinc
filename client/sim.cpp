@@ -1328,7 +1328,7 @@ void get_app_params() {
         "\n"
         "Note: an app's job parameters are taken from a job for that app.\n"
         "   They can also be specified by adding tags to client_state.xml.\n"
-        "   See http://boinc.berkeley.edu/trac/wiki/ClientSim.\n"
+        "   See https://github.com/BOINC/boinc/wiki/ClientSim.\n"
         "\n"
     );
 }

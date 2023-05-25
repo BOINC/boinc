@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // The BOINC file upload handler.
-// See http://boinc.berkeley.edu/trac/wiki/FileUpload for protocol spec.
+// See https://github.com/BOINC/boinc/wiki/FileUpload for protocol spec.
 //
 
 #include "config.h"

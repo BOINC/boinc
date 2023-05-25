@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Work fetch logic for CPU, GPU, and other processing resources.
-// See http://boinc.berkeley.edu/trac/wiki/GpuWorkFetch
+// See https://github.com/BOINC/boinc/wiki/GpuWorkFetch
 
 #ifndef BOINC_WORK_FETCH_H
 #define BOINC_WORK_FETCH_H

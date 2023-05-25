@@ -34,7 +34,7 @@ if (!file_exists($account_ownership_public_key_file_path)) {
   echo "<p>The account ownership public key '" . $account_ownership_public_key_file_name . "' exists.</p>";
 }
 
-echo "<p>For more info see the related wiki page: <a href=\"https://boinc.berkeley.edu/trac/wiki/ProofOfOwnership\">ProofOfOwnership</a></p>";
+echo "<p>For more info see the related wiki page: <a href=\"https://github.com/BOINC/boinc/wiki/ProofOfOwnership\">ProofOfOwnership</a></p>";
 
 admin_page_tail();
 

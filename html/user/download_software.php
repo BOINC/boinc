@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Page for downloading the BOINC client, with support for autoattach:
-// https://boinc.berkeley.edu/trac/wiki/SimpleAttach
+// https://github.com/BOINC/boinc/wiki/SimpleAttach
 // Note: to use autoattach:
 // 1) You need to have the client versions file
 //      run html/ops/get_versions.php
@@ -46,7 +46,7 @@
 //
 
 // Can also be called as a web RPC;
-// see https://boinc.berkeley.edu/trac/wiki/WebRpc#download
+// see https://github.com/BOINC/boinc/wiki/WebRpc#download
 //  rpc              this says it's an RPC
 //  user_agent       web browser info
 //  authenticator    the account to link to

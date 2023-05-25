@@ -15,14 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// configurable app plan functions.
-// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+// Plan class specifications in XML
+// See https://github.com/BOINC/boinc/wiki/AppPlanSpec
 
 #include <string>
 #include <vector>
 #include <regex.h>
 
+// Represents a plan class, as specified in XML
 // if you add anything here, initialize if in the constructor
 //
 struct PLAN_CLASS_SPEC {

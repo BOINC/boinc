@@ -143,8 +143,8 @@ echo "
     <p>
     Badges are assigned using a PHP script;
     see
-    <a href=http://boinc.berkeley.edu/trac/wiki/BadgeDoc>
-    http://boinc.berkeley.edu/trac/wiki/BadgeDoc
+    <a href=https://github.com/BOINC/boinc/wiki/BadgeDoc>
+    https://github.com/BOINC/boinc/wiki/BadgeDoc
     </a>
     <p>
     Fields marked 'optional' are not used by the default script.

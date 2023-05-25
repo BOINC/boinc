@@ -18,7 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // handler for output file requests from remote job submission.
-// See http://boinc.berkeley.edu/trac/wiki/RemoteJobs
+// See https://github.com/BOINC/boinc/wiki/RemoteJobs
 
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");

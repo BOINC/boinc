@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Support for plan classes defined using an XML file.
-// See https://boinc.berkeley.edu/trac/wiki/AppPlanSpec
+// See https://github.com/BOINC/boinc/wiki/AppPlanSpec
 
 #include <cmath>
 

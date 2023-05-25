@@ -919,7 +919,7 @@ static inline bool app_plan_vbox(
 }
 
 // app planning function.
-// See http://boinc.berkeley.edu/trac/wiki/AppPlan
+// See https://github.com/BOINC/boinc/wiki/AppPlan
 //
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu) {
     char buf[256];

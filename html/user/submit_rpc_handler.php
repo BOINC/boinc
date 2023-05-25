@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Handler for remote job submission.
-// See https://boinc.berkeley.edu/trac/wiki/RemoteJobs
+// See https://github.com/BOINC/boinc/wiki/RemoteJobs
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/submit_db.inc");
