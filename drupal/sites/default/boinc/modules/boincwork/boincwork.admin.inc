@@ -10,7 +10,7 @@
  * Allow configuration of general options for preference pages
  */
 function boincwork_admin_prefs_options_form(&$form_state) {
-  $form = array(); 
+  $form = array();
   $form['beta'] = array(
     '#type' => 'checkbox',
     '#title' => t('Allow users to opt in to test beta applications'),
@@ -24,7 +24,7 @@ function boincwork_admin_prefs_options_form(&$form_state) {
   // Add the official mechanical things and return
   //drupal_prepare_form('boincwork_admin_prefs_upload_form', $form, $form_state);
   return $form;
-} 
+}
 
 /**
   * Handle validation of preference general settings form.
@@ -41,10 +41,10 @@ function boincwork_admin_prefs_options_form_submit($form, &$form_state) {
 }
 
 /**
- * 
+ *
  */
 function boincwork_admin_prefs_upload_form(&$form_state) {
-  $form = array(); 
+  $form = array();
   $form['prefs_xml'] = array(
     '#type' => 'textarea',
     '#title' => t('Project specific preferences XML'),
@@ -58,13 +58,13 @@ function boincwork_admin_prefs_upload_form(&$form_state) {
   // Add the official mechanical things and return
   //drupal_prepare_form('boincwork_admin_prefs_upload_form', $form, $form_state);
   return $form;
-} 
+}
 
 /**
   * Handle validation of preference upload form.
   */
 function boincwork_admin_prefs_upload_form_validate($form, &$form_state) {
-  
+
   $xsd = './' . drupal_get_path('module', 'boincwork') . '/includes/projectprefs.xsd';
   libxml_use_internal_errors(true);
   $xml = new DomDocument();
@@ -88,7 +88,7 @@ function boincwork_admin_prefs_upload_form_submit($form, &$form_state) {
 }
 
 /**
- * 
+ *
  */
 function boincwork_admin_prefs_presets_page($preset = 'standard') {
   // Configure preference presets
@@ -118,7 +118,7 @@ function boincwork_admin_prefs_presets_page($preset = 'standard') {
 }
 
 /**
- * 
+ *
  */
 function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') {
 
@@ -132,19 +132,19 @@ function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') 
     unset($form['#submit'][$key]);
   }
   $form['#submit'][] = 'boincwork_admin_prefs_presets_form_submit';
-  
+
   // Just keep the necessary items
   $form['processor'] = $form['prefs']['advanced']['processor'];
   $form['storage'] = $form['prefs']['advanced']['storage'];
   $form['network'] = $form['prefs']['advanced']['network'];
   unset($form['prefs']);
-  
+
   // Tweak some things so it behaves a little better
   $form['#tree'] = TRUE;
   $form['processor']['#collapsible'] = TRUE;
   $form['storage']['#collapsible'] = TRUE;
   $form['network']['#collapsible'] = TRUE;
-  
+
   // Add a submit button and a hidden field to pass the preset
   $form['submit'] = array(
     '#type' => 'submit',
@@ -159,7 +159,7 @@ function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') 
     '#type' => 'hidden',
     '#value' => $preset
   );
-  
+
   // Add the official mechanical things and return
   drupal_prepare_form('boincwork_admin_prefs_presets_form', $form, $form_state);
   return $form;
@@ -171,9 +171,9 @@ function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') 
 function boincwork_admin_prefs_presets_form_validate($form, &$form_state) {
   require_boinc('util');
   $values = $form_state['values'];
-  
+
   // Verify all non-boolean user input values and notify form API of failures
-  
+
   // Processing preferences
   if (!verify_numeric($values['processor']['idle_time_to_run'], 1, 9999)) form_set_error('idle_time_to_run', t('Invalid setting for') . " \"{$form['processor']['idle_time_to_run']['#title']} [x] {$form['processor']['idle_time_to_run']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['suspend_if_no_recent_input'], 0, 9999)) form_set_error('suspend_if_no_recent_input', t('Invalid setting for') . " \"{$form['processor']['suspend_if_no_recent_input']['#title']} [x] {$form['processor']['suspend_if_no_recent_input']['#field_suffix']}\"");
@@ -210,10 +210,10 @@ function boincwork_admin_prefs_presets_form_validate($form, &$form_state) {
 function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $preset = $form_state['values']['preset'];
-  
+
   // Load baseline settings from configuration
   $prefs = boincwork_get_preset_prefs($preset);
-  
+
   // Processing preferences
   $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 0 : 1;
   $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 0 : 1;
@@ -227,7 +227,7 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['cpu_scheduling_period_minutes'] = $values['processor']['cpu_scheduling_period_minutes'];
   $prefs['max_ncpus_pct'] = $values['processor']['max_ncpus_pct'];
   $prefs['cpu_usage_limit'] = $values['processor']['cpu_usage_limit'];
-  
+
   // Storage preferences
   $prefs['disk_max_used_gb'] = $values['storage']['disk_max_used_gb'];
   $prefs['disk_min_free_gb'] = $values['storage']['disk_min_free_gb'];
@@ -236,7 +236,7 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['vm_max_used_pct'] = $values['storage']['vm_max_used_pct'];
   $prefs['ram_max_used_busy_pct'] = $values['storage']['ram_max_used_busy_pct'];
   $prefs['ram_max_used_idle_pct'] = $values['storage']['ram_max_used_idle_pct'];
-  
+
   // Network preferences
   $prefs['work_buf_min_days'] = $values['network']['work_buf_min_days'];
   $prefs['work_buf_additional_days'] = $values['network']['work_buf_additional_days'];
@@ -249,11 +249,11 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['daily_xfer_limit_mb'] = $values['network']['daily_xfer_limit_mb'];
   $prefs['daily_xfer_period_days'] = $values['network']['daily_xfer_period_days'];
   $prefs['dont_verify_images'] = ($values['network']['dont_verify_images']) ? 1 : 0;
-  
+
   //Remove @attributes to match new format (see boincwork.forms.inc
   //function boincwork_generalprefs_form)
   unset($prefs['@attributes']['preset']);
-  
+
   // Update the configuration
   boincwork_save_preset_prefs($prefs, $preset);
   drupal_set_message(t('The "@name" preset has been updated.',
@@ -264,11 +264,11 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
  * Save preset preferences configuration
  */
 function boincwork_save_preset_prefs($updated_prefs, $preset = 'standard') {
-  
+
   // Get the full configuration
   $all_presets = boincwork_get_preset_prefs();
   $all_presets = (array) $all_presets['general_preferences'];
-  
+
   // Check for sane config
   if (isset($all_presets['preset'])) {
     if (!is_numeric(key($all_presets['preset']))) {
@@ -281,7 +281,7 @@ function boincwork_save_preset_prefs($updated_prefs, $preset = 'standard') {
       }
     }
   }
-  
+
   // Convert prefs back to XML and save to database
   $all_presets = array('general_preferences' => $all_presets);
   variable_set('boincwork_preset_prefs', save_configuration($all_presets));

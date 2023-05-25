@@ -222,7 +222,7 @@ void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
     }
 }
 
-// given 
+// given
 // show list of tasks, 1 line per task,
 // similar to the Manager's Tasks pane
 // fields per task:
@@ -592,7 +592,7 @@ int main(int argc, char** argv) {
         safe_strcpy(url, next_arg(argc, argv, i));
         canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
-        retval = rpc.project_attach(url, auth, "");
+        retval = rpc.project_attach(url, auth, "", "");
         show_alerts(rpc);
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;

@@ -1,0 +1,56 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Update Copyright Year
+on:
+  schedule:
+    - cron:  '0 0 1 1 *'
+
+jobs:
+  build:
+    if: github.repository == 'BOINC/boinc'
+    name: ${{ matrix.type }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [update_copyright_year]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Update copyright year
+        if: success()
+        run: |
+          python ./ci_tools/update_copyright_year.py .
+      - name: Check file was updated
+        if: success()
+        run: |
+          set +e
+          git diff --exit-code
+          echo "PR_REQUIRED=$?" >> $GITHUB_ENV
+      - name: Create PR
+        if: ${{ success() &&  env.PR_REQUIRED == 1 }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update copyright year
+          title: Update copyright year
+          body: |
+            This PR was automatically created by a GitHub Action.
+          branch: update_copyright_year
+          base: master
+          delete-branch: true

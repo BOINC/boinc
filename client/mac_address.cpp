@@ -70,7 +70,7 @@
 #if defined(__FreeBSD__)
 #include <ifaddrs.h>
 #include <net/if_dl.h>
-#endif 
+#endif
 
 #include "mac_address.h"
 
@@ -164,7 +164,7 @@ int get_mac_address(char* address) {
     PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo; // Contains pointer to current adapter info
     while (pAdapterInfo) {
         snprintf(address, sizeof(address), "%02x:%02x:%02x:%02x:%02x:%02x",
-            pAdapterInfo->Address[0], pAdapterInfo->Address[1], pAdapterInfo->Address[2], 
+            pAdapterInfo->Address[0], pAdapterInfo->Address[1], pAdapterInfo->Address[2],
             pAdapterInfo->Address[3], pAdapterInfo->Address[4], pAdapterInfo->Address[5]
         );
         if (pAdapterInfo->Type == MIB_IF_TYPE_ETHERNET) break;
@@ -250,7 +250,7 @@ int get_mac_address(char* address) {
 #else
         struct ifreq *item = &ifr[i];
 #endif
-        struct ether_addr *hw_addr; 
+        struct ether_addr *hw_addr;
         /* Get the MAC address */
 #ifdef SIOCGIFHWADDR
         if(ioctl(sck, SIOCGIFHWADDR, item) < 0) {
@@ -265,7 +265,7 @@ int get_mac_address(char* address) {
             close(sck);
             return -1;
         }
-        hw_addr = (struct ether_addr *)&(item->lifr_lifru.lifru_enaddr);  
+        hw_addr = (struct ether_addr *)&(item->lifr_lifru.lifru_enaddr);
 #elif defined(__FreeBSD__)
     struct ifaddrs *ifap, *ifaptr;
     unsigned char *ptr;

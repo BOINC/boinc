@@ -559,7 +559,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                             pDoc->rpc.project_attach(
                                 master_url.c_str(),
                                 ao->authenticator.c_str(),
-                                pWA->project_config.name.c_str()
+                                pWA->project_config.name.c_str(),
+                                ai->email_addr.c_str()
                             );
                         }
                     }

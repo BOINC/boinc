@@ -185,7 +185,7 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             p->disk_usage,
             p->disk_share
         );
-        
+
         // send work and starvation-related info
         //
         if (ami.dynamic) {
@@ -767,7 +767,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     "Attaching to %s", acct.url.c_str()
                 );
                 gstate.add_project(
-                    acct.url.c_str(), acct.authenticator.c_str(), "", true
+                    acct.url.c_str(), acct.authenticator.c_str(), "", "", true
                 );
                 pp = gstate.lookup_project(acct.url.c_str());
                 if (pp) {

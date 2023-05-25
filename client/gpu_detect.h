@@ -18,17 +18,20 @@
 #ifndef BOINC_GPU_DETECT_H
 #define BOINC_GPU_DETECT_H
 
+#include <vector>
+#include <string>
+
 #include "coproc.h"
 
-using std::vector;
+extern std::vector<COPROC_ATI> ati_gpus;
+extern std::vector<COPROC_NVIDIA> nvidia_gpus;
+extern std::vector<COPROC_INTEL> intel_gpus;
+extern std::vector<OPENCL_DEVICE_PROP> nvidia_opencls;
+extern std::vector<OPENCL_DEVICE_PROP> ati_opencls;
+extern std::vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
+extern std::vector<OPENCL_DEVICE_PROP> other_opencls;
+extern std::vector<OPENCL_CPU_PROP> cpu_opencls;
 
-extern vector<COPROC_ATI> ati_gpus;
-extern vector<COPROC_NVIDIA> nvidia_gpus;
-extern vector<COPROC_INTEL> intel_gpus;
-extern vector<OPENCL_DEVICE_PROP> nvidia_opencls;
-extern vector<OPENCL_DEVICE_PROP> ati_opencls;
-extern vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
-extern vector<OPENCL_DEVICE_PROP> other_opencls;
-extern vector<OPENCL_CPU_PROP> cpu_opencls;
+extern void gpu_warning(std::vector<std::string> &warnings, const char* msg);
 
 #endif

@@ -54,7 +54,7 @@ private:
     CC_CONFIG config;
 	bool m_bExclusiveAppsDataChanged;
 	bool m_bInInit;
-    
+
     wxListBox* m_exclusiveApsListBox;
     wxListBox* m_exclusiveGPUApsListBox;
     wxButton* m_addExclusiveAppButton;

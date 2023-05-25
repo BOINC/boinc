@@ -8,7 +8,7 @@ bin_PROGRAMS =
 # Stuff needed for server builds goes here.
 if ENABLE_SERVER
 
-serverbindir = $(libdir)/boinc-server-maker/lib
+serverbindir = $(libexecdir)/boinc-server-maker/lib
 serverbin_PROGRAMS = crypt_prog parse_test
 
 endif
@@ -128,10 +128,6 @@ mac_sources=
 mac_headers=
 
 endif
-endif
-
-if BUILD_WITH_WASM
-generic_sources += wasm.cpp
 endif
 
 if INSTALL_HEADERS

@@ -48,7 +48,7 @@ sub finish_printlines()
 {
   if ($lines < 0) {
        if (scalar(@slines) > -$lines) {
-          @slines = @slines[$#slines+$lines+1..$#slines]; 
+          @slines = @slines[$#slines+$lines+1..$#slines];
        }
        print @slines;
   }
@@ -72,7 +72,7 @@ while (<ARGV>) {
             $. = 0;
         }
         my $n = sprintf("%05d", $.);
-                
+
         if ($html) {
             s%.*debug.*%<font color=grey>$&</font>%i;
             s%.*(critical|error).*%<font color=red>$&</font>%i;

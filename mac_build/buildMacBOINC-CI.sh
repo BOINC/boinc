@@ -81,6 +81,13 @@ rootPath="${PWD}"
 cd ./mac_build || exit 1
 retval=0
 
+show_version_errors() {
+    if [ -f /tmp/depversions.txt ]; then
+        cat /tmp/depversions.txt
+        rm -f /tmp/depversions.txt
+    fi
+}
+
 libSearchPathDbg=""
 if [ "${style}" == "Development" ]; then
     libSearchPathDbg="./build/Development  ${cache_dir}/lib/debug"
@@ -90,9 +97,9 @@ if [ ${share_paths} = "yes" ]; then
     ## all targets share the same header and library search paths
     ## Note: this does not build zip apps, upper case or VBoxWrapper projects.
     libSearchPathDbg=""
-    source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
+    source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
-        cd "${rootPath}"; exit 1; fi
+        cd "${rootPath}"; show_version_errors; exit 1; fi
     return 0
 fi
 
@@ -100,6 +107,7 @@ verify_product_archs() {
 cd "${1}"
 if [ $? -ne 0 ]; then
     cd "${rootPath}"
+    show_version_errors
     exit 1
 fi
 
@@ -116,7 +124,7 @@ fi
         lipo "${fileToCheck}" -verify_arch x86_64 arm64
         if [ $? -ne 0 ]; then
             echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
-            cd "${rootPath}"; exit 1;
+            cd "${rootPath}"; show_version_errors; exit 1;
         fi
         echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ...done"
         echo
@@ -125,12 +133,15 @@ fi
 cd "${rootPath}/mac_build"
 if [ $? -ne 0 ]; then
     cd "${rootPath}"
+    show_version_errors
     exit 1
 fi
 }
 
 foundTargets=0
 target="x"
+
+rm -f /tmp/depversions.txt
 
 ## This is code that builds each target individually in the main BOINC Xcode
 ## project, plus the zip apps, upper case and VBoxWrapper projects.
@@ -140,13 +151,13 @@ do
     if [ $foundTargets -eq 1 ]; then
         if [ "${target}" != "Build_All" ]; then
             echo "Building ${target}..."
-            source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+            source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
             if [ ${retval} -eq 0 ]; then
                 echo "Building ${target}...success"
                 echo
             else
                 echo "Building ${target}...failed"
-                cd "${rootPath}"; exit 1;
+                cd "${rootPath}"; show_version_errors; exit 1;
             fi
         fi
     fi
@@ -162,7 +173,7 @@ if [[ `lipo "${rootPath}/mac_build/build/${style}/detect_rosetta_cpu" -archs` = 
     echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu ...done"
 else
     echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu failed"
-    cd ..; exit 1;
+    cd ..; show_version_errors; exit 1;
 fi
 
 target="zip apps"
@@ -170,27 +181,27 @@ echo "Building ${target}..."
 source BuildMacBOINC.sh ${config} ${doclean} -zipapps | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
-    cd "${rootPath}"; exit 1;
+    cd "${rootPath}"; show_version_errors; exit 1;
 fi
 
 verify_product_archs "${rootPath}/zip/build/${style}"
 
 target="UpperCase2"
 echo "Building ${target}..."
-source BuildMacBOINC.sh ${config} ${doclean} -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../zip/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} ${doclean} -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../zip/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
-    cd "${rootPath}"; exit 1;
+    cd "${rootPath}"; show_version_errors; exit 1;
 fi
 
 verify_product_archs "${rootPath}/samples/mac_build/build/${style}"
 
 target="VBoxWrapper"
 echo "Building ${target}..."
-source BuildMacBOINC.sh ${config} ${doclean} -vboxwrapper -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../clientgui/mac/ ../samples/jpeglib ${cache_dir}/include"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} ${doclean} -vboxwrapper -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../clientgui/mac/ ../samples/jpeglib ${cache_dir}/include \\\${HEADER_SEARCH_PATHS}"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
-    cd "${rootPath}"; exit 1;
+    cd "${rootPath}"; show_version_errors; exit 1;
 fi
 
 verify_product_archs "${rootPath}/samples/vboxwrapper/build/${style}"

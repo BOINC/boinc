@@ -70,7 +70,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlTotal->m_Series.Add(CtrlTotalPart);
 	m_pieCtrlTotal->Refresh();
 
-    
+
     // create pie chart ctrl for BOINC disk usage
 	m_pieCtrlBOINC = new wxPieCtrl(this, ID_PIECTRL_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxDefaultSize);
 	wxASSERT(m_pieCtrlBOINC);

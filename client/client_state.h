@@ -347,7 +347,8 @@ struct CLIENT_STATE {
 // --------------- cs_account.cpp:
     int add_project(
         const char* master_url, const char* authenticator,
-        const char* project_name, bool attached_via_acct_mgr
+        const char* project_name, const char* email_addr,
+        bool attached_via_acct_mgr
     );
 
     int parse_account_files();
@@ -553,7 +554,9 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
-extern THREAD_LOCK client_mutex;
+// mutual exclusion for the client's threads (main thread, throttle thread)
+//
+extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
 
 //////// TIME-RELATED CONSTANTS ////////////

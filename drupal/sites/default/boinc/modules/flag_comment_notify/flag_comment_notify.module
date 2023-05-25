@@ -21,9 +21,9 @@
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
- * Implementation of hook_comment(); 
+ * Implementation of hook_comment();
  */
 function flag_comment_notify_comment(&$a1, $op) {
   switch ($op) {

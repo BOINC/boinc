@@ -91,7 +91,7 @@ int callPosixSpawn(const char *cmdline) {
     int result = 0;
     int status = 0;
     extern char **environ;
-    
+
     // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
     argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
@@ -103,7 +103,7 @@ int callPosixSpawn(const char *cmdline) {
     } else {
         argv[0] = progName;
     }
-    
+
 #if VERBOSE_SPAWN
     fprintf(stderr, "***********\n");
     for (int i=0; i<argc; ++i) {
@@ -146,6 +146,6 @@ int callPosixSpawn(const char *cmdline) {
 #endif
         }   // end if (WIFEXITED(status)) else
     }       // end if waitpid returned 0 sstaus else
-    
+
     return result;
 }

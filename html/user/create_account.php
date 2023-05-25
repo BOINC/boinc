@@ -55,7 +55,7 @@ if (defined('INVITE_CODES_RPC')) {
         if (!preg_match(INVITE_CODES, $invite_code)) {
             xml_error(-1, "Invalid invitation code");
         }
-    } 
+    }
 }
 
 $email_addr = get_str("email_addr");
@@ -135,7 +135,7 @@ if ($user) {
     if (!$user) {
         xml_error(ERR_DB_NOT_UNIQUE);
     }
-    
+
 
     if (defined('INVITE_CODES_RPC')) {
         // record the invite code

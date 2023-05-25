@@ -78,7 +78,7 @@ if ($offset < ITEM_LIMIT) {
     } else {
         //if not do queries etc to generate new data
         $data = get_top_teams($offset,$sort_by,$type);
-        
+
         // Calculate nusers before storing into the cache
         foreach ($data as $team) {
             $team->nusers = team_count_members($team->id);

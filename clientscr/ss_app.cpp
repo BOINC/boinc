@@ -276,7 +276,7 @@ void show_jobs(unsigned int index, double alpha) {
     unsigned int i;
     cc_status.task_suspend_reason &= ~SUSPEND_REASON_CPU_THROTTLE;
     char buf[256];
-    
+
     if (!cc_status.task_suspend_reason) {
         for (i=0; i<cc_state.results.size(); i++) {
             int j = (i + index) % cc_state.results.size();
@@ -493,7 +493,7 @@ int main(int argc, char** argv) {
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
 #ifndef __APPLE__   // Can't access user's directories under sandbox security
         BOINC_DIAG_PERUSERLOGFILES |
 #endif
@@ -514,7 +514,7 @@ int main(int argc, char** argv) {
         }
         exit(ERR_CONNECT);
     }
-    
+
 #ifdef __APPLE__
     long brandId = 0;
     // For branded installs, the installer put a branding file in our data directory

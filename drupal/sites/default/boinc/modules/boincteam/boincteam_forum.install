@@ -79,7 +79,7 @@ function boincteam_forum_schema() {
     ),
     'primary key' => array('tfid')
   );
-  
+
   $schema['boincteam_forum_node'] = array(
     'description' => t('Maps topic nodes to team forums.'),
     'fields' => array(
@@ -101,7 +101,7 @@ function boincteam_forum_schema() {
     ),
     'primary key' => array('nid')
   );
-  
+
   return $schema;
 }
 

@@ -3,7 +3,7 @@
 if not exist "windows" (
     echo start this script in the source root directory
     exit 1
-) 
+)
 
 set "BUILD_DIR=%CD%\3rdParty\Windows"
 set "VCPKG_PORTS=%CD%\3rdParty\vcpkg_ports"

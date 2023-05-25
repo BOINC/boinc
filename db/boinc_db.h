@@ -95,16 +95,16 @@ struct DB_USER_SUBMIT : public DB_BASE, public USER_SUBMIT {
 };
 
 struct STATE_COUNTS {
-    DB_ID_TYPE appid; 
-    int last_update_time;   
-    int result_server_state_2;       
-    int result_server_state_4;       
-    int result_file_delete_state_1;  
-    int result_file_delete_state_2;  
-    int result_server_state_5_and_file_delete_state_0;   
-    int workunit_need_validate_1;    
-    int workunit_assimilate_state_1; 
-    int workunit_file_delete_state_1; 
+    DB_ID_TYPE appid;
+    int last_update_time;
+    int result_server_state_2;
+    int result_server_state_4;
+    int result_file_delete_state_1;
+    int result_file_delete_state_2;
+    int result_server_state_5_and_file_delete_state_0;
+    int workunit_need_validate_1;
+    int workunit_assimilate_state_1;
+    int workunit_file_delete_state_1;
     int workunit_file_delete_state_2;
 
     void clear();
@@ -120,7 +120,7 @@ struct DB_STATE_COUNTS : public DB_BASE, public STATE_COUNTS {
 struct VALIDATOR_ITEM {
     WORKUNIT wu;
     RESULT res;
- 
+
     void clear();
     void parse(MYSQL_ROW&);
 };
@@ -512,7 +512,7 @@ public:
 class DB_FILESET_SCHED_TRIGGER_ITEM_SET : public DB_BASE_SPECIAL {
 public:
     DB_FILESET_SCHED_TRIGGER_ITEM_SET(DB_CONN* p=0);
-    
+
     // select available triggers based on name and/or state
     // -> name filter optional (set string, default NULL)
     // -> pattern search optional (set use_regexp to true, default false))

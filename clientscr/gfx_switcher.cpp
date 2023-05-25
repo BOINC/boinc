@@ -26,16 +26,16 @@
 // Special logic used only under OS 10.15 Catalina and later:
 //
 // BOINC screensaver plugin BOINCSaver.saver (BOINC Screensaver Coordinator)
-// sends a run_graphics_app RPC to the BOINC client. The BOINC client then 
+// sends a run_graphics_app RPC to the BOINC client. The BOINC client then
 // launches switcher, which submits a script to launchd as a LaunchAgent
 // for the user that invoked the screensaver (the currently logged in user.)
 //
-// We must go through launchd to establish a connection to the windowserver 
+// We must go through launchd to establish a connection to the windowserver
 // in the currently logged in user's space for use by the project graphics
-// app. This script then launches gfx_switcher, which uses fork and execv to 
-// launch the project graphics app. gfx_switcher writes the graphics app's 
-// process ID to shared memory, to be read by the Screensaver Coordinator. 
-// gfx_switcher waits for the graphics app to exit and notifies then notifies 
+// app. This script then launches gfx_switcher, which uses fork and execv to
+// launch the project graphics app. gfx_switcher writes the graphics app's
+// process ID to shared memory, to be read by the Screensaver Coordinator.
+// gfx_switcher waits for the graphics app to exit and notifies then notifies
 // the Screensaver Coordinator by writing 0 to the shared memory.
 //
 // This Rube Goldberg process is necessary due to limitations on screensavers
@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
     strlcpy(group_name, "boinc_project", sizeof(group_name));
 
     // Under fast user switching, the BOINC client may be running under a
-    // different login than the screensaver 
+    // different login than the screensaver
     //
     // If we need to join a different process group, it must be the last argument.
     i = 0;
@@ -127,7 +127,7 @@ int main(int argc, char** argv) {
         }
         ++i;
     }
-    
+
     if (! screensaverLoginUser) {
         screensaverLoginUser = user_name;
     }
@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
     if (grp) strlcpy(group_name, grp->gr_name, sizeof(group_name));
 #endif
 
-    // We are running setuid root, so setgid() sets real group ID, 
+    // We are running setuid root, so setgid() sets real group ID,
     // effective group ID and saved set_group-ID for this process
     grp = getgrnam(group_name);
     if (grp) setgid(grp->gr_gid);
@@ -156,7 +156,7 @@ int main(int argc, char** argv) {
     getcwd( current_dir, sizeof(current_dir));
     print_to_log_file("current directory = %s", current_dir);
     print_to_log_file("user_name is %s, euid=%d, uid=%d, egid=%d, gid=%d", user_name, geteuid(), getuid(), getegid(), getgid());
-    
+
     for (int i=0; i<argc; i++) {
          print_to_log_file("gfx_switcher arg %d: %s", i, argv[i]);
     }
@@ -181,8 +181,8 @@ int main(int argc, char** argv) {
         // elements we use are very unlikely to change.
         //
         if (pid == 0) {
-            // For unknown reasons, the graphics application exits with 
-            // "RegisterProcess failed (error = -50)" unless we pass its 
+            // For unknown reasons, the graphics application exits with
+            // "RegisterProcess failed (error = -50)" unless we pass its
             // full path twice in the argument list to execv.
             strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
             strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
@@ -226,7 +226,7 @@ int main(int argc, char** argv) {
             return 0;
         }
     }
-    
+
     if (strcmp(argv[1], "-launch_gfx") == 0) {
         strlcpy(gfx_app_path, BOINCDatSlotsPath, sizeof(gfx_app_path));
         strlcat(gfx_app_path, argv[2], sizeof(gfx_app_path));
@@ -234,7 +234,7 @@ int main(int argc, char** argv) {
         strlcat(gfx_app_path, GRAPHICS_APP_FILENAME, sizeof(gfx_app_path));
         retval = boinc_resolve_filename(gfx_app_path, resolved_path, sizeof(resolved_path));
         if (retval) return retval;
-        
+
 #if VERBOSE           // For debugging only
         print_to_log_file("gfx_switcher using fork()");;
 #endif
@@ -249,8 +249,8 @@ int main(int argc, char** argv) {
         // But it is used widely in Apple's software, and the security profile
         // elements we use are very unlikely to change.
         if (pid == 0) {
-           // For unknown reasons, the graphics application exits with 
-            // "RegisterProcess failed (error = -50)" unless we pass its 
+           // For unknown reasons, the graphics application exits with
+            // "RegisterProcess failed (error = -50)" unless we pass its
             // full path twice in the argument list to execv.
             strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
             strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
@@ -303,7 +303,7 @@ int main(int argc, char** argv) {
         }
         return 0;
     }
-    
+
     return EINVAL;  // Unknown command
 }
 
@@ -311,7 +311,7 @@ int main(int argc, char** argv) {
 void * MonitorScreenSaverEngine(void* param) {
     pid_t ScreenSaverEngine_Pid = 0;
     pid_t graphics_Pid = *(pid_t*)param;
-    
+
     while (true) {
         boinc_sleep(1.0);  // Test every second
         ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine");
@@ -328,7 +328,7 @@ void * MonitorScreenSaverEngine(void* param) {
         print_to_log_file("MonitorScreenSaverEngine: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
 #endif
         }
-     
+
     if (ScreenSaverEngine_Pid == 0) {
         kill(graphics_Pid, SIGKILL);
 #if VERBOSE           // For debugging only
@@ -348,7 +348,7 @@ static void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    
+
     f = fopen("/Users/Shared/test_log_gfx_switcher.txt", "a");
     if (!f) return;
 
@@ -365,7 +365,7 @@ static void print_to_log_file(const char *format, ...) {
     va_start(args, format);
     vfprintf(f, format, args);
     va_end(args);
-    
+
     fputs("\n", f);
     fflush(f);
     fclose(f);

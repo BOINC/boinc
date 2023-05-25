@@ -6,7 +6,7 @@ include_once('global_search_solr.features.inc');
 // label on the search form!? Need a custom module to call hook_form_alter()...
 function global_search_solr_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'apachesolr_search_custom_page_search_form') {
-    $form['basic']['keys']['#title'] = t('Search'); 
+    $form['basic']['keys']['#title'] = t('Search');
     $form['basic']['keys']['#size'] = 40;
   }
 }

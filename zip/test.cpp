@@ -30,7 +30,7 @@ int main() {
         perror("mkdir");
     }
 #endif
-   
+
     string zipfile = result_dir + string("/test.zip");
     string source_dir = home + string("/Testfiles");
     if (boinc_filelist(source_dir, string(".txt"), &zf) && zf.size()) {

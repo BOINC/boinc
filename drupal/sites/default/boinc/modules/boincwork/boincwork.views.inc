@@ -12,28 +12,28 @@
  * relationships exist; is data text, integer, float; what sort options exist).
  */
 function boincwork_views_data() {
-  
+
   // -----------------------------------------------------------------------------------------------
   // Definition for host table
   // -----------------------------------------------------------------------------------------------
-  
+
   $data['host']['table']['group'] = t('BOINC');
-  
+
   $data['host']['table']['base'] = array(
       'field' => 'id',
       'title' => t('BOINC host'),
       'help' => t('Computers attached to BOINC'),
       'database' => 'boinc_ro'
   );
-  
+
   // This table references the {user} table.
   // This join creates an 'implicit' relationship to the user table, so that when
   // "User" is the base table, the fields are automatically available.
-  
+
   // Index this array by the table name to which this table refers.
   // 'left_field' is the primary key in the referenced table.
   // 'field' is the foreign key in this table.
-  
+
   $data['host']['table']['join'] = array(
     'user' => array(
       'left_field' => 'id',
@@ -45,9 +45,9 @@ function boincwork_views_data() {
   // each field, you may define what field, sort, argument, and/or filter
   // handlers it supports. This will determine where in the Views interface you
   // may use the field.
-  
+
   // Primary keys allowed as arguments
-  
+
   $data['host']['id'] = array(
     'title' => bts('Computer ID', array(), NULL, 'boinc:host-list'),
     'help' => t('The ID number of this host.'),
@@ -86,9 +86,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_string'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['host']['userid'] = array(
     'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The owner of this host.'),
@@ -118,9 +118,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of general host fields (alphabetized)
-  
+
   $data['host']['active_frac'] = array(
     'title' => bts('While BOINC running, % of time work is allowed', array(), NULL, 'boinc:host-details'),
     'help' => t('The percentage of time that work is allowed.'),
@@ -437,7 +437,7 @@ function boincwork_views_data() {
     'sort' => array(
       'handler' => 'views_handler_sort_string'
     )
-  );  
+  );
   $data['host']['os_version'] = array(
     'title' => bts('Operating system version', array(), NULL, 'boinc:host-details'),
     'help' => t('The version of the host operating system.'),
@@ -595,11 +595,11 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // ------------------------------------------------------------------------------------------------
   // Definition for platform table
   // ------------------------------------------------------------------------------------------------
-  
+
   $data['platform']['table']['group'] = t('BOINC');
   $data['platform']['table']['base'] = array(
       'field' => 'id',
@@ -607,7 +607,7 @@ function boincwork_views_data() {
       'help' => t('Operating system platforms'),
       'database' => 'boinc_ro'
   );
-  
+
   // Primary keys allowed as arguments
 
   $data['platform']['id'] = array(
@@ -630,9 +630,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of app fields (alphabetized)
-  
+
   $data['platform']['name'] = array(
     'title' => bts('Name', array(), NULL, 'boinc:details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite'),
     'help' => t('The name of the platform.'),
@@ -647,11 +647,11 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_string'
     )
   );
-  
+
   // ------------------------------------------------------------------------------------------------
   // Definition for result (task) table
   // ------------------------------------------------------------------------------------------------
-  
+
   $data['result']['table']['group'] = t('BOINC');
   $data['result']['table']['base'] = array(
       'field' => 'id',
@@ -659,9 +659,9 @@ function boincwork_views_data() {
       'help' => t('Results produced by BOINC'),
       'database' => 'boinc_ro'
   );
-  
+
   // Create implicit relationships to the user, workunit, and host tables
-  
+
   $data['result']['table']['join'] = array(
     'user' => array(
       'left_field' => 'id',
@@ -676,7 +676,7 @@ function boincwork_views_data() {
       'field' => 'hostid'
     )
   );
-  
+
   // Primary keys allowed as arguments
 
   $data['result']['id'] = array(
@@ -699,9 +699,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['result']['userid'] = array(
     'title' => bts('User ID', array(), NULL, 'boinc:user-details'),
     'help' => t('The owner of this result.'),
@@ -773,9 +773,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of result fields (alphabetized)
-  
+
   $data['result']['appid'] = array(
     'title' => bts('Application ID', array(), NULL, 'boinc:application-details'),
     'help' => t('The ID number of the application.'),
@@ -1061,11 +1061,11 @@ function boincwork_views_data() {
     )
   );
 
-  
+
   // ------------------------------------------------------------------------------------------------
   // Definition for workunit table
   // ------------------------------------------------------------------------------------------------
-  
+
   $data['workunit']['table']['group'] = t('BOINC');
   $data['workunit']['table']['base'] = array(
       'field' => 'id',
@@ -1073,18 +1073,18 @@ function boincwork_views_data() {
       'help' => t('Workunits produced by BOINC'),
       'database' => 'boinc_ro'
   );
-  
+
   // Create implicit relationship to the app table
-  
+
   $data['workunit']['table']['join'] = array(
     'app' => array(
       'left_field' => 'id',
       'field' => 'appid'
     )
   );
-  
+
   // Primary keys allowed as arguments
-  
+
   $data['workunit']['id'] = array(
     'title' => bts('Workunit ID', array(), NULL, 'boinc:workunit-details'),
     'help' => t('The ID number of this workunit.'),
@@ -1105,12 +1105,12 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['workunit']['appid'] = array(
     'title' => bts('Application ID', array(), NULL, 'boinc:application-details'),
-    'help' => t('The application associated with this workunit.'), 
+    'help' => t('The application associated with this workunit.'),
     'argument' => array( // foreign key to the {app} table
       'handler' => 'views_handler_argument',
       'name field' => 'title',
@@ -1134,9 +1134,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of workunit fields (alphabetized)
-  
+
   $data['workunit']['canonical_credit'] = array(
     'title' => bts('Canonical credit', array(), NULL, 'boinc:workunit-details'),
     'help' => t('The canonical credit of the workunit.'),
@@ -1292,11 +1292,11 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // ------------------------------------------------------------------------------------------------
   // Definition for app table
   // ------------------------------------------------------------------------------------------------
-  
+
   $data['app']['table']['group'] = t('BOINC');
   $data['app']['table']['base'] = array(
       'field' => 'id',
@@ -1304,7 +1304,7 @@ function boincwork_views_data() {
       'help' => t('Research applications run by BOINC'),
       'database' => 'boinc_ro'
   );
-  
+
   // Primary keys allowed as arguments
 
   $data['app']['id'] = array(
@@ -1327,9 +1327,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of app fields (alphabetized)
-  
+
   $data['app']['target_nresults'] = array(
     'title' => bts('Target number of results', array(), NULL, 'boinc:application-details'),
     'help' => t('The number of times to replicate tasks in this application.'),
@@ -1358,11 +1358,11 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_string'
     )
   );
-  
+
   // ------------------------------------------------------------------------------------------------
   // Definition for app_version table
   // ------------------------------------------------------------------------------------------------
-  
+
   $data['app_version']['table']['group'] = t('BOINC');
   $data['app_version']['table']['base'] = array(
       'field' => 'id',
@@ -1370,7 +1370,7 @@ function boincwork_views_data() {
       'help' => t('Versions of research applications run by BOINC'),
       'database' => 'boinc_ro'
   );
-  
+
   // Primary keys allowed as arguments
 
   $data['app_version']['id'] = array(
@@ -1393,9 +1393,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['app_version']['appid'] = array(
     'title' => bts('Application ID', array(), NULL, 'boinc:application-details'),
     'help' => t('The application ID associated with this app version.'),
@@ -1425,7 +1425,7 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   $data['app_version']['platformid'] = array(
     'title' => bts('Platform ID', array(), NULL, 'boinc:platform-details'),
     'help' => t('The platform ID associated with this app version.'),
@@ -1455,9 +1455,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of app fields (alphabetized)
-  
+
   $data['app_version']['plan_class'] = array(
     'title' => bts('Plan class', array(), NULL, 'boinc:application-details'),
     'help' => t('App version plan class.'),
@@ -1487,28 +1487,28 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // ------------------------------------------------------------------------------------------------
   // Definition for host_app_version table
   // ------------------------------------------------------------------------------------------------
-  
+
   $data['host_app_version']['table']['group'] = t('BOINC');
-  
+
   // This table references the {host} table.
   // This join creates an 'implicit' relationship to the host table, so that when
   // "Host" is the base table, the fields are automatically available.
-  
+
   // Index this array by the table name to which this table refers.
   // 'left_field' is the primary key in the referenced table.
   // 'field' is the foreign key in this table.
-  
+
   $data['host_app_version']['table']['join'] = array(
     'host' => array(
       'left_field' => 'id',
       'field' => 'host_id',
     )
   );
-  
+
   // Primary keys allowed as arguments
 
   $data['host_app_version']['host_id'] = array(
@@ -1531,9 +1531,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Foreign key fields
-  
+
   $data['host_app_version']['app_version_id'] = array(
     'title' => bts('App version ID', array(), NULL, 'boinc:application-details'),
     'help' => t('The app version ID connected to this host data.'),
@@ -1563,9 +1563,9 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of host_app_version fields (alphabetized)
-  
+
   $data['host_app_version']['consecutive_valid'] = array(
     'title' => bts('Consecutive valid tasks', array(), NULL, 'boinc:application-details'),
     'help' => t('The number of consecutive valid tasks for this app and by this host.'),
@@ -1665,7 +1665,7 @@ function boincwork_views_data() {
       'handler' => 'views_handler_sort_string'
     )
   );
-  
+
   return $data;
 }
 
@@ -1677,7 +1677,7 @@ function boincwork_views_data() {
  */
 
 function boincwork_views_handlers() {
-  
+
   return array(
     'info' => array(
       'path' => drupal_get_path('module', 'boincwork') . '/views',

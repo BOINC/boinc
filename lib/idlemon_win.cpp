@@ -23,7 +23,7 @@
 
 /**
  * The following global data is only shared in this process
- **/ 
+ **/
 HANDLE    g_hMemoryMappedData = NULL;
 
 /**
@@ -92,7 +92,7 @@ bool startup_idle_monitor() {
     * Create a filemap object that is global for everyone,
     * including users logged in via terminal services.
     */
-    g_hMemoryMappedData = 
+    g_hMemoryMappedData =
         CreateFileMapping(
             INVALID_HANDLE_VALUE,
 		    &sec_attr,
@@ -103,7 +103,7 @@ bool startup_idle_monitor() {
         );
     if( NULL == g_hMemoryMappedData )
     {
-        g_hMemoryMappedData = 
+        g_hMemoryMappedData =
             CreateFileMapping(
                 INVALID_HANDLE_VALUE,
 		        &sec_attr,
@@ -119,9 +119,9 @@ bool startup_idle_monitor() {
 	    if( ERROR_ALREADY_EXISTS == GetLastError() )
 		    bExists = TRUE;
 
-        g_pSystemWideIdleData = (struct SystemWideIdleData*) 
+        g_pSystemWideIdleData = (struct SystemWideIdleData*)
             MapViewOfFile(
-                g_hMemoryMappedData, 
+                g_hMemoryMappedData,
                 FILE_MAP_ALL_ACCESS,
 			    0,
                 0,
@@ -167,7 +167,7 @@ bool attach_idle_monitor() {
     * Create a filemap object that is global for everyone,
     * including users logged in via terminal services.
     */
-    g_hMemoryMappedData = 
+    g_hMemoryMappedData =
         OpenFileMapping(
             FILE_MAP_READ | FILE_MAP_WRITE,
 		    FALSE,
@@ -175,7 +175,7 @@ bool attach_idle_monitor() {
         );
     if( NULL == g_hMemoryMappedData )
     {
-        g_hMemoryMappedData = 
+        g_hMemoryMappedData =
             OpenFileMapping(
                 FILE_MAP_READ | FILE_MAP_WRITE,
 		        FALSE,
@@ -188,9 +188,9 @@ bool attach_idle_monitor() {
 	    if( ERROR_ALREADY_EXISTS == GetLastError() )
 		    bExists = TRUE;
 
-        g_pSystemWideIdleData = (struct SystemWideIdleData*) 
+        g_pSystemWideIdleData = (struct SystemWideIdleData*)
             MapViewOfFile(
-                g_hMemoryMappedData, 
+                g_hMemoryMappedData,
                 FILE_MAP_ALL_ACCESS,
 			    0,
                 0,

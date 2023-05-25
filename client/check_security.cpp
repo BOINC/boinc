@@ -40,8 +40,8 @@ bool IsUserInGroup(char* groupName);
 #endif
 
 static int CheckNestedDirectories(
-    char * basepath, int depth, 
-    int use_sandbox, int isManager, 
+    char * basepath, int depth,
+    int use_sandbox, int isManager,
     bool isSlotDir, char * path_to_error,
     int len
 );
@@ -93,7 +93,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
     // or LLDB on sandbox-specific code, as long as the code is run as the
     // current user (i.e., not as boinc_master or boinc_project), and the
     // current user is a member of both groups boinc_master and boinc_project.
-    // Note that this newer approach supersedes the old one described and 
+    // Note that this newer approach supersedes the old one described and
     // implemented below. But since it has not been thoroughly tested, I have
     // not removed the old code.
     if (IsUserInGroup(REAL_BOINC_MASTER_NAME) && IsUserInGroup(REAL_BOINC_PROJECT_NAME)) {
@@ -107,7 +107,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
 // GDB can't attach to applications which are running as a different user or group so
 //  it ignores the S_ISUID and S_ISGID permission bits when launching an application.
 // To work around this, and to allow testing the uninstalled Deployment version, we
-//  assume that the BOINC Client has the correct user and group. 
+//  assume that the BOINC Client has the correct user and group.
 // We must get the BOINC Client's user and group differently depending on whether we
 //  were called from the Manager or from the Client
 
@@ -217,12 +217,12 @@ int use_sandbox, int isManager, char* path_to_error, int len
         strlcat(full_path, p+1, sizeof(full_path));
         p = strrchr(full_path, '.');         // Strip off  bundle extension (".app")
         if (p)
-            *p = '\0'; 
+            *p = '\0';
 
         retval = lstat(full_path, &sbuf);
         if (retval)
             return -1013;          // Should never happen
-        
+
         if (sbuf.st_gid != boinc_master_gid)
             return -1014;
 
@@ -245,7 +245,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1016;          // Should never happen
-        
+
         if (sbuf.st_gid != boinc_master_gid)
             return -1017;
 
@@ -255,9 +255,9 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
         // Version 6 screensaver has its own embedded switcher application, but older versions don't.
-        // We don't allow unauthorized users to run the standard switcher application in the BOINC 
-        // Data directory because they could use it to run as user & group boinc_project and damage 
-        // project files.  The screensaver's gfx_switcher application has very limited functionality 
+        // We don't allow unauthorized users to run the standard switcher application in the BOINC
+        // Data directory because they could use it to run as user & group boinc_project and damage
+        // project files.  The screensaver's gfx_switcher application has very limited functionality
         // to avoid this risk.
 
         if (use_sandbox) {
@@ -317,15 +317,15 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
     if (use_sandbox) {
 
-        // The top-level BOINC Data directory can have a different user if created by the Manager, 
+        // The top-level BOINC Data directory can have a different user if created by the Manager,
         // but it should always have group boinc_master.
         if (sbuf.st_gid != boinc_master_gid)
             return -1022;
-        
+
         // The top-level BOINC Data directory should have permission 771 or 571
         if ((sbuf.st_mode & 0577) != 0571)
             return -1023;
-            
+
     } else {
 
         if (sbuf.st_uid != boinc_master_uid)
@@ -336,7 +336,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
     snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, PROJECTS_DIR);
     retval = stat(full_path, &sbuf);
     if (!retval) {
-        // Client can create projects directory if it does not yet exist.  
+        // Client can create projects directory if it does not yet exist.
         //
         if (use_sandbox) {
             if (sbuf.st_gid != boinc_project_gid)
@@ -345,7 +345,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if ((sbuf.st_mode & 0777) != 0770)
             return -1025;
         }
-        
+
         if (sbuf.st_uid != boinc_master_uid)
             return -1026;
 
@@ -357,7 +357,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
     snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, SLOTS_DIR);
     retval = stat(full_path, &sbuf);
-    if (! retval) {                 // Client can create slots directory if it does not yet exist.  
+    if (! retval) {                 // Client can create slots directory if it does not yet exist.
        if (use_sandbox) {
             if (sbuf.st_gid != boinc_project_gid)
                 return -1027;
@@ -365,7 +365,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
             if ((sbuf.st_mode & 0777) != 0770)
                 return -1028;
         }
-        
+
         if (sbuf.st_uid != boinc_master_uid)
             return -1029;
 
@@ -379,7 +379,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         "%s/%s", dir_path, GUI_RPC_PASSWD_FILE
     );
     retval = stat(full_path, &sbuf);
-    if (! retval) {                 // Client can create RPC password file if it does not yet exist.  
+    if (! retval) {                 // Client can create RPC password file if it does not yet exist.
         if (use_sandbox) {
             if (sbuf.st_gid != boinc_master_gid)
                 return -1030;
@@ -390,7 +390,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
             if ((sbuf.st_mode & 0717) != 0600)
                 return -1032;
         }
-        
+
         if (sbuf.st_uid != boinc_master_uid)
             return -1031;
     }
@@ -400,7 +400,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1033;
-          
+
         if (sbuf.st_gid != boinc_master_gid)
             return -1034;
 
@@ -415,7 +415,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1037;
-        
+
         if (sbuf.st_gid != boinc_master_gid)
             return -1038;
 
@@ -431,7 +431,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1041;
-        
+
         if (sbuf.st_gid != boinc_master_gid)
             return -1042;
 
@@ -448,7 +448,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1045;
-        
+
         if (sbuf.st_gid != boinc_master_gid)
             return -1046;
 
@@ -475,17 +475,17 @@ int use_sandbox, int isManager, char* path_to_error, int len
             if ((sbuf.st_mode & 0777) != 0664)
                 return -1053;
         }   // Screensaver config file ss_config.xml exists
-        
+
     }       // if (use_sandbox)
-    
+
     return 0;
 }
 
 
 static int CheckNestedDirectories(
     char * basepath, int depth,
-    int use_sandbox, int isManager, 
-    bool isSlotDir, 
+    int use_sandbox, int isManager,
+    bool isSlotDir,
     char * path_to_error, int len
 ) {
     int             isDirectory;
@@ -498,10 +498,10 @@ static int CheckNestedDirectories(
 
     dirp = opendir(basepath);
     if (dirp == NULL) {
-        // Ideally, all project-created subdirectories under project or slot 
-        // directoriesshould have read-by-group and execute-by-group permission 
-        // bits set, but some don't.  If these permission bits are missing, the 
-        // project applications will run OK but we can't access the contents of 
+        // Ideally, all project-created subdirectories under project or slot
+        // directoriesshould have read-by-group and execute-by-group permission
+        // bits set, but some don't.  If these permission bits are missing, the
+        // project applications will run OK but we can't access the contents of
         // the subdirectory to check them.
         strlcpy(full_path, basepath, sizeof(full_path));
         if ((depth > 1) && (errno == EACCES)) {
@@ -515,7 +515,7 @@ static int CheckNestedDirectories(
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
-            
+
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
 
@@ -534,12 +534,12 @@ static int CheckNestedDirectories(
                             retval = -1202;
                             break;
                     } else {    // Slots
-                        // Graphics apps called by screensaver or Manager (via Show 
+                        // Graphics apps called by screensaver or Manager (via Show
                         // Graphics button) now write files in their slot directory
                         // as the logged in user, not boinc_master. In most cases,
                         // the manager or screensaver will tell the client to fix
-                        // all ownerships in that slot directory, but a crash can 
-                        // prevent that. As a backup strategy, we ignore ownership 
+                        // all ownerships in that slot directory, but a crash can
+                        // prevent that. As a backup strategy, we ignore ownership
                         // of files in slot directories under the Manager, and fix
                         // them in the client.
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
@@ -559,23 +559,23 @@ static int CheckNestedDirectories(
                         }   // isSlotDir
                     }       // bad uid
                 } else {    // depth == 1
-                // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.) 
+                // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.)
                 // must have owner boinc_master
                 if (sbuf.st_uid != boinc_master_uid) {
                     retval = -1202;
                     break;
                 }
             }
-        
+
             if (use_sandbox) {
                     if (sbuf.st_gid != boinc_project_gid) {
                         retval = -1201;
                         break;
                     }
-                
+
                 if (isDirectory) {
                     if (depth == 1) {
-                    // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.) 
+                    // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.)
                     // must be readable & executable by other
                         if ((sbuf.st_mode & 0777) != 0775) {
                             retval = -1203;
@@ -600,10 +600,10 @@ static int CheckNestedDirectories(
                 }
             }       // if (use_sandbox)
         }           // if (!S_ISLNK(sbuf.st_mode))
-        
+
         if (isDirectory && !S_ISLNK(sbuf.st_mode)) {
             if (use_sandbox && (depth > 1)) {
-#if 0   // No longer check project-created subdirectories under project or slot directories 
+#if 0   // No longer check project-created subdirectories under project or slot directories
         // because we have not told projects these must be readable and executable by group
                 if ((! isManager) && (sbuf.st_uid != boinc_master_uid))
 #endif
@@ -619,7 +619,7 @@ static int CheckNestedDirectories(
     if (dirp) {
         closedir(dirp);
     }
-    
+
     if (retval && !errShown) {
         fprintf(stderr, "Permissions error %d at %s\n", retval, full_path);
         if (path_to_error) {
@@ -658,12 +658,12 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
     pid_t aPID = getpid();
 
     *outbuf = '\0';
-    
+
     snprintf(buf, sizeof(buf), "ps -xwo command -p %d", (int)aPID);
     f = popen(buf, "r");
     if (f == NULL)
         return;
-    
+
     PersistentFGets (outbuf, maxLen, f);      // Discard header line
     PersistentFGets (outbuf, maxLen, f);
     pclose(f);
@@ -672,7 +672,7 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
     p = strchr(outbuf, '\n');
     if (p)
         *p = '\0';
-    
+
     // Strip off any arguments
     p = strstr(outbuf, " -");
     q = p;
@@ -683,7 +683,7 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
                 break;
         }
     }
-    
+
     if (q)
         *q = '\0';
 }
@@ -704,7 +704,7 @@ bool IsUserInGroup(char* groupName) {
             return true;                // User's primary group is boinc_master
         }
 
-        // On some systems with Automatic Login set, getlogin() returns "root" for a 
+        // On some systems with Automatic Login set, getlogin() returns "root" for a
         // time after the system is first booted, so we check "USER" environment variable.
         userName = getenv("USER");
         if (userName) {

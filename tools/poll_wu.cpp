@@ -63,7 +63,7 @@ int main(int argc, char** argv){
     MYSQL_ROW row;
     MYSQL_RES* rp;
     string config_dir = "";
-    //parse the input 
+    //parse the input
     if (argc<2){
         usage(0);
         return -1;
@@ -79,14 +79,14 @@ int main(int argc, char** argv){
         }
     }
     final=0;
-    wuname = argv[argc-1]; 
+    wuname = argv[argc-1];
     retval = config.parse_file(config_dir.c_str());
     if (retval) {
         fprintf(stderr,"can't read config file\n");
         return -1;
     }
     retval = boinc_db.open(config.db_name, config.db_host,config.db_user, config.db_passwd);
-    
+
     if (retval) {
         cout << "boinc_db.open failed: " << retval<<endl;;
         return -1;
@@ -97,7 +97,7 @@ int main(int argc, char** argv){
         cout << "no workunit with name: " << wuname << endl;
         final= -1;
     }else{
-    
+
         if (!(wu.canonical_resultid==0)){ // a canonical result has been chosen
             cout << "Status:\tDONE\n";
             final= 3;
@@ -106,13 +106,13 @@ int main(int argc, char** argv){
             final= 4;
         }else {
             //now we need to check the results belonging to this workunit to figure out its state.
-            
+
             sprintf(buf,"select * from result where workunitid='%d'",wu.id);
             retval = boinc_db.do_query(buf);
             if (retval){ //there was no results yet
                 cout << "Status:\tUNSUBMITTED\n";
                 boinc_db.close();
-                return 6;    
+                return 6;
             }
             rp = mysql_store_result(boinc_db.mysql);
             if (!rp) {
@@ -121,16 +121,16 @@ int main(int argc, char** argv){
             }
             while ((row = mysql_fetch_row(rp))&&(final!=2)){
                 result.db_parse(row);
-                if (result.server_state==RESULT_SERVER_STATE_IN_PROGRESS){ 
+                if (result.server_state==RESULT_SERVER_STATE_IN_PROGRESS){
                     cout << "Status:\tACTIVE\n";
                     final=2;
-                }    
+                }
             }
             mysql_free_result(rp);
             if (final==0){
                 cout << "Status:\tPENDING\n";
                 final=1;
-            }        
+            }
         }
     }
     boinc_db.close();

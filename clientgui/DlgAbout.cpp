@@ -98,7 +98,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
 #endif
     m_strWidgetsVersion.Printf(wxT("%d.%d.%d"), wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER);
 ////@end CDlgAbout member initialisation
-    
+
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
@@ -143,7 +143,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
  * Control creation for CDlgHelpAbout
  */
 
-void CDlgAbout::CreateControls() {    
+void CDlgAbout::CreateControls() {
 ////@begin CDlgAbout content construction
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);

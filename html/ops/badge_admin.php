@@ -66,7 +66,7 @@ function show_form() {
         echo "<td><input class=\"btn btn-danger\" type=submit name=\"delete\" value=Delete>\n";
         echo "</form></tr>\n";
     }
-    
+
     echo "<tr><form action=badge_admin.php method=POST>";
     echo "<td><br></td>\n";
     echo "<td><input name=\"name\"></td>\n";
@@ -142,7 +142,7 @@ echo "
     Manage the set of badges issued by your project.
     <p>
     Badges are assigned using a PHP script;
-    see 
+    see
     <a href=http://boinc.berkeley.edu/trac/wiki/BadgeDoc>
     http://boinc.berkeley.edu/trac/wiki/BadgeDoc
     </a>

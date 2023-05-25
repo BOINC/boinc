@@ -514,7 +514,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
 #endif
-    
+
         p = find_project_with_overdue_results(false);
         if (p) {
             msg_printf(p, MSG_INFO, "doing RPC to report results");

@@ -85,12 +85,12 @@ END_EVENT_TABLE()
 CDlgEventLogListCtrl::CDlgEventLogListCtrl() {}
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
-    : DLG_LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxDefaultSize, iListWindowFlags) 
+    : DLG_LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxDefaultSize, iListWindowFlags)
 {
     m_pParentView = pView;
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
-    
+
 #ifdef __WXGTK__
     savedHandler = GetMainWin()->GetEventHandler();
     GetMainWin()->PushEventHandler(new MyEvtLogEvtHandler(this));

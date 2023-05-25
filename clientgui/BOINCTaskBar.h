@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,9 @@
 #pragma interface "BOINCTaskBar.cpp"
 #endif
 
+#ifdef __APPLE__
+#define NSInteger int
+#endif
 
 #if   defined(__WXMSW__)
 #include "msw/taskbarex.h"
@@ -81,23 +84,27 @@ private:
 
 public:
     wxMenu *CreatePopupMenu();
+#if wxCHECK_VERSION(3,1,6)
+    bool SetIcon(const wxBitmapBundle& icon, const wxString& message = wxEmptyString);
+#else
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
+#endif
 
 #define BALLOONTYPE_INFO 0
     bool IsBalloonsSupported();
 
     bool QueueBalloon(
-        const wxIcon& icon, 
+        const wxIcon& icon,
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO
     );
-#endif
+#endif  // __WXMAC__
 
     wxIcon          m_iconTaskBarNormal;
     wxIcon          m_iconTaskBarDisconnected;
     wxIcon          m_iconTaskBarSnooze;
-    
+
     wxIcon          m_iconCurrentIcon;
 
     bool            m_bTaskbarInitiatedShutdown;

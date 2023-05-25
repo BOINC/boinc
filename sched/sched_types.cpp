@@ -28,7 +28,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "str_util.h"
-#include "util.h"
+#include "filesys.h"
 #include "boinc_db.h"
 #include "sched_main.h"
 #include "sched_util.h"

@@ -440,7 +440,7 @@ int RESULT::write_gui(MIOFILE& out, bool check_resources) {
         }
     }
     // update app version resources
-    if (strlen(resources)>1) { 
+    if (strlen(resources)>1) {
         char buf[256];
         safe_strcpy(buf, "");
         if (atp && atp->scheduler_state == CPU_SCHED_SCHEDULED) {

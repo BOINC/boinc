@@ -78,7 +78,7 @@ function show_form($all) {
     );
     $i = 0;
     foreach ($avs as $av) {
-        // grey out deprecated versions 
+        // grey out deprecated versions
         //
         $f1=$f2='';
         if ($av->deprecated == 1) {
@@ -127,7 +127,7 @@ function show_form($all) {
             echo "<td>&nbsp;</td>";
         }
 
-        echo "</tr></form>"; 
+        echo "</tr></form>";
     }
     end_table();
 }

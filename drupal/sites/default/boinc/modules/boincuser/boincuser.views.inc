@@ -12,13 +12,13 @@
  * relationships exist; is data text, integer, float; what sort options exist).
  */
 function boincuser_views_data() {
-  
+
   // -----------------------------------------------------------------------------------------------
   // Definition for user table
   // -----------------------------------------------------------------------------------------------
-  
+
   $data['user']['table']['group'] = t('BOINC');
-  
+
   $data['user']['table']['base'] = array(
       'field' => 'id',
       'title' => t('BOINC user'),
@@ -30,9 +30,9 @@ function boincuser_views_data() {
   // each field, you may define what field, sort, argument, and/or filter
   // handlers it supports. This will determine where in the Views interface you
   // may use the field.
-  
+
   // Primary keys allowed as arguments
-  
+
   $data['user']['id'] = array(
     'title' => bts('Id', array(), NULL, 'boinc:user-id'),
     'help' => t('The BOINC ID of the user account.'),
@@ -73,9 +73,9 @@ function boincuser_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
-  
+
   // Descriptions of general host fields (alphabetized)
-  
+
   $data['user']['authenticator'] = array(
     'title' => bts('Account Key', array(), NULL, 'boinc:user-info'),
     'help' => t('The BOINC account key of the user.'),
@@ -173,7 +173,7 @@ function boincuser_views_data() {
     ),
     'sort' => array(
       'handler' => 'views_handler_sort_string'
-    )                           
+    )
   );
   $data['user']['passwd_hash'] = array(
     'title' => bts('Password Hash', array(), NULL, 'boinc:user-info'),
@@ -260,7 +260,7 @@ function boincuser_views_data() {
       'handler' => 'views_handler_sort_string'
     )
   );
-  
+
   return $data;
 }
 

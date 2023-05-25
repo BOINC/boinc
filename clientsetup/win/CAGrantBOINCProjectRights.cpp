@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCProjectRights::CAGrantBOINCProjectRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CAGrantBOINCProjectRights::CAGrantBOINCProjectRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCProjectRights::~CAGrantBOINCProjectRights()
@@ -54,10 +54,10 @@ CAGrantBOINCProjectRights::~CAGrantBOINCProjectRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGrantBOINCProjectRights::OnExecution()
@@ -88,7 +88,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
             strBOINCProjectAccountUsername.c_str(),   // account to obtain SID
             &pSid                                     // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -107,7 +107,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -119,7 +119,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -131,7 +131,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -149,7 +149,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
             {
                 LogMessage(
                     INSTALLMESSAGE_ERROR,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     NULL,
@@ -192,7 +192,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -212,7 +212,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GrantBOINCProjectRights
 //
 // Description: This custom action reads the BOINC_PROJECT_USERNAME

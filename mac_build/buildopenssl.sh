@@ -39,6 +39,7 @@
 # Updated 5/18/21 for compatibility with zsh
 # Updated 10/18/21 for building OpenSSL 3.0.0
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
+# Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
 #
 ## Building OpenSSL 3.0 requires Xcode 10.2 or later
 #
@@ -192,7 +193,7 @@ if [[ $major -lt 10  || ($major -eq 10 && $minor -lt 2 ) ]]; then
  *STDOUT=*OUT;
 ENDOFFILE
 
-    patch -bfi /tmp/rsaz-avx512_pl_diff crypto/bn/asm/rsaz-avx512.pl
+    patch -b -f -i /tmp/rsaz-avx512_pl_diff crypto/bn/asm/rsaz-avx512.pl
     rm -f /tmp/rsaz-avx512_pl_diff
     rm -f crypto/bn/asm/rsaz-avx512.pl.rej
 else
@@ -208,8 +209,8 @@ echo ""
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.13 -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.13
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
@@ -235,9 +236,9 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.13 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=10.13
     export LIBRARY_PATH="${SDKPATH}/usr/lib"

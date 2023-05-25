@@ -28,7 +28,7 @@ apps:
     - network
     - network-bind
     extensions:
-    - gnome    
+    - gnome
     slots:
     - dbus-daemon
     common-id: boinc.manager
@@ -49,8 +49,8 @@ parts:
     - libnotify-dev
     - libxmu-dev
     - libxi-dev
-    - libfcgi-dev 
-    - libxss-dev 
+    - libfcgi-dev
+    - libxss-dev
     - libxcb-util0-dev
     - libxxf86vm-dev
     - libxrender-dev
@@ -97,7 +97,7 @@ parts:
     - GTK_LIBS="`pkg-config --libs gtk+-3.0`"
     override-build: |
       echo ARCH=$SNAPCRAFT_TARGET_ARCH
-      
+
       # cmake
       export PATH=/snap/cmake/current/bin/:$PATH
       cmake --version
@@ -113,7 +113,7 @@ parts:
       pip install -U --user pip
       pip install --user ninja
       ninja --version
-      
+
       export CFLAGS=-w
       export CMAKE_C_FLAGS=-w
       linux/update_vcpkg_manager.sh $triplet

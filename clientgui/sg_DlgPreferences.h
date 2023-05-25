@@ -88,7 +88,7 @@ enum {
  */
 
 class CPanelPreferences: public wxPanel
-{    
+{
     DECLARE_DYNAMIC_CLASS( CPanelPreferences )
     DECLARE_EVENT_TABLE()
 
@@ -116,10 +116,10 @@ public:
 
     /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CONNECTBETWEENBEGIN
     void OnConnectBetweenBeginSelected( wxCommandEvent& event );
-    
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
-    
+
 ////@end CPanelPreferences event handler declarations
 
     void OnButtonClear();
@@ -144,7 +144,7 @@ public:
 	bool IsValidTimeChar(const wxChar& ch);
 	bool IsValidTimeValue(const wxString& value);
 	void OnHandleCheckboxEvent(wxCommandEvent& ev);
-    
+
     void addNewRowToSizer(wxSizer* toSizer, wxString& toolTipText,
                 wxWindow* first, wxWindow* second, wxWindow* third,
                 wxWindow* fourth=NULL, wxWindow* fifth=NULL);
@@ -172,14 +172,14 @@ private:
     wxTextValidator* m_vTimeValidator;
     wxButton* m_btnClear;
     wxString *web_prefs_url;
- 
+
     wxBitmap* m_backgroundBitmap;
-    
+
     bool m_bOKToShow;
 
     wxColour stdTextBkgdColor;
     wxTextCtrl* lastErrorCtrl;
-   
+
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS      global_preferences_working;
     GLOBAL_PREFS_MASK global_preferences_mask;
@@ -194,7 +194,7 @@ private:
  */
 
 class CDlgPreferences: public wxDialog
-{    
+{
     DECLARE_DYNAMIC_CLASS( CDlgPreferences )
     DECLARE_EVENT_TABLE()
 

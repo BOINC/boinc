@@ -19,35 +19,35 @@
 
 // Notes on command-line installation to a remote Mac:
 //
-// When the installer is run from the Finder, this Postinstall.app will 
+// When the installer is run from the Finder, this Postinstall.app will
 // display up to two dialogs, asking the user whether or not to:
 //  [1] allow non-administrative users to run the BOINC Manager
 //      (asked only if this Mac has any non-administrative users)
-//  [2] set BOINC as the screensaver for all users who can run BOINC 
+//  [2] set BOINC as the screensaver for all users who can run BOINC
 //      (asked only if BOINC screensaver is not already set for them)
 //
-// The installer can also be run from the command line.  This is useful 
-//  for installation on remote Macs.  However, there is no way to respond 
+// The installer can also be run from the command line.  This is useful
+//  for installation on remote Macs.  However, there is no way to respond
 //  to dialogs during a command-line install.
 //
-// Apple's command-line installer sets the following environment variable: 
+// Apple's command-line installer sets the following environment variable:
 //     COMMAND_LINE_INSTALL=1
-// The postinstall script, postupgrade script, and this Postinstall.app 
+// The postinstall script, postupgrade script, and this Postinstall.app
 //   detect this environment variable and do the following:
-//  * Redirect the Postinstall.app log output to a file 
+//  * Redirect the Postinstall.app log output to a file
 //      /tmp/BOINCInstallLog.txt
 //  * Suppress the 2 dialogs
-//  * test for the existence of a file /tmp/nonadminusersok.txt; if the 
+//  * test for the existence of a file /tmp/nonadminusersok.txt; if the
 //     file exists, allow non-administrative users to run BOINC Manager
-//  * test for the existence of a file /tmp/setboincsaver.txt; if the 
-//     file exists, set BOINC as the screensaver for all BOINC users. 
+//  * test for the existence of a file /tmp/setboincsaver.txt; if the
+//     file exists, set BOINC as the screensaver for all BOINC users.
 //
 // The BOINC installer package to be used for command line installs can
 // be found embedded inside the GUI BOINC Installer application at:
 // "..../BOINC Installer.app/Contents/Resources/BOINC.pkg"
 //
-// Example: To install on a remote Mac from the command line, allowing 
-//   non-admin users to run the BOINC Manager and setting BOINC as the 
+// Example: To install on a remote Mac from the command line, allowing
+//   non-admin users to run the BOINC Manager and setting BOINC as the
 //   screensaver:
 //  * First SCP the "BOINC.pkg" to the remote Mac's /tmp
 //     directory, then SSh into the remote Mac and enter the following
@@ -99,7 +99,6 @@ using std::string;
 #include "file_names.h"
 #include "util.h"
 
-
 #define admin_group_name "admin"
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -144,8 +143,8 @@ void strip_cr(char *buf);
 void CopyPreviousErrorsToLog(void);
 
 extern int check_security(
-    char *bundlePath, char *dataPath, 
-    int use_sandbox, int isManager, 
+    char *bundlePath, char *dataPath,
+    int use_sandbox, int isManager,
     char* path_to_error, int len
 );
 
@@ -202,7 +201,7 @@ int main(int argc, char *argv[])
     OSStatus                err;
     FILE                    *f;
     char                    s[2048];
-    
+
 #ifndef SANDBOX
     group                   *grp;
 #endif  // SANDBOX
@@ -226,7 +225,7 @@ int main(int argc, char *argv[])
     fflush(stdout);
 
     snprintf(tempDirName, sizeof(tempDirName), "InstallBOINC-%s", loginName);
-    
+
     CopyPreviousErrorsToLog();
 
     if (getenv("COMMAND_LINE_INSTALL") != NULL) {
@@ -261,16 +260,16 @@ int main(int argc, char *argv[])
     // BOINC Installer.app wrote a file to tell us the previously installed branding, if any
     snprintf(s, sizeof(s), "/tmp/%s/OldBranding", tempDirName);
     oldBrandID = GetBrandID(s);
-    printf("oldBrandID = %ld\n", oldBrandID);    
+    printf("oldBrandID = %ld\n", oldBrandID);
     fflush(stdout);
 
     // The new branding (if any) is in the resources of this PostInstall.app
     getPathToThisApp(s, sizeof(s));
     strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
-    printf("path to new BrandID = %s\n", s);    
+    printf("path to new BrandID = %s\n", s);
     fflush(stdout);
     brandID = GetBrandID(s);
-    printf("new BrandID = %ld\n", brandID);    
+    printf("new BrandID = %ld\n", brandID);
     fflush(stdout);
 
     LoadPreferredLanguages();
@@ -286,12 +285,12 @@ int main(int argc, char *argv[])
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
         err = callPosixSpawn (s);
         REPORT_ERROR(err);
-        
+
         // "rm -rf \"/Library/Screen Savers/GridRepublic.saver\""
         sprintf(s, "rm -rf \"/Library/Screen Savers/%s.saver\"", saverName[brandID]);
         err = callPosixSpawn (s);
         REPORT_ERROR(err);
-        
+
         // "rm -rf /Library/Receipts/GridRepublic.pkg"
         sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
         err = callPosixSpawn (s);
@@ -303,15 +302,15 @@ int main(int argc, char *argv[])
             err = callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
             REPORT_ERROR(err);
         }
-        
+
         err = kill(installerPID, SIGKILL);
 
         return 0;
     }
-    
+
     sleep (2);
 
-    // Install all_projects_list.xml file, but only if one doesn't 
+    // Install all_projects_list.xml file, but only if one doesn't
     // already exist, since a pre-existing one is probably newer.
     f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
     if (f) {
@@ -322,7 +321,7 @@ int main(int argc, char *argv[])
         rename("/Library/Application Support/BOINC Data/installer_projects_list.xml",
                 "/Library/Application Support/BOINC Data/all_projects_list.xml");
     }
-    
+
     // BOINC Installer.app wrote the account data file (if any) in temp dirctory
     // Copy it into the BOINC Data directory if it exists
     snprintf(s, sizeof(s), "mv -f \"/tmp/%s/%s\" \"/Library/Application Support/BOINC Data/\"",
@@ -330,16 +329,16 @@ int main(int argc, char *argv[])
     err = callPosixSpawn (s);
     REPORT_ERROR(err);
 
-#ifdef __arm64__ 
+#ifdef __arm64__
     int rosetta_result = check_rosetta2_installed();
     printf("check_rosetta2_installed() returned %d\n", rosetta_result);
     fflush(stdout);
-    
+
     if (rosetta_result == EBADARCH){
         optionally_install_rosetta2();
     }
 #endif  // __arm64__
-    
+
 #ifdef SANDBOX
 
 #define RETRY_LIMIT 5
@@ -356,7 +355,7 @@ int main(int argc, char *argv[])
 
         // err = SetBOINCAppOwnersGroupsAndPermissions("/Applications/GridRepublic Desktop.app");
         err = SetBOINCAppOwnersGroupsAndPermissions(appPath[brandID]);
-        
+
         if (err != noErr) {
             printf("SetBOINCAppOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
             fflush(stdout);
@@ -371,7 +370,7 @@ int main(int argc, char *argv[])
             REPORT_ERROR(i >= RETRY_LIMIT);
             continue;
         }
-        
+
         err = check_security(
             appPath[brandID],
             "/Library/Application Support/BOINC Data",
@@ -385,15 +384,15 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    
+
 #else   // ! defined(SANDBOX)
 
     Boolean                 Success = false;
-    
-    // The BOINC Manager and Core Client have the set-user-ID-on-execution 
-    // flag set, so their ownership is important and must match the 
+
+    // The BOINC Manager and Core Client have the set-user-ID-on-execution
+    // flag set, so their ownership is important and must match the
     // ownership of the BOINC Data directory.
-    
+
     // Find an appropriate admin user to set as owner of installed files
     // First, try the user currently logged in
     grp = getgrnam(admin_group_name);
@@ -405,7 +404,7 @@ int main(int argc, char *argv[])
         }
         ++i;
     }
-    
+
     // If currently logged in user is not admin, use first non-root admin user
     if (!Success) {
         i = 0;
@@ -441,26 +440,26 @@ int main(int argc, char *argv[])
 
 #endif   // ! defined(SANDBOX)
 
-    // Remove any branded versions of BOINC other than ours (i.e., old versions) 
+    // Remove any branded versions of BOINC other than ours (i.e., old versions)
     for (i=0; i< NUMBRANDS; i++) {
         if (i == brandID) continue;
-        
+
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[i]);
         err = callPosixSpawn (s);
         REPORT_ERROR(err);
-        
+
         // "rm -rf \"/Library/Screen Savers/GridRepublic.saver\""
         sprintf(s, "rm -rf \"/Library/Screen Savers/%s.saver\"", saverName[i]);
         err = callPosixSpawn (s);
         REPORT_ERROR(err);
     }
-    
+
    if (brandID == 0) {  // Installing generic BOINC
         err = callPosixSpawn ("rm -f \"/Library/Application Support/BOINC Data/Branding\"");
         REPORT_ERROR(err);
     }
-    
+
     CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
                                                     kCFStringEncodingUTF8);
     if (CFAppPath) {
@@ -479,7 +478,7 @@ int main(int argc, char *argv[])
         REPORT_ERROR(true);
         return err;
     }
-    
+
 #if 0   // WaitPermissions is not needed when using wrapper
 #ifdef SANDBOX
     pid_t                   waitPermissionsPID = 0;
@@ -491,37 +490,37 @@ int main(int argc, char *argv[])
     restartNeeded = IsRestartNeeded();
     printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
     fflush(stdout);
-    
+
     if (!restartNeeded) {
 
         // Wait for BOINC's RPC socket address to become available to user boinc_master, in
         // case we are upgrading from a version which did not run as user boinc_master.
         saved_uid = getuid();
         saved_euid = geteuid();
-        
+
         pw = getpwnam(boinc_master_user_name);
         b_m_uid = pw->pw_uid;
         seteuid(b_m_uid);
-        
+
         for (i=0; i<120; i++) {
             err = TestRPCBind();
             if (err == noErr)
                 break;
-            
+
             sleep(1);
         }
-        
+
         seteuid(saved_euid);
-            
+
         // When we first create the boinc_master group and add the current user to the
-        // new group, there is a delay before the new group membership is recognized.  
-        // If we launch the BOINC Manager too soon, it will fail with a -1037 permissions 
+        // new group, there is a delay before the new group membership is recognized.
+        // If we launch the BOINC Manager too soon, it will fail with a -1037 permissions
         // error, so we wait until the current user can access the switcher application.
-        // Apparently, in order to get the changed permissions / group membership, we must 
-        // launch a new process belonging to the user.  It may also need to be in a new 
-        // process group or new session. Neither system() nor popen() works, even after 
+        // Apparently, in order to get the changed permissions / group membership, we must
+        // launch a new process belonging to the user.  It may also need to be in a new
+        // process group or new session. Neither system() nor popen() works, even after
         // setting the uid and euid back to the logged in user, but LSOpenFSRef() does.
-        // The WaitPermissions application loops until it can access the switcher 
+        // The WaitPermissions application loops until it can access the switcher
         // application.
         CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault,
                                         "/Library/Application Support/BOINC Data/WaitPermissions.app",
@@ -548,7 +547,7 @@ int main(int argc, char *argv[])
             }
             sleep(1);
         }
-        
+
         if (gCommandLineInstall) {
             printf("Finishing install.  Please wait ...\n");
             printf("This may take a few more minutes.\n");
@@ -563,7 +562,7 @@ int main(int argc, char *argv[])
 #endif   // SANDBOX
 #endif  // WaitPermissions is not needed when using wrapper
 
-    
+
     return 0;
 }
 
@@ -591,7 +590,7 @@ return false;
 }
 
 
-// After installation has completed, delete the installer receipt.  
+// After installation has completed, delete the installer receipt.
 // If we don't need to logout the user, also launch BOINC Manager.
 int DeleteReceipt()
 {
@@ -613,7 +612,7 @@ int DeleteReceipt()
     restartNeeded = IsRestartNeeded();
     printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
     fflush(stdout);
-    
+
     // The new branding (if any) is in the resources of this PostInstall.app
     getPathToThisApp(s, sizeof(s));
     strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
@@ -626,7 +625,7 @@ int DeleteReceipt()
     REPORT_ERROR(err);
 
     if (!restartNeeded) {
-        // If system is set up to run BOINC Client as a daemon using launchd, launch it 
+        // If system is set up to run BOINC Client as a daemon using launchd, launch it
         //  as a daemon and allow time for client to start before launching BOINC Manager.
         err = stat("/Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
         if (err == noErr) {
@@ -671,9 +670,9 @@ int DeleteReceipt()
         }
 
         boinc_sleep(10);    // Allow time for current user's Manager to launch client'
-        
+
         FindAllVisibleUsers();
-        
+
         for (i=0; i<(int)human_user_IDs.size(); ++i) {
             pw = getpwuid(human_user_IDs[i]);
             if (pw == NULL) {
@@ -717,21 +716,21 @@ Boolean IsRestartNeeded() {
         fclose(restartNeededFile);
         return (value != 0);
     }
-    
+
     return true;
 }
 
 
-// Some newer versions of the OS define users and groups which may conflict with 
-// our previously created boinc_master or boinc_project user or group.  This could 
-// also happen when the user installs new software.  So we must check for such 
-// duplicate UserIDs and groupIDs; if found, we delete our user or group so that 
+// Some newer versions of the OS define users and groups which may conflict with
+// our previously created boinc_master or boinc_project user or group.  This could
+// also happen when the user installs new software.  So we must check for such
+// duplicate UserIDs and groupIDs; if found, we delete our user or group so that
 // the PostInstall application will create a new one that does not conflict.
 //
 // Older versions of the installer created our users and groups at the first
-// unused IDs at or above 25.  Apple now recommends using IDs at or above 501, 
+// unused IDs at or above 25.  Apple now recommends using IDs at or above 501,
 // to reduce the likelihood of conflicts with future UserIDs and groupIDs.
-// If we have previously created UserIDs and / or groupIDs below 501, this code 
+// If we have previously created UserIDs and / or groupIDs below 501, this code
 // now removes them so we can create new ones above 500.
 void CheckUserAndGroupConflicts()
 {
@@ -740,7 +739,7 @@ void CheckUserAndGroupConflicts()
     group           *grp = NULL;
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
-    
+
     FILE            *f;
     char            cmd[256], buf[256];
     int             entryCount;
@@ -748,12 +747,12 @@ void CheckUserAndGroupConflicts()
 
     if (compareOSVersionTo(10, 5) < 0) {
         // This fails under OS 10.4, but should not be needed under OS 10.4
-        return;     
+        return;
     }
 
     printf("Checking user and group conflicts\n");
     fflush(stdout);
-    
+
     entryCount = 0;
     grp = getgrnam(boinc_master_group_name);
     if (grp) {
@@ -771,7 +770,7 @@ void CheckUserAndGroupConflicts()
                     }
                 }
                 pclose(f);
-            }    
+            }
         }
     }
     if ((boinc_master_gid < 501) || (entryCount > 1)) {
@@ -807,10 +806,10 @@ void CheckUserAndGroupConflicts()
                     }
                 }
                 pclose(f);
-            }    
+            }
         }
     }
-    
+
     if ((boinc_project_gid < 501) || (entryCount > 1)) {
         err = callPosixSpawn ("dscl . -delete /groups/boinc_project");
         if (err) {
@@ -848,7 +847,7 @@ void CheckUserAndGroupConflicts()
                 }
             }
             pclose(f);
-        }    
+        }
     }
 
     if (entryCount > 1) {
@@ -860,7 +859,7 @@ void CheckUserAndGroupConflicts()
         }
         ResynchDSSystem();
     }
-        
+
     entryCount = 0;
     pw = getpwnam(boinc_project_user_name);
     REPORT_ERROR(!pw);
@@ -878,7 +877,7 @@ void CheckUserAndGroupConflicts()
                 }
             }
             pclose(f);
-        }    
+        }
     }
 
     if (entryCount > 1) {
@@ -910,7 +909,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     OSErr                   err, err2;
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
     // NOTE: It may not be necessary to kill and relaunch the
-    // System Events application for each logged in user under High Sierra 
+    // System Events application for each logged in user under High Sierra
     Boolean                 isHighSierraOrLater = (compareOSVersionTo(10, 13) >= 0);
 #endif
 
@@ -933,7 +932,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 #endif
 
     if (err == noErr) {
-        // Find SystemEvents process.  If found, quit it in case 
+        // Find SystemEvents process.  If found, quit it in case
         // it is running under a different user.
         fprintf(stdout, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
         fflush(stdout);
@@ -961,7 +960,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         }
         sleep(4);
     }
-    
+
     if (systemEventsPath[0] != '\0') {
         fprintf(stdout, "Launching SystemEvents for user %s\n", userName);
         fflush(stdout);
@@ -991,7 +990,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         }
     }
     sleep(2);
-    
+
     for (i=0; i<NUMBRANDS; i++) {
         fprintf(stdout, "Deleting any login items containing %s for user %s\n", appName[i], userName);
         fflush(stdout);
@@ -1016,7 +1015,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         err = noErr;
         goto cleanupSystemEvents;
     }
-    
+
     fprintf(stdout, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stdout);
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
@@ -1060,25 +1059,25 @@ cleanupSystemEvents:
         fprintf(stdout, "Failed to make System Events quit\n");
         fflush(stdout);
     }
-    
+
     sleep(4);
-        
+
     return (err == noErr);
 }
 
 
-// Under OS 10.13 High Sierra, telling System Events to modify Login Items for 
-// users who are not currently logged in no longer works, even when System Events 
-// is running as that user. 
-// So we create a LaunchAgent for that user. The next time that user logs in, the 
-// LaunchAgent will make the desired changes to that user's Login Items, launch 
+// Under OS 10.13 High Sierra, telling System Events to modify Login Items for
+// users who are not currently logged in no longer works, even when System Events
+// is running as that user.
+// So we create a LaunchAgent for that user. The next time that user logs in, the
+// LaunchAgent will make the desired changes to that user's Login Items, launch
 // BOINC Manager if appropriate, and delete itself.
 //
-// While we could just use a LaunchAgent to launch BOINC Manager on every login 
+// While we could just use a LaunchAgent to launch BOINC Manager on every login
 // instead of using it to create a Login Item, we still need to remove any branded
 // Login Items kept from an earlier installation (perhaps before the user upgraded
 // the OS to High Sierra.) Also, I prefer Login Items because:
-//  * they are more readily visible to a less technically aware user through 
+//  * they are more readily visible to a less technically aware user through
 //    System Preferences, and
 //  * they are more easily added or removed through System Preferences, and
 //  * continuing to use them is consistent with older versions of BOINC Manager.
@@ -1088,8 +1087,8 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     struct stat             sbuf;
     char                    s[2048];
 
-    // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
-    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
+    // Create a LaunchAgent to finish installation for the specified user, replacing any LaunchAgent
+    // created previously (such as by Uninstaller or by installing a differently branded BOINC.)
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
@@ -1149,8 +1148,8 @@ void DeleteScreenSaverLaunchAgent(passwd *pw) {
         sprintf(cmd, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
         callPosixSpawn(cmd);
 
-        snprintf(cmd, sizeof(cmd), 
-            "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+        snprintf(cmd, sizeof(cmd),
+            "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist",
             pw->pw_name);
         boinc_delete_file(cmd);
     }
@@ -1190,10 +1189,10 @@ void SetSkinInUserPrefs(char *userName, char *nameOfSkin)
                 }
                 fclose(oldPrefs);
             }
-            
+
             if (! wroteSkinName)
                 fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
-                
+
             fclose(newPrefs);
             rename(tempFilename, oldFileName);  // Deletes old file
             if (! statErr) {
@@ -1216,11 +1215,11 @@ Boolean CheckDeleteFile(char *name)
     FILE        *f;
     char        buf[64];
     size_t      len;
-    
+
     f = fopen("/Library/Application Support/BOINC Data/nologinitems.txt", "r");
     if (!f)
         return false;
-    
+
     while (true) {
         *buf = '\0';
         len = sizeof(buf);
@@ -1232,7 +1231,7 @@ Boolean CheckDeleteFile(char *name)
             return true;
         }
     }
-    
+
     fclose(f);
     return false;
 }
@@ -1243,7 +1242,7 @@ Boolean CheckDeleteFile(char *name)
 // [1] To delete references to old copies of BOINC_Finish_Install, whose
 // presence, for reasons I don't understand, causes its signing entity
 // to be shown instead of its application name in the Login Items System
-// Settings under MacOS 13 Ventura. 
+// Settings under MacOS 13 Ventura.
 // NOTE: The new copy of BOINC_Finish_Install must then be registered.
 //
 // [2] If there are other copies of BOINC Manager with different branding
@@ -1275,13 +1274,13 @@ static void FixLaunchServicesDataBase(uid_t userID, char *pathToKeep, char *theB
         appRefs = LSCopyApplicationURLsForBundleIdentifier(bundleID, NULL);
         seteuid(saved_uid);     // Set effective uid back to privileged user
         if (appRefs == NULL) {
-            printf("Call to LSCopyApplicationURLsForBundleIdentifier(%d, %s, %s) returned NULL\n", 
+            printf("Call to LSCopyApplicationURLsForBundleIdentifier(%d, %s, %s) returned NULL\n",
                 userID, pathToKeep ? pathToKeep : "NULL", theBundleID);
             fflush(stdout);
             goto registerOurApp;
         }
         n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
-        printf("LSCopyApplicationURLsForBundleIdentifier(%d, %s, %s) returned %ld results\n", 
+        printf("LSCopyApplicationURLsForBundleIdentifier(%d, %s, %s) returned %ld results\n",
             userID, pathToKeep ? pathToKeep : "NULL", theBundleID, n);
         fflush(stdout);
     } else {
@@ -1382,9 +1381,9 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 
 
 // Because language preferences are set on a per-user basis, we
-// must get the preferred languages while set to the current 
+// must get the preferred languages while set to the current
 // user, before the Apple Installer switches us to root.
-// So we get the preferred languages in our BOINC Installer.app 
+// So we get the preferred languages in our BOINC Installer.app
 // which writes them to a temporary file which we retrieve here.
 // We must do it this way because, for unknown reasons, the
 // CFBundleCopyLocalizationsForPreferences() API does not work
@@ -1404,13 +1403,13 @@ static void LoadPreferredLanguages(){
     snprintf(s, sizeof(s), "/tmp/%s/BOINC_preferred_languages", tempDirName);
     f = fopen(s, "r");
     if (!f) return;
-    
+
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
         fgets(language, sizeof(language), f);
         if (feof(f)) break;
         language[sizeof(language)-1] = '\0';    // Guarantee a null terminator
         p = strchr(language, '\n');
-        if (p) *p = '\0';           // Replace newline with null terminator 
+        if (p) *p = '\0';           // Replace newline with null terminator
         if (language[0]) {
             if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
                 REPORT_ERROR(true);
@@ -1433,12 +1432,12 @@ static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
     CFOptionFlags           responseFlags;
     CFURLRef                myIconURLRef = NULL;
     CFBundleRef             myBundleRef;
-   
+
     myBundleRef = CFBundleGetMainBundle();
     if (myBundleRef) {
         myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
     }
-    
+
 #if 1
     va_start(args, format);
     vsprintf(s, format, args);
@@ -1449,7 +1448,7 @@ static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
 
     // If defaultButton is nil or an empty string, a default localized
     // button title ("OK" in English) is used.
-    
+
 #if 0
     enum {
    kCFUserNotificationDefaultResponse = 0,
@@ -1468,8 +1467,8 @@ static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
                 myIconURLRef, NULL, NULL, CFSTR(" "), myString,
                 askYesNo ? yes : NULL, askYesNo ? no : NULL, NULL,
                 &responseFlags);
-    
-       
+
+
     if (myIconURLRef) CFRelease(myIconURLRef);
     if (myString) CFRelease(myString);
     if (yes) CFRelease(yes);
@@ -1503,8 +1502,8 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
 
 // OS 10.7 dscl merge command has a bug such that the command:
 //     dscl . -merge /Groups/GROUPNAME users USERNAME
-// adds the user to the group even if it was already a member, resulting in 
-// duplicate (multiple) entries.  Earlier BOINC versions used this command 
+// adds the user to the group even if it was already a member, resulting in
+// duplicate (multiple) entries.  Earlier BOINC versions used this command
 // but did not check for this, so we remove duplicate entries if present.
 // Note: We now avoid this problem by instead using the command:
 //     dscl . -merge /Groups/GROUPNAME GroupMembership USERNAME
@@ -1515,7 +1514,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
     char                cmd[512], buf[2048], escapedUserName[1024];
     FILE                *f;
     char                *p, *q;
-    
+
     // getgrnam(groupName)->gr_mem[] only returns one entry, so we must use dscl
     escape_url(userName, escapedUserName, sizeof(escapedUserName)); // Avoid confusion if name has embedded spaces
     sprintf(cmd, "dscl -url . -read /Groups/%s GroupMembership", groupName);
@@ -1524,7 +1523,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
         REPORT_ERROR(true);
         return 0;
     }
-    
+
     while (PersistentFGets(buf, sizeof(buf), f))
     {
         p = buf;
@@ -1533,7 +1532,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
             if (p) {
                 q = p-1;
                 p += strlen(escapedUserName);
-                // Count only whole words (preceded and followed by white space) so 
+                // Count only whole words (preceded and followed by white space) so
                 // that if we have both 'jon' and 'jones' we don't count 'jon' twice
                 if (isspace(*q) && isspace(*p)) {
                     ++ count;
@@ -1541,7 +1540,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
             }
         }
     }
-    
+
     pclose(f);
     return count;
 }
@@ -1569,15 +1568,15 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     struct stat         sbuf;
     char                cmd[2*MAXPATHLEN];
 #ifdef SANDBOX
-    int                 BMGroupMembershipCount, BPGroupMembershipCount; 
+    int                 BMGroupMembershipCount, BPGroupMembershipCount;
 #endif
     int                 i;
     int                 userIndex;
     char                path[MAXPATHLEN];
-    
+
 //    char                nameOfSkin[256];
 //    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
-        
+
 
     // Step through all users
     puts("Beginning first pass through all users\n");
@@ -1586,13 +1585,13 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     saved_uid = geteuid();
 
     FindAllVisibleUsers();
-    
+
     for (userIndex=0; userIndex< (int)human_user_names.size(); ++userIndex) {
         strlcpy(human_user_name, human_user_names[userIndex].c_str(), sizeof(human_user_name));
         printf("[1] Checking user %s\n", human_user_name);
         fflush(stdout);
-            
-        // getpwnam works with either the full / login name (pw->pw_gecos) 
+
+        // getpwnam works with either the full / login name (pw->pw_gecos)
         // or the short / Posix name (pw->pw_name)
         pw = getpwnam(human_user_name);
         if (pw == NULL) {
@@ -1603,11 +1602,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
         printf("[1] User %s: Posix name=%s, Full name=%s\n", human_user_name, pw->pw_name, pw->pw_gecos);
         fflush(stdout);
-        
+
 #ifdef SANDBOX
         isAdminGroupMember = false;
         isBMGroupMember = false;
-        
+
         isAdminGroupMember = IsUserMemberOfGroup(pw->pw_name, admin_group_name);
             if (isAdminGroupMember) {
             // User is a member of group admin, so add user to groups boinc_master and boinc_project
@@ -1627,12 +1626,12 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
         isGroupMember = true;
 #endif  // SANDBOX
         if (isAdminGroupMember || isBMGroupMember) {
-            if ((strcmp(loginName, human_user_name) == 0) 
-                || (strcmp(loginName, pw->pw_name) == 0) 
+            if ((strcmp(loginName, human_user_name) == 0)
+                || (strcmp(loginName, pw->pw_name) == 0)
                     || (strcmp(loginName, pw->pw_gecos) == 0)) {
                 currentUserCanRunBOINC = true;
             }
-            
+
             err = GetCurrentScreenSaverSelection(pw, s, sizeof(s) -1);
             if (err == noErr) {
                 if (strcmp(s, saverName[brandID])) {
@@ -1643,7 +1642,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             fflush(stdout);
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
-    
+
     ResynchDSSystem();
 
     if (allNonAdminUsersAreSet) {
@@ -1678,7 +1677,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             }
         }
     }
-    
+
     if (! saverAlreadySetForAll) {
         if (gCommandLineInstall) {
             err = stat("/tmp/setboincsaver.txt", &sbuf);
@@ -1689,7 +1688,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 setSaverForAllUsers = true;
             }
         } else {
-            setSaverForAllUsers = ShowMessage(true, 
+            setSaverForAllUsers = ShowMessage(true,
                     (char *)_("Do you want to set %s as the screensaver for all %s users on this Mac?"),
                     brandName[brandID], brandName[brandID]);
         }
@@ -1704,7 +1703,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
         printf("[2] Checking user %s\n", human_user_name);
         fflush(stdout);
-            
+
         pw = getpwnam(human_user_name);
         if (pw == NULL) {           // "Deleted Users", "Shared", etc.
             printf("[2] %s not in getpwnam data base\n", human_user_name);
@@ -1714,7 +1713,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
         printf("[2] User %s: Posix name=%s, Full name=%s\n", human_user_name, pw->pw_name, pw->pw_gecos);
         fflush(stdout);
-        
+
 #ifdef SANDBOX
         isAdminGroupMember = false;
         isBMGroupMember = false;
@@ -1726,14 +1725,14 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             fflush(stdout);
         }
 
-        // If allNonAdminUsersAreSet, some older BOINC versions added non-admin users only to group 
+        // If allNonAdminUsersAreSet, some older BOINC versions added non-admin users only to group
         // boinc_master; ensure all permitted BOINC users are also members of group boinc_project
         if (isAdminGroupMember || allowNonAdminUsersToRunBOINC || allNonAdminUsersAreSet) {
-            // OS 10.7 dscl merge command has a bug that it adds the user to the group even if 
-            // it was already a member, resulting in duplicate (multiple) entries.  Earlier BOINC 
-            // versions did not check for this, so we remove duplicate entries if present.            
+            // OS 10.7 dscl merge command has a bug that it adds the user to the group even if
+            // it was already a member, resulting in duplicate (multiple) entries.  Earlier BOINC
+            // versions did not check for this, so we remove duplicate entries if present.
             BMGroupMembershipCount = CountGroupMembershipEntries(pw->pw_name, boinc_master_group_name);
-            printf("[2] User %s found in group %s member list %d times\n", 
+            printf("[2] User %s found in group %s member list %d times\n",
                         pw->pw_name, boinc_master_group_name, BMGroupMembershipCount);
             fflush(stdout);
             if (BMGroupMembershipCount == 0) {
@@ -1753,9 +1752,9 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
             }
-            
+
             BPGroupMembershipCount = CountGroupMembershipEntries(pw->pw_name, boinc_project_group_name);
-            printf("[2] User %s found in group %s member list %d times\n", 
+            printf("[2] User %s found in group %s member list %d times\n",
                    pw->pw_name, boinc_project_group_name, BPGroupMembershipCount);
             fflush(stdout);
             if (BPGroupMembershipCount == 0) {
@@ -1791,10 +1790,10 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
         // Set login item for this user
         bool useOSASript = false;
-        
+
         if ((compareOSVersionTo(10, 13) < 0)
-            || (strcmp(loginName, human_user_name) == 0) 
-                || (strcmp(loginName, pw->pw_name) == 0) 
+            || (strcmp(loginName, human_user_name) == 0)
+                || (strcmp(loginName, pw->pw_name) == 0)
                     || (strcmp(loginName, pw->pw_gecos) == 0)) {
             useOSASript = true;
         }
@@ -1824,25 +1823,36 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
             }
-            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
+
+            if (compareOSVersionTo(13, 0) >= 0) {
+                deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
+                snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\"", brandName[brandID]);
+                err = callPosixSpawn(s);
+                REPORT_ERROR(err);
+                if (err) {
+                    printf("Command %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
+            }
+            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n",
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
             SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
 
         } else {
-        
+
             printf("[2] calling FixLaunchServicesDataBase for Finish_Install for user %s\n", pw->pw_name);
             fflush(stdout);
             FixLaunchServicesDataBase(pw->pw_uid, NULL, "edu.berkeley.boinc.finish-install");
 
-            snprintf(s, sizeof(s), "mkdir -p \"/Users/%s/Library/Application Support/BOINC/\"", pw->pw_name);   
+            snprintf(s, sizeof(s), "mkdir -p \"/Users/%s/Library/Application Support/BOINC/\"", pw->pw_name);
             err = callPosixSpawn(s);
             REPORT_ERROR(err);
             if (err) {
                 printf("Command %s returned error %d\n", s, err);
                 fflush(stdout);
             }
-            snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC/", pw->pw_name);   
+            snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC/", pw->pw_name);
             chmod(s, 0771);
             chown(s, pw->pw_uid, pw->pw_gid);
 
@@ -1867,7 +1877,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
             }
-            
+
             getPathToThisApp(path, sizeof(path));
             snprintf(s, sizeof(s), "cp -fR \"%s/Contents/Resources/%s_Finish_Install.app\" \"/Users/%s/Library/Application Support/BOINC/\"",
                         path, brandName[brandID], pw->pw_name);
@@ -1877,8 +1887,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 printf("Command %s returned error %d\n", s, err);
                 fflush(stdout);
             }
-            
-            snprintf(s, sizeof(s), "chown -fR %s \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", 
+
+            snprintf(s, sizeof(s), "chown -fR %s \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"",
                         pw->pw_name, pw->pw_name, brandName[brandID]);
             err = callPosixSpawn(s);
             REPORT_ERROR(err);
@@ -1894,8 +1904,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 printf("*** user %s: lsregister call returned error %d for %s_Finish_Install.app\n", pw->pw_name, err, brandName[brandID]);
                 fflush(stdout);
             }
-                        
-            printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
+
+            printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n",
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
             // SetLoginItemLaunchAgent will run helper app which will call FixLaunchServicesDataBase()
@@ -1925,12 +1935,12 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 // sprintf(s, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"%s\" path \"/Library/Screen Savers/%s.saver\" type 0'", pw->pw_name, saverName[brandID], s);
                 // callPosixSpawn(s);
             }
-            
+
             if (compareOSVersionTo(10, 15) >= 0) {
-                // Under Catalina, Screensaver output files are put in the user's Containers 
+                // Under Catalina, Screensaver output files are put in the user's Containers
                 // directory. Create the directory if it doesn't exist and create a symbolic
-                // link to it in the normal per-user BOINC directory 
-                snprintf(s, sizeof(s), 
+                // link to it in the normal per-user BOINC directory
+                snprintf(s, sizeof(s),
                     "/Users/%s/Library/Application Support/BOINC", pw->pw_name);
                 if (stat(s, &sbuf) != 0) {
                     snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -p -m 0775 \"/Users/%s/Library/Application Support/BOINC\"",
@@ -1940,8 +1950,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     printf("[2] %s returned %d\n", cmd, err);
                     fflush(stdout);
                 }
-                    
-                snprintf(s, sizeof(s), "/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC", 
+
+                snprintf(s, sizeof(s), "/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC",
                         pw->pw_name);
                     if (stat(s, &sbuf) != 0) {
                         // mkdir -p creates intermediate directories as required
@@ -1959,8 +1969,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     printf("[2] %s returned %d\n", cmd, err);
                     fflush(stdout);
                 }
-                snprintf(s, sizeof(s), 
-                    "/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs", 
+                snprintf(s, sizeof(s),
+                    "/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs",
                     pw->pw_name);
                 if (lstat(s, &sbuf) != 0) {
                     snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" ln -s \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\" \"/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs\"", pw->pw_name, pw->pw_name, pw->pw_name);
@@ -1972,10 +1982,10 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             }
         }
 
-        // We no longer use a ScreenSaver LaunchAgent. 
+        // We no longer use a ScreenSaver LaunchAgent.
         // Delete it if it was installed by an older version of BOINC
         DeleteScreenSaverLaunchAgent(pw);
-    
+
         // Delete the BOINC Manager's wxSingleInstanceChecker lock file, in case
         // it was not deleted (such as due to a crash.)
         // Lock file name always has "BOINC Manager" even if the application is
@@ -1991,7 +2001,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
     ResynchDSSystem();
-    
+
     BOINCTranslationCleanup();
 
     return noErr;
@@ -2011,7 +2021,7 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
         REPORT_ERROR(true);
         return 0;
     }
-    
+
     while (PersistentFGets(buf, sizeof(buf), f))
     {
         p = strstr(buf, "moduleName = ");
@@ -2031,7 +2041,7 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
             return 0;
         }
     }
-    
+
     pclose(f);
     return fnfErr;
 }
@@ -2047,13 +2057,13 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
 
     CFStringRef nameKey = CFStringCreateWithCString(NULL, "moduleName", kCFStringEncodingASCII);
     CFStringRef nameValue = CFStringCreateWithCString(NULL, moduleName, kCFStringEncodingASCII);
-		
+
     CFStringRef pathKey = CFStringCreateWithCString(NULL, "path", kCFStringEncodingASCII);
     CFStringRef pathValue = CFStringCreateWithCString(NULL, modulePath, kCFStringEncodingASCII);
-    
+
     CFStringRef typeKey = CFStringCreateWithCString(NULL, "type", kCFStringEncodingASCII);
     CFNumberRef typeValue = CFNumberCreate(NULL, kCFNumberIntType, &type);
-    
+
     emptyData = CFDictionaryCreate(NULL, NULL, NULL, 0, NULL, NULL);
     if (emptyData == NULL) {
         REPORT_ERROR(true);
@@ -2081,9 +2091,9 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
         return(-1);
     }
 
-    CFDictionaryAddValue(newData, nameKey, nameValue); 	
-    CFDictionaryAddValue(newData, pathKey, pathValue); 	
-    CFDictionaryAddValue(newData, typeKey, typeValue); 	
+    CFDictionaryAddValue(newData, nameKey, nameValue);
+    CFDictionaryAddValue(newData, pathKey, pathValue);
+    CFDictionaryAddValue(newData, typeKey, typeValue);
 
     CFPreferencesSetValue(mainKeyName, newData, preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     success = CFPreferencesSynchronize(preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
@@ -2092,7 +2102,7 @@ OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
         REPORT_ERROR(true);
         err = -1;
     }
-    
+
     CFRelease(nameKey);
     CFRelease(nameValue);
     CFRelease(pathKey);
@@ -2116,7 +2126,7 @@ OSErr Initialize()	/* Initialize some managers */
 
 static Boolean IsUserLoggedIn(const char *userName){
     char s[1024];
-    
+
     sprintf(s, "w -h \"%s\"", userName);
     FILE *f = popen(s, "r");
     REPORT_ERROR(!f);
@@ -2127,7 +2137,7 @@ static Boolean IsUserLoggedIn(const char *userName){
             fflush(stdout);
             return true; // this user is logged in (perhaps via fast user switching)
         }
-        pclose (f);         
+        pclose (f);
     }
     return false;
 }
@@ -2164,11 +2174,11 @@ void FindAllVisibleUsers() {
         }
         pclose(f);
     }
-    
+
     for (userIndex=human_user_names.size(); userIndex>0; --userIndex) {
         flag = 0;
         strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
-        sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);    
+        sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);
         f = popen(cmd, "r");
         REPORT_ERROR(!f);
         if (f) {
@@ -2185,7 +2195,7 @@ void FindAllVisibleUsers() {
         }
 
         if (flag) {
-            sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);    
+            sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);
             f = popen(cmd, "r");
             REPORT_ERROR(!f);
             if (f) {
@@ -2201,7 +2211,7 @@ void FindAllVisibleUsers() {
                 pclose(f);
             }
         }
-        
+
         if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
             human_user_names.erase(human_user_names.begin()+userIndex-1);
             human_user_IDs.erase(human_user_IDs.begin()+userIndex-1);
@@ -2215,7 +2225,7 @@ long GetBrandID(char *path)
     long iBrandId;
 
     iBrandId = 0;   // Default value
-    
+
     FILE *f = fopen(path, "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &iBrandId);
@@ -2233,7 +2243,7 @@ int TestRPCBind()
     sockaddr_in addr;
     int lsock;
     int retval;
-    
+
     lsock = (int)socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0)
         return -153;
@@ -2251,9 +2261,9 @@ int TestRPCBind()
 
     if (! retval)
         retval = listen(lsock, 999);
-    
+
     close(lsock);
-    
+
     return retval;
 }
 
@@ -2281,7 +2291,6 @@ int check_rosetta2_installed() {
         execpath,
         argc,
         argv,
-        0,
         prog
     );
 
@@ -2289,7 +2298,8 @@ int check_rosetta2_installed() {
          return retval;
     }
 
-    retval = get_exit_status(prog);
+    int status;
+    retval = get_exit_status(prog, status, -1);
     if (retval) {
         if (WIFEXITED(retval)) {
             return (WEXITSTATUS(retval));
@@ -2308,7 +2318,7 @@ int optionally_install_rosetta2() {
     int err = 0;
     int i = 0;
     const char *cmd = "/usr/sbin/softwareupdate --install-rosetta --agree-to-license";
-    
+
     Boolean answer = ShowMessage(true,
         (char *)_("BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n\n"
         "Do you want to install Rosetta 2 now?"
@@ -2321,7 +2331,7 @@ int optionally_install_rosetta2() {
         printf("%s returned %d\n", cmd, err);
         fflush(stdout);
         if (err) return err;
-        
+
         // Wait up to 20 seconds for system to install Rosetta 2.
         // My tests seem to show that callPosixSpawn() does not return until after
         // installaton of Rosetta 2 is complete, but do this anyway to be sure.
@@ -2345,7 +2355,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     char buf[1024];
     size_t n = 0;
     pid_t aPID;
-    
+
     if (name != NULL)     // Search ny name
         n = strlen(name);
 
@@ -2354,7 +2364,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
         REPORT_ERROR(true);
         return 0;
     }
-    
+
     while (PersistentFGets(buf, sizeof(buf), f))
     {
         if (name != NULL) {     // Search by name
@@ -2398,7 +2408,7 @@ static void SleepSeconds(double seconds) {
 static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon )
 {
     gQuitFlag =  true;
-    
+
     return noErr;
 }
 
@@ -2471,7 +2481,7 @@ int callPosixSpawn(const char *cmdline) {
     int result = 0;
     int status = 0;
     extern char **environ;
-    
+
     // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
     argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
@@ -2483,7 +2493,7 @@ int callPosixSpawn(const char *cmdline) {
     } else {
         argv[0] = progName;
     }
-    
+
 #if VERBOSE_TEST
     print_to_log("***********");
     for (int i=0; i<argc; ++i) {
@@ -2526,7 +2536,7 @@ int callPosixSpawn(const char *cmdline) {
 #endif
         }   // end if (WIFEXITED(status)) else
     }       // end if waitpid returned 0 sstaus else
-    
+
     return result;
 }
 
@@ -2559,7 +2569,7 @@ void print_to_log(const char *format, ...) {
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
-    
+
     fputs("\n", stdout);
     fflush(stdout);
 }

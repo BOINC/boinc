@@ -273,7 +273,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 );
                 delete avp;
                 continue;
-            } 
+            }
             if (strlen(avp->platform) == 0) {
                 safe_strcpy(avp->platform, get_primary_platform());
             } else {
@@ -511,6 +511,10 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             continue;
         }
+        if (xp.match_tag("user_cpids")) {
+            user_cpids.parse(xp);
+            continue;
+        }
 #ifdef ENABLE_AUTO_UPDATE
         if (xp.match_tag("auto_update")) {
             if (!project) {
@@ -536,7 +540,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     }
     sort_results();
     fclose(f);
-    
+
     // if total resource share is zero, set all shares to 1
     //
     if (projects.size()) {
@@ -554,6 +558,13 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             }
         }
     }
+
+    // this should happen once, on client update
+    //
+    if (user_cpids.cpids.empty()) {
+        user_cpids.init_from_projects();
+    }
+
     return 0;
 }
 
@@ -609,7 +620,7 @@ int CLIENT_STATE::write_state_file() {
 
     for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
         if (attempt > 1) boinc_sleep(1.0);
-            
+
         if (log_flags.statefile_debug) {
             msg_printf(0, MSG_INFO,
                 "[statefile] Writing state file"
@@ -670,7 +681,7 @@ int CLIENT_STATE::write_state_file() {
                     if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
                 }
             }
-            
+
             retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
             if (retval) {
                 if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
@@ -680,8 +691,8 @@ int CLIENT_STATE::write_state_file() {
                         windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
                     );
 #else
-                    msg_printf(0, MSG_INFO, 
-                        "Can't rename current state file to previous state file: %s", 
+                    msg_printf(0, MSG_INFO,
+                        "Can't rename current state file to previous state file: %s",
                         strerror(errno)
                     );
 #endif
@@ -697,7 +708,7 @@ int CLIENT_STATE::write_state_file() {
             );
         }
         if (!retval) break;     // Success!
-        
+
         if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
 #ifdef _WIN32
             msg_printf(0, MSG_INFO,
@@ -813,6 +824,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }
+    user_cpids.write(f);
     f.printf("</client_state>\n");
     return 0;
 }

@@ -61,7 +61,7 @@ else
 fi
 
 if [ -n "$COMPILEBOINC" ]; then
-    cd $BOINC    
+    cd $BOINC
     echo "===== building example for arm64 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         echo "=== building example clean ==="

@@ -175,7 +175,7 @@ VDA_CHUNK_HOST::name: c1.c2.cn__filename.ext
 
 physical file name for copy on a host:
     vda_hostid_c1.c2.cn__filename.ext
-    
+
 uploads
     result name is vda_upload_c1.c2.cn__filename.ext
     client uploads to

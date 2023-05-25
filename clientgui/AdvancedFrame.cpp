@@ -34,6 +34,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "util.h"
+
 #include "BOINCGUIApp.h"
 #include "Events.h"
 #include "SkinManager.h"
@@ -1453,11 +1454,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function Begin"));
 
 #ifndef __WXMAC__
-#ifdef __WXMSW__
-    HANDLE prog;
-#else
-    int prog;
-#endif
+    PROCESS_REF pid;
     wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
     wxCharBuffer mbStrExecutable = strExecutable.mb_str();
     int argc = 2;
@@ -1472,9 +1469,9 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
         mbStrExecutable,
         argc,
         argv,
-        2.0,
-        prog
+        pid
     );
+    // TODO: check error return; check for early exit
 #else
     char s[MAXPATHLEN];
     char path[MAXPATHLEN];

@@ -218,9 +218,9 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
      else
        _libldap_with=no
      fi
-       
-     # some curl configs have the ber and ldap libraries in the wrong order, 
-     # so lets add -lber after -lldap.  
+
+     # some curl configs have the ber and ldap libraries in the wrong order,
+     # so lets add -lber after -lldap.
      if test "x`echo $LIBCURL | grep ldap`" != "x" -a \
              "x`echo $LIBCURL | grep lber`" != "x" ; then
        AC_CHECK_LIB([lber],[ber_scanf],

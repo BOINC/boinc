@@ -57,11 +57,11 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_iProgressColumn = -1;
     m_iSortColumnID = -1;
     m_SortArrows = NULL;
-    
+
     m_aStdColNameOrder = NULL;
     m_iDefaultShownColumns = NULL;
     m_iNumDefaultShownColumns = 0;
-    
+
     SetName(GetViewName());
     SetAutoLayout(TRUE);
 }
@@ -99,7 +99,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 
     m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
     wxASSERT(m_pListPane);
-    
+
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
 
@@ -115,7 +115,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
-    
+
     m_aStdColNameOrder = NULL;
     m_iDefaultShownColumns = NULL;
     m_iNumDefaultShownColumns = 0;
@@ -241,7 +241,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
 
         // Remember the key values of currently selected items
         SaveSelections();
-    
+
         int iDocCount = GetDocCount();
         int iCacheCount = GetCacheCount();
         if (iDocCount != iCacheCount) {
@@ -268,7 +268,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     m_pListPane->SetItemCount(iDocCount);
                     m_bNeedSort = true;
                } else {
-                    // The virtual ListCtrl keeps a separate its list of selected rows; 
+                    // The virtual ListCtrl keeps a separate its list of selected rows;
                     // make sure it does not reference any rows beyond the new last row.
                     // We can ClearSelections() because we called SaveSelections() above.
                     ClearSelections();
@@ -306,7 +306,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                 }
             }
         }
-        
+
         // Find the previously selected items by their key values and reselect them
         RestoreSelections();
 
@@ -353,7 +353,7 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-// We don't use this because multiple selection virtual 
+// We don't use this because multiple selection virtual
 // wxListCtrl does not generate selection events for
 // shift-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
@@ -369,7 +369,7 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 }
 
 
-// We don't use this because multiple selection virtual 
+// We don't use this because multiple selection virtual
 // wxListCtrl does generates deselection events only for
 // control-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
@@ -406,7 +406,7 @@ void CBOINCBaseView::OnCacheHint(wxListEvent& ) {
 void CBOINCBaseView::CheckSelectionChanged() {
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
     long currentSelection = m_pListPane->GetFirstSelected();
-    
+
     if ((newSelectionCount != m_iPreviousSelectionCount) ||
         (currentSelection != m_lPreviousFirstSelection)
     ) {
@@ -450,7 +450,7 @@ int CBOINCBaseView::AddCacheElement() {
     return -1;
 }
 
-    
+
 int CBOINCBaseView::EmptyCache() {
     return -1;
 }
@@ -505,7 +505,7 @@ int CBOINCBaseView::SynchronizeCache() {
         sortData();     // Will mark moved items as needing refresh
         m_bNeedSort = false;
     }
-    
+
     return 0;
 }
 
@@ -519,13 +519,13 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
     wxListItem      item;
     int             newSortColIndex = event.GetColumn();
     int             oldSortColIndex = -1;
-    
+
     if (newSortColIndex < 0) return;  // Clicked past last column
-    
+
     if (m_iSortColumnID >= 0) {
         oldSortColIndex = m_iColumnIDToColumnIndex[m_iSortColumnID];
     }
-    
+
     item.SetMask(wxLIST_MASK_IMAGE);
     if (newSortColIndex == oldSortColIndex) {
         m_bReverseSort = !m_bReverseSort;
@@ -542,7 +542,7 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
 
         SetSortColumn(newSortColIndex);
     }
-    
+
     // Write the change to the registry
     // Do this here because SetListColumnOrder() can call SetSortColumn()
     // even when neither m_iSortColumnID nor m_bReverseSort changes
@@ -550,7 +550,7 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
     pConfig->SetPath(wxT("/") + GetViewName());
     m_pListPane->OnSaveState(pConfig);
 }
-    
+
 void CBOINCBaseView::SetSortColumn(int newSortColIndex) {
     wxListItem      item;
     int             i, j, m;
@@ -558,7 +558,7 @@ void CBOINCBaseView::SetSortColumn(int newSortColIndex) {
 
     item.SetImage(m_bReverseSort ? 0 : 1);
     m_pListPane->SetColumn(newSortColIndex, item);
-    
+
     Freeze();   // To reduce flicker
     // Remember which cache elements are selected and deselect them
     m_bIgnoreUIEvents = true;
@@ -569,10 +569,10 @@ void CBOINCBaseView::SetSortColumn(int newSortColIndex) {
         selections.Add(m_iSortedIndexes[i]);
         m_pListPane->SelectRow(i, false);
     }
-    
+
     sortData();
 
-    // Reselect previously selected cache elements in the sorted list 
+    // Reselect previously selected cache elements in the sorted list
     m = (int)selections.GetCount();
     for (i=0; i<m; i++) {
         if (selections[i] >= 0) {
@@ -592,7 +592,7 @@ void CBOINCBaseView::InitSort() {
     if (m_iSortColumnID < 0) return;
     int newSortColIndex = m_iColumnIDToColumnIndex[m_iSortColumnID];
     if (newSortColIndex < 0) return;
-    
+
     item.SetMask(wxLIST_MASK_IMAGE);
     item.SetImage(m_bReverseSort ? 0 : 1);
     m_pListPane->SetColumn(newSortColIndex, item);
@@ -605,12 +605,12 @@ void CBOINCBaseView::InitSort() {
 void CBOINCBaseView::sortData() {
     if (m_iSortColumnID < 0) return;
     if (m_iColumnIDToColumnIndex[m_iSortColumnID] < 0) return;
-    
+
     wxArrayInt oldSortedIndexes(m_iSortedIndexes);
     int i, n = (int)m_iSortedIndexes.GetCount();
-    
+
     std::stable_sort(m_iSortedIndexes.begin(), m_iSortedIndexes.end(), m_funcSortCompare);
-    
+
     // Refresh rows which have moved
     for (i=0; i<n; i++) {
         if (m_iSortedIndexes[i] != oldSortedIndexes[i]) {
@@ -633,7 +633,7 @@ void CBOINCBaseView::EmptyTasks() {
     m_TaskGroups.clear();
 }
 
-    
+
 void CBOINCBaseView::ClearSavedSelections() {
     m_arrSelectedKeys1.Clear();
     m_arrSelectedKeys2.Clear();
@@ -661,18 +661,18 @@ void CBOINCBaseView::SaveSelections() {
 
 // Select all rows with formerly selected data based on key values
 //
-// Each RPC may add (insert) or delete items from the list, so 
-// the selected row numbers may now point to different data.  
-// We called SaveSelections() before updating the underlying 
-// data; this routine finds the data corresponding to each 
-// previous selection and makes any adjustments to ensure that 
+// Each RPC may add (insert) or delete items from the list, so
+// the selected row numbers may now point to different data.
+// We called SaveSelections() before updating the underlying
+// data; this routine finds the data corresponding to each
+// previous selection and makes any adjustments to ensure that
 // the rows containing the originally selected data are selected.
 void CBOINCBaseView::RestoreSelections() {
     if (!_IsSelectionManagementNeeded()) {
         return;
     }
 
-    // To minimize flicker, this method selects or deselects only 
+    // To minimize flicker, this method selects or deselects only
     // those rows which actually need their selection status changed.
     // First, get a list of which rows should be selected
     int i, j, m = 0, newCount = 0, oldCount = (int)m_arrSelectedKeys1.size();
@@ -685,8 +685,8 @@ void CBOINCBaseView::RestoreSelections() {
 		}
 	}
     newCount = (int)arrSelRows.GetCount();
-    
-    // Step through the currently selected row numbers and for each one determine 
+
+    // Step through the currently selected row numbers and for each one determine
     // whether it should remain selected.
     m_bIgnoreUIEvents = true;
     i = -1;
@@ -706,14 +706,14 @@ void CBOINCBaseView::RestoreSelections() {
             m_pListPane->SelectRow(i, false);  // This row should no longer be selected
         }
     }
-    
+
     // Now select those rows which were not previously selected but should now be
     m = (int)arrSelRows.GetCount();
     for (j=0; j<m; ++j) {
         m_pListPane->SelectRow(arrSelRows[j], true);
     }
     m_bIgnoreUIEvents = false;
-    
+
     if (oldCount != newCount) {
         m_bForceUpdateSelection = true; // OnListRender() will call UpdateSelection()
     }
@@ -722,7 +722,7 @@ void CBOINCBaseView::RestoreSelections() {
 
 void CBOINCBaseView::ClearSelections() {
     if (!m_pListPane) return;
-    
+
     m_bIgnoreUIEvents = true;
     int i = -1;
     while (1) {
@@ -745,7 +745,7 @@ void CBOINCBaseView::UpdateSelection(){
 void CBOINCBaseView::PostUpdateSelection(){
     wxASSERT(m_pTaskPane);
     if (m_pTaskPane->UpdateControls()) {
-        // Under wxWidgets 2.9.4, Layout() causes ListCtrl 
+        // Under wxWidgets 2.9.4, Layout() causes ListCtrl
         // to repaint, so call only when actually needed.
         Layout();
     }
@@ -791,8 +791,8 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
 
                 // Default project url
                 pItem = new CTaskItem(
-                    wxString("Home page", wxConvUTF8), 
-                    wxString(project->project_name.c_str(), wxConvUTF8) + wxT(" web site"), 
+                    wxString("Home page", wxConvUTF8),
+                    wxString(project->project_name.c_str(), wxConvUTF8) + wxT(" web site"),
                     wxString(project->master_url, wxConvUTF8),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
@@ -843,7 +843,7 @@ void CBOINCBaseView::OnKeyPressed(wxKeyEvent &event) {
     if (m_pTaskPane) {
         int keyCode = event.GetKeyCode();
         wxUint32 keyFlags = event.GetRawKeyFlags();
-        
+
         if (keyCode == WXK_TAB) {
             wxWindow* focused = wxWindow::FindFocus();
             if (!m_pTaskPane->IsDescendant(focused)) {

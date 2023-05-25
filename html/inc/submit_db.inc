@@ -81,7 +81,7 @@ class BoincUserSubmit {
         $db = BoincDb::get();
         return $db->update_aux('user_submit', $clause);
     }
-    
+
     static function delete_user($user_id) {
         $db = BoincDb::get();
         return $db->delete_aux('user_submit', "user_id = $user_id");

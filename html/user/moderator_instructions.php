@@ -29,7 +29,7 @@ Your job as a moderator is to enforce the following rules:
 Delete posts or threads <b>only if they clearly violate
 one or more of these rules</b>.
 However, there may be other cases where it is alright to
-delete posts or threads as the moderator sees fit, 
+delete posts or threads as the moderator sees fit,
 such as:
 <ul>
 <li>whole threads that have disintegrated into pointless

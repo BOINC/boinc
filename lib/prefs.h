@@ -136,10 +136,10 @@ struct TIME_PREFS : public TIME_SPAN {
         start_hour = start;
         end_hour = end;
     }
-    
+
     void clear();
     bool suspended(double t);
-    
+
 };
 
 

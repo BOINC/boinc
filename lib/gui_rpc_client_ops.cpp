@@ -495,14 +495,14 @@ void PROJECT::clear() {
     trickle_up_pending = false;
     project_files_downloaded_time = 0;
     last_rpc_time = 0;
-    
+
     statistics.clear();
     safe_strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
     safe_strcpy(external_cpid, "");
-    
+
     flag_for_delete = false;
 }
 
@@ -1399,7 +1399,7 @@ CC_STATUS::CC_STATUS() {
 
 int CC_STATUS::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
-        if (xp.match_tag("/cc_status")) return 0; 
+        if (xp.match_tag("/cc_status")) return 0;
         if (xp.parse_int("network_status", network_status)) continue;
         if (xp.parse_bool("ams_password_error", ams_password_error)) continue;
         if (xp.parse_bool("manager_must_quit", manager_must_quit)) continue;
@@ -1825,7 +1825,7 @@ int RPC_CLIENT::project_attach_from_file() {
 }
 
 int RPC_CLIENT::project_attach(
-    const char* url, const char* auth, const char* name
+    const char* url, const char* auth, const char* name, const char* email_addr
 ) {
     int retval;
     SET_LOCALE sl;
@@ -1837,8 +1837,9 @@ int RPC_CLIENT::project_attach(
         "  <project_url>%s</project_url>\n"
         "  <authenticator>%s</authenticator>\n"
         "  <project_name>%s</project_name>\n"
+        "  <email_addr>%s</email_addr>\n"
         "</project_attach>\n",
-        url, auth, name
+        url, auth, name, email_addr
     );
     buf[sizeof(buf)-1] = 0;
 
@@ -1876,7 +1877,7 @@ int RPC_CLIENT::set_run_mode(int mode, double duration) {
     char buf[256];
     RPC rpc(this);
 
-    snprintf(buf, sizeof(buf), 
+    snprintf(buf, sizeof(buf),
         "<set_run_mode>\n"
         "%s\n"
         "  <duration>%f</duration>\n"
@@ -1971,10 +1972,10 @@ int RPC_CLIENT::run_benchmarks() {
 // operand is slot number (for run or runfullscreen) or pid (for stop)
 // if slot = -1, start the default screensaver
 // screensaverLoginUser is the login name of the user running the screensaver
-//         
+//
 // Graphics apps run by Manager write files in slot directory as logged
 // in user, not boinc_master. To tell BOINC client to fix all ownerships
-// in the slot directory, use operation "stop", slot number for operand 
+// in the slot directory, use operation "stop", slot number for operand
 // and empty string for screensaverLoginUser after the graphics app stops.
 //
 int RPC_CLIENT::run_graphics_app(
@@ -1985,9 +1986,9 @@ int RPC_CLIENT::run_graphics_app(
     RPC rpc(this);
     int thePID = -1;
     bool test = false;
-    
+
     snprintf(buf, sizeof(buf), "<run_graphics_app>\n");
-    
+
     if (!strcmp(operation, "run")) {
         snprintf(buf, sizeof(buf),
             "<run_graphics_app>\n<slot>%d</slot>\n<run/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n",
@@ -2046,8 +2047,8 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
         "        <socks_server_name>%s</socks_server_name>\n"
         "        <socks_server_port>%d</socks_server_port>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
-        "        <socks5_user_passwd>%s</socks5_user_passwd>\n"		
-        "        <socks5_remote_dns>%d</socks5_remote_dns>\n"		
+        "        <socks5_user_passwd>%s</socks5_user_passwd>\n"
+        "        <socks5_remote_dns>%d</socks5_remote_dns>\n"
 		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
@@ -2680,7 +2681,7 @@ int RPC_CLIENT::set_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     MIOFILE mf;
     int retval;
     RPC rpc(this);
-    
+
     mf.init_buf_write(buf, sizeof(buf));
     config.write(mf, log_flags);
 

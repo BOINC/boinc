@@ -99,7 +99,7 @@ struct OPENCL_DEVICE_PROP {
 struct OPENCL_CPU_PROP {
     char platform_vendor[256];
     OPENCL_DEVICE_PROP opencl_prop;
-    
+
     OPENCL_CPU_PROP() {
         clear();
     }

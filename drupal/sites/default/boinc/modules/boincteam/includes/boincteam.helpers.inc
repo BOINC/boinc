@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * 
+ *
  */
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
@@ -14,7 +14,7 @@
  * the BOINC database
  */
 function boincteam_sync() {
-  
+
   // Get the list of teams to import
   db_set_active('boinc_rw');
   $boinc_teams = db_query('
@@ -24,9 +24,9 @@ function boincteam_sync() {
     variable_get('boincteam_last_sync', 0)
   );
   db_set_active('default');
-  
+
   $existing_teams = array();
-  
+
   // Get the list of teams already in Drupal to be sure we're not importing
   // any twice
   $result = db_query('
@@ -35,7 +35,7 @@ function boincteam_sync() {
   while ($row = db_fetch_object($result)) {
     $existing_teams[$row->team_id] = $row->nid;
   }
-  
+
   while ($boinc_team = db_fetch_object($boinc_teams)) {
     $success = NULL;
     if (isset($existing_teams[$boinc_team->id])) {
@@ -57,19 +57,19 @@ function boincteam_sync() {
  * Import a given BOINC team object into Drupal
  */
 function boincteam_import($boincteam, $nid = NULL) {
-  
+
   $input_format = variable_get('boincimport_input_format', 0);
-  $team_type_map = variable_get('boincimport_team_types', array()); 
-  
+  $team_type_map = variable_get('boincimport_team_types', array());
+
   // Save the team type affiliation
   $team_type_tid = $team_type_map[$boincteam->type];
-  
+
   $boincteam->description = html_entity_decode($boincteam->description, ENT_QUOTES, 'utf-8');
   // Be sure the text is filtered for the default input format
   $boincteam->description = check_markup($boincteam->description, $input_format);
-  
+
   $teaser = node_teaser($boincteam->description);
-  
+
   if ($nid) {
     // Update an existing node
     $node = node_load($nid);
@@ -97,18 +97,18 @@ function boincteam_import($boincteam, $nid = NULL) {
     );
     $node = (object) $node; // node_save requires an object form
   }
-  
+
   $node->taxonomy[] = taxonomy_get_term($team_type_tid);
-  
+
   // Save the team node
   node_save($node);
   $success = ($node->nid) ? TRUE : FALSE;
-  
+
   if (!$nid) {
     // Save the team IDs to a BOINC <--> Drupal reference table, if needed
     db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boincteam->id, $node->nid);
   }
-  
+
   return $success;
 }
 

@@ -45,7 +45,7 @@ if ($format=="xml"){
     $retval = db_init_xml();
     if ($retval) xml_error($retval);
     if ($auth){
-        $user = BoincUser::lookup_auth($auth);        
+        $user = BoincUser::lookup_auth($auth);
         $show_hosts = true;
     } else {
         $user = BoincUser::lookup_id($id);

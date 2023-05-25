@@ -94,7 +94,7 @@ public:
     virtual void        StopTimers() {}
     virtual void        UpdateRefreshTimerInterval();
 
-    void                ShowAlert( 
+    void                ShowAlert(
                             const wxString title,
                             const wxString message,
                             const int style,
@@ -103,7 +103,7 @@ public:
                         );
 
     bool                Show( bool bShow = true );
-    
+
     virtual bool        RestoreState();
     virtual bool        SaveState();
     virtual bool        CreateMenus(){return true;}

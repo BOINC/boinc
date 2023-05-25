@@ -180,7 +180,7 @@ function stage_file($a, $v, $p, $fd) {
         echo("cp $path $dl_path\n");
         system("cp $path $dl_path");
     }
-    
+
     if (!sizeof($fd->url)) {
         $fd->url = "$download_url/$name";
     }
@@ -286,7 +286,7 @@ function process_file($a, $v, $p, $name, $fds) {
 // scan the directory, and process files.
 // "fds" is the list of files described in version.xml;
 // return this list, augmented with any files not in version.xml
-// 
+//
 //
 function process_files($a, $v, $p, $fds) {
     $d = opendir("apps/$a/$v/$p");

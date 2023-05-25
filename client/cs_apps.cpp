@@ -235,7 +235,7 @@ int CLIENT_STATE::task_files_present(
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
-    APP_VERSION* avp = rp->avp; 
+    APP_VERSION* avp = rp->avp;
     int retval, ret = 0;
 
     for (i=0; i<avp->app_files.size(); i++) {
@@ -278,7 +278,7 @@ int CLIENT_STATE::verify_app_version_files(RESULT* rp) {
     PROJECT* project = rp->project;
 
     if (project->anonymous_platform) return 0;
-    APP_VERSION* avp = rp->avp; 
+    APP_VERSION* avp = rp->avp;
     for (unsigned int i=0; i<avp->app_files.size(); i++) {
         fip = avp->app_files[i].file_info;
         int retval = fip->verify_file(true, true, false);

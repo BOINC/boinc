@@ -20,18 +20,18 @@
 # Used under OS 10.15 Catalina and later to launch screensaver graphics apps
 #
 # BOINC screensaver plugin BOINCSaver.saver (BOINC Screensaver Coordinator)
-# sends a run_graphics_app RPC to the BOINC client. The BOINC client then 
+# sends a run_graphics_app RPC to the BOINC client. The BOINC client then
 # launches switcher, which submits this script to launchd as a LaunchAgent
 # for the user that invoked the screensaver (the currently logged in user.)
-# This script then launches gfx_switcher, which uses fork and execv to 
-# launch the project graphics app. gfx_switcher writes the graphics app's 
-# process ID to shared memory, to be read by the Screensaver Coordinator. 
-# gfx_switcher waits for the graphics app to exit and notifies then notifies 
+# This script then launches gfx_switcher, which uses fork and execv to
+# launch the project graphics app. gfx_switcher writes the graphics app's
+# process ID to shared memory, to be read by the Screensaver Coordinator.
+# gfx_switcher waits for the graphics app to exit and notifies then notifies
 # the Screensaver Coordinator by writing 0 to the shared memory.
 #
-# We must go through launchd to establish a connection to the windowserver 
+# We must go through launchd to establish a connection to the windowserver
 # in the currently logged in user's space for use by the project graphics
-# app. This script then launches gfx_switcher, which uses execv to launch 
+# app. This script then launches gfx_switcher, which uses execv to launch
 # the project graphics app.
 # This Rube Goldberg process is necessary due to limitations on screensavers
 # introduced in OS 10.15 Catalina.
@@ -67,6 +67,6 @@ else
 "/Library/Screen Savers/$2.saver/Contents/Resources/gfx_switcher" $3 $4
 fi
 
-# A new submit of edu.berkeley.boinc-ss_helper will be ignored if for some reason 
+# A new submit of edu.berkeley.boinc-ss_helper will be ignored if for some reason
 # edu.berkeley.boinc-ss_helper is still loaded, so ensure it is removed.
 launchctl remove edu.berkeley.boinc-ss_helper

@@ -231,7 +231,7 @@ static void init_core_client(int argc, char** argv) {
 #endif
 
     read_config_file(true);
-    
+
     // NOTE: this must be called BEFORE newer_version_startup_check()
     // Only branded builds of BOINC should have an nvc_config.xml file
     // in the BOINC Data directory. See comments in current_version.cpp.
@@ -239,7 +239,7 @@ static void init_core_client(int argc, char** argv) {
     if (read_nvc_config_file()) {
        // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
     }
-    
+
     // Win32 - detach from console if requested
 #ifdef _WIN32
     if (gstate.detach_console) {
@@ -260,17 +260,18 @@ static void init_core_client(int argc, char** argv) {
 #endif
 }
 
-// Some dual-GPU laptops (e.g., Macbook Pro) don't power down
-// the more powerful GPU until all applications which used them exit.
-// To save battery life, the client launches a second instance
-// of the client as a child process to detect and get info
-// about the GPUs.
-// The child process writes the info to a temp file which our main
-// client then reads.
+// detect GPUs and write a description of them (and error/warning messages)
+// to coproc_info.xml.
+//
+// We do this in a separate process for two reasons:
+// 1) GPU detection can crash even if we catch signals
+// 2) Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+//  the more powerful GPU until all processes which used them exit.
+//  If we detected such GPUs in the client, they'd never power down.
 //
 static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
-    
+
     boinc_install_signal_handlers();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
@@ -291,13 +292,64 @@ static void do_gpu_detection(int argc, char** argv) {
     warnings.clear();
 }
 
+//////// functions to prevent two clients from running on the same host
+
+#ifdef _WIN32
+static int get_client_mutex(const char*) {
+    char buf[MAX_PATH] = "";
+
+    // Global mutex on Win2k and later
+    //
+    safe_strcpy(buf, "Global\\");
+    safe_strcat(buf, RUN_MUTEX);
+
+    HANDLE h = CreateMutexA(NULL, true, buf);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#else
+static int get_client_mutex(const char* dir) {
+    char path[MAXPATHLEN];
+    static FILE_LOCK file_lock;
+
+    snprintf(path, sizeof(path), "%s/%s", dir, LOCK_FILE_NAME);
+    path[sizeof(path)-1] = 0;
+
+    int retval = file_lock.lock(path);
+    if (retval == ERR_FCNTL) {
+        return ERR_ALREADY_RUNNING;
+    } else if (retval) {
+        return retval;
+    }
+#endif
+    return 0;
+}
+
+int wait_client_mutex(const char* dir, double timeout) {
+    double start = dtime();
+    int retval = 0;
+    while (1) {
+        retval = get_client_mutex(dir);
+        if (!retval) return 0;
+        boinc_sleep(1);
+        if (dtime() - start > timeout) break;
+    }
+    return retval;
+}
+
 static int initialize() {
     int retval;
 
     if (!cc_config.allow_multiple_clients) {
         retval = wait_client_mutex(".", 10);
         if (retval) {
-            log_message_error("Another instance of BOINC is running.");
+            if (retval == ERR_ALREADY_RUNNING) {
+                log_message_error("Another instance of BOINC is running.");
+            } else if (retval == ERR_OPEN) {
+                log_message_error("Failed to open lockfile. Check file/directory permissions.");
+            } else {
+                log_message_error("Failed to lock directory.", retval);
+            }
             return ERR_EXEC;
         }
     }

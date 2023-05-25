@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CADeleteBOINCGroups::CADeleteBOINCGroups(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CADeleteBOINCGroups::CADeleteBOINCGroups(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CADeleteBOINCGroups::~CADeleteBOINCGroups()
@@ -54,10 +54,10 @@ CADeleteBOINCGroups::~CADeleteBOINCGroups()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CADeleteBOINCGroups::OnExecution()
@@ -69,7 +69,7 @@ UINT CADeleteBOINCGroups::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -89,7 +89,7 @@ UINT CADeleteBOINCGroups::OnExecution()
     if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -97,7 +97,7 @@ UINT CADeleteBOINCGroups::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -106,7 +106,7 @@ UINT CADeleteBOINCGroups::OnExecution()
         return ERROR_INSTALL_FAILURE;
     }
 
-    // Delete the 'boinc_users' 
+    // Delete the 'boinc_users'
     //
     nasReturnValue = NetLocalGroupDel(
         NULL,
@@ -116,7 +116,7 @@ UINT CADeleteBOINCGroups::OnExecution()
     if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -124,7 +124,7 @@ UINT CADeleteBOINCGroups::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -143,7 +143,7 @@ UINT CADeleteBOINCGroups::OnExecution()
     if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -151,7 +151,7 @@ UINT CADeleteBOINCGroups::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             nasReturnValue,
@@ -165,7 +165,7 @@ UINT CADeleteBOINCGroups::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    DeleteBOINCGroups
 //
 // Description: This custom action deletes the three user groups that

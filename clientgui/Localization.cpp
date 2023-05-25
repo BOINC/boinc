@@ -35,7 +35,7 @@ CLocalization::CLocalization() {
         _("Help");
     m_strSAHHelpDescription =
         _("Ask questions and report problems");
-    m_strSAHYourAccountName = 
+    m_strSAHYourAccountName =
         _("Your account");
     m_strSAHYourAccountDescription =
         _("View your account information and credit totals");

@@ -35,7 +35,7 @@ if (!get_str('action')) {
 if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     // Can't moderate without being moderator
     error_page(tra("You are not authorized to banish users."));
-}    
+}
 
 $userid = get_int('userid');
 $user = BoincUser::lookup_id($userid);

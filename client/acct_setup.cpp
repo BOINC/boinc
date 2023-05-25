@@ -458,7 +458,7 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
         msg_printf(NULL, MSG_INFO, "Attaching to project %s", pli->name.c_str());
         gstate.add_project(
             pli->master_url.c_str(), authenticator.c_str(),
-            pli->name.c_str(), false
+            pli->name.c_str(), "", false
         );
         PROJECT *p = gstate.lookup_project(pli->master_url.c_str());
         if (p) {

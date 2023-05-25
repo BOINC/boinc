@@ -83,7 +83,7 @@ function show_daemon_status($host, $progname, $pidname) {
 ###############################################
 # BEGIN:
 
-start_cache(1800);  
+start_cache(1800);
 $Nmin = $cached_max_age/60;
 
 
@@ -132,13 +132,13 @@ show_daemon_status("einstein", "BOINC database feeder", "feeder");
 show_daemon_status("einstein", "BOINC transitioner", "transitioner");
 $sched_running = !file_exists("../../stop_sched");
 show_status("einstein", "BOINC scheduler", $sched_running);
-show_daemon_status("einstein", "Einstein validator", "einstein_validator"); 
+show_daemon_status("einstein", "Einstein validator", "einstein_validator");
 show_daemon_status("einstein", "Einstein assimilator", "einstein_assimilator");
 show_daemon_status("einstein", "BOINC file deleter", "file_deleter");
 show_daemon_status("einstein", "BOINC database purger", "db_purge");
 
 
-echo "\n    </table> 
+echo "\n    </table>
 	</TD><TD>&nbsp;</TD><TD VALIGN=TOP align=center>
 	\n";
 
@@ -217,7 +217,7 @@ if ($dbrc) {
         </TD><TD>&nbsp;</TD><TD VALIGN=TOP align=center>
             <h2>Work and Results</h2>
         \n";
-                                                                                                                               
+
 
 
     echo "
@@ -299,22 +299,22 @@ if ($dbrc) {
 
 if (  file_exists("../../cgi-bin/.htaccess") ) {
     echo "<P><font color=RED>
-        <b>The ".PROJECT." scheduler is currently restricted 
+        <b>The ".PROJECT." scheduler is currently restricted
 	  to uwm.edu and a few other domains.
 
 	</b></font><P>
      ";
-} 
+}
 
 
 echo "</TD></TR>
 	</TABLE>
-    ";  
+    ";
 
     echo "<br> 1) the sum of the benchmarked FLops/s of all hosts in the database";
     echo "<br> 2) the sum of the benchmarked FLops/s of all hosts that have contacted the Einstein@Home scheduler within the past week";
     echo "<br> 3) the sum of the FLops of all valid results from last week divided by the number of seconds in a week";
-                                                                                                                                                             
+
 
 
 page_tail();

@@ -139,7 +139,7 @@ void COPROC_ATI::get(
     }
 
     if (!callib) {
-        warnings.push_back("No ATI library found.");
+        gpu_warning(warnings, "No ATI library found.");
         return;
     }
 
@@ -158,7 +158,7 @@ void COPROC_ATI::get(
     void* callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
         snprintf(buf, sizeof(buf), "ATI: %s", dlerror());
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return;
     }
 
@@ -177,47 +177,47 @@ void COPROC_ATI::get(
 #endif
 
     if (!p_calInit) {
-        warnings.push_back("calInit() missing from CAL library");
+        gpu_warning(warnings, "calInit() missing from CAL library");
         goto leave;
     }
     if (!p_calGetVersion) {
-        warnings.push_back("calGetVersion() missing from CAL library");
+        gpu_warning(warnings, "calGetVersion() missing from CAL library");
         goto leave;
     }
     if (!p_calDeviceGetCount) {
-        warnings.push_back("calDeviceGetCount() missing from CAL library");
+        gpu_warning(warnings, "calDeviceGetCount() missing from CAL library");
         goto leave;
     }
     if (!p_calDeviceGetAttribs) {
-        warnings.push_back("calDeviceGetAttribs() missing from CAL library");
+        gpu_warning(warnings, "calDeviceGetAttribs() missing from CAL library");
         goto leave;
     }
     if (!p_calDeviceGetInfo) {
-        warnings.push_back("calDeviceGetInfo() missing from CAL library");
+        gpu_warning(warnings, "calDeviceGetInfo() missing from CAL library");
         goto leave;
     }
 
     retval = (*p_calInit)();
     if (retval != CAL_RESULT_OK) {
         snprintf(buf, sizeof(buf), "calInit() returned %d", retval);
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         goto leave;
     }
     retval = (*p_calDeviceGetCount)(&numDevices);
     if (retval != CAL_RESULT_OK) {
         snprintf(buf, sizeof(buf), "calDeviceGetCount() returned %d", retval);
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         goto leave;
     }
     retval = (*p_calGetVersion)(&cal_major, &cal_minor, &cal_imp);
     if (retval != CAL_RESULT_OK) {
         snprintf(buf, sizeof(buf), "calGetVersion() returned %d", retval);
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         goto leave;
     }
 
     if (!numDevices) {
-        warnings.push_back("No usable CAL devices found");
+        gpu_warning(warnings, "No usable CAL devices found");
         goto leave;
     }
 
@@ -225,13 +225,13 @@ void COPROC_ATI::get(
         retval = (*p_calDeviceGetInfo)(&info, i);
         if (retval != CAL_RESULT_OK) {
             snprintf(buf, sizeof(buf), "calDeviceGetInfo() returned %d", retval);
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             goto leave;
         }
         retval = (*p_calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
             snprintf(buf, sizeof(buf), "calDeviceGetAttribs() returned %d", retval);
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             goto leave;
         }
         switch ((int)attribs.target) {
@@ -375,7 +375,7 @@ void COPROC_ATI::get(
         cc.device_num = i;
         cc.set_peak_flops();
         if (cc.bad_gpu_peak_flops("CAL", s)) {
-            warnings.push_back(s);
+            gpu_warning(warnings, s.c_str());
         }
         get_available_ati_ram(cc, warnings);
         ati_gpus.push_back(cc);
@@ -386,7 +386,7 @@ void COPROC_ATI::get(
     retval = (*p_calShutdown)();
 
     if (!ati_gpus.size()) {
-        warnings.push_back("No ATI GPUs found");
+        gpu_warning(warnings, "No ATI GPUs found");
     }
 leave:
 #ifdef _WIN32
@@ -448,9 +448,9 @@ void COPROC_ATI::correlate(
 // * It must be called from a separate child process on
 //   dual-GPU laptops (e.g., Macbook Pros) with the results
 //   communicated to the main client process via IPC or a
-//   temp file.  See the comments about dual-GPU laptops 
+//   temp file.  See the comments about dual-GPU laptops
 //   in gpu_detect.cpp and main.cpp for more details.
-// * The CAL library must be loaded and calInit() called 
+// * The CAL library must be loaded and calInit() called
 //   first.
 // * See client/coproc_detect.cpp and cpu_sched.cpp in
 //   BOINC 6.12.36 for an earlier attempt to call this
@@ -468,15 +468,15 @@ static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings) {
     st.struct_size = sizeof(CALdevicestatus);
 
     if (!p_calDeviceOpen) {
-        warnings.push_back("calDeviceOpen() missing from CAL library");
+        gpu_warning(warnings, "calDeviceOpen() missing from CAL library");
         return;
     }
     if (!p_calDeviceGetStatus) {
-        warnings.push_back("calDeviceGetStatus() missing from CAL library");
+        gpu_warning(warnings, "calDeviceGetStatus() missing from CAL library");
         return;
     }
     if (!p_calDeviceClose) {
-        warnings.push_back("calDeviceClose() missing from CAL library");
+        gpu_warning(warnings, "calDeviceClose() missing from CAL library");
         return;
     }
 
@@ -485,7 +485,7 @@ static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings) {
         snprintf(buf, sizeof(buf),
             "[coproc] calDeviceOpen(%d) returned %d", cc.device_num, retval
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return;
     }
     retval = (*p_calDeviceGetStatus)(&st, dev);
@@ -494,7 +494,7 @@ static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings) {
             "[coproc] calDeviceGetStatus(%d) returned %d",
             cc.device_num, retval
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         (*p_calDeviceClose)(dev);
         return;
     }

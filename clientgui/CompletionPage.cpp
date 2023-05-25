@@ -40,40 +40,40 @@
 /*!
  * CCompletionPage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CCompletionPage, wxWizardPageEx )
- 
+
 /*!
  * CCompletionPage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CCompletionPage, wxWizardPageEx )
- 
+
 ////@begin CCompletionPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CCompletionPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CCompletionPage::OnCancel )
     EVT_WIZARDEX_FINISHED( ID_COMPLETIONPAGE, CCompletionPage::OnFinished )
 ////@end CCompletionPage event table entries
- 
+
 END_EVENT_TABLE()
-  
+
 /*!
  * CCompletionPage constructors
  */
- 
+
 CCompletionPage::CCompletionPage( )
 {
 }
- 
+
 CCompletionPage::CCompletionPage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * CCompletionPage creator
  */
- 
+
 bool CCompletionPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionPage member initialisation
@@ -82,23 +82,23 @@ bool CCompletionPage::Create( CBOINCBaseWizard* parent )
     m_pCompletionBrandedMessage = NULL;
     m_pCompletionMessage = NULL;
 ////@end CCompletionPage member initialisation
- 
+
 ////@begin CCompletionPage creation
     wxWizardPageEx::Create( parent, ID_COMPLETIONPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CCompletionPage creation
- 
+
     return TRUE;
 }
-  
+
 /*!
  * Control creation for CCompletionPage
  */
- 
+
 void CCompletionPage::CreateControls()
-{    
+{
 ////@begin CCompletionPage content construction
     CCompletionPage* itemWizardPage79 = this;
 
@@ -124,38 +124,38 @@ void CCompletionPage::CreateControls()
     itemBoxSizer80->Add(m_pCompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
     ////@end CCompletionPage content construction
 }
-  
+
 /*!
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CCompletionPage::GetPrev() const
 {
     return NULL;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CCompletionPage::GetNext() const
 {
     return NULL;
 }
-  
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CCompletionPage::ShowToolTips()
 {
     return TRUE;
 }
-  
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CCompletionPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -163,11 +163,11 @@ wxBitmap CCompletionPage::GetBitmapResource( const wxString& WXUNUSED(name) )
     return wxNullBitmap;
 ////@end CCompletionPage bitmap retrieval
 }
-  
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CCompletionPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -175,11 +175,11 @@ wxIcon CCompletionPage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CCompletionPage icon retrieval
 }
-  
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONPAGE
  */
- 
+
 void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
@@ -275,26 +275,26 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     pWAP->GetSize(&w, &h);
     m_pCompletionBrandedMessage->Wrap(w - x - x1 - 5);
     Fit();
-    
+
     // Is this supposed to be completely automated?
     // If so, then go ahead and close the wizard down now.
     if (pWAP->IsCloseWhenCompleted()) {
         pWAP->SimulateNextButton();
     }
 }
-  
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONPAGE
  */
- 
+
 void CCompletionPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }
- 
+
 /*!
  * wxEVT_WIZARD_FINISHED event handler for ID_COMPLETIONPAGE
  */
- 
+
 void CCompletionPage::OnFinished( wxWizardExEvent& event ) {
     event.Skip();
 }
