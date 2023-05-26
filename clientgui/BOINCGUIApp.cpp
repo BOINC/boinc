@@ -102,6 +102,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
     m_strISOLanguageCode = wxEmptyString;
+    m_bUseDefaultLocale = true;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
@@ -120,7 +121,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bNeedRunDaemon = true;
 
     // Initialize local variables
-    int      iDesiredLanguageCode = 0;
+    int      iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
 #ifdef SANDBOX
@@ -198,6 +199,10 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
+    bool bUseDefaultLocaleDefault =
+        // Migration: assume a selected language code that matches the system default means "auto select"
+        m_strISOLanguageCode == wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT)->CanonicalName;
+    m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
@@ -267,12 +272,15 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pLocale);
 
     //
-    if (m_strISOLanguageCode.IsEmpty()) {
-        iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
-        m_pLocale->Init(iDesiredLanguageCode);
+    if (!m_bUseDefaultLocale && !m_strISOLanguageCode.IsEmpty()) {
+        const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(m_strISOLanguageCode);
+        if (pLI) {
+            iDesiredLanguageCode = pLI->Language;
+        }
+    }
+    m_pLocale->Init(iDesiredLanguageCode);
+    if (iDesiredLanguageCode == wxLANGUAGE_DEFAULT) {
         m_strISOLanguageCode = m_pLocale->GetCanonicalName();
-    } else {
-        m_pLocale->Init(wxLocale::FindLanguageInfo(m_strISOLanguageCode)->Language);
     }
 
     // Look for the localization files by absolute and relative locations.
@@ -598,6 +606,7 @@ void CBOINCGUIApp::SaveState() {
         m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
     }
     m_pConfig->Write(wxT("LanguageISO"), m_strISOLanguageCode);
+    m_pConfig->Write(wxT("UseDefaultLocale"), m_bUseDefaultLocale);
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
@@ -893,22 +902,110 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
 
 void CBOINCGUIApp::InitSupportedLanguages() {
-    wxInt32               iIndex = 0;
-    const wxLanguageInfo* liLanguage = NULL;
+    m_astrLanguages.clear();
 
-    // Prepare the array
-    m_astrLanguages.Insert(wxEmptyString, 0, wxLANGUAGE_USER_DEFINED+1);
-
-    // These are just special tags so deal with them in a special way
-    m_astrLanguages[wxLANGUAGE_DEFAULT]                    = _("(Automatic Detection)");
-    m_astrLanguages[wxLANGUAGE_UNKNOWN]                    = _("(Unknown)");
-    m_astrLanguages[wxLANGUAGE_USER_DEFINED]               = _("(User Defined)");
-
-    for (iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++) {
-        liLanguage = wxLocale::GetLanguageInfo(iIndex);
-        if (liLanguage) {
-            m_astrLanguages[iIndex] = liLanguage->Description;
+    // Find available translations
+    std::vector<const wxLanguageInfo*> availableTranslations;
+    // English is a special case:
+    //  - it's guaranteed to be available because it's compiled in
+    //  - it must be added to the list even though we don't expect to find a translation for it
+    const wxLanguageInfo* pLIen = wxLocale::GetLanguageInfo(wxLANGUAGE_ENGLISH);
+    if (pLIen) {
+        availableTranslations.push_back(pLIen);
+    }
+    // Now fill in the rest from the available message catalogs
+    const wxTranslations* pTranslations = wxTranslations::Get();
+    if (pTranslations) {
+        wxArrayString langCodes = pTranslations->GetAvailableTranslations(wxT("BOINC-Manager"));
+        for (const wxString& langCode : langCodes) {
+            if (langCode == wxT("en")) continue;
+            const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(langCode);
+            if (pLI) {
+                availableTranslations.push_back(pLI);
+            }
         }
+    }
+
+    // Synthesize labels to be used in the options dialog
+    //
+    // As we are building strings that potentially contain both left-to-right and
+    // right-to-left text, we must insert direction markers to ensure the layout is
+    // correct. Otherwise strange things happen - particularly when the strings contain
+    // parentheses, which can end up in the wrong place and pointing the wrong way.
+    // The usage here has been determined largely by trial and error, and may not be
+    // strictly correct...
+    const wxString LRM = L'\x200E'/*LEFT-TO-RIGHT MARK*/;
+    const wxString RLM = L'\x200F'/*RIGHT-TO-LEFT MARK*/;
+    const wxLanguageInfo* pLIui = wxLocale::FindLanguageInfo(GetISOLanguageCode());
+    wxLayoutDirection uiLayoutDirection = pLIui ? pLIui->LayoutDirection : wxLayout_Default;
+    GUI_SUPPORTED_LANG newItem;
+
+    // CDlgOptions depends on "Auto" being the first item in the list
+    newItem.Language = wxLANGUAGE_DEFAULT;
+    wxString strAutoEnglish = wxT("(Automatic Detection)");
+    wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
+    newItem.Label = strAutoTranslated;
+    if (strAutoTranslated != strAutoEnglish) {
+        if (uiLayoutDirection == wxLayout_RightToLeft) {
+            newItem.Label += RLM;
+        } else if (uiLayoutDirection == wxLayout_LeftToRight) {
+            newItem.Label += LRM;
+        }
+        newItem.Label += wxT(" ");
+        if (uiLayoutDirection == wxLayout_RightToLeft) {
+            newItem.Label += RLM;
+        }
+        newItem.Label += LRM + strAutoEnglish + LRM;
+    }
+    m_astrLanguages.push_back(newItem);
+
+    // Add known locales to the list
+    for (int langID = wxLANGUAGE_UNKNOWN+1; langID < wxLANGUAGE_USER_DEFINED; ++langID) {
+        const wxLanguageInfo* pLI = wxLocale::GetLanguageInfo(langID);
+        wxString lang_region = pLI->CanonicalName.BeforeFirst('@');
+        wxString lang = lang_region.BeforeFirst('_');
+        wxString script = pLI->CanonicalName.AfterFirst('@');
+        wxString lang_script = lang;
+        if (!script.empty()) {
+            lang_script += wxT("@") + script;
+        }
+        std::vector<const wxLanguageInfo*>::const_iterator foundit = availableTranslations.begin();
+        while (foundit != availableTranslations.end()) {
+            const wxLanguageInfo* pLIavail = *foundit;
+            if (pLIavail->CanonicalName == lang_script ||
+                pLIavail->CanonicalName == pLI->CanonicalName) {
+                break;
+            }
+            ++foundit;
+        }
+        // If we don't have a translation, don't add to the list -
+        // unless the locale has been explicitly selected by the user
+        // (setting migrated from an earlier version, or manually configured)
+        if (foundit == availableTranslations.end() && pLI != pLIui) continue;
+        newItem.Language = langID;
+#if wxCHECK_VERSION(3,1,6)
+        if (pLI->DescriptionNative != pLI->Description &&
+            !pLI->DescriptionNative.empty()) {
+            // The "NativeName (EnglishName)" format of the label matches that used
+            // for Web sites [language_select() in html/inc/language_names.inc]
+            newItem.Label = pLI->DescriptionNative;
+            if (pLI->LayoutDirection == wxLayout_RightToLeft) {
+                newItem.Label += RLM;
+            } else if (pLI->LayoutDirection == wxLayout_LeftToRight) {
+                newItem.Label += LRM;
+            }
+            newItem.Label += wxT(" ");
+            if (uiLayoutDirection == wxLayout_RightToLeft) {
+                newItem.Label += RLM;
+            }
+            newItem.Label += LRM + wxT("(") + pLI->Description + wxT(")") + LRM;
+        } else {
+            newItem.Label = pLI->Description + LRM;
+        }
+#else
+        newItem.Label = pLI->Description + LRM;
+#endif
+        m_astrLanguages.push_back(newItem);
     }
 }
 

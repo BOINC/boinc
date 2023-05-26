@@ -183,9 +183,13 @@ void CDlgOptions::CreateControls() {
     itemStaticText7->Create( itemPanel4, wxID_STATIC, _("Language:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxString* m_LanguageSelectionCtrlStrings = NULL;
+    const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+    wxArrayString langLabels;
+    for (const GUI_SUPPORTED_LANG& lang : langs) {
+        langLabels.push_back(lang.Label);
+    }
     m_LanguageSelectionCtrl = new wxComboBox;
-    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
+    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, langLabels, wxCB_READONLY );
     if (ShowToolTips())
         m_LanguageSelectionCtrl->SetToolTip(_("What language should BOINC use?"));
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -622,8 +626,24 @@ bool CDlgOptions::ReadSettings() {
 
 
     // General Tab
-    m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
-    m_LanguageSelectionCtrl->SetSelection(wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language);
+    if (wxGetApp().UseDefaultLocale()) {
+        // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list
+        m_LanguageSelectionCtrl->SetSelection(0);
+    } else {
+        const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode());
+        if (pLI) {
+            const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+            for (std::vector<GUI_SUPPORTED_LANG>::const_iterator foundit = langs.begin();
+                 foundit != langs.end(); ++foundit) {
+                const GUI_SUPPORTED_LANG& item = *foundit;
+                if (item.Language == pLI->Language) {
+                    int selLangIdx = std::distance(langs.begin(), foundit);
+                    m_LanguageSelectionCtrl->SetSelection(selLangIdx);
+                    break;
+                }
+            }
+        }
+    }
 
     m_ReminderFrequencyCtrl->Append(_("always"));
     m_ReminderFrequencyCtrl->Append(_("1 hour"));
@@ -725,7 +745,20 @@ bool CDlgOptions::SaveSettings() {
 
 
     // General Tab
-    if (wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language != m_LanguageSelectionCtrl->GetSelection()) {
+    wxString oldLangCode = wxGetApp().GetISOLanguageCode();
+    wxString newLangCode = oldLangCode;
+    int selLangIdx = m_LanguageSelectionCtrl->GetSelection();
+    if (selLangIdx == 0) {
+        // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list
+        newLangCode = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT)->CanonicalName;
+    } else if (selLangIdx > 0) {
+        const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+        if (selLangIdx < langs.size()) {
+            const GUI_SUPPORTED_LANG& selLang = langs[selLangIdx];
+            newLangCode = wxLocale::GetLanguageInfo(selLang.Language)->CanonicalName;
+        }
+    }
+    if (newLangCode != oldLangCode) {
         wxString strDialogTitle;
         wxString strDialogMessage;
 
@@ -751,7 +784,8 @@ bool CDlgOptions::SaveSettings() {
         );
     }
 
-    wxGetApp().SetISOLanguageCode(wxLocale::GetLanguageInfo(m_LanguageSelectionCtrl->GetSelection())->CanonicalName);
+    wxGetApp().SetISOLanguageCode(newLangCode);
+    wxGetApp().SetUseDefaultLocale(selLangIdx == 0);
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {
         case 0:
