@@ -52,19 +52,6 @@
 
 using std::vector;
 
-inline void rsc_string(RESULT* rp, char* buf, int len) {
-    APP_VERSION* avp = rp->avp;
-    if (avp->gpu_usage.rsc_type) {
-        snprintf(buf, len,
-            "%.2f CPU + %.2f %s",
-            avp->avg_ncpus, avp->gpu_usage.usage,
-            rsc_name_long(avp->gpu_usage.rsc_type)
-        );
-    } else {
-        snprintf(buf, len, "%.2f CPU", avp->avg_ncpus);
-    }
-}
-
 // set "nused" bits of the source bitmap in the dest bitmap
 //
 static inline void set_bits(
@@ -314,7 +301,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 adjust_rec_sched(rp);
                 if (log_flags.rrsim_detail && !rp->already_selected) {
                     char buf[256];
-                    rsc_string(rp, buf, sizeof(buf));
+                    rp->rsc_string(buf, sizeof(buf));
                     msg_printf(rp->project, MSG_INFO,
                         "[rr_sim_detail] %.2f: starting %s (%s) (%.2fG/%.2fG)",
                         reltime, rp->name, buf, rp->rrsim_flops_left/1e9,
@@ -558,7 +545,7 @@ void RR_SIM::simulate() {
             pbest = rpbest->project;
             if (log_flags.rr_simulation) {
                 char buf[256];
-                rsc_string(rpbest, buf, sizeof(buf));
+                rpbest->rsc_string(buf, sizeof(buf));
                 msg_printf(pbest, MSG_INFO,
                     "[rr_sim] %.2f: %s finishes (%s) (%.2fG/%.2fG)",
                     sim_now + delta_t - gstate.now,
