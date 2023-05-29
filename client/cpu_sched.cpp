@@ -1239,15 +1239,6 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     //
     assign_coprocs(run_list);
 
-    // keep track of the number of remaining single-CPU jobs
-    //
-    int n_single_cpu_jobs = 0;
-    for (RESULT* rp: run_list) {
-        if (!rp->uses_coprocs() && rp->avp->avg_ncpus==1) {
-            n_single_cpu_jobs++;
-        }
-    }
-
     // scan the run list
     //
     for (i=0; i<run_list.size(); i++) {
@@ -1291,21 +1282,16 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
         }
 
-        // Don't overcommit CPUs by > 1 unless needed to avoid starvation
-        //
-        if (!rp->uses_coprocs()
-            && (rp->avp->avg_ncpus > 1)
-            && (ncpus_used + rp->avp->avg_ncpus > n_usable_cpus + 1)
-            && (ncpus_used + n_single_cpu_jobs >= n_usable_cpus)
-        ) {
-            if (log_flags.cpu_sched_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] avoid MT overcommit: skipping %s",
-                    rp->name
-                );
-            }
-            continue;
-        }
+        // There's a possibility that this job is MT
+        // and would overcommit the CPUs by > 1.
+        // Options are:
+        // 1) run it anyway, and overcommit the CPUs
+        // 2) don't run it.
+        //      This can result in starvation.
+        // 3) don't run it if there are additional 1-CPU jobs.
+        //      The problem here is that we may never run the MT job
+        //      until it reaches deadline pressure.
+        // So we'll go with 1).
 
         // skip jobs whose working set is too large to fit in available RAM
         //
@@ -1351,10 +1337,6 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 "Can't create task for %s", rp->name
             );
             continue;
-        }
-
-        if (!rp->uses_coprocs() && rp->avp->avg_ncpus == 1) {
-            n_single_cpu_jobs--;
         }
 
         ncpus_used += rp->avp->avg_ncpus;
