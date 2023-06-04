@@ -48,11 +48,12 @@ function list_files($user, $notice) {
         echo "<p>$notice<hr>";
     }
     echo "
+        <p>
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
         Upload files to your sandbox:
-        <p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
-        <p> <input class=\"btn btn-default\" type=submit value=Upload>
+        <p><p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
+        <p> <input class=\"btn btn-success\" type=submit value=Upload>
         </form>
         <hr>
     ";
