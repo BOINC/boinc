@@ -839,7 +839,7 @@
         <name>x86_64-pc-linux-gnu[opencl_ati_AP27]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_cwsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_WW]</name>
-        <name>x86_64-pc-linux-gnu[opencl_intel_GPU_AP27]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu_AP27]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_cwsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN15]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN16]</name>
