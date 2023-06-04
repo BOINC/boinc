@@ -138,20 +138,33 @@ function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = 
 }
 }
 
-//check if a file is still being used by a unfinished batch
+// convert logical (link) name to physical path
+//
+function sandbox_log_to_phys($user, $log_name) {
+    $dir = sandbox_dir($user);
+    [$err, $file_size, $file_md5] = sandbox_parse_link_file("$dir/$log_name");
+    if ($err) return null;
+    return sandbox_physical_path($user, $file_md5);
+}
+
+// check if a file is still being used by a unfinished batch
+//
+// TODO: this is a kludge.
+// Should we use the job_file and batch_file_assoc tables instead?
 //
 function sandbox_file_in_use($user, $file){
     $ufiles = array();
 
-    // batch status: 2(completed), 3(aborted)
-    // $pbatches = BoincBatch::enum("user_id = $user->id and state != BATCH_STATE_COMPLETE and state != BATCH_STATE_ABORTED");
-    $pbatches = BoincBatch::enum("user_id = $user->id and state != 2 and state != 3");
+    $pbatches = BoincBatch::enum(
+        sprintf('user_id=%d and state!=%d and state!=%d',
+            $user->id, BATCH_STATE_COMPLETE, BATCH_STATE_ABORTED
+        )
+    );
     if (!$pbatches) return false;
 
     foreach ($pbatches as $batch){
         $wus = BoincWorkUnit::enum("batch = $batch->id limit 1" );
         if ($wus == null){
-            //echo " no workunit for this batch<br/>";
             continue;
         }
         foreach($wus as $wu){
@@ -164,8 +177,6 @@ function sandbox_file_in_use($user, $file){
             }
         }
     }
-    //echo "these files are being used:<br/>";
-    //print_r($ufiles);
     $dir = sandbox_dir($user);
     $path = $dir."/".$file;
     list($err, $size, $md5) = sandbox_parse_link_file($path);
