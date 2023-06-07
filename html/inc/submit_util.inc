@@ -149,12 +149,23 @@ function get_batch_params($batch, $wus) {
 }
 
 function get_outfile_names($result) {
-    $names = array();
+    $names = [];
     $xml = "<a>".$result->xml_doc_out."</a>";
     $r = simplexml_load_string($xml);
     if (!$r) return $names;
     foreach ($r->file_info as $fi) {
         $names[] = (string)($fi->name);
+    }
+    return $names;
+}
+
+function get_outfile_log_names($result) {
+    $names = [];
+    $xml = "<a>".$result->xml_doc_in."</a>";
+    $r = simplexml_load_string($xml);
+    if (!$r) return $names;
+    foreach ($r->result->file_ref as $fr) {
+        $names[] = (string)($fr->open_name);
     }
     return $names;
 }
