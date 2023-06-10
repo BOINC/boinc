@@ -21,7 +21,11 @@ import sys
 
 linux_client_list = [
     './client/boinc',
-    './client/boinccmd'
+    './client/boinccmd',
+    './client/scripts/boinc-client.service',
+    './client/scripts/boinc-client',
+    './client/scripts/boinc.bash',
+    './client/scripts/boinc-client.conf'
 ]
 
 linux_apps_list = [
@@ -44,6 +48,7 @@ linux_apps_list = [
 linux_manager_list = [
     './clientgui/boincmgr',
     './clientgui/skins',
+    './clientgui/res/boinc.desktop',
     'locale/*/*.mo',
 ]
 
