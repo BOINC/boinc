@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -510,7 +510,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.suspend_if_no_recent_input = true;
 
-    if (m_txtMaxLoad->IsEnabled() || !prefs.run_if_user_active) {
+    if (m_txtMaxLoad->IsEnabled()) {
         m_txtMaxLoad->GetValue().ToDouble(&td);
         prefs.suspend_cpu_usage=RoundToHundredths(td);
     } else {
