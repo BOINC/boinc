@@ -110,7 +110,7 @@ if [[ "$IS_MIRROR" -eq "0" ]]; then
 	# updates the the packages from remote
 	aptly -config=$CONF_FILE -keyring=$KEYRING mirror update boinc-$TYPE-mirror
 	exit_on_fail "Failed to update the local mirror"
-	
+
 	# imports the downloaded packages to the local mirror
 	aptly -config=$CONF_FILE repo import boinc-$TYPE-mirror boinc-$TYPE "Name"
 	exit_on_fail "Failed to import the remote mirror into local"

@@ -110,7 +110,7 @@ find .
 mkdir -p DEBIAN
 exit_on_fail
 
-# specialized prepare 
+# specialized prepare
 case "$BASEPKG" in
   "linux_client-vcpkg")
      prepare_client

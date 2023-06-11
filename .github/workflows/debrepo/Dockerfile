@@ -1,6 +1,6 @@
 # example build usage:
-# LINUX: export BUILDKIT_PROGRESS=plain 
-# WINDOWS: set BUILDKIT_PROGRESS=plain 
+# LINUX: export BUILDKIT_PROGRESS=plain
+# WINDOWS: set BUILDKIT_PROGRESS=plain
 # docker build -t jammy-boinc --build-arg PACKAGE=boinc-linux-client --build-arg VERSION=1.0.0-1 -f ./Dockerfile .
 
 ARG DISTRO=ubuntu
