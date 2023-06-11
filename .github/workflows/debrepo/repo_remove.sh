@@ -12,7 +12,7 @@ function exit_on_fail() {
 
 function exit_usage() {
 	printf "Fail: $1\n"
-	printf "Usage: repo_update.sh <remove-pkg> <repo-url> <incoming-dir> [osversion(jammy,bionic,buster,bullseye)] [release-type(stable,alpha)] [release-key]\n"
+	printf "Usage: repo_update.sh <remove-pkg> <repo-url> <incoming-dir> [osversion(jammy,focal,buster,bullseye)] [release-type(stable,alpha)] [release-key]\n"
 	exit 1
 }
 

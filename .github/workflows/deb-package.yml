@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [jammy, bionic, bullseye, buster]
+        os: [jammy, focal, bullseye, buster]
     environment:
       name: ${{ inputs.release_type }}
     steps:
@@ -165,7 +165,7 @@ jobs:
           } &>> "${{ github.workspace }}/steps.log"
 
       - name: UbuntuCreateDebPackage
-        if: inputs.remove_package == false && ( matrix.os == 'jammy' || matrix.os == 'bionic')
+        if: inputs.remove_package == false && ( matrix.os == 'jammy' || matrix.os == 'focal')
         run: |
           {
             echo "===== Step CreateDebPackage (Ubuntu) ====="

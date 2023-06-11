@@ -14,7 +14,7 @@ case "$1_$2" in
 "jammy_linux_client-vcpkg")
     echo "libc6,libxss1 (>= 1.2.3)"
     ;;
-"bionic_linux_client-vcpkg")
+"focal_linux_client-vcpkg")
     echo "libc6,libxss1 (>= 1.2.3)"
     ;;
 
