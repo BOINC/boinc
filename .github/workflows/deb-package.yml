@@ -7,9 +7,12 @@ env:
   HOMEPAGE: https://boinc.berkeley.edu/
   DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
   BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
-  GH_REPO_API: BOINC/boinc # no trailing or prefix slash
   PUBKEY: boinc.gpg # keep extension
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+  
 on:
   workflow_dispatch:
     inputs:
@@ -67,6 +70,10 @@ jobs:
           {
             echo "===== Step Preparation ====="
 
+            cat version.h | grep BOINC_VERSION_STRING
+
+            cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING|'
+
             PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING|' | jq -r .)
 
             # Setup Environment vars
@@ -112,7 +119,6 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux.yml
-          run_id: ${{inputs.build_run_id}}
           name: ${{ matrix.package-type }}
           skip_unpack: true
           if_no_artifact_found: fail
