@@ -7,6 +7,7 @@ env:
   HOMEPAGE: https://boinc.berkeley.edu/
   DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
   BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+  GH_REPO_API: BOINC/boinc # no trailing or prefix slash
   PUBKEY: boinc.gpg # keep extension
 
 concurrency:
@@ -114,14 +115,17 @@ jobs:
 
       - name: DownloadArtifacts
         if: inputs.remove_package == false
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: linux.yml
-          name: ${{ matrix.package-type }}
-          skip_unpack: true
-          if_no_artifact_found: fail
+        shell: bash
+        run: |
+          {
+            echo "===== Step DownloadArtifacts ====="
+
+            # Downloads artifacts of the latest run
+            ID=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/workflows/linux.yml/runs" | jq .workflow_runs[0].id)
+            URL=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/runs/$ID/artifacts" | jq -r ".artifacts[] | select(.name==\"${{ matrix.package-type }}_\") | .archive_download_url")
+            wget -O pkgs/${PKG_NAME}.zip -d --header='Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' $URL
+
+          } &>> "${{ github.workspace }}/steps.log"
 
       - name: CreateDebFolder
         if: inputs.remove_package == false
