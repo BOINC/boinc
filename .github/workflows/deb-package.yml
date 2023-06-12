@@ -113,7 +113,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux.yml
           run_id: ${{inputs.build_run_id}}
-          name: ${{ matrix.package-type }}_
+          name: ${{ matrix.package-type }}
           skip_unpack: true
           if_no_artifact_found: fail
 
