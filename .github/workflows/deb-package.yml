@@ -70,11 +70,11 @@ jobs:
           {
             echo "===== Step Preparation ====="
 
-            cat version.h | grep BOINC_VERSION_STRING
-
-            cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING|'
-
-            PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING|' | jq -r .)
+            PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+            if [[ "${PKG_VERSOPM}" -eq "" ]]; then
+              printf "Could not obtain release package version from version.h"
+              exit 1
+            fi
 
             # Setup Environment vars
             PKG_NAME=$(echo "${{ env.PKG_PREFIX }}-${{ matrix.package-type }}" | sed "s|_|-|")
