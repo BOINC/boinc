@@ -2020,7 +2020,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
 
     CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
     if (eventLog) {
-        wxGetApp().OnEventLogClose();   // 
+        wxGetApp().OnEventLogClose();
         delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
         wxGetApp().DisplayEventLog();
     }
