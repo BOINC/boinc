@@ -97,6 +97,7 @@ private:
 
     CBOINCBaseView*         m_pParentView;
     wxArrayInt              m_iRowsNeedingProgressBars;
+    bool                    m_isDarkMode;
 
 #if ! USE_LIST_CACHE_HINT
     void                    OnMouseDown(wxMouseEvent& event);

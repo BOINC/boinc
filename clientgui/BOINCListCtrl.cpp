@@ -20,6 +20,7 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "BOINCBaseView.h"
 #include "BOINCListCtrl.h"
 #include "Events.h"
@@ -81,6 +82,8 @@ CBOINCListCtrl::CBOINCListCtrl(
     pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags
 ) {
     m_pParentView = pView;
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    m_isDarkMode = appearance.IsDark();
 
     // Enable Zebra Striping
     EnableAlternateRowColours(true);
@@ -522,7 +525,7 @@ void CBOINCListCtrl::DrawProgressBars()
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
 
-    wxColour progressColor = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
+    wxColour progressColor = wxTheColourDatabase->Find(m_isDarkMode ? wxT("DARK GREEN") : wxT("LIGHT BLUE"));
     wxBrush progressBrush(progressColor);
 
     numItems = GetItemCount();
@@ -604,8 +607,8 @@ void CBOINCListCtrl::DrawProgressBars()
             dc.SetPen(bkgd);
             dc.SetBrush(bkgd);
 #else
-            dc.SetPen(*wxWHITE_PEN);
-            dc.SetBrush(*wxWHITE_BRUSH);
+            dc.SetPen(m_isDarkMode ? *wxBLACK_PEN : *wxWHITE_PEN);
+            dc.SetBrush(m_isDarkMode ? *wxBLACK_BRUSH : *wxWHITE_BRUSH);
 #endif
             dc.DrawRectangle( rr );
 

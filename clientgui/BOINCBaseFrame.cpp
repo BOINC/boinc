@@ -62,6 +62,7 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_CLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
     EVT_MENU(wxID_EXIT, CBOINCBaseFrame::OnExit)
+    EVT_SYS_COLOUR_CHANGED(CBOINCBaseFrame::OnDarkModeChanged)
 END_EVENT_TABLE ()
 
 
@@ -374,6 +375,9 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
+}
+
+void CBOINCBaseFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
 }
 
 

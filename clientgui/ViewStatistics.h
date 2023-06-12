@@ -183,6 +183,8 @@ public:
     wxColour                m_pen_GraphTotalHostColour;
     wxColour                m_pen_GraphRACHostColour;
 
+    bool                    m_isDarkMode;
+
 protected:
     void OnPaint(wxPaintEvent& event);
 	void OnEraseBackground(wxEraseEvent & /*event*/){};

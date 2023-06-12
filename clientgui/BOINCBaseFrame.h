@@ -64,6 +64,7 @@ public:
     virtual void        OnClose( wxCloseEvent& event );
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
+    virtual void        OnDarkModeChanged( wxSysColourChangedEvent& event );
 
     void                OnWizardAttachProject( wxCommandEvent& event );
     void                OnWizardUpdate( wxCommandEvent& event );
@@ -107,7 +108,7 @@ public:
     virtual bool        RestoreState();
     virtual bool        SaveState();
     virtual bool        CreateMenus(){return true;}
-    void ResetReminderTimers();
+    void                ResetReminderTimers();
 
 protected:
 

@@ -67,6 +67,7 @@ public:
     void OnNetworkSelection( wxCommandEvent& event );
 
     void OnSelectAll( wxCommandEvent& event );
+    void OnDarkModeChanged( wxSysColourChangedEvent& event );
 
     void OnMenuOpening( wxMenuEvent &event);
     void OnOptions( wxCommandEvent& event );

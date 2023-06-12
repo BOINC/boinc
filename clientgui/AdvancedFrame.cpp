@@ -1980,6 +1980,53 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+// On the Mac, we must destroy and recreate each wxListCtrl
+// to properly transition between dark mode and regular mode
+void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+    CBOINCBaseView* theView = NULL;;
+    CBOINCListCtrl* theListCtrl = NULL;
+    long bottomItem;
+    wxTimerEvent    timerEvent;
+    int currentPage = _GetCurrentViewPage();
+
+    StopTimers();
+    SaveState();
+    // Get the list copntrol's current scroll position
+    if ((currentPage > 0) && (currentPage <4)) {     // CViewProjects = 1, CViewWork = 2, CViewTransfers = 3
+        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(currentPage));
+        theListCtrl = theView->GetListCtrl();
+        bottomItem = theListCtrl->GetTopItem() + theListCtrl->GetCountPerPage() - 1;
+    }
+    RepopulateNotebook();
+    RestoreState();
+
+    // The last tab label ("Disk") is ellipsed here unless the window is resized
+    // TODO: figure out how to replace this hack with a proper fix
+    int x, y;
+    GetSize(&x, &y);
+    SetSize(x+1, y);
+    SetSize(x, y);
+
+    // Scroll the recreated list control to the same row as before
+    if ((currentPage > 0) && (currentPage <4)) {
+        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(currentPage));
+        theView->FireOnListRender(timerEvent);
+        theListCtrl = theView->GetListCtrl();
+        if (theListCtrl->GetCountPerPage() < theListCtrl->GetItemCount()) {
+            theListCtrl->EnsureVisible(bottomItem);
+        }
+    }
+    StartTimers();
+
+    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        wxGetApp().OnEventLogClose();   // 
+        delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
+        wxGetApp().DisplayEventLog();
+    }
+}
+
+
 void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
     wxMenuBar* pMenuBar = GetMenuBar();
     wxASSERT(pMenuBar);
