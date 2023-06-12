@@ -19,7 +19,7 @@ function exit_usage() {
 CWD=$(pwd)
 TYPE=stable
 DISTRO=jammy
-RELEASEKEY=boinc-202305.gpg
+RELEASEKEY=boinc.gpg
 
 # commandline params
 DEL_PACKAGE=$1
@@ -91,7 +91,7 @@ exit_on_fail "Mirror could not be created"
 aptly -config=$CONF_FILE -keyring=$KEYRING mirror update boinc-$TYPE-mirror
 exit_on_fail "Failed to update the local mirror"
 
-	# imports the downloaded packages to the local mirror
+# imports the downloaded packages to the local mirror
 aptly -config=$CONF_FILE repo import boinc-$TYPE-mirror boinc-$TYPE "Name"
 exit_on_fail "Failed to import the remote mirror into local"
 

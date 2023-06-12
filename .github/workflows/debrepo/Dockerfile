@@ -15,7 +15,7 @@ ARG REPOBASE=https://boinc.berkeley.edu/dl/linux
 ARG REPOTYPE=stable
 ARG PACKAGE=boinc-linux-client
 ARG VERSION=1.0.0-1
-ARG REPOKEY=boinc-202305.gpg
+ARG REPOKEY=boinc.gpg
 
 USER root
 

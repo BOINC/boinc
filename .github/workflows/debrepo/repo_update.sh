@@ -19,7 +19,7 @@ function exit_usage() {
 CWD=$(pwd)
 TYPE=stable
 DISTRO=jammy
-RELEASEKEY=boinc-202305.gpg
+RELEASEKEY=boinc.gpg
 
 # commandline params
 ALLOW_CREATE=$1
