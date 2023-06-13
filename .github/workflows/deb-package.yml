@@ -57,14 +57,8 @@ jobs:
       - name: Checkout files
         uses: Bhacaz/checkout-files@v2
         with:
-          files: .github
           branch: ${{ github.head_ref || github.ref_name }}
-
-      - name: Checkout files
-        uses: Bhacaz/checkout-files@v2
-        with:
-          files: version.h
-          branch: ${{ github.head_ref || github.ref_name }}
+          files: .github version.h
 
       - name: Preparation
         id: prep
