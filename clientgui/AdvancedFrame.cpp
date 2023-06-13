@@ -1992,8 +1992,8 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     StopTimers();
     SaveState();
     // Get the list copntrol's current scroll position
-    if ((currentPage > 0) && (currentPage <4)) {     // CViewProjects = 1, CViewWork = 2, CViewTransfers = 3
-        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(currentPage));
+    if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
+        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(m_pNotebook->GetSelection()));
         theListCtrl = theView->GetListCtrl();
         bottomItem = theListCtrl->GetTopItem() + theListCtrl->GetCountPerPage() - 1;
     }
@@ -2008,14 +2008,16 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     SetSize(x, y);
 
     // Scroll the recreated list control to the same row as before
-    if ((currentPage > 0) && (currentPage <4)) {
-        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(currentPage));
+    if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
+        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(m_pNotebook->GetSelection()));
         theView->FireOnListRender(timerEvent);
         theListCtrl = theView->GetListCtrl();
         if (theListCtrl->GetCountPerPage() < theListCtrl->GetItemCount()) {
             theListCtrl->EnsureVisible(bottomItem);
         }
     }
+    // TODO: figure out how to preserve notices tab (currentPage == VW_NOTIF) scrolled position
+
     StartTimers();
 
     CDlgEventLog*   eventLog = wxGetApp().GetEventLog();

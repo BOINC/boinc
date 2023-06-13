@@ -525,7 +525,7 @@ void CBOINCListCtrl::DrawProgressBars()
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
 
-    wxColour progressColor = wxTheColourDatabase->Find(m_isDarkMode ? wxT("DARK GREEN") : wxT("LIGHT BLUE"));
+    wxColour progressColor = m_isDarkMode ? wxColour(0, 64, 128) : wxColour(192, 217, 217);
     wxBrush progressBrush(progressColor);
 
     numItems = GetItemCount();

@@ -93,6 +93,9 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
 #endif
 ////@end CNoticeListCtrl creation
 
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    m_isDarkMode = appearance.IsDark();
+
     wxBoxSizer *topsizer;
     topsizer = new wxBoxSizer(wxVERTICAL);
 
@@ -101,7 +104,18 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    m_noticesBody = wxT("<html><head></head><body></body></html>");
+    if (m_isDarkMode){
+        m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
+    } else {
+        m_noticesBody = wxT("<html><head></head><body></body></html>");
+    }
+
+    // In Dark Mode, paint the windoe black immediately
+#if wxUSE_WEBVIEW
+    m_browser->SetPage(m_noticesBody, wxEmptyString);
+#else
+    m_browser->SetPage(m_noticesBody);
+#endif
 
     // Display the fetching notices message until we have notices
     // to display or have determined that there are no notices.
@@ -139,7 +153,13 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
+
+
+    if (m_isDarkMode){
+            m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
+    } else {
+            m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
+    }
 
     for (i=0; i<newCount; ++i) {
         if (pDoc->IsConnected()) {
