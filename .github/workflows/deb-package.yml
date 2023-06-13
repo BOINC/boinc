@@ -11,9 +11,9 @@ env:
   PUBKEY: boinc.gpg # keep extension
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  group: deb-package
   cancel-in-progress: true
-  
+
 on:
   workflow_dispatch:
     inputs:
