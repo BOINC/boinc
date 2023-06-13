@@ -47,6 +47,7 @@ jobs:
     name: generate-deb
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         os: [jammy, focal, bullseye, buster]
         package-type: [linux_client-vcpkg, linux_manager-without-webview]
