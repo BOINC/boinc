@@ -123,10 +123,15 @@ jobs:
 
             # Downloads artifacts of the latest run
             ID="${{ inputs.build_run_id }}"
+            TYPE="${{ matrix.package-type }}"
             if [[ "$ID" -eq "0" ]]; then
               ID=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/workflows/linux.yml/runs" | jq .workflow_runs[0].id)
             fi
-            URL=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/runs/$ID/artifacts" | jq -r ".artifacts[] | select(.name==\"${{ matrix.package-type }}_\") | .archive_download_url")
+            URL=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/runs/$ID/artifacts" | jq -r ".artifacts[] | select(.name==\"${TYPE}_\") | .archive_download_url")
+            if [[ "$URL" -eq "0" ]]; then
+              printf "Could not find artifact for ${TYPE} in run ${ID}"
+              exit 1
+            fi
             wget -O pkgs/${PKG_NAME}.zip -d --header='Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' $URL
 
           } &>> "${{ github.workspace }}/steps.log"
