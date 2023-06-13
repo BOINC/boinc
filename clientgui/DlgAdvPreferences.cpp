@@ -570,7 +570,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         prefs.max_bytes_sec_down = 0.0;
     }
     mask.max_bytes_sec_down=true;
- 
+
     if (m_chkNetUploadRate->IsChecked()) {
         td = 0;
         m_txtNetUploadRate->GetValue().ToDouble(&td);
@@ -642,7 +642,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     td = td / 100.0;
     prefs.ram_max_used_busy_frac=td;
     mask.ram_max_used_busy_frac=true;
- 
+
     td = 0;
     m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
