@@ -72,7 +72,7 @@ jobs:
             echo "===== Step Preparation ====="
 
             PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
-            if [[ "${PKG_VERSOPM}" -eq "" ]]; then
+            if [[ "${PKG_VERSION}" -eq "" ]]; then
               printf "Could not obtain release package version from version.h"
               exit 1
             fi
@@ -121,7 +121,10 @@ jobs:
             echo "===== Step DownloadArtifacts ====="
 
             # Downloads artifacts of the latest run
-            ID=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/workflows/linux.yml/runs" | jq .workflow_runs[0].id)
+            ID="${{ inputs.build_run_id }}"
+            if [[ "$ID" -eq "0" ]]; then
+              ID=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/workflows/linux.yml/runs" | jq .workflow_runs[0].id)
+            fi
             URL=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/runs/$ID/artifacts" | jq -r ".artifacts[] | select(.name==\"${{ matrix.package-type }}_\") | .archive_download_url")
             wget -O pkgs/${PKG_NAME}.zip -d --header='Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' $URL
 
