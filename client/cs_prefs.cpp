@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -739,6 +739,13 @@ void CLIENT_STATE::print_global_prefs() {
             "-     Suspend if no input in last %f minutes",
             global_prefs.suspend_if_no_recent_input
         );
+    }
+    // It is possible that computing (CPU or GPU) could be suspended indefinitely if the idle time required before continuing computing
+    // is longer than the time required to suspend computing when the computer is idle.  In this case an alert message will be sent.
+    //
+    if ((!global_prefs.run_if_user_active || !global_prefs.run_gpu_if_user_active) &&
+        ((global_prefs.idle_time_to_run - global_prefs.suspend_if_no_recent_input) >= 0)) {
+        msg_printf(0, MSG_USER_ALERT, "Idle time required to resume computing is greater than idle time required to suspend computing and will suspend CPU and/or GPU computing indefinitely.  Please edit time settings under Computing Preferences.");
     }
 
     // general
