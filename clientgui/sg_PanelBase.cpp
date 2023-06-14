@@ -76,6 +76,10 @@ void CSimplePanelBase::MakeBGBitMap() {
 
     int white_weight = pSkinSimple->GetPanelOpacity();
     int image_weight = MAX_OPACITY - white_weight;
+    if (wxGetApp().GetIsDarkMode()) { // Darken the panel
+        white_weight /= 4;
+        white_weight /=4;
+    }
 
 // Workaround for CSimpleGUIPanel not reliably getting
 // Paint or EraseBackground events under Linux

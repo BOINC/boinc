@@ -923,6 +923,12 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    wxGetApp().SetIsDarkMode(appearance.IsDark());
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)

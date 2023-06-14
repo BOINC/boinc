@@ -93,9 +93,6 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
 #endif
 ////@end CNoticeListCtrl creation
 
-    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    m_isDarkMode = appearance.IsDark();
-
     wxBoxSizer *topsizer;
     topsizer = new wxBoxSizer(wxVERTICAL);
 
@@ -104,13 +101,13 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    if (m_isDarkMode){
+    if (wxGetApp().GetIsDarkMode()){
         m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
     } else {
         m_noticesBody = wxT("<html><head></head><body></body></html>");
     }
 
-    // In Dark Mode, paint the windoe black immediately
+    // In Dark Mode, paint the window black immediately
 #if wxUSE_WEBVIEW
     m_browser->SetPage(m_noticesBody, wxEmptyString);
 #else
@@ -155,7 +152,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     m_itemCount = newCount;
 
 
-    if (m_isDarkMode){
+    if (wxGetApp().GetIsDarkMode()){
             m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
     } else {
             m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");

@@ -74,6 +74,7 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 {	m_font_standart = *wxSWISS_FONT;
 	m_font_bold = *wxSWISS_FONT;
 	m_font_standart_italic = *wxSWISS_FONT;
+    bool isDarkMode = wxGetApp().GetIsDarkMode();
 
 	m_SelectedStatistic = show_user_total;
 	heading = wxT("");
@@ -155,9 +156,6 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_Legend_dY = 0;
 	m_LegendDraw = true;
 
-    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    m_isDarkMode = appearance.IsDark();
-
 // Default colours
 	m_pen_MarkerLineColour = wxColour(0, 0, 0);
 	m_pen_ZoomRectColour = wxColour (128, 64, 95);
@@ -168,20 +166,20 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_pen_AxisColourAutoZoom = wxColour(64, 128, 192);
 	m_pen_AxisXColour = wxColour(64, 128, 192);
 	m_pen_AxisYColour = wxColour(64, 128, 192);
-	m_pen_AxisXTextColour = m_isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-	m_pen_AxisYTextColour = m_isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+	m_pen_AxisXTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+	m_pen_AxisYTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
 
-	m_brush_LegendColour = m_isDarkMode ? wxColour(0, 64, 128) : wxColour(235, 255, 255);
+	m_brush_LegendColour = isDarkMode ? wxColour(0, 64, 128) : wxColour(235, 255, 255);
 	m_brush_LegendSelectColour = wxColour(192, 224, 255);
 	m_pen_LegendSelectColour = wxColour(64, 128, 192);
-	m_pen_LegendSelectTextColour = m_isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+	m_pen_LegendSelectTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
 	m_pen_LegendColour = wxColour(64, 128, 192);
-	m_pen_LegendTextColour = m_isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-	m_brush_MainColour = m_isDarkMode ? wxColour(0,0,0) : wxColour(255, 255, 255);
+	m_pen_LegendTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+	m_brush_MainColour = isDarkMode ? wxColour(0,0,0) : wxColour(255, 255, 255);
 	m_pen_MainColour = wxColour(64, 128, 192);
 
-	m_pen_HeadTextColour = m_isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-	m_pen_ProjectHeadTextColour = m_isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+	m_pen_HeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+	m_pen_ProjectHeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
 
 	m_pen_GraphTotalColour = wxColour(255, 0, 0);
 	m_pen_GraphRACColour = wxColour(0, 160, 0);
@@ -627,7 +625,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 			dc.SetFont(m_font_bold);
 		}else {
 			dc.SetFont(m_font_standart_italic);
-            graphColour = m_isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+            graphColour = wxGetApp().GetIsDarkMode() ? wxColour(255, 255, 255) : wxColour(0,0,0);
 
 		}
 

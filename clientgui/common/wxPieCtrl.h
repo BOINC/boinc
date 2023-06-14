@@ -87,7 +87,6 @@ protected:
     wxScrollBar* m_scrollBar;
     int m_Scrollbar_width;
     int m_firstlabelToDraw;
-    bool m_isDarkMode;
 
 	//internal methods
 	void GetPartAngles(wxArrayDouble & angles);

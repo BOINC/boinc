@@ -128,6 +128,8 @@ protected:
 
     int                 m_bSafeMessageBoxDisplayed;
 
+    bool                m_isDarkMode;
+
 public:
 
     bool                OnInit();
@@ -242,6 +244,8 @@ public:
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
+    void                SetIsDarkMode (bool isDarkMode) { m_isDarkMode = isDarkMode; }
+    bool                GetIsDarkMode() { return m_isDarkMode; }
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //

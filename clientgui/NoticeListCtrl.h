@@ -67,7 +67,6 @@ private:
     bool        m_bNeedsReloading;
     int         m_itemCount;
     wxString    m_noticesBody;
-    bool        m_isDarkMode;
 };
 
 #endif

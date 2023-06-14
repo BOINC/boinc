@@ -380,7 +380,6 @@ void CSkinSimple::Clear() {
     m_iPanelOpacity = DEFAULT_OPACITY;
 }
 
-
 int CSkinSimple::Parse(MIOFILE& in) {
     char buf[256];
     std::string strBuffer;
@@ -432,7 +431,7 @@ bool CSkinSimple::InitializeDelayedValidation() {
     );
     m_DialogBackgroundImage.SetDefaults(
         wxT("dialog background"), (const char**)dialog_background_image_xpm,
-        wxT("255:255:255"), BKGD_ANCHOR_HORIZ_CENTER, BKGD_ANCHOR_VERT_CENTER
+        wxGetApp().GetIsDarkMode() ? wxT("0:0:0") : wxT("255:255:255"), BKGD_ANCHOR_HORIZ_CENTER, BKGD_ANCHOR_VERT_CENTER
     );
     m_ProjectImage.SetDefaults(
         wxT("project"), (const char**)project_image_xpm

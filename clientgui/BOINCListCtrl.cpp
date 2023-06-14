@@ -82,8 +82,6 @@ CBOINCListCtrl::CBOINCListCtrl(
     pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags
 ) {
     m_pParentView = pView;
-    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    m_isDarkMode = appearance.IsDark();
 
     // Enable Zebra Striping
     EnableAlternateRowColours(true);
@@ -505,6 +503,7 @@ void CBOINCListCtrl::DrawProgressBars()
     wxRect r, rr;
     int w = 0, x = 0, xx, yy, ww;
     int progressColumn = -1;
+    bool isDarkMode = wxGetApp().GetIsDarkMode();
 
     if (m_pParentView->GetProgressColumn() >= 0) {
         progressColumn = m_pParentView->m_iColumnIDToColumnIndex[m_pParentView->GetProgressColumn()];
@@ -525,7 +524,7 @@ void CBOINCListCtrl::DrawProgressBars()
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
 
-    wxColour progressColor = m_isDarkMode ? wxColour(0, 64, 128) : wxColour(192, 217, 217);
+    wxColour progressColor = isDarkMode ? wxColour(0, 64, 128) : wxColour(192, 217, 217);
     wxBrush progressBrush(progressColor);
 
     numItems = GetItemCount();
@@ -607,8 +606,8 @@ void CBOINCListCtrl::DrawProgressBars()
             dc.SetPen(bkgd);
             dc.SetBrush(bkgd);
 #else
-            dc.SetPen(m_isDarkMode ? *wxBLACK_PEN : *wxWHITE_PEN);
-            dc.SetBrush(m_isDarkMode ? *wxBLACK_BRUSH : *wxWHITE_BRUSH);
+            dc.SetPen(isDarkMode ? *wxBLACK_PEN : *wxWHITE_PEN);
+            dc.SetBrush(isDarkMode ? *wxBLACK_BRUSH : *wxWHITE_BRUSH);
 #endif
             dc.DrawRectangle( rr );
 

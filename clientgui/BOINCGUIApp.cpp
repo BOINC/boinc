@@ -75,6 +75,9 @@ bool CBOINCGUIApp::OnInit() {
     g_use_sandbox = false;
 #endif
 
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    m_isDarkMode = appearance.IsDark();
+
     s_bSkipExitConfirmation = false;
     m_bFilterEvents = false;
     m_bAboutDialogIsOpen = false;

@@ -1982,6 +1982,7 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
 
 // On the Mac, we must destroy and recreate each wxListCtrl
 // to properly transition between dark mode and regular mode
+//
 void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
@@ -1991,7 +1992,11 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
 
     StopTimers();
     SaveState();
-    // Get the list copntrol's current scroll position
+
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    wxGetApp().SetIsDarkMode(appearance.IsDark());
+
+    // Get the list control's current scroll position
     if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
         theView = (CBOINCBaseView*)(m_pNotebook->GetPage(m_pNotebook->GetSelection()));
         theListCtrl = theView->GetListCtrl();
@@ -2002,6 +2007,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
 
     // The last tab label ("Disk") is ellipsed here unless the window is resized
     // TODO: figure out how to replace this hack with a proper fix
+
     int x, y;
     GetSize(&x, &y);
     SetSize(x+1, y);
