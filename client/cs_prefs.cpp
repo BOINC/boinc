@@ -743,9 +743,12 @@ void CLIENT_STATE::print_global_prefs() {
     // It is possible that computing (CPU or GPU) could be suspended indefinitely if the idle time required before continuing computing
     // is longer than the time required to suspend computing when the computer is idle.  In this case an alert message will be sent.
     //
-    if ((!global_prefs.run_if_user_active || !global_prefs.run_gpu_if_user_active) &&
+    if ((!global_prefs.run_if_user_active || !global_prefs.run_gpu_if_user_active) && (global_prefs.suspend_if_no_recent_input > 0) &&
         ((global_prefs.idle_time_to_run - global_prefs.suspend_if_no_recent_input) >= 0)) {
-        msg_printf(0, MSG_USER_ALERT, "Idle time required to resume computing is greater than idle time required to suspend computing and will suspend CPU and/or GPU computing indefinitely.  Please edit time settings under Computing Preferences.");
+        msg_printf(0, MSG_USER_ALERT,
+            "Preference settings don't allow computing (%.2f > %.2f). Please review.",
+            global_prefs.idle_time_to_run, global_prefs.suspend_if_no_recent_input
+        );
     }
 
     // general
