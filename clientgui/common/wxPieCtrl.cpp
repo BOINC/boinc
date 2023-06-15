@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <vector>
 #include <algorithm>
+#include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "wxPieCtrl.h"
 #include <wx/arrimpl.cpp>

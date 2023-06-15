@@ -97,7 +97,7 @@ bool CPanelPreferences::Create()
 {
     m_backgroundBitmap = NULL;
     lastErrorCtrl = NULL;
-    
+
     stdTextBkgdColor = wxGetApp().GetIsDarkMode() ? *wxBLACK : *wxWHITE;
 
     CreateControls();
