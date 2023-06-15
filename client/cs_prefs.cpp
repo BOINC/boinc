@@ -675,7 +675,7 @@ void CLIENT_STATE::print_global_prefs() {
     //
     msg_printf(NULL, MSG_INFO, "-  When computer is in use");
     msg_printf(NULL, MSG_INFO,
-        "-     'In use' means mouse/keyboard input in last %.1f minutes",
+        "-     'In use' means mouse/keyboard input in last %.2f minutes",
         global_prefs.idle_time_to_run
     );
     if (!global_prefs.run_if_user_active) {
@@ -736,7 +736,7 @@ void CLIENT_STATE::print_global_prefs() {
     );
     if (global_prefs.suspend_if_no_recent_input > 0) {
         msg_printf(NULL, MSG_INFO,
-            "-     Suspend if no input in last %f minutes",
+            "-     Suspend if no input in last %2f minutes",
             global_prefs.suspend_if_no_recent_input
         );
     }
