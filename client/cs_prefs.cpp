@@ -736,7 +736,7 @@ void CLIENT_STATE::print_global_prefs() {
     );
     if (global_prefs.suspend_if_no_recent_input > 0) {
         msg_printf(NULL, MSG_INFO,
-            "-     Suspend if no input in last %2f minutes",
+            "-     Suspend if no input in last %.2f minutes",
             global_prefs.suspend_if_no_recent_input
         );
     }
