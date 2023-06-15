@@ -491,8 +491,8 @@ void CPanelPreferences::MakeBackgroundBitmap() {
             break;
         }
 
-        // Select the desired bitmap (or its negative) into the
-        //   memory DC so we can take the desired chunk of it.
+        // Select the desired bitmap (or its darkened version) into
+        //   the memory DC so we can take the desired chunk of it.
         if (wxGetApp().GetIsDarkMode()) {
             // Darken the bitmap
             wxImage bgImage = bmp.ConvertToImage();
@@ -506,8 +506,8 @@ void CPanelPreferences::MakeBackgroundBitmap() {
                     }
                 }
             }
-            wxBitmap negative(bgImage);
-            memDC.SelectObject(negative);
+            wxBitmap darkened(bgImage);
+            memDC.SelectObject(darkened);
         } else {
             memDC.SelectObject(bmp);
         }

@@ -48,6 +48,7 @@
 #include "DlgOptions.h"
 #include "DlgDiagnosticLogFlags.h"
 #include "AdvancedFrame.h"
+#include "NoticeListCtrl.h"
 
 
 #ifdef __WXMAC__
@@ -924,8 +925,17 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+#if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());
+
+    CSkinManager* theSkinManagr = wxGetApp().GetSkinManager();
+    theSkinManagr->ReloadSkin(theSkinManagr->GetSelectedSkin());
+
+    if (dlgMsgsPtr) {
+        dlgMsgsPtr->GetMsgsPanel()->RedrawNoticesListCtrl();
+    }
+#endif
 }
 
 

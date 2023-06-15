@@ -1984,6 +1984,7 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
 // to properly transition between dark mode and regular mode
 //
 void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+#if SUPPORTDARKMODE
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
     long bottomItem;
@@ -2032,6 +2033,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
         delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
         wxGetApp().DisplayEventLog();
     }
+#endif  // #if SUPPORTDARKMODE
 }
 
 

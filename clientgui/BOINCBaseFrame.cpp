@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -62,7 +62,9 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_CLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
     EVT_MENU(wxID_EXIT, CBOINCBaseFrame::OnExit)
+#if SUPPORTDARKMODE
     EVT_SYS_COLOUR_CHANGED(CBOINCBaseFrame::OnDarkModeChanged)
+#endif
 END_EVENT_TABLE ()
 
 
