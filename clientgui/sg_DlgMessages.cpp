@@ -125,7 +125,7 @@ void CPanelMessages::CreateControls()
                                     _("Fetching notices; please wait..."),
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
-    m_FetchingNoticesText->SetBackgroundColour(*wxWHITE);
+    m_FetchingNoticesText->SetBackgroundColour(wxGetApp().GetIsDarkMode() ? *wxBLACK :  *wxWHITE);
     itemFlexGridSizer2->Add(m_FetchingNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
 
     m_NoNoticesText = new wxStaticText(
@@ -133,7 +133,7 @@ void CPanelMessages::CreateControls()
                                     _("There are no notices at this time."),
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
-    m_NoNoticesText->SetBackgroundColour(*wxWHITE);
+    m_NoNoticesText->SetBackgroundColour(wxGetApp().GetIsDarkMode() ? *wxBLACK :  *wxWHITE);
     itemFlexGridSizer2->Add(m_NoNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
 
 
@@ -366,7 +366,27 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* /* pConfig */) {
 void CPanelMessages::RedrawNoticesListCtrl() {
     SetSizer(NULL);
     m_pHtmlListPane->Destroy();
+    m_FetchingNoticesText->Destroy();
+    m_NoNoticesText->Destroy();
+    bool fetchingNoticesTextWasDisplayed = m_bFetchingNoticesTextWasDisplayed;
+    bool noNoticesTextWasDisplayed = m_bNoNoticesTextWasDisplayed;
+
     CreateControls();
+
+    m_bFetchingNoticesTextWasDisplayed = fetchingNoticesTextWasDisplayed;
+    if (fetchingNoticesTextWasDisplayed) {
+        m_bFetchingNoticesTextWasDisplayed = true;
+        m_FetchingNoticesText->Show();
+    }
+    if (noNoticesTextWasDisplayed) {
+        m_bNoNoticesTextWasDisplayed = true;
+        m_NoNoticesText->Show();
+    }
+
+    if (m_bFetchingNoticesTextWasDisplayed || m_bNoNoticesTextWasDisplayed) {
+        Layout();
+    }
+
     m_pHtmlListPane->UpdateUI();
 }
 
