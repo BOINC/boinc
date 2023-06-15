@@ -365,6 +365,7 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* /* pConfig */) {
 
 void CPanelMessages::RedrawNoticesListCtrl() {
     SetSizer(NULL);
+    m_pHtmlListPane->Destroy();
     CreateControls();
     m_pHtmlListPane->UpdateUI();
 }
