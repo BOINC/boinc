@@ -29,6 +29,7 @@ class CSimpleTaskPanel;
 class CSimpleProjectPanel;
 class CSimpleTaskPanel;
 class CDlgMessages;
+class CDlgPreferences;
 
 class CSimpleGUIPanel : public wxPanel
 {
@@ -154,6 +155,8 @@ protected:
 
 private:
     CDlgMessages* dlgMsgsPtr;
+    CDlgPreferences* dlgPrefsPtr;
+
     wxBoxSizer* mainSizer;
 
     DECLARE_EVENT_TABLE()

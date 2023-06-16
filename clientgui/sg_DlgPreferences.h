@@ -219,6 +219,8 @@ public:
 
     bool OKToShow() { return m_pBackgroundPanel->OKToShow(); }
 
+    CPanelPreferences* GetPrefsPanel() { return m_pBackgroundPanel; }
+
 private:
 ////@begin CDlgPreferences member variables
 

@@ -118,6 +118,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     SetIcons(*icons);
     CreateMenus();
     dlgMsgsPtr = NULL;
+    dlgPrefsPtr = NULL;
     m_pBackgroundPanel = new CSimpleGUIPanel(this);
     mainSizer = new wxBoxSizer(wxVERTICAL);
     mainSizer->Add(m_pBackgroundPanel, 1, wxLEFT | wxRIGHT | wxEXPAND, 0);
@@ -631,7 +632,9 @@ void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 
 	CDlgPreferences dlg(GetParent());
     if (dlg.OKToShow()) {
+        dlgPrefsPtr = &dlg;
         dlg.ShowModal();
+        dlgPrefsPtr = NULL;
     }
 
     m_pBackgroundPanel->SetDlgOpen(false);
@@ -929,11 +932,43 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());
 
-    CSkinManager* theSkinManagr = wxGetApp().GetSkinManager();
-    theSkinManagr->ReloadSkin(theSkinManagr->GetSelectedSkin());
+    // Remember our task and project settings
+    wxString taskStr = m_pBackgroundPanel->m_taskPanel->GetSelectedTaskString();
+    wxString projStr = m_pBackgroundPanel->m_projPanel->GetSelectedProjectString();
+
+    wxSizer* panelSizer = m_pBackgroundPanel->GetSizer();
+    CSimpleTaskPanel* newTaskPanel = new CSimpleTaskPanel(m_pBackgroundPanel);
+    panelSizer->Replace(m_pBackgroundPanel->m_taskPanel, newTaskPanel);
+    m_pBackgroundPanel->m_taskPanel->Destroy();
+    m_pBackgroundPanel->m_taskPanel = newTaskPanel;
+    m_pBackgroundPanel->m_taskPanel->ReskinInterface();
+
+    CSimpleProjectPanel* newProjectpanel = new CSimpleProjectPanel(m_pBackgroundPanel);
+    panelSizer->Replace(m_pBackgroundPanel->m_projPanel, newProjectpanel);
+    m_pBackgroundPanel->m_projPanel->Destroy();
+    m_pBackgroundPanel->m_projPanel = newProjectpanel;
+
+    m_pBackgroundPanel->Layout();
+
+    // Force a redraw in case a modal dialog is also open
+    m_pBackgroundPanel->m_taskPanel->UpdatePanel(false);
+    m_pBackgroundPanel->m_projPanel->UpdateInterface();
+
+    // Restore our task and project settings
+    int iTask = m_pBackgroundPanel->m_taskPanel->GetTaskSelectionCtrl()->FindString(taskStr);
+    m_pBackgroundPanel->m_taskPanel->GetTaskSelectionCtrl()->SetSelection(iTask);
+    int iProj = m_pBackgroundPanel->m_projPanel->GetProjectSelectionCtrl()->FindString(projStr);
+    m_pBackgroundPanel->m_projPanel->GetProjectSelectionCtrl()->SetSelection(iProj);
+    wxCommandEvent event;
+    m_pBackgroundPanel->m_taskPanel->OnTaskSelection(event);
 
     if (dlgMsgsPtr) {
         dlgMsgsPtr->GetMsgsPanel()->RedrawNoticesListCtrl();
+    }
+
+    if (dlgPrefsPtr) {
+        dlgPrefsPtr->GetPrefsPanel()->MakeBackgroundBitmap();
+        dlgPrefsPtr->Refresh();
     }
 #endif
 }

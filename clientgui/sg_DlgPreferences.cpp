@@ -427,6 +427,11 @@ void CPanelPreferences::MakeBackgroundBitmap() {
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
+    if (m_backgroundBitmap) {
+        delete m_backgroundBitmap;
+        m_backgroundBitmap = NULL;
+    }
+
     wxMemoryDC memDC;
     wxCoord w, h, x, y;
 

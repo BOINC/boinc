@@ -371,6 +371,9 @@ void CPanelMessages::RedrawNoticesListCtrl() {
     bool fetchingNoticesTextWasDisplayed = m_bFetchingNoticesTextWasDisplayed;
     bool noNoticesTextWasDisplayed = m_bNoNoticesTextWasDisplayed;
 
+    m_closeButton->Destroy();
+    m_closeButton = NULL;
+
     CreateControls();
 
     m_bFetchingNoticesTextWasDisplayed = fetchingNoticesTextWasDisplayed;
