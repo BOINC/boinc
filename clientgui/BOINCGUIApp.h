@@ -41,7 +41,7 @@
 // BOINC to adjust standard UI items for Dark Mode, be sure to guard
 // those changes so they do not affect the Mac implementation.
 //
-#if defined(__WXMAC__)
+#if (defined(__WXMAC__) || defined(__WXGTK__))
 #define SUPPORTDARKMODE true
 #else
 #define SUPPORTDARKMODE false
