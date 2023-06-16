@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -471,18 +471,23 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 
     mask.clear();
 
-    // ######### proc usage page
+    // proc usage page
+    td = 0;
     m_txtProcUseProcessors->GetValue().ToDouble(&td);
     prefs.max_ncpus_pct = RoundToHundredths(td);
     mask.max_ncpus_pct=true;
+
+    td = 0;
     m_txtProcUseProcessorsNotInUse->GetValue().ToDouble(&td);
     prefs.niu_max_ncpus_pct = RoundToHundredths(td);
     mask.niu_max_ncpus_pct=true;
 
+    td = 0;
     m_txtProcUseCPUTime->GetValue().ToDouble(&td);
     prefs.cpu_usage_limit=RoundToHundredths(td);
     mask.cpu_usage_limit=true;
 
+    td = 0;
     m_txtProcUseCPUTimeNotInUse->GetValue().ToDouble(&td);
     prefs.niu_cpu_usage_limit = RoundToHundredths(td);
     mask.niu_cpu_usage_limit = true;
@@ -497,12 +502,17 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     mask.run_gpu_if_user_active=true;
 
     if(m_txtProcIdleFor->IsEnabled()) {
+        // ToDouble() returns an error (and doesn't change its arg)
+        // if the string is empty.
+        // So set td to zero first (here and below).
+        td = 0;
         m_txtProcIdleFor->GetValue().ToDouble(&td);
         prefs.idle_time_to_run=RoundToHundredths(td);
         mask.idle_time_to_run=true;
     }
 
     if (m_chkNoRecentInput->IsChecked()) {
+        td = 0;
         m_txtNoRecentInput->GetValue().ToDouble(&td);
         prefs.suspend_if_no_recent_input = RoundToHundredths(td);
     } else {
@@ -511,6 +521,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     mask.suspend_if_no_recent_input = true;
 
     if (m_txtMaxLoad->IsEnabled() || !prefs.run_if_user_active) {
+        td = 0;
         m_txtMaxLoad->GetValue().ToDouble(&td);
         prefs.suspend_cpu_usage=RoundToHundredths(td);
     } else {
@@ -519,6 +530,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     mask.suspend_cpu_usage=true;
 
     if (m_chkMaxLoadNotInUse->IsChecked()) {
+        td = 0;
         m_txtMaxLoadNotInUse->GetValue().ToDouble(&td);
         prefs.niu_suspend_cpu_usage=RoundToHundredths(td);
     } else {
@@ -526,21 +538,22 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.niu_suspend_cpu_usage=true;
 
+    td = 0;
     m_txtNetConnectInterval->GetValue().ToDouble(&td);
     prefs.work_buf_min_days=RoundToHundredths(td);
     mask.work_buf_min_days=true;
 
-    //
+    td = 0;
     m_txtNetAdditionalDays->GetValue().ToDouble(&td);
     prefs.work_buf_additional_days = RoundToHundredths(td);
     mask.work_buf_additional_days = true;
 
-    //
+    td = 00;
     m_txtProcSwitchEvery->GetValue().ToDouble(&td);
     prefs.cpu_scheduling_period_minutes=RoundToHundredths(td);
     mask.cpu_scheduling_period_minutes=true;
 
-     //
+    td = 0;
     m_txtDiskWriteToDisk->GetValue().ToDouble(&td);
     prefs.disk_interval=RoundToHundredths(td);
     mask.disk_interval=true;
@@ -548,6 +561,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
    // ######### net usage page
     //
     if (m_chkNetDownloadRate->IsChecked()) {
+        td = 0;
         m_txtNetDownloadRate->GetValue().ToDouble(&td);
         td = RoundToHundredths(td);
         td = td * 1024;
@@ -556,8 +570,9 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         prefs.max_bytes_sec_down = 0.0;
     }
     mask.max_bytes_sec_down=true;
-    //
+
     if (m_chkNetUploadRate->IsChecked()) {
+        td = 0;
         m_txtNetUploadRate->GetValue().ToDouble(&td);
         td = RoundToHundredths(td);
         td = td * 1024;
@@ -568,8 +583,10 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     mask.max_bytes_sec_up=true;
 
     if (m_chk_daily_xfer_limit->IsChecked()) {
+        td = 0;
         m_txt_daily_xfer_limit_mb->GetValue().ToDouble(&td);
         prefs.daily_xfer_limit_mb=RoundToHundredths(td);
+        td = 0;
         m_txt_daily_xfer_period_days->GetValue().ToDouble(&td);
         prefs.daily_xfer_period_days=(int)td;
     } else {
@@ -578,57 +595,65 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.daily_xfer_limit_mb=true;
     mask.daily_xfer_period_days=true;
-    //
+
     prefs.dont_verify_images=m_chkNetSkipImageVerification->GetValue();
     mask.dont_verify_images=true;
-    //
+
     prefs.confirm_before_connecting= m_chkNetConfirmBeforeConnect->GetValue();
     mask.confirm_before_connecting=true;
-    //
+
     prefs.hangup_if_dialed= m_chkNetDisconnectWhenDone->GetValue();
     mask.hangup_if_dialed=true;
 
     // ######### disk and memory page
 
     if (m_chkDiskMaxSpace->IsChecked()) {
+        td = 0;
         m_txtDiskMaxSpace->GetValue().ToDouble(&td);
         prefs.disk_max_used_gb=RoundToHundredths(td);
     } else {
         prefs.disk_max_used_gb = 0.0;
     }
     mask.disk_max_used_gb=true;
-    //
+
     if (m_chkDiskLeastFree->IsChecked()) {
+        td = 0;
         m_txtDiskLeastFree->GetValue().ToDouble(&td);
         prefs.disk_min_free_gb=RoundToHundredths(td);
     } else {
         prefs.disk_min_free_gb = 0.0;
     }
     mask.disk_min_free_gb=true;
-    //
+
     if (m_chkDiskMaxOfTotal->IsChecked()) {
+        td = 0;
         m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
         prefs.disk_max_used_pct = RoundToHundredths(td);
     } else {
         prefs.disk_max_used_pct = 100.0;
     }
     mask.disk_max_used_pct=true;
-    //Memory
+
+    // Memory
+
+    td = 0;
     m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
     td = td / 100.0;
     prefs.ram_max_used_busy_frac=td;
     mask.ram_max_used_busy_frac=true;
-    //
+
+    td = 0;
     m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
     td = td / 100.0;
     prefs.ram_max_used_idle_frac=td;
     mask.ram_max_used_idle_frac=true;
-    //
+
     prefs.leave_apps_in_memory = m_chkMemoryWhileSuspended->GetValue();
     mask.leave_apps_in_memory=true;
-    //
+
+    td = 0;
     m_txtDiskMaxSwap->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
     td = td / 100.0 ;
@@ -645,7 +670,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.start_hour = mask.end_hour = true;
 
-    //clear special day times settings
+    // clear special day times settings
+    //
     prefs.cpu_times.week.clear();
     for(int i=0; i< 7;i++) {
         if(procDayChks[i]->GetValue()) {
@@ -666,7 +692,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     mask.net_start_hour = mask.net_end_hour = true;
 
-    //clear special net times settings
+    // clear special net times settings
+    //
     prefs.net_times.week.clear();
     for(int i=0; i< 7;i++) {
         if(netDayChks[i]->GetValue()) {
@@ -682,7 +709,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     return true;
 }
 
-/* set state of control depending on other control's state */
+// set state of control depending on other control's state
+//
 void CDlgAdvPreferences::UpdateControlStates() {
     // ######### proc usage page
     // Disable idle timeout edit text item if we allow both CPU and GPU when idle.
