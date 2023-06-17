@@ -14,54 +14,49 @@ function exit_usage() {
 	exit 1
 }
 
-function prepare_builddir() {
-    mkdir -p rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
-    exit_on_fail
-}
-
 function prepare_client() {
     # prepare dir structure
-    mkdir -p usr/bin
+    mkdir -p SOURCES/usr/bin
     exit_on_fail
-    mkdir -p etc/boinc-client etc/default etc/init.d
+    mkdir -p SOURCES/etc/boinc-client SOURCES/etc/default SOURCES/etc/init.d
     exit_on_fail
-    mkdir -p usr/lib/systemd/system
+    mkdir -p SOURCES/usr/lib/systemd/system
     exit_on_fail
-    mkdir -p var/lib/boinc
+    mkdir -p SOURCES/var/lib/boinc
     exit_on_fail
-    mkdir -p etc/bash_completion.d/
+    mkdir -p SOURCES/etc/bash_completion.d/
     exit_on_fail
 
     # copy files and directories
-    mv boinc boinccmd usr/bin/
+    mv boinc boinccmd SOURCES/usr/bin/
     exit_on_fail
-    mv boinc-client.service usr/lib/systemd/system/
+    mv boinc-client.service SOURCES/usr/lib/systemd/system/
     exit_on_fail
-    cp boinc-client etc/default/
+    cp boinc-client SOURCES/etc/default/
     exit_on_fail
-    mv boinc-client etc/init.d/
+    mv boinc-client SOURCES/etc/init.d/
     exit_on_fail
-    mv boinc-client.conf etc/boinc-client/boinc.conf
+    mv boinc-client.conf SOURCES/etc/boinc-client/boinc.conf
     exit_on_fail
-    mv boinc.bash etc/bash_completion.d/
+    mv boinc.bash SOURCES/etc/bash_completion.d/
     exit_on_fail
 }
 
 function prepare_manager() {
     # prepare dir structure
-    mkdir -p usr/bin
+    mkdir -p SOURCES/usr/bin
     exit_on_fail
-    mkdir -p usr/share/applications usr/share/boinc-manager usr/share/icons/boinc usr/share/locale/boinc
+    mkdir -p SOURCES/usr/share/applications SOURCES/usr/share/boinc-manager SOURCES/usr/share/icons/boinc SOURCES/usr/share/locale/boinc
     exit_on_fail
 
     # copy files and directories
-    mv boincmgr usr/bin/
+    mv boincmgr SOURCES/usr/bin/
     exit_on_fail
-    mv boinc.desktop usr/share/applications/
+    mv boinc.desktop SOURCES/usr/share/applications/
     exit_on_fail
-    mv skins/ usr/share/boinc-manager/
+    mv skins/ SOURCES/usr/share/boinc-manager/
     exit_on_fail
-    mv locale/* usr/share/locale/boinc/
+    mv locale/* SOURCES/usr/share/locale/boinc/
     exit_on_fail
     rm -rf locale/
 }
@@ -71,7 +66,7 @@ ROOT=$(pwd)
 OS="$1"      # distro for which the prepare is done
 FULLPKG="$2" # full name of the package
 PKG="$3"     # name of the artifact
-BASEPKG="$4" # name of the artifcat type
+BASEPKG="$4" # name of the artifact type
 
 # validity check
 case "$BASEPKG" in
@@ -84,6 +79,10 @@ case "$BASEPKG" in
     exit_usage
 	;;
 esac
+
+# setup RPM toplevel dirs
+mkdir -p rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+exit_on_fail
 
 # setup of the archive
 stat "$ROOT/$FULLPKG"
@@ -111,8 +110,6 @@ exit_on_fail
 
 find .
 
-prepare_builddir
-
 # specialized prepare
 case "$BASEPKG" in
   "linux_client-vcpkg")
@@ -125,6 +122,7 @@ case "$BASEPKG" in
     exit_usage
 	;;
 esac
+
 popd
 
 exit 0

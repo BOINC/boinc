@@ -10,23 +10,23 @@ function exit_usage() {
 }
 
 case "$1_$2" in
-# ubuntu distros
-"jammy_linux_client-vcpkg")
-    echo "libc6,libxss1 (>= 1.2.3)"
+# fedora distros
+"38_linux_client-vcpkg")
+    echo "glibc,libXScrnSaver >= 1.2.3"
     ;;
-"focal_linux_client-vcpkg")
-    echo "libc6,libxss1 (>= 1.2.3)"
-    ;;
-
-# debian distros
-"bullseye_linux_client-vcpkg")
-    echo "libc6,libxss1 (>= 1.2.3)"
-    ;;
-"buster_linux_client-vcpkg")
-    echo "libc6,libxss1 (>= 1.2.3)"
+"37_linux_client-vcpkg")
+    echo "glibc,libXScrnSaver >= 1.2.3"
     ;;
 
-*)  echo "libc6"
+# opensuse distros
+# "bullseye_linux_client-vcpkg")
+#     echo "glibc,libXScrnSaver >= 1.2.3"
+#     ;;
+# "buster_linux_client-vcpkg")
+#     echo "glibc,libXScrnSaver >= 1.2.3"
+#     ;;
+
+*)  echo "glibc"
 	;;
 
 esac
