@@ -1,4 +1,4 @@
-name: Deb-Package
+name: Rpm-Package
 
 env:
   PKG_PREFIX: boinc
@@ -6,12 +6,13 @@ env:
   MANTAINER: BOINC <***@***.com>
   HOMEPAGE: https://boinc.berkeley.edu/
   DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
-  BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
-  GH_REPO_API: BOINC/boinc # no trailing or prefix slash
+  BASEREPO: https://parvit.github.io/boinc # no trailing slash
+  # BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+  GH_REPO_API: parvit/boinc # no trailing or prefix slash
   PUBKEY: boinc.gpg # keep extension
 
 concurrency:
-  group: deb-package
+  group: rpm-package
   cancel-in-progress: true
 
 on:
@@ -40,26 +41,35 @@ on:
         default: false
         required: true
 
-run-name: DEB publish [${{ inputs.release_type }}][CanCreate:${{ inputs.allow_repo_create }}][Remove:${{ inputs.remove_package }}]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+run-name: RPM publish [${{ inputs.release_type }}][CanCreate:${{ inputs.allow_repo_create }}][Remove:${{ inputs.remove_package }}]
 
 jobs:
   build:
-    name: generate-deb
+    name: generate-rpm
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
       matrix:
-        os: [jammy, focal, bullseye, buster]
-        package-type: [linux_client-vcpkg, linux_manager-without-webview]
+         os: [38]
+         package_type: [linux_client-vcpkg, linux_manager-without-webview]
     environment:
       name: ${{ inputs.release_type }}
     steps:
       - name: Checkout files
         uses: Bhacaz/checkout-files@v2
         with:
-          branch: ${{ github.head_ref || github.ref_name }}
-          files: .github version.h
-
+          files: .github
+          branch: rpm-build
+      
       - name: Preparation
         id: prep
         run: |
@@ -73,7 +83,7 @@ jobs:
             fi
 
             # Setup Environment vars
-            PKG_NAME=$(echo "${{ env.PKG_PREFIX }}-${{ matrix.package-type }}" | sed "s|_|-|")
+            PKG_NAME=$(echo "${{ env.PKG_PREFIX }}-${{ matrix.package_type }}" | sed "s|_|-|")
             PKG_CLEAN=$(echo "$PKG_NAME" | sed "s|-vcpkg||")
             PKG_FULL="${PKG_CLEAN}_${PKG_VERSION}-1_${{ env.ARCH }}"
 
@@ -99,12 +109,9 @@ jobs:
             mkdir pkgs/
             mkdir ${PKG_FULL}
 
-            # Install aptly version 1.5.0+ (to support ubuntu xz compression)
-            # gpg1 is used for compatibility with aptly
-            wget -qO - https://www.aptly.info/pubkey.txt | sudo apt-key add -
-            echo "deb http://repo.aptly.info/ squeeze main" | sudo tee -a /etc/apt/sources.list
-            sudo apt update -qq
-            sudo apt-get install -y aptly gnupg1 gpgv1
+            # setup required packages
+            dnf update -y -qq
+            dnf install -y rpm rpm-build rpm-sign rpmspectool rpmdevtools
 
           } &> "${{ github.workspace }}/steps.log"
 
@@ -117,7 +124,7 @@ jobs:
 
             # Downloads artifacts of the latest run
             ID="${{ inputs.build_run_id }}"
-            TYPE="${{ matrix.package-type }}"
+            TYPE="${{ matrix.package_type }}"
             if [[ "$ID" -eq "0" ]]; then
               ID=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/workflows/linux.yml/runs" | jq .workflow_runs[0].id)
             fi
@@ -130,72 +137,86 @@ jobs:
 
           } &>> "${{ github.workspace }}/steps.log"
 
-      - name: CreateDebFolder
+      - name: CreateRpmFolder
         if: inputs.remove_package == false
         run: |
           {
-            echo "===== Step CreateDebFolder ====="
-            # Invokes the package preparation
-            bash -x ${{ github.workspace }}/.github/workflows/debrepo/package_prepare.sh "${{ matrix.os }}" "${PKG_FULL}" "${PKG_NAME}" "${{ matrix.package-type }}"
+            echo "===== Step CreateRpmFolder ====="
+            bash -x ${{ github.workspace }}/.github/workflows/rpmrepo/prepare_package.sh "${{ matrix.os }}" "${PKG_FULL}" "${PKG_NAME}" "${{ matrix.package_type }}"
 
           } &>> "${{ github.workspace }}/steps.log"
 
-      - name: CreateDebDefinition
+      - name: CreateRpmDefinition
         if: inputs.remove_package == false
         run: |
           {
-            echo "===== Step CreateDebDefinition ====="
+            echo "===== Step CreateRpmDefinition ====="
 
             # Derive the package dependencies for the selected package / os / release combination selected
-            cd ${{ github.workspace }}/.github/workflows/debrepo/
-            PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} ${{ matrix.package-type }})
+            cd ${{ github.workspace }}/.github/workflows/rpmrepo/rpmbuild/
+            PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} ${{ matrix.package_type }})
             echo "Dependencies: ${PKG_DEPS}"
 
-            # Produce the package DEB definition
-            cd "${{ github.workspace }}/${PKG_FULL}"
-            echo "Name:${PKG_CLEAN}
-          Package:${PKG_CLEAN}
-          Version:${{ inputs.package_main_version }}-1
-          Maintainer:${{ env.MANTAINER }}
-          Depends:${PKG_DEPS}
-          Architecture:${{ env.ARCH }}
-          Homepage:${{ env.HOMEPAGE }}
-          Description:${{ env.DESCRIPTION }}" \
-            > "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
+            echo """
+            Name:           ${PKG}
+            Version:        ${PKG_VERSION}
+            Release:        1%{?dist}
+            BuildArch:      ${{ env.ARCH }}
+            
+            URL:            ${{ env.HOMEPAGE }}
+            Summary:        ${{ env.DESCRIPTION }}
+            License:        LGPL3+
+            
+            Requires:       ${PKG_DEPS}
+            
+            %description
+            ${{ env.DESCRIPTION }}
+            
+            %prep
+            # nothing build is not done here
+            
+            %build
+            # nothing to build
+            
+            %install
+            # no install from build
+            
+            %files
+            """ > SPECS/${PKG}-${VER}.spec
+            
+            find SOURCES/ -type f | sed -e 's|^./SOURCES/|/|' >> SPECS/${PKG}-${VER}.spec
+            
+            echo """
 
-            echo "------------------------"
-            cat "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
-            echo "------------------------"
+            %changelog
+            * Sat Jun 17 2023 Super User
+            """ >> SPECS/${PKG}-${VER}.spec
 
+            cat SPECS/${PKG}-${VER}.spec
+            
           } &>> "${{ github.workspace }}/steps.log"
 
-      - name: UbuntuCreateDebPackage
-        if: inputs.remove_package == false && ( matrix.os == 'jammy' || matrix.os == 'focal')
+      - name: FedoraBuildRpmPackage
+        if: inputs.remove_package == false && ( matrix.os == '38')
         run: |
           {
-            echo "===== Step CreateDebPackage (Ubuntu) ====="
+            echo "===== Step BuildRpmPackage (Fedora) ====="
 
-            cd ${{ github.workspace }}/
-            # Build the actual package for Ubuntu with XZ compression
-            dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
+            cd ${{ github.workspace }}/.github/workflows/rpmrepo/rpmbuild
+            rpmbuild --define "_topdir `pwd`" -v -ba SPECS/*
 
-            # Get info from the generated package
-            dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
           } &>> "${{ github.workspace }}/steps.log"
 
-      - name: DebianCreateDebPackage
-        if: inputs.remove_package == false && ( matrix.os == 'bullseye' || matrix.os == 'buster')
-        run: |
-          {
-            echo "===== Step CreateDebPackage (Debian) ====="
+      # - name: OpenSuseBuildRpmPackage
+      #   if: inputs.remove_package == false && ( matrix.os == 'bullseye' || matrix.os == 'buster')
+      #   run: |
+      #     {
+      #       echo "===== Step BuildRpmPackage (rpmian) ====="
 
-            cd ${{ github.workspace }}/
-            # Build the actual package for Debian with GZIP compression
-            dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
-
-            # Get info from the generated package
-            dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
-          } &>> "${{ github.workspace }}/steps.log"
+      #       cd ${{ github.workspace }}/
+      #       dpkg-rpm -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
+      #       dpkg-rpm --info "${{ github.workspace }}/${PKG_FULL}.rpm"
+      #     } &>> "${{ github.workspace }}/steps.log"
 
       - name: AddUpdateRepository
         if: inputs.remove_package == false
@@ -208,12 +229,12 @@ jobs:
               ALLOW_CREATE=0
             fi
 
-            cd ${{ github.workspace }}/.github/workflows/debrepo/
-            # Updates or creates the repository using aptly
-            bash -x repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }} ${{ env.PUBKEY }}
+            # cd ${{ github.workspace }}/.github/workflows/rpmrepo/
+            # Updates or creates the repository
+            # bash -x repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }}
 
             # useful for debug
-            find ${{ github.workspace }}
+            # find ${{ github.workspace }}
 
           } &>> "${{ github.workspace }}/steps.log"
 
@@ -223,11 +244,11 @@ jobs:
           {
             echo "===== Step RemoveUpdateRepository ====="
 
-            cd ${{ github.workspace }}/.github/workflows/debrepo/
-            bash -x repo_remove.sh "${PKG_FULL}" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }}
+            # cd ${{ github.workspace }}/.github/workflows/rpmrepo/
+            # bash -x repo_remove.sh "${PKG_FULL}" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }}
 
             # useful for debug
-            find ${{ github.workspace }}
+            # find ${{ github.workspace }}
 
           } &>> "${{ github.workspace }}/steps.log"
 
@@ -236,18 +257,18 @@ jobs:
         run: |
           {
             echo "===== Step Cleanup ====="
+            find .
+
             # Clean all files secret or not needed
             rm -rf ${{ github.workspace }}/*.key || true
             rm -rf ${{ github.workspace }}/trustedkeys.gpg || true
-            rm -rf ${{ github.workspace }}/.github/workflows/debrepo/http-data/${{ matrix.os }}/pool || true
-            rm -rf ${{ github.workspace }}/.github/workflows/debrepo/http-data/${{ matrix.os }}/db || true
           } &>> "${{ github.workspace }}/steps.log"
 
       # archive contains the repository to be uploaded to the boinc server
-      - uses: actions/upload-artifact@v3
-        with:
-          name: repo-${{ inputs.release_type }}-${{ matrix.os }}
-          path: "${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz"
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: repo-${{ inputs.release_type }}-${{ matrix.os }}
+      #     path: "${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz"
 
       # archives for reference the public key used (included in the archive published)
       - uses: actions/upload-artifact@v3
@@ -259,15 +280,28 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: ${{ matrix.package-type }}-${{ matrix.os }}-steps-logs
+          name: ${{ matrix.os }}-steps-logs
           path: "${{ github.workspace }}/steps.log"
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload deploy folder
+          path: '${{ github.workspace }}/.github/workflows/rpmrepo/rpmbuild/BUILD'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
       # Deployment of the repository for the combination channel / osversion
-      - name: Deploy to boinc server
-        run: |
-            set -e
-            curl \
-              -s --fail --write-out "%{http_code}" \
-              -F 'upload_file=@${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz' \
-              https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }} " \
-              --form "submit=on"
+      # - name: Deploy to boinc server
+      #   run: |
+      #       set -e
+      #       curl \
+      #         -s --fail --write-out "%{http_code}" \
+      #         -F 'upload_file=@${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz' \
+      #         https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }} " \
+      #         --form "submit=on"
