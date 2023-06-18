@@ -102,7 +102,11 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
 
     m_itemCount = 0;
     if (wxGetApp().GetIsDarkMode()){
+#if wxUSE_WEBVIEW
         m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
+#else
+        m_noticesBody = wxT("<html><head></head><body bgcolor=black></body></html>");
+#endif
     } else {
         m_noticesBody = wxT("<html><head></head><body></body></html>");
     }
@@ -153,9 +157,13 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
 
 
     if (wxGetApp().GetIsDarkMode()){
-            m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
+#if wxUSE_WEBVIEW
+        m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
+#else
+       m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
+#endif
     } else {
-            m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
+        m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
     }
 
     for (i=0; i<newCount; ++i) {

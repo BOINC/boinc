@@ -941,7 +941,6 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
     panelSizer->Replace(m_pBackgroundPanel->m_taskPanel, newTaskPanel);
     m_pBackgroundPanel->m_taskPanel->Destroy();
     m_pBackgroundPanel->m_taskPanel = newTaskPanel;
-    m_pBackgroundPanel->m_taskPanel->ReskinInterface();
 
     CSimpleProjectPanel* newProjectpanel = new CSimpleProjectPanel(m_pBackgroundPanel);
     panelSizer->Replace(m_pBackgroundPanel->m_projPanel, newProjectpanel);
@@ -950,9 +949,7 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
 
     m_pBackgroundPanel->Layout();
 
-    // Force a redraw in case a modal dialog is also open
-    m_pBackgroundPanel->m_taskPanel->UpdatePanel(false);
-    m_pBackgroundPanel->m_projPanel->UpdateInterface();
+    m_pBackgroundPanel->ReskinInterface();
 
     // Restore our task and project settings
     int iTask = m_pBackgroundPanel->m_taskPanel->GetTaskSelectionCtrl()->FindString(taskStr);
@@ -1177,6 +1174,28 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
 
     wxMemoryDC srcDC(*srcBmp);
     dc.Blit(destX, destY, w, h, &srcDC, srcX, srcY, wxCOPY);
+
+#ifdef __WXMAC__
+    // In Dark Mode, MacOS makes button backgrounds partly tranparent
+    // rather than black. It uses a slightly darker rendition of the
+    // underlying bitmap, which can make the button's white text hard
+    // to read with some skins. So we force these button backgrounds
+    // to be dark gray.
+    if (wxGetApp().GetIsDarkMode()) {
+        wxPen oldPen = dc.GetPen();
+        dc.SetPen(*wxBLACK);
+        wxBrush oldBrush = dc.GetBrush();
+        dc.SetBrush(*wxBLACK_BRUSH);
+        wxRect r = m_NoticesButton->GetRect();
+        dc.DrawRoundedRectangle(r, 5);
+        r = m_SuspendResumeButton->GetRect();
+        dc.DrawRoundedRectangle(r, 5);
+        r = m_HelpButton->GetRect();
+        dc.DrawRoundedRectangle(r, 5);
+        dc.SetPen(oldPen);
+        dc.SetBrush(oldBrush);
+    }
+#endif
 
 //    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 
