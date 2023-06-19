@@ -10,6 +10,8 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <vector>
 #include <algorithm>
+#include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "wxPieCtrl.h"
 #include <wx/arrimpl.cpp>
 
@@ -48,14 +50,18 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 		wxSize sz, long style, wxString name)
 		:wxWindow(parent, id, pos, sz, style, name)
 {
+    bool isDarkMode = wxGetApp().GetIsDarkMode();
+
+    if (isDarkMode) SetBackgroundColour(*wxBLACK);
+
 	m_ShowEdges=true;
 	m_CanRepaint=true;
-	m_BackColour=*wxWHITE;
+	m_BackColour = isDarkMode ? *wxBLACK : *wxWHITE;
 	m_padding=10;
 
-	m_TitleColour = wxColour(0,0,0);
-	m_LabelColour = *wxBLACK;
-	m_LegendBackColour = wxColour(255,255,0);
+	m_TitleColour = isDarkMode ? wxColour(255,255,255) : wxColour(0,0,0);
+	m_LabelColour = isDarkMode ? *wxWHITE : *wxBLACK;
+	m_LegendBackColour = isDarkMode ? wxColour(0, 0, 255) : wxColour(255,255,0);
 	m_TitleFont = *wxSWISS_FONT;
 	m_TitleFont.SetWeight(wxBOLD);
 	m_LabelFont = *wxSWISS_FONT;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,7 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "BOINCBaseView.h"
 #include "BOINCListCtrl.h"
 #include "Events.h"
@@ -502,6 +503,7 @@ void CBOINCListCtrl::DrawProgressBars()
     wxRect r, rr;
     int w = 0, x = 0, xx, yy, ww;
     int progressColumn = -1;
+    bool isDarkMode = wxGetApp().GetIsDarkMode();
 
     if (m_pParentView->GetProgressColumn() >= 0) {
         progressColumn = m_pParentView->m_iColumnIDToColumnIndex[m_pParentView->GetProgressColumn()];
@@ -522,7 +524,7 @@ void CBOINCListCtrl::DrawProgressBars()
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
 
-    wxColour progressColor = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
+    wxColour progressColor = isDarkMode ? wxColour(0, 64, 128) : wxColour(192, 217, 217);
     wxBrush progressBrush(progressColor);
 
     numItems = GetItemCount();
@@ -604,8 +606,8 @@ void CBOINCListCtrl::DrawProgressBars()
             dc.SetPen(bkgd);
             dc.SetBrush(bkgd);
 #else
-            dc.SetPen(*wxWHITE_PEN);
-            dc.SetBrush(*wxWHITE_BRUSH);
+            dc.SetPen(isDarkMode ? *wxBLACK_PEN : *wxWHITE_PEN);
+            dc.SetBrush(isDarkMode ? *wxBLACK_BRUSH : *wxWHITE_BRUSH);
 #endif
             dc.DrawRectangle( rr );
 

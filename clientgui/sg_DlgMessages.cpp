@@ -92,6 +92,7 @@ bool CPanelMessages::Create()
 ////@begin CPanelMessages member initialisation
     m_bProcessingRefreshEvent = false;
 ////@end CPanelMessages member initialisation
+    m_closeButton = NULL;
 
     CreateControls();
 
@@ -124,7 +125,7 @@ void CPanelMessages::CreateControls()
                                     _("Fetching notices; please wait..."),
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
-    m_FetchingNoticesText->SetBackgroundColour(*wxWHITE);
+    m_FetchingNoticesText->SetBackgroundColour(wxGetApp().GetIsDarkMode() ? *wxBLACK :  *wxWHITE);
     itemFlexGridSizer2->Add(m_FetchingNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
 
     m_NoNoticesText = new wxStaticText(
@@ -132,7 +133,7 @@ void CPanelMessages::CreateControls()
                                     _("There are no notices at this time."),
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
-    m_NoNoticesText->SetBackgroundColour(*wxWHITE);
+    m_NoNoticesText->SetBackgroundColour(wxGetApp().GetIsDarkMode() ? *wxBLACK :  *wxWHITE);
     itemFlexGridSizer2->Add(m_NoNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
 
 
@@ -143,9 +144,11 @@ void CPanelMessages::CreateControls()
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
 
-    wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
+    if (!m_closeButton) {
+        m_closeButton = new wxButton(itemDialog1, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
+    }
 
-    itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer4->Add(m_closeButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifdef __WXMAC__            // Don't let Close button overlap window's grow icon
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
@@ -205,6 +208,19 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     if ( (w < sz.x) || (h < sz.y) ) {
         // Check to see if they need to be rescaled to fit in the window
         wxImage img = bmp.ConvertToImage();
+
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the image
+            unsigned char *bgImagePixels = img.GetData(); // RGBRGBRGB...
+            for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+        }
         img.Rescale((int) sz.x, (int) sz.y);
 
         // Draw our cool background (centered)
@@ -215,9 +231,27 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
         x = wxMax(0, (w - sz.x)/2);
         y = wxMax(0, (h - sz.y)/2);
 
-        // Select the desired bitmap into the memory DC so we can take
-        //   the center chunk of it.
         memDC.SelectObject(bmp);
+        // Select the desired bitmap (or its darkened version) into
+        //   the memory DC so we can take the center chunk of it.
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the bitmap
+            wxImage bgImage = bmp.ConvertToImage();
+            unsigned char *bgImagePixels;
+            bgImagePixels = bgImage.GetData(); // RGBRGBRGB...
+           for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+            wxBitmap darkened(bgImage);
+            memDC.SelectObject(darkened);
+        } else {
+            memDC.SelectObject(bmp);
+        }
 
         // Draw the center chunk on the window
         dc.Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
@@ -326,6 +360,37 @@ bool CPanelMessages::OnSaveState(wxConfigBase* /* pConfig */) {
 
 bool CPanelMessages::OnRestoreState(wxConfigBase* /* pConfig */) {
     return true;
+}
+
+
+void CPanelMessages::RedrawNoticesListCtrl() {
+    SetSizer(NULL);
+    m_pHtmlListPane->Destroy();
+    m_FetchingNoticesText->Destroy();
+    m_NoNoticesText->Destroy();
+    bool fetchingNoticesTextWasDisplayed = m_bFetchingNoticesTextWasDisplayed;
+    bool noNoticesTextWasDisplayed = m_bNoNoticesTextWasDisplayed;
+
+    m_closeButton->Destroy();
+    m_closeButton = NULL;
+
+    CreateControls();
+
+    m_bFetchingNoticesTextWasDisplayed = fetchingNoticesTextWasDisplayed;
+    if (fetchingNoticesTextWasDisplayed) {
+        m_bFetchingNoticesTextWasDisplayed = true;
+        m_FetchingNoticesText->Show();
+    }
+    if (noNoticesTextWasDisplayed) {
+        m_bNoNoticesTextWasDisplayed = true;
+        m_NoNoticesText->Show();
+    }
+
+    if (m_bFetchingNoticesTextWasDisplayed || m_bNoNoticesTextWasDisplayed) {
+        Layout();
+    }
+
+    m_pHtmlListPane->UpdateUI();
 }
 
 

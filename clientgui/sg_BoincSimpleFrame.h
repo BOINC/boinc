@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,6 +29,7 @@ class CSimpleTaskPanel;
 class CSimpleProjectPanel;
 class CSimpleTaskPanel;
 class CDlgMessages;
+class CDlgPreferences;
 
 class CSimpleGUIPanel : public wxPanel
 {
@@ -123,6 +124,7 @@ public:
     void OnRefreshView( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
     void OnEventLog(wxCommandEvent& event);
+    void OnDarkModeChanged( wxSysColourChangedEvent& event );
 
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
@@ -153,6 +155,8 @@ protected:
 
 private:
     CDlgMessages* dlgMsgsPtr;
+    CDlgPreferences* dlgPrefsPtr;
+
     wxBoxSizer* mainSizer;
 
     DECLARE_EVENT_TABLE()

@@ -97,7 +97,8 @@ bool CPanelPreferences::Create()
 {
     m_backgroundBitmap = NULL;
     lastErrorCtrl = NULL;
-    stdTextBkgdColor = *wxWHITE;
+
+    stdTextBkgdColor = wxGetApp().GetIsDarkMode() ? *wxBLACK : *wxWHITE;
 
     CreateControls();
 
@@ -426,6 +427,11 @@ void CPanelPreferences::MakeBackgroundBitmap() {
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
+    if (m_backgroundBitmap) {
+        delete m_backgroundBitmap;
+        m_backgroundBitmap = NULL;
+    }
+
     wxMemoryDC memDC;
     wxCoord w, h, x, y;
 
@@ -446,6 +452,19 @@ void CPanelPreferences::MakeBackgroundBitmap() {
     if ( (w < sz.x) || (h < sz.y) ) {
         // Check to see if they need to be rescaled to fit in the window
         wxImage img = bmp.ConvertToImage();
+
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the image
+            unsigned char *bgImagePixels = img.GetData(); // RGBRGBRGB...
+            for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+        }
         img.Rescale((int) sz.x, (int) sz.y);
 
         // Draw our cool background (enlarged and centered)
@@ -477,9 +496,26 @@ void CPanelPreferences::MakeBackgroundBitmap() {
             break;
         }
 
-        // Select the desired bitmap into the memory DC so we can take
-        //   the desired chunk of it.
-        memDC.SelectObject(bmp);
+        // Select the desired bitmap (or its darkened version) into
+        //   the memory DC so we can take the desired chunk of it.
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the bitmap
+            wxImage bgImage = bmp.ConvertToImage();
+            unsigned char *bgImagePixels;
+            bgImagePixels = bgImage.GetData(); // RGBRGBRGB...
+           for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+            wxBitmap darkened(bgImage);
+            memDC.SelectObject(darkened);
+        } else {
+            memDC.SelectObject(bmp);
+        }
 
         // Draw the desired chunk on the window
         dc.Blit(0, 0, sz.x, sz.y, &memDC, x, y, wxCOPY);

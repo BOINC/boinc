@@ -34,6 +34,19 @@
 #define BOINC_ADVANCEDGUI                   1
 #define BOINC_SIMPLEGUI                     2
 
+// NOTE: MacOS automatically adjusts all standard OS-drawn UI items
+// in Dark Mode, so BOINC must not modify their colors for Dark Mode.
+// For MacOS, we adjust Dark Mode colors only for our custom UI items.
+// If you implement Dark Mode support for another OS which requires
+// BOINC to adjust standard UI items for Dark Mode, be sure to guard
+// those changes so they do not affect the Mac implementation.
+//
+#if (defined(__WXMAC__) || defined(__WXGTK__))
+#define SUPPORTDARKMODE true
+#else
+#define SUPPORTDARKMODE false
+#endif
+
 
 class wxLogBOINC;
 class CBOINCBaseFrame;
@@ -127,6 +140,8 @@ protected:
     bool                m_bUseDefaultLocale;
 
     int                 m_bSafeMessageBoxDisplayed;
+
+    bool                m_isDarkMode;
 
 public:
 
@@ -242,6 +257,13 @@ public:
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
+#if SUPPORTDARKMODE
+    void                SetIsDarkMode (bool isDarkMode) { m_isDarkMode = isDarkMode; }
+    bool                GetIsDarkMode() { return m_isDarkMode; }
+#else
+    void                SetIsDarkMode (bool WXUNUSED(isDarkMode)) {}
+    bool                GetIsDarkMode() { return false; }
+#endif
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //

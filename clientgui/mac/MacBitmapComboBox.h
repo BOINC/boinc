@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -84,6 +84,7 @@ public:
     wxString GetValue() { return m_ChoiceControl->GetStringSelection(); }
     wxString GetString(unsigned int n) const { return m_ChoiceControl->GetString(n); }
     wxString GetStringSelection() { return m_ChoiceControl->GetStringSelection(); }
+    int FindString(const wxString &s, bool bCase=false) { return m_ChoiceControl->FindString(s, bCase); }
 
     int Append(const wxString& item, const wxBitmap& bitmap);
     int Append(const wxString& item, const wxBitmap& bitmap, void *clientData);
