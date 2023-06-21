@@ -69,7 +69,7 @@ jobs:
         with:
           branch: ${{ github.head_ref || github.ref_name }}
           files: .github version.h
-      
+
       - name: DNF Preparation
         id: dnf-prep
         run: |
@@ -199,7 +199,7 @@ jobs:
           """ > SPECS/${PKG_FULL}.spec
 
             cat SPECS/${PKG_FULL}.spec
-            
+
           } &>> "/work/steps.log"
 
       - name: BuildRpmPackage (Fedora/Suse)

@@ -82,7 +82,7 @@ case "$1_$2" in
 /usr/share/icons/boinc
 """
     ;;
-    
+
 *)  echo "failed"
 	;;
 
