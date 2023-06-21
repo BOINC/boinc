@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -53,7 +53,7 @@ CScrolledTextBox::CScrolledTextBox() {
 CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
-    SetForegroundColour(*wxBLACK);
+    SetForegroundColour(wxGetApp().GetIsDarkMode() ? *wxWHITE : *wxBLACK);
 
     m_TextSizer = new wxBoxSizer( wxVERTICAL );
     m_hLine = GetCharHeight();
@@ -462,7 +462,10 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_sNotAvailableString = _("Not available");
     m_progressBarRect = NULL;
 
-    SetForegroundColour(*wxBLACK);
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    wxColour bgColor(*pSkinSimple->GetDialogBackgroundImage()->GetBackgroundColor());
+    SetBackgroundColour(bgColor);
+    SetForegroundColour(wxGetApp().GetIsDarkMode() ? *wxWHITE : *wxBLACK);
 
     wxBoxSizer* bSizer1;
     bSizer1 = new wxBoxSizer( wxVERTICAL );

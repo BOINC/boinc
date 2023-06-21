@@ -596,7 +596,7 @@ int CLIENT_STATE::add_project(
     if (strlen(email_addr)) {
         md5_block(
             (unsigned char*)email_addr,
-            strlen(email_addr),
+            (int)strlen(email_addr),
             project->email_hash
         );
     }

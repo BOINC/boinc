@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -45,6 +45,8 @@ class CSimpleProjectPanel : public CSimplePanelBase
 		~CSimpleProjectPanel();
 
         ProjectSelectionData* GetProjectSelectionData();
+        wxString GetSelectedProjectString() { return m_ProjectSelectionCtrl->GetValue(); }
+        CBOINCBitmapComboBox* GetProjectSelectionCtrl() { return m_ProjectSelectionCtrl; }
         void UpdateInterface();
         void ReskinInterface();
 

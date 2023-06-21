@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -76,6 +76,10 @@ void CSimplePanelBase::MakeBGBitMap() {
 
     int white_weight = pSkinSimple->GetPanelOpacity();
     int image_weight = MAX_OPACITY - white_weight;
+    if (wxGetApp().GetIsDarkMode()) { // Darken the panel
+        white_weight /= 4;
+        white_weight /=4;
+    }
 
 // Workaround for CSimpleGUIPanel not reliably getting
 // Paint or EraseBackground events under Linux

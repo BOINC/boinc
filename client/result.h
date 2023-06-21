@@ -165,6 +165,19 @@ struct RESULT {
         if (avp->dont_throttle) return true;
         return false;
     }
+    // make a string describing resource usage
+    inline void rsc_string(char* buf, int len) {
+        if (avp->gpu_usage.rsc_type) {
+            snprintf(buf, len,
+                "%.2f CPU + %.2f %s",
+                avp->avg_ncpus, avp->gpu_usage.usage,
+                rsc_name_long(avp->gpu_usage.rsc_type)
+            );
+        } else {
+            snprintf(buf, len, "%.2f CPU", avp->avg_ncpus);
+        }
+    }
+
 
     // temporaries used in CLIENT_STATE::rr_simulation():
     double rrsim_flops_left;

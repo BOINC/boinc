@@ -673,7 +673,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     // if the scheduler reply includes global preferences,
     // insert extra elements, write to disk, and parse
     //
-    if (sr.global_prefs_xml) {
+    double mod_time = sr.global_prefs_xml?GLOBAL_PREFS::parse_mod_time(sr.global_prefs_xml):0;
+    if (sr.global_prefs_xml && mod_time > gstate.global_prefs.mod_time) {
         // ignore prefs if we're using prefs from account mgr
         // BAM! currently has mixed http, https; trim off
         char* p = strchr(global_prefs.source_project, '/');

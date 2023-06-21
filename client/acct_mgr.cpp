@@ -799,13 +799,18 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         // process prefs if any
         //
         if (!global_prefs_xml.empty()) {
-            retval = gstate.save_global_prefs(
-                global_prefs_xml.c_str(), ami.master_url, ami.master_url
+            double mod_time = GLOBAL_PREFS::parse_mod_time(
+                global_prefs_xml.c_str()
             );
-            if (retval) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
+            if (mod_time > gstate.global_prefs.mod_time) {
+                retval = gstate.save_global_prefs(
+                    global_prefs_xml.c_str(), ami.master_url, ami.master_url
+                );
+                if (retval) {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
+                }
+                read_prefs = true;
             }
-            read_prefs = true;
         }
 
         // process prefs if prefs or venue changed

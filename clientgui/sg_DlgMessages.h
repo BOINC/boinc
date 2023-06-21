@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -102,6 +102,8 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
 
+    void RedrawNoticesListCtrl();
+
 ////@end CPanelMessages event handler declarations
 
 ////@begin CPanelMessages member function declarations
@@ -119,6 +121,7 @@ protected:
     wxStaticText*           m_NoNoticesText;
     bool                    m_bFetchingNoticesTextWasDisplayed;
     bool                    m_bNoNoticesTextWasDisplayed;
+    wxButton*               m_closeButton;
 };
 
 
@@ -151,6 +154,7 @@ public:
 
     void OnRefresh() { m_pBackgroundPanel->OnRefresh(); }
 
+    CPanelMessages* GetMsgsPanel() { return m_pBackgroundPanel; }
 private:
 
     bool SaveState();

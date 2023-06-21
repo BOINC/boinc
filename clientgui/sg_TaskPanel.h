@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -118,12 +118,13 @@ class CSimpleTaskPanel : public CSimplePanelBase
 
         TaskSelectionData* GetTaskSelectionData();
         wxString GetSelectedTaskString() { return m_TaskSelectionCtrl->GetValue(); }
+        CBOINCBitmapComboBox* GetTaskSelectionCtrl() { return m_TaskSelectionCtrl; }
         void UpdatePanel(bool delayShow=false);
+        void OnTaskSelection(wxCommandEvent &event);
         wxRect* GetProgressRect();
         void ReskinInterface();
 
 	private:
-        void OnTaskSelection(wxCommandEvent &event);
         void GetApplicationAndProjectNames(RESULT* result, wxString* appName, wxString* projName);
         wxString GetElapsedTimeString(double f);
         wxString GetTimeRemainingString(double f);
