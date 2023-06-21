@@ -312,7 +312,7 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     errno = 0;
-#ifdef __APPLE__
+#if (defined(__APPLE__) && defined(BUILDING_MANAGER))
 // MacOS 13.3.1 apparently broke per-thread locale uselocale()
     y = strtod_l(p+strlen(tag), NULL, LC_C_LOCALE);
 #else

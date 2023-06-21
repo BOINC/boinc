@@ -4422,6 +4422,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
+					"-DBUILDING_MANAGER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
@@ -4434,6 +4435,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
+					"-DBUILDING_MANAGER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
@@ -4446,6 +4448,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
+					"-DBUILDING_MANAGER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
