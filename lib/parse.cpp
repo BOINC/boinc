@@ -747,7 +747,7 @@ bool XML_PARSER::parse_double(const char* start_tag, double& x) {
         }
     }
     errno = 0;
-#ifdef __APPLE__
+#if (defined(__APPLE__) && defined(BUILDING_MANAGER))
 // MacOS 13.3.1 apparently broke per-thread locale uselocale()
     double val = strtod_l(buf, &end, LC_C_LOCALE);
 #else
