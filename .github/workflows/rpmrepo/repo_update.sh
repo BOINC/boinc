@@ -12,14 +12,15 @@ function exit_on_fail() {
 
 function exit_usage() {
 	printf "Fail: $1\n"
-	printf "Usage: repo_update.sh <allow-create> <repo-url> <incoming-dir> [osversion(jammy,focal,buster,bullseye)] [release-type(stable,alpha)] [release-key]\n"
+	printf "Usage: repo_update.sh <allow-create> <repo-url> <incoming-dir> [osversion] [release-type] [release-key] [key-hash] [arch]\n"
 	exit 1
 }
 
 CWD=$(pwd)
 TYPE=stable
-DISTRO=jammy
-RELEASEKEY=boinc-202305.gpg
+DISTRO=fc38
+ARCH=x86_64
+RELEASEKEY=boinc.gpg
 
 # commandline params
 ALLOW_CREATE=$1
@@ -31,9 +32,7 @@ if [[ "$SRC" == "" ]]; then
 	exit_usage "No base directory specified"
 fi
 
-if [[ ! "$4" == "" ]]; then
-	DISTRO="$4"
-fi
+DISTRO="$4"
 
 if [[ ! "$5" == "" ]]; then
 	case "$5" in
@@ -46,22 +45,20 @@ if [[ ! "$5" == "" ]]; then
 	esac
 fi
 
-if [[ ! "$6" == "" ]]; then
-	RELEASEKEY="$6"
-fi
+RELEASEKEY="$6"
+HASH="$7"
+ARCH="$8"
 
 # static params
 PUBKEYFILE=${SRC}/boinc.pub.key
 PRIVKEYFILE=${SRC}/boinc.priv.key
-KEYRING=${SRC}/trustedkeys.gpg
 
-REPO="$BASEREPO/$TYPE/$DISTRO"
-CONF_FILE="$CWD/aptly.$DISTRO.conf"
+RPMSRC="$SRC/rpmbuild/RPMS/$ARCH"
 
 IS_MIRROR=1
 
 # required files check
-stat "$SRC" > /dev/null
+stat "$RPMSRC" > /dev/null
 exit_on_fail "No source directory present"
 
 stat "$PUBKEYFILE" > /dev/null
@@ -72,21 +69,36 @@ exit_on_fail "No private key file present"
 
 pushd $CWD
 
-rm -rf $CWD/http-data/$DISTRO/*
+gpg --list-keys
 
-gpg1 --version
-
-# import public key to allow the repo mirroring
-gpg1 --no-default-keyring --primary-keyring $KEYRING --import $PUBKEYFILE || true
-gpg1 --no-default-keyring --primary-keyring $KEYRING --import $PRIVKEYFILE || true
-gpg1 --no-default-keyring --primary-keyring $KEYRING --list-keys
+mkdir -p $CWD/mirror
 
 # create repo for indicated type and distribution
-aptly -config=$CONF_FILE -distribution=$DISTRO repo create boinc-$TYPE
-exit_on_fail "Could not create repository"
+echo """#
+# BOINC Repository
+#
+
+[boinc-$TYPE-$DISTRO]
+name = BOINC $TYPE $DISTRO repository
+baseurl = $BASEREPO/$TYPE/$DISTRO
+arch = $ARCH
+priority = 100
+enabled = 1
+gpgcheck = 1
+gpgkey = $BASEREPO/$TYPE/$DISTRO/$RELEASEKEY
+max_parallel_downloads = 2
+
+""" > "$CWD/mirror/boinc-$TYPE-$DISTRO.repo"
+
+# necessary for reposync to work correctly
+mkdir -p /etc/yum/repos.d/
+cp "$CWD/mirror/boinc-$TYPE-$DISTRO.repo" /etc/yum/repos.d/
+dnf update -y -qq
 
 # mirror the currently deployed repo (if any)
-aptly -config=$CONF_FILE -keyring=$KEYRING mirror create boinc-$TYPE-mirror $REPO $DISTRO
+cd $CWD/mirror
+
+reposync --nobest -a $ARCH --download-metadata --norepopath --repoid boinc-$TYPE-$DISTRO
 if [[ "$?" -eq "0" ]]; then
 	# the command was successful and the mirror is created
 	IS_MIRROR=0
@@ -106,54 +118,29 @@ if [[ ! "$IS_MIRROR" -eq "0" ]]; then
 	fi
 fi
 
-if [[ "$IS_MIRROR" -eq "0" ]]; then
-	# updates the the packages from remote
-	aptly -config=$CONF_FILE -keyring=$KEYRING mirror update boinc-$TYPE-mirror
-	exit_on_fail "Failed to update the local mirror"
-
-	# imports the downloaded packages to the local mirror
-	aptly -config=$CONF_FILE repo import boinc-$TYPE-mirror boinc-$TYPE "Name"
-	exit_on_fail "Failed to import the remote mirror into local"
-
-	# creates the snapshot of the old situation
-	aptly -config=$CONF_FILE snapshot create old-boinc-$TYPE-snap from repo boinc-$TYPE
-	exit_on_fail "Failed to create old snapshot of the local repo"
-
-	# info about the snapshot
-	aptly -config=$CONF_FILE snapshot show old-boinc-$TYPE-snap
-fi
-
-# imports into the repo the new packages
-aptly -config=$CONF_FILE repo add boinc-$TYPE $SRC/*.deb
+cp $RPMSRC/*.rpm $CWD/mirror/
 exit_on_fail "Failed to add new packages"
 
-if [[ "$IS_MIRROR" -eq "0" ]]; then
-	# create new snapshot of the repo for deployment (with mirror)
-	aptly -config=$CONF_FILE snapshot create new-boinc-$TYPE-snap from repo boinc-$TYPE
-	exit_on_fail "Failed to create new snapshot of the local repo"
+cd $CWD/mirror/
 
-	# shows the contents of the new snapshot and its difference to the old one
-	aptly -config=$CONF_FILE snapshot show new-boinc-$TYPE-snap
-	aptly -config=$CONF_FILE snapshot diff new-boinc-$TYPE-snap old-boinc-$TYPE-snap
-
-	# merges the two snapshots to allow offering old versions of packages
-	aptly -config=$CONF_FILE snapshot merge -no-remove=true -latest=false boinc-$TYPE-snap new-boinc-$TYPE-snap old-boinc-$TYPE-snap
-	exit_on_fail "Failed to merge old and new snapshots of the local repo"
+if [[ ! "$IS_MIRROR" -eq "0" ]]; then
+	createrepo_c .
+	exit_on_fail "Failed to create repository"
 else
-	# create new snapshot of the repo for deployment (non-mirror)
-	aptly -config=$CONF_FILE snapshot create boinc-$TYPE-snap from repo boinc-$TYPE
-	exit_on_fail "Failed to create snapshot of the local repo"
+	createrepo_c --update .
+	exit_on_fail "Failed to update repository"
 fi
 
-# publishes (to local dir) the updated snapshot
-aptly -config=$CONF_FILE -keyring="$KEYRING" publish snapshot --batch=true boinc-$TYPE-snap
-exit_on_fail "Failed to publish the snapshot of the local repo"
+# sign repository metadata
+cd $CWD/mirror/repodata
+gpg -s --default-key $HASH repomd.xml > repomd.xml.asc
+exit_on_fail "Could not sign repository metadata"
 
-cd $CWD/http-data/$DISTRO/
+cd $CWD/mirror/
 
 # copy the key for the repo to the root of it
 SRCKEYFILE="$SRC/$RELEASEKEY"
-DSTKEYFILE="$CWD/http-data/$DISTRO/public/$RELEASEKEY"
+DSTKEYFILE="$CWD/mirror/$RELEASEKEY"
 cp "${SRCKEYFILE}" "${DSTKEYFILE}"
 exit_on_fail "Failed to publish the public key to the repo"
 
@@ -161,7 +148,7 @@ find .
 
 # Archive the produced repo to the archive in the format expected by the upload script:
 # repo-<stable/alpha>-<osversion>.tar.gz
-tar -zcvf ${SRC}/repo-$TYPE-$DISTRO.tar.gz -C public/ .
+tar -zcvf ${SRC}/repo-$TYPE-$DISTRO.tar.gz -C $CWD/mirror/ .
 exit_on_fail "Could not package the repository for upload"
 
 popd

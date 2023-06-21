@@ -2,14 +2,14 @@ name: Rpm-Package
 
 env:
   PKG_PREFIX: boinc
-  ARCH: amd64
+  ARCH: x86_64
   MANTAINER: BOINC <***@***.com>
   HOMEPAGE: https://boinc.berkeley.edu/
   DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
-  BASEREPO: https://parvit.github.io/boinc # no trailing slash
-  # BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+  BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
   GH_REPO_API: parvit/boinc # no trailing or prefix slash
   PUBKEY: boinc.gpg # keep extension
+  PUBKEY_HASH: D1F9C8B6E7F7C31B9D445CA47B92EDCD762DEAEA
 
 concurrency:
   group: rpm-package
@@ -46,20 +46,20 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 run-name: RPM publish [${{ inputs.release_type }}][CanCreate:${{ inputs.allow_repo_create }}][Remove:${{ inputs.remove_package }}]
 
 jobs:
   build:
     name: generate-rpm
     runs-on: ubuntu-latest
+    container:
+      image: fedora:38
+      volumes:
+        - ${{ github.workspace }}:/work
     strategy:
-      max-parallel: 1
+      max-parallel: 4
       matrix:
-         os: [38]
+         os: [fc38, fc37, suse15_5, suse15_4]
          package_type: [linux_client-vcpkg, linux_manager-without-webview]
     environment:
       name: ${{ inputs.release_type }}
@@ -67,17 +67,32 @@ jobs:
       - name: Checkout files
         uses: Bhacaz/checkout-files@v2
         with:
-          files: .github
-          branch: rpm-build
+          branch: ${{ github.head_ref || github.ref_name }}
+          files: .github version.h
       
+      - name: DNF Preparation
+        id: dnf-prep
+        run: |
+          {
+            echo "===== Step DNF Preparation ====="
+
+            sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
+            sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
+
+            # setup required packages
+            sudo dnf install -y wget rpm rpm-build rpm-sign expect createrepo_c dnf-utils jq p7zip-plugins
+
+          } &> "/work/steps.log"
+
       - name: Preparation
         id: prep
         run: |
           {
             echo "===== Step Preparation ====="
 
+            # extract version
             PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
-            if [[ "${PKG_VERSION}" -eq "" ]]; then
+            if [[ "${PKG_VERSION}" == "" ]]; then
               printf "Could not obtain release package version from version.h"
               exit 1
             fi
@@ -85,7 +100,7 @@ jobs:
             # Setup Environment vars
             PKG_NAME=$(echo "${{ env.PKG_PREFIX }}-${{ matrix.package_type }}" | sed "s|_|-|")
             PKG_CLEAN=$(echo "$PKG_NAME" | sed "s|-vcpkg||")
-            PKG_FULL="${PKG_CLEAN}_${PKG_VERSION}-1_${{ env.ARCH }}"
+            PKG_FULL="${PKG_CLEAN}-${PKG_VERSION}-1.${{ env.ARCH }}"
 
             echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
             echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
@@ -100,20 +115,16 @@ jobs:
             echo "Key file ${{ env.PUBKEY }}"
 
             # Setup gpg keys
-            echo "${{ secrets.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
-            echo "${{ secrets.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+            echo "${{ secrets.REPO_PRIV_KEY }}" > /work/boinc.priv.key
+            echo "${{ secrets.REPO_KEY }}" > /work/boinc.pub.key
 
-            cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
+            cp "/work/boinc.pub.key" "/work/${{ env.PUBKEY }}"
 
             # Setup temp directory for packages
             mkdir pkgs/
             mkdir ${PKG_FULL}
 
-            # setup required packages
-            dnf update -y -qq
-            dnf install -y rpm rpm-build rpm-sign rpmspectool rpmdevtools
-
-          } &> "${{ github.workspace }}/steps.log"
+          } &> "/work/steps.log"
 
       - name: DownloadArtifacts
         if: inputs.remove_package == false
@@ -135,16 +146,16 @@ jobs:
             fi
             wget -O pkgs/${PKG_NAME}.zip -d --header='Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' $URL
 
-          } &>> "${{ github.workspace }}/steps.log"
+          } &>> "/work/steps.log"
 
       - name: CreateRpmFolder
         if: inputs.remove_package == false
         run: |
           {
             echo "===== Step CreateRpmFolder ====="
-            bash -x ${{ github.workspace }}/.github/workflows/rpmrepo/prepare_package.sh "${{ matrix.os }}" "${PKG_FULL}" "${PKG_NAME}" "${{ matrix.package_type }}"
+            bash -x /work/.github/workflows/rpmrepo/package_prepare.sh "${{ matrix.os }}" "${PKG_FULL}" "${PKG_NAME}" "${{ matrix.package_type }}"
 
-          } &>> "${{ github.workspace }}/steps.log"
+          } &>> "/work/steps.log"
 
       - name: CreateRpmDefinition
         if: inputs.remove_package == false
@@ -153,70 +164,81 @@ jobs:
             echo "===== Step CreateRpmDefinition ====="
 
             # Derive the package dependencies for the selected package / os / release combination selected
-            cd ${{ github.workspace }}/.github/workflows/rpmrepo/rpmbuild/
+            cd /work/.github/workflows/rpmrepo/
             PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} ${{ matrix.package_type }})
-            echo "Dependencies: ${PKG_DEPS}"
+            PKG_FILELIST=$(bash package_filelist.sh ${{ matrix.os }} ${{ matrix.package_type }})
 
+            cd /work/rpmbuild
             echo """
-            Name:           ${PKG}
-            Version:        ${PKG_VERSION}
-            Release:        1%{?dist}
-            BuildArch:      ${{ env.ARCH }}
-            
-            URL:            ${{ env.HOMEPAGE }}
-            Summary:        ${{ env.DESCRIPTION }}
-            License:        LGPL3+
-            
-            Requires:       ${PKG_DEPS}
-            
-            %description
-            ${{ env.DESCRIPTION }}
-            
-            %prep
-            # nothing build is not done here
-            
-            %build
-            # nothing to build
-            
-            %install
-            # no install from build
-            
-            %files
-            """ > SPECS/${PKG}-${VER}.spec
-            
-            find SOURCES/ -type f | sed -e 's|^./SOURCES/|/|' >> SPECS/${PKG}-${VER}.spec
-            
-            echo """
+          Name:${PKG_CLEAN}
+          Version:${PKG_VERSION}
+          Release:1
+          BuildArch:${{ env.ARCH }}
+          URL:${{ env.HOMEPAGE }}
+          Summary:${{ env.DESCRIPTION }}
+          License:LGPL3+
+          Requires:${PKG_DEPS}
 
-            %changelog
-            * Sat Jun 17 2023 Super User
-            """ >> SPECS/${PKG}-${VER}.spec
+          %changelog
+          # not extracted
 
-            cat SPECS/${PKG}-${VER}.spec
+          %description
+          ${{ env.DESCRIPTION }}
+
+          %prep
+          # nothing build is not done here
+
+          %build
+          # nothing to build
+
+          %install
+          cp -rfa * %{buildroot}
+
+          %files
+          ${PKG_FILELIST}
+          """ > SPECS/${PKG_FULL}.spec
+
+            cat SPECS/${PKG_FULL}.spec
             
-          } &>> "${{ github.workspace }}/steps.log"
+          } &>> "/work/steps.log"
 
-      - name: FedoraBuildRpmPackage
-        if: inputs.remove_package == false && ( matrix.os == '38')
+      - name: BuildRpmPackage (Fedora/Suse)
+        if: inputs.remove_package == false && ( matrix.os == 'fc38' || matrix.os == 'fc37' || matrix.os == 'suse15_5' || matrix.os == 'suse15_4' )
         run: |
           {
+            export GPG_TTY=$(tty) # fixes gpg signing
+
             echo "===== Step BuildRpmPackage (Fedora) ====="
 
-            cd ${{ github.workspace }}/.github/workflows/rpmrepo/rpmbuild
+            # build package
+            cd /work/rpmbuild
             rpmbuild --define "_topdir `pwd`" -v -ba SPECS/*
 
-          } &>> "${{ github.workspace }}/steps.log"
+            # keyring prepare
+            gpg --import "/work/boinc.pub.key"
+            gpg --import "/work/boinc.priv.key"
+            expect -c 'spawn gpg --edit-key ${{ env.PUBKEY_HASH }} trust quit; send "5\ry\r"; expect eof'
 
-      # - name: OpenSuseBuildRpmPackage
-      #   if: inputs.remove_package == false && ( matrix.os == 'bullseye' || matrix.os == 'buster')
-      #   run: |
-      #     {
-      #       echo "===== Step BuildRpmPackage (rpmian) ====="
+            gpg --list-keys
 
-      #       cd ${{ github.workspace }}/
-      #       dpkg-rpm -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
-      #       dpkg-rpm --info "${{ github.workspace }}/${PKG_FULL}.rpm"
-      #     } &>> "${{ github.workspace }}/steps.log"
+            echo """%_signature gpg
+          %_gpg_path ${HOME}/.gnupg
+          %_gpg_name boinc
+          %_gpgbin /usr/bin/gpg2
+          %__gpg_sign_cmd %{__gpg} gpg --force-v3-sigs --batch --verbose --no-armor --no-secmem-warning -u "%{_gpg_name}" -sbo %{__signature_filename} --digest-algo sha256 %{__plaintext_filename}'
+          """ > $HOME/.rpmmacros
+
+            # import for rpm
+            rpm --import "/work/boinc.pub.key"
+
+            # sign package
+            rpm --addsign "RPMS/x86_64/${PKG_FULL}.rpm"
+
+            # check signature
+            rpm --checksig "RPMS/x86_64/${PKG_FULL}.rpm"
+            rpm -qp --qf '%|DSAHEADER?{%{DSAHEADER:pgpsig}}:{%|RSAHEADER?{%{RSAHEADER:pgpsig}}:{(none)}|}|\n' "RPMS/x86_64/${PKG_FULL}.rpm"
+
+          } &>> "/work/steps.log"
 
       - name: AddUpdateRepository
         if: inputs.remove_package == false
@@ -229,14 +251,15 @@ jobs:
               ALLOW_CREATE=0
             fi
 
-            # cd ${{ github.workspace }}/.github/workflows/rpmrepo/
+            cd /work/.github/workflows/rpmrepo/
             # Updates or creates the repository
-            # bash -x repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }}
+            bash -x repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} /work ${{ matrix.os }} ${{ inputs.release_type }} \
+                                    ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
 
             # useful for debug
-            # find ${{ github.workspace }}
+            find /work
 
-          } &>> "${{ github.workspace }}/steps.log"
+          } &>> "/work/steps.log"
 
       - name: RemoveUpdateRepository
         if: inputs.remove_package == true
@@ -244,13 +267,44 @@ jobs:
           {
             echo "===== Step RemoveUpdateRepository ====="
 
-            # cd ${{ github.workspace }}/.github/workflows/rpmrepo/
-            # bash -x repo_remove.sh "${PKG_FULL}" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }}
+            cd /work/.github/workflows/rpmrepo/
+            # Removes the package from the repository
+            bash -x repo_remove.sh "${PKG_FULL}" ${{ env.BASEREPO }} "/work" ${{ matrix.os }} ${{ inputs.release_type }} \
+                                   ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
 
             # useful for debug
-            # find ${{ github.workspace }}
+            find /work
 
-          } &>> "${{ github.workspace }}/steps.log"
+          } &>> "/work/steps.log"
+
+      # archive contains the repository to be uploaded to the boinc server
+      - uses: actions/upload-artifact@v3
+        with:
+          name: repo-${{ inputs.release_type }}-${{ matrix.os }}
+          path: "/work/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz"
+
+      # archives for reference the public key used (included in the archive published)
+      - uses: actions/upload-artifact@v3
+        with:
+          name: keys
+          path: "/work/${{ env.PUBKEY }}"
+
+      # Execution logs
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: ${{ matrix.os }}-${{ matrix.package_type }}-steps-logs
+          path: "/work/steps.log"
+
+      # Deployment of the repository for the combination channel / osversion
+      - name: Deploy to boinc server
+        run: |
+            set -e
+            curl \
+              -s --fail --write-out "%{http_code}" \
+              -F 'upload_file=@/work/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz' \
+              https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }} " \
+              --form "submit=on"
 
       - name: Cleanup
         if: always()
@@ -260,48 +314,6 @@ jobs:
             find .
 
             # Clean all files secret or not needed
-            rm -rf ${{ github.workspace }}/*.key || true
-            rm -rf ${{ github.workspace }}/trustedkeys.gpg || true
-          } &>> "${{ github.workspace }}/steps.log"
-
-      # archive contains the repository to be uploaded to the boinc server
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: repo-${{ inputs.release_type }}-${{ matrix.os }}
-      #     path: "${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz"
-
-      # archives for reference the public key used (included in the archive published)
-      - uses: actions/upload-artifact@v3
-        with:
-          name: keys
-          path: "${{ github.workspace }}/${{ env.PUBKEY }}"
-
-      # Execution logs
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: ${{ matrix.os }}-steps-logs
-          path: "${{ github.workspace }}/steps.log"
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          # Upload deploy folder
-          path: '${{ github.workspace }}/.github/workflows/rpmrepo/rpmbuild/BUILD'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-
-      # Deployment of the repository for the combination channel / osversion
-      # - name: Deploy to boinc server
-      #   run: |
-      #       set -e
-      #       curl \
-      #         -s --fail --write-out "%{http_code}" \
-      #         -F 'upload_file=@${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz' \
-      #         https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }} " \
-      #         --form "submit=on"
+            rm -rf /work/*.key || true
+            rm -rf /work/trustedkeys.gpg || true
+          } &>> "/work/steps.log"
