@@ -135,8 +135,12 @@ jobs:
         run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
       - name: Make
-        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'arm64')
+        if: success() && ! contains(matrix.type, 'integration-test') && ! contains(matrix.type, 'client-vcpkg') && ! contains(matrix.type, 'manager-with-webview-vcpkg') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'arm64')
         run: make
+
+      - name: Make for client-vcpkg and manager-with-webview-vcpkg
+        if: success() && (matrix.type == 'client-vcpkg' || matrix.type == 'manager-with-webview-vcpkg')
+        run: make LDFLAGS="-static-libstdc++ -static-libgcc"
 
       - name: Make for cmake
         if: success() && endsWith(matrix.type, 'cmake')
