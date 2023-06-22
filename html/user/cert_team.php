@@ -18,6 +18,8 @@
 
 // show a web-based certificate for a team,
 // showing the team's creation date and total credit in this project.
+// Projects can customize this:
+// https://github.com/BOINC/boinc/wiki/WebConfig#certificate-related-constants
 
 require_once("../inc/util.inc");
 require_once("../inc/cert.inc");

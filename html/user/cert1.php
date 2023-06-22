@@ -17,6 +17,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // show certificate for user: signup date, credit, FLOPs
+// Projects can customize this:
+// https://github.com/BOINC/boinc/wiki/WebConfig#certificate-related-constants
 
 require_once("../inc/util.inc");
 require_once("../inc/cert.inc");

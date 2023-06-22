@@ -17,6 +17,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // show certificate listing join time and credit across all projects
+// Projects can customize this:
+// https://github.com/BOINC/boinc/wiki/WebConfig#certificate-related-constants
 
 require_once("../inc/util.inc");
 require_once("../inc/cert.inc");
