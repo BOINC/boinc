@@ -1203,7 +1203,7 @@ function text_end() {
     echo "</div>\n";
 }
 
-// express a size in terms of GB or MB
+// express a size in terms of TB, GB etc.
 //
 function size_string($x) {
     if ($x > TERA) {
@@ -1212,7 +1212,13 @@ function size_string($x) {
     if ($x > GIGA) {
         return number_format($x/GIGA, 2)." GB";
     }
-    return number_format($x/MEGA, 2)." MB";
+    if ($x > MEGA) {
+        return number_format($x/MEGA, 2)." MB";
+    }
+    if ($x > KILO) {
+        return number_format($x/KILO, 2)." KB";
+    }
+    return "$x bytes";
 }
 
 function cert_filename() {

@@ -249,9 +249,7 @@ function batch_output_file_size($batchid) {
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
-                $s=stat($path);
-                $size=$s['size'];
-                $batch_td_size+=$size;
+                $batch_td_size += filesize($path);
             }
         }
     }
