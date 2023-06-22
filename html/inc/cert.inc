@@ -51,4 +51,32 @@ function credit_string($credit, $bolden) {
     return " $lbold$cobbs Cobblestones$rbold of computation ($ops $unit floating-point operations)";
 }
 
+// show button to download certificate as PNG
+function show_download_button() {
+    echo '
+        <p>
+        <button id="export" style="margin-top: 5px;">Download as PNG image</button>
+        <script src="html2canvas.min.js"></script>
+        <script type="text/javascript">
+            const $btn = document.querySelector("#export");
+            const $toExport = document.querySelector("#certificate");
+            const $myCanvas = document.querySelector("#canvasDiv");
+
+            $btn.addEventListener("click", () => {
+                html2canvas($toExport)
+                .then(canvas => {
+                    var dataURL = canvas.toDataURL("image/png");
+                    downloadImage(dataURL, "certificate_image.");
+                });
+            });
+
+            function downloadImage(data, filename = "untitled.png") {
+                var a = document.createElement("a");
+                a.href = data;
+                a.download = filename;
+                a.click();
+            }
+        </script>
+    ';
+}
 ?>

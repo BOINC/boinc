@@ -187,7 +187,6 @@ function show_user_stats_private($user) {
         }
         $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
         row2(tra("Certificate"), $x);
-        row2(tra("Stats on your cell phone"), url_base()."userw.php?id=$user->id");
     }
 }
 
