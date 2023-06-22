@@ -244,7 +244,7 @@ function handle_main($user) {
                 echo "<li>$app->user_friendly_name<br>
                     <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
                     &middot;
-                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                    <a href=manage_app.php?app_id=$app->id>Manage</a>
                 ";
             }
         } else {
@@ -381,7 +381,7 @@ function handle_query_batch($user) {
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
     row2("Output File Size", size_string(batch_output_file_size($batch->id)));
     end_table();
-    $url = boinc_get_output_files_url($user, $batch_id);
+    $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
     show_button($url, "Get zipped output files");
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
@@ -414,11 +414,10 @@ function handle_query_batch($user) {
     );
     foreach($wus as $wu) {
         $resultid = $wu->canonical_resultid;
-        $durl = boinc_get_wu_output_files_url($user,$wu->id);
         if ($resultid) {
             $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
             $y = '<font color="green">completed</font>';
-            $text = "<a href=$durl> Download Result Files</a>";
+            $text = "<a href=get_output2.php?cmd=workunit&wu_id=$wu->id>Download output files</a>";
         } else {
             $x = "---";
             $text = "---";
@@ -497,16 +496,22 @@ function handle_query_job($user) {
 ";
         $i = 0;
         if ($result->server_state == 5) {
-            $names = get_outfile_names($result);
-            $i = 0;
-            foreach ($names as $name) {
-                $url = boinc_get_output_file_url($user, $result, $i++);
-                $path = dir_hier_path($name, $upload_dir, $fanout);
+            $phys_names = get_outfile_names($result);
+            $log_names = get_outfile_log_names($result);
+            for ($i=0; $i<count($phys_names); $i++) {
+                $url = sprintf(
+                    'get_output2.php?cmd=result&result_id=%d&file_num=%d',
+                    $result->id, $i
+                );
+                $path = dir_hier_path($phys_names[$i], $upload_dir, $fanout);
                 $s = stat($path);
                 $size = $s['size'];
-                echo "<a href=$url>$name </a> (".number_format($size)." bytes)<br/>";
+                echo sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
+                    $url,
+                    $log_names[$i],
+                    number_format($size)
+                );
             }
-            $i++;
         }
         echo "</td></tr>\n";
     }
