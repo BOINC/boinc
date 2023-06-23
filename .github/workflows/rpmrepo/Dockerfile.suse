@@ -1,0 +1,40 @@
+# example build usage:
+# LINUX: export BUILDKIT_PROGRESS=plain
+# WINDOWS: set BUILDKIT_PROGRESS=plain
+# docker build -t jammy-boinc --build-arg PACKAGE=boinc-linux-client --build-arg VERSION=1.0.0-1 -f ./Dockerfile .
+
+ARG DISTRO=opensuse/leap
+ARG RELEASE=15.5
+
+FROM $DISTRO:$RELEASE
+
+# All args are cleared after a FROM instruction
+ARG RELEASE=15.5
+
+ARG REPOBASE=https://boinc.berkeley.edu/dl/linux
+ARG REPOTYPE=stable
+ARG PACKAGE=boinc-linux-client
+ARG VERSION=7.23.0-1
+ARG REPOKEY=boinc.gpg
+
+USER root
+
+WORKDIR /root
+
+RUN bash -c 'zypper -n update && zypper install -y wget expect'
+
+RUN printf '#!/bin/bash -xe \n\
+cd /etc/zypp/repos.d \n\
+VARIANT=$(echo $RELEASE | sed -e "s|\.|_|\") \n\
+wget $REPOBASE/$REPOTYPE/suse$VARIANT/boinc-${REPOTYPE}-suse${VARIANT}.repo \n\
+' > update.sh
+
+RUN bash -c 'cat update.sh'
+
+RUN bash -x update.sh
+
+RUN bash -c 'expect -c 'spawn zypper --gpg-auto-import-keys update; expect "Continue? [yes/no] (no)"; send "yes\r"; interact'
+
+RUN bash -c 'zypper search -v $PACKAGE'
+
+RUN bash -c 'zypper -y install $PACKAGE=$VERSION'
