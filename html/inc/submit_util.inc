@@ -148,6 +148,22 @@ function get_batch_params($batch, $wus) {
     return $batch;
 }
 
+// get the number of WUs for which we've sent at least 1 instance
+// TODO: do this more efficiently (single query)
+//
+function wus_nsent($wus) {
+    $n = 0;
+    foreach ($wus as $wu) {
+        $res = BoincResult::enum(
+            sprintf('workunitid=%d and server_state<>%d',
+                $wu->id, RESULT_SERVER_STATE_UNSENT
+            )
+        );
+        if (count($res) > 0) $n++;
+    }
+    return $n;
+}
+
 function get_outfile_names($result) {
     $names = [];
     $xml = "<a>".$result->xml_doc_out."</a>";
