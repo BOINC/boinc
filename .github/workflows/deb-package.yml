@@ -1,0 +1,273 @@
+name: Deb-Package
+
+env:
+  PKG_PREFIX: boinc
+  ARCH: amd64
+  MANTAINER: BOINC <***@***.com>
+  HOMEPAGE: https://boinc.berkeley.edu/
+  DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
+  BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+  GH_REPO_API: BOINC/boinc # no trailing or prefix slash
+  PUBKEY: boinc.gpg # keep extension
+
+concurrency:
+  group: deb-package
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+          description: 'release repository type to generate'
+          type: choice
+          options:
+            - alpha
+            - stable
+          required: true
+      build_run_id:
+        description: 'workflow run id to download artifacts, default latest one'
+        type: integer
+        default: 0
+        required: false
+      allow_repo_create:
+        description: 'Allow to recreate the repo on mirror error'
+        type: boolean
+        default: false
+        required: true
+      remove_package:
+        description: 'Removes the specified package from the repo'
+        type: boolean
+        default: false
+        required: true
+
+run-name: DEB publish [${{ inputs.release_type }}][CanCreate:${{ inputs.allow_repo_create }}][Remove:${{ inputs.remove_package }}]
+
+jobs:
+  build:
+    name: generate-deb
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        os: [jammy, focal, bullseye, buster]
+        package-type: [linux_client-vcpkg, linux_manager-without-webview]
+    environment:
+      name: ${{ inputs.release_type }}
+    steps:
+      - name: Checkout files
+        uses: Bhacaz/checkout-files@v2
+        with:
+          branch: ${{ github.head_ref || github.ref_name }}
+          files: .github version.h
+
+      - name: Preparation
+        id: prep
+        run: |
+          {
+            echo "===== Step Preparation ====="
+
+            PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+            if [[ "${PKG_VERSION}" -eq "" ]]; then
+              printf "Could not obtain release package version from version.h"
+              exit 1
+            fi
+
+            # Setup Environment vars
+            PKG_NAME=$(echo "${{ env.PKG_PREFIX }}-${{ matrix.package-type }}" | sed "s|_|-|")
+            PKG_CLEAN=$(echo "$PKG_NAME" | sed "s|-vcpkg||")
+            PKG_FULL="${PKG_CLEAN}_${PKG_VERSION}-1_${{ env.ARCH }}"
+
+            echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
+            echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
+            echo "PKG_CLEAN=${PKG_CLEAN}" >> $GITHUB_ENV
+            echo "PKG_FULL=${PKG_FULL}" >> $GITHUB_ENV
+            echo "PUBKEY=${{ env.PUBKEY }}" >> $GITHUB_ENV
+
+            echo "Orig. Package name ${PKG_NAME}"
+            echo "Package name ${PKG_CLEAN}"
+            echo "Package version ${PKG_VERSION}"
+            echo "Full name ${PKG_FULL}"
+            echo "Key file ${{ env.PUBKEY }}"
+
+            # Setup gpg keys
+            echo "${{ secrets.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
+            echo "${{ secrets.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+
+            cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
+
+            # Setup temp directory for packages
+            mkdir pkgs/
+            mkdir ${PKG_FULL}
+
+            # Install aptly version 1.5.0+ (to support ubuntu xz compression)
+            # gpg1 is used for compatibility with aptly
+            wget -qO - https://www.aptly.info/pubkey.txt | sudo apt-key add -
+            echo "deb http://repo.aptly.info/ squeeze main" | sudo tee -a /etc/apt/sources.list
+            sudo apt update -qq
+            sudo apt-get install -y aptly gnupg1 gpgv1
+
+          } &> "${{ github.workspace }}/steps.log"
+
+      - name: DownloadArtifacts
+        if: inputs.remove_package == false
+        shell: bash
+        run: |
+          {
+            echo "===== Step DownloadArtifacts ====="
+
+            # Downloads artifacts of the latest run
+            ID="${{ inputs.build_run_id }}"
+            TYPE="${{ matrix.package-type }}"
+            if [[ "$ID" -eq "0" ]]; then
+              ID=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/workflows/linux.yml/runs" | jq .workflow_runs[0].id)
+            fi
+            URL=$(curl -s -XGET "https://api.github.com/repos/${GH_REPO_API}/actions/runs/$ID/artifacts" | jq -r ".artifacts[] | select(.name==\"${TYPE}_\") | .archive_download_url")
+            if [[ "$URL" -eq "" ]]; then
+              printf "Could not find artifact for ${TYPE} in run ${ID}"
+              exit 1
+            fi
+            wget -O pkgs/${PKG_NAME}.zip -d --header='Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' $URL
+
+          } &>> "${{ github.workspace }}/steps.log"
+
+      - name: CreateDebFolder
+        if: inputs.remove_package == false
+        run: |
+          {
+            echo "===== Step CreateDebFolder ====="
+            # Invokes the package preparation
+            bash -x ${{ github.workspace }}/.github/workflows/debrepo/package_prepare.sh "${{ matrix.os }}" "${PKG_FULL}" "${PKG_NAME}" "${{ matrix.package-type }}"
+
+          } &>> "${{ github.workspace }}/steps.log"
+
+      - name: CreateDebDefinition
+        if: inputs.remove_package == false
+        run: |
+          {
+            echo "===== Step CreateDebDefinition ====="
+
+            # Derive the package dependencies for the selected package / os / release combination selected
+            cd ${{ github.workspace }}/.github/workflows/debrepo/
+            PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} ${{ matrix.package-type }})
+            echo "Dependencies: ${PKG_DEPS}"
+
+            # Produce the package DEB definition
+            cd "${{ github.workspace }}/${PKG_FULL}"
+            echo "Name:${PKG_CLEAN}
+          Package:${PKG_CLEAN}
+          Version:${{ inputs.package_main_version }}-1
+          Maintainer:${{ env.MANTAINER }}
+          Depends:${PKG_DEPS}
+          Architecture:${{ env.ARCH }}
+          Homepage:${{ env.HOMEPAGE }}
+          Description:${{ env.DESCRIPTION }}" \
+            > "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
+
+            echo "------------------------"
+            cat "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
+            echo "------------------------"
+
+          } &>> "${{ github.workspace }}/steps.log"
+
+      - name: UbuntuCreateDebPackage
+        if: inputs.remove_package == false && ( matrix.os == 'jammy' || matrix.os == 'focal')
+        run: |
+          {
+            echo "===== Step CreateDebPackage (Ubuntu) ====="
+
+            cd ${{ github.workspace }}/
+            # Build the actual package for Ubuntu with XZ compression
+            dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
+
+            # Get info from the generated package
+            dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
+          } &>> "${{ github.workspace }}/steps.log"
+
+      - name: DebianCreateDebPackage
+        if: inputs.remove_package == false && ( matrix.os == 'bullseye' || matrix.os == 'buster')
+        run: |
+          {
+            echo "===== Step CreateDebPackage (Debian) ====="
+
+            cd ${{ github.workspace }}/
+            # Build the actual package for Debian with GZIP compression
+            dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
+
+            # Get info from the generated package
+            dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
+          } &>> "${{ github.workspace }}/steps.log"
+
+      - name: AddUpdateRepository
+        if: inputs.remove_package == false
+        run: |
+          {
+            echo "===== Step AddUpdateRepository ====="
+            # Bash scripts do not support boolean values so convert to 0 true / 1 false
+            ALLOW_CREATE=1
+            if [[ "${{ inputs.allow_repo_create }}" == "true" ]]; then
+              ALLOW_CREATE=0
+            fi
+
+            cd ${{ github.workspace }}/.github/workflows/debrepo/
+            # Updates or creates the repository using aptly
+            bash -x repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }} ${{ env.PUBKEY }}
+
+            # useful for debug
+            find ${{ github.workspace }}
+
+          } &>> "${{ github.workspace }}/steps.log"
+
+      - name: RemoveUpdateRepository
+        if: inputs.remove_package == true
+        run: |
+          {
+            echo "===== Step RemoveUpdateRepository ====="
+
+            cd ${{ github.workspace }}/.github/workflows/debrepo/
+            bash -x repo_remove.sh "${PKG_FULL}" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ inputs.release_type }}
+
+            # useful for debug
+            find ${{ github.workspace }}
+
+          } &>> "${{ github.workspace }}/steps.log"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          {
+            echo "===== Step Cleanup ====="
+            # Clean all files secret or not needed
+            rm -rf ${{ github.workspace }}/*.key || true
+            rm -rf ${{ github.workspace }}/trustedkeys.gpg || true
+            rm -rf ${{ github.workspace }}/.github/workflows/debrepo/http-data/${{ matrix.os }}/pool || true
+            rm -rf ${{ github.workspace }}/.github/workflows/debrepo/http-data/${{ matrix.os }}/db || true
+          } &>> "${{ github.workspace }}/steps.log"
+
+      # archive contains the repository to be uploaded to the boinc server
+      - uses: actions/upload-artifact@v3
+        with:
+          name: repo-${{ inputs.release_type }}-${{ matrix.os }}
+          path: "${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz"
+
+      # archives for reference the public key used (included in the archive published)
+      - uses: actions/upload-artifact@v3
+        with:
+          name: keys
+          path: "${{ github.workspace }}/${{ env.PUBKEY }}"
+
+      # Execution logs
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: ${{ matrix.package-type }}-${{ matrix.os }}-steps-logs
+          path: "${{ github.workspace }}/steps.log"
+
+      # Deployment of the repository for the combination channel / osversion
+      - name: Deploy to boinc server
+        run: |
+            set -e
+            curl \
+              -s --fail --write-out "%{http_code}" \
+              -F 'upload_file=@${{ github.workspace }}/repo-${{ inputs.release_type }}-${{ matrix.os }}.tar.gz' \
+              https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }} " \
+              --form "submit=on"
