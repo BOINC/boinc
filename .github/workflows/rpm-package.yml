@@ -9,7 +9,7 @@ env:
   BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
   GH_REPO_API: parvit/boinc # no trailing or prefix slash
   PUBKEY: boinc.gpg # keep extension
-  PUBKEY_HASH: D1F9C8B6E7F7C31B9D445CA47B92EDCD762DEAEA
+  PUBKEY_HASH: 506D26EC67F5DE515A77A702631096B97E29B2B4
 
 concurrency:
   group: rpm-package
