@@ -1,29 +1,31 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2709
 \cocoascreenfonts1\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fmodern\fcharset0 Courier;
-\f3\fswiss\fcharset0 Arial-BoldMT;\f4\fswiss\fcharset0 Helvetica-Oblique;\f5\fnil\fcharset0 LucidaGrande;
-}
+\f3\fswiss\fcharset0 Arial-BoldMT;\f4\fmodern\fcharset0 Courier-Oblique;\f5\fswiss\fcharset0 Helvetica-Oblique;
+\f6\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;\red5\green68\blue254;\red186\green0\blue0;\red255\green255\blue255;
-\red245\green245\blue245;\red0\green0\blue0;\red255\green255\blue255;\red246\green246\blue246;}
+\red245\green245\blue245;\red0\green0\blue0;\red255\green255\blue255;\red0\green0\blue0;\red246\green246\blue246;
+}
 {\*\expandedcolortbl;;\cssrgb\c0\c38136\c99824;\csgenericrgb\c72941\c0\c0;\csgenericrgb\c100000\c100000\c100000;
-\csgenericrgb\c96078\c96078\c96078;\cssrgb\c0\c0\c0;\csgray\c100000;\csgenericrgb\c96471\c96471\c96471;}
+\csgenericrgb\c96078\c96078\c96078;\cssrgb\c0\c0\c0;\csgray\c100000;\csgray\c0;\csgenericrgb\c96471\c96471\c96471;
+}
 \margl1440\margr1440\vieww14780\viewh11840\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
-\f0\b\fs28 \cf0 Building BOINC Client and Manager on Macintosh OSX\
+\f0\b\fs28 \cf0 Building BOINC Client and Manager on Macintosh\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 6/24/2023\
+Last updated 6/25/2023\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
-This document applies to BOINC version 7.24.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/BuildMacApp"}}{\fldrslt \cf2 here}} and {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/ProjectMain"}}{\fldrslt here}}.\
+This document applies to BOINC version 7.24.0 and later. It has instructions for building the BOINC Client, Manager, installer and associated software for the Macintosh. Information for building science project applications to run under BOINC on Macintosh can be found {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/BuildMacApp"}}{\fldrslt \cf2 here}} and {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/ProjectMain"}}{\fldrslt here}}.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f0\b \cf0 Note:
-\f1\b0  the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
+\f1\b0  the information in this document changes from time to time for different versions of BOINC. For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f2\fs26 \cf0                    boinc/mac_build/HowToBuildBOINC_XCode.rtf\
@@ -32,28 +34,27 @@ This document applies to BOINC version 7.24.0 and later.  It has instructions fo
 \f1\fs24 \cf0 \
 Contents of this document:\
 \'95 Important requirements for building BOINC software for the Mac.\
-\'95 Cross-Platform Development.\
+\'95 Installing and setting up Xcode.\
 \'95 Building BOINC Manager with embedded BOINC Client.\
 \'95 Building BOINC Manager Installer.\
 \'95 Code Signing the BOINC Manager Installer and Uninstaller\
 \'95 Debugging and BOINC security.\
 \'95 Debugging into wxWidgets.\
-\'95 Installing and setting up Xcode.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f0\b \cf0 Note:
 \f1\b0  
 \f2\fs26 setupForBoinc.sh
-\f1\fs24  (described late in this document) runs 
+\f1\fs24  (described later in this document) runs 
 \f2\fs26 buildWxMac.sh
 \f1\fs24  to build the wxWidgets library used by BOINC Manager. If you built the wxWidgets library with an earlier version of  
 \f2\fs26 buildWxMac.sh
-\f1\fs24 , then you must rebuild it with the 
-\f2\fs26 buildWxMac.sh
-\f1\fs24  included in the newer source tree. Otherwise, the BOINC Manager build will fail with linker (
+\f1\fs24  and the BOINC Manager build fails with linker (
 \f2\fs26 ld
-\f1\fs24 ) errors.\
+\f1\fs24 ) errors, then you may need rebuild wxWidgets with the 
+\f2\fs26 buildWxMac.sh
+\f1\fs24  included in the newer source tree. \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
@@ -63,33 +64,30 @@ Contents of this document:\
 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
 \cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors. As of 7.15.0, BOINC is built entirely for 64-bit Intel, including the BOINC libraries. As of 7.16.14, BOINC is built as Universal2 Binaries which can run on both 64-bit Intel and Apple Silicon (arm64) hardware. \
-You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running versions of MacOS and Xcode which are / were current at the time your target version of BOINC was released, and cross-compile for the various platforms. The remainder of this document describes that process.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 \
+You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running versions of MacOS and Xcode which are / were current at the time your target version of BOINC was released, and cross-compile for the various architectures. The remainder of this document describes that process.\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, c-ares, cURL, openSSL,  freetype and ftgl libraries, as well as all project applications
+\f0\b \cf0 The above requirements apply not only to BOINC itself, but also to the wxWidgets, c-ares, cURL, openSSL,  freetype and ftgl libraries, as well as all project applications
 \f1\b0 .  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 Starting with version 7.16.14, the BOINC screensaver has supported only Mac OS 10.9.0 and later.\
-\pard\pardeftab720\sa260\qc\partightenfactor0
+\cf0 Starting with version 7.16.14, the BOINC screensaver has supported only Mac OS 10.9.0 and later.
+\f3\b\fs32 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
-\f0\b\fs28 \cf0 Cross-Platform Development
-\f3\fs32 \
+\f0\fs28 \cf0 Installing and setting up Xcode
+\f1\b0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-
-\f1\b0\fs24 \cf0 Apple provides the tools necessary to build BOINC on any Mac running OS 10.8.x or later.\
-You get these tools, including the GCC or Apple LLVM compiler and system library header files, by installing the Xcode Tools package. \
-You can download Xcode from Apple's App Store (it is large: over 4 GB).  If you are a member of Apple's Mac Developer Program, you can also download it from Apple's web site: {\field{\*\fldinst{HYPERLINK "http://developer.apple.com"}}{\fldrslt 
+\cf0 Apple provides the tools necessary to build BOINC on any Mac running OS 10.8.x or later. You get these tools, including the GCC or Apple LLVM compiler and system library header files, by installing the Xcode Tools package. \
+You can download Xcode from Apple's App Store (it is large: over 4 GB). If you are a member of Apple's Mac Developer Program, you can also download it from Apple's web site: {\field{\*\fldinst{HYPERLINK "http://developer.apple.com"}}{\fldrslt 
 \f2\fs26 \cf2 http://developer.apple.com}}\cf3 .\cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 Source files are now archived using git.  For details, see:\
-	{\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/SourceCodeGit"}}{\fldrslt 
-\f2\fs26 \cf2 https://github.com/BOINC/boinc/wiki/SourceCodeGit}}\
+\cf0 If Xcode is obtained from the Apple Store then it will be installed automatically into the Applications folder. Double-click on the installed Xcode icon to run Xcode. Xcode will display a dialog allowing you to finish the installation by installing its associated command-line tools; you must do this before running BOINC's build scripts. (Some versions of Xcode may not display this dialog until you open a file with Xcode.)\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
@@ -97,16 +95,19 @@ You can download Xcode from Apple's App Store (it is large: over 4 GB).  If you 
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f1\b0\fs24 \cf0 \
+Source files are now archived using git. For details, see:\
+	{\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/SourceCodeGit"}}{\fldrslt 
+\f2\fs26 \cf2 https://github.com/BOINC/boinc/wiki/SourceCodeGit}}\
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\pardirnatural\partightenfactor0
+\cf0 \CocoaLigature0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 BOINC depends on six third-party libraries: wxWidgets, c-ares, curl, openssl, freetype and ftgl. Different versions of BOINC require different versions of these libraries; any one version of BOINC will build with only one specific version of each library. For BOINC versions prior to 7.24.0, see 
+\cf0 \CocoaLigature1 BOINC depends on six third-party libraries: wxWidgets, c-ares, curl, openssl, freetype and ftgl. Different versions of BOINC require different versions of these libraries; any one version of BOINC will build with only one specific version of each library. For BOINC versions prior to 7.24.0, see 
 \f2\fs26 mac_build/HowToBuildBOINC.rtf
 \f1\fs24  in the source tree for that version of BOINC for the library versions needed and how to download them. \
 \
 Starting with BOINC 7.24.0, the 
 \f2\fs26 SetupForBOINC.sh
 \f1\fs24  script (described below) in the source tree for any version of BOINC automatically downloads and builds the appropriate six third-party libraries for that version of BOINC.\
-\
-You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
 \
 More information about each third-party library can be found on its home page:\
 wxWidgets- (needed  only if you are building the BOINC Manager): {\field{\*\fldinst{HYPERLINK "https://wxwidgets.org"}}{\fldrslt 
@@ -138,7 +139,7 @@ ftgl (needed  only if you are building the BOINC default screensaver or a projec
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f0\b \cf0 [1]
-\f1\b0  Make sure you are logged into the Mac using an account with administrator privileges.  Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
+\f1\b0  Make sure you are logged into the Mac using an account with administrator privileges. Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
 \
 
 \f0\b [2]
@@ -146,7 +147,7 @@ ftgl (needed  only if you are building the BOINC default screensaver or a projec
 \
 
 \f0\b [3]
-\f1\b0  Get the BOINC source tree from the repository, and put it in the BOINC_dev folder.  To do this, type the following in Terminal (if you have problems, you may need to enter 
+\f1\b0  Get the BOINC source tree from the repository, and put it in the BOINC_dev folder. To do this, type the following in Terminal (if you have problems, you may need to enter 
 \f2\fs26 sudo
 \f1\fs24  and a space before the 
 \f2\fs26 git
@@ -154,7 +155,9 @@ ftgl (needed  only if you are building the BOINC default screensaver or a projec
 \
 \pard\pardeftab720\partightenfactor0
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/\
+\f2\fs26 \cf0 cd 
+\f4\i \{path\}
+\f2\i0 /BOINC_dev/\
 \pard\pardeftab720\partightenfactor0
 \cf0 \cb5 git clone \cb1 https://github.com/BOINC/boinc.git \cb5 boinc
 \f1\fs24 \cb1 \
@@ -166,7 +169,7 @@ ftgl (needed  only if you are building the BOINC default screensaver or a projec
 \pard\pardeftab720\partightenfactor0
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 The command above retrieves the source code from the HEAD / MASTER (TRUNK) or development branch of the git repository.  You can also get or switch to the source code for any released version of BOINC. For more information on getting the BOINC source code, see:\
+\cf0 The command above retrieves the source code from the HEAD / MASTER (TRUNK) or development branch of the git repository. You can also get or switch to the source code for any released version of BOINC. For more information on getting the BOINC source code, see:\
 	{\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/SourceCodeGit"}}{\fldrslt 
 \f2\fs26 \cf2 https://github.com/BOINC/boinc/wiki/SourceCodeGit}}\
 \
@@ -177,11 +180,13 @@ ftgl (needed  only if you are building the BOINC default screensaver or a projec
 \
 \pard\pardeftab720\partightenfactor0
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
+\f2\fs26 \cf0 cd 
+\f4\i \{path\}
+\f2\i0 /BOINC_dev/boinc/mac_build/\
 source setupForBoinc.sh -clean
 \f1\fs24 \
 \
-The above commands will download the libraries only if they haven't previously been downloaded. If you don't wish to force a full rebuild of everything, omit the -clean argument.\
+The above commands will download these libraries to the BOINC_dev folder (if they haven't previously been downloaded there.) If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
@@ -205,16 +210,18 @@ The above commands will download the libraries only if they haven't previously b
 \f2\fs26 buildWxMac.sh
 \f1\fs24  to build the wxWidgets library used by BOINC Manager. If you previously built the wxWidgets library with an earlier version of  
 \f2\fs26 buildWxMac.sh
-\f1\fs24 , you may need to rebuild it with the 
-\f2\fs26 buildWxMac.sh
-\f1\fs24  included in the newer source tree if the BOINC Manager build fails with linker (
+\f1\fs24  and the BOINC Manager build fails with linker (
 \f2\fs26 ld
 \f1\fs24 ) errors for symbols starting with "
 \f2\fs26 wx
-\f1\fs24 ".\
+\f1\fs24 ", you may need to rebuild it with the 
+\f2\fs26 buildWxMac.sh
+\f1\fs24  included in the newer source tree.\
 
 \f0\b Note 4: 
-\f1\b0 The \{path\} must not contain any space characters.\
+\f1\b0 The 
+\f5\i \{path\}
+\f1\i0  must not contain any space characters.\
 \pard\pardeftab720\partightenfactor0
 
 \f0\b \cf0 Hint: 
@@ -236,7 +243,9 @@ The above commands will download the libraries only if they haven't previously b
 \
 \pard\pardeftab720\partightenfactor0
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
+\f2\fs26 \cf0 cd 
+\f4\i \{path\}
+\f2\i0 /BOINC_dev/boinc/mac_build/\
 source BuildMacBOINC.sh
 \f1\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
@@ -254,33 +263,32 @@ The options for BuildMacBOINC.sh are:\
 	-noclean	Don't do a "clean" of each target before building.\
 			Default is to clean all first.\
 \
-	-libstdc++   Build using libstdc++ instead of libc++\
+	-libstdc++   Build using libstdc++ instead of libc++ (see Note 4 below.)\
 \
-  The following arguments determine which targets to build:\
-	-all		Build all targets (i.e. target "Build_All" -- this is the default) except boinc_zip_test, testzlibconflict, UpperCase2 targets\
-			(UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64) and VBoxWrapper\
+  The following 6 arguments determine which targets to build:\
+	-all		Build all targets (i.e. target "Build_All" -- this is the default) 
+\f0\b except
+\f1\b0  boinc_zip_test, testzlibconflict, UpperCase2 targets\
+			(UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64) and VBoxWrapper.\
 \
-	-lib		Build the six libraries: libboinc_api.a, libboinc_graphics_api.a, libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a\
+	-lib		Build the six libraries: libboinc_api.a, libboinc_graphics_api.a, libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a.\
 \
 	-client		Build two targets: boinc client and command-line utility {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/wiki/Boinccmd_tool"}}{\fldrslt 
 \f2 \cf2 boinccmd}}\
 			(also builds libboinc.a, since boinc_cmd requires it.)\
 \
-	-zipapps 	Build two zip samples: boinc_zip_test and testzlibconflict\
+You should not need to build these three targets:\
+	-zipapps 	Build two zip samples: boinc_zip_test and testzlibconflict.\
 \
-	-uc2		Build the UpperCase2 targets: UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64\
+	-uc2		Build the UpperCase2 samples: UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64.\
 \
-	-vboxwrapper  Build the VBoxWrapper target\
-\
- 	-libc		Build using libc++ instead of libstdc++ (requires OS 10.7 or later)\
-\
-	-c++11	Build using c++11 language dialect instead of default\
+	-vboxwrapper  Build the VBoxWrapper target (used only for project applications.)\
 \
  Both -lib and -client may be specified to build seven targets (no BOINC Manager or screensaver.)\
 \
 The following arguments are used mainly for building the daily test builds and are not likely to be useful to you:\
 	-target targetName 	Build 
-\f4\i only
+\f5\i only
 \f1\i0  the one target specified by targetName\
 \
 	-setting name value	  Override setting 'name' to have the value 'value' (usually used along with -target.) \
@@ -291,19 +299,19 @@ The following arguments are used mainly for building the daily test builds and a
 \f0\b \cf0 Note 1:
 \f1\b0  
 \f0\b boinc.xcodeproj
-\f1\b0  in the BOINC_dev/boinc/mac_build/ directory builds BOINC.  It can be used either with the 
+\f1\b0  in the BOINC_dev/boinc/mac_build/ directory builds BOINC. It can be used either with the 
 \f2 BuildMacBOINC.sh
-\f1  script or as a stand-alone project.  The 
-\f4\i Development
-\f1\i0  build configuration is used for debugging.  The 
-\f4\i Deployment
-\f1\i0  build configuration builds a universal binary and is suitable for release builds.  If there are any other build configurations, they should not be used as they are obsolete.  \
+\f1  script or as a stand-alone project. The 
+\f5\i Development
+\f1\i0  build configuration is used for debugging. The 
+\f5\i Deployment
+\f1\i0  build configuration builds a universal binary and is suitable for release builds. If there are any other build configurations, they should not be used as they are obsolete.  \
 \
 
 \f0\b Note 2: 
 \f1\b0 To perform a release build under Xcode 6 or later when not using the 
 \f2 BuildMacBOINC.sh
-\f1  script, select "Build for Profiling" from Xcode's Product menu.  To save disk space, do 
+\f1  script, select "Build for Profiling" from Xcode's Product menu. To save disk space, do 
 \f0\b not
 \f1\b0  select "Archive."\
 \
@@ -311,17 +319,17 @@ The following arguments are used mainly for building the daily test builds and a
 \f0\b Note 3: 
 \f1\b0 Using the 
 \f2\fs26 BuildMacBOINC.sh
-\f1\fs24  script is generally easier than building directly in Xcode.  The script will place the built products in the directory 
+\f1\fs24  script is generally easier than building directly in Xcode. The script will place the built products in the directory 
 \f2\fs26 BOINC_dev/boinc/mac_build/build/Deployment/
 \f1\fs24  or 
 \f2\fs26 BOINC_dev/boinc/mac_build/build/Development/
 \f1\fs24  where they are easy to find.  \
 \
 Building directly in Xcode places the built products in a somewhat obscure location. To determine this location, control-click on 
-\f4\i Products
+\f5\i Products
 \f1\i0  in Xcode's Project Navigator and select "Show in Finder", or use the method in 
 \f0\b Note 5
-\f1\b0  below.  Building the the libboinc*.a and jpeglib.a libraries will copy them to the directory 
+\f1\b0  below. Building the the  jpeglib.a and 5 libboinc*.a libraries will copy them to the directory 
 \f2\fs26 BOINC_dev/boinc/mac_build/build/Deployment/
 \f1\fs24  or 
 \f2\fs26 BOINC_dev/boinc/mac_build/build/Development/.
@@ -333,13 +341,13 @@ Building directly in Xcode places the built products in a somewhat obscure locat
 \
 
 \f0\b Hint:
-\f1\b0  You can install multiple versions of Xcode on the same Mac, either by putting them in different directories or by renaming Xcode.app of different versions.  You can then specify which version the 
+\f1\b0  You can install multiple versions of Xcode on the same Mac, either by putting them in different directories or by renaming Xcode.app of different versions. You can then specify which version the 
 \f2\fs26 BuildMacBOINC.sh
 \f1\fs24  script should use by setting the 
 \f2\fs26 DEVELOPER_DIR
 \f1\fs24  environment variable using the 
 \f2\fs26 env
-\f1\fs24  command.  For example, if you have installed Xcode 6.2 in the Applications directory and renamed 
+\f1\fs24  command. For example, if you have installed Xcode 6.2 in the Applications directory and renamed 
 \f2\fs26 Xcode.app
 \f1\fs24  to 
 \f2\fs26 Xcode_6_2.app
@@ -352,12 +360,12 @@ Building directly in Xcode places the built products in a somewhat obscure locat
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
-\f0\b \cf0 Note 5: When 
-\f1\b0 building the client or BOINC Manager, the BOINC Xcode project has built-in scripts which create a text file with the path to the built products at either 
+\f0\b \cf0 Note 5:
+\f1\b0  When building the client or BOINC Manager, the BOINC Xcode project has built-in scripts which create a text file with the path to the built products at either 
 \f2\fs26 BOINC_dev/boinc/mac_build/Build_Deployment_Dir
 \f1\fs24  or 
 \f2\fs26 BOINC_dev/boinc/mac_build/Build_Development_Dir
-\f1\fs24 .  These files are used by the 
+\f1\fs24 . These files are used by the 
 \f2\fs26 release_boinc.sh
 \f1\fs24  script, but you can also use them to access the built products directly as follows; open the file with TextEdit and copy the path, then enter command-shift-G in the Finder and paste the path into the Finder's  dialog.\
 \
@@ -367,49 +375,49 @@ Building directly in Xcode places the built products in a somewhat obscure locat
 \f1\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
-In order to execute BOINC Manager, you must install it using BOINC Manager Installer. Otherwise, you will encounter an error prompting for proper installation.\
+In order to execute BOINC Manager, you must install it using the BOINC Manager Installer (unless running the development build under the Xcode debugger.) Otherwise, you will encounter an error prompting for proper installation.\
 \
-To build the Installer for the BOINC Manager, you must be logged in as an administrator.  If you are building BOINC version number x.y.z, type the following in Terminal, then enter your administrator password when prompted by the script:\
+To build the Installer for the BOINC Manager, you must be logged in as an administrator. If you are building BOINC version number x.y.z, type the following in Terminal, then enter your administrator password when prompted by the script:\
 \
 \pard\pardeftab720\partightenfactor0
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
-source ./mac_installer/release_boinc.sh x y z\
+\f2\fs26 \cf0 cd 
+\f4\i \{path\}
+\f2\i0 /BOINC_dev/boinc/\
+source mac_installer/release_boinc.sh x y z\
 \pard\pardeftab720\partightenfactor0
 
 \f1\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 7.24.0, the command would be\
+\cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above. For example, to build the installer for BOINC version 7.24.0, the command would be\
 \pard\pardeftab720\partightenfactor0
 
-\f2\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 7 24 0\
+\f2\fs26 \cf0 source mac_installer/release_boinc.sh 7 24 0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
-\f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_7_24_0" in the BOINC_dev directory, and the installer will be located in '
-\f2\fs26 \{path\}/BOINC_dev/BOINC_Installer/New_Release_7_24_0/boinc_7.24.0_macOSX_universal
-\f1\fs24 '.\
+\f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_7_24_0" in the BOINC_dev directory, and the installer will be located in the directory: 
+\f5\i "\{path\}
+\f1\i0 /BOINC_dev/BOINC_Installer/New_Release_7_24_0/boinc_7.24.0_macOSX_universal/"\
 \
 The installer script uses the deployment (release) build of BOINC; it won't work with a development (debug) build.\
 You can find the current version number in the file 
-\f2\fs26 \{path\}/BOINC_dev/boinc/version.h
+\f4\i\fs26 \{path\}
+\f2\i0 /BOINC_dev/boinc/version.h
 \fs24 \
 \pard\pardeftab720\partightenfactor0
 
-\f5 \cf0 \
+\f1 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
 \f0\b\fs28 \cf0 Code Signing the BOINC Manager Installer and Uninstaller
 \f1\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-
-\f5 \cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-
-\f1 \cf0 Mac OS 10.8 introduces a security feature called Gatekeeper, whose default settings won't allow a user to run applications or installers downloaded from the Internet unless they are signed by a registered Apple Developer.  The 
+\cf0 \
+Mac OS 10.8 introduced a security feature called Gatekeeper, whose default settings won't allow a user to run applications or installers downloaded from the Internet unless they are signed by a registered Apple Developer. The 
 \f2\fs26 release_boinc.sh
 \f1\fs24  script looks for a file 
 \f2\fs26 ~/BOINCCodeSignIdentities.txt
-\f1\fs24  containing the name of a valid code signing identity stored in the user's Keychain.  If this is found, the script will automatically sign the BOINC installer and BOINC uninstaller using that identity.  For example, if your user name is John Smith, the first line of 
+\f1\fs24  containing the name of a valid code signing identity stored in the user's Keychain (where ~ represents the path to your home directory, typically something like "/Users/JohnSmith". ) If this is found, the script will automatically sign the BOINC installer and BOINC uninstaller using that identity. For example, if your user name is John Smith, the first line of 
 \f2\fs26 ~/BOINCCodeSignIdentities.txt
 \f1\fs24  would be something like the following:
 \f2\fs26 \
@@ -428,13 +436,14 @@ Developer ID Application: John Smith\
 
 \f1\fs24 \cf0 If there is no 
 \f2\fs26 ~/BOINCCodeSignIdentities.txt
-\f1\fs24  file, then the script will not sign the installer or uninstaller.  Code signing is not necessary if you won't be transferring the built software over the Internet.   For more information on code signing identities see the documentation for the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/codesign.1.html"}}{\fldrslt 
-\f2\fs26 \cf2 codesign}} utility, Apple's {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/"}}{\fldrslt 
+\f1\fs24  file, then the script will not sign the installer or uninstaller. Code signing is not necessary if you won't be transferring the built software over the Internet. For more information on code signing identities enter "
+\f2\fs26 man codesign
+\f1\fs24 " in Terminal and see Apple's {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/"}}{\fldrslt 
 \f2 \cf2 Code Signing Guide}} and {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/archive/technotes/tn2206/_index.html"}}{\fldrslt 
 \f2 \cf2 Tech Note 2206}}.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
-\f5 \cf0 \
+\f6 \cf0 \
 \pard\pardeftab720\partightenfactor0
 
 \f0\b \cf0 Important:
@@ -443,11 +452,13 @@ Developer ID Application: John Smith\
 \f1\fs24  script under MacOS 10.15.7 or earlier. You can do this even if you performed the previous steps under MacOS 11.0 or later.\
 \
 \pard\tx642\pardeftab642\partightenfactor0
-\cf0 As of MacOS 10.15 Catalina, the OS does not allow the user to run downloaded software unless it has been "notarized" by Apple. You can notarize BOINC only if you have code signed everything. If you are building BOINC version number x.y.z, type the following in Terminal to notarize the installer and uninstaller:\
+\cf0 As of MacOS 10.15 Catalina, the OS does not allow the user to run software downloaded from the Internet unless it has been "notarized" by Apple. You can notarize BOINC only if you have code signed everything, including the installer package. Notarizing is not necessary if you won't be transferring the built software over the Internet. If you are building BOINC version number x.y.z, type the following in Terminal to notarize the installer and uninstaller:\
 \
 \pard\pardeftab720\partightenfactor0
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
+\f2\fs26 \cf0 cd 
+\f4\i \{path\}
+\f2\i0 /BOINC_dev/boinc/\
 source ./mac_installer/notarize_boinc.sh x y z\
 \pard\pardeftab720\partightenfactor0
 
@@ -455,12 +466,16 @@ source ./mac_installer/notarize_boinc.sh x y z\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\partightenfactor0
 \cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above using the same values you used when building the installer. \
 \
-You must have done the following before running this script:\
+You must have done the following 
+\f0\b before running this script:
+\f1\b0 \
  \'95 Created an app-specific password by following the instructions on "Using app-specific passwords" {\field{\*\fldinst{HYPERLINK "https://support.apple.com/en-us/HT204397"}}{\fldrslt here}}.\
    
 \f0\b NOTE:
 \f1\b0  You cannot use your normal Apple ID password.\
- \'95 Created a profile named "notarycredentials" in your keychain using the  "notarytool store-credentials" command (enter "man notarytool" in Terminal for details.)\
+ \'95 Created a profile named "notarycredentials" in your keychain using the  "notarytool store-credentials" command. (For details, enter "man notarytool" in Terminal and look at the description for the 
+\f2\fs26 \cf8 \CocoaLigature0 store-credentials
+\f1\fs24  subcommand.)\cf0 \CocoaLigature1 \
  \'95 Run the release_boinc.sh script as described above.\
  \
 For more information, type the following in Terminal:\
@@ -483,14 +498,14 @@ For more information, type the following in Terminal:\
 \f2 \cf2 https://github.com/BOINC/boinc/wiki/SandboxUser}}\
 \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\pardirnatural\partightenfactor0
-\cf0 \CocoaLigature0 The LLDB debugger can't attach to applications which are running as a different user or group so it ignores the S_ISUID and S_ISGID permission bits when launching an application.  To work around this, the BOINC 
-\f4\i \CocoaLigature1 Development
-\f1\i0 \CocoaLigature0  build does not use the special boinc_master or boinc_project users or groups, and so can be run under the debugger from Xcode.  This also streamlines the development cycle by avoiding the need to run the installer for every change.  (To generate the development build under Xcode, choose "Build" from the product menu, or enter command-B on the keyboard.)\
+\cf0 \CocoaLigature0 The LLDB debugger can't attach to applications which are running as a different user or group so it ignores the S_ISUID and S_ISGID permission bits when launching an application. To work around this, the BOINC 
+\f5\i \CocoaLigature1 Development
+\f1\i0 \CocoaLigature0  build does not use the special boinc_master or boinc_project users or groups, and so can be run under the debugger from Xcode. This also streamlines the development cycle by avoiding the need to run the installer for every change. (To generate the development build under Xcode, choose "Build" from the product menu, or enter command-B on the keyboard.)\
 \
-To restore the standard ownerships and permissions, run the installer or run the \CocoaLigature1 BOINC_dev/boinc/mac_build/Mac_SA_Secure.sh\CocoaLigature0  shell script in Terminal (the comments in this script have instructions for running it.)\
+To restore the standard ownerships and permissions, run the BOINC installer or run the \CocoaLigature1 BOINC_dev/boinc/mac_build/Mac_SA_Secure.sh\CocoaLigature0  shell script in Terminal (the comments in this script have instructions for running it.)\
 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 \cb8 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/MacBacktrace"}}{\fldrslt 
+\cf0 \cb9 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/MacBacktrace"}}{\fldrslt 
 \f2 \cf2 Mac Backtrace}}.\cb1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
@@ -499,13 +514,5 @@ To restore the standard ownerships and permissions, run the installer or run the
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\pardirnatural\partightenfactor0
-\cf0 \CocoaLigature0 The BOINC Xcode project links the BOINC Manager with the non-debugging (Deployment) build of wxWidgets for the Deployment build configuration of the Manager, and with the debugging (Development) build of wxWidgets for the Development build configuration of the Manager.  You should use the Development build of the Manager and wxWidgets for debugging; this allows you to step into internal wxWidgets code. With the Development build, you can even put breakpoints in wxWidgets; this is most easily done after stepping into a function in wxWidgets source file containing the code where you wish to put the breakpoint.\
-\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
-
-\f0\b\fs28 \cf0 \CocoaLigature1 Installing and setting up Xcode
-\f1\b0\fs24 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 \
-If Xcode is obtained from the Apple Store then it will be installed automatically into the Applications folder.  Double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.  (Some versions of Xcode may not display this dialog until you open a file with Xcode.)\
+\cf0 \CocoaLigature0 The BOINC Xcode project links the BOINC Manager with the non-debugging (Deployment) build of wxWidgets for the Deployment build configuration of the Manager, and with the debugging (Development) build of wxWidgets for the Development build configuration of the Manager. You should use the Development build of the Manager and wxWidgets for debugging; this allows you to step into internal wxWidgets code. With the Development build, you can even put breakpoints in wxWidgets; this is most easily done after stepping into a function in wxWidgets source file containing the code where you wish to put the breakpoint.\
 }
