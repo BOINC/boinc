@@ -319,8 +319,6 @@
         <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-apple-darwin[GW-opencl-ati]</name>
-        <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[GW-SSE2]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
