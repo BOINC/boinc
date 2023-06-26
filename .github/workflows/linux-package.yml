@@ -33,6 +33,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
   AWS_DEFAULT_REGION: us-west-2
+  PUBKEY: boinc.gpg # keep extension
 
 jobs:
   prepare-binaries:
@@ -110,3 +111,93 @@ jobs:
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
+
+  build-deb-package:
+    name: Build DEB Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    needs: prepare-binaries
+    strategy:
+      # max-parallel: 1
+      matrix:
+        os: [jammy, focal, bullseye, buster]
+      fail-fast: false
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          # Install aptly version 1.5.0+ (to support ubuntu xz compression)
+          # gpg1 is used for compatibility with aptly
+          wget -qO - https://www.aptly.info/pubkey.txt | sudo apt-key add -
+          echo "deb http://repo.aptly.info/ squeeze main" | sudo tee -a /etc/apt/sources.list
+          sudo apt update -qq
+          sudo apt-get install -y aptly gnupg1 gpgv1
+
+      - name: Preparation
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+          if [[ "${PKG_VERSION}" -eq "" ]]; then
+            printf "Could not obtain release package version from version.h"
+            exit 1
+          fi
+
+          # Setup Environment vars
+          # PKG_NAME=$(echo "boinc-${{ matrix.package-type }}" | sed "s|_|-|")
+          # PKG_CLEAN=$(echo "$PKG_NAME" | sed "s|-vcpkg||")
+          CLIENT_PKG_FULL="boinc-client_${PKG_VERSION}-1_amd64"
+          MANAGER_PKG_FULL="boinc-manager_${PKG_VERSION}-1_amd64"
+
+          echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
+          # echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
+          # echo "PKG_CLEAN=${PKG_CLEAN}" >> $GITHUB_ENV
+          echo "CLIENT_PKG_FULL=${CLIENT_PKG_FULL}" >> $GITHUB_ENV
+          echo "MANAGER_PKG_FULL=${MANAGER_PKG_FULL}" >> $GITHUB_ENV
+          echo "PUBKEY=${{ env.PUBKEY }}" >> $GITHUB_ENV
+
+          # echo "Orig. Package name ${PKG_NAME}"
+          # echo "Package name ${PKG_CLEAN}"
+          echo "Package version ${PKG_VERSION}"
+          echo "Full client package name ${CLIENT_PKG_FULL}"
+          echo "Full manager package name ${MANAGER_PKG_FULL}"
+          echo "Key file ${{ env.PUBKEY }}"
+
+          # Setup gpg keys
+          echo "${{ secrets.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
+          echo "${{ secrets.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+
+          cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
+
+          # Setup temp directory for packages
+          mkdir pkgs/
+          mkdir ${CLIENT_PKG_FULL}
+          mkdir ${MANAGER_PKG_FULL}
+
+      - name: Download client
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_client_${{ github.event.pull_request.head.sha }}
+          path: pkgs/
+
+      - name: Download manager
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_manager_${{ github.event.pull_request.head.sha }}
+          path: pkgs/
