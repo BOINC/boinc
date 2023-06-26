@@ -1,4 +1,21 @@
-#!/bin/bash -xe
+#!/bin/bash
+
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 # support functions
 function exit_on_fail() {
@@ -114,6 +131,45 @@ if [[ "$IS_MIRROR" -eq "0" ]]; then
 	# imports the downloaded packages to the local mirror
 	aptly -config=$CONF_FILE repo import boinc-$TYPE-mirror boinc-$TYPE "Name"
 	exit_on_fail "Failed to import the remote mirror into local"
+
+	# keep only 3 last versions of each package before adding new ones
+	packets=$(aptly -config=$CONF_FILE repo search boinc-$TYPE | grep -o '[^[:space:]]*_\([[:digit:]]*\.\)\{2\}[[:digit:]]*-\([[:digit:]]*_\)[^[:space:]]*' | sort -t '_' -k 2 -V | uniq)
+	declare -A split_lists
+	packets_list=()
+	while IFS= read -r line; do
+		packets_list+=("$line")
+	done <<< "$packets"
+	for item in "${packets_list[@]}"; do
+		prefix="${item%%_*}"     # Extract the prefix (text before the first underscore)
+		split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
+	done
+
+	for prefix in "${!split_lists[@]}"; do
+		echo "List for prefix: $prefix"
+		echo "${split_lists[$prefix]}"
+		count=$(echo "${split_lists[$prefix]}" | wc -l)
+		number=$(expr $count - 1)
+		echo "count=$number"
+		i=0
+		exceed=$(expr $number - 3)
+		echo "exceed=$exceed"
+		if (( exceed > 0)); then
+			values_list=()
+			while IFS= read -r line; do
+				values_list+=("$line")
+			done <<< "${split_lists[$prefix]}"
+			for value in "${values_list[@]}"; do
+				if (( i < exceed )); then
+					echo "Remove: $value"
+					i=$((i+1))
+					aptly -config=$CONF_FILE repo remove boinc-$TYPE $value
+					exit_on_fail "Failed to remove the package"
+				else
+					break
+				fi
+			done
+		fi
+	done
 
 	# creates the snapshot of the old situation
 	aptly -config=$CONF_FILE snapshot create old-boinc-$TYPE-snap from repo boinc-$TYPE

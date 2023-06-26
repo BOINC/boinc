@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 # support functions
 function exit_on_fail() {
 	errcode=$?
@@ -63,16 +80,14 @@ function prepare_manager() {
 
 ROOT=$(pwd)
 
-OS="$1"      # distro for which the prepare is done
-FULLPKG="$2" # full name of the package
-PKG="$3"     # name of the artifact
-BASEPKG="$4" # name of the artifact type
+FULLPKG="$1" # full name of the package
+BASEPKG="$2" # name of the artifact type
 
 # validity check
 case "$BASEPKG" in
-  "linux_client-vcpkg")
+  "linux_client")
      ;;
-  "linux_manager-without-webview")
+  "linux_manager")
      ;;
 
 *)  echo "ERROR: Unknown package preparation requested"
@@ -87,21 +102,11 @@ exit_on_fail
 pushd "$ROOT/$FULLPKG"
 exit_on_fail
 
-stat "${ROOT}/pkgs/$PKG.zip"
-exit_on_fail
-
-# unpack the github artifact
-7z x "${ROOT}/pkgs/$PKG.zip"
-exit_on_fail
-
-stat "${BASEPKG}.7z"
+stat "${ROOT}/pkgs/${BASEPKG}.7z"
 exit_on_fail
 
 # unpack the boinc archive
-7z x "${BASEPKG}.7z"
-exit_on_fail
-
-rm -f "${BASEPKG}.7z"
+7z x "${ROOT}/pkgs/${BASEPKG}.7z"
 exit_on_fail
 
 find .
@@ -112,10 +117,10 @@ exit_on_fail
 
 # specialized prepare
 case "$BASEPKG" in
-  "linux_client-vcpkg")
+  "linux_client")
      prepare_client
      ;;
-  "linux_manager-without-webview")
+  "linux_manager")
      prepare_manager
      ;;
 *)  echo "ERROR: Unknown package preparation requested"
