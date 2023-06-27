@@ -387,7 +387,7 @@ bool CAdvancedFrame::CreateMenus() {
     // wxWidgets actually puts this in the BOINCManager menu
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences...")
+        _("Preferences...\tCtrl+,")
     );
 #endif
 
