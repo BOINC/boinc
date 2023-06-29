@@ -315,7 +315,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array) {
+void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, const char * delimiters, wxArrayString* array) {
     wxString name;
 
     array->Clear();

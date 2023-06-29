@@ -74,7 +74,7 @@ public:
     virtual bool            OnSaveState(wxConfigBase* pConfig);
     virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
-    void                    TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array);
+    void                    TokenizedStringToArray(wxString tokenized, const char * delimiters, wxArrayString* array);
     void                    SetListColumnOrder(wxArrayString& orderArray);
     void                    SetStandardColumnOrder();
     bool                    IsColumnOrderStandard();
