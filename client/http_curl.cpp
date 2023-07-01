@@ -404,6 +404,8 @@ static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
 int HTTP_OP::libcurl_exec(
     const char* url, const char* in, const char* out, double offset,
 #ifdef _WIN32
+    // expected size of file we're downloading.
+    // on Win, pre-allocate this file to reduce disk fragmentation
     double size,
 #else
     double,
@@ -557,6 +559,12 @@ int HTTP_OP::libcurl_exec(
         file_offset = offset;
         snprintf(buf, sizeof(buf), "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, buf);
+    }
+
+    // if this is a post, set content type (always text/xml)
+    //
+    if (is_post) {
+        pcurlList = curl_slist_append(pcurlList, "Content-type: text/xml");
     }
 
     // set up an output file for the reply
