@@ -112,26 +112,6 @@
         <keywords>9 13 11 23 24 28 64</keywords>
     </project>
     <project>
-        <name>QuChemPedIA@home</name>
-        <id>49</id>
-        <url>https://quchempedia.univ-angers.fr/athome/</url>
-        <web_url>https://quchempedia.univ-angers.fr/athome/</web_url>
-        <general_area>Physical Science</general_area>
-        <specific_area>Molecular Chemistry</specific_area>
-        <description><![CDATA[This project will create an open platform to solve and store quantum molecular chemistry results, and will develop artificial intelligence and optimization methods in order to efficiently explore the highly combinatorial molecular space.]]></description>
-        <home>Université d’Angers</home>
-    <platforms>
-        <name>windows_x86_64[vbox64_t1]</name>
-        <name>x86_64-apple-darwin[vbox64_t1]</name>
-        <name>x86_64-pc-linux-gnu[t1]</name>
-        <name>x86_64-pc-linux-gnu[t2]</name>
-        <name>x86_64-pc-linux-gnu[t4]</name>
-        <name>x86_64-pc-linux-gnu[t8]</name>
-    </platforms>
-      <summary>Explore molecular chemistry</summary>
-        <keywords>62 20 65</keywords>
-    </project>
-    <project>
         <name>Asteroids@home</name>
         <id>11</id>
         <url>http://asteroidsathome.net/boinc/</url>
@@ -249,23 +229,8 @@
         <description><![CDATA[The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.]]></description>
         <home>Rensselaer Polytechnic Institute</home>
     <platforms>
-        <name>i686-pc-linux-gnu</name>
-        <name>i686-pc-linux-gnu[opencl_ati_101]</name>
-        <name>i686-pc-linux-gnu[opencl_nvidia_101]</name>
-        <name>windows_intelx86</name>
-        <name>windows_intelx86[opencl_ati_101]</name>
-        <name>windows_intelx86[opencl_nvidia_101]</name>
-        <name>windows_x86_64</name>
         <name>windows_x86_64[mt]</name>
-        <name>windows_x86_64[opencl_ati_101]</name>
-        <name>windows_x86_64[opencl_nvidia_101]</name>
-        <name>x86_64-apple-darwin</name>
-        <name>x86_64-apple-darwin[opencl_ati_101]</name>
-        <name>x86_64-apple-darwin[opencl_nvidia_101]</name>
-        <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[mt]</name>
-        <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
-        <name>x86_64-pc-linux-gnu[opencl_nvidia_101]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
@@ -383,22 +348,6 @@
       <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
       <summary>Improve the design of the Large Hadron Collider</summary>
         <keywords>6 7 59 27</keywords>
-    </project>
-    <project>
-        <name>nanoHUB@Home</name>
-        <id>43</id>
-        <url>https://boinc.nanohub.org/nanoHUB_at_home/</url>
-        <web_url>https://boinc.nanohub.org/nanoHUB_at_home/</web_url>
-        <general_area>Physical Science</general_area>
-        <specific_area>Nanoscience</specific_area>
-        <description><![CDATA[nanoHUB@Home provides computing power to users of the nanoHUB portal for nanoscience.]]></description>
-        <home>Purdue University</home>
-    <platforms>
-        <name>windows_x86_64[vbox64_mt]</name>
-        <name>x86_64-apple-darwin[vbox64_mt]</name>
-        <name>x86_64-pc-linux-gnu[vbox64_mt]</name>
-    </platforms>
-        <keywords>23 24 8</keywords>
     </project>
     <project>
         <name>iThena</name>
@@ -544,46 +493,6 @@
     </platforms>
       <summary>Run applications from distributed.net</summary>
         <keywords>15</keywords>
-    </project>
-    <project>
-        <name>Collatz Conjecture</name>
-        <id>28</id>
-        <url>https://boinc.thesonntags.com/collatz/</url>
-        <web_url>https://boinc.thesonntags.com/collatz/</web_url>
-        <general_area>Mathematics, computing, and games</general_area>
-        <specific_area>Mathematics</specific_area>
-        <description><![CDATA[Study the Collatz Conjecture, an unsolved conjecture in mathematics]]></description>
-        <home>Independent</home>
-    <platforms>
-        <name>i686-pc-linux-gnu</name>
-        <name>i686-pc-linux-gnu[ati_opencl]</name>
-        <name>i686-pc-linux-gnu[intel_opencl]</name>
-        <name>i686-pc-linux-gnu[nvidia_opencl]</name>
-        <name>i686-pc-linux-gnu[opencl_ati_gpu]</name>
-        <name>windows_intelx86</name>
-        <name>windows_intelx86[opencl_ati_gpu]</name>
-        <name>windows_intelx86[opencl_intel_gpu]</name>
-        <name>windows_intelx86[opencl_nvidia_gpu]</name>
-        <name>windows_intelx86[SSE]</name>
-        <name>windows_x86_64</name>
-        <name>windows_x86_64[opencl_ati_gpu]</name>
-        <name>windows_x86_64[opencl_intel_gpu]</name>
-        <name>windows_x86_64[opencl_nvidia_gpu]</name>
-        <name>x86_64-apple-darwin</name>
-        <name>x86_64-apple-darwin[ati_opencl]</name>
-        <name>x86_64-apple-darwin[intel_opencl]</name>
-        <name>x86_64-apple-darwin[nvidia_opencl]</name>
-        <name>x86_64-apple-darwin[opencl_ati]</name>
-        <name>x86_64-apple-darwin[opencl_intel]</name>
-        <name>x86_64-apple-darwin[opencl_nvidia]</name>
-        <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[opencl_ati]</name>
-        <name>x86_64-pc-linux-gnu[opencl_ati_gpu]</name>
-        <name>x86_64-pc-linux-gnu[opencl_intel]</name>
-        <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
-    </platforms>
-      <summary>Study the Collatz Conjecture</summary>
-        <keywords>15 32 20</keywords>
     </project>
     <project>
         <name>NFS@home</name>
@@ -911,32 +820,6 @@
     </platforms>
       <summary>Study Latin Squares</summary>
         <keywords>15 20 44</keywords>
-    </project>
-    <project>
-        <name>Minecraft@Home</name>
-        <id>46</id>
-        <url>https://minecraftathome.com/minecrafthome/</url>
-        <web_url>https://minecraftathome.com/minecrafthome/</web_url>
-        <general_area>Mathematics, computing, and games</general_area>
-        <specific_area>Games</specific_area>
-        <description><![CDATA[Minecraft@Home studies questions related to Minecraft, such as the properties of worlds that can be generated from different random seeds.]]></description>
-        <home>Independent</home>
-    <platforms>
-        <name>aarch64-unknown-linux-gnu</name>
-        <name>windows_x86_64</name>
-        <name>windows_x86_64[cuda]</name>
-        <name>windows_x86_64[opencl_amd]</name>
-        <name>windows_x86_64[opencl_intel_gpu]</name>
-        <name>windows_x86_64[opencl_nvidia]</name>
-        <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[cuda]</name>
-        <name>x86_64-pc-linux-gnu[opencl_amd]</name>
-        <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
-        <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/minecraft_at_home.png width=400</image>
-      <summary>Explore Minecraft</summary>
-        <keywords>15 63</keywords>
     </project>
     <project>
         <name>Ramanujan Machine</name>
