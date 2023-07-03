@@ -167,6 +167,6 @@ CLocalization::CLocalization() {
         _("Your tasks");
     m_strANYourTeamName =
         _("Your team");
-    
+
 }
 
