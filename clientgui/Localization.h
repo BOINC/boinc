@@ -99,6 +99,13 @@ public:
     wxString m_strWCGYourStatsDesc;
     wxString m_strWCGResearchName;
     wxString m_strWCGResearchDesc;
+
+    // Amicable numbers
+    wxString m_strANHomePageName;
+    wxString m_strANMessageBoardsName;
+    wxString m_strANYourAccountName;
+    wxString m_strANYourTasksName;
+    wxString m_strANYourTeamName;
 };
 
 #endif

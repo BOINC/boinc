@@ -156,5 +156,17 @@ CLocalization::CLocalization() {
     m_strWCGResearchDesc =
         _("Learn about the projects hosted at World Community Grid");
 
+    // Amicable numbers
+    m_strANHomePageName =
+        _("Home page");
+    m_strANMessageBoardsName =
+        _("Message boards");
+    m_strANYourAccountName =
+        _("Your account");
+    m_strANYourTasksName =
+        _("Your tasks");
+    m_strANYourTeamName =
+        _("Your team");
+
 }
 
