@@ -1,8 +1,25 @@
 #!/bin/bash
 
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 case "$1_$2" in
 # fedora variants
-"fc38_linux_client-vcpkg")
+"fc38_linux_client")
     echo """/etc/boinc-client/*
 /etc/default/*
 /etc/init.d/*
@@ -13,7 +30,7 @@ case "$1_$2" in
 /usr/lib/*
 """
     ;;
-"fc37_linux_client-vcpkg")
+"fc37_linux_client")
     echo """/etc/boinc-client/*
 /etc/default/*
 /etc/init.d/*
@@ -25,7 +42,7 @@ case "$1_$2" in
 """
     ;;
 
-"fc38_linux_manager-without-webview")
+"fc38_linux_manager")
     echo """/usr/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
@@ -33,7 +50,7 @@ case "$1_$2" in
 /usr/share/icons/boinc
 """
     ;;
-"fc37_linux_manager-without-webview")
+"fc37_linux_manager")
     echo """/usr/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
@@ -43,7 +60,7 @@ case "$1_$2" in
     ;;
 
 # suse variants
-"suse15_5_linux_client-vcpkg")
+"suse15_5_linux_client")
     echo """/etc/boinc-client/*
 /etc/default/*
 /etc/init.d/*
@@ -54,7 +71,7 @@ case "$1_$2" in
 /usr/lib/*
 """
     ;;
-"suse15_4_linux_client-vcpkg")
+"suse15_4_linux_client")
     echo """/etc/boinc-client/*
 /etc/default/*
 /etc/init.d/*
@@ -66,7 +83,7 @@ case "$1_$2" in
 """
     ;;
 
-"suse15_5_linux_manager-without-webview")
+"suse15_5_linux_manager")
     echo """/usr/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
@@ -74,7 +91,7 @@ case "$1_$2" in
 /usr/share/icons/boinc
 """
     ;;
-"suse15_4_linux_manager-without-webview")
+"suse15_4_linux_manager")
     echo """/usr/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
