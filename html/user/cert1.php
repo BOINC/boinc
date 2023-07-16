@@ -23,20 +23,27 @@
 require_once("../inc/util.inc");
 require_once("../inc/cert.inc");
 
-check_get_args(array("border"));
-
-$user = get_logged_in_user();
-
-$join = gmdate('j F Y', $user->create_time);
-$today = gmdate('j F Y', time());
-
 $border = get_str("border", true);
-
 if ($border=="no") {
-    $border = 0;
+    $border=0;
 } else {
     $border=8;
 }
+
+// Make sure user_id is in the URL so that share functions work
+//
+$user_id = get_int('user_id', true);
+if (!$user_id) {
+    $user = get_logged_in_user();
+    Header(sprintf('Location: %s/cert1.php?user_id=%d%s',
+        url_base(), $user->id, $border==0?'&border=no':''
+    ));
+    exit;
+}
+$user = BoincUser::lookup_id($user_id);
+
+$join = gmdate('j F Y', $user->create_time);
+$today = gmdate('j F Y', time());
 
 $credit = credit_string($user->total_credit, false);
 
@@ -100,4 +107,5 @@ echo "
 </td><tr></table></table>
 ";
 show_download_button();
+show_share_buttons();
 ?>

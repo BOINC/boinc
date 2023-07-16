@@ -26,9 +26,25 @@ require_once("../inc/cert.inc");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
-check_get_args(array("border"));
+$border = get_str("border", true);
+if ($border=="no") {
+    $border=0;
+} else {
+    $border=8;
+}
 
-$user = get_logged_in_user();
+// Make sure user_id is in the URL so that share functions work
+//
+$user_id = get_int('user_id', true);
+if (!$user_id) {
+    $user = get_logged_in_user();
+    Header(sprintf('Location: %s/cert_team.php?user_id=%d%s',
+        url_base(), $user->id, $border==0?'&border=no':''
+    ));
+    exit;
+}
+
+$user = BoincUser::lookup_id($user_id);
 $team = BoincTeam::lookup_id($user->teamid);
 if (!$team) error_page("no team");
 
@@ -36,14 +52,6 @@ $join = gmdate('j F Y', $team->create_time);
 $today = gmdate('j F Y', time());
 
 credit_to_ops($team->total_credit, $ops, $unit);
-
-$border = get_str("border", true);
-
-if ($border=="no") {
-    $border = 0;
-} else {
-    $border=8;
-}
 
 $credit = credit_string($team->total_credit, false);
 
@@ -107,4 +115,5 @@ echo "
 </td><tr></table></table>
 ";
 show_download_button();
+show_share_buttons();
 ?>
