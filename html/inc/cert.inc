@@ -52,6 +52,7 @@ function credit_string($credit, $bolden) {
 }
 
 // show button to download certificate as PNG
+//
 function show_download_button() {
     echo '
         <p>
@@ -78,5 +79,31 @@ function show_download_button() {
             }
         </script>
     ';
+}
+
+// show buttons to share certificate on facebook and twitter
+// Note: the cert pages don't use bootstrap, so we can't use show_button()
+//
+function show_share_buttons() {
+    echo '<p>';
+    $current_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $cert_url = urlencode($current_url);
+
+    // Share on Facebook
+    $fb_url = 'https://www.facebook.com/sharer/sharer.php?u='.$cert_url;
+    echo sprintf(
+        '<button onclick="window.location.href=\'%s\';">%s</button>',
+        $fb_url,
+        tra('Share on Facebook')
+    );
+    echo '<p>';
+
+    // Share on Twitter
+    $twitter_text = urlencode("Check out my computation certificate from BOINC!");
+    $tw_url = 'https://twitter.com/intent/tweet?url='.$cert_url.'&text='.$twitter_text;
+    echo sprintf('<button onclick="window.location.href=\'%s\';">%s</button>',
+        $tw_url,
+        tra('Share on Twitter')
+    );
 }
 ?>
