@@ -265,17 +265,28 @@ int CLIENT_STATE::check_suspend_processing() {
     }
 
 #ifdef ANDROID
+    // suspend if we haven't heard from the GUI in 30 sec
+    // (we rely on it for battery info)
+    //
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
         requested_exit = true;
         return SUSPEND_REASON_NO_GUI_KEEPALIVE;
     }
 
     // check for hot battery
+    // If suspend because of hot battery, don't resume for at least 5 min
+    // (crude hysteresis)
     //
+    static double battery_heat_resume_time=0;
+    if (now < battery_heat_resume_time) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
     if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
+        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
     if (device_status.battery_temperature_celsius > global_prefs.battery_max_temperature) {
+        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
 
@@ -283,9 +294,14 @@ int CLIENT_STATE::check_suspend_processing() {
     // while it's recharging.
     // So compute only if 95% charged or more.
     //
+    static double battery_charge_resume_time=0;
+    if (now < battery_charge_resume_time) {
+        return SUSPEND_REASON_BATTERY_CHARGING;
+    }
     int cp = device_status.battery_charge_pct;
     if (cp >= 0) {
         if (cp < global_prefs.battery_charge_min_pct) {
+            battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
     }

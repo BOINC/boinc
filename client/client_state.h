@@ -685,6 +685,10 @@ extern THREAD throttle_thread;
     // Android: if don't get a report_device_status() RPC from the GUI
     // in this interval, exit.
     // We rely on the GUI to report battery status.
+#define ANDROID_BATTERY_BACKOFF     300
+    // Android: if battery is overheated or undercharged,
+    // suspend for at least this long
+    // (avoid rapid start/stop)
 
 #ifndef ANDROID
 #define USE_NET_PREFS
