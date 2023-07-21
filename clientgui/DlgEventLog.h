@@ -124,6 +124,9 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
     void OnMessagesCopySelected( wxCommandEvent& event );
 
+    // wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYERROR
+    void OnErrorFilter(wxCommandEvent& event);
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYPROJECT
     void OnMessagesFilter( wxCommandEvent& event );
 

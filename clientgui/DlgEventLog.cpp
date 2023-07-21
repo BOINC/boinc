@@ -476,6 +476,57 @@ void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
 }
 
 
+// Function used to filter errors displayed in the Event Log.
+// This Function will first check if errors are currently filtered.  Then, regardless if true or false,
+// will evaluate if a project filter is active or not.  Depending on the combination of error and
+// project filters, the filtered list will be updated.  One of three possibilities could happen:
+// 1.  Restarting from the original event log list (if error filter was active and it is being deactivated)
+// 2.  Restarting the list and re-filtering (if both filters were active, but then one is being deactivated)
+// 3.  Filtering the currently filtered list (if one filter was active and the other filter is being activated).
+// After filtering is completed, then the buttons in the event log window are updated and the event log list
+// is updated to reflect the changes made to the list.
+//
+void CDlgEventLog::OnErrorFilter(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnErrorFilter - Function Begin"));
+    wxASSERT(m_pList);
+    if (s_bErrorIsFiltered) {
+        // Errors are currently filtered.  Whether a project filter is enabled or not,
+        // the list will need to be reset to the original list first.
+        //
+        s_bErrorIsFiltered = false;
+        m_iFilteredDocCount = m_iTotalDocCount;
+        m_iFilteredIndexes.Clear();
+        m_iTotalDeletedFilterRows = 0;
+        // Now that the settings are changed, need to determine if project filtering is currently
+        // enabled or not.  If it is not enabled, do nothing.  If it is enabled, need to re-filter
+        // by the project.
+        //
+        if (s_bIsFiltered) {  // Errors are currently filtered and a project is filtered
+            findprojectmessages(false);
+        }
+    }
+    else {
+        // Errors are not currently filtered.  Take the list as it is and filter out errors.
+        s_bErrorIsFiltered = true;
+        if (!s_bIsFiltered) {  // Errors are not currently filtered but are filtered by a project.  Filter from the current list.
+            m_iFilteredDocCount = m_iTotalDocCount;
+            m_iFilteredIndexes.Clear();
+            m_iTotalDeletedFilterRows = 0;
+        }
+        finderrormessages(s_bIsFiltered);
+    }
+
+    s_bErrorFilteringChanged = true;
+    SetFilterButtonText();
+    // Force a complete update
+    m_iPreviousRowCount = 0;
+    m_pList->DeleteAllItems();
+    m_pList->SetItemCount(m_iFilteredDocCount);
+    OnRefresh();
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnErrorFilter - Function End"));
+}
+
+
 void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnMessagesFilter - Function Begin"));
 
