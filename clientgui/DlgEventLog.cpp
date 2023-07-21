@@ -60,6 +60,8 @@ const int dlgEventlogMinHeight = 250;
 
 static bool s_bIsFiltered = false;
 static bool s_bFilteringChanged = false;
+static bool s_bErrorIsFiltered = false;
+static bool s_bErrorFilteringChanged = false;
 static std::string s_strFilteredProjectName;
 
 /*!
