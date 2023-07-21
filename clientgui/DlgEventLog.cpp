@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -79,6 +79,7 @@ BEGIN_EVENT_TABLE( CDlgEventLog, DlgEventLogBase )
     EVT_BUTTON(wxID_OK, CDlgEventLog::OnOK)
     EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
+    EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYERROR, CDlgEventLog::OnErrorFilter)
     EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
 	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CDlgEventLog::OnDiagnosticLogFlags)
@@ -326,6 +327,9 @@ void CDlgEventLog::CreateControls()
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
 
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
+
+    m_pErrorFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYERROR, _("Show only aler&ts"), wxDefaultPosition, wxDefaultSize);
+    itemBoxSizer4->Add(m_pErrorFilterButton, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("&Show only this project"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(m_pFilterButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
