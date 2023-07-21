@@ -50,7 +50,7 @@
 
 const int dlgEventlogInitialWidth = 640;
 const int dlgEventLogInitialHeight = 480;
-const int dlgEventlogMinWidth = 600;
+const int dlgEventlogMinWidth = 620;
 const int dlgEventlogMinHeight = 250;
 
 #define COLUMN_PROJECT              0
