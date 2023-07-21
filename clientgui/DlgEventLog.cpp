@@ -973,6 +973,89 @@ void CDlgEventLog::ResetMessageFiltering() {
 }
 
 
+// Function to search through messages and find messages that contain an error.  This function first reads the input
+// to see if it should search all indexes or a pre-filtered set of indexes.  Then, it will search through the indexes.
+// For each index that is an error (priority == MSG_USER_ALERT), it will add that message's index to a temporary
+// array of indexes.  After the for loop is complete, the recently filtered indexes will be written to m_iFilteredIndexes
+// and the recently filtered indexes will be stored in m_iFilteredDocCount.
+// 
+// The following input variable is required:
+//  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
+//                 If we want to search all indexes (m_iTotalIndexes), this will be false).
+//
+void CDlgEventLog::finderrormessages(bool isfiltered) {
+    wxArrayInt filteredindexes;
+    MESSAGE* message;
+    wxInt32 i = 0;
+    if (isfiltered) {
+        for (i; i < m_iFilteredDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
+            if (message) {
+                if (message->priority == MSG_USER_ALERT) {
+                    filteredindexes.Add(GetFilteredMessageIndex(i));
+                }
+            }
+        }
+    }
+    else {
+        for (i; i < m_iTotalDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(i);
+            if (message) {
+                if (message->priority == MSG_USER_ALERT) {
+                    filteredindexes.Add(i);
+                }
+            }
+        }
+    }
+    m_iFilteredIndexes = filteredindexes;
+    m_iFilteredDocCount = static_cast<wxInt32>(filteredindexes.GetCount());
+}
+
+
+// Function to search through messages and find all messages that are associated with a specific project.  Messages that do
+// not have a project are included in the filtered indexes.
+// 
+// This function first reads the input to see if it should search all indexes or a pre-filtered set of indexes.
+// Then, it will search through those indexes.  For each message that matches the associated
+// project (s_strFilteredProjectName) or has no associated project, it will add that message's index to a temporary
+// array of indexes.  After the for loop is complete, the recently filtered indexes will be written to
+// m_iFilteredIndexes and the recently filtered indexes will be stored in m_iFilteredDocCount.
+// 
+// It is assumed s_strFilteredProjectName is correct prior to this function being called.
+// 
+// The following input variable is required:
+//  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
+//                 If we want to search all indexes (m_iTotalIndexes), this will be false).
+//
+void CDlgEventLog::findprojectmessages(bool isfiltered) {
+    wxArrayInt filteredindexes;
+    MESSAGE* message;
+    wxInt32 i = 0;
+    if (isfiltered) {
+        for (i; i < m_iFilteredDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
+            if (message) {
+                if (message->project.empty() || message->project == s_strFilteredProjectName) {
+                    filteredindexes.Add(GetFilteredMessageIndex(i));
+                }
+            }
+        }
+    }
+    else {
+        for (i; i < m_iTotalDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(i);
+            if (message) {
+                if (message->project.empty() || message->project == s_strFilteredProjectName) {
+                    filteredindexes.Add(i);
+                }
+            }
+        }
+    }
+    m_iFilteredIndexes = filteredindexes;
+    m_iFilteredDocCount = static_cast<wxInt32>(m_iFilteredIndexes.GetCount());
+}
+
+
 void CDlgEventLog::UpdateButtons() {
     bool enableFilterButton = s_bIsFiltered;
     bool enableCopySelectedButton = false;

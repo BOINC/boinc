@@ -199,6 +199,9 @@ private:
 
     void                    ResetMessageFiltering();
 
+    void                    finderrormessages(bool isfiltered);
+    void                    findprojectmessages(bool isfiltered);
+
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
