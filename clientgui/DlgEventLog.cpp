@@ -1076,7 +1076,7 @@ void CDlgEventLog::ResetMessageFiltering() {
 // For each index that is an error (priority == MSG_USER_ALERT), it will add that message's index to a temporary
 // array of indexes.  After the for loop is complete, the recently filtered indexes will be written to m_iFilteredIndexes
 // and the recently filtered indexes will be stored in m_iFilteredDocCount.
-// 
+//
 // The following input variable is required:
 //  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
 //                 If we want to search all indexes (m_iTotalIndexes), this will be false).
@@ -1112,15 +1112,15 @@ void CDlgEventLog::FindErrorMessages(bool isFiltered) {
 
 // Function to search through messages and find all messages that are associated with a specific project.  Messages that do
 // not have a project are included in the filtered indexes.
-// 
+//
 // This function first reads the input to see if it should search all indexes or a pre-filtered set of indexes.
 // Then, it will search through those indexes.  For each message that matches the associated
 // project (s_strFilteredProjectName) or has no associated project, it will add that message's index to a temporary
 // array of indexes.  After the for loop is complete, the recently filtered indexes will be written to
 // m_iFilteredIndexes and the recently filtered indexes will be stored in m_iFilteredDocCount.
-// 
+//
 // It is assumed s_strFilteredProjectName is correct prior to this function being called.
-// 
+//
 // The following input variable is required:
 //  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
 //                 If we want to search all indexes (m_iTotalIndexes), this will be false).
