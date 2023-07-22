@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -124,6 +124,9 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
     void OnMessagesCopySelected( wxCommandEvent& event );
 
+    // wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYERROR
+    void OnErrorFilter(wxCommandEvent& event);
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYPROJECT
     void OnMessagesFilter( wxCommandEvent& event );
 
@@ -173,6 +176,7 @@ private:
     wxInt32                 m_iPreviousRowCount;
     wxButton*               m_pFilterButton;
     wxButton*               m_pCopySelectedButton;
+    wxButton*               m_pErrorFilterButton;
 
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
@@ -197,6 +201,9 @@ private:
     void                    OnMouseUp(wxMouseEvent& event);
 
     void                    ResetMessageFiltering();
+
+    void                    FindErrorMessages(bool isFiltered);
+    void                    FindProjectMessages(bool isFiltered);
 
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
