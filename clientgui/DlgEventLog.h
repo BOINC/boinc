@@ -202,8 +202,8 @@ private:
 
     void                    ResetMessageFiltering();
 
-    void                    finderrormessages(bool isfiltered);
-    void                    findprojectmessages(bool isfiltered);
+    void                    FindErrorMessages(bool isFiltered);
+    void                    FindProjectMessages(bool isFiltered);
 
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;

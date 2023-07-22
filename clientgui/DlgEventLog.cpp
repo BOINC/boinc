@@ -516,7 +516,7 @@ void CDlgEventLog::OnErrorFilter(wxCommandEvent& WXUNUSED(event)) {
         // by the project.
         //
         if (s_bIsFiltered) {  // Errors are currently filtered and a project is filtered
-            findprojectmessages(false);
+            FindProjectMessages(false);
         }
     }
     else {
@@ -527,7 +527,7 @@ void CDlgEventLog::OnErrorFilter(wxCommandEvent& WXUNUSED(event)) {
             m_iFilteredIndexes.Clear();
             m_iTotalDeletedFilterRows = 0;
         }
-        finderrormessages(s_bIsFiltered);
+        FindErrorMessages(s_bIsFiltered);
     }
 
     s_bErrorFilteringChanged = true;
@@ -561,7 +561,7 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
         // by errors.
         //
         if (s_bErrorIsFiltered) {  // List is currently filtered by project and by error.
-            finderrormessages(false);
+            FindErrorMessages(false);
         }
     } else {  // List will now be filtered by a project.
         // Get project name to be filtered.
@@ -582,7 +582,7 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
             m_iFilteredDocCount = m_iTotalDocCount;
             m_iTotalDeletedFilterRows = 0;
         }
-        findprojectmessages(s_bErrorIsFiltered);
+        FindProjectMessages(s_bErrorIsFiltered);
         s_bIsFiltered = true;
     }
 
@@ -1081,11 +1081,11 @@ void CDlgEventLog::ResetMessageFiltering() {
 //  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
 //                 If we want to search all indexes (m_iTotalIndexes), this will be false).
 //
-void CDlgEventLog::finderrormessages(bool isfiltered) {
+void CDlgEventLog::FindErrorMessages(bool isFiltered) {
     wxArrayInt filteredindexes;
     MESSAGE* message;
     wxInt32 i = 0;
-    if (isfiltered) {
+    if (isFiltered) {
         for (i; i < m_iFilteredDocCount; i++) {
             message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
             if (message) {
@@ -1125,11 +1125,11 @@ void CDlgEventLog::finderrormessages(bool isfiltered) {
 //  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
 //                 If we want to search all indexes (m_iTotalIndexes), this will be false).
 //
-void CDlgEventLog::findprojectmessages(bool isfiltered) {
+void CDlgEventLog::FindProjectMessages(bool isFiltered) {
     wxArrayInt filteredindexes;
     MESSAGE* message;
     wxInt32 i = 0;
-    if (isfiltered) {
+    if (isFiltered) {
         for (i; i < m_iFilteredDocCount; i++) {
             message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
             if (message) {
