@@ -390,14 +390,14 @@ void CDlgEventLog::SetFilterButtonText() {
 #endif
     }
     if (s_bErrorIsFiltered) {
-        m_pErrorFilterButton->SetLabel(_("Show all message &types"));
+        m_pErrorFilterButton->SetLabel(_("Show al&l"));
         m_pErrorFilterButton->SetHelpText(_("Shows messages of all types (information, alerts, etc.)"));
 #ifdef wxUSE_TOOLTIPS
         m_pErrorFilterButton->SetToolTip(_("Shows messages of all types (information, alerts, etc.)"));
 #endif
     }
     else {
-        m_pErrorFilterButton->SetLabel(_("Show only aler&t messages"));
+        m_pErrorFilterButton->SetLabel(_("Show only aler&ts"));
         m_pErrorFilterButton->SetHelpText(_("Shows only the messages that are alerts"));
 #ifdef wxUSE_TOOLTIPS
         m_pErrorFilterButton->SetToolTip(_("Show only the messages that are alerts"));
