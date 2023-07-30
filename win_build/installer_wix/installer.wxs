@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" Version="7.22.3.0" Language="1033" Name="BOINC" Manufacturer="Boinc Project">
+        <Package InstallerVersion="300" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine"/>
+        <Media Id="1" Cabinet="boinc.cab" EmbedCab="yes" />
+
+        <MajorUpgrade
+            DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+
+        <Icon Id="installer.ico" SourceFile="$(var.ProjectDir)\installer.ico" />
+
+        <Property Id="ARPPRODUCTICON" Value="installer.ico" />
+        <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
+        <Property Id="BOINCBIN" Value="TARGETDIR" />
+        <Property Id="BOINCSCREENBIN" Value="TARGETDIR" />
+        <Property Id="BOINCDATA" Value="TARGETDIR" />
+
+        <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\LICENSE.rtf" />
+        <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\WixUIBannerBmp.bmp" />
+        <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\WixUIDialogBmp.bmp" />
+
+        <SetDirectory Id="BOINCBIN" Value="[ProgramFiles64Folder][ProductName]"/>
+        <SetDirectory Id="BOINCSCREENBIN" Value="[WindowsFolder]"/>
+        <SetDirectory Id="BOINCDATA" Value="[CommonAppDataFolder][ProductName]"/>
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFiles64Folder">
+                <Directory Id="BOINCBIN">
+                </Directory>
+            </Directory>
+            <Directory Id="WindowsFolder">
+                <Directory Id="BOINCSCREENBIN">
+                </Directory>
+            </Directory>
+            <Directory Id="CommonAppDataFolder">
+                <Directory Id="BOINCDATA">
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature Id="Boinc" Title="Boinc" Level="1" Absent="disallow" ConfigurableDirectory="BOINCBIN">
+            <ComponentGroupRef Id="BINARYFILES" />
+        </Feature>
+        <Feature Id="BoincScreensaver" Title="Boinc Screensaver" Level="32767">
+            <ComponentGroupRef Id="SCREENFILES" />
+        </Feature>
+        <Feature Id="BoincData" Title="Boinc Local Data" Level="1" Absent="disallow" ConfigurableDirectory="BOINCDATA">
+            <ComponentGroupRef Id="DATAFILES" />
+        </Feature>
+
+        <UI>
+          <UIRef Id="WixUI_FeatureTree" />
+        </UI>
+
+        <InstallUISequence>
+        </InstallUISequence>
+        <AdminUISequence>
+        </AdminUISequence>
+
+    </Product>
+</Wix>
