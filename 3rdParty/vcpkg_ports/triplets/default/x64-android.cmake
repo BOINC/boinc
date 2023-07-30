@@ -16,6 +16,6 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
-include(${VCPKG_ROOT}/triplets/community/x64-android.cmake)
+include(${VCPKG_ROOT}/triplets/x64-android.cmake)
 
 set(VCPKG_CMAKE_SYSTEM_VERSION android-21)
