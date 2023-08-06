@@ -3,7 +3,10 @@
    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
    xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
 
-  <Bundle Name="BOINC" Version="7.22.3.0" Manufacturer="Boinc Project"
+  <Bundle Name="BOINC" 
+          Version="7.22.3.0"
+          Manufacturer="Boinc Project"
+          IconSourceFile="installer.ico"
           UpgradeCode="{e599becb-a017-4447-9ef8-ef1eb0dff441}">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLargeLicense">
       <bal:WixStandardBootstrapperApplication
@@ -14,25 +17,39 @@
     </BootstrapperApplicationRef>
 
     <Chain>
-      <!-- VirtualBox prerequisite -->
-      <PackageGroupRef Id="VirtualBox"/>
-
       <!-- Install Application -->
       <PackageGroupRef Id="Boinc"/>
+
+      <!-- VirtualBox prerequisite -->
+      <PackageGroupRef Id="VirtualBox"/>
     </Chain>
 
   </Bundle>
 
   <Fragment>
+      <util:RegistrySearch Id="BoincPresent" 
+              Root="HKLM" 
+              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{31209A01-4F85-4476-9A23-A64C75AE94FC}" 
+              Result="exists" 
+              Variable="BoincPresent" 
+              Win64="no"/>
+      <util:RegistrySearch Id="VBoxPresent" 
+              Root="HKLM" 
+              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F05E741F-8253-4580-B9F5-CB8B7E27DEDA}" 
+              Result="exists" 
+              Variable="VirtualBoxPresent" 
+              Win64="no"/>
+
     <!-- Boinc Group -->
     <PackageGroup Id="Boinc">
       <MsiPackage Id="Boinc"
                   DisplayName="Boinc"
                   Compressed="yes"
                   DisplayInternalUI='yes'
-                  Cache="yes"
+                  Cache="no"
                   Permanent="no"
                   Vital="yes"
+                  InstallCondition="NOT BoincPresent"
                   SourceFile="$(var.InstallerFile)" />
     </PackageGroup>
     <!-- VirtualBox Group -->
@@ -42,10 +59,10 @@
                   Compressed="yes"
                   Cache="yes"
                   PerMachine="yes"
-                  Permanent="no"
+                  Permanent="yes"
                   Vital="yes"
                   SourceFile="$(var.VBoxFile)"
-                  DetectCondition="VirtualBoxVersion AND (NOT VersionNT64 OR VirtualBoxFullVersion)" />
+                  DetectCondition="NOT VBoxPresent" />
     </PackageGroup>
   </Fragment>
 </Wix>

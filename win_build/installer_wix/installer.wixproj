@@ -10,7 +10,7 @@
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-    <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
+    <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
@@ -18,8 +18,10 @@
     </WixVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <InstallerPlatform>x64</InstallerPlatform>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="boinc_binary_files.wxs" />
@@ -32,10 +34,16 @@
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
     </WixExtension>
-    <WixExtension Include="boinccas">
-      <HintPath>$(ProjectDir)..\Build\x64\Debug\boinccas.dll</HintPath>
-      <Name>BOINC Custom Actions</Name>
-    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BoincCA\BoincCA.vcxproj">
+      <Name>BoincCA</Name>
+      <Project>{e22de4c0-c485-4dbe-a612-5de971eaf1d4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />

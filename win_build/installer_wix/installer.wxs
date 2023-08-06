@@ -48,14 +48,17 @@
             <ComponentGroupRef Id="DATAFILES" />
         </Feature>
 
-        <Binary Id="CustomActionBinary" SourceFile="$(var.ProjectDir)..\Build\x64\Debug\boinccas.dll" />
+        <Binary Id="BoincCABinary" SourceFile="$(var.ProjectDir)bin\BoincCA.dll" />
+
+        <CustomAction Id="TestCA" BinaryKey="BoincCABinary" DllEntry="TestCA" />
         
         <UI>
           <UIRef Id="WixUI_FeatureTree" />
         </UI>
 
-        <InstallUISequence>
-        </InstallUISequence>
+        <InstallExecuteSequence>
+            <Custom Action="TestCA" After="InstallInitialize" />
+        </InstallExecuteSequence>
         <AdminUISequence>
         </AdminUISequence>
 

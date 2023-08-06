@@ -1,0 +1,4 @@
+LIBRARY "BoincCA"
+
+EXPORTS
+	TestCA

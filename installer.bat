@@ -31,11 +31,6 @@ if "%1" EQU "--clean" (
 
     echo OK
     exit /B 0
-) else (
-    ECHO [Fast Cleanup]
-    DEL /S /Q build\installer* 2> NUL
-    DEL /S /Q build\boinc_*.wxs 2> NUL
-    echo OK
 )
 
 REM Parameters check
