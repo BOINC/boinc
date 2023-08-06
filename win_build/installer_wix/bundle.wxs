@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+   xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+   xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+
+  <Bundle Name="BOINC" Version="7.22.3.0" Manufacturer="Boinc Project"
+          UpgradeCode="{e599becb-a017-4447-9ef8-ef1eb0dff441}">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLargeLicense">
+      <bal:WixStandardBootstrapperApplication
+              LicenseFile="LICENSE.rtf"
+              LogoFile="logo.png"
+              SuppressOptionsUI="yes"
+              ShowVersion="yes" />
+    </BootstrapperApplicationRef>
+
+    <Chain>
+      <!-- VirtualBox prerequisite -->
+      <PackageGroupRef Id="VirtualBox"/>
+
+      <!-- Install Application -->
+      <PackageGroupRef Id="Boinc"/>
+    </Chain>
+
+  </Bundle>
+
+  <Fragment>
+    <!-- Boinc Group -->
+    <PackageGroup Id="Boinc">
+      <MsiPackage Id="Boinc"
+                  DisplayName="Boinc"
+                  Compressed="yes"
+                  DisplayInternalUI='yes'
+                  Cache="yes"
+                  Permanent="no"
+                  Vital="yes"
+                  SourceFile="$(var.InstallerFile)" />
+    </PackageGroup>
+    <!-- VirtualBox Group -->
+    <PackageGroup Id="VirtualBox">
+      <ExePackage Id="VirtualBox"
+                  DisplayName="VirtualBox"
+                  Compressed="yes"
+                  Cache="yes"
+                  PerMachine="yes"
+                  Permanent="no"
+                  Vital="yes"
+                  SourceFile="$(var.VBoxFile)"
+                  DetectCondition="VirtualBoxVersion AND (NOT VersionNT64 OR VirtualBoxFullVersion)" />
+    </PackageGroup>
+  </Fragment>
+</Wix>

@@ -77,6 +77,10 @@ pushd win_build\installer_wix
 msbuild installer.sln
 if %ERRORLEVEL% GEQ 1 goto fail
 
+echo [Build of bundle]
+msbuild bundle.sln
+if %ERRORLEVEL% GEQ 1 goto fail
+
 popd
 echo ********************************
 echo **** RESULT: SUCCESS        ****

@@ -48,6 +48,8 @@
             <ComponentGroupRef Id="DATAFILES" />
         </Feature>
 
+        <Binary Id="CustomActionBinary" SourceFile="$(var.ProjectDir)..\Build\x64\Debug\boinccas.dll" />
+        
         <UI>
           <UIRef Id="WixUI_FeatureTree" />
         </UI>
