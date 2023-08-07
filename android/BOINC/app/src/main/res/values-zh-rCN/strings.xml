@@ -294,6 +294,25 @@
   <string name="main_notification_channel_description">显示其他通知。</string>
   <string name="notice_notification_channel_name">通知</string>
   <string name="notice_notification_channel_description">显示项目发送的通知。</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">欢迎来到小米商城！ 为了提供高品质的购物体验，
+小米商城App需要联网并使用您的位置信息查询商品库存，
+优化交付服务并个性化产品推荐。 您有权拒绝或取消此授权。</string>
+  <string name="terms_of_use_content_second">使用本App前，请阅读并充分理解《用户协议》
+和小米商城的《隐私政策》，了解您的用户权利以及您的数据是如何被处理的。
+如果您同意以上协议内容，请点击“同意”开始使用我们的产品和服务。
+我们将采用行业领先的安全技术保护您的个人信息。 感谢您对小米商城的信任。</string>
+  <string name="terms_of_use_content_user_agreement">用户协议：https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">隐私政策：https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">各位小米粉丝，大家好！</string>
+  <string name="welcome_content_second">我是大卫，Boinc 的创始人。 Boinc 是一个使用自愿捐献的资源进行计算的开源软件平台。</string>
+  <string name="welcome_content_third">我想在此感谢雷军先生和小米，并与大家分享一些好消息：
+小米11将成为Boinc官方认证的移动计算设备！</string>
+  <string name="welcome_content_fourth">小米11内置高通骁龙888，算力惊人。
+它可以非常快速地处理任务并为全球研究社区提供帮助。</string>
+  <string name="welcome_content_fifth">我要感谢所有为 Boinc 项目做出贡献的小米工程师。
+我鼓励所有米粉在你们的手机上下载Boinc，在你的手机空闲的时候贡献你的一份力量。</string>
+  <string name="welcome_content_sixth">最后，祝我的中国朋友们——新年快乐！</string>
   <string name="agree_button">同意</string>
   <string name="prefs_expand_wu_data">始终展开任务信息</string>
 </resources>

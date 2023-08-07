@@ -1,280 +1,319 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <!--app global-->
-    <string name="app_name">BOINC</string>
-    <!--generic. used by multiple Activities/tabs-->
-    <string name="generic_button_continue">Продължи</string>
-    <string name="generic_button_finish">Приключи</string>
-    <!--attach project-->
-    <!--selection list-->
-    <string name="attachproject_list_desc">Изберете научни проекти, в които искате да участвате:</string>
-    <string name="attachproject_list_header">Изберете проект</string>
-    <string name="attachproject_list_manual_button">Добави проект чрез URL адрес</string>
-    <string name="attachproject_list_manual_dialog_title">Въведи URL адрес на проекта:</string>
-    <string name="attachproject_list_no_internet">Няма връзка с интернет</string>
-    <!--credential input-->
-    <string name="attachproject_credential_input_sing_desc">Въведи информация за акаунта</string>
-    <string name="attachproject_credential_input_desc">Въведи информация за акаунта за избраните проекти:</string>
-    <string name="attachproject_credential_input_show_pwd">Покажи паролата</string>
-    <string name="attachproject_individual_credential_input">Индивидуално добавяне на проекти</string>
-    <!--conflicts-->
-    <string name="attachproject_conflicts_desc">Възникна проблем при добавянето на проекти:</string>
-    <string name="attachproject_conflict_undefined">Неуспешно свързване</string>
-    <string name="attachproject_conflict_not_unique">Акаунтът съществува, но е с различна парола</string>
-    <string name="attachproject_conflict_bad_password">Неправилна парола</string>
-    <string name="attachproject_conflict_unknown_user">Акаунтът не съществува</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Акаунтът не съществува, посетете сайта на проекта за да се регистрирате</string>
-    <!--working-->
-    <string name="attachproject_working_attaching">Прикачване %1$s</string>
-    <!--e.g. Attaching Einstein@Home-->
-    <!--hints-->
-    <string name="attachproject_hints_header">Полезен съвет</string>
-    <!--e.g. Hint 1/2-->
-    <string name="attachproject_hint_contribtion_header">Как да помогнете:</string>
-    <string name="attachproject_hint_contribtion_wifi">1. Свържете се с WiFi</string>
-    <string name="attachproject_hint_contribtion_charger">2. Включете зарядното устройство</string>
-    <string name="attachproject_hint_contribtion_app">3. Стартирайте BOINC и го оставете отворен</string>
-    <string name="attachproject_hint_contribtion_screen">4. Изключете екрана</string>
-    <string name="attachproject_hint_projectwebsite_header">Посетете уебсайтовете на проектите, за да:</string>
-    <string name="attachproject_hint_projectwebsite_science">Научите повече за науката зад проекта</string>
-    <string name="attachproject_hint_projectwebsite_stats">Видите статистика за приноса си</string>
-    <string name="attachproject_hint_projectwebsite_community">Се свържете с други доброволци</string>
-    <string name="attachproject_hint_platforms_header">BOINC е достъпен и за компютър или лаптоп, посетете boinc.berkeley.edu за да научите повече.</string>
-    <!--project login-->
-    <string name="attachproject_login_loading">Свързване със сървъра на проекта…</string>
-    <string name="attachproject_login_header_general_area">Основна област:</string>
-    <string name="attachproject_login_header_specific_area">Специфична област:</string>
-    <string name="attachproject_login_header_description">Описание:</string>
-    <string name="attachproject_login_header_home">Начало:</string>
-    <string name="attachproject_login_header_url">Уеб сайт:</string>
-    <string name="attachproject_login_header_id_email">Имейл:</string>
-    <string name="attachproject_login_header_id_name">Име:</string>
-    <string name="attachproject_login_header_pwd">Парола:</string>
-    <string name="attachproject_login_button_registration">Регистрация</string>
-    <string name="attachproject_login_button_login">Вход</string>
-    <string name="attachproject_login_button_forgotpw">Забравена парола</string>
-    <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Управлявай това устройство с акаунт мениджър</string>
-    <string name="attachproject_acctmgr_header">Използвай акаунт мениджър</string>
-    <string name="attachproject_attach_projects_header">Добави проекти</string>
-    <string name="attachproject_attach_projects_desc">Добави проекти от списъка с проекти</string>
-    <string name="attachproject_acctmgr_header_url">URL адрес</string>
-    <string name="attachproject_acctmgr_header_name">Потребител:</string>
-    <string name="attachproject_acctmgr_header_pwd">Парола:</string>
-    <!--error strings-->
-    <string name="attachproject_error_wrong_name">Потребителя не е намерен</string>
-    <string name="attachproject_error_short_pwd">Паролата е твърде кратка</string>
-    <string name="attachproject_error_no_internet">Неуспешна връзка</string>
-    <string name="attachproject_error_no_url">Моля, въведете URL адрес</string>
-    <string name="attachproject_error_no_email">Моля, въведете имейл адрес</string>
-    <string name="attachproject_error_no_pwd">Моля, въведете парола</string>
-    <string name="attachproject_error_no_name">Моля, въведете потребителско име</string>
-    <string name="attachproject_error_unknown">се провали</string>
-    <string name="attachproject_error_bad_username">Потребителското име не е прието</string>
-    <string name="attachproject_error_email_in_use">Имейл адресът вече се използва</string>
-    <string name="attachproject_error_project_down">Проектът е офлайн</string>
-    <string name="attachproject_error_email_bad_syntax">Имейл адресът не е приет</string>
-    <string name="attachproject_error_bad_pwd">Паролата не е приета</string>
-    <string name="attachproject_error_creation_disabled">Създаването на нов акаунт за този проект е деактивирано</string>
-    <string name="attachproject_error_invalid_url">Невалиден URL адрес</string>
-    <!--tab names-->
-    <string name="tab_status">Състояние</string>
-    <string name="tab_projects">Проекти</string>
-    <string name="tab_tasks">Задачи</string>
-    <string name="tab_transfers">Трансфери</string>
-    <string name="tab_preferences">Предпочитания</string>
-    <string name="tab_notices">Известия</string>
-    <string name="tab_desc">Навигация</string>
-    <!--status strings-->
-    <string name="status_running">Изчисляване</string>
-    <string name="status_running_long">Благодарим ви за участието.</string>
-    <string name="status_paused">Прекратено</string>
-    <string name="status_idle">Нищо за обработка</string>
-    <string name="status_idle_long">Изчакване за задачи…</string>
-    <string name="status_computing_disabled">Прекратено</string>
-    <string name="status_computing_disabled_long">Натиснете play, за да подновите връзката с интернет и изчисленията.</string>
-    <string name="status_launching">Стартиране…</string>
-    <string name="status_noproject">Изберете проект, в който искате да участвате.</string>
-    <string name="status_benchmarking">Тестване на производителността...</string>
-    <string name="status_image_description">изображение на проекта</string>
-    <!--preferences tab strings-->
-    <string name="prefs_category_general">Основен</string>
-    <string name="prefs_category_network">Мрежа</string>
-    <string name="prefs_category_power">Консумация</string>
-    <string name="prefs_category_cpu">Процесор</string>
-    <string name="prefs_category_storage">Съхранение</string>
-    <string name="prefs_category_memory">Памет</string>
-    <string name="prefs_category_other">Други</string>
-    <string name="prefs_category_debug">Отстраняване на грешки</string>
-    <string name="prefs_category_remote">Дистанционно управление</string>
-    <string name="prefs_show_advanced_header">Покажи разширени предпочитания и контроли</string>
-    <string name="prefs_suspend_when_screen_on">Спирай изчисленията когато екранът е включен</string>
-    <string name="prefs_general_device_name_header">Име на устройството</string>
-    <string name="prefs_theme_header">Тема</string>
-    <string name="prefs_stationary_device_mode_header">Режим на стационарно устройство</string>
-    <string name="prefs_stationary_device_mode_description">Позволява работа независимо от предпочитанията за захранване. Изберете това, само ако устройството няма батерия.</string>
-    <string name="prefs_power_source_header">Захранващи източници</string>
-    <string name="prefs_power_source_ac">Ел. контакт</string>
-    <string name="prefs_power_source_usb">USB връзка</string>
-    <string name="prefs_power_source_wireless">Безжично зарядно</string>
-    <string name="prefs_power_source_battery">Батерия</string>
-    <string name="battery_charge_min_pct_header">Мин. ниво на батерията (%)</string>
-    <string name="battery_temperature_max_header">Макс. температура на батерията (°C)</string>
-    <string name="prefs_disk_max_pct_header">Макс. използвано място (%)</string>
-    <string name="prefs_disk_min_free_gb_header">Мин. свободно място (GB)</string>
-    <string name="prefs_disk_access_interval_header">Интервал на запис (секунди)</string>
-    <string name="prefs_network_daily_xfer_limit_mb_header">Дневен лимит на трансфер</string>
-    <string name="prefs_network_wifi_only_header">Прехвърляй задачи само през WiFi</string>
-    <string name="prefs_autostart_header">Автоматично стартиране</string>
-    <string name="prefs_remote_header">Разреши дистанционно управление</string>
-    <string name="prefs_show_notification_notices_header">Показвай известия за новини</string>
-    <string name="prefs_cpu_number_cpus_header">Използвани CPU ядра</string>
-    <string name="prefs_cpu_number_cpus_description">Ограничава броя CPU ядра които BOINC използва за изчисления.</string>
-    <string name="prefs_cpu_other_load_suspension_header">Пауза при CPU употреба над</string>
-    <string name="prefs_cpu_other_load_suspension_description">Определя кога BOINC спира изчисленията поради заетост на процесора от други приложения</string>
-    <string name="prefs_cpu_time_max_header">CPU лимит</string>
-    <string name="prefs_cpu_time_max_description">Ограничава CPU време, което BOINC използва за изчисления.</string>
-    <string name="prefs_memory_max_idle_header">RAM лимит</string>
-    <string name="prefs_client_log_flags_header">Флагове за записите на BOINC Клиента</string>
-    <string name="prefs_gui_log_level_header">Степен на вербалност на записите на GUI</string>
-    <string name="prefs_gui_log_level_description">Дефинира нивото на подробност на съобщенията от GUI.</string>
-    <!--projects tab strings-->
-    <string name="projects_add">Добавете проект</string>
-    <string name="projects_icon">Икона на проекта</string>
-    <string name="projects_credits">Кредит:</string>
-    <string name="projects_credits_host_and_user">%1$,d (на това устройство) %2$,d (общо)</string>
-    <!--project status strings-->
-    <string name="projects_status_suspendedviagui">Временно прекратено от потребител</string>
-    <string name="projects_status_dontrequestmorework">Няма да взима нови задачи</string>
-    <string name="projects_status_ended">Проекта приключи - OK да се премахне</string>
-    <string name="projects_status_detachwhendone">Ще бъде премахнато като приключи задачите</string>
-    <string name="projects_status_schedrpcpending">Заявка на Планировчика в процес на изчакване</string>
-    <string name="projects_status_schedrpcinprogress">Заявка на Планировчика в процес на извършване</string>
-    <string name="projects_status_trickleuppending">Изходящо съобщение в процес на изчакване</string>
-    <string name="projects_status_backoff">Връзка е планирана след: %1$s</string>
-    <!--project controls-->
-    <string name="projects_control_dialog_title">Команди на проекта:</string>
-    <string name="projects_control_visit_website">Посетете уебсайт</string>
-    <string name="projects_control_update">Обнови</string>
-    <string name="projects_control_remove">Премахни</string>
-    <string name="projects_control_suspend">Временно прекратяване</string>
-    <string name="projects_control_resume">Поднови</string>
-    <string name="projects_control_nonewtasks">Без нови задачи</string>
-    <string name="projects_control_allownewtasks">Позволи нови задачи</string>
-    <string name="projects_control_reset">Нулиране</string>
-    <string name="projects_control_dialog_title_acctmgr">Команди за акаунт мениджъра:</string>
-    <string name="projects_control_sync_acctmgr">Синхронизирай</string>
-    <string name="projects_control_remove_acctmgr">Деактивирай</string>
-    <!--project confirm dialog-->
-    <string name="projects_confirm_detach_message">Сигурни ли сте, че искате да премахнете</string>
-    <string name="projects_confirm_detach_confirm">Премахни</string>
-    <string name="projects_confirm_reset_confirm">Нулиране</string>
-    <string name="projects_confirm_remove_acctmgr_title">Деактивирайте акаунт мениджъра</string>
-    <string name="projects_confirm_remove_acctmgr_message">Сигурни ли сте, че искате да спрете да използвате</string>
-    <string name="projects_confirm_remove_acctmgr_confirm">Деактивирай</string>
-    <!--tasks tab strings-->
-    <string name="tasks_header_name">Име на Задача:</string>
-    <string name="tasks_header_elapsed_time">Изминало време:</string>
-    <string name="tasks_header_project_paused">(временно прекратена)</string>
-    <string name="tasks_header_deadline">Краен срок:</string>
-    <string name="tasks_result_new">нов</string>
-    <string name="tasks_result_files_downloading">изчаква за изтегляне</string>
-    <string name="tasks_result_files_downloaded">изтеглянето е завършено</string>
-    <string name="tasks_result_compute_error">грешка в изчислението</string>
-    <string name="tasks_result_files_uploading">в процес на ъплоуд</string>
-    <string name="tasks_result_files_uploaded">ъплоуда завърши</string>
-    <string name="tasks_result_aborted">прекратена</string>
-    <string name="tasks_result_upload_failed">ъплоудът е неуспешен</string>
-    <string name="tasks_active_uninitialized">готов</string>
-    <string name="tasks_active_executing">работи</string>
-    <string name="tasks_active_suspended">временно прекратен</string>
-    <string name="tasks_active_abort_pending">в момента прекратявам временно</string>
-    <string name="tasks_active_quit_pending">в момента прекратявам временно</string>
-    <string name="tasks_custom_suspended_via_gui">временно прекратен</string>
-    <string name="tasks_custom_project_suspended_via_gui">проектът е временно прекратен</string>
-    <string name="tasks_custom_ready_to_report">готов за докладване</string>
-    <!--confirmation dialog-->
-    <string name="confirm_abort_task_title">Прекратяване на задача?</string>
-    <string name="confirm_abort_task_message">Прекратяване на задача: %1$s</string>
-    <string name="confirm_abort_task_confirm">Прекрати</string>
-    <string name="confirm_cancel">Откажи</string>
-    <string name="confirm_image_desc">Диалог за потвърждение</string>
-    <!--transfers tab strings-->
-    <string name="trans_upload">Качване</string>
-    <string name="trans_download">Изтегляне</string>
-    <string name="trans_failed">неуспешен</string>
-    <string name="trans_retry_in">нов опит след %1$s</string>
-    <string name="trans_suspended">временно прекратен</string>
-    <string name="trans_active">активен</string>
-    <string name="trans_pending">в режим на изчакване</string>
-    <string name="trans_control_retry">Опитай трансфери отново</string>
-    <!--eventlog tab strings-->
-    <string name="eventlog_client_header">Съобщения от Клиента</string>
-    <string name="eventlog_gui_header">Съобщения от GUI</string>
-    <string name="eventlog_copy_toast">Записът е копиран в клип-борда.</string>
-    <string name="eventlog_email_subject">Регистър на Събития на BOINC за Андроид:</string>
-    <!--suspend reasons-->
-    <string name="suspend_unknown">Изчисленията са временно прекратени.</string>
-    <string name="suspend_batteries">Свържете вашето устройство към зарядно устройство, за да продължите изчисленията.</string>
-    <string name="suspend_screen_on">Изключете екрана, за да продължите изчисленията.</string>
-    <string name="suspend_useractive">Потребителят е активен.</string>
-    <string name="suspend_tod">Извън рамката за изчислително време.</string>
-    <string name="suspend_disksize">Недостатъчно дисково пространство.</string>
-    <string name="suspend_cputhrottle">Планирано потискане на CPU.</string>
-    <string name="suspend_noinput">Няма скорошна активност на потребител.</string>
-    <string name="suspend_delay">Закъснение при инициализация.</string>
-    <string name="suspend_exclusiveapp">Работи ексклузивно приложение.</string>
-    <string name="suspend_cpu">Вашето устройство е заето с други приложения.</string>
-    <string name="suspend_network_quota">BOINC достигна лимита за трансфер по мрежата.</string>
-    <string name="suspend_os">Спряно от Андроид.</string>
-    <string name="suspend_wifi">Не е свързан към WiFi.</string>
-    <string name="suspend_battery_charging">Изчакване на батерията да се зареди.</string>
-    <string name="suspend_battery_charging_long">Изчисленията ще се подновят когато заряда на батерията достигне
-    </string>
-    <string name="suspend_battery_overheating">Изчакване на батерията да се охлади</string>
-    <string name="suspend_user_req">Подновяване на изчисленията…</string>
-    <!--rpc reasons-->
-    <string name="rpcreason_userreq">По заявка на потребителя</string>
-    <string name="rpcreason_needwork">За да вземе работа</string>
-    <string name="rpcreason_resultsdue">За да докладва завършените задачи</string>
-    <string name="rpcreason_trickleup">За да изпрати изходящо съобщение</string>
-    <string name="rpcreason_acctmgrreq">По заявка на акаунт мениджъра</string>
-    <string name="rpcreason_init">Инициализация на проект</string>
-    <string name="rpcreason_projectreq">По заявка на проекта</string>
-    <string name="rpcreason_unknown">Неизвестна причина</string>
-    <!--menu-->
-    <string name="menu_refresh">Опресни</string>
-    <string name="menu_emailto">Изпрати като Имейл</string>
-    <string name="menu_copy">Копирай в Клип-борда</string>
-    <string name="menu_eventlog">Регистър на Събития</string>
-    <string name="menu_run_mode_disable">Временно прекрати</string>
-    <string name="menu_run_mode_enable">Поднови</string>
-    <string name="menu_about">Относно</string>
-    <string name="menu_help">Помощ</string>
-    <!--about dialog-->
-    <string name="about_title">Относно</string>
-    <string name="about_name">BOINC</string>
-    <string name="about_version">Версия %1$s</string>
-    <string name="about_copyright_reserved">Всички Права Запазени.</string>
-    <string name="about_credits">Благодарности към Института Макс Планк за Гравитационна Физика, IBM Corporation и HTC Corporation за подкрепата.</string>
-    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-    <plurals name="notice_notification">
-        <item quantity="one">Ново известие от %1$ s</item>
-        <item quantity="other">%2$,d нови известия</item>
-    </plurals>
-    <!--multi BOINC compatibility-->
-    <string name="nonexcl_dialog_header">Засечено е приложение за доброволно участие в изчисления</string>
-    <string name="nonexcl_dialog_text">Друго приложение за доброволно участие в изчисления работи в момента на това устройство. Само една версия може да работи в даден момент.</string>
-    <string name="nonexcl_dialog_exit">Изход</string>
-    <!--social integration-->
-    <string name="social_invite_button">Поканете приятели</string>
-    <string name="social_invite_intent_title">Как искате да споделите?</string>
-    <string name="social_invite_content_title">Аз правя наука на моя смартфон!</string>
-    <string name="social_invite_content_body">Аз използвам моя %1$s за да извършвам изчисления за науката. Ти можеш също! Изтегли приложението от: %2$s</string>
-    <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-    <!--Notification channels-->
-    <string name="main_notification_channel_name">BOINC</string>
-    <string name="notice_notification_channel_name">Известия</string>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">Продължи</string>
+  <string name="generic_button_finish">Приключи</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Изберете научни проекти, в които искате да участвате:</string>
+  <string name="attachproject_list_header">Изберете проект</string>
+  <string name="attachproject_list_manual_button">Добави проект чрез URL адрес</string>
+  <string name="attachproject_list_manual_dialog_title">Въведи URL адрес на проекта:</string>
+  <string name="attachproject_list_no_internet">Няма връзка с интернет</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Въведи информация за акаунта</string>
+  <string name="attachproject_credential_input_desc">Въведи информация за акаунта за избраните проекти:</string>
+  <string name="attachproject_credential_input_show_pwd">Покажи паролата</string>
+  <string name="attachproject_individual_credential_input">Индивидуално добавяне на проекти</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Възникна проблем при добавянето на проекти:</string>
+  <string name="attachproject_conflict_undefined">Неуспешно свързване</string>
+  <string name="attachproject_conflict_not_unique">Акаунтът съществува, но е с различна парола</string>
+  <string name="attachproject_conflict_bad_password">Неправилна парола</string>
+  <string name="attachproject_conflict_unknown_user">Акаунтът не съществува</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Акаунтът не съществува, посетете сайта на проекта, за да се регистрирате</string>
+  <!--working-->
+  <string name="attachproject_working_attaching">Прикачване %1$s</string>
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Полезен съвет</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Как да помогнете:</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Свържете се с WiFi</string>
+  <string name="attachproject_hint_contribtion_charger">2. Включете зарядното устройство</string>
+  <string name="attachproject_hint_contribtion_app">3. Стартирайте BOINC и го оставете отворен</string>
+  <string name="attachproject_hint_contribtion_screen">4. Изключете екрана</string>
+  <string name="attachproject_hint_projectwebsite_header">Посетете уебсайтовете на проектите, за да:</string>
+  <string name="attachproject_hint_projectwebsite_science">Научите повече за науката зад проекта</string>
+  <string name="attachproject_hint_projectwebsite_stats">Видите статистика за приноса си</string>
+  <string name="attachproject_hint_projectwebsite_community">Се свържете с други доброволци</string>
+  <string name="attachproject_hint_platforms_header">BOINC е достъпен и за вашия компютър или лаптоп, посетете boinc.berkeley.edu, за да научите повече.</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Свързване със сървъра на проекта…</string>
+  <string name="attachproject_login_header_general_area">Основна област:</string>
+  <string name="attachproject_login_header_specific_area">Специфична област:</string>
+  <string name="attachproject_login_header_description">Описание:</string>
+  <string name="attachproject_login_header_home">Начало:</string>
+  <string name="attachproject_login_header_url">Уеб сайт:</string>
+  <string name="attachproject_login_header_id_email">Имейл:</string>
+  <string name="attachproject_login_header_id_name">Име:</string>
+  <string name="attachproject_login_header_pwd">Парола:</string>
+  <string name="attachproject_login_button_registration">Регистрация</string>
+  <string name="attachproject_login_button_login">Вход</string>
+  <string name="attachproject_login_button_forgotpw">Забравена парола</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_list_desc">Използвайте акаунт мениджър, за да управлявате това устройство</string>
+  <string name="attachproject_acctmgr_header">Използвай акаунт мениджър</string>
+  <string name="attachproject_attach_projects_header">Добави проекти</string>
+  <string name="attachproject_attach_projects_desc">Добавете проекти от списъка с проекти</string>
+  <string name="attachproject_acctmgr_header_url">URL адрес</string>
+  <string name="attachproject_acctmgr_header_name">Потребител:</string>
+  <string name="attachproject_acctmgr_header_pwd">Парола:</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Потребителя не е намерен</string>
+  <string name="attachproject_error_short_pwd">Паролата е твърде кратка</string>
+  <string name="attachproject_error_no_internet">Неуспешна връзка</string>
+  <string name="attachproject_error_no_url">Моля, въведете URL адрес</string>
+  <string name="attachproject_error_no_email">Моля, въведете имейл адрес</string>
+  <string name="attachproject_error_no_pwd">Моля, въведете парола</string>
+  <string name="attachproject_error_no_name">Моля, въведете потребителско име</string>
+  <string name="attachproject_error_unknown">се провали</string>
+  <string name="attachproject_error_bad_username">Потребителското име не е прието</string>
+  <string name="attachproject_error_email_in_use">Имейл адресът вече се използва</string>
+  <string name="attachproject_error_project_down">Проектът е офлайн</string>
+  <string name="attachproject_error_email_bad_syntax">Имейл адресът не е приет</string>
+  <string name="attachproject_error_bad_pwd">Паролата не е приета</string>
+  <string name="attachproject_error_creation_disabled">Създаването на нов акаунт за този проект е деактивирано</string>
+  <string name="attachproject_error_invalid_url">Невалиден URL адрес</string>
+  <!--tab names-->
+  <string name="tab_status">Състояние</string>
+  <string name="tab_projects">Проекти</string>
+  <string name="tab_tasks">Задачи</string>
+  <string name="tab_transfers">Трансфери</string>
+  <string name="tab_preferences">Предпочитания</string>
+  <string name="tab_notices">Известия</string>
+  <string name="tab_desc">Навигация</string>
+  <!--status strings-->
+  <string name="status_running">Изчисляване</string>
+  <string name="status_running_long">Благодарим ви за участието.</string>
+  <string name="status_paused">Прекратено</string>
+  <string name="status_idle">Нищо за обработка</string>
+  <string name="status_idle_long">Изчакване за задачи…</string>
+  <string name="status_computing_disabled">Прекратено</string>
+  <string name="status_computing_disabled_long">Натиснете play, за да подновите връзката с интернет и изчисленията.</string>
+  <string name="status_launching">Стартиране…</string>
+  <string name="status_noproject">Изберете проект, в който искате да участвате.</string>
+  <string name="status_benchmarking">Тестване на производителността...</string>
+  <string name="status_image_description">изображение на проекта</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">Основен</string>
+  <string name="prefs_category_network">Мрежа</string>
+  <string name="prefs_category_power">Консумация</string>
+  <string name="prefs_category_cpu">Процесор</string>
+  <string name="prefs_category_storage">Съхранение</string>
+  <string name="prefs_category_memory">Памет</string>
+  <string name="prefs_category_other">Други</string>
+  <string name="prefs_category_debug">Отстраняване на грешки</string>
+  <string name="prefs_category_remote">Дистанционно управление</string>
+  <string name="prefs_show_advanced_header">Покажи разширени предпочитания и контроли</string>
+  <string name="prefs_suspend_when_screen_on">Спирай изчисленията когато екранът е включен</string>
+  <string name="prefs_general_device_name_header">Име на устройството</string>
+  <string name="prefs_theme_header">Тема</string>
+  <string name="prefs_stationary_device_mode_header">Режим на стационарно устройство</string>
+  <string name="prefs_stationary_device_mode_description">Позволява изчисления независимо от предпочитанията на захранването. Разрешете само, ако устройството няма батерия.</string>
+  <string name="prefs_power_source_header">Захранващи източници</string>
+  <string name="prefs_power_source_ac">Ел. контакт</string>
+  <string name="prefs_power_source_usb">USB връзка</string>
+  <string name="prefs_power_source_wireless">Безжично зарядно</string>
+  <string name="prefs_power_source_battery">Батерия</string>
+  <string name="battery_charge_min_pct_header">Мин. ниво на батерията (%)</string>
+  <string name="battery_temperature_max_header">Макс. температура на батерията (°C)</string>
+  <string name="prefs_disk_max_pct_header">Макс. използвано място (%)</string>
+  <string name="prefs_disk_min_free_gb_header">Мин. свободно място (GB)</string>
+  <string name="prefs_disk_access_interval_header">Интервал на запис (секунди)</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Дневно ограничение за пренос на данни (МБ)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Дневно ограничение за пренос на данни (дни)</string>
+  <string name="prefs_network_wifi_only_header">Прехвърляй задачи само през WiFi</string>
+  <string name="prefs_autostart_header">Автоматично стартиране</string>
+  <string name="prefs_remote_header">Разреши дистанционно управление</string>
+  <string name="prefs_remote_summary">При промяна, BOINC клиентът ще бъде стартиран отново.</string>
+  <string name="prefs_show_notification_notices_header">Показвай известия за новини</string>
+  <string name="prefs_cpu_number_cpus_header">Използвани CPU ядра</string>
+  <string name="prefs_cpu_number_cpus_description">Ограничава броя CPU ядра които BOINC използва за изчисления.</string>
+  <string name="prefs_cpu_other_load_suspension_header">Пауза при CPU използването над (%)</string>
+  <string name="prefs_cpu_other_load_suspension_description">Определя кога BOINC спира изчисленията, поради използването на процесора от други приложения.</string>
+  <string name="prefs_cpu_time_max_header">CPU ограничение (%)</string>
+  <string name="prefs_cpu_time_max_description">Ограничава CPU време, което BOINC използва за изчисления.</string>
+  <string name="prefs_memory_max_idle_header">RAM ограничение (%)</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Работен буфер (дни)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Допълнителен работен буфер (дни)</string>
+  <string name="prefs_remote_authentication_key">ключ за удостоверяване на GUI</string>
+  <string name="prefs_remote_empty_password">Неуспешно актуализиране на паролата: стойността не може да бъде празна</string>
+  <string name="prefs_remote_boinc_relaunched">BOINC клиента ще се рестартира след промяна на паролата.</string>
+  <string name="prefs_client_log_flags_header">Флагове на логовете на BOINC клиента</string>
+  <string name="prefs_gui_log_categories">GUI логове на категории на BOINC</string>
+  <string name="prefs_gui_log_level_header">Степен на вербалност на записите на GUI</string>
+  <string name="prefs_gui_log_level_description">Дефинира нивото на подробност на съобщенията от GUI.</string>
+  <string name="prefs_theme_light">Светла тема</string>
+  <string name="prefs_theme_dark">Тъмна тема</string>
+  <string name="prefs_theme_system">Системна тема</string>
+  <!--projects tab strings-->
+  <string name="projects_add">Добавете проект</string>
+  <string name="projects_icon">Икона на проекта</string>
+  <string name="projects_credits">Кредит:</string>
+  <string name="projects_credits_host_and_user">%1$,d (на това устройство) %2$,d (общо)</string>
+  <string name="projects_disk_usage">Използване на диска:</string>
+  <string name="projects_disk_usage_with_unit">%1$sМБ</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Временно прекратено от потребител</string>
+  <string name="projects_status_dontrequestmorework">Няма да взима нови задачи</string>
+  <string name="projects_status_ended">Проекта приключи - OK да се премахне</string>
+  <string name="projects_status_detachwhendone">Ще бъде премахнато като приключи задачите</string>
+  <string name="projects_status_schedrpcpending">Заявка на Планировчика в процес на изчакване</string>
+  <string name="projects_status_schedrpcinprogress">Заявка на Планировчика в процес на извършване</string>
+  <string name="projects_status_trickleuppending">Изходящо съобщение в процес на изчакване</string>
+  <string name="projects_status_backoff">Връзка е планирана след:%1$s</string>
+  <!--project controls-->
+  <string name="projects_control_dialog_title">Команди на проекта:</string>
+  <string name="projects_control_visit_website">Посетете уебсайт</string>
+  <string name="projects_control_update">Обнови</string>
+  <string name="projects_control_remove">Премахни</string>
+  <string name="projects_control_suspend">Временно прекратяване</string>
+  <string name="projects_control_resume">Поднови</string>
+  <string name="projects_control_nonewtasks">Без нови задачи</string>
+  <string name="projects_control_allownewtasks">Позволи нови задачи</string>
+  <string name="projects_control_reset">Нулиране</string>
+  <string name="projects_control_dialog_title_acctmgr">Команди за акаунт мениджъра:</string>
+  <string name="projects_control_sync_acctmgr">Синхронизирай</string>
+  <string name="projects_control_remove_acctmgr">Деактивирай</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_title">%1$sпроект?</string>
+  <string name="projects_confirm_message">Сигурни ли сте, че искате да %1$s%2$s?</string>
+  <string name="projects_confirm_detach_message">от BOINC</string>
+  <string name="projects_confirm_detach_confirm">Премахни</string>
+  <string name="projects_confirm_reset_confirm">Нулиране</string>
+  <string name="projects_confirm_remove_acctmgr_title">Деактивирайте акаунт мениджъра</string>
+  <string name="projects_confirm_remove_acctmgr_message">спри използването</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Деактивирай</string>
+  <!--tasks tab strings-->
+  <string name="tasks_header_name">Име на Задача:</string>
+  <string name="tasks_header_elapsed_time">Изминало време:</string>
+  <string name="tasks_header_project_paused">(временно прекратена)</string>
+  <string name="tasks_header_deadline">Краен срок:</string>
+  <string name="tasks_result_new">нов</string>
+  <string name="tasks_result_files_downloading">изтегляне</string>
+  <string name="tasks_result_files_downloaded">изтеглянето е завършено</string>
+  <string name="tasks_result_compute_error">грешка в изчислението</string>
+  <string name="tasks_result_files_uploading">в процес на ъплоуд</string>
+  <string name="tasks_result_files_uploaded">ъплоуда завърши</string>
+  <string name="tasks_result_aborted">прекратена</string>
+  <string name="tasks_result_upload_failed">ъплоудът е неуспешен</string>
+  <string name="tasks_active_uninitialized">готов</string>
+  <string name="tasks_active_executing">работи</string>
+  <string name="tasks_active_suspended">временно прекратен</string>
+  <string name="tasks_active_abort_pending">в момента прекратявам временно</string>
+  <string name="tasks_active_quit_pending">в момента прекратявам временно</string>
+  <string name="tasks_custom_suspended_via_gui">временно прекратен</string>
+  <string name="tasks_custom_project_suspended_via_gui">проектът е временно прекратен</string>
+  <string name="tasks_custom_ready_to_report">готов за докладване</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_title">Прекратяване на задача?</string>
+  <string name="confirm_abort_task_message">Прекратяване на задача: %1$s</string>
+  <string name="confirm_abort_task_confirm">Прекрати</string>
+  <string name="confirm_cancel">Откажи</string>
+  <string name="confirm_image_desc">Диалог за потвърждение</string>
+  <!--transfers tab strings-->
+  <string name="trans_upload">Качване</string>
+  <string name="trans_download">Изтегляне</string>
+  <string name="trans_retry_in">повторение след %1$s</string>
+  <string name="trans_failed">неуспешен</string>
+  <string name="trans_suspended">временно прекратен</string>
+  <string name="trans_active">активен</string>
+  <string name="trans_pending">в режим на изчакване</string>
+  <string name="trans_control_retry">Опитай трансфери отново</string>
+  <!--eventlog tab strings-->
+  <string name="eventlog_client_header">Съобщения от Клиента</string>
+  <string name="eventlog_gui_header">Съобщения от GUI</string>
+  <string name="eventlog_copy_toast">Записът е копиран в клип-борда.</string>
+  <string name="eventlog_email_subject">Регистър на Събития на BOINC за Андроид:</string>
+  <!--suspend reasons-->
+  <string name="suspend_unknown">Изчисленията са временно прекратени.</string>
+  <string name="suspend_batteries">Свържете вашето устройство към зарядно устройство, за да продължите изчисленията.</string>
+  <string name="suspend_screen_on">Изключете екрана, за да продължите изчисленията.</string>
+  <string name="suspend_useractive">Потребителят е активен.</string>
+  <string name="suspend_tod">Извън рамката за изчислително време.</string>
+  <string name="suspend_disksize">Недостатъчно дисково пространство.</string>
+  <string name="suspend_cputhrottle">Планирано потискане на CPU.</string>
+  <string name="suspend_noinput">Няма скорошна активност на потребител.</string>
+  <string name="suspend_delay">Закъснение при инициализация.</string>
+  <string name="suspend_exclusiveapp">Работи ексклузивно приложение.</string>
+  <string name="suspend_cpu">Вашето устройство е заето с други приложения.</string>
+  <string name="suspend_network_quota">BOINC достигна лимита за трансфер по мрежата.</string>
+  <string name="suspend_os">Спряно от Андроид.</string>
+  <string name="suspend_wifi">Не е свързан към WiFi.</string>
+  <string name="suspend_battery_charging">Изчакване на батерията да се зареди.</string>
+  <string name="suspend_battery_charging_long">Изчисленията ще се подновят, когато заряда на батерията достигне %1$d%% (в момента е %2$d%%)</string>
+  <string name="suspend_battery_overheating">Изчакване на батерията да се охлади</string>
+  <string name="suspend_user_req">Подновяване на изчисленията…</string>
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">По заявка на потребителя</string>
+  <string name="rpcreason_needwork">За да вземе работа</string>
+  <string name="rpcreason_resultsdue">За да докладва завършените задачи</string>
+  <string name="rpcreason_trickleup">За да изпрати изходящо съобщение</string>
+  <string name="rpcreason_acctmgrreq">По заявка на акаунт мениджъра</string>
+  <string name="rpcreason_init">Инициализация на проект</string>
+  <string name="rpcreason_projectreq">По заявка на проекта</string>
+  <string name="rpcreason_unknown">Неизвестна причина</string>
+  <!--menu-->
+  <string name="menu_refresh">Опресни</string>
+  <string name="menu_emailto">Изпрати като Имейл</string>
+  <string name="menu_copy">Копирай в Клип-борда</string>
+  <string name="menu_eventlog">Регистър на Събития</string>
+  <string name="menu_run_mode_disable">Временно прекрати</string>
+  <string name="menu_run_mode_enable">Поднови</string>
+  <string name="menu_about">Относно</string>
+  <string name="menu_help">Помощ</string>
+  <string name="menu_report_issue">Съобщи за проблем</string>
+  <!--about dialog-->
+  <string name="about_title">Относно</string>
+  <string name="about_name">BOINC</string>
+  <string name="about_version">Версия %1$s</string>
+  <string name="about_copyright">\u00A9 2003–2021 Калифорнийски Университет, Бъркли.</string>
+  <string name="about_copyright_reserved">Всички Права Запазени.</string>
+  <string name="about_credits">Благодарности към Института за гравитационна физика Макс Планк, IBM Corporation и HTC Corporation за подкрепата.</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Ново известие от %1$ s</item>
+    <item quantity="other">%2$,d нови известия</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_header">Засечено е приложение за доброволно участие в изчисления</string>
+  <string name="nonexcl_dialog_text">На това устройство се изпълнява друго приложение за изчисления на доброволци. В даден момент може да работи само една версия.</string>
+  <string name="nonexcl_dialog_exit">Изход</string>
+  <!--social integration-->
+  <string name="social_invite_button">Поканете приятели</string>
+  <string name="social_invite_intent_title">Как искате да споделите?</string>
+  <string name="social_invite_content_title">Аз правя наука на моя смартфон!</string>
+  <string name="social_invite_content_body">Аз използвам моя %1$s за да извършвам изчисления за науката. Ти можеш също! Изтегли приложението от: %2$s</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Показва известия без предупреждение.</string>
+  <string name="notice_notification_channel_name">Известия</string>
+  <string name="notice_notification_channel_description">Показва известия от вашите проекти.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Добре дошли в Xiaomi Mall! За да осигурим висококачествено пазаруване,
+ приложението Mi Mall трябва да е свързано с интернет и да използва информация за местоположението ви, за да проверява наличностите на продуктите,
+ оптимизиране на услугите за доставка и персонализиране на препоръките за продукти. Имате право да откажете или да отмените това разрешение.</string>
+  <string name="terms_of_use_content_second">Преди да използвате приложението, моля, прочетете и разберете напълно \"Споразумението с потребителя\".
+ и \" Политиката за поверителност\" на Xiaomi Mall, за да разберете потребителските си права, и как се обработват данните ви.
+ Ако сте съгласни със съдържанието на горното споразумение, моля, кликнете върху \"Съгласен съм\", за да започнете да използвате нашите продукти и услуги.
+ Ще защитим личната ви информация с помощта на водещи в индустрията технологии за сигурност. Благодарим ви за доверието в Xiaomi Mall.</string>
+  <string name="terms_of_use_content_user_agreement">Споразумение с потребителя: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Политика за поверителност: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Скъпи фенове на Mi, здравейте, Da Jia Hao!</string>
+  <string name="welcome_content_second">Аз съм Дейвид, основател на Boinc. Boinc е софтуерна платформа с отворен код за изчисления, използваща доброволно предоставени ресурси.</string>
+  <string name="welcome_content_third">Бих желал да благодаря на г-н Лей Джун и на Xiaomi и да споделя с вас някои добри новини:
+ Mi 11 ще се превърне в мобилно компютърно устройство, официално сертифицирано от Boinc!</string>
+  <string name="welcome_content_fourth">С вградения Qualcomm Snapdragon 888, Mi 11 може да се похвали с невероятна изчислителна мощ.
+ Той може да обработва задачите много бързо и да помага на изследователските общности по целия свят.</string>
+  <string name="welcome_content_fifth">Бих искал да благодаря на всички инженери в Xiaomi, които допринесоха за проекта Boinc.
+  Насърчавам всички фенове на Mi да изтеглят Boinc на телефоните си, да допринесат с част от енергията му, докато телефонът не се използва.</string>
+  <string name="welcome_content_sixth">И накрая, но не на последно място, на моите китайски приятели - Честита китайска Нова година! Xin Nian Kuai Le!</string>
+  <string name="agree_button">Съгласен съм</string>
+  <string name="prefs_expand_wu_data">Винаги разширявай информацията за задачите</string>
 </resources>

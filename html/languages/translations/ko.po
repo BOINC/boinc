@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2023 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
+"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
 "Last-Translator: 김태환 <ktcar214@gmail.com>, 2017\n"
-"Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
+"Language-Team: Korean (http://app.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -52,7 +52,7 @@ msgstr "표시된 이름"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "반드시 올바른 형식(name@domain)으로 입력해 주세요."
 
-#: html/inc/account.inc:90 html/inc/user.inc:241 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:240 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Email 주소"
 
@@ -74,7 +74,7 @@ msgstr "표시되기를 원하는 국가를 선택해주세요."
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:250 html/inc/user.inc:453 html/user/account_finish.php:45
+#: html/inc/user.inc:249 html/inc/user.inc:452 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -268,7 +268,7 @@ msgid "Account"
 msgstr "계정"
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:297
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:296
 msgid "Preferences"
 msgstr "환경 설정"
 
@@ -321,12 +321,12 @@ msgstr "컴퓨터 종류"
 msgid "Computing"
 msgstr "컴퓨팅"
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:568 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:567 html/user/welcome.php:79
 msgid "Community"
 msgstr "커뮤니티"
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:379 html/inc/user.inc:513 html/user/forum_forum.php:76
+#: html/inc/user.inc:378 html/inc/user.inc:512 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "게시판"
@@ -367,6 +367,14 @@ msgstr "사이트 내 검색"
 #: html/inc/bootstrap.inc:205
 msgid "Languages"
 msgstr "언어 설정"
+
+#: html/inc/cert.inc:97
+msgid "Share on Facebook"
+msgstr ""
+
+#: html/inc/cert.inc:106
+msgid "Share on Twitter"
+msgstr ""
 
 #. names for the above
 #: html/inc/forum.inc:44
@@ -450,7 +458,7 @@ msgstr "포럼 검색"
 msgid "Advanced search"
 msgstr "고급 검색"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:383 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:382 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "쪽지"
@@ -521,7 +529,7 @@ msgstr "읽지 않음"
 msgid "Message %1"
 msgstr "메세지 %1"
 
-#: html/inc/forum.inc:662 html/inc/user.inc:471 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:470 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "숨김"
 
@@ -702,7 +710,7 @@ msgstr "작성자를 차단시키지 않음"
 msgid "Start vote to banish author"
 msgstr "작성자 차단 투표 시작"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:370
+#: html/inc/forum.inc:1211 html/inc/user.inc:369
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "삭제"
@@ -1079,7 +1087,7 @@ msgid ", CPU does not have hardware virtualization support"
 msgstr ", CPU는 하드웨어 가상화를 지원하지 않습니다"
 
 #: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:415 html/inc/user.inc:508
+#: html/inc/user.inc:414 html/inc/user.inc:507
 msgid "None"
 msgstr "없음"
 
@@ -1152,7 +1160,7 @@ msgid "Computer ID"
 msgstr "컴퓨터 ID"
 
 #: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:233 html/user/account_finish.php:41
+#: html/inc/team.inc:376 html/inc/user.inc:232 html/user/account_finish.php:41
 #: html/user/per_app_list.php:61 html/user/team_admins.php:65
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
@@ -1228,7 +1236,7 @@ msgstr "미리 보기"
 msgid "Subject"
 msgstr "제목"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:517
+#: html/inc/pm.inc:105 html/inc/user.inc:516
 msgid "Send private message"
 msgstr "쪽지 보내기"
 
@@ -1288,7 +1296,7 @@ msgstr "분"
 
 #: html/inc/prefs.inc:60
 msgid "Suspend all computing"
-msgstr ""
+msgstr "모든 연산 일시중지"
 
 #: html/inc/prefs.inc:61
 msgid ""
@@ -1298,7 +1306,7 @@ msgstr "컴퓨터 사용시 연산 및 파일 전송을 일시중지시키려면
 
 #: html/inc/prefs.inc:66
 msgid "Suspend GPU computing"
-msgstr ""
+msgstr "GPU 연산 일시중지"
 
 #: html/inc/prefs.inc:67
 msgid "Check this to suspend GPU computing when you're using the computer."
@@ -1349,7 +1357,7 @@ msgstr "컴퓨터 사용시 BOINC에서 사용하는 메모리를 제한합니�
 #: html/inc/prefs.inc:98 html/inc/prefs.inc:129
 #, no-php-format
 msgid "% of memory"
-msgstr ""
+msgstr "% (메모리)"
 
 #: html/inc/prefs.inc:126
 msgid "Limit the memory used by BOINC when you're not using the computer."
@@ -1553,11 +1561,11 @@ msgstr "완료되면 접속 끊기"
 
 #: html/inc/prefs.inc:259
 msgid "When computer is in use"
-msgstr ""
+msgstr "컴퓨터가 사용 중일 떄"
 
 #: html/inc/prefs.inc:260
 msgid "When computer is not in use"
-msgstr ""
+msgstr "컴퓨터가 사용 중이 아닐 떄"
 
 #: html/inc/prefs.inc:261
 msgid "General"
@@ -2184,7 +2192,7 @@ msgstr "팀 종류"
 msgid "Show only active teams"
 msgstr "활동 중인 팀만 보기"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1172 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1190 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "검색"
@@ -2306,15 +2314,15 @@ msgid "Admin"
 msgstr "관리"
 
 #: html/inc/team.inc:295 html/user/forum_user_posts.php:124
-#: html/user/per_app_list.php:248 html/user/top_hosts.php:86
-#: html/user/top_teams.php:115 html/user/top_users.php:122
+#: html/user/per_app_list.php:248 html/user/top_hosts.php:84
+#: html/user/top_teams.php:113 html/user/top_users.php:120
 msgid "Previous %1"
 msgstr "이전 %1"
 
 #: html/inc/team.inc:299 html/user/forum_user_posts.php:133
 #: html/user/per_app_list.php:253 html/user/profile_search_action.php:63
-#: html/user/top_hosts.php:92 html/user/top_teams.php:120
-#: html/user/top_users.php:127
+#: html/user/top_hosts.php:90 html/user/top_teams.php:118
+#: html/user/top_users.php:125
 msgid "Next %1"
 msgstr "다음 %1"
 
@@ -2456,8 +2464,8 @@ msgstr "참여 시작 시기"
 msgid "Computers on this account"
 msgstr "이 계정의 컴퓨터 목록"
 
-#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:281
-#: html/inc/user.inc:370 html/inc/user.inc:469 html/inc/user.inc:541
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:280
+#: html/inc/user.inc:369 html/inc/user.inc:468 html/inc/user.inc:540
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "보기"
@@ -2470,8 +2478,8 @@ msgstr "공유-프로젝트 ID"
 msgid "Cross-project statistics"
 msgstr "공유-프로젝트 통계"
 
-#: html/inc/user.inc:186 html/inc/user.inc:415 html/inc/user.inc:506
-#: html/inc/user.inc:508 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:414 html/inc/user.inc:505
+#: html/inc/user.inc:507 html/user/user_search.php:129
 msgid "Team"
 msgstr "팀"
 
@@ -2479,163 +2487,159 @@ msgstr "팀"
 msgid "Cross-project"
 msgstr "공유-프로젝트"
 
-#: html/inc/user.inc:190
-msgid "Stats on your cell phone"
-msgstr "휴대 전화 통계"
-
-#: html/inc/user.inc:246 html/inc/user.inc:461
+#: html/inc/user.inc:245 html/inc/user.inc:460
 msgid "URL"
 msgstr "URL"
 
-#: html/inc/user.inc:253
+#: html/inc/user.inc:252
 msgid "Postal code"
 msgstr "우편 번호"
 
-#: html/inc/user.inc:255 html/inc/user.inc:451
+#: html/inc/user.inc:254 html/inc/user.inc:450
 msgid "%1 member since"
 msgstr "%1 참여 시작일"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:260 html/inc/user.inc:270
+#: html/inc/user.inc:259 html/inc/user.inc:269
 msgid "Change"
 msgstr "변경"
 
-#: html/inc/user.inc:267
+#: html/inc/user.inc:266
 msgid "delete account"
 msgstr "계정 삭제"
 
-#: html/inc/user.inc:271
+#: html/inc/user.inc:270
 msgid "email address"
 msgstr "email 주소"
 
-#: html/inc/user.inc:272
+#: html/inc/user.inc:271
 msgid "password"
 msgstr "비밀번호"
 
-#: html/inc/user.inc:273
+#: html/inc/user.inc:272
 msgid "other account info"
 msgstr "다른 계정 정보"
 
-#: html/inc/user.inc:277 html/inc/user.inc:450
+#: html/inc/user.inc:276 html/inc/user.inc:449
 msgid "User ID"
 msgstr "사용자 ID"
 
-#: html/inc/user.inc:277
+#: html/inc/user.inc:276
 msgid "Used in community functions"
 msgstr "커뮤니티 기능 사용"
 
-#: html/inc/user.inc:280 html/user/weak_auth.php:23
+#: html/inc/user.inc:279 html/user/weak_auth.php:23
 msgid "Account keys"
 msgstr "계정 키"
 
-#: html/inc/user.inc:288
+#: html/inc/user.inc:287
 msgid "Account Ownership"
 msgstr "계정 소유구"
 
-#: html/inc/user.inc:300
+#: html/inc/user.inc:299
 msgid "When and how BOINC uses your computer"
 msgstr "BOINC가 언제, 어떻게 여러분 컴퓨터를 사용할지 결정"
 
-#: html/inc/user.inc:301 html/user/welcome.php:62
+#: html/inc/user.inc:300 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "컴퓨팅 환경 설정"
 
-#: html/inc/user.inc:304
+#: html/inc/user.inc:303
 msgid "Message boards and private messages"
 msgstr "게시판과 쪽지"
 
-#: html/inc/user.inc:305 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:304 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "커뮤니티 환경 설정"
 
-#: html/inc/user.inc:308
+#: html/inc/user.inc:307
 msgid "Preferences for this project"
 msgstr "해당 프로젝트 환경설정"
 
-#: html/inc/user.inc:309 html/user/prefs.php:33
+#: html/inc/user.inc:308 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 환경 설정"
 
-#: html/inc/user.inc:326
+#: html/inc/user.inc:325
 msgid "View the profile of %1"
 msgstr "%1의 프로필 보기"
 
-#: html/inc/user.inc:327 html/inc/user.inc:374 html/inc/user.inc:541
+#: html/inc/user.inc:326 html/inc/user.inc:373 html/inc/user.inc:540
 msgid "Profile"
 msgstr "프로필"
 
-#: html/inc/user.inc:372
+#: html/inc/user.inc:371
 msgid "Create"
 msgstr "생성"
 
-#: html/inc/user.inc:379 html/inc/user.inc:513
+#: html/inc/user.inc:378 html/inc/user.inc:512
 msgid "%1 posts"
 msgstr "%1 포스트"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:397 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:396 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "공지"
 
-#: html/inc/user.inc:403
+#: html/inc/user.inc:402
 msgid "Quit team"
 msgstr "팀 탈퇴"
 
-#: html/inc/user.inc:405 html/inc/user.inc:422
+#: html/inc/user.inc:404 html/inc/user.inc:421
 msgid "Administer"
 msgstr "관리자"
 
-#: html/inc/user.inc:411 html/inc/user.inc:424
+#: html/inc/user.inc:410 html/inc/user.inc:423
 msgid "(foundership change request pending)"
 msgstr "(창설자 변경 요청 대기중)"
 
-#: html/inc/user.inc:413
+#: html/inc/user.inc:412
 msgid "Member of team"
 msgstr "팀 구성원"
 
-#: html/inc/user.inc:415
+#: html/inc/user.inc:414
 msgid "find a team"
 msgstr "팀 찾기"
 
-#: html/inc/user.inc:426
+#: html/inc/user.inc:425
 msgid "Founder but not member of"
 msgstr "창설자 (맴버 제외)"
 
-#: html/inc/user.inc:432
+#: html/inc/user.inc:431
 msgid "Find friends"
 msgstr "친구 찾기"
 
-#: html/inc/user.inc:440 html/inc/user.inc:442 html/inc/user.inc:524
-#: html/inc/user.inc:526 html/inc/user.inc:535
+#: html/inc/user.inc:439 html/inc/user.inc:441 html/inc/user.inc:523
+#: html/inc/user.inc:525 html/inc/user.inc:534
 msgid "Friends"
 msgstr "친구들"
 
-#: html/inc/user.inc:469 html/inc/user.inc:471 html/user/server_status.php:160
+#: html/inc/user.inc:468 html/inc/user.inc:470 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "컴퓨터들"
 
-#: html/inc/user.inc:517
+#: html/inc/user.inc:516
 msgid "Contact"
 msgstr "접촉"
 
-#: html/inc/user.inc:520
+#: html/inc/user.inc:519
 msgid "This person is a friend"
 msgstr "이 사람은 친구입니다"
 
-#: html/inc/user.inc:521 html/user/friend.php:250
+#: html/inc/user.inc:520 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "친구 관계 취소"
 
-#: html/inc/user.inc:524 html/user/friend.php:39
+#: html/inc/user.inc:523 html/user/friend.php:39
 msgid "Request pending"
 msgstr "요청이 보류되었습니다"
 
-#: html/inc/user.inc:526
+#: html/inc/user.inc:525
 msgid "Add as friend"
 msgstr "친구로 추가"
 
-#: html/inc/user.inc:550
+#: html/inc/user.inc:549
 msgid "Account information"
 msgstr "계정 정보"
 
@@ -2750,23 +2754,23 @@ msgstr "연결 시간 초과. '뒤로 가기'를 누르신 후 페이지를 새�
 msgid "Use BBCode tags to format your text"
 msgstr "형식에 맞춰서 BBCode 태그를 쓰세요"
 
-#: html/inc/util.inc:937
+#: html/inc/util.inc:941
 msgid "Project down for maintenance"
 msgstr "정기 점검을 위해 서버가 꺼짐"
 
-#: html/inc/util.inc:940
+#: html/inc/util.inc:944
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1는 현재 정기 점검때문에 일시적으로 종료되었습니다. 나중에 다시 시도하세요."
 
-#: html/inc/util.inc:967
+#: html/inc/util.inc:971
 msgid "Unable to connect to database - please try again later"
 msgstr "선택한 데이터베이스에 접속할 수 없습니다. 나중에 다시 시도해주세요"
 
-#: html/inc/util.inc:971
+#: html/inc/util.inc:975
 msgid "Unable to select database - please try again later"
 msgstr "선택한 데이터베이스를 사용할 수 없습니다. 나중에 다시 시도해주세요"
 
-#: html/inc/util.inc:1151
+#: html/inc/util.inc:1169
 msgid "characters remaining"
 msgstr "사용 가능한 글자수"
 
@@ -3335,9 +3339,9 @@ msgstr "이들 응용 프로그램은 %1에서 승인받지 않았으며 여러�
 #: html/user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application.\n"
 "If this is not enough you should contact the author."
-msgstr "저희는 이들 응용 프로그램을 설치하기 위한 설명서를 제공하지 않습니다.\n그러나 작성자는 응용 프로그램 설치나 삭제에 관해서 약간의 도움말을 제공할 수도 있습니다.\n그 것으로 충분하지 않다면 작성자에게 연락하세요."
+msgstr ""
 
 #: html/user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1 here %2."
@@ -3347,123 +3351,132 @@ msgstr "BOINC를 설치하고 실행하기 위한 설명서는 %1 이곳 %2에 �
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "이 목록은 %1 BOINC 웹사이트 %2를 중심으로 관리됩니다."
 
-#: html/user/download_software.php:182
+#: html/user/download_software.php:190
 msgid "This project requires VirtualBox."
 msgstr "이 프로젝트는 VirtualBox를 요구합니다."
 
-#: html/user/download_software.php:185
+#: html/user/download_software.php:192
 msgid "This project recommends VirtualBox."
 msgstr "이 프로젝트는 VirtualBox 사용을 권장합니다."
 
-#: html/user/download_software.php:191
+#: html/user/download_software.php:198
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
 msgstr "만약 이 컴퓨터에 설치되어 있지 않다면, %1여기%2서 다운로드하고 BOINC를 다시 시작하세요."
 
-#: html/user/download_software.php:199
+#: html/user/download_software.php:206
 msgid "Use the BOINC+VirtualBox installer."
 msgstr "BOINC+VirtualBox 인스톨러를 사용해 보세요."
 
-#: html/user/download_software.php:202
+#: html/user/download_software.php:209
 msgid "If it is not installed on this computer, get it %1here%2."
 msgstr "만약 이 컴퓨터에 설치되어 있지 않다면, %1여기%2서 다운로드하세요."
 
-#: html/user/download_software.php:216
+#: html/user/download_software.php:223
 msgid "Download BOINC"
 msgstr "BOINC 다운로드"
 
-#: html/user/download_software.php:225
+#: html/user/download_software.php:226
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
-"        "
-msgstr "BOINC를 다운로드하고 설치하려면\n            하단 링크를 클릭하고 안내 사항을 따르세요.\n        "
+"    "
+msgstr ""
 
-#: html/user/download_software.php:228
-msgid ""
-"When BOINC first runs it will ask you to select a project.\n"
-"            Select %1 from the list,\n"
-"            or enter this project's URL: %2"
-msgstr "BOINC를 처음 실행하면 어떤 프로젝트를 선택할지 물어볼 것입니다.\n            목록에서 %1을 선택하거나\n            이 프로젝트의 URL을 입력하세요: %2"
-
-#: html/user/download_software.php:237
+#: html/user/download_software.php:232
 msgid "Go to the BOINC download page."
 msgstr "BOINC 다운로드 페이지로 이동하세요."
 
-#: html/user/download_software.php:266
+#: html/user/download_software.php:240
+msgid ""
+"When BOINC first runs it will ask you to select a project.\n"
+"                Cancel out of this dialog,\n"
+"                then select <b>Tools / Use Account Manager</b>\n"
+"                to connect BOINC to your %1 account.\n"
+"                See <a href=%2>detailed instructions</a>."
+msgstr ""
+
+#: html/user/download_software.php:252
+msgid ""
+"When BOINC first runs it will ask you to select a project.\n"
+"                Select '%1' from the list,\n"
+"                or enter this project's URL:<p>%2"
+msgstr ""
+
+#: html/user/download_software.php:287
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "BOINC 및 VirtualBox 최신 버전"
 
-#: html/user/download_software.php:267
+#: html/user/download_software.php:288
 msgid "these versions are"
 msgstr "이쪽 버전은"
 
-#: html/user/download_software.php:268
+#: html/user/download_software.php:289
 msgid "BOINC and VirtualBox"
 msgstr "BOINC 및 VirtualBox"
 
-#: html/user/download_software.php:270
+#: html/user/download_software.php:291
 msgid "the current version of BOINC"
 msgstr "현재 BOINC 버전"
 
-#: html/user/download_software.php:271
+#: html/user/download_software.php:292
 msgid "this version is"
 msgstr "이 버전ㅇ"
 
-#: html/user/download_software.php:274
+#: html/user/download_software.php:295
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "%1에 참여하려면, %2가 반드시 여러분 컴퓨터에 설치되어 있어야 합니다."
 
-#: html/user/download_software.php:278
+#: html/user/download_software.php:299
 msgid "If %1 already installed, %2click here%3."
 msgstr "만약 %1이 이미 설치되었다면, %2여기를 클릭하세요%3."
 
-#: html/user/download_software.php:304
+#: html/user/download_software.php:325
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "다운로드가 완료되면 다운로드된 파일을 열고 %1을 설치하세요."
 
-#: html/user/download_software.php:306
+#: html/user/download_software.php:327
 msgid "All done? %1Click here to finish%2."
 msgstr "다 되셨나요? %1완료하려면 여기를 클릭하세요%2."
 
-#: html/user/download_software.php:316
+#: html/user/download_software.php:337
 msgid "Use %1"
 msgstr "%1 사용"
 
-#: html/user/download_software.php:325
+#: html/user/download_software.php:346
 msgid "To use %1 on this computer:"
 msgstr "이 컴퓨터에 %1 사용하기:"
 
-#: html/user/download_software.php:326 html/user/download_software.php:343
+#: html/user/download_software.php:347 html/user/download_software.php:364
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "BOINC 관리자에서 도구 메뉴에 가서"
 
-#: html/user/download_software.php:327
+#: html/user/download_software.php:348
 msgid "Select Use Account Manager"
 msgstr "계정 관리자 사용을 선택하세요"
 
-#: html/user/download_software.php:328 html/user/download_software.php:345
+#: html/user/download_software.php:349 html/user/download_software.php:366
 msgid "Select %1 from the list"
 msgstr "목록에서 %1를 선택하세요"
 
-#: html/user/download_software.php:329 html/user/download_software.php:346
+#: html/user/download_software.php:350 html/user/download_software.php:367
 msgid "Enter your %1 email address and password."
 msgstr "%1 이메일 주소와 비밀번호를 입력하세요."
 
-#: html/user/download_software.php:332
+#: html/user/download_software.php:353
 msgid "Add %1"
 msgstr "%1 추가"
 
-#: html/user/download_software.php:342
+#: html/user/download_software.php:363
 msgid "To add %1 on this computer:"
 msgstr "이 컴퓨터에 %1 추가하기:"
 
-#: html/user/download_software.php:344
+#: html/user/download_software.php:365
 msgid "Select Add Project"
 msgstr "추가할 프로젝트를 선택하세요"
 
-#: html/user/download_software.php:352 html/user/sample_index.php:90
+#: html/user/download_software.php:373 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "홈 페이지에서 계속하기"
@@ -5015,26 +5028,26 @@ msgid "Host credit updated"
 msgstr "호스트 크레딧이 업데이트됨"
 
 #: html/user/host_venue_action.php:41
-msgid "Host venue updated"
-msgstr "호스트 위치가 업데이트됨"
+msgid "Computer venue updated"
+msgstr ""
 
 #: html/user/host_venue_action.php:43
 msgid "none"
 msgstr "없음"
 
 #: html/user/host_venue_action.php:46
-msgid "The venue of this host has been set to %1."
-msgstr "이 호스트의 위치가 %1로 설정되었습니다."
+msgid "The venue of this computer has been set to %1."
+msgstr ""
 
 #: html/user/host_venue_action.php:48
 msgid ""
-"This change will take effect the next time the host communicates with this "
-"project."
-msgstr "이 변경사항은 다음 번에 해당 호스트가 이 프로젝트 서버와 통신할 경우 적용될 것입니다."
+"Preference changes will take effect when the computer communicates with this"
+" project."
+msgstr ""
 
 #: html/user/host_venue_action.php:50
-msgid "Return to host page"
-msgstr "호스트 페이지로 돌아가기"
+msgid "Return to computer page"
+msgstr ""
 
 #: html/user/hosts_user.php:53
 msgid "Computers belonging to %1"
@@ -5404,8 +5417,8 @@ msgstr "응용 프로그램별 최고 팀"
 msgid "Top participants by application"
 msgstr "응용 프로그램별 최고 참여자"
 
-#: html/user/per_app_list.php:228 html/user/top_hosts.php:59
-#: html/user/top_teams.php:92 html/user/top_users.php:105
+#: html/user/per_app_list.php:228 html/user/top_hosts.php:57
+#: html/user/top_teams.php:90 html/user/top_users.php:103
 msgid "Limit exceeded - Sorry, first %1 items only"
 msgstr "한계 도달 - 죄송합니다. 첫 %1 항목만 표시됩니다"
 
@@ -5825,7 +5838,7 @@ msgstr "태스크 수행 프로그램"
 
 #: html/user/server_status.php:175
 msgid "Runtime of recent tasks in hours: average, min, max"
-msgstr ""
+msgstr "최근 태스크 실행 시간: 평균, 최소, 최대"
 
 #: html/user/server_status.php:176
 msgid "Users in last 24 hours"
@@ -6659,16 +6672,16 @@ msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "저는 지금 당장은 %1 팀 가입에 관심없습니다 %2."
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_hosts.php:74
+#: html/user/top_hosts.php:72
 msgid "Top computers"
 msgstr "최고 컴퓨터"
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_teams.php:98
+#: html/user/top_teams.php:96
 msgid "Top %1 teams"
 msgstr "최고 %1 팀"
 
-#: html/user/top_teams.php:101
+#: html/user/top_teams.php:99
 msgid "There are no %1 teams"
 msgstr "%1 팀이 없습니다"
 
@@ -6677,7 +6690,7 @@ msgid "Participant since"
 msgstr "참여 시작"
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_users.php:109
+#: html/user/top_users.php:107
 msgid "Top participants"
 msgstr "최고 기여자들"
 
@@ -6820,7 +6833,7 @@ msgstr "%1에게 이메일이 전송되었습니다. 여러분 이메일 주소�
 
 #: html/user/validate_email_addr.php:37
 msgid "If you don't receive this email, check your spam folder."
-msgstr ""
+msgstr "만약 이메일을 받지 못했다면 스팸 폴더를 확인해 보세요."
 
 #: html/user/validate_email_addr.php:46
 msgid "No such user."

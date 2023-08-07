@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2023 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
+"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
 "Last-Translator: Minh Phan, 2022\n"
-"Language-Team: Vietnamese (http://www.transifex.com/boinc/boinc/language/vi/)\n"
+"Language-Team: Vietnamese (http://app.transifex.com/boinc/boinc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -51,7 +51,7 @@ msgstr "Tên hiển thị"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Phải là một địa chỉ hợp lệ có dạng dạng 'tên@miền'."
 
-#: html/inc/account.inc:90 html/inc/user.inc:241 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:240 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Địa chỉ email"
 
@@ -73,7 +73,7 @@ msgstr "Chọn quốc gia bạn muốn đại điện, nếu có."
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:250 html/inc/user.inc:453 html/user/account_finish.php:45
+#: html/inc/user.inc:249 html/inc/user.inc:452 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -267,7 +267,7 @@ msgid "Account"
 msgstr "Tài khoản"
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:297
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:296
 msgid "Preferences"
 msgstr "Tùy chọn"
 
@@ -320,12 +320,12 @@ msgstr "Loại máy tính"
 msgid "Computing"
 msgstr "đang tính toán"
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:568 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:567 html/user/welcome.php:79
 msgid "Community"
 msgstr "Cộng đồng"
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:379 html/inc/user.inc:513 html/user/forum_forum.php:76
+#: html/inc/user.inc:378 html/inc/user.inc:512 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Bảng tin"
@@ -366,6 +366,14 @@ msgstr "Tìm kiếm trang"
 #: html/inc/bootstrap.inc:205
 msgid "Languages"
 msgstr "Ngôn ngữ"
+
+#: html/inc/cert.inc:97
+msgid "Share on Facebook"
+msgstr ""
+
+#: html/inc/cert.inc:106
+msgid "Share on Twitter"
+msgstr ""
 
 #. names for the above
 #: html/inc/forum.inc:44
@@ -449,7 +457,7 @@ msgstr "Tìm diễn đàn"
 msgid "Advanced search"
 msgstr "Tìm nâng cao"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:383 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:382 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "Tin nhắn riêng tư"
@@ -520,7 +528,7 @@ msgstr "Chưa đọc"
 msgid "Message %1"
 msgstr "Nhắn tin %1"
 
-#: html/inc/forum.inc:662 html/inc/user.inc:471 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:470 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "đã ẩn"
 
@@ -701,7 +709,7 @@ msgstr "Bỏ phiếu không trục xuất tác giả"
 msgid "Start vote to banish author"
 msgstr "Bắt đầu bỏ phiếu trục xuất tác giả"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:370
+#: html/inc/forum.inc:1211 html/inc/user.inc:369
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Xoá"
@@ -1078,7 +1086,7 @@ msgid ", CPU does not have hardware virtualization support"
 msgstr ", CPU không có hỗ trợ ảo hóa phần cứng"
 
 #: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:415 html/inc/user.inc:508
+#: html/inc/user.inc:414 html/inc/user.inc:507
 msgid "None"
 msgstr "Không có"
 
@@ -1151,7 +1159,7 @@ msgid "Computer ID"
 msgstr "ID máy tính"
 
 #: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:233 html/user/account_finish.php:41
+#: html/inc/team.inc:376 html/inc/user.inc:232 html/user/account_finish.php:41
 #: html/user/per_app_list.php:61 html/user/team_admins.php:65
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
@@ -1227,7 +1235,7 @@ msgstr "Xem trước"
 msgid "Subject"
 msgstr "Chủ đề"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:517
+#: html/inc/pm.inc:105 html/inc/user.inc:516
 msgid "Send private message"
 msgstr "Gửi tin nhắn riêng tư"
 
@@ -2183,7 +2191,7 @@ msgstr "Kiểu team"
 msgid "Show only active teams"
 msgstr "Chỉ hiển thị các team đang hoạt động"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1172 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1190 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Tìm"
@@ -2305,15 +2313,15 @@ msgid "Admin"
 msgstr "Admin"
 
 #: html/inc/team.inc:295 html/user/forum_user_posts.php:124
-#: html/user/per_app_list.php:248 html/user/top_hosts.php:86
-#: html/user/top_teams.php:115 html/user/top_users.php:122
+#: html/user/per_app_list.php:248 html/user/top_hosts.php:84
+#: html/user/top_teams.php:113 html/user/top_users.php:120
 msgid "Previous %1"
 msgstr "%1 trước đó"
 
 #: html/inc/team.inc:299 html/user/forum_user_posts.php:133
 #: html/user/per_app_list.php:253 html/user/profile_search_action.php:63
-#: html/user/top_hosts.php:92 html/user/top_teams.php:120
-#: html/user/top_users.php:127
+#: html/user/top_hosts.php:90 html/user/top_teams.php:118
+#: html/user/top_users.php:125
 msgid "Next %1"
 msgstr "%1 tiếp theo"
 
@@ -2455,8 +2463,8 @@ msgstr "Từ"
 msgid "Computers on this account"
 msgstr "Các máy tính trên tài khoản này"
 
-#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:281
-#: html/inc/user.inc:370 html/inc/user.inc:469 html/inc/user.inc:541
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:280
+#: html/inc/user.inc:369 html/inc/user.inc:468 html/inc/user.inc:540
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "Xem"
@@ -2469,8 +2477,8 @@ msgstr "ID dự án chéo"
 msgid "Cross-project statistics"
 msgstr "Thống kê dự án chéo"
 
-#: html/inc/user.inc:186 html/inc/user.inc:415 html/inc/user.inc:506
-#: html/inc/user.inc:508 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:414 html/inc/user.inc:505
+#: html/inc/user.inc:507 html/user/user_search.php:129
 msgid "Team"
 msgstr "Team"
 
@@ -2478,163 +2486,159 @@ msgstr "Team"
 msgid "Cross-project"
 msgstr "Dự án chéo"
 
-#: html/inc/user.inc:190
-msgid "Stats on your cell phone"
-msgstr "Thống kê trên điện thoại di động của bạn"
-
-#: html/inc/user.inc:246 html/inc/user.inc:461
+#: html/inc/user.inc:245 html/inc/user.inc:460
 msgid "URL"
 msgstr "Địa chỉ URL"
 
-#: html/inc/user.inc:253
+#: html/inc/user.inc:252
 msgid "Postal code"
 msgstr "Mã bưu chính"
 
-#: html/inc/user.inc:255 html/inc/user.inc:451
+#: html/inc/user.inc:254 html/inc/user.inc:450
 msgid "%1 member since"
 msgstr "%1 thành viên từ"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:260 html/inc/user.inc:270
+#: html/inc/user.inc:259 html/inc/user.inc:269
 msgid "Change"
 msgstr "Thay đổi"
 
-#: html/inc/user.inc:267
+#: html/inc/user.inc:266
 msgid "delete account"
 msgstr "xoá bỏ tài khoản"
 
-#: html/inc/user.inc:271
+#: html/inc/user.inc:270
 msgid "email address"
 msgstr "địa chỉ email"
 
-#: html/inc/user.inc:272
+#: html/inc/user.inc:271
 msgid "password"
 msgstr "mật khẩu"
 
-#: html/inc/user.inc:273
+#: html/inc/user.inc:272
 msgid "other account info"
 msgstr "thông tin tài khoản khác"
 
-#: html/inc/user.inc:277 html/inc/user.inc:450
+#: html/inc/user.inc:276 html/inc/user.inc:449
 msgid "User ID"
 msgstr "ID người dùng"
 
-#: html/inc/user.inc:277
+#: html/inc/user.inc:276
 msgid "Used in community functions"
 msgstr "Đã được dùng trong các chức năng cộng đồng"
 
-#: html/inc/user.inc:280 html/user/weak_auth.php:23
+#: html/inc/user.inc:279 html/user/weak_auth.php:23
 msgid "Account keys"
 msgstr "Chìa khoá tài khoản"
 
-#: html/inc/user.inc:288
+#: html/inc/user.inc:287
 msgid "Account Ownership"
 msgstr "Quyền sở hữu Tài khoản"
 
-#: html/inc/user.inc:300
+#: html/inc/user.inc:299
 msgid "When and how BOINC uses your computer"
 msgstr "BOINC sử dụng máy tính của bạn khi nào và như thế nào"
 
-#: html/inc/user.inc:301 html/user/welcome.php:62
+#: html/inc/user.inc:300 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "Tuỳ chọn tính toán"
 
-#: html/inc/user.inc:304
+#: html/inc/user.inc:303
 msgid "Message boards and private messages"
 msgstr "Bảng tin và tin nhắn riêng tư"
 
-#: html/inc/user.inc:305 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:304 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "Tuỳ chọn cộng đồng"
 
-#: html/inc/user.inc:308
+#: html/inc/user.inc:307
 msgid "Preferences for this project"
 msgstr "Tuỳ chọn cho dự án này"
 
-#: html/inc/user.inc:309 html/user/prefs.php:33
+#: html/inc/user.inc:308 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 tuỳ chọn"
 
-#: html/inc/user.inc:326
+#: html/inc/user.inc:325
 msgid "View the profile of %1"
 msgstr "Xem hồ sơ của %1"
 
-#: html/inc/user.inc:327 html/inc/user.inc:374 html/inc/user.inc:541
+#: html/inc/user.inc:326 html/inc/user.inc:373 html/inc/user.inc:540
 msgid "Profile"
 msgstr "Hồ sơ"
 
-#: html/inc/user.inc:372
+#: html/inc/user.inc:371
 msgid "Create"
 msgstr "Khởi tạo"
 
-#: html/inc/user.inc:379 html/inc/user.inc:513
+#: html/inc/user.inc:378 html/inc/user.inc:512
 msgid "%1 posts"
 msgstr "%1 các bài đăng"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:397 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:396 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "Thông báo"
 
-#: html/inc/user.inc:403
+#: html/inc/user.inc:402
 msgid "Quit team"
 msgstr "Rời khỏi team"
 
-#: html/inc/user.inc:405 html/inc/user.inc:422
+#: html/inc/user.inc:404 html/inc/user.inc:421
 msgid "Administer"
 msgstr "Quản lý"
 
-#: html/inc/user.inc:411 html/inc/user.inc:424
+#: html/inc/user.inc:410 html/inc/user.inc:423
 msgid "(foundership change request pending)"
 msgstr "(yêu cầu thay đổi tư cách sáng lập đang chờ xử lý)"
 
-#: html/inc/user.inc:413
+#: html/inc/user.inc:412
 msgid "Member of team"
 msgstr "Thành viên của team"
 
-#: html/inc/user.inc:415
+#: html/inc/user.inc:414
 msgid "find a team"
 msgstr "tìm một team"
 
-#: html/inc/user.inc:426
+#: html/inc/user.inc:425
 msgid "Founder but not member of"
 msgstr "Người sáng lập nhưng không phải là thành viên của"
 
-#: html/inc/user.inc:432
+#: html/inc/user.inc:431
 msgid "Find friends"
 msgstr "Tìm bạn"
 
-#: html/inc/user.inc:440 html/inc/user.inc:442 html/inc/user.inc:524
-#: html/inc/user.inc:526 html/inc/user.inc:535
+#: html/inc/user.inc:439 html/inc/user.inc:441 html/inc/user.inc:523
+#: html/inc/user.inc:525 html/inc/user.inc:534
 msgid "Friends"
 msgstr "Bạn bè"
 
-#: html/inc/user.inc:469 html/inc/user.inc:471 html/user/server_status.php:160
+#: html/inc/user.inc:468 html/inc/user.inc:470 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "Máy tính"
 
-#: html/inc/user.inc:517
+#: html/inc/user.inc:516
 msgid "Contact"
 msgstr "Liên hệ"
 
-#: html/inc/user.inc:520
+#: html/inc/user.inc:519
 msgid "This person is a friend"
 msgstr "Người này là bạn"
 
-#: html/inc/user.inc:521 html/user/friend.php:250
+#: html/inc/user.inc:520 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "Hủy bỏ tình bạn"
 
-#: html/inc/user.inc:524 html/user/friend.php:39
+#: html/inc/user.inc:523 html/user/friend.php:39
 msgid "Request pending"
 msgstr "Yêu cầu chờ xử lý"
 
-#: html/inc/user.inc:526
+#: html/inc/user.inc:525
 msgid "Add as friend"
 msgstr "Thêm làm bạn"
 
-#: html/inc/user.inc:550
+#: html/inc/user.inc:549
 msgid "Account information"
 msgstr "Thông tin tài khoản"
 
@@ -2749,23 +2753,23 @@ msgstr "Liên kết đã hết thời gian chờ. Vui lòng nhấp vào Quay l�
 msgid "Use BBCode tags to format your text"
 msgstr "Sử dụng thẻ BBCode tag để định dạng văn bản của bạn"
 
-#: html/inc/util.inc:937
+#: html/inc/util.inc:941
 msgid "Project down for maintenance"
 msgstr "Dự án đang bị hạ xuống để bảo trì"
 
-#: html/inc/util.inc:940
+#: html/inc/util.inc:944
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 tạm thời tắt đi để bảo trì. Vui lòng thử lại sau nhé."
 
-#: html/inc/util.inc:967
+#: html/inc/util.inc:971
 msgid "Unable to connect to database - please try again later"
 msgstr "Không thể kết nối với cơ sở dữ liệu - vui lòng thử lại sau nhé"
 
-#: html/inc/util.inc:971
+#: html/inc/util.inc:975
 msgid "Unable to select database - please try again later"
 msgstr "Không thể chọn cơ sở dữ liệu - vui lòng thử lại sau nhé"
 
-#: html/inc/util.inc:1151
+#: html/inc/util.inc:1169
 msgid "characters remaining"
 msgstr "ký tự còn lại"
 
@@ -3334,9 +3338,9 @@ msgstr "Các ứng dụng này không được %1 xác nhận và bạn sẽ ph�
 #: html/user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application.\n"
 "If this is not enough you should contact the author."
-msgstr "Chúng tôi không cung cấp hướng dẫn để cài đặt các ứng dụng này.\nTuy nhiên, tác giả có thể đã cung cấp một số trợ giúp về việc cài đặt hoặc gỡ cài đặt ứng dụng.\nNếu điều này là vẫn chưa đủ, bạn nên liên hệ với tác giả."
+msgstr ""
 
 #: html/user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1 here %2."
@@ -3346,123 +3350,132 @@ msgstr "Hướng dẫn cài đặt và chạy BOINC là %1 tại đây %2."
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "Danh sách này được quản lý tập trung tại %1 trang web BOINC %2."
 
-#: html/user/download_software.php:182
+#: html/user/download_software.php:190
 msgid "This project requires VirtualBox."
 msgstr "Dự án này yêu cầu có VirtualBox."
 
-#: html/user/download_software.php:185
+#: html/user/download_software.php:192
 msgid "This project recommends VirtualBox."
 msgstr "Dự án này đề xuất VirtualBox."
 
-#: html/user/download_software.php:191
+#: html/user/download_software.php:198
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
 msgstr "Nếu nó chưa được cài đặt trên máy tính này, hãy tải %1 tại đây %2, sau đó khởi động lại BOINC."
 
-#: html/user/download_software.php:199
+#: html/user/download_software.php:206
 msgid "Use the BOINC+VirtualBox installer."
 msgstr "Sử dụng trình cài đặt BOINC + VirtualBox."
 
-#: html/user/download_software.php:202
+#: html/user/download_software.php:209
 msgid "If it is not installed on this computer, get it %1here%2."
 msgstr "Nếu nó chưa được cài đặt trên máy tính này, hãy tải nó %1 tại đây %2."
 
-#: html/user/download_software.php:216
+#: html/user/download_software.php:223
 msgid "Download BOINC"
 msgstr "Tải BOINC"
 
-#: html/user/download_software.php:225
+#: html/user/download_software.php:226
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
-"        "
-msgstr "Để tải xuống và cài đặt BOINC,\nnhấp vào liên kết bên dưới và làm theo hướng dẫn.\n "
+"    "
+msgstr ""
 
-#: html/user/download_software.php:228
-msgid ""
-"When BOINC first runs it will ask you to select a project.\n"
-"            Select %1 from the list,\n"
-"            or enter this project's URL: %2"
-msgstr "Khi BOINC chạy lần đầu, nó sẽ yêu cầu bạn chọn một dự án.\nChọn %1 từ danh sách,\nhoặc nhập địa chỉ URL của dự án này: %2"
-
-#: html/user/download_software.php:237
+#: html/user/download_software.php:232
 msgid "Go to the BOINC download page."
 msgstr "Truy cập trang tải BOINC xuống."
 
-#: html/user/download_software.php:266
+#: html/user/download_software.php:240
+msgid ""
+"When BOINC first runs it will ask you to select a project.\n"
+"                Cancel out of this dialog,\n"
+"                then select <b>Tools / Use Account Manager</b>\n"
+"                to connect BOINC to your %1 account.\n"
+"                See <a href=%2>detailed instructions</a>."
+msgstr ""
+
+#: html/user/download_software.php:252
+msgid ""
+"When BOINC first runs it will ask you to select a project.\n"
+"                Select '%1' from the list,\n"
+"                or enter this project's URL:<p>%2"
+msgstr ""
+
+#: html/user/download_software.php:287
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "các phiên bản hiện tại của BOINC và VirtualBox"
 
-#: html/user/download_software.php:267
+#: html/user/download_software.php:288
 msgid "these versions are"
 msgstr "những phiên bản này là"
 
-#: html/user/download_software.php:268
+#: html/user/download_software.php:289
 msgid "BOINC and VirtualBox"
 msgstr "BOINC và VirtualBox"
 
-#: html/user/download_software.php:270
+#: html/user/download_software.php:291
 msgid "the current version of BOINC"
 msgstr "phiên bản hiện tại của BOINC"
 
-#: html/user/download_software.php:271
+#: html/user/download_software.php:292
 msgid "this version is"
 msgstr "phiên bản này là"
 
-#: html/user/download_software.php:274
+#: html/user/download_software.php:295
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "Để tham gia %1, %2 phải được cài đặt trên máy tính của bạn."
 
-#: html/user/download_software.php:278
+#: html/user/download_software.php:299
 msgid "If %1 already installed, %2click here%3."
 msgstr "Nếu %1 đã được cài đặt, hãy nhấp %2cvào đây %3."
 
-#: html/user/download_software.php:304
+#: html/user/download_software.php:325
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "Khi quá trình tải xuống hoàn tất, hãy mở fille tệp tin đã tải xuống để cài đặt %1."
 
-#: html/user/download_software.php:306
+#: html/user/download_software.php:327
 msgid "All done? %1Click here to finish%2."
 msgstr "Tất cả đã được làm xong? %1Nhấp vào đây để kết thúc%2."
 
-#: html/user/download_software.php:316
+#: html/user/download_software.php:337
 msgid "Use %1"
 msgstr "Sử dụng %1"
 
-#: html/user/download_software.php:325
+#: html/user/download_software.php:346
 msgid "To use %1 on this computer:"
 msgstr "Để sử dụng %1 trên máy tính này:"
 
-#: html/user/download_software.php:326 html/user/download_software.php:343
+#: html/user/download_software.php:347 html/user/download_software.php:364
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "Trong trình quản lý BOINC, hãy chuyển đến menu Công cụ"
 
-#: html/user/download_software.php:327
+#: html/user/download_software.php:348
 msgid "Select Use Account Manager"
 msgstr "Chọn Sử dụng Trình quản lý Tài khoản"
 
-#: html/user/download_software.php:328 html/user/download_software.php:345
+#: html/user/download_software.php:349 html/user/download_software.php:366
 msgid "Select %1 from the list"
 msgstr "Lựa chọn %1 từ danh sách"
 
-#: html/user/download_software.php:329 html/user/download_software.php:346
+#: html/user/download_software.php:350 html/user/download_software.php:367
 msgid "Enter your %1 email address and password."
 msgstr "Nhập %1 địa chỉ email và mật khẩu của bạn vào."
 
-#: html/user/download_software.php:332
+#: html/user/download_software.php:353
 msgid "Add %1"
 msgstr "Thêm %1"
 
-#: html/user/download_software.php:342
+#: html/user/download_software.php:363
 msgid "To add %1 on this computer:"
 msgstr "Để thêm %1 vào máy tính này:"
 
-#: html/user/download_software.php:344
+#: html/user/download_software.php:365
 msgid "Select Add Project"
 msgstr "Lựa chọn Thêm Dự án"
 
-#: html/user/download_software.php:352 html/user/sample_index.php:90
+#: html/user/download_software.php:373 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "Tiếp tục tới trang chủ của bạn"
@@ -5014,26 +5027,26 @@ msgid "Host credit updated"
 msgstr "Đã cập nhật tín dụng máy chủ"
 
 #: html/user/host_venue_action.php:41
-msgid "Host venue updated"
-msgstr "Đã cập nhật vị trí máy chủ"
+msgid "Computer venue updated"
+msgstr ""
 
 #: html/user/host_venue_action.php:43
 msgid "none"
 msgstr "trống hoác"
 
 #: html/user/host_venue_action.php:46
-msgid "The venue of this host has been set to %1."
-msgstr "Vị trí của máy chủ này đã được đặt thành %1."
+msgid "The venue of this computer has been set to %1."
+msgstr ""
 
 #: html/user/host_venue_action.php:48
 msgid ""
-"This change will take effect the next time the host communicates with this "
-"project."
-msgstr "Thay đổi này sẽ có hiệu lực vào lần tiếp theo máy chủ giao tiếp với dự án này."
+"Preference changes will take effect when the computer communicates with this"
+" project."
+msgstr ""
 
 #: html/user/host_venue_action.php:50
-msgid "Return to host page"
-msgstr "Quay lại trang web của máy chủ"
+msgid "Return to computer page"
+msgstr ""
 
 #: html/user/hosts_user.php:53
 msgid "Computers belonging to %1"
@@ -5403,8 +5416,8 @@ msgstr "Các team đứng đầu theo ứng dụng"
 msgid "Top participants by application"
 msgstr "Những người tham gia đứng đầu theo ứng dụng"
 
-#: html/user/per_app_list.php:228 html/user/top_hosts.php:59
-#: html/user/top_teams.php:92 html/user/top_users.php:105
+#: html/user/per_app_list.php:228 html/user/top_hosts.php:57
+#: html/user/top_teams.php:90 html/user/top_users.php:103
 msgid "Limit exceeded - Sorry, first %1 items only"
 msgstr "Đã vượt quá giới hạn - Xin lỗi, chỉ những mục %1 đầu tiên"
 
@@ -6658,16 +6671,16 @@ msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "%1 Tôi không hứng thú %2 tham gia vào một team bây giờ."
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_hosts.php:74
+#: html/user/top_hosts.php:72
 msgid "Top computers"
 msgstr "Máy tính hàng đầu"
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_teams.php:98
+#: html/user/top_teams.php:96
 msgid "Top %1 teams"
 msgstr "%1 team đứng đầu"
 
-#: html/user/top_teams.php:101
+#: html/user/top_teams.php:99
 msgid "There are no %1 teams"
 msgstr "Chẳng có team %1 nào"
 
@@ -6676,7 +6689,7 @@ msgid "Participant since"
 msgstr "Tham gia từ"
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_users.php:109
+#: html/user/top_users.php:107
 msgid "Top participants"
 msgstr "Người tham gia hàng đầu"
 

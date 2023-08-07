@@ -296,6 +296,25 @@
   <string name="main_notification_channel_description">Mostrar notificações que não são notícias do BOINC e/ou projetos.</string>
   <string name="notice_notification_channel_name">Notícias</string>
   <string name="notice_notification_channel_description">Mostrar notícias dos seus projetos.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Bem-vindo à Loja da Xiaomi! Para fornecer uma agradável experiência de compras,
+      a aplicação de compras da Xiaomi necessita de estar ligada à Internet e utilizar informação de localização para verificar o inventário de produtos,
+       otimizar serviços de entrega e, personalizar a recomendação de produtos. Tem o direito de recusar ou cancelar esta autorização.</string>
+  <string name="terms_of_use_content_second">Antes de utilizar a aplicação, por favor leia atentamente os \"Termos de Acordo do Utilizador\"
+      bem como a \"Política de Privacidade\" da Loja Xiaomi  e, entenda os seus direitos e como os seus dados são processados.
+       Se concordar com o conteúdo do acordo, por favor clique em \"Concordo\" para começar a utilizar os nossos produtos e serviços.
+        Iremos proteger a sua informação pessoal através duma empresa líder no setor de segurança. Obrigado pela sua confiança na Loja da Xiaomi.</string>
+  <string name="terms_of_use_content_user_agreement">Termos de Acordo do Utilizador: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Política de Privacidade: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Caros Fãs da Mi, olá, Da Jia Hao!</string>
+  <string name="welcome_content_second">Sou o David, fundador do BOINC. O Boinc é um software em plataforma open-source utilizado para computação através de recursos voluntários.</string>
+  <string name="welcome_content_third">Gostaria de agradecer ao Sr. Lei Jun e à Xiaomi e partilhar algumas novidades convosco:
+      O M11 irá tornar-se certificado oficialmente pelo Boinc como dispositivo de computação portátil!</string>
+  <string name="welcome_content_fourth">Com a construção interna do Qualcomm Snapdragon 888, o M11 possui um poder de computação excecional.
+      Pode processar tarefas muito rapidamente e fornecer ajuda a comunidades em todo o mundo.</string>
+  <string name="welcome_content_fifth">Gostaria de agradecer a todos os engenheiros na Xiaomi que contribuíram para o projeto Boinc.
+      Encorajo todos os fãs Mi a transferir o Boinc nos seus telemóveis, contribuindo com um pouco do poder do seu telemóvel, quando o mesmo não está a ser utilizado.</string>
+  <string name="welcome_content_sixth">Por último mas não menos importante, aos meus amigos Chineses - Feliz Ano Novo Chinês! Xin Nian Kuai Le!</string>
   <string name="agree_button">Concordar</string>
   <string name="prefs_expand_wu_data">Expandir sempre as informações da tarefa </string>
 </resources>

@@ -1,35 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2022 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
-    <!--app global-->
+
+    <!-- app global -->
     <string name="app_name">BOINC</string>
-    <!--generic. used by multiple Activities/tabs-->
+
+    <!-- generic. used by multiple Activities/tabs -->
     <string name="generic_button_continue">Continue</string>
     <string name="generic_button_finish">Finish</string>
-    <!--attach project-->
-    <!--selection list-->
+
+    <!-- attach project -->
+    <!-- selection list -->
     <string name="attachproject_list_desc">Select scientific projects you want to contribute to:</string>
     <string name="attachproject_list_header">Choose a project</string>
     <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
     <string name="attachproject_list_no_internet">No Internet connection</string>
-    <!--credential input-->
+    <!-- credential input -->
     <string name="attachproject_credential_input_sing_desc">Enter account information</string>
     <string name="attachproject_credential_input_desc">Enter account information for selected projects:</string>
     <string name="attachproject_credential_input_show_pwd">Show password</string>
     <string name="attachproject_individual_credential_input">Attach projects individually</string>
-    <!--conflicts-->
+    <!-- conflicts -->
     <string name="attachproject_conflicts_desc">There have been problems attaching scientific projects:</string>
     <string name="attachproject_conflict_undefined">Could not connect</string>
     <string name="attachproject_conflict_not_unique">Account exists with different password</string>
     <string name="attachproject_conflict_bad_password">Password incorrect</string>
     <string name="attachproject_conflict_unknown_user">Account does not exist</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Account does not exist, visit project website to register</string>
-    <!--working-->
-    <string name="attachproject_working_attaching">Attaching %1$s</string>
-    <!--e.g. Attaching Einstein@Home-->
-    <!--hints-->
-    <string name="attachproject_hints_header">Tip</string>
-    <!--e.g. Hint 1/2-->
+    <!-- working -->
+    <string name="attachproject_working_attaching">Attaching %1$s</string> <!-- e.g. Attaching Einstein@Home -->
+    <!-- hints -->
+    <string name="attachproject_hints_header">Tip</string> <!-- e.g. Hint 1/2 -->
     <string name="attachproject_hint_contribtion_header">How to contribute:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Connect to WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Plug in Charger</string>
@@ -40,8 +58,8 @@
     <string name="attachproject_hint_projectwebsite_stats">View contribution statistics</string>
     <string name="attachproject_hint_projectwebsite_community">Get in touch with other volunteers</string>
     <string name="attachproject_hint_platforms_header">BOINC is also available for your computer or laptop, visit boinc.berkeley.edu to learn more.</string>
-    <!--project login-->
-    <string name="attachproject_login_loading">Contacting project server…</string>
+    <!-- project login -->
+    <string name="attachproject_login_loading">Contacting project server&#8230;</string>
     <string name="attachproject_login_header_general_area">General area:</string>
     <string name="attachproject_login_header_specific_area">Specific area:</string>
     <string name="attachproject_login_header_description">Description:</string>
@@ -53,7 +71,7 @@
     <string name="attachproject_login_button_registration">Register</string>
     <string name="attachproject_login_button_login">Sign in</string>
     <string name="attachproject_login_button_forgotpw">Forgot Password</string>
-    <!--account manager-->
+    <!-- account manager -->
     <string name="attachproject_acctmgr_list_desc">Use an account manager to control this device</string>
     <string name="attachproject_acctmgr_header">Use account manager</string>
     <string name="attachproject_attach_projects_header">Add projects</string>
@@ -61,7 +79,7 @@
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">User:</string>
     <string name="attachproject_acctmgr_header_pwd">Password:</string>
-    <!--error strings-->
+    <!-- error strings -->
     <string name="attachproject_error_wrong_name">User not found</string>
     <string name="attachproject_error_short_pwd">Password too short</string>
     <string name="attachproject_error_no_internet">Connection failure</string>
@@ -77,7 +95,8 @@
     <string name="attachproject_error_bad_pwd">Password refused</string>
     <string name="attachproject_error_creation_disabled">Account creation is disabled on this project</string>
     <string name="attachproject_error_invalid_url">Invalid URL</string>
-    <!--tab names-->
+
+    <!-- tab names -->
     <string name="tab_status">Status</string>
     <string name="tab_projects">Projects</string>
     <string name="tab_tasks">Tasks</string>
@@ -85,19 +104,21 @@
     <string name="tab_preferences">Preferences</string>
     <string name="tab_notices">Notices</string>
     <string name="tab_desc">Navigation</string>
-    <!--status strings-->
+
+    <!-- status strings -->
     <string name="status_running">Computing</string>
     <string name="status_running_long">Thank you for participating.</string>
     <string name="status_paused">Suspended</string>
     <string name="status_idle">Nothing to do</string>
-    <string name="status_idle_long">Waiting for tasks…</string>
+    <string name="status_idle_long">Waiting for tasks&#8230;</string>
     <string name="status_computing_disabled">Suspended</string>
     <string name="status_computing_disabled_long">Press play to resume network and computation.</string>
-    <string name="status_launching">Starting…</string>
+    <string name="status_launching">Starting&#8230;</string>
     <string name="status_noproject">Choose a project to participate in.</string>
-    <string name="status_benchmarking">Benchmarking…</string>
+    <string name="status_benchmarking">Benchmarking&#8230;</string>
     <string name="status_image_description">project image</string>
-    <!--preferences tab strings-->
+
+    <!-- preferences tab strings -->
     <string name="prefs_category_general">General</string>
     <string name="prefs_category_network">Network</string>
     <string name="prefs_category_power">Power</string>
@@ -146,17 +167,19 @@
     <string name="prefs_gui_log_categories">BOINC GUI log categories</string>
     <string name="prefs_gui_log_level_header">GUI log level</string>
     <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
+
     <string name="prefs_theme_light">Light</string>
     <string name="prefs_theme_dark">Dark</string>
     <string name="prefs_theme_system">System default</string>
-    <!--projects tab strings-->
+
+    <!-- projects tab strings -->
     <string name="projects_add">Add project</string>
     <string name="projects_icon">Project icon</string>
     <string name="projects_credits">Credit:</string>
     <string name="projects_credits_host_and_user">%1$,d (on this device) %2$,d (total)</string>
     <string name="projects_disk_usage">Disk Usage:</string>
     <string name="projects_disk_usage_with_unit">%1$s MB</string>
-    <!--project status strings-->
+    <!-- project status strings -->
     <string name="projects_status_suspendedviagui">Suspended by user</string>
     <string name="projects_status_dontrequestmorework">Won\'t get new tasks</string>
     <string name="projects_status_ended">Project ended - OK to remove</string>
@@ -165,7 +188,7 @@
     <string name="projects_status_schedrpcinprogress">Scheduler request in progress</string>
     <string name="projects_status_trickleuppending">Trickle up message pending</string>
     <string name="projects_status_backoff">Communication scheduled in: %1$s</string>
-    <!--project controls-->
+    <!-- project controls -->
     <string name="projects_control_dialog_title">Project commands:</string>
     <string name="projects_control_visit_website">Visit website</string>
     <string name="projects_control_update">Update</string>
@@ -178,7 +201,7 @@
     <string name="projects_control_dialog_title_acctmgr">Account manager commands:</string>
     <string name="projects_control_sync_acctmgr">Synchronize</string>
     <string name="projects_control_remove_acctmgr">Disable</string>
-    <!--project confirm dialog-->
+    <!-- project confirm dialog -->
     <string name="projects_confirm_title">%1$s project?</string>
     <string name="projects_confirm_message">Are you sure you want to %1$s %2$s?</string>
     <string name="projects_confirm_detach_message">from BOINC</string>
@@ -187,7 +210,8 @@
     <string name="projects_confirm_remove_acctmgr_title">Disable account manager</string>
     <string name="projects_confirm_remove_acctmgr_message">stop using</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Disable</string>
-    <!--tasks tab strings-->
+
+    <!-- tasks tab strings -->
     <string name="tasks_header_name">Task Name:</string>
     <string name="tasks_header_elapsed_time">Elapsed time:</string>
     <string name="tasks_header_project_paused">(suspended)</string>
@@ -208,13 +232,15 @@
     <string name="tasks_custom_suspended_via_gui">suspended</string>
     <string name="tasks_custom_project_suspended_via_gui">project suspended</string>
     <string name="tasks_custom_ready_to_report">ready to report</string>
-    <!--confirmation dialog-->
+
+    <!-- confirmation dialog -->
     <string name="confirm_abort_task_title">Abort task?</string>
     <string name="confirm_abort_task_message">Abort task: %1$s</string>
     <string name="confirm_abort_task_confirm">Abort</string>
     <string name="confirm_cancel">Cancel</string>
     <string name="confirm_image_desc">Confirmation dialog</string>
-    <!--transfers tab strings-->
+
+    <!-- transfers tab strings -->
     <string name="trans_upload">Upload</string>
     <string name="trans_download">Download</string>
     <string name="trans_retry_in">retry in %1$s</string>
@@ -223,12 +249,14 @@
     <string name="trans_active">active</string>
     <string name="trans_pending">pending</string>
     <string name="trans_control_retry">Retry transfers</string>
-    <!--eventlog tab strings-->
+
+    <!-- eventlog tab strings -->
     <string name="eventlog_client_header">Client Messages</string>
     <string name="eventlog_gui_header">GUI Messages</string>
     <string name="eventlog_copy_toast">Log copied to clipboard.</string>
     <string name="eventlog_email_subject">Event Log for BOINC on Android:</string>
-    <!--suspend reasons-->
+
+    <!-- suspend reasons -->
     <string name="suspend_unknown">Computation suspended.</string>
     <string name="suspend_batteries">Connect your device to a charger to continue computing.</string>
     <string name="suspend_screen_on">Turn screen off to continue computing.</string>
@@ -246,8 +274,9 @@
     <string name="suspend_battery_charging">Waiting for battery to charge.</string>
     <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches %1$d%% (currently %2$d%%)</string>
     <string name="suspend_battery_overheating">Waiting for battery to cool down</string>
-    <string name="suspend_user_req">Resuming computation…</string>
-    <!--rpc reasons-->
+    <string name="suspend_user_req">Resuming computation&#8230;</string>
+
+    <!-- rpc reasons -->
     <string name="rpcreason_userreq">Requested by user</string>
     <string name="rpcreason_needwork">To fetch work</string>
     <string name="rpcreason_resultsdue">To report completed tasks</string>
@@ -256,7 +285,8 @@
     <string name="rpcreason_init">Project initialization</string>
     <string name="rpcreason_projectreq">Requested by project</string>
     <string name="rpcreason_unknown">Unknown reason</string>
-    <!--menu-->
+
+    <!-- menu -->
     <string name="menu_refresh">Refresh</string>
     <string name="menu_emailto">Send as Email</string>
     <string name="menu_copy">Copy to Clipboard</string>
@@ -266,35 +296,40 @@
     <string name="menu_about">About</string>
     <string name="menu_help">Help</string>
     <string name="menu_report_issue">Report Issue</string>
-    <!--about dialog-->
+
+    <!-- about dialog -->
     <string name="about_title">About</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003&#8211;2021 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
     <string name="about_credits">Thanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC Corporation for their support.</string>
-    <!--notice notification-->
+
+    <!-- notice notification e.g. New notice from SETI@HOME OR 3 new notices -->
     <plurals name="notice_notification">
         <item quantity="one">New notice from %1$s</item>
         <item quantity="other">%2$,d new notices</item>
     </plurals>
-    <!--multi BOINC compitability-->
+
+    <!-- multi BOINC compatibility -->
     <string name="nonexcl_dialog_header">Volunteer computing app detected</string>
     <string name="nonexcl_dialog_text">Another volunteer computing app is running on this device. Only one version can run at a time.</string>
     <string name="nonexcl_dialog_exit">Exit</string>
-    <!--social integration-->
+
+    <!-- social integration -->
     <string name="social_invite_button">Invite friends</string>
     <string name="social_invite_intent_title">How do you want to share?</string>
     <string name="social_invite_content_title">I\'m doing science on my smartphone!</string>
-    <string name="social_invite_content_body">I\'m using my %1$s to do computing for science. You can too! Download the app from: %2$s</string>
-    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_body">I\'m using my %1$s to do computing for science. You can too! Download the app from: %2$s</string> <!-- first parameter: device manufacturer, second: URL -->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-    <!-- Main notification channel (notices) -->
+
+    <!-- Notification channels -->
     <string name="main_notification_channel_name">BOINC</string>
     <string name="main_notification_channel_description">Displays non-notice notifications.</string>
     <string name="notice_notification_channel_name">Notices</string>
     <string name="notice_notification_channel_description">Displays notices from your projects.</string>
+
     <!-- Xiaomi specific strings -->
     <string name="terms_of_use_content_first">Welcome to Xiaomi Mall! In order to provide a high-quality shopping experience,
         the Mi Mall App needs to be connected to the Internet and use your location information to check product inventory,
@@ -314,6 +349,8 @@
     <string name="welcome_content_fifth">I would like to thank all engineers at Xiaomi who contributed to the Boinc project.
         I encourage all Mi Fans to download Boinc on their phones, contribute a piece of your power while your phone is not being used.</string>
     <string name="welcome_content_sixth">Last but not least, to my Chinese friends - Happy Chinese New Year! Xin Nian Kuai Le!</string>
+
     <string name="agree_button">Agree</string>
     <string name="prefs_expand_wu_data">Always expand task information</string>
+
 </resources>
