@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2023 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
+"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
 "Last-Translator: Jabier <jla@ni.eus>, 2018-2019\n"
-"Language-Team: Basque (http://www.transifex.com/boinc/boinc/language/eu/)\n"
+"Language-Team: Basque (http://app.transifex.com/boinc/boinc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,7 +50,7 @@ msgstr "Pantailaren izena"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "'izena@domeinua' itxura duen baliozko helbide bat izan behar da."
 
-#: html/inc/account.inc:90 html/inc/user.inc:241 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:240 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Helbide elektronikoa"
 
@@ -72,7 +72,7 @@ msgstr "Aukeratu ordezkatu nahi duzun herrialdea, baldin badago."
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:250 html/inc/user.inc:453 html/user/account_finish.php:45
+#: html/inc/user.inc:249 html/inc/user.inc:452 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -266,7 +266,7 @@ msgid "Account"
 msgstr "Kontua"
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:297
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:296
 msgid "Preferences"
 msgstr "Hobespenak"
 
@@ -319,12 +319,12 @@ msgstr "Ordenagailu motak"
 msgid "Computing"
 msgstr "Prozesatzen"
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:568 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:567 html/user/welcome.php:79
 msgid "Community"
 msgstr "Komunitatea"
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:379 html/inc/user.inc:513 html/user/forum_forum.php:76
+#: html/inc/user.inc:378 html/inc/user.inc:512 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Foroak"
@@ -365,6 +365,14 @@ msgstr "Gunearen bilaketa"
 #: html/inc/bootstrap.inc:205
 msgid "Languages"
 msgstr "Hizkuntzak"
+
+#: html/inc/cert.inc:97
+msgid "Share on Facebook"
+msgstr ""
+
+#: html/inc/cert.inc:106
+msgid "Share on Twitter"
+msgstr ""
 
 #. names for the above
 #: html/inc/forum.inc:44
@@ -448,7 +456,7 @@ msgstr "Bilatu foroetan"
 msgid "Advanced search"
 msgstr "Bilaketa aurreratua"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:383 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:382 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "Mezu pribatuak"
@@ -519,7 +527,7 @@ msgstr "Irakurri gabea"
 msgid "Message %1"
 msgstr "%1 mezua"
 
-#: html/inc/forum.inc:662 html/inc/user.inc:471 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:470 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "ezkutatuta"
 
@@ -700,7 +708,7 @@ msgstr "Bozkatu egilea ez kanporatzea"
 msgid "Start vote to banish author"
 msgstr "Hasi egilea kanporatzeko bozketa"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:370
+#: html/inc/forum.inc:1211 html/inc/user.inc:369
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Ezabatu"
@@ -1077,7 +1085,7 @@ msgid ", CPU does not have hardware virtualization support"
 msgstr ", PUZak ez du hardware bidezko birtualizazioa ahalbidetzen"
 
 #: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:415 html/inc/user.inc:508
+#: html/inc/user.inc:414 html/inc/user.inc:507
 msgid "None"
 msgstr "Inor ez"
 
@@ -1150,7 +1158,7 @@ msgid "Computer ID"
 msgstr "Ordenagailuaren IDa"
 
 #: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:233 html/user/account_finish.php:41
+#: html/inc/team.inc:376 html/inc/user.inc:232 html/user/account_finish.php:41
 #: html/user/per_app_list.php:61 html/user/team_admins.php:65
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
@@ -1226,7 +1234,7 @@ msgstr "Aurrebista"
 msgid "Subject"
 msgstr "Gaia"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:517
+#: html/inc/pm.inc:105 html/inc/user.inc:516
 msgid "Send private message"
 msgstr "Bidali mezu pribatua"
 
@@ -2182,7 +2190,7 @@ msgstr "Talde mota"
 msgid "Show only active teams"
 msgstr "Erakutsi soilik talde aktiboak"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1172 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1190 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Bilatu"
@@ -2304,15 +2312,15 @@ msgid "Admin"
 msgstr "Administratzailea"
 
 #: html/inc/team.inc:295 html/user/forum_user_posts.php:124
-#: html/user/per_app_list.php:248 html/user/top_hosts.php:86
-#: html/user/top_teams.php:115 html/user/top_users.php:122
+#: html/user/per_app_list.php:248 html/user/top_hosts.php:84
+#: html/user/top_teams.php:113 html/user/top_users.php:120
 msgid "Previous %1"
 msgstr "Aurreko %1"
 
 #: html/inc/team.inc:299 html/user/forum_user_posts.php:133
 #: html/user/per_app_list.php:253 html/user/profile_search_action.php:63
-#: html/user/top_hosts.php:92 html/user/top_teams.php:120
-#: html/user/top_users.php:127
+#: html/user/top_hosts.php:90 html/user/top_teams.php:118
+#: html/user/top_users.php:125
 msgid "Next %1"
 msgstr "Hurrengo %1"
 
@@ -2454,8 +2462,8 @@ msgstr "Geroztik"
 msgid "Computers on this account"
 msgstr "Kontu honetako ordenagailuak"
 
-#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:281
-#: html/inc/user.inc:370 html/inc/user.inc:469 html/inc/user.inc:541
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:280
+#: html/inc/user.inc:369 html/inc/user.inc:468 html/inc/user.inc:540
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "Ikusi"
@@ -2468,8 +2476,8 @@ msgstr "Proiektu gurutzatuaren IDa"
 msgid "Cross-project statistics"
 msgstr "Proiektuen arteko estatistika"
 
-#: html/inc/user.inc:186 html/inc/user.inc:415 html/inc/user.inc:506
-#: html/inc/user.inc:508 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:414 html/inc/user.inc:505
+#: html/inc/user.inc:507 html/user/user_search.php:129
 msgid "Team"
 msgstr "Taldea"
 
@@ -2477,163 +2485,159 @@ msgstr "Taldea"
 msgid "Cross-project"
 msgstr "Proiektu gurutzatua"
 
-#: html/inc/user.inc:190
-msgid "Stats on your cell phone"
-msgstr "Estatistika zure telefono mugikorrean"
-
-#: html/inc/user.inc:246 html/inc/user.inc:461
+#: html/inc/user.inc:245 html/inc/user.inc:460
 msgid "URL"
 msgstr "URLa"
 
-#: html/inc/user.inc:253
+#: html/inc/user.inc:252
 msgid "Postal code"
 msgstr "Posta-kodea"
 
-#: html/inc/user.inc:255 html/inc/user.inc:451
+#: html/inc/user.inc:254 html/inc/user.inc:450
 msgid "%1 member since"
 msgstr "%1(e)ko kide ondorengo dataz geroztik"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:260 html/inc/user.inc:270
+#: html/inc/user.inc:259 html/inc/user.inc:269
 msgid "Change"
 msgstr "Aldatu"
 
-#: html/inc/user.inc:267
+#: html/inc/user.inc:266
 msgid "delete account"
 msgstr "ezabatu kontua"
 
-#: html/inc/user.inc:271
+#: html/inc/user.inc:270
 msgid "email address"
 msgstr "helbide elektronikoa"
 
-#: html/inc/user.inc:272
+#: html/inc/user.inc:271
 msgid "password"
 msgstr "pasahitza"
 
-#: html/inc/user.inc:273
+#: html/inc/user.inc:272
 msgid "other account info"
 msgstr "kontuaren gainerako datuak"
 
-#: html/inc/user.inc:277 html/inc/user.inc:450
+#: html/inc/user.inc:276 html/inc/user.inc:449
 msgid "User ID"
 msgstr "Erabiltzailearen IDa"
 
-#: html/inc/user.inc:277
+#: html/inc/user.inc:276
 msgid "Used in community functions"
 msgstr "Komunitate-funtzioetan erabiltzen da"
 
-#: html/inc/user.inc:280 html/user/weak_auth.php:23
+#: html/inc/user.inc:279 html/user/weak_auth.php:23
 msgid "Account keys"
 msgstr "Kontuaren gakoak"
 
-#: html/inc/user.inc:288
+#: html/inc/user.inc:287
 msgid "Account Ownership"
 msgstr "Kontuen titulartasuna"
 
-#: html/inc/user.inc:300
+#: html/inc/user.inc:299
 msgid "When and how BOINC uses your computer"
 msgstr "Noiz eta nola erabiltzen du BOINCek zure ordenagailua"
 
-#: html/inc/user.inc:301 html/user/welcome.php:62
+#: html/inc/user.inc:300 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "Konputazio-hobespenak"
 
-#: html/inc/user.inc:304
+#: html/inc/user.inc:303
 msgid "Message boards and private messages"
 msgstr "Foroak eta mezu pribatuak"
 
-#: html/inc/user.inc:305 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:304 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "Komunitate-hobespenak"
 
-#: html/inc/user.inc:308
+#: html/inc/user.inc:307
 msgid "Preferences for this project"
 msgstr "Proiektu honentzako hobespenak"
 
-#: html/inc/user.inc:309 html/user/prefs.php:33
+#: html/inc/user.inc:308 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1(r)en hobespenak"
 
-#: html/inc/user.inc:326
+#: html/inc/user.inc:325
 msgid "View the profile of %1"
 msgstr "Ikusi %1(r)en profila"
 
-#: html/inc/user.inc:327 html/inc/user.inc:374 html/inc/user.inc:541
+#: html/inc/user.inc:326 html/inc/user.inc:373 html/inc/user.inc:540
 msgid "Profile"
 msgstr "Profila"
 
-#: html/inc/user.inc:372
+#: html/inc/user.inc:371
 msgid "Create"
 msgstr "Sortu"
 
-#: html/inc/user.inc:379 html/inc/user.inc:513
+#: html/inc/user.inc:378 html/inc/user.inc:512
 msgid "%1 posts"
 msgstr "%1 mezu"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:397 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:396 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "Jakinarazpenak"
 
-#: html/inc/user.inc:403
+#: html/inc/user.inc:402
 msgid "Quit team"
 msgstr "Utzi taldea"
 
-#: html/inc/user.inc:405 html/inc/user.inc:422
+#: html/inc/user.inc:404 html/inc/user.inc:421
 msgid "Administer"
 msgstr "Kudeatu"
 
-#: html/inc/user.inc:411 html/inc/user.inc:424
+#: html/inc/user.inc:410 html/inc/user.inc:423
 msgid "(foundership change request pending)"
 msgstr "(sortzailea aldatzeko eskaera zintzilik)"
 
-#: html/inc/user.inc:413
+#: html/inc/user.inc:412
 msgid "Member of team"
 msgstr "Taldekidea"
 
-#: html/inc/user.inc:415
+#: html/inc/user.inc:414
 msgid "find a team"
 msgstr "bilatu talde bat"
 
-#: html/inc/user.inc:426
+#: html/inc/user.inc:425
 msgid "Founder but not member of"
 msgstr "Sortzailea, baina ez ondorengo taldeko kide:"
 
-#: html/inc/user.inc:432
+#: html/inc/user.inc:431
 msgid "Find friends"
 msgstr "Bilatu lagunak"
 
-#: html/inc/user.inc:440 html/inc/user.inc:442 html/inc/user.inc:524
-#: html/inc/user.inc:526 html/inc/user.inc:535
+#: html/inc/user.inc:439 html/inc/user.inc:441 html/inc/user.inc:523
+#: html/inc/user.inc:525 html/inc/user.inc:534
 msgid "Friends"
 msgstr "Lagunak"
 
-#: html/inc/user.inc:469 html/inc/user.inc:471 html/user/server_status.php:160
+#: html/inc/user.inc:468 html/inc/user.inc:470 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "Ordenagailuak"
 
-#: html/inc/user.inc:517
+#: html/inc/user.inc:516
 msgid "Contact"
 msgstr "Kontaktatu"
 
-#: html/inc/user.inc:520
+#: html/inc/user.inc:519
 msgid "This person is a friend"
 msgstr "Pertsona hau lagun bat da"
 
-#: html/inc/user.inc:521 html/user/friend.php:250
+#: html/inc/user.inc:520 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "Bertan behera utzi adiskidantza"
 
-#: html/inc/user.inc:524 html/user/friend.php:39
+#: html/inc/user.inc:523 html/user/friend.php:39
 msgid "Request pending"
 msgstr "Eskaera zintzilik"
 
-#: html/inc/user.inc:526
+#: html/inc/user.inc:525
 msgid "Add as friend"
 msgstr "Gehitu laguna bezala"
 
-#: html/inc/user.inc:550
+#: html/inc/user.inc:549
 msgid "Account information"
 msgstr "Kontuko informazioa"
 
@@ -2748,23 +2752,23 @@ msgstr "Esteka denboraz kanpo gelditu da. Klik egin Atzera-n, eguneratu orria, e
 msgid "Use BBCode tags to format your text"
 msgstr "Erabili BBCode etiketak zure testua formateatzeko"
 
-#: html/inc/util.inc:937
+#: html/inc/util.inc:941
 msgid "Project down for maintenance"
 msgstr "Proiektua ez dago aktibo mantentze-lanak tarteko"
 
-#: html/inc/util.inc:940
+#: html/inc/util.inc:944
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 proiektua behin-behinean ez dago erabilgarri. Saiatu berriro beranduago."
 
-#: html/inc/util.inc:967
+#: html/inc/util.inc:971
 msgid "Unable to connect to database - please try again later"
 msgstr "Ezin izan da konektatu datu-basera - saiatu berriro beranduago"
 
-#: html/inc/util.inc:971
+#: html/inc/util.inc:975
 msgid "Unable to select database - please try again later"
 msgstr "Ezin izan da aukeratu datu-basea - saiatu berriro beranduago"
 
-#: html/inc/util.inc:1151
+#: html/inc/util.inc:1169
 msgid "characters remaining"
 msgstr "gainerako karaktereak"
 
@@ -3333,9 +3337,9 @@ msgstr "Aplikazio hauek ez dute %1(e)n onespenik eta ondorioz, zeure ardurapean 
 #: html/user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application.\n"
 "If this is not enough you should contact the author."
-msgstr "Ez dugu programa hauen instalazio-argibiderik ematen.\nHala ere, agian egileak programa instalatzeko edo desinstalatzeko nolabaiteko laguntza emango zuen.\nNahikoa ez bada egilearekin jarri beharko zara harremanetan."
+msgstr ""
 
 #: html/user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1 here %2."
@@ -3345,123 +3349,132 @@ msgstr "BOINC instalatu eta exekutatzeko argibideak dituzu %1 hemen %2."
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "Zerrenda hau %1 BOINCen webgunetik %2 kudeatzen da."
 
-#: html/user/download_software.php:182
+#: html/user/download_software.php:190
 msgid "This project requires VirtualBox."
 msgstr "Proiektu honek VirtualBox eskatzen du."
 
-#: html/user/download_software.php:185
+#: html/user/download_software.php:192
 msgid "This project recommends VirtualBox."
 msgstr "Proiektu honek VirtualBox gomendatzen du."
 
-#: html/user/download_software.php:191
+#: html/user/download_software.php:198
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
 msgstr "Ordenagailu honetan instalatuta ez badago, lortu %1hemen%2, ondoren berrabiarazi BOINC."
 
-#: html/user/download_software.php:199
+#: html/user/download_software.php:206
 msgid "Use the BOINC+VirtualBox installer."
 msgstr "Erabili BOINC+VirtualBox instalatzailea."
 
-#: html/user/download_software.php:202
+#: html/user/download_software.php:209
 msgid "If it is not installed on this computer, get it %1here%2."
 msgstr "Ordenagailu honetan instalatuta ez badago, lortu %1hemen%2."
 
-#: html/user/download_software.php:216
+#: html/user/download_software.php:223
 msgid "Download BOINC"
 msgstr "Jaitsi BOINC"
 
-#: html/user/download_software.php:225
+#: html/user/download_software.php:226
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
-"        "
-msgstr "BOINC deskargatzeko eta instalatzeko\nklik egin beheko estekan eta jarraitu argibideak."
+"    "
+msgstr ""
 
-#: html/user/download_software.php:228
-msgid ""
-"When BOINC first runs it will ask you to select a project.\n"
-"            Select %1 from the list,\n"
-"            or enter this project's URL: %2"
-msgstr "BOINC lehenengo aldiz exekutatzen denean proiektu bat aukeratzeko eskatuko dizu.\nAukeratu %1 zerrendatik\nedo sartu proiektu honen URLa: %2"
-
-#: html/user/download_software.php:237
+#: html/user/download_software.php:232
 msgid "Go to the BOINC download page."
 msgstr "Joan BOINCen deskarga-orrira."
 
-#: html/user/download_software.php:266
+#: html/user/download_software.php:240
+msgid ""
+"When BOINC first runs it will ask you to select a project.\n"
+"                Cancel out of this dialog,\n"
+"                then select <b>Tools / Use Account Manager</b>\n"
+"                to connect BOINC to your %1 account.\n"
+"                See <a href=%2>detailed instructions</a>."
+msgstr ""
+
+#: html/user/download_software.php:252
+msgid ""
+"When BOINC first runs it will ask you to select a project.\n"
+"                Select '%1' from the list,\n"
+"                or enter this project's URL:<p>%2"
+msgstr ""
+
+#: html/user/download_software.php:287
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "BOINCen eta VirtualBox-en uneko bertsioak"
 
-#: html/user/download_software.php:267
+#: html/user/download_software.php:288
 msgid "these versions are"
 msgstr "bertsio hauek dira"
 
-#: html/user/download_software.php:268
+#: html/user/download_software.php:289
 msgid "BOINC and VirtualBox"
 msgstr "BOINC eta VirtualBox"
 
-#: html/user/download_software.php:270
+#: html/user/download_software.php:291
 msgid "the current version of BOINC"
 msgstr "BOINCen uneko bertsioa"
 
-#: html/user/download_software.php:271
+#: html/user/download_software.php:292
 msgid "this version is"
 msgstr "bertsio hau da"
 
-#: html/user/download_software.php:274
+#: html/user/download_software.php:295
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "%1(e)n parte hartzeko, zure ordenagailuan %2 instalatuta egon behar da."
 
-#: html/user/download_software.php:278
+#: html/user/download_software.php:299
 msgid "If %1 already installed, %2click here%3."
 msgstr "%1 dagoeneko instalatuta badago, 1%2klik egin hemen%3."
 
-#: html/user/download_software.php:304
+#: html/user/download_software.php:325
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "Deskarga amaitutakoan, exekutatu jaitsitako fitxategia %1 instalatzeko."
 
-#: html/user/download_software.php:306
+#: html/user/download_software.php:327
 msgid "All done? %1Click here to finish%2."
 msgstr "Dena amaituta? %1Klik egin hemen amaitzeko%2."
 
-#: html/user/download_software.php:316
+#: html/user/download_software.php:337
 msgid "Use %1"
 msgstr "Erabili %1"
 
-#: html/user/download_software.php:325
+#: html/user/download_software.php:346
 msgid "To use %1 on this computer:"
 msgstr "Ordenagailu honetan %1 erabiltzeko:"
 
-#: html/user/download_software.php:326 html/user/download_software.php:343
+#: html/user/download_software.php:347 html/user/download_software.php:364
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "BOINC administratzailean, joan Tresnak menura"
 
-#: html/user/download_software.php:327
+#: html/user/download_software.php:348
 msgid "Select Use Account Manager"
 msgstr "Aukeratu Erabili kontu-administratzailea"
 
-#: html/user/download_software.php:328 html/user/download_software.php:345
+#: html/user/download_software.php:349 html/user/download_software.php:366
 msgid "Select %1 from the list"
 msgstr "Aukeratu %1 zerrendan"
 
-#: html/user/download_software.php:329 html/user/download_software.php:346
+#: html/user/download_software.php:350 html/user/download_software.php:367
 msgid "Enter your %1 email address and password."
 msgstr "Sartu zure %1 helbide elektronikoa eta pasahitza."
 
-#: html/user/download_software.php:332
+#: html/user/download_software.php:353
 msgid "Add %1"
 msgstr "Gehitu %1"
 
-#: html/user/download_software.php:342
+#: html/user/download_software.php:363
 msgid "To add %1 on this computer:"
 msgstr "Ordenagailu honetan %1 gehitzeko:"
 
-#: html/user/download_software.php:344
+#: html/user/download_software.php:365
 msgid "Select Add Project"
 msgstr "Aukeratu Gehitu Proiektua"
 
-#: html/user/download_software.php:352 html/user/sample_index.php:90
+#: html/user/download_software.php:373 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "Jarraitu zure hasiera-orrira"
@@ -5013,26 +5026,26 @@ msgid "Host credit updated"
 msgstr "Ordenagailuaren kreditua eguneratuta"
 
 #: html/user/host_venue_action.php:41
-msgid "Host venue updated"
-msgstr "Ordenagailuaren lekua eguneratuta"
+msgid "Computer venue updated"
+msgstr ""
 
 #: html/user/host_venue_action.php:43
 msgid "none"
 msgstr "inor ez"
 
 #: html/user/host_venue_action.php:46
-msgid "The venue of this host has been set to %1."
-msgstr "Ordenagailu honen lekua %1(a)n ezarri da."
+msgid "The venue of this computer has been set to %1."
+msgstr ""
 
 #: html/user/host_venue_action.php:48
 msgid ""
-"This change will take effect the next time the host communicates with this "
-"project."
-msgstr "Ordenagailua proiektu honekin komunikatzen den hurrengoan gauzatuko da aldaketa hau."
+"Preference changes will take effect when the computer communicates with this"
+" project."
+msgstr ""
 
 #: html/user/host_venue_action.php:50
-msgid "Return to host page"
-msgstr "Itzuli orri nagusira"
+msgid "Return to computer page"
+msgstr ""
 
 #: html/user/hosts_user.php:53
 msgid "Computers belonging to %1"
@@ -5402,8 +5415,8 @@ msgstr "Talde hoberenak aplikazioko"
 msgid "Top participants by application"
 msgstr "Partaide hoberenak aplikazioko"
 
-#: html/user/per_app_list.php:228 html/user/top_hosts.php:59
-#: html/user/top_teams.php:92 html/user/top_users.php:105
+#: html/user/per_app_list.php:228 html/user/top_hosts.php:57
+#: html/user/top_teams.php:90 html/user/top_users.php:103
 msgid "Limit exceeded - Sorry, first %1 items only"
 msgstr "Muga gainditu da - lehen %1 elementuak soilik"
 
@@ -6657,16 +6670,16 @@ msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "Une honetan talde batera batzeko %1 interesik ez dut %2."
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_hosts.php:74
+#: html/user/top_hosts.php:72
 msgid "Top computers"
 msgstr "Ordenagailu hoberenak"
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_teams.php:98
+#: html/user/top_teams.php:96
 msgid "Top %1 teams"
 msgstr "%1(e)ko talde hoberenak"
 
-#: html/user/top_teams.php:101
+#: html/user/top_teams.php:99
 msgid "There are no %1 teams"
 msgstr "Ez daude %1 talde"
 
@@ -6675,7 +6688,7 @@ msgid "Participant since"
 msgstr "Ondorengo dataz geroztik partaide"
 
 #. Now display what we've got (either gotten from cache or from DB)
-#: html/user/top_users.php:109
+#: html/user/top_users.php:107
 msgid "Top participants"
 msgstr "Partaide hoberenak"
 

@@ -7,14 +7,14 @@
   <string name="generic_button_finish">Terminer</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Choisir un projet scientifique auquel vous voulez collaborer :</string>
+  <string name="attachproject_list_desc">Choisir les projets scientifiques auxquels vous voulez contribuer :</string>
   <string name="attachproject_list_header">Choisissez un projet</string>
   <string name="attachproject_list_manual_button">Ajouter un projet via son URL</string>
-  <string name="attachproject_list_manual_dialog_title">URL du projet :</string>
+  <string name="attachproject_list_manual_dialog_title">Saisir l\'URL du projet :</string>
   <string name="attachproject_list_no_internet">Pas de connexion Internet</string>
   <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Éditer les informations du compte</string>
-  <string name="attachproject_credential_input_desc">Éditer les informations du compte pour les projets sélectionnés :</string>
+  <string name="attachproject_credential_input_sing_desc">Saisir les informations du compte</string>
+  <string name="attachproject_credential_input_desc">Saisir les informations du compte pour les projets sélectionnés :</string>
   <string name="attachproject_credential_input_show_pwd">Afficher le mot de passe</string>
   <string name="attachproject_individual_credential_input">Ajouter des projets individuellement</string>
   <!--conflicts-->
@@ -300,6 +300,25 @@
   <string name="main_notification_channel_description">Affiche les notifications sans avis</string>
   <string name="notice_notification_channel_name">Notifications</string>
   <string name="notice_notification_channel_description">Affiche les notifications de vos projets.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Bienvenue à Xiaomi Mall ! Afin d\'offrir une expérience d\'achat de haute qualité, l\'application Mi Mall doit être connectée à Internet,
+l\'application Mi Mall doit être connectée à Internet et utiliser vos informations de localisation pour vérifier l\'inventaire des produits, optimiser les services de livraison et personnaliser les recommandations de produits,
+optimiser les services de livraison et personnaliser les recommandations de produits. Vous avez le droit de refuser ou d\'annuler cette autorisation.</string>
+  <string name="terms_of_use_content_second">Avant d\'utiliser l\'application, merci de lire et comprendre entièrement l\'\"accord d\'utilisation\" 
+et la \"Politique de confidentialité\" de Xiaomi Mall, et comprendre vos droits d\'utilisateur et la manière dont vos données sont traitées.
+Si vous acceptez le contenu de l\'accord ci-dessus, veuillez cliquer sur \"Accepter\" pour commencer à utiliser nos produits et services.
+Nous protégerons vos informations personnelles grâce à une technologie de sécurité de pointe. Nous vous remercions de la confiance que vous accordez à Xiaomi Mall.</string>
+  <string name="terms_of_use_content_user_agreement">Accord d’utilisation: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Politique de confidentialité : https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Chers fans de Mi, bonjour, Da Jia Hao !</string>
+  <string name="welcome_content_second">Je suis David, fondateur de Boinc. Boinc est une plateforme logicielle open-source pour l\'informatique utilisant des ressources bénévoles.</string>
+  <string name="welcome_content_third">Je voudrais remercier M. Lei Jun et Xiaomi et partager avec vous quelques bonnes nouvelles :
+Le Mi 11 deviendra un appareil informatique mobile officiellement certifié par Boinc !</string>
+  <string name="welcome_content_fourth">Avec le Qualcomm Snapdragon 888 intégré, le Mi 11 dispose d\'une puissance de calcul étonnante.
+Il peut traiter des tâches très rapidement et fournir de l\'aide aux communautés de recherche dans le monde entier.</string>
+  <string name="welcome_content_fifth">J\'aimerais remercier tous les ingénieurs de Xiaomi qui ont contribué au projet Boinc.
+J\'encourage tous les fans de Xiaomi à télécharger Boinc sur leur téléphone et à partager une partie de la puissance de calcul pendant que leur téléphone n\'est pas utilisé.</string>
+  <string name="welcome_content_sixth">Enfin, à mes amis chinois, je souhaite un joyeux Nouvel An chinois ! Xin Nian Kuai Le !</string>
   <string name="agree_button">OK</string>
   <string name="prefs_expand_wu_data">Toujours développer les informations sur les tâches</string>
 </resources>
