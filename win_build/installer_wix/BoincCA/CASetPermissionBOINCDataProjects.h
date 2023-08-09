@@ -18,34 +18,20 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#include "stdafx.h"
-
-#include <wcautil.h>
-
-HINSTANCE g_hInstance = NULL;
+#ifndef _CASETPERMISSIONBOINCDATAPROJECTS_H_
+#define _CASETPERMISSIONBOINCDATAPROJECTS_H_
 
 
-extern "C" BOOL WINAPI DllMain( 
-    HINSTANCE hInstance,
-    DWORD     dwReason,
-    LPVOID    lpReserved
-					 )
+class CASetPermissionBOINCDataProjects : public BOINCCABase
 {
-    LPVOID lpJunk = NULL;
+public:
 
-    g_hInstance = hInstance;
-    lpJunk = lpReserved;
+    CASetPermissionBOINCDataProjects(MSIHANDLE hMSIHandle);
+    ~CASetPermissionBOINCDataProjects();
+    virtual UINT OnExecution();
 
-    switch( dwReason )
-    {
-    case DLL_PROCESS_ATTACH:
-		WcaGlobalInitialize(hInstance);
-		break;
+};
 
-    case DLL_PROCESS_DETACH:
-		WcaGlobalFinalize();
-        break;
-    }
-    return TRUE;
 
-}
+#endif
+

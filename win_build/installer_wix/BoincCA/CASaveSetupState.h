@@ -18,34 +18,20 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#include "stdafx.h"
-
-#include <wcautil.h>
-
-HINSTANCE g_hInstance = NULL;
+#ifndef _CASAVESETUPSTATE_H_
+#define _CASAVESETUPSTATE_H_
 
 
-extern "C" BOOL WINAPI DllMain( 
-    HINSTANCE hInstance,
-    DWORD     dwReason,
-    LPVOID    lpReserved
-					 )
+class CASaveSetupState : public BOINCCABase
 {
-    LPVOID lpJunk = NULL;
+public:
 
-    g_hInstance = hInstance;
-    lpJunk = lpReserved;
+    CASaveSetupState(MSIHANDLE hMSIHandle);
+    ~CASaveSetupState();
+    virtual UINT OnExecution();
 
-    switch( dwReason )
-    {
-    case DLL_PROCESS_ATTACH:
-		WcaGlobalInitialize(hInstance);
-		break;
+};
 
-    case DLL_PROCESS_DETACH:
-		WcaGlobalFinalize();
-        break;
-    }
-    return TRUE;
 
-}
+#endif
+

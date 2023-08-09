@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" Version="7.22.3.0" Language="1033" Name="BOINC" Manufacturer="Boinc Project">
-        <Package InstallerVersion="300" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine"/>
+    <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" Version="7.22.3.0" Language="1033" 
+             Name="BOINC Setup" Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
+        <Package InstallerVersion="300" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
         <Media Id="1" Cabinet="boinc.cab" EmbedCab="yes" />
+        
+        <Property Id="MSIUSEREALADMINDETECTION" Value="1" />     
+
+        <Condition Message="Installation cannot continue on unsupported platforms">
+            <![CDATA[((Not Version9X=400) And (Not Version9X=410) And (Not Version9X=490) And (Not VersionNT=400)) And (VersionNT>500)]]>
+        </Condition>
+        <Condition Message="Installation requires Administrator privileges">
+            <![CDATA[Privileged]]>
+        </Condition>
 
         <MajorUpgrade
             DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
@@ -28,18 +38,35 @@
                 <Directory Id="BOINCBIN">
                 </Directory>
             </Directory>
+            <Directory Id="DesktopFolder" Name="Desktop">
+                <Component Id="SHORTCUT" Guid="{ae10f150-aa1f-427d-8638-d33b2f25c330}">
+                    <Shortcut Id="BoincDesktopShortcut"
+                        Name="Boinc Manager"
+                        Description="Boinc Manager"
+                        Target="[BOINCBIN]\boincmgr.exe"
+                        Icon="installer.ico"
+                        WorkingDirectory="BOINCBIN" />
+                    <RemoveFolder Id="BoincDesktopShortcut" On="uninstall"/>
+                    <RegistryValue
+                        Root="HKCU"
+                        Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager"
+                        Name="installed"
+                        Type="integer"
+                        Value="1"
+                        KeyPath="yes"/>
+                </Component>
+            </Directory>
             <Directory Id="WindowsFolder">
-                <Directory Id="BOINCSCREENBIN">
-                </Directory>
+                <Directory Id="BOINCSCREENBIN" />
             </Directory>
             <Directory Id="CommonAppDataFolder">
-                <Directory Id="BOINCDATA">
-                </Directory>
+                <Directory Id="BOINCDATA" />
             </Directory>
         </Directory>
 
         <Feature Id="Boinc" Title="Boinc" Level="1" Absent="disallow" ConfigurableDirectory="BOINCBIN">
             <ComponentGroupRef Id="BINARYFILES" />
+            <ComponentRef Id="SHORTCUT" />
         </Feature>
         <Feature Id="BoincScreensaver" Title="Boinc Screensaver" Level="32767">
             <ComponentGroupRef Id="SCREENFILES" />
@@ -48,16 +75,16 @@
             <ComponentGroupRef Id="DATAFILES" />
         </Feature>
 
-        <Binary Id="BoincCABinary" SourceFile="$(var.ProjectDir)bin\BoincCA.dll" />
+        <Binary Id="BoincCABinary" SourceFile="$(var.ProjectDir)Build\BoincCA.dll" />
 
-        <CustomAction Id="TestCA" BinaryKey="BoincCABinary" DllEntry="TestCA" />
+        <CustomAction Id="AnnounceUpgradeCA" BinaryKey="BoincCABinary" DllEntry="AnnounceUpgrade" />
         
         <UI>
           <UIRef Id="WixUI_FeatureTree" />
         </UI>
 
         <InstallExecuteSequence>
-            <Custom Action="TestCA" After="InstallInitialize" />
+            <Custom Action="AnnounceUpgradeCA" After="CostFinalize" />
         </InstallExecuteSequence>
         <AdminUISequence>
         </AdminUISequence>
