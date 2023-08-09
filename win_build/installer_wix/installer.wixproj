@@ -27,6 +27,7 @@
     <Compile Include="boinc_binary_files.wxs" />
     <Compile Include="boinc_screensaver_files.wxs" />
     <Compile Include="boinc_data_files.wxs" />
+    <Compile Include="custom_action.wxs" />
     <Compile Include="installer.wxs" />
   </ItemGroup>
   <ItemGroup>

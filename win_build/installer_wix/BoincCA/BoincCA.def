@@ -6,6 +6,7 @@ LIBRARY "BoincCA"
 
 EXPORTS
 	DllMain
+	AnnounceUpgrade
 	CreateBOINCAccounts
 	CreateBOINCGroups
 	CreateClientAuthFile
@@ -31,7 +32,6 @@ EXPORTS
 	ValidateSetupType
 	RestoreSetupState
 	SaveSetupState
-	ShutdownBOINCManager
 	CleanupOldBinaries
 	VerifyInstallDirectories
 	ValidateInstall
@@ -49,4 +49,3 @@ EXPORTS
 	RevokeBOINCUsersRights
 	DeleteBOINCGroups
 	DeleteBOINCAccounts
-	AnnounceUpgrade

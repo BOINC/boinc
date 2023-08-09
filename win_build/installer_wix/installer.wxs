@@ -34,10 +34,13 @@
         <SetDirectory Id="BOINCDATA" Value="[CommonAppDataFolder][ProductName]"/>
 
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFiles64Folder">
-                <Directory Id="BOINCBIN">
-                </Directory>
-            </Directory>
+            <Component Id="TrayStartup" Guid="{ed4c20e8-93ba-4075-ae12-aead0b6a9f93}">
+                <RegistryKey Root="HKLM"
+                            Key="Software\Microsoft\Windows\CurrentVersion\Run"
+                    Action="createAndRemoveOnUninstall">
+                    <RegistryValue Type="string" Name="boinctray" Value="[BOINCBIN]\boinctray.exe"/>
+                </RegistryKey>
+            </Component>
             <Directory Id="DesktopFolder" Name="Desktop">
                 <Component Id="SHORTCUT" Guid="{ae10f150-aa1f-427d-8638-d33b2f25c330}">
                     <Shortcut Id="BoincDesktopShortcut"
@@ -56,6 +59,12 @@
                         KeyPath="yes"/>
                 </Component>
             </Directory>
+            <Directory Id="ProgramFiles64Folder">
+                <Directory Id="BOINCBIN" />
+            </Directory>
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ProgramMenuManufacturer" Name="BOINC" />
+            </Directory>
             <Directory Id="WindowsFolder">
                 <Directory Id="BOINCSCREENBIN" />
             </Directory>
@@ -64,30 +73,101 @@
             </Directory>
         </Directory>
 
-        <Feature Id="Boinc" Title="Boinc" Level="1" Absent="disallow" ConfigurableDirectory="BOINCBIN">
+        <DirectoryRef Id="ProgramMenuFolder">
+            <Component Id="ProgramMenuShortcuts" Guid="{aa958f2e-87dc-4f41-bc6f-f123fa87ef6c}">
+                <CreateFolder Directory="ProgramMenuManufacturer"/>
+                <RemoveFolder Id="RemoveMenuShortcuts" Directory="ProgramMenuManufacturer" On="uninstall" />
+
+                <RegistryValue Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" Name="InstalledStartMenuShortcuts" 
+                    Type="integer" Value="1" />
+            </Component>
+        </DirectoryRef>
+
+        <DirectoryRef Id="ProgramMenuManufacturer">
+            <Component Id="BoincShortCut" Guid="{9f4a70b9-1877-4e92-b151-d564b7ccebe8}">
+                <CreateFolder />
+                <RegistryKey Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" Action="createAndRemoveOnUninstall">
+                    <RegistryValue Name="ShortCut" Value="1" Type="integer" KeyPath="yes"/>
+                </RegistryKey>
+
+                <!-- Shortcut in Start menu. -->
+                <Shortcut Id="ProgramMenuApplicationShortcut" Name="BOINC" Target="[#boincmgr.exe]"
+                            Directory="ProgramMenuManufacturer" Show="normal" Icon="installer.ico"/>
+            </Component>
+        </DirectoryRef>
+
+        <Feature Id="Boinc" Title="Boinc" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCBIN">
             <ComponentGroupRef Id="BINARYFILES" />
+            <ComponentRef Id="TrayStartup" />
             <ComponentRef Id="SHORTCUT" />
+            <ComponentRef Id="ProgramMenuShortcuts" />
+            <ComponentRef Id="BoincShortCut" />
         </Feature>
         <Feature Id="BoincScreensaver" Title="Boinc Screensaver" Level="32767">
             <ComponentGroupRef Id="SCREENFILES" />
         </Feature>
-        <Feature Id="BoincData" Title="Boinc Local Data" Level="1" Absent="disallow" ConfigurableDirectory="BOINCDATA">
+        <Feature Id="BoincData" Title="Boinc Local Data" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCDATA">
             <ComponentGroupRef Id="DATAFILES" />
         </Feature>
-
-        <Binary Id="BoincCABinary" SourceFile="$(var.ProjectDir)Build\BoincCA.dll" />
-
-        <CustomAction Id="AnnounceUpgradeCA" BinaryKey="BoincCABinary" DllEntry="AnnounceUpgrade" />
         
         <UI>
           <UIRef Id="WixUI_FeatureTree" />
         </UI>
 
         <InstallExecuteSequence>
-            <Custom Action="AnnounceUpgradeCA" After="CostFinalize" />
+            <Custom Action="CAAnnounceUpgrade" After="CostFinalize" />
+            <!-- <Custom Action="CARestoreSetupState" After="CAAnnounceUpgrade" />
+            <Custom Action="CACleanupOldBinaries" After="CAValidateSetupType" />
+            <Custom Action="CACreateAcctMgrLoginFile" After="CACreateClientAuthFile" />
+            <Custom Action="CACreateBOINCAccounts" After="CAGetUsersGroupName" />
+            <Custom Action="CACreateBOINCGroups" After="CACreateBOINCAccounts" />
+            <Custom Action="CACreateClientAuthFile" After="CAValidateRebootRequest" />
+            <Custom Action="CACreateProjectInitFile" After="CACreateAcctMgrLoginFile" />
+            <Custom Action="CADeleteBOINCAccounts" After="CARevokeBOINCProjectRights" />
+            <Custom Action="CADeleteBOINCGroups" After="CAGrantBOINCProjectsVirtualBoxRights" />
+
+            <Custom Action="CAGetAdministratorsGroupName" After="InstallInitialize" />
+            <Custom Action="CAGetUsersGroupName" After="CAGetAdministratorsGroupName" />
+            <Custom Action="CAGrantBOINCAdminsRights" After="CACreateBOINCGroups" />
+            <Custom Action="CAGrantBOINCAdminsVirtualBoxRights" After="CARevokeBOINCAdminsRights" />
+            <Custom Action="CAGrantBOINCMasterRights" After="CACreateBOINCAccounts" />
+            <Custom Action="CAGrantBOINCProjectRights" After="CARevokeBOINCMasterRights" />
+            <Custom Action="CAGrantBOINCProjectsRights" After="CARevokeBOINCUsersRights" />
+            <Custom Action="CAGrantBOINCProjectsVirtualBoxRights" After="CAGrantBOINCProjectsRights" />
+            <Custom Action="CAGrantBOINCUsersRights" After="CAGrantBOINCAdminsVirtualBoxRights" />
+            <Custom Action="CARestorePermissionBOINCData" After="CASetPermissionBOINCDataSlots" />
+
+            <Custom Action="CARevokeBOINCAdminsRights" After="CAGrantBOINCAdminsRights" />
+            <Custom Action="CARevokeBOINCMasterRights" After="CAGrantBOINCMasterRights" />
+            <Custom Action="CARevokeBOINCProjectRights" After="CAGrantBOINCProjectRights" />
+            <Custom Action="CARevokeBOINCProjectsRights" After="CAGrantBOINCProjectsRights" />
+            <Custom Action="CARevokeBOINCUsersRights" After="CAGrantBOINCUsersRights" />
+
+            <Custom Action="CASaveExecutionState" After="CASaveSetupState" />
+            <Custom Action="CASaveSetupState" After="CARestorePermissionBOINCData" />
+
+            <Custom Action="CASetPermissionBOINC" After="CACreateProjectInitFile" />
+            <Custom Action="CASetPermissionBOINCData" After="CASetPermissionBOINC" />
+            <Custom Action="CASetPermissionBOINCDataProjects" After="CASetPermissionBOINCData" />
+            <Custom Action="CASetPermissionBOINCDataSlots" After="CASetPermissionBOINCDataProjects" />
+
+            <Custom Action="CAShutdownBOINC" After="AppSearch" />
+            <Custom Action="CAShutdownBOINCManager" After="CAShutdownBOINC" />
+            <Custom Action="CAShutdownBOINCScreensaver" After="CAShutdownBOINCManager" />
+
+            <Custom Action="CARestoreExecutionState" After="InstallFinalize" />
+            <Custom Action="CAValidateInstall" After="InstallFinalize" />
+            <Custom Action="CAValidateRebootRequest" After="CAValidateInstall" />
+
+            <Custom Action="CAValidateSetupType" After="ValidateProductID" /> -->
+
+            <!-- Not in any sequence -->
+            <!--
+            <Custom Action="CALaunchBOINCManager" After="???" />
+            <Custom Action="CALaunchBOINCTray" After="???" />
+            <Custom Action="CAVerifyInstallDirectories" After="???" />
+            -->
         </InstallExecuteSequence>
-        <AdminUISequence>
-        </AdminUISequence>
 
     </Product>
 </Wix>
