@@ -618,13 +618,13 @@ bool CDlgOptions::ReadSettings() {
     wxString            strBuffer = wxEmptyString;
     wxArrayString       astrDialupConnections;
 
-
     wxASSERT(pDoc);
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
-
+// wxWidgets System language detection does not work on Mac
+// so we always set UseDefaultLocale() to false on Mac
     // General Tab
     if (wxGetApp().UseDefaultLocale()) {
         // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list

@@ -205,10 +205,17 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
-    bool bUseDefaultLocaleDefault =
+#ifdef __WXMAC__   // wxWidgets System language detection does not work on Mac
+    m_bUseDefaultLocale = false;
+#else
+    bool bUseDefaultLocaleDefault = false;
+    const wxLanguageInfo *defaultLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
+    if (defaultLanguageInfo != NULL) {
         // Migration: assume a selected language code that matches the system default means "auto select"
-        m_strISOLanguageCode == wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT)->CanonicalName;
+        bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageInfo->CanonicalName;;
+    }
     m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
+#endif
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
@@ -946,7 +953,9 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     wxLayoutDirection uiLayoutDirection = pLIui ? pLIui->LayoutDirection : wxLayout_Default;
     GUI_SUPPORTED_LANG newItem;
 
+#ifndef __WXMAC__   // wxWidgets System language detection does not work on Mac
     // CDlgOptions depends on "Auto" being the first item in the list
+    // if
     newItem.Language = wxLANGUAGE_DEFAULT;
     wxString strAutoEnglish = wxT("(Automatic Detection)");
     wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
@@ -964,6 +973,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
         newItem.Label += LRM + strAutoEnglish + LRM;
     }
     m_astrLanguages.push_back(newItem);
+#endif
 
     // Add known locales to the list
     for (int langID = wxLANGUAGE_UNKNOWN+1; langID < wxLANGUAGE_USER_DEFINED; ++langID) {
