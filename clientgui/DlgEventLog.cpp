@@ -1086,7 +1086,7 @@ void CDlgEventLog::FindErrorMessages(bool isFiltered) {
     MESSAGE* message;
     wxInt32 i = 0;
     if (isFiltered) {
-        for (i; i < m_iFilteredDocCount; i++) {
+        for (i=0; i < m_iFilteredDocCount; i++) {
             message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
             if (message) {
                 if (message->priority == MSG_USER_ALERT) {
@@ -1096,7 +1096,7 @@ void CDlgEventLog::FindErrorMessages(bool isFiltered) {
         }
     }
     else {
-        for (i; i < m_iTotalDocCount; i++) {
+        for (i=0; i < m_iTotalDocCount; i++) {
             message = wxGetApp().GetDocument()->message(i);
             if (message) {
                 if (message->priority == MSG_USER_ALERT) {
@@ -1130,7 +1130,7 @@ void CDlgEventLog::FindProjectMessages(bool isFiltered) {
     MESSAGE* message;
     wxInt32 i = 0;
     if (isFiltered) {
-        for (i; i < m_iFilteredDocCount; i++) {
+        for (i=0; i < m_iFilteredDocCount; i++) {
             message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
             if (message) {
                 if (message->project.empty() || message->project == s_strFilteredProjectName) {
@@ -1140,7 +1140,7 @@ void CDlgEventLog::FindProjectMessages(bool isFiltered) {
         }
     }
     else {
-        for (i; i < m_iTotalDocCount; i++) {
+        for (i=0; i < m_iTotalDocCount; i++) {
             message = wxGetApp().GetDocument()->message(i);
             if (message) {
                 if (message->project.empty() || message->project == s_strFilteredProjectName) {
