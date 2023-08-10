@@ -80,6 +80,18 @@ static double os_version_num(HOST h) {
     return 0;
 }
 
+// if os_version has [...|libc 2.27 ...], return 227.  else 0
+//
+static int libc_version(HOST &h) {
+    char *p = strstr(h.os_version, "|libc ");
+    if (!p) return 0;
+    p += strlen("|libc ");
+    int maj, min;
+    int n = sscanf(p, "%d.%d", &maj, &min);
+    if (n != 2) return 0;
+    return maj*100+min;
+}
+
 // parse version# from "(Android 4.3.1)" or "(Android 4.3)" or "(Android 4)"
 //
 static int android_version_num(HOST h) {
@@ -377,6 +389,21 @@ bool PLAN_CLASS_SPEC::check(
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: Android version '%s' too high (%d / %d)\n",
                     sreq.host.os_version, host_android_version, max_android_version
+                );
+            }
+            return false;
+        }
+    }
+
+    // libc version (linux)
+    //
+    if (min_libc_version) {
+        int v = libc_version(sreq.host);
+        if (v < min_libc_version) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: libc version too low (%d < %d)\n",
+                    v, min_libc_version
                 );
             }
             return false;
@@ -1099,6 +1126,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_double("max_os_version", max_os_version)) continue;
         if (xp.parse_int("min_android_version", min_android_version)) continue;
         if (xp.parse_int("max_android_version", max_android_version)) continue;
+        if (xp.parse_int("min_libc_version", min_libc_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
@@ -1201,6 +1229,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     max_os_version = 0;
     min_android_version = 0;
     max_android_version = 0;
+    min_libc_version = 0;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
     project_prefs_default_true = false;

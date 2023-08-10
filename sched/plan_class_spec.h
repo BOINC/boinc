@@ -23,7 +23,7 @@
 #include <regex.h>
 
 // Represents a plan class, as specified in XML
-// if you add anything here, initialize if in the constructor
+// if you add anything here, initialize it in the constructor
 //
 struct PLAN_CLASS_SPEC {
     char name[256];
@@ -51,6 +51,7 @@ struct PLAN_CLASS_SPEC {
     double max_os_version;
     int min_android_version;
     int max_android_version;
+    int min_libc_version;
     char project_prefs_tag[256];
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;
