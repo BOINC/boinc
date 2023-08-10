@@ -205,9 +205,21 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
-    bool bUseDefaultLocaleDefault =
+    m_bUseDefaultLocale = false;
+    bool bUseDefaultLocaleDefault = false;
+#ifdef __WXMAC__   // wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT) does not work on Mac
+    wxLocale *defaultLocale = new wxLocale;
+    defaultLocale->Init(wxLANGUAGE_DEFAULT);
+    wxString defaultLanguageCode = defaultLocale->GetCanonicalName();
+    bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageCode;
+    delete defaultLocale;
+#else
+    const wxLanguageInfo *defaultLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
+    if (defaultLanguageInfo != NULL) {
         // Migration: assume a selected language code that matches the system default means "auto select"
-        m_strISOLanguageCode == wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT)->CanonicalName;
+        bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageInfo->CanonicalName;;
+    }
+#endif
     m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
@@ -947,6 +959,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     GUI_SUPPORTED_LANG newItem;
 
     // CDlgOptions depends on "Auto" being the first item in the list
+    // if
     newItem.Language = wxLANGUAGE_DEFAULT;
     wxString strAutoEnglish = wxT("(Automatic Detection)");
     wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
@@ -968,6 +981,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     // Add known locales to the list
     for (int langID = wxLANGUAGE_UNKNOWN+1; langID < wxLANGUAGE_USER_DEFINED; ++langID) {
         const wxLanguageInfo* pLI = wxLocale::GetLanguageInfo(langID);
+        if (pLI == NULL) continue;
         wxString lang_region = pLI->CanonicalName.BeforeFirst('@');
         wxString lang = lang_region.BeforeFirst('_');
         wxString script = pLI->CanonicalName.AfterFirst('@');

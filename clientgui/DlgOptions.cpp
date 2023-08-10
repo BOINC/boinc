@@ -618,12 +618,10 @@ bool CDlgOptions::ReadSettings() {
     wxString            strBuffer = wxEmptyString;
     wxArrayString       astrDialupConnections;
 
-
     wxASSERT(pDoc);
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-
 
     // General Tab
     if (wxGetApp().UseDefaultLocale()) {
@@ -734,7 +732,7 @@ bool CDlgOptions::SaveSettings() {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     long                lBuffer = 0;
     wxString            strBuffer = wxEmptyString;
-
+    const wxLanguageInfo *newLanguageInfo = NULL;
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
@@ -750,13 +748,18 @@ bool CDlgOptions::SaveSettings() {
     int selLangIdx = m_LanguageSelectionCtrl->GetSelection();
     if (selLangIdx == 0) {
         // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list
-        newLangCode = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT)->CanonicalName;
+        newLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
+        // wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT) may return NULL on Macintosh
+        newLangCode = wxEmptyString;
     } else if (selLangIdx > 0) {
         const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
         if (selLangIdx < langs.size()) {
             const GUI_SUPPORTED_LANG& selLang = langs[selLangIdx];
-            newLangCode = wxLocale::GetLanguageInfo(selLang.Language)->CanonicalName;
+            newLanguageInfo = wxLocale::GetLanguageInfo(selLang.Language);
         }
+    }
+    if (newLanguageInfo) {
+        newLangCode = newLanguageInfo->CanonicalName;
     }
     if (newLangCode != oldLangCode) {
         wxString strDialogTitle;
