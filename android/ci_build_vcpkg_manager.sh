@@ -13,7 +13,23 @@ if [ ! -d "android" ]; then
     exit 1
 fi
 
-android/ci_build_vcpkg_client.sh
+skip_client_build=""
+while [ $# -gt 0 ]; do
+    key="$1"
+    case $key in
+        --skip-client-build)
+        skip_client_build="yes"
+        ;;
+        *)
+        echo "unrecognized option $key"
+        ;;
+    esac
+    shift # past argument or value
+done
+
+if [ "x$skip_client_build" = "x" ]; then
+    android/ci_build_vcpkg_client.sh
+fi
 
 cd android/BOINC
 
