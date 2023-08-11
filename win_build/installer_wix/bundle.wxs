@@ -13,6 +13,7 @@
               LicenseFile="LICENSE.rtf"
               LogoFile="logo.png"
               SuppressOptionsUI="yes"
+              SuppressRepair="yes"
               ShowVersion="yes" />
     </BootstrapperApplicationRef>
 

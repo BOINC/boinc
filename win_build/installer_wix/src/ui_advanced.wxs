@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <UI Id="WixUI_BoincUI">
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+      <Property Id="WixUI_Mode" Value="FeatureTree" />
+
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <DialogRef Id="PrepareDlg" />
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ResumeDlg" />
+      <DialogRef Id="UserExit" />
+
+      <!-- INSTALL: Start and End dialogs with result -->
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999"><![CDATA[1]]></Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg"><![CDATA[(NOT Installed)]]></Publish>
+
+      <!-- INSTALL: Accept EULA dialog -->
+      <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg"><![CDATA[1]]></Publish>
+      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg"><![CDATA[LicenseAccepted = "1"]]></Publish>
+
+      <!-- INSTALL: Feature selection dialog -->
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1"><![CDATA[Installed]]></Publish>
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2"><![CDATA[NOT Installed]]></Publish>
+      <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="OptionsDlg"><![CDATA[NOT Installed]]></Publish>
+      <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[Installed]]></Publish>
+
+      <!-- INSTALL: Advanced Options dialog -->
+      <Publish Dialog="OptionsDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg"><![CDATA[1]]></Publish>
+      <Publish Dialog="OptionsDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="1"><![CDATA[1]]></Publish>
+
+      <!-- INSTALL: Confirm installation dialog -->
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1"><![CDATA[NOT Installed OR WixUI_InstallMode = "Change"]]></Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2"><![CDATA[Installed AND NOT PATCH]]></Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3"><![CDATA[Installed AND PATCH]]></Publish>
+
+      <!-- INSTALL: Uninstall dialog -->
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[1]]></Publish>
+
+      <!-- INSTALL: Uninstall selection dialog -->
+      <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg"><![CDATA[0]]></Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[0]]></Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[1]]></Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg"><![CDATA[1]]></Publish>
+    </UI>
+
+    <UIRef Id="WixUI_Common" />
+  </Fragment>
+</Wix>

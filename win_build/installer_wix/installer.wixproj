@@ -12,7 +12,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <DefineConstants>Debug;BuildDir=..\..\build;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
@@ -20,14 +20,18 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <DefineConstants>BuildDir=..\..\build;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="boinc_binary_files.wxs" />
     <Compile Include="boinc_screensaver_files.wxs" />
     <Compile Include="boinc_data_files.wxs" />
-    <Compile Include="custom_action.wxs" />
+    <Compile Include="src/custom_actions.wxs" />
+    <Compile Include="src/directories.wxs" />
+    <Compile Include="src/components.wxs" />
+    <Compile Include="src/ui_advanced.wxs" />
+    <Compile Include="src/options/optionsdlg.wxs" />
     <Compile Include="installer.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +49,13 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\options\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\options\Strings_en-us.wxl" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />

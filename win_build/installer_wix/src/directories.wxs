@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <!-- Desktop shortcut -->
+            <Directory Id="DesktopFolder" Name="Desktop">
+                <Component Id="DesktopShortcut" Guid="{ae10f150-aa1f-427d-8638-d33b2f25c330}">
+                    <Shortcut Id="BoincDesktopShortcut"
+                        Name="Boinc Manager"
+                        Description="Boinc Manager"
+                        Target="[BOINCBIN]\boincmgr.exe"
+                        Icon="installer.ico"
+                        WorkingDirectory="BOINCBIN" />
+                    <RemoveFolder Id="BoincDesktopShortcut" On="uninstall"/>
+                    <RegistryValue
+                        Root="HKCU"
+                        Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager"
+                        Name="installed"
+                        Type="integer"
+                        Value="1"
+                        KeyPath="yes"/>
+                </Component>
+            </Directory>
+
+            <!-- File directories definitions -->
+            <Directory Id="ProgramFiles64Folder">
+                <Directory Id="BOINCBIN" />
+            </Directory>
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ProgramMenuManufacturer" Name="BOINC" />
+            </Directory>
+            <Directory Id="WindowsFolder">
+                <Directory Id="BOINCSCREENBIN" />
+            </Directory>
+            <Directory Id="CommonAppDataFolder">
+                <Directory Id="BOINCDATA" />
+            </Directory>
+        </Directory>
+
+        <!-- Program Menu shortcuts and folder -->
+        <DirectoryRef Id="ProgramMenuFolder">
+            <Component Id="ProgramMenuShortcuts" Guid="{aa958f2e-87dc-4f41-bc6f-f123fa87ef6c}">
+                <CreateFolder Directory="ProgramMenuManufacturer"/>
+                <RemoveFolder Id="RemoveMenuShortcuts" Directory="ProgramMenuManufacturer" On="uninstall" />
+
+                <RegistryValue Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" Name="InstalledStartMenuShortcuts" 
+                    Type="integer" Value="1" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes" />
+                <Condition>ENABLESTARTMENUITEMS_Checked</Condition>
+            </Component>
+        </DirectoryRef>
+        <DirectoryRef Id="ProgramMenuManufacturer">
+            <Component Id="ProgramMenuShortcutsBOINC" Guid="{9f4a70b9-1877-4e92-b151-d564b7ccebe8}">
+                <CreateFolder />
+                <RegistryKey Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" 
+                    ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+                    <RegistryValue Name="ShortCut" Value="1" Type="integer" KeyPath="yes"/>
+                </RegistryKey>
+
+                <!-- Shortcut in Start menu. -->
+                <Shortcut Id="ProgramMenuApplicationShortcut" Name="BOINC" Target="[#boincmgr.exe]"
+                            Directory="ProgramMenuManufacturer" Show="normal" Icon="installer.ico"/>
+                <Condition>ENABLESTARTMENUITEMS_Checked</Condition>
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+</Wix>

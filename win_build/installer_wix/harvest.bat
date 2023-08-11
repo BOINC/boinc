@@ -6,14 +6,14 @@ DEL /S /Q %BASEDIR%\src_screen 2> NUL
 
 DEL /S /Q %BASEDIR%\installer* 2> NUL
 DEL /S /Q %BASEDIR%\boinc_bundle.exe 2> NUL
+DEL /S /Q %BASEDIR%\en-us 2> NUL
 DEL /S /Q %BASEDIR%\boinc_*.wxs 2> NUL
 DEL /S /Q %BASEDIR%\boinc_*.msi 2> NUL
 DEL /S /Q %BASEDIR%\boinc_*.wixpdb 2> NUL
 
-robocopy %BASEDIR% %BASEDIR%\src /XD src /XD src_screen /XD prerequisites /XF boincscr.exe /E
+robocopy %BASEDIR% %BASEDIR%\src /XD src /XD src_screen /XD prerequisites /XD en-us /XF boinc.scr /XF boinc.exe /E
 
-robocopy %BASEDIR% %BASEDIR%\src_screen boincscr.exe
-move %BASEDIR%\src_screen\boincscr.exe %BASEDIR%\src_screen\boinc.scr
+robocopy %BASEDIR% %BASEDIR%\src_screen boinc.scr
 
 heat.exe dir "%BASEDIR%\src" -dr BOINCBIN -platform x64 -srd -gg -cg BINARYFILES -indent 3 -nologo -projectname boinc -ke -suid -template fragment -var var.SourceBinDir -sw -o "%1boinc_binary_files.wxs"
 
