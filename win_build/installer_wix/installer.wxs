@@ -32,7 +32,7 @@
         <SetDirectory Id="BOINCSCREENBIN" Value="[WindowsFolder]"/>
         <SetDirectory Id="BOINCDATA" Value="[CommonAppDataFolder][ProductName]"/>
 
-        <Feature Id="Boinc" Title="Boinc" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCBIN">
+        <Feature Id="BoincManager" Title="Binaries" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCBIN">
             <ComponentGroupRef Id="BINARYFILES" />
             <ComponentGroupRef Id="BOINCComponents" />
             <ComponentGroupRef Id="BOINCComponentsService" />
@@ -41,10 +41,10 @@
             <ComponentRef Id="ProgramMenuShortcuts" />
             <ComponentRef Id="ProgramMenuShortcutsBOINC" />
         </Feature>
-        <Feature Id="BoincData" Title="Boinc Local Data" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCDATA">
+        <Feature Id="BoincData" Title="Local Data" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCDATA">
             <ComponentGroupRef Id="DATAFILES" />
         </Feature>
-        <Feature Id="BoincScreensaver" Title="Boinc Screensaver" AllowAdvertise="no" Level="32767">
+        <Feature Id="BoincScreensaver" Title="Screensaver" AllowAdvertise="no" Level="32767">
             <ComponentGroupRef Id="SCREENFILES" />
             <ComponentGroupRef Id="BOINCComponentsScreensaver" />
         </Feature>

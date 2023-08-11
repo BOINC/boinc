@@ -42,11 +42,10 @@
 
         <!-- Enable the screensaver -->
         <Control Id="OPT3" Type="CheckBox" X="20" Y="110" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLESCREENSAVER" Text="[ENABLESCREENSAVER_Description]" Disabled="no" />
-
-        <!-- AutoStart the Tray App -->
-        <!-- <Control Id="OPT4" Type="CheckBox" X="20" Y="110" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLESCREENSAVER_Checked" Text="[ENABLESCREENSAVER_Description]" Disabled="no" /> -->
+                 Property="ENABLESCREENSAVER" Text="[ENABLESCREENSAVER_Description]" Disabled="no">
+            <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
+            <Condition Action="disable"><![CDATA[(&BoincScreensaver<>3)]]></Condition>
+        </Control>
       </Dialog>
     </UI>
   </Fragment>

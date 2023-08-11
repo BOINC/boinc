@@ -44,7 +44,7 @@
                 <RemoveFolder Id="RemoveMenuShortcuts" Directory="ProgramMenuManufacturer" On="uninstall" />
 
                 <RegistryValue Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" Name="InstalledStartMenuShortcuts" 
-                    Type="integer" Value="1" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes" />
+                    Type="integer" Value="1" />
                 <Condition>ENABLESTARTMENUITEMS_Checked</Condition>
             </Component>
         </DirectoryRef>

@@ -6,7 +6,7 @@
   <String Id="OptionsDlgDescription">Advanced options for [ProductName] installation</String>
   <String Id="WelcomeDlgDescription">This is the installer for BOINC. Click Next to continue or Cancel to exit.</String>
 
-  <String Id="ENABLESTARTMENUITEMS_Description">Create Programs Menu entries.</String>
-  <String Id="ENABLEUSEBYALLUSERS_Description">Autostart manager for all users.</String>
-  <String Id="ENABLESCREENSAVER_Description">Enable the Screensaver.</String>
+  <String Id="ENABLESTARTMENUITEMS_Description">Create ProgramsMenu entries.</String>
+  <String Id="ENABLEUSEBYALLUSERS_Description">Autostart Manager for all users.</String>
+  <String Id="ENABLESCREENSAVER_Description">Set the BOINC Screensaver as default.</String>
 </WixLocalization>
