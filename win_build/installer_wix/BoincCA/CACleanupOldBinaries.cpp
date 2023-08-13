@@ -64,7 +64,7 @@ UINT CACleanupOldBinaries::OnExecution()
     UINT        uiReturnValue;
 
 
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    uiReturnValue = GetProperty( _T("BOINCBIN"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
     DeleteFile(tstring(strInstallDirectory + _T("\\boinc.exe")).c_str());

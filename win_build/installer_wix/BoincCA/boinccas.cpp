@@ -349,6 +349,21 @@ UINT BOINCCABase::GetRegistryValue(
         &dwSize
     );
 
+	if (dwSize == 0) {
+		// Key is not present
+		strMessage = _T("Could not retrieve registry key '") + strName;
+		LogMessage(
+			INSTALLMESSAGE_INFO,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			strMessage.c_str()
+		);
+
+		return ERROR_INSTALL_FAILURE;
+	}
+
     // Allocate the buffer space.
     lpszRegistryValue = (LPTSTR) malloc(dwSize);
     (*lpszRegistryValue) = NULL;
@@ -363,16 +378,27 @@ UINT BOINCCABase::GetRegistryValue(
         &dwSize
     );
 
+	// One last check to make sure everything is on the up and up.
+	if (lReturnValue != ERROR_SUCCESS) {
+		strMessage = _T("Could not retrieve registry value '") + strName;
+		LogMessage(
+			INSTALLMESSAGE_INFO,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			strMessage.c_str()
+		);
+
+		free(lpszRegistryValue);
+		return ERROR_INSTALL_FAILURE;
+	}
+
     // Send up the returned value.
-    if (lReturnValue == ERROR_SUCCESS) strValue = lpszRegistryValue;
+    strValue = lpszRegistryValue;
 
     // Cleanup
 	RegCloseKey(hkSetupHive);
-    free(lpszRegistryValue);
-
-    // One last check to make sure everything is on the up and up.
-    if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
-
 
     strMessage  = _T("Successfully retrieved registry value '") + strName;
     strMessage += _T("' with a value of '");

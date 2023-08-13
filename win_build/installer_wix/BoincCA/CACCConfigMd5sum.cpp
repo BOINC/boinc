@@ -96,7 +96,7 @@ UINT CACCConfigMd5sum::OnExecution()
 	memset(&contents,'\0',sizeof(contents));
 
 	SetProperty(_T("KEEPEXISTINGCONFIG"), _T("0"));
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    uiReturnValue = GetProperty( _T("BOINCBIN"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 	if (strInstallDirectory.rfind('\\') != strInstallDirectory.size() - 1 ) {
 		strInstallDirectory = strInstallDirectory + _T("\\");

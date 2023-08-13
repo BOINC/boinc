@@ -65,7 +65,7 @@ UINT CALaunchBOINCTray::OnExecution()
     tstring strBuffer;
     UINT uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    uiReturnValue = GetProperty( _T("BOINCBIN"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
 

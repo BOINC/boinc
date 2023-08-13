@@ -84,7 +84,7 @@ GetAccountSid(
 
     if(*Sid == NULL) __leave;
 
-    ReferencedDomain = (LPTSTR)HeapAlloc(
+	ReferencedDomain = (LPTSTR)HeapAlloc(
                     GetProcessHeap(),
                     0,
                     cchReferencedDomain * sizeof(TCHAR)
@@ -123,11 +123,11 @@ GetAccountSid(
                         cchReferencedDomain * sizeof(TCHAR)
                         );
             if(ReferencedDomain == NULL) __leave;
-        }
+		}
         else __leave;
     }
 
-    //
+	//
     // Indicate success.
     //
     bSuccess = TRUE;

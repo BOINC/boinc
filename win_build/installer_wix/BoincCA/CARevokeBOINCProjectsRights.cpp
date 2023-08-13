@@ -64,7 +64,7 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
 {
     PSID        pSid;
 
-    //
+	//
     // Obtain the SID of the user/group.
     // Note that we could target a specific machine, but we don't.
     // Specifying NULL for target machine searches for the SID in the

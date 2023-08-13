@@ -41,16 +41,6 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BoincCA\BoincCA.vcxproj">
-      <Name>BoincCA</Name>
-      <Project>{e22de4c0-c485-4dbe-a612-5de971eaf1d4}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="src\options\" />
   </ItemGroup>

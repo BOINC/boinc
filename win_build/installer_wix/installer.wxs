@@ -52,5 +52,74 @@
         <UI>
           <UIRef Id="WixUI_BoincUI" />
         </UI>
+
+        <InstallExecuteSequence>
+            <!-- After AppSearch -->
+            <Custom Action="CAShutdownBOINC" Sequence="403" />
+            <Custom Action="CAShutdownBOINCManager" Sequence="404" />
+            <Custom Action="CAShutdownBOINCScreensaver" Sequence="408" />
+
+            <!-- After ValidateProductID -->
+            <Custom Action="CAValidateSetupType" Sequence="737" />
+            <Custom Action="CACleanupOldBinaries" Sequence="796" />
+
+            <!-- After CostFinalize -->
+            <Custom Action="CAAnnounceUpgrade" Sequence="1001">
+                VersionNT
+            </Custom>
+            <Custom Action="CARestoreSetupState" Sequence="1002" />
+            
+            <!-- Before InstallValidate -->
+            <Custom Action="CARestoreExecutionState" Sequence="1352" />
+
+            <!-- After InstallInitialize -->
+            <Custom Action="CAGetAdministratorsGroupName" Sequence="1537" />
+            <Custom Action="CAGetUsersGroupName" Sequence="1543" />
+            <Custom Action="CACreateBOINCAccounts" Sequence="1546" />
+            <Custom Action="CAGrantBOINCMasterRights" Sequence="1547" />
+            <Custom Action="CARevokeBOINCMasterRights" Sequence="1548" />
+            <Custom Action="CAGrantBOINCProjectRights" Sequence="1549" />
+
+            <Custom Action="CARevokeBOINCProjectRights" Sequence="1550" />
+            <Custom Action="CADeleteBOINCAccounts" Sequence="1551" />
+            <Custom Action="CACreateBOINCGroups" Sequence="1552" />
+            <Custom Action="CAGrantBOINCAdminsRights" Sequence="1553" />
+            <Custom Action="CARevokeBOINCAdminsRights" Sequence="1554" />
+            <Custom Action="CAGrantBOINCAdminsVirtualBoxRights" Sequence="1555" />
+            <Custom Action="CAGrantBOINCUsersRights" Sequence="1556" />
+            <Custom Action="CARevokeBOINCUsersRights" Sequence="1557" />
+            <Custom Action="CAGrantBOINCProjectsRights" Sequence="1558" />
+            <Custom Action="CARevokeBOINCProjectsRights" Sequence="1559" />
+            <Custom Action="CAGrantBOINCProjectsVirtualBoxRights" Sequence="1560" />
+            <Custom Action="CADeleteBOINCGroups" Sequence="1561" />
+
+            <!-- After InstallFinalize -->
+            <Custom Action="CAValidateInstall" Sequence="6602" />
+            <Custom Action="CAValidateRebootRequest" Sequence="6603" />
+            <Custom Action="CACreateClientAuthFile" Sequence="6604" />
+            <Custom Action="CACreateAcctMgrLoginFile" Sequence="6605" />
+            <Custom Action="CACreateProjectInitFile" Sequence="6606" />
+            <Custom Action="CASetPermissionBOINC" Sequence="6607" />
+            <Custom Action="CASetPermissionBOINCData" Sequence="6609" />
+            <Custom Action="CASetPermissionBOINCDataProjects" Sequence="6610" />
+            <Custom Action="CASetPermissionBOINCDataSlots" Sequence="6611" />
+            <Custom Action="CARestorePermissionBOINCData" Sequence="6612" />
+            <!-- <Custom Action="CASaveSetupState" Sequence="6613" /> -->
+            <Custom Action="CASaveExecutionState" Sequence="6614" />
+
+            <!-- 
+            Trigger on 'Next' before launching installation
+            <Custom Action="CAVerifyInstallDirectories" Sequence="" />
+            -->
+
+            <!-- Ending actions -->
+            <!-- <Custom Action="CALaunchBOINCManager" After="InstallFinalize">
+                LAUNCHPROGRAM
+            </Custom>
+            <Custom Action="CALaunchBOINCTray" Before="CALaunchBOINCManager">
+                LAUNCHPROGRAM
+            </Custom> -->
+            <Custom Action="CASaveSetupState" After="InstallFinalize"/>
+        </InstallExecuteSequence>
     </Product>
 </Wix>

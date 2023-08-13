@@ -25,6 +25,10 @@
 #define CUSTOMACTION_NAME               _T("CAValidateInstall")
 #define CUSTOMACTION_PROGRESSTITLE      _T("Validating the install by checking all executables.")
 
+#define COMPONENT_BOINC                 _T("boinc.exe")
+#define COMPONENT_BOINCMGR              _T("boincmgr.exe")
+#define COMPONENT_BOINCCMD              _T("boinccmd.exe")
+#define COMPONENT_BOINCTRAY             _T("boinctray.exe")
 
 /////////////////////////////////////////////////////////////////////
 //
@@ -66,49 +70,49 @@ UINT CAValidateInstall::OnExecution()
     tstring strTemp;
     UINT    uiReturnValue = 0;
 
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
-    if ( uiReturnValue ) return uiReturnValue;
+    uiReturnValue = GetProperty( _T("BOINCBIN"), strInstallDirectory );
+	if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("ProductVersion"), strProductVersion );
-    if ( uiReturnValue ) return uiReturnValue;
+	uiReturnValue = GetProperty( _T("ProductVersion"), strProductVersion );
+	if ( uiReturnValue ) return uiReturnValue;
 
     // Default to success
-    SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("1"));
+	SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("1"));
 
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINC"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
+    uiReturnValue = GetComponentKeyFilename( COMPONENT_BOINC, strFilename );
+	if ( uiReturnValue ) return uiReturnValue;
 
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
+	strTemp = strInstallDirectory + _T("\\") + strFilename;
+	if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
+		SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
 
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINCManager"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
+	uiReturnValue = GetComponentKeyFilename( COMPONENT_BOINCMGR, strFilename );
+	if ( uiReturnValue ) return uiReturnValue;
 
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
+	strTemp = strInstallDirectory + _T("\\") + strFilename;
+	if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
+		SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
 
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINCCMD"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
+	uiReturnValue = GetComponentKeyFilename( COMPONENT_BOINCCMD, strFilename );
+	if ( uiReturnValue ) return uiReturnValue;
 
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
+	strTemp = strInstallDirectory + _T("\\") + strFilename;
+	if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
+		SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
 
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINCTray"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
+	uiReturnValue = GetComponentKeyFilename( COMPONENT_BOINCTRAY, strFilename );
+	if ( uiReturnValue ) return uiReturnValue;
 
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
+	strTemp = strInstallDirectory + _T("\\") + strFilename;
+	if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
+		SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
 
 
@@ -142,14 +146,14 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
     } *lpTranslate;
 
 
-    _sntprintf(
+	_sntprintf(
         szMessage,
         sizeof(szMessage),
         _T("Validating Executable: '%s' Version: '%s'"),
         strExecutable.c_str(),
         strDesiredVersion.c_str()
     );
-    LogMessage(
+	LogMessage(
         INSTALLMESSAGE_INFO,
         NULL,
         NULL,
@@ -161,11 +165,11 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
 
     // Get File Version Information
     //
-    dwSize = GetFileVersionInfoSize(strExecutable.c_str(), &dwHandle);
-    if (dwSize) {
-        lpData = (LPVOID)malloc(dwSize);
-        if(GetFileVersionInfo(strExecutable.c_str(), dwHandle, dwSize, lpData)) {
-            LogMessage(
+	dwSize = GetFileVersionInfoSize(strExecutable.c_str(), &dwHandle);
+	if (dwSize) {
+		lpData = (LPVOID)malloc(dwSize);
+		if(GetFileVersionInfo(strExecutable.c_str(), dwHandle, dwSize, lpData)) {
+			LogMessage(
                 INSTALLMESSAGE_INFO,
                 NULL,
                 NULL,
@@ -175,12 +179,12 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
             );
 
             // Which language should be used to lookup the structure?
-            _tcscpy(szQuery, _T("\\VarFileInfo\\Translation"));
-            VerQueryValue(lpData, szQuery, (LPVOID*)&lpTranslate, &uiVarSize);
+			_tcscpy(szQuery, _T("\\VarFileInfo\\Translation"));
+			VerQueryValue(lpData, szQuery, (LPVOID*)&lpTranslate, &uiVarSize);
 
             // Version specified as part of the root record.
-            if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&pFileInfo, &uiVarSize)) {
-                _sntprintf(szVersionInfo, sizeof(szVersionInfo), _T("%d.%d.%d.%d"),
+			if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&pFileInfo, &uiVarSize)) {
+				_sntprintf(szVersionInfo, sizeof(szVersionInfo), _T("%d.%d.%d.%d"),
                     HIWORD(pFileInfo->dwFileVersionMS),
                     LOWORD(pFileInfo->dwFileVersionMS),
                     HIWORD(pFileInfo->dwFileVersionLS),
@@ -189,39 +193,39 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
             }
 
             // Product Version.
-            _stprintf(szQuery, _T("\\StringFileInfo\\%04x%04x\\ProductVersion"),
+			_stprintf(szQuery, _T("\\StringFileInfo\\%04x%04x\\ProductVersion"),
                 lpTranslate[0].wLanguage,
                 lpTranslate[0].wCodePage
             );
-            if (VerQueryValue(lpData, szQuery, &lpVar, &uiVarSize)) {
-                uiVarSize = _sntprintf(szProductVersion, sizeof(szProductVersion), _T("%s"), lpVar);
-                if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
+			if (VerQueryValue(lpData, szQuery, &lpVar, &uiVarSize)) {
+				uiVarSize = _sntprintf(szProductVersion, sizeof(szProductVersion), _T("%s"), lpVar);
+				if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
                     szProductVersion[255] = '\0';
                 }
-            }
+			}
 
-            _sntprintf(
+			_sntprintf(
                 szMessage,
                 sizeof(szMessage),
                 _T("Product Version: '%s'"),
                 szProductVersion
             );
-            LogMessage(
+			LogMessage(
                 INSTALLMESSAGE_INFO,
                 NULL,
                 NULL,
                 NULL,
                 NULL,
                 szMessage
-            );
-            free(lpData);
-        }
+			);
+			free(lpData);
+		}
     }
 
     if (strDesiredVersion != szProductVersion) {
-        return FALSE;
+		return FALSE;
     }
-    return TRUE;
+	return TRUE;
 }
 
 
@@ -237,8 +241,8 @@ UINT __stdcall ValidateInstall(MSIHANDLE hInstall)
     UINT uiReturnValue = 0;
 
     CAValidateInstall* pCA = new CAValidateInstall(hInstall);
-    uiReturnValue = pCA->Execute();
-    delete pCA;
+	uiReturnValue = pCA->Execute();
+	delete pCA;
 
     return uiReturnValue;
 }

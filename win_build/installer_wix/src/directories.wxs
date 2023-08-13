@@ -45,7 +45,7 @@
 
                 <RegistryValue Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" Name="InstalledStartMenuShortcuts" 
                     Type="integer" Value="1" />
-                <Condition>ENABLESTARTMENUITEMS_Checked</Condition>
+                <Condition>ENABLESTARTMENUITEMS</Condition>
             </Component>
         </DirectoryRef>
         <DirectoryRef Id="ProgramMenuManufacturer">
@@ -59,7 +59,7 @@
                 <!-- Shortcut in Start menu. -->
                 <Shortcut Id="ProgramMenuApplicationShortcut" Name="BOINC" Target="[#boincmgr.exe]"
                             Directory="ProgramMenuManufacturer" Show="normal" Icon="installer.ico"/>
-                <Condition>ENABLESTARTMENUITEMS_Checked</Condition>
+                <Condition>ENABLESTARTMENUITEMS</Condition>
             </Component>
         </DirectoryRef>
     </Fragment>

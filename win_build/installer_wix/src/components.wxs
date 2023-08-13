@@ -18,7 +18,7 @@
                             ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
                     <RegistryValue Type="string" Name="boincmgr" Value="[BOINCBIN]boincmgr.exe /a /s"/>
                 </RegistryKey>
-                <Condition>NOT ENABLEUSEBYALLUSERS_Checked</Condition>
+                <Condition>NOT ENABLEUSEBYALLUSERS</Condition>
             </Component>
 
             <!-- Registry Entry to startup the manager for all users -->
@@ -28,7 +28,7 @@
                             ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
                     <RegistryValue Type="string" Name="boincmgr" Value="[BOINCBIN]boincmgr.exe /a /s"/>
                 </RegistryKey>
-                <Condition>ENABLEUSEBYALLUSERS_Checked</Condition>
+                <Condition>ENABLEUSEBYALLUSERS</Condition>
             </Component>
         </ComponentGroup>
 
@@ -41,7 +41,7 @@
                     <RegistryValue Type="string" Name="SCRNSAVE.EXE" Value="[BOINCBIN]boinc.scr"/>
                     <RegistryValue Type="integer" Name="ScreenSaveActive" Value="1"/>
                 </RegistryKey>
-                <Condition>ENABLESCREENSAVER_Checked</Condition>
+                <Condition>ENABLESCREENSAVER</Condition>
             </Component>
         </ComponentGroup>
 

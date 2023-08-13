@@ -3,18 +3,29 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">  
   <Fragment>
     <!-- Local variables to track the checkbox state -->
-    <Property Id="ENABLESTARTMENUITEMS" Secure="yes" />
-    <Property Id="ENABLEUSEBYALLUSERS" Secure="yes" />
-    <Property Id="ENABLESCREENSAVER" Secure="yes" />
+    <Property Id="ENABLESTARTMENUITEMS_VAR" Secure="yes" />
+    <Property Id="ENABLEUSEBYALLUSERS_VAR" Secure="yes" />
+    <Property Id="ENABLESCREENSAVER_VAR" Secure="yes" />
+    <Property Id="LAUNCHPROGRAM_VAR" Secure="yes" />
+    <Property Id="ENABLELAUNCHATLOGON_VAR" Secure="yes" />
+    <Property Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Secure="yes" />
 
     <Property Id="ENABLESTARTMENUITEMS_Description" Value="!(loc.ENABLESTARTMENUITEMS_Description)" />
     <Property Id="ENABLEUSEBYALLUSERS_Description" Value="!(loc.ENABLEUSEBYALLUSERS_Description)" />
     <Property Id="ENABLESCREENSAVER_Description" Value="!(loc.ENABLESCREENSAVER_Description)" />
+    <Property Id="LAUNCHPROGRAM_Description" Value="!(loc.LAUNCHPROGRAM_Description)" />
+    <Property Id="ENABLELAUNCHATLOGON_Description" Value="!(loc.ENABLELAUNCHATLOGON_Description)" />
+    <Property Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description" Value="!(loc.ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description)" />
 
     <!-- Outside variables to condition components based on checkbox final value -->
-    <SetProperty Id="ENABLESTARTMENUITEMS_Checked" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESTARTMENUITEMS]]></SetProperty>
-    <SetProperty Id="ENABLEUSEBYALLUSERS_Checked" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLEUSEBYALLUSERS]]></SetProperty>
-    <SetProperty Id="ENABLESCREENSAVER_Checked" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER]]></SetProperty>
+    <SetProperty Id="ENABLESTARTMENUITEMS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESTARTMENUITEMS_VAR]]></SetProperty>
+    <SetProperty Id="ENABLEUSEBYALLUSERS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLEUSEBYALLUSERS_VAR]]></SetProperty>
+    <SetProperty Id="ENABLESCREENSAVER" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER_VAR AND (&BoincScreensaver=3)]]></SetProperty>
+    <SetProperty Id="LAUNCHPROGRAM" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[LAUNCHPROGRAM_VAR]]></SetProperty>
+    <SetProperty Id="ENABLELAUNCHATLOGON" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLELAUNCHATLOGON_VAR]]></SetProperty>
+    <SetProperty Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3" Value="1" Sequence="execute" Before="CostFinalize">
+      <![CDATA[ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR]]>
+    </SetProperty>
 
     <UI>
       <Dialog Id="OptionsDlg" Width="370" Height="270" Title="!(loc.OptionsDlg_Title)">
@@ -34,18 +45,30 @@
 
         <!-- Install the shortcuts in Programs Menu -->
         <Control Id="OPT1" Type="CheckBox" X="20" Y="70" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLESTARTMENUITEMS" Text="[ENABLESTARTMENUITEMS_Description]" Disabled="no" />
+                 Property="ENABLESTARTMENUITEMS_VAR" Text="[ENABLESTARTMENUITEMS_Description]" Disabled="no" />
                  
         <!-- Autostart managers for all users -->
         <Control Id="OPT2" Type="CheckBox" X="20" Y="90" Width="330" Height="18" CheckBoxValue="1" Hidden="no"
-                 Property="ENABLEUSEBYALLUSERS" Text="[ENABLEUSEBYALLUSERS_Description]" Disabled="no" />
+                 Property="ENABLEUSEBYALLUSERS_VAR" Text="[ENABLEUSEBYALLUSERS_Description]" Disabled="no" />
 
         <!-- Enable the screensaver -->
         <Control Id="OPT3" Type="CheckBox" X="20" Y="110" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLESCREENSAVER" Text="[ENABLESCREENSAVER_Description]" Disabled="no">
+                 Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no">
             <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
             <Condition Action="disable"><![CDATA[(&BoincScreensaver<>3)]]></Condition>
         </Control>
+
+        <!-- Launch Manager at the end -->
+        <Control Id="OPT4" Type="CheckBox" X="20" Y="130" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
+                 Property="LAUNCHPROGRAM_VAR" Text="[LAUNCHPROGRAM_Description]" Disabled="no" />
+
+        <!-- Launch at logon the applications -->
+        <Control Id="OPT5" Type="CheckBox" X="20" Y="150" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
+                 Property="ENABLELAUNCHATLOGON_VAR" Text="[ENABLELAUNCHATLOGON_Description]" Disabled="no" />
+
+        <!-- Allow executing protected applications -->
+        <Control Id="OPT6" Type="CheckBox" X="20" Y="170" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
+                 Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" />
       </Dialog>
     </UI>
   </Fragment>

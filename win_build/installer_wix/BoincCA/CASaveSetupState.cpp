@@ -73,7 +73,7 @@ UINT CASaveSetupState::OnExecution()
 
     strSetupStateStored = _T("TRUE");
 
-    GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    GetProperty( _T("BOINCBIN"), strInstallDirectory );
     GetProperty( _T("DATADIR"), strDataDirectory );
     GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
     GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
@@ -83,7 +83,7 @@ UINT CASaveSetupState::OnExecution()
     GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
     GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
-    SetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
+    SetRegistryValue( _T("BOINCBIN"), strInstallDirectory );
     SetRegistryValue( _T("DATADIR"), strDataDirectory );
 
     if (_T("1") == strLaunchProgram) {

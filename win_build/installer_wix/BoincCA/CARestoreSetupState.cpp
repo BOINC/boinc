@@ -81,68 +81,68 @@ UINT CARestoreSetupState::OnExecution()
 
     tstring     strSetupStateStored;
 
-    GetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
-    if (strSetupStateStored == _T("TRUE")) {
+	GetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
+	if (strSetupStateStored == _T("TRUE")) {
 
-        GetProperty( _T("OVERRIDE_INSTALLDIR"), strOverrideInstallDirectory );
-        GetProperty( _T("OVERRIDE_DATADIR"), strOverrideDataDirectory );
-        GetProperty( _T("OVERRIDE_LAUNCHPROGRAM"), strOverrideLaunchProgram );
-        GetProperty( _T("OVERRIDE_BOINC_MASTER_USERNAME"), strOverrideBOINCMasterAccountUsername );
-        GetProperty( _T("OVERRIDE_BOINC_PROJECT_USERNAME"), strOverrideBOINCProjectAccountUsername );
-        GetProperty( _T("OVERRIDE_ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
-        GetProperty( _T("OVERRIDE_ENABLESCREENSAVER"), strOverrideEnableScreensaver );
-        GetProperty( _T("OVERRIDE_ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strOverrideEnableProtectedApplicationExecution );
-        GetProperty( _T("OVERRIDE_ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
+        GetProperty( _T("OVERRIDE_BOINCBIN"), strOverrideInstallDirectory );
+		GetProperty( _T("OVERRIDE_DATADIR"), strOverrideDataDirectory );
+		GetProperty( _T("OVERRIDE_LAUNCHPROGRAM"), strOverrideLaunchProgram );
+		GetProperty( _T("OVERRIDE_BOINC_MASTER_USERNAME"), strOverrideBOINCMasterAccountUsername );
+		GetProperty( _T("OVERRIDE_BOINC_PROJECT_USERNAME"), strOverrideBOINCProjectAccountUsername );
+		GetProperty( _T("OVERRIDE_ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
+		GetProperty( _T("OVERRIDE_ENABLESCREENSAVER"), strOverrideEnableScreensaver );
+		GetProperty( _T("OVERRIDE_ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strOverrideEnableProtectedApplicationExecution );
+		GetProperty( _T("OVERRIDE_ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
 
-        GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
-        GetRegistryValue( _T("DATADIR"), strDataDirectory );
-        GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
-        GetRegistryValue( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
-        GetRegistryValue( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
-        GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
-        GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-        GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
-        GetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
+        GetRegistryValue( _T("BOINCBIN"), strInstallDirectory );
+		GetRegistryValue( _T("DATADIR"), strDataDirectory );
+		GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
+		GetRegistryValue( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+		GetRegistryValue( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
+		GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+		GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
+		GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
+		GetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
         if (strOverrideInstallDirectory.empty()) {
-            SetProperty( _T("INSTALLDIR"), strInstallDirectory );
-        } else {
-            SetProperty( _T("INSTALLDIR"), strOverrideInstallDirectory );
-        }
+            SetProperty( _T("BOINCBIN"), strInstallDirectory );
+		} else {
+            SetProperty( _T("BOINCBIN"), strOverrideInstallDirectory );
+		}
 
         if (strOverrideDataDirectory.empty()) {
-            SetProperty( _T("DATADIR"), strDataDirectory );
+			SetProperty( _T("DATADIR"), strDataDirectory );
         } else {
-            SetProperty( _T("DATADIR"), strOverrideDataDirectory );
+			SetProperty( _T("DATADIR"), strOverrideDataDirectory );
         }
 
         if (strOverrideLaunchProgram.empty()) {
             if ((_T("1") == strLaunchProgram) || (strLaunchProgram.size() == 0)) {
-                SetProperty( _T("LAUNCHPROGRAM"), _T("1") );
+				SetProperty( _T("LAUNCHPROGRAM"), _T("1") );
             } else {
-                SetProperty( _T("LAUNCHPROGRAM"), _T("") );
+				SetProperty( _T("LAUNCHPROGRAM"), _T("") );
             }
         } else {
             SetProperty( _T("LAUNCHPROGRAM"), strOverrideLaunchProgram );
         }
 
         if (strOverrideBOINCMasterAccountUsername.empty()) {
-            SetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+			SetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
         } else {
-            SetProperty( _T("BOINC_MASTER_USERNAME"), strOverrideBOINCMasterAccountUsername );
+			SetProperty( _T("BOINC_MASTER_USERNAME"), strOverrideBOINCMasterAccountUsername );
         }
 
         if (strOverrideBOINCProjectAccountUsername.empty()) {
-            SetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
+			SetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
         } else {
-            SetProperty( _T("BOINC_PROJECT_USERNAME"), strOverrideBOINCProjectAccountUsername );
+			SetProperty( _T("BOINC_PROJECT_USERNAME"), strOverrideBOINCProjectAccountUsername );
         }
 
         if (strOverrideEnableLaunchAtLogon.empty()) {
             if (_T("1") == strEnableLaunchAtLogon) {
-                SetProperty( _T("ENABLELAUNCHATLOGON"), _T("1") );
+				SetProperty( _T("ENABLELAUNCHATLOGON"), _T("1") );
             } else {
-                SetProperty( _T("ENABLELAUNCHATLOGON"), _T("") );
+				SetProperty( _T("ENABLELAUNCHATLOGON"), _T("") );
             }
         } else {
             SetProperty( _T("ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
@@ -150,9 +150,9 @@ UINT CARestoreSetupState::OnExecution()
 
         if (strOverrideEnableScreensaver.empty()) {
             if (_T("1") == strEnableScreensaver) {
-                SetProperty( _T("ENABLESCREENSAVER"), _T("1") );
+				SetProperty( _T("ENABLESCREENSAVER"), _T("1") );
             } else {
-                SetProperty( _T("ENABLESCREENSAVER"), _T("") );
+				SetProperty( _T("ENABLESCREENSAVER"), _T("") );
             }
         } else {
             SetProperty( _T("ENABLESCREENSAVER"), strOverrideEnableScreensaver );
@@ -160,9 +160,9 @@ UINT CARestoreSetupState::OnExecution()
 
         if (strOverrideEnableProtectedApplicationExecution.empty()) {
             if (_T("1") == strEnableProtectedApplicationExecution) {
-                SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("1") );
+				SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("1") );
             } else {
-                SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("") );
+				SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), _T("") );
             }
         } else {
             SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strOverrideEnableProtectedApplicationExecution );
@@ -170,28 +170,28 @@ UINT CARestoreSetupState::OnExecution()
 
         if (strOverrideEnableUseByAllUsers.empty()) {
             if (_T("1") == strEnableUseByAllUsers) {
-                SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("1") );
+				SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("1") );
             } else {
-                SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("") );
+				SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("") );
             }
         } else {
-            SetProperty( _T("ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
+			SetProperty( _T("ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
         }
-    }
+	}
 
     // If the Data Directory entry is empty then that means we need
     //   to populate it with the default value.
     GetProperty( _T("DATADIR"), strDataDirectory );
-    if (strDataDirectory.empty()) {
+	if (strDataDirectory.empty()) {
         tstring strCommonApplicationDataFolder;
 
         // MSI already has this figured out, so lets get it.
         GetProperty( _T("CommonAppDataFolder"), strCommonApplicationDataFolder );
 
         // Construct the default value
-        strDataDirectory = strCommonApplicationDataFolder + _T("BOINC\\");
+		strDataDirectory = strCommonApplicationDataFolder + _T("BOINC\\");
 
-        SetProperty( _T("DATADIR"), strDataDirectory );
+		SetProperty( _T("DATADIR"), strDataDirectory );
     }
 
     return ERROR_SUCCESS;
@@ -210,8 +210,8 @@ UINT __stdcall RestoreSetupState(MSIHANDLE hInstall)
     UINT uiReturnValue = 0;
 
     CARestoreSetupState* pCA = new CARestoreSetupState(hInstall);
-    uiReturnValue = pCA->Execute();
-    delete pCA;
+	uiReturnValue = pCA->Execute();
+	delete pCA;
 
     return uiReturnValue;
 }

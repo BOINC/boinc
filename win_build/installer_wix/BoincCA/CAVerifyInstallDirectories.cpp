@@ -70,7 +70,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
     UINT    uiReturnValue = 0;
 
 
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    uiReturnValue = GetProperty( _T("BOINCBIN"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );

@@ -82,7 +82,7 @@ UINT CASetPermissionBOINC::OnExecution()
     uiReturnValue = GetProperty( _T("BOINC_USERS_GROUPNAME"), strBOINCUsersGroupAlias );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strBOINCInstallDirectory );
+    uiReturnValue = GetProperty( _T("BOINCBIN"), strBOINCInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );

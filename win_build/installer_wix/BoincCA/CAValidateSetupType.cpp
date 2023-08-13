@@ -115,7 +115,7 @@ UINT CAValidateSetupType::OnExecution()
 
     // If the Install Directory entry is empty then that means we need
     //   to populate it with the default value.
-    GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    GetProperty( _T("BOINCBIN"), strInstallDirectory );
     if (strInstallDirectory.empty()) {
         tstring strVersionNT64;
         tstring strProgramFilesFolder;
@@ -133,7 +133,7 @@ UINT CAValidateSetupType::OnExecution()
             strInstallDirectory = strProgramFiles64Folder + _T("BOINC\\");
         }
 
-        SetProperty( _T("INSTALLDIR"), strInstallDirectory );
+        SetProperty( _T("BOINCBIN"), strInstallDirectory );
     }
 
 
