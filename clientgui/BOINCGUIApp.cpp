@@ -219,7 +219,6 @@ bool CBOINCGUIApp::OnInit() {
         if (pTranslations) {
             // Get best match from our available translations for automatic detection
             defaultLanguageCode = pTranslations->GetBestTranslation(wxT("BOINC-Manager"), wxLANGUAGE_DEFAULT);
-//            selectedLanguageCode = pTranslations->GetBestTranslation(wxT("BOINC-Manager"), wxLANGUAGE_FRENCH_CHAD);
             // Get best match from our available translations for the
             // language the user selected from the Other Options dialog
             selectedLanguageCode = pTranslations->GetBestTranslation(wxT("BOINC-Manager"), m_strISOLanguageCode);
