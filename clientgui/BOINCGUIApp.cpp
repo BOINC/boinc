@@ -188,12 +188,10 @@ bool CBOINCGUIApp::OnInit() {
     SetAppDisplayName(wxString(displayName)); // {ass the display name to wxWidgets
 #endif
 
-
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(GetAppName());
     wxConfigBase::Set(m_pConfig);
     wxASSERT(m_pConfig);
-
 
     // Restore Application State
     m_pConfig->SetPath(wxT("/"));
@@ -204,23 +202,35 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
-    m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
+    m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxEmptyString);
     m_bUseDefaultLocale = false;
     bool bUseDefaultLocaleDefault = false;
-#ifdef __WXMAC__   // wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT) does not work on Mac
-    wxLocale *defaultLocale = new wxLocale;
-    defaultLocale->Init(wxLANGUAGE_DEFAULT);
-    wxString defaultLanguageCode = defaultLocale->GetCanonicalName();
-    bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageCode;
-    delete defaultLocale;
-#else
-    const wxLanguageInfo *defaultLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
-    if (defaultLanguageInfo != NULL) {
-        // Migration: assume a selected language code that matches the system default means "auto select"
-        bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageInfo->CanonicalName;;
+    if (m_strISOLanguageCode.IsEmpty()) {
+        // If user has not selected a language, use automatic detection
+        m_bUseDefaultLocale =  true;
+    } else {
+        wxLocale *defaultLocale = new wxLocale;
+        defaultLocale->Init(wxLANGUAGE_DEFAULT);
+        defaultLocale->AddCatalogLookupPathPrefix(wxT("locale"));
+        defaultLocale->AddCatalog(wxT("BOINC-Manager"));
+        wxTranslations* pTranslations = wxTranslations::Get();
+        wxString defaultLanguageCode;
+        wxString selectedLanguageCode;
+        if (pTranslations) {
+            // Get best match from our available translations for automatic detection
+            defaultLanguageCode = pTranslations->GetBestTranslation(wxT("BOINC-Manager"), wxLANGUAGE_DEFAULT);
+//            selectedLanguageCode = pTranslations->GetBestTranslation(wxT("BOINC-Manager"), wxLANGUAGE_FRENCH_CHAD);
+            // Get best match from our available translations for the
+            // language the user selected from the Other Options dialog
+            selectedLanguageCode = pTranslations->GetBestTranslation(wxT("BOINC-Manager"), m_strISOLanguageCode);
+        }
+        bUseDefaultLocaleDefault = selectedLanguageCode == defaultLanguageCode;
+        delete defaultLocale;
+        // If upgrading from an older version of BOINC without the specific "Automatic Detection"
+        // as the first option in the language menu, use the value we just determined
+        m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
     }
-#endif
-    m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
+
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
