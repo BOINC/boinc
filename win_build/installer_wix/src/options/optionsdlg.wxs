@@ -20,7 +20,7 @@
     <!-- Outside variables to condition components based on checkbox final value -->
     <SetProperty Id="ENABLESTARTMENUITEMS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESTARTMENUITEMS_VAR]]></SetProperty>
     <SetProperty Id="ENABLEUSEBYALLUSERS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLEUSEBYALLUSERS_VAR]]></SetProperty>
-    <SetProperty Id="ENABLESCREENSAVER" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER_VAR AND (&BoincScreensaver=3)]]></SetProperty>
+    <SetProperty Id="ENABLESCREENSAVER" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER_VAR]]></SetProperty>
     <SetProperty Id="LAUNCHPROGRAM" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[LAUNCHPROGRAM_VAR]]></SetProperty>
     <SetProperty Id="ENABLELAUNCHATLOGON" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLELAUNCHATLOGON_VAR]]></SetProperty>
     <SetProperty Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3" Value="1" Sequence="execute" Before="CostFinalize">
@@ -53,10 +53,10 @@
 
         <!-- Enable the screensaver -->
         <Control Id="OPT3" Type="CheckBox" X="20" Y="110" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no">
-            <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
+                 Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no" />
+            <!-- <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
             <Condition Action="disable"><![CDATA[(&BoincScreensaver<>3)]]></Condition>
-        </Control>
+        </Control> -->
 
         <!-- Launch Manager at the end -->
         <Control Id="OPT4" Type="CheckBox" X="20" Y="130" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 

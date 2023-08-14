@@ -5,8 +5,8 @@
         <Package InstallerVersion="300" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
         <Media Id="1" Cabinet="boinc.cab" EmbedCab="yes" />
         
-        <Condition Message="Installation cannot continue on unsupported platforms">
-            <![CDATA[((Not Version9X=400) And (Not Version9X=410) And (Not Version9X=490) And (Not VersionNT=400)) And (VersionNT>500)]]>
+        <Condition Message="Application supported only on Windows 7 and up">
+            <![CDATA[VersionNT >= 601]]>
         </Condition>
         <Condition Message="Installation requires Administrator privileges">
             <![CDATA[Privileged]]>
@@ -46,7 +46,8 @@
         </Feature>
         <Feature Id="BoincScreensaver" Title="Screensaver" AllowAdvertise="no" Level="32767">
             <ComponentGroupRef Id="SCREENFILES" />
-            <ComponentGroupRef Id="BOINCComponentsScreensaver" />
+            <ComponentGroupRef Id="BOINCScreensaverGroupNT" />
+            <ComponentGroupRef Id="BOINCScreensaverGroup9x" />
         </Feature>
 
         <UI>
@@ -55,61 +56,115 @@
 
         <InstallExecuteSequence>
             <!-- After AppSearch -->
-            <Custom Action="CAShutdownBOINC" Sequence="403" />
-            <Custom Action="CAShutdownBOINCManager" Sequence="404" />
-            <Custom Action="CAShutdownBOINCScreensaver" Sequence="408" />
+            <Custom Action="CAShutdownBOINC" Sequence="403">VersionNT</Custom>
+            <Custom Action="CAShutdownBOINCManager" Sequence="404">VersionNT</Custom>
+            <Custom Action="CAShutdownBOINCScreensaver" Sequence="408">VersionNT</Custom>
 
             <!-- After ValidateProductID -->
             <Custom Action="CAValidateSetupType" Sequence="737" />
-            <Custom Action="CACleanupOldBinaries" Sequence="796" />
+            <Custom Action="CACleanupOldBinaries" Sequence="796"><![CDATA[REMOVE <> "ALL"]]></Custom>
 
             <!-- After CostFinalize -->
             <Custom Action="CAAnnounceUpgrade" Sequence="1001">
-                VersionNT
+                <![CDATA[VersionNT AND REMOVE <> "ALL"]]>
             </Custom>
-            <Custom Action="CARestoreSetupState" Sequence="1002" />
+            <Custom Action="CARestoreSetupState" Sequence="1002">
+                <![CDATA[VersionNT AND REMOVE = "ALL"]]>
+            </Custom>
             
-            <!-- Before InstallValidate -->
-            <Custom Action="CARestoreExecutionState" Sequence="1352" />
-
             <!-- After InstallInitialize -->
-            <Custom Action="CAGetAdministratorsGroupName" Sequence="1537" />
-            <Custom Action="CAGetUsersGroupName" Sequence="1543" />
-            <Custom Action="CACreateBOINCAccounts" Sequence="1546" />
-            <Custom Action="CAGrantBOINCMasterRights" Sequence="1547" />
-            <Custom Action="CARevokeBOINCMasterRights" Sequence="1548" />
-            <Custom Action="CAGrantBOINCProjectRights" Sequence="1549" />
+            <Custom Action="CAGetAdministratorsGroupName" Sequence="1537">
+                <![CDATA[VersionNT And REMOVE <> "ALL"]]>
+            </Custom>
+            <Custom Action="CAGetUsersGroupName" Sequence="1543">
+                <![CDATA[VersionNT And REMOVE <> "ALL"]]>
+            </Custom>
+            <Custom Action="CACreateBOINCAccounts" Sequence="1546">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CAGrantBOINCMasterRights" Sequence="1547">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CARevokeBOINCMasterRights" Sequence="1548">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CAGrantBOINCProjectRights" Sequence="1549">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
 
-            <Custom Action="CARevokeBOINCProjectRights" Sequence="1550" />
-            <Custom Action="CADeleteBOINCAccounts" Sequence="1551" />
-            <Custom Action="CACreateBOINCGroups" Sequence="1552" />
-            <Custom Action="CAGrantBOINCAdminsRights" Sequence="1553" />
-            <Custom Action="CARevokeBOINCAdminsRights" Sequence="1554" />
-            <Custom Action="CAGrantBOINCAdminsVirtualBoxRights" Sequence="1555" />
-            <Custom Action="CAGrantBOINCUsersRights" Sequence="1556" />
-            <Custom Action="CARevokeBOINCUsersRights" Sequence="1557" />
-            <Custom Action="CAGrantBOINCProjectsRights" Sequence="1558" />
-            <Custom Action="CARevokeBOINCProjectsRights" Sequence="1559" />
-            <Custom Action="CAGrantBOINCProjectsVirtualBoxRights" Sequence="1560" />
-            <Custom Action="CADeleteBOINCGroups" Sequence="1561" />
+            <Custom Action="CARevokeBOINCProjectRights" Sequence="1550">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CADeleteBOINCAccounts" Sequence="1551">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CACreateBOINCGroups" Sequence="1552">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CAGrantBOINCAdminsRights" Sequence="1553">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CARevokeBOINCAdminsRights" Sequence="1554">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CAGrantBOINCAdminsVirtualBoxRights" Sequence="1555">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CAGrantBOINCUsersRights" Sequence="1556">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CARevokeBOINCUsersRights" Sequence="1557">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CAGrantBOINCProjectsRights" Sequence="1558">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CARevokeBOINCProjectsRights" Sequence="1559">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CAGrantBOINCProjectsVirtualBoxRights" Sequence="1560">
+                <![CDATA[VersionNT And REMOVE <> "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
+            <Custom Action="CADeleteBOINCGroups" Sequence="1561">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
 
             <!-- After InstallFinalize -->
-            <Custom Action="CAValidateInstall" Sequence="6602" />
-            <Custom Action="CAValidateRebootRequest" Sequence="6603" />
-            <Custom Action="CACreateClientAuthFile" Sequence="6604" />
-            <Custom Action="CACreateAcctMgrLoginFile" Sequence="6605" />
-            <Custom Action="CACreateProjectInitFile" Sequence="6606" />
-            <Custom Action="CASetPermissionBOINC" Sequence="6607" />
-            <Custom Action="CASetPermissionBOINCData" Sequence="6609" />
-            <Custom Action="CASetPermissionBOINCDataProjects" Sequence="6610" />
-            <Custom Action="CASetPermissionBOINCDataSlots" Sequence="6611" />
-            <Custom Action="CARestorePermissionBOINCData" Sequence="6612" />
-            <!-- <Custom Action="CASaveSetupState" Sequence="6613" /> -->
+            <Custom Action="CAValidateInstall" Sequence="6602">
+                <![CDATA[REMOVE <> "ALL"]]>
+            </Custom>
+            <Custom Action="CAValidateRebootRequest" Sequence="6603">
+                <![CDATA[REMOVE <> "ALL" AND RETURN_REBOOTREQUESTED = "1"]]>
+            </Custom>
+            <Custom Action="CACreateClientAuthFile" Sequence="6604">
+                <![CDATA[VersionNT And NOT Installed]]>
+            </Custom>
+            <Custom Action="CACreateAcctMgrLoginFile" Sequence="6605">
+                <![CDATA[NOT Installed]]>
+            </Custom>
+            <Custom Action="CACreateProjectInitFile" Sequence="6606">
+                <![CDATA[NOT Installed]]>
+            </Custom>
+            <Custom Action="CASetPermissionBOINC" Sequence="6607">
+                <![CDATA[VersionNT And REMOVE <> "ALL"]]>
+            </Custom>
+            <Custom Action="CASetPermissionBOINCData" Sequence="6609">
+                <![CDATA[VersionNT And REMOVE <> "ALL"]]>
+            </Custom>
+            <Custom Action="CASetPermissionBOINCDataProjects" Sequence="6610">
+                <![CDATA[VersionNT And REMOVE <> "ALL"]]>
+            </Custom>
+            <Custom Action="CASetPermissionBOINCDataSlots" Sequence="6611">
+                <![CDATA[VersionNT And REMOVE <> "ALL"]]>
+            </Custom>
+            <Custom Action="CARestorePermissionBOINCData" Sequence="6612">
+                <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
+            </Custom>
             <Custom Action="CASaveExecutionState" Sequence="6614" />
 
             <!-- 
             Trigger on 'Next' before launching installation
-            <Custom Action="CAVerifyInstallDirectories" Sequence="" />
+            <Custom Action="CAVerifyInstallDirectories" Sequence=""></Custom>
             -->
 
             <!-- Ending actions -->
@@ -119,7 +174,12 @@
             <Custom Action="CALaunchBOINCTray" Before="CALaunchBOINCManager">
                 LAUNCHPROGRAM
             </Custom> -->
-            <Custom Action="CASaveSetupState" After="InstallFinalize"/>
+            <Custom Action="CASaveSetupState" After="InstallFinalize" />
         </InstallExecuteSequence>
+
+        <InstallUISequence>
+            <!-- Before InstallValidate -->
+            <Custom Action="CARestoreExecutionState" Sequence="1352" />
+        </InstallUISequence>
     </Product>
 </Wix>

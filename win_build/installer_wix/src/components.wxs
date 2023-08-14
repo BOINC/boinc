@@ -32,16 +32,32 @@
             </Component>
         </ComponentGroup>
 
-        <ComponentGroup Id="BOINCComponentsScreensaver" Directory="TARGETDIR">
+        <ComponentGroup Id="BOINCScreensaverGroupNT" Directory="TARGETDIR">
             <!-- Registry Entry to setup the screensaver -->
-            <Component Id="ScreensaverEnable" Guid="{046307f8-63e3-4b39-81d3-caa88a8545a9}">
+            <Component Id="ScreensaverEnableNT" Guid="{046307f8-63e3-4b39-81d3-caa88a8545a9}">
                 <RegistryKey Root="HKCU"
                             Key="Software\Microsoft\Windows\CurrentVersion\Control Panel"
                             ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
                     <RegistryValue Type="string" Name="SCRNSAVE.EXE" Value="[BOINCBIN]boinc.scr"/>
                     <RegistryValue Type="integer" Name="ScreenSaveActive" Value="1"/>
                 </RegistryKey>
-                <Condition>ENABLESCREENSAVER</Condition>
+                <Condition>VersionNT AND ENABLESCREENSAVER</Condition>
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="BOINCScreensaverGroup9x" Directory="WindowsFolder">
+            <!-- Registry Entry to setup the screensaver -->
+            <Component Id="ScreensaverEnable9x" Guid="{85a34be1-e66b-443b-8b31-15ca3e956cbf}">
+                <CreateFolder />
+
+                <IniFile Id="ScrIni"
+                         Action="addLine"
+                         Directory="WindowsFolder"
+                         Name="system.ini"
+                         Section="boot"
+                         Key="SCRNSAVE.EXE"
+                         Value="[BOINCBIN]boinc.scr" />
+                <Condition>Version9X AND ENABLESCREENSAVER</Condition>
             </Component>
         </ComponentGroup>
 
