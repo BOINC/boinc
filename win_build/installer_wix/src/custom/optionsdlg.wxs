@@ -6,14 +6,12 @@
     <Property Id="ENABLESTARTMENUITEMS_VAR" Secure="yes" />
     <Property Id="ENABLEUSEBYALLUSERS_VAR" Secure="yes" />
     <Property Id="ENABLESCREENSAVER_VAR" Secure="yes" />
-    <Property Id="LAUNCHPROGRAM_VAR" Secure="yes" />
     <Property Id="ENABLELAUNCHATLOGON_VAR" Secure="yes" />
     <Property Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Secure="yes" />
 
     <Property Id="ENABLESTARTMENUITEMS_Description" Value="!(loc.ENABLESTARTMENUITEMS_Description)" />
     <Property Id="ENABLEUSEBYALLUSERS_Description" Value="!(loc.ENABLEUSEBYALLUSERS_Description)" />
     <Property Id="ENABLESCREENSAVER_Description" Value="!(loc.ENABLESCREENSAVER_Description)" />
-    <Property Id="LAUNCHPROGRAM_Description" Value="!(loc.LAUNCHPROGRAM_Description)" />
     <Property Id="ENABLELAUNCHATLOGON_Description" Value="!(loc.ENABLELAUNCHATLOGON_Description)" />
     <Property Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description" Value="!(loc.ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description)" />
 
@@ -21,53 +19,52 @@
     <SetProperty Id="ENABLESTARTMENUITEMS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESTARTMENUITEMS_VAR]]></SetProperty>
     <SetProperty Id="ENABLEUSEBYALLUSERS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLEUSEBYALLUSERS_VAR]]></SetProperty>
     <SetProperty Id="ENABLESCREENSAVER" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER_VAR]]></SetProperty>
-    <SetProperty Id="LAUNCHPROGRAM" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[LAUNCHPROGRAM_VAR]]></SetProperty>
     <SetProperty Id="ENABLELAUNCHATLOGON" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLELAUNCHATLOGON_VAR]]></SetProperty>
     <SetProperty Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3" Value="1" Sequence="execute" Before="CostFinalize">
       <![CDATA[ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR]]>
     </SetProperty>
 
     <UI>
+      <!-- This dialog is opened from the Options button in the feature selection dialog, it contains two groups of
+           checkboxes to control additional operations to be done -->
       <Dialog Id="OptionsDlg" Width="370" Height="270" Title="!(loc.OptionsDlg_Title)">
         <Control Id="ProductVersion" Type="Text" X="10" Y="243" Width="56" Height="17" Text="[ProductVersion]" />
         
-        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
-        <Control Id="Next" Type="PushButton" X="240" Y="243" Width="56" Height="17" Text="!(loc.WixUINext)" />
-        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
-          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-        </Control>
+        <Control Id="Close" Type="PushButton" X="304" Y="243" Width="56" Height="17" Text="!(loc.WixUIClose)" />
 
-        <Control Id="BannerHeader" Type="Text" X="15" Y="6" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.OptionsDlgTitle)" />
+        <Control Id="BannerHeader" Type="Text" X="15" Y="6" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="{\WixUI_Font_Title}!(loc.OptionsDlgTitle)" />
         <Control Id="BannerSubHeader" Type="Text" X="15" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.OptionsDlgDescription)" />        
         <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.OptionsDlgBitmap)" />
         <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
         <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 
+        <!-- Standard Options group -->
+        <Control Id="StdOptHeader" Type="GroupBox" X="10" Y="60" Width="306" Height="75" Text="{\WixUI_Font_Bigger}Standard Options" />
+
         <!-- Install the shortcuts in Programs Menu -->
-        <Control Id="OPT1" Type="CheckBox" X="20" Y="70" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
+        <Control Id="OPT1" Type="CheckBox" X="20" Y="75" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLESTARTMENUITEMS_VAR" Text="[ENABLESTARTMENUITEMS_Description]" Disabled="no" />
                  
         <!-- Autostart managers for all users -->
-        <Control Id="OPT2" Type="CheckBox" X="20" Y="90" Width="330" Height="18" CheckBoxValue="1" Hidden="no"
+        <Control Id="OPT2" Type="CheckBox" X="20" Y="95" Width="230" Height="18" CheckBoxValue="1" Hidden="no"
                  Property="ENABLEUSEBYALLUSERS_VAR" Text="[ENABLEUSEBYALLUSERS_Description]" Disabled="no" />
 
         <!-- Enable the screensaver -->
-        <Control Id="OPT3" Type="CheckBox" X="20" Y="110" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no" />
-            <!-- <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
+        <Control Id="OPT3" Type="CheckBox" X="20" Y="115" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
+                 Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no" >
+            <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
             <Condition Action="disable"><![CDATA[(&BoincScreensaver<>3)]]></Condition>
-        </Control> -->
+        </Control>
 
-        <!-- Launch Manager at the end -->
-        <Control Id="OPT4" Type="CheckBox" X="20" Y="130" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="LAUNCHPROGRAM_VAR" Text="[LAUNCHPROGRAM_Description]" Disabled="no" />
+        <!-- Advanced Options group -->
+        <Control Id="AdvOptHeader" Type="GroupBox" X="10" Y="140" Width="306" Height="60" Text="{\WixUI_Font_Bigger}Advanced Options" />
 
         <!-- Launch at logon the applications -->
-        <Control Id="OPT5" Type="CheckBox" X="20" Y="150" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
+        <Control Id="OPT4" Type="CheckBox" X="20" Y="155" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLELAUNCHATLOGON_VAR" Text="[ENABLELAUNCHATLOGON_Description]" Disabled="no" />
 
         <!-- Allow executing protected applications -->
-        <Control Id="OPT6" Type="CheckBox" X="20" Y="170" Width="330" Height="18" CheckBoxValue="1" Hidden="no" 
+        <Control Id="OPT5" Type="CheckBox" X="20" Y="175" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" />
       </Dialog>
     </UI>

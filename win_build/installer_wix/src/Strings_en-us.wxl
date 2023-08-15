@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="WelcomeDlgDescription">This is the installer for BOINC version [ProductVersion]. Click Next to continue or Cancel to exit.</String>
+
   <String Id="OptionsDlg_Title">[ProductName] Setup</String>
   <String Id="OptionsDlgBitmap">WixUI_Bmp_Banner</String>
   <String Id="OptionsDlgTitle">[ProductName] Options</String>
   <String Id="OptionsDlgDescription">Advanced options for [ProductName] installation</String>
-  <String Id="WelcomeDlgDescription">This is the installer for BOINC. Click Next to continue or Cancel to exit.</String>
+
+  <String Id="CustomExitDlg_Title">[ProductName] Setup Finished</String>
+  <String Id="CustomExitDlgBackgroundBitmap">WixUI_Bmp_Dialog</String>
+  <String Id="CustomExitDlgTitle">[ProductName] Finished</String>
+  <String Id="CustomExitDlgDescription">[ProductName] setup of version [ProductVersion] completed correctly.</String>
+
+  <String Id="CustomizeDlgOptions">Options</String>
+
+  <String Id="WixUIClose">Close</String>
 
   <String Id="ENABLESTARTMENUITEMS_Description">Create ProgramsMenu entries.</String>
-  <String Id="ENABLEUSEBYALLUSERS_Description">Autostart Manager for all users.</String>
+  <String Id="ENABLEUSEBYALLUSERS_Description">Enable usage by all users.</String>
   <String Id="ENABLESCREENSAVER_Description">Set the BOINC Screensaver as default.</String>
   <String Id="LAUNCHPROGRAM_Description">Launch the BOINC Application at exit.</String>
   <String Id="ENABLELAUNCHATLOGON_Description">Launch the BOINC Applications after login.</String>

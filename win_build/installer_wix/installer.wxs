@@ -5,13 +5,15 @@
         <Package InstallerVersion="300" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
         <Media Id="1" Cabinet="boinc.cab" EmbedCab="yes" />
         
-        <Condition Message="Application supported only on Windows 7 and up">
+        <!-- Preconditions for starting the Installer at all -->
+        <Condition Message="This version of the application is supported only from Windows 7 onward">
             <![CDATA[VersionNT >= 601]]>
         </Condition>
         <Condition Message="Installation requires Administrator privileges">
             <![CDATA[Privileged]]>
         </Condition>
 
+        <!-- Disable reinstallation of same version and on later versions -->
         <MajorUpgrade
             DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
 
@@ -32,6 +34,7 @@
         <SetDirectory Id="BOINCSCREENBIN" Value="[WindowsFolder]"/>
         <SetDirectory Id="BOINCDATA" Value="[CommonAppDataFolder][ProductName]"/>
 
+        <!-- Features of the installer -->
         <Feature Id="BoincManager" Title="Binaries" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCBIN">
             <ComponentGroupRef Id="BINARYFILES" />
             <ComponentGroupRef Id="BOINCComponents" />
@@ -51,20 +54,21 @@
         </Feature>
 
         <UI>
-          <UIRef Id="WixUI_BoincUI" />
+            <!-- Uses the custom UI instead of default -->
+            <UIRef Id="WixUI_BoincUI" />
         </UI>
 
         <InstallExecuteSequence>
-            <!-- After AppSearch -->
+            <!-- After AppSearch (400) -->
             <Custom Action="CAShutdownBOINC" Sequence="403">VersionNT</Custom>
             <Custom Action="CAShutdownBOINCManager" Sequence="404">VersionNT</Custom>
             <Custom Action="CAShutdownBOINCScreensaver" Sequence="408">VersionNT</Custom>
 
-            <!-- After ValidateProductID -->
+            <!-- After ValidateProductID (700) -->
             <Custom Action="CAValidateSetupType" Sequence="737" />
             <Custom Action="CACleanupOldBinaries" Sequence="796"><![CDATA[REMOVE <> "ALL"]]></Custom>
 
-            <!-- After CostFinalize -->
+            <!-- After CostFinalize (1000) -->
             <Custom Action="CAAnnounceUpgrade" Sequence="1001">
                 <![CDATA[VersionNT AND REMOVE <> "ALL"]]>
             </Custom>
@@ -72,7 +76,7 @@
                 <![CDATA[VersionNT AND REMOVE = "ALL"]]>
             </Custom>
             
-            <!-- After InstallInitialize -->
+            <!-- After InstallInitialize (1500) -->
             <Custom Action="CAGetAdministratorsGroupName" Sequence="1537">
                 <![CDATA[VersionNT And REMOVE <> "ALL"]]>
             </Custom>
@@ -129,7 +133,7 @@
                 <![CDATA[VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1]]>
             </Custom>
 
-            <!-- After InstallFinalize -->
+            <!-- After InstallFinalize (6600) -->
             <Custom Action="CAValidateInstall" Sequence="6602">
                 <![CDATA[REMOVE <> "ALL"]]>
             </Custom>
@@ -162,24 +166,18 @@
             </Custom>
             <Custom Action="CASaveExecutionState" Sequence="6614" />
 
-            <!-- 
-            Trigger on 'Next' before launching installation
-            <Custom Action="CAVerifyInstallDirectories" Sequence=""></Custom>
-            -->
-
-            <!-- Ending actions -->
-            <!-- <Custom Action="CALaunchBOINCManager" After="InstallFinalize">
-                LAUNCHPROGRAM
-            </Custom>
-            <Custom Action="CALaunchBOINCTray" Before="CALaunchBOINCManager">
-                LAUNCHPROGRAM
-            </Custom> -->
+            <!-- Ending actions, saves properties for uninstallation -->
             <Custom Action="CASaveSetupState" After="InstallFinalize" />
         </InstallExecuteSequence>
 
         <InstallUISequence>
             <!-- Before InstallValidate -->
             <Custom Action="CARestoreExecutionState" Sequence="1352" />
+            <Show Dialog="CustomExitDlg" OnExit="success">1</Show>
         </InstallUISequence>
+        <AdminUISequence>
+            <!-- Specifies that the ending dialog is the out custom one -->
+            <Show Dialog="CustomExitDlg" OnExit="success">1</Show>
+        </AdminUISequence>
     </Product>
 </Wix>

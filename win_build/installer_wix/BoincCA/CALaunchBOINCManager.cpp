@@ -65,8 +65,8 @@ UINT CALaunchBOINCManager::OnExecution()
     tstring strBuffer;
     UINT uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
-    if ( uiReturnValue ) return uiReturnValue;
+    uiReturnValue = GetProperty( _T("BOINCBIN"), strInstallDirectory );
+	if ( uiReturnValue ) return uiReturnValue;
 
 
     strBuffer = tstring(_T("\"")) + strInstallDirectory + tstring(_T("boincmgr.exe\""));

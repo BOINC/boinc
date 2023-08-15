@@ -36,7 +36,7 @@
             <!-- Registry Entry to setup the screensaver -->
             <Component Id="ScreensaverEnableNT" Guid="{046307f8-63e3-4b39-81d3-caa88a8545a9}">
                 <RegistryKey Root="HKCU"
-                            Key="Software\Microsoft\Windows\CurrentVersion\Control Panel"
+                            Key="Software\Policies\Microsoft\Windows\Control Panel\Desktop"
                             ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
                     <RegistryValue Type="string" Name="SCRNSAVE.EXE" Value="[BOINCBIN]boinc.scr"/>
                     <RegistryValue Type="integer" Name="ScreenSaveActive" Value="1"/>

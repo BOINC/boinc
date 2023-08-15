@@ -30,8 +30,10 @@
     <Compile Include="src/custom_actions.wxs" />
     <Compile Include="src/directories.wxs" />
     <Compile Include="src/components.wxs" />
-    <Compile Include="src/ui_advanced.wxs" />
-    <Compile Include="src/options/optionsdlg.wxs" />
+    <Compile Include="src/ui_boincui.wxs" />
+    <Compile Include="src/custom/optionsdlg.wxs" />
+    <Compile Include="src/custom/exitdlg.wxs" />
+    <Compile Include="src/custom/featuresdlg.wxs" />
     <Compile Include="installer.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -42,10 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
-    <Folder Include="src\options\" />
+    <Folder Include="src\custom\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="src\options\Strings_en-us.wxl" />
+    <EmbeddedResource Include="src\Strings_en-us.wxl" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
