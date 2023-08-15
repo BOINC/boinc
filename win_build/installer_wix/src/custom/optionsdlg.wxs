@@ -65,7 +65,10 @@
 
         <!-- Allow executing protected applications -->
         <Control Id="OPT5" Type="CheckBox" X="20" Y="175" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" />
+                 Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" >
+            <Condition Action="enable"><![CDATA[VIRTUALBOXINSTALLED]]></Condition>
+            <Condition Action="disable"><![CDATA[NOT VIRTUALBOXINSTALLED]]></Condition>
+        </Control>
       </Dialog>
     </UI>
   </Fragment>

@@ -18,11 +18,11 @@
     </BootstrapperApplicationRef>
 
     <Chain>
-      <!-- Install Application -->
-      <PackageGroupRef Id="Boinc"/>
-
       <!-- Prerequisites prerequisite -->
       <PackageGroupRef Id="Prerequisites"/>
+      
+      <!-- Install Application -->
+      <PackageGroupRef Id="Boinc"/>
     </Chain>
 
   </Bundle>
@@ -30,29 +30,32 @@
   <Fragment>
       <util:RegistrySearch Id="BoincPresent" 
               Root="HKLM" 
-              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{31209A01-4F85-4476-9A23-A64C75AE94FC}" 
+              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{31209A01-4F85-4476-9A23-A64C75AE94FC}"
+              Value="WindowsInstaller"
+              Win64="yes"
               Result="exists" 
-              Variable="BoincPresent" 
-              Win64="no"/>
+              Variable="BoincPresent"/>
       <util:RegistrySearch Id="VBoxPresent" 
               Root="HKLM" 
-              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F05E741F-8253-4580-B9F5-CB8B7E27DEDA}" 
+              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}" 
+              Value="WindowsInstaller"
+              Win64="yes"
               Result="exists" 
-              Variable="VirtualBoxPresent" 
-              Win64="no"/>
+              Variable="VirtualBoxPresent"/>
       <util:RegistrySearch Id="VS2010Present" 
               Root="HKLM" 
               Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1D8E6291-B0D5-35EC-8441-6616F567A0F7}" 
+              Value="WindowsInstaller"
+              Win64="yes"
               Result="exists" 
-              Variable="VS2010RedistPresent" 
-              Win64="no"/>
+              Variable="VS2010RedistPresent"/>
 
     <!-- Boinc Group -->
     <PackageGroup Id="Boinc">
       <MsiPackage Id="Boinc"
                   DisplayName="Boinc"
                   Compressed="yes"
-                  DisplayInternalUI='yes'
+                  DisplayInternalUI="yes"
                   Cache="no"
                   Permanent="no"
                   Vital="yes"
@@ -69,7 +72,8 @@
                   Permanent="yes"
                   Vital="yes"
                   SourceFile="$(var.VBoxFile)"
-                  DetectCondition="NOT VBoxPresent" />
+                  DetectCondition="VirtualBoxPresent"
+                  InstallCondition="NOT VirtualBoxPresent" />
       <ExePackage Id="VS2010redist"
                   DisplayName="VS2010redist"
                   Compressed="yes"
@@ -78,7 +82,8 @@
                   Permanent="yes"
                   Vital="yes"
                   SourceFile="$(var.VS2010File)"
-                  DetectCondition="NOT VS2010Present" />
+                  DetectCondition="VS2010RedistPresent"
+                  InstallCondition="NOT VS2010RedistPresent" />
     </PackageGroup>
   </Fragment>
 </Wix>

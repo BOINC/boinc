@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
     <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" Version="7.22.3.0" Language="1033" 
              Name="BOINC" Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
         <Package InstallerVersion="300" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
@@ -19,12 +21,24 @@
 
         <Icon Id="installer.ico" SourceFile="$(var.ProjectDir)\installer.ico" />
 
-        <Property Id="MSIUSEREALADMINDETECTION" Value="1" />     
+        <Property Id="MSIUSEREALADMINDETECTION" Value="1" />
         <Property Id="ARPPRODUCTICON" Value="installer.ico" />
         <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
         <Property Id="BOINCBIN" Value="TARGETDIR" />
         <Property Id="BOINCSCREENBIN" Value="TARGETDIR" />
         <Property Id="BOINCDATA" Value="TARGETDIR" />
+
+        <Property Id="VIRTUALBOX_REGKEY">
+            <RegistrySearch Id="VBoxPresent" 
+                    Root="HKLM" 
+                    Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}"
+                    Name="WindowsInstaller"
+                    Type="raw" 
+                    Win64="yes"/>
+        </Property>
+        <SetProperty Id="VIRTUALBOXINSTALLED" After="AppSearch" Value="1">
+            <![CDATA[VIRTUALBOX_REGKEY]]>
+        </SetProperty>
 
         <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\LICENSE.rtf" />
         <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\WixUIBannerBmp.bmp" />
