@@ -188,12 +188,19 @@ bool CBOINCGUIApp::OnInit() {
     SetAppDisplayName(wxString(displayName)); // {ass the display name to wxWidgets
 #endif
 
+    // Detect where BOINC Manager executable name.
+    DetectExecutableName();
+
+    // Detect where BOINC Manager was installed too.
+    DetectRootDirectory();
+
+    // Detect where the BOINC Data files are.
+    DetectDataDirectory();
 
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(GetAppName());
     wxConfigBase::Set(m_pConfig);
     wxASSERT(m_pConfig);
-
 
     // Restore Application State
     m_pConfig->SetPath(wxT("/"));
@@ -204,23 +211,9 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
-    m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
+    m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxEmptyString);
     m_bUseDefaultLocale = false;
-    bool bUseDefaultLocaleDefault = false;
-#ifdef __WXMAC__   // wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT) does not work on Mac
-    wxLocale *defaultLocale = new wxLocale;
-    defaultLocale->Init(wxLANGUAGE_DEFAULT);
-    wxString defaultLanguageCode = defaultLocale->GetCanonicalName();
-    bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageCode;
-    delete defaultLocale;
-#else
-    const wxLanguageInfo *defaultLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
-    if (defaultLanguageInfo != NULL) {
-        // Migration: assume a selected language code that matches the system default means "auto select"
-        bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageInfo->CanonicalName;;
-    }
-#endif
-    m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
+    m_bUseDefaultLocale = ShouldUseDefaultLocale();
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
@@ -232,15 +225,6 @@ bool CBOINCGUIApp::OnInit() {
     if (m_bBOINCMGRAutoStarted && m_iBOINCMGRDisableAutoStart) {
         return false;
     }
-
-    // Detect where BOINC Manager executable name.
-    DetectExecutableName();
-
-    // Detect where BOINC Manager was installed too.
-    DetectRootDirectory();
-
-    // Detect where the BOINC Data files are.
-    DetectDataDirectory();
 
 
     // Switch the current directory to the BOINC Data directory
@@ -309,9 +293,9 @@ bool CBOINCGUIApp::OnInit() {
         );
     }
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
-    m_pLocale->AddCatalog(wxT("BOINC-Manager"));
-    m_pLocale->AddCatalog(wxT("BOINC-Client"));
-    m_pLocale->AddCatalog(wxT("BOINC-Web"));
+    m_pLocale->AddCatalog(wxT("BOINC-Manager"), wxLANGUAGE_ENGLISH);
+    m_pLocale->AddCatalog(wxT("BOINC-Client"), wxLANGUAGE_ENGLISH);
+    m_pLocale->AddCatalog(wxT("BOINC-Web"), wxLANGUAGE_ENGLISH);
 
     InitSupportedLanguages();
 
@@ -919,6 +903,42 @@ void CBOINCGUIApp::DetectDataDirectory() {
 }
 
 
+bool CBOINCGUIApp::ShouldUseDefaultLocale() {
+    bool bUseDefaultLocaleDefault = false;
+    // If we already have a saved value for UseDefaultLocale, use it
+    if (m_pConfig->Exists(wxT("UseDefaultLocale"))) {
+        m_pConfig->Read(wxT("UseDefaultLocale"), &bUseDefaultLocaleDefault, false);
+        return bUseDefaultLocaleDefault;
+    }
+
+    if (m_strISOLanguageCode.IsEmpty()) {
+        // If user has not selected a language, use automatic detection
+        return true;
+    }
+    wxLocale *defaultLocale = new wxLocale;
+    defaultLocale->Init(wxLANGUAGE_DEFAULT);
+    m_pLocale->AddCatalogLookupPathPrefix(
+#ifdef __WXMAC__
+        wxString(m_strBOINCMGRDataDirectory + wxT("/locale"))
+#else
+        wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
+#endif
+    );
+    defaultLocale->AddCatalog(wxT("BOINC-Manager"), wxLANGUAGE_ENGLISH);
+    wxTranslations* pTranslations = wxTranslations::Get();
+    wxString defaultLanguageCode;
+    if (pTranslations) {
+        // Get best match from our available translations for automatic detection
+        defaultLanguageCode = pTranslations->GetBestTranslation(wxT("BOINC-Manager"));
+    }
+    bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageCode;
+    delete defaultLocale;
+    // If upgrading from an older version of BOINC without the specific "Automatic Detection"
+    // as the first option in the language menu, use the value we just determined
+    return bUseDefaultLocaleDefault;
+}
+
+
 void CBOINCGUIApp::InitSupportedLanguages() {
     m_astrLanguages.clear();
 
@@ -937,6 +957,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
         wxArrayString langCodes = pTranslations->GetAvailableTranslations(wxT("BOINC-Manager"));
         for (const wxString& langCode : langCodes) {
             if (langCode == wxT("en")) continue;
+            if (langCode == wxT("en_US")) continue;
             const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(langCode);
             if (pLI) {
                 availableTranslations.push_back(pLI);
@@ -959,7 +980,6 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     GUI_SUPPORTED_LANG newItem;
 
     // CDlgOptions depends on "Auto" being the first item in the list
-    // if
     newItem.Language = wxLANGUAGE_DEFAULT;
     wxString strAutoEnglish = wxT("(Automatic Detection)");
     wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
@@ -982,17 +1002,13 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     for (int langID = wxLANGUAGE_UNKNOWN+1; langID < wxLANGUAGE_USER_DEFINED; ++langID) {
         const wxLanguageInfo* pLI = wxLocale::GetLanguageInfo(langID);
         if (pLI == NULL) continue;
-        wxString lang_region = pLI->CanonicalName.BeforeFirst('@');
-        wxString lang = lang_region.BeforeFirst('_');
-        wxString script = pLI->CanonicalName.AfterFirst('@');
-        wxString lang_script = lang;
-        if (!script.empty()) {
-            lang_script += wxT("@") + script;
-        }
+        wxString lang = pLI->CanonicalName;
+        if (langID == wxLANGUAGE_ENGLISH_US) continue;
+
         std::vector<const wxLanguageInfo*>::const_iterator foundit = availableTranslations.begin();
         while (foundit != availableTranslations.end()) {
             const wxLanguageInfo* pLIavail = *foundit;
-            if (pLIavail->CanonicalName == lang_script ||
+            if (pLIavail->CanonicalName == lang ||
                 pLIavail->CanonicalName == pLI->CanonicalName) {
                 break;
             }

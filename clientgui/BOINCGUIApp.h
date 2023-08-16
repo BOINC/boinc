@@ -85,6 +85,7 @@ protected:
     void                DetectRootDirectory();
     void                DetectDataDirectory();
 
+    bool                ShouldUseDefaultLocale();
     void                InitSupportedLanguages();
 
     int                 IdleTrackerAttach();
