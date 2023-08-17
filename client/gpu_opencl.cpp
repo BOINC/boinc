@@ -28,7 +28,11 @@
 #include <mach-o/dyld.h>
 #endif
 #include "config.h"
+#ifdef ANDROID
+#include <CL/cl.h>
+#else
 #include <dlfcn.h>
+#endif
 #endif
 
 #include <vector>
@@ -216,6 +220,11 @@ void COPROCS::get_opencl(
     p_clGetPlatformInfo = (CL_PLATFORMINFO)GetProcAddress( opencl_lib, "clGetPlatformInfo" );
     p_clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
     p_clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
+#elif defined (ANDROID)
+    p_clGetPlatformIDs = &clGetPlatformIDs;
+    p_clGetPlatformInfo = &clGetPlatformInfo;
+    p_clGetDeviceIDs = &clGetDeviceIDs;
+    p_clGetDeviceInfo = &clGetDeviceInfo;
 #else
 #ifdef __APPLE__
     opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
@@ -256,6 +265,10 @@ void COPROCS::get_opencl(
     ciErrNum = (*p_clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)) {
         gpu_warning(warnings, "clGetPlatformIDs() failed to return any OpenCL platforms");
+        snprintf(buf, sizeof(buf), "clGetPlatformIDs() return value: %d", ciErrNum);
+        gpu_warning(warnings, buf);
+        snprintf(buf, sizeof(buf), "clGetPlatformIDs() num_platforms: %d", num_platforms);
+        gpu_warning(warnings, buf);
         goto leave;
     }
 
@@ -669,6 +682,8 @@ void COPROCS::get_opencl(
 leave:
 #ifdef _WIN32
     if (opencl_lib) FreeLibrary(opencl_lib);
+#elif defined (ANDROID)
+    return;
 #else
     if (opencl_lib) dlclose(opencl_lib);
 #endif

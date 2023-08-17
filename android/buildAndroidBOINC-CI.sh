@@ -211,6 +211,8 @@ fi
 manifest_dir=$THIRD_PARTY/vcpkg_ports/configs/$component
 if [ $component = "apps" ]; then
     manifest_dir=$manifest_dir/android
+elif [ $component = "client" ]; then
+    manifest_dir=$manifest_dir/android
 fi
 manifests="--x-manifest-root=$manifest_dir --x-install-root=$VCPKG_ROOT/installed/"
 vcpkg_overlay="--overlay-ports=$vcpkg_ports_dir/ports --overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup"

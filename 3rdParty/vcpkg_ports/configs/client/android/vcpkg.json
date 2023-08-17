@@ -1,0 +1,12 @@
+{
+    "name": "boinc-client",
+    "dependencies":
+    [
+        {
+          "name": "curl",
+          "features": ["openssl"],
+          "default-features": false
+        },
+        "opencl"
+    ]
+}
