@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E9558728-3C85-4EF4-B8D4-C6EA8711783F}") = "bundle", "bundle.wixproj", "{D992327B-B316-4161-877D-269E8CD34819}"
+Project("{DB2D7E86-7688-4723-B6CB-C14A4A1B8960}") = "bundle_vbox", "bundle_vbox.wixproj", "{06D0E40E-11D4-45F9-92D2-26C650879B96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +16,10 @@ Global
 		{D992327B-B316-4161-877D-269E8CD34819}.Debug|x64.Build.0 = Debug|x64
 		{D992327B-B316-4161-877D-269E8CD34819}.Release|x64.ActiveCfg = Release|x64
 		{D992327B-B316-4161-877D-269E8CD34819}.Release|x64.Build.0 = Release|x64
+		{06D0E40E-11D4-45F9-92D2-26C650879B96}.Debug|x64.ActiveCfg = Debug|x64
+		{06D0E40E-11D4-45F9-92D2-26C650879B96}.Debug|x64.Build.0 = Debug|x64
+		{06D0E40E-11D4-45F9-92D2-26C650879B96}.Release|x64.ActiveCfg = Release|x64
+		{06D0E40E-11D4-45F9-92D2-26C650879B96}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

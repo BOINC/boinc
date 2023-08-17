@@ -1,17 +1,20 @@
 param
 (
-    [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm')][string]$Arch = "x64",
+    [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm')][string]$Type = "x64",
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Certificate,
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$CertificatePass,
 
-    [Parameter(Mandatory=$true,ParameterSetName='clean')][switch]$Clean
+    [Parameter(Mandatory=$true,ParameterSetName='clean')][switch]$CleanOnly
 )
+
+# "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
 
 $global:step = 0
 $ErrorActionPreference = 'Stop'
 
 $VboxInstaller = 'VirtualBox-7.0.10-158379-Win.exe'
 $VC2010RedistInstaller = 'vcredist_x64.exe'
+$Configuration = 'Debug'
 
 function WriteStep {
     param($msg)
@@ -69,15 +72,25 @@ function CheckPrerequisites {
 }
 
 function CleanBuildDir {
-    try {
-        WriteStep "Cleanup"
-        Remove-Item -Recurse -Path build | Out-Null
-
-        WriteStep "Preparing build dir"
-        New-Item -Path build -ItemType "directory" | Out-Null
-    }
+    WriteStep "Cleanup"
+    try { Remove-Item -Recurse -Path build\src* } # Previous bundles sources
     Catch {
-        Report $false
+        # ignore
+    }
+
+    try { Remove-Item -Path build\*bundle.exe } # Previous bundles
+    Catch {
+        # ignore
+    }
+
+    try { Remove-Item -Path build\*.winpdb } # debug symbols
+    Catch {
+        # ignore
+    }
+
+    try { Remove-Item -Recurse -Path build\en-us } # Previous MSI
+    Catch {
+        # ignore
     }
 }
 
@@ -116,7 +129,6 @@ function CheckPath {
 function CheckBuildDir {
     try {
         WriteStep "Check directories"
-        CheckPath -Path "build" -IsDir
         CheckPath -Path "build\prerequisites" -IsDir
         CheckPath -Path "build\locale" -IsDir
         CheckPath -Path "build\res" -IsDir
@@ -134,7 +146,7 @@ function CheckBuildDir {
         WriteStep "Check prerequisites"
         CheckPath -Path "build\prerequisites\$VC2010RedistInstaller"
 
-        if ( !($Arch -eq "x64_vbox") ) {
+        if ( $Type -eq "x64_vbox" ) {
             CheckPath -Path "build\prerequisites\$VboxInstaller"
         } else {
             CheckPath -Path "build\prerequisites\$VboxInstaller" -ExpectNotPresent
@@ -166,39 +178,57 @@ function CopyAdditionalSourceFiles {
 
 function BuildInstaller {
     try {
-        switch -Exact ( $Arch ) {
+        switch -Exact ( $Type ) {
             'x64' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                msbuild installer.sln | Out-Null
+                msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
                 Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
-                msbuild bundle.sln | Out-Null
+                msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64
                 Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
             }
             'x64_vbox' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                msbuild installer.sln | Out-Null
+                msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
                 Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle with VirtualBox"
-                msbuild bundle.sln | Out-Null
+                msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64
                 Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
             }
             'arm' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                msbuild installer.sln | Out-Null
+                msbuild installer.sln
                 Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
-                msbuild bundle.sln | Out-Null
+                msbuild bundle.sln
                 Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
             }
         }
     }
@@ -210,6 +240,11 @@ function BuildInstaller {
 function SignInstaller {
     $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
 
+    $target = "boinc_bundle.exe"
+    if( $Type -eq 'x64_vbox' ) {
+        $target = "boinc_vbox_bundle.exe"
+    }
+
     # for testing purposes
     # New-SelfSignedCertificate -DnsName "BOINC@berkeley.edu" -Type Codesigning -CertStoreLocation cert:\CurrentUser\My
     # Export-PfxCertificate -Cert (Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert)[0] -Password $pass -FilePath "$Certificate"
@@ -220,7 +255,7 @@ function SignInstaller {
     Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\CurrentUser\Root | Out-Null
 
     WriteStep "Sign bundle with certificate"
-    $resp = Set-AuthenticodeSignature "build\boinc_bundle.exe" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
+    $resp = Set-AuthenticodeSignature "build\$target" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
         -TimestampServer "http://timestamp.digicert.com" -Force
 
     if( !($resp.Status -eq [System.Management.Automation.SignatureStatus]::Valid) ) {
@@ -230,42 +265,49 @@ function SignInstaller {
 
 #############################
 
-Write-Output "arch: $Arch"
+function Main {
+    Write-Output "arch: $Type"
 
-if( $Clean ) {
+    CheckPath -Path "build" -IsDir
+
     CleanBuildDir
-    Report $true
-}
 
-Header
+    if( $CleanOnly ) {
+        Report $true
+    }
 
-WriteStep "Check Prerequisites"
-CheckPrerequisites
+    Header
 
-try {
-    WriteStep "Check certificate"
-    CheckPath -Path "$Certificate"
+    WriteStep "Check Prerequisites"
+    CheckPrerequisites
+
+    try {
+        WriteStep "Check certificate"
+        CheckPath -Path "$Certificate"
+    }
+    Catch {
+        Report $false "Could not find pfx certificate at path $Certificate"
+    }
 
     $extn = [IO.Path]::GetExtension($Certificate)
     if ( !($extn -eq ".pfx") )
     {
         Report $false "Certificate does not have supported extension .pfx, please provide a suitable certificate"
     }
+
+    WriteStep "Check Build directory"
+    CheckBuildDir
+
+    WriteStep "Copy additional source files"
+    CopyAdditionalSourceFiles
+
+    WriteStep "Build installers"
+    BuildInstaller
+
+    WriteStep "Sign installers"
+    SignInstaller
+
+    Report $true
 }
-Catch {
-    Report $false "Could not find pfx certificate at path $Certificate"
-}
 
-WriteStep "Check Build directory"
-CheckBuildDir
-
-WriteStep "Copy additional source files"
-CopyAdditionalSourceFiles
-
-WriteStep "Build installers"
-BuildInstaller
-
-WriteStep "Sign installers"
-SignInstaller
-
-Report $true
+Main

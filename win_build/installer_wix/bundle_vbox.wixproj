@@ -4,15 +4,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProductVersion>3.14</ProductVersion>
-    <ProjectGuid>d992327b-b316-4161-877d-269e8cd34819</ProjectGuid>
+    <ProjectGuid>06d0e40e-11d4-45f9-92d2-26c650879b96</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>boinc_bundle</OutputName>
+    <OutputName>boinc_vbox_bundle</OutputName>
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
+    <DefineConstants>Debug;VBoxActive=1;InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
@@ -20,7 +20,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
+    <DefineConstants>VBoxActive=1;InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
