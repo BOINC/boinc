@@ -35,6 +35,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.IGNORE_BATTERY_OPTIMIZATION_SETTINGS"/>
     <!--
  Features required for Android TV, consoles, and set-top boxes like Nexus Player, OUYA,
          Razer Forge TV, Nvidia SHIELD, etc
