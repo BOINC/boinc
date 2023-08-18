@@ -1,0 +1,130 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Build Windows Installer
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  CERTIFICATE_SIGN: code_signing.pfx # becomes secret var
+  CERTIFICATE_PASS: testpass # becomes secret var
+  # virtualbox vars here are for convenience, wix sources need to be updated also (name and guid)
+  VBOX_URL: https://download.virtualbox.org/virtualbox/7.0.10/VirtualBox-7.0.10-158379-Win.exe
+  VBOX_NAME: VirtualBox-7.0.10-158379-Win.exe
+  VBOX_MD5: 8882a55227cccc8a3f7ab69641df19fd # keep lowercase
+  VC2010_URL: https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe
+  VC2010_NAME: vcredist_x64.exe
+  VC2010_MD5: 02a945866cd1b13e2375c024f0e18301 # keep lowercase
+
+jobs:
+  build-installers:
+    name: Build installers
+    runs-on: windows
+    strategy:
+      matrix:
+        # type: [deps, x64, x64_vbox, arm]
+        type: [deps, x64]
+      fail-fast: false
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PREREQUISITES_PATH: "${{ github.workspace }}\\build\\prerequisites"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Download prerequisite
+        run: |
+          Create-Item -Path "${{ github.workspace }}\\build"
+          Create-Item -Path "${{ github.workspace }}\\build\\prerequisites"
+
+      - name: Restore cached VirtualBox installer
+        if: ${{ matrix.type == 'x64_vbox' }}
+        id: cache-vbox-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
+          key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
+
+      - name: Restore cached VC2010 installer
+        if: ${{ matrix.type == 'x64' || matrix.type == 'x64_vbox' }}
+        id: cache-vc2010-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
+          key: ${{ env.VC2010_NAME }}-${{ env.VC2010_MD5 }}
+
+      - name: Download prerequisite VirtualBox if needed
+        if: ${{ matrix.type == 'x64_vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
+        run: |
+          # Download Virtualbox prerequisite
+          Invoke-WebRequest -Uri "${{ env.VBOX_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
+          $md5 = (Get-FileHash ".\${{ env.VBOX_NAME }}" -Algorithm MD5).Hash.ToLower()
+          if ( !($md5 -eq "${{ env.VBOX_MD5 }}") ) {
+            throw "VirtualBox installer download failed"
+          }
+
+      - name: Download prerequisite VC2010 if needed
+        if: ${{ (matrix.type == 'x64' || matrix.type == 'x64_vbox') && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
+        run: |
+          # Download VC2010 prerequisite
+          Invoke-WebRequest -Uri "${{ env.VC2010_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
+          $md5 = (Get-FileHash ".\${{ env.VC2010_NAME }}" -Algorithm MD5).Hash.ToLower()
+          if ( !($md5 -eq "${{ env.VC2010_MD5 }}") ) {
+            throw "VisualStudio2010 redistributable installer download failed"
+          }
+
+      - name: Save prerequisite VirtualBox if needed
+        if: ${{ matrix.type == 'x64_vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v3
+        with:
+          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
+          key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
+
+      - name: Save prerequisite VC2010 if needed
+        if: ${{ (matrix.type == 'x64' || matrix.type == 'x64_vbox') && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v3
+        with:
+          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
+          key: ${{ env.VC2010_NAME }}-${{ env.VC2010_MD5 }}
+
+      - name: Download Client Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-package_client
+          path: pkgs/
+  
+      - name: Download Manager Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-package_manager
+          path: pkgs/
+
+      - name: Decompress Artifacts
+        if: ${{ success() }}
+        run: |
+          pushd "${{ github.workspace }}\\build"
+          7z x "${{ github.workspace }}\\pkgs\\windows-package_client.7z"
+          7z x "${{ github.workspace }}\\pkgs\\windows-package_manager.7z"
+          find .
+        
