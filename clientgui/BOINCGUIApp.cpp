@@ -21,6 +21,7 @@
 
 #ifdef __WXMAC__
 #include <Carbon/Carbon.h>
+#include <wx/uilocale.h>
 #include "filesys.h"
 #include "util.h"
 #include "mac_util.h"
@@ -207,12 +208,15 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
     m_bUseDefaultLocale = false;
     bool bUseDefaultLocaleDefault = false;
-#ifdef __WXMAC__   // wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT) does not work on Mac
-    wxLocale *defaultLocale = new wxLocale;
-    defaultLocale->Init(wxLANGUAGE_DEFAULT);
-    wxString defaultLanguageCode = defaultLocale->GetCanonicalName();
+#ifdef __WXMAC__
+    // Because our translations don't use Apple's standard localization
+    // scheme, the Cocoa APIs used by wxLocale for wxLANGUAGE_DEFAULT
+    // always return English as the language for the reasons explained
+    // in https://stackoverflow.com/questions/48136456. The wxLocale
+    // documentation warns us to use wxUILocale::GetSystemLanguage().
+    int systemLanguageCode = wxUILocale::GetSystemLanguage();
+    wxString defaultLanguageCode = wxLocale::GetLanguageCanonicalName(systemLanguageCode);
     bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageCode;
-    delete defaultLocale;
 #else
     const wxLanguageInfo *defaultLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
     if (defaultLanguageInfo != NULL) {
@@ -296,6 +300,16 @@ bool CBOINCGUIApp::OnInit() {
             iDesiredLanguageCode = pLI->Language;
         }
     }
+
+#ifdef __WXMAC__
+    // wxLocale::Init(wxLANGUAGE_DEFAULT) does not work correctly
+    // on the Mac so we must use wxUILocale::GetSystemLanguage().
+    if (m_bUseDefaultLocale || (iDesiredLanguageCode == wxLANGUAGE_DEFAULT)) {
+        iDesiredLanguageCode = wxUILocale::GetSystemLanguage();
+        m_strISOLanguageCode = wxLocale::GetLanguageCanonicalName(iDesiredLanguageCode);
+    }
+#endif
+
     m_pLocale->Init(iDesiredLanguageCode);
     if (iDesiredLanguageCode == wxLANGUAGE_DEFAULT) {
         m_strISOLanguageCode = m_pLocale->GetCanonicalName();
