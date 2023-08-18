@@ -68,6 +68,7 @@ jobs:
       - name: Create build folders
         run: |
           New-Item -Path "${{ github.workspace }}\build"
+          ls
           New-Item -Path "${{ github.workspace }}\build\prerequisites"
 
       - name: Restore cached VirtualBox installer
@@ -140,7 +141,7 @@ jobs:
           pushd "${{ github.workspace }}\build"
           7z x "${{ github.workspace }}\pkgs\win_client_x64_.7z"
           7z x "${{ github.workspace }}\pkgs\win_manager_x64_.7z"
-          find .
+          ls -R .
 
       - name: Build installer
         run: |
