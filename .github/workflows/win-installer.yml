@@ -67,8 +67,8 @@ jobs:
 
       - name: Create build folders
         run: |
-          New-Item -Path "${{ github.workspace }}\build" -PathType directory
-          New-Item -Path "${{ github.workspace }}\build\prerequisites" -PathType directory
+          New-Item -Path "${{ github.workspace }}\build" -ItemType directory
+          New-Item -Path "${{ github.workspace }}\build\prerequisites" -ItemType directory
 
       - name: Restore cached VirtualBox installer
         if: ${{ matrix.type == 'x64_vbox' }}

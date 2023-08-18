@@ -1,0 +1,1221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+   <Fragment>
+      <DirectoryRef Id="BOINCBIN">
+         <Directory Id="locale" Name="locale" />
+         <Directory Id="res" Name="res" />
+         <Directory Id="skins_2" Name="skins" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <ComponentGroup Id="BINARYFILES">
+         <Component Id="boinccmd.exe" Directory="BOINCBIN" Guid="{9B3D4BA6-8C7F-4894-A1FB-F3655DC9A5A6}">
+            <File Id="boinccmd.exe" KeyPath="yes" Source="$(var.SourceBinDir)\boinccmd.exe" />
+         </Component>
+         <Component Id="boincmgr.exe" Directory="BOINCBIN" Guid="{4EF5AE2E-0696-4344-849E-8175404ADE18}">
+            <File Id="boincmgr.exe" KeyPath="yes" Source="$(var.SourceBinDir)\boincmgr.exe" />
+         </Component>
+         <Component Id="boincscr.exe" Directory="BOINCBIN" Guid="{342145F5-9C85-4F67-B8C3-D0AF29576517}">
+            <File Id="boincscr.exe" KeyPath="yes" Source="$(var.SourceBinDir)\boincscr.exe" />
+         </Component>
+         <Component Id="boincsvcctrl.exe" Directory="BOINCBIN" Guid="{D1EA23FE-1436-466B-BE4B-CF79561E6DAC}">
+            <File Id="boincsvcctrl.exe" KeyPath="yes" Source="$(var.SourceBinDir)\boincsvcctrl.exe" />
+         </Component>
+         <Component Id="boinctray.exe" Directory="BOINCBIN" Guid="{C941F715-C79D-4DB3-BE3A-3E68F6B5B8FB}">
+            <File Id="boinctray.exe" KeyPath="yes" Source="$(var.SourceBinDir)\boinctray.exe" />
+         </Component>
+         <Component Id="boinc_logo_black.jpg" Directory="BOINCBIN" Guid="{3B8FA530-37C4-40AB-9649-BD7CFA1EC132}">
+            <File Id="boinc_logo_black.jpg" KeyPath="yes" Source="$(var.SourceBinDir)\boinc_logo_black.jpg" />
+         </Component>
+         <Component Id="ca_bundle.crt" Directory="BOINCBIN" Guid="{71BE79BA-06AD-4368-8C84-2BBAB0694A25}">
+            <File Id="ca_bundle.crt" KeyPath="yes" Source="$(var.SourceBinDir)\ca-bundle.crt" />
+         </Component>
+         <Component Id="COPYING" Directory="BOINCBIN" Guid="{E024895E-47F4-476A-A14C-78B19951F243}">
+            <File Id="COPYING" KeyPath="yes" Source="$(var.SourceBinDir)\COPYING" />
+         </Component>
+         <Component Id="COPYRIGHT" Directory="BOINCBIN" Guid="{B78F6395-DE2D-4FB1-8FC1-386FFB293C21}">
+            <File Id="COPYRIGHT" KeyPath="yes" Source="$(var.SourceBinDir)\COPYRIGHT" />
+         </Component>
+         <Component Id="LiberationMono_Regular.ttf" Directory="BOINCBIN" Guid="{4131D51F-6FEC-4B85-9140-97E33BEE3515}">
+            <File Id="LiberationMono_Regular.ttf" KeyPath="yes" Source="$(var.SourceBinDir)\LiberationMono-Regular.ttf" />
+         </Component>
+         <Component Id="BOINC_Client.mo" Directory="ar" Guid="{2C3BF00F-5060-46EC-8CA2-7A6182C80D43}">
+            <File Id="BOINC_Client.mo" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ar\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo" Directory="ar" Guid="{5D4912D1-2711-42C2-A1C8-6611E6CF828E}">
+            <File Id="BOINC_Setup.mo" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ar\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_1" Directory="az" Guid="{4051E835-B19E-4CB4-A632-9E4B7ABC1D68}">
+            <File Id="BOINC_Client.mo_1" KeyPath="yes" Source="$(var.SourceBinDir)\locale\az\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo" Directory="az" Guid="{995E233E-30D7-4E1D-91EF-C9837C726121}">
+            <File Id="BOINC_Manager.mo" KeyPath="yes" Source="$(var.SourceBinDir)\locale\az\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_1" Directory="az" Guid="{2FC49895-8E35-405D-B5D8-EBA2A47178DD}">
+            <File Id="BOINC_Setup.mo_1" KeyPath="yes" Source="$(var.SourceBinDir)\locale\az\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo" Directory="az" Guid="{44DD5A9D-45D4-46BB-9BDC-E7ECF3D01887}">
+            <File Id="BOINC_Web.mo" KeyPath="yes" Source="$(var.SourceBinDir)\locale\az\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_2" Directory="bg" Guid="{5B177EC2-24D2-4395-B717-F8F21A546BA0}">
+            <File Id="BOINC_Client.mo_2" KeyPath="yes" Source="$(var.SourceBinDir)\locale\bg\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_1" Directory="bg" Guid="{4DF7A73B-D416-425A-BB08-AB3BAC0A9285}">
+            <File Id="BOINC_Manager.mo_1" KeyPath="yes" Source="$(var.SourceBinDir)\locale\bg\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_2" Directory="bg" Guid="{D9744B19-A840-425C-B9E6-F305D39FD5FC}">
+            <File Id="BOINC_Setup.mo_2" KeyPath="yes" Source="$(var.SourceBinDir)\locale\bg\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_1" Directory="bg" Guid="{BCC0B887-6E1D-4EE3-84A9-2C46E1ECD37D}">
+            <File Id="BOINC_Web.mo_1" KeyPath="yes" Source="$(var.SourceBinDir)\locale\bg\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_3" Directory="ca" Guid="{B5AC72DA-C881-47A0-BF43-BD78624C0690}">
+            <File Id="BOINC_Client.mo_3" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ca\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_2" Directory="ca" Guid="{C98BA2CD-C549-425C-8E6F-0CB6A36EE889}">
+            <File Id="BOINC_Manager.mo_2" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ca\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_3" Directory="ca" Guid="{D4F0E91F-42B9-429E-A7E4-3B9822FA4AF0}">
+            <File Id="BOINC_Setup.mo_3" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ca\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_2" Directory="ca" Guid="{16145849-669F-47AA-8FEF-77B454AA8C74}">
+            <File Id="BOINC_Web.mo_2" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ca\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo" Directory="ca" Guid="{3D404DBC-929B-4BC4-AA03-29E6A9CF3F47}">
+            <File Id="wxstd.mo" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ca\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_4" Directory="cs" Guid="{3B032AF6-EE03-4F3B-BF5A-C7CF184EB132}">
+            <File Id="BOINC_Client.mo_4" KeyPath="yes" Source="$(var.SourceBinDir)\locale\cs\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_3" Directory="cs" Guid="{33FF4C56-4463-46E4-8F90-78094CD0D296}">
+            <File Id="BOINC_Manager.mo_3" KeyPath="yes" Source="$(var.SourceBinDir)\locale\cs\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_4" Directory="cs" Guid="{732BB343-194B-484E-ADD1-269DA01C5BB7}">
+            <File Id="BOINC_Setup.mo_4" KeyPath="yes" Source="$(var.SourceBinDir)\locale\cs\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_3" Directory="cs" Guid="{19C237AC-9A3F-4158-85CF-627E3B151A5F}">
+            <File Id="BOINC_Web.mo_3" KeyPath="yes" Source="$(var.SourceBinDir)\locale\cs\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_1" Directory="cs" Guid="{53613941-B0E4-435C-B31E-F42814E374BD}">
+            <File Id="wxstd.mo_1" KeyPath="yes" Source="$(var.SourceBinDir)\locale\cs\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_5" Directory="da" Guid="{9177E41B-8C17-4D67-B177-64CCA9218E90}">
+            <File Id="BOINC_Client.mo_5" KeyPath="yes" Source="$(var.SourceBinDir)\locale\da\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_4" Directory="da" Guid="{4402E1CD-9290-40B3-9E12-389D2544C66E}">
+            <File Id="BOINC_Manager.mo_4" KeyPath="yes" Source="$(var.SourceBinDir)\locale\da\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_5" Directory="da" Guid="{B27B70AD-5746-45C6-93CD-063094847E1A}">
+            <File Id="BOINC_Setup.mo_5" KeyPath="yes" Source="$(var.SourceBinDir)\locale\da\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_4" Directory="da" Guid="{E5EA2148-6798-4AC5-9BA2-7996CC747184}">
+            <File Id="BOINC_Web.mo_4" KeyPath="yes" Source="$(var.SourceBinDir)\locale\da\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_2" Directory="da" Guid="{5D5365BD-2D5B-466C-B391-128DE39522D0}">
+            <File Id="wxstd.mo_2" KeyPath="yes" Source="$(var.SourceBinDir)\locale\da\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_6" Directory="de" Guid="{069B0A1A-D0AC-448F-BFD6-47DE5426C54E}">
+            <File Id="BOINC_Client.mo_6" KeyPath="yes" Source="$(var.SourceBinDir)\locale\de\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_5" Directory="de" Guid="{BAACA9BB-F8A7-473A-8E87-8530ECE5B763}">
+            <File Id="BOINC_Manager.mo_5" KeyPath="yes" Source="$(var.SourceBinDir)\locale\de\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_6" Directory="de" Guid="{6B0EA973-C631-4117-AB65-14E28E758E4E}">
+            <File Id="BOINC_Setup.mo_6" KeyPath="yes" Source="$(var.SourceBinDir)\locale\de\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_5" Directory="de" Guid="{BE46E243-6545-4D62-949E-F426099C6334}">
+            <File Id="BOINC_Web.mo_5" KeyPath="yes" Source="$(var.SourceBinDir)\locale\de\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_3" Directory="de" Guid="{2332C9C8-550E-4F0D-9235-C37F15E7BD8B}">
+            <File Id="wxstd.mo_3" KeyPath="yes" Source="$(var.SourceBinDir)\locale\de\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_7" Directory="el" Guid="{A03A9486-1DFD-4ACD-A989-F402D31DD631}">
+            <File Id="BOINC_Client.mo_7" KeyPath="yes" Source="$(var.SourceBinDir)\locale\el\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_7" Directory="el" Guid="{8EF5E873-7385-479E-88D6-691B775EEF51}">
+            <File Id="BOINC_Setup.mo_7" KeyPath="yes" Source="$(var.SourceBinDir)\locale\el\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_8" Directory="eo" Guid="{EFACFD49-90C2-4561-B200-3C547C4F4D5B}">
+            <File Id="BOINC_Client.mo_8" KeyPath="yes" Source="$(var.SourceBinDir)\locale\eo\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_6" Directory="eo" Guid="{72109714-5697-482F-A938-C1D9C8C24605}">
+            <File Id="BOINC_Manager.mo_6" KeyPath="yes" Source="$(var.SourceBinDir)\locale\eo\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_9" Directory="es" Guid="{80982EE6-90B4-4FCF-AB59-5032D1AE3B4C}">
+            <File Id="BOINC_Client.mo_9" KeyPath="yes" Source="$(var.SourceBinDir)\locale\es\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_7" Directory="es" Guid="{BC73022D-B70D-487D-9EE9-E80AE8FD1656}">
+            <File Id="BOINC_Manager.mo_7" KeyPath="yes" Source="$(var.SourceBinDir)\locale\es\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_8" Directory="es" Guid="{1688403D-E230-46F7-B368-496EB8604F15}">
+            <File Id="BOINC_Setup.mo_8" KeyPath="yes" Source="$(var.SourceBinDir)\locale\es\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_6" Directory="es" Guid="{19660D26-0FD2-4B6F-97F7-F515DDF82817}">
+            <File Id="BOINC_Web.mo_6" KeyPath="yes" Source="$(var.SourceBinDir)\locale\es\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_4" Directory="es" Guid="{64287892-4615-4D29-B573-6B717C6D31C6}">
+            <File Id="wxstd.mo_4" KeyPath="yes" Source="$(var.SourceBinDir)\locale\es\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_10" Directory="eu" Guid="{40C6A03E-AFA1-4CFF-B993-27B7E66A7212}">
+            <File Id="BOINC_Client.mo_10" KeyPath="yes" Source="$(var.SourceBinDir)\locale\eu\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_8" Directory="eu" Guid="{1ADE9821-4A73-4C15-8204-DB3E6D5D592E}">
+            <File Id="BOINC_Manager.mo_8" KeyPath="yes" Source="$(var.SourceBinDir)\locale\eu\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_9" Directory="eu" Guid="{5B527E75-0153-45F1-8C29-1032A9882A29}">
+            <File Id="BOINC_Setup.mo_9" KeyPath="yes" Source="$(var.SourceBinDir)\locale\eu\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_7" Directory="eu" Guid="{C1C44B63-385D-4EC5-8E24-7925050C091B}">
+            <File Id="BOINC_Web.mo_7" KeyPath="yes" Source="$(var.SourceBinDir)\locale\eu\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_11" Directory="fa_IR" Guid="{894C1F1A-F01B-4F96-8DB5-F80F7A683D05}">
+            <File Id="BOINC_Client.mo_11" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fa_IR\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_10" Directory="fa_IR" Guid="{AB84E6BA-AD88-42DD-84B0-5060EB342DA4}">
+            <File Id="BOINC_Setup.mo_10" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fa_IR\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_12" Directory="fi" Guid="{5125FC5F-033B-4FE9-95FD-ACF87DD8C9B6}">
+            <File Id="BOINC_Client.mo_12" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fi\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_9" Directory="fi" Guid="{14F530FB-4C5B-4066-9067-8FD950FB8B2F}">
+            <File Id="BOINC_Manager.mo_9" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fi\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_11" Directory="fi" Guid="{F8C00255-4AA5-4796-B548-2692B0B68289}">
+            <File Id="BOINC_Setup.mo_11" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fi\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_8" Directory="fi" Guid="{67E9847F-7B22-4B96-AFA1-188B81A2BA4D}">
+            <File Id="BOINC_Web.mo_8" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fi\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_13" Directory="fr" Guid="{A8CB0BE4-47CB-4E72-A58F-A3BFB50F05F4}">
+            <File Id="BOINC_Client.mo_13" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fr\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_10" Directory="fr" Guid="{6A00D539-D43C-4BA0-93D9-CAFA88B2CDB0}">
+            <File Id="BOINC_Manager.mo_10" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fr\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_12" Directory="fr" Guid="{537D80B0-DFAB-4CBB-8746-F9F4DE3B3B06}">
+            <File Id="BOINC_Setup.mo_12" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fr\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_9" Directory="fr" Guid="{98648681-CC3D-4AE9-B136-657253CA1971}">
+            <File Id="BOINC_Web.mo_9" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fr\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_5" Directory="fr" Guid="{283CFDD3-0AFA-4D9E-A501-95FC8F3840D0}">
+            <File Id="wxstd.mo_5" KeyPath="yes" Source="$(var.SourceBinDir)\locale\fr\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_14" Directory="he" Guid="{BCFAD9DF-DAC9-4BE3-AC8A-9C715405439E}">
+            <File Id="BOINC_Client.mo_14" KeyPath="yes" Source="$(var.SourceBinDir)\locale\he\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_11" Directory="he" Guid="{2964098B-6546-4F7D-BAC7-A468C8AF3680}">
+            <File Id="BOINC_Manager.mo_11" KeyPath="yes" Source="$(var.SourceBinDir)\locale\he\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_13" Directory="he" Guid="{95B0D89E-BF31-45FB-9E47-CEEFC7B3335F}">
+            <File Id="BOINC_Setup.mo_13" KeyPath="yes" Source="$(var.SourceBinDir)\locale\he\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_10" Directory="he" Guid="{FF7D839B-E28E-4E67-978B-CB7BAA49B9E3}">
+            <File Id="BOINC_Web.mo_10" KeyPath="yes" Source="$(var.SourceBinDir)\locale\he\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_15" Directory="hu" Guid="{FEC2DE8D-64CC-400E-B22C-2E06BBD9F9AF}">
+            <File Id="BOINC_Client.mo_15" KeyPath="yes" Source="$(var.SourceBinDir)\locale\hu\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_12" Directory="hu" Guid="{467D27D4-7D10-4DFA-B1FE-C667667662BA}">
+            <File Id="BOINC_Manager.mo_12" KeyPath="yes" Source="$(var.SourceBinDir)\locale\hu\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_14" Directory="hu" Guid="{1AF72297-6088-4449-A999-25004CBF5DE7}">
+            <File Id="BOINC_Setup.mo_14" KeyPath="yes" Source="$(var.SourceBinDir)\locale\hu\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_11" Directory="hu" Guid="{F0ADB5BB-F882-48F3-AC04-7E6554099649}">
+            <File Id="BOINC_Web.mo_11" KeyPath="yes" Source="$(var.SourceBinDir)\locale\hu\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_6" Directory="hu" Guid="{7BFC29A4-1639-4761-9F57-BFB6A52D86C8}">
+            <File Id="wxstd.mo_6" KeyPath="yes" Source="$(var.SourceBinDir)\locale\hu\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_15" Directory="id" Guid="{E7CB43F9-3784-4983-A8FE-EF67F29FB976}">
+            <File Id="BOINC_Setup.mo_15" KeyPath="yes" Source="$(var.SourceBinDir)\locale\id\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_16" Directory="it" Guid="{BE088E78-A861-4A3F-BAC0-39ED7E52A631}">
+            <File Id="BOINC_Client.mo_16" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_13" Directory="it" Guid="{2E5F17CD-4663-43FA-9573-3175F8B3BFAF}">
+            <File Id="BOINC_Manager.mo_13" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_12" Directory="it" Guid="{D4F7B570-A496-471B-A280-0151937E4BF0}">
+            <File Id="BOINC_Web.mo_12" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_17" Directory="it_IT" Guid="{40A164C9-705B-4935-A06E-42A185326F7D}">
+            <File Id="BOINC_Client.mo_17" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it_IT\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_14" Directory="it_IT" Guid="{106D7E86-017E-4997-8B29-3689CF9B6E3A}">
+            <File Id="BOINC_Manager.mo_14" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it_IT\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_16" Directory="it_IT" Guid="{6D1DBC0F-3BF0-4550-85A6-FA94EEC57783}">
+            <File Id="BOINC_Setup.mo_16" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it_IT\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_13" Directory="it_IT" Guid="{148291EB-C5B3-480F-A962-01FFB3E15747}">
+            <File Id="BOINC_Web.mo_13" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it_IT\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_7" Directory="it_IT" Guid="{D4FAF179-38D4-4997-A202-CCC98EF41E08}">
+            <File Id="wxstd.mo_7" KeyPath="yes" Source="$(var.SourceBinDir)\locale\it_IT\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_18" Directory="ja" Guid="{CE0985AE-CB4F-45A9-95A7-5A07C59B4980}">
+            <File Id="BOINC_Client.mo_18" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ja\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_15" Directory="ja" Guid="{DD12A1F2-79F8-4A94-AF49-B1FC2775B11F}">
+            <File Id="BOINC_Manager.mo_15" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ja\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_17" Directory="ja" Guid="{A061E9F0-0462-48FA-BB7C-874CE65E571B}">
+            <File Id="BOINC_Setup.mo_17" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ja\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_14" Directory="ja" Guid="{5E67F0C9-1D51-4503-B941-25D1815A00E1}">
+            <File Id="BOINC_Web.mo_14" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ja\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_19" Directory="ka" Guid="{D41E37A5-8393-47F9-9FD3-6A52FCB44C87}">
+            <File Id="BOINC_Client.mo_19" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ka\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_16" Directory="ka" Guid="{791A0D90-45FF-40F0-B5BC-85A7FA613989}">
+            <File Id="BOINC_Manager.mo_16" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ka\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_18" Directory="ka" Guid="{2D1AA384-3A87-4AA7-A193-3DE3D5FE370E}">
+            <File Id="BOINC_Setup.mo_18" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ka\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_20" Directory="ko" Guid="{EAC368B2-A242-434D-A3EC-353E4124E3E5}">
+            <File Id="BOINC_Client.mo_20" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ko\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_17" Directory="ko" Guid="{3961FE47-C0A3-4176-9CDD-0FC58B72B167}">
+            <File Id="BOINC_Manager.mo_17" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ko\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_19" Directory="ko" Guid="{D4A97076-0529-4A06-B460-6BC31462D169}">
+            <File Id="BOINC_Setup.mo_19" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ko\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_15" Directory="ko" Guid="{95F102C8-CF49-484D-9345-20887713597A}">
+            <File Id="BOINC_Web.mo_15" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ko\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_20" Directory="ku" Guid="{FE42D359-F171-4E81-8519-CEF40887119D}">
+            <File Id="BOINC_Setup.mo_20" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ku\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_21" Directory="lt" Guid="{190E34F3-495B-401B-8CC3-5D6A674DDBC7}">
+            <File Id="BOINC_Client.mo_21" KeyPath="yes" Source="$(var.SourceBinDir)\locale\lt\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_22" Directory="lv" Guid="{0EA80A70-FA50-4038-B5F6-C27584AD7DBF}">
+            <File Id="BOINC_Client.mo_22" KeyPath="yes" Source="$(var.SourceBinDir)\locale\lv\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_18" Directory="lv" Guid="{9250F1D1-F917-4CF2-A745-DC1F688A3E44}">
+            <File Id="BOINC_Manager.mo_18" KeyPath="yes" Source="$(var.SourceBinDir)\locale\lv\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_21" Directory="lv" Guid="{52D59DE7-8DA4-4B1F-BC48-FCE47428C79D}">
+            <File Id="BOINC_Setup.mo_21" KeyPath="yes" Source="$(var.SourceBinDir)\locale\lv\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_23" Directory="nb" Guid="{57A0BB5D-2A37-4D5A-9E39-A02680414153}">
+            <File Id="BOINC_Client.mo_23" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nb\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_19" Directory="nb" Guid="{57F2603E-AFE0-4139-A6FB-ECEE99A1B294}">
+            <File Id="BOINC_Manager.mo_19" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nb\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_22" Directory="nb" Guid="{A25BB5C9-D6DB-4619-A985-CDD28C753157}">
+            <File Id="BOINC_Setup.mo_22" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nb\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_16" Directory="nb" Guid="{3A2C237A-D84C-401F-A8B4-29040FBB7FB8}">
+            <File Id="BOINC_Web.mo_16" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nb\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_24" Directory="nl" Guid="{831773A7-714F-447B-8D79-BD0D2B1FCEE0}">
+            <File Id="BOINC_Client.mo_24" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nl\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_20" Directory="nl" Guid="{98C746F1-4D26-4138-B280-48B8E24EBB2A}">
+            <File Id="BOINC_Manager.mo_20" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nl\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_23" Directory="nl" Guid="{B8BD2FAE-2837-4113-8777-CEC30721C976}">
+            <File Id="BOINC_Setup.mo_23" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nl\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_17" Directory="nl" Guid="{2A3D63C5-CAD3-4188-90FF-19DD5CAFF777}">
+            <File Id="BOINC_Web.mo_17" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nl\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_8" Directory="nl" Guid="{BA894FD8-558A-4205-8BB1-E2982FCB23E9}">
+            <File Id="wxstd.mo_8" KeyPath="yes" Source="$(var.SourceBinDir)\locale\nl\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_25" Directory="pl" Guid="{A57AA9C3-CBCF-444F-A96B-8A56728E699C}">
+            <File Id="BOINC_Client.mo_25" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pl\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_21" Directory="pl" Guid="{63AC4160-AB53-45B4-A958-9D635A0CBF61}">
+            <File Id="BOINC_Manager.mo_21" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pl\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_24" Directory="pl" Guid="{976D537A-CF82-48A8-8549-49DD2F6BC463}">
+            <File Id="BOINC_Setup.mo_24" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pl\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_18" Directory="pl" Guid="{120D776A-7711-40D0-A41B-EA0A2ADAAD76}">
+            <File Id="BOINC_Web.mo_18" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pl\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_26" Directory="pt_BR" Guid="{432CCDE2-5E98-46FF-9EBE-52F54ED35873}">
+            <File Id="BOINC_Client.mo_26" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_BR\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_22" Directory="pt_BR" Guid="{4C2FCBC5-1846-4BDC-928E-27BE91E10F52}">
+            <File Id="BOINC_Manager.mo_22" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_BR\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_25" Directory="pt_BR" Guid="{8388F87A-D84F-43E6-A0DA-D8C0EC60DD8F}">
+            <File Id="BOINC_Setup.mo_25" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_BR\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_19" Directory="pt_BR" Guid="{69750C71-3DCC-4E8F-AF0A-761B1AF208F3}">
+            <File Id="BOINC_Web.mo_19" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_BR\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_27" Directory="pt_PT" Guid="{E2A639B5-4C28-4E76-ABDF-FF0C8C2CE6A8}">
+            <File Id="BOINC_Client.mo_27" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_PT\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_23" Directory="pt_PT" Guid="{35DD0AF4-2CDD-4294-BA2B-C9C78AC21A46}">
+            <File Id="BOINC_Manager.mo_23" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_PT\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_26" Directory="pt_PT" Guid="{138FA41A-CA56-40D2-8FDF-848326ECB2A3}">
+            <File Id="BOINC_Setup.mo_26" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_PT\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_20" Directory="pt_PT" Guid="{4C3AE48E-C207-4765-A01C-CDB331ECF4E1}">
+            <File Id="BOINC_Web.mo_20" KeyPath="yes" Source="$(var.SourceBinDir)\locale\pt_PT\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_28" Directory="ro" Guid="{A745E7CF-0A62-4679-A5C7-38AE2226730B}">
+            <File Id="BOINC_Client.mo_28" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ro\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_24" Directory="ro" Guid="{7D4A0BCE-4970-4EB5-86E1-67516D6BF225}">
+            <File Id="BOINC_Manager.mo_24" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ro\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_27" Directory="ro" Guid="{F9E9C092-B0BB-4A50-8D05-ECFEA24ED112}">
+            <File Id="BOINC_Setup.mo_27" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ro\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_21" Directory="ro" Guid="{415C9736-EC9C-4BF0-9913-B90347B7F7C4}">
+            <File Id="BOINC_Web.mo_21" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ro\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_29" Directory="ru" Guid="{C723D6FB-7C33-4AB1-840A-52271992F730}">
+            <File Id="BOINC_Client.mo_29" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ru\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_25" Directory="ru" Guid="{FA349201-565B-4785-A25A-0960F5FE978A}">
+            <File Id="BOINC_Manager.mo_25" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ru\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_28" Directory="ru" Guid="{ECD8DED1-BB01-402F-8AA3-5504DD8D685A}">
+            <File Id="BOINC_Setup.mo_28" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ru\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_22" Directory="ru" Guid="{86CB1D0B-321D-48EB-AA4D-E527CA631C2A}">
+            <File Id="BOINC_Web.mo_22" KeyPath="yes" Source="$(var.SourceBinDir)\locale\ru\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_30" Directory="sk" Guid="{87CC0130-A011-4528-AE3C-68456EB5CF3A}">
+            <File Id="BOINC_Client.mo_30" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sk\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_26" Directory="sk" Guid="{DAC580C5-071C-465A-B512-7554CE53542B}">
+            <File Id="BOINC_Manager.mo_26" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sk\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_29" Directory="sk" Guid="{3899B47D-58C6-4BAC-A45E-091A57A0F562}">
+            <File Id="BOINC_Setup.mo_29" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sk\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_23" Directory="sk" Guid="{3E1B6D8D-A8C8-46C6-877B-3CEE36129797}">
+            <File Id="BOINC_Web.mo_23" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sk\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_31" Directory="sr_latin" Guid="{07869308-324F-43FC-B1F8-4FC1C43DE170}">
+            <File Id="BOINC_Client.mo_31" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sr@latin\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_30" Directory="sr_latin" Guid="{20FB86F0-040E-4AF4-AAB4-59D83B858327}">
+            <File Id="BOINC_Setup.mo_30" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sr@latin\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_24" Directory="sr_latin" Guid="{AB7B7CC0-7BD0-460A-A6DB-4EE7845730E2}">
+            <File Id="BOINC_Web.mo_24" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sr@latin\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_32" Directory="sv" Guid="{ACCFDD91-38C0-484D-86E5-3D6667608F9A}">
+            <File Id="BOINC_Client.mo_32" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sv\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_27" Directory="sv" Guid="{F5EE5C90-9716-4809-9D1C-17F637BA9EA5}">
+            <File Id="BOINC_Manager.mo_27" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sv\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_31" Directory="sv" Guid="{F29D805D-ACA8-4227-96F6-FBDF2B9ECDFE}">
+            <File Id="BOINC_Setup.mo_31" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sv\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_25" Directory="sv" Guid="{C0D0207E-B46E-4D5D-A8E1-2DC7A569394E}">
+            <File Id="BOINC_Web.mo_25" KeyPath="yes" Source="$(var.SourceBinDir)\locale\sv\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_32" Directory="th" Guid="{BB06658F-ED58-4E9D-BD79-05DBF0DC3E3F}">
+            <File Id="BOINC_Setup.mo_32" KeyPath="yes" Source="$(var.SourceBinDir)\locale\th\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_33" Directory="tr" Guid="{DEBAD918-A69D-48C6-933C-352A1556EF0F}">
+            <File Id="BOINC_Client.mo_33" KeyPath="yes" Source="$(var.SourceBinDir)\locale\tr\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_28" Directory="tr" Guid="{B16787F2-E8AB-49FC-BE39-6E7305CCE116}">
+            <File Id="BOINC_Manager.mo_28" KeyPath="yes" Source="$(var.SourceBinDir)\locale\tr\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_33" Directory="tr" Guid="{7B3978A0-B9E0-4579-9E4F-BF74DC8A342A}">
+            <File Id="BOINC_Setup.mo_33" KeyPath="yes" Source="$(var.SourceBinDir)\locale\tr\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_26" Directory="tr" Guid="{9BDA8D82-E2A2-48DF-8A27-E336EFED6F6D}">
+            <File Id="BOINC_Web.mo_26" KeyPath="yes" Source="$(var.SourceBinDir)\locale\tr\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_34" Directory="uk" Guid="{89DD8E64-94A4-412E-A060-6B7CF5A5E1F7}">
+            <File Id="BOINC_Client.mo_34" KeyPath="yes" Source="$(var.SourceBinDir)\locale\uk\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_29" Directory="uk" Guid="{5ADECE07-C9F2-44B7-9182-6ADDCA6489B8}">
+            <File Id="BOINC_Manager.mo_29" KeyPath="yes" Source="$(var.SourceBinDir)\locale\uk\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_34" Directory="uk" Guid="{1ED99E66-2254-492D-9071-AE51DDB31B01}">
+            <File Id="BOINC_Setup.mo_34" KeyPath="yes" Source="$(var.SourceBinDir)\locale\uk\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_27" Directory="uk" Guid="{E56FE851-0A25-47FC-9352-82A4A8404975}">
+            <File Id="BOINC_Web.mo_27" KeyPath="yes" Source="$(var.SourceBinDir)\locale\uk\BOINC-Web.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_35" Directory="vi" Guid="{FB771869-A52A-40AD-BC7E-AD6F37A4C8EB}">
+            <File Id="BOINC_Client.mo_35" KeyPath="yes" Source="$(var.SourceBinDir)\locale\vi\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_30" Directory="vi" Guid="{48C350FD-A1E5-43AF-85EB-6069441BBC45}">
+            <File Id="BOINC_Manager.mo_30" KeyPath="yes" Source="$(var.SourceBinDir)\locale\vi\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_35" Directory="vi" Guid="{EF99DD71-ADB1-44F8-B3BD-91E7109EDE1E}">
+            <File Id="BOINC_Setup.mo_35" KeyPath="yes" Source="$(var.SourceBinDir)\locale\vi\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_36" Directory="zh_CN" Guid="{D2DADAD0-7F5B-494C-8DCC-F5C007888636}">
+            <File Id="BOINC_Client.mo_36" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_CN\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_31" Directory="zh_CN" Guid="{91FD5092-0B3A-49C5-9C72-7F250B53B62B}">
+            <File Id="BOINC_Manager.mo_31" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_CN\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_36" Directory="zh_CN" Guid="{A48B3430-6960-4146-BF87-66535CA704C6}">
+            <File Id="BOINC_Setup.mo_36" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_CN\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_28" Directory="zh_CN" Guid="{669E8539-6070-4481-BA22-5CB0BBA280BB}">
+            <File Id="BOINC_Web.mo_28" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_CN\BOINC-Web.mo" />
+         </Component>
+         <Component Id="wxstd.mo_9" Directory="zh_CN" Guid="{5A846BBE-B96F-4C78-B61F-9369F1BDBBAE}">
+            <File Id="wxstd.mo_9" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_CN\wxstd.mo" />
+         </Component>
+         <Component Id="BOINC_Client.mo_37" Directory="zh_TW" Guid="{18619564-E555-417E-AF94-F10012D0AE09}">
+            <File Id="BOINC_Client.mo_37" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_TW\BOINC-Client.mo" />
+         </Component>
+         <Component Id="BOINC_Manager.mo_32" Directory="zh_TW" Guid="{6658B3A0-1F08-4EF0-8E67-B5140BE49A23}">
+            <File Id="BOINC_Manager.mo_32" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_TW\BOINC-Manager.mo" />
+         </Component>
+         <Component Id="BOINC_Setup.mo_37" Directory="zh_TW" Guid="{38F74B55-1F74-48B9-8373-A9449461C986}">
+            <File Id="BOINC_Setup.mo_37" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_TW\BOINC-Setup.mo" />
+         </Component>
+         <Component Id="BOINC_Web.mo_29" Directory="zh_TW" Guid="{63C0A0C8-3AE1-4150-8AD2-19701E71D81B}">
+            <File Id="BOINC_Web.mo_29" KeyPath="yes" Source="$(var.SourceBinDir)\locale\zh_TW\BOINC-Web.mo" />
+         </Component>
+         <Component Id="background_image.xpm" Directory="graphic" Guid="{7F2F970A-90F1-4602-AE3C-BAFA1CA835CD}">
+            <File Id="background_image.xpm" KeyPath="yes" Source="$(var.SourceBinDir)\res\skins\default\graphic\background_image.xpm" />
+         </Component>
+         <Component Id="dialog_background_image.xpm" Directory="graphic" Guid="{B1425411-C5DC-43A7-8DA7-B1ED379CF66B}">
+            <File Id="dialog_background_image.xpm" KeyPath="yes" Source="$(var.SourceBinDir)\res\skins\default\graphic\dialog_background_image.xpm" />
+         </Component>
+         <Component Id="project_image.xpm" Directory="graphic" Guid="{58C7D37F-7A29-403D-A569-255C746562EB}">
+            <File Id="project_image.xpm" KeyPath="yes" Source="$(var.SourceBinDir)\res\skins\default\graphic\project_image.xpm" />
+         </Component>
+         <Component Id="workunit_animation_image.xpm" Directory="graphic" Guid="{B31A07AA-7023-4B48-A95C-093170100D63}">
+            <File Id="workunit_animation_image.xpm" KeyPath="yes" Source="$(var.SourceBinDir)\res\skins\default\graphic\workunit_animation_image.xpm" />
+         </Component>
+         <Component Id="workunit_running_image.xpm" Directory="graphic" Guid="{4D035190-9A41-42BC-8B01-8DDBA441AF27}">
+            <File Id="workunit_running_image.xpm" KeyPath="yes" Source="$(var.SourceBinDir)\res\skins\default\graphic\workunit_running_image.xpm" />
+         </Component>
+         <Component Id="workunit_suspended_image.xpm" Directory="graphic" Guid="{B3125E8A-73DB-44CF-B2E0-F5355448B563}">
+            <File Id="workunit_suspended_image.xpm" KeyPath="yes" Source="$(var.SourceBinDir)\res\skins\default\graphic\workunit_suspended_image.xpm" />
+         </Component>
+         <Component Id="workunit_waiting_image.xpm" Directory="graphic" Guid="{433B04F8-13C6-4C14-84A2-CEE3FB3D818F}">
+            <File Id="workunit_waiting_image.xpm" KeyPath="yes" Source="$(var.SourceBinDir)\res\skins\default\graphic\workunit_waiting_image.xpm" />
+         </Component>
+         <Component Id="Resource_Information.txt" Directory="skins_1" Guid="{121BBBB2-34C2-4C84-A585-E46C5B06C158}">
+            <File Id="Resource_Information.txt" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Resource Information.txt" />
+         </Component>
+         <Component Id="bg1.png" Directory="Backgrounds" Guid="{098C26C6-67AB-491D-9F1E-BF0AF2D80F4B}">
+            <File Id="bg1.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg1.png" />
+         </Component>
+         <Component Id="bg10.png" Directory="Backgrounds" Guid="{CE580727-4DB5-4C57-BB91-A1D3B6F27D84}">
+            <File Id="bg10.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg10.png" />
+         </Component>
+         <Component Id="bg11.png" Directory="Backgrounds" Guid="{5FE4E748-5256-4C37-A433-97EA13EDFDE2}">
+            <File Id="bg11.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg11.png" />
+         </Component>
+         <Component Id="bg12.png" Directory="Backgrounds" Guid="{69DF3B03-E4D2-4C7D-83B4-E52A9F74856E}">
+            <File Id="bg12.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg12.png" />
+         </Component>
+         <Component Id="bg13.png" Directory="Backgrounds" Guid="{558ECAD7-FC8E-41B4-B8B0-8ACC33021007}">
+            <File Id="bg13.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg13.png" />
+         </Component>
+         <Component Id="bg14.png" Directory="Backgrounds" Guid="{91265BD7-C92C-490B-BDBA-963729BFE747}">
+            <File Id="bg14.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg14.png" />
+         </Component>
+         <Component Id="bg15.png" Directory="Backgrounds" Guid="{EDBB7F3B-9827-4D50-8EEF-FE89FD3B35FE}">
+            <File Id="bg15.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg15.png" />
+         </Component>
+         <Component Id="bg16.png" Directory="Backgrounds" Guid="{E9D61136-C44E-40AE-857B-F260FACE391F}">
+            <File Id="bg16.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg16.png" />
+         </Component>
+         <Component Id="bg17.png" Directory="Backgrounds" Guid="{54E8D6D3-6E00-4CEB-BDA6-45C2BD4FB77A}">
+            <File Id="bg17.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg17.png" />
+         </Component>
+         <Component Id="bg2.png" Directory="Backgrounds" Guid="{A797F09E-B760-4E10-819B-03B43B0A077E}">
+            <File Id="bg2.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg2.png" />
+         </Component>
+         <Component Id="bg3.png" Directory="Backgrounds" Guid="{6A9EDEB8-90E3-4C93-9BFE-D2BB59D36151}">
+            <File Id="bg3.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg3.png" />
+         </Component>
+         <Component Id="bg4.png" Directory="Backgrounds" Guid="{25CB51A0-4E6F-4AC3-BF80-D9402D43F833}">
+            <File Id="bg4.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg4.png" />
+         </Component>
+         <Component Id="bg5.png" Directory="Backgrounds" Guid="{595B67CF-22DA-427F-86DF-4CCB27DC79BB}">
+            <File Id="bg5.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg5.png" />
+         </Component>
+         <Component Id="bg6.png" Directory="Backgrounds" Guid="{5884C919-A380-4F0A-9FF6-B07ABCA48899}">
+            <File Id="bg6.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg6.png" />
+         </Component>
+         <Component Id="bg7.png" Directory="Backgrounds" Guid="{C7F207DE-C7D3-4C1D-848F-D0078A1A858B}">
+            <File Id="bg7.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg7.png" />
+         </Component>
+         <Component Id="bg8.png" Directory="Backgrounds" Guid="{AFDDDE9E-E567-4457-8D7D-7470B050A48C}">
+            <File Id="bg8.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg8.png" />
+         </Component>
+         <Component Id="bg9.png" Directory="Backgrounds" Guid="{59E8C3CD-1CBE-47ED-A2BC-E2B256792729}">
+            <File Id="bg9.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Backgrounds\bg9.png" />
+         </Component>
+         <Component Id="Running_1.png" Directory="Icons" Guid="{B2584D2A-1F1A-47A3-A78D-960A37B01329}">
+            <File Id="Running_1.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Running 1.png" />
+         </Component>
+         <Component Id="Running_2.png" Directory="Icons" Guid="{32E8358F-D53F-4A9E-8AED-C932D3B837E0}">
+            <File Id="Running_2.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Running 2.png" />
+         </Component>
+         <Component Id="Running_3.png" Directory="Icons" Guid="{BF10BC4A-3605-40B0-BA2E-ABD0A1A67685}">
+            <File Id="Running_3.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Running 3.png" />
+         </Component>
+         <Component Id="Running_4.png" Directory="Icons" Guid="{220F48EA-D61F-40CE-9F2B-86806D320876}">
+            <File Id="Running_4.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Running 4.png" />
+         </Component>
+         <Component Id="Running_5.png" Directory="Icons" Guid="{8449E3DA-0C81-4A82-A374-41C6C7D8EBE2}">
+            <File Id="Running_5.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Running 5.png" />
+         </Component>
+         <Component Id="Running_6.png" Directory="Icons" Guid="{15E34D06-720E-46B7-8CAB-0A256914EF1B}">
+            <File Id="Running_6.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Running 6.png" />
+         </Component>
+         <Component Id="Suspended_1.png" Directory="Icons" Guid="{081E8A86-D766-4947-BA6D-B9341704585E}">
+            <File Id="Suspended_1.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Suspended 1.png" />
+         </Component>
+         <Component Id="Suspended_2.png" Directory="Icons" Guid="{17C399DE-AFB0-40B0-AFF8-725A7CE9F9E9}">
+            <File Id="Suspended_2.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Suspended 2.png" />
+         </Component>
+         <Component Id="Suspended_3.png" Directory="Icons" Guid="{45C3D476-98A9-4557-AAB6-1897D59F0A07}">
+            <File Id="Suspended_3.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Suspended 3.png" />
+         </Component>
+         <Component Id="Suspended_4.png" Directory="Icons" Guid="{5957F183-822A-4C4A-9080-EBF1DFFD6BF2}">
+            <File Id="Suspended_4.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Suspended 4.png" />
+         </Component>
+         <Component Id="Suspended_5.png" Directory="Icons" Guid="{55CE417A-8531-42A3-ADDE-E21A546637AC}">
+            <File Id="Suspended_5.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Suspended 5.png" />
+         </Component>
+         <Component Id="Suspended_6.png" Directory="Icons" Guid="{D786C2F5-29DE-42DC-8592-E9C56608FE37}">
+            <File Id="Suspended_6.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Suspended 6.png" />
+         </Component>
+         <Component Id="Waiting_1.png" Directory="Icons" Guid="{2289941B-E1E3-4694-9BA2-74EC81D56749}">
+            <File Id="Waiting_1.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 1.png" />
+         </Component>
+         <Component Id="Waiting_10.png" Directory="Icons" Guid="{0D17037E-60BF-4AAA-8FAC-2EE3C2D24D7D}">
+            <File Id="Waiting_10.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 10.png" />
+         </Component>
+         <Component Id="Waiting_11.png" Directory="Icons" Guid="{8A790EE2-8086-4CEB-82A7-B96BA934C5EF}">
+            <File Id="Waiting_11.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 11.png" />
+         </Component>
+         <Component Id="Waiting_12.png" Directory="Icons" Guid="{EEF812F6-E69D-488A-ACCC-E1A0B9476DCB}">
+            <File Id="Waiting_12.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 12.png" />
+         </Component>
+         <Component Id="Waiting_13.png" Directory="Icons" Guid="{9885A624-C740-47AE-87D1-E4AD32C01252}">
+            <File Id="Waiting_13.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 13.png" />
+         </Component>
+         <Component Id="Waiting_14.png" Directory="Icons" Guid="{B60F0116-5D94-4B0C-AA97-53B995B8F959}">
+            <File Id="Waiting_14.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 14.png" />
+         </Component>
+         <Component Id="Waiting_15.png" Directory="Icons" Guid="{7DE345F9-3CAF-4C25-844C-EDE720870232}">
+            <File Id="Waiting_15.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 15.png" />
+         </Component>
+         <Component Id="Waiting_16.png" Directory="Icons" Guid="{D0892245-5EA9-43F9-A516-DCF1A34A18FB}">
+            <File Id="Waiting_16.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 16.png" />
+         </Component>
+         <Component Id="Waiting_17.png" Directory="Icons" Guid="{64119C9E-8DB6-4EB8-A24D-B072D8B5004F}">
+            <File Id="Waiting_17.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 17.png" />
+         </Component>
+         <Component Id="Waiting_2.png" Directory="Icons" Guid="{5062579C-A44D-45F2-BB9B-417693C220E0}">
+            <File Id="Waiting_2.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 2.png" />
+         </Component>
+         <Component Id="Waiting_3.png" Directory="Icons" Guid="{9B9B3258-7637-4F56-850C-EFE057FA72E4}">
+            <File Id="Waiting_3.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 3.png" />
+         </Component>
+         <Component Id="Waiting_4.png" Directory="Icons" Guid="{237B6BD7-6768-45F6-862F-44CA1B9E7E89}">
+            <File Id="Waiting_4.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 4.png" />
+         </Component>
+         <Component Id="Waiting_5.png" Directory="Icons" Guid="{8CA2FE9A-ACFF-40C8-9187-FCEE43419E2F}">
+            <File Id="Waiting_5.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 5.png" />
+         </Component>
+         <Component Id="Waiting_6.png" Directory="Icons" Guid="{5E1A8CC4-00D2-4218-9C19-E22E1DBCB5DB}">
+            <File Id="Waiting_6.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 6.png" />
+         </Component>
+         <Component Id="Waiting_7.png" Directory="Icons" Guid="{AE51F000-CAA9-4B9D-A159-336F9783AD62}">
+            <File Id="Waiting_7.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 7.png" />
+         </Component>
+         <Component Id="Waiting_8.png" Directory="Icons" Guid="{68E77C78-53BA-4F65-8450-C70DE98DF23B}">
+            <File Id="Waiting_8.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 8.png" />
+         </Component>
+         <Component Id="Waiting_9.png" Directory="Icons" Guid="{78D3BFF0-36F2-4B91-B490-51A33B371608}">
+            <File Id="Waiting_9.png" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Icons\Waiting 9.png" />
+         </Component>
+         <Component Id="_1024_x_768.jpg" Directory="Original_artwork" Guid="{CE138CC8-6CEE-461B-B596-96B6B1C00B95}">
+            <File Id="_1024_x_768.jpg" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Original artwork\1024 x 768.jpg" />
+         </Component>
+         <Component Id="_1600_x_1200.jpg" Directory="Original_artwork" Guid="{78FD64B6-1363-47E6-AFB5-DC20CFC3A6A5}">
+            <File Id="_1600_x_1200.jpg" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Original artwork\1600 x 1200.jpg" />
+         </Component>
+         <Component Id="_1600x1200.jpg" Directory="Original_artwork" Guid="{EE27C005-2C12-4563-8B9C-27A6A22D0196}">
+            <File Id="_1600x1200.jpg" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Original artwork\1600x1200.jpg" />
+         </Component>
+         <Component Id="boinc_logo_black.jpg_1" Directory="Original_artwork" Guid="{D44848A2-0A49-461B-8FB4-6DE0D8EB7B5B}">
+            <File Id="boinc_logo_black.jpg_1" KeyPath="yes" Source="$(var.SourceBinDir)\res\templates\skins\Original artwork\boinc_logo_black.jpg" />
+         </Component>
+         <Component Id="Makefile.am" Directory="skins_2" Guid="{D2FA8693-B9E0-49F2-A61E-F45C7B04F3C2}">
+            <File Id="Makefile.am" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Makefile.am" />
+         </Component>
+         <Component Id="background_image.png" Directory="Charity_Engine" Guid="{3489AF7E-7DB3-4EAC-B5B3-6FE38283F0A4}">
+            <File Id="background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\background_image.png" />
+         </Component>
+         <Component Id="ce_about.ico" Directory="Charity_Engine" Guid="{D060E820-B4C2-4DC3-9BE8-4AC6F3CA61B6}">
+            <File Id="ce_about.ico" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\ce_about.ico" />
+         </Component>
+         <Component Id="ce_icon_play.png" Directory="Charity_Engine" Guid="{D18AC6E0-97C7-4C6B-8035-1FF487A24E46}">
+            <File Id="ce_icon_play.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\ce_icon_play.png" />
+         </Component>
+         <Component Id="ce_pause.png" Directory="Charity_Engine" Guid="{F21B1ACF-B76D-43B5-81CA-2AAB5681A594}">
+            <File Id="ce_pause.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\ce_pause.png" />
+         </Component>
+         <Component Id="ce_play.png" Directory="Charity_Engine" Guid="{B7D2CBEF-BA5D-4A7B-A7FC-D9D73F44AD60}">
+            <File Id="ce_play.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\ce_play.png" />
+         </Component>
+         <Component Id="ce_stop.png" Directory="Charity_Engine" Guid="{A2A6AA68-683B-4E45-8E3B-BFFAD7BDBA63}">
+            <File Id="ce_stop.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\ce_stop.png" />
+         </Component>
+         <Component Id="dialog_background_image.png" Directory="Charity_Engine" Guid="{2EE0DFEC-B04C-46E7-AE09-794E3E0B4899}">
+            <File Id="dialog_background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\dialog_background_image.png" />
+         </Component>
+         <Component Id="project_image.png" Directory="Charity_Engine" Guid="{F1390408-1C45-45E6-AEEC-F3F6661D5960}">
+            <File Id="project_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\project_image.png" />
+         </Component>
+         <Component Id="skin.xml" Directory="Charity_Engine" Guid="{EF4CBAF7-846A-4AB3-89A9-7603903F9F5D}">
+            <File Id="skin.xml" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\skin.xml" />
+         </Component>
+         <Component Id="workunit_running_image.png" Directory="Charity_Engine" Guid="{CECBAC84-544E-4AB8-80E8-B27804BEAAB5}">
+            <File Id="workunit_running_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\workunit_running_image.png" />
+         </Component>
+         <Component Id="workunit_suspended_image.png" Directory="Charity_Engine" Guid="{E20A8529-0226-4F33-9E95-EED0AD286358}">
+            <File Id="workunit_suspended_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\workunit_suspended_image.png" />
+         </Component>
+         <Component Id="workunit_waiting_image.png" Directory="Charity_Engine" Guid="{E52A5C57-41B7-42C5-8BF5-15E2EC6D0A69}">
+            <File Id="workunit_waiting_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Charity Engine\workunit_waiting_image.png" />
+         </Component>
+         <Component Id="background_image.png_1" Directory="Default_1" Guid="{D271788E-21E0-4B25-970C-5BED727C0CD9}">
+            <File Id="background_image.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Default\background_image.png" />
+         </Component>
+         <Component Id="skin.xml_1" Directory="Default_1" Guid="{F654D21B-3E1D-4CE3-B616-E385976E5148}">
+            <File Id="skin.xml_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Default\skin.xml" />
+         </Component>
+         <Component Id="workunit_running_image.png_1" Directory="Default_1" Guid="{3E778234-A470-450B-96D3-E3B307A23B0A}">
+            <File Id="workunit_running_image.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Default\workunit_running_image.png" />
+         </Component>
+         <Component Id="workunit_suspended_image.png_1" Directory="Default_1" Guid="{FE17E95B-DE96-4D7A-9673-D26C653C43E1}">
+            <File Id="workunit_suspended_image.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Default\workunit_suspended_image.png" />
+         </Component>
+         <Component Id="workunit_waiting_image.png_1" Directory="Default_1" Guid="{8E216307-F8D0-4589-8D06-28C3AC988EA5}">
+            <File Id="workunit_waiting_image.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\Default\workunit_waiting_image.png" />
+         </Component>
+         <Component Id="background_image.png_2" Directory="GridRepublic" Guid="{95C42FA8-2C7D-412C-AC6A-4D58785DCA79}">
+            <File Id="background_image.png_2" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\background_image.png" />
+         </Component>
+         <Component Id="dialog_background_image.png_1" Directory="GridRepublic" Guid="{FC724633-577F-4756-B65C-9B13922AB21F}">
+            <File Id="dialog_background_image.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\dialog_background_image.png" />
+         </Component>
+         <Component Id="gr_about.ico" Directory="GridRepublic" Guid="{272E20D7-B174-424F-BCCB-D17DA050EDAF}">
+            <File Id="gr_about.ico" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\gr_about.ico" />
+         </Component>
+         <Component Id="gr_icon_play.png" Directory="GridRepublic" Guid="{FBF257B1-63B5-431E-8D2E-E6CB924D4E24}">
+            <File Id="gr_icon_play.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\gr_icon_play.png" />
+         </Component>
+         <Component Id="gr_pause.png" Directory="GridRepublic" Guid="{337A16BA-AF5E-42C5-8732-4744B1BF5489}">
+            <File Id="gr_pause.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\gr_pause.png" />
+         </Component>
+         <Component Id="gr_play.png" Directory="GridRepublic" Guid="{698BB7BA-8936-4E4D-B6EA-9716925FDAD0}">
+            <File Id="gr_play.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\gr_play.png" />
+         </Component>
+         <Component Id="gr_stop.png" Directory="GridRepublic" Guid="{A8EF117F-5508-449D-8C3B-F86D97E299FA}">
+            <File Id="gr_stop.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\gr_stop.png" />
+         </Component>
+         <Component Id="project_image.png_1" Directory="GridRepublic" Guid="{5B9785A2-A2FE-4E10-A962-109918B25619}">
+            <File Id="project_image.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\project_image.png" />
+         </Component>
+         <Component Id="skin.xml_2" Directory="GridRepublic" Guid="{9FAB230C-3DC5-4298-B091-DA24A88C10C2}">
+            <File Id="skin.xml_2" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\skin.xml" />
+         </Component>
+         <Component Id="workunit_running_image.png_2" Directory="GridRepublic" Guid="{56DE716D-8C59-45FB-9DF8-E2815B49D4BB}">
+            <File Id="workunit_running_image.png_2" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\workunit_running_image.png" />
+         </Component>
+         <Component Id="workunit_suspended_image.png_2" Directory="GridRepublic" Guid="{4F92ACE7-CB10-4F03-BDB0-49241713BDDF}">
+            <File Id="workunit_suspended_image.png_2" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\workunit_suspended_image.png" />
+         </Component>
+         <Component Id="workunit_waiting_image.png_2" Directory="GridRepublic" Guid="{5F692990-B7DB-4DE0-AADE-0F2B0445A462}">
+            <File Id="workunit_waiting_image.png_2" KeyPath="yes" Source="$(var.SourceBinDir)\skins\GridRepublic\workunit_waiting_image.png" />
+         </Component>
+         <Component Id="skin.xml_3" Directory="People_for_a_Smarter_Planet" Guid="{1AD8BA62-42C4-4658-B6D6-1F9719F742A7}">
+            <File Id="skin.xml_3" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\skin.xml" />
+         </Component>
+         <Component Id="advanced_link_image.png" Directory="graphic_1" Guid="{75B9D687-3F81-481A-9470-45D3BB17344B}">
+            <File Id="advanced_link_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\advanced_link_image.png" />
+         </Component>
+         <Component Id="attach_project_button.png" Directory="graphic_1" Guid="{C6FA05E3-704A-411F-938C-D46B90F0C372}">
+            <File Id="attach_project_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\attach_project_button.png" />
+         </Component>
+         <Component Id="background_image.png_3" Directory="graphic_1" Guid="{1157F937-2F1F-4BD1-A3F9-85F4C1F1265C}">
+            <File Id="background_image.png_3" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\background_image.png" />
+         </Component>
+         <Component Id="cancel_button.png" Directory="graphic_1" Guid="{8DB71CDA-3E6D-46D2-9B4F-6DB72C043F4E}">
+            <File Id="cancel_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\cancel_button.png" />
+         </Component>
+         <Component Id="close_button.png" Directory="graphic_1" Guid="{69EA6AB8-6BC2-43BF-B39B-B27837377C35}">
+            <File Id="close_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\close_button.png" />
+         </Component>
+         <Component Id="connecting_indicator_image.png" Directory="graphic_1" Guid="{92C150C2-A172-4C33-98C7-B8CE9AC81858}">
+            <File Id="connecting_indicator_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\connecting_indicator_image.png" />
+         </Component>
+         <Component Id="copy_all_button.png" Directory="graphic_1" Guid="{791DACA4-59FC-471B-BA95-1E3B4AC00746}">
+            <File Id="copy_all_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\copy_all_button.png" />
+         </Component>
+         <Component Id="copy_button.png" Directory="graphic_1" Guid="{01954435-1AAE-4B9A-B9C9-47FEA8DC1F33}">
+            <File Id="copy_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\copy_button.png" />
+         </Component>
+         <Component Id="dialog_background_image.png_2" Directory="graphic_1" Guid="{2E02C6F1-0E75-42FE-BFAD-DCC6ED4C030F}">
+            <File Id="dialog_background_image.png_2" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\dialog_background_image.png" />
+         </Component>
+         <Component Id="error_indicator_image.png" Directory="graphic_1" Guid="{C9E1FD3E-F08B-4D59-AADC-BA82249B45AF}">
+            <File Id="error_indicator_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\error_indicator_image.png" />
+         </Component>
+         <Component Id="gauge_bg.png" Directory="graphic_1" Guid="{FB5F0C88-1C45-4423-A0E6-9BBCCC87B4C6}">
+            <File Id="gauge_bg.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\gauge_bg.png" />
+         </Component>
+         <Component Id="help_button.png" Directory="graphic_1" Guid="{FD85441A-B2D6-40D0-AA81-4253E9B4B4F2}">
+            <File Id="help_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\help_button.png" />
+         </Component>
+         <Component Id="left_arrow_button.png" Directory="graphic_1" Guid="{5462B218-77F6-4B4D-A187-0D42CE16E237}">
+            <File Id="left_arrow_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\left_arrow_button.png" />
+         </Component>
+         <Component Id="messages_alert_link_image.png" Directory="graphic_1" Guid="{20C71069-48FC-4393-A1DF-D4B041AF6EF0}">
+            <File Id="messages_alert_link_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\messages_alert_link_image.png" />
+         </Component>
+         <Component Id="messages_link_image.png" Directory="graphic_1" Guid="{18B4470A-3382-40F6-95A0-DDB0DC1D0241}">
+            <File Id="messages_link_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\messages_link_image.png" />
+         </Component>
+         <Component Id="preferences_link_image.png" Directory="graphic_1" Guid="{FA36A893-E902-4C1B-B8E4-6ADBABDA3BC5}">
+            <File Id="preferences_link_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\preferences_link_image.png" />
+         </Component>
+         <Component Id="project_area_background_image.png" Directory="graphic_1" Guid="{B91E3676-A8E2-4503-9FC2-E2509DB72A48}">
+            <File Id="project_area_background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\project_area_background_image.png" />
+         </Component>
+         <Component Id="project_image.png_2" Directory="graphic_1" Guid="{41240768-FF66-4507-BBBE-E0DEFF005A89}">
+            <File Id="project_image.png_2" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\project_image.png" />
+         </Component>
+         <Component Id="resume_link_image.png" Directory="graphic_1" Guid="{901A0355-2472-4D21-A82F-9DB846B43F11}">
+            <File Id="resume_link_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\resume_link_image.png" />
+         </Component>
+         <Component Id="right_arrow_button.png" Directory="graphic_1" Guid="{A7ECC847-41A9-4211-B8FA-BCC087A11388}">
+            <File Id="right_arrow_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\right_arrow_button.png" />
+         </Component>
+         <Component Id="save_button.png" Directory="graphic_1" Guid="{C1570937-F956-4BA0-BE2B-11A2231E9D00}">
+            <File Id="save_button.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\save_button.png" />
+         </Component>
+         <Component Id="spacer_image.png" Directory="graphic_1" Guid="{1826BCAB-CEAB-4DAB-92B1-5256D33901D4}">
+            <File Id="spacer_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\spacer_image.png" />
+         </Component>
+         <Component Id="state_indicator_background_image.png" Directory="graphic_1" Guid="{0B3250F2-79F0-46F7-ADCC-D4F19FFC0665}">
+            <File Id="state_indicator_background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\state_indicator_background_image.png" />
+         </Component>
+         <Component Id="suspend_link_image.png" Directory="graphic_1" Guid="{E5C4477E-B9FD-4BF0-B4F8-25A4819D7D14}">
+            <File Id="suspend_link_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\suspend_link_image.png" />
+         </Component>
+         <Component Id="tabArea_bg.png" Directory="graphic_1" Guid="{230B3342-5078-4403-AE9A-D01D45B9C9CE}">
+            <File Id="tabArea_bg.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\tabArea_bg.png" />
+         </Component>
+         <Component Id="wcg_about.ico" Directory="graphic_1" Guid="{3950C944-5EE5-42B4-A79D-65B5ED2AF29E}">
+            <File Id="wcg_about.ico" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\wcg_about.ico" />
+         </Component>
+         <Component Id="wcg_pause.png" Directory="graphic_1" Guid="{FB2B57E6-8C11-4CCD-B41D-57C9E6788D10}">
+            <File Id="wcg_pause.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\wcg_pause.png" />
+         </Component>
+         <Component Id="wcg_play.png" Directory="graphic_1" Guid="{6C3EC773-0DE3-4604-9D40-CC7995A00D1B}">
+            <File Id="wcg_play.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\wcg_play.png" />
+         </Component>
+         <Component Id="wcg_stop.png" Directory="graphic_1" Guid="{D78AF45E-39DE-412D-8D8C-195E54D15CBF}">
+            <File Id="wcg_stop.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\wcg_stop.png" />
+         </Component>
+         <Component Id="workunit_active_tab.png" Directory="graphic_1" Guid="{0F9966D4-8B5F-4468-B3C4-E2AAB611E693}">
+            <File Id="workunit_active_tab.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_active_tab.png" />
+         </Component>
+         <Component Id="workunit_animation_background_image_copy.png" Directory="graphic_1" Guid="{748B7571-EACE-4936-ABCD-E6E9D845A9E2}">
+            <File Id="workunit_animation_background_image_copy.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_animation_background_image copy.png" />
+         </Component>
+         <Component Id="workunit_animation_background_image.png" Directory="graphic_1" Guid="{CFEA5609-AFFB-40C8-A52A-1382E830219E}">
+            <File Id="workunit_animation_background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_animation_background_image.png" />
+         </Component>
+         <Component Id="workunit_area_background_image.png" Directory="graphic_1" Guid="{F0566CF4-DA7F-46DD-A010-83FCEC1185B4}">
+            <File Id="workunit_area_background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_area_background_image.png" />
+         </Component>
+         <Component Id="workunit_gauge_background_image.png" Directory="graphic_1" Guid="{43A38FA2-6113-4410-81B9-D66F5497D09B}">
+            <File Id="workunit_gauge_background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_gauge_background_image.png" />
+         </Component>
+         <Component Id="workunit_gauge_progress_indicator_image.png" Directory="graphic_1" Guid="{C83741EF-CF32-4502-99E1-47ED0DD13946}">
+            <File Id="workunit_gauge_progress_indicator_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_gauge_progress_indicator_image.png" />
+         </Component>
+         <Component Id="workunit_suspended_tab.png" Directory="graphic_1" Guid="{C9BA603E-2763-42B0-B9CC-2D7CDC50701C}">
+            <File Id="workunit_suspended_tab.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_suspended_tab.png" />
+         </Component>
+         <Component Id="workunit_tab_area_background_image.png" Directory="graphic_1" Guid="{B6AB6FE5-036B-4245-A38B-6D3712DC4640}">
+            <File Id="workunit_tab_area_background_image.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\People for a Smarter Planet\graphic\workunit_tab_area_background_image.png" />
+         </Component>
+         <Component Id="background_image.png_4" Directory="ProgressThruProcessors" Guid="{941341E6-D658-486F-8781-E6D6DE732979}">
+            <File Id="background_image.png_4" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\background_image.png" />
+         </Component>
+         <Component Id="dialog_background_image.png_3" Directory="ProgressThruProcessors" Guid="{C283E437-3033-4AE3-AEF9-2A63199F9279}">
+            <File Id="dialog_background_image.png_3" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\dialog_background_image.png" />
+         </Component>
+         <Component Id="project_image.png_3" Directory="ProgressThruProcessors" Guid="{9682DD31-04CE-4753-A083-8699CB6B8E3E}">
+            <File Id="project_image.png_3" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\project_image.png" />
+         </Component>
+         <Component Id="ptp_about.ico" Directory="ProgressThruProcessors" Guid="{33A13814-29BA-4B3A-A36B-D1101D55477E}">
+            <File Id="ptp_about.ico" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\ptp_about.ico" />
+         </Component>
+         <Component Id="ptp_icon_play.png" Directory="ProgressThruProcessors" Guid="{4BCD1C86-E3F3-4CFC-B9EA-33193F7636E2}">
+            <File Id="ptp_icon_play.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\ptp_icon_play.png" />
+         </Component>
+         <Component Id="ptp_pause.png" Directory="ProgressThruProcessors" Guid="{CBEF844D-A4B6-43B3-847F-AD4428093C9D}">
+            <File Id="ptp_pause.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\ptp_pause.png" />
+         </Component>
+         <Component Id="ptp_play.png" Directory="ProgressThruProcessors" Guid="{8D3240B2-5C4E-4028-9352-34AE6A700230}">
+            <File Id="ptp_play.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\ptp_play.png" />
+         </Component>
+         <Component Id="ptp_stop.png" Directory="ProgressThruProcessors" Guid="{3BC4F8A2-4283-438A-87A0-E77BCFC2321A}">
+            <File Id="ptp_stop.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\ptp_stop.png" />
+         </Component>
+         <Component Id="skin.xml_4" Directory="ProgressThruProcessors" Guid="{342151FA-1046-40D4-B338-A5471C61B44D}">
+            <File Id="skin.xml_4" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\skin.xml" />
+         </Component>
+         <Component Id="workunit_running_image.png_3" Directory="ProgressThruProcessors" Guid="{3B4921B4-C1DF-414E-84AD-F156FEA64B02}">
+            <File Id="workunit_running_image.png_3" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\workunit_running_image.png" />
+         </Component>
+         <Component Id="workunit_suspended_image.png_3" Directory="ProgressThruProcessors" Guid="{6C9AED62-93AA-4383-8736-FEBC22A76E6F}">
+            <File Id="workunit_suspended_image.png_3" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\workunit_suspended_image.png" />
+         </Component>
+         <Component Id="workunit_waiting_image.png_3" Directory="ProgressThruProcessors" Guid="{C4FC0C9D-6A29-4AA4-8073-BFB905134CC7}">
+            <File Id="workunit_waiting_image.png_3" KeyPath="yes" Source="$(var.SourceBinDir)\skins\ProgressThruProcessors\workunit_waiting_image.png" />
+         </Component>
+         <Component Id="background_image.png_5" Directory="World_Community_Grid" Guid="{D9F7FF22-2429-45DB-AD55-548574EC6C1D}">
+            <File Id="background_image.png_5" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\background_image.png" />
+         </Component>
+         <Component Id="Green_dot.png" Directory="World_Community_Grid" Guid="{EBAC3ACE-FBFC-4324-8C84-B9AA63C6E2D4}">
+            <File Id="Green_dot.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\Green_dot.png" />
+         </Component>
+         <Component Id="Red_dot.png" Directory="World_Community_Grid" Guid="{65746483-68D7-4518-AB42-DD4F9357AC8F}">
+            <File Id="Red_dot.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\Red_dot.png" />
+         </Component>
+         <Component Id="skin.xml_5" Directory="World_Community_Grid" Guid="{8E345E3B-3FE2-434D-B14A-2F697B34630B}">
+            <File Id="skin.xml_5" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\skin.xml" />
+         </Component>
+         <Component Id="wcg.ico" Directory="World_Community_Grid" Guid="{663FBEA2-7F4C-4A73-AE9D-D7F4F82C0778}">
+            <File Id="wcg.ico" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\wcg.ico" />
+         </Component>
+         <Component Id="wcg_32.png" Directory="World_Community_Grid" Guid="{D602DD79-F91E-4E61-8F2D-932455B01B8C}">
+            <File Id="wcg_32.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\wcg_32.png" />
+         </Component>
+         <Component Id="wcg_50.png" Directory="World_Community_Grid" Guid="{2452C1C8-3EDD-4D94-AFA5-FDF2EBA18CA5}">
+            <File Id="wcg_50.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\wcg_50.png" />
+         </Component>
+         <Component Id="wcg_about.ico_1" Directory="World_Community_Grid" Guid="{8F68A767-A206-497A-A011-F9581758B041}">
+            <File Id="wcg_about.ico_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\wcg_about.ico" />
+         </Component>
+         <Component Id="wcg_pause.png_1" Directory="World_Community_Grid" Guid="{FCF12CAC-9906-48F4-B16A-F6738CA4F7C1}">
+            <File Id="wcg_pause.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\wcg_pause.png" />
+         </Component>
+         <Component Id="wcg_play.png_1" Directory="World_Community_Grid" Guid="{236308DB-A177-4BBA-950A-E83374F3A14A}">
+            <File Id="wcg_play.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\wcg_play.png" />
+         </Component>
+         <Component Id="wcg_stop.png_1" Directory="World_Community_Grid" Guid="{7B170320-D6D3-4FF0-88BB-A3DF3DE6A62A}">
+            <File Id="wcg_stop.png_1" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\wcg_stop.png" />
+         </Component>
+         <Component Id="Yellow_dot.png" Directory="World_Community_Grid" Guid="{27F7576B-D81E-4C57-9122-EA243FDCCBC2}">
+            <File Id="Yellow_dot.png" KeyPath="yes" Source="$(var.SourceBinDir)\skins\World Community Grid\Yellow_dot.png" />
+         </Component>
+      </ComponentGroup>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ar" Name="ar" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="az" Name="az" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_1">
+         <Directory Id="Backgrounds" Name="Backgrounds" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="bg" Name="bg" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ca" Name="ca" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_2">
+         <Directory Id="Charity_Engine" Name="Charity Engine" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="cs" Name="cs" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="da" Name="da" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="de" Name="de" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins">
+         <Directory Id="default" Name="default" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_2">
+         <Directory Id="Default_1" Name="Default" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="el" Name="el" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="eo" Name="eo" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="es" Name="es" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="eu" Name="eu" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="fa_IR" Name="fa_IR" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="fi" Name="fi" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="fr" Name="fr" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="default">
+         <Directory Id="graphic" Name="graphic" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="People_for_a_Smarter_Planet">
+         <Directory Id="graphic_1" Name="graphic" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_2">
+         <Directory Id="GridRepublic" Name="GridRepublic" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="he" Name="he" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="hu" Name="hu" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_1">
+         <Directory Id="Icons" Name="Icons" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="id" Name="id" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="it" Name="it" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="it_IT" Name="it_IT" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ja" Name="ja" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ka" Name="ka" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ko" Name="ko" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ku" Name="ku" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="lt" Name="lt" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="lv" Name="lv" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="nb" Name="nb" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="nl" Name="nl" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_1">
+         <Directory Id="Original_artwork" Name="Original artwork" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_2">
+         <Directory Id="People_for_a_Smarter_Planet" Name="People for a Smarter Planet" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="pl" Name="pl" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_2">
+         <Directory Id="ProgressThruProcessors" Name="ProgressThruProcessors" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="pt_BR" Name="pt_BR" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="pt_PT" Name="pt_PT" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ro" Name="ro" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="ru" Name="ru" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="sk" Name="sk" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="res">
+         <Directory Id="skins" Name="skins" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="templates">
+         <Directory Id="skins_1" Name="skins" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="sr_latin" Name="sr@latin" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="sv" Name="sv" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="res">
+         <Directory Id="templates" Name="templates" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="th" Name="th" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="tr" Name="tr" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="uk" Name="uk" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="vi" Name="vi" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="skins_2">
+         <Directory Id="World_Community_Grid" Name="World Community Grid" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="zh_CN" Name="zh_CN" />
+      </DirectoryRef>
+   </Fragment>
+   <Fragment>
+      <DirectoryRef Id="locale">
+         <Directory Id="zh_TW" Name="zh_TW" />
+      </DirectoryRef>
+   </Fragment>
+</Wix>
