@@ -37,9 +37,55 @@ env:
   VC2010_MD5: 02a945866cd1b13e2375c024f0e18301 # keep lowercase
 
 jobs:
+  prepare-package:
+    name: Build packages
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        platform: [ 'x64' ]
+        type: ['client', 'manager']
+      fail-fast: false
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Fix vcpkg
+        run: vcpkg.exe integrate remove
+
+      - name: Build
+        if: success()
+        run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
+
+      - name: Prepare artifacts for deploy
+        if: success() && matrix.type == 'msbuild'
+        shell: cmd
+        run: |
+          python deploy\prepare_deployment.py win_client
+          python deploy\prepare_deployment.py win_manager
+
+      - name: Upload client
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: win_client_${{matrix.platform}}
+          path: deploy/win_client.7z
+
+      - name: Upload manager
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: win_manager_${{matrix.platform}}
+          path: deploy/win_manager.7z
+
   build-installers:
     name: Build installers
-    runs-on: windows-latest
+    runs-on: windows-2022
+    needs: prepare-package
     strategy:
       matrix:
         # type: [x64, x64_vbox, arm]
@@ -124,22 +170,22 @@ jobs:
         if: ${{ success() && (matrix.type == 'x64' || matrix.type == 'x64_vbox') }}
         uses: actions/download-artifact@v3
         with:
-          name: win_client_x64_
+          name: win_client_x64
           path: pkgs/
   
       - name: Download Manager Artifact
         if: ${{ success() && (matrix.type == 'x64' || matrix.type == 'x64_vbox') }}
         uses: actions/download-artifact@v3
         with:
-          name: win_manager_x64_
+          name: win_manager_x64
           path: pkgs/
 
       - name: Decompress Artifacts
         if: ${{ success() }}
         run: |
           pushd "${{ github.workspace }}\build"
-          7z x "${{ github.workspace }}\pkgs\win_client_x64_.7z"
-          7z x "${{ github.workspace }}\pkgs\win_manager_x64_.7z"
+          7z x "${{ github.workspace }}\pkgs\win_client_x64.7z"
+          7z x "${{ github.workspace }}\pkgs\win_manager_x64.7z"
           ls -R .
 
       - name: Build installer
