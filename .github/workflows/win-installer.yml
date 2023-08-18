@@ -42,8 +42,8 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        # type: [deps, x64, x64_vbox, arm]
-        type: [deps, x64]
+        # type: [x64, x64_vbox, arm]
+        type: [x64]
       fail-fast: false
     defaults:
       run:
@@ -51,7 +51,8 @@ jobs:
     env:
       PREREQUISITES_PATH: "${{ github.workspace }}\\build\\prerequisites"
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout project
+        uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
@@ -66,8 +67,8 @@ jobs:
 
       - name: Create build folders
         run: |
-          New-Item -Path "${{ github.workspace }}\\build"
-          New-Item -Path "${{ github.workspace }}\\build\\prerequisites"
+          New-Item -Path "${{ github.workspace }}\build"
+          New-Item -Path "${{ github.workspace }}\build\prerequisites"
 
       - name: Restore cached VirtualBox installer
         if: ${{ matrix.type == 'x64_vbox' }}
@@ -90,7 +91,7 @@ jobs:
         run: |
           # Download Virtualbox prerequisite
           Invoke-WebRequest -Uri "${{ env.VBOX_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
-          $md5 = (Get-FileHash ".\${{ env.VBOX_NAME }}" -Algorithm MD5).Hash.ToLower()
+          $md5 = (Get-FileHash ".\\${{ env.VBOX_NAME }}" -Algorithm MD5).Hash.ToLower()
           if ( !($md5 -eq "${{ env.VBOX_MD5 }}") ) {
             throw "VirtualBox installer download failed"
           }
@@ -100,7 +101,7 @@ jobs:
         run: |
           # Download VC2010 prerequisite
           Invoke-WebRequest -Uri "${{ env.VC2010_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
-          $md5 = (Get-FileHash ".\${{ env.VC2010_NAME }}" -Algorithm MD5).Hash.ToLower()
+          $md5 = (Get-FileHash ".\\${{ env.VC2010_NAME }}" -Algorithm MD5).Hash.ToLower()
           if ( !($md5 -eq "${{ env.VC2010_MD5 }}") ) {
             throw "VisualStudio2010 redistributable installer download failed"
           }
@@ -136,9 +137,9 @@ jobs:
       - name: Decompress Artifacts
         if: ${{ success() }}
         run: |
-          pushd "${{ github.workspace }}\\build"
-          7z x "${{ github.workspace }}\\pkgs\\win_client_x64_.7z"
-          7z x "${{ github.workspace }}\\pkgs\\win_manager_x64_.7z"
+          pushd "${{ github.workspace }}\build"
+          7z x "${{ github.workspace }}\pkgs\win_client_x64_.7z"
+          7z x "${{ github.workspace }}\pkgs\win_manager_x64_.7z"
           find .
 
       - name: Build installer
