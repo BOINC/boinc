@@ -7,8 +7,6 @@ param
     [Parameter(Mandatory=$true,ParameterSetName='clean')][switch]$CleanOnly
 )
 
-# "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-
 $global:step = 0
 $ErrorActionPreference = 'Stop'
 
@@ -144,7 +142,11 @@ function CheckBuildDir {
         CheckPath -Path "build\boinctray.exe"
 
         WriteStep "Check prerequisites"
-        CheckPath -Path "build\prerequisites\$VC2010RedistInstaller"
+        if ( $Type -eq "arm" ) {
+            CheckPath -Path "build\prerequisites\$VC2010RedistInstaller" -ExpectNotPresent
+        } else {
+            CheckPath -Path "build\prerequisites\$VC2010RedistInstaller"
+        }
 
         if ( $Type -eq "x64_vbox" ) {
             CheckPath -Path "build\prerequisites\$VboxInstaller"
@@ -216,7 +218,7 @@ function BuildInstaller {
             'arm' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                msbuild installer.sln
+                msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
@@ -224,7 +226,7 @@ function BuildInstaller {
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
-                msbuild bundle.sln
+                msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
