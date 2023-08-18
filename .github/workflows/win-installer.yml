@@ -55,7 +55,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - uses: actions/checkout@v2
       - name: Install Wix
         uses: actions/checkout@v2
         with:
@@ -65,10 +64,10 @@ jobs:
       - name: Install MSBuild
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: Download prerequisite
+      - name: Create build folders
         run: |
-          Create-Item -Path "${{ github.workspace }}\\build"
-          Create-Item -Path "${{ github.workspace }}\\build\\prerequisites"
+          New-Item -Path "${{ github.workspace }}\\build"
+          New-Item -Path "${{ github.workspace }}\\build\\prerequisites"
 
       - name: Restore cached VirtualBox installer
         if: ${{ matrix.type == 'x64_vbox' }}
