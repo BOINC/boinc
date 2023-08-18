@@ -18,6 +18,8 @@
 name: Build Windows Installer
 on:
   workflow_dispatch:
+  push:
+    branches: [ '5065-*' ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
