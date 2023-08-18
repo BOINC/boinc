@@ -109,22 +109,24 @@ jobs:
           key: ${{ env.VC2010_NAME }}-${{ env.VC2010_MD5 }}
 
       - name: Download Client Artifact
+        if: ${{ success() && (matrix.type == 'x64' || matrix.type == 'x64_vbox') }}
         uses: actions/download-artifact@v3
         with:
-          name: windows-package_client
+          name: win_client_x64_
           path: pkgs/
   
       - name: Download Manager Artifact
+        if: ${{ success() && (matrix.type == 'x64' || matrix.type == 'x64_vbox') }}
         uses: actions/download-artifact@v3
         with:
-          name: windows-package_manager
+          name: win_manager_x64_
           path: pkgs/
 
       - name: Decompress Artifacts
         if: ${{ success() }}
         run: |
           pushd "${{ github.workspace }}\\build"
-          7z x "${{ github.workspace }}\\pkgs\\windows-package_client.7z"
-          7z x "${{ github.workspace }}\\pkgs\\windows-package_manager.7z"
+          7z x "${{ github.workspace }}\\pkgs\\win_client_x64_.7z"
+          7z x "${{ github.workspace }}\\pkgs\\win_manager_x64_.7z"
           find .
         
