@@ -12,7 +12,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
+    <DefineConstants>Debug;VC2010Active=1;InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
@@ -20,7 +20,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
+    <DefineConstants>VC2010Active=1;InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>

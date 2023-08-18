@@ -23,6 +23,20 @@
     <DefineConstants>BuildDir=..\..\build;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
+    <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug;BuildDir=..\..\build;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <InstallerPlatform>ARM64</InstallerPlatform>
+    <WixVariables>
+    </WixVariables>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM64' ">
+    <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>BuildDir=..\..\build;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <InstallerPlatform>ARM64</InstallerPlatform>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="boinc_binary_files.wxs" />
     <Compile Include="boinc_screensaver_files.wxs" />
