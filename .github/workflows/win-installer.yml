@@ -43,7 +43,6 @@ jobs:
     strategy:
       matrix:
         platform: [ 'x64' ]
-        type: ['client', 'manager']
       fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -62,7 +61,7 @@ jobs:
         run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
 
       - name: Prepare artifacts for deploy
-        if: success() && matrix.type == 'msbuild'
+        if: success()
         shell: cmd
         run: |
           python deploy\prepare_deployment.py win_client
@@ -89,7 +88,7 @@ jobs:
     strategy:
       matrix:
         # type: [x64, x64_vbox, arm]
-        type: [x64]
+        type: [ 'x64' ]
       fail-fast: false
     defaults:
       run:
