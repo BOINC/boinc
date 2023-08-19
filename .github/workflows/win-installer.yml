@@ -50,6 +50,10 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Create deploy dir
+        run: |
+          New-Item -Path "deploy" -ItemType directory
+
       - name: Restore cached client binary
         id: cache-client-restore
         uses: actions/cache/restore@v3
@@ -82,7 +86,6 @@ jobs:
         run: |
           python deploy\prepare_deployment.py win_client
           python deploy\prepare_deployment.py win_manager
-          ls -R deploy
 
       - name: Cache client binary
         id: cache-client-save
@@ -223,5 +226,29 @@ jobs:
           ls -R .
 
       - name: Build installer
+        if: ${{ success() && matrix.variant != '' }}
         run: |
-          pwsh -noninteractive -f .\installer.ps1 -CleanOnly
+          pwsh -noninteractive -f .\installer.ps1 -Arch "${{ matrix.arch }}_${{ matrix.variant }}" `
+               -Certificate "${{ github.workspace }}\win_build\installer_wix\testcert.pfx" `
+               -CertificatePass "testpass"
+
+      - name: Build installer
+        if: ${{ success() && matrix.variant == '' }}
+        run: |
+          pwsh -noninteractive -f .\installer.ps1 -Arch "${{ matrix.arch }}" `
+               -Certificate "${{ github.workspace }}\win_build\installer_wix\testcert.pfx" `
+               -CertificatePass "testpass"
+
+      - name: Upload installer
+        if: ${{ success() && matrix.variant != '' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: boinc_bundle_${{ matrix.arch }}_${{ matrix.variant }}
+          path: build/boinc_${{ matrix.variant }}_bundle.exe
+
+      - name: Upload installer
+        if: ${{ success() && matrix.variant == '' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: boinc_bundle_${{ matrix.arch }}
+          path: build/boinc_bundle.exe
