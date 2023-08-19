@@ -224,14 +224,14 @@ jobs:
       - name: Build installer
         if: ${{ success() && matrix.variant != '' }}
         run: |
-          pwsh -noninteractive -f .\installer.ps1 -Arch "${{ matrix.arch }}_${{ matrix.variant }}" `
+          pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
                -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
       - name: Build installer
         if: ${{ success() && matrix.variant == '' }}
         run: |
-          pwsh -noninteractive -f .\installer.ps1 -Arch "${{ matrix.arch }}" `
+          pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
                -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
