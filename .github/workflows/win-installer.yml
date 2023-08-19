@@ -50,36 +50,66 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Restore cached client binary
+        id: cache-client-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: "deploy/win_client_${{matrix.platform}}.7z"
+          key: win_client_${{matrix.platform}}.7z
+
+      - name: Restore cached manager binary
+        id: cache-manager-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: "deploy/win_manager_${{matrix.platform}}.7z"
+          key: win_manager_${{matrix.platform}}.7z
+
       - name: Setup msbuild
+        if: ${{ steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
         uses: microsoft/setup-msbuild@v1
 
       - name: Fix vcpkg
+        if: ${{ steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
         run: vcpkg.exe integrate remove
 
       - name: Build
-        if: success()
+        if: ${{ success() && steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
         run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
 
       - name: Prepare artifacts for deploy
-        if: success()
+        if: ${{ success() && steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
         shell: cmd
         run: |
           python deploy\prepare_deployment.py win_client
           python deploy\prepare_deployment.py win_manager
 
+      - name: Cache client binary
+        id: cache-client-save
+        uses: actions/cache/save@v3
+        with:
+          path: "deploy/win_client_${{matrix.platform}}.7z"
+          key: win_client_${{matrix.platform}}.7z
+
+      - name: Cache manager binary
+        id: cache-manager-save
+        uses: actions/cache/save@v3
+        with:
+          path: "deploy/win_manager_${{matrix.platform}}.7z"
+          key: win_manager_${{matrix.platform}}.7z
+
       - name: Upload client
-        if: success()
+        if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
           name: win_client_${{matrix.platform}}
-          path: deploy/win_client.7z
+          path: deploy/win_client_${{matrix.platform}}.7z
 
       - name: Upload manager
-        if: success()
+        if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
           name: win_manager_${{matrix.platform}}
-          path: deploy/win_manager.7z
+          path: deploy/win_manager_${{matrix.platform}}.7z
 
   build-installers:
     name: Build installers
@@ -87,8 +117,12 @@ jobs:
     needs: prepare-package
     strategy:
       matrix:
-        # type: [x64, x64_vbox, arm]
-        type: [ 'x64' ]
+        # arch: [x64, arm]
+        arch: [ 'x64' ]
+        variant: [ '', 'vbox' ]
+        exclude:
+          - arch: arm
+            variant: vbox
       fail-fast: false
     defaults:
       run:
@@ -116,7 +150,7 @@ jobs:
           New-Item -Path "${{ github.workspace }}\build\prerequisites" -ItemType directory
 
       - name: Restore cached VirtualBox installer
-        if: ${{ matrix.type == 'x64_vbox' }}
+        if: ${{ matrix.variant == 'vbox' }}
         id: cache-vbox-restore
         uses: actions/cache/restore@v3
         with:
@@ -124,7 +158,7 @@ jobs:
           key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
 
       - name: Restore cached VC2010 installer
-        if: ${{ matrix.type == 'x64' || matrix.type == 'x64_vbox' }}
+        if: ${{ matrix.arch == 'x64' }}
         id: cache-vc2010-restore
         uses: actions/cache/restore@v3
         with:
@@ -132,7 +166,7 @@ jobs:
           key: ${{ env.VC2010_NAME }}-${{ env.VC2010_MD5 }}
 
       - name: Download prerequisite VirtualBox if needed
-        if: ${{ matrix.type == 'x64_vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
+        if: ${{ matrix.variant == 'vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
         run: |
           # Download Virtualbox prerequisite
           Invoke-WebRequest -Uri "${{ env.VBOX_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
@@ -142,7 +176,7 @@ jobs:
           }
 
       - name: Download prerequisite VC2010 if needed
-        if: ${{ (matrix.type == 'x64' || matrix.type == 'x64_vbox') && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
+        if: ${{ matrix.arch == 'x64' && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
         run: |
           # Download VC2010 prerequisite
           Invoke-WebRequest -Uri "${{ env.VC2010_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
@@ -152,39 +186,39 @@ jobs:
           }
 
       - name: Save prerequisite VirtualBox if needed
-        if: ${{ matrix.type == 'x64_vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
+        if: ${{ matrix.variant == 'vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v3
         with:
           path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
           key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
 
       - name: Save prerequisite VC2010 if needed
-        if: ${{ (matrix.type == 'x64' || matrix.type == 'x64_vbox') && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
+        if: ${{ matrix.arch == 'x64' && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v3
         with:
           path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
           key: ${{ env.VC2010_NAME }}-${{ env.VC2010_MD5 }}
 
       - name: Download Client Artifact
-        if: ${{ success() && (matrix.type == 'x64' || matrix.type == 'x64_vbox') }}
+        if: ${{ success() }}
         uses: actions/download-artifact@v3
         with:
-          name: win_client_x64
+          name: win_client_${{ matrix.arch }}
           path: pkgs/
   
       - name: Download Manager Artifact
-        if: ${{ success() && (matrix.type == 'x64' || matrix.type == 'x64_vbox') }}
+        if: ${{ success() }}
         uses: actions/download-artifact@v3
         with:
-          name: win_manager_x64
+          name: win_manager_${{ matrix.arch }}
           path: pkgs/
 
       - name: Decompress Artifacts
         if: ${{ success() }}
         run: |
           pushd "${{ github.workspace }}\build"
-          7z x "${{ github.workspace }}\pkgs\win_client_x64.7z"
-          7z x "${{ github.workspace }}\pkgs\win_manager_x64.7z"
+          7z x "${{ github.workspace }}\pkgs\win_client_${{ matrix.arch }}.7z"
+          7z x "${{ github.workspace }}\pkgs\win_manager_${{ matrix.arch }}.7z"
           ls -R .
 
       - name: Build installer
