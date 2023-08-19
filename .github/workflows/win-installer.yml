@@ -50,10 +50,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Create deploy dir
-        run: |
-          New-Item -Path "deploy" -ItemType directory
-
       - name: Restore cached client binary
         id: cache-client-restore
         uses: actions/cache/restore@v3
