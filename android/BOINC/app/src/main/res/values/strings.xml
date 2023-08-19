@@ -151,6 +151,7 @@
     <string name="prefs_remote_header">Enable Remote Control</string>
     <string name="prefs_remote_summary">When changed, the BOINC client will be relaunched.</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
+    <string name="prefs_show_notification_suspended_header">Show notification when suspended</string>
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
     <string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above (%)</string>
