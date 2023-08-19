@@ -32,6 +32,8 @@ class AppPreferences @Inject constructor(val context: Context) {
     var autostart = prefs.getBoolean("autostart", context.resources.getBoolean(R.bool.prefs_default_autostart))
     var showNotificationForNotices = prefs.getBoolean("showNotifications",
             context.resources.getBoolean(R.bool.prefs_default_notification_notices))
+    var showNotificationDuringSuspend = prefs.getBoolean("showNotificationsDuringSuspend",
+            context.resources.getBoolean(R.bool.prefs_default_notification_suspended))
     var showAdvanced = prefs.getBoolean("showAdvanced", context.resources.getBoolean(R.bool.prefs_default_advanced))
     var isRemote     = prefs.getBoolean("remoteEnable", context.resources.getBoolean(R.bool.prefs_default_remote))
     var logLevel = prefs.getInt("logLevel", context.resources.getInteger(R.integer.prefs_default_loglevel))
@@ -58,6 +60,7 @@ class AppPreferences @Inject constructor(val context: Context) {
 
         Logging.logDebug(Logging.Category.SETTINGS,
             "appPrefs read successful: autostart: [$autostart] showNotificationForNotices: [$showNotificationForNotices] " +
+            "showNotificationDuringSuspend: [$showNotificationDuringSuspend] " +
             "showAdvanced: [$showAdvanced] logLevel: [$logLevel] powerSourceAc: [$powerSourceAc] powerSourceUsb: [$powerSourceUsb] " +
             "powerSourceWireless: [$powerSourceWireless] stationaryDeviceMode: [$stationaryDeviceMode] suspendWhenScreenOn: [$suspendWhenScreenOn]")
     }

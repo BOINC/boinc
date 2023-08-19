@@ -1366,6 +1366,16 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
+        override fun setShowNotificationDuringSuspend(isShow: Boolean) {
+            appPreferences.showNotificationDuringSuspend = isShow
+        }
+
+        @Throws(RemoteException::class)
+        override fun getShowNotificationDuringSuspend(): Boolean {
+            return appPreferences.showNotificationDuringSuspend
+        }
+
+        @Throws(RemoteException::class)
         override fun runBenchmarks(): Boolean {
             return clientInterface.runBenchmarks()
         }

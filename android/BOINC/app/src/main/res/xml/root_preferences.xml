@@ -36,6 +36,12 @@
                 app:title="@string/prefs_show_notification_notices_header" />
 
         <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_notification_suspended"
+                app:iconSpaceReserved="false"
+                app:key="showErrorNotifications"
+                app:title="@string/prefs_show_notification_suspended_header" />
+
+        <CheckBoxPreference
                 app:defaultValue="@bool/prefs_default_advanced"
                 app:iconSpaceReserved="false"
                 app:key="showAdvanced"

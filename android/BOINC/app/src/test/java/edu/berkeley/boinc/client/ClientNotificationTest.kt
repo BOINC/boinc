@@ -22,12 +22,14 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.utils.PROCESS_ABORTED
 import edu.berkeley.boinc.utils.PROCESS_EXECUTING
 import edu.berkeley.boinc.utils.PROCESS_SUSPENDED
+import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockkClass
 import org.junit.Assert
@@ -36,6 +38,7 @@ import org.junit.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 class ClientNotificationTest {
@@ -242,29 +245,164 @@ class ClientNotificationTest {
         Assert.assertTrue(clientNotification.foreground)
     }
 
+    @Config(minSdk = Build.VERSION_CODES.JELLY_BEAN, maxSdk = Build.VERSION_CODES.M)
     @Test
-    fun `When active is false then expect foreground to be true`() {
+    fun `When active is false and showNotificationDuringSuspend is true then expect foreground to be false when API 23 or lower`() {
         val monitor = mockkClass(Monitor::class)
         justRun { monitor.startForeground(any(), any()) }
+        val anyBoolean: (Boolean) -> Boolean = { value -> value }
+        @Suppress("DEPRECATION")
+        justRun { monitor.stopForeground(anyBoolean(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
         val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
 
         clientNotification.update(clientStatus, monitor, false)
 
-        Assert.assertTrue(clientNotification.foreground)
+        Assert.assertFalse(clientNotification.foreground)
     }
 
+    @Config(minSdk = Build.VERSION_CODES.JELLY_BEAN, maxSdk = Build.VERSION_CODES.M)
     @Test
-    fun `When active is false and foreground is true then expect foreground to be true`() {
+    fun `When active is false and showNotificationDuringSuspend is false then expect foreground to be false when API 23 or lower`() {
         val monitor = mockkClass(Monitor::class)
         justRun { monitor.startForeground(any(), any()) }
+        val anyBoolean: (Boolean) -> Boolean = { value -> value }
+        @Suppress("DEPRECATION")
+        justRun { monitor.stopForeground(anyBoolean(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Config(minSdk = Build.VERSION_CODES.N, maxSdk = Build.VERSION_CODES.P)
+    @Test
+    fun `When active is false and showNotificationDuringSuspend is true then expect foreground to be false when API is higher than 23`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val anyInteger: (Int) -> Int = { value -> value }
+        justRun { monitor.stopForeground(anyInteger(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Config(minSdk = Build.VERSION_CODES.N, maxSdk = Build.VERSION_CODES.P)
+    @Test
+    fun `When active is false and showNotificationDuringSuspend is false then expect foreground to be false when API is higher than 23`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val anyInteger: (Int) -> Int = { value -> value }
+        justRun { monitor.stopForeground(anyInteger(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Config(minSdk = Build.VERSION_CODES.JELLY_BEAN, maxSdk = Build.VERSION_CODES.M)
+    @Test
+    fun `When active is false, showNotificationDuringSuspend is true and foreground is true then expect foreground to be false when API 23 or lower`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val anyBoolean: (Boolean) -> Boolean = { value -> value }
+        @Suppress("DEPRECATION")
+        justRun { monitor.stopForeground(anyBoolean(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
         val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
 
         clientNotification.foreground = true
         clientNotification.update(clientStatus, monitor, false)
 
-        Assert.assertTrue(clientNotification.foreground)
+        Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Config(minSdk = Build.VERSION_CODES.JELLY_BEAN, maxSdk = Build.VERSION_CODES.M)
+    @Test
+    fun `When active is false, showNotificationDuringSuspend is false and foreground is true then expect foreground to be false when API 23 or lower`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val anyBoolean: (Boolean) -> Boolean = { value -> value }
+        @Suppress("DEPRECATION")
+        justRun { monitor.stopForeground(anyBoolean(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+
+        clientNotification.foreground = true
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Config(minSdk = Build.VERSION_CODES.N, maxSdk = Build.VERSION_CODES.P)
+    @Test
+    fun `When active is false, showNotificationDuringSuspend is true and foreground is true then expect foreground to be false when API is higher than 23`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val anyInteger: (Int) -> Int = { value -> value }
+        justRun { monitor.stopForeground(anyInteger(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+
+        clientNotification.foreground = true
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Config(minSdk = Build.VERSION_CODES.N, maxSdk = Build.VERSION_CODES.P)
+    @Test
+    fun `When active is false, showNotificationDuringSuspend is false and foreground is true then expect foreground to be false when API is higher than 23`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val anyInteger: (Int) -> Int = { value -> value }
+        justRun { monitor.stopForeground(anyInteger(any())) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+
+        clientNotification.foreground = true
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.foreground)
     }
 
     @Test
@@ -513,9 +651,13 @@ class ClientNotificationTest {
     }
 
     @Test
-    fun `When updatedStatus is COMPUTING_STATUS_IDLE and oldActiveTasks is not empty then expect status updated and oldActiveTasks to be empty`() {
+    fun `When updatedStatus is COMPUTING_STATUS_IDLE, active is true and showNotificationDuringSuspend is true then expect status updated`() {
         val monitor = mockkClass(Monitor::class)
         justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
         val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_IDLE
         clientNotification.mOldActiveTasks.add(Result())
@@ -523,15 +665,73 @@ class ClientNotificationTest {
         clientNotification.update(clientStatus, monitor, true)
 
         Assert.assertTrue(clientNotification.notificationShown)
-        Assert.assertTrue(clientNotification.mOldActiveTasks.isEmpty())
         Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
         Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
     }
 
     @Test
-    fun `When updatedStatus is COMPUTING_STATUS_SUSPENDED and oldActiveTasks is not empty then expect status updated and oldActiveTasks to be empty`() {
+    fun `When updatedStatus is COMPUTING_STATUS_IDLE, active is true and showNotificationDuringSuspend is false then expect status updated`() {
         val monitor = mockkClass(Monitor::class)
         justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_IDLE
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, true)
+
+        Assert.assertTrue(clientNotification.notificationShown)
+        Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
+        Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_IDLE, active is false and showNotificationDuringSuspend is true then expect status updated`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_IDLE
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertTrue(clientNotification.notificationShown)
+        Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
+        Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_IDLE, active is false and showNotificationDuringSuspend is false then expect notification is hidden`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_IDLE
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.notificationShown)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_SUSPENDED, active is true and showNotificationDuringSuspend is true then expect status updated`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
         val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_SUSPENDED
         clientNotification.mOldActiveTasks.add(Result())
@@ -539,15 +739,73 @@ class ClientNotificationTest {
         clientNotification.update(clientStatus, monitor, true)
 
         Assert.assertTrue(clientNotification.notificationShown)
-        Assert.assertTrue(clientNotification.mOldActiveTasks.isEmpty())
         Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
         Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
     }
 
     @Test
-    fun `When updatedStatus is COMPUTING_STATUS_NEVER and oldActiveTasks is not empty then expect status updated and oldActiveTasks to be empty`() {
+    fun `When updatedStatus is COMPUTING_STATUS_SUSPENDED, active is true and showNotificationDuringSuspend is false then expect status updated`() {
         val monitor = mockkClass(Monitor::class)
         justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_SUSPENDED
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, true)
+
+        Assert.assertTrue(clientNotification.notificationShown)
+        Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
+        Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_SUSPENDED, active is false and showNotificationDuringSuspend is true then expect status updated`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_SUSPENDED
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertTrue(clientNotification.notificationShown)
+        Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
+        Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_SUSPENDED, active is false and showNotificationDuringSuspend is false then expect notification is hidden`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_SUSPENDED
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.notificationShown)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_NEVER, active is true and showNotificationDuringSuspend is true then expect status updated`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
         val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
         clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
         clientNotification.mOldActiveTasks.add(Result())
@@ -555,9 +813,63 @@ class ClientNotificationTest {
         clientNotification.update(clientStatus, monitor, true)
 
         Assert.assertTrue(clientNotification.notificationShown)
-        Assert.assertTrue(clientNotification.mOldActiveTasks.isEmpty())
         Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
         Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_NEVER, active is true and showNotificationDuringSuspend is false then expect status updated`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, true)
+
+        Assert.assertTrue(clientNotification.notificationShown)
+        Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
+        Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_NEVER, active is false and showNotificationDuringSuspend is true then expect status updated`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertTrue(clientNotification.notificationShown)
+        Assert.assertEquals(clientStatus.computingStatus, clientNotification.mOldComputingStatus)
+        Assert.assertEquals(clientStatus.computingSuspendReason, clientNotification.mOldSuspendReason)
+    }
+
+    @Test
+    fun `When updatedStatus is COMPUTING_STATUS_NEVER, active is false and showNotificationDuringSuspend is false then expect notification is hidden`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val appPreferences = mockkClass(AppPreferences::class)
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+
+        val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+        clientNotification.mOldActiveTasks.add(Result())
+
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.notificationShown)
     }
 
     @Test
