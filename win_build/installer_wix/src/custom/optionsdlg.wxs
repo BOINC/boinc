@@ -22,7 +22,7 @@
     </SetProperty>
 
     <!-- Screensaver is not available on ARM architecture -->
-    <?if !($(var.Platform) = 'ARM64') ?>
+    <?if var.Platform != 'ARM64' ?>
     <Property Id="ENABLESCREENSAVER_VAR" Secure="yes" />
     <Property Id="ENABLESCREENSAVER_Description" Value="!(loc.ENABLESCREENSAVER_Description)" />
     <SetProperty Id="ENABLESCREENSAVER" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER_VAR]]></SetProperty>
@@ -53,7 +53,7 @@
         <Control Id="OPT2" Type="CheckBox" X="20" Y="95" Width="230" Height="18" CheckBoxValue="1" Hidden="no"
                  Property="ENABLEUSEBYALLUSERS_VAR" Text="[ENABLEUSEBYALLUSERS_Description]" Disabled="no" />
 
-        <?if !($(var.Platform) = 'ARM64') ?>
+        <?if var.Platform != 'ARM64' ?>
         <!-- Enable the screensaver -->
         <Control Id="OPT3" Type="CheckBox" X="20" Y="115" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no" >
@@ -72,7 +72,7 @@
         <!-- Allow executing protected applications -->
         <Control Id="OPT5" Type="CheckBox" X="20" Y="175" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" >
-            <?if !($(var.Platform) = 'ARM64') ?>
+            <?if var.Platform != 'ARM64' ?>
             <Condition Action="enable"><![CDATA[VIRTUALBOXINSTALLED]]></Condition>
             <Condition Action="disable"><![CDATA[NOT VIRTUALBOXINSTALLED]]></Condition>
             <?else ?>

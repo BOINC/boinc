@@ -32,7 +32,7 @@
             </Component>
         </ComponentGroup>
 
-        <?if !($(var.Platform) = 'ARM64') ?>
+        <?if var.Platform != 'ARM64' ?>
         <ComponentGroup Id="BOINCScreensaverGroupNT" Directory="TARGETDIR">
             <!-- Registry Entry to setup the screensaver -->
             <Component Id="ScreensaverEnableNT" Guid="{046307f8-63e3-4b39-81d3-caa88a8545a9}">

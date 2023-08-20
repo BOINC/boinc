@@ -4,7 +4,7 @@
 
     <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" Version="7.22.3.0" Language="1033" 
              Name="BOINC" Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
-        <Package InstallerVersion="300" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
+        <Package InstallerVersion="$(var.MinInstallerVersion)" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
         <Media Id="1" Cabinet="boinc.cab" EmbedCab="yes" />
         
         <!-- Preconditions for starting the Installer at all -->
@@ -61,7 +61,7 @@
             <ComponentGroupRef Id="DATAFILES" />
         </Feature>
 
-        <?if !($(var.Platform) = 'ARM64') ?>
+        <?if var.Platform != 'ARM64' ?>
         <SetDirectory Id="BOINCSCREENBIN" Value="[WindowsFolder]"/>
         <Feature Id="BoincScreensaver" Title="Screensaver" AllowAdvertise="no" Level="32767">
             <ComponentGroupRef Id="SCREENFILES" />

@@ -19,7 +19,7 @@
                     <Subscribe Event="SelectionNoItems" Attribute="Enabled" />
                     <!-- Verifies that directories chosen are valid before installing -->
                     <Publish Event="DoAction" Value="CAVerifyInstallDirectories">LAUNCHPROGRAM</Publish>
-                    <?if !($(var.Platform) = 'ARM64') ?>
+                    <?if var.Platform != 'ARM64' ?>
                     <!-- Force registry change for screensaver if after selection the feature was removed (and dialog not reopened) -->
                     <Publish Property="ENABLESCREENSAVER"><![CDATA[(&BoincScreensaver<>3)]]></Publish>
                     <?endif ?>
