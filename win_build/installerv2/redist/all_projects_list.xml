@@ -178,27 +178,6 @@
         <keywords>1 20 36 37</keywords>
     </project>
     <project>
-        <name>Cosmology@Home</name>
-        <id>12</id>
-        <url>http://www.cosmologyathome.org/</url>
-        <web_url>http://www.cosmologyathome.org/</web_url>
-        <general_area>Physical Science</general_area>
-        <specific_area>Astronomy</specific_area>
-        <description><![CDATA[The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data.]]></description>
-        <home>University of Illinois at Urbana-Champaign</home>
-    <platforms>
-        <name>i686-pc-linux-gnu</name>
-        <name>windows_intelx86</name>
-        <name>windows_x86_64[vbox64_mt]</name>
-        <name>x86_64-apple-darwin[vbox64_mt]</name>
-        <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[vbox64_mt]</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/cosmo.jpg</image>
-      <summary>Study the evolution of the Universe</summary>
-        <keywords>1 5 23 24 56</keywords>
-    </project>
-    <project>
         <name>Universe@Home</name>
         <id>13</id>
         <url>https://universeathome.pl/universe/</url>
@@ -978,7 +957,7 @@
         <name>x86-android-linux-gnu</name>
         <name>x86_64-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
-        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[libc_228]</name>
     </platforms>
       <summary>Support scientists from multiple institutions</summary>
         <keywords>23 24 9</keywords>
