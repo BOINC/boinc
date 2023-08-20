@@ -52,6 +52,8 @@ jobs:
 
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1
+        with:
+            vs-version: '[17.0,19)'
 
       - name: Fix vcpkg
         run: vcpkg.exe integrate remove
@@ -112,6 +114,8 @@ jobs:
 
       - name: Install MSBuild
         uses: microsoft/setup-msbuild@v1.1
+        with:
+            vs-version: '[17.0,19)'
 
       - name: Create build folders
         run: |
