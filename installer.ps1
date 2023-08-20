@@ -252,9 +252,9 @@ function SignInstaller {
     # Export-PfxCertificate -Cert (Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert)[0] -Password $pass -FilePath "$Certificate"
 
     WriteStep "Import certificate in TrustedPublisher"
-    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\CurrentUser\TrustedPublisher | Out-Null
+    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\TrustedPublisher | Out-Null
     WriteStep "Import certificate as CA Root Authority"
-    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\CurrentUser\Root | Out-Null
+    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\Root | Out-Null
 
     WriteStep "Sign bundle with certificate"
     $resp = Set-AuthenticodeSignature "build\$target" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
