@@ -14,17 +14,22 @@ if [ ! -d "android" ]; then
 fi
 
 skip_client_build=""
+tasks=""
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
         --skip-client-build)
         skip_client_build="yes"
         ;;
+        --tasks)
+        tasks="$2"
+        shift
+        ;;
         *)
         echo "unrecognized option $key"
         ;;
     esac
-    shift # past argument or value
+    shift
 done
 
 if [ "x$skip_client_build" = "x" ]; then
@@ -35,7 +40,10 @@ cd android/BOINC
 
 echo '===== BOINC Manager build start ====='
 
-./gradlew clean assemble jacocoTestReportDebug --warning-mode all
+if [ "x$tasks" = "x" ]; then
+    tasks="clean assemble jacocoTestReportDebug"
+fi
+./gradlew $tasks --warning-mode all
 
 echo '===== BOINC Manager build done ====='
 

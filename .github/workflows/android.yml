@@ -95,6 +95,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-client
     strategy:
+      matrix:
+        task: [assembleRelease, assembleXiaomi_release, assembleArmv6_release, jacocoTestReportDebug]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -141,7 +143,7 @@ jobs:
         uses: android-actions/setup-android@v2
 
       - name: Build manager with vcpkg
-        run: ./android/ci_build_vcpkg_manager.sh --skip-client-build
+        run: ./android/ci_build_vcpkg_manager.sh --skip-client-build --tasks "clean ${{ matrix.task }}"
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -159,31 +161,35 @@ jobs:
 
       - name: Upload generic artifacts
         uses: actions/upload-artifact@v3
+        if: ${{ matrix.task == 'assembleRelease' }}
         with:
           name: android_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/android_manager.7z
 
       - name: Upload xiaomi manager
         uses: actions/upload-artifact@v3
+        if: ${{ matrix.task == 'assembleXiaomi_release' }}
         with:
           name: android_xiaomi_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/android_manager_xiaomi.7z
 
       - name: Upload armv6 only manager
         uses: actions/upload-artifact@v3
+        if: ${{ matrix.task == 'assembleArmv6_release' }}
         with:
           name: android_armv6_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/android_manager_armv6.7z
 
       - name: Upload JUnit Tests Results
         uses: actions/upload-artifact@v3
-        if: always()
+        if: ${{ always() && matrix.task == 'jacocoTestReportDebug' }}
         with:
           name: Android_tests_results
           path: android/BOINC/app/build/test-results/testDebugUnitTest/TEST-*.xml
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3
+        if: ${{ matrix.task == 'jacocoTestReportDebug' }}
         with:
           fail_ci_if_error: true
           verbose: false
