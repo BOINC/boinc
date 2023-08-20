@@ -42,7 +42,7 @@ jobs:
     runs-on: windows-2022
     strategy:
       matrix:
-        platform: [ 'x64' ]
+        platform: [ 'x64','arm' ]
       fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -50,52 +50,22 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Restore cached client binary
-        id: cache-client-restore
-        uses: actions/cache/restore@v3
-        with:
-          path: "deploy/win_client_${{matrix.platform}}.7z"
-          key: client_${{matrix.platform}}.7z
-
-      - name: Restore cached manager binary
-        id: cache-manager-restore
-        uses: actions/cache/restore@v3
-        with:
-          path: "deploy/win_manager_${{matrix.platform}}.7z"
-          key: manager_${{matrix.platform}}.7z
-
       - name: Setup msbuild
-        if: ${{ steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
         uses: microsoft/setup-msbuild@v1
 
       - name: Fix vcpkg
-        if: ${{ steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
         run: vcpkg.exe integrate remove
 
       - name: Build
-        if: ${{ success() && steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
+        if: ${{ success() }}
         run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
 
       - name: Prepare artifacts for deploy
-        if: ${{ success() && steps.cache-client-restore.outputs.cache-hit != 'true' && steps.cache-manager-restore.outputs.cache-hit != 'true' }}
+        if: ${{ success() }}
         shell: cmd
         run: |
           python deploy\prepare_deployment.py win_client
           python deploy\prepare_deployment.py win_manager
-
-      - name: Cache client binary
-        id: cache-client-save
-        uses: actions/cache/save@v3
-        with:
-          path: "deploy/win_client.7z"
-          key: client_${{matrix.platform}}.7z
-
-      - name: Cache manager binary
-        id: cache-manager-save
-        uses: actions/cache/save@v3
-        with:
-          path: "deploy/win_manager.7z"
-          key: manager_${{matrix.platform}}.7z
 
       - name: Upload client
         if: ${{ success() }}
@@ -117,8 +87,7 @@ jobs:
     needs: prepare-package
     strategy:
       matrix:
-        # arch: [x64, arm]
-        arch: [ 'x64' ]
+        arch: ['x64', 'arm']
         variant: [ '', 'vbox' ]
         exclude:
           - arch: arm
