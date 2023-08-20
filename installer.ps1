@@ -1,6 +1,6 @@
 param
 (
-    [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm')][string]$Type = "x64",
+    [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm64')][string]$Type = "x64",
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Certificate,
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$CertificatePass,
 
@@ -54,7 +54,7 @@ function CheckPrerequisites {
 
     WriteStep "Requirements check: MSBuild"
     try {
-        msbuild --version | Out-Null
+        msbuild --version
     }
     Catch {
         Report $false
@@ -62,7 +62,7 @@ function CheckPrerequisites {
 
     WriteStep "Requirements check: Wix Toolkit"
     try {
-        heat -? | Out-Null
+        heat -?
     }
     Catch {
         Report $false
@@ -142,7 +142,7 @@ function CheckBuildDir {
         CheckPath -Path "build\boinctray.exe"
 
         WriteStep "Check prerequisites"
-        if ( $Type -eq "arm" ) {
+        if ( $Type -eq "arm64" ) {
             CheckPath -Path "build\prerequisites\$VC2010RedistInstaller" -ExpectNotPresent
         } else {
             CheckPath -Path "build\prerequisites\$VC2010RedistInstaller"
@@ -215,7 +215,7 @@ function BuildInstaller {
                     Report $false
                 }
             }
-            'arm' {
+            'arm64' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
                 msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64
