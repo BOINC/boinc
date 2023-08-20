@@ -19,8 +19,10 @@
                     <Subscribe Event="SelectionNoItems" Attribute="Enabled" />
                     <!-- Verifies that directories chosen are valid before installing -->
                     <Publish Event="DoAction" Value="CAVerifyInstallDirectories">LAUNCHPROGRAM</Publish>
+                    <?if !($(var.Platform) = 'ARM64') ?>
                     <!-- Force registry change for screensaver if after selection the feature was removed (and dialog not reopened) -->
                     <Publish Property="ENABLESCREENSAVER"><![CDATA[(&BoincScreensaver<>3)]]></Publish>
+                    <?endif ?>
                 </Control>
                 <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
                     <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>

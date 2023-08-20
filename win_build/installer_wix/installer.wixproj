@@ -69,6 +69,6 @@
     <Error Text="The WiX Toolset v3.14 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>call "$(ProjectDir)harvest.bat" $(ProjectDir)</PreBuildEvent>
+    <PreBuildEvent>call "$(ProjectDir)harvest.bat" $(ProjectDir) $(Platform)</PreBuildEvent>
   </PropertyGroup>
 </Project>

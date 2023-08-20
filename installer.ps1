@@ -134,12 +134,15 @@ function CheckBuildDir {
 
         WriteStep "Check binary files"
         CheckPath -Path "build\boinc.exe"
-        CheckPath -Path "build\boinc.scr"
         CheckPath -Path "build\boinccmd.exe"
         CheckPath -Path "build\boincsvcctrl.exe"
         CheckPath -Path "build\ca-bundle.crt"
         CheckPath -Path "build\boincmgr.exe"
         CheckPath -Path "build\boinctray.exe"
+
+        if ( !($Type -eq "arm64") ) {
+            CheckPath -Path "build\boinc.scr"
+        }
 
         WriteStep "Check prerequisites"
         if ( $Type -eq "arm64" ) {

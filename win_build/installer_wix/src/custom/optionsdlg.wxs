@@ -5,24 +5,28 @@
     <!-- Local variables to track the checkbox state -->
     <Property Id="ENABLESTARTMENUITEMS_VAR" Secure="yes" />
     <Property Id="ENABLEUSEBYALLUSERS_VAR" Secure="yes" />
-    <Property Id="ENABLESCREENSAVER_VAR" Secure="yes" />
     <Property Id="ENABLELAUNCHATLOGON_VAR" Secure="yes" />
     <Property Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Secure="yes" />
 
     <Property Id="ENABLESTARTMENUITEMS_Description" Value="!(loc.ENABLESTARTMENUITEMS_Description)" />
     <Property Id="ENABLEUSEBYALLUSERS_Description" Value="!(loc.ENABLEUSEBYALLUSERS_Description)" />
-    <Property Id="ENABLESCREENSAVER_Description" Value="!(loc.ENABLESCREENSAVER_Description)" />
     <Property Id="ENABLELAUNCHATLOGON_Description" Value="!(loc.ENABLELAUNCHATLOGON_Description)" />
     <Property Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description" Value="!(loc.ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description)" />
 
     <!-- Outside variables to condition components based on checkbox final value -->
     <SetProperty Id="ENABLESTARTMENUITEMS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESTARTMENUITEMS_VAR]]></SetProperty>
     <SetProperty Id="ENABLEUSEBYALLUSERS" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLEUSEBYALLUSERS_VAR]]></SetProperty>
-    <SetProperty Id="ENABLESCREENSAVER" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER_VAR]]></SetProperty>
     <SetProperty Id="ENABLELAUNCHATLOGON" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLELAUNCHATLOGON_VAR]]></SetProperty>
     <SetProperty Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3" Value="1" Sequence="execute" Before="CostFinalize">
       <![CDATA[ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR]]>
     </SetProperty>
+
+    <!-- Screensaver is not available on ARM architecture -->
+    <?if !($(var.Platform) = 'ARM64') ?>
+    <Property Id="ENABLESCREENSAVER_VAR" Secure="yes" />
+    <Property Id="ENABLESCREENSAVER_Description" Value="!(loc.ENABLESCREENSAVER_Description)" />
+    <SetProperty Id="ENABLESCREENSAVER" Value="1" Sequence="execute" Before="CostFinalize"><![CDATA[ENABLESCREENSAVER_VAR]]></SetProperty>
+    <?endif ?>
 
     <UI>
       <!-- This dialog is opened from the Options button in the feature selection dialog, it contains two groups of
@@ -49,12 +53,14 @@
         <Control Id="OPT2" Type="CheckBox" X="20" Y="95" Width="230" Height="18" CheckBoxValue="1" Hidden="no"
                  Property="ENABLEUSEBYALLUSERS_VAR" Text="[ENABLEUSEBYALLUSERS_Description]" Disabled="no" />
 
+        <?if !($(var.Platform) = 'ARM64') ?>
         <!-- Enable the screensaver -->
         <Control Id="OPT3" Type="CheckBox" X="20" Y="115" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no" >
             <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
             <Condition Action="disable"><![CDATA[(&BoincScreensaver<>3)]]></Condition>
         </Control>
+        <?endif ?>
 
         <!-- Advanced Options group -->
         <Control Id="AdvOptHeader" Type="GroupBox" X="10" Y="140" Width="306" Height="60" Text="{\WixUI_Font_Bigger}Advanced Options" />
@@ -66,8 +72,13 @@
         <!-- Allow executing protected applications -->
         <Control Id="OPT5" Type="CheckBox" X="20" Y="175" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" >
+            <?if !($(var.Platform) = 'ARM64') ?>
             <Condition Action="enable"><![CDATA[VIRTUALBOXINSTALLED]]></Condition>
             <Condition Action="disable"><![CDATA[NOT VIRTUALBOXINSTALLED]]></Condition>
+            <?else ?>
+            <Condition Action="enable"><![CDATA[0]]></Condition>
+            <Condition Action="disable"><![CDATA[1]]></Condition>
+            <?endif ?>
         </Control>
       </Dialog>
     </UI>

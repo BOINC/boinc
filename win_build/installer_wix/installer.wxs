@@ -45,7 +45,6 @@
         <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\WixUIDialogBmp.bmp" />
 
         <SetDirectory Id="BOINCBIN" Value="[ProgramFiles64Folder][ProductName]"/>
-        <SetDirectory Id="BOINCSCREENBIN" Value="[WindowsFolder]"/>
         <SetDirectory Id="BOINCDATA" Value="[CommonAppDataFolder][ProductName]"/>
 
         <!-- Features of the installer -->
@@ -61,11 +60,15 @@
         <Feature Id="BoincData" Title="Local Data" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCDATA">
             <ComponentGroupRef Id="DATAFILES" />
         </Feature>
+
+        <?if !($(var.Platform) = 'ARM64') ?>
+        <SetDirectory Id="BOINCSCREENBIN" Value="[WindowsFolder]"/>
         <Feature Id="BoincScreensaver" Title="Screensaver" AllowAdvertise="no" Level="32767">
             <ComponentGroupRef Id="SCREENFILES" />
             <ComponentGroupRef Id="BOINCScreensaverGroupNT" />
             <ComponentGroupRef Id="BOINCScreensaverGroup9x" />
         </Feature>
+        <?endif ?>
 
         <UI>
             <!-- Uses the custom UI instead of default -->

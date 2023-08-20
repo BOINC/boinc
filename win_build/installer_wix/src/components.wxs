@@ -32,6 +32,7 @@
             </Component>
         </ComponentGroup>
 
+        <?if !($(var.Platform) = 'ARM64') ?>
         <ComponentGroup Id="BOINCScreensaverGroupNT" Directory="TARGETDIR">
             <!-- Registry Entry to setup the screensaver -->
             <Component Id="ScreensaverEnableNT" Guid="{046307f8-63e3-4b39-81d3-caa88a8545a9}">
@@ -44,7 +45,6 @@
                 <Condition>VersionNT AND ENABLESCREENSAVER</Condition>
             </Component>
         </ComponentGroup>
-
         <ComponentGroup Id="BOINCScreensaverGroup9x" Directory="WindowsFolder">
             <!-- Registry Entry to setup the screensaver -->
             <Component Id="ScreensaverEnable9x" Guid="{85a34be1-e66b-443b-8b31-15ca3e956cbf}">
@@ -60,6 +60,7 @@
                 <Condition>Version9X AND ENABLESCREENSAVER</Condition>
             </Component>
         </ComponentGroup>
+        <?endif ?>
 
         <ComponentGroup Id="BOINCComponentsService" Directory="BOINCBIN">
             <!-- Client service install -->
