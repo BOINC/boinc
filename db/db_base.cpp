@@ -46,9 +46,12 @@ int DB_CONN::open(
     //
     // v < 5.0.13: not supported
     // 5.0.13 <= v < 5.0.19: set option after real_connect()
-    // 5.0.19 < v < 5.1: set option before real_connect();
+    // 5.0.19 < v < 5.1: set option before real_connect()
     // 5.1.0 <= v < 5.1.6: set option after real_connect()
-    // 5.1.6 <= v: set option before real_connect
+    // 5.1.6 <= v: set option before real_connect()
+    // 5.1.6 < v < 8.0.34: set option after real_connect()
+    // 8.0.34 <= v: reconnect feature deprecated
+    // https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-34.html#mysqld-8-0-34-deprecation-removal
 
     int v = MYSQL_VERSION_ID;
     bool set_opt_before = false, set_opt_after = false;
@@ -59,7 +62,7 @@ int DB_CONN::open(
         set_opt_before = true;
     } else if (v < 50106) {
         set_opt_after = true;
-    } else {
+    } else if (v < 80034) {
         set_opt_before = true;
     }
 
