@@ -72,7 +72,7 @@ struct OPENCL_DEVICE_PROP {
     int get_device_version_int();       // call this to encode
     int opencl_driver_revision;         // OpenCL runtime revision is available
     int get_opencl_driver_revision();   // call this to encode
-    char opencl_driver_version[32];     // For example: "CLH 1.0"
+    char opencl_driver_version[512];    // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
     double peak_flops;                  // temp used in scan process
     COPROC_USAGE is_used;               // temp used in scan process

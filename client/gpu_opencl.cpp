@@ -176,6 +176,72 @@ int compareOSVersionTo(int toMajor, int toMinor) {
 }
 #endif
 
+#ifdef ANDROID
+#include <android/dlext.h>
+void* (*p_android_dlopen_ext)(const char*, int, const android_dlextinfo*);
+struct android_namespace_t* (*p_android_create_namespace)(const char*, const char*, const char*, uint64_t, const char*, struct android_namespace_t*);
+struct android_namespace_t* (*p_android_get_exported_namespace)(const char*);
+
+struct android_namespace_t* get_android_namespace(vector<string>& warnings) {
+    p_android_get_exported_namespace = (struct android_namespace_t*(*)(const char*)) dlsym(RTLD_DEFAULT, "android_get_exported_namespace");
+    if (!p_android_get_exported_namespace) {
+        gpu_warning(warnings, "No android_get_exported_namespace()");
+    }
+    if (!p_android_get_exported_namespace) {
+        p_android_get_exported_namespace = (struct android_namespace_t*(*)(const char*)) dlsym(RTLD_DEFAULT, "__loader_android_get_exported_namespace");
+        if (!p_android_get_exported_namespace) {
+            gpu_warning(warnings, "No __loader_android_get_exported_namespace()");
+        }
+    }
+    if (p_android_get_exported_namespace) {
+        return (*p_android_get_exported_namespace)("vndk");
+    }
+
+    p_android_create_namespace = (struct android_namespace_t*(*)(const char*, const char*, const char*, uint64_t, const char*, struct android_namespace_t*)) dlsym(RTLD_DEFAULT, "android_create_namespace");
+    if (!p_android_create_namespace) {
+        gpu_warning(warnings, "No android_create_namespace()");
+        return NULL;
+    }
+    string lib_path;
+    if (sizeof(void*) == 8) {
+        lib_path = "/system/lib64/";
+    }
+    else {
+        lib_path = "/system/lib/";
+    }
+#define ANDROID_NAMESPACE_TYPE_ISOLATED 1
+#define ANDROID_NAMESPACE_TYPE_SHARED 2
+    return (*p_android_create_namespace)("trustme", lib_path.c_str(), lib_path.c_str(), ANDROID_NAMESPACE_TYPE_SHARED | ANDROID_NAMESPACE_TYPE_ISOLATED, "/system/:/data/:/vendor/", NULL);
+}
+
+void* android_dlopen(const char* filename, vector<string>& warnings) {
+    char buf[256];
+    gpu_warning(warnings, "Trying dlopen()");
+    void* handle = dlopen(filename, RTLD_NOW);
+    if (handle) {
+        return handle;
+    }
+
+    p_android_dlopen_ext = (void*(*)(const char*, int, const android_dlextinfo*)) dlsym(RTLD_DEFAULT, "android_dlopen_ext");
+    if (!p_android_dlopen_ext) {
+        gpu_warning(warnings, "No android_dlopen_ext()");
+        return NULL;
+    }
+
+    struct android_namespace_t* ns = get_android_namespace(warnings);
+    if (!ns) {
+        gpu_warning(warnings, "No namespace");
+        return NULL;
+    }
+
+    const android_dlextinfo dlextinfo = {
+        .flags = ANDROID_DLEXT_USE_NAMESPACE,
+        .library_namespace = ns,
+    };
+    gpu_warning(warnings, "Trying android_dlopen_ext()");
+    return (*p_android_dlopen_ext)(filename, RTLD_NOW, &dlextinfo);
+}
+#endif
 
 // OpenCL interfaces are documented here:
 // http://www.khronos.org/registry/cl/sdk/1.0/docs/man/xhtml/ and
@@ -219,6 +285,8 @@ void COPROCS::get_opencl(
 #else
 #ifdef __APPLE__
     opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
+#elif defined ANDROID
+    opencl_lib = android_dlopen("libOpenCL.so", warnings);
 #else
     opencl_lib = dlopen("libOpenCL.so", RTLD_NOW);
     if (!opencl_lib) {
@@ -338,14 +406,49 @@ void COPROCS::get_opencl(
 
         //////////// GPUs and Accelerators //////////////
 
+// Looks like implementation of Qualcomm has some problems with clGetDeviceIDs
+// It returns CL_DEVICE_NOT_FOUND for CL_DEVICE_TYPE_GPU and CL_DEVICE_TYPE_ACCELERATOR combined
+// But it returns CL_SUCCESS when asking separately for CL_DEVICE_TYPE_GPU or CL_DEVICE_TYPE_ACCELERATOR
+// So we will ask for CL_DEVICE_TYPE_GPU and CL_DEVICE_TYPE_ACCELERATOR separately
+#ifdef ANDROID
+        cl_device_id android_gpu[MAX_COPROC_INSTANCES];
+        cl_uint num_android_gpu = 0;
+        ciErrNum = (*p_clGetDeviceIDs)(
+            platforms[platform_index],
+            (CL_DEVICE_TYPE_GPU),
+            MAX_COPROC_INSTANCES, android_gpu, &num_android_gpu
+        );
+        if (ciErrNum == CL_SUCCESS && num_android_gpu > 0) {
+            for (int i=0; i<num_android_gpu; ++i) {
+                devices[i] = android_gpu[i];
+            }
+            num_devices = num_android_gpu;
+        }
+
+        cl_device_id android_acc[MAX_COPROC_INSTANCES];
+        cl_uint num_android_acc = 0;
+        ciErrNum = (*p_clGetDeviceIDs)(
+            platforms[platform_index],
+            (CL_DEVICE_TYPE_ACCELERATOR),
+            MAX_COPROC_INSTANCES - num_devices, android_acc, &num_android_acc
+        );
+        if (ciErrNum == CL_SUCCESS && num_android_acc > 0) {
+            for (int i=0; i<num_android_acc; ++i) {
+                devices[num_devices+i] = android_acc[i];
+            }
+            num_devices += num_android_acc;
+        }
+#else
         ciErrNum = (*p_clGetDeviceIDs)(
             platforms[platform_index],
             (CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_ACCELERATOR),
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
-        if (ciErrNum == CL_DEVICE_NOT_FOUND) continue;  // No devices
-        if (num_devices == 0) continue;                 // No devices
+        if (ciErrNum == CL_DEVICE_NOT_FOUND) {
+            gpu_warning(warnings, "No OpenCL GPUs or Accelerators found");
+            continue;  // No devices
+        }
 
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
@@ -355,6 +458,8 @@ void COPROCS::get_opencl(
             gpu_warning(warnings, buf);
             continue;
         }
+#endif
+        if (num_devices == 0) continue;                 // No devices
 
         // Mac OpenCL does not recognize all NVIDIA GPUs returned by CUDA
         // Fortunately, CUDA and OpenCL return the same GPU model name on
