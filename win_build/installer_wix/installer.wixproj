@@ -8,6 +8,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>installer</OutputName>
     <OutputType>Package</OutputType>
+    <!-- Workaround to force msbuild to use local wix installation, normally set by WIX to the local installation, overridden in CI -->
+    <WixToolPath>$(WIX)\bin</WixToolPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
