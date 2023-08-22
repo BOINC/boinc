@@ -197,8 +197,8 @@ jobs:
       - name: Build installer
         if: ${{ success() && matrix.variant != '' }}
         run: |
-          $env:PATH = "${{ github.workspace }}\wix\tools;" + $env:PATH
-          $env:WIX = "${{ github.workspace }}\wix\tools"
+          $env:PATH = "${{ github.workspace }}\wix\tools\;" + $env:PATH
+          $env:WIX = "${{ github.workspace }}\wix\tools\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
                -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
@@ -206,8 +206,8 @@ jobs:
       - name: Build installer
         if: ${{ success() && matrix.variant == '' }}
         run: |
-          $env:PATH = "${{ github.workspace }}\wix\tools;" + $env:PATH
-          $env:WIX = "${{ github.workspace }}\wix\tools"
+          $env:PATH = "${{ github.workspace }}\wix\tools\;" + $env:PATH
+          $env:WIX = "${{ github.workspace }}\wix\tools\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
                -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
