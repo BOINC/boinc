@@ -8,8 +8,6 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>boinc_arm_bundle</OutputName>
     <OutputType>Bundle</OutputType>
-    <!-- Workaround to force msbuild to use local wix installation, normally set by WIX to the local installation, overridden in CI -->
-    <WixToolPath>$(WIX)\bin</WixToolPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
     <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
