@@ -1,6 +1,7 @@
 param
 (
     [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm64')][string]$Type = "x64",
+    [Parameter(ParameterSetName='build')][switch]$CI,
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Certificate,
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$CertificatePass,
 
@@ -187,7 +188,11 @@ function BuildInstaller {
             'x64' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
+                if( $CI ) {
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
+                } else {
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
+                }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
@@ -195,7 +200,11 @@ function BuildInstaller {
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
-                msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64
+                if( $CI ) {
+                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64
+                } else {
+                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
+                }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
@@ -204,7 +213,11 @@ function BuildInstaller {
             'x64_vbox' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
+                if( $CI ) {
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
+                } else {
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
+                }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
@@ -212,7 +225,11 @@ function BuildInstaller {
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle with VirtualBox"
-                msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64
+                if( $CI ) {
+                    msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64
+                } else {
+                    msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
+                }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
@@ -221,7 +238,11 @@ function BuildInstaller {
             'arm64' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64
+                if( $CI ) {
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64
+                } else {
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
+                }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
@@ -229,7 +250,11 @@ function BuildInstaller {
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
-                msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64
+                if( $CI ) {
+                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64
+                } else {
+                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
+                }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
                     Report $false

@@ -8,8 +8,6 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>installer</OutputName>
     <OutputType>Package</OutputType>
-    <WixToolPath>$(WIX)\bin</WixToolPath>
-    <WixTargetsPath>$(WIX)\</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
