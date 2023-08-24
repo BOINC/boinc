@@ -188,7 +188,7 @@ function BuildInstaller {
             'x64' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                if( $CI ) {
+                if( ! $CI ) {
                     msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
                 } else {
                     msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
@@ -200,7 +200,7 @@ function BuildInstaller {
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
-                if( $CI ) {
+                if( ! $CI ) {
                     msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64
                 } else {
                     msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
@@ -213,7 +213,7 @@ function BuildInstaller {
             'x64_vbox' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                if( $CI ) {
+                if( ! $CI ) {
                     msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64
                 } else {
                     msbuild installer.sln /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
@@ -225,7 +225,7 @@ function BuildInstaller {
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle with VirtualBox"
-                if( $CI ) {
+                if( ! $CI ) {
                     msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64
                 } else {
                     msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
@@ -238,7 +238,7 @@ function BuildInstaller {
             'arm64' {
                 WriteStep "Build: MSI installer"
                 Push-Location .\win_build\installer_wix
-                if( $CI ) {
+                if( ! $CI ) {
                     msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64
                 } else {
                     msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets
@@ -250,7 +250,7 @@ function BuildInstaller {
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
-                if( $CI ) {
+                if( ! $CI ) {
                     msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64
                 } else {
                     msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64 /p:WixToolPath=$env:WIX\bin /p:WixTargetsPath=$env:WIX\wix.targets

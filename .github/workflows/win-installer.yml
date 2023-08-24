@@ -58,9 +58,23 @@ jobs:
       - name: Fix vcpkg
         run: vcpkg.exe integrate remove
 
+      - name: Restore cache
+        uses: actions/cache/save@v3
+        id: cache-vcpkg
+        with:
+          path: "${{ github.workspace }}/3rdParty/Windows"
+          key: 3rdParty
+
       - name: Build
         if: ${{ success() }}
         run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
+
+      - name: Save cache
+        if: ${{ success() && steps.cache-vcpkg.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v3
+        with:
+          path: "${{ github.workspace }}/3rdParty/Windows"
+          key: 3rdParty
 
       - name: Prepare artifacts for deploy
         if: ${{ success() }}
@@ -121,6 +135,13 @@ jobs:
         run: |
           New-Item -Path "${{ github.workspace }}\build" -ItemType directory
           New-Item -Path "${{ github.workspace }}\build\prerequisites" -ItemType directory
+
+      - name: Restore cache
+        uses: actions/cache/save@v3
+        id: cache-vcpkg
+        with:
+          path: "${{ github.workspace }}/3rdParty/Windows"
+          key: 3rdParty
 
       - name: Restore cached VirtualBox installer
         if: ${{ matrix.variant == 'vbox' }}
