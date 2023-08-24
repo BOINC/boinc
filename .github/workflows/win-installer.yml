@@ -37,70 +37,71 @@ env:
   VC2010_MD5: 02a945866cd1b13e2375c024f0e18301 # keep lowercase
 
 jobs:
-  # prepare-package:
-  #   name: Build packages
-  #   runs-on: windows-2022
-  #   strategy:
-  #     matrix:
-  #       platform: [ 'x64','arm64' ]
-  #     fail-fast: false
-  #   steps:
-  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 2
+  prepare-package:
+    name: Build packages
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        # platform: [ 'x64','arm64' ]
+        platform: [ 'arm64' ]
+      fail-fast: false
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
-  #     - name: Setup msbuild
-  #       uses: microsoft/setup-msbuild@v1
-  #       with:
-  #           vs-version: '[17.0,19)'
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v1
+        with:
+            vs-version: '[17.0,19)'
 
-  #     - name: Fix vcpkg
-  #       run: vcpkg.exe integrate remove
+      - name: Fix vcpkg
+        run: vcpkg.exe integrate remove
 
-  #     - name: Restore cache
-  #       uses: actions/cache/restore@v3
-  #       id: cache-vcpkg
-  #       with:
-  #         path: "${{ github.workspace }}/3rdParty/Windows"
-  #         key: 3rdParty-prep-${{matrix.platform}}
+      - name: Restore cache
+        uses: actions/cache/restore@v3
+        id: cache-vcpkg
+        with:
+          path: "${{ github.workspace }}/3rdParty/Windows"
+          key: 3rdParty-prep-${{matrix.platform}}
 
-  #     - name: Build
-  #       if: ${{ success() }}
-  #       run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
+      - name: Build
+        if: ${{ success() }}
+        run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
 
-  #     - name: Save cache
-  #       if: ${{ success() && steps.cache-vcpkg.outputs.cache-hit != 'true' }}
-  #       uses: actions/cache/save@v3
-  #       with:
-  #         path: "${{ github.workspace }}/3rdParty/Windows"
-  #         key: 3rdParty-prep-${{matrix.platform}}
+      - name: Save cache
+        if: ${{ steps.cache-vcpkg.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v3
+        with:
+          path: "${{ github.workspace }}/3rdParty/Windows"
+          key: 3rdParty-prep-${{matrix.platform}}
 
-  #     - name: Prepare artifacts for deploy
-  #       if: ${{ success() }}
-  #       shell: cmd
-  #       run: |
-  #         python deploy\prepare_deployment.py win_client
-  #         python deploy\prepare_deployment.py win_manager
+      - name: Prepare artifacts for deploy
+        if: ${{ success() }}
+        shell: cmd
+        run: |
+          python deploy\prepare_deployment.py win_client
+          python deploy\prepare_deployment.py win_manager
 
-  #     - name: Upload client
-  #       if: ${{ success() }}
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: win_client_${{matrix.platform}}
-  #         path: deploy/win_client.7z
+      - name: Upload client
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: win_client_${{matrix.platform}}
+          path: deploy/win_client.7z
 
-  #     - name: Upload manager
-  #       if: ${{ success() }}
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: win_manager_${{matrix.platform}}
-  #         path: deploy/win_manager.7z
+      - name: Upload manager
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: win_manager_${{matrix.platform}}
+          path: deploy/win_manager.7z
 
   build-installers:
     name: Build installers
     runs-on: windows-2022
-    # needs: prepare-package
+    needs: prepare-package
     strategy:
       matrix:
         # arch: ['x64','arm64']
@@ -235,7 +236,7 @@ jobs:
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
       - name: Save cache
-        if: ${{ success() && steps.cache-vcpkg.outputs.cache-hit != 'true' }}
+        if: ${{ steps.cache-vcpkg.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v3
         with:
           path: "${{ github.workspace }}/3rdParty/Windows"
