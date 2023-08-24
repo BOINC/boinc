@@ -241,7 +241,7 @@ function BuildInstaller {
                 if( ! $CI ) {
                     msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64
                 } else {
-                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64 /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=ARM64 /p:InstallerPlatform=arm64 /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets
                 }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
@@ -253,7 +253,7 @@ function BuildInstaller {
                 if( ! $CI ) {
                     msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64
                 } else {
-                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64 /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets
+                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=ARM64 /p:InstallerPlatform=arm64 /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets
                 }
                 Pop-Location
                 if( !($LastExitCode -eq 0) ) {
