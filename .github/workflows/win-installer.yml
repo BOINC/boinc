@@ -200,8 +200,7 @@ jobs:
           $env:PATH = "${{ github.workspace }}\wix\tools\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\tools\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
-               -CI
-               -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
+               -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
       - name: Build installer
@@ -210,8 +209,7 @@ jobs:
           $env:PATH = "${{ github.workspace }}\wix\tools\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\tools\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
-               -CI
-               -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
+               -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
       - name: Upload installer
