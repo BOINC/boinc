@@ -42,7 +42,7 @@ jobs:
     runs-on: windows-2022
     strategy:
       matrix:
-        platform: [ 'arm64' ]
+        platform: [ 'x64','arm64' ]
       fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -63,7 +63,7 @@ jobs:
         id: cache-vcpkg
         with:
           path: "${{ github.workspace }}/3rdParty/Windows"
-          key: 3rdParty
+          key: 3rdParty-prep-${{matrix.platform}}
 
       - name: Build
         if: ${{ success() }}
@@ -74,7 +74,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: "${{ github.workspace }}/3rdParty/Windows"
-          key: 3rdParty
+          key: 3rdParty-prep-${{matrix.platform}}
 
       - name: Prepare artifacts for deploy
         if: ${{ success() }}
@@ -103,7 +103,7 @@ jobs:
     needs: prepare-package
     strategy:
       matrix:
-        arch: ['arm64']
+        arch: ['x64','arm64']
         variant: [ '', 'vbox' ]
         exclude:
           - arch: arm64
@@ -141,7 +141,7 @@ jobs:
         id: cache-vcpkg
         with:
           path: "${{ github.workspace }}/3rdParty/Windows"
-          key: 3rdParty
+          key: 3rdParty-build-${{matrix.arch}}
 
       - name: Restore cached VirtualBox installer
         if: ${{ matrix.variant == 'vbox' }}
@@ -219,7 +219,7 @@ jobs:
         if: ${{ success() && matrix.variant != '' }}
         run: |
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
-          $env:WIX = "${{ github.workspace }}\wix\bin\"
+          $env:WIX = "${{ github.workspace }}\wix\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
                -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
@@ -228,10 +228,17 @@ jobs:
         if: ${{ success() && matrix.variant == '' }}
         run: |
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
-          $env:WIX = "${{ github.workspace }}\wix\bin\"
+          $env:WIX = "${{ github.workspace }}\wix\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
                -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
+
+      - name: Save cache
+        if: ${{ success() && steps.cache-vcpkg.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v3
+        with:
+          path: "${{ github.workspace }}/3rdParty/Windows"
+          key: 3rdParty-build-${{matrix.arch}}
 
       - name: Upload installer
         if: ${{ success() && matrix.variant != '' }}
