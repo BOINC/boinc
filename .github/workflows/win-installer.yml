@@ -59,7 +59,7 @@ jobs:
         run: vcpkg.exe integrate remove
 
       - name: Restore cache
-        uses: actions/cache/save@v3
+        uses: actions/cache/restore@v3
         id: cache-vcpkg
         with:
           path: "${{ github.workspace }}/3rdParty/Windows"
@@ -137,7 +137,7 @@ jobs:
           New-Item -Path "${{ github.workspace }}\build\prerequisites" -ItemType directory
 
       - name: Restore cache
-        uses: actions/cache/save@v3
+        uses: actions/cache/restore@v3
         id: cache-vcpkg
         with:
           path: "${{ github.workspace }}/3rdParty/Windows"
