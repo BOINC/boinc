@@ -247,8 +247,6 @@ function BuildInstaller {
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
                 }
-
-                Get-ChildItem -R .
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
@@ -273,8 +271,19 @@ function SignInstaller {
     $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
 
     $target = "boinc_bundle.exe"
-    if( $Type -eq 'x64_vbox' ) {
-        $target = "boinc_vbox_bundle.exe"
+    switch -Exact ( $Type ) {
+        'x64' {
+            $target = "boinc_bundle.exe"
+        }
+        'x64_vbox' {
+            $target = "boinc_vbox_bundle.exe"
+        }
+        'arm64' {
+            $target = "boinc_arm_bundle.exe"
+        }
+        default {
+            throw "Unrecognized bundle type to sign"
+        }
     }
 
     # for testing purposes
