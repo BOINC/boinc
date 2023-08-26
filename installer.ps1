@@ -247,8 +247,8 @@ function BuildInstaller {
                 # if( !($LastExitCode -eq 0) ) {
                 #     Report $false
                 # }
-                New-Item ..\..\build\en-us -ItemType Directory
-                New-Item ..\..\build\en-us\installer.msi
+                New-Item build\en-us -ItemType Directory
+                New-Item build\en-us\installer.msi
     
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
