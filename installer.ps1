@@ -297,6 +297,30 @@ function SignInstaller {
     }
 }
 
+function RenameToOfficialName {
+    try {
+        $targetName = ""
+        switch -Exact ( $Type ) {
+            'x64' {
+                $targetName = "boinc_"+$Version+"_windows_x86_64.exe"
+            }
+            'x64_vbox' {
+                $targetName = "boinc_"+$Version+"_windows_x86_64_vbox.exe"
+            }
+            'arm64' {
+                $targetName = "boinc_"+$Version+"_windows_arm64.exe"
+            }
+            default {
+                Report $false "Unknown architecture for rename"
+            }
+        }
+        Rename-Item -Path "build\boinc_bundle.exe" "build\"+$targetName
+    }
+    catch {
+        Report $false
+    }
+}
+
 #############################
 
 function Main {
@@ -340,6 +364,9 @@ function Main {
 
     WriteStep "Sign installers"
     SignInstaller
+
+    WriteStep "Rename bundle to official name"
+    RenameToOfficialName
 
     Report $true
 }

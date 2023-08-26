@@ -236,7 +236,7 @@ jobs:
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
-               -Version $env:BOINC_VER `
+               -Version "${{ steps.boinc-version-extract.outputs.boincVersionString }}" `
                -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
@@ -247,7 +247,7 @@ jobs:
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
-               -Version $env:BOINC_VER `
+               -Version "${{ steps.boinc-version-extract.outputs.boincVersionString }}" `
                -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
