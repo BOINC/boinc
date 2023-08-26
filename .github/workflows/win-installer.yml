@@ -68,7 +68,9 @@ jobs:
 
       - name: Build
         if: ${{ success() }}
-        run: msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
+        run: |
+          $env:VcpkgSkipPull = "yes"
+          msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
 
       - name: Save cache
         if: ${{ steps.cache-vcpkg.outputs.cache-hit != 'true' }}
@@ -220,6 +222,7 @@ jobs:
       - name: Build installer
         if: ${{ success() && matrix.variant != '' }}
         run: |
+          $env:VcpkgSkipPull = "yes"
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
@@ -229,6 +232,7 @@ jobs:
       - name: Build installer
         if: ${{ success() && matrix.variant == '' }}
         run: |
+          $env:VcpkgSkipPull = "yes"
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
