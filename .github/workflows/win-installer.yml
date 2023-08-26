@@ -122,6 +122,19 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Extract version
+        id: boinc-version-extract
+        run: |
+          $env:BOINC_VER = '<undefined>'
+          try {
+            $version = (type version.h | Select-String "#define BOINC_VERSION_STRING `"(.+)`"").Matches.Groups[1].Value
+            $env:BOINC_VER = $version
+            echo ::set-output name=boincVersionString::$($version)
+          }
+          catch {
+            throw "Failed to extract BOINC version!"
+          }
+
       - name: Install Wix
         uses: actions/checkout@v2
         with:
@@ -223,6 +236,7 @@ jobs:
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
+               -Version $env:BOINC_VER `
                -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
@@ -233,6 +247,7 @@ jobs:
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
+               -Version $env:BOINC_VER `
                -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
@@ -244,15 +259,8 @@ jobs:
           key: 3rdParty-build-${{matrix.arch}}
 
       - name: Upload installer
-        if: ${{ success() && matrix.variant != '' }}
+        if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
-          name: boinc_bundle_${{ matrix.arch }}_${{ matrix.variant }}
-          path: build/boinc_${{ matrix.variant }}_bundle.exe
-
-      - name: Upload installer
-        if: ${{ success() && matrix.variant == '' }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: boinc_bundle_${{ matrix.arch }}
+          name: boinc_bundle_${{ steps.boinc-version-extract.outputs.boincVersionString }}_${{ matrix.variant }}_${{ matrix.arch }}
           path: build/boinc_bundle.exe

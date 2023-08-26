@@ -6,7 +6,7 @@
     <ProductVersion>3.14</ProductVersion>
     <ProjectGuid>06d0e40e-11d4-45f9-92d2-26c650879b96</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>boinc_vbox_bundle</OutputName>
+    <OutputName>boinc_bundle</OutputName>
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">

@@ -2,8 +2,10 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 
-    <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" Version="7.22.3.0" Language="1033" 
-             Name="BOINC" Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
+    <!-- Please take not that only incrementing the build version (x.x.x.build) will not trigger an upgrade, limitation of msi -->
+    <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" 
+            Version="$(var.BoincVersion)" Language="1033" 
+            Name="BOINC" Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
         <Package InstallerVersion="$(var.MinInstallerVersion)" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
         <Media Id="1" Cabinet="boinc.cab" EmbedCab="yes" />
         

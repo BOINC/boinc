@@ -6,7 +6,7 @@
     <ProductVersion>3.14</ProductVersion>
     <ProjectGuid>3573243d-8711-451f-8307-4e17bae7c8eb</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>boinc_arm_bundle</OutputName>
+    <OutputName>boinc_bundle</OutputName>
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
