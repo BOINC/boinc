@@ -129,7 +129,7 @@ jobs:
           try {
             $version = (type version.h | Select-String "#define BOINC_VERSION_STRING `"(.+)`"").Matches.Groups[1].Value
             $env:BOINC_VER = $version
-            echo ::set-output name=boincVersionString::$($version)
+            echo "::set-output name=boincVersionString::$($version)"
           }
           catch {
             throw "Failed to extract BOINC version!"
@@ -263,4 +263,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: boinc_bundle_${{ steps.boinc-version-extract.outputs.boincVersionString }}_${{ matrix.variant }}_${{ matrix.arch }}
-          path: build/boinc_bundle.exe
+          path: build/*_windows_*.exe
