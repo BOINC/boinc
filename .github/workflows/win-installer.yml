@@ -240,7 +240,7 @@ jobs:
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
 
       - name: Save cache
-        if: ${{ steps.cache-vcpkg.outputs.cache-hit != 'true' }}
+        if: ${{ always() }}
         uses: actions/cache/save@v3
         with:
           path: "${{ github.workspace }}/3rdParty/Windows"
