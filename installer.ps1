@@ -298,7 +298,7 @@ function SignInstaller {
 }
 
 function RenameToOfficialName {
-    #try {
+    try {
         $targetName = ""
         $suffix = ""
         switch -Exact ( $Type ) {
@@ -315,12 +315,12 @@ function RenameToOfficialName {
                 Report $false "Unknown architecture for rename"
             }
         }
-        $targetName = "build\boinc_{0}_windows_{1}.exe" -f $Version,$suffix
+        $targetName = "boinc_{0}_windows_{1}.exe" -f $Version,$suffix   # use only the new name not full path
         Rename-Item -Path "build\boinc_bundle.exe" $targetName
-    # }
-    # catch {
-    #     Report $false
-    # }
+    }
+    catch {
+        Report $false
+    }
 }
 
 #############################

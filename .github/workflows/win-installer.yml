@@ -42,7 +42,7 @@ jobs:
     runs-on: windows-2022
     strategy:
       matrix:
-        platform: [ 'x64' ] #,'arm64' ]
+        platform: [ 'x64','arm64' ]
       fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -105,8 +105,8 @@ jobs:
     needs: prepare-package
     strategy:
       matrix:
-        arch: ['x64' ] #,'arm64']
-        variant: [ '' ] #, 'vbox' ]
+        arch: ['x64','arm64']
+        variant: [ '', 'vbox' ]
         exclude:
           - arch: arm64
             variant: vbox
