@@ -298,7 +298,7 @@ function SignInstaller {
 }
 
 function RenameToOfficialName {
-    try {
+    #try {
         $targetName = ""
         $suffix = ""
         switch -Exact ( $Type ) {
@@ -317,10 +317,10 @@ function RenameToOfficialName {
         }
         $targetName = "build\boinc_{0}_windows_{1}.exe" -f $Version,$suffix
         Rename-Item -Path "build\boinc_bundle.exe" $targetName
-    }
-    catch {
-        Report $false
-    }
+    # }
+    # catch {
+    #     Report $false
+    # }
 }
 
 #############################
