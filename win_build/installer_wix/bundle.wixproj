@@ -19,7 +19,7 @@
     </WixVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>VC2010Active=1;BoincVersion=$(DefaultVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
