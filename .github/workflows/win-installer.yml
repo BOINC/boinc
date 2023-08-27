@@ -129,8 +129,8 @@ jobs:
           try {
             $version = (type version.h | Select-String "#define BOINC_VERSION_STRING `"(.+)`"").Matches.Groups[1].Value
             $env:BOINC_VER = $version
-            $ver = "boincVersionString={0}" -f $version
-            echo $ver >> $env:GITHUB_STATE
+            $versionVariable = "boincVersionString={0}" -f $version
+            echo $versionVariable | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           }
           catch {
             throw "Failed to extract BOINC version!"
