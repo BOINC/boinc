@@ -3,13 +3,13 @@
    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
    xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
 
-  <!-- Please take not that only incrementing the build version (x.x.x.build) will not trigger an upgrade, limitation of msi -->
+  <!-- Please take not that only incrementing the build version (n in x.x.x.n) will not trigger an upgrade, limitation of msi -->
   <Bundle Name="BOINC" 
           Version="$(var.BoincVersion)"
           Manufacturer="Boinc Project"
           IconSourceFile="installer.ico"
           UpgradeCode="{e599becb-a017-4447-9ef8-ef1eb0dff441}">
-    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLargeLicense">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
       <bal:WixStandardBootstrapperApplication
               LogoFile="logo.png"
               LicenseUrl=""

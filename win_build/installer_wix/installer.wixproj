@@ -8,12 +8,12 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>installer</OutputName>
     <OutputType>Package</OutputType>
-    <DefaultVersion>1.0.0.0</DefaultVersion>
+    <BoincVersion>1.0.0.0</BoincVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;BoincVersion=$(DefaultVersion);MinInstallerVersion=300;BuildDir=..\..\build;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <DefineConstants>Debug;BoincVersion=$(BoincVersion);MinInstallerVersion=300;BuildDir=..\..\build;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
@@ -21,13 +21,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>BuildDir=..\..\build;BoincVersion=$(DefaultVersion);MinInstallerVersion=300;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <DefineConstants>BuildDir=..\..\build;BoincVersion=$(BoincVersion);MinInstallerVersion=300;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;BuildDir=..\..\build;BoincVersion=$(DefaultVersion);MinInstallerVersion=500;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <DefineConstants>Debug;BuildDir=..\..\build;BoincVersion=$(BoincVersion);MinInstallerVersion=500;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>ARM64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
@@ -35,7 +35,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>BuildDir=..\..\build;BoincVersion=$(DefaultVersion);MinInstallerVersion=500;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <DefineConstants>BuildDir=..\..\build;BoincVersion=$(BoincVersion);MinInstallerVersion=500;SourceBinDir=$(ProjectDir)..\..\build\src;SourceScreenDir=$(ProjectDir)..\..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
     <InstallerPlatform>ARM64</InstallerPlatform>
   </PropertyGroup>
   <ItemGroup>

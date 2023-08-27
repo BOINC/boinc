@@ -8,12 +8,12 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>boinc_bundle</OutputName>
     <OutputType>Bundle</OutputType>
-    <DefaultVersion>1.0.0.0</DefaultVersion>
+    <BoincVersion>1.0.0.0</BoincVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;VC2010Active=1;VBoxActive=1;BoincVersion=$(DefaultVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
+    <DefineConstants>Debug;VC2010Active=1;VBoxActive=1;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
@@ -21,7 +21,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>VC2010Active=1;VBoxActive=1;BoincVersion=$(DefaultVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
+    <DefineConstants>VC2010Active=1;VBoxActive=1;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;VS2010File=$(ProjectDir)..\..\build\prerequisites\vcredist_x64.exe</DefineConstants>
     <InstallerPlatform>x64</InstallerPlatform>
     <WixVariables>
     </WixVariables>
