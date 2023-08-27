@@ -300,21 +300,23 @@ function SignInstaller {
 function RenameToOfficialName {
     try {
         $targetName = ""
+        $suffix = ""
         switch -Exact ( $Type ) {
             'x64' {
-                $targetName = "boinc_"+$Version+"_windows_x86_64.exe"
+                $suffix = "x86_64"
             }
             'x64_vbox' {
-                $targetName = "boinc_"+$Version+"_windows_x86_64_vbox.exe"
+                $suffix = "x86_64_vbox"
             }
             'arm64' {
-                $targetName = "boinc_"+$Version+"_windows_arm64.exe"
+                $suffix = "arm64"
             }
             default {
                 Report $false "Unknown architecture for rename"
             }
         }
-        Rename-Item -Path "build\boinc_bundle.exe" "build\"+$targetName
+        $targetName = "build\boinc_{0}_windows_{1}.exe" -f $Version,$suffix
+        Rename-Item -Path "build\boinc_bundle.exe" $targetName
     }
     catch {
         Report $false
