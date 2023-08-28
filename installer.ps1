@@ -13,7 +13,6 @@ $global:step = 0
 $ErrorActionPreference = 'Stop'
 
 $VboxInstaller = 'VirtualBox-7.0.10-158379-Win.exe'
-$VC2010RedistInstaller = 'vcredist_x64.exe'
 $Configuration = 'Release'
 
 function WriteStep {
@@ -147,12 +146,6 @@ function CheckBuildDir {
         }
 
         WriteStep "Check prerequisites"
-        if ( $Type -eq "arm64" ) {
-            CheckPath -Path "build\prerequisites\$VC2010RedistInstaller" -ExpectNotPresent
-        } else {
-            CheckPath -Path "build\prerequisites\$VC2010RedistInstaller"
-        }
-
         if ( $Type -eq "x64_vbox" ) {
             CheckPath -Path "build\prerequisites\$VboxInstaller"
         } else {
@@ -199,19 +192,6 @@ function BuildInstaller {
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
                 }
-    
-                Push-Location .\win_build\installer_wix
-                WriteStep "Build: Bundle only MSI"
-                if( ! $CI ) {
-                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64 /p:BoincVersion=$Version
-                } else {
-                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64  /p:BoincVersion=$Version `
-                        /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets  /p:WixInstallPath=$env:WIX\
-                }
-                Pop-Location
-                if( !($LastExitCode -eq 0) ) {
-                    Report $false
-                }
             }
             'x64_vbox' {
                 WriteStep "Build: MSI installer"
@@ -226,7 +206,46 @@ function BuildInstaller {
                 if( !($LastExitCode -eq 0) ) {
                     Report $false
                 }
-    
+            }
+            'arm64' {
+                Push-Location .\win_build\installer_wix
+                WriteStep "Build: Bundle only MSI"
+                if( ! $CI ) {
+                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version
+                } else {
+                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version `
+                        /p:InstallerPlatform=arm64 /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets /p:WixInstallPath=$env:WIX\
+                }
+                Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
+            }
+        }
+    }
+    Catch {
+        Report $false
+    }    
+}
+
+function BuildBundle {
+    try {
+        switch -Exact ( $Type ) {
+            'x64' {
+                Push-Location .\win_build\installer_wix
+                WriteStep "Build: Bundle only MSI"
+                if( ! $CI ) {
+                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64 /p:BoincVersion=$Version
+                } else {
+                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64  /p:BoincVersion=$Version `
+                        /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets  /p:WixInstallPath=$env:WIX\
+                }
+                Pop-Location
+                if( !($LastExitCode -eq 0) ) {
+                    Report $false
+                }
+            }
+            'x64_vbox' {
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle with VirtualBox"
                 if( ! $CI ) {
@@ -241,19 +260,6 @@ function BuildInstaller {
                 }
             }
             'arm64' {
-                WriteStep "Build: MSI installer"
-                Push-Location .\win_build\installer_wix
-                if( ! $CI ) {
-                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version
-                } else {
-                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version `
-                        /p:InstallerPlatform=arm64 /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets /p:WixInstallPath=$env:WIX\
-                }
-                Pop-Location
-                if( !($LastExitCode -eq 0) ) {
-                    Report $false
-                }
-    
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
                 if( ! $CI ) {
@@ -275,38 +281,56 @@ function BuildInstaller {
 }
 
 function SignInstaller {
-    # $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
+    $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
 
-    # $target = "boinc_bundle.exe"
+    WriteStep "Import certificate in TrustedPublisher"
+    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\TrustedPublisher | Out-Null
+    WriteStep "Import certificate as CA Root Authority"
+    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\Root | Out-Null
 
-    # # for testing purposes
-    # # New-SelfSignedCertificate -DnsName "BOINC@berkeley.edu" -Type Codesigning -CertStoreLocation cert:\CurrentUser\My
-    # # Export-PfxCertificate -Cert (Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert)[0] -Password $pass -FilePath "$Certificate"
+    WriteStep "Sign bundle with certificate"
+    $resp = Set-AuthenticodeSignature "build\en-us\installer.msi" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
+        -TimestampServer "http://timestamp.digicert.com" -HashAlgorithm sha256
 
-    # WriteStep "Import certificate in TrustedPublisher"
-    # Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\TrustedPublisher | Out-Null
-    # WriteStep "Import certificate as CA Root Authority"
-    # Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\Root | Out-Null
+    if( !($resp.Status -eq [System.Management.Automation.SignatureStatus]::Valid) ) {
+        Report $false "Timestamp signature validation failed"
+    }
 
-    # # step required by wix to sign the internal 'burn' engine
-    # insigna -ib build\$target -o build\engine.exe
+}
 
-    # $resp = Set-AuthenticodeSignature "build\engine.exe" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
-    #     -TimestampServer "http://timestamp.digicert.com" -Force
+function SignBundle {
+    $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
 
-    # Start-Sleep -Seconds 5
+    $target = "boinc_bundle.exe"
 
-    # # reattaches the engine to the bundle
-    # insignia -ab build\engine.exe build\$target -o build\$target
+    # for testing purposes
+    # New-SelfSignedCertificate -DnsName "BOINC@berkeley.edu" -Type Codesigning -CertStoreLocation cert:\CurrentUser\My
+    # Export-PfxCertificate -Cert (Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert)[0] -Password $pass -FilePath "$Certificate"
 
-    # # signs the complete bundle
-    # WriteStep "Sign bundle with certificate"
-    # $resp = Set-AuthenticodeSignature "build\$target" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
-    #     -TimestampServer "http://timestamp.digicert.com" -Force
+    WriteStep "Import certificate in TrustedPublisher"
+    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\TrustedPublisher | Out-Null
+    WriteStep "Import certificate as CA Root Authority"
+    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\Root | Out-Null
 
-    # if( !($resp.Status -eq [System.Management.Automation.SignatureStatus]::Valid) ) {
-    #     Report $false "Timestamp signature validation failed"
-    # }
+    # step required by wix to sign the internal 'burn' engine
+    insigna -ib build\$target -o build\engine.exe
+
+    $resp = Set-AuthenticodeSignature "build\engine.exe" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
+        -TimestampServer "http://timestamp.digicert.com" -HashAlgorithm sha256
+
+    Start-Sleep -Seconds 5
+
+    # reattaches the engine to the bundle
+    insignia -ab build\engine.exe build\$target -o build\$target
+
+    # signs the complete bundle
+    WriteStep "Sign bundle with certificate"
+    $resp = Set-AuthenticodeSignature "build\$target" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
+        -TimestampServer "http://timestamp.digicert.com" -HashAlgorithm sha256
+
+    if( !($resp.Status -eq [System.Management.Automation.SignatureStatus]::Valid) ) {
+        Report $false "Timestamp signature validation failed"
+    }
 }
 
 function RenameToOfficialName {
@@ -373,11 +397,19 @@ function Main {
     WriteStep "Copy additional source files"
     CopyAdditionalSourceFiles
 
-    WriteStep "Build installers"
+    WriteStep "Build installer"
     BuildInstaller
 
-    WriteStep "Sign installers"
-    SignInstaller
+    WriteStep "Sign installer"
+    SignBundle
+
+    Start-Sleep -Seconds 5
+
+    WriteStep "Build installer"
+    BuildInstaller
+
+    WriteStep "Sign bundle"
+    SignBundle
 
     WriteStep "Rename bundle to official name"
     RenameToOfficialName

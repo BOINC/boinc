@@ -167,14 +167,6 @@ jobs:
           path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
           key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
 
-      - name: Restore cached VC2010 installer
-        if: ${{ matrix.arch == 'x64' }}
-        id: cache-vc2010-restore
-        uses: actions/cache/restore@v3
-        with:
-          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
-          key: ${{ env.VC2010_NAME }}-${{ env.VC2010_MD5 }}
-
       - name: Download prerequisite VirtualBox if needed
         if: ${{ matrix.variant == 'vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
         run: |
@@ -185,29 +177,12 @@ jobs:
             throw "VirtualBox installer download failed"
           }
 
-      - name: Download prerequisite VC2010 if needed
-        if: ${{ matrix.arch == 'x64' && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
-        run: |
-          # Download VC2010 prerequisite
-          Invoke-WebRequest -Uri "${{ env.VC2010_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
-          $md5 = (Get-FileHash "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}" -Algorithm MD5).Hash.ToLower()
-          if ( !($md5 -eq "${{ env.VC2010_MD5 }}") ) {
-            throw "VisualStudio2010 redistributable installer download failed"
-          }
-
       - name: Save prerequisite VirtualBox if needed
         if: ${{ matrix.variant == 'vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v3
         with:
           path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
           key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
-
-      - name: Save prerequisite VC2010 if needed
-        if: ${{ matrix.arch == 'x64' && steps.cache-vc2010-restore.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v3
-        with:
-          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VC2010_NAME }}"
-          key: ${{ env.VC2010_NAME }}-${{ env.VC2010_MD5 }}
 
       - name: Download Client Artifact
         if: ${{ success() }}

@@ -47,16 +47,6 @@
               Variable="VirtualBoxPresent"/>
       <?endif ?>
 
-      <?ifdef var.VC2010Active ?>
-      <util:RegistrySearch Id="VS2010Present" 
-              Root="HKLM" 
-              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1D8E6291-B0D5-35EC-8441-6616F567A0F7}" 
-              Value="WindowsInstaller"
-              Win64="yes"
-              Result="exists" 
-              Variable="VS2010RedistPresent"/>
-      <?endif ?>
-
     <!-- Boinc Group -->
     <PackageGroup Id="Boinc">
       <MsiPackage Id="Boinc"
@@ -82,19 +72,6 @@
                   SourceFile="$(var.VBoxFile)"
                   DetectCondition="VirtualBoxPresent"
                   InstallCondition="NOT VirtualBoxPresent" />
-      <?endif ?>
-      
-      <?ifdef var.VC2010Active ?>
-      <ExePackage Id="VS2010redist"
-                  DisplayName="VS2010redist"
-                  Compressed="yes"
-                  Cache="yes"
-                  PerMachine="yes"
-                  Permanent="yes"
-                  Vital="yes"
-                  SourceFile="$(var.VS2010File)"
-                  DetectCondition="VS2010RedistPresent"
-                  InstallCondition="NOT VS2010RedistPresent" />
       <?endif ?>
     </PackageGroup>
   </Fragment>
