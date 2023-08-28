@@ -275,26 +275,38 @@ function BuildInstaller {
 }
 
 function SignInstaller {
-    $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
+    # $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
 
-    $target = "boinc_bundle.exe"
+    # $target = "boinc_bundle.exe"
 
-    # for testing purposes
-    # New-SelfSignedCertificate -DnsName "BOINC@berkeley.edu" -Type Codesigning -CertStoreLocation cert:\CurrentUser\My
-    # Export-PfxCertificate -Cert (Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert)[0] -Password $pass -FilePath "$Certificate"
+    # # for testing purposes
+    # # New-SelfSignedCertificate -DnsName "BOINC@berkeley.edu" -Type Codesigning -CertStoreLocation cert:\CurrentUser\My
+    # # Export-PfxCertificate -Cert (Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert)[0] -Password $pass -FilePath "$Certificate"
 
-    WriteStep "Import certificate in TrustedPublisher"
-    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\TrustedPublisher | Out-Null
-    WriteStep "Import certificate as CA Root Authority"
-    Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\Root | Out-Null
+    # WriteStep "Import certificate in TrustedPublisher"
+    # Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\TrustedPublisher | Out-Null
+    # WriteStep "Import certificate as CA Root Authority"
+    # Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\Root | Out-Null
 
-    WriteStep "Sign bundle with certificate"
-    $resp = Set-AuthenticodeSignature "build\$target" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
-        -TimestampServer "http://timestamp.digicert.com" -Force
+    # # step required by wix to sign the internal 'burn' engine
+    # insigna -ib build\$target -o build\engine.exe
 
-    if( !($resp.Status -eq [System.Management.Automation.SignatureStatus]::Valid) ) {
-        Report $false "Timestamp signature validation failed"
-    }
+    # $resp = Set-AuthenticodeSignature "build\engine.exe" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
+    #     -TimestampServer "http://timestamp.digicert.com" -Force
+
+    # Start-Sleep -Seconds 5
+
+    # # reattaches the engine to the bundle
+    # insignia -ab build\engine.exe build\$target -o build\$target
+
+    # # signs the complete bundle
+    # WriteStep "Sign bundle with certificate"
+    # $resp = Set-AuthenticodeSignature "build\$target" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
+    #     -TimestampServer "http://timestamp.digicert.com" -Force
+
+    # if( !($resp.Status -eq [System.Management.Automation.SignatureStatus]::Valid) ) {
+    #     Report $false "Timestamp signature validation failed"
+    # }
 }
 
 function RenameToOfficialName {
