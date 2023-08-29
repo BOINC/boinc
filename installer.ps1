@@ -209,11 +209,11 @@ function BuildInstaller {
             }
             'arm64' {
                 Push-Location .\win_build\installer_wix
-                WriteStep "Build: Bundle only MSI"
+                WriteStep "Build: MSI installer"
                 if( ! $CI ) {
-                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version
                 } else {
-                    msbuild bundle.sln /target:bundle_arm /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version `
+                    msbuild installer.sln /p:Configuration=$Configuration /p:Platform=arm64 /p:BoincVersion=$Version `
                         /p:InstallerPlatform=arm64 /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets /p:WixInstallPath=$env:WIX\
                 }
                 Pop-Location
