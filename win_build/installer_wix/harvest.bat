@@ -6,7 +6,7 @@ DEL /S /Q %BASEDIR%\src 2> NUL
 DEL /S /Q %BASEDIR%\src_screen 2> NUL
 
 DEL /S /Q %BASEDIR%\installer* 2> NUL
-DEL /S /Q %BASEDIR%\boinc_bundle.exe 2> NUL
+DEL /S /Q %BASEDIR%\*_windows_*.exe 2> NUL
 DEL /S /Q %BASEDIR%\en-us 2> NUL
 DEL /S /Q %BASEDIR%\boinc_*.wxs 2> NUL
 DEL /S /Q %BASEDIR%\boinc_*.msi 2> NUL

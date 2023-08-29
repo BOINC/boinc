@@ -65,7 +65,7 @@
 
         <?if var.Platform != 'ARM64' ?>
         <SetDirectory Id="BOINCSCREENBIN" Value="[WindowsFolder]"/>
-        <Feature Id="BoincScreensaver" Title="Screensaver" AllowAdvertise="no" Level="32767">
+        <Feature Id="BoincScreensaver" Title="Screensaver" AllowAdvertise="no">
             <ComponentGroupRef Id="SCREENFILES" />
             <ComponentGroupRef Id="BOINCScreensaverGroupNT" />
             <ComponentGroupRef Id="BOINCScreensaverGroup9x" />

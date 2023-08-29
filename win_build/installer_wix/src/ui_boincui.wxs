@@ -25,19 +25,15 @@
 
       <!-- INSTALL: Accept EULA dialog -->
       <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg"><![CDATA[1]]></Publish>
-      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="CustomFeaturesDlg"><![CDATA[LicenseAccepted = "1"]]></Publish>
-
-      <!-- INSTALL: Feature selection dialog -->
-      <Publish Dialog="CustomFeaturesDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1"><![CDATA[Installed]]></Publish>
-      <Publish Dialog="CustomFeaturesDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2"><![CDATA[NOT Installed]]></Publish>
-      <Publish Dialog="CustomFeaturesDlg" Control="Options" Event="NewDialog" Value="OptionsDlg"><![CDATA[NOT Installed]]></Publish>
-      <Publish Dialog="CustomFeaturesDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[1]]></Publish>
+      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="OptionsDlg"><![CDATA[LicenseAccepted = "1"]]></Publish>
 
       <!-- INSTALL: Advanced Options dialog -->
-      <Publish Dialog="OptionsDlg" Control="Close" Event="NewDialog" Value="CustomFeaturesDlg"><![CDATA[1]]></Publish>
+      <Publish Dialog="OptionsDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1"><![CDATA[Installed]]></Publish>
+      <Publish Dialog="OptionsDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2"><![CDATA[NOT Installed]]></Publish>
+      <Publish Dialog="OptionsDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[1]]></Publish>
 
       <!-- INSTALL: Confirm installation dialog -->
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomFeaturesDlg" Order="1"><![CDATA[NOT Installed OR WixUI_InstallMode = "Change"]]></Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="OptionsDlg" Order="1"><![CDATA[NOT Installed OR WixUI_InstallMode = "Change"]]></Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2"><![CDATA[Installed AND NOT PATCH]]></Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3"><![CDATA[Installed AND PATCH]]></Publish>
 
@@ -45,7 +41,7 @@
       <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[1]]></Publish>
 
       <!-- INSTALL: Uninstall selection dialog -->
-      <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomFeaturesDlg"><![CDATA[0]]></Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="OptionsDlg"><![CDATA[0]]></Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[0]]></Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[1]]></Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg"><![CDATA[1]]></Publish>

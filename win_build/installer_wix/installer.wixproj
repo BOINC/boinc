@@ -48,7 +48,6 @@
     <Compile Include="src/ui_boincui.wxs" />
     <Compile Include="src/custom/optionsdlg.wxs" />
     <Compile Include="src/custom/exitdlg.wxs" />
-    <Compile Include="src/custom/featuresdlg.wxs" />
     <Compile Include="installer.wxs" />
   </ItemGroup>
   <ItemGroup>

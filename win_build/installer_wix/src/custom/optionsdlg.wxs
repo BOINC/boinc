@@ -7,6 +7,7 @@
     <Property Id="ENABLEUSEBYALLUSERS_VAR" Secure="yes" />
     <Property Id="ENABLELAUNCHATLOGON_VAR" Secure="yes" />
     <Property Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Secure="yes" />
+    <Property Id="ENABLEADVANCEDCONTROLS_VAR" Secure="yes" />
 
     <Property Id="ENABLESTARTMENUITEMS_Description" Value="!(loc.ENABLESTARTMENUITEMS_Description)" />
     <Property Id="ENABLEUSEBYALLUSERS_Description" Value="!(loc.ENABLEUSEBYALLUSERS_Description)" />
@@ -29,48 +30,84 @@
     <?endif ?>
 
     <UI>
-      <!-- This dialog is opened from the Options button in the feature selection dialog, it contains two groups of
-           checkboxes to control additional operations to be done -->
+      <!-- Options dialog -->
       <Dialog Id="OptionsDlg" Width="370" Height="270" Title="!(loc.OptionsDlg_Title)">
-        <Control Id="ProductVersion" Type="Text" X="10" Y="243" Width="56" Height="17" Text="[ProductVersion]" />
-        
-        <Control Id="Close" Type="PushButton" X="304" Y="243" Width="56" Height="17" Text="!(loc.WixUIClose)" />
-
+        <!-- Graphical elements -->
         <Control Id="BannerHeader" Type="Text" X="15" Y="6" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="{\WixUI_Font_Title}!(loc.OptionsDlgTitle)" />
         <Control Id="BannerSubHeader" Type="Text" X="15" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.OptionsDlgDescription)" />        
         <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.OptionsDlgBitmap)" />
         <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
         <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 
-        <!-- Standard Options group -->
-        <Control Id="StdOptHeader" Type="GroupBox" X="10" Y="60" Width="306" Height="75" Text="{\WixUI_Font_Bigger}Standard Options" />
+        <Control Id="ProductVersion" Type="Text" X="10" Y="243" Width="56" Height="17" Text="[ProductVersion]" />
+        
+        <Control Id="Back" Type="PushButton" X="170" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" >
+          <Publish Property="ENABLEADVANCEDCONTROLS_VAR" Order="1">1</Publish>
+        </Control>
+        <Control Id="Next" Type="PushButton" X="224" Y="243" Width="56" Height="17" Text="!(loc.WixUINext)" >
+          <!-- Verifies that directories chosen are valid before installing -->
+          <Publish Event="DoAction" Value="CAVerifyInstallDirectories">1</Publish>
+        </Control>
+
+        <Control Id="Advanced" Type="PushButton" X="304" Y="243" Width="56" Height="17" Text="!(loc.WixUIAdvanced)" >
+          <Publish Property="ENABLEADVANCEDCONTROLS_VAR" Value="1" Order="1">1</Publish>
+          <Condition Action="enable"><![CDATA[NOT ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+          <Condition Action="disable"><![CDATA[ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+        </Control>
+
+        <!-- Advanced paths -->
+        <Control Id="Folder1Img" Type="Bitmap" X="20" Y="52" Width="32" Height="32" TabSkip="no" Text="!(loc.OptionsDlgFolderIcon)" />
+        <Control Type="PathEdit" Id="Folder" Width="210" Height="15" X="62" Y="57" Property="BOINCBIN" >
+          <Condition Action="enable"><![CDATA[ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+          <Condition Action="disable"><![CDATA[NOT ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+        </Control>
+        <Control Id="btnDirBrowse"
+                Type="PushButton"
+                Width="56" Height="17"
+                X="300" Y="55"
+                Text="Browse..." >
+          <Publish Property="_BrowseProperty" Value="BOINCBIN" Order="1">1</Publish>
+          <Publish Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+          <Condition Action="enable"><![CDATA[ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+          <Condition Action="disable"><![CDATA[NOT ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+        </Control>
+
+        <Control Id="Folder2Img" Type="Bitmap" X="20" Y="82" Width="32" Height="32" TabSkip="no" Text="!(loc.OptionsDlgFolderIcon)" />
+        <Control Type="PathEdit" Id="Folder2" Width="210" Height="15" X="62" Y="87" Property="BOINCDATA" >
+          <Condition Action="enable"><![CDATA[ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+          <Condition Action="disable"><![CDATA[NOT ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+        </Control>
+        <Control Id="btnDirBrowse2"
+                Type="PushButton"
+                Width="56" Height="17"
+                X="300" Y="85"
+                Text="Browse..." >
+          <Publish Property="_BrowseProperty" Value="BOINCDATA" Order="1">1</Publish>
+          <Publish Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+          <Condition Action="enable"><![CDATA[ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+          <Condition Action="disable"><![CDATA[NOT ENABLEADVANCEDCONTROLS_VAR]]></Condition>
+        </Control>
 
         <!-- Install the shortcuts in Programs Menu -->
-        <Control Id="OPT1" Type="CheckBox" X="20" Y="75" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
+        <Control Id="OPT1" Type="CheckBox" X="20" Y="125" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLESTARTMENUITEMS_VAR" Text="[ENABLESTARTMENUITEMS_Description]" Disabled="no" />
                  
         <!-- Autostart managers for all users -->
-        <Control Id="OPT2" Type="CheckBox" X="20" Y="95" Width="230" Height="18" CheckBoxValue="1" Hidden="no"
+        <Control Id="OPT2" Type="CheckBox" X="20" Y="145" Width="230" Height="18" CheckBoxValue="1" Hidden="no"
                  Property="ENABLEUSEBYALLUSERS_VAR" Text="[ENABLEUSEBYALLUSERS_Description]" Disabled="no" />
 
         <?if var.Platform != 'ARM64' ?>
         <!-- Enable the screensaver -->
-        <Control Id="OPT3" Type="CheckBox" X="20" Y="115" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no" >
-            <Condition Action="enable"><![CDATA[(&BoincScreensaver=3)]]></Condition>
-            <Condition Action="disable"><![CDATA[(&BoincScreensaver<>3)]]></Condition>
-        </Control>
+        <Control Id="OPT3" Type="CheckBox" X="20" Y="165" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
+                 Property="ENABLESCREENSAVER_VAR" Text="[ENABLESCREENSAVER_Description]" Disabled="no" />
         <?endif ?>
 
-        <!-- Advanced Options group -->
-        <Control Id="AdvOptHeader" Type="GroupBox" X="10" Y="140" Width="306" Height="60" Text="{\WixUI_Font_Bigger}Advanced Options" />
-
         <!-- Launch at logon the applications -->
-        <Control Id="OPT4" Type="CheckBox" X="20" Y="155" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
+        <Control Id="OPT4" Type="CheckBox" X="20" Y="185" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLELAUNCHATLOGON_VAR" Text="[ENABLELAUNCHATLOGON_Description]" Disabled="no" />
 
         <!-- Allow executing protected applications -->
-        <Control Id="OPT5" Type="CheckBox" X="20" Y="175" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
+        <Control Id="OPT5" Type="CheckBox" X="20" Y="205" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
                  Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" >
             <?if var.Platform != 'ARM64' ?>
             <Condition Action="enable"><![CDATA[VIRTUALBOXINSTALLED]]></Condition>

@@ -254,3 +254,4 @@ win_build/installer_wix/boinc_data_files.wxs
 win_build/installer_wix/boinc_screensaver_files.wxs
 win_build/installer_wix/BoincCA/x64/
 win_build/installer_wix/BoincCA/ARM64/
+win_build/installer_wix/obj/

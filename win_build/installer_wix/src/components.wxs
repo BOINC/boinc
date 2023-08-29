@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
+        <Binary Id="WixUI_Folder_Icon" SourceFile="$(var.ProjectDir)\folder_icon.ico" />
+
         <ComponentGroup Id="BOINCComponents" Directory="TARGETDIR">
             <!-- Registry Entry to startup the tray -->
             <Component Id="TrayStartup" Guid="{ed4c20e8-93ba-4075-ae12-aead0b6a9f93}">

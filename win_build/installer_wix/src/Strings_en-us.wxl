@@ -4,6 +4,7 @@
 
   <String Id="OptionsDlg_Title">[ProductName] Setup</String>
   <String Id="OptionsDlgBitmap">WixUI_Bmp_Banner</String>
+  <String Id="OptionsDlgFolderIcon">WixUI_Folder_Icon</String>
   <String Id="OptionsDlgTitle">[ProductName] Options</String>
   <String Id="OptionsDlgDescription">Advanced options for [ProductName] installation</String>
 
@@ -14,6 +15,7 @@
 
   <String Id="CustomizeDlgOptions">Options</String>
 
+  <String Id="WixUIAdvanced">Advanced</String>
   <String Id="WixUIClose">Close</String>
 
   <String Id="ENABLESTARTMENUITEMS_Description">Create ProgramsMenu entries.</String>

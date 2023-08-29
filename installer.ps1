@@ -401,15 +401,15 @@ function Main {
     BuildInstaller
 
     WriteStep "Sign installer"
-    SignBundle
+    # SignInstaller
 
     Start-Sleep -Seconds 5
 
     WriteStep "Build installer"
-    BuildInstaller
+    BuildBundle
 
     WriteStep "Sign bundle"
-    SignBundle
+    # SignBundle
 
     WriteStep "Rename bundle to official name"
     RenameToOfficialName
