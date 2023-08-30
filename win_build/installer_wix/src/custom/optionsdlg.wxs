@@ -56,7 +56,7 @@
         <Control Id="btnDirBrowse"
                 Type="PushButton"
                 Width="56" Height="17"
-                X="300" Y="60"
+                X="290" Y="60"
                 Text="Change..." >
           <Publish Property="_BrowseProperty" Value="BOINCBIN" Order="1">1</Publish>
           <Publish Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
@@ -68,7 +68,7 @@
         <Control Id="btnDirBrowse2"
                 Type="PushButton"
                 Width="56" Height="17"
-                X="300" Y="90"
+                X="290" Y="90"
                 Text="Change..." >
           <Publish Property="_BrowseProperty" Value="BOINCDATA" Order="1">1</Publish>
           <Publish Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
@@ -100,7 +100,7 @@
             <Condition Action="disable"><![CDATA[1]]></Condition>
             <?endif ?>
         </Control>
-        <Control Type="Text" Id="OPT4Description" Transparent="yes" NoPrefix="yes" Width="320" Height="55" X="20" Y="170" Text="!(loc.ENABLEPROTECTEDAPPLICATIONEXECUTION3_LongDescription)" />
+        <Control Type="Text" Id="OPT4Description" Transparent="yes" NoPrefix="yes" Width="320" Height="55" X="30" Y="170" Text="!(loc.ENABLEPROTECTEDAPPLICATIONEXECUTION3_LongDescription)" />
 
         <Control Id="OPT2" Type="CheckBox" X="20" Y="205" Width="230" Height="18" CheckBoxValue="1" Hidden="no"
                  Property="ENABLEUSEBYALLUSERS_VAR" Text="[ENABLEUSEBYALLUSERS_Description]" Disabled="no" />
