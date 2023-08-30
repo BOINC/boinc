@@ -18,10 +18,12 @@
   <String Id="WixUIAdvanced">Advanced</String>
   <String Id="WixUIClose">Close</String>
 
+  <String Id="ENABLESCREENSAVER_Description">Use BOINC Screensaver</String>
+  <String Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description">Service Install</String>
+  <String Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_LongDescription">Run project applications under an unpriviliedged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs). A reboot may be required.</String>
+  <String Id="ENABLEUSEBYALLUSERS_Description">Allow all users on this computer to control BOINC.</String>
+
   <String Id="ENABLESTARTMENUITEMS_Description">Create ProgramsMenu entries.</String>
-  <String Id="ENABLEUSEBYALLUSERS_Description">Enable usage by all users.</String>
-  <String Id="ENABLESCREENSAVER_Description">Set the BOINC Screensaver as default.</String>
-  <String Id="LAUNCHPROGRAM_Description">Launch the BOINC Application at exit.</String>
   <String Id="ENABLELAUNCHATLOGON_Description">Launch the BOINC Applications after login.</String>
-  <String Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description">Enable execution of protected applications. (Only available if VirtualBox installed on x64 architecture)</String>
+  <String Id="LAUNCHPROGRAM_Description">Launch the BOINC Application at exit.</String>
 </WixLocalization>
