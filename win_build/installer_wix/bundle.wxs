@@ -9,13 +9,10 @@
           Manufacturer="Boinc Project"
           IconSourceFile="installer.ico"
           UpgradeCode="{e599becb-a017-4447-9ef8-ef1eb0dff441}">
-    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
-      <bal:WixStandardBootstrapperApplication
-              LogoFile="logo.png"
-              LicenseUrl=""
-              SuppressOptionsUI="yes"
-              SuppressRepair="yes"
-              ShowVersion="yes" />
+    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+      <Payload SourceFile="BootstrapperCore.config"/>
+      <Payload SourceFile="$(var.BoincBootstrapCore)"/>
+      <Payload SourceFile="$(var.BoincBootstrapUI)"/>
     </BootstrapperApplicationRef>
 
     <Chain>

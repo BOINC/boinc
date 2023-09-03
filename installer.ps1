@@ -235,9 +235,9 @@ function BuildBundle {
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle only MSI"
                 if( ! $CI ) {
-                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64 /p:BoincVersion=$Version
+                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x86 /p:BoincVersion=$Version
                 } else {
-                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x64  /p:BoincVersion=$Version `
+                    msbuild bundle.sln /target:bundle /p:Configuration=$Configuration /p:Platform=x86  /p:BoincVersion=$Version `
                         /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets  /p:WixInstallPath=$env:WIX\
                 }
                 Pop-Location
@@ -249,9 +249,9 @@ function BuildBundle {
                 Push-Location .\win_build\installer_wix
                 WriteStep "Build: Bundle with VirtualBox"
                 if( ! $CI ) {
-                    msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64 /p:BoincVersion=$Version
+                    msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x86 /p:BoincVersion=$Version
                 } else {
-                    msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x64 /p:BoincVersion=$Version `
+                    msbuild bundle.sln /target:bundle_vbox /p:Configuration=$Configuration /p:Platform=x86 /p:BoincVersion=$Version `
                         /p:WixToolPath=$env:WIX /p:WixTargetsPath=$env:WIX\wix.targets  /p:WixInstallPath=$env:WIX\
                 }
                 Pop-Location

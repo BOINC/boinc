@@ -1,0 +1,19 @@
+﻿<Window x:Class="BoincBootstrap.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="BOINC" Height="380" Width="557" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="None" AllowsTransparency="True">
+
+    <Window.Background>
+        <ImageBrush ImageSource="/BoincBootstrap.UI;component/Resources/WixUIDialogBmp.bmp"/>
+    </Window.Background>
+    <StackPanel>
+        <Viewbox Height="50" Margin="10,70,10,10">
+            <Label x:Name="label" Content="Unpacking installer..." FontSize="10" FontStyle="Italic" FontFamily="Century Gothic" RenderTransformOrigin="1.111,1.111"/>
+        </Viewbox>
+        <ProgressBar x:Name="InstallationProgress" Height="10" Width="451" Minimum="1" SmallChange="1" BorderThickness="2,2,2,2" Foreground="#FF14809C" Value="1"/>
+    </StackPanel>
+
+</Window>

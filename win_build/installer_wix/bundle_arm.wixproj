@@ -13,23 +13,25 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
     <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi</DefineConstants>
+    <DefineConstants>Debug;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\$(Platform)\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\$(Platform)\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>ARM64</InstallerPlatform>
-    <WixVariables>
-    </WixVariables>
+    <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi</DefineConstants>
+    <DefineConstants>BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\$(Platform)\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\$(Platform)\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>ARM64</InstallerPlatform>
-    <WixVariables>
-    </WixVariables>
+    <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="bundle.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixUtilExtension">
       <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
       <Name>WixUtilExtension</Name>
@@ -38,6 +40,27 @@
       <HintPath>$(WixExtDir)\WixBalExtension.dll</HintPath>
       <Name>WixBalExtension</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="BoincBootstrap.Core\BoincBootstrap.Core.csproj">
+      <Name>BoincBootstrap.Core</Name>
+      <Project>{3a3ef4bd-9521-407c-ac79-e734f3b811e2}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="BoincBootstrap.UI\BoincBootstrap.UI.csproj">
+      <Name>BoincBootstrap.UI</Name>
+      <Project>{3d363840-da72-4e3b-97dc-36cd9f2a2b06}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BootstrapperCore.config" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
