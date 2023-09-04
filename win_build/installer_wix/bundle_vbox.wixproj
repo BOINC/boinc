@@ -13,14 +13,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DefineConstants>Debug;VBoxActive=1;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\$(Platform)\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\$(Platform)\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>x86</InstallerPlatform>
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DefineConstants>VBoxActive=1;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;VBoxFile=$(ProjectDir)..\..\build\prerequisites\VirtualBox-7.0.10-158379-Win.exe;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\$(Platform)\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\$(Platform)\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>x86</InstallerPlatform>
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
   </PropertyGroup>
