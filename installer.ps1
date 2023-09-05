@@ -401,7 +401,7 @@ function Main {
     BuildInstaller
 
     WriteStep "Sign installer"
-    # SignInstaller
+    SignInstaller
 
     Start-Sleep -Seconds 5
 
@@ -409,7 +409,7 @@ function Main {
     BuildBundle
 
     WriteStep "Sign bundle"
-    # SignBundle
+    SignBundle
 
     WriteStep "Rename bundle to official name"
     RenameToOfficialName
