@@ -13,14 +13,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
     <OutputPath>$(ProjectDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\AnyCPU\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\AnyCPU\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
+    <DefineConstants>Debug;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\AnyCPU\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\AnyCPU\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>ARM64</InstallerPlatform>
     <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM64' ">
     <OutputPath>$(SolutionDir)..\..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\AnyCPU\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\AnyCPU\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
+    <DefineConstants>BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\AnyCPU\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\AnyCPU\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>ARM64</InstallerPlatform>
     <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
   </PropertyGroup>
