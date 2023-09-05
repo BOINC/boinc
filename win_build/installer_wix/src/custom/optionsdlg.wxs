@@ -91,15 +91,7 @@
 
         <!-- Allow executing protected applications -->
         <Control Id="OPT4" Type="CheckBox" X="20" Y="150" Width="230" Height="18" CheckBoxValue="1" Hidden="no" 
-                 Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" >
-            <?if var.Platform != 'ARM64' ?>
-            <Condition Action="enable"><![CDATA[VIRTUALBOXINSTALLED]]></Condition>
-            <Condition Action="disable"><![CDATA[NOT VIRTUALBOXINSTALLED]]></Condition>
-            <?else ?>
-            <Condition Action="enable"><![CDATA[0]]></Condition>
-            <Condition Action="disable"><![CDATA[1]]></Condition>
-            <?endif ?>
-        </Control>
+                 Property="ENABLEPROTECTEDAPPLICATIONEXECUTION3_VAR" Text="[ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description]" Disabled="no" />
         <Control Type="Text" Id="OPT4Description" Transparent="yes" NoPrefix="yes" Width="320" Height="55" X="30" Y="170" Text="!(loc.ENABLEPROTECTEDAPPLICATIONEXECUTION3_LongDescription)" />
 
         <Control Id="OPT2" Type="CheckBox" X="20" Y="205" Width="230" Height="18" CheckBoxValue="1" Hidden="no"

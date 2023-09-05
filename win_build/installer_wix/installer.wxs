@@ -30,18 +30,6 @@
         <Property Id="BOINCSCREENBIN" Value="TARGETDIR" />
         <Property Id="BOINCDATA" Value="TARGETDIR" />
 
-        <Property Id="VIRTUALBOX_REGKEY">
-            <RegistrySearch Id="VBoxPresent" 
-                    Root="HKLM" 
-                    Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}"
-                    Name="WindowsInstaller"
-                    Type="raw" 
-                    Win64="yes"/>
-        </Property>
-        <SetProperty Id="VIRTUALBOXINSTALLED" After="AppSearch" Value="1">
-            <![CDATA[VIRTUALBOX_REGKEY]]>
-        </SetProperty>
-
         <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\LICENSE.rtf" />
         <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\WixUIBannerBmp.bmp" />
         <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\WixUIDialogBmp.bmp" />
@@ -53,11 +41,13 @@
         <Feature Id="BoincManager" Title="Binaries" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCBIN">
             <ComponentGroupRef Id="BINARYFILES" />
             <ComponentGroupRef Id="BOINCComponents" />
-            <ComponentGroupRef Id="BOINCComponentsService" />
 
             <ComponentRef Id="DesktopShortcut" />
             <ComponentRef Id="ProgramMenuShortcuts" />
             <ComponentRef Id="ProgramMenuShortcutsBOINC" />
+        </Feature>
+        <Feature Id="BoincService" Title="Service" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCBIN">
+            <ComponentGroupRef Id="BOINCComponentsService" />
         </Feature>
         <Feature Id="BoincData" Title="Local Data" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCDATA">
             <ComponentGroupRef Id="DATAFILES" />

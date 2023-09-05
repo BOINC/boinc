@@ -73,6 +73,8 @@
                                 Description="BOINC client service" Start="auto" Type="ownProcess" ErrorControl="normal" 
                                 Account="LocalSystem" Arguments="-daemon" Vital="yes" Interactive="no"/>
                 <ServiceControl Id="BoincClientService" Name="BoincClientService" Start="install" Stop="both" Remove="uninstall" Wait="yes"/>
+
+                <Condition>ENABLEPROTECTEDAPPLICATIONEXECUTION3</Condition>
             </Component>
         </ComponentGroup>
 
