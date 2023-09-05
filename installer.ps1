@@ -313,7 +313,7 @@ function SignBundle {
     Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\Root | Out-Null
 
     # step required by wix to sign the internal 'burn' engine
-    insigna -ib build\$target -o build\engine.exe
+    insignia -ib build\$target -o build\engine.exe
 
     $resp = Set-AuthenticodeSignature "build\engine.exe" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
         -TimestampServer "http://timestamp.digicert.com" -HashAlgorithm sha256
