@@ -66,8 +66,8 @@
 
         <ComponentGroup Id="BOINCComponentsService" Directory="BOINCBIN">
             <!-- Client service install -->
-            <Component Id='boinc.exe' Guid='{9d9feb2b-63c4-43de-aef4-4ec909e2070c}'>
-                <File Id="boinc.exe" Source="$(var.BuildDir)\boinc.exe" />
+            <Component Id='service_boinc.exe' Guid='{9d9feb2b-63c4-43de-aef4-4ec909e2070c}' SharedDllRefCount="yes">
+                <File Id="service_boinc.exe" Source="$(var.BuildDir)\boinc.exe" KeyPath="yes" />
 
                 <ServiceInstall Id="BoincClientService" Name="BoincClientService" DisplayName="BOINC" 
                                 Description="BOINC client service" Start="auto" Type="ownProcess" ErrorControl="normal" 
@@ -75,6 +75,14 @@
                 <ServiceControl Id="BoincClientService" Name="BoincClientService" Start="install" Stop="both" Remove="uninstall" Wait="yes"/>
 
                 <Condition>ENABLEPROTECTEDAPPLICATIONEXECUTION3</Condition>
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="BOINCComponentsClient" Directory="BOINCBIN">
+            <!-- Client normal install -->
+            <Component Id='client_boinc.exe' Guid='{a3a9b57d-e63d-4a56-b3fd-646eba5227b0}' SharedDllRefCount="yes">
+                <File Id="client_boinc.exe" Source="$(var.BuildDir)\boinc.exe" KeyPath="yes" />
+                <Condition>NOT ENABLEPROTECTEDAPPLICATIONEXECUTION3</Condition>
             </Component>
         </ComponentGroup>
 

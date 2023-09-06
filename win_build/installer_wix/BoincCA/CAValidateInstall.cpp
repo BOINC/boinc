@@ -25,7 +25,7 @@
 #define CUSTOMACTION_NAME               _T("CAValidateInstall")
 #define CUSTOMACTION_PROGRESSTITLE      _T("Validating the install by checking all executables.")
 
-#define COMPONENT_BOINC                 _T("boinc.exe")
+#define COMPONENT_BOINC                 _T("client_boinc.exe")
 #define COMPONENT_BOINCMGR              _T("boincmgr.exe")
 #define COMPONENT_BOINCCMD              _T("boinccmd.exe")
 #define COMPONENT_BOINCTRAY             _T("boinctray.exe")

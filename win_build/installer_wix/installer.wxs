@@ -41,6 +41,7 @@
         <Feature Id="BoincManager" Title="Binaries" Level="1" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="BOINCBIN">
             <ComponentGroupRef Id="BINARYFILES" />
             <ComponentGroupRef Id="BOINCComponents" />
+            <ComponentGroupRef Id="BOINCComponentsClient" />
 
             <ComponentRef Id="DesktopShortcut" />
             <ComponentRef Id="ProgramMenuShortcuts" />
