@@ -179,6 +179,13 @@ extern "C" {
 //
 #if (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__))  && !defined(__HAIKU__)
 #define LINUX_LIKE_SYSTEM 1
+#include <libevdev-1.0/libevdev/libevdev.h>
+#include <libevdev-1.0/libevdev/libevdev.h>
+#include <fcntl.h>
+// #include <unistd.h> || alraedy included 
+#include <glob.h>
+// #include <ctime> || already included
+
 #endif
 
 #if WASM
@@ -2001,6 +2008,86 @@ const vector<string> X_display_values_initialize() {
     }
 
     return display_values;
+}
+
+// call example:
+// long linuxIdleTimeInSeconds = linuxGetIdleTimeInSeconds(&linuxLastSeen);
+time_t linuxLastSeen = time(nullptr);
+long linuxGetIdleTimeInSeconds(time_t *lastSeen)
+{
+    long idleTime = 0;
+    // Use glob to enumerate input devices in /dev/input/
+    glob_t globbuf;
+    if (glob("/dev/input/event*", GLOB_NOSORT, nullptr, &globbuf) != 0)
+    {
+        std::cerr << "Failed to enumerate input devices. " << std::endl;
+
+        return 0;
+    }
+
+    // Create libevdev structures for each device
+    libevdev *devices[globbuf.gl_pathc];
+
+    // Open and initialize each device
+    for (size_t i = 0; i < globbuf.gl_pathc; ++i)
+    {
+        const char *devicePath = globbuf.gl_pathv[i];
+        int fd = open(devicePath, O_RDONLY | O_NONBLOCK);
+        if (fd < 0)
+        {
+            std::cerr << "Failed to open device (Permission denied?): " << devicePath << std::endl;
+            return 0;
+        }
+
+        if (libevdev_new_from_fd(fd, &devices[i]) < 0)
+        {
+            std::cerr << "Failed to initialize libevdev for device: " << devicePath << std::endl;
+            return 0;
+        }
+    }
+    bool systemInUse = false;
+    // Read events from all devices
+    for (size_t i = 0; i < globbuf.gl_pathc; ++i)
+    {
+        struct input_event ev;
+        int rc;
+
+        while ((rc = libevdev_next_event(devices[i], LIBEVDEV_READ_FLAG_NORMAL, &ev)) == 1)
+        {
+            // Handle input events as needed
+            // For this example, we simply print event information
+            std::cout << "Event type: " << ev.type << ", code: " << ev.code << ", value: " << ev.value << std::endl;
+
+            // Set systemInUse to true if an event is detected
+            systemInUse = true;
+        }
+
+        if (rc < 0 && rc != -EAGAIN)
+        {
+            std::cerr << "Error reading from device: " << globbuf.gl_pathv[i] << std::endl;
+            return 0;
+        }
+    }
+    if (systemInUse)
+    {
+        std::cout << "System is being used." << std::endl;
+        *lastSeen = time(nullptr);
+        idleTime = 0;
+    }
+    else
+    {
+        std::cout << "System is not being used." << std::endl;
+        idleTime = time(nullptr) - *lastSeen;
+    }
+    // You can add a sleep here to reduce CPU usage
+    printf("Idle time: %ld\n", idleTime);
+    for (size_t i = 0; i < globbuf.gl_pathc; ++i)
+    {
+        libevdev_free(devices[i]);
+    }
+    globfree(&globbuf);
+
+    return idleTime;
 }
 
 // Ask the X server for user idle time (using XScreenSaver API)
