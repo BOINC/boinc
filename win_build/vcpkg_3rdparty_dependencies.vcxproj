@@ -175,7 +175,7 @@
             <Output TaskParameter="ConsoleOutput" PropertyName="VCPKG_LINK" />
     </Exec>
     <Exec Command="git clone $(VCPKG_LINK)" WorkingDirectory="$(Windows3rdPartyBuildDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgRootDir))" />
-    <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="'$(VcpkgSkipPull)' == ''" />
+    <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
   <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">

@@ -1,24 +1,39 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 param
 (
-    [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm64')][string]$Type = "x64",
-    [Parameter(ParameterSetName='build')][switch]$CI,
-    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Version,
-    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Certificate,
-    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$CertificatePass,
+    [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm64')][string]$Type = "x64", # type of the build
+    [Parameter(ParameterSetName='build')][switch]$CI, # will set appropriate env overrides in CI environment
+    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Version, # version string to use 
+    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Certificate, # certificate file to use for signing
+    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$CertificatePass, # certificate password
 
-    [Parameter(Mandatory=$true,ParameterSetName='clean')][switch]$CleanOnly
+    [Parameter(Mandatory=$true,ParameterSetName='clean')][switch]$CleanOnly # skips all steps and only cleans the build dir
 )
 
-$global:step = 0
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop' # makes invoked commands throw error instead of warning
 
 $VboxInstaller = 'VirtualBox-7.0.10-158379-Win.exe'
 $Configuration = 'Release'
 
 function WriteStep {
     param($msg)
-    $global:step++
-    Write-Output "[$global:step][$msg]"
+    Write-Output "Step [$msg]"
 }
 
 function Header {
@@ -46,6 +61,7 @@ function Report {
     exit 1
 }
 
+# Checks the 3 prerequisites to execute the script: powershell version 7 at least, msbuild and WiX toolkit installed
 function CheckPrerequisites {
     WriteStep "Requirements check: Powershell >= 7"
     if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
@@ -77,7 +93,7 @@ function CleanBuildDir {
         # ignore
     }
 
-    try { Remove-Item -Path build\*bundle.exe } # Previous bundles
+    try { Remove-Item -Path build\*bundle.exe } # Previous built bundles
     Catch {
         # ignore
     }
@@ -93,12 +109,13 @@ function CleanBuildDir {
     }
 }
 
+# Method that checks of a given path, be it a directory or file, for presence or its absence
 function CheckPath {
     param
     (
         [string]$Path,
-        [Parameter(Mandatory=$false)][switch]$IsDir,
-        [Parameter(Mandatory=$false)][switch]$ExpectNotPresent
+        [Parameter(Mandatory=$false)][switch]$IsDir, # path is actually a directory
+        [Parameter(Mandatory=$false)][switch]$ExpectNotPresent # when true, fails with path present, fails with path absent otherwise
     )
     
     $realpath = ""
@@ -125,6 +142,7 @@ function CheckPath {
     }
 }
 
+# Checks the build directory setup, which must be already present before launching
 function CheckBuildDir {
     try {
         WriteStep "Check directories"
@@ -157,6 +175,7 @@ function CheckBuildDir {
     }
 }
 
+# Adds to the build directory some files from source which are not bundled in artifacts
 function CopyAdditionalSourceFiles {
     try {
         WriteStep "LiberationMono-Regular copy"
@@ -176,6 +195,7 @@ function CopyAdditionalSourceFiles {
     }
 }
 
+# Executes the installer build with the appropriate parameters for every platform + variant
 function BuildInstaller {
     try {
         switch -Exact ( $Type ) {
@@ -228,6 +248,7 @@ function BuildInstaller {
     }    
 }
 
+# Executes the bundle build with the appropriate parameters for every platform + variant
 function BuildBundle {
     try {
         switch -Exact ( $Type ) {
@@ -280,6 +301,7 @@ function BuildBundle {
     }    
 }
 
+# Executes the steps to sign the installer with a pfx certificate 
 function SignInstaller {
     $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
 
@@ -296,16 +318,14 @@ function SignInstaller {
         Report $false "Timestamp signature validation failed"
     }
 
+    Start-Sleep -Seconds 5   # recommended to wait between sign requests
 }
 
+# Executes the steps to sign the bundle and the burn engine with a pfx certificate 
 function SignBundle {
-    $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
+    $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText  # required by Set-AuthenticodeSignature
 
     $target = "boinc_bundle.exe"
-
-    # for testing purposes
-    # New-SelfSignedCertificate -DnsName "BOINC@berkeley.edu" -Type Codesigning -CertStoreLocation cert:\CurrentUser\My
-    # Export-PfxCertificate -Cert (Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert)[0] -Password $pass -FilePath "$Certificate"
 
     WriteStep "Import certificate in TrustedPublisher"
     Import-PfxCertificate -FilePath "$Certificate" -Password $pass -Cert Cert:\LocalMachine\TrustedPublisher | Out-Null
@@ -318,7 +338,7 @@ function SignBundle {
     $resp = Set-AuthenticodeSignature "build\engine.exe" -Certificate (Get-PfxCertificate -FilePath "$Certificate" -Password $pass) `
         -TimestampServer "http://timestamp.digicert.com" -HashAlgorithm sha256
 
-    Start-Sleep -Seconds 5
+    Start-Sleep -Seconds 5   # recommended to wait between sign requests
 
     # reattaches the engine to the bundle
     insignia -ab build\engine.exe build\$target -o build\$target
@@ -333,6 +353,7 @@ function SignBundle {
     }
 }
 
+# Method that renames the fixed output bundle name to the release name
 function RenameToOfficialName {
     try {
         $targetName = ""
@@ -402,8 +423,6 @@ function Main {
 
     WriteStep "Sign installer"
     SignInstaller
-
-    Start-Sleep -Seconds 5
 
     WriteStep "Build installer"
     BuildBundle

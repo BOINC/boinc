@@ -15,26 +15,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-name: Build Windows Installer
+name: Build Windows Installer (WiX)
 on:
-  workflow_dispatch:
   push:
-    branches: [ '5065-*' ]
+    branches: [ 'master' ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 env:
-  CERTIFICATE_SIGN: win_build\installer_wix\testcert.pfx # becomes secret var
-  CERTIFICATE_PASS: testpass # becomes secret var
+  CERTIFICATE_SIGN: ${{ secrets.CERTIFICATE_FILE }}
+  CERTIFICATE_PASS: ${{ secrets.CERTIFICATE_PASS }}
   # virtualbox vars here are for convenience, wix sources need to be updated also (name and guid)
   VBOX_URL: https://download.virtualbox.org/virtualbox/7.0.10/VirtualBox-7.0.10-158379-Win.exe
   VBOX_NAME: VirtualBox-7.0.10-158379-Win.exe
   VBOX_MD5: 8882a55227cccc8a3f7ab69641df19fd # keep lowercase
-  VC2010_URL: https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe
-  VC2010_NAME: vcredist_x64.exe
-  VC2010_MD5: 02a945866cd1b13e2375c024f0e18301 # keep lowercase
 
 jobs:
   prepare-package:
@@ -45,7 +41,6 @@ jobs:
         platform: [ 'x64','arm64' ]
       fail-fast: false
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
           fetch-depth: 2
@@ -58,25 +53,10 @@ jobs:
       - name: Fix vcpkg
         run: vcpkg.exe integrate remove
 
-      - name: Restore cache
-        uses: actions/cache/restore@v3
-        id: cache-vcpkg
-        with:
-          path: "${{ github.workspace }}/3rdParty/Windows"
-          key: 3rdParty-prep-${{matrix.platform}}
-
       - name: Build
         if: ${{ success() }}
         run: |
-          $env:VcpkgSkipPull = "yes"
           msbuild win_build\boinc.sln -p:Configuration=Release -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
-
-      - name: Save cache
-        if: ${{ always() }}
-        uses: actions/cache/save@v3
-        with:
-          path: "${{ github.workspace }}/3rdParty/Windows"
-          key: 3rdParty-prep-${{matrix.platform}}
 
       - name: Prepare artifacts for deploy
         if: ${{ success() }}
@@ -152,13 +132,6 @@ jobs:
           New-Item -Path "${{ github.workspace }}\build" -ItemType directory
           New-Item -Path "${{ github.workspace }}\build\prerequisites" -ItemType directory
 
-      - name: Restore cache
-        uses: actions/cache/restore@v3
-        id: cache-vcpkg
-        with:
-          path: "${{ github.workspace }}/3rdParty/Windows"
-          key: 3rdParty-build-${{matrix.arch}}
-
       - name: Restore cached VirtualBox installer
         if: ${{ matrix.variant == 'vbox' }}
         id: cache-vbox-restore
@@ -208,7 +181,6 @@ jobs:
       - name: Build installer
         if: ${{ success() && matrix.variant != '' }}
         run: |
-          $env:VcpkgSkipPull = "yes"
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
@@ -219,20 +191,12 @@ jobs:
       - name: Build installer
         if: ${{ success() && matrix.variant == '' }}
         run: |
-          $env:VcpkgSkipPull = "yes"
           $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
           $env:WIX = "${{ github.workspace }}\wix\bin\"
           pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
                -Version "${{ steps.boinc-version-extract.outputs.boincVersionString }}" `
                -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
                -CertificatePass "${{ env.CERTIFICATE_PASS }}"
-
-      - name: Save cache
-        if: ${{ always() }}
-        uses: actions/cache/save@v3
-        with:
-          path: "${{ github.workspace }}/3rdParty/Windows"
-          key: 3rdParty-build-${{matrix.arch}}
 
       - name: Upload installer
         if: ${{ success() }}
