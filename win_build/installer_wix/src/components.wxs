@@ -69,8 +69,8 @@
             <Component Id='service_boinc.exe' Guid='{9d9feb2b-63c4-43de-aef4-4ec909e2070c}' SharedDllRefCount="yes">
                 <File Id="service_boinc.exe" Source="$(var.BuildDir)\boinc.exe" KeyPath="yes" />
 
-                <ServiceInstall Id="BoincClientService" Name="BoincClientService" DisplayName="BOINC" 
-                                Description="BOINC client service" Start="auto" Type="ownProcess" ErrorControl="normal" 
+                <ServiceInstall Id="BoincClientService" Name="BoincClientService" DisplayName="BOINC"
+                                Description="BOINC client service" Start="auto" Type="ownProcess" ErrorControl="normal"
                                 Account="LocalSystem" Arguments="-daemon" Vital="yes" Interactive="no"/>
                 <ServiceControl Id="BoincClientService" Name="BoincClientService" Start="install" Stop="both" Remove="uninstall" Wait="yes"/>
 

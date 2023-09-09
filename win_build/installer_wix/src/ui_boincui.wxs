@@ -20,7 +20,7 @@
 
       <!-- INSTALL: Start and End dialogs with result -->
       <Publish Dialog="CustomExitDlg" Control="Finish" Event="EndDialog" Value="Return" Order="999"><![CDATA[1]]></Publish>
-      
+
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg"><![CDATA[(NOT Installed)]]></Publish>
 
       <!-- INSTALL: Accept EULA dialog -->

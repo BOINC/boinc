@@ -3,12 +3,12 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 
     <!-- Please take not that only incrementing the build version (x.x.x.build) will not trigger an upgrade, limitation of msi -->
-    <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}" 
-            Version="$(var.BoincVersion)" Language="1033" 
+    <Product Id="{31209A01-4F85-4476-9A23-A64C75AE94FC}" UpgradeCode="{E913E54D-5080-42EC-A312-B21948BA1C02}"
+            Version="$(var.BoincVersion)" Language="1033"
             Name="BOINC" Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
         <Package InstallerVersion="$(var.MinInstallerVersion)" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" AdminImage="yes"/>
         <Media Id="1" Cabinet="boinc.cab" EmbedCab="yes" />
-        
+
         <!-- Preconditions for starting the Installer at all -->
         <Condition Message="This version of the application is supported only from Windows 7 onward">
             <![CDATA[VersionNT >= 601]]>
@@ -85,7 +85,7 @@
             <Custom Action="CARestoreSetupState" Sequence="1002">
                 <![CDATA[VersionNT AND REMOVE = "ALL"]]>
             </Custom>
-            
+
             <!-- After InstallInitialize (1500) -->
             <Custom Action="CAGetAdministratorsGroupName" Sequence="1537">
                 <![CDATA[VersionNT And REMOVE <> "ALL"]]>

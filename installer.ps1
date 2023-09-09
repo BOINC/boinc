@@ -19,7 +19,7 @@ param
 (
     [Parameter(ParameterSetName='build')][ValidateSet('x64','x64_vbox','arm64')][string]$Type = "x64", # type of the build
     [Parameter(ParameterSetName='build')][switch]$CI, # will set appropriate env overrides in CI environment
-    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Version, # version string to use 
+    [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Version, # version string to use
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$Certificate, # certificate file to use for signing
     [Parameter(Mandatory=$true,ParameterSetName='build')][ValidateNotNullOrEmpty()][string]$CertificatePass, # certificate password
 
@@ -117,7 +117,7 @@ function CheckPath {
         [Parameter(Mandatory=$false)][switch]$IsDir, # path is actually a directory
         [Parameter(Mandatory=$false)][switch]$ExpectNotPresent # when true, fails with path present, fails with path absent otherwise
     )
-    
+
     $realpath = ""
     if( [System.IO.Path]::IsPathRooted("$Path") ) {
         $realpath = $Path
@@ -180,13 +180,13 @@ function CopyAdditionalSourceFiles {
     try {
         WriteStep "LiberationMono-Regular copy"
         Copy-Item -Force -Path "api\ttf\liberation-fonts-ttf-2.00.0\LiberationMono-Regular.ttf" -Destination "build\LiberationMono-Regular.ttf"
-        
+
         WriteStep "COPYING copy"
         Copy-Item -Force -Path "COPYING" -Destination "build\COPYING"
-        
+
         WriteStep "COPYRIGHT copy"
         Copy-Item -Force -Path "COPYRIGHT" -Destination "build\COPYRIGHT"
-        
+
         WriteStep "boinc_logo_black.jpg copy"
         Copy-Item -Force -Path "doc\logo\boinc_logo_black.jpg" -Destination "build\boinc_logo_black.jpg"
     }
@@ -245,7 +245,7 @@ function BuildInstaller {
     }
     Catch {
         Report $false
-    }    
+    }
 }
 
 # Executes the bundle build with the appropriate parameters for every platform + variant
@@ -298,10 +298,10 @@ function BuildBundle {
     }
     Catch {
         Report $false
-    }    
+    }
 }
 
-# Executes the steps to sign the installer with a pfx certificate 
+# Executes the steps to sign the installer with a pfx certificate
 function SignInstaller {
     $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText
 
@@ -321,7 +321,7 @@ function SignInstaller {
     Start-Sleep -Seconds 5   # recommended to wait between sign requests
 }
 
-# Executes the steps to sign the bundle and the burn engine with a pfx certificate 
+# Executes the steps to sign the bundle and the burn engine with a pfx certificate
 function SignBundle {
     $pass = ConvertTo-SecureString -String "$CertificatePass" -Force -AsPlainText  # required by Set-AuthenticodeSignature
 

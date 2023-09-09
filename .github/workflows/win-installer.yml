@@ -163,7 +163,7 @@ jobs:
         with:
           name: win_client_${{ matrix.arch }}
           path: pkgs/
-  
+
       - name: Download Manager Artifact
         if: ${{ success() }}
         uses: actions/download-artifact@v3

@@ -25,7 +25,7 @@
 HINSTANCE g_hInstance = NULL;
 
 
-extern "C" BOOL WINAPI DllMain( 
+extern "C" BOOL WINAPI DllMain(
     HINSTANCE hInstance,
     DWORD     dwReason,
     LPVOID    lpReserved

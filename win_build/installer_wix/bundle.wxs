@@ -4,7 +4,7 @@
    xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
 
   <!-- Please take not that only incrementing the build version (n in x.x.x.n) will not trigger an upgrade, limitation of msi -->
-  <Bundle Name="BOINC" 
+  <Bundle Name="BOINC"
           Version="$(var.BoincVersion)"
           Manufacturer="Boinc Project"
           IconSourceFile="installer.ico"
@@ -16,9 +16,9 @@
     </BootstrapperApplicationRef>
 
     <Chain>
-      <!-- Prerequisites prerequisite -->
+      <!-- Prerequisite packages -->
       <PackageGroupRef Id="Prerequisites"/>
-      
+
       <!-- Install Application -->
       <PackageGroupRef Id="Boinc"/>
     </Chain>
@@ -26,21 +26,21 @@
   </Bundle>
 
   <Fragment>
-      <util:RegistrySearch Id="BoincPresent" 
-              Root="HKLM" 
+      <util:RegistrySearch Id="BoincPresent"
+              Root="HKLM"
               Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{31209A01-4F85-4476-9A23-A64C75AE94FC}"
               Value="WindowsInstaller"
               Win64="yes"
-              Result="exists" 
+              Result="exists"
               Variable="BoincPresent"/>
 
       <?ifdef var.VBoxActive ?>
-      <util:RegistrySearch Id="VBoxPresent" 
-              Root="HKLM" 
-              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}" 
+      <util:RegistrySearch Id="VBoxPresent"
+              Root="HKLM"
+              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}"
               Value="WindowsInstaller"
               Win64="yes"
-              Result="exists" 
+              Result="exists"
               Variable="VirtualBoxPresent"/>
       <?endif ?>
 

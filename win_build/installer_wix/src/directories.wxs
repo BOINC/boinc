@@ -43,7 +43,7 @@
                 <CreateFolder Directory="ProgramMenuManufacturer"/>
                 <RemoveFolder Id="RemoveMenuShortcuts" Directory="ProgramMenuManufacturer" On="uninstall" />
 
-                <RegistryValue Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" Name="InstalledStartMenuShortcuts" 
+                <RegistryValue Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" Name="InstalledStartMenuShortcuts"
                     Type="integer" Value="1" />
                 <Condition>ENABLESTARTMENUITEMS</Condition>
             </Component>
@@ -51,7 +51,7 @@
         <DirectoryRef Id="ProgramMenuManufacturer">
             <Component Id="ProgramMenuShortcutsBOINC" Guid="{9f4a70b9-1877-4e92-b151-d564b7ccebe8}">
                 <CreateFolder />
-                <RegistryKey Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager" 
+                <RegistryKey Root="HKCU" Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINCManager"
                     ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
                     <RegistryValue Name="ShortCut" Value="1" Type="integer" KeyPath="yes"/>
                 </RegistryKey>
