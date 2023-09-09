@@ -2020,7 +2020,9 @@ long linuxGetIdleTimeInSeconds(time_t *lastSeen)
     glob_t globbuf;
     if (glob("/dev/input/event*", GLOB_NOSORT, nullptr, &globbuf) != 0)
     {
-        std::cerr << "Failed to enumerate input devices. " << std::endl;
+        msg_printf(NULL, MSG_INFO,
+            "[idle_detection] Failed to enumerate input devices."
+        );
 
         return 0;
     }
@@ -2035,13 +2037,17 @@ long linuxGetIdleTimeInSeconds(time_t *lastSeen)
         int fd = open(devicePath, O_RDONLY | O_NONBLOCK);
         if (fd < 0)
         {
-            std::cerr << "Failed to open device (Permission denied?): " << devicePath << std::endl;
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] Failed to open device (Permission denied?): %s", devicePath
+            );
             return 0;
         }
 
         if (libevdev_new_from_fd(fd, &devices[i]) < 0)
         {
-            std::cerr << "Failed to initialize libevdev for device: " << devicePath << std::endl;
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] Failed to initialize libevdev for device: %s", devicePath
+            );
             return 0;
         }
     }
@@ -2056,7 +2062,10 @@ long linuxGetIdleTimeInSeconds(time_t *lastSeen)
         {
             // Handle input events as needed
             // For this example, we simply print event information
-            std::cout << "Event type: " << ev.type << ", code: " << ev.code << ", value: " << ev.value << std::endl;
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] Event type: %d, code: %d, value: %d",
+                ev.type, ev.code, ev.value
+            );
 
             // Set systemInUse to true if an event is detected
             systemInUse = true;
@@ -2064,19 +2073,25 @@ long linuxGetIdleTimeInSeconds(time_t *lastSeen)
 
         if (rc < 0 && rc != -EAGAIN)
         {
-            std::cerr << "Error reading from device: " << globbuf.gl_pathv[i] << std::endl;
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] Error reading from device: %s", globbuf.gl_pathv[i]
+            );
             return 0;
         }
     }
     if (systemInUse)
     {
-        std::cout << "System is being used." << std::endl;
+        msg_printf(NULL, MSG_INFO,
+            "[idle_detection] System is being used."
+        );
         *lastSeen = time(nullptr);
         idleTime = 0;
     }
     else
     {
-        std::cout << "System is not being used." << std::endl;
+        msg_printf(NULL, MSG_INFO,
+            "[idle_detection] System is not being used."
+        );
         idleTime = time(nullptr) - *lastSeen;
     }
     // You can add a sleep here to reduce CPU usage
