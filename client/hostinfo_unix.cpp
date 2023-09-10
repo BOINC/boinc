@@ -181,10 +181,11 @@ extern "C" {
 #define LINUX_LIKE_SYSTEM 1
 #include <libevdev-1.0/libevdev/libevdev.h>
 #include <fcntl.h>
-// #include <unistd.h> || alraedy included
+// variables for getting linux IDLE time on linux.
+size_t deviceCount = 0;
+libevdev* devices[256]; // Assuming a maximum of 256 input devices
+time_t linuxUserLastSeen = time(nullptr);
 #include <glob.h>
-// #include <ctime> || already included
-
 #endif
 
 #if WASM
@@ -2009,100 +2010,82 @@ const vector<string> X_display_values_initialize() {
     return display_values;
 }
 
+// Function to initialize libevdev for all input devices in /dev/input/ on linux systems 
 // call example:
-// long linuxIdleTimeInSeconds = linuxGetIdleTimeInSeconds(&linuxLastSeen);
-time_t linuxLastSeen = time(nullptr);
-long linuxGetIdleTimeInSeconds(time_t *lastSeen)
-{
-    long idleTime = 0;
+// long linuxIdleTimeInSeconds = checkLinuxInputEventsAndGetIdleTime(&linuxUserLastSeen);
+bool initializeLinuxInputDevices(libevdev** devices, size_t* deviceCount) {
     // Use glob to enumerate input devices in /dev/input/
     glob_t globbuf;
-    if (glob("/dev/input/event*", GLOB_NOSORT, nullptr, &globbuf) != 0)
-    {
+    if (glob("/dev/input/event*", GLOB_NOSORT, nullptr, &globbuf) != 0) {
         msg_printf(NULL, MSG_INFO,
             "[idle_detection] Failed to enumerate input devices."
         );
-
-        return 0;
+        return false;
     }
 
-    // Create libevdev structures for each device
-    libevdev *devices[globbuf.gl_pathc];
-
+    *deviceCount = globbuf.gl_pathc;
     // Open and initialize each device
-    for (size_t i = 0; i < globbuf.gl_pathc; ++i)
-    {
-        const char *devicePath = globbuf.gl_pathv[i];
+    for (size_t i = 0; i < *deviceCount; ++i) {
+        const char* devicePath = globbuf.gl_pathv[i];
         int fd = open(devicePath, O_RDONLY | O_NONBLOCK);
-        if (fd < 0)
-        {
+        if (fd < 0) {
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Failed to open device (Permission denied?): %s", devicePath
+                "[idle_detection] Failed to open device: %s", devicePath
             );
-            return 0;
+            return false;
         }
 
-        if (libevdev_new_from_fd(fd, &devices[i]) < 0)
-        {
+        if (libevdev_new_from_fd(fd, &devices[i]) < 0) {
             msg_printf(NULL, MSG_INFO,
                 "[idle_detection] Failed to initialize libevdev for device: %s", devicePath
             );
-            return 0;
+            return false;
         }
     }
+
+    // Free the glob buffer
+    globfree(&globbuf);
+
+    return true;
+}
+
+// Function to check input events and calculate idle time for linux systems
+long checkLinuxInputEventsAndGetIdleTime(libevdev** devices, size_t deviceCount, time_t* lastSeen) {
+    long idleTime = 0;
     bool systemInUse = false;
+
     // Read events from all devices
-    for (size_t i = 0; i < globbuf.gl_pathc; ++i)
-    {
+    for (size_t i = 0; i < deviceCount; ++i) {
         struct input_event ev;
         int rc;
 
-        while ((rc = libevdev_next_event(devices[i], LIBEVDEV_READ_FLAG_NORMAL, &ev)) == 1)
-        {
-            // Handle input events as needed
-            // For this example, we simply print event information
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Event type: %d, code: %d, value: %d",
-                ev.type, ev.code, ev.value
-            );
-
+        while ((rc = libevdev_next_event(devices[i], LIBEVDEV_READ_FLAG_NORMAL, &ev)) >= 0) {
             // Set systemInUse to true if an event is detected
             systemInUse = true;
         }
 
-        if (rc < 0 && rc != -EAGAIN)
-        {
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Error reading from device: %s", globbuf.gl_pathv[i]
-            );
+        if (rc < 0 && rc != -EAGAIN) {
             return 0;
         }
     }
-    if (systemInUse)
-    {
-        msg_printf(NULL, MSG_INFO,
-            "[idle_detection] System is being used."
-        );
+
+    if (systemInUse) {
         *lastSeen = time(nullptr);
         idleTime = 0;
-    }
-    else
-    {
-        msg_printf(NULL, MSG_INFO,
-            "[idle_detection] System is not being used."
-        );
+    } else {
         idleTime = time(nullptr) - *lastSeen;
     }
-    // You can add a sleep here to reduce CPU usage
-    printf("Idle time: %ld\n", idleTime);
-    for (size_t i = 0; i < globbuf.gl_pathc; ++i)
-    {
-        libevdev_free(devices[i]);
-    }
-    globfree(&globbuf);
 
     return idleTime;
 }
+
+void cleanupLinuxInputDevices(libevdev** devices, size_t deviceCount) {
+    // Close and free libevdev structures
+    for (size_t i = 0; i < deviceCount; ++i) {
+        libevdev_free(devices[i]);
+    }
+}
+
 
 // Ask the X server for user idle time (using XScreenSaver API)
 // Return min of idle times.
