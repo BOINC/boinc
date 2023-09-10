@@ -181,7 +181,7 @@ extern "C" {
 #define LINUX_LIKE_SYSTEM 1
 #include <libevdev-1.0/libevdev/libevdev.h>
 #include <fcntl.h>
-// #include <unistd.h> || alraedy included 
+// #include <unistd.h> || alraedy included
 #include <glob.h>
 // #include <ctime> || already included
 
