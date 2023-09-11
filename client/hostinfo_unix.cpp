@@ -2010,7 +2010,7 @@ const vector<string> X_display_values_initialize() {
     return display_values;
 }
 
-// Function to initialize libevdev for all input devices in /dev/input/ on linux systems 
+// Function to initialize libevdev for all input devices in /dev/input/ on linux systems
 // call example:
 // long linuxIdleTimeInSeconds = checkLinuxInputEventsAndGetIdleTime(&linuxUserLastSeen);
 bool initializeLinuxInputDevices(libevdev** devices, size_t* deviceCount) {
