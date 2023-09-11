@@ -1153,10 +1153,8 @@ dnl ======================================================================
 
 CLIENTLIBS=
 
-# Check for libevdev library
-AC_CHECK_LIB([evdev], [libevdev_new_from_fd],
-    [CLIENTLIBS="$CLIENTLIBS -levdev"],
-    [AC_MSG_ERROR([libevdev library not found.])])
+# Add -levdev linker
+CLIENTLIBS="${CLIENTLIBS} -levdev"
 
 SAH_CHECK_LIB([m],[sin], [
     AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
