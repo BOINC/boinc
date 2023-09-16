@@ -216,6 +216,8 @@ def _check_vars(dict, **names):
         if not key in names:
             raise SystemExit('error in test script: extraneous parameter "%s" unknown'%key)
 
+# CAN REMOVE THE FOLLOWING 8 FNS??
+
 # def db_query(db, query):
 #     db.query(query)
 #     result = db.use_result()

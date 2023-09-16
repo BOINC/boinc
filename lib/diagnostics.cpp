@@ -152,6 +152,13 @@ static void boinc_term_func() {
 
 // Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
 //
+#if defined(wxUSE_GUI)
+int __cdecl boinc_message_reporting(int, char *, int *retVal){
+    // in wxWidgets, we don't know if main has returned
+    (*retVal) = 0;
+    return 0;
+}
+#else
 int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     int n;
     (*retVal) = 0;
@@ -159,10 +166,6 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     // can't call CRT functions after main returns
     //
     if (main_exited) return 0;
-#if defined(wxUSE_GUI)
-    // in wxWidgets, we don't know if main has returned
-    return 0;
-#else
 
 
     switch(reportType){
@@ -191,8 +194,8 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
 
     }
     return(TRUE);
-#endif
 }
+#endif
 
 #endif //  _DEBUG
 #endif // _WIN32

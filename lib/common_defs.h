@@ -17,7 +17,14 @@
 
 // #defines and enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
-// TODO: more enums, fewer defines
+//
+// Notes:
+// 1) Some of these are replicated in PHP code: html/inc/common_defs.inc.
+//    If you change something, check there.
+// 2) The script py/db_def_to_py scrapes this file for #defines (not enums)
+//    and makes variables for them.
+//    AFAIK these aren't used, and we can remove this.
+// 3) we should use enums instead of defines where appropriate
 
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
@@ -46,9 +53,11 @@
 // "SCHEDULED" doesn't mean the task is actually running;
 // e.g. it won't be running if tasks are suspended or CPU throttling is in use
 //
-#define CPU_SCHED_UNINITIALIZED   0
-#define CPU_SCHED_PREEMPTED       1
-#define CPU_SCHED_SCHEDULED       2
+enum SCHEDULER_STATE {
+    CPU_SCHED_UNINITIALIZED   = 0,
+    CPU_SCHED_PREEMPTED       = 1,
+    CPU_SCHED_SCHEDULED       = 2
+};
 
 // official HTTP status codes
 

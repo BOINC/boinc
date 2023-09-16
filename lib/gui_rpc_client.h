@@ -262,7 +262,7 @@ struct RESULT {
     double final_cpu_time;
     double final_elapsed_time;
     int state;
-    int scheduler_state;
+    SCHEDULER_STATE scheduler_state;
     int exit_status;
     int signal;
     //std::string stderr_out;

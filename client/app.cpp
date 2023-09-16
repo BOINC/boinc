@@ -167,7 +167,7 @@ bool ACTIVE_TASK::process_exists() {
 // called from the CLIENT_STATE::enforce_schedule()
 // and ACTIVE_TASK_SET::suspend_all()
 //
-int ACTIVE_TASK::preempt(int preempt_type, int reason) {
+int ACTIVE_TASK::preempt(PREEMPT_TYPE preempt_type, int reason) {
     bool remove=false;
 
     switch (preempt_type) {
