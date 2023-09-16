@@ -1380,9 +1380,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             );
         }
 #endif
-        int preempt_type = REMOVE_MAYBE_SCHED;
-        switch (atp->next_scheduler_state) {
-        case CPU_SCHED_PREEMPTED:
+        PREEMPT_TYPE preempt_type = REMOVE_MAYBE_SCHED;
+        if (atp->next_scheduler_state == CPU_SCHED_PREEMPTED) {
             switch (atp->task_state()) {
             case PROCESS_EXECUTING:
                 action = true;
@@ -1424,7 +1423,6 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 break;
             }
             atp->scheduler_state = CPU_SCHED_PREEMPTED;
-            break;
         }
         if (atp->result->uses_coprocs() && atp->task_state() == PROCESS_QUIT_PENDING) {
             coproc_quit_pending = true;

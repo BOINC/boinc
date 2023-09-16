@@ -622,6 +622,7 @@ RESULT::RESULT() {
 }
 
 int RESULT::parse(XML_PARSER& xp) {
+    int i;
     while (!xp.get_tag()) {
         if (xp.match_tag("/result")) {
             // if CPU time is nonzero but elapsed time is zero,
@@ -660,7 +661,10 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("final_cpu_time", final_cpu_time)) continue;
         if (xp.parse_double("final_elapsed_time", final_elapsed_time)) continue;
         if (xp.parse_int("state", state)) continue;
-        if (xp.parse_int("scheduler_state", scheduler_state)) continue;
+        if (xp.parse_int("scheduler_state", i)) {
+            scheduler_state = (SCHEDULER_STATE)i;
+            continue;
+        }
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_int("signal", signal)) continue;
         if (xp.parse_int("active_task_state", active_task_state)) continue;
@@ -716,7 +720,7 @@ void RESULT::clear() {
     final_cpu_time = 0;
     final_elapsed_time = 0;
     state = 0;
-    scheduler_state = 0;
+    scheduler_state = CPU_SCHED_UNINITIALIZED;
     exit_status = 0;
     signal = 0;
     //stderr_out.clear();
