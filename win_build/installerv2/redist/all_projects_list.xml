@@ -156,6 +156,7 @@
         <name>windows_x86_64[cuda55]</name>
         <name>windows_x86_64[fma_win10]</name>
         <name>windows_x86_64[fma_win7]</name>
+        <name>windows_x86_64[opencl_102_amd]</name>
         <name>windows_x86_64[sse2_win10]</name>
         <name>windows_x86_64[sse2_win7]</name>
         <name>windows_x86_64[sse2_winxp]</name>
@@ -170,6 +171,7 @@
         <name>x86_64-pc-linux-gnu[cuda118_linux]</name>
         <name>x86_64-pc-linux-gnu[cuda55]</name>
         <name>x86_64-pc-linux-gnu[fma_linux]</name>
+        <name>x86_64-pc-linux-gnu[opencl_102_amd]</name>
         <name>x86_64-pc-linux-gnu[sse2_linux]</name>
         <name>x86_64-pc-linux-gnu[sse3_linux]</name>
     </platforms>
@@ -429,12 +431,12 @@
         <description><![CDATA[OLDK is building a database of canonical forms of diagonal Latin squares of the 10th order]]></description>
         <home>Independent</home>
     <platforms>
-        <name>i686-pc-freebsd</name>
-        <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
-        <name>x86_64-pc-freebsd</name>
+        <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>i686-pc-freebsd</name>
+        <name>x86_64-pc-freebsd</name>
     </platforms>
       <summary>Discover Latin Squares</summary>
         <keywords>15 20 44 46</keywords>
