@@ -691,6 +691,12 @@ int ACTIVE_TASK::start(bool test) {
         exit(0);
     }
 
+    if (gstate.app_test) {
+        strcpy(slot_dir, "slots/app_test");
+        strcpy(exec_path, gstate.app_test_file.c_str());
+    }
+
+
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -897,7 +903,7 @@ int ACTIVE_TASK::start(bool test) {
 
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -1131,7 +1137,7 @@ int ACTIVE_TASK::start(bool test) {
     //
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -1154,14 +1160,16 @@ error:
         gstate.verify_app_version_files(result);
     }
 
+    if (log_flags.task_debug) {
+        msg_printf(wup->project, MSG_INFO,
+            "[task_debug] couldn't start app: %s", buf
+        );
+    }
+
     char err_msg[4096];
     snprintf(err_msg, sizeof(err_msg), "couldn't start app: %.256s", buf);
     gstate.report_result_error(*result, err_msg);
-    if (log_flags.task_debug) {
-        msg_printf(wup->project, MSG_INFO,
-            "[task] couldn't start app: %s", buf
-        );
-    }
+
     set_task_state(PROCESS_COULDNT_START, "start");
     return retval;
 }

@@ -40,6 +40,7 @@ boinc_client_SOURCES = \
     app_config.cpp \
     app_control.cpp \
     app_start.cpp \
+    app_test.cpp \
     async_file.cpp \
     check_state.cpp \
     client_msgs.cpp \
