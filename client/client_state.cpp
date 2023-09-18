@@ -521,10 +521,8 @@ int CLIENT_STATE::init() {
 #endif
     }
 
-    if (!app_test) {
-        parse_account_files();
-        parse_statistics_files();
-    }
+    parse_account_files();
+    parse_statistics_files();
 
     // check for GPUs.
     //
@@ -611,10 +609,10 @@ int CLIENT_STATE::init() {
     // ignoring any <project> tags (and associated stuff)
     // for projects with no account file
     //
+    parse_state_file();
+
     if (app_test) {
         app_test_init();
-    } else {
-        parse_state_file();
     }
 
     bool new_client = is_new_client();
@@ -737,10 +735,8 @@ int CLIENT_STATE::init() {
     // do CPU scheduler and work fetch
     //
     request_schedule_cpus("Startup");
-    if (!app_test) {
-        request_work_fetch("Startup");
-        work_fetch.init();
-    }
+    request_work_fetch("Startup");
+    work_fetch.init();
     rec_interval_start = now;
 
     // set up the project and slot directories
@@ -1163,17 +1159,15 @@ bool CLIENT_STATE::poll_slow_events() {
         POLL_ACTION(schedule_cpus, schedule_cpus          );
         tasks_restarted = true;
     }
-    if (!network_suspended && !app_test) {
+    if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }
-    if (!app_test) {
-        retval = write_state_file_if_needed();
-        if (retval) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Couldn't write state file: %s; giving up", boincerror(retval)
-            );
-            exit(EXIT_STATEFILE_WRITE);
-        }
+    retval = write_state_file_if_needed();
+    if (retval) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Couldn't write state file: %s; giving up", boincerror(retval)
+        );
+        exit(EXIT_STATEFILE_WRITE);
     }
     if (log_flags.poll_debug) {
         msg_printf(0, MSG_INFO,

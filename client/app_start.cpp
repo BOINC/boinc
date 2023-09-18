@@ -691,7 +691,9 @@ int ACTIVE_TASK::start(bool test) {
         exit(0);
     }
 
-    if (gstate.app_test) {
+    // use special slot and exec path for test app
+    //
+    if (wup->project->app_test) {
         strcpy(slot_dir, "slots/app_test");
         strcpy(exec_path, gstate.app_test_file.c_str());
     }

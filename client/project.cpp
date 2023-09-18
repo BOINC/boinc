@@ -126,6 +126,7 @@ void PROJECT::init() {
     app_configs.clear();
     upload_backoff.is_upload = true;
     download_backoff.is_upload = false;
+    app_test = false;
 
 #ifdef SIM
     idle_time = 0;

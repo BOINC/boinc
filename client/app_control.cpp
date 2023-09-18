@@ -609,7 +609,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 "read_stderr_file(): %s", boincerror(retval)
             );
         }
-        client_clean_out_dir(slot_dir, "handle_exited_app()");
+        if (!wup->project->app_test) {
+            client_clean_out_dir(slot_dir, "handle_exited_app()");
+        }
         clear_schedule_backoffs(this);
             // clear scheduling backoffs of jobs waiting for GPU
     }
