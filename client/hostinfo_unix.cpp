@@ -179,10 +179,10 @@ extern "C" {
 //
 #if (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__))  && !defined(__HAIKU__)
 #define LINUX_LIKE_SYSTEM 1
-#include <glob.h>
 #endif
 
-#if (defined(__linux__) && !defined(__HAIKU__))
+#if (defined(__linux__) && !defined(__HAIKU__) && !defined(__ANDROID__))
+#include <glob.h>
 #include <libevdev-1.0/libevdev/libevdev.h>
 #include <fcntl.h>
 // variables for getting linux IDLE time on linux.
