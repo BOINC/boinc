@@ -244,6 +244,11 @@ struct CLIENT_STATE {
     PROJECT_LIST project_list;
     void process_autologin(bool first);
 
+// --------------- app_test.cpp:
+    bool app_test;
+    string app_test_file;
+    void app_test_init();
+
 // --------------- current_version.cpp:
     string newer_version;
     string client_version_check_url;

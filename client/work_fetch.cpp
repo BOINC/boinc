@@ -736,11 +736,13 @@ void WORK_FETCH::setup() {
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p;
 
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "choose_project(): %f", gstate.now);
-    }
     p = non_cpu_intensive_project_needing_work();
-    if (p) return p;
+    if (p) {
+        if (log_flags.work_fetch_debug) {
+            msg_printf(p, MSG_INFO, "[work_fetch] fetching work for NCI project");
+        }
+        return p;
+    }
 
     setup();
 

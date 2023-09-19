@@ -40,6 +40,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		81FD378F2AB95D4A00E29818 /* app_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81FD378E2AB95D4A00E29818 /* app_test.cpp */; };
+		81FD37902AB95D4A00E29818 /* app_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81FD378E2AB95D4A00E29818 /* app_test.cpp */; };
 		B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */; };
 		DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
@@ -887,6 +889,7 @@
 
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		81FD378E2AB95D4A00E29818 /* app_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_test.cpp; sourceTree = "<group>"; };
 		AA8B6B1B046C364400A80164 /* app_ipc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = app_ipc.cpp; sourceTree = "<group>"; };
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
@@ -2075,6 +2078,7 @@
 		F54B8FBE02AC0A0C01FB7237 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				81FD378E2AB95D4A00E29818 /* app_test.cpp */,
 				DD344B3D07C5ABF40043025C /* acct_mgr.cpp */,
 				DD344B3E07C5ABF40043025C /* acct_mgr.h */,
 				DD33C6F608B5BB4500768630 /* acct_setup.h */,
@@ -3959,6 +3963,7 @@
 				DD99172A1E69A92A00555337 /* mac_spawn.cpp in Sources */,
 				DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */,
 				DD3741D610FC948C001257EB /* filesys.cpp in Sources */,
+				81FD37902AB95D4A00E29818 /* app_test.cpp in Sources */,
 				DD3741D910FC94BA001257EB /* url.cpp in Sources */,
 				DD76BF9717CB465C0075936D /* opencl_boinc.cpp in Sources */,
 			);
@@ -4073,6 +4078,7 @@
 				DD76BF9517CB45D20075936D /* opencl_boinc.cpp in Sources */,
 				DD82D83C1F831E0500EEC6AD /* keyword.cpp in Sources */,
 				DD6A829C181103990037172D /* thread.cpp in Sources */,
+				81FD378F2AB95D4A00E29818 /* app_test.cpp in Sources */,
 				DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */,
 				DD55AF6D1916248200259439 /* coproc_sched.cpp in Sources */,
 			);

@@ -127,6 +127,9 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             cc_config.allow_multiple_clients = true;
         } else if (ARG(allow_remote_gui_rpc)) {
             cc_config.allow_remote_gui_rpc = true;
+        } else if (ARG(app_test)) {
+            app_test = true;
+            app_test_file = argv[++i];
         } else if (ARG(attach_project)) {
             if (i >= argc-2) {
                 show_options = true;

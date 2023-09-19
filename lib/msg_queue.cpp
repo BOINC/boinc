@@ -25,6 +25,7 @@
 #include <unistd.h>
 #endif
 
+#include "boinc_stdio.h"
 #include "msg_queue.h"
 
 int create_message_queue(key_t key) {
