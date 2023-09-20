@@ -58,6 +58,7 @@ parts:
     - libdbus-1-dev
     - libxtst-dev
     - libevdev-dev
+    - libevdev2
     # vcpkg dependencies
     - build-essential
     - pkg-config
