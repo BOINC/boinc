@@ -18,7 +18,7 @@
 name: Windows
 on:
   push:
-    branches: [ master, 'client_release/**' ]
+    branches: [ master, 'client_release/**','5065-*' ]
     tags: [ 'client_release/**' ]
   pull_request:
     branches: [ master ]
@@ -33,7 +33,15 @@ env:
   AWS_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY}}
   AWS_SECRET_ACCESS_KEY: ${{secrets.S3_SECRET_KEY}}
   AWS_DEFAULT_REGION: us-west-2
-
+  # installer certificates
+  CERTIFICATE_SIGN: ${{ secrets.CERTIFICATE_FILE }}
+  CERTIFICATE_PASS: ${{ secrets.CERTIFICATE_PASS }}
+  # virtualbox vars here are for convenience, wix sources need to be updated also (name and guid)
+  VBOX_URL: https://download.virtualbox.org/virtualbox/7.0.10/VirtualBox-7.0.10-158379-Win.exe
+  VBOX_NAME: VirtualBox-7.0.10-158379-Win.exe
+  VBOX_MD5: 8882a55227cccc8a3f7ab69641df19fd # keep lowercase
+  
+  
 jobs:
   build:
     name: ${{matrix.configuration}}-${{matrix.platform}}-${{matrix.type}}
@@ -162,3 +170,129 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: false
+
+  build-installers:
+    name: Installers
+    runs-on: windows-2022
+    needs: build
+    strategy:
+      matrix:
+        arch: ['x64','arm64']
+        variant: [ '', 'vbox' ]
+        exclude:
+          - arch: arm64
+            variant: vbox
+      fail-fast: false
+    defaults:
+      run:
+        shell: pwsh   # necessary for installer script
+    env:
+      PREREQUISITES_PATH: "${{ github.workspace }}\\build\\prerequisites"
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Extract version
+        id: boinc-version-extract
+        run: |
+          $env:BOINC_VER = '<undefined>'
+          try {
+            $version = (type version.h | Select-String "#define BOINC_VERSION_STRING `"(.+)`"").Matches.Groups[1].Value
+            $env:BOINC_VER = $version
+            $versionVariable = "boincVersionString={0}" -f $version
+            echo $versionVariable | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          }
+          catch {
+            throw "Failed to extract BOINC version!"
+          }
+
+      - name: Install Wix
+        uses: actions/checkout@v2
+        with:
+          repository: parvit/wix
+          path: wix
+
+      - name: Install MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+            vs-version: '[17.0,19)'
+
+      - name: Create build folders
+        run: |
+          New-Item -Path "${{ github.workspace }}\build" -ItemType directory
+          New-Item -Path "${{ github.workspace }}\build\prerequisites" -ItemType directory
+
+      - name: Restore cached VirtualBox installer
+        if: ${{ matrix.variant == 'vbox' }}
+        id: cache-vbox-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
+          key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
+
+      - name: Download prerequisite VirtualBox if needed
+        if: ${{ matrix.variant == 'vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
+        run: |
+          # Download Virtualbox prerequisite
+          Invoke-WebRequest -Uri "${{ env.VBOX_URL }}" -TimeoutSec 60 -OutFile "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
+          $md5 = (Get-FileHash "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}" -Algorithm MD5).Hash.ToLower()
+          if ( !($md5 -eq "${{ env.VBOX_MD5 }}") ) {
+            throw "VirtualBox installer download failed"
+          }
+
+      - name: Save prerequisite VirtualBox if needed
+        if: ${{ matrix.variant == 'vbox' && steps.cache-vbox-restore.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v3
+        with:
+          path: "${{ env.PREREQUISITES_PATH }}\\${{ env.VBOX_NAME }}"
+          key: ${{ env.VBOX_NAME }}-${{ env.VBOX_MD5 }}
+
+      - name: Download Client Artifact
+        if: ${{ success() }}
+        uses: actions/download-artifact@v3
+        with:
+          name: win_client_${{ matrix.arch }}_${{github.event.pull_request.head.sha}}
+          path: pkgs/
+
+      - name: Download Manager Artifact
+        if: ${{ success() }}
+        uses: actions/download-artifact@v3
+        with:
+          name: win_manager_${{ matrix.arch }}_${{github.event.pull_request.head.sha}}
+          path: pkgs/
+
+      - name: Decompress Artifacts
+        if: ${{ success() }}
+        run: |
+          pushd "${{ github.workspace }}\build"
+          7z x "${{ github.workspace }}\pkgs\win_client.7z"
+          7z x "${{ github.workspace }}\pkgs\win_manager.7z"
+
+      - name: Build installer
+        if: ${{ success() && matrix.variant != '' }}
+        run: |
+          $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
+          $env:WIX = "${{ github.workspace }}\wix\bin\"
+          pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}_${{ matrix.variant }}" `
+               -Version "${{ steps.boinc-version-extract.outputs.boincVersionString }}" `
+               -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
+               -CertificatePass "${{ env.CERTIFICATE_PASS }}"
+
+      - name: Build installer
+        if: ${{ success() && matrix.variant == '' }}
+        run: |
+          $env:PATH = "${{ github.workspace }}\wix\bin\;" + $env:PATH
+          $env:WIX = "${{ github.workspace }}\wix\bin\"
+          pwsh -noninteractive -f .\installer.ps1 -Type "${{ matrix.arch }}" `
+               -Version "${{ steps.boinc-version-extract.outputs.boincVersionString }}" `
+               -CI -Certificate "${{ github.workspace }}\${{env.CERTIFICATE_SIGN}}" `
+               -CertificatePass "${{ env.CERTIFICATE_PASS }}"
+
+      - name: Upload installer
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: boinc_bundle_${{ steps.boinc-version-extract.outputs.boincVersionString }}_${{ matrix.variant }}_${{ matrix.arch }}_${{github.event.pull_request.head.sha}}
+          path: build/*_windows_*.exe

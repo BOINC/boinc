@@ -1,9 +1,0 @@
-<cc_config>
-    <log_flags>
-    </log_flags>
-    <options>
-	<client_download_url>https://www.worldcommunitygrid.org/reg/ms/viewDownloadAgain.do</client_download_url>
-        <client_version_check_url>https://www.worldcommunitygrid.org/download_all.php?xml=1</client_version_check_url>
-	<network_test_url>https://www.ibm.com</network_test_url>
-    </options>
-</cc_config>

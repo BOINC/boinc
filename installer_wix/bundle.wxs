@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+   xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+   xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+
+  <!-- Please take not that only incrementing the build version (n in x.x.x.n) will not trigger an upgrade, limitation of msi -->
+  <Bundle Name="BOINC"
+          Version="$(var.BoincVersion)"
+          Manufacturer="Boinc Project"
+          IconSourceFile="installer.ico"
+          UpgradeCode="{e599becb-a017-4447-9ef8-ef1eb0dff441}">
+    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+      <Payload SourceFile="BootstrapperCore.config"/>
+      <Payload SourceFile="$(var.BoincBootstrapCore)"/>
+      <Payload SourceFile="$(var.BoincBootstrapUI)"/>
+    </BootstrapperApplicationRef>
+
+    <Chain>
+      <!-- Prerequisite packages -->
+      <PackageGroupRef Id="Prerequisites"/>
+
+      <!-- Install Application -->
+      <PackageGroupRef Id="Boinc"/>
+    </Chain>
+
+  </Bundle>
+
+  <Fragment>
+      <util:RegistrySearch Id="BoincPresent"
+              Root="HKLM"
+              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{31209A01-4F85-4476-9A23-A64C75AE94FC}"
+              Value="WindowsInstaller"
+              Win64="yes"
+              Result="exists"
+              Variable="BoincPresent"/>
+
+      <?ifdef var.VBoxActive ?>
+      <util:RegistrySearch Id="VBoxPresent"
+              Root="HKLM"
+              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}"
+              Value="WindowsInstaller"
+              Win64="yes"
+              Result="exists"
+              Variable="VirtualBoxPresent"/>
+      <?endif ?>
+
+    <!-- Boinc Group -->
+    <PackageGroup Id="Boinc">
+      <MsiPackage Id="Boinc"
+                  DisplayName="Boinc"
+                  Compressed="yes"
+                  DisplayInternalUI="yes"
+                  Cache="no"
+                  Permanent="no"
+                  Vital="yes"
+                  InstallCondition="NOT BoincPresent"
+                  SourceFile="$(var.InstallerFile)" />
+    </PackageGroup>
+    <!-- Prerequisites Group -->
+    <PackageGroup Id="Prerequisites">
+      <?ifdef var.VBoxActive ?>
+      <ExePackage Id="VirtualBox"
+                  DisplayName="VirtualBox"
+                  Compressed="yes"
+                  Cache="yes"
+                  PerMachine="yes"
+                  Permanent="yes"
+                  Vital="yes"
+                  SourceFile="$(var.VBoxFile)"
+                  DetectCondition="VirtualBoxPresent"
+                  InstallCondition="NOT VirtualBoxPresent" />
+      <?endif ?>
+    </PackageGroup>
+  </Fragment>
+</Wix>

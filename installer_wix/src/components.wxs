@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Binary Id="WixUI_Folder_Icon" SourceFile="$(var.ProjectDir)\folder_icon.ico" />
+
+        <ComponentGroup Id="BOINCComponents" Directory="TARGETDIR">
+            <!-- Registry Entry to startup the tray -->
+            <Component Id="TrayStartup" Guid="{ed4c20e8-93ba-4075-ae12-aead0b6a9f93}">
+                <RegistryKey Root="HKLM"
+                            Key="Software\Microsoft\Windows\CurrentVersion\Run"
+                            ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+                    <RegistryValue Type="string" Name="boinctray" Value="[BOINCBIN]boinctray.exe"/>
+                </RegistryKey>
+            </Component>
+
+            <!-- Registry Entry to startup the manager for current user only -->
+            <Component Id="ManagerStartup" Guid="{d845c118-b8b2-46f8-b219-fab2d1df75fe}">
+                <RegistryKey Root="HKCU"
+                            Key="Software\Microsoft\Windows\CurrentVersion\Run"
+                            ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+                    <RegistryValue Type="string" Name="boincmgr" Value="[BOINCBIN]boincmgr.exe /a /s"/>
+                </RegistryKey>
+                <Condition>NOT ENABLEUSEBYALLUSERS</Condition>
+            </Component>
+
+            <!-- Registry Entry to startup the manager for all users -->
+            <Component Id="ManagerStartupAll" Guid="{92f131cc-e05f-48f2-b127-56c26d0d2a0c}">
+                <RegistryKey Root="HKLM"
+                            Key="Software\Microsoft\Windows\CurrentVersion\Run"
+                            ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+                    <RegistryValue Type="string" Name="boincmgr" Value="[BOINCBIN]boincmgr.exe /a /s"/>
+                </RegistryKey>
+                <Condition>ENABLEUSEBYALLUSERS</Condition>
+            </Component>
+        </ComponentGroup>
+
+        <?if var.Platform != 'ARM64' ?>
+        <ComponentGroup Id="BOINCScreensaverGroupNT" Directory="TARGETDIR">
+            <!-- Registry Entry to setup the screensaver -->
+            <Component Id="ScreensaverEnableNT" Guid="{046307f8-63e3-4b39-81d3-caa88a8545a9}">
+                <RegistryKey Root="HKCU"
+                            Key="Software\Policies\Microsoft\Windows\Control Panel\Desktop"
+                            ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+                    <RegistryValue Type="string" Name="SCRNSAVE.EXE" Value="[BOINCBIN]boinc.scr"/>
+                    <RegistryValue Type="integer" Name="ScreenSaveActive" Value="1"/>
+                </RegistryKey>
+                <Condition>VersionNT AND ENABLESCREENSAVER</Condition>
+            </Component>
+        </ComponentGroup>
+        <ComponentGroup Id="BOINCScreensaverGroup9x" Directory="WindowsFolder">
+            <!-- Registry Entry to setup the screensaver -->
+            <Component Id="ScreensaverEnable9x" Guid="{85a34be1-e66b-443b-8b31-15ca3e956cbf}">
+                <CreateFolder />
+
+                <IniFile Id="ScrIni"
+                         Action="addLine"
+                         Directory="WindowsFolder"
+                         Name="system.ini"
+                         Section="boot"
+                         Key="SCRNSAVE.EXE"
+                         Value="[BOINCBIN]boinc.scr" />
+                <Condition>Version9X AND ENABLESCREENSAVER</Condition>
+            </Component>
+        </ComponentGroup>
+        <?endif ?>
+
+        <ComponentGroup Id="BOINCComponentsService" Directory="BOINCBIN">
+            <!-- Client service install -->
+            <Component Id='service_boinc.exe' Guid='{9d9feb2b-63c4-43de-aef4-4ec909e2070c}' SharedDllRefCount="yes">
+                <File Id="service_boinc.exe" Source="$(var.BuildDir)\boinc.exe" KeyPath="yes" />
+
+                <ServiceInstall Id="BoincClientService" Name="BoincClientService" DisplayName="BOINC"
+                                Description="BOINC client service" Start="auto" Type="ownProcess" ErrorControl="normal"
+                                Account="LocalSystem" Arguments="-daemon" Vital="yes" Interactive="no"/>
+                <ServiceControl Id="BoincClientService" Name="BoincClientService" Start="install" Stop="both" Remove="uninstall" Wait="yes"/>
+
+                <Condition>ENABLEPROTECTEDAPPLICATIONEXECUTION3</Condition>
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="BOINCComponentsClient" Directory="BOINCBIN">
+            <!-- Client normal install -->
+            <Component Id='client_boinc.exe' Guid='{a3a9b57d-e63d-4a56-b3fd-646eba5227b0}' SharedDllRefCount="yes">
+                <File Id="client_boinc.exe" Source="$(var.BuildDir)\boinc.exe" KeyPath="yes" />
+                <Condition>NOT ENABLEPROTECTEDAPPLICATIONEXECUTION3</Condition>
+            </Component>
+        </ComponentGroup>
+
+    </Fragment>
+</Wix>

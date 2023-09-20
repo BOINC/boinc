@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProductVersion>3.14</ProductVersion>
+    <ProjectGuid>48f4892b-2957-45ad-b387-52523e1f10b4</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>installer</OutputName>
+    <OutputType>Package</OutputType>
+    <BoincVersion>1.0.0.0</BoincVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>$(SolutionDir)..\build\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug;BoincVersion=$(BoincVersion);MinInstallerVersion=300;BuildDir=..\build;SourceBinDir=$(ProjectDir)..\build\src;SourceScreenDir=$(ProjectDir)..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <WixVariables>
+    </WixVariables>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>$(SolutionDir)..\build\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>BuildDir=..\build;BoincVersion=$(BoincVersion);MinInstallerVersion=300;SourceBinDir=$(ProjectDir)..\build\src;SourceScreenDir=$(ProjectDir)..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <InstallerPlatform>x64</InstallerPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
+    <OutputPath>$(SolutionDir)..\build\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug;BuildDir=..\build;BoincVersion=$(BoincVersion);MinInstallerVersion=500;SourceBinDir=$(ProjectDir)..\build\src;SourceScreenDir=$(ProjectDir)..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <InstallerPlatform>ARM64</InstallerPlatform>
+    <WixVariables>
+    </WixVariables>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM64' ">
+    <OutputPath>$(SolutionDir)..\build\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>BuildDir=..\build;BoincVersion=$(BoincVersion);MinInstallerVersion=500;SourceBinDir=$(ProjectDir)..\build\src;SourceScreenDir=$(ProjectDir)..\build\src_screen;SourceDataDir=$(ProjectDir)redist</DefineConstants>
+    <InstallerPlatform>ARM64</InstallerPlatform>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="boinc_binary_files.wxs" />
+    <Compile Include="boinc_screensaver_files.wxs" />
+    <Compile Include="boinc_data_files.wxs" />
+    <Compile Include="src/custom_actions.wxs" />
+    <Compile Include="src/directories.wxs" />
+    <Compile Include="src/components.wxs" />
+    <Compile Include="src/ui_boincui.wxs" />
+    <Compile Include="src/custom/optionsdlg.wxs" />
+    <Compile Include="src/custom/exitdlg.wxs" />
+    <Compile Include="installer.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\custom\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\Strings_en-us.wxl" />
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
+  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
+    <Error Text="The WiX Toolset v3.14 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>call "$(ProjectDir)harvest.bat" $(ProjectDir) $(Platform)</PreBuildEvent>
+  </PropertyGroup>
+</Project>

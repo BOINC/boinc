@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Binary Id="BoincCABinary" SourceFile="$(var.ProjectDir)Build\BoincCA.dll" />
+
+        <CustomAction Id="CAAnnounceUpgrade" BinaryKey="BoincCABinary" DllEntry="AnnounceUpgrade" />
+        <CustomAction Id="CACreateBOINCAccounts" BinaryKey="BoincCABinary" DllEntry="CreateBOINCAccounts" />
+        <CustomAction Id="CACreateBOINCGroups" BinaryKey="BoincCABinary" DllEntry="CreateBOINCGroups" />
+        <CustomAction Id="CACreateClientAuthFile" BinaryKey="BoincCABinary" DllEntry="CreateClientAuthFile" />
+        <CustomAction Id="CACCConfigMd5sum" BinaryKey="BoincCABinary" DllEntry="CCConfigMd5sum" />
+        <CustomAction Id="CACreateProjectInitFile" BinaryKey="BoincCABinary" DllEntry="CreateProjectInitFile" />
+        <CustomAction Id="CACreateAcctMgrLoginFile" BinaryKey="BoincCABinary" DllEntry="CreateAcctMgrLoginFile" />
+        <CustomAction Id="CAGetAdministratorsGroupName" BinaryKey="BoincCABinary" DllEntry="GetAdministratorsGroupName" />
+        <CustomAction Id="CAGetUsersGroupName" BinaryKey="BoincCABinary" DllEntry="GetUsersGroupName" />
+        <CustomAction Id="CAGrantBOINCMasterRights" BinaryKey="BoincCABinary" DllEntry="GrantBOINCMasterRights" />
+        <CustomAction Id="CAGrantBOINCProjectRights" BinaryKey="BoincCABinary" DllEntry="GrantBOINCProjectRights" />
+        <CustomAction Id="CAShutdownBOINC" BinaryKey="BoincCABinary" DllEntry="ShutdownBOINC" />
+        <CustomAction Id="CAShutdownBOINCManager" BinaryKey="BoincCABinary" DllEntry="ShutdownBOINCManager" />
+        <CustomAction Id="CAShutdownBOINCScreensaver" BinaryKey="BoincCABinary" DllEntry="ShutdownBOINCScreensaver" />
+        <CustomAction Id="CAShutdownUD" BinaryKey="BoincCABinary" DllEntry="ShutdownUD" />
+        <CustomAction Id="CAGrantBOINCAdminsRights" BinaryKey="BoincCABinary" DllEntry="GrantBOINCAdminsRights" />
+        <CustomAction Id="CAGrantBOINCAdminsVirtualBoxRights" BinaryKey="BoincCABinary" DllEntry="GrantBOINCAdminsVirtualBoxRights" />
+        <CustomAction Id="CAGrantBOINCUsersRights" BinaryKey="BoincCABinary" DllEntry="GrantBOINCUsersRights" />
+        <CustomAction Id="CAGrantBOINCProjectsRights" BinaryKey="BoincCABinary" DllEntry="GrantBOINCProjectsRights" />
+        <CustomAction Id="CAGrantBOINCProjectsVirtualBoxRights" BinaryKey="BoincCABinary" DllEntry="GrantBOINCProjectsVirtualBoxRights" />
+        <CustomAction Id="CASetPermissionBOINC" BinaryKey="BoincCABinary" DllEntry="SetPermissionBOINC" />
+        <CustomAction Id="CASetPermissionBOINCData" BinaryKey="BoincCABinary" DllEntry="SetPermissionBOINCData" />
+        <CustomAction Id="CASetPermissionBOINCDataProjects" BinaryKey="BoincCABinary" DllEntry="SetPermissionBOINCDataProjects" />
+        <CustomAction Id="CASetPermissionBOINCDataSlots" BinaryKey="BoincCABinary" DllEntry="SetPermissionBOINCDataSlots" />
+        <CustomAction Id="CALaunchBOINCManager" BinaryKey="BoincCABinary" DllEntry="LaunchBOINCManager" />
+        <CustomAction Id="CALaunchBOINCTray" BinaryKey="BoincCABinary" DllEntry="LaunchBOINCTray" />
+        <CustomAction Id="CAValidateSetupType" BinaryKey="BoincCABinary" DllEntry="ValidateSetupType" />
+        <CustomAction Id="CARestoreSetupState" BinaryKey="BoincCABinary" DllEntry="RestoreSetupState" />
+        <CustomAction Id="CASaveSetupState" BinaryKey="BoincCABinary" DllEntry="SaveSetupState" />
+        <CustomAction Id="CACleanupOldBinaries" BinaryKey="BoincCABinary" DllEntry="CleanupOldBinaries" />
+        <CustomAction Id="CAVerifyInstallDirectories" BinaryKey="BoincCABinary" DllEntry="VerifyInstallDirectories" />
+        <CustomAction Id="CAValidateInstall" BinaryKey="BoincCABinary" DllEntry="ValidateInstall" />
+        <CustomAction Id="CAValidateRebootRequest" BinaryKey="BoincCABinary" DllEntry="ValidateRebootRequest" />
+        <CustomAction Id="CASaveExecutionState" BinaryKey="BoincCABinary" DllEntry="SaveExecutionState" />
+        <CustomAction Id="CARestoreExecutionState" BinaryKey="BoincCABinary" DllEntry="RestoreExecutionState" />
+        <CustomAction Id="CARestorePermissionBOINCData" BinaryKey="BoincCABinary" DllEntry="RestorePermissionBOINCData" />
+        <CustomAction Id="CARevokeBOINCAdminsRights" BinaryKey="BoincCABinary" DllEntry="RevokeBOINCAdminsRights" />
+        <CustomAction Id="CARevokeBOINCMasterRights" BinaryKey="BoincCABinary" DllEntry="RevokeBOINCMasterRights" />
+        <CustomAction Id="CARevokeBOINCProjectRights" BinaryKey="BoincCABinary" DllEntry="RevokeBOINCProjectRights" />
+        <CustomAction Id="CARevokeBOINCProjectsRights" BinaryKey="BoincCABinary" DllEntry="RevokeBOINCProjectsRights" />
+        <CustomAction Id="CARevokeBOINCUsersRights" BinaryKey="BoincCABinary" DllEntry="RevokeBOINCUsersRights" />
+        <CustomAction Id="CADeleteBOINCGroups" BinaryKey="BoincCABinary" DllEntry="DeleteBOINCGroups" />
+        <CustomAction Id="CADeleteBOINCAccounts" BinaryKey="BoincCABinary" DllEntry="DeleteBOINCAccounts" />
+    </Fragment>
+</Wix>

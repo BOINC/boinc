@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{e22de4c0-c485-4dbe-a612-5de971eaf1d4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>BoincCA</RootNamespace>
+    <ProjectName>BoincCA</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutDir>$(SolutionDir)Build\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <LinkIncremental>true</LinkIncremental>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutDir>$(SolutionDir)Build\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutDir>$(SolutionDir)Build\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <LinkIncremental>false</LinkIncremental>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutDir>$(SolutionDir)Build\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(WIX)sdk\$(WixPlatformToolset)\inc;$(SolutionDir)..\..\win_build;$(SolutionDir)..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINCCA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atls.lib;msi.lib;dutil.lib;wcautil.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;$(SolutionDir)Build\$(Platform)\$(Configuration)\libboinc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WIX)sdk\$(WixPlatformToolset)\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>BoincCA.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(WIX)sdk\$(WixPlatformToolset)\inc;$(SolutionDir)..\..\win_build;$(SolutionDir)..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINCCA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atls.lib;msi.lib;dutil.lib;wcautil.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;$(SolutionDir)Build\$(Platform)\$(Configuration)\libboinc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WIX)sdk\$(WixPlatformToolset)\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>BoincCA.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(WIX)sdk\$(WixPlatformToolset)\inc;$(SolutionDir)..\..\win_build;$(SolutionDir)..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BOINCCA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atls.lib;msi.lib;dutil.lib;wcautil.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;$(SolutionDir)Build\$(Platform)\$(Configuration)\libboinc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WIX)sdk\$(WixPlatformToolset)\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>BoincCA.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(WIX)sdk\$(WixPlatformToolset)\inc;$(SolutionDir)..\..\win_build;$(SolutionDir)..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BOINCCA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atls.lib;msi.lib;dutil.lib;wcautil.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;$(SolutionDir)Build\$(Platform)\$(Configuration)\libboinc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WIX)sdk\$(WixPlatformToolset)\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>BoincCA.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="aclmgmt.cpp" />
+    <ClCompile Include="boinccas.cpp" />
+    <ClCompile Include="CAAnnounceUpgrade.cpp" />
+    <ClCompile Include="CACCConfigMd5sum.cpp" />
+    <ClCompile Include="CACleanupOldBinaries.cpp" />
+    <ClCompile Include="CACreateAcctMgrLoginFile.cpp" />
+    <ClCompile Include="CACreateBOINCAccounts.cpp" />
+    <ClCompile Include="CACreateBOINCGroups.cpp" />
+    <ClCompile Include="CACreateClientAuthFile.cpp" />
+    <ClCompile Include="CACreateProjectInitFile.cpp" />
+    <ClCompile Include="CADeleteBOINCAccounts.cpp" />
+    <ClCompile Include="CADeleteBOINCGroups.cpp" />
+    <ClCompile Include="CAGetAdministratorsGroupName.cpp" />
+    <ClCompile Include="CAGetUsersGroupName.cpp" />
+    <ClCompile Include="CAGrantBOINCAdminsRights.cpp" />
+    <ClCompile Include="CAGrantBOINCAdminsVirtualBoxRights.cpp" />
+    <ClCompile Include="CAGrantBOINCMasterRights.cpp" />
+    <ClCompile Include="CAGrantBOINCProjectRights.cpp" />
+    <ClCompile Include="CAGrantBOINCProjectsRights.cpp" />
+    <ClCompile Include="CAGrantBOINCProjectsVirtualBoxRights.cpp" />
+    <ClCompile Include="CAGrantBOINCUsersRights.cpp" />
+    <ClCompile Include="CALaunchBOINCManager.cpp" />
+    <ClCompile Include="CALaunchBOINCTray.cpp" />
+    <ClCompile Include="CARestoreExecutionState.cpp" />
+    <ClCompile Include="CARestorePermissionBOINCData.cpp" />
+    <ClCompile Include="CARestoreSetupState.cpp" />
+    <ClCompile Include="CARevokeBOINCAdminsRights.cpp" />
+    <ClCompile Include="CARevokeBOINCMasterRights.cpp" />
+    <ClCompile Include="CARevokeBOINCProjectRights.cpp" />
+    <ClCompile Include="CARevokeBOINCProjectsRights.cpp" />
+    <ClCompile Include="CARevokeBOINCUsersRights.cpp" />
+    <ClCompile Include="CASaveExecutionState.cpp" />
+    <ClCompile Include="CASaveSetupState.cpp" />
+    <ClCompile Include="CASetPermissionBOINC.cpp" />
+    <ClCompile Include="CASetPermissionBOINCData.cpp" />
+    <ClCompile Include="CASetPermissionBOINCDataProjects.cpp" />
+    <ClCompile Include="CASetPermissionBOINCDataSlots.cpp" />
+    <ClCompile Include="CAShutdownBOINC.cpp" />
+    <ClCompile Include="CAShutdownBOINCManager.cpp" />
+    <ClCompile Include="CAShutdownBOINCScreensaver.cpp" />
+    <ClCompile Include="CAShutdownUD.cpp" />
+    <ClCompile Include="CAValidateInstall.cpp" />
+    <ClCompile Include="CAValidateRebootRequest.cpp" />
+    <ClCompile Include="CAValidateSetupType.cpp" />
+    <ClCompile Include="CAVerifyInstallDirectories.cpp" />
+    <ClCompile Include="dirops.cpp" />
+    <ClCompile Include="launcher.cpp" />
+    <ClCompile Include="listacl.cpp" />
+    <ClCompile Include="lkuprid.cpp" />
+    <ClCompile Include="lsaprivs.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="password.cpp" />
+    <ClCompile Include="sdmgmt.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="terminate.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="wrappers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoincCA.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boinccas.h" />
+    <ClInclude Include="CAAnnounceUpgrade.h" />
+    <ClInclude Include="CACCConfigMd5sum.h" />
+    <ClInclude Include="CACleanupOldBinaries.h" />
+    <ClInclude Include="CACreateAcctMgrLoginFile.h" />
+    <ClInclude Include="CACreateBOINCAccounts.h" />
+    <ClInclude Include="CACreateBOINCGroups.h" />
+    <ClInclude Include="CACreateClientAuthFile.h" />
+    <ClInclude Include="CACreateProjectInitFile.h" />
+    <ClInclude Include="CADeleteBOINCAccounts.h" />
+    <ClInclude Include="CADeleteBOINCGroups.h" />
+    <ClInclude Include="CAGetAdministratorsGroupName.h" />
+    <ClInclude Include="CAGetUsersGroupName.h" />
+    <ClInclude Include="CAGrantBOINCAdminsRights.h" />
+    <ClInclude Include="CAGrantBOINCAdminsVirtualBoxRights.h" />
+    <ClInclude Include="CAGrantBOINCMasterRights.h" />
+    <ClInclude Include="CAGrantBOINCProjectRights.h" />
+    <ClInclude Include="CAGrantBOINCProjectsRights.h" />
+    <ClInclude Include="CAGrantBOINCProjectsVirtualBoxRights.h" />
+    <ClInclude Include="CAGrantBOINCUsersRights.h" />
+    <ClInclude Include="CALaunchBOINCManager.h" />
+    <ClInclude Include="CALaunchBOINCTray.h" />
+    <ClInclude Include="CARestoreExecutionState.h" />
+    <ClInclude Include="CARestorePermissionBOINCData.h" />
+    <ClInclude Include="CARestoreSetupState.h" />
+    <ClInclude Include="CARevokeBOINCAdminsRights.h" />
+    <ClInclude Include="CARevokeBOINCMasterRights.h" />
+    <ClInclude Include="CARevokeBOINCProjectRights.h" />
+    <ClInclude Include="CARevokeBOINCProjectsRights.h" />
+    <ClInclude Include="CARevokeBOINCUsersRights.h" />
+    <ClInclude Include="CASaveExecutionState.h" />
+    <ClInclude Include="CASaveSetupState.h" />
+    <ClInclude Include="CASetPermissionBOINC.h" />
+    <ClInclude Include="CASetPermissionBOINCData.h" />
+    <ClInclude Include="CASetPermissionBOINCDataProjects.h" />
+    <ClInclude Include="CASetPermissionBOINCDataSlots.h" />
+    <ClInclude Include="CAShutdownBOINC.h" />
+    <ClInclude Include="CAShutdownBOINCManager.h" />
+    <ClInclude Include="CAShutdownBOINCScreensaver.h" />
+    <ClInclude Include="CAShutdownUD.h" />
+    <ClInclude Include="CAValidateInstall.h" />
+    <ClInclude Include="CAValidateRebootRequest.h" />
+    <ClInclude Include="CAValidateSetupType.h" />
+    <ClInclude Include="CAVerifyInstallDirectories.h" />
+    <ClInclude Include="dcomperm.h" />
+    <ClInclude Include="dirops.h" />
+    <ClInclude Include="launcher.h" />
+    <ClInclude Include="lkuprid.h" />
+    <ClInclude Include="lsaprivs.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="password.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="terminate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="boinccas.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libboinc.vcxproj">
+      <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <!-- Workaround for building ARM64 with VisualStudio 2019/2022 -->
+    <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v142' ">VS2017</WixPlatformToolset>
+    <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v143' ">VS2017</WixPlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(WixNativeCATargetsPath)" Condition=" '$(WixNativeCATargetsPath)' != '' " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.NativeCA.targets" Condition=" '$(WixNativeCATargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.NativeCA.targets') " />
+  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixNativeCATargetsImported)' != 'true' ">
+    <Error Text="The WiX Toolset v3.11 build tools must be installed to build this project. To download the WiX Toolset, see https://wixtoolset.org/releases/v3.11/stable" />
+  </Target>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

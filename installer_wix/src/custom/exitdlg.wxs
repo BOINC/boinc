@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <!-- Local variables to track the checkbox state -->
+    <Property Id="LAUNCHPROGRAM" Secure="yes" />
+
+    <Property Id="LAUNCHPROGRAM_Description" Value="!(loc.LAUNCHPROGRAM_Description)" />
+
+    <UI>
+      <!-- This is the successful exit dialog and allows via checkbox to launch the manager application -->
+      <Dialog Id="CustomExitDlg" Width="370" Height="270" Title="!(loc.CustomExitDlg_Title)">
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.CustomExitDlgBackgroundBitmap)" />
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+
+        <Control Id="Title" Type="Text" X="20" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes"
+          Text="{\WixUI_Font_Title}!(loc.CustomExitDlgTitle)" />
+        <Control Id="DialogDescription" Type="Text" X="20" Y="40" Width="250" Height="17"  Transparent="yes" Text="!(loc.CustomExitDlgDescription)" />
+
+        <!-- Launch Manager at the end -->
+        <Control Id="OPT1" Type="CheckBox" X="10" Y="243" Width="150" Height="17" CheckBoxValue="1" Hidden="no"
+                 Property="LAUNCHPROGRAM" Text="[LAUNCHPROGRAM_Description]" Disabled="no" />
+
+        <Control Id="Finish" Type="PushButton" X="304" Y="243" Width="56" Height="17" Text="!(loc.WixUIFinish)" >
+          <Publish Event="DoAction" Value="CALaunchBOINCManager">LAUNCHPROGRAM</Publish>
+          <Publish Event="DoAction" Value="CALaunchBOINCTray">LAUNCHPROGRAM</Publish>
+        </Control>
+
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>
