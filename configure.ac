@@ -1155,7 +1155,7 @@ CLIENTLIBS=
 
 AC_COMPILE_IFELSE( [AC_LANG_PROGRAM([[#include <libevdev-1.0/libevdev/libevdev.h>]],
   [[
-    
+
   ]])],
   [
     AC_MSG_RESULT([yes])

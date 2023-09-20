@@ -57,6 +57,7 @@ parts:
     - libxrandr-dev
     - libdbus-1-dev
     - libxtst-dev
+    - libevdev-dev
     # vcpkg dependencies
     - build-essential
     - pkg-config
