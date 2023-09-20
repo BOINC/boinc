@@ -1153,14 +1153,20 @@ dnl ======================================================================
 
 CLIENTLIBS=
 
-# Add -levdev linker
-AC_PREPROC_IFELSE([AC_LANG_PROGRAM([[
-#ifdef LINUX_SYSTEM
+AC_COMPILE_IFELSE( [AC_LANG_PROGRAM([[#include <libevdev-1.0/libevdev/libevdev.h>]],
+  [[
+    
+  ]])],
+  [
+    AC_MSG_RESULT([yes])
+    CLIENTLIBS="$CLIENTLIBS -levdev"
+  ],
+  [
+    AC_MSG_RESULT([no])
+  ]
+  )
 
-#endif
-]], [])], [
-  CLIENTLIBS="${CLIENTLIBS} -levdev"
-])
+
 
 SAH_CHECK_LIB([m],[sin], [
     AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
