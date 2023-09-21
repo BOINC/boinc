@@ -40,8 +40,8 @@ env:
   VBOX_URL: https://download.virtualbox.org/virtualbox/7.0.10/VirtualBox-7.0.10-158379-Win.exe
   VBOX_NAME: VirtualBox-7.0.10-158379-Win.exe
   VBOX_MD5: 8882a55227cccc8a3f7ab69641df19fd # keep lowercase
-  
-  
+
+
 jobs:
   build:
     name: ${{matrix.configuration}}-${{matrix.platform}}-${{matrix.type}}
