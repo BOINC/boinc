@@ -714,6 +714,20 @@
 			remoteGlobalIDString = DD96AFF80811075000A06F22;
 			remoteInfo = ScreenSaver;
 		};
+		DD7C3B102ABC3F85000C307D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
+			remoteInfo = setprojectgrp;
+		};
+		DD7C3B122ABC3F85000C307D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4;
+			remoteInfo = switcher;
+		};
 		DD81C823144D904D000BE61A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -2590,6 +2604,8 @@
 			dependencies = (
 				B1A32E55265D206800896566 /* PBXTargetDependency */,
 				DD25E20D220438090040366F /* PBXTargetDependency */,
+				DD7C3B112ABC3F85000C307D /* PBXTargetDependency */,
+				DD7C3B132ABC3F85000C307D /* PBXTargetDependency */,
 			);
 			name = BOINC_Client;
 			productName = BOINC_Client;
@@ -4223,6 +4239,16 @@
 			isa = PBXTargetDependency;
 			target = DD96AFF80811075000A06F22 /* ScreenSaver */;
 			targetProxy = DD791FF00819063C00BE2906 /* PBXContainerItemProxy */;
+		};
+		DD7C3B112ABC3F85000C307D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */;
+			targetProxy = DD7C3B102ABC3F85000C307D /* PBXContainerItemProxy */;
+		};
+		DD7C3B132ABC3F85000C307D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
+			targetProxy = DD7C3B122ABC3F85000C307D /* PBXContainerItemProxy */;
 		};
 		DD81C824144D904D000BE61A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
