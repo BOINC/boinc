@@ -41,7 +41,6 @@
 
 /* Begin PBXBuildFile section */
 		81FD378F2AB95D4A00E29818 /* app_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81FD378E2AB95D4A00E29818 /* app_test.cpp */; };
-		81FD37902AB95D4A00E29818 /* app_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81FD378E2AB95D4A00E29818 /* app_test.cpp */; };
 		B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */; };
 		DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
@@ -3963,7 +3962,6 @@
 				DD99172A1E69A92A00555337 /* mac_spawn.cpp in Sources */,
 				DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */,
 				DD3741D610FC948C001257EB /* filesys.cpp in Sources */,
-				81FD37902AB95D4A00E29818 /* app_test.cpp in Sources */,
 				DD3741D910FC94BA001257EB /* url.cpp in Sources */,
 				DD76BF9717CB465C0075936D /* opencl_boinc.cpp in Sources */,
 			);
