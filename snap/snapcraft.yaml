@@ -104,6 +104,9 @@ parts:
       export PATH=/snap/cmake/current/bin/:$PATH
       cmake --version
 
+      # to recongize libevdev
+      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/
+
       # aws
       ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
       sudo add-apt-repository ppa:lizthegrey/misc
