@@ -949,6 +949,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
 // possibly triggering state transitions.
 // Returns true if something happened
 // (in which case should call this again immediately)
+// Called every POLL_INTERVAL (1 sec)
 //
 bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, retval;

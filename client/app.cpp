@@ -150,6 +150,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     safe_strcpy(remote_desktop_addr, "");
     async_copy = NULL;
     finish_file_time = 0;
+    sporadic_ca_state = CA_NONE;
+    sporadic_ac_state = AC_NONE;
 }
 
 bool ACTIVE_TASK::process_exists() {

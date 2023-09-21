@@ -37,6 +37,8 @@ void CLIENT_STATE::app_test_init() {
     strcpy(app->name, "test app");
     strcpy(app->user_friendly_name, "test app");
     app->project = proj;
+    // can put other stuff here like
+    // app->sporadic = true;
     apps.push_back(app);
 
     FILE_INFO *fip = new FILE_INFO;

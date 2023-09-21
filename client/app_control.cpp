@@ -727,6 +727,13 @@ void ACTIVE_TASK_SET::send_heartbeats() {
         if (gstate.network_suspended) {
             safe_strcat(buf, "<network_suspended/>");
         }
+        if (atp->sporadic_ca_state) {
+            char buf2[256];
+            sprintf(buf2, "<sporadic_ca>%d</sporadic_ca>",
+                atp->sporadic_ca_state
+            );
+            safe_strcat(buf, buf2);
+        }
         bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
         if (log_flags.heartbeat_debug) {
             if (sent) {
@@ -1390,7 +1397,7 @@ void ACTIVE_TASK::send_network_available() {
 bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     double fd;
-    int other_pid;
+    int other_pid, i;
     double dtemp;
     static double last_msg_time=0;
 
@@ -1459,6 +1466,9 @@ bool ACTIVE_TASK::get_app_status_msg() {
         // for now, we handle only one of these
         other_pids.clear();
         other_pids.push_back(other_pid);
+    }
+    if (parse_int(msg_buf, "<sporadic_ac>", i)) {
+        sporadic_ca_state = (SPORADIC_CA_STATE)i;
     }
     if (current_cpu_time < 0) {
         msg_printf(result->project, MSG_INFO,

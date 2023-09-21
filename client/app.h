@@ -184,6 +184,8 @@ struct ACTIVE_TASK {
         // Used to kill apps that hang after writing finished file
     int graphics_pid;
         // PID of running graphics app (Mac)
+    SPORADIC_CA_STATE sporadic_ca_state;
+    SPORADIC_AC_STATE sporadic_ac_state;
 
     void set_task_state(int, const char*);
     inline int task_state() {
