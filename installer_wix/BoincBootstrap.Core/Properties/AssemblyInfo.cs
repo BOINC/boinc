@@ -1,4 +1,4 @@
-﻿using BoincBootstrap.Core;
+using BoincBootstrap.Core;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BoincBootstrap.Core")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright BOINC 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
