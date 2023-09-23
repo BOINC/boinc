@@ -38,12 +38,12 @@
           LogPathVariable="NetFx48NewWebLog"
           Compressed="no"
           Name="!(wix.NetFx48NewWebPackageDirectory)ndp48-web.exe">
-        <RemotePayload CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B" 
-                        CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B" 
-                        Description="Microsoft .NET Framework 4.8 Setup" 
-                        Hash="4181398AA1FD5190155AC3A388434E5F7EA0B667" 
-                        ProductName="Microsoft .NET Framework 4.8" 
-                        Size="1439328" 
+        <RemotePayload CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B"
+                        CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B"
+                        Description="Microsoft .NET Framework 4.8 Setup"
+                        Hash="4181398AA1FD5190155AC3A388434E5F7EA0B667"
+                        ProductName="Microsoft .NET Framework 4.8"
+                        Size="1439328"
                         Version="4.8.4115.0" />
       </ExePackage>
     </PackageGroup>
@@ -74,12 +74,12 @@
           LogPathVariable="NetFx48NewRedistLog"
           Compressed="no"
           Name="!(wix.NetFx48NewRedistPackageDirectory)ndp48-x86-x64-allos-enu.exe">
-        <RemotePayload CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B" 
-                        CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B" 
-                        Description="Microsoft .NET Framework 4.8 Setup" 
-                        Hash="E322E2E0FB4C86172C38A97DC6C71982134F0570" 
-                        ProductName="Microsoft .NET Framework 4.8" 
-                        Size="121307088" 
+        <RemotePayload CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B"
+                        CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B"
+                        Description="Microsoft .NET Framework 4.8 Setup"
+                        Hash="E322E2E0FB4C86172C38A97DC6C71982134F0570"
+                        ProductName="Microsoft .NET Framework 4.8"
+                        Size="121307088"
                         Version="4.8.4115.0" />
       </ExePackage>
     </PackageGroup>
