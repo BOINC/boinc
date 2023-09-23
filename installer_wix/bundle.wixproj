@@ -15,17 +15,18 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug;BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\$(Platform)\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\$(Platform)\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>x86</InstallerPlatform>
-    <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
+    <WixVariables>WixMbaPrereqLicenseUrl=""</WixVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>$(SolutionDir)..\build\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>BoincVersion=$(BoincVersion);InstallerFile=$(ProjectDir)..\build\en-us\installer.msi;BoincBootstrapCore=$(ProjectDir)BoincBootstrap.Core\bin\$(Platform)\$(Configuration)\BoincBootstrap.Core.dll;BoincBootstrapUI=$(ProjectDir)BoincBootstrap.UI\bin\$(Platform)\$(Configuration)\BoincBootstrap.UI.exe</DefineConstants>
     <InstallerPlatform>x86</InstallerPlatform>
-    <WixVariables>WixMbaPrereqLicenseUrl="";WixMbaPrereqPackageId="d992327b-b316-4161-877d-269e8cd34819"</WixVariables>
+    <WixVariables>WixMbaPrereqLicenseUrl=""</WixVariables>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="bundle.wxs" />
+    <Compile Include="src/netfx48.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">

@@ -16,6 +16,8 @@
     </BootstrapperApplicationRef>
 
     <Chain>
+      <PackageGroupRef Id="NetFx48NewWeb"/>
+
       <!-- Prerequisite packages -->
       <PackageGroupRef Id="Prerequisites"/>
 
@@ -26,23 +28,23 @@
   </Bundle>
 
   <Fragment>
-      <util:RegistrySearch Id="BoincPresent"
-              Root="HKLM"
-              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{31209A01-4F85-4476-9A23-A64C75AE94FC}"
-              Value="WindowsInstaller"
-              Win64="yes"
-              Result="exists"
-              Variable="BoincPresent"/>
+    <util:RegistrySearch Id="BoincPresent"
+            Root="HKLM"
+            Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{31209A01-4F85-4476-9A23-A64C75AE94FC}"
+            Value="WindowsInstaller"
+            Win64="yes"
+            Result="exists"
+            Variable="BoincPresent"/>
 
-      <?ifdef var.VBoxActive ?>
-      <util:RegistrySearch Id="VBoxPresent"
-              Root="HKLM"
-              Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}"
-              Value="WindowsInstaller"
-              Win64="yes"
-              Result="exists"
-              Variable="VirtualBoxPresent"/>
-      <?endif ?>
+    <?ifdef var.VBoxActive ?>
+    <util:RegistrySearch Id="VBoxPresent"
+            Root="HKLM"
+            Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4CAC012A-332C-4FE5-AD51-E308C90CA584}"
+            Value="WindowsInstaller"
+            Win64="yes"
+            Result="exists"
+            Variable="VirtualBoxPresent"/>
+    <?endif ?>
 
     <!-- Boinc Group -->
     <PackageGroup Id="Boinc">

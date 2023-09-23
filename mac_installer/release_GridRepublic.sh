@@ -91,7 +91,7 @@ mkdir -p "${SCRIPTS_PATH}"
 
 cp -fp mac_Installer/License.rtf "${IR_PATH}/"
 cp -fp "${README_FILE}" "${IR_PATH}/ReadMe.rtf"
-cp -fp win_build/installerv2/redist/all_projects_list.xml "${IR_PATH}/"
+cp -fp installer_wix/redist/all_projects_list.xml "${IR_PATH}/"
 
 # Update version number
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"

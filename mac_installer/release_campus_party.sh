@@ -82,7 +82,7 @@ mkdir -p ../BOINC_Installer/Installer\ Scripts/
 
 cp -fp mac_Installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
-cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Installer\ Resources/
+cp -fp installer_wix/redist/all_projects_list.xml ../BOINC_Installer/Installer\ Resources/
 
 # Update version number
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf

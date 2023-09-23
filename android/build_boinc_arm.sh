@@ -85,7 +85,7 @@ if [ -n "$COMPILEBOINC" ]; then
     cd android
     mkdir -p "BOINC/app/src/main/assets"
     cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/armeabi-v7a/boinc"
-    cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
+    cp "$BOINC/installer_wix/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
     cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
     echo "\e[1;32m===== BOINC for arm build done =====\e[0m"
