@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="WelcomeDlgDescription">This is the installer for BOINC version [ProductVersion]. Click Next to continue or Cancel to exit.</String>
+
+  <String Id="OptionsDlg_Title">[ProductName] Setup</String>
+  <String Id="OptionsDlgBitmap">WixUI_Bmp_Banner</String>
+  <String Id="OptionsDlgFolderIcon">WixUI_Folder_Icon</String>
+  <String Id="OptionsDlgTitle">[ProductName] Options</String>
+  <String Id="OptionsDlgDescription">Advanced options for [ProductName] installation</String>
+
+  <String Id="CustomExitDlg_Title">[ProductName] Setup Finished</String>
+  <String Id="CustomExitDlgBackgroundBitmap">WixUI_Bmp_Dialog</String>
+  <String Id="CustomExitDlgTitle">[ProductName] Finished</String>
+  <String Id="CustomExitDlgDescription">[ProductName] setup of version [ProductVersion] completed correctly.</String>
+
+  <String Id="CustomizeDlgOptions">Options</String>
+
+  <String Id="WixUIAdvanced">Advanced</String>
+  <String Id="WixUIClose">Close</String>
+
+  <String Id="ENABLESCREENSAVER_Description">Use BOINC Screensaver</String>
+  <String Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_Description">Service Install</String>
+  <String Id="ENABLEPROTECTEDAPPLICATIONEXECUTION3_LongDescription">Run project applications under an unpriviliedged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs). A reboot may be required.</String>
+  <String Id="ENABLEUSEBYALLUSERS_Description">Allow all users on this computer to control BOINC.</String>
+
+  <String Id="ENABLESTARTMENUITEMS_Description">Create ProgramsMenu entries.</String>
+  <String Id="ENABLELAUNCHATLOGON_Description">Launch the BOINC Applications after login.</String>
+  <String Id="LAUNCHPROGRAM_Description">Launch the BOINC Application at exit.</String>
+</WixLocalization>

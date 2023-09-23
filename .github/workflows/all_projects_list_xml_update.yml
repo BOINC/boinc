@@ -36,7 +36,7 @@ jobs:
       - name: Download latest all_projects_list.xml
         if: success()
         run: |
-          curl https://boinc.berkeley.edu/project_list.php --output ./win_build/installerv2/redist/all_projects_list.xml
+          curl https://boinc.berkeley.edu/project_list.php --output ./installer_wix/redist/all_projects_list.xml
       - name: Check file was updated
         if: success()
         run: |
@@ -55,4 +55,4 @@ jobs:
           base: master
           delete-branch: true
           add-paths: |
-            win_build/installerv2/redist/all_projects_list.xml
+            installer_wix/redist/all_projects_list.xml

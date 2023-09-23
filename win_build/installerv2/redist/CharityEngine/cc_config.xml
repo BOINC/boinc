@@ -1,9 +1,0 @@
-<cc_config>
-  <log_flags>
-  </log_flags>
-  <options>
-    <client_version_check_url>https://www.charityengine.com/releases/public</client_version_check_url>
-    <client_download_url>https://www.charityengine.com/client/update</client_download_url>
-    <client_new_version_text>A new version of this desktop software is available.  Updating is easy: just download and install.</client_new_version_text>
-  </options>
-</cc_config>

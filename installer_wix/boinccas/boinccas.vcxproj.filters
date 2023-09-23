@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="aclmgmt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="boinccas.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAAnnounceUpgrade.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CACCConfigMd5sum.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CACleanupOldBinaries.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CACreateAcctMgrLoginFile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CACreateBOINCAccounts.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CACreateBOINCGroups.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CACreateClientAuthFile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CACreateProjectInitFile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CADeleteBOINCAccounts.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CADeleteBOINCGroups.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGetAdministratorsGroupName.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGetUsersGroupName.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGrantBOINCAdminsRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGrantBOINCAdminsVirtualBoxRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGrantBOINCMasterRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGrantBOINCProjectRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGrantBOINCProjectsRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGrantBOINCProjectsVirtualBoxRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAGrantBOINCUsersRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CALaunchBOINCManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CALaunchBOINCTray.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARestoreExecutionState.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARestorePermissionBOINCData.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARestoreSetupState.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARevokeBOINCAdminsRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARevokeBOINCMasterRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARevokeBOINCProjectRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARevokeBOINCProjectsRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CARevokeBOINCUsersRights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CASaveExecutionState.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CASaveSetupState.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CASetPermissionBOINC.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CASetPermissionBOINCData.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CASetPermissionBOINCDataProjects.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CASetPermissionBOINCDataSlots.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAShutdownBOINC.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAShutdownBOINCManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAShutdownBOINCScreensaver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAShutdownUD.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAValidateInstall.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAValidateRebootRequest.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAValidateSetupType.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CAVerifyInstallDirectories.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="dirops.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="launcher.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="listacl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="lkuprid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="lsaprivs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="password.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="sdmgmt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="terminate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="wrappers.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="CAAnnounceUpgrade.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CACCConfigMd5sum.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CACleanupOldBinaries.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CACreateAcctMgrLoginFile.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CACreateBOINCAccounts.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CACreateBOINCGroups.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CACreateClientAuthFile.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CACreateProjectInitFile.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CADeleteBOINCAccounts.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CADeleteBOINCGroups.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGetAdministratorsGroupName.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGetUsersGroupName.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGrantBOINCAdminsRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGrantBOINCAdminsVirtualBoxRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGrantBOINCMasterRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGrantBOINCProjectRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGrantBOINCProjectsRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGrantBOINCProjectsVirtualBoxRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAGrantBOINCUsersRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CALaunchBOINCManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CALaunchBOINCTray.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARestoreExecutionState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARestorePermissionBOINCData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARestoreSetupState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARevokeBOINCAdminsRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARevokeBOINCMasterRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARevokeBOINCProjectRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARevokeBOINCProjectsRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CARevokeBOINCUsersRights.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CASaveExecutionState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CASaveSetupState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CASetPermissionBOINC.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CASetPermissionBOINCData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CASetPermissionBOINCDataProjects.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CASetPermissionBOINCDataSlots.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAShutdownBOINC.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAShutdownBOINCManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAShutdownBOINCScreensaver.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAShutdownUD.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAValidateInstall.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAValidateRebootRequest.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAValidateSetupType.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CAVerifyInstallDirectories.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="dcomperm.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="dirops.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="launcher.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="lkuprid.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="lsaprivs.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="password.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="terminate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="boinccas.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoincCA.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{2c1d0643-e04e-4989-a3dd-056e165b95b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{0ce1d511-ed15-4afb-920b-07cbee112365}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="boinccas.rc" />
+  </ItemGroup>
+</Project>

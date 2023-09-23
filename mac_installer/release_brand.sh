@@ -45,7 +45,7 @@
 ##
 ##  This script expects the skin to be at "./clientgui/skins/${SKINDIR}"
 ##  This script expects the nvc_config.xml file (if any) to be at
-##  "./win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml"
+##  "./installer_wix/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml"
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
@@ -280,10 +280,10 @@ cp -fpRL Default ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/
 cp -fpRL "${SKINDIR}" ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
 cd "${BOINCPath}"
 
-cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
+cp -fp installer_wix/redist/all_projects_list.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
 
 if [ -n "${NEWVERSIONCHECKDIR}" ]; then
-    cp -fp "win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/nvc_config.xml
+    cp -fp "installer_wix/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/nvc_config.xml
 fi
 
 cp -fp clientscr/res/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/

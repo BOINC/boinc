@@ -16,7 +16,7 @@ cp "android/BOINC/app/src/main/assets/armeabi/boinc" "samples/flutter/boinc/asse
 cp "android/BOINC/app/src/main/assets/armeabi-v7a/boinc" "samples/flutter/boinc/assets/armeabi-v7a/boinc"
 cp "android/BOINC/app/src/main/assets/x86/boinc" "samples/flutter/boinc/assets/x86/boinc"
 cp "android/BOINC/app/src/main/assets/x86_64/boinc" "samples/flutter/boinc/assets/x86_64/boinc"
-cp "win_build/installerv2/redist/all_projects_list.xml" "samples/flutter/boinc/assets/all_projects_list.xml"
+cp "installer_wix/redist/all_projects_list.xml" "samples/flutter/boinc/assets/all_projects_list.xml"
 cp "curl/ca-bundle.crt" "samples/flutter/boinc/assets/ca-bundle.crt"
 cp "android/BOINC/app/src/main/assets/cc_config.xml" "samples/flutter/boinc/assets/cc_config.xml"
 cp "android/BOINC/app/src/main/assets/nomedia" "samples/flutter/boinc/assets/nomedia"
