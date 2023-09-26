@@ -52,6 +52,7 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
         $admins = BoincTeamAdmin::enum("teamid=$team->id");
         foreach ($admins as $admin) {
             $u = BoincUser::lookup_id($admin->userid);
+            if (!$u) continue;
             $success &= send_email($u, $subject, $body);
         }
         break;
