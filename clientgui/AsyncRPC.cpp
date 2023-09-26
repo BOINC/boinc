@@ -656,48 +656,45 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         // posting of more RPC requests while in this dialog, to prevent
         // undesirable recursion.
         //
-        if (m_RPCWaitDlg) {
-            response = m_RPCWaitDlg->ShowModal();
-            // Remember time the dialog was closed for use by RunPeriodicRPCs()
-            m_dtLasAsyncRPCDlgTime = wxDateTime::Now();
-            if (response != wxID_OK) {
-                // TODO: If user presses Cancel in Please Wait dialog but request
-                // has not yet been started, should we just remove it from queue?
-                // If we make that change, should we also add a separate menu item
-                // to reset the RPC connection (or does one already exist)?
+        response = m_RPCWaitDlg->ShowModal();
+        // Remember time the dialog was closed for use by RunPeriodicRPCs()
+        m_dtLasAsyncRPCDlgTime = wxDateTime::Now();
+        if (response != wxID_OK) {
+            // TODO: If user presses Cancel in Please Wait dialog but request
+            // has not yet been started, should we just remove it from queue?
+            // If we make that change, should we also add a separate menu item
+            // to reset the RPC connection (or does one already exist)?
 
-                retval = -1;
-                // If the RPC continues to get data after we return to
-                // our caller, it may try to write into a buffer or struct
-                // which the caller has already deleted.  To prevent this,
-                // we close the socket (disconnect) and kill the RPC thread.
-                // This is ugly but necessary.  We must then reconnect and
-                // start a new RPC thread.
-                if (current_rpc_request.isActive) {
-                    current_rpc_request.isActive = false;
-                    rpcClient.close();
-                    RPC_requests.clear();
-                    current_rpc_request.clear();
-                    m_bNeedRefresh = false;
-                    m_bNeedTaskBarRefresh = false;
+            retval = -1;
+            // If the RPC continues to get data after we return to
+            // our caller, it may try to write into a buffer or struct
+            // which the caller has already deleted.  To prevent this,
+            // we close the socket (disconnect) and kill the RPC thread.
+            // This is ugly but necessary.  We must then reconnect and
+            // start a new RPC thread.
+            if (current_rpc_request.isActive) {
+                current_rpc_request.isActive = false;
+                rpcClient.close();
+                RPC_requests.clear();
+                current_rpc_request.clear();
+                m_bNeedRefresh = false;
+                m_bNeedTaskBarRefresh = false;
 
-                    // We will be reconnected to the same client (if possible) by
-                    // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
-                    m_pNetworkConnection->SetStateDisconnected();
-                }
-                if (response == wxID_EXIT) {
-                    pFrame = wxGetApp().GetFrame();
-                    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
-                    s_bSkipExitConfirmation = true;
-                    pFrame->GetEventHandler()->AddPendingEvent(evt);
-                }
+                // We will be reconnected to the same client (if possible) by
+                // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
+                m_pNetworkConnection->SetStateDisconnected();
             }
-            if (m_RPCWaitDlg) {
-                m_RPCWaitDlg->Destroy();
+            if (response == wxID_EXIT) {
+                pFrame = wxGetApp().GetFrame();
+                wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+                s_bSkipExitConfirmation = true;
+                pFrame->GetEventHandler()->AddPendingEvent(evt);
             }
-            m_RPCWaitDlg = NULL;
-            m_bWaitingForRPC = false;
         }
+
+        m_RPCWaitDlg->Destroy();
+        m_RPCWaitDlg = NULL;
+        m_bWaitingForRPC = false;
     }
     return retval;
 }
