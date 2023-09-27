@@ -152,6 +152,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     finish_file_time = 0;
     sporadic_ca_state = CA_NONE;
     sporadic_ac_state = AC_NONE;
+    sporadic_ignore_until = 0;
 }
 
 bool ACTIVE_TASK::process_exists() {

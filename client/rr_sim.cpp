@@ -192,7 +192,7 @@ void RR_SIM::init_pending_lists() {
         rp->already_selected = false;
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
-        if (rp->project->non_cpu_intensive) continue;
+        if (rp->always_run()) continue;
         rp->rrsim_flops_left = rp->estimated_flops_remaining();
 
         //if (rp->rrsim_flops_left <= 0) continue;

@@ -169,7 +169,7 @@ struct PROJECT : PROJ_AM {
         // use those apps rather then getting from server
     bool non_cpu_intensive;
         // All this project's apps are non-CPU-intensive.
-        // Apps can also be individually marked as NCI
+        // (determined dynamically)
     bool use_symlinks;
     bool report_results_immediately;
     bool sched_req_no_work[MAX_RSC];

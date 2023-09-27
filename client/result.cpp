@@ -651,7 +651,8 @@ double RESULT::estimated_runtime() {
 double RESULT::estimated_runtime_remaining() {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
-    if (app->non_cpu_intensive) {
+    if (non_cpu_intensive()) {
+        // the following is questionable
         if (atp && atp->fraction_done>0) {
             double est_dur = atp->fraction_done_elapsed_time / atp->fraction_done;
             double x = est_dur - atp->elapsed_time;
@@ -660,6 +661,7 @@ double RESULT::estimated_runtime_remaining() {
         }
         return 0;
     }
+    if (sporadic()) return 0;
 
     if (atp) {
 #ifdef SIM

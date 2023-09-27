@@ -186,6 +186,7 @@ CLIENT_STATE::CLIENT_STATE()
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
+    have_sporadic = false;
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -858,6 +859,8 @@ int CLIENT_STATE::init() {
     client_thread_mutex.lock();
     throttle_thread.run(throttler, NULL);
 
+    sporadic_init();
+
     initialized = true;
     return 0;
 }
@@ -1163,6 +1166,9 @@ bool CLIENT_STATE::poll_slow_events() {
     if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }
+    if (have_sporadic) {
+        sporadic_poll();
+    }
     retval = write_state_file_if_needed();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -1270,6 +1276,9 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, const char* name) {
 int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
     if (lookup_app(p, app->name)) return ERR_NOT_UNIQUE;
     app->project = p;
+    if (!app->non_cpu_intensive) {
+        p->non_cpu_intensive = false;
+    }
     return 0;
 }
 

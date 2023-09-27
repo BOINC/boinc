@@ -461,7 +461,9 @@ struct CLIENT_STATE {
     bool scheduler_rpc_poll();
 
 // --------------- cs_sporadic.cpp:
+    bool have_sporadic;
     void sporadic_poll();
+    void sporadic_init();
 
 // --------------- cs_statefile.cpp:
     void set_client_state_dirty(const char*);

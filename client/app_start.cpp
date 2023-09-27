@@ -556,6 +556,12 @@ int ACTIVE_TASK::start(bool test) {
         return 0;
     }
 
+    // use special slot for test app
+    //
+    if (wup->project->app_test) {
+        strcpy(slot_dir, "slots/app_test");
+    }
+
     // run it at above idle priority if it
     // - uses coprocs
     // - uses less than one CPU
@@ -691,13 +697,11 @@ int ACTIVE_TASK::start(bool test) {
         exit(0);
     }
 
-    // use special slot and exec path for test app
+    // use special exec path for test app
     //
     if (wup->project->app_test) {
-        strcpy(slot_dir, "slots/app_test");
         strcpy(exec_path, gstate.app_test_file.c_str());
     }
-
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;

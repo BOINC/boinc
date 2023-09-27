@@ -31,6 +31,7 @@ void CLIENT_STATE::app_test_init() {
     strcpy(proj->master_url, "test_project_url");
     strcpy(proj->_project_dir, ".");
     proj->app_test = true;
+    proj->non_cpu_intensive = false;
     projects.push_back(proj);
 
     APP *app = new APP;
@@ -38,7 +39,8 @@ void CLIENT_STATE::app_test_init() {
     strcpy(app->user_friendly_name, "test app");
     app->project = proj;
     // can put other stuff here like
-    // app->sporadic = true;
+    app->sporadic = true;
+    have_sporadic = true;
     apps.push_back(app);
 
     FILE_INFO *fip = new FILE_INFO;
@@ -58,6 +60,8 @@ void CLIENT_STATE::app_test_init() {
     av->app = app;
     av->project = proj;
     av->app_files.push_back(*fref);
+    // can put other stuff here like
+    av->avg_ncpus = 1;
     app_versions.push_back(av);
 
     WORKUNIT *wu = new WORKUNIT;

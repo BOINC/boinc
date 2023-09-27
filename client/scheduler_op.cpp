@@ -590,7 +590,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     string delete_file_name;
-    bool non_cpu_intensive = false;
     bool ended = false;
 
     mf.init_file(in);
@@ -652,7 +651,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // boolean project attributes.
             // If the scheduler reply didn't specify them, they're not set.
             //
-            project->non_cpu_intensive = non_cpu_intensive;
             project->ended = ended;
             return 0;
         }
@@ -856,8 +854,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                     "handle_trickle_down failed: %s", boincerror(retval)
                 );
             }
-            continue;
-        } else if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) {
             continue;
         } else if (xp.parse_bool("ended", ended)) {
             continue;

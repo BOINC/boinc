@@ -473,7 +473,7 @@ static void handle_heartbeat_msg() {
     if (parse_bool(buf, "suspend_network", btemp)) {
         boinc_status.network_suspended = btemp;
     }
-    if (parse_int(buf, "sporadic_ca", i)) {
+    if (parse_int(buf, "<sporadic_ca>", i)) {
         boinc_status.ca_state = (SPORADIC_CA_STATE)i;
     }
 }

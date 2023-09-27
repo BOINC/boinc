@@ -346,6 +346,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
+        if (atp->always_run()) continue;
         if (!atp->runnable()) continue;
         rp = atp->result;
         if (rp->already_selected) continue;
@@ -410,7 +411,6 @@ RESULT* CLIENT_STATE::highest_prio_project_best_result() {
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
-        if (p->non_cpu_intensive) continue;
         if (first || p->sched_priority > best_prio) {
             first = false;
             best_project = p;
@@ -447,7 +447,7 @@ RESULT* first_coproc_result(int rsc_type) {
             //msg_printf(rp->project, MSG_INFO, "not runnable: %s", rp->name);
             continue;
         }
-        if (rp->non_cpu_intensive()) continue;
+        if (rp->always_run()) continue;
         if (rp->already_selected) continue;
         prio = rp->project->sched_priority;
         if (!best) {
@@ -500,7 +500,7 @@ static RESULT* earliest_deadline_result(int rsc_type) {
         if (rp->resource_type() != rsc_type) continue;
         if (rp->already_selected) continue;
         if (!rp->runnable()) continue;
-        if (rp->non_cpu_intensive()) continue;
+        if (rp->always_run()) continue;
         PROJECT* p = rp->project;
 
         // Skip this job if the project's deadline-miss count is zero.
@@ -740,8 +740,7 @@ void CLIENT_STATE::adjust_rec() {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        PROJECT* p = atp->result->project;
-        if (p->non_cpu_intensive) continue;
+        if (atp->non_cpu_intensive()) continue;
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
@@ -1113,7 +1112,7 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
         atp->overdue_checkpoint = false;
         if (!atp->result->runnable()) continue;
         if (atp->result->uses_gpu() && gpu_suspend_reason) continue;
-        if (atp->result->non_cpu_intensive()) continue;
+        if (atp->result->always_run()) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (finished_time_slice(atp)) continue;
         atp->result->unfinished_time_slice = true;
@@ -1212,11 +1211,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         );
     }
 
-    // schedule non-CPU-intensive tasks,
+    // schedule non-CPU-intensive and sporadic tasks
     //
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        if (rp->non_cpu_intensive() && rp->runnable()) {
+        if (rp->always_run() && rp->runnable()) {
             atp = get_task(rp);
             if (!atp) {
                 msg_printf(rp->project, MSG_INTERNAL_ERROR,
