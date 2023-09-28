@@ -41,10 +41,8 @@ APP_INIT_DATA::APP_INIT_DATA() {
 }
 
 APP_INIT_DATA::~APP_INIT_DATA() {
-    if (project_preferences) {
-        free(project_preferences);
-        project_preferences=0;      // paranoia
-    }
+    free(project_preferences);
+    project_preferences = 0;      // paranoia
 }
 
 APP_INIT_DATA::APP_INIT_DATA(const APP_INIT_DATA& a) {
@@ -324,10 +322,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         return ERR_XML_PARSE;
     }
 
-    if (ai.project_preferences) {
-        free(ai.project_preferences);
-        ai.project_preferences = 0;
-    }
+    free(ai.project_preferences);
+    ai.project_preferences = 0;
     ai.clear();
     ai.fraction_done_start = 0;
     ai.fraction_done_end = 1;

@@ -924,8 +924,8 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
     // Cleanup
 	if (hkSetupHive) RegCloseKey(hkSetupHive);
-    if (lpszValue) free(lpszValue);
-    if (lpszExpandedValue) free(lpszExpandedValue);
+    free(lpszValue);
+    free(lpszExpandedValue);
 #endif
 #ifdef __WXMAC__
     m_strBOINCMGRDataDirectory = wxT("/Library/Application Support/BOINC Data");

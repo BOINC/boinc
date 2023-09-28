@@ -40,7 +40,7 @@ MFILE::MFILE() {
 }
 
 MFILE::~MFILE() {
-    if (buf) free(buf);
+    free(buf);
 }
 
 int MFILE::open(const char* path, const char* mode) {
@@ -156,10 +156,8 @@ int MFILE::close() {
         boinc::fclose(f);
         f = NULL;
     }
-    if (buf) {
-        free(buf);
-        buf = NULL;
-    }
+    free(buf);
+    buf = NULL;
     return retval;
 }
 

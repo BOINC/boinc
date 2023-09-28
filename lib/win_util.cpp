@@ -114,8 +114,8 @@ void chdir_to_data_dir() {
     }
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
-    if (lpszValue) free(lpszValue);
-    if (lpszExpandedValue) free(lpszExpandedValue);
+    free(lpszValue);
+    free(lpszExpandedValue);
 }
 
 std::wstring boinc_ascii_to_wide(const std::string& str) {

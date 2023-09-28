@@ -431,7 +431,7 @@ int ns_avprintf(char **buf, size_t size, const char *fmt, va_list ap) {
     // succeed or out of memory.
     *buf = NULL;
     while (len < 0) {
-      if (*buf) NS_FREE(*buf);
+      NS_FREE(*buf);
       size *= 2;
       if ((*buf = (char *) NS_MALLOC(size)) == NULL) break;
       va_copy(ap_copy, ap);
@@ -5025,10 +5025,8 @@ const char *mg_set_option(struct mg_server *server, const char *name,
     return NULL;
   }
 
-  if (*v != NULL) {
-    NS_FREE(*v);
-    *v = NULL;
-  }
+  NS_FREE(*v);
+  *v = NULL;
 
   if (value == NULL || value[0] == '\0') return NULL;
 

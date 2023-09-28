@@ -341,7 +341,7 @@ RPC::RPC(RPC_CLIENT* rc) : xp(&fin) {
 }
 
 RPC::~RPC() {
-    if (mbuf) free(mbuf);
+    free(mbuf);
 }
 
 // return value indicates only whether network comm succeeded

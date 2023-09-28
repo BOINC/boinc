@@ -1137,7 +1137,7 @@ int get_network_usage_totals(
 
     if (sysctl(mib, 6, NULL, &currentSize, NULL, 0) != 0) return errno;
     if (!sysctlBuffer || (currentSize > sysctlBufferSize)) {
-        if (sysctlBuffer) free(sysctlBuffer);
+        free(sysctlBuffer);
         sysctlBufferSize = 0;
         sysctlBuffer = (uint8_t*)malloc(currentSize);
         if (!sysctlBuffer) return ERR_MALLOC;

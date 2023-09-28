@@ -638,20 +638,12 @@ int cleanup_cl(void) {
  * \brief Releases program's resources
  */
 void cleanup_host(void) {
-    if (input != NULL) {
-        free(input);
-        input = NULL;
-    }
-
-    if (output != NULL) {
-        free(output);
-        output = NULL;
-    }
-
-    if (source != NULL) {
-        free((char *)source);
-        source = NULL;
-    }
+    free(input);
+    input = NULL;
+    free(output);
+    output = NULL;
+    free(source);
+    source = NULL;
 }
 
 /*

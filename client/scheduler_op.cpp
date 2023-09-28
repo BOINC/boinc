@@ -566,10 +566,10 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
-    if (global_prefs_xml) free(global_prefs_xml);
-    if (project_prefs_xml) free(project_prefs_xml);
-    if (code_sign_key) free(code_sign_key);
-    if (code_sign_key_signature) free(code_sign_key_signature);
+    free(global_prefs_xml);
+    free(project_prefs_xml);
+    free(code_sign_key);
+    free(code_sign_key_signature);
 }
 
 #ifndef SIM

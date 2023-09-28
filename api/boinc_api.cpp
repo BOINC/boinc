@@ -922,10 +922,8 @@ int boinc_parse_init_data_file() {
     int retval;
     char buf[256];
 
-    if (aid.project_preferences) {
-        free(aid.project_preferences);
-        aid.project_preferences = NULL;
-    }
+    free(aid.project_preferences);
+    aid.project_preferences = NULL;
     aid.clear();
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
 

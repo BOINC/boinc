@@ -380,7 +380,7 @@ void BOINCTranslationCleanup() {
 
     for (i=0; i<MAXCATALOGS; ++i) {
         pCatalog = &(theCatalogData[i]);
-        if (pCatalog->pData) free(pCatalog->pData);
+        free(pCatalog->pData);
         pCatalog->pData = NULL;
         pCatalog->nSize = 0;
         pCatalog->NumStrings = 0;

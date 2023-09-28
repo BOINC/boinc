@@ -338,7 +338,7 @@ int boinc_UnzipToMemory (char *zip, char *file, string &retstr) {
         retstr =  (string) buf.strptr;
     }
 
-    if (buf.strptr) free (buf.strptr);
+    free(buf.strptr);
 
     return ret;
 

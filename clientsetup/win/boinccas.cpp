@@ -514,7 +514,7 @@ UINT BOINCCABase::GetProperty(
             NULL,
             strMessage.c_str()
         );
-        if ( lpszBuffer ) free( lpszBuffer );
+        free(lpszBuffer);
         return ERROR_INSTALL_FAILURE;
         break;
     }

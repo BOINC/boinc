@@ -317,8 +317,6 @@ void TRICKLE_UP_OP::handle_reply(int http_op_retval) {
             "[trickle] Replicated trickle done; retval %d", http_op_retval
         );
     }
-    if (req_buf) {
-        free(req_buf);
-        req_buf = 0;
-    }
+    free(req_buf);
+    req_buf = 0;
 }
