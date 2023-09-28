@@ -1334,6 +1334,12 @@ int HOST_INFO::get_cpu_count() {
     if(cpus_sys_path > p_ncpus){
         p_ncpus = cpus_sys_path;
     }
+#elif __GNU_LIBRARY__ /* glibc */
+    cpu_set_t set;
+
+    if (sched_getaffinity (0, sizeof (set), &set) == 0) {
+        p_ncpus = CPU_COUNT (&set);
+    }
 #elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
     // sysconf not working on OS2
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
