@@ -956,7 +956,7 @@
         <name>arm-android-linux-gnu</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm64-apple-darwin</name>
-        <name>i686-pc-linux-gnu</name>
+        <name>i686-pc-linux-gnu[libc_228]</name>
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
         <name>x86-android-linux-gnu</name>
