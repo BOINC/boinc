@@ -887,9 +887,9 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     //
     if (have_sporadic_app) {
         proc_rsc.ncpus -= sporadic_resources.ncpus_used;
-        for (int i=1; i<proc_rsc.pr_coprocs.n_rsc; i++) {
-            COPROC& cp = proc_rsc.pr_coprocs.coprocs[i];
-            COPROC& cp2 = sporadic_resources.sp_coprocs.coprocs[i];
+        for (int rt=1; rt<proc_rsc.pr_coprocs.n_rsc; rt++) {
+            COPROC& cp = proc_rsc.pr_coprocs.coprocs[rt];
+            COPROC& cp2 = sporadic_resources.sp_coprocs.coprocs[rt];
             for (int j=0; j<cp.count; j++) {
                 cp.usage[j] = cp2.usage[j];
             }
