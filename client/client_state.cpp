@@ -186,7 +186,7 @@ CLIENT_STATE::CLIENT_STATE()
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
-    have_sporadic = false;
+    have_sporadic_app = false;
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -1166,7 +1166,7 @@ bool CLIENT_STATE::poll_slow_events() {
     if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }
-    if (have_sporadic) {
+    if (have_sporadic_app) {
         sporadic_poll();
     }
     retval = write_state_file_if_needed();

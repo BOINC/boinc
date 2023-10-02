@@ -40,7 +40,7 @@ void CLIENT_STATE::app_test_init() {
     app->project = proj;
     // can put other stuff here like
     app->sporadic = true;
-    have_sporadic = true;
+    have_sporadic_app = true;
     apps.push_back(app);
 
     FILE_INFO *fip = new FILE_INFO;

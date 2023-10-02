@@ -156,7 +156,7 @@ int APP::parse(XML_PARSER& xp) {
         if (xp.parse_bool("sporadic", sporadic)) continue;
         if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) continue;
         if (xp.parse_bool("sporadic", sporadic)) {
-            if (sporadic) gstate.have_sporadic = true;
+            if (sporadic) gstate.have_sporadic_app = true;
             continue;
         }
 #ifdef SIM

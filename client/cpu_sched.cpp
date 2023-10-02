@@ -882,6 +882,20 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     proc_rsc.init();
 
+    // if there are sporadic apps,
+    // subtract the resource usage of those that are computing
+    //
+    if (have_sporadic_app) {
+        proc_rsc.ncpus -= sporadic_resources.ncpus_used;
+        for (int i=1; i<proc_rsc.pr_coprocs.n_rsc; i++) {
+            COPROC& cp = proc_rsc.pr_coprocs.coprocs[i];
+            COPROC& cp2 = sporadic_resources.sp_coprocs.coprocs[i];
+            for (int j=0; j<cp.count; j++) {
+                cp.usage[j] = cp2.usage[j];
+            }
+        }
+    }
+
     // do round-robin simulation to find what results miss deadline
     //
     rr_simulation("CPU sched");
@@ -1202,6 +1216,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     }
 
     double ram_left = available_ram();
+    if (have_sporadic_app) {
+        ram_left -= sporadic_resources.mem_used;
+    }
     double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
 
     if (log_flags.mem_usage_debug) {

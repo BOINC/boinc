@@ -45,7 +45,7 @@ using std::vector;
 // COPROC::pending_usage[]: for each instance, its usage by running jobs
 //    Note: "running" includes jobs suspended due to CPU throttling.
 //    That's the only kind of suspended GPU job.
-// CORPOC::usage[]: for each instance, its usage
+// COPROC::usage[]: for each instance, its usage
 //
 // enforce_run_list() calls assign_coprocs(),
 // which assigns coproc instances to scheduled jobs,
