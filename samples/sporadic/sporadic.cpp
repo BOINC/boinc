@@ -20,9 +20,6 @@
 void boinc_sporadic_set_ac_state(SPORADIC_AC_STATE);
 SPORADIC_CA_STATE boinc_sporadic_get_ca_state();
 
-void print_state() {
-}
-
 void compute_one_sec() {
     double start = dtime();
     while (1) {

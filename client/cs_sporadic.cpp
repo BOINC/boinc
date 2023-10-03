@@ -81,6 +81,22 @@
 
 SPORADIC_RESOURCES sporadic_resources;
 
+void SPORADIC_RESOURCES::print() {
+    msg_printf(NULL, MSG_INFO, "Sporadic resources:");
+    msg_printf(NULL, MSG_INFO, "   %f CPUs", ncpus_used);
+    msg_printf(NULL, MSG_INFO, "   %f MB RAM", mem_used/MEGA);
+    for (int i=1; i<sr_coprocs.n_rsc; i++) {
+        COPROC& cp = sr_coprocs.coprocs[i];
+        for (int j=0; j<cp.count; j++) {
+            if (cp.usage[j] > 0) {
+                msg_printf(NULL, MSG_INFO, "   GPU %s instance %d: %f\n",
+                    cp.type, j, cp.usage[j]
+                );
+            }
+        }
+    }
+}
+
 // is computing suspended for this job?
 //
 static bool computing_suspended(ACTIVE_TASK *atp) {
@@ -217,6 +233,10 @@ void CLIENT_STATE::sporadic_poll() {
 
     if (changed_active) {
         request_schedule_cpus("sporadic apps changed state");
+    }
+
+    if (log_flags.sporadic_debug) {
+        sporadic_resources.print();
     }
 }
 

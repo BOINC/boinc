@@ -33,19 +33,21 @@ extern void assign_coprocs(std::vector<RESULT*>& jobs);
 struct SPORADIC_RESOURCES {
     double ncpus_used, ncpus_max;
     double mem_used, mem_max;
-    COPROCS sp_coprocs;
+    COPROCS sr_coprocs;
 
     // clear reservations; called on each poll
     void init_poll() {
         ncpus_used= 0;
         mem_used = 0;
-        sp_coprocs.clear_usage();
+        sr_coprocs.clear_usage();
     }
+
     // called once at start
     void init() {
-        sp_coprocs.clone(coprocs, false);
+        sr_coprocs.clone(coprocs, false);
         init_poll();
     }
+
     // are there enough free resources to run the task?
     bool enough(ACTIVE_TASK *atp) {
         if (mem_used + atp->procinfo.working_set_size_smoothed > mem_max) {
@@ -60,7 +62,7 @@ struct SPORADIC_RESOURCES {
         bool found = false;
         if (rt) {
             double u = avp->gpu_usage.usage;
-            COPROC& cp = sp_coprocs.coprocs[rt];
+            COPROC& cp = sr_coprocs.coprocs[rt];
             for (int i=0; i<cp.count; i++) {
                 if (gpu_excluded(rp->app, cp, i)) continue;
                 if (u + cp.usage[i] <= 1) {
@@ -72,6 +74,7 @@ struct SPORADIC_RESOURCES {
         }
         return true;
     }
+
     // reserve resources for the task
     void reserve(ACTIVE_TASK *atp) {
         RESULT *rp = atp->result;
@@ -81,7 +84,7 @@ struct SPORADIC_RESOURCES {
         int rt = avp->gpu_usage.rsc_type;
         if (rt) {
             double u = avp->gpu_usage.usage;
-            COPROC& cp = sp_coprocs.coprocs[rt];
+            COPROC& cp = sr_coprocs.coprocs[rt];
             for (int i=0; i<cp.count; i++) {
                 if (gpu_excluded(rp->app, cp, i)) continue;
                 if (u + cp.usage[i] <= 1) {
@@ -91,6 +94,8 @@ struct SPORADIC_RESOURCES {
             }
         }
     }
+
+    void print();
 };
 
 extern SPORADIC_RESOURCES sporadic_resources;
