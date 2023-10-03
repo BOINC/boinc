@@ -62,6 +62,10 @@ void CLIENT_STATE::app_test_init() {
     av->app_files.push_back(*fref);
     // can put other stuff here like
     av->avg_ncpus = 1;
+    av->flops = 1e9;
+    av->gpu_ram = 1e7;
+    av->gpu_usage.rsc_type = PROC_TYPE_NVIDIA_GPU;
+    av->gpu_usage.usage = 1;
     app_versions.push_back(av);
 
     WORKUNIT *wu = new WORKUNIT;
