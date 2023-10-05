@@ -56,7 +56,7 @@ ifdef BUILD_WITH_VCPKG
     -L$(VCPKG_DIR)/lib
 
   LIBUI = -lX11 -lXmu -lXrandr -lXxf86vm -lXi
-  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec-static -lbrotlienc-static -lbrotlicommon-static -lz
+  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec -lbrotlienc -lbrotlicommon -lz
 endif
 
 ifdef BUILD_WITH_MINGW
@@ -64,7 +64,7 @@ ifdef BUILD_WITH_MINGW
   LIBGLU = -lglu32
   LIBGL= -lopengl32
   LIBUI = -lgdi32 -lwinmm
-  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec-static -lbrotlienc-static -lbrotlicommon-static -lz
+  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec -lbrotlienc -lbrotlicommon -lz
 endif
 
 PROGS = uc2 ucn

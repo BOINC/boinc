@@ -365,6 +365,7 @@ function admin_list($teamid) {
     $admins = BoincTeamAdmin::enum("teamid=$teamid");
     foreach ($admins as $admin) {
         $user = BoincUser::lookup_id($admin->userid);
+        if (!$user) continue;
         $u[] = $user;
     }
     return $u;
