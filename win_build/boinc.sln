@@ -128,6 +128,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crypt_prog", "crypt_prog.vc
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7} = {D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_sporadic", "sporadic.vcxproj", "{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -422,6 +424,14 @@ Global
 		{C04F0F2C-B75D-4628-8656-6163B28BD69E}.Release|ARM64.Build.0 = Release|ARM64
 		{C04F0F2C-B75D-4628-8656-6163B28BD69E}.Release|x64.ActiveCfg = Release|x64
 		{C04F0F2C-B75D-4628-8656-6163B28BD69E}.Release|x64.Build.0 = Release|x64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Debug|ARM64.Build.0 = Debug|ARM64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Debug|x64.ActiveCfg = Debug|x64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Debug|x64.Build.0 = Debug|x64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Release|ARM64.ActiveCfg = Release|ARM64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Release|ARM64.Build.0 = Release|ARM64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Release|x64.ActiveCfg = Release|x64
+		{0740E6DC-ADE7-4272-BAB0-52DE62325D3E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
