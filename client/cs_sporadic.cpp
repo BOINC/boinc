@@ -67,7 +67,7 @@
 //  If batch jobs are using GPUs, it may take them a few seconds to exit.
 //  Sporadic jobs that use GPUs should delay for a few seconds at start,
 //  and retry failed VRAM allocations.
-// 
+//
 
 #include "coproc.h"
 
