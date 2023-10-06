@@ -58,6 +58,7 @@ boinc_client_SOURCES = \
     cs_prefs.cpp \
     cs_proxy.cpp \
     cs_scheduler.cpp \
+    cs_sporadic.cpp \
     cs_statefile.cpp \
     cs_trickle.cpp \
     current_version.cpp \

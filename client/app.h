@@ -28,6 +28,7 @@
 #include "procinfo.h"
 
 #include "client_types.h"
+#include "result.h"
 
 // values for preempt_type (see ACTIVE_TASK::preempt())
 //
@@ -184,10 +185,25 @@ struct ACTIVE_TASK {
         // Used to kill apps that hang after writing finished file
     int graphics_pid;
         // PID of running graphics app (Mac)
+    SPORADIC_CA_STATE sporadic_ca_state;
+    SPORADIC_AC_STATE sporadic_ac_state;
+    double sporadic_ignore_until;
 
     void set_task_state(int, const char*);
     inline int task_state() {
         return _task_state;
+    }
+    inline bool sporadic() {
+        return wup->app->sporadic;
+    }
+    inline bool non_cpu_intensive() {
+        return result->app->non_cpu_intensive;
+    }
+    inline bool always_run() {
+        return sporadic() || non_cpu_intensive();
+    }
+    inline bool dont_throttle() {
+        return result->dont_throttle();
     }
     int request_reread_prefs();
     int request_reread_app_info();

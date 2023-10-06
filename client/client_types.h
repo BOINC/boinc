@@ -268,6 +268,7 @@ struct APP {
     char name[256];
     char user_friendly_name[256];
     bool non_cpu_intensive;
+    bool sporadic;
     bool fraction_done_exact;
     PROJECT* project;
     bool report_results_immediately;

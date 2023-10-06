@@ -88,6 +88,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("sched_op_debug", sched_op_debug)) continue;
         if (xp.parse_bool("scrsave_debug", scrsave_debug)) continue;
         if (xp.parse_bool("slot_debug", slot_debug)) continue;
+        if (xp.parse_bool("sporadic_debug", sporadic_debug)) continue;
         if (xp.parse_bool("state_debug", state_debug)) continue;
         if (xp.parse_bool("statefile_debug", statefile_debug)) continue;
         if (xp.parse_bool("suspend_debug", suspend_debug)) continue;
@@ -138,6 +139,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <sched_op_debug>%d</sched_op_debug>\n"
         "        <scrsave_debug>%d</scrsave_debug>\n"
         "        <slot_debug>%d</slot_debug>\n"
+        "        <sporadic_debug>%d</sporadic_debug>\n"
         "        <state_debug>%d</state_debug>\n"
         "        <statefile_debug>%d</statefile_debug>\n"
         "        <suspend_debug>%d</suspend_debug>\n"
@@ -181,6 +183,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         sched_op_debug ? 1 : 0,
         scrsave_debug ? 1 : 0,
         slot_debug ? 1 : 0,
+        sporadic_debug ? 1 : 0,
         state_debug ? 1 : 0,
         statefile_debug ? 1 : 0,
         suspend_debug ? 1 : 0,

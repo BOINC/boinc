@@ -260,7 +260,7 @@ vcpkgDir()
     echo $vcpkg_dir
 }
 
-list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper worker wrapper wrappture_example fermi"
+list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper sporadic worker wrapper wrappture_example fermi"
 
 NeonTest()
 {
@@ -327,6 +327,7 @@ RenameAllApps()
                 ../samples/example_app/ ucn
                 ../samples/multi_thread/ multi_thread
                 ../samples/sleeper/ sleeper
+                ../samples/sporadic/ sporadic
                 ../samples/worker/ worker
                 ../samples/wrapper/ wrapper
                 ../samples/wrappture/ wrappture_example

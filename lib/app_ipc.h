@@ -46,7 +46,7 @@
 
 // Shared memory is a set of MSG_CHANNELs.
 // First byte of a channel is nonzero if
-// the channel contains an unread data.
+// the channel contains unread data.
 // This is set by the sender and cleared by the receiver.
 // The sender doesn't write if the flag is set.
 // Remaining 1023 bytes contain data.
@@ -55,49 +55,41 @@
 
 struct MSG_CHANNEL {
     char buf[MSG_CHANNEL_SIZE];
-    bool get_msg(char*);    // returns a message and clears pending flag
+    bool get_msg(char*);
+        // returns a message and clears pending flag
     inline bool has_msg() {
         return buf[0]?true:false;
     }
-    bool send_msg(const char*);   // if there is not a message in the segment,
-                            // writes specified message and sets pending flag
+    bool send_msg(const char*);
+        // if there is not a message in the segment,
+        // writes specified message and sets pending flag
     void send_msg_overwrite(const char*);
-                            // write message, overwriting any msg already there
+        // write message, overwriting any msg already there
 };
 
 struct SHARED_MEM {
+    // don't change the order of these!
+    // See https://github.com/BOINC/boinc/wiki/API-Implementation
+    // for message formats and details
+    //
     MSG_CHANNEL process_control_request;
         // core->app
-        // <quit/>
-        // <suspend/>
-        // <resume/>
     MSG_CHANNEL process_control_reply;
         // app->core
+        // not used
     MSG_CHANNEL graphics_request;
         // core->app
         // not currently used
     MSG_CHANNEL graphics_reply;
         // app->core
-        // <web_graphics_url>
-        // <remote_desktop_addr>
     MSG_CHANNEL heartbeat;
         // core->app
-        // <heartbeat/>         sent every second, even while app is suspended
-        // <wss>                app's current working set size
-        // <max_wss>            max working set size
     MSG_CHANNEL app_status;
         // app->core
-        // status message every second, of the form
-        // <current_cpu_time>...
-        // <checkpoint_cpu_time>...
-        // <working_set_size>...
-        // <fraction_done> ...
     MSG_CHANNEL trickle_up;
         // app->core
-        // <have_new_trickle_up/>
     MSG_CHANNEL trickle_down;
         // core->app
-        // <have_new_trickle_down/>
 };
 
 // MSG_QUEUE provides a queuing mechanism for shared-mem messages

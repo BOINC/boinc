@@ -42,7 +42,8 @@ linux_apps_list = [
     './samples/wrapper/wrapper',
     './samples/openclapp/openclapp',
     './samples/wrappture/wrappture_example',
-    './samples/wrappture/fermi'
+    './samples/wrappture/fermi',
+    './samples/sporadic/sporadic'
 ]
 
 linux_manager_list = [
@@ -67,7 +68,8 @@ mingw_apps_vcpkg_list = [
     './samples/worker/worker.exe',
     './samples/wrapper/wrapper.exe',
     './samples/wrappture/wrappture_example.exe',
-    './samples/wrappture/fermi.exe'
+    './samples/wrappture/fermi.exe',
+    './samples/sporadic/sporadic.exe'
 ]
 
 android_manager_generic_list = [
@@ -139,7 +141,13 @@ android_apps_list = [
     './samples/wrappture/android_arm_fermi',
     './samples/wrappture/android_arm64_fermi',
     './samples/wrappture/android_x86_fermi',
-    './samples/wrappture/android_x86_64_fermi'
+    './samples/wrappture/android_x86_64_fermi',
+    # sporadic
+    './samples/sporadic/android_armv6_sporadic',
+    './samples/sporadic/android_arm_sporadic',
+    './samples/sporadic/android_arm64_sporadic',
+    './samples/sporadic/android_x86_sporadic',
+    './samples/sporadic/android_x86_64_sporadic'
 ]
 
 windows_apps_list = [

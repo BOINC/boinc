@@ -800,6 +800,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             //
             safe_strcpy(app->user_friendly_name, checked_app.user_friendly_name);
             app->non_cpu_intensive = checked_app.non_cpu_intensive;
+            app->sporadic = checked_app.sporadic;
             app->fraction_done_exact = checked_app.fraction_done_exact;
         } else {
             app = new APP;
