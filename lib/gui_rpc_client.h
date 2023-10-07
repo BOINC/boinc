@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -262,7 +262,7 @@ struct RESULT {
     double final_cpu_time;
     double final_elapsed_time;
     int state;
-    int scheduler_state;
+    SCHEDULER_STATE scheduler_state;
     int exit_status;
     int signal;
     //std::string stderr_out;
@@ -311,6 +311,13 @@ struct RESULT {
     int parse(XML_PARSER&);
     void print();
     void clear();
+
+    bool is_not_started() const {
+        if (state >= RESULT_COMPUTE_ERROR) return false;
+        if (ready_to_report) return false;
+        if (active_task) return false;
+        return true;
+    }
 };
 
 struct FILE_TRANSFER {
@@ -494,7 +501,7 @@ struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
     bool have_credentials;
-    
+
     ACCT_MGR_INFO();
 
     int parse(XML_PARSER&);
@@ -738,7 +745,8 @@ struct RPC_CLIENT {
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
     int project_attach(
-        const char* url, const char* auth, const char* project_name
+        const char* url, const char* auth, const char* project_name,
+        const char* email_addr  // optional - pass empty string if unknown
     );
     int project_attach_from_file();
     int project_attach_poll(PROJECT_ATTACH_REPLY&);

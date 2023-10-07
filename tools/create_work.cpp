@@ -19,7 +19,7 @@
 // Used directly for local job submission;
 // run from PHP script for remote job submission.
 //
-// see http://boinc.berkeley.edu/trac/wiki/JobSubmission
+// see https://github.com/BOINC/boinc/wiki/JobSubmission
 //
 // This program can be used in two ways:
 // - to create a single job, with everything passed on the cmdline
@@ -92,16 +92,16 @@ void usage() {
         "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
         "   [ --wu_name name ]              default: generate a name based on app name\n"
         "   [ --wu_template filename ]      default: appname_in\n"
-        "\nSee http://boinc.berkeley.edu/trac/wiki/JobSubmission\n"
+        "\nSee https://github.com/BOINC/boinc/wiki/JobSubmission\n"
     );
     exit(1);
 }
 
 bool arg(char** argv, int i, const char* name) {
     char buf[256];
-    sprintf(buf, "-%s", name);
+    snprintf(buf, sizeof(buf), "-%s", name);
     if (!strcmp(argv[i], buf)) return true;
-    sprintf(buf, "--%s", name);
+    snprintf(buf, sizeof(buf), "--%s", name);
     if (!strcmp(argv[i], buf)) return true;
     return false;
 }
@@ -368,13 +368,13 @@ int main(int argc, char** argv) {
         usage();
     }
     if (!strlen(jd.wu.name)) {
-        sprintf(jd.wu.name, "%s_%d_%f", app.name, getpid(), dtime());
+        snprintf(jd.wu.name, sizeof(jd.wu.name), "%s_%d_%f", app.name, getpid(), dtime());
     }
     if (!strlen(jd.wu_template_file)) {
-        sprintf(jd.wu_template_file, "templates/%s_in", app.name);
+        snprintf(jd.wu_template_file, sizeof(jd.wu_template_file), "templates/%s_in", app.name);
     }
     if (!strlen(jd.result_template_file)) {
-        sprintf(jd.result_template_file, "templates/%s_out", app.name);
+        snprintf(jd.result_template_file, sizeof(jd.result_template_file), "templates/%s_out", app.name);
     }
 
     retval = config.parse_file(config_dir);
@@ -397,7 +397,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     boinc_db.set_isolation_level(READ_UNCOMMITTED);
-    sprintf(buf, "where name='%s'", app.name);
+    snprintf(buf, sizeof(buf), "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
         fprintf(stderr, "create_work: app not found\n");
@@ -446,7 +446,7 @@ int main(int argc, char** argv) {
                 jd2.parse_cmdline(_argc, _argv);
                     // get info from stdin line
                 if (!strlen(jd2.wu.name)) {
-                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                    snprintf(jd2.wu.name, sizeof(jd2.wu.name), "%s_%d", jd.wu.name, j);
                 }
                 if (strlen(jd2.wu_template_file)) {
                     get_wu_template(jd2);
@@ -470,7 +470,7 @@ int main(int argc, char** argv) {
                 _argc = parse_command_line(buf, _argv);
                 jd2.parse_cmdline(_argc, _argv);
                 if (!strlen(jd2.wu.name)) {
-                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                    snprintf(jd2.wu.name, sizeof(jd2.wu.name), "%s_%d", jd.wu.name, j);
                 }
                 // if the stdin line specified assignment,
                 // create the job individually

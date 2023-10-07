@@ -68,10 +68,10 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             $email_addr = $user->email_addr;
         }
         if ($body_html) {
-            $body = "<html><body>\n"; 
-            $body .= $body_html; 
-            $body .= "\n</body></html>\n"; 
-            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n"; 
+            $body = "<html><body>\n";
+            $body .= $body_html;
+            $body .= "\n</body></html>\n";
+            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
         }
         return mail($email_addr, $subject, $body, $headers);
     }
@@ -127,7 +127,7 @@ function send_changed_email($user) {
 
     // We need to send a different version of the email to the old address.
     //
-    $body_old = "Your email address has been changed. If you did not take this action, 
+    $body_old = "Your email address has been changed. If you did not take this action,
 then please click on the link below to reverse this process and change your password.
 
 ".secure_url_base()."recover_email.php?id=".$user->id."&token=".$token."
@@ -165,10 +165,10 @@ function send_confirm_delete_email($user) {
     if ($token === null) {
         error_page("Error creating token.  Please try again later.");
     }
-    
+
     $subject = "Confirm your request to delete your account at ".PROJECT;
     $body = "This email was sent in response to a request on the ".PROJECT." web site.
-    
+
 You have requested to delete your account at ".PROJECT.". In order to do this, use the following link to confirm your intent to delete your account. ".
 "The link will take you to a web page where you will be asked to enter your password and complete the process of deleting your account.
 

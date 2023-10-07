@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -48,6 +48,7 @@
 #include "DlgOptions.h"
 #include "DlgDiagnosticLogFlags.h"
 #include "AdvancedFrame.h"
+#include "NoticeListCtrl.h"
 
 
 #ifdef __WXMAC__
@@ -117,6 +118,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     SetIcons(*icons);
     CreateMenus();
     dlgMsgsPtr = NULL;
+    dlgPrefsPtr = NULL;
     m_pBackgroundPanel = new CSimpleGUIPanel(this);
     mainSizer = new wxBoxSizer(wxVERTICAL);
     mainSizer->Add(m_pBackgroundPanel, 1, wxLEFT | wxRIGHT | wxEXPAND, 0);
@@ -162,7 +164,7 @@ bool CSimpleFrame::CreateMenus() {
     );
 
     strMenuName.Printf(
-        _("Exit %s"),
+        _("E&xit %s"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
@@ -176,7 +178,7 @@ bool CSimpleFrame::CreateMenus() {
     // wxWidgets actually puts this in the BOINCManager menu
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences...")
+        _("Preferences...\tCtrl+,")
     );
 #endif
 
@@ -630,7 +632,9 @@ void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 
 	CDlgPreferences dlg(GetParent());
     if (dlg.OKToShow()) {
+        dlgPrefsPtr = &dlg;
         dlg.ShowModal();
+        dlgPrefsPtr = NULL;
     }
 
     m_pBackgroundPanel->SetDlgOpen(false);
@@ -923,6 +927,50 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+#if SUPPORTDARKMODE
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    wxGetApp().SetIsDarkMode(appearance.IsDark());
+
+    // Remember our task and project settings
+    wxString taskStr = m_pBackgroundPanel->m_taskPanel->GetSelectedTaskString();
+    wxString projStr = m_pBackgroundPanel->m_projPanel->GetSelectedProjectString();
+
+    wxSizer* panelSizer = m_pBackgroundPanel->GetSizer();
+    CSimpleTaskPanel* newTaskPanel = new CSimpleTaskPanel(m_pBackgroundPanel);
+    panelSizer->Replace(m_pBackgroundPanel->m_taskPanel, newTaskPanel);
+    m_pBackgroundPanel->m_taskPanel->Destroy();
+    m_pBackgroundPanel->m_taskPanel = newTaskPanel;
+
+    CSimpleProjectPanel* newProjectpanel = new CSimpleProjectPanel(m_pBackgroundPanel);
+    panelSizer->Replace(m_pBackgroundPanel->m_projPanel, newProjectpanel);
+    m_pBackgroundPanel->m_projPanel->Destroy();
+    m_pBackgroundPanel->m_projPanel = newProjectpanel;
+
+    m_pBackgroundPanel->Layout();
+
+    m_pBackgroundPanel->ReskinInterface();
+
+    // Restore our task and project settings
+    int iTask = m_pBackgroundPanel->m_taskPanel->GetTaskSelectionCtrl()->FindString(taskStr);
+    m_pBackgroundPanel->m_taskPanel->GetTaskSelectionCtrl()->SetSelection(iTask);
+    int iProj = m_pBackgroundPanel->m_projPanel->GetProjectSelectionCtrl()->FindString(projStr);
+    m_pBackgroundPanel->m_projPanel->GetProjectSelectionCtrl()->SetSelection(iProj);
+    wxCommandEvent event;
+    m_pBackgroundPanel->m_taskPanel->OnTaskSelection(event);
+
+    if (dlgMsgsPtr) {
+        dlgMsgsPtr->GetMsgsPanel()->RedrawNoticesListCtrl();
+    }
+
+    if (dlgPrefsPtr) {
+        dlgPrefsPtr->GetPrefsPanel()->MakeBackgroundBitmap();
+        dlgPrefsPtr->Refresh();
+    }
+#endif
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
@@ -1126,6 +1174,28 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
 
     wxMemoryDC srcDC(*srcBmp);
     dc.Blit(destX, destY, w, h, &srcDC, srcX, srcY, wxCOPY);
+
+#ifdef __WXMAC__
+    // In Dark Mode, MacOS makes button backgrounds partly tranparent
+    // rather than black. It uses a slightly darker rendition of the
+    // underlying bitmap, which can make the button's white text hard
+    // to read with some skins. So we force these button backgrounds
+    // to be dark gray.
+    if (wxGetApp().GetIsDarkMode()) {
+        wxPen oldPen = dc.GetPen();
+        dc.SetPen(*wxBLACK);
+        wxBrush oldBrush = dc.GetBrush();
+        dc.SetBrush(*wxBLACK_BRUSH);
+        wxRect r = m_NoticesButton->GetRect();
+        dc.DrawRoundedRectangle(r, 5);
+        r = m_SuspendResumeButton->GetRect();
+        dc.DrawRoundedRectangle(r, 5);
+        r = m_HelpButton->GetRect();
+        dc.DrawRoundedRectangle(r, 5);
+        dc.SetPen(oldPen);
+        dc.SetBrush(oldBrush);
+    }
+#endif
 
 //    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 

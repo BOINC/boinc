@@ -135,7 +135,7 @@
 #define ERR_NOT_FOUND        -161
     // catch-all lookup error
 #define ERR_NO_EXIT_STATUS   -162
-    // exit_status not found in scheduler request 
+    // exit_status not found in scheduler request
 #define ERR_FILE_MISSING    -163
 #define ERR_KILL            -164
 #define ERR_SEMGET          -165
@@ -190,11 +190,12 @@
 #define ERR_ATTACH_FAIL_FILE_WRITE -213
 #define ERR_ATTACH_FAIL_SERVER_ERROR -214
 #define ERR_SIGNING_KEY             -215
-#define ERR_FFLUSH          -216 
+#define ERR_FFLUSH          -216
 #define ERR_FSYNC           -217
 #define ERR_TRUNCATE        -218
 #define ERR_WRONG_URL       -219
 #define ERR_DUP_NAME        -220
+#define ERR_FILE_WRONG_SIZE -221
 #define ERR_GETGRNAM        -222
 #define ERR_CHOWN           -223
 #define ERR_HTTP_PERMANENT  -224
@@ -216,7 +217,7 @@
 #define ERR_ACCT_REQUIRE_CONSENT -242
 #define ERR_INVALID_STATE   -243
 
-// PLEASE: add a text description of your error to 
+// PLEASE: add a text description of your error to
 // the text description function boincerror() in str_util.cpp.
 
 // returns short text description of error corresponding to

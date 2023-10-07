@@ -144,9 +144,9 @@
   <?php endif; ?>
 
   <div id="page-wrapper"><div id="page">
-    
+
     <div id="header-wrapper" class="shadow">
-    
+
     <div id="header"><div class="section clearfix">
 
       <?php if ($logo): ?>
@@ -180,7 +180,7 @@
       <?php print $header; ?>
 
     </div></div> <!-- /.section, /#header -->
-    
+
     <?php if ($primary_links || $navigation): ?>
       <div id="navigation"><div class="section clearfix">
         <div id="main-menu">
@@ -196,10 +196,10 @@
             ));
           ?>
         </div>
-        
+
         <div id="action-links">
           <ul><li class="first">
-            <?php 
+            <?php
               global $user;
               if ($user->uid):
                 echo '<a href="' . url('logout') . '"><span class="secondary-link tab">' . bts('Logout', array(), NULL, 'boinc:menu-link') . '</span></a>';
@@ -253,13 +253,13 @@
 
       </div></div> <!-- /.section, /#navigation -->
     <?php endif; ?>
-    
+
     </div> <!-- /.shadow -->
-    
+
     <div id="main-wrapper"><div id="main" class="clearfix<?php if ($primary_links || $navigation) { print ' with-navigation'; } ?>">
-      
+
       <?php print $messages; ?>
-      
+
     <?php if ($tabs): ?>
       <?php
         $active_menu_item = '';
@@ -289,12 +289,12 @@
       <?php print $tabs; ?>
       </div>
     <?php endif; ?>
-      
+
       <?php $class_list = explode(' ', $classes); ?>
       <div id="content" class="column">
-      
+
         <div class="section<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing container shadow' : ''; ?>">
-          
+
           <?php if ($mission): ?>
             <div id="mission"><?php print $mission; ?></div>
           <?php endif; ?>
@@ -313,10 +313,10 @@
           </div>
 
         </div> <!-- /.section -->
-        
+
         <?php if ($content_bottom): ?>
           <div class="section bottom<?php echo (!array_intersect(array('page-panels','section-users'), $class_list)) ? ' framing container shadow' : ''; ?>">
-            
+
             <?php print $content_bottom; ?>
 
             <?php if ($feed_icons AND !$is_front): ?>
@@ -325,7 +325,7 @@
 
           </div> <!-- /.section.bottom -->
         <?php endif; ?>
-        
+
       </div> <!-- /#content -->
 
       <?php print $sidebar_first; ?>
@@ -337,9 +337,9 @@
     <?php $footer_links = menu_navigation_links('menu-footer-links',0); ?>
     <?php if ($footer || $footer_message || $footer_links): ?>
       <div id="footer"><div class="section">
-        
+
         <div id="footer-menu">
-          
+
           <?php print theme(array('links__system_secondary_menu', 'links'), $footer_links,
             array(
               'id' => 'footer-links',
@@ -351,9 +351,9 @@
               'class' => 'element-invisible',
             ));
           ?>
-          
+
           <ul id="server-status" class="tab-list">
-            
+
             <li class="first tab">
               <?php print l(bts('Applications', array(), NULL, 'boinc:footer-link:-1:ignoreoverwrite'), $app_list_url); ?>
             </li>
@@ -368,29 +368,29 @@
               </ul>
             </li>
             <li class="last tab"><a href="status">More</a></li>-->
-            
+
           </ul>
           <div class="clearfix"></div>
-          
+
         </div>
-        
+
         <div id="footer-info">
-          
+
           <div id="language"
             style="background: url(<?php print $flag_path; ?>) no-repeat right;">
               <?php print bts('Language', array(), NULL, 'boinc:footer-link:-1:ignoreoverwrite'); ?>
           </div>
-          
+
           <?php if ($footer_message): ?>
             <div id="footer-message"><?php print $footer_message; ?></div>
           <?php endif; ?>
-          
+
           <?php if (user_access('create page content') OR user_access('create news content')): ?>
             <div id="content-management-links">
               <?php print l(bts('Create content', array(), NULL, 'boinc:footer-link'), 'node/add'); ?>
             </div>
           <?php endif; ?>
-          
+
           <div class="clearfix"></div>
 
           <?php print $footer; ?>

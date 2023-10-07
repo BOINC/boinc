@@ -197,28 +197,28 @@ namespace test_url {
 
     TEST_F(test_url, valid_master_url) {
         char url[1024];
-        
-        //Check for a good unsecure url. 
+
+        //Check for a good unsecure url.
         strncpy(url, "http://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for a good secure url
         strncpy(url, "https://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for no http or https.
         strncpy(url, "hxxp://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if missing final slash.
         strncpy(url, "http://www.example.com", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if it has no . in the name
         strncpy(url, "http://example/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
     }
-    
+
     TEST_F(test_url, escape_project_url) {
         char buf[1024];
         char url[1024];
@@ -227,7 +227,7 @@ namespace test_url {
         strncpy(url, "https://secure.example.com", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com");
-        
+
         //Testing url with bad character at the end removed.
         strncpy(url, "https://secure.example.com/Dollar$", sizeof (url));
         escape_project_url(url, buf);

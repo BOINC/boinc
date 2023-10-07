@@ -18,7 +18,7 @@
 
 // If user has an email due to an email change made for their account,
 // then they can visit this page with the token and user id to revert
-// the change within 7 days of the initial change.  
+// the change within 7 days of the initial change.
 // Note:  The token is removed when it has been used.
 //
 
@@ -43,7 +43,7 @@ $token = get_str("token", true);
 
 if (is_valid_token($userid, $token, TOKEN_TYPE_CHANGE_EMAIL)) {
     $tmpuser = BoincUser::lookup_id_nocache($userid);
-    // We can only change passwd_hash if we can get the userdata. 
+    // We can only change passwd_hash if we can get the userdata.
     //
     if ($tmpuser) {
         $existing = BoincUser::lookup_email_addr($tmpuser->previous_email_addr);

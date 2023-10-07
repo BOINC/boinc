@@ -23,7 +23,7 @@ require_once('boinccore.admin.inc');
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
  * Implementation of hook_menu(); determine the actions that correspond
  * with defined URL paths
@@ -63,7 +63,7 @@ function boinccore_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boinccore.admin.inc'
   );
-  
+
   // BOINC RPC wrappers
   $items['lookup_account.php'] = array(
     'title' => 'Look up account RPC',
@@ -149,7 +149,7 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
-  
+
   return $items;
 }
 
@@ -234,7 +234,7 @@ function boinccore_enable() {
  * Implementation of hook_boot()
  * Caching for anonymous users in Drupal 6 is not language specific, so using
  * the browser language without path prefix can result in mixed languages being
- * present in the cache for pages with the default (no language given) path. 
+ * present in the cache for pages with the default (no language given) path.
  * As a workaround, redirect anonymous users to a language prefix if they are
  * on the default site path and the browser reports a non-default language.
  * See: https://www.drupal.org/node/339958#comment-3012662
@@ -246,7 +246,7 @@ function boinccore_boot() {
 
   // If we have an anonymous user, page cache is enabled, the URL has no prefix
   // and browser language negotiation is set, we perform a redirect to the
-  // prefixed URL. 
+  // prefixed URL.
   if (empty($user->uid) && $cache != CACHE_DISABLED && $language_negotiation == LANGUAGE_NEGOTIATION_PATH) {
     $args = isset($_GET['q']) ? explode('/', $_GET['q']) : array();
     $prefix = array_shift($args);
@@ -254,7 +254,7 @@ function boinccore_boot() {
     // Initialize language as we need the proper language negotiation to be
     // performed.
     drupal_bootstrap(DRUPAL_BOOTSTRAP_LANGUAGE);
-    
+
     // But Drupal 6 language negotiation does not always work that well...
     // so call this backported Drupal 7 language negotation function, which
     // does both case insensitive and longest prefix matching
@@ -293,10 +293,10 @@ if (!function_exists('locale_language_from_browser')) {
     if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
       return FALSE;
     }
-    
+
     $languages = language_list('enabled');
     $languages = $languages[1];
-    
+
     // The Accept-Language header contains information about the language
     // preferences configured in the user's browser / operating system.
     // RFC 2616 (section 14.4) defines the Accept-Language header as follows:
@@ -352,7 +352,7 @@ if (!function_exists('locale_language_from_browser')) {
           $qvalue = $browser_langcodes[$prefix];
           break;
         }
-      } 
+      }
        while ($prefix = substr($prefix, 0, strrpos($prefix, '-')));
 
       // Find the best match.
@@ -460,7 +460,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['comment_form_suffix'] = array(
       '#value' => '</div>',
     );
-    
+
     module_load_include('inc', 'bbcode', 'bbcode-help');
     $form['bbcode_help'] = array(
       '#title' => bts('BBcode help', array(), NULL, 'boinc:help-with-user-input-with-BBCode'),
@@ -474,7 +474,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
         '#value' => _bbcode_filter_tip(),
       ),
     );
-    
+
     // If a specific comment is being referenced, go back to it on cancel
     if ($comment_ref = $form['pid']['#value']) {
       $cancel_url = "goto/comment/{$comment_ref}";
@@ -482,7 +482,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     else {
       $cancel_url = "node/{$form['nid']['#value']}";
     }
-    
+
     // Wrap action buttons for styling consistency
     $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -512,7 +512,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
-    
+
     // Remove redundant name field
     unset($form['_author']);
 
@@ -542,9 +542,9 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
         );
       }
     }
-    
+
     break;
-    
+
   // Forum node form
   case 'forum_node_form':
   case 'team_forum_node_form':
@@ -553,7 +553,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
     );
-    
+
     // Wrap action buttons for styling consistency
     $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -900,23 +900,23 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
     $node->comment = 2;
     //$node->language = 'en';
     $node->uid = $comment->uid;
-    
+
     // Preselect the parent's taxonomy ID
     $parent_node = node_load($comment->nid);
     $node->tid = $parent_node->tid;
- 
+
     if (filter_access($comment->format)) {
       $node->format = $comment->format;
     }
-    
+
     // Save the new node
     node_save($node);
     taxonomy_node_save($node, array($node->tid));
-    
+
     // Delete the comment
     module_load_include('inc', 'comment', 'comment.admin');
     _comment_delete_thread($comment);
-    
+
     rules_invoke_event('boinccore_comment_convert', $comment);
 
     $return_path = "node/{$node->nid}";
@@ -1011,12 +1011,12 @@ function boinccore_am_set_info() {
       ));
       db_set_active('default');
       $uid = boincuser_lookup_uid($boinc_id);
-      
+
       // Apply any relevant updates to the Drupal account, also
       $country = !empty($_POST['country']) ? $_POST['country'] : (!empty($_GET['country']) ? $_GET['country'] : NULL);
       $url = !empty($_POST['url']) ? $_POST['url'] : (!empty($_GET['url']) ? $_GET['url'] : NULL);
       $email_addr = !empty($_POST['email_addr']) ? $_POST['email_addr'] : (!empty($_GET['email_addr']) ? $_GET['email_addr'] : NULL);
-      
+
       if ($email_addr) {
         $account = user_load($uid);
         user_save($account, array('mail' => $email_addr));
@@ -1104,29 +1104,29 @@ function boinccore_pending_credit() {
  * Create a team with the provided details
  */
 function boinccore_create_team() {
-  
+
   if (module_exists('boincteam')) {
     module_load_include('module', 'boincteam', 'boincteam');
-  
+
     $input_format = !empty($values['format']) ? $values['format'] : 4;
     if (!empty($_GET['description'])) $_GET['description'] = check_markup($_GET['description'], $input_format);
-    
+
     // Try to add the team to BOINC and capture the XML output of the RPC
     ob_start();
     include_boinc('user/create_team.php');
     $xml = ob_get_clean();
     $xml = load_configuration($xml);
-    
+
     if (isset($xml['create_team_reply']['success'])) {
       $boincteam_id = isset($xml['create_team_reply']['team_id']['@value']) ? $xml['create_team_reply']['team_id']['@value'] : 0;
-      
+
       if ($boincteam_id) {
-        
+
         $boincteam = boincteam_load($boincteam_id);
         $team_owner_uid = boincuser_lookup_uid($boincteam->userid);
-        
+
         // Create the team node in Drupal
-        
+
         $values = array(
           'name' => isset($_GET['name']) ? $_GET['name'] : '',
           'description' => isset($_GET['description']) ? $_GET['description'] : '',
@@ -1134,7 +1134,7 @@ function boinccore_create_team() {
         );
         $teaser = node_teaser($values['description']);
         $created_time = time();
-        
+
         $node = array(
           'type' => 'team',
           'title' => $values['name'],
@@ -1150,16 +1150,16 @@ function boinccore_create_team() {
           'sticky' => 0,
           'format' => $input_format
         );
-        
+
         // Use pathauto function, if available, to clean up the path
         if (module_exists('pathauto')) {
           module_load_include('inc', 'pathauto', 'pathauto');
           $node['path'] = pathauto_cleanstring($values['name']);
-        
+
           $node = (object) $node; // node_save requires an object form
           $team_categories = taxonomy_get_term_by_name($values['type']);
           $node->taxonomy[] = $team_categories[0];
-          
+
           // Save the team node
           node_save($node);
           // Save the team IDs to a BOINC <--> Drupal reference table.
@@ -1338,9 +1338,9 @@ function boinccore_team_email_list() {
 function boinccore_edit_forum_preferences() {
   // Do not pass through to BOINC in this case as BOINC forums are no longer
   // relevant -- use Drupal data only
-  
+
   $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : (!empty($_GET['account_key']) ? $_GET['account_key'] : NULL);
-  
+
   require_boinc('boinc_db');
   $boincuser = BoincUser::lookup_auth($account_key);
   if ($boincuser) {
@@ -1453,16 +1453,16 @@ function boinccore_edit_forum_preferences() {
 function boinccore_forum_get_data() {
   // Do not pass through to BOINC in this case as BOINC forums are no longer
   // relevant -- use Drupal data only
-  
+
   $xml = array();
   $boinc_id = !empty($_POST['userid']) ? $_POST['userid'] : (!empty($_GET['userid']) ? $_GET['userid'] : NULL);
   $uid = boincuser_lookup_uid($boinc_id);
-  
+
   if ($uid) {
     $method = !empty($_POST['method']) ? $_POST['method'] : (!empty($_GET['method']) ? $_GET['method'] : NULL);
     $count = !empty($_POST['count']) ? $_POST['count'] : (!empty($_GET['count']) ? $_GET['count'] : NULL);
     if (!$count) $count = 10;
-    
+
     switch ($method) {
     case 'user_posts':
       $content_length = !empty($_POST['content_length']) ? $_POST['content_length'] : (!empty($_GET['content_length']) ? $_GET['content_length'] : NULL);
@@ -1500,7 +1500,7 @@ function boinccore_forum_get_data() {
       }
       $xml['rpc_response']['count'] = $post_count;
       break;
-      
+
     case 'user_threads':
       $threads = db_query("
         SELECT
@@ -1516,7 +1516,7 @@ function boinccore_forum_get_data() {
             FROM {comments} c
             WHERE c.nid = n.nid
           ) AS replies
-        FROM {node} n 
+        FROM {node} n
         LEFT JOIN {node_counter} nc ON nc.nid = n.nid
         LEFT JOIN {term_node} tn ON tn.nid = n.nid
         WHERE (n.status = 1) AND (n.uid = '%d')
@@ -1718,7 +1718,7 @@ function boinccore_url_pagination_handler($type, $object_id = NULL) {
 }
 
 /*
- * Fetch an array of all countries 
+ * Fetch an array of all countries
  */
 function boinccore_get_country_list() {
   return array(
@@ -1978,7 +1978,7 @@ function boinccore_rules_action_mail_to_moderators($settings) {
   module_load_include('inc', 'rules', 'modules/system.rules');
   $mailing_list = variable_get('boinc_moderator_mailing_list', '');
   $force_individual_notifications = variable_get('boinc_moderator_force_individual_notifications', 0);
-  
+
   if (!$mailing_list OR $force_individual_notifications) {
     // Send individual emails to all moderators
     $roles = user_roles();
@@ -2081,7 +2081,7 @@ function bts($string, $args = array(), $langcode = NULL, $context = 'boinc: ', $
 
 /**
  * Overview of moderation queues
- */               
+ */
 function boinccore_moderation_overview_panel() {
   $output = '<h2 class="pane-title">' . bts('Moderation', array(), NULL, 'boinc:moderate-profiles') . '</h2>';
   $output .= '<ul class="tab-list action-list">';

@@ -30,10 +30,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAShutdownBOINCManager::CAShutdownBOINCManager(MSIHANDLE hMSIHandle) :
@@ -42,10 +42,10 @@ CAShutdownBOINCManager::CAShutdownBOINCManager(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAShutdownBOINCManager::~CAShutdownBOINCManager()
@@ -55,10 +55,10 @@ CAShutdownBOINCManager::~CAShutdownBOINCManager()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAShutdownBOINCManager::OnExecution()
@@ -90,7 +90,7 @@ UINT CAShutdownBOINCManager::OnExecution()
             {
                 LogMessage(
                     INSTALLMESSAGE_INFO,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     (int)lrReturnValue,
@@ -108,7 +108,7 @@ UINT CAShutdownBOINCManager::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             uiLoopCounter,
@@ -122,10 +122,10 @@ UINT CAShutdownBOINCManager::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    ShutdownBOINCManager
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall ShutdownBOINCManager(MSIHANDLE hInstall)

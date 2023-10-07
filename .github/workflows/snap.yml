@@ -1,0 +1,132 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Snap
+on:
+  push:
+    branches: [ master, 'client_release/**' ]
+    tags: [ 'client_release/**' ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 0 * * 0'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
+jobs:
+  docker_build:
+    name: snap-${{ matrix.type }}-build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - type: x64
+          architecture: linux/amd64
+          snap_file: boinc_amd64.snap
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get -qq update
+        sudo apt-get install -y p7zip-full
+
+    - name: Running from origin repo
+      if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+      run: |
+        echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+    - name: Running from fork
+      if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+      run: |
+        echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+    - name: Configure docker qemu
+      if: success()
+      uses: docker/setup-qemu-action@v2
+
+    - name: Build boinc snap
+      if: success()
+      run: |
+        docker run \
+          --rm \
+          --tty \
+          --privileged \
+          --volume $PWD:/root \
+          --workdir /root \
+          --platform "${{ matrix.architecture }}" \
+          --env VCPKG_BINARY_SOURCES=$VCPKG_BINARY_SOURCES \
+          --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+          --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+          --env AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
+          diddledani/snapcraft:core22 \
+          "snap run snapcraft --verbosity verbose pack --destructive-mode --output ${{ matrix.snap_file }}"
+
+          sudo chown $USER ${{ matrix.snap_file }}
+
+    - name: Install and test snap boinc inside docker
+      if: success()
+      run: |
+        docker run \
+          --rm \
+          --tty \
+          --privileged \
+          --volume $PWD:/root \
+          --workdir /root \
+          --platform "${{ matrix.architecture }}" \
+          diddledani/snapcraft:core22 \
+          "snap install --devmode ${{ matrix.snap_file }} && boinc --version && boinc.client --version"
+
+    - name: Install and test snap boinc x64
+      if: success() && matrix.type == 'x64'
+      run: |
+        sudo snap install --devmode ${{ matrix.snap_file }}
+        boinc --version
+        boinc.client --version
+
+    - name: Prepare logs on failure
+      if: ${{ failure() }}
+      run: |
+        sudo chown -R $USER parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/
+        python ./deploy/prepare_deployment.py logs
+
+    - name: Upload logs on failure
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: snap_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+        path: deploy/logs.7z
+
+    - name: Prepare artifacts for deploy
+      if: success()
+      run: python ./deploy/prepare_deployment.py linux_snap
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: linux_snap_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+        path: deploy/linux_snap.7z

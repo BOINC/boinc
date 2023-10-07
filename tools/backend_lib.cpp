@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,11 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
+#include "boinc_stdio.h"
 #include <cstdlib>
 #include <cstring>
 #include <string>
@@ -63,21 +59,17 @@ static struct random_init {
 // read file into buffer
 //
 int read_file(FILE* f, char* buf, int len) {
-    int n = fread(buf, 1, len, f);
+    int n = boinc::fread(buf, 1, len, f);
     buf[n] = 0;
     return 0;
 }
 
 int read_filename(const char* path, char* buf, int len) {
     int retval;
-#ifndef _USING_FCGI_
-    FILE* f = fopen(path, "r");
-#else
-    FCGI_FILE *f=FCGI::fopen(path, "r");
-#endif
+    FILE* f = boinc::fopen(path, "r");
     if (!f) return -1;
     retval = read_file(f, buf, len);
-    fclose(f);
+    boinc::fclose(f);
     return retval;
 }
 
@@ -166,13 +158,13 @@ int create_result(
     result.random = lrand48();
 
     result.priority += priority_increase;
-    sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
-    sprintf(base_outfile_name, "%s_r%ld_", result.name, lrand48());
+    snprintf(result.name, sizeof(result.name), "%s_%s", wu.name, result_name_suffix);
+    snprintf(base_outfile_name, sizeof(base_outfile_name), "%s_r%ld_", result.name, lrand48());
     retval = read_filename(
         result_template_filename, result_template, sizeof(result_template)
     );
     if (retval) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "Failed to read result template file '%s': %s\n",
             result_template_filename, boincerror(retval)
         );
@@ -183,12 +175,12 @@ int create_result(
         result_template, key, base_outfile_name, config_loc
     );
     if (retval) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "process_result_template() error: %s\n", boincerror(retval)
         );
     }
     if (strlen(result_template) > sizeof(result.xml_doc_in)-1) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "result XML doc is too long: %d bytes, max is %d\n",
             (int)strlen(result_template), (int)sizeof(result.xml_doc_in)-1
         );
@@ -201,7 +193,7 @@ int create_result(
     } else {
         retval = result.insert();
         if (retval) {
-            fprintf(stderr, "result.insert(): %s\n", boincerror(retval));
+            boinc::fprintf(stderr, "result.insert(): %s\n", boincerror(retval));
             return retval;
         }
     }
@@ -286,7 +278,7 @@ int create_work2(
 #if 0
     retval = check_files(infiles, ninfiles, config_loc);
     if (retval) {
-        fprintf(stderr, "Missing input file: %s\n", infiles[0]);
+        boinc::fprintf(stderr, "Missing input file: %s\n", infiles[0]);
         return -1;
     }
 #endif
@@ -297,7 +289,7 @@ int create_work2(
         wu, wu_template, infiles, config_loc, command_line, additional_xml
     );
     if (retval) {
-        fprintf(stderr, "process_input_template(): %s\n", boincerror(retval));
+        boinc::fprintf(stderr, "process_input_template(): %s\n", boincerror(retval));
         return retval;
     }
 
@@ -306,14 +298,14 @@ int create_work2(
     //
     const char* p = config_loc.project_path(result_template_filename);
     if (!boinc_file_exists(p)) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "create_work: result template file %s doesn't exist\n", p
         );
         return retval;
     }
 
     if (strlen(result_template_filename) > sizeof(wu.result_template_file)-1) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "result template filename is too big: %d bytes, max is %d\n",
             (int)strlen(result_template_filename),
             (int)sizeof(wu.result_template_file)-1
@@ -323,43 +315,43 @@ int create_work2(
     strlcpy(wu.result_template_file, result_template_filename, sizeof(wu.result_template_file));
 
     if (wu.rsc_fpops_est == 0) {
-        fprintf(stderr, "no rsc_fpops_est given; can't create job\n");
+        boinc::fprintf(stderr, "no rsc_fpops_est given; can't create job\n");
         return ERR_NO_OPTION;
     }
     if (wu.rsc_fpops_bound == 0) {
-        fprintf(stderr, "no rsc_fpops_bound given; can't create job\n");
+        boinc::fprintf(stderr, "no rsc_fpops_bound given; can't create job\n");
         return ERR_NO_OPTION;
     }
     if (wu.rsc_disk_bound == 0) {
-        fprintf(stderr, "no rsc_disk_bound given; can't create job\n");
+        boinc::fprintf(stderr, "no rsc_disk_bound given; can't create job\n");
         return ERR_NO_OPTION;
     }
     if (wu.target_nresults == 0) {
-        fprintf(stderr, "no target_nresults given; can't create job\n");
+        boinc::fprintf(stderr, "no target_nresults given; can't create job\n");
         return ERR_NO_OPTION;
     }
     if (wu.max_error_results == 0) {
-        fprintf(stderr, "no max_error_results given; can't create job\n");
+        boinc::fprintf(stderr, "no max_error_results given; can't create job\n");
         return ERR_NO_OPTION;
     }
     if (wu.max_total_results == 0) {
-        fprintf(stderr, "no max_total_results given; can't create job\n");
+        boinc::fprintf(stderr, "no max_total_results given; can't create job\n");
         return ERR_NO_OPTION;
     }
     if (wu.max_success_results == 0) {
-        fprintf(stderr, "no max_success_results given; can't create job\n");
+        boinc::fprintf(stderr, "no max_success_results given; can't create job\n");
         return ERR_NO_OPTION;
     }
     if (wu.max_success_results > wu.max_total_results) {
-        fprintf(stderr, "max_success_results > max_total_results; can't create job\n");
+        boinc::fprintf(stderr, "max_success_results > max_total_results; can't create job\n");
         return ERR_INVALID_PARAM;
     }
     if (wu.max_error_results > wu.max_total_results) {
-        fprintf(stderr, "max_error_results > max_total_results; can't create job\n");
+        boinc::fprintf(stderr, "max_error_results > max_total_results; can't create job\n");
         return ERR_INVALID_PARAM;
     }
     if (wu.target_nresults > wu.max_success_results) {
-        fprintf(stderr, "target_nresults > max_success_results; can't create job\n");
+        boinc::fprintf(stderr, "target_nresults > max_success_results; can't create job\n");
         return ERR_INVALID_PARAM;
     }
     if (wu.transitioner_flags) {
@@ -372,7 +364,7 @@ int create_work2(
     } else if (wu.id) {
         retval = wu.update();
         if (retval) {
-            fprintf(stderr,
+            boinc::fprintf(stderr,
                 "create_work: workunit.update() %s\n", boincerror(retval)
             );
             return retval;
@@ -380,7 +372,7 @@ int create_work2(
     } else {
         retval = wu.insert();
         if (retval) {
-            fprintf(stderr,
+            boinc::fprintf(stderr,
                 "create_work: workunit.insert() %s\n", boincerror(retval)
             );
             return retval;
@@ -469,7 +461,7 @@ int create_get_file_msg(
     );
     retval = mth.insert();
     if (retval) {
-        fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
+        boinc::fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;
@@ -542,7 +534,7 @@ int create_put_file_msg(
     put_file_xml(file_name, urls, md5, nbytes, report_deadline, mth.xml);
     retval = mth.insert();
     if (retval) {
-        fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
+        boinc::fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;
@@ -564,7 +556,7 @@ int create_delete_file_msg(int host_id, const char* file_name) {
     sprintf(mth.variety, "delete_file");
     retval = mth.insert();
     if (retval) {
-        fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
+        boinc::fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;

@@ -169,11 +169,7 @@ struct PROJECT : PROJ_AM {
         // use those apps rather then getting from server
     bool non_cpu_intensive;
         // All this project's apps are non-CPU-intensive.
-        // Apps can also be individually marked as NCI
-    bool verify_files_on_app_start;
-        // Check app version and input files on app startup,
-        // to make sure they haven't been tampered with.
-        // This provides only the illusion of security.
+        // (determined dynamically)
     bool use_symlinks;
     bool report_results_immediately;
     bool sched_req_no_work[MAX_RSC];
@@ -192,7 +188,7 @@ struct PROJECT : PROJ_AM {
     bool dont_use_dcf;
 
     bool suspended_via_gui;
-    bool dont_request_more_work; 
+    bool dont_request_more_work;
         // Return work, but don't request more
         // Used for a clean exit to a project,
         // or if a user wants to pause doing work for the project
@@ -206,6 +202,8 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
+    bool app_test;
+        // this is the project created by --app_test
 
     ///////////////// member functions /////////////////
 
@@ -223,7 +221,7 @@ struct PROJECT : PROJ_AM {
         // If it's the last one, set project_files_downloaded_time to now
 
     void update_duration_correction_factor(ACTIVE_TASK*);
-    
+
     // fields used by CPU scheduler and work fetch
     // everything from here on applies only to CPU intensive projects
 
@@ -364,7 +362,7 @@ struct PROJECT : PROJ_AM {
 
 #ifdef SIM
     RANDOM_PROCESS available;
-    int index;
+    int proj_index; // order among projects; used for color coding
     int result_index;
     double idle_time;
     double idle_time_sumsq;

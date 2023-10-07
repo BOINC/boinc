@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -77,7 +77,7 @@ struct SCHED_CONFIG {
     int fuh_set_initial_permission;
     int reliable_priority_on_over;
         // additional results generated after at least one result
-        // is over will have their priority boosted by this amount    
+        // is over will have their priority boosted by this amount
     int reliable_priority_on_over_except_error;
         // additional results generated after at least one result is over
         // (unless there is an error) will have their priority boosted
@@ -178,7 +178,7 @@ struct SCHED_CONFIG {
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
     bool estimate_flops_from_hav_pfc;
-        // Use host_app_version peak flop count rather than elapsed time 
+        // Use host_app_version peak flop count rather than elapsed time
         // to calculate projected_flops when choosing version.
     bool credit_by_app;
         // store per-app credit info in credit_user and credit_team

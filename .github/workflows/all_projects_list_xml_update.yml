@@ -1,0 +1,58 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: all_projects_list.xml Update
+on:
+  schedule:
+    - cron:  '0 0 * * 0'
+
+jobs:
+  build:
+    if: github.repository == 'BOINC/boinc'
+    name: ${{ matrix.type }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [all_projects_list_xml_update]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Download latest all_projects_list.xml
+        if: success()
+        run: |
+          curl https://boinc.berkeley.edu/project_list.php --output ./win_build/installerv2/redist/all_projects_list.xml
+      - name: Check file was updated
+        if: success()
+        run: |
+          set +e
+          git diff --exit-code
+          echo "PR_REQUIRED=$?" >> $GITHUB_ENV
+      - name: Create PR
+        if: ${{ success() &&  env.PR_REQUIRED == 1 }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update all_projects_list.xml
+          title: Update all_projects_list.xml
+          body: |
+            This PR was automatically created by a GitHub Action.
+          branch: all_projects_list_xml_update
+          base: master
+          delete-branch: true
+          add-paths: |
+            win_build/installerv2/redist/all_projects_list.xml

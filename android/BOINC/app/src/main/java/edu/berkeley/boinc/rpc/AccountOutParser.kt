@@ -81,7 +81,7 @@ class AccountOutParser : BaseParser() {
             } catch (e: SAXException) {
                 Logging.logException(Logging.Category.RPC, "AccountOutParser: malformed XML ", e)
                 Logging.logDebug(Logging.Category.XML, "AccountOutParser: $rpcResult")
-                
+
                 null
             }
         }

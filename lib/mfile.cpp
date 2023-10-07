@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -72,15 +72,15 @@ int MFILE::vprintf(const char* format, va_list ap) {
 
     k = vsnprintf(buf2, BUFSIZE, format, ap);
     if (k<=-1 || k>=BUFSIZE) {
-        fprintf(stderr, "ERROR: buffer too small in MFILE::vprintf()\n");
-        fprintf(stderr, "ERROR: format: %s\n", format);
-        fprintf(stderr, "ERROR: k=%d, BUFSIZE=%d\n", k, BUFSIZE);
+        boinc::fprintf(stderr, "ERROR: buffer too small in MFILE::vprintf()\n");
+        boinc::fprintf(stderr, "ERROR: format: %s\n", format);
+        boinc::fprintf(stderr, "ERROR: k=%d, BUFSIZE=%d\n", k, BUFSIZE);
         return -1;
     }
     n = (int)strlen(buf2);
     buf = (char*)realloc_aux(buf, len+n+1);
     if (!buf) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "ERROR: realloc() failed in MFILE::vprintf(); len %d n %d\n",
             len, n
         );
@@ -105,7 +105,7 @@ int MFILE::printf(const char* format, ...) {
 size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
     buf = (char *)realloc_aux( buf, len+(size*nitems)+1 );
     if (!buf) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "ERROR: realloc() failed in MFILE::write(); len %d size %zu nitems %zu\n",
             len, size, nitems
         );
@@ -120,7 +120,7 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
 int MFILE::_putchar(char c) {
     buf = (char*)realloc_aux(buf, len+1+1);
     if (!buf) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "ERROR: realloc() failed in MFILE::_putchar(); len %d\n", len
         );
         exit(1);
@@ -135,7 +135,7 @@ int MFILE::puts(const char* p) {
     int n = (int)strlen(p);
     buf = (char*)realloc_aux(buf, len+n+1);
     if (!buf) {
-        fprintf(stderr,
+        boinc::fprintf(stderr,
             "ERROR: realloc() failed in MFILE::puts() len %d n %d\n", len, n
         );
         exit(1);
@@ -153,7 +153,7 @@ int MFILE::close() {
     int retval = 0;
     if (f) {
         retval = flush();
-        fclose(f);
+        boinc::fclose(f);
         f = NULL;
     }
     if (buf) {
@@ -166,18 +166,18 @@ int MFILE::close() {
 int MFILE::flush() {
     int n, old_len = len;
 
-    n = (int)fwrite(buf, 1, len, f);
+    n = (int)boinc::fwrite(buf, 1, len, f);
     len = 0;
     if (n != old_len) return ERR_FWRITE;
-    if (fflush(f)) return ERR_FFLUSH;
+    if (boinc::fflush(f)) return ERR_FFLUSH;
 #ifndef _WIN32
-    if (fsync(fileno(f)) < 0) return ERR_FSYNC;
+    if (fsync(boinc::fileno(f)) < 0) return ERR_FSYNC;
 #endif
     return 0;
 }
 
 long MFILE::tell() const {
-    return f ? ftell(f) : -1;
+    return f ? boinc::ftell(f) : -1;
 }
 
 void MFILE::get_buf(char*& b, int& l) {

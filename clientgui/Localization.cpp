@@ -35,7 +35,7 @@ CLocalization::CLocalization() {
         _("Help");
     m_strSAHHelpDescription =
         _("Ask questions and report problems");
-    m_strSAHYourAccountName = 
+    m_strSAHYourAccountName =
         _("Your account");
     m_strSAHYourAccountDescription =
         _("View your account information and credit totals");
@@ -155,6 +155,18 @@ CLocalization::CLocalization() {
         _("Research");
     m_strWCGResearchDesc =
         _("Learn about the projects hosted at World Community Grid");
+
+    // Amicable numbers
+    m_strANHomePageName =
+        _("Home page");
+    m_strANMessageBoardsName =
+        _("Message boards");
+    m_strANYourAccountName =
+        _("Your account");
+    m_strANYourTasksName =
+        _("Your tasks");
+    m_strANYourTeamName =
+        _("Your team");
 
 }
 

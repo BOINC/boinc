@@ -129,7 +129,7 @@ struct RESULT {
     }
 
     inline bool computing_done() {
-        if (state() >= RESULT_COMPUTE_ERROR) return true; 
+        if (state() >= RESULT_COMPUTE_ERROR) return true;
         if (ready_to_report) return true;
         return false;
     }
@@ -156,15 +156,32 @@ struct RESULT {
         return avp->gpu_usage.rsc_type;
     }
     inline bool non_cpu_intensive() {
-        if (project->non_cpu_intensive) return true;
-        if (app->non_cpu_intensive) return true;
-        return false;
+        return app->non_cpu_intensive;
+    }
+    inline bool sporadic() {
+        return app->sporadic;
+    }
+    inline bool always_run() {
+        return non_cpu_intensive() || sporadic();
     }
     inline bool dont_throttle() {
         if (non_cpu_intensive()) return true;
         if (avp->dont_throttle) return true;
         return false;
     }
+    // make a string describing resource usage
+    inline void rsc_string(char* buf, int len) {
+        if (avp->gpu_usage.rsc_type) {
+            snprintf(buf, len,
+                "%.2f CPU + %.2f %s",
+                avp->avg_ncpus, avp->gpu_usage.usage,
+                rsc_name_long(avp->gpu_usage.rsc_type)
+            );
+        } else {
+            snprintf(buf, len, "%.2f CPU", avp->avg_ncpus);
+        }
+    }
+
 
     // temporaries used in CLIENT_STATE::rr_simulation():
     double rrsim_flops_left;

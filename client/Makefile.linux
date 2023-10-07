@@ -6,7 +6,8 @@
 #    make -f Makefile.linux clean all
 # 3) do the same in this dir
 
-CC = g++ -O4 -Wall -I ../ -I ../lib/
+//CC = g++ -O4 -Wall -I ../ -I ../lib/
+CC = g++ -g -Wall -I ../ -I ../lib/
 
 PROGS = boinc boinccmd
 
@@ -19,6 +20,7 @@ BOINC_OBJ = \
     app_config.o \
     app_control.o \
     app_start.o \
+    app_test.o \
     async_file.o \
     check_state.o \
     client_msgs.o \
@@ -36,6 +38,7 @@ BOINC_OBJ = \
     cs_prefs.o \
     cs_proxy.o \
     cs_scheduler.o \
+    cs_sporadic.o \
     cs_statefile.o \
     cs_trickle.o \
     current_version.o \
@@ -96,6 +99,7 @@ SRC = \
     cs_proxy.cpp \
     cs_scheduler.cpp \
     cs_statefile.cpp \
+    cs_sporadic.cpp \
     cs_trickle.cpp \
     current_version.cpp \
     dhrystone.cpp \
@@ -133,7 +137,7 @@ SRC = \
 clean:
 	rm -f $(PROGS) $(BOINC_OBJ) dependencies
 
-LIBS = ../lib/lib.a \
+LIBS = ../lib/boinc.a \
     -L /usr/local/lib/ \
     -lpthread \
     -lX11 -lXss \

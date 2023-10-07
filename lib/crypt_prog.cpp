@@ -28,7 +28,9 @@
 //                  create a signature for a given string
 //                  write it in hex notation
 // -verify file signature_file public_keyfile
-//                  verify a signature
+//                  verify a file signature
+// -verify_string string signature_file public_keyfile
+//                  verify a string signature
 // -test_crypt private_keyfile public_keyfile
 //                  test encrypt/decrypt
 // -convkey o2b/b2o priv/pub input_file output_file
@@ -62,23 +64,25 @@ void die(const char* p) {
 
 void usage() {
     fprintf(stderr,
-            "Usage: crypt_prog options\n\n"
-            "Options:\n\n"
-            "-genkey n private_keyfile public_keyfile\n"
-            "    create an n-bit key pair\n"
-            "-sign file private_keyfile\n"
-            "    create a signature for a given file, write to stdout\n"
-            "-sign_string string private_keyfile\n"
-            "    create a signature for a given string\n"
-            "-verify file signature_file public_keyfile\n"
-            "    verify a signature\n"
-            "-test_crypt private_keyfile public_keyfile\n"
-            "    test encrypt/decrypt functions\n"
-            "-convkey o2b/b2o priv/pub input_file output_file\n"
-            "    convert keys between BOINC and OpenSSL format\n"
-            "-cert_verify file signature certificate_dir\n"
-            "    verify a signature using a directory of certificates\n"
-           );
+        "Usage: crypt_prog options\n\n"
+        "Options:\n\n"
+        "-genkey n private_keyfile public_keyfile\n"
+        "    create an n-bit key pair\n"
+        "-sign file private_keyfile\n"
+        "    create a signature for a given file, write to stdout\n"
+        "-sign_string string private_keyfile\n"
+        "    create a signature for a given string\n"
+        "-verify file signature_file public_keyfile\n"
+        "    verify a file signature\n"
+        "-verify_string string signature_file public_keyfile\n"
+        "    verify a string signature\n"
+        "-test_crypt private_keyfile public_keyfile\n"
+        "    test encrypt/decrypt functions\n"
+        "-convkey o2b/b2o priv/pub input_file output_file\n"
+        "    convert keys between BOINC and OpenSSL format\n"
+        "-cert_verify file signature certificate_dir\n"
+        "    verify a signature using a directory of certificates\n"
+   );
 }
 
 unsigned int random_int() {
@@ -214,13 +218,35 @@ int main(int argc, char** argv) {
         retval = md5_file(argv[2], md5_buf, size);
         if (retval) die("md5_file");
         retval = check_file_signature(
-                     md5_buf, public_key, signature, is_valid
-                 );
+             md5_buf, public_key, signature, is_valid
+         );
         if (retval) die("check_file_signature");
         if (is_valid) {
-            printf("file is valid\n");
+            printf("signature is valid\n");
         } else {
-            printf("file is invalid\n");
+            printf("signature is invalid\n");
+            return 1;
+        }
+    } else if (!strcmp(argv[1], "-verify_string")) {
+        if (argc < 5) {
+            usage();
+            exit(1);
+        }
+        fpub = fopen(argv[4], "r");
+        if (!fpub) die("fopen");
+        retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+        if (retval) die("read_public_key");
+        f = fopen(argv[3], "r");
+        if (!f) die("fopen");
+        int n = fread(cbuf, 1, 256, f);
+        cbuf[n] = 0;
+
+        retval = check_string_signature(argv[2], cbuf, public_key, is_valid);
+        if (retval) die("check_string_signature");
+        if (is_valid) {
+            printf("signature is valid\n");
+        } else {
+            printf("signature is invalid\n");
             return 1;
         }
     } else if (!strcmp(argv[1], "-test_crypt")) {

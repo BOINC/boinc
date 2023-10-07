@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -59,12 +59,12 @@
 //  it may not use some GPUs that actually could be used.
 //
 //  Modified (as of 23 July 14) to allow coprocessors (OpenCL GPUs and OpenCL
-//  accelerators) from vendors other than original 3: NVIDIA, AMD and Intel.  
+//  accelerators) from vendors other than original 3: NVIDIA, AMD and Intel.
 //  For these original 3 GPU vendors, we still use the above approach, and the
 //  COPROC::type field contains a standardized vendor name "NVIDIA", "ATI" or
 //  "intel_gpu".  But for other, "new" vendors, we treat each device as a
 //  separate resource, creating an entry for each instance in the
-//  COPROCS::coprocs[] array and copying the device name COPROC::opencl_prop.name 
+//  COPROCS::coprocs[] array and copying the device name COPROC::opencl_prop.name
 //  into the COPROC::type field (instead of the vendor name.)
 
 #ifndef BOINC_COPROC_H
@@ -77,10 +77,7 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "miofile.h"
 #include "error_numbers.h"
 #include "parse.h"
@@ -423,7 +420,7 @@ struct COPROCS {
     int write_coproc_info_file(std::vector<std::string> &warnings);
     int read_coproc_info_file(std::vector<std::string> &warnings);
     int add_other_coproc_types();
-    
+
 #ifdef __APPLE__
     void opencl_get_ati_mem_size_from_opengl(std::vector<std::string> &warnings);
 #endif

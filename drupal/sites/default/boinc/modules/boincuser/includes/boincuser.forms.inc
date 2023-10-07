@@ -10,7 +10,7 @@
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Login form handlers and functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
  * Form validation handler for login
  */
@@ -21,17 +21,17 @@ function boincuser_login_validate($form, &$form_state) {
     // Authentication with Drupal was successful
     return;
   }*/
-  
+
   // Set name for logging purposes
   $form_state['values']['name'] = $form_state['values']['email'];
-  
+
   // Bypass BOINC validation if passed the name of user 1
   $user_1 = user_load(1);
   if ($form_state['values']['email'] == $user_1->name) {
     user_authenticate($form_state['values']);
     return;
   }
-  
+
   // Call our custom authentication function to check for an existing BOINC user
   if (!boincuser_login_authenticate($form_state['values'])) {
     // Authentication failed; set an error accordingly
@@ -47,7 +47,7 @@ function boincuser_login_authenticate($form_values) {
   $lower_email_addr = strtolower($form_values['email']);
   $passwd = $form_values['pass'];
   $passwd_hash = md5($passwd.$lower_email_addr);
-  
+
   // Include BOINC user library
   require_boinc('boinc_db');
   require_boinc('user_util');
@@ -71,7 +71,7 @@ function boincuser_login_authenticate($form_values) {
 }
 
 /**
- * Allow pre-existing BOINC users to login and automatically create 
+ * Allow pre-existing BOINC users to login and automatically create
  * Drupal accounts
  */
 function boincuser_login_register($boinc_user) {
@@ -147,7 +147,7 @@ function boincuser_register_validate($form, &$form_state) {
 /**
  * Create BOINC account
  */
-function boincuser_register_make_user($params) {    
+function boincuser_register_make_user($params) {
   // Include BOINC user library
   require_boinc('user_util');
   // Create the BOINC user
@@ -177,7 +177,7 @@ function boincuser_create_drupal_user($boinc_user) {
   BoincForumPrefs::lookup($boinc_user);
   $account = NULL;
   $module = 'boincuser';
-  
+
   // Verify that this account has not already been imported
   $already_imported = db_result(db_query('
     SELECT COUNT(*) FROM {boincuser} WHERE boinc_id = %d',
@@ -186,10 +186,10 @@ function boincuser_create_drupal_user($boinc_user) {
   if ($already_imported) {
     return NULL;
   }
-  
+
   // Email is limited to 64 characters...
   $boinc_email = substr($boinc_user->email_addr, 0, 64);
-  
+
   // Email should be unique
   $already_imported = db_result(db_query("
     SELECT COUNT(*) FROM {users} WHERE mail = '%s'",
@@ -197,13 +197,13 @@ function boincuser_create_drupal_user($boinc_user) {
   );
   if ($already_imported) {
     drupal_set_message(t('An account for @email already exists', array('@email' => $boinc_email)), 'warning');
-    watchdog('boincimport', 'An account for @email already exists', array('@email' => $boinc_email), WATCHDOG_WARNING); 
+    watchdog('boincimport', 'An account for @email already exists', array('@email' => $boinc_email), WATCHDOG_WARNING);
     return NULL;
   }
-  
+
   // Make sure name is unique
   $unique_name = create_proper_drupalname($boinc_user->name);
-  
+
   $userinfo = array(
     'name' => $unique_name,
     'pass' => $boinc_user->passwd_hash,
@@ -215,33 +215,33 @@ function boincuser_create_drupal_user($boinc_user) {
     "authname_{$module}" => $boinc_email,
     'access' => time()
   );
-  
+
   $in_penalty = ($boinc_user->prefs->banished_until > time());
-  
+
   // Add user to community member role (if no current penalty)
   if (!$in_penalty) {
-    $community_role = array_search('community member', user_roles(true)); 
+    $community_role = array_search('community member', user_roles(true));
     $userinfo['roles'] = array(
       $community_role => ''
     );
   }
-  
+
   // Mark account as imported so a BOINC account is not created on Insert (i.e. user_save)
   $_SESSION['importedUser'] = true;
   $account = user_save('', $userinfo);
-  
+
   // Drupal overrides the original registration date, so update to the correct date
   $account = user_save($account, array('created' => $userinfo['created']));
-  
+
   // Terminate if an error occured during user_save().
   if (!$account) {
     drupal_set_message(t("Error saving user account."), 'error');
     return NULL;
   }
-  
+
   // Cross reference the Drupal and BOINC accounts
   boincuser_account_cross_reference($account->uid, $boinc_user->id);
-  
+
   if ($in_penalty) {
     // Import the timestamp of when the penalty period will be over
     $boincuser_record = array(
@@ -250,17 +250,17 @@ function boincuser_create_drupal_user($boinc_user) {
     );
     drupal_write_record('boincuser', $boincuser_record, 'uid');
   }
-  
+
   return $account;
 }
 
 function boincuser_create_drupal_profile($account, $boinc_user) {
-  
+
   require_boinc('forum_db');
   BoincForumPrefs::lookup($boinc_user);
-  
+
   $image_dir = boinc_get_path('user_image');
-  
+
   // Automatically create a content profile
   $now = time();
   $profile_background = null;
@@ -268,7 +268,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_image = null;
   $avatar_image = null;
   $profile_approved = NULL;
-  
+
   // Load the BOINC profile, if available
   if ($boinc_user->has_profile) {
     $boinc_profile = BoincProfile::lookup("userid={$boinc_user->id}");
@@ -292,13 +292,13 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $default_input_format = db_result(db_query("
     SELECT format FROM {filter_formats} WHERE name = '%s'", 'Rich text'));
   if (!$default_input_format) $default_input_format = 1;
-  
+
   // Populate the profile object
   $profile_node = new stdClass();
   $profile_node->title = $boinc_user->name;
   $profile_node->uid = $account->uid;
   $profile_node->body = '';
-  $profile_node->type = 'profile'; 
+  $profile_node->type = 'profile';
   $profile_node->created = $now;
   $profile_node->changed = $now;
   $profile_node->status = 1;
@@ -313,18 +313,18 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_node->field_opinions[]['value'] = $profile_opinions;
   $profile_node->field_image[] = $avatar_image;
   $profile_node->field_profile_image[] = $profile_image;
-  
+
   // Save the profile object to the database
   // This will automatically set the author uid if node->name has been set
   $profile_node = node_submit($profile_node);
   node_save($profile_node);
-  
+
   // Mark profile as approved if it has already been vetted somehow
   if ($profile_approved OR !$boinc_user->has_profile) {
     $profile_node->moderate = 0;
     node_save($profile_node);
   }
-  
+
   return;
 }
 
@@ -349,14 +349,14 @@ function boincuser_pull_subscriptions($account = NULL) {
   elseif (is_numeric($account)) {
     $account = user_load($account);
   }
-  
+
   // Get any subscriptions for this user
   db_set_active('boinc_rw');
   $subscriptions = db_query('
     SELECT threadid FROM {subscriptions}
     WHERE userid = %d', $account->boincuser_id);
   db_set_active('default');
-  
+
   $flag = flag_get_flag('subscriptions') or die('no "subscriptions" flag defined');
   $count = 0;
   while ($thread_id = db_result($subscriptions)) {
@@ -440,9 +440,9 @@ function boincuser_account_validate($edit, $account) {
   if ($changing_email AND !$changing_pass AND user_access('administer users')) {
     form_set_error('pass', bts('If changing a user\'s email, you must also change the password simultaneously.', array(), NULL, 'boinc:account-credentials-change'));
   }
-  
+
   // Expansion required to allow account key in place of passwd...?
-  
+
 }
 
 
@@ -524,7 +524,7 @@ function boincuser_authloginform() {
     '#required' => TRUE,
     '#description' => null
   );
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">',
@@ -587,7 +587,7 @@ function boincuser_moderate_profile_reject_form(&$form_state, $uid) {
     '#description' => bts('This reason will be included in an email to the user. Please write a brief explanation of the problem and how to fix it.', array(), NULL, 'boinc:moderate-user'),
     '#default_value' => '',
   );
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">',
@@ -638,7 +638,7 @@ function boincuser_moderate_user_ban_form(&$form_state, $uid) {
     '#description' => bts('The number of days until the ban expires. Set to 0 to ban permanently.', array(), NULL, 'boinc:moderate-user'),
     '#default_value' => '',
   );
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">',

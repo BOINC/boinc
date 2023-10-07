@@ -6,9 +6,10 @@
 # Updated 11/8/12 to add slide_show
 # Updated 4/14/15 for compatibility with Xcode 6
 # Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
+# Updated 2/6/23 to unify linked libraries and update freetype library dependency
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
-## This file assumes the locations of the needed libraries are those 
+## This file assumes the locations of the needed libraries are those
 ## resulting from following the instructions found in the file:
 ##     boinc/mac_build/HowToBuildBOINC_XCode.rtf
 #
@@ -19,7 +20,7 @@ BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
-FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.4.10
+FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.11.0
 FTGL_DIR = $(BOINC_DIR)/../ftgl-2.1.3~rc5
 FRAMEWORKS_DIR = /System/Library/Frameworks
 
@@ -34,9 +35,12 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_ZIP_DIR) \
     -I$(FREETYPE_DIR)/include \
     -I$(FTGL_DIR)/src \
+    -I$(PREFIX)/include \
+    -I$(PREFIX)/include/freetype2 \
     -L$(BOINC_BUILD_DIR) \
-    -L$(FREETYPE_DIR)//objs/.libs \
+    -L$(FREETYPE_DIR)/objs/.libs \
     -L$(FTGL_DIR)/src/.libs \
+    -L$(PREFIX)/lib \
     -L.
 
 OBJ = \
@@ -51,7 +55,7 @@ all: $(PROGS)
 
 clean:
 	/bin/rm -f $(PROGS) $(OBJ)
-    
+
 uc2.o: uc2.cpp
 	$(CXX) $(CXXFLAGS) -c uc2.cpp
 
@@ -78,4 +82,4 @@ slide_show: slide_show.o $(BOINC_BUILD_DIR)/libboinc.a\
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o slide_show slide_show.o\
     -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lboinc_zip\
     -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
-    
+

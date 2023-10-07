@@ -1,6 +1,5 @@
 {
     "name": "boinc-libs",
-    "version-string": "7.21.0",
     "dependencies":
     [
         {
@@ -9,5 +8,5 @@
           "default-features": false
         },
         "openssl"
-    ]   
+    ]
 }

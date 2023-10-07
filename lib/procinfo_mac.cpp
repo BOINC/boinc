@@ -51,7 +51,7 @@ int procinfo_setup(PROC_MAP& pm) {
     char* lf;
     static long iBrandID = -1;
     std::string old_locale;
-    
+
     // For branded installs, the Mac installer put a branding file in our data directory
     FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
     if (f) {
@@ -84,23 +84,23 @@ int procinfo_setup(PROC_MAP& pm) {
 // time       accumulated cpu time, user + system
 // vsz        virtual size in Kbytes
 //
-// Unfortunately, the selectors majflt, minflt, pagein do not work on OS X, 
-// and ps does not return kernel time separately from user time.  
+// Unfortunately, the selectors majflt, minflt, pagein do not work on OS X,
+// and ps does not return kernel time separately from user time.
 //
-// Earlier versions of procinf_mac.C launched a small helper application 
-// AppStats using a bi-directional pipe.  AppStats used mach ports to get 
+// Earlier versions of procinf_mac.C launched a small helper application
+// AppStats using a bi-directional pipe.  AppStats used mach ports to get
 // all the information, including page fault counts, kernel and user times.
 // In order to use mach ports, AppStats must run setuid root.
 //
-// But these three items are not actually used (page fault counts aren't 
-// available from Windows either) so we have reverted to using the ps 
+// But these three items are not actually used (page fault counts aren't
+// available from Windows either) so we have reverted to using the ps
 // utility, even though it takes more cpu time than AppStats did.
-// This eliminates the need to install our own application which runs setuid 
+// This eliminates the need to install our own application which runs setuid
 // root; this was perceived by some users as a security risk.
 
 // Under OS 10.8.x (only) ps writes a spurious warning to stderr if called
 // from a process that has the DYLD_LIBRARY_PATH environment variable set.
-// "env -i command" prevents the command from inheriting the caller's 
+// "env -i command" prevents the command from inheriting the caller's
 // environment, which avoids the spurious warning.
     fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
     if (!fd) return ERR_FOPEN;
@@ -114,16 +114,16 @@ int procinfo_setup(PROC_MAP& pm) {
         }
     } while (c != '\n');
 
-    // Ensure %lf works correctly if called from non-English Manager 
+    // Ensure %lf works correctly if called from non-English Manager
     old_locale = setlocale(LC_ALL, NULL);
     setlocale(LC_ALL, "C");
-    
+
     while (1) {
         p.clear();
         c = fscanf(fd, "%d%d%d%d%lu%d:%lf ",
             &p.id,
             &p.parentid,
-            &real_mem, 
+            &real_mem,
             &virtual_mem,
             &p.page_fault_count,
             &hours,
@@ -155,7 +155,7 @@ int procinfo_setup(PROC_MAP& pm) {
 
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
     }
-    
+
     pclose(fd);
 
 #if SHOW_TIMING
@@ -163,7 +163,7 @@ int procinfo_setup(PROC_MAP& pm) {
     elapsed = AbsoluteToNanoseconds(SubAbsoluteFromAbsolute(end, start));
     msg_printf(NULL, MSG_INFO, "elapsed time = %llu, m_swap = %lf\n", elapsed, gstate.host_info.m_swap);
 #endif
-    
+
     find_children(pm);
 
     setlocale(LC_ALL, old_locale.c_str());
@@ -196,7 +196,7 @@ double total_cpu_time() {
     if (err != KERN_SUCCESS) {
         return 0.0;
     }
-    
+
     for (natural_t i = 0; i < processorCount; i++) {
         // Calc user and nice CPU usage, with guards against 32-bit overflow
         // (values are natural_t)

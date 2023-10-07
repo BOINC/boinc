@@ -404,6 +404,8 @@ static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
 int HTTP_OP::libcurl_exec(
     const char* url, const char* in, const char* out, double offset,
 #ifdef _WIN32
+    // expected size of file we're downloading.
+    // on Win, pre-allocate this file to reduce disk fragmentation
     double size,
 #else
     double,
@@ -559,6 +561,12 @@ int HTTP_OP::libcurl_exec(
         pcurlList = curl_slist_append(pcurlList, buf);
     }
 
+    // if this is a post, set content type (always text/xml)
+    //
+    if (is_post) {
+        pcurlList = curl_slist_append(pcurlList, "Content-type: text/xml");
+    }
+
     // set up an output file for the reply
     //
     if (strlen(outfile)) {
@@ -680,9 +688,9 @@ int HTTP_OP::libcurl_exec(
     }
 
 #ifdef __APPLE__
-    // cURL 7.19.7 with c-ares 1.7.0 did not fall back to IPv4 when IPv6 
-    // DNS lookup failed on Macs with certain default settings if connected 
-    // to the Internet by an AT&T U-Verse 2-Wire Gateway.  This work-around 
+    // cURL 7.19.7 with c-ares 1.7.0 did not fall back to IPv4 when IPv6
+    // DNS lookup failed on Macs with certain default settings if connected
+    // to the Internet by an AT&T U-Verse 2-Wire Gateway.  This work-around
     // may not be needed any more for cURL 7.21.7, but keep it to be safe.
     curl_easy_setopt(curlEasy, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 #endif
@@ -796,7 +804,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             } else {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             }
-            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials), 
+            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials),
                 "%s:%s",
                 pi.http_user_name, pi.http_user_passwd
             );
@@ -817,7 +825,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         if (
             strlen(pi.socks5_user_passwd) || strlen(pi.socks5_user_name)
         ) {
-            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials), 
+            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials),
                 "%s:%s",
                 pi.socks5_user_name, pi.socks5_user_passwd
             );

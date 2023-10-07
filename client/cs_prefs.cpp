@@ -119,7 +119,7 @@ int CLIENT_STATE::get_disk_usages() {
 // - each project has a "disk_resource_share" (DRS)
 //   This is the resource share plus .1*(max resource share).
 //   This ensures that backup projects get some disk.
-// - each project has a "desired_disk_usage (DDU)", 
+// - each project has a "desired_disk_usage (DDU)",
 //   which is either its current usage
 //   or an amount sent from the scheduler.
 // - each project has a "quota": (available space)*(drs/total_drs).
@@ -265,17 +265,28 @@ int CLIENT_STATE::check_suspend_processing() {
     }
 
 #ifdef ANDROID
+    // suspend if we haven't heard from the GUI in 30 sec
+    // (we rely on it for battery info)
+    //
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
         requested_exit = true;
         return SUSPEND_REASON_NO_GUI_KEEPALIVE;
     }
 
     // check for hot battery
+    // If suspend because of hot battery, don't resume for at least 5 min
+    // (crude hysteresis)
     //
+    static double battery_heat_resume_time=0;
+    if (now < battery_heat_resume_time) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
     if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
+        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
     if (device_status.battery_temperature_celsius > global_prefs.battery_max_temperature) {
+        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
 
@@ -283,13 +294,18 @@ int CLIENT_STATE::check_suspend_processing() {
     // while it's recharging.
     // So compute only if 95% charged or more.
     //
+    static double battery_charge_resume_time=0;
+    if (now < battery_charge_resume_time) {
+        return SUSPEND_REASON_BATTERY_CHARGING;
+    }
     int cp = device_status.battery_charge_pct;
     if (cp >= 0) {
         if (cp < global_prefs.battery_charge_min_pct) {
+            battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
     }
-    
+
     // user active.
     // Do this check after checks that user can not influence on Android.
     // E.g.
@@ -417,7 +433,7 @@ void CLIENT_STATE::check_suspend_network() {
     );
 
     switch(network_run_mode.get_current()) {
-    case RUN_MODE_ALWAYS: 
+    case RUN_MODE_ALWAYS:
         goto done;
     case RUN_MODE_NEVER:
         file_xfers_suspended = true;
@@ -463,7 +479,7 @@ void CLIENT_STATE::check_suspend_network() {
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
     }
-#endif    
+#endif
     if (global_prefs.net_times.suspended(now)) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
@@ -837,7 +853,7 @@ void CLIENT_STATE::print_global_prefs() {
     //
     msg_printf(NULL, MSG_INFO, "-  When computer is in use");
     msg_printf(NULL, MSG_INFO,
-        "-     'In use' means mouse/keyboard input in last %.1f minutes",
+        "-     'In use' means mouse/keyboard input in last %.2f minutes",
         global_prefs.idle_time_to_run
     );
     if (!global_prefs.run_if_user_active) {
@@ -898,8 +914,18 @@ void CLIENT_STATE::print_global_prefs() {
     );
     if (global_prefs.suspend_if_no_recent_input > 0) {
         msg_printf(NULL, MSG_INFO,
-            "-     Suspend if no input in last %f minutes",
+            "-     Suspend if no input in last %.2f minutes",
             global_prefs.suspend_if_no_recent_input
+        );
+    }
+    // It is possible that computing (CPU or GPU) could be suspended indefinitely if the idle time required before continuing computing
+    // is longer than the time required to suspend computing when the computer is idle.  In this case an alert message will be sent.
+    //
+    if ((!global_prefs.run_if_user_active || !global_prefs.run_gpu_if_user_active) && (global_prefs.suspend_if_no_recent_input > 0) &&
+        ((global_prefs.idle_time_to_run - global_prefs.suspend_if_no_recent_input) >= 0)) {
+        msg_printf(0, MSG_USER_ALERT,
+            "Preference settings don't allow computing (%.2f > %.2f). Please review.",
+            global_prefs.idle_time_to_run, global_prefs.suspend_if_no_recent_input
         );
     }
 

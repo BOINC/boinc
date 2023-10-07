@@ -81,7 +81,7 @@ function start_vote($config,$logged_in_user,$user,$category,$reason) {
     echo "Banishment vote started.<p><p>";
     current_tally($voteid);
     return send_banish_vote_email($user, 86400*14, $reason, $now+21600);
-}    
+}
 
 function vote_yes($config,$logged_in_user,$user) {
     $now=time();

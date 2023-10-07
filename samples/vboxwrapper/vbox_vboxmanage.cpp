@@ -274,11 +274,11 @@ namespace vboxmanage {
         command  = "modifyvm \"" + vm_name + "\" ";
         if (boot_iso) {
             command += "--boot1 dvd ";
-            command += "--boot2 disk ";        
+            command += "--boot2 disk ";
         } else {
             command += "--boot1 disk ";
             command += "--boot2 dvd ";
-        } 
+        }
         command += "--boot3 none ";
         command += "--boot4 none ";
 
@@ -1289,7 +1289,7 @@ namespace vboxmanage {
 				suspended = false;
 				crashed = false;
 				if (log_state) {
-					vboxlog_msg("VM is no longer is a running state. It is in '%s'.", 
+					vboxlog_msg("VM is no longer is a running state. It is in '%s'.",
 					             vmstate.c_str());
 				}
 			}
@@ -1392,7 +1392,11 @@ namespace vboxmanage {
                 vboxlog_msg("VM did not stop when requested.");
 
                 // Attempt to terminate the VM
-                retval = kill_program(vm_pid);
+#ifdef _WIN32
+                retval = kill_process(vm_pid_handle);
+#else
+                retval = kill_process(vm_pid);
+#endif
                 if (retval) {
                     vboxlog_msg("VM was NOT successfully terminated.");
                 } else {
@@ -1435,7 +1439,11 @@ namespace vboxmanage {
                 vboxlog_msg("VM did not power off when requested.");
 
                 // Attempt to terminate the VM
-                retval = kill_program(vm_pid);
+#ifdef _WIN32
+                retval = kill_process(vm_pid_handle);
+#else
+                retval = kill_process(vm_pid);
+#endif
                 if (retval) {
                     vboxlog_msg("VM was NOT successfully terminated.");
                 } else {
@@ -1583,7 +1591,7 @@ namespace vboxmanage {
         //
         // Traverse the list from newest to oldest.  Otherwise we end up with an error:
         //   VBoxManage.exe: error: Snapshot operation failed
-        //   VBoxManage.exe: error: Hard disk 'C:\ProgramData\BOINC\slots\23\vm_image.vdi' has 
+        //   VBoxManage.exe: error: Hard disk 'C:\ProgramData\BOINC\slots\23\vm_image.vdi' has
         //     more than one child hard disk (2)
         //
 
@@ -1756,7 +1764,7 @@ namespace vboxmanage {
         command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
         if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
 
-            if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
+            if ((output.find("VBOX_E_FILE_ERROR") == string::npos) &&
 
                     (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
                     (output.find("does not match the value") == string::npos)
@@ -1769,7 +1777,7 @@ namespace vboxmanage {
         if (enable_isocontextualization && enable_cache_disk) {
             command = "showhdinfo \"" + virtual_machine_root_dir + "/" + cache_disk_filename + "\" ";
             if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-                if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
+                if ((output.find("VBOX_E_FILE_ERROR") == string::npos) &&
                         (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
                         (output.find("does not match the value") == string::npos)
                    ) {
@@ -1806,9 +1814,9 @@ namespace vboxmanage {
 
         // change the current directory to the boinc data directory if it exists
         lReturnValue = RegOpenKeyEx(
-                HKEY_LOCAL_MACHINE, 
-                _T("SOFTWARE\\Oracle\\VirtualBox"),  
-                0, 
+                HKEY_LOCAL_MACHINE,
+                _T("SOFTWARE\\Oracle\\VirtualBox"),
+                0,
                 KEY_READ,
                 &hkSetupHive
                 );
@@ -1828,7 +1836,7 @@ namespace vboxmanage {
                 (*lpszRegistryValue) = NULL;
 
                 // Now get the data
-                lReturnValue = RegQueryValueEx( 
+                lReturnValue = RegQueryValueEx(
                         hkSetupHive,
                         _T("InstallDir"),
                         NULL,
@@ -2114,7 +2122,7 @@ namespace vboxmanage {
     }
 
     // Enable the network adapter if a network connection is required.
-    // NOTE: Network access should never be allowed if the code running in a 
+    // NOTE: Network access should never be allowed if the code running in a
     //   shared directory or the VM image itself is NOT signed.  Doing so
     //   opens up the network behind the company firewall to attack.
     //

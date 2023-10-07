@@ -72,13 +72,11 @@ function show_user_row($user, $i) {
     ";
 }
 
-$sort_by = get_str("sort_by", true);
-switch ($sort_by) {
-case "total_credit":
-case "expavg_credit":
-    break;
-default:
-    $sort_by = "expavg_credit";
+$sort_by = get_str('sort_by', true);
+if ($sort_by) {
+    sanitize_sort_by($sort_by);
+} else {
+    $sort_by = 'expavg_credit';
 }
 
 $offset = get_int("offset", true);

@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCMasterRights::CAGrantBOINCMasterRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CAGrantBOINCMasterRights::CAGrantBOINCMasterRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCMasterRights::~CAGrantBOINCMasterRights()
@@ -54,10 +54,10 @@ CAGrantBOINCMasterRights::~CAGrantBOINCMasterRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGrantBOINCMasterRights::OnExecution()
@@ -88,7 +88,7 @@ UINT CAGrantBOINCMasterRights::OnExecution()
             strBOINCMasterAccountUsername.c_str(),   // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -107,7 +107,7 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -121,7 +121,7 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -139,7 +139,7 @@ UINT CAGrantBOINCMasterRights::OnExecution()
             {
                 LogMessage(
                     INSTALLMESSAGE_ERROR,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     NULL,
@@ -183,7 +183,7 @@ UINT CAGrantBOINCMasterRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -203,7 +203,7 @@ UINT CAGrantBOINCMasterRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GrantBOINCMasterRights
 //
 // Description: This custom action reads the BOINC_MASTER_USERNAME

@@ -234,7 +234,7 @@ void hr_count_slots() {
 // Enumerate jobs from DB until find one that is not already in the work array.
 // If find one, return true.
 // If reach end of enum for second time on this array scan, return false
-// 
+//
 static bool get_job_from_db(
     DB_WORK_ITEM& wi,    // enumerator to get job from
     int app_index,       // if using --allapps, the app index
@@ -244,7 +244,7 @@ static bool get_job_from_db(
     bool collision;
     int retval, j, enum_size;
     char select_clause[256];
-    
+
     if (all_apps) {
         sprintf(select_clause, "%s and r1.appid=%lu",
             mod_select_clause, ssp->apps[app_index].id
@@ -301,7 +301,7 @@ static bool get_job_from_db(
 #endif
                 continue;
             }
-            
+
             // if the WU had an error, mark result as DIDNT_NEED
             //
             if (wi.wu.error_mask) {
@@ -458,7 +458,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
     int enum_phase[napps];
     int app_index;
     int nadditions=0, ncollisions=0;
-    
+
     for (i=0; i<napps; i++) {
         if (work_items[i].cursor.active) {
             enum_phase[i] = ENUM_FIRST_PASS;
@@ -557,7 +557,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
 void feeder_loop() {
     vector<DB_WORK_ITEM> work_items;
     double next_av_update_time=0;
-    
+
     // may need one enumeration per app; create vector
     //
     work_items.resize(napps);
@@ -765,7 +765,7 @@ int main(int argc, char** argv) {
                 "ORDER BY rank LIMIT %d)#",
                 enum_limit
             );
-            order_clause = order_buf;      
+            order_clause = order_buf;
         } else if (is_arg(argv[i], "purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
         } else if (is_arg(argv[i], "appids")) {

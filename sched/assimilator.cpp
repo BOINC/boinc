@@ -17,7 +17,7 @@
 
 // Main program for an assimilator.
 // Link this with an application-specific function assimilate_handler()
-// See https://boinc.berkeley.edu/trac/wiki/AssimilateIntro
+// See https://github.com/BOINC/boinc/wiki/AssimilateIntro
 
 #include "config.h"
 #include <cstring>

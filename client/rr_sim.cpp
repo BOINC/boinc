@@ -52,19 +52,6 @@
 
 using std::vector;
 
-inline void rsc_string(RESULT* rp, char* buf, int len) {
-    APP_VERSION* avp = rp->avp;
-    if (avp->gpu_usage.rsc_type) {
-        snprintf(buf, len,
-            "%.2f CPU + %.2f %s",
-            avp->avg_ncpus, avp->gpu_usage.usage,
-            rsc_name_long(avp->gpu_usage.rsc_type)
-        );
-    } else {
-        snprintf(buf, len, "%.2f CPU", avp->avg_ncpus);
-    }
-}
-
 // set "nused" bits of the source bitmap in the dest bitmap
 //
 static inline void set_bits(
@@ -205,7 +192,7 @@ void RR_SIM::init_pending_lists() {
         rp->already_selected = false;
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
-        if (rp->project->non_cpu_intensive) continue;
+        if (rp->always_run()) continue;
         rp->rrsim_flops_left = rp->estimated_flops_remaining();
 
         //if (rp->rrsim_flops_left <= 0) continue;
@@ -273,10 +260,10 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
-            unsigned int s = rsc_pwf.pending.size();
+            size_t s = rsc_pwf.pending.size();
 #if 0
             if (log_flags.rrsim_detail) {
-                msg_printf(p, MSG_INFO, "[rr_sim] %u jobs for rsc %u", s, rt);
+                msg_printf(p, MSG_INFO, "[rr_sim] %u jobs for rsc %zu", s, rt);
             }
 #endif
             if (s == 0) continue;
@@ -314,7 +301,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 adjust_rec_sched(rp);
                 if (log_flags.rrsim_detail && !rp->already_selected) {
                     char buf[256];
-                    rsc_string(rp, buf, sizeof(buf));
+                    rp->rsc_string(buf, sizeof(buf));
                     msg_printf(rp->project, MSG_INFO,
                         "[rr_sim_detail] %.2f: starting %s (%s) (%.2fG/%.2fG)",
                         reltime, rp->name, buf, rp->rrsim_flops_left/1e9,
@@ -558,7 +545,7 @@ void RR_SIM::simulate() {
             pbest = rpbest->project;
             if (log_flags.rr_simulation) {
                 char buf[256];
-                rsc_string(rpbest, buf, sizeof(buf));
+                rpbest->rsc_string(buf, sizeof(buf));
                 msg_printf(pbest, MSG_INFO,
                     "[rr_sim] %.2f: %s finishes (%s) (%.2fG/%.2fG)",
                     sim_now + delta_t - gstate.now,
@@ -698,15 +685,14 @@ void rr_simulation(const char* why) {
     rr_sim.simulate();
 }
 
-// Compute the number of idle instances of each resource
+// Compute the number resources with > 0 idle instance
 // Put results in global state (rsc_work_fetch)
-// This is used from the account manager logic,
+// This is called from the account manager logic,
 // to decide if we need to get new projects from the AM.
-// ?? why not use RR sim result?
 //
-void get_nidle() {
+int n_idle_resources() {
     int nidle_rsc = coprocs.n_rsc;
-    for (int i=1; i<coprocs.n_rsc; i++) {
+    for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].nidle_now = coprocs.coprocs[i].count;
     }
     for (unsigned int i=0; i<gstate.results.size(); i++) {
@@ -738,13 +724,5 @@ void get_nidle() {
             break;
         }
     }
-}
-
-bool any_resource_idle() {
-    for (int i=1; i<coprocs.n_rsc; i++) {
-        if (rsc_work_fetch[i].nidle_now > 0) {
-            return true;
-        }
-    }
-    return false;
+    return nidle_rsc;
 }

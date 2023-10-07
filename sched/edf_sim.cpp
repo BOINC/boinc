@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,11 +22,7 @@
 // This hasn't been shown to be beneficial.
 // It's turned off by default.
 
-#ifndef _USING_FCGI_
-#include <cstdio>
-#else
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 #include <vector>
 #include <algorithm>

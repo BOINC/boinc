@@ -92,24 +92,6 @@ def set_build_gradle(version):
                 line = f'    def version = \'{version} : DEVELOPMENT\'\n'
             f.write(line)
 
-def set_vcpkg_json(version):
-    for json in ['3rdParty/vcpkg_ports/configs/libs/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/libs/windows/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/client/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/apps/android/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/apps/linux/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/apps/mingw/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/msbuild/x64/vcpkg.json',
-                 '3rdParty/vcpkg_ports/configs/msbuild/ARM64/vcpkg.json',
-                ]:
-        with open(json, 'r') as f:
-            lines = f.readlines()
-        with open(json, 'w') as f:
-            for line in lines:
-                if line.startswith('    "version-string":'):
-                    line = f'    "version-string": "{version}",\n'
-                f.write(line)
-
 def set_installshield(version):
     for ism in ['win_build/installerv2/BOINCx64_vbox.ism', 'win_build/installerv2/BOINCx64.ism']:
         with open(ism, 'r') as f:
@@ -119,6 +101,24 @@ def set_installshield(version):
                 if line.startswith('		<row><td>ProductVersion</td><td>'):
                     line = f'		<row><td>ProductVersion</td><td>{version}</td><td/></row>\n'
                 f.write(line)
+
+def set_snapcraft(version):
+    with open('snap/snapcraft.yaml','r') as f:
+        lines = f.readlines()
+    with open('snap/snapcraft.yaml','w') as f:
+        for line in lines:
+            if line.startswith('version:'):
+                line = f'version: "{version}"\n'
+            f.write(line)
+
+def set_snap_boinc_desktop(version):
+    with open('snap/gui/boinc.desktop','r') as f:
+        lines = f.readlines()
+    with open('snap/gui/boinc.desktop','w') as f:
+        for line in lines:
+            if line.startswith('version='):
+                line = f'version="{version}"\n'
+            f.write(line)
 
 if (len(sys.argv) != 2):
     print('Usage: set-client-version.py VERSION')
@@ -139,8 +139,9 @@ set_version_h(version)
 set_version_h_in(version)
 set_version_log(version)
 set_build_gradle(version)
-set_vcpkg_json(version)
 set_installshield(version)
+set_snapcraft(version)
+set_snap_boinc_desktop(version)
 
 if (os.name == 'posix' and sys.platform != 'darwin'):
     print('Running autosetup...')

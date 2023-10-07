@@ -72,10 +72,8 @@ CLIENT_STATE gstate;
 COPROCS coprocs;
 
 #ifndef SIM
-#ifdef NEW_CPU_THROTTLE
-THREAD_LOCK client_mutex;
+THREAD_LOCK client_thread_mutex;
 THREAD throttle_thread;
-#endif
 #endif
 
 CLIENT_STATE::CLIENT_STATE()
@@ -188,6 +186,7 @@ CLIENT_STATE::CLIENT_STATE()
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
+    have_sporadic_app = false;
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -365,7 +364,7 @@ void CLIENT_STATE::set_now() {
 #ifdef _WIN32
     // On Win, check for evidence that we're awake after a suspension
     // (in case we missed the event announcing this)
-    // 
+    //
     if (os_requested_suspend) {
         if (x > now+10) {
             msg_printf(0, MSG_INFO, "Resuming after OS suspension");
@@ -586,9 +585,9 @@ int CLIENT_STATE::init() {
         }
     }
     coprocs.add_other_coproc_types();
-    
+
     host_info.coprocs = coprocs;
-    
+
     if (coprocs.none() ) {
         msg_printf(NULL, MSG_INFO, "No usable GPUs found");
     }
@@ -612,6 +611,10 @@ int CLIENT_STATE::init() {
     // for projects with no account file
     //
     parse_state_file();
+
+    if (app_test) {
+        app_test_init();
+    }
 
     bool new_client = is_new_client();
 
@@ -759,10 +762,14 @@ int CLIENT_STATE::init() {
     process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
+
     // if project_init.xml specifies an account, attach
     //
     if (strlen(project_init.url) && strlen(project_init.account_key)) {
-        add_project(project_init.url, project_init.account_key, project_init.name, false);
+        add_project(
+            project_init.url, project_init.account_key, project_init.name, "",
+            false
+        );
         project_init.remove();
     }
 
@@ -810,7 +817,7 @@ int CLIENT_STATE::init() {
 #endif
 
     http_ops->cleanup_temp_files();
-    
+
     // must parse env vars after parsing state file
     // otherwise items will get overwritten with state file info
     //
@@ -849,10 +856,11 @@ int CLIENT_STATE::init() {
     //
     project_priority_init(false);
 
-#ifdef NEW_CPU_THROTTLE
-    client_mutex.lock();
+    client_thread_mutex.lock();
     throttle_thread.run(throttler, NULL);
-#endif
+
+    sporadic_init();
+
     initialized = true;
     return 0;
 }
@@ -891,9 +899,8 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         // otherwise do it for the remaining amount of time.
 
         double_to_timeval(have_async?0:time_remaining, tv);
-#ifdef NEW_CPU_THROTTLE
-        client_mutex.unlock();
-#endif
+        client_thread_mutex.unlock();
+
         if (all_fds.max_fd == -1) {
             boinc_sleep(time_remaining);
             n = 0;
@@ -905,9 +912,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
             );
         }
         //printf("select in %d out %d\n", all_fds.max_fd, n);
-#ifdef NEW_CPU_THROTTLE
-        client_mutex.lock();
-#endif
+        client_thread_mutex.lock();
 
         // Note: curl apparently likes to have curl_multi_perform()
         // (called from net_xfers->got_select())
@@ -947,6 +952,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
 // possibly triggering state transitions.
 // Returns true if something happened
 // (in which case should call this again immediately)
+// Called every POLL_INTERVAL (1 sec)
 //
 bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, retval;
@@ -1160,6 +1166,9 @@ bool CLIENT_STATE::poll_slow_events() {
     if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }
+    if (have_sporadic_app) {
+        sporadic_poll();
+    }
     retval = write_state_file_if_needed();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -1267,6 +1276,9 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, const char* name) {
 int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
     if (lookup_app(p, app->name)) return ERR_NOT_UNIQUE;
     app->project = p;
+    if (!app->non_cpu_intensive) {
+        p->non_cpu_intensive = false;
+    }
     return 0;
 }
 
@@ -1634,7 +1646,9 @@ bool CLIENT_STATE::garbage_collect_always() {
             }
             rp->output_files[i].file_info->ref_cnt++;
         }
-#ifndef SIM
+#ifdef SIM
+        (void)found_error;
+#else
         if (found_error) {
             // check for process still running; this can happen
             // e.g. if an intermediate upload fails
@@ -1806,7 +1820,7 @@ bool CLIENT_STATE::update_results() {
             break;
 #ifndef SIM
         case RESULT_FILES_DOWNLOADING:
-            if (input_files_available(rp, false) == 0) {
+            if (task_files_present(rp, false) == 0) {
                 if (rp->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //

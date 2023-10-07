@@ -28,10 +28,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateAcctMgrLoginFile::CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle) :
@@ -40,10 +40,10 @@ CACreateAcctMgrLoginFile::CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateAcctMgrLoginFile::~CACreateAcctMgrLoginFile()
@@ -53,10 +53,10 @@ CACreateAcctMgrLoginFile::~CACreateAcctMgrLoginFile()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CACreateAcctMgrLoginFile::OnExecution()
@@ -85,7 +85,7 @@ UINT CACreateAcctMgrLoginFile::OnExecution()
         strAcctMgrLoginFile = strDataDirectory + _T("\\acct_mgr_login.xml");
 
         FILE* fAcctMgrLoginFile = _tfopen(strAcctMgrLoginFile.c_str(), _T("w"));
-        
+
         _ftprintf(
             fAcctMgrLoginFile,
             _T("<acct_mgr_login>\n")
@@ -104,10 +104,10 @@ UINT CACreateAcctMgrLoginFile::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    CreateAcctMgrLoginFile
 //
-// Description: This custom action stores the account manager login data 
+// Description: This custom action stores the account manager login data
 //                specified on the commandline in a file in the data
 //                directory.
 //

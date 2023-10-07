@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -120,11 +120,7 @@ struct SCHED_SHMEM {
     int scan_tables();
     bool no_work(int pid);
     void restore_work(int pid);
-#ifndef _USING_FCGI_
     void show(FILE*);
-#else
-    void show(FCGI_FILE*);
-#endif
 
     APP* lookup_app(DB_ID_TYPE);
     APP* lookup_app_name(char*);

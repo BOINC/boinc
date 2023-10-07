@@ -194,6 +194,7 @@ char remote_desktop_addr[256];
 bool send_remote_desktop_addr = false;
 int app_min_checkpoint_period = 0;
     // min checkpoint period requested by app
+SPORADIC_AC_STATE ac_state;
 
 #define TIMER_PERIOD 0.1
     // Sleep interval for timer thread;
@@ -274,7 +275,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         strlcpy(sbuf, "localtime() failed", len);
         return sbuf;
     }
-    if (strftime(buf, sizeof(buf)-1, "%H:%M:%S", tmp) == 0) {
+    if (strftime(buf, sizeof(buf)-1, "%F %H:%M:%S", tmp) == 0) {
         strlcpy(sbuf, "strftime() failed", len);
         return sbuf;
     }
@@ -434,6 +435,10 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", bytes_received);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
+    if (ac_state) {
+        sprintf(buf, "<sporadic_ac>%d</sporadic_ac>\n", ac_state);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
+    }
 #ifdef MSGS_FROM_FILE
     if (fout) {
         fputs(msg_buf, fout);
@@ -450,6 +455,7 @@ static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     double dtemp;
     bool btemp;
+    int i;
 
     if (!app_client_shm->shm->heartbeat.get_msg(buf)) {
         return;
@@ -466,6 +472,9 @@ static void handle_heartbeat_msg() {
     }
     if (parse_bool(buf, "suspend_network", btemp)) {
         boinc_status.network_suspended = btemp;
+    }
+    if (parse_int(buf, "<sporadic_ca>", i)) {
+        boinc_status.ca_state = (SPORADIC_CA_STATE)i;
     }
 }
 
@@ -714,6 +723,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
 }
 
 int boinc_get_status(BOINC_STATUS *s) {
+    // can just do a struct copy??
     s->no_heartbeat = boinc_status.no_heartbeat;
     s->suspended = boinc_status.suspended;
     s->quit_request = boinc_status.quit_request;
@@ -722,6 +732,7 @@ int boinc_get_status(BOINC_STATUS *s) {
     s->working_set_size = boinc_status.working_set_size;
     s->max_working_set_size = boinc_status.max_working_set_size;
     s->network_suspended = boinc_status.network_suspended;
+    s->ca_state = boinc_status.ca_state;
     return 0;
 }
 
@@ -1032,6 +1043,7 @@ static int suspend_activities(bool called_from_worker) {
     );
 #endif
 #ifdef _WIN32
+    (void) called_from_worker;  // suppress warning
     static vector<int> pids;
     if (options.multi_thread) {
         if (pids.size() == 0) {
@@ -1696,3 +1708,12 @@ void boinc_remote_desktop_addr(char* addr) {
     strlcpy(remote_desktop_addr, addr, sizeof(remote_desktop_addr));
     send_remote_desktop_addr = true;
 }
+
+void boinc_sporadic_set_ac_state(SPORADIC_AC_STATE a) {
+    ac_state = a;
+}
+
+SPORADIC_CA_STATE boinc_sporadic_get_ca_state() {
+    return boinc_status.ca_state;
+}
+

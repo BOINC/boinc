@@ -28,7 +28,7 @@ function boincwork_menu() {
   $items['account/prefs'] = array(
     'title' => 'Computing',
     'description' => '',
-    'page callback' => 'generalprefs_page', 
+    'page callback' => 'generalprefs_page',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_NORMAL_ITEM
   );
@@ -306,24 +306,24 @@ function boincwork_cron() {
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
- 
+
 /**
   * General preferences menu callback.
   * Called when user goes to edit preferences page
   */
 function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
-  
+
   // Keep the venue selected across preference pages
   boincwork_select_venue($venue);
-  
+
   $pref_sets = array('generic', 'home', 'school', 'work');
   $output = null;
   // Set the page title
   $title = 'Computing';
   drupal_set_title($title);
-  
+
   switch ($action) {
-  
+
   case 'clear':
     // Remove settings from this preference set
     if ($venue AND $venue != 'generic') {
@@ -335,10 +335,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     }
     drupal_goto();
     break;
-    
+
   case 'combined':
     // Compare preference sets; tabular view
-    
+
     foreach ($pref_sets as $pref_set) {
       $form_state = array();
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
@@ -349,11 +349,11 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.', array(), NULL, 'boinc:account-preferences-computing') . '</p>';
     $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value'])), NULL, 'boinc:account-preferences') . '</p>';
     $output .= '<h2>' . bts('Combined preferences', array(), NULL, 'boinc:account-preferences') . ' ' . l('(' . bts('Switch View', array(), NULL, 'boinc:account-preferences') . ')', 'account/prefs/computing') . '</h2>';
-    
+
     $output .= '<table class="preferences combined">';
-    
+
     $prefs_table = boincwork_make_prefs_table($prefs['generic']['prefs']['advanced']);
-    
+
     foreach ($prefs_table as $category => $section) {
       $output .= '<tr class="section-heading">';
       $output .= "<td>{$section['name']}</td>";
@@ -387,7 +387,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
         // Output values for each preference set, again with ugly hacks for
         // time range preferences
         foreach ($pref_sets as $pref_set) {
-          if (($prefs[$pref_set]) AND 
+          if (($prefs[$pref_set]) AND
               $prefs[$pref_set]['#established'] AND
               isset($prefs[$pref_set]['prefs']['advanced'][$category])) {
             $pref_setting = $prefs[$pref_set]['prefs']['advanced'][$category][$name];
@@ -417,7 +417,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
         $output .= '</tr>';
       }
     }
-    
+
     // Empty line above action links... :/
     $output .= '<tr>';
     $output .= '<td>&nbsp;</td>';
@@ -426,7 +426,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     $output .= '<td></td>';
     $output .= '<td></td>';
     $output .= '</td>';
-    
+
     // Show Add / Edit links for each preference set
     $output .= '<tr>';
     $output .= '<td></td>';
@@ -451,14 +451,14 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $output .= '</li></ul></td>';
     }
     $output .= '</tr>';
-    
+
     $output .= '</table>';
-    
+
     break;
-    
+
   case 'edit':
   default:
-  
+
     // Return the HTML generated from the $form data structure.
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/computing/edit';
@@ -471,7 +471,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
       drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
-      
+
       $output .= '<div id="venue-selector" class="simple-form-controls">';
       $output .= '  <div class="form-item venue">';
       $output .= '    <label>Preference set:</label>';
@@ -480,7 +480,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $output .= '</div>';
     }
     $output .= drupal_get_form('boincwork_generalprefs_form', $venue, NULL, $advanced);
-    
+
     // If viewing the edit page for a preference set that doesn't
     // exist, inform the user that preferences are not set.
     $form_state = array();
@@ -493,10 +493,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
           array( '@venue' => $venue, ),
           NULL, 'boinc:account-preferences'), 'status');
     }
-    
+
     break;
   }
-  
+
   return $output;
 }
 
@@ -505,44 +505,44 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
   * Called when user goes to edit project preferences page.
   */
 function projectprefs_page($action = null, $venue = null) {
-  
+
   // Keep the venue selected across preference pages
   boincwork_select_venue($venue);
-  
+
   require_boinc(array('util', 'prefs'));
   global $project_has_beta;
   $pref_sets = array('generic', 'home', 'school', 'work');
   $output = null;
-  
+
   $title = 'Project';
   drupal_set_title($title);
-  
+
   switch ($action) {
-  
+
   case 'clear':
     // Remove settings from this preference set
     if ($venue AND $venue != 'generic') {
       boincwork_save_prefs(NULL, 'project', $venue);
       drupal_set_message(t('Settings for the "@name" preference set have been
         cleared', array('@name' => ucfirst($venue))));
-      
+
       // Set the generic preference set as active
       $_SESSION['prefs venue'] = 'generic';
-      
+
       // If the user has removed their default preference set, make it generic
       boincwork_set_default_venue();
     }
     drupal_goto();
     break;
-    
+
   case 'combined':
-  
+
     // Compare preference sets; tabular view
-    
+
     global $user;
     $account = user_load($user->uid);
     $boincuser = BoincUser::lookup_id($account->boincuser_id);
-    
+
     foreach ($pref_sets as $pref_set) {
       $form_state = array();
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $pref_set);
@@ -551,11 +551,11 @@ function projectprefs_page($action = null, $venue = null) {
 
     $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['modified']['#value'])), NULL, 'boinc:account-preferences') . '</p>';
     $output .= '<h2>' . bts('Combined preferences', array(), NULL, 'boinc:account-preferences') . ' ' . l('(' . bts('Switch View', array(), NULL, 'boinc:account-preferences') . ')', 'account/prefs/project') . '</h2>';
-    
+
     $output .= '<table class="preferences combined">';
-    
+
     $prefs_table = boincwork_make_prefs_table($prefs['generic']);
-    
+
     foreach ($prefs_table as $category => $section) {
       $output .= '<tr class="section-heading">';
       $output .= "<td>{$section['name']}</td>";
@@ -583,7 +583,7 @@ function projectprefs_page($action = null, $venue = null) {
         $output .= '</tr>';
       }
     }
-    
+
     // Empty line above action links... :/
     $output .= '<tr>';
     $output .= '<td>&nbsp;</td>';
@@ -592,7 +592,7 @@ function projectprefs_page($action = null, $venue = null) {
     $output .= '<td></td>';
     $output .= '<td></td>';
     $output .= '</td>';
-    
+
     // Show Add / Edit links for each preference set
     $output .= '<tr>';
     $output .= '<td></td>';
@@ -614,11 +614,11 @@ function projectprefs_page($action = null, $venue = null) {
       }
       $output .= '</li></ul></td>';
     }
-    
+
     $output .= '</table>';
-    
+
     break;
-    
+
   case 'set-default':
     // Set this preference set as the one to use for any new hosts attached
     // to the user account
@@ -626,13 +626,13 @@ function projectprefs_page($action = null, $venue = null) {
     drupal_set_message( bts('The primary preference set has been changed to "@set"', array('@set' => $venue), NULL, 'boinc:account-preferences-project') );
     drupal_goto('account/prefs/project/combined');
     break;
-    
+
   case 'edit':
   default:
-    
+
     // Return the HTML generated from the $form data structure.
     require_boinc('util');
-    
+
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/project/edit';
       $venues = array(
@@ -644,7 +644,7 @@ function projectprefs_page($action = null, $venue = null) {
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
       drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
-      
+
       $output .= '<div id="venue-selector" class="simple-form-controls">';
       $output .= '  <div class="form-item venue">';
       $output .= '    <label>Preference set:</label>';
@@ -653,22 +653,22 @@ function projectprefs_page($action = null, $venue = null) {
       $output .= '</div>';
     }
     $output .= drupal_get_form('boincwork_projectprefs_form', $venue);
-    
+
     // If viewing the edit page for a preference set that doesn't
     // exist, inform the user that preferences are not set.
     $form_state = array();
     $current_set = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $venue);
     drupal_prepare_form('boincwork_projectprefs_form', $current_set, $form_state);
-    
+
     if (!$current_set['#established']) {
       drupal_set_message(bts(
           "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
           array( '@venue' => $venue, ),
           NULL, 'boinc:account-preferences'), 'status');
     }
-    
+
     break;
-    
+
   }
   return $output;
 }
@@ -678,17 +678,17 @@ function projectprefs_page($action = null, $venue = null) {
   * Called when user goes to edit community preferences page.
   */
 function communityprefs_page($action = null) {
-  
+
   require_boinc(array('util', 'prefs'));
   $output = null;
-  
+
   $title = 'Community';
   drupal_set_title($title);
-  
+
   //$output .= '<h2>Community preferences</h2>';
-  
+
   $output .= drupal_get_form('communityprefs_form');
-  
+
   return $output;
 }
 
@@ -697,23 +697,23 @@ function communityprefs_page($action = null) {
   * Called when user goes to edit privacy preferences page.
   */
 function privacyprefs_page($action = null) {
-  
+
   require_boinc(array('util', 'prefs'));
   $output = null;
   $title = 'Privacy';
   drupal_set_title($title);
-  
+
   switch ($action) {
   case 'view':
     $form_state = array();
     $prefs = drupal_retrieve_form('boincwork_privacyprefs_form', $form_state);
     drupal_prepare_form('boincwork_privacyprefs_form', $prefs, $form_state);
     $output .= '<table>';
-    
+
     $sections = array(
       'privacy' => $prefs['privacy']
     );
-    
+
     foreach ($sections as $section) {
       $output .= '<tr class="section-heading">';
       $output .= "<td>{$section['#title']}</td></tr>";
@@ -731,26 +731,26 @@ function privacyprefs_page($action = null) {
         $output .= '</tr>';
       }
     }
-    
+
     // Edit preferences link
     $output .= '<tr>';
     $output .= '<td></td>';
     $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT), NULL, 'boinc:account-preferences-privacy'), "account/prefs/privacy/edit") . '</td>';
     $output .= '</tr>';
-    
+
     $output .= '</table>';
-    
+
     break;
-    
+
   case 'edit':
   default:
     require_boinc('util');
     // Return the HTML generated from the $form data structure.
     $output .= drupal_get_form('boincwork_privacyprefs_form');
     break;
-    
+
   }
-  
+
   return $output;
 }
 
@@ -837,7 +837,7 @@ function boincwork_certificates($type = null, $border = null) {
     </td><tr></table>
     ";
     break;
-    
+
   case 'account':
   default:
     //include_boinc('user/cert1.php');
@@ -946,14 +946,14 @@ function boincwork_host_delete($host_id) {
     else {
       drupal_set_message(t('Host @id cannot be deleted because it still has
         tasks associated with it. These tasks should be processed within the
-        next few days, after which the host can be deleted.', 
+        next few days, after which the host can be deleted.',
         array('@id' => $host_id)), 'warning'
       );
     }
   }
   else {
     drupal_set_message(t('You are not the owner of host @id, so you cannot
-      delete it.', 
+      delete it.',
       array('@id' => $host_id)), 'error'
     );
   }
@@ -1136,7 +1136,7 @@ function boincwork_workunit_task_table($workunit_id = NULL, $tselect = NULL, $ap
     drupal_set_message(bts('ERROR: Invalid workunit ID', array(), NULL, 'boinc:workunit-task-table'), 'error');
     return '';
   }
-  
+
   return boincwork_tasktable(1, $workunit_id, $tselect, $app_id);
 }
 

@@ -83,7 +83,7 @@ bool throttled_app_render(int x, int y, double t) {
         if (boinc_max_gfx_cpu_frac) {
             boinc_calling_thread_cpu_time(t0);
         }
-        
+
        app_graphics_render(x, y, t);
 
 #ifdef __APPLE__

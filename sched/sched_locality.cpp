@@ -20,7 +20,7 @@
 //
 // Currently this is specific to Einstein@home and is not generally usable.
 // There's a generic but more limited version, "limited locality scheduling":
-// http://boinc.berkeley.edu/trac/wiki/LocalityScheduling
+// https://github.com/BOINC/boinc/wiki/LocalityScheduling
 
 #include "config.h"
 

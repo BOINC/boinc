@@ -5,7 +5,7 @@
 
 AC_DEFUN([SAH_LIBEXT],[
   AC_MSG_CHECKING(library extension)
-  if test -n `echo $AR | grep ar` 
+  if test -n `echo $AR | grep ar`
   then
     LIBEXT=a
   else

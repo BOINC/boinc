@@ -36,6 +36,16 @@ function dir_hier_path($filename, $root, $fanout) {
     return "$dirpath/$filename";
 }
 
+function upload_path($filename) {
+    static $upload_dir=null;
+    if (!$upload_dir) {
+        $config = get_config();
+        $upload_dir = parse_config($config, '<upload_dir>');
+        $uldl_dir_fanout = parse_config($config, '<uldl_dir_fanout>');
+    }
+    return dir_hier_path($filename, $upload_dir, $uldl_dir_fanout);
+}
+
 function dir_hier_url($filename, $base, $fanout) {
     $dir = filename_hash($filename, $fanout);
     return "$base/$dir/$filename";
@@ -108,6 +118,24 @@ function check_download_file($path, $dl_path) {
         }
         return 1;
     }
+}
+
+// Stage the given file, which is assumed to not be in download dir already.
+//
+function stage_file_basic($dir, $fname) {
+    static $dl_dir = null;
+    static $fanout = null;
+    if (!$dl_dir) {
+        $conf = get_config();
+        $dl_dir = parse_config($conf, "<download_dir>");
+        $fanout = parse_config($conf, "<uldl_dir_fanout>");
+    }
+    $old_path = "$dir/$fname";
+    $new_path = dir_hier_path($fname, $dl_dir, $fanout);
+    $md5 = md5_file($old_path);
+    $size = filesize($old_path);
+    file_put_contents("$new_path.md5", "$md5 $size\n");
+    rename($old_path, $new_path);
 }
 
 ?>

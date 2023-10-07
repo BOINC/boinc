@@ -39,47 +39,47 @@
 /*!
  * CErrNotDetectedPage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CErrNotDetectedPage, wxWizardPageEx )
- 
+
 /*!
  * CErrNotDetectedPage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CErrNotDetectedPage, wxWizardPageEx )
- 
+
 ////@begin CErrNotDetectedPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CErrNotDetectedPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CErrNotDetectedPage::OnCancel )
 
 ////@end CErrNotDetectedPage event table entries
- 
+
 END_EVENT_TABLE()
- 
+
 /*!
  * CErrNotDetectedPage constructors
  */
- 
+
 CErrNotDetectedPage::CErrNotDetectedPage( )
 {
 }
- 
+
 CErrNotDetectedPage::CErrNotDetectedPage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * CErrProjectUnavailable creator
  */
- 
+
 bool CErrNotDetectedPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrNotDetectedPage member initialisation
     m_pTitleStaticCtrl = NULL;
     m_pDirectionsStaticCtrl = NULL;
 ////@end CErrNotDetectedPage member initialisation
- 
+
 ////@begin CErrNotDetectedPage creation
     wxWizardPageEx::Create( parent, ID_ERRNOTDETECTEDPAGE );
 
@@ -89,13 +89,13 @@ bool CErrNotDetectedPage::Create( CBOINCBaseWizard* parent )
 
     return TRUE;
 }
- 
+
 /*!
  * Control creation for CErrProjectUnavailable
  */
- 
+
 void CErrNotDetectedPage::CreateControls()
-{    
+{
 ////@begin CErrNotDetectedPage content construction
     CErrNotDetectedPage* itemWizardPage96 = this;
 
@@ -114,38 +114,38 @@ void CErrNotDetectedPage::CreateControls()
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrNotDetectedPage content construction
 }
- 
+
 /*!
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CErrNotDetectedPage::GetPrev() const
 {
     return PAGE_TRANSITION_BACK;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CErrNotDetectedPage::GetNext() const
 {
     return NULL;
 }
- 
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CErrNotDetectedPage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CErrNotDetectedPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -153,11 +153,11 @@ wxBitmap CErrNotDetectedPage::GetBitmapResource( const wxString& WXUNUSED(name) 
     return wxNullBitmap;
 ////@end CErrNotDetectedPage bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CErrNotDetectedPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -165,11 +165,11 @@ wxIcon CErrNotDetectedPage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CErrNotDetectedPage icon retrieval
 }
-  
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE
  */
- 
+
 void CErrNotDetectedPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
@@ -196,11 +196,11 @@ void CErrNotDetectedPage::OnPageChanged( wxWizardExEvent& event ) {
 
     Fit();
 }
-  
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE
  */
- 
+
 void CErrNotDetectedPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }

@@ -18,7 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // handler for output file requests from remote job submission.
-// See http://boinc.berkeley.edu/trac/wiki/RemoteJobs
+// See https://github.com/BOINC/boinc/wiki/RemoteJobs
 
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
@@ -65,7 +65,7 @@ function get_output_file($instance_name, $file_num, $auth_str) {
     if (!is_file($path)) {
         return_error("no such file $path");
     }
-    do_download($path);    
+    do_download($path);
 }
 
 // get all the output files of a batch (canonical instances only)

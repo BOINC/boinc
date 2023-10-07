@@ -112,7 +112,7 @@ class EventLogClientFragment : Fragment() {
         // message retrieval
         // amount messages loaded when end of list is reached
         val pastMsgsLoadingRange = 50
-        
+
         Logging.logDebug(Logging.Category.CLIENT, "calling monitor with: " + pastSeqNo + " / " +
                 pastMsgsLoadingRange)
 

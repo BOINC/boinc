@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,14 +31,14 @@
 
 // Virtual wxListCtrl does not reliably generate selection and
 // deselection events, so we must check for these differently.
-// We get more events than we need using EVT_LIST_CACHE_HINT, 
+// We get more events than we need using EVT_LIST_CACHE_HINT,
 // so testing on mouse events is more efficient, but it doesn't
 // work on Windows.
 #ifdef __WXMSW__
-// On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT. 
+// On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT.
 #define USE_LIST_CACHE_HINT 1
 #else
-// On Mac & Linux, check for selection / deselection on EVT_LEFT_DOWN. 
+// On Mac & Linux, check for selection / deselection on EVT_LEFT_DOWN.
 #define USE_LIST_CACHE_HINT 0
 #endif
 
@@ -74,7 +74,7 @@ public:
     virtual bool            OnSaveState(wxConfigBase* pConfig);
     virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
-    void                    TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array);
+    void                    TokenizedStringToArray(wxString tokenized, const char * delimiters, wxArrayString* array);
     void                    SetListColumnOrder(wxArrayString& orderArray);
     void                    SetStandardColumnOrder();
     bool                    IsColumnOrderStandard();
@@ -87,7 +87,7 @@ public:
     void                    SelectRow(int row, bool setSelected);
     void                    AddPendingProgressBar(int row);
     void                    RefreshCell(int row, int col);
-    
+
 private:
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
@@ -108,7 +108,7 @@ public:
 private:
     void                    OnDrawProgressBar(CDrawProgressBarEvent& event);
     void                    DrawProgressBars(void);
-    
+
     bool                    m_bProgressBarEventPending;
 #else
  public:
@@ -176,7 +176,7 @@ public:
 
 private:
     CBOINCListCtrl *        m_listCtrl;
-    
+
 #if !USE_NATIVE_LISTCONTROL
 #ifdef __WXGTK__
     int                     m_view_startX;

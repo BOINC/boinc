@@ -1,0 +1,15 @@
+{
+    "name": "boinc-manager",
+    "dependencies":
+    [
+        {
+          "name": "curl",
+          "features": ["openssl"],
+          "default-features": false
+        },
+        {
+          "name": "wxwidgets",
+          "default-features": false
+        }
+    ]
+}

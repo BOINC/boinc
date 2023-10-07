@@ -1,25 +1,21 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
+include(${VCPKG_ROOT}/triplets/community/wasm32-emscripten.cmake)
+
 set(VCPKG_BUILD_TYPE release)
-set(VCPKG_ENV_PASSTHROUGH_UNTRACKED EMSCRIPTEN_ROOT EMSDK PATH)
-
-if(NOT DEFINED ENV{EMSCRIPTEN_ROOT})
-   find_path(EMSCRIPTEN_ROOT "emcc")
-else()
-   set(EMSCRIPTEN_ROOT "$ENV{EMSCRIPTEN_ROOT}")
-endif()
-
-if(NOT EMSCRIPTEN_ROOT)
-   if(NOT DEFINED ENV{EMSDK})
-      message(FATAL_ERROR "The emcc compiler not found in PATH")
-   endif()
-   set(EMSCRIPTEN_ROOT "$ENV{EMSDK}/upstream/emscripten")
-endif()
-
-if(NOT EXISTS "${EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake")
-   message(FATAL_ERROR "Emscripten.cmake toolchain file not found")
-endif()
-
-set(VCPKG_TARGET_ARCHITECTURE wasm32)
-set(VCPKG_CRT_LINKAGE dynamic)
-set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_CMAKE_SYSTEM_NAME Emscripten)
-set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE "${EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake")

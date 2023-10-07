@@ -20,7 +20,7 @@ function comment_form_block_block($op = 'list', $delta = 0, $edit = array()) {
         if ($node->comment !== 0 AND user_access('post comments', $user)) {
           $block['subject'] = NULL; // This should be NULL otherwise there will be duplicate h2 elements.
           $block['content'] = '<h2>' . bts('Post new comment', array(), NULL, 'boinc:forum-post-new-comment') . '</h2>';
-          $block['content'] .= drupal_get_form('comment_form', array('nid' => $nid)); 
+          $block['content'] .= drupal_get_form('comment_form', array('nid' => $nid));
         }
       }
     }

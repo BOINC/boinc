@@ -7,7 +7,7 @@
 function boinctranslate_install() {
   // Use schema API to create database table
   //drupal_install_schema('boinctranslate');
-  
+
   // Alter the formula field in the languages table to increase length from 128
   // to 1024 characters (longer formulas were being truncated)
   $ret = array();

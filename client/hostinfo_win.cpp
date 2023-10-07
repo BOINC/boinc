@@ -213,7 +213,7 @@ static unsigned long long _xgetbv(unsigned int index){
       unsigned int A=0, D=0;
 
 #ifdef __GNUC__
-  #ifdef ASM_SUPPORTS_XGETBV  
+  #ifdef ASM_SUPPORTS_XGETBV
       __asm__ __volatile__("xgetbv" : "=a"(A), "=d"(D) : "c"(index));
   #else
       __asm__ __volatile__(".byte 0x0f, 0x01, 0xd0": "=a"(A), "=d"(D) : "c"(index));
@@ -248,14 +248,14 @@ static unsigned long long _xgetbv(unsigned int index){
 #else
 static void __cpuid(unsigned int cpuinfo[4], unsigned int type)  {
 #ifdef __GNUC__
-  #ifdef ASM_SUPPORTS_CPUID  
-      __asm__ __volatile__("cpuid" 
-                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]), 
-                              "=c" (cpuinfo[2]), "=d" (cpuinfo[3]) 
+  #ifdef ASM_SUPPORTS_CPUID
+      __asm__ __volatile__("cpuid"
+                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]),
+                              "=c" (cpuinfo[2]), "=d" (cpuinfo[3])
                             : "a" (type));
   #else
       __asm__ __volatile__(".byte 0x0f, 0xa2"
-                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]), 
+                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]),
                               "=c" (cpuinfo[2]), "=d" (cpuinfo[3])
                             : "a" (type));
   #endif
@@ -472,7 +472,7 @@ int get_os_information(
     }
 
 
-    snprintf_s( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
+    snprintf( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
         osvi.dwMajorVersion, osvi.dwMinorVersion, (osvi.dwBuildNumber & 0xFFFF), 0
     );
 
@@ -1202,10 +1202,10 @@ bool is_avx_supported() {
     // the instruction needs to be conditionally run.
     unsigned int a,b,c,d;
     get_cpuid(1, a, b, c, d);
- 
+
     bool osUsesXSAVE_XRSTORE = c & (1 << 27) || false;
     bool cpuAVXSuport = c & (1 << 28) || false;
- 
+
     if (osUsesXSAVE_XRSTORE && cpuAVXSuport)
     {
         // Check if the OS will save the YMM registers
@@ -1276,7 +1276,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 		struc_ext_supported = 1;
 		get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
 	}
-    
+
     FEATURE_TEST(std_supported, (std_edx & (1 << 0)), "fpu ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 1)), "vme ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 2)), "de ");
@@ -1425,7 +1425,7 @@ int get_processor_info(
     );
 #else
     int family = 0, model = 0, stepping = 0;
-    get_processor_version(family, model, stepping);    
+    get_processor_version(family, model, stepping);
     snprintf(p_model, p_model_size,
         "%s [Family %d Model %d Stepping %d]",
         processor_name, family, model, stepping

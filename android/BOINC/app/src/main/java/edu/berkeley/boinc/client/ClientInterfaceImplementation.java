@@ -560,7 +560,7 @@ public class ClientInterfaceImplementation extends RpcClient {
         boolean success = setDomainNameRpc(deviceName);
 
         Logging.logDebug(Logging.Category.CLIENT, "setDomainName: success " + success);
-        
+
         return success;
     }
 

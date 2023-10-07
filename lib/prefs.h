@@ -136,10 +136,10 @@ struct TIME_PREFS : public TIME_SPAN {
         start_hour = start;
         end_hour = end;
     }
-    
+
     void clear();
     bool suspended(double t);
-    
+
 };
 
 
@@ -212,6 +212,7 @@ struct GLOBAL_PREFS {
     inline double cpu_scheduling_period() {
         return cpu_scheduling_period_minutes*60;
     }
+    static double parse_mod_time(const char*);
 };
 
 #endif

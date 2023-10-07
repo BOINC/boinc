@@ -23,15 +23,15 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface BOINC_Saver_ModuleView : ScreenSaverView 
+@interface BOINC_Saver_ModuleView : ScreenSaverView
 {
     IBOutlet id mConfigureSheet;		// our configuration sheet
     IBOutlet NSButton *mGoToBlankCheckbox;
     IBOutlet NSTextField *mBlankingTimeTextField;
     IBOutlet NSTextField *mDefaultPeriodTextField;
     IBOutlet NSTextField *mSciencePeriodTextField;
-    IBOutlet NSTextField *mChangePeriodTextField;    
-    
+    IBOutlet NSTextField *mChangePeriodTextField;
+
     int mVersion;               // the version of our prefs
     NSString *mBlankingTimeString;
     NSString *mDefaultPeriodString;

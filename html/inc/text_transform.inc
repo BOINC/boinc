@@ -32,7 +32,7 @@ class output_options {
     var $nl2br;                // Convert newlines to <br>'s? (on)
     var $htmlitems;            // Convert special chars to HTML entities? (on)
     var $htmlscrub;            // Scrub "bad" HTML tags? (off)
-    var $highlight_terms;// Array of terms to be highlighted (off)    
+    var $highlight_terms;// Array of terms to be highlighted (off)
 
     // Constructor - set the defaults.
 
@@ -72,7 +72,7 @@ function output_transform($text, $options = NULL) {
     }
     if (is_array($options->highlight_terms)) {
         $text = highlight_terms($text, $options->highlight_terms);
-    }    
+    }
 //    if ($options->htmlscrub) {
 //        $text = sanitize_html($text);
 //    }
@@ -186,7 +186,7 @@ function bb2html($text, $export=false) {
         "@\[quote=(.*?)\](.*?)\[/quote\]@is",
         "@\[quote\](.*?)\[/quote\]@is",
         "@\[list\](.*?)\[/list\]@is",
-        "@\[list=1\](.*?)\[/list\]@is",  
+        "@\[list=1\](.*?)\[/list\]@is",
         "@\[img\]$urlregex\[/img\]@is",
         "@\[sm_img\]$urlregex\[/sm_img\]@is",
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
@@ -197,7 +197,7 @@ function bb2html($text, $export=false) {
         "@\[github\](?:\#|ticket:)(\d+)\[/github\]@is",
         "@\[github\]wiki:(.*?)\[/github\]@is",
     );
-    
+
     // What the above tags are turned in to
     if ($export) {
         $htmltags = array (
@@ -224,7 +224,7 @@ function bb2html($text, $export=false) {
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
-            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc/wiki/\\1\">\\1</a>",
         );
     } else {
         $htmltags = array (
@@ -251,10 +251,10 @@ function bb2html($text, $export=false) {
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
-            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc/wiki/\\1\">\\1</a>",
         );
     }
-    
+
     // Do the actual replacing - iterations for nested items
     $lasttext = "";
     $i = 0;

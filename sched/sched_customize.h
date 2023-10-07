@@ -26,7 +26,7 @@
 //
 // ------ Shared Memory Parameters -----------
 // #define MAX_PLATFORMS        50
-// #define MAX_APPS             10 
+// #define MAX_APPS             10
 // #define MAX_APP_VERSIONS     50
 // #define MAX_ASSIGNMENTS      10
 // #define MAX_WU_RESULTS       100

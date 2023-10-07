@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2022 University of California
+ * Copyright (C) 2023 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,17 +18,25 @@
  */
 package edu.berkeley.boinc
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.os.PowerManager
 import android.os.RemoteException
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -39,7 +47,6 @@ import edu.berkeley.boinc.databinding.TasksLayoutBinding
 import edu.berkeley.boinc.rpc.Result
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.*
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -53,15 +60,57 @@ class TasksFragment : Fragment() {
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             Logging.logVerbose(Logging.Category.GUI_VIEW, "TasksActivity onReceive")
-
             loadData()
         }
     }
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
 
+    private fun showBatterySaverOptions() {
+        try {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            val optionName = "batterySaverOptionsShown"
+            if (optionName !in sharedPreferences) {
+                sharedPreferences.edit().putBoolean(optionName, true).apply()
+                val intent = Intent()
+                if (VERSION.SDK_INT >= VERSION_CODES.M) {
+                    val packageName = requireActivity().packageName
+                    val powerManager =
+                        requireActivity().getSystemService(AppCompatActivity.POWER_SERVICE) as PowerManager
+                    if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+                        intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                        intent.data = Uri.parse("package:$packageName")
+                    }
+                } else {
+                    if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                        intent.action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
+                    }
+                }
+                if (intent.action != null) {
+                    val builder = AlertDialog.Builder(requireActivity())
+                    builder.setTitle("Battery Optimization")
+                    builder.setMessage("This application have been optimized for battery usage. Do you want to open Battery Optimization Settings?")
+                    builder.setPositiveButton("Yes",
+                        DialogInterface.OnClickListener { _, _ ->
+                            startActivity(intent)
+                        })
+                    builder.setNegativeButton("No",
+                        DialogInterface.OnClickListener { dialog, _ ->
+                            dialog.dismiss()
+                        })
+
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+            }
+        }
+        catch (e: Exception) {
+            Logging.logException(Logging.Category.GUI_VIEW, "showBatterySaverOptions() error: ", e)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             Logging.logVerbose(Logging.Category.GUI_VIEW, "TasksFragment onCreateView")
-
+        showBatterySaverOptions()
         // Inflate the layout for this fragment
         val binding = TasksLayoutBinding.inflate(inflater, container, false)
         recyclerViewAdapter = TaskRecyclerViewAdapter(this, data)

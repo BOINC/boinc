@@ -49,8 +49,8 @@ struct ITEM {
 };
 
 /* Constructor */
-CDlgItemProperties::CDlgItemProperties(wxWindow* parent) : 
-    wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition, 
+CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
+    wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition,
                 wxSize( 503,480 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ) {
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(pFrame);
@@ -58,16 +58,16 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 
     SetSizeHints( wxDefaultSize, wxDefaultSize );
     SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
-    
+
     m_bSizer1 = new wxBoxSizer( wxVERTICAL );
-    
+
     const long style = wxBORDER_NONE;
     m_txtInformation = new wxHtmlWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, style, wxEmptyString );
     m_txtInformation->Bind(wxEVT_LEFT_DOWN, &CDlgItemProperties::OnMouseButtonEvent, this);
     m_txtInformation->Bind(wxEVT_LEFT_UP, &CDlgItemProperties::OnMouseButtonEvent, this);
-    
+
     m_bSizer1->Add( m_txtInformation, 1, wxEXPAND | wxALL, 5 );
-    
+
     wxBoxSizer *bSizer2 = new wxBoxSizer(wxHORIZONTAL);
     m_bSizer1->Add(bSizer2, 0, wxALIGN_RIGHT | wxALL, 12);
 
@@ -79,12 +79,12 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     m_pCopySelectedButton->Enable(false);
 
     m_btnClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnClose->SetDefault(); 
+    m_btnClose->SetDefault();
     bSizer2->Add( m_btnClose, 0, wxALIGN_BOTTOM|wxALL, 5 );
-    
+
     SetSizer( m_bSizer1 );
     Layout();
-    
+
     int currentTabView = pFrame->GetCurrentViewPage();
     switch(currentTabView) {
     case VW_PROJ:
@@ -120,7 +120,7 @@ bool CDlgItemProperties::SaveState() {
     pConfig->Write(wxT("YPos"), GetPosition().y);
 
     pConfig->Flush();
-    
+
     return true;
 }
 
@@ -171,7 +171,7 @@ bool CDlgItemProperties::RestoreState() {
     if ( oTempSize.GetWidth() > rDisplay.width ) oTempSize.SetWidth(rDisplay.width);
     if ( oTempSize.GetHeight() > rDisplay.height ) oTempSize.SetHeight(rDisplay.height);
 
-    // Check if part of the display was going to be off the screen, if so, center the 
+    // Check if part of the display was going to be off the screen, if so, center the
     // display on that axis
 	if ( oTempPoint.x < rDisplay.x ) {
 		oTempPoint.x = rDisplay.x;
@@ -188,7 +188,7 @@ bool CDlgItemProperties::RestoreState() {
     delete display;
 #endif
 #ifdef __WXMAC__
-    // If the user has changed the arrangement of multiple 
+    // If the user has changed the arrangement of multiple
     // displays, make sure the window title bar is still on-screen.
     if (!IsWindowOnScreen(oTempPoint.x, oTempPoint.y, oTempSize.GetWidth(), oTempSize.GetHeight())) {
         oTempPoint.y = oTempPoint.x = 30;
@@ -237,17 +237,17 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     //disk usage needs additional lookups
     CMainDocument* pDoc = wxGetApp().GetDocument();
     pDoc->CachedDiskUsageUpdate();
-    
-    // CachedDiskUsageUpdate() may have invalidated our project 
+
+    // CachedDiskUsageUpdate() may have invalidated our project
     // pointer, so get an updated pointer to this project
     PROJECT* project = pDoc->project(project_in->master_url);
     if (!project) return;     // TODO: display some sort of error alert?
 
     std::vector<PROJECT*> dp = pDoc->disk_usage.projects;
-    double diskusage=0.0;    
+    double diskusage=0.0;
     for (unsigned int i=0; i< dp.size(); i++) {
-        PROJECT* tp = dp[i];        
-        std::string tname;        
+        PROJECT* tp = dp[i];
+        std::string tname;
         tp->get_name(tname);
         wxString t1(wxString(tname.c_str(), wxConvUTF8));
         if(t1.IsSameAs(wxString(projectname.c_str(), wxConvUTF8)) || t1.IsSameAs(wxString(project->master_url, wxConvUTF8))) {
@@ -322,7 +322,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             format_number(project->host_expavg_credit, 2).c_str()
         )
     );
-    
+
     if (!project->non_cpu_intensive) {
         addSection(_("Scheduling"));
         addProperty(_("Scheduling priority"), format_number(project->sched_priority, 2));
@@ -379,7 +379,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         avp = r->avp;
         wup = r->wup;
     }
-    
+
     addProperty(_("Application"), FormatApplicationName(result));
     addProperty(_("Name"), wxString(result->wu_name, wxConvUTF8));
     addProperty(_("State"), result_description(result, false));
@@ -451,7 +451,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 }
 
 //
-wxString CDlgItemProperties::FormatDiskSpace(double bytes) {    
+wxString CDlgItemProperties::FormatDiskSpace(double bytes) {
     wxString strBuffer= wxEmptyString;
 
     if (bytes >= TERA) {
@@ -553,7 +553,7 @@ void CDlgItemProperties::renderInfos() {
             content += m_items[i].value;
             content += "</td>";
             content += "</tr>";
-        }        
+        }
     }
     content += "</table>";
     content += "</font>";
@@ -563,12 +563,12 @@ void CDlgItemProperties::renderInfos() {
 }
 
 
-// adds a title section label to the dialog 
+// adds a title section label to the dialog
 void CDlgItemProperties::addSection(const wxString& title) {
     m_items.push_back(ITEM(ItemTypeSection, title));
 }
 
-// adds a property row to the dialog 
+// adds a property row to the dialog
 void CDlgItemProperties::addProperty(const wxString& name, const wxString& value) {
     m_items.push_back(ITEM(ItemTypeProperty, name, value));
 }

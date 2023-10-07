@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCProjectRights::CARevokeBOINCProjectRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CARevokeBOINCProjectRights::CARevokeBOINCProjectRights(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARevokeBOINCProjectRights::~CARevokeBOINCProjectRights()
@@ -54,10 +54,10 @@ CARevokeBOINCProjectRights::~CARevokeBOINCProjectRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CARevokeBOINCProjectRights::OnExecution()
@@ -85,7 +85,7 @@ UINT CARevokeBOINCProjectRights::OnExecution()
             strBOINCProjectAccountUsername.c_str(),   // account to obtain SID
             &pSid                                     // buffer to allocate to contain resultant SID
             )
-    ) 
+    )
     {
 
         //
@@ -140,7 +140,7 @@ UINT CARevokeBOINCProjectRights::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -160,7 +160,7 @@ UINT CARevokeBOINCProjectRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RevokeBOINCProjectRights
 //
 // Description: This custom action reads the BOINC_PROJECT_USERNAME

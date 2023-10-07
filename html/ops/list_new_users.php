@@ -58,20 +58,20 @@ if (_mysql_num_rows($result) < 1) {
 start_table();
 table_header("ID", "Name", "Email", "Team", "Country", "Joined");
 
-while ($row = _mysql_fetch_object($result)) { 
+while ($row = _mysql_fetch_object($result)) {
     $id = $row->id;
     $name = $row->name;
     $email = $row->email_addr;
-    $country = $row->country; 
+    $country = $row->country;
     $joined = time_str($row->create_time);
     $email_validated = $row->email_validated;
-    
+
     $team_name="";
     if($row->teamid > 0){
         $team = BoincTeam::lookup_id($row->teamid);
         $team_name = $team->name;
     }
-    
+
     // Special Users:
     $roles = "";
     $user = $row;
@@ -91,7 +91,7 @@ while ($row = _mysql_fetch_object($result)) {
     if (!empty($roles)) {
         $roles = "<small>[$roles]</small>";
     }
-    
+
     // Banished?
     if (!empty($user->banished_until)) {
         $dt = $user->banished_until - time();
@@ -103,7 +103,7 @@ while ($row = _mysql_fetch_object($result)) {
         }
         $roles .= $x;
     }
-    
+
     if ($email_validated) {
         $email = "<span style=\"color: #ffff00\">".$email."</span>\n";
     } else {

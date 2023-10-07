@@ -3,16 +3,17 @@
 if not exist "windows" (
     echo start this script in the source root directory
     exit 1
-) 
+)
 
 set "BUILD_DIR=%CD%\3rdParty\Windows"
 set "VCPKG_PORTS=%CD%\3rdParty\vcpkg_ports"
 set "VCPKG_ROOT=%BUILD_DIR%\vcpkg"
 
+call "%CD%\3rdParty\vcpkg_ports\vcpkg_link.bat"
 
 if not exist "%VCPKG_ROOT%" (
     mkdir -p "%VCPKG_ROOT%"
-    git -C %BUILD_DIR% clone https://github.com/microsoft/vcpkg
+    git -C %BUILD_DIR% clone %VCPKG_LINK%
 )
 
 

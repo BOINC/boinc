@@ -17,9 +17,9 @@
 
 // C++ interfaces to web RPCs related to remote job submission,
 // namely those described here:
-// http://boinc.berkeley.edu/trac/wiki/RemoteInputFiles
-// http://boinc.berkeley.edu/trac/wiki/RemoteOutputFiles
-// http://boinc.berkeley.edu/trac/wiki/RemoteJobs
+// https://github.com/BOINC/boinc/wiki/RemoteInputFiles
+// https://github.com/BOINC/boinc/wiki/RemoteOutputFiles
+// https://github.com/BOINC/boinc/wiki/RemoteJobs
 
 #include <curl/curl.h>
 #include <stdio.h>
@@ -107,7 +107,7 @@ static int do_http_post(
     CURL *curl;
     CURLcode res;
     char buf[256];
-     
+
     curl = curl_easy_init();
     if (!curl) {
         return -1;
@@ -135,7 +135,7 @@ static int do_http_post(
             CURLFORM_END
         );
     }
- 
+
     headerlist = curl_slist_append(headerlist, "Expect:");
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "BOINC Condor adapter");

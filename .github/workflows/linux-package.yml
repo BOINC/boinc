@@ -1,0 +1,559 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Linux Package
+on:
+  push:
+    tags: [ 'client_release/**' ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+  PUBKEY: boinc.gpg # keep extension
+  MANTAINER: Vitalii Koshura <lestat.de.lionkur@gmail.com>
+  HOMEPAGE: https://boinc.berkeley.edu/
+  DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
+  BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+
+jobs:
+  prepare-binaries:
+    name: Prepare Binaries
+    runs-on: ubuntu-latest
+    container:
+      image: debian:buster
+      env:
+        AWS_ACCESS_KEY_ID: env.AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: env.AWS_SECRET_ACCESS_KEY
+        AWS_DEFAULT_REGION: env.AWS_DEFAULT_REGION
+    strategy:
+      matrix:
+        type: [client, manager]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          apt-get -qq update
+          apt-get install -y make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
+
+      - name: Install aws cli tool
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          ./aws/install
+
+      - name: Automake
+        if: success()
+        run: ./_autosetup
+
+      - name: Configure client
+        if: success() && matrix.type == 'client'
+        run: linux/ci_configure_client.sh
+
+      - name: Configure manager
+        if: success() && matrix.type == 'manager'
+        run: linux/ci_configure_manager.sh
+
+      - name: Make
+        if: success()
+        run: make -j $(nproc --all) LDFLAGS="-static-libstdc++ -s"
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-package_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: success()
+        run: python3 ./deploy/prepare_deployment.py linux_${{ matrix.type }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/linux_${{ matrix.type }}.7z
+
+  build-deb-package:
+    name: Build DEB Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    needs: prepare-binaries
+    strategy:
+      matrix:
+        os: [jammy, focal, bullseye, buster]
+        type: [client, manager]
+      fail-fast: false
+    env:
+      ARCH: amd64
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: Packages info preparation
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+          if [[ "x${PKG_VERSION}" == "x" ]]; then
+            printf "Could not obtain release package version from version.h"
+            exit 1
+          fi
+
+          # Setup Environment vars
+          PKG_NAME="boinc-${{ matrix.type }}"
+          PKG_VERSION="${PKG_VERSION}-${{ github.run_number }}"
+          PKG_FULL="${PKG_NAME}_${PKG_VERSION}_${{ env.ARCH }}"
+
+          echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
+          echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
+          echo "PKG_FULL=${PKG_FULL}" >> $GITHUB_ENV
+          echo "PUBKEY=${{ env.PUBKEY }}" >> $GITHUB_ENV
+
+          echo "Package name: ${PKG_NAME}"
+          echo "Package version: ${PKG_VERSION}"
+          echo "Full package name: ${PKG_FULL}"
+          echo "Key file: ${{ env.PUBKEY }}"
+
+      - name: Download
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: pkgs/
+
+      - name: Prepare package
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          ls -l pkgs/
+          mkdir ${PKG_FULL}
+          ${{ github.workspace }}/.github/workflows/debrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
+
+      - name: Prepare package definition
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          # Derive the package dependencies for the selected package / os / release combination selected
+          cd ${{ github.workspace }}/.github/workflows/debrepo/
+          PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+          echo "Dependencies: ${PKG_DEPS}"
+
+          # Produce the package DEB definition
+          cd "${{ github.workspace }}/${PKG_FULL}"
+          echo "Name:${PKG_NAME}
+          Package:${PKG_NAME}
+          Version:${PKG_VERSION}
+          Maintainer:${{ env.MANTAINER }}
+          Depends:${PKG_DEPS}
+          Architecture:${{ env.ARCH }}
+          Homepage:${{ env.HOMEPAGE }}
+          Description:${{ env.DESCRIPTION }}" \
+          > "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
+
+          echo "------------------------"
+          cat "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
+          echo "------------------------"
+
+      - name: Create Ubuntu Package
+        if: ${{ success() && env.SKIP_RUN == 0 && ( matrix.os == 'jammy' || matrix.os == 'focal') }}
+        run: |
+          cd ${{ github.workspace }}/
+          # Build the actual package for Ubuntu with XZ compression
+          dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
+
+      - name: Create Debian Package
+        if: ${{ success() && env.SKIP_RUN == 0 && ( matrix.os == 'bullseye' || matrix.os == 'buster') }}
+        run: |
+          cd ${{ github.workspace }}/
+          # Build the actual package for Debian with GZIP compression
+          dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
+
+      - name: Get info from generated package
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          # Get info from the generated package
+          dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          path: ${{ github.workspace }}/${{ env.PKG_FULL }}.deb
+
+  build-rpm-package:
+    name: Build RPM Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:38
+    needs: prepare-binaries
+    strategy:
+      matrix:
+        os: [fc38, fc37, suse15_5, suse15_4]
+        type: [client, manager]
+      fail-fast: false
+    env:
+      ARCH: x86_64
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: DNF Preparation
+        id: dnf-prep
+        run: |
+          sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
+          sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
+          sudo dnf install -y wget rpm rpm-build rpm-sign expect createrepo_c dnf-utils jq p7zip-plugins
+
+      - name: Packages info preparation
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+          if [[ "x${PKG_VERSION}" == "x" ]]; then
+            printf "Could not obtain release package version from version.h"
+            exit 1
+          fi
+
+          # Setup Environment vars
+          PKG_NAME="boinc-${{ matrix.type }}"
+          PKG_VERSION="${PKG_VERSION}"
+          PKG_FULL="${PKG_NAME}-${PKG_VERSION}-${{ github.run_number }}.${{ env.ARCH }}"
+
+          echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
+          echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
+          echo "PKG_FULL=${PKG_FULL}" >> $GITHUB_ENV
+          echo "PUBKEY=${{ env.PUBKEY }}" >> $GITHUB_ENV
+
+          echo "Package name: ${PKG_NAME}"
+          echo "Package version: ${PKG_VERSION}"
+          echo "Full package name: ${PKG_FULL}"
+          echo "Key file: ${{ env.PUBKEY }}"
+
+      - name: Download
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: pkgs/
+
+      - name: Create RPM folder
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          mkdir ${PKG_FULL}
+          .github/workflows/rpmrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
+
+      - name: Setup gpg keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ secrets.REPO_PRIV_KEY }}" > boinc.priv.key
+          echo "${{ secrets.REPO_KEY }}" > boinc.pub.key
+          cp "boinc.pub.key" "${{ env.PUBKEY }}"
+
+      - name: Create RPM Definition
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+            # Derive the package dependencies for the selected package / os / release combination selected
+            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
+
+            cd rpmbuild
+            echo """
+            Name:${PKG_NAME}
+            Version:${PKG_VERSION}
+            Release:${{ github.run_number }}
+            BuildArch:${{ env.ARCH }}
+            URL:${{ env.HOMEPAGE }}
+            Summary:${{ env.DESCRIPTION }}
+            License:LGPL3+
+            Requires:${PKG_DEPS}
+
+            %changelog
+            # not extracted
+
+            %description
+            ${{ env.DESCRIPTION }}
+
+            %prep
+            # nothing build is not done here
+
+            %build
+            # nothing to build
+
+            %install
+            cp -rfa * %{buildroot}
+
+            %files
+            ${PKG_FILELIST}
+            """ > SPECS/${PKG_FULL}.spec
+
+            echo "------------------------"
+            cat SPECS/${PKG_FULL}.spec
+            echo "------------------------"
+
+      - name: Build RPM Package
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          export GPG_TTY=$(tty) # fixes gpg signing
+
+          # build package
+          cd rpmbuild
+          rpmbuild --define "_topdir `pwd`" -v -ba SPECS/*
+
+          # keyring prepare
+          gpg --import "../boinc.pub.key"
+          gpg --import "../boinc.priv.key"
+          expect -c 'spawn gpg --edit-key ${{ env.PUBKEY_HASH }} trust quit; send "5\ry\r"; expect eof'
+
+          gpg --list-keys
+
+          echo """%_signature gpg
+          %_gpg_path ${HOME}/.gnupg
+          %_gpg_name boinc
+          %_gpgbin /usr/bin/gpg2
+          %__gpg_sign_cmd %{__gpg} gpg --force-v3-sigs --batch --verbose --no-armor --no-secmem-warning -u "%{_gpg_name}" -sbo %{__signature_filename} --digest-algo sha256 %{__plaintext_filename}'
+          """ > $HOME/.rpmmacros
+
+          # import for rpm
+          rpm --import "../boinc.pub.key"
+
+          echo 'search for RPM'
+          find . -name "*.rpm"
+
+          # sign package
+          rpm --addsign "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
+
+          # check signature
+          rpm --checksig "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
+          rpm -qp --qf '%|DSAHEADER?{%{DSAHEADER:pgpsig}}:{%|RSAHEADER?{%{RSAHEADER:pgpsig}}:{(none)}|}|\n' "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          path: rpmbuild/RPMS/${{ env.ARCH }}/${{ env.PKG_FULL }}.rpm
+
+  publish-deb-package:
+    name: Publish DEB Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    needs: build-deb-package
+    strategy:
+      matrix:
+        os: [jammy, focal, bullseye, buster]
+      fail-fast: false
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          # Install aptly version 1.5.0+ (to support ubuntu xz compression)
+          # gpg1 is used for compatibility with aptly
+          wget -qO - https://www.aptly.info/pubkey.txt | sudo apt-key add -
+          echo "deb http://repo.aptly.info/ squeeze main" | sudo tee -a /etc/apt/sources.list
+          sudo apt update -qq
+          sudo apt-get install -y aptly gnupg1 gpgv1
+
+      - name: Setup GPG keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ secrets.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
+          echo "${{ secrets.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+          cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
+
+      - name: Download client
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Update or create the repository using aptly
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          # 0 true / 1 false
+          ALLOW_CREATE=0
+          cd ${{ github.workspace }}/.github/workflows/debrepo/
+          # alpha or stable
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+          ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${RELEASE_TYPE} ${{ env.PUBKEY }}
+
+      - uses: actions/upload-artifact@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
+          path: "${{ github.workspace }}/repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz"
+
+      - name: Deploy to boinc server
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          set -e
+          curl -s --fail --write-out "%{http_code}" -F 'upload_file=@${{ github.workspace }}/repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz' https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }}" --form "submit=on"
+
+  publish-rpm-package:
+    name: Publish RPM Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:38
+    needs: build-rpm-package
+    strategy:
+      matrix:
+        os: [fc38, fc37, suse15_5, suse15_4]
+      fail-fast: false
+    env:
+      ARCH: x86_64
+      PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: DNF Preparation
+        id: dnf-prep
+        run: |
+          sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
+          sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
+          sudo dnf install -y wget rpm rpm-build rpm-sign expect createrepo_c dnf-utils jq p7zip-plugins
+
+      - name: Setup GPG keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ secrets.REPO_PRIV_KEY }}" > boinc.priv.key
+          echo "${{ secrets.REPO_KEY }}" > boinc.pub.key
+          cp "boinc.pub.key" "${{ env.PUBKEY }}"
+          # keyring prepare
+          gpg --import "boinc.pub.key"
+          gpg --import "boinc.priv.key"
+          expect -c 'spawn gpg --edit-key ${{ env.PUBKEY_HASH }} trust quit; send "5\ry\r"; expect eof'
+          gpg --list-keys
+
+      - name: Download client
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Update or create the repository
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+            # Bash scripts do not support boolean values so convert to 0 true / 1 false
+            # 0 true / 1 false
+            ALLOW_CREATE=0
+            # alpha or stable
+            RELEASE_TYPE=alpha
+            echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+            CWD=$(pwd)
+
+            cd .github/workflows/rpmrepo/
+            # Updates or creates the repository
+            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${RELEASE_TYPE} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
+
+      - uses: actions/upload-artifact@v3
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
+          path: "repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz"
+
+      - name: Deploy to boinc server
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          set -e
+          curl -s --fail --write-out "%{http_code}" -F 'upload_file=@repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz' https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }}" --form "submit=on"

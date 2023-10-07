@@ -166,7 +166,7 @@ int compareOSVersionTo(int toMajor, int toMinor) {
         p1 = strchr(vers, '.');
         minor = atoi(p1+1);
     }
-    
+
     if (major < toMajor) return -1;
     if (major > toMajor) return 1;
     // if (major == toMajor) compare minor version numbers
@@ -176,6 +176,72 @@ int compareOSVersionTo(int toMajor, int toMinor) {
 }
 #endif
 
+#ifdef ANDROID
+#include <android/dlext.h>
+void* (*p_android_dlopen_ext)(const char*, int, const android_dlextinfo*);
+struct android_namespace_t* (*p_android_create_namespace)(const char*, const char*, const char*, uint64_t, const char*, struct android_namespace_t*);
+struct android_namespace_t* (*p_android_get_exported_namespace)(const char*);
+
+struct android_namespace_t* get_android_namespace(vector<string>& warnings) {
+    p_android_get_exported_namespace = (struct android_namespace_t*(*)(const char*)) dlsym(RTLD_DEFAULT, "android_get_exported_namespace");
+    if (!p_android_get_exported_namespace) {
+        gpu_warning(warnings, "No android_get_exported_namespace()");
+    }
+    if (!p_android_get_exported_namespace) {
+        p_android_get_exported_namespace = (struct android_namespace_t*(*)(const char*)) dlsym(RTLD_DEFAULT, "__loader_android_get_exported_namespace");
+        if (!p_android_get_exported_namespace) {
+            gpu_warning(warnings, "No __loader_android_get_exported_namespace()");
+        }
+    }
+    if (p_android_get_exported_namespace) {
+        return (*p_android_get_exported_namespace)("vndk");
+    }
+
+    p_android_create_namespace = (struct android_namespace_t*(*)(const char*, const char*, const char*, uint64_t, const char*, struct android_namespace_t*)) dlsym(RTLD_DEFAULT, "android_create_namespace");
+    if (!p_android_create_namespace) {
+        gpu_warning(warnings, "No android_create_namespace()");
+        return NULL;
+    }
+    string lib_path;
+    if (sizeof(void*) == 8) {
+        lib_path = "/system/lib64/";
+    }
+    else {
+        lib_path = "/system/lib/";
+    }
+#define ANDROID_NAMESPACE_TYPE_ISOLATED 1
+#define ANDROID_NAMESPACE_TYPE_SHARED 2
+    return (*p_android_create_namespace)("trustme", lib_path.c_str(), lib_path.c_str(), ANDROID_NAMESPACE_TYPE_SHARED | ANDROID_NAMESPACE_TYPE_ISOLATED, "/system/:/data/:/vendor/", NULL);
+}
+
+void* android_dlopen(const char* filename, vector<string>& warnings) {
+    char buf[256];
+    gpu_warning(warnings, "Trying dlopen()");
+    void* handle = dlopen(filename, RTLD_NOW);
+    if (handle) {
+        return handle;
+    }
+
+    p_android_dlopen_ext = (void*(*)(const char*, int, const android_dlextinfo*)) dlsym(RTLD_DEFAULT, "android_dlopen_ext");
+    if (!p_android_dlopen_ext) {
+        gpu_warning(warnings, "No android_dlopen_ext()");
+        return NULL;
+    }
+
+    struct android_namespace_t* ns = get_android_namespace(warnings);
+    if (!ns) {
+        gpu_warning(warnings, "No namespace");
+        return NULL;
+    }
+
+    const android_dlextinfo dlextinfo = {
+        .flags = ANDROID_DLEXT_USE_NAMESPACE,
+        .library_namespace = ns,
+    };
+    gpu_warning(warnings, "Trying android_dlopen_ext()");
+    return (*p_android_dlopen_ext)(filename, RTLD_NOW, &dlextinfo);
+}
+#endif
 
 // OpenCL interfaces are documented here:
 // http://www.khronos.org/registry/cl/sdk/1.0/docs/man/xhtml/ and
@@ -208,7 +274,7 @@ void COPROCS::get_opencl(
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
     if (!opencl_lib) {
-        warnings.push_back("No OpenCL library found");
+        gpu_warning(warnings, "No OpenCL library found");
         return;
     }
 
@@ -219,6 +285,8 @@ void COPROCS::get_opencl(
 #else
 #ifdef __APPLE__
     opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
+#elif defined ANDROID
+    opencl_lib = android_dlopen("libOpenCL.so", warnings);
 #else
     opencl_lib = dlopen("libOpenCL.so", RTLD_NOW);
     if (!opencl_lib) {
@@ -227,7 +295,7 @@ void COPROCS::get_opencl(
 #endif
     if (!opencl_lib) {
         snprintf(buf, sizeof(buf), "OpenCL: %s", dlerror());
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return;
     }
     p_clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
@@ -237,25 +305,25 @@ void COPROCS::get_opencl(
 #endif
 
     if (!p_clGetPlatformIDs) {
-        warnings.push_back("clGetPlatformIDs() missing from OpenCL library");
+        gpu_warning(warnings, "clGetPlatformIDs() missing from OpenCL library");
         goto leave;
     }
     if (!p_clGetPlatformInfo) {
-        warnings.push_back("clGetPlatformInfo() missing from OpenCL library");
+        gpu_warning(warnings, "clGetPlatformInfo() missing from OpenCL library");
         goto leave;
     }
     if (!p_clGetDeviceIDs) {
-        warnings.push_back("clGetDeviceIDs() missing from OpenCL library");
+        gpu_warning(warnings, "clGetDeviceIDs() missing from OpenCL library");
         goto leave;
     }
     if (!p_clGetDeviceInfo) {
-        warnings.push_back("clGetDeviceInfo() missing from OpenCL library");
+        gpu_warning(warnings, "clGetDeviceInfo() missing from OpenCL library");
         goto leave;
     }
 
     ciErrNum = (*p_clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)) {
-        warnings.push_back("clGetPlatformIDs() failed to return any OpenCL platforms");
+        gpu_warning(warnings, "clGetPlatformIDs() failed to return any OpenCL platforms");
         goto leave;
     }
 
@@ -282,7 +350,7 @@ void COPROCS::get_opencl(
                 "Couldn't get PLATFORM_VERSION for platform #%u; error %d",
                 platform_index, ciErrNum
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             continue;
         }
 
@@ -295,7 +363,7 @@ void COPROCS::get_opencl(
                 "Couldn't get PLATFORM_VENDOR for platform #%u; error %d",
                 platform_index, ciErrNum
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
         }
 
         //////////// CPU //////////////
@@ -312,7 +380,7 @@ void COPROCS::get_opencl(
                     "Couldn't get CPU Device IDs for platform #%u: error %d",
                     platform_index, ciErrNum
                 );
-                warnings.push_back(buf);
+                gpu_warning(warnings, buf);
             }
         }
 
@@ -337,24 +405,61 @@ void COPROCS::get_opencl(
         }
 
         //////////// GPUs and Accelerators //////////////
-        
+
+// Looks like implementation of Qualcomm has some problems with clGetDeviceIDs
+// It returns CL_DEVICE_NOT_FOUND for CL_DEVICE_TYPE_GPU and CL_DEVICE_TYPE_ACCELERATOR combined
+// But it returns CL_SUCCESS when asking separately for CL_DEVICE_TYPE_GPU or CL_DEVICE_TYPE_ACCELERATOR
+// So we will ask for CL_DEVICE_TYPE_GPU and CL_DEVICE_TYPE_ACCELERATOR separately
+#ifdef ANDROID
+        cl_device_id android_gpu[MAX_COPROC_INSTANCES];
+        cl_uint num_android_gpu = 0;
+        ciErrNum = (*p_clGetDeviceIDs)(
+            platforms[platform_index],
+            (CL_DEVICE_TYPE_GPU),
+            MAX_COPROC_INSTANCES, android_gpu, &num_android_gpu
+        );
+        if (ciErrNum == CL_SUCCESS && num_android_gpu > 0) {
+            for (int i=0; i<num_android_gpu; ++i) {
+                devices[i] = android_gpu[i];
+            }
+            num_devices = num_android_gpu;
+        }
+
+        cl_device_id android_acc[MAX_COPROC_INSTANCES];
+        cl_uint num_android_acc = 0;
+        ciErrNum = (*p_clGetDeviceIDs)(
+            platforms[platform_index],
+            (CL_DEVICE_TYPE_ACCELERATOR),
+            MAX_COPROC_INSTANCES - num_devices, android_acc, &num_android_acc
+        );
+        if (ciErrNum == CL_SUCCESS && num_android_acc > 0) {
+            for (int i=0; i<num_android_acc; ++i) {
+                devices[num_devices+i] = android_acc[i];
+            }
+            num_devices += num_android_acc;
+        }
+#else
         ciErrNum = (*p_clGetDeviceIDs)(
             platforms[platform_index],
             (CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_ACCELERATOR),
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
-        if (ciErrNum == CL_DEVICE_NOT_FOUND) continue;  // No devices
-        if (num_devices == 0) continue;                 // No devices
+        if (ciErrNum == CL_DEVICE_NOT_FOUND) {
+            gpu_warning(warnings, "No OpenCL GPUs or Accelerators found");
+            continue;  // No devices
+        }
 
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "Couldn't get Device IDs for platform #%u: error %d",
                 platform_index, ciErrNum
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             continue;
         }
+#endif
+        if (num_devices == 0) continue;                 // No devices
 
         // Mac OpenCL does not recognize all NVIDIA GPUs returned by CUDA
         // Fortunately, CUDA and OpenCL return the same GPU model name on
@@ -388,9 +493,7 @@ void COPROCS::get_opencl(
                 }
                 if (numToMatch == (int)num_devices) break;
                 if (numToMatch < (int)num_devices) {
-                    warnings.push_back(
-                        "Could not match ATI OpenCL and CAL GPUs: ignoring CAL."
-                    );
+                    gpu_warning(warnings, "Could not match ATI OpenCL and CAL GPUs: ignoring CAL.");
                     // If we can't match ATI OpenCL and CAL GPUs, ignore CAL
                     // and keep OpenCL because AMD has deprecated CAL.
                     ati_gpus.clear();
@@ -434,22 +537,22 @@ void COPROCS::get_opencl(
                 bool cuda_match_found = false;
                 if (nvidia.have_cuda) {
                     // Mac OpenCL does not recognize all NVIDIA GPUs returned by
-                    // CUDA but we assume that OpenCL and CUDA return devices 
+                    // CUDA but we assume that OpenCL and CUDA return devices
                     // with identical model name strings and that OpenCL returns
                     // devices in order of ascending PCI slot.
                     //
-                    // On other systems, assume OpenCL and CUDA return devices 
+                    // On other systems, assume OpenCL and CUDA return devices
                     // in the same order.
                     //
                     int saved_CUDA_index = current_CUDA_index;
-                    
+
                     while (1) {
                         if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
                             snprintf(buf, sizeof(buf),
                                 "OpenCL NVIDIA index #%u does not match any CUDA device",
                                 device_index
                             );
-                            warnings.push_back(buf);
+                            gpu_warning(warnings, buf);
                             // Newer versions of CUDA driver don't support older NVIDIA GPUs
                             if (nvidia.cuda_version >= 6050) {
                                 prop.device_num = (int)(nvidia_opencls.size());
@@ -485,7 +588,7 @@ void COPROCS::get_opencl(
                     c.opencl_prop = prop;
                     c.set_peak_flops();
                     if (c.bad_gpu_peak_flops("NVIDIA OpenCL", s)) {
-                        warnings.push_back(s);
+                        gpu_warning(warnings, s.c_str());
                     }
                     prop.peak_flops = c.peak_flops;
                 }
@@ -496,16 +599,16 @@ void COPROCS::get_opencl(
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
                 }
-                
+
                 // Build nvidia_opencls vector in device_num order
                 for (it=nvidia_opencls.begin(); it != nvidia_opencls.end(); ++it) {
                     if (it->device_num > prop.device_num) break;
                 }
                 nvidia_opencls.insert(it, prop);
-                
+
                 if (cuda_match_found) ++current_CUDA_index;
             }
-            
+
             //////////// AMD / ATI //////////////
             else if (is_AMD(prop.vendor)) {
                 prop.opencl_device_index = device_index;
@@ -522,7 +625,7 @@ void COPROCS::get_opencl(
                                 "OpenCL ATI device #%u does not match any CAL device",
                                 device_index
                             );
-                            warnings.push_back(buf);
+                            gpu_warning(warnings, buf);
                             goto leave; // Should never happen
                         }
                         if ((int)ati_gpus[current_CAL_index].attribs.target >= min_CAL_target) {
@@ -554,7 +657,7 @@ void COPROCS::get_opencl(
                     c.opencl_prop = prop;
                     c.set_peak_flops();
                     if (c.bad_gpu_peak_flops("AMD OpenCL", s)) {
-                        warnings.push_back(s);
+                        gpu_warning(warnings, s.c_str());
                     }
                     prop.peak_flops = c.peak_flops;
                 }
@@ -581,7 +684,7 @@ void COPROCS::get_opencl(
 
                 c.set_peak_flops();
                 if (c.bad_gpu_peak_flops("Intel OpenCL", s)) {
-                    warnings.push_back(s);
+                    gpu_warning(warnings, s.c_str());
                 }
                 prop.peak_flops = c.peak_flops;
                 prop.opencl_available_ram = prop.global_mem_size;
@@ -607,7 +710,7 @@ void COPROCS::get_opencl(
                         opencl_device_index++;  // Another OpenCL device from same vendor
                     }
                 }
-                
+
                 prop.device_num = 0;    // Each vector entry has only one device
                 prop.opencl_device_index = opencl_device_index;
                 prop.opencl_available_ram = prop.global_mem_size;
@@ -626,7 +729,7 @@ void COPROCS::get_opencl(
                         "OpenCL generic: bad peak FLOPS; Max units %u, max freq %u MHz",
                         prop.max_compute_units, prop.max_clock_frequency
                     );
-                    warnings.push_back(buf2);
+                    gpu_warning(warnings, buf2);
                     prop.peak_flops = GPU_DEFAULT_PEAK_FLOPS;
                 }
 
@@ -634,15 +737,15 @@ void COPROCS::get_opencl(
             }
         }
     }
-    
-    // Neither nvidia.count, ati.count nor intel_gpu.count have been set yet, 
+
+    // Neither nvidia.count, ati.count nor intel_gpu.count have been set yet,
     // so we can't test have_nvidia(), have_ati() or have_intel_gpu() here.
     //
     if ((nvidia_opencls.size() > 0) || nvidia.have_cuda) max_other_coprocs--;
     if ((ati_opencls.size() > 0) || ati.have_cal) max_other_coprocs--;
     if (intel_gpu_opencls.size() > 0) max_other_coprocs--;
     if ((int)other_opencls.size() > max_other_coprocs) {
-        warnings.push_back("Too many OpenCL device types found");
+        gpu_warning(warnings, "Too many OpenCL device types found");
     }
 
 
@@ -666,9 +769,7 @@ void COPROCS::get_opencl(
         (cpu_opencls.size() == 0) &&
         (other_opencls.size() == 0)
     ) {
-        warnings.push_back(
-            "OpenCL library present but no OpenCL-capable devices found"
-        );
+        gpu_warning(warnings, "OpenCL library present but no OpenCL-capable devices found");
     }
 leave:
 #ifdef _WIN32
@@ -697,7 +798,7 @@ void COPROCS::correlate_opencl(
             safe_strcpy(nvidia.prop.name, nvidia.opencl_prop.name);
         }
     }
-    
+
     if (ati_opencls.size() > 0) {
         if (ati.have_cal) { // If CAL already found the "best" CAL GPU
             ati.merge_opencl(ati_opencls, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
@@ -709,7 +810,7 @@ void COPROCS::correlate_opencl(
             safe_strcpy(ati.name, ati.opencl_prop.name);
         }
     }
-    
+
     if (intel_gpu_opencls.size() > 0) {
         intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
         intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
@@ -731,7 +832,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get name for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -741,7 +842,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get vendor for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -751,7 +852,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get vendor ID for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -761,7 +862,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get availability for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -777,7 +878,7 @@ cl_int COPROCS::get_opencl_info(
                 "clGetDeviceInfo failed to get half-precision floating point capabilities for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
     }
@@ -791,7 +892,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get single-precision floating point capabilities for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -807,7 +908,7 @@ cl_int COPROCS::get_opencl_info(
                 "clGetDeviceInfo failed to get double-precision floating point capabilities for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
     }
@@ -821,7 +922,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get little or big endian for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -834,7 +935,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get execution capabilities for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -847,7 +948,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get device extensions for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -860,7 +961,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get global memory size for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -873,7 +974,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get local memory size for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -886,7 +987,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get max clock frequency for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -899,7 +1000,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get max compute units for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -909,7 +1010,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get OpenCL version supported by device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -919,7 +1020,7 @@ cl_int COPROCS::get_opencl_info(
             "clGetDeviceInfo failed to get OpenCL driver version for device %d",
             (int)device_index
         );
-        warnings.push_back(buf);
+        gpu_warning(warnings, buf);
         return ciErrNum;
     }
 
@@ -932,7 +1033,7 @@ cl_int COPROCS::get_opencl_info(
                 "clGetDeviceInfo failed to get CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
 
@@ -942,7 +1043,7 @@ cl_int COPROCS::get_opencl_info(
                 "clGetDeviceInfo failed to get CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
 
@@ -959,17 +1060,17 @@ cl_int COPROCS::get_opencl_info(
                 "clGetDeviceInfo failed to get AMD Board Name for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
-    
+
         ciErrNum = (*p_clGetDeviceInfo)(prop.device_id, CL_DEVICE_SIMD_PER_COMPUTE_UNIT_AMD, sizeof(prop.amd_simd_per_compute_unit), &prop.amd_simd_per_compute_unit, NULL);
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get CL_DEVICE_SIMD_PER_COMPUTE_UNIT_AMD for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
 
@@ -979,7 +1080,7 @@ cl_int COPROCS::get_opencl_info(
                 "clGetDeviceInfo failed to get CL_DEVICE_SIMD_WIDTH_AMD for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
 
@@ -989,7 +1090,7 @@ cl_int COPROCS::get_opencl_info(
                 "clGetDeviceInfo failed to get CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD for device %d",
                 (int)device_index
             );
-            warnings.push_back(buf);
+            gpu_warning(warnings, buf);
             return ciErrNum;
         }
 
@@ -1011,7 +1112,7 @@ void COPROC::merge_opencl(
 
     for (i=0; i<opencls.size(); i++) {
         opencls[i].is_used = COPROC_UNUSED;
-        
+
         if (in_vector(opencls[i].device_num, ignore_dev)) {
             opencls[i].is_used = COPROC_IGNORED;
             continue;
@@ -1249,7 +1350,7 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                                             "opencl_get_ati_mem_size_from_opengl model name mismatch: %s vs %s\n",
                                             ati_opencls[ati_gpu_index].name, (char *)CFDataGetBytePtr(modelName[j])
                                         );
-                                        warnings.push_back(buf);
+                                        gpu_warning(warnings, buf);
                                     }
                                 } else {
                                     // Could not get model name from IOKit, so use renderer name
@@ -1268,7 +1369,7 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                                             "opencl_get_ati_mem_size_from_opengl model name to renderer mismatch: %s vs %s\n",
                                             strRend, ati_opencls[ati_gpu_index].name
                                         );
-                                        warnings.push_back(buf);
+                                        gpu_warning(warnings, buf);
                                     }
                                 }
                             }   // End if (log_flags.coproc_debug) {
@@ -1278,13 +1379,13 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
 
                         CGLDestroyContext (cglContext);
                     } else {
-                        warnings.push_back(
-                            "opencl_get_ati_mem_size_from_opengl failed to create context\n"
+                        gpu_warning(warnings,
+                            "opencl_get_ati_mem_size_from_opengl failed to create context"
                         );
                     }
                 } else {
-                    warnings.push_back(
-                        "opencl_get_ati_mem_size_from_opengl failed to create PixelFormat\n"
+                    gpu_warning(warnings,
+                        "opencl_get_ati_mem_size_from_opengl failed to create PixelFormat"
                     );
                 }
             }       // End if kCGLRPAcceleratedCompute attribute
@@ -1341,40 +1442,40 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 {
     io_iterator_t iter;
     io_service_t serv, servicePort = 0;
-    
+
     CFMutableDictionaryRef matching = IOServiceMatching("IODisplayConnect");
-    
+
     // releases matching for us
     kern_return_t err = IOServiceGetMatchingServices(kIOMasterPortDefault,
                                                      matching,
                                                      &iter);
     if (err)
         return 0;
-    
+
     while ((serv = IOIteratorNext(iter)) != 0)
     {
         CFDictionaryRef info;
         CFIndex vendorID, productID, serialNumber;
         CFNumberRef vendorIDRef, productIDRef, serialNumberRef;
         Boolean success;
-        
+
         info = IODisplayCreateInfoDictionary(serv,
                                              kIODisplayOnlyPreferredName);
-        
+
         vendorIDRef = (CFNumberRef)CFDictionaryGetValue(info,
                                            CFSTR(kDisplayVendorID));
         productIDRef = (CFNumberRef)CFDictionaryGetValue(info,
                                             CFSTR(kDisplayProductID));
         serialNumberRef = (CFNumberRef)CFDictionaryGetValue(info,
                                                CFSTR(kDisplaySerialNumber));
-        
+
         success = CFNumberGetValue(vendorIDRef, kCFNumberCFIndexType,
                                    &vendorID);
         success &= CFNumberGetValue(productIDRef, kCFNumberCFIndexType,
                                     &productID);
         success &= CFNumberGetValue(serialNumberRef, kCFNumberCFIndexType,
                                     &serialNumber);
-        
+
         if (!success)
         {
             CFRelease(info);
@@ -1391,14 +1492,14 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
             CFRelease(info);
             continue;
         }
-        
+
         // The VendorID, Product ID, and the Serial Number all Match Up!
         // Therefore we have found the appropriate display io_service
         servicePort = serv;
         CFRelease(info);
         break;
     }
-    
+
     IOObjectRelease(iter);
     return servicePort;
 }

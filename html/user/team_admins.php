@@ -26,6 +26,7 @@ check_get_args(array("tnow", "ttok", "userid", "email_addr", "teamid", "action")
 
 function show_admin($user, $admin) {
     $admin_user = BoincUser::lookup_id($admin->userid);
+    if (!$admin_user) return;
     $tokens = url_tokens($user->authenticator);
     $date = date_str($admin->create_time);
     echo "<tr>

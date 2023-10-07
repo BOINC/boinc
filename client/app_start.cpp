@@ -540,7 +540,6 @@ int ACTIVE_TASK::start(bool test) {
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
-    FILE_INFO* fip;
     int retval;
     APP_INIT_DATA aid;
 #ifdef _WIN32
@@ -557,6 +556,12 @@ int ACTIVE_TASK::start(bool test) {
         return 0;
     }
 
+    // use special slot for test app
+    //
+    if (wup->project->app_test) {
+        strcpy(slot_dir, "slots/app_test");
+    }
+
     // run it at above idle priority if it
     // - uses coprocs
     // - uses less than one CPU
@@ -567,21 +572,17 @@ int ACTIVE_TASK::start(bool test) {
     if (app_version->avg_ncpus < 1) high_priority = true;
     if (app_version->is_wrapper) high_priority = true;
 
-    if (wup->project->verify_files_on_app_start) {
-        fip=0;
-        retval = gstate.input_files_available(result, true, &fip);
-        if (retval) {
-            if (fip) {
-                snprintf(
-                    buf, sizeof(buf),
-                    "Input file %s missing or invalid: %s",
-                    fip->name, boincerror(retval)
-                );
-            } else {
-                safe_strcpy(buf, "Input file missing or invalid");
-            }
-            goto error;
-        }
+    // make sure the task files exist
+    //
+    FILE_INFO* fip = 0;
+    retval = gstate.task_files_present(result, true, &fip);
+    if (retval) {
+        snprintf(
+            buf, sizeof(buf),
+            "Task file %s: %s",
+            fip->name, boincerror(retval)
+        );
+        goto error;
     }
 
     current_cpu_time = checkpoint_cpu_time;
@@ -694,6 +695,12 @@ int ACTIVE_TASK::start(bool test) {
     if (cc_config.exit_before_start) {
         msg_printf(0, MSG_INFO, "about to start a job; exiting");
         exit(0);
+    }
+
+    // use special exec path for test app
+    //
+    if (wup->project->app_test) {
+        strcpy(exec_path, gstate.app_test_file.c_str());
     }
 
 #ifdef _WIN32
@@ -840,7 +847,7 @@ int ACTIVE_TASK::start(bool test) {
     // see which one was used for this job, and show it
     //
     if (log_flags.task_debug && gstate.host_info.n_processor_groups > 0) {
-        msg_printf(wup->project, MSG_INFO, 
+        msg_printf(wup->project, MSG_INFO,
             "[task_debug] task is running in processor group %d",
             get_processor_group(process_handle)
         );
@@ -902,7 +909,7 @@ int ACTIVE_TASK::start(bool test) {
 
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -1101,7 +1108,7 @@ int ACTIVE_TASK::start(bool test) {
         }
         if (g_use_sandbox) {
             char switcher_path[MAXPATHLEN];
-            snprintf(switcher_path, sizeof(switcher_path), 
+            snprintf(switcher_path, sizeof(switcher_path),
                 "../../%s/%s",
                 SWITCHER_DIR, SWITCHER_FILE_NAME
             );
@@ -1136,7 +1143,7 @@ int ACTIVE_TASK::start(bool test) {
     //
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -1144,25 +1151,31 @@ int ACTIVE_TASK::start(bool test) {
     set_task_state(PROCESS_EXECUTING, "start");
     return 0;
 
-    // go here on error; "buf" contains error message, "retval" is nonzero
-    //
 error:
+    // here on error; "buf" contains error message, "retval" is nonzero
+    //
     if (test) {
         return retval;
     }
 
-    // if something failed, it's possible that the executable was munged.
-    // Verify it to trigger another download.
+    // if failed to run program, it's possible that the executable was munged.
+    // Verify the app version files to detect this
+    // and trigger another download if it's the case
     //
-    gstate.input_files_available(result, true);
+    if (retval == ERR_EXEC) {
+        gstate.verify_app_version_files(result);
+    }
+
+    if (log_flags.task_debug) {
+        msg_printf(wup->project, MSG_INFO,
+            "[task_debug] couldn't start app: %s", buf
+        );
+    }
+
     char err_msg[4096];
     snprintf(err_msg, sizeof(err_msg), "couldn't start app: %.256s", buf);
     gstate.report_result_error(*result, err_msg);
-    if (log_flags.task_debug) {
-        msg_printf(wup->project, MSG_INFO,
-            "[task] couldn't start app: %s", buf
-        );
-    }
+
     set_task_state(PROCESS_COULDNT_START, "start");
     return retval;
 }

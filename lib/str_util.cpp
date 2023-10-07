@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -33,10 +33,7 @@
 #include <ctype.h>
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
@@ -575,7 +572,7 @@ const char* boincerror(int which_error) {
         case ERR_ABORTED_VIA_GUI: return "result aborted via GUI";
         case ERR_INSUFFICIENT_RESOURCE: return "insufficient resources";
         case ERR_RETRY: return "retry";
-        case ERR_WRONG_SIZE: return "wrong size";
+        case ERR_WRONG_SIZE: return "wrong buffer size";
         case ERR_USER_PERMISSION: return "user permission";
         case ERR_BAD_EMAIL_ADDR: return "bad email address";
         case ERR_BAD_PASSWD: return "bad password";
@@ -596,6 +593,7 @@ const char* boincerror(int which_error) {
         case ERR_TRUNCATE: return "truncate() failed";
         case ERR_WRONG_URL: return "wrong URL";
         case ERR_DUP_NAME: return "coprocs with duplicate names detected";
+        case ERR_FILE_WRONG_SIZE: return "file has the wrong size";
         case ERR_GETGRNAM: return "getgrnam() failed";
         case ERR_CHOWN: return "chown() failed";
         case ERR_HTTP_PERMANENT: return "permanent HTTP error";

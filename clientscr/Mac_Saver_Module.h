@@ -90,7 +90,7 @@ public:
     int             Run();
 
     //
-    // Infrastructure layer 
+    // Infrastructure layer
     //
 protected:
     OSStatus        initBOINCApp(void);
@@ -104,7 +104,7 @@ protected:
     void            SetDiscreteGPU(bool setDiscrete);
     void            CheckDualGPUPowerSource();
     bool            Host_is_running_on_batteries();
-    
+
     bool            m_bErrorMode;        // Whether to draw moving logo and possibly display an error
     unsigned int    m_hrError;           // Error code to display
 
@@ -127,8 +127,8 @@ protected:
 
     void*           DataManagementProc();
     static void*    DataManagementProcStub( void* param );
-    int             terminate_screensaver(int& graphics_application, RESULT *worker_app);
-    int             terminate_default_screensaver(int& graphics_application);
+    int             terminate_screensaver(int graphics_application);
+    int             terminate_default_screensaver(int graphics_application);
     int             launch_screensaver(RESULT* rp, int& graphics_application);
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
@@ -146,7 +146,7 @@ protected:
 //   was passed in.
 
     RESULT*         get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);
- 
+
     bool            m_bResetCoreState;
     bool            m_bQuitDataManagementProc;
     bool            m_bDataManagementProcStopped;
@@ -170,7 +170,7 @@ public:
     bool            SetError( bool bErrorMode, unsigned int hrError );
     void            setSSMessageText(const char *msg);
 
-    int             terminate_v6_screensaver(int& graphics_application, RESULT* rp);
+    int             terminate_v6_screensaver(int graphics_application);
     bool            HasProcessExited(pid_t pid, int &exitCode);
 
     CC_STATE        state;

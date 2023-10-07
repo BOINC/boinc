@@ -311,8 +311,10 @@
     <ClCompile Include="..\client\app_config.cpp" />
     <ClCompile Include="..\client\app_control.cpp" />
     <ClCompile Include="..\client\app_start.cpp" />
+    <ClCompile Include="..\client\app_test.cpp" />
     <ClCompile Include="..\client\async_file.cpp" />
     <ClCompile Include="..\client\coproc_sched.cpp" />
+    <ClCompile Include="..\client\cs_sporadic.cpp" />
     <ClCompile Include="..\client\hostinfo_linux.cpp" />
     <ClCompile Include="..\client\hostinfo_wsl.cpp" />
     <ClCompile Include="..\client\mac_address.cpp" />

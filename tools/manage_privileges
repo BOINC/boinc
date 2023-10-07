@@ -23,7 +23,7 @@
 // Run this from the project directory.
 
 // usage:
-// 
+//
 // manage_privileges grant userid {appname|all}
 // manage_privileges revoke userid {appname|all}
 // manage_privileges list

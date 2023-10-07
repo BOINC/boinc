@@ -100,10 +100,12 @@ List<ImageWrapper> getSlideshowForProject(in String url);   // clientStatus.getS
 ////// app preference ////////////////////////////////////////////
 void setAutostart(in boolean isAutoStart);          // Monitor.getAppPrefs().setAutostart(boolean);
 void setShowNotificationForNotices(in boolean isShow);   // Monitor.getAppPrefs().setShowNotificationForNotices(boolean);
+void setShowNotificationDuringSuspend(in boolean isShow);   // Monitor.getAppPrefs().setShowNotificationDuringSuspend(boolean);
 boolean getShowAdvanced();           // Monitor.getAppPrefs().getShowAdvanced();
 boolean getIsRemote();              // Monitor.getAppPrefs().getIsRemote();
 boolean getAutostart();              // Monitor.getAppPrefs().getAutostart();
 boolean getShowNotificationForNotices();       // Monitor.getAppPrefs().getShowNotificationForNotices();
+boolean getShowNotificationDuringSuspend();       // Monitor.getAppPrefs().getShowNotificationDuringSuspend();
 int getLogLevel();                   // Monitor.getAppPrefs().getLogLevel();
 void setLogLevel(in int level);               // Monitor.getAppPrefs().setLogLevel(int);
 List<String> getLogCategories();

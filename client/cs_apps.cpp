@@ -215,62 +215,82 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     return 0;
 }
 
-// Returns zero iff all the input files for a result are present
-// (both WU and app version)
-// Called from CLIENT_STATE::update_results (with verify=false)
-// to transition result from DOWNLOADING to DOWNLOADED.
-// Called from ACTIVE_TASK::start() (with verify=true)
-// when project has verify_files_on_app_start set.
+// Check whether the input and app version files for a result are
+// marked as FILE_PRESENT.
+// If check_size is set, also check whether they exist and have the right size.
+// (Side-effect: files with a size mismatch will be deleted.)
+// Side effect: files with size mismatch are deleted.
 //
 // If fipp is nonzero, return a pointer to offending FILE_INFO on error
 //
-int CLIENT_STATE::input_files_available(
-    RESULT* rp, bool verify_contents, FILE_INFO** fipp
+// Called from:
+// CLIENT_STATE::update_results (with check_size=false)
+//      to transition result from DOWNLOADING to DOWNLOADED.
+// ACTIVE_TASK::start() (with check_size=true)
+//      to check files before running a task
+//
+int CLIENT_STATE::task_files_present(
+    RESULT* rp, bool check_size, FILE_INFO** fipp
 ) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
-    APP_VERSION* avp;
-    FILE_REF fr;
-    PROJECT* project = rp->project;
-    int retval;
+    APP_VERSION* avp = rp->avp;
+    int retval, ret = 0;
 
-    avp = rp->avp;
     for (i=0; i<avp->app_files.size(); i++) {
-        fr = avp->app_files[i];
-        fip = fr.file_info;
+        fip = avp->app_files[i].file_info;
         if (fip->status != FILE_PRESENT) {
             if (fipp) *fipp = fip;
-            return ERR_FILE_MISSING;
-        }
-
-        // don't verify app files if using anonymous platform
-        //
-        if (verify_contents && !project->anonymous_platform) {
-            retval = fip->verify_file(true, true, false);
+            ret = ERR_FILE_MISSING;
+        } else if (check_size) {
+            retval = fip->check_size();
             if (retval) {
                 if (fipp) *fipp = fip;
-                return retval;
+                ret = retval;
             }
         }
     }
 
     for (i=0; i<wup->input_files.size(); i++) {
+        if (wup->input_files[i].optional) continue;
         fip = wup->input_files[i].file_info;
         if (fip->status != FILE_PRESENT) {
-            if (wup->input_files[i].optional) continue;
             if (fipp) *fipp = fip;
-            return ERR_FILE_MISSING;
-        }
-        if (verify_contents) {
-            retval = fip->verify_file(true, true, false);
+            ret = ERR_FILE_MISSING;
+        } else if (check_size) {
+            retval = fip->check_size();
             if (retval) {
                 if (fipp) *fipp = fip;
-                return retval;
+                ret = retval;
             }
         }
     }
-    return 0;
+    return ret;
+}
+
+// The app for the given result failed to start.
+// Verify the app version files; maybe one of them was corrupted.
+//
+int CLIENT_STATE::verify_app_version_files(RESULT* rp) {
+    int ret = 0;
+    FILE_INFO* fip;
+    PROJECT* project = rp->project;
+
+    if (project->anonymous_platform) return 0;
+    APP_VERSION* avp = rp->avp;
+    for (unsigned int i=0; i<avp->app_files.size(); i++) {
+        fip = avp->app_files[i].file_info;
+        int retval = fip->verify_file(true, true, false);
+        if (retval && log_flags.task_debug) {
+            msg_printf(fip->project, MSG_INFO,
+                "app version file %s: bad contents",
+                fip->name
+            );
+            ret = retval;
+        }
+    }
+    return ret;
 }
 
 inline double force_fraction(double f) {

@@ -28,6 +28,7 @@ require_once("../inc/util.inc");
 function main_page($app) {
     page_head("Management functions for $app->name");
     echo "
+        <p>
         <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
         <p>
         <a href=manage_app.php?app_id=$app->id&amp;action=permissions_form>Manage user permissions</a>
@@ -211,16 +212,16 @@ if (!$bus->manage_all) {
 
 $action = get_str("action", true);
 switch ($action) {
-//case "":
-//    main_page($app); break;
+case "":
+    main_page($app); break;
 case "app_version_form":
     app_version_form($app); break;
 case "app_version_action":
     app_version_action($app); break;
-//case "permissions_form":
-//    permissions_form($app); break;
-//case "permissions_action":
-//    permissions_action($app); break;
+case "permissions_form":
+    permissions_form($app); break;
+case "permissions_action":
+    permissions_action($app); break;
 case "batches_form":
     batches_form($app); break;
 case "batches_action":

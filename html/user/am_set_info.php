@@ -136,7 +136,7 @@ if ($email_addr && $email_addr != $user->email_addr) {
         xml_error(ERR_DB_NOT_UNIQUE, "There's already an account with that email address.");
     }
 
-    //check if the email address is included in previous_email_addr window. 
+    //check if the email address is included in previous_email_addr window.
     //
     $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
     if ($tmpuser) {

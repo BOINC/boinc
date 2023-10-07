@@ -351,7 +351,7 @@ void estimate_flops_anon_platform() {
 // compute HOST_USAGE::projected_flops, which is used to estimate job runtime:
 //   est. runtime = wu.rsc_fpops_est / projected_flops
 // so project_flops must reflect systematic errors in rsc_fpops_est
-// 
+//
 // 1) if we have statistics for (host, app version) and
 //    <estimate_flops_from_hav_pfc> is not set use elapsed time,
 //    otherwise use pfc_avg.
@@ -389,7 +389,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
         double new_flops;
         if (config.estimate_flops_from_hav_pfc) {
             new_flops = hu.peak_flops / (havp->pfc.get_avg()+1e-18);
-        } else { 
+        } else {
             new_flops = 1./havp->et.get_avg();
         }
         // cap this at ET_RATIO_LIMIT*projected,
@@ -729,7 +729,7 @@ BEST_APP_VERSION* get_app_version(
     // Pick the one with highest expected FLOPS
     //
     // if config.prefer_primary_platform is set:
-    // stop scanning platforms once we find a feasible version 
+    // stop scanning platforms once we find a feasible version
 
     bavp->host_usage.projected_flops = 0;
     bavp->avp = NULL;

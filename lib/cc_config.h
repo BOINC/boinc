@@ -102,6 +102,7 @@ struct LOG_FLAGS {
     bool scrsave_debug;
     bool slot_debug;
         // allocation of slots
+    bool sporadic_debug;
     bool state_debug;
         // print textual summary of CLIENT_STATE initially
         // and after each scheduler RPC and garbage collect
@@ -119,7 +120,7 @@ struct LOG_FLAGS {
     bool unparsed_xml;
         // show unparsed XML lines
     bool work_fetch_debug;
-        // work fetch policy 
+        // work fetch policy
 
     LOG_FLAGS() {
         task = true;
@@ -143,8 +144,14 @@ struct EXCLUDE_GPU {
 };
 
 // if you add anything here, add it to
-// defaults(), parse_options(), parse_options_client(), write(),
-// and possibly show()
+// lib/cc_config.cpp:
+//      defaults()
+//      parse_options()
+//      write()
+// client/log_flags.cpp:
+//      parse_options_client()
+//      possibly show()
+// the web doc: https://boinc.berkeley.edu/wiki/Client_configuration
 //
 struct CC_CONFIG {
     bool abort_jobs_on_exit;
@@ -153,6 +160,7 @@ struct CC_CONFIG {
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
     COPROCS config_coprocs;
+    std::string device_name;
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
@@ -169,9 +177,10 @@ struct CC_CONFIG {
     bool fetch_on_update;
     std::string force_auth;
     bool http_1_0;
-    int http_transfer_timeout_bps;
     int http_transfer_timeout;
+    int http_transfer_timeout_bps;
     std::vector<int> ignore_gpu_instance[NPROC_TYPES];
+    std::vector<std::string> ignore_tty;
     bool lower_client_priority;
     int max_event_log_lines;
     int max_file_xfers;
@@ -185,6 +194,7 @@ struct CC_CONFIG {
     bool no_info_fetch;
     bool no_opencl;
     bool no_priority_change;
+    bool no_rdp_check;
     bool os_random_only;
     int process_priority;       // values in common_defs.h
     int process_priority_special;
@@ -193,8 +203,8 @@ struct CC_CONFIG {
     bool report_results_immediately;
     bool run_apps_manually;
     int save_stats_days;
-    bool skip_cpu_benchmarks;
     bool simple_gui_only;
+    bool skip_cpu_benchmarks;
     double start_delay;
     bool stderr_head;
     bool suppress_net_info;
@@ -204,8 +214,6 @@ struct CC_CONFIG {
     bool use_certs_only;
         // overrides use_certs
     bool vbox_window;
-    std::vector<std::string> ignore_tty;
-    std::string device_name;
 
     CC_CONFIG();
     void defaults();

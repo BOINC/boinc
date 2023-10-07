@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // The BOINC file upload handler.
-// See http://boinc.berkeley.edu/trac/wiki/FileUpload for protocol spec.
+// See https://github.com/BOINC/boinc/wiki/FileUpload for protocol spec.
 //
 
 #include "config.h"
@@ -31,11 +31,7 @@
 #include <fcntl.h>
 #include <string>
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
+#include "boinc_stdio.h"
 
 #include "crypt.h"
 #include "error_numbers.h"
@@ -79,7 +75,7 @@ int return_error(bool transient, const char* message, ...) {
     vsprintf(buf, message, va);
     va_end(va);
 
-    fprintf(stdout,
+    boinc::fprintf(stdout,
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
         "    <status>%d</status>\n"
@@ -98,15 +94,15 @@ int return_error(bool transient, const char* message, ...) {
 }
 
 int return_success(const char* text) {
-    fprintf(stdout,
+    boinc::fprintf(stdout,
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
         "    <status>0</status>\n"
     );
     if (text) {
-        fprintf(stdout, "    %s\n", text);
+        boinc::fprintf(stdout, "    %s\n", text);
     }
-    fprintf(stdout, "</data_server_reply>\n");
+    boinc::fprintf(stdout, "</data_server_reply>\n");
     return 0;
 }
 
@@ -133,7 +129,7 @@ void copy_socket_to_null(FILE* in) {
     unsigned char buf[BLOCK_SIZE];
 
     while (1) {
-        int n = fread(buf, 1, BLOCK_SIZE, in);
+        int n = boinc::fread(buf, 1, BLOCK_SIZE, in);
         if (n <= 0) return;
     }
 }
@@ -157,7 +153,7 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
 
         // try to get m bytes from socket (n>=0 is number actually returned)
         //
-        size_t n = fread(buf, 1, m, in);
+        size_t n = boinc::fread(buf, 1, m, in);
 
         // delay opening the file until we've done the first socket read
         // to avoid filesystem lockups (WCG, possible paranoia)
@@ -272,15 +268,15 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
         //
         if (n != m) {
             close(fd);
-            if (feof(in)) {
+            if (boinc::feof(in)) {
                 return return_error(ERR_TRANSIENT,
                     "EOF on socket read : asked for %d, got %d\n",
                     m, n
                 );
-            } else if (ferror(in)) {
+            } else if (boinc::ferror(in)) {
                 return return_error(ERR_TRANSIENT,
                     "error %d (%s) on socket read: asked for %d, got %d\n",
-                    ferror(in), strerror(ferror(in)), m, n
+                    boinc::ferror(in), strerror(boinc::ferror(in)), m, n
                 );
             } else {
                 return return_error(ERR_TRANSIENT,
@@ -320,7 +316,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     strcpy(name, "");
     strcpy(xml_signature, "");
     bool found_data = false;
-    while (fgets(buf, 256, in)) {
+    while (boinc::fgets(buf, 256, in)) {
         log_messages.printf(MSG_DETAIL, "got:%s\n", buf);
         if (match_tag(buf, "<file_info>")) continue;
         if (match_tag(buf, "</file_info>")) continue;
@@ -565,7 +561,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 #ifdef _USING_FCGI_
     log_messages.set_indent_level(1);
 #endif
-    while (fgets(buf, 256, in)) {
+    while (boinc::fgets(buf, 256, in)) {
         log_messages.printf(MSG_DETAIL, "handle_request: %s", buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
             continue;
@@ -604,18 +600,14 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     int retval;
     char buf[256];
     sprintf(buf, "%s/upload_public", config.key_dir);
-#ifndef _USING_FCGI_
-    FILE *f = fopen(buf, "r");
-#else
-    FCGI_FILE *f = FCGI::fopen(buf, "r");
-#endif
+    FILE *f = boinc::fopen(buf, "r");
     if (!f) return -1;
 #ifdef _USING_FCGI_
     retval = scan_key_hex(FCGI_ToFILE(f), (KEY*)&key, sizeof(key));
 #else
     retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
 #endif
-    fclose(f);
+    boinc::fclose(f);
     if (retval) return retval;
     return 0;
 }
@@ -653,7 +645,7 @@ void boinc_reopen_logfile(int signal_num) {
     }
     sprintf(log_name, "file_upload_handler%s.log", variety.c_str());
     if (get_log_path(log_path, log_name) == ERR_MKDIR) {
-        fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", log_path, errno);
+        boinc::fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", log_path, errno);
     }
 #ifndef _USING_FCGI_
     if (!freopen(log_path, "a", stderr)) {
@@ -666,11 +658,11 @@ void boinc_reopen_logfile(int signal_num) {
         exit(1);
     }
 #else
-    FCGI_FILE *f = FCGI::fopen(log_path, "a");
+    FILE *f = boinc::fopen(log_path, "a");
     if (f) {
        log_messages.redirect(f);
     } else {
-        fprintf(stderr, "Can't redirect FCGI log messages\n");
+        boinc::fprintf(stderr, "Can't redirect FCGI log messages\n");
         return_error(ERR_TRANSIENT, "can't open log file (FCGI)");
         exit(1);
     }
@@ -699,7 +691,7 @@ void installer() {
 }
 
 void usage(char *name) {
-    fprintf(stderr,
+    boinc::fprintf(stderr,
         "This is the BOINC file upload handler.\n"
         "It receives the results from the clients\n"
         "and puts them on the file server.\n\n"
@@ -733,7 +725,7 @@ int main(int argc, char *argv[]) {
             variety = "_" + string(argv[++c]);
 #endif
         } else if (option.length()){
-            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
+            boinc::fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
             usage(argv[0]);
             exit(1);
         }
@@ -745,7 +737,7 @@ int main(int argc, char *argv[]) {
 
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config.xml: %s\n", boincerror(retval));
+        boinc::fprintf(stderr, "Can't parse config.xml: %s\n", boincerror(retval));
         return_error(ERR_TRANSIENT,
             "can't parse config file"
         );
@@ -817,7 +809,7 @@ int main(int argc, char *argv[]) {
     }
     // when exiting, write headers back to apache so it won't complain
     // about "incomplete headers"
-    fprintf(stdout,"Content-type: text/plain\n\n");
+    boinc::fprintf(stdout,"Content-type: text/plain\n\n");
 #endif
     return 0;
 }

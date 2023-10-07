@@ -286,7 +286,7 @@ static int delete_antiques() {
 int main(int argc, char** argv) {
     int retval;
     int i;
-    
+
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {

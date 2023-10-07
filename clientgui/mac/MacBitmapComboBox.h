@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,7 +17,7 @@
 
 // On Macintosh we use only native controls in Simple View so the macOS
 // automatically provides accessibility support. Though wxBitmapComboBox
-// does not use MacOS native controls, wxChoice uses NSPopUpButton, so 
+// does not use MacOS native controls, wxChoice uses NSPopUpButton, so
 // we create our own BitmapComboBox on Macintosh based on wxChoice, which
 // we have hacked to allow adding bitmaps.
 //
@@ -32,7 +32,7 @@ WXDLLEXPORT_DATA(extern const wxChar) CBOINCBitmapComboBoxNameStr[];
 
 class CDrawLargeBitmapEvent;    // Forward declaration
 
-class CBOINCBitmapChoice : public wxChoice 
+class CBOINCBitmapChoice : public wxChoice
 {
     DECLARE_DYNAMIC_CLASS(CBOINCBitmapChoice )
     DECLARE_EVENT_TABLE()
@@ -43,7 +43,7 @@ public:
     virtual ~CBOINCBitmapChoice();
 
     CBOINCBitmapChoice(wxWindow *parent, wxWindowID id,
-            const wxString& value = wxT(""), 
+            const wxString& value = wxT(""),
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize,
             int n = 0, const wxString choices[] = NULL,
@@ -55,7 +55,7 @@ public:
     void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
 };
 
-class CBOINCBitmapComboBox : public wxPanel 
+class CBOINCBitmapComboBox : public wxPanel
 {
     DECLARE_DYNAMIC_CLASS( CBOINCBitmapComboBox )
     DECLARE_EVENT_TABLE()
@@ -66,7 +66,7 @@ public:
     virtual ~CBOINCBitmapComboBox();
 
     CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
-            const wxString& value = wxT(""), 
+            const wxString& value = wxT(""),
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize,
             int n = 0, const wxString choices[] = NULL,
@@ -84,6 +84,7 @@ public:
     wxString GetValue() { return m_ChoiceControl->GetStringSelection(); }
     wxString GetString(unsigned int n) const { return m_ChoiceControl->GetString(n); }
     wxString GetStringSelection() { return m_ChoiceControl->GetStringSelection(); }
+    int FindString(const wxString &s, bool bCase=false) { return m_ChoiceControl->FindString(s, bCase); }
 
     int Append(const wxString& item, const wxBitmap& bitmap);
     int Append(const wxString& item, const wxBitmap& bitmap, void *clientData);
@@ -93,7 +94,7 @@ public:
     void Clear();
     void SetToolTip(wxString& s);
     void SetToolTip(wxToolTip* tip);
-    
+
 private:
     void OnPaint(wxPaintEvent& event);
     void DrawLargeBitmap(CDrawLargeBitmapEvent& event);

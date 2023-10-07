@@ -234,8 +234,8 @@ bool PERS_FILE_XFER::poll() {
             fip->project->file_xfer_backoff(is_upload).file_xfer_succeeded();
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Finished %s of %s",
-                    is_upload?"upload":"download", fip->name
+                    fip->project, MSG_INFO, "Finished %s of %s (%.0f bytes)",
+                    is_upload?"upload":"download", fip->name, fip->nbytes
                 );
             }
             if (log_flags.file_xfer_debug) {

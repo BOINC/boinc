@@ -389,7 +389,7 @@ function form_select($label, $name, $items) {
 // same, for multiple select.
 // flags, if non-null, says which ones are selected
 //
-function form_select_multiple($label, $name, $items, $flags) {
+function form_select_multiple($label, $name, $items, $flags=null) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>

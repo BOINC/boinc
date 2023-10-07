@@ -1,6 +1,6 @@
 <?php
 
-// 
+//
 
 require_once('discussion_forums.features.inc');
 
@@ -10,20 +10,20 @@ require_once('discussion_forums.features.inc');
 function discussion_forums_enable() {
   // Check that the forum access module has its internal role set up and that
   // it has been renamed from "Forum Moderator," which is ridiculous
-  
+
   $better_name = t('forum control (system use only)');
-  
+
   // Get the role ID of the forum access moderator role; this also sets up the
   // role if for some reason it has not already been done
   module_load_include('inc', 'forum_access', 'forum_access.node');
   $rid = _forum_access_get_moderator_rid();
-  
+
   // The role export module really messes with role IDs... be sure things are
   // normalized before thinking that the forum access role ID won't change
   role_export_normalize();
-  
+
   $roles = user_roles();
-  
+
   if (isset($roles[$rid]) AND $roles[$rid] == $better_name) {
     // Life is good
   }

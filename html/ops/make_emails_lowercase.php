@@ -68,17 +68,17 @@ while ($user = _mysql_fetch_object($result)) {
   $cpid=$user->cross_project_id;
 
   $new_email=strtolower(trim($email_addr));
-  
+
   if (strcmp($email_addr, $new_email))
     echo "Problematic email address [$id] $email_addr becomes $new_email<br/>";
-  
+
   if (!(strcmp($cpid,"0"))) {
     $newcpid=random_string();
     echo "Problematic CPID=0 for [$id] $email_addr gets CPID=$newcpid<br/>";
   }
   else
     $newcpid=$cpid;
-  
+
   if (strcmp($email_addr, $new_email) || strcmp($newcpid,$cpid)) {
     $update="update user set email_addr='$new_email', cross_project_id='$newcpid' where id='$id'";
     if ($confirm != "yes") {

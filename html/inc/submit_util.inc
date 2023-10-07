@@ -148,13 +148,40 @@ function get_batch_params($batch, $wus) {
     return $batch;
 }
 
+// get the number of WUs for which we've sent at least 1 instance
+// TODO: do this more efficiently (single query)
+//
+function wus_nsent($wus) {
+    $n = 0;
+    foreach ($wus as $wu) {
+        $res = BoincResult::enum(
+            sprintf('workunitid=%d and server_state<>%d',
+                $wu->id, RESULT_SERVER_STATE_UNSENT
+            )
+        );
+        if (count($res) > 0) $n++;
+    }
+    return $n;
+}
+
 function get_outfile_names($result) {
-    $names = array();
+    $names = [];
     $xml = "<a>".$result->xml_doc_out."</a>";
     $r = simplexml_load_string($xml);
     if (!$r) return $names;
     foreach ($r->file_info as $fi) {
         $names[] = (string)($fi->name);
+    }
+    return $names;
+}
+
+function get_outfile_log_names($result) {
+    $names = [];
+    $xml = "<a>".$result->xml_doc_in."</a>";
+    $r = simplexml_load_string($xml);
+    if (!$r) return $names;
+    foreach ($r->result->file_ref as $fr) {
+        $names[] = (string)($fr->open_name);
     }
     return $names;
 }
@@ -238,9 +265,7 @@ function batch_output_file_size($batchid) {
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
-                $s=stat($path);
-                $size=$s['size'];
-                $batch_td_size+=$size;
+                $batch_td_size += filesize($path);
             }
         }
     }

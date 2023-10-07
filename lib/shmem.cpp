@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,15 +64,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 #endif
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-using FCGI::fprintf;
-#define perror FCGI::perror
-#else
-using std::fprintf;
-using std::perror;
-#endif
-
+#include "boinc_stdio.h"
 
 #ifdef _WIN32
 
@@ -86,7 +78,7 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
     EXPLICIT_ACCESS ea;
     SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
     SECURITY_ATTRIBUTES sa;
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     char global_seg_name[256];
 
     // Win9X doesn't like any reference to a security descriptor.
@@ -128,29 +120,29 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
             goto Cleanup;
         }
 
-        // Initialize a security descriptor.  
-        pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
-        if (NULL == pSD) { 
+        // Initialize a security descriptor.
+        pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH);
+        if (NULL == pSD) {
             fprintf(stderr, "LocalAlloc Error %u\n", GetLastError());
-            goto Cleanup; 
-        } 
-     
+            goto Cleanup;
+        }
+
         if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) {
             fprintf(stderr, "InitializeSecurityDescriptor Error %u\n", GetLastError());
-            goto Cleanup; 
-        } 
-     
-        // Add the ACL to the security descriptor. 
-        if (!SetSecurityDescriptorDacl(pSD, 
-                TRUE,     // bDaclPresent flag   
-                pACL, 
-                FALSE) // not a default DACL 
-        ) {  
+            goto Cleanup;
+        }
+
+        // Add the ACL to the security descriptor.
+        if (!SetSecurityDescriptorDacl(pSD,
+                TRUE,     // bDaclPresent flag
+                pACL,
+                FALSE) // not a default DACL
+        ) {
             fprintf(stderr,
                 "SetSecurityDescriptorDacl Error %u\n", GetLastError()
             );
-            goto Cleanup; 
-        } 
+            goto Cleanup;
+        }
 
         // Initialize a security attributes structure.
         sa.nLength = sizeof (SECURITY_ATTRIBUTES);
@@ -197,11 +189,11 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
 Cleanup:
 
     if (osvi.dwPlatformId != VER_PLATFORM_WIN32_WINDOWS) {
-        if (pEveryoneSID) 
+        if (pEveryoneSID)
             FreeSid(pEveryoneSID);
-        if (pACL) 
+        if (pACL)
             LocalFree(pACL);
-        if (pSD) 
+        if (pSD)
             LocalFree(pSD);
     }
 
@@ -307,11 +299,11 @@ int detach_shmem(void* p) {
 int create_shmem_mmap(const char *path, size_t size, void** pp) {
     int fd, retval;
     struct stat sbuf;
-    
+
     // Return NULL pointer if create_shmem fails
     *pp = 0;
     if (size == 0) return ERR_SHMGET;
-    
+
     // NOTE: in principle it should be 0660, not 0666
     // (i.e. Apache should belong to the same group as the
     // project admin user, and should therefore be able to access the seg.
@@ -329,8 +321,8 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
         return ERR_SHMGET;
     }
     if (sbuf.st_size < (long)size) {
-        // The following 2 lines extend the file and clear its new 
-        // area to all zeros because they write beyond the old EOF. 
+        // The following 2 lines extend the file and clear its new
+        // area to all zeros because they write beyond the old EOF.
         // See the lseek man page for details.
         lseek(fd, size-1, SEEK_SET);
         if (1 != write(fd, "\0", 1)) {
@@ -340,14 +332,14 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
     }
 
     *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
-    
+
     close(fd);
 
     if (*pp == MAP_FAILED) {
         *pp = 0;
         return ERR_SHMGET;
     }
-    
+
     return 0;
 }
 
@@ -359,7 +351,7 @@ int destroy_shmem_mmap(key_t /*key*/){
 int attach_shmem_mmap(const char *path, void** pp) {
     int fd, retval;
     struct stat sbuf;
-    
+
     // Return NULL pointer if attach_shmem fails
     *pp = 0;
     fd = open(path, O_RDWR);
@@ -376,14 +368,14 @@ int attach_shmem_mmap(const char *path, void** pp) {
     }
 
     *pp = mmap(NULL, sbuf.st_size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
-    
+
     close(fd);
 
     if (*pp == MAP_FAILED) {
         *pp = 0;
         return ERR_SHMGET;
     }
-    
+
     return 0;
 }
 
@@ -394,11 +386,11 @@ int detach_shmem_mmap(void* p, size_t size) {
 
 #if HAVE_SYS_SHM_H && !defined(ANDROID)
 
-// Compatibility routines for Unix/Linux/Mac V5 applications 
+// Compatibility routines for Unix/Linux/Mac V5 applications
 //
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
-    
+
     // try 0666, then SHM_R|SHM_W
     // seems like some platforms require one or the other
     // (this may be superstition)
@@ -416,8 +408,8 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }
     if (id < 0) {
-        perror("shmget");
-        fprintf(stderr, "shmem size: %d\n", size);
+        boinc::perror("shmget");
+        boinc::fprintf(stderr, "shmem size: %d\n", size);
         return ERR_SHMGET;
     }
 
@@ -429,26 +421,26 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
         // Set the shmem segment's group ID
         retval = shmctl(id, IPC_STAT, &buf);
         if (retval) {
-            perror("shmget: shmctl STAT");
+            boinc::perror("shmget: shmctl STAT");
             return ERR_SHMGET;
         }
         buf.shm_perm.gid = gid;
         retval = shmctl(id, IPC_SET, &buf);
         if (retval) {
-            perror("shmget: shmctl IPC_SET");
+            boinc::perror("shmget: shmctl IPC_SET");
             return ERR_SHMGET;
         }
     }
     return attach_shmem(key, pp);
 }
 
-// Mark the shared memory segment so it will be released after 
+// Mark the shared memory segment so it will be released after
 // the last attached process detaches or exits.
-// On Mac OS X and some other systems, not doing this causes 
+// On Mac OS X and some other systems, not doing this causes
 // shared memory leaks if BOINC crashes or exits suddenly.
-// On Mac OS X and some other systems, this command also 
-// prevents any more processes from attaching (by clearing 
-// the key in the shared memory structure), so BOINC does it 
+// On Mac OS X and some other systems, this command also
+// prevents any more processes from attaching (by clearing
+// the key in the shared memory structure), so BOINC does it
 // only after we are completely done with the segment.
 //
 int destroy_shmem(key_t key){
@@ -459,12 +451,12 @@ int destroy_shmem(key_t key){
     if (id < 0) return 0;           // assume it doesn't exist
     retval = shmctl(id, IPC_STAT, &buf);
     if (retval) {
-        perror("shmctl STAT");
+        boinc::perror("shmctl STAT");
         return ERR_SHMCTL;
     }
     retval = shmctl(id, IPC_RMID, 0);
     if (retval) {
-        perror("shmctl RMID");
+        boinc::perror("shmctl RMID");
         return ERR_SHMCTL;
     }
     return 0;
@@ -476,12 +468,12 @@ int attach_shmem(key_t key, void** pp){
 
     id = shmget(key, 0, 0);
     if (id < 0) {
-        perror("shmget in attach_shmem");
+        boinc::perror("shmget in attach_shmem");
         return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);
     if ((long)p == -1) {
-        perror("shmat");
+        boinc::perror("shmat");
         return ERR_SHMAT;
     }
     *pp = p;
@@ -503,7 +495,7 @@ int print_shmem_info(key_t key) {
         return ERR_SHMGET;
     }
     shmctl(id, IPC_STAT, &buf);
-    fprintf(
+    boinc::fprintf(
         stderr, "shmem key: %x\t\tid: %d, size: %d, nattach: %d\n",
         (unsigned int)key, id, (int)buf.shm_segsz, (int)buf.shm_nattch
     );
@@ -517,19 +509,19 @@ int print_shmem_info(key_t key) {
 // or alternate implementations
 
 int create_shmem(key_t, int size, gid_t gid, void**) {
-   perror("create_shmem: not supported on this platform");
+   boinc::perror("create_shmem: not supported on this platform");
    return ERR_SHMGET;
 }
 int attach_shmem(key_t, void**) {
-   perror("attach_shmem: not supported on this platform");
+   boinc::perror("attach_shmem: not supported on this platform");
    return ERR_SHMGET;
 }
 int detach_shmem(void*) {
-   perror("detach_shmem: not supported on this platform");
+   boinc::perror("detach_shmem: not supported on this platform");
    return ERR_SHMGET;
 }
 int destroy_shmem(key_t) {
-   perror("destroy_shmem: not supported on this platform");
+   boinc::perror("destroy_shmem: not supported on this platform");
    return ERR_SHMCTL;
 }
 
@@ -537,3 +529,15 @@ int destroy_shmem(key_t) {
 
 #endif  // !defined(_WIN32) && !defined(__EMX__)
 
+
+#ifndef _WIN32
+#ifndef HAVE_FTOK
+
+key_t ftok(const char *path, int id) {
+	struct stat st;
+	if (stat(path, &st) < 0) return -1;
+	return ((st.st_ino & 0xffff) | ((st.st_dev & 0xff) << 16) | ((id & 0xff) << 24));
+}
+
+#endif
+#endif

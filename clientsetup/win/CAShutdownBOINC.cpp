@@ -28,10 +28,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAShutdownBOINC::CAShutdownBOINC(MSIHANDLE hMSIHandle) :
@@ -40,10 +40,10 @@ CAShutdownBOINC::CAShutdownBOINC(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAShutdownBOINC::~CAShutdownBOINC()
@@ -53,10 +53,10 @@ CAShutdownBOINC::~CAShutdownBOINC()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 
@@ -93,23 +93,23 @@ UINT CAShutdownBOINC::OnExecution()
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ | GENERIC_EXECUTE); 
-     
-        if (schService) 
+            GENERIC_READ | GENERIC_EXECUTE);
+
+        if (schService)
         {
             if (QueryServiceStatus(schService, &ssStatus))
             {
-                if (!((SERVICE_STOPPED == ssStatus.dwCurrentState) && 
+                if (!((SERVICE_STOPPED == ssStatus.dwCurrentState) &&
                       (SERVICE_STOP_PENDING == ssStatus.dwCurrentState)))
                 {
                     ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus);
@@ -131,10 +131,10 @@ UINT CAShutdownBOINC::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    ShutdownBOINCManager
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall ShutdownBOINC(MSIHANDLE hInstall)

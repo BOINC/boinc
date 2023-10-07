@@ -2,6 +2,7 @@
 # This is invoked from BuildMacWrapper.sh shell script.
 # It should not be used by itself without the script.
 # Updated 8/28/20 for compatibility with Xcode 10
+# Updated 2/6/23 to include additional search paths
 
 # Change the following to match your installation
 BOINC_DIR = ../..
@@ -17,23 +18,24 @@ CFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -I$(BOINC_ZIP_DIR)
+    -I$(BOINC_ZIP_DIR) \
+    -I$(PREFIX)/include
 
-CPPFLAGS = $(CFLAGS) -stdlib=libc++
-    
-LDFLAGS = $(CPPFLAGS)  \
+CXXFLAGS = $(CFLAGS) -stdlib=libc++
+
+LDFLAGS = \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
     -L$(BOINC_ZIP_DIR) \
     -L$(BOINC_BUILD_DIR) \
+    -L$(PREFIX)/lib \
     -L.
 
 PROGS = wrapper
 
 all: $(PROGS)
 
-clean:
-	rm $(PROGS) *.o
+clean: distclean
 
 distclean:
 	/bin/rm -f $(PROGS) *.o
@@ -61,4 +63,4 @@ regexp_report.o: regexp_report.c
 	$(CC) $(CFLAGS) -c regexp_report.c
 
 wrapper: wrapper.o $(REGEXP_OBJS)
-	$(CPP) $(LDFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) -pthread -lboinc_api -lboinc -lboinc_zip
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) -pthread -lboinc_api -lboinc -lboinc_zip

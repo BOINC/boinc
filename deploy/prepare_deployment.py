@@ -21,7 +21,11 @@ import sys
 
 linux_client_list = [
     './client/boinc',
-    './client/boinccmd'
+    './client/boinccmd',
+    './client/scripts/boinc-client.service',
+    './client/scripts/boinc-client',
+    './client/scripts/boinc.bash',
+    './client/scripts/boinc-client.conf'
 ]
 
 linux_apps_list = [
@@ -38,12 +42,14 @@ linux_apps_list = [
     './samples/wrapper/wrapper',
     './samples/openclapp/openclapp',
     './samples/wrappture/wrappture_example',
-    './samples/wrappture/fermi'
+    './samples/wrappture/fermi',
+    './samples/sporadic/sporadic'
 ]
 
 linux_manager_list = [
     './clientgui/boincmgr',
     './clientgui/skins',
+    './clientgui/res/boinc.desktop',
     'locale/*/*.mo',
 ]
 
@@ -62,7 +68,8 @@ mingw_apps_vcpkg_list = [
     './samples/worker/worker.exe',
     './samples/wrapper/wrapper.exe',
     './samples/wrappture/wrappture_example.exe',
-    './samples/wrappture/fermi.exe'
+    './samples/wrappture/fermi.exe',
+    './samples/sporadic/sporadic.exe'
 ]
 
 android_manager_generic_list = [
@@ -134,7 +141,13 @@ android_apps_list = [
     './samples/wrappture/android_arm_fermi',
     './samples/wrappture/android_arm64_fermi',
     './samples/wrappture/android_x86_fermi',
-    './samples/wrappture/android_x86_64_fermi'
+    './samples/wrappture/android_x86_64_fermi',
+    # sporadic
+    './samples/sporadic/android_armv6_sporadic',
+    './samples/sporadic/android_arm_sporadic',
+    './samples/sporadic/android_arm64_sporadic',
+    './samples/sporadic/android_x86_sporadic',
+    './samples/sporadic/android_x86_64_sporadic'
 ]
 
 windows_apps_list = [
@@ -206,6 +219,10 @@ wasm_client_debug_folder_list = [
     'client/boinc_client.wasm',
 ]
 
+snap_list = [
+    './boinc_*.snap',
+]
+
 logs_list = [
     'config.log',
     '3rdParty/wasm/vcpkg/buildtrees/*.log',
@@ -214,6 +231,7 @@ logs_list = [
     '3rdParty/android/vcpkg/buildtrees/*.log',
     '3rdParty/mingw/vcpkg/buildtrees/*.log',
     '3rdParty/Windows/vcpkg/buildtrees/*.log',
+    'parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/*.log',
     'android/BOINC/app/build/reports/',
     'mac_build/xcodebuild_*.log',
 ]
@@ -221,7 +239,7 @@ logs_list = [
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
-    command = f'7z a -t7z -mx=9 {archive_path} {" ".join(files_list)}'
+    command = f'7z a -t7z -r -mx=9 {archive_path} {" ".join(files_list)}'
     os.system(command)
 
 def help():
@@ -242,6 +260,9 @@ def prepare_linux_apps_arm64(target_directory):
 
 def prepare_linux_apps_vcpkg(target_directory):
     prepare_7z_archive('linux_apps-vcpkg', target_directory, linux_apps_list)
+
+def prepare_linux_manager(target_directory):
+    prepare_7z_archive('linux_manager', target_directory, linux_manager_list)
 
 def prepare_linux_manager_with_webview(target_directory):
     prepare_7z_archive('linux_manager-with-webview', target_directory, linux_manager_list)
@@ -289,6 +310,9 @@ def prepare_wasm_client(target_directory):
 def prepare_wasm_client_debug(target_directory):
     prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
 
+def prepare_linux_snap(target_directory):
+    prepare_7z_archive('linux_snap', target_directory, snap_list)
+
 def prepare_logs(target_directory):
     prepare_7z_archive('logs', target_directory, logs_list)
 
@@ -298,6 +322,7 @@ boinc_types = {
     'linux_apps': prepare_linux_apps,
     'linux_apps-arm64': prepare_linux_apps_arm64,
     'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
+    'linux_manager': prepare_linux_manager,
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
     'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
@@ -312,6 +337,7 @@ boinc_types = {
     'win_manager': prepare_win_manager,
     'wasm_client': prepare_wasm_client,
     'wasm_client-debug': prepare_wasm_client_debug,
+    'linux_snap': prepare_linux_snap,
     'logs': prepare_logs,
 }
 

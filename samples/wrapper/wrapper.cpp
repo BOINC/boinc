@@ -120,7 +120,7 @@ struct TASK {
         // optional execution directory;
         // macro-substituted
     vector<string> vsetenv;
-        // vector of strings for environment variables 
+        // vector of strings for environment variables
         // macro-substituted
     string stdin_filename;
     string stdout_filename;
@@ -449,7 +449,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string("application", application)) continue;
         else if (xp.parse_str("exec_dir", buf, sizeof(buf))) {
             exec_dir = buf;
-            continue;  
+            continue;
         }
         else if (xp.parse_str("setenv", buf, sizeof(buf))) {
             vsetenv.push_back(buf);
@@ -778,6 +778,7 @@ int TASK::run(int argct, char** argvt) {
         boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
         startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
     } else {
+        // Redirecting child stdout to wrapper stderr here is not a typo
         startup_info.hStdOutput = (HANDLE)_get_osfhandle(_fileno(stderr));
     }
     if (stdin_filename != "") {
@@ -836,6 +837,7 @@ int TASK::run(int argct, char** argvt) {
     if (env_vars) delete [] env_vars;
     pid_handle = process_info.hProcess;
     pid = process_info.dwProcessId;
+    CloseHandle(process_info.hThread);
 #else
     int retval;
     char* argv[256];
@@ -921,6 +923,11 @@ int TASK::run(int argct, char** argvt) {
         exit(ERR_EXEC);
     }  // pid = 0 i.e. child proc of the fork
 #endif
+
+    fprintf(stderr, "%s wrapper: created child process %d\n",
+        boinc_msg_prefix(buf, sizeof(buf)), (int)pid
+    );
+
     suspended = false;
     elapsed_time = 0;
     return 0;
@@ -951,6 +958,7 @@ bool TASK::poll(int& status) {
                 boinc_msg_prefix(buf, sizeof(buf)),
                 application.c_str(), final_cpu_time
             );
+            CloseHandle(pid_handle);
             return true;
         }
     }

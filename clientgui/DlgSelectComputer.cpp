@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -108,7 +108,7 @@ bool CDlgSelectComputer::Create( wxWindow* parent, bool required, wxWindowID id,
  */
 
 void CDlgSelectComputer::CreateControls(bool required)
-{    
+{
 ////@begin CDlgSelectComputer content construction
     CDlgSelectComputer* itemDialog1 = this;
 
@@ -122,14 +122,14 @@ void CDlgSelectComputer::CreateControls(bool required)
 
         wxString strInfo = wxEmptyString;
         strInfo.Printf(
-            _("Another instance of %s is already running \non this computer.  Please select a client to monitor."), 
+            _("Another instance of %s is already running \non this computer.  Please select a client to monitor."),
             pSkinAdvanced->GetApplicationName().c_str()
         );
         wxStaticText* itemStaticText1 = new wxStaticText;
         itemStaticText1->Create( itemDialog1, wxID_STATIC, strInfo, wxDefaultPosition, wxDefaultSize, 0);
         itemBoxSizer2->Add(itemStaticText1, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     }
-    
+
     wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 2, 0, 0);
     itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
@@ -165,7 +165,7 @@ void CDlgSelectComputer::CreateControls(bool required)
     itemBoxSizer10->Add(itemButton11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxButton* itemButton12 = new wxButton;
-    itemButton12->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton12->Create( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer10->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     // Set validators

@@ -36,7 +36,7 @@ void usage(char *name) {
         "%s: how much RAC each HR class is getting\n"
         "    (needed if you use homogeneous redundancy).\n"
         "This should be run as a periodic task (about once a day) from config.xml.\n"
-        "For more info, see http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy\n\n"
+        "For more info, see https://github.com/BOINC/boinc/wiki/HomogeneousRedundancy\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  -h --help     shows this help text.\n"
@@ -48,7 +48,7 @@ void usage(char *name) {
 int main(int argc, char** argv) {
     HR_INFO hri;
     int retval;
-    
+
     for (int i=1; i<argc; i++) {
         if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
             usage(argv[0]);

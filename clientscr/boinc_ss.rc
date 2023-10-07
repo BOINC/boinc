@@ -61,19 +61,19 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "boinc_ss.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winresrc.h""\r\n"
     "#include ""version.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -117,7 +117,7 @@ BEGIN
             VALUE "FileDescription", "GridRepublic Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -152,7 +152,7 @@ BEGIN
             VALUE "FileDescription", "Progress Thru Processors Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -187,7 +187,7 @@ BEGIN
             VALUE "FileDescription", "Charity Engine Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -222,7 +222,7 @@ BEGIN
             VALUE "FileDescription", "World Community Grid Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -257,7 +257,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
+            VALUE "LegalCopyright", "© 2003-2023 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -522,11 +522,11 @@ IDB_BOINC               BITMAP                  "res\\boinc.bmp"
 
 #if defined(_GRIDREPUBLIC)
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DESCRIPTION         "GridRepublic"
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the GridRepublic screensaver."
-    IDS_ERR_BOINCNOTDETECTED 
+    IDS_ERR_BOINCNOTDETECTED
                             "GridRepublic is not running.\n\nPlease launch GridRepublic to display graphics."
     IDS_ERR_BOINCSUSPENDED  "GridRepublic is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
@@ -545,11 +545,11 @@ END
 
 #elif defined(_PROGRESSTHRUPROCESSORS)
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DESCRIPTION         "Progress Thru Processors"
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the Progress Thru Processors screensaver."
-    IDS_ERR_BOINCNOTDETECTED 
+    IDS_ERR_BOINCNOTDETECTED
                             "Progress Thru Processors is not running.\n\nPlease launch Progress Thru Processors\nto display graphics."
     IDS_ERR_BOINCSUSPENDED  "Progress Thru Processors is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
@@ -566,11 +566,11 @@ END
 
 #elif defined(_CHARITYENGINE)
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DESCRIPTION         "Charity Engine"
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the Charity Engine screensaver."
-    IDS_ERR_BOINCNOTDETECTED 
+    IDS_ERR_BOINCNOTDETECTED
                             "Charity Engine is not running.\n\nPlease launch Charity Engine\nto display graphics."
     IDS_ERR_BOINCSUSPENDED  "Charity Engine is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
@@ -587,11 +587,11 @@ END
 
 #elif defined(_WCG)
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DESCRIPTION         "World Community Grid"
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the World Community Grid screensaver."
-    IDS_ERR_BOINCNOTDETECTED 
+    IDS_ERR_BOINCNOTDETECTED
                             "World Community Grid is not running.\n\nPlease launch World Community Grid\nto display graphics."
     IDS_ERR_BOINCSUSPENDED  "World Community Grid is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
@@ -610,11 +610,11 @@ END
 
 #else
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DESCRIPTION         "BOINC"
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the BOINC screensaver."
-    IDS_ERR_BOINCNOTDETECTED 
+    IDS_ERR_BOINCNOTDETECTED
                             "BOINC is not running.\n\nPlease launch BOINC to display graphics."
     IDS_ERR_BOINCSUSPENDED  "BOINC is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
@@ -633,7 +633,7 @@ END
 
 #endif
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
                             "Application found, graphics loading...\n\nPlease wait..."

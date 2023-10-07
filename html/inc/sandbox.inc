@@ -17,6 +17,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Utility functions for user file sandbox feature
+//
+// In this system:
+// - sandbox files live in the download hierarchy,
+//   with names of the form sb_userid_md5
+// - each user has a "sandbox dir" project/sandbox/userid.
+//   The files in this have user-visible names, and contents of the form
+//   sb file_size file_md5
 
 require_once("../inc/util.inc");
 require_once("../inc/submit_db.inc");
@@ -28,7 +35,9 @@ require_once("../inc/dir_hier.inc");
 if (!function_exists("sandbox_dir")){
 function sandbox_dir($user) {
     $dir = parse_config(get_config(), "<sandbox_dir>");
-    if (!$dir) { $dir = "../../sandbox/"; }
+    if (!$dir) {
+        $dir = "../../sandbox/";
+    }
     if (!is_dir($dir)) {
         mkdir($dir);
     }
@@ -44,20 +53,19 @@ function sandbox_write_link_file($path, $size, $md5) {
     file_put_contents($path, "sb $size $md5");
 }
 
-// check if a newly update files already exists in sandbox via its md5 sum
+// check if a link with the given md5 exists
 //
-function sandbox_lf_exist($user, $md5) {
-    $exist = 0;
+function sandbox_lf_exists($user, $md5) {
+    $exist = false;
     $elf = "";
     $dir = sandbox_dir($user);
     $files = sandbox_file_names($user);
     foreach ($files as $file) {
-        $path = $dir."/".$file;
-        list($err, $file_size, $file_md5) = sandbox_parse_link_file($path);
+        $path = "$dir/$file";
+        [$err, $file_size, $file_md5] = sandbox_parse_link_file($path);
         if (!$err){
             if (strcmp($md5, $file_md5) == 0) {
-                //echo "this file with $md5 already exisits with another name $file";
-                $exist = 1;
+                $exist = true;
                 $elf = $file;
                 break;
             }
@@ -116,38 +124,47 @@ function sandbox_file_names($user) {
 //
 if (!function_exists('sandbox_file_select')) {
 function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = false) {
-    if ($regexp === null) {
-        $regexp = $select_name;
-    }
     $x = "<select class=\"form-control\" name=$select_name>\n";
     if ($allow_none) {
         $x .= "<option value=\"\">--- None</option>\n";
     }
     $files = sandbox_file_names($user);
     foreach ($files as $f) {
-        if(preg_match("/$regexp/",$f)){
-            $x .= "<option value=\"$f\">$f</option>\n";
-        }
+        if ($regexp && !preg_match("/$regexp/",$f)) continue;
+        $x .= "<option value=\"$f\">$f</option>\n";
     }
     $x .= "</select>\n";
     return $x;
 }
 }
 
-//check if a file is still being used by a unfinished batch
+// convert logical (link) name to physical path
+//
+function sandbox_log_to_phys($user, $log_name) {
+    $dir = sandbox_dir($user);
+    [$err, $file_size, $file_md5] = sandbox_parse_link_file("$dir/$log_name");
+    if ($err) return null;
+    return sandbox_physical_path($user, $file_md5);
+}
+
+// check if a file is still being used by a unfinished batch
+//
+// TODO: this is a kludge.
+// Should we use the job_file and batch_file_assoc tables instead?
 //
 function sandbox_file_in_use($user, $file){
     $ufiles = array();
 
-    // batch status: 2(completed), 3(aborted)
-    // $pbatches = BoincBatch::enum("user_id = $user->id and state != BATCH_STATE_COMPLETE and state != BATCH_STATE_ABORTED");
-    $pbatches = BoincBatch::enum("user_id = $user->id and state != 2 and state != 3");
+    $pbatches = BoincBatch::enum(
+        sprintf('user_id=%d and state!=%d and state!=%d',
+            $user->id, BATCH_STATE_COMPLETE, BATCH_STATE_ABORTED
+        )
+    );
     if (!$pbatches) return false;
 
     foreach ($pbatches as $batch){
         $wus = BoincWorkUnit::enum("batch = $batch->id limit 1" );
         if ($wus == null){
-            //echo " no workunit for this batch<br/>"; 
             continue;
         }
         foreach($wus as $wu){
@@ -160,8 +177,6 @@ function sandbox_file_in_use($user, $file){
             }
         }
     }
-    //echo "these files are being used:<br/>";
-    //print_r($ufiles);
     $dir = sandbox_dir($user);
     $path = $dir."/".$file;
     list($err, $size, $md5) = sandbox_parse_link_file($path);
@@ -171,7 +186,7 @@ function sandbox_file_in_use($user, $file){
             if (strcmp($f,$uf) == 0){
                 return true;
             }
-            
+
         }
     }
     return false;

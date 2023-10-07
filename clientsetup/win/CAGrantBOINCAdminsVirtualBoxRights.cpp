@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCAdminsVirtualBoxRights::CAGrantBOINCAdminsVirtualBoxRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CAGrantBOINCAdminsVirtualBoxRights::CAGrantBOINCAdminsVirtualBoxRights(MSIHANDLE
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCAdminsVirtualBoxRights::~CAGrantBOINCAdminsVirtualBoxRights()
@@ -54,10 +54,10 @@ CAGrantBOINCAdminsVirtualBoxRights::~CAGrantBOINCAdminsVirtualBoxRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGrantBOINCAdminsVirtualBoxRights::OnExecution()
@@ -81,7 +81,7 @@ UINT CAGrantBOINCAdminsVirtualBoxRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GrantBOINCAdminsVirtualBoxRights
 //
 // Description: This custom action grants the 'boinc_admins' group the

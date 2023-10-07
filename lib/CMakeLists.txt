@@ -36,6 +36,7 @@ set(LIBBOINC_HEADERS_APPLE
 set(LIBBOINC_HEADERS_GENERIC
     ${BOINC_DIR}/lib/app_ipc.h
     ${BOINC_DIR}/lib/base64.h
+    ${BOINC_DIR}/lib/boinc_stdio.h
     ${BOINC_DIR}/lib/cal_boinc.h
     ${BOINC_DIR}/lib/cc_config.h
     ${BOINC_DIR}/lib/cert_sig.h
@@ -171,6 +172,12 @@ if(WIN32 OR APPLE)
     set_target_properties(boincapi PROPERTIES IMPORT_PREFIX "lib")
 endif()
 
+# currently this is for MinGW only
+set(build_options "")
+if(HAVE_STRCASECMP)
+    list(APPEND build_options "-DHAVE_STRCASECMP")
+endif()
+
 if(APPLE)
     target_include_directories(boinc PUBLIC
                                 $<BUILD_INTERFACE:${BOINC_DIR}/lib/mac>
@@ -186,12 +193,14 @@ elseif(WIN32)
                                 -D_CRT_SECURE_NO_WARNINGS
                                 -DWIN32
                                 -D_CONSOLE
+                                ${build_options}
     )
 
     target_compile_definitions(boincapi PUBLIC
                                 -D_CRT_SECURE_NO_WARNINGS
                                 -DWIN32
                                 -D_CONSOLE
+                                ${build_options}
     )
 
     target_include_directories(boinc PUBLIC
@@ -203,7 +212,13 @@ elseif(WIN32)
     )
 elseif(UNIX)
     execute_process(COMMAND ./configure --disable-server --disable-client --disable-manager)
-    
+
+    execute_process(COMMAND ${BOINC_DIR}/configure --disable-server --disable-client --disable-manager
+        WORKING_DIRECTORY ${BOINC_DIR}
+        ECHO_OUTPUT_VARIABLE
+        ECHO_ERROR_VARIABLE
+    )
+
     file(COPY ${BOINC_DIR}/config.h DESTINATION ${BOINC_DIR}/config-h)
 
 
@@ -237,13 +252,22 @@ target_link_libraries(boincapi PRIVATE
                         boinc
 )
 
-install(TARGETS boinc boincapi EXPORT boinc-config
-            RUNTIME DESTINATION bin
-            ARCHIVE DESTINATION lib
-            LIBRARY DESTINATION lib
-        )
 
-install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS} DESTINATION include/boinc)
-install(EXPORT boinc-config NAMESPACE BOINC::boinc:: DESTINATION share/boinc)
+include(GNUInstallDirs)
+
+install(TARGETS boinc boincapi EXPORT boinc-config
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/boinc
+)
+
+install(EXPORT boinc-config NAMESPACE BOINC::boinc::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/boinc
+)
+
 
 message(WARNING "This build is under development and may not work as expected")

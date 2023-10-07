@@ -244,6 +244,11 @@ struct CLIENT_STATE {
     PROJECT_LIST project_list;
     void process_autologin(bool first);
 
+// --------------- app_test.cpp:
+    bool app_test;
+    string app_test_file;
+    void app_test_init();
+
 // --------------- current_version.cpp:
     string newer_version;
     string client_version_check_url;
@@ -347,7 +352,8 @@ struct CLIENT_STATE {
 // --------------- cs_account.cpp:
     int add_project(
         const char* master_url, const char* authenticator,
-        const char* project_name, bool attached_via_acct_mgr
+        const char* project_name, const char* email_addr,
+        bool attached_via_acct_mgr
     );
 
     int parse_account_files();
@@ -358,7 +364,8 @@ struct CLIENT_STATE {
 
 // --------------- cs_apps.cpp:
     double get_fraction_done(RESULT* result);
-    int input_files_available(RESULT*, bool, FILE_INFO** f=0);
+    int task_files_present(RESULT*, bool check_size, FILE_INFO** f=0);
+    int verify_app_version_files(RESULT*);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int n_usable_cpus;
         // number of usable CPUs
@@ -453,6 +460,11 @@ struct CLIENT_STATE {
     PROJECT* find_project_with_overdue_results(bool network_suspend_soon);
     bool had_or_requested_work;
     bool scheduler_rpc_poll();
+
+// --------------- cs_sporadic.cpp:
+    bool have_sporadic_app;
+    void sporadic_poll();
+    void sporadic_init();
 
 // --------------- cs_statefile.cpp:
     void set_client_state_dirty(const char*);
@@ -553,7 +565,9 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
-extern THREAD_LOCK client_mutex;
+// mutual exclusion for the client's threads (main thread, throttle thread)
+//
+extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
 
 //////// TIME-RELATED CONSTANTS ////////////
@@ -682,6 +696,10 @@ extern THREAD throttle_thread;
     // Android: if don't get a report_device_status() RPC from the GUI
     // in this interval, exit.
     // We rely on the GUI to report battery status.
+#define ANDROID_BATTERY_BACKOFF     300
+    // Android: if battery is overheated or undercharged,
+    // suspend for at least this long
+    // (avoid rapid start/stop)
 
 #ifndef ANDROID
 #define USE_NET_PREFS

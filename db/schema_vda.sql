@@ -23,7 +23,7 @@ create table vda_chunk_host (
     transfer_in_progress    tinyint not null default 0,
     transfer_wait           tinyint not null default 0,
     transfer_request_time   double not null default 0,
-    transfer_send_time      double not null default 0 
+    transfer_send_time      double not null default 0
 ) engine = InnoDB;
 
 alter table vda_chunk_host

@@ -69,7 +69,9 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     retval = init_master_fetch(p);
     if (retval) {
         msg_printf(p, MSG_INTERNAL_ERROR,
-            "Couldn't start download of scheduler list: %s", boincerror(retval)
+            "Couldn't start download of scheduler list from %s: %s",
+            http_op.m_url,
+            boincerror(retval)
         );
         p->master_fetch_failures++;
         project_rpc_backoff(p, "scheduler list fetch failed\n");
@@ -456,13 +458,15 @@ bool SCHEDULER_OP::poll() {
                         cur_proj->nrpc_failures = 0;
                     }
                 }
-            } else {
+            }
+            else {
                 // master file fetch failed.
                 //
-                char buf[256];
-                snprintf(buf, sizeof(buf), "Scheduler list fetch failed: %s",
-                    boincerror(http_op.http_op_retval)
-                );
+                if (log_flags.sched_ops) {
+                    msg_printf(cur_proj, MSG_INFO, "Scheduler list fetch from %s failed: %s",
+                        http_op.m_url, boincerror(http_op.http_op_retval)
+                    );
+                }
                 cur_proj->master_fetch_failures++;
                 rpc_failed("Master file request failed");
             }
@@ -482,7 +486,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(cur_proj, MSG_INFO,
-                        "Scheduler request failed: %s", http_op.error_msg
+                        "Scheduler request to %s failed: %s", http_op.m_url, http_op.error_msg
                     );
                 }
 
@@ -586,8 +590,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     string delete_file_name;
-    bool verify_files_on_app_start = false;
-    bool non_cpu_intensive = false;
     bool ended = false;
 
     mf.init_file(in);
@@ -649,8 +651,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // boolean project attributes.
             // If the scheduler reply didn't specify them, they're not set.
             //
-            project->verify_files_on_app_start = verify_files_on_app_start;
-            project->non_cpu_intensive = non_cpu_intensive;
             project->ended = ended;
             return 0;
         }
@@ -855,8 +855,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
             }
             continue;
-        } else if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) {
-            continue;
         } else if (xp.parse_bool("ended", ended)) {
             continue;
         } else if (xp.parse_bool("no_cpu_apps", btemp)) {
@@ -881,8 +879,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps(buf, project, true);
             }
-            continue;
-        } else if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) {
             continue;
         } else if (xp.parse_bool("send_full_workload", send_full_workload)) {
             continue;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// functions for building the system-wide process tree,
+// and querying/controlling it
+
 #ifndef BOINC_PROC_CONTROL_H
 #define BOINC_PROC_CONTROL_H
 
 #include <vector>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif

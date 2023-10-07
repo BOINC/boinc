@@ -6,7 +6,7 @@
 //
 // add tra() around visible strings to make them translatable
 // see inc/translation.inc and
-// https://boinc.berkeley.edu/trac/wiki/TranslateProject for details
+// https://github.com/BOINC/boinc/wiki/TranslateProject for details
 
 require_once("../inc/util.inc");
 
@@ -41,7 +41,7 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
     // an existing scheduler request sufficient time to complete.  Some projects
     // might want to increase this to a longer time.  Simply uncomment and set the
     // delay to what the project needs.
-    
+
 //-------------- Caching
 
 //define("MEMCACHE_SERVERS", "127.0.0.1:11211");
@@ -58,7 +58,7 @@ define("FORUM_QA_MERGED_MODE", true);
     // Set to true to merge Message boards and Q&A section
 define ("DISABLE_PROFILES", true);
     // enable profiles only after enabling reCAPTCHA
-    // https://boinc.berkeley.edu/trac/wiki/ProtectionFromSpam
+    // https://github.com/BOINC/boinc/wiki/ProtectionFromSpam
 define("USE_STOPFORUMSPAM", true);
     // use http://www.stopforumspam.com to suppress spammer accounts
 define("RPC_DEBUG", false);
@@ -212,7 +212,7 @@ function project_forum_post_rules() {
 
 function project_delete_account($user) {
     // a project defined function for deleting users if neither
-    // obfuscate_account($user) or wipe_account($user) in 
+    // obfuscate_account($user) or wipe_account($user) in
     // inc/delete_account.inc meets the need of the project
     die("This function must be implemented before it can be used");
 }

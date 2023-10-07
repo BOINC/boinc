@@ -91,4 +91,4 @@ AC_DEFUN([BOINC_PLATFORM],[
      AC_MSG_RESULT(none)
   fi
 ])
-    
+

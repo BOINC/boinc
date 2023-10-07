@@ -28,15 +28,9 @@ export VCPKG_DIR=$VCPKG_ROOT/installed/x86-android
 CONFIG_FLAGS=""
 CONFIG_LDFLAGS=""
 
-if [ $BUILD_WITH_VCPKG = "yes" ]; then
-    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
-    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
-    export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-else
-    CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
-    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
-    export _libcurl_pc="$TCINCLUDES/lib/pkgconfig/libcurl.pc"
-fi
+CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
+export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=i686-linux-android16-clang
@@ -63,7 +57,7 @@ fi
 
 if [ -n "$COMPILEBOINC" ]; then
     cd "$BOINC"
-    echo "===== building BOINC for x86 from $PWD ====="    
+    echo "===== building BOINC for x86 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         if [ "$VERBOSE" = "no" ]; then
             make distclean 1>$STDOUT_TARGET 2>&1

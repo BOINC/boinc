@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,14 +32,10 @@
 #include "md5_file.h"
 #include "util.h"
 #include "str_replace.h"
-
 #include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 const char* STOP_DAEMONS_FILENAME = "stop_daemons";
     // NOTE: this must be same as in the "start" script
@@ -49,25 +45,21 @@ const int STOP_SIGNAL = SIGHUP;
     // NOTE: this must be same as in the "start" script
 
 void write_pid_file(const char* filename) {
-#ifndef _USING_FCGI_
-    FILE* fpid = fopen(filename, "w");
-#else
-    FCGI_FILE* fpid = FCGI::fopen(filename,"w");
-#endif
+    FILE* fpid = boinc::fopen(filename, "w");
 
     if (!fpid) {
         log_messages.printf(MSG_CRITICAL, "Couldn't write pid file\n");
         return;
     }
-    fprintf(fpid, "%d\n", (int)getpid());
-    fclose(fpid);
+    boinc::fprintf(fpid, "%d\n", (int)getpid());
+    boinc::fclose(fpid);
 }
 
 // caught_sig_int will be set to true if STOP_SIGNAL (normally SIGHUP)
 //  is caught.
 bool caught_stop_signal = false;
 static void stop_signal_handler(int) {
-    fprintf(stderr, "GOT STOP SIGNAL\n");
+    boinc::fprintf(stderr, "GOT STOP SIGNAL\n");
     caught_stop_signal = true;
 }
 
@@ -112,20 +104,12 @@ bool check_stop_sched() {
 //     (this is generally a recoverable error,
 //     like NFS mount failure, that may go away later)
 //
-#ifndef _USING_FCGI_
 int try_fopen(const char* path, FILE*& f, const char* mode) {
-#else
-int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
-#endif
     const char* p;
     DIR* d;
     char dirpath[MAXPATHLEN];
 
-#ifndef _USING_FCGI_
-    f = fopen(path, mode);
-#else
-    f = FCGI::fopen(path, mode);
-#endif
+    f = boinc::fopen(path, mode);
 
     if (!f) {
         memset(dirpath, '\0', sizeof(dirpath));
@@ -245,7 +229,7 @@ int dir_hier_path(
     if (create) {
         retval = boinc_mkdir(dirpath);
         if (retval && (errno != EEXIST)) {
-            fprintf(stderr, "boinc_mkdir(%s): %s: errno %d\n",
+            boinc::fprintf(stderr, "boinc_mkdir(%s): %s: errno %d\n",
                 dirpath, boincerror(retval), errno
             );
             return ERR_MKDIR;

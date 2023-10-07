@@ -91,7 +91,7 @@ function c_row2($color, $x, $y) {
 }
 
 function show_profile_link_ops($user) {
-    if ($user->has_profile) { 
+    if ($user->has_profile) {
         row2("Profile",
             "<a href=\"".url_base()."view_profile.php?userid=$user->id\">View</a>"
         );
@@ -200,7 +200,7 @@ if (!function_exists('auth_ops')) {
                 You must protect the admin interface
                 with either a .htaccess file or an auto_ops() function.
                 <p>
-                <a href=http://boinc.berkeley.edu/trac/wiki/HtmlOps>See how here</a>"
+                <a href=https://github.com/BOINC/boinc/wiki/HtmlOps>See how here</a>"
             );
         }
     }

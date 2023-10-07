@@ -195,6 +195,14 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.cancelNoticeNotification()
     }
 
+    override fun setShowNotificationDuringSuspend(isShow: Boolean) {
+        monitor.showNotificationDuringSuspend = isShow
+    }
+
+    override fun getShowNotificationDuringSuspend(): Boolean {
+        return monitor.showNotificationDuringSuspend
+    }
+
     override fun getWelcomeStateFile(): Boolean {
         return monitor.welcomeStateFile
     }

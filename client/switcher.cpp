@@ -81,11 +81,11 @@ int main(int /*argc*/, char** argv) {
     strcpy(boinc_master_user_name, "boinc_master");
 
 #if VERBOSE     // For debugging only
-    print_to_log_file("\n\nEntered switcher with euid %d, egid %d, uid %d and gid %d\n", geteuid(), getegid(), getuid(), getgid());       
+    print_to_log_file("\n\nEntered switcher with euid %d, egid %d, uid %d and gid %d\n", geteuid(), getegid(), getuid(), getgid());
     getcwd( current_dir, sizeof(current_dir));
     print_to_log_file("current directory = %s\n", current_dir);
     fflush(stderr);
-    
+
     i = 0;
     while(argv[i]) {
         print_to_log_file("switcher arg %d: %s\n", i, argv[i]);
@@ -110,7 +110,7 @@ int main(int /*argc*/, char** argv) {
 
 #ifdef __APPLE__
     // Under fast user switching, the BOINC client may be running under a
-    // different login than the screensaver 
+    // different login than the screensaver
     //
     // If we need to join a different process group, it must be the last argument.
     // This is currently used for OS 10.15+
@@ -123,7 +123,7 @@ int main(int /*argc*/, char** argv) {
         ++i;
     }
 #endif
- 
+
     if (!screensaverLoginUser) {
         // Satisfy an error / warning from rpmlint: ensure that
         // we drop any supplementary groups associated with root
@@ -192,29 +192,29 @@ int main(int /*argc*/, char** argv) {
        // Used under OS 10.15 Catalina and later to launch screensaver graphics apps
        //
        // BOINC screensaver plugin BOINCSaver.saver (BOINC Screensaver Coordinator)
-       // sends a run_graphics_app RPC to the BOINC client. The BOINC client then 
+       // sends a run_graphics_app RPC to the BOINC client. The BOINC client then
        // launches switcher, which submits a script to launchd as a LaunchAgent
        // for the user that invoked the screensaver (the currently logged in user.)
        //
-       // We must go through launchd to establish a connection to the windowserver 
+       // We must go through launchd to establish a connection to the windowserver
        // in the currently logged in user's space for use by the project graphics
-       // app. This script then launches gfx_switcher, which uses fork and execv to 
-       // launch the project graphics app. gfx_switcher writes the graphics app's 
-       // process ID to shared memory, to be read by the Screensaver Coordinator. 
-       // gfx_switcher waits for the graphics app to exit and notifies then notifies 
+       // app. This script then launches gfx_switcher, which uses fork and execv to
+       // launch the project graphics app. gfx_switcher writes the graphics app's
+       // process ID to shared memory, to be read by the Screensaver Coordinator.
+       // gfx_switcher waits for the graphics app to exit and notifies then notifies
        // the Screensaver Coordinator by writing 0 to the shared memory.
        //
        // This Rube Goldberg process is necessary due to limitations on screensavers
        // introduced in OS 10.15 Catalina.
         char cmd[1024];
 
-        // We are running setuid root, so setuid() sets real user ID, 
+        // We are running setuid root, so setuid() sets real user ID,
         // effective user ID and saved set_user-ID for this process
         setuid(geteuid());
-        // We are running setuid root, so setgid() sets real group ID, 
+        // We are running setuid root, so setgid() sets real group ID,
         // effective group ID and saved set_group-ID for this process
         setgid(getegid());
-        
+
         getcwd(current_dir, sizeof(current_dir));
 
         i = 0;
@@ -231,7 +231,7 @@ int main(int /*argc*/, char** argv) {
             retval = callPosixSpawn(cmd);
             return retval;
        } else {
-            // A new submit of edu.berkeley.boinc-ss_helper will be ignored if for some reason 
+            // A new submit of edu.berkeley.boinc-ss_helper will be ignored if for some reason
             // edu.berkeley.boinc-ss_helper is still loaded, so ensure it is removed.
             snprintf(cmd, sizeof(cmd), "su -l \"%s\" -c 'launchctl remove edu.berkeley.boinc-ss_helper'", screensaverLoginUser);
             retval = callPosixSpawn(cmd);
@@ -277,7 +277,7 @@ static void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    
+
     f = fopen("/Users/Shared/test_log_gfx_switcher.txt", "a");
     if (!f) return;
 
@@ -294,7 +294,7 @@ static void print_to_log_file(const char *format, ...) {
     va_start(args, format);
     vfprintf(f, format, args);
     va_end(args);
-    
+
     fputs("\n", f);
     fflush(f);
     fclose(f);

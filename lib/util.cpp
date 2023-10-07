@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,6 +18,7 @@
 #if defined(_WIN32)
 #include "boinc_win.h"
 #include "str_replace.h"
+#include "str_util.h"
 #include "win_util.h"
 #endif
 
@@ -30,26 +31,18 @@
 #define M_LN2      0.693147180559945309417
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#define perror FCGI::perror
-#endif
+#include "boinc_stdio.h"
 
 #ifndef _WIN32
 #include "config.h"
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
 #endif
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_SYS_SYSCTL_H
-#include <sys/sysctl.h>
-#endif
 #include <sys/types.h>
+#include <signal.h>
 #include <sys/time.h>
 #include <sys/wait.h>
-#include <signal.h>
 #include <sys/resource.h>
 #include <errno.h>
 #include <string>
@@ -63,14 +56,13 @@ extern "C" {
 #endif
 #endif
 
-#include "error_numbers.h"
-#include "common_defs.h"
-#include "filesys.h"
 #include "base64.h"
+#include "common_defs.h"
+#include "error_numbers.h"
+#include "filesys.h"
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
-
 #include "util.h"
 
 using std::min;
@@ -145,91 +137,6 @@ void push_unique(string s, vector<string>& v) {
     v.push_back(s);
 }
 
-#ifdef _WIN32
-
-int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
-    FILETIME creationTime, exitTime, kernelTime, userTime;
-
-    if (GetThreadTimes(
-        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
-    ) {
-        ULARGE_INTEGER tKernel, tUser;
-        LONGLONG totTime;
-
-        tKernel.LowPart  = kernelTime.dwLowDateTime;
-        tKernel.HighPart = kernelTime.dwHighDateTime;
-        tUser.LowPart    = userTime.dwLowDateTime;
-        tUser.HighPart   = userTime.dwHighDateTime;
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-
-        // Runtimes in 100-nanosecond units
-        cpu = totTime / 1.e7;
-    } else {
-        return -1;
-    }
-    return 0;
-}
-
-int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
-    FILETIME creationTime, exitTime, kernelTime, userTime;
-
-    if (GetProcessTimes(
-        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
-    ) {
-        ULARGE_INTEGER tKernel, tUser;
-        LONGLONG totTime;
-
-        tKernel.LowPart  = kernelTime.dwLowDateTime;
-        tKernel.HighPart = kernelTime.dwHighDateTime;
-        tUser.LowPart    = userTime.dwLowDateTime;
-        tUser.HighPart   = userTime.dwHighDateTime;
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-
-        // Runtimes in 100-nanosecond units
-        cpu = totTime / 1.e7;
-    } else {
-        return -1;
-    }
-    return 0;
-}
-
-static void get_elapsed_time(double& cpu) {
-    static double start_time;
-
-    double now = dtime();
-    if (start_time) {
-        cpu = now - start_time;
-    } else {
-        cpu = 0;
-    }
-    start_time = now;
-}
-
-int boinc_calling_thread_cpu_time(double& cpu) {
-    if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
-        get_elapsed_time(cpu);
-    }
-    return 0;
-}
-
-#else
-
-// Unix: pthreads doesn't provide an API for getting per-thread CPU time,
-// so just get the process's CPU time
-//
-int boinc_calling_thread_cpu_time(double &cpu_t) {
-    struct rusage ru;
-
-    int retval = getrusage(RUSAGE_SELF, &ru);
-    if (retval) return ERR_GETRUSAGE;
-    cpu_t = (double)ru.ru_utime.tv_sec + ((double)ru.ru_utime.tv_usec) / 1e6;
-    cpu_t += (double)ru.ru_stime.tv_sec + ((double)ru.ru_stime.tv_usec) / 1e6;
-    return 0;
-}
-
-#endif
-
-
 // Update an estimate of "units per day" of something (credit or CPU time).
 // The estimate is exponentially averaged with a given half-life
 // (i.e. if no new work is done, the average will decline by 50% in this time).
@@ -291,27 +198,6 @@ void update_average(
     avg_time = now;
 }
 
-#ifndef _USING_FCGI_
-#ifndef _WIN32
-// (linux) return current CPU time of the given process
-//
-double linux_cpu_time(int pid) {
-    FILE *file;
-    char file_name[24];
-    unsigned long utime = 0, stime = 0;
-    int n;
-
-    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
-    if ((file = fopen(file_name,"r")) != NULL) {
-        n = fscanf(file,"%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu",&utime,&stime);
-        fclose(file);
-        if (n != 2) return 0;
-    }
-    return (double)(utime + stime)/100;
-}
-#endif
-#endif
-
 void boinc_crash() {
 #ifdef _WIN32
     DebugBreak();
@@ -320,104 +206,19 @@ void boinc_crash() {
 #endif
 }
 
-// read file (at most max_len chars, if nonzero) into malloc'd buf
-//
-#ifdef _USING_FCGI_
-int read_file_malloc(const char* path, char*& buf, size_t, bool) {
-#else
-int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
-#endif
-    int retval;
-    double size;
-
-    // Win: if another process has this file open for writing,
-    // wait for up to 5 seconds.
-    // This is because when a job exits, the write to stderr.txt
-    // sometimes (inexplicably) doesn't appear immediately
-
-#ifdef _WIN32
-    for (int i=0; i<5; i++) {
-        HANDLE h = CreateFileA(
-            path,
-            GENERIC_WRITE,
-            0,
-            NULL,
-            OPEN_EXISTING,
-            FILE_ATTRIBUTE_NORMAL,
-            NULL
-        );
-        if (h != INVALID_HANDLE_VALUE) {
-            CloseHandle(h);
-            break;
-        }
-        boinc_sleep(1);
-    }
-#endif
-
-    retval = file_size(path, size);
-    if (retval) return retval;
-
-    // Note: the fseek() below won't work unless we use binary mode in fopen
-
-#ifndef _USING_FCGI_
-    FILE *f = fopen(path, "rb");
-#else
-    FCGI_FILE *f = FCGI::fopen(path, "rb");
-#endif
-    if (!f) return ERR_FOPEN;
-
-#ifndef _USING_FCGI_
-    if (max_len && size > max_len) {
-        if (tail) {
-            fseek(f, (long)size-(long)max_len, SEEK_SET);
-        }
-        size = max_len;
-    }
-#endif
-    size_t isize = (size_t)size;
-    buf = (char*)malloc(isize+1);
-    if (!buf) {
-        fclose(f);
-        return ERR_MALLOC;
-    }
-    size_t n = fread(buf, 1, isize, f);
-    buf[n] = 0;
-    fclose(f);
-    return 0;
-}
-
-// read file (at most max_len chars, if nonzero) into string
-//
-int read_file_string(
-    const char* path, string& result, size_t max_len, bool tail
-) {
-    result.erase();
-    int retval;
-    char* buf;
-
-    retval = read_file_malloc(path, buf, max_len, tail);
-    if (retval) return retval;
-    result = buf;
-    free(buf);
-    return 0;
-}
-
 // chdir into the given directory, and run a program there.
-// If nsecs is nonzero, make sure it's still running after that many seconds.
-//
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
 
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFOA startup_info;
     char cmdline[1024];
     char error_msg[1024];
-    unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -453,21 +254,13 @@ int run_program(
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 
-    if (nsecs) {
-        boinc_sleep(nsecs);
-        if (GetExitCodeProcess(process_info.hProcess, &status)) {
-            if (status != STILL_ACTIVE) {
-                return -1;
-            }
-        }
-    }
     if (process_info.hThread) CloseHandle(process_info.hThread);
     id = process_info.hProcess;
     return 0;
 }
 #else
 int run_program(
-    const char* dir, const char* file, int , char *const argv[], double nsecs, int& id
+    const char* dir, const char* file, int , char *const argv[], int& id
 ) {
     int retval;
     int pid = fork();
@@ -477,20 +270,9 @@ int run_program(
             if (retval) return retval;
         }
         execvp(file, argv);
-#ifdef _USING_FCGI_
-        FCGI::perror("execvp");
-#else
-        perror("execvp");
-        fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
-#endif
+        boinc::perror("execvp");
+        boinc::fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
         exit(errno);
-    }
-
-    if (nsecs) {
-        boinc_sleep(nsecs);
-        if (waitpid(pid, 0, WNOHANG) == pid) {
-            return -1;
-        }
     }
     id = pid;
     return 0;
@@ -498,7 +280,7 @@ int run_program(
 #endif
 
 #ifdef _WIN32
-int kill_program(int pid, int exit_code) {
+int kill_process_with_status(int pid, int exit_code) {
     int retval;
 
     HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
@@ -514,13 +296,13 @@ int kill_program(int pid, int exit_code) {
     return retval;
 }
 
-int kill_program(HANDLE pid) {
+int kill_process(HANDLE pid) {
     if (TerminateProcess(pid, 0)) return 0;
     return ERR_KILL;
 }
 
 #else
-int kill_program(int pid) {
+int kill_process(int pid) {
     if (kill(pid, SIGKILL)) {
         if (errno == ESRCH) return 0;
         return ERR_KILL;
@@ -530,74 +312,38 @@ int kill_program(int pid) {
 #endif
 
 #ifdef _WIN32
-int get_exit_status(HANDLE pid_handle) {
-    unsigned long status=1;
-    WaitForSingleObject(pid_handle, INFINITE);
-    GetExitCodeProcess(pid_handle, &status);
-    return (int) status;
-}
-bool process_exists(HANDLE h) {
-    unsigned long status=1;
-    if (GetExitCodeProcess(h, &status)) {
-        if (status == STILL_ACTIVE) return true;
+int get_exit_status(HANDLE pid_handle, int &status, double dt) {
+    if (dt>=0) {
+        DWORD dt_msec = (DWORD)dt*1000;
+        DWORD ret = WaitForSingleObject(pid_handle, dt_msec);
+        if (ret == WAIT_TIMEOUT) {
+            return ERR_NOT_FOUND;
+        }
+    } else {
+        WaitForSingleObject(pid_handle, INFINITE);
     }
-    return false;
-}
-#else
-int get_exit_status(int pid) {
-    int status;
-    waitpid(pid, &status, 0);
-    return status;
-}
-bool process_exists(int pid) {
-    int retval = kill(pid, 0);
-    if (retval == -1 && errno == ESRCH) return false;
-    return true;
-}
-#endif
-
-#ifdef _WIN32
-static int get_client_mutex(const char*) {
-    char buf[MAX_PATH] = "";
-    
-    // Global mutex on Win2k and later
-    //
-    safe_strcpy(buf, "Global\\");
-    safe_strcat(buf, RUN_MUTEX);
-
-    HANDLE h = CreateMutexA(NULL, true, buf);
-    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#else
-static int get_client_mutex(const char* dir) {
-    char path[MAXPATHLEN];
-    static FILE_LOCK file_lock;
-
-    snprintf(path, sizeof(path), "%s/%s", dir, LOCK_FILE_NAME);
-    path[sizeof(path)-1] = 0;
-
-    int retval = file_lock.lock(path);
-    if (retval == ERR_FCNTL) {
-        return ERR_ALREADY_RUNNING;
-    } else if (retval) {
-        return retval;
-    }
-#endif
+    unsigned long stat=1;
+    GetExitCodeProcess(pid_handle, &stat);
+    status = (int) stat;
     return 0;
 }
-
-int wait_client_mutex(const char* dir, double timeout) {
-    double start = dtime();
-    int retval = 0;
-    while (1) {
-        retval = get_client_mutex(dir);
-        if (!retval) return 0;
-        boinc_sleep(1);
-        if (dtime() - start > timeout) break;
+#else
+int get_exit_status(int pid, int &status, double dt) {
+    if (dt>=0) {
+        while (1) {
+            int ret = waitpid(pid, &status, WNOHANG);
+            if (ret > 0) return 0;
+            dt -= 1;
+            if (dt<0) break;
+            boinc_sleep(1);
+        }
+        return ERR_NOT_FOUND;
+    } else {
+        waitpid(pid, &status, 0);
     }
-    return retval;
+    return 0;
 }
+#endif
 
 bool boinc_is_finite(double x) {
 #if defined (HPUX_SOURCE)
@@ -664,11 +410,7 @@ int get_real_executable_path(char* path, size_t max_len) {
         ssize_t ret = readlink(links[i], path, max_len - 1);
         if (ret < 0) {
             if (errno != ENOENT) {
-#ifdef _USING_FCGI_
-                FCGI::perror("readlink");
-#else
-                perror("readlink");
-#endif
+                boinc::perror("readlink");
             }
             continue;
         } else if ((size_t)ret == max_len - 1) {
@@ -680,3 +422,123 @@ int get_real_executable_path(char* path, size_t max_len) {
     return ERR_NOT_IMPLEMENTED;
 #endif
 }
+
+#ifdef _WIN32
+
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetThreadTimes(
+        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+        ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart = userTime.dwLowDateTime;
+        tUser.HighPart = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    }
+    else {
+        return -1;
+    }
+    return 0;
+}
+
+static void get_elapsed_time(double& cpu) {
+    static double start_time;
+
+    double now = dtime();
+    if (start_time) {
+        cpu = now - start_time;
+    }
+    else {
+        cpu = 0;
+    }
+    start_time = now;
+}
+
+int boinc_calling_thread_cpu_time(double& cpu) {
+    if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
+        get_elapsed_time(cpu);
+    }
+    return 0;
+}
+
+int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetProcessTimes(
+        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+        ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart = userTime.dwLowDateTime;
+        tUser.HighPart = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    }
+    else {
+        return -1;
+    }
+    return 0;
+}
+
+bool process_exists(HANDLE h) {
+    unsigned long status = 1;
+    if (GetExitCodeProcess(h, &status)) {
+        if (status == STILL_ACTIVE) return true;
+    }
+    return false;
+}
+
+#else
+
+// Unix: pthreads doesn't provide an API for getting per-thread CPU time,
+// so just get the process's CPU time
+//
+int boinc_calling_thread_cpu_time(double &cpu_t) {
+    struct rusage ru;
+
+    int retval = getrusage(RUSAGE_SELF, &ru);
+    if (retval) return ERR_GETRUSAGE;
+    cpu_t = (double)ru.ru_utime.tv_sec + ((double)ru.ru_utime.tv_usec) / 1e6;
+    cpu_t += (double)ru.ru_stime.tv_sec + ((double)ru.ru_stime.tv_usec) / 1e6;
+    return 0;
+}
+
+#ifndef _USING_FCGI_
+// (linux) return current CPU time of the given process
+//
+double linux_cpu_time(int pid) {
+    FILE* file;
+    char file_name[24];
+    unsigned long utime = 0, stime = 0;
+    int n;
+
+    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
+    if ((file = fopen(file_name, "r")) != NULL) {
+        n = fscanf(file, "%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu", &utime, &stime);
+        fclose(file);
+        if (n != 2) return 0;
+    }
+    return (double)(utime + stime) / 100;
+}
+#endif
+
+bool process_exists(int pid) {
+    int retval = kill(pid, 0);
+    if (retval == -1 && errno == ESRCH) return false;
+    return true;
+}
+
+#endif

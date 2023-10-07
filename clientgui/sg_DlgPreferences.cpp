@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -97,7 +97,8 @@ bool CPanelPreferences::Create()
 {
     m_backgroundBitmap = NULL;
     lastErrorCtrl = NULL;
-    stdTextBkgdColor = *wxWHITE;
+
+    stdTextBkgdColor = wxGetApp().GetIsDarkMode() ? *wxBLACK : *wxWHITE;
 
     CreateControls();
 
@@ -350,15 +351,15 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton44->SetToolTip( _("Save all values and close the dialog.") );
+    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton44->SetToolTip( _("Save all values and close the dialog") );
     if (m_bUsingLocalPrefs) {
         itemButton44->SetDefault();
     }
     itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton45->SetToolTip( _("Close the dialog without saving.") );
+    itemButton45->SetToolTip( _("Close the dialog without saving") );
     if (!m_bUsingLocalPrefs) {
         itemButton45->SetDefault();
     }
@@ -367,7 +368,7 @@ void CPanelPreferences::CreateControls()
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
-    wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
     wxString helpTip;
     helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
@@ -426,6 +427,11 @@ void CPanelPreferences::MakeBackgroundBitmap() {
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
+    if (m_backgroundBitmap) {
+        delete m_backgroundBitmap;
+        m_backgroundBitmap = NULL;
+    }
+
     wxMemoryDC memDC;
     wxCoord w, h, x, y;
 
@@ -446,6 +452,19 @@ void CPanelPreferences::MakeBackgroundBitmap() {
     if ( (w < sz.x) || (h < sz.y) ) {
         // Check to see if they need to be rescaled to fit in the window
         wxImage img = bmp.ConvertToImage();
+
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the image
+            unsigned char *bgImagePixels = img.GetData(); // RGBRGBRGB...
+            for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+        }
         img.Rescale((int) sz.x, (int) sz.y);
 
         // Draw our cool background (enlarged and centered)
@@ -477,9 +496,26 @@ void CPanelPreferences::MakeBackgroundBitmap() {
             break;
         }
 
-        // Select the desired bitmap into the memory DC so we can take
-        //   the desired chunk of it.
-        memDC.SelectObject(bmp);
+        // Select the desired bitmap (or its darkened version) into
+        //   the memory DC so we can take the desired chunk of it.
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the bitmap
+            wxImage bgImage = bmp.ConvertToImage();
+            unsigned char *bgImagePixels;
+            bgImagePixels = bgImage.GetData(); // RGBRGBRGB...
+           for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+            wxBitmap darkened(bgImage);
+            memDC.SelectObject(darkened);
+        } else {
+            memDC.SelectObject(bmp);
+        }
 
         // Draw the desired chunk on the window
         dc.Blit(0, 0, sz.x, sz.y, &memDC, x, y, wxCOPY);

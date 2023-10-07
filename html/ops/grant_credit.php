@@ -52,7 +52,7 @@ function grant_credits_for_wu($wuid) {
     $max_credit=300;
     $ndone = 0;
     $query_r = _mysql_query("select * from result where granted_credit=0 and claimed_credit>0 and workunitid=$wuid");
- 
+
     while ($result = _mysql_fetch_object($query_r)) {
         echo "STARTING RESULT $result->id [Credit $result->claimed_credit] ...";
         $ndone++;

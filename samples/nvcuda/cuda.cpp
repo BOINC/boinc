@@ -34,7 +34,7 @@
 //
 // NOTE: As currently written, this sample is of limited usefulness, as it
 // is missing two important features:
-// * Code to determine the correct device assigned by BOINC.  It needs to get 
+// * Code to determine the correct device assigned by BOINC.  It needs to get
 //   the device number from the gpu_opencl_dev_index field of init_data.xml
 //   if it exists, else from the gpu_device_num field of init_data.xml if that
 //   exists, else from the --device or -device argument passed by the client.
@@ -62,10 +62,10 @@ int main(int argc, char** argv) {
     MFILE out;
     FILE* state, *infile;
     double num=0;
-    
+
     generate_random_input_file(MATRIX_SIZE); //call this if you don't want to
                                              //construct the input file manually
-	
+
     for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
         if (!strcmp(argv[i], "-early_crash")) early_crash = true;
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
             cpu_time = atof(argv[++i]);
         }
     }
-	
+
     retval = boinc_init();
     if (retval) {
         fprintf(stderr,
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
         );
         exit(retval);
     }
-    
+
     // open the input file (resolve logical name first)
     //
     boinc_resolve_filename(INPUT_FILENAME, input_path, sizeof(input_path));
@@ -96,9 +96,9 @@ int main(int argc, char** argv) {
         getchar();
         exit(-1);
     }
-    
+
     boinc_resolve_filename(OUTPUT_FILENAME, output_path, sizeof(output_path));
-    
+
     // See if there's a valid checkpoint file.
     // If so retrieve the current matrix and inversion number
     //
@@ -106,9 +106,9 @@ int main(int argc, char** argv) {
     state = boinc_fopen(chkpt_path, "r");
     if (state) {
         printf("Checkpoint file is detected. Read from checkpoint file ... \n");
-        checkpointExists=fscanf(state, "%d", &lastInversion); 
+        checkpointExists=fscanf(state, "%d", &lastInversion);
         if (checkpointExists == 1) {
-            printf("Last inversion # is : %d\n",lastInversion);	
+            printf("Last inversion # is : %d\n",lastInversion);
             fscanf(state,"%d",&dimension);
             cudaMallocHost((void **)&h_idata,dimension*dimension*sizeof(REAL));
             for (int i=0;i<dimension*dimension;++i) {
@@ -120,9 +120,9 @@ int main(int argc, char** argv) {
     } else {
         printf("There's no valid checkpoint file!\n");
     }
-    
+
     retval = out.open(output_path, "wb");
-    
+
     if (retval) {
         fprintf(stderr,
             "%s APP: matrix_inversion output open failed:\n",
@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
         perror("open");
         exit(1);
     }
-	
+
 #ifdef APP_GRAPHICS
     // create shared mem segment for graphics, and arrange to update it
     //
@@ -183,7 +183,7 @@ int main(int argc, char** argv) {
             //if (i==7) {
             printf("Perform checkpointing at inversion # %d\n",i);
             //we'll need to write the current matrix to the state file.
-            retval = do_checkpoint(out, i, h_idata, dimension); 
+            retval = do_checkpoint(out, i, h_idata, dimension);
             if (retval) {
                 fprintf(stderr,
                     "%s APP: matrix_inversion checkpoint failed %d\n",
@@ -222,7 +222,7 @@ int main(int argc, char** argv) {
             if (e > cpu_time) break;
             fd = .5 + .5*(e/cpu_time);
             boinc_fraction_done(fd);
-			
+
             if (boinc_time_to_checkpoint()) {
                 retval = do_checkpoint(out, NUM_ITERATIONS, h_idata, dimension);
                 if (retval) {
@@ -264,7 +264,7 @@ static double do_a_giga_flop(int foo) {
 int do_checkpoint(MFILE& mf, int n, REAL *h_idata, int dimension) {
     int retval;
     string resolved_name;
-	
+
     FILE* f = fopen("temp", "w");
 	if (!f) {
         return 1;
@@ -284,7 +284,7 @@ int do_checkpoint(MFILE& mf, int n, REAL *h_idata, int dimension) {
 	}
     boinc_resolve_filename_s(CHECKPOINT_FILE, resolved_name);
     retval = boinc_rename("temp", resolved_name.c_str());
-    
+
 	if (retval) {
         return retval;
     }

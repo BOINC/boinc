@@ -52,6 +52,7 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
         $admins = BoincTeamAdmin::enum("teamid=$team->id");
         foreach ($admins as $admin) {
             $u = BoincUser::lookup_id($admin->userid);
+            if (!$u) continue;
             $success &= send_email($u, $subject, $body);
         }
         break;
@@ -156,7 +157,7 @@ A post in the ".PROJECT." forums was reported as offensive.
     Post:           $post->id by $owner->id ($owner->name)
     Reporting User: $user->id ($user->name)
     Link:           ".secure_url_base()."forum_thread.php?id=$thread->id#$post->id
-    
+
 Comments from reporting user:
 $message
 

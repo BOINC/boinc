@@ -65,7 +65,7 @@ END_DECLARE_EVENT_TYPES()
  */
 
 class CAccountManagerPropertiesPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CAccountManagerPropertiesPage )
     DECLARE_EVENT_TABLE()
 

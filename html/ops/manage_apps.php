@@ -96,11 +96,11 @@ function show_form($all) {
         "ID",
         "Name and description<br><small>Click for details</small>",
         "Created",
-        "weight<br><a href=https://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><small>details</small></a>",
+        "weight<br><a href=https://github.com/BOINC/boinc/wiki/BackendPrograms#feeder><small>details</small></a>",
         "shmem items",
-        "HR type<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><small>details</small></a>",
-        "Adaptive replication<br><a href=http://boinc.berkeley.edu/trac/wiki/AdaptiveReplication><small>details</small></a>",
-        "homogeneous app version?<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><small>details</small></a>",
+        "HR type<br><a href=https://github.com/BOINC/boinc/wiki/HomogeneousRedundancy><small>details</small></a>",
+        "Adaptive replication<br><a href=https://github.com/BOINC/boinc/wiki/AdaptiveReplication><small>details</small></a>",
+        "homogeneous app version?<br><a href=https://github.com/BOINC/boinc/wiki/HomogeneousAppVersion><small>details</small></a>",
         "deprecated?",
         "Non-CPU-intensive?",
         "Beta?",
@@ -133,7 +133,7 @@ function show_form($all) {
         $v = $app->weight;
         echo "  <TD align='center'>
         <input type='text' size='4' name='weight' value='$v'></TD>\n";
-        
+
         if ($app->deprecated || ($total_weight == 0)) {
             echo '<td></td>';
         } else {

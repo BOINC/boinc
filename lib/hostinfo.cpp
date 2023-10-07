@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -144,7 +144,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.match_tag("coprocs")) {
             this->coprocs.parse(xp);
         }
-        
+
         // The same CPU can have a different opencl_cpu_prop
         // for each of multiple OpenCL platforms
         //
@@ -261,8 +261,8 @@ int HOST_INFO::write(
     if (include_coprocs) {
         this->coprocs.write_xml(out, false);
     }
-    
-    // The same CPU can have a different opencl_cpu_prop 
+
+    // The same CPU can have a different opencl_cpu_prop
     // for each of multiple OpenCL platforms.
     // We send them all to the project server because:
     // - Different OpenCL platforms report different values
@@ -286,9 +286,9 @@ int HOST_INFO::write(
 int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
     char buf[256];
 
-    char* p = fgets(buf, 256, in);
+    char* p = boinc::fgets(buf, 256, in);
     if (!p) return 0;           // Fixes compiler warning
-    while (fgets(buf, 256, in)) {
+    while (boinc::fgets(buf, 256, in)) {
         if (match_tag(buf, "<cpu_benchmarks>"));
         else if (match_tag(buf, "</cpu_benchmarks>")) return 0;
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
@@ -301,7 +301,7 @@ int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
 }
 
 int HOST_INFO::write_cpu_benchmarks(FILE* out) {
-    fprintf(out,
+    boinc::fprintf(out,
         "<cpu_benchmarks>\n"
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"

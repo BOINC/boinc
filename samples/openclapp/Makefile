@@ -28,10 +28,10 @@ CXXFLAGS += -g \
     -L/usr/local/cuda/lib \
     -L/lib/i386-linux-gnu
 
-## The above 2 lines work around an Ubuntu LD_LIBRARY_PATH bug described in: 
+## The above 2 lines work around an Ubuntu LD_LIBRARY_PATH bug described in:
 ## <https://help.ubuntu.com/community/EnvironmentVariables#File-location_related_variables>
 
-PROGS = openclapp 
+PROGS = openclapp
 
 all: $(PROGS)
 

@@ -30,10 +30,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateBOINCAccounts::CACreateBOINCAccounts(MSIHANDLE hMSIHandle) :
@@ -42,10 +42,10 @@ CACreateBOINCAccounts::CACreateBOINCAccounts(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateBOINCAccounts::~CACreateBOINCAccounts()
@@ -55,10 +55,10 @@ CACreateBOINCAccounts::~CACreateBOINCAccounts()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CACreateBOINCAccounts::OnExecution()
@@ -114,7 +114,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -127,7 +127,7 @@ UINT CACreateBOINCAccounts::OnExecution()
         if (strBOINCMasterAccountUsername.empty()) {
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -146,7 +146,7 @@ UINT CACreateBOINCAccounts::OnExecution()
         if (strBOINCMasterAccountPassword.empty()) {
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -163,7 +163,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -188,7 +188,7 @@ UINT CACreateBOINCAccounts::OnExecution()
             if (NERR_Success != nasReturnValue) {
                 LogMessage(
                     INSTALLMESSAGE_ERROR,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     nasReturnValue,
@@ -200,7 +200,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -231,7 +231,7 @@ UINT CACreateBOINCAccounts::OnExecution()
             if (NERR_Success != nasReturnValue) {
                 LogMessage(
                     INSTALLMESSAGE_INFO,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     nasReturnValue,
@@ -239,7 +239,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 );
                 LogMessage(
                     INSTALLMESSAGE_INFO,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     dwParameterError,
@@ -247,7 +247,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 );
                 LogMessage(
                     INSTALLMESSAGE_ERROR,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     nasReturnValue,
@@ -276,7 +276,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -289,7 +289,7 @@ UINT CACreateBOINCAccounts::OnExecution()
         if (strBOINCProjectAccountUsername.empty()) {
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -308,7 +308,7 @@ UINT CACreateBOINCAccounts::OnExecution()
         if (strBOINCProjectAccountPassword.empty()) {
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -325,7 +325,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -350,7 +350,7 @@ UINT CACreateBOINCAccounts::OnExecution()
             if (NERR_Success != nasReturnValue) {
                 LogMessage(
                     INSTALLMESSAGE_ERROR,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     nasReturnValue,
@@ -362,7 +362,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -393,7 +393,7 @@ UINT CACreateBOINCAccounts::OnExecution()
             if (NERR_Success != nasReturnValue) {
                 LogMessage(
                     INSTALLMESSAGE_INFO,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     nasReturnValue,
@@ -401,7 +401,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 );
                 LogMessage(
                     INSTALLMESSAGE_INFO,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     dwParameterError,
@@ -409,7 +409,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 );
                 LogMessage(
                     INSTALLMESSAGE_ERROR,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     nasReturnValue,
@@ -454,7 +454,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    CreateBOINCAccounts
 //
 // Description: This custom action creates the two user accounts that'll

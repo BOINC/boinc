@@ -17,7 +17,14 @@
 
 // #defines and enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
-// TODO: more enums, fewer defines
+//
+// Notes:
+// 1) Some of these are replicated in PHP code: html/inc/common_defs.inc.
+//    If you change something, check there.
+// 2) The script py/db_def_to_py scrapes this file for #defines (not enums)
+//    and makes variables for them.
+//    AFAIK these aren't used, and we can remove this.
+// 3) we should use enums instead of defines where appropriate
 
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
@@ -46,9 +53,11 @@
 // "SCHEDULED" doesn't mean the task is actually running;
 // e.g. it won't be running if tasks are suspended or CPU throttling is in use
 //
-#define CPU_SCHED_UNINITIALIZED   0
-#define CPU_SCHED_PREEMPTED       1
-#define CPU_SCHED_SCHEDULED       2
+enum SCHEDULER_STATE {
+    CPU_SCHED_UNINITIALIZED   = 0,
+    CPU_SCHED_PREEMPTED       = 1,
+    CPU_SCHED_SCHEDULED       = 2
+};
 
 // official HTTP status codes
 
@@ -124,7 +133,7 @@
     // high-priority message from scheduler
     // (used internally within the client;
     // changed to MSG_USER_ALERT before passing to manager)
-    
+
 // values for suspend_reason, network_suspend_reason
 // Notes:
 // - doesn't need to be a bitmap, but keep for compatibility
@@ -159,6 +168,26 @@ enum BATTERY_STATE {
     BATTERY_STATE_CHARGING,
     BATTERY_STATE_FULL,
     BATTERY_STATE_OVERHEATED
+};
+
+// states for sporadic apps
+//
+// client state
+enum SPORADIC_CA_STATE {
+    CA_NONE             = 0,
+    CA_DONT_COMPUTE     = 1,
+    // computing suspended (CPU and perhaps GPU) or other project have priority
+    CA_COULD_COMPUTE    = 2,
+    // not computing, but could
+    CA_COMPUTING        = 3
+    // go ahead and compute
+};
+
+// app state
+enum SPORADIC_AC_STATE {
+    AC_NONE                 = 0,
+    AC_DONT_WANT_COMPUTE    = 1,
+    AC_WANT_COMPUTE         = 2
 };
 
 // Values of RESULT::state in client.
@@ -323,8 +352,8 @@ struct VERSION_INFO {
     int minor;
     int release;
     bool prerelease;
-    int parse(MIOFILE&); 
-    void write(MIOFILE&); 
+    int parse(MIOFILE&);
+    void write(MIOFILE&);
     bool greater_than(VERSION_INFO&);
     VERSION_INFO() {
         major = 0;

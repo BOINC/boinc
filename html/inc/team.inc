@@ -251,7 +251,7 @@ function display_team_members($team, $offset, $sort_by) {
     $x[] = tra('Country');
     $a[] = "";
     row_heading_array($x, $a);
-    
+
     $cache_args = "teamid=".$team->id."&mosort=".$nosort."&order=".$sort_clause."&limit=".$offset."_".$n;
     $users = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
     if (!$users) {
@@ -365,6 +365,7 @@ function admin_list($teamid) {
     $admins = BoincTeamAdmin::enum("teamid=$teamid");
     foreach ($admins as $admin) {
         $user = BoincUser::lookup_id($admin->userid);
+        if (!$user) continue;
         $u[] = $user;
     }
     return $u;

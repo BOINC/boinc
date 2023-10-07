@@ -69,12 +69,12 @@ int main(int argc, char** argv) {
         if (!in) {
             fprintf(stderr, "missing input file\n");
             exit(1);
-        } 
+        }
         out = fopen("out", "w");
         if (!out) {
             fprintf(stderr, "can't open output file\n");
             exit(1);
-        } 
+        }
         fgets(buf, 256, in);
         fputs(buf, out);
     }

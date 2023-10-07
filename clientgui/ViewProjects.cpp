@@ -105,7 +105,7 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
     EVT_BUTTON(ID_TASK_PROJECT_SHOW_PROPERTIES, CViewProjects::OnShowItemProperties)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjects::OnProjectWebsiteClicked)
-// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// We currently handle EVT_LIST_CACHE_HINT on Windows or
 // EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
 // or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
 #if USE_LIST_CACHE_HINT
@@ -124,7 +124,7 @@ static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
     CProject*   project1;
     CProject*   project2;
     int         result = 0;
-    
+
     try {
         project1 = myCViewProjects->m_ProjectCache.at(iRowIndex1);
     } catch ( std::out_of_range ) {
@@ -201,42 +201,42 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     pItem = new CTaskItem(
         _("Update"),
         _("Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."),
-        ID_TASK_PROJECT_UPDATE 
+        ID_TASK_PROJECT_UPDATE
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Suspend"),
         _("Suspend tasks for this project."),
-        ID_TASK_PROJECT_SUSPEND 
+        ID_TASK_PROJECT_SUSPEND
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("No new tasks"),
         _("Don't get new tasks for this project."),
-        ID_TASK_PROJECT_NONEWWORK 
+        ID_TASK_PROJECT_NONEWWORK
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Reset project"),
         _("Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."),
-        ID_TASK_PROJECT_RESET 
+        ID_TASK_PROJECT_RESET
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Remove"),
         _("Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."),
-        ID_TASK_PROJECT_DETACH 
+        ID_TASK_PROJECT_DETACH
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Properties"),
         _("Show project details."),
-        ID_TASK_PROJECT_SHOW_PROPERTIES 
+        ID_TASK_PROJECT_SHOW_PROPERTIES
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -276,11 +276,11 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_iDefaultShownColumns = DefaultShownColumns;
     m_iNumDefaultShownColumns = sizeof(DefaultShownColumns) / sizeof(int);
     m_iProgressColumn = COLUMN_RESOURCESHARE;
- 
+
     // Needed by static sort routine;
     myCViewProjects = this;
     m_funcSortCompare = CompareViewProjectsItems;
-   
+
     UpdateSelection();
 }
 
@@ -350,7 +350,7 @@ int CViewProjects::GetViewCurrentViewPage() {
 
 wxString CViewProjects::GetKeyValue1(int iRowIndex) {
     CProject*   project;
-    
+
     if (GetProjectCacheAtIndex(project, m_iSortedIndexes[iRowIndex])) {
         return wxEmptyString;
     }
@@ -395,7 +395,7 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         pDoc->ProjectUpdate(m_iSortedIndexes[row]);
     }
 
@@ -426,7 +426,7 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         PROJECT* project = pDoc->project(m_iSortedIndexes[row]);
         if (project) {
             if (project->suspended_via_gui) {
@@ -436,7 +436,7 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
             }
         }
     }
-    
+
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -463,7 +463,7 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         PROJECT* project = pDoc->project(m_iSortedIndexes[row]);
         if (project) {
             if (project->dont_request_more_work) {
@@ -473,7 +473,7 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
             }
         }
     }
-    
+
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -487,7 +487,7 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function Begin"));
 
-    wxInt32         iAnswer        = 0; 
+    wxInt32         iAnswer        = 0;
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -508,13 +508,13 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         if (GetProjectCacheAtIndex(pProject, m_iSortedIndexes[row])) {
             return;
         }
 
         strMessage.Printf(
-            _("Are you sure you want to reset project '%s'?"), 
+            _("Are you sure you want to reset project '%s'?"),
             pProject->m_strProjectName.c_str()
         );
 
@@ -529,7 +529,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
             pDoc->ProjectReset(m_iSortedIndexes[row]);
         }
     }
-    
+
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -541,7 +541,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function Begin"));
 
-    wxInt32         iAnswer        = 0; 
+    wxInt32         iAnswer        = 0;
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -562,13 +562,13 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         if (GetProjectCacheAtIndex(pProject, m_iSortedIndexes[row])) {
             return;
         }
 
         strMessage.Printf(
-            _("Are you sure you want to remove project '%s'?"), 
+            _("Are you sure you want to remove project '%s'?"),
             pProject->m_strProjectName.c_str()
         );
 
@@ -674,8 +674,8 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
                 strBuffer = project->m_strAVGCredit;
                 break;
             case COLUMN_RESOURCESHARE:
-                // CBOINCListCtrl::DrawProgressBars() will draw this using 
-                // data provided by GetProgressText() and GetProgressValue(), 
+                // CBOINCListCtrl::DrawProgressBars() will draw this using
+                // data provided by GetProgressText() and GetProgressValue(),
                 // but we need it here for accessibility programs.
                 strBuffer = project->m_strResourceShare;
                 break;
@@ -765,13 +765,13 @@ void CViewProjects::UpdateSelection() {
         enableReset = true;
         enableDetach = true;
     }
-       
+
     row = -1;
     for (i=0; i<n; i++) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;     // Should never happen
-        
+
         project = pDoc->project(m_iSortedIndexes[row]);
         if (!project) {
             m_pTaskPane->DisableTaskGroupTasks(pGroup);
@@ -813,20 +813,20 @@ void CViewProjects::UpdateSelection() {
             }
         } else {
             if (wasNoNewWork != project->dont_request_more_work) {
-                // Disable Allow New Work / No New Work button if the multiple 
+                // Disable Allow New Work / No New Work button if the multiple
                 // selection has a mix of Allow New Work and No New Work projects
                 enableNoNewTasks = false;
             }
         }
-        
+
         if (project->attached_via_acct_mgr) {
             enableDetach = false;
         }
     }
-        
+
     if (n == 1) {
         enableProperties = true;
-        
+
         UpdateWebsiteSelection(GRP_WEBSITES, project);
         if(m_TaskGroups.size()>1) {
             m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
@@ -857,7 +857,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
     double       fDocumentPercent = 0.0;
     CProject*   project;
     bool        dirty = false;
- 
+
     if (GetProjectCacheAtIndex(project, m_iSortedIndexes[iRowIndex])) {
             return false;
     }
@@ -939,7 +939,7 @@ void CViewProjects::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     std::string project_name;
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -955,7 +955,7 @@ void CViewProjects::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CProject* project;
-    
+
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
     } catch ( std::out_of_range ) {
@@ -975,7 +975,7 @@ wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 void CViewProjects::GetDocAccountName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -990,7 +990,7 @@ void CViewProjects::GetDocAccountName(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) const {
     CProject* project;
-    
+
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
     } catch ( std::out_of_range ) {
@@ -1009,7 +1009,7 @@ wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) cons
 void CViewProjects::GetDocTeamName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -1024,7 +1024,7 @@ void CViewProjects::GetDocTeamName(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
     CProject* project;
-    
+
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
     } catch ( std::out_of_range ) {
@@ -1044,7 +1044,7 @@ wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
 void CViewProjects::GetDocTotalCredit(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -1060,7 +1060,7 @@ void CViewProjects::GetDocTotalCredit(wxInt32 item, double& fBuffer) const {
 void CViewProjects::GetDocAVGCredit(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -1075,7 +1075,7 @@ void CViewProjects::GetDocAVGCredit(wxInt32 item, double& fBuffer) const {
 void CViewProjects::GetDocResourceShare(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -1091,11 +1091,11 @@ void CViewProjects::GetDocResourceShare(wxInt32 item, double& fBuffer) const {
 void CViewProjects::GetDocResourcePercent(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
-    
+
     if (project && pDoc) {
         fBuffer = (project->resource_share / pDoc->m_fProjectTotalResourceShare) * 100;
     } else {
@@ -1106,7 +1106,7 @@ void CViewProjects::GetDocResourcePercent(wxInt32 item, double& fBuffer) const {
 
 wxInt32 CViewProjects::FormatResourceShare(double share, double share_pct, wxString& strBuffer) const {
     strBuffer.Printf(wxT("%s (%s%%)"), format_number(share, 0), format_number(share_pct, 2));
-        
+
     return 0;
 }
 
@@ -1126,7 +1126,7 @@ wxString rpc_reason_string_translated(int reason) {
 void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -1168,7 +1168,7 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     CProject* project;
-    
+
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
     } catch ( std::out_of_range ) {
@@ -1188,7 +1188,7 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 void CViewProjects::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    
+
     if (pDoc) {
         project = pDoc->project(item);
     }
@@ -1279,7 +1279,7 @@ int CViewProjects::GetProjectCacheAtIndex(CProject*& projectPtr, int index) {
         projectPtr = NULL;
         return -1;
     }
-    
+
     return 0;
 }
 

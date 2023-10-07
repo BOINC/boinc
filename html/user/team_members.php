@@ -24,9 +24,9 @@ if (DISABLE_TEAMS) error_page("Teams are disabled");
 
 check_get_args(array("sort_by", "offset", "teamid"));
 
-if (isset($_GET["sort_by"])) {
-    $sort_by = $_GET["sort_by"];
-    $sort_by = strip_tags($sort_by);    // remove XSS nonsense
+$sort_by = get_str("sort_by", true);
+if ($sort_by) {
+    sanitize_sort_by($sort_by);
 } else {
     $sort_by = "expavg_credit";
 }

@@ -28,15 +28,21 @@
 #include "procinfo.h"
 
 #include "client_types.h"
+#include "result.h"
 
-// values for preempt_type
+// values for preempt_type (see ACTIVE_TASK::preempt())
 //
-#define REMOVE_NEVER        0
-#define REMOVE_MAYBE_USER   1
-#define REMOVE_MAYBE_SCHED  2
-#define REMOVE_ALWAYS       3
+enum PREEMPT_TYPE {
+    REMOVE_NEVER        = 0,
+        // don't remove from memory
+    REMOVE_MAYBE_USER   = 1,
+        // remove from mem if GPU; don't remove if never checkpointed
+    REMOVE_MAYBE_SCHED  = 2,
+        // ditto
+    REMOVE_ALWAYS       = 3
+        // remove from memory
+};
 
-struct CLIENT_STATE;
 struct ASYNC_COPY;
 typedef int PROCESS_ID;
 
@@ -106,15 +112,15 @@ struct ACTIVE_TASK {
         // first frac done reported during this run of task
     double first_fraction_done_elapsed_time;
         // elapsed time when the above was reported
-    int scheduler_state;
-    int next_scheduler_state; // temp
+    SCHEDULER_STATE scheduler_state;
+    SCHEDULER_STATE next_scheduler_state; // temp
     int signal;
     double run_interval_start_wall_time;
         // Wall time at the start of the current run interval
     double checkpoint_wall_time;
         // wall time at the last checkpoint
     double elapsed_time;
-        // current total elapsed (running) time
+        // current total running time, adjusted for CPU throttling
     double bytes_sent_episode;
         // bytes sent in current episode of job,
         // as (optionally) reported by boinc_network_usage()
@@ -144,7 +150,8 @@ struct ACTIVE_TASK {
         // rather, it means that the last time we did CPU scheduling,
         // the set of jobs we tried to run was too big,
         // and this one came after we ran out of mem.
-    bool needs_shmem;               // waiting for a free shared memory segment
+    bool needs_shmem;
+        // waiting for a free shared memory segment
     int want_network;
         // This task wants to do network comm (for F@h)
         // this is passed via share-memory message (app_status channel)
@@ -152,8 +159,10 @@ struct ACTIVE_TASK {
         // when we sent an abort message to this app
         // kill it 5 seconds later if it doesn't exit
     double quit_time;
-    int premature_exit_count;
         // when we sent a quit message; kill if still there after 10 sec
+    int premature_exit_count;
+        // how many times app has exited without finish file.
+        // abort job if 100 exits w/o checkpoint
     bool overdue_checkpoint;
         // running past end of time slice because not checkpointed;
         // when we do checkpoint, reschedule
@@ -176,10 +185,25 @@ struct ACTIVE_TASK {
         // Used to kill apps that hang after writing finished file
     int graphics_pid;
         // PID of running graphics app (Mac)
+    SPORADIC_CA_STATE sporadic_ca_state;
+    SPORADIC_AC_STATE sporadic_ac_state;
+    double sporadic_ignore_until;
 
     void set_task_state(int, const char*);
     inline int task_state() {
         return _task_state;
+    }
+    inline bool sporadic() {
+        return wup->app->sporadic;
+    }
+    inline bool non_cpu_intensive() {
+        return result->app->non_cpu_intensive;
+    }
+    inline bool always_run() {
+        return sporadic() || non_cpu_intensive();
+    }
+    inline bool dont_throttle() {
+        return result->dont_throttle();
     }
     int request_reread_prefs();
     int request_reread_app_info();
@@ -256,7 +280,7 @@ struct ACTIVE_TASK {
         // Done by sending it a <suspend> message
     int unsuspend(int reason=0);
         // Undo a suspend: send a <resume> message
-    int preempt(int preempt_type, int reason=0);
+    int preempt(PREEMPT_TYPE preempt_type, int reason=0);
         // preempt (via suspend or quit) a running task
     int resume_or_start(bool);
     void send_network_available();

@@ -22,9 +22,12 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service.STOP_FOREGROUND_REMOVE
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
@@ -77,9 +80,25 @@ class ClientNotification @Inject constructor(private val context: Context) {
             return
         }
 
+        // stop service foreground, if not active anymore
+        if(!active && foreground) {
+            setForegroundState(service, false);
+        }
+
+        // if not active, check preference whether to show notification during suspension
+        if(!active && !service.appPreferences.showNotificationDuringSuspend) {
+            // cancel notification if necessary
+            if(notificationShown) {
+                Logging.logInfo(Logging.Category.CLIENT, "ClientNotification: cancel suspension notification due to preference.");
+                nm.cancel(notificationId);
+                notificationShown = false;
+            }
+            return;
+        }
+
         //check if active tasks have changed to force update
         var activeTasksChanged = false
-        if (active && updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
+        if (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
             val activeTasks = updatedStatus.executingTasks
             if (activeTasks.size != mOldActiveTasks.size) {
                 activeTasksChanged = true
@@ -99,9 +118,6 @@ class ClientNotification @Inject constructor(private val context: Context) {
             if (activeTasksChanged) {
                 mOldActiveTasks = activeTasks
             }
-        } else if (mOldActiveTasks.isNotEmpty()) {
-            mOldActiveTasks.clear()
-            activeTasksChanged = true
         }
 
         // update notification, only if it hasn't been shown before, or after change in status
@@ -133,17 +149,31 @@ class ClientNotification @Inject constructor(private val context: Context) {
 
         // start foreground service, if requested
         // notification instance exists now, but might be out-dated (if screen is off)
-        if (!foreground) {
+        if (active && !foreground) {
             setForegroundState(service)
         }
     }
 
     // Notification must be built, before setting service to foreground!
     @VisibleForTesting
-    internal fun setForegroundState(service: Monitor) {
-        service.startForeground(notificationId, n)
-        Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() start service as foreground.")
-        foreground = true
+    internal fun setForegroundState(service: Monitor, foregroundState: Boolean = true) {
+        if(foregroundState) {
+            service.startForeground(notificationId, n);
+            Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() start service as foreground.");
+            foreground = true;
+        }
+        else {
+            foreground = false;
+            if (VERSION.SDK_INT >= VERSION_CODES.N) {
+                service.stopForeground(STOP_FOREGROUND_REMOVE);
+            }
+            else {
+                @Suppress("DEPRECATION")
+                service.stopForeground(true);
+            }
+            notificationShown = false;
+            Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() stop service as foreground.");
+        }
     }
 
     @SuppressLint("InlinedApi")

@@ -6,14 +6,14 @@ if [ ! -d "wasm" ]; then
     exit 1
 fi
 
-
+. $PWD/3rdParty/vcpkg_ports/vcpkg_link.sh
 BUILD_DIR="$PWD/3rdParty/wasm"
 VCPKG_PORTS="$PWD/3rdParty/vcpkg_ports"
 VCPKG_ROOT="$BUILD_DIR/vcpkg"
 
 if [ ! -d $VCPKG_ROOT ]; then
     mkdir -p $BUILD_DIR
-    git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+    git -C $BUILD_DIR clone $VCPKG_LINK
 fi
 
 git -C $VCPKG_ROOT pull

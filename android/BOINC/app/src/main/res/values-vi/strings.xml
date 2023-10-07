@@ -7,18 +7,18 @@
   <string name="generic_button_finish">Hoàn thành</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Chọn dự án khoa học bạn muốn đóng góp</string>
+  <string name="attachproject_list_desc">Chọn dự án khoa học bạn muốn đóng góp:</string>
   <string name="attachproject_list_header">Chọn một dự án</string>
-  <string name="attachproject_list_manual_button">Thêm dự án bằng liên kết URL</string>
-  <string name="attachproject_list_manual_dialog_title">Nhập liên kết URL của dự án</string>
-  <string name="attachproject_list_no_internet">Không kết nối mạng</string>
+  <string name="attachproject_list_manual_button">Thêm dự án bằng URL</string>
+  <string name="attachproject_list_manual_dialog_title">Nhập URL của dự án:</string>
+  <string name="attachproject_list_no_internet">Không có kết nối mạng</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Nhập thông tin tài khoản</string>
-  <string name="attachproject_credential_input_desc">Nhập thông tin tài khoản cho dự án bạn đã chọn</string>
+  <string name="attachproject_credential_input_desc">Nhập thông tin tài khoản cho dự án bạn đã chọn:</string>
   <string name="attachproject_credential_input_show_pwd">Hiện mật khẩu</string>
   <string name="attachproject_individual_credential_input">Đính kèm từng dự án một</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Đã có một vài vấn đề khi đính kèm dự án khoa học</string>
+  <string name="attachproject_conflicts_desc">Đã có một vài vấn đề khi đính kèm dự án khoa học:</string>
   <string name="attachproject_conflict_undefined">Không thể kết nối</string>
   <string name="attachproject_conflict_not_unique">Tài khoản tồn tại với mật khẩu khác cơ</string>
   <string name="attachproject_conflict_bad_password">Mật khẩu không hề chính xác đâu</string>
@@ -41,7 +41,7 @@
   <string name="attachproject_hint_projectwebsite_community">Liên lạc với các tình nguyện viên khác</string>
   <string name="attachproject_hint_platforms_header">BOINC cũng sẵn có để sử dụng trên máy tính hoặc laptop của bạn đó, ghé thăm boinc.berkeley.edu để tìm hiểu thêm nhé.</string>
   <!--project login-->
-  <string name="attachproject_login_loading">Đang kết nối server dự án</string>
+  <string name="attachproject_login_loading">Đang kết nối server dự án...</string>
   <string name="attachproject_login_header_general_area">Khu vực chung:</string>
   <string name="attachproject_login_header_specific_area">Khu vực riêng:</string>
   <string name="attachproject_login_header_description">Mô tả:</string>
@@ -50,9 +50,9 @@
   <string name="attachproject_login_header_id_email">Địa chỉ email:</string>
   <string name="attachproject_login_header_id_name">Tên:</string>
   <string name="attachproject_login_header_pwd">Mật khẩu:</string>
-  <string name="attachproject_login_button_registration">Đăng kí</string>
+  <string name="attachproject_login_button_registration">Đăng ký</string>
   <string name="attachproject_login_button_login">Đăng nhập</string>
-  <string name="attachproject_login_button_forgotpw">Quên mật khẩu mất rồi</string>
+  <string name="attachproject_login_button_forgotpw">Quên mật khẩu</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Sử dụng một hệ thống quản lý tài khoản để điều khiển thiết bị này</string>
   <string name="attachproject_acctmgr_header">Sử dụng trình quản lý tài khoản</string>
@@ -294,6 +294,9 @@
   <string name="main_notification_channel_description">Hiển thị thông báo không quan trọng</string>
   <string name="notice_notification_channel_name">Thông báo</string>
   <string name="notice_notification_channel_description">Hiển thị thông báo từ dự án của bạn</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_user_agreement">Điều khoản người dùng: https://www.mi.com/about/user-agreement</string>
+  <string name="welcome_content_second">Tôi là David, nhà sáng lập Boinc. Boinc là nền tảng phần mềm điện toán mã nguồn mở sử dụng tài nguyên được cung cấp bởi các tình nguyện viên.</string>
   <string name="agree_button">Đồng ý</string>
   <string name="prefs_expand_wu_data">Luôn mở rộng thông tin nhiệm vụ</string>
 </resources>

@@ -18,7 +18,7 @@
 
 $language_names = array(
     array("ar", "العربية", "Arabic"),
-    array("az", "Азәрбајҹан дили", "Azerbaijani"),
+    array("az", "Azərbaycan", "Azerbaijani"),
     array("be", "Беларускі", "Belarusian"),
     array("bg", "Български", "Bulgarian"),
     array("ca", "Català", "Catalan"),

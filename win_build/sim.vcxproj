@@ -306,6 +306,7 @@
     <ClCompile Include="..\client\cs_platforms.cpp" />
     <ClCompile Include="..\client\cs_prefs.cpp" />
     <ClCompile Include="..\client\cs_proxy.cpp" />
+    <ClCompile Include="..\client\cs_sporadic.cpp" />
     <ClCompile Include="..\client\cs_statefile.cpp" />
     <ClCompile Include="..\client\cs_trickle.cpp" />
     <ClCompile Include="..\client\current_version.cpp" />

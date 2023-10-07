@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Support for plan classes defined using an XML file.
-// See https://boinc.berkeley.edu/trac/wiki/AppPlanSpec
+// See https://github.com/BOINC/boinc/wiki/AppPlanSpec
 
 #include <cmath>
 
@@ -78,6 +78,18 @@ static double os_version_num(HOST h) {
     // could not determine numerical OS version
     //
     return 0;
+}
+
+// if os_version has [...|libc 2.27 ...], return 227.  else 0
+//
+static int libc_version(HOST &h) {
+    char *p = strstr(h.os_version, "|libc ");
+    if (!p) return 0;
+    p += strlen("|libc ");
+    int maj, min;
+    int n = sscanf(p, "%d.%d", &maj, &min);
+    if (n != 2) return 0;
+    return maj*100+min;
 }
 
 // parse version# from "(Android 4.3.1)" or "(Android 4.3)" or "(Android 4)"
@@ -145,19 +157,15 @@ static bool wu_is_infeasible_for_plan_class(
 }
 
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
-#ifndef _USING_FCGI_
-    FILE* f = fopen(path, "r");
-#else
-    FCGI_FILE *f = FCGI::fopen(path, "r");
-#endif
+    FILE* f = boinc::fopen(path, "r");
     if (!f) return ERR_FOPEN;
     int retval = parse_specs(f);
-    fclose(f);
+    boinc::fclose(f);
     return retval;
 }
 
 bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
-    if (min_opencl_version && opencl_prop.opencl_device_version_int 
+    if (min_opencl_version && opencl_prop.opencl_device_version_int
         && min_opencl_version > opencl_prop.opencl_device_version_int
     ) {
         if (config.debug_version_select) {
@@ -169,7 +177,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (max_opencl_version && opencl_prop.opencl_device_version_int 
+    if (max_opencl_version && opencl_prop.opencl_device_version_int
         && max_opencl_version < opencl_prop.opencl_device_version_int
     ) {
         if (config.debug_version_select) {
@@ -181,7 +189,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int
         && min_opencl_driver_revision > opencl_prop.opencl_driver_revision
     ) {
         if (config.debug_version_select) {
@@ -193,7 +201,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int
         && max_opencl_driver_revision < opencl_prop.opencl_driver_revision
     ) {
         if (config.debug_version_select) {
@@ -381,6 +389,21 @@ bool PLAN_CLASS_SPEC::check(
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: Android version '%s' too high (%d / %d)\n",
                     sreq.host.os_version, host_android_version, max_android_version
+                );
+            }
+            return false;
+        }
+    }
+
+    // libc version (linux)
+    //
+    if (min_libc_version) {
+        int v = libc_version(sreq.host);
+        if (v < min_libc_version) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: libc version too low (%d < %d)\n",
+                    v, min_libc_version
                 );
             }
             return false;
@@ -682,8 +705,8 @@ bool PLAN_CLASS_SPEC::check(
             }
             return false;
         }
-        
-        // in analogy to ATI/AMD 
+
+        // in analogy to ATI/AMD
         driver_version=cp.display_driver_version;
 
         if (min_gpu_ram_mb) {
@@ -903,7 +926,7 @@ bool PLAN_CLASS_SPEC::check(
                 hu.avg_ncpus = avg_ncpus;
             }
             // I believe the first term here is just hu.projected_flops,
-            // but I'm leaving it spelled out to match GPU scheduling 
+            // but I'm leaving it spelled out to match GPU scheduling
             // code in sched_customize.cpp
             //
             hu.peak_flops = gpu_peak_flops_scale*gpu_usage*cpp->peak_flops
@@ -1103,6 +1126,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_double("max_os_version", max_os_version)) continue;
         if (xp.parse_int("min_android_version", min_android_version)) continue;
         if (xp.parse_int("max_android_version", max_android_version)) continue;
+        if (xp.parse_int("min_libc_version", min_libc_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
@@ -1167,7 +1191,7 @@ int PLAN_CLASS_SPECS::parse_specs(FILE* f) {
     if (!xp.parse_start("plan_classes")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            fprintf(stderr, "PLAN_CLASS_SPECS::parse(): unexpected text %s\n", xp.parsed_tag);
+            boinc::fprintf(stderr, "PLAN_CLASS_SPECS::parse(): unexpected text %s\n", xp.parsed_tag);
             continue;
         }
         if (xp.match_tag("/plan_classes")) {
@@ -1205,6 +1229,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     max_os_version = 0;
     min_android_version = 0;
     max_android_version = 0;
+    min_libc_version = 0;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
     project_prefs_default_true = false;
@@ -1290,12 +1315,14 @@ int main() {
     }
 
     for (unsigned int i=0; i<pcs.classes.size(); i++) {
-        bool b = pcs.check(sreq, pcs.classes[i].name, hu);
+        WORKUNIT wu;
+        wu.id = 100;
+        wu.batch = 100;
+        bool b = pcs.check(sreq, pcs.classes[i].name, hu, &wu);
         if (b) {
             printf("%s: check succeeded\n", pcs.classes[i].name);
-            printf("\tncudas: %f\n\tnatis: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
-                hu.ncudas,
-                hu.natis,
+            printf("\tgpu_usage: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
+                hu.gpu_usage,
                 hu.gpu_ram/1e6,
                 hu.avg_ncpus,
                 hu.projected_flops/1e9,

@@ -87,7 +87,7 @@ function build_translation_array_files($langdir, $transdir, $compdir) {
             $fh = fopen($path, "a");
         } else {
             $fh = fopen($path, "w");
-            fwrite($fh, "<?php\n");                    
+            fwrite($fh, "<?php\n");
         }
         if (!$fh) {
             language_log(
@@ -146,7 +146,7 @@ function parse_po_file($file) {
             $current_token_text .= get_po_line($entry, $file);
         }
     }
-    
+
     // Get the last token
     //
     if ($current_token && $current_token_text){
@@ -177,14 +177,14 @@ function get_po_line($line, $file) {
 //
 function tra($text /* ...arglist... */) {
     global $language_lookup_array, $languages_in_use;
-    
+
     // Find the string in the user's language
     //
     foreach ($languages_in_use as $language){
         if (isset($language_lookup_array[$language][$text])) {
             $text = $language_lookup_array[$language][$text];
             break;
-        } else if ($language=="en"){ 
+        } else if ($language=="en"){
             // This language is defined in the code and is always available
             break;
         }
@@ -206,7 +206,7 @@ function tr_specific($text, $language) {
     if (file_exists($file_name)) {
         require_once($file_name);
         $text = $language_lookup_array[$language][$text];
-    }    
+    }
     return $text;
 }
 

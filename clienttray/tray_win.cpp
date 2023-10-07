@@ -14,7 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 
 #include "boinc_win.h"
 
@@ -67,15 +67,15 @@ INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR /* lpCm
         // Register an appropriate window class for the primary window
         WNDCLASS cls;
         cls.hCursor        = NULL;
-        cls.hIcon          = NULL; 
+        cls.hIcon          = NULL;
         cls.lpszMenuName   = NULL;
         cls.lpszClassName  = _T("BOINCTrayWndClass");
         cls.hbrBackground  = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        cls.hInstance      = hInstance; 
+        cls.hInstance      = hInstance;
         cls.style          = CS_OWNDC|CS_VREDRAW|CS_HREDRAW;
         cls.lpfnWndProc    = TrayProcStub;
-        cls.cbWndExtra     = 0; 
-        cls.cbClsExtra     = 0; 
+        cls.cbWndExtra     = 0;
+        cls.cbClsExtra     = 0;
         RegisterClass(&cls);
     }
 
@@ -112,13 +112,13 @@ INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR /* lpCm
 BOOL CBOINCTray::CreateDataManagementThread() {
     DWORD dwThreadID = 0;
     m_hDataManagementThread = CreateThread(
-        NULL,                        // default security attributes 
-        0,                           // use default stack size  
-        DataManagementProcStub,      // thread function 
-        NULL,                        // argument to thread function 
-        0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
- 
+        NULL,                        // default security attributes
+        0,                           // use default stack size
+        DataManagementProcStub,      // thread function
+        NULL,                        // argument to thread function
+        0,                           // use default creation flags
+        &dwThreadID );               // returns the thread identifier
+
    if (m_hDataManagementThread == NULL) {
         return FALSE;
    }

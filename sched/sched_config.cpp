@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,9 +17,7 @@
 
 // Parse a project configuration file (config.xml)
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 #include <cstring>
 #include <string>
@@ -51,7 +49,7 @@ int SCHED_CONFIG::parse_aux(FILE* f) {
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            fprintf(stderr,
+            boinc::fprintf(stderr,
                 "SCHED_CONFIG::parse(): unexpected text %s\n",
                 xp.parsed_tag
             );
@@ -100,7 +98,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            fprintf(stderr,
+            boinc::fprintf(stderr,
                 "SCHED_CONFIG::parse(): unexpected text %s\n",
                 xp.parsed_tag
             );
@@ -351,7 +349,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         // there are lots of tags the scheduler doesn't know about
 
         xp.skip_unexpected(false, "SCHED_CONFIG::parse");
-    }   
+    }
     return ERR_XML_PARSE;
 }
 
@@ -366,24 +364,16 @@ int SCHED_CONFIG::parse_file(const char* dir) {
         safe_strcpy(path, project_path(CONFIG_FILE));
         safe_strcpy(path_aux, project_path(CONFIG_FILE_AUX));
     }
-#ifndef _USING_FCGI_
-    FILE* f = fopen(path, "r");
-#else
-    FCGI_FILE *f = FCGI::fopen(path, "r");
-#endif
+    FILE* f = boinc::fopen(path, "r");
     if (!f) return ERR_FOPEN;
     retval = parse(f);
-    fclose(f);
+    boinc::fclose(f);
     if (retval) return retval;
 
-#ifndef _USING_FCGI_
-    FILE* f_aux = fopen(path_aux, "r");
-#else
-    FCGI_FILE *f_aux = FCGI::fopen(path_aux, "r");
-#endif
+    FILE* f_aux = boinc::fopen(path_aux, "r");
     if (!f_aux) return 0;
     retval = parse_aux(f_aux);
-    fclose(f_aux);
+    boinc::fclose(f_aux);
     return retval;
 }
 
@@ -420,7 +410,7 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
         char *p = getenv("BOINC_PROJECT_DIR");
         if (p) {
             if (!is_project_dir(p)) {
-                fprintf(stderr, "BOINC_PROJECT_DIR env var exists but is not a project dir\n");
+                boinc::fprintf(stderr, "BOINC_PROJECT_DIR env var exists but is not a project dir\n");
                 exit(1);
             }
             strlcpy(project_dir, p, sizeof(project_dir));
@@ -429,7 +419,7 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
         } else if (is_project_dir("..")) {
             strcpy(project_dir, "..");
         } else {
-            fprintf(stderr, "Not in a project directory or subdirectory\n");
+            boinc::fprintf(stderr, "Not in a project directory or subdirectory\n");
             exit(1);
         }
     }

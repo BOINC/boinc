@@ -3,7 +3,7 @@
 // www.subBlue.com
 // Altered by John37309 for boinc.berkeley.edu 18th June 2009
 
-// This javascript adds a bbcode toolbar 
+// This javascript adds a bbcode toolbar
 // functionallity to the posting page of the forums
 
 // Startup variables

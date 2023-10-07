@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,6 +24,7 @@
 #include "opencl_boinc.h"
 #include "parse.h"
 #include "wslinfo.h"
+#include "hostinfo.h"
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
 // The following is for regular blobs, 64KB
@@ -277,7 +278,7 @@ struct HOST {
 
     // all remaining items are assigned by the client
     int timezone;           // local STANDARD time at host - UTC time
-                            // (in seconds) 
+                            // (in seconds)
     char domain_name[256];
     char serialnum[256];    // textual description of coprocessors
     char last_ip_addr[256]; // internal IP address as of last RPC

@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /// db_dump: dump database views in XML format
-// see https://boinc.berkeley.edu/trac/wiki/DbDump
+// see https://github.com/BOINC/boinc/wiki/DbDump
 
 // Note:
 // 1) this program is way more configurable than it needs to be.
@@ -329,7 +329,7 @@ class ZFILE {
 protected:
     string tag;     // enclosing XML tag
     OUTPUT_STREAM* stream;
-public:    
+public:
     ZFILE(string tag_, int comp): tag(tag_) {
         switch(comp) {
         case COMPRESSION_ZIP:
@@ -366,7 +366,7 @@ public:
 
         write(
             "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
-        );        
+        );
     }
 
     void open_num(const char* filename, int filenum) {
@@ -1148,7 +1148,7 @@ void usage(char* name) {
     fprintf(stderr,
         "This program generates XML files containing project statistics.\n"
         "It should be run once a day as a periodic task in config.xml.\n"
-        "For more info, see https://boinc.berkeley.edu/trac/wiki/DbDump\n\n"
+        "For more info, see https://github.com/BOINC/boinc/wiki/DbDump\n\n"
         "Usage: %s [options]\n"
         "Options:\n"
         "    --dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"

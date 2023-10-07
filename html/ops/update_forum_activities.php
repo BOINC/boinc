@@ -45,7 +45,7 @@ foreach ($threads as $thread) {
     } else {
         $posts = BoincPost::enum("thread=$thread->id");
         $activity = 0;
-    
+
         foreach ($posts as $post) {
             $diff = $now - $post->timestamp;
             $diff /= 7*86400;
@@ -54,7 +54,7 @@ foreach ($threads as $thread) {
         echo "thread $thread->id forum $activity\n";
     }
     $thread->update("activity=$activity");
-    
+
 }
 
 echo date(DATE_RFC822), ": Finished\n";

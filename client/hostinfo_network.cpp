@@ -19,7 +19,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#else 
+#else
 #include "config.h"
 #include <cstdio>
 #include <cstring>
@@ -94,7 +94,7 @@ int HOST_INFO::get_local_network_info() {
 #endif
 
     struct sockaddr_storage s;
-    
+
     safe_strcpy(domain_name, "");
 
     // it seems like we should use getdomainname() instead of gethostname(),

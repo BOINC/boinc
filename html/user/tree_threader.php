@@ -34,10 +34,10 @@ function handle_submit($r, $user, $app) {
 	// read the list of template filenames
 	//
 	$files = file("../../tree_threader_template_files");
-	if ($files === false) { 
+	if ($files === false) {
         fwrite($log,"$timestamp\ttemplate file tree_threader_template_files\n");
         error("no templates file");
-        
+
     }
 	$njobs = sizeof($files);
 	$now = time();

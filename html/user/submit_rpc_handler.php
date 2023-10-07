@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Handler for remote job submission.
-// See https://boinc.berkeley.edu/trac/wiki/RemoteJobs
+// See https://github.com/BOINC/boinc/wiki/RemoteJobs
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/submit_db.inc");
@@ -507,7 +507,7 @@ function submit_batch($r) {
         $batch = BoincBatch::lookup_id($batch_id);
         log_write("created batch $batch_id");
     }
-    
+
     $job_params = new StdClass;
     $job_params->rsc_disk_bound = (double) $r->batch->job_params->rsc_disk_bound;
     $job_params->rsc_fpops_est = (double) $r->batch->job_params->rsc_fpops_est;
@@ -519,7 +519,7 @@ function submit_batch($r) {
     $input_template_filename = (string) $r->batch->input_template_filename;
     $output_template_filename = (string) $r->batch->output_template_filename;
         // possibly empty
-    
+
     submit_jobs(
         $jobs, $job_params, $app, $batch_id, $priority, $app_version_num,
         $input_template_filename,

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,15 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// configurable app plan functions.
-// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+// Plan class specifications in XML
+// See https://github.com/BOINC/boinc/wiki/AppPlanSpec
 
 #include <string>
 #include <vector>
 #include <regex.h>
 
-// if you add anything here, initialize if in the constructor
+// Represents a plan class, as specified in XML
+// if you add anything here, initialize it in the constructor
 //
 struct PLAN_CLASS_SPEC {
     char name[256];
@@ -51,6 +51,7 @@ struct PLAN_CLASS_SPEC {
     double max_os_version;
     int min_android_version;
     int max_android_version;
+    int min_libc_version;
     char project_prefs_tag[256];
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;

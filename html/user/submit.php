@@ -17,6 +17,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// web interface for managing batches
+// (e.g. as part of remote job submission).
+// Lets you see the status of batches, get their output files,
+// abort them, retire them, etc.
+
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
@@ -162,10 +167,6 @@ function show_aborted($batches, $limit, $user, $app) {
 //
 function fill_in_app_and_user_names(&$batches) {
     foreach ($batches as $batch) {
-        //if ($batch->state < BATCH_STATE_COMPLETE || $batch->fraction_done < 1) {
-        //    $wus = BoincWorkunit::enum("batch = $batch->id");
-        //    $batch = get_batch_params($batch, $wus);
-        //}
         $app = BoincApp::lookup_id($batch->app_id);
         if ($app) {
             $batch->app_name = $app->name;
@@ -244,7 +245,7 @@ function handle_main($user) {
                 echo "<li>$app->user_friendly_name<br>
                     <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
                     &middot;
-                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                    <a href=manage_app.php?app_id=$app->id>Manage</a>
                 ";
             }
         } else {
@@ -355,6 +356,45 @@ function handle_batch_stats($user) {
     page_tail();
 }
 
+// return HTML for a color-coded batch progress bar
+// green: successfully completed jobs
+// red: failed
+// light green: in progress
+// light gray: unsent
+//
+function progress_bar($batch, $wus, $width) {
+    $w_success = $width*$batch->fraction_done;
+    $w_fail = $width*$batch->nerror_jobs/$batch->njobs;
+    $nsuccess = $batch->njobs * $batch->fraction_done;
+    $nsent = wus_nsent($wus);
+    $nprog = $nsent - $nsuccess - $batch->nerror_jobs;
+    $w_prog = $width*$nprog/$batch->njobs;
+    $nunsent = $batch->njobs-$nsent;
+    $w_unsent = $width*$nunsent/$batch->njobs;
+    $x = '<table height=20><tr>';
+    if ($w_fail) {
+        $x .= "<td width=$w_fail bgcolor=red></td>";
+    }
+    if ($w_success) {
+        $x .= "<td width=$w_success bgcolor=green></td>";
+    }
+    if ($w_prog) {
+        $x .= "<td width=$w_prog bgcolor=lightgreen></td>";
+    }
+    if ($w_unsent) {
+        $x .= "<td width=$w_unsent bgcolor=lightgray></td>";
+    }
+    $x .= "</tr></table>
+        <strong>
+        <font color=red>$batch->nerror_jobs fail</font> &middot;
+        <font color=green>$nsuccess success</font> &middot;
+        <font color=lightgreen>$nprog in progress</font> &middot;
+        <font color=lightgray>$nunsent unsent</font>
+        </strong>
+    ";
+    return $x;
+}
+
 // show the details of an existing batch
 //
 function handle_query_batch($user) {
@@ -369,11 +409,13 @@ function handle_query_batch($user) {
     row2("name", $batch->name);
     row2("application", $app->name);
     row2("state", batch_state_string($batch->state));
-    row2("# jobs", $batch->njobs);
-    row2("# error jobs", $batch->nerror_jobs);
+    //row2("# jobs", $batch->njobs);
+    //row2("# error jobs", $batch->nerror_jobs);
     //row2("logical end time", time_str($batch->logical_end_time));
-    row2("expiration time", time_str($batch->expire_time));
-    row2("progress", sprintf("%.0f%%", $batch->fraction_done*100));
+    if ($batch->expire_time) {
+        row2("expiration time", time_str($batch->expire_time));
+    }
+    row2("progress", progress_bar($batch, $wus, 600));
     if ($batch->completion_time) {
         row2("completed", local_time_str($batch->completion_time));
     }
@@ -381,7 +423,7 @@ function handle_query_batch($user) {
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
     row2("Output File Size", size_string(batch_output_file_size($batch->id)));
     end_table();
-    $url = boinc_get_output_files_url($user, $batch_id);
+    $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
     show_button($url, "Get zipped output files");
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
@@ -414,11 +456,10 @@ function handle_query_batch($user) {
     );
     foreach($wus as $wu) {
         $resultid = $wu->canonical_resultid;
-        $durl = boinc_get_wu_output_files_url($user,$wu->id);
         if ($resultid) {
             $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
             $y = '<font color="green">completed</font>';
-            $text = "<a href=$durl> Download Result Files</a>";
+            $text = "<a href=get_output2.php?cmd=workunit&wu_id=$wu->id>Download output files</a>";
         } else {
             $x = "---";
             $text = "---";
@@ -497,16 +538,22 @@ function handle_query_job($user) {
 ";
         $i = 0;
         if ($result->server_state == 5) {
-            $names = get_outfile_names($result);
-            $i = 0;
-            foreach ($names as $name) {
-                $url = boinc_get_output_file_url($user, $result, $i++);
-                $path = dir_hier_path($name, $upload_dir, $fanout);
+            $phys_names = get_outfile_names($result);
+            $log_names = get_outfile_log_names($result);
+            for ($i=0; $i<count($phys_names); $i++) {
+                $url = sprintf(
+                    'get_output2.php?cmd=result&result_id=%d&file_num=%d',
+                    $result->id, $i
+                );
+                $path = dir_hier_path($phys_names[$i], $upload_dir, $fanout);
                 $s = stat($path);
                 $size = $s['size'];
-                echo "<a href=$url>$name </a> (".number_format($size)." bytes)<br/>";
+                echo sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
+                    $url,
+                    $log_names[$i],
+                    number_format($size)
+                );
             }
-            $i++;
         }
         echo "</td></tr>\n";
     }

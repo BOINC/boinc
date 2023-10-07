@@ -222,7 +222,7 @@ function validate_post_make_user() {
         if (!preg_match(INVITE_CODES, $invite_code)) {
             show_error(tra("The invitation code you gave is not valid."));
         }
-    } 
+    }
 
     $new_name = post_str("new_name");
     if (!is_valid_user_name($new_name, $reason)) {

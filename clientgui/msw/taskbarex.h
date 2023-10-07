@@ -18,7 +18,7 @@
 #define _TASKBAREX_H_
 
 // ----------------------------------------------------------------------------
-// wxTaskBarIconEx Balloon Types 
+// wxTaskBarIconEx Balloon Types
 // ----------------------------------------------------------------------------
 
 #define BALLOONTYPE_INFO        NIIF_INFO
@@ -26,7 +26,7 @@
 #define BALLOONTYPE_ERROR       NIIF_ERROR
 
 // ----------------------------------------------------------------------------
-// wxTaskBarIconEx 
+// wxTaskBarIconEx
 // ----------------------------------------------------------------------------
 
 class wxTaskBarIconExEvent;
@@ -59,14 +59,14 @@ public:
     );
 
     virtual bool SetBalloon(
-        const wxIcon& icon, 
+        const wxIcon& icon,
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO
     );
 
     virtual bool QueueBalloon(
-        const wxIcon& icon, 
+        const wxIcon& icon,
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO

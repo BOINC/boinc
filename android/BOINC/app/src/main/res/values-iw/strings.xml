@@ -298,5 +298,9 @@
   <string name="main_notification_channel_description">הצג התראות מערכת</string>
   <string name="notice_notification_channel_name">הודעות</string>
   <string name="notice_notification_channel_description">הצג התראות של עדכונים מהפרויקטים שלך</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_user_agreement">הסכם משתמש: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">מדיניות פרטיות: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_second">אני דויד, מיסד Boinc .Boinc זו פלטפורמת תוכנה קוד פתוח אשר משתמשת במשאבי המתנדבים בשביל חישובים.</string>
   <string name="agree_button">מסכימ/ה</string>
 </resources>

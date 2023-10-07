@@ -3,7 +3,7 @@
 
 include $(top_srcdir)/Makefile.incl
 
-exampledir = $(prefix)/lib/boinc-apps-examples
+exampledir = $(libexecdir)/boinc-apps-examples
 example_PROGRAMS = upper_case concat 1sec
 
 upper_case_SOURCES = upper_case.cpp

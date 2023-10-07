@@ -150,6 +150,9 @@ ACTIVE_TASK::ACTIVE_TASK() {
     safe_strcpy(remote_desktop_addr, "");
     async_copy = NULL;
     finish_file_time = 0;
+    sporadic_ca_state = CA_NONE;
+    sporadic_ac_state = AC_NONE;
+    sporadic_ignore_until = 0;
 }
 
 bool ACTIVE_TASK::process_exists() {
@@ -167,7 +170,7 @@ bool ACTIVE_TASK::process_exists() {
 // called from the CLIENT_STATE::enforce_schedule()
 // and ACTIVE_TASK_SET::suspend_all()
 //
-int ACTIVE_TASK::preempt(int preempt_type, int reason) {
+int ACTIVE_TASK::preempt(PREEMPT_TYPE preempt_type, int reason) {
     bool remove=false;
 
     switch (preempt_type) {
@@ -463,26 +466,70 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
+    // check for exclusive apps
+    //
+    static string exclusive_app_name;
+        // name of currently running exclusive app, or blank if none
     for (i=0; i<cc_config.exclusive_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_apps[i].c_str())) {
+        string &eapp = cc_config.exclusive_apps[i];
+        if (app_running(pm, eapp.c_str())) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive app %s is running", cc_config.exclusive_apps[i].c_str()
+                    "[mem_usage] exclusive app %s is running", eapp.c_str()
                 );
             }
+            if (log_flags.task && eapp != exclusive_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_app_name = eapp;
             exclusive_app_running = gstate.now;
             break;
         }
     }
-    for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_gpu_apps[i].c_str())) {
-            if (log_flags.mem_usage_debug) {
+    if (exclusive_app_running != gstate.now) {
+        if (!exclusive_app_name.empty()) {
+            if (log_flags.task) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive GPU app %s is running", cc_config.exclusive_gpu_apps[i].c_str()
+                    "Exclusive app %s is no longer running",
+                    exclusive_app_name.c_str()
                 );
             }
+            exclusive_app_name = "";
+        }
+    }
+
+    static string exclusive_gpu_app_name;
+    for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
+        string &eapp = cc_config.exclusive_gpu_apps[i];
+        if (app_running(pm, eapp.c_str())) {
+            if (log_flags.mem_usage_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[mem_usage] exclusive GPU app %s is running", eapp.c_str()
+                );
+            }
+            if (log_flags.task && eapp != exclusive_gpu_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive GPU app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_gpu_app_name = eapp;
             exclusive_gpu_app_running = gstate.now;
             break;
+        }
+    }
+    if (exclusive_gpu_app_running != gstate.now) {
+        if (!exclusive_gpu_app_name.empty()) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive GPU app %s is no longer running",
+                    exclusive_gpu_app_name.c_str()
+                );
+            }
+            exclusive_gpu_app_name = "";
         }
     }
 
@@ -1146,7 +1193,7 @@ void ACTIVE_TASK_SET::network_available() {
 
 void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
     char path[MAXPATHLEN];
-    snprintf(path, sizeof(path), 
+    snprintf(path, sizeof(path),
         "%s/%s%s",
         slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name
     );
@@ -1197,57 +1244,70 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 }
 
 #ifndef SIM
-#ifdef NEW_CPU_THROTTLE
+#// CPU throttling is done by starting/stopping running jobs
+// with 1-sec resolution; we can't use finer resolution because the API
+// polls for start/stop messages every second.
+//
+// This is done in a separate thread so that it works smoothly
+// even if the main thread is doing something time-consuming.
+//
+// The throttling factor can change at any time;
+// we need to respond to these changes reasonably quickly.
+// We use the following algorithm:
+// Maintain a "level" X
+// every second, add usage limit (0..100) to X.
+// if it's over 100, don't throttle and subtract 100
+// if it's less than 100, throttle
+
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
-
-    // Initialize diagnostics framework for this thread
-    //
+    static double x = 100;
     diagnostics_thread_init();
-
     while (1) {
-        client_mutex.lock();
         double limit = gstate.current_cpu_usage_limit();
-        if (gstate.tasks_suspended || limit == 0) {
-            client_mutex.unlock();
-//            ::Sleep((int)(1000*10));  // for Win debugging
-            boinc_sleep(10);
+
+        // if limit is 100, make sure we're not throttled
+        //
+        if (limit >= 100) {
+            if (gstate.tasks_throttled && !gstate.tasks_suspended) {
+                gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = false;
+            }
+            boinc_sleep(1);
             continue;
         }
-        double on, off, on_frac = limit / 100;
-#if 0
-// sub-second CPU throttling
-// DOESN'T WORK BECAUSE OF 1-SEC API POLL
-#define THROTTLE_PERIOD 1.
-        on = THROTTLE_PERIOD * on_frac;
-        off = THROTTLE_PERIOD - on;
-#else
-// throttling w/ at least 1 sec between suspend/resume
-        if (on_frac > .5) {
-            off = 1;
-            on = on_frac/(1.-on_frac);
-        } else {
-            on = 1;
-            off = (1.-on_frac)/on_frac;
-        }
-#endif
 
-        gstate.tasks_throttled = true;
-        gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
-        client_mutex.unlock();
-        boinc_sleep(off);
-        client_mutex.lock();
-        if (!gstate.tasks_suspended) {
-            gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+        // if tasks are suspended for some other reason,
+        // we don't need to do anything
+        //
+        if (gstate.tasks_suspended) {
+            boinc_sleep(1);
+            continue;
         }
-        gstate.tasks_throttled = false;
-        client_mutex.unlock();
-        boinc_sleep(on);
+
+        client_thread_mutex.lock();
+        x += limit;
+        //msg_printf(NULL, MSG_INFO, "x %f tasks_throttled %d", x, gstate.tasks_throttled ? 1 : 0);
+        if (x >= 100) {
+            if (gstate.tasks_throttled) {
+                gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = false;
+                //msg_printf(NULL, MSG_INFO, "unthrottle");
+            }
+            x -= 100;
+        } else {
+            if (!gstate.tasks_throttled) {
+                gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = true;
+                //msg_printf(NULL, MSG_INFO, "throttle");
+            }
+        }
+        client_thread_mutex.unlock();
+        boinc_sleep(1);
     }
     return 0;
 }
-#endif
 #endif

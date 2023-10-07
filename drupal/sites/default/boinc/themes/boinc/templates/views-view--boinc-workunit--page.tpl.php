@@ -71,7 +71,7 @@
       <?php print $attachment_after; ?>
     </div>
   <?php endif; ?>
-  
+
 
   <?php if ($more): ?>
     <?php print $more; ?>
@@ -90,9 +90,9 @@
   <?php endif; ?>
 
 </div> <?php /* class view */ ?>
-  
+
   <?php
-    // Inject the task list for this workunit 
+    // Inject the task list for this workunit
     //$view = views_get_view('boinc_workunit_tasks_all');
 
     // Get the results of the view in order to retrieve the fields.

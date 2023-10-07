@@ -29,7 +29,7 @@ exit();
 function send_problem_email($user, $host) {
     global $master_url;
     $body = "";
-        
+
     $host_content = "ID: ".$host->id."
     Created: ".time_str($host->create_time)."
     Venue: ".$host->venue."
@@ -79,7 +79,7 @@ function send_problem_email($user, $host) {
     % of time host connected: " . 100*$host->connected_frac." %
     % of time user active: " . 100*$host->active_frac." %
     # of results today: " . $host->nresults_today;
-    
+
     $subject = PROJECT." notice for $user->name";
     $body = PROJECT." notification:
 
@@ -96,7 +96,7 @@ This is the content of our database:
 " . $host_content."
 
 For further information and assistance with ".PROJECT." go to $master_url";
-    echo nl2br($body) . "<br><br>"; 
+    echo nl2br($body) . "<br><br>";
     return send_email($user, $subject, $body);
 
 }
@@ -108,7 +108,7 @@ if (!$hostid) {
     admin_page_head("Misconfigured Host");
     echo "This script sends an email to the owner of the supplied host which says that something gone wrong with his configuration.<br>";
     echo "<br><form method=\"get\" action=\"problem_host.php\">
-    Host ID: 
+    Host ID:
     <input type=\"text\" size=\"5\" name=\"hostid\">
     <input class=\"btn btn-default\" type=\"submit\" value=\"Send Email\">
     </form>
