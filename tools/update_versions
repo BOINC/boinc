@@ -21,7 +21,7 @@
 
 // script to create app versions,
 // and stage their files in the download dir.
-// See https://boinc.berkeley.edu/trac/wiki/AppVersionNew
+// See https://github.com/BOINC/boinc/wiki/AppVersionNew
 
 
 error_reporting(E_ALL);

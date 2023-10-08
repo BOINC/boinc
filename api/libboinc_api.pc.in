@@ -6,7 +6,7 @@ includedir=@includedir@
 Name: boinc_api
 Description: BOINC API
 Version: @PACKAGE_VERSION@
-URL: https://boinc.berkeley.edu/trac/wiki/BasicApi
+URL: https://github.com/BOINC/boinc/wiki/BasicApi
 
 Cflags: -I${includedir}/boinc
 Cflags.private: @GLUT_CFLAGS@

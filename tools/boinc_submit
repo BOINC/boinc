@@ -3,7 +3,7 @@
 <?php
 
 // Submit a single job.
-// Usage (see http://boinc.berkeley.edu/trac/wiki/SingleJob for more info):
+// Usage (see https://github.com/BOINC/boinc/wiki/SingleJob for more info):
 //
 // 1) Set the env var BOINC_PROJECT_DIR to the root directory of the project
 // 2) put boinc/tools/ in your search path

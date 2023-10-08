@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // BOINC wrapper - lets you use non-BOINC apps with BOINC
-// See https://boinc.berkeley.edu/trac/wiki/WrapperApp
+// See https://github.com/BOINC/boinc/wiki/WrapperApp
 //
 // cmdline options:
 // --device N       macro-substitute N for $GPU_DEVICE_NUM

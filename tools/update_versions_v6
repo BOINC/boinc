@@ -10,7 +10,7 @@ config.xml must contain an <app_dir> which specifies the directory to search.
 
 apps/APPLICATION_NAME/ contains application versions for each application.
 
-See https://boinc.berkeley.edu/trac/wiki/UpdateVersions
+See https://github.com/BOINC/boinc/wiki/UpdateVersions
 
 """
 

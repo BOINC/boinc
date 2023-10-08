@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // BOINC VirtualBox wrapper; lets you run apps in VMs
-// see: http://boinc.berkeley.edu/trac/wiki/VboxApps
+// see: https://github.com/BOINC/boinc/wiki/VboxApps
 //
 // usage: vboxwrapper [options]
 //

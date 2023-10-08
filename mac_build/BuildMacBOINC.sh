@@ -146,7 +146,7 @@ major=`echo $version | sed 's/\([0-9]*\)[.].*/\1/' `;
 
 if [ "$major" -lt "11" ]; then
     echo "ERROR: Building BOINC requires System 10.7 or later.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or https://boinc.berkeley.edu/trac/wiki/MacBuild"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or https://github.com/BOINC/boinc/wiki/MacBuild"
     return 1
 fi
 

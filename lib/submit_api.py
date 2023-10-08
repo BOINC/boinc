@@ -17,7 +17,7 @@
 
 
 # Python bindings of the remote job submission and file management APIs
-# See https://boinc.berkeley.edu/trac/wiki/RemoteJobs#Pythonbinding
+# See https://github.com/BOINC/boinc/wiki/RemoteJobs#Pythonbinding
 
 import urllib
 import urllib2
