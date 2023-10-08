@@ -2,7 +2,7 @@
 set -e
 
 #
-# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildApp#
+# See: https://github.com/BOINC/boinc/wiki/AndroidBuildApp
 #
 
 # Script to compile various BOINC libraries for Android to be used

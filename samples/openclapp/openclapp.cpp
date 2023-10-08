@@ -35,7 +35,7 @@
 // -early_exit: exit(10) after 30 iterations
 // -early_crash: crash after 30 iterations
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
+// See https://github.com/BOINC/boinc/wiki/GPUApp
 // Original contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #include "openclapp.hpp"

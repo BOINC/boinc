@@ -19,7 +19,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // script for controlling "manage" privileges.
-// See http://boinc.berkeley.edu/trac/wiki/MultiUser
+// See https://github.com/BOINC/boinc/wiki/MultiUser
 // Run this from the project directory.
 
 // usage:

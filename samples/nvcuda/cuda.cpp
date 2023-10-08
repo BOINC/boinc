@@ -29,7 +29,7 @@
 // -early_exit: exit(10) after 30 chars
 // -early_crash: crash after 30 chars
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// See https://github.com/BOINC/boinc/wiki/GPUApp
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 //
 // NOTE: As currently written, this sample is of limited usefulness, as it

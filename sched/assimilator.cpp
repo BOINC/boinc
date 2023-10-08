@@ -54,7 +54,7 @@ void usage(char* name) {
     fprintf(stderr,
         "This program is an 'assimilator'; it handles completed jobs.\n"
         "Normally it is run as a daemon from config.xml.\n"
-        "See: https://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
+        "See: https://github.com/BOINC/boinc/wiki/BackendPrograms\n\n"
     );
 
     fprintf(stderr, "usage: %s [options]\n"

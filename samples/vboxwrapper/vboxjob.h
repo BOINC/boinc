@@ -128,7 +128,7 @@ public:
 
     bool enable_graphics_support;
         // whether to enable graphics support by way of
-        // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
+        // https://github.com/BOINC/boinc/wiki/GraphicsApi#File
 
     bool enable_screenshots_on_error;
         // capture screen shots during catastrophic events
