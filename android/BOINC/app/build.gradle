@@ -437,6 +437,7 @@ dependencies {
     implementation AndroidX.recyclerView
     implementation AndroidX.swipeRefreshLayout
     implementation AndroidX.viewPager2
+    implementation("androidx.biometric:biometric:1.1.0")
 
     implementation 'javax.annotation:javax.annotation-api:_'
     implementation 'com.github.bumptech.glide:glide:_'
