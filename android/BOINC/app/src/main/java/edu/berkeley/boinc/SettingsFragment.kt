@@ -300,7 +300,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             "remoteEnable" -> {
                 val isRemote = sharedPreferences.getBoolean(key, false)
                 BOINCActivity.monitor!!.isRemote = isRemote
-                findPreference<EditTextPreference>("authenticationKey")?.isVisible = isRemote
+                findPreference<Preference>("authenticationKey")?.isVisible = isRemote
                 quitClient()
             }
 
