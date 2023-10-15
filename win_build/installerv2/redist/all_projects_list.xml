@@ -542,7 +542,6 @@
         <name>i686-pc-linux-gnu[cpuGFN20_mt]</name>
         <name>i686-pc-linux-gnu[cpuGFN21_mt]</name>
         <name>i686-pc-linux-gnu[cpuGFN22_mt]</name>
-        <name>i686-pc-linux-gnu[cpuPPSsieve]</name>
         <name>i686-pc-linux-gnu[cudaPPSsieve]</name>
         <name>i686-pc-linux-gnu[mt]</name>
         <name>i686-pc-linux-gnu[OCLcudaGFN]</name>
@@ -576,7 +575,6 @@
         <name>windows_intelx86[cpuGFN20_mt]</name>
         <name>windows_intelx86[cpuGFN21_mt]</name>
         <name>windows_intelx86[cpuGFN22_mt]</name>
-        <name>windows_intelx86[cpuPPSsieve]</name>
         <name>windows_intelx86[cudaPPSsieve]</name>
         <name>windows_intelx86[mt]</name>
         <name>windows_intelx86[OCLcudaGFN]</name>
@@ -610,7 +608,6 @@
         <name>windows_x86_64[cpuGFN20_mt]</name>
         <name>windows_x86_64[cpuGFN21_mt]</name>
         <name>windows_x86_64[cpuGFN22_mt]</name>
-        <name>windows_x86_64[cpuPPSsieve]</name>
         <name>windows_x86_64[cpu_AP27mt]</name>
         <name>windows_x86_64[cpu_WW_mt]</name>
         <name>windows_x86_64[mt]</name>
@@ -659,7 +656,6 @@
         <name>x86_64-apple-darwin[cpuGFN20_mt]</name>
         <name>x86_64-apple-darwin[cpuGFN21_mt]</name>
         <name>x86_64-apple-darwin[cpuGFN22_mt]</name>
-        <name>x86_64-apple-darwin[cpuPPSsieve]</name>
         <name>x86_64-apple-darwin[cpu_AP27mt]</name>
         <name>x86_64-apple-darwin[cpu_WW_mt]</name>
         <name>x86_64-apple-darwin[cudaPPSsieve]</name>
@@ -700,7 +696,6 @@
         <name>x86_64-pc-linux-gnu[cpuGFN20_mt]</name>
         <name>x86_64-pc-linux-gnu[cpuGFN21_mt]</name>
         <name>x86_64-pc-linux-gnu[cpuGFN22_mt]</name>
-        <name>x86_64-pc-linux-gnu[cpuPPSsieve]</name>
         <name>x86_64-pc-linux-gnu[cpu_AP27mt]</name>
         <name>x86_64-pc-linux-gnu[cpu_WW_mt]</name>
         <name>x86_64-pc-linux-gnu[cudaPPSsieve]</name>
