@@ -366,7 +366,7 @@ struct HOST {
     // but not stored in the DB
     // TODO: move this stuff to a derived class HOST_SCHED
     //
-    char p_features[1024];
+    char p_features[P_FEATURES_SIZE];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
     int num_opencl_cpu_platforms;
