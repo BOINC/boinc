@@ -22,6 +22,7 @@
 
 #include "util.h"
 #include "coproc.h"
+#include "hostinfo.h"
 
 #include "sched_config.h"
 #include "sched_customize.h"
@@ -269,7 +270,7 @@ bool PLAN_CLASS_SPEC::check(
     // so we can look for them with strstr()
     //
     if (!cpu_features.empty()) {
-        char buf[8192], buf2[512];
+        char buf[P_FEATURES_SIZE], buf2[512];
         sprintf(buf, " %s ", sreq.host.p_features);
         char* p = strrchr(sreq.host.p_model, '[');
         if (p) {
