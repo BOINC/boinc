@@ -78,7 +78,7 @@ echo "<table><tr><td>",
     Your weak account key is:"),"
     <pre>$weak_auth</pre>
     <p>",
-    tra("If you change your password, your weak account key changes, and your previous weak account key becomes invalid."),"
+    tra("If you change your password or email address, your weak account key changes, and your previous weak account key becomes invalid."),"
     </td></tr></table>"
 ;
 
