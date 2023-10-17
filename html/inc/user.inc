@@ -204,6 +204,16 @@ function notify_description($notify) {
     return null;
 }
 
+// a string that can be used to authenticate some operations,
+// but can't be used to log in to the account
+// (e.g. can't be used to change email addr or passwd)
+//
+// this is a function of
+// - authenticator (never changes)
+// - user ID (never changes)
+// - password
+// - email addr
+//
 function weak_auth($user) {
     $x = md5($user->authenticator.$user->passwd_hash);
     return "{$user->id}_$x";
