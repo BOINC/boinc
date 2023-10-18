@@ -24,6 +24,8 @@ check_get_args(array());
 $user = get_logged_in_user();
 
 page_head(tra("Change password"));
+echo tra("Note: if you change your password, your %1weak account key%2 will change.", "<a href=weak_auth.php>", "</a>");
+echo "<p>";
 
 form_start(secure_url_base()."edit_passwd_action.php", "post");
 form_input_text(tra("New password"), "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd"));

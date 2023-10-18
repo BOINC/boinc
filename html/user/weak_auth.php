@@ -20,7 +20,6 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
 $user = get_logged_in_user();
-page_head(tra("Account keys"));
 
 $weak_auth = weak_auth($user);
 
@@ -48,21 +47,23 @@ for ($i=0; $i<strlen($url); $i++) {
 //
 $account_file = "account_" . rtrim($url, '_') . ".xml";
 
+page_head(tra("Account keys"));
+text_start();
 echo "<table><tr><td>",
     tra("You can access your account either by using your email address and password,
     or by using an assigned 'account key'.
     Your account key is:"),
-    "<pre>$user->authenticator</pre>
+    "<p><pre>$user->authenticator</pre>
     <p>",
     tra("This key can be used to:"),
     "<ul>
     <li><a href=get_passwd.php>",tra("log in to your account on the web"),"</a>;
     <li>",
-        tra("to attach a computer to your account without using the BOINC Manager.
+        tra("attach a computer to your account without using the BOINC Manager.
        To do so, install BOINC,
        create a file named %1 in the BOINC
        data directory, and set its contents to:","<b>$account_file</b>"),"
-    <pre>",
+    <p><pre>",
     htmlspecialchars(
 "<account>
     <master_url>".$master_url."</master_url>
@@ -76,11 +77,11 @@ echo "<table><tr><td>",
     If you want to attach untrusted or insecure computers to your account,
     do so using your weak account key.
     Your weak account key is:"),"
-    <pre>$weak_auth</pre>
-    <p>",
-    tra("If you change your password, your weak account key changes, and your previous weak account key becomes invalid."),"
+    <p><pre>$weak_auth</pre><p>
+    ",
+    tra("The key depends on your account's email address and password.  If you change either of these, the weak account key will change."),"
     </td></tr></table>"
 ;
-
+text_end();
 page_tail();
 ?>

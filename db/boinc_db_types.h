@@ -210,6 +210,7 @@ struct USER {
         // the "external CPID" that  gets exported to stats sites
         // is MD5(cpid, email)
     char passwd_hash[256];
+        // MD5(password, email_addr)
     bool email_validated;           // deprecated
     int donated;
     char login_token[32];

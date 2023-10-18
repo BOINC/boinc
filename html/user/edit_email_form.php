@@ -24,6 +24,8 @@ check_get_args(array());
 $user = get_logged_in_user();
 
 page_head(tra("Change email address"));
+echo tra("Note: if you change your email address, your %1weak account key%2 will change.", "<a href=weak_auth.php>", "</a>");
+echo "<p>";
 
 $email_text = "";
 if (is_valid_email_addr($user->email_addr)) {
