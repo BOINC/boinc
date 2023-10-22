@@ -569,6 +569,10 @@ if test "${isWIN32}" = "yes" ; then
    SAH_CHECK_LIB([msimg32], [fopen],
        [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 fi
+if test "x${enable_manager}" = "xyes" -a "${isWIN32}" = "no"; then
+    SAH_CHECK_LIB([xkbcommon], [xkb_state_key_get_utf8],
+       [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+fi
 
 LIBS=${SAVELIBS_AAF}
 
