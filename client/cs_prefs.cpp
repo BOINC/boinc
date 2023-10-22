@@ -686,162 +686,274 @@ void CLIENT_STATE::read_global_prefs(
 }
 
 // Validates preferences that were parsed.  Uses the mask structure, so 
-// this should be called immediately after parsing.  Any new preferences variables
-// added should be validated here as well.
+// this should be called immediately after parsing.  This function will check if
+// any preferences are out of a reasonable range for each variable.  This could be
+// any of the following:
+// 1. A negative number.
+// 2. Maximum limits.
+// 3. Checking to make sure a percentage is between 0% and 100%.
+// 4. A time variable that is out of range.
+// If the variable is out of range, it will either be set to the default value, 0,
+// 0%, 100%, 0:00, or 24:00, depending on the variable.  Default values are derived
+// from GLOBAL_PREFS::defaults().
+// Any new preference variables added should be validated here as well.
 //
-void CLIENT_STATE::validate_global_prefs(GLOBAL_PREFS_MASK& mask) {
+void CLIENT_STATE::validate_global_prefs(const GLOBAL_PREFS_MASK& mask) {
+    // ubound is an upper limit for doubles as a sanity check.  This matches
+    // the upper limit as preferences are validated from the Manager.  Refer to
+    // CDlgAdvPreferences::ValidateInput as an example.
+    //
+    double const ubound = 9999999999999.99;
+    char* outrange = "is out of range. Setting changed to";
+    char* timechange = "is not a valid time. Setting changed to";
+    char* forday = "for day";
     if (mask.battery_charge_min_pct) {
         if (global_prefs.battery_charge_min_pct < 0) {
-            global_prefs.battery_charge_min_pct = 0;
+            global_prefs.battery_charge_min_pct = 90;
+            msg_printf(0, MSG_USER_ALERT, "'battery_charge_min_pct' %s 90.", outrange);
         } else if (global_prefs.battery_charge_min_pct > 100) {
             global_prefs.battery_charge_min_pct = 100;
+            msg_printf(0, MSG_USER_ALERT, "'battery_charge_min_pct' %s 100.", outrange);
         }
     }
     if (mask.battery_max_temperature) {
-        if (global_prefs.battery_max_temperature < -273.15) {
-            global_prefs.battery_max_temperature = -273.15;
+        if (global_prefs.battery_max_temperature < -273.15 || global_prefs.battery_max_temperature > ubound) {
+            global_prefs.battery_max_temperature = 40;
+            msg_printf(0, MSG_USER_ALERT, "'battery_max_temperature' %s 40.", outrange);
         }
     }
     if (mask.idle_time_to_run) {
-        if (global_prefs.idle_time_to_run < 0) {
-            global_prefs.idle_time_to_run = 0;
+        if (global_prefs.idle_time_to_run < 0 || global_prefs.idle_time_to_run > ubound) {
+            global_prefs.idle_time_to_run = 3;
+            msg_printf(0, MSG_USER_ALERT, "'idle_time_to_run' %s 3.", outrange);
         }
     }
     if (mask.suspend_if_no_recent_input) {
-        if (global_prefs.suspend_if_no_recent_input < 0) {
+        if (global_prefs.suspend_if_no_recent_input < 0 || global_prefs.suspend_if_no_recent_input > ubound) {
             global_prefs.suspend_if_no_recent_input = 0;
-        }
-    }
-    if (mask.idle_time_to_run && mask.suspend_if_no_recent_input) {
-        if ((global_prefs.idle_time_to_run - global_prefs.suspend_if_no_recent_input + 0.005) >= 0) {
-            // Don't make any changes, just send a message.
+            msg_printf(0, MSG_USER_ALERT, "'suspend_if_no_recent_input' %s 0.", outrange);
         }
     }
     if (mask.suspend_cpu_usage) {
         if (global_prefs.suspend_cpu_usage < 0) {
-            global_prefs.suspend_cpu_usage = 0;
+            global_prefs.suspend_cpu_usage = 25;
+            msg_printf(0, MSG_USER_ALERT, "'suspend_cpu_usage' %s 25.", outrange);
         } else if (global_prefs.suspend_cpu_usage > 100) {
             global_prefs.suspend_cpu_usage = 100;
+            msg_printf(0, MSG_USER_ALERT, "'suspend_cpu_usage' %s 100.", outrange);
         }
     }
     if (mask.niu_suspend_cpu_usage) {
         if (global_prefs.niu_suspend_cpu_usage < 0) {
-            global_prefs.niu_suspend_cpu_usage = 0;
+            global_prefs.niu_suspend_cpu_usage = 50;
+            msg_printf(0, MSG_USER_ALERT, "'niu_suspend_cpu_usage' %s 50.", outrange);
         } else if (global_prefs.niu_suspend_cpu_usage > 100) {
             global_prefs.niu_suspend_cpu_usage = 100;
+            msg_printf(0, MSG_USER_ALERT, "'niu_suspend_cpu_usage' %s 100.", outrange);
         }
     }
-    // !!!!!do I need to fix start/end hours here?  YES!  can pass -1 or 25 (both invalid
-    // See ~ L394 of prefs.cpp...review this carefully and add here
-    // Same question for parse_day. -> This is already handled in the parse_day function.  Leaving it active in prefs.cpp for now.
+    if (mask.start_hour) {
+        if (global_prefs.cpu_times.start_hour < 0) {
+            global_prefs.cpu_times.start_hour = 0;
+            msg_printf(0, MSG_USER_ALERT, "'start_hour' %s 0:00.", timechange);
+        } else if (global_prefs.cpu_times.start_hour > 24) {
+            global_prefs.cpu_times.start_hour = 24;
+            msg_printf(0, MSG_USER_ALERT, "'start_hour' %s 24:00.", timechange);
+        }
+    }
+    if (mask.end_hour) {
+        if (global_prefs.cpu_times.end_hour < 0) {
+            global_prefs.cpu_times.end_hour = 0;
+            msg_printf(0, MSG_USER_ALERT, "'end_hour' %s 0:00.", timechange);
+        } else if (global_prefs.cpu_times.end_hour > 24) {
+            global_prefs.cpu_times.end_hour = 24;
+            msg_printf(0, MSG_USER_ALERT, "'end_hour' %s 24:00.", timechange);
+        }
+    }
+    if (mask.net_start_hour) {
+        if (global_prefs.net_times.start_hour < 0) {
+            global_prefs.net_times.start_hour = 0;
+            msg_printf(0, MSG_USER_ALERT, "'net_start_hour' %s 0:00.", timechange);
+        } else if (global_prefs.net_times.start_hour > 24) {
+            global_prefs.net_times.start_hour = 24;
+            msg_printf(0, MSG_USER_ALERT, "'net_start_hour' %s 24:00.", timechange);
+        }
+    }
+    if (mask.net_end_hour) {
+        if (global_prefs.net_times.end_hour < 0) {
+            global_prefs.net_times.end_hour = 0;
+            msg_printf(0, MSG_USER_ALERT, "'net_end_hour' %s 0:00.", timechange);
+        } else if (global_prefs.net_times.end_hour > 24) {
+            global_prefs.net_times.end_hour = 24;
+            msg_printf(0, MSG_USER_ALERT, "'net_end_hour' %s 24:00.", timechange);
+        }
+    }
+    // Validate day-of-week override preferences, if set.
+    for (int i = 0; i < 7; i++) {
+        if (global_prefs.cpu_times.week.days[i].present) {
+            if (global_prefs.cpu_times.week.days[i].start_hour < 0) {
+                global_prefs.cpu_times.week.days[i].start_hour = 0;
+                msg_printf(0, MSG_USER_ALERT, "'start_hour' %s %d %s 0:00", forday, i, timechange);
+            } else if (global_prefs.cpu_times.week.days[i].start_hour > 24) {
+                global_prefs.cpu_times.week.days[i].start_hour = 24;
+                msg_printf(0, MSG_USER_ALERT, "'start_hour' %s %d %s 24:00", forday, i, timechange);
+            }
+            if (global_prefs.cpu_times.week.days[i].end_hour < 0) {
+                global_prefs.cpu_times.week.days[i].end_hour = 0;
+                msg_printf(0, MSG_USER_ALERT, "'end_hour' %s %d %s 0:00", forday, i, timechange);
+            } else if (global_prefs.cpu_times.week.days[i].end_hour > 24) {
+                global_prefs.cpu_times.week.days[i].end_hour = 24;
+                msg_printf(0, MSG_USER_ALERT, "'end_hour' %s %d %s 24:00", forday, i, timechange);
+            }
+        }
+        if (global_prefs.net_times.week.days[i].present) {
+            if (global_prefs.net_times.week.days[i].start_hour < 0) {
+                global_prefs.net_times.week.days[i].start_hour = 0;
+                msg_printf(0, MSG_USER_ALERT, "'net_start_hour' %s %d %s 0:00", forday, i, timechange);
+            } else if (global_prefs.net_times.week.days[i].start_hour > 24) {
+                global_prefs.net_times.week.days[i].start_hour = 24;
+                msg_printf(0, MSG_USER_ALERT, "'net_start_hour' %s %d %s 24:00", forday, i, timechange);
+            }
+            if (global_prefs.net_times.week.days[i].end_hour < 0) {
+                global_prefs.net_times.week.days[i].end_hour = 0;
+                msg_printf(0, MSG_USER_ALERT, "'net_end_hour' %s %d %s 00:00", forday, i, timechange);
+            } else if (global_prefs.net_times.week.days[i].end_hour > 24) {
+                global_prefs.net_times.week.days[i].end_hour = 24;
+                msg_printf(0, MSG_USER_ALERT, "'net_end_hour' %s %d %s 24:00", forday, i, timechange);
+            }
+        }
+    }
     if (mask.work_buf_min_days) {
-        if (global_prefs.work_buf_min_days < 0) {
-            global_prefs.work_buf_min_days = 0;
+        if (global_prefs.work_buf_min_days < 0 || global_prefs.work_buf_min_days > 10) {
+            global_prefs.work_buf_min_days = 0.1;
+            msg_printf(0, MSG_USER_ALERT, "'work_buf_min_days' %s 0.1.", outrange);
         }
     }
     if (mask.work_buf_additional_days) {
-        if (global_prefs.work_buf_additional_days < 0) {
-            global_prefs.work_buf_additional_days = 0;
+        if (global_prefs.work_buf_additional_days < 0 || global_prefs.work_buf_additional_days > 10) {
+            global_prefs.work_buf_additional_days = 0.5;
+            msg_printf(0, MSG_USER_ALERT, "'work_buf_additional_days' %s 0.5.", outrange);
         }
     }
     if (mask.max_ncpus_pct) {
         if (global_prefs.max_ncpus_pct < 0) {
+#ifdef ANDROID
+            global_prefs.max_ncpus_pct = 50;
+            msg_printf(0, MSG_USER_ALERT, "'max_ncpus_pct' %s 50.", outrange);
+#else
             global_prefs.max_ncpus_pct = 0;
+            msg_printf(0, MSG_USER_ALERT, "'max_ncpus_pct' %s 0.", outrange);
+#endif
         } else if (global_prefs.max_ncpus_pct > 100) {
             global_prefs.max_ncpus_pct = 100;
+            msg_printf(0, MSG_USER_ALERT, "'max_ncpus_pct' %s 100.", outrange);
         }
     }
     if (mask.niu_max_ncpus_pct) {
         if (global_prefs.niu_max_ncpus_pct < 0) {
             global_prefs.niu_max_ncpus_pct = 0;
+            msg_printf(0, MSG_USER_ALERT, "'niu_max_ncpus_pct' %s 0.", outrange);
         } else if (global_prefs.niu_max_ncpus_pct > 100) {
             global_prefs.niu_max_ncpus_pct = 100;
+            msg_printf(0, MSG_USER_ALERT, "'niu_max_ncpus_pct' %s 100.", outrange);
         }
     }
     if (mask.max_ncpus) {
-        if (global_prefs.max_ncpus < 0) {
+        if (global_prefs.max_ncpus < 0 || global_prefs.max_ncpus > ubound) {
             global_prefs.max_ncpus = 0;
+            msg_printf(0, MSG_USER_ALERT, "'max_ncpus' %s 0.", outrange);
         }
     }
     if (mask.disk_interval) {
-        if (global_prefs.disk_interval < 0) {
-            global_prefs.disk_interval = 0;
+        if (global_prefs.disk_interval < 0 || global_prefs.disk_interval > ubound) {
+            global_prefs.disk_interval = 60;
+            msg_printf(0, MSG_USER_ALERT, "'disk_interval' %s 60.", outrange);
         }
     }
     if (mask.cpu_scheduling_period_minutes) {
-        if (global_prefs.cpu_scheduling_period_minutes < 0.0001) {
+        if (global_prefs.cpu_scheduling_period_minutes < 0.0001 || global_prefs.cpu_scheduling_period_minutes > ubound) {
             global_prefs.cpu_scheduling_period_minutes = 60;
+            msg_printf(0, MSG_USER_ALERT, "'cpu_scheduling_period_minutes' %s 60.", outrange);
         }
     }
     if (mask.disk_max_used_gb) {
-        if (global_prefs.disk_max_used_gb < 0) {
+        if (global_prefs.disk_max_used_gb < 0 || global_prefs.disk_max_used_gb > ubound) {
             global_prefs.disk_max_used_gb = 0;
+            msg_printf(0, MSG_USER_ALERT, "'disk_max_used_gb' %s 0.", outrange);
         }
     }
     if (mask.disk_max_used_pct) {
         if (global_prefs.disk_max_used_pct < 0) {
-            global_prefs.disk_max_used_pct = 0;
+            global_prefs.disk_max_used_pct = 90; 
+            msg_printf(0, MSG_USER_ALERT, "'disk_max_used_pct' %s 90.", outrange);
         } else if (global_prefs.disk_max_used_pct > 100) {
             global_prefs.disk_max_used_pct = 100;
+            msg_printf(0, MSG_USER_ALERT, "'disk_max_used_pct' %s 100.", outrange);
         }
     }
     if (mask.disk_min_free_gb) {
-        if (global_prefs.disk_min_free_gb < 0) {
-            global_prefs.disk_min_free_gb = 0;
+        if (global_prefs.disk_min_free_gb < 0 || global_prefs.disk_min_free_gb > ubound) {
+            global_prefs.disk_min_free_gb = 0.1;
+            msg_printf(0, MSG_USER_ALERT, "'disk_min_free_gb' %s 0.1.", outrange);
         }
     }
-    // Verify this in testing.
     if (mask.vm_max_used_frac) {
-        if (global_prefs.vm_max_used_frac < 0) {
-            global_prefs.vm_max_used_frac = 0;
-        } else if (global_prefs.vm_max_used_frac > 1) {
-            global_prefs.vm_max_used_frac = 1;
+        if (global_prefs.vm_max_used_frac < 0 || global_prefs.vm_max_used_frac > 1) {
+            global_prefs.vm_max_used_frac = 0.75;
+            msg_printf(0, MSG_USER_ALERT, "'vm_max_used_frac' %s 0.75.", outrange);
         }
     }
     if (mask.ram_max_used_busy_frac) {
-        if (global_prefs.ram_max_used_busy_frac < 0) {
-            global_prefs.ram_max_used_busy_frac = 0;
-        } else if (global_prefs.ram_max_used_busy_frac > 1) {
-            global_prefs.ram_max_used_busy_frac = 1;
+        if (global_prefs.ram_max_used_busy_frac < 0 || global_prefs.ram_max_used_busy_frac > 1) {
+            global_prefs.ram_max_used_busy_frac = 0.5;
+            msg_printf(0, MSG_USER_ALERT, "'ram_max_used_busy_frac' %s 0.5.", outrange);
         }
     }
     if (mask.ram_max_used_idle_frac) {
-        if (global_prefs.ram_max_used_idle_frac < 0) {
-            global_prefs.ram_max_used_idle_frac = 0;
-        } else if (global_prefs.ram_max_used_idle_frac > 1) {
-            global_prefs.ram_max_used_idle_frac = 1;
+        if (global_prefs.ram_max_used_idle_frac < 0 || global_prefs.ram_max_used_idle_frac >1) {
+#ifdef ANDROID
+            global_prefs.ram_max_used_idle_frac = 0.5;
+            msg_printf(0, MSG_USER_ALERT, "'ram_max_used_idle_frac' %s 0.5.", outrange);
+#else
+            global_prefs.ram_max_used_idle_frac = 0.9;
+            msg_printf(0, MSG_USER_ALERT, "'ram_max_used_idle_frac' %s 0.9.", outrange);
+#endif
         }
     }
     if (mask.max_bytes_sec_up) {
-        if (global_prefs.max_bytes_sec_up < 0) {
+        if (global_prefs.max_bytes_sec_up < 0 || global_prefs.max_bytes_sec_up > ubound) {
             global_prefs.max_bytes_sec_up = 0;
+            msg_printf(0, MSG_USER_ALERT, "'max_bytes_sec_up' %s 0.", outrange);
         }
     }
     if (mask.max_bytes_sec_down) {
-        if (global_prefs.max_bytes_sec_down < 0) {
+        if (global_prefs.max_bytes_sec_down < 0 || global_prefs.max_bytes_sec_down > ubound) {
             global_prefs.max_bytes_sec_down = 0;
+            msg_printf(0, MSG_USER_ALERT, "'max_bytes_sec_down' %s 0.", outrange);
         }
     }
     if (mask.cpu_usage_limit) {
-        if (global_prefs.cpu_usage_limit < 0) {
-            global_prefs.cpu_usage_limit = 0;
-        } else if (global_prefs.cpu_usage_limit > 1) {
-            global_prefs.cpu_usage_limit = 1;
+        if (global_prefs.cpu_usage_limit < 0 || global_prefs.cpu_usage_limit > 100) {
+            global_prefs.cpu_usage_limit = 100;
+            msg_printf(0, MSG_USER_ALERT, "'cpu_usage_limit' %s 100.", outrange);
         }
     }
     if (mask.niu_cpu_usage_limit) {
-        if (global_prefs.niu_cpu_usage_limit <= 0 || global_prefs.niu_cpu_usage_limit > 1) {
-            global_prefs.niu_cpu_usage_limit = 1;
+        if (global_prefs.niu_cpu_usage_limit < 0 || global_prefs.niu_cpu_usage_limit > 100) {
+            global_prefs.niu_cpu_usage_limit = 100;
+            msg_printf(0, MSG_USER_ALERT, "'niu_cpu_usage_limit' %s 100.", outrange);
         }
     }
     if (mask.daily_xfer_limit_mb) {
-        if (global_prefs.daily_xfer_limit_mb < 0) {
+        if (global_prefs.daily_xfer_limit_mb < 0 || global_prefs.daily_xfer_limit_mb > ubound) {
             global_prefs.daily_xfer_limit_mb = 0;
+            msg_printf(0, MSG_USER_ALERT, "'daily_xfer_limit_mb' %s 0.", outrange);
         }
     }
     if (mask.daily_xfer_period_days) {
-        if (global_prefs.daily_xfer_period_days < 0) {
+        if (global_prefs.daily_xfer_period_days < 0 || global_prefs.daily_xfer_period_days > ubound) {
             global_prefs.daily_xfer_period_days = 0;
+            msg_printf(0, MSG_USER_ALERT, "'daily_xfer_period_days' %s 0.", outrange);
         }
     }
 }

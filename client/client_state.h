@@ -431,7 +431,7 @@ struct CLIENT_STATE {
         const char* fname = GLOBAL_PREFS_FILE_NAME,
         const char* override_fname = GLOBAL_PREFS_OVERRIDE_FILE
     );
-    void validate_global_prefs(GLOBAL_PREFS_MASK& mask);
+    void validate_global_prefs(const GLOBAL_PREFS_MASK& mask);
     void print_global_prefs();
     int save_global_prefs(const char* prefs, char* url, char* sched);
     double available_ram();
