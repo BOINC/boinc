@@ -685,7 +685,7 @@ void CLIENT_STATE::read_global_prefs(
 #endif
 }
 
-// Validates preferences that were parsed.  Uses the mask structure, so 
+// Validates preferences that were parsed.  Uses the mask structure, so
 // this should be called immediately after parsing.  This function will check if
 // any preferences are out of a reasonable range for each variable.  This could be
 // any of the following:
@@ -884,7 +884,7 @@ void CLIENT_STATE::validate_global_prefs(const GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.disk_max_used_pct) {
         if (global_prefs.disk_max_used_pct < 0) {
-            global_prefs.disk_max_used_pct = 90; 
+            global_prefs.disk_max_used_pct = 90;
             msg_printf(0, MSG_USER_ALERT, "'disk_max_used_pct' %s 90.", outrange);
         } else if (global_prefs.disk_max_used_pct > 100) {
             global_prefs.disk_max_used_pct = 100;
