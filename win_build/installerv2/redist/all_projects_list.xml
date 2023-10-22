@@ -775,7 +775,6 @@
         <name>windows_x86_64[cuda120]</name>
         <name>windows_x86_64[opencl_ati_101]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
-        <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda100]</name>
         <name>x86_64-pc-linux-gnu[cuda111]</name>
