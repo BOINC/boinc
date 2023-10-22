@@ -331,6 +331,10 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/day_prefs")) {
+            // The day of the week is validated here because the struct TIME_SPAN
+            // is an array of a fixed size.  For validating the start_hour and
+            // end_hour, refer to CLIENT_STATE::validate_global_prefs in cs_prefs.cpp.
+            //
             if (day_of_week < 0 || day_of_week > 6) return ERR_XML_PARSE;
             if (has_cpu) {
                 cpu_times.week.set(day_of_week, start_hour, end_hour);
