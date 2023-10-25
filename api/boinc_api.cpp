@@ -539,7 +539,7 @@ static void sporadic_files() {
     if (last_ca_state != boinc_status.ca_state) {
         sprintf(buf, "%d\n", boinc_status.ca_state);
         lseek(ac_fd, 0, SEEK_SET);
-        if (write(ac_fd, buf, strlen(buf))){};
+        if (write(ac_fd, buf, sizeof(buf))) {}
             // one way to avoid warnings
     }
 
@@ -548,10 +548,14 @@ static void sporadic_files() {
     struct stat sbuf;
     int ret = fstat(ac_fd, &sbuf);
     if (!ret) {
+#ifdef _WIN32
+        time_t t = sbuf.st_mtime;
+#else
         time_t t = sbuf.st_mtim.tv_sec;
+#endif
         if (t != last_ac_mod_time) {
             lseek(ac_fd, 0, SEEK_SET);
-            ret = read(ac_fd, buf, 256);
+            ret = read(ac_fd, buf, sizeof(buf));
             if (!ret) {
                 int val;
                 int n = sscanf(buf, "%d", &val);
