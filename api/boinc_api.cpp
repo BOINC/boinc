@@ -93,6 +93,8 @@
 #include <cstdio>
 #include <cstdarg>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/time.h>
@@ -144,6 +146,10 @@ using std::vector;
     // CPPFLAGS=-DGETRUSAGE_IN_TIMER_THREAD
 #endif
 
+// Anything shared between the worker and timer thread
+// must be declared volatile to ensure that writes in one thread
+// are seen immediately by the other.
+
 const char* api_version = "API_VERSION_" PACKAGE_VERSION;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
@@ -194,7 +200,9 @@ char remote_desktop_addr[256];
 bool send_remote_desktop_addr = false;
 int app_min_checkpoint_period = 0;
     // min checkpoint period requested by app
-SPORADIC_AC_STATE ac_state;
+static volatile SPORADIC_AC_STATE ac_state;
+static volatile int ac_fd, ca_fd;
+static volatile bool do_sporadic_files;
 
 #define TIMER_PERIOD 0.1
     // Sleep interval for timer thread;
@@ -516,6 +524,46 @@ static bool client_dead() {
         return true;
     }
     return false;
+}
+
+// called once/sec in timer thread.
+// Copy sporadic app messages to/from files (for wrappers)
+//
+static void sporadic_files() {
+    static time_t last_ac_mod_time;
+    static SPORADIC_CA_STATE last_ca_state;
+    char buf[256];
+
+    // if C->A state has changed, write to file
+    //
+    if (last_ca_state != boinc_status.ca_state) {
+        sprintf(buf, "%d\n", boinc_status.ca_state);
+        lseek(ac_fd, 0, SEEK_SET);
+        if (write(ac_fd, buf, strlen(buf))){};
+            // one way to avoid warnings
+    }
+
+    // check if app has updated file with A->C state
+    //
+    struct stat sbuf;
+    int ret = fstat(ac_fd, &sbuf);
+    if (!ret) {
+        time_t t = sbuf.st_mtim.tv_sec;
+        if (t != last_ac_mod_time) {
+            lseek(ac_fd, 0, SEEK_SET);
+            ret = read(ac_fd, buf, 256);
+            if (!ret) {
+                int val;
+                int n = sscanf(buf, "%d", &val);
+                if (n == 1) {
+                    ac_state = (SPORADIC_AC_STATE)val;
+                } else {
+                    ac_state = AC_NONE;
+                }
+                last_ac_mod_time = t;
+            }
+        }
+    }
 }
 
 #ifndef _WIN32
@@ -882,6 +930,26 @@ int boinc_is_standalone() {
     return 0;
 }
 
+int boinc_sporadic_dir(const char* dir) {
+    char buf[MAXPATHLEN];
+
+    do_sporadic_files = true;
+    sprintf(buf, "%s/ac", dir);
+    ac_fd = open(buf, O_CREAT|O_RDONLY, 0666);
+    if (ac_fd < 0) {
+        fprintf(stderr, "can't open sporadic file %s\n", buf);
+        do_sporadic_files = false;
+    }
+    sprintf(buf, "%s/ca", dir);
+    ca_fd = open(buf, O_CREAT|O_WRONLY, 0666);
+    if (ca_fd < 0) {
+        fprintf(stderr, "can't open sporadic file %s\n", buf);
+        do_sporadic_files = false;
+    }
+    if (!do_sporadic_files) return ERR_FOPEN;
+    return 0;
+}
+
 // called from the timer thread if we need to exit,
 // e.g. quit message from client, or client has gone away
 //
@@ -1058,7 +1126,7 @@ static int suspend_activities(bool called_from_worker) {
         suspend_or_resume_descendants(false);
     }
     // if called from worker thread, sleep until suspension is over
-    // if called from time thread, don't need to do anything;
+    // if called from timer thread, don't need to do anything;
     // suspension is done by signal handler in worker thread
     //
     if (called_from_worker) {
@@ -1365,6 +1433,10 @@ static void timer_handler() {
         app_client_shm->shm->graphics_reply.send_msg(buf);
         send_remote_desktop_addr = false;
     }
+
+    if (do_sporadic_files) {
+        sporadic_files();
+    }
 }
 
 #ifdef _WIN32
@@ -1489,7 +1561,7 @@ int start_timer_thread() {
 
 // called in the worker thread.
 // set up a handler for SIGALRM.
-// If Android, we'll get signals from the time thread.
+// If Android, we'll get signals from the timer thread.
 // otherwise, set an interval timer to deliver signals
 //
 static int start_worker_signals() {
