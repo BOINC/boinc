@@ -161,7 +161,7 @@ static volatile double last_checkpoint_cpu_time;
 static volatile bool ready_to_checkpoint = false;
 static volatile int in_critical_section = 0;
 static volatile double last_wu_cpu_time;
-static volatile bool standalone = false;
+static volatile bool standalone = true;
 static volatile double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
@@ -530,17 +530,18 @@ static bool client_dead() {
 // Copy sporadic app messages to/from files (for wrappers)
 //
 static void sporadic_files() {
-    static time_t last_ac_mod_time;
-    static SPORADIC_CA_STATE last_ca_state;
+    static time_t last_ac_mod_time = 0;
+    static SPORADIC_CA_STATE last_ca_state = CA_NONE;
     char buf[256];
 
     // if C->A state has changed, write to file
     //
     if (last_ca_state != boinc_status.ca_state) {
         sprintf(buf, "%d\n", boinc_status.ca_state);
-        lseek(ac_fd, 0, SEEK_SET);
-        if (write(ac_fd, buf, sizeof(buf))) {}
+        lseek(ca_fd, 0, SEEK_SET);
+        if (write(ca_fd, buf, sizeof(buf))) {}
             // one way to avoid warnings
+        last_ca_state = boinc_status.ca_state;
     }
 
     // check if app has updated file with A->C state
@@ -555,16 +556,20 @@ static void sporadic_files() {
 #endif
         if (t != last_ac_mod_time) {
             lseek(ac_fd, 0, SEEK_SET);
-            ret = read(ac_fd, buf, sizeof(buf));
-            if (!ret) {
+            int nc = read(ac_fd, buf, sizeof(buf));
+            if (nc>0) {
                 int val;
+                buf[nc] = 0;
                 int n = sscanf(buf, "%d", &val);
                 if (n == 1) {
                     ac_state = (SPORADIC_AC_STATE)val;
                 } else {
                     ac_state = AC_NONE;
+                    fprintf(stderr, "API: error parsing AC state: %s\n", buf);
                 }
                 last_ac_mod_time = t;
+            } else {
+                fprintf(stderr, "API: error reading AC state: %d\n", nc);
             }
         }
     }
@@ -739,6 +744,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         }
     }
 
+    standalone = false;
     retval = boinc_parse_init_data_file();
     if (retval) {
         standalone = true;
@@ -822,8 +828,10 @@ int boinc_finish_message(int status, const char* msg, bool is_notice) {
         boinc_msg_prefix(buf, sizeof(buf)), status
     );
     finishing = true;
-    boinc_sleep(2.0);   // let the timer thread send final messages
-    boinc_disable_timer_thread = true;     // then disable it
+    if (!standalone) {
+        boinc_sleep(2.0);   // let the timer thread send final messages
+        boinc_disable_timer_thread = true;     // then disable it
+    }
 
     if (options.main_program) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
@@ -951,6 +959,8 @@ int boinc_sporadic_dir(const char* dir) {
         do_sporadic_files = false;
     }
     if (!do_sporadic_files) return ERR_FOPEN;
+    boinc_status.ca_state = CA_DONT_COMPUTE;
+    ac_state = AC_NONE;
     return 0;
 }
 
@@ -1064,6 +1074,10 @@ int boinc_report_app_status_aux(
     if (_bytes_received) {
         snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", _bytes_received);
         safe_strcat(msg_buf, buf);
+    }
+    if (ac_state) {
+        sprintf(buf, "<sporadic_ac>%d</sporadic_ac>\n", ac_state);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
 #ifdef MSGS_FROM_FILE
     if (fout) {

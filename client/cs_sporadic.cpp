@@ -82,6 +82,7 @@
 SPORADIC_RESOURCES sporadic_resources;
 
 void SPORADIC_RESOURCES::print() {
+    if (!ncpus_used) return;
     msg_printf(NULL, MSG_INFO, "Sporadic resources:");
     msg_printf(NULL, MSG_INFO, "   %f CPUs", ncpus_used);
     msg_printf(NULL, MSG_INFO, "   %f MB RAM", mem_used/MEGA);

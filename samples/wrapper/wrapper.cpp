@@ -75,7 +75,6 @@
 #include "app_ipc.h"
 #include "graphics2.h"
 #include "boinc_zip.h"
-#include "diagnostics.h"
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
@@ -1244,14 +1243,6 @@ int main(int argc, char** argv) {
     options.handle_process_control = true;
 
     boinc_init_options(&options);
-    fprintf(stderr,
-        "%s wrapper (%d.%d.%d): starting\n",
-        boinc_msg_prefix(buf, sizeof(buf)),
-        BOINC_MAJOR_VERSION,
-        BOINC_MINOR_VERSION,
-        WRAPPER_RELEASE
-    );
-
     boinc_get_init_data(aid);
 
 #ifdef CHECK_EXECUTABLES

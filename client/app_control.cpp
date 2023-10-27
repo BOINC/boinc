@@ -738,8 +738,8 @@ void ACTIVE_TASK_SET::send_heartbeats() {
         if (log_flags.heartbeat_debug) {
             if (sent) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[heartbeat] Heartbeat sent to task %s",
-                    atp->result->name
+                    "[heartbeat] Heartbeat sent to task %s: %s",
+                    atp->result->name, buf
                 );
             } else {
                 msg_printf(atp->result->project, MSG_INFO,
