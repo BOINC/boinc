@@ -551,6 +551,8 @@ static void sporadic_files() {
     if (!ret) {
 #ifdef _WIN32
         time_t t = sbuf.st_mtime;
+#elif defined(__APPLE__)
+        time_t t = sbuf.st_mtimespec.tv_sec;
 #else
         time_t t = sbuf.st_mtim.tv_sec;
 #endif
