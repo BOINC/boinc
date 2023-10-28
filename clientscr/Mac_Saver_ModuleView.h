@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -77,6 +77,7 @@ int             startBOINCSaver(void);
 int             getSSMessage(char **theMessage, int* coveredFreq);
 void            windowIsCovered();
 void            drawPreview(CGContextRef myContext);
+void            stopAllGFXApps(void);
 void            closeBOINCSaver(void);
 void            setDefaultDisplayPeriods(void);
 bool            getShow_default_ss_first();
@@ -98,6 +99,8 @@ void            PrintBacktrace(void);
 extern bool     gIsCatalina;
 extern bool     gIsHighSierra;
 extern bool     gIsMojave;
+extern bool     gIsSonoma;
+extern bool     gCant_Use_Shared_Offscreen_Buffer;
 
 #ifdef __cplusplus
 }    // extern "C"
