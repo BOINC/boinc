@@ -6,3 +6,5 @@
 (deny file-write* (subpath "/Library/Application Support") )
 (allow file-write* (subpath "/Library/Application Support/BOINC Data") (subpath "/private/tmp") )
 (allow file-read* (subpath "/Library/Application Support/BOINC Data") (subpath "/private/tmp") )
+(allow file-read* (subpath "/private/var/select/sh") )
+(allow mach-lookup mach-register)
