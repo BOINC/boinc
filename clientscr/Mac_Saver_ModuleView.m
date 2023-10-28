@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -136,7 +136,6 @@ NSInteger myWindowNumber;
 NSRect gMovingRect;
 float gImageXIndent;
 float gTextBoxHeight;
-CGFloat gActualTextBoxHeight;
 NSPoint gCurrentPosition;
 NSPoint gCurrentDelta;
 
@@ -196,6 +195,10 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
                 imageView = nil;
             }
         }
+    } else {
+        if (gCant_Use_Shared_Offscreen_Buffer) {
+            stopAllGFXApps();
+        }
     }
 }
 
@@ -214,6 +217,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gIsMojave = (compareOSVersionTo(10, 14) >= 0);
     gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
     gIsBigSur = (compareOSVersionTo(11, 0) >= 0);
+    gIsSonoma = (compareOSVersionTo(14, 0) >= 0);
 
     if (gIsCatalina) {
         // Under OS 10.15, isPreview is often true even when it shouldn't be
@@ -354,8 +358,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         gCurrentDelta.x = 1.0;
         gCurrentDelta.y = 1.0;
 
-        gActualTextBoxHeight = MINTEXTBOXHEIGHT;
-
         [ self setAnimationTimeInterval:1/8.0 ];
     }
 
@@ -447,11 +449,31 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     NSUInteger n;
     double maxWaitTime;
     NSRect currentDrawingRect, eraseRect;
+    CGFloat actualTextBoxHeight = MINTEXTBOXHEIGHT;
     NSPoint imagePosition;
     char *msg;
     CFStringRef cf_msg;
     double timeToBlock, frameStartTime = getDTime();
     HIThemeTextInfo textInfo;
+
+    NSWindow *myWindow = [ self window ];
+    NSRect windowFrame = [ myWindow frame ];
+
+    if (gIsSonoma) {
+        // Under MacOS 14 Sonoma, screensavers continue to run and "draw" invisibly
+        // after they are dismissed by user activity, to allow them to be used as
+        // wallpaper. Since we don't want the BOINC screensaver to be used as wallpaper,
+        // this would waste system resources.
+        // The only way I've found to determine that the screensaver has been dismissed
+        // by the user is this test of the window level.
+        if ((windowFrame.size.width > 500.) && (windowFrame.size.height > 500.)) {
+            if ([ [ self window ] level ] == 0) {
+//TODO: more cleanup as in stopAnimation ??
+                closeBOINCSaver();
+                return;
+            }
+        }
+    }
 
    if (myIsPreview) {
 #if 1   // Currently drawRect just draws our logo in the preview window
@@ -474,8 +496,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         return;
     }
 
-    NSWindow *myWindow = [ self window ];
-
 #if ! DEBUG_UNDER_XCODE
     // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
     // after user activity before calling stopAnimation, so we check user activity here
@@ -489,7 +509,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         }
     }
 
-    NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
 #ifdef _DEBUG
@@ -688,30 +707,18 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
     if ( (msg != NULL) && (msg[0] != '\0') ) {
 
-        // Set direction of motion to "bounce" off edges of screen
-       if (currentDrawingRect.origin.x <= SAFETYBORDER) {
-            gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
-        }
-        if ( (currentDrawingRect.origin.x + currentDrawingRect.size.width) >=
-                    (viewBounds.origin.x + viewBounds.size.width - SAFETYBORDER) ) {
-            gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
-        }
-        if (currentDrawingRect.origin.y + gTextBoxHeight - gActualTextBoxHeight <= SAFETYBORDER) {
-            gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-        }
-        if ( (currentDrawingRect.origin.y + currentDrawingRect.size.height) >=
-                   (viewBounds.origin.y + viewBounds.size.height - SAFETYBORDER) ) {
-            gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-        }
-#if 0
-        // For testing
-        gCurrentDelta.x = 0;
-        gCurrentDelta.y = 0;
-#endif
+        cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+
+        CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+        HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont,
+                    kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop,
+                    kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                    0, myFont
+                    };
+        textInfo = theTextInfo;
+
+        HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &actualTextBoxHeight, NULL);
+        gTextBoxHeight = actualTextBoxHeight + TEXTBOXTOPBORDER;
 
         if (!isErased) {
             [[NSColor blackColor] set];
@@ -751,7 +758,34 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             eraseRect = NSInsetRect(eraseRect, -1, -1);
             NSRectFill(eraseRect);
 
-            isErased  = true;
+            isErased = true;
+           // If text has changed and it now goes below bottom of screen, jump up to show it all.
+            if ((gCurrentPosition.y - gTextBoxHeight) <= SAFETYBORDER) {
+                gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
+                if (gCurrentDelta.y < 0) {
+                    gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                }
+            }
+
+            // Set direction of motion to "bounce" off edges of screen
+           if ( (gCurrentDelta.x < 0) && (gCurrentPosition.x <= SAFETYBORDER) ) {
+                gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+            }
+            if ( (gCurrentDelta.x > 0) && ( (gCurrentPosition.x + gMovingRect.size.width) >=
+                        (viewBounds.origin.x + viewBounds.size.width - SAFETYBORDER) ) ){
+                gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+            }
+            if ( (gCurrentDelta.y < 0) && (gCurrentPosition.y - gTextBoxHeight <= SAFETYBORDER) ) {
+                gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+            }
+            if ( (gCurrentDelta.y > 0) && ( (gCurrentPosition.y + gMovingRect.size.height) >=
+                       (viewBounds.origin.y + viewBounds.size.height - SAFETYBORDER) ) ) {
+                gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+            }
         }
 
         // Get the new drawing area
@@ -762,48 +796,33 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         imagePosition.y = (float) (int)gCurrentPosition.y;
 
         [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
+#if 0
+    // For testing
+    gCurrentDelta.x = 0;
+    gCurrentDelta.y = 0;
+#endif
+        CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x),
+                             viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
+                             gMovingRect.size.width,
+                             MAXTEXTBOXHEIGHT
+                        );
 
-        if ( (msg != NULL) && (msg[0] != '\0') ) {
-            cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+        CGContextSaveGState (myContext);
+        CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
+        CGContextScaleCTM (myContext, 1.0f, -1.0f);
 
-            CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x),
-                                 viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
-                                 gMovingRect.size.width,
-                                 MAXTEXTBOXHEIGHT
-                            );
+        CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
+        CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
+        CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
 
-            CGContextSaveGState (myContext);
-            CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
-            CGContextScaleCTM (myContext, 1.0f, -1.0f);
+        CGContextSetFillColorWithColor(myContext, myTextColor);
 
-            CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+        HIThemeDrawTextBox(cf_msg, &bounds, &textInfo, myContext, kHIThemeOrientationNormal);
 
-            HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont,
-                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop,
-                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
-                        0, myFont
-                        };
-            textInfo = theTextInfo;
-
-            HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &gActualTextBoxHeight, NULL);
-            gActualTextBoxHeight += TEXTBOXTOPBORDER;
-
-            CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
-            CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
-            CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
-
-            CGContextSetFillColorWithColor(myContext, myTextColor);
-
-            HIThemeDrawTextBox(cf_msg, &bounds, &textInfo, myContext, kHIThemeOrientationNormal);
-
-            CGColorRelease(myTextColor);
-            CGColorSpaceRelease(myColorSpace);
-            CGContextRestoreGState (myContext);
-            CFRelease(cf_msg);
-        }
-
-        gTextBoxHeight = MAXTEXTBOXHEIGHT + TEXTBOXTOPBORDER;
-        gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
+        CGColorRelease(myTextColor);
+        CGColorSpaceRelease(myColorSpace);
+        CGContextRestoreGState (myContext);
+        CFRelease(cf_msg);
 
         isErased  = false;
 
@@ -813,7 +832,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             [[NSColor blackColor] set];
             isErased  = true;
             NSRectFill(eraseRect);
-            gTextBoxHeight = MAXTEXTBOXHEIGHT;
             gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
         }
     }
@@ -831,7 +849,10 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     // Check for a new graphics app sending us data
     if (UseSharedOffscreenBuffer() && gfxAppStartTime) {
         if (mySharedGraphicsController) {
-            [mySharedGraphicsController testConnection];
+            if (!runningSharedGraphics) {
+                // wait for a connection from a gfx app
+                [mySharedGraphicsController testConnection];
+            }
         }
     }
 }
@@ -1089,10 +1110,17 @@ static bool okToDraw;
     if (machErr == KERN_SUCCESS) {
         serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
     } else {
+        if (machErr == BOOTSTRAP_NOT_PRIVILEGED) {
+            // As of MacOS 14.0, the legacyScreenSave sandbox prevents using
+            // IOSurfaceLookupFromMachPort. I have filed bug report FB13300491
+            // with Apple and hope they will change this in future MacOS.
+            gCant_Use_Shared_Offscreen_Buffer = true;
+            stopAllGFXApps();
+        }
         serverPort = MACH_PORT_NULL;
     }
 
-	if(serverPort != MACH_PORT_NULL)
+	if ((serverPort != MACH_PORT_NULL) && (localPort == MACH_PORT_NULL))
 	{
 		// Create our own local port.
 		localPort = [[NSMachPort alloc] init];
@@ -1132,14 +1160,14 @@ static bool okToDraw;
             [serverPort invalidate];
 //            [serverPort release];
         }
-        serverPort = nil;
+        serverPort = MACH_PORT_NULL;
 		[localPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 
         if ([localPort isValid]) {
             [localPort invalidate];
         }
 //        [localPort release];
-        localPort = nil;
+        localPort = MACH_PORT_NULL;
 
         int i;
         for(i = 0; i < NUM_IOSURFACE_BUFFERS; i++) {
@@ -1159,13 +1187,14 @@ static bool okToDraw;
             }
         }
 
-        if ((serverPort == nil) && (localPort == nil)) {
+        if ((serverPort == MACH_PORT_NULL) && (localPort == MACH_PORT_NULL)) {
             runningSharedGraphics = false;
             [openGLView removeFromSuperview];   // Releases openGLView
             openGLView = nil;
         }
 	}
 }
+
 - (void)handleMachMessage:(void *)msg
 {
 	union __ReplyUnion___MGCMGSServer_subsystem reply;
@@ -1402,6 +1431,12 @@ static bool UseSharedOffscreenBuffer() {
     static bool needSharedGfxBuffer = false;
 
 //return true;    // FOR TESTING ONLY
+    // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
+    // IOSurfaceLookupFromMachPort. I have filed bug report FB13300491
+    // with Apple and hope they will change this in future MacOS.
+    if (gCant_Use_Shared_Offscreen_Buffer) {
+        return false;
+    }
     if (alreadyTested) {
         return needSharedGfxBuffer;
     }
