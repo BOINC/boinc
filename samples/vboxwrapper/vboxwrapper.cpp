@@ -367,6 +367,19 @@ void check_trickle_period(double& elapsed_time, double& trickle_period) {
     }
 }
 
+void usage() {
+    vboxlog_msg(
+        "Options:\n"
+        "   --trickle X\n"
+        "   --nthreads N\n"
+        "   --memory_size_mb X\n"
+        "   --vmimage F\n"
+        "   --register_only\n"
+        "   --sporadic\n"
+    );
+    boinc_finish(EXIT_INIT_FAILURE);
+}
+
 int main(int argc, char** argv) {
     int retval = 0;
     int loop_iteration = 0;
@@ -406,10 +419,33 @@ int main(int argc, char** argv) {
     string message;
     string scratch_dir;
     char buf[256];
+    bool is_sporadic = false;
+    bool register_only = false;
 
     // Initialize diagnostics system
     //
     boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
+
+    // Parse command line
+    //
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--trickle")) {
+            trickle_period = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--nthreads")) {
+            ncpus = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--memory_size_mb")) {
+            memory_size_mb = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--vmimage")) {
+            vm_image = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "--register_only")) {
+            register_only = true;
+        } else if (!strcmp(argv[i], "--sporadic")) {
+            is_sporadic = true;
+        } else {
+            vboxlog_msg("Unrecognized option %s", argv[i]);
+            usage();
+        }
+    }
 
     // Configure BOINC Runtime System environment
     //
@@ -419,9 +455,9 @@ int main(int argc, char** argv) {
     boinc_options.handle_process_control = true;
     boinc_init_options(&boinc_options);
 
-    // Log banner
+    // Log version
     //
-    vboxlog_msg("Detected: vboxwrapper %d", VBOXWRAPPER_RELEASE);
+    vboxlog_msg("vboxwrapper version %d", VBOXWRAPPER_RELEASE);
 
     // Initialize system services
     //
@@ -441,49 +477,31 @@ int main(int argc, char** argv) {
     boinc_parse_init_data_file();
     boinc_get_init_data(aid);
 
-    vboxlog_msg("Detected: BOINC client v%d.%d.%d", aid.major_version, aid.minor_version, aid.release);
+    vboxlog_msg("Detected: BOINC client v%d.%d.%d",
+        aid.major_version, aid.minor_version, aid.release
+    );
 
     // Initialize VM Hypervisor
     //
-    if (!pVM) {
-        pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
-        retval = pVM->initialize();
-        if (retval) {
-            vboxlog_msg("ERROR: VM initialization failed with return code: %s", retval);
-	    //Chose not to postpone the task but rather just fail it. In the majority of cases
-	    //if the hypervisor does not get initialized correctly the configuration is wrong
-	    //and it will just keep failing to initialize.
-	    //
-            boinc_finish(retval);
-        }
+    pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+    retval = pVM->initialize();
+    if (retval) {
+        vboxlog_msg("ERROR: VM initialization returned %d", retval);
+        // don't postpone the task but rather just fail it.
+        // If the hypervisor does not initialize correctly
+        // the configuration is probably wrong
+        // and it will just keep failing to initialize.
+        //
+        boinc_finish(retval);
     }
-
-    // Parse command line parameters
-    //
-    for (int i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--trickle")) {
-            trickle_period = atof(argv[++i]);
-        }
-        if (!strcmp(argv[i], "--nthreads")) {
-            ncpus = atof(argv[++i]);
-        }
-        if (!strcmp(argv[i], "--memory_size_mb")) {
-            memory_size_mb = atof(argv[++i]);
-        }
-        if (!strcmp(argv[i], "--vmimage")) {
-            vm_image = atoi(argv[++i]);
-        }
-        if (!strcmp(argv[i], "--register_only")) {
-            pVM->register_only = true;
-        }
-    }
+    pVM->register_only= register_only;
 
     // Display trickle value if specified
     //
     if (trickle_period > 0.0) {
         vboxlog_msg(
-                "Feature: Enabling trickle-ups (Interval: %f)", trickle_period
-                );
+            "Feature: Enabling trickle-ups (Interval: %f)", trickle_period
+        );
     }
 
     // Check for architecture incompatibilities
@@ -535,12 +553,13 @@ int main(int argc, char** argv) {
 
     if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) ||
             (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) ||
-            (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
+            (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos)
+    ) {
         vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
-                "Incompatible version of VirtualBox detected; please upgrade.",
-                true
-                );
+            "Incompatible version of VirtualBox detected; please upgrade.",
+            true
+        );
     }
 
     // Check to see if the system is in a state in which
@@ -590,6 +609,14 @@ int main(int argc, char** argv) {
             if (retval) {
                 vboxlog_msg("ERROR: couldn't create scratch directory: %s.", boincerror(retval));
             }
+        }
+    }
+
+    if (is_sporadic) {
+        retval = boinc_sporadic_dir("shared");
+        if (retval) {
+            vboxlog_msg("ERROR: couldn't create sporadic files: %s.", boincerror(retval));
+            exit(1);
         }
     }
 

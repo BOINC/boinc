@@ -49,6 +49,7 @@ static void print_options(char* prog) {
         "    --abort_jobs_on_exit           when client exits, abort and report jobs\n"
         "    --allow_remote_gui_rpc         allow remote GUI RPC connections\n"
         "    --allow_multiple_clients       allow >1 instances per host\n"
+        "    --app_test F                   run a simulated job with the given app\n"
         "    --attach_project <URL> <key>   attach to a project\n"
         "    --check_all_logins             for idle detection, check remote logins too\n"
         "    --daemon                       run as daemon (Unix)\n"

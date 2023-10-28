@@ -148,6 +148,7 @@ extern int boinc_finish_message(
 );
 extern void boinc_sporadic_set_ac_state(SPORADIC_AC_STATE);
 extern SPORADIC_CA_STATE boinc_sporadic_get_ca_state();
+extern int boinc_sporadic_dir(const char*);
 
 /////////// API ENDS HERE
 

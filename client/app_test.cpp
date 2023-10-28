@@ -63,9 +63,11 @@ void CLIENT_STATE::app_test_init() {
     // can put other stuff here like
     av->avg_ncpus = 1;
     av->flops = 1e9;
+#if 0
     av->gpu_ram = 1e7;
     av->gpu_usage.rsc_type = PROC_TYPE_NVIDIA_GPU;
     av->gpu_usage.usage = 1;
+#endif
     app_versions.push_back(av);
 
     WORKUNIT *wu = new WORKUNIT;
@@ -77,6 +79,7 @@ void CLIENT_STATE::app_test_init() {
     wu->rsc_fpops_bound = 1e12;
     wu->rsc_memory_bound = 1e9;
     wu->rsc_disk_bound = 1e9;
+    wu->command_line = "--sporadic";
     workunits.push_back(wu);
 
     RESULT *res = new RESULT;
