@@ -854,9 +854,9 @@ function post_warning($forum=null) {
     }
 
     $x .= "
-        <font size=-2>
-        ".tra("Rules:").post_rules()."
-        </font>
+        <small>
+        ".post_rules()."
+        </small>
         </td></tr></table>
     ";
     return $x;
