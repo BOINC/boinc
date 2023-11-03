@@ -291,6 +291,7 @@ function gpu_desc($x, $detail=true) {
         //print_r($d);
         if ($d[0] == "BOINC") continue;
         if ($d[0] == "vbox") continue;
+        if (count($d) < 5) continue;
         if ($str) $str .= "<p>";
         if ($d[2]!="" && $d[2]!="1") $str .= "[".$d[2]."] ";
         if ($d[0] == "CUDA") {
