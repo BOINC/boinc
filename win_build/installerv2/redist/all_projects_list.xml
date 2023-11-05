@@ -256,6 +256,7 @@
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
         <name>windows_x86_64[GW-opencl-ati]</name>
+        <name>windows_x86_64[GW-opencl-ati-2]</name>
         <name>windows_x86_64[GW-opencl-nvidia]</name>
         <name>windows_x86_64[GW-SSE2]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
@@ -268,7 +269,9 @@
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati]</name>
+        <name>x86_64-apple-darwin[GW-opencl-ati-2]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
+        <name>x86_64-apple-darwin[GW-opencl-nvidia-2]</name>
         <name>x86_64-apple-darwin[GW-SSE2]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
@@ -282,7 +285,9 @@
         <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-ati-2]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-2]</name>
         <name>x86_64-pc-linux-gnu[GW-SSE2]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
@@ -492,6 +497,7 @@
         <name>windows_x86_64[notphenomiix6]</name>
         <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[avx512]</name>
         <name>i686-apple-darwin</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-freebsd</name>
