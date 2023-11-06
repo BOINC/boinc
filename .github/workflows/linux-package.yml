@@ -19,6 +19,8 @@ name: Linux Package
 on:
   push:
     tags: [ 'client_release/**' ]
+  schedule:
+    - cron: '0 0 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -447,16 +449,31 @@ jobs:
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
+      - name: Check if Release type is alpha
+        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is nightly
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is not set
+        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
       - name: Update or create the repository using aptly
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
           # 0 true / 1 false
           ALLOW_CREATE=0
           cd ${{ github.workspace }}/.github/workflows/debrepo/
-          # alpha or stable
-          RELEASE_TYPE=alpha
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
-          ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${RELEASE_TYPE} ${{ env.PUBKEY }}
+          ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }}
 
       - uses: actions/upload-artifact@v3
         if: ${{ success() && env.SKIP_RUN == 0 }}
@@ -531,20 +548,35 @@ jobs:
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
+      - name: Check if Release type is alpha
+        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is nightly
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is not set
+        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
       - name: Update or create the repository
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
             # Bash scripts do not support boolean values so convert to 0 true / 1 false
             # 0 true / 1 false
             ALLOW_CREATE=0
-            # alpha or stable
-            RELEASE_TYPE=alpha
-            echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
             CWD=$(pwd)
 
             cd .github/workflows/rpmrepo/
             # Updates or creates the repository
-            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${RELEASE_TYPE} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
+            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
 
       - uses: actions/upload-artifact@v3
         if: ${{ success() && env.SKIP_RUN == 0 }}

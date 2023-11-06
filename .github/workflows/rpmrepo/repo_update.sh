@@ -57,6 +57,8 @@ if [[ ! "$5" == "" ]]; then
 			  ;;
 	"alpha") TYPE="alpha"
 			  ;;
+	"nightly") TYPE="nightly"
+			  ;;
 	"*")  exit_usage "Unrecognized repo type specified: $5"
 			  ;;
 	esac
