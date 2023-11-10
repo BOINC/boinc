@@ -155,11 +155,12 @@ function search($params) {
 
         $name_lc = escape_pattern($name_lc);
         $list2 = get_teams("name like '".$name_lc."%'", $params->active);
+        //echo "<br>name like matches: ",sizeof($list2);
         merge_lists($list2, $list, 5);
 
-        $list2 = get_teams("match(name) against ('$kw')", $params->active);
-        merge_lists($list2, $list, 5);
-        $list2 = get_teams("match(name, description) against ('$kw')", $params->active);
+        $list2 = get_teams(
+            "match(name, description) against ('$kw')", $params->active
+        );
         //echo "<br>keyword matches: ",sizeof($list2);
         merge_lists($list2, $list, 3);
         $tried = true;
