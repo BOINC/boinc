@@ -258,7 +258,6 @@
         <name>windows_x86_64[GW-opencl-ati]</name>
         <name>windows_x86_64[GW-opencl-ati-2]</name>
         <name>windows_x86_64[GW-opencl-nvidia]</name>
-        <name>windows_x86_64[GW-SSE2]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
@@ -272,7 +271,6 @@
         <name>x86_64-apple-darwin[GW-opencl-ati-2]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-2]</name>
-        <name>x86_64-apple-darwin[GW-SSE2]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
@@ -288,7 +286,6 @@
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-2]</name>
-        <name>x86_64-pc-linux-gnu[GW-SSE2]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
