@@ -83,7 +83,7 @@ function print_text_field($text,$name,$value) {
 }
 
 function row($x, $y) {
-    echo "<tr><td valign=\"top\" align=\"right\">$x</td>\n<td>$y</td>\n</tr>\n";
+    echo "<tr><td width=30% valign=\"top\" align=\"right\">$x &nbsp;&nbsp; </td>\n<td>$y</td>\n</tr>\n";
 }
 
 function c_row2($color, $x, $y) {
