@@ -773,7 +773,6 @@ function admin_show_app_version($app_version) {
     row("min_core_version", $app_version->min_core_version);
     row("max_core_version", $app_version->max_core_version);
     row("deprecated", $app_version->deprecated);
-    row("plan_class", $app_version->plan_class);
     end_table();
 }
 
