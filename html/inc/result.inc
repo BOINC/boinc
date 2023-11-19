@@ -310,7 +310,11 @@ function file_delete_state_str($s) {
     }
     return "Unknown";
 }
-function wu_error_mask_str($s) {
+
+// convert WU error bitmask to str.
+// If $color, add HTML red color
+//
+function wu_error_mask_str($s, $color=false) {
     $x = "";
     if ($s & WU_ERROR_COULDNT_SEND_RESULT) {
         $x = $x." ".tra("Couldn't send result");
@@ -339,10 +343,8 @@ function wu_error_mask_str($s) {
     if ($s) {
         $x = $x." ".tra("Unrecognized Error: %1", $s);
     }
-    if (strlen($x)) {
-        $x="<font color=\"#ff3333\">".$x."</font>";
-    } else {
-        $x="";
+    if ($color) {
+        return sprintf('<font color="#ff3333">%s</font>', $x);
     }
     return $x;
 }

@@ -4,12 +4,12 @@
 include $(top_srcdir)/Makefile.incl
 
 exampledir = $(libexecdir)/boinc-apps-examples
-example_PROGRAMS = upper_case concat 1sec
+example_PROGRAMS = uppercase concat 1sec
 
-upper_case_SOURCES = upper_case.cpp
-upper_case_CXXFLAGS = $(PTHREAD_CFLAGS)
-upper_case_LDFLAGS = -static-libtool-libs $(PTHREAD_CFLAGS)
-upper_case_LDADD = $(APPLIBS)
+uppercase_SOURCES = uppercase.cpp
+uppercase_CXXFLAGS = $(PTHREAD_CFLAGS)
+uppercase_LDFLAGS = -static-libtool-libs $(PTHREAD_CFLAGS)
+uppercase_LDADD = $(APPLIBS)
 
 concat_SOURCES = concat.cpp
 concat_CXXFLAGS = $(PTHREAD_CFLAGS)

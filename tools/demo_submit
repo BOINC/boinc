@@ -6,8 +6,8 @@
 //
 // usage: demo_submit appname infile
 //
-// Submit a job, show its name, wait for it to complete
-// (or you can use demo_query to query status later)
+// Submit a job and show its name.
+// Use demo_query to query its status and get output file.
 //
 // This is for demo use, not production.  It assumes:
 // - template files are appname_in.xml and appname_out.xml
@@ -50,5 +50,4 @@ system("bin/create_work --appname $appname --wu_name $wu_name --wu_template $in_
 
 echo "Job name: $wu_name\n";
 
-system("bin/demo_query $wu_name");
 ?>
