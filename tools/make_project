@@ -346,7 +346,7 @@ if options.test_app:
 httpd_conf_template_filename = project_shortname+'.httpd.conf'
 httpd_conf_template_path = os.path.join(
     options.project_root,
-    http_conf_template_filename
+    httpd_conf_template_filename
 )
 
 content ='''
