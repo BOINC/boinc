@@ -258,6 +258,7 @@
         <name>windows_x86_64[GW-opencl-ati]</name>
         <name>windows_x86_64[GW-opencl-ati-2]</name>
         <name>windows_x86_64[GW-opencl-nvidia]</name>
+        <name>windows_x86_64[GW-opencl-nvidia-2]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
