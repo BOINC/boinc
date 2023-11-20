@@ -183,7 +183,6 @@ namespace boinc {
     inline int fscanf(FILE *fp, const char *format, ...) {
         char buf[BUFSIZ];
         boinc::fgets(buf,BUFSIZ,fp);
-        buf[strlen(buf)-1]=0;
         va_list va;
         va_start(va, format);
         int i=::vsscanf(buf,format,va);
