@@ -67,7 +67,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get -qq update
-          apt-get install -y make build-essential m4 pkg-config autoconf libtool git python3 python3-setuptools curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
+          apt-get install -y make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-setuptools curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
 
       - name: Install aws cli tool
         run: |
