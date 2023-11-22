@@ -3,30 +3,35 @@
 <?php
 // query a job created with demo_submit
 //
-// usage: demo_query jobname
+// usage: bin/demo_query jobname
 
-if ($argc != 2) {
-    die("usage: demo_query jobname\n");
-}
 
-$wu_name = $argv[1];
 chdir("html/ops");
 require_once("../inc/boinc_db.inc");
-$wu = BoincWorkunit::lookup("name='$wu_name'");
+require_once("../inc/common_defs.inc");
+require_once("../inc/result.inc");
 chdir("../..");
 
-if (!$wu) {
-    die("no such job: $wu_name\n");
-}
-
-echo "Waiting for job to finish\n";
-
-while (1) {
-    if ($wu->error_mask) {
-        echo "job error: $wu->error_mask\n";
-        break;
+function main($wu_name) {
+    $wu = BoincWorkunit::lookup("name='$wu_name'");
+    if (!$wu) {
+        die("no such job: $wu_name\n");
     }
-    if ($wu->assimilate_state == 2) {
+
+    if ($wu->error_mask) {
+        echo sprintf("Job error: %s\n",
+            wu_error_mask_str($wu->error_mask)
+        );
+        return;
+    }
+    switch ($wu->assimilate_state) {
+    case ASSIMILATE_INIT:
+        echo "Job is in progress.\n";
+        break;
+    case ASSIMILATE_READY:
+        echo "Job waiting for assimilation.\n";
+        break;
+    case ASSIMILATE_DONE:
         $result = BoincResult::lookup_id($wu->canonical_resultid);
         $host = BoincHost::lookup_id($result->hostid);
         $user = BoincUser::lookup_id($result->userid);
@@ -38,12 +43,14 @@ while (1) {
         if (!is_file($outfile)) {
             die("output file is missing: $outfile\n");
         }
-        echo "output file:\n";
+        echo "Output file (sample_result/$wu_name):\n";
         readfile($outfile);
         break;
     }
-    sleep(5);
-    $wu = BoincWorkunit::lookup("name='$wu_name'");
 }
 
+if ($argc != 2) {
+    die("usage: demo_query jobname\n");
+}
+main($argv[1]);
 ?>

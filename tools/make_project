@@ -343,10 +343,11 @@ if options.test_app:
     pf.write()
 
 
-httpd_conf_template_filename = os.path.join(
+httpd_conf_template_filename = project_shortname+'.httpd.conf'
+httpd_conf_template_path = os.path.join(
     options.project_root,
-    project_shortname+'.httpd.conf'
-    )
+    httpd_conf_template_filename
+)
 
 content ='''
     ## Settings for BOINC project %(project_longname)s
@@ -404,7 +405,7 @@ content ='''
     </Directory>
 
 ''' % locals()
-f = open(httpd_conf_template_filename,'w')
+f = open(httpd_conf_template_path,'w')
 f.write(content)
 f.close()
 
@@ -468,19 +469,12 @@ html_ops_url = options.html_ops_url
 
 content = '''Steps to complete installation:
 
--  Change Apache configuration (as root):
-
-   If you are using Apache 2.4, edit the %(httpd_conf_template_filename)s
-   (see file for specific instructions).
-
-   cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf
-
-   (path to httpd.conf varies; try /etc/httpd/ or /etc/apache2)
-
-   Then restart the web server:
-
-   /usr/sbin/apache2ctl restart
-   (or /usr/sbin/apachectl restart)
+-  Update Apache configuration (as root):
+    (make sure you have apache2 2.4 or later)
+    install config file:
+        cp %(httpd_conf_template_filename)s /etc/apache2/sites-enabled
+    restart apache:
+        apache2ctl restart
 
 -  Add to crontab (as %(USER)s)
 

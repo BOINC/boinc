@@ -773,7 +773,6 @@ function admin_show_app_version($app_version) {
     row("min_core_version", $app_version->min_core_version);
     row("max_core_version", $app_version->max_core_version);
     row("deprecated", $app_version->deprecated);
-    row("plan_class", $app_version->plan_class);
     end_table();
 }
 
@@ -976,7 +975,7 @@ function admin_show_workunit($wu) {
     row("Canonical credit", $wu->canonical_credit);
     //row("Timeout check time", time_str($wu->timeout_check_time));
     row("Delay bound", "$wu->delay_bound" . " =  " . time_diff($wu->delay_bound) );
-    row("Error mask", wu_error_mask_str($wu->error_mask));
+    row("Error mask", wu_error_mask_str($wu->error_mask, true));
     row("File delete state", file_delete_state_str($wu->file_delete_state)." [".$wu->file_delete_state."]");
     row("Assimilation state", assimilate_state_str($wu->assimilate_state)." [".$wu->assimilate_state."]");
     // row("","<a href=db_action.php?table=result&workunitid=$wu->id&detail=low>Show associated results</a>");
@@ -1028,7 +1027,7 @@ function admin_show_workunit_short($wu) {
         $wu->id,
         $wu->id
     );
-    $e = wu_error_mask_str($wu->error_mask);
+    $e = wu_error_mask_str($wu->error_mask, true);
     $f = file_delete_state_str($wu->file_delete_state);
     $a = assimilate_state_str($wu->assimilate_state);
     echo "

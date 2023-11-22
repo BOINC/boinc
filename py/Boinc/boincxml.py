@@ -127,9 +127,9 @@ class XMLConfig:
                 self.xml = xml.dom.minidom.parse(self.filename)
                 strip_white_space(self.xml)
             except:
+                print("Warning: couldn't parse XML file:", self.filename, file=sys.stderr)
                 if not failopen_ok:
-                    raise Exception("Couldn't parse XML config\n")
-                print("Warning: couldn't parse XML file", file=sys.stderr)
+                    raise Exception("Couldn't parse XML file\n")
                 self._init_empty_xml()
         try:
             self._get_elements()
