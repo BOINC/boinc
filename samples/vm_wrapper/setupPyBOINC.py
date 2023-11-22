@@ -1,4 +1,4 @@
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 # May need to adjust these to suit your system, but a standard installation of the BOINC client from source will put things in these places
 pyboinc = Extension('boinc', runtime_library_dirs=['/usr/local/lib', '../../lib', '../../api'],
