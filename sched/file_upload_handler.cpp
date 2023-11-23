@@ -343,7 +343,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             found_data = true;
             break;
         }
-        if (strcmp(buf, "\n")) {
+        strip_whitespace(buf);
+        if (strlen(buf)) {
             log_messages.printf(MSG_WARNING, "unrecognized: %s", buf);
         }
     }
