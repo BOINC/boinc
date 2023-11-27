@@ -228,11 +228,12 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			wxPiePart part;
             part.SetLabel(_("no projects: 0 bytes used"));
 			part.SetValue(1);
-			part.SetColour(wxColour(0,0,0));
+			part.SetColour(isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0));
 			m_pieCtrlBOINC->m_Series.Add(part);
 			m_pieCtrlBOINC->Refresh();
 			m_BOINCwasEmpty=true;
 			refreshBOINC=true;
+            project_total = 0;
         }
 	}
 
@@ -303,7 +304,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		part.SetColour(isDarkMode ? wxColour(140,140,140) : wxColour(192,192,192));
 		m_pieCtrlTotal->m_Series.Add(part);
 		m_pieCtrlTotal->Refresh();
-	}
+    }
 }
 
 wxInt32 CViewResources::FormatDiskSpace(double bytes, wxString& strBuffer) const {
