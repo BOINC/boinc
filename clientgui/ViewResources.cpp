@@ -233,7 +233,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			m_pieCtrlBOINC->Refresh();
 			m_BOINCwasEmpty=true;
 			refreshBOINC=true;
-            project_total = 0;
+			project_total = 0;
         }
 	}
 
@@ -304,7 +304,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		part.SetColour(isDarkMode ? wxColour(140,140,140) : wxColour(192,192,192));
 		m_pieCtrlTotal->m_Series.Add(part);
 		m_pieCtrlTotal->Refresh();
-    }
+	}
 }
 
 wxInt32 CViewResources::FormatDiskSpace(double bytes, wxString& strBuffer) const {
