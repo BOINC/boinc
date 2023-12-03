@@ -272,6 +272,8 @@
         <name>x86_64-apple-darwin[GW-opencl-ati-2]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-2]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[BRP4X64]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
