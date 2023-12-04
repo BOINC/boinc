@@ -185,7 +185,10 @@ if ($authenticator) {
     exit;
 }
 
-$email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));
+$email_addr = post_str("email_addr", true);
+if ($email_addr) {
+    $email_addr = strtolower(sanitize_tags($email_addr));
+}
 $passwd = post_str("passwd", true);
 if ($email_addr && $passwd) {
     if (LDAP_HOST && !is_valid_email_addr($email_addr)) {
