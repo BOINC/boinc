@@ -159,6 +159,7 @@ class BoincDb extends DbConn {
 }
 
 class BoincUser {
+    public $prefs;
     static $cache;
     static function lookup($clause) {
         $db = BoincDb::get();
