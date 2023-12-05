@@ -69,6 +69,7 @@ $since_clause = "and create_time > $since_time";
 
 $notifies = BoincNotify::enum("userid = $userid $since_clause");
 
+$threads = [];
 $forum = news_forum();
 if ($forum) {
     $threads = BoincThread::enum(

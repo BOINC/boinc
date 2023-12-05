@@ -23,9 +23,11 @@ require_once("../inc/account.inc");
 check_get_args(array("next_url"));
 
 $next_url = get_str('next_url', true);
-$next_url = urldecode($next_url);
-$next_url = sanitize_local_url($next_url);
-$next_url = urlencode($next_url);
+if ($next_url) {
+    $next_url = urldecode($next_url);
+    $next_url = sanitize_local_url($next_url);
+    $next_url = urlencode($next_url);
+}
 
 $user = get_logged_in_user(false);
 if ($user) {
