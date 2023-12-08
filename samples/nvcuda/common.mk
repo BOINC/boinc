@@ -150,7 +150,7 @@ ifeq ($(dbg),1)
 	BINSUBDIR   := debug
 	LIBSUFFIX   := D
 else
-	COMMONFLAGS += -O2
+	COMMONFLAGS += -O3
 	BINSUBDIR   := release
 	LIBSUFFIX   :=
 	NVCCFLAGS   += --compiler-options -fno-strict-aliasing

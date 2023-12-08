@@ -9,6 +9,7 @@ MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
 CI="${CI:-no}"
 NPROC_USER="${NPROC_USER:-1}"
+RELEASE="${RELEASE:-no}"
 
 export OPENSSL_VERSION=3.0.5
 export BUILD_DIR=${BUILD_DIR:-$PWD/3rdParty/linux-arm64}
@@ -39,6 +40,10 @@ if [ $CI = "yes" ]; then
     MAKE_FLAGS1="$MAKE_FLAGS -j $(nproc --all)"
 else
     MAKE_FLAGS1="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
+if [ $RELEASE = "yes" ]; then
+    LDFLAGS="$LDFLAGS -s"
 fi
 
 mkdir -p $BUILD_DIR
