@@ -140,7 +140,9 @@ bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     return true;
 }
 
-void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string& message, VBOX_VM& vm) {
+void read_completion_file_info(
+    unsigned long& exit_code, bool& is_notice, string& message, VBOX_VM& vm
+) {
     char path[MAXPATHLEN];
     char buf[1024];
 
@@ -163,7 +165,9 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     }
 }
 
-void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& message, VBOX_VM& vm) {
+void read_temporary_exit_file_info(
+    int& temp_delay, bool& is_notice, string& message, VBOX_VM& vm
+) {
     char path[MAXPATHLEN];
     char buf[1024];
 
@@ -303,12 +307,14 @@ void check_trickle_triggers(VBOX_VM& vm) {
             vboxlog_msg("ERROR: can't read trickle trigger file %s", filename);
         } else {
             retval = boinc_send_trickle_up(
-
-                    filename, const_cast<char*>(text.c_str())
-                    );
+                filename, const_cast<char*>(text.c_str())
+            );
 
             if (retval) {
-                vboxlog_msg("boinc_send_trickle_up() failed: %s (%d)", boincerror(retval), retval);
+                vboxlog_msg(
+                    "boinc_send_trickle_up() failed: %s (%d)",
+                    boincerror(retval), retval
+                );
             }
         }
         boinc_delete_file(path);
@@ -325,10 +331,15 @@ void check_intermediate_uploads(VBOX_VM& vm) {
         snprintf(path, sizeof(path), "shared/%s", filename);
         if (!boinc_file_exists(path)) continue;
         if (!vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
-            vboxlog_msg("Reporting an intermediate file. (%s)", vm.intermediate_upload_files[i].file.c_str());
+            vboxlog_msg(
+                "Reporting an intermediate file. (%s)",
+                vm.intermediate_upload_files[i].file.c_str()
+            );
             retval = boinc_upload_file(vm.intermediate_upload_files[i].file);
             if (retval) {
-                vboxlog_msg("boinc_upload_file() failed: %s", boincerror(retval));
+                vboxlog_msg(
+                    "boinc_upload_file() failed: %s", boincerror(retval)
+                );
                 vm.intermediate_upload_files[i].ignore = true;
             } else {
                 vm.intermediate_upload_files[i].reported = true;
@@ -336,7 +347,10 @@ void check_intermediate_uploads(VBOX_VM& vm) {
         } else if (vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
             retval = boinc_upload_status(vm.intermediate_upload_files[i].file);
             if (!retval) {
-                vboxlog_msg("Intermediate file uploaded. (%s)", vm.intermediate_upload_files[i].file.c_str());
+                vboxlog_msg(
+                    "Intermediate file uploaded. (%s)",
+                    vm.intermediate_upload_files[i].file.c_str()
+                );
                 vm.intermediate_upload_files[i].ignore = true;
             }
         }
@@ -355,12 +369,9 @@ void check_trickle_period(double& elapsed_time, double& trickle_period) {
     last_trickle_report_time = elapsed_time;
     vboxlog_msg("Status Report: Trickle-Up Event.");
     snprintf(buf, sizeof(buf),
-            "<cpu_time>%f</cpu_time>", last_trickle_report_time
-           );
-    int retval = boinc_send_trickle_up(
-
-            const_cast<char*>("cpu_time"), buf
-            );
+        "<cpu_time>%f</cpu_time>", last_trickle_report_time
+    );
+    int retval = boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
 
     if (retval) {
         vboxlog_msg("Sending Trickle-Up Event failed (%d).", retval);
@@ -483,7 +494,7 @@ int main(int argc, char** argv) {
 
     // Initialize VM Hypervisor
     //
-    pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+    pVM = (VBOX_VM*) new VBOX_VM();
     retval = pVM->initialize();
     if (retval) {
         vboxlog_msg("ERROR: VM initialization returned %d", retval);
@@ -551,9 +562,9 @@ int main(int argc, char** argv) {
     // and 4.2.18 fails to restore from snapshots properly.
     //
 
-    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) ||
-            (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) ||
-            (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos)
+    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos)
+        || (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos)
+        || (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos)
     ) {
         vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
@@ -666,15 +677,15 @@ int main(int argc, char** argv) {
         pVM->vm_master_description = aid.result_name;
         if (vm_image) {
             snprintf(buf, sizeof(buf), "%s_%d.%s",
-                    IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION
-                   );
+                IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION
+            );
             pVM->image_filename = buf;
         }
         if (pVM->enable_floppyio) {
             snprintf(buf, sizeof(buf), "%s_%d.%s",
-                    FLOPPY_IMAGE_FILENAME, aid.slot,
-                    FLOPPY_IMAGE_FILENAME_EXTENSION
-                   );
+                FLOPPY_IMAGE_FILENAME, aid.slot,
+                FLOPPY_IMAGE_FILENAME_EXTENSION
+            );
             pVM->floppy_image_filename = buf;
         }
     }
@@ -733,14 +744,16 @@ int main(int argc, char** argv) {
         random_checkpoint_factor = drand() * 600;
 
         vboxlog_msg(
-                "Feature: Checkpoint interval offset (%d seconds)",
-                (int)random_checkpoint_factor
-                );
+            "Feature: Checkpoint interval offset (%d seconds)",
+            (int)random_checkpoint_factor
+        );
 
         // Record what the minimum checkpoint interval is.
         //
-        vboxlog_msg("Detected: Minimum checkpoint interval (%f seconds)", pVM->minimum_checkpoint_interval);
-
+        vboxlog_msg(
+            "Detected: Minimum checkpoint interval (%f seconds)",
+            pVM->minimum_checkpoint_interval
+        );
     }
 
     // Should we even try to start things up?
@@ -1160,17 +1173,17 @@ int main(int argc, char** argv) {
                 pVM->dump_hypervisor_status_reports();
             }
 
-            // Real VM checkpoints (snapshots) are expensive, don't do them very often.
+            // Real VM checkpoints (snapshots) are expensive,
+            // don't do them very often.
             //
-            // If the project has disabled automatic checkpoints, just report that we have
-            // successfully completed the checkpoint as soon as the API reports that we should
-            // checkpoint.
+            // If the project has disabled automatic checkpoints,
+            // just report that we have successfully completed the checkpoint
+            // as soon as the API reports that we should checkpoint.
             //
             if (boinc_time_to_checkpoint()) {
-                if (
-                        (elapsed_time >= last_checkpoint_elapsed_time + desired_checkpoint_interval + random_checkpoint_factor) ||
-                        pVM->disable_automatic_checkpoints
-                   ) {
+                if ((elapsed_time >= last_checkpoint_elapsed_time + desired_checkpoint_interval + random_checkpoint_factor)
+                    || pVM->disable_automatic_checkpoints
+                ) {
                     // Basic interleave factor is only needed once.
                     if (random_checkpoint_factor > 0) {
                         random_checkpoint_factor = 0.0;
@@ -1179,7 +1192,8 @@ int main(int argc, char** argv) {
                     // Checkpoint
                     retval = pVM->create_snapshot(elapsed_time);
                     if (retval) {
-                        // Let BOINC clean-up the environment which should release any file/mutex locks and then attempt
+                        // Let BOINC clean up the environment which should
+                        // release any file/mutex locks and then attempt
                         // to resume from a previous snapshot.
                         //
                         vboxlog_msg("ERROR: Checkpoint maintenance failed, rescheduling task for a later time. (%d)", retval);
@@ -1223,11 +1237,11 @@ int main(int argc, char** argv) {
                 }
 
                 vboxlog_msg(
-                        "Setting checkpoint interval to %d seconds. (Higher value of (Preference: %d seconds) or (Vbox_job.xml: %d seconds))",
-                        (int)desired_checkpoint_interval,
-                        (int)aid.checkpoint_period,
-                        (int)pVM->minimum_checkpoint_interval
-                        );
+                    "Setting checkpoint interval to %d seconds. (Higher value of (Preference: %d seconds) or (Vbox_job.xml: %d seconds))",
+                    (int)desired_checkpoint_interval,
+                    (int)aid.checkpoint_period,
+                    (int)pVM->minimum_checkpoint_interval
+                );
             }
 
             // if the VM has a maximum amount of time it is allowed to run,
@@ -1239,10 +1253,7 @@ int main(int argc, char** argv) {
                 if (pVM->enable_cern_dataformat) {
                     FILE* output = fopen("output", "w");
                     if (output) {
-                        fprintf(
-                                output,
-                                "Work Unit completed!\n"
-                               );
+                        fprintf(output, "Work Unit completed!\n");
                         fclose(output);
                     }
                 }
@@ -1288,14 +1299,13 @@ int main(int argc, char** argv) {
 
         if (report_net_usage) {
             retval = boinc_report_app_status_aux(
-
-                    elapsed_time,
-                    last_checkpoint_cpu_time,
-                    fraction_done,
-                    pVM->vm_pid,
-                    bytes_sent,
-                    bytes_received
-                    );
+                elapsed_time,
+                last_checkpoint_cpu_time,
+                fraction_done,
+                pVM->vm_pid,
+                bytes_sent,
+                bytes_received
+            );
 
             if (!retval) {
                 report_net_usage = false;

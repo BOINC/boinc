@@ -33,6 +33,8 @@ CXXFLAGS += -g \
 
 PROGS = vboxwrapper
 
+HEADERS = vbox_common.h vboxjob.h vbox_vboxmanage.h vboxwrapper.h
+
 all: $(PROGS)
 
 libstdc++.a:
@@ -46,22 +48,22 @@ distclean:
 floppyio.o: floppyio.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c floppyio.cpp
 
-vbox_common.o: vbox_common.cpp
+vbox_common.o: vbox_common.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vbox_common.cpp
 
-vbox_vboxmanage.o: vbox_vboxmanage.cpp
+vbox_vboxmanage.o: vbox_vboxmanage.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vbox_vboxmanage.cpp
 
-vboxcheckpoint.o: vboxcheckpoint.cpp
+vboxcheckpoint.o: vboxcheckpoint.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vboxcheckpoint.cpp
 
-vboxjob.o: vboxjob.cpp
+vboxjob.o: vboxjob.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vboxjob.cpp
 
-vboxlogging.o: vboxlogging.cpp
+vboxlogging.o: vboxlogging.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vboxlogging.cpp
 
-vboxwrapper.o: vboxwrapper.cpp
+vboxwrapper.o: vboxwrapper.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vboxwrapper.cpp
 
 vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a

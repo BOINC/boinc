@@ -16,8 +16,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-// Provide cross-platform interfaces for making changes to VirtualBox
-
 #ifndef BOINC_VBOXWRAPPER_H
 #define BOINC_VBOXWRAPPER_H
 
