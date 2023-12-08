@@ -1307,6 +1307,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_edx & (1 << 29)), "tm ");
 
     FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 1)), "pclmulqdq ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
@@ -1328,6 +1329,24 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
     if (is_avx_supported() && struc_ext_supported) {
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 16)), "avx512f ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 17)), "avx512dq ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 19)), "adx ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 21)), "avx512ifma ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 26)), "avx512pf ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 27)), "avx512er ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 28)), "avx512cd ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 30)), "avx512bw ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 31)), "avx512vl ");
+
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 1)), "avx512vbmi ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 6)), "avx512_vbmi2 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 8)), "gfni ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 9)), "vaes ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 10)), "vpclmulqdq ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 11)), "avx512_vnni ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 12)), "avx512_bitalg ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 14)), "avx512_vpopcntdq ");
     }
 
     if (intel_supported) {
