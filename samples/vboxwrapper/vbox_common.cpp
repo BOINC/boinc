@@ -61,8 +61,7 @@ using std::string;
 #include "floppyio.h"
 #include "vboxlogging.h"
 #include "vboxwrapper.h"
-#include "vbox_common.h"
-
+#include "vbox_vboxmanage.h"
 
 bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
     if (maj < aid.major_version) return true;
@@ -147,7 +146,7 @@ VBOX_BASE::~VBOX_BASE() {
 #endif
 }
 
-int VBOX_BASE::run(bool do_restore_snapshot) {
+int VBOX_VM::run(bool do_restore_snapshot) {
     int retval;
 
     retval = is_registered();
@@ -244,7 +243,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
     return 0;
 }
 
-void VBOX_BASE::cleanup() {
+void VBOX_VM::cleanup() {
     poweroff();
     deregister_vm(true);
 
@@ -252,7 +251,7 @@ void VBOX_BASE::cleanup() {
     boinc_sleep(5.0);
 }
 
-void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
+void VBOX_VM::dump_hypervisor_logs(bool include_error_logs) {
     string local_system_log;
     string local_vm_log;
     string local_startup_log;
@@ -295,7 +294,7 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     }
 }
 
-void VBOX_BASE::report_clean(
+void VBOX_VM::report_clean(
     bool unrecoverable_error,
     bool skip_cleanup,
     bool do_dump_hypervisor_logs,
@@ -1472,25 +1471,12 @@ void VBOX_BASE::vbm_trace(string& command, string& output, int retval) {
 
     FILE* f = fopen(TRACELOG_FILENAME, "a");
     if (f) {
-        fprintf(
-                f,
-                "%s (%d): ",
-                buf,
-                pid
-               );
-        fprintf(
-                f,
-                "\nCommand: %s\nExit Code: %d\nOutput:\n%s\n",
-                command.c_str(),
-                retval,
-                output.c_str()
-               );
+        fprintf(f, "%s (%d): ", buf, pid);
+        fprintf(f, "\nCommand: %s\nExit Code: %d\nOutput:\n%s\n",
+            command.c_str(),
+            retval,
+            output.c_str()
+        );
         fclose(f);
     }
-}
-
-VBOX_VM::VBOX_VM() {
-}
-
-VBOX_VM::~VBOX_VM() {
 }

@@ -23,9 +23,7 @@
 #define WEBAPI_FILENAME "vbox_webapi.xml"
 #define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
 
-
-class VBOX_CHECKPOINT {
-public:
+struct VBOX_CHECKPOINT {
     VBOX_CHECKPOINT();
     ~VBOX_CHECKPOINT();
 
