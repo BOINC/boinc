@@ -158,7 +158,7 @@ bool ACTIVE_TASK_SET::poll() {
         for (i=0; i<active_tasks.size(); i++){
             ACTIVE_TASK* atp = active_tasks[i];
             // do not consider the first pass
-            if (last_fraction_done_check_time == 0  && atp->stuck_fraction_done == atp->fraction_done 
+            if (last_fraction_done_check_time == 0  && atp->stuck_fraction_done == atp->fraction_done
                     && atp->current_cpu_time < 10) {
                 msg_printf(atp->result->project, MSG_INFO, "Task has not made progress in last hour, consider aborting");
                 // atp->abort_task(EXIT_TASK_STUCK, "Task has not made progress in last hour, begin to abort");
