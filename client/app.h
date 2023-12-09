@@ -112,6 +112,8 @@ struct ACTIVE_TASK {
         // first frac done reported during this run of task
     double first_fraction_done_elapsed_time;
         // elapsed time when the above was reported
+    double stuck_fraction_done;
+        // keeps track if fraction has change to ensure it is not stuck
     SCHEDULER_STATE scheduler_state;
     SCHEDULER_STATE next_scheduler_state; // temp
     int signal;

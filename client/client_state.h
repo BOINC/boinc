@@ -601,6 +601,9 @@ extern THREAD throttle_thread;
 #define MEMORY_USAGE_PERIOD     10
     // computer memory usage and check for exclusive apps this often
 
+#define FRACTION_DONE_POLL_PERIOD 3600
+    // poll if fraction done has change within an hour to see if it is stuck
+
 //////// WORK FETCH
 
 #define WORK_FETCH_PERIOD   60
