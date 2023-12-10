@@ -114,7 +114,9 @@ ACTIVE_TASK::ACTIVE_TASK() {
     fraction_done_elapsed_time = 0;
     first_fraction_done = 0;
     first_fraction_done_elapsed_time = 0;
-    stuck_fraction_done = 0;
+    stuck_check_fraction_done = 0;
+    stuck_check_elapsed_time = 0;
+    stuck_check_cpu_time = 0;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     next_scheduler_state = CPU_SCHED_UNINITIALIZED;
     signal = 0;

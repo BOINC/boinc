@@ -153,19 +153,29 @@ bool ACTIVE_TASK_SET::poll() {
     // check if a job is "stuck" (did not make progress in the last hour)
     // notify the user about the issue
     // abort after some time
-    static double last_fraction_done_check_time = 0;
-    if (gstate.now - last_fraction_done_check_time > FRACTION_DONE_POLL_PERIOD) {
+    static double last_stuck_check_time = 0;
+    if (gstate.now - last_stuck_check_time > STUCK_CHECK_POLL_PERIOD) {
         for (i=0; i<active_tasks.size(); i++){
             ACTIVE_TASK* atp = active_tasks[i];
-            // do not consider the first pass
-            if (last_fraction_done_check_time == 0  && atp->stuck_fraction_done == atp->fraction_done
-                    && atp->current_cpu_time < 10) {
-                msg_printf(atp->result->project, MSG_INFO, "Task has not made progress in last hour, consider aborting");
-                // atp->abort_task(EXIT_TASK_STUCK, "Task has not made progress in last hour, begin to abort");
+            if (!atp->non_cpu_intensive()) continue;
+            if (atp->sporadic()) continue;
+            if (atp->stuck_check_elapsed_time == 0) {
+                // first pass
+                atp->stuck_check_elapsed_time = atp->elapsed_time;
+                atp->stuck_check_fraction_done = atp->fraction_done;
+                atp->stuck_check_cpu_time = atp->current_cpu_time;
             }
-            atp->stuck_fraction_done = atp->fraction_done;
+            // if fraction done does not change and cpu time is <10, message the user
+            if (atp->stuck_check_fraction_done == atp->fraction_done && 
+                    (atp->current_cpu_time - atp->stuck_check_cpu_time) < 10) {
+                msg_printf(atp->result->project, MSG_INFO, "Task has not made progress in last hour, consider aborting");
+            }
+            if (atp->elapsed_time < atp->stuck_check_elapsed_time + STUCK_CHECK_POLL_PERIOD) continue;
+            atp->stuck_check_elapsed_time = atp->elapsed_time;
+            atp->stuck_check_fraction_done = atp->fraction_done;
+            atp->stuck_check_cpu_time = atp->current_cpu_time;
         }
-        last_fraction_done_check_time = gstate.now;
+        last_stuck_check_time = gstate.now;
     }
 
     if (action) {
