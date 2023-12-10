@@ -602,7 +602,7 @@ extern THREAD throttle_thread;
     // computer memory usage and check for exclusive apps this often
 
 #define STUCK_CHECK_POLL_PERIOD 3600
-    // poll if fraction done has change within an hour to see if it is stuck
+    // poll if a job is ever stuck
 
 //////// WORK FETCH
 
