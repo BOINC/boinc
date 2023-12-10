@@ -157,7 +157,7 @@ bool ACTIVE_TASK_SET::poll() {
     if (gstate.now - last_stuck_check_time > STUCK_CHECK_POLL_PERIOD) {
         for (i=0; i<active_tasks.size(); i++){
             ACTIVE_TASK* atp = active_tasks[i];
-            if (!atp->non_cpu_intensive()) continue;
+            if (atp->non_cpu_intensive()) continue;
             if (atp->sporadic()) continue;
             if (atp->stuck_check_elapsed_time == 0) {
                 // first pass
