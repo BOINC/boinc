@@ -168,7 +168,8 @@ bool ACTIVE_TASK_SET::poll() {
             // if fraction done does not change and cpu time is <10, message the user
             if (atp->stuck_check_fraction_done == atp->fraction_done &&
                     (atp->current_cpu_time - atp->stuck_check_cpu_time) < 10) {
-                msg_printf(atp->result->project, MSG_INFO, "Task has not made progress in last hour, consider aborting");
+                msg_printf(atp->result->project, MSG_USER_ALERT,
+                    "Task has not made progress in last hour, consider aborting");
             }
             if (atp->elapsed_time < atp->stuck_check_elapsed_time + STUCK_CHECK_POLL_PERIOD) continue;
             atp->stuck_check_elapsed_time = atp->elapsed_time;
