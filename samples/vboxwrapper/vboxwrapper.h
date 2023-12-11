@@ -26,6 +26,14 @@
 #define FLOPPY_IMAGE_FILENAME_EXTENSION "img"
 #define CACHE_DISK_FILENAME "vm_cache.vdi"
 #define ISO_IMAGE_FILENAME "vm_isocontext.iso"
+
 #define POLL_PERIOD 1.0
+
+extern APP_INIT_DATA aid;
+extern string slot_dir_path;
+extern string project_dir_path;
+extern string shared_dir;
+    // 'shared' (if enable_shared_directory)
+    // '.' (if share_slot_dir)
 
 #endif

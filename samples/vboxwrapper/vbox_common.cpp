@@ -26,22 +26,9 @@
 
 #else
 #include <algorithm>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
-#include <string>
-#include <fstream>
 #include <sstream>
-#include <stdexcept>
-#include <unistd.h>
+#include <fstream>
+#include <string>
 #endif
 
 using std::string;
@@ -58,12 +45,13 @@ using std::string;
 #include "procinfo.h"
 #include "network.h"
 #include "boinc_api.h"
+
 #include "floppyio.h"
 #include "vboxlogging.h"
 #include "vboxwrapper.h"
 #include "vbox_vboxmanage.h"
 
-bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
+bool is_boinc_client_version_newer(int maj, int min, int rel) {
     if (maj < aid.major_version) return true;
     if (maj > aid.major_version) return false;
     if (min < aid.minor_version) return true;
@@ -513,14 +501,9 @@ int VBOX_BASE::dump_screenshot() {
     size_t n;
     FILE*  f = NULL;
     string screenshot_encoded;
-    string virtual_machine_slot_directory;
     string screenshot_location;
 
-    get_slot_directory(virtual_machine_slot_directory);
-
-    screenshot_location = virtual_machine_slot_directory;
-    screenshot_location += "/";
-    screenshot_location += SCREENSHOT_FILENAME;
+    screenshot_location = slot_dir_path + "/" + SCREENSHOT_FILENAME;
 
     if (boinc_file_exists(screenshot_location.c_str())) {
 
@@ -566,12 +549,9 @@ int VBOX_BASE::dump_screenshot() {
 }
 
 bool VBOX_BASE::is_vm_machine_configuration_available() {
-    string virtual_machine_slot_directory;
     string vm_machine_configuration_file;
 
-    get_slot_directory(virtual_machine_slot_directory);
-
-    vm_machine_configuration_file = virtual_machine_slot_directory + "/" + vm_master_name + "/" + vm_master_name + ".vbox";
+    vm_machine_configuration_file = slot_dir_path + "/" + vm_master_name + "/" + vm_master_name + ".vbox";
     if (boinc_file_exists(vm_machine_configuration_file.c_str())) {
         return true;
     }
@@ -643,33 +623,9 @@ bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
     return false;
 }
 
-int VBOX_BASE::get_scratch_directory(string& dir) {
-    APP_INIT_DATA aid;
-    boinc_get_init_data_p(&aid);
-
-    dir = aid.project_dir + string("/scratch");
-
-    if (!dir.empty()) {
-        return 1;
-    }
-    return 0;
-}
-
-// Returns the current directory in which the executable resides.
-//
-int VBOX_BASE::get_slot_directory(string& dir) {
-    char slot_dir[256];
-
-    getcwd(slot_dir, sizeof(slot_dir));
-    dir = slot_dir;
-
-    if (!dir.empty()) {
-        return 1;
-    }
-    return 0;
-}
-
-int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_size) {
+int VBOX_BASE::get_system_log(
+    string& log, bool tail_only, unsigned int buffer_size
+) {
     string virtualbox_system_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
@@ -867,12 +823,12 @@ void VBOX_BASE::sanitize_output(string& output) {
 void VBOX_BASE::sanitize_output(string& ) {}
 #endif
 
-// Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
+// Launch VboxSVC.exe before going any further.
+// If we don't, it'll be launched by
 // svchost.exe with its environment block which will not contain the reference
 // to VBOX_USER_HOME which is required for running in the BOINC account-based
 // sandbox on Windows.
 int VBOX_BASE::launch_vboxsvc() {
-    APP_INIT_DATA aid;
     PROC_MAP pm;
     PROCINFO p;
     string command;
@@ -888,14 +844,9 @@ int VBOX_BASE::launch_vboxsvc() {
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
 
-    boinc_get_init_data_p(&aid);
-
     if (aid.using_sandbox) {
-
         if (!vboxsvc_pid_handle || !process_exists(vboxsvc_pid_handle)) {
-
             if (vboxsvc_pid_handle) CloseHandle(vboxsvc_pid_handle);
-
             procinfo_setup(pm);
             for (PROC_MAP::iterator i = pm.begin(); i != pm.end(); ++i) {
                 p = i->second;
@@ -1272,7 +1223,7 @@ int VBOX_BASE::vbm_popen_raw(
 #else
         unsigned int
 #endif
-        ) {
+) {
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
@@ -1320,20 +1271,17 @@ int VBOX_BASE::vbm_popen_raw(
 
     // Execute command
     if (!CreateProcess(
-
-                NULL,
-
-                (LPTSTR)command.c_str(),
-                NULL,
-                NULL,
-                TRUE,
-                CREATE_NO_WINDOW,
-                NULL,
-                NULL,
-                &si,
-                &pi
-                )) {
-
+        NULL,
+        (LPTSTR)command.c_str(),
+        NULL,
+        NULL,
+        TRUE,
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
         vboxlog_msg("CreateProcess failed! (%d).", GetLastError());
         goto CLEANUP;
     }
@@ -1346,9 +1294,11 @@ int VBOX_BASE::vbm_popen_raw(
 
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
 
-        // Copy stdout/stderr to output buffer, handle in the loop so that we can
-        // copy the pipe as it is populated and prevent the child process from blocking
+        // Copy stdout/stderr to output buffer.
+        // handle in the loop so that we can copy the pipe as it is populated
+        // and prevent the child process from blocking
         // in case the output is bigger than pipe buffer.
+        //
         PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL);
         if (dwCount) {
             pBuf = malloc(dwCount+1);
@@ -1421,6 +1371,10 @@ CLEANUP:
 
         // Close stream
         pclose(fp);
+
+        if (output.find("VBoxManage: not found")) {
+            return ERR_NOT_FOUND;
+        }
 
         // Determine the real error code by parsing the output
         errcode_start = output.find("(0x");

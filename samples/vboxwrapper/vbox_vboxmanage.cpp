@@ -68,18 +68,14 @@ int VBOX_VM::initialize() {
     string new_path;
     string command;
     string output;
-    APP_INIT_DATA aid;
     bool force_sandbox = false;
 
-    boinc_get_init_data_p(&aid);
     get_install_directory(virtualbox_install_directory);
-    get_scratch_directory(virtualbox_scratch_directory);
 
     // Prep the environment so we can execute the vboxmanage application
     //
 #ifdef _WIN32
-    if (!virtualbox_install_directory.empty())
-    {
+    if (!virtualbox_install_directory.empty()) {
         old_path = getenv("PATH");
         new_path = virtualbox_install_directory + ";" + old_path;
 
@@ -133,6 +129,7 @@ int VBOX_VM::initialize() {
 
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
+    //
     if (aid.using_sandbox || force_sandbox) {
         virtualbox_home_directory = aid.project_dir;
         virtualbox_home_directory += "/../virtualbox";
@@ -175,15 +172,10 @@ int VBOX_VM::initialize() {
 int VBOX_VM::create_vm() {
     string command;
     string output;
-    string virtual_machine_slot_directory;
     string default_interface;
-    APP_INIT_DATA aid;
     bool disable_acceleration = false;
     char buf[256];
     int retval;
-
-    boinc_get_init_data_p(&aid);
-    get_slot_directory(virtual_machine_slot_directory);
 
     vboxlog_msg("Create VM. (%s, slot#%d)", vm_master_name.c_str(), aid.slot);
 
@@ -205,7 +197,7 @@ int VBOX_VM::create_vm() {
     //
     command  = "createvm ";
     command += "--name \"" + vm_name + "\" ";
-    command += "--basefolder \"" + virtual_machine_slot_directory + "\" ";
+    command += "--basefolder \"" + slot_dir_path + "\" ";
     command += "--ostype \"" + os_name + "\" ";
     command += "--register";
 
@@ -396,7 +388,7 @@ int VBOX_VM::create_vm() {
         disable_acceleration = true;
     }
 
-    if (is_boinc_client_version_newer(aid, 7, 2, 16)) {
+    if (is_boinc_client_version_newer(7, 2, 16)) {
         if (aid.vm_extensions_disabled) {
             vboxlog_msg("Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.");
             disable_acceleration = true;
@@ -416,7 +408,7 @@ int VBOX_VM::create_vm() {
     // Only allow disabling of hardware acceleration on 32-bit VM types,
     // 64-bit VM types require it.
     //
-    if (os_name.find("_64") == std::string::npos) {
+    if (os_name.find("_64") == string::npos) {
         if (disable_acceleration) {
             vboxlog_msg("Disabling hardware acceleration support for virtualization.");
             command  = "modifyvm \"" + vm_name + "\" ";
@@ -425,7 +417,7 @@ int VBOX_VM::create_vm() {
             retval = vbm_popen(command, output, "VT-x/AMD-V support");
             if (retval) return retval;
         }
-    } else if (os_name.find("_64") != std::string::npos) {
+    } else if (os_name.find("_64") != string::npos) {
         if (disable_acceleration) {
             vboxlog_msg("ERROR: Invalid configuration.  VM type requires acceleration but the current configuration cannot support it.");
             return ERR_INVALID_PARAM;
@@ -480,7 +472,7 @@ int VBOX_VM::create_vm() {
         command += "--port 0 ";
         command += "--device 0 ";
         command += "--type dvddrive ";
-        command += "--medium \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+        command += "--medium \"" + slot_dir_path + "/" + iso_image_filename + "\" ";
 
         retval = vbm_popen(command, output, "storage attach (ISO 9660 image)");
         if (retval) return retval;
@@ -510,7 +502,7 @@ int VBOX_VM::create_vm() {
             command += "--device 0 ";
             command += "--type hdd ";
             command += "--setuuid \"\" ";
-            command += "--medium \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+            command += "--medium \"" + slot_dir_path + "/" + cache_disk_filename + "\" ";
 
             retval = vbm_popen(command, output, "storage attach (cached disk)");
             if (retval) return retval;
@@ -536,7 +528,7 @@ int VBOX_VM::create_vm() {
             vboxlog_msg("Adding virtual disk drive to VM. (%s)", image_filename.c_str());
             command  = command_fix_part;
             command += "--setuuid \"\" ";
-            command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+            command += "--medium \"" + slot_dir_path + "/" + image_filename + "\" ";
 
             retval = vbm_popen(command, output, "storage attach (fixed disk)");
             if (retval) return retval;
@@ -725,7 +717,7 @@ int VBOX_VM::create_vm() {
         command += "--storagectl \"Floppy Controller\" ";
         command += "--port 0 ";
         command += "--device 0 ";
-        command += "--medium \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+        command += "--medium \"" + slot_dir_path + "/" + floppy_image_filename + "\" ";
 
         retval = vbm_popen(command, output, "storage attach (floppy disk)");
         if (retval) return retval;
@@ -799,31 +791,38 @@ int VBOX_VM::create_vm() {
             command += "--vrdeport " + string(buf) + " ";
 
             retval = vbm_popen(command, output, "remote desktop");
-            if(retval) return retval;
+            if (retval) return retval;
         }
     }
 
-    // Enable the shared folder if a shared folder is specified.
+    // share slot/ or slot/shared
     //
-    if (enable_shared_directory) {
+    if (enable_shared_directory || share_slot_dir) {
         vboxlog_msg("Enabling shared directory for VM.");
         command  = "sharedfolder add \"" + vm_name + "\" ";
         command += "--name \"shared\" ";
-        command += "--hostpath \"" + virtual_machine_slot_directory + "/shared\"";
-
+        if (share_slot_dir) {
+            command += "--hostpath \"" + slot_dir_path + "\"";
+        } else {
+            command += "--hostpath \"" + slot_dir_path + "/shared\"";
+        }
         retval = vbm_popen(command, output, "enable shared dir");
         if (retval) return retval;
     }
 
-    // Enable the scratch folder if a scratch folder is specified.
+    // share project/ or project/scratch
     //
-    if (enable_scratch_directory) {
-        vboxlog_msg("Enabling scratch shared directory for VM.");
+    if (enable_scratch_directory || share_project_dir) {
+        vboxlog_msg("Enabling shared project directory for VM.");
         command  = "sharedfolder add \"" + vm_name + "\" ";
         command += "--name \"scratch\" ";
-        command += "--hostpath \"" + virtualbox_scratch_directory + "\"";
+        if (share_project_dir) {
+            command += "--hostpath \"" + project_dir_path + "\"";
+        } else {
+            command += "--hostpath \"" + project_dir_path + "/scratch\"";
+        }
 
-        retval = vbm_popen(command, output, "enable scratch shared dir");
+        retval = vbm_popen(command, output, "enable shared project dir");
         if (retval) return retval;
     }
 
@@ -833,13 +832,7 @@ int VBOX_VM::create_vm() {
 int VBOX_VM::register_vm() {
     string command;
     string output;
-    string virtual_machine_slot_directory;
-    APP_INIT_DATA aid;
     int retval;
-
-    boinc_get_init_data_p(&aid);
-    get_slot_directory(virtual_machine_slot_directory);
-
 
     vboxlog_msg("Register VM. (%s, slot#%d)", vm_master_name.c_str(), aid.slot);
 
@@ -850,7 +843,7 @@ int VBOX_VM::register_vm() {
     // Register the VM
     //
     command  = "registervm ";
-    command += "\"" + virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox\" ";
+    command += "\"" + slot_dir_path + "/" + vm_name + "/" + vm_name + ".vbox\" ";
 
     retval = vbm_popen(command, output, "register");
     if (retval) return retval;
@@ -861,11 +854,6 @@ int VBOX_VM::register_vm() {
 int VBOX_VM::deregister_vm(bool delete_media) {
     string command;
     string output;
-    string virtual_machine_slot_directory;
-    APP_INIT_DATA aid;
-
-    boinc_get_init_data_p(&aid);
-    get_slot_directory(virtual_machine_slot_directory);
 
     vboxlog_msg("Deregistering VM. (%s, slot#%d)", vm_name.c_str(), aid.slot);
 
@@ -903,7 +891,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     //
     if (enable_isocontextualization) {
         vboxlog_msg("Removing virtual ISO 9660 disk from VirtualBox.");
-        command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+        command  = "closemedium dvd \"" + slot_dir_path + "/" + iso_image_filename + "\" ";
         if (delete_media) {
             command += "--delete ";
         }
@@ -911,7 +899,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
         if (enable_cache_disk) {
             vboxlog_msg("Removing virtual cache disk from VirtualBox.");
-            command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+            command  = "closemedium disk \"" + slot_dir_path + "/" + cache_disk_filename + "\" ";
             if (delete_media) {
                 command += "--delete ";
             }
@@ -922,7 +910,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
     if (enable_floppyio) {
         vboxlog_msg("Removing virtual floppy disk from VirtualBox.");
-        command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+        command  = "closemedium floppy \"" + slot_dir_path + "/" + floppy_image_filename + "\" ";
         if (delete_media) {
             command += "--delete ";
         }
@@ -935,12 +923,9 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 int VBOX_VM::deregister_stale_vm() {
     string command;
     string output;
-    string virtual_machine_slot_directory;
     size_t uuid_start;
     size_t uuid_end;
     int retval;
-
-    get_slot_directory(virtual_machine_slot_directory);
 
     // Output from showhdinfo should look a little like this:
     //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
@@ -954,7 +939,7 @@ int VBOX_VM::deregister_stale_vm() {
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
     if (enable_isocontextualization) {
-        command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+        command  = "showhdinfo \"" + slot_dir_path + "/" + cache_disk_filename + "\" ";
         retval = vbm_popen(command, output, "get HDD info");
         if (retval) return retval;
 
@@ -968,17 +953,17 @@ int VBOX_VM::deregister_stale_vm() {
             // Deregister stale VM by UUID
             return deregister_vm(false);
         } else {
-            command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+            command  = "closemedium dvd \"" + slot_dir_path + "/" + iso_image_filename + "\" ";
             // coverity[CHECKED_RETURN]
             vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
             if (enable_cache_disk) {
-                 command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                 command  = "closemedium disk \"" + slot_dir_path + "/" + cache_disk_filename + "\" ";
                  // coverity[CHECKED_RETURN]
                  vbm_popen(command, output, "remove virtual cache disk", false);
             }
         }
     } else {
-        command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+        command  = "showhdinfo \"" + slot_dir_path + "/" + image_filename + "\" ";
         retval = vbm_popen(command, output, "get HDD info");
         if (retval) return retval;
 
@@ -994,10 +979,10 @@ int VBOX_VM::deregister_stale_vm() {
         } else {
             // Did the user delete the VM in VirtualBox and not the medium?  If so,
             // just remove the medium.
-            command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+            command  = "closemedium disk \"" + slot_dir_path + "/" + image_filename + "\" ";
             vbm_popen(command, output, "remove virtual disk", false, false);
             if (enable_floppyio) {
-                command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+                command  = "closemedium floppy \"" + slot_dir_path + "/" + floppy_image_filename + "\" ";
                 vbm_popen(command, output, "remove virtual floppy disk", false, false);
             }
         }
@@ -1007,14 +992,11 @@ int VBOX_VM::deregister_stale_vm() {
 
 int VBOX_VM::poll(bool log_state) {
     int retval = ERR_EXEC;
-    APP_INIT_DATA aid;
     string command;
     string output;
     string::iterator iter;
     string vmstate;
     static string vmstate_old = "poweredoff";
-
-    boinc_get_init_data_p(&aid);
 
     //
     // Is our environment still sane?
@@ -1136,7 +1118,6 @@ int VBOX_VM::poll(bool log_state) {
 
 int VBOX_VM::poll2(bool log_state) {
     int retval = ERR_EXEC;
-    APP_INIT_DATA aid;
     string command;
     string output;
     string::iterator iter;
@@ -1144,8 +1125,6 @@ int VBOX_VM::poll2(bool log_state) {
     static string vmstate_old = "poweroff";
     size_t vmstate_start;
     size_t vmstate_end;
-
-    boinc_get_init_data_p(&aid);
 
     // Is our environment still sane?
     //
@@ -1290,12 +1269,9 @@ int VBOX_VM::poll2(bool log_state) {
 
 int VBOX_VM::start() {
     int retval;
-    APP_INIT_DATA aid;
     string command;
     string output;
     int timeout = 0;
-
-    boinc_get_init_data_p(&aid);
 
     log_pointer = 0;
     vboxlog_msg(
@@ -1472,10 +1448,7 @@ int VBOX_VM::capture_screenshot() {
         if (is_virtualbox_version_newer(5, 0, 0)) {
             string command;
             string output;
-            string virtual_machine_slot_directory;
             int retval = BOINC_SUCCESS;
-
-            get_slot_directory(virtual_machine_slot_directory);
 
             vboxlog_msg("Capturing screenshot.");
 
@@ -1486,7 +1459,7 @@ int VBOX_VM::capture_screenshot() {
 
             command = "controlvm \"" + vm_name + "\" ";
             command += "screenshotpng \"";
-            command += virtual_machine_slot_directory;
+            command += slot_dir_path;
             command += "/";
             command += SCREENSHOT_FILENAME;
             command += "\"";
@@ -1681,7 +1654,7 @@ int VBOX_VM::is_registered() {
 // Luckily both of the above conditions can be detected by attempting to detect the host information
 // via vboxmanage and it is cross platform.
 //
-bool VBOX_VM::is_system_ready(std::string& message) {
+bool VBOX_VM::is_system_ready(string& message) {
     string command;
     string output;
     int retval;
@@ -1728,11 +1701,8 @@ bool VBOX_VM::is_system_ready(std::string& message) {
 bool VBOX_VM::is_disk_image_registered() {
     string command;
     string output;
-    string virtual_machine_root_dir;
 
-    get_slot_directory(virtual_machine_root_dir);
-
-    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+    command = "showhdinfo \"" + slot_dir_path + "/" + image_filename + "\" ";
     if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
         if ((output.find("VBOX_E_FILE_ERROR") == string::npos)
             && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)
@@ -1744,7 +1714,7 @@ bool VBOX_VM::is_disk_image_registered() {
     }
 
     if (enable_isocontextualization && enable_cache_disk) {
-        command = "showhdinfo \"" + virtual_machine_root_dir + "/" + cache_disk_filename + "\" ";
+        command = "showhdinfo \"" + slot_dir_path + "/" + cache_disk_filename + "\" ";
         if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
             if ((output.find("VBOX_E_FILE_ERROR") == string::npos)
                 && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)
@@ -1775,7 +1745,6 @@ bool VBOX_VM::is_extpack_installed() {
 
 int VBOX_VM::get_install_directory(string& install_directory) {
 #ifdef _WIN32
-
     LONG    lReturnValue;
     HKEY    hkSetupHive;
     LPTSTR  lpszRegistryValue = NULL;
@@ -1831,7 +1800,7 @@ int VBOX_VM::get_install_directory(string& install_directory) {
 #endif
 }
 
-int VBOX_VM::get_version_information(std::string& version_raw, std::string& version_display) {
+int VBOX_VM::get_version_information(string& version_raw, string& version_display) {
     string command;
     string output;
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
