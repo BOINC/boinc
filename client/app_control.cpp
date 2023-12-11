@@ -155,6 +155,7 @@ bool ACTIVE_TASK_SET::poll() {
     // abort after some time
     static double last_stuck_check_time = 0;
     if (gstate.now - last_stuck_check_time > STUCK_CHECK_POLL_PERIOD) {
+        last_stuck_check_time = gstate.now;
         for (i=0; i<active_tasks.size(); i++){
             ACTIVE_TASK* atp = active_tasks[i];
             if (atp->non_cpu_intensive()) continue;
@@ -177,7 +178,6 @@ bool ACTIVE_TASK_SET::poll() {
             atp->stuck_check_fraction_done = atp->fraction_done;
             atp->stuck_check_cpu_time = atp->current_cpu_time;
         }
-        last_stuck_check_time = gstate.now;
     }
 
     if (action) {
