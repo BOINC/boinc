@@ -38,7 +38,7 @@ HEADERS = vbox_common.h vboxjob.h vbox_vboxmanage.h vboxwrapper.h
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `$(CXX) -print-file-name=libstdc++.a`
+	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
 
 clean: distclean
 
