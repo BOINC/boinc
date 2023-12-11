@@ -405,6 +405,10 @@ int VBOX_VM::create_vm() {
         }
     }
 
+    if (boinc_is_standalone()) {
+        disable_acceleration = false;
+    }
+
     // Only allow disabling of hardware acceleration on 32-bit VM types,
     // 64-bit VM types require it.
     //
@@ -815,10 +819,11 @@ int VBOX_VM::create_vm() {
     if (enable_scratch_directory || share_project_dir) {
         vboxlog_msg("Enabling shared project directory for VM.");
         command  = "sharedfolder add \"" + vm_name + "\" ";
-        command += "--name \"scratch\" ";
         if (share_project_dir) {
+            command += "--name \"project\" ";
             command += "--hostpath \"" + project_dir_path + "\"";
         } else {
+            command += "--name \"scratch\" ";
             command += "--hostpath \"" + project_dir_path + "/scratch\"";
         }
 

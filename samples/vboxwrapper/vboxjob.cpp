@@ -113,6 +113,8 @@ void VBOX_JOB::clear() {
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_scratch_directory = false;
+    share_slot_dir = false;
+    share_project_dir = false;
     enable_floppyio = false;
     enable_cache_disk = false;
     enable_isocontextualization = false;

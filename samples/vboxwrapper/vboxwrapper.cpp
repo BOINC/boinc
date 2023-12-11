@@ -494,7 +494,11 @@ int main(int argc, char** argv) {
 
     boinc_parse_init_data_file();
     boinc_get_init_data(aid);
-    project_dir_path = aid.project_dir;
+    if (boinc_is_standalone()) {
+        project_dir_path = "project";
+    } else {
+        project_dir_path = aid.project_dir;
+    }
     getcwd(path, sizeof(path));
     slot_dir_path = path;
 
