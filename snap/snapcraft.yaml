@@ -57,6 +57,8 @@ parts:
     - libxrandr-dev
     - libdbus-1-dev
     - libxtst-dev
+    - libevdev-dev
+    - libevdev2
     # vcpkg dependencies
     - build-essential
     - pkg-config
@@ -101,6 +103,9 @@ parts:
       # cmake
       export PATH=/snap/cmake/current/bin/:$PATH
       cmake --version
+
+      # to recongize libevdev
+      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/
 
       # aws
       ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime

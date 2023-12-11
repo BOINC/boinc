@@ -1157,6 +1157,21 @@ dnl ======================================================================
 
 CLIENTLIBS=
 
+AC_COMPILE_IFELSE( [AC_LANG_PROGRAM([[#include <libevdev-1.0/libevdev/libevdev.h>]],
+  [[
+
+  ]])],
+  [
+    AC_MSG_RESULT([yes])
+    CLIENTLIBS="$CLIENTLIBS -levdev"
+  ],
+  [
+    AC_MSG_RESULT([no])
+  ]
+  )
+
+
+
 SAH_CHECK_LIB([m],[sin], [
     AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
