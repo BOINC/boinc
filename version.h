@@ -12,11 +12,17 @@
 /* Release part of BOINC version number */
 #define BOINC_RELEASE 0
 
-/* Release part of wrapper version number */
+// Release part of wrapper version number; must match
+// samples/wrapper/Makefile
+// win_build/wrapper.vcxproj
+// mac?
 #define WRAPPER_RELEASE 26018
 
-/* Release part of vboxwrapper version number */
-#define VBOXWRAPPER_RELEASE 26206
+// Release part of vboxwrapper version number; must match
+// samples/vboxwrapper/Makefile
+// win_build/vboxwrapper.vcxproj
+// mac?
+#define VBOXWRAPPER_RELEASE 26207
 
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.25.0"

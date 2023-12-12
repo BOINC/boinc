@@ -1,7 +1,9 @@
 CXXFLAGS += -g
 CXX ?= g++
 
-PROGS = worker
+WORKER_RELEASE = 1_x86_64-pc-linux-gnu
+
+PROGS = worker_$(WORKER_RELEASE)
 
 all: $(PROGS)
 
@@ -10,8 +12,8 @@ clean: distclean
 distclean:
 	rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o
 
-worker: worker.o
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker worker.o
+worker_$(WORKER_RELEASE): worker.o
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker_$(WORKER_RELEASE) worker.o
 
 install: all
 

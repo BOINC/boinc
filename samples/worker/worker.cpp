@@ -16,20 +16,22 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // worker - application without BOINC runtime system;
-// used for testing wrapper.
+// used for testing wrappers.
 //
-// worker [--std_copy] [--file_copy] nsecs
+// worker [--std] [--file] nsecs
 //
-// --std_copy: copy one line of stdin to stdout
-// --file_copy: copy one line of "in" to "out"
+// --std: stdin to stdout
+// --file_copy: "in" to "out"
+// In both cases, convert to uppercase
 // nsecs: use this much CPU time (default 10 sec)
 //
-// THIS PROGRAM SHOULDN'T USE ANY BOINC CODE.  That's the whole point.
+// THIS PROGRAM CAN'T USE ANY BOINC CODE.  That's the whole point.
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 
 // do a billion floating-point ops
 // (note: I needed to add an arg to this;
@@ -46,25 +48,34 @@ static double do_a_giga_flop(int foo) {
     return x;
 }
 
+void copy_uc(FILE* fin, FILE* fout) {
+    int c;
+    while (1) {
+        c = fgetc(fin);
+        if (c == EOF) break;
+        fputc(toupper(c), fout);
+    }
+}
+
 int main(int argc, char** argv) {
-    char buf[256];
     FILE* in, *out;
     int i, nsec = 10;
-    bool std_copy = false, file_copy = false;
+    bool std = false, file = false;
+    char c;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--std_copy")) {
-            std_copy = true;
+        if (!strcmp(argv[i], "--std")) {
+            std = true;
         }
-        if (!strcmp(argv[i], "--file_copy")) {
-            file_copy = true;
+        if (!strcmp(argv[i], "--file")) {
+            file = true;
         }
         nsec = atoi(argv[i]);
     }
 
-    fprintf(stderr, "worker starting\n");
+    fprintf(stderr, "worker: starting\n");
 
-    if (file_copy) {
+    if (file) {
         in = fopen("in", "r");
         if (!in) {
             fprintf(stderr, "missing input file\n");
@@ -75,13 +86,11 @@ int main(int argc, char** argv) {
             fprintf(stderr, "can't open output file\n");
             exit(1);
         }
-        fgets(buf, 256, in);
-        fputs(buf, out);
+        copy_uc(in, out);
     }
 
-    if (std_copy) {
-        fgets(buf, 256, stdin);
-        fputs(buf, stdout);
+    if (std) {
+        copy_uc(stdin, stdout);
     }
 
     int start = (int)time(0);
@@ -91,7 +100,7 @@ int main(int argc, char** argv) {
         do_a_giga_flop(i++);
     }
 
-    fputs("done!\n", stdout);
+    fprintf(stderr, "worker: done\n");
     return 0;
 }
 

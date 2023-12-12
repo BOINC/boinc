@@ -1,5 +1,7 @@
 # This should work on Linux.  Modify as needed for other platforms.
 
+WRAPPER_RELEASE = 26018_x86_64-pc-linux-gnu
+
 # Change the following to match your installation
 BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
@@ -33,7 +35,7 @@ CXXFLAGS += -g -O0 \
     -L$(BOINC_ZIP_DIR) \
     -L.
 
-PROGS = wrapper
+PROGS = wrapper_$(WRAPPER_RELEASE)
 
 all: $(PROGS)
 
@@ -56,5 +58,5 @@ REGEXP_OBJS = \
 	regexp_memory.o \
 	regexp_report.o
 
-wrapper: wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
+wrapper_$(WRAPPER_RELEASE): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper_$(WRAPPER_RELEASE) wrapper.o $(REGEXP_OBJS) $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)

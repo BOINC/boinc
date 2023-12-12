@@ -1,5 +1,7 @@
 # This should work on Linux.  Modify as needed for other platforms.
 
+VBOXWRAPPER_RELEASE = 26207_x86_64-pc-linux-gnu
+
 # Change the following to match your installation
 BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
@@ -31,7 +33,7 @@ CXXFLAGS += -g \
     -L$(BOINC_LIB_DIR) \
     -L.
 
-PROGS = vboxwrapper
+PROGS = vboxwrapper_$(VBOXWRAPPER_RELEASE)
 
 HEADERS = vbox_common.h vboxjob.h vbox_vboxmanage.h vboxwrapper.h
 
@@ -66,5 +68,5 @@ vboxlogging.o: vboxlogging.cpp $(HEADERS)
 vboxwrapper.o: vboxwrapper.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vboxwrapper.cpp
 
-vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
+vboxwrapper_$(VBOXWRAPPER_RELEASE): vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxwrapper_$(VBOXWRAPPER_RELEASE) vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
