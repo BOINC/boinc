@@ -150,7 +150,11 @@ char* windows_format_error_string(
         NULL,
         dwError,
         LANG_NEUTRAL,
+#ifdef wxUSE_GUI
+        (LPWSTR)&lpszTemp,
+#else
         (LPSTR)&lpszTemp,
+#endif
         0,
         &args
     );
@@ -168,4 +172,3 @@ char* windows_format_error_string(
 
     return pszBuf;
 }
-
