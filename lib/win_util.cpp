@@ -137,23 +137,24 @@ std::string boinc_wide_to_ascii(const std::wstring& str) {
 // get message for given error
 //
 char* windows_format_error_string(
-    unsigned long dwError, char* pszBuf, int iSize
+    unsigned long dwError, char* pszBuf, int iSize ...
 ) {
     DWORD dwRet;
-    LPWSTR lpszTemp = NULL;
+    LPSTR lpszTemp = NULL;
 
-    dwRet = FormatMessageW(
-        FORMAT_MESSAGE_IGNORE_INSERTS |
+    va_list args;
+    va_start(args, iSize);
+    dwRet = FormatMessage(
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_ARGUMENT_ARRAY,
+        FORMAT_MESSAGE_FROM_SYSTEM ,
         NULL,
         dwError,
         LANG_NEUTRAL,
-        (LPWSTR)&lpszTemp,
+        (LPSTR)&lpszTemp,
         0,
-        NULL
+        &args
     );
+    va_end(args);
 
     if (dwRet != 0) {
         // include the hex error code as well
