@@ -767,6 +767,13 @@ int main(int argc, char** argv) {
         pVM->memory_size_mb = memory_size_mb;
     }
 
+    if (pVM->memory_size_mb < MIN_MEMORY_SIZE_MB) {
+        vboxlog_msg("Memory size %dMB is too small; setting to %dMB",
+            pVM->memory_size_mb, MIN_MEMORY_SIZE_MB
+        );
+        pVM->memory_size_mb = MIN_MEMORY_SIZE_MB;
+    }
+
     if (aid.vbox_window && !aid.using_sandbox) {
         pVM->headless = false;
     }

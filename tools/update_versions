@@ -22,6 +22,10 @@
 // script to create app versions,
 // and stage their files in the download dir.
 // See https://github.com/BOINC/boinc/wiki/AppVersionNew
+//
+// options:
+// --noconfirm: don't ask for confirmation of anything
+// --verbose: print details
 
 
 error_reporting(E_ALL);
@@ -36,6 +40,7 @@ chdir ("../..");
 $apps = BoincApp::enum("");
 $platforms = BoincPlatform::enum("");
 $confirm = true;
+$verbose = false;
 
 $config = file_get_contents("config.xml");
 if (!$config) die("config.xml not found.  Run this in project root dir.\n");
@@ -162,15 +167,17 @@ function update_file($fds, $fd) {
 // move file to download dir, check immutability, fill in $fd->url
 //
 function stage_file($a, $v, $p, $fd) {
-    global $download_url, $download_dir;
+    global $download_url, $download_dir, $verbose;
 
     $name = $fd->physical_name;
     $path = "apps/$a/$v/$p/$name";
     $dl_path = "$download_dir/$name";
     if (is_file($dl_path)) {
+        if ($verbose) echo "md5 check start\n";
         if (md5_file($path) != md5_file($dl_path)) {
             die ("Error: files $path and $dl_path differ.\nBOINC files are immutable.\nIf you change a file, you must give it a new name.\n");
         }
+        if ($verbose) echo "md5 check end\n";
     } else {
         $subdirs = dirname($name);
         if ($subdirs) {
@@ -214,8 +221,9 @@ function get_api_version($a, $v, $p, $fds) {
 $sig_gen_confirmed = false;
 
 function confirm_sig_gen($name) {
-    global $sig_gen_confirmed;
+    global $sig_gen_confirmed, $confirm;
 
+    if (!$confirm) return true;
     if ($sig_gen_confirmed) return true;
 
     echo "
@@ -238,7 +246,12 @@ function confirm_sig_gen($name) {
 // process a file
 //
 function process_file($a, $v, $p, $name, $fds) {
-    global $key_dir, $confirm;
+    global $key_dir, $confirm, $verbose;
+
+    if ($verbose) {
+        echo "process_file(): $a/$v/$p/$name\n";
+    }
+
     $fd = lookup_file($fds, $name);
     if (!$fd) {
         $fd = new StdClass;
@@ -271,7 +284,9 @@ function process_file($a, $v, $p, $name, $fds) {
         }
     }
 
+    if ($verbose) echo "stage start\n";
     $fd = stage_file($a, $v, $p, $fd);
+    if ($verbose) echo "stage done\n";
 
     if (!isset($fd->executable)) {
         $perms = fileperms($path);
@@ -422,12 +437,16 @@ function convert_simplexml($x) {
 }
 
 function process_version($a, $v, $p) {
-    global $confirm;
-    echo "Found app version directory for: $a $v $p\n";
+    global $confirm, $verbose;
+    if ($verbose) {
+        echo "Found app version directory for: $a $v $p\n";
+    }
     $app = lookup_app($a);
     parse_platform_name($p, $platform, $plan_class);
     if (already_exists($a, $v, $platform, $plan_class)) {
-        echo "  (already exists in database)\n";
+        if ($verbose) {
+            echo "  (already exists in database)\n";
+        }
         return;
     }
     $vfile = "apps/$a/$v/$p/version.xml";
@@ -556,8 +575,14 @@ function scan_apps() {
     }
 }
 
-if (count($argv)>1 && $argv[1]=='--noconfirm') {
-    $confirm = false;
+foreach (array_slice($argv, 1) as $arg) {
+    if ($arg == '--noconfirm') {
+        $confirm = false;
+    } else if ($arg == '--verbose') {
+        $verbose = true;
+    } else {
+        die("unknown arg $arg\n");
+    }
 }
 
 scan_apps();

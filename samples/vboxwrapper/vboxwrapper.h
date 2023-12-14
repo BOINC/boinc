@@ -19,6 +19,8 @@
 #ifndef BOINC_VBOXWRAPPER_H
 #define BOINC_VBOXWRAPPER_H
 
+#define MIN_MEMORY_SIZE_MB  512
+
 #define IMAGE_FILENAME_COMPLETE "vm_image.vdi"
 #define IMAGE_FILENAME "vm_image"
 #define IMAGE_FILENAME_EXTENSION "vdi"

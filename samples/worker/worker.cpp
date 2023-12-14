@@ -18,12 +18,11 @@
 // worker - application without BOINC runtime system;
 // used for testing wrappers.
 //
-// worker [--std] [--file] nsecs
+// worker [--nsecs N] infile outfile
 //
-// --std: stdin to stdout
-// --file_copy: "in" to "out"
-// In both cases, convert to uppercase
-// nsecs: use this much CPU time (default 10 sec)
+// copy infile to outfile, converting to uppercase
+// if infile is 'stdin', use stdin; same for stdout
+// --nsecs: use about N sec of CPU time
 //
 // THIS PROGRAM CAN'T USE ANY BOINC CODE.  That's the whole point.
 
@@ -58,45 +57,49 @@ void copy_uc(FILE* fin, FILE* fout) {
 }
 
 int main(int argc, char** argv) {
-    FILE* in, *out;
-    int i, nsec = 10;
-    bool std = false, file = false;
+    FILE* in=0, *out=0;
+    int i, nsecs = 0;
     char c;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--std")) {
-            std = true;
+        if (!strcmp(argv[i], "--nsecs")) {
+            nsecs = atoi(argv[++i]);
         }
-        if (!strcmp(argv[i], "--file")) {
-            file = true;
+        if (!in) {
+            if (!strcmp(argv[i], "stdin")) {
+                in = stdin;
+            } else {
+                in = fopen(argv[i], "r");
+                if (!in) {
+                    fprintf(stderr, "missing input file\n");
+                    exit(1);
+                }
+            }
+        } else {
+            if (!strcmp(argv[i], "stdout")) {
+                out = stdout;
+            } else {
+                out = fopen(argv[i], "w");
+                if (!out) {
+                    fprintf(stderr, "missing output file\n");
+                    exit(1);
+                }
+            }
         }
-        nsec = atoi(argv[i]);
+    }
+    if (!in || !out) {
+        fprintf(stderr, "worker: no files specified\n");
+        exit(1);
     }
 
     fprintf(stderr, "worker: starting\n");
 
-    if (file) {
-        in = fopen("in", "r");
-        if (!in) {
-            fprintf(stderr, "missing input file\n");
-            exit(1);
-        }
-        out = fopen("out", "w");
-        if (!out) {
-            fprintf(stderr, "can't open output file\n");
-            exit(1);
-        }
-        copy_uc(in, out);
-    }
-
-    if (std) {
-        copy_uc(stdin, stdout);
-    }
+    copy_uc(in, out);
 
     int start = (int)time(0);
 
     i=0;
-    while (time(0) < start+nsec) {
+    while (time(0) < start+nsecs) {
         do_a_giga_flop(i++);
     }
 

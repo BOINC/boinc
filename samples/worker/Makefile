@@ -1,7 +1,7 @@
 CXXFLAGS += -g
 CXX ?= g++
 
-WORKER_RELEASE = 1_x86_64-pc-linux-gnu
+WORKER_RELEASE = 2_x86_64-pc-linux-gnu
 
 PROGS = worker_$(WORKER_RELEASE)
 
