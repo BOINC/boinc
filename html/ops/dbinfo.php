@@ -86,6 +86,7 @@ function get_db_info($db_name)
 	$i = 0;
 	$db_rec = array();
 	while($myarr = _mysql_fetch_assoc($result)) {
+        if ($myarr['Comment'] == 'VIEW') continue;
 
 		// sum grand totals
 		$total  =  $myarr["Data_length"] + $myarr["Index_length"];
@@ -202,9 +203,9 @@ function sort_db_info($db_name, $db_rec)
 	echo "<th><a href='dbinfo.php?sort=size_per_row&r=" . (!$r) . "'>Avg. Size per Row</a></th>";
 	echo "</tr>";
 
-	$i = 0;
-	while ( list($key, $value) = each($file_sort) ) {
+    foreach ($file_sort as $key=>$value) {
 		$value = $file_list[$key];
+
 		echo "<tr>";
 		echo "<td align=left valign=top class=fieldname>" . $value["name"] . "</td>";
 		echo "<td align=left valign=top class=fieldname>" . size_format($value["data_size"])  . "</td>";
@@ -213,7 +214,6 @@ function sort_db_info($db_name, $db_rec)
         echo "<td align=left valign=top class=fieldname>" . number_format($value["rows"])     . "</td>";
         echo "<td align=left valign=top class=fieldname>" . size_format($value["size_per_row"]) . "</td>";
 		echo "</tr>";
-		$i++;
 	}
 
 	// Last record is just a summary
