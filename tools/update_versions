@@ -181,10 +181,14 @@ function stage_file($a, $v, $p, $fd) {
     } else {
         $subdirs = dirname($name);
         if ($subdirs) {
-            echo 'mkdir -p '.$download_dir.'/'.$subdirs.PHP_EOL;
+            if ($verbose) {
+                echo 'mkdir -p '.$download_dir.'/'.$subdirs.PHP_EOL;
+            }
             system('mkdir -p '.$download_dir.'/'.$subdirs);
         }
-        echo("cp $path $dl_path\n");
+        if ($verbose) {
+            echo("cp $path $dl_path\n");
+        }
         system("cp $path $dl_path");
     }
 
@@ -232,7 +236,7 @@ function confirm_sig_gen($name) {
 
     IF YOUR PROJECT IS PUBLICLY ACCESSIBLE, THIS IS A SECURITY VULNERABILITY.
     PLEASE STOP YOUR PROJECT IMMEDIATELY AND READ:
-    https://boinc.berkeley.edu/trac/wiki/CodeSigning
+    https://github.com/BOINC/boinc/wiki/CodeSigning
 
     Continue (y/n)? ";
 
@@ -495,6 +499,7 @@ function process_version($a, $v, $p) {
     }
 
     if ($confirm) {
+        echo "Found new app version for: $a $v $p\n";
         if (!confirm_update($fds, $vers)) {
             return;
         }
