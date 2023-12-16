@@ -873,7 +873,7 @@ int VBOX_BASE::launch_vboxsvc() {
                     vboxsvc_pid_handle = pi.hProcess;
                     retval = BOINC_SUCCESS;
                 } else {
-                    vboxlog_msg("Status Report: Launching vboxsvc.exe failed!.");
+                    vboxlog_msg("Status Report: Launching vboxsvc.exe failed.");
                     vboxlog_msg("        Error: %s", windows_format_error_string(GetLastError(), buf, sizeof(buf)));
 #ifdef _DEBUG
                     vboxlog_msg("Vbox Version: '%s'", virtualbox_version_raw.c_str());
@@ -950,7 +950,7 @@ int VBOX_BASE::launch_vboxvm() {
     sa.lpSecurityDescriptor = &sd;
 
     if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
-        vboxlog_msg("CreatePipe failed! (%d).", GetLastError());
+        vboxlog_msg("CreatePipe failed (%d).", GetLastError());
         goto CLEANUP;
     }
     SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
@@ -977,7 +977,7 @@ int VBOX_BASE::launch_vboxvm() {
     )) {
 
         vboxlog_msg(
-            "Status Report: Launching virtualbox.exe/vboxheadless.exe failed!."
+            "Status Report: Launching virtualbox.exe/vboxheadless.exe failed."
         );
         vboxlog_msg(
             "        Error: %s (%d)",
@@ -991,7 +991,7 @@ int VBOX_BASE::launch_vboxvm() {
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
 
         // Copy stdout/stderr to output buffer,
-        // handle in the loop so that we can
+        // Handle in the loop so that we can
         // copy the pipe as it is populated
         // and prevent the child process from blocking
         // in case the output is bigger than pipe buffer.
@@ -1043,7 +1043,7 @@ CLEANUP:
     int pid = fork();
     if (-1 == pid) {
         vboxlog_msg(
-            "Status Report: Launching virtualbox/vboxheadless failed!."
+            "Status Report: Launching virtualbox/vboxheadless failed."
         );
         vboxlog_msg(
             "        Error: %s (%d)",
@@ -1176,8 +1176,7 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
             retry_count++;
             boinc_sleep(sleep_interval);
         }
-    }
-    while (retval);
+    } while (retval);
 
     // Add all relevant notes to the output string and log errors
     //
@@ -1193,7 +1192,6 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
             output.c_str()
         );
     }
-
     return retval;
 }
 
@@ -1240,7 +1238,7 @@ int VBOX_BASE::vbm_popen_raw(
     sa.lpSecurityDescriptor = &sd;
 
     if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
-        vboxlog_msg("CreatePipe failed! (%d).", GetLastError());
+        vboxlog_msg("CreatePipe failed (%d).", GetLastError());
         goto CLEANUP;
     }
     SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
@@ -1265,7 +1263,7 @@ int VBOX_BASE::vbm_popen_raw(
         &si,
         &pi
     )) {
-        vboxlog_msg("CreateProcess failed! (%d).", GetLastError());
+        vboxlog_msg("CreateProcess failed (%d).", GetLastError());
         goto CLEANUP;
     }
 
@@ -1278,7 +1276,7 @@ int VBOX_BASE::vbm_popen_raw(
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
 
         // Copy stdout/stderr to output buffer.
-        // handle in the loop so that we can copy the pipe as it is populated
+        // Handle in the loop so that we can copy the pipe as it is populated
         // and prevent the child process from blocking
         // in case the output is bigger than pipe buffer.
         //
@@ -1299,7 +1297,7 @@ int VBOX_BASE::vbm_popen_raw(
         // Timeout?
         if (ulExitTimeout >= (timeout * 1000)) {
             if (!TerminateProcess(pi.hProcess, EXIT_FAILURE)) {
-                vboxlog_msg("TerminateProcess failed! (%d).", GetLastError());
+                vboxlog_msg("TerminateProcess failed (%d).", GetLastError());
             }
             ulExitCode = 0;
             retval = ERR_TIMEOUT;
@@ -1330,11 +1328,8 @@ CLEANUP:
 
         // If something couldn't be found, just return ERR_FOPEN
         if (!retval) retval = ERR_FOPEN;
-
     }
-
 #else
-
     char buf[256];
     FILE* fp;
 
@@ -1344,7 +1339,7 @@ CLEANUP:
     // Execute command
     fp = popen(modified_command.c_str(), "r");
     if (fp == NULL) {
-        vboxlog_msg("vbm_popen popen failed! (%d).", errno);
+        vboxlog_msg("vbm_popen popen failed (%d).", errno);
         retval = ERR_FOPEN;
     } else {
         // Copy output to buffer
@@ -1376,7 +1371,6 @@ CLEANUP:
     if (output.find("RPC_S_SERVER_UNAVAILABLE") != string::npos) {
         retval = RPC_S_SERVER_UNAVAILABLE;
     }
-
     return retval;
 }
 
