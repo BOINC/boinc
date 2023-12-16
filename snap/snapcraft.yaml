@@ -44,6 +44,7 @@ slots:
 parts:
   boinc:
     build-packages:
+    - autopoint
     - libftgl-dev
     - freeglut3-dev
     - libnotify-dev
@@ -113,6 +114,8 @@ parts:
       pip install -U --user pip
       pip install --user ninja
       ninja --version
+
+      pip install --user jinja2
 
       export CFLAGS=-w
       export CMAKE_C_FLAGS=-w
