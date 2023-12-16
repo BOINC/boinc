@@ -65,9 +65,9 @@ function size_format($size){
 
 
 // returns the DB data structure as DB_REC
-function get_db_info($db_name)
-{
-	// Carl grabbed this from the mysql.com boards http://dev.mysql.com/doc/refman/5.0/en/show-table-status.html
+// see http://dev.mysql.com/doc/refman/5.0/en/show-table-status.html
+//
+function get_db_info($db_name) {
     $result = _mysql_query("SHOW TABLE STATUS FROM $db_name");
 
     // SQL output
@@ -85,7 +85,7 @@ function get_db_info($db_name)
 
 	$i = 0;
 	$db_rec = array();
-	while($myarr = _mysql_fetch_assoc($result)) {
+	while ($myarr = _mysql_fetch_assoc($result)) {
         if ($myarr['Comment'] == 'VIEW') continue;
 
 		// sum grand totals
@@ -95,20 +95,23 @@ function get_db_info($db_name)
 		$grows  += $myarr["Rows"];
 		$gtotal += $total;
 
-	    $db_rec[$i] = new DB_REC ($myarr["Name"], $myarr["Data_length"], $myarr["Index_length"], $total, $myarr["Rows"], $myarr["Avg_row_length"] );
+	    $db_rec[$i] = new DB_REC(
+            $myarr["Name"],
+            $myarr["Data_length"],
+            $myarr["Index_length"],
+            $total,
+            $myarr["Rows"],
+            $myarr["Avg_row_length"]
+        );
 		$i++;
 	}
-
     $db_rec[$i] = new DB_REC ("Total", $gdata, $gindex, $gtotal, $grows, "" );
-
 	return $db_rec;
 }
 
-
-// shows the plain db structure
-function show_db_info($db_name, $db_rec)
-{
-
+// show the DB structure
+//
+function show_db_info($db_name, $db_rec) {
 	echo "<table cols=6>";
 	echo "<tr>";
 	echo "<th colspan=6> Database $db_name </th>";
@@ -144,35 +147,32 @@ function show_db_info($db_name, $db_rec)
     echo "<th align=left>" . number_format($db_rec[$i]->rows)     . "</th>";
     echo "<th align=left></th>";
 	echo "</tr>";
-
     echo "</table>";
 }
 
-
-
-// NB: same as show_db_info but with sortable cloumns
-function sort_db_info($db_name, $db_rec)
-{
-	// sort
+// same as show_db_info but with sortable columns
+//
+function sort_db_info($db_name, $db_rec) {
 	$file_list = array();
     $file_sort = array();
 
 	$sort =  get_str("sort", true);
 	$r = get_str("r", true);
 
-	// check if its empty
-	if(empty($sort)) $sort = "name";
+	if (empty($sort)) $sort = "name";
 	// check for allowed keys
 	if ((strcmp($sort, "name")!=0) &&
 		(strcmp($sort, "data_size")!=0) &&
 		(strcmp($sort, "index_size")!=0) &&
 		(strcmp($sort, "total_size")!=0)  &&
 		(strcmp($sort, "rows")!=0) &&
-		(strcmp($sort, "size_per_row")!=0))
+		(strcmp($sort, "size_per_row")!=0)
+    ) {
 		$sort = "name";
-	if(empty($r)) $r=0;
+    }
+	if (empty($r)) $r=0;
 
-	for ($i = 0; $i < sizeof($db_rec)-1; $i++){
+	for ($i=0; $i < sizeof($db_rec)-1; $i++){
 		$file_details["name"]         = $db_rec[$i]->name;
 		$file_details["data_size"]    = $db_rec[$i]->data_size;
 		$file_details["index_size"]   = $db_rec[$i]->index_size;
@@ -185,9 +185,11 @@ function sort_db_info($db_name, $db_rec)
 		$file_sort[$i] = $key;
 	}
 
-	if($r)arsort($file_sort);
-    else  asort($file_sort);
-	// -- end sort
+	if ($r) {
+        arsort($file_sort);
+    } else {
+        asort($file_sort);
+    }
 
 	echo "<table cols=6>";
 	echo "<tr>";
@@ -216,7 +218,7 @@ function sort_db_info($db_name, $db_rec)
 		echo "</tr>";
 	}
 
-	// Last record is just a summary
+	// Last record is a summary
 	$i = sizeof($db_rec)-1;
 	echo "<tr>";
     echo "<th align=left>" . $db_rec[$i]->name . "</th>";
@@ -229,6 +231,5 @@ function sort_db_info($db_name, $db_rec)
 
     echo "</table>";
 }
-
 
 ?>
