@@ -147,6 +147,7 @@
         <name>windows_intelx86[sse3_win10]</name>
         <name>windows_intelx86[sse3_win7]</name>
         <name>windows_intelx86[sse3_winxp]</name>
+        <name>windows_x86_64[avx512_win10]</name>
         <name>windows_x86_64[avx_win10]</name>
         <name>windows_x86_64[avx_win7]</name>
         <name>windows_x86_64[avx_winxp]</name>
@@ -166,6 +167,7 @@
         <name>x86_64-apple-darwin[sse3]</name>
         <name>x86_64-apple-darwin[sse3_osx]</name>
         <name>x86_64-pc-freebsd</name>
+        <name>x86_64-pc-linux-gnu[avx512_linux]</name>
         <name>x86_64-pc-linux-gnu[avx_linux]</name>
         <name>x86_64-pc-linux-gnu[cuda102_linux]</name>
         <name>x86_64-pc-linux-gnu[cuda118_linux]</name>
@@ -324,8 +326,8 @@
         <name>x86_64-pc-linux-gnu[vbox64]</name>
         <name>x86_64-apple-darwin[vbox64]</name>
         <name>windows_x86_64[vbox64_theory]</name>
-        <name>x86_64-pc-linux-gnu[native_theory]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
+        <name>x86_64-pc-linux-gnu[native_theory]</name>
         <name>x86_64-apple-darwin[vbox64_theory]</name>
         <name>x86_64-pc-freebsd[vbox64_theory]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
