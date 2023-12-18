@@ -65,8 +65,8 @@ mingw_apps_vcpkg_list = [
     './samples/example_app/slide_show.exe',
     './samples/multi_thread/multi_thread.exe',
     './samples/sleeper/sleeper.exe',
-    './samples/worker/worker.exe',
-    './samples/wrapper/wrapper.exe',
+    './samples/worker/worker*.exe',
+    './samples/wrapper/wrapper*.exe',
     './samples/wrappture/wrappture_example.exe',
     './samples/wrappture/fermi.exe',
     './samples/sporadic/sporadic.exe'
