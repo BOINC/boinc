@@ -2,7 +2,7 @@
 ifdef ANDROID
   WRAPPER_RELEASE_SUFFIX =
 else
-  WRAPPER_RELEASE_SUFFIX = _$(WRAPPER_RELEASE)_x86_64-pc-linux-gnu
+  WRAPPER_RELEASE_SUFFIX = _$(WRAPPER_RELEASE_VERSION)_x86_64-pc-linux-gnu
 endif
 
 # Change the following to match your installation
