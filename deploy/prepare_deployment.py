@@ -239,12 +239,12 @@ logs_list = [
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
-    command = f'7z a -t7z -r -mx=9 {archive_path} {" ".join(files_list)}'
+    command = '7z a -t7z -r -mx=9 ' + archive_path + " ".join(files_list)
     os.system(command)
 
 def help():
     print('Usage: python preprare_deployment.py BOINC_TYPE')
-    print(f'BOINC_TYPE : [{" | ".join(boinc_types.keys())}]')
+    print('BOINC_TYPE : [' + " | ".join(boinc_types.keys()) + ']')
 
 def prepare_linux_client(target_directory):
     prepare_7z_archive('linux_client', target_directory, linux_client_list)
@@ -349,7 +349,7 @@ boinc_type = sys.argv[1]
 target_dir = 'deploy'
 
 if (boinc_type not in boinc_types):
-    print(f'Unknown BOINC_TYPE: {boinc_type}')
+    print('Unknown BOINC_TYPE: ' + boinc_type)
     help()
     sys.exit(1)
 
