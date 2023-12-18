@@ -272,14 +272,14 @@ jobs:
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_wrapper_${{ github.event.pull_request.head.sha }}
-          path: samples/wrapper/wrapper
+          path: samples/wrapper/wrapper*
 
       - name: Upload vboxwrapper artifacts
         uses: actions/upload-artifact@v1
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_vboxwrapper_${{ github.event.pull_request.head.sha }}
-          path: samples/vboxwrapper/vboxwrapper
+          path: samples/vboxwrapper/vboxwrapper*
 
   build-release-arm64:
     name: ${{ matrix.type }}-build-release
@@ -331,11 +331,4 @@ jobs:
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_wrapper_${{ github.event.pull_request.head.sha }}
-          path: samples/wrapper/wrapper
-
-      - name: Upload vboxwrapper artifacts
-        uses: actions/upload-artifact@v3
-        if: success()
-        with:
-          name: linux_release_${{ matrix.type }}_vboxwrapper_${{ github.event.pull_request.head.sha }}
-          path: samples/vboxwrapper/vboxwrapper
+          path: samples/wrapper/wrapper*
