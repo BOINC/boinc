@@ -2,6 +2,9 @@
 
 include $(top_srcdir)/Makefile.incl
 
+export WRAPPER_RELEASE=$(WRAPPER_RELEASE)
+export VBOXWRAPPER_RELEASE=$(VBOXWRAPPER_RELEASE)
+
 if BUILD_WITH_MINGW
     export BUILD_WITH_MINGW="yes"
 endif

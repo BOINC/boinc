@@ -216,7 +216,7 @@ jobs:
         run: |
           sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
           apt-get -qq update
-          apt-get install -y make build-essential m4 pkg-config autoconf libtool git libcurl4-openssl-dev
+          apt-get install -y make build-essential m4 pkg-config autoconf libtool git libcurl4-openssl-dev p7zip-full python3
 
       - name: Install dependencies for x64
         if: success() && matrix.type == 'apps'
@@ -260,26 +260,27 @@ jobs:
           ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --host=i686-linux-gnu
           make -j $(nproc --all)
 
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
       - name: Upload logs on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v1
         with:
           name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: config.log
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: success()
+        run: python3 ./deploy/prepare_deployment.py linux_apps
 
       - name: Upload wrapper artifacts
         uses: actions/upload-artifact@v1
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_wrapper_${{ github.event.pull_request.head.sha }}
-          path: samples/wrapper/wrapper*
-
-      - name: Upload vboxwrapper artifacts
-        uses: actions/upload-artifact@v1
-        if: success()
-        with:
-          name: linux_release_${{ matrix.type }}_vboxwrapper_${{ github.event.pull_request.head.sha }}
-          path: samples/vboxwrapper/vboxwrapper*
+          path: deploy/linux_apps.7z
 
   build-release-arm64:
     name: ${{ matrix.type }}-build-release
@@ -299,7 +300,7 @@ jobs:
       - name: Install dependencies for arm64
         if: success()
         run: |
-          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates p7zip-full python3
 
       - uses: actions/checkout@v3
         with:
@@ -319,16 +320,24 @@ jobs:
           ./linux/arm64/build_curl_arm64.sh
           ./linux/arm64/build_example_arm64.sh
 
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
       - name: Upload logs on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
           name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: config.log
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: success()
+        run: python3 ./deploy/prepare_deployment.py linux_apps
 
       - name: Upload wrapper artifacts
         uses: actions/upload-artifact@v3
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_wrapper_${{ github.event.pull_request.head.sha }}
-          path: samples/wrapper/wrapper*
+          path: deploy/linux_apps.7z
