@@ -9,6 +9,7 @@ MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
 CI="${CI:-no}"
 NPROC_USER="${NPROC_USER:-1}"
+RELEASE="${RELEASE:-no}"
 
 export CURL_VERSION=7.84.0
 export BUILD_DIR=${BUILD_DIR:-$PWD/3rdParty/linux-arm64}
@@ -39,6 +40,10 @@ if [ $CI = "yes" ]; then
     MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
 else
     MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
+if [ $RELEASE = "yes" ]; then
+    LDFLAGS="$LDFLAGS -s"
 fi
 
 if [ ! -e "${CURL_FLAGFILE}" ]; then
