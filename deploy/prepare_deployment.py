@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -37,9 +37,9 @@ linux_apps_list = [
     './samples/multi_thread/multi_thread',
     './samples/sleeper/sleeper',
     './samples/vboxmonitor/vboxmonitor',
-    './samples/vboxwrapper/vboxwrapper*_x86_64-pc-linux-gnu',
-    './samples/worker/worker',
-    './samples/wrapper/wrapper*_x86_64-pc-linux-gnu',
+    './samples/vboxwrapper/vboxwrapper*pc-linux-gnu',
+    './samples/worker/worker*pc-linux-gnu',
+    './samples/wrapper/wrapper*pc-linux-gnu',
     './samples/openclapp/openclapp',
     './samples/wrappture/wrappture_example',
     './samples/wrappture/fermi',

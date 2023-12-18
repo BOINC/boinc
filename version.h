@@ -26,6 +26,13 @@
 // mac?
 #define VBOXWRAPPER_RELEASE 26207
 
+// Release part of worker version number; must match
+// samples/worker/Makefile
+// win_build/worker.vcxproj
+// configure.ac
+// mac?
+#define WORKER_RELEASE 2
+
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.25.0"
 

@@ -3,7 +3,11 @@
 ifdef ANDROID
   VBOXWRAPPER_RELEASE_SUFFIX =
 else
-  VBOXWRAPPER_RELEASE_SUFFIX = _$(VBOXWRAPPER_RELEASE_VERSION)_x86_64-pc-linux-gnu
+  ifdef RELEASE_ARCH
+    VBOXWRAPPER_RELEASE_SUFFIX = _$(VBOXWRAPPER_RELEASE_VERSION)_$(RELEASE_ARCH)-pc-linux-gnu
+  else
+    VBOXWRAPPER_RELEASE_SUFFIX = _$(VBOXWRAPPER_RELEASE_VERSION)_x86_64-pc-linux-gnu
+  endif
 endif
 
 # Change the following to match your installation
