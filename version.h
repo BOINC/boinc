@@ -15,12 +15,14 @@
 // Release part of wrapper version number; must match
 // samples/wrapper/Makefile
 // win_build/wrapper.vcxproj
+// configure.ac
 // mac?
 #define WRAPPER_RELEASE 26018
 
 // Release part of vboxwrapper version number; must match
 // samples/vboxwrapper/Makefile
 // win_build/vboxwrapper.vcxproj
+// configure.ac
 // mac?
 #define VBOXWRAPPER_RELEASE 26207
 

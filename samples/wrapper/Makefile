@@ -1,6 +1,9 @@
 # This should work on Linux.  Modify as needed for other platforms.
-
-WRAPPER_RELEASE = 26018_x86_64-pc-linux-gnu
+ifdef ANDROID
+  WRAPPER_RELEASE_SUFFIX =
+else
+  WRAPPER_RELEASE_SUFFIX = _$(WRAPPER_RELEASE)_x86_64-pc-linux-gnu
+endif
 
 # Change the following to match your installation
 BOINC_DIR = ../..
@@ -35,7 +38,7 @@ CXXFLAGS += -g -O0 \
     -L$(BOINC_ZIP_DIR) \
     -L.
 
-PROGS = wrapper_$(WRAPPER_RELEASE)
+PROGS = wrapper$(WRAPPER_RELEASE_SUFFIX)
 
 all: $(PROGS)
 
@@ -58,5 +61,5 @@ REGEXP_OBJS = \
 	regexp_memory.o \
 	regexp_report.o
 
-wrapper_$(WRAPPER_RELEASE): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper_$(WRAPPER_RELEASE) wrapper.o $(REGEXP_OBJS) $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
+wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(REGEXP_OBJS) $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
