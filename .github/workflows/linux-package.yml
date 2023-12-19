@@ -18,7 +18,10 @@
 name: Linux Package
 on:
   push:
+    branches: [ 'master' ]
     tags: [ 'client_release/**' ]
+  pull_request:
+      branches: [ master ]
   schedule:
     - cron: '0 0 * * *'
 
@@ -29,6 +32,8 @@ concurrency:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  REPO_PRIV_KEY: ${{ secrets.REPO_PRIV_KEY }}
+  REPO_KEY: ${{ secrets.REPO_KEY }}
   AWS_DEFAULT_REGION: us-west-2
   PUBKEY: boinc.gpg # keep extension
   MANTAINER: Vitalii Koshura <lestat.de.lionkur@gmail.com>
@@ -67,13 +72,19 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get -qq update
-          apt-get install -y make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
+          apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-pip curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
 
       - name: Install aws cli tool
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           ./aws/install
+
+      - name: Update Python packages to build Manager
+        if: success() && matrix.type == 'manager'
+        run: |
+          pip3 install -U --user pip
+          pip3 install --user jinja2
 
       - name: Automake
         if: success()
@@ -115,7 +126,6 @@ jobs:
 
   build-deb-package:
     name: Build DEB Package
-    if: github.repository == 'BOINC/boinc'
     runs-on: ubuntu-latest
     needs: prepare-binaries
     strategy:
@@ -126,23 +136,13 @@ jobs:
     env:
       ARCH: amd64
     steps:
-      - name: Check if build is running from origin repo
-        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
-        run: |
-          echo "SKIP_RUN=0" >> $GITHUB_ENV
-
-      - name: Check if build is running from fork
-        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
-        run: |
-          echo "SKIP_RUN=1" >> $GITHUB_ENV
-
       - uses: actions/checkout@v3
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         with:
           fetch-depth: 2
 
       - name: Packages info preparation
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
           PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
           if [[ "x${PKG_VERSION}" == "x" ]]; then
@@ -166,21 +166,21 @@ jobs:
           echo "Key file: ${{ env.PUBKEY }}"
 
       - name: Download
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         uses: actions/download-artifact@v3
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
 
       - name: Prepare package
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
           ls -l pkgs/
           mkdir ${PKG_FULL}
           ${{ github.workspace }}/.github/workflows/debrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
 
       - name: Prepare package definition
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
           # Derive the package dependencies for the selected package / os / release combination selected
           cd ${{ github.workspace }}/.github/workflows/debrepo/
@@ -204,35 +204,34 @@ jobs:
           echo "------------------------"
 
       - name: Create Ubuntu Package
-        if: ${{ success() && env.SKIP_RUN == 0 && ( matrix.os == 'jammy' || matrix.os == 'focal') }}
+        if: ${{ success() && ( matrix.os == 'jammy' || matrix.os == 'focal') }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Ubuntu with XZ compression
           dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Create Debian Package
-        if: ${{ success() && env.SKIP_RUN == 0 && ( matrix.os == 'bullseye' || matrix.os == 'buster') }}
+        if: ${{ success() && ( matrix.os == 'bullseye' || matrix.os == 'buster') }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Debian with GZIP compression
           dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Get info from generated package
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
           # Get info from the generated package
           dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
           path: ${{ github.workspace }}/${{ env.PKG_FULL }}.deb
 
   build-rpm-package:
     name: Build RPM Package
-    if: github.repository == 'BOINC/boinc'
     runs-on: ubuntu-latest
     container:
       image: fedora:38
@@ -244,31 +243,23 @@ jobs:
       fail-fast: false
     env:
       ARCH: x86_64
+      PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
-      - name: Check if build is running from origin repo
-        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
-        run: |
-          echo "SKIP_RUN=0" >> $GITHUB_ENV
-
-      - name: Check if build is running from fork
-        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
-        run: |
-          echo "SKIP_RUN=1" >> $GITHUB_ENV
-
       - uses: actions/checkout@v3
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         with:
           fetch-depth: 2
 
       - name: DNF Preparation
         id: dnf-prep
+        if: success()
         run: |
           sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
           sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
           sudo dnf install -y wget rpm rpm-build rpm-sign expect createrepo_c dnf-utils jq p7zip-plugins
 
       - name: Packages info preparation
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
           PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
           if [[ "x${PKG_VERSION}" == "x" ]]; then
@@ -292,27 +283,50 @@ jobs:
           echo "Key file: ${{ env.PUBKEY }}"
 
       - name: Download
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         uses: actions/download-artifact@v3
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
 
       - name: Create RPM folder
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
           mkdir ${PKG_FULL}
           .github/workflows/rpmrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
 
       - name: Setup gpg keys
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
         run: |
-          echo "${{ secrets.REPO_PRIV_KEY }}" > boinc.priv.key
-          echo "${{ secrets.REPO_KEY }}" > boinc.pub.key
+          echo "${{ env.REPO_PRIV_KEY }}" > boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > boinc.pub.key
+          cp "boinc.pub.key" "${{ env.PUBKEY }}"
+
+      - name: Setup test gpg keys
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
+        run: |
+          gpg --batch --gen-key <<EOF
+          Key-Type: RSA
+          Key-Length: 2048
+          Subkey-Type: RSA
+          Subkey-Length: 2048
+          Name-Real: BOINC Test
+          Name-Comment: BOINC Test
+          Name-Email: boinc@test.com
+          Expire-Date: 0
+          %no-ask-passphrase
+          %no-protection
+          EOF
+          echo "List keys"
+          gpg --list-keys
+          echo "Export keys"
+          gpg --export --armor > boinc.pub.key
+          gpg --export-secret-keys --armor > boinc.priv.key
+          echo "PUBKEY_HASH=$(gpg --list-keys | grep -Eo '([0-9A-F]{40})')" >> $GITHUB_ENV
           cp "boinc.pub.key" "${{ env.PUBKEY }}"
 
       - name: Create RPM Definition
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
             # Derive the package dependencies for the selected package / os / release combination selected
             PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
@@ -353,7 +367,7 @@ jobs:
             echo "------------------------"
 
       - name: Build RPM Package
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         run: |
           export GPG_TTY=$(tty) # fixes gpg signing
 
@@ -390,7 +404,7 @@ jobs:
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ success() && env.SKIP_RUN == 0 }}
+        if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
           path: rpmbuild/RPMS/${{ env.ARCH }}/${{ env.PKG_FULL }}.rpm
@@ -406,12 +420,12 @@ jobs:
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
-        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
         run: |
           echo "SKIP_RUN=0" >> $GITHUB_ENV
 
       - name: Check if build is running from fork
-        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
@@ -433,8 +447,8 @@ jobs:
       - name: Setup GPG keys
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
-          echo "${{ secrets.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
-          echo "${{ secrets.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+          echo "${{ env.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
           cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
 
       - name: Download client
@@ -456,7 +470,7 @@ jobs:
           echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
 
       - name: Check if Release type is nightly
-        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' }}
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
         run: |
           RELEASE_TYPE=nightly
           echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
@@ -464,8 +478,7 @@ jobs:
       - name: Check if Release type is not set
         if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
         run: |
-          RELEASE_TYPE=nightly
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
 
       - name: Update or create the repository using aptly
         if: ${{ success() && env.SKIP_RUN == 0 }}
@@ -503,12 +516,12 @@ jobs:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
       - name: Check if build is running from origin repo
-        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
         run: |
           echo "SKIP_RUN=0" >> $GITHUB_ENV
 
       - name: Check if build is running from fork
-        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
@@ -519,6 +532,7 @@ jobs:
 
       - name: DNF Preparation
         id: dnf-prep
+        if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
           sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
           sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
@@ -527,8 +541,8 @@ jobs:
       - name: Setup GPG keys
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
-          echo "${{ secrets.REPO_PRIV_KEY }}" > boinc.priv.key
-          echo "${{ secrets.REPO_KEY }}" > boinc.pub.key
+          echo "${{ env.REPO_PRIV_KEY }}" > boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > boinc.pub.key
           cp "boinc.pub.key" "${{ env.PUBKEY }}"
           # keyring prepare
           gpg --import "boinc.pub.key"
@@ -555,7 +569,7 @@ jobs:
           echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
 
       - name: Check if Release type is nightly
-        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' }}
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
         run: |
           RELEASE_TYPE=nightly
           echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
@@ -563,8 +577,7 @@ jobs:
       - name: Check if Release type is not set
         if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
         run: |
-          RELEASE_TYPE=nightly
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
 
       - name: Update or create the repository
         if: ${{ success() && env.SKIP_RUN == 0 }}

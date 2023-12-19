@@ -40,7 +40,7 @@ PROGS = wrapper_$(WRAPPER_RELEASE)
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `$(CXX) -print-file-name=libstdc++.a`
+	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
 
 clean: distclean
 
