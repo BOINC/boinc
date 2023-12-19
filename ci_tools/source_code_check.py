@@ -90,6 +90,7 @@ exclude_extensions = [
     ".mo",
     ".nib",
     ".o",
+    ".odp",
     ".pdf",
     ".pdn",
     ".png",
