@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // BOINC VirtualBox wrapper; lets you run apps in VMs
-// see: https://github.com/BOINC/boinc/wiki/VboxApps
+// see https://github.com/BOINC/boinc/wiki/VboxApps
 //
 // usage: vboxwrapper [options]
 //
@@ -32,14 +32,8 @@
 //                  Useful for debugging; see the wiki page
 // --memory_size_mb How much memory (in MB) to give the VM. Overrides the
 //                  value in vbox_job.xml if its present.
-//
-// Handles:
-// - suspend/resume/quit/abort
-// - reporting CPU time
-// - loss of heartbeat from client
-// - checkpoint (using snapshots)
-// - a bunch of other stuff; see the wiki page
-//
+// --sporadic       This is a sporadic app; negotiate with client
+
 // Contributors:
 // Rom Walton
 // David Anderson
@@ -79,33 +73,41 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
+
 #include "floppyio.h"
 #include "vboxlogging.h"
 #include "vboxcheckpoint.h"
-#include "vboxwrapper.h"
 #include "vbox_common.h"
-
 #include "vbox_vboxmanage.h"
+
+#include "vboxwrapper.h"
 
 using std::vector;
 using std::string;
 
+APP_INIT_DATA aid;
+string slot_dir_path;
+string project_dir_path;
+string shared_dir;
+    // this is 'shared' if <enable_shared_directory/>,
+    // or '.' (i.e. the slot directory) if <shared_slot_dir/>.
+
 bool shared_file_exists(std::string& filename) {
     char path[MAXPATHLEN];
-    snprintf(path, sizeof(path), "shared/%s", filename.c_str());
-    if (filename.size() && boinc_file_exists(path)) return true;
-    return false;
+    if (filename.empty()) return false;
+    snprintf(path, sizeof(path), "%s/%s", shared_dir.c_str(), filename.c_str());
+    return boinc_file_exists(path);
 }
 
 void shared_delete_file(std::string& filename) {
     char path[MAXPATHLEN];
-    snprintf(path, sizeof(path), "shared/%s", filename.c_str());
+    snprintf(path, sizeof(path), "%s/%s", shared_dir.c_str(), filename.c_str());
     boinc_delete_file(path);
 }
 
 int shared_stat(std::string& filename, struct stat* stat_file) {
     char path[MAXPATHLEN];
-    snprintf(path, sizeof(path), "shared/%s", filename.c_str());
+    snprintf(path, sizeof(path), "%s/%s", shared_dir.c_str(), filename.c_str());
     return stat(path, stat_file);
 }
 
@@ -114,7 +116,9 @@ bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     char buf[256];
     double temp, frac = 0;
 
-    snprintf(path, sizeof(path), "shared/%s", vm.fraction_done_filename.c_str());
+    snprintf(path, sizeof(path), "%s/%s",
+        shared_dir.c_str(), vm.fraction_done_filename.c_str()
+    );
     FILE* f = fopen(path, "r");
     if (!f) return false;
 
@@ -149,16 +153,18 @@ void read_completion_file_info(
     exit_code = 0;
     message = "";
 
-    snprintf(path, sizeof(path), "shared/%s", vm.completion_trigger_file.c_str());
+    snprintf(path, sizeof(path), "%s/%s",
+        shared_dir.c_str(), vm.completion_trigger_file.c_str()
+    );
     FILE* f = fopen(path, "r");
     if (f) {
-        if (fgets(buf, 1024, f) != NULL) {
+        if (fgets(buf, sizeof(buf), f) != NULL) {
             exit_code = atoi(buf);
         }
-        if (fgets(buf, 1024, f) != NULL) {
+        if (fgets(buf, sizeof(buf), f) != NULL) {
             is_notice = atoi(buf) != 0;
         }
-        while (fgets(buf, 1024, f) != NULL) {
+        while (fgets(buf, sizeof(buf), f) != NULL) {
             message += buf;
         }
         fclose(f);
@@ -174,16 +180,18 @@ void read_temporary_exit_file_info(
     temp_delay = 0;
     message = "";
 
-    snprintf(path, sizeof(path), "shared/%s", vm.temporary_exit_trigger_file.c_str());
+    snprintf(path, sizeof(path), "%s/%s",
+        shared_dir.c_str(), vm.temporary_exit_trigger_file.c_str()
+    );
     FILE* f = fopen(path, "r");
     if (f) {
-        if (fgets(buf, 1024, f) != NULL) {
+        if (fgets(buf, sizeof(buf), f) != NULL) {
             temp_delay = atoi(buf);
         }
-        if (fgets(buf, 1024, f) != NULL) {
+        if (fgets(buf, sizeof(buf), f) != NULL) {
             is_notice = atoi(buf) != 0;
         }
-        while (fgets(buf, 1024, f) != NULL) {
+        while (fgets(buf, sizeof(buf), f) != NULL) {
             message += buf;
         }
         fclose(f);
@@ -192,7 +200,7 @@ void read_temporary_exit_file_info(
 
 // set CPU and network throttling if needed
 //
-void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
+void set_throttles(VBOX_VM& vm) {
     double x = 0, y = 0;
 
     // VirtualBox freaks out if the CPU Usage value is too low to actually
@@ -233,7 +241,7 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
 // data format to 'name=value\n' pairs.  So if we are running under their
 // environment set things up accordingly.
 //
-void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
+void set_floppy_image(VBOX_VM& vm) {
     int retval;
     char buf[256];
     std::string scratch;
@@ -299,7 +307,7 @@ void check_trickle_triggers(VBOX_VM& vm) {
     std::string text;
     for (unsigned int i=0; i<vm.trickle_trigger_files.size(); i++) {
         strcpy(filename, vm.trickle_trigger_files[i].c_str());
-        snprintf(path, sizeof(path), "shared/%s", filename);
+        snprintf(path, sizeof(path), "%s/%s", shared_dir.c_str(), filename);
         if (!boinc_file_exists(path)) continue;
         vboxlog_msg("Reporting a trickle. (%s)", filename);
         retval = read_file_string(path, text);
@@ -328,7 +336,7 @@ void check_intermediate_uploads(VBOX_VM& vm) {
     char filename[256], path[MAXPATHLEN];
     for (unsigned int i=0; i<vm.intermediate_upload_files.size(); i++) {
         strcpy(filename, vm.intermediate_upload_files[i].file.c_str());
-        snprintf(path, sizeof(path), "shared/%s", filename);
+        snprintf(path, sizeof(path), "%s/%s", shared_dir.c_str(), filename);
         if (!boinc_file_exists(path)) continue;
         if (!vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
             vboxlog_msg(
@@ -395,7 +403,6 @@ int main(int argc, char** argv) {
     int retval = 0;
     int loop_iteration = 0;
     BOINC_OPTIONS boinc_options;
-    APP_INIT_DATA aid;
     VBOX_CHECKPOINT checkpoint;
     VBOX_VM* pVM = NULL;
     double desired_checkpoint_interval = 0;
@@ -428,8 +435,8 @@ int main(int argc, char** argv) {
     int temp_delay = 86400;
     time_t last_heartbeat_mod_time = 0;
     string message;
-    string scratch_dir;
     char buf[256];
+    char path[MAXPATHLEN];
     bool is_sporadic = false;
     bool register_only = false;
 
@@ -483,12 +490,19 @@ int main(int argc, char** argv) {
 #endif
 #endif
 
-    // Prepare environment for detecting system conditions
-    //
+    // initialize globals
+
     boinc_parse_init_data_file();
     boinc_get_init_data(aid);
+    if (boinc_is_standalone()) {
+        project_dir_path = "project";
+    } else {
+        project_dir_path = aid.project_dir;
+    }
+    getcwd(path, sizeof(path));
+    slot_dir_path = path;
 
-    vboxlog_msg("Detected: BOINC client v%d.%d.%d",
+    vboxlog_msg("BOINC client version: %d.%d.%d",
         aid.major_version, aid.minor_version, aid.release
     );
 
@@ -532,7 +546,7 @@ int main(int argc, char** argv) {
 
     // Record if anonymous platform was used.
     //
-    if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
+    if (boinc_file_exists((project_dir_path + string("/app_info.xml")).c_str())) {
         vboxlog_msg("Detected: Anonymous Platform Enabled");
     }
 
@@ -583,24 +597,48 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
 
-    // Parse Job File
+    // parse vbox_job.xml
     //
     retval = pVM->parse();
     if (retval) {
-        vboxlog_msg("ERROR: Cannot parse job file: %d", retval);
+        vboxlog_msg("ERROR: Cannot parse vbox_job.xml: %d", retval);
         boinc_finish(retval);
     }
 
-    // Record what the minimum heartbeat interval is.
+    // check for illegal config combinations
     //
-    if (pVM->heartbeat_filename.size()) {
-        vboxlog_msg("Detected: Heartbeat check (file: '%s' every %f seconds)", pVM->heartbeat_filename.c_str(), pVM->minimum_heartbeat_interval);
+    if (pVM->share_slot_dir) {
+        if (pVM->enable_shared_directory) {
+            vboxlog_msg("ERROR: can't use both <enable_shared_directory> and <share_slot_dir> in vbox_job.xml");
+            boinc_finish(EXIT_INIT_FAILURE);
+        }
+        if (!pVM->copy_to_shared.empty()) {
+            vboxlog_msg("ERROR: can't use both <copy_to_shared> and <share_slot_dir> in vbox_job.xml");
+            boinc_finish(EXIT_INIT_FAILURE);
+        }
+    }
+    if (!pVM->copy_to_shared.empty() && !pVM->enable_shared_directory) {
+        vboxlog_msg("ERROR: <copy_to_shared> requires <enable_shared_directory> in vbox_job.xml");
+        boinc_finish(EXIT_INIT_FAILURE);
+    }
+    if (pVM->share_project_dir) {
+        if (pVM->enable_scratch_directory) {
+            vboxlog_msg("ERROR: can't use both <enable_scratchdirectory> and <share_project_dir> in vbox_job.xml");
+            boinc_finish(EXIT_INIT_FAILURE);
+        }
     }
 
-    // Validate whatever configuration options we can
+    // log heartbeat info
+    //
+    if (pVM->heartbeat_filename.size()) {
+        vboxlog_msg("Detected: Heartbeat check (file: '%s' every %f seconds)",
+            pVM->heartbeat_filename.c_str(), pVM->minimum_heartbeat_interval
+        );
+    }
+
+    // create shared dirs as needed
     //
     if (pVM->enable_shared_directory) {
-        pVM->get_scratch_directory(scratch_dir);
         if (boinc_file_exists("shared")) {
             if (!is_dir("shared")) {
                 vboxlog_msg("ERROR: 'shared' exists but is not a directory.");
@@ -611,20 +649,30 @@ int main(int argc, char** argv) {
                 vboxlog_msg("ERROR: couldn't create shared directory: %s.", boincerror(retval));
             }
         }
-        if (boinc_file_exists(scratch_dir.c_str())) {
-            if (!is_dir(scratch_dir.c_str())) {
+    }
+    if (pVM->enable_scratch_directory) {
+        snprintf(path, sizeof(path), "%s/scratch", project_dir_path.c_str());
+        if (boinc_file_exists(path)) {
+            if (!is_dir(path)) {
                 vboxlog_msg("ERROR: 'scratch' exists but is not a directory.");
             }
         } else {
-            retval = boinc_mkdir(scratch_dir.c_str());
+            retval = boinc_mkdir(path);
             if (retval) {
                 vboxlog_msg("ERROR: couldn't create scratch directory: %s.", boincerror(retval));
             }
         }
     }
 
+    if (pVM->enable_shared_directory) {
+        shared_dir = "shared";
+    }
+    if (pVM->share_slot_dir) {
+        shared_dir = ".";
+    }
+
     if (is_sporadic) {
-        retval = boinc_sporadic_dir("shared");
+        retval = boinc_sporadic_dir(shared_dir.c_str());
         if (retval) {
             vboxlog_msg("ERROR: couldn't create sporadic files: %s.", boincerror(retval));
             exit(1);
@@ -633,22 +681,21 @@ int main(int argc, char** argv) {
 
     // Copy files to the shared directory
     //
-    if (pVM->enable_shared_directory && pVM->copy_to_shared.size()) {
-        for (vector<string>::iterator iter = pVM->copy_to_shared.begin(); iter != pVM->copy_to_shared.end(); ++iter) {
-            string source = *iter;
-            string destination = string("shared/") + *iter;
-            if (!boinc_file_exists(destination.c_str())) {
-                if (!boinc_copy(source.c_str(), destination.c_str())) {
-                    vboxlog_msg("Successfully copied '%s' to the shared directory.", source.c_str());
-                } else {
-                    vboxlog_msg("Failed to copy '%s' to the shared directory.", source.c_str());
-                }
+    for (int i=0; i<pVM->copy_to_shared.size(); ++i) {
+        string source = pVM->copy_to_shared[i];
+        string destination = string("shared/") + source;
+        if (!boinc_file_exists(destination.c_str())) {
+            if (!boinc_copy(source.c_str(), destination.c_str())) {
+                vboxlog_msg("Successfully copied '%s' to the shared directory.", source.c_str());
+            } else {
+                vboxlog_msg("Failed to copy '%s' to the shared directory.", source.c_str());
             }
         }
     }
 
     if (pVM->copy_cmdline_to_shared) {
-        FILE* f = fopen("shared/cmdline", "wb");
+        snprintf(path, sizeof(path), "%s/%s", shared_dir.c_str(), "cmdline");
+        FILE* f = fopen(path, "wb");
         if (!f) {
             vboxlog_msg("Couldn't create shared/cmdline");
         } else {
@@ -668,11 +715,13 @@ int main(int argc, char** argv) {
         pVM->vm_master_description = "standalone";
         if (pVM->enable_floppyio) {
             snprintf(buf, sizeof(buf), "%s.%s",
-                    FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION
-                   );
+                FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION
+            );
             pVM->floppy_image_filename = buf;
         }
     } else {
+        // make a VM name based on result name
+        //
         pVM->vm_master_name += md5_string(std::string(aid.result_name)).substr(0, 16);
         pVM->vm_master_description = aid.result_name;
         if (vm_image) {
@@ -717,6 +766,13 @@ int main(int argc, char** argv) {
     //
     if (memory_size_mb) {
         pVM->memory_size_mb = memory_size_mb;
+    }
+
+    if (pVM->memory_size_mb < MIN_MEMORY_SIZE_MB) {
+        vboxlog_msg("Memory size %dMB is too small; setting to %dMB",
+            pVM->memory_size_mb, MIN_MEMORY_SIZE_MB
+        );
+        pVM->memory_size_mb = MIN_MEMORY_SIZE_MB;
     }
 
     if (aid.vbox_window && !aid.using_sandbox) {
@@ -889,7 +945,7 @@ int main(int argc, char** argv) {
         );
     }
 
-    set_floppy_image(aid, *pVM);
+    set_floppy_image(*pVM);
     report_web_graphics_url(*pVM);
     report_remote_desktop_info(*pVM);
     checkpoint.webapi_port = pVM->pf_host_port;
@@ -1228,8 +1284,8 @@ int main(int argc, char** argv) {
                 vboxlog_msg("Preference change detected");
 
                 boinc_parse_init_data_file();
-                boinc_get_init_data_p(&aid);
-                set_throttles(aid, *pVM);
+                boinc_get_init_data(aid);
+                set_throttles(*pVM);
 
                 desired_checkpoint_interval = aid.checkpoint_period;
                 if (pVM->minimum_checkpoint_interval > aid.checkpoint_period) {

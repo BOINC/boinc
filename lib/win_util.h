@@ -25,7 +25,7 @@ extern std::wstring boinc_ascii_to_wide(const std::string& str);
 extern std::string boinc_wide_to_ascii(const std::wstring& str);
 
 extern char* windows_format_error_string(
-    unsigned long dwError, char* pszBuf, int iSize
+    unsigned long dwError, char* pszBuf, int iSize ...
 );
 
 #endif

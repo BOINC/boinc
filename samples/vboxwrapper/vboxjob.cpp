@@ -113,6 +113,8 @@ void VBOX_JOB::clear() {
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_scratch_directory = false;
+    share_slot_dir = false;
+    share_project_dir = false;
     enable_floppyio = false;
     enable_cache_disk = false;
     enable_isocontextualization = false;
@@ -168,8 +170,11 @@ int VBOX_JOB::parse() {
         else if (xp.parse_string("os_name", os_name)) continue;
         else if (xp.parse_double("vram_size_mb", vram_size_mb)) {
             // keep it within the valid range
-            if (vram_size_mb < VBOX_VRAM_MIN) vram_size_mb = VBOX_VRAM_MIN;
-            else if (vram_size_mb > VBOX_VRAM_MAX) vram_size_mb = VBOX_VRAM_MAX;
+            if (vram_size_mb < VBOX_VRAM_MIN) {
+                vram_size_mb = VBOX_VRAM_MIN;
+            } else if (vram_size_mb > VBOX_VRAM_MAX) {
+                vram_size_mb = VBOX_VRAM_MAX;
+            }
             continue;
         }
         else if (xp.parse_double("memory_size_mb", memory_size_mb)) continue;
@@ -186,6 +191,8 @@ int VBOX_JOB::parse() {
         else if (xp.parse_bool("network_bridged_mode", network_bridged_mode)) continue;
         else if (xp.parse_bool("enable_shared_directory", enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_scratch_directory", enable_scratch_directory)) continue;
+        else if (xp.parse_bool("share_slot_dir", share_slot_dir)) continue;
+        else if (xp.parse_bool("share_project_dir", share_project_dir)) continue;
         else if (xp.parse_bool("enable_floppyio", enable_floppyio)) continue;
         else if (xp.parse_bool("enable_cache_disk", enable_cache_disk)) continue;
         else if (xp.parse_bool("enable_isocontextualization", enable_isocontextualization)) continue;

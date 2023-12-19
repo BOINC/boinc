@@ -16,20 +16,21 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // worker - application without BOINC runtime system;
-// used for testing wrapper.
+// used for testing wrappers.
 //
-// worker [--std_copy] [--file_copy] nsecs
+// worker [--nsecs N] infile outfile
 //
-// --std_copy: copy one line of stdin to stdout
-// --file_copy: copy one line of "in" to "out"
-// nsecs: use this much CPU time (default 10 sec)
+// copy infile to outfile, converting to uppercase
+// if infile is 'stdin', use stdin; same for stdout
+// --nsecs: use about N sec of CPU time
 //
-// THIS PROGRAM SHOULDN'T USE ANY BOINC CODE.  That's the whole point.
+// THIS PROGRAM CAN'T USE ANY BOINC CODE.  That's the whole point.
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 
 // do a billion floating-point ops
 // (note: I needed to add an arg to this;
@@ -46,52 +47,63 @@ static double do_a_giga_flop(int foo) {
     return x;
 }
 
+void copy_uc(FILE* fin, FILE* fout) {
+    int c;
+    while (1) {
+        c = fgetc(fin);
+        if (c == EOF) break;
+        fputc(toupper(c), fout);
+    }
+}
+
 int main(int argc, char** argv) {
-    char buf[256];
-    FILE* in, *out;
-    int i, nsec = 10;
-    bool std_copy = false, file_copy = false;
+    FILE* in=0, *out=0;
+    int i, nsecs = 0;
+    char c;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--std_copy")) {
-            std_copy = true;
+        if (!strcmp(argv[i], "--nsecs")) {
+            nsecs = atoi(argv[++i]);
         }
-        if (!strcmp(argv[i], "--file_copy")) {
-            file_copy = true;
-        }
-        nsec = atoi(argv[i]);
-    }
-
-    fprintf(stderr, "worker starting\n");
-
-    if (file_copy) {
-        in = fopen("in", "r");
         if (!in) {
-            fprintf(stderr, "missing input file\n");
-            exit(1);
+            if (!strcmp(argv[i], "stdin")) {
+                in = stdin;
+            } else {
+                in = fopen(argv[i], "r");
+                if (!in) {
+                    fprintf(stderr, "missing input file\n");
+                    exit(1);
+                }
+            }
+        } else {
+            if (!strcmp(argv[i], "stdout")) {
+                out = stdout;
+            } else {
+                out = fopen(argv[i], "w");
+                if (!out) {
+                    fprintf(stderr, "missing output file\n");
+                    exit(1);
+                }
+            }
         }
-        out = fopen("out", "w");
-        if (!out) {
-            fprintf(stderr, "can't open output file\n");
-            exit(1);
-        }
-        fgets(buf, 256, in);
-        fputs(buf, out);
+    }
+    if (!in || !out) {
+        fprintf(stderr, "worker: no files specified\n");
+        exit(1);
     }
 
-    if (std_copy) {
-        fgets(buf, 256, stdin);
-        fputs(buf, stdout);
-    }
+    fprintf(stderr, "worker: starting\n");
+
+    copy_uc(in, out);
 
     int start = (int)time(0);
 
     i=0;
-    while (time(0) < start+nsec) {
+    while (time(0) < start+nsecs) {
         do_a_giga_flop(i++);
     }
 
-    fputs("done!\n", stdout);
+    fprintf(stderr, "worker: done\n");
     return 0;
 }
 

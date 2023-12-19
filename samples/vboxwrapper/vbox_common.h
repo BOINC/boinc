@@ -93,9 +93,7 @@
 #define REPLAYLOG_FILENAME "vbox_replay.txt"
 #define TRACELOG_FILENAME "vbox_trace.txt"
 
-extern bool is_boinc_client_version_newer(
-    APP_INIT_DATA& aid, int maj, int min, int rel
-);
+extern bool is_boinc_client_version_newer(int maj, int min, int rel);
 
 // represents a VirtualBox Guest Log Timestamp
 //
@@ -192,11 +190,9 @@ struct VBOX_BASE : VBOX_JOB {
     bool is_virtualbox_version_newer(int maj, int min, int rel);
 
     static int get_install_directory(string& dir);
-    static int get_scratch_directory(string& dir);
     static int get_version_information(
         string& version_raw, string& version_display
     );
-    int get_slot_directory(string& dir);
     int get_system_log(
         string& log, bool tail_only = true, unsigned int buffer_size = 8192
     );
