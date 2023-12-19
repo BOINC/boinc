@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -37,9 +37,9 @@ linux_apps_list = [
     './samples/multi_thread/multi_thread',
     './samples/sleeper/sleeper',
     './samples/vboxmonitor/vboxmonitor',
-    './samples/vboxwrapper/vboxwrapper',
-    './samples/worker/worker',
-    './samples/wrapper/wrapper',
+    './samples/vboxwrapper/vboxwrapper*pc-linux-gnu',
+    './samples/worker/worker*pc-linux-gnu',
+    './samples/wrapper/wrapper*pc-linux-gnu',
     './samples/openclapp/openclapp',
     './samples/wrappture/wrappture_example',
     './samples/wrappture/fermi',
@@ -65,8 +65,8 @@ mingw_apps_vcpkg_list = [
     './samples/example_app/slide_show.exe',
     './samples/multi_thread/multi_thread.exe',
     './samples/sleeper/sleeper.exe',
-    './samples/worker/worker.exe',
-    './samples/wrapper/wrapper.exe',
+    './samples/worker/worker*.exe',
+    './samples/wrapper/wrapper*.exe',
     './samples/wrappture/wrappture_example.exe',
     './samples/wrappture/fermi.exe',
     './samples/sporadic/sporadic.exe'
@@ -239,12 +239,12 @@ logs_list = [
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
-    command = f'7z a -t7z -r -mx=9 {archive_path} {" ".join(files_list)}'
+    command = '7z a -t7z -r -mx=9 ' + archive_path + ' ' + " ".join(files_list)
     os.system(command)
 
 def help():
     print('Usage: python preprare_deployment.py BOINC_TYPE')
-    print(f'BOINC_TYPE : [{" | ".join(boinc_types.keys())}]')
+    print('BOINC_TYPE : [' + " | ".join(boinc_types.keys()) + ']')
 
 def prepare_linux_client(target_directory):
     prepare_7z_archive('linux_client', target_directory, linux_client_list)
@@ -349,7 +349,7 @@ boinc_type = sys.argv[1]
 target_dir = 'deploy'
 
 if (boinc_type not in boinc_types):
-    print(f'Unknown BOINC_TYPE: {boinc_type}')
+    print('Unknown BOINC_TYPE: ' + boinc_type)
     help()
     sys.exit(1)
 

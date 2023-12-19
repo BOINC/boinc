@@ -91,18 +91,10 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>worker_windows_x86_64</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <TargetName>worker_windows_x86_64</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>worker_windows_x86_64</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <TargetName>worker_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">worker_2_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">worker_2_windows_arm64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">worker_2_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">worker_2_windows_arm64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>

@@ -15,14 +15,23 @@
 // Release part of wrapper version number; must match
 // samples/wrapper/Makefile
 // win_build/wrapper.vcxproj
+// configure.ac
 // mac?
 #define WRAPPER_RELEASE 26018
 
 // Release part of vboxwrapper version number; must match
 // samples/vboxwrapper/Makefile
 // win_build/vboxwrapper.vcxproj
+// configure.ac
 // mac?
 #define VBOXWRAPPER_RELEASE 26207
+
+// Release part of worker version number; must match
+// samples/worker/Makefile
+// win_build/worker.vcxproj
+// configure.ac
+// mac?
+#define WORKER_RELEASE 2
 
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.25.0"
