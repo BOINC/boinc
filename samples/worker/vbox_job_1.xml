@@ -1,0 +1,7 @@
+<vbox_job>
+    <memory_size_mb>512</memory_size_mb>
+    <os_name>Linux26_64</os_name>
+    <share_slot_dir/>
+    <share_project_dir/>
+    <multiattach_vdi_file>vm_image_x64_1.vdi</multiattach_vdi_file>
+</vbox_job>
