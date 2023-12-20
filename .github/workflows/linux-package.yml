@@ -409,11 +409,207 @@ jobs:
           name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
           path: rpmbuild/RPMS/${{ env.ARCH }}/${{ env.PKG_FULL }}.rpm
 
+  test-debian-deb-package:
+    name: Test Debian DEB Package
+    runs-on: ubuntu-latest
+    container:
+      image: debian:${{ matrix.os }}
+    needs: build-deb-package
+    strategy:
+      matrix:
+        os: [bullseye, buster]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y python3
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
+          apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_tests/integration_tests.py
+
+  test-ubuntu-deb-package:
+    name: Test Ubuntu DEB Package
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:${{ matrix.os }}
+    needs: build-deb-package
+    strategy:
+      matrix:
+        os: [jammy, focal]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y python3
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
+          apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_tests/integration_tests.py
+
+  test-fedora-rpm-package:
+    name: Test Fedora RPM Package
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:${{ matrix.os }}
+    needs: build-rpm-package
+    strategy:
+      matrix:
+        os: [37, 38]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: success()
+        run: |
+          dnf install -y python3
+
+      - name: Get OS name
+        if: success()
+        run: |
+          if [[ "${{ matrix.os }}" == "37" ]]; then
+            OS="fc37"
+          elif [[ "${{ matrix.os }}" == "38" ]]; then
+            OS="fc38"
+          fi
+          echo "OS=${OS}" >> $GITHUB_ENV
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_client_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_manager_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager
+        if: success()
+        run: |
+          yum localinstall -y $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
+          yum localinstall -y $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_tests/integration_tests.py
+
+  test-opensuse-rpm-package:
+    name: Test openSUSE RPM Package
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/leap:${{ matrix.os }}
+    needs: build-rpm-package
+    strategy:
+      matrix:
+        os: [15.4, 15.5]
+      fail-fast: false
+    steps:
+      - name: Install dependencies
+        if: success()
+        run: |
+          zypper install -y python3 tar gzip
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Get OS name
+        if: success()
+        run: |
+          if [[ "${{ matrix.os }}" == "15.4" ]]; then
+            OS="suse15_4"
+          elif [[ "${{ matrix.os }}" == "15.5" ]]; then
+            OS="suse15_5"
+          fi
+          echo "OS=${OS}" >> $GITHUB_ENV
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_client_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-package_manager_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager
+        if: success()
+        run: |
+          zypper --no-gpg-checks install -y $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
+          zypper --no-gpg-checks install -y $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_tests/integration_tests.py
+
   publish-deb-package:
     name: Publish DEB Package
     if: github.repository == 'BOINC/boinc'
     runs-on: ubuntu-latest
-    needs: build-deb-package
+    needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
         os: [jammy, focal, bullseye, buster]
@@ -506,7 +702,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: fedora:38
-    needs: build-rpm-package
+    needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
         os: [fc38, fc37, suse15_5, suse15_4]
