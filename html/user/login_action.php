@@ -160,9 +160,11 @@ if ($id && $t && $h) {
 }
 
 $next_url = post_str("next_url", true);
-$next_url = urldecode($next_url);
-$next_url = sanitize_local_url($next_url);
-if (strlen($next_url) == 0) {
+if ($next_url) {
+    $next_url = urldecode($next_url);
+    $next_url = sanitize_local_url($next_url);
+}
+if (!$next_url) {
     $next_url = USER_HOME;
 }
 
@@ -183,7 +185,10 @@ if ($authenticator) {
     exit;
 }
 
-$email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));
+$email_addr = post_str("email_addr", true);
+if ($email_addr) {
+    $email_addr = strtolower(sanitize_tags($email_addr));
+}
 $passwd = post_str("passwd", true);
 if ($email_addr && $passwd) {
     if (LDAP_HOST && !is_valid_email_addr($email_addr)) {

@@ -228,11 +228,12 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			wxPiePart part;
             part.SetLabel(_("no projects: 0 bytes used"));
 			part.SetValue(1);
-			part.SetColour(wxColour(0,0,0));
+			part.SetColour(isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0));
 			m_pieCtrlBOINC->m_Series.Add(part);
 			m_pieCtrlBOINC->Refresh();
 			m_BOINCwasEmpty=true;
 			refreshBOINC=true;
+			project_total = 0;
         }
 	}
 

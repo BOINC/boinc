@@ -779,7 +779,7 @@ int ACTIVE_TASK::start(bool test) {
                 break;
             } else {
                 last_error = GetLastError();
-                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg), exec_path);
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Process creation failed: %s - error code %d (0x%x)",
                     error_msg, last_error, last_error
@@ -813,7 +813,7 @@ int ACTIVE_TASK::start(bool test) {
                 break;
             } else {
                 last_error = GetLastError();
-                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg), exec_path);
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Process creation failed: %s - error code %d (0x%x)",
                     error_msg, last_error, last_error

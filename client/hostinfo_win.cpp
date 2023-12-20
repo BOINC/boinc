@@ -194,6 +194,21 @@
 #ifndef PRODUCT_ENTERPRISE_S_N_EVALUATION
 #define PRODUCT_ENTERPRISE_S_N_EVALUATION           0x00000082
 #endif
+#ifndef PRODUCT_IOTENTERPRISE
+#define PRODUCT_IOTENTERPRISE                       0x000000BC
+#endif
+#ifndef PRODUCT_IOTENTERPRISES
+#define PRODUCT_IOTENTERPRISES                      0x000000BF
+#endif
+#ifndef PRODUCT_AZURESTACKHCI_SERVER_CORE
+#define PRODUCT_AZURESTACKHCI_SERVER_CORE           0x00000196
+#endif
+#ifndef PRODUCT_DATACENTER_SERVER_AZURE_EDITION
+#define PRODUCT_DATACENTER_SERVER_AZURE_EDITION     0x00000197
+#endif
+#ifndef PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION
+#define PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION 0x00000198
+#endif
 
 
 // new Architecture(s)
@@ -367,7 +382,9 @@ int get_os_information(
                         strlcat(os_name, "Windows 10", os_name_size);
                     }
                 } else {
-                    if ( osvi.dwBuildNumber >= 20348 ) {
+                    if (osvi.dwBuildNumber >= 25398) {
+                        strlcat(os_name, "Windows Server 23H2", os_name_size);
+                    } else if (osvi.dwBuildNumber >= 20348) {
                         strlcat(os_name, "Windows Server 2022", os_name_size);
                     } else if ( osvi.dwBuildNumber >= 17623) {
                         strlcat(os_name, "Windows Server 2019", os_name_size);
@@ -559,6 +576,12 @@ int get_os_information(
                             case PRODUCT_HOME_PREMIUM_N:
                                 safe_strcat(szSKU, "Home Premium N ");
                                 break;
+                            case PRODUCT_IOTENTERPRISE:
+                                safe_strcat(szSKU, "IoT Enterprise ");
+                                break;
+                            case PRODUCT_IOTENTERPRISES:
+                                safe_strcat(szSKU, "IoT Enterprise LTSC ");
+                                break;
                             case PRODUCT_IOTUAP:
                                 safe_strcat(szSKU, "Internet of Things ");
                                 break;
@@ -657,6 +680,9 @@ int get_os_information(
                             case PRODUCT_ARM64_SERVER:
                                 safe_strcat(szSKU, "ARM64 Server ");
                                 break;
+                            case PRODUCT_AZURESTACKHCI_SERVER_CORE:
+                                safe_strcat(szSKU, "Azure Stack HCI ");
+                                break;
                             case PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER:
                                 safe_strcat(szSKU, "Cloud Host Infrastructure Server ");
                                 break;
@@ -681,8 +707,14 @@ int get_os_information(
                             case PRODUCT_DATACENTER_SERVER:
                                 safe_strcat(szSKU, "Datacenter ");
                                 break;
+                            case PRODUCT_DATACENTER_SERVER_AZURE_EDITION:
+                                safe_strcat(szSKU, "Datacenter Azure ");
+                                break;
                             case PRODUCT_DATACENTER_SERVER_CORE:
                                 safe_strcat(szSKU, "Datacenter (core installation) ");
+                                break;
+                            case PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION:
+                                safe_strcat(szSKU, "Datacenter Azuure (core installation) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER_CORE_V:
                                 safe_strcat(szSKU, "Datacenter (core installation without Hyper-V) ");
@@ -1307,6 +1339,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_edx & (1 << 29)), "tm ");
 
     FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 1)), "pclmulqdq ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
@@ -1328,6 +1361,24 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
     if (is_avx_supported() && struc_ext_supported) {
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 16)), "avx512f ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 17)), "avx512dq ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 19)), "adx ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 21)), "avx512ifma ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 26)), "avx512pf ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 27)), "avx512er ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 28)), "avx512cd ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 30)), "avx512bw ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 31)), "avx512vl ");
+
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 1)), "avx512vbmi ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 6)), "avx512_vbmi2 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 8)), "gfni ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 9)), "vaes ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 10)), "vpclmulqdq ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 11)), "avx512_vnni ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 12)), "avx512_bitalg ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 14)), "avx512_vpopcntdq ");
     }
 
     if (intel_supported) {

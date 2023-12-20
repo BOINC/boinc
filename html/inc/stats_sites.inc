@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,11 +23,6 @@ $cpid_stats_sites = array(
     array("Free-DC",
         "http://stats.free-dc.org/stats.php?page=userbycpid&amp;cpid=%s"
     ),
-/* is not importing fresh data from projects since November 2015
-    array("BOINC all Project Stats",
-        "http://www.allprojectstats.com/showuser.php?id=%s"
-    ),
-*/
     array("BOINCstats",
         "http://boincstats.com/en/stats/-1/user/detail/%s"
     ),
@@ -43,13 +38,6 @@ $stats_sites = array(
         "(Team ranking based on position within projects,
         as in Formula 1 racing, rather than total points)"
     ),
-/* is not importing fresh data from projects since November 2015
-    array(
-        "http://www.allprojectstats.com/",
-        "BOINC All Project Stats",
-        ""
-    ),
-*/
     array(
         "http://stats.free-dc.org",
         "Free-DC",
@@ -109,14 +97,6 @@ $team_stats_sites = array(
 // The following sites generate signature images based on user CPID
 //
 $sig_sites = array(
-//    array(
-//        "http://brainsmashr.com/BOINC/",
-//        "BrainSmashR.com boincwapstats",
-//        "Boincwapstats retrieves real-time BOINC statistics data
-//        and creates signature pictures out of it.
-//        You can select the background, style, data, etc.
-//        It's PHP and open source, so you can run it on your own server."
-//    ),
     array(
         "http://www.boincuk.com/show3.php",
         "BOINC UK",
@@ -126,24 +106,10 @@ $sig_sites = array(
         "http://boinc.mundayweb.com",
         "(User-configurable stats counters. Cool!)"
     ),
-    //array("http://www.bigbee.be/comp/boinc/",
-    //    "boinc.be",
-    //    ""
-    //),
     array("http://boincstats.com/page/faq.php#3",
         "BOINCstats",
         "by Willy de Zutter"
     ),
-    array(
-        "http://www.allprojectstats.com/signature.php",
-        "BOINC All Project Stats",
-        "(Signature files for both users and teams)"
-    ),
-//    array(
-//        "http://www.unitedboinc.com/news-sig/",
-//        "United BOINC",
-//        "(Images showing the latest news from your choice of projects)"
-//    ),
 );
 
 // the following sites generate cross-project team stats based on CPID

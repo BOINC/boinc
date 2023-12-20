@@ -9,6 +9,7 @@ CONFIGURE="yes"
 VERBOSE="${VERBOSE:-no}"
 CI="${CI:-no}"
 NPROC_USER="${NPROC_USER:-1}"
+RELEASE="${RELEASE:-no}"
 
 export BUILD_DIR=${BUILD_DIR:-$PWD/3rdParty/linux-arm64}
 
@@ -27,7 +28,6 @@ export LD=aarch64-linux-gnu-ld
 export CFLAGS="--sysroot=$TCSYSROOT -I$TCINCLUDES/include -march=armv8-a -O3 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
 export CXXFLAGS="--sysroot=$TCSYSROOT -I$TCINCLUDES/include -march=armv8-a -O3 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -march=armv8-a -latomic -static-libstdc++"
-# export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -march=armv8-a -latomic -static-libstdc++ -lz"
 
 CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
 CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
@@ -45,6 +45,10 @@ if [ $CI = "yes" ]; then
     MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
 else
     MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
+if [ $RELEASE = "yes" ]; then
+    LDFLAGS="$LDFLAGS -s"
 fi
 
 if [ -n "$COMPILEBOINC" ]; then

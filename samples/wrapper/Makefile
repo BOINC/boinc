@@ -1,4 +1,13 @@
 # This should work on Linux.  Modify as needed for other platforms.
+ifdef ANDROID
+  WRAPPER_RELEASE_SUFFIX =
+else
+  ifdef RELEASE_ARCH
+    WRAPPER_RELEASE_SUFFIX = _$(WRAPPER_RELEASE_VERSION)_$(RELEASE_ARCH)-pc-linux-gnu
+  else
+    WRAPPER_RELEASE_SUFFIX = _$(WRAPPER_RELEASE_VERSION)_x86_64-pc-linux-gnu
+  endif
+endif
 
 # Change the following to match your installation
 BOINC_DIR = ../..
@@ -33,12 +42,12 @@ CXXFLAGS += -g -O0 \
     -L$(BOINC_ZIP_DIR) \
     -L.
 
-PROGS = wrapper
+PROGS = wrapper$(WRAPPER_RELEASE_SUFFIX)
 
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `$(CXX) -print-file-name=libstdc++.a`
+	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
 
 clean: distclean
 
@@ -56,5 +65,5 @@ REGEXP_OBJS = \
 	regexp_memory.o \
 	regexp_report.o
 
-wrapper: wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
+wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(REGEXP_OBJS) $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
