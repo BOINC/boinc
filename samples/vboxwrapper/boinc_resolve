@@ -1,0 +1,3 @@
+#! /bin/sh
+
+sed 's/<soft_link>..\/..\/projects\///; s/[^\/]*\//\/root\/project\//; s/<\/soft_link>//' $1 | tr -d '\r\n'
