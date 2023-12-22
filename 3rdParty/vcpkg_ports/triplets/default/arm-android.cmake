@@ -19,3 +19,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
 include(${VCPKG_ROOT}/triplets/community/arm-android.cmake)
 
 set(VCPKG_CMAKE_SYSTEM_VERSION android-16)
+
+set(VCPKG_CXX_FLAGS -DNO_RECVMMSG)
+set(VCPKG_C_FLAGS -DNO_RECVMMSG)

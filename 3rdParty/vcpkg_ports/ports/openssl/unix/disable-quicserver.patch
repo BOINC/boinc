@@ -1,0 +1,15 @@
+diff --git a/util/build.info b/util/build.info
+index cf06f15ae4..aad7c50fee 100644
+--- a/util/build.info
++++ b/util/build.info
+@@ -5,10 +5,3 @@ ENDIF
+ SCRIPTS{noinst}=wrap.pl
+ SOURCE[wrap.pl]=wrap.pl.in
+ DEPEND[wrap.pl]=../configdata.pm
+-
+-IF[{- !$disabled{quic} && !$disabled{stdio} -}]
+-  PROGRAMS{noinst}=quicserver
+-  SOURCE[quicserver]=quicserver.c
+-INCLUDE[quicserver]=../include ../apps/include
+-DEPEND[quicserver]=../libcrypto.a ../libssl.a
+-ENDIF

@@ -43,6 +43,7 @@ exclude_dirs = [
     os.path.join(directory, "3rdParty", "buildCache"),
     os.path.join(directory, "3rdParty", "linux"),
     os.path.join(directory, "3rdParty", "Windows"),
+    os.path.join(directory, "3rdParty", "vcpkg_ports", "ports"),
     os.path.join(directory, "android", "BOINC", ".gradle"),
     os.path.join(directory, "android", "BOINC", "app", "build"),
     os.path.join(directory, "android", "BOINC", "app", "src", "main", "assets"),
