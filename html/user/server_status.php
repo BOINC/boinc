@@ -113,57 +113,57 @@ function show_status_html($x) {
     $daemons = $x->daemons;
     start_table();
     echo "<tr><td>\n";
-            echo "
-                 <h3>".tra("Server status")."</h3>
-            ";
-            start_table('table-striped');
-            table_header(tra("Program"), tra("Host"), tra("Status"));
-            foreach ($daemons->local_daemons as $d) {
-                daemon_html($d);
-            }
-            foreach ($daemons->remote_daemons as $d) {
-                daemon_html($d);
-            }
-            foreach ($daemons->disabled_daemons as $d) {
-                daemon_html($d);
-            }
-            end_table();
+    echo "
+         <h3>".tra("Server status")."</h3>
+    ";
+    start_table('table-striped');
+    table_header(tra("Program"), tra("Host"), tra("Status"));
+    foreach ($daemons->local_daemons as $d) {
+        daemon_html($d);
+    }
+    foreach ($daemons->remote_daemons as $d) {
+        daemon_html($d);
+    }
+    foreach ($daemons->disabled_daemons as $d) {
+        daemon_html($d);
+    }
+    end_table();
 
-            if ($daemons->cached_time) {
-                echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
-            }
-            if ($daemons->missing_remote_status) {
-                echo "<br>Status of remote daemons is missing\n";
-            }
-            if (function_exists('server_status_project_info')) {
-                echo "<br>";
-                server_status_project_info();
-            }
+    if ($daemons->cached_time) {
+        echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
+    }
+    if ($daemons->missing_remote_status) {
+        echo "<br>Status of remote daemons is missing\n";
+    }
+    if (function_exists('server_status_project_info')) {
+        echo "<br>";
+        server_status_project_info();
+    }
     echo "</td><td>\n";
-            echo "<h3>".tra("Computing status")."</h3>\n";
-            echo "<h4>".tra("Work")."</h4>\n";
-            start_table('table-striped');
-            item_html("Tasks ready to send", $j->results_ready_to_send);
-            item_html("Tasks in progress", $j->results_in_progress);
-            item_html("Workunits waiting for validation", $j->wus_need_validate);
-            item_html("Workunits waiting for assimilation", $j->wus_need_assimilate);
-            item_html("Workunits waiting for file deletion", $j->wus_need_file_delete);
-            item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
-            item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
-            end_table();
-            echo "<h4>".tra("Users")."</h4>\n";
-            start_table('table-striped');
-            item_html("With credit", $j->users_with_credit);
-            item_html("With recent credit", $j->users_with_recent_credit);
-            item_html("Registered in past 24 hours", $j->users_past_24_hours);
-            end_table();
-            echo "<h4>".tra("Computers")."</h4>\n";
-            start_table('table-striped');
-            item_html("With credit", $j->hosts_with_credit);
-            item_html("With recent credit", $j->hosts_with_recent_credit);
-            item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
-            item_html("Current GigaFLOPS", round($j->flops, 2));
-            end_table();
+    echo "<h3>".tra("Computing status")."</h3>\n";
+    echo "<h4>".tra("Work")."</h4>\n";
+    start_table('table-striped');
+    item_html("Tasks ready to send", $j->results_ready_to_send);
+    item_html("Tasks in progress", $j->results_in_progress);
+    item_html("Workunits waiting for validation", $j->wus_need_validate);
+    item_html("Workunits waiting for assimilation", $j->wus_need_assimilate);
+    item_html("Workunits waiting for file deletion", $j->wus_need_file_delete);
+    item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
+    item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
+    end_table();
+    echo "<h4>".tra("Users")."</h4>\n";
+    start_table('table-striped');
+    item_html("With credit", $j->users_with_credit);
+    item_html("With recent credit", $j->users_with_recent_credit);
+    item_html("Registered in past 24 hours", $j->users_past_24_hours);
+    end_table();
+    echo "<h4>".tra("Computers")."</h4>\n";
+    start_table('table-striped');
+    item_html("With credit", $j->hosts_with_credit);
+    item_html("With recent credit", $j->hosts_with_recent_credit);
+    item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
+    item_html("Current GigaFLOPS", round($j->flops, 2));
+    end_table();
     echo "</td></tr>\n";
     end_table();
     echo "<h3>".tra("Tasks by application")."</h3>\n";
@@ -426,7 +426,12 @@ function get_job_status() {
             AND received_time > (unix_timestamp()-86400)
             "
         );
-        $app->info = $info;
+        // $info fields will be null if app has no results
+        if ($info->avg) {
+            $app->info = $info;
+        } else {
+            $app->info = null;
+        }
         $app->unsent = BoincResult::count("appid=$app->id and server_state=2");
         $app->in_progress = BoincResult::count("appid=$app->id and server_state=4");
     }

@@ -443,17 +443,17 @@ function time_diff($x, $res=3) {
 
 function date_str($x) {
     if ($x == 0) return "---";
-    return gmdate('j M Y', $x);
+    return gmdate('j M Y', (int)$x);
 }
 
 function time_str($x) {
     if ($x == 0) return "---";
-    return gmdate('j M Y, G:i:s', $x) . " UTC";
+    return gmdate('j M Y, G:i:s', (int)$x) . " UTC";
 }
 
 function local_time_str($x) {
     if ($x == 0) return "---";
-    return date('j M Y, H:i T', $x);
+    return date('j M Y, H:i T', (int)$x);
 }
 
 function pretty_time_str($x) {
@@ -1034,13 +1034,10 @@ function sanitize_tags($x) {
 }
 
 function sanitize_numeric($x) {
-    if (is_numeric($x)) {
-        return $x;
-    } else if (trim($x) == '' ) {
+    if (!$x || !is_numeric($x)) {
         return '';
-    } else {
-        return "not numeric";
     }
+    return $x;
 }
 
 function sanitize_email($x) {

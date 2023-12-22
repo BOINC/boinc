@@ -143,6 +143,7 @@ class BoincDb extends DbConn {
     }
 
     static function escape_string($string) {
+        if (!$string) return '';
         $db = self::get();
         return $db->base_escape_string(trim($string));
     }

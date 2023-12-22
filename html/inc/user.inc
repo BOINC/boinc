@@ -249,11 +249,9 @@ function show_user_info_private($user) {
         }
         row2(tra("Email address"), $email_text);
     }
-    if (USER_URL) {
-        if ($user->url) {
-            $u = normalize_user_url($user->url);
-            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
-        }
+    if (USER_URL && $user->url) {
+        $u = normalize_user_url($user->url);
+        row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
     }
     if (USER_COUNTRY) {
         row2(tra("Country"), $user->country);
@@ -461,14 +459,12 @@ function show_user_summary_public($user) {
     if (USER_COUNTRY) {
         row2(tra("Country"), $user->country);
     }
-    if (USER_URL) {
+    if (USER_URL && $user->url) {
         // don't show URL if user has no recent credit (spam suppression)
         //
-        if ($user->url) {
-            if (!NO_COMPUTING || $user->expavg_credit > 1) {
-                $u = normalize_user_url($user->url);
-                row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
-            }
+        if (!NO_COMPUTING || $user->expavg_credit > 1) {
+            $u = normalize_user_url($user->url);
+            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
         }
     }
     if (!NO_COMPUTING) {
