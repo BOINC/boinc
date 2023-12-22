@@ -16,7 +16,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // A sample assimilator that:
-// 1) if success, copy the output file(s) to a directory
+// 1) if success, copy the output file(s) to a directory ('sample_results')
+//      If 1 output file, its name is the WU name
+//      If >1 files, file i is named wuname_i
 // 2) if failure, append a message to an error log
 
 #include <vector>
