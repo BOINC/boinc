@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Handler for an RPC (used by account managers)
+// to change attributes of an account.
+// This probably shouldn't exist.
+
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
@@ -27,6 +31,7 @@ require_once("../inc/user_util.inc");
 // for now, just make sure it has the given start and end tags,
 // and at least one \n in the middle.
 // Ideally, we'd like to check that it's valid XML
+// WHY NOT USE simplexml_load_string()??
 //
 function bad_xml($text, $start, $end) {
     $text = trim($text);
@@ -129,19 +134,27 @@ $send_email = BoincDb::escape_string($send_email);
 $show_hosts = BoincDb::escape_string($show_hosts);
 $venue = BoincDb::escape_string($venue);
 $send_changed_email_to_user = false;
-$email_addr = strtolower($email_addr);
+if ($email_addr) {
+    $email_addr = strtolower($email_addr);
+}
 if ($email_addr && $email_addr != $user->email_addr) {
+    // is addr already in use?
+    //
     $tmpuser = BoincUser::lookup_email_addr($email_addr);
     if ($tmpuser) {
         xml_error(ERR_DB_NOT_UNIQUE, "There's already an account with that email address.");
     }
 
-    //check if the email address is included in previous_email_addr window.
+    // did another account use this addr previously?
+    // WHY CHECK THIS???
     //
     $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
     if ($tmpuser) {
         xml_error(ERR_DB_NOT_UNIQUE, "Email address is already in use");
     }
+
+    // see if email addr was changed too recently
+    //
     if ($user->email_addr_change_time + 604800 > time()) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change is incorrect.");
     }
