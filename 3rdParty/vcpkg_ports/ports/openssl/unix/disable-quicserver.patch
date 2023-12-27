@@ -1,40 +1,5 @@
-diff --git a/Configure b/Configure
-index cca1ac8d16..f1d51b34a2 100755
---- a/Configure
-+++ b/Configure
-@@ -95,6 +95,7 @@ EOF
- #               library and will be loaded at run-time by the OpenSSL library.
- # sctp          include SCTP support
- # no-quic       disable QUIC support
-+# no-quicserver disable building "quicserver" utility
- # no-uplink     Don't build support for UPLINK interface.
- # enable-weak-ssl-ciphers
- #               Enable weak ciphers that are disabled by default.
-@@ -484,6 +485,7 @@ my @disablables = (
-     "posix-io",
-     "psk",
-     "quic",
-+    "quicserver",
-     "rc2",
-     "rc4",
-     "rc5",
-diff --git a/INSTALL.md b/INSTALL.md
-index 37b57027f4..a1c00ccd1a 100644
---- a/INSTALL.md
-+++ b/INSTALL.md
-@@ -979,6 +979,10 @@ Build with support for TCP Fast Open (RFC7413). Supported on Linux, macOS and Fr
- 
- Don't build with QUIC support.
- 
-+### no-quicserver
-+
-+Don't build QUIC server utility.
-+
- ### no-threads
- 
- Don't build with support for multi-threaded applications.
 diff --git a/util/build.info b/util/build.info
-index cf06f15ae4..f5b87869a1 100644
+index cf06f15ae4f0e..e4aab44b38038 100644
 --- a/util/build.info
 +++ b/util/build.info
 @@ -6,9 +6,9 @@ SCRIPTS{noinst}=wrap.pl
@@ -42,7 +7,7 @@ index cf06f15ae4..f5b87869a1 100644
  DEPEND[wrap.pl]=../configdata.pm
  
 -IF[{- !$disabled{quic} && !$disabled{stdio} -}]
-+IF[{- !$disabled{quic} && !$disabled{stdio} && !$disabled{quicserver} -}]
++IF[{- !$disabled{quic} && !$disabled{stdio} && !$disabled{apps} -}]
    PROGRAMS{noinst}=quicserver
    SOURCE[quicserver]=quicserver.c
 -INCLUDE[quicserver]=../include ../apps/include

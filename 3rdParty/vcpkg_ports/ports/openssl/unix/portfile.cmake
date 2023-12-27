@@ -100,10 +100,6 @@ else()
     message(FATAL_ERROR "Unknown platform")
 endif()
 
-vcpkg_list(APPEND CONFIGURE_OPTIONS
-    no-quicserver
-)
-
 file(MAKE_DIRECTORY "${SOURCE_PATH}/vcpkg")
 file(COPY "${CMAKE_CURRENT_LIST_DIR}/configure" DESTINATION "${SOURCE_PATH}/vcpkg")
 vcpkg_configure_make(
