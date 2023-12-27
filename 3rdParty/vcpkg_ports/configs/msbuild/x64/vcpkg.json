@@ -7,7 +7,11 @@
           "features": ["schannel"],
           "default-features": false
         },
-        "openssl",
+        {
+          "name": "openssl",
+          "features": ["ssl3", "weak-ssl-ciphers"],
+          "default-features": false
+        },
         "rappture",
         {
           "name": "wxwidgets",
