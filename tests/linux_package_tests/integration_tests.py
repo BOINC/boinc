@@ -1,13 +1,20 @@
+import os
 import sys
 import testset
 
+def get_test_file_path(filename):
+    return os.popen("which " + filename).read()
+
+def test_files_exist():
+    ts = testset.TestSet("Test Files Exist")
+    ts.expect_equal("/usr/local/bin/boinc", get_test_file_path("boinc"), "Test 'boinc' file location")
+    ts.expect_equal("/usr/local/bin/boinccmd", get_test_file_path("boinccmd"), "Test 'boinccmd' file location")
+    return ts.result()
+
 def main():
-    test_set = testset.TestSet("TestSet")
-    test_set.expect_true(True, "True")
-    test_set.expect_false(False, "False")
-    test_set.expect_equal(1, 1, "Equal")
-    test_set.expect_not_equal(1, 2, "Not Equal")
-    return test_set.result()
+    result = True
+    result &= test_files_exist()
+    return result
 
 if __name__ == "__main__":
     if not main():
