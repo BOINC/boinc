@@ -26,7 +26,7 @@ case "$1_$2" in
 /etc/bash_completion.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
-/usr/bin/*
+/usr/local/bin/*
 /usr/lib/*
 """
     ;;
@@ -37,13 +37,13 @@ case "$1_$2" in
 /etc/bash_completion.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
-/usr/bin/*
+/usr/local/bin/*
 /usr/lib/*
 """
     ;;
 
 "fc38_linux_manager")
-    echo """/usr/bin/*
+    echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
 /usr/share/locale/boinc/*
@@ -51,7 +51,7 @@ case "$1_$2" in
 """
     ;;
 "fc37_linux_manager")
-    echo """/usr/bin/*
+    echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
 /usr/share/locale/boinc/*
@@ -67,7 +67,7 @@ case "$1_$2" in
 /etc/bash_completion.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
-/usr/bin/*
+/usr/local/bin/*
 /usr/lib/*
 """
     ;;
@@ -78,13 +78,13 @@ case "$1_$2" in
 /etc/bash_completion.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
-/usr/bin/*
+/usr/local/bin/*
 /usr/lib/*
 """
     ;;
 
 "suse15_5_linux_manager")
-    echo """/usr/bin/*
+    echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
 /usr/share/locale/boinc/*
@@ -92,7 +92,7 @@ case "$1_$2" in
 """
     ;;
 "suse15_4_linux_manager")
-    echo """/usr/bin/*
+    echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
 /usr/share/locale/boinc/*
