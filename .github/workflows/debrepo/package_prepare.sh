@@ -33,7 +33,7 @@ function exit_usage() {
 
 function prepare_client() {
     # prepare dir structure
-    mkdir -p usr/bin
+    mkdir -p usr/local/bin
     exit_on_fail
     mkdir -p etc/boinc-client etc/default etc/init.d
     exit_on_fail
@@ -45,7 +45,7 @@ function prepare_client() {
     exit_on_fail
 
     # copy files and directories
-    mv boinc boinccmd usr/bin/
+    mv boinc boinccmd usr/local/bin/
     exit_on_fail
     mv boinc-client.service usr/lib/systemd/system/
     exit_on_fail
@@ -61,13 +61,13 @@ function prepare_client() {
 
 function prepare_manager() {
     # prepare dir structure
-    mkdir -p usr/bin
+    mkdir -p usr/local/bin
     exit_on_fail
     mkdir -p usr/share/applications usr/share/boinc-manager usr/share/icons/boinc usr/share/locale/boinc
     exit_on_fail
 
     # copy files and directories
-    mv boincmgr usr/bin/
+    mv boincmgr usr/local/bin/
     exit_on_fail
     mv boinc.desktop usr/share/applications/
     exit_on_fail

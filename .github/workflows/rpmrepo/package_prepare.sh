@@ -40,7 +40,7 @@ RPM_BUILDROOT=$ROOT/rpmbuild/BUILD
 
 function prepare_client() {
     # prepare dir structure
-    mkdir -p $RPM_BUILDROOT/usr/bin
+    mkdir -p $RPM_BUILDROOT/usr/local/bin
     exit_on_fail
     mkdir -p $RPM_BUILDROOT/etc/boinc-client $RPM_BUILDROOT/etc/default $RPM_BUILDROOT/etc/init.d
     exit_on_fail
@@ -52,7 +52,7 @@ function prepare_client() {
     exit_on_fail
 
     # copy files and directories
-    mv boinc boinccmd $RPM_BUILDROOT/usr/bin/
+    mv boinc boinccmd $RPM_BUILDROOT/usr/local/bin/
     exit_on_fail
     mv boinc-client.service $RPM_BUILDROOT/usr/lib/systemd/system/
     exit_on_fail
@@ -68,13 +68,13 @@ function prepare_client() {
 
 function prepare_manager() {
     # prepare dir structure
-    mkdir -p $RPM_BUILDROOT/usr/bin
+    mkdir -p $RPM_BUILDROOT/usr/local/bin
     exit_on_fail
     mkdir -p $RPM_BUILDROOT/usr/share/applications $RPM_BUILDROOT/usr/share/boinc-manager $RPM_BUILDROOT/usr/share/icons/boinc $RPM_BUILDROOT/usr/share/locale/boinc
     exit_on_fail
 
     # copy files and directories
-    mv boincmgr $RPM_BUILDROOT/usr/bin/
+    mv boincmgr $RPM_BUILDROOT/usr/local/bin/
     exit_on_fail
     mv boinc.desktop $RPM_BUILDROOT/usr/share/applications/
     exit_on_fail
