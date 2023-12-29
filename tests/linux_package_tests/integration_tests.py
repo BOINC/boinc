@@ -3,7 +3,7 @@ import sys
 import testset
 
 def get_test_file_path(filename):
-    return os.popen("which " + filename).read()
+    return os.popen("which " + filename).read().strip()
 
 def test_files_exist():
     ts = testset.TestSet("Test Files Exist")

@@ -23,13 +23,6 @@ class TestSet:
         self._print_success_report(test_name)
         return True
 
-    def assert_true(self, condition, test_name):
-        if not condition:
-            self.failed += 1
-            print(("Failed [{test_name}]: expected True, got False").format(test_name=test_name))
-            raise AssertionError
-        self._print_success_report(test_name)
-
     def expect_false(self, condition, test_name):
         if condition:
             self.failed += 1
@@ -38,40 +31,19 @@ class TestSet:
         self._print_success_report(test_name)
         return True
 
-    def assert_false(self, condition, test_name):
-        if condition:
+    def expect_equal(self, expected, actual, test_name):
+        if expected != actual:
             self.failed += 1
-            print(("Failed [{test_name}]: expected False, got True").format(test_name=test_name))
-            raise AssertionError
-        self._print_success_report(test_name)
-
-    def expect_equal(self, a, b, test_name):
-        if a != b:
-            self.failed += 1
-            print(("Failed [{test_name}]: expected [{a}] == [{b}]").format(test_name=test_name, a=a, b=b))
+            print(("Failed [{test_name}]: expected [{expected}], got [{actual}]").format(test_name=test_name, expected=expected, actual=actual))
             return False
         self._print_success_report(test_name)
         return True
-
-    def assert_equal(self, a, b, test_name):
-        if a != b:
-            self.failed += 1
-            print(("Failed [{test_name}]: expected [{a}] == [{b}]").format(test_name=test_name, a=a, b=b))
-            raise AssertionError
-        self._print_success_report(test_name)
 
     def expect_not_equal(self, a, b, test_name):
         if a == b:
             self.failed += 1
             print(("Failed [{test_name}]: expected {a} != {b}").format(test_name=test_name, a=a, b=b))
             return False
-        self._print_success_report(test_name)
-
-    def assert_not_equal(self, a, b, test_name):
-        if a == b:
-            self.failed += 1
-            print(("Failed [{test_name}]: expected {a} != {b}").format(test_name=test_name, a=a, b=b))
-            raise AssertionError
         self._print_success_report(test_name)
 
     def _print_success_report(self, test_name):
