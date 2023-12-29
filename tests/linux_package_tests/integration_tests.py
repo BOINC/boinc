@@ -3,7 +3,11 @@ import sys
 import testset
 
 def get_test_executable_file_path(filename):
-    return os.popen("which " + filename).read().strip()
+    path = os.popen("echo $PATH").read().strip()
+    for p in path.split(":"):
+        if os.path.exists(os.path.join(p, filename)):
+            return os.path.join(p, filename)
+    return ""
 
 def test_files_exist():
     ts = testset.TestSet("Test Files Exist")
