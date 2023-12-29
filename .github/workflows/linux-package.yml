@@ -92,11 +92,11 @@ jobs:
 
       - name: Configure client
         if: success() && matrix.type == 'client'
-        run: linux/ci_configure_client.sh
+        run: linux/ci_configure_client.sh --exec_prefix "/usr/local"
 
       - name: Configure manager
         if: success() && matrix.type == 'manager'
-        run: linux/ci_configure_manager.sh
+        run: linux/ci_configure_manager.sh --exec_prefix "/usr/local"
 
       - name: Make
         if: success()
