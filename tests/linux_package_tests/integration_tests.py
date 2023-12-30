@@ -19,8 +19,14 @@ def get_current_version_number():
                 return res[1]
     return ""
 
+def get_version_from_string(string):
+    res = re.search("([\d]+.[\d]+.[\d]+)", string)
+    if res is not None:
+        return res[1]
+    return ""
+
 def get_file_version(filename):
-    return os.popen(("{app} --version").format(app=get_test_executable_file_path(filename))).read().strip()
+    return get_version_from_string(os.popen(("{app} --version").format(app=get_test_executable_file_path(filename))).read().strip())
 
 def test_files_exist():
     ts = testset.TestSet("Test files exist")
