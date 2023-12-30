@@ -41,7 +41,7 @@ def test_version():
     ts.expect_not_equal("", current_version, "Test current version could be read from the 'version.h' file")
     ts.expect_equal(current_version, get_file_version("boinc"), "Test 'boinc' version is correctly set")
     ts.expect_equal(current_version, get_file_version("boinccmd"), "Test 'boinccmd' version is correctly set")
-    return ts.result
+    return ts.result()
 
 def main():
     result = True
