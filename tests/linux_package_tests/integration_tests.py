@@ -29,10 +29,10 @@ def get_file_version(filename):
     return get_version_from_string(os.popen(("{app} --version").format(app=get_test_executable_file_path(filename))).read().strip())
 
 def get_user_exists(username):
-    return os.popen("id -u {username}".format(username=username)).read().strip() != ""
+    return os.popen("id -un {username}".format(username=username)).read().strip() == username
 
 def get_group_exists(groupname):
-    return os.popen("id -g {groupname}".format(groupname=groupname)).read().strip() != ""
+    return os.popen("getent group {groupname}".format(groupname=groupname)).read().strip() != ""
 
 def get_user_in_group(username, groupname):
     return os.popen("id -Gn {username}".format(username=username)).read().strip().find(groupname) != -1
