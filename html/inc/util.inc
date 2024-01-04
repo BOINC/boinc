@@ -414,30 +414,30 @@ function error_page($msg) {
     exit();
 }
 
-// takes argument in second and returns a human formatted time string
-// in the form D days + h Hours + m Min + s sec.
+// convert time interval in seconds to a string of the form
+// 'D days h hours m min s sec'.
 
 function time_diff($x, $res=3) {
+    $x = (int)$x;
     $days    = (int)($x/86400);
     $hours   = (int)(($x-$days*86400)/3600);
     $minutes = (int)(($x-$days*86400-$hours*3600)/60);
-    $seconds = (int)($x % 60);
+    $seconds = $x % 60;
 
-    $datestring = "";
+    $s = "";
     if ($days) {
-        $datestring .= "$days ".tra("days")." ";
+        $s .= "$days ".tra("days")." ";
     }
-    if ($res>0 && ($hours || strlen($datestring))) {
-        $datestring .= "$hours ".tra("hours")." ";
+    if ($res>0 && ($hours || strlen($s))) {
+        $s .= "$hours ".tra("hours")." ";
     }
-    if ($res>1 && ($minutes || strlen($datestring))) {
-        $datestring .= "$minutes ".tra("min")." ";
+    if ($res>1 && ($minutes || strlen($s))) {
+        $s .= "$minutes ".tra("min")." ";
     }
-    if ($res>2 && ($seconds)) {
-        $datestring .= "$seconds ".tra("sec")." ";
+    if ($res>2) {
+        $s .= "$seconds ".tra("sec")." ";
     }
-
-    return $datestring;
+    return $s;
 }
 
 
@@ -1019,6 +1019,7 @@ function get_app_types() {
 // "next_url" arguments (must be local, not full URLs)
 //
 function sanitize_local_url($x) {
+    if (!$x) return $x;
     $x = trim($x, "/");
     if (strstr($x, "/")) return "";
     if (strstr($x, "<")) return "";
