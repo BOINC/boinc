@@ -24,7 +24,7 @@
   <string name="attachproject_error_no_pwd">Molimo unesite lozinku</string>
   <string name="attachproject_error_no_name">Molimo unesite korisničko ime</string>
   <string name="attachproject_error_bad_username">Korisničko ime odbijeno</string>
-  <string name="attachproject_error_email_in_use">eMail je već u upotrebi</string>
+  <string name="attachproject_error_email_in_use">Email adresa je već u upotrebi</string>
   <string name="attachproject_error_project_down">Projekt je offline</string>
   <string name="attachproject_error_bad_pwd">Lozinka odbijena</string>
   <string name="attachproject_error_invalid_url">Neispravan URL</string>

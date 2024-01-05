@@ -65,7 +65,7 @@
     <string name="attachproject_login_header_description">Description:</string>
     <string name="attachproject_login_header_home">Home:</string>
     <string name="attachproject_login_header_url">Website:</string>
-    <string name="attachproject_login_header_id_email">eMail:</string>
+    <string name="attachproject_login_header_id_email">Email address:</string>
     <string name="attachproject_login_header_id_name">Name:</string>
     <string name="attachproject_login_header_pwd">Password:</string>
     <string name="attachproject_login_button_registration">Register</string>
@@ -84,14 +84,14 @@
     <string name="attachproject_error_short_pwd">Password too short</string>
     <string name="attachproject_error_no_internet">Connection failure</string>
     <string name="attachproject_error_no_url">Please enter URL</string>
-    <string name="attachproject_error_no_email">Please enter eMail address</string>
+    <string name="attachproject_error_no_email">Please enter Email address</string>
     <string name="attachproject_error_no_pwd">Please enter a password</string>
     <string name="attachproject_error_no_name">Please enter user name</string>
     <string name="attachproject_error_unknown">failed</string>
     <string name="attachproject_error_bad_username">User name refused</string>
-    <string name="attachproject_error_email_in_use">eMail is already in use</string>
+    <string name="attachproject_error_email_in_use">Email address is already in use</string>
     <string name="attachproject_error_project_down">Project is offline</string>
-    <string name="attachproject_error_email_bad_syntax">eMail refused</string>
+    <string name="attachproject_error_email_bad_syntax">Email address refused</string>
     <string name="attachproject_error_bad_pwd">Password refused</string>
     <string name="attachproject_error_creation_disabled">Account creation is disabled on this project</string>
     <string name="attachproject_error_invalid_url">Invalid URL</string>

@@ -45,7 +45,7 @@
   <string name="attachproject_login_header_description">Deskripsi:</string>
   <string name="attachproject_login_header_home">Beranda:</string>
   <string name="attachproject_login_header_url">Website:</string>
-  <string name="attachproject_login_header_id_email">eMail:</string>
+  <string name="attachproject_login_header_id_email">Alamat email:</string>
   <string name="attachproject_login_header_id_name">Nama:</string>
   <string name="attachproject_login_header_pwd">Kata Sandi:</string>
   <!--account manager-->

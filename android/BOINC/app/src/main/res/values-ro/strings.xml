@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Descriere:</string>
   <string name="attachproject_login_header_home">Acasă:</string>
   <string name="attachproject_login_header_url">Site web:</string>
-  <string name="attachproject_login_header_id_email">eMail:</string>
+  <string name="attachproject_login_header_id_email">Adresa de e-mail:</string>
   <string name="attachproject_login_header_id_name">Nume:</string>
   <string name="attachproject_login_header_pwd">Parolă:</string>
   <string name="attachproject_login_button_registration">Înregistrează</string>
