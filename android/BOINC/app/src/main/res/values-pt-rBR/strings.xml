@@ -46,7 +46,7 @@
   <string name="attachproject_login_header_description">Descrição:</string>
   <string name="attachproject_login_header_home">Local:</string>
   <string name="attachproject_login_header_url">Website:</string>
-  <string name="attachproject_login_header_id_email">Endereço de email:</string>
+  <string name="attachproject_login_header_id_email">eMail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Senha:</string>
   <string name="attachproject_login_button_registration">Registrar-se</string>
@@ -63,7 +63,7 @@
   <string name="attachproject_error_short_pwd">Senha muito curta</string>
   <string name="attachproject_error_no_internet">Falha na conexão</string>
   <string name="attachproject_error_no_url">Por favor, insira o URL</string>
-  <string name="attachproject_error_no_email">Por favor, digite o endereço de email</string>
+  <string name="attachproject_error_no_email">Por favor, digite o endereço de eMail</string>
   <string name="attachproject_error_no_pwd">Por favor, digite uma senha</string>
   <string name="attachproject_error_no_name">Por favor, digite o nome de usuário</string>
   <string name="attachproject_error_unknown">falha</string>

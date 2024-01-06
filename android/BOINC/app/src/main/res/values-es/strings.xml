@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Descripción:</string>
   <string name="attachproject_login_header_home">Inicio:</string>
   <string name="attachproject_login_header_url">Web:</string>
-  <string name="attachproject_login_header_id_email">Correo electrónico:</string>
+  <string name="attachproject_login_header_id_email">eMail:</string>
   <string name="attachproject_login_header_id_name">Nombre:</string>
   <string name="attachproject_login_header_pwd">Contraseña:</string>
   <string name="attachproject_login_button_registration">Registrarse:</string>
@@ -66,14 +66,14 @@
   <string name="attachproject_error_short_pwd">Contraseña muy corta</string>
   <string name="attachproject_error_no_internet">Fallo de conexión</string>
   <string name="attachproject_error_no_url">Introduzca la URL</string>
-  <string name="attachproject_error_no_email">Introduzca su Correo electrónico</string>
+  <string name="attachproject_error_no_email">Introduzca su eMail</string>
   <string name="attachproject_error_no_pwd">Introduzca una contraseña</string>
   <string name="attachproject_error_no_name">Introduzca su usuario</string>
   <string name="attachproject_error_unknown">falló</string>
   <string name="attachproject_error_bad_username">Usuario rechazado</string>
-  <string name="attachproject_error_email_in_use">El correo electrónico ya está en uso</string>
+  <string name="attachproject_error_email_in_use">El eMail ya está en uso</string>
   <string name="attachproject_error_project_down">El proyecto está offline</string>
-  <string name="attachproject_error_email_bad_syntax">Correo electrónico rechazado</string>
+  <string name="attachproject_error_email_bad_syntax">eMail rechazado</string>
   <string name="attachproject_error_bad_pwd">Contraseña rechazada</string>
   <string name="attachproject_error_creation_disabled">La creación de cuentas está deshabilitada para este proyecto</string>
   <string name="attachproject_error_invalid_url">URL inválida</string>
@@ -258,7 +258,7 @@
   <string name="rpcreason_unknown">Razón desconocida</string>
   <!--menu-->
   <string name="menu_refresh">Actualizar</string>
-  <string name="menu_emailto">Enviar por Correo electrónico</string>
+  <string name="menu_emailto">Enviar por Email</string>
   <string name="menu_copy">Copiar al portapapeles</string>
   <string name="menu_eventlog">Registro de sucesos</string>
   <string name="menu_run_mode_disable">Suspender</string>

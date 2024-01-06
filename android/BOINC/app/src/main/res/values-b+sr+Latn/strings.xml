@@ -46,7 +46,7 @@
     <string name="attachproject_login_header_description">Opis:</string>
     <string name="attachproject_login_header_home">Početak:</string>
     <string name="attachproject_login_header_url">Sajt</string>
-    <string name="attachproject_login_header_id_email">Email adresa:</string>
+    <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Ime:</string>
     <string name="attachproject_login_header_pwd">Lozinka:</string>
     <string name="attachproject_login_button_registration">Registrovati</string>
@@ -63,14 +63,14 @@
     <string name="attachproject_error_short_pwd">Lozinka prekratka</string>
     <string name="attachproject_error_no_internet">Konekcija neuspela</string>
     <string name="attachproject_error_no_url">Molimo vas unesite URL</string>
-    <string name="attachproject_error_no_email">Molimo vas unestie Email adresa adresu</string>
+    <string name="attachproject_error_no_email">Molimo vas unestie eMail adresu</string>
     <string name="attachproject_error_no_pwd">Molimo vas unesite lozinku</string>
     <string name="attachproject_error_no_name">Molimo vas unesite korisničko ime</string>
     <string name="attachproject_error_unknown">nije uspeo</string>
     <string name="attachproject_error_bad_username">Korisničko ime odbijeno</string>
-    <string name="attachproject_error_email_in_use">Email adresa je već u upotrebi</string>
+    <string name="attachproject_error_email_in_use">eMail je već u upotrebi</string>
     <string name="attachproject_error_project_down">Projekat je offline</string>
-    <string name="attachproject_error_email_bad_syntax">Email adresa odbijen</string>
+    <string name="attachproject_error_email_bad_syntax">eMail odbijen</string>
     <string name="attachproject_error_bad_pwd">Lozinka odbijena</string>
     <string name="attachproject_error_creation_disabled">Kreiranje naloga isključeno na ovom projektu</string>
     <string name="attachproject_error_invalid_url">Neispravan URL</string>
