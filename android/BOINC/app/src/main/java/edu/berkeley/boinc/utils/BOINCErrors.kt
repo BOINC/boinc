@@ -34,7 +34,7 @@ const val ERR_CONNECT = -107 // connection problems
 const val ERR_GETHOSTBYNAME = -113
 
 // can not resolve name. no DNS -> no Internet?!
-const val ERR_DB_NOT_FOUND = -136 // e.g. eMail invalid
+const val ERR_DB_NOT_FOUND = -136 // e.g. email invalid
 const val ERR_DB_NOT_UNIQUE = -137 // name not unique, i.e. email already in use
 const val ERR_PROJECT_DOWN = -183 // i.e. project error
 const val ERR_HTTP_TRANSIENT = -184 // connection problems

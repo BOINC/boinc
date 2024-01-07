@@ -19,7 +19,7 @@ name: OSX
 on:
   push:
     branches: [ master, 'client_release/**' ]
-    tags: [ 'client_release/**' ]
+    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**' ]
   pull_request:
     branches: [ master ]
   schedule:
@@ -93,6 +93,36 @@ jobs:
         with:
           name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        run: python ./deploy/prepare_deployment.py macos_${{ matrix.type }}
+
+      - name: Upload manager
+        if: matrix.type == 'manager'
+        uses: actions/upload-artifact@v3
+        with:
+          name: osx_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_manager.7z
+
+      - name: Upload apps
+        uses: actions/upload-artifact@v3
+        with:
+          name: osx_${{ matrix.type }}_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_apps.7z
+
+      - name: Upload x86_64 apps
+        if: matrix.type == 'samples-makefile'
+        uses: actions/upload-artifact@v3
+        with:
+          name: osx_x86_64_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_apps_x86_64.7z
+
+      - name: Upload arm64 apps
+        if: matrix.type == 'samples-makefile'
+        uses: actions/upload-artifact@v3
+        with:
+          name: osx_arm64_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_apps_arm64.7z
 
   cmake-build:
     name: cmake-build
