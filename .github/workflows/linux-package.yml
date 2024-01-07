@@ -519,27 +519,17 @@ jobs:
         run: |
           dnf install -y python3
 
-      - name: Get OS name
-        if: success()
-        run: |
-          if [[ "${{ matrix.os }}" == "37" ]]; then
-            OS="fc37"
-          elif [[ "${{ matrix.os }}" == "38" ]]; then
-            OS="fc38"
-          fi
-          echo "OS=${OS}" >> $GITHUB_ENV
-
       - name: Download client
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_client_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_manager_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()
@@ -575,24 +565,19 @@ jobs:
       - name: Get OS name
         if: success()
         run: |
-          if [[ "${{ matrix.os }}" == "15.4" ]]; then
-            OS="suse15_4"
-          elif [[ "${{ matrix.os }}" == "15.5" ]]; then
-            OS="suse15_5"
-          fi
-          echo "OS=${OS}" >> $GITHUB_ENV
+          echo "OS=`echo ${{ matrix.os }} | sed 's/\./_/g'`" >> $GITHUB_ENV
 
       - name: Download client
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_client_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_manager_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()

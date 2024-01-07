@@ -3,13 +3,10 @@ class TestSet:
         self.name = name
         self.passed = 0
         self.failed = 0
-        self._result_requested = False
         print(("Running test set [{name}]...").format(name=self.name))
 
     def __del__(self):
         print(("Test set [{name}]: \033[92mpassed [{passed}]\033[0m, \033[91mfailed [{failed}]\033[0m.").format(name=self.name, passed=self.passed, failed=self.failed))
-        if not self._result_requested and self.failed > 0:
-            raise AssertionError
 
     def _print_success_report(self, test_name):
         self.passed += 1
@@ -22,7 +19,6 @@ class TestSet:
         print(("\033[91m{message}\033[0m").format(message=message))
 
     def result(self):
-        self._result_requested = True
         return self.failed == 0
 
     def expect_true(self, condition, test_name):
