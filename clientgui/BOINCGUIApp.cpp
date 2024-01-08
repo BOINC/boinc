@@ -461,8 +461,14 @@ bool CBOINCGUIApp::OnInit() {
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
-      printf( "Another instance of BOINC Manager already running.\n");
-            return false;
+      wxMessageDialog dialog(
+          NULL,
+          _("Another instance of BOINC Manager is already running."),
+          _("BOINC Manager"),
+          wxOK|wxICON_WARNING
+      );
+      dialog.ShowModal();
+      return false;
     }
 
     // Initialize the main document

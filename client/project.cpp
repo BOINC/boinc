@@ -86,7 +86,7 @@ void PROJECT::init() {
     disk_usage = 0.0;
     disk_share = 0.0;
     anonymous_platform = false;
-    non_cpu_intensive = true;   // true until link a non-NCI app
+    non_cpu_intensive = false;
     report_results_immediately = false;
     pwf.reset(this);
     send_time_stats_log = 0;

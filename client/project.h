@@ -168,8 +168,9 @@ struct PROJECT : PROJ_AM {
         // app_versions.xml file found in project dir;
         // use those apps rather then getting from server
     bool non_cpu_intensive;
-        // All this project's apps are non-CPU-intensive.
-        // (determined dynamically)
+        // The project has asserted (in sched reply) that
+        // all apps are non-CPU-intensive.
+        // Cleared if this is not the case.
     bool use_symlinks;
     bool report_results_immediately;
     bool sched_req_no_work[MAX_RSC];
