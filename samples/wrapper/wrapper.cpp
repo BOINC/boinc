@@ -1001,15 +1001,26 @@ void TASK::kill() {
     kill_descendants(pid);
 #endif
 }
-
+#ifdef _WIN32
+void TASK::stop() {
+    if (multi_process) {
+        suspend_or_resume_descendants(false);
+    } else {
+        suspend_or_resume_process(pid, false);
+    }
+    suspended = true;
+}
+#else
 void TASK::stop() {
     if (multi_process) {
         suspend_or_resume_descendants(false, use_tstp);
-    } else {
+    }
+    else {
         suspend_or_resume_process(pid, false, use_tstp);
     }
     suspended = true;
 }
+#endif
 
 void TASK::resume() {
     if (multi_process) {
