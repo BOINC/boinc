@@ -323,6 +323,7 @@ int CLIENT_STATE::parse_account_files() {
     PROJECT* project;
     FILE* f;
     int retval;
+    char path[MAXPATHLEN];
 
     DirScanner dir(".");
     while (dir.scan(name)) {
@@ -345,16 +346,50 @@ int CLIENT_STATE::parse_account_files() {
                 "Couldn't parse account file %s", name.c_str()
             );
             delete project;
-        } else {
-            if (lookup_project(project->master_url)) {
+            continue;
+        }
+
+        // see if the account file name doesn't match the master URL.
+        // This can happen if a project changes its URL
+        //
+        // If this happens, anything in client_state.xml for the old project
+        // will be ignored.
+        //
+        get_account_filename(project->master_url, path, sizeof(path));
+        if (strcmp(path, name.c_str())) {
+            // if not, see if account file with proper name exists
+            //
+            if (boinc_file_exists(path)) {
+                // yes - delete this file
+                //
                 msg_printf(project, MSG_INFO,
-                    "Duplicate account file %s - ignoring", name.c_str()
+                    "Misnamed account file %s - deleting", name.c_str()
                 );
+                boinc_delete_file(name.c_str());
                 delete project;
+                continue;
             } else {
-                projects.push_back(project);
+                // no - rename this file
+                //
+                msg_printf(project, MSG_INFO,
+                    "Misnamed account file %s - renaming to %s",
+                    name.c_str(), path
+                );
+                boinc_rename(name.c_str(), path);
             }
         }
+
+        // shouldn't happen given the above logic, but just in case
+        //
+        if (lookup_project(project->master_url)) {
+            msg_printf(project, MSG_INFO,
+                "Duplicate account file %s - ignoring", name.c_str()
+            );
+            delete project;
+            continue;
+        }
+
+        projects.push_back(project);
     }
     return 0;
 }

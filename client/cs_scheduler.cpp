@@ -567,7 +567,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     // (which comes from the project's config.xml).
     // - if http -> https transition, use the https: one from now on
     // - if https -> http transition, keep using the https: one
-    // - otherwise notify the user.
+    // - otherwise switch to the new master URL:
+    //      rename and rewrite account file
+    //      rename project dir
     //
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url, sizeof(sr.master_url));
@@ -587,9 +589,41 @@ int CLIENT_STATE::handle_scheduler_reply(
                 // keep using https://
             } else {
                 msg_printf(project, MSG_USER_ALERT,
-                    _("This project seems to have changed its URL.  When convenient, remove the project, then add %s"),
-                    sr.master_url
+                    _("Master URL changed from %s to %s"),
+                    current_url.c_str(), reply_url.c_str()
                 );
+                char path[MAXPATHLEN], path2[MAXPATHLEN], old_project_dir[MAXPATHLEN];
+
+                // rename statistics file
+                //
+                get_statistics_filename(
+                    (char*)current_url.c_str(), path, sizeof(path)
+                );
+                get_statistics_filename(
+                    (char*)reply_url.c_str(), path2, sizeof(path2)
+                );
+                boinc_rename(path, path2);
+
+                strcpy(old_project_dir, project->project_dir());
+
+                // delete account file and write new one
+                //
+                get_account_filename(project->master_url, path, sizeof(path));
+                boinc_delete_file(path);
+                strcpy(project->master_url, reply_url.c_str());
+                project->write_account_file();
+
+                // rename project dir
+                //
+                strcpy(project->_project_dir, "");
+                strcpy(path2, project->project_dir());
+                boinc_rename(old_project_dir, path2);
+
+                // reset the project (clear jobs etc.).
+                // If any jobs are running, their soft links
+                // point to the old project dir
+                //
+                reset_project(project, false);
             }
         }
     }

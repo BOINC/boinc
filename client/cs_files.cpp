@@ -87,15 +87,39 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     return true;
 }
 
-// Make a directory for each of the projects in the client state
+// Make a directory for each of the projects in the client state,
+// and delete other stuff in projects/
 //
 int CLIENT_STATE::make_project_dirs() {
     unsigned int i;
     int retval;
+    vector<string> pds;
     for (i=0; i<projects.size(); i++) {
-        retval = make_project_dir(*projects[i]);
+        PROJECT *p = projects[i];
+        retval = make_project_dir(*p);
         if (retval) return retval;
+        pds.push_back(p->project_dir());
     }
+
+    string name;
+    char path[MAXPATHLEN];
+    DirScanner dir("projects");
+    while (dir.scan(name)) {
+        snprintf(path, sizeof(path), "projects/%s", name.c_str());
+        if (std::find(pds.begin(), pds.end(), path) != pds.end()) {
+            continue;
+        }
+        msg_printf(0, MSG_INFO,
+            "%s is not a project dir - removing", path
+        );
+        if (is_dir(path)) {
+            clean_out_dir(path);
+            boinc_rmdir(path);
+        } else {
+            boinc_delete_file(path);
+        }
+    }
+
     return 0;
 }
 
