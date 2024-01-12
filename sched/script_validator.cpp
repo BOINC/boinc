@@ -21,17 +21,19 @@
 // cmdline args to this program:
 // --init_script "scriptname arg1 ... argn"
 // --compare_script "scriptname arg1 ... argn"
-//
-// You must specify at least one.
+// where
+// scriptname is the name of a script (in bin/)
+// argi are keywords (see below) representing
+//    args to be passed to the script.
+// You must specify at least one script.
 //
 // The init script checks the validity of a result,
 // e.g. that the output files have the proper format.
-// It returns zero if the files are valid
+// It exits zero if the files are valid
 //
 // The compare script compares two results.
-// If returns zero if the output files are equivalent.
+// If exits zero if the output files are equivalent.
 //
-// arg1 ... argn represent cmdline args to be passed to the scripts.
 // The options for init_script are:
 //
 // files        list of paths of output files of the result
@@ -39,6 +41,7 @@
 // runtime      task runtime
 //
 // Additional options for compare_script, for the second result:
+//
 // files2       list of paths of output files
 // result_id2   result ID
 // runtime2     task runtime
@@ -204,4 +207,3 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
 int cleanup_result(RESULT const&, void*) {
     return 0;
 }
-

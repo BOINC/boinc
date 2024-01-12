@@ -30,6 +30,7 @@
 // wu_id        workunit ID
 // result_id    ID of the canonical result
 // runtime      runtime of the canonical result
+// batch_id     the job's batch ID
 //
 // if no args are specified, the script is invoked as
 // scriptname wu_id files
@@ -110,6 +111,9 @@ int assimilate_handler(
                 strcat(cmd, buf);
             } else if (s == "runtime") {
                 sprintf(buf, " %f", canonical_result.elapsed_time);
+                strcat(cmd, buf);
+            } else if (s == "batch_id") {
+                sprintf(buf, " %d", wu.batch);
                 strcat(cmd, buf);
             }
         }
