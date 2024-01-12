@@ -27,7 +27,16 @@ require_once("../inc/token.inc");
 // send an email, using PHPMailer or not.
 //
 function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
-    if (function_exists("make_php_mailer")) {
+    if (!$email_addr) {
+        $email_addr = $user->email_addr;
+    }
+    if (defined('EMAIL_USE_CMD')) {
+        $cmd = "mail -s \"$subject\" $email_addr";
+        $pipe = popen($cmd, "w");
+        fwrite($pipe, $body);
+        pclose($pipe);
+        return true;
+    } else if (function_exists("make_php_mailer")) {
         if (file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php")) {
             require_once("../inc/PHPMailer/src/PHPMailer.php");
             require_once("../inc/PHPMailer/src/SMTP.php");
@@ -38,11 +47,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             return false;
         }
         $mail = make_php_mailer();
-        if ($email_addr) {
-            $mail->AddAddress($email_addr, $user->name);
-        } else {
-            $mail->AddAddress($user->email_addr, $user->name);
-        }
+        $mail->AddAddress($email_addr, $user->name);
         $mail->Subject = $subject;
         if ($body_html) {
             $mail->AltBody = $body;
@@ -63,9 +68,6 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             $headers = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
         } else if (defined('EMAIL_FROM')) {
             $headers = "From: ". EMAIL_FROM;
-        }
-        if (!$email_addr) {
-            $email_addr = $user->email_addr;
         }
         if ($body_html) {
             $body = "<html><body>\n";
