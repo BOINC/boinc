@@ -18,6 +18,9 @@
 /* Release part of vboxwrapper version number */
 #define VBOXWRAPPER_RELEASE @VBOXWRAPPER_RELEASE@
 
+/* Release part of the worker version number */
+#define WORKER_RELEASE @WORKER_RELEASE@
+
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "@BOINC_VERSION_STRING@"
 
