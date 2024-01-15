@@ -18,7 +18,7 @@
         <copy_file/>
     </file>
     <file>
-        <physical_name>vbox_job_1.xml</physical_name>
+        <physical_name>vbox_job_worker_1.xml</physical_name>
         <logical_name>vbox_job.xml</logical_name>
     </file>
     <file>
