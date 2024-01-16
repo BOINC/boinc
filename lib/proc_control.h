@@ -35,11 +35,13 @@ extern void kill_descendants();
 extern int suspend_or_resume_threads(
     std::vector<int> pids, DWORD threadid, bool resume, bool check_exempt
 );
-#else
-extern void kill_descendants(int child_pid=0);
-#endif
 extern void suspend_or_resume_descendants(bool resume);
 extern void suspend_or_resume_process(int pid, bool resume);
+#else
+extern void kill_descendants(int child_pid=0);
+extern void suspend_or_resume_descendants(bool resume, bool use_tstp=false);
+extern void suspend_or_resume_process(int pid, bool resume, bool use_tstp=false);
+#endif
 
 extern int process_priority_value(int);
 

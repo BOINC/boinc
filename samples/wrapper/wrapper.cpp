@@ -26,6 +26,9 @@
 // --trickle X      send a trickle-up message reporting runtime every X sec
 //                  of runtime (use this for credit granting
 //                  if your app does its own job management)
+// --use_tstp       use SIGTSTP instead of SIGSTOP to suspend children
+//                  (Unix only).  SIGTSTP can be caught.
+//                  Use this if the wrapped program is itself a wrapper.
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -88,6 +91,8 @@
 
 using std::vector;
 using std::string;
+
+bool use_tstp = false;
 
 #ifdef DEBUG
 inline void debug_msg(const char* x) {
@@ -996,7 +1001,7 @@ void TASK::kill() {
     kill_descendants(pid);
 #endif
 }
-
+#ifdef _WIN32
 void TASK::stop() {
     if (multi_process) {
         suspend_or_resume_descendants(false);
@@ -1005,6 +1010,17 @@ void TASK::stop() {
     }
     suspended = true;
 }
+#else
+void TASK::stop() {
+    if (multi_process) {
+        suspend_or_resume_descendants(false, use_tstp);
+    }
+    else {
+        suspend_or_resume_process(pid, false, use_tstp);
+    }
+    suspended = true;
+}
+#endif
 
 void TASK::resume() {
     if (multi_process) {
@@ -1168,6 +1184,7 @@ void usage() {
         "   --sporadic\n"
         "   --trickle X\n"
         "   --version\n"
+        "   --use_tstp\n"
     );
     boinc_finish(EXIT_INIT_FAILURE);
 }
@@ -1207,6 +1224,8 @@ int main(int argc, char** argv) {
             fprintf(stderr, "%s\n", SVN_VERSION);
             boinc_finish(0);
 #endif
+        } else if (!strcmp(argv[j], "--use_tstp")) {
+            use_tstp = true;
         } else {
             fprintf(stderr, "Unrecognized option %s\n", argv[j]);
             usage();
