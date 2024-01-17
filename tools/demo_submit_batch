@@ -65,7 +65,7 @@ def main(argv):
 
     # mark the batch as in progress
 
-    cmd = ['bin/create_work', '--enable', str(batch_id)]
+    cmd = ['bin/create_batch', '--enable', str(batch_id)]
     ret = subprocess.run(cmd, capture_output=True)
     if ret.returncode:
         raise Exception('enable batch failed (%d): %s'%(ret.returncode, ret.stdout))

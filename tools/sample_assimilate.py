@@ -16,15 +16,22 @@ import sys, os
 if sys.argv[1] == '--error':
     error_code = sys.argv[2]
     wu_name = sys.argv[3]
-    batch_id = sys.argv[4]
-    outdir = 'sample_results/%s'%(batch_id)
-    os.system('mkdir -p %s'%(outdir))
-    with f as open('%s/errors'%(outdir), 'a'):
+    wu_id = sys.argv[3]
+    batch_id = sys.argv[5]
+    outdir = '../sample_results/%s'%(batch_id)
+    cmd = 'mkdir -p %s'%(outdir)
+    if os.system(cmd):
+        raise Exception('%s failed'%(cmd))
+    with open('%s/errors'%(outdir), 'a') as f:
         f.write('%s %s\n'%(wu_name, error_code))
 else:
     batch_id = sys.argv[1]
     outfile_path = sys.argv[2]
     fname = os.path.basename(outfile_path)
-    outdir = 'sample_results/%s'%(batch_id)
-    os.system('mkdir -p %s'%(outdir))
-    os.system('mv %s %s/%s'%(outfile_path, outdir, fname))
+    outdir = '../sample_results/%s'%(batch_id)
+    cmd = 'mkdir -p %s'%(outdir)
+    if os.system(cmd):
+        raise Exception('%s failed'%(cmd))
+    cmd = 'mv %s %s/%s'%(outfile_path, outdir, fname)
+    if os.system(cmd):
+        raise Exception('%s failed'%(cmd))

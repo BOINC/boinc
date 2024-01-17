@@ -53,6 +53,8 @@
 #include "validator.h"
 #include "sched_config.h"
 
+#include "assimilate_handler.h"
+
 using std::vector;
 using std::string;
 
@@ -118,10 +120,11 @@ int assimilate_handler(
             }
         }
     } else {
-        sprintf(cmd, "../bin/%s --error %d %lu",
-            script[0].c_str(), wu.error_mask, wu.id
+        sprintf(cmd, "../bin/%s --error %d %s %lu %d",
+            script[0].c_str(), wu.error_mask, wu.name, wu.id, wu.batch
         );
     }
+    log_messages.printf(MSG_DEBUG, "invoking script: %s\n", cmd);
     retval = system(cmd);
     if (retval) return retval;
     return 0;
