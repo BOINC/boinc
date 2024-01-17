@@ -16,7 +16,7 @@ import sys, os
 if sys.argv[1] == '--error':
     error_code = sys.argv[2]
     wu_name = sys.argv[3]
-    wu_id = sys.argv[3]
+    wu_id = sys.argv[4]
     batch_id = sys.argv[5]
     outdir = '../sample_results/%s'%(batch_id)
     cmd = 'mkdir -p %s'%(outdir)
