@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Command-line program for creating jobs (workunits).
-// Used directly for local job submission;
+// Use directly for local job submission;
 // run from PHP script for remote job submission.
 //
 // see https://github.com/BOINC/boinc/wiki/JobSubmission
@@ -25,6 +25,8 @@
 // - to create a single job, with everything passed on the cmdline
 // - to create multiple jobs, where per-job info is passed via stdin,
 //      one line per job
+//
+// The input files must already be staged (i.e. in the download hierarchy).
 
 #include "config.h"
 

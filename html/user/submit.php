@@ -407,7 +407,7 @@ function handle_query_batch($user) {
     page_head("Batch $batch_id");
     start_table();
     row2("name", $batch->name);
-    row2("application", $app->name);
+    row2("application", $app?$app->name:'---');
     row2("state", batch_state_string($batch->state));
     //row2("# jobs", $batch->njobs);
     //row2("# error jobs", $batch->nerror_jobs);

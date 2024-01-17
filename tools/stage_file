@@ -20,6 +20,8 @@
 // Stage an input file: namely,
 // - move or copy it to the download hierarchy
 // - compute its md5
+//   Note: this isn't necessary; it's done by create_work
+//   but we may as well do it here.
 // - make a gzipped version if needed
 //
 // Usage (from project dir):
@@ -30,8 +32,7 @@
 // --gzip       Make a gzipped version of the file.
 //              Use this if you specify <gzip> in the <file_info>
 // --copy       Copy the file (default is to move it)
-//
-// -- verbose
+// --verbose    verbose output
 //
 // path         The file to be staged.
 //              If it's a directory, stage all the files in that dir
@@ -96,10 +97,9 @@ function stage_file($path) {
         break;
     case -1:
         error_exit("
-There is already a file in your project's download directory with that name,
+$path: There is already a file in your project's download hierarchy with that name,
 but with different contents.
 This is not allowed by BOINC, which requires that files be immutable.
-Please use a different file name.
 ");
         break;
     }
