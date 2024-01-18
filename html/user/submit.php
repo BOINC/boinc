@@ -28,9 +28,7 @@ require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 require_once("../project/project.inc");
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
+display_errors();
 
 define("PAGE_SIZE", 20);
 

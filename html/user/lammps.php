@@ -11,13 +11,12 @@
 // project/lammps_test/USERID.
 // We assume that lammps_test exists and contains the LAMMPS executable
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/util.inc");
 require_once("../inc/submit_db.inc");
 require_once("../inc/sandbox.inc");
+
+display_errors();
+
 $debug=0;
 
 // test a LAMMPS job
