@@ -217,6 +217,8 @@ function weak_auth($user) {
 // it to a canonical form, with the protocol prefix.
 //
 function normalize_user_url($url) {
+    $url = sanitize_user_url($url);
+    if (!$url) return '';
     $x = strtolower($url);
     if (substr($x, 0, 7) == 'http://') {
         return 'http://'.substr($url, 7);
@@ -240,11 +242,12 @@ function show_user_info_private($user) {
         }
         row2(tra("Email address"), $email_text);
     }
-    if (USER_URL) {
-        if ($user->url) {
-            $u = normalize_user_url($user->url);
-            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
-        }
+    if (USER_URL && $user->url) {
+        $u = normalize_user_url($user->url);
+        row2(
+            tra("URL"),
+            $u?sprintf('<a href="%s">%s</a>', $u, $u):tra('Invalid URL')
+        );
     }
     if (USER_COUNTRY) {
         row2(tra("Country"), $user->country);
