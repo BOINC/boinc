@@ -16,13 +16,31 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// minimal set of utility functions, usable outside a BOINC project.
-// Doesn't pull in translation.inc etc.
+// PHP utility functions for cmdline tools and RPC handlers
+// as well as web pages.
+// Doesn't contain web-specific stuff like translation.inc
 
 require_once("../inc/random_compat/random.inc");
 
+// show PHP errors in output (e.g. web pages).
+// Call this from your project.inc if you want.
+// Not recommended for production projects;
+// check the Apache error log instead.
+//
+function display_errors() {
+    error_reporting(E_ALL);
+    ini_set('display_errors', true);
+    ini_set('display_startup_errors', true);
+}
+
+// always log errors
+ini_set('log_errors', true);
+
+// set to true in RPC handlers.
+// Suppresses output that would invalidate the XML
 $generating_xml = false;
 
+// get project dir, assuming we're running in html/user or html/ops
 function project_dir() {
     $d = dirname(__FILE__);
     return "$d/../..";
@@ -145,11 +163,13 @@ function parse_config($config, $tag) {
     return $element;
 }
 
+// uniform 0..1
+//
 function drand() {
     return ((double)rand())/getrandmax();
 }
 
-// kludge
+// does the plan class use a GPU?
 //
 function is_gpu($plan_class) {
     if (strstr($plan_class, "ati")) return true;
@@ -171,7 +191,6 @@ function url_get_contents($url) {
     curl_close($ch);
     return $content;
 }
-
 
 // return hard-to-guess string of 32 random hex chars
 //

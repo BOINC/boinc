@@ -26,9 +26,6 @@ require_once("../inc/dir_hier.inc");
 require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
 ini_set("memory_limit", "4G");
 
 function get_wu($name) {

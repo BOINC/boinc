@@ -38,9 +38,7 @@ require_once("../inc/submit_util.inc");
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
+display_errors();
 
 // hardwired app name for now
 define('APP_NAME', 'remote_test');

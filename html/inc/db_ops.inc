@@ -20,10 +20,6 @@
 // in admin web pages
 // TODO: most of this code shouldn't exist; use the standard code instead
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/util_basic.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/result.inc");
