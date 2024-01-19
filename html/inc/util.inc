@@ -1021,6 +1021,27 @@ function sanitize_local_url($x) {
     return $x;
 }
 
+function sanitize_user_url($x) {
+    // if protocol is given, must be http: or https:
+    $y = explode('//', $x);
+    switch (count($y)) {
+    case 1:
+        $z = $x;
+        break;
+    case 2:
+        $z = $y[1];
+        if (strtolower($y[0]) == 'http:') break;
+        if (strtolower($y[0]) == 'https:') break;
+        return '';
+    default: return '';
+    }
+    // everything else must be alphanumeric, or -_/.#?&=
+    if (preg_match('/^[-_.\/#?&=a-zA-Z0-9]*$/', $z)) {
+        return $x;
+    }
+    return '';
+}
+
 // strip HTML tags
 //
 function sanitize_tags($x) {

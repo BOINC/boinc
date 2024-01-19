@@ -40,8 +40,11 @@ $country = "";
 $postal_code = "";
 if (USER_URL) {
     $url = post_str("url", true);
-    $url = sanitize_tags($url);
-    $url = BoincDb::escape_string($url);
+    $x = sanitize_user_url($url);
+    if ($x != $url) {
+        error_page("Invalid URL");
+    }
+    $url = BoincDb::escape_string($x);
 }
 if (USER_COUNTRY) {
     $country = post_str("country");
