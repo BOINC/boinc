@@ -11,7 +11,7 @@ CI="${CI:-no}"
 NPROC_USER="${NPROC_USER:-1}"
 RELEASE="${RELEASE:-no}"
 
-export CURL_VERSION=7.84.0
+export CURL_VERSION=8.5.0
 export BUILD_DIR=${BUILD_DIR:-$PWD/3rdParty/linux-arm64}
 export CURL="$BUILD_DIR/curl-$CURL_VERSION" #CURL sources, required by BOINC
 export CURL_FLAGFILE=$BUILD_DIR/curl-$CURL_VERSION.flagfile

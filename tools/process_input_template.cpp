@@ -19,6 +19,8 @@
 // fill in the workunit's XML document (wu.xml_doc)
 // by scanning the input template, macro-substituting the input files,
 // and putting in the command line element and additional XML
+//
+// Called (only) in create_work.cpp
 
 #include <stdio.h>
 #include <string>
@@ -138,21 +140,23 @@ static void write_md5_info(
 }
 
 // generate a <file_info> element for workunit XML doc,
-// based on the input template and list of variable files
+// based on a <file_info> in an input template and list of input files
 //
-// Inputs:
-// xp: parser for input template
-// var_infiles: list of files descs passed to create_work (i.e. var files)
+// in:
+//  xp: parser for input template, pointing after <file_info>
+//  var_infiles: list of file descs passed to create_work
+//      (the input template may also contain 'constant' input files
+//      that aren't passed to create_work)
 //
-// Outputs:
-// infiles: vector (appended to) of all input files
+// in/out:
+//  nfiles_parsed: increment if not constant file
+//
 // out:
+//  out: append the <file_info> element for the WU XML doc
+//  infiles: vector (appended to) of all input files
 //
 // Actions:
-//   as an input file for create_work.
-// out: append the <file_info> element for the WU XML doc
-// If not a constant file:
-// increment nfiles_parsed
+//  generate .md5 file if needed
 //
 static int process_file_info(
     XML_PARSER& xp, SCHED_CONFIG& config_loc,

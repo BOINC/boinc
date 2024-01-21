@@ -18,10 +18,6 @@
 
 // app-specific management interface
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/submit_util.inc");
 require_once("../inc/util.inc");
 

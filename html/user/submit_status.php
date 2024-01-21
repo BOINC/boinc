@@ -19,9 +19,6 @@
 // web interfaces for viewing and controlling batches
 // DEPRECATED: replaced by submit.php
 
-ini_set('display_errors', 'stdout');
-error_reporting(E_ALL);
-
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/result.inc");

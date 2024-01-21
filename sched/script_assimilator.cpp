@@ -30,6 +30,7 @@
 // wu_id        workunit ID
 // result_id    ID of the canonical result
 // runtime      runtime of the canonical result
+// batch_id     the job's batch ID
 //
 // if no args are specified, the script is invoked as
 // scriptname wu_id files
@@ -51,6 +52,8 @@
 #include "validate_util.h"
 #include "validator.h"
 #include "sched_config.h"
+
+#include "assimilate_handler.h"
 
 using std::vector;
 using std::string;
@@ -111,13 +114,17 @@ int assimilate_handler(
             } else if (s == "runtime") {
                 sprintf(buf, " %f", canonical_result.elapsed_time);
                 strcat(cmd, buf);
+            } else if (s == "batch_id") {
+                sprintf(buf, " %d", wu.batch);
+                strcat(cmd, buf);
             }
         }
     } else {
-        sprintf(cmd, "../bin/%s --error %d %lu",
-            script[0].c_str(), wu.error_mask, wu.id
+        sprintf(cmd, "../bin/%s --error %d %s %lu %d",
+            script[0].c_str(), wu.error_mask, wu.name, wu.id, wu.batch
         );
     }
+    log_messages.printf(MSG_DEBUG, "invoking script: %s\n", cmd);
     retval = system(cmd);
     if (retval) return retval;
     return 0;

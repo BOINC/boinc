@@ -20,10 +20,6 @@
 // Stuff that's not web-specific (e.g. that's used in non-web scripts)
 // should go in util_basic.inc
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/util_basic.inc");
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
@@ -33,7 +29,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse some stuff from config.xml (do it here for efficiency)
+// parse config.xml (do it here for efficiency)
 //
 $config = get_config();
 global $master_url;
@@ -41,28 +37,21 @@ $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
-// the following default to on
-//
+// Set parameters to defaults if not defined in config.xml
+
 $x = parse_config($config, "<user_country>");
 define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
 $x = parse_config($config, "<user_url>");
 define('USER_URL', ($x===null)?1:(int)$x);
 
-// don't allow /... at the end of URL
-//
-if (array_key_exists("PATH_INFO", $_SERVER)) {
-    die("bad URL");
-}
+// Set parameters to defaults if not defined in project.inc
 
-// define TIMEZONE in project.inc
-//
 if (defined('TIMEZONE')) {
     date_default_timezone_set(TIMEZONE);
 } else {
     date_default_timezone_set('UTC');
 }
-
 if (!defined('DISABLE_PROFILES')) {
     define('DISABLE_PROFILES', false);
 }
@@ -111,9 +100,14 @@ if (!defined('POST_MAX_LINKS')) {
 if (!defined('DARK_MODE')) {
     define('DARK_MODE', false);
 }
-// require validated email to post in forums, send PMs, or make a profile
 if (!defined('VALIDATE_EMAIL_TO_POST')) {
     define('VALIDATE_EMAIL_TO_POST', false);
+}
+
+// don't allow anything between .php and ? in URL
+//
+if (array_key_exists("PATH_INFO", $_SERVER)) {
+    die("bad URL");
 }
 
 // sleep this long on any login failure
@@ -1025,6 +1019,27 @@ function sanitize_local_url($x) {
     if (strstr($x, "<")) return "";
     if (strstr($x, "\"")) return "";
     return $x;
+}
+
+function sanitize_user_url($x) {
+    // if protocol is given, must be http: or https:
+    $y = explode('//', $x);
+    switch (count($y)) {
+    case 1:
+        $z = $x;
+        break;
+    case 2:
+        $z = $y[1];
+        if (strtolower($y[0]) == 'http:') break;
+        if (strtolower($y[0]) == 'https:') break;
+        return '';
+    default: return '';
+    }
+    // everything else must be alphanumeric, or -_/.#?&=
+    if (preg_match('/^[-_.\/#?&=a-zA-Z0-9]*$/', $z)) {
+        return $x;
+    }
+    return '';
 }
 
 // strip HTML tags

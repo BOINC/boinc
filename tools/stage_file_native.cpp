@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stage_file_native.h"
-#include "filesys.h"
-#include "error_numbers.h"
-#include "sched_util_basic.h"
-#include "md5_file.h"
+// Stage an input file
+// Native (maybe more efficient) version of 'stage_file';
+// same cmdline args
 
 #include <zlib.h>
 #include <cstdio>
@@ -29,7 +27,16 @@
 #include <sstream>
 #include <fstream>
 
-static int create_md5_file(const char* file_path, const char* md5_file_path, bool verbose) {
+#include "filesys.h"
+#include "error_numbers.h"
+#include "sched_util_basic.h"
+#include "md5_file.h"
+
+#include "stage_file_native.h"
+
+static int create_md5_file(
+    const char* file_path, const char* md5_file_path, bool verbose
+) {
     char md5_file_hash[MD5_LEN], path[MAXPATHLEN];
     FILE* md5_filep;
     int retval;
@@ -56,15 +63,12 @@ static int create_md5_file(const char* file_path, const char* md5_file_path, boo
 
 int stage_file(
     char* file_path,
-    SCHED_CONFIG& config,
     bool gzip,
     bool copy,
     bool verbose
 ) {
     char dl_hier_path[MAXPATHLEN], gz_path[MAXPATHLEN];
-    char md5_file_path[MAXPATHLEN], md5_file_hash[MD5_LEN];
     char* file_name;
-    double nbytes;
     int retval;
 
     if (!boinc_file_exists(file_path)) {
@@ -86,47 +90,47 @@ int stage_file(
     }
 
     switch (check_download_file(file_path, dl_hier_path)) {
-        case 0:
-            if (verbose) {
-                fprintf(stdout, "file %s has already been staged\n", file_path);
-            }
-            break;
-        case 1:
-            retval = create_md5_file(file_path, dl_hier_path, verbose);
-            if (retval) {
-                fprintf(stdout, "failed to create md5 file: %s\n", boincerror(retval));
-                return retval;
-            }
-            break;
-        case 2:
-            if (copy) {
-                retval = boinc_copy(file_path, dl_hier_path);
-            } else {
-                retval = boinc_rename(file_path, dl_hier_path);
-            }
-            if (retval) {
-                fprintf(stdout, "failed to copy or move file: %s\n", boincerror(retval));
-                return retval;
-            }
-            retval = create_md5_file(dl_hier_path, dl_hier_path, verbose);
-            if (retval) {
-                fprintf(stdout, "failed to create md5 file: %s\n", boincerror(retval));
-                return retval;
-            }
-            break;
-        case -1:
-            fprintf(stderr,
-                "There is already a file in your project's download directory with that name,\n"
-                "but with different contents. This is not allowed by BOINC, which requires that\n"
-                "files be immutable. Please use a different file name.\n"
-            );
-            return -1;
-        case -2:
-            fprintf(stderr, "check_download_file: file operation failed - %s\n", strerror(errno));
-            return -1;
-        default:
-            fprintf(stderr, "check_download_file: unknown return code %d\n", retval);
-            return -1;
+    case 0:
+        if (verbose) {
+            fprintf(stdout, "file %s has already been staged\n", file_path);
+        }
+        break;
+    case 1:
+        retval = create_md5_file(file_path, dl_hier_path, verbose);
+        if (retval) {
+            fprintf(stdout, "failed to create md5 file: %s\n", boincerror(retval));
+            return retval;
+        }
+        break;
+    case 2:
+        if (copy) {
+            retval = boinc_copy(file_path, dl_hier_path);
+        } else {
+            retval = boinc_rename(file_path, dl_hier_path);
+        }
+        if (retval) {
+            fprintf(stdout, "failed to copy or move file: %s\n", boincerror(retval));
+            return retval;
+        }
+        retval = create_md5_file(dl_hier_path, dl_hier_path, verbose);
+        if (retval) {
+            fprintf(stdout, "failed to create md5 file: %s\n", boincerror(retval));
+            return retval;
+        }
+        break;
+    case -1:
+        fprintf(stderr,
+            "There is already a file in your project's download directory with that name,\n"
+            "but with different contents. This is not allowed by BOINC, which requires that\n"
+            "files be immutable. Please use a different file name.\n"
+        );
+        return -1;
+    case -2:
+        fprintf(stderr, "check_download_file: file operation failed - %s\n", strerror(errno));
+        return -1;
+    default:
+        fprintf(stderr, "check_download_file: unknown return code %d\n", retval);
+        return -1;
     }
 
     if (gzip) {
@@ -173,14 +177,16 @@ void usage(int exit_code) {
 
 void run_stage_file(
     char* file_path,
-    SCHED_CONFIG& config,
     bool gzip,
     bool copy,
     bool verbose
 ) {
-    int retval = stage_file(file_path, config, gzip, copy, verbose);
+    int retval = stage_file(file_path, gzip, copy, verbose);
     if (retval) {
-        fprintf(stderr, "stage_file failed for file %s: %s\n", file_path, boincerror(retval));
+        fprintf(stderr,
+            "stage_file failed for file %s: %s\n",
+            file_path, boincerror(retval)
+        );
         exit(1);
     }
 }
@@ -235,11 +241,9 @@ int main(int argc, char** argv) {
             if (!is_file(file_path)) {
                 continue;
             }
-            run_stage_file(file_path, config, gzip, copy, verbose);
+            run_stage_file(file_path, gzip, copy, verbose);
         }
     } else  {
-        run_stage_file(path, config, gzip, copy, verbose);
+        run_stage_file(path, gzip, copy, verbose);
     }
-
-    return 0;
 }

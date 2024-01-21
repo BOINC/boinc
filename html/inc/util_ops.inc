@@ -18,13 +18,11 @@
 
 // utility functions for admin web pages
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/db_ops.inc");
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
+
+display_errors();
 
 function admin_page_head($title) {
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";

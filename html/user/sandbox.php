@@ -31,13 +31,11 @@
 // upload_max_filesize = 64M
 // post_max_size = 64M
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/sandbox.inc");
 require_once("../inc/submit_db.inc");
 require_once("../inc/submit_util.inc");
+
+display_errors();
 
 function list_files($user, $notice) {
     $dir = sandbox_dir($user);
