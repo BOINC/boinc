@@ -776,7 +776,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     sprintf(buf2, "/users/%s", user_name);
 
     if ( userExists && groupExists )
-        goto setRealName;       // User and group already exist
+        goto setGroupForUser;       // User and group already exist
 
     // If only user or only group exists, try to use the same ID for the one we create
     if (userExists) {      // User exists but group does not
@@ -865,13 +865,19 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
             return err;
     }           // if (! userExists)
 
+setGroupForUser:
+    // A MacOS update sometimes changes the PrimaryGroupID of users boinc_master
+    // and boincproject to staff (20).
+    // This sets the correct PrimaryGroupId whether or not we just created the user.
+    sprintf(buf2, "/users/%s", user_name);
+    sprintf(buf3, "%d", groupid);
+
     // Always set the user gid if we created either the user or the group or both
     // Something like "dscl . -create /users/boinc_master gid 33"
     err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "gid", buf3, NULL);
     if (err)
         return err;
 
-setRealName:
     // Always set the RealName field to an empty string
     // Note: create RealName with empty string fails under OS 10.7, but
     // creating it with non-empty string and changing to empty string does work.

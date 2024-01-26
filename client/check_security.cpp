@@ -80,12 +80,17 @@ int use_sandbox, int isManager, char* path_to_error, int len
     struct stat         sbuf;
     int                 retval;
     int                 useFakeProjectUserAndGroup = 0;
+    int                 isMacInstaller = 0;
 
     useFakeProjectUserAndGroup = ! use_sandbox;
 #ifdef _DEBUG
 #ifdef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
     useFakeProjectUserAndGroup = 1;
 #endif
+#ifdef _MAC_INSTALLER
+    isMacInstaller = 1;
+#endif
+
 #if (defined(__APPLE__) &&  ! defined(_MAC_INSTALLER))
     // Debugging Mac client or Mac BOINC Manager
     // Normally, the Mac Development (Debug) builds do not define SANDBOX, so
@@ -153,33 +158,37 @@ int use_sandbox, int isManager, char* path_to_error, int len
         boinc_master_gid = getegid();
     }
 
-#ifdef _MAC_INSTALLER
-   // Require absolute owner and group boinc_master:boinc_master
-    strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));
-    pw = getpwnam(boinc_master_user_name);
-    if (pw == NULL)
-        return -1006;      // User boinc_master does not exist
-    boinc_master_uid = pw->pw_uid;
+    if ((!useFakeProjectUserAndGroup) || isMacInstaller) {
+       // Require absolute owner and group boinc_master:boinc_master
+        strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));
+        pw = getpwnam(boinc_master_user_name);
+        if (pw == NULL)
+            return -1006;      // User boinc_master does not exist
+        boinc_master_uid = pw->pw_uid;
 
-    strlcpy(boinc_master_group_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_group_name));
-    grp = getgrnam(boinc_master_group_name);
-    if (grp == NULL)
-        return -1007;                // Group boinc_master does not exist
-    boinc_master_gid = grp->gr_gid;
+        strlcpy(boinc_master_group_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_group_name));
+        grp = getgrnam(boinc_master_group_name);
+        if (grp == NULL)
+            return -1007;                // Group boinc_master does not exist
+        boinc_master_gid = grp->gr_gid;
 
-#else   // Use current user and group (see comment above)
+        // A MacOS update sometimes changes the PrimaryGroupID of user boinc_master to staff (20).
+        if (pw->pw_gid != grp->gr_gid) {
+            return -1301;
+        }
+    } else {    // Use current user and group (see comment above)
 
-    pw = getpwuid(boinc_master_uid);
-    if (pw == NULL)
-        return -1008;      // Should never happen
-    strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
+        pw = getpwuid(boinc_master_uid);
+        if (pw == NULL)
+            return -1008;      // Should never happen
+        strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
 
-    grp = getgrgid(boinc_master_gid);
-    if (grp == NULL)
-        return -1009;
-    strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
+        grp = getgrgid(boinc_master_gid);
+        if (grp == NULL)
+            return -1009;
+        strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
 
-#endif
+    }
 
     if (useFakeProjectUserAndGroup) {
         // For easier debugging of project applications
@@ -199,6 +208,11 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if (grp == NULL)
             return -1011;                // Group boinc_project does not exist
         boinc_project_gid = grp->gr_gid;
+
+        // A MacOS update sometimes changes the PrimaryGroupID of user boinc_project to staff (20).
+        if (pw->pw_gid != grp->gr_gid) {
+            return -1302;
+        }
     }
 
 #if 0   // Manager is no longer setgid
