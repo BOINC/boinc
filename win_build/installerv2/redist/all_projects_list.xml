@@ -126,8 +126,7 @@
         <name>arm-android-linux-gnu[arm_android_pie]</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>armv6l-unknown-linux-gnueabihf</name>
-        <name>i686-apple-darwin[sse3]</name>
-        <name>i686-apple-darwin[sse3_osx]</name>
+        <name>i686-apple-darwin[sse3_macos_1007]</name>
         <name>i686-pc-freebsd</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[avx_linux]</name>
@@ -164,8 +163,11 @@
         <name>windows_x86_64[sse3_win10]</name>
         <name>windows_x86_64[sse3_win7]</name>
         <name>windows_x86_64[sse3_winxp]</name>
-        <name>x86_64-apple-darwin[sse3]</name>
-        <name>x86_64-apple-darwin[sse3_osx]</name>
+        <name>x86_64-apple-darwin[avx512_macos_1014]</name>
+        <name>x86_64-apple-darwin[avx_macos_1014]</name>
+        <name>x86_64-apple-darwin[fma_macos_1014]</name>
+        <name>x86_64-apple-darwin[sse3_macos_1007]</name>
+        <name>x86_64-apple-darwin[sse3_macos_1014]</name>
         <name>x86_64-pc-freebsd</name>
         <name>x86_64-pc-linux-gnu[avx512_linux]</name>
         <name>x86_64-pc-linux-gnu[avx_linux]</name>
