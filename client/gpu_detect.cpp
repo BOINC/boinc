@@ -377,7 +377,7 @@ void COPROCS::correlate_gpus(
 }
 
 // This is called from CLIENT_STATE::init()
-// after adding NVIDIA, ATI and Intel GPUs
+// after adding NVIDIA/ATI/Intel/Apple GPUs
 // If we don't care about the order of GPUs in COPROCS::coprocs[],
 // this code could be included at the end of COPROCS::correlate_gpus().
 //

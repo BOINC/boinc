@@ -764,8 +764,8 @@ void COPROCS::get_opencl(
         }
     }
 
-    // Neither nvidia.count, ati.count nor intel_gpu.count have been set yet,
-    // so we can't test have_nvidia(), have_ati() or have_intel_gpu() here.
+    // nvidia.count etc. haven't been set yet,
+    // so we can't use have_nvidia() etc.
     //
     if ((nvidia_opencls.size() > 0) || nvidia.have_cuda) max_other_coprocs--;
     if ((ati_opencls.size() > 0) || ati.have_cal) max_other_coprocs--;
@@ -1189,7 +1189,7 @@ void COPROC::find_best_opencls(
 ) {
     unsigned int i;
 
-    // identify the most capable ATI, NVIDIA or Intel OpenCL GPU
+    // identify the most capable ATI, NVIDIA, Intel, or Apple OpenCL GPU
     //
     bool first = true;
     for (i=0; i<opencls.size(); i++) {
