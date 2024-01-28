@@ -234,7 +234,7 @@ void kill_descendants(int child_pid) {
             if (!any_process_exists(descendants)) {
                 return;
             }
-            sleep(1);
+            boinc_sleep(1);
         }
         kill_all(descendants);
         // kill any processes that might have been created
