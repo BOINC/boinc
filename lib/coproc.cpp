@@ -132,13 +132,6 @@ int COPROC::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/coproc")) {
-            // The client reports the type of Apple GPUs as the model
-            // (e.g. "Apple M1").
-            // Change it to just "Apple".
-            //
-            if (strstr(type, "Apple")) {
-                strcpy(type, "Apple");
-            }
             if (!strlen(type)) return ERR_XML_PARSE;
             clear_usage();
             return 0;
@@ -204,7 +197,7 @@ void COPROCS::summary_string(char* buf, int len) {
     }
     if (apple_gpu.count) {
         snprintf(buf2, sizeof(buf2),
-            "[Apple|%s|%d|%dMB|%s|%d]",
+            "[Apple GPU|%s|%d|%dMB|%s|%d]",
             apple_gpu.name, apple_gpu.count,
             (int)(apple_gpu.opencl_prop.global_mem_size/MEGA),
             apple_gpu.version,
@@ -270,6 +263,15 @@ int COPROCS::parse(XML_PARSER& xp) {
             }
             continue;
         }
+        if (xp.match_tag("coproc_apple_gpu")) {
+            retval = apple_gpu.parse(xp);
+            if (retval) {
+                apple_gpu.clear();
+            } else {
+                coprocs[n_rsc++] = apple_gpu;
+            }
+            continue;
+        }
         if (xp.match_tag("coproc")) {
             COPROC cp;
             retval = cp.parse(xp);
@@ -300,6 +302,9 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
             break;
         case PROC_TYPE_INTEL_GPU:
             intel_gpu.write_xml(mf, scheduler_rpc);
+            break;
+        case PROC_TYPE_APPLE_GPU:
+            apple_gpu.write_xml(mf, scheduler_rpc);
             break;
         default:
             coprocs[i].write_xml(mf, scheduler_rpc);
