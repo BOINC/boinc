@@ -109,6 +109,11 @@ static bool is_intel(char* vendor) {
     return false;
 }
 
+static bool is_apple(char* vendor) {
+    if (strcasestr(vendor, "apple")) return true;
+    return false;
+}
+
 // If "loose", tolerate small diff
 //
 static int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
@@ -532,8 +537,8 @@ void COPROCS::get_opencl(
             prop.is_used = COPROC_UNUSED;
             prop.get_device_version_int();
 
-            //////////// NVIDIA //////////////
             if (is_NVIDIA(prop.vendor)) {
+                //////////// NVIDIA //////////////
                 bool cuda_match_found = false;
                 if (nvidia.have_cuda) {
                     // Mac OpenCL does not recognize all NVIDIA GPUs returned by
@@ -607,10 +612,8 @@ void COPROCS::get_opencl(
                 nvidia_opencls.insert(it, prop);
 
                 if (cuda_match_found) ++current_CUDA_index;
-            }
-
-            //////////// AMD / ATI //////////////
-            else if (is_AMD(prop.vendor)) {
+            } else if (is_AMD(prop.vendor)) {
+                //////////// AMD / ATI //////////////
                 prop.opencl_device_index = device_index;
 
                 if (ati.have_cal) {
@@ -668,10 +671,8 @@ void COPROCS::get_opencl(
                     prop.opencl_available_ram = prop.global_mem_size;
                 }
                 ati_opencls.push_back(prop);
-            }
-
-            //////////// INTEL GPU //////////////
-            else if (is_intel(prop.vendor)) {
+            } else if (is_intel(prop.vendor)) {
+                //////////// INTEL GPU //////////////
                 prop.device_num = (int)(intel_gpu_opencls.size());
                 prop.opencl_device_index = device_index;
 
@@ -693,10 +694,35 @@ void COPROCS::get_opencl(
 
                 // At present Intel GPUs only support OpenCL
                 // and do not have a native GPGPU framework,
-                // so treat each detected Intel OpenCL GPU device as
-                // a native device.
+                // so treat each detected GPU as a native device.
                 //
                 intel_gpus.push_back(c);
+            } else if (is_apple(prop.vendor)) {
+                //////////// APPLE GPU //////////////
+                prop.device_num = (int)(apple_gpu_opencls.size());
+                prop.opencl_device_index = device_index;
+
+                COPROC_APPLE c;
+                c.opencl_prop = prop;
+                c.is_used = COPROC_UNUSED;
+                c.available_ram = prop.global_mem_size;
+                safe_strcpy(c.name, prop.name);
+                safe_strcpy(c.version, prop.opencl_driver_version);
+
+                c.set_peak_flops();
+                if (c.bad_gpu_peak_flops("Apple OpenCL", s)) {
+                    gpu_warning(warnings, s.c_str());
+                }
+                prop.peak_flops = c.peak_flops;
+                prop.opencl_available_ram = prop.global_mem_size;
+
+                apple_gpu_opencls.push_back(prop);
+
+                // At present Apple GPUs only support OpenCL
+                // and do not have a native GPGPU framework,
+                // so treat each detected GPU as a native device.
+                //
+                apple_gpus.push_back(c);
             } else {
                 //////////// OTHER GPU OR ACCELERATOR //////////////
                 // Put each coprocessor instance into a separate other_opencls element
@@ -744,6 +770,7 @@ void COPROCS::get_opencl(
     if ((nvidia_opencls.size() > 0) || nvidia.have_cuda) max_other_coprocs--;
     if ((ati_opencls.size() > 0) || ati.have_cal) max_other_coprocs--;
     if (intel_gpu_opencls.size() > 0) max_other_coprocs--;
+    if (apple_gpu_opencls.size() > 0) max_other_coprocs--;
     if ((int)other_opencls.size() > max_other_coprocs) {
         gpu_warning(warnings, "Too many OpenCL device types found");
     }
@@ -766,6 +793,7 @@ void COPROCS::get_opencl(
     if ((nvidia_opencls.size() == 0) &&
         (ati_opencls.size() == 0) &&
         (intel_gpu_opencls.size() == 0) &&
+        (apple_gpu_opencls.size() == 0) &&
         (cpu_opencls.size() == 0) &&
         (other_opencls.size() == 0)
     ) {
@@ -812,9 +840,20 @@ void COPROCS::correlate_opencl(
     }
 
     if (intel_gpu_opencls.size() > 0) {
-        intel_gpu.find_best_opencls(use_all, intel_gpu_opencls, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
+        intel_gpu.find_best_opencls(
+            use_all, intel_gpu_opencls,
+            ignore_gpu_instance[PROC_TYPE_INTEL_GPU]
+        );
         intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
         safe_strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
+    }
+    if (apple_gpu_opencls.size() > 0) {
+        apple_gpu.find_best_opencls(
+            use_all, apple_gpu_opencls,
+            ignore_gpu_instance[PROC_TYPE_APPLE_GPU]
+        );
+        apple_gpu.available_ram = apple_gpu.opencl_prop.global_mem_size;
+        safe_strcpy(apple_gpu.name, apple_gpu.opencl_prop.name);
     }
 }
 

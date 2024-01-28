@@ -30,7 +30,8 @@ define('ANON_PLATFORM_UNKNOWN', -1);
 define('ANON_PLATFORM_CPU',     -2);
 define('ANON_PLATFORM_NVIDIA',  -3);
 define('ANON_PLATFORM_ATI',     -4);
-define('ANON_PLATFORM_INTEL',   -5);
+define('ANON_PLATFORM_INTEL_GPU',   -5);
+define('ANON_PLATFORM_APPLE_GPU',   -6);
 
 define('RESULT_SERVER_STATE_INACTIVE',       1);
 define('RESULT_SERVER_STATE_UNSENT',         2);

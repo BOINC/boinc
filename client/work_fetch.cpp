@@ -456,6 +456,9 @@ void WORK_FETCH::copy_requests() {
         case PROC_TYPE_INTEL_GPU:
             rsc_work_fetch[i].copy_request(coprocs.intel_gpu);
             break;
+        case PROC_TYPE_APPLE_GPU:
+            rsc_work_fetch[i].copy_request(coprocs.apple_gpu);
+            break;
         default:
             rsc_work_fetch[i].copy_request(coprocs.coprocs[i]);
             break;

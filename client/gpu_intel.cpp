@@ -41,14 +41,3 @@ using std::string;
 
 #include "client_msgs.h"
 #include "gpu_detect.h"
-
-void COPROC_INTEL::get(
-    vector<string>&
-) {
-}
-
-void COPROC_INTEL::correlate(
-    bool,
-    vector<int>&
-) {
-}

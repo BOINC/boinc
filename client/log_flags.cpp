@@ -420,6 +420,10 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
+        if (xp.parse_int("ignore_apple_dev", n)) {
+            ignore_gpu_instance[PROC_TYPE_APPLE_GPU].push_back(n);
+            continue;
+        }
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;

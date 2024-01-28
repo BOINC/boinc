@@ -95,6 +95,8 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         $av_ids .= "-4";
     } else if ($vendor == "intel_gpu") {
         $av_ids .= "-5";
+    } else if ($vendor == "apple_gpu") {
+        $av_ids .= "-6";
     } else {
         $av_ids .= "0";
     }
@@ -119,6 +121,8 @@ function get_gpu_list($vendor, $alt_vendor=null) {
             $v = "CUDA";
         } else if ($vendor == "intel_gpu") {
             $v = "INTEL";
+        } else if ($vendor == "apple_gpu") {
+            $v = "Apple";
         } else {
             $v = "CAL";
         }
@@ -149,6 +153,7 @@ function get_gpu_lists() {
     $x->cuda = get_gpu_list("cuda", "nvidia");
     $x->ati = get_gpu_list("ati", "amd");
     $x->intel_gpu = get_gpu_list("intel_gpu");
+    $x->apple_gpu = get_gpu_list("apple_gpu");
     $x->time = time();
     return $x;
 }
@@ -224,6 +229,7 @@ echo tra("The following lists show the most productive GPU models on different p
 show_vendor("NVIDIA", $data->cuda);
 show_vendor("ATI/AMD", $data->ati);
 show_vendor("Intel", $data->intel_gpu);
+show_vendor("Apple", $data->apple_gpu);
 echo "<p>Generated ".time_str($data->time);
 page_tail();
 

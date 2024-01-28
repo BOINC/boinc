@@ -202,8 +202,18 @@ void COPROCS::summary_string(char* buf, int len) {
         );
         strlcat(buf, buf2, len);
     }
+    if (apple_gpu.count) {
+        snprintf(buf2, sizeof(buf2),
+            "[Apple|%s|%d|%dMB|%s|%d]",
+            apple_gpu.name, apple_gpu.count,
+            (int)(apple_gpu.opencl_prop.global_mem_size/MEGA),
+            apple_gpu.version,
+            apple_gpu.opencl_prop.opencl_device_version_int
+        );
+        strlcat(buf, buf2, len);
+    }
 
-    // add OpenCL devices other than nvidia/amd/intel
+    // add OpenCL devices other than nvidia/amd/intel/apple
     //
     for (int i=1; i<n_rsc; i++) {
         COPROC& cp = coprocs[i];
@@ -935,7 +945,6 @@ void COPROC_INTEL::clear() {
     estimated_delay = -1;
     safe_strcpy(name, "");
     safe_strcpy(version, "");
-    global_mem_size = 0;
     is_used = COPROC_USED;
 }
 
@@ -1003,6 +1012,115 @@ void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
     opencl_prop.global_mem_size = (cl_ulong)ram;
 }
 
+////////////////// APPLE GPU STARTS HERE /////////////////
+
+#ifndef _USING_FCGI_
+void COPROC_APPLE::write_xml(MIOFILE& f, bool scheduler_rpc) {
+    f.printf(
+        "<coproc_apple_gpu>\n"
+        "   <count>%d</count>\n"
+        "   <name>%s</name>\n"
+        "   <available_ram>%f</available_ram>\n"
+        "   <have_opencl>%d</have_opencl>\n",
+        count,
+        name,
+        available_ram,
+        have_opencl ? 1 : 0
+    );
+    if (scheduler_rpc) {
+        write_request(f);
+    }
+    f.printf(
+        "   <peak_flops>%f</peak_flops>\n"
+        "   <version>%s</version>\n",
+        peak_flops,
+        version
+    );
+
+    if (have_opencl) {
+        opencl_prop.write_xml(f, "coproc_opencl");
+    }
+
+    f.printf("</coproc_apple_gpu>\n");
+}
+#endif
+
+void COPROC_APPLE::clear() {
+    static const COPROC_APPLE x(0);
+    *this = x;
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_APPLE_GPU));
+    estimated_delay = -1;
+    safe_strcpy(name, "");
+    safe_strcpy(version, "");
+    is_used = COPROC_USED;
+}
+
+int COPROC_APPLE::parse(XML_PARSER& xp) {
+    int retval;
+
+    clear();
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/coproc_apple_gpu")) {
+            if (!peak_flops) {
+				set_peak_flops();
+            }
+            if (!available_ram) {
+                available_ram = opencl_prop.global_mem_size;
+            }
+            return 0;
+        }
+        if (xp.parse_int("count", count)) continue;
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_bool("have_opencl", have_opencl)) continue;
+        if (xp.parse_double("available_ram", available_ram)) continue;
+        if (xp.parse_double("req_secs", req_secs)) continue;
+        if (xp.parse_double("req_instances", req_instances)) continue;
+        if (xp.parse_double("estimated_delay", estimated_delay)) continue;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_str("version", version, sizeof(version))) continue;
+
+        if (xp.match_tag("coproc_opencl")) {
+            retval = opencl_prop.parse(xp, "/coproc_opencl");
+            if (retval) return retval;
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+// http://en.wikipedia.org/wiki/Comparison_of_Intel_graphics_processing_units says:
+// The raw performance of integrated GPU, in single-precision FLOPS,
+// can be calculated as follows:
+// EU * 4 [dual-issue x 2 SP] * 2 [multiply + accumulate] * clock speed.
+//
+// However, there is some question of the accuracy of this due to Intel's
+// Turbo Boost and Dynamic Frequency technologies.
+//
+void COPROC_APPLE::set_peak_flops() {
+    double x = 0;
+    if (opencl_prop.max_compute_units) {
+        x = opencl_prop.max_compute_units * 8 * opencl_prop.max_clock_frequency * 1e6;
+    }
+    peak_flops = x;
+}
+
+void COPROC_APPLE::fake(double ram, double avail_ram, int n) {
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_APPLE_GPU));
+    safe_strcpy(version, "1.4.3");
+    safe_strcpy(name, "foobar");
+    count = n;
+    available_ram = avail_ram;
+    have_opencl = true;
+    for (int i=0; i<count; i++) {
+        device_nums[i] = i;
+    }
+    set_peak_flops();
+    opencl_prop.global_mem_size = (cl_ulong)ram;
+}
+
+///////////////////// END GPU TYPES ///////////////
+
 // used wherever a processor type is specified in XML, e.g.
 // <coproc>
 //    <type>xxx</type>
@@ -1012,6 +1130,7 @@ void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
 // coproc_cuda
 // coproc_ati
 // coproc_intel_gpu
+// coproc_apple_gpu
 //
 const char* proc_type_name_xml(int pt) {
     switch(pt) {
@@ -1019,7 +1138,7 @@ const char* proc_type_name_xml(int pt) {
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
     case PROC_TYPE_AMD_GPU: return "ATI";
     case PROC_TYPE_INTEL_GPU: return "intel_gpu";
-    case PROC_TYPE_MINER_ASIC: return "miner_asic";
+    case PROC_TYPE_APPLE_GPU: return "apple_gpu";
     }
     return "unknown";
 }
@@ -1030,7 +1149,7 @@ const char* proc_type_name(int pt) {
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA GPU";
     case PROC_TYPE_AMD_GPU: return "AMD/ATI GPU";
     case PROC_TYPE_INTEL_GPU: return "Intel GPU";
-    case PROC_TYPE_MINER_ASIC: return "Miner ASIC";
+    case PROC_TYPE_APPLE_GPU: return "Apple GPU";
     }
     return "unknown";
 }
@@ -1040,6 +1159,6 @@ int coproc_type_name_to_num(const char* name) {
     if (!strcmp(name, "NVIDIA")) return PROC_TYPE_NVIDIA_GPU;
     if (!strcmp(name, "ATI")) return PROC_TYPE_AMD_GPU;
     if (!strcmp(name, "intel_gpu")) return PROC_TYPE_INTEL_GPU;
-    if (!strcmp(name, "miner_asic")) return PROC_TYPE_MINER_ASIC;
+    if (!strcmp(name, "apple_gpu")) return PROC_TYPE_APPLE_GPU;
     return -1;      // Some other type
 }

@@ -75,6 +75,10 @@ using std::string;
 #define OPENCL_INTEL_GPU_MIN_RAM 256*MEGA
 #endif
 
+#ifndef OPENCL_APPLE_GPU_MIN_RAM
+#define OPENCL_APPLE_GPU_MIN_RAM 256*MEGA
+#endif
+
 #ifndef CUDA_MIN_RAM
 #define CUDA_MIN_RAM 256*MEGA
 #endif
@@ -693,6 +697,9 @@ static inline bool opencl_check(
     } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
         hu.proc_type = PROC_TYPE_INTEL_GPU;
         hu.gpu_usage = ndevs;
+    } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+        hu.proc_type = PROC_TYPE_APPLE_GPU;
+        hu.gpu_usage = ndevs;
     }
 
     coproc_perf(
@@ -801,12 +808,46 @@ static inline bool app_plan_opencl(
             return false;
         }
 
-
         if (strstr(plan_class,"opencl_intel_gpu") == plan_class) {
             return opencl_check(
                 c, hu,
                 ver,
                 OPENCL_INTEL_GPU_MIN_RAM,
+                1,
+                .1,
+                .2
+            );
+        } else {
+            log_messages.printf(MSG_CRITICAL,
+                "[version] [opencl] Unknown plan class: %s\n", plan_class
+            );
+            return false;
+        }
+    } else if (strstr(plan_class, "apple_gpu")) {
+        COPROC_APPLE& c = sreq.coprocs.apple_gpu;
+        if (!c.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] HOST has no Apple GPUs\n"
+                );
+            }
+            return false;
+        }
+
+        if (!c.have_opencl) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] GPU/Driver/BOINC revision doesn not support OpenCL\n"
+                );
+            }
+            return false;
+        }
+
+        if (strstr(plan_class,"opencl_apple_gpu") == plan_class) {
+            return opencl_check(
+                c, hu,
+                ver,
+                OPENCL_APPLE_GPU_MIN_RAM,
                 1,
                 .1,
                 .2

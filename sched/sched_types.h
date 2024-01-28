@@ -111,7 +111,8 @@ struct HOST_USAGE {
         switch (proc_type) {
         case PROC_TYPE_NVIDIA_GPU: return ANON_PLATFORM_NVIDIA;
         case PROC_TYPE_AMD_GPU: return ANON_PLATFORM_ATI;
-        case PROC_TYPE_INTEL_GPU: return ANON_PLATFORM_INTEL;
+        case PROC_TYPE_INTEL_GPU: return ANON_PLATFORM_INTEL_GPU;
+        case PROC_TYPE_APPLE_GPU: return ANON_PLATFORM_APPLE_GPU;
         default: return ANON_PLATFORM_CPU;
         }
     }

@@ -1230,7 +1230,13 @@ void send_gpu_messages() {
             proc_type_name(PROC_TYPE_INTEL_GPU)
         );
     }
-
+    if (g_request->coprocs.apple_gpu.count && ssp->have_apps_for_proc_type[PROC_TYPE_APPLE_GPU]) {
+        send_gpu_property_messages(gpu_requirements[PROC_TYPE_APPLE_GPU],
+            g_request->coprocs.apple_gpu.opencl_prop.global_mem_size,
+            0,
+            proc_type_name(PROC_TYPE_APPLE_GPU)
+        );
+    }
 }
 
 // send messages to user about why jobs were or weren't sent,
