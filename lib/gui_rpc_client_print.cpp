@@ -309,7 +309,7 @@ void HOST_INFO::print() {
             cap.opencl_prop.peak_flops = cap.peak_flops;
             cap.opencl_prop.opencl_available_ram = cap.opencl_prop.global_mem_size;
             cap.opencl_prop.is_used = COPROC_USED;
-            cap.opencl_prop.description(buf, sizeof(buf), "Intel GPU");
+            cap.opencl_prop.description(buf, sizeof(buf), "Apple GPU");
             printf("    %s\n", buf);
         }
     }
