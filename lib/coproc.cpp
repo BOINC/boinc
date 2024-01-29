@@ -197,7 +197,7 @@ void COPROCS::summary_string(char* buf, int len) {
     }
     if (apple_gpu.count) {
         snprintf(buf2, sizeof(buf2),
-            "[Apple GPU|%s|%d|%dMB|%s|%d]",
+            "[apple_gpu|%s|%d|%dMB|%s|%d]",
             apple_gpu.name, apple_gpu.count,
             (int)(apple_gpu.opencl_prop.global_mem_size/MEGA),
             apple_gpu.version,
