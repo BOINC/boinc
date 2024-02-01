@@ -16,6 +16,6 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
-include(${VCPKG_ROOT}/triplets/community/arm64-osx.cmake)
+include(${VCPKG_ROOT}/triplets/arm64-osx.cmake)
 
 set(VCPKG_BUILD_TYPE release)
