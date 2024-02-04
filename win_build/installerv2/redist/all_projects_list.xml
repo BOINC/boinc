@@ -125,9 +125,9 @@
         <name>arm-android-linux-gnu[arm_android_non_pie]</name>
         <name>arm-android-linux-gnu[arm_android_pie]</name>
         <name>arm-unknown-linux-gnueabihf</name>
+        <name>arm64-apple-darwin[arm64_macos_1100]</name>
         <name>armv6l-unknown-linux-gnueabihf</name>
         <name>i686-apple-darwin[sse3_macos_1007]</name>
-        <name>i686-pc-freebsd</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[avx_linux]</name>
         <name>i686-pc-linux-gnu[fma_linux]</name>
@@ -168,7 +168,12 @@
         <name>x86_64-apple-darwin[fma_macos_1014]</name>
         <name>x86_64-apple-darwin[sse3_macos_1007]</name>
         <name>x86_64-apple-darwin[sse3_macos_1014]</name>
-        <name>x86_64-pc-freebsd</name>
+        <name>x86_64-pc-freebsd[avx512_freebsd_1302]</name>
+        <name>x86_64-pc-freebsd[avx_freebsd_1302]</name>
+        <name>x86_64-pc-freebsd[fma_freebsd_1302]</name>
+        <name>x86_64-pc-freebsd[freebsd]</name>
+        <name>x86_64-pc-freebsd[freebsd_1302]</name>
+        <name>x86_64-pc-freebsd[sse3_freebsd_1302]</name>
         <name>x86_64-pc-linux-gnu[avx512_linux]</name>
         <name>x86_64-pc-linux-gnu[avx_linux]</name>
         <name>x86_64-pc-linux-gnu[cuda102_linux]</name>
