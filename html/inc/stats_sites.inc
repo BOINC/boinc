@@ -67,10 +67,12 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
+/* page shows: This website has been permanently closed
     array("http://www.teamocuk.co.uk/",
         "Team OcUK stats",
         ""
     ),
+*/
     array("http://statsbzh.boinc-af.org/listteams.php",
         "SETIBZH Stats",
         "(cross-project team stats; available in French, English, Spanish, German)"
