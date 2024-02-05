@@ -866,15 +866,21 @@ void COPROC_APPLE::get(vector<string>&) {
         }
     }
     fclose(f);
-    if (have_model && have_ncores && have_metalv) {
-        COPROC_APPLE ca;
-        ca.count = 1;
-        safe_strcpy(ca.model, chipset_model);
-        ca.ncores = n;
-        ca.metal_support = metalv;
-        ca.have_metal = true;
-        apple_gpus.push_back(ca);
-    }
+
+    if (!have_model || !have_ncores || !have_metalv) return;
+
+    // system_profiler reports Intel integrated GPUs on Intel Macs.
+    // Ignore them.
+    //
+    if (!strstr(chipset_model, "Apple")) return;
+
+    COPROC_APPLE ca;
+    ca.count = 1;
+    safe_strcpy(ca.model, chipset_model);
+    ca.ncores = n;
+    ca.metal_support = metalv;
+    ca.have_metal = true;
+    apple_gpus.push_back(ca);
 }
 
 void COPROC_APPLE::correlate(bool, vector<int> &ignore_devs) {
