@@ -15,38 +15,72 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// client-specific GPU code.  Mostly GPU detection
+// Detect the host's GPUs, and populate the global 'coprocs' object
 //
-// theory of operation:
-// there are two ways of detecting GPUs:
+// Theory of operation:
+// There are two ways of detecting GPUs:
 //  - vendor-specific libraries like CUDA and CAL,
 //      which detect only that vendor's GPUs
-//  - OpenCL, which can detect multiple types of GPUs,
-//      including nvidia/amd/intel/apple as well as new types
-//      such as ARM integrated GPUs
+//  - OpenCL, which can detect multiple types of GPUs:
+//      nvidia, amd, intel, apple and new types
 //
-// These libraries sometimes crash,
-// and we've been unable to trap these via signal and exception handlers.
-// So we do GPU detection in a separate process (boinc --detect_gpus)
+// We call these libraries in a separate process (boinc --detect_gpus)
+// for two reasons:
+// 1) These libraries sometimes crash,
+//    and we've been unable to trap these via signal and exception handlers.
+// 2) Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+//    the more powerful GPU until all applications which used them exit.
+//    Doing GPU detection in a second, short-lived process
+//    saves battery life on these laptops.
+
 // This process writes an XML file "coproc_info.xml" containing
-//  - lists of GPU detected via CUDA and CAL
+//  - lists of GPUs detected via vendor-specific APIs
+//      e.g. <coproc_cuda>
 //  - lists of nvidia/amd/intel/apple GPUs detected via OpenCL
+//      e.g. <nvidia_opencl>
 //  - a list of other GPUs detected via OpenCL
+//      e.g. <other_opencl>
 //
-// Also, some dual-GPU laptops (e.g., Macbook Pro) don't power
-// down the more powerful GPU until all applications which used them exit.
-// Doing GPU detection in a second, short-lived process
-// saves battery life on these laptops.
+// Data structures (lib/coproc.h):
+// OPENCL_DEVICE_PROP: OpenCL info for a GPU
+// COPROC: base class for a GPU, including OpenCL info
+// COPROC_ATI etc.: derived classes including vendor-specific info
+// COPROCS: a vector of COPROC objects,
+//      together with an instance of each vendor-specific type
 //
-// When the process finishes, the client parses the info file.
-// Then for each vendor it "correlates" the GPUs, which includes:
-//  - matching up the OpenCL and vendor-specific descriptions, if both exist
-//  - finding the most capable GPU, and seeing which other GPUs
-//      are similar to it in hardware and RAM.
-//      Other GPUs are not used.
-//  - copy these to the COPROCS structure
+// BOINC assumes that all GPUs of a given vendor are equivalent.
+// We make this true by identifying the 'most capable' GPU of each type,
+// and ignoring GPUs of that type that are not equivalent to it
+// (in terms of memory size and capabilities).
+// In the final COPROCS object, each COPROC has a 'count' field
+// and a list of IDs (native, OpenCL, PCI) for the qualifying GPU instances.
 //
+// The client parses coproc_info.xml into a bunch of vectors:
+//      ati_gpus, etc: COPROC_* objects
+//      api_opencls, etc: OPENCL_DEVICE_PROPs for ATI GPUs
+//      other_opencls: OPENCL_DEVICE_PROPs for other GPUs
+//  
+//
+// Then (COPROCS::correlate_gpus):
+// for each vendor (e.g. COPROC_ATI::correlate()):
+//   scan ati_gpus and find the most capable GPU.
+//   Copy its object to COPROCS.ati_gpu.
+//   Scan the list again, identifying equivalent instances,
+//   incrementing count, getting IDs
+// Then (COPROCS::correlate_opencl())
+// For each vendor (e.g. ATI)
+//   if we detected a GPU with CAL
+//      merge_opencl(): copy OpenCL info to COPROCS.ati_gpu
+//   else
+//      find_best_opencls(): find best OpenCL instance,
+//      populate COPROCS.ati_gpu
+//
+//
+// Finally (CLIENT_STATE::init()):
+// For each vendor (e.g. ATI)
+//  if COPROC_ATI is present (count>0)
+//     append it to the COPROCS.coprocs vector
+// Append COPROCs for other OpenCL devices found
 
 // GPUs can also be explicitly described in cc_config.xml
 
@@ -87,8 +121,7 @@ void segv_handler(int) {
 }
 #endif
 
-// the following store GPU instances during initialization
-// Notes:
+// the following vectors store the low-level info from coproc_info.xml
 // - For integrated GPUs (Intel, Apple)
 //  there is at most one instance on current computers.
 //  But who knows, this might change.
@@ -805,3 +838,34 @@ void gpu_warning(vector<string> &warnings, const char* msg) {
     fprintf(stderr, "%s\n", msg);
     warnings.push_back(msg);
 }
+
+#ifdef __APPLE__
+#include "mac/mac_spawn.h"
+void COPROC_APPLE::get(vector<string>&) {
+    int retval = callPosixSpawn(
+        "sh -c 'system_profiler SPDisplaysDataType > temp'"
+    );
+    if (retval) return;
+    FILE* f = fopen("temp", "r");
+    if (!f) return;
+    char buf[256], model[256];
+    int n, metal;
+    bool have_model=false, have_ncores=false, have_metal=false;
+    while (fgets(buf, sizeof(buf), f)) {
+        if (sscanf(buf, "%*[ ]Chipset Model: %[^\n]", model) == 1) {
+            have_model = true;
+        } else if (sscanf(buf, "%*[ ]Total Number of Cores: %d", n) == 1) {
+            have_ncores = true;
+        } else if (sscanf(buf, "%*[ ]Metal Support: %[^\n]", metal) == 1) {
+            have_metal = true;
+        }
+    }
+    fclose(f);
+    if (have_model && have_ncores && have_metal) {
+        count = 1;
+        safe_strcpy(chipset_model, model);
+        ncores = n;
+        metal_support = metal;
+    }
+}
+#endif

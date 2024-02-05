@@ -159,9 +159,10 @@ struct COPROC {
     bool non_gpu;       // coproc is not a GPU
     double peak_flops;
     double used;        // how many are in use (used by client)
-    bool have_cuda;     // True if this GPU supports CUDA on this computer
-    bool have_cal;      // True if this GPU supports CAL on this computer
-    bool have_opencl;   // True if this GPU supports openCL on this computer
+    bool have_cuda;     // this GPU supports CUDA
+    bool have_cal;      // this GPU supports CAL
+    bool have_opencl;   // this GPU supports openCL
+    bool have_metal;
     double available_ram;
     bool specified_in_config;
         // If true, this coproc was listed in cc_config.xml
@@ -184,7 +185,8 @@ struct COPROC {
     double usage[MAX_COPROC_INSTANCES];
     double pending_usage[MAX_COPROC_INSTANCES];
 
-    // the device number of each instance
+    // The vendor-specific APIs (CUDA etc.) return instances in some order.
+    // We call an instance's order its  'device_num'.
     // These are not sequential if we omit instances (see above)
     //
     int device_nums[MAX_COPROC_INSTANCES];
@@ -369,9 +371,11 @@ struct COPROC_INTEL : public COPROC {
 };
 
 struct COPROC_APPLE : public COPROC {
-    char name[256];
-    char version[50];
-    // Metal info will go here
+    char model[256];    // from metal, else OpenCL
+
+    // Metal info:
+    int ncores;
+    int metal_support;
 
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);

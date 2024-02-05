@@ -706,8 +706,8 @@ void COPROCS::get_opencl(
                 c.opencl_prop = prop;
                 c.is_used = COPROC_UNUSED;
                 c.available_ram = prop.global_mem_size;
-                safe_strcpy(c.name, prop.name);
-                safe_strcpy(c.version, prop.opencl_driver_version);
+                //safe_strcpy(c.name, prop.name);
+                //safe_strcpy(c.version, prop.opencl_driver_version);
 
                 c.set_peak_flops();
                 if (c.bad_gpu_peak_flops("Apple OpenCL", s)) {
@@ -848,12 +848,18 @@ void COPROCS::correlate_opencl(
         safe_strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
     }
     if (apple_gpu_opencls.size() > 0) {
-        apple_gpu.find_best_opencls(
-            use_all, apple_gpu_opencls,
-            ignore_gpu_instance[PROC_TYPE_APPLE_GPU]
-        );
-        apple_gpu.available_ram = apple_gpu.opencl_prop.global_mem_size;
-        safe_strcpy(apple_gpu.name, apple_gpu.opencl_prop.name);
+        if (apple_gpu.have_metal) {
+            apple_gpu.merge_opencl(
+                apple_gpu_opencls, ignore_gpu_instance[PROC_TYPE_APPLE_GPU]
+            );
+        } else {
+            apple_gpu.find_best_opencls(
+                use_all, apple_gpu_opencls,
+                ignore_gpu_instance[PROC_TYPE_APPLE_GPU]
+            );
+            apple_gpu.available_ram = apple_gpu.opencl_prop.global_mem_size;
+            safe_strcpy(apple_gpu.model, apple_gpu.opencl_prop.name);
+        }
     }
 }
 
@@ -1149,6 +1155,9 @@ void COPROC::merge_opencl(
 ) {
     unsigned int i, j;
 
+    // find OpenCL info for the 'best' instance,
+    // and copy it into this object
+    //
     for (i=0; i<opencls.size(); i++) {
         opencls[i].is_used = COPROC_UNUSED;
 
@@ -1164,10 +1173,10 @@ void COPROC::merge_opencl(
         }
     }
 
-    opencl_device_count = 0;
-
-    // Fill in info for other GPUs which CAL or CUDA found equivalent to best
+    // Fill in OpenCL ID info for instances
+    // which CAL or CUDA found equivalent to best instance
     //
+    opencl_device_count = 0;
     for (i=0; i<(unsigned int)count; ++i) {
         for (j=0; j<opencls.size(); j++) {
             if (device_nums[i] == opencls[j].device_num) {
