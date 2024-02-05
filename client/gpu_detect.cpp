@@ -847,7 +847,7 @@ void gpu_warning(vector<string> &warnings, const char* msg) {
 #include "mac/mac_spawn.h"
 void COPROC_APPLE::get(vector<string>&) {
     int retval = callPosixSpawn(
-        "sh -c 'system_profiler SPDisplaysDataType > temp'"
+        "sh -c '/usr/sbin/system_profiler SPDisplaysDataType > temp'"
     );
     if (retval) return;
     FILE* f = fopen("temp", "r");
