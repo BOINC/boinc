@@ -266,7 +266,9 @@ void COPROCS::correlate_gpus(
 #endif
     ati.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
+#ifdef __APPLE__
     apple_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_APPLE_GPU]);
+#endif
     correlate_opencl(use_all, ignore_gpu_instance);
 
     for (i=0; i<cpu_opencls.size(); i++) {

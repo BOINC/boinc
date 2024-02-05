@@ -109,10 +109,12 @@ static bool is_intel(char* vendor) {
     return false;
 }
 
+#ifdef __APPLE__
 static bool is_apple(char* vendor) {
     if (strcasestr(vendor, "apple")) return true;
     return false;
 }
+#endif
 
 // If "loose", tolerate small diff
 //
@@ -697,6 +699,7 @@ void COPROCS::get_opencl(
                 // so treat each detected GPU as a native device.
                 //
                 intel_gpus.push_back(c);
+#ifdef __APPLE__
             } else if (is_apple(prop.vendor)) {
                 //////////// APPLE GPU //////////////
                 prop.device_num = (int)(apple_gpu_opencls.size());
@@ -706,8 +709,6 @@ void COPROCS::get_opencl(
                 c.opencl_prop = prop;
                 c.is_used = COPROC_UNUSED;
                 c.available_ram = prop.global_mem_size;
-                //safe_strcpy(c.name, prop.name);
-                //safe_strcpy(c.version, prop.opencl_driver_version);
 
                 c.set_peak_flops();
                 if (c.bad_gpu_peak_flops("Apple OpenCL", s)) {
@@ -717,6 +718,7 @@ void COPROCS::get_opencl(
                 prop.opencl_available_ram = prop.global_mem_size;
 
                 apple_gpu_opencls.push_back(prop);
+#endif
             } else {
                 //////////// OTHER GPU OR ACCELERATOR //////////////
                 // Put each coprocessor instance into a separate other_opencls element
@@ -841,6 +843,7 @@ void COPROCS::correlate_opencl(
         intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
         safe_strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
     }
+#ifdef __APPLE__
     if (apple_gpu_opencls.size() > 0) {
         if (apple_gpu.have_metal) {
             apple_gpu.merge_opencl(
@@ -858,6 +861,7 @@ void COPROCS::correlate_opencl(
             apple_gpu.available_ram = apple_gpu.opencl_prop.global_mem_size;
         }
     }
+#endif
 }
 
 cl_int COPROCS::get_opencl_info(
