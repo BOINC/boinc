@@ -59,7 +59,6 @@
 //      ati_gpus, etc: COPROC_* objects
 //      api_opencls, etc: OPENCL_DEVICE_PROPs for ATI GPUs
 //      other_opencls: OPENCL_DEVICE_PROPs for other GPUs
-//  
 //
 // Then (COPROCS::correlate_gpus):
 // for each vendor (e.g. COPROC_ATI::correlate()):
