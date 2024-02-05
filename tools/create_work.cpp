@@ -420,6 +420,14 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
+    } else {
+        if (!use_stdin) {
+            fprintf(stderr,
+                "create_work: input template file %s doesn't exist\n",
+                jd.wu_template_file
+            );
+            exit(1);
+        }
     }
 
     jd.wu.appid = app.id;
