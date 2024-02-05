@@ -717,12 +717,6 @@ void COPROCS::get_opencl(
                 prop.opencl_available_ram = prop.global_mem_size;
 
                 apple_gpu_opencls.push_back(prop);
-
-                // At present Apple GPUs only support OpenCL
-                // and do not have a native GPGPU framework,
-                // so treat each detected GPU as a native device.
-                //
-                apple_gpus.push_back(c);
             } else {
                 //////////// OTHER GPU OR ACCELERATOR //////////////
                 // Put each coprocessor instance into a separate other_opencls element
@@ -857,8 +851,11 @@ void COPROCS::correlate_opencl(
                 use_all, apple_gpu_opencls,
                 ignore_gpu_instance[PROC_TYPE_APPLE_GPU]
             );
-            apple_gpu.available_ram = apple_gpu.opencl_prop.global_mem_size;
             safe_strcpy(apple_gpu.model, apple_gpu.opencl_prop.name);
+        }
+        apple_gpu.set_peak_flops();
+        if (!apple_gpu.available_ram) {
+            apple_gpu.available_ram = apple_gpu.opencl_prop.global_mem_size;
         }
     }
 }

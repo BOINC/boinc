@@ -212,7 +212,8 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
     catch (...) {
         gpu_warning(warnings, "Caught SIGSEGV in OpenCL detection");
     }
-#else
+#else // non-Windows
+
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
         gpu_warning(warnings, "Caught SIGSEGV in NVIDIA GPU detection");
@@ -227,6 +228,8 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
     } else {
         ati.get(warnings);
     }
+#else
+    apple_gpu.get(warnings);
 #endif
     if (setjmp(resume)) {
         gpu_warning(warnings, "Caught SIGSEGV in INTEL GPU detection");
@@ -848,24 +851,33 @@ void COPROC_APPLE::get(vector<string>&) {
     if (retval) return;
     FILE* f = fopen("temp", "r");
     if (!f) return;
-    char buf[256], model[256];
-    int n, metal;
-    bool have_model=false, have_ncores=false, have_metal=false;
+    char buf[256], chipset_model[256];
+    int n, metalv;
+    bool have_model=false, have_ncores=false, have_metalv=false;
     while (fgets(buf, sizeof(buf), f)) {
-        if (sscanf(buf, "%*[ ]Chipset Model: %[^\n]", model) == 1) {
+        if (sscanf(buf, "%*[ ]Chipset Model: %[^\n]", chipset_model) == 1) {
             have_model = true;
-        } else if (sscanf(buf, "%*[ ]Total Number of Cores: %d", n) == 1) {
+        } else if (sscanf(buf, "%*[ ]Total Number of Cores: %d", &n) == 1) {
             have_ncores = true;
-        } else if (sscanf(buf, "%*[ ]Metal Support: %[^\n]", metal) == 1) {
-            have_metal = true;
+        } else if (sscanf(buf, "%*[ ]Metal Support: Metal %d", &metalv) == 1) {
+            have_metalv = true;
         }
     }
     fclose(f);
-    if (have_model && have_ncores && have_metal) {
-        count = 1;
-        safe_strcpy(chipset_model, model);
-        ncores = n;
-        metal_support = metal;
+    if (have_model && have_ncores && have_metalv) {
+        COPROC_APPLE ca;
+        ca.count = 1;
+        safe_strcpy(ca.model, chipset_model);
+        ca.ncores = n;
+        ca.metal_support = metalv;
+        ca.have_metal = true;
+        apple_gpus.push_back(ca);
     }
+}
+
+void COPROC_APPLE::correlate(bool, vector<int> &ignore_devs) {
+    if (!ignore_devs.empty() && ignore_devs[0]==0) return;
+    if (apple_gpus.empty()) return;
+    *this = apple_gpus[0];
 }
 #endif

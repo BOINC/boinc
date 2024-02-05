@@ -382,8 +382,8 @@ struct COPROC_APPLE : public COPROC {
 #endif
     COPROC_APPLE(int): COPROC() {}
     COPROC_APPLE(): COPROC() {clear();}
-    void get(std::vector<std::string>& ) {};
-    void correlate(bool , std::vector<int>& ) {};
+    void get(std::vector<std::string>&);
+    void correlate(bool , std::vector<int>&);
     void clear();
     int parse(XML_PARSER&);
     void set_peak_flops();
