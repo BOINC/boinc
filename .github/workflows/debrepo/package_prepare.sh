@@ -121,10 +121,6 @@ exit_on_fail
 
 find .
 
-# required for deb package (same for debian and ubuntu)
-mkdir -p DEBIAN
-exit_on_fail
-
 # specialized prepare
 case "$BASEPKG" in
   "linux_client")
