@@ -53,7 +53,10 @@ for ($i=2; $i<$argc; $i++){
     if (!is_file($fname)) {
         die("no such file: $fname\n");
     }
-    system("cp $fname `bin/dir_hier_path $fname`");
+    system("cp $fname `bin/dir_hier_path $fname`", $ret);
+    if ($ret) {
+        die("Couldn't stage file\n");
+    }
     $file_list[] = $fname;
 }
 
@@ -63,7 +66,10 @@ $wu_name = sprintf('%s_%d', $appname, time());
 $cmd = sprintf('bin/create_work --appname %s --wu_name %s %s',
     $appname, $wu_name, implode(' ', $file_list)
 );
-system($cmd);
+system($cmd, $ret);
+if ($ret) {
+    die("Couldn't create job\n");
+}
 
 echo "Job name: $wu_name\n";
 
