@@ -78,6 +78,16 @@ function prepare_manager() {
     rm -rf locale/
 }
 
+function prepare_scripts() {
+    # prepare dir structure
+    mkdir -p DEBIAN
+    exit_on_fail
+
+    # copy files and directories
+    mv postinst DEBIAN/
+    exit_on_fail
+}
+
 ROOT=$(pwd)
 
 FULLPKG="$1" # full name of the package
@@ -119,9 +129,11 @@ exit_on_fail
 case "$BASEPKG" in
   "linux_client")
      prepare_client
+     prepare_scripts
      ;;
   "linux_manager")
      prepare_manager
+     prepare_scripts
      ;;
 *)  echo "ERROR: Unknown package preparation requested"
     exit_usage
