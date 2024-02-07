@@ -10,9 +10,6 @@ class IntegrationTests:
         self.result &= self.test_version()
         self.result &= self.test_user()
 
-    def result(self):
-        return self.result
-
     def _get_test_executable_file_path(self, filename):
         path = os.popen("echo $PATH").read().strip()
         for p in path.split(":"):
@@ -70,6 +67,6 @@ class IntegrationTests:
         return ts.result()
 
 if __name__ == "__main__":
-    if not IntegrationTests().result():
+    if not IntegrationTests().result:
         sys.exit(1)
     sys.exit(0)
