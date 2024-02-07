@@ -582,7 +582,8 @@ struct CREDITED_JOB {
 #define ANON_PLATFORM_CPU     -2
 #define ANON_PLATFORM_NVIDIA  -3
 #define ANON_PLATFORM_ATI     -4
-#define ANON_PLATFORM_INTEL   -5
+#define ANON_PLATFORM_INTEL_GPU   -5
+#define ANON_PLATFORM_APPLE_GPU   -6
 
 struct RESULT {
     DB_ID_TYPE id;

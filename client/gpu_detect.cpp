@@ -15,38 +15,71 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// client-specific GPU code.  Mostly GPU detection
+// Detect the host's GPUs, and populate the global 'coprocs' object
 //
-// theory of operation:
-// there are two ways of detecting GPUs:
+// Theory of operation:
+// There are two ways of detecting GPUs:
 //  - vendor-specific libraries like CUDA and CAL,
 //      which detect only that vendor's GPUs
-//  - OpenCL, which can detect multiple types of GPUs,
-//      including nvidia/amd/intel as well was new types
-//      such as ARM integrated GPUs
+//  - OpenCL, which can detect multiple types of GPUs:
+//      nvidia, amd, intel, apple and new types
 //
-// These libraries sometimes crash,
-// and we've been unable to trap these via signal and exception handlers.
-// So we do GPU detection in a separate process (boinc --detect_gpus)
+// We call these libraries in a separate process (boinc --detect_gpus)
+// for two reasons:
+// 1) These libraries sometimes crash,
+//    and we've been unable to trap these via signal and exception handlers.
+// 2) Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+//    the more powerful GPU until all applications which used them exit.
+//    Doing GPU detection in a second, short-lived process
+//    saves battery life on these laptops.
+
 // This process writes an XML file "coproc_info.xml" containing
-//  - lists of GPU detected via CUDA and CAL
-//  - lists of nvidia/amd/intel GPUs detected via OpenCL
+//  - lists of GPUs detected via vendor-specific APIs
+//      e.g. <coproc_cuda>
+//  - lists of nvidia/amd/intel/apple GPUs detected via OpenCL
+//      e.g. <nvidia_opencl>
 //  - a list of other GPUs detected via OpenCL
+//      e.g. <other_opencl>
 //
-// Also, some dual-GPU laptops (e.g., Macbook Pro) don't power
-// down the more powerful GPU until all applications which used them exit.
-// Doing GPU detection in a second, short-lived process
-// saves battery life on these laptops.
+// Data structures (lib/coproc.h):
+// OPENCL_DEVICE_PROP: OpenCL info for a GPU
+// COPROC: base class for a GPU, including OpenCL info
+// COPROC_ATI etc.: derived classes including vendor-specific info
+// COPROCS: a vector of COPROC objects,
+//      together with an instance of each vendor-specific type
 //
-// When the process finishes, the client parses the info file.
-// Then for each vendor it "correlates" the GPUs, which includes:
-//  - matching up the OpenCL and vendor-specific descriptions, if both exist
-//  - finding the most capable GPU, and seeing which other GPUs
-//      are similar to it in hardware and RAM.
-//      Other GPUs are not used.
-//  - copy these to the COPROCS structure
+// BOINC assumes that all GPUs of a given vendor are equivalent.
+// We make this true by identifying the 'most capable' GPU of each type,
+// and ignoring GPUs of that type that are not equivalent to it
+// (in terms of memory size and capabilities).
+// In the final COPROCS object, each COPROC has a 'count' field
+// and a list of IDs (native, OpenCL, PCI) for the qualifying GPU instances.
 //
+// The client parses coproc_info.xml into a bunch of vectors:
+//      ati_gpus, etc: COPROC_* objects
+//      api_opencls, etc: OPENCL_DEVICE_PROPs for ATI GPUs
+//      other_opencls: OPENCL_DEVICE_PROPs for other GPUs
+//
+// Then (COPROCS::correlate_gpus):
+// for each vendor (e.g. COPROC_ATI::correlate()):
+//   scan ati_gpus and find the most capable GPU.
+//   Copy its object to COPROCS.ati_gpu.
+//   Scan the list again, identifying equivalent instances,
+//   incrementing count, getting IDs
+// Then (COPROCS::correlate_opencl())
+// For each vendor (e.g. ATI)
+//   if we detected a GPU with CAL
+//      merge_opencl(): copy OpenCL info to COPROCS.ati_gpu
+//   else
+//      find_best_opencls(): find best OpenCL instance,
+//      populate COPROCS.ati_gpu
+//
+//
+// Finally (CLIENT_STATE::init()):
+// For each vendor (e.g. ATI)
+//  if COPROC_ATI is present (count>0)
+//     append it to the COPROCS.coprocs vector
+// Append COPROCs for other OpenCL devices found
 
 // GPUs can also be explicitly described in cc_config.xml
 
@@ -87,14 +120,21 @@ void segv_handler(int) {
 }
 #endif
 
-// the following store GPU instances during initialization
+// the following vectors store the low-level info from coproc_info.xml
+// - For integrated GPUs (Intel, Apple)
+//  there is at most one instance on current computers.
+//  But who knows, this might change.
+// - Intel GPUs can currently only be used via OpenCL.
+//  But this too could change.
 //
 vector<COPROC_ATI> ati_gpus;
 vector<COPROC_NVIDIA> nvidia_gpus;
 vector<COPROC_INTEL> intel_gpus;
+vector<COPROC_APPLE> apple_gpus;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
+vector<OPENCL_DEVICE_PROP> apple_gpu_opencls;
 vector<OPENCL_DEVICE_PROP> other_opencls;
 vector<OPENCL_CPU_PROP> cpu_opencls;
 
@@ -140,8 +180,7 @@ void COPROCS::get(
 }
 
 // populate the global vectors
-// ati_gpus, nvidia_gpus, intel_gpus,
-// nvidia_opencls, etc.
+// ati_gpus, nvidia_gpus, intel_gpus, nvidia_opencls, etc.
 //
 void COPROCS::detect_gpus(vector<string> &warnings) {
 #ifdef _WIN32
@@ -172,7 +211,8 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
     catch (...) {
         gpu_warning(warnings, "Caught SIGSEGV in OpenCL detection");
     }
-#else
+#else // non-Windows
+
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
         gpu_warning(warnings, "Caught SIGSEGV in NVIDIA GPU detection");
@@ -187,6 +227,8 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
     } else {
         ati.get(warnings);
     }
+#else
+    apple_gpu.get(warnings);
 #endif
     if (setjmp(resume)) {
         gpu_warning(warnings, "Caught SIGSEGV in INTEL GPU detection");
@@ -208,6 +250,7 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
 // Find the most capable one, and the ones equivalent to it.
 // Also correlate OpenCL GPUs with CUDA/CAL GPUs.
 // Then create a single COPROC (with appropriate count)
+// Also return a list of strings describing the GPUs.
 //
 void COPROCS::correlate_gpus(
     bool use_all,
@@ -222,13 +265,16 @@ void COPROCS::correlate_gpus(
 #endif
     ati.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
+#ifdef __APPLE__
+    apple_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_APPLE_GPU]);
+#endif
     correlate_opencl(use_all, ignore_gpu_instance);
 
-    // NOTE: OpenCL can report a max of only 4GB.
-    //
     for (i=0; i<cpu_opencls.size(); i++) {
         gstate.host_info.opencl_cpu_prop[gstate.host_info.num_opencl_cpu_platforms++] = cpu_opencls[i];
     }
+
+    // make list of GPU descriptions
 
     for (i=0; i<nvidia_gpus.size(); i++) {
         // This is really CUDA description
@@ -323,14 +369,23 @@ void COPROCS::correlate_gpus(
         descs.push_back(string(buf));
     }
 
+    // Create descriptions for OpenCL Apple GPUs
+    //
+    for (i=0; i<apple_gpu_opencls.size(); i++) {
+        apple_gpu_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_APPLE_GPU));
+        descs.push_back(string(buf));
+    }
+
     // Create descriptions for other OpenCL GPUs
     //
     int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
     if (have_nvidia()) max_other_coprocs--;
     if (have_ati()) max_other_coprocs--;
     if (have_intel_gpu()) max_other_coprocs--;
+    if (have_apple_gpu()) max_other_coprocs--;
 
-    // TODO: Should we implement cc_config ignore vectors for other (future) OpenCL coprocessors?
+    // TODO: Should we implement cc_config ignore vectors
+    // for other (future) OpenCL coprocessors?
 
     for (i=0; i<other_opencls.size(); i++) {
         if ((int)i > max_other_coprocs) {
@@ -350,14 +405,16 @@ void COPROCS::correlate_gpus(
     ati_gpus.clear();
     nvidia_gpus.clear();
     intel_gpus.clear();
+    apple_gpus.clear();
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
+    apple_gpu_opencls.clear();
     cpu_opencls.clear();
 }
 
 // This is called from CLIENT_STATE::init()
-// after adding NVIDIA, ATI and Intel GPUs
+// after adding NVIDIA/ATI/Intel/Apple GPUs
 // If we don't care about the order of GPUs in COPROCS::coprocs[],
 // this code could be included at the end of COPROCS::correlate_gpus().
 //
@@ -433,6 +490,9 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     for (i=0; i<intel_gpus.size(); ++i) {
         intel_gpus[i].write_xml(mf, false);
     }
+    for (i=0; i<apple_gpus.size(); ++i) {
+        apple_gpus[i].write_xml(mf, false);
+    }
     for (i=0; i<ati_opencls.size(); ++i) {
         ati_opencls[i].write_xml(mf, "ati_opencl", true);
     }
@@ -441,6 +501,9 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     }
     for (i=0; i<intel_gpu_opencls.size(); ++i) {
         intel_gpu_opencls[i].write_xml(mf, "intel_gpu_opencl", true);
+    }
+    for (i=0; i<apple_gpu_opencls.size(); ++i) {
+        apple_gpu_opencls[i].write_xml(mf, "apple_gpu_opencl", true);
     }
     for (i=0; i<other_opencls.size(); i++) {
         other_opencls[i].write_xml(mf, "other_opencl", true);
@@ -469,18 +532,22 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     COPROC_ATI my_ati_gpu;
     COPROC_NVIDIA my_nvidia_gpu;
     COPROC_INTEL my_intel_gpu;
+    COPROC_APPLE my_apple_gpu;
     OPENCL_DEVICE_PROP ati_opencl;
     OPENCL_DEVICE_PROP nvidia_opencl;
     OPENCL_DEVICE_PROP intel_gpu_opencl;
+    OPENCL_DEVICE_PROP apple_gpu_opencl;
     OPENCL_DEVICE_PROP other_opencl;
     OPENCL_CPU_PROP cpu_opencl;
 
     ati_gpus.clear();
     nvidia_gpus.clear();
     intel_gpus.clear();
+    apple_gpus.clear();
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
+    apple_gpu_opencls.clear();
     other_opencls.clear();
     cpu_opencls.clear();
 
@@ -536,6 +603,16 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             }
             continue;
         }
+        if (xp.match_tag("coproc_apple_gpu")) {
+            retval = my_apple_gpu.parse(xp);
+            if (retval) {
+                my_apple_gpu.clear();
+            } else {
+                my_apple_gpu.device_num = (int)apple_gpus.size();
+                apple_gpus.push_back(my_apple_gpu);
+            }
+            continue;
+        }
 
         if (xp.match_tag("ati_opencl")) {
             ati_opencl.clear();
@@ -569,6 +646,17 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             } else {
                 intel_gpu_opencl.is_used = COPROC_IGNORED;
                 intel_gpu_opencls.push_back(intel_gpu_opencl);
+            }
+            continue;
+        }
+        if (xp.match_tag("apple_gpu_opencl")) {
+            apple_gpu_opencl.clear();
+            retval = apple_gpu_opencl.parse(xp, "/apple_gpu_opencl");
+            if (retval) {
+                apple_gpu_opencl.clear();
+            } else {
+                apple_gpu_opencl.is_used = COPROC_IGNORED;
+                apple_gpu_opencls.push_back(apple_gpu_opencl);
             }
             continue;
         }
@@ -754,3 +842,49 @@ void gpu_warning(vector<string> &warnings, const char* msg) {
     fprintf(stderr, "%s\n", msg);
     warnings.push_back(msg);
 }
+
+#ifdef __APPLE__
+#include "mac/mac_spawn.h"
+void COPROC_APPLE::get(vector<string>&) {
+    int retval = callPosixSpawn(
+        "sh -c '/usr/sbin/system_profiler SPDisplaysDataType > temp'"
+    );
+    if (retval) return;
+    FILE* f = fopen("temp", "r");
+    if (!f) return;
+    char buf[256], chipset_model[256];
+    int n, metalv;
+    bool have_model=false, have_ncores=false, have_metalv=false;
+    while (fgets(buf, sizeof(buf), f)) {
+        if (sscanf(buf, "%*[ ]Chipset Model: %[^\n]", chipset_model) == 1) {
+            have_model = true;
+        } else if (sscanf(buf, "%*[ ]Total Number of Cores: %d", &n) == 1) {
+            have_ncores = true;
+        } else if (sscanf(buf, "%*[ ]Metal Support: Metal %d", &metalv) == 1) {
+            have_metalv = true;
+        }
+    }
+    fclose(f);
+
+    if (!have_model || !have_ncores || !have_metalv) return;
+
+    // system_profiler reports Intel integrated GPUs on Intel Macs.
+    // Ignore them.
+    //
+    if (!strstr(chipset_model, "Apple")) return;
+
+    COPROC_APPLE ca;
+    ca.count = 1;
+    safe_strcpy(ca.model, chipset_model);
+    ca.ncores = n;
+    ca.metal_support = metalv;
+    ca.have_metal = true;
+    apple_gpus.push_back(ca);
+}
+
+void COPROC_APPLE::correlate(bool, vector<int> &ignore_devs) {
+    if (!ignore_devs.empty() && ignore_devs[0]==0) return;
+    if (apple_gpus.empty()) return;
+    *this = apple_gpus[0];
+}
+#endif

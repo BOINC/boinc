@@ -584,6 +584,13 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.intel_gpu);
         }
     }
+    if (coprocs.have_apple_gpu()) {
+        if (rsc_index(GPU_TYPE_APPLE)>0) {
+            msg_printf(NULL, MSG_INFO, "APPLE GPU info taken from cc_config.xml");
+        } else {
+            coprocs.add(coprocs.apple_gpu);
+        }
+    }
     coprocs.add_other_coproc_types();
 
     host_info.coprocs = coprocs;

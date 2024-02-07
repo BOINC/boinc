@@ -79,7 +79,9 @@ static int parse_posix_spawn_command_line(char* p, char** argv) {
     return argc;
 }
 
-
+// run a command and wait for it to finish.
+// return its exit code.
+//
 int callPosixSpawn(const char *cmdline) {
     char command[1024];
     char progName[1024];

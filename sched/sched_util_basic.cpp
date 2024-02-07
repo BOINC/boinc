@@ -326,8 +326,8 @@ int plan_class_to_proc_type(const char* plan_class) {
     if (strstr(plan_class, "intel_gpu")) {
         return PROC_TYPE_INTEL_GPU;
     }
-    if (strstr(plan_class, "miner_asic")) {
-        return PROC_TYPE_MINER_ASIC;
+    if (strstr(plan_class, "apple_gpu")) {
+        return PROC_TYPE_APPLE_GPU;
     }
     return PROC_TYPE_CPU;
 }

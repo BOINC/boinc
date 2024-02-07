@@ -26,9 +26,11 @@
 extern std::vector<COPROC_ATI> ati_gpus;
 extern std::vector<COPROC_NVIDIA> nvidia_gpus;
 extern std::vector<COPROC_INTEL> intel_gpus;
+extern std::vector<COPROC_APPLE> apple_gpus;
 extern std::vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 extern std::vector<OPENCL_DEVICE_PROP> ati_opencls;
 extern std::vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
+extern std::vector<OPENCL_DEVICE_PROP> apple_gpu_opencls;
 extern std::vector<OPENCL_DEVICE_PROP> other_opencls;
 extern std::vector<OPENCL_CPU_PROP> cpu_opencls;
 

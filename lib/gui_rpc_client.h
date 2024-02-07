@@ -148,6 +148,7 @@ struct PROJECT {
     RSC_DESC rsc_desc_nvidia;
     RSC_DESC rsc_desc_ati;
     RSC_DESC rsc_desc_intel_gpu;
+    RSC_DESC rsc_desc_apple_gpu;
 
     double sched_priority;
 
