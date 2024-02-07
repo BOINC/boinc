@@ -783,6 +783,33 @@ bool PLAN_CLASS_SPEC::check(
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
         }
 
+    // Apple GPU
+
+    } else if (!strcmp(gpu_type, "apple_cpu")) {
+        COPROC& cp = sreq.coprocs.apple_gpu;
+        cpp = &cp;
+
+        if (!cp.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: No Apple GPUs found\n"
+                );
+            }
+            return false;
+        }
+        if (min_gpu_ram_mb) {
+            gpu_requirements[PROC_TYPE_APPLE_GPU].update(0, min_gpu_ram_mb * MEGA);
+        }
+        if (cp.bad_gpu_peak_flops("Apple GPU", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
+
+        if (min_metal_support) {
+            if (sreq.coprocs.apple_gpu.metal_support < min_metal_support) {
+                return false;
+            }
+        }
+
     // custom GPU type
     //
     } else if (strlen(gpu_type)) {
@@ -944,8 +971,8 @@ bool PLAN_CLASS_SPEC::check(
         } else if (strstr(gpu_type, "intel")==gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (!strcmp(gpu_type, "miner_asic")) {
-            hu.proc_type = PROC_TYPE_MINER_ASIC;
+        } else if (strstr(gpu_type, "apple_gpu")==gpu_type) {
+            hu.proc_type = PROC_TYPE_APPLE_GPU;
             hu.gpu_usage = gpu_usage;
         } else {
             if (config.debug_version_select) {
@@ -1173,6 +1200,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_opencl_driver_revision", min_opencl_driver_revision)) continue;
         if (xp.parse_int("max_opencl_driver_revision", max_opencl_driver_revision)) continue;
         if (xp.parse_bool("double_precision_fp", double_precision_fp)) continue;
+
+        if (xp.parse_int("min_metal_support", min_metal_support)) continue;
 
         if (xp.parse_int("min_vbox_version", min_vbox_version)) continue;
         if (xp.parse_int("max_vbox_version", max_vbox_version)) continue;

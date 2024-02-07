@@ -982,6 +982,7 @@ function get_app_types() {
     $t->cuda = false;
     $t->ati = false;
     $t->intel_gpu = false;
+    $t->apple_gpu = false;
     $t->count = 0;
     $avs = BoincAppVersion::enum("deprecated=0");
     foreach ($avs as $av) {
@@ -999,6 +1000,9 @@ function get_app_types() {
             $t->count++;
         } else if (strstr($av->plan_class, "intel_gpu")) {
             $t->intel_gpu = true;
+            $t->count++;
+        } else if (strstr($av->plan_class, "apple_gpu")) {
+            $t->apple_gpu = true;
             $t->count++;
         } else {
             $t->cpu = true;

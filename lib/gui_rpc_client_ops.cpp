@@ -314,6 +314,8 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("ati_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
         if (xp.parse_double("intel_gpu_backoff_time", rsc_desc_intel_gpu.backoff_time)) continue;
         if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_intel_gpu.backoff_interval)) continue;
+        if (xp.parse_double("apple_gpu_backoff_time", rsc_desc_apple_gpu.backoff_time)) continue;
+        if (xp.parse_double("apple_gpu_backoff_interval", rsc_desc_apple_gpu.backoff_interval)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
 
         // deprecated elements
@@ -335,6 +337,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                         rsc_desc_ati.backoff_time = value;
                     } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                         rsc_desc_intel_gpu.backoff_time = value;
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+                        rsc_desc_apple_gpu.backoff_time = value;
                     }
                     break;
                 }
@@ -355,6 +359,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                         rsc_desc_ati.backoff_interval = value;
                     } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                         rsc_desc_intel_gpu.backoff_interval = value;
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+                        rsc_desc_apple_gpu.backoff_interval = value;
                     }
                     break;
                 }
@@ -372,6 +378,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_ati.no_rsc_ams = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                 rsc_desc_intel_gpu.no_rsc_ams = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+                rsc_desc_apple_gpu.no_rsc_ams = true;
             }
             continue;
         }
@@ -384,6 +392,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_ati.no_rsc_apps = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                 rsc_desc_intel_gpu.no_rsc_apps = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+                rsc_desc_apple_gpu.no_rsc_apps = true;
             }
             continue;
         }
@@ -396,6 +406,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_ati.no_rsc_pref = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                 rsc_desc_intel_gpu.no_rsc_pref = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+                rsc_desc_apple_gpu.no_rsc_pref = true;
             }
             continue;
         }
@@ -408,6 +420,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_ati.no_rsc_config = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                 rsc_desc_intel_gpu.no_rsc_config = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+                rsc_desc_apple_gpu.no_rsc_config = true;
             }
             continue;
         }

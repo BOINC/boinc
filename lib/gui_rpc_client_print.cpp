@@ -299,6 +299,20 @@ void HOST_INFO::print() {
             printf("    %s\n", buf);
         }
     }
+    COPROC_APPLE &cap = coprocs.apple_gpu;
+    if (cap.count) {
+        printf("  Apple GPU\n");
+        if (cap.count > 1) {
+            printf("    Count: %d\n", cap.count);
+        }
+        if (cap.have_opencl) {
+            cap.opencl_prop.peak_flops = cap.peak_flops;
+            cap.opencl_prop.opencl_available_ram = cap.opencl_prop.global_mem_size;
+            cap.opencl_prop.is_used = COPROC_USED;
+            cap.opencl_prop.description(buf, sizeof(buf), "Apple GPU");
+            printf("    %s\n", buf);
+        }
+    }
 }
 
 void SIMPLE_GUI_INFO::print() {

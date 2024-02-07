@@ -282,8 +282,10 @@ function app_version_desc($avid) {
         return "Anonymous platform: NVIDIA GPU";
     case ANON_PLATFORM_ATI:
         return "Anonymous platform: AMD GPU";
-    case ANON_PLATFORM_INTEL:
+    case ANON_PLATFORM_INTEL_GPU:
         return "Anonymous platform: Intel GPU";
+    case ANON_PLATFORM_APPLE_GPU:
+        return "Anonymous platform: Apple GPU";
     }
     if ($avid <= 0) {
         return "unknown: $avid";

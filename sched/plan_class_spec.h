@@ -111,6 +111,9 @@ struct PLAN_CLASS_SPEC {
     int max_opencl_driver_revision;
     bool double_precision_fp;
 
+    // Apple GPU
+    int min_metal_support;
+
     // VirtualBox apps
     //
     int min_vbox_version;

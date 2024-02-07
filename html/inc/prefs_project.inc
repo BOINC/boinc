@@ -31,6 +31,7 @@
 //    [ <no_cuda>1</no_cuda> ]
 //    [ <no_ati>1</no_ati> ]
 //    [ <no_intel_gpu>1</no_intel_gpu> ]
+//    [ <no_apple_gpu>1</no_apple_gpu> ]
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
@@ -99,6 +100,15 @@ if ($app_types->intel_gpu) {
         tra("Use Intel GPU"),
         "Request Intel GPU tasks from this project.",
         "no_intel_gpu",
+        false,
+        true
+    );
+}
+if ($app_types->apple_gpu) {
+    $project_pref_descs[] = new PREF_BOOL (
+        tra("Use Apple GPU"),
+        "Request Apple GPU tasks from this project.",
+        "no_apple_gpu",
         false,
         true
     );
