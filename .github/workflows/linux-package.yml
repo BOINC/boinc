@@ -366,7 +366,7 @@ jobs:
               groupadd -r ${BOINCGROUP}
             fi
             if ! getent passwd ${BOINCUSER} >/dev/null; then
-              useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}
+              useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c \"BOINC user\" ${BOINCUSER}
             fi
 
             %files
