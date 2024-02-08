@@ -362,8 +362,8 @@ jobs:
             cp -rfa * %{buildroot}
 
             %post
-            if [[ ! $(getent group ${BOINCGROUP}) ]]; then groupadd -r ${BOINCGROUP}; fi
-            if [[ ! $(getent passwd ${BOINCUSER}) ]]; then useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}; fi
+            if [ "x$(getent group ${BOINCGROUP})" = "x" ]; then groupadd -r ${BOINCGROUP}; fi
+            if [ "x$(getent passwd ${BOINCUSER})" = "x" ]; then useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}; fi
 
             %files
             ${PKG_FILELIST}
