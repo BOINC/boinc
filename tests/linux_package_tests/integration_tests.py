@@ -64,8 +64,10 @@ class IntegrationTests:
         ts.expect_true(self._get_user_exists("boinc"), "Test 'boinc' user exists")
         ts.expect_true(self._get_group_exists("boinc"), "Test 'boinc' group exists")
         ts.expect_true(self._get_user_in_group("boinc", "boinc"), "Test 'boinc' user is in 'boinc' group")
-        ts.expect_true(self._get_user_in_group("boinc", "video"), "Test 'boinc' user is in 'video' group")
-        ts.expect_true(self._get_user_in_group("boinc", "render"), "Test 'boinc' user is in 'render' group")
+        if (self._get_group_exists("video")):
+            ts.expect_true(self._get_user_in_group("boinc", "video"), "Test 'boinc' user is in 'video' group")
+        if (self._get_group_exists("render")):
+            ts.expect_true(self._get_user_in_group("boinc", "render"), "Test 'boinc' user is in 'render' group")
         return ts.result()
 
 if __name__ == "__main__":

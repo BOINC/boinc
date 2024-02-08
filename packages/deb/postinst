@@ -35,10 +35,14 @@ if ! getent group ${BOINCGROUP} | grep -q ${BOINCUSER}; then
     usermod -a -G ${BOINCGROUP} ${BOINCUSER}
 fi
 
-if ! getent group video | grep -q ${BOINCUSER}; then
-    usermod -a -G video ${BOINCUSER}
+if getent group video >/dev/null; then
+    if ! getent group video | grep -q ${BOINCUSER}; then
+        usermod -a -G video ${BOINCUSER}
+    fi
 fi
 
-if ! getent group render | grep -q ${BOINCUSER}; then
-    usermod -a -G render ${BOINCUSER}
+if getent group render >/dev/null; then
+    if ! getent group render | grep -q ${BOINCUSER}; then
+        usermod -a -G render ${BOINCUSER}
+    fi
 fi
