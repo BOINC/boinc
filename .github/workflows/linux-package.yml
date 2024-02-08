@@ -368,6 +368,15 @@ jobs:
             if ! getent passwd ${BOINCUSER} >/dev/null; then
               useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c \"BOINC user\" ${BOINCUSER}
             fi
+            if ! getent group ${BOINCGROUP} | grep -q ${BOINCUSER}; then
+              usermod -a -G ${BOINCGROUP} ${BOINCUSER}
+            fi
+            if ! getent group video | grep -q ${BOINCUSER}; then
+              usermod -a -G video ${BOINCUSER}
+            fi
+            if ! getent group render | grep -q ${BOINCUSER}; then
+              usermod -a -G render ${BOINCUSER}
+            fi
 
             %files
             ${PKG_FILELIST}
