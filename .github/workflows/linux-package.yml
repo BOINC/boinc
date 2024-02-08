@@ -331,6 +331,9 @@ jobs:
             # Derive the package dependencies for the selected package / os / release combination selected
             PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
             PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            BOINCUSER=boinc
+            BOINCGROUP=boinc
+            BOINCDIR=/var/lib/boinc
 
             cd rpmbuild
             echo """
@@ -359,15 +362,8 @@ jobs:
             cp -rfa * %{buildroot}
 
             %post
-            BOINCUSER=boinc
-            BOINCGROUP=boinc
-            BOINCDIR=/var/lib/boinc
-            if [[ ! $(getent group ${BOINCGROUP}) ]]; then
-              groupadd -r ${BOINCGROUP}
-            fi
-            if [[ ! $(getent passwd ${BOINCUSER}) ]]; then
-              useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}
-            fi
+            if [[ ! $(getent group ${BOINCGROUP}) ]]; then groupadd -r ${BOINCGROUP}; fi
+            if [[ ! $(getent passwd ${BOINCUSER}) ]]; then useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}; fi
 
             %files
             ${PKG_FILELIST}
