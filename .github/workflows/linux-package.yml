@@ -358,6 +358,17 @@ jobs:
             %install
             cp -rfa * %{buildroot}
 
+            %post
+            BOINCUSER=boinc
+            BOINCGROUP=boinc
+            BOINCDIR=/var/lib/boinc
+            if ! getent group ${BOINCGROUP} >/dev/null; then
+              groupadd -r ${BOINCGROUP}
+            fi
+            if ! getent passwd ${BOINCUSER} >/dev/null; then
+              useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}
+            fi
+
             %files
             ${PKG_FILELIST}
             """ > SPECS/${PKG_FULL}.spec
