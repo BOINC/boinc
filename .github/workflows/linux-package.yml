@@ -362,10 +362,10 @@ jobs:
             BOINCUSER=boinc
             BOINCGROUP=boinc
             BOINCDIR=/var/lib/boinc
-            if ! getent group ${BOINCGROUP} >/dev/null; then
+            if [[ ! $(getent group ${BOINCGROUP}) ]]; then
               groupadd -r ${BOINCGROUP}
             fi
-            if ! getent passwd ${BOINCUSER} >/dev/null; then
+            if [[ ! $(getent passwd ${BOINCUSER}) ]]; then
               useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}
             fi
 
