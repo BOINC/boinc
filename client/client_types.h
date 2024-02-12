@@ -101,7 +101,7 @@ struct URL_LIST {
 };
 
 struct FILE_INFO {
-    char name[256];
+    char name[256];         // physical name
     char md5_cksum[MD5_LEN];
     double max_nbytes;
     double nbytes;
@@ -177,7 +177,7 @@ struct FILE_INFO {
 //
 struct FILE_REF {
     char file_name[256];
-        // physical name
+        // physical name; should match file_info->name
     char open_name[256];
         // logical name
     bool main_program;
@@ -187,6 +187,15 @@ struct FILE_REF {
     bool optional;
         // for output files: app may not generate file;
         // don't treat as error if file is missing.
+    inline void clear() {
+        safe_strcpy(file_name, "");
+        safe_strcpy(open_name, "");
+        main_program = false;
+        file_info = NULL;
+        copy_file = false;
+        optional = false;
+    }
+    FILE_REF() {clear();}
     int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
