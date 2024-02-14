@@ -381,6 +381,11 @@ jobs:
                 usermod -a -G render ${BOINCUSER}
               fi
             fi
+            if [ -n "$SUDO_USER" ]; then
+                if ! getent group ${BOINCGROUP} | grep -q $SUDO_USER; then
+                    usermod -a -G ${BOINCGROUP} $SUDO_USER
+                fi
+            fi
 
             %files
             ${PKG_FILELIST}
