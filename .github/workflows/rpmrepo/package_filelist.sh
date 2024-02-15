@@ -79,17 +79,6 @@ case "$1_$2" in
     ;;
 
 # suse variants
-"suse15_6_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
-/etc/init.d/*
-/etc/bash_completion.d/*
-/var/lib/*
-/usr/lib/systemd/system/*
-/usr/local/bin/*
-/usr/lib/*
-"""
-    ;;
 "suse15_5_linux_client")
     echo """/etc/boinc-client/*
 /etc/default/*
@@ -113,14 +102,6 @@ case "$1_$2" in
 """
     ;;
 
-"suse15_6_linux_manager")
-    echo """/usr/local/bin/*
-/usr/share/applications/*
-/usr/share/boinc-manager/*
-/usr/share/locale/boinc/*
-/usr/share/icons/boinc
-"""
-    ;;
 "suse15_5_linux_manager")
     echo """/usr/local/bin/*
 /usr/share/applications/*

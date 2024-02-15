@@ -238,7 +238,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, suse15_4, suse15_5, suse15_6]
+        os: [fc37, fc38, fc39, suse15_4, suse15_5]
         type: [client, manager]
       fail-fast: false
     env:
@@ -579,7 +579,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [15.4, 15.5, 15.6]
+        os: [15.4, 15.5]
       fail-fast: false
     steps:
       - name: Install dependencies
@@ -719,7 +719,7 @@ jobs:
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, suse15_4, suse15_5, suse15_6]
+        os: [fc37, fc38, fc39, suse15_4, suse15_5]
       fail-fast: false
     env:
       ARCH: x86_64
