@@ -28,18 +28,21 @@ function exit_usage() {
 
 case "$1_$2" in
 # ubuntu distros
-"jammy_linux_client")
+"focal_linux_client")
     echo "libc6,libxss1 (>= 1.2.3)"
     ;;
-"focal_linux_client")
+"jammy_linux_client")
     echo "libc6,libxss1 (>= 1.2.3)"
     ;;
 
 # debian distros
+"buster_linux_client")
+    echo "libc6,libxss1 (>= 1.2.3)"
+    ;;
 "bullseye_linux_client")
     echo "libc6,libxss1 (>= 1.2.3)"
     ;;
-"buster_linux_client")
+"bookworm_linux_client")
     echo "libc6,libxss1 (>= 1.2.3)"
     ;;
 
