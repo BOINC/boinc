@@ -36,6 +36,9 @@ case "$1_$2" in
     ;;
 
 # debian distros
+"bookworm_linux_client")
+    echo "libc6,libxss1 (>= 1.2.3)"
+    ;;
 "bullseye_linux_client")
     echo "libc6,libxss1 (>= 1.2.3)"
     ;;

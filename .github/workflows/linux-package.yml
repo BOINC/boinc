@@ -130,7 +130,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [jammy, focal, bullseye, buster]
+        os: [focal, jammy, buster, bullseye, bookworm]
         type: [client, manager]
       fail-fast: false
     env:
@@ -204,14 +204,14 @@ jobs:
           echo "------------------------"
 
       - name: Create Ubuntu Package
-        if: ${{ success() && ( matrix.os == 'jammy' || matrix.os == 'focal') }}
+        if: ${{ success() && ( matrix.os == 'focal' || matrix.os == 'jammy' ) }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Ubuntu with XZ compression
           dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Create Debian Package
-        if: ${{ success() && ( matrix.os == 'bullseye' || matrix.os == 'buster') }}
+        if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' ) }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Debian with GZIP compression
@@ -238,7 +238,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc38, fc37, suse15_5, suse15_4]
+        os: [fc37, fc38, fc39, suse15_4, suse15_5, suse15_6]
         type: [client, manager]
       fail-fast: false
     env:
@@ -446,7 +446,7 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [bullseye, buster]
+        os: [buster, bullseye, bookworm]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -491,7 +491,7 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [jammy, focal]
+        os: [focal, jammy]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -536,7 +536,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [37, 38]
+        os: [37, 38, 39]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -579,7 +579,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [15.4, 15.5]
+        os: [15.4, 15.5, 15.6]
       fail-fast: false
     steps:
       - name: Install dependencies
@@ -626,7 +626,7 @@ jobs:
     needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
-        os: [jammy, focal, bullseye, buster]
+        os: [focal, jammy, buster, bullseye, bookworm]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
@@ -719,7 +719,7 @@ jobs:
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc38, fc37, suse15_5, suse15_4]
+        os: [fc37, fc38, fc39, suse15_4, suse15_5, suse15_6]
       fail-fast: false
     env:
       ARCH: x86_64
