@@ -19,6 +19,17 @@
 
 case "$1_$2" in
 # fedora variants
+"fc37_linux_client")
+    echo """/etc/boinc-client/*
+/etc/default/*
+/etc/init.d/*
+/etc/bash_completion.d/*
+/var/lib/*
+/usr/lib/systemd/system/*
+/usr/local/bin/*
+/usr/lib/*
+"""
+    ;;
 "fc38_linux_client")
     echo """/etc/boinc-client/*
 /etc/default/*
@@ -41,19 +52,8 @@ case "$1_$2" in
 /usr/lib/*
 """
     ;;
-"fc37_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
-/etc/init.d/*
-/etc/bash_completion.d/*
-/var/lib/*
-/usr/lib/systemd/system/*
-/usr/local/bin/*
-/usr/lib/*
-"""
-    ;;
 
-"fc39_linux_manager")
+"fc37_linux_manager")
     echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
@@ -69,7 +69,7 @@ case "$1_$2" in
 /usr/share/icons/boinc
 """
     ;;
-"fc37_linux_manager")
+"fc39_linux_manager")
     echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
@@ -79,17 +79,6 @@ case "$1_$2" in
     ;;
 
 # suse variants
-"suse15_5_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
-/etc/init.d/*
-/etc/bash_completion.d/*
-/var/lib/*
-/usr/lib/systemd/system/*
-/usr/local/bin/*
-/usr/lib/*
-"""
-    ;;
 "suse15_4_linux_client")
     echo """/etc/boinc-client/*
 /etc/default/*
@@ -101,8 +90,19 @@ case "$1_$2" in
 /usr/lib/*
 """
     ;;
+"suse15_5_linux_client")
+    echo """/etc/boinc-client/*
+/etc/default/*
+/etc/init.d/*
+/etc/bash_completion.d/*
+/var/lib/*
+/usr/lib/systemd/system/*
+/usr/local/bin/*
+/usr/lib/*
+"""
+    ;;
 
-"suse15_5_linux_manager")
+"suse15_4_linux_manager")
     echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
@@ -110,7 +110,7 @@ case "$1_$2" in
 /usr/share/icons/boinc
 """
     ;;
-"suse15_4_linux_manager")
+"suse15_5_linux_manager")
     echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
