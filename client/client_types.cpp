@@ -1093,11 +1093,7 @@ void APP_VERSION::check_graphics_exec() {
 int FILE_REF::parse(XML_PARSER& xp) {
     bool temp;
 
-    safe_strcpy(file_name, "");
-    safe_strcpy(open_name, "");
-    main_program = false;
-    copy_file = false;
-    optional = false;
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/file_ref")) {
             if (strstr(open_name, "..")) return ERR_BAD_FILENAME;
