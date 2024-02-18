@@ -552,13 +552,13 @@ jobs:
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_client_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_manager_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()
