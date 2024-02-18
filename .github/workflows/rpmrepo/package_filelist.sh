@@ -24,6 +24,7 @@ case "$1_$2" in
 /etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
+/etc/X11/Xsession.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
 /usr/local/bin/*
@@ -35,6 +36,7 @@ case "$1_$2" in
 /etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
+/etc/X11/Xsession.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
 /usr/local/bin/*
@@ -46,6 +48,7 @@ case "$1_$2" in
 /etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
+/etc/X11/Xsession.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
 /usr/local/bin/*
@@ -84,6 +87,7 @@ case "$1_$2" in
 /etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
+/etc/X11/Xsession.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
 /usr/local/bin/*
@@ -95,6 +99,7 @@ case "$1_$2" in
 /etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
+/etc/X11/Xsession.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
 /usr/local/bin/*
