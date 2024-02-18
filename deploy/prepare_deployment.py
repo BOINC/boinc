@@ -27,6 +27,7 @@ linux_client_list = [
     './client/scripts/boinc.bash',
     './client/scripts/boinc-client.conf',
     './packages/deb/*',
+    './packages/generic/*',
 ]
 
 linux_apps_list = [

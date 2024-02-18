@@ -26,6 +26,7 @@ class IntegrationTests:
         self.result &= self.test_files_exist()
         self.result &= self.test_version()
         self.result &= self.test_user()
+        self.result &= self.test_selected_values_from_boinc_client_service_file()
 
     def _get_test_executable_file_path(self, filename):
         path = os.popen("echo $PATH").read().strip()
@@ -61,11 +62,28 @@ class IntegrationTests:
     def _get_user_in_group(self, username, groupname):
         return os.popen("id -Gn {username}".format(username=username)).read().strip().find(groupname) != -1
 
+    def _get_key_value_pairs_from_file(self, filename):
+        result = {}
+        with open(filename, "r") as f:
+            lines = f.readlines()
+            for line in lines:
+                if (line.find("=") != -1):
+                    key, value = line.split("=")
+                    result[key.strip()] = value.strip()
+        return result
+
     def test_files_exist(self):
         ts = testset.TestSet("Test files exist")
         ts.expect_equal("/usr/local/bin/boinc", self._get_test_executable_file_path("boinc"), "Test 'boinc' file location")
         ts.expect_equal("/usr/local/bin/boinccmd", self._get_test_executable_file_path("boinccmd"), "Test 'boinccmd' file location")
         ts.expect_equal("/usr/local/bin/boincmgr", self._get_test_executable_file_path("boincmgr"), "Test 'boincmgr' file location")
+        ts.expect_true(os.path.exists("/usr/lib/systemd/system/boinc-client.service"), "Test 'boinc-client.service' file exists in '/usr/lib/systemd/system/'")
+        ts.expect_true(os.path.exists("/etc/default/boinc-client"), "Test 'boinc-client' file exists in '/etc/default/'")
+        ts.expect_true(os.path.exists("/etc/boinc-client/boinc.conf"), "Test 'boinc.conf' file exists in '/etc/boinc-client/'")
+        ts.expect_true(os.path.exists("/etc/init.d/boinc-client"), "Test 'boinc-client' file exists in '/etc/init.d/'")
+        ts.expect_true(os.path.exists("/etc/bash_completion.d/boinc.bash"), "Test 'boinc.bash' file exists in '/etc/bash_completion.d/'")
+        ts.expect_true(os.path.exists("/etc/X11/Xsession.d/36x11-common_xhost-boinc"), "Test '36x11-common_xhost-boinc' file exists in '/etc/X11/Xsession.d/'")
+        ts.expect_true(os.path.exists("/usr/share/applications/boinc.desktop"), "Test 'boinc.desktop' file exists in '/usr/share/applications/'")
         return ts.result()
 
     def test_version(self):
@@ -85,6 +103,18 @@ class IntegrationTests:
             ts.expect_true(self._get_user_in_group("boinc", "video"), "Test 'boinc' user is in 'video' group")
         if (self._get_group_exists("render")):
             ts.expect_true(self._get_user_in_group("boinc", "render"), "Test 'boinc' user is in 'render' group")
+        return ts.result()
+
+    def test_selected_values_from_boinc_client_service_file(self):
+        ts = testset.TestSet("Test selected values from the '/usr/lib/systemd/system/boinc-client.service' file")
+        data = self._get_key_value_pairs_from_file("/usr/lib/systemd/system/boinc-client.service")
+        ts.expect_equal(data["ReadWritePaths"], "-/var/lib/boinc -/etc/boinc-client", "Test 'ReadWritePaths' is correctly set")
+        ts.expect_equal(data["User"], "boinc", "Test 'User' is correctly set")
+        ts.expect_equal(data["WorkingDirectory"], "/var/lib/boinc", "Test 'WorkingDirectory' is correctly set")
+        ts.expect_equal(data["ExecStart"], "/usr/local/bin/boinc", "Test 'ExecStart' is correctly set")
+        ts.expect_equal(data["ExecStop"], "/usr/local/bin/boinccmd --quit", "Test 'ExecStop' is correctly set")
+        ts.expect_equal(data["ExecReload"], "/usr/local/bin/boinccmd --read_cc_config", "Test 'ExecReload' is correctly set")
+        ts.expect_equal(data["ExecStopPost"], "/bin/rm -f lockfile", "Test 'ExecStopPost' is correctly set")
         return ts.result()
 
 if __name__ == "__main__":

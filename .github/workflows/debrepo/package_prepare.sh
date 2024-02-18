@@ -41,7 +41,7 @@ function prepare_client() {
     exit_on_fail
     mkdir -p var/lib/boinc
     exit_on_fail
-    mkdir -p etc/bash_completion.d/
+    mkdir -p etc/bash_completion.d/ etc/X11/Xsession.d
     exit_on_fail
 
     # copy files and directories
@@ -49,13 +49,15 @@ function prepare_client() {
     exit_on_fail
     mv boinc-client.service usr/lib/systemd/system/
     exit_on_fail
-    cp boinc-client etc/default/
+    cp boinc-client.conf etc/default/boinc-client
     exit_on_fail
     mv boinc-client etc/init.d/
     exit_on_fail
     mv boinc-client.conf etc/boinc-client/boinc.conf
     exit_on_fail
     mv boinc.bash etc/bash_completion.d/
+    exit_on_fail
+    mv 36x11-common_xhost-boinc etc/X11/Xsession.d/
     exit_on_fail
 }
 
