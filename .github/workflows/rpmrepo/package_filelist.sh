@@ -20,8 +20,7 @@
 case "$1_$2" in
 # fedora variants
 "fc37_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
+    echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
 /etc/X11/Xsession.d/*
@@ -32,8 +31,7 @@ case "$1_$2" in
 """
     ;;
 "fc38_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
+    echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
 /etc/X11/Xsession.d/*
@@ -44,8 +42,7 @@ case "$1_$2" in
 """
     ;;
 "fc39_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
+    echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
 /etc/X11/Xsession.d/*
@@ -83,8 +80,7 @@ case "$1_$2" in
 
 # suse variants
 "suse15_4_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
+    echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
 /etc/X11/Xsession.d/*
@@ -95,8 +91,7 @@ case "$1_$2" in
 """
     ;;
 "suse15_5_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
+    echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
 /etc/X11/Xsession.d/*

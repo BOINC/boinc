@@ -442,7 +442,7 @@ jobs:
               # This file contains a list of remote host names or IP addresses (one per line)
               # that are allowed to connect to the BOINC client via the GUI RPC interface.
               # Only the hosts listed in this file will be allowed to connect.
-              # Lines starting with \'#\' and \';\' are comments and are ignored.
+              # Lines starting with '#' and ';' are comments and are ignored.
               \"\"\" > ${BOINCDIR}/remote_hosts.cfg
               ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
             fi
