@@ -16,6 +16,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import pathlib
 import re
 import sys
 import testset
@@ -72,6 +73,13 @@ class IntegrationTests:
                     result[key.strip()] = value.strip()
         return result
 
+    def _get_file_owner(self, filename):
+        if os.path.islink(filename):
+            path = pathlib.Path(os.readlink(filename))
+        else:
+            path = pathlib.Path(filename)
+        return "{owner}:{group}".format(owner=path.owner(), group=path.group())
+
     def test_files_exist(self):
         ts = testset.TestSet("Test files exist")
         ts.expect_equal("/usr/local/bin/boinc", self._get_test_executable_file_path("boinc"), "Test 'boinc' file location")
@@ -79,11 +87,22 @@ class IntegrationTests:
         ts.expect_equal("/usr/local/bin/boincmgr", self._get_test_executable_file_path("boincmgr"), "Test 'boincmgr' file location")
         ts.expect_true(os.path.exists("/usr/lib/systemd/system/boinc-client.service"), "Test 'boinc-client.service' file exists in '/usr/lib/systemd/system/'")
         ts.expect_true(os.path.exists("/etc/default/boinc-client"), "Test 'boinc-client' file exists in '/etc/default/'")
-        ts.expect_true(os.path.exists("/etc/boinc-client/boinc.conf"), "Test 'boinc.conf' file exists in '/etc/boinc-client/'")
         ts.expect_true(os.path.exists("/etc/init.d/boinc-client"), "Test 'boinc-client' file exists in '/etc/init.d/'")
         ts.expect_true(os.path.exists("/etc/bash_completion.d/boinc.bash"), "Test 'boinc.bash' file exists in '/etc/bash_completion.d/'")
         ts.expect_true(os.path.exists("/etc/X11/Xsession.d/36x11-common_xhost-boinc"), "Test '36x11-common_xhost-boinc' file exists in '/etc/X11/Xsession.d/'")
         ts.expect_true(os.path.exists("/usr/share/applications/boinc.desktop"), "Test 'boinc.desktop' file exists in '/usr/share/applications/'")
+        ts.expect_true(os.path.exists("/var/lib/boinc/cc_config.xml"), "Test 'cc_config.xml' file exists in '/var/lib/boinc/'")
+        ts.expect_true(os.path.islink("/var/lib/boinc/cc_config.xml"), "Test 'cc_config.xml' file is a symbolic link")
+        ts.expect_equal("/etc/boinc-client/cc_config.xml", os.readlink("/var/lib/boinc/cc_config.xml"), "Test 'cc_config.xml' file is a symbolic link to '/etc/boinc-client/cc_config.xml'")
+        ts.expect_true(os.path.exists("/var/lib/boinc/global_prefs_override.xml"), "Test 'global_prefs_override.xml' file exists in '/var/lib/boinc/'")
+        ts.expect_true(os.path.islink("/var/lib/boinc/global_prefs_override.xml"), "Test 'global_prefs_override.xml' file is a symbolic link")
+        ts.expect_equal("/etc/boinc-client/global_prefs_override.xml", os.readlink("/var/lib/boinc/global_prefs_override.xml"), "Test 'global_prefs_override.xml' file is a symbolic link to '/etc/boinc-client/global_prefs_override.xml'")
+        ts.expect_true(os.path.exists("/var/lib/boinc/remote_hosts.cfg"), "Test 'remote_hosts.cfg' file exists in '/var/lib/boinc/'")
+        ts.expect_true(os.path.islink("/var/lib/boinc/remote_hosts.cfg"), "Test 'remote_hosts.cfg' file is a symbolic link")
+        ts.expect_equal("/etc/boinc-client/remote_hosts.cfg", os.readlink("/var/lib/boinc/remote_hosts.cfg"), "Test 'remote_hosts.cfg' file is a symbolic link to '/etc/boinc-client/remote_hosts.cfg'")
+        ts.expect_true(os.path.exists("/var/lib/boinc/gui_rpc_auth.cfg"), "Test 'gui_rpc_auth.cfg' file exists in '/var/lib/boinc/'")
+        ts.expect_true(os.path.islink("/var/lib/boinc/gui_rpc_auth.cfg"), "Test 'gui_rpc_auth.cfg' file is a symbolic link")
+        ts.expect_equal("/etc/boinc-client/gui_rpc_auth.cfg", os.readlink("/var/lib/boinc/gui_rpc_auth.cfg"), "Test 'gui_rpc_auth.cfg' file is a symbolic link to '/etc/boinc-client/gui_rpc_auth.cfg'")
         return ts.result()
 
     def test_version(self):
@@ -116,6 +135,13 @@ class IntegrationTests:
         ts.expect_equal(data["ExecReload"], "/usr/local/bin/boinccmd --read_cc_config", "Test 'ExecReload' is correctly set")
         ts.expect_equal(data["ExecStopPost"], "/bin/rm -f lockfile", "Test 'ExecStopPost' is correctly set")
         return ts.result()
+
+    def test_files_permissions(self):
+        ts = testset.TestSet("Test files permissions")
+        ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/cc_config.xml"), "Test '/var/lib/boinc/cc_config.xml' file owner")
+        ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/global_prefs_override.xml"), "Test '/var/lib/boinc/global_prefs_override.xml' file owner")
+        ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/remote_hosts.cfg"), "Test '/var/lib/boinc/remote_hosts.cfg' file owner")
+        ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/gui_rpc_auth.cfg"), "Test '/var/lib/boinc/gui_rpc_auth.cfg' file owner")
 
 if __name__ == "__main__":
     if not IntegrationTests().result:

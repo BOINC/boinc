@@ -49,11 +49,9 @@ function prepare_client() {
     exit_on_fail
     mv boinc-client.service usr/lib/systemd/system/
     exit_on_fail
-    cp boinc-client.conf etc/default/boinc-client
+    mv boinc-client.conf etc/default/boinc-client
     exit_on_fail
     mv boinc-client etc/init.d/
-    exit_on_fail
-    mv boinc-client.conf etc/boinc-client/boinc.conf
     exit_on_fail
     mv boinc.bash etc/bash_completion.d/
     exit_on_fail

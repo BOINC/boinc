@@ -56,11 +56,9 @@ function prepare_client() {
     exit_on_fail
     mv boinc-client.service $RPM_BUILDROOT/usr/lib/systemd/system/
     exit_on_fail
-    cp boinc-client.conf $RPM_BUILDROOT/etc/default/boinc-client
+    mv boinc-client.conf $RPM_BUILDROOT/etc/default/boinc-client
     exit_on_fail
     mv boinc-client $RPM_BUILDROOT/etc/init.d/
-    exit_on_fail
-    mv boinc-client.conf $RPM_BUILDROOT/etc/boinc-client/boinc.conf
     exit_on_fail
     mv boinc.bash $RPM_BUILDROOT/etc/bash_completion.d/
     exit_on_fail
