@@ -410,6 +410,9 @@ jobs:
                     usermod -a -G ${BOINCGROUP} \"\$SUDO_USER\"
                 fi
             fi
+            if [ ! -d /etc/boinc-client ] ; then
+              mkdir -p /etc/boinc-client
+            fi
             if [ ! -f ${BOINCDIR}/cc_config.xml ] ; then
               echo \"\"\"
               <!--

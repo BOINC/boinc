@@ -82,6 +82,10 @@ if [ -n "$SUDO_USER" ]; then
     fi
 fi
 
+if [ ! -d /etc/boinc-client ] ; then
+    mkdir -p /etc/boinc-client
+fi
+
 if [ ! -f ${BOINCDIR}/cc_config.xml ] ; then
     echo """
     <!--
