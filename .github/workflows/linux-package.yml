@@ -325,8 +325,8 @@ jobs:
           echo "PUBKEY_HASH=$(gpg --list-keys | grep -Eo '([0-9A-F]{40})')" >> $GITHUB_ENV
           cp "boinc.pub.key" "${{ env.PUBKEY }}"
 
-      - name: Create RPM Definition
-        if: success()
+      - name: Create RPM client Definition
+        if: ${{ success() && matrix.type == 'client' }}
         run: |
             # Derive the package dependencies for the selected package / os / release combination selected
             PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
@@ -458,7 +458,7 @@ jobs:
               \"\"\" > ${BOINCDIR}/remote_hosts.cfg
               ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
             fi
-            if [ ! -f ${BOINCDIR}/ca-bundle.crt ] ; then
+            if [ ! -e ${BOINCDIR}/ca-bundle.crt ] ; then
               ln -s ${CA_BUNDLE} ${BOINCDIR}/ca-bundle.crt
             fi
             set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
@@ -477,6 +477,50 @@ jobs:
                 set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
                 update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
             fi
+
+            %files
+            ${PKG_FILELIST}
+            """ > SPECS/${PKG_FULL}.spec
+
+            echo "------------------------"
+            cat SPECS/${PKG_FULL}.spec
+            echo "------------------------"
+
+      - name: Create RPM manager Definition
+        if: ${{ success() && matrix.type == 'manager' }}
+        run: |
+            # Derive the package dependencies for the selected package / os / release combination selected
+            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
+
+            cd rpmbuild
+            echo """
+            Name:${PKG_NAME}
+            Version:${PKG_VERSION}
+            Release:${{ github.run_number }}
+            BuildArch:${{ env.ARCH }}
+            URL:${{ env.HOMEPAGE }}
+            Summary:${{ env.DESCRIPTION }}
+            License:LGPL3+
+            Requires:${PKG_DEPS}
+
+            %changelog
+            # not extracted
+
+            %description
+            ${{ env.DESCRIPTION }}
+
+            %prep
+            # nothing build is not done here
+
+            %build
+            # nothing to build
+
+            %install
+            cp -rfa * %{buildroot}
+
+            %post
+            # nothing to do
 
             %files
             ${PKG_FILELIST}

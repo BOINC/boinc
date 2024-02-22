@@ -126,7 +126,7 @@ if [ ! -f ${BOINCDIR}/remote_hosts.cfg ] ; then
     ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
 fi
 
-if [ ! -f ${BOINCDIR}/ca-bundle.crt ] ; then
+if [ ! -e ${BOINCDIR}/ca-bundle.crt ] ; then
     ln -s /etc/ssl/certs/ca-certificates.crt ${BOINCDIR}/ca-bundle.crt
 fi
 

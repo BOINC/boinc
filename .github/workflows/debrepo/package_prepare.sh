@@ -82,7 +82,9 @@ function prepare_scripts() {
     # prepare dir structure
     mkdir -p DEBIAN
     exit_on_fail
+}
 
+function prepare_scripts_client() {
     # copy files and directories
     mv postinst DEBIAN/
     exit_on_fail
