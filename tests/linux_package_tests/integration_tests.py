@@ -28,6 +28,8 @@ class IntegrationTests:
         self.result &= self.test_version()
         self.result &= self.test_user()
         self.result &= self.test_selected_values_from_boinc_client_service_file()
+        self.result &= self.test_files_permissions()
+        self.result &= self.test_boinc_service()
 
     def _get_test_executable_file_path(self, filename):
         path = os.popen("echo $PATH").read().strip()
@@ -153,6 +155,13 @@ class IntegrationTests:
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/global_prefs_override.xml"), "Test '/var/lib/boinc/global_prefs_override.xml' file owner")
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/remote_hosts.cfg"), "Test '/var/lib/boinc/remote_hosts.cfg' file owner")
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/gui_rpc_auth.cfg"), "Test '/var/lib/boinc/gui_rpc_auth.cfg' file owner")
+        return ts.result()
+
+    def test_boinc_service(self):
+        ts = testset.TestSet("Test 'boinc-client' service")
+        ts.expect_true(os.popen("systemctl is-enabled boinc-client").read().strip() == "enabled", "Test 'boinc-client' service is enabled")
+        ts.expect_true(os.popen("systemctl is-active boinc-client").read().strip() == "active", "Test 'boinc-client' service is active")
+        return ts.result()
 
 if __name__ == "__main__":
     if not IntegrationTests().result:
