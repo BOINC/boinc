@@ -335,6 +335,15 @@ jobs:
             BOINCGROUP=boinc
             BOINCDIR=/var/lib/boinc
 
+            case ${{ matrix.os }} in
+            "fc37" | "fc38" | "fc39")
+              CA_BUNDLE="/etc/pki/tls/certs/ca-bundle.crt"
+              ;;
+            "suse15_4" | "suse15_5")
+              CA_BUNDLE="/etc/ssl/ca-bundle.pem"
+              ;;
+            esac
+
             cd rpmbuild
             echo """
             Name:${PKG_NAME}
@@ -448,6 +457,9 @@ jobs:
               # Lines starting with '#' and ';' are comments and are ignored.
               \"\"\" > ${BOINCDIR}/remote_hosts.cfg
               ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
+            fi
+            if [ ! -f ${BOINCDIR}/ca-bundle.crt ] ; then
+              ln -s ${CA_BUNDLE} ${BOINCDIR}/ca-bundle.crt
             fi
             set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
             set_perm ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} 0775

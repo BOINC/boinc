@@ -80,6 +80,15 @@ class IntegrationTests:
             path = pathlib.Path(filename)
         return "{owner}:{group}".format(owner=path.owner(), group=path.group())
 
+    def _get_ca_certificates_file_path(self):
+        if os.path.exists("/etc/ssl/certs/ca-certificates.crt"):
+            return "/etc/ssl/certs/ca-certificates.crt"
+        if os.path.exists("/etc/pki/tls/certs/ca-bundle.crt"):
+            return "/etc/pki/tls/certs/ca-bundle.crt"
+        if os.path.exists("/etc/ssl/ca-bundle.pem"):
+            return "/etc/ssl/ca-bundle.pem"
+        return ""
+
     def test_files_exist(self):
         ts = testset.TestSet("Test files exist")
         ts.expect_equal("/usr/local/bin/boinc", self._get_test_executable_file_path("boinc"), "Test 'boinc' file location")
@@ -103,6 +112,10 @@ class IntegrationTests:
         ts.expect_true(os.path.exists("/var/lib/boinc/gui_rpc_auth.cfg"), "Test 'gui_rpc_auth.cfg' file exists in '/var/lib/boinc/'")
         ts.expect_true(os.path.islink("/etc/boinc-client/gui_rpc_auth.cfg"), "Test '/etc/boinc-client/gui_rpc_auth.cfg' file is a symbolic link")
         ts.expect_equal("/var/lib/boinc/gui_rpc_auth.cfg", os.readlink("/etc/boinc-client/gui_rpc_auth.cfg"), "Test '/etc/boinc-client/gui_rpc_auth.cfg' file is a symbolic link to '/var/lib/boinc/gui_rpc_auth.cfg'")
+        ts.expect_not_equal("", self._get_ca_certificates_file_path(), "Test system 'ca-certificates.crt' file exists")
+        ts.expect_true(os.path.exists("/var/lib/boinc/ca-bundle.crt"), "Test 'ca-bundle.crt' file exists in '/var/lib/boinc/'")
+        ts.expect_true(os.path.islink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link")
+        ts.expect_equal(self._get_ca_certificates_file_path(), os.readlink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link to the system 'ca-certificates.crt' file")
         return ts.result()
 
     def test_version(self):
