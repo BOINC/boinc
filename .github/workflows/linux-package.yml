@@ -337,7 +337,7 @@ jobs:
 
             case ${{ matrix.os }} in
             "fc37" | "fc38" | "fc39")
-              CA_BUNDLE="/etc/pki/tls/certs/ca-bundle.crt"
+              CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
               ;;
             "suse15_4" | "suse15_5")
               CA_BUNDLE="/etc/ssl/ca-bundle.pem"

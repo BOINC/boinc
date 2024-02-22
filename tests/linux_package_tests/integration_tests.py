@@ -83,8 +83,6 @@ class IntegrationTests:
     def _get_ca_certificates_file_path(self):
         if os.path.exists("/etc/ssl/certs/ca-certificates.crt"):
             return "/etc/ssl/certs/ca-certificates.crt"
-        if os.path.exists("/etc/pki/tls/certs/ca-bundle.crt"):
-            return "/etc/pki/tls/certs/ca-bundle.crt"
         if os.path.exists("/etc/ssl/ca-bundle.pem"):
             return "/etc/ssl/ca-bundle.pem"
         return ""

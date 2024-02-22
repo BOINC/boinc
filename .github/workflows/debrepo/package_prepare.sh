@@ -128,6 +128,7 @@ case "$BASEPKG" in
   "linux_client")
      prepare_client
      prepare_scripts
+     prepare_scripts_client
      ;;
   "linux_manager")
      prepare_manager

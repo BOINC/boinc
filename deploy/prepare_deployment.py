@@ -53,7 +53,6 @@ linux_manager_list = [
     './clientgui/skins',
     './clientgui/res/boinc.desktop',
     'locale/*/*.mo',
-    './packages/deb/*',
 ]
 
 mingw_apps_list = [
