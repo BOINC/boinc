@@ -477,7 +477,9 @@ jobs:
                 set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
                 update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
             fi
-            systemctl enable --now boinc-client.service
+            if [ ! systemctl enable --now boinc-client.service] ; then
+              echo \"Failed to enable and start boinc-client.service\"
+            fi
 
             %files
             ${PKG_FILELIST}
