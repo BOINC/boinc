@@ -18,8 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 case "$1_$2" in
-# fedora variants
-"fc*_linux_client" | "suse*_linux_client")
+"*_client")
     echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
@@ -31,7 +30,7 @@ case "$1_$2" in
 """
     ;;
 
-"fc*_linux_manager" | "suse*_linux_manager")
+"*_manager")
     echo """/usr/local/bin/*
 /usr/share/applications/*
 /usr/share/boinc-manager/*
