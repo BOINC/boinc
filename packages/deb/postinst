@@ -151,6 +151,10 @@ if [ -d ${BOINCDIR}/slots ] ; then
     update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
 fi
 
-if [ ! systemctl enable --now boinc-client.service] ; then
-    echo "Failed to enable and start boinc-client.service"
+if [ ! systemctl enable boinc-client.service] ; then
+    echo "Failed to enable boinc-client.service"
+fi
+
+if [ ! systemctl restart boinc-client.service] ; then
+    echo "Failed to restart boinc-client.service"
 fi

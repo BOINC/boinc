@@ -87,6 +87,7 @@ function prepare_scripts() {
 function prepare_scripts_client() {
     # copy files and directories
     mv postinst DEBIAN/
+    mv preinst DEBIAN/
     exit_on_fail
 }
 
