@@ -30,7 +30,7 @@ case "$1_$2" in
     ;;
 # opensuse distros
 "suse15_4_linux_client" | "suse15_5_linux_client")
-    echo "glibc,libXss1 >= 1.2.3,ca-certificates"
+    echo "glibc,libXss1 >= 1.2.2,ca-certificates"
     ;;
 
 *)  echo "glibc"
