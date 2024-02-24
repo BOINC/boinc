@@ -70,17 +70,21 @@ function prepare_manager() {
     # prepare dir structure
     mkdir -p $RPM_BUILDROOT/usr/local/bin
     exit_on_fail
-    mkdir -p $RPM_BUILDROOT/usr/share/applications $RPM_BUILDROOT/usr/share/boinc-manager $RPM_BUILDROOT/usr/share/icons/boinc $RPM_BUILDROOT/usr/share/locale/boinc
+    mkdir -p $RPM_BUILDROOT/usr/local/share/applications $RPM_BUILDROOT/usr/local/share/boinc-manager $RPM_BUILDROOT/usr/local/share/icons/boinc $RPM_BUILDROOT/usr/local/share/locale/boinc
     exit_on_fail
 
     # copy files and directories
     mv boincmgr $RPM_BUILDROOT/usr/local/bin/
     exit_on_fail
-    mv boinc.desktop $RPM_BUILDROOT/usr/share/applications/
+    mv boinc.desktop $RPM_BUILDROOT/usr/local/share/applications/
     exit_on_fail
-    mv skins/ $RPM_BUILDROOT/usr/share/boinc-manager/
+    mv boinc.png $RPM_BUILDROOT/usr/local/share/icons/boinc/
     exit_on_fail
-    mv locale/* $RPM_BUILDROOT/usr/share/locale/boinc/
+    mv boinc.svg $RPM_BUILDROOT/usr/local/share/icons/boinc/
+    exit_on_fail
+    mv skins/ $RPM_BUILDROOT/usr/local/share/boinc-manager/
+    exit_on_fail
+    mv locale/* $RPM_BUILDROOT/usr/local/share/locale/boinc/
     exit_on_fail
     rm -rf locale/
 }

@@ -32,10 +32,10 @@ case "$1_$2" in
 
 "fc37_linux_manager" | "fc38_linux_manager" | "fc39_linux_manager" | "suse15_4_linux_manager" | "suse15_5_linux_manager")
     echo """/usr/local/bin/*
-/usr/share/applications/*
-/usr/share/boinc-manager/*
-/usr/share/locale/boinc/*
-/usr/share/icons/boinc
+/usr/local/share/applications/*
+/usr/local/share/boinc-manager/*
+/usr/local/share/locale/boinc/*
+/usr/local/share/icons/boinc
 """
     ;;
 

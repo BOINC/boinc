@@ -52,6 +52,8 @@ linux_manager_list = [
     './clientgui/boincmgr',
     './clientgui/skins',
     './clientgui/res/boinc.desktop',
+    './clientgui/res/boinc.png',
+    './clientgui/res/boinc.svg',
     'locale/*/*.mo',
 ]
 
