@@ -63,7 +63,7 @@ function prepare_manager() {
     # prepare dir structure
     mkdir -p usr/local/bin
     exit_on_fail
-    mkdir -p usr/local/share/applications usr/local/share/boinc-manager usr/local/share/icons/boinc usr/local/share/locale/boinc
+    mkdir -p usr/local/share/applications usr/local/share/boinc-manager usr/local/share/icons usr/local/share/locale/boinc
     exit_on_fail
 
     # copy files and directories
@@ -71,9 +71,9 @@ function prepare_manager() {
     exit_on_fail
     mv boinc.desktop usr/local/share/applications/
     exit_on_fail
-    mv boinc.png usr/local/share/icons/boinc/
+    mv boinc.png usr/local/share/icons/
     exit_on_fail
-    mv boinc.svg usr/local/share/icons/boinc/
+    mv boinc.svg usr/local/share/icons/
     exit_on_fail
     mv skins/ usr/local/share/boinc-manager/
     exit_on_fail

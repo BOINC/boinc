@@ -35,7 +35,7 @@ case "$1_$2" in
 /usr/local/share/applications/*
 /usr/local/share/boinc-manager/*
 /usr/local/share/locale/boinc/*
-/usr/local/share/icons/boinc
+/usr/local/share/icons/*
 """
     ;;
 
