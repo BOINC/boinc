@@ -49,6 +49,8 @@ function prepare_client() {
     # copy files and directories
     mv postinst DEBIAN/
     exit_on_fail
+    mv rules DEBIAN/
+    exit_on_fail
     mv boinc boinccmd usr/local/bin/
     exit_on_fail
     mv boinc-client.service DEBIAN/
