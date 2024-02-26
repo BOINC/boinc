@@ -35,9 +35,7 @@ function prepare_client() {
     # prepare dir structure
     mkdir -p usr/local/bin
     exit_on_fail
-    mkdir -p etc/boinc-client etc/default etc/init.d
-    exit_on_fail
-    mkdir -p usr/lib/systemd/system
+    mkdir -p etc/boinc-client etc/init.d
     exit_on_fail
     mkdir -p var/lib/boinc
     exit_on_fail
@@ -45,13 +43,17 @@ function prepare_client() {
     exit_on_fail
     mkdir -p usr/local/share/locale/
     exit_on_fail
+    mkdir -p DEBIAN
+    exit_on_fail
 
     # copy files and directories
+    mv postinst DEBIAN/
+    exit_on_fail
     mv boinc boinccmd usr/local/bin/
     exit_on_fail
-    mv boinc-client.service usr/lib/systemd/system/
+    mv boinc-client.service DEBIAN/
     exit_on_fail
-    mv boinc-client.conf etc/default/boinc-client
+    mv boinc-client.conf DEBIAN/boinc-client.default
     exit_on_fail
     mv boinc-client etc/init.d/
     exit_on_fail
@@ -70,6 +72,8 @@ function prepare_manager() {
     exit_on_fail
     mkdir -p usr/local/share/applications usr/local/share/boinc-manager usr/local/share/icons usr/local/share/locale/
     exit_on_fail
+    mkdir -p DEBIAN
+    exit_on_fail
 
     # copy files and directories
     mv boincmgr usr/local/bin/
@@ -85,18 +89,6 @@ function prepare_manager() {
     for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Manager.mo); do mv $file usr/local/share/$dir/LC_MESSAGES/; done; done
     exit_on_fail
     rm -rf locale/
-}
-
-function prepare_scripts() {
-    # prepare dir structure
-    mkdir -p DEBIAN
-    exit_on_fail
-}
-
-function prepare_scripts_client() {
-    # copy files and directories
-    mv postinst DEBIAN/
-    exit_on_fail
 }
 
 ROOT=$(pwd)
@@ -134,12 +126,9 @@ find .
 case "$BASEPKG" in
   "linux_client")
      prepare_client
-     prepare_scripts
-     prepare_scripts_client
      ;;
   "linux_manager")
      prepare_manager
-     prepare_scripts
      ;;
 *)  echo "ERROR: Unknown package preparation requested"
     exit_usage

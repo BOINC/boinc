@@ -27,7 +27,7 @@ linux_client_list = [
     './client/scripts/boinc.bash',
     './client/scripts/boinc-client.conf',
     './packages/deb/*',
-    './packages/generic/*',
+    './packages/generic/36x11-common_xhost-boinc',
     'locale/*/*.mo',
 ]
 
