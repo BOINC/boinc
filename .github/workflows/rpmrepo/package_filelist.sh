@@ -27,6 +27,7 @@ case "$1_$2" in
 /usr/lib/systemd/system/*
 /usr/local/bin/*
 /usr/lib/*
+/usr/local/share/locale/*
 """
     ;;
 
@@ -34,7 +35,7 @@ case "$1_$2" in
     echo """/usr/local/bin/*
 /usr/local/share/applications/*
 /usr/local/share/boinc-manager/*
-/usr/local/share/locale/boinc/*
+/usr/local/share/locale/*
 /usr/local/share/icons/*
 """
     ;;

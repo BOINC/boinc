@@ -43,6 +43,8 @@ function prepare_client() {
     exit_on_fail
     mkdir -p etc/bash_completion.d/ etc/X11/Xsession.d
     exit_on_fail
+    mkdir -p usr/local/share/locale/
+    exit_on_fail
 
     # copy files and directories
     mv boinc boinccmd usr/local/bin/
@@ -57,13 +59,18 @@ function prepare_client() {
     exit_on_fail
     mv 36x11-common_xhost-boinc etc/X11/Xsession.d/
     exit_on_fail
+    mv locale/* usr/local/share/locale/
+    exit_on_fail
+    rm -rf locale/
+    for dir in $(find usr/local/share/locale/ -maxdepth 1 -mindepth 1 -type d); do mkdir $dir/LC_MESSAGES; for file in $(find $dir -type f); do mv $file $dir/LC_MESSAGES/; done; done
+    exit_on_fail
 }
 
 function prepare_manager() {
     # prepare dir structure
     mkdir -p usr/local/bin
     exit_on_fail
-    mkdir -p usr/local/share/applications usr/local/share/boinc-manager usr/local/share/icons usr/local/share/locale/boinc
+    mkdir -p usr/local/share/applications usr/local/share/boinc-manager usr/local/share/icons usr/local/share/locale/
     exit_on_fail
 
     # copy files and directories
@@ -77,9 +84,11 @@ function prepare_manager() {
     exit_on_fail
     mv skins/ usr/local/share/boinc-manager/
     exit_on_fail
-    mv locale/* usr/local/share/locale/boinc/
+    mv locale/* usr/local/share/locale/
     exit_on_fail
     rm -rf locale/
+    for dir in $(find usr/local/share/locale/ -maxdepth 1 -mindepth 1 -type d); do mkdir $dir/LC_MESSAGES; for file in $(find $dir -type f); do mv $file $dir/LC_MESSAGES/; done; done
+    exit_on_fail
 }
 
 function prepare_scripts() {

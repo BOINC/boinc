@@ -50,6 +50,8 @@ function prepare_client() {
     exit_on_fail
     mkdir -p $RPM_BUILDROOT/etc/bash_completion.d/ $RPM_BUILDROOT/etc/X11/Xsession.d
     exit_on_fail
+    mkdir -p $RPM_BUILDROOT/usr/local/share/locale/
+    exit_on_fail
 
     # copy files and directories
     mv boinc boinccmd $RPM_BUILDROOT/usr/local/bin/
@@ -64,13 +66,18 @@ function prepare_client() {
     exit_on_fail
     mv 36x11-common_xhost-boinc $RPM_BUILDROOT/etc/X11/Xsession.d/
     exit_on_fail
+    mv locale/* $RPM_BUILDROOT/usr/local/share/locale/
+    exit_on_fail
+    rm -rf locale/
+    for dir in $(find $RPM_BUILDROOT/usr/local/share/locale/ -maxdepth 1 -mindepth 1 -type d); do mkdir $dir/LC_MESSAGES; for file in $(find $dir -type f); do mv $file $dir/LC_MESSAGES/; done; done
+    exit_on_fail
 }
 
 function prepare_manager() {
     # prepare dir structure
     mkdir -p $RPM_BUILDROOT/usr/local/bin
     exit_on_fail
-    mkdir -p $RPM_BUILDROOT/usr/local/share/applications $RPM_BUILDROOT/usr/local/share/boinc-manager $RPM_BUILDROOT/usr/local/share/icons $RPM_BUILDROOT/usr/local/share/locale/boinc
+    mkdir -p $RPM_BUILDROOT/usr/local/share/applications $RPM_BUILDROOT/usr/local/share/boinc-manager $RPM_BUILDROOT/usr/local/share/icons $RPM_BUILDROOT/usr/local/share/locale
     exit_on_fail
 
     # copy files and directories
@@ -84,9 +91,11 @@ function prepare_manager() {
     exit_on_fail
     mv skins/ $RPM_BUILDROOT/usr/local/share/boinc-manager/
     exit_on_fail
-    mv locale/* $RPM_BUILDROOT/usr/local/share/locale/boinc/
+    mv locale/* $RPM_BUILDROOT/usr/local/share/locale/
     exit_on_fail
     rm -rf locale/
+    for dir in $(find $RPM_BUILDROOT/usr/local/share/locale/ -maxdepth 1 -mindepth 1 -type d); do mkdir $dir/LC_MESSAGES; for file in $(find $dir -type f); do mv $file $dir/LC_MESSAGES/; done; done
+    exit_on_fail
 }
 
 # setup RPM toplevel dirs

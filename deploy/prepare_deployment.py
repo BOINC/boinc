@@ -28,6 +28,7 @@ linux_client_list = [
     './client/scripts/boinc-client.conf',
     './packages/deb/*',
     './packages/generic/*',
+    './locale/*/BOINC-Client.mo',
 ]
 
 linux_apps_list = [
@@ -54,7 +55,7 @@ linux_manager_list = [
     './clientgui/res/boinc.desktop',
     './clientgui/res/boinc.png',
     './clientgui/res/boinc.svg',
-    'locale/*/*.mo',
+    './locale/*/BOINC-Manager.mo',
 ]
 
 mingw_apps_list = [
