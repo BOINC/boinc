@@ -66,11 +66,9 @@ function prepare_client() {
     exit_on_fail
     mv 36x11-common_xhost-boinc $RPM_BUILDROOT/etc/X11/Xsession.d/
     exit_on_fail
-    mv locale/* $RPM_BUILDROOT/usr/local/share/locale/
+    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p $RPM_BUILDROOT/usr/local/share/locale/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Client.mo); do mv $file $RPM_BUILDROOT/usr/local/share/locale/$dir/LC_MESSAGES/; done; done
     exit_on_fail
     rm -rf locale/
-    for dir in $(find $RPM_BUILDROOT/usr/local/share/locale/ -maxdepth 1 -mindepth 1 -type d); do mkdir $dir/LC_MESSAGES; for file in $(find $dir -type f); do mv $file $dir/LC_MESSAGES/; done; done
-    exit_on_fail
 }
 
 function prepare_manager() {
@@ -91,11 +89,9 @@ function prepare_manager() {
     exit_on_fail
     mv skins/ $RPM_BUILDROOT/usr/local/share/boinc-manager/
     exit_on_fail
-    mv locale/* $RPM_BUILDROOT/usr/local/share/locale/
+    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p $RPM_BUILDROOT/usr/local/share/locale/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Manager.mo); do mv $file $RPM_BUILDROOT/usr/local/share/locale/$dir/LC_MESSAGES/; done; done
     exit_on_fail
     rm -rf locale/
-    for dir in $(find $RPM_BUILDROOT/usr/local/share/locale/ -maxdepth 1 -mindepth 1 -type d); do mkdir $dir/LC_MESSAGES; for file in $(find $dir -type f); do mv $file $dir/LC_MESSAGES/; done; done
-    exit_on_fail
 }
 
 # setup RPM toplevel dirs
