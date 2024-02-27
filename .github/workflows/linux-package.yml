@@ -193,6 +193,7 @@ jobs:
           Package:${PKG_NAME}
           Version:${PKG_VERSION}
           Maintainer:${{ env.MANTAINER }}
+          Build-Depends: debhelper-compat (= 13)
           Depends:${PKG_DEPS}
           Architecture:${{ env.ARCH }}
           Homepage:${{ env.HOMEPAGE }}
