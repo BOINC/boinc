@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -25,12 +25,12 @@ function exit_usage() {
 
 case "$1_$2" in
 # fedora distros
-"fc*_linux_client")
-    echo "glibc,libXScrnSaver >= 1.2.3"
+"fc37_linux_client" | "fc38_linux_client" | "fc38_linux_client")
+    echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates"
     ;;
 # opensuse distros
-"suse*_linux_client")
-    echo "glibc,libXss1 >= 1.2.3"
+"suse15_4_linux_client" | "suse15_5_linux_client")
+    echo "glibc,libXss1 >= 1.2.2,ca-certificates"
     ;;
 
 *)  echo "glibc"

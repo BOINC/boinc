@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -27,25 +27,9 @@ function exit_usage() {
 }
 
 case "$1_$2" in
-# ubuntu distros
-"focal_linux_client")
-    echo "libc6,libxss1 (>= 1.2.3)"
+"focal_linux_client" | "jammy_linux_client" | "buster_linux_client" | "bullseye_linux_client" | "bookworm_linux_client")
+    echo "libc6,libxss1 (>= 1.2.3),ca-certificates"
     ;;
-"jammy_linux_client")
-    echo "libc6,libxss1 (>= 1.2.3)"
-    ;;
-
-# debian distros
-"buster_linux_client")
-    echo "libc6,libxss1 (>= 1.2.3)"
-    ;;
-"bullseye_linux_client")
-    echo "libc6,libxss1 (>= 1.2.3)"
-    ;;
-"bookworm_linux_client")
-    echo "libc6,libxss1 (>= 1.2.3)"
-    ;;
-
 *)  echo "libc6"
 	;;
 

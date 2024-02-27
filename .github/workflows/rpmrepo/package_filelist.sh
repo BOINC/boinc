@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,104 +18,25 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 case "$1_$2" in
-# fedora variants
-"fc37_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
+"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "suse15_4_linux_client" | "suse15_5_linux_client")
+    echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
+/etc/X11/Xsession.d/*
 /var/lib/*
 /usr/lib/systemd/system/*
-/usr/bin/*
+/usr/local/bin/*
 /usr/lib/*
-"""
-    ;;
-"fc38_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
-/etc/init.d/*
-/etc/bash_completion.d/*
-/var/lib/*
-/usr/lib/systemd/system/*
-/usr/bin/*
-/usr/lib/*
-"""
-    ;;
-"fc39_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
-/etc/init.d/*
-/etc/bash_completion.d/*
-/var/lib/*
-/usr/lib/systemd/system/*
-/usr/bin/*
-/usr/lib/*
+/usr/local/share/locale/*
 """
     ;;
 
-"fc37_linux_manager")
-    echo """/usr/bin/*
-/usr/share/applications/*
-/usr/share/boinc-manager/*
-/usr/share/locale/boinc/*
-/usr/share/icons/boinc
-"""
-    ;;
-"fc38_linux_manager")
-    echo """/usr/bin/*
-/usr/share/applications/*
-/usr/share/boinc-manager/*
-/usr/share/locale/boinc/*
-/usr/share/icons/boinc
-"""
-    ;;
-"fc39_linux_manager")
-    echo """/usr/bin/*
-/usr/share/applications/*
-/usr/share/boinc-manager/*
-/usr/share/locale/boinc/*
-/usr/share/icons/boinc
-"""
-    ;;
-
-# suse variants
-"suse15_4_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
-/etc/init.d/*
-/etc/bash_completion.d/*
-/var/lib/*
-/usr/lib/systemd/system/*
-/usr/bin/*
-/usr/lib/*
-"""
-    ;;
-"suse15_5_linux_client")
-    echo """/etc/boinc-client/*
-/etc/default/*
-/etc/init.d/*
-/etc/bash_completion.d/*
-/var/lib/*
-/usr/lib/systemd/system/*
-/usr/bin/*
-/usr/lib/*
-"""
-    ;;
-
-"suse15_5_linux_manager")
-    echo """/usr/bin/*
-/usr/share/applications/*
-/usr/share/boinc-manager/*
-/usr/share/locale/boinc/*
-/usr/share/icons/boinc
-"""
-    ;;
-"suse15_4_linux_manager")
-    echo """/usr/bin/*
-/usr/share/applications/*
-/usr/share/boinc-manager/*
-/usr/share/locale/boinc/*
-/usr/share/icons/boinc
+"fc37_linux_manager" | "fc38_linux_manager" | "fc39_linux_manager" | "suse15_4_linux_manager" | "suse15_5_linux_manager")
+    echo """/usr/local/bin/*
+/usr/local/share/applications/*
+/usr/local/share/boinc-manager/*
+/usr/local/share/locale/*
+/usr/local/share/icons/*
 """
     ;;
 

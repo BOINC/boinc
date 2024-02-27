@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -25,7 +25,10 @@ linux_client_list = [
     './client/scripts/boinc-client.service',
     './client/scripts/boinc-client',
     './client/scripts/boinc.bash',
-    './client/scripts/boinc-client.conf'
+    './client/scripts/boinc-client.conf',
+    './packages/deb/*',
+    './packages/generic/36x11-common_xhost-boinc',
+    'locale/*/*.mo',
 ]
 
 linux_apps_list = [
@@ -50,6 +53,8 @@ linux_manager_list = [
     './clientgui/boincmgr',
     './clientgui/skins',
     './clientgui/res/boinc.desktop',
+    './clientgui/res/boinc.png',
+    './clientgui/res/boinc.svg',
     'locale/*/*.mo',
 ]
 
