@@ -11,6 +11,7 @@
           "name": "openssl",
           "features": ["ssl3", "weak-ssl-ciphers"],
           "default-features": false
-        }
+        },
+        "freetype"
     ]
 }

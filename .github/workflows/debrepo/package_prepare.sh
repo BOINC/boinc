@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -33,7 +33,7 @@ function exit_usage() {
 
 function prepare_client() {
     # prepare dir structure
-    mkdir -p usr/bin
+    mkdir -p usr/local/bin
     exit_on_fail
     mkdir -p etc/boinc-client etc/default etc/init.d
     exit_on_fail
@@ -41,39 +41,54 @@ function prepare_client() {
     exit_on_fail
     mkdir -p var/lib/boinc
     exit_on_fail
-    mkdir -p etc/bash_completion.d/
+    mkdir -p etc/bash_completion.d/ etc/X11/Xsession.d
+    exit_on_fail
+    mkdir -p usr/local/share/locale/
+    exit_on_fail
+    mkdir -p DEBIAN
     exit_on_fail
 
     # copy files and directories
-    mv boinc boinccmd usr/bin/
+    mv postinst DEBIAN/
+    exit_on_fail
+    mv boinc boinccmd usr/local/bin/
     exit_on_fail
     mv boinc-client.service usr/lib/systemd/system/
     exit_on_fail
-    cp boinc-client etc/default/
+    mv boinc-client.conf etc/default/boinc-client
     exit_on_fail
     mv boinc-client etc/init.d/
     exit_on_fail
-    mv boinc-client.conf etc/boinc-client/boinc.conf
-    exit_on_fail
     mv boinc.bash etc/bash_completion.d/
     exit_on_fail
+    mv 36x11-common_xhost-boinc etc/X11/Xsession.d/
+    exit_on_fail
+    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Client.mo); do mv $file usr/local/share/$dir/LC_MESSAGES/; done; done
+    exit_on_fail
+    rm -rf locale/
 }
 
 function prepare_manager() {
     # prepare dir structure
-    mkdir -p usr/bin
+    mkdir -p usr/local/bin
     exit_on_fail
-    mkdir -p usr/share/applications usr/share/boinc-manager usr/share/icons/boinc usr/share/locale/boinc
+    mkdir -p usr/local/share/applications usr/local/share/boinc-manager usr/local/share/icons usr/local/share/locale/
+    exit_on_fail
+    mkdir -p DEBIAN
     exit_on_fail
 
     # copy files and directories
-    mv boincmgr usr/bin/
+    mv boincmgr usr/local/bin/
     exit_on_fail
-    mv boinc.desktop usr/share/applications/
+    mv boinc.desktop usr/local/share/applications/
     exit_on_fail
-    mv skins/ usr/share/boinc-manager/
+    mv boinc.png usr/local/share/icons/
     exit_on_fail
-    mv locale/* usr/share/locale/boinc/
+    mv boinc.svg usr/local/share/icons/
+    exit_on_fail
+    mv skins/ usr/local/share/boinc-manager/
+    exit_on_fail
+    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Manager.mo); do mv $file usr/local/share/$dir/LC_MESSAGES/; done; done
     exit_on_fail
     rm -rf locale/
 }
@@ -85,9 +100,7 @@ BASEPKG="$2" # name of the artifact type
 
 # validity check
 case "$BASEPKG" in
-  "linux_client")
-     ;;
-  "linux_manager")
+  "linux_client" | "linux_manager")
      ;;
 
 *)  echo "ERROR: Unknown package preparation requested"
@@ -110,10 +123,6 @@ exit_on_fail
 exit_on_fail
 
 find .
-
-# required for deb package (same for debian and ubuntu)
-mkdir -p DEBIAN
-exit_on_fail
 
 # specialized prepare
 case "$BASEPKG" in

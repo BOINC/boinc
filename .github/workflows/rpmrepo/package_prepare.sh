@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -40,7 +40,7 @@ RPM_BUILDROOT=$ROOT/rpmbuild/BUILD
 
 function prepare_client() {
     # prepare dir structure
-    mkdir -p $RPM_BUILDROOT/usr/bin
+    mkdir -p $RPM_BUILDROOT/usr/local/bin
     exit_on_fail
     mkdir -p $RPM_BUILDROOT/etc/boinc-client $RPM_BUILDROOT/etc/default $RPM_BUILDROOT/etc/init.d
     exit_on_fail
@@ -48,39 +48,48 @@ function prepare_client() {
     exit_on_fail
     mkdir -p $RPM_BUILDROOT/var/lib/boinc
     exit_on_fail
-    mkdir -p $RPM_BUILDROOT/etc/bash_completion.d/
+    mkdir -p $RPM_BUILDROOT/etc/bash_completion.d/ $RPM_BUILDROOT/etc/X11/Xsession.d
+    exit_on_fail
+    mkdir -p $RPM_BUILDROOT/usr/local/share/locale/
     exit_on_fail
 
     # copy files and directories
-    mv boinc boinccmd $RPM_BUILDROOT/usr/bin/
+    mv boinc boinccmd $RPM_BUILDROOT/usr/local/bin/
     exit_on_fail
     mv boinc-client.service $RPM_BUILDROOT/usr/lib/systemd/system/
     exit_on_fail
-    cp boinc-client $RPM_BUILDROOT/etc/default/
+    mv boinc-client.conf $RPM_BUILDROOT/etc/default/boinc-client
     exit_on_fail
     mv boinc-client $RPM_BUILDROOT/etc/init.d/
     exit_on_fail
-    mv boinc-client.conf $RPM_BUILDROOT/etc/boinc-client/boinc.conf
-    exit_on_fail
     mv boinc.bash $RPM_BUILDROOT/etc/bash_completion.d/
     exit_on_fail
+    mv 36x11-common_xhost-boinc $RPM_BUILDROOT/etc/X11/Xsession.d/
+    exit_on_fail
+    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p $RPM_BUILDROOT/usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Client.mo); do mv $file $RPM_BUILDROOT/usr/local/share/$dir/LC_MESSAGES/; done; done
+    exit_on_fail
+    rm -rf locale/
 }
 
 function prepare_manager() {
     # prepare dir structure
-    mkdir -p $RPM_BUILDROOT/usr/bin
+    mkdir -p $RPM_BUILDROOT/usr/local/bin
     exit_on_fail
-    mkdir -p $RPM_BUILDROOT/usr/share/applications $RPM_BUILDROOT/usr/share/boinc-manager $RPM_BUILDROOT/usr/share/icons/boinc $RPM_BUILDROOT/usr/share/locale/boinc
+    mkdir -p $RPM_BUILDROOT/usr/local/share/applications $RPM_BUILDROOT/usr/local/share/boinc-manager $RPM_BUILDROOT/usr/local/share/icons $RPM_BUILDROOT/usr/local/share/locale
     exit_on_fail
 
     # copy files and directories
-    mv boincmgr $RPM_BUILDROOT/usr/bin/
+    mv boincmgr $RPM_BUILDROOT/usr/local/bin/
     exit_on_fail
-    mv boinc.desktop $RPM_BUILDROOT/usr/share/applications/
+    mv boinc.desktop $RPM_BUILDROOT/usr/local/share/applications/
     exit_on_fail
-    mv skins/ $RPM_BUILDROOT/usr/share/boinc-manager/
+    mv boinc.png $RPM_BUILDROOT/usr/local/share/icons
     exit_on_fail
-    mv locale/* $RPM_BUILDROOT/usr/share/locale/boinc/
+    mv boinc.svg $RPM_BUILDROOT/usr/local/share/icons
+    exit_on_fail
+    mv skins/ $RPM_BUILDROOT/usr/local/share/boinc-manager/
+    exit_on_fail
+    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p $RPM_BUILDROOT/usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Manager.mo); do mv $file $RPM_BUILDROOT/usr/local/share/$dir/LC_MESSAGES/; done; done
     exit_on_fail
     rm -rf locale/
 }

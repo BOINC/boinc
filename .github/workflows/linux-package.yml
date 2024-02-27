@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -92,11 +92,11 @@ jobs:
 
       - name: Configure client
         if: success() && matrix.type == 'client'
-        run: linux/ci_configure_client.sh
+        run: linux/ci_configure_client.sh --exec_prefix "/usr/local"
 
       - name: Configure manager
         if: success() && matrix.type == 'manager'
-        run: linux/ci_configure_manager.sh
+        run: linux/ci_configure_manager.sh --exec_prefix "/usr/local"
 
       - name: Make
         if: success()
@@ -193,6 +193,7 @@ jobs:
           Package:${PKG_NAME}
           Version:${PKG_VERSION}
           Maintainer:${{ env.MANTAINER }}
+          Build-Depends: debhelper-compat (= 13)
           Depends:${PKG_DEPS}
           Architecture:${{ env.ARCH }}
           Homepage:${{ env.HOMEPAGE }}
@@ -325,12 +326,24 @@ jobs:
           echo "PUBKEY_HASH=$(gpg --list-keys | grep -Eo '([0-9A-F]{40})')" >> $GITHUB_ENV
           cp "boinc.pub.key" "${{ env.PUBKEY }}"
 
-      - name: Create RPM Definition
-        if: success()
+      - name: Create RPM client Definition
+        if: ${{ success() && matrix.type == 'client' }}
         run: |
             # Derive the package dependencies for the selected package / os / release combination selected
             PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
             PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            BOINCUSER=boinc
+            BOINCGROUP=boinc
+            BOINCDIR=/var/lib/boinc
+
+            case ${{ matrix.os }} in
+            "fc37" | "fc38" | "fc39")
+              CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
+              ;;
+            "suse15_4" | "suse15_5")
+              CA_BUNDLE="/etc/ssl/ca-bundle.pem"
+              ;;
+            esac
 
             cd rpmbuild
             echo """
@@ -357,6 +370,161 @@ jobs:
 
             %install
             cp -rfa * %{buildroot}
+
+            %post
+            set_perm() {
+              chown \$2:\$3 \"\$1\"
+              chmod \$4 \"\$1\"
+            }
+            set_perm_recursive() {
+              chown -R \$2:\$3 \"\$1\"
+              chmod -R \$4 \"\$1\"
+            }
+            set_perm_dir() {
+              for file in $(ls \"\$1\")
+              do
+                  path=\"\$1/\${file}\"
+                  set_perm \"\${path}\" \$2 \$3 \$4
+              done
+            }
+            update_nested_dirs() {
+              chmod \$2 \"\${1}\"
+              for file in \$(ls \"\$1\")
+                do
+              if [ -d \"\${1}/\${file}\" ] ; then
+                update_nested_dirs \"\${1}/\${file}\" \$2
+              fi
+                done
+            }
+            if ! getent group ${BOINCGROUP} >/dev/null; then
+              groupadd -r ${BOINCGROUP}
+            fi
+            if ! getent passwd ${BOINCUSER} >/dev/null; then
+              useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c \"BOINC user\" ${BOINCUSER}
+            fi
+            if ! getent group ${BOINCGROUP} | grep -q ${BOINCUSER}; then
+              usermod -a -G ${BOINCGROUP} ${BOINCUSER}
+            fi
+            if getent group video >/dev/null; then
+              if ! getent group video | grep -q ${BOINCUSER}; then
+                usermod -a -G video ${BOINCUSER}
+              fi
+            fi
+            if getent group render >/dev/null; then
+              if ! getent group render | grep -q ${BOINCUSER}; then
+                usermod -a -G render ${BOINCUSER}
+              fi
+            fi
+            if [ -n \"\$SUDO_USER\" ]; then
+                if ! getent group ${BOINCGROUP} | grep -q \"\$SUDO_USER\"; then
+                    usermod -a -G ${BOINCGROUP} \"\$SUDO_USER\"
+                fi
+            fi
+            if [ ! -d /etc/boinc-client ] ; then
+              mkdir -p /etc/boinc-client
+            fi
+            if [ ! -f ${BOINCDIR}/cc_config.xml ] ; then
+              echo \"\"\"
+              <!--
+              This is a configuration file of the BOINC client.
+              For a complete list of options see https://boinc.berkeley.edu/wiki/client_configuration
+              -->
+              <cc_config>
+              </cc_config>
+              \"\"\" > ${BOINCDIR}/cc_config.xml
+              ln -s ${BOINCDIR}/cc_config.xml /etc/boinc-client/cc_config.xml
+            fi
+            if [ ! -f ${BOINCDIR}/global_prefs_override.xml ] ; then
+              echo \"\"\"
+              <!--
+              This is a configuration file of the BOINC client that can be used to override global preferences
+              received from the attached project locally.
+              For a complete list of options see https://github.com/BOINC/boinc/wiki/PrefsOverride
+              -->
+              <global_preferences>
+              </global_preferences>
+              \"\"\" > ${BOINCDIR}/global_prefs_override.xml
+              ln -s ${BOINCDIR}/global_prefs_override.xml /etc/boinc-client/global_prefs_override.xml
+            fi
+            if [ ! -f ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+                echo \"\" > ${BOINCDIR}/gui_rpc_auth.cfg
+                ln -s ${BOINCDIR}/gui_rpc_auth.cfg /etc/boinc-client/gui_rpc_auth.cfg
+            fi
+            if [ ! -f ${BOINCDIR}/remote_hosts.cfg ] ; then
+              echo \"\"\"
+              # This file contains a list of remote host names or IP addresses (one per line)
+              # that are allowed to connect to the BOINC client via the GUI RPC interface.
+              # Only the hosts listed in this file will be allowed to connect.
+              # Lines starting with '#' and ';' are comments and are ignored.
+              \"\"\" > ${BOINCDIR}/remote_hosts.cfg
+              ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
+            fi
+            if [ ! -e ${BOINCDIR}/ca-bundle.crt ] ; then
+              ln -s ${CA_BUNDLE} ${BOINCDIR}/ca-bundle.crt
+            fi
+            set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
+            set_perm ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} 0775
+            if [ -f ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+                set_perm ${BOINCDIR}/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -f ${BOINC_DIR}/remote_hosts.cfg ] ; then
+              set_perm ${BOINCDIR}/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -d ${BOINCDIR}/projects ] ; then
+                set_perm ${BOINCDIR}/projects ${BOINCUSER} ${BOINCGROUP} 0775
+                update_nested_dirs ${BOINCDIR}/projects u+x,g+x,o+x
+            fi
+            if [ -d ${BOINCDIR}/slots ] ; then
+                set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
+                update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
+            fi
+            if [ -x /bin/systemctl ] ; then
+                systemctl enable --now boinc-client.service
+            fi
+
+            %files
+            ${PKG_FILELIST}
+            """ > SPECS/${PKG_FULL}.spec
+
+            echo "------------------------"
+            cat SPECS/${PKG_FULL}.spec
+            echo "------------------------"
+
+      - name: Create RPM manager Definition
+        if: ${{ success() && matrix.type == 'manager' }}
+        run: |
+            # Derive the package dependencies for the selected package / os / release combination selected
+            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
+
+            cd rpmbuild
+            echo """
+            Name:${PKG_NAME}
+            Version:${PKG_VERSION}
+            Release:${{ github.run_number }}
+            BuildArch:${{ env.ARCH }}
+            URL:${{ env.HOMEPAGE }}
+            Summary:${{ env.DESCRIPTION }}
+            License:LGPL3+
+            Requires:${PKG_DEPS}
+
+            %changelog
+            # not extracted
+
+            %description
+            ${{ env.DESCRIPTION }}
+
+            %pre
+            # nothing build is not done here
+
+            %build
+            # nothing to build
+
+            %install
+            cp -rfa * %{buildroot}
+
+            %post
+            # nothing to do
 
             %files
             ${PKG_FILELIST}
@@ -523,13 +691,13 @@ jobs:
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_client_fc${{ matrix.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_manager_fc${{ matrix.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()
@@ -565,24 +733,19 @@ jobs:
       - name: Get OS name
         if: success()
         run: |
-          if [[ "${{ matrix.os }}" == "15.4" ]]; then
-            OS="suse15_4"
-          elif [[ "${{ matrix.os }}" == "15.5" ]]; then
-            OS="suse15_5"
-          fi
-          echo "OS=${OS}" >> $GITHUB_ENV
+          echo "OS=`echo ${{ matrix.os }} | sed 's/\./_/g'`" >> $GITHUB_ENV
 
       - name: Download client
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_client_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
         uses: actions/download-artifact@v3
         with:
-          name: linux-package_manager_${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()
