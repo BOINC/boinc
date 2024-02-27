@@ -150,3 +150,7 @@ if [ -d ${BOINCDIR}/slots ] ; then
     set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
     update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
 fi
+
+if [ -x /bin/systemctl ] ; then
+    systemctl enable --now boinc-client.service
+fi
