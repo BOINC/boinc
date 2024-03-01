@@ -46,6 +46,7 @@
 #include "res/skins/default/graphic/workunit_waiting_image.xpm"
 #include "res/boinc.xpm"
 #include "res/boinc32.xpm"
+#include "res/boinc64.xpm"
 #include "res/boincdisconnect.xpm"
 #include "res/boincdisconnect32.xpm"
 #include "res/boincsnooze.xpm"
@@ -308,10 +309,13 @@ bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
 }
 
 
-bool CSkinIcon::SetDefaults(wxString strComponentName, const char** m_ppIcon, const char** m_ppIcon32) {
+bool CSkinIcon::SetDefaults(wxString strComponentName, const char** m_ppIcon, const char** m_ppIcon32, const char** m_ppIcon64) {
     m_strComponentName = strComponentName;
     m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon));
     m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon32));
+    if (m_ppIcon64) {
+        m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon64));
+    }
     return true;
 }
 
@@ -653,7 +657,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), wxT("boincdisconnect"));
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), wxT("boincsnooze"));
 #else
-    m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_xpm, boinc32_xpm);
+    m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_xpm, boinc32_xpm, boinc64_xpm);
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), boincdisconnect_xpm, boincdisconnect32_xpm);
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), boincsnooze_xpm, boincsnooze32_xpm);
 #endif
