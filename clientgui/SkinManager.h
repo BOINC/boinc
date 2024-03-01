@@ -115,7 +115,8 @@ public:
     bool SetDefaults(
         wxString strComponentName,
         const char** m_ppIcon,
-        const char** m_ppIcon32
+        const char** m_ppIcon32,
+        const char** m_ppIcon64 = NULL
     );
 
     bool Validate();
@@ -127,7 +128,6 @@ private:
     wxIconBundle m_icoDefaultIcon;
     wxString     m_strDesiredIcon32;
     wxString     m_strDesiredTransparencyMask32;
-    wxIconBundle m_icoDefaultIcon32;
     wxIconBundle m_icoIcon;
 };
 
