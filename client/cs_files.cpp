@@ -507,6 +507,7 @@ int FILE_INFO::check_size() {
     if (gstate.global_prefs.dont_verify_images && is_image_file(path)) {
         return 0;
     }
+    if (cc_config.dont_check_file_sizes) return 0;
     if (nbytes && (size != nbytes)) {
         delete_project_owned_file(path, true);
         status = FILE_NOT_PRESENT;
