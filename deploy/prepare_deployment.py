@@ -298,7 +298,7 @@ logs_list = [
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
-    command = '7z a -t7z -r -mx=9 -xr!*.dSYM ' + archive_path + ' ' + " ".join(files_list)
+    command = '7z a -t7z -r -mx=9 -xr!*.dSYM -xr!Makefile -xr!Makefile.* ' + archive_path + ' ' + " ".join(files_list)
     os.system(command)
 
 def help():

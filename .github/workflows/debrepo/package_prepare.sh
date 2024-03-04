@@ -91,6 +91,7 @@ function prepare_manager() {
     for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Manager.mo); do mv $file usr/local/share/$dir/LC_MESSAGES/; done; done
     exit_on_fail
     rm -rf locale/
+    rm -rf res/
 }
 
 ROOT=$(pwd)
