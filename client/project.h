@@ -169,7 +169,7 @@ struct PROJECT : PROJ_AM {
         // use those apps rather then getting from server
     bool non_cpu_intensive;
         // The project has asserted (in sched reply) that
-        // all apps are non-CPU-intensive.
+        // all its apps are non-CPU-intensive.
     bool use_symlinks;
     bool report_results_immediately;
     bool sched_req_no_work[MAX_RSC];
