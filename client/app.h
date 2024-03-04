@@ -197,7 +197,7 @@ struct ACTIVE_TASK {
         return wup->app->sporadic;
     }
     inline bool non_cpu_intensive() {
-        return result->app->non_cpu_intensive;
+        return result->non_cpu_intensive();
     }
     inline bool always_run() {
         return sporadic() || non_cpu_intensive();

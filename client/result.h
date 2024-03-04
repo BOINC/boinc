@@ -156,6 +156,7 @@ struct RESULT {
         return avp->gpu_usage.rsc_type;
     }
     inline bool non_cpu_intensive() {
+        if (project->non_cpu_intensive) return true;
         return app->non_cpu_intensive;
     }
     inline bool sporadic() {

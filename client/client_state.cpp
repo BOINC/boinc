@@ -1283,9 +1283,6 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, const char* name) {
 int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
     if (lookup_app(p, app->name)) return ERR_NOT_UNIQUE;
     app->project = p;
-    if (!app->non_cpu_intensive) {
-        p->non_cpu_intensive = false;
-    }
     return 0;
 }
 
