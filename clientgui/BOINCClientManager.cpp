@@ -131,7 +131,7 @@ bool CBOINCClientManager::IsSystemBooting() {
 
 
 int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
-    bool bReturnValue = false;
+    int bReturnValue = 0;
 #if   defined(__WXMSW__)
     if (is_daemon_installed()) bReturnValue = 1;
 #elif defined(__WXMAC__)
@@ -140,6 +140,10 @@ int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
     }
     if (boinc_file_exists("/Library/StartupItems/boinc/boinc") ) {
         bReturnValue = OldStyleDaemon;                      // Old-style daemon uses StartupItem
+    }
+#else
+    if (boinc_file_exists("/usr/lib/systemd/system/boinc-client.service")) {
+        bReturnValue = 1;
     }
 #endif
     return bReturnValue;
@@ -307,24 +311,27 @@ bool CBOINCClientManager::StartupBOINCCore() {
     }
 
 #else   // Unix based systems
-    wxString savedWD = ::wxGetCwd();
+    // if BOINC client is installed as a systemd service - skip starting it
+    if (!IsBOINCConfiguredAsDaemon()) {
+        wxString savedWD = ::wxGetCwd();
 
-    wxSetWorkingDirectory(wxGetApp().GetDataDirectory());
+        wxSetWorkingDirectory(wxGetApp().GetDataDirectory());
 
-    // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = wxGetApp().GetRootDirectory() + wxT("boinc --redirectio --launched_by_manager");
+        // Append boinc.exe to the end of the strExecute string and get ready to rock
+        strExecute = wxGetApp().GetRootDirectory() + wxT("boinc --redirectio --launched_by_manager");
 #ifdef SANDBOX
-    if (!g_use_sandbox) {
-        strExecute += wxT(" --insecure");
-    }
+        if (!g_use_sandbox) {
+            strExecute += wxT(" --insecure");
+        }
 #endif
 
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), wxGetApp().GetDataDirectory().c_str());
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), wxGetApp().GetDataDirectory().c_str());
 
-    m_lBOINCCoreProcessId = ::wxExecute(strExecute);
+        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
 
-    wxSetWorkingDirectory(savedWD);
+        wxSetWorkingDirectory(savedWD);
+    }
 #endif
 
     if (0 != m_lBOINCCoreProcessId) {
@@ -432,8 +439,8 @@ void CBOINCClientManager::ShutdownBOINCCore(bool ShuttingDownManager) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#ifdef __WXMAC__
-    // Mac Manager shuts down client only if Manager started client
+#if defined (__WXMAC__) || defined (__WXGTK__)
+    // Mac and Linux Manager shuts down client only if Manager started client
     if (!m_bBOINCStartedByManager) return;
 #endif
 

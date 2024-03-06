@@ -1134,7 +1134,11 @@ void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
     // File->Shutdown connected client...
     wxMenuItem* shutClientItem = menu->FindChildItem(ID_SHUTDOWNCORECLIENT, NULL);
     if (shutClientItem) {
+#ifdef __WXGTK__
+        shutClientItem->Enable(isConnected && pDoc->m_pClientManager->WasBOINCStartedByManager());
+#else
         shutClientItem->Enable(isConnected);
+#endif
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
