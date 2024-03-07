@@ -390,9 +390,9 @@ function form_select($label, $name, $items, $selected=null) {
 }
 
 // same, for multiple select.
-// flags, if non-null, is a boolean array saying which ones are selected
+// $selected, if non-null, is a list of selected values
 //
-function form_select_multiple($label, $name, $items, $flags=null) {
+function form_select_multiple($label, $name, $items, $selected=null) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>
@@ -401,14 +401,12 @@ function form_select_multiple($label, $name, $items, $flags=null) {
         ',
         FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
     );
-    $n = 0;
     foreach ($items as $i) {
         echo sprintf(
             '<option %s value=%s>%s</option>',
-            ($flags && $flags[$n])?'selected':'',
+            ($selected && in_array($i[0], $selected))?'selected':'',
             $i[0], $i[1]
         );
-        $n++;
     }
     echo "</select></div></div>\n";
 }
