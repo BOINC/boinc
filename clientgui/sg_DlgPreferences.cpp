@@ -534,9 +534,13 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
     if (!m_backgroundBitmap) {
         MakeBackgroundBitmap();
     }
-    // Create a buffered device context to reduce flicker
     wxSize sz = GetClientSize();
+    // Create a buffered device context to reduce flicker
+#ifndef __WXGTK__
     wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+#else
+    wxDC &dc = *event.GetDC();
+#endif
 
 #if TEST_BACKGROUND_WITH_MAGENTA_FILL
     // Fill the dialog with a magenta color so people can detect when something
