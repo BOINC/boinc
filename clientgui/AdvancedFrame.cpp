@@ -290,6 +290,12 @@ CAdvancedFrame::~CAdvancedFrame() {
         wxCHECK_RET(DeleteNotebook(), _T("Failed to delete notebook."));
     }
 
+#ifdef __WXGTK__
+    if (wxGetApp().GetEventLog()) {
+        wxGetApp().GetEventLog()->Close();
+    }
+#endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::~CAdvancedFrame - Function End"));
 }
 
