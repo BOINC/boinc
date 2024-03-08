@@ -187,7 +187,11 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     wxSize sz = GetClientSize();
 
     // Create a buffered device context to reduce flicker
+#ifndef __WXGTK__
     wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+#else
+    wxDC &dc = *event.GetDC();
+#endif
 
     // bitmap dimensions
     w = bmp.GetWidth();
