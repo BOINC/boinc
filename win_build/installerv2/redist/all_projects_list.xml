@@ -277,7 +277,6 @@
         <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-apple-darwin[GW-mac-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-mac-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati-2]</name>
@@ -296,6 +295,7 @@
         <name>x86_64-pc-linux-gnu[FGRPopencl2Pup-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
@@ -381,12 +381,15 @@
         <name>aarch64-unknown-linux-gnu[mt]</name>
         <name>windows_x86_64[mt]</name>
         <name>windows_x86_64[opencl_amd]</name>
+        <name>windows_x86_64[opencl_intel_gpu]</name>
         <name>windows_x86_64[opencl_nvidia]</name>
         <name>x86_64-apple-darwin[mt]</name>
         <name>x86_64-apple-darwin[opencl_amd]</name>
+        <name>x86_64-apple-darwin[opencl_intel_gpu]</name>
         <name>x86_64-apple-darwin[opencl_nvidia]</name>
         <name>x86_64-pc-linux-gnu[mt]</name>
         <name>x86_64-pc-linux-gnu[opencl_amd]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
     </platforms>
       <summary>Do research in number theory</summary>
