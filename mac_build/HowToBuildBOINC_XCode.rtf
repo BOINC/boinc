@@ -1,13 +1,13 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2709
+{\rtf1\ansi\ansicpg1252\cocoartf2761
 \cocoascreenfonts1\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fmodern\fcharset0 Courier;
 \f3\fswiss\fcharset0 Arial-BoldMT;\f4\fmodern\fcharset0 Courier-Oblique;\f5\fswiss\fcharset0 Helvetica-Oblique;
 \f6\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;\red5\green68\blue254;\red186\green0\blue0;\red255\green255\blue255;
-\red245\green245\blue245;\red0\green0\blue0;\red255\green255\blue255;\red0\green0\blue0;\red246\green246\blue246;
-}
+\red245\green245\blue245;\red22\green22\blue24;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;
+\red0\green0\blue0;\red246\green246\blue246;}
 {\*\expandedcolortbl;;\cssrgb\c0\c38136\c99824;\csgenericrgb\c72941\c0\c0;\csgenericrgb\c100000\c100000\c100000;
-\csgenericrgb\c96078\c96078\c96078;\cssrgb\c0\c0\c0;\csgray\c100000;\csgray\c0;\csgenericrgb\c96471\c96471\c96471;
-}
+\csgenericrgb\c96078\c96078\c96078;\cssrgb\c11373\c11373\c12157;\cssrgb\c100000\c100000\c100000;\cssrgb\c0\c0\c0;\csgray\c100000;
+\csgray\c0;\csgenericrgb\c96471\c96471\c96471;}
 \margl1440\margr1440\vieww14780\viewh11840\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
@@ -17,7 +17,7 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 6/25/2023\
+Last updated 3/10/2024\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 This document applies to BOINC version 7.24.0 and later. It has instructions for building the BOINC Client, Manager, installer and associated software for the Macintosh. Information for building science project applications to run under BOINC on Macintosh can be found {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/BuildMacApp"}}{\fldrslt \cf2 here}} and {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/ProjectMain"}}{\fldrslt here}}.\
@@ -369,6 +369,25 @@ Building directly in Xcode places the built products in a somewhat obscure locat
 \f2\fs26 release_boinc.sh
 \f1\fs24  script, but you can also use them to access the built products directly as follows; open the file with TextEdit and copy the path, then enter command-shift-G in the Finder and paste the path into the Finder's  dialog.\
 \
+
+\f0\b Note 6:
+\f1\b0  
+\f0\b Important:
+\f1\b0  As of Xcode 15.3, if you build directly with Xcode it will by default build only for the native architecture. Xcode 15.3 added \cf6 \cb7 \expnd0\expndtw0\kerning0
+a new \'93Override Architectures\'94 build option, which controls the set of architectures that will be built for all targets in the workspace. The default is \'93Match Run Destination\'94, which will not build a universal binary (x86_64 and arm64) and will cause a link error for the 
+\f5\i detect_rosetta_cpu
+\f1\i0  target on Apple Silicon Macs. To fix this, edit the schemes for each target you wish to build, and in the scheme's 
+\f2\fs26 Build
+\f1\fs24  section change the 
+\f2\fs26 Override Architectures
+\f1\fs24  option to 
+\f2\fs26 Use Target Settings
+\f1\fs24 . If you are building \cf6 the 
+\f2\fs26 Build_All
+\f1\fs24  target, it is sufficient to do this only for that target. \cf6 This step is not necessary if you build using the 
+\f0\b \cf0 \cb1 \kerning1\expnd0\expndtw0 BuildMacBOINC.sh
+\f1\b0  script or if using an older version of Xcode.\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
 \f0\b\fs28 \cf0 Building BOINC Manager Installer
@@ -425,7 +444,7 @@ Developer ID Application: John Smith\
 \
 \pard\tx543\pardeftab543\pardirnatural\partightenfactor0
 
-\f1\fs24 \cf6 \cb7 If you wish to also code sign the installer package, add a second line to 
+\f1\fs24 \cf8 \cb9 If you wish to also code sign the installer package, add a second line to 
 \f2\fs26 ~/BOINCCodeSignIdentities.txt
 \f1\fs24  with the installer code signing identity.  This \cf0 \cb1 would be something like the following:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
@@ -474,7 +493,7 @@ You must have done the following
 \f0\b NOTE:
 \f1\b0  You cannot use your normal Apple ID password.\
  \'95 Created a profile named "notarycredentials" in your keychain using the  "notarytool store-credentials" command. (For details, enter "man notarytool" in Terminal and look at the description for the 
-\f2\fs26 \cf8 \CocoaLigature0 store-credentials
+\f2\fs26 \cf10 \CocoaLigature0 store-credentials
 \f1\fs24  subcommand.)\cf0 \CocoaLigature1 \
  \'95 Run the release_boinc.sh script as described above.\
  \
@@ -505,7 +524,7 @@ For more information, type the following in Terminal:\
 To restore the standard ownerships and permissions, run the BOINC installer or run the \CocoaLigature1 BOINC_dev/boinc/mac_build/Mac_SA_Secure.sh\CocoaLigature0  shell script in Terminal (the comments in this script have instructions for running it.)\
 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 \cb9 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/MacBacktrace"}}{\fldrslt 
+\cf0 \cb11 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/MacBacktrace"}}{\fldrslt 
 \f2 \cf2 Mac Backtrace}}.\cb1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
