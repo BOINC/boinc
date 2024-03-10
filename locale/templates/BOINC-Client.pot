@@ -1,13 +1,13 @@
 # BOINC client localization template
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # This file is distributed under the same license as BOINC.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC a8465c574d184ae08e564b5aaa39dc5dff02b284\n"
+"Project-Id-Version: BOINC 54647dc070028090f2f889e9e8d4419dfb9b0e8b\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -21,25 +21,23 @@ msgstr ""
 msgid "Message from server"
 msgstr ""
 
-#: client/client_state.cpp:328
+#: client/client_state.cpp:329
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
 
-#: client/client_state.cpp:696
+#: client/client_state.cpp:708
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 
-#: client/cs_cmdline.cpp:295
+#: client/cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr ""
 
-#: client/cs_scheduler.cpp:590
+#: client/cs_scheduler.cpp:592
 #, c-format
-msgid ""
-"This project seems to have changed its URL.  When convenient, remove the "
-"project, then add %s"
+msgid "Master URL changed from %s to %s"
 msgstr ""
 
 #: client/cs_statefile.cpp:873
@@ -79,28 +77,28 @@ msgstr ""
 msgid "A new version of %s is available"
 msgstr ""
 
-#: client/gpu_detect.cpp:262 client/gpu_detect.cpp:305
+#: client/gpu_detect.cpp:308 client/gpu_detect.cpp:351
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr ""
 
-#: client/log_flags.cpp:329 client/log_flags.cpp:510
+#: client/log_flags.cpp:330 client/log_flags.cpp:515
 msgid "Unexpected text in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:484 client/log_flags.cpp:539
+#: client/log_flags.cpp:489 client/log_flags.cpp:544
 msgid "Unrecognized tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:501
+#: client/log_flags.cpp:506
 msgid "Missing start tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:534
 msgid "Error in cc_config.xml options"
 msgstr ""
 
-#: client/log_flags.cpp:547
+#: client/log_flags.cpp:552
 msgid "Missing end tag in cc_config.xml"
 msgstr ""
 
@@ -151,19 +149,19 @@ msgstr ""
 msgid "An %s GPU is required to run tasks for this project"
 msgstr ""
 
-#: sched/sched_send.cpp:1322
+#: sched/sched_send.cpp:1328
 msgid "No tasks are available for the applications you have selected."
 msgstr ""
 
-#: sched/sched_send.cpp:1348
+#: sched/sched_send.cpp:1354
 msgid "Your computer type is not supported by this project"
 msgstr ""
 
-#: sched/sched_send.cpp:1354
+#: sched/sched_send.cpp:1360
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
 
-#: sched/sched_send.cpp:1365
+#: sched/sched_send.cpp:1371
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
