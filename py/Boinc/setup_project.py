@@ -595,8 +595,8 @@ class Project:
             install(srcdir('test/uc_wu_nodelete'), self.dest('templates/uc_wu'))
 
         content = '''
-<!-- <scheduler>{url}</scheduler> -->"
-<link rel=\"boinc_scheduler\" href=\"{url}"\">
+<!-- <scheduler>{url}</scheduler> -->
+<link rel="boinc_scheduler" href="{url}">
         '''.format(url=self.scheduler_url.strip())
         f = open(self.dest('html/user', 'schedulers.txt'), 'w')
         f.write(content)
