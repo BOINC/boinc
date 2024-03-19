@@ -1,6 +1,6 @@
 name: boinc
 base: core22
-version: "7.25.0"
+version: "8.1.0"
 summary: BOINC lets you help cutting-edge science research using your computer.
 description: |
   BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.

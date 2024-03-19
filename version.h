@@ -12,10 +12,10 @@
 #define BOINC_VERSION_H
 
 // Major part of client version number
-#define BOINC_MAJOR_VERSION 7
+#define BOINC_MAJOR_VERSION 8
 
 // Minor part of client version number
-#define BOINC_MINOR_VERSION 25
+#define BOINC_MINOR_VERSION 1
 
 // Release part of client version number
 #define BOINC_RELEASE 0
@@ -30,7 +30,7 @@
 #define WORKER_RELEASE 2
 
 // client version number as string
-#define BOINC_VERSION_STRING "7.25.0"
+#define BOINC_VERSION_STRING "8.1.0"
 
 // Package is a pre-release (Alpha/Beta) package
 #define BOINC_PRERELEASE 1
@@ -46,13 +46,13 @@
 #define PACKAGE_NAME "BOINC"
 
 // full name and version of this package.
-#define PACKAGE_STRING "BOINC 7.25.0"
+#define PACKAGE_STRING "BOINC 8.1.0"
 
 // short name of this package.
 #define PACKAGE_TARNAME "boinc"
 
 // version of this package.
-#define PACKAGE_VERSION "7.25.0"
+#define PACKAGE_VERSION "8.1.0"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
