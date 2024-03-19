@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -10,14 +10,14 @@
 # Roman Illin <roman_illin@yahoo.de>, 2017
 # Taras Dysiuk <tdisiuk@gmail.com>, 2021
 # Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2015
-# Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017-2018,2022-2023
+# Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017-2018,2022-2024
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017-2018,2022-2023\n"
+"Last-Translator: Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017-2018,2022-2024\n"
 "Language-Team: Ukrainian (http://app.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +56,7 @@ msgstr "Назва екрана"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Повинна бути дійсною адресою у формі 'name@domain'."
 
-#: html/inc/account.inc:90 html/inc/user.inc:240 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:252 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Адреса електронної пошти"
 
@@ -68,7 +68,7 @@ msgstr "Повинно бути щонайменше %1 символів"
 #. but because we store it salted with email address,
 #. which is about to change.
 #: html/inc/account.inc:102 html/user/delete_account_confirm.php:54
-#: html/user/delete_account_request.php:51 html/user/edit_email_form.php:47
+#: html/user/delete_account_request.php:51 html/user/edit_email_form.php:49
 msgid "Password"
 msgstr "Пароль"
 
@@ -77,8 +77,8 @@ msgid "Select the country you want to represent, if any."
 msgstr "Якщо хочете, виберіть країну, яку представляєте."
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
-#: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:249 html/inc/user.inc:452 html/user/account_finish.php:45
+#: html/inc/team.inc:251 html/inc/team.inc:391 html/inc/team.inc:500
+#: html/inc/user.inc:262 html/inc/user.inc:465 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -119,7 +119,7 @@ msgid "Stay logged in"
 msgstr "Залишатися авторизованим"
 
 #. kludge
-#: html/inc/account.inc:162 html/inc/util.inc:357 html/user/login_form.php:43
+#: html/inc/account.inc:162 html/inc/util.inc:351 html/user/login_form.php:45
 msgid "Log in"
 msgstr "Увійти"
 
@@ -178,7 +178,7 @@ msgid ""
 msgstr "Колір шрифту: [color=red]текст[/color] Підказка: Ви також можете використати color=#FF0000"
 
 #: html/inc/bbcode_html.inc:26 html/inc/bbcode_html.inc:42
-#: html/inc/prefs_util.inc:663
+#: html/inc/prefs_util.inc:675
 msgid "Default"
 msgstr "За замовчуванням"
 
@@ -272,7 +272,7 @@ msgid "Account"
 msgstr "Обліковий запис"
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:296
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:309
 msgid "Preferences"
 msgstr "Налаштування"
 
@@ -325,12 +325,12 @@ msgstr "Типи компʼютера"
 msgid "Computing"
 msgstr "Обчислення"
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:567 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:578 html/user/welcome.php:79
 msgid "Community"
 msgstr "Спільнота"
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:378 html/inc/user.inc:512 html/user/forum_forum.php:76
+#: html/inc/user.inc:391 html/inc/user.inc:523 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Дошки повідомлень"
@@ -462,7 +462,7 @@ msgstr "Знайти у форумах"
 msgid "Advanced search"
 msgstr "Розширений пошук"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:382 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:395 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "Приватні повідомлення"
@@ -475,11 +475,11 @@ msgstr "Питання та відповіді"
 msgid "%1 message board"
 msgstr "Форум %1"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:787
+#: html/inc/forum.inc:257 html/inc/result.inc:791
 msgid "Previous"
 msgstr "Попередні"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:796
+#: html/inc/forum.inc:295 html/inc/result.inc:800
 msgid "Next"
 msgstr "Наступні"
 
@@ -533,7 +533,7 @@ msgstr "Непрочитане"
 msgid "Message %1"
 msgstr "Повідомлення %1"
 
-#: html/inc/forum.inc:662 html/inc/user.inc:470 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:481 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "приховане"
 
@@ -545,8 +545,8 @@ msgstr "Відправлено: %1"
 msgid " - in response to "
 msgstr " - у відповідь на "
 
-#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
-#: html/inc/prefs_util.inc:736
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:746
+#: html/inc/prefs_util.inc:748
 msgid "Edit"
 msgstr "Редагувати"
 
@@ -670,10 +670,6 @@ msgstr "Порушникові може бути обмежено або заб�
 msgid "If your account is suspended, don't create a new one."
 msgstr "Якщо ваш обліковий запис призупинено, не намагайтеся створити новий."
 
-#: html/inc/forum.inc:858
-msgid "Rules:"
-msgstr "Правила:"
-
 #: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "Показати"
@@ -714,7 +710,7 @@ msgstr "Голосувати проти блокування автора"
 msgid "Start vote to banish author"
 msgstr "Почати голосування за блокування автора"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:369
+#: html/inc/forum.inc:1211 html/inc/user.inc:382
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Видалити"
@@ -795,16 +791,16 @@ msgstr "Немає комп'ютера"
 msgid "Unavailable"
 msgstr "Недоступно"
 
-#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:664
+#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:676
 msgid "Home"
 msgstr "Дім"
 
-#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:666
+#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:678
 #: html/user/server_status.php:144
 msgid "Work"
 msgstr "Робота"
 
-#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:665
+#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:677
 msgid "School"
 msgstr "Школа"
 
@@ -852,18 +848,18 @@ msgstr "UTC %1 години"
 msgid "Owner"
 msgstr "Власник"
 
-#: html/inc/host.inc:109 html/inc/host.inc:401
+#: html/inc/host.inc:109 html/inc/host.inc:402
 msgid "Anonymous"
 msgstr "Анонімний"
 
-#: html/inc/host.inc:113 html/inc/result.inc:694 html/user/apps.php:57
+#: html/inc/host.inc:113 html/inc/result.inc:698 html/user/apps.php:57
 msgid "Created"
 msgstr "Створений"
 
 #: html/inc/host.inc:115 html/inc/host.inc:236 html/inc/host.inc:239
-#: html/inc/host.inc:745 html/inc/team.inc:111 html/inc/team.inc:233
-#: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:382
-#: html/inc/team.inc:385 html/inc/user.inc:127 html/inc/user.inc:144
+#: html/inc/host.inc:746 html/inc/team.inc:111 html/inc/team.inc:233
+#: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:383
+#: html/inc/team.inc:386 html/inc/user.inc:127 html/inc/user.inc:144
 #: html/user/profile_search_action.php:45
 #: html/user/team_change_founder_form.php:83 html/user/team_email_list.php:76
 #: html/user/team_remove_inactive_form.php:44 html/user/top_users.php:51
@@ -896,7 +892,7 @@ msgstr "Співпроцесори"
 msgid "Virtualization"
 msgstr "Віртуалізація"
 
-#: html/inc/host.inc:127 html/inc/host.inc:756
+#: html/inc/host.inc:127 html/inc/host.inc:757
 msgid "Operating System"
 msgstr "Операційна система"
 
@@ -953,9 +949,9 @@ msgstr "Середня швидкість відправлення даних"
 msgid "%1 KB/sec"
 msgstr "%1 Кб/с"
 
-#: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:230
-#: html/inc/result.inc:240 html/inc/result.inc:258 html/inc/result.inc:276
-#: html/inc/result.inc:292 html/user/explain_state.php:56
+#: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:232
+#: html/inc/result.inc:242 html/inc/result.inc:260 html/inc/result.inc:278
+#: html/inc/result.inc:294 html/user/explain_state.php:56
 #: html/user/host_app_versions.php:28
 msgid "Unknown"
 msgstr "Невідомо"
@@ -982,7 +978,7 @@ msgstr "Докладно про додаток"
 msgid "Show"
 msgstr "Показати"
 
-#: html/inc/host.inc:186 html/inc/host.inc:379 html/inc/user.inc:170
+#: html/inc/host.inc:186 html/inc/host.inc:380 html/inc/user.inc:170
 msgid "Tasks"
 msgstr "Завдання"
 
@@ -1019,7 +1015,7 @@ msgstr "Середня ефективність процесора"
 msgid "Task duration correction factor"
 msgstr "Фактор виправлення тривалості виконання завдання"
 
-#: html/inc/host.inc:207 html/inc/host.inc:734
+#: html/inc/host.inc:207 html/inc/host.inc:735
 msgid "Location"
 msgstr "Розміщення"
 
@@ -1035,7 +1031,7 @@ msgstr "Об'єднати дубльовані записи цього комп'
 msgid "Merge"
 msgstr "Об'єднати"
 
-#: html/inc/host.inc:216 html/inc/host.inc:759
+#: html/inc/host.inc:216 html/inc/host.inc:760
 msgid "Last contact"
 msgstr "Останній контакт"
 
@@ -1043,30 +1039,30 @@ msgstr "Останній контакт"
 msgid "Info"
 msgstr "Інформація"
 
-#: html/inc/host.inc:230 html/inc/host.inc:737 html/inc/team.inc:375
+#: html/inc/host.inc:230 html/inc/host.inc:738 html/inc/team.inc:376
 #: html/user/per_app_list.php:61 html/user/top_users.php:47
 msgid "Rank"
 msgstr "Позиція"
 
-#: html/inc/host.inc:235 html/inc/host.inc:742
+#: html/inc/host.inc:235 html/inc/host.inc:743
 msgid "Avg. credit"
 msgstr "У середньому за день"
 
 #: html/inc/host.inc:238 html/inc/team.inc:112 html/inc/team.inc:234
-#: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:381
-#: html/inc/team.inc:384 html/inc/user.inc:145
+#: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:382
+#: html/inc/team.inc:385 html/inc/user.inc:145
 #: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
 #: html/user/team_remove_inactive_form.php:45 html/user/top_users.php:50
 #: html/user/top_users.php:53
 msgid "Recent average credit"
 msgstr "У середньому за день"
 
-#: html/inc/host.inc:243 html/inc/host.inc:751 html/inc/result.inc:74
+#: html/inc/host.inc:243 html/inc/host.inc:752 html/inc/result.inc:74
 #: html/user/host_app_versions.php:23
 msgid "CPU"
 msgstr "Тип процесора"
 
-#: html/inc/host.inc:244 html/inc/host.inc:753
+#: html/inc/host.inc:244 html/inc/host.inc:754
 msgid "GPU"
 msgstr "Тип графічного процесора"
 
@@ -1090,96 +1086,96 @@ msgstr ", CPU підтримує апаратну віртуалізацію, а
 msgid ", CPU does not have hardware virtualization support"
 msgstr ", CPU не підтримує апаратну віртуалізацію"
 
-#: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:414 html/inc/user.inc:507
+#: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:608
+#: html/inc/user.inc:427 html/inc/user.inc:518
 msgid "None"
 msgstr "Ні"
 
-#: html/inc/host.inc:356
+#: html/inc/host.inc:357
 msgid "(%1 processors)"
 msgstr "(%1 процесорів)"
 
-#: html/inc/host.inc:375
+#: html/inc/host.inc:376
 msgid "Details"
 msgstr "Подробиці"
 
-#: html/inc/host.inc:385
+#: html/inc/host.inc:386
 msgid "Cross-project stats:"
 msgstr "Об'єднана статистика за проектами:"
 
-#: html/inc/host.inc:569
+#: html/inc/host.inc:570
 msgid "Host %1 has overlapping lifetime:"
 msgstr "У комп'ютера % 1 накладення часу життя:"
 
-#: html/inc/host.inc:576
+#: html/inc/host.inc:577
 msgid "Host %1 has an incompatible OS:"
 msgstr "У комп'ютера % 1 несумісна ОС:"
 
-#: html/inc/host.inc:582
+#: html/inc/host.inc:583
 msgid "Host %1 has an incompatible CPU:"
 msgstr "У комп'ютера % 1 несумісний процесор:"
 
-#: html/inc/host.inc:649
+#: html/inc/host.inc:650
 msgid "same host"
 msgstr "той самий комп'ютер"
 
-#: html/inc/host.inc:652
+#: html/inc/host.inc:653
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "Неможливо об'єднати комп'ютери % 1 і % 2 - вони несумісні"
 
-#: html/inc/host.inc:655
+#: html/inc/host.inc:656
 msgid "Merging host %1 into host %2"
 msgstr "Об'єднання комп'ютерів %1 і %2"
 
-#: html/inc/host.inc:672
+#: html/inc/host.inc:673
 msgid "Couldn't update credit of new computer"
 msgstr "Неможливо оновити бали нового комп'ютера"
 
-#: html/inc/host.inc:676
+#: html/inc/host.inc:677
 msgid "Couldn't update results"
 msgstr "Неможливо оновити результати"
 
-#: html/inc/host.inc:681
+#: html/inc/host.inc:682
 msgid "Couldn't retire old computer"
 msgstr "Неможливо видалити старий комп'ютер"
 
-#: html/inc/host.inc:683
+#: html/inc/host.inc:684
 msgid "Retired old computer %1"
 msgstr "Старий комп'ютер %1 видалений"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "Show:"
 msgstr "Показати:"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "All computers"
 msgstr "Всі комп'ютери"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "Only computers active in past 30 days"
 msgstr "Тільки комп'ютери, активні за останні 30 днів"
 
-#: html/inc/host.inc:722 html/inc/result.inc:702
+#: html/inc/host.inc:723 html/inc/result.inc:706
 msgid "Computer ID"
 msgstr "ID комп'ютера"
 
-#: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:232 html/user/account_finish.php:41
-#: html/user/per_app_list.php:61 html/user/team_admins.php:65
+#: html/inc/host.inc:728 html/inc/result.inc:696 html/inc/team.inc:229
+#: html/inc/team.inc:377 html/inc/user.inc:244 html/user/account_finish.php:41
+#: html/user/per_app_list.php:61 html/user/team_admins.php:66
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
 msgid "Name"
 msgstr "Ім'я"
 
-#: html/inc/host.inc:731
+#: html/inc/host.inc:732
 msgid "Model"
 msgstr "Модель"
 
-#: html/inc/host.inc:748
+#: html/inc/host.inc:749
 msgid "BOINC<br>version"
 msgstr "Версія<br>BOINC"
 
-#: html/inc/host.inc:817 html/user/merge_by_name.php:65
+#: html/inc/host.inc:818 html/user/merge_by_name.php:65
 msgid "Merge computers by name"
 msgstr "Об'єднати комп'ютери за назвою"
 
@@ -1240,7 +1236,7 @@ msgstr "Попередній перегляд"
 msgid "Subject"
 msgstr "Тема"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:516
+#: html/inc/pm.inc:105 html/inc/user.inc:527
 msgid "Send private message"
 msgstr "Відправити приватне повідомлення"
 
@@ -1529,7 +1525,7 @@ msgstr "Приклад: BOINC дозволяється передати щона
 msgid "MB every"
 msgstr "Мб кожні"
 
-#: html/inc/prefs.inc:232 html/inc/util.inc:428
+#: html/inc/prefs.inc:232 html/inc/util.inc:423
 msgid "days"
 msgstr "днів"
 
@@ -1600,12 +1596,12 @@ msgid "Separate preferences for %1"
 msgstr "Окремі налаштування для конфігурації %1"
 
 #: html/inc/prefs.inc:535 html/inc/prefs.inc:576
-#: html/inc/prefs_project.inc:324
+#: html/inc/prefs_project.inc:334
 msgid "Edit preferences"
 msgstr "Редагувати налаштування"
 
-#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:735
-#: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:36
+#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:747
+#: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:37
 msgid "Remove"
 msgstr "Видалити"
 
@@ -1630,11 +1626,11 @@ msgstr "Пристрої Android"
 msgid "(Switch view)"
 msgstr "(Перемкнути вид)"
 
-#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:304
+#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:314
 msgid "Combined preferences"
 msgstr "Об'єднані налаштування"
 
-#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:316
+#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:326
 msgid "Primary (default) preferences"
 msgstr "Основні налаштування (за замовчуванням)"
 
@@ -1650,15 +1646,15 @@ msgstr "Додати налаштування"
 msgid "Update preferences"
 msgstr "Оновити налаштування"
 
-#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:700
-#: html/inc/prefs_util.inc:703
+#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:712
+#: html/inc/prefs_util.inc:715
 #: html/project.sample/project_specific_prefs.inc:71
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "yes"
 msgstr "так"
 
-#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:700
-#: html/inc/prefs_util.inc:703
+#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:712
+#: html/inc/prefs_util.inc:715
 #: html/project.sample/project_specific_prefs.inc:73
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "no"
@@ -1674,11 +1670,11 @@ msgid ""
 "New computers will use this location for computing and project preferences."
 msgstr "Нові компʼютери використовуватимуть це розташування для обчислень та параметрів проєкту."
 
-#: html/inc/prefs_project.inc:54
+#: html/inc/prefs_project.inc:55
 msgid "Resource share"
 msgstr "Виділено ресурсів"
 
-#: html/inc/prefs_project.inc:55
+#: html/inc/prefs_project.inc:56
 msgid ""
 "Determines the proportion of your computer's resources allocated to this "
 "project. For example, if you participate in two BOINC projects with resource"
@@ -1686,55 +1682,59 @@ msgid ""
 "second will get 2/3."
 msgstr "Визначає пропорції ресурсів вашого комʼютера, доступних для цього проєкту. Наприклад, якщо ви берете участь у двох проєктах BOINC, що мають долі ресурсів 100 і 200, перший отримає 1/3 ресурсів, а другий — 2/3."
 
-#: html/inc/prefs_project.inc:63
+#: html/inc/prefs_project.inc:64
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
 msgstr "Прискорити обробку завдань за допомогою графічного процесора, використовуючи окремий процесор для кожного завдання?"
 
-#: html/inc/prefs_project.inc:72
+#: html/inc/prefs_project.inc:73
 msgid "Use CPU"
 msgstr "Використання ЦП"
 
-#: html/inc/prefs_project.inc:81
+#: html/inc/prefs_project.inc:82
 msgid "Use AMD GPU"
 msgstr "Використання ГП AMD"
 
-#: html/inc/prefs_project.inc:90
+#: html/inc/prefs_project.inc:91
 msgid "Use NVIDIA GPU"
 msgstr "Використання ГП NVIDIA"
 
-#: html/inc/prefs_project.inc:99
+#: html/inc/prefs_project.inc:100
 msgid "Use Intel GPU"
 msgstr "Використання ГП Intel"
 
 #: html/inc/prefs_project.inc:109
+msgid "Use Apple GPU"
+msgstr "Використання ГП Apple"
+
+#: html/inc/prefs_project.inc:119
 msgid "Run test applications?"
 msgstr "Запустити тестовий додаток?"
 
-#: html/inc/prefs_project.inc:110
+#: html/inc/prefs_project.inc:120
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
 msgstr "Це допомагає нам у розробці додатків, але може призвести до помилок при виконанні на вашому компʼютері"
 
-#: html/inc/prefs_project.inc:117
+#: html/inc/prefs_project.inc:127
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this "
 "address."
 msgstr "Електронні листи будуть відправлені з адреси %1; переконайтеся, що Ваш фільтр спаму приймає цю адресу."
 
-#: html/inc/prefs_project.inc:125
+#: html/inc/prefs_project.inc:135
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "Чи можуть %1 і Ваша команда відправляти Вам електронні листи?"
 
-#: html/inc/prefs_project.inc:132
+#: html/inc/prefs_project.inc:142
 msgid "Should %1 show your computers on its web site?"
 msgstr "Чи повинен %1 показувати Ваші комп'ютери на своєму веб-сайті?"
 
-#: html/inc/prefs_project.inc:301
+#: html/inc/prefs_project.inc:311
 msgid "(Switch View)"
 msgstr "(Перемкнути вид)"
 
-#: html/inc/prefs_project.inc:308
+#: html/inc/prefs_project.inc:318
 msgid "Project specific settings"
 msgstr "Особливі параметри проекту"
 
@@ -1746,19 +1746,19 @@ msgstr "неправильна конфігурація: %1"
 msgid "bad subset: %1"
 msgstr "неправильний набір: %1"
 
-#: html/inc/prefs_util.inc:274 html/inc/prefs_util.inc:291
+#: html/inc/prefs_util.inc:284 html/inc/prefs_util.inc:303
 msgid "Database error:"
 msgstr "Помилка бази даних:"
 
-#: html/inc/prefs_util.inc:595 html/inc/prefs_util.inc:619
+#: html/inc/prefs_util.inc:607 html/inc/prefs_util.inc:631
 msgid "and"
 msgstr "і"
 
-#: html/inc/prefs_util.inc:708 html/user/forum_search.php:55
+#: html/inc/prefs_util.inc:720 html/user/forum_search.php:55
 msgid "no limit"
 msgstr "без обмежень"
 
-#: html/inc/prefs_util.inc:733 html/user/team_admins.php:82
+#: html/inc/prefs_util.inc:745 html/user/team_admins.php:83
 msgid "Add"
 msgstr "Додати"
 
@@ -1832,347 +1832,351 @@ msgstr "Графічний процесор AMD"
 msgid "Intel GPU"
 msgstr "Графічний процесор Intel"
 
-#: html/inc/result.inc:105
+#: html/inc/result.inc:82
+msgid "Apple GPU"
+msgstr "ГП Apple"
+
+#: html/inc/result.inc:107
 msgid "pending"
 msgstr "очікування"
 
-#: html/inc/result.inc:128 html/user/forum_search.php:62
+#: html/inc/result.inc:130 html/user/forum_search.php:62
 msgid "All"
 msgstr "Усе"
 
-#: html/inc/result.inc:129 html/inc/result.inc:190 html/inc/result.inc:237
+#: html/inc/result.inc:131 html/inc/result.inc:192 html/inc/result.inc:239
 #: html/user/server_status.php:174
 msgid "In progress"
 msgstr "У процесі"
 
-#: html/inc/result.inc:130
+#: html/inc/result.inc:132
 msgid "Validation pending"
 msgstr "В очікуванні перевірки"
 
-#: html/inc/result.inc:131
+#: html/inc/result.inc:133
 msgid "Validation inconclusive"
 msgstr "Перевірка не дала результату"
 
-#: html/inc/result.inc:132 html/inc/result.inc:282
+#: html/inc/result.inc:134 html/inc/result.inc:284
 msgid "Valid"
 msgstr "Правильний"
 
-#: html/inc/result.inc:133 html/inc/result.inc:285
+#: html/inc/result.inc:135 html/inc/result.inc:287
 msgid "Invalid"
 msgstr "Неправильний"
 
-#: html/inc/result.inc:134 html/inc/result.inc:223
+#: html/inc/result.inc:136 html/inc/result.inc:225
 msgid "Error"
 msgstr "Помилка"
 
-#: html/inc/result.inc:188 html/inc/result.inc:235
+#: html/inc/result.inc:190 html/inc/result.inc:237
 #: html/user/explain_state.php:34
 msgid "Inactive"
 msgstr "Неактивний"
 
-#: html/inc/result.inc:189 html/inc/result.inc:236
+#: html/inc/result.inc:191 html/inc/result.inc:238
 #: html/user/explain_state.php:37 html/user/server_status.php:173
 msgid "Unsent"
 msgstr "Не відправлений"
 
-#: html/inc/result.inc:195
+#: html/inc/result.inc:197
 msgid "Completed, waiting for validation"
 msgstr "Завершений, очікує перевірки"
 
-#: html/inc/result.inc:196
+#: html/inc/result.inc:198
 msgid "Completed and validated"
 msgstr "Завершений і перевірений"
 
-#: html/inc/result.inc:197
+#: html/inc/result.inc:199
 msgid "Completed, marked as invalid"
 msgstr "Завершений, відмічений як неправильний"
 
-#: html/inc/result.inc:198
+#: html/inc/result.inc:200
 msgid "Completed, can't validate"
 msgstr "Завершений, неможливо перевірити"
 
-#: html/inc/result.inc:199
+#: html/inc/result.inc:201
 msgid "Completed, validation inconclusive"
 msgstr "Завершений, перевірка неостаточна"
 
-#: html/inc/result.inc:200
+#: html/inc/result.inc:202
 msgid "Completed, too late to validate"
 msgstr "Завершений, надто пізно для перевірки"
 
-#: html/inc/result.inc:202
+#: html/inc/result.inc:204
 msgid "Completed"
 msgstr "Завершений"
 
-#: html/inc/result.inc:203 html/inc/result.inc:247
+#: html/inc/result.inc:205 html/inc/result.inc:249
 #: html/user/explain_state.php:62
 msgid "Couldn't send"
 msgstr "Не вдалося відправити"
 
-#: html/inc/result.inc:208 html/inc/result.inc:271
+#: html/inc/result.inc:210 html/inc/result.inc:273
 msgid "Cancelled by server"
 msgstr "Скасований сервером"
 
-#: html/inc/result.inc:213
+#: html/inc/result.inc:215
 msgid "Not started by deadline - canceled"
 msgstr "Не запущене до дати завершення - скасоване"
 
-#: html/inc/result.inc:216
+#: html/inc/result.inc:218
 msgid "Error while downloading"
 msgstr "Помилка при завантаженні"
 
-#: html/inc/result.inc:218
+#: html/inc/result.inc:220
 msgid "Error while computing"
 msgstr "Помилка під час розрахунку"
 
-#: html/inc/result.inc:219
+#: html/inc/result.inc:221
 msgid "Error while uploading"
 msgstr "Помилка при відправленні"
 
-#: html/inc/result.inc:220
+#: html/inc/result.inc:222
 msgid "Aborted"
 msgstr "Перервано"
 
-#: html/inc/result.inc:221 html/inc/result.inc:274
+#: html/inc/result.inc:223 html/inc/result.inc:276
 msgid "Upload failed"
 msgstr "Завантаження не вдалося"
 
-#: html/inc/result.inc:224
+#: html/inc/result.inc:226
 msgid "Timed out - no response"
 msgstr "Час вийшов - відповіді немає"
 
-#: html/inc/result.inc:225 html/inc/result.inc:254
+#: html/inc/result.inc:227 html/inc/result.inc:256
 #: html/user/explain_state.php:71
 msgid "Didn't need"
 msgstr "Не потрібно"
 
-#: html/inc/result.inc:226 html/inc/result.inc:255
+#: html/inc/result.inc:228 html/inc/result.inc:257
 #: html/user/explain_state.php:74
 msgid "Validate error"
 msgstr "Помилка перевірки"
 
-#: html/inc/result.inc:227 html/inc/result.inc:256
+#: html/inc/result.inc:229 html/inc/result.inc:258
 msgid "Abandoned"
 msgstr "Втрачений"
 
-#: html/inc/result.inc:238 html/user/explain_state.php:43
+#: html/inc/result.inc:240 html/user/explain_state.php:43
 msgid "Over"
 msgstr "Завершено"
 
-#: html/inc/result.inc:246 html/user/explain_state.php:59
+#: html/inc/result.inc:248 html/user/explain_state.php:59
 msgid "Success"
 msgstr "Успіх"
 
-#: html/inc/result.inc:250
+#: html/inc/result.inc:252
 msgid "Computation error"
 msgstr "Помилка обчислень"
 
-#: html/inc/result.inc:252
+#: html/inc/result.inc:254
 msgid "Redundant result"
 msgstr "Зайвий результат"
 
-#: html/inc/result.inc:253 html/user/explain_state.php:68
+#: html/inc/result.inc:255 html/user/explain_state.php:68
 msgid "No reply"
 msgstr "Немає відповіді"
 
-#: html/inc/result.inc:263 html/user/explain_state.php:85
+#: html/inc/result.inc:265 html/user/explain_state.php:85
 msgid "New"
 msgstr "Новий"
 
-#: html/inc/result.inc:264 html/user/explain_state.php:91
+#: html/inc/result.inc:266 html/user/explain_state.php:91
 msgid "Downloading"
 msgstr "Завантаження"
 
-#: html/inc/result.inc:265
+#: html/inc/result.inc:267
 msgid "Processing"
 msgstr "Обробка"
 
-#: html/inc/result.inc:266
+#: html/inc/result.inc:268
 msgid "Compute error"
 msgstr "Помилка розрахунків"
 
-#: html/inc/result.inc:267 html/user/explain_state.php:97
+#: html/inc/result.inc:269 html/user/explain_state.php:97
 msgid "Uploading"
 msgstr "Відправлення"
 
-#: html/inc/result.inc:268 html/user/explain_state.php:88
+#: html/inc/result.inc:270 html/user/explain_state.php:88
 msgid "Done"
 msgstr "Готово"
 
-#: html/inc/result.inc:273
+#: html/inc/result.inc:275
 msgid "Aborted by user"
 msgstr "Перервано користувачем"
 
-#: html/inc/result.inc:281
+#: html/inc/result.inc:283
 msgid "Initial"
 msgstr "Первинний"
 
-#: html/inc/result.inc:287
+#: html/inc/result.inc:289
 msgid "Not necessary"
 msgstr "Необов'язково"
 
-#: html/inc/result.inc:288
+#: html/inc/result.inc:290
 msgid "Workunit error - check skipped"
 msgstr "Помилка завдання - перевірка пропущена"
 
-#: html/inc/result.inc:289
+#: html/inc/result.inc:291
 msgid "Checked, but no consensus yet"
 msgstr "Перевірено, але поки що немає згоди"
 
-#: html/inc/result.inc:290
+#: html/inc/result.inc:292
 msgid "Task was reported too late to validate"
 msgstr "Завдання повернене надто пізно для перевірки"
 
-#: html/inc/result.inc:316
+#: html/inc/result.inc:322
 msgid "Couldn't send result"
 msgstr "Не вдалося відправити результат"
 
-#: html/inc/result.inc:320
+#: html/inc/result.inc:326
 msgid "Too many errors (may have bug)"
 msgstr "Надто багато помилок (можливо помилка в ПЗ)"
 
-#: html/inc/result.inc:324
+#: html/inc/result.inc:330
 msgid "Too many results (may be nondeterministic)"
 msgstr "Надто багато результатів (може бути недетермінованим)"
 
-#: html/inc/result.inc:328
+#: html/inc/result.inc:334
 msgid "Too many total results"
 msgstr "Надто багато результатів в цілому"
 
-#: html/inc/result.inc:332
+#: html/inc/result.inc:338
 msgid "WU cancelled"
 msgstr "WU скасований"
 
-#: html/inc/result.inc:336
+#: html/inc/result.inc:342
 msgid "Canonical result is missing"
 msgstr "Канонічний результат відсутній"
 
-#: html/inc/result.inc:340
+#: html/inc/result.inc:346
 msgid "Unrecognized Error: %1"
 msgstr "Нерозпізнана помилка: %1"
 
-#: html/inc/result.inc:369
+#: html/inc/result.inc:373
 msgid "Task name"
 msgstr "Назва завдання"
 
-#: html/inc/result.inc:369 html/inc/result.inc:374 html/inc/result.inc:377
-#: html/inc/result.inc:380
+#: html/inc/result.inc:373 html/inc/result.inc:378 html/inc/result.inc:381
+#: html/inc/result.inc:384
 msgid "click for details"
 msgstr "натисніть для деталей"
 
-#: html/inc/result.inc:369
+#: html/inc/result.inc:373
 msgid "Show IDs"
 msgstr "Показати ID"
 
-#: html/inc/result.inc:374
+#: html/inc/result.inc:378
 msgid "Show names"
 msgstr "Показати імена"
 
-#: html/inc/result.inc:377 html/user/result.php:36
+#: html/inc/result.inc:381 html/user/result.php:36
 msgid "Task"
 msgstr "Завдання"
 
-#: html/inc/result.inc:380
+#: html/inc/result.inc:384
 msgid "Work unit"
 msgstr "Задача"
 
-#: html/inc/result.inc:391
+#: html/inc/result.inc:395
 msgid "Computer"
 msgstr "Комп'ютер"
 
-#: html/inc/result.inc:394 html/inc/result.inc:695
+#: html/inc/result.inc:398 html/inc/result.inc:699
 msgid "Sent"
 msgstr "Відправлений"
 
-#: html/inc/result.inc:395
+#: html/inc/result.inc:399
 msgid "Time reported<br />or deadline"
 msgstr "Час підтвердження<br />або крайній термін"
 
-#: html/inc/result.inc:396
+#: html/inc/result.inc:400
 msgid "explain"
 msgstr "пояснити"
 
-#: html/inc/result.inc:397 html/user/server_status.php:120
+#: html/inc/result.inc:401 html/user/server_status.php:120
 msgid "Status"
 msgstr "Статус"
 
-#: html/inc/result.inc:401
+#: html/inc/result.inc:405
 msgid "Run time<br />(sec)"
 msgstr "Час виконання<br />(сек)"
 
-#: html/inc/result.inc:402
+#: html/inc/result.inc:406
 msgid "CPU time<br />(sec)"
 msgstr "Процесорний час<br />(сек)"
 
-#: html/inc/result.inc:403 html/inc/result.inc:706
+#: html/inc/result.inc:407 html/inc/result.inc:710
 msgid "Credit"
 msgstr "Бали"
 
-#: html/inc/result.inc:407 html/inc/result.inc:816
+#: html/inc/result.inc:411 html/inc/result.inc:820
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Додаток"
 
-#: html/inc/result.inc:693
+#: html/inc/result.inc:697
 msgid "Workunit"
 msgstr "Задача"
 
-#: html/inc/result.inc:696
+#: html/inc/result.inc:700
 msgid "Report deadline"
 msgstr "Крайній термін звіту"
 
-#: html/inc/result.inc:697
+#: html/inc/result.inc:701
 msgid "Received"
 msgstr "Отриманий"
 
-#: html/inc/result.inc:698
+#: html/inc/result.inc:702
 msgid "Server state"
 msgstr "Стан сервера"
 
-#: html/inc/result.inc:699
+#: html/inc/result.inc:703
 msgid "Outcome"
 msgstr "Результат виконання"
 
-#: html/inc/result.inc:700
+#: html/inc/result.inc:704
 msgid "Client state"
 msgstr "Стан клієнта"
 
-#: html/inc/result.inc:701
+#: html/inc/result.inc:705
 msgid "Exit status"
 msgstr "Статус виходу"
 
-#: html/inc/result.inc:703
+#: html/inc/result.inc:707
 msgid "Run time"
 msgstr "Час виконання"
 
-#: html/inc/result.inc:704
+#: html/inc/result.inc:708
 msgid "CPU time"
 msgstr "Процесорний час"
 
-#: html/inc/result.inc:705
+#: html/inc/result.inc:709
 msgid "Validate state"
 msgstr "Стан перевірки"
 
-#: html/inc/result.inc:707
+#: html/inc/result.inc:711
 msgid "Device peak FLOPS"
 msgstr "Максимум FLOPS пристрою"
 
-#: html/inc/result.inc:708
+#: html/inc/result.inc:712
 msgid "Application version"
 msgstr "Версія додатку"
 
-#: html/inc/result.inc:732
+#: html/inc/result.inc:736
 msgid "Output files"
 msgstr "Вихідні файли"
 
-#: html/inc/result.inc:738
+#: html/inc/result.inc:742
 msgid "Stderr output"
 msgstr "Текст протоколу"
 
-#: html/inc/result.inc:798
+#: html/inc/result.inc:802
 msgid "State"
 msgstr "Стан"
 
-#: html/inc/result.inc:839
+#: html/inc/result.inc:843
 msgid "Task name:"
 msgstr "Назва завдання:"
 
@@ -2188,7 +2192,7 @@ msgstr "Ключові слова"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Знайти команди з цими словами в їх назвах або описах"
 
-#: html/inc/team.inc:50 html/inc/team.inc:497
+#: html/inc/team.inc:50 html/inc/team.inc:498
 msgid "Type of team"
 msgstr "Тип команди"
 
@@ -2196,7 +2200,7 @@ msgstr "Тип команди"
 msgid "Show only active teams"
 msgstr "Показати тільки активні команди"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1190 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1207 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Знайти"
@@ -2242,7 +2246,7 @@ msgstr "Веб-сайт"
 msgid "Cross-project stats"
 msgstr "Об'єднана статистика за проектами"
 
-#: html/inc/team.inc:137 html/inc/team.inc:391 html/user/team_search.php:86
+#: html/inc/team.inc:137 html/inc/team.inc:392 html/user/team_search.php:86
 msgid "Type"
 msgstr "Тип"
 
@@ -2281,7 +2285,7 @@ msgstr "Відповісти до %1"
 msgid "Team foundership change"
 msgstr "Зміна засновника команди"
 
-#: html/inc/team.inc:170 html/inc/team.inc:377
+#: html/inc/team.inc:170 html/inc/team.inc:378
 msgid "Members"
 msgstr "Учасники"
 
@@ -2342,55 +2346,55 @@ msgstr "Ця операція вимагає прав засновника."
 msgid "This operation requires team admin privileges"
 msgstr "Ця операція вимагає прав адміністратора команди"
 
-#: html/inc/team.inc:466
+#: html/inc/team.inc:467
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
 " be overwritten. Edit the %1 BOINC-wide team %2 instead."
 msgstr "ПОПЕРЕДЖЕННЯ: це глобальна команда BOINC. Якщо Ви щось відредагуєте тут, то зміни будуть швидко перезаписані. Тому редагуйте %1 глобальну команду BOINC %2."
 
-#: html/inc/team.inc:472
+#: html/inc/team.inc:473
 msgid ""
 "%1 Privacy note %2: if you create a team, your project preferences (resource"
 " share, graphics preferences) will be visible to the public."
 msgstr "%1 Примітка безпеки %2: якщо Ви створите команду, то Ваші налаштування проекту (частка ресурсів, графічні налаштування) будуть видимі для всіх."
 
-#: html/inc/team.inc:476
+#: html/inc/team.inc:477
 msgid "Team name, text version"
 msgstr "Назва команди, текстова версія"
 
-#: html/inc/team.inc:477
+#: html/inc/team.inc:478
 msgid "Don't use HTML tags."
 msgstr "Не використовувати теги HTML."
 
-#: html/inc/team.inc:480
+#: html/inc/team.inc:481
 msgid "Team name, HTML version"
 msgstr "Назва команди, HTML версія"
 
-#: html/inc/team.inc:482 html/inc/team.inc:492
+#: html/inc/team.inc:483 html/inc/team.inc:493
 msgid "You may use %1 limited HTML tags %2."
 msgstr "Ви можете використовувати %1 обмежені теґи HTML%2."
 
-#: html/inc/team.inc:483
+#: html/inc/team.inc:484
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Якщо Ви не знаєте HTML, залиште це поле порожнім."
 
-#: html/inc/team.inc:486
+#: html/inc/team.inc:487
 msgid "URL of team web page, if any"
 msgstr "Адреса веб-сторінки команди, якщо є"
 
-#: html/inc/team.inc:486
+#: html/inc/team.inc:487
 msgid "without \"http://\""
 msgstr "без \"http://\""
 
-#: html/inc/team.inc:487
+#: html/inc/team.inc:488
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Ця адреса буде викликатися зі сторінки команди на цьому сайті."
 
-#: html/inc/team.inc:490
+#: html/inc/team.inc:491
 msgid "Description of team"
 msgstr "Опис команди"
 
-#: html/inc/team.inc:506
+#: html/inc/team.inc:507
 msgid "Accept new members?"
 msgstr "Приймати нових учасників?"
 
@@ -2468,8 +2472,8 @@ msgstr "З"
 msgid "Computers on this account"
 msgstr "Комп’ютери в цьому обліковому записі"
 
-#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:280
-#: html/inc/user.inc:369 html/inc/user.inc:468 html/inc/user.inc:540
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:293
+#: html/inc/user.inc:382 html/inc/user.inc:479 html/inc/user.inc:551
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "Перегляд"
@@ -2482,8 +2486,8 @@ msgstr "Міжпроектний ID (CPID)"
 msgid "Cross-project statistics"
 msgstr "Об’єднана статистика за проектами"
 
-#: html/inc/user.inc:186 html/inc/user.inc:414 html/inc/user.inc:505
-#: html/inc/user.inc:507 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:427 html/inc/user.inc:516
+#: html/inc/user.inc:518 html/user/user_search.php:129
 msgid "Team"
 msgstr "Команда"
 
@@ -2491,159 +2495,163 @@ msgstr "Команда"
 msgid "Cross-project"
 msgstr "Міжпроектний"
 
-#: html/inc/user.inc:245 html/inc/user.inc:460
+#: html/inc/user.inc:257 html/inc/user.inc:472
 msgid "URL"
 msgstr "URL"
 
-#: html/inc/user.inc:252
+#: html/inc/user.inc:258
+msgid "Invalid URL"
+msgstr "Некоректна URL-адреса"
+
+#: html/inc/user.inc:265
 msgid "Postal code"
 msgstr "Поштовий індекс"
 
-#: html/inc/user.inc:254 html/inc/user.inc:450
+#: html/inc/user.inc:267 html/inc/user.inc:463
 msgid "%1 member since"
 msgstr "Учасник %1 з"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:259 html/inc/user.inc:269
+#: html/inc/user.inc:272 html/inc/user.inc:282
 msgid "Change"
 msgstr "Змінити"
 
-#: html/inc/user.inc:266
+#: html/inc/user.inc:279
 msgid "delete account"
 msgstr "видалити обліковий запис"
 
-#: html/inc/user.inc:270
+#: html/inc/user.inc:283
 msgid "email address"
 msgstr "Адреса електронної пошти"
 
-#: html/inc/user.inc:271
+#: html/inc/user.inc:284
 msgid "password"
 msgstr "пароль"
 
-#: html/inc/user.inc:272
+#: html/inc/user.inc:285
 msgid "other account info"
 msgstr "інша облікова інформація"
 
-#: html/inc/user.inc:276 html/inc/user.inc:449
+#: html/inc/user.inc:289 html/inc/user.inc:462
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: html/inc/user.inc:276
+#: html/inc/user.inc:289
 msgid "Used in community functions"
 msgstr "Використовується у функціях спільноти"
 
-#: html/inc/user.inc:279 html/user/weak_auth.php:23
+#: html/inc/user.inc:292 html/user/weak_auth.php:50
 msgid "Account keys"
 msgstr "Ключі облікового запису"
 
-#: html/inc/user.inc:287
+#: html/inc/user.inc:300
 msgid "Account Ownership"
 msgstr "Право власності на Обліковий запис"
 
-#: html/inc/user.inc:299
+#: html/inc/user.inc:312
 msgid "When and how BOINC uses your computer"
 msgstr "Як і коли BOINC використовує Ваш комп’ютер"
 
-#: html/inc/user.inc:300 html/user/welcome.php:62
+#: html/inc/user.inc:313 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "Налаштування обчислень"
 
-#: html/inc/user.inc:303
+#: html/inc/user.inc:316
 msgid "Message boards and private messages"
 msgstr "Дошка повідомлень або особисті повідомлення"
 
-#: html/inc/user.inc:304 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:317 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "Налаштування спільноти"
 
-#: html/inc/user.inc:307
+#: html/inc/user.inc:320
 msgid "Preferences for this project"
 msgstr "Налаштування для цього проекту"
 
-#: html/inc/user.inc:308 html/user/prefs.php:33
+#: html/inc/user.inc:321 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Налаштування %1"
 
-#: html/inc/user.inc:325
+#: html/inc/user.inc:338
 msgid "View the profile of %1"
 msgstr "Переглянути профіль учасника %1"
 
-#: html/inc/user.inc:326 html/inc/user.inc:373 html/inc/user.inc:540
+#: html/inc/user.inc:339 html/inc/user.inc:386 html/inc/user.inc:551
 msgid "Profile"
 msgstr "Профіль"
 
-#: html/inc/user.inc:371
+#: html/inc/user.inc:384
 msgid "Create"
 msgstr "Створити"
 
-#: html/inc/user.inc:378 html/inc/user.inc:512
+#: html/inc/user.inc:391 html/inc/user.inc:523
 msgid "%1 posts"
 msgstr "%1 повідомлень"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:396 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:409 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "Сповіщення"
 
-#: html/inc/user.inc:402
+#: html/inc/user.inc:415
 msgid "Quit team"
 msgstr "Вийти з команди"
 
-#: html/inc/user.inc:404 html/inc/user.inc:421
+#: html/inc/user.inc:417 html/inc/user.inc:434
 msgid "Administer"
 msgstr "Керування"
 
-#: html/inc/user.inc:410 html/inc/user.inc:423
+#: html/inc/user.inc:423 html/inc/user.inc:436
 msgid "(foundership change request pending)"
 msgstr "(запит на зміну засновника в очікуванні)"
 
-#: html/inc/user.inc:412
+#: html/inc/user.inc:425
 msgid "Member of team"
 msgstr "Учасник команди"
 
-#: html/inc/user.inc:414
+#: html/inc/user.inc:427
 msgid "find a team"
 msgstr "знайти команду"
 
-#: html/inc/user.inc:425
+#: html/inc/user.inc:438
 msgid "Founder but not member of"
 msgstr "Засновник, але не учасник"
 
-#: html/inc/user.inc:431
+#: html/inc/user.inc:444
 msgid "Find friends"
 msgstr "Знайти друзів"
 
-#: html/inc/user.inc:439 html/inc/user.inc:441 html/inc/user.inc:523
-#: html/inc/user.inc:525 html/inc/user.inc:534
+#: html/inc/user.inc:452 html/inc/user.inc:454 html/inc/user.inc:534
+#: html/inc/user.inc:536 html/inc/user.inc:545
 msgid "Friends"
 msgstr "Друзі"
 
-#: html/inc/user.inc:468 html/inc/user.inc:470 html/user/server_status.php:160
+#: html/inc/user.inc:479 html/inc/user.inc:481 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "Комп’ютери"
 
-#: html/inc/user.inc:516
+#: html/inc/user.inc:527
 msgid "Contact"
 msgstr "Контакт"
 
-#: html/inc/user.inc:519
+#: html/inc/user.inc:530
 msgid "This person is a friend"
 msgstr "Ця особа є другом"
 
-#: html/inc/user.inc:520 html/user/friend.php:250
+#: html/inc/user.inc:531 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "Припинити дружбу"
 
-#: html/inc/user.inc:523 html/user/friend.php:39
+#: html/inc/user.inc:534 html/user/friend.php:39
 msgid "Request pending"
 msgstr "Запит в очікуванні"
 
-#: html/inc/user.inc:525
+#: html/inc/user.inc:536
 msgid "Add as friend"
 msgstr "Додати друга"
 
-#: html/inc/user.inc:549
+#: html/inc/user.inc:560
 msgid "Account information"
 msgstr "Облікова інформація"
 
@@ -2711,74 +2719,74 @@ msgstr "Не вдалося створити обліковий запис"
 msgid "database error, please contact site administrators"
 msgstr "помилка бази даних, будь ласка, зв'яжіться з адміністраторами сайту"
 
-#: html/inc/util.inc:218
+#: html/inc/util.inc:212
 msgid "log out"
 msgstr "вийти"
 
-#: html/inc/util.inc:220
+#: html/inc/util.inc:214
 msgid "log in"
 msgstr "увійти"
 
-#: html/inc/util.inc:358
+#: html/inc/util.inc:352
 msgid "Create an account"
 msgstr "Створення облікового запису"
 
-#: html/inc/util.inc:359
+#: html/inc/util.inc:353
 msgid "Server status page"
 msgstr "Інформація про стан сервера"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:396
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "Сталася помилка бази даних під час обробки Вашого запиту; будь-ласка, спробуйте ще раз пізніше."
 
-#: html/inc/util.inc:411
+#: html/inc/util.inc:405
 msgid "Unable to handle request"
 msgstr "Неможливо обробити запит"
 
-#: html/inc/util.inc:431
+#: html/inc/util.inc:426
 msgid "hours"
 msgstr "годин"
 
-#: html/inc/util.inc:434
+#: html/inc/util.inc:429
 msgid "min"
 msgstr "хвилин"
 
-#: html/inc/util.inc:437
+#: html/inc/util.inc:432
 msgid "sec"
 msgstr "секунд"
 
-#: html/inc/util.inc:618
+#: html/inc/util.inc:612
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "Посилання прострочена. Будь-ласка, натисніть Назад, оновіть сторінку і спробуйте ще раз."
 
-#: html/inc/util.inc:693
+#: html/inc/util.inc:687
 msgid "Use BBCode tags to format your text"
 msgstr "Використовуйте теги BBCode для форматування свого тексту"
 
-#: html/inc/util.inc:941
+#: html/inc/util.inc:935
 msgid "Project down for maintenance"
 msgstr "Проект зупинений для обслуговування"
 
-#: html/inc/util.inc:944
+#: html/inc/util.inc:938
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 тимчасово зупинений для обслуговування.  Будь-ласка, спробуйте ще раз пізніше."
 
-#: html/inc/util.inc:971
+#: html/inc/util.inc:965
 msgid "Unable to connect to database - please try again later"
 msgstr "Неможливо підключитися до бази даних - будь-ласка, спробуйте ще раз пізніше"
 
-#: html/inc/util.inc:975
+#: html/inc/util.inc:969
 msgid "Unable to select database - please try again later"
 msgstr "Неможливо вибрати базу даних - будь-ласка, спробуйте ще раз пізніше"
 
-#: html/inc/util.inc:1169
+#: html/inc/util.inc:1186
 msgid "characters remaining"
 msgstr "залишилось символів"
 
-#: html/inc/util_ops.inc:132
+#: html/inc/util_ops.inc:130
 msgid "Stay logged in on this computer"
 msgstr "Залишатися авторизованим на цьому комп’ютері"
 
@@ -3519,15 +3527,21 @@ msgid ""
 "again later."
 msgstr "Неможливо оновити Вашу адресу електронної пошти через проблеми з базою даних.  Будь-ласка, спробуйте ще раз пізніше."
 
-#: html/user/edit_email_form.php:26 html/user/edit_email_form.php:48
+#: html/user/edit_email_form.php:26 html/user/edit_email_form.php:50
 msgid "Change email address"
 msgstr "Змінити адресу електронної пошти"
 
-#: html/user/edit_email_form.php:38
+#: html/user/edit_email_form.php:27
+msgid ""
+"Note: if you change your email address, your %1weak account key%2 will "
+"change."
+msgstr "Завважте: якщо ви зміните адресу електронної пошти, ваш %1слабкий ключ облікового запису%2 також буде змінено."
+
+#: html/user/edit_email_form.php:40
 msgid "New email address"
 msgstr "Нова адреса електронної пошти"
 
-#: html/user/edit_email_form.php:39
+#: html/user/edit_email_form.php:41
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "Повинна бути дійсною адресою у формі 'name@domain'"
 
@@ -3735,7 +3749,7 @@ msgid ""
 msgstr "Неможливо оновити Ваш пароль через проблеми з базою даних. Будь-ласка, спробуйте ще раз пізніше."
 
 #: html/user/edit_passwd_action.php:50 html/user/edit_passwd_form.php:26
-#: html/user/edit_passwd_form.php:30
+#: html/user/edit_passwd_form.php:32
 msgid "Change password"
 msgstr "Змінити пароль"
 
@@ -3743,7 +3757,12 @@ msgstr "Змінити пароль"
 msgid "Your password has been changed."
 msgstr "Ваш пароль було змінено"
 
-#: html/user/edit_passwd_form.php:29
+#: html/user/edit_passwd_form.php:27
+msgid ""
+"Note: if you change your password, your %1weak account key%2 will change."
+msgstr "Завважте: якщо ви зміните ваш пароль, ваш %1слабкий ключ облікового запису%2 також буде змінено."
+
+#: html/user/edit_passwd_form.php:31
 msgid "New password"
 msgstr "Новий пароль"
 
@@ -3755,7 +3774,7 @@ msgstr "У Вашому імені теги HTML неприпустимі."
 msgid "You must supply a name for your account."
 msgstr "Ви повинні вказати ім’я для Вашого облікового запису."
 
-#: html/user/edit_user_info_action.php:63
+#: html/user/edit_user_info_action.php:66
 msgid "Couldn't update user info."
 msgstr "Неможливо оновити інформацію про користувача."
 
@@ -4890,15 +4909,15 @@ msgstr "Уведіть вашу адресу електронної пошти �
 msgid "Reset password"
 msgstr "Скинути пароль"
 
-#: html/user/gpu_list.php:163 html/user/gpu_list.php:189
+#: html/user/gpu_list.php:168 html/user/gpu_list.php:194
 msgid "No GPU tasks reported"
 msgstr "Немає повідомлених ГП-задач"
 
-#: html/user/gpu_list.php:222
+#: html/user/gpu_list.php:227
 msgid "Top GPU models"
 msgstr "Кращі моделі графічних прискорювачів"
 
-#: html/user/gpu_list.php:223
+#: html/user/gpu_list.php:228
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -5318,19 +5337,19 @@ msgid ""
 "incomplete, %1 you can help translate %2."
 msgstr "Переклади роблять волонтери.  Якщо вашої рідної мови нема, або переклад не завершено, %1 допоможіть нам з перекладом %2."
 
-#: html/user/login_form.php:32
+#: html/user/login_form.php:34
 msgid "Already logged in"
 msgstr "Залишатись залогіненим"
 
-#: html/user/login_form.php:33
+#: html/user/login_form.php:35
 msgid "You are logged in as %1."
 msgstr "Ви вже залогінені як %1."
 
-#: html/user/login_form.php:36
+#: html/user/login_form.php:38
 msgid "Log out"
 msgstr "Вийти"
 
-#: html/user/login_form.php:59
+#: html/user/login_form.php:61
 msgid "or %1 create an account %2."
 msgstr "або %1 створити обліковий запис %2."
 
@@ -5538,7 +5557,7 @@ msgstr "Як тільки користувач був заблокований, 
 msgid "No, cancel"
 msgstr "Ні, скасувати"
 
-#: html/user/pm.php:303 html/user/team_admins.php:101
+#: html/user/pm.php:303 html/user/team_admins.php:102
 msgid "no such user"
 msgstr "немає такого користувача"
 
@@ -5947,7 +5966,7 @@ msgstr "розформувати команду, в якій немає учас
 msgid "To join a team, visit its team page and click %1 Join this team %2."
 msgstr "Щоб приєднатися до команди, відвідайте її сторінку і натисніть %1 Приєднатися до цієї команди %2."
 
-#: html/user/team.php:42 html/user/team_search.php:203
+#: html/user/team.php:42 html/user/team_search.php:204
 msgid "Find a team"
 msgstr "Знайти команду"
 
@@ -5973,95 +5992,95 @@ msgid ""
 "%2."
 msgstr "Якщо Ви не можете знайти підходящу для Вас команду, то можете %1 створити нову %2."
 
-#: html/user/team_admins.php:36
+#: html/user/team_admins.php:37
 msgid "Remove Team Admin status from this member"
 msgstr "Видалити статус Адміністратора команди у цього учасника"
 
-#: html/user/team_admins.php:42 html/user/team_admins.php:54
+#: html/user/team_admins.php:43 html/user/team_admins.php:55
 msgid "Add or remove Team Admins"
 msgstr "Додати або видалити Адміністраторів команди"
 
-#: html/user/team_admins.php:43
+#: html/user/team_admins.php:44
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr "Ви можете обрати учасників команди та надати їм статус 'Адміністраторів команди'. Адміністратори команди можуть:"
 
-#: html/user/team_admins.php:45
+#: html/user/team_admins.php:46
 msgid "Edit team information (name, URL, description, country)"
 msgstr "Редагувати інформацію про команду (назву, URL, опис, країну)"
 
-#: html/user/team_admins.php:46
+#: html/user/team_admins.php:47
 msgid "View the team's join/quit history"
 msgstr "Переглядати історію приєднання/виходу з команди"
 
-#: html/user/team_admins.php:47
+#: html/user/team_admins.php:48
 msgid "Send messages to the team"
 msgstr "Надіслати повідомлення команді"
 
-#: html/user/team_admins.php:48
+#: html/user/team_admins.php:49
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation"
 " events and red X reports)"
 msgstr "Модерувати форум команди, якщо є (адміністратори отримують сповіщення електронною поштою про події модерації і про червоні X-повідомлення)"
 
-#: html/user/team_admins.php:50
+#: html/user/team_admins.php:51
 msgid "Team Admins cannot:"
 msgstr "Адміністратори команди не можуть:"
 
-#: html/user/team_admins.php:52
+#: html/user/team_admins.php:53
 msgid "Change the team founder"
 msgstr "Змінити засновника команди"
 
-#: html/user/team_admins.php:53 html/user/team_manage.php:58
+#: html/user/team_admins.php:54 html/user/team_manage.php:58
 msgid "Remove members"
 msgstr "Видалити учасників"
 
-#: html/user/team_admins.php:56
+#: html/user/team_admins.php:57
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr "Якщо Адміністратор команди покидає команду, він перестає бути Адміністратором."
 
-#: html/user/team_admins.php:57
+#: html/user/team_admins.php:58
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr "Ми рекомендуємо Вам вибирати Адміністраторами команди тільки людей, яких Ви знаєте і яким довіряєте."
 
-#: html/user/team_admins.php:62
+#: html/user/team_admins.php:63
 msgid "There are currently no Team Admins"
 msgstr "Зараз у команди нема Адміністраторів"
 
-#: html/user/team_admins.php:64
+#: html/user/team_admins.php:65
 msgid "Current Team Admins"
 msgstr "Поточні Адміністратори команди"
 
-#: html/user/team_admins.php:65
+#: html/user/team_admins.php:66
 msgid "Became Team Admin on"
 msgstr "Став Адміністратором команди з"
 
-#: html/user/team_admins.php:80
+#: html/user/team_admins.php:81
 msgid "Add Team Admin"
 msgstr "Додавання Адміністратора команди"
 
-#: html/user/team_admins.php:81
+#: html/user/team_admins.php:82
 msgid "Email address of team member:"
 msgstr "Адреса електронної пошти учасника команди:"
 
-#: html/user/team_admins.php:93
+#: html/user/team_admins.php:94
 msgid "failed to remove admin"
 msgstr "не вдалося видалити адміністратора"
 
-#: html/user/team_admins.php:102
+#: html/user/team_admins.php:103
 msgid "User is not member of team"
 msgstr "Користувач не є учасником команди"
 
-#: html/user/team_admins.php:104
+#: html/user/team_admins.php:105
 msgid "%1 is already an admin of %2"
 msgstr "%1 уже адміністратор команди %2"
 
-#: html/user/team_admins.php:108
+#: html/user/team_admins.php:109
 msgid "Couldn't add admin"
 msgstr "Неможливо додати адміністратора"
 
-#: html/user/team_admins.php:114 html/user/team_manage.php:85
+#: html/user/team_admins.php:115 html/user/team_manage.php:85
 #: html/user/team_quit_form.php:30
 #: html/user/team_remove_inactive_action.php:30
 msgid "No such team"
@@ -6661,17 +6680,17 @@ msgstr "Наступні команди відповідають одному а
 msgid "Change your search"
 msgstr "Змініть свій пошук"
 
-#: html/user/team_search.php:204
+#: html/user/team_search.php:205
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr "Ви можете об'єднатися в команду з іншими людьми зі схожими інтересами, або з однієї країни, компанії чи школи."
 
-#: html/user/team_search.php:206
+#: html/user/team_search.php:207
 msgid "Use this form to find teams that might be right for you."
 msgstr "Використовуйте цю форму для пошуку команд, які можуть Вам підійти."
 
-#: html/user/team_search.php:211
+#: html/user/team_search.php:212
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "Я зараз %1 не зацікавлений %2 приєднатися до команди."
 
@@ -6871,34 +6890,34 @@ msgstr "Профіль: %1"
 msgid "Account data"
 msgstr "Дані облікового запису"
 
-#: html/user/weak_auth.php:52
+#: html/user/weak_auth.php:53
 msgid ""
 "You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr "Ви можете отримати доступ до свого облікового запису або з використанням адреси електронної пошти і паролю,\n    або використовуючи призначений 'ключ облікового запису'.\n    Ваш ключ облікового запису:"
 
-#: html/user/weak_auth.php:57
+#: html/user/weak_auth.php:58
 msgid "This key can be used to:"
 msgstr "Цей ключ можна застосувати до:"
 
-#: html/user/weak_auth.php:59
+#: html/user/weak_auth.php:60
 msgid "log in to your account on the web"
 msgstr "вхід у свій обліковий запис на сайті"
 
-#: html/user/weak_auth.php:61
+#: html/user/weak_auth.php:62
 msgid ""
-"to attach a computer to your account without using the BOINC Manager.\n"
+"attach a computer to your account without using the BOINC Manager.\n"
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
 msgstr "підключення комп’ютера до Вашого облікового запису без використання Менеджера BOINC.\n       Для цього необхідно встановити BOINC,\n       створити файл із назвою %1 в каталозі даних BOINC,\n       і встановити його вміст наступним чином:"
 
-#: html/user/weak_auth.php:73
+#: html/user/weak_auth.php:74
 msgid "Weak account key"
 msgstr "Слабкий ключ облікового запису"
 
-#: html/user/weak_auth.php:74
+#: html/user/weak_auth.php:75
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
 "    as described above, but cannot be used to log in to your account or change it in any way.\n"
@@ -6907,11 +6926,11 @@ msgid ""
 "    Your weak account key is:"
 msgstr "Ваш 'слабкий ключ облікового запису' може бути використаний для підключення комп’ютерів до Вашого облікового запису,\n    як описано вище, але він не може використовуватися для входу в нього чи його зміни будь-яким чином.\n    Якщо Ви хочете підключити ненадійні або не надто безпечні комп’ютери до свого облікового запису,\n    зробіть це, використовуючи свій слабкий ключ облікового запису.\n    Ваш слабкий ключ облікового запису:"
 
-#: html/user/weak_auth.php:81
+#: html/user/weak_auth.php:82
 msgid ""
-"If you change your password, your weak account key changes, and your "
-"previous weak account key becomes invalid."
-msgstr "Якщо Ви зміните свій пароль, Ваш слабкий ключ облікового запису зміниться, а попередній стане недійсним."
+"The key depends on your account's email address and password.  If you change"
+" either of these, the weak account key will change."
+msgstr "Ключ залежить від вашої адреси електронної пошти та пароля. Якщо ви зміните одне або друге, слабкий ключ облікового запису також зміниться."
 
 #: html/user/welcome.php:22
 msgid ""
@@ -7033,25 +7052,25 @@ msgstr "Очікування"
 msgid "can't find workunit"
 msgstr "не вдалося знайти задачу"
 
-#: html/project.sample/project.inc:142
+#: html/project.sample/project.inc:135
 msgid "Generated"
 msgstr "Згенерований"
 
-#: html/project.sample/project.inc:177
+#: html/project.sample/project.inc:174
 msgid "Your personal background."
 msgstr "Ваша особиста інформація."
 
-#: html/project.sample/project.inc:181
+#: html/project.sample/project.inc:178
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr "Розкажіть нам про себе. Ви можете розповісти нам про те, звідки Ви, про свій вік, освіту, захоплення або ще про щось."
 
-#: html/project.sample/project.inc:185
+#: html/project.sample/project.inc:182
 msgid "Your opinions about %1"
 msgstr "Ваша думка про %1"
 
-#: html/project.sample/project.inc:189
+#: html/project.sample/project.inc:186
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"

@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Описание:</string>
   <string name="attachproject_login_header_home">Владелец:</string>
   <string name="attachproject_login_header_url">Веб-сайт:</string>
-  <string name="attachproject_login_header_id_email">Электронная почта:</string>
+  <string name="attachproject_login_header_id_email">Адрес email:</string>
   <string name="attachproject_login_header_id_name">Имя:</string>
   <string name="attachproject_login_header_pwd">Пароль:</string>
   <string name="attachproject_login_button_registration">Зарегистрироваться</string>
@@ -73,7 +73,7 @@
   <string name="attachproject_error_bad_username">Имя пользователя не принято</string>
   <string name="attachproject_error_email_in_use">Адрес электронной почты уже используется</string>
   <string name="attachproject_error_project_down">Проект выключен</string>
-  <string name="attachproject_error_email_bad_syntax">Адрес электронной почты не принят</string>
+  <string name="attachproject_error_email_bad_syntax">Адрес электронной почты отклонен</string>
   <string name="attachproject_error_bad_pwd">Пароль не принят</string>
   <string name="attachproject_error_creation_disabled">Создание учётной записи в данном проекте отключено</string>
   <string name="attachproject_error_invalid_url">Неправильный адрес (URL)</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Включить дистанционное управление</string>
   <string name="prefs_remote_summary">При изменении клиент BOINC будет перезапущен.</string>
   <string name="prefs_show_notification_notices_header">Показывать уведомления о поступлении новых сообщений</string>
+  <string name="prefs_show_notification_suspended_header">Показывать уведомление когда приостановлено</string>
   <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
   <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
   <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше (%)</string>
@@ -140,6 +141,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач (дней)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Дополнительный буфер для задач (дней)</string>
   <string name="prefs_remote_authentication_key">Ключ аутентификации GUI</string>
+  <string name="prefs_remote_authentication_key_input_hint">Ключ аутентификации</string>
   <string name="prefs_remote_empty_password">Ошибка обновления пароля: значение не может быть пустым</string>
   <string name="prefs_remote_boinc_relaunched">Клиент BOINC будет перезапущен после смены пароля.</string>
   <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>

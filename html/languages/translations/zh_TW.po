@@ -1,17 +1,17 @@
 # BOINC project generic website localization template
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Died <doomdied@gmail.com>, 2015
 # Enfeng Tsao <doggie22768384@gmail.com>, 2021
-# Meng Pang Wang, 2023
+# Meng Pang Wang, 2023-2024
 # Mingye Wang <arthur200126@gmail.com>, 2015,2019
 # Po-Chun Huang <aphroteus@gmail.com>, 2015
 # Robert Kwan, 2020
-# Willy Wu <df910105@yahoo.com.tw>, 2015
-# Willy Wu <df910105@yahoo.com.tw>, 2015-2016,2018
+# William Wu <df910105@gmail.com>, 2015
+# William Wu <df910105@gmail.com>, 2015-2016,2018
 # Yung Gaby <gabrielle@yungs.org>, 2018
 # Meng Pang Wang, 2020
 # 江昱輝 <darkanglephantom@gmail.com>, 2019
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: Meng Pang Wang, 2023\n"
+"Last-Translator: Meng Pang Wang, 2023-2024\n"
 "Language-Team: Chinese (Taiwan) (http://app.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgstr "名稱"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "必須是有效的電子郵件地址，例如：用戶名@域名。"
 
-#: html/inc/account.inc:90 html/inc/user.inc:240 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:252 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "電子郵件地址"
 
@@ -72,7 +72,7 @@ msgstr "至少必須包含%1個字元"
 #. but because we store it salted with email address,
 #. which is about to change.
 #: html/inc/account.inc:102 html/user/delete_account_confirm.php:54
-#: html/user/delete_account_request.php:51 html/user/edit_email_form.php:47
+#: html/user/delete_account_request.php:51 html/user/edit_email_form.php:49
 msgid "Password"
 msgstr "密碼"
 
@@ -81,8 +81,8 @@ msgid "Select the country you want to represent, if any."
 msgstr "選擇您的國家。"
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
-#: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:249 html/inc/user.inc:452 html/user/account_finish.php:45
+#: html/inc/team.inc:251 html/inc/team.inc:391 html/inc/team.inc:500
+#: html/inc/user.inc:262 html/inc/user.inc:465 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -123,7 +123,7 @@ msgid "Stay logged in"
 msgstr "保持登入狀態"
 
 #. kludge
-#: html/inc/account.inc:162 html/inc/util.inc:357 html/user/login_form.php:43
+#: html/inc/account.inc:162 html/inc/util.inc:351 html/user/login_form.php:45
 msgid "Log in"
 msgstr "登入"
 
@@ -182,7 +182,7 @@ msgid ""
 msgstr "字體顏色：[color=red]文字[/color] 訣竅：你也可以用 #FF0000 來表示紅色"
 
 #: html/inc/bbcode_html.inc:26 html/inc/bbcode_html.inc:42
-#: html/inc/prefs_util.inc:663
+#: html/inc/prefs_util.inc:675
 msgid "Default"
 msgstr "預設"
 
@@ -276,7 +276,7 @@ msgid "Account"
 msgstr "帳號"
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:296
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:309
 msgid "Preferences"
 msgstr "偏好設定"
 
@@ -329,12 +329,12 @@ msgstr "電腦類型"
 msgid "Computing"
 msgstr "運算"
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:567 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:578 html/user/welcome.php:79
 msgid "Community"
 msgstr "社群"
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:378 html/inc/user.inc:512 html/user/forum_forum.php:76
+#: html/inc/user.inc:391 html/inc/user.inc:523 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "留言版"
@@ -378,11 +378,11 @@ msgstr "語言"
 
 #: html/inc/cert.inc:97
 msgid "Share on Facebook"
-msgstr ""
+msgstr "在 Facebook 上分享"
 
 #: html/inc/cert.inc:106
 msgid "Share on Twitter"
-msgstr ""
+msgstr "在 Twitter 上分享"
 
 #. names for the above
 #: html/inc/forum.inc:44
@@ -466,7 +466,7 @@ msgstr "搜尋討論版"
 msgid "Advanced search"
 msgstr "進階搜尋"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:382 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:395 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "私人訊息"
@@ -479,11 +479,11 @@ msgstr "問與答"
 msgid "%1 message board"
 msgstr "%1留言版"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:787
+#: html/inc/forum.inc:257 html/inc/result.inc:791
 msgid "Previous"
 msgstr "上一個"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:796
+#: html/inc/forum.inc:295 html/inc/result.inc:800
 msgid "Next"
 msgstr "下一個"
 
@@ -537,7 +537,7 @@ msgstr "未讀"
 msgid "Message %1"
 msgstr "訊息%1"
 
-#: html/inc/forum.inc:662 html/inc/user.inc:470 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:481 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "隱藏"
 
@@ -549,8 +549,8 @@ msgstr "發表於：%1"
 msgid " - in response to "
 msgstr " - 回應於 "
 
-#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
-#: html/inc/prefs_util.inc:736
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:746
+#: html/inc/prefs_util.inc:748
 msgid "Edit"
 msgstr "編輯"
 
@@ -674,10 +674,6 @@ msgstr "違規者的權限可能會被暫停或撤銷。"
 msgid "If your account is suspended, don't create a new one."
 msgstr "如果您的帳號被停用，請勿再建立新帳號。"
 
-#: html/inc/forum.inc:858
-msgid "Rules:"
-msgstr "規定："
-
 #: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "取消隱藏"
@@ -718,7 +714,7 @@ msgstr "投票不要封鎖作者"
 msgid "Start vote to banish author"
 msgstr "開始投票封鎖作者"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:369
+#: html/inc/forum.inc:1211 html/inc/user.inc:382
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "刪除"
@@ -799,16 +795,16 @@ msgstr "沒有主機"
 msgid "Unavailable"
 msgstr "無法使用"
 
-#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:664
+#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:676
 msgid "Home"
 msgstr "家庭"
 
-#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:666
+#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:678
 #: html/user/server_status.php:144
 msgid "Work"
 msgstr "任務"
 
-#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:665
+#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:677
 msgid "School"
 msgstr "學校"
 
@@ -856,18 +852,18 @@ msgstr "UCT %1 小時"
 msgid "Owner"
 msgstr "用戶"
 
-#: html/inc/host.inc:109 html/inc/host.inc:401
+#: html/inc/host.inc:109 html/inc/host.inc:402
 msgid "Anonymous"
 msgstr "匿名"
 
-#: html/inc/host.inc:113 html/inc/result.inc:694 html/user/apps.php:57
+#: html/inc/host.inc:113 html/inc/result.inc:698 html/user/apps.php:57
 msgid "Created"
 msgstr "建立日期"
 
 #: html/inc/host.inc:115 html/inc/host.inc:236 html/inc/host.inc:239
-#: html/inc/host.inc:745 html/inc/team.inc:111 html/inc/team.inc:233
-#: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:382
-#: html/inc/team.inc:385 html/inc/user.inc:127 html/inc/user.inc:144
+#: html/inc/host.inc:746 html/inc/team.inc:111 html/inc/team.inc:233
+#: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:383
+#: html/inc/team.inc:386 html/inc/user.inc:127 html/inc/user.inc:144
 #: html/user/profile_search_action.php:45
 #: html/user/team_change_founder_form.php:83 html/user/team_email_list.php:76
 #: html/user/team_remove_inactive_form.php:44 html/user/top_users.php:51
@@ -900,7 +896,7 @@ msgstr "協同處理器"
 msgid "Virtualization"
 msgstr "虛擬化"
 
-#: html/inc/host.inc:127 html/inc/host.inc:756
+#: html/inc/host.inc:127 html/inc/host.inc:757
 msgid "Operating System"
 msgstr "作業系統"
 
@@ -957,9 +953,9 @@ msgstr "平均上傳速度"
 msgid "%1 KB/sec"
 msgstr "%1 Kb/s"
 
-#: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:230
-#: html/inc/result.inc:240 html/inc/result.inc:258 html/inc/result.inc:276
-#: html/inc/result.inc:292 html/user/explain_state.php:56
+#: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:232
+#: html/inc/result.inc:242 html/inc/result.inc:260 html/inc/result.inc:278
+#: html/inc/result.inc:294 html/user/explain_state.php:56
 #: html/user/host_app_versions.php:28
 msgid "Unknown"
 msgstr "未知"
@@ -986,7 +982,7 @@ msgstr "程式詳細資料"
 msgid "Show"
 msgstr "查看"
 
-#: html/inc/host.inc:186 html/inc/host.inc:379 html/inc/user.inc:170
+#: html/inc/host.inc:186 html/inc/host.inc:380 html/inc/user.inc:170
 msgid "Tasks"
 msgstr "任務"
 
@@ -1023,7 +1019,7 @@ msgstr "平均 CPU 效率"
 msgid "Task duration correction factor"
 msgstr "任務持續修正的原因"
 
-#: html/inc/host.inc:207 html/inc/host.inc:734
+#: html/inc/host.inc:207 html/inc/host.inc:735
 msgid "Location"
 msgstr "位置"
 
@@ -1039,7 +1035,7 @@ msgstr "合併此電腦的重覆記錄"
 msgid "Merge"
 msgstr "合併"
 
-#: html/inc/host.inc:216 html/inc/host.inc:759
+#: html/inc/host.inc:216 html/inc/host.inc:760
 msgid "Last contact"
 msgstr "最後聯繫時間"
 
@@ -1047,30 +1043,30 @@ msgstr "最後聯繫時間"
 msgid "Info"
 msgstr "資訊"
 
-#: html/inc/host.inc:230 html/inc/host.inc:737 html/inc/team.inc:375
+#: html/inc/host.inc:230 html/inc/host.inc:738 html/inc/team.inc:376
 #: html/user/per_app_list.php:61 html/user/top_users.php:47
 msgid "Rank"
 msgstr "排行"
 
-#: html/inc/host.inc:235 html/inc/host.inc:742
+#: html/inc/host.inc:235 html/inc/host.inc:743
 msgid "Avg. credit"
 msgstr "平均積分"
 
 #: html/inc/host.inc:238 html/inc/team.inc:112 html/inc/team.inc:234
-#: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:381
-#: html/inc/team.inc:384 html/inc/user.inc:145
+#: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:382
+#: html/inc/team.inc:385 html/inc/user.inc:145
 #: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
 #: html/user/team_remove_inactive_form.php:45 html/user/top_users.php:50
 #: html/user/top_users.php:53
 msgid "Recent average credit"
 msgstr "最近平均積分"
 
-#: html/inc/host.inc:243 html/inc/host.inc:751 html/inc/result.inc:74
+#: html/inc/host.inc:243 html/inc/host.inc:752 html/inc/result.inc:74
 #: html/user/host_app_versions.php:23
 msgid "CPU"
 msgstr "CPU"
 
-#: html/inc/host.inc:244 html/inc/host.inc:753
+#: html/inc/host.inc:244 html/inc/host.inc:754
 msgid "GPU"
 msgstr "GPU"
 
@@ -1094,96 +1090,96 @@ msgstr "，CPU支援虛擬化技術但未啟用"
 msgid ", CPU does not have hardware virtualization support"
 msgstr "，CPU不支援虛擬化技術"
 
-#: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:414 html/inc/user.inc:507
+#: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:608
+#: html/inc/user.inc:427 html/inc/user.inc:518
 msgid "None"
 msgstr "未加入團隊"
 
-#: html/inc/host.inc:356
+#: html/inc/host.inc:357
 msgid "(%1 processors)"
 msgstr "(%1核心)"
 
-#: html/inc/host.inc:375
+#: html/inc/host.inc:376
 msgid "Details"
 msgstr "細節"
 
-#: html/inc/host.inc:385
+#: html/inc/host.inc:386
 msgid "Cross-project stats:"
 msgstr "跨專案的統計訊息："
 
-#: html/inc/host.inc:569
+#: html/inc/host.inc:570
 msgid "Host %1 has overlapping lifetime:"
 msgstr "主機 %1 的活躍期有重疊："
 
-#: html/inc/host.inc:576
+#: html/inc/host.inc:577
 msgid "Host %1 has an incompatible OS:"
 msgstr "主機 %1 的作業系統不相容"
 
-#: html/inc/host.inc:582
+#: html/inc/host.inc:583
 msgid "Host %1 has an incompatible CPU:"
 msgstr "主機 %1 的 CPU 不相容"
 
-#: html/inc/host.inc:649
+#: html/inc/host.inc:650
 msgid "same host"
 msgstr "相同的主機"
 
-#: html/inc/host.inc:652
+#: html/inc/host.inc:653
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "無法將主機%1合併到主機%2 - 主機不相容"
 
-#: html/inc/host.inc:655
+#: html/inc/host.inc:656
 msgid "Merging host %1 into host %2"
 msgstr "正在將主機%1合併到主機%2"
 
-#: html/inc/host.inc:672
+#: html/inc/host.inc:673
 msgid "Couldn't update credit of new computer"
 msgstr "無法從新電腦更新積分"
 
-#: html/inc/host.inc:676
+#: html/inc/host.inc:677
 msgid "Couldn't update results"
 msgstr "無法上傳任務"
 
-#: html/inc/host.inc:681
+#: html/inc/host.inc:682
 msgid "Couldn't retire old computer"
 msgstr "無法移除舊電腦"
 
-#: html/inc/host.inc:683
+#: html/inc/host.inc:684
 msgid "Retired old computer %1"
 msgstr "已移除舊電腦%1"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "Show:"
 msgstr "顯示："
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "All computers"
 msgstr "所有電腦"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "Only computers active in past 30 days"
 msgstr "只顯示過去30天內活躍的電腦"
 
-#: html/inc/host.inc:722 html/inc/result.inc:702
+#: html/inc/host.inc:723 html/inc/result.inc:706
 msgid "Computer ID"
 msgstr "電腦 ID"
 
-#: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:232 html/user/account_finish.php:41
-#: html/user/per_app_list.php:61 html/user/team_admins.php:65
+#: html/inc/host.inc:728 html/inc/result.inc:696 html/inc/team.inc:229
+#: html/inc/team.inc:377 html/inc/user.inc:244 html/user/account_finish.php:41
+#: html/user/per_app_list.php:61 html/user/team_admins.php:66
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
 msgid "Name"
 msgstr "名稱"
 
-#: html/inc/host.inc:731
+#: html/inc/host.inc:732
 msgid "Model"
 msgstr "型號"
 
-#: html/inc/host.inc:748
+#: html/inc/host.inc:749
 msgid "BOINC<br>version"
 msgstr "BOINC<br>版本"
 
-#: html/inc/host.inc:817 html/user/merge_by_name.php:65
+#: html/inc/host.inc:818 html/user/merge_by_name.php:65
 msgid "Merge computers by name"
 msgstr "透過名稱合併電腦"
 
@@ -1244,7 +1240,7 @@ msgstr "預覽"
 msgid "Subject"
 msgstr "標題"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:516
+#: html/inc/pm.inc:105 html/inc/user.inc:527
 msgid "Send private message"
 msgstr "傳送私人訊息"
 
@@ -1533,7 +1529,7 @@ msgstr "例如： BOINC能在每30天傳送2000MB的數據。"
 msgid "MB every"
 msgstr "MB 每"
 
-#: html/inc/prefs.inc:232 html/inc/util.inc:428
+#: html/inc/prefs.inc:232 html/inc/util.inc:423
 msgid "days"
 msgstr "天"
 
@@ -1604,12 +1600,12 @@ msgid "Separate preferences for %1"
 msgstr "用於%1環境的偏好設定"
 
 #: html/inc/prefs.inc:535 html/inc/prefs.inc:576
-#: html/inc/prefs_project.inc:324
+#: html/inc/prefs_project.inc:334
 msgid "Edit preferences"
 msgstr "編輯偏好設定"
 
-#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:735
-#: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:36
+#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:747
+#: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:37
 msgid "Remove"
 msgstr "移除"
 
@@ -1634,11 +1630,11 @@ msgstr "Android裝置"
 msgid "(Switch view)"
 msgstr "(切換顯示)"
 
-#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:304
+#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:314
 msgid "Combined preferences"
 msgstr "以合併的偏好設定"
 
-#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:316
+#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:326
 msgid "Primary (default) preferences"
 msgstr "預設的偏好設定"
 
@@ -1654,15 +1650,15 @@ msgstr "新增偏好設定"
 msgid "Update preferences"
 msgstr "更新偏好設定"
 
-#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:700
-#: html/inc/prefs_util.inc:703
+#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:712
+#: html/inc/prefs_util.inc:715
 #: html/project.sample/project_specific_prefs.inc:71
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "yes"
 msgstr "是"
 
-#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:700
-#: html/inc/prefs_util.inc:703
+#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:712
+#: html/inc/prefs_util.inc:715
 #: html/project.sample/project_specific_prefs.inc:73
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "no"
@@ -1678,11 +1674,11 @@ msgid ""
 "New computers will use this location for computing and project preferences."
 msgstr "新的電腦將使用此位置作為運算和專案的首選項。"
 
-#: html/inc/prefs_project.inc:54
+#: html/inc/prefs_project.inc:55
 msgid "Resource share"
 msgstr "資源分享"
 
-#: html/inc/prefs_project.inc:55
+#: html/inc/prefs_project.inc:56
 msgid ""
 "Determines the proportion of your computer's resources allocated to this "
 "project. For example, if you participate in two BOINC projects with resource"
@@ -1690,55 +1686,59 @@ msgid ""
 "second will get 2/3."
 msgstr "該設定決定你的電腦分配給本專案的資源比例。舉例：你參加了兩個專案，其資源分享率分別是 100 和 200，則第一個專案將得到 1/3 的運算資源，第二個專案將得到 2/3。"
 
-#: html/inc/prefs_project.inc:63
+#: html/inc/prefs_project.inc:64
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
 msgstr "給每個GPU任務保留一個CPU核心?"
 
-#: html/inc/prefs_project.inc:72
+#: html/inc/prefs_project.inc:73
 msgid "Use CPU"
 msgstr "使用CPU"
 
-#: html/inc/prefs_project.inc:81
+#: html/inc/prefs_project.inc:82
 msgid "Use AMD GPU"
 msgstr "使用 AMD 圖形處理器"
 
-#: html/inc/prefs_project.inc:90
+#: html/inc/prefs_project.inc:91
 msgid "Use NVIDIA GPU"
 msgstr "使用NVIDIA GPU"
 
-#: html/inc/prefs_project.inc:99
+#: html/inc/prefs_project.inc:100
 msgid "Use Intel GPU"
 msgstr "使用Intel GPU"
 
 #: html/inc/prefs_project.inc:109
+msgid "Use Apple GPU"
+msgstr "使用 Apple GPU"
+
+#: html/inc/prefs_project.inc:119
 msgid "Run test applications?"
 msgstr "允許執行測試版程式?"
 
-#: html/inc/prefs_project.inc:110
+#: html/inc/prefs_project.inc:120
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
 msgstr "這能幫助我們開發程式，但可能造成您電腦上的任務失敗"
 
-#: html/inc/prefs_project.inc:117
+#: html/inc/prefs_project.inc:127
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this "
 "address."
 msgstr "電子郵件將從 %1 發送，請確保您的垃圾郵件過濾器不會過濾這個地址。"
 
-#: html/inc/prefs_project.inc:125
+#: html/inc/prefs_project.inc:135
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "是否允許%1和您所在的團隊傳送電子郵件給您?"
 
-#: html/inc/prefs_project.inc:132
+#: html/inc/prefs_project.inc:142
 msgid "Should %1 show your computers on its web site?"
 msgstr "%1是否可以將您的電腦顯示在它的網站上?"
 
-#: html/inc/prefs_project.inc:301
+#: html/inc/prefs_project.inc:311
 msgid "(Switch View)"
 msgstr "(切換視圖)"
 
-#: html/inc/prefs_project.inc:308
+#: html/inc/prefs_project.inc:318
 msgid "Project specific settings"
 msgstr "專案特定的偏好設定"
 
@@ -1750,19 +1750,19 @@ msgstr "錯誤的偏好設定位置：%1"
 msgid "bad subset: %1"
 msgstr "錯誤的偏好設定子集：%1"
 
-#: html/inc/prefs_util.inc:274 html/inc/prefs_util.inc:291
+#: html/inc/prefs_util.inc:284 html/inc/prefs_util.inc:303
 msgid "Database error:"
 msgstr "資料庫錯誤"
 
-#: html/inc/prefs_util.inc:595 html/inc/prefs_util.inc:619
+#: html/inc/prefs_util.inc:607 html/inc/prefs_util.inc:631
 msgid "and"
 msgstr "和"
 
-#: html/inc/prefs_util.inc:708 html/user/forum_search.php:55
+#: html/inc/prefs_util.inc:720 html/user/forum_search.php:55
 msgid "no limit"
 msgstr "不限制"
 
-#: html/inc/prefs_util.inc:733 html/user/team_admins.php:82
+#: html/inc/prefs_util.inc:745 html/user/team_admins.php:83
 msgid "Add"
 msgstr "新增"
 
@@ -1836,347 +1836,351 @@ msgstr "AMD 圖形處理器"
 msgid "Intel GPU"
 msgstr "Intel GPU"
 
-#: html/inc/result.inc:105
+#: html/inc/result.inc:82
+msgid "Apple GPU"
+msgstr "Apple GPU"
+
+#: html/inc/result.inc:107
 msgid "pending"
 msgstr "等待中"
 
-#: html/inc/result.inc:128 html/user/forum_search.php:62
+#: html/inc/result.inc:130 html/user/forum_search.php:62
 msgid "All"
 msgstr "所有"
 
-#: html/inc/result.inc:129 html/inc/result.inc:190 html/inc/result.inc:237
+#: html/inc/result.inc:131 html/inc/result.inc:192 html/inc/result.inc:239
 #: html/user/server_status.php:174
 msgid "In progress"
 msgstr "運算中"
 
-#: html/inc/result.inc:130
+#: html/inc/result.inc:132
 msgid "Validation pending"
 msgstr "等待驗證中"
 
-#: html/inc/result.inc:131
+#: html/inc/result.inc:133
 msgid "Validation inconclusive"
 msgstr "驗證待確定"
 
-#: html/inc/result.inc:132 html/inc/result.inc:282
+#: html/inc/result.inc:134 html/inc/result.inc:284
 msgid "Valid"
 msgstr "有效結果"
 
-#: html/inc/result.inc:133 html/inc/result.inc:285
+#: html/inc/result.inc:135 html/inc/result.inc:287
 msgid "Invalid"
 msgstr "無效結果"
 
-#: html/inc/result.inc:134 html/inc/result.inc:223
+#: html/inc/result.inc:136 html/inc/result.inc:225
 msgid "Error"
 msgstr "錯誤"
 
-#: html/inc/result.inc:188 html/inc/result.inc:235
+#: html/inc/result.inc:190 html/inc/result.inc:237
 #: html/user/explain_state.php:34
 msgid "Inactive"
 msgstr "不活躍的"
 
-#: html/inc/result.inc:189 html/inc/result.inc:236
+#: html/inc/result.inc:191 html/inc/result.inc:238
 #: html/user/explain_state.php:37 html/user/server_status.php:173
 msgid "Unsent"
 msgstr "未傳送的"
 
-#: html/inc/result.inc:195
+#: html/inc/result.inc:197
 msgid "Completed, waiting for validation"
 msgstr "已完成，等待驗證"
 
-#: html/inc/result.inc:196
+#: html/inc/result.inc:198
 msgid "Completed and validated"
 msgstr "已完成，通過驗證"
 
-#: html/inc/result.inc:197
+#: html/inc/result.inc:199
 msgid "Completed, marked as invalid"
 msgstr "已完成，標記為無效"
 
-#: html/inc/result.inc:198
+#: html/inc/result.inc:200
 msgid "Completed, can't validate"
 msgstr "已完成，無法驗證"
 
-#: html/inc/result.inc:199
+#: html/inc/result.inc:201
 msgid "Completed, validation inconclusive"
 msgstr "已完成，驗證未完成"
 
-#: html/inc/result.inc:200
+#: html/inc/result.inc:202
 msgid "Completed, too late to validate"
 msgstr "已完成，超出上傳期限而無法驗證"
 
-#: html/inc/result.inc:202
+#: html/inc/result.inc:204
 msgid "Completed"
 msgstr "已完成"
 
-#: html/inc/result.inc:203 html/inc/result.inc:247
+#: html/inc/result.inc:205 html/inc/result.inc:249
 #: html/user/explain_state.php:62
 msgid "Couldn't send"
 msgstr "無法傳送"
 
-#: html/inc/result.inc:208 html/inc/result.inc:271
+#: html/inc/result.inc:210 html/inc/result.inc:273
 msgid "Cancelled by server"
 msgstr "被伺服器取消"
 
-#: html/inc/result.inc:213
+#: html/inc/result.inc:215
 msgid "Not started by deadline - canceled"
 msgstr "未開始前已達上傳期限 - 已取消"
 
-#: html/inc/result.inc:216
+#: html/inc/result.inc:218
 msgid "Error while downloading"
 msgstr "下載過程錯誤"
 
-#: html/inc/result.inc:218
+#: html/inc/result.inc:220
 msgid "Error while computing"
 msgstr "運算過程錯誤"
 
-#: html/inc/result.inc:219
+#: html/inc/result.inc:221
 msgid "Error while uploading"
 msgstr "上傳過程錯誤"
 
-#: html/inc/result.inc:220
+#: html/inc/result.inc:222
 msgid "Aborted"
 msgstr "已停止"
 
-#: html/inc/result.inc:221 html/inc/result.inc:274
+#: html/inc/result.inc:223 html/inc/result.inc:276
 msgid "Upload failed"
 msgstr "上傳失敗"
 
-#: html/inc/result.inc:224
+#: html/inc/result.inc:226
 msgid "Timed out - no response"
 msgstr "超時 - 無回應"
 
-#: html/inc/result.inc:225 html/inc/result.inc:254
+#: html/inc/result.inc:227 html/inc/result.inc:256
 #: html/user/explain_state.php:71
 msgid "Didn't need"
 msgstr "不需要"
 
-#: html/inc/result.inc:226 html/inc/result.inc:255
+#: html/inc/result.inc:228 html/inc/result.inc:257
 #: html/user/explain_state.php:74
 msgid "Validate error"
 msgstr "驗證錯誤"
 
-#: html/inc/result.inc:227 html/inc/result.inc:256
+#: html/inc/result.inc:229 html/inc/result.inc:258
 msgid "Abandoned"
 msgstr "已丟棄"
 
-#: html/inc/result.inc:238 html/user/explain_state.php:43
+#: html/inc/result.inc:240 html/user/explain_state.php:43
 msgid "Over"
 msgstr "完成"
 
-#: html/inc/result.inc:246 html/user/explain_state.php:59
+#: html/inc/result.inc:248 html/user/explain_state.php:59
 msgid "Success"
 msgstr "成功"
 
-#: html/inc/result.inc:250
+#: html/inc/result.inc:252
 msgid "Computation error"
 msgstr "運算錯誤"
 
-#: html/inc/result.inc:252
+#: html/inc/result.inc:254
 msgid "Redundant result"
 msgstr "多餘結果"
 
-#: html/inc/result.inc:253 html/user/explain_state.php:68
+#: html/inc/result.inc:255 html/user/explain_state.php:68
 msgid "No reply"
 msgstr "無回應"
 
-#: html/inc/result.inc:263 html/user/explain_state.php:85
+#: html/inc/result.inc:265 html/user/explain_state.php:85
 msgid "New"
 msgstr "新建任務"
 
-#: html/inc/result.inc:264 html/user/explain_state.php:91
+#: html/inc/result.inc:266 html/user/explain_state.php:91
 msgid "Downloading"
 msgstr "下載中"
 
-#: html/inc/result.inc:265
+#: html/inc/result.inc:267
 msgid "Processing"
 msgstr "處理中"
 
-#: html/inc/result.inc:266
+#: html/inc/result.inc:268
 msgid "Compute error"
 msgstr "運算錯誤"
 
-#: html/inc/result.inc:267 html/user/explain_state.php:97
+#: html/inc/result.inc:269 html/user/explain_state.php:97
 msgid "Uploading"
 msgstr "上傳中"
 
-#: html/inc/result.inc:268 html/user/explain_state.php:88
+#: html/inc/result.inc:270 html/user/explain_state.php:88
 msgid "Done"
 msgstr "已完成"
 
-#: html/inc/result.inc:273
+#: html/inc/result.inc:275
 msgid "Aborted by user"
 msgstr "被用戶停止"
 
-#: html/inc/result.inc:281
+#: html/inc/result.inc:283
 msgid "Initial"
 msgstr "初始結果"
 
-#: html/inc/result.inc:287
+#: html/inc/result.inc:289
 msgid "Not necessary"
 msgstr "不需要"
 
-#: html/inc/result.inc:288
+#: html/inc/result.inc:290
 msgid "Workunit error - check skipped"
 msgstr "任務單元錯誤 - 跳過檢查"
 
-#: html/inc/result.inc:289
+#: html/inc/result.inc:291
 msgid "Checked, but no consensus yet"
 msgstr "已檢查，未取得一致"
 
-#: html/inc/result.inc:290
+#: html/inc/result.inc:292
 msgid "Task was reported too late to validate"
 msgstr "任務超出上傳期限而無法驗證"
 
-#: html/inc/result.inc:316
+#: html/inc/result.inc:322
 msgid "Couldn't send result"
 msgstr "無法發送任務"
 
-#: html/inc/result.inc:320
+#: html/inc/result.inc:326
 msgid "Too many errors (may have bug)"
 msgstr "過多錯誤（可能存在BUG）"
 
-#: html/inc/result.inc:324
+#: html/inc/result.inc:330
 msgid "Too many results (may be nondeterministic)"
 msgstr "太多任務（可能因為結果不確定）"
 
-#: html/inc/result.inc:328
+#: html/inc/result.inc:334
 msgid "Too many total results"
 msgstr "過多總合的任務"
 
-#: html/inc/result.inc:332
+#: html/inc/result.inc:338
 msgid "WU cancelled"
 msgstr "已取消 WU"
 
-#: html/inc/result.inc:336
+#: html/inc/result.inc:342
 msgid "Canonical result is missing"
 msgstr "規範結果缺失"
 
-#: html/inc/result.inc:340
+#: html/inc/result.inc:346
 msgid "Unrecognized Error: %1"
 msgstr "無法辨識的錯誤：%1"
 
-#: html/inc/result.inc:369
+#: html/inc/result.inc:373
 msgid "Task name"
 msgstr "任務名稱"
 
-#: html/inc/result.inc:369 html/inc/result.inc:374 html/inc/result.inc:377
-#: html/inc/result.inc:380
+#: html/inc/result.inc:373 html/inc/result.inc:378 html/inc/result.inc:381
+#: html/inc/result.inc:384
 msgid "click for details"
 msgstr "點選查看詳細資料"
 
-#: html/inc/result.inc:369
+#: html/inc/result.inc:373
 msgid "Show IDs"
 msgstr "顯示 ID"
 
-#: html/inc/result.inc:374
+#: html/inc/result.inc:378
 msgid "Show names"
 msgstr "顯示名稱"
 
-#: html/inc/result.inc:377 html/user/result.php:36
+#: html/inc/result.inc:381 html/user/result.php:36
 msgid "Task"
 msgstr "任務"
 
-#: html/inc/result.inc:380
+#: html/inc/result.inc:384
 msgid "Work unit"
 msgstr "任務單元"
 
-#: html/inc/result.inc:391
+#: html/inc/result.inc:395
 msgid "Computer"
 msgstr "電腦"
 
-#: html/inc/result.inc:394 html/inc/result.inc:695
+#: html/inc/result.inc:398 html/inc/result.inc:699
 msgid "Sent"
 msgstr "傳送時間"
 
-#: html/inc/result.inc:395
+#: html/inc/result.inc:399
 msgid "Time reported<br />or deadline"
 msgstr "上傳時間<br />或者上傳期限"
 
-#: html/inc/result.inc:396
+#: html/inc/result.inc:400
 msgid "explain"
 msgstr "說明"
 
-#: html/inc/result.inc:397 html/user/server_status.php:120
+#: html/inc/result.inc:401 html/user/server_status.php:120
 msgid "Status"
 msgstr "狀態"
 
-#: html/inc/result.inc:401
+#: html/inc/result.inc:405
 msgid "Run time<br />(sec)"
 msgstr "執行時間<br /> (秒)"
 
-#: html/inc/result.inc:402
+#: html/inc/result.inc:406
 msgid "CPU time<br />(sec)"
 msgstr "CPU 時間<br /> (秒)"
 
-#: html/inc/result.inc:403 html/inc/result.inc:706
+#: html/inc/result.inc:407 html/inc/result.inc:710
 msgid "Credit"
 msgstr "積分"
 
-#: html/inc/result.inc:407 html/inc/result.inc:816
+#: html/inc/result.inc:411 html/inc/result.inc:820
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "程式"
 
-#: html/inc/result.inc:693
+#: html/inc/result.inc:697
 msgid "Workunit"
 msgstr "任務單元"
 
-#: html/inc/result.inc:696
+#: html/inc/result.inc:700
 msgid "Report deadline"
 msgstr "上傳期限"
 
-#: html/inc/result.inc:697
+#: html/inc/result.inc:701
 msgid "Received"
 msgstr "接收時間"
 
-#: html/inc/result.inc:698
+#: html/inc/result.inc:702
 msgid "Server state"
 msgstr "伺服器狀態"
 
-#: html/inc/result.inc:699
+#: html/inc/result.inc:703
 msgid "Outcome"
 msgstr "結果"
 
-#: html/inc/result.inc:700
+#: html/inc/result.inc:704
 msgid "Client state"
 msgstr "客戶端狀態"
 
-#: html/inc/result.inc:701
+#: html/inc/result.inc:705
 msgid "Exit status"
 msgstr "離開狀態"
 
-#: html/inc/result.inc:703
+#: html/inc/result.inc:707
 msgid "Run time"
 msgstr "執行時間"
 
-#: html/inc/result.inc:704
+#: html/inc/result.inc:708
 msgid "CPU time"
 msgstr "CPU 時間"
 
-#: html/inc/result.inc:705
+#: html/inc/result.inc:709
 msgid "Validate state"
 msgstr "驗證狀態"
 
-#: html/inc/result.inc:707
+#: html/inc/result.inc:711
 msgid "Device peak FLOPS"
 msgstr "裝置的 FLOPS 峰值"
 
-#: html/inc/result.inc:708
+#: html/inc/result.inc:712
 msgid "Application version"
 msgstr "程式版本"
 
-#: html/inc/result.inc:732
+#: html/inc/result.inc:736
 msgid "Output files"
 msgstr "檔案輸出"
 
-#: html/inc/result.inc:738
+#: html/inc/result.inc:742
 msgid "Stderr output"
 msgstr "標準錯誤輸出"
 
-#: html/inc/result.inc:798
+#: html/inc/result.inc:802
 msgid "State"
 msgstr "狀態"
 
-#: html/inc/result.inc:839
+#: html/inc/result.inc:843
 msgid "Task name:"
 msgstr "任務名稱："
 
@@ -2192,7 +2196,7 @@ msgstr "關鍵字"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "尋找名稱或描述中包含這些關鍵字的團隊"
 
-#: html/inc/team.inc:50 html/inc/team.inc:497
+#: html/inc/team.inc:50 html/inc/team.inc:498
 msgid "Type of team"
 msgstr "團隊類型"
 
@@ -2200,7 +2204,7 @@ msgstr "團隊類型"
 msgid "Show only active teams"
 msgstr "只顯示活躍的團隊"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1190 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1207 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "搜尋"
@@ -2246,7 +2250,7 @@ msgstr "網站"
 msgid "Cross-project stats"
 msgstr "跨專案的統計網站"
 
-#: html/inc/team.inc:137 html/inc/team.inc:391 html/user/team_search.php:86
+#: html/inc/team.inc:137 html/inc/team.inc:392 html/user/team_search.php:86
 msgid "Type"
 msgstr "類型"
 
@@ -2285,7 +2289,7 @@ msgstr "回覆期限 %1"
 msgid "Team foundership change"
 msgstr "團隊創始人改變"
 
-#: html/inc/team.inc:170 html/inc/team.inc:377
+#: html/inc/team.inc:170 html/inc/team.inc:378
 msgid "Members"
 msgstr "成員"
 
@@ -2346,55 +2350,55 @@ msgstr "本操作需要創始人權限。"
 msgid "This operation requires team admin privileges"
 msgstr "本操作需要團隊創始人的權限"
 
-#: html/inc/team.inc:466
+#: html/inc/team.inc:467
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
 " be overwritten. Edit the %1 BOINC-wide team %2 instead."
 msgstr "警告：這是一個BOINC自動建立的團隊。您在此處做出的修改將很快會被覆蓋，請直接在%1這裡%2進行編輯。"
 
-#: html/inc/team.inc:472
+#: html/inc/team.inc:473
 msgid ""
 "%1 Privacy note %2: if you create a team, your project preferences (resource"
 " share, graphics preferences) will be visible to the public."
 msgstr "%1隱私事項%2：如果您要建立一個團隊，你的專案偏好設定（資源分享率，圖形偏好設定等）將會對團隊成員公開。"
 
-#: html/inc/team.inc:476
+#: html/inc/team.inc:477
 msgid "Team name, text version"
 msgstr "團隊名稱，文字版本"
 
-#: html/inc/team.inc:477
+#: html/inc/team.inc:478
 msgid "Don't use HTML tags."
 msgstr "請不要使用 HTML 標籤。"
 
-#: html/inc/team.inc:480
+#: html/inc/team.inc:481
 msgid "Team name, HTML version"
 msgstr "團隊名稱，HTML 版本"
 
-#: html/inc/team.inc:482 html/inc/team.inc:492
+#: html/inc/team.inc:483 html/inc/team.inc:493
 msgid "You may use %1 limited HTML tags %2."
 msgstr "您可以使用%1有限制的HTML標籤%2。"
 
-#: html/inc/team.inc:483
+#: html/inc/team.inc:484
 msgid "If you don't know HTML, leave this box blank."
 msgstr "如果您不了解 HTML，請保持本編輯框為空。"
 
-#: html/inc/team.inc:486
+#: html/inc/team.inc:487
 msgid "URL of team web page, if any"
 msgstr "團隊的網站 (如果有的話)；"
 
-#: html/inc/team.inc:486
+#: html/inc/team.inc:487
 msgid "without \"http://\""
 msgstr "不含 “ http：// ”"
 
-#: html/inc/team.inc:487
+#: html/inc/team.inc:488
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "這個網址將會從這個網頁連到團隊網站"
 
-#: html/inc/team.inc:490
+#: html/inc/team.inc:491
 msgid "Description of team"
 msgstr "團隊描述"
 
-#: html/inc/team.inc:506
+#: html/inc/team.inc:507
 msgid "Accept new members?"
 msgstr "是否接受新隊員加入?"
 
@@ -2472,8 +2476,8 @@ msgstr "加入日期"
 msgid "Computers on this account"
 msgstr "本帳號所屬的電腦"
 
-#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:280
-#: html/inc/user.inc:369 html/inc/user.inc:468 html/inc/user.inc:540
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:293
+#: html/inc/user.inc:382 html/inc/user.inc:479 html/inc/user.inc:551
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "查看"
@@ -2486,8 +2490,8 @@ msgstr "跨專案辨識碼 (CPID)"
 msgid "Cross-project statistics"
 msgstr "跨專案的統計網站"
 
-#: html/inc/user.inc:186 html/inc/user.inc:414 html/inc/user.inc:505
-#: html/inc/user.inc:507 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:427 html/inc/user.inc:516
+#: html/inc/user.inc:518 html/user/user_search.php:129
 msgid "Team"
 msgstr "團隊"
 
@@ -2495,159 +2499,163 @@ msgstr "團隊"
 msgid "Cross-project"
 msgstr "跨專案"
 
-#: html/inc/user.inc:245 html/inc/user.inc:460
+#: html/inc/user.inc:257 html/inc/user.inc:472
 msgid "URL"
 msgstr "網址"
 
-#: html/inc/user.inc:252
+#: html/inc/user.inc:258
+msgid "Invalid URL"
+msgstr "無效網址"
+
+#: html/inc/user.inc:265
 msgid "Postal code"
 msgstr "郵遞區號"
 
-#: html/inc/user.inc:254 html/inc/user.inc:450
+#: html/inc/user.inc:267 html/inc/user.inc:463
 msgid "%1 member since"
 msgstr "加入 %1 的日期"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:259 html/inc/user.inc:269
+#: html/inc/user.inc:272 html/inc/user.inc:282
 msgid "Change"
 msgstr "修改"
 
-#: html/inc/user.inc:266
+#: html/inc/user.inc:279
 msgid "delete account"
 msgstr "刪除帳號"
 
-#: html/inc/user.inc:270
+#: html/inc/user.inc:283
 msgid "email address"
 msgstr "電子郵件地址"
 
-#: html/inc/user.inc:271
+#: html/inc/user.inc:284
 msgid "password"
 msgstr "密碼"
 
-#: html/inc/user.inc:272
+#: html/inc/user.inc:285
 msgid "other account info"
 msgstr "其他帳號資訊"
 
-#: html/inc/user.inc:276 html/inc/user.inc:449
+#: html/inc/user.inc:289 html/inc/user.inc:462
 msgid "User ID"
 msgstr "用戶 ID"
 
-#: html/inc/user.inc:276
+#: html/inc/user.inc:289
 msgid "Used in community functions"
 msgstr "在社群功能中使用"
 
-#: html/inc/user.inc:279 html/user/weak_auth.php:23
+#: html/inc/user.inc:292 html/user/weak_auth.php:50
 msgid "Account keys"
 msgstr "帳號鑰匙"
 
-#: html/inc/user.inc:287
+#: html/inc/user.inc:300
 msgid "Account Ownership"
 msgstr "帳號所有權"
 
-#: html/inc/user.inc:299
+#: html/inc/user.inc:312
 msgid "When and how BOINC uses your computer"
 msgstr "BOINC何時及如何使用您的電腦"
 
-#: html/inc/user.inc:300 html/user/welcome.php:62
+#: html/inc/user.inc:313 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "運算偏好設定"
 
-#: html/inc/user.inc:303
+#: html/inc/user.inc:316
 msgid "Message boards and private messages"
 msgstr "留言板和私人訊息"
 
-#: html/inc/user.inc:304 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:317 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "社群偏好設定"
 
-#: html/inc/user.inc:307
+#: html/inc/user.inc:320
 msgid "Preferences for this project"
 msgstr "本專案的偏好設定"
 
-#: html/inc/user.inc:308 html/user/prefs.php:33
+#: html/inc/user.inc:321 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 偏好設定"
 
-#: html/inc/user.inc:325
+#: html/inc/user.inc:338
 msgid "View the profile of %1"
 msgstr "查看 %1 的用戶檔案"
 
-#: html/inc/user.inc:326 html/inc/user.inc:373 html/inc/user.inc:540
+#: html/inc/user.inc:339 html/inc/user.inc:386 html/inc/user.inc:551
 msgid "Profile"
 msgstr "用戶檔案"
 
-#: html/inc/user.inc:371
+#: html/inc/user.inc:384
 msgid "Create"
 msgstr "建立"
 
-#: html/inc/user.inc:378 html/inc/user.inc:512
+#: html/inc/user.inc:391 html/inc/user.inc:523
 msgid "%1 posts"
 msgstr "%1 個文章"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:396 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:409 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "通知"
 
-#: html/inc/user.inc:402
+#: html/inc/user.inc:415
 msgid "Quit team"
 msgstr "退出團隊"
 
-#: html/inc/user.inc:404 html/inc/user.inc:421
+#: html/inc/user.inc:417 html/inc/user.inc:434
 msgid "Administer"
 msgstr "管理員"
 
-#: html/inc/user.inc:410 html/inc/user.inc:423
+#: html/inc/user.inc:423 html/inc/user.inc:436
 msgid "(foundership change request pending)"
 msgstr "(創始人轉換請求待處理)"
 
-#: html/inc/user.inc:412
+#: html/inc/user.inc:425
 msgid "Member of team"
 msgstr "團隊成員"
 
-#: html/inc/user.inc:414
+#: html/inc/user.inc:427
 msgid "find a team"
 msgstr "搜尋團隊"
 
-#: html/inc/user.inc:425
+#: html/inc/user.inc:438
 msgid "Founder but not member of"
 msgstr "創始人 (已退出團隊)"
 
-#: html/inc/user.inc:431
+#: html/inc/user.inc:444
 msgid "Find friends"
 msgstr "搜尋好友"
 
-#: html/inc/user.inc:439 html/inc/user.inc:441 html/inc/user.inc:523
-#: html/inc/user.inc:525 html/inc/user.inc:534
+#: html/inc/user.inc:452 html/inc/user.inc:454 html/inc/user.inc:534
+#: html/inc/user.inc:536 html/inc/user.inc:545
 msgid "Friends"
 msgstr "好友"
 
-#: html/inc/user.inc:468 html/inc/user.inc:470 html/user/server_status.php:160
+#: html/inc/user.inc:479 html/inc/user.inc:481 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "電腦"
 
-#: html/inc/user.inc:516
+#: html/inc/user.inc:527
 msgid "Contact"
 msgstr "聯繫"
 
-#: html/inc/user.inc:519
+#: html/inc/user.inc:530
 msgid "This person is a friend"
 msgstr "這是一位好友"
 
-#: html/inc/user.inc:520 html/user/friend.php:250
+#: html/inc/user.inc:531 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "刪除此好友"
 
-#: html/inc/user.inc:523 html/user/friend.php:39
+#: html/inc/user.inc:534 html/user/friend.php:39
 msgid "Request pending"
 msgstr "請求待處理"
 
-#: html/inc/user.inc:525
+#: html/inc/user.inc:536
 msgid "Add as friend"
 msgstr "新增為好友"
 
-#: html/inc/user.inc:549
+#: html/inc/user.inc:560
 msgid "Account information"
 msgstr "帳號資訊"
 
@@ -2715,74 +2723,74 @@ msgstr "無法建立帳號"
 msgid "database error, please contact site administrators"
 msgstr "資料庫錯誤，請連聯繫網站管理員"
 
-#: html/inc/util.inc:218
+#: html/inc/util.inc:212
 msgid "log out"
 msgstr "登出"
 
-#: html/inc/util.inc:220
+#: html/inc/util.inc:214
 msgid "log in"
 msgstr "登入"
 
-#: html/inc/util.inc:358
+#: html/inc/util.inc:352
 msgid "Create an account"
 msgstr "建立一個帳號"
 
-#: html/inc/util.inc:359
+#: html/inc/util.inc:353
 msgid "Server status page"
 msgstr "伺服器狀態頁"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:396
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "資料庫在處理你的請求過程中發生一次資料庫錯誤，請稍後重試。"
 
-#: html/inc/util.inc:411
+#: html/inc/util.inc:405
 msgid "Unable to handle request"
 msgstr "無法處理請求"
 
-#: html/inc/util.inc:431
+#: html/inc/util.inc:426
 msgid "hours"
 msgstr "小時"
 
-#: html/inc/util.inc:434
+#: html/inc/util.inc:429
 msgid "min"
 msgstr "分鐘"
 
-#: html/inc/util.inc:437
+#: html/inc/util.inc:432
 msgid "sec"
 msgstr "秒"
 
-#: html/inc/util.inc:618
+#: html/inc/util.inc:612
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "連線已超時，請點擊返回並刷新頁面後再重試。"
 
-#: html/inc/util.inc:693
+#: html/inc/util.inc:687
 msgid "Use BBCode tags to format your text"
 msgstr "用 BBCode 代碼來格式化您的文字"
 
-#: html/inc/util.inc:941
+#: html/inc/util.inc:935
 msgid "Project down for maintenance"
 msgstr "專案已停止維護"
 
-#: html/inc/util.inc:944
+#: html/inc/util.inc:938
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 已經臨時關閉並進行維護工作，請稍候再重試。"
 
-#: html/inc/util.inc:971
+#: html/inc/util.inc:965
 msgid "Unable to connect to database - please try again later"
 msgstr "無法連接資料庫 - 請稍候重試"
 
-#: html/inc/util.inc:975
+#: html/inc/util.inc:969
 msgid "Unable to select database - please try again later"
 msgstr "無法選擇資料庫 - 請稍候重試"
 
-#: html/inc/util.inc:1169
+#: html/inc/util.inc:1186
 msgid "characters remaining"
 msgstr "剩餘字元數"
 
-#: html/inc/util_ops.inc:132
+#: html/inc/util_ops.inc:130
 msgid "Stay logged in on this computer"
 msgstr "保持這台電腦的登入狀態"
 
@@ -3349,7 +3357,7 @@ msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or uninstalling the application.\n"
 "If this is not enough you should contact the author."
-msgstr ""
+msgstr "我們無法提供安裝這些應用程式的步驟。\n不過，這些程式的作者可能會提供關於安裝及解除安裝應用程式的說明。\n如果需要進一步資訊，請聯繫程式作者。"
 
 #: html/user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1 here %2."
@@ -3390,7 +3398,7 @@ msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
 "    "
-msgstr ""
+msgstr "要下載及安裝 BOINC，\n請點選下方連結，並依指示操作。"
 
 #: html/user/download_software.php:232
 msgid "Go to the BOINC download page."
@@ -3523,15 +3531,21 @@ msgid ""
 "again later."
 msgstr "因為資料庫的問題，我們目前無法更新你的電子郵件地址，請稍後重試。"
 
-#: html/user/edit_email_form.php:26 html/user/edit_email_form.php:48
+#: html/user/edit_email_form.php:26 html/user/edit_email_form.php:50
 msgid "Change email address"
 msgstr "修改電子郵件地址"
 
-#: html/user/edit_email_form.php:38
+#: html/user/edit_email_form.php:27
+msgid ""
+"Note: if you change your email address, your %1weak account key%2 will "
+"change."
+msgstr ""
+
+#: html/user/edit_email_form.php:40
 msgid "New email address"
 msgstr "新的電子郵件地址"
 
-#: html/user/edit_email_form.php:39
+#: html/user/edit_email_form.php:41
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "必須是有效的電子郵件地址，例如'用戶名@域名'"
 
@@ -3739,7 +3753,7 @@ msgid ""
 msgstr "因為資料庫的問題，我們目前無法更新您的密碼，請稍後重試。"
 
 #: html/user/edit_passwd_action.php:50 html/user/edit_passwd_form.php:26
-#: html/user/edit_passwd_form.php:30
+#: html/user/edit_passwd_form.php:32
 msgid "Change password"
 msgstr "修改密碼"
 
@@ -3747,7 +3761,12 @@ msgstr "修改密碼"
 msgid "Your password has been changed."
 msgstr "您的密碼已修改。"
 
-#: html/user/edit_passwd_form.php:29
+#: html/user/edit_passwd_form.php:27
+msgid ""
+"Note: if you change your password, your %1weak account key%2 will change."
+msgstr ""
+
+#: html/user/edit_passwd_form.php:31
 msgid "New password"
 msgstr "新密碼"
 
@@ -3759,7 +3778,7 @@ msgstr "名稱中不允許使用 HTML 語法"
 msgid "You must supply a name for your account."
 msgstr "您必須為您的帳號取一個名稱。"
 
-#: html/user/edit_user_info_action.php:63
+#: html/user/edit_user_info_action.php:66
 msgid "Couldn't update user info."
 msgstr "無法更新用戶資訊。"
 
@@ -4894,15 +4913,15 @@ msgstr "輸入您帳號的電子郵件地址，點擊確定後。你將收到關
 msgid "Reset password"
 msgstr "重設密碼"
 
-#: html/user/gpu_list.php:163 html/user/gpu_list.php:189
+#: html/user/gpu_list.php:168 html/user/gpu_list.php:194
 msgid "No GPU tasks reported"
 msgstr "還沒有已上傳的 GPU 運算任務"
 
-#: html/user/gpu_list.php:222
+#: html/user/gpu_list.php:227
 msgid "Top GPU models"
 msgstr "GPU 型號排名"
 
-#: html/user/gpu_list.php:223
+#: html/user/gpu_list.php:228
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -5322,19 +5341,19 @@ msgid ""
 "incomplete, %1 you can help translate %2."
 msgstr "翻譯工作都是由志工完成，如果沒有您的語言，希望您可以%1協助翻譯%2。"
 
-#: html/user/login_form.php:32
+#: html/user/login_form.php:34
 msgid "Already logged in"
 msgstr "已登入"
 
-#: html/user/login_form.php:33
+#: html/user/login_form.php:35
 msgid "You are logged in as %1."
 msgstr "你已以 %1 的身分登入。"
 
-#: html/user/login_form.php:36
+#: html/user/login_form.php:38
 msgid "Log out"
 msgstr "登出"
 
-#: html/user/login_form.php:59
+#: html/user/login_form.php:61
 msgid "or %1 create an account %2."
 msgstr "或者%1建立一個新帳號%2。"
 
@@ -5542,7 +5561,7 @@ msgstr "一旦該用戶被你封鎖，你可以在論壇的偏好設定中解除
 msgid "No, cancel"
 msgstr "不，取消"
 
-#: html/user/pm.php:303 html/user/team_admins.php:101
+#: html/user/pm.php:303 html/user/team_admins.php:102
 msgid "no such user"
 msgstr "沒有這個用戶"
 
@@ -5951,7 +5970,7 @@ msgstr "解散沒有成員的團隊"
 msgid "To join a team, visit its team page and click %1 Join this team %2."
 msgstr "要加入一個團隊，請訪問該團隊頁面並點擊%1加入此團隊%2。"
 
-#: html/user/team.php:42 html/user/team_search.php:203
+#: html/user/team.php:42 html/user/team_search.php:204
 msgid "Find a team"
 msgstr "尋找團隊"
 
@@ -5977,95 +5996,95 @@ msgid ""
 "%2."
 msgstr "如果找不到適合您的團隊，您可以%1建立一個團隊%2。"
 
-#: html/user/team_admins.php:36
+#: html/user/team_admins.php:37
 msgid "Remove Team Admin status from this member"
 msgstr "從該成員移除團隊管理員狀態"
 
-#: html/user/team_admins.php:42 html/user/team_admins.php:54
+#: html/user/team_admins.php:43 html/user/team_admins.php:55
 msgid "Add or remove Team Admins"
 msgstr "增加或移除團隊管理員"
 
-#: html/user/team_admins.php:43
+#: html/user/team_admins.php:44
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr "你可以將部分團隊成員設置為“團隊管理員”，團隊管理員可以："
 
-#: html/user/team_admins.php:45
+#: html/user/team_admins.php:46
 msgid "Edit team information (name, URL, description, country)"
 msgstr "編輯團隊資訊（名稱，網址，描述，國家）"
 
-#: html/user/team_admins.php:46
+#: html/user/team_admins.php:47
 msgid "View the team's join/quit history"
 msgstr "查看團隊的成員加入/退出歷史"
 
-#: html/user/team_admins.php:47
+#: html/user/team_admins.php:48
 msgid "Send messages to the team"
 msgstr "傳送訊息給團隊"
 
-#: html/user/team_admins.php:48
+#: html/user/team_admins.php:49
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation"
 " events and red X reports)"
 msgstr "管理團隊論壇（團隊管理員會得到管理事件和報告的電子郵件通知）"
 
-#: html/user/team_admins.php:50
+#: html/user/team_admins.php:51
 msgid "Team Admins cannot:"
 msgstr "團隊管理員不可以："
 
-#: html/user/team_admins.php:52
+#: html/user/team_admins.php:53
 msgid "Change the team founder"
 msgstr "改變團隊創始人"
 
-#: html/user/team_admins.php:53 html/user/team_manage.php:58
+#: html/user/team_admins.php:54 html/user/team_manage.php:58
 msgid "Remove members"
 msgstr "移除團隊成員"
 
-#: html/user/team_admins.php:56
+#: html/user/team_admins.php:57
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr "如果團隊管理員退出團隊，其團隊管理員的角色同時取消。"
 
-#: html/user/team_admins.php:57
+#: html/user/team_admins.php:58
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr "我們建議你只選擇自己了解或信任的成員作為團隊管理員。"
 
-#: html/user/team_admins.php:62
+#: html/user/team_admins.php:63
 msgid "There are currently no Team Admins"
 msgstr "目前沒有團隊管理員"
 
-#: html/user/team_admins.php:64
+#: html/user/team_admins.php:65
 msgid "Current Team Admins"
 msgstr "目前的團隊管理員"
 
-#: html/user/team_admins.php:65
+#: html/user/team_admins.php:66
 msgid "Became Team Admin on"
 msgstr "成為團隊管理員"
 
-#: html/user/team_admins.php:80
+#: html/user/team_admins.php:81
 msgid "Add Team Admin"
 msgstr "增加團隊管理員"
 
-#: html/user/team_admins.php:81
+#: html/user/team_admins.php:82
 msgid "Email address of team member:"
 msgstr "團隊成員的電子郵件地址："
 
-#: html/user/team_admins.php:93
+#: html/user/team_admins.php:94
 msgid "failed to remove admin"
 msgstr "移除管理員時出錯"
 
-#: html/user/team_admins.php:102
+#: html/user/team_admins.php:103
 msgid "User is not member of team"
 msgstr "用戶不是團隊成員"
 
-#: html/user/team_admins.php:104
+#: html/user/team_admins.php:105
 msgid "%1 is already an admin of %2"
 msgstr "%1 已經是 %2 的管理員"
 
-#: html/user/team_admins.php:108
+#: html/user/team_admins.php:109
 msgid "Couldn't add admin"
 msgstr "不能增加管理員"
 
-#: html/user/team_admins.php:114 html/user/team_manage.php:85
+#: html/user/team_admins.php:115 html/user/team_manage.php:85
 #: html/user/team_quit_form.php:30
 #: html/user/team_remove_inactive_action.php:30
 msgid "No such team"
@@ -6665,17 +6684,17 @@ msgstr "下面的團隊符合您一個或多個查詢條件。 \n要加入一個
 msgid "Change your search"
 msgstr "修改你的搜尋條件"
 
-#: html/user/team_search.php:204
+#: html/user/team_search.php:205
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr "你可以和其他有相同興趣，或來自同一個國家地區、公司以及學校的用戶組成一個團隊。"
 
-#: html/user/team_search.php:206
+#: html/user/team_search.php:207
 msgid "Use this form to find teams that might be right for you."
 msgstr "使用該表單來尋找可能適合你的團隊。"
 
-#: html/user/team_search.php:211
+#: html/user/team_search.php:212
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "我現在還%1不想要%2加入團隊。"
 
@@ -6875,34 +6894,34 @@ msgstr "用戶檔案：%1"
 msgid "Account data"
 msgstr "帳號資料"
 
-#: html/user/weak_auth.php:52
+#: html/user/weak_auth.php:53
 msgid ""
 "You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr "您現在可使用電子郵箱地址和密碼來登入您的帳號，\n或者也可以用一個指定的“帳號密鑰”。\n您的帳號密鑰是："
 
-#: html/user/weak_auth.php:57
+#: html/user/weak_auth.php:58
 msgid "This key can be used to:"
 msgstr "這個密碼能用於："
 
-#: html/user/weak_auth.php:59
+#: html/user/weak_auth.php:60
 msgid "log in to your account on the web"
 msgstr "在網站上登入您的帳號"
 
-#: html/user/weak_auth.php:61
+#: html/user/weak_auth.php:62
 msgid ""
-"to attach a computer to your account without using the BOINC Manager.\n"
+"attach a computer to your account without using the BOINC Manager.\n"
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr "在不借助BOINC經理的情況下新增一台電腦到你的帳號，方法如下。\n先安裝BOINC，\n在BOINC的數據資料夾內建立名為%1的文件，\n而文件內容為："
+msgstr ""
 
-#: html/user/weak_auth.php:73
+#: html/user/weak_auth.php:74
 msgid "Weak account key"
 msgstr "帳號密碼太弱"
 
-#: html/user/weak_auth.php:74
+#: html/user/weak_auth.php:75
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
 "    as described above, but cannot be used to log in to your account or change it in any way.\n"
@@ -6911,11 +6930,11 @@ msgid ""
 "    Your weak account key is:"
 msgstr "您的“弱帳號密碼”能幫你的帳號新增電腦\n但不能用於登入在專案網站上的帳號或修改該帳號。\n如果您想在你的帳號新增不被信任的或不安全的電腦，\n您就應該使用弱帳號密碼\n你的弱帳號密碼是："
 
-#: html/user/weak_auth.php:81
+#: html/user/weak_auth.php:82
 msgid ""
-"If you change your password, your weak account key changes, and your "
-"previous weak account key becomes invalid."
-msgstr "如果您變更了密碼，您的弱帳號密碼將會改變，而之前的弱帳號密碼也將失效。"
+"The key depends on your account's email address and password.  If you change"
+" either of these, the weak account key will change."
+msgstr ""
 
 #: html/user/welcome.php:22
 msgid ""
@@ -7037,25 +7056,25 @@ msgstr "等待中"
 msgid "can't find workunit"
 msgstr "找不到任務單元"
 
-#: html/project.sample/project.inc:142
+#: html/project.sample/project.inc:135
 msgid "Generated"
 msgstr "生成時間"
 
-#: html/project.sample/project.inc:177
+#: html/project.sample/project.inc:174
 msgid "Your personal background."
 msgstr "您的個人背景。"
 
-#: html/project.sample/project.inc:181
+#: html/project.sample/project.inc:178
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr "簡單介紹一下您自己，比如從哪裡來，年齡，職業，興趣愛好，或者其它任何事情。"
 
-#: html/project.sample/project.inc:185
+#: html/project.sample/project.inc:182
 msgid "Your opinions about %1"
 msgstr "您對 %1 的看法"
 
-#: html/project.sample/project.inc:189
+#: html/project.sample/project.inc:186
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"

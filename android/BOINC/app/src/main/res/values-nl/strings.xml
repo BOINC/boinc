@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Omschrijving:</string>
   <string name="attachproject_login_header_home">Start:</string>
   <string name="attachproject_login_header_url">Website:</string>
-  <string name="attachproject_login_header_id_email">E-mailadres:</string>
+  <string name="attachproject_login_header_id_email">E-mail adres:</string>
   <string name="attachproject_login_header_id_name">Naam:</string>
   <string name="attachproject_login_header_pwd">Wachtwoord:</string>
   <string name="attachproject_login_button_registration">Aanmaken</string>
@@ -66,14 +66,14 @@
   <string name="attachproject_error_short_pwd">Het wachtwoord is te kort</string>
   <string name="attachproject_error_no_internet">Verbinding mislukt</string>
   <string name="attachproject_error_no_url">Vul a.u.b. URL in</string>
-  <string name="attachproject_error_no_email">Voer je e-mailadres in</string>
+  <string name="attachproject_error_no_email">Voer een e-mailadres in</string>
   <string name="attachproject_error_no_pwd">Voer een wachtwoord in</string>
   <string name="attachproject_error_no_name">Voer gebruikersnaam in</string>
   <string name="attachproject_error_unknown">mislukt</string>
   <string name="attachproject_error_bad_username">Gebruikersnaam geweigerd</string>
-  <string name="attachproject_error_email_in_use">E-mailadres is al in gebruik</string>
+  <string name="attachproject_error_email_in_use">E-mail adres is al in gebruik</string>
   <string name="attachproject_error_project_down">Project is offline</string>
-  <string name="attachproject_error_email_bad_syntax">E-mailadres geweigerd</string>
+  <string name="attachproject_error_email_bad_syntax">E-mail adres geweigerd</string>
   <string name="attachproject_error_bad_pwd">Wachtwoord geweigerd</string>
   <string name="attachproject_error_creation_disabled">Aanmaken van een account is voor dit project niet mogelijk</string>
   <string name="attachproject_error_invalid_url">Ongeldig URL</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Op afstand beheren inschakelen</string>
   <string name="prefs_remote_summary">Wanneer dit verandert, zal de BOINC client herstart worden.</string>
   <string name="prefs_show_notification_notices_header">Melding weergeven voor nieuwe berichten</string>
+  <string name="prefs_show_notification_suspended_header">Melding weergeven wanneer gepauzeerd</string>
   <string name="prefs_cpu_number_cpus_header">Gebruikte CPU cores</string>
   <string name="prefs_cpu_number_cpus_description">Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pauzeer bij CPU gebruik hoger dan (%)</string>
@@ -140,6 +141,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Taken buffer (dagen)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Extra taken buffer (dagen)</string>
   <string name="prefs_remote_authentication_key">GUI-verificatiesleutel</string>
+  <string name="prefs_remote_authentication_key_input_hint">Verificatiesleutel</string>
   <string name="prefs_remote_empty_password">Wachtwoordupdate mislukt: waarde mag niet leeg zijn </string>
   <string name="prefs_remote_boinc_relaunched">De BOINC-client wordt opnieuw gestart na wachtwoordwijziging.</string>
   <string name="prefs_client_log_flags_header">BOINC Client log markering</string>
@@ -180,7 +182,7 @@
   <string name="projects_control_remove_acctmgr">Uitzetten</string>
   <!--project confirm dialog-->
   <string name="projects_confirm_title"> \'%1$s\'  project?</string>
-  <string name="projects_confirm_message">Weet u zeker dat u  %1$s %2$s ?</string>
+  <string name="projects_confirm_message">Weet je zeker dat je  %1$s %2$s ?</string>
   <string name="projects_confirm_detach_message">van BOINC</string>
   <string name="projects_confirm_detach_confirm">Verwijderen</string>
   <string name="projects_confirm_reset_confirm">Resetten</string>
@@ -270,7 +272,7 @@
   <string name="about_title">Over</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versie %1$s</string>
-  <string name="about_copyright">\u00A9 2003–2022 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2022 Universiteit van Californië, Berkeley.</string>
   <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>
   <string name="about_credits">Met dank aan het Max Planck Institute for Gravitational Physics, IBM Corporation en HTC Corporation voor hun steun.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -297,17 +299,17 @@
   <string name="notice_notification_channel_description">Notificaties van de projecten weergeven.</string>
   <!--Xiaomi specific strings-->
   <string name="terms_of_use_content_first">Welkom bij Xiaomi Mall! Om een hoogwaardige winkelervaring te bieden,
-moet de Mi Mall-app verbonden zijn met internet en uw locatiegegevens gebruiken om de productvoorraad te controleren,
-bezorgdiensten optimaliseren en productaanbevelingen personaliseren. U heeft het recht deze machtiging te weigeren of in te trekken.</string>
-  <string name="terms_of_use_content_second">Voordat u de app gebruikt, dient u de \"Gebruikersovereenkomst\" en \"Privacybeleid\" van Xiaomi Mall te lezen en volledig te begrijpen,
- en begrijp uw gebruikersrechten en hoe uw gegevens worden verwerkt.
-Als u akkoord gaat met de inhoud van de bovenstaande overeenkomst, klikt u op \"Akkoord\" om onze producten en diensten te gaan gebruiken.
-We zullen uw persoonlijke gegevens beschermen met de toonaangevende beveiligingstechnologie. Bedankt voor uw vertrouwen in Xiaomi Mall.</string>
+moet de Mi Mall-app verbonden zijn met internet en jouw locatiegegevens gebruiken om de productvoorraad te controleren,
+bezorgdiensten optimaliseren en productaanbevelingen personaliseren. Jij hebt het recht deze machtiging te weigeren of in te trekken.</string>
+  <string name="terms_of_use_content_second">Voordat jij de app gebruikt, dien je de \"Gebruikersovereenkomst\" en \"Privacybeleid\" van Xiaomi Mall te lezen en volledig te begrijpen,
+ en begrijp jouw gebruikersrechten en hoe jouw gegevens worden verwerkt.
+Als jij akkoord gaat met de inhoud van de bovenstaande overeenkomst, klik dan op \"Akkoord\" om onze producten en diensten te gaan gebruiken.
+We zullen jouw persoonlijke gegevens beschermen met de toonaangevende beveiligingstechnologie. Bedankt voor jouw vertrouwen in Xiaomi Mall.</string>
   <string name="terms_of_use_content_user_agreement">Gebruikersovereenkomst: https://www.mi.com/about/user-agreement</string>
   <string name="terms_of_use_content_privacy_policy">Privacybeleid: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
   <string name="welcome_content_first">Beste Mi Fans, hallo, Da Jia Hao!</string>
   <string name="welcome_content_second">Ik ben David, oprichter van Boinc. Boinc is een open-source softwareplatform voor computergebruik met behulp van vrijwillige bronnen.</string>
-  <string name="welcome_content_third">Ik wil de heer Lei Jun en Xiaomi bedanken en goed nieuws met u delen: 
+  <string name="welcome_content_third">Ik wil de heer Lei Jun en Xiaomi bedanken en goed nieuws met jou delen: 
 Mi 11 wordt een mobiel computerapparaat dat officieel is gecertificeerd door Boinc!</string>
   <string name="welcome_content_fourth">Met de ingebouwde Qualcomm Snapdragon 888, biedt de Mi 11 verbazingwekkende rekenkracht.
 Het kan taken zeer snel verwerken en helpen bij  onderzoeksgemeenschappen over de hele wereld.</string>

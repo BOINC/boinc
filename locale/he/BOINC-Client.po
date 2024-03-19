@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2022\n"
-"Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
+"Language-Team: Hebrew (http://app.transifex.com/boinc/boinc/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: client/acct_mgr.cpp:557 client/acct_mgr.cpp:564
@@ -33,32 +33,30 @@ msgstr "הודעה ממנהל החשבונות"
 msgid "Message from server"
 msgstr "הודעה משרת"
 
-#: client/client_state.cpp:330
+#: client/client_state.cpp:329
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "חלק מהמשימות מצריכות יותר זיכרון מהכמות המאושרת בהגדרות שלך. אנא בדוק את ההגדרות."
 
-#: client/client_state.cpp:698
+#: client/client_state.cpp:708
 msgid "Couldn't write state file; check directory permissions"
 msgstr "לא ניתן לרשום קובץ מצב; נא לבדוק הרשאות תיקייה"
 
-#: client/cs_cmdline.cpp:295
+#: client/cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "משתנה הסביבה HTTP_PROXY חייב לציין שרת מתווך HTTP"
 
-#: client/cs_scheduler.cpp:617
+#: client/cs_scheduler.cpp:592
 #, c-format
-msgid ""
-"This project seems to have changed its URL.  When convenient, remove the "
-"project, then add %s"
-msgstr "מיזם זה שינה את כתובת האינטרנט שלו.  בזמן הנוח לך, הסר את המיזם, ולאחר מכן הוסף את %s"
+msgid "Master URL changed from %s to %s"
+msgstr ""
 
-#: client/cs_statefile.cpp:857
+#: client/cs_statefile.cpp:873
 msgid "Syntax error in app_info.xml"
 msgstr "שגיאת תחביר ב־app_info.xml"
 
-#: client/cs_statefile.cpp:901
+#: client/cs_statefile.cpp:917
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "קובץ שהופנה מ־app_info.xml אינו קיים:"
 
@@ -91,92 +89,92 @@ msgstr "הורדה"
 msgid "A new version of %s is available"
 msgstr "זמינה גרסה חדשה של %s"
 
-#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
+#: client/gpu_detect.cpp:308 client/gpu_detect.cpp:351
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "אינה יכולה להשתמש לצורך חישוב CUDA או OpenCL עם CUDA מנהל התקן 6.5 או מאוחר יותר"
 
-#: client/log_flags.cpp:326 client/log_flags.cpp:506
+#: client/log_flags.cpp:330 client/log_flags.cpp:515
 msgid "Unexpected text in cc_config.xml"
 msgstr "טקסט לא צפוי ב־cc_config.xml"
 
-#: client/log_flags.cpp:480 client/log_flags.cpp:535
+#: client/log_flags.cpp:489 client/log_flags.cpp:544
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "תגית לא מוכרת ב־cc_config.xml"
 
-#: client/log_flags.cpp:497
+#: client/log_flags.cpp:506
 msgid "Missing start tag in cc_config.xml"
 msgstr "חסרה תגית התחלה ב־cc_config.xml"
 
-#: client/log_flags.cpp:525
+#: client/log_flags.cpp:534
 msgid "Error in cc_config.xml options"
 msgstr "שגיאה באפשרויות cc_config.xml"
 
-#: client/log_flags.cpp:543
+#: client/log_flags.cpp:552
 msgid "Missing end tag in cc_config.xml"
 msgstr "חסרה תגית סגירה ב־cc_config.xml"
 
-#: sched/handle_request.cpp:317
+#: sched/handle_request.cpp:313
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "מפתח החשבון אינו נכון או חסר. לתיקון, הסר והוסף מיזם זה מחדש."
 
-#: sched/handle_request.cpp:951
+#: sched/handle_request.cpp:947
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "המיזם שינה את מפתח האבטחה שלו. הסר והוסף מיזם זה מחדש."
 
-#: sched/handle_request.cpp:1022
+#: sched/handle_request.cpp:1018
 msgid "This project doesn't support operating system"
 msgstr "מיזם זה לא תומך במערכת הפעלה"
 
-#: sched/handle_request.cpp:1048
+#: sched/handle_request.cpp:1044
 msgid "This project doesn't support CPU type"
 msgstr "מיזם זה לא תומך בסוג המעבד"
 
-#: sched/handle_request.cpp:1072
+#: sched/handle_request.cpp:1068
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "גרסת לקוח ה-BOINC ישנה מידי. אנא התקן את הגירסה הנוכחית."
 
-#: sched/handle_request.cpp:1348
+#: sched/handle_request.cpp:1344
 msgid "This project doesn't support computers of type"
 msgstr "מיזם זה אינו תומך במחשבים מסוג"
 
-#: sched/sched_send.cpp:1121
+#: sched/sched_send.cpp:1146
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "עדכן למנהלי ההתקן האחרונים כדי לבצע חישובים בעזרת המעבד הגרפי"
 
-#: sched/sched_send.cpp:1128
+#: sched/sched_send.cpp:1153
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "עדכן למנהלי ההתקן האחרונים כדי להשתמש בכל היישומים הזמינים עבור המעבד הגרפי"
 
-#: sched/sched_send.cpp:1147
+#: sched/sched_send.cpp:1172
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "יש צורך בגרסה חדשה יותר של BOINC על מנת להשתמש במעבד הגרפי של NVIDIA; אנא עדכן לגרסה הנוכחית"
 
-#: sched/sched_send.cpp:1181
+#: sched/sched_send.cpp:1206
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "נדרש מעבד גרפי של %s להרצת משימות ממיזם זה"
 
-#: sched/sched_send.cpp:1297
+#: sched/sched_send.cpp:1328
 msgid "No tasks are available for the applications you have selected."
 msgstr "אין משימות זמינות ליישומים שבחרת."
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1354
 msgid "Your computer type is not supported by this project"
 msgstr "המחשב שלך לא נתמך על ידי המיזם הזה"
 
-#: sched/sched_send.cpp:1329
+#: sched/sched_send.cpp:1360
 msgid "Newer BOINC version required; please install current version"
 msgstr "נדרשת גרסה חדשה של BOINC; נא להתקין גרסה עדכנית"
 
-#: sched/sched_send.cpp:1340
+#: sched/sched_send.cpp:1371
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

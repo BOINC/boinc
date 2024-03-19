@@ -1,5 +1,5 @@
 # BOINC setup localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -8,15 +8,17 @@
 # Masahiro Tagashira, 2015
 # Mita Ichiro <kokochandaisiki@icloud.com>, 2020
 # Soichiro Nitta <ns_theh1llzenk1d@outlook.com>, 2017
+# Norifumi Yamamura, 2023
 # 当間充, 2020
+# -分身, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-05-06 08:21+0000\n"
-"Last-Translator: Mita Ichiro <kokochandaisiki@icloud.com>\n"
-"Language-Team: Japanese (http://www.transifex.com/boinc/boinc/language/ja/)\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:29+0000\n"
+"Last-Translator: Norifumi Yamamura, 2023\n"
+"Language-Team: Japanese (http://app.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,37 +26,39 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:91 mac_installer/PostInstall.cpp:210
-#: mac_installer/uninstall.cpp:115
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:213
+#: mac_installer/uninstall.cpp:116
 #, c-format
 msgid "Branding array has too few entries: %s"
 msgstr "ブランドの配列が少なすぎます：%s"
 
-#: mac_installer/Installer.cpp:101 mac_installer/PostInstall.cpp:217
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:220
 msgid "Could not get user login name"
 msgstr "ユーザー名が見つかりませんでした"
 
-#: mac_installer/Installer.cpp:218
+#. Remove everything we've installed
+#. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:282
 #, c-format
-msgid "Sorry, this version of %s requires system 10.7 or higher."
-msgstr "申し訳ありません、このバージョンの %s には 10.7 以降のシステムが必要です。"
+msgid "Sorry, this version of %s requires system %s or higher."
+msgstr "申し訳ありません。このバージョンの %s は %s以降のシステムが必要です。"
 
-#: mac_installer/PostInstall.cpp:150 mac_installer/PostInstall.cpp:1467
-#: mac_installer/uninstall.cpp:1522
+#: mac_installer/PostInstall.cpp:153 mac_installer/PostInstall.cpp:1462
+#: mac_installer/uninstall.cpp:1673
 msgid "Yes"
 msgstr "はい"
 
-#: mac_installer/PostInstall.cpp:151 mac_installer/PostInstall.cpp:1468
-#: mac_installer/uninstall.cpp:1523
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1463
+#: mac_installer/uninstall.cpp:1674
 msgid "No"
 msgstr "いいえ"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:153
+#: mac_installer/PostInstall.cpp:156
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "どのユーザーもログオンしていない時も BOINC を動作させますか？"
 
-#: mac_installer/PostInstall.cpp:1667
+#: mac_installer/PostInstall.cpp:1664
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -62,31 +66,38 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "このコンピュータの管理者権限を持つユーザーは自動的に %s の動作および制御が可能になります。\nこの Mac で管理者権限を持たないユーザーによる %s の動作および制御を同様に可能にしますか？"
 
-#: mac_installer/PostInstall.cpp:1695
+#: mac_installer/PostInstall.cpp:1699
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "この Mac の全ての %s ユーザーに %s をスクリーンセーバーとして設定しますか？"
 
-#: mac_installer/uninstall.cpp:89
+#: mac_installer/PostInstall.cpp:2338
+msgid ""
+"BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
+"\n"
+"Do you want to install Rosetta 2 now?"
+msgstr "Rosetta 2がインストールされている場合、BOINCはIntel Macコンピュータ専用に作られたプロジェクトアプリケーションを実行できます。\n\n今すぐRosetta 2をインストールしますか？"
+
+#: mac_installer/uninstall.cpp:90
 msgid "OK"
 msgstr "OK"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:154
+#: mac_installer/uninstall.cpp:155
 msgid "Permission error after relaunch"
 msgstr "再起動後の権限エラー"
 
-#: mac_installer/uninstall.cpp:159
+#: mac_installer/uninstall.cpp:160
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "削除には数分かかることがあります。\nどうかもうしばらくお待ち下さい。"
 
-#: mac_installer/uninstall.cpp:175
+#: mac_installer/uninstall.cpp:176
 msgid "Error saving user name"
 msgstr "ユーザー名の保存エラー"
 
-#: mac_installer/uninstall.cpp:186
+#: mac_installer/uninstall.cpp:187
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -94,22 +105,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "本当にあなたのコンピュータから完全に %s を削除しますか？\nこれは実行可能ファイルを削除しますが %s のデータファイルに触れることはありません。"
 
-#: mac_installer/uninstall.cpp:201
+#: mac_installer/uninstall.cpp:202
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "キャンセルされました: %s は触れられていません"
 
-#: mac_installer/uninstall.cpp:264
+#: mac_installer/uninstall.cpp:265
 msgid "name  of user"
 msgstr "ユーザーの名前"
 
-#: mac_installer/uninstall.cpp:317
+#: mac_installer/uninstall.cpp:318
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "VirtualBox もあなたのコンピュータから削除しますか？\n( VirtualBox は BOINC と一緒にインストールされました。)"
 
-#: mac_installer/uninstall.cpp:355
+#: mac_installer/uninstall.cpp:356
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -121,10 +132,10 @@ msgid ""
 "\"%s\"."
 msgstr "削除が完了しました。\n\n次に述べる残っているアイテムを削除したい場合はFinderを使います。ディレクトリ名は\" %s \"です。\nそれぞれのユーザーのファイル名は\" %s \"です。"
 
-#: mac_installer/uninstall.cpp:1520
+#: mac_installer/uninstall.cpp:1671
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: mac_installer/uninstall.cpp:1521
+#: mac_installer/uninstall.cpp:1672
 msgid "Continue..."
 msgstr "続行…"

@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">描述:</string>
   <string name="attachproject_login_header_home">首頁:</string>
   <string name="attachproject_login_header_url">網站:</string>
-  <string name="attachproject_login_header_id_email">電子郵件:</string>
+  <string name="attachproject_login_header_id_email">電子郵件地址：</string>
   <string name="attachproject_login_header_id_name">名稱:</string>
   <string name="attachproject_login_header_pwd">密碼:</string>
   <string name="attachproject_login_button_registration">註冊</string>
@@ -66,14 +66,14 @@
   <string name="attachproject_error_short_pwd">密碼太短</string>
   <string name="attachproject_error_no_internet">連線失敗</string>
   <string name="attachproject_error_no_url">請輸入用戶名稱</string>
-  <string name="attachproject_error_no_email">請輸入電子郵件</string>
+  <string name="attachproject_error_no_email">請輸入電子郵件地址</string>
   <string name="attachproject_error_no_pwd">請輸入密碼</string>
   <string name="attachproject_error_no_name">請輸入用戶名稱</string>
   <string name="attachproject_error_unknown">失敗</string>
   <string name="attachproject_error_bad_username">使用者名稱無效</string>
-  <string name="attachproject_error_email_in_use">此電子郵件已被使用</string>
+  <string name="attachproject_error_email_in_use">此電子郵件地址已被使用</string>
   <string name="attachproject_error_project_down">專案已離線</string>
-  <string name="attachproject_error_email_bad_syntax">電子郵件無效</string>
+  <string name="attachproject_error_email_bad_syntax">無法使用此電子郵件地址</string>
   <string name="attachproject_error_bad_pwd">密碼無效</string>
   <string name="attachproject_error_creation_disabled">此專案已停用註冊功能</string>
   <string name="attachproject_error_invalid_url">網址不正確</string>
@@ -94,7 +94,7 @@
   <string name="status_computing_disabled">已暫停</string>
   <string name="status_computing_disabled_long">按下開始恢復網路和運算。</string>
   <string name="status_launching">啟動中…</string>
-  <string name="status_noproject">選一個想參加的專案。</string>
+  <string name="status_noproject">選擇您想參與的專案。</string>
   <string name="status_benchmarking">效能測試中...</string>
   <string name="status_image_description">專案圖片</string>
   <!--preferences tab strings-->
@@ -131,6 +131,7 @@
   <string name="prefs_remote_header">啟用遠端控制</string>
   <string name="prefs_remote_summary">當您變更這項設定時，將會重新啟動 BOINC 客戶端。</string>
   <string name="prefs_show_notification_notices_header">當有新訊息時顯示通知</string>
+  <string name="prefs_show_notification_suspended_header">暫停時顯示通知</string>
   <string name="prefs_cpu_number_cpus_header">使用CPU核心</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC運算時使用的核心數。</string>
   <string name="prefs_cpu_other_load_suspension_header">暫停運算，若 CPU 使用率超過 (%)</string>
@@ -141,6 +142,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">工作單元緩衝區（天）</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">附加工作單元緩衝區（天）</string>
   <string name="prefs_remote_authentication_key">GUI 驗證金鑰</string>
+  <string name="prefs_remote_authentication_key_input_hint">驗證金鑰</string>
   <string name="prefs_remote_empty_password">密碼更新失敗：數值不可為空白</string>
   <string name="prefs_remote_boinc_relaunched">BOINC 客戶端將於密碼變更後重新啟動。</string>
   <string name="prefs_client_log_flags_header">BOINC客户端日誌標誌</string>
@@ -296,9 +298,19 @@
   <string name="notice_notification_channel_name">訊息</string>
   <string name="notice_notification_channel_description">顯示項目中的通知</string>
   <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">歡迎來到小米商城！為了提供高品質的購物體驗，小米商城應用程式需要連接到互聯網並使用您的位置信息來檢查產品庫存、優化交付服務和個性化產品推薦。您有權拒絕或取消此授權。</string>
+  <string name="terms_of_use_content_second">在使用小米商城應用程式之前，請閱讀並充分了解小米商城的「用戶協議」和「隱私政策」，並了解您的用戶權利以及您的數據如何被處理。如果您同意上述協議的內容，請點擊「同意」以開始使用我們的產品和服務。我們將使用行業領先的安全技術保護您的個人信息。感謝您對小米商城的信任。</string>
   <string name="terms_of_use_content_user_agreement">使用條款：https://www.mi.com/about/user-agreement</string>
   <string name="terms_of_use_content_privacy_policy">隱私權政策：https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
   <string name="welcome_content_first">親愛的小米粉絲，大家好！</string>
+  <string name="welcome_content_second">我是 David，Boinc 的創始人。Boinc 是一個使用志願者資源進行計算的開源軟體平台。</string>
+  <string name="welcome_content_third">我想在此感謝雷軍先生及小米，並和大家分享一些好消息：
+小米11 將會成為 Boinc 官方認證的行動運算設備！</string>
+  <string name="welcome_content_fourth">小米11 內建高通 Snapdragon 888 處理器，具有驚人的運算效能。
+它能快速處理任務並支援全球的研究社群。</string>
+  <string name="welcome_content_fifth">我想感謝所有為 Boinc 專案做出貢獻的小米工程師。
+我鼓勵所有小米的粉絲在手機上下載 Boinc，在您的手機閒置時也能貢獻您的一股力量。</string>
+  <string name="welcome_content_sixth">最後，祝我的中國朋友們——農曆新年快樂！</string>
   <string name="agree_button">同意</string>
   <string name="prefs_expand_wu_data">永遠展開任務資訊</string>
 </resources>

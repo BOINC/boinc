@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">描述：</string>
   <string name="attachproject_login_header_home">主页：</string>
   <string name="attachproject_login_header_url">网站：</string>
-  <string name="attachproject_login_header_id_email">电子邮箱地址：</string>
+  <string name="attachproject_login_header_id_email">电子邮件地址：</string>
   <string name="attachproject_login_header_id_name">姓名：</string>
   <string name="attachproject_login_header_pwd">密码：</string>
   <string name="attachproject_login_button_registration">注册</string>
@@ -66,14 +66,11 @@
   <string name="attachproject_error_short_pwd">密码过短</string>
   <string name="attachproject_error_no_internet">连接失败</string>
   <string name="attachproject_error_no_url">请输入项目网址</string>
-  <string name="attachproject_error_no_email">请输入电子邮箱地址</string>
   <string name="attachproject_error_no_pwd">请输入密码</string>
   <string name="attachproject_error_no_name">请输入用户名</string>
   <string name="attachproject_error_unknown">失败</string>
   <string name="attachproject_error_bad_username">用户名错误</string>
-  <string name="attachproject_error_email_in_use">该电子邮件地址已被使用</string>
   <string name="attachproject_error_project_down">项目离线</string>
-  <string name="attachproject_error_email_bad_syntax">电子邮件地址错误</string>
   <string name="attachproject_error_bad_pwd">密码错误</string>
   <string name="attachproject_error_creation_disabled">此项目已不再接受新的账户注册</string>
   <string name="attachproject_error_invalid_url">错误的网址</string>
@@ -130,6 +127,7 @@
   <string name="prefs_remote_header">启用远程控制</string>
   <string name="prefs_remote_summary">更改后，BOINC 客户端将重新启动。</string>
   <string name="prefs_show_notification_notices_header">当有新消息时显示通知</string>
+  <string name="prefs_show_notification_suspended_header">暂停时显示通知</string>
   <string name="prefs_cpu_number_cpus_header">使用的CPU核心</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC使用的CPU核心数目。</string>
   <string name="prefs_cpu_other_load_suspension_header">CPU占用率高于此值时暂停运算（%）</string>

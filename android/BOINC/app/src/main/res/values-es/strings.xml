@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Descripción:</string>
   <string name="attachproject_login_header_home">Inicio:</string>
   <string name="attachproject_login_header_url">Web:</string>
-  <string name="attachproject_login_header_id_email">eMail:</string>
+  <string name="attachproject_login_header_id_email">Dirección de correo electrónico:</string>
   <string name="attachproject_login_header_id_name">Nombre:</string>
   <string name="attachproject_login_header_pwd">Contraseña:</string>
   <string name="attachproject_login_button_registration">Registrarse:</string>
@@ -66,14 +66,14 @@
   <string name="attachproject_error_short_pwd">Contraseña muy corta</string>
   <string name="attachproject_error_no_internet">Fallo de conexión</string>
   <string name="attachproject_error_no_url">Introduzca la URL</string>
-  <string name="attachproject_error_no_email">Introduzca su eMail</string>
+  <string name="attachproject_error_no_email">Por favor, introduzca la dirección de correo electrónico</string>
   <string name="attachproject_error_no_pwd">Introduzca una contraseña</string>
   <string name="attachproject_error_no_name">Introduzca su usuario</string>
   <string name="attachproject_error_unknown">falló</string>
   <string name="attachproject_error_bad_username">Usuario rechazado</string>
-  <string name="attachproject_error_email_in_use">El eMail ya está en uso</string>
+  <string name="attachproject_error_email_in_use">Dirección de correo ya utilizada</string>
   <string name="attachproject_error_project_down">El proyecto está offline</string>
-  <string name="attachproject_error_email_bad_syntax">eMail rechazado</string>
+  <string name="attachproject_error_email_bad_syntax">Dirección de correo rechazada</string>
   <string name="attachproject_error_bad_pwd">Contraseña rechazada</string>
   <string name="attachproject_error_creation_disabled">La creación de cuentas está deshabilitada para este proyecto</string>
   <string name="attachproject_error_invalid_url">URL inválida</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Activar control remoto</string>
   <string name="prefs_remote_summary">Al cambiar, el cliente BOINC se reiniciará.</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificación para nuevas noticias</string>
+  <string name="prefs_show_notification_suspended_header">Mostrar notificación cuando se suspenda</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos CPU usados</string>
   <string name="prefs_cpu_number_cpus_description">Limita la cantidad de núcleos de CPU que BOINC usará.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausar sobre cierto de uso de CPU (%)</string>
@@ -140,6 +141,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Búfer de la unidad de trabajo (días)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Búfer adicional de la unidad de trabajo (días)</string>
   <string name="prefs_remote_authentication_key">Clave de autenticación de la interfaz gráfica de usuario</string>
+  <string name="prefs_remote_authentication_key_input_hint">Clave de autentificación</string>
   <string name="prefs_remote_empty_password">Error en la actualización de la contraseña: el valor no puede estar vacío</string>
   <string name="prefs_remote_boinc_relaunched">El cliente BOINC se reiniciará después del cambio de contraseña.</string>
   <string name="prefs_client_log_flags_header">Notificaciones del registro de cliente de BOINC</string>
