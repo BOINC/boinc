@@ -51,7 +51,7 @@
   <string name="attachproject_login_header_description">Description :</string>
   <string name="attachproject_login_header_home">Accueil :</string>
   <string name="attachproject_login_header_url">Site web :</string>
-  <string name="attachproject_login_header_id_email">Email :</string>
+  <string name="attachproject_login_header_id_email">Adresse email :</string>
   <string name="attachproject_login_header_id_name">Nom :</string>
   <string name="attachproject_login_header_pwd">Mot de passe :</string>
   <string name="attachproject_login_button_registration">S\'inscrire</string>
@@ -70,14 +70,14 @@
   <string name="attachproject_error_short_pwd">Mot de passe trop court</string>
   <string name="attachproject_error_no_internet">Erreur de connexion</string>
   <string name="attachproject_error_no_url">Veuillez saisir l\'URL du projet</string>
-  <string name="attachproject_error_no_email">Veuillez entrer une adresse email</string>
+  <string name="attachproject_error_no_email">Veuillez saisir l\'adresse de courriel</string>
   <string name="attachproject_error_no_pwd">Veuillez saisir un mot de passe</string>
   <string name="attachproject_error_no_name">Veuillez saisir un nom d\'utilisateur</string>
   <string name="attachproject_error_unknown">échec</string>
   <string name="attachproject_error_bad_username">Nom d\'utilisateur refusé</string>
-  <string name="attachproject_error_email_in_use">Adresse email déjà utilisée</string>
+  <string name="attachproject_error_email_in_use">L\'adresse de courriel est déjà utilisée</string>
   <string name="attachproject_error_project_down">Projet hors ligne</string>
-  <string name="attachproject_error_email_bad_syntax">Email refusé</string>
+  <string name="attachproject_error_email_bad_syntax">Adresse de courriel refusée</string>
   <string name="attachproject_error_bad_pwd">Mot de passe refusé</string>
   <string name="attachproject_error_creation_disabled">La création de compte est désactivée pour ce projet</string>
   <string name="attachproject_error_invalid_url">URL non valide</string>
@@ -134,6 +134,7 @@
   <string name="prefs_remote_header">Autoriser le contrôle à distance</string>
   <string name="prefs_remote_summary">Une fois modifié, le client BOINC sera relancé.</string>
   <string name="prefs_show_notification_notices_header">Afficher des notifications pour les nouveaux messages</string>
+  <string name="prefs_show_notification_suspended_header">Afficher une notification lorsque les calculs sont suspendus</string>
   <string name="prefs_cpu_number_cpus_header">Cœurs du processeur utilisés</string>
   <string name="prefs_cpu_number_cpus_description">Limiter le nombre de cœurs du processeur que BOINC peut utiliser pour les calculs.</string>
   <string name="prefs_cpu_other_load_suspension_header">Suspendre le calcul lorsque l’utilisation du processeur dépasse (%)</string>
@@ -144,6 +145,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Tampon d\'unité de travail (jours)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Tampon d\'unité de travail supplémentaire (jours)</string>
   <string name="prefs_remote_authentication_key">Mot de passe de l\'interface graphique</string>
+  <string name="prefs_remote_authentication_key_input_hint">Clef d\'authentification</string>
   <string name="prefs_remote_empty_password">La mise à jour du mot de passe a échoué : la valeur ne peut pas être vide</string>
   <string name="prefs_remote_boinc_relaunched">Le client BOINC sera relancé après le changement de mot de passe.</string>
   <string name="prefs_client_log_flags_header">Indicateurs de journal du client BOINC</string>

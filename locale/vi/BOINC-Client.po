@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
 "Last-Translator: Minh Phan, 2022\n"
-"Language-Team: Vietnamese (http://www.transifex.com/boinc/boinc/language/vi/)\n"
+"Language-Team: Vietnamese (http://app.transifex.com/boinc/boinc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,32 +30,30 @@ msgstr "Tin tức từ hệ thống quản lý tải khoản"
 msgid "Message from server"
 msgstr "Tin tức từ máy chủ dự án"
 
-#: client/client_state.cpp:330
+#: client/client_state.cpp:329
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Một số nhiệm vụ cần nhiều bộ nhớ RAM hơn được cho phép bởi các tuỳ chọn của bạn. Hãy kiểm tra các tuỳ chọn."
 
-#: client/client_state.cpp:698
+#: client/client_state.cpp:708
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Không thể viết file trạng thái; hãy kiểm tra quyền thư mục."
 
-#: client/cs_cmdline.cpp:295
+#: client/cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Biến số môi trường HTTP_PROXY cần xác định một giao thức proxy HTTP"
 
-#: client/cs_scheduler.cpp:617
+#: client/cs_scheduler.cpp:592
 #, c-format
-msgid ""
-"This project seems to have changed its URL.  When convenient, remove the "
-"project, then add %s"
-msgstr "Dự án này có vẻ như đã thay đổi địa chỉ URL. Nếu có thể, hãy loại bỏ dự án đi, và thêm %s"
+msgid "Master URL changed from %s to %s"
+msgstr ""
 
-#: client/cs_statefile.cpp:861
+#: client/cs_statefile.cpp:873
 msgid "Syntax error in app_info.xml"
 msgstr "Lỗi cú pháp trong tệp app_info.xml"
 
-#: client/cs_statefile.cpp:905
+#: client/cs_statefile.cpp:917
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Tệp được tham chiếu trong app_info.xml không tồn tại:"
 
@@ -88,92 +86,92 @@ msgstr "Tải xuống"
 msgid "A new version of %s is available"
 msgstr "Hiện có một phiên bản mới của %s "
 
-#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
+#: client/gpu_detect.cpp:308 client/gpu_detect.cpp:351
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "không thể được dùng cho CUDA hoặc máy tính OpenCL với trình CUDA driver 6.5 hoặc mới hơn"
 
-#: client/log_flags.cpp:326 client/log_flags.cpp:506
+#: client/log_flags.cpp:330 client/log_flags.cpp:515
 msgid "Unexpected text in cc_config.xml"
 msgstr "Đoạn text không mong muốn trong cc_config.xml"
 
-#: client/log_flags.cpp:480 client/log_flags.cpp:535
+#: client/log_flags.cpp:489 client/log_flags.cpp:544
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Đoạn text không được công nhận trong cc_config.xml"
 
-#: client/log_flags.cpp:497
+#: client/log_flags.cpp:506
 msgid "Missing start tag in cc_config.xml"
 msgstr "Thiếu tag khởi đầu trong cc_config.xml"
 
-#: client/log_flags.cpp:525
+#: client/log_flags.cpp:534
 msgid "Error in cc_config.xml options"
 msgstr "Lỗi trong tùy chọn cc_config.xml"
 
-#: client/log_flags.cpp:543
+#: client/log_flags.cpp:552
 msgid "Missing end tag in cc_config.xml"
 msgstr "Thiếu tag kết thúc trong cc_config.xml"
 
-#: sched/handle_request.cpp:317
+#: sched/handle_request.cpp:313
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "Chìa khóa tài khoản không hợp lệ hoặc bị thiếu. Để khắc phục, hãy xóa và thêm dự án này."
 
-#: sched/handle_request.cpp:951
+#: sched/handle_request.cpp:947
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "Dự án đã thay đổi khóa bảo mật. Vui lòng xóa và thêm dự án này."
 
-#: sched/handle_request.cpp:1022
+#: sched/handle_request.cpp:1018
 msgid "This project doesn't support operating system"
 msgstr "Dự án này không hỗ trợ hệ điều hành"
 
-#: sched/handle_request.cpp:1048
+#: sched/handle_request.cpp:1044
 msgid "This project doesn't support CPU type"
 msgstr "Dự án này không hỗ trợ loại CPU này"
 
-#: sched/handle_request.cpp:1072
+#: sched/handle_request.cpp:1068
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Phần mềm máy khách BOINC của bạn quá cũ. Hãy cài đặt phiên bản hiện tại."
 
-#: sched/handle_request.cpp:1348
+#: sched/handle_request.cpp:1344
 msgid "This project doesn't support computers of type"
 msgstr "Dự án này không hỗ trợ các loại máy tính"
 
-#: sched/sched_send.cpp:1151
+#: sched/sched_send.cpp:1146
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Nâng cấp lên driver mới nhất để xử lý các tác vụ bằng GPU trên máy tính của bạn"
 
-#: sched/sched_send.cpp:1158
+#: sched/sched_send.cpp:1153
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Nâng cấp lên driver mới nhất để sử dụng tất cả các ứng dụng GPU của dự án này"
 
-#: sched/sched_send.cpp:1177
+#: sched/sched_send.cpp:1172
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Cần có phiên bản BOINC mới hơn để sử dụng GPU NVIDIA của bạn; hãy nâng cấp lên phiên bản hiện tại"
 
-#: sched/sched_send.cpp:1211
+#: sched/sched_send.cpp:1206
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Cần có GPU %s để chạy các tác vụ cho dự án này"
 
-#: sched/sched_send.cpp:1327
+#: sched/sched_send.cpp:1328
 msgid "No tasks are available for the applications you have selected."
 msgstr "Không có tác vụ nào sẵn sàng cho các ứng dụng bạn đã chọn."
 
-#: sched/sched_send.cpp:1353
+#: sched/sched_send.cpp:1354
 msgid "Your computer type is not supported by this project"
 msgstr "Thiết bị của bạn không được hỗ trợ bởi dự án này"
 
-#: sched/sched_send.cpp:1359
+#: sched/sched_send.cpp:1360
 msgid "Newer BOINC version required; please install current version"
 msgstr "Yêu cầu phiên bản BOINC mới hơn; hãy cài đặt phiên bản hiện tại"
 
-#: sched/sched_send.cpp:1370
+#: sched/sched_send.cpp:1371
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

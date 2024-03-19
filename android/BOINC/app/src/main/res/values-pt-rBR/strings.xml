@@ -23,7 +23,7 @@
   <string name="attachproject_conflict_not_unique">Conta existe com senha diferente</string>
   <string name="attachproject_conflict_bad_password">Senha incorreta</string>
   <string name="attachproject_conflict_unknown_user">Conta não existe</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Conta inexistente, visite o site do projeto para se registrar</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Conta inexistente.  Visite o website do projeto para registrar-se.</string>
   <!--working-->
   <string name="attachproject_working_attaching">Anexando %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -33,12 +33,13 @@
   <string name="attachproject_hint_contribtion_header">Como contribuir:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Conecte-se ao WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Conecte o Carregador</string>
-  <string name="attachproject_hint_contribtion_screen">4. Desligue a Tela</string>
+  <string name="attachproject_hint_contribtion_app">3. Execute o BOINC e mantenha-o aberto</string>
+  <string name="attachproject_hint_contribtion_screen">4. Desligue a tela</string>
   <string name="attachproject_hint_projectwebsite_header">Visite os sites do projeto para:</string>
   <string name="attachproject_hint_projectwebsite_science">Saiba mais sobre a ciência</string>
   <string name="attachproject_hint_projectwebsite_stats">Ver estatísticas de contribuição</string>
   <string name="attachproject_hint_projectwebsite_community">Entre em contato com outros voluntários</string>
-  <string name="attachproject_hint_platforms_header">BOINC também está disponível para seu computador ou notebook, visite boinc.berkeley.edu para mais informações.</string>
+  <string name="attachproject_hint_platforms_header">O BOINC também está disponível para o seu computador ou portátil, visite boinc.berkeley.edu para saber mais.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Contatando servidor do projeto...</string>
   <string name="attachproject_login_header_general_area">Área geral:</string>
@@ -46,15 +47,17 @@
   <string name="attachproject_login_header_description">Descrição:</string>
   <string name="attachproject_login_header_home">Local:</string>
   <string name="attachproject_login_header_url">Website:</string>
-  <string name="attachproject_login_header_id_email">eMail:</string>
+  <string name="attachproject_login_header_id_email">Endereço de email:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Senha:</string>
   <string name="attachproject_login_button_registration">Registrar-se</string>
   <string name="attachproject_login_button_login">Entrar</string>
   <string name="attachproject_login_button_forgotpw">Esqueci a Senha</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Use o gerenciador de contas do BOINC para adicionar e gerenciar múltiplos projetos</string>
+  <string name="attachproject_acctmgr_list_desc">Utilize um gerenciador de contas para controlar este dispositivo.</string>
   <string name="attachproject_acctmgr_header">Usar gerenciador de conta</string>
+  <string name="attachproject_attach_projects_header">Adicionar projetos</string>
+  <string name="attachproject_attach_projects_desc">Adicione projetos à partir da lista de projetos.</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Usuário:</string>
   <string name="attachproject_acctmgr_header_pwd">Senha:</string>
@@ -63,14 +66,11 @@
   <string name="attachproject_error_short_pwd">Senha muito curta</string>
   <string name="attachproject_error_no_internet">Falha na conexão</string>
   <string name="attachproject_error_no_url">Por favor, insira o URL</string>
-  <string name="attachproject_error_no_email">Por favor, digite o endereço de eMail</string>
   <string name="attachproject_error_no_pwd">Por favor, digite uma senha</string>
   <string name="attachproject_error_no_name">Por favor, digite o nome de usuário</string>
   <string name="attachproject_error_unknown">falha</string>
   <string name="attachproject_error_bad_username">Nome de usuário recusado</string>
-  <string name="attachproject_error_email_in_use">eMail já está em uso</string>
   <string name="attachproject_error_project_down">Projeto está offline</string>
-  <string name="attachproject_error_email_bad_syntax">eMail recusado</string>
   <string name="attachproject_error_bad_pwd">Senha recusada</string>
   <string name="attachproject_error_creation_disabled">Criação de conta está desativada neste projeto</string>
   <string name="attachproject_error_invalid_url">URL inválido</string>
@@ -103,12 +103,13 @@
   <string name="prefs_category_memory">Memória</string>
   <string name="prefs_category_other">Outro</string>
   <string name="prefs_category_debug">Depurar</string>
+  <string name="prefs_category_remote">Controle remoto</string>
   <string name="prefs_show_advanced_header">Exibir preferências e controles avançados</string>
   <string name="prefs_suspend_when_screen_on">Pausar computação quando a tela estiver ligada</string>
   <string name="prefs_general_device_name_header">Nome do dispositivo</string>
   <string name="prefs_theme_header">Tema</string>
   <string name="prefs_stationary_device_mode_header">Modo de dispositivo estacionário</string>
-  <string name="prefs_stationary_device_mode_description">Permite o processamento independentemente das Preferências de energia. Ative apenas se o dispositivo não tem uma bateria.</string>
+  <string name="prefs_stationary_device_mode_description">Permite o processamento independentemente das Preferências de energia.  Ative apenas se o dispositivo não tiver uma bateria.</string>
   <string name="prefs_power_source_header">Fontes de energia para computação</string>
   <string name="prefs_power_source_ac">Tomada de parede</string>
   <string name="prefs_power_source_usb">Conexão USB</string>
@@ -123,7 +124,10 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">Limite de transferência diária (dias)</string>
   <string name="prefs_network_wifi_only_header">Transferir tarefas apenas por WiFi</string>
   <string name="prefs_autostart_header">Autoiniciar</string>
+  <string name="prefs_remote_header">Ativar controle remoto</string>
+  <string name="prefs_remote_summary">Quando alterado, o cliente BOINC será reiniciado.</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificação para novos avisos</string>
+  <string name="prefs_show_notification_suspended_header">Mostrar notificações enquanto suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC usa para computação.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausar em utilização da CPU acima de (%)</string>
@@ -133,7 +137,11 @@
   <string name="prefs_memory_max_idle_header">Limite de RAM (%)</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Buffer de unidade de trabalho (dias)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Buffer de unidade de trabalho adicional (dias)</string>
+  <string name="prefs_remote_authentication_key">Chave de autenticação GUI</string>
+  <string name="prefs_remote_empty_password">A atualização de senha falhou: o campo não pode ficar vazio</string>
+  <string name="prefs_remote_boinc_relaunched">O cliente BOINC será reiniciado após a alteração de senha.</string>
   <string name="prefs_client_log_flags_header">Flags do log do cliente BOINC</string>
+  <string name="prefs_gui_log_categories">Categorias de log da GUI do BOINC</string>
   <string name="prefs_gui_log_level_header">Nível de registro do GUI</string>
   <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens do registro do GUI.</string>
   <string name="prefs_theme_light">Claro</string>
@@ -144,6 +152,8 @@
   <string name="projects_icon">Ícone do projeto</string>
   <string name="projects_credits">Crédito:</string>
   <string name="projects_credits_host_and_user">%1$,d (neste dispositivo) %2$,d (total)</string>
+  <string name="projects_disk_usage">Utilização do Disco</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspenso pelo usuário</string>
   <string name="projects_status_dontrequestmorework">Não receberá novas tarefas</string>
@@ -232,7 +242,7 @@
   <string name="suspend_os">Interrompido pelo Android.</string>
   <string name="suspend_wifi">Não conectado ao WiFi.</string>
   <string name="suspend_battery_charging">Esperando a bateria carregar.</string>
-  <string name="suspend_battery_charging_long">O processamento continuará quando a bateria atingir %1$d%% (atualmente em %2$d%%)</string>
+  <string name="suspend_battery_charging_long">A computação retomará quando a carga da bateria alcançar %1$d%% (atualmente %2$d%%)</string>
   <string name="suspend_battery_overheating">Aguardando esfriamento da bateria</string>
   <string name="suspend_user_req">Continuando computação...</string>
   <!--rpc reasons-->
@@ -255,20 +265,21 @@
   <string name="menu_help">Ajuda</string>
   <string name="menu_report_issue">Reportar problema</string>
   <!--about dialog-->
-    <string name="about_title">Sobre</string>
+  <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão %1$s</string>
-  <string name="about_copyright">\u00A9 2003-2021 Universidade da Califórnia, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
-  <string name="about_credits">Agradecemos ao Instituto Max Planck de Física Gravitacional, à IBM Corporation e à HTC Corporation pelo apoio.</string>
+  <string name="about_credits">Agradecemos ao Instituto Max Planck de Física Gravitacional, IBM Corporation e à HTC Corporation pelo suporte.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Novo aviso de %1$s</item>
+    <item quantity="many">%2$,d novos avisos</item>
     <item quantity="other">%2$,d novos avisos</item>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">App de computação voluntária detectado</string>
-  <string name="nonexcl_dialog_text">Outro aplicativo de computação voluntária está em operação neste dispositivo. Somente uma versão pode operar por vez.</string>
+  <string name="nonexcl_dialog_text">Outro aplicativo de computação voluntária está em execução neste dispositivo. Somente uma versão pode ser executada por vez.</string>
   <string name="nonexcl_dialog_exit">Sair</string>
   <!--social integration-->
   <string name="social_invite_button">Convide amigos</string>
@@ -280,6 +291,28 @@
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Mostrar notificações não perceptíveis.</string>
   <string name="notice_notification_channel_name">Avisos</string>
   <string name="notice_notification_channel_description">Exibe eventos de seus projetos.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Bem-vindo à Loja da Xiaomi! Para proporcionar uma experiência de compras de alta qualidade,
+        o aplicativo da Loja da Xiaomi necessita estar conectado à internet e utilizar sua informação de localização para verificar o inventário de produtos,
+        otimizar serviços de entrega e, personalizar a recomendação de produtos. Você tem o direito de recusar ou cancelar esta autorização.</string>
+  <string name="terms_of_use_content_second">Antes de utilizar o aplicativo, por favor leia atentamente os \"Termos do Contrato do Usuário\"
+      e a \"Política de Privacidade\" da Loja Xiaomi e, entenda os seus direitos de usuário e como os seus dados são processados.
+       Se concordar com o conteúdo dos acordos acima, por favor clique em \"Concordo\" para começar a utilizar os nossos produtos e serviços.
+        Nós iremos proteger suas informações pessoais através de tecnologia de segurança líder da indústria. Obrigado pela sua confiança na Loja da Xiaomi.</string>
+  <string name="terms_of_use_content_user_agreement">Termos do Contrato do Usuário: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Política de Privacidade: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Caros Fãs da Mi, olá, Da Jia Hao!</string>
+  <string name="welcome_content_second">Sou o David, fundador do Boinc. O Boinc é uma plataforma de software de código aberto para computação que utiliza recursos voluntários.</string>
+  <string name="welcome_content_third">Gostaria de agradecer ao Sr. Lei Jun e à Xiaomi e partilhar algumas novidades com vocês:
+      O M11 irá tornar-se um dispositivo de computação portátil oficialmente certificado pelo Boinc!</string>
+  <string name="welcome_content_fourth">Com o Qualcomm Snapdragon 888 integrado, o Mi 11 possui um poder de computação incrível.
+      Ele pode processar tarefas muito rapidamente e fornecer ajuda para comunidades de pesquisa em todo o mundo.</string>
+  <string name="welcome_content_fifth">Gostaria de agradecer a todos os engenheiros na Xiaomi que contribuíram para o projeto Boinc.
+      Encorajo todos os fãs da Mi a baixar o Boinc nos seus telefones, contribuindo com um pouco do poder do seu telefone, quando ele não estiver em uso.</string>
+  <string name="welcome_content_sixth">Por último, mas não menos importante, aos meus amigos Chineses - Feliz Ano Novo Chinês! Xin Nian Kuai Le!</string>
+  <string name="agree_button">Aceito</string>
+  <string name="prefs_expand_wu_data">Expandir sempre as informações da tarefa </string>
 </resources>

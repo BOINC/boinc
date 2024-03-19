@@ -7,38 +7,39 @@
   <string name="generic_button_finish">완료</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">여러분이 공헌할 과학 사업을 선택하세요:</string>
-  <string name="attachproject_list_header">사업 선택:</string>
+  <string name="attachproject_list_desc">여러분이 참여할 과학 프로젝트를 선택하세요:</string>
+  <string name="attachproject_list_header">프로젝트 선택하기:</string>
   <string name="attachproject_list_manual_button">URL로 프로젝트 추가</string>
   <string name="attachproject_list_manual_dialog_title">프로젝트 URL 입력:</string>
   <string name="attachproject_list_no_internet">인터넷 연결이 되지 않았습니다</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">계정 정보를 입력하세요</string>
-  <string name="attachproject_credential_input_desc">선택한 사업의 계정 정보를 입력:</string>
+  <string name="attachproject_credential_input_desc">선택한 프로젝트의 계정 정보를 입력:</string>
   <string name="attachproject_credential_input_show_pwd">비밀번호 보이기</string>
   <string name="attachproject_individual_credential_input">개별적으로 프로젝트 추가</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">과학 사업 추가 중에 문제가 발생했습니다:</string>
+  <string name="attachproject_conflicts_desc">과학 프로젝트를 추가하는 중에 문제가 발생했습니다:</string>
   <string name="attachproject_conflict_undefined">연결 실패</string>
   <string name="attachproject_conflict_not_unique">다른 비밀번호를 가진 계정이 이미 있습니다</string>
   <string name="attachproject_conflict_bad_password">틀린 비밀번호</string>
   <string name="attachproject_conflict_unknown_user">계정이 존재하지 않습니다</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">계정이 존재하지 않습니다. 등록하려면 프로젝트 웹사이트에 방문하세요.</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">계정이 존재하지 않습니다. 프로젝트에 가입하려면 프로젝트 홈페이지에 방문하세요.</string>
   <!--working-->
   <string name="attachproject_working_attaching">%1$s 추가하는 중</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
-  <string name="attachproject_hints_header">힌트</string>
+  <string name="attachproject_hints_header">팁</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">공헌하는 법:</string>
   <string name="attachproject_hint_contribtion_wifi">1. WiFi에 연결하기</string>
   <string name="attachproject_hint_contribtion_charger">2. 충전기를 꼽으세요</string>
+  <string name="attachproject_hint_contribtion_app">3. BOINC를 실행하고 열린 채로 놔두세요</string>
   <string name="attachproject_hint_contribtion_screen">4. 화면을 끄세요</string>
   <string name="attachproject_hint_projectwebsite_header">프로젝트 웹사이트 방문하기:</string>
   <string name="attachproject_hint_projectwebsite_science">과학에 대해 더 알아보기</string>
   <string name="attachproject_hint_projectwebsite_stats">공헌 통계 보기</string>
   <string name="attachproject_hint_projectwebsite_community">다른 기여자들과 만나보기</string>
-  <string name="attachproject_hint_platforms_header">BOINC는 데스크톱이나 랩탑으로도 이용할 수 있습니다. 더 알아보려면 boinc.berkeley.edu에 방문하세요.</string>
+  <string name="attachproject_hint_platforms_header">BOINC는 컴퓨터나 노트북에서도 사용 가능합니다. 더 알아보려면 boinc.berkely.edu에 방문하세요.</string>
   <!--project login-->
   <string name="attachproject_login_loading">사업 서버 연결 중…</string>
   <string name="attachproject_login_header_general_area">대분류:</string>
@@ -46,7 +47,7 @@
   <string name="attachproject_login_header_description">개요:</string>
   <string name="attachproject_login_header_home">거점:</string>
   <string name="attachproject_login_header_url">웹 사이트:</string>
-  <string name="attachproject_login_header_id_email">이메일:</string>
+  <string name="attachproject_login_header_id_email">Email 주소:</string>
   <string name="attachproject_login_header_id_name">이름:</string>
   <string name="attachproject_login_header_pwd">비밀번호:</string>
   <string name="attachproject_login_button_registration">등록</string>
@@ -55,6 +56,8 @@
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">여러 프로젝트를 추가 및 관리하기 위해 BOINC 계정 관리자를 이용하세요</string>
   <string name="attachproject_acctmgr_header">계정 관리자 사용</string>
+  <string name="attachproject_attach_projects_header">프로젝트 추가</string>
+  <string name="attachproject_attach_projects_desc">프로젝트 목록에서 프로젝트를 추가하기</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">사용자:</string>
   <string name="attachproject_acctmgr_header_pwd">비밀번호:</string>
@@ -63,14 +66,11 @@
   <string name="attachproject_error_short_pwd">비밀번호가 너무 짧습니다</string>
   <string name="attachproject_error_no_internet">연결 실패</string>
   <string name="attachproject_error_no_url">URL을 입력해 주세요</string>
-  <string name="attachproject_error_no_email">이메일 주소를 입력해 주세요</string>
   <string name="attachproject_error_no_pwd">비밀번호를 입력해 주세요</string>
   <string name="attachproject_error_no_name">사용자 이름을 입력해 주세요</string>
   <string name="attachproject_error_unknown">실패</string>
   <string name="attachproject_error_bad_username">사용자 이름이 거부됨</string>
-  <string name="attachproject_error_email_in_use">전자 우편 주소가 이미 사용 중입니다.</string>
   <string name="attachproject_error_project_down">사업이 통신 중이지 않습니다.</string>
-  <string name="attachproject_error_email_bad_syntax">전자 우편 주소가 없거나 틀립니다.</string>
   <string name="attachproject_error_bad_pwd">비밀번호가 틀립니다.</string>
   <string name="attachproject_error_creation_disabled">이 사업은 계정 생성을 할 수 없습니다</string>
   <string name="attachproject_error_invalid_url">잘못된 URL</string>
@@ -103,12 +103,13 @@
   <string name="prefs_category_memory">메모리</string>
   <string name="prefs_category_other">기타</string>
   <string name="prefs_category_debug">디버그</string>
+  <string name="prefs_category_remote">원격 제어</string>
   <string name="prefs_show_advanced_header">진보된 환경설정 및 제어 항목을 보여줍니다</string>
   <string name="prefs_suspend_when_screen_on">화면이 켜지면 연산 중지</string>
   <string name="prefs_general_device_name_header">기기 이름</string>
   <string name="prefs_theme_header">테마</string>
   <string name="prefs_stationary_device_mode_header">고정 장치 모드</string>
-  <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산 허용. 만약 장치에 배터리가 장착되지 않았을 때에만 활성화하세요.</string>
+  <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산을 허용합니다. 기기에 배터리가 장착되지 않았을 때에만 활성화하세요.</string>
   <string name="prefs_power_source_header">연산용 전원 공급 장치</string>
   <string name="prefs_power_source_ac">전기 콘센트</string>
   <string name="prefs_power_source_usb">USB 접속</string>
@@ -123,17 +124,24 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">일일 전송량 제한 (일)</string>
   <string name="prefs_network_wifi_only_header">WiFi에서만 태스크 전송</string>
   <string name="prefs_autostart_header">자동 시작</string>
+  <string name="prefs_remote_header">원격 제어 활성화</string>
+  <string name="prefs_remote_summary">변경되었을 때,  BOINC는 다시 시작됩니다.</string>
   <string name="prefs_show_notification_notices_header">새 공지사항이 나오면 알림 바에 알려주기</string>
+  <string name="prefs_show_notification_suspended_header">일시중지되면 알림 바에 알려주기</string>
   <string name="prefs_cpu_number_cpus_header">사용할 CPU 코어 수</string>
   <string name="prefs_cpu_number_cpus_description">BOINC가 연산에 사용할 CPU 코어 수 제한</string>
   <string name="prefs_cpu_other_load_suspension_header">CPU 사용량 제한 도달시 정지 (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">다른 앱이 어느정도의 CPU를 사용할 때 BOINC를 정지할 지 설정하세요.</string>
+  <string name="prefs_cpu_other_load_suspension_description">다른 앱이 어느정도의 CPU를 사용할 때 BOINC를 정지할 지 결정하세요.</string>
   <string name="prefs_cpu_time_max_header">CPU 제한 (%)</string>
   <string name="prefs_cpu_time_max_description">BOINC가 연산에 사용할 CPU 시간을 제한합니다.</string>
   <string name="prefs_memory_max_idle_header">RAM 제한 (%)</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">작업 유닛 저장량 (일)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">추가적인 작업 유닛 저장량 (일)</string>
+  <string name="prefs_remote_authentication_key">GUI 인증 키</string>
+  <string name="prefs_remote_empty_password">비밀번호 갱신 실패: 값은 비울 수 없습니다.</string>
+  <string name="prefs_remote_boinc_relaunched">BOINC 클라이언트는 비밀번호 변경후 다시 시작되니다.</string>
   <string name="prefs_client_log_flags_header">BOINC 클라이언트 로그 플래그</string>
+  <string name="prefs_gui_log_categories">BOINC GUI 로그 기록 카테고리</string>
   <string name="prefs_gui_log_level_header">GUI 로그 레벨</string>
   <string name="prefs_gui_log_level_description">GUI 로그 메세지의 상세 정도를 결정해 주세요.</string>
   <string name="prefs_theme_light">Light</string>
@@ -144,6 +152,8 @@
   <string name="projects_icon">프로젝트 아이콘</string>
   <string name="projects_credits">크레딧:</string>
   <string name="projects_credits_host_and_user">%1$,d (해당 장치) %2$,d (전체)</string>
+  <string name="projects_disk_usage">디스크 사용량:</string>
+  <string name="projects_disk_usage_with_unit">%1$s메가바이트</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">사용자에 의해 일시 정지됨</string>
   <string name="projects_status_dontrequestmorework">새 태스크를 원하지 않음</string>
@@ -232,7 +242,7 @@
   <string name="suspend_os">안드로이드에서 정지시킴.</string>
   <string name="suspend_wifi">WiFi에 연결되지 않았습니다.</string>
   <string name="suspend_battery_charging">전지가 충전되길 기다리는 중.</string>
-  <string name="suspend_battery_charging_long">배터리가 %1$d%%만큼 충전되면 연산이 재개됩니다 (현재 %2$d%%)</string>
+  <string name="suspend_battery_charging_long">배터리 충전량에 도달하면 컴퓨팅이 재개됩니다.%1$d%%(현재%2$d%%)</string>
   <string name="suspend_battery_overheating">전지가 식길 기다리는 중</string>
   <string name="suspend_user_req">연산 재개 중…</string>
   <!--rpc reasons-->
@@ -255,30 +265,52 @@
   <string name="menu_help">도움말</string>
   <string name="menu_report_issue">문제 보고</string>
   <!--about dialog-->
-    <string name="about_title">정보</string>
+  <string name="about_title">정보</string>
   <string name="about_name">보잉크</string>
   <string name="about_version">버전 %1$s</string>
-  <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
+  <string name="about_copyright">© 2003–2023 University of California, Berkeley. All Rights Reserved.</string>
   <string name="about_copyright_reserved">모든 권리 보유</string>
-  <string name="about_credits">막스 플랑크 중력 물리학 연구소, IBM Corporation, HTC의 지원에 감사드립니다.</string>
+  <string name="about_credits">Max Planck중력 물리학 연구소와 IBM Corporation그리고 HTC Corporation의 지원에 감사드립니다.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="other">%2$,d 새 알림</item>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">기여자 연산 앱 감지됨</string>
-  <string name="nonexcl_dialog_text">다른 연산 기여 앱이 이 장치에서 실행되고 있습니다. 한 번에 하나씩만 실행할 수 있습니다.</string>
+  <string name="nonexcl_dialog_text">다른 연산 기여 앱이 이 장치에서 실행되고 있습니다. 한 번에 하나씩만 실행될 수 있습니다.</string>
   <string name="nonexcl_dialog_exit">종료</string>
   <!--social integration-->
   <string name="social_invite_button">친구 초대하기</string>
   <string name="social_invite_intent_title">누구에게 공유하고 싶습니까?</string>
   <string name="social_invite_content_title">내 스마트폰으로만 작업할래요!</string>
-  <string name="social_invite_content_body">%1$s도 연산에 참여합니다. 여러분도 할 수 있습니다! 앱 다운로드: %2$s</string>
+  <string name="social_invite_content_body">저는 %1$s을 사용해 과학을 위해 연산하고 있습니다. 여러분도 할 수 있습니다! 앱을 %2$s에서 다운로드 해 보세요.</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">보지 않은 알림을 표시합니다.</string>
   <string name="notice_notification_channel_name">공지 사항</string>
   <string name="notice_notification_channel_description">프로젝트에서 온 공지 사항을 표시합니다.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">샤오미 메일에 오신것을 환영합니다! 높은 질의 쇼핑을 제공하려면,
+Mi 메일 앱은 인터넷에 연결되어 있어야하고 상품 재고를 확인하고 배달 서비스를 최적화하고 제품 추천을 사용자하기 위해 위치정보를 사용해야 합니다
+당신은 이 권한을 허용하거나 거절할 권리가 있습니다</string>
+  <string name="terms_of_use_content_second">이 앱을 사용하기 전에,  샤오미 메일의 \"사용자 계약\"과 \"개인정보 보호정책\"을 꼭 읽고
+당신의 권리와 데이터가 어떻게 처리되어지는지를 이해하기 바랍니다.
+만약 당신이 위 계약의 내용에 동의한다면, \"동의\"를 눌러서 우리의 제품과 서비스를 사용할 수 있습니다.
+우리는 당신의 개인정보를 업계 최고수준으로 보호해드리겠습니다. 샤오미 메일에 대한 신뢰에 감사드립니다.</string>
+  <string name="terms_of_use_content_user_agreement">사용자 계약: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">개인정보 취급방침: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Mi 사용자분들에게, 안녕하세요!</string>
+  <string name="welcome_content_second">저는 Boinc의 설립자인 데이비드입니다. Boinc 는 지원된 자원을 사용해 연산을 위한 오픈소스 소프트웨어 플랫폼입니다.</string>
+  <string name="welcome_content_third">저는 레이 준싸와 샤오미에게 감사하고 몇몇 좋은 소식을 여러분들과 공유하고 싶습니다:
+    Mi 11이 Boinc에 의해서 공식적으로 인정된 모바일 연산장치가 될 것입니다.</string>
+  <string name="welcome_content_fourth">Qualcomm Snapdragon 888이 내장되어 있는 Mi 11은 놀라운 연산 능력을 뽐냅니다.
+Mi 11은 작업들을 아주 빠르게 처리하고 전 세계의 연구들에 도움을 줄 수 있습니다.</string>
+  <string name="welcome_content_fifth">저는 Boinc프로젝트에 기여하셨던 샤오미의 모든 엔지니어분들께 감사의 말씀을 드리고 싶습니다.
+저는 모든 샤오미 유저들께 Boinc를 핸드폰에 다운로드하고 핸드폰을 사용하지 않는동안의 능력을 사회에 기여하시면 좋겠습니다. </string>
+  <string name="welcome_content_sixth">마지막으로, 내 중국인 친구들에게-춘절 잘 보내세요!  해피 뉴 이얼!</string>
+  <string name="agree_button">동의</string>
+  <string name="prefs_expand_wu_data">항상 작업 정보 펼치기</string>
 </resources>

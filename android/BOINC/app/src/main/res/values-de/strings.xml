@@ -23,7 +23,7 @@
   <string name="attachproject_conflict_not_unique">Konto existiert bereits mit anderem Passwort</string>
   <string name="attachproject_conflict_bad_password">Falsches Passwort</string>
   <string name="attachproject_conflict_unknown_user">Konto existiert nicht</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Dieses Konto existiert nicht! Bitte besuchen Sie die Projektwebseite, um ein neues Konto zu erstellen.</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Dieses Konto existiert nicht! Bitte besuchen Sie die Webseite von dem Projekt, um ein neues Konto zu erstellen.</string>
   <!--working-->
   <string name="attachproject_working_attaching">%1$s hinzufügen</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Beschreibung:</string>
   <string name="attachproject_login_header_home">Betreiber:</string>
   <string name="attachproject_login_header_url">Webseite:</string>
-  <string name="attachproject_login_header_id_email">E-Mail:</string>
+  <string name="attachproject_login_header_id_email">E-Mail-Adresse:</string>
   <string name="attachproject_login_header_id_name">Name:</string>
   <string name="attachproject_login_header_pwd">Passwort:</string>
   <string name="attachproject_login_button_registration">Registrieren</string>
@@ -71,9 +71,9 @@
   <string name="attachproject_error_no_name">Bitte einen Benutzernamen eingeben</string>
   <string name="attachproject_error_unknown">fehlgeschlagen</string>
   <string name="attachproject_error_bad_username">Benutzername nicht erlaubt</string>
-  <string name="attachproject_error_email_in_use">E-Mail-Adresse ist bereits registriert</string>
+  <string name="attachproject_error_email_in_use">E-Mail-Adresse wird bereits verwendet!</string>
   <string name="attachproject_error_project_down">Projekt nicht erreichbar</string>
-  <string name="attachproject_error_email_bad_syntax">E-Mail-Adresse nicht akzeptiert</string>
+  <string name="attachproject_error_email_bad_syntax">E-Mail-Adresse ist ungültig</string>
   <string name="attachproject_error_bad_pwd">Passwort zu kurz</string>
   <string name="attachproject_error_creation_disabled">Die Kontoerstellung ist bei diesem Projekt deaktiviert</string>
   <string name="attachproject_error_invalid_url">Ungültige Adresse</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Fernkontrolle ermöglichen</string>
   <string name="prefs_remote_summary">Bei Änderung wird der BOINC-Client neu gestartet</string>
   <string name="prefs_show_notification_notices_header">Zeige Meldung für neue Nachrichten</string>
+  <string name="prefs_show_notification_suspended_header">Zeige Nachrichten wenn angehalten</string>
   <string name="prefs_cpu_number_cpus_header">Benutzte Prozessoren</string>
   <string name="prefs_cpu_number_cpus_description">Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf.</string>
   <string name="prefs_cpu_other_load_suspension_header">Anhalten, wenn Prozessornutzung über (%)</string>
@@ -140,6 +141,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeitspuffer (Tage)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Max. zusätzlicher Arbeitspuffer (Tage)</string>
   <string name="prefs_remote_authentication_key">GUI Authentifizierungs-Schlüssel</string>
+  <string name="prefs_remote_authentication_key_input_hint">Authentifizierungs-Schlüssel</string>
   <string name="prefs_remote_empty_password">Passwortänderung fehlgeschlagen: Passwort kann nicht leer sein</string>
   <string name="prefs_remote_boinc_relaunched">BOINC wird nach der Passwortänderung neu gestartet.</string>
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
@@ -270,6 +272,7 @@
   <string name="about_title">Über</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
+  <string name="about_copyright">\u00A9 2003–2021 Universität von Kalifornien, Berkeley.</string>
   <string name="about_copyright_reserved">Alle Rechte vorbehalten.</string>
   <string name="about_credits">Dank an das Max Planck Institut für Gravitationsphysik, IBM und HTC für die Unterstützung.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -294,5 +297,23 @@
   <string name="main_notification_channel_description">Zeige nicht-Projekt Mitteilungen an.</string>
   <string name="notice_notification_channel_name">Nachrichten</string>
   <string name="notice_notification_channel_description">Nachrichten von den Projekten anzeigen.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Willkommen in der Xiaomi Mall! Um ein ein gutes Einkaufserlebis zu haben mit der Mi Mall App zu haben,
+muss diese mit dem Internet verbunden seien und deine Standortdaten werden dazu verwendet, um Lagerbestand, besten Lieferservice und persönliche Produktempfehlungen vorzuschlagen. Du hast aber die Möglichkeit dies zu verweigern oder deine Einwilligung zurückzuziehen.</string>
+  <string name="terms_of_use_content_second">Bevor die App verwendet werden kann, lese bitte die Nutzungs- und Datenschutzbestimmungen der Xiaomi Mall, um deine Rechte zu verstehen sowie wie deine Daten verwendet werden.
+Wenn du mit den zuvor genannten Bestimmungen einverstanden bist, klicke bitte auf \"Zustimmen\", um die Produkte und Dienstleistungen verwenden zu können.
+Wir werden deine persönlichen Daten nach dem aktuellen Stand der Sicherheitstechnik schützen. Danke für dein Vertrauen in Xiaomi Mall.</string>
+  <string name="terms_of_use_content_user_agreement">Nutzungsbedingungen: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Datenschutzrichtlinie: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Liebe Mi Freunde, Hallo, Da Jia Hao!</string>
+  <string name="welcome_content_second">Ich bin David, Gründer von Boinc. Boinc ist eine Open-Source Software Plattform für das Rechnen mit freiwilliger Hilfe euer Computer.</string>
+  <string name="welcome_content_third">Ich möchte mich bei Herrn Lei Jun und Xiaomi bedanken und gute Neuigkeiten mit euch teilen:
+Mi 11 wird als mobiles Endgerät offiziell bei Boinc zertifiziert!</string>
+  <string name="welcome_content_fourth">Mit dem integrierten Qualcomm Snapdragon 888 verfügt das Mi 11 über eine erstaunliche Rechenleistung.
+        Es kann Aufgaben sehr schnell verarbeiten und Forschungsgemeinschaften weltweit unterstützen.</string>
+  <string name="welcome_content_fifth">Ich bedanke mich bei allen Ingenieuren bei Xiaomi, die bei der Unterstützung des Boinc Projektes beigetragen haben.
+Ich ermutige alle Mi Fans BOINC auf ihr Smartphone zu laden und ein Teil der Rechenleistung davon zu teilen, wenn das Telefon nicht verwendet wird.</string>
+  <string name="welcome_content_sixth">Und zu guter Letzt, an meine chinesischen Freunde - Ein frohes Neujahrsfest! Xin Nian Kuai Le!</string>
   <string name="agree_button">Zustimmen</string>
+  <string name="prefs_expand_wu_data">Aufgabenleiste immer erweitern</string>
 </resources>

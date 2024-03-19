@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -13,6 +13,7 @@
 # Giacomo Rippa <giacomo.rippa@outlook.com>, 2020
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # J M <fire.hi@gmail.com>, 2019
+# Massimiliano Caniparoli <massic80@gmail.com>, 2024
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2019-2023
@@ -21,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2019-2023\n"
+"Last-Translator: Massimiliano Caniparoli <massic80@gmail.com>, 2024\n"
 "Language-Team: Italian (Italy) (http://app.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +63,7 @@ msgstr "Nickname"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Devi inserire un indirizzo email valido nella forma 'nome@dominio'."
 
-#: html/inc/account.inc:90 html/inc/user.inc:240 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:252 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Indirizzo email"
 
@@ -74,7 +75,7 @@ msgstr "Deve essere di almeno %1 caratteri"
 #. but because we store it salted with email address,
 #. which is about to change.
 #: html/inc/account.inc:102 html/user/delete_account_confirm.php:54
-#: html/user/delete_account_request.php:51 html/user/edit_email_form.php:47
+#: html/user/delete_account_request.php:51 html/user/edit_email_form.php:49
 msgid "Password"
 msgstr "Password"
 
@@ -83,8 +84,8 @@ msgid "Select the country you want to represent, if any."
 msgstr "Seleziona la nazione che vuoi rappresentare, se lo desideri."
 
 #: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
-#: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:249 html/inc/user.inc:452 html/user/account_finish.php:45
+#: html/inc/team.inc:251 html/inc/team.inc:391 html/inc/team.inc:500
+#: html/inc/user.inc:262 html/inc/user.inc:465 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -125,7 +126,7 @@ msgid "Stay logged in"
 msgstr "Rimani autenticato"
 
 #. kludge
-#: html/inc/account.inc:162 html/inc/util.inc:357 html/user/login_form.php:43
+#: html/inc/account.inc:162 html/inc/util.inc:351 html/user/login_form.php:45
 msgid "Log in"
 msgstr "Entra"
 
@@ -184,7 +185,7 @@ msgid ""
 msgstr "Colore del carattere: [color=red]testo[/color] Suggerimento: puoi anche definire un colore personalizzato nella forma color=#FF0000"
 
 #: html/inc/bbcode_html.inc:26 html/inc/bbcode_html.inc:42
-#: html/inc/prefs_util.inc:663
+#: html/inc/prefs_util.inc:675
 msgid "Default"
 msgstr "Predefinito"
 
@@ -278,7 +279,7 @@ msgid "Account"
 msgstr "Account"
 
 #: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:296
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:309
 msgid "Preferences"
 msgstr "Preferenze"
 
@@ -331,12 +332,12 @@ msgstr "Tipi di computer"
 msgid "Computing"
 msgstr "Elaborazione"
 
-#: html/inc/bootstrap.inc:193 html/inc/user.inc:567 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:578 html/user/welcome.php:79
 msgid "Community"
 msgstr "Comunità"
 
 #: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:378 html/inc/user.inc:512 html/user/forum_forum.php:76
+#: html/inc/user.inc:391 html/inc/user.inc:523 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Bacheche"
@@ -380,11 +381,11 @@ msgstr "Lingue"
 
 #: html/inc/cert.inc:97
 msgid "Share on Facebook"
-msgstr ""
+msgstr "Condividi su Facebook"
 
 #: html/inc/cert.inc:106
 msgid "Share on Twitter"
-msgstr ""
+msgstr "Condividi su X"
 
 #. names for the above
 #: html/inc/forum.inc:44
@@ -468,7 +469,7 @@ msgstr "Cerca nel forum"
 msgid "Advanced search"
 msgstr "Ricerca avanzata"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:382 html/user/pm.php:57
+#: html/inc/forum.inc:155 html/inc/user.inc:395 html/user/pm.php:57
 #: html/user/pm.php:127
 msgid "Private messages"
 msgstr "Messaggi privati"
@@ -481,11 +482,11 @@ msgstr "Domande e risposte"
 msgid "%1 message board"
 msgstr "Bacheca di %1"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:787
+#: html/inc/forum.inc:257 html/inc/result.inc:791
 msgid "Previous"
 msgstr "Precedente"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:796
+#: html/inc/forum.inc:295 html/inc/result.inc:800
 msgid "Next"
 msgstr "Successivo"
 
@@ -539,7 +540,7 @@ msgstr "Non letto"
 msgid "Message %1"
 msgstr "Messaggio %1"
 
-#: html/inc/forum.inc:662 html/inc/user.inc:470 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:481 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "nascosto"
 
@@ -551,8 +552,8 @@ msgstr "Messaggi: %1"
 msgid " - in response to "
 msgstr " - in risposta a "
 
-#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
-#: html/inc/prefs_util.inc:736
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:746
+#: html/inc/prefs_util.inc:748
 msgid "Edit"
 msgstr "Modifica"
 
@@ -676,10 +677,6 @@ msgstr "Per chi viola le regole, la possibilità di scrivere può essere sospesa
 msgid "If your account is suspended, don't create a new one."
 msgstr "Se il tuo account viene sospeso non crearne uno nuovo."
 
-#: html/inc/forum.inc:858
-msgid "Rules:"
-msgstr "Regole:"
-
 #: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "Rendi visibile"
@@ -720,7 +717,7 @@ msgstr "Vota per non bannare l'utente"
 msgid "Start vote to banish author"
 msgstr "Inizia la votazione per bannare l'utente"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:369
+#: html/inc/forum.inc:1211 html/inc/user.inc:382
 #: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Cancella"
@@ -801,16 +798,16 @@ msgstr "Nessun host"
 msgid "Unavailable"
 msgstr "Non disponibile"
 
-#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:664
+#: html/inc/host.inc:56 html/inc/prefs.inc:712 html/inc/prefs_util.inc:676
 msgid "Home"
 msgstr "Casa"
 
-#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:666
+#: html/inc/host.inc:57 html/inc/prefs.inc:713 html/inc/prefs_util.inc:678
 #: html/user/server_status.php:144
 msgid "Work"
 msgstr "Lavoro"
 
-#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:665
+#: html/inc/host.inc:58 html/inc/prefs.inc:714 html/inc/prefs_util.inc:677
 msgid "School"
 msgstr "Scuola"
 
@@ -858,18 +855,18 @@ msgstr "UTC %1"
 msgid "Owner"
 msgstr "Proprietario"
 
-#: html/inc/host.inc:109 html/inc/host.inc:401
+#: html/inc/host.inc:109 html/inc/host.inc:402
 msgid "Anonymous"
 msgstr "Anonimo"
 
-#: html/inc/host.inc:113 html/inc/result.inc:694 html/user/apps.php:57
+#: html/inc/host.inc:113 html/inc/result.inc:698 html/user/apps.php:57
 msgid "Created"
 msgstr "Creato"
 
 #: html/inc/host.inc:115 html/inc/host.inc:236 html/inc/host.inc:239
-#: html/inc/host.inc:745 html/inc/team.inc:111 html/inc/team.inc:233
-#: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:382
-#: html/inc/team.inc:385 html/inc/user.inc:127 html/inc/user.inc:144
+#: html/inc/host.inc:746 html/inc/team.inc:111 html/inc/team.inc:233
+#: html/inc/team.inc:237 html/inc/team.inc:239 html/inc/team.inc:383
+#: html/inc/team.inc:386 html/inc/user.inc:127 html/inc/user.inc:144
 #: html/user/profile_search_action.php:45
 #: html/user/team_change_founder_form.php:83 html/user/team_email_list.php:76
 #: html/user/team_remove_inactive_form.php:44 html/user/top_users.php:51
@@ -902,7 +899,7 @@ msgstr "Coprocessori"
 msgid "Virtualization"
 msgstr "Virtualizzazione"
 
-#: html/inc/host.inc:127 html/inc/host.inc:756
+#: html/inc/host.inc:127 html/inc/host.inc:757
 msgid "Operating System"
 msgstr "Sistema operativo"
 
@@ -959,9 +956,9 @@ msgstr "Velocità media di upload"
 msgid "%1 KB/sec"
 msgstr "%1 KB/sec"
 
-#: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:230
-#: html/inc/result.inc:240 html/inc/result.inc:258 html/inc/result.inc:276
-#: html/inc/result.inc:292 html/user/explain_state.php:56
+#: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:232
+#: html/inc/result.inc:242 html/inc/result.inc:260 html/inc/result.inc:278
+#: html/inc/result.inc:294 html/user/explain_state.php:56
 #: html/user/host_app_versions.php:28
 msgid "Unknown"
 msgstr "Sconosciuta"
@@ -988,7 +985,7 @@ msgstr "Dettagli dell'applicazione"
 msgid "Show"
 msgstr "Visualizza"
 
-#: html/inc/host.inc:186 html/inc/host.inc:379 html/inc/user.inc:170
+#: html/inc/host.inc:186 html/inc/host.inc:380 html/inc/user.inc:170
 msgid "Tasks"
 msgstr "Attività"
 
@@ -1025,7 +1022,7 @@ msgstr "Efficienza media CPU"
 msgid "Task duration correction factor"
 msgstr "Fattore di correzione durata delle attività"
 
-#: html/inc/host.inc:207 html/inc/host.inc:734
+#: html/inc/host.inc:207 html/inc/host.inc:735
 msgid "Location"
 msgstr "Posizione"
 
@@ -1041,7 +1038,7 @@ msgstr "Unisci risultati multipli di questo computer"
 msgid "Merge"
 msgstr "Unisci"
 
-#: html/inc/host.inc:216 html/inc/host.inc:759
+#: html/inc/host.inc:216 html/inc/host.inc:760
 msgid "Last contact"
 msgstr "Ultimo contatto"
 
@@ -1049,30 +1046,30 @@ msgstr "Ultimo contatto"
 msgid "Info"
 msgstr "Info"
 
-#: html/inc/host.inc:230 html/inc/host.inc:737 html/inc/team.inc:375
+#: html/inc/host.inc:230 html/inc/host.inc:738 html/inc/team.inc:376
 #: html/user/per_app_list.php:61 html/user/top_users.php:47
 msgid "Rank"
 msgstr "Posizione"
 
-#: html/inc/host.inc:235 html/inc/host.inc:742
+#: html/inc/host.inc:235 html/inc/host.inc:743
 msgid "Avg. credit"
 msgstr "Media dei crediti"
 
 #: html/inc/host.inc:238 html/inc/team.inc:112 html/inc/team.inc:234
-#: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:381
-#: html/inc/team.inc:384 html/inc/user.inc:145
+#: html/inc/team.inc:242 html/inc/team.inc:244 html/inc/team.inc:382
+#: html/inc/team.inc:385 html/inc/user.inc:145
 #: html/user/team_change_founder_form.php:84 html/user/team_email_list.php:77
 #: html/user/team_remove_inactive_form.php:45 html/user/top_users.php:50
 #: html/user/top_users.php:53
 msgid "Recent average credit"
 msgstr "Media dei crediti recenti"
 
-#: html/inc/host.inc:243 html/inc/host.inc:751 html/inc/result.inc:74
+#: html/inc/host.inc:243 html/inc/host.inc:752 html/inc/result.inc:74
 #: html/user/host_app_versions.php:23
 msgid "CPU"
 msgstr "CPU"
 
-#: html/inc/host.inc:244 html/inc/host.inc:753
+#: html/inc/host.inc:244 html/inc/host.inc:754
 msgid "GPU"
 msgstr "GPU"
 
@@ -1096,96 +1093,96 @@ msgstr ", la CPU supporta la virtualizzazione ma il supporto è disattivato"
 msgid ", CPU does not have hardware virtualization support"
 msgstr ", la CPU non supporta la virtualizzazione"
 
-#: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:414 html/inc/user.inc:507
+#: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:608
+#: html/inc/user.inc:427 html/inc/user.inc:518
 msgid "None"
 msgstr "Nessuno"
 
-#: html/inc/host.inc:356
+#: html/inc/host.inc:357
 msgid "(%1 processors)"
 msgstr "(%1 processori)"
 
-#: html/inc/host.inc:375
+#: html/inc/host.inc:376
 msgid "Details"
 msgstr "Dettagli"
 
-#: html/inc/host.inc:385
+#: html/inc/host.inc:386
 msgid "Cross-project stats:"
 msgstr "Statistiche di tutti i progetti:"
 
-#: html/inc/host.inc:569
+#: html/inc/host.inc:570
 msgid "Host %1 has overlapping lifetime:"
 msgstr "L'host %1 ha un tempo di sovrapposizione:"
 
-#: html/inc/host.inc:576
+#: html/inc/host.inc:577
 msgid "Host %1 has an incompatible OS:"
 msgstr "L'Host %1 ha un SO incompatibile:"
 
-#: html/inc/host.inc:582
+#: html/inc/host.inc:583
 msgid "Host %1 has an incompatible CPU:"
 msgstr "L'host %1 ha una CPU incompatibile:"
 
-#: html/inc/host.inc:649
+#: html/inc/host.inc:650
 msgid "same host"
 msgstr "stesso host"
 
-#: html/inc/host.inc:652
+#: html/inc/host.inc:653
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "Non è possibile unire host %1 con host %2 - sono incompatibili"
 
-#: html/inc/host.inc:655
+#: html/inc/host.inc:656
 msgid "Merging host %1 into host %2"
 msgstr "Unione host %1 con host %2"
 
-#: html/inc/host.inc:672
+#: html/inc/host.inc:673
 msgid "Couldn't update credit of new computer"
 msgstr "Non posso aggiornare il credito dei nuovi computer"
 
-#: html/inc/host.inc:676
+#: html/inc/host.inc:677
 msgid "Couldn't update results"
 msgstr "Non posso aggiornare i risultati"
 
-#: html/inc/host.inc:681
+#: html/inc/host.inc:682
 msgid "Couldn't retire old computer"
 msgstr "Non posso ritirare un vecchio computer"
 
-#: html/inc/host.inc:683
+#: html/inc/host.inc:684
 msgid "Retired old computer %1"
 msgstr "Ritirato il vecchio computer %1"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "Show:"
 msgstr "Visualizza:"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "All computers"
 msgstr "Tutti i computer"
 
-#: html/inc/host.inc:706 html/inc/host.inc:709
+#: html/inc/host.inc:707 html/inc/host.inc:710
 msgid "Only computers active in past 30 days"
 msgstr "Solo computer attivi negli ultimi 30 giorni"
 
-#: html/inc/host.inc:722 html/inc/result.inc:702
+#: html/inc/host.inc:723 html/inc/result.inc:706
 msgid "Computer ID"
 msgstr "ID del computer"
 
-#: html/inc/host.inc:727 html/inc/result.inc:692 html/inc/team.inc:229
-#: html/inc/team.inc:376 html/inc/user.inc:232 html/user/account_finish.php:41
-#: html/user/per_app_list.php:61 html/user/team_admins.php:65
+#: html/inc/host.inc:728 html/inc/result.inc:696 html/inc/team.inc:229
+#: html/inc/team.inc:377 html/inc/user.inc:244 html/user/account_finish.php:41
+#: html/user/per_app_list.php:61 html/user/team_admins.php:66
 #: html/user/team_change_founder_form.php:82 html/user/team_email_list.php:74
 #: html/user/top_users.php:48 html/user/user_search.php:128
 msgid "Name"
 msgstr "Nome"
 
-#: html/inc/host.inc:731
+#: html/inc/host.inc:732
 msgid "Model"
 msgstr "Modello"
 
-#: html/inc/host.inc:748
+#: html/inc/host.inc:749
 msgid "BOINC<br>version"
 msgstr "Versione<br>BOINC"
 
-#: html/inc/host.inc:817 html/user/merge_by_name.php:65
+#: html/inc/host.inc:818 html/user/merge_by_name.php:65
 msgid "Merge computers by name"
 msgstr "Unisci i computer per nome"
 
@@ -1246,7 +1243,7 @@ msgstr "Anteprima"
 msgid "Subject"
 msgstr "Oggetto"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:516
+#: html/inc/pm.inc:105 html/inc/user.inc:527
 msgid "Send private message"
 msgstr "Spedisci un messaggio privato"
 
@@ -1535,7 +1532,7 @@ msgstr "Esempio: BOINC può trasferire al massimo 2000 MB di dati ogni 30 giorni
 msgid "MB every"
 msgstr "MB ogni"
 
-#: html/inc/prefs.inc:232 html/inc/util.inc:428
+#: html/inc/prefs.inc:232 html/inc/util.inc:423
 msgid "days"
 msgstr "giorni"
 
@@ -1606,12 +1603,12 @@ msgid "Separate preferences for %1"
 msgstr "Preferenze separate per %1"
 
 #: html/inc/prefs.inc:535 html/inc/prefs.inc:576
-#: html/inc/prefs_project.inc:324
+#: html/inc/prefs_project.inc:334
 msgid "Edit preferences"
 msgstr "Modifica le preferenze"
 
-#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:735
-#: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:36
+#: html/inc/prefs.inc:536 html/inc/prefs_util.inc:747
+#: html/user/edit_forum_preferences_form.php:149 html/user/team_admins.php:37
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -1636,11 +1633,11 @@ msgstr "Dispositivi android"
 msgid "(Switch view)"
 msgstr "(Cambia visuale)"
 
-#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:304
+#: html/inc/prefs.inc:562 html/inc/prefs_project.inc:314
 msgid "Combined preferences"
 msgstr "Preferenze combinate"
 
-#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:316
+#: html/inc/prefs.inc:569 html/inc/prefs_project.inc:326
 msgid "Primary (default) preferences"
 msgstr "Impostazioni principali (predefinite)"
 
@@ -1656,15 +1653,15 @@ msgstr "Aggiungi delle preferenze"
 msgid "Update preferences"
 msgstr "Aggiorna le preferenze"
 
-#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:700
-#: html/inc/prefs_util.inc:703
+#: html/inc/prefs.inc:675 html/inc/prefs_util.inc:712
+#: html/inc/prefs_util.inc:715
 #: html/project.sample/project_specific_prefs.inc:71
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "yes"
 msgstr "sì"
 
-#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:700
-#: html/inc/prefs_util.inc:703
+#: html/inc/prefs.inc:677 html/inc/prefs_util.inc:712
+#: html/inc/prefs_util.inc:715
 #: html/project.sample/project_specific_prefs.inc:73
 #: html/project.sample/project_specific_prefs.inc:257
 msgid "no"
@@ -1680,11 +1677,11 @@ msgid ""
 "New computers will use this location for computing and project preferences."
 msgstr "I nuovi computer utilizzeranno questo luogo per le preferenze di elaborazione e dei progetti."
 
-#: html/inc/prefs_project.inc:54
+#: html/inc/prefs_project.inc:55
 msgid "Resource share"
 msgstr "Allocazione risorse"
 
-#: html/inc/prefs_project.inc:55
+#: html/inc/prefs_project.inc:56
 msgid ""
 "Determines the proportion of your computer's resources allocated to this "
 "project. For example, if you participate in two BOINC projects with resource"
@@ -1692,55 +1689,59 @@ msgid ""
 "second will get 2/3."
 msgstr "Determina la proporzione delle risorse allocate del tuo computer a questo progetto. Ad esempio, se participi a due progetti BOINC con uno share di risorse di 100 e 200, il primo avrà 1/3 delle tue risorse, mentre il secondo avrà 2/3."
 
-#: html/inc/prefs_project.inc:63
+#: html/inc/prefs_project.inc:64
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
 msgstr "Accelerare le attività GPU riservando a ciascuna una CPU?"
 
-#: html/inc/prefs_project.inc:72
+#: html/inc/prefs_project.inc:73
 msgid "Use CPU"
 msgstr "Usa la CPU"
 
-#: html/inc/prefs_project.inc:81
+#: html/inc/prefs_project.inc:82
 msgid "Use AMD GPU"
 msgstr "Usa GPU AMD"
 
-#: html/inc/prefs_project.inc:90
+#: html/inc/prefs_project.inc:91
 msgid "Use NVIDIA GPU"
 msgstr "Utilizzare GPU NVIDIA"
 
-#: html/inc/prefs_project.inc:99
+#: html/inc/prefs_project.inc:100
 msgid "Use Intel GPU"
 msgstr "Utilizzare GPU Intel"
 
 #: html/inc/prefs_project.inc:109
+msgid "Use Apple GPU"
+msgstr "Usa la GPU Apple"
+
+#: html/inc/prefs_project.inc:119
 msgid "Run test applications?"
 msgstr "Eseguire le applicazioni di test?"
 
-#: html/inc/prefs_project.inc:110
+#: html/inc/prefs_project.inc:120
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
 msgstr "Questo ci aiuta a migliorare le applicazioni, ma potrebbe causare errori alle WU in elaborazione sul tuo computer"
 
-#: html/inc/prefs_project.inc:117
+#: html/inc/prefs_project.inc:127
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this "
 "address."
 msgstr "Verranno mandate email da %1; accertati che il tuo filtro di spam accetti questo indirizzo."
 
-#: html/inc/prefs_project.inc:125
+#: html/inc/prefs_project.inc:135
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "Sei d'accordo che %1 ed il tuo team (se ne hai uno) possano inviarti email?"
 
-#: html/inc/prefs_project.inc:132
+#: html/inc/prefs_project.inc:142
 msgid "Should %1 show your computers on its web site?"
 msgstr "%1 può mostrare i tuoi computer sul suo sito web?"
 
-#: html/inc/prefs_project.inc:301
+#: html/inc/prefs_project.inc:311
 msgid "(Switch View)"
 msgstr "(Cambia visuale)"
 
-#: html/inc/prefs_project.inc:308
+#: html/inc/prefs_project.inc:318
 msgid "Project specific settings"
 msgstr "Impostazioni specifiche per il progetto"
 
@@ -1752,19 +1753,19 @@ msgstr "sede non valida: %1"
 msgid "bad subset: %1"
 msgstr "sottoclasse non valida: %1"
 
-#: html/inc/prefs_util.inc:274 html/inc/prefs_util.inc:291
+#: html/inc/prefs_util.inc:284 html/inc/prefs_util.inc:303
 msgid "Database error:"
 msgstr "Errore database:"
 
-#: html/inc/prefs_util.inc:595 html/inc/prefs_util.inc:619
+#: html/inc/prefs_util.inc:607 html/inc/prefs_util.inc:631
 msgid "and"
 msgstr "e le"
 
-#: html/inc/prefs_util.inc:708 html/user/forum_search.php:55
+#: html/inc/prefs_util.inc:720 html/user/forum_search.php:55
 msgid "no limit"
 msgstr "nessun limite"
 
-#: html/inc/prefs_util.inc:733 html/user/team_admins.php:82
+#: html/inc/prefs_util.inc:745 html/user/team_admins.php:83
 msgid "Add"
 msgstr "Aggiungi"
 
@@ -1838,347 +1839,351 @@ msgstr "GPU AMD"
 msgid "Intel GPU"
 msgstr "GPU Intel"
 
-#: html/inc/result.inc:105
+#: html/inc/result.inc:82
+msgid "Apple GPU"
+msgstr "GPU Apple"
+
+#: html/inc/result.inc:107
 msgid "pending"
 msgstr "in attesa"
 
-#: html/inc/result.inc:128 html/user/forum_search.php:62
+#: html/inc/result.inc:130 html/user/forum_search.php:62
 msgid "All"
 msgstr "Tutto"
 
-#: html/inc/result.inc:129 html/inc/result.inc:190 html/inc/result.inc:237
+#: html/inc/result.inc:131 html/inc/result.inc:192 html/inc/result.inc:239
 #: html/user/server_status.php:174
 msgid "In progress"
 msgstr "In corso"
 
-#: html/inc/result.inc:130
+#: html/inc/result.inc:132
 msgid "Validation pending"
 msgstr "Validazione in attesa"
 
-#: html/inc/result.inc:131
+#: html/inc/result.inc:133
 msgid "Validation inconclusive"
 msgstr "Validazione inconclusiva"
 
-#: html/inc/result.inc:132 html/inc/result.inc:282
+#: html/inc/result.inc:134 html/inc/result.inc:284
 msgid "Valid"
 msgstr "Valido"
 
-#: html/inc/result.inc:133 html/inc/result.inc:285
+#: html/inc/result.inc:135 html/inc/result.inc:287
 msgid "Invalid"
 msgstr "Non valido"
 
-#: html/inc/result.inc:134 html/inc/result.inc:223
+#: html/inc/result.inc:136 html/inc/result.inc:225
 msgid "Error"
 msgstr "Errore"
 
-#: html/inc/result.inc:188 html/inc/result.inc:235
+#: html/inc/result.inc:190 html/inc/result.inc:237
 #: html/user/explain_state.php:34
 msgid "Inactive"
 msgstr "Non attivo"
 
-#: html/inc/result.inc:189 html/inc/result.inc:236
+#: html/inc/result.inc:191 html/inc/result.inc:238
 #: html/user/explain_state.php:37 html/user/server_status.php:173
 msgid "Unsent"
 msgstr "Non inviato"
 
-#: html/inc/result.inc:195
+#: html/inc/result.inc:197
 msgid "Completed, waiting for validation"
 msgstr "Completato, in attesa di validazione"
 
-#: html/inc/result.inc:196
+#: html/inc/result.inc:198
 msgid "Completed and validated"
 msgstr "Completato e validato"
 
-#: html/inc/result.inc:197
+#: html/inc/result.inc:199
 msgid "Completed, marked as invalid"
 msgstr "Completato, segnato come non valido"
 
-#: html/inc/result.inc:198
+#: html/inc/result.inc:200
 msgid "Completed, can't validate"
 msgstr "Completato, impossibile da validare"
 
-#: html/inc/result.inc:199
+#: html/inc/result.inc:201
 msgid "Completed, validation inconclusive"
 msgstr "Completato, validazione inconclusiva"
 
-#: html/inc/result.inc:200
+#: html/inc/result.inc:202
 msgid "Completed, too late to validate"
 msgstr "Completato, troppo tardi per validarlo"
 
-#: html/inc/result.inc:202
+#: html/inc/result.inc:204
 msgid "Completed"
 msgstr "Completato"
 
-#: html/inc/result.inc:203 html/inc/result.inc:247
+#: html/inc/result.inc:205 html/inc/result.inc:249
 #: html/user/explain_state.php:62
 msgid "Couldn't send"
 msgstr "Impossibile inviare"
 
-#: html/inc/result.inc:208 html/inc/result.inc:271
+#: html/inc/result.inc:210 html/inc/result.inc:273
 msgid "Cancelled by server"
 msgstr "Cancellato dal server"
 
-#: html/inc/result.inc:213
+#: html/inc/result.inc:215
 msgid "Not started by deadline - canceled"
 msgstr "Non avviato a causa della scadenza - cancellato"
 
-#: html/inc/result.inc:216
+#: html/inc/result.inc:218
 msgid "Error while downloading"
 msgstr "Errore durante il download"
 
-#: html/inc/result.inc:218
+#: html/inc/result.inc:220
 msgid "Error while computing"
 msgstr "Errore durante l'elaborazione"
 
-#: html/inc/result.inc:219
+#: html/inc/result.inc:221
 msgid "Error while uploading"
 msgstr "Errore durante l'invio dei dati"
 
-#: html/inc/result.inc:220
+#: html/inc/result.inc:222
 msgid "Aborted"
 msgstr "Annullato"
 
-#: html/inc/result.inc:221 html/inc/result.inc:274
+#: html/inc/result.inc:223 html/inc/result.inc:276
 msgid "Upload failed"
 msgstr "Invio non riuscito"
 
-#: html/inc/result.inc:224
+#: html/inc/result.inc:226
 msgid "Timed out - no response"
 msgstr "Scaduto - nessuna risposta"
 
-#: html/inc/result.inc:225 html/inc/result.inc:254
+#: html/inc/result.inc:227 html/inc/result.inc:256
 #: html/user/explain_state.php:71
 msgid "Didn't need"
 msgstr "Non necessario"
 
-#: html/inc/result.inc:226 html/inc/result.inc:255
+#: html/inc/result.inc:228 html/inc/result.inc:257
 #: html/user/explain_state.php:74
 msgid "Validate error"
 msgstr "Errore di validazione"
 
-#: html/inc/result.inc:227 html/inc/result.inc:256
+#: html/inc/result.inc:229 html/inc/result.inc:258
 msgid "Abandoned"
 msgstr "Abbandonato"
 
-#: html/inc/result.inc:238 html/user/explain_state.php:43
+#: html/inc/result.inc:240 html/user/explain_state.php:43
 msgid "Over"
 msgstr "Terminato"
 
-#: html/inc/result.inc:246 html/user/explain_state.php:59
+#: html/inc/result.inc:248 html/user/explain_state.php:59
 msgid "Success"
 msgstr "Successo"
 
-#: html/inc/result.inc:250
+#: html/inc/result.inc:252
 msgid "Computation error"
 msgstr "Errore di calcolo"
 
-#: html/inc/result.inc:252
+#: html/inc/result.inc:254
 msgid "Redundant result"
 msgstr "Risultato ridondante"
 
-#: html/inc/result.inc:253 html/user/explain_state.php:68
+#: html/inc/result.inc:255 html/user/explain_state.php:68
 msgid "No reply"
 msgstr "Nessuna risposta"
 
-#: html/inc/result.inc:263 html/user/explain_state.php:85
+#: html/inc/result.inc:265 html/user/explain_state.php:85
 msgid "New"
 msgstr "Nuovo"
 
-#: html/inc/result.inc:264 html/user/explain_state.php:91
+#: html/inc/result.inc:266 html/user/explain_state.php:91
 msgid "Downloading"
 msgstr "Download in corso"
 
-#: html/inc/result.inc:265
+#: html/inc/result.inc:267
 msgid "Processing"
 msgstr "In elaborazione"
 
-#: html/inc/result.inc:266
+#: html/inc/result.inc:268
 msgid "Compute error"
 msgstr "Errore di calcolo"
 
-#: html/inc/result.inc:267 html/user/explain_state.php:97
+#: html/inc/result.inc:269 html/user/explain_state.php:97
 msgid "Uploading"
 msgstr "Invio in corso"
 
-#: html/inc/result.inc:268 html/user/explain_state.php:88
+#: html/inc/result.inc:270 html/user/explain_state.php:88
 msgid "Done"
 msgstr "Finito"
 
-#: html/inc/result.inc:273
+#: html/inc/result.inc:275
 msgid "Aborted by user"
 msgstr "Annullato dall'utente"
 
-#: html/inc/result.inc:281
+#: html/inc/result.inc:283
 msgid "Initial"
 msgstr "Inizio"
 
-#: html/inc/result.inc:287
+#: html/inc/result.inc:289
 msgid "Not necessary"
 msgstr "Non necessario"
 
-#: html/inc/result.inc:288
+#: html/inc/result.inc:290
 msgid "Workunit error - check skipped"
 msgstr "Errore contenuto WU - il controllo è stato ignorato"
 
-#: html/inc/result.inc:289
+#: html/inc/result.inc:291
 msgid "Checked, but no consensus yet"
 msgstr "Controllato, ma ancora non approvato"
 
-#: html/inc/result.inc:290
+#: html/inc/result.inc:292
 msgid "Task was reported too late to validate"
 msgstr "L'attività è stata ricevuta troppo tardi per poterla validare"
 
-#: html/inc/result.inc:316
+#: html/inc/result.inc:322
 msgid "Couldn't send result"
 msgstr "Non posso mandare il risultato"
 
-#: html/inc/result.inc:320
+#: html/inc/result.inc:326
 msgid "Too many errors (may have bug)"
 msgstr "Troppi errori (potrebbe avere problemi)"
 
-#: html/inc/result.inc:324
+#: html/inc/result.inc:330
 msgid "Too many results (may be nondeterministic)"
 msgstr "Troppi risultati (può essere non deterministico)"
 
-#: html/inc/result.inc:328
+#: html/inc/result.inc:334
 msgid "Too many total results"
 msgstr "Troppi risultati totali"
 
-#: html/inc/result.inc:332
+#: html/inc/result.inc:338
 msgid "WU cancelled"
 msgstr "Workunit cancellata"
 
-#: html/inc/result.inc:336
+#: html/inc/result.inc:342
 msgid "Canonical result is missing"
 msgstr "Risultato canonico mancante"
 
-#: html/inc/result.inc:340
+#: html/inc/result.inc:346
 msgid "Unrecognized Error: %1"
 msgstr "Errore non riconosciuto: %1"
 
-#: html/inc/result.inc:369
+#: html/inc/result.inc:373
 msgid "Task name"
 msgstr "Nome attività"
 
-#: html/inc/result.inc:369 html/inc/result.inc:374 html/inc/result.inc:377
-#: html/inc/result.inc:380
+#: html/inc/result.inc:373 html/inc/result.inc:378 html/inc/result.inc:381
+#: html/inc/result.inc:384
 msgid "click for details"
 msgstr "clicca per i dettagli"
 
-#: html/inc/result.inc:369
+#: html/inc/result.inc:373
 msgid "Show IDs"
 msgstr "Mostra gli ID"
 
-#: html/inc/result.inc:374
+#: html/inc/result.inc:378
 msgid "Show names"
 msgstr "Visualizza nomi"
 
-#: html/inc/result.inc:377 html/user/result.php:36
+#: html/inc/result.inc:381 html/user/result.php:36
 msgid "Task"
 msgstr "Attività"
 
-#: html/inc/result.inc:380
+#: html/inc/result.inc:384
 msgid "Work unit"
 msgstr "Elaborazione"
 
-#: html/inc/result.inc:391
+#: html/inc/result.inc:395
 msgid "Computer"
 msgstr "Computer"
 
-#: html/inc/result.inc:394 html/inc/result.inc:695
+#: html/inc/result.inc:398 html/inc/result.inc:699
 msgid "Sent"
 msgstr "Inviato"
 
-#: html/inc/result.inc:395
+#: html/inc/result.inc:399
 msgid "Time reported<br />or deadline"
 msgstr "Tempo alla consegna<br />o scadenza"
 
-#: html/inc/result.inc:396
+#: html/inc/result.inc:400
 msgid "explain"
 msgstr "spiega"
 
-#: html/inc/result.inc:397 html/user/server_status.php:120
+#: html/inc/result.inc:401 html/user/server_status.php:120
 msgid "Status"
 msgstr "Stato"
 
-#: html/inc/result.inc:401
+#: html/inc/result.inc:405
 msgid "Run time<br />(sec)"
 msgstr "Tempo di elaborazione<br />(sec)"
 
-#: html/inc/result.inc:402
+#: html/inc/result.inc:406
 msgid "CPU time<br />(sec)"
 msgstr "Tempo CPU<br/>(sec)"
 
-#: html/inc/result.inc:403 html/inc/result.inc:706
+#: html/inc/result.inc:407 html/inc/result.inc:710
 msgid "Credit"
 msgstr "Crediti"
 
-#: html/inc/result.inc:407 html/inc/result.inc:816
+#: html/inc/result.inc:411 html/inc/result.inc:820
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Applicazione"
 
-#: html/inc/result.inc:693
+#: html/inc/result.inc:697
 msgid "Workunit"
 msgstr "Elaborazione"
 
-#: html/inc/result.inc:696
+#: html/inc/result.inc:700
 msgid "Report deadline"
 msgstr "Avvisa della scadenza imminente"
 
-#: html/inc/result.inc:697
+#: html/inc/result.inc:701
 msgid "Received"
 msgstr "Ricevuta"
 
-#: html/inc/result.inc:698
+#: html/inc/result.inc:702
 msgid "Server state"
 msgstr "Stato server"
 
-#: html/inc/result.inc:699
+#: html/inc/result.inc:703
 msgid "Outcome"
 msgstr "Risultato"
 
-#: html/inc/result.inc:700
+#: html/inc/result.inc:704
 msgid "Client state"
 msgstr "Stato client"
 
-#: html/inc/result.inc:701
+#: html/inc/result.inc:705
 msgid "Exit status"
 msgstr "Stato di uscita"
 
-#: html/inc/result.inc:703
+#: html/inc/result.inc:707
 msgid "Run time"
 msgstr "Tempo di elaborazione"
 
-#: html/inc/result.inc:704
+#: html/inc/result.inc:708
 msgid "CPU time"
 msgstr "Tempo CPU"
 
-#: html/inc/result.inc:705
+#: html/inc/result.inc:709
 msgid "Validate state"
 msgstr "Stato di validazione"
 
-#: html/inc/result.inc:707
+#: html/inc/result.inc:711
 msgid "Device peak FLOPS"
 msgstr "Picco di FLOP del dispositivo"
 
-#: html/inc/result.inc:708
+#: html/inc/result.inc:712
 msgid "Application version"
 msgstr "Versione dell'applicazione"
 
-#: html/inc/result.inc:732
+#: html/inc/result.inc:736
 msgid "Output files"
 msgstr "File di output"
 
-#: html/inc/result.inc:738
+#: html/inc/result.inc:742
 msgid "Stderr output"
 msgstr "Output su Stderr"
 
-#: html/inc/result.inc:798
+#: html/inc/result.inc:802
 msgid "State"
 msgstr "Stato"
 
-#: html/inc/result.inc:839
+#: html/inc/result.inc:843
 msgid "Task name:"
 msgstr "Nome attività:"
 
@@ -2194,7 +2199,7 @@ msgstr "Parole chiave"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Trova i team che hanno queste parole nel loro nome o nella loro descrizione"
 
-#: html/inc/team.inc:50 html/inc/team.inc:497
+#: html/inc/team.inc:50 html/inc/team.inc:498
 msgid "Type of team"
 msgstr "Tipo di team"
 
@@ -2202,7 +2207,7 @@ msgstr "Tipo di team"
 msgid "Show only active teams"
 msgstr "Mostra solo i team attivi"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1190 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1207 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Cerca"
@@ -2248,7 +2253,7 @@ msgstr "Sito web"
 msgid "Cross-project stats"
 msgstr "Statistiche di tutti i progetti"
 
-#: html/inc/team.inc:137 html/inc/team.inc:391 html/user/team_search.php:86
+#: html/inc/team.inc:137 html/inc/team.inc:392 html/user/team_search.php:86
 msgid "Type"
 msgstr "Tipo"
 
@@ -2287,7 +2292,7 @@ msgstr "Risposta di %1"
 msgid "Team foundership change"
 msgstr "Cambio di fondatore del team"
 
-#: html/inc/team.inc:170 html/inc/team.inc:377
+#: html/inc/team.inc:170 html/inc/team.inc:378
 msgid "Members"
 msgstr "Membri"
 
@@ -2348,55 +2353,55 @@ msgstr "Per fare questa operazione devi essere il fondatore."
 msgid "This operation requires team admin privileges"
 msgstr "Per fare questa operazione devi avere i privilegi da amministratore"
 
-#: html/inc/team.inc:466
+#: html/inc/team.inc:467
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
 " be overwritten. Edit the %1 BOINC-wide team %2 instead."
 msgstr "ATTENZIONE: questo è un team esteso. Se fai delle modifiche qui, saranno presto sovrascritte. Piuttosto modifica il %1 team esteso %2."
 
-#: html/inc/team.inc:472
+#: html/inc/team.inc:473
 msgid ""
 "%1 Privacy note %2: if you create a team, your project preferences (resource"
 " share, graphics preferences) will be visible to the public."
 msgstr "%1 Informativa sulla privacy %2: se hai intenzione di creare un team, le preferenze del tuo progetto (allocazione delle risorse, preferenze grafiche) saranno visibili a tutti."
 
-#: html/inc/team.inc:476
+#: html/inc/team.inc:477
 msgid "Team name, text version"
 msgstr "Nome del team, versione testuale"
 
-#: html/inc/team.inc:477
+#: html/inc/team.inc:478
 msgid "Don't use HTML tags."
 msgstr "Non usare i tag HTML."
 
-#: html/inc/team.inc:480
+#: html/inc/team.inc:481
 msgid "Team name, HTML version"
 msgstr "Nome del team, versione HTML"
 
-#: html/inc/team.inc:482 html/inc/team.inc:492
+#: html/inc/team.inc:483 html/inc/team.inc:493
 msgid "You may use %1 limited HTML tags %2."
 msgstr "Puoi usare %1 un numero limitato di tag HTML %2."
 
-#: html/inc/team.inc:483
+#: html/inc/team.inc:484
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Se non conosci l'HTML, lascia questo campo vuoto."
 
-#: html/inc/team.inc:486
+#: html/inc/team.inc:487
 msgid "URL of team web page, if any"
 msgstr "URL del sito web del team, se esiste"
 
-#: html/inc/team.inc:486
+#: html/inc/team.inc:487
 msgid "without \"http://\""
 msgstr "senza \"http://\""
 
-#: html/inc/team.inc:487
+#: html/inc/team.inc:488
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Questo indirizzo sarà linkato nella pagina del team su questo sito."
 
-#: html/inc/team.inc:490
+#: html/inc/team.inc:491
 msgid "Description of team"
 msgstr "Descrizione del team"
 
-#: html/inc/team.inc:506
+#: html/inc/team.inc:507
 msgid "Accept new members?"
 msgstr "Accettare nuovi membri?"
 
@@ -2474,8 +2479,8 @@ msgstr "Membro dal"
 msgid "Computers on this account"
 msgstr "Computer di questo account"
 
-#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:280
-#: html/inc/user.inc:369 html/inc/user.inc:468 html/inc/user.inc:540
+#: html/inc/user.inc:167 html/inc/user.inc:170 html/inc/user.inc:293
+#: html/inc/user.inc:382 html/inc/user.inc:479 html/inc/user.inc:551
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "Visualizza"
@@ -2488,8 +2493,8 @@ msgstr "ID su tutti i progetti (CPID)"
 msgid "Cross-project statistics"
 msgstr "Statistiche di tutti i progetti"
 
-#: html/inc/user.inc:186 html/inc/user.inc:414 html/inc/user.inc:505
-#: html/inc/user.inc:507 html/user/user_search.php:129
+#: html/inc/user.inc:186 html/inc/user.inc:427 html/inc/user.inc:516
+#: html/inc/user.inc:518 html/user/user_search.php:129
 msgid "Team"
 msgstr "Team"
 
@@ -2497,159 +2502,163 @@ msgstr "Team"
 msgid "Cross-project"
 msgstr "Inter-progetto"
 
-#: html/inc/user.inc:245 html/inc/user.inc:460
+#: html/inc/user.inc:257 html/inc/user.inc:472
 msgid "URL"
 msgstr "URL"
 
-#: html/inc/user.inc:252
+#: html/inc/user.inc:258
+msgid "Invalid URL"
+msgstr "URL non valido"
+
+#: html/inc/user.inc:265
 msgid "Postal code"
 msgstr "Codice postale"
 
-#: html/inc/user.inc:254 html/inc/user.inc:450
+#: html/inc/user.inc:267 html/inc/user.inc:463
 msgid "%1 member since"
 msgstr "membro dal %1"
 
 #. LDAP accounts can't change email or password
-#: html/inc/user.inc:259 html/inc/user.inc:269
+#: html/inc/user.inc:272 html/inc/user.inc:282
 msgid "Change"
 msgstr "Cambia"
 
-#: html/inc/user.inc:266
+#: html/inc/user.inc:279
 msgid "delete account"
 msgstr "cancellare l'account"
 
-#: html/inc/user.inc:270
+#: html/inc/user.inc:283
 msgid "email address"
 msgstr "indirizzo email"
 
-#: html/inc/user.inc:271
+#: html/inc/user.inc:284
 msgid "password"
 msgstr "password"
 
-#: html/inc/user.inc:272
+#: html/inc/user.inc:285
 msgid "other account info"
 msgstr "altre informazioni sull'account"
 
-#: html/inc/user.inc:276 html/inc/user.inc:449
+#: html/inc/user.inc:289 html/inc/user.inc:462
 msgid "User ID"
 msgstr "ID utente"
 
-#: html/inc/user.inc:276
+#: html/inc/user.inc:289
 msgid "Used in community functions"
 msgstr "Usato nel forum"
 
-#: html/inc/user.inc:279 html/user/weak_auth.php:23
+#: html/inc/user.inc:292 html/user/weak_auth.php:50
 msgid "Account keys"
 msgstr "Chiavi di accesso"
 
-#: html/inc/user.inc:287
+#: html/inc/user.inc:300
 msgid "Account Ownership"
 msgstr "Proprietà dell'account"
 
-#: html/inc/user.inc:299
+#: html/inc/user.inc:312
 msgid "When and how BOINC uses your computer"
 msgstr "Quando e come usi BOINC sul tuo computer"
 
-#: html/inc/user.inc:300 html/user/welcome.php:62
+#: html/inc/user.inc:313 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "Preferenze di elaborazione"
 
-#: html/inc/user.inc:303
+#: html/inc/user.inc:316
 msgid "Message boards and private messages"
 msgstr "Bacheche e messaggi privati"
 
-#: html/inc/user.inc:304 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:317 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "Preferenze per la comunità"
 
-#: html/inc/user.inc:307
+#: html/inc/user.inc:320
 msgid "Preferences for this project"
 msgstr "Preferenze per questo progetto"
 
-#: html/inc/user.inc:308 html/user/prefs.php:33
+#: html/inc/user.inc:321 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Preferenze per %1"
 
-#: html/inc/user.inc:325
+#: html/inc/user.inc:338
 msgid "View the profile of %1"
 msgstr "Mostra il profilo di %1"
 
-#: html/inc/user.inc:326 html/inc/user.inc:373 html/inc/user.inc:540
+#: html/inc/user.inc:339 html/inc/user.inc:386 html/inc/user.inc:551
 msgid "Profile"
 msgstr "Profilo"
 
-#: html/inc/user.inc:371
+#: html/inc/user.inc:384
 msgid "Create"
 msgstr "Crea"
 
-#: html/inc/user.inc:378 html/inc/user.inc:512
+#: html/inc/user.inc:391 html/inc/user.inc:523
 msgid "%1 posts"
 msgstr "%1 messaggi"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:396 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:409 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "Notifiche"
 
-#: html/inc/user.inc:402
+#: html/inc/user.inc:415
 msgid "Quit team"
 msgstr "Abbandona il team"
 
-#: html/inc/user.inc:404 html/inc/user.inc:421
+#: html/inc/user.inc:417 html/inc/user.inc:434
 msgid "Administer"
 msgstr "Amministra"
 
-#: html/inc/user.inc:410 html/inc/user.inc:423
+#: html/inc/user.inc:423 html/inc/user.inc:436
 msgid "(foundership change request pending)"
 msgstr "(richiesta per cambio del fondatore in corso)"
 
-#: html/inc/user.inc:412
+#: html/inc/user.inc:425
 msgid "Member of team"
 msgstr "Membro del team"
 
-#: html/inc/user.inc:414
+#: html/inc/user.inc:427
 msgid "find a team"
 msgstr "trova un team"
 
-#: html/inc/user.inc:425
+#: html/inc/user.inc:438
 msgid "Founder but not member of"
 msgstr "Fondatore ma non membro di"
 
-#: html/inc/user.inc:431
+#: html/inc/user.inc:444
 msgid "Find friends"
 msgstr "Trova degli amici"
 
-#: html/inc/user.inc:439 html/inc/user.inc:441 html/inc/user.inc:523
-#: html/inc/user.inc:525 html/inc/user.inc:534
+#: html/inc/user.inc:452 html/inc/user.inc:454 html/inc/user.inc:534
+#: html/inc/user.inc:536 html/inc/user.inc:545
 msgid "Friends"
 msgstr "Amici"
 
-#: html/inc/user.inc:468 html/inc/user.inc:470 html/user/server_status.php:160
+#: html/inc/user.inc:479 html/inc/user.inc:481 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "Computer"
 
-#: html/inc/user.inc:516
+#: html/inc/user.inc:527
 msgid "Contact"
 msgstr "Contatta"
 
-#: html/inc/user.inc:519
+#: html/inc/user.inc:530
 msgid "This person is a friend"
 msgstr "Questa persona è un amico"
 
-#: html/inc/user.inc:520 html/user/friend.php:250
+#: html/inc/user.inc:531 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "Cancella l'amicizia"
 
-#: html/inc/user.inc:523 html/user/friend.php:39
+#: html/inc/user.inc:534 html/user/friend.php:39
 msgid "Request pending"
 msgstr "Richiesta in corso"
 
-#: html/inc/user.inc:525
+#: html/inc/user.inc:536
 msgid "Add as friend"
 msgstr "Aggiungi come amico"
 
-#: html/inc/user.inc:549
+#: html/inc/user.inc:560
 msgid "Account information"
 msgstr "Informazioni sull'account"
 
@@ -2717,74 +2726,74 @@ msgstr "Non è stato possibile creare l'account"
 msgid "database error, please contact site administrators"
 msgstr "errore del database, contatta gli amministratori del sito"
 
-#: html/inc/util.inc:218
+#: html/inc/util.inc:212
 msgid "log out"
 msgstr "esci"
 
-#: html/inc/util.inc:220
+#: html/inc/util.inc:214
 msgid "log in"
 msgstr "accedi"
 
-#: html/inc/util.inc:358
+#: html/inc/util.inc:352
 msgid "Create an account"
 msgstr "Crea un account"
 
-#: html/inc/util.inc:359
+#: html/inc/util.inc:353
 msgid "Server status page"
 msgstr "Stato server"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:396
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "Si è verificato un errore del database durante l'elaborazione della richiesta; per favore riprova più tardi."
 
-#: html/inc/util.inc:411
+#: html/inc/util.inc:405
 msgid "Unable to handle request"
 msgstr "Impossibile gestire la richiesta"
 
-#: html/inc/util.inc:431
+#: html/inc/util.inc:426
 msgid "hours"
 msgstr "ore"
 
-#: html/inc/util.inc:434
+#: html/inc/util.inc:429
 msgid "min"
 msgstr "minuti"
 
-#: html/inc/util.inc:437
+#: html/inc/util.inc:432
 msgid "sec"
 msgstr "secondi"
 
-#: html/inc/util.inc:618
+#: html/inc/util.inc:612
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "Tempo di connessione al link scaduto. Per favore clicca Indietro, aggiorna la pagina e prova ancora."
 
-#: html/inc/util.inc:693
+#: html/inc/util.inc:687
 msgid "Use BBCode tags to format your text"
 msgstr "Usa i tag BBCode per formattare il testo"
 
-#: html/inc/util.inc:941
+#: html/inc/util.inc:935
 msgid "Project down for maintenance"
 msgstr "Progetto sospeso per manutenzione"
 
-#: html/inc/util.inc:944
+#: html/inc/util.inc:938
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 è temporaneamente fuori servizio per manutenzione. Riprova più tardi."
 
-#: html/inc/util.inc:971
+#: html/inc/util.inc:965
 msgid "Unable to connect to database - please try again later"
 msgstr "Impossibile connettersi al database - per favore riprova più tardi"
 
-#: html/inc/util.inc:975
+#: html/inc/util.inc:969
 msgid "Unable to select database - please try again later"
 msgstr "Impossibile selezionare il database - per favore riprova più tardi"
 
-#: html/inc/util.inc:1169
+#: html/inc/util.inc:1186
 msgid "characters remaining"
 msgstr "caratteri rimanenti"
 
-#: html/inc/util_ops.inc:132
+#: html/inc/util_ops.inc:130
 msgid "Stay logged in on this computer"
 msgstr "Rimani loggato su questo computer"
 
@@ -3351,7 +3360,7 @@ msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or uninstalling the application.\n"
 "If this is not enough you should contact the author."
-msgstr ""
+msgstr "Non forniamo istruzioni per installare queste applicazioni.\nTuttavia, l'autore potrebbe aver fornito informazioni sulla installazione o disinstallazione dell'applicazione.\nSe non è abbastanza, dovresti contattare l'autore."
 
 #: html/user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1 here %2."
@@ -3392,7 +3401,7 @@ msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
 "    "
-msgstr ""
+msgstr "Per scaricare e installare BOINC,\nclicca sul link sotto e segui le istruzioni."
 
 #: html/user/download_software.php:232
 msgid "Go to the BOINC download page."
@@ -3412,7 +3421,7 @@ msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "                Select '%1' from the list,\n"
 "                or enter this project's URL:<p>%2"
-msgstr ""
+msgstr "Al primo avvio, BOINC chiedera di selezionare un progetto..\n                Scegli '%1' dalla lista,\n                o inserisci questo URL di progetto:<p>%2"
 
 #: html/user/download_software.php:287
 msgid "the current versions of BOINC and VirtualBox"
@@ -3525,15 +3534,21 @@ msgid ""
 "again later."
 msgstr "Non possiamo aggiornare il tuo indirizzo email a causa di un problema del database. Per favore riprova più tardi."
 
-#: html/user/edit_email_form.php:26 html/user/edit_email_form.php:48
+#: html/user/edit_email_form.php:26 html/user/edit_email_form.php:50
 msgid "Change email address"
 msgstr "Cambia l'indirizzo email"
 
-#: html/user/edit_email_form.php:38
+#: html/user/edit_email_form.php:27
+msgid ""
+"Note: if you change your email address, your %1weak account key%2 will "
+"change."
+msgstr ""
+
+#: html/user/edit_email_form.php:40
 msgid "New email address"
 msgstr "Nuovo indirizzo email"
 
-#: html/user/edit_email_form.php:39
+#: html/user/edit_email_form.php:41
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "Deve essere un indirizzo email valido del tipo 'nome@dominio'"
 
@@ -3741,7 +3756,7 @@ msgid ""
 msgstr "Impossibile aggiornare la password a causa di un problema al database. Per favore riprova più tardi."
 
 #: html/user/edit_passwd_action.php:50 html/user/edit_passwd_form.php:26
-#: html/user/edit_passwd_form.php:30
+#: html/user/edit_passwd_form.php:32
 msgid "Change password"
 msgstr "Cambia password"
 
@@ -3749,7 +3764,12 @@ msgstr "Cambia password"
 msgid "Your password has been changed."
 msgstr "La tua password è stata cambiata."
 
-#: html/user/edit_passwd_form.php:29
+#: html/user/edit_passwd_form.php:27
+msgid ""
+"Note: if you change your password, your %1weak account key%2 will change."
+msgstr ""
+
+#: html/user/edit_passwd_form.php:31
 msgid "New password"
 msgstr "Nuova password"
 
@@ -3761,7 +3781,7 @@ msgstr "I tag HTML non sono permessi nel tuo nome."
 msgid "You must supply a name for your account."
 msgstr "Devi dare un nome per il tuo account."
 
-#: html/user/edit_user_info_action.php:63
+#: html/user/edit_user_info_action.php:66
 msgid "Couldn't update user info."
 msgstr "Non posso aggiornare le informazioni utente."
 
@@ -4896,15 +4916,15 @@ msgstr "Inserisci di seguito l'indirizzo email del tuo account, quindi premi OK.
 msgid "Reset password"
 msgstr "Ripristina password"
 
-#: html/user/gpu_list.php:163 html/user/gpu_list.php:189
+#: html/user/gpu_list.php:168 html/user/gpu_list.php:194
 msgid "No GPU tasks reported"
 msgstr "Nessuna attività GPU restituita"
 
-#: html/user/gpu_list.php:222
+#: html/user/gpu_list.php:227
 msgid "Top GPU models"
 msgstr "Migliori modelli GPU"
 
-#: html/user/gpu_list.php:223
+#: html/user/gpu_list.php:228
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -5324,19 +5344,19 @@ msgid ""
 "incomplete, %1 you can help translate %2."
 msgstr "Le traduzioni vengono realizzate da volontari. Se la tua lingua madre non è ancora stata tradotta oppure è incompleta o imprecisa, %1 puoi aiutarci diventando un traduttore %2."
 
-#: html/user/login_form.php:32
+#: html/user/login_form.php:34
 msgid "Already logged in"
 msgstr "Accesso già effettuato."
 
-#: html/user/login_form.php:33
+#: html/user/login_form.php:35
 msgid "You are logged in as %1."
 msgstr "Hai eseguito l'accesso come %1."
 
-#: html/user/login_form.php:36
+#: html/user/login_form.php:38
 msgid "Log out"
 msgstr "Esci"
 
-#: html/user/login_form.php:59
+#: html/user/login_form.php:61
 msgid "or %1 create an account %2."
 msgstr "oppure %1 crea un account %2."
 
@@ -5544,7 +5564,7 @@ msgstr "Una volta bloccato un utente puoi sempre sbloccarlo tramite la pagina de
 msgid "No, cancel"
 msgstr "No, annulla"
 
-#: html/user/pm.php:303 html/user/team_admins.php:101
+#: html/user/pm.php:303 html/user/team_admins.php:102
 msgid "no such user"
 msgstr "utente non trovato"
 
@@ -5953,7 +5973,7 @@ msgstr "sciogliere il team, solo se non ha più membri"
 msgid "To join a team, visit its team page and click %1 Join this team %2."
 msgstr "Per unirti ad un team visita la pagina del team, poi clicca su %1 Unisciti a questo team %2."
 
-#: html/user/team.php:42 html/user/team_search.php:203
+#: html/user/team.php:42 html/user/team_search.php:204
 msgid "Find a team"
 msgstr "Trova un team"
 
@@ -5979,95 +5999,95 @@ msgid ""
 "%2."
 msgstr "Se non trovi un team che ti piace, puoi sempre %1 Fondare un nuovo team %2."
 
-#: html/user/team_admins.php:36
+#: html/user/team_admins.php:37
 msgid "Remove Team Admin status from this member"
 msgstr "Rimuovi lo stato di Amministratore del Team per questo membro"
 
-#: html/user/team_admins.php:42 html/user/team_admins.php:54
+#: html/user/team_admins.php:43 html/user/team_admins.php:55
 msgid "Add or remove Team Admins"
 msgstr "Aggiungi o rimuovi Admin del team"
 
-#: html/user/team_admins.php:43
+#: html/user/team_admins.php:44
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr "Puoi selezionare membri del team cone 'Amministratori del Team'. Gli Amministratori del Team possono:"
 
-#: html/user/team_admins.php:45
+#: html/user/team_admins.php:46
 msgid "Edit team information (name, URL, description, country)"
 msgstr "Modifica le informazioni del team (nome, URL, descrizione, stato)"
 
-#: html/user/team_admins.php:46
+#: html/user/team_admins.php:47
 msgid "View the team's join/quit history"
 msgstr "Vedi il resoconto di iscritti/cancellati del team"
 
-#: html/user/team_admins.php:47
+#: html/user/team_admins.php:48
 msgid "Send messages to the team"
 msgstr "Invia messaggi al team"
 
-#: html/user/team_admins.php:48
+#: html/user/team_admins.php:49
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation"
 " events and red X reports)"
 msgstr "Moderate il forum del team, se esiste (gli amministratori ricevono email di notifica degli atti di moderazione e report)"
 
-#: html/user/team_admins.php:50
+#: html/user/team_admins.php:51
 msgid "Team Admins cannot:"
 msgstr "Gli admin del team non possono:"
 
-#: html/user/team_admins.php:52
+#: html/user/team_admins.php:53
 msgid "Change the team founder"
 msgstr "Cambia il fondatore del team"
 
-#: html/user/team_admins.php:53 html/user/team_manage.php:58
+#: html/user/team_admins.php:54 html/user/team_manage.php:58
 msgid "Remove members"
 msgstr "Rimuovi membri"
 
-#: html/user/team_admins.php:56
+#: html/user/team_admins.php:57
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr "Se un Amministratore del Team esce dal team, smette di essere Amministratore."
 
-#: html/user/team_admins.php:57
+#: html/user/team_admins.php:58
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr "Ci raccomandiamo che tu scelga solo persone che conosci e di cui ti fidi molto come Amministratori del Team."
 
-#: html/user/team_admins.php:62
+#: html/user/team_admins.php:63
 msgid "There are currently no Team Admins"
 msgstr "Non ci sono attualmente Amministratori del Team"
 
-#: html/user/team_admins.php:64
+#: html/user/team_admins.php:65
 msgid "Current Team Admins"
 msgstr "Attuali amministratori del team"
 
-#: html/user/team_admins.php:65
+#: html/user/team_admins.php:66
 msgid "Became Team Admin on"
 msgstr "Diventa Amministratore del Team di"
 
-#: html/user/team_admins.php:80
+#: html/user/team_admins.php:81
 msgid "Add Team Admin"
 msgstr "Aggiungi l'Amministratore del Team"
 
-#: html/user/team_admins.php:81
+#: html/user/team_admins.php:82
 msgid "Email address of team member:"
 msgstr "Indirizzo email del membro del team:"
 
-#: html/user/team_admins.php:93
+#: html/user/team_admins.php:94
 msgid "failed to remove admin"
 msgstr "errore nella rimozione dell'admin"
 
-#: html/user/team_admins.php:102
+#: html/user/team_admins.php:103
 msgid "User is not member of team"
 msgstr "L'utente non è membro di un team"
 
-#: html/user/team_admins.php:104
+#: html/user/team_admins.php:105
 msgid "%1 is already an admin of %2"
 msgstr "%1 è già un admin di %2"
 
-#: html/user/team_admins.php:108
+#: html/user/team_admins.php:109
 msgid "Couldn't add admin"
 msgstr "Impossibile aggiungere l'amministratore"
 
-#: html/user/team_admins.php:114 html/user/team_manage.php:85
+#: html/user/team_admins.php:115 html/user/team_manage.php:85
 #: html/user/team_quit_form.php:30
 #: html/user/team_remove_inactive_action.php:30
 msgid "No such team"
@@ -6667,17 +6687,17 @@ msgstr "Questi team soddisfano uno o più dei tuoi criteri di ricerca.\n        
 msgid "Change your search"
 msgstr "Cambia la ricerca"
 
-#: html/user/team_search.php:204
+#: html/user/team_search.php:205
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr "Puoi entrare in un team con persone aventi interessi simili, provenienti dallo stesso paese, luogo di lavoro, o scuola."
 
-#: html/user/team_search.php:206
+#: html/user/team_search.php:207
 msgid "Use this form to find teams that might be right for you."
 msgstr "Usa questo form per trovare team che possono essere adeguati per te."
 
-#: html/user/team_search.php:211
+#: html/user/team_search.php:212
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "%1 Non mi interessa %2 unirmi ad un team."
 
@@ -6877,34 +6897,34 @@ msgstr "Profilo: %1"
 msgid "Account data"
 msgstr "Dati dell'account"
 
-#: html/user/weak_auth.php:52
+#: html/user/weak_auth.php:53
 msgid ""
 "You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
 msgstr "Puoi accedere ai tuoi account utilizzando email e password,\n    oppure inserendo una 'chiave di accesso'.\n    La tua chiave di accesso è:"
 
-#: html/user/weak_auth.php:57
+#: html/user/weak_auth.php:58
 msgid "This key can be used to:"
 msgstr "Questa chiave può essere usata per:"
 
-#: html/user/weak_auth.php:59
+#: html/user/weak_auth.php:60
 msgid "log in to your account on the web"
 msgstr "fai il login al tuo account sul web"
 
-#: html/user/weak_auth.php:61
+#: html/user/weak_auth.php:62
 msgid ""
-"to attach a computer to your account without using the BOINC Manager.\n"
+"attach a computer to your account without using the BOINC Manager.\n"
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr "per aggiungere un computer al tuo account senza usare il BOINC Manager.\n       Per farlo, installa BOINC,\n       crea un file chiamato %1 nella cartella dati\n       di BOINC, e scrivi come contenuto:"
+msgstr ""
 
-#: html/user/weak_auth.php:73
+#: html/user/weak_auth.php:74
 msgid "Weak account key"
 msgstr "Chiave di accesso debole"
 
-#: html/user/weak_auth.php:74
+#: html/user/weak_auth.php:75
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
 "    as described above, but cannot be used to log in to your account or change it in any way.\n"
@@ -6913,11 +6933,11 @@ msgid ""
 "    Your weak account key is:"
 msgstr "La tua 'chiave di accesso debole' può essere usata per aggiungere computer al tuo account\n    come descritto sopra, ma non per fare il login al tuo account o per fare cambiamenti dei dati.\n    Se vuoi aggiungere computer non fidati o non sicuri al tuo account,\n    utilizza la chiave di accesso debole.\n    La tua chiave di accesso debole è:"
 
-#: html/user/weak_auth.php:81
+#: html/user/weak_auth.php:82
 msgid ""
-"If you change your password, your weak account key changes, and your "
-"previous weak account key becomes invalid."
-msgstr "Se cambi la tua password, la tua chiave di accesso debole cambia, e quella precedente non sarà più valida."
+"The key depends on your account's email address and password.  If you change"
+" either of these, the weak account key will change."
+msgstr ""
 
 #: html/user/welcome.php:22
 msgid ""
@@ -7039,25 +7059,25 @@ msgstr "Non assegnato"
 msgid "can't find workunit"
 msgstr "impossibile trovare WU"
 
-#: html/project.sample/project.inc:142
+#: html/project.sample/project.inc:135
 msgid "Generated"
 msgstr "Generato"
 
-#: html/project.sample/project.inc:177
+#: html/project.sample/project.inc:174
 msgid "Your personal background."
 msgstr "Informazioni di base."
 
-#: html/project.sample/project.inc:181
+#: html/project.sample/project.inc:178
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr "Parlaci di te. Puoi dirci da dove vieni, la tua età, occupazione, hobbies o qualsiasi altra cosa su di te."
 
-#: html/project.sample/project.inc:185
+#: html/project.sample/project.inc:182
 msgid "Your opinions about %1"
 msgstr "Le tue opinioni riguardo %1"
 
-#: html/project.sample/project.inc:189
+#: html/project.sample/project.inc:186
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"

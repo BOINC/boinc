@@ -23,8 +23,7 @@
   <string name="attachproject_conflict_not_unique">異なるパスワードを持つアカウントが存在します</string>
   <string name="attachproject_conflict_bad_password">パスワードが間違っています</string>
   <string name="attachproject_conflict_unknown_user">アカウントが存在しません</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">アカウントが存在しません。プロジェクトのウェブサイトをご覧下さい。
-登録する</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">アカウントが存在しません。プロジェクトのウェブサイトから登録してください。</string>
   <!--working-->
   <string name="attachproject_working_attaching">%1$sに追加中</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -40,8 +39,8 @@
   <string name="attachproject_hint_projectwebsite_science">この科学に関する詳細情報</string>
   <string name="attachproject_hint_projectwebsite_stats">貢献の統計を見る</string>
   <string name="attachproject_hint_projectwebsite_community">他の参加者と連絡を取る</string>
-  <string name="attachproject_hint_platforms_header">BOINCは、コンピューターまたはノートパソコンでも利用できます。
-boinc.berkeley.eduで詳細を確認してください。</string>
+  <string name="attachproject_hint_platforms_header">BOINCはコンピューターやノートパソコンでも利用できます。
+詳細はboinc.berkeley.eduをご確認ください。</string>
   <!--project login-->
   <string name="attachproject_login_loading">プロジェクトのサーバに問い合わせ中…</string>
   <string name="attachproject_login_header_general_area">一般的領域: </string>
@@ -49,7 +48,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="attachproject_login_header_description">説明: </string>
   <string name="attachproject_login_header_home">ホーム: </string>
   <string name="attachproject_login_header_url">ウェブサイト: </string>
-  <string name="attachproject_login_header_id_email">Eメール: </string>
+  <string name="attachproject_login_header_id_email">Eメールアドレス:</string>
   <string name="attachproject_login_header_id_name">名前: </string>
   <string name="attachproject_login_header_pwd">パスワード: </string>
   <string name="attachproject_login_button_registration">登録</string>
@@ -57,7 +56,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="attachproject_login_button_forgotpw">パスワードを忘れた</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">この端末の管理にアカウントマネージャーを使用します。</string>
-  <string name="attachproject_acctmgr_header">アカウント・マネージャを使用</string>
+  <string name="attachproject_acctmgr_header">アカウントマネージャを使用</string>
   <string name="attachproject_attach_projects_header">プロジェクトを追加</string>
   <string name="attachproject_attach_projects_desc">プロジェクト一覧からプロジェクトを追加</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
@@ -115,7 +114,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_theme_header">テーマ</string>
   <string name="prefs_stationary_device_mode_header">固定デバイスモード</string>
   <string name="prefs_stationary_device_mode_description">電源設定に関係なく計算を許可します。
-デバイスにバッテリーが無い場合のみ有効にします。</string>
+デバイスにバッテリーが無い場合のみ利用できます。</string>
   <string name="prefs_power_source_header">計算のための電源供給源</string>
   <string name="prefs_power_source_ac">コンセント</string>
   <string name="prefs_power_source_usb">USB接続</string>
@@ -131,8 +130,9 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_network_wifi_only_header">WiFiでのみタスクを転送する</string>
   <string name="prefs_autostart_header">自動起動</string>
   <string name="prefs_remote_header">リモート操作の有効化</string>
-  <string name="prefs_remote_summary">変更すると、BOINCクライアントが再起動します。</string>
+  <string name="prefs_remote_summary">変更後にBOINCクライアントが再起動します。</string>
   <string name="prefs_show_notification_notices_header">新しいお知らせがあった場合通知を表示</string>
+  <string name="prefs_show_notification_suspended_header">一時停止中に通知を表示</string>
   <string name="prefs_cpu_number_cpus_header">使用されるCPUコア数</string>
   <string name="prefs_cpu_number_cpus_description">BOINCが計算のために使用するCPUコア数を制限します。</string>
   <string name="prefs_cpu_other_load_suspension_header">超過により休止するCPU使用率(%)</string>
@@ -143,9 +143,11 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">ワークユニットの量(日間)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">追加のワークユニット量(日間)</string>
   <string name="prefs_remote_authentication_key">GUI認証キー</string>
+  <string name="prefs_remote_authentication_key_input_hint">認証キー</string>
   <string name="prefs_remote_empty_password">パスワード更新の失敗：値を空にすることができません</string>
   <string name="prefs_remote_boinc_relaunched">パスワード変更後にBOINCクライアントが再起動します。</string>
   <string name="prefs_client_log_flags_header">BOINCクライアントログのフラグ</string>
+  <string name="prefs_gui_log_categories">BOINC GUI ログカテゴリー</string>
   <string name="prefs_gui_log_level_header">GUIログのレベル</string>
   <string name="prefs_gui_log_level_description">GUIログメッセージの詳細度を指定します。</string>
   <string name="prefs_theme_light">白</string>
@@ -156,6 +158,8 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="projects_icon">プロジェクトのアイコン</string>
   <string name="projects_credits">功績値: </string>
   <string name="projects_credits_host_and_user">%1$,d (このデバイス上) %2$,d (合計)</string>
+  <string name="projects_disk_usage">ディスク使用量</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB　</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">参加者の指示により一時停止中</string>
   <string name="projects_status_dontrequestmorework">新しいタスクを取得しない</string>
@@ -267,7 +271,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="menu_help">ヘルプ</string>
   <string name="menu_report_issue">問題を報告する</string>
   <!--about dialog-->
-    <string name="about_title">バージョン情報</string>
+  <string name="about_title">バージョン情報</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">バージョン %1$s</string>
   <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
@@ -287,12 +291,29 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="social_invite_content_title">私はスマートフォンで科学研究を行っています!</string>
   <string name="social_invite_content_body">私は%1$sを使用して科学の計算を行っています。あなたもできます！ここからアプリをダウンロード：%2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details？id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="main_notification_channel_description">非通知のお知らせを表示します。</string>
   <string name="notice_notification_channel_name">お知らせ</string>
   <string name="notice_notification_channel_description">プロジェクトからのお知らせを表示します。</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">シャオミモールへようこそ！　質の高いショッピング体験を提供するため、Miモールアプリはインターネット接続・位置情報を使い、商品在庫の確認、配達サービスの最適化、おすすめ商品のパーソナライズを行う必要があります。あなたにはこの承認を拒否・キャンセルする権利があります。</string>
+  <string name="terms_of_use_content_second">アプリを使用する前に、「ユーザー規約」と「プライバシーポリシー」を読み、よく理解して、ユーザーの権利とあなたのデータがどう処理されるか理解してください。
+        上記の規約に同意する場合、「同意」をクリックして、商品とサービスの利用を始めてください。
+        我々は業界をリードするセキュリティ技術であなたの個人情報を保護します。シャオミモールを信頼していただきありがとうございます。</string>
+  <string name="terms_of_use_content_user_agreement">ユーザー規約： https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">プライバシーポリシー: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Miファンの皆さん、こんにちは、大家好！</string>
+  <string name="welcome_content_second">Boinc創設者のデビッドです。Boincはボランティアで提供されたリソースを使って計算を行うためのオープンソースソフトウェアプラットフォームです。</string>
+  <string name="welcome_content_third">レイ・ジュンさんとシャオミに感謝するとともに、良い知らせをお伝えしたいと思います：
+        Mi 11が、Boincによって公式に認証されたモバイル計算デバイスとなります！</string>
+  <string name="welcome_content_fourth">Mi 11はQualcomm Snapdragon 888を内蔵し、驚くべき計算力を誇っています。
+        タスクをすばやく処理でき、世界中の研究コミュニティに貢献します。</string>
+  <string name="welcome_content_fifth">Boincプロジェクトに貢献してくれたシャオミのすべてのエンジニアに感謝します。
+        Boincをスマホにダウンロードして、使われていないときにその力の一部を提供するよう、すべてのMiファンに勧めます。</string>
+  <string name="welcome_content_sixth">最後になりますが、中国の友人の皆さんへ - 春節おめでとうございます！　新年快乐！</string>
   <string name="agree_button">同意</string>
+  <string name="prefs_expand_wu_data">タスク情報を常に展開</string>
 </resources>

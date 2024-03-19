@@ -1,19 +1,20 @@
 # BOINC manager localization template
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # ysjbserver <ysjbserver@naver.com>, 2015
 # Kangsan Lee <treppolse@gmail.com>, 2017-2018,2022
+# World Dev, 2023
 # ysjbserver <ysjbserver@naver.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Kangsan Lee <treppolse@gmail.com>, 2017-2018,2022\n"
+"Last-Translator: World Dev, 2023\n"
 "Language-Team: Korean (http://app.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,7 +67,7 @@ msgstr "비밀번호 확인:"
 #: clientgui/AccountInfoPage.cpp:383
 #, c-format
 msgid "Are you already running %s?"
-msgstr "여러분은 이미 %s를(을) 실행하고 있습니까?"
+msgstr "이미 %s를(을) 실행하고 있습니까?"
 
 #: clientgui/AccountInfoPage.cpp:412
 msgid "&Username:"
@@ -186,416 +187,416 @@ msgstr "접속됨"
 msgid "Disconnected"
 msgstr "접속해제됨"
 
-#: clientgui/AdvancedFrame.cpp:328
+#: clientgui/AdvancedFrame.cpp:334
 #, c-format
 msgid "New %s window..."
 msgstr "새 %s 창..."
 
-#: clientgui/AdvancedFrame.cpp:332
+#: clientgui/AdvancedFrame.cpp:338
 #, c-format
 msgid "Open another %s window"
 msgstr "다른 %s 창 열기"
 
-#: clientgui/AdvancedFrame.cpp:343
+#: clientgui/AdvancedFrame.cpp:349
 msgid "Select computer...\tCtrl+Shift+I"
 msgstr "컴퓨터 선택...\tCtrl+Shift+I"
 
-#: clientgui/AdvancedFrame.cpp:344
+#: clientgui/AdvancedFrame.cpp:350
 msgid "Connect to a BOINC client on another computer"
 msgstr "다른 컴퓨터의 BOINC 클라이언트로 접속"
 
-#: clientgui/AdvancedFrame.cpp:348
+#: clientgui/AdvancedFrame.cpp:354
 msgid "Shut down connected client..."
 msgstr "연결된 클라이언트 종료..."
 
-#: clientgui/AdvancedFrame.cpp:349
+#: clientgui/AdvancedFrame.cpp:355
 msgid "Shut down the currently connected BOINC client"
 msgstr "현재 연결된 BOINC  클라이언트를 종료합니다"
 
-#: clientgui/AdvancedFrame.cpp:354 clientgui/sg_BoincSimpleFrame.cpp:150
+#: clientgui/AdvancedFrame.cpp:360 clientgui/sg_BoincSimpleFrame.cpp:150
 #, c-format
 msgid "Close the %s window"
 msgstr "%s 창 닫기"
 
-#: clientgui/AdvancedFrame.cpp:357 clientgui/sg_BoincSimpleFrame.cpp:153
+#: clientgui/AdvancedFrame.cpp:363 clientgui/sg_BoincSimpleFrame.cpp:153
 msgid "&Close window"
 msgstr "창 닫기(&C)"
 
-#: clientgui/AdvancedFrame.cpp:366 clientgui/sg_BoincSimpleFrame.cpp:162
+#: clientgui/AdvancedFrame.cpp:372 clientgui/sg_BoincSimpleFrame.cpp:162
 #, c-format
 msgid "Exit %s"
 msgstr "%s 종료(&E) "
 
-#: clientgui/AdvancedFrame.cpp:371 clientgui/AdvancedFrame.cpp:376
+#: clientgui/AdvancedFrame.cpp:377 clientgui/AdvancedFrame.cpp:382
 #: clientgui/AsyncRPC.cpp:1086 clientgui/sg_BoincSimpleFrame.cpp:167
 #, c-format
 msgid "E&xit %s"
 msgstr "%s 종료(&X)"
 
-#: clientgui/AdvancedFrame.cpp:390 clientgui/sg_BoincSimpleFrame.cpp:181
+#: clientgui/AdvancedFrame.cpp:396 clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Preferences...\tCtrl+,"
-msgstr ""
+msgstr "환경 설정...\tCtrl+,"
 
-#: clientgui/AdvancedFrame.cpp:399
+#: clientgui/AdvancedFrame.cpp:405
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "공지 사항(&N)\tCtrl+Shift+N"
 
-#: clientgui/AdvancedFrame.cpp:400
+#: clientgui/AdvancedFrame.cpp:406
 msgid "Show notices"
 msgstr "공지 사항 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:405
+#: clientgui/AdvancedFrame.cpp:411
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "프로젝트(&P)\tCtrl+Shift+P"
 
-#: clientgui/AdvancedFrame.cpp:406
+#: clientgui/AdvancedFrame.cpp:412
 msgid "Show projects"
 msgstr "프로젝트 보기"
 
-#: clientgui/AdvancedFrame.cpp:411
+#: clientgui/AdvancedFrame.cpp:417
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "태스크(&T)\tCtrl+Shift+T"
 
-#: clientgui/AdvancedFrame.cpp:412
+#: clientgui/AdvancedFrame.cpp:418
 msgid "Show tasks"
 msgstr "태스크 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:417
+#: clientgui/AdvancedFrame.cpp:423
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "전송(&F)\tCtrl+Shift+X"
 
-#: clientgui/AdvancedFrame.cpp:418
+#: clientgui/AdvancedFrame.cpp:424
 msgid "Show file transfers"
 msgstr "파일 전송 현황 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:423
+#: clientgui/AdvancedFrame.cpp:429
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "통계(&S)\tCtrl+Shift+S"
 
-#: clientgui/AdvancedFrame.cpp:424
+#: clientgui/AdvancedFrame.cpp:430
 msgid "Show statistics"
 msgstr "통계 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:429
+#: clientgui/AdvancedFrame.cpp:435
 msgid "&Disk\tCtrl+Shift+D"
 msgstr "디스크(&D)\tCtrl+Shift+D"
 
-#: clientgui/AdvancedFrame.cpp:430
+#: clientgui/AdvancedFrame.cpp:436
 msgid "Show disk usage"
 msgstr "디스크 사용량 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:437
+#: clientgui/AdvancedFrame.cpp:443
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "간단히 보기(&V)...\tCtrl+Shift+V"
 
-#: clientgui/AdvancedFrame.cpp:438
+#: clientgui/AdvancedFrame.cpp:444
 msgid "Switch to the Simple View"
 msgstr "단순 보기로 전환합니다"
 
-#: clientgui/AdvancedFrame.cpp:452 clientgui/AdvancedFrame.cpp:476
+#: clientgui/AdvancedFrame.cpp:458 clientgui/AdvancedFrame.cpp:482
 #: clientgui/sg_BoincSimpleFrame.cpp:236 clientgui/sg_BoincSimpleFrame.cpp:260
 msgid "&Add project..."
 msgstr "프로젝트 추가(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
+#: clientgui/AdvancedFrame.cpp:459 clientgui/AdvancedFrame.cpp:483
 #: clientgui/sg_BoincSimpleFrame.cpp:237 clientgui/sg_BoincSimpleFrame.cpp:261
 msgid "Add a project"
 msgstr "프로젝트를 추가합니다"
 
-#: clientgui/AdvancedFrame.cpp:457 clientgui/sg_BoincSimpleFrame.cpp:241
+#: clientgui/AdvancedFrame.cpp:463 clientgui/sg_BoincSimpleFrame.cpp:241
 msgid "&Use account manager..."
 msgstr "계정 관리자 사용(&U)..."
 
-#: clientgui/AdvancedFrame.cpp:458 clientgui/sg_BoincSimpleFrame.cpp:242
+#: clientgui/AdvancedFrame.cpp:464 clientgui/sg_BoincSimpleFrame.cpp:242
 msgid "Use an account manager to control this computer."
 msgstr "계정 관리자를 사용해서 이 컴퓨터를 제어할 수 있습니다."
 
-#: clientgui/AdvancedFrame.cpp:462 clientgui/sg_BoincSimpleFrame.cpp:246
+#: clientgui/AdvancedFrame.cpp:468 clientgui/sg_BoincSimpleFrame.cpp:246
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "%s와 동기화(&S)"
 
-#: clientgui/AdvancedFrame.cpp:466 clientgui/sg_BoincSimpleFrame.cpp:250
+#: clientgui/AdvancedFrame.cpp:472 clientgui/sg_BoincSimpleFrame.cpp:250
 #, c-format
 msgid "Get current settings from %s"
 msgstr "%s 로부터 현재 설정을 가져옵니다"
 
-#: clientgui/AdvancedFrame.cpp:480 clientgui/sg_BoincSimpleFrame.cpp:264
+#: clientgui/AdvancedFrame.cpp:486 clientgui/sg_BoincSimpleFrame.cpp:264
 #, c-format
 msgid "S&top using %s..."
 msgstr "%s 사용 중지(&S)..."
 
-#: clientgui/AdvancedFrame.cpp:486 clientgui/sg_BoincSimpleFrame.cpp:270
+#: clientgui/AdvancedFrame.cpp:492 clientgui/sg_BoincSimpleFrame.cpp:270
 msgid "Remove this computer from account manager control."
 msgstr "계정 관리자 제어를 클라이언트에서 제거합니다."
 
-#: clientgui/AdvancedFrame.cpp:492
+#: clientgui/AdvancedFrame.cpp:498
 msgid "Run CPU &benchmarks"
 msgstr "CPU 벤치마크 실행(&B)"
 
-#: clientgui/AdvancedFrame.cpp:493
+#: clientgui/AdvancedFrame.cpp:499
 msgid "Run tests that measure CPU speed"
 msgstr "CPU 속도 측정 테스트 실행"
 
-#: clientgui/AdvancedFrame.cpp:497
+#: clientgui/AdvancedFrame.cpp:503
 msgid "Retry pending transfers"
 msgstr "유보된 전송 재시도"
 
-#: clientgui/AdvancedFrame.cpp:498
+#: clientgui/AdvancedFrame.cpp:504
 msgid "Retry deferred file transfers and task requests"
 msgstr "유예된 파일 전송을 시도하고 태스크를 요청합니다"
 
-#: clientgui/AdvancedFrame.cpp:503 clientgui/sg_BoincSimpleFrame.cpp:276
+#: clientgui/AdvancedFrame.cpp:509 clientgui/sg_BoincSimpleFrame.cpp:276
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "이벤트 기록...\tCtrl+Shift+E"
 
-#: clientgui/AdvancedFrame.cpp:504
+#: clientgui/AdvancedFrame.cpp:510
 msgid "Show diagnostic messages"
 msgstr "진단 메세지를 보여줍니다"
 
-#: clientgui/AdvancedFrame.cpp:512
+#: clientgui/AdvancedFrame.cpp:518
 msgid "&Run always"
 msgstr "항상 실행(&R)"
 
-#: clientgui/AdvancedFrame.cpp:513
+#: clientgui/AdvancedFrame.cpp:519
 msgid "Allow work regardless of preferences"
 msgstr "설정을 무시하고 작업을 허용합니다"
 
-#: clientgui/AdvancedFrame.cpp:517
+#: clientgui/AdvancedFrame.cpp:523
 msgid "Run based on &preferences"
 msgstr "설정한 대로 실행(&P)"
 
-#: clientgui/AdvancedFrame.cpp:518
+#: clientgui/AdvancedFrame.cpp:524
 msgid "Allow work according to preferences"
 msgstr "설정에 따라서 작업을 허용합니다"
 
-#: clientgui/AdvancedFrame.cpp:522
+#: clientgui/AdvancedFrame.cpp:528
 msgid "&Suspend"
 msgstr "일시 정지(&S)"
 
-#: clientgui/AdvancedFrame.cpp:523
+#: clientgui/AdvancedFrame.cpp:529
 msgid "Stop work regardless of preferences"
 msgstr "설정을 무시하고 작업을 정지시킵니다"
 
-#: clientgui/AdvancedFrame.cpp:548
+#: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU always"
 msgstr "항상 GPU 사용"
 
-#: clientgui/AdvancedFrame.cpp:549
+#: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work regardless of preferences"
 msgstr "설정을 무시하고 GPU 작업을 허용합니다"
 
-#: clientgui/AdvancedFrame.cpp:553
+#: clientgui/AdvancedFrame.cpp:559
 msgid "Use GPU based on preferences"
 msgstr "설정한 대로 GPU 사용"
 
-#: clientgui/AdvancedFrame.cpp:554
+#: clientgui/AdvancedFrame.cpp:560
 msgid "Allow GPU work according to preferences"
 msgstr "설정에 따라서 GPU 작업을 허용합니다"
 
-#: clientgui/AdvancedFrame.cpp:558
+#: clientgui/AdvancedFrame.cpp:564
 msgid "Suspend GPU"
 msgstr "GPU 일시 정지"
 
-#: clientgui/AdvancedFrame.cpp:559
+#: clientgui/AdvancedFrame.cpp:565
 msgid "Stop GPU work regardless of preferences"
 msgstr "설정을 무시하고 GPU 작업을 정지시킵니다"
 
-#: clientgui/AdvancedFrame.cpp:583
+#: clientgui/AdvancedFrame.cpp:589
 msgid "Network activity always"
 msgstr "네트워크 활동 항상 허용"
 
-#: clientgui/AdvancedFrame.cpp:584
+#: clientgui/AdvancedFrame.cpp:590
 msgid "Allow network activity regardless of preferences"
 msgstr "설정을 무시하고 네트워크 활동을 허용합니다"
 
-#: clientgui/AdvancedFrame.cpp:588
+#: clientgui/AdvancedFrame.cpp:594
 msgid "Network activity based on preferences"
 msgstr "설정한 대로 네트워크 활동"
 
-#: clientgui/AdvancedFrame.cpp:589
+#: clientgui/AdvancedFrame.cpp:595
 msgid "Allow network activity according to preferences"
 msgstr "설정에 따라서 네트워크 활동을 허용합니다"
 
-#: clientgui/AdvancedFrame.cpp:593
+#: clientgui/AdvancedFrame.cpp:599
 msgid "Suspend network activity"
 msgstr "네트워크 활동 일시중지"
 
-#: clientgui/AdvancedFrame.cpp:594
+#: clientgui/AdvancedFrame.cpp:600
 msgid "Stop network activity"
 msgstr "네트워크 활동 정지"
 
-#: clientgui/AdvancedFrame.cpp:603 clientgui/sg_BoincSimpleFrame.cpp:221
+#: clientgui/AdvancedFrame.cpp:609 clientgui/sg_BoincSimpleFrame.cpp:221
 msgid "Computing &preferences..."
 msgstr "연산 환경 설정(&P)..."
 
-#: clientgui/AdvancedFrame.cpp:604 clientgui/sg_BoincSimpleFrame.cpp:222
+#: clientgui/AdvancedFrame.cpp:610 clientgui/sg_BoincSimpleFrame.cpp:222
 msgid "Configure computing preferences"
 msgstr "연산 환경을 설정합니다"
 
-#: clientgui/AdvancedFrame.cpp:609
+#: clientgui/AdvancedFrame.cpp:615
 msgid "Exclusive applications..."
 msgstr "독점 프로그램 설정..."
 
-#: clientgui/AdvancedFrame.cpp:610
+#: clientgui/AdvancedFrame.cpp:616
 msgid "Configure exclusive applications"
 msgstr "독점 프로그램을 설정합니다"
 
-#: clientgui/AdvancedFrame.cpp:615
+#: clientgui/AdvancedFrame.cpp:621
 msgid "Select columns..."
 msgstr "칼럼 선택..."
 
-#: clientgui/AdvancedFrame.cpp:616
+#: clientgui/AdvancedFrame.cpp:622
 msgid "Select which columns to display"
 msgstr "표시할 칼럼을 선택해 주세요"
 
-#: clientgui/AdvancedFrame.cpp:620
+#: clientgui/AdvancedFrame.cpp:626
 msgid "Event Log options...\tCtrl+Shift+F"
 msgstr "이벤트 기록 옵션...\tCtrl+Shift+F"
 
-#: clientgui/AdvancedFrame.cpp:621
+#: clientgui/AdvancedFrame.cpp:627
 msgid "Enable or disable various diagnostic messages"
 msgstr "다양한 진단 메세지를 활성화 또는 비활성화시킵니다"
 
-#: clientgui/AdvancedFrame.cpp:625 clientgui/sg_BoincSimpleFrame.cpp:227
+#: clientgui/AdvancedFrame.cpp:631 clientgui/sg_BoincSimpleFrame.cpp:227
 msgid "&Other options..."
 msgstr "기타 선택 사항(&O)..."
 
-#: clientgui/AdvancedFrame.cpp:626
+#: clientgui/AdvancedFrame.cpp:632
 msgid "Configure display options and network settings"
 msgstr "화면 옵션과 네트워크 환경을 설정합니다"
 
-#: clientgui/AdvancedFrame.cpp:631
+#: clientgui/AdvancedFrame.cpp:637
 msgid "Read config files"
 msgstr "설정 파일 읽기"
 
-#: clientgui/AdvancedFrame.cpp:632
+#: clientgui/AdvancedFrame.cpp:638
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "cc_config.xml 및 app_config.xml로 부터 설정 정보를 읽어옵니다"
 
-#: clientgui/AdvancedFrame.cpp:636
+#: clientgui/AdvancedFrame.cpp:642
 msgid "Read local prefs file"
 msgstr "로컬 환경설정 파일 읽기"
 
-#: clientgui/AdvancedFrame.cpp:637
+#: clientgui/AdvancedFrame.cpp:643
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "global_prefs_override.xml로 부터 환경 설정을 읽어옵니다."
 
-#: clientgui/AdvancedFrame.cpp:645 clientgui/sg_BoincSimpleFrame.cpp:284
+#: clientgui/AdvancedFrame.cpp:651 clientgui/sg_BoincSimpleFrame.cpp:284
 #, c-format
 msgid "%s &help"
 msgstr "%s 도움말(&H)"
 
-#: clientgui/AdvancedFrame.cpp:649 clientgui/sg_BoincSimpleFrame.cpp:288
+#: clientgui/AdvancedFrame.cpp:655 clientgui/sg_BoincSimpleFrame.cpp:288
 #, c-format
 msgid "Show information about %s"
 msgstr "%s에 대한 정보 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:659 clientgui/sg_BoincSimpleFrame.cpp:298
+#: clientgui/AdvancedFrame.cpp:665 clientgui/sg_BoincSimpleFrame.cpp:298
 #, c-format
 msgid "&%s help"
 msgstr "&%s 도움말"
 
-#: clientgui/AdvancedFrame.cpp:663 clientgui/sg_BoincSimpleFrame.cpp:302
+#: clientgui/AdvancedFrame.cpp:669 clientgui/sg_BoincSimpleFrame.cpp:302
 #, c-format
 msgid "Show information about the %s"
 msgstr "%s에 대한 정보 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:674 clientgui/sg_BoincSimpleFrame.cpp:312
+#: clientgui/AdvancedFrame.cpp:680 clientgui/sg_BoincSimpleFrame.cpp:312
 #, c-format
 msgid "%s &web site"
 msgstr "%s 웹 사이트(&W)"
 
-#: clientgui/AdvancedFrame.cpp:678
+#: clientgui/AdvancedFrame.cpp:684
 #, c-format
 msgid "See more information about %s on the web"
 msgstr "웹에서 %s에 대한 정보 더 보기"
 
-#: clientgui/AdvancedFrame.cpp:689 clientgui/AdvancedFrame.cpp:693
+#: clientgui/AdvancedFrame.cpp:695 clientgui/AdvancedFrame.cpp:699
 #: clientgui/sg_BoincSimpleFrame.cpp:327 clientgui/sg_BoincSimpleFrame.cpp:331
 #, c-format
 msgid "Check for new %s version"
 msgstr "새 %s 버전 확인"
 
-#: clientgui/AdvancedFrame.cpp:705 clientgui/sg_BoincSimpleFrame.cpp:343
+#: clientgui/AdvancedFrame.cpp:711 clientgui/sg_BoincSimpleFrame.cpp:343
 msgid "Report Issue"
 msgstr "이슈 보고"
 
-#: clientgui/AdvancedFrame.cpp:706 clientgui/sg_BoincSimpleFrame.cpp:344
+#: clientgui/AdvancedFrame.cpp:712 clientgui/sg_BoincSimpleFrame.cpp:344
 msgid "Report bug or enhancement request"
 msgstr "버그를 보고하거나 개선 사항을 요청합니다"
 
-#: clientgui/AdvancedFrame.cpp:711 clientgui/BOINCTaskBar.cpp:550
+#: clientgui/AdvancedFrame.cpp:717 clientgui/BOINCTaskBar.cpp:564
 #: clientgui/sg_BoincSimpleFrame.cpp:349
 #, c-format
 msgid "&About %s..."
 msgstr "%s 정보(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:717 clientgui/sg_BoincSimpleFrame.cpp:355
+#: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:355
 msgid "Licensing and copyright information."
 msgstr "라이센스와 저작권 정보."
 
-#: clientgui/AdvancedFrame.cpp:724 clientgui/sg_BoincSimpleFrame.cpp:362
+#: clientgui/AdvancedFrame.cpp:730 clientgui/sg_BoincSimpleFrame.cpp:362
 msgid "&File"
 msgstr "파일(&F)"
 
-#: clientgui/AdvancedFrame.cpp:728 clientgui/sg_BoincSimpleFrame.cpp:366
+#: clientgui/AdvancedFrame.cpp:734 clientgui/sg_BoincSimpleFrame.cpp:366
 msgid "&View"
 msgstr "보기(&V)"
 
-#: clientgui/AdvancedFrame.cpp:732
+#: clientgui/AdvancedFrame.cpp:738
 msgid "&Activity"
 msgstr "활동(&A)"
 
-#: clientgui/AdvancedFrame.cpp:736 clientgui/sg_BoincSimpleFrame.cpp:370
+#: clientgui/AdvancedFrame.cpp:742 clientgui/sg_BoincSimpleFrame.cpp:370
 msgid "&Options"
 msgstr "선택 사항(&O)"
 
-#: clientgui/AdvancedFrame.cpp:740 clientgui/sg_BoincSimpleFrame.cpp:374
+#: clientgui/AdvancedFrame.cpp:746 clientgui/sg_BoincSimpleFrame.cpp:374
 msgid "&Tools"
 msgstr "도구(&T)"
 
-#: clientgui/AdvancedFrame.cpp:744 clientgui/DlgAdvPreferencesBase.cpp:202
+#: clientgui/AdvancedFrame.cpp:750 clientgui/DlgAdvPreferencesBase.cpp:202
 #: clientgui/DlgExclusiveApps.cpp:157 clientgui/sg_BoincSimpleFrame.cpp:378
 #: clientgui/sg_DlgPreferences.cpp:371 clientgui/wizardex.cpp:383
 #: clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "도움말(&H)"
 
-#: clientgui/AdvancedFrame.cpp:1348
+#: clientgui/AdvancedFrame.cpp:1358
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - 현재 클라이언트 종료..."
 
-#: clientgui/AdvancedFrame.cpp:1357
+#: clientgui/AdvancedFrame.cpp:1367
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr "%s에 현재 연결된 클라이언트는 종료될 것이며,\n또다른 호스트로 연결해서 명령을 내릴 수 있습니다."
 
-#: clientgui/AdvancedFrame.cpp:1747 clientgui/DlgAbout.cpp:121
+#: clientgui/AdvancedFrame.cpp:1757 clientgui/DlgAbout.cpp:121
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1757
+#: clientgui/AdvancedFrame.cpp:1767
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s는 성공적으로 %s에 추가되었습니다"
 
-#: clientgui/AdvancedFrame.cpp:1904
+#: clientgui/AdvancedFrame.cpp:1914
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1908
+#: clientgui/AdvancedFrame.cpp:1918
 #, c-format
 msgid "Connecting to %s"
 msgstr "%s에 접속 중"
 
-#: clientgui/AdvancedFrame.cpp:1911
+#: clientgui/AdvancedFrame.cpp:1921
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "%s (%s)에 접속됨"
@@ -716,12 +717,12 @@ msgstr "%s 사용을 중지하면,\n현재 수행 중인 프로젝트는 유지�
 msgid "Project web pages"
 msgstr "프로젝트 웹 페이지"
 
-#: clientgui/BOINCClientManager.cpp:532
+#: clientgui/BOINCClientManager.cpp:539
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - 예상치 못한 종료"
 
-#: clientgui/BOINCClientManager.cpp:542
+#: clientgui/BOINCClientManager.cpp:549
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -772,7 +773,7 @@ msgstr "%s가 성공적으로 인터넷 연결을 종료했습니다."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s가 인터넷 연결 종료에 실패했습니다."
 
-#: clientgui/BOINCGUIApp.cpp:364
+#: clientgui/BOINCGUIApp.cpp:390
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -783,157 +784,162 @@ msgid ""
 "- contact your administrator to add you to the 'boinc_master' user group."
 msgstr "현재 %s 관리 권한이 부여되지 않았습니다.\n\n해당 사용자로 %s를 실행하려면:\n- 비 관리자 사용자에게 권한 부여 옵션에 \"네\"라고 대답한 후 %s를 다시 설치하십시요\n 또는\n- 관리자에게 문의해서 이 계정을 'boinc_master' 사용자 그룹에 추가하십시오."
 
-#: clientgui/BOINCGUIApp.cpp:372
+#: clientgui/BOINCGUIApp.cpp:398
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "%s 소유권이나 권한이 적절히 설정되지 않았습니다. %s를 재설치해주세요.\n(오류 code %d"
 
-#: clientgui/BOINCGUIApp.cpp:378
+#: clientgui/BOINCGUIApp.cpp:404
 msgid " at "
 msgstr " 의 "
 
-#: clientgui/BOINCGUIApp.cpp:381 clientgui/MainDocument.cpp:2636
+#: clientgui/BOINCGUIApp.cpp:407 clientgui/MainDocument.cpp:2636
 #: clientgui/MainDocument.cpp:2695 clientgui/ViewTransfers.cpp:922
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:411
+#: clientgui/BOINCGUIApp.cpp:437
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "BOINC를 정상적으로 실행하려면 재부팅이 필요합니다.\n컴퓨터를 다시 시작하고 재시도해 주세요."
 
-#: clientgui/BOINCGUIApp.cpp:412 clientgui/DlgAbout.cpp:158
+#: clientgui/BOINCGUIApp.cpp:438 clientgui/BOINCGUIApp.cpp:467
+#: clientgui/DlgAbout.cpp:158
 msgid "BOINC Manager"
 msgstr "BOINC 관리자"
 
-#: clientgui/BOINCGUIApp.cpp:632
+#: clientgui/BOINCGUIApp.cpp:466
+msgid "Another instance of BOINC Manager is already running."
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC 관리자를 운영 체제에서 자동적으로 시작시켰습니다"
 
-#: clientgui/BOINCGUIApp.cpp:634
+#: clientgui/BOINCGUIApp.cpp:666
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC는 시스템 트레이 상태로 시작됨"
 
-#: clientgui/BOINCGUIApp.cpp:636
+#: clientgui/BOINCGUIApp.cpp:668
 msgid "Directory containing the BOINC Client executable"
 msgstr "실행 가능한 BOINC 클라이언트를 포함한 디렉토리"
 
-#: clientgui/BOINCGUIApp.cpp:637
+#: clientgui/BOINCGUIApp.cpp:669
 msgid "BOINC data directory"
 msgstr "BOINC 데이터 디렉토리"
 
-#: clientgui/BOINCGUIApp.cpp:639
+#: clientgui/BOINCGUIApp.cpp:671
 msgid "Host name or IP address"
 msgstr "호스트 이름 혹은 IP 주소"
 
-#: clientgui/BOINCGUIApp.cpp:640
+#: clientgui/BOINCGUIApp.cpp:672
 msgid "GUI RPC port number"
 msgstr "GUI RPC 포트 번호"
 
-#: clientgui/BOINCGUIApp.cpp:641
+#: clientgui/BOINCGUIApp.cpp:673
 msgid "Password"
 msgstr "비밀번호"
 
-#: clientgui/BOINCGUIApp.cpp:642
+#: clientgui/BOINCGUIApp.cpp:674
 msgid "Startup BOINC with these optional arguments"
 msgstr "BOINC는 해당 인수를 가지고 시작됨"
 
-#: clientgui/BOINCGUIApp.cpp:643
+#: clientgui/BOINCGUIApp.cpp:675
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC 보안 사용자 및 권한 비활성화"
 
-#: clientgui/BOINCGUIApp.cpp:644
+#: clientgui/BOINCGUIApp.cpp:676
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "스킨 관리자 오류 메세지 활성화를 위해 스킨 디버깅 모드 설정"
 
-#: clientgui/BOINCGUIApp.cpp:645
+#: clientgui/BOINCGUIApp.cpp:677
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "BOINC 관리자 다중 실행이 허용됨"
 
-#: clientgui/BOINCGUIApp.cpp:647
+#: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "사용되지 않음: XCode 4.2 버그 회피책"
 
-#: clientgui/BOINCGUIApp.cpp:649
+#: clientgui/BOINCGUIApp.cpp:681
 msgid "Don't run the client"
 msgstr "클라이언트를 실행하지 않음"
 
-#: clientgui/BOINCTaskBar.cpp:528
+#: clientgui/BOINCTaskBar.cpp:542
 #, c-format
 msgid "Open %s Web..."
 msgstr "%s 웹 열기..."
 
-#: clientgui/BOINCTaskBar.cpp:535
+#: clientgui/BOINCTaskBar.cpp:549
 #, c-format
 msgid "Open %s..."
 msgstr "%s 열기..."
 
-#: clientgui/BOINCTaskBar.cpp:542 clientgui/BOINCTaskBar.cpp:640
-#: clientgui/BOINCTaskBar.cpp:645
+#: clientgui/BOINCTaskBar.cpp:556 clientgui/BOINCTaskBar.cpp:654
+#: clientgui/BOINCTaskBar.cpp:659
 msgid "Snooze"
 msgstr "꾸벅꾸벅 졸기"
 
-#: clientgui/BOINCTaskBar.cpp:544 clientgui/BOINCTaskBar.cpp:659
-#: clientgui/BOINCTaskBar.cpp:664
+#: clientgui/BOINCTaskBar.cpp:558 clientgui/BOINCTaskBar.cpp:673
+#: clientgui/BOINCTaskBar.cpp:678
 msgid "Snooze GPU"
 msgstr "GPU 사용 중지"
 
-#: clientgui/BOINCTaskBar.cpp:562
+#: clientgui/BOINCTaskBar.cpp:576
 msgid "E&xit"
 msgstr "종료(&X)"
 
-#: clientgui/BOINCTaskBar.cpp:635 clientgui/ViewProjects.cpp:788
+#: clientgui/BOINCTaskBar.cpp:649 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:975 clientgui/sg_BoincSimpleFrame.cpp:1014
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
 msgstr "다시 시작"
 
-#: clientgui/BOINCTaskBar.cpp:655
+#: clientgui/BOINCTaskBar.cpp:669
 msgid "Resume GPU"
 msgstr "GPU 다시 사용"
 
-#: clientgui/BOINCTaskBar.cpp:726
+#: clientgui/BOINCTaskBar.cpp:740
 msgid "Computing is enabled"
 msgstr "연산이 활성화됩니다"
 
-#: clientgui/BOINCTaskBar.cpp:730
+#: clientgui/BOINCTaskBar.cpp:744
 msgid "Computing is suspended - "
 msgstr "연산이 일시 정지됨 - "
 
-#: clientgui/BOINCTaskBar.cpp:740
+#: clientgui/BOINCTaskBar.cpp:754
 msgid "GPU computing is enabled"
 msgstr "GPU 연산이 활성화됩니다"
 
-#: clientgui/BOINCTaskBar.cpp:743
+#: clientgui/BOINCTaskBar.cpp:757
 msgid "GPU computing is suspended - "
 msgstr "GPU 연산이 일시 정지됨 - "
 
-#: clientgui/BOINCTaskBar.cpp:752
+#: clientgui/BOINCTaskBar.cpp:766
 msgid "Network is enabled"
 msgstr "네트워크 사용 가능"
 
-#: clientgui/BOINCTaskBar.cpp:755
+#: clientgui/BOINCTaskBar.cpp:769
 msgid "Network is suspended - "
 msgstr "네트워크가 일시 정지됨 - "
 
-#: clientgui/BOINCTaskBar.cpp:763
+#: clientgui/BOINCTaskBar.cpp:777
 msgid "Reconnecting to client."
 msgstr "클라이언트에 재연결."
 
-#: clientgui/BOINCTaskBar.cpp:765
+#: clientgui/BOINCTaskBar.cpp:779
 msgid "Not connected to a client."
 msgstr "클라이언트에 연결되지 않았습니다."
 
-#: clientgui/BOINCTaskBar.cpp:818
+#: clientgui/BOINCTaskBar.cpp:832
 #, c-format
 msgid "%s Notices"
 msgstr "%s 공지 사항"
 
-#: clientgui/BOINCTaskBar.cpp:824
+#: clientgui/BOINCTaskBar.cpp:838
 msgid "There are new notices - click to view."
 msgstr "새 공지 사항이 있습니다 - 보려면 클릭하세요."
 
@@ -1022,7 +1028,7 @@ msgstr "버전:"
 
 #: clientgui/DlgAbout.cpp:185
 msgid "wxWidgets Version:"
-msgstr "wx위젯 버전:"
+msgstr "wxWidgets 버전:"
 
 #: clientgui/DlgAbout.cpp:193
 msgid "Copyright:"
@@ -1030,7 +1036,7 @@ msgstr "저작권:"
 
 #: clientgui/DlgAbout.cpp:197
 msgid ""
-"(C) 2003-2023 University of California, Berkeley.\n"
+"(C) 2003-2024 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
 
@@ -1048,15 +1054,15 @@ msgstr "더 자세한 정보를 원하면 "
 msgid "&OK"
 msgstr "확인"
 
-#: clientgui/DlgAdvPreferences.cpp:761 clientgui/sg_DlgPreferences.cpp:826
+#: clientgui/DlgAdvPreferences.cpp:761 clientgui/sg_DlgPreferences.cpp:830
 msgid "Invalid number"
 msgstr "유효하지 않은 숫자"
 
-#: clientgui/DlgAdvPreferences.cpp:762 clientgui/sg_DlgPreferences.cpp:827
+#: clientgui/DlgAdvPreferences.cpp:762 clientgui/sg_DlgPreferences.cpp:831
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "유효하지 않은 시간. 해당 값은 0:00과 24:00사이이며 시간:분 형식이어야 합니다"
 
-#: clientgui/DlgAdvPreferences.cpp:763 clientgui/sg_DlgPreferences.cpp:828
+#: clientgui/DlgAdvPreferences.cpp:763 clientgui/sg_DlgPreferences.cpp:832
 msgid "Start time must be different from end time"
 msgstr "시작 시간은 반드시 종료 시간과 달라야 합니다"
 
@@ -1064,7 +1070,7 @@ msgstr "시작 시간은 반드시 종료 시간과 달라야 합니다"
 msgid "Number must be between 0 and 10"
 msgstr "숫자는 0과 10 사이여야 합니다"
 
-#: clientgui/DlgAdvPreferences.cpp:765 clientgui/sg_DlgPreferences.cpp:829
+#: clientgui/DlgAdvPreferences.cpp:765 clientgui/sg_DlgPreferences.cpp:833
 msgid "Number must be between 0 and 100"
 msgstr "숫자는 0과 100 사이여야 합니다"
 
@@ -1078,15 +1084,15 @@ msgid ""
 "mouse or keyboard input."
 msgstr "마우스나 키보드 입력이 없으면 일시중지는 '사용 중'인 마우스나 키보드 입력 시간보다 커야 합니다."
 
-#: clientgui/DlgAdvPreferences.cpp:1060 clientgui/sg_DlgPreferences.cpp:900
+#: clientgui/DlgAdvPreferences.cpp:1060 clientgui/sg_DlgPreferences.cpp:904
 msgid "invalid input value detected"
 msgstr "잘못된 입력값 발견"
 
-#: clientgui/DlgAdvPreferences.cpp:1072 clientgui/sg_DlgPreferences.cpp:912
+#: clientgui/DlgAdvPreferences.cpp:1072 clientgui/sg_DlgPreferences.cpp:916
 msgid "Validation Error"
 msgstr "인증 오류"
 
-#: clientgui/DlgAdvPreferences.cpp:1267 clientgui/sg_DlgPreferences.cpp:1246
+#: clientgui/DlgAdvPreferences.cpp:1267 clientgui/sg_DlgPreferences.cpp:1250
 msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
@@ -1094,8 +1100,8 @@ msgid ""
 msgstr "이 페이지상에 정의된 로컬 환경설정을 사용하도록 변경하세요. 이는 웹기반 환경설정을 덮어쓰며 나중에 해당 설정이 변경되더라도 적용되지 않습니다. 계속 진행하시겠습니까?"
 
 #: clientgui/DlgAdvPreferences.cpp:1271 clientgui/DlgAdvPreferences.cpp:1312
-#: clientgui/WizardAttach.cpp:573 clientgui/sg_DlgPreferences.cpp:1238
-#: clientgui/sg_DlgPreferences.cpp:1250
+#: clientgui/WizardAttach.cpp:573 clientgui/sg_DlgPreferences.cpp:1242
+#: clientgui/sg_DlgPreferences.cpp:1254
 msgid "Confirmation"
 msgstr "확인됨"
 
@@ -1126,7 +1132,7 @@ msgstr "값을 설정하고 로컬 환경설정을 대신 사용하려면 확인
 
 #: clientgui/DlgAdvPreferencesBase.cpp:133 clientgui/sg_DlgPreferences.cpp:218
 msgid "Use web prefs"
-msgstr "웹 환경설정 사요"
+msgstr "웹 환경설정 사용"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:134 clientgui/sg_DlgPreferences.cpp:219
 msgid "Restore web-based preferences and close the dialog."
@@ -1656,7 +1662,7 @@ msgstr "메시지"
 
 #: clientgui/DlgEventLog.cpp:333 clientgui/DlgEventLog.cpp:400
 msgid "Show only aler&ts"
-msgstr ""
+msgstr "경고만 보여주기 (&t)"
 
 #: clientgui/DlgEventLog.cpp:336 clientgui/DlgEventLog.cpp:386
 msgid "&Show only this project"
@@ -1710,19 +1716,19 @@ msgstr "선택한 프로젝의 메세지만 보여줍니다"
 
 #: clientgui/DlgEventLog.cpp:393
 msgid "Show al&l"
-msgstr ""
+msgstr "모두 보여주기 (&l)"
 
 #: clientgui/DlgEventLog.cpp:394 clientgui/DlgEventLog.cpp:396
 msgid "Shows messages of all types (information, alerts, etc.)"
-msgstr ""
+msgstr "모든 종류의 메세지를 보여줍니다 (정보, 경고, 기타)"
 
 #: clientgui/DlgEventLog.cpp:401
 msgid "Shows only the messages that are alerts"
-msgstr ""
+msgstr "경고 메세지들만 보여줍니다"
 
 #: clientgui/DlgEventLog.cpp:403
 msgid "Show only the messages that are alerts"
-msgstr ""
+msgstr "경고 메세지만 보여줍니다"
 
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
@@ -2252,36 +2258,36 @@ msgstr "SOCKS 프록시 서버 설정"
 msgid "SOCKS Proxy"
 msgstr "SOCKS 프록시"
 
-#: clientgui/DlgOptions.cpp:648
+#: clientgui/DlgOptions.cpp:646
 msgid "always"
 msgstr "항상 실행"
 
-#: clientgui/DlgOptions.cpp:649
+#: clientgui/DlgOptions.cpp:647
 msgid "1 hour"
 msgstr "1 시간"
 
-#: clientgui/DlgOptions.cpp:650
+#: clientgui/DlgOptions.cpp:648
 msgid "6 hours"
 msgstr "6 시간"
 
-#: clientgui/DlgOptions.cpp:651
+#: clientgui/DlgOptions.cpp:649
 msgid "1 day"
 msgstr "1 일"
 
-#: clientgui/DlgOptions.cpp:652
+#: clientgui/DlgOptions.cpp:650
 msgid "1 week"
 msgstr "1 주"
 
-#: clientgui/DlgOptions.cpp:653
+#: clientgui/DlgOptions.cpp:651
 msgid "never"
 msgstr "알리지 않음"
 
-#: clientgui/DlgOptions.cpp:768
+#: clientgui/DlgOptions.cpp:771
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - 언어 선택"
 
-#: clientgui/DlgOptions.cpp:775
+#: clientgui/DlgOptions.cpp:778
 #, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
@@ -2501,11 +2507,11 @@ msgstr "World Community Grid가 주관하는 프로젝트를 알아봅니다"
 
 #: clientgui/Localization.cpp:161
 msgid "Home page"
-msgstr ""
+msgstr "홈 페이지"
 
 #: clientgui/Localization.cpp:167
 msgid "Your tasks"
-msgstr ""
+msgstr "수행 태스크"
 
 #: clientgui/MainDocument.cpp:1296
 msgid "Version Update"
@@ -3296,23 +3302,23 @@ msgstr "BOINC 프로젝트가 사용하는 디스크 용량"
 msgid "no projects: 0 bytes used"
 msgstr "프로젝트 없음: 0 바이트 사용"
 
-#: clientgui/ViewResources.cpp:263
+#: clientgui/ViewResources.cpp:264
 msgid "used by BOINC: "
 msgstr "BOINC가 사용함: "
 
-#: clientgui/ViewResources.cpp:274
+#: clientgui/ViewResources.cpp:275
 msgid "free, available to BOINC: "
 msgstr "빈, BOINC가 사용 가능: "
 
-#: clientgui/ViewResources.cpp:282
+#: clientgui/ViewResources.cpp:283
 msgid "free, not available to BOINC: "
 msgstr "빈, BOINC가 사용 불가능: "
 
-#: clientgui/ViewResources.cpp:292
+#: clientgui/ViewResources.cpp:293
 msgid "free: "
 msgstr "빈: "
 
-#: clientgui/ViewResources.cpp:301
+#: clientgui/ViewResources.cpp:302
 msgid "used by other programs: "
 msgstr "다른 프로그램이 사용 중: "
 
@@ -3631,7 +3637,7 @@ msgstr "이 태스크를 일시 중지합니다."
 
 #: clientgui/ViewWork.cpp:990 clientgui/sg_TaskCommandPopup.cpp:149
 msgid "Stop graphics"
-msgstr "그래픽 정ㅈ"
+msgstr "그래픽 닫기"
 
 #: clientgui/ViewWork.cpp:991 clientgui/sg_TaskCommandPopup.cpp:150
 msgid "Close application graphics window."
@@ -3699,7 +3705,7 @@ msgstr "BOINC나 프로젝트에서 온 공지 사항을 보기 위해 창을 �
 msgid "Get help with %s"
 msgstr "%s 도움말을 얻으세요"
 
-#: clientgui/sg_DlgMessages.cpp:459
+#: clientgui/sg_DlgMessages.cpp:463
 #, c-format
 msgid "%s - Notices"
 msgstr "%s - 공지 사항"
@@ -3731,12 +3737,12 @@ msgstr "'사용 중'은 마우스/키보드 입력 시간을 뜻합니다"
 msgid "GB of disk space"
 msgstr "GB 디스크 공간"
 
-#: clientgui/sg_DlgPreferences.cpp:1156
+#: clientgui/sg_DlgPreferences.cpp:1160
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s - 연산 환경 설정"
 
-#: clientgui/sg_DlgPreferences.cpp:1237
+#: clientgui/sg_DlgPreferences.cpp:1241
 msgid "Discard all local preferences and use web-based preferences?"
 msgstr "모든 로컬 환경설정을 취소하고 웹기반 환경설정을 사용하겠습니까?"
 

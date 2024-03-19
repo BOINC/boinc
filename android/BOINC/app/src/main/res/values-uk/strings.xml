@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Опис:</string>
   <string name="attachproject_login_header_home">Домівка:</string>
   <string name="attachproject_login_header_url">Веб-сторінка:</string>
-  <string name="attachproject_login_header_id_email">Електронна пошта:</string>
+  <string name="attachproject_login_header_id_email">Адреса електронної пошти</string>
   <string name="attachproject_login_header_id_name">Ім\'я:</string>
   <string name="attachproject_login_header_pwd">Пароль:</string>
   <string name="attachproject_login_button_registration">Зареєструватися</string>
@@ -66,7 +66,7 @@
   <string name="attachproject_error_short_pwd">Пароль надто короткий</string>
   <string name="attachproject_error_no_internet">Невдала спроба зв’язку</string>
   <string name="attachproject_error_no_url">Будь ласка, введіть адресу (URL)</string>
-  <string name="attachproject_error_no_email">Будь ласка, вкажіть адресу електронної пошти</string>
+  <string name="attachproject_error_no_email">Будь ласка, введіть адресу електронної пошти.</string>
   <string name="attachproject_error_no_pwd">Будь ласка, введіть пароль</string>
   <string name="attachproject_error_no_name">Будь ласка, введіть ім\'я користувача</string>
   <string name="attachproject_error_unknown">невдало</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Увімкнути віддалене керування</string>
   <string name="prefs_remote_summary">Після зміни клієнт BOINC буде перезапущено.</string>
   <string name="prefs_show_notification_notices_header">Сповіщати про нові повідомлення</string>
+  <string name="prefs_show_notification_suspended_header">Сповіщати навіть коли призупинено</string>
   <string name="prefs_cpu_number_cpus_header">Використано ядер ЦП</string>
   <string name="prefs_cpu_number_cpus_description">Обмежує кількість ядер ЦП, які BOINC використовує для обчислень.</string>
   <string name="prefs_cpu_other_load_suspension_header">Призупиняти, коли використання ЦП вище, ніж (%)</string>
@@ -140,6 +141,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач (днів)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Додатковий буфер для задач (днів)</string>
   <string name="prefs_remote_authentication_key">GUI ключ автентифікації</string>
+  <string name="prefs_remote_authentication_key_input_hint">Ключ автентифікації</string>
   <string name="prefs_remote_empty_password">Помилка при зміні паролю: пароль не має бути порожнім </string>
   <string name="prefs_remote_boinc_relaunched">Клієнт BOINC буде перезапущено після зміни пароля.</string>
   <string name="prefs_client_log_flags_header">Прапорці журналу клієнта BOINC</string>

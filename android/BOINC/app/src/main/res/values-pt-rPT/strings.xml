@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Descrição:</string>
   <string name="attachproject_login_header_home">Início:</string>
   <string name="attachproject_login_header_url">Website:</string>
-  <string name="attachproject_login_header_id_email">E-mail:</string>
+  <string name="attachproject_login_header_id_email">Endereço de e-mail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Palavra-passe:</string>
   <string name="attachproject_login_button_registration">Registar</string>
@@ -66,14 +66,14 @@
   <string name="attachproject_error_short_pwd">Palavra-passe demasiado curta</string>
   <string name="attachproject_error_no_internet">Falha de ligação</string>
   <string name="attachproject_error_no_url">Por favor, insira o URL</string>
-  <string name="attachproject_error_no_email">Por favor, insira o endereço de \"e-mail\"</string>
+  <string name="attachproject_error_no_email">Por favor, insira o endereço de e-mail</string>
   <string name="attachproject_error_no_pwd">Por favor, insira uma palavra-passe</string>
   <string name="attachproject_error_no_name">Por favor, insira o nome de utilizador</string>
   <string name="attachproject_error_unknown">falhou</string>
   <string name="attachproject_error_bad_username">Nome de utilizador recusado</string>
-  <string name="attachproject_error_email_in_use">O endereço de \"e-mail\" já está a ser usado</string>
+  <string name="attachproject_error_email_in_use">Endereço de e-mail já em utilização</string>
   <string name="attachproject_error_project_down">O projeto está \"off-line\"</string>
-  <string name="attachproject_error_email_bad_syntax">E-mail recusado</string>
+  <string name="attachproject_error_email_bad_syntax">Endereço de e-mail recusado</string>
   <string name="attachproject_error_bad_pwd">Palavra-passe recusada</string>
   <string name="attachproject_error_creation_disabled">A criação de conta está desativada neste projeto</string>
   <string name="attachproject_error_invalid_url">URL inválido</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Ativar Controlo Remoto</string>
   <string name="prefs_remote_summary">Quando alterado, o cliente BOINC será executado novamente.</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificação para as novas notícias</string>
+  <string name="prefs_show_notification_suspended_header">Mostrar notificação quando suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC utiliza para computação.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausar CPU quando utilização acima de (%)</string>
@@ -140,12 +141,13 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Reserva de unidades de trabalho (dias)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Reserva adicional de unidades de trabalho (dias)</string>
   <string name="prefs_remote_authentication_key">Chave de autenticação GUI</string>
+  <string name="prefs_remote_authentication_key_input_hint">Chave de Autenticação</string>
   <string name="prefs_remote_empty_password">Atualização da palavra-passe falhada: valor não pode estar vazio</string>
   <string name="prefs_remote_boinc_relaunched">O cliente BOINC será novamente lançado depois de alterar a palavra-passe.</string>
   <string name="prefs_client_log_flags_header">Log das bandeiras do BOINC</string>
   <string name="prefs_gui_log_categories">Categorias de log da GUI do BOINC</string>
-  <string name="prefs_gui_log_level_header">Nível de log da GUI</string>
-  <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens de log da GUI.</string>
+  <string name="prefs_gui_log_level_header">Nível de registo da GUI</string>
+  <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens de registo da GUI.</string>
   <string name="prefs_theme_light">Claro</string>
   <string name="prefs_theme_dark">Escuro</string>
   <string name="prefs_theme_system">Por padrão do sistema</string>
@@ -161,8 +163,8 @@
   <string name="projects_status_dontrequestmorework">Não obter novas tarefas</string>
   <string name="projects_status_ended">Projeto terminado - Pode remover</string>
   <string name="projects_status_detachwhendone">Irá ser removido quando as tarefas terminarem</string>
-  <string name="projects_status_schedrpcpending">Solicitação agendada pendente</string>
-  <string name="projects_status_schedrpcinprogress">Solicitação agendada em progresso</string>
+  <string name="projects_status_schedrpcpending">Pedido de agendamento pendente</string>
+  <string name="projects_status_schedrpcinprogress">Pedido de agendamento pendente</string>
   <string name="projects_status_trickleuppending">Mensagem de aviso pendente</string>
   <string name="projects_status_backoff">Comunicação agendada em: %1$s</string>
   <!--project controls-->

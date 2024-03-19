@@ -5,203 +5,208 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Bug Chong, 2018
-# Meng Pang Wang, 2023-2024
-# Mingye Wang <arthur200126@gmail.com>, 2019
-# Po-Chun Huang <aphroteus@gmail.com>, 2015
-# Robert Kwan, 2020
-# Shih Han Lin <alexsh.tw@gmail.com>, 2016
-# Timo Liu <timoliu@gmail.com>, 2016
-# William Wu <df910105@gmail.com>, 2018
-# Yung Gaby <gabrielle@yungs.org>, 2018
-# 江昱輝 <darkanglephantom@gmail.com>, 2019
-# Meng Pang Wang, 2016
+# amenity <boinc.tokyo@gmail.com>, 2015
+# gedyra <gedyra@gmail.com>, 2016
+# gedyra <gedyra@gmail.com>, 2016
+# Kondo Yoshinori <taiyogakushujuku39@gmail.com>, 2018
+# Taro T <whitecat6142@gmail.com>, 2016
+# Masahiro Tagashira, 2015
+# Masahiro Tagashira, 2015
+# middlingphys, 2024
+# Mita Ichiro <kokochandaisiki@icloud.com>, 2020
+# gedyra <gedyra@gmail.com>, 2016
+# Norifumi Yamamura, 2023
+# quartz, 2019
+# 当間充, 2020
+# -分身, 2022
+# 当間充, 2020
+# 門脇 樹 <itsukijss0826@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
 "PO-Revision-Date: 2015-04-17 15:02+0000\n"
-"Last-Translator: Meng Pang Wang, 2023-2024\n"
-"Language-Team: Chinese (Taiwan) (http://app.transifex.com/boinc/boinc/language/zh_TW/)\n"
+"Last-Translator: middlingphys, 2024\n"
+"Language-Team: Japanese (http://app.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"
-msgstr "我是新手"
+msgstr "私は新規ユーザーです"
 
 msgid "I'm a BOINC user"
-msgstr "我是一位 BOINC 使用者"
+msgstr "私は BOINC ユーザーです"
 
 msgid ""
 "You must earn @count more credits to be able to post comments on this site."
-msgstr "你還需要得到 @count 積分才能在這個網站上發表評論。"
+msgstr "このサイトにコメントを投稿できるようになるには、更に @count のクレジットを獲得しなければなりません。"
 
 msgid "Enforced by version @number"
-msgstr "由版本 @number 執行"
+msgstr "バージョン @number 以降で有効です"
 
 msgid "Total Credit"
-msgstr "總積分"
+msgstr "総功績"
 
 msgid "App ID"
-msgstr "應用 ID"
+msgstr "アプリケーションのID"
 
 msgid "Friends (@count)"
-msgstr "好友（@count）"
+msgstr "友人 (@count)"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home 專案使用您計算機的空閒時間來搜尋從脈衝星發出的引力波。所使用的資料由 LIGO 引力波探測器提供。"
+msgstr "Einstein@Home は LIGO 重力波検出器からのデータを使用して、自転している中性子星(パルサーとも呼ばれます)からの重力波を探すためのスクリーンセーバーを実行するために、あなたのコンピュータのアイドル時間を使用するプログラムです。"
 
 msgid "Run while computer is on battery power?"
-msgstr "電池供電時仍進行運算？"
+msgstr "コンピュータのバッテリー電源使用中に実行しますか？"
 
 msgid "Only applies to portable computers"
-msgstr "僅適用於筆記型電腦"
+msgstr "ポータブルコンピュータにのみ適用されます"
 
 msgid "Run while computer is in use?"
-msgstr "電腦使用中仍執行運算？"
+msgstr "コンピュータを使用中に実行しますか？"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "電腦使用中仍執行 GPU 運算？"
+msgstr "コンピュータを使用中に GPU の仕事を実行しますか？"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "「使用中」表示最近一段時間有滑鼠鍵盤操作"
+msgstr "「使用中」とはマウス/キーボードの活動が右の時間内にあったことを意味します:"
 
 msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr "如果最近一段時間無鍵盤滑鼠操作則暫停運算"
+msgstr "マウス/キーボードの活動が右の時間内に無ければ仕事を一時停止: "
 
 msgid "Needed to enter low-power mode on some computers"
-msgstr "在某些電腦上必須進入低功耗模式"
+msgstr "一部のコンピュータで低電力モードに入るために必要とされます"
 
 msgid "Suspend work if CPU usage is above"
-msgstr "如果 CPU 使用率超過則暫停運算"
+msgstr "BOINC を除く CPU 使用率が右の値を超えたら、計算を一時停止"
 
 msgid "0 means no restriction. Enforced by version @number"
-msgstr "0 表示不限制。由版本 @number 執行"
+msgstr "0 は制限なしを意味します。バージョン @number 以降で有効です"
 
 msgid "Do work only between the hours of:"
-msgstr "運算時段從"
+msgstr "右の時間の間のみ仕事を実行:"
 
 msgid "No restriction if equal"
-msgstr "如果相同即表示不限制"
+msgstr "値が同じだと時間の制限なし"
 
 msgid "Leave tasks in memory while suspended?"
-msgstr "暫停運算時仍保留工作在記憶體？"
+msgstr "一時停止中にタスクをメモリに残しますか？"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "如果選擇「是」，暫停的工作將持續佔用記憶體"
+msgstr "「はい」の場合、一時停止中ののタスクはスワップ領域を消費します"
 
 msgid "Recommended: @period minutes"
-msgstr "建議值：@period 分鐘"
+msgstr "推奨: @period 分"
 
 msgid "On multiprocessors, use at most"
-msgstr "在多核心的電腦上，最多使用"
+msgstr "マルチプロセッサの場合、全プロセッサのうち使うのは最大で"
 
 msgid "processors"
-msgstr "處理器"
+msgstr "プロセッサまで"
 
 msgid "Set to 0 for no limit"
-msgstr "設定為 0 表示不限制"
+msgstr "無制限ならば 0 を指定してください "
 
 msgid "Can be used to reduce CPU heat"
-msgstr "能用於減少 CPU 發熱量"
+msgstr "CPU の熱を減少させるために使用することができます"
 
 msgid "Disk: use at most"
-msgstr "硬碟：最多使用"
+msgstr "ディスク: 最大使用時でも"
 
 msgid "Disk: leave free at least"
-msgstr "磁碟：至少預留的空閒"
+msgstr "ディスク: 残しておく空き領域は少なくとも"
 
 msgid "Values smaller than @number are ignored"
-msgstr "小於 @number 的值將被忽略"
+msgstr "@number を下回る値は無視されます"
 
 msgid "Tasks checkpoint to disk at most every"
-msgstr "任務最短的儲存時間間隔"
+msgstr "タスクがチェックポイントをディスクに書き込む最小間隔"
 
 msgid "Swap space: use at most"
-msgstr "交換空間：最多使用"
+msgstr "スワップ領域: 最大でも"
 
 msgid "Computer is connected to the Internet about every"
-msgstr "計算機連線網際網路的時間間隔"
+msgstr "コンピュータはおよそ右の時間ごとにインターネットへ接続されます"
 
 msgid ""
 "Leave blank or 0 if always connected. @project will try to maintain at least"
 " this much work."
-msgstr "如果是一直連線則留空或輸入 0。@project 將申請至少相應的任務數量。"
+msgstr "常時接続する場合は空白のままにするか 0 を指定します。@project は少なくともこれだけの仕事を維持しようとします。"
 
 msgid "Maintain enough work for an additional"
-msgstr "申請額外的任務量"
+msgstr "追加で十分な仕事を維持します"
 
 msgid "Matters only if you have a modem, ISDN, or VPN connection"
-msgstr "僅在使用調變解調器，ISDN 或 VPN 連線時有關係"
+msgstr "モデム、ISDN、もしくはVPN接続を使用している場合に重要です"
 
 msgid "Maximum download rate"
-msgstr "最大下載速率"
+msgstr "最大ダウンロード速度"
 
 msgid "Maximum upload rate"
-msgstr "最大上傳速率"
+msgstr "最大アップロード速度"
 
 msgid "Use network only between the hours of:"
-msgstr "允許使用網路的時間段："
+msgstr "右の時間の間のみネットワークを使用:"
 
 msgid "Transfer at most"
-msgstr "最多只使用"
+msgstr "一定期間内の転送量上限："
 
 msgid "Skip image file verification?"
-msgstr "跳過映像檔案驗證？"
+msgstr "イメージファイルの検証をスキップしますか？"
 
 msgid ""
 "Check this ONLY if your Internet provider modifies image files (UMTS does "
 "this, for example). Skipping verification reduces the security of BOINC."
-msgstr "僅在你的網際網路供應商會修改映像檔案時（比如 UMTS 就會）才需要。跳過驗證將降低 BOINC 的安全性。"
+msgstr "お使いのインターネットプロバイダが画像ファイルを変更する場合(たとえば UMTS がこれを行います)にのみ、ここにチェックを入れてください。検証のスキップは BOINC のセキュリティを低減します。"
 
 msgid "What is @this_project?"
-msgstr "@this_project 是什麼？"
+msgstr "@this_project とは何ですか？"
 
 msgid "Project"
-msgstr "專案"
+msgstr "プロジェクト"
 
 msgid "Total credits"
-msgstr "總積分"
+msgstr "総功績"
 
 msgid "Recent avg credits"
-msgstr "近期日均積分"
+msgstr "最近の平均功績値"
 
 msgid "Web site"
-msgstr "網站"
+msgstr "ウェブサイト"
 
 #: preference set
 msgctxt "preference set"
 msgid "Home"
-msgstr "首頁"
+msgstr "自宅"
 
 msgid "Reply"
-msgstr "回覆"
+msgstr "返信"
 
 msgid "Reply to this comment with quote"
-msgstr "引用回覆該訊息"
+msgstr "このコメントを引用して返信"
 
 msgid "this project"
-msgstr "此專案"
+msgstr "このプロジェクト"
 
 msgid "Featured"
-msgstr "特色"
+msgstr "注目"
 
 msgid "Locked"
-msgstr "已鎖定"
+msgstr "書き込み禁止"
 
 msgid "Seconds"
 msgstr "秒"
 
 msgid "project"
-msgstr "專案"
+msgstr "プロジェクト"
 
 msgid ""
 "!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
@@ -213,20 +218,20 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name 在 !site 加您為好友。您可以允許或拒絕這項邀請。被拒絕的邀請人將不會被通知，但該邀請會從雙方帳戶中移除。\n\n點選下方連結來查看這項邀請：\n!link\n\n!message\n\n感謝您抽空閱讀，\n!site 團隊"
+msgstr "!name は!site であなたの友達に追加されました。あなたはこのリクエストを承認することも拒否することもできます。拒否したことは相手には通知されません。しかし、あなたと相手のアカウントの両方からこのリクエストが削除されます。\n\nリクエストを見るには以下のリンクを参照してください：\n!link\n\n!message\n\nありがとうございます。\nThe !site team"
 
 msgid "Please set the minimum time required between posts."
-msgstr "須設定最小的發文間隔時間"
+msgstr "投稿の最低間隔を設定して下さい。"
 
 msgid ""
 "Please set the minimum total credit that a user must earn in order to post "
 "to this message board."
-msgstr "請設定使用者在該留言板發文所要求的最小總積分。"
+msgstr "ユーザがこの掲示板に投稿するために貢献しなければならない最低クレジットを設定して下さい。"
 
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
-msgstr "請設定使用者在該留言板發文所要求的最小日均積分。"
+msgstr "ユーザがこの掲示板に投稿するために必要な平均功績(credit)の最小値をセットしてください。"
 
 msgid ""
 "!name confirmed you as a friend on !site.\n"
@@ -238,69 +243,69 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name 在 !site 接受了您的好友邀請。\n\n點選下方連結來查看他/她的個人檔案：\n!link\n\n!message\n\n感謝您抽空閱讀，\n!site 團隊"
+msgstr "!name はあなたの友達リクエストを !site で承認しました。\n\n相手のプロフィールを見るには以下のリンクを参照してください：\n!link\n\n!message\n\nありがとうございます\nThe !site team"
 
 msgid ""
 "A team foundership change was already requested recently. Only one request "
 "is allowed within a period of 90 days."
-msgstr "團隊創始人最近已被變更。90天內僅允許一次請求。"
+msgstr "チームの創設者権限の委譲は、最近既に要求されています。90日間に1つの要求しかできません。"
 
 msgid "Team name is required."
-msgstr "團隊名稱必填。"
+msgstr "チーム名が必要です。"
 
 msgid "You are banned from community participation until @date"
-msgstr "你被禁止參與社群直到 @date"
+msgstr "@dateまでコミュニティへの参加は禁止されています"
 
 msgid "There is no user on your team with that email address."
-msgstr "你的團隊中沒有使有該電子信箱的使用者"
+msgstr "そのメールアドレスを持つユーザーはチームにいません。"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr "Einstein@Home專案使用您電腦的空閒時間來搜尋從自旋中子星(通常稱脈衝星)發出的重力波。所使用的資料由LIGO引力波探測器提供。"
+msgstr "Einstein@Homeは、コンピューターのアイドル時間を使用してスクリーンセーバーを実行し、LIGO重力波検出器からのデータを使用して、回転する孤立したコンパクトオブジェクト（その中にはパルサーがあります）からの重力波を検索するプログラムです。"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
 " gravitational waves from spinning isolated compact objects (among which are"
 " pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home專案使用您電腦的空閒時間來搜尋從自旋中子星(通常稱脈衝星)發出的重力波。所使用的資料由LIGO引力波探測器提供。"
+msgstr "Einstein@Homeは、コンピューターのアイドル時間を使用してLIGO重力波検出器からのデータを使用して、回転する孤立したコンパクトオブジェクト（その中にはパルサーがあります）からの重力波を検索するプログラムです。"
 
 msgid "Add separate preferences for @venue"
-msgstr "新增@venue環境的偏好設定"
+msgstr "@venueに個別の設定を追加する"
 
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
 "left the team or have not had contact with the team for a long time."
-msgstr "團隊成員 @name 被要求團隊創始人資格。這可能是因為您離開團隊或很長時間沒有與團隊接觸。"
+msgstr "チームメンバーの @name がこのチームの創設者権限を要求しました。これはあなたがチームを去ったか、あるいは長い間チームとの連絡を絶っていたからかもしれません。"
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr "團隊創始人有1天來回應您的申請。"
+msgstr "チームの創設者はあなたの移籍リクエストに応答するために1日を持っています。"
 
 msgid "Message board title is required."
-msgstr "留言板標題必填。"
+msgstr "メッセージボードのタイトルが必要です。"
 
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr "警告：要使Apache Solr能夠搜索評論，您的內容<a href=\\\"@url\\\">必須重新索引</a>。"
+msgstr "警告：Apache Solrがコメントを検索する前に、コンテンツの<a href=\"@url\">インデックスを再作成する必要があります。</a>"
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr "選擇讓Apace Solr索引評論的類型。更改此配置後，您的內容必須重新索引。"
+msgstr "Apace Solrがコメントのインデックスを作成するコンテンツタイプを選択します。この構成を変更した後、コンテンツのインデックスを再作成する必要があります。"
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr "如要更改用戶電郵，您必須同時更改密碼。"
+msgstr "ユーザーの電子メールを変更する場合は、パスワードも同時に変更する必要があります。"
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr "用法：'保存配置'將把上面的首選項保存到drupal數據庫中。這些將會是預設的計算（全局）首選項，一旦任何用戶加載帳戶首選項頁面，這些首選項將是默認首選項。"
+msgstr "使用法：「構成の保存」は、上記の設定をdrupalデータベースに保存します。これらは、ユーザーがアカウント設定ページを読み込むと、設定フォームに入力する初期のコンピューティング（グローバル）設定になります。"
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -310,27 +315,27 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr "「使用config.xml中的磁碟使用設定來儲存配置」會將上述偏好儲存到drupal資料庫中，但是也會從BOINC專案的config.xml檔案中載入磁碟使用設定。 這些將覆蓋上面放置的所有磁碟使用設定。 警告：如果您將config.xml中的磁碟使用設定載入到drupal資料庫，使用者的個人偏好不會改變。 他們必須手動更改他們的偏好設定。"
+msgstr "「config.xmlのディスク使用設定で構成を保存」は、上記の設定をdrupalデータベースに保存しますが、BOINCプロジェクトのconfig.xmlファイルからもディスク使用設定をロードします。 これらは、上記で配置したディスク使用設定を上書きします。 注意：ディスク使用設定をconfig.xmlからdrupalデータベースにロードしても、ユーザーの個人設定は変更されません。 設定を手動で変更する必要があります。"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "My stats"
-msgstr "我的統計"
+msgstr "私の統計"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Home"
-msgstr "首頁"
+msgstr "自宅"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Credentials"
-msgstr "證書"
+msgstr "証明書"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Dashboard"
-msgstr "儀表板"
+msgstr "ダッシュボード"
 
 #: footer-link
 msgctxt "footer-link"
@@ -340,19 +345,19 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr "您的個人背景"
+msgstr "あなたの個人的なバックグラウンド"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr "簡單介紹一下您自己，比如從哪裡來，年齡，職業，興趣愛好，或者其它任何事情。"
+msgstr "ご自身について書いてください。出身地、年齢、職業、趣味のほか、何でもあなたに関することをどうぞ。"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr "您對此專案的看法"
+msgstr "このプロジェクトについてのあなたの意見"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -361,317 +366,317 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr "告訴我們你對於@this_project的想法\n   1. 你為什麼選擇執行 @this_project？\n   2. 你對於這個專案有什麼看法？\n   3. 其他建議？"
+msgstr "@this_projectについての考えを教えてください。\n1.なぜ@this_projectを実行するのですか？\n2.このプロジェクトについて何か意見がありますか？\n3.その他にも提案をいただけますか？"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Postal code"
-msgstr "郵遞區號"
+msgstr "郵便番号"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Avatar"
-msgstr "大頭貼"
+msgstr "アバター"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Country"
-msgstr "國家"
+msgstr "国名"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr "用戶檔案圖片"
+msgstr "プロフィール画像"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr "網站URL"
+msgstr "ウェブサイトのURL"
 
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr "@this_project發展"
+msgstr "@this_projectの進歩"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Projects"
-msgstr "專案"
+msgstr "プロジェクト"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr "沒有加任何好友"
+msgstr "友達は追加されてません"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr "查看所有好友"
+msgstr "全てのフレンドを見る"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Friend Requests"
-msgstr "好友請求"
+msgstr "友人関係の承認リクエスト"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr "等待朋友核准"
+msgstr "友人の承認待ち"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr "搜尋網站"
+msgstr "サイトを検索"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "News"
-msgstr "新聞"
+msgstr "ニュース"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr "證書"
+msgstr "証明書"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "All computers"
-msgstr "所有電腦"
+msgstr "すべてのコンピュータ"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr "過去30天內活躍的電腦"
+msgstr "過去30日の間に活動のあったコンピュータ"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Preferences"
-msgstr "偏好設定"
+msgstr "プレファレンス"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Community"
-msgstr "社群"
+msgstr "コミュニティ"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr "隱私"
+msgstr "プライバシー"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr "訂閱"
+msgstr "サブスクリプション"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr "訂閱"
+msgstr "サブスクリプション"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr " 已更新"
+msgstr "更新"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr "等待隊列"
+msgstr "キュー"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Profile"
-msgstr "用戶檔案"
+msgstr "プロフィール"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr "過去30天內活躍"
+msgstr "過去30日の間に活動のあった"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "All computers"
-msgstr "所有電腦"
+msgstr "すべてのコンピュータ"
 
 #: user-info
 msgctxt "user-info"
 msgid "Joined"
-msgstr "已加入"
+msgstr "参加日時"
 
 #: user-info
 msgctxt "user-info"
 msgid "Posts"
-msgstr "文章"
+msgstr "投稿"
 
 #: user-info
 msgctxt "user-info"
 msgid "Credit"
-msgstr "積分"
+msgstr "功績値"
 
 #: user-info
 msgctxt "user-info"
 msgid "RAC"
-msgstr "近期日均積分"
+msgstr "最近の平均功績"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Inbox"
-msgstr "收件匣"
+msgstr "受信箱"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Compose new"
-msgstr "建立新訊息"
+msgstr "新規作成"
 
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr "顯示電腦"
+msgstr "コンピュータを表示"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject profile"
-msgstr "拒絕個人資料"
+msgstr "プロフィールを却下する"
 
 #: moderate-ban-user
 msgctxt "moderate-ban-user"
 msgid "Ban user"
-msgstr "禁止使用者"
+msgstr "規制されたユーザー"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Authenticator login"
-msgstr "驗證器登入"
+msgstr "認証ログイン"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr "沒有內容在隊列中等待審核。"
+msgstr "モデレート用のキューにはコンテンツがありません。"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr "個人資訊審覈隊列"
+msgstr "ユーザープロファイル管理キュー"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr "過去30天內活躍"
+msgstr "過去30日の間に活動のあった"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
 msgid "Comment form"
-msgstr "評論表單"
+msgstr "下記からのコメント"
 
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr "訂閱"
+msgstr "サブスクリプション"
 
 #: country-of-origin
 msgctxt "country-of-origin"
 msgid "Country"
-msgstr "國家"
+msgstr "国名"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Login"
-msgstr "登入"
+msgstr "ログイン"
 
 #: email-address-to-login
 msgctxt "email-address-to-login"
 msgid "Email address"
-msgstr "電子郵件地址"
+msgstr "Eメールアドレス"
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Enter your @s email address."
-msgstr "請輸入您的 @s 電子郵件地址。"
+msgstr "あなたのEメールアドレスを入力してください。"
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Log in"
-msgstr "登入"
+msgstr "ログイン"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "search"
-msgstr "搜尋"
+msgstr "検索"
 
 #: front-page
 msgctxt "front-page"
 msgid "Join now"
-msgstr "現在加入"
+msgstr "今すぐ参加"
 
 #: user-account
 msgctxt "user-account"
 msgid "Account"
-msgstr "帳號"
+msgstr "アカウント"
 
 #: footer-link:-1:ignoreoverwrite
 msgctxt "footer-link:-1:ignoreoverwrite"
 msgid "Applications"
-msgstr "程式"
+msgstr "アプリケーション"
 
 #: footer-link
 msgctxt "footer-link"
 msgid "Server status"
-msgstr "伺服器狀態"
+msgstr "サーバー側の状態"
 
 #: team-id
 msgctxt "team-id"
 msgid "Team ID"
-msgstr "團隊 ID"
+msgstr "チームID"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Founder"
-msgstr "創始人"
+msgstr "創設者"
 
 #: user-or-team-RAC
 msgctxt "user-or-team-RAC"
 msgid "Recent average credit"
-msgstr "最近日均積分"
+msgstr "最近の平均功績(功績値/日)"
 
 #: user-or-team-name
 msgctxt "user-or-team-name"
 msgid "Name"
-msgstr "名稱"
+msgstr "名前"
 
 #: team-members
 msgctxt "team-members"
 msgid "Members"
-msgstr "成員"
+msgstr "メンバー"
 
 #: user-or-team-total-credits
 msgctxt "user-or-team-total-credits"
 msgid "Total credit"
-msgstr "總積分"
+msgstr "総功績"
 
 #: user-details
 msgctxt "user-details"
 msgid "User ID"
-msgstr "用戶 ID"
+msgstr "ユーザーID"
 
 #: user-on-team
 msgctxt "user-on-team"
 msgid "User"
-msgstr "使用者"
+msgstr "参加者"
 
 #: team-when-user-became-an-admin
 msgctxt "team-when-user-became-an-admin"
 msgid "Admin since"
-msgstr "成為管理員"
+msgstr "下記日時より管理者"
 
 #: user-joined-or-leaving-team
 msgctxt "user-joined-or-leaving-team"
 msgid "User joined"
-msgstr "成為使用者"
+msgstr "ユーザーが参加しました"
 
 #: team-history-timestamp
 msgctxt "team-history-timestamp"
 msgid "Timestamp"
-msgstr "時間戳"
+msgstr "タイムスタンプ"
 
 #: user-id
 msgctxt "user-id"
@@ -681,12 +686,12 @@ msgstr "ID"
 #: user-info
 msgctxt "user-info"
 msgid "Account Key"
-msgstr "帳號金鑰"
+msgstr "アカウント・キー"
 
 #: user-info
 msgctxt "user-info"
 msgid "Member since"
-msgstr "成為成員"
+msgstr "下記日時よりメンバー"
 
 #: user-info
 msgctxt "user-info"
@@ -696,179 +701,179 @@ msgstr "CPID"
 #: user-info
 msgctxt "user-info"
 msgid "Email Address"
-msgstr "電子郵件地址"
+msgstr "Eメールアドレス"
 
 #: user-info
 msgctxt "user-info"
 msgid "Password Hash"
-msgstr "密碼雜湊"
+msgstr "パスワードのハッシュ値"
 
 #: user-info
 msgctxt "user-info"
 msgid "Postal Code"
-msgstr "郵編"
+msgstr "郵便番号"
 
 #: user-info
 msgctxt "user-info"
 msgid "Send Email"
-msgstr "傳送郵件"
+msgstr "Eメールを送信"
 
 #: user-info
 msgctxt "user-info"
 msgid "Show Hosts"
-msgstr "顯示主機"
+msgstr "計算機を表示"
 
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
 msgid "URL"
-msgstr "網址"
+msgstr "URL"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computer ID"
-msgstr "電腦辨識 ID"
+msgstr "コンピュータのID "
 
 #: host-list
 msgctxt "host-list"
 msgid "Location"
-msgstr "位置"
+msgstr "設置場所"
 
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time work is allowed"
-msgstr "當 BONC 執行時，允許處理任務的時間比 (%)"
+msgstr "BOINC 走行中に仕事処理を許可されている時間の割合(%)"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average turnaround time"
-msgstr "平均任務周轉時間"
+msgstr "平均ターンアラウンド時間"
 
 #: host-details
 msgctxt "host-details"
 msgid "Created"
-msgstr "建立日期"
+msgstr "作成日時"
 
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "當 BOINC 正在運作時，主機連接網路的時間比 (%)"
+msgstr "BOINC 走行中にインターネットに接続している時間の割合(%)"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average CPU efficiency"
-msgstr "平均 CPU 效率"
+msgstr "平均 CPU 時間獲得率"
 
 #: host-details
 msgctxt "host-details"
 msgid "Free disk space"
-msgstr "剩餘磁碟空間"
+msgstr "空きディスク領域"
 
 #: host-details
 msgctxt "host-details"
 msgid "Total disk space"
-msgstr "總硬碟容量"
+msgstr "合計ディスク領域"
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite
 msgctxt ""
 "details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-"
 "ignoreoverwrite"
 msgid "Name"
-msgstr "名稱"
+msgstr "名前"
 
 #: host-details
 msgctxt "host-details"
 msgid "Task duration correction factor"
-msgstr "任務持續修正的原因"
+msgstr "タスク期間補正因子"
 
 #: host-details
 msgctxt "host-details"
 msgid "Avg. credit"
-msgstr "日均積分"
+msgstr "平均功績値"
 
 #: host-details
 msgctxt "host-details"
 msgid "External IP address"
-msgstr "外部 IP 位址"
+msgstr "外部 IP アドレス"
 
 #: host-details
 msgctxt "host-details"
 msgid "Cross project ID"
-msgstr "跨專案標識符（CPID）"
+msgstr "プロジェクト横断 ID"
 
 #: host-details
 msgctxt "host-details"
 msgid "Last IP address"
-msgstr "最近使用的 IP 地址"
+msgstr "前回のIPアドレス"
 
 #: host-details
 msgctxt "host-details"
 msgid "Cache"
-msgstr "快取"
+msgstr "キャッシュ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Memory"
-msgstr "記憶體"
+msgstr "メモリ"
 
 #: host-details
 msgctxt "host-details"
 msgid "Swap space"
-msgstr "交換區域"
+msgstr "スワップ領域"
 
 #: host-details
 msgctxt "host-details"
 msgid "Maximum daily WU quota per CPU"
-msgstr "單 CPU 每日 WU 限額"
+msgstr "CPUごとの日次クオータ割り当て最大値"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average download rate"
-msgstr "平均下載速率"
+msgstr "平均ダウンロード速度"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average upload rate"
-msgstr "平均上傳速率"
+msgstr "平均アップロード速度"
 
 #: host-details
 msgctxt "host-details"
 msgid "Same IP address count"
-msgstr "同 IP 地址的數量"
+msgstr "同一IPアドレスのカウント"
 
 #: host-details
 msgctxt "host-details"
 msgid "% of time BOINC client is running"
-msgstr "% BOINC 客戶端執行時間"
+msgstr "BOINC クライアントが走行している時間の割合(%)"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system"
-msgstr "作業系統"
+msgstr "オペレーティングシステム"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system version"
-msgstr "作業系統版本"
+msgstr "オペレーティングシステムのバージョン"
 
 #: host-details
 msgctxt "host-details"
 msgid "Measured floating point speed"
-msgstr "浮點運算速度"
+msgstr "浮動小数点演算速度の測定値"
 
 #: host-details
 msgctxt "host-details"
 msgid "Measured integer speed"
-msgstr "整數運算速度"
+msgstr "整数演算速度の測定値"
 
 #: host-details
 msgctxt "host-details"
 msgid "CPU model"
-msgstr "CPU 型號"
+msgstr "CPUの型番"
 
 #: host-details
 msgctxt "host-details"
 msgid "Number of processors"
-msgstr "處理器數量"
+msgstr "プロセッサ数"
 
 #: host-details
 msgctxt "host-details"
@@ -878,87 +883,87 @@ msgstr "CPU"
 #: host-details
 msgctxt "host-details"
 msgid "Number of times client has contacted server"
-msgstr "客戶端連接服務端的次數"
+msgstr "BOINC クライアントがサーバーに接続した回数"
 
 #: host-details
 msgctxt "host-details"
 msgid "Last contact"
-msgstr "最後聯繫時間"
+msgstr "最後の接続日時"
 
 #: host-details
 msgctxt "host-details"
 msgid "Serial number"
-msgstr "序列號"
+msgstr "シリアル番号"
 
 #: host-details
 msgctxt "host-details"
 msgid "Timezone"
-msgstr "時區"
+msgstr "タイムゾーン"
 
 #: platform-details
 msgctxt "platform-details"
 msgid "Platform ID"
-msgstr "平臺 ID"
+msgstr "プラットフォームのID"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task ID"
-msgstr "任務 ID"
+msgstr "タスクのID"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit ID"
-msgstr "任務單元 ID"
+msgstr "ワークユニットのID"
 
 #: task-details
 msgctxt "task-details"
 msgid "Host ID"
-msgstr "主機 ID"
+msgstr "計算機のID"
 
 #: application-details
 msgctxt "application-details"
 msgid "Application ID"
-msgstr "應用程式 ID"
+msgstr "アプリケーションのID"
 
 #: task-details
 msgctxt "task-details"
 msgid "Application version"
-msgstr "程式版本"
+msgstr "アプリケーションのバージョン"
 
 #: task-details
 msgctxt "task-details"
 msgid "Claimed credit"
-msgstr "申請積分"
+msgstr "要求された功績値"
 
 #: task-details
 msgctxt "task-details"
 msgid "Client state"
-msgstr "客戶端狀態"
+msgstr "クライアント側の状態"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time"
-msgstr "CPU 時間"
+msgstr "CPU時間"
 
 #: task-details:-1:ignoreoverwrite
 msgctxt "task-details:-1:ignoreoverwrite"
 msgid "Created"
-msgstr "建立日期"
+msgstr "作成日時"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time"
-msgstr "執行時間"
+msgstr "実行時間"
 
 #: task-details
 msgctxt "task-details"
 msgid "Exit status"
-msgstr "離開狀態"
+msgstr "終了ステータス"
 
 #: task-details
 msgctxt "task-details"
 msgid "Granted credit"
-msgstr "授予的積分"
+msgstr "認められた功績値"
 
 #: task-details
 msgctxt "task-details"
@@ -968,184 +973,184 @@ msgstr "結果"
 #: task-details
 msgctxt "task-details"
 msgid "Received time"
-msgstr "接收時間"
+msgstr "報告日時"
 
 #: task-details
 msgctxt "task-details"
 msgid "Report deadline"
-msgstr "回報期限"
+msgstr "報告期限"
 
 #: task-details
 msgctxt "task-details"
 msgid "Sent"
-msgstr "傳送時間"
+msgstr "送出日時"
 
 #: task-details
 msgctxt "task-details"
 msgid "Server state"
-msgstr "伺服器狀態"
+msgstr "サーバー側の状態"
 
 #: task-details
 msgctxt "task-details"
 msgid "Stderr out"
-msgstr "標準錯誤輸出"
+msgstr "標準エラー出力(stderr)"
 
 #: task-details
 msgctxt "task-details"
 msgid "Validation state"
-msgstr "驗證狀態"
+msgstr "検証の状態"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr "峯值記憶體大小"
+msgstr "最大のウォーキングセットサイズ"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr "峯值交換磁區大小"
+msgstr "最大のスワップサイズ"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr "峯值硬碟用量"
+msgstr "最大のディスク使用量"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical credit"
-msgstr "規範積分"
+msgstr "認められた功績"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result ID"
-msgstr "規範結果 ID"
+msgstr "認められた功績のID"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Created time"
-msgstr "建立時間"
+msgstr "作成日時"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Error mask"
-msgstr "錯誤掩碼"
+msgstr "エラーマスク"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Minimum quorum"
-msgstr "最小配額"
+msgstr "最小定足数"
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreovewrite
 msgctxt ""
 "details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-"
 "ignoreovewrite"
 msgid "Name"
-msgstr "名稱"
+msgstr "名前"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max error tasks"
-msgstr "最大的錯誤任務"
+msgstr "最大エラータスク"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max success tasks"
-msgstr "最大的成功任務"
+msgstr "最大成功タスク"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max total tasks"
-msgstr "最大的總任務"
+msgstr "最大合計タスク"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Needs validation"
-msgstr "需要驗證"
+msgstr "要検証"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Initial replication"
-msgstr "初始任務拷貝"
+msgstr "最初の再実施"
 
 #: application-details
 msgctxt "application-details"
 msgid "Target number of results"
-msgstr "結果的目標數量"
+msgstr "結果の目標数"
 
 #: application-details
 msgctxt "application-details"
 msgid "Application version ID"
-msgstr "應用版本 ID"
+msgstr "アプリケーションのバージョンのID"
 
 #: application-details
 msgctxt "application-details"
 msgid "Plan class"
-msgstr "計劃類別"
+msgstr "プランクラス"
 
 #: application-details
 msgctxt "application-details"
 msgid "Version number"
-msgstr "版本號"
+msgstr "バージョン番号"
 
 #: host-details
 msgctxt "host-details"
 msgid "Computer"
-msgstr "電腦"
+msgstr "コンピュータ"
 
 #: application-details
 msgctxt "application-details"
 msgid "App version ID"
-msgstr "應用版本 ID"
+msgstr "アプリケーションのバージョンのID"
 
 #: application-details
 msgctxt "application-details"
 msgid "Consecutive valid tasks"
-msgstr "連續完成的運算任務數量"
+msgstr "連続して有効な結果を返したタスク数"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks completed"
-msgstr "完成的運算任務數量"
+msgstr "完了したタスクの数"
 
 #: application-details
 msgctxt "application-details"
 msgid "Max tasks per day"
-msgstr "每日最大任務數量"
+msgstr "一日あたりの最大タスク数"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks today"
-msgstr "今天的任務數量"
+msgstr "今日のタスク数"
 
 #: application-details:-1:ignoreoverwrite
 msgctxt "application-details:-1:ignoreoverwrite"
 msgid "Average turnaround time"
-msgstr "平均任務周轉時間"
+msgstr "平均ターンアラウンド時間"
 
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Moderation"
-msgstr "仲裁"
+msgstr "モデレート"
 
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Unvetted profiles"
-msgstr "已驗證的使用者檔案"
+msgstr "未審査のプロファイル"
 
 #: team-dashboard
 msgctxt "team-dashboard"
 msgid "Team"
-msgstr "團隊"
+msgstr "チーム"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Posts contributed"
-msgstr "發表的主題"
+msgstr "投稿されたポスト"
 
 #: rss-feed-description
 msgctxt "rss-feed-description"
 msgid "The latest news from the @site_name project"
-msgstr "來自 @site_name 專案的最新訊息"
+msgstr "@site_name プロジェクトからの最新のニュース"
 
 #: forum-reply-to-comment-with-quote
 msgctxt "forum-reply-to-comment-with-quote"
@@ -1155,77 +1160,77 @@ msgstr "引用"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr "引用回覆該訊息"
+msgstr "このコメントに引用で返信する"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr "加入日期： @join_date"
+msgstr "参加：@join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr "貼子數：@post_count"
+msgstr "投稿：@post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr "積分： @user_credits"
+msgstr "クレジット：@user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr "RAC: @user_rac"
+msgstr "最近の平均クレジット：@user_rac"
 
 #: message-header
 msgctxt "message-header"
 msgid "Message @id"
-msgstr "訊息 @id"
+msgstr "メッセージ @id"
 
 #: comment-action-links
 msgctxt "comment-action-links"
 msgid "moderation"
-msgstr "仲裁"
+msgstr "モデレーション"
 
 #: task-dtails-errorlog
 msgctxt "task-dtails-errorlog"
 msgid "Stderr output"
-msgstr "標準錯誤輸出"
+msgstr "標準エラー出力(stderr)"
 
 #: message-header
 msgctxt "message-header"
 msgid "message @id"
-msgstr "訊息 @id"
+msgstr "メッセージ @id"
 
 #: message-header
 msgctxt "message-header"
 msgid " in response to !parent"
-msgstr "回覆 !parent"
+msgstr "!parent への返信"
 
 #: front-page
 msgctxt "front-page"
 msgid "Welcome back!"
-msgstr "歡迎回來！"
+msgstr "おかえりなさい！"
 
 #: front-page
 msgctxt "front-page"
 msgid "Learn more"
-msgstr "瞭解更多資訊"
+msgstr "もっと詳しく知る"
 
 #: front-page
 msgctxt "front-page"
 msgid "View account"
-msgstr "檢視帳號"
+msgstr "アカウントを見る"
 
 #: front-page
 msgctxt "front-page"
 msgid "User of the day"
-msgstr "本日用戶"
+msgstr "毎日の参加者紹介"
 
 #: front-page
 msgctxt "front-page"
 msgid "Over 500,000 volunteers and counting."
-msgstr "超過50萬名並還在繼續增加的志願者"
+msgstr "500,000を超えるボランティアがおり、なおも増えています。"
 
 #: front-page
 msgctxt "front-page"
@@ -1245,22 +1250,22 @@ msgstr "Linux"
 #: front-page
 msgctxt "front-page"
 msgid "Credits per day"
-msgstr "每日積分"
+msgstr "クレジット/日"
 
 #: front-page-discuss-news
 msgctxt "front-page-discuss-news"
 msgid "discuss"
-msgstr "討論"
+msgstr "話し合う"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Logout"
-msgstr "登出"
+msgstr "ログアウト"
 
 #: footer-link
 msgctxt "footer-link"
 msgid "Create content"
-msgstr "建立內容"
+msgstr "コンテンツを作成する"
 
 #: anonymous-user
 msgctxt "anonymous-user"
@@ -1270,74 +1275,74 @@ msgstr "匿名"
 #: help-with-user-input-with-BBCode
 msgctxt "help-with-user-input-with-BBCode"
 msgid "BBcode help"
-msgstr "BBcode 幫助"
+msgstr "BBコードのヘルプ"
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post comment"
-msgstr "發表回覆"
+msgstr "コメントを投稿"
 
 #: form-cancel
 msgctxt "form-cancel"
 msgid "Cancel"
-msgstr "取消"
+msgstr "キャンセル"
 
 #: host-details
 msgctxt "host-details"
 msgid "Details"
-msgstr "細節"
+msgstr "詳細"
 
 #: host-tasks-link
 msgctxt "host-tasks-link"
 msgid "Tasks"
-msgstr "任務"
+msgstr "タスク"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computers pending"
-msgstr "等待中的電腦"
+msgstr "保留中のコンピュータ"
 
 #: host-list
 msgctxt "host-list"
 msgid ""
 "This user does not yet have any associated computers. Computers will be "
 "displayed when they have earned their first credits."
-msgstr "該使用者沒有已知的電腦。電腦於首次獲得積分後才會顯示。"
+msgstr "このユーザーはまだ関連付けたコンピュータを持っていません。コンピュータは最初のクレジットを獲得してから表示されます。"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Avg credit"
-msgstr "日均積分"
+msgstr "平均功績値"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "More"
-msgstr "更多"
+msgstr "詳細"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computers hidden"
-msgstr "電腦已隱藏"
+msgstr "コンピュータは表示されません"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has chosen not to show information about their computers."
-msgstr "該使用者已選擇不顯示他的電腦資訊。"
+msgstr "このユーザーは自分のコンピュータに関する情報を表示しないように選択しました。"
 
 #: project-name:-1:ignoreoverwrite
 msgctxt "project-name:-1:ignoreoverwrite"
 msgid "Name"
-msgstr "名稱"
+msgstr "名前"
 
 #: page-submitted-info
 msgctxt "page-submitted-info"
 msgid "Submitted by !username on !datetime"
-msgstr "由 !username於 !datetime 提交"
+msgstr "!datetime に !username によって投稿されました"
 
 #: user-profile
 msgctxt "user-profile"
 msgid "Background"
-msgstr "背景"
+msgstr "バックグラウンド"
 
 #: user-profile
 msgctxt "user-profile"
@@ -1347,59 +1352,59 @@ msgstr "意見"
 #: website-of-user-of-team
 msgctxt "website-of-user-of-team"
 msgid "Website"
-msgstr "網站"
+msgstr "ウェブサイト"
 
 #: users-table
 msgctxt "users-table"
 msgid "View user profile."
-msgstr "檢視使用者檔案"
+msgstr "ユーザーのプロフィールを見ます。"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Enter your password to save changes"
-msgstr "輸入您的密碼以儲存更改"
+msgstr "変更を保存するにはパスワードを入力してください"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid ""
 "Enter your current password if changing your email\n"
 "          address or password."
-msgstr "如果您要更改電子郵件地址或密碼\n請輸入您的當前密碼。"
+msgstr "Eメールアドレスもしくはパスワードを変更するなら、現在のパスワードを入力してください。"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "BOINC user ID"
-msgstr "BOINC 使用者 ID"
+msgstr "BOINC のユーザーID"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Drupal user ID"
-msgstr "Drupal 使用者 ID"
+msgstr "Drupal のユーザーID"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Account key"
-msgstr "帳號金鑰"
+msgstr "アカウント・キー"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Weak account key"
-msgstr "密碼太弱"
+msgstr "弱いアカウント・キー"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Cross-project ID"
-msgstr "跨專案辨識碼 (CPID)"
+msgstr "プロジェクト横断 ID"
 
 #: form-save
 msgctxt "form-save"
 msgid "Save changes"
-msgstr "儲存更改"
+msgstr "変更を保存する"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Change password"
-msgstr "修改密碼"
+msgstr "パスワードの変更"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
@@ -1409,27 +1414,27 @@ msgstr "一般"
 #: account-preferences-location:-1:ignoreoverwrite
 msgctxt "account-preferences-location:-1:ignoreoverwrite"
 msgid "Home"
-msgstr "首頁"
+msgstr "自宅"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
 msgid "School"
-msgstr "學校"
+msgstr "学校"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
 msgid "Work"
-msgstr "工作"
+msgstr "勤務場所"
 
 #: form-yes-no:-1:binary-form-option-pairs-with-no
 msgctxt "form-yes-no:-1:binary-form-option-pairs-with-no"
 msgid "yes"
-msgstr "是"
+msgstr "はい"
 
 #: form-yes-no:-1:binary-form-option-pairs-with-yes
 msgctxt "form-yes-no:-1:binary-form-option-pairs-with-yes"
 msgid "no"
-msgstr "否"
+msgstr "いいえ"
 
 #: account-preferences-preset:-1:for a user to choose a computing or project
 #: preference preset.
@@ -1437,7 +1442,7 @@ msgctxt ""
 "account-preferences-preset:-1:for a user to choose a computing or project "
 "preference preset."
 msgid "Presets"
-msgstr "預設"
+msgstr "プリセット"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
@@ -1452,7 +1457,7 @@ msgstr "最大"
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Green"
-msgstr "綠"
+msgstr "緑色"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
@@ -1462,107 +1467,107 @@ msgstr "最小"
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Custom"
-msgstr "定製"
+msgstr "カスタム"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Update preset"
-msgstr "更新預設"
+msgstr "更新のプリセット"
 
 #: account-preferences-option
 msgctxt "account-preferences-option"
 msgid "Advanced settings"
-msgstr "高階設定"
+msgstr "上級設定"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Processor usage"
-msgstr "處理器使用量"
+msgstr "プロセッサの使い方"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr "當電腦使用電池時暫停?"
+msgstr "コンピューターがバッテリーで稼働していたら一時停止しますか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr "當筆記型電腦使用電池時暫停運算。"
+msgstr "バッテリーで動作している場合、ポータブルでのコンピューティングを中断します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr "當電腦使用時暫停？"
+msgstr "コンピュータが使用中の時は一時停止しますか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr "當您使用計算機時將暫停計算和文件傳輸。"
+msgstr "コンピューターを使用している場合、計算とファイル転送を中断します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr "當電腦使用時暫停 GPU 運算？"
+msgstr "コンピュータが使用中の時は一時停止しますか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr "當您正在使電腦時暫停 GPU 運算。"
+msgstr "コンピューターを使用している場合、GPUによる計算を中断します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr "如果在最近一段時間內有鼠標或鍵盤操作則認為計算機在使用中"
+msgstr "「使用中」とは、マウス・キーボード入力が右の時間内にあった場合のことです:"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "minutes"
-msgstr "分鐘內仍有動作"
+msgstr "分"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr "這將確定在怎樣的情況下計算機會被視為“正在使用”。"
+msgstr "コンピュータがどんな場合に「使用中」とみなすか決定します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when no mouse/keyboard input in last"
-msgstr "如果在最近的多少分鐘內無滑鼠或鍵盤操作則暫停計算"
+msgstr "「使用中」とは、マウス・キーボード入力が右の時間内にあった場合のことです:"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "這將使得一些計算機在不使用時進入低功耗模式。"
+msgstr "これは、一部のコンピュータが使用しないときに低電力モードに入ることを可能にします。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "暫停當非 BOINC 的 CPU 使用率高於"
+msgstr "BOINC 以外のCPU使用率が超える場合に一時停止"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend computing when your computer is busy running other programs."
-msgstr "當電腦正忙於其他程式時暫停運算。"
+msgstr "コンピュータが他のプログラムによってビジー状態にある時、計算を一時停止します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr "運算範圍"
+msgstr "以下の間でのみ計算します："
 
 #: account-preference
 msgctxt "account-preference"
 msgid "and"
-msgstr "到"
+msgstr "から"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only during a particular period each day."
-msgstr "僅在每天特定時段運算。"
+msgstr "それぞれの日の特定範囲の時間帯だけ計算します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr "暫停時將非圖形處理器工作保留於記憶體中？"
+msgstr "一時停止中に非GPUタスクをメモリに残しますか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1570,39 +1575,39 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr "如果“是”，掛起的任務將保留在內存中，並可無損恢復。如果“否”，掛起的任務將會從內存中移除，並將恢復到上一個記錄點。"
+msgstr "「はい」の場合、中断されたタスクはメモリに残り、作業が失われることなく再開されます。 「いいえ」の場合、中断されたタスクはメモリから削除され、最後のチェックポイントから再開されます。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Switch between tasks every"
-msgstr "切換工作於每"
+msgstr "タスクの切り替え間隔"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "If you run several projects, BOINC may switch between them this often."
-msgstr "如果您有參與許多專案，BOINC 可能會切換執行。"
+msgstr "いくつかのプロジェクトを動作させる場合、BOINC はこの間隔でそれらプロジェクトを切り替えるでしょう"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Use at most"
-msgstr "最多只使用"
+msgstr "最大使用時で"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the processors"
-msgstr "% 的處理器"
+msgstr "% のプロセッサまで"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "保留CPU給其他程式使用。例如： 75% 表示在 8 核心系統中使用 6 核心運算"
+msgstr "他のアプリケーションのためにいくつかの CPU を自由に保ちます。例: 75%であれば、8コアCPUの場合そのうち6コアを使用するということです。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the CPU time"
-msgstr "CPU時間 %"
+msgstr "% の CPU 時間"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1610,227 +1615,227 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "週期內自動暫停/繼續運算以達到降低CPU溫度及能源消耗。例如： 75% 表示每運算 3 秒，休息 1 秒，並重複循環。"
+msgstr "CPU温度とエネルギー使用量を抑制するために数秒ごとに計算を一時停止/再開する。例: 75%であれば、3秒計算・1秒一時停止を繰り返すということです。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk and memory usage"
-msgstr "硬碟和記憶體使用"
+msgstr "ディスクとメモリの使い方"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr "磁碟：使用少於"
+msgstr "ディスク: 最大使用時でも"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the total amount of disk space used by BOINC."
-msgstr "限制 BOINC 使用硬碟空間。"
+msgstr "BOINC によって使用されるディスク領域の合計を制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr "磁碟：維持剩餘空間大於"
+msgstr "ディスク: 残しておく領域は少なくとも"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where BOINC "
 "stores data."
-msgstr "限制 BOINC 儲存資料並保留可用空間。"
+msgstr "BOINC のデータを格納するボリュームでこれだけの空きスペースを残してディスク使用量を制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of total"
-msgstr "% 總硬碟空間"
+msgstr "% まで(全体比)"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Limit the percentage of disk space used by BOINC on the volume where it "
 "stores data."
-msgstr "限制 BOINC 儲存資料所佔用硬碟空間百分比。"
+msgstr "データを格納するボリュームで BOINC が使用するディスク領域の割合を制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Request tasks to checkpoint at most every"
-msgstr "要求任務最多每"
+msgstr "タスクにチェックポイント書き込みを要求する最大間隔"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "seconds"
-msgstr "秒執行檢查點操作"
+msgstr "秒毎"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr "這個選項決定計算任務向磁碟儲存其進度的頻繁程度，以便於之後重新啟動。"
+msgstr "これは、途中からタスクを再開するために、タスクの状況をどれ位の頻度でディスクに保存するかを決定します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Page/swap file: use at most"
-msgstr "分頁/交換檔：最多使用"
+msgstr "ページ/スワップファイル: 最大使用時でも"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the swap space (page file) used by BOINC."
-msgstr "限制 BOINC 使用的交換空間（分頁檔）"
+msgstr "BOINC によって使用されるスワップ領域(ページファイル)を制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is in use, use at most"
-msgstr "記憶體：如果電腦正在使用，最多使用"
+msgstr "メモリ: コンピュータがユーザーにより使用中は、最大でも"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're using the computer."
-msgstr "當您使用電腦時限制 BOINC 記憶體使用量。"
+msgstr "あなたがコンピュータを使用している時 BOINC よって使用されるメモリを制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is not in use, use at most"
-msgstr "記憶體：如果電腦未使用，最多使用"
+msgstr "メモリ: コンピュータがユーザーにより使用されていないときは、最大でも"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're not using the computer."
-msgstr "限制電腦閒置時 BOINC 記憶體使用量。"
+msgstr "あなたがコンピュータを使用していない時 BOINC によって使用されるメモリを制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Network usage"
-msgstr "網路使用"
+msgstr "ネットワークの使い方"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least"
-msgstr "儲存至少"
+msgstr "最低限の備蓄量:"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "days of work"
-msgstr "天的任務"
+msgstr "日分の仕事"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "預先下載足夠的任務以保持電腦持續運算。"
+msgstr "長期間コンピュータのビジー状態を保つために、最低に見積もっても十分なタスクを蓄えておきます。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store up to an additional"
-msgstr "儲存多於"
+msgstr "追加で下記の分まで備蓄:"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "days"
-msgstr "天"
+msgstr "日分"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "儲存高於設定最小值的任務。用於判斷每次聯繫專案取得任務的多寡。"
+msgstr "最小レベル以上の追加タスクを備蓄してください。プロジェクトに連絡する際に要求される作業の量を決定します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Confirm before connecting to Internet?"
-msgstr "連線到網際網路前進行確認？"
+msgstr "インターネットに接続する前に確認しますか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "適用於數據機, ISDN 或 VPN 連線。"
+msgstr "モデム、ISDN または VPN 接続を使っているときのみ便利です。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disconnect when done?"
-msgstr "完成後斷開連線？"
+msgstr "終了したら切断しますか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit download rate to"
-msgstr "限制下載速率"
+msgstr "ダウンロード速度を下記に制限:"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the download rate of file transfers."
-msgstr "限制檔案下載速率。"
+msgstr "ファイル転送のダウンロード速度を制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit upload rate to"
-msgstr "限制上傳速率"
+msgstr "アップロード速度を下記に制限:"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the upload rate of file transfers."
-msgstr "限制檔案上傳速率。"
+msgstr "ファイル転送のアップロード速度を制限します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only between"
-msgstr "檔案傳輸將從"
+msgstr "下記の間だけファイルを転送する:"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only during a particular period each day."
-msgstr "僅在每天特定時段傳輸檔案。"
+msgstr "それぞれの日の特定範囲の時間帯だけファイルを転送します。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit usage to"
-msgstr "限制傳送數據"
+msgstr "使用限度量"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
-msgstr "例如： BOINC 能在每30天傳送2000MB的數據。"
+msgstr "例: BOINC は多くとも30日ごとに2000MBのデータまで転送するはずです。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr "略過圖像驗證"
+msgstr "画像ファイルのデータ検証をスキップしますか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr "僅當您的網際網路供應商會修改圖像文件的情況下才需要選中此選項。略過驗證會降低BOINC的安全性。"
+msgstr "インターネットプロバイダーが画像ファイルを変更する場合にのみ「はい」を選択してください。検証をスキップすると、BOINCのセキュリティが低下します。"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Show comparison view"
-msgstr "顯示對比檢視"
+msgstr "比較ビューを表示"
 
 #: host-details
 msgctxt "host-details"
 msgid "@count million ops/sec"
-msgstr "@count 百萬操作/秒"
+msgstr "@count メガ 命令/秒"
 
 #: host-details
 msgctxt "host-details"
 msgid "@rate KiB/sec"
-msgstr "@rate 千位元組/秒"
+msgstr "@rate KiB/sec"
 
 #: host-details
 msgctxt "host-details"
 msgid "@count days"
-msgstr "@count 天"
+msgstr "@count 日"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Resource settings"
-msgstr "資源設定"
+msgstr "リソースの設定"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Resource share"
-msgstr "資源分享"
+msgstr "リソース割り当て"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1839,84 +1844,84 @@ msgid ""
 "project. Example: if you participate in two BOINC projects with resource "
 "shares of 100 and 200, the first will get 1/3 of your resources and the "
 "second will get 2/3."
-msgstr "設定您提供給該專案的電腦資源比例。例如：如果您參與兩個 BOINC 專案，並個別分配了 100 和 200 的資源分享值，前者將獲得 1/3 的電腦資源，而後者將獲得 2/3 的電腦資源。"
+msgstr "このプロジェクトに割り当てられたコンピュータのリソースの割合を決定します。例: あなたは100と200のリソースを共有する2つの BOINC プロジェクトに参加した場合、前者はあなたのリソースの1/3を取得し、後者は2/3を取得します。"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use CPU"
-msgstr "使用CPU"
+msgstr "CPU を使用する"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr "只向此專案請求 CPU 工作"
+msgstr "このプロジェクトからCPUのみのタスクを要求します。"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use NVIDIA GPU"
-msgstr "使用NVIDIA GPU"
+msgstr "NVIDIA GPU を使用する"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr "向這個專案請求NVIDIA GPU工作"
+msgstr "このプロジェクトからNVIDIA GPUタスクをリクエストします。"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use ATI GPU"
-msgstr "使用ATI GPU"
+msgstr "ATI GPU を使用する"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr "向這個專案請求ATI GPU工作"
+msgstr "このプロジェクトからATI GPUタスクをリクエストします。"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use INTEL GPU"
-msgstr "使用 INTEL GPU"
+msgstr "Intel GPU を使用する"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr "該專案的任務需要 Intel GPU 才可以執行"
+msgstr "このプロジェクトからIntel GPUタスクをリクエストします。"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Beta settings"
-msgstr "Beta 設定"
+msgstr "ベータ設定"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Run test applications?"
-msgstr "允許執行測試版程式?"
+msgstr "試用版のアプリケーションを実行しますか？"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
-msgstr "這能幫助我們開發程式，但可能造成您電腦上的任務失敗"
+msgstr "指定すればアプリケーション開発者を手助けすることになりますが、そのアプリケーションはあなたのコンピュータ上で異常終了することがあるかもしれません"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid " Default value: @default"
-msgstr "預設值：@default"
+msgstr "初期値: "
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Applications"
-msgstr "程式"
+msgstr "アプリケーション"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Default set"
-msgstr "預設設定"
+msgstr "デフォルトセット"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Set used for new computers"
-msgstr "用於新計算機的設定"
+msgstr "新しいコンピュータに使用するセット"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1926,7 +1931,7 @@ msgstr "一般設定"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Time zone"
-msgstr "時區"
+msgstr "タイムゾーン"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1936,168 +1941,168 @@ msgstr "通知設定"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for private messages?"
-msgstr "接收私人訊息的郵件通知？"
+msgstr "非公開メッセージのEメール通知を受け取りますか？"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for friend requests?"
-msgstr "接收好友請求的郵件通知？"
+msgstr "友人リクエストのEメール通知を受け取りますか？"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Language settings"
-msgstr "語言設定"
+msgstr "言語設定"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Language"
-msgstr "語言"
+msgstr "言語"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "This account's default language for e-mails and preferred language for site "
 "presentation."
-msgstr "該賬戶用於電子郵件的預設語言和站點內容呈現的首選語言"
+msgstr "Eメールやサイトのプレゼンテーションで使用する言語は、このアカウントのデフォルト言語です。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, it will be used for your user picture."
-msgstr "如果你有一個<a href=\"@gravatar-check\">正確的大頭貼</a> 和你的電子郵件地址關聯，它將被用作你的使用者圖片。"
+msgstr "あなたのEメールアドレスに関連付けられた<a href=\"@gravatar-check\">有効なGravatar</a>を持っている場合は、ユーザーの画像に使用されます。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "如果你上傳了一張使用者圖片，則不會顯示你的大頭貼。"
+msgstr "ユーザーの画像をアップロードする場合、あなたのGravatarは表示されません。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, use it for your user picture."
-msgstr "如果你有一個<a href=\"@gravatar-check\">正確的大頭貼</a> 與你的電子郵件地址關聯，它將被用作你的使用者圖片。"
+msgstr "あなたのEメールアドレスに関連付けられた<a href=\"@gravatar-check\">有効なGravatar</a>を持っている場合は、ユーザーの画像のためにそれを使用します。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "如果上傳了大頭貼，則不會顯示。"
+msgstr "アバターがアップロードされている場合、Gravatarは表示されません。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Avatar settings"
-msgstr "大頭貼設定"
+msgstr "アバター設定"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Upload an avatar"
-msgstr "上傳一個新大頭貼"
+msgstr "アバターをアップロード"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Forum settings"
-msgstr "論壇設定"
+msgstr "フォーラム設定"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "In discussion topics, show at most @comments_per_page"
-msgstr "在討論主題裡，最多顯示 @comments_per_page 條回覆"
+msgstr "ディスカッショントピックでは、ページあたりのコメント数は最大でも @comments_per_page"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "comments per page"
-msgstr "每頁評論數"
+msgstr "コメント/ページ"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Sort comments in discussions"
-msgstr "討論主題的回覆排序"
+msgstr "ディスカッションのコメントを並び替え"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Newest post first"
-msgstr "最新的文章顯示在前面"
+msgstr "新しい投稿順"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Oldest post first"
-msgstr "發帖時間最舊的在前面"
+msgstr "古い投稿順"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Signature"
-msgstr "簽名"
+msgstr "シグネチャ"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your signature will be publicly displayed at the end of your comments."
-msgstr "你的簽字將在回覆的最後進行顯示。"
+msgstr "あなたのシグネチャがあなたのコメントの最後で公に表示されます。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Hide signatures in forums"
-msgstr "在論壇裡隱藏簽名"
+msgstr "フォーラムのシグネチャを隠す"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr "忽略以下論譠的使用者："
+msgstr "フォーラムのユーザーを無視："
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr "<a href=\"@ignore-user-list\">檢視/編緝</a> 你的忽略用戶清單."
+msgstr "無視されたユーザーのリストを<a href=\"@ignore-user-list\">表示/編集</a>します。"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Privacy settings"
-msgstr "隱私設定"
+msgstr "プライバシー設定"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr "是否允許 @project 和你所在的團隊（如果有的話）給你傳送郵件？"
+msgstr "@project および(所属している場合)あなたのチームから、Eメールを送信してもよろしいですか?"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Should @project show your computers on its web site?"
-msgstr "@project 是否應該在網站上顯示你的計算機？"
+msgstr "@project があなたのコンピュータをこのウェブサイト上に表示してかまいませんか?"
 
 #: host-list
 msgctxt "host-list"
 msgid "No active computers"
-msgstr "沒有活躍中的電腦"
+msgstr "活動中のコンピュータはありません"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has no computers that have been active in the last 30 days."
-msgstr "過去 30 天，該使用者沒有活躍中的電腦"
+msgstr "このユーザーは過去30日間に活動してきたコンピュータを持っていません。"
 
 #: forum-post-posted-time-not-available
 msgctxt "forum-post-posted-time-not-available"
 msgid "n/a"
-msgstr "不適用"
+msgstr "N/A"
 
 #: forum-post-posted-time-ago
 msgctxt "forum-post-posted-time-ago"
 msgid "@time ago"
-msgstr "@time 之前"
+msgstr "@time 前"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Threads"
-msgstr "主題"
+msgstr "スレッド"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Posts"
-msgstr "文章"
+msgstr "投稿"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Last post"
-msgstr "最新的文章"
+msgstr "最新の投稿"
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2107,7 +2112,7 @@ msgid ""
 "moderators without warning or discussion. Do not respond to offensive "
 "postings. Click on the \"report\" button at the bottom of the post to call "
 "it to the attention of the moderators."
-msgstr "請對你所寫的內容負責，不要發表含有攻擊性或侮辱性的主題。論壇版主可以不經警告或討論而直接刪除不恰當的主題或主題。不要在無禮的主題上浪費時間，請直接單擊底部的\"報告\"按鈕向版主報告這個主題。"
+msgstr "自らの発言には責任を持ち、攻撃的或いは侮辱的な発言はお控えください。攻撃的なコメント、スレッドはモデレーターによって警告や議論無しに削除されます。また攻撃的なコメントには反応せずコメント下の\"report\"ボタンからモデレーターに報告して下さい。"
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2117,365 +2122,365 @@ msgid ""
 "where you are free to discuss anything relevant to the underlying science. "
 "Participants interested in broader discussions should post to unofficial "
 "forums for @project."
-msgstr "我們也要求你保證留言板上的所有討論均在@project 或 BOINC的範圍內。除了一個小小的例外，科學留言板，你可以在那裡自由討論任何有關的基本科學問題。更廣泛的討論應該發表到 @project 的非正式論壇。"
+msgstr "また、@projectまたはBOINCに関連する掲示板ですべての議論を続けることをお勧めします。ただし、科学の掲示板では基礎となる科学に関連するものを自由に議論できます。 より広範な議論に関心のある参加者は、@projectの非公式フォーラムに投稿する必要があります。"
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
 msgid "These message boards now support BBCode tags only."
-msgstr "這些留言板目前僅支援BBCode標記。"
+msgstr "これらのメッセージボードは、BBCodeタグのみをサポートするようになりました。"
 
 #: forum-footer
 msgctxt "forum-footer"
 msgid "Manage subscriptions"
-msgstr "管理訂閱"
+msgstr "寄付を管理"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "Teams"
-msgstr "團隊"
+msgstr "チーム"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "access team members' email addresses"
-msgstr "存取團隊成員的電子郵件地址"
+msgstr "チームメンバーのメールアドレスにアクセス"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "edit the team's name and description"
-msgstr "編輯團隊名稱及描述"
+msgstr "チームの名称と説明文を編集"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "add or remove team admins"
-msgstr "增加或移除團隊管理員"
+msgstr "チーム管理者を追加/削除"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "remove members from the team"
-msgstr "移除團隊成員"
+msgstr "チームからメンバーを削除"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "disband a team if it has no members"
-msgstr "解散沒有成員的團隊"
+msgstr "メンバーがいなければチームを解散する"
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "My team"
-msgstr "我的團隊"
+msgstr "所属チーム"
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "You are a member of @team."
-msgstr "你是 @team 的成員。"
+msgstr "あなたは @team のメンバーです"
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "View my team"
-msgstr "檢視我的團隊"
+msgstr "所属チームを見る"
 
 #: search-team
 msgctxt "search-team"
 msgid "Search teams"
-msgstr "搜尋團隊"
+msgstr "チームを検索"
 
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr "此工作單元正在執行任務。"
+msgstr "このワークユニットのタスクは保留中です。"
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
 msgid "Submitted on !datetime"
-msgstr "提交於 !datetime"
+msgstr "!datetime に投稿されました"
 
 #: Comments-section-header
 msgctxt "Comments-section-header"
 msgid "Comments"
-msgstr "評論"
+msgstr "コメント"
 
 #: form-clear
 msgctxt "form-clear"
 msgid "Clear"
-msgstr "清除"
+msgstr "クリア"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid ""
 "This will remove all of your settings from the @name preference set. Are you"
 " sure?"
-msgstr "將要移除你在 @name 的所有參數設定，確定繼續嗎？"
+msgstr "これは @name のプレファレンスセットからすべての設定を削除します。本当によろしいですか？"
 
 #: task-list
 msgctxt "task-list"
 msgid "No @type tasks"
-msgstr "沒有 @type 類型的任務"
+msgstr "@type のタスクはありません"
 
 #: task-list
 msgctxt "task-list"
 msgid "There are no tasks of this type on record"
-msgstr "沒有該類型的任務記錄"
+msgstr "記録にこのタイプのタスクはありません"
 
 #: host-details
 msgctxt "host-details"
 msgid "Show IP address"
-msgstr "表示 IP 地址"
+msgstr "IP アドレスを表示"
 
 #: unit-of-time
 msgctxt "unit-of-time"
 msgid "hours"
-msgstr "小時"
+msgstr "時間"
 
 #: form-merge
 msgctxt "form-merge"
 msgid "Merge"
-msgstr "合併"
+msgstr "マージする"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Type"
-msgstr "類型"
+msgstr "種類"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "New members in last day"
-msgstr "最新加入成員"
+msgstr "チームに昨日参加した新しいメンバー"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Total members"
-msgstr "所有成員"
+msgstr "メンバーの総数"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Active members"
-msgstr "活躍的成員"
+msgstr "活動中のメンバー数"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Members with credit"
-msgstr "有積分的成員"
+msgstr "功績(credit)を獲得済みのメンバーの数"
 
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
 msgid "Website"
-msgstr "網站"
+msgstr "ウェブサイト"
 
 #: team-description
 msgctxt "team-description"
 msgid "Description"
-msgstr "描述"
+msgstr "説明文"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "no projects..."
-msgstr "沒有專案..."
+msgstr "プロジェクトがありません…"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr "設置@venue 沒有特殊偏好。點擊保存更改將下列首選項保存到帳戶中。"
+msgstr "@venueの設定が見つかりません。以下の「変更を保存」をクリックして、次の設定をアカウントに保存します。"
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the desktop software"
-msgstr "下載桌面軟體"
+msgstr "デスクトップ・ソフトウェアをダウンロード"
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer"
-msgstr "執行安裝程式"
+msgstr "インストーラーを実行"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr "回覆"
+msgstr "返信"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment"
-msgstr "回覆該訊息"
+msgstr "このコメントに返信"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr "引用回覆該標題"
+msgstr "このトピックに引用で返信する"
 
 #: private-message
 msgctxt "private-message"
 msgid "Send message"
-msgstr "傳送訊息"
+msgstr "メッセージを送信"
 
 #: forum-post-new-comment
 msgctxt "forum-post-new-comment"
 msgid "Post new comment"
-msgstr "發表新回覆"
+msgstr "新しいコメントを投稿"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "commented on"
-msgstr "評論時間"
+msgstr "コメント日時"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "started discussion"
-msgstr "已開始的討論"
+msgstr "開始されたディスカッション"
 
 #: forum-sticky-comment
 msgctxt "forum-sticky-comment"
 msgid "Make sticky"
-msgstr "置頂"
+msgstr "表示位置を一覧の先頭へ固定する"
 
 #: forum-sticky-comment
 msgctxt "forum-sticky-comment"
 msgid "Make this topic sticky"
-msgstr "將本主題置頂顯示"
+msgstr "このトピックの表示位置を一覧の先頭へ固定する"
 
 #: forum-lock-comment
 msgctxt "forum-lock-comment"
 msgid "Lock"
-msgstr "鎖定"
+msgstr "書き込み禁止にする"
 
 #: forum-lock-comment
 msgctxt "forum-lock-comment"
 msgid "Lock this thread for comments"
-msgstr "關閉本主題"
+msgstr "このスレッドにコメントできないようにします。"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide"
-msgstr "隱藏"
+msgstr "隠す"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide this topic"
-msgstr "隱藏主題"
+msgstr "このトピックを隠す"
 
 #: forum-convert-comment-to-topic
 msgctxt "forum-convert-comment-to-topic"
 msgid "Convert"
-msgstr "轉換"
+msgstr "変換"
 
 #: forum-convert-comment-to-topic
 msgctxt "forum-convert-comment-to-topic"
 msgid "Convert this comment to a new topic"
-msgstr "將此回覆轉移成一個新主題"
+msgstr "このコメントを新しいトピックにする"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide this comment"
-msgstr "隱藏此恢復"
+msgstr "このコメントを非表示にする"
 
 #: forum-delete-comment
 msgctxt "forum-delete-comment"
 msgid "Delete this comment"
-msgstr "刪除此回覆"
+msgstr "このコメントを削除"
 
 #: forum-edit-comment
 msgctxt "forum-edit-comment"
 msgid "Edit this comment"
-msgstr "編輯此回覆"
+msgstr "このコメントを編集"
 
 #: search-with-no-results
 msgctxt "search-with-no-results"
 msgid "No results found..."
-msgstr "沒有找到結果..."
+msgstr "リザルトが見つかりませんでした..."
 
 #: user-profile:-1:message-shown-when-awating-moderation
 msgctxt "user-profile:-1:message-shown-when-awating-moderation"
 msgid "Profile awaiting moderator approval"
-msgstr "待稽核的個人資料"
+msgstr "モデレーターの承認待ちのプロファイル"
 
 #: friend-add
 msgctxt "friend-add"
 msgid "Add as friend"
-msgstr "新增為好友"
+msgstr "友人として追加"
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site： 對主題 \"!topic_name\" 發表了評論"
+msgstr "!site：!topic_nameに投稿されたコメント"
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author 回覆了主題 \"!topic_name\"."
+msgstr "!authorさんが\"!topic_name\"に返信しました"
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid ""
 "To view this topic at !site, click here: \n"
 "!comment_url"
-msgstr "若要在本主題檢視 !site，請單擊此處：\n!comment_url"
+msgstr "!siteでこのトピックを表示するには、ここをクリックしてください：\n!comment_url"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave team"
-msgstr "離開團隊"
+msgstr "チームを脱退する"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Click here to revoke your membership with @this_team"
-msgstr "點選這裡來退出 @this_team"
+msgstr "@this_team の会員資格を取り消すには、ここをクリックしてください"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave this team"
-msgstr "離開該團隊"
+msgstr "このチームを脱退する"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Request foundership"
-msgstr "請求創始人資格"
+msgstr "創設者権限の委譲要求"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click below to request foundership of @this_team."
-msgstr "在團隊創始人處於不活躍狀態的情況下，如果您想要代替其成為創始人，請點選下面以申請成為 @this_team 的創始人。"
+msgstr "チームの創設者がアクティブではなく、創設者を引き受けたい場合は、以下をクリックして@this_teamのファウンダーシップをリクエストしてください。"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Initiate request"
-msgstr "發起請求"
+msgstr "要求を開始する"
 
 #: form-delete
 msgctxt "form-delete"
 msgid "Delete"
-msgstr "刪除"
+msgstr "削除"
 
 #: account-host-delete
 msgctxt "account-host-delete"
 msgid ""
 "This will delete host @id from your account forever. Are you sure this is "
 "OK?"
-msgstr "將從你的賬戶永久刪除主機 @id，確定要繼續嗎？"
+msgstr "これによりあなたのアカウントからホスト @id を永遠に削除します。本当にこれでよろしいですか？"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a new team"
-msgstr "建立新團隊"
+msgstr "新しくチームを作る"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid ""
 "If you cannot find a team that is right for you, you can create a team."
-msgstr "如果找不到對你合適的團隊，你也可以建立一個團隊。"
+msgstr "あなたにぴったりのチームを見つけることができない場合は、チームを作成することができます。"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr "登入並建立新團隊"
+msgstr "ログインして新しいチームを作成します"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "If you're already running BOINC, select <i>Add\n"
 "      Project</i>."
-msgstr "如果您已經在使用 BOINC，選擇<i>增加專案</i>。"
+msgstr "すでに BOINC を実行しているならば、<i>プロジェクトを追加</i>を選択してください。"
 
 #: join-page
 msgctxt "join-page"
@@ -2484,7 +2489,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version."
-msgstr "如果您正在使用命令列版本的 BOINC，\n先使用 BOINC Manager 建立該專案的帳戶，\n然後在命令列版本中使用該帳戶來連線。"
+msgstr "もし コマンドラインバージョンの BOINC を実行しているならば、\nまずこのプロジェクトでのアカウントを作成するために BOINC マネージャ・ソフトウェア(他の場所で必要な場合)を使用し、その上でコマンドラインバージョンに接続するためにそのアカウントを使用します。"
 
 #: join-page
 msgctxt "join-page"
@@ -2492,656 +2497,656 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version to create an account\n"
 "        at this project."
-msgstr "如果您仍使用 5.0 之前版本的 BOINC，請升級到更新的版本來建立帳戶。"
+msgstr "BOINC の5.0より前のバージョンを実行している場合、このプロジェクトでのアカウントを作成するために、より新しいバージョンにアップグレードしてください。"
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "ignore list"
-msgstr "忽略清單"
+msgstr "無視リスト"
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "here"
-msgstr "這裡"
+msgstr "ここ"
 
 #: coment-from-ignored-user
 msgctxt "coment-from-ignored-user"
 msgid "!username is on your !ignore_list. Click !here to view this post."
-msgstr "!username 在您的 !ignore_list 中。按這裡來檢視這則貼文。"
+msgstr "!usernameは!ignore_list上にあります。この投稿を表示するには、!hereをクリックしてください。"
 
 #: comment-preview-title
 msgctxt "comment-preview-title"
 msgid "Revise or post comment"
-msgstr "修改或發表評論"
+msgstr "修正またはコメントを投稿します。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "This is not available until your profile is set up."
-msgstr "僅在你的檔案建立後才可用。"
+msgstr "これはあなたのプロフィールが設定されるまで利用できません。"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Create a profile"
-msgstr "建立一個用戶檔案"
+msgstr "プロフィールを作成する"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "You must earn 1 more credit!"
-msgstr "你的積分必須至少為1！"
+msgstr "あなたは更に1クレジットを獲得しなければなりません！"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join team"
-msgstr "加入團隊"
+msgstr "チームに参加する"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Click here to become a member of @this_team"
-msgstr "點選這裡成為 @this_team 的成員"
+msgstr "@this_team のメンバーになるにはここをクリックしてください"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join this team"
-msgstr "加入此團隊"
+msgstr "このチームに参加する"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "@count days remaining"
-msgstr "剩下 @count 天"
+msgstr "残り @count 日"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Forgot password"
-msgstr "忘記密碼"
+msgstr "パスワードを忘れた場合"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "authenticator-based login"
-msgstr "基於身份驗證器登入"
+msgstr "認証ベースのログイン"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "Enter your email address to receive instructions for resetting your password"
 " (or use the !authenticator_login)."
-msgstr "輸入您的電子郵件地址以便收到重置密碼的指示 (或使用 !authenticator_login)。"
+msgstr "メールアドレスを入力して、パスワードをリセットする手順を受け取ります（または!authenticator_loginを使用します。）"
 
 #: form-send
 msgctxt "form-send"
 msgid "Send"
-msgstr "傳送"
+msgstr "送信"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr "如果你已經忘記了你賬戶所關聯的電子郵箱地址，或者你已經不能從該地址接收電子郵件："
+msgstr "アカウントのメールアドレスを忘れた場合、またはメールを受信できない場合："
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "If you have run BOINC under the account, you can still access it. Here's "
 "how:"
-msgstr "如果您已經在帳號下執行 BOINC，您仍然可以訪問它。這裡是方法："
+msgstr "アカウントでBOINCを実行した場合でも、引き続きアクセスできます。方法は次のとおりです"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "BOINC documentation"
-msgstr "BOINC 文件"
+msgstr "BOINC 公式マニュアル"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Go to the BOINC data directory on your computer (see !boinc_wiki for help "
 "finding this)."
-msgstr "開啟你計算機上的 BOINC 資料資料夾(請參見!boinc_wiki來幫助您找到這個資料夾)。"
+msgstr "コンピューターのBOINCデータディレクトリに移動します（これを見つけるには!boinc_wikiを参照してください）"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Find your account file for this project; it will have a name like %file "
 "(where the project URL is %url)."
-msgstr "找到本專案的賬戶檔案;檔名像 %檔案 (如專案 URL 是 %url)。"
+msgstr "このプロジェクトのアカウントファイルを見つけます； ％file（プロジェクトURLは％url）のような名前になります。"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "用記事本等文字編輯器開啟該檔案，你將看到類似的如下內容："
+msgstr "メモ帳などのテキストエディターでファイルを開きます。次のようなものが表示されます。"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Select and Copy the string between &lt;authenticator&gt; and "
 "&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "選中並複製&lt; authenticator&gt; 和 &lt之間的字元串;/authenticator&gt; (上述例子中就應該是%auth )。"
+msgstr "&lt;authenticator&gt;と&lt;/authenticator&gt;の間の文字列を選択してコピーします。（上記の例の％auth）"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Paste the string into the field below, and click OK."
-msgstr "將之前複製的內容貼到下面的表格中，並點擊確定。"
+msgstr "その文字列を以下の欄に貼り付けます。そして、OK をクリックしてください。"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr "你現在將登入進自己的帳號，可以更新你的電子郵件和密碼。"
+msgstr "するとあなたのアカウントにログインできるでしょう。そうしたら、アカウントの Eメールアドレスとパスワードを適宜更新してください。"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Log in with authenticator"
-msgstr "用身份驗證碼 (authenticator)來登入"
+msgstr "認証子(authenticator)を使ってログインする"
 
 #: form-ok
 msgctxt "form-ok"
 msgid "OK"
-msgstr "確定"
+msgstr "OK"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "名為 @email 的帳號不存在 —— 選擇\"建立帳號\"來註冊"
+msgstr "@emailに対応するアカウントが存在しません --新しいアカウントを作るには\"Create new account\"を選択して下さい"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid ""
 "Authentication is required when changing E-mail address or setting new "
 "password."
-msgstr "更改電子郵件地址或密碼時，需要驗證身份。"
+msgstr "メールアドレスの変更や新しいパスワードの設定には認証が必要です。"
 
 #: forum-post-new-topic
 msgctxt "forum-post-new-topic"
 msgid "Post new topic"
-msgstr "發表新主題"
+msgstr "新しいトピックを投稿"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Sorry, unrecognized email address or password."
-msgstr "對不起，無法識別的郵件地址或登入密碼。"
+msgstr "申し訳ありません、そのEメールアドレス/パスワードは登録されていません。"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Have you forgotten your password?"
-msgstr "忘記密碼？"
+msgstr "パスワードをお忘れですか？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "These apply to all BOINC projects in which you participate."
-msgstr "這適用於所有您參與的 BOINC 專案。"
+msgstr "これらは、あなたが参加するすべての BOINC プロジェクトに適用されます。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
 "preferences will be used."
-msgstr "對於加入了多個專案的計算機，將使用最近更新過的參數設定。"
+msgstr "複数のプロジェクトに接続されているコンピュータでは、一番最近変更されたプレファレンスが使用されます。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Preferences last modified: @mod_time"
-msgstr "參數設定最後的修改時間：@mod_time"
+msgstr "プレファレンスの最終更新日時: @mod_time"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Combined preferences"
-msgstr "以合併的偏好設定"
+msgstr "総合プレファレンス"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Switch View"
-msgstr "切換檢視"
+msgstr "表示切り替え"
 
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr "檔案傳輸時段："
+msgstr "ファイルを転送："
 
 #: account-preference
 msgctxt "account-preference"
 msgid "every"
-msgstr "每"
+msgstr "右の期間内で許可"
 
 #: form-edit
 msgctxt "form-edit"
 msgid "Edit"
-msgstr "編輯"
+msgstr "編集"
 
 #: form-add
 msgctxt "form-add"
 msgid "Add"
-msgstr "新增"
+msgstr "追加"
 
 #: host-details
 msgctxt "host-details"
 msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address（最近 @count 次）"
+msgstr "@ip_adress (直前@count回は同一)"
 
 #: message-header
 msgctxt "message-header"
 msgid "parent removed"
-msgstr "parent 已移除"
+msgstr "親要素が削除されました"
 
 #: host-details
 msgctxt "host-details"
 msgid "Unknown"
-msgstr "未知"
+msgstr "不明"
 
 #: add-new-user
 msgctxt "add-new-user"
 msgid "A BOINC account already exists for @email."
-msgstr "@email名下已經註冊了一個BOINC賬戶，請嘗試登入。"
+msgstr "そのEメールアドレスでは既にBOINCのアカウントが存在します"
 
 #: friend-remove
 msgctxt "friend-remove"
 msgid "Remove friend"
-msgstr "移除好友"
+msgstr "友人を削除する"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create new team"
-msgstr "建立新團隊"
+msgstr "新しくチームを作る"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Send request"
-msgstr "送出請求"
+msgstr "要求を送る"
 
 #: friends-remove
 msgctxt "friends-remove"
 msgid "Remove friend"
-msgstr "移除好友"
+msgstr "友人を削除する"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "posted"
-msgstr "已發表"
+msgstr "投稿済み"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your community preferences have been updated."
-msgstr "已更新您的社群參數設定。"
+msgstr "コミュニティの基本設定を更新しました。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Invalid setting for \"%preference\""
-msgstr "\"%偏好\"設定無效"
+msgstr "\"%preference\"の設定は正常ではありません"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Team forum"
-msgstr "團隊論壇"
+msgstr "チームのフォーラム"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "A discussion forum has been set up for team members."
-msgstr "已為團隊成員建立論壇。"
+msgstr "ディスカッションフォーラムはチームメンバーのためにあります。"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Enter forum"
-msgstr "進入論壇"
+msgstr "フォーラムを見る"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Approve request"
-msgstr "允許好友邀請"
+msgstr "要求を承認する"
 
 #: friend-request-email
 msgctxt "friend-request-email"
 msgid "!name accepted your friend request [!site]"
-msgstr "!name 接受了您的好友邀請 [!site]"
+msgstr "!name は、あなたの友達リクエストを承認しました [!site]"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve profile"
-msgstr "批准個人資料"
+msgstr "プロフィールを承認する"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve this profile content"
-msgstr "批准此個人資料內容"
+msgstr "このプロフィールの内容を承認する"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject this profile content"
-msgstr "拒絕此個人資料內容"
+msgstr "このプロフィールの内容を却下する"
 
 #: forum-unsticky-comment
 msgctxt "forum-unsticky-comment"
 msgid "Make unsticky"
-msgstr "取消置頂"
+msgstr "表示位置を固定しない"
 
 #: forum-unsticky-comment
 msgctxt "forum-unsticky-comment"
 msgid "Remove sticky status from this topic"
-msgstr "去除此主題的置頂狀態"
+msgstr "このトピックの固定表示を解除"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide"
-msgstr "取消隱藏"
+msgstr "表示する"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this comment"
-msgstr "取消隱藏此回覆"
+msgstr "このコメントの非表示を解除する"
 
 #: comment-action-link
 msgctxt "comment-action-link"
 msgid "Unpublished"
-msgstr "未發表"
+msgstr "非公開"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a team"
-msgstr "建立團隊"
+msgstr "チームを作る"
 
 #: form-choose
 msgctxt "form-choose"
 msgid "Choose type"
-msgstr "選擇類型"
+msgstr "種類を選択"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name"
-msgstr "團隊名稱"
+msgstr "チームの名称"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "Text only, no HTML tags"
-msgstr "僅文字，不允許 HTML 標籤"
+msgstr "テキストのみ、HTMLタグは使えません"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name -- HTML version (optional)"
-msgstr "團隊名稱 -- HTML 版本（可選）"
+msgstr "チームの名称 -- HTML 版 (任意)"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "You may use limited HTML tags"
-msgstr "你可以使用有限的 HTML 標籤"
+msgstr "特定のHTMLタグのみ使用できます"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team website (optional)"
-msgstr "團隊網站（可選）"
+msgstr "チームウェブサイト (任意)"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Displayed on the team's page"
-msgstr "在團隊頁面上顯示"
+msgstr "チームのページに表示されます"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Type of team"
-msgstr "團隊類型"
+msgstr "チームの種類"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Accept new members?"
-msgstr "是否接受新隊員加入?"
+msgstr "新しいメンバーを受け入れますか?"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Description of team"
-msgstr "團隊描述"
+msgstr "チームの説明文"
 
 #: team-form-save
 msgctxt "team-form-save"
 msgid "Save team"
-msgstr "儲存團隊"
+msgstr "チームを保存する"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team"
-msgstr "管理團隊"
+msgstr "チームを管理する"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "View member list"
-msgstr "檢視成員列表"
+msgstr "メンバーリストを見る"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Member names and emails"
-msgstr "成員名稱和電子郵箱地址"
+msgstr "メンバーの名前とEメールアドレス"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "View change history"
-msgstr "檢視變更歷史"
+msgstr "変更履歴を見る"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "See member activity"
-msgstr "檢視成員活動"
+msgstr "メンバーのアクティビティを見る"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team message board"
-msgstr "管理團隊留言板"
+msgstr "チームの掲示板を管理する"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Create or manage message board"
-msgstr "建立或管理留言板"
+msgstr "掲示板を作成/管理する"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members"
-msgstr "移除團隊成員"
+msgstr "メンバーの除名"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Change founder"
-msgstr "更改團隊創始人"
+msgstr "創設者の変更"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team admins"
-msgstr "管理團隊管理員"
+msgstr "チーム管理者を管理する"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Edit team info"
-msgstr "編輯團隊資訊"
+msgstr "チームの情報を編集する"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Remove team"
-msgstr "移除團隊"
+msgstr "チームを削除する"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
-msgstr "有時候，BOINC 會給同一台電腦賦予多個唯一標識，你可以通過將舊標識和新標識合併以糾正該問題。"
+msgstr "ときどき BOINC は誤って別々の識別子を同一のコンピュータに割り当ててしまうことがあります。古い識別子を最新の識別子へ合併することで、訂正することができます。"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Check the computers that are the same as @name (created on @date at @time "
 "with computer ID @id)"
-msgstr "檢查和 @name 同名的計算機（計算機 ID %id，建立日期及時間 @date @time）"
+msgstr "@name (生成日時 @date @time、コンピュータ ID @id)と同じコンピュータにチェックを入れてください:"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "計算機 @old_id 已被成功合併到 @id。"
+msgstr "コンピューター @old_ids を @id に統合しました。"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "輸入的密碼是無效的。請驗證它的正確性。"
+msgstr "パスワードが有効ではありません。正しいか確認してください。"
 
 #: remove-team-member
 msgctxt "remove-team-member"
 msgid "Remove"
-msgstr "移除"
+msgstr "削除"
 
 #: team-emails-are-hidden
 msgctxt "team-emails-are-hidden"
 msgid "hidden"
-msgstr "隱藏"
+msgstr "非公開"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computer @old_id has been merged successfully into @id."
-msgstr "計算機 @old_id 已被成功合併到 @id。"
+msgstr "@old_id コンピューターを@idに統合しました。"
 
 #: link-to-BOINC-wide-teams-Website
 msgctxt "link-to-BOINC-wide-teams-Website"
 msgid "BOINC-wide teams site"
-msgstr "BOINC隊伍網站"
+msgstr "BOINCワイドのチームのサイト"
 
 #: team-edit-warning-message
 msgctxt "team-edit-warning-message"
 msgid "This is a BOINC-wide team. Changes can be made at the !site."
-msgstr "這是一個全 BOINC 皆有的團隊。你可以在 !site 更改設置。"
+msgstr "これは BOINC ワイドのチームです。変更は !site でできます。"
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post topic"
-msgstr "發表主題"
+msgstr "トピックを投稿"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Maximum value exceeded for @field"
-msgstr "@field 已超過最大值"
+msgstr "@field の最大値を超えました。"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "The team founder has @count days to respond to your transfer request."
-msgstr "團隊創始人有 @count 天來回應您的轉讓申請。"
+msgstr "チームの創設者はあなたの移籍リクエストに対応するために @count 日の猶予があります。"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Invalid data type for @field"
-msgstr "@field 非法資料類型"
+msgstr "@field へのデータの種類として無効です"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Minimum value not met for @field"
-msgstr "@field 未達到最小值"
+msgstr "@fieldと最小値の整合が取れていません"
 
 #: forum-unlock-comment
 msgctxt "forum-unlock-comment"
 msgid "Unlock"
-msgstr "解鎖"
+msgstr "書き込み禁止をはずす"
 
 #: forum-unlock-comment
 msgctxt "forum-unlock-comment"
 msgid "Unlock this thread for comments"
-msgstr "解鎖此主題的評論"
+msgstr "このスレッドのコメントを解除します。"
 
 #: friends-add
 msgctxt "friends-add"
 msgid "Add as friend"
-msgstr "新增為好友"
+msgstr "友人として追加"
 
 #: friend-request-email
 msgctxt "friend-request-email"
 msgid "Friend request from !name [!site]"
-msgstr "來自 !name [!site] 的好友邀請"
+msgstr "!name [!site] からの友達リクエストがあります"
 
 #: friend-request-email:-1:a-private-message
 msgctxt "friend-request-email:-1:a-private-message"
 msgid "Message"
-msgstr "訊息"
+msgstr "メッセージ"
 
 #: friend-cancel
 msgctxt "friend-cancel"
 msgid "Cancel friend request"
-msgstr "取消好友邀請"
+msgstr "友達リクエストを取り消す"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "At least one application must be selected"
-msgstr "必須選擇至少一個應用程式"
+msgstr "少なくとも1つのアプリケーションを選択してください。"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Create team message board"
-msgstr "建立團隊留言板"
+msgstr "チームの掲示板を作成する"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Message board title"
-msgstr "留言板標題"
+msgstr "掲示板のタイトル"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum time between posts"
-msgstr "最小的發貼時間間隔"
+msgstr "投稿間隔の最小値"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum total credit to post"
-msgstr "發文要求的最低總積分"
+msgstr "投稿するために必要な総功績(credit)の最小値"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum avg credit to post"
-msgstr "發帖要求的最低日均積分"
+msgstr "投稿するために必要な平均功績(credit)の最小値"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Allow public to read board?"
-msgstr "是否允許公眾訪問該留言板？"
+msgstr "掲示板を公開しますか？"
 
 #: team-forum-create/edit:-1:ignoreoverwrite
 msgctxt "team-forum-create/edit:-1:ignoreoverwrite"
 msgid "Description"
-msgstr "描述"
+msgstr "説明文"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Create message board"
-msgstr "建立留言板"
+msgstr "掲示板を作成する"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "About message boards"
-msgstr "關於留言板"
+msgstr "掲示板について"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Only members may post"
-msgstr "只有團隊成員可以發貼"
+msgstr "メンバーのみが投稿できます"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Only members may read (optional)"
-msgstr "只有團隊成員可以閱讀（可選）"
+msgstr "メンバーのみが閲覧できます(オプション)"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Founder & Team Admins have moderator privileges"
-msgstr "建立人和團隊管理員有仲裁的權利"
+msgstr "創設者とチーム管理者にはモデレーター権限があります"
 
 #: search-user
 msgctxt "search-user"
 msgid "Search"
-msgstr "搜尋"
+msgstr "検索"
 
 #: team-founder-change
 msgctxt "team-founder-change"
 msgid "respond to the request"
-msgstr "回應請求"
+msgstr "リクエストに返信してください"
 
 #: team-founder-change
 msgctxt "team-founder-change"
 msgid ""
 "A foundership transfer request has been made for your team. Please !respond."
-msgstr "您的團隊收到了團隊創始人變更請求，請 !respond。"
+msgstr "このチームの創設者権限の委譲を要求されています。!respond"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
 msgid "Respond to transfer request"
-msgstr "對創始人變更請求的回應"
+msgstr "委譲の要求に返信"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
@@ -3149,164 +3154,164 @@ msgid ""
 "If you don't decline the request by @date, @name will have the option of "
 "assuming team foundership. (note: To accept the request, assign foundership "
 "to @name using the form below)"
-msgstr "如果你在 @date 前不提出拒絕，@name 會假設為團隊創始人資格的選項。(注 ︰ 當接受請求，將使用下面的表格賦予 @name 創始人資格)"
+msgstr "あなたが @date までに要求を拒否しない場合、 @name がチームの創設者権限を引き受けるかどうかの選択権を持つことになります。(注意：要求を受け入れるには、下のフォームを使って @name に創設者権限を割り当ててください)"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
 msgid "Deny request"
-msgstr "拒絕請求"
+msgstr "要求を拒否する"
 
 #: team-make-founder
 msgctxt "team-make-founder"
 msgid "Make founder"
-msgstr "指定創始人"
+msgstr "創設者を作る"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Changing the team founder"
-msgstr "改變團隊建立人"
+msgstr "チーム創設者の変更"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Notes about changes in foundership:"
-msgstr "建立人修改的注意事項："
+msgstr "創設者権限の変更についての注意"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Any member of the team is eligible"
-msgstr "每個團隊成員都可以成為建立人"
+msgstr "チームのメンバー全員に資格があります"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Current founder becomes a normal user"
-msgstr "當前建立人將變成普通使用者"
+msgstr "現在の創設者は通常のユーザになります"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Foundership can be requested by team members:"
-msgstr "團隊成員可以主動請求成為建立人"
+msgstr "創設者権限はチームメンバーにより要求できます:"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "One request is allowed at a time"
-msgstr "一次只能處理一個請求"
+msgstr "1度に1つだけ要求できます"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "It must be 60 days since any previous request"
-msgstr "請求的間隔至少是 60 天"
+msgstr "前回の要求から60日経っていなければなりません"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Any active request must be older than 90 days"
-msgstr "請求的有效期至少是 90 天"
+msgstr "有効な全ての要求から90日以上経過していないといけません"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Current founder has 60 days to respond to a request"
-msgstr "當前的建立人有 60 天的時間來處理一個請求"
+msgstr "現在の創設者には要求に返信するまでに60日間の猶予があります"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "That authenticator is not valid."
-msgstr "驗證無效"
+msgstr "認証方法が無効です。"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "@email is not a well formed email address, please verify"
-msgstr "@email 不是一個適當格式的電子郵件地址，請驗證"
+msgstr "@emailは正しいメールアドレスではありません 修正して下さい"
 
 #: friend-approve
 msgctxt "friend-approve"
 msgid "Approve friend request"
-msgstr "接受好友邀請"
+msgstr "フレンドリクエストを承認"
 
 #: moderate-unban-user
 msgctxt "moderate-unban-user"
 msgid "Lift user ban"
-msgstr "取消使用者禁令"
+msgstr "ユーザーの禁止を解除する"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "1 day remaining"
-msgstr "剩餘1天"
+msgstr "残り1日"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "There is no account with that authenticator."
-msgstr "沒有賬戶關聯至此身份驗證碼。"
+msgstr "認証されたアカウントがありません"
 
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Add team admin"
-msgstr "增加團隊管理員"
+msgstr "チーム管理者を追加する"
 
 #: team--add-admin
 msgctxt "team--add-admin"
 msgid "Enter email address"
-msgstr "輸入電子郵件地址"
+msgstr "Eメールアドレスを入力してください"
 
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Current team admins"
-msgstr "當前的團隊管理員"
+msgstr "現在のチーム管理者"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "About team admins"
-msgstr "關於團隊管理員"
+msgstr "チーム管理者について"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins can:"
-msgstr "團隊管理員可以："
+msgstr "チーム管理者にできることは以下のとおりです:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Edit team information"
-msgstr "編輯團隊資訊"
+msgstr "チームの情報を編集する"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "View the team's join / quit history"
-msgstr "檢視團隊的成員加入、退出歷史"
+msgstr "チームへの参加/脱退の履歴を見る"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Moderate the team forum"
-msgstr "團隊論壇仲裁"
+msgstr "チームフォーラムのモデレート"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members from the team"
-msgstr "從團隊中移除成員"
+msgstr "チームからメンバーを削除"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Disband a team if it has no members"
-msgstr "解散沒有成員的團隊"
+msgstr "メンバーがいなければチームを解散する"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins cannot:"
-msgstr "團隊管理員不能："
+msgstr "チーム管理者にできないことは以下のとおりです:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Change the team founder"
-msgstr "改變團隊創始人"
+msgstr "チーム創設者の変更"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Add / Remove team admins"
-msgstr "增加或移除團隊管理員"
+msgstr "チーム管理者を追加/削除する"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid ""
 "If a team admin quits the team, they cease to be a team admin. We recommend "
 "only selecting people you know and trust"
-msgstr "如果團隊管理員退出團隊，他將不再是團隊管理員。我們建議只選擇你認識並信任的人。"
+msgstr "チーム管理者はチームを離れればチーム管理者ではなくなります。知っていて信頼できる人だけを選択することを勧めます。"
 
 #: team-general-info
 msgctxt "team-general-info"
@@ -3314,241 +3319,241 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr "@project 專案的參與者可以組成團隊。您只能加入一個團隊。您可以在任何時間加入或退出團隊。要加入團隊，訪問團隊頁面並點選「加入該團隊」。每個團隊都有一個創始人，他可以："
+msgstr "@project 参加者はチームを結成することができます。あなただけの1チームに所属することもできます。あなたは任意の時点でチームに参加したり、離れることができます。チームに参加するには、そのチームのページを訪問し、「このチームに参加」をクリックします。各チームは下記のことが出来る創設者を持ちます:"
 
 #: join-page
 msgctxt "join-page"
 msgid "When prompted enter @siteurl"
-msgstr "根據提示輸入 @siteurl"
+msgstr "@siteurl を入力するよう促されたら"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr "說明"
+msgstr "説明"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr "@email賬號不存在——使用BOINC客戶端註冊賬號"
+msgstr "@email のアカウントがありません。\nBOINCクライアントでアカウントを作成してください。\n!instructions"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "@count days have elapsed since your request and the founder has not "
 "responded."
-msgstr "創始人已經有@count 天沒有響應您的請求。"
+msgstr "あなたが要求を出してから @count 日が経過しましたが、創設者は応答しませんでした。"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "You now have @count days to assume foundership before another team member "
 "may submit a request."
-msgstr "你現在需要在 @count 天內確認創始人資格，否則另一個團隊成員就可以申請成為創始人。"
+msgstr "他のチームメンバーがリクエストを提出する前に、ファウンダーになるまでの日数を @count 日とします。"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "Assume foundership"
-msgstr "得到創始人資格"
+msgstr "創設者権限を引き継ぐ"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Remove request"
-msgstr "移除好友邀請"
+msgstr "要求を削除する"
 
 #: workunit-detail
 msgctxt "workunit-detail"
 msgid "Pending"
-msgstr "等待中"
+msgstr "保留中"
 
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr "你賬號的任務"
+msgstr "あなたのアカウントのタスク"
 
 #: task-table
 msgctxt "task-table"
 msgid "Application"
-msgstr "程式"
+msgstr "アプリケーション"
 
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr "所有程式"
+msgstr "すべてのアプリケーション"
 
 #: task-table
 msgctxt "task-table"
 msgid "Task ID"
-msgstr "任務 ID"
+msgstr "タスクのID"
 
 #: task-table
 msgctxt "task-table"
 msgid "Workunit ID"
-msgstr "任務單元 ID"
+msgstr "ワークユニットのID"
 
 #: task-table
 msgctxt "task-table"
 msgid "Computer"
-msgstr "電腦"
+msgstr "コンピュータ"
 
 #: task-table
 msgctxt "task-table"
 msgid "Sent"
-msgstr "傳送時間"
+msgstr "送出日時"
 
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr "回報時間或截止時間"
+msgstr "報告日時または期限"
 
 #: task-table
 msgctxt "task-table"
 msgid "Status"
-msgstr "狀態"
+msgstr "状態"
 
 #: task-table
 msgctxt "task-table"
 msgid "Run time"
-msgstr "執行時間"
+msgstr "実行時間"
 
 #: task-table
 msgctxt "task-table"
 msgid "CPU time"
-msgstr "CPU 時間"
+msgstr "CPU時間"
 
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr "申請積分"
+msgstr "要求された功績値"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr "授予積分"
+msgstr "認められた功績値"
 
 #: task-table
 msgctxt "task-table"
 msgid "All"
-msgstr "全部"
+msgstr "すべて"
 
 #: task-table
 msgctxt "task-table"
 msgid "In progress"
-msgstr "運算中"
+msgstr "計算中"
 
 #: task-table
 msgctxt "task-table"
 msgid "Pending"
-msgstr "等待中"
+msgstr "保留中"
 
 #: task-table
 msgctxt "task-table"
 msgid "Valid"
-msgstr "有效結果"
+msgstr "有効"
 
 #: task-table
 msgctxt "task-table"
 msgid "Invalid"
-msgstr "無效結果"
+msgstr "無効"
 
 #: task-table
 msgctxt "task-table"
 msgid "Error"
-msgstr "錯誤"
+msgstr "異常発生"
 
 #: task-table
 msgctxt "task-table"
 msgid "Reset"
-msgstr "重設"
+msgstr "リセット"
 
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr "使用過濾器"
+msgstr "フィルター適用"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr "你沒有權限來編輯該帖子。"
+msgstr "このホストへの変更は許可されていません。"
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr "@host_id 的工作"
+msgstr "コンピューター @host_id のタスク"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr "該主機的位置已更新。"
+msgstr "この計算機の場所は更新されました。"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr "更改將在該主機下一次和專案通訊的時候生效。"
+msgstr "これは、計算機がプロジェクトに次回接続したときに有効になります。"
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr "個人檔案不存在。"
+msgstr "プロフィールがありません。"
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "將要移除你在“@name”的所有參數設定，確定繼續嗎？"
+msgstr "これは \"@name\" のプレファレンスセットからすべての設定を削除します。本当によろしいですか？"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "將要移除你在“@name”的所有參數設定，確定繼續嗎？"
+msgstr "これは \"@name\" のプレファレンスセットからすべての設定を削除します。本当によろしいですか？"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "You may create a message board for use by @team"
-msgstr "你可以為 @team 團隊建立一個留言板"
+msgstr "あなたは @team で利用する掲示板を作成できます"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Please enter your email address"
-msgstr "請輸入您的電子郵件地址"
+msgstr "あなたのEメールアドレスを入力してください。"
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the BOINC desktop software."
-msgstr "下載BOINC桌面版軟體"
+msgstr "BOINCのソフトダウンロード"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
-msgstr "Android裝置，請至Google Play或是Amazon App Store下載BOINC。"
+msgstr "アンドロイド機器の場合、BOINCをGoogle Play Store 又はAmazon App Storeからダウンロードして下さい。"
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer."
-msgstr "執行安裝程式"
+msgstr "インストーラーを実行"
 
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr "在列表中選擇@sitename，或者輸入@siteurl。"
+msgstr "@sitename を選択するか、@siteurl を入力"
 
 #: join-page
 msgctxt "join-page"
 msgid "Install BOINC on this device if not already present."
-msgstr "先安裝BOINC到此裝置上。"
+msgstr "まだ存在しない場合は、この端末にBOINCをインストールしてください。"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr "選擇<i>工具/添加項目</i>。選擇@sitename自列表，或者輸入@siteurl。"
+msgstr "<i>ツール/プロジェクトを追加</i>を選択して、リストから @sitename を選択するか、 @siteurl を入力してください。"
 
 #: join-page
 msgctxt "join-page"
@@ -3557,7 +3562,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr "如果你正在使用命令行版本的 BOINC，先使用 BOINC Manager 創建該項目的賬戶（如有必要在別處），然後在命令行版本中使用該賬戶來連接。"
+msgstr "もし コマンドラインバージョンの BOINC を実行しているならば、\nまずこのプロジェクトでのアカウントを作成するために BOINC マネージャー・ソフトウェア(他の場所で必要な場合)を使用し、その上で<b>!boinccmd</b>を使用してコマンドラインバージョンに接続するためにそのアカウントを使用します。"
 
 #: join-page
 msgctxt "join-page"
@@ -3565,164 +3570,164 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr "如果你在使用 5.0 前版本的 BOINC，請\\n升級到更近的版本來創建賬戶"
+msgstr "BOINC の5.0より前のバージョンを実行している場合、\n@this_project. でのアカウントを作成するために、BOINCのより新しいバージョンにアップグレードしてください。"
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr "@user現在是 @team 的創始人了！"
+msgstr "@user は @team の創設者になりました!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr "BOINC翻译过滤器可以划分待译内容。"
+msgstr "BOINC 翻訳フィルタは、翻訳のためにコンテンツをチャンクに分割するのに役立ちます。"
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr "BOINC翻譯過濾器可以劃分待譯內容。"
+msgstr "ノードの内容を翻訳用のチャンクに分割します。"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr "BOINC翻譯過濾器"
+msgstr "BOINC翻訳フィルタ"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr "要過濾的內容類型"
+msgstr "フィルタリングするコンテンツの種類"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr "選擇哪些內容（節點）類型將被分成塊進行翻譯。"
+msgstr "翻訳用のチャンクに分割する内容（ノード）の種類を選択してください。"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr "輸出除錯資料"
+msgstr "デバッグ情報を出力"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr "打印附加debug信息。這個選項應該在生產場所關閉。"
+msgstr "追加のデバッグ情報を出力。このオプションは本番環境では無効にするべきです。"
 
 #: join-page
 msgctxt "join-page"
 msgid "Rules and Policies"
-msgstr "規則和政策"
+msgstr "規約と方針"
 
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr "閱讀 !rules_and_policies."
+msgstr "このプロジェクトの !rules_and_policies を読んでください"
 
 #: account-password
 msgctxt "account-password"
 msgid "Password"
-msgstr "密碼"
+msgstr "パスワード:"
 
 #: login-page
 msgctxt "login-page"
 msgid "Enter the password that accompanies your username."
-msgstr "輸入您的密碼"
+msgstr "ユーザー名に付随するパスワードを入力してください。"
 
 #: login-page
 msgctxt "login-page"
 msgid "Request new password"
-msgstr "請求新密碼"
+msgstr "新しいパスワードを要求"
 
 #: forum
 msgctxt "forum"
 msgid "Mark all topics read"
-msgstr "標記所有主題已讀"
+msgstr "全ての項目を既読にマークする"
 
 #: forum
 msgctxt "forum"
 msgid "Mark all forums read"
-msgstr "標記所有討論已讀"
+msgstr "全てのフォーラムを既読にマークする"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
-msgstr "CAPTCHA 驗證錯誤：未知的 CAPTCHA 會話 ID。如果問題一直存在請聯絡網站管理員。"
+msgstr "CAPTCHA 認証エラー: 不明な CAPTCHA セッションIDです。この問題が続く場合はサイト管理者に連絡してください。"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr "你輸入的 CAPTCHA 答案不正確。"
+msgstr "あなたが入力した CAPTCHA の答えが間違っていました。"
 
 #: general-access-error
 msgctxt "general-access-error"
 msgid "Access denied. You must login to view this page."
-msgstr "訪問被拒絕，你必須登入才能檢視該頁面。"
+msgstr "アクセスが拒否されました。このページを見るにはログインしなければなりません。"
 
 #: general-access-error
 msgctxt "general-access-error"
 msgid "You are not authorized to access this page."
-msgstr "你無許可權訪問該頁面。"
+msgstr "このページにアクセスする権限がありません。"
 
 #: forum
 msgctxt "forum"
 msgid "Disable rich-text"
-msgstr "禁用富文字"
+msgstr "リッチテキストを無効化"
 
 #: forum
 msgctxt "forum"
 msgid "Enable rich-text"
-msgstr "啟用富文字"
+msgstr "リッチテキストを有効化"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr "訂閱"
+msgstr "参加する"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr "取消訂閱"
+msgstr "スレッドへの参加をやめる"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr "檢舉"
+msgstr "報告する"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr "取消檢舉"
+msgstr "報告をキャンセルする"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr "重設標籤"
+msgstr "フラグをリセット"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr "忽略使用者"
+msgstr "ユーザーを無視"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr "所有任務"
+msgstr "全てのタスク"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr "回報時間或截止時間"
+msgstr "報告日時または期限"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr "執行時間(秒)"
+msgstr "実行時間(秒)"
 
 #: task-details
 msgctxt "task-details"
@@ -3732,96 +3737,96 @@ msgstr "CPU時間(秒)"
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr "規範結果"
+msgstr "認められた結果"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr "最高允許的錯誤/總合/成功任務拷貝數量"
+msgstr "タスク数の異常/総数/正常の上限値"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr "站點主頁的消息"
+msgstr "サイトのホームページ用のメッセージ"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr "要在網站首頁跳轉頁面上顯示的文本。"
+msgstr "サイトのホームランディングページに表示されるテキストです。"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for rejecting this profile"
-msgstr "拒絕此個人資料的原因"
+msgstr "このプロフィールを却下する理由"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of the problem and how to fix it."
-msgstr "這個原因將附在給使用者的電子郵件裡。請簡要說明存在的問題以及解決它的方法。"
+msgstr "この理由は、ユーザーへのEメールに記載します。問題点とその解決方法を簡単に書いてください。"
 
 #: form-submit
 msgctxt "form-submit"
 msgid "Submit"
-msgstr "提交"
+msgstr "送信"
 
 #: comment-action-links
 msgctxt "comment-action-links"
 msgid "Unpublished"
-msgstr "未發表"
+msgstr "非公開"
 
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr "取消隱藏此主題"
+msgstr "このトピックの非表示を解除する"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for banning this user"
-msgstr "封禁此使用者的理由"
+msgstr "このユーザーを禁止する理由"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of why the user is being banned."
-msgstr "這個原因將列入給使用者的電子郵件。請寫一個簡短解釋為什麼使用者被禁止。"
+msgstr "この理由は、ユーザーへのメールに記載します。禁止される理由を簡単に書いてください。"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Duration of the ban"
-msgstr "這項禁令的持續時間"
+msgstr "禁止期間"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "這項禁令有效期的天數。設定為 0，永久禁止。"
+msgstr "禁止期間が終了するまでの日数です。0に設定すると永久に禁止されます。"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "A team named \"@name\" already exists."
-msgstr "名為\"@name\"的團隊已經存在。"
+msgstr "@nameというチームが既に存在します"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Edit message board"
-msgstr "編輯留言板"
+msgstr "掲示板を編集する"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Save message board"
-msgstr "儲存留言板"
+msgstr "掲示板を保存する"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "This is a team-only message board"
-msgstr "這裡只對團隊成員開放的留言板"
+msgstr "これはチーム専用の掲示板です"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Please select a team type."
-msgstr "請選擇團隊類型。"
+msgstr "チームの種類を選択してください。"
 
 #: boincid
 msgctxt "boincid"
@@ -3831,22 +3836,22 @@ msgstr "BOINC ID"
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr "資科庫中沒有這項工作"
+msgstr "データベースにタスクが見つかりません。"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr "並未在數據庫中發現任務包。"
+msgstr "データベースにワークユニットが見つかりません。"
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
 msgid "Stderr output"
-msgstr "標準錯誤輸出"
+msgstr "標準エラー出力(stderr)"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr "請注意：個人資訊內容受到審查"
+msgstr "注意：ユーザープロフィールはモデレーションの対象です。"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3855,60 +3860,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr "謝謝你 @user_name 加入 @site_name 。 \\n你的賬號成功創建。我們的BONC客戶端應該很快開始分配工作任務，如果沒有任何額外的行動或配置。請訪問下面的鏈接獲取更多信息和其他選項。 （鏈接將在新窗口中打開。）"
+msgstr "@user_name さん、@site_name に参加していただきありがとうございます。あなたのアカウントが作成されました。あなたのBOINCクライアントは、追加のアクションや設定をしなくても、割り当てられたタスクですぐに作業を開始することができます。より多くの情報と追加オプションについては、以下のリンクをご覧ください。(リンクは新しいウィンドウで開きます)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr "社群偏好設定"
+msgstr "コミュニティ設定"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr "在 !community_preferences 中更改您的用戶名。"
+msgstr "!community_preferences でユーザー名を変更してください。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr "你的使用者名稱用來供其他志願者認識。"
+msgstr "ユーザー名はこのサイト上の他のボランティアがあなたを識別するために使われます。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr "此外，您可以設置帳戶的默認語言並調整通知設置。"
+msgstr "加えて、アカウントのデフォルト言語の設定や通知設定の調節ができます。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr "運算偏好設定"
+msgstr "計算に関するプレファレンス"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr "更改你的 !comcomputing_preferences 。"
+msgstr "!computing_preferences を変更する。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr "你可以調整BOINC可以使用多少處理器、記憶體和磁碟。"
+msgstr "BOINCクライアントがコンピュータ上のタスクに使用できるCPU、RAM、ディスク容量を調整することができます。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr "正常情況下，你應該運行 @site_name 任務在沒有附加設置時。"
+msgstr "デフォルトでは、追加設定なしで @site_name のタスクが実行されます。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr "論壇"
+msgstr "掲示板"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3916,131 +3921,131 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr "建議新的志願者取消默認設置，直到他們獲得運行某些任務的經驗。問問題在 !論壇 里以在更改不理解的設置之前得到建議。"
+msgstr "新しいボランティアは、いくつかのタスクを実行する経験を積むまではデフォルトの設定のままにしておくことをお勧めします。わからない設定を変更する前には、 !forums で質問をしてアドバイスを得てください。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr "用戶檔案"
+msgstr "参加者のプロフィール"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr "建立!user_profile。"
+msgstr "!user_profile を作成する。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr "一個個人資訊會告訴其他志願者你是誰、你爲什麼要加入 @site_name 。"
+msgstr "ユーザープロフィールによって、あなたが誰であるか、なぜ @site_name に参加したのかが他のボランティアに伝わります。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Team"
-msgstr "團隊"
+msgstr "チーム"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr "加入團隊"
+msgstr "!team に参加する。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr "你可以加入其他使用者所組成的團隊"
+msgstr "他のボランティアがいるチームに参加することができます。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr "帳號儀表板"
+msgstr "アカウントダッシュボード"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr "前往你的 !account_dashboard 。"
+msgstr "あなたの !account_dashboard へ移動する。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr "你的賬戶面板有你的電腦（們）和任務（們）的信息和鏈接。"
+msgstr "アカウントダッシュボードには、割り当てられたコンピューターとタスクに関する情報とリンクがあります。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Help"
-msgstr "協助"
+msgstr "ヘルプ"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr "訪問我們的!help pages。"
+msgstr "!help ページを見る。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr "在我們社羣的議事欄中尋求幫助。"
+msgstr "コミュニティの !forums でヘルプが得られます。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr "錯誤：沒有帳號關聯至此身份驗證碼。"
+msgstr "エラー：認証されたアカウントがありません"
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Preferences last modified: @mod_time"
-msgstr "參數設定最後的修改時間：@mod_time"
+msgstr "プレファレンスの最終更新日時: @mod_time"
 
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr "資科庫中沒有這台主機"
+msgstr "データベースに計算機が見つかりません。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr "錯誤：在載入你的賬戶信息時出現些問題。請嘗試使用用戶名和密碼進行登陸。"
+msgstr "エラー：アカウントの読み込みで問題がありました。ユーザー名とパスワードでログインを試してください。"
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "There is no user on your team with that email address."
-msgstr "你的團隊中沒有使有該電子信箱的使用者"
+msgstr "そのメールアドレスを持つユーザーはチームにいません。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "moderation"
-msgstr "仲裁"
+msgstr "モデレーション"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr "請注意：個人資訊內容受到 !moderation 。"
+msgstr "注意：ユーザープロフィールは !moderation の対象です。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr "默認情況下，搜索匹配任何搜索項。結果在搜索結果中會出現一個以上的術語。"
+msgstr "デフォルトでは検索ワードの「いずれか」に一致するものがヒットします。2つ以上のワードが入ったものは検索結果でより上位に表示されます。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr "你可以使用“AND”以讓搜索引擎給出包含其中所有關鍵詞的搜索結果。"
+msgstr "'AND'を使うと「すべて」の検索ワードが入った結果が検索エンジンによって返されます。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr "例如，利用\"boinc AND client\" 只會顯示同時包含兩個條件的搜尋結果"
+msgstr "例えば、'boinc AND client'で検索するとboincとclientが入った結果だけになります。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr "找尋協助"
+msgstr "ヘルプを検索"

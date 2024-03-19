@@ -1,5 +1,5 @@
 # BOINC manager localization template
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -10,6 +10,7 @@
 # Appukonrad <appukonrad@gmail.com>, 2018
 # Karz, 2019
 # Martin Suchan <martin.suchan@outlook.com>, 2015,2022
+# Pavel Rosický, 2024
 # Pavel <xxxq@seznam.cz>, 2015
 # Petr Nekvinda <petr.nekvinda@gmail.com>, 2015-2016
 # Šimon Orság <simonorsag98@gmail.com>, 2016
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2023-07-22 11:33 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Martin Suchan <martin.suchan@outlook.com>, 2015,2022\n"
+"Last-Translator: Pavel Rosický, 2024\n"
 "Language-Team: Czech (http://app.transifex.com/boinc/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -192,416 +193,416 @@ msgstr "Připojen"
 msgid "Disconnected"
 msgstr "Odpojen"
 
-#: clientgui/AdvancedFrame.cpp:328
+#: clientgui/AdvancedFrame.cpp:334
 #, c-format
 msgid "New %s window..."
 msgstr "nové okno %s"
 
-#: clientgui/AdvancedFrame.cpp:332
+#: clientgui/AdvancedFrame.cpp:338
 #, c-format
 msgid "Open another %s window"
 msgstr "otevřít další okno %s"
 
-#: clientgui/AdvancedFrame.cpp:343
+#: clientgui/AdvancedFrame.cpp:349
 msgid "Select computer...\tCtrl+Shift+I"
 msgstr "Vyberte počítač...\tCtrl+Shift+I"
 
-#: clientgui/AdvancedFrame.cpp:344
+#: clientgui/AdvancedFrame.cpp:350
 msgid "Connect to a BOINC client on another computer"
 msgstr "Připojit se k BOINC aplikaci na jiném počítači"
 
-#: clientgui/AdvancedFrame.cpp:348
+#: clientgui/AdvancedFrame.cpp:354
 msgid "Shut down connected client..."
 msgstr "Vypnout připojeného klienta..."
 
-#: clientgui/AdvancedFrame.cpp:349
+#: clientgui/AdvancedFrame.cpp:355
 msgid "Shut down the currently connected BOINC client"
 msgstr "Vypnout aktuálně připojeného BOINC klienta"
 
-#: clientgui/AdvancedFrame.cpp:354 clientgui/sg_BoincSimpleFrame.cpp:150
+#: clientgui/AdvancedFrame.cpp:360 clientgui/sg_BoincSimpleFrame.cpp:150
 #, c-format
 msgid "Close the %s window"
 msgstr "Zavřít %s okno"
 
-#: clientgui/AdvancedFrame.cpp:357 clientgui/sg_BoincSimpleFrame.cpp:153
+#: clientgui/AdvancedFrame.cpp:363 clientgui/sg_BoincSimpleFrame.cpp:153
 msgid "&Close window"
 msgstr "Zavřít okno"
 
-#: clientgui/AdvancedFrame.cpp:366 clientgui/sg_BoincSimpleFrame.cpp:162
+#: clientgui/AdvancedFrame.cpp:372 clientgui/sg_BoincSimpleFrame.cpp:162
 #, c-format
 msgid "Exit %s"
 msgstr "Ukončit %s"
 
-#: clientgui/AdvancedFrame.cpp:371 clientgui/AdvancedFrame.cpp:376
+#: clientgui/AdvancedFrame.cpp:377 clientgui/AdvancedFrame.cpp:382
 #: clientgui/AsyncRPC.cpp:1086 clientgui/sg_BoincSimpleFrame.cpp:167
 #, c-format
 msgid "E&xit %s"
 msgstr "Ukončit %s"
 
-#: clientgui/AdvancedFrame.cpp:390 clientgui/sg_BoincSimpleFrame.cpp:181
+#: clientgui/AdvancedFrame.cpp:396 clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Preferences...\tCtrl+,"
-msgstr ""
+msgstr "Předvolby...\tCtrl+,"
 
-#: clientgui/AdvancedFrame.cpp:399
+#: clientgui/AdvancedFrame.cpp:405
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "&Zprávy\tCtrl+Shift+N"
 
-#: clientgui/AdvancedFrame.cpp:400
+#: clientgui/AdvancedFrame.cpp:406
 msgid "Show notices"
 msgstr "Zobrazit zprávy"
 
-#: clientgui/AdvancedFrame.cpp:405
+#: clientgui/AdvancedFrame.cpp:411
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "&Projekty\tCtrl+Shift+P"
 
-#: clientgui/AdvancedFrame.cpp:406
+#: clientgui/AdvancedFrame.cpp:412
 msgid "Show projects"
 msgstr "Zobrazit projekty"
 
-#: clientgui/AdvancedFrame.cpp:411
+#: clientgui/AdvancedFrame.cpp:417
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "&Úkoly\tCtrl+Shift+T"
 
-#: clientgui/AdvancedFrame.cpp:412
+#: clientgui/AdvancedFrame.cpp:418
 msgid "Show tasks"
 msgstr "Zobrazit úkoly"
 
-#: clientgui/AdvancedFrame.cpp:417
+#: clientgui/AdvancedFrame.cpp:423
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "Přenos\tCtrl+Shift+X"
 
-#: clientgui/AdvancedFrame.cpp:418
+#: clientgui/AdvancedFrame.cpp:424
 msgid "Show file transfers"
 msgstr "Zobrazit přenosy souborů"
 
-#: clientgui/AdvancedFrame.cpp:423
+#: clientgui/AdvancedFrame.cpp:429
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "&Statistiky\tCtrl+Shift+S"
 
-#: clientgui/AdvancedFrame.cpp:424
+#: clientgui/AdvancedFrame.cpp:430
 msgid "Show statistics"
 msgstr "Zobrazit statistiky"
 
-#: clientgui/AdvancedFrame.cpp:429
+#: clientgui/AdvancedFrame.cpp:435
 msgid "&Disk\tCtrl+Shift+D"
 msgstr "&Disk\tCtrl+Shift+D"
 
-#: clientgui/AdvancedFrame.cpp:430
+#: clientgui/AdvancedFrame.cpp:436
 msgid "Show disk usage"
 msgstr "Zobrazit využití disku"
 
-#: clientgui/AdvancedFrame.cpp:437
+#: clientgui/AdvancedFrame.cpp:443
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Jednoduché &zobrazení...\tCtrl+Shift+V"
 
-#: clientgui/AdvancedFrame.cpp:438
+#: clientgui/AdvancedFrame.cpp:444
 msgid "Switch to the Simple View"
 msgstr "Přepnout na jednoduché zobrazení"
 
-#: clientgui/AdvancedFrame.cpp:452 clientgui/AdvancedFrame.cpp:476
+#: clientgui/AdvancedFrame.cpp:458 clientgui/AdvancedFrame.cpp:482
 #: clientgui/sg_BoincSimpleFrame.cpp:236 clientgui/sg_BoincSimpleFrame.cpp:260
 msgid "&Add project..."
 msgstr "&Přidat projekt..."
 
-#: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
+#: clientgui/AdvancedFrame.cpp:459 clientgui/AdvancedFrame.cpp:483
 #: clientgui/sg_BoincSimpleFrame.cpp:237 clientgui/sg_BoincSimpleFrame.cpp:261
 msgid "Add a project"
 msgstr "Přid&at projekt"
 
-#: clientgui/AdvancedFrame.cpp:457 clientgui/sg_BoincSimpleFrame.cpp:241
+#: clientgui/AdvancedFrame.cpp:463 clientgui/sg_BoincSimpleFrame.cpp:241
 msgid "&Use account manager..."
 msgstr "&Použít Správce účtu..."
 
-#: clientgui/AdvancedFrame.cpp:458 clientgui/sg_BoincSimpleFrame.cpp:242
+#: clientgui/AdvancedFrame.cpp:464 clientgui/sg_BoincSimpleFrame.cpp:242
 msgid "Use an account manager to control this computer."
 msgstr "Použít Správce účtu pro ovládání tohoto počítače."
 
-#: clientgui/AdvancedFrame.cpp:462 clientgui/sg_BoincSimpleFrame.cpp:246
+#: clientgui/AdvancedFrame.cpp:468 clientgui/sg_BoincSimpleFrame.cpp:246
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Synchronizovat s %s"
 
-#: clientgui/AdvancedFrame.cpp:466 clientgui/sg_BoincSimpleFrame.cpp:250
+#: clientgui/AdvancedFrame.cpp:472 clientgui/sg_BoincSimpleFrame.cpp:250
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Použít aktuální nastavení z %s"
 
-#: clientgui/AdvancedFrame.cpp:480 clientgui/sg_BoincSimpleFrame.cpp:264
+#: clientgui/AdvancedFrame.cpp:486 clientgui/sg_BoincSimpleFrame.cpp:264
 #, c-format
 msgid "S&top using %s..."
 msgstr "Ukončit %s..."
 
-#: clientgui/AdvancedFrame.cpp:486 clientgui/sg_BoincSimpleFrame.cpp:270
+#: clientgui/AdvancedFrame.cpp:492 clientgui/sg_BoincSimpleFrame.cpp:270
 msgid "Remove this computer from account manager control."
 msgstr "Odebrat počítač ze správy Správce účtu."
 
-#: clientgui/AdvancedFrame.cpp:492
+#: clientgui/AdvancedFrame.cpp:498
 msgid "Run CPU &benchmarks"
 msgstr "Spustit &testy procesoru"
 
-#: clientgui/AdvancedFrame.cpp:493
+#: clientgui/AdvancedFrame.cpp:499
 msgid "Run tests that measure CPU speed"
 msgstr "Spustit testy měřící rychlost procesoru"
 
-#: clientgui/AdvancedFrame.cpp:497
+#: clientgui/AdvancedFrame.cpp:503
 msgid "Retry pending transfers"
 msgstr "Obnovit čekající přenosy"
 
-#: clientgui/AdvancedFrame.cpp:498
+#: clientgui/AdvancedFrame.cpp:504
 msgid "Retry deferred file transfers and task requests"
 msgstr "Opakovat odložené přenosy souborů a požadavky na nové úkoly"
 
-#: clientgui/AdvancedFrame.cpp:503 clientgui/sg_BoincSimpleFrame.cpp:276
+#: clientgui/AdvancedFrame.cpp:509 clientgui/sg_BoincSimpleFrame.cpp:276
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Záznam událostí...\tCtrl+Shift+E"
 
-#: clientgui/AdvancedFrame.cpp:504
+#: clientgui/AdvancedFrame.cpp:510
 msgid "Show diagnostic messages"
 msgstr "Zobrazit diagnostické zprávy"
 
-#: clientgui/AdvancedFrame.cpp:512
+#: clientgui/AdvancedFrame.cpp:518
 msgid "&Run always"
 msgstr "&Počítat stále"
 
-#: clientgui/AdvancedFrame.cpp:513
+#: clientgui/AdvancedFrame.cpp:519
 msgid "Allow work regardless of preferences"
 msgstr "Povolit práci bez ohledu na předvolby"
 
-#: clientgui/AdvancedFrame.cpp:517
+#: clientgui/AdvancedFrame.cpp:523
 msgid "Run based on &preferences"
 msgstr "Počítat podle &předvoleb"
 
-#: clientgui/AdvancedFrame.cpp:518
+#: clientgui/AdvancedFrame.cpp:524
 msgid "Allow work according to preferences"
 msgstr "Povolit práci podle předvoleb"
 
-#: clientgui/AdvancedFrame.cpp:522
+#: clientgui/AdvancedFrame.cpp:528
 msgid "&Suspend"
 msgstr "&Pozastavit"
 
-#: clientgui/AdvancedFrame.cpp:523
+#: clientgui/AdvancedFrame.cpp:529
 msgid "Stop work regardless of preferences"
 msgstr "Pozastavit práci bez ohledu na předvolby"
 
-#: clientgui/AdvancedFrame.cpp:548
+#: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU always"
 msgstr "Vždy používat GPU"
 
-#: clientgui/AdvancedFrame.cpp:549
+#: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work regardless of preferences"
 msgstr "Povolit práci na GPU bez ohledu na předvolby"
 
-#: clientgui/AdvancedFrame.cpp:553
+#: clientgui/AdvancedFrame.cpp:559
 msgid "Use GPU based on preferences"
 msgstr "Používat GPU podle předvoleb"
 
-#: clientgui/AdvancedFrame.cpp:554
+#: clientgui/AdvancedFrame.cpp:560
 msgid "Allow GPU work according to preferences"
 msgstr "Povolit práci na GPU podle předvoleb"
 
-#: clientgui/AdvancedFrame.cpp:558
+#: clientgui/AdvancedFrame.cpp:564
 msgid "Suspend GPU"
 msgstr "Pozastavit GPU"
 
-#: clientgui/AdvancedFrame.cpp:559
+#: clientgui/AdvancedFrame.cpp:565
 msgid "Stop GPU work regardless of preferences"
 msgstr "Pozastavit práci na GPU bez ohledu na předvolby"
 
-#: clientgui/AdvancedFrame.cpp:583
+#: clientgui/AdvancedFrame.cpp:589
 msgid "Network activity always"
 msgstr "Trvale povolit přístup k Internetu"
 
-#: clientgui/AdvancedFrame.cpp:584
+#: clientgui/AdvancedFrame.cpp:590
 msgid "Allow network activity regardless of preferences"
 msgstr "Povolit přístup k Internetu bez ohledu na předvolby"
 
-#: clientgui/AdvancedFrame.cpp:588
+#: clientgui/AdvancedFrame.cpp:594
 msgid "Network activity based on preferences"
 msgstr "Připojovat k Internetu podle předvoleb"
 
-#: clientgui/AdvancedFrame.cpp:589
+#: clientgui/AdvancedFrame.cpp:595
 msgid "Allow network activity according to preferences"
 msgstr "Využívat připojení k Internetu podle předvoleb"
 
-#: clientgui/AdvancedFrame.cpp:593
+#: clientgui/AdvancedFrame.cpp:599
 msgid "Suspend network activity"
 msgstr "Pozastavit přístup k Internetu"
 
-#: clientgui/AdvancedFrame.cpp:594
+#: clientgui/AdvancedFrame.cpp:600
 msgid "Stop network activity"
 msgstr "Ukončit přístup k Internetu"
 
-#: clientgui/AdvancedFrame.cpp:603 clientgui/sg_BoincSimpleFrame.cpp:221
+#: clientgui/AdvancedFrame.cpp:609 clientgui/sg_BoincSimpleFrame.cpp:221
 msgid "Computing &preferences..."
 msgstr "Výpočetní &předvolby..."
 
-#: clientgui/AdvancedFrame.cpp:604 clientgui/sg_BoincSimpleFrame.cpp:222
+#: clientgui/AdvancedFrame.cpp:610 clientgui/sg_BoincSimpleFrame.cpp:222
 msgid "Configure computing preferences"
 msgstr "Nastavit výpočetní předvolby"
 
-#: clientgui/AdvancedFrame.cpp:609
+#: clientgui/AdvancedFrame.cpp:615
 msgid "Exclusive applications..."
 msgstr "Exkluzivní aplikace..."
 
-#: clientgui/AdvancedFrame.cpp:610
+#: clientgui/AdvancedFrame.cpp:616
 msgid "Configure exclusive applications"
 msgstr "Konfigurovat exkluzivní aplikace"
 
-#: clientgui/AdvancedFrame.cpp:615
+#: clientgui/AdvancedFrame.cpp:621
 msgid "Select columns..."
 msgstr "Vybrat sloupce..."
 
-#: clientgui/AdvancedFrame.cpp:616
+#: clientgui/AdvancedFrame.cpp:622
 msgid "Select which columns to display"
 msgstr "Vyberte sloupce, které chcete zobrazit"
 
-#: clientgui/AdvancedFrame.cpp:620
+#: clientgui/AdvancedFrame.cpp:626
 msgid "Event Log options...\tCtrl+Shift+F"
 msgstr "Možnosti záznamu událostí...\tCtrl+Shift+F"
 
-#: clientgui/AdvancedFrame.cpp:621
+#: clientgui/AdvancedFrame.cpp:627
 msgid "Enable or disable various diagnostic messages"
 msgstr "Povolit nebo zakázat různé diagnostické zprávy"
 
-#: clientgui/AdvancedFrame.cpp:625 clientgui/sg_BoincSimpleFrame.cpp:227
+#: clientgui/AdvancedFrame.cpp:631 clientgui/sg_BoincSimpleFrame.cpp:227
 msgid "&Other options..."
 msgstr "&Ostatní nastavení..."
 
-#: clientgui/AdvancedFrame.cpp:626
+#: clientgui/AdvancedFrame.cpp:632
 msgid "Configure display options and network settings"
 msgstr "Nastavit vzhled a způsob připojení k Internetu"
 
-#: clientgui/AdvancedFrame.cpp:631
+#: clientgui/AdvancedFrame.cpp:637
 msgid "Read config files"
 msgstr "Načíst konfigurační soubory"
 
-#: clientgui/AdvancedFrame.cpp:632
+#: clientgui/AdvancedFrame.cpp:638
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "Načíst konfiguraci ze souborů cc_config.xml a app_config.xml."
 
-#: clientgui/AdvancedFrame.cpp:636
+#: clientgui/AdvancedFrame.cpp:642
 msgid "Read local prefs file"
 msgstr "Načíst předvolby z lokálního souboru"
 
-#: clientgui/AdvancedFrame.cpp:637
+#: clientgui/AdvancedFrame.cpp:643
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Načíst předvolby z 'global_prefs_override.xml'"
 
-#: clientgui/AdvancedFrame.cpp:645 clientgui/sg_BoincSimpleFrame.cpp:284
+#: clientgui/AdvancedFrame.cpp:651 clientgui/sg_BoincSimpleFrame.cpp:284
 #, c-format
 msgid "%s &help"
 msgstr "Nápověda k platformě %s"
 
-#: clientgui/AdvancedFrame.cpp:649 clientgui/sg_BoincSimpleFrame.cpp:288
+#: clientgui/AdvancedFrame.cpp:655 clientgui/sg_BoincSimpleFrame.cpp:288
 #, c-format
 msgid "Show information about %s"
 msgstr "Zobrazit webovou stránku s nápovědou k platformě %s"
 
-#: clientgui/AdvancedFrame.cpp:659 clientgui/sg_BoincSimpleFrame.cpp:298
+#: clientgui/AdvancedFrame.cpp:665 clientgui/sg_BoincSimpleFrame.cpp:298
 #, c-format
 msgid "&%s help"
 msgstr "Nápověda k programu %s"
 
-#: clientgui/AdvancedFrame.cpp:663 clientgui/sg_BoincSimpleFrame.cpp:302
+#: clientgui/AdvancedFrame.cpp:669 clientgui/sg_BoincSimpleFrame.cpp:302
 #, c-format
 msgid "Show information about the %s"
 msgstr "Zobrazit webovou stránku s nápovědou k programu %s"
 
-#: clientgui/AdvancedFrame.cpp:674 clientgui/sg_BoincSimpleFrame.cpp:312
+#: clientgui/AdvancedFrame.cpp:680 clientgui/sg_BoincSimpleFrame.cpp:312
 #, c-format
 msgid "%s &web site"
 msgstr "&Webové stránky %s"
 
-#: clientgui/AdvancedFrame.cpp:678
+#: clientgui/AdvancedFrame.cpp:684
 #, c-format
 msgid "See more information about %s on the web"
 msgstr "Více informací o %s získáte na webu"
 
-#: clientgui/AdvancedFrame.cpp:689 clientgui/AdvancedFrame.cpp:693
+#: clientgui/AdvancedFrame.cpp:695 clientgui/AdvancedFrame.cpp:699
 #: clientgui/sg_BoincSimpleFrame.cpp:327 clientgui/sg_BoincSimpleFrame.cpp:331
 #, c-format
 msgid "Check for new %s version"
 msgstr "Zkontrolovat novou verzi %s"
 
-#: clientgui/AdvancedFrame.cpp:705 clientgui/sg_BoincSimpleFrame.cpp:343
+#: clientgui/AdvancedFrame.cpp:711 clientgui/sg_BoincSimpleFrame.cpp:343
 msgid "Report Issue"
 msgstr "Nahlásit chybu"
 
-#: clientgui/AdvancedFrame.cpp:706 clientgui/sg_BoincSimpleFrame.cpp:344
+#: clientgui/AdvancedFrame.cpp:712 clientgui/sg_BoincSimpleFrame.cpp:344
 msgid "Report bug or enhancement request"
 msgstr "Nahlásit chybu nebo nápad na vylepšení"
 
-#: clientgui/AdvancedFrame.cpp:711 clientgui/BOINCTaskBar.cpp:550
+#: clientgui/AdvancedFrame.cpp:717 clientgui/BOINCTaskBar.cpp:564
 #: clientgui/sg_BoincSimpleFrame.cpp:349
 #, c-format
 msgid "&About %s..."
 msgstr "&Informace o %s..."
 
-#: clientgui/AdvancedFrame.cpp:717 clientgui/sg_BoincSimpleFrame.cpp:355
+#: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:355
 msgid "Licensing and copyright information."
 msgstr "Zobrazit informace o aktuální verzi BOINC (licence a autorská práva)."
 
-#: clientgui/AdvancedFrame.cpp:724 clientgui/sg_BoincSimpleFrame.cpp:362
+#: clientgui/AdvancedFrame.cpp:730 clientgui/sg_BoincSimpleFrame.cpp:362
 msgid "&File"
 msgstr "&Soubor"
 
-#: clientgui/AdvancedFrame.cpp:728 clientgui/sg_BoincSimpleFrame.cpp:366
+#: clientgui/AdvancedFrame.cpp:734 clientgui/sg_BoincSimpleFrame.cpp:366
 msgid "&View"
 msgstr "&Zobrazení"
 
-#: clientgui/AdvancedFrame.cpp:732
+#: clientgui/AdvancedFrame.cpp:738
 msgid "&Activity"
 msgstr "&Aktivity"
 
-#: clientgui/AdvancedFrame.cpp:736 clientgui/sg_BoincSimpleFrame.cpp:370
+#: clientgui/AdvancedFrame.cpp:742 clientgui/sg_BoincSimpleFrame.cpp:370
 msgid "&Options"
 msgstr "&Možnosti"
 
-#: clientgui/AdvancedFrame.cpp:740 clientgui/sg_BoincSimpleFrame.cpp:374
+#: clientgui/AdvancedFrame.cpp:746 clientgui/sg_BoincSimpleFrame.cpp:374
 msgid "&Tools"
 msgstr "&Nástroje"
 
-#: clientgui/AdvancedFrame.cpp:744 clientgui/DlgAdvPreferencesBase.cpp:202
+#: clientgui/AdvancedFrame.cpp:750 clientgui/DlgAdvPreferencesBase.cpp:202
 #: clientgui/DlgExclusiveApps.cpp:157 clientgui/sg_BoincSimpleFrame.cpp:378
 #: clientgui/sg_DlgPreferences.cpp:371 clientgui/wizardex.cpp:383
 #: clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "&Nápověda"
 
-#: clientgui/AdvancedFrame.cpp:1348
+#: clientgui/AdvancedFrame.cpp:1358
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Vypnout aktuálního klienta..."
 
-#: clientgui/AdvancedFrame.cpp:1357
+#: clientgui/AdvancedFrame.cpp:1367
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr "%s vypne aktuálně připojeného klienta\na vyzve vás k připojení k jinému počítači."
 
-#: clientgui/AdvancedFrame.cpp:1747 clientgui/DlgAbout.cpp:121
+#: clientgui/AdvancedFrame.cpp:1757 clientgui/DlgAbout.cpp:121
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1757
+#: clientgui/AdvancedFrame.cpp:1767
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s úspěšně přidal %s"
 
-#: clientgui/AdvancedFrame.cpp:1904
+#: clientgui/AdvancedFrame.cpp:1914
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1908
+#: clientgui/AdvancedFrame.cpp:1918
 #, c-format
 msgid "Connecting to %s"
 msgstr "Připojuji se k %s"
 
-#: clientgui/AdvancedFrame.cpp:1911
+#: clientgui/AdvancedFrame.cpp:1921
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Připojeno k %s (%s)"
@@ -722,12 +723,12 @@ msgstr "Pokud přestanete používat %s,\nvšechny stávající projekty budou z
 msgid "Project web pages"
 msgstr "Webové stránky projektu"
 
-#: clientgui/BOINCClientManager.cpp:532
+#: clientgui/BOINCClientManager.cpp:539
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - Nečekané ukončení"
 
-#: clientgui/BOINCClientManager.cpp:542
+#: clientgui/BOINCClientManager.cpp:549
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -778,7 +779,7 @@ msgstr "%s se úspěšně odpojil od Internetu."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s se nezvládl odpojit od Internetu."
 
-#: clientgui/BOINCGUIApp.cpp:364
+#: clientgui/BOINCGUIApp.cpp:390
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -789,157 +790,162 @@ msgid ""
 "- contact your administrator to add you to the 'boinc_master' user group."
 msgstr "Momentálně nemáte oprávnění pro správu %s.\n\nPro spuštění %s s oprávněními tohoto uživatele, prosím:\n- přeinstalujte %s s odpovědí \"Ano\" na otázku o neadministrátorských uživatelích\n nebo\n- ckontaktujte vašeho administrátora, aby vás přidal do skupiny 'boinc_master'."
 
-#: clientgui/BOINCGUIApp.cpp:372
+#: clientgui/BOINCGUIApp.cpp:398
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "Práva či vlastnictví souborů %s nejsou nastavena správně, přeinstalujte prosím %s.\n(Chybový kód %d"
 
-#: clientgui/BOINCGUIApp.cpp:378
+#: clientgui/BOINCGUIApp.cpp:404
 msgid " at "
 msgstr " v "
 
-#: clientgui/BOINCGUIApp.cpp:381 clientgui/MainDocument.cpp:2636
+#: clientgui/BOINCGUIApp.cpp:407 clientgui/MainDocument.cpp:2636
 #: clientgui/MainDocument.cpp:2695 clientgui/ViewTransfers.cpp:922
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:411
+#: clientgui/BOINCGUIApp.cpp:437
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "Pro správné fungování BOINC je vyžadován restart.\nProsím restartujte počítač a zkuste to znova."
 
-#: clientgui/BOINCGUIApp.cpp:412 clientgui/DlgAbout.cpp:158
+#: clientgui/BOINCGUIApp.cpp:438 clientgui/BOINCGUIApp.cpp:467
+#: clientgui/DlgAbout.cpp:158
 msgid "BOINC Manager"
 msgstr "BOINC manažer"
 
-#: clientgui/BOINCGUIApp.cpp:632
+#: clientgui/BOINCGUIApp.cpp:466
+msgid "Another instance of BOINC Manager is already running."
+msgstr "Jiná instance BOINC Managera již běží."
+
+#: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC manažer byl automaticky spuštěn operačním systémem"
 
-#: clientgui/BOINCGUIApp.cpp:634
+#: clientgui/BOINCGUIApp.cpp:666
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Spustit BOINC pouze s ikonou v systémové liště"
 
-#: clientgui/BOINCGUIApp.cpp:636
+#: clientgui/BOINCGUIApp.cpp:668
 msgid "Directory containing the BOINC Client executable"
 msgstr "Složka obsahující spustitelného BOINC klienta"
 
-#: clientgui/BOINCGUIApp.cpp:637
+#: clientgui/BOINCGUIApp.cpp:669
 msgid "BOINC data directory"
 msgstr "Složka pro BOINC data"
 
-#: clientgui/BOINCGUIApp.cpp:639
+#: clientgui/BOINCGUIApp.cpp:671
 msgid "Host name or IP address"
 msgstr "Jméno počítače nebo IP adresa"
 
-#: clientgui/BOINCGUIApp.cpp:640
+#: clientgui/BOINCGUIApp.cpp:672
 msgid "GUI RPC port number"
 msgstr "Číslo portu pro GUI RPC"
 
-#: clientgui/BOINCGUIApp.cpp:641
+#: clientgui/BOINCGUIApp.cpp:673
 msgid "Password"
 msgstr "Heslo"
 
-#: clientgui/BOINCGUIApp.cpp:642
+#: clientgui/BOINCGUIApp.cpp:674
 msgid "Startup BOINC with these optional arguments"
 msgstr "Spouštět BOINC s těmito volitelnými parametry"
 
-#: clientgui/BOINCGUIApp.cpp:643
+#: clientgui/BOINCGUIApp.cpp:675
 msgid "disable BOINC security users and permissions"
 msgstr "zrušit bezpečnostní uživatele a práva BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:644
+#: clientgui/BOINCGUIApp.cpp:676
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "Nastavit ladící režim správce vzhledů pro zobrazení chybových zpráv správce vzhledů"
 
-#: clientgui/BOINCGUIApp.cpp:645
+#: clientgui/BOINCGUIApp.cpp:677
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "povoleno více instancí BOINC Manažera"
 
-#: clientgui/BOINCGUIApp.cpp:647
+#: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Nepoužito: oprava pro chybu v XCode 4.2"
 
-#: clientgui/BOINCGUIApp.cpp:649
+#: clientgui/BOINCGUIApp.cpp:681
 msgid "Don't run the client"
 msgstr "Nespouštět klienta"
 
-#: clientgui/BOINCTaskBar.cpp:528
+#: clientgui/BOINCTaskBar.cpp:542
 #, c-format
 msgid "Open %s Web..."
 msgstr "Otevřít webové stránky %s..."
 
-#: clientgui/BOINCTaskBar.cpp:535
+#: clientgui/BOINCTaskBar.cpp:549
 #, c-format
 msgid "Open %s..."
 msgstr "Otevřít %s..."
 
-#: clientgui/BOINCTaskBar.cpp:542 clientgui/BOINCTaskBar.cpp:640
-#: clientgui/BOINCTaskBar.cpp:645
+#: clientgui/BOINCTaskBar.cpp:556 clientgui/BOINCTaskBar.cpp:654
+#: clientgui/BOINCTaskBar.cpp:659
 msgid "Snooze"
 msgstr "Uspat"
 
-#: clientgui/BOINCTaskBar.cpp:544 clientgui/BOINCTaskBar.cpp:659
-#: clientgui/BOINCTaskBar.cpp:664
+#: clientgui/BOINCTaskBar.cpp:558 clientgui/BOINCTaskBar.cpp:673
+#: clientgui/BOINCTaskBar.cpp:678
 msgid "Snooze GPU"
 msgstr "Uspat GPU"
 
-#: clientgui/BOINCTaskBar.cpp:562
+#: clientgui/BOINCTaskBar.cpp:576
 msgid "E&xit"
 msgstr "Ukončit"
 
-#: clientgui/BOINCTaskBar.cpp:635 clientgui/ViewProjects.cpp:788
+#: clientgui/BOINCTaskBar.cpp:649 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:975 clientgui/sg_BoincSimpleFrame.cpp:1014
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
 msgstr "Obnovit"
 
-#: clientgui/BOINCTaskBar.cpp:655
+#: clientgui/BOINCTaskBar.cpp:669
 msgid "Resume GPU"
 msgstr "Obnovit GPU"
 
-#: clientgui/BOINCTaskBar.cpp:726
+#: clientgui/BOINCTaskBar.cpp:740
 msgid "Computing is enabled"
 msgstr "Počítání je povoleno"
 
-#: clientgui/BOINCTaskBar.cpp:730
+#: clientgui/BOINCTaskBar.cpp:744
 msgid "Computing is suspended - "
 msgstr "Počítání je pozastaveno - "
 
-#: clientgui/BOINCTaskBar.cpp:740
+#: clientgui/BOINCTaskBar.cpp:754
 msgid "GPU computing is enabled"
 msgstr "GPU počítání je povoleno"
 
-#: clientgui/BOINCTaskBar.cpp:743
+#: clientgui/BOINCTaskBar.cpp:757
 msgid "GPU computing is suspended - "
 msgstr "GPU počítání je pozastaveno - "
 
-#: clientgui/BOINCTaskBar.cpp:752
+#: clientgui/BOINCTaskBar.cpp:766
 msgid "Network is enabled"
 msgstr "Přístup k Internetu je povolen"
 
-#: clientgui/BOINCTaskBar.cpp:755
+#: clientgui/BOINCTaskBar.cpp:769
 msgid "Network is suspended - "
 msgstr "Přístup k Internetu je pozastaven - "
 
-#: clientgui/BOINCTaskBar.cpp:763
+#: clientgui/BOINCTaskBar.cpp:777
 msgid "Reconnecting to client."
 msgstr "Obnovuji spojení s klientem."
 
-#: clientgui/BOINCTaskBar.cpp:765
+#: clientgui/BOINCTaskBar.cpp:779
 msgid "Not connected to a client."
 msgstr "Nepřipojeno ke klientu."
 
-#: clientgui/BOINCTaskBar.cpp:818
+#: clientgui/BOINCTaskBar.cpp:832
 #, c-format
 msgid "%s Notices"
 msgstr "%s Zprávy"
 
-#: clientgui/BOINCTaskBar.cpp:824
+#: clientgui/BOINCTaskBar.cpp:838
 msgid "There are new notices - click to view."
 msgstr "Jsou dostupné nové zprávy - klikněte pro zobrazení."
 
@@ -1036,9 +1042,9 @@ msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:197
 msgid ""
-"(C) 2003-2023 University of California, Berkeley.\n"
+"(C) 2003-2024 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
+msgstr "(C) 2003-2024 Kalifornská univerzita v Berkeley.\nVšechna práva vyhrazena."
 
 #: clientgui/DlgAbout.cpp:202
 #, c-format
@@ -1054,15 +1060,15 @@ msgstr "Pro více informací navštivte"
 msgid "&OK"
 msgstr "&OK"
 
-#: clientgui/DlgAdvPreferences.cpp:761 clientgui/sg_DlgPreferences.cpp:826
+#: clientgui/DlgAdvPreferences.cpp:761 clientgui/sg_DlgPreferences.cpp:830
 msgid "Invalid number"
 msgstr "Neplatné číslo"
 
-#: clientgui/DlgAdvPreferences.cpp:762 clientgui/sg_DlgPreferences.cpp:827
+#: clientgui/DlgAdvPreferences.cpp:762 clientgui/sg_DlgPreferences.cpp:831
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "Neplatný čas, hodnota musí být mezi 0:00 a 24:00, formát je HH:MM"
 
-#: clientgui/DlgAdvPreferences.cpp:763 clientgui/sg_DlgPreferences.cpp:828
+#: clientgui/DlgAdvPreferences.cpp:763 clientgui/sg_DlgPreferences.cpp:832
 msgid "Start time must be different from end time"
 msgstr "Počáteční čas musí být odlišný od koncového času"
 
@@ -1070,7 +1076,7 @@ msgstr "Počáteční čas musí být odlišný od koncového času"
 msgid "Number must be between 0 and 10"
 msgstr "Číslo musí být mezi 0 a 10"
 
-#: clientgui/DlgAdvPreferences.cpp:765 clientgui/sg_DlgPreferences.cpp:829
+#: clientgui/DlgAdvPreferences.cpp:765 clientgui/sg_DlgPreferences.cpp:833
 msgid "Number must be between 0 and 100"
 msgstr "Číslo musí být mezi 0 a 100"
 
@@ -1084,15 +1090,15 @@ msgid ""
 "mouse or keyboard input."
 msgstr "Pozastavit, pokud myš nebo klávesnice nebyla aktivní delší než nastavenou dobu."
 
-#: clientgui/DlgAdvPreferences.cpp:1060 clientgui/sg_DlgPreferences.cpp:900
+#: clientgui/DlgAdvPreferences.cpp:1060 clientgui/sg_DlgPreferences.cpp:904
 msgid "invalid input value detected"
 msgstr "zadaná neplatná vstupní hodnota"
 
-#: clientgui/DlgAdvPreferences.cpp:1072 clientgui/sg_DlgPreferences.cpp:912
+#: clientgui/DlgAdvPreferences.cpp:1072 clientgui/sg_DlgPreferences.cpp:916
 msgid "Validation Error"
 msgstr "Chyba při validaci"
 
-#: clientgui/DlgAdvPreferences.cpp:1267 clientgui/sg_DlgPreferences.cpp:1246
+#: clientgui/DlgAdvPreferences.cpp:1267 clientgui/sg_DlgPreferences.cpp:1250
 msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
@@ -1100,8 +1106,8 @@ msgid ""
 msgstr "Použít místní předvolby definované na této stránce. Tím přepíšete webové předvolby, a to i v případě, že webové předvolby později upravíte. Chcete pokračovat?"
 
 #: clientgui/DlgAdvPreferences.cpp:1271 clientgui/DlgAdvPreferences.cpp:1312
-#: clientgui/WizardAttach.cpp:573 clientgui/sg_DlgPreferences.cpp:1238
-#: clientgui/sg_DlgPreferences.cpp:1250
+#: clientgui/WizardAttach.cpp:573 clientgui/sg_DlgPreferences.cpp:1242
+#: clientgui/sg_DlgPreferences.cpp:1254
 msgid "Confirmation"
 msgstr "Potvrzení"
 
@@ -1720,15 +1726,15 @@ msgstr ""
 
 #: clientgui/DlgEventLog.cpp:394 clientgui/DlgEventLog.cpp:396
 msgid "Shows messages of all types (information, alerts, etc.)"
-msgstr ""
+msgstr "Zobrazit zprávy všech typů (informace, výstrahy atd.)"
 
 #: clientgui/DlgEventLog.cpp:401
 msgid "Shows only the messages that are alerts"
-msgstr ""
+msgstr "Zobrazit pouze zprávy s výstrahami"
 
 #: clientgui/DlgEventLog.cpp:403
 msgid "Show only the messages that are alerts"
-msgstr ""
+msgstr "Zobrazit pouze zprávy s výstrahami"
 
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
@@ -2258,36 +2264,36 @@ msgstr "Nastavení SOCKS proxy serveru"
 msgid "SOCKS Proxy"
 msgstr "SOCKS proxy server"
 
-#: clientgui/DlgOptions.cpp:648
+#: clientgui/DlgOptions.cpp:646
 msgid "always"
 msgstr "vždy"
 
-#: clientgui/DlgOptions.cpp:649
+#: clientgui/DlgOptions.cpp:647
 msgid "1 hour"
 msgstr "1 hodina"
 
-#: clientgui/DlgOptions.cpp:650
+#: clientgui/DlgOptions.cpp:648
 msgid "6 hours"
 msgstr "6 hodin"
 
-#: clientgui/DlgOptions.cpp:651
+#: clientgui/DlgOptions.cpp:649
 msgid "1 day"
 msgstr "1 den"
 
-#: clientgui/DlgOptions.cpp:652
+#: clientgui/DlgOptions.cpp:650
 msgid "1 week"
 msgstr "1 týden"
 
-#: clientgui/DlgOptions.cpp:653
+#: clientgui/DlgOptions.cpp:651
 msgid "never"
 msgstr "nikdy"
 
-#: clientgui/DlgOptions.cpp:768
+#: clientgui/DlgOptions.cpp:771
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - Volba jazyka"
 
-#: clientgui/DlgOptions.cpp:775
+#: clientgui/DlgOptions.cpp:778
 #, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
@@ -2507,11 +2513,11 @@ msgstr "Dozvědět se víc o projektech umístěných na World Community Grid"
 
 #: clientgui/Localization.cpp:161
 msgid "Home page"
-msgstr ""
+msgstr "Domovská stránka"
 
 #: clientgui/Localization.cpp:167
 msgid "Your tasks"
-msgstr ""
+msgstr "Vaše úkoly"
 
 #: clientgui/MainDocument.cpp:1296
 msgid "Version Update"
@@ -3302,23 +3308,23 @@ msgstr "Využití disku projekty BOINC"
 msgid "no projects: 0 bytes used"
 msgstr "žádné projekty: 0 bajtů použito"
 
-#: clientgui/ViewResources.cpp:263
+#: clientgui/ViewResources.cpp:264
 msgid "used by BOINC: "
 msgstr "prostor využitý BOINC: "
 
-#: clientgui/ViewResources.cpp:274
+#: clientgui/ViewResources.cpp:275
 msgid "free, available to BOINC: "
 msgstr "volné, dostupné pro BOINC: "
 
-#: clientgui/ViewResources.cpp:282
+#: clientgui/ViewResources.cpp:283
 msgid "free, not available to BOINC: "
 msgstr "volné, nedostupné pro BOINC: "
 
-#: clientgui/ViewResources.cpp:292
+#: clientgui/ViewResources.cpp:293
 msgid "free: "
 msgstr "volné místo: "
 
-#: clientgui/ViewResources.cpp:301
+#: clientgui/ViewResources.cpp:302
 msgid "used by other programs: "
 msgstr "využité ostatními programy: "
 
@@ -3705,7 +3711,7 @@ msgstr "Otevřít okno s informačními zprávami projektů nebo BOINC"
 msgid "Get help with %s"
 msgstr "Zobrazit nápovědu pro %s"
 
-#: clientgui/sg_DlgMessages.cpp:459
+#: clientgui/sg_DlgMessages.cpp:463
 #, c-format
 msgid "%s - Notices"
 msgstr "%s - Zprávy"
@@ -3737,12 +3743,12 @@ msgstr "\"V provozu\" znamená akce myši/klávesnice během posledních"
 msgid "GB of disk space"
 msgstr "GB místa na disku"
 
-#: clientgui/sg_DlgPreferences.cpp:1156
+#: clientgui/sg_DlgPreferences.cpp:1160
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s - Předvolby výpočtů"
 
-#: clientgui/sg_DlgPreferences.cpp:1237
+#: clientgui/sg_DlgPreferences.cpp:1241
 msgid "Discard all local preferences and use web-based preferences?"
 msgstr "Zahodit všechny místní předvolby a používat ty webové?"
 

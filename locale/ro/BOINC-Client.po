@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-12-01 23:46 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
 "Last-Translator: Mihai Michael, 2022\n"
-"Language-Team: Romanian (http://www.transifex.com/boinc/boinc/language/ro/)\n"
+"Language-Team: Romanian (http://app.transifex.com/boinc/boinc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,32 +30,30 @@ msgstr "Mesaj de la managerul de cont"
 msgid "Message from server"
 msgstr "Mesaj de la server"
 
-#: client/client_state.cpp:330
+#: client/client_state.cpp:329
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Unele task-uri au nevoie de mai multă memorie decât este permis de preferinţele dumneavoastră.  Vă rugăm să verificaţi preferinţele."
 
-#: client/client_state.cpp:698
+#: client/client_state.cpp:708
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Nu s-a putut scrie fişierul de stare; verificaţi permisiunile directorului"
 
-#: client/cs_cmdline.cpp:295
+#: client/cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Varibila de sistem HTTP_PROXY trebuie să specifice un proxy HTTP"
 
-#: client/cs_scheduler.cpp:617
+#: client/cs_scheduler.cpp:592
 #, c-format
-msgid ""
-"This project seems to have changed its URL.  When convenient, remove the "
-"project, then add %s"
-msgstr "Se pare că acest proiect și-a schimbat adresa URL. Când îți este convenabil, elimină acest proiect și adaugă %s"
+msgid "Master URL changed from %s to %s"
+msgstr ""
 
-#: client/cs_statefile.cpp:861
+#: client/cs_statefile.cpp:873
 msgid "Syntax error in app_info.xml"
 msgstr "Eroare de sintaxă în app_info.xml"
 
-#: client/cs_statefile.cpp:905
+#: client/cs_statefile.cpp:917
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Fişierul menţionat în app_info.xml nu există: "
 
@@ -88,92 +86,92 @@ msgstr "Descarcă"
 msgid "A new version of %s is available"
 msgstr "O nouă versiune de %s este disponibilă"
 
-#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
+#: client/gpu_detect.cpp:308 client/gpu_detect.cpp:351
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "Nu poate fi folosit(ă) pentru calcule folosind CUDA sau OpenCL cu driver CUDA 6.5 sau ulterior"
 
-#: client/log_flags.cpp:326 client/log_flags.cpp:506
+#: client/log_flags.cpp:330 client/log_flags.cpp:515
 msgid "Unexpected text in cc_config.xml"
 msgstr "Text neaşteptat în cc_config.xml"
 
-#: client/log_flags.cpp:480 client/log_flags.cpp:535
+#: client/log_flags.cpp:489 client/log_flags.cpp:544
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Tag nerecunoscut în cc_config.xml"
 
-#: client/log_flags.cpp:497
+#: client/log_flags.cpp:506
 msgid "Missing start tag in cc_config.xml"
 msgstr "Lipsă tag început în cc_config.xml"
 
-#: client/log_flags.cpp:525
+#: client/log_flags.cpp:534
 msgid "Error in cc_config.xml options"
 msgstr "Eroare în opţiunile cc_config.xml"
 
-#: client/log_flags.cpp:543
+#: client/log_flags.cpp:552
 msgid "Missing end tag in cc_config.xml"
 msgstr "Lipsă tag final în cc_config.xml"
 
-#: sched/handle_request.cpp:317
+#: sched/handle_request.cpp:313
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "Cheie cont greşită sau lipsă.  Pentru rezolvare, ştergeţi şi adăugaţi acest proiect."
 
-#: sched/handle_request.cpp:951
+#: sched/handle_request.cpp:947
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "Proiectul a modificat cheia de securitate.  Că rugăm ştergeţi şi adăugaţi acest proiect."
 
-#: sched/handle_request.cpp:1022
+#: sched/handle_request.cpp:1018
 msgid "This project doesn't support operating system"
 msgstr "Acest proiect nu suportă sistemul de operare"
 
-#: sched/handle_request.cpp:1048
+#: sched/handle_request.cpp:1044
 msgid "This project doesn't support CPU type"
 msgstr "Acest proiect nu suportă tipul de CPU"
 
-#: sched/handle_request.cpp:1072
+#: sched/handle_request.cpp:1068
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Clientul dumneavoastră BOINC este prea vechi.  Vă rugăm instalaţi versiunea curentă."
 
-#: sched/handle_request.cpp:1348
+#: sched/handle_request.cpp:1344
 msgid "This project doesn't support computers of type"
 msgstr "Acest proiect nu suportă calculatoare de tipul"
 
-#: sched/sched_send.cpp:1151
+#: sched/sched_send.cpp:1146
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Upgradaţi la ultima versiune de driver pentru a procesa task-uri folosind GPU-ul calculatorului"
 
-#: sched/sched_send.cpp:1158
+#: sched/sched_send.cpp:1153
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Upgradaţi la ultima versiune de driver pentru a folosi toate aplicaţiile GPU ale acestui proiect"
 
-#: sched/sched_send.cpp:1177
+#: sched/sched_send.cpp:1172
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "O nouă versiune BOINC este necesară pentru a folosi GPU-ul dumneavoastră NVIDIA; vă rugăm upgradaţi la versiunea curentă"
 
-#: sched/sched_send.cpp:1211
+#: sched/sched_send.cpp:1206
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Un GPU %s este necesar pentru a rula task-uri pentru acest proiect"
 
-#: sched/sched_send.cpp:1327
+#: sched/sched_send.cpp:1328
 msgid "No tasks are available for the applications you have selected."
 msgstr "Nu există task-uri disponibile pentru aplicaţiile pe care le-aţi selectat."
 
-#: sched/sched_send.cpp:1353
+#: sched/sched_send.cpp:1354
 msgid "Your computer type is not supported by this project"
 msgstr "Tipul dumneavoastră de calculator nu este suportat de acest proiect"
 
-#: sched/sched_send.cpp:1359
+#: sched/sched_send.cpp:1360
 msgid "Newer BOINC version required; please install current version"
 msgstr "Este necesară o versiune mai nouă a BOINC; vă rugam instalaţi versiunea curentă"
 
-#: sched/sched_send.cpp:1370
+#: sched/sched_send.cpp:1371
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
