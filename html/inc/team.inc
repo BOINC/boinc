@@ -188,13 +188,15 @@ function display_team_page($team, $user) {
     if (count($team->new_members)) {
         $first = true;
         $x = "";
-        foreach ($team->new_members as $a) {
+        foreach ($team->new_members as $id) {
+            $u = BoincUser::lookup_id($id);
+            if (!$u) continue;
             if ($first) {
                 $first = false;
             } else {
                 $x .= " &middot; ";
             }
-            $x .= user_links($a, BADGE_HEIGHT_MEDIUM);
+            $x .= user_links($u, BADGE_HEIGHT_MEDIUM);
         }
     }
     row2(tra('New members in last day'), $x);
@@ -354,7 +356,7 @@ function new_member_list($teamid) {
     foreach ($deltas as $delta) {
         $u = BoincUser::lookup_id($delta->userid);
         if ($u->teamid == $teamid) {
-            $new_members[] = $u;  // they might have later quit
+            $new_members[] = $u->id;  // they might have later quit
         }
     }
     return array_unique($new_members);
