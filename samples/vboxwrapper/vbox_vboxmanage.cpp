@@ -354,9 +354,9 @@ int VBOX_VM::create_vm() {
     vboxlog_msg("Disabling Audio Support for VM.");
     command  = "modifyvm \"" + vm_name + "\" ";
     if (is_virtualbox_version_newer(7, 0, 4)) {
-        command += "--audio-enabled off";
+        command += "--audio-enabled off ";
     } else {
-        command += "--audio none";
+        command += "--audio none ";
     }
 
 
