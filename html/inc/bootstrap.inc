@@ -366,7 +366,7 @@ function form_input_textarea($label, $name, $value='', $nrows=4) {
 
 // $items is either a string of <option> elements, or an array
 //
-function form_select($label, $name, $items) {
+function form_select($label, $name, $items, $selected=null) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>
@@ -377,8 +377,11 @@ function form_select($label, $name, $items) {
     );
     if (is_array($items)) {
         foreach ($items as $i) {
-            echo '<option value="'.$i[0].'">'.$i[1].'</option>
-            ';
+            echo sprintf(
+                '<option %s value=%s>%s</option>',
+                ($i[0]==$selected)?'selected':'',
+                $i[0], $i[1]
+            );
         }
     } else {
         echo $items;
@@ -387,9 +390,9 @@ function form_select($label, $name, $items) {
 }
 
 // same, for multiple select.
-// flags, if non-null, says which ones are selected
+// $selected, if non-null, is a list of selected values
 //
-function form_select_multiple($label, $name, $items, $flags=null) {
+function form_select_multiple($label, $name, $items, $selected=null) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>
@@ -398,12 +401,12 @@ function form_select_multiple($label, $name, $items, $flags=null) {
         ',
         FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
     );
-    $n = 0;
     foreach ($items as $i) {
-        $s = ($flags && $flags[$n])?'selected':'';
-        echo '<option '.$s.' value="'.$i[0].'">'.$i[1].'</option>
-        ';
-        $n++;
+        echo sprintf(
+            '<option %s value=%s>%s</option>',
+            ($selected && in_array($i[0], $selected))?'selected':'',
+            $i[0], $i[1]
+        );
     }
     echo "</select></div></div>\n";
 }
