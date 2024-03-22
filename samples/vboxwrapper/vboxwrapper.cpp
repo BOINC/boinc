@@ -681,7 +681,7 @@ int main(int argc, char** argv) {
 
     // Copy files to the shared directory
     //
-    for (int i=0; i<pVM->copy_to_shared.size(); ++i) {
+    for (long unsigned int i=0; i<pVM->copy_to_shared.size(); ++i) {
         string source = pVM->copy_to_shared[i];
         string destination = string("shared/") + source;
         if (!boinc_file_exists(destination.c_str())) {
