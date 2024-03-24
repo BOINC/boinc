@@ -31,6 +31,10 @@
 #define M_LN2      0.693147180559945309417
 #endif
 
+#ifndef BOINC_WOBBLE_SLEEP_MIN_SECONDS
+#define BOINC_WOBBLE_SLEEP_MIN_SECONDS 0.01
+#endif
+
 #include "boinc_stdio.h"
 
 #ifndef _WIN32
@@ -128,6 +132,67 @@ void boinc_sleep(double seconds) {
         if (seconds <= 0) break;
     }
 #endif
+}
+
+void boinc_wobble_sleep(double min_sec, double max_sec, double wobble) {
+    // usage examples
+    //
+    // from another function call (e.g. in a loop):
+    // boinc_wobble_sleep(1.7, 2.3, 0.1);
+    // results in a sleep with 1 value per call (by random) out of this possible values:
+    // 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3
+    //
+    // from another function call (e.g. in a loop):
+    // boinc_wobble_sleep(3.0, 5.0, 2.0);
+    // results in a sleep with 1 value per call (by random) out of this possible values:
+    // 3.0, 5.0
+    //
+    // from another function call (e.g. in a loop):
+    // boinc_wobble_sleep(1.0, 1.0, 0.3);
+    // results in a sleep with the same value per call:
+    // 1.0
+    // same as to call boinc_sleep(1.0) in this case
+    //
+
+    double diff_sec = 0.0;
+
+    // plausibility checks
+    //
+    min_sec = (min_sec < 0.0) ? 0.0 : min_sec;
+    max_sec = (max_sec < min_sec) ? min_sec : max_sec;
+
+    // don't wobble if min_sec and max_sec are too close together
+    //
+    diff_sec = max_sec - min_sec;
+    if (diff_sec < BOINC_WOBBLE_SLEEP_MIN_SECONDS) {
+        // don't sleep at all if also min_sec == 0
+        //
+        if (min_sec > 0.0) {
+            boinc_sleep(min_sec);
+        }
+    } else {
+        int wobble_n = 0;
+        int rand_index = 0;
+
+        // adjustments
+        //
+        wobble   = (wobble < BOINC_WOBBLE_SLEEP_MIN_SECONDS) ? BOINC_WOBBLE_SLEEP_MIN_SECONDS : wobble;
+        wobble   = (wobble > diff_sec) ? diff_sec : wobble;
+        wobble_n = (int)(diff_sec / wobble);
+        wobble   = diff_sec / (double)wobble_n;
+
+        // choose a random index between 0 and wobble_n
+        //
+        std::random_device rand_device;
+        std::default_random_engine rand_engine(rand_device());
+        std::uniform_int_distribution<int> uniform_dist(0, wobble_n);
+        rand_index = uniform_dist(rand_engine);
+
+        // finally call boinc_sleep with the wobbled value
+        //
+        min_sec = min_sec + (double)rand_index * (double)wobble;
+        boinc_sleep(min_sec);
+    }
 }
 
 void push_unique(string s, vector<string>& v) {

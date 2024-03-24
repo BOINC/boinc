@@ -20,6 +20,7 @@
 #ifndef BOINC_UTIL_H
 #define BOINC_UTIL_H
 
+#include <random>
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -29,6 +30,7 @@
 extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);
+extern void boinc_wobble_sleep(double, double, double);
 extern void push_unique(std::string, std::vector<std::string>&);
 
 // NOTE: use #include <functional>   to get max,min
