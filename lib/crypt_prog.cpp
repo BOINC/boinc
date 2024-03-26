@@ -56,6 +56,7 @@
 
 #include "crypt.h"
 #include "md5_file.h"
+#include "util.h"
 
 void die(const char* p) {
     fprintf(stderr, "Error: %s\n", p);
@@ -83,41 +84,6 @@ void usage() {
         "-cert_verify file signature certificate_dir\n"
         "    verify a signature using a directory of certificates\n"
    );
-}
-
-unsigned int random_int() {
-    unsigned int n;
-#if defined(_WIN32)
-#if defined(__CYGWIN32__)
-    HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
-#else
-    HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
-#endif
-    if (!hLib) {
-        die("Can't load ADVAPI32.DLL");
-    }
-    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
-        (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
-    if (pfn) {
-        char buff[32];
-        ULONG ulCbBuff = sizeof(buff);
-        if(pfn(buff,ulCbBuff)) {
-            // use buff full of random goop
-            memcpy(&n,buff,sizeof(n));
-        }
-    }
-    FreeLibrary(hLib);
-#else
-    FILE* f = fopen("/dev/random", "r");
-    if (!f) {
-        die("can't open /dev/random\n");
-    }
-    if (1 != fread(&n, sizeof(n), 1, f)) {
-        die("couldn't read from /dev/random\n");
-    }
-    fclose(f);
-#endif
-    return n;
 }
 
 int main(int argc, char** argv) {

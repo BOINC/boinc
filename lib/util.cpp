@@ -542,3 +542,41 @@ bool process_exists(int pid) {
 }
 
 #endif
+
+unsigned int random_int() {
+    unsigned int n;
+#if defined(_WIN32)
+#if defined(__CYGWIN32__)
+    HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
+#else
+    HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
+#endif
+    if (!hLib) {
+        fprintf(stderr, "Error: can't load ADVAPI32.DLL\n");
+        exit(2);
+    }
+    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
+        (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
+    if (pfn) {
+        char buff[32];
+        ULONG ulCbBuff = sizeof(buff);
+        if(pfn(buff,ulCbBuff)) {
+            // use buff full of random goop
+            memcpy(&n,buff,sizeof(n));
+        }
+    }
+    FreeLibrary(hLib);
+#else
+    FILE* f = fopen("/dev/random", "r");
+    if (!f) {
+        fprintf(stderr, "Error: can't open /dev/random\n");
+        exit(2);
+    }
+    if (1 != fread(&n, sizeof(n), 1, f)) {
+        fprintf(stderr, "Error: can't read from /dev/random\n");
+        exit(2);
+    }
+    fclose(f);
+#endif
+    return n;
+}
