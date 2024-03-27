@@ -543,8 +543,7 @@ bool process_exists(int pid) {
 
 #endif
 
-unsigned int random_int() {
-    unsigned int n;
+int random_int(unsigned int &n) {
 #if defined(_WIN32)
 #if defined(__CYGWIN32__)
     HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
@@ -552,7 +551,7 @@ unsigned int random_int() {
     HMODULE hLib=LoadLibraryA("ADVAPI32.DLL");
 #endif
     if (!hLib) {
-        fprintf(stderr, "Error: can't load ADVAPI32.DLL\n");
+        return 1;
     }
     BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
         (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
@@ -568,12 +567,11 @@ unsigned int random_int() {
 #else
     FILE* f = fopen("/dev/random", "r");
     if (!f) {
-        fprintf(stderr, "Error: can't open /dev/random\n");
+        return 2;
     }
     if (1 != fread(&n, sizeof(n), 1, f)) {
-        fprintf(stderr, "Error: can't read from /dev/random\n");
+        return 3;
     }
     fclose(f);
 #endif
-    return n;
 }

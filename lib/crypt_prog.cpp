@@ -90,6 +90,7 @@ int main(int argc, char** argv) {
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
     int i, n, retval;
+    unsigned int srand_seed;
     bool is_valid;
     DATA_BLOCK signature, in, out;
     unsigned char signature_buf[256], buf[256], buf2[256];
@@ -120,7 +121,18 @@ int main(int argc, char** argv) {
         printf("creating keys in %s and %s\n", argv[3], argv[4]);
         n = atoi(argv[2]);
 
-        srand(random_int());
+        retval = random_int(srand_seed);
+        if (retval == 1) {
+            die("can't load ADVAPI32.DLL");
+        } else if (retval == 2) {
+            die("can't open /dev/random");
+        } else if (retval == 3) {
+            die("can't read from /dev/random");
+        } else if (retval) {
+            die("random_int");
+        }
+        srand(srand_seed);
+        
         e = BN_new();
         retval = BN_set_word(e, (unsigned long)65537);
         if (retval != 1) {

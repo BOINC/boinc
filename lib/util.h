@@ -30,7 +30,7 @@ extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);
 extern void push_unique(std::string, std::vector<std::string>&);
-extern unsigned int random_int();
+extern int random_int(unsigned int&);
 
 // NOTE: use #include <functional>   to get max,min
 
