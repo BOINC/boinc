@@ -1350,7 +1350,7 @@ CLEANUP:
         // Close stream
         pclose(fp);
 
-        if (output.find("VBoxManage: not found")) {
+        if (output.find("VBoxManage: not found") != string::npos) {
             return ERR_NOT_FOUND;
         }
 
