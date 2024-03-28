@@ -574,5 +574,5 @@ int random_int(unsigned int &n) {
     }
     boinc::fclose(f);
 #endif
-    return 0
+    return 0;
 }
