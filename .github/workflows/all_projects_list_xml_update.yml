@@ -30,7 +30,7 @@ jobs:
         type: [all_projects_list_xml_update]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           fetch-depth: 2
       - name: Download latest all_projects_list.xml
@@ -45,7 +45,7 @@ jobs:
           echo "PR_REQUIRED=$?" >> $GITHUB_ENV
       - name: Create PR
         if: ${{ success() &&  env.PR_REQUIRED == 1 }}
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50
         with:
           commit-message: Update all_projects_list.xml
           title: Update all_projects_list.xml
