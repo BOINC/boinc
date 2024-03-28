@@ -542,3 +542,37 @@ bool process_exists(int pid) {
 }
 
 #endif
+
+int random_int(unsigned int &n) {
+#if defined(_WIN32)
+#if defined(__CYGWIN32__)
+    HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
+#else
+    HMODULE hLib=LoadLibraryA("ADVAPI32.DLL");
+#endif
+    if (!hLib) {
+        return 1;
+    }
+    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
+        (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
+    if (pfn) {
+        char buff[32];
+        ULONG ulCbBuff = sizeof(buff);
+        if(pfn(buff,ulCbBuff)) {
+            // use buff full of random goop
+            memcpy(&n,buff,sizeof(n));
+        }
+    }
+    FreeLibrary(hLib);
+#else
+    FILE* f = boinc::fopen("/dev/random", "r");
+    if (!f) {
+        return 2;
+    }
+    if (1 != boinc::fread(&n, sizeof(n), 1, f)) {
+        return 3;
+    }
+    boinc::fclose(f);
+#endif
+    return 0;
+}
