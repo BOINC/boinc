@@ -235,12 +235,13 @@ function panel($title, $content_func, $class="panel-primary", $body_class="") {
     ';
 }
 
-// grid layout with a full-width row followed by two equal columns
+// grid layout with a full-width row followed by two columns.
 // $top_func, $left_func, and $right_func
-// are functions that generate the top, left, and right content
+// are functions that generate the top, left, and right content.
 // $left_width is the width of left column in 1/12 units.
+// $arg is passed to the functions.
 //
-function grid($top_func, $left_func, $right_func, $left_width=6) {
+function grid($top_func, $left_func, $right_func, $left_width=6, $arg=null) {
     echo '
         <div class="container-fluid">
     ';
@@ -249,7 +250,7 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
             <div class="row">
             <div class="col-sm-12">
         ';
-        $top_func();
+        $top_func($arg);
         echo '
             </div>
             </div>
@@ -260,12 +261,12 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
         <div class="row">
         <div class="col-sm-'.$left_width.'">
     ';
-    $left_func();
+    $left_func($arg);
     echo '
         </div>
         <div class="col-sm-'.$right_width.'">
     ';
-    $right_func();
+    $right_func($arg);
     echo '
         </div>
         </div>
