@@ -565,13 +565,14 @@ int random_int(unsigned int &n) {
     }
     FreeLibrary(hLib);
 #else
-    FILE* f = fopen("/dev/random", "r");
+    FILE* f = boinc::fopen("/dev/random", "r");
     if (!f) {
         return 2;
     }
-    if (1 != fread(&n, sizeof(n), 1, f)) {
+    if (1 != boinc::fread(&n, sizeof(n), 1, f)) {
         return 3;
     }
-    fclose(f);
+    boinc::fclose(f);
 #endif
+    return 0
 }

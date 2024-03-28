@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
             die("random_int");
         }
         srand(srand_seed);
-        
+
         e = BN_new();
         retval = BN_set_word(e, (unsigned long)65537);
         if (retval != 1) {
