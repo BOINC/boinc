@@ -209,14 +209,14 @@ jobs:
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Ubuntu with XZ compression
-          dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
+          fakeroot dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Create Debian Package
         if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' ) }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Debian with GZIP compression
-          dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
+          fakeroot dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Get info from generated package
         if: success()

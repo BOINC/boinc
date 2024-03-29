@@ -156,6 +156,17 @@ class IntegrationTests:
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/global_prefs_override.xml"), "Test '/var/lib/boinc/global_prefs_override.xml' file owner")
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/remote_hosts.cfg"), "Test '/var/lib/boinc/remote_hosts.cfg' file owner")
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/gui_rpc_auth.cfg"), "Test '/var/lib/boinc/gui_rpc_auth.cfg' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/usr/local/bin/boinc"), "Test '/usr/local/bin/boinc' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/usr/local/bin/boinccmd"), "Test '/usr/local/bin/boinccmd' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/usr/local/bin/boincmgr"), "Test '/usr/local/bin/boincmgr' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/usr/lib/systemd/system/boinc-client.service"), "Test '/usr/lib/systemd/system/boinc-client.service' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/etc/default/boinc-client"), "Test '/etc/default/boinc-client' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/etc/init.d/boinc-client"), "Test '/etc/init.d/boinc-client' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/etc/bash_completion.d/boinc.bash"), "Test '/etc/bash_completion.d/boinc.bash' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/etc/X11/Xsession.d/36x11-common_xhost-boinc"), "Test '/etc/X11/Xsession.d/36x11-common_xhost-boinc' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/usr/local/share/applications/boinc.desktop"), "Test '/usr/local/share/applications/boinc.desktop' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/usr/local/share/icons/boinc.png"), "Test '/usr/local/share/icons/boinc.png' file owner")
+        ts.expect_equal("root:root", self._get_file_owner("/usr/local/share/icons/boinc.svg"), "Test '/usr/local/share/icons/boinc.svg' file owner")
         return ts.result()
 
 if __name__ == "__main__":
