@@ -216,7 +216,8 @@ function stage_files(&$jobs) {
 function submit_jobs(
     $jobs, $job_params, $app, $batch_id, $priority, $app_version_num,
     $input_template_filename,        // batch-level; can also specify per job
-    $output_template_filename
+    $output_template_filename,
+    $user
 ) {
     global $input_templates, $output_templates;
 
@@ -259,12 +260,14 @@ function submit_jobs(
         $x .= "\n";
     }
 
-    $errfile = "/tmp/create_work_" . getmypid() . ".err";
     $cmd = "cd " . project_dir() . "; ./bin/create_work --appname $app->name --batch $batch_id";
+
+    if ($user->seti_id) {
+        $cmd .= " --target_user $user->id ";
+    }
     if ($priority !== null) {
         $cmd .= " --priority $priority";
     }
-
     if ($input_template_filename) {
         $cmd .= " --wu_template templates/$input_template_filename";
     }
@@ -289,7 +292,13 @@ function submit_jobs(
     if ($job_params->delay_bound) {
         $cmd .= " --delay_bound $job_params->delay_bound";
     }
-    $cmd .= " --stdin >$errfile 2>&1";
+    $cmd .= " --stdin ";
+
+    // send stdin/stderr to a temp file
+    $cmd .= sprintf(' >%s 2>&1',
+        "/tmp/create_work_" . getmypid() . ".err"
+    );
+
     $h = popen($cmd, "w");
     if ($h === false) {
         xml_error(-1, "can't run create_work");
@@ -520,7 +529,8 @@ function submit_batch($r) {
     submit_jobs(
         $jobs, $job_params, $app, $batch_id, $priority, $app_version_num,
         $input_template_filename,
-        $output_template_filename
+        $output_template_filename,
+        $user
     );
 
     // set state to IN_PROGRESS only after creating jobs;
