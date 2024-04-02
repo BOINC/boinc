@@ -2,7 +2,7 @@
 
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,10 +17,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// web interface for managing batches
-// (e.g. as part of remote job submission).
-// Lets you see the status of batches, get their output files,
-// abort them, retire them, etc.
+// web interface for remote job submission:
+// - links to job-submission pages
+// - Admin (if privileged user)
+// - manage batches
+//      view status, get output files, abort, retire
+// - toggle 'use only my computers'
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
@@ -108,7 +110,7 @@ function show_complete($batches, $limit, $user, $app) {
         $n++;
         if ($first) {
             $first = false;
-            echo "<h2>Completed batches</h2>\n";
+            echo "<h3>Completed batches</h3>\n";
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
             }
@@ -220,6 +222,27 @@ function handle_main($user) {
         echo "</ul>\n";
     }
 
+    echo '<h3>Where your jobs run</h3>';
+    if ($user->seti_id) {
+        echo "<p>
+            Jobs you submit can run only on your computers.
+            <p>
+        ";
+        show_button(
+            'submit.php?action=toggle_loc',
+            'Allow them to run on any computer.'
+        );
+    } else {
+        echo "<p>
+            Jobs you submit can run on any computer.
+            <p>
+        ";
+        show_button(
+            'submit.php?action=toggle_loc',
+            'Allow them to run only on your computers.'
+        );
+    }
+
     // show links to admin pages if relevant
     //
     $usas = BoincUserSubmitApp::enum("user_id=$user->id");
@@ -266,6 +289,15 @@ function handle_main($user) {
     show_batches($batches, PAGE_SIZE, $user, null);
 
     page_tail();
+}
+
+function handle_toggle_loc($user) {
+    if ($user->seti_id) {
+        $user->update('seti_id=0');
+    } else {
+        $user->update('seti_id=1');
+    }
+    handle_main($user);
 }
 
 function check_admin_access($user, $app_id) {
@@ -683,6 +715,7 @@ case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch($user); break;
 case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
 case 'show_all': handle_show_all($user); break;
+case 'toggle_loc': handle_toggle_loc($user);
 default:
     error_page("no such action $action");
 }

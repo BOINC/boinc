@@ -114,8 +114,9 @@ create table user (
     posts                   smallint        not null,
         -- reused: salt for weak auth
 
-    -- the following 4 not used by BOINC
     seti_id                 integer         not null,
+        -- reused as 'run jobs on my hosts' flag from remote job submission
+    -- the following 3 not used by BOINC
     seti_nresults           integer         not null,
     seti_last_result_time   integer     not null,
     seti_total_cpu          double          not null,
