@@ -440,6 +440,14 @@ int main(int argc, char** argv) {
     bool is_sporadic = false;
     bool register_only = false;
 
+    // seed random numbers
+    //
+#ifdef _WIN32
+    srand((unsigned int)GetCurrentProcessId());
+#else
+    srand((unsigned int)getpid());
+#endif
+
     // Initialize diagnostics system
     //
     boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
@@ -796,7 +804,6 @@ int main(int argc, char** argv) {
     // to stagger disk I/O.
     //
     if (!pVM->disable_automatic_checkpoints) {
-        srand((int)getpid());
         random_checkpoint_factor = drand() * 600;
 
         vboxlog_msg(

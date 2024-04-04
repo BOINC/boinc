@@ -48,6 +48,7 @@ using std::string;
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
+#include "md5_file.h"
 #include "network.h"
 #include "boinc_api.h"
 #include "floppyio.h"
@@ -176,6 +177,7 @@ int VBOX_VM::create_vm() {
     bool disable_acceleration = false;
     char buf[256];
     int retval;
+    int save_retval;
 
     vboxlog_msg("Create VM. (%s, slot#%d)", vm_master_name.c_str(), aid.slot);
 
@@ -554,9 +556,22 @@ int VBOX_VM::create_vm() {
 
             vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
 
+#ifdef _WIN32
+            HANDLE fd_race_mitigator = NULL;
+#else
+            int fd_race_mitigator = 0;
+#endif
             int retry_count = 0;
             bool log_error = false;
             bool vbox_bug_mitigation = false;
+            string lock_name = "";
+
+            retval = set_race_mitigation_lock(fd_race_mitigator, lock_name, medium_file);
+            if (retval) {
+                save_retval = retval;
+                vboxlog_msg("Could not set race mitigation lock in 'create_vm'.");
+                return save_retval;
+            }
 
             do {
                 string set_new_uuid = "";
@@ -568,6 +583,7 @@ int VBOX_VM::create_vm() {
 
                 retval = vbm_popen(command, output, "check if parent hdd is registered", false);
                 if (retval) {
+                    save_retval = retval;
                     // showhdinfo implicitly registers unregistered hdds.
                     // Hence, this has to be handled first.
                     //
@@ -584,11 +600,12 @@ int VBOX_VM::create_vm() {
                             );
                     } else {
                         // other errors
+                        remove_race_mitigation_lock(fd_race_mitigator, lock_name);
                         vboxlog_msg("Error in check if parent hdd is registered.\nCommand:\n%s\nOutput:\n%s",
                             command.c_str(),
                             output.c_str()
                         );
-                        return retval;
+                        return save_retval;
                     }
                 }
 
@@ -621,13 +638,21 @@ int VBOX_VM::create_vm() {
                     command += set_new_uuid + "--medium \"" + medium_file + "\" ";
 
                     retval = vbm_popen(command, output, "register parent vdi");
-                    if (retval) return retval;
+                    if (retval) {
+                        save_retval = retval;
+                        remove_race_mitigation_lock(fd_race_mitigator, lock_name);
+                        return save_retval;
+                    }
 
                     command  = command_fix_part;
                     command += "--medium none ";
 
                     retval = vbm_popen(command, output, "detach parent vdi");
-                    if (retval) return retval;
+                    if (retval) {
+                        save_retval = retval;
+                        remove_race_mitigation_lock(fd_race_mitigator, lock_name);
+                        return save_retval;
+                    }
                     // the vdi file is now registered and ready
                     // to be attached in multiattach mode
                 }
@@ -639,6 +664,7 @@ int VBOX_VM::create_vm() {
 
                     retval = vbm_popen(command, output, "storage attach (fixed disk - multiattach mode)", log_error);
                     if (retval) {
+                        save_retval = retval;
                         // VirtualBox occasionally writes the 'MultiAttach'
                         // attribute to the disk entry in VirtualBox.xml
                         // although this is not allowed there.
@@ -658,26 +684,29 @@ int VBOX_VM::create_vm() {
                                 command = "closemedium \"" + medium_file + "\" ";
 
                                 retval = vbm_popen(command, output, "deregister parent vdi");
-                                if (retval) return retval;
+                                if (retval) {
+                                    save_retval = retval;
+                                    remove_race_mitigation_lock(fd_race_mitigator, lock_name);
+                                    return save_retval;
+                                }
 
                                 retry_count++;
                                 log_error = true;
-                                boinc_sleep(1.0);
                                 break;
                         }
 
                         if (retry_count >= 1) {
                             // in case of other errors or if retry also failed
+                            remove_race_mitigation_lock(fd_race_mitigator, lock_name);
                             vboxlog_msg("Error in storage attach (fixed disk - multiattach mode).\nCommand:\n%s\nOutput:\n%s",
                                 command.c_str(),
                                 output.c_str()
                                 );
-                            return retval;
+                            return save_retval;
                         }
 
                         retry_count++;
                         log_error = true;
-                        boinc_sleep(1.0);
 
                     } else {
                         vbox_bug_mitigation = true;
@@ -687,6 +716,7 @@ int VBOX_VM::create_vm() {
                 while (true);
             }
             while (!vbox_bug_mitigation);
+            remove_race_mitigation_lock(fd_race_mitigator, lock_name);
         }
 
 
@@ -862,8 +892,15 @@ int VBOX_VM::register_vm() {
 }
 
 int VBOX_VM::deregister_vm(bool delete_media) {
+    int retval;
     string command;
     string output;
+    string lock_name = "";
+#ifdef _WIN32
+    HANDLE fd_race_mitigator = NULL;
+#else
+    int fd_race_mitigator = 0;
+#endif
 
     vboxlog_msg("Deregistering VM. (%s, slot#%d)", vm_name.c_str(), aid.slot);
 
@@ -890,12 +927,25 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     }
 
     // Next, delete VM
+    // This automatically deletes child disk images connected to the VM.
     //
     vboxlog_msg("Removing VM from VirtualBox.");
     command  = "unregistervm \"" + vm_name + "\" ";
     command += "--delete ";
 
+    if (multiattach_vdi_file.size()) {
+        string medium_file  = aid.project_dir;
+        medium_file += "/" + multiattach_vdi_file;
+
+        retval = set_race_mitigation_lock(fd_race_mitigator, lock_name, medium_file);
+        if (retval) {
+            vboxlog_msg("Could not set race mitigation lock in 'deregister_vm'.");
+            vboxlog_msg("Warning: Will continue without a lock.");
+        }
+    }
+
     vbm_popen(command, output, "delete VM", false, false);
+    remove_race_mitigation_lock(fd_race_mitigator, lock_name);
 
     // Lastly delete medium(s) from Virtual Box Media Registry
     //
@@ -1712,14 +1762,16 @@ bool VBOX_VM::is_disk_image_registered() {
     string command;
     string output;
 
-    command = "showhdinfo \"" + slot_dir_path + "/" + image_filename + "\" ";
-    if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-        if ((output.find("VBOX_E_FILE_ERROR") == string::npos)
-            && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)
-            && (output.find("does not match the value") == string::npos)
-        ) {
-            // Error message not found in text
-            return true;
+    if (!multiattach_vdi_file.size()) {
+        command = "showhdinfo \"" + slot_dir_path + "/" + image_filename + "\" ";
+        if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
+            if ((output.find("VBOX_E_FILE_ERROR") == string::npos)
+                && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)
+                && (output.find("does not match the value") == string::npos)
+            ) {
+                // Error message not found in text
+                return true;
+            }
         }
     }
 
@@ -2235,4 +2287,169 @@ bool VBOX_VM::is_hostrtc_set_to_utc() {
     // Non-Windows Systems usually set their rtc to UTC.
     return true;
 #endif
+}
+
+#ifdef _WIN32
+void VBOX_VM::remove_race_mitigation_lock(HANDLE& fd_race_mitigator, string& lock_name) {
+    DWORD err = BOINC_SUCCESS;
+    bool retval;
+
+    if (fd_race_mitigator) {
+        retval = CloseHandle(fd_race_mitigator);
+        err = GetLastError();
+        if (!retval) {
+            vboxlog_msg("Could not remove race mitigation lock.");
+            vboxlog_msg("Lockname: %s", lock_name.c_str());
+            vboxlog_msg("Error: %d, %s", err, strerror(err));
+        }
+    }
+}
+#else
+void VBOX_VM::remove_race_mitigation_lock(int& fd_race_mitigator, string& lock_name) {
+    int err = BOINC_SUCCESS;
+    int retval;
+
+    if (fd_race_mitigator > 0) {
+        retval = shm_unlink(lock_name.c_str());
+        err = errno;
+        if (retval) {
+            vboxlog_msg("Could not remove race mitigation lock.");
+            vboxlog_msg("Lockname: %s", lock_name.c_str());
+            vboxlog_msg("Error: %d, %s", err, strerror(err));
+        }
+    }
+}
+#endif
+
+#ifdef _WIN32
+int VBOX_VM::set_race_mitigation_lock(HANDLE& fd_race_mitigator, string& lock_name, const string& medium_file) {
+#else
+int VBOX_VM::set_race_mitigation_lock(int& fd_race_mitigator, string& lock_name, const string& medium_file) {
+#endif
+    int attempts = 1;
+    double timeout = 0.0;
+    double sleep_low = 0.7;
+    double sleep_high = 2.4;
+
+    // The lock ensures that only 1 vboxwrapper instance can
+    // modify a given virtual disk entry at a given time.
+    // This is a must for multiattach disks since some modifications
+    // need more than 1 call to VBoxManage.
+    //
+    // lock_name should be derived from the full path of the disk's filename.
+    //
+    lock_name  = "boinc_vboxwrapper_lock_";
+    lock_name += md5_string(medium_file).substr(0, 16);
+
+    // Tests with Linux on a 16c/32t computer
+    // typically register 30 VMs in less than 8 s.
+    //
+    timeout = dtime() + 90;
+
+#ifdef _WIN32
+    DWORD err = BOINC_SUCCESS;
+
+    while (1) {
+        // Parameter #5 (size) must not be 0 if INVALID_HANDLE_VALUE is used.
+        //
+        fd_race_mitigator = CreateFileMapping(
+            INVALID_HANDLE_VALUE,
+            NULL,
+            PAGE_READONLY,
+            NULL,
+            1,
+            (LPTSTR)lock_name.c_str()
+        );
+        err = GetLastError();
+
+        if (!err) {
+            // Successfully set a fresh lock.
+            // No error implies we also have a valid handle.
+            //
+            if (attempts > 1) {
+                vboxlog_msg("Attempts: %d", attempts);
+            }
+            break;
+        } else {
+            // If we got a handle, it must not be used.
+            // Close it immediately.
+            //
+            if (fd_race_mitigator) {
+                CloseHandle(fd_race_mitigator);
+                fd_race_mitigator = NULL;
+            }
+
+            if (err == ERROR_ALREADY_EXISTS) {
+                // a lock exists, most likely set by another vboxwrapper
+                //
+                if (dtime() >= timeout) {
+                    // Either the lock is stale
+                    // or far too many VMs are starting concurrently.
+                    //
+                    vboxlog_msg("Could not set race mitigation lock.");
+                    vboxlog_msg("Lockname: '%s'", lock_name.c_str());
+                    vboxlog_msg("Error: ERR_TIMEOUT");
+                    vboxlog_msg("Attempts: %d", attempts);
+
+                    return ERR_TIMEOUT;
+                }
+                boinc_sleep(sleep_low + sleep_high * drand());
+                attempts++;
+            } else {
+                vboxlog_msg("Could not set race mitigation lock.");
+                vboxlog_msg("Lockname: '%s'", lock_name.c_str());
+                vboxlog_msg("Error: %d, %s", err, strerror(err));
+                vboxlog_msg("Attempts: %d", attempts);
+
+                return ERR_FOPEN;
+            }
+        }
+    }
+#else
+    int err = BOINC_SUCCESS;
+    lock_name = "/" + lock_name;
+
+    while (1) {
+        fd_race_mitigator = shm_open(lock_name.c_str(), O_RDWR | O_CREAT | O_EXCL, 0600);
+        err = errno;
+
+        if (fd_race_mitigator > 0) {
+            // Successfully set a fresh lock.
+            //
+            if (attempts > 1) {
+                vboxlog_msg("Attempts: %d", attempts);
+            }
+            break;
+        } else {
+            if ((fd_race_mitigator == -1)
+                && (err == EEXIST)) {
+                // a lock exists, most likely set by another vboxwrapper
+                //
+                if (dtime() >= timeout) {
+                    // Either the lock is stale
+                    // or far too many VMs are starting concurrently.
+                    //
+                    vboxlog_msg("Could not set race mitigation lock.");
+                    vboxlog_msg("Lockname: '%s'", lock_name.c_str());
+                    vboxlog_msg("Error: ERR_TIMEOUT");
+                    vboxlog_msg("Attempts: %d", attempts);
+
+                    fd_race_mitigator = 0;
+                    return ERR_TIMEOUT;
+                }
+                boinc_sleep(sleep_low + sleep_high * drand());
+                attempts++;
+            } else {
+                vboxlog_msg("Could not set race mitigation lock.");
+                vboxlog_msg("Lockname: '%s'", lock_name.c_str());
+                vboxlog_msg("Error: %d, %s", err, strerror(err));
+                vboxlog_msg("Attempts: %d", attempts);
+
+                fd_race_mitigator = 0;
+                return ERR_FOPEN;
+            }
+        }
+    }
+#endif
+    return BOINC_SUCCESS;
 }

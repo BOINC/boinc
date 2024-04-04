@@ -20,6 +20,9 @@
 #ifndef BOINC_VBOX_VBOXMANAGE_H
 #define BOINC_VBOX_VBOXMANAGE_H
 
+#include <fcntl.h>
+#include <sys/mman.h>
+
 #include "vbox_common.h"
 
 struct VBOX_VM : VBOX_BASE {
@@ -84,6 +87,13 @@ struct VBOX_VM : VBOX_BASE {
         double bytes_sent,
         double bytes_received
     );
+#ifdef _WIN32
+    int set_race_mitigation_lock(HANDLE& fd_race_mitigator, string& lock_name, const string& medium_file);
+    void remove_race_mitigation_lock(HANDLE& fd_race_mitigator, string& lock_name);
+#else
+    int set_race_mitigation_lock(int& fd_race_mitigator, string& lock_name, const string& medium_file);
+    void remove_race_mitigation_lock(int& fd_race_mitigator, string& lock_name);
+#endif
 };
 
 #endif
