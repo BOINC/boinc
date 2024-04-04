@@ -20,9 +20,6 @@
 #ifndef BOINC_VBOX_VBOXMANAGE_H
 #define BOINC_VBOX_VBOXMANAGE_H
 
-#include <fcntl.h>
-#include <sys/mman.h>
-
 #include "vbox_common.h"
 
 struct VBOX_VM : VBOX_BASE {

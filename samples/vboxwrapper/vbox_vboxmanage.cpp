@@ -36,6 +36,8 @@
 #include <sstream>
 #include <stdexcept>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/mman.h>
 #endif
 
 using std::string;
