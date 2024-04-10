@@ -83,7 +83,7 @@ function pm_team_form($user, $teamid, $error=null) {
         "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
         null, '20%'
     );
-    row2_init(tra("Message")."<small>".bbcode_info()."</small>", "", '20%');
+    row2_init(tra("Message")."<small>".bbcode_info()."</small>", '20%');
     start_table();
     echo $bbcode_html;
     echo "<tr><td>\n";
@@ -165,7 +165,6 @@ function pm_form($replyto, $userid, $error = null) {
     );
     row2_init(
         tra("Message")."<small>".bbcode_info().pm_rules()."</small>",
-        "",
         '20%'
     );
     start_table();

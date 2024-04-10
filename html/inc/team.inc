@@ -41,7 +41,7 @@ function team_search_form($params) {
     row2(
         tra('Key words').'<br><small>'.tra('Find teams with these words in their names or descriptions').'</small>',
         '<input class="form-control" type="text" name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
-    row2_init(tra('Country'), '');
+    row2_init(tra('Country'));
     echo '<select class="form-control" name="country"><option value="" selected>---</option>';
     $country = $params->country;
     if (!$country || $country == 'None') $country = "XXX";
@@ -499,12 +499,11 @@ function team_edit_form($team, $label, $url) {
 
     row2(tra('Type of team').':', team_type_select($team?$team->type:null));
 
-    row2_init(tra('Country'),
-        '<select class="form-control" name="country">'
-    );
+    row2_init(tra('Country'));
+    echo '<select class="form-control" name="country">';
     echo country_select_options($team?$team->country:null);
-
     echo "</select></td></tr>\n";
+
     $x = (!$team || $team->joinable)?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
     // Check if we're using reCaptcha to prevent spam accounts

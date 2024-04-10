@@ -42,11 +42,12 @@ row2(
     sprintf('<input name="name" class="form-control" value="%s">', $user->name)
 );
 row2_init(
-    tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
-    '<select name="country" class="form-control">'
+    tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>"
 );
+echo '<select name="country" class="form-control">';
 echo country_select_options();
 echo "</select></td></tr>\n";
+
 if (POSTAL_CODE) {
     row2(
         tra("Postal or ZIP Code")."<br><small>".tra("Optional; not shown to others")."</small>",
