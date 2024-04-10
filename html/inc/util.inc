@@ -518,6 +518,8 @@ define('NAME_ATTRS', 'class="text-right " style="padding-right:12px"');
 define('VALUE_ATTRS', 'style="padding-left:12px"');
 define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
 
+// a table row with 2 columns, with the left on right-aligned
+
 function row2($x, $y, $show_error=false, $lwidth='40%') {
     if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
@@ -529,11 +531,15 @@ function row2($x, $y, $show_error=false, $lwidth='40%') {
     ";
 }
 
-function row2_init($x, $y, $lwidth='40%') {
-    echo '<tr>
-        <td class="text-right " width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
-        <td '.VALUE_ATTRS.'>'.$y.'
-    ';
+// output the first part of row2();
+// then write the content, followed by </td></tr>
+
+function row2_init($x, $lwidth='40%') {
+    echo sprintf('<tr>
+        <td width="%s" %s>%s</td>
+        <td %s>',
+        $lwidth, NAME_ATTRS, $x, VALUE_ATTRS
+    );
 }
 
 function row2_plain($x, $y) {
