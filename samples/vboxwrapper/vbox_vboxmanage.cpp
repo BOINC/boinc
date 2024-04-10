@@ -603,8 +603,9 @@ int VBOX_VM::create_vm() {
                     } else {
                         // other errors
                         remove_race_mitigation_lock(fd_race_mitigator, lock_name);
-                        vboxlog_msg("Error in check if parent hdd is registered.\nCommand:\n%s\nOutput:\n%s",
+                        vboxlog_msg("Error in check if parent hdd is registered.\nCommand: %s\nExit Code: %d\nOutput:\n%s",
                             command.c_str(),
+                            save_retval,
                             output.c_str()
                         );
                         return save_retval;
@@ -700,8 +701,9 @@ int VBOX_VM::create_vm() {
                         if (retry_count >= 1) {
                             // in case of other errors or if retry also failed
                             remove_race_mitigation_lock(fd_race_mitigator, lock_name);
-                            vboxlog_msg("Error in storage attach (fixed disk - multiattach mode).\nCommand:\n%s\nOutput:\n%s",
+                            vboxlog_msg("Error in storage attach (fixed disk - multiattach mode).\nCommand: %s\nExit Code: %d\nOutput:\n%s",
                                 command.c_str(),
+                                save_retval,
                                 output.c_str()
                                 );
                             return save_retval;
