@@ -42,23 +42,23 @@ jobs:
         type: [linux, android]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           fetch-depth: 1
 
       - name: Setup Java
         if: matrix.type == 'android'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '17'
 
       - name: Setup android SDK
         if: matrix.type == 'android'
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@00854ea68c109d98c75d956347303bf7c45b0277
 
       - name: Setup flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'beta'
 
@@ -73,7 +73,7 @@ jobs:
           sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
         if: matrix.type == 'linux'
         with:
           path: |
@@ -96,7 +96,7 @@ jobs:
         run: samples/flutter/ci_build_linux.sh
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
         if: matrix.type == 'android'
         with:
           path: |
@@ -129,19 +129,19 @@ jobs:
 
       - name: Prepare android
         if: success() && matrix.type == 'android'
-        uses: edgarrc/action-7z@v1
+        uses: edgarrc/action-7z@93485892b5468e89cfb2c28a8d1c0e3904906458
         with:
           args: 7z a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/app/outputs/flutter-apk/app-release.apk
 
       - name: Prepare linux
         if: success() && matrix.type == 'linux'
-        uses: edgarrc/action-7z@v1
+        uses: edgarrc/action-7z@93485892b5468e89cfb2c28a8d1c0e3904906458
         with:
           args: 7z a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/linux/x64/release/bundle/*
 
       - name: Upload ${{ matrix.type }}
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
         with:
           name: ${{ matrix.type }}_flutter_${{ github.event.pull_request.head.sha }}
           path: deploy/flutter_${{ matrix.type }}.7z
