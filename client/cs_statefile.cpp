@@ -294,9 +294,11 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             }
             if (avp->missing_coproc) {
                 msg_printf(project, MSG_INFO,
-                    "Application uses missing %s GPU",
+                    "App version uses missing GPU '%s' - discarding",
                     avp->missing_coproc_name
                 );
+                delete avp;
+                continue;
             }
             retval = link_app_version(project, avp);
             if (retval) {
