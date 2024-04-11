@@ -26,14 +26,15 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
-      with:
-        run-id: ${{ github.event.workflow_run.id }}
-        path: test-reports
-    - uses: dorny/test-reporter@c40d89d5e987cd80f3a32b3c233556e22bdca958
-      with:
-        name: 'Tests Report'
-        path: 'test-reports/**/*.xml'
-        reporter: java-junit
-        fail-on-error: false
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - name: Download artifacts
+        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          path: test-reports
+      - uses: dorny/test-reporter@c40d89d5e987cd80f3a32b3c233556e22bdca958
+        with:
+          name: 'Tests Report'
+          path: 'test-reports/**/*.xml'
+          reporter: java-junit
+          fail-on-error: false
