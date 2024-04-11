@@ -1066,6 +1066,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     'no_cuda' => 0,
     'no_ati' => 0,
     'no_intel_gpu' => 0,
+    'no_apple_gpu' => 0,
     'default_venue' => $venue_is_default,
     'allow_beta_work' => $prefs['allow_beta_work'],
   );
@@ -1163,6 +1164,16 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $default['no_intel_gpu'] ? 0 : 1,
         '#description' => bts('Request Intel GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
+      );
+    }
+    if ($app_types->apple_gpu) {
+      $form['resource']['no_apple_gpu'] = array(
+        '#title' => bts('Use Apple GPU', array(), NULL, 'boinc:account-preferences-project'),
+        '#type' => 'radios',
+        '#options' => $form['boolean_options']['#value'],
+        '#attributes' => array('class' => 'fancy'),
+        '#default_value' => $default['no_apple_gpu'] ? 0 : 1,
+        '#description' => bts('Request Apple GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
       );
     }
   }
@@ -1353,6 +1364,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
     if ($app_types->cuda) $prefs['no_cuda'] = ($edit['resource']['no_cuda']) ? 0 : 1;
     if ($app_types->ati) $prefs['no_ati'] = ($edit['resource']['no_ati']) ? 0 : 1;
     if ($app_types->intel_gpu) $prefs['no_intel_gpu'] = ($edit['resource']['no_intel_gpu']) ? 0 : 1;
+    if ($app_types->apple_gpu) $prefs['no_apple_gpu'] = ($edit['resource']['no_apple_gpu']) ? 0 : 1;
   }
 
   // Beta preferences
