@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2024 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-name: all_projects_list.xml Update
+name: Update Actions
 on:
   schedule:
     - cron:  '0 0 * * 0'
@@ -27,16 +27,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [all_projects_list_xml_update]
+        type: [update_actions]
       fail-fast: false
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           fetch-depth: 2
-      - name: Download latest all_projects_list.xml
+      - name: Update actions
         if: success()
         run: |
-          curl https://boinc.berkeley.edu/project_list.php --output ./win_build/installerv2/redist/all_projects_list.xml
+          python ./ci_tools/update_actions.py ${ACTIONS_UPDATE_TOKEN}
       - name: Check file was updated
         if: success()
         run: |
@@ -47,12 +47,10 @@ jobs:
         if: ${{ success() &&  env.PR_REQUIRED == 1 }}
         uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e
         with:
-          commit-message: Update all_projects_list.xml
-          title: Update all_projects_list.xml
+          commit-message: Update actions
+          title: Update actions
           body: |
             This PR was automatically created by a GitHub Action.
-          branch: all_projects_list_xml_update
+          branch: update_actions
           base: master
           delete-branch: true
-          add-paths: |
-            win_build/installerv2/redist/all_projects_list.xml
