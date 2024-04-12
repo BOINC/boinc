@@ -189,6 +189,8 @@ jobs:
 
       - name: Upload coverage report
         uses: codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         if: ${{ matrix.task == 'jacocoTestReportDebug' }}
         with:
           fail_ci_if_error: true
