@@ -21,19 +21,6 @@
 require_once("../inc/submit_util.inc");
 require_once("../inc/util.inc");
 
-function main_page($app) {
-    page_head("Management functions for $app->name");
-    echo "
-        <p>
-        <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
-        <p>
-        <a href=manage_app.php?app_id=$app->id&amp;action=permissions_form>Manage user permissions</a>
-        <p>
-        <a href=manage_app.php?app_id=$app->id&amp;action=batches_form>Manage jobs</a>
-    ";
-    page_tail();
-}
-
 function app_version_form($app) {
     page_head("Manage app versions");
     echo "
@@ -85,7 +72,7 @@ function app_version_action($app) {
     }
     page_head("Update successful");
     echo "
-        <a href=manage_app.php?app_id=$app->id>Return to application management page</a>
+        <a href=submit.php>Return to job submission page</a>
     ";
     page_tail();
 }
@@ -137,7 +124,7 @@ function permissions_action($app) {
     }
     page_head("Update successful");
     echo "
-        <a href=manage_app.php?app_id=$app->id>Return to application management page</a>
+        <a href=submit.php>Return to job submission page</a>
     ";
     page_tail();
 }
@@ -190,7 +177,7 @@ function batches_action($app) {
     }
     page_head("Update successful");
     echo "
-        <a href=manage_app.php?app_id=$app->id>Return to application management page</a>
+        <a href=submit.php>Return to job submission page</a>
     ";
     page_tail();
 }
@@ -208,8 +195,6 @@ if (!$bus->manage_all) {
 
 $action = get_str("action", true);
 switch ($action) {
-case "":
-    main_page($app); break;
 case "app_version_form":
     app_version_form($app); break;
 case "app_version_action":

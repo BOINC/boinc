@@ -257,16 +257,21 @@ function handle_main($user) {
         echo "<h3>Administrative functions</h3><ul>\n";
         if ($user_submit->manage_all) {
             echo "<li>All applications<br>
-                <a href=submit.php?action=admin&app_id=0>Batches</a>
-                &middot;
-                <a href=manage_project.php>Users</a>
+                <ul>
+                <li> <a href=submit.php?action=admin&app_id=0>View all batches</a>
+                <li> <a href=manage_project.php>Manage user permissions</a>
+                </ul>
             ";
             $apps = BoincApp::enum("deprecated=0");
             foreach ($apps as $app) {
-                echo "<li>$app->user_friendly_name<br>
-                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
-                    &middot;
-                    <a href=manage_app.php?app_id=$app->id>Manage</a>
+                echo "
+                    <li>$app->user_friendly_name<br>
+                    <ul>
+                    <li><a href=submit.php?action=admin&app_id=$app->id>View batches</a>
+                    <li> <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
+                    <li> <a href=manage_app.php?app_id=$app->id&amp;action=permissions_form>Manage user permissions</a>
+                    <li> <a href=manage_app.php?app_id=$app->id&amp;action=batches_form>Manage batches</a>
+                    </ul>
                 ";
             }
         } else {
