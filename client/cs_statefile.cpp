@@ -293,10 +293,19 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 }
             }
             if (avp->missing_coproc) {
-                msg_printf(project, MSG_INFO,
-                    "Application uses missing %s GPU",
-                    avp->missing_coproc_name
-                );
+                if (strstr(avp->missing_coproc_name, "Apple ")) {
+                    msg_printf(project, MSG_INFO,
+                        "App version uses deprecated GPU type '%s' - discarding",
+                        avp->missing_coproc_name
+                    );
+                    delete avp;
+                    continue;
+                } else {
+                    msg_printf(project, MSG_INFO,
+                        "App version uses missing GPU '%s'",
+                        avp->missing_coproc_name
+                    );
+                }
             }
             retval = link_app_version(project, avp);
             if (retval) {
