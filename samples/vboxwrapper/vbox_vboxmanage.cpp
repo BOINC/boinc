@@ -1846,6 +1846,7 @@ int VBOX_VM::get_version_information(string& version_raw, string& version_displa
             );
             version_display = buf;
         } else {
+            vboxlog_msg("VBoxManage version raw: %s", output.c_str());
             version_raw = "Unknown";
             version_display = "VirtualBox VboxManage Interface (Version: Unknown)";
         }

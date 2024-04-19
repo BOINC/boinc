@@ -593,7 +593,7 @@ bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
         if (min > vbox_minor) return false;
         if (rel < vbox_release) return true;
     }
-    return false;
+    return true;
 }
 
 int VBOX_BASE::get_system_log(
