@@ -139,30 +139,35 @@ std::string boinc_wide_to_ascii(const std::wstring& str) {
 char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize ...
 ) {
-    DWORD dwRet;
+    DWORD dwRet = 0;
     LPSTR lpszTemp = NULL;
 
-    va_list args;
+    va_list args = NULL;
     va_start(args, iSize);
-    dwRet = FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM ,
-        NULL,
-        dwError,
-        LANG_NEUTRAL,
+    try {
+        dwRet = FormatMessage(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER |
+            FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL,
+            dwError,
+            LANG_NEUTRAL,
 #ifdef wxUSE_GUI
-        (LPWSTR)&lpszTemp,
+            (LPWSTR)&lpszTemp,
 #else
-        (LPSTR)&lpszTemp,
+            (LPSTR)&lpszTemp,
 #endif
-        0,
-        &args
-    );
+            0,
+            &args
+        );
+    }
+    catch(...) {
+        dwRet = 0;
+    }
     va_end(args);
 
     if (dwRet != 0) {
         // include the hex error code as well
-        snprintf(pszBuf, iSize, "%S (0x%x)", lpszTemp, dwError);
+        snprintf(pszBuf, iSize, "%s (0x%x)", lpszTemp, dwError);
         if (lpszTemp) {
             LocalFree((HLOCAL)lpszTemp);
         }
