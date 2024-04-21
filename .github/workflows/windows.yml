@@ -108,7 +108,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{failure()}}
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         with:
           name: windows_logs_${{matrix.type}}_${{github.event.pull_request.head.sha}}
           path: deploy/logs.7z
@@ -123,35 +123,35 @@ jobs:
 
       - name: Upload apps
         if: success() && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         with:
           name: win_apps_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_apps.7z
 
       - name: Upload client
         if: success() && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         with:
           name: win_client_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_client.7z
 
       - name: Upload manager
         if: success() && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         with:
           name: win_manager_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_manager.7z
 
       - name: Upload symbol files
         if: success() && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         with:
           name: win_pdb_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/*.pdb
 
       - name: Upload Google Tests Results
         if: always() && matrix.platform == 'x64' && matrix.type == 'msbuild'
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/**/gtest.xml"

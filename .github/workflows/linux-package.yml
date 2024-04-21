@@ -108,7 +108,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         with:
           name: linux-package_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -118,7 +118,7 @@ jobs:
         run: python3 ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
@@ -167,7 +167,7 @@ jobs:
 
       - name: Download
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
@@ -225,7 +225,7 @@ jobs:
           dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
@@ -285,7 +285,7 @@ jobs:
 
       - name: Download
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
@@ -571,7 +571,7 @@ jobs:
           rpm -qp --qf '%|DSAHEADER?{%{DSAHEADER:pgpsig}}:{%|RSAHEADER?{%{RSAHEADER:pgpsig}}:{(none)}|}|\n' "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
@@ -600,13 +600,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -645,13 +645,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -689,13 +689,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_client_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_manager_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -737,13 +737,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_client_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_manager_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
@@ -802,13 +802,13 @@ jobs:
 
       - name: Download client
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -837,7 +837,7 @@ jobs:
           cd ${{ github.workspace }}/.github/workflows/debrepo/
           ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }}
 
-      - uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+      - uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
@@ -901,13 +901,13 @@ jobs:
 
       - name: Download client
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427
+        uses: actions/download-artifact@8caf195ad4b1dee92908e23f56eeb0696f1dd42d
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -940,7 +940,7 @@ jobs:
             # Updates or creates the repository
             ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
 
-      - uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+      - uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
