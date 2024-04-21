@@ -220,7 +220,9 @@
         <home>Rensselaer Polytechnic Institute</home>
     <platforms>
         <name>windows_x86_64[mt]</name>
+        <name>windows_x86_64</name>
         <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
@@ -239,7 +241,6 @@
         <name>aarch64-unknown-linux-gnu</name>
         <name>arm-android-linux-gnu[ASIMDPIE]</name>
         <name>arm-android-linux-gnu[ASIMDPIE_1X]</name>
-        <name>arm-android-linux-gnu[ASIMDPIE_Beta]</name>
         <name>arm-android-linux-gnu[NEON]</name>
         <name>arm-android-linux-gnu[NEONPIE]</name>
         <name>arm-android-linux-gnu[NEONPIE_1X]</name>
@@ -266,9 +267,7 @@
         <name>windows_x86_64[FGRPopencl2-ati]</name>
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
-        <name>windows_x86_64[GW-opencl-ati]</name>
         <name>windows_x86_64[GW-opencl-ati-2]</name>
-        <name>windows_x86_64[GW-opencl-nvidia]</name>
         <name>windows_x86_64[GW-opencl-nvidia-2]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
@@ -279,10 +278,7 @@
         <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-apple-darwin[GW-mac-opencl-nvidia]</name>
-        <name>x86_64-apple-darwin[GW-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati-2]</name>
-        <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-2]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
@@ -298,9 +294,7 @@
         <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-2]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
@@ -334,7 +328,9 @@
         <name>i686-pc-linux-gnu[sse2]</name>
         <name>aarch64-android-linux-gnu</name>
         <name>windows_x86_64[vbox64]</name>
+        <name>windows_x86_64[vbox64_mt_mcore_cms]</name>
         <name>x86_64-pc-linux-gnu[vbox64]</name>
+        <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
         <name>x86_64-apple-darwin[vbox64]</name>
         <name>windows_x86_64[vbox64_theory]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
