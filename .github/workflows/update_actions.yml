@@ -40,17 +40,6 @@ jobs:
       - name: Check file was updated
         if: success()
         run: |
-          set +e
+          set -e
           git diff --exit-code
-          echo "PR_REQUIRED=$?" >> $GITHUB_ENV
-      - name: Create PR
-        if: ${{ success() &&  env.PR_REQUIRED == 1 }}
-        uses: peter-evans/create-pull-request@c55203cfde3e5c11a452d352b4393e68b85b4533
-        with:
-          commit-message: Update actions
-          title: Update actions
-          body: |
-            This PR was automatically created by a GitHub Action.
-          branch: update_actions
-          base: master
-          delete-branch: true
+
