@@ -1171,7 +1171,10 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
             }
 
             // Timeout?
-            if (retry_count >= 5) break;
+            if (retry_count >= 5) {
+                retval = ERR_TIMEOUT;
+                break;
+            }
 
             retry_count++;
             boinc_sleep(sleep_interval);

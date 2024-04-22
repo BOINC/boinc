@@ -91,6 +91,7 @@ struct VBOX_VM : VBOX_BASE {
     int set_race_mitigation_lock(int& fd_race_mitigator, string& lock_name, const string& medium_file);
     void remove_race_mitigation_lock(int& fd_race_mitigator, string& lock_name);
 #endif
+    int remove_vbox_disk_orphans(string vbox_disk);
 };
 
 #endif

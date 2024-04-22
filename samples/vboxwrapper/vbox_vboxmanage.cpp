@@ -603,9 +603,8 @@ int VBOX_VM::create_vm() {
                     } else {
                         // other errors
                         remove_race_mitigation_lock(fd_race_mitigator, lock_name);
-                        vboxlog_msg("Error in check if parent hdd is registered.\nCommand: %s\nExit Code: %d\nOutput:\n%s",
+                        vboxlog_msg("Error in check if parent hdd is registered.\nCommand:\n%s\nOutput:\n%s",
                             command.c_str(),
-                            save_retval,
                             output.c_str()
                         );
                         return save_retval;
@@ -684,9 +683,8 @@ int VBOX_VM::create_vm() {
                             (output.find("MultiAttach") != string::npos) &&
                             (output.find("can only be attached to machines that were created with VirtualBox 4.0 or later") != string::npos)) {
                                 // try to deregister the medium from the global media store
-                                command = "closemedium \"" + medium_file + "\" ";
-
-                                retval = vbm_popen(command, output, "deregister parent vdi");
+                                //
+                                retval = remove_vbox_disk_orphans(medium_file.c_str());
                                 if (retval) {
                                     save_retval = retval;
                                     remove_race_mitigation_lock(fd_race_mitigator, lock_name);
@@ -700,10 +698,10 @@ int VBOX_VM::create_vm() {
 
                         if (retry_count >= 1) {
                             // in case of other errors or if retry also failed
+                            //
                             remove_race_mitigation_lock(fd_race_mitigator, lock_name);
-                            vboxlog_msg("Error in storage attach (fixed disk - multiattach mode).\nCommand: %s\nExit Code: %d\nOutput:\n%s",
+                            vboxlog_msg("Error in storage attach (fixed disk - multiattach mode).\nCommand:\n%s\nOutput:\n%s",
                                 command.c_str(),
-                                save_retval,
                                 output.c_str()
                                 );
                             return save_retval;
@@ -933,10 +931,6 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     // Next, delete VM
     // This automatically deletes child disk images connected to the VM.
     //
-    vboxlog_msg("Removing VM from VirtualBox.");
-    command  = "unregistervm \"" + vm_name + "\" ";
-    command += "--delete ";
-
     if (multiattach_vdi_file.size()) {
         string medium_file  = aid.project_dir;
         medium_file += "/" + multiattach_vdi_file;
@@ -947,6 +941,10 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             vboxlog_msg("Warning: Will continue without a lock.");
         }
     }
+
+    vboxlog_msg("Removing VM from VirtualBox.");
+    command  = "unregistervm \"" + vm_name + "\" ";
+    command += "--delete ";
 
     vbm_popen(command, output, "delete VM", false, false);
     remove_race_mitigation_lock(fd_race_mitigator, lock_name);
@@ -1902,6 +1900,7 @@ int VBOX_VM::get_version_information(string& version_raw, string& version_displa
             );
             version_display = buf;
         } else {
+            vboxlog_msg("VBoxManage version raw: %s", output.c_str());
             version_raw = "Unknown";
             version_display = "VirtualBox VboxManage Interface (Version: Unknown)";
         }
@@ -2455,5 +2454,85 @@ int VBOX_VM::set_race_mitigation_lock(int& fd_race_mitigator, string& lock_name,
         }
     }
 #endif
+    return BOINC_SUCCESS;
+}
+
+// To remove the parent disk entry use 'closemedium disk "<path to disk>"' instead of 'closemedium disk "<UUID>"'
+// since the latter sometimes returns an error like this:
+//
+// VBoxManage closemedium disk "1d9935fd-37c9-4c34-946b-f6d252c6a1af"
+// VBoxManage: error: The given path '1d9935fd-37c9-4c34-946b-f6d252c6a1af' is not fully qualified
+// VBoxManage: error: Details: code VBOX_E_FILE_ERROR (0x80bb0004), component MediumWrap, interface IMedium, callee nsISupports
+// VBoxManage: error: Context: "OpenMedium(Bstr(pszFilenameOrUuid).raw(), enmDevType, enmAccessMode, fForceNewUuidOnOpen, pMedium.asOutParam())" at line 197 of file VBoxManageDisk.cpp
+//
+// Output of 'VBoxManage showhdinfo "/path to/disk/parent_disk_name.vdi"' usually looks like this:
+//
+// UUID:           f81c0950-57ee-462e-b931-051193700d76
+// Parent UUID:    base
+// State:          created
+// Type:           multiattach
+// Location:       /path to/disk/parent_disk_name.vdi
+// Storage format: VDI
+// Format variant: dynamic default
+// Capacity:       51200 MBytes
+// Size on disk:   2 MBytes
+// Encryption:     disabled
+// Property:       AllocationBlockSize=1048576
+// Child UUIDs:    67e34269-e52e-4957-a813-c85f72084fba
+//                 5fa7905e-72e4-4f85-8405-dc6401417720
+//                 7262b5e5-2b32-482a-8c6e-2ef49548740b
+//
+int VBOX_VM::remove_vbox_disk_orphans(string vbox_disk) {
+    int retval;
+    string command;
+    string output;
+    string childlist;
+    string child_uuid;
+    size_t childlist_start;
+    string loc_line;
+    size_t loc_start;
+    size_t loc_end;
+
+    command  = "showhdinfo \"" + vbox_disk + "\" ";
+    retval = vbm_popen(command, output, "hdd registration", false, false);
+    if (retval) {
+        vboxlog_msg("Could not get disk details in 'remove_vbox_disk_orphans'.");
+        return retval;
+    }
+    output = output + "\n";
+
+    childlist_start = output.find("\nChild UUIDs:");
+    if (childlist_start != string::npos) {
+        size_t pos = 0;
+
+        childlist = output.substr(childlist_start + 17, string::npos - childlist_start);
+
+        while (pos < childlist.size()) {
+            child_uuid = childlist.substr(pos, 36);
+            // recursively process child disks
+            //
+            retval = remove_vbox_disk_orphans(child_uuid);
+            if (retval) {
+                vboxlog_msg("Could not remove child disk '%s'.", child_uuid.c_str());
+                return retval;
+            }
+            pos += 53;
+        }
+    }
+
+    // if no child disks are left, remove the disk itself
+    //
+    if ((loc_start = output.find("\nLocation:")) != string::npos) {
+        loc_start += 17;
+        loc_end = output.find("\n", loc_start) - loc_start;
+        loc_line = output.substr(loc_start, loc_end);
+
+        command = "closemedium disk \"" + loc_line + "\" ";
+        retval = vbm_popen(command, output, "remove virtual disk", false, false);
+        if (retval) {
+            vboxlog_msg("Could not remove parent disk '%s'.", loc_line.c_str());
+            return retval;
+        }
+    }
     return BOINC_SUCCESS;
 }
