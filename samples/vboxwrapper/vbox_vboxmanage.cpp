@@ -2486,6 +2486,7 @@ int VBOX_VM::remove_vbox_disk_orphans(string vbox_disk) {
     int retval;
     string command;
     string output;
+    string needle;
     string childlist;
     string child_uuid;
     size_t childlist_start;
@@ -2499,16 +2500,33 @@ int VBOX_VM::remove_vbox_disk_orphans(string vbox_disk) {
         vboxlog_msg("Could not get disk details in 'remove_vbox_disk_orphans'.");
         return retval;
     }
-    output = output + "\n";
 
-    childlist_start = output.find("\nChild UUIDs:");
+    needle = "\nChild UUIDs:";
+    childlist_start = output.find(needle.c_str()) + needle.size();
+
     if (childlist_start != string::npos) {
         size_t pos = 0;
+        size_t uuid_length = 36;
 
-        childlist = output.substr(childlist_start + 17, string::npos - childlist_start);
+        childlist = output.substr(childlist_start, string::npos - childlist_start);
 
+        needle = " ";
+        pos = childlist.find(needle);
+        while (pos != string::npos) {
+            childlist.replace(pos, 1, "");
+            pos = childlist.find(needle, pos);
+        }
+
+        needle = "\n";
+        pos = childlist.find(needle);
+        while (pos != string::npos) {
+            childlist.replace(pos, 1, "");
+            pos = childlist.find(needle, pos);
+        }
+
+        pos = 0;
         while (pos < childlist.size()) {
-            child_uuid = childlist.substr(pos, 36);
+            child_uuid = childlist.substr(pos, uuid_length);
             // recursively process child disks
             //
             retval = remove_vbox_disk_orphans(child_uuid);
@@ -2516,14 +2534,16 @@ int VBOX_VM::remove_vbox_disk_orphans(string vbox_disk) {
                 vboxlog_msg("Could not remove child disk '%s'.", child_uuid.c_str());
                 return retval;
             }
-            pos += 53;
+            pos += uuid_length;
         }
     }
 
     // if no child disks are left, remove the disk itself
     //
-    if ((loc_start = output.find("\nLocation:")) != string::npos) {
-        loc_start += 17;
+    needle = "\nLocation:";
+    if ((loc_start = output.find(needle.c_str())) != string::npos) {
+        loc_start += needle.size();
+        loc_start = output.find_first_not_of(" ", loc_start);
         loc_end = output.find("\n", loc_start) - loc_start;
         loc_line = output.substr(loc_start, loc_end);
 
