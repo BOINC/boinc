@@ -2502,13 +2502,12 @@ int VBOX_VM::remove_vbox_disk_orphans(string vbox_disk) {
     }
 
     needle = "\nChild UUIDs:";
-    childlist_start = output.find(needle.c_str()) + needle.size();
 
-    if (childlist_start != string::npos) {
+    if ((childlist_start = output.find(needle.c_str())) != string::npos) {
         size_t pos = 0;
         size_t uuid_length = 36;
 
-        childlist = output.substr(childlist_start, string::npos - childlist_start);
+        childlist = output.substr(childlist_start + needle.size());
 
         needle = " ";
         pos = childlist.find(needle);
