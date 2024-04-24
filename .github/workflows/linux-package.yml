@@ -239,7 +239,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, suse15_4, suse15_5]
+        os: [fc37, fc38, fc39, fc40, suse15_4, suse15_5]
         type: [client, manager]
       fail-fast: false
     env:
@@ -337,7 +337,7 @@ jobs:
             BOINCDIR=/var/lib/boinc
 
             case ${{ matrix.os }} in
-            "fc37" | "fc38" | "fc39")
+            "fc37" | "fc38" | "fc39" | "fc40")
               CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
               ;;
             "suse15_4" | "suse15_5")
@@ -675,7 +675,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [37, 38, 39]
+        os: [37, 38, 39, 40]
       fail-fast: false
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
@@ -858,7 +858,7 @@ jobs:
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, suse15_4, suse15_5]
+        os: [fc37, fc38, fc39, fc40, suse15_4, suse15_5]
       fail-fast: false
     env:
       ARCH: x86_64

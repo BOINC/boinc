@@ -25,7 +25,7 @@ function exit_usage() {
 
 case "$1_$2" in
 # fedora distros
-"fc37_linux_client" | "fc38_linux_client" | "fc38_linux_client")
+"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client")
     echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates"
     ;;
 # opensuse distros
