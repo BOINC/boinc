@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
-          xcode-version: '14.2.0'
+          xcode-version: '14.3.1'
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
@@ -65,7 +65,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
-          xcode-version: '14.2.0'
+          xcode-version: '14.3.1'
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
@@ -130,7 +130,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
-          xcode-version: '14.2.0'
+          xcode-version: '14.3.1'
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
