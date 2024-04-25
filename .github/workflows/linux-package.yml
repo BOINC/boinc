@@ -130,7 +130,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [focal, jammy, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm]
         type: [client, manager]
       fail-fast: false
     env:
@@ -205,7 +205,7 @@ jobs:
           echo "------------------------"
 
       - name: Create Ubuntu Package
-        if: ${{ success() && ( matrix.os == 'focal' || matrix.os == 'jammy' ) }}
+        if: ${{ success() && ( matrix.os == 'focal' || matrix.os == 'jammy' || matrix.os == 'noble' ) }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Ubuntu with XZ compression
@@ -630,7 +630,7 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [focal, jammy]
+        os: [focal, jammy, noble]
       fail-fast: false
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
@@ -765,7 +765,7 @@ jobs:
     needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
-        os: [focal, jammy, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
