@@ -105,8 +105,7 @@ parts:
 
       # aws
       ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-      sudo add-apt-repository ppa:lizthegrey/misc
-      DEBIAN_FRONTEND=noninteractive sudo apt install awscli -y
+      snap install aws-cli --classic
       aws --version
 
       # ninja
