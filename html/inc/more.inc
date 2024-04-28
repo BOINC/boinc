@@ -24,48 +24,53 @@
 // $text can't contain HTML tags (else would have to do lots of parsing)
 //
 function show_text_more($text, $nchars) {
+    echo show_text_more_aux($test, $nchars);
+}
+
+// same, but returns text rather than outputting it
+//
+function show_text_more_aux($text, $nchars) {
     static $count = 0;
 
     $n = strlen($text);
     if ($n < $nchars) {
-        echo $text;
-        return;
+        return $text;
     }
     // find where to break
     $b = strpos($text, ' ', $nchars);
     if ($b === false) {
-        echo $text;
-        return;
+        return $text;
     }
 
     // don't break if tail is short
     if (($n - $b) < 40) {
-        echo $text;
-        return;
+        return $text;
     }
 
+    $x = '';
     if ($count == 0) {
-        more_text_script();
+        $x .= more_text_script();
     }
-    echo substr($text, 0, $b);
-    echo sprintf('<span id="dots_%d">...</span>', $count);
-    echo sprintf('<span id="more_%d">', $count);
-    echo substr($text, $b);
-    echo '</span>';
-    echo sprintf(
+    $x .= substr($text, 0, $b);
+    $x .= sprintf('<span id="dots_%d">...</span>', $count);
+    $x .= sprintf('<span id="more_%d">', $count);
+    $x .= substr($text, $b);
+    $x .= '</span>';
+    $x .= sprintf(
         '<a onclick="toggle_more(\'dots_%d\', \'more_%d\', \'btn_%d\')" id="btn_%d"> (more)</a>',
         $count, $count, $count, $count
     );
-    echo sprintf('
+    $x .= sprintf('
         <script>document.getElementById("more_%d").style.display = "none";</script>
         ',
         $count
     );
     $count++;
+    return $x;
 }
 
 function more_text_script() {
-    echo '
+    return '
 <script>
 function toggle_more(dots_id, more_id, btn_id) {
     var dots = document.getElementById(dots_id);
