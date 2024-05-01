@@ -2342,7 +2342,7 @@ int VBOX_VM::set_race_mitigation_lock(int& fd_race_mitigator, string& lock_name,
     // lock_name should be derived from the full path of the disk's filename.
     //
     // Darwin limits the file name size to 32 characters (including the trailing '0').
-    // On POSIX we set a '/' as prefix. 
+    // On POSIX we set a '/' as prefix.
     // Hence, 'lock_name' must be shorter than 15 characters.
     //
     lock_name  = "boinc_lock_";
