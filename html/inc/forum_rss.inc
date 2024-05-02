@@ -69,7 +69,11 @@ function forum_rss($forumid, $userid, $threads_only, $ndays) {
         $clause .= " and owner=$userid";
     }
 
-    $tlimit = time() - $ndays*86400;
+    if ($ndays) {
+        $tlimit = time() - $ndays*86400;
+    } else {
+        $tlimit = 0;
+    }
 
     if ($threads_only) {
         $q = "$clause and hidden=0 and create_time > $tlimit order by create_time desc";
