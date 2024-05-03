@@ -970,6 +970,20 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
+            if (cc_config.dont_use_docker && strstr(avp->plan_class, "docker")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping docker app in app_info.xml; docker disabled in cc_config.xml"
+                );
+                delete avp;
+                continue;
+            }
+            if (cc_config.dont_use_docker_compose && strstr(avp->plan_class, "docker")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping app with docker compose in app_info.xml; docker compose disabled in cc_config.xml"
+                );
+                delete avp;
+                continue;
+            }
             if (strlen(avp->platform) == 0) {
                 safe_strcpy(avp->platform, get_primary_platform());
             }
