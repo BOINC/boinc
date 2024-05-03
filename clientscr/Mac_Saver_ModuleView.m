@@ -177,7 +177,8 @@ static bool myIsPreview;
 #define MAX_CGWINDOWLIST_TRIES 3
 
 #define MAJORBOINCGFXLIBNEEDEDFORSONOMA 8
-#define MINORBOINCGFXLIBNEEDEDFORSONOMA 1
+#define MINORBOINCGFXLIBNEEDEDFORSONOMA 0
+#define RELEASEBOINCGFXLIBNEEDEDFORSONOMA 2
 
 int signof(float x) {
     return (x > 0.0 ? 1 : -1);
@@ -658,7 +659,7 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
                 if (gIsCatalina) {
                     if (gMach_bootstrap_unavailable_to_screensavers) {
                         // Is the gfx app built with a new enough BOINC graphics library version?
-                        if (compareBOINCLibVersionTo(MAJORBOINCGFXLIBNEEDEDFORSONOMA, MINORBOINCGFXLIBNEEDEDFORSONOMA) >= 0) {
+                        if (compareBOINCLibVersionTo(MAJORBOINCGFXLIBNEEDEDFORSONOMA, MINORBOINCGFXLIBNEEDEDFORSONOMA, RELEASEBOINCGFXLIBNEEDEDFORSONOMA) >= 0) {
                             runningSharedGraphics = true;
                             if (childPid) {
                                 gfxAppStartTime = 0.0;

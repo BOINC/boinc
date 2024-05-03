@@ -55,7 +55,7 @@ void            setGGFXChangePeriod(double value);
 double          getDTime();
 void            doBoinc_Sleep(double seconds);
 void            launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot);
-int             compareBOINCLibVersionTo(int toMajor, int toMinor);
+int             compareBOINCLibVersionTo(int toMajor, int toMinor, int toRelease);
 void            print_to_log_file(const char *format, ...);
 void            strip_cr(char *buf);
 void            PrintBacktrace(void);

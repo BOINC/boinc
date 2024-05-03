@@ -722,8 +722,8 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                         }
                     }
                     m_vIncompatibleGfxApps.clear();
-                }
 #endif
+                }
                 switch_to_default_gfx = false;
             }
         }
@@ -1085,15 +1085,18 @@ void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods) {
 
 #ifdef __APPLE__
 // compareBOINCLibVersionTo(x, y) returns:
-// -1 if the library version is less than x.y
-//  0 if the library version is equal to x.y
+// -1 if the library version is less than x.y.z
+//  0 if the library version is equal to x.y.z
 // +1 if the library version is lgreater than x.y
-int compareBOINCLibVersionTo(int toMajor, int toMinor) {
+int compareBOINCLibVersionTo(int toMajor, int toMinor, int toRelease) {
     if (ss_shmem->major_version < toMajor) return -1;
     if (ss_shmem->major_version > toMajor) return 1;
     // if (major == toMajor) compare minor version numbers
     if (ss_shmem->minor_version < toMinor) return -1;
     if (ss_shmem->minor_version > toMinor) return 1;
+    // if (minor == toMinor) compare release version numbers
+    if (ss_shmem->release < toRelease) return -1;
+    if (ss_shmem->release > toRelease) return 1;
     return 0;
 }
 #endif
