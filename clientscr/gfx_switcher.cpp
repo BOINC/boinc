@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -82,9 +82,17 @@ static void strip_cr(char *buf);
 
 void * MonitorScreenSaverEngine(void* param);
 
+// struct ss_shmem_data must be kept in sync in these files:
+// screensaver.cpp
+// gfx_switcher.cpp
+// gfx_cleanup.mm
+// graphics2_unix.cpp
 struct ss_shmem_data {
     pid_t gfx_pid;
     int gfx_slot;
+    int major_version;
+    int minor_version;
+    int release;
 };
 
 static struct ss_shmem_data* ss_shmem = NULL;
@@ -222,6 +230,9 @@ int main(int argc, char** argv) {
             pthread_cancel(monitorScreenSaverEngineThread);
             if (ss_shmem != 0) {
                 ss_shmem->gfx_pid = 0;
+                ss_shmem->major_version = 0;
+                ss_shmem->minor_version = 0;
+                ss_shmem->release = 0;
             }
             return 0;
         }
@@ -287,6 +298,9 @@ int main(int argc, char** argv) {
             pthread_cancel(monitorScreenSaverEngineThread);
             if (ss_shmem != 0) {
                 ss_shmem ->gfx_pid = 0;
+                ss_shmem->major_version = 0;
+                ss_shmem->minor_version = 0;
+                ss_shmem->release = 0;
             }
             return 0;
         }
