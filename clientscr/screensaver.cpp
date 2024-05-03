@@ -563,7 +563,9 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
 
 #ifdef __APPLE__
     for (int i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
-        free(m_vIncompatibleGfxApps[i]);
+        if (m_vIncompatibleGfxApps[i]) {
+            free(m_vIncompatibleGfxApps[i]);
+        }
     }
     m_vIncompatibleGfxApps.clear();
     default_ss_dir_path = "/Library/Application Support/BOINC Data";
@@ -714,7 +716,9 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 if (m_bDefault_gfx_running) {
                     default_saver_start_time_in_science_phase = science_phase_start_time;
                     for (int i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
-                        free(m_vIncompatibleGfxApps[i]);
+                        if (m_vIncompatibleGfxApps[i]) {
+                            free(m_vIncompatibleGfxApps[i]);
+                        }
                     }
                     m_vIncompatibleGfxApps.clear();
                 }
