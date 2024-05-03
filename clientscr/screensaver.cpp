@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -102,13 +102,23 @@ extern pthread_mutex_t saver_mutex;
 RESULT* graphics_app_result_ptr = NULL;
 
 #ifdef __APPLE__
+// struct ss_shmem_data must be kept in sync in these files:
+// screensaver.cpp
+// gfx_switcher.cpp
+// gfx_cleanup.mm
+// graphics2_unix.cpp
 struct ss_shmem_data {
     pid_t gfx_pid;
     int gfx_slot;
+    int major_version;
+    int minor_version;
+    int release;
 };
 
 static struct ss_shmem_data* ss_shmem = NULL;
 bool canAccessProjectGFXApps = true;
+static double graphicsAppStartTime;
+
 #endif
 
 bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
@@ -136,10 +146,10 @@ int CScreensaver::count_active_graphic_apps(RESULTS& res, RESULT* exclude) {
         if (is_same_task(res.results[i], exclude)) continue;
 #ifdef __APPLE__
         // Remove it from the vector if incompatible with current version of OS X
-        if (isIncompatible(res.results[i]->graphics_exec_path)) {
+        if (isIncompatible(res.results[i]->wu_name)) {
             BOINCTRACE(
                 _T("count_active_graphic_apps -- removing incompatible name = '%s', path = '%s'\n"),
-                res.results[i]->name, res.results[i]->graphics_exec_path
+                res.results[i]->wu_name, res.results[i]->graphics_exec_path
             );
             RESULT *rp = res.results[i];
             res.results.erase(res.results.begin()+i);
@@ -211,23 +221,23 @@ CLEANUP:
 
 
 #ifdef __APPLE__
-void CScreensaver::markAsIncompatible(char *gfxAppPath) {
-    char *buf = (char *)malloc(strlen(gfxAppPath)+1);
+void CScreensaver::markAsIncompatible(char *wuName) {
+    char *buf = (char *)malloc(strlen(wuName)+1);
     if (buf) {
-        strlcpy(buf, gfxAppPath, malloc_size(buf));
+        strlcpy(buf, wuName, malloc_size(buf));
         m_vIncompatibleGfxApps.push_back(buf);
-       BOINCTRACE(_T("markAsIncompatible -- path = '%s'\n"), gfxAppPath);
+       BOINCTRACE(_T("markAsIncompatible -- wuName = '%s'\n"), wuName);
     }
 }
 
-bool CScreensaver::isIncompatible(char *appPath) {
+bool CScreensaver::isIncompatible(char *wuName) {
     unsigned int i = 0;
     for (i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
         BOINCTRACE(
             _T("isIncompatible -- comparing incompatible path '%s' to candidate path %s\n"),
-            m_vIncompatibleGfxApps[i], appPath
+            m_vIncompatibleGfxApps[i], wuName
         );
-        if (strcmp(m_vIncompatibleGfxApps[i], appPath) == 0) {
+        if (strcmp(m_vIncompatibleGfxApps[i], wuName) == 0) {
             return true;
         }
     }
@@ -266,7 +276,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_applicati
         // V6 Graphics
 #ifdef __APPLE__
         graphics_application = 0;
-
+        graphicsAppStartTime = 0;
         // As of OS 10.15 (Catalina) screensavers can no longer:
         //  - launch apps that run setuid or setgid
         //  - launch apps downloaded from the Internet which have not been
@@ -300,7 +310,8 @@ int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_applicati
         fflush(m_gfx_Cleanup_IPC);
 
         if (graphics_application) {
-            launchedGfxApp(rp->graphics_exec_path, graphics_application, rp->slot);
+            graphicsAppStartTime = getDTime();
+            launchedGfxApp(rp->graphics_exec_path, rp->wu_name, graphics_application, rp->slot);
         }
 #else
         char* argv[3];
@@ -324,6 +335,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_applicati
 //
 int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
 #ifdef __APPLE__
+    static bool in_terminate_v6_screensaver = false;
     pid_t thePID;
 
     // As of OS 10.15 (Catalina) screensavers can no longer launch apps
@@ -338,23 +350,25 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
     // able to just call kill_program(graphics_application).
     //
     int ignore;
-
-    if (graphics_application == 0) return 0;
-
+    graphicsAppStartTime = 0;   // Prevent triggering markAsIncompatible in HasProcessExited()
     // MUTEX may help prevent crashes when terminating an older gfx app which
     // we were displaying using CGWindowListCreateImage under OS X >= 10.13
     // Also prevents reentry when called from our other thread
     pthread_mutex_lock(&saver_mutex);
 
     thePID = graphics_application;
-    // fprintf(stderr, "stopping pid %d\n", thePID);
+    if (in_terminate_v6_screensaver) {
+        pthread_mutex_unlock(&saver_mutex);
+        return 0;
+    }
+
+    in_terminate_v6_screensaver = true;
+   // print_to_log_file( "stopping pid %d\n", thePID);
     rpc->run_graphics_app("stop", thePID, gUserName);
 
     // Inform our helper app that we have stopped current graphics app
     fprintf(m_gfx_Cleanup_IPC, "0\n");
     fflush(m_gfx_Cleanup_IPC);
-
-    launchedGfxApp("", 0, -1);
 
     for (int i=0; i<200; i++) {
         boinc_sleep(0.01);      // Wait 2 seconds max
@@ -362,7 +376,15 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
             break;
         }
     }
+    // For safety, call kill_process() even under Apple sandbox security
+    if (graphics_application) {
+        kill_process(graphics_application);
+    }
+
+    launchedGfxApp("", "", 0, -1);
+
     pthread_mutex_unlock(&saver_mutex);
+    in_terminate_v6_screensaver = false;
 #endif
 
 #ifdef _WIN32
@@ -377,10 +399,10 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
             kill_process(graphics_application);
         }
     }
-#endif
 
     // For safety, call kill_process() even under Apple sandbox security
     kill_process(graphics_application);
+#endif
     return 0;
 }
 
@@ -436,7 +458,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, PROCESS_REF& graphi
     fflush(m_gfx_Cleanup_IPC);
 
     if (graphics_application) {
-        launchedGfxApp("boincscr", graphics_application, -1);
+        launchedGfxApp("boincscr", "", graphics_application, -1);
     }
 
     BOINCTRACE(_T("launch_default_screensaver returned %d\n"), retval);
@@ -540,6 +562,11 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     graphics_app_result_ptr = NULL;
 
 #ifdef __APPLE__
+    for (int i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
+        if (m_vIncompatibleGfxApps[i]) {
+            free(m_vIncompatibleGfxApps[i]);
+        }
+    }
     m_vIncompatibleGfxApps.clear();
     default_ss_dir_path = "/Library/Application Support/BOINC Data";
     char shmem_name[MAXPATHLEN];
@@ -551,6 +578,9 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
         chmod(shmem_name, 0666);
         ss_shmem->gfx_pid = 0;
         ss_shmem->gfx_slot = -1;
+        ss_shmem->major_version = 0;
+        ss_shmem->minor_version = 0;
+        ss_shmem->release = 0;
     }
 
     if (!IsUserMemberOfGroup(gUserName, "boinc_master")) canAccessProjectGFXApps = false;
@@ -680,11 +710,19 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 // BOINCTRACE(_T("CScreensaver::Ending Default phase: now=%f, default_phase_start_time=%f, default_saver_duration_in_science_phase=%f\n"),
                 // dtime(), default_phase_start_time, default_saver_duration_in_science_phase);
                 ss_phase = SCIENCE_SS_PHASE;
-                default_phase_start_time = 0;
+               default_phase_start_time = 0;
                 default_saver_duration_in_science_phase = 0;
                 science_phase_start_time = dtime();
                 if (m_bDefault_gfx_running) {
                     default_saver_start_time_in_science_phase = science_phase_start_time;
+#ifdef __APPLE__
+                    for (int i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
+                        if (m_vIncompatibleGfxApps[i]) {
+                            free(m_vIncompatibleGfxApps[i]);
+                        }
+                    }
+                    m_vIncompatibleGfxApps.clear();
+#endif
                 }
                 switch_to_default_gfx = false;
             }
@@ -945,7 +983,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 m_bDefault_gfx_running = false;
                 m_bScience_gfx_running = false;
 #ifdef __APPLE__
-                launchedGfxApp("", 0, -1);
+                launchedGfxApp("", "", 0, -1);
 #endif
                 continue;
             }
@@ -976,6 +1014,12 @@ bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
     if (ss_shmem) {
         if (ss_shmem->gfx_pid != 0) return false;
         if (ss_shmem->gfx_slot > -1) { // -1 means Default GFX, which has no slot number
+            if (graphicsAppStartTime && ((getDTime() - graphicsAppStartTime) < 2)) {
+                if (graphics_app_result_ptr && graphics_app_result_ptr->graphics_exec_path) {
+                    markAsIncompatible(graphics_app_result_ptr->wu_name);
+
+                }
+            }
             // Graphics apps called by screensaver or Manager (via Show
             // Graphics button) now write files in their slot directory as
             // the logged in user, not boinc_master. This ugly hack tells
@@ -983,6 +1027,9 @@ bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
             rpc->run_graphics_app("stop", ss_shmem->gfx_slot, "");
             ss_shmem->gfx_pid = 0;
             ss_shmem->gfx_slot = -1;
+            ss_shmem->major_version = 0;
+            ss_shmem->minor_version = 0;
+            ss_shmem->release = 0;
         }
 
     }
@@ -1034,3 +1081,22 @@ void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods) {
         periods.GFXChangePeriod
     );
 }
+
+
+#ifdef __APPLE__
+// compareBOINCLibVersionTo(x, y) returns:
+// -1 if the library version is less than x.y.z
+//  0 if the library version is equal to x.y.z
+// +1 if the library version is lgreater than x.y
+int compareBOINCLibVersionTo(int toMajor, int toMinor, int toRelease) {
+    if (ss_shmem->major_version < toMajor) return -1;
+    if (ss_shmem->major_version > toMajor) return 1;
+    // if (major == toMajor) compare minor version numbers
+    if (ss_shmem->minor_version < toMinor) return -1;
+    if (ss_shmem->minor_version > toMinor) return 1;
+    // if (minor == toMinor) compare release version numbers
+    if (ss_shmem->release < toRelease) return -1;
+    if (ss_shmem->release > toRelease) return 1;
+    return 0;
+}
+#endif

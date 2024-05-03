@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,6 +32,7 @@ extern void BringAppToFront(void);
 extern void HideThisApp(void);
 extern bool UseSharedOffscreenBuffer(void);
 extern bool debugSharedOffscreenBuffer;
+void pass_BOINC_gfx_lib_version_to_ss(void);
 
 extern void print_to_log_file(const char *format, ...);
 
