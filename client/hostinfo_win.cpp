@@ -29,6 +29,8 @@
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
+#include <fstream>
+
 
 #include "client_msgs.h"
 #include "client_types.h"
@@ -1542,6 +1544,97 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
     return iRetVal;
 }
 
+//check if docker compose or docker-compose is installed on volunteer's host
+//
+int HOST_INFO::get_docker_compose_info(){
+    FILE* fd;
+    char buf[MAXPATHLEN];
+
+    std::ofstream compose_file ("docker-compose.yaml");
+    compose_file << "version: \"2\"\nservices: \n  hello: \n    image: \"hello-world\" \n" << std::endl;
+
+    char* docker_command = "wsl docker-compose up 2>&1";
+    fd = _popen(docker_command, "r");
+    if (fd){
+        while(!feof(fd)){
+            if (fgets(buf, sizeof(buf), fd)){
+                if (strstr(buf, "Hello from Docker!")){
+                    safe_strcat(docker_compose_version, "v1");
+                    break;
+                }
+            }
+        }
+        _pclose(fd);
+    }
+
+    docker_command = "wsl docker compose up 2>&1";
+    fd = _popen(docker_command, "r");
+    if (fd){
+        while(!feof(fd)){
+            if (fgets(buf, sizeof(buf), fd)){
+                if (strstr(buf, "Hello from Docker!")){
+                    safe_strcat(docker_compose_version, "v2");
+                    break;
+                }
+            }
+        }
+        _pclose(fd);
+    }
+
+    std::remove("docker-compose.yaml");
+
+    if (!(strstr(docker_compose_version, "v1"))){
+        if (!(strstr(docker_compose_version, "v2"))){
+            safe_strcat(docker_compose_version, "not_used")
+        }
+    }
+
+    return 0;
+}
+
+
+//check if docker is installed on volunteer's host
+//
+int HOST_INFO::get_docker_info(bool& docker_use){
+    char buf[256];
+    FILE* fd;
+    FILE *fd_1;
+
+    char* docker_command = "wsl which -a docker 2>&1";
+    fd = _popen(docker_command, "r");
+    if (fd) {
+        while (!feof(fd)){
+            if (fgets(buf + 4, sizeof(buf), fd)){
+                buf[0] = 'w';
+                buf[1] = 's';
+                buf[2] = 'l';
+                buf[3] = ' ';
+                int i, j;
+                for (i = 0, j = 0; buf[i]; i++) {
+                    if (buf[i] != '\n') {
+                        buf[j++] = buf[i];
+                    }
+                }
+                buf[j] = '\0';
+                docker_command = strcat(buf, " run --rm hello-world 2>&1");
+                fd_1 = _popen(docker_command, "r");
+                if (fd_1){
+                    while (!feof(fd_1)){
+                        if (fgets(buf, sizeof(buf), fd_1)){
+                            if (strstr(buf, "Hello from Docker!")){
+                                docker_use = true;
+                                break;
+                            }
+                        }
+                    }
+                    _pclose(fd_1);
+                }
+            }
+        }
+        _pclose(fd);
+    }
+    return 0;
+}
 
 // see if Virtualbox is installed
 //
@@ -1665,6 +1758,23 @@ int HOST_INFO::get_host_info(bool init) {
             get_wsl_information(wsl_available, wsls);
         }
     }
+
+    if ((!cc_config.dont_use_docker) && (!cc_config.dont_use_wsl)){
+        if (wsl_available){
+            for (size_t i = 0; i < wsls.wsls.size(); ++i){
+                const WSL& wsl = wsls.wsls[i];
+                if (wsl.is_default){
+                        if (wsl.version.find("WSL2") != std::string::npos){
+                            get_docker_info(docker_use);
+                            if (!cc_config.dont_use_docker_compose){
+                                get_docker_compose_info();
+                            }
+                        }
+                }
+            }
+        }
+    }
+
 #endif
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();

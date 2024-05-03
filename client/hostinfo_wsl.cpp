@@ -271,6 +271,9 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         char wsl_dist_version[256];
 
         const std::string& distro = distros[i];
+        if (distro == "docker-desktop-data"){
+            continue;
+        }
         WSL wsl;
         wsl.distro_name = distro;
         if (distro == default_distro) {

@@ -873,6 +873,37 @@ static inline bool app_plan_opencl(
 // "mt" is tailored to the needs of CERN:
 // use 1 or 2 CPUs
 
+
+//plan class for Docker jobs 
+//
+static inline bool app_plan_docker(
+    SCHEDULER_REQUEST& sreq, char* plan_class
+){
+     if (sreq.core_client_major_version < 8) {
+        add_no_work_message("BOINC client 8.0+ required for Docker jobs");
+        return false;
+    }
+
+    if (!(sreq.host.docker_use)) {
+        add_no_work_message("Docker is not installed or is not available");
+        return false;
+    }
+
+    if ((strstr(plan_class, "v1")) && (!(strstr(sreq.host.docker_compose_version, "v1")))){
+        add_no_work_message("Docker compose (older version: docker-compose) is required, but is not installed or is not available");
+        return false;
+    }
+
+    if ((strstr(plan_class, "v2")) && (!(strstr(sreq.host.docker_compose_version, "v2")))){
+        add_no_work_message("Docker compose (newer version: docker compose) is required, but is not installed or is not available");
+        return false;
+    }
+
+    return true;
+
+}
+
+
 static inline bool app_plan_vbox(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
@@ -1019,6 +1050,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const W
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
+    } else if (strstr(plan_class, "docker")){
+        return app_plan_docker(sreq, plan_class);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
