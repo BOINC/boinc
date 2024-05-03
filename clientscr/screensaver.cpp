@@ -715,6 +715,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                 science_phase_start_time = dtime();
                 if (m_bDefault_gfx_running) {
                     default_saver_start_time_in_science_phase = science_phase_start_time;
+#ifdef __APPLE__
                     for (int i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
                         if (m_vIncompatibleGfxApps[i]) {
                             free(m_vIncompatibleGfxApps[i]);
@@ -722,6 +723,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                     }
                     m_vIncompatibleGfxApps.clear();
                 }
+#endif
                 switch_to_default_gfx = false;
             }
         }
