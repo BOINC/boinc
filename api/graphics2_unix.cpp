@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -237,15 +237,19 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
         boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
     }
 
-#ifdef __APPLE__
-    char dir [MAXPATHLEN];
-    getcwd(dir, MAXPATHLEN);
-#endif
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             fullscreen = true;
         }
     }
+#ifdef __APPLE__
+    char dir [MAXPATHLEN];
+    getcwd(dir, MAXPATHLEN);
+
+    if (fullscreen) {
+        pass_BOINC_gfx_lib_version_to_ss();
+    }
+#endif
     boinc_glut_init(&argc, argv);
     make_window(title);
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
@@ -299,4 +303,36 @@ bool UseSharedOffscreenBuffer() {
     }
     return false;
 }
+
+#include "shmem.h"
+
+// struct ss_shmem_data must be kept in sync in these files:
+// screensaver.cpp
+// gfx_switcher.cpp
+// gfx_cleanup.mm
+// graphics2_unix.cpp
+struct ss_shmem_data {
+    pid_t gfx_pid;
+    int gfx_slot;
+    int major_version;
+    int minor_version;
+    int release;
+};
+
+void pass_BOINC_gfx_lib_version_to_ss() {
+    struct ss_shmem_data* ss_shmem = NULL;
+    char userName[64];
+    char shmem_name[MAXPATHLEN];
+
+    strlcpy(userName, getenv("USER"), sizeof(userName));
+    snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", userName);
+    attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+
+    if (ss_shmem) {
+        ss_shmem->major_version = BOINC_MAJOR_VERSION;
+        ss_shmem->minor_version = BOINC_MINOR_VERSION;
+        ss_shmem->release = BOINC_RELEASE;
+    }
+}
+
 #endif

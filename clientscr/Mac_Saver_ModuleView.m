@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -150,6 +150,7 @@ static pid_t childPid;
 static int gfxAppWindowNum;
 static NSView *imageView;
 static char gfxAppPath[MAXPATHLEN];
+static char gfxWuName[MAXPATHLEN];
 static int taskSlot;
 static NSRunningApplication *childApp;
 static double gfxAppStartTime;
@@ -175,12 +176,17 @@ static bool myIsPreview;
 #define MAXWAITFORCONNECTIONCATALINA 12.0
 #define MAX_CGWINDOWLIST_TRIES 3
 
+#define MAJORBOINCGFXLIBNEEDEDFORSONOMA 7
+#define MINORBOINCGFXLIBNEEDEDFORSONOMA 24
+#define RELEASEBOINCGFXLIBNEEDEDFORSONOMA 4
+
 int signof(float x) {
     return (x > 0.0 ? 1 : -1);
 }
 
-void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
+void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     strlcpy(gfxAppPath, appPath, sizeof(gfxAppPath));
+    strlcpy(gfxWuName, wuName, sizeof(gfxWuName));
     childPid = thePID;
     taskSlot = slot;
     gfxAppStartTime = getDTime();
@@ -188,16 +194,24 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     if (thePID == 0) {
         useCGWindowList = false;
         gfxAppStartTime = 0.0;
+        gfxWuName[0] = '\0';
+        if (mySharedGraphicsController) {
+            [ mySharedGraphicsController cleanUpOpenGL ];
+        }
         if (imageView) {
             // removeFromSuperview must be called from main thread
-            if (pthread_equal(mainThreadID, pthread_self())) {
+            if (NSThread.isMainThread) {
                 [imageView removeFromSuperview];   // Releases imageView
-                imageView = nil;
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [imageView removeFromSuperview];   // Releases imageView
+                });
             }
+            imageView = nil;
         }
-    } else {
-        if (gCant_Use_Shared_Offscreen_Buffer) {
-            stopAllGFXApps();
+    } else {    // thePID != 0
+        if (childPid) {
+            childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
         }
     }
 }
@@ -408,7 +422,13 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     if (imageView) {
         useCGWindowList = false;
         // removeFromSuperview must be called from main thread
-        [imageView removeFromSuperview];   // Releases imageView
+        if (NSThread.isMainThread) {
+            [imageView removeFromSuperview];   // Releases imageView
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [imageView removeFromSuperview];   // Releases imageView
+            });
+        }
         imageView = nil;
     }
 
@@ -563,7 +583,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         //
         if (childApp) {
              if (![ childApp activateWithOptions:NSApplicationActivateIgnoringOtherApps ]) {
-                launchedGfxApp("", 0, -1);  // Graphics app is no longer running
+                launchedGfxApp("", "", 0, -1);  // Graphics app is no longer running
              } else if (useCGWindowList) {
                 // As a safety precaution, prevent terminating gfx app while copying its window
                 pthread_mutex_lock(&saver_mutex);
@@ -611,7 +631,13 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
     if (imageView && !useCGWindowList) {
         // removeFromSuperview must be called from main thread
-        [imageView removeFromSuperview];   // Releases imageView
+        if (NSThread.isMainThread) {
+            [imageView removeFromSuperview];   // Releases imageView
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [imageView removeFromSuperview];   // Releases imageView
+            });
+        }
         imageView = nil;
     }
 
@@ -631,16 +657,26 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             maxWaitTime = gIsCatalina ? MAXWAITFORCONNECTIONCATALINA : MAXWAITFORCONNECTION;
             if ((getDTime() - gfxAppStartTime) > maxWaitTime) {
                 if (gIsCatalina) {
+                    if (gMach_bootstrap_unavailable_to_screensavers) {
+                        // Is the gfx app built with a new enough BOINC graphics library version?
+                        if (compareBOINCLibVersionTo(MAJORBOINCGFXLIBNEEDEDFORSONOMA, MINORBOINCGFXLIBNEEDEDFORSONOMA, RELEASEBOINCGFXLIBNEEDEDFORSONOMA) >= 0) {
+                            runningSharedGraphics = true;
+                            if (childPid) {
+                                gfxAppStartTime = 0.0;
+                                childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+                            }
+                        }
+                    }
                     // CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy
                     // windows between user boinc_project and the user running the
                     // screensaver only if OS < 10.15 (before Catalina)
-                    incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                    incompatibleGfxApp(gfxAppPath, gfxWuName, childPid, taskSlot);
                 } else {
                     if (++CGWindowListTries > MAX_CGWINDOWLIST_TRIES) {
                         // After displaying message for 5 seconds, incompatibleGfxApp
                         // will call launchedGfxApp("", 0, -1) which will clear
                         // gfxAppStartTime and CGWindowListTries
-                        incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                        incompatibleGfxApp(gfxAppPath, gfxWuName, childPid, taskSlot);
                     } else {
                         if ([self setUpToUseCGWindowList]) {
                             CGWindowListTries = 0;
@@ -1088,12 +1124,14 @@ static bool okToDraw;
     [[NSNotificationCenter defaultCenter] removeObserver:self
         name:NSPortDidBecomeInvalidNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-        selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
-
     openGLView = nil;
 
     [self testConnection];
+
+    if (! gMach_bootstrap_unavailable_to_screensavers)  {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
+    }
 }
 
 
@@ -1101,60 +1139,129 @@ static bool okToDraw;
 {
     mach_port_t servicePortNum = MACH_PORT_NULL;
     kern_return_t machErr;
-    char *portName = "edu.berkeley.boincsaver";
+    char *portNameV1 = "edu.berkeley.boincsaver";
+    char *portNameV2 = "edu.berkeley.boincsaver-v2";
 
-	// Try to check in with master.
+    if ((!gMach_bootstrap_unavailable_to_screensavers) || (serverPort == MACH_PORT_NULL)) {
+       // Try to check in with master.
 // NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_look_up
 //	serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] portForName:@"edu.berkeley.boincsaver"]) retain];
-	machErr = bootstrap_look_up(bootstrap_port, portName, &servicePortNum);
-    if (machErr == KERN_SUCCESS) {
-        serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
-    } else {
-        if (machErr == BOOTSTRAP_NOT_PRIVILEGED) {
-            // As of MacOS 14.0, the legacyScreenSave sandbox prevents using
-            // IOSurfaceLookupFromMachPort. I have filed bug report FB13300491
-            // with Apple and hope they will change this in future MacOS.
-            gCant_Use_Shared_Offscreen_Buffer = true;
-            stopAllGFXApps();
+        machErr = bootstrap_look_up(bootstrap_port, portNameV1, &servicePortNum);
+        if (machErr != KERN_SUCCESS) {
+            if (machErr != BOOTSTRAP_NOT_PRIVILEGED) {
+            //  bootstrap_look_up() returned error other than BOOTSTRAP_NOT_PRIVILEGED
+            // machErr is probably BOOTSTRAP_UNKNOWN_SERVICE because no gfx app is running
+            // Keep trying bootstrap_look_up() until we get a connection from gfx app
+            serverPort = MACH_PORT_NULL;
+            } else {    //  bootstrap_look_up() returned error BOOTSTRAP_NOT_PRIVILEGED
+                // As of MacOS 14.0, the legacyScreenSave sandbox prevents using
+                // bootstrap_look_up. I have filed bug report FB13300491 with
+                // Apple and hope they will change this in a future MacOS.
+                machErr = bootstrap_check_in(bootstrap_port, portNameV2, &servicePortNum);
+                if (machErr != KERN_SUCCESS) {
+                    [NSApp terminate:nil];
+                }
+                gMach_bootstrap_unavailable_to_screensavers = true;
+            }   //  bootstrap_look_up() returned error BOOTSTRAP_NOT_PRIVILEGED
+        }   // bootstrap_look_up() did not return KERN_SUCCESS
+
+         if (machErr == KERN_SUCCESS) {
+           serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
         }
-        serverPort = MACH_PORT_NULL;
+
+        if ((serverPort != MACH_PORT_NULL) && (localPort == MACH_PORT_NULL)) {
+            // Retrieve raw mach port names.
+            serverPortName = [serverPort machPort];
+
+            if (gMach_bootstrap_unavailable_to_screensavers) {
+               // Register server port with the current runloop.
+                [serverPort setDelegate:self];
+                [serverPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+            } else {    // (! gMach_bootstrap_unavailable_to_screensavers)
+                // Create our own local port.
+                localPort = [[NSMachPort alloc] init];
+                localPortName  = [localPort machPort];
+                // Register our local port with the current runloop.
+                [localPort setDelegate:self];
+                [localPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+
+                // Check in with server.
+                int kr;
+                kr = _MGCCheckinClient(serverPortName, localPortName, &clientIndex);
+                if(kr != 0) {
+                    [NSApp terminate:nil];
+                }
+
+                runningSharedGraphics = true;
+
+                if (childPid) {
+                    gfxAppStartTime = 0.0;
+                    childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+                }
+            }   // (! gMach_bootstrap_unavailable_to_screensavers)
+        }   // ((serverPort != MACH_PORT_NULL) && (localPort == MACH_PORT_NULL))
+    }   // ((!gMach_bootstrap_unavailable_to_screensavers) || (serverPort == MACH_PORT_NULL))
+}
+
+
+- (void)cleanUpOpenGL
+{
+    if (gMach_bootstrap_unavailable_to_screensavers) {
+        [serverPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    }
+    childPid=0;
+    childApp = nil;
+
+    if (gMach_bootstrap_unavailable_to_screensavers ||
+            ((serverPort == MACH_PORT_NULL) && (localPort == MACH_PORT_NULL))
+            ) {
+        if (openGLView) {
+            if (NSThread.isMainThread) {
+                [openGLView removeFromSuperview];   // Releases openGLView
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [openGLView removeFromSuperview];   // Releases openGLView
+                });
+            }
+            openGLView = nil;
+        }
+
+    int i;
+    for(i = 0; i < NUM_IOSURFACE_BUFFERS; i++) {
+        if (_ioSurfaceBuffers[i]) {
+            CFRelease(_ioSurfaceBuffers[i]);
+            _ioSurfaceBuffers[i] = nil;
+        }
+
+        // if (glIsTexture(_textureNames[i])) {
+            // glDeleteTextures(1, _textureNames[i]);
+        // }
+        _textureNames[i] = 0;
+
+        if (_ioSurfaceMachPorts[i] != MACH_PORT_NULL) {
+            mach_port_deallocate(mach_task_self(), _ioSurfaceMachPorts[i]);
+            _ioSurfaceMachPorts[i] = MACH_PORT_NULL;
+        }
     }
 
-	if ((serverPort != MACH_PORT_NULL) && (localPort == MACH_PORT_NULL))
-	{
-		// Create our own local port.
-		localPort = [[NSMachPort alloc] init];
-
-		// Retrieve raw mach port names.
-		serverPortName = [serverPort machPort];
-		localPortName  = [localPort machPort];
-
-		// Register our local port with the current runloop.
-		[localPort setDelegate:self];
-		[localPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-
-		// Check in with server.
-		int kr;
-		kr = _MGCCheckinClient(serverPortName, localPortName, &clientIndex);
-		if(kr != 0)
-			[NSApp terminate:nil];
-
-        runningSharedGraphics = true;
-
-        if (childPid) {
-            gfxAppStartTime = 0.0;
-            childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+        runningSharedGraphics = false;  // Do this last!!
+        if (gMach_bootstrap_unavailable_to_screensavers) {
+            [serverPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         }
     }
 }
 
 - (void)portDied:(NSNotification *)notification
 {
+    if (gMach_bootstrap_unavailable_to_screensavers) {
+        return; // This should never be called if using MacOS 14 workaround
+    }
 	NSPort *port = [notification object];
 	if(port == serverPort) {
         childApp = nil;
         gfxAppStartTime = 0.0;
         gfxAppPath[0] = '\0';
+        gfxWuName[0] = '\0';
 
         if ([serverPort isValid]) {
             [serverPort invalidate];
@@ -1169,29 +1276,7 @@ static bool okToDraw;
 //        [localPort release];
         localPort = MACH_PORT_NULL;
 
-        int i;
-        for(i = 0; i < NUM_IOSURFACE_BUFFERS; i++) {
-            if (_ioSurfaceBuffers[i]) {
-                CFRelease(_ioSurfaceBuffers[i]);
-                _ioSurfaceBuffers[i] = nil;
-            }
-
-            // if (glIsTexture(_textureNames[i])) {
-                // glDeleteTextures(1, _textureNames[i]);
-            // }
-            _textureNames[i] = 0;
-
-            if (_ioSurfaceMachPorts[i] != MACH_PORT_NULL) {
-                mach_port_deallocate(mach_task_self(), _ioSurfaceMachPorts[i]);
-                _ioSurfaceMachPorts[i] = MACH_PORT_NULL;
-            }
-        }
-
-        if ((serverPort == MACH_PORT_NULL) && (localPort == MACH_PORT_NULL)) {
-            runningSharedGraphics = false;
-            [openGLView removeFromSuperview];   // Releases openGLView
-            openGLView = nil;
-        }
+        [ self cleanUpOpenGL ];
 	}
 }
 
@@ -1206,13 +1291,16 @@ static bool okToDraw;
 	{
 		kr = mach_msg(reply_header, MACH_SEND_MSG, reply_header->msgh_size, 0, MACH_PORT_NULL,
 			     0, MACH_PORT_NULL);
-        if(kr != 0)
+        if(kr != 0) {
 			[NSApp terminate:nil];
+        }
 	}
 }
 
 - (kern_return_t)displayFrame:(int32_t)frameIndex surfacemachport:(mach_port_t)iosurface_port
 {
+    if (!childPid) return 0;
+
 	nextFrameIndex = frameIndex;
 
 	if(!_ioSurfaceBuffers[frameIndex])
@@ -1239,11 +1327,21 @@ static bool okToDraw;
 		_textureNames[frameIndex] = [openGLView setupIOSurfaceTexture:_ioSurfaceBuffers[frameIndex]];
     }
 
-    okToDraw = true;    // Tell drawRect that we have real data to display
+    if (openGLView) {
+        okToDraw = true;    // Tell drawRect that we have real data to display
 
-	[openGLView setNeedsDisplay:YES];
-	[openGLView display];
+        [openGLView setNeedsDisplay:YES];
+        [openGLView display];
+    }
 
+    if (gMach_bootstrap_unavailable_to_screensavers && (runningSharedGraphics == false)) {
+        // We have now heard from gfx app so connection has been established
+        runningSharedGraphics = true;
+        if (childPid) {
+            gfxAppStartTime = 0.0;
+            childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+        }
+    }
 	return 0;
 }
 
@@ -1283,8 +1381,9 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
     NSOpenGLPixelFormat *pix_fmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];
 
-    if(!pix_fmt)
+    if(!pix_fmt) {
        [ NSApp terminate:nil];
+    }
 
 	self = [super initWithFrame:frame pixelFormat:pix_fmt];
 
@@ -1431,12 +1530,6 @@ static bool UseSharedOffscreenBuffer() {
     static bool needSharedGfxBuffer = false;
 
 //return true;    // FOR TESTING ONLY
-    // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
-    // IOSurfaceLookupFromMachPort. I have filed bug report FB13300491
-    // with Apple and hope they will change this in future MacOS.
-    if (gCant_Use_Shared_Offscreen_Buffer) {
-        return false;
-    }
     if (alreadyTested) {
         return needSharedGfxBuffer;
     }
