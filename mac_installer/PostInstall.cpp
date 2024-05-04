@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1678,12 +1678,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
         }
     }
 
-    // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
-    // IOSurfaceLookupFromMachPort. I have filed bug report FB13300491
-    // with Apple and hope they will change this in a future MacOS.
-    // Also as of MacOS 14.0 Sonoma, we can't set the screensaver
+    // As of MacOS 14.0 Sonoma, we can't set the screensaver
     //automatically. I have filed bug report FB13270885 about this.
-    // See a;so the comment at top of SetScreenSaverSelection().
+    // The response to my bug report is that it will be fixed in a
+    // future rlease of MacOS.
+    // See also the comment at top of SetScreenSaverSelection().
     if (compareOSVersionTo(14, 0) < 0) {
         if (! saverAlreadySetForAll) {
             if (gCommandLineInstall) {
@@ -2018,6 +2017,9 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
 // As of MacOS 14.0 Sonoma, this code no longer will detect the current screensaver,
 // and will need to be rewritten. See the comment at top of SetScreenSaverSelection().
+// It is unclear whether this will be fixed in a uture rlease of MacOS.
+// This Applescript stoll works:
+//    tell application "System Events" to set mysaver to name of current screen saver
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen) {
     char                buf[1024];
     FILE                *f;

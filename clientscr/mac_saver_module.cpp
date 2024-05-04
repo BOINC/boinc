@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -112,8 +112,8 @@ bool gIsCatalina = false;   // OS 10.15 or later
 bool gIsSonoma = false;     // OS 14.0 or later
 
 // As of MacOS 14.0, the legacyScreenSave sandbox
-// prevents using IOSurfaceLookupFromMachPort.
-bool gCant_Use_Shared_Offscreen_Buffer = false;
+// prevents using bootstrap_look_up.
+bool gMach_bootstrap_unavailable_to_screensavers = false;
 
 const char *  CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
@@ -128,7 +128,6 @@ const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrec
 const char *  RunningOnBatteryMsg = "Computing and screensaver disabled while running on battery power.";
 const char *  IncompatibleMsg = "Could not connect to screensaver ";
 const char *  CCNotRunningMsg = "BOINC is not running.";
-const char *  NoScreenSaverGraphicsThisMacOS = "BOINC can't show screensaver graphics on this version of MacOS";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
@@ -207,7 +206,7 @@ void closeBOINCSaver() {
 }
 
 
-void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
+void incompatibleGfxApp(char * appPath, char * wuName, pid_t pid, int slot){
     char *p;
     static char buf[1024];
     static double msgstartTime = 0.0;
@@ -253,8 +252,8 @@ void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
         }   // End if (msgstartTime == 0.0)
 
         if (msgstartTime && (getDTime() - msgstartTime > 5.0)) {
-            gspScreensaver->markAsIncompatible(appPath);
-            launchedGfxApp("", 0, -1);
+            gspScreensaver->markAsIncompatible(wuName);
+            launchedGfxApp("", "", 0, -1);
             msgstartTime = 0.0;
             gspScreensaver->terminate_v6_screensaver(pid);
         }
@@ -355,7 +354,6 @@ CScreensaver::CScreensaver() {
     // Get project-defined default values for GFXDefaultPeriod, GFXSciencePeriod, GFXChangePeriod
     GetDefaultDisplayPeriods(periods);
     m_bShow_default_ss_first = periods.Show_default_ss_first;
-
 
     m_fGFXDefaultPeriod = periods.GFXDefaultPeriod;
     m_fGFXSciencePeriod = periods.GFXSciencePeriod;
@@ -477,11 +475,6 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         setSSMessageText(0);   // No text message
         *theMessage = m_MessageText;
         return NOTEXTLOGOFREQUENCY;
-    }
-
-    if (gCant_Use_Shared_Offscreen_Buffer) {
-        gspScreensaver->setSSMessageText(NoScreenSaverGraphicsThisMacOS);
-        goto msgIsSet;
     }
 
     CheckDualGPUPowerSource();
@@ -654,7 +647,6 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         }
     }
 
-msgIsSet:
     if (m_MessageText[0]) {
         newFrequency = TEXTLOGOFREQUENCY;
     } else {

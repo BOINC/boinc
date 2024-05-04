@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2024 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -190,14 +190,12 @@ void HideThisApp() {
 @interface ServerController : NSObject <NSMachPortDelegate>
 {
     NSMachPort *serverPort;
-	NSMachPort *localPort;
-
-	uint32_t serverPortName;
-	uint32_t localPortName;
 
 	NSMachPort *clientPort[16];
 	uint32_t clientPortNames[16];
 	uint32_t clientPortCount;
+
+    bool mach_bootstrap_unavailable_to_screensavers;
 }
 - (ServerController *)init;
 - (kern_return_t)checkInClient:(mach_port_t)client_port index:(int32_t *)client_index;
@@ -220,30 +218,42 @@ static GLuint depthBufferName;
 
 - (ServerController *)init
 {
+    mach_port_t servicePortNum = MACH_PORT_NULL;
+    kern_return_t machErr;
+    char *portNameV1 = "edu.berkeley.boincsaver";
+    char *portNameV2 = "edu.berkeley.boincsaver-v2";
+
+    mach_bootstrap_unavailable_to_screensavers = false;
+
+// NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_look_up
+//	serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] portForName:@"edu.berkeley.boincsaver"]) retain];
+	machErr = bootstrap_look_up(bootstrap_port, portNameV2, &servicePortNum);
+    if (machErr == KERN_SUCCESS) {
+        // As of MacOS 14.0, the legacyScreenSave sandbox prevents using
+        // bootstrap_look_up. I have filed bug report FB13300491 with
+        // Apple and hope they will change this in a future MacOS.
+        mach_bootstrap_unavailable_to_screensavers = true;
+
+        int32_t dummy_index;
+        [self checkInClient:servicePortNum index:&dummy_index];
+    } else {
+// NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_check_in
+//	    serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] servicePortWithName:@"edu.berkeley.boincsaver"]) retain];
+        machErr = bootstrap_check_in(bootstrap_port, portNameV1, &servicePortNum);
+        if (machErr != KERN_SUCCESS) {  // maybe BOOTSTRAP_UNKNOWN_SERVICE
+            [NSApp terminate:self];
+        }
+    }
+
+    serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 	    selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
 
-    mach_port_t servicePortNum = MACH_PORT_NULL;
-    kern_return_t machErr;
-    char *portName = "edu.berkeley.boincsaver";
-
-// NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_look_up
-//	serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] servicePortWithName:@"edu.berkeley.boincsaver"]) retain];
-    machErr = bootstrap_check_in(bootstrap_port, portName, &servicePortNum);
-    if (machErr != KERN_SUCCESS) {
-        		[NSApp terminate:self];
+    if (!mach_bootstrap_unavailable_to_screensavers) {
+        // Register server port with the current runloop.
+        [serverPort setDelegate:self];  // CAF STD
+        [serverPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes]; // CAF STD
     }
-    serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
-
-	// Create a local dummy reply port to use with the mig reply stuff
-	localPort = [[NSMachPort alloc] init];
-
-	// Retrieve raw mach port names.
-	serverPortName = [serverPort machPort];
-	localPortName  = [localPort machPort];
-
-	[serverPort setDelegate:self];
-	[serverPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 
     // NOT USED: See comments in animateOneFrame in Mac_Saver_ModuleView.m
 #if 0
