@@ -220,8 +220,8 @@
         <home>Rensselaer Polytechnic Institute</home>
     <platforms>
         <name>windows_x86_64[mt]</name>
-        <name>windows_x86_64</name>
         <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>windows_x86_64</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
@@ -327,11 +327,9 @@
         <name>x86_64-pc-freebsd[sse2]</name>
         <name>i686-pc-linux-gnu[sse2]</name>
         <name>aarch64-android-linux-gnu</name>
-        <name>windows_x86_64[vbox64]</name>
         <name>windows_x86_64[vbox64_mt_mcore_cms]</name>
-        <name>x86_64-pc-linux-gnu[vbox64]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
-        <name>x86_64-apple-darwin[vbox64]</name>
+        <name>x86_64-apple-darwin[vbox64_mt_mcore_cms]</name>
         <name>windows_x86_64[vbox64_theory]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
         <name>x86_64-pc-linux-gnu[native_theory]</name>
