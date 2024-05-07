@@ -5,7 +5,7 @@
 
 ### Get Connected
 Want to connect with contributors?
-* Join us on [Slack](https://join.slack.com/t/boincworkspace/shared_invite/enQtNzA3MTQ4NDA0Njc4LTM4NTEyZTY1MWEwZjAyNTVmOTg3NDA2NjVjZDQzMWQ3NmFjYTc4MTNkNTEyNjRkOTQ4MWU5Nzk3NzRhNTg0NDI)
+* Join us on [Discord](https://discord.gg/wPRafUq)
 * Join the email lists:
   * [BOINC Overall](https://groups.google.com/forum/#!forum/boinc_admin)
   * [BOINC Projects](https://groups.google.com/a/ssl.berkeley.edu/forum/#!forum/boinc_projects)
@@ -16,7 +16,7 @@ Want to connect with contributors?
   * The BOINC Contributor call occurs every other week and is announced on the [BOINC Development email list](https://groups.google.com/a/ssl.berkeley.edu/forum/#!forum/boinc_dev)
 
 ### Promote Volunteer Computing
-Want to help promote volunteer computing and work on ways to attract new users? Join the #communications channel on [Slack](https://join.slack.com/t/boincworkspace/shared_invite/enQtNzA3MTQ4NDA0Njc4LTM4NTEyZTY1MWEwZjAyNTVmOTg3NDA2NjVjZDQzMWQ3NmFjYTc4MTNkNTEyNjRkOTQ4MWU5Nzk3NzRhNTg0NDI)
+Want to help promote volunteer computing and work on ways to attract new users? Join the #general channel on [Discord](https://discord.gg/wPRafUq)
 
 ### Help Translate
 See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
