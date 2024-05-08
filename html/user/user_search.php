@@ -20,7 +20,6 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
-if (!function_exists('show_user')) {
 function show_user($user) {
     $x = [];
     $y = [];
@@ -53,7 +52,6 @@ function show_user($user) {
     $y[] = null;
     $y[] = null;
     row_array($x, $y);
-}
 }
 
 function user_search_form() {

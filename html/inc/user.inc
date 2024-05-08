@@ -361,13 +361,26 @@ function user_links($user, $badge_height=0, $name_limit=0) {
     $x = "";
     if ($user->has_profile) {
         $img_url = url_base()."img/head_20.png";
-        $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
+        $x .= sprintf(
+            ' <a href="%s%s?userid=%d"><img title="View the profile of %s" src="%s" alt="Profile"></a>',
+            url_base(),
+            'view_profile.php',
+            $user->id,
+            $user->name,
+            $img_url
+        );
     }
     $name = $user->name;
     if ($name_limit && strlen($name) > $name_limit) {
         $name = substr($name, 0, $name_limit)."...";
     }
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$name."</a>";
+    $x .= sprintf(
+        '<a href="%s%s?userid=%d">%s</a>',
+        url_base(),
+        defined('SHOW_USER_FILENAME')?SHOW_USER_FILENAME:'show_user.php',
+        $user->id,
+        $name
+    );
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }
