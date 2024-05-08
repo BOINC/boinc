@@ -90,6 +90,10 @@ function is_valid_user_name($name, &$reason) {
         $reason = tra("user name may not contain HTML tags");
         return false;
     }
+    if (is_numeric($name)) {
+        $reason = tra("user name may not be a number");
+        return false;
+    }
     return true;
 }
 
@@ -227,6 +231,23 @@ function validate_post_make_user() {
     $new_name = post_str("new_name");
     if (!is_valid_user_name($new_name, $reason)) {
         show_error($reason);
+    }
+    if (UNIQUE_USER_NAME) {
+        $u = BoincUser::lookup_name($new_name);
+        if ($u) {
+            page_head("That name is in use");
+            echo "<p>The following user names are taken;
+                please go back and use a different one.<p>
+            ";
+            $users = BoincUser::enum(
+                sprintf("name like '%s%%'", $new_name)
+            );
+            foreach ($users as $u){
+                echo "<p>$u->name\n";
+            }
+            page_tail();
+            exit;
+        }
     }
 
     $new_email_addr = strtolower(post_str("new_email_addr"));

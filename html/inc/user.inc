@@ -286,7 +286,9 @@ function show_user_info_private($user) {
             .$delete_account_str
         );
     }
-    row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
+    if (!UNIQUE_USER_NAME) {
+        row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
+    }
     if (!NO_COMPUTING) {
         row2(
             tra("Account keys"),
@@ -459,7 +461,9 @@ function show_community_private($user) {
 //
 function show_user_summary_public($user) {
     global $g_logged_in_user;
-    row2(tra("User ID"), $user->id);
+    if (!UNIQUE_USER_NAME) {
+        row2(tra("User ID"), $user->id);
+    }
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     if (USER_COUNTRY) {
         row2(tra("Country"), $user->country);

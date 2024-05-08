@@ -103,6 +103,9 @@ if (!defined('DARK_MODE')) {
 if (!defined('VALIDATE_EMAIL_TO_POST')) {
     define('VALIDATE_EMAIL_TO_POST', false);
 }
+if (!defined('UNIQUE_USER_NAME')) {
+    define('UNIQUE_USER_NAME', false);
+}
 
 // don't allow anything between .php and ? in URL
 //

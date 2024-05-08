@@ -154,7 +154,13 @@ function pm_form($replyto, $userid, $error = null) {
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo form_tokens($g_logged_in_user->authenticator);
     start_table();
-    row2(tra("To")."<br /><small>".tra("User IDs or unique usernames, separated with commas")."</small>",
+    row2(
+        sprintf('%s <br><small>%s</small>',
+            tra("To"),
+            UNIQUE_USER_NAME
+                ?tra('User names, separated with commas')
+                :tra("User IDs or unique usernames, separated with commas")
+        ),
         "<input type=\"text\" class=\"form-control\" name=\"to\" value=\"$writeto\">",
         null, '20%'
     );

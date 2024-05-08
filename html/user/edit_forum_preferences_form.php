@@ -134,8 +134,10 @@ row2(tra("How to sort"),
 
 // ------------ Message filtering  -----------
 
-row1(tra("Message filtering"));
+row1(tra("Message blocking"));
 
+// get list of blocked users
+//
 $filtered_userlist = get_ignored_list($user);
 $forum_filtered_userlist = "";
 for ($i=0; $i<sizeof($filtered_userlist); $i++){
@@ -146,16 +148,39 @@ for ($i=0; $i<sizeof($filtered_userlist); $i++){
             echo "Missing user $id";
             continue;
         }
-        $forum_filtered_userlist .= "<input class=\"btn btn-default\" type=\"submit\" name=\"remove".$filtered_user->id."\" value=\"".tra("Remove")."\"> ".$filtered_user->id." - ".user_links($filtered_user)."<br>";
+        $forum_filtered_userlist .= sprintf(
+            '
+                %s %s
+                <input class="btn btn-default" type="submit" name="remove%d" value="%s">
+                <br>
+            ',
+            UNIQUE_USER_NAME?'':"$filtered_user->id -",
+            user_links($filtered_user),
+            $filtered_user->id,
+            tra("Unblock")
+        );
     }
 }
 
-row2(tra("Filtered users").
-    "<br><p class=\"text-muted\">".tra("Ignore message board posts and private messages from these users.")."</p>",
-    "$forum_filtered_userlist
-        <input type=\"text\" name=\"forum_filter_user\" size=12> ".tra("User ID (For instance: 123456789)")."
-        <p></p><input class=\"btn btn-default\" type=\"submit\" name=\"add_user_to_filter\" value=\"".tra("Add user to filter")."\">
-    "
+row2(
+    sprintf(
+        '%s<br><p class="text-muted">%s</p>',
+        tra("Blocked users"),
+        tra('Ignore message board posts and private messages from these users.')
+    ),
+    $forum_filtered_userlist
+);
+row2(
+    tra('Block user'),
+    sprintf(
+        '
+            %s
+            <input type="text" name="forum_filter_user" size=12>
+            <input class="btn btn-default" type="submit" name="add_user_to_filter" value="%s">
+        ',
+        UNIQUE_USER_NAME?tra('User name'):tra('User ID (For instance: 123456789)'),
+        tra("Block")
+    )
 );
 
 row1(tra("Update"));

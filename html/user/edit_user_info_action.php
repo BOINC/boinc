@@ -35,6 +35,11 @@ if (strlen($name) == 0) {
 }
 $name = BoincDb::escape_string($name);
 
+$u = BoincUser::lookup(sprintf("name='%s'", $name));
+if ($u) {
+    error_page('That name is in use - go back and try another.');
+}
+
 $url = "";
 $country = "";
 $postal_code = "";

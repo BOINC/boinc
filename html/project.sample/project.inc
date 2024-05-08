@@ -47,6 +47,7 @@ display_errors();
 
 //-------------- enable/disable web features
 
+define('UNIQUE_USER_NAME', true);
 define("FORUM_QA_MERGED_MODE", true);
     // Set to true to merge Message boards and Q&A section
 define ("DISABLE_PROFILES", true);
