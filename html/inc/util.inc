@@ -553,10 +553,13 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row_array($x) {
+function row_array($x, $attrs) {
     echo "<tr>\n";
+    $i = 0;
     foreach ($x as $h) {
-        echo "<td>$h</td>\n";
+        $a = $attrs?$attrs[$i]:"";
+        echo "<td $a>$h</td>\n";
+        $i++;
     }
     echo "</tr>\n";
 }

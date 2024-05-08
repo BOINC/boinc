@@ -20,32 +20,40 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
+if (!function_exists('show_user')) {
 function show_user($user) {
-    echo sprintf('<tr><td>%s%s</td>',
+    $x = [];
+    $y = [];
+    $x[] = sprintf('%s%s',
         user_links($user, BADGE_HEIGHT_MEDIUM),
         UNIQUE_USER_NAME?'':" (ID $user->id)"
     );
+    $y[] = null;
     if (!DISABLE_TEAMS) {
         if ($user->teamid) {
             $team = BoincTeam::lookup_id($user->teamid);
-            echo "
-                <td> <a href=team_display.php?teamid=$team->id>$team->name</a> </td>
-            ";
+            $x[] = sprintf(
+                '<a href=team_display.php?teamid=%d>%s</a>',
+                $team->id,
+                $team->name
+            );
         } else {
-            echo "<td><br></td>";
+            $x[] = '';
         }
+        $y[] = null;
     }
     if (!NO_COMPUTING) {
-        echo "
-            <td align=right>", format_credit($user->expavg_credit), "</td>
-            <td align=right>", format_credit_large($user->total_credit), "</td>
-        ";
+        $x[] = format_credit($user->expavg_credit);
+        $y[] = ALIGN_RIGHT;
+        $x[] = format_credit_large($user->total_credit);
+        $y[] = ALIGN_RIGHT;
     }
-    echo "
-        <td>", $user->country, "</td>
-        <td>", time_str($user->create_time),"</td>
-        </tr>
-    ";
+    $x[] = $user->country;
+    $x[] = time_str($user->create_time);
+    $y[] = null;
+    $y[] = null;
+    row_array($x, $y);
+}
 }
 
 function user_search_form() {
