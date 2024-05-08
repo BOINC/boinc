@@ -1593,7 +1593,7 @@ int HOST_INFO::get_docker_compose_info(){
 
     if (!(strstr(docker_compose_version, "v1"))){
         if (!(strstr(docker_compose_version, "v2"))){
-            safe_strcat(docker_compose_version, "not_used")
+            safe_strcat(docker_compose_version, "not_used");
         }
     }
 

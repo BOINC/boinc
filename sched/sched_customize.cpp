@@ -874,7 +874,7 @@ static inline bool app_plan_opencl(
 // use 1 or 2 CPUs
 
 
-//plan class for Docker jobs 
+//plan class for Docker jobs
 //
 static inline bool app_plan_docker(
     SCHEDULER_REQUEST& sreq, char* plan_class
