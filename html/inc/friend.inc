@@ -36,9 +36,13 @@ function friend_notify_accept_email_line($notify) {
 function friend_notify_req_web_line($notify) {
     $user = BoincUser::lookup_id($notify->opaque);
     if (!$user) return null;
-    return "
-        <a href=friend.php?action=query&userid=$notify->opaque>Friendship request</a> from <a href=show_user.php?userid=$user->id>$user->name</a>
-    ";
+    return sprintf(
+        '<a href=friend.php?action=query&userid=%d>Friendship request</a> from <a href=%s?userid=%d>%s</a>',
+        $notify->opaque,
+        defined('SHOW_USER_FILENAME')?SHOW_USER_FILENAME:'show_user.php',
+        $user->id,
+        $user->name
+    );
 }
 
 function friend_notify_accept_web_line($notify) {

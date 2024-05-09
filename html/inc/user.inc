@@ -341,7 +341,13 @@ function friend_links($user) {
         $alt = tra("Profile");
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
     }
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $x .= sprintf(
+        '<a href="%s%s?userid=%d">%s</a>',
+        url_base(),
+        defined('SHOW_USER_FILENAME')?SHOW_USER_FILENAME:'show_user.php',
+        $user->id,
+        $user->name
+    );
     if (function_exists("project_user_links")) {
         $x .= project_user_links($user);
     }
