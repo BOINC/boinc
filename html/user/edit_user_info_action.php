@@ -36,7 +36,7 @@ if (strlen($name) == 0) {
 $name = BoincDb::escape_string($name);
 
 $u = BoincUser::lookup(sprintf("name='%s'", $name));
-if ($u) {
+if ($u && ($u->id != $user->id)) {
     error_page('That name is in use - go back and try another.');
 }
 
