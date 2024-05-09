@@ -113,8 +113,8 @@ function pm_form($replyto, $userid, $error = null) {
         );
     }
 
-    $subject = null;
-    $content = null;
+    $subject = '';
+    $content = '';
     if ($replyto) {
         $message = BoincPrivateMessage::lookup_id($replyto);
         if (!$message || $message->userid != $g_logged_in_user->id) {
@@ -126,7 +126,7 @@ function pm_form($replyto, $userid, $error = null) {
         if (!$user) {
             error_page("Sender no longer exists");
         }
-        $writeto = $userid." (".$user->name.")";
+        $writeto = UNIQUE_USER_NAME?$user->name:$userid." (".$user->name.")";
         $subject = $message->subject;
         if (substr($subject, 0, 3) != "re:") {
             $subject = "re: ".$subject;
@@ -136,7 +136,7 @@ function pm_form($replyto, $userid, $error = null) {
         if (!$user) {
             error_page("Sender no longer exists");
         }
-        $writeto = $userid." (".$user->name.")";
+        $writeto = UNIQUE_USER_NAME?$user->name:$userid." (".$user->name.")";
     } else {
         $writeto = sanitize_tags(post_str("to", true));
         $subject = post_str("subject", true);
