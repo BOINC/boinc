@@ -66,7 +66,7 @@ $result = $user->update(
     "name='$name', url='$url', country='$country', postal_code='$postal_code'"
 );
 if ($result) {
-    Header("Location: ".USER_HOME);
+    Header("Location: ".HOME_PAGE);
 } else {
     error_page(tra("Couldn't update user info."));
 }

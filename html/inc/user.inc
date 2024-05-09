@@ -325,11 +325,20 @@ function show_preference_links() {
     }
 }
 
+// return describing a friend: their name, and profile picture if it exists
+//
 function friend_links($user) {
     if (is_banished($user)) {
         return "";
     }
-    $x = "<table height=\"100\" width=\"150\" border=\"0\" cellpadding=\"4\"><tr><td class=\"friend\">";
+    $x = sprintf(
+        '<a href="%s%s?userid=%d" style="%s">%s</a>',
+        url_base(),
+        SHOW_USER_PAGE,
+        $user->id,
+        'vertical-align:top',
+        $user->name
+    );
     if ($user->has_profile) {
         $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
         if ($profile && $profile->has_picture) {
@@ -337,21 +346,20 @@ function friend_links($user) {
         } else {
             $img_url = url_base()."img/head_20.png";
         }
-        $title = tra("View the profile of %1", $user->name);
         $alt = tra("Profile");
-        $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
+        $x .= sprintf(
+            '<a href="%sview_profile.php?userid=%d"><img title="%s" src="%s" alt="%s"></a><br>',
+            url_base(),
+            $user->id,
+            tra("View the profile of %1", $user->name),
+            $img_url,
+            tra("Profile")
+        );
     }
-    $x .= sprintf(
-        '<a href="%s%s?userid=%d">%s</a>',
-        url_base(),
-        defined('SHOW_USER_FILENAME')?SHOW_USER_FILENAME:'show_user.php',
-        $user->id,
-        $user->name
-    );
     if (function_exists("project_user_links")) {
         $x .= project_user_links($user);
     }
-    $x .= "</td></tr></table>\n";
+    $x .= '</div>';
     return $x;
 }
 
@@ -383,7 +391,7 @@ function user_links($user, $badge_height=0, $name_limit=0) {
     $x .= sprintf(
         '<a href="%s%s?userid=%d">%s</a>',
         url_base(),
-        defined('SHOW_USER_FILENAME')?SHOW_USER_FILENAME:'show_user.php',
+        SHOW_USER_PAGE,
         $user->id,
         $name
     );
@@ -462,17 +470,16 @@ function show_community_private($user) {
     }
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $x = "<a href=\"user_search.php\">".tra("Find friends")."</a><br/>\n";
-    $n = count($friends);
-    if ($n) {
+    $x = '';
+    if ($friends) {
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
             if (!$fuser) continue;
             $x .= friend_links($fuser);
         }
-        row2(tra("Friends")." ($n)", $x);
-    } else {
         row2(tra("Friends"), $x);
+    } else {
+        row2(tra("Friends"), '---');
     }
 }
 
@@ -528,6 +535,8 @@ function get_community_links_object($user){
     return $cache_object;
 }
 
+// show community links of another user (described by $clo)
+//
 function community_links($clo, $logged_in_user){
     $user = $clo->user;
     $team = $clo->team;
@@ -561,11 +570,11 @@ function community_links($clo, $logged_in_user){
     }
 
     if ($friends) {
-        $x = "";
+        $x = '';
         foreach($friends as $friend) {
             $x .= friend_links($friend);
         }
-        row2(tra("Friends")." (".sizeof($friends).")", $x);
+        row2(tra('Friends'), $x);
     }
 }
 

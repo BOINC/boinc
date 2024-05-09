@@ -120,7 +120,7 @@ case "finalize_transfer":
         $team->update("userid=$user->id, ping_user=0, ping_time=0");
         echo tra("Congratulations, you are now the founder of team %1. Go to %2 Your Account page %3 to find the Team Admin options.",
             $team->name,
-            sprintf('<a href="%s%s">', secure_url_base(), USER_HOME),
+            sprintf('<a href="%s%s">', secure_url_base(), HOME_PAGE),
             "</a>"
         );
     } else {

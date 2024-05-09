@@ -91,9 +91,21 @@ if (!defined('NO_STATS')) {
 if (!defined('NO_GLOBAL_PREFS')) {
     define('NO_GLOBAL_PREFS', false);
 }
-if (!defined('USER_HOME')) {
-    define('USER_HOME', 'home.php');
+
+// the 'home page' of the logged-in user.
+// go here after login, account creation, team operations, etc.
+//
+if (!defined('HOME_PAGE')) {
+    define('HOME_PAGE', 'home.php');
 }
+
+// the page showing another user.
+// Link to here wherever we show a user name.
+//
+if (!defined('SHOW_USER_PAGE')) {
+    define('SHOW_USER_PAGE', 'show_user.php');
+}
+
 if (!defined('POST_MAX_LINKS')) {
     define('POST_MAX_LINKS', 0);
 }
