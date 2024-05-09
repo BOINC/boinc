@@ -553,7 +553,7 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row_array($x, $attrs) {
+function row_array($x, $attrs=null) {
     echo "<tr>\n";
     $i = 0;
     foreach ($x as $h) {
