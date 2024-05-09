@@ -28,6 +28,7 @@ function pm_header() {
 }
 
 function pm_rules() {
+    if (defined(PM_RULES)) return PM_RULES;
     $x = "<table><tr><td align=left><small>";
     $x .= tra("
         <ul>

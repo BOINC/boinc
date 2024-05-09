@@ -809,6 +809,7 @@ function check_banished($user) {
 }
 
 function post_rules() {
+    if (defined(FORUM_RULES)) return FORUM_RULES;
     if (function_exists("project_forum_post_rules")) {
       $project_rules=project_forum_post_rules();
     } else {
