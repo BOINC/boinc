@@ -82,15 +82,26 @@ $signature_by_default = $user->prefs->no_signature_by_default==false?"checked=\"
 
 $signature=$user->prefs->signature;
 $maxlen=250;
+$x = '';
+if (!NO_COMPUTING) {
+    $x = tra(
+        "Check out %1 various free services %2 <br> providing dynamic 'signature images' <br> showing your latest credit info, project news, etc.",
+        '<a href=https://github.com/BOINC/boinc/wiki/WebResources>',
+        '</a>'
+    );
+}
 row2(
-    tra("Signature for message board posts")
-    .bbcode_info()
-    ."<br><br>"
-    .tra("Check out %1 various free services %2
-<br> providing dynamic 'signature images'
-<br> showing your latest credit info, project news, etc.", "<a href=https://boinc.berkeley.edu/links.php#sigs>", "</a>"),
-    textarea_with_counter("signature", 250, $signature)
-    ."<br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
+    sprintf(
+        'Signature for message board posts%s<br><br>%s',
+        bbcode_info(),
+        $x
+    ),
+    sprintf(
+        '%s <br><input type="checkbox" name="signature_by_default" %s> %s',
+        textarea_with_counter("signature", 250, $signature),
+        $signature_by_default,
+        tra("Attach signature by default")
+    )
 );
 if ($user->prefs->signature!=""){
     row2(tra("Signature preview").
@@ -138,25 +149,24 @@ row1(tra("Message blocking"));
 
 // get list of blocked users
 //
-$filtered_userlist = get_ignored_list($user);
-$forum_filtered_userlist = "";
-for ($i=0; $i<sizeof($filtered_userlist); $i++){
-    $id = (int)$filtered_userlist[$i];
+$blocked_users = get_ignored_list($user);
+$blocked_str = "";
+foreach ($blocked_users as $id) {
     if ($id) {
-        $filtered_user = BoincUser::lookup_id($id);
-        if (!$filtered_user) {
+        $blocked_user = BoincUser::lookup_id((int)$id);
+        if (!$blocked) {
             echo "Missing user $id";
             continue;
         }
-        $forum_filtered_userlist .= sprintf(
+        $blocked_str .= sprintf(
             '
                 %s %s
                 <input class="btn btn-default" type="submit" name="remove%d" value="%s">
                 <br>
             ',
-            UNIQUE_USER_NAME?'':"$filtered_user->id -",
-            user_links($filtered_user),
-            $filtered_user->id,
+            UNIQUE_USER_NAME?'':"$blocked_user->id -",
+            user_links($blocked_user),
+            $blocked_user->id,
             tra("Unblock")
         );
     }
@@ -168,7 +178,7 @@ row2(
         tra("Blocked users"),
         tra('Ignore message board posts and private messages from these users.')
     ),
-    $forum_filtered_userlist
+    $blocked_str?$blocked_str:'---'
 );
 row2(
     tra('Block user'),
@@ -184,7 +194,10 @@ row2(
 );
 
 row1(tra("Update"));
-row2(tra("Click here to update preferences"), "<input class=\"btn btn-success\" type=submit value=\"".tra("Update")."\">");
+row2(
+    tra("Click here to update preferences"),
+    "<input class=\"btn btn-success\" type=submit value=\"".tra("Update")."\">"
+);
 echo "</form>\n";
 row1(tra("Reset"));
 row2(tra("Or click here to reset preferences to the defaults"),
