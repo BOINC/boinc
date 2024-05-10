@@ -31,6 +31,7 @@ function show_text_more($text, $nchars) {
 //
 function show_text_more_aux($text, $nchars) {
     static $count = 0;
+    if (!$text) return '';
 
     $n = strlen($text);
     if ($n < $nchars) {
