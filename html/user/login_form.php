@@ -58,9 +58,9 @@ $config = get_config();
 if (!parse_bool($config, "disable_account_creation")
     && !parse_bool($config, "no_web_account_creation")
 ) {
-    echo tra("or %1 create an account %2.",
-        "<a href=\"create_account_form.php?next_url=$next_url\">",
-        "</a>"
+    show_button(
+        "create_account_form.php?next_url=$next_url",
+        tra("Create account")
     );
 }
 
