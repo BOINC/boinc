@@ -401,17 +401,17 @@
         <description><![CDATA[NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.]]></description>
         <home>Arizona State University, school of Mathematics</home>
     <platforms>
-        <name>i686-pc-linux-gnu[default]</name>
         <name>windows_intelx86[default]</name>
         <name>windows_x86_64[default]</name>
         <name>windows_x86_64[opencl_amd]</name>
         <name>windows_x86_64[opencl_intel_gpu]</name>
         <name>windows_x86_64[opencl_nvidia]</name>
-        <name>x86_64-apple-darwin[default]</name>
-        <name>x86_64-pc-linux-gnu[cuda30]</name>
+        <name>i686-pc-linux-gnu[default]</name>
         <name>x86_64-pc-linux-gnu[default]</name>
+        <name>x86_64-pc-linux-gnu[cuda30]</name>
         <name>x86_64-pc-linux-gnu[opencl_amd]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
+        <name>x86_64-apple-darwin[default]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/nf_banner_10.jpg</image>
       <summary>Do research in algebraic number theory</summary>
@@ -1006,13 +1006,6 @@
         <url>https://bam.boincstats.com/</url>
         <description>BAM! lets you create and manage BOINC project accounts, set preferences, join or create teams, connect your computers to projects, and much more.</description>
         <image>https://boinc.berkeley.edu/images/BAM.png</image>
-    </account_manager>
-   <account_manager>
-        <name>Gridrepublic</name>
-        <id>36</id>
-        <url>https://www.gridrepublic.org/</url>
-        <description>Gridrepublic lets you connect your computer to multiple projects, set preferences, and view your credit history.</description>
-        <image>https://boinc.berkeley.edu/images/logo_gridrepublic_vc.gif</image>
     </account_manager>
    <account_manager>
         <name>Science United</name>
