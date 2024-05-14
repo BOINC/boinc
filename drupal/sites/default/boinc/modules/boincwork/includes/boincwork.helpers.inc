@@ -1998,8 +1998,10 @@ function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
       return "Anonymous platform NVIDIA GPU";
     case ANON_PLATFORM_ATI:
       return "Anonymous platform AMD GPU";
-    case ANON_PLATFORM_INTEL:
+    case ANON_PLATFORM_INTEL_GPU:
       return "Anonymous platform Intel GPU";
+    case ANON_PLATFORM_APPLE_GPU:
+      return "Anonymous platform Apple GPU";
     case 0:
       return "---";
     default:
