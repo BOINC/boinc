@@ -91,9 +91,21 @@ if (!defined('NO_STATS')) {
 if (!defined('NO_GLOBAL_PREFS')) {
     define('NO_GLOBAL_PREFS', false);
 }
-if (!defined('USER_HOME')) {
-    define('USER_HOME', 'home.php');
+
+// the 'home page' of the logged-in user.
+// go here after login, account creation, team operations, etc.
+//
+if (!defined('HOME_PAGE')) {
+    define('HOME_PAGE', 'home.php');
 }
+
+// the page showing another user.
+// Link to here wherever we show a user name.
+//
+if (!defined('SHOW_USER_PAGE')) {
+    define('SHOW_USER_PAGE', 'show_user.php');
+}
+
 if (!defined('POST_MAX_LINKS')) {
     define('POST_MAX_LINKS', 0);
 }
@@ -102,6 +114,9 @@ if (!defined('DARK_MODE')) {
 }
 if (!defined('VALIDATE_EMAIL_TO_POST')) {
     define('VALIDATE_EMAIL_TO_POST', false);
+}
+if (!defined('UNIQUE_USER_NAME')) {
+    define('UNIQUE_USER_NAME', false);
 }
 
 // don't allow anything between .php and ? in URL
@@ -550,10 +565,13 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row_array($x) {
+function row_array($x, $attrs=null) {
     echo "<tr>\n";
+    $i = 0;
     foreach ($x as $h) {
-        echo "<td>$h</td>\n";
+        $a = $attrs?$attrs[$i]:"";
+        echo "<td $a>$h</td>\n";
+        $i++;
     }
     echo "</tr>\n";
 }

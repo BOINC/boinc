@@ -210,7 +210,7 @@ if ($submit || $xml) {
     if (isset($_COOKIE['init'])) {
         echo "<p>
             ".tra("%1 I'm not interested %2 in joining a team right now.",
-                sprintf('<a href="%s">', USER_HOME),
+                sprintf('<a href="%s">', HOME_PAGE),
                 "</a>"
             );
     }

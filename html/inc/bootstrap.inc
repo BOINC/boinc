@@ -81,7 +81,7 @@ function navbar_right($user) {
         if ($user) {
             echo sprintf('
                 <li><a href=%s%s>%s</a></li>
-                ', url_base(), USER_HOME, $user->name
+                ', url_base(), HOME_PAGE, $user->name
             );
             $url_tokens = url_tokens($user->authenticator);
             echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
@@ -156,7 +156,7 @@ function sample_navbar(
 
     $x = array();
     if ($user) {
-        $x[] = array(tra("Account"), $url_prefix.USER_HOME);
+        $x[] = array(tra("Account"), $url_prefix.HOME_PAGE);
         $x[] = array(tra("Join"), $url_prefix."join.php");
         $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }

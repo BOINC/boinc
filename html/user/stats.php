@@ -57,7 +57,7 @@ echo tra("You can also get your current statistics in the form of a \"signature 
 shuffle($sig_sites);
 site_list($sig_sites);
 echo tra("Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1 home page %2.",
-    sprintf('<a href="%s">', USER_HOME), "</a>"
+    sprintf('<a href="%s">', HOME_PAGE), "</a>"
 );
 
 echo "</td></tr>";

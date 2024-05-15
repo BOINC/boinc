@@ -257,7 +257,17 @@ function do_send($logged_in_user) {
         }
         BoincForumPrefs::lookup($user);
         if (is_ignoring($user, $logged_in_user)) {
-            pm_form($replyto, $userid, tra("User %1 (ID: %2) is not accepting private messages from you.", $user->name, $user->id));
+            pm_form(
+                $replyto, $userid,
+                UNIQUE_USER_NAME
+                ?tra("User %1 is not accepting private messages from you.",
+                    $user->name
+                )
+                :tra("User %1 (ID: %2) is not accepting private messages from you.",
+                    $user->name,
+                    $user->id
+                )
+            );
         }
         if (!isset($userids[$user->id])) {
             $userlist[] = $user;
