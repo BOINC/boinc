@@ -121,13 +121,11 @@
         <description><![CDATA[The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.]]></description>
         <home>Charles University in Prague</home>
     <platforms>
+        <name>aarch64-android-linux-gnu</name>
         <name>aarch64-unknown-linux-gnu</name>
-        <name>arm-android-linux-gnu[arm_android_non_pie]</name>
-        <name>arm-android-linux-gnu[arm_android_pie]</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm64-apple-darwin[arm64_macos_1100]</name>
         <name>armv6l-unknown-linux-gnueabihf</name>
-        <name>i686-apple-darwin[sse3_macos_1007]</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[avx_linux]</name>
         <name>i686-pc-linux-gnu[fma_linux]</name>
@@ -146,43 +144,26 @@
         <name>windows_intelx86[sse3_win10]</name>
         <name>windows_intelx86[sse3_win7]</name>
         <name>windows_intelx86[sse3_winxp]</name>
-        <name>windows_x86_64[avx512_win10]</name>
-        <name>windows_x86_64[avx_win10]</name>
         <name>windows_x86_64[avx_win7]</name>
         <name>windows_x86_64[avx_winxp]</name>
         <name>windows_x86_64[cuda102_win10]</name>
         <name>windows_x86_64[cuda102_win7]</name>
         <name>windows_x86_64[cuda118_win10]</name>
         <name>windows_x86_64[cuda55]</name>
-        <name>windows_x86_64[fma_win10]</name>
         <name>windows_x86_64[fma_win7]</name>
         <name>windows_x86_64[opencl_102_amd_win]</name>
-        <name>windows_x86_64[sse2_win10]</name>
         <name>windows_x86_64[sse2_win7]</name>
         <name>windows_x86_64[sse2_winxp]</name>
-        <name>windows_x86_64[sse3_win10]</name>
         <name>windows_x86_64[sse3_win7]</name>
         <name>windows_x86_64[sse3_winxp]</name>
-        <name>x86_64-apple-darwin[avx512_macos_1014]</name>
-        <name>x86_64-apple-darwin[avx_macos_1014]</name>
-        <name>x86_64-apple-darwin[fma_macos_1014]</name>
-        <name>x86_64-apple-darwin[sse3_macos_1007]</name>
-        <name>x86_64-apple-darwin[sse3_macos_1014]</name>
-        <name>x86_64-pc-freebsd[avx512_freebsd_1302]</name>
-        <name>x86_64-pc-freebsd[avx_freebsd_1302]</name>
-        <name>x86_64-pc-freebsd[fma_freebsd_1302]</name>
-        <name>x86_64-pc-freebsd[freebsd]</name>
+        <name>windows_x86_64[win10]</name>
+        <name>x86_64-apple-darwin[macos_1014]</name>
         <name>x86_64-pc-freebsd[freebsd_1302]</name>
-        <name>x86_64-pc-freebsd[sse3_freebsd_1302]</name>
-        <name>x86_64-pc-linux-gnu[avx512_linux]</name>
-        <name>x86_64-pc-linux-gnu[avx_linux]</name>
+        <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda102_linux]</name>
         <name>x86_64-pc-linux-gnu[cuda118_linux]</name>
         <name>x86_64-pc-linux-gnu[cuda55]</name>
-        <name>x86_64-pc-linux-gnu[fma_linux]</name>
         <name>x86_64-pc-linux-gnu[opencl_101_amd_linux]</name>
-        <name>x86_64-pc-linux-gnu[sse2_linux]</name>
-        <name>x86_64-pc-linux-gnu[sse3_linux]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/asteroids_logo.jpg</image>
       <summary>Study the properties of asteroids</summary>
@@ -401,17 +382,17 @@
         <description><![CDATA[NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.]]></description>
         <home>Arizona State University, school of Mathematics</home>
     <platforms>
+        <name>i686-pc-linux-gnu[default]</name>
         <name>windows_intelx86[default]</name>
         <name>windows_x86_64[default]</name>
         <name>windows_x86_64[opencl_amd]</name>
         <name>windows_x86_64[opencl_intel_gpu]</name>
         <name>windows_x86_64[opencl_nvidia]</name>
-        <name>i686-pc-linux-gnu[default]</name>
-        <name>x86_64-pc-linux-gnu[default]</name>
+        <name>x86_64-apple-darwin[default]</name>
         <name>x86_64-pc-linux-gnu[cuda30]</name>
+        <name>x86_64-pc-linux-gnu[default]</name>
         <name>x86_64-pc-linux-gnu[opencl_amd]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
-        <name>x86_64-apple-darwin[default]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/nf_banner_10.jpg</image>
       <summary>Do research in algebraic number theory</summary>
