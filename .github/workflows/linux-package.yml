@@ -423,7 +423,7 @@ jobs:
             if [ ! -d /etc/boinc-client ] ; then
               mkdir -p /etc/boinc-client
             fi
-            if [ ! -f ${BOINCDIR}/cc_config.xml ] ; then
+            if [ ! -e ${BOINCDIR}/cc_config.xml ] ; then
               echo \"\"\"
               <!--
               This is a configuration file of the BOINC client.
@@ -432,9 +432,11 @@ jobs:
               <cc_config>
               </cc_config>
               \"\"\" > ${BOINCDIR}/cc_config.xml
+            fi
+            if [ ! -e /etc/boinc-client/cc_config.xml ] ; then
               ln -s ${BOINCDIR}/cc_config.xml /etc/boinc-client/cc_config.xml
             fi
-            if [ ! -f ${BOINCDIR}/global_prefs_override.xml ] ; then
+            if [ ! -e ${BOINCDIR}/global_prefs_override.xml ] ; then
               echo \"\"\"
               <!--
               This is a configuration file of the BOINC client that can be used to override global preferences
@@ -444,19 +446,26 @@ jobs:
               <global_preferences>
               </global_preferences>
               \"\"\" > ${BOINCDIR}/global_prefs_override.xml
+            fi
+            if [ ! -e /etc/boinc-client/global_prefs_override.xml ] ;
+            then
               ln -s ${BOINCDIR}/global_prefs_override.xml /etc/boinc-client/global_prefs_override.xml
             fi
-            if [ ! -f ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+            if [ ! -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
                 echo \"\" > ${BOINCDIR}/gui_rpc_auth.cfg
+            fi
+            if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
                 ln -s ${BOINCDIR}/gui_rpc_auth.cfg /etc/boinc-client/gui_rpc_auth.cfg
             fi
-            if [ ! -f ${BOINCDIR}/remote_hosts.cfg ] ; then
+            if [ ! -e ${BOINCDIR}/remote_hosts.cfg ] ; then
               echo \"\"\"
               # This file contains a list of remote host names or IP addresses (one per line)
               # that are allowed to connect to the BOINC client via the GUI RPC interface.
               # Only the hosts listed in this file will be allowed to connect.
               # Lines starting with '#' and ';' are comments and are ignored.
               \"\"\" > ${BOINCDIR}/remote_hosts.cfg
+            fi
+            if [ ! -e /etc/boinc-client/remote_hosts.cfg ] ; then
               ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
             fi
             if [ ! -e ${BOINCDIR}/ca-bundle.crt ] ; then
@@ -464,10 +473,10 @@ jobs:
             fi
             set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
             set_perm ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} 0775
-            if [ -f ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+            if [ -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
                 set_perm ${BOINCDIR}/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
             fi
-            if [ -f ${BOINC_DIR}/remote_hosts.cfg ] ; then
+            if [ -e ${BOINC_DIR}/remote_hosts.cfg ] ; then
               set_perm ${BOINCDIR}/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
             fi
             if [ -d ${BOINCDIR}/projects ] ; then
@@ -477,6 +486,18 @@ jobs:
             if [ -d ${BOINCDIR}/slots ] ; then
                 set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
                 update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
+            fi
+            if [ -e /etc/boinc-client/cc_config.xml ] ; then
+              set_perm /etc/boinc-client/cc_config.xml ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -e /etc/boinc-client/global_prefs_override.xml ] ; then
+                set_perm /etc/boinc-client/global_prefs_override.xml ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
+                set_perm /etc/boinc-client/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
+                set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
             fi
             if [ -x /bin/systemctl ] ; then
                 systemctl enable --now boinc-client.service
@@ -586,6 +607,7 @@ jobs:
     strategy:
       matrix:
         os: [buster, bullseye, bookworm]
+        type: [install, upgrade, upgrade-from-alpha]
       fail-fast: false
     steps:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
@@ -596,7 +618,23 @@ jobs:
         if: success()
         run: |
           apt update -qq
-          apt install -y python3
+          apt install -y python3 gnupg2
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+          mv /bin/systemctl /bin/systemctl.bak
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
+          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main"
+          apt update -qq
+          mv /bin/systemctl /bin/systemctl.bak
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Download client
         if: success()
@@ -631,6 +669,7 @@ jobs:
     strategy:
       matrix:
         os: [focal, jammy, noble]
+        type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha]
       fail-fast: false
     steps:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
@@ -642,6 +681,34 @@ jobs:
         run: |
           apt update -qq
           apt install -y python3
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the PPA
+        if: success() && matrix.type == 'upgrade-from-ppa'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+          add-apt-repository -y ppa:costamagnagianfranco/boinc
+          apt update -qq
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != 'noble'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
+          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main"
+          apt update -qq
+          mv /bin/systemctl /bin/systemctl.bak
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Rename systemctl (not supported on CI)
+        if: success() && (matrix.type == 'upgrade' || matrix.type == 'upgrade-from-ppa')
+        run: |
+          mv /bin/systemctl /bin/systemctl.bak
 
       - name: Download client
         if: success()
@@ -676,6 +743,7 @@ jobs:
     strategy:
       matrix:
         os: [37, 38, 39, 40]
+        type: [install, upgrade, upgrade-from-alpha]
       fail-fast: false
     steps:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
@@ -686,6 +754,20 @@ jobs:
         if: success()
         run: |
           dnf install -y python3
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          dnf install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '40'
+        run: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}
+          dnf config-manager --set-enabled boinc.berkeley.edu_dl_linux_alpha_fc${{ matrix.os }}
+          rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
+          yum install -y boinc-client boinc-manager
 
       - name: Download client
         if: success()
@@ -702,8 +784,8 @@ jobs:
       - name: Install client and manager
         if: success()
         run: |
-          yum localinstall -y $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
-          yum localinstall -y $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
+          yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
+          yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
 
       - name: Run integration tests
         if: success()
@@ -719,6 +801,7 @@ jobs:
     strategy:
       matrix:
         os: [15.4, 15.5]
+        type: [install, upgrade, upgrade-from-alpha]
       fail-fast: false
     steps:
       - name: Install dependencies
@@ -734,6 +817,18 @@ jobs:
         if: success()
         run: |
           echo "OS=`echo ${{ matrix.os }} | sed 's/\./_/g'`" >> $GITHUB_ENV
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          zypper install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha'
+        run: |
+          rpm --import https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }}/boinc.gpg
+          zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }} official-boinc-repo
+          zypper install -y boinc-client boinc-manager
 
       - name: Download client
         if: success()
