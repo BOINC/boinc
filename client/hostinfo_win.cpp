@@ -714,7 +714,7 @@ int get_os_information(
                                 safe_strcat(szSKU, "Datacenter (core installation) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION:
-                                safe_strcat(szSKU, "Datacenter Azuure (core installation) ");
+                                safe_strcat(szSKU, "Datacenter Azure (core installation) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER_CORE_V:
                                 safe_strcat(szSKU, "Datacenter (core installation without Hyper-V) ");
