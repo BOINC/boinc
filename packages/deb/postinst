@@ -86,7 +86,7 @@ if [ ! -d /etc/boinc-client ] ; then
     mkdir -p /etc/boinc-client
 fi
 
-if [ ! -f ${BOINCDIR}/cc_config.xml ] ; then
+if [ ! -e ${BOINCDIR}/cc_config.xml ] ; then
     echo """
     <!--
     This is a configuration file of the BOINC client.
@@ -95,10 +95,13 @@ if [ ! -f ${BOINCDIR}/cc_config.xml ] ; then
     <cc_config>
     </cc_config>
     """ > ${BOINCDIR}/cc_config.xml
+fi
+
+if [ ! -e /etc/boinc-client/cc_config.xml ] ; then
     ln -s ${BOINCDIR}/cc_config.xml /etc/boinc-client/cc_config.xml
 fi
 
-if [ ! -f ${BOINCDIR}/global_prefs_override.xml ] ; then
+if [ ! -e ${BOINCDIR}/global_prefs_override.xml ] ; then
     echo """
     <!--
     This is a configuration file of the BOINC client that can be used to override global preferences
@@ -108,21 +111,30 @@ if [ ! -f ${BOINCDIR}/global_prefs_override.xml ] ; then
     <global_preferences>
     </global_preferences>
     """ > ${BOINCDIR}/global_prefs_override.xml
+fi
+
+if [ ! -e /etc/boinc-client/global_prefs_override.xml ] ; then
     ln -s ${BOINCDIR}/global_prefs_override.xml /etc/boinc-client/global_prefs_override.xml
 fi
 
-if [ ! -f ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+if [ ! -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
     echo "" > ${BOINCDIR}/gui_rpc_auth.cfg
+fi
+
+if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
     ln -s ${BOINCDIR}/gui_rpc_auth.cfg /etc/boinc-client/gui_rpc_auth.cfg
 fi
 
-if [ ! -f ${BOINCDIR}/remote_hosts.cfg ] ; then
+if [ ! -e ${BOINCDIR}/remote_hosts.cfg ] ; then
     echo """
     # This file contains a list of remote host names or IP addresses (one per line)
     # that are allowed to connect to the BOINC client via the GUI RPC interface.
     # Only the hosts listed in this file will be allowed to connect.
     # Lines starting with '#' and ';' are comments and are ignored.
     """ > ${BOINCDIR}/remote_hosts.cfg
+fi
+
+if [ ! -e /etc/boinc-client/remote_hosts.cfg ] ; then
     ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
 fi
 
@@ -133,11 +145,11 @@ fi
 set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
 set_perm ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} 0775
 
-if [ -f ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+if [ -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
     set_perm ${BOINCDIR}/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
-if [ -f ${BOINC_DIR}/remote_hosts.cfg ] ; then
+if [ -e ${BOINC_DIR}/remote_hosts.cfg ] ; then
     set_perm ${BOINCDIR}/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
@@ -149,6 +161,22 @@ fi
 if [ -d ${BOINCDIR}/slots ] ; then
     set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
     update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
+fi
+
+if [ -e /etc/boinc-client/cc_config.xml ] ; then
+    set_perm /etc/boinc-client/cc_config.xml ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -e /etc/boinc-client/global_prefs_override.xml ] ; then
+    set_perm /etc/boinc-client/global_prefs_override.xml ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
+    set_perm /etc/boinc-client/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
+    set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
 if [ -x /bin/systemctl ] ; then

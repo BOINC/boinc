@@ -102,17 +102,37 @@ class IntegrationTests:
         ts.expect_true(os.path.exists("/usr/local/share/icons/boinc.png"), "Test 'boinc.png' file exists in '/usr/local/share/icons/'")
         ts.expect_true(os.path.exists("/usr/local/share/icons/boinc.svg"), "Test 'boinc.svg' file exists in '/usr/local/share/icons/'")
         ts.expect_true(os.path.exists("/var/lib/boinc/cc_config.xml"), "Test 'cc_config.xml' file exists in '/var/lib/boinc/'")
-        ts.expect_true(os.path.islink("/etc/boinc-client/cc_config.xml"), "Test '/etc/boinc-client/cc_config.xml' file is a symbolic link")
-        ts.expect_equal("/var/lib/boinc/cc_config.xml", os.readlink("/etc/boinc-client/cc_config.xml"), "Test '/etc/boinc-client/cc_config.xml' file is a symbolic link to '/var/lib/boinc/cc_config.xml'")
+        ts.expect_true(os.path.exists("/etc/boinc-client/cc_config.xml"), "Test 'cc_config.xml' file exists in '/etc/boinc-client/'")
+        if (os.path.islink("/etc/boinc-client/cc_config.xml")):
+            ts.expect_equal("/var/lib/boinc/cc_config.xml", os.readlink("/etc/boinc-client/cc_config.xml"), "Test '/etc/boinc-client/cc_config.xml' file is a symbolic link to '/var/lib/boinc/cc_config.xml'")
+        elif(os.path.islink("/var/lib/boinc/cc_config.xml")):
+            ts.expect_equal("/etc/boinc-client/cc_config.xml", os.readlink("/var/lib/boinc/cc_config.xml"), "Test '/var/lib/boinc/cc_config.xml' file is a symbolic link to '/etc/boinc-client/cc_config.xml'")
+        else:
+            ts.expect_true(False, "Test 'cc_config.xml' file is a symbolic link")
         ts.expect_true(os.path.exists("/var/lib/boinc/global_prefs_override.xml"), "Test 'global_prefs_override.xml' file exists in '/var/lib/boinc/'")
-        ts.expect_true(os.path.islink("/etc/boinc-client/global_prefs_override.xml"), "Test '/etc/boinc-client/global_prefs_override.xml' file is a symbolic link")
-        ts.expect_equal("/var/lib/boinc/global_prefs_override.xml", os.readlink("/etc/boinc-client/global_prefs_override.xml"), "Test '/etc/boinc-client/global_prefs_override.xml' file is a symbolic link to '/var/lib/boinc/global_prefs_override.xml'")
+        ts.expect_true(os.path.exists("/etc/boinc-client/global_prefs_override.xml"), "Test 'global_prefs_override.xml' file exists in '/etc/boinc-client/'")
+        if (os.path.islink("/etc/boinc-client/global_prefs_override.xml")):
+            ts.expect_equal("/var/lib/boinc/global_prefs_override.xml", os.readlink("/etc/boinc-client/global_prefs_override.xml"), "Test '/etc/boinc-client/global_prefs_override.xml' file is a symbolic link to '/var/lib/boinc/global_prefs_override.xml'")
+        elif(os.path.islink("/var/lib/boinc/global_prefs_override.xml")):
+            ts.expect_equal("/etc/boinc-client/global_prefs_override.xml", os.readlink("/var/lib/boinc/global_prefs_override.xml"), "Test '/var/lib/boinc/global_prefs_override.xml' file is a symbolic link to '/etc/boinc-client/global_prefs_override.xml'")
+        else:
+            ts.expect_true(False, "Test 'global_prefs_override.xml' file is a symbolic link")
         ts.expect_true(os.path.exists("/var/lib/boinc/remote_hosts.cfg"), "Test 'remote_hosts.cfg' file exists in '/var/lib/boinc/'")
-        ts.expect_true(os.path.islink("/etc/boinc-client/remote_hosts.cfg"), "Test '/etc/boinc-client/remote_hosts.cfg' file is a symbolic link")
-        ts.expect_equal("/var/lib/boinc/remote_hosts.cfg", os.readlink("/etc/boinc-client/remote_hosts.cfg"), "Test '/etc/boinc-client/remote_hosts.cfg' file is a symbolic link to '/var/lib/boinc/remote_hosts.cfg'")
+        ts.expect_true(os.path.exists("/etc/boinc-client/remote_hosts.cfg"), "Test 'remote_hosts.cfg' file exists in '/etc/boinc-client/'")
+        if (os.path.islink("/etc/boinc-client/remote_hosts.cfg")):
+            ts.expect_equal("/var/lib/boinc/remote_hosts.cfg", os.readlink("/etc/boinc-client/remote_hosts.cfg"), "Test '/etc/boinc-client/remote_hosts.cfg' file is a symbolic link to '/var/lib/boinc/remote_hosts.cfg'")
+        elif(os.path.islink("/var/lib/boinc/remote_hosts.cfg")):
+            ts.expect_equal("/etc/boinc-client/remote_hosts.cfg", os.readlink("/var/lib/boinc/remote_hosts.cfg"), "Test '/var/lib/boinc/remote_hosts.cfg' file is a symbolic link to '/etc/boinc-client/remote_hosts.cfg'")
+        else:
+            ts.expect_true(False, "Test 'remote_hosts.cfg' file is a symbolic link")
         ts.expect_true(os.path.exists("/var/lib/boinc/gui_rpc_auth.cfg"), "Test 'gui_rpc_auth.cfg' file exists in '/var/lib/boinc/'")
-        ts.expect_true(os.path.islink("/etc/boinc-client/gui_rpc_auth.cfg"), "Test '/etc/boinc-client/gui_rpc_auth.cfg' file is a symbolic link")
-        ts.expect_equal("/var/lib/boinc/gui_rpc_auth.cfg", os.readlink("/etc/boinc-client/gui_rpc_auth.cfg"), "Test '/etc/boinc-client/gui_rpc_auth.cfg' file is a symbolic link to '/var/lib/boinc/gui_rpc_auth.cfg'")
+        ts.expect_true(os.path.exists("/etc/boinc-client/gui_rpc_auth.cfg"), "Test 'gui_rpc_auth.cfg' file exists in '/etc/boinc-client/'")
+        if (os.path.islink("/etc/boinc-client/gui_rpc_auth.cfg")):
+            ts.expect_equal("/var/lib/boinc/gui_rpc_auth.cfg", os.readlink("/etc/boinc-client/gui_rpc_auth.cfg"), "Test '/etc/boinc-client/gui_rpc_auth.cfg' file is a symbolic link to '/var/lib/boinc/gui_rpc_auth.cfg'")
+        elif(os.path.islink("/var/lib/boinc/gui_rpc_auth.cfg")):
+            ts.expect_equal("/etc/boinc-client/gui_rpc_auth.cfg", os.readlink("/var/lib/boinc/gui_rpc_auth.cfg"), "Test '/var/lib/boinc/gui_rpc_auth.cfg' file is a symbolic link to '/etc/boinc-client/gui_rpc_auth.cfg'")
+        else:
+            ts.expect_true(False, "Test 'gui_rpc_auth.cfg' file is a symbolic link")
         ts.expect_not_equal("", self._get_ca_certificates_file_path(), "Test system 'ca-certificates.crt' file exists")
         ts.expect_true(os.path.exists("/var/lib/boinc/ca-bundle.crt"), "Test 'ca-bundle.crt' file exists in '/var/lib/boinc/'")
         ts.expect_true(os.path.islink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link")
@@ -152,6 +172,9 @@ class IntegrationTests:
 
     def test_files_permissions(self):
         ts = testset.TestSet("Test files permissions")
+        ts.expect_equal("boinc:boinc", self._get_file_owner("/etc/boinc-client/cc_config.xml"), "Test '/etc/boinc-client/cc_config.xml' file owner")
+        ts.expect_equal("boinc:boinc", self._get_file_owner("/etc/boinc-client/global_prefs_override.xml"), "Test '/etc/boinc-client/global_prefs_override.xml' file owner")
+        ts.expect_equal("boinc:boinc", self._get_file_owner("/etc/boinc-client/remote_hosts.cfg"), "Test '/etc/boinc-client/remote_hosts.cfg' file owner")
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/cc_config.xml"), "Test '/var/lib/boinc/cc_config.xml' file owner")
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/global_prefs_override.xml"), "Test '/var/lib/boinc/global_prefs_override.xml' file owner")
         ts.expect_equal("boinc:boinc", self._get_file_owner("/var/lib/boinc/remote_hosts.cfg"), "Test '/var/lib/boinc/remote_hosts.cfg' file owner")
