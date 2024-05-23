@@ -59,6 +59,7 @@ extern int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer
 
 #else
 #include <sys/wait.h>
+#include <cstdio>
 #endif
 
 CBOINCClientManager::CBOINCClientManager() {
@@ -135,15 +136,18 @@ int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
 #if   defined(__WXMSW__)
     if (is_daemon_installed()) bReturnValue = 1;
 #elif defined(__WXMAC__)
-    if ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist")) {
+    if (boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist")) {
         bReturnValue = NewStyleDaemon;                      // New-style daemon uses launchd
     }
     if (boinc_file_exists("/Library/StartupItems/boinc/boinc") ) {
         bReturnValue = OldStyleDaemon;                      // Old-style daemon uses StartupItem
     }
 #else
-    if (boinc_file_exists("/usr/lib/systemd/system/boinc-client.service")) {
-        bReturnValue = 1;
+    FILE *f = popen("systemctl -q is-active boinc-client.service", "r");
+    if (f) {
+        if (pclose(f) == 0) {
+            bReturnValue = 1;
+        }
     }
 #endif
     return bReturnValue;
