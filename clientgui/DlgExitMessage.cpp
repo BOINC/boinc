@@ -29,6 +29,8 @@
 #include "miofile.h"
 #include "parse.h"
 #include "BOINCGUIApp.h"
+#include "MainDocument.h"
+#include "BOINCClientManager.h"
 #include "SkinManager.h"
 #include "DlgExitMessage.h"
 #ifdef __WXMAC__
@@ -102,6 +104,16 @@ bool CDlgExitMessage::Create( wxWindow* parent, wxWindowID id, const wxString& c
     return true;
 }
 
+inline bool ShowShutdownCoreClientCheckbox() {
+#if defined (__WXMAC__)
+    return false;
+#elif defined(__WXGTK__)
+    return !wxGetApp().GetDocument()->m_pClientManager->IsBOINCConfiguredAsDaemon();
+#else
+    return true;
+#endif
+}
+
 /*!
  * Control creation for CDlgFileExit
  */
@@ -159,19 +171,17 @@ void CDlgExitMessage::CreateControls()
 
     itemFlexGridSizer4->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-#ifndef __WXMAC__
+    if (ShowShutdownCoreClientCheckbox()) {
+        strAlwaysExitMessage.Printf(
+            _("Stop running tasks when exiting the %s"),
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
 
-    strAlwaysExitMessage.Printf(
-        _("Stop running tasks when exiting the %s"),
-        pSkinAdvanced->GetApplicationName().c_str()
-	);
-
-    m_DialogShutdownCoreClient = new wxCheckBox;
-    m_DialogShutdownCoreClient->Create( itemDialog1, ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT, strAlwaysExitMessage, wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_DialogShutdownCoreClient->SetValue(false);
-    itemFlexGridSizer4->Add(m_DialogShutdownCoreClient, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-#endif
+        m_DialogShutdownCoreClient = new wxCheckBox;
+        m_DialogShutdownCoreClient->Create( itemDialog1, ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT, strAlwaysExitMessage, wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+        m_DialogShutdownCoreClient->SetValue(false);
+        itemFlexGridSizer4->Add(m_DialogShutdownCoreClient, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    }
 
     m_DialogDisplay = new wxCheckBox;
     m_DialogDisplay->Create( itemDialog1, ID_CDLGEXITMESSAGE_DISPLAY, _("Remember this decision and do not show this dialog."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
