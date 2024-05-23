@@ -1141,7 +1141,7 @@ void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
     wxMenuItem* shutClientItem = menu->FindChildItem(ID_SHUTDOWNCORECLIENT, NULL);
     if (shutClientItem) {
 #ifdef __WXGTK__
-        shutClientItem->Enable(isConnected && pDoc->m_pClientManager->WasBOINCStartedByManager());
+        shutClientItem->Enable(isConnected && (pDoc->m_pClientManager->WasBOINCStartedByManager() || !pDoc->m_pClientManager->IsBOINCConfiguredAsDaemon()));
 #else
         shutClientItem->Enable(isConnected);
 #endif
