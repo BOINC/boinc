@@ -137,6 +137,7 @@ class IntegrationTests:
         ts.expect_true(os.path.exists("/var/lib/boinc/ca-bundle.crt"), "Test 'ca-bundle.crt' file exists in '/var/lib/boinc/'")
         ts.expect_true(os.path.islink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link")
         ts.expect_equal(self._get_ca_certificates_file_path(), os.readlink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link to the system 'ca-certificates.crt' file")
+        ts.expect_true(os.path.exists("/var/lib/boinc/all_projects_list.xml"), "Test 'all_projects_list.xml' file exists in '/var/lib/boinc/'")
         return ts.result()
 
     def test_version(self):
