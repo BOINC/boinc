@@ -69,6 +69,8 @@ function prepare_client() {
     for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p $RPM_BUILDROOT/usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Client.mo); do mv $file $RPM_BUILDROOT/usr/local/share/$dir/LC_MESSAGES/; done; done
     exit_on_fail
     rm -rf locale/
+    mv all_projects_list.xml $RPM_BUILDROOT/var/lib/boinc/
+    exit_on_fail
 }
 
 function prepare_manager() {
