@@ -29,6 +29,7 @@ linux_client_list = [
     './packages/deb/*',
     './packages/generic/36x11-common_xhost-boinc',
     'locale/*/*.mo',
+    './win_build/installerv2/redist/all_projects_list.xml'
 ]
 
 linux_apps_list = [
