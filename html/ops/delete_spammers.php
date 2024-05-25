@@ -3,7 +3,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -141,6 +141,7 @@ function delete_list($fname) {
 }
 
 function has_link($x) {
+    if (strstr($x, "<a ")) return true;
     if (strstr($x, "[url")) return true;
     if (strstr($x, "http://")) return true;
     if (strstr($x, "https://")) return true;
