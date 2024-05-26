@@ -320,7 +320,6 @@
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_atlas]</name>
-        <name>x86_64-pc-linux-gnu[long_native_mt]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
       <summary>Improve the design of the Large Hadron Collider</summary>
