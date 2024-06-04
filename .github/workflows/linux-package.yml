@@ -56,7 +56,7 @@ jobs:
         type: [client, manager]
       fail-fast: false
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           fetch-depth: 2
       - name: Check if build is running from origin repo
@@ -136,7 +136,7 @@ jobs:
     env:
       ARCH: amd64
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         if: success()
         with:
           fetch-depth: 2
@@ -246,7 +246,7 @@ jobs:
       ARCH: x86_64
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         if: success()
         with:
           fetch-depth: 2
@@ -610,7 +610,7 @@ jobs:
         type: [install, upgrade, upgrade-from-alpha]
       fail-fast: false
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           fetch-depth: 2
 
@@ -672,7 +672,7 @@ jobs:
         type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha]
       fail-fast: false
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           fetch-depth: 2
 
@@ -746,7 +746,7 @@ jobs:
         type: [install, upgrade, upgrade-from-alpha]
       fail-fast: false
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           fetch-depth: 2
 
@@ -809,7 +809,7 @@ jobs:
         run: |
           zypper install -y python3 tar gzip
 
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           fetch-depth: 2
 
@@ -873,7 +873,7 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           fetch-depth: 2
@@ -969,7 +969,7 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           fetch-depth: 2
