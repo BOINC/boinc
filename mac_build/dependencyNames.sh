@@ -45,7 +45,7 @@ opensslURL="https://www.openssl.org/source/openssl-3.0.0.tar.gz"
 caresDirName="c-ares-1.17.2"
 caresBaseName="c-ares"
 caresFileName="c-ares-1.17.2.tar.gz"
-caresURL="https://c-ares.org/download/c-ares-1.17.2.tar.gz"
+caresURL="https://github.com/c-ares/c-ares/releases/download/cares-1_17_2/c-ares-1.17.2.tar.gz"
 
 curlDirName="curl-7.79.1"
 curlBaseName="curl"
