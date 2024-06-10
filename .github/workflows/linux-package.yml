@@ -239,7 +239,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, suse15_4, suse15_5]
+        os: [fc37, fc38, fc39, fc40, suse15_4, suse15_5, suse15_6]
         type: [client, manager]
       fail-fast: false
     env:
@@ -340,7 +340,7 @@ jobs:
             "fc37" | "fc38" | "fc39" | "fc40")
               CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
               ;;
-            "suse15_4" | "suse15_5")
+            "suse15_4" | "suse15_5" | "suse15_6")
               CA_BUNDLE="/etc/ssl/ca-bundle.pem"
               ;;
             esac
@@ -800,7 +800,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [15.4, 15.5]
+        os: [15.4, 15.5, 15.6]
         type: [install, upgrade, upgrade-from-alpha]
       fail-fast: false
     steps:
@@ -824,7 +824,7 @@ jobs:
           zypper install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '15.6'
         run: |
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }}/boinc.gpg
           zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }} official-boinc-repo
@@ -953,7 +953,7 @@ jobs:
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, suse15_4, suse15_5]
+        os: [fc37, fc38, fc39, fc40, suse15_4, suse15_5, suse15_6]
       fail-fast: false
     env:
       ARCH: x86_64
