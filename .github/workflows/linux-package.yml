@@ -761,7 +761,7 @@ jobs:
           dnf install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '40'
+        if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}
