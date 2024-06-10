@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 case "$1_$2" in
-"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client" | "suse15_4_linux_client" | "suse15_5_linux_client")
+"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client" | "suse15_4_linux_client" | "suse15_5_linux_client" | "suse15_6_linux_client")
     echo """/etc/default/*
 /etc/init.d/*
 /etc/bash_completion.d/*
@@ -31,7 +31,7 @@ case "$1_$2" in
 """
     ;;
 
-"fc37_linux_manager" | "fc38_linux_manager" | "fc39_linux_manager" | "fc40_linux_manager" | "suse15_4_linux_manager" | "suse15_5_linux_manager")
+"fc37_linux_manager" | "fc38_linux_manager" | "fc39_linux_manager" | "fc40_linux_manager" | "suse15_4_linux_manager" | "suse15_5_linux_manager" | "suse15_6_linux_manager")
     echo """/usr/local/bin/*
 /usr/local/share/applications/*
 /usr/local/share/boinc-manager/*
