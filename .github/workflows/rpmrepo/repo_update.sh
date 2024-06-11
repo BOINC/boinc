@@ -137,8 +137,80 @@ if [[ ! "$IS_MIRROR" -eq "0" ]]; then
 	fi
 fi
 
-cp $RPMSRC/*.rpm $CWD/mirror/
-exit_on_fail "Failed to add new packages"
+if [[ "$TYPE" -eq "stable" ]]; then
+	# create alpha repo of the same distribution
+	echo """#
+	# BOINC Repository
+	#
+
+	[boinc-alpha-$DISTRO]
+	name = BOINC alpha $DISTRO repository
+	baseurl = $BASEREPO/alpha/$DISTRO
+	arch = $ARCH
+	priority = 100
+	enabled = 1
+	gpgcheck = 1
+	gpgkey = $BASEREPO/alpha/$DISTRO/$RELEASEKEY
+	max_parallel_downloads = 2
+
+	""" > "$CWD/mirror/boinc-alpha-$DISTRO.repo"
+
+	# necessary for reposync to work correctly
+	mkdir -p /etc/yum/repos.d/
+	cp "$CWD/mirror/boinc-alpha-$DISTRO.repo" /etc/yum/repos.d/
+	dnf update -y -qq
+
+	# mirror the currently deployed alpha repo (if any)
+	cd $CWD/alpha
+
+	reposync --nobest -a $ARCH --download-metadata --norepopath --repoid boinc-alpha-$DISTRO
+	exit_on_fail "Could not mirror alpha ${REPO}"
+
+	# keep only 1 last version of each package
+	cd $CWD/alpha/
+	packets=$(find *.rpm | sort -t '-' -k 2 -V | uniq)
+	declare -A split_lists
+	packets_list=()
+	while IFS= read -r line; do
+		packets_list+=("$line")
+	done <<< "$packets"
+	for item in "${packets_list[@]}"; do
+		prefix=$(echo "$item" | cut -d '-' -f 1-2 ) # Extract the prefix (text before the second dash)
+		split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
+	done
+
+	for prefix in "${!split_lists[@]}"; do
+		echo "List for prefix: $prefix"
+		echo "${split_lists[$prefix]}"
+		count=$(echo "${split_lists[$prefix]}" | wc -l)
+		number=$(expr $count - 1)
+		echo "count=$number"
+		i=0
+		exceed=$(expr $number - 1)
+		echo "exceed=$exceed"
+		if (( exceed > 0)); then
+			values_list=()
+			while IFS= read -r line; do
+				values_list+=("$line")
+			done <<< "${split_lists[$prefix]}"
+			for value in "${values_list[@]}"; do
+				if (( i < exceed )); then
+					echo "Remove: $value"
+					i=$((i+1))
+					rm $value
+					exit_on_fail "Failed to remove the package"
+				else
+					break
+				fi
+			done
+		fi
+	done
+	cp $CWD/alpha/*.rpm $CWD/mirror/
+	exit_on_fail "Failed to add new packages"
+else
+	cp $RPMSRC/*.rpm $CWD/mirror/
+	exit_on_fail "Failed to add new packages"
+fi
 
 cd $CWD/mirror/
 # keep only 4 last versions of each package
