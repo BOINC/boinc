@@ -169,7 +169,7 @@ max_parallel_downloads = 2
 
 	# keep only 1 last version of each package
 	cd $CWD/alpha/
-	packets=$(find *.rpm | sort -t '-' -k 2 -V | uniq)
+	packets=$(find *.rpm | sort -t '-' -k 2 -V -r | uniq)
 	declare -A split_lists
 	packets_list=()
 	while IFS= read -r line; do
@@ -183,31 +183,16 @@ max_parallel_downloads = 2
 	for prefix in "${!split_lists[@]}"; do
 		echo "List for prefix: $prefix"
 		echo "${split_lists[$prefix]}"
-		count=$(echo "${split_lists[$prefix]}" | wc -l)
-		number=$(expr $count - 1)
-		echo "count=$number"
-		i=0
-		exceed=$(expr $number - 1)
-		echo "exceed=$exceed"
-		if (( exceed > 0)); then
-			values_list=()
-			while IFS= read -r line; do
-				values_list+=("$line")
-			done <<< "${split_lists[$prefix]}"
-			for value in "${values_list[@]}"; do
-				if (( i < exceed )); then
-					echo "Remove: $value"
-					i=$((i+1))
-					rm $value
-					exit_on_fail "Failed to remove the package"
-				else
-					break
-				fi
-			done
-		fi
+		values_list=()
+		while IFS= read -r line; do
+			values_list+=("$line")
+		done <<< "${split_lists[$prefix]}"
+		for value in "${values_list[@]}"; do
+			cp $value $CWD/mirror/
+			exit_on_fail "Failed to copy the package $value"
+			break
+		done
 	done
-	cp $CWD/alpha/*.rpm $CWD/mirror/
-	exit_on_fail "Failed to add new packages"
 else
 	cp $RPMSRC/*.rpm $CWD/mirror/
 	exit_on_fail "Failed to add new packages"
