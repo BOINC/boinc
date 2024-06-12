@@ -191,25 +191,26 @@ fi
 
 if [[ "$TYPE" == "stable" ]]; then
 	# get only one latest packages of each type from the alpha repo
-	packets=$(aptly -config=$CONF_FILE mirror search boinc-alpha-mirror | grep -o '[^[:space:]]*_\([[:digit:]]*\.\)\{2\}[[:digit:]]*-\([[:digit:]]*_\)[^[:space:]]*' | sort -t '_' -k 2 -V -r | uniq)
-	declare -A split_lists
-	packets_list=()
+	alpha_packets=$(aptly -config=$CONF_FILE mirror search boinc-alpha-mirror | grep -o '[^[:space:]]*_\([[:digit:]]*\.\)\{2\}[[:digit:]]*-\([[:digit:]]*_\)[^[:space:]]*' | sort -t '_' -k 2 -V -r | uniq)
+	declare -A alpha_split_lists
+	alpha_packets_list=()
 	while IFS= read -r line; do
-		packets_list+=("$line")
-	done <<< "$packets"
-	for item in "${packets_list[@]}"; do
+		alpha_packets_list+=("$line")
+	done <<< "$alpha_packets"
+	for item in "${alpha_packets_list[@]}"; do
 		prefix="${item%%_*}"     # Extract the prefix (text before the first underscore)
-		split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
+		alpha_split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
 	done
-	for prefix in "${!split_lists[@]}"; do
+	for prefix in "${!alpha_split_lists[@]}"; do
 		echo "List for prefix: $prefix"
-		echo "${split_lists[$prefix]}"
-		values_list=()
+		echo "${alpha_split_lists[$prefix]}"
+		alpha_values_list=()
 		while IFS= read -r line; do
-			values_list+=("$line")
-		done <<< "${split_lists[$prefix]}"
-		for value in "${values_list[@]}"; do
+			alpha_values_list+=("$line")
+		done <<< "${alpha_split_lists[$prefix]}"
+		for value in "${alpha_values_list[@]}"; do
 			# copy the latest package to the local repo
+			echo "Adding: $value"
 			aptly -config=$CONF_FILE repo import boinc-alpha-mirror boinc-$TYPE $value
 			break
 		done
