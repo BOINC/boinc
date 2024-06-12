@@ -169,25 +169,26 @@ max_parallel_downloads = 2
 
 	# keep only 1 last version of each package
 	cd $CWD/alpha/
-	packets=$(find *.rpm | sort -t '-' -k 2 -V -r | uniq)
-	declare -A split_lists
-	packets_list=()
+	alpha_packets=$(find *.rpm | sort -t '-' -k 2 -V -r | uniq)
+	declare -A alpha_split_lists
+	alpha_packets_list=()
 	while IFS= read -r line; do
-		packets_list+=("$line")
-	done <<< "$packets"
-	for item in "${packets_list[@]}"; do
+		alpha_packets_list+=("$line")
+	done <<< "$alpha_packets"
+	for item in "${alpha_packets_list[@]}"; do
 		prefix=$(echo "$item" | cut -d '-' -f 1-2 ) # Extract the prefix (text before the second dash)
-		split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
+		alpha_split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
 	done
 
-	for prefix in "${!split_lists[@]}"; do
+	for prefix in "${!alpha_split_lists[@]}"; do
 		echo "List for prefix: $prefix"
-		echo "${split_lists[$prefix]}"
+		echo "${alpha_split_lists[$prefix]}"
 		values_list=()
 		while IFS= read -r line; do
 			values_list+=("$line")
-		done <<< "${split_lists[$prefix]}"
+		done <<< "${alpha_split_lists[$prefix]}"
 		for value in "${values_list[@]}"; do
+			echo "Copy: $value"
 			cp $value $CWD/mirror/
 			exit_on_fail "Failed to copy the package $value"
 			break
