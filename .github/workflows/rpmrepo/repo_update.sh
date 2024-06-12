@@ -161,6 +161,7 @@ if [[ "$TYPE" -eq "stable" ]]; then
 	dnf update -y -qq
 
 	# mirror the currently deployed alpha repo (if any)
+	mkdir -p $CWD/alpha
 	cd $CWD/alpha
 
 	reposync --nobest -a $ARCH --download-metadata --norepopath --repoid boinc-alpha-$DISTRO
