@@ -157,7 +157,7 @@ max_parallel_downloads = 2
 
 	# necessary for reposync to work correctly
 	mkdir -p /etc/yum/repos.d/
-	cp "$CWD/mirror/boinc-alpha-$DISTRO.repo" /etc/yum/repos.d/
+	mv "$CWD/mirror/boinc-alpha-$DISTRO.repo" /etc/yum/repos.d/
 	dnf update -y -qq
 
 	# mirror the currently deployed alpha repo (if any)
