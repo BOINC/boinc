@@ -111,7 +111,7 @@ if [[ "$?" -eq "0" ]]; then
 	IS_MIRROR=0
 fi
 
-if [[ "$TYPE" -eq "stable" ]]; then
+if [[ "$TYPE" == "stable" ]]; then
 	# mirror alpha repo
 	aptly -config=$CONF_FILE -keyring=$KEYRING mirror create boinc-alpha-mirror $BASEREPO/alpha/$DISTRO $DISTRO
 	exit_on_fail "Could not mirror alpha repository"
@@ -189,7 +189,7 @@ if [[ "$IS_MIRROR" -eq "0" ]]; then
 	aptly -config=$CONF_FILE snapshot show old-boinc-$TYPE-snap
 fi
 
-if [[ "$TYPE" -eq "stable" ]]; then
+if [[ "$TYPE" == "stable" ]]; then
 	# get only one latest packages of each type from the alpha repo
 	packets=$(aptly -config=$CONF_FILE mirror search boinc-alpha-mirror | grep -o '[^[:space:]]*_\([[:digit:]]*\.\)\{2\}[[:digit:]]*-\([[:digit:]]*_\)[^[:space:]]*' | sort -t '_' -k 2 -V -r | uniq)
 	declare -A split_lists

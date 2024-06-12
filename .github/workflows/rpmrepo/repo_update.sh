@@ -137,23 +137,23 @@ if [[ ! "$IS_MIRROR" -eq "0" ]]; then
 	fi
 fi
 
-if [[ "$TYPE" -eq "stable" ]]; then
+if [[ "$TYPE" == "stable" ]]; then
 	# create alpha repo of the same distribution
 	echo """#
-	# BOINC Repository
-	#
+# BOINC Repository
+#
 
-	[boinc-alpha-$DISTRO]
-	name = BOINC alpha $DISTRO repository
-	baseurl = $BASEREPO/alpha/$DISTRO
-	arch = $ARCH
-	priority = 100
-	enabled = 1
-	gpgcheck = 1
-	gpgkey = $BASEREPO/alpha/$DISTRO/$RELEASEKEY
-	max_parallel_downloads = 2
+[boinc-alpha-$DISTRO]
+name = BOINC alpha $DISTRO repository
+baseurl = $BASEREPO/alpha/$DISTRO
+arch = $ARCH
+priority = 100
+enabled = 1
+gpgcheck = 1
+gpgkey = $BASEREPO/alpha/$DISTRO/$RELEASEKEY
+max_parallel_downloads = 2
 
-	""" > "$CWD/mirror/boinc-alpha-$DISTRO.repo"
+""" > "$CWD/mirror/boinc-alpha-$DISTRO.repo"
 
 	# necessary for reposync to work correctly
 	mkdir -p /etc/yum/repos.d/
