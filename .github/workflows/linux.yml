@@ -207,41 +207,41 @@ jobs:
     name: ${{ matrix.type }}-build-release
     runs-on: ubuntu-latest
     container:
-      image: ubuntu:13.04
+      image: ubuntu:16.04
     strategy:
       matrix:
-        type: [apps, apps-x86]
+        type: [apps, apps-x86, apps-arm64]
       fail-fast: false
     steps:
       - name: Install dependencies
         run: |
-          sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
           apt-get -qq update
-          apt-get install -y make build-essential m4 pkg-config autoconf libtool git libcurl4-openssl-dev p7zip-full python3
-
-      - name: Install dependencies for x64
-        if: success() && matrix.type == 'apps'
-        run: |
-          apt-get install -y libcurl4-openssl-dev
-
-      - uses: actions/checkout@v1 # ignore-check
-        with:
-          fetch-depth: 2
-
-      - name: Remove pkg-config dependency
-        run: |
-          git apply remove-pkg-config.patch
-
-      - name: Automake
-        if: success()
-        run: ./_autosetup
+          apt-get install -y make build-essential m4 pkg-config autoconf libtool git p7zip-full python3
 
       - name: Install dependencies for x86
         if: success() && matrix.type == 'apps-x86'
         run: |
           dpkg --add-architecture i386
           apt-get update
-          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386
+          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386
+
+      - name: Install dependencies for x64
+        if: success() && matrix.type == 'apps'
+        run: |
+          apt-get install -y libcurl4-openssl-dev libssl-dev
+
+      - name: Install dependencies for arm64
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates
+
+      - uses: actions/checkout@v3 # ignore-check
+        with:
+          fetch-depth: 2
+
+      - name: Automake
+        if: success()
+        run: ./_autosetup
 
       - name: Make x64 apps
         if: success() && matrix.type == 'apps'
@@ -263,58 +263,8 @@ jobs:
           ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --host=i686-linux-gnu
           make -j $(nproc --all)
 
-      - name: Prepare logs on failure
-        if: ${{ failure() }}
-        run: python3 ./deploy/prepare_deployment.py logs
-
-      - name: Upload logs on failure
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v1 # ignore-check
-        with:
-          name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/logs.7z
-
-      - name: Prepare artifacts for deploy
-        if: success()
-        run: python3 ./deploy/prepare_deployment.py linux_apps
-
-      - name: Upload wrapper artifacts
-        uses: actions/upload-artifact@v1 # ignore-check
-        if: success()
-        with:
-          name: linux_release_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/linux_apps.7z
-
-  build-release-arm64:
-    name: ${{ matrix.type }}-build-release
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:16.04
-    strategy:
-      matrix:
-        type: [apps-arm64]
-      fail-fast: false
-    steps:
-      - name: Install dependencies
-        run: |
-          apt-get -qq update
-          apt-get install -y make build-essential m4 pkg-config autoconf libtool git
-
-      - name: Install dependencies for arm64
-        if: success()
-        run: |
-          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates p7zip-full python3
-
-      - uses: actions/checkout@v3 # ignore-check
-        with:
-          fetch-depth: 2
-
-      - name: Automake
-        if: success()
-        run: ./_autosetup
-
-      - name: Build apps for arm64
-        if: success()
+      - name: Make arm64 apps
+        if: success() && matrix.type == 'apps-arm64'
         run: |
           export CI=yes
           export RELEASE=yes
