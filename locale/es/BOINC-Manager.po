@@ -294,7 +294,7 @@ msgstr "Mostrar estadísticas"
 
 #: clientgui/AdvancedFrame.cpp:435
 msgid "&Disk\tCtrl+Shift+D"
-msgstr "&Disk\tCtrl+Shift+D"
+msgstr "&Disco\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "Show disk usage"
@@ -532,7 +532,7 @@ msgstr "Ver más información sobre %s en la web"
 #: clientgui/sg_BoincSimpleFrame.cpp:327 clientgui/sg_BoincSimpleFrame.cpp:331
 #, c-format
 msgid "Check for new %s version"
-msgstr "Buscar nueva versión de%s"
+msgstr "Buscar nueva versión de %s"
 
 #: clientgui/AdvancedFrame.cpp:711 clientgui/sg_BoincSimpleFrame.cpp:343
 msgid "Report Issue"
