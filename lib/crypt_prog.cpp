@@ -56,6 +56,7 @@
 
 #include "crypt.h"
 #include "md5_file.h"
+#include "util.h"
 
 void die(const char* p) {
     fprintf(stderr, "Error: %s\n", p);
@@ -85,45 +86,11 @@ void usage() {
    );
 }
 
-unsigned int random_int() {
-    unsigned int n;
-#if defined(_WIN32)
-#if defined(__CYGWIN32__)
-    HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
-#else
-    HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
-#endif
-    if (!hLib) {
-        die("Can't load ADVAPI32.DLL");
-    }
-    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
-        (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
-    if (pfn) {
-        char buff[32];
-        ULONG ulCbBuff = sizeof(buff);
-        if(pfn(buff,ulCbBuff)) {
-            // use buff full of random goop
-            memcpy(&n,buff,sizeof(n));
-        }
-    }
-    FreeLibrary(hLib);
-#else
-    FILE* f = fopen("/dev/random", "r");
-    if (!f) {
-        die("can't open /dev/random\n");
-    }
-    if (1 != fread(&n, sizeof(n), 1, f)) {
-        die("couldn't read from /dev/random\n");
-    }
-    fclose(f);
-#endif
-    return n;
-}
-
 int main(int argc, char** argv) {
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
     int i, n, retval;
+    unsigned int srand_seed;
     bool is_valid;
     DATA_BLOCK signature, in, out;
     unsigned char signature_buf[256], buf[256], buf2[256];
@@ -154,7 +121,18 @@ int main(int argc, char** argv) {
         printf("creating keys in %s and %s\n", argv[3], argv[4]);
         n = atoi(argv[2]);
 
-        srand(random_int());
+        retval = random_int(srand_seed);
+        if (retval == 1) {
+            die("can't load ADVAPI32.DLL");
+        } else if (retval == 2) {
+            die("can't open /dev/random");
+        } else if (retval == 3) {
+            die("can't read from /dev/random");
+        } else if (retval) {
+            die("random_int");
+        }
+        srand(srand_seed);
+
         e = BN_new();
         retval = BN_set_word(e, (unsigned long)65537);
         if (retval != 1) {
