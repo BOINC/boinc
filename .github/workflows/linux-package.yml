@@ -607,7 +607,7 @@ jobs:
     strategy:
       matrix:
         os: [buster, bullseye, bookworm]
-        type: [install, upgrade, upgrade-from-alpha]
+        type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
       fail-fast: false
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
@@ -632,6 +632,16 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
           apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
           apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main"
+          apt update -qq
+          mv /bin/systemctl /bin/systemctl.bak
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
+          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main"
           apt update -qq
           mv /bin/systemctl /bin/systemctl.bak
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
@@ -669,7 +679,7 @@ jobs:
     strategy:
       matrix:
         os: [focal, jammy, noble]
-        type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha]
+        type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha, upgrade-from-stable]
       fail-fast: false
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
@@ -696,11 +706,21 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != 'noble'
+        if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
           DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
           apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
           apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main"
+          apt update -qq
+          mv /bin/systemctl /bin/systemctl.bak
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
+          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main"
           apt update -qq
           mv /bin/systemctl /bin/systemctl.bak
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
@@ -743,7 +763,7 @@ jobs:
     strategy:
       matrix:
         os: [37, 38, 39, 40]
-        type: [install, upgrade, upgrade-from-alpha]
+        type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
       fail-fast: false
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
@@ -767,6 +787,15 @@ jobs:
           dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}
           dnf config-manager --set-enabled boinc.berkeley.edu_dl_linux_alpha_fc${{ matrix.os }}
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
+          yum install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable'
+        run: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}
+          dnf config-manager --set-enabled boinc.berkeley.edu_dl_linux_stable_fc${{ matrix.os }}
+          rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
           yum install -y boinc-client boinc-manager
 
       - name: Download client
@@ -801,7 +830,7 @@ jobs:
     strategy:
       matrix:
         os: [15.4, 15.5, 15.6]
-        type: [install, upgrade, upgrade-from-alpha]
+        type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
       fail-fast: false
     steps:
       - name: Install dependencies
@@ -824,10 +853,17 @@ jobs:
           zypper install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '15.6'
+        if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }}/boinc.gpg
           zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }} official-boinc-repo
+          zypper install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os == '15.6'
+        run: |
+          rpm --import https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }}/boinc.gpg
+          zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }} official-boinc-repo
           zypper install -y boinc-client boinc-manager
 
       - name: Download client
