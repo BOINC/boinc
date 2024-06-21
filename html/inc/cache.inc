@@ -148,7 +148,7 @@ function get_cached_data($max_age, $params=""){
     if ($max_age) {
         if (defined('MEMCACHE_SERVERS')) {
             $cache = BoincMemcache::get()->get($path);
-            if ($cache['content']) {
+            if (isset($cache['content'])) {
                 return $cache['content'];
             } else {
                 return $cache;
@@ -293,13 +293,14 @@ class BoincMemcache {
         if (defined('MEMCACHE_PREFIX')) {
             self::$instance->setOption(Memcached::OPT_PREFIX_KEY, MEMCACHE_PREFIX);
         }
+        $server_arr = array();
         $servers = explode('|', MEMCACHE_SERVERS);
         foreach($servers as &$server) {
-            list($ip, $port) = explode(':', $server);
+            list($ip, $port, $weight) = explode(':', $server);
             if (!$port) { $port = 11211; }
-            $server = array($ip, $port);
+            $server_arr[] = array($ip, $port, $weight);
         }
-        self::$instance->addServers($servers);
+        self::$instance->addServers($server_arr);
         return self::$instance;
     }
 }
