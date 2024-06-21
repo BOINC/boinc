@@ -200,6 +200,9 @@
 #ifndef PRODUCT_IOTENTERPRISES
 #define PRODUCT_IOTENTERPRISES                      0x000000BF
 #endif
+#ifndef PRODUCT_IOTENTERPRISESK
+#define PRODUCT_IOTENTERPRISESK                     0x000000CD
+#endif
 #ifndef PRODUCT_AZURESTACKHCI_SERVER_CORE
 #define PRODUCT_AZURESTACKHCI_SERVER_CORE           0x00000196
 #endif
@@ -382,7 +385,9 @@ int get_os_information(
                         strlcat(os_name, "Windows 10", os_name_size);
                     }
                 } else {
-                    if (osvi.dwBuildNumber >= 25398) {
+                    if  (osvi.dwBuildNumber >= 26100) {
+			strlcat(os_name, "Windows Server 2025", os_name_size);
+		    } else if (osvi.dwBuildNumber >= 25398) {
                         strlcat(os_name, "Windows Server 23H2", os_name_size);
                     } else if (osvi.dwBuildNumber >= 20348) {
                         strlcat(os_name, "Windows Server 2022", os_name_size);
@@ -581,6 +586,9 @@ int get_os_information(
                                 break;
                             case PRODUCT_IOTENTERPRISES:
                                 safe_strcat(szSKU, "IoT Enterprise LTSC ");
+                                break;
+                            case PRODUCT_IOTENTERPRISESK:
+                                safe_strcat(szSKU, "IoT Enterprise Subscription LTSC ");
                                 break;
                             case PRODUCT_IOTUAP:
                                 safe_strcat(szSKU, "Internet of Things ");
