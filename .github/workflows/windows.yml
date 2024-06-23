@@ -46,7 +46,7 @@ jobs:
       fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           fetch-depth: 2
 
@@ -158,7 +158,7 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.platform == 'x64' && matrix.type == 'msbuild'
-        uses: codecov/codecov-action@125fc84a9a348dbcf27191600683ec096ec9021c
+        uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673
         env:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
         with:

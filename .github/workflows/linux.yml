@@ -43,7 +43,7 @@ jobs:
         type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           fetch-depth: 2
 
@@ -195,7 +195,7 @@ jobs:
           path: "tests/gtest/**/*_xml_report.xml"
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@125fc84a9a348dbcf27191600683ec096ec9021c
+        uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         if: success() && matrix.type == 'unit-test'
