@@ -38,6 +38,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <pwd.h>
 #endif
 
 using std::string;
@@ -71,7 +72,6 @@ int VBOX_VM::initialize() {
     string new_path;
     string command;
     string output;
-    bool force_sandbox = false;
 
     get_install_directory(virtualbox_install_directory);
 
@@ -100,7 +100,9 @@ int VBOX_VM::initialize() {
     }
 #endif
 
-    // Determine the VirtualBox home directory.  Overwrite as needed.
+    // Determine the VirtualBox home directory.
+    // NOTE: I'm not sure this is relevant; see
+    // https://docs.oracle.com/en/virtualization/virtualbox/6.1/admin/TechnicalBackground.html#3.1.3.-Summary-of-Configuration-Data-Locations
     //
     if (getenv("VBOX_USER_HOME")) {
         virtualbox_home_directory = getenv("VBOX_USER_HOME");
@@ -110,54 +112,17 @@ int VBOX_VM::initialize() {
 #ifdef _WIN32
         virtualbox_home_directory = getenv("USERPROFILE");
 #else
-        virtualbox_home_directory = getenv("HOME");
+        const char *home = getenv("HOME");
+        if (home == NULL) {
+            home = getpwuid(getuid())->pw_dir;
+        }
+        virtualbox_home_directory = home;
 #endif
         virtualbox_home_directory += "/.VirtualBox";
     }
 
-    // On *nix style systems, VirtualBox expects
-    // that there is a home directory specified by environment variable.
-    // When it doesn't exist it attempts to store logging information
-    // in root's home directory.
-    // Bad things happen if the process attempts to use root's home directory.
-    //
-    // if the HOME environment variable is missing
-    // force VirtualBox to use a directory it
-    // has a reasonable chance of writing log files too.
-#ifndef _WIN32
-    if (NULL == getenv("HOME")) {
-        force_sandbox = true;
-    }
-#endif
-
-    // Set the location in which the VirtualBox Configuration files can be
-    // stored for this instance.
-    //
-    if (aid.using_sandbox || force_sandbox) {
-        virtualbox_home_directory = aid.project_dir;
-        virtualbox_home_directory += "/../virtualbox";
-
-        if (!boinc_file_exists(virtualbox_home_directory.c_str())) {
-            boinc_mkdir(virtualbox_home_directory.c_str());
-        }
-
 #ifdef _WIN32
-        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()))) {
-            vboxlog_msg("Failed to modify the search path.");
-        }
-#else
-        // putenv does not copy its input buffer, so we must use setenv
-        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
-            vboxlog_msg("Failed to modify the VBOX_USER_HOME path.");
-        }
-#endif
-    }
-
-#ifdef _WIN32
-
-    // Launch vboxsvc manually so that the DCOM subsystem won't be able too.
-    // Our version will have permission and direction to write
-    // its state information to the BOINC data directory.
+    // Not sure this is needed now that we're not using COM
     //
     launch_vboxsvc();
 #endif
