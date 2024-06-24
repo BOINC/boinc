@@ -22,8 +22,6 @@ require_once("../inc/pm.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/akismet.inc");
 
-check_get_args(array("replyto", "deleted", "userid", "action", "sent", "id", "tnow", "ttok", "teamid"));
-
 function show_block_link($userid) {
     echo " <a href=\"pm.php?action=block&amp;id=$userid\">";
     show_image(REPORT_POST_IMAGE, tra("Block messages from this user"), tra("Block user"), REPORT_POST_IMAGE_HEIGHT);
@@ -50,11 +48,16 @@ function make_script() {
     ";
 }
 
-// show all private messages,
+// show private messages,
 // and delete notifications of new messages
 //
 function do_inbox($logged_in_user) {
-    page_head(tra("Private messages").": ".tra("Inbox"));
+    page_head(
+        sprintf('%s: %s',
+            tra("Private messages"),
+            tra("Inbox")
+        )
+    );
 
     make_script();
     if (get_int("sent", true) == 1) {
@@ -67,9 +70,38 @@ function do_inbox($logged_in_user) {
     $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id ORDER BY date DESC"
     );
-    if (count($msgs) == 0) {
+    $nmsgs = count($msgs);
+    if ($nmsgs == 0) {
         echo tra("You have no private messages.");
     } else {
+        // see if we have to paginate messages
+        //
+        $nshow = $logged_in_user->prefs->display_wrap_postcount;
+        if ($nshow < 1) $nshow = 20;
+        $offset = 0;
+        if ($nmsgs > $nshow) {
+            $offset = get_int('offset', true);
+            if ($offset === false) $offset = 0;
+            if ($offset >= $nmsgs) $offset = 0;
+            echo sprintf('Showing messages %d to %d of %d',
+                $offset+1,
+                min($offset+$nshow, $nmsgs),
+                $nmsgs
+            );
+            if ($offset) {
+                echo sprintf(
+                    ' &middot; <a href=pm.php?action=inbox&offset=%d>Previous %d</a>',
+                    max(0, $offset-$nshow), $nshow
+                );
+            }
+            if ($offset+$nshow < $nmsgs) {
+                echo sprintf(
+                    ' &middot; <a href=pm.php?action=inbox&offset=%d>Next %d</a>',
+                    $offset+$nshow, $nshow
+                );
+            }
+        }
+
         echo "<form name=msg_list action=pm.php method=post>
             <input type=hidden name=action value=delete_selected>
         ";
@@ -79,7 +111,14 @@ function do_inbox($logged_in_user) {
             array(tra("Subject"), tra("Sender and date"), tra("Message")),
             array('style="width: 12em;"', 'style="width: 10em;"', "")
         );
+        $i = 0;
         foreach($msgs as $msg) {
+            if ($i<$offset) {
+                $i++;
+                continue;
+            }
+            if ($i>=$offset+$nshow) break;
+            $i++;
             $sender = BoincUser::lookup_id($msg->senderid);
             if (!$sender) {
                 $msg->delete();
