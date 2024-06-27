@@ -185,6 +185,7 @@ function sample_navbar(
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
             if ($user && BoincUserSubmit::lookup_userid($user->id)) {
                 $x[] = array("Job submission", $url_prefix."submit.php");
+                $x[] = ["File sandbox", "sandbox.php"];
             }
         }
         navbar_menu(tra("Computing"), $x);

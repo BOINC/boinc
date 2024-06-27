@@ -23,10 +23,22 @@ import xml.etree.ElementTree as ElementTree
 
 # a job input file.
 # modes:
-#   local_staged: source is physical name
-#   local: source is full path on server; physical name will be assigned
-#   semilocal: source is URL; will be fetched
-#   remote: source is URL; nbytes and MD5 must be supplied
+#   local_staged
+#       file is already staged.  source is physical name
+#   local
+#       source is full path on server
+#       on job submission, file will be staged and a physical name assigned
+#   semilocal
+#       source is URL
+#       on job submission, file will be fetched and staged,
+#       and a physical name assigned
+#   remote
+#       source is URL; nbytes and MD5 must be supplied
+#       file will be fetched by client
+#   sandbox
+#       source is name in sandbox; file is already staged
+#   inline
+#       source is file contents; name will be assigned
 #
 class FILE_DESC:
     def __init__(
