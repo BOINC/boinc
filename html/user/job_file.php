@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,14 +17,17 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Web RPCs for managing input files for remote job submission
+// These support systems where user - possibly lots of them -
+// process jobs without logging on to the BOINC server.
 //
 // Issues:
 //
-// 1) how are files named?
-//  Their name is a function of their MD5.
-//  This eliminates issues related to file immutability
+// 1) how are files named on the server (i.e. physical names)?
+//  That's up to the clients, but they must enforce immutability:
+//  different files must have different physical names.
+//  One way to achieve this is to include the MD5 in the name.
 //
-// 2) how do we keep track of the files?
+// 2) how does the server keep track of the files?
 //  In the MySQL database, in a table called "job_file".
 //  Each row describes a file currently on the server.
 //  In addition, we maintain a table "batch_file_assoc" to record
@@ -33,7 +36,7 @@
 //  but this way is more efficient if many jobs in a batch use
 //  a particular file.)
 //
-// 3) how do we clean up unused files?
+// 3) how does the server clean up unused files?
 //  A daemon (job_file_deleter) deletes files for which
 //  - the delete date (if given) is in the past, and
 //  - there are no associations to active batches
@@ -42,29 +45,30 @@
 //  query_files
 //      in:
 //          authenticator
-//          list of MD5s
+//          list of physical names
 //          batch ID (optional)
 //          new delete time (optional)
 //      out:
 //          error message,
-//          or list of files (indices in the MD5 list) not present on server
-//      action: for each MD5 in in the input list:
+//          or list of files (indices in the name list) not present on server
+//      action: for each name in the name list:
 //          if present on server
 //              update delete time
 //              create batch/file association
-//              add MD5 to output list
 //  upload_files
 //      in:
 //          authenticator
 //          delete time (optional)
 //          batch ID (optional)
-//          list of MD5s
+//          list of names
 //          files (as multipart attachments)
 //      out:
 //          error message, or success
 //      action:
 //          for each file in list
-//              move to project download dir w/ appropriate name
+//              stage:
+//                  move to project download dir w/ appropriate name
+//                  generate .md5 file
 //              create job_files record
 //              create batch_file_assoc record if needed
 
@@ -163,6 +167,8 @@ function query_files($r) {
     ";
 }
 
+// if an error occurs, delete the uploaded temp files
+//
 function delete_uploaded_files() {
     foreach ($_FILES as $f) {
         unlink($f['tmp_name']);
@@ -214,16 +220,24 @@ function upload_files($r) {
         $fname = $phys_names[$i];
         $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
 
+        // see if file is in download hierarchy
+        //
         switch(check_download_file($tmp_name, $path)) {
         case 0:
+            // file is already there
+            // note: check_download_file() generates .md5 in cases 1 and 2
             break;
         case 1:
+            // file is not there; move
+            //
             if (!move_uploaded_file($tmp_name, $path)) {
                 xml_error(-1, "could not move $tmp_name to $path");
             }
             touch("$path.md5");
             break;
         case -1:
+            // file is there but different contents
+            //
             xml_error(-1, "file immutability violation for $fname");
         case -2:
             xml_error(-1, "file operation failed; check permissions in download/*");
