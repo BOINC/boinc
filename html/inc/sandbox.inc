@@ -32,7 +32,6 @@ require_once("../inc/dir_hier.inc");
 // Return path of sandbox directory for the given user.
 // Create dir if not present.
 //
-if (!function_exists("sandbox_dir")){
 function sandbox_dir($user) {
     $dir = parse_config(get_config(), "<sandbox_dir>");
     if (!$dir) {
@@ -46,7 +45,6 @@ function sandbox_dir($user) {
         mkdir($d);
     }
     return $d;
-}
 }
 
 function sandbox_write_link_file($path, $size, $md5) {
@@ -90,23 +88,19 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 // return the physical name of the file
 //
 function sandbox_file_name($user, $md5) {
-    $f = "sb_".$user->id."_".$md5;
-    return $f;
+    return "sb_".$user->id."_".$md5;
 }
 
 // return the path of the file in the download directory
 //
-if (!function_exists('sandbox_physical_path')) {
 function sandbox_physical_path($user, $md5) {
     global $fanout;
     $f = sandbox_file_name($user, $md5);
     return dir_hier_path($f, parse_config(get_config(), "<download_dir>"), $fanout);
 }
-}
 
 // return list of files in sandbox
 //
-if (!function_exists('sandbox_file_names')) {
 function sandbox_file_names($user) {
     $d = opendir(sandbox_dir($user));
     $names = array();
@@ -118,12 +112,12 @@ function sandbox_file_names($user) {
     natsort($names);
     return $names;
 }
-}
 
 // return a <select> for files in sandbox
 //
-if (!function_exists('sandbox_file_select')) {
-function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = false) {
+function sandbox_file_select(
+    $user, $select_name, $regexp = null, $allow_none = false
+) {
     $x = "<select class=\"form-control\" name=$select_name>\n";
     if ($allow_none) {
         $x .= "<option value=\"\">--- None</option>\n";
@@ -136,15 +130,23 @@ function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = 
     $x .= "</select>\n";
     return $x;
 }
-}
 
-// convert logical (link) name to physical path
+// convert sandbox (link) name to physical path
 //
 function sandbox_log_to_phys($user, $log_name) {
     $dir = sandbox_dir($user);
     [$err, $file_size, $file_md5] = sandbox_parse_link_file("$dir/$log_name");
     if ($err) return null;
     return sandbox_physical_path($user, $file_md5);
+}
+
+// convert sandbox name to physical name
+//
+function sandbox_name_to_phys_name($user, $log_name) {
+    $dir = sandbox_dir($user);
+    [$err, $file_size, $file_md5] = sandbox_parse_link_file("$dir/$log_name");
+    if ($err) return null;
+    return sandbox_file_name($user, $file_md5);
 }
 
 // check if a file is still being used by a unfinished batch
@@ -186,7 +188,6 @@ function sandbox_file_in_use($user, $file){
             if (strcmp($f,$uf) == 0){
                 return true;
             }
-
         }
     }
     return false;

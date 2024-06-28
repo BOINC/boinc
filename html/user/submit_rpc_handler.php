@@ -24,6 +24,7 @@ require_once("../inc/submit_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/dir_hier.inc");
 require_once("../inc/result.inc");
+require_once("../inc/sandbox.inc");
 require_once("../inc/submit_util.inc");
 
 ini_set("memory_limit", "4G");
@@ -155,7 +156,7 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 
 // stage a file, and return the physical name
 //
-function stage_file($file) {
+function stage_file($file, $user) {
     global $fanout;
     $download_dir = parse_config(get_config(), "<download_dir>");
 
@@ -180,6 +181,14 @@ function stage_file($file) {
         return $name;
     case "local_staged":
         return $file->source;
+    case 'sandbox':
+        $name = sandbox_name_to_phys_name($user, $file->source);
+        if (!$name) {
+            xml_error(-1, "sandbox link file $file->source not found");
+        }
+        $path = dir_hier_path($name, $download_dir, $fanout);
+        if (file_exists($path)) return $name;
+        xml_error(-1, "sandbox physical file $file->source not found");
     case "inline":
         $md5 = md5($file->source);
         if (!$md5) {
@@ -201,11 +210,11 @@ function stage_file($file) {
 
 // stage all the files
 //
-function stage_files(&$jobs) {
+function stage_files(&$jobs, $user) {
     foreach($jobs as $job) {
         foreach ($job->input_files as $file) {
             if ($file->mode != "remote") {
-                $file->name = stage_file($file);
+                $file->name = stage_file($file, $user);
             }
         }
     }
@@ -295,9 +304,8 @@ function submit_jobs(
     $cmd .= " --stdin ";
 
     // send stdin/stderr to a temp file
-    $cmd .= sprintf(' >%s 2>&1',
-        "/tmp/create_work_" . getmypid() . ".err"
-    );
+    $errfile = sprintf('/tmp/create_work_%d.err', getmypid());
+    $cmd .= sprintf(' >%s 2>&1', $errfile);
 
     $h = popen($cmd, "w");
     if ($h === false) {
@@ -445,6 +453,10 @@ function logical_end_time($r, $jobs, $user, $app) {
     return (double)$x;
 }
 
+function make_batch_name($user, $app) {
+    return sprintf('%s:%s:%s', $user->name, $app->name, date(DATE_RFC2822));
+}
+
 // $r is a simplexml object encoding the request message
 //
 function submit_batch($r) {
@@ -456,7 +468,7 @@ function submit_batch($r) {
     if ($template) {
         validate_batch($jobs, $template);
     }
-    stage_files($jobs);
+    stage_files($jobs, $user);
     $njobs = count($jobs);
     $now = time();
     $app_version_num = (int)($r->batch->app_version_num);
@@ -501,6 +513,9 @@ function submit_batch($r) {
         log_write("adding jobs to existing batch $batch_id");
     } else {
         $batch_name = (string)($r->batch->batch_name);
+        if (!$batch_name) {
+            $batch_name = make_batch_name($user, $app);
+        }
         $batch_name = BoincDb::escape_string($batch_name);
         $state = BATCH_STATE_INIT;
         $batch_id = BoincBatch::insert(
@@ -556,6 +571,9 @@ function create_batch($r) {
     list($user, $user_submit) = check_remote_submit_permissions($r, $app);
     $now = time();
     $batch_name = (string)($r->batch_name);
+    if (!$batch_name) {
+        $batch_name = make_batch_name($user, $app);
+    }
     $batch_name = BoincDb::escape_string($batch_name);
     $expire_time = (double)($r->expire_time);
     $state = BATCH_STATE_INIT;

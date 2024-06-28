@@ -1,3 +1,5 @@
+# THIS IS DEPRECATED.  USE boinc_submit.py INSTEAD
+
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
 # Copyright (C) 2020 University of California
