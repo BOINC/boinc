@@ -31,6 +31,7 @@ if (!$offset) $offset=0;
 $items_per_page = 20;
 
 $user = BoincUser::lookup_id($userid);
+if (!$user) error_page('no such user');
 $logged_in_user = get_logged_in_user(false);
 BoincForumPrefs::lookup($logged_in_user);
 

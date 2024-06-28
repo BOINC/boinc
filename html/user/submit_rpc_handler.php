@@ -571,6 +571,9 @@ function create_batch($r) {
     list($user, $user_submit) = check_remote_submit_permissions($r, $app);
     $now = time();
     $batch_name = (string)($r->batch_name);
+    if (!$batch_name) {
+        $batch_name = make_batch_name($user, $app);
+    }
     $batch_name = BoincDb::escape_string($batch_name);
     $expire_time = (double)($r->expire_time);
     $state = BATCH_STATE_INIT;

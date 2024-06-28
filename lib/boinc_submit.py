@@ -94,7 +94,7 @@ class BOINC_SERVER:
     def submit_batch(self, batch_desc):
         return self.do_http_post(self.batch_desc_xml(batch_desc, 'submit_batch'))
 
-    def create_batch(self, app_name, batch_name, expire_time):
+    def create_batch(self, app_name, batch_name='', expire_time=0):
         return self.do_http_post(
             self.create_batch_xml(app_name, batch_name, expire_time)
         )
@@ -116,10 +116,10 @@ class BOINC_SERVER:
     def query_batches(self, get_cpu_time):
         return self.do_http_post(self.query_batches_xml(get_cpu_time))
 
+########## job operations
+
     def query_completed_job(self, job_name):
         return self.do_http_post(self.query_completed_job_xml(job_name))
-
-########## job operations
 
     def abort_jobs(self, job_names):
         return self.do_http_post(self.abort_jobs_xml(job_names))
@@ -289,6 +289,13 @@ class BOINC_SERVER:
             '<get_cpu_time>%d</get_cpu_time>\n'
             '</query_batches>\n'
         ) %(self.authenticator, 1 if get_cpu_time else 0)
+
+    def query_completed_job_xml(self, job_name):
+        return ('<query_completed_job>\n'
+        '<authenticator>%s</authenticator>\n'
+        '<job_name>%s</job_name>\n'
+        '</query_completed_job>\n'
+        ) %(self.authenticator, job_name)
 
     def abort_jobs_xml(self, job_names):
         xml = ('<abort_jobs>\n'
