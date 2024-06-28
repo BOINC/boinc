@@ -594,7 +594,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     string delete_file_name;
-    bool ended = false;
+    bool ended = false, strict_memory_bound = false, non_cpu_intensive = false;
 
     mf.init_file(in);
     bool found_start_tag = false, btemp;
@@ -656,6 +656,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // If the scheduler reply didn't specify them, they're not set.
             //
             project->ended = ended;
+            project->non_cpu_intensive = non_cpu_intensive;
+            project->strict_memory_bound = strict_memory_bound;
             return 0;
         }
         else if (xp.parse_str("project_name", project->project_name, sizeof(project->project_name))) {
@@ -888,7 +890,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (xp.parse_bool("dont_use_dcf", dont_use_dcf)) {
             continue;
-        } else if (xp.parse_bool("non_cpu_intensive", project->non_cpu_intensive)) {
+        } else if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) {
+            continue;
+        } else if (xp.parse_bool("strict_memory_bound", strict_memory_bound)) {
             continue;
         } else if (xp.parse_int("send_time_stats_log", send_time_stats_log)){
             continue;

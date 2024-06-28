@@ -1030,6 +1030,10 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         boinc::fprintf(fout, "<non_cpu_intensive/>\n");
     }
 
+    if (config.strict_memory_bound) {
+        boinc::fprintf(fout, "<strict_memory_bound/>\n");
+    }
+
     if (config.verify_files_on_app_start) {
         boinc::fprintf(fout, "<verify_files_on_app_start/>\n");
     }
