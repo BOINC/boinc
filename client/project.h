@@ -170,6 +170,13 @@ struct PROJECT : PROJ_AM {
     bool non_cpu_intensive;
         // The project has asserted (in sched reply) that
         // all its apps are non-CPU-intensive.
+    bool strict_memory_bound;
+        // assume that jobs from this project will have a WSS
+        // of wu.rsc_memory_bound,
+        // even if it's currently less.
+        // For example, CPDN jobs start small and get big later.
+        // If we run a lot of them (based on the small WSS)
+        // the system will run out of RAM and swap when they get big
     bool use_symlinks;
     bool report_results_immediately;
     bool sched_req_no_work[MAX_RSC];

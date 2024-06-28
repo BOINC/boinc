@@ -1311,13 +1311,15 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
         // skip jobs whose 'expected working set size' (EWSS)
         // is too large to fit in available RAM.
-        // The EWSS is the max of
-        // 1) the recent average WSS of the job
-        // 2) if it hasn't run yet,
-        //      the max WSS of other jobs of this app version
-        // 3) the WU's rsc_memory_bound
-        //      This handles the case of CPDN, where jobs run with
-        //      small WSS for a while and then get big.
+        // To compute EWSS, we start with
+        // - if the job has already run, its recent average WSS
+        // - else if other jobs of this app version have run recently,
+        //      the max of their WSSs
+        // - else the WU's rsc_memory_bound
+        // If project->strict_memory_bound is set,
+        // we max the above with wu.rsc_memory_bound.
+        // This is to handle apps (like CPDN) whose WSS is small for a while
+        // and then gets big.
         //
         double ewss = 0;
         if (atp) {
@@ -1326,7 +1328,13 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         } else {
             ewss = rp->avp->max_working_set_size;
         }
-        ewss = std::max(ewss, rp->wup->rsc_memory_bound);
+        if (rp->project->strict_memory_bound) {
+            ewss = std::max(ewss, rp->wup->rsc_memory_bound);
+        } else {
+            if (ewss == 0) {
+                ewss = rp->wup->rsc_memory_bound;
+            }
+        }
 
         if (ewss > ram_left) {
             if (atp) {

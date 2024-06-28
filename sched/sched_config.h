@@ -64,6 +64,7 @@ struct SCHED_CONFIG {
     double delete_delay;
     bool msg_to_host;
     bool non_cpu_intensive;
+    bool strict_memory_bound;
     bool verify_files_on_app_start;
     int homogeneous_redundancy;
     bool hr_allocate_slots;
