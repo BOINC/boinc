@@ -87,6 +87,7 @@ void PROJECT::init() {
     disk_share = 0.0;
     anonymous_platform = false;
     non_cpu_intensive = false;
+    strict_memory_bound = false;
     report_results_immediately = false;
     pwf.reset(this);
     send_time_stats_log = 0;
@@ -246,6 +247,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_bool("send_full_workload", send_full_workload)) continue;
         if (xp.parse_bool("dont_use_dcf", dont_use_dcf)) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("strict_memory_bound", strict_memory_bound)) continue;
         if (xp.parse_bool("suspended_via_gui", suspended_via_gui)) continue;
         if (xp.parse_bool("dont_request_more_work", dont_request_more_work)) continue;
         if (xp.parse_bool("detach_when_done", detach_when_done)) continue;
@@ -422,7 +424,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <njobs_error>%d</njobs_error>\n"
         "    <elapsed_time>%f</elapsed_time>\n"
         "    <last_rpc_time>%f</last_rpc_time>\n"
-        "%s%s%s%s%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -466,6 +468,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         send_full_workload?"    <send_full_workload/>\n":"",
         dont_use_dcf?"    <dont_use_dcf/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
+        strict_memory_bound?"    <strict_memory_bound/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
         detach_when_done?"    <detach_when_done/>\n":"",
@@ -605,6 +608,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     send_full_workload = p.send_full_workload;
     dont_use_dcf = p.dont_use_dcf;
     non_cpu_intensive = p.non_cpu_intensive;
+    strict_memory_bound = p.strict_memory_bound;
     send_time_stats_log = p.send_time_stats_log;
     send_job_log = p.send_job_log;
     suspended_via_gui = p.suspended_via_gui;
