@@ -22,19 +22,26 @@
 // To use this framework:
 // edit this file to describe your application:
 //      input/output files, attributes, etc.
-//      NOTE: currently it's set up for the 'uc2' app,
-//      which reads 'in' and writes 'out' (logical names).
-//      The job uses physical names 'infile' and 'outfile'.
-// build the BOINC client
-// make a 'test' directory
+//      NOTE: currently it's set up for an app that:
+//          - is a native BOINC app (i.e. uses the BOINC library)
+//          - has 1 input file:
+//              logical name 'in' and physical name 'infile'
+//          - has 1 output file:
+//              logical name 'out' and physical name 'outfile'
+//          - has the command line 'in out' (i.e. the logical file names)
+//          To change these, edit app_test_init() below
+//
+// build the BOINC client with these changes
+// make a BOINC data directory, say 'test'
 //      (or you can use an existing BOINC data directory,
 //      in which case the client will also run jobs that are there)
 // make a directory test/slots/app_test
 //      The client will run the test job there.
 //      Clean it out between runs.
-// put the executable file and input file(s) in the test directory
-//      (which acts as the project directory)
-// in the test directory, run boinc --app_test
+// the test directory acts as the project directory. In it, put
+//      - the executable file
+//      - the input file(s) with physical names
+// in the test directory, run boinc --app_test exec_filename
 //      when the job is done, the client won't clean out the slot dir.
 //      You can examine the contents of the slot dir,
 //      and examine the output files in the test dir.
@@ -44,6 +51,10 @@
 #include "result.h"
 #include "client_state.h"
 #include "log_flags.h"
+
+// The following functions create client data structures
+// (PROJECT, APP, APP_VERSION, WORKUNIT, RESULT, FILE_REF, FILE_INFO)
+// for the test app and job.
 
 static PROJECT* make_project() {
     PROJECT *proj = new PROJECT;
@@ -92,6 +103,10 @@ static FILE_REF* make_file(
 }
 
 static APP_VERSION* make_app_version(APP *app, const char* exec_name) {
+    if (!boinc_file_exists(exec_name)) {
+        fprintf(stderr, "%s doesn't exist\n", exec_name);
+        exit(1);
+    }
     APP_VERSION *av = new APP_VERSION;
     strcpy(av->app_name, "test_av");
     strcpy(av->api_version, "8.0");
@@ -132,8 +147,7 @@ static RESULT* make_result(APP_VERSION *av, WORKUNIT* wu) {
     return res;
 }
 
-// app_test_init() sets up data structures
-// (project, app, app version, WU, result)
+// app_test_init() sets up above data structures
 // so that the client runs a test job.
 //
 void CLIENT_STATE::app_test_init() {
