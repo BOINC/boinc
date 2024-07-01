@@ -129,6 +129,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(allow_remote_gui_rpc)) {
             cc_config.allow_remote_gui_rpc = true;
         } else if (ARG(app_test)) {
+            if (i+1 >= argc) {
+                fprintf(stderr, "usage: boinc --app_test exec-file\n");
+                exit(1);
+            }
             app_test = true;
             app_test_file = argv[++i];
         } else if (ARG(attach_project)) {
