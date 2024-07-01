@@ -193,7 +193,7 @@ void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
 
     msg_printf(NULL, MSG_INFO,
-        "Host name: %s",
+        "Computer name: %s",
         host_info.domain_name
     );
     nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
