@@ -32,6 +32,8 @@ struct PLAN_CLASS_SPEC {
     bool cal;
     bool opencl;
     bool virtualbox;
+    bool docker;
+    char docker_compose_version[256];
     bool is64bit;
     std::vector<std::string> cpu_features;
     double min_ncpus;
