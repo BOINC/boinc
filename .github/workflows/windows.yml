@@ -120,6 +120,7 @@ jobs:
           python deploy\prepare_deployment.py win_apps
           python deploy\prepare_deployment.py win_client
           python deploy\prepare_deployment.py win_manager
+          python deploy\prepare_deployment.py win_installer
 
       - name: Upload apps
         if: success() && matrix.type == 'msbuild'
@@ -141,6 +142,13 @@ jobs:
         with:
           name: win_manager_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_manager.7z
+
+      - name: Upload installer files
+        if: success() && matrix.type == 'msbuild'
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: win_installer_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
+          path: deploy/win_installer.7z
 
       - name: Upload symbol files
         if: success() && matrix.type == 'msbuild'
