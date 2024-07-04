@@ -208,6 +208,11 @@ windows_manager_list = [
     'locale/*/*.mo',
 ]
 
+windows_installer_list = [
+    './win_build/Build/x64/Release/boinccas.dll',
+    './win_build/Build/ARM64/Release/boinccas.dll',
+]
+
 wasm_client_list = [
     './client/boinc_client.wasm',
     './client/boinc_client.js',
@@ -364,6 +369,9 @@ def prepare_win_client(target_directory):
 def prepare_win_manager(target_directory):
     prepare_7z_archive('win_manager', target_directory, windows_manager_list)
 
+def prepare_win_installer(target_directory):
+    prepare_7z_archive('win_installer', target_directory, windows_installer_list)
+
 def prepare_wasm_client(target_directory):
     prepare_7z_archive('wasm_client', target_directory, wasm_client_list)
 
@@ -404,6 +412,7 @@ boinc_types = {
     'win_apps': prepare_win_apps,
     'win_client': prepare_win_client,
     'win_manager': prepare_win_manager,
+    'win_installer': prepare_win_installer,
     'wasm_client': prepare_wasm_client,
     'wasm_client-debug': prepare_wasm_client_debug,
     'linux_snap': prepare_linux_snap,
