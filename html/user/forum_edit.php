@@ -121,12 +121,12 @@ if ($can_edit_title) {
     if ($preview) {
         row2(
             tra("Title").bbcode_info(),
-            "<input type=\"text\" name=\"title\" value=\"".htmlspecialchars($title)."\">"
+            "<input type=\"text\" size=80 name=\"title\" value=\"".htmlspecialchars($title)."\">"
         );
     } else {
         row2(
             tra("Title").bbcode_info(),
-            '<input type="text" name="title" value="'.htmlspecialchars($thread->title).'">'
+            '<input type="text" size=80 name="title" value="'.htmlspecialchars($thread->title).'">'
         );
     }
 };
