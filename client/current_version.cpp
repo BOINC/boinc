@@ -202,10 +202,10 @@ static bool parse_version(FILE* f, char* new_version, int len) {
         if (xp.match_tag("/version")) {
 #ifdef __APPLE__
             return (same_platform
-                    && newer_version_exists
-                    && min_macos_OK
-                    && max_macos_OK
-                );
+                && newer_version_exists
+                && min_macos_OK
+                && max_macos_OK
+            );
 #else
             return (same_platform && newer_version_exists);
 #endif
@@ -215,11 +215,11 @@ static bool parse_version(FILE* f, char* new_version, int len) {
         }
         if (xp.parse_str("version_num", buf2, sizeof(buf2))) {
             newer_version_exists = is_version_newer(
-                                    buf2,
-                                    gstate.core_client_version.major,
-                                    gstate.core_client_version.minor,
-                                    gstate.core_client_version.release
-                                    );
+                buf2,
+                gstate.core_client_version.major,
+                gstate.core_client_version.minor,
+                gstate.core_client_version.release
+            );
             strlcpy(new_version, buf2, len);
         }
 #ifdef __APPLE__
@@ -307,10 +307,10 @@ void newer_version_startup_check() {
 
     if (!gstate.newer_version.empty()) {
         if (is_version_newer(gstate.newer_version.c_str(),
-                            gstate.core_client_version.major,
-                            gstate.core_client_version.minor,
-                            gstate.core_client_version.release)
-                            ) {
+            gstate.core_client_version.major,
+            gstate.core_client_version.minor,
+            gstate.core_client_version.release)
+        ) {
             show_newer_version_msg(gstate.newer_version.c_str());
         } else {
             gstate.newer_version = "";
