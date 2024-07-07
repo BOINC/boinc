@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -99,27 +99,27 @@ jobs:
 
       - name: Upload manager
         if: matrix.type == 'manager'
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: osx_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_manager.7z
 
       - name: Upload apps
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: osx_${{ matrix.type }}_apps_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_apps.7z
 
       - name: Upload x86_64 apps
         if: matrix.type == 'samples-makefile'
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: osx_x86_64_apps_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_apps_x86_64.7z
 
       - name: Upload arm64 apps
         if: matrix.type == 'samples-makefile'
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: osx_arm64_apps_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_apps_arm64.7z
@@ -153,7 +153,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: osx_logs_cmake-build_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
