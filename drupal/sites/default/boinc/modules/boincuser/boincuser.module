@@ -1616,7 +1616,10 @@ function join_page($type = null) {
     $output .= '    <p>';
     $output .= '      <a class="button" href="http://boinc.berkeley.edu/download.php">Download</a>';
     $output .= '    </p>';
-    $output .= '    ' . bts("For Android devices, download BOINC from the Google Play Store or Amazon App Store.", array(), NULL, 'boinc:join-page');
+    $output .= '    ' . bts("For Android devices, visit !fdroid_link or download !apk_link directly.", array(
+      '!fdroid_link' => '<a href="https://f-droid.org/en/packages/edu.berkeley.boinc">F-Droid</a>',
+      '!apk_link' => '<a href="https://boinc.berkeley.edu/download_all.php">BOINC for Android</a>',
+    ), NULL, 'boinc:join-page');
     $output .= '  </li>';
     $output .= '  <li>' . bts('Run the installer.', array(), NULL, 'boinc:join-page') . '</li>';
     $output .= '  <li>' . bts('Choose @sitename from the list, or enter @siteurl.', array(
