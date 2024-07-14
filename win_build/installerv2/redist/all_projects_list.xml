@@ -121,49 +121,49 @@
         <description><![CDATA[The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.]]></description>
         <home>Charles University in Prague</home>
     <platforms>
-        <name>windows_intelx86[cuda55]</name>
-        <name>windows_intelx86</name>
-        <name>windows_intelx86[avx_winxp]</name>
-        <name>windows_intelx86[avx_win10]</name>
-        <name>windows_intelx86[avx_win7]</name>
-        <name>windows_intelx86[fma_win10]</name>
-        <name>windows_intelx86[fma_win7]</name>
-        <name>windows_intelx86[sse2_win7]</name>
-        <name>windows_intelx86[sse3_win7]</name>
-        <name>windows_intelx86[sse3_winxp]</name>
-        <name>windows_intelx86[sse2_win10]</name>
-        <name>windows_intelx86[sse2_winxp]</name>
-        <name>windows_intelx86[sse3_win10]</name>
-        <name>windows_x86_64[cuda55]</name>
-        <name>windows_x86_64[avx_winxp]</name>
-        <name>windows_x86_64[avx_win7]</name>
-        <name>windows_x86_64[sse2_win7]</name>
-        <name>windows_x86_64[sse3_win7]</name>
-        <name>windows_x86_64[sse3_winxp]</name>
-        <name>windows_x86_64[cuda102_win7]</name>
-        <name>windows_x86_64[cuda102_win10]</name>
-        <name>windows_x86_64[fma_win7]</name>
-        <name>windows_x86_64[cuda118_win10]</name>
-        <name>windows_x86_64[sse2_winxp]</name>
-        <name>windows_x86_64[opencl_102_amd_win]</name>
-        <name>windows_x86_64[win10]</name>
+        <name>aarch64-android-linux-gnu</name>
+        <name>aarch64-unknown-linux-gnu</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>arm64-apple-darwin[arm64_macos_1100]</name>
+        <name>armv6l-unknown-linux-gnueabihf</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[avx_linux]</name>
         <name>i686-pc-linux-gnu[fma_linux]</name>
         <name>i686-pc-linux-gnu[sse2_linux]</name>
         <name>i686-pc-linux-gnu[sse3_linux]</name>
-        <name>x86_64-pc-linux-gnu[cuda55]</name>
+        <name>windows_intelx86</name>
+        <name>windows_intelx86[avx_win10]</name>
+        <name>windows_intelx86[avx_win7]</name>
+        <name>windows_intelx86[avx_winxp]</name>
+        <name>windows_intelx86[cuda55]</name>
+        <name>windows_intelx86[fma_win10]</name>
+        <name>windows_intelx86[fma_win7]</name>
+        <name>windows_intelx86[sse2_win10]</name>
+        <name>windows_intelx86[sse2_win7]</name>
+        <name>windows_intelx86[sse2_winxp]</name>
+        <name>windows_intelx86[sse3_win10]</name>
+        <name>windows_intelx86[sse3_win7]</name>
+        <name>windows_intelx86[sse3_winxp]</name>
+        <name>windows_x86_64[avx_win7]</name>
+        <name>windows_x86_64[avx_winxp]</name>
+        <name>windows_x86_64[cuda102_win10]</name>
+        <name>windows_x86_64[cuda102_win7]</name>
+        <name>windows_x86_64[cuda118_win10]</name>
+        <name>windows_x86_64[cuda55]</name>
+        <name>windows_x86_64[fma_win7]</name>
+        <name>windows_x86_64[opencl_102_amd_win]</name>
+        <name>windows_x86_64[sse2_win7]</name>
+        <name>windows_x86_64[sse2_winxp]</name>
+        <name>windows_x86_64[sse3_win7]</name>
+        <name>windows_x86_64[sse3_winxp]</name>
+        <name>windows_x86_64[win10]</name>
+        <name>x86_64-apple-darwin[macos_1014]</name>
+        <name>x86_64-pc-freebsd[freebsd_1302]</name>
+        <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda102_linux]</name>
         <name>x86_64-pc-linux-gnu[cuda118_linux]</name>
+        <name>x86_64-pc-linux-gnu[cuda55]</name>
         <name>x86_64-pc-linux-gnu[opencl_101_amd_linux]</name>
-        <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-apple-darwin[macos_1014]</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>armv6l-unknown-linux-gnueabihf</name>
-        <name>x86_64-pc-freebsd[freebsd_1302]</name>
-        <name>aarch64-unknown-linux-gnu</name>
-        <name>arm64-apple-darwin[arm64_macos_1100]</name>
-        <name>aarch64-android-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/asteroids_logo.jpg</image>
       <summary>Study the properties of asteroids</summary>
