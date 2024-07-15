@@ -410,14 +410,8 @@ int GLOBAL_PREFS::parse_override(
         }
         if (in_venue) {
             if (xp.match_tag("/venue")) {
-                if (in_correct_venue) {
-                    return 0;
-                } else {
-                    in_venue = false;
-                    continue;
-                }
-            } else {
-                if (!in_correct_venue) continue;
+                in_venue = false;
+                continue;
             }
         } else {
             if (strstr(xp.parsed_tag, "venue")) {
@@ -446,55 +440,55 @@ int GLOBAL_PREFS::parse_override(
             }
             continue;
         }
-        if (xp.parse_double("battery_charge_min_pct", battery_charge_min_pct)) {
+        if ((!mask.battery_charge_min_pct || in_correct_venue) && xp.parse_double("battery_charge_min_pct", battery_charge_min_pct)) {
             mask.battery_charge_min_pct = true;
             continue;
         }
-        if (xp.parse_double("battery_max_temperature", battery_max_temperature)) {
+        if ((!mask.battery_max_temperature || in_correct_venue) && xp.parse_double("battery_max_temperature", battery_max_temperature)) {
             mask.battery_max_temperature = true;
             continue;
         }
-        if (xp.parse_bool("run_on_batteries", run_on_batteries)) {
+        if ((!mask.run_on_batteries || in_correct_venue) && xp.parse_bool("run_on_batteries", run_on_batteries)) {
             mask.run_on_batteries = true;
             continue;
         }
-        if (xp.parse_bool("run_if_user_active", run_if_user_active)) {
+        if ((!mask.run_if_user_active || in_correct_venue) && xp.parse_bool("run_if_user_active", run_if_user_active)) {
             mask.run_if_user_active = true;
             continue;
         }
-        if (xp.parse_bool("run_gpu_if_user_active", run_gpu_if_user_active)) {
+        if ((!mask.run_gpu_if_user_active || in_correct_venue) && xp.parse_bool("run_gpu_if_user_active", run_gpu_if_user_active)) {
             mask.run_gpu_if_user_active = true;
             continue;
         }
-        if (xp.parse_double("idle_time_to_run", idle_time_to_run)) {
+        if ((!mask.idle_time_to_run || in_correct_venue) && xp.parse_double("idle_time_to_run", idle_time_to_run)) {
             mask.idle_time_to_run = true;
             continue;
         }
-        if (xp.parse_double("suspend_if_no_recent_input", suspend_if_no_recent_input)) {
+        if ((!mask.suspend_if_no_recent_input || in_correct_venue) && xp.parse_double("suspend_if_no_recent_input", suspend_if_no_recent_input)) {
             mask.suspend_if_no_recent_input = true;
             continue;
         }
-        if (xp.parse_double("suspend_cpu_usage", suspend_cpu_usage)) {
+        if ((!mask.suspend_cpu_usage || in_correct_venue) && xp.parse_double("suspend_cpu_usage", suspend_cpu_usage)) {
             mask.suspend_cpu_usage = true;
             continue;
         }
-        if (xp.parse_double("niu_suspend_cpu_usage", niu_suspend_cpu_usage)) {
+        if ((!mask.niu_suspend_cpu_usage || in_correct_venue) && xp.parse_double("niu_suspend_cpu_usage", niu_suspend_cpu_usage)) {
             mask.niu_suspend_cpu_usage = true;
             continue;
         }
-        if (xp.parse_double("start_hour", cpu_times.start_hour)) {
+        if ((!mask.start_hour || in_correct_venue) && xp.parse_double("start_hour", cpu_times.start_hour)) {
             mask.start_hour = true;
             continue;
         }
-        if (xp.parse_double("end_hour", cpu_times.end_hour)) {
+        if ((!mask.end_hour || in_correct_venue) && xp.parse_double("end_hour", cpu_times.end_hour)) {
             mask.end_hour = true;
             continue;
         }
-        if (xp.parse_double("net_start_hour", net_times.start_hour)) {
+        if ((!mask.net_start_hour || in_correct_venue) && xp.parse_double("net_start_hour", net_times.start_hour)) {
             mask.net_start_hour = true;
             continue;
         }
-        if (xp.parse_double("net_end_hour", net_times.end_hour)) {
+        if ((!mask.net_end_hour || in_correct_venue) && xp.parse_double("net_end_hour", net_times.end_hour)) {
             mask.net_end_hour = true;
             continue;
         }
@@ -502,120 +496,120 @@ int GLOBAL_PREFS::parse_override(
             parse_day(xp);
             continue;
         }
-        if (xp.parse_bool("leave_apps_in_memory", leave_apps_in_memory)) {
+        if ((!mask.leave_apps_in_memory || in_correct_venue) && xp.parse_bool("leave_apps_in_memory", leave_apps_in_memory)) {
             mask.leave_apps_in_memory = true;
             continue;
         }
-        if (xp.parse_bool("confirm_before_connecting", confirm_before_connecting)) {
+        if ((!mask.confirm_before_connecting || in_correct_venue) && xp.parse_bool("confirm_before_connecting", confirm_before_connecting)) {
             mask.confirm_before_connecting = true;
             continue;
         }
-        if (xp.parse_bool("hangup_if_dialed", hangup_if_dialed)) {
+        if ((!mask.hangup_if_dialed || in_correct_venue) && xp.parse_bool("hangup_if_dialed", hangup_if_dialed)) {
             mask.hangup_if_dialed = true;
             continue;
         }
-        if (xp.parse_bool("dont_verify_images", dont_verify_images)) {
+        if ((!mask.dont_verify_images || in_correct_venue) && xp.parse_bool("dont_verify_images", dont_verify_images)) {
             mask.dont_verify_images = true;
             continue;
         }
-        if (xp.parse_double("work_buf_min_days", work_buf_min_days)) {
+        if ((!mask.work_buf_min_days || in_correct_venue) && xp.parse_double("work_buf_min_days", work_buf_min_days)) {
             if (work_buf_min_days < 0) work_buf_min_days = 0;
             mask.work_buf_min_days = true;
             continue;
         }
-        if (xp.parse_double("work_buf_additional_days", work_buf_additional_days)) {
+        if ((!mask.work_buf_additional_days || in_correct_venue) && xp.parse_double("work_buf_additional_days", work_buf_additional_days)) {
             if (work_buf_additional_days < 0) work_buf_additional_days = 0;
             mask.work_buf_additional_days = true;
             continue;
         }
-        if (xp.parse_double("max_ncpus_pct", max_ncpus_pct)) {
+        if ((!mask.max_ncpus_pct || in_correct_venue) && xp.parse_double("max_ncpus_pct", max_ncpus_pct)) {
             if (max_ncpus_pct < 0) max_ncpus_pct = 0;
             if (max_ncpus_pct > 100) max_ncpus_pct = 100;
             mask.max_ncpus_pct = true;
             continue;
         }
-        if (xp.parse_double("niu_max_ncpus_pct", niu_max_ncpus_pct)) {
+        if ((!mask.niu_max_ncpus_pct || in_correct_venue) && xp.parse_double("niu_max_ncpus_pct", niu_max_ncpus_pct)) {
             if (niu_max_ncpus_pct <= 0) niu_max_ncpus_pct = 100;
             if (niu_max_ncpus_pct > 100) niu_max_ncpus_pct = 100;
             mask.niu_max_ncpus_pct = true;
             continue;
         }
-        if (xp.parse_int("max_cpus", max_ncpus)) {
+        if ((!mask.max_ncpus || in_correct_venue) && xp.parse_int("max_cpus", max_ncpus)) {
             if (max_ncpus < 0) max_ncpus = 0;
             mask.max_ncpus = true;
             continue;
         }
-        if (xp.parse_double("disk_interval", disk_interval)) {
+        if ((!mask.disk_interval || in_correct_venue) && xp.parse_double("disk_interval", disk_interval)) {
             if (disk_interval<0) disk_interval = 0;
             mask.disk_interval = true;
             continue;
         }
-        if (xp.parse_double("cpu_scheduling_period_minutes", cpu_scheduling_period_minutes)) {
+        if ((!mask.cpu_scheduling_period_minutes || in_correct_venue) && xp.parse_double("cpu_scheduling_period_minutes", cpu_scheduling_period_minutes)) {
             if (cpu_scheduling_period_minutes < 0.0001) cpu_scheduling_period_minutes = 60;
             mask.cpu_scheduling_period_minutes = true;
             continue;
         }
-        if (xp.parse_double("disk_max_used_gb", disk_max_used_gb)) {
+        if ((!mask.disk_max_used_gb || in_correct_venue) && xp.parse_double("disk_max_used_gb", disk_max_used_gb)) {
             mask.disk_max_used_gb = true;
             continue;
         }
-        if (xp.parse_double("disk_max_used_pct", disk_max_used_pct)) {
+        if ((!mask.disk_max_used_pct || in_correct_venue) && xp.parse_double("disk_max_used_pct", disk_max_used_pct)) {
             mask.disk_max_used_pct = true;
             continue;
         }
-        if (xp.parse_double("disk_min_free_gb", disk_min_free_gb)) {
+        if ((!mask.disk_min_free_gb || in_correct_venue) && xp.parse_double("disk_min_free_gb", disk_min_free_gb)) {
             mask.disk_min_free_gb = true;
             continue;
         }
-        if (xp.parse_double("vm_max_used_pct", dtemp)) {
+        if ((!mask.vm_max_used_frac || in_correct_venue) && xp.parse_double("vm_max_used_pct", dtemp)) {
             vm_max_used_frac = dtemp/100;
             mask.vm_max_used_frac = true;
             continue;
         }
-        if (xp.parse_double("ram_max_used_busy_pct", dtemp)) {
+        if ((!mask.ram_max_used_busy_frac || in_correct_venue) && xp.parse_double("ram_max_used_busy_pct", dtemp)) {
             if (!dtemp) dtemp = 100;
             ram_max_used_busy_frac = dtemp/100;
             mask.ram_max_used_busy_frac = true;
             continue;
         }
-        if (xp.parse_double("ram_max_used_idle_pct", dtemp)) {
+        if ((!mask.ram_max_used_idle_frac || in_correct_venue) && xp.parse_double("ram_max_used_idle_pct", dtemp)) {
             if (!dtemp) dtemp = 100;
             ram_max_used_idle_frac = dtemp/100;
             mask.ram_max_used_idle_frac = true;
             continue;
         }
-        if (xp.parse_double("max_bytes_sec_up", max_bytes_sec_up)) {
+        if ((!mask.max_bytes_sec_up || in_correct_venue) && xp.parse_double("max_bytes_sec_up", max_bytes_sec_up)) {
             if (max_bytes_sec_up < 0) max_bytes_sec_up = 0;
             mask.max_bytes_sec_up = true;
             continue;
         }
-        if (xp.parse_double("max_bytes_sec_down", max_bytes_sec_down)) {
+        if ((!mask.max_bytes_sec_down || in_correct_venue) && xp.parse_double("max_bytes_sec_down", max_bytes_sec_down)) {
             if (max_bytes_sec_down < 0) max_bytes_sec_down = 0;
             mask.max_bytes_sec_down = true;
             continue;
         }
-        if (xp.parse_double("cpu_usage_limit", dtemp)) {
+        if ((!mask.cpu_usage_limit || in_correct_venue) && xp.parse_double("cpu_usage_limit", dtemp)) {
             if (dtemp > 0 && dtemp <= 100) {
                 cpu_usage_limit = dtemp;
                 mask.cpu_usage_limit = true;
             }
             continue;
         }
-        if (xp.parse_double("niu_cpu_usage_limit", dtemp)) {
+        if ((!mask.niu_cpu_usage_limit || in_correct_venue) && xp.parse_double("niu_cpu_usage_limit", dtemp)) {
             if (dtemp <= 0) dtemp = 100;
             if (dtemp > 100) dtemp = 100;
             niu_cpu_usage_limit = dtemp;
             mask.niu_cpu_usage_limit = true;
             continue;
         }
-        if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {
+        if ((!mask.daily_xfer_limit_mb || in_correct_venue) && xp.parse_double("daily_xfer_limit_mb", dtemp)) {
             if (dtemp >= 0) {
                 daily_xfer_limit_mb = dtemp;
                 mask.daily_xfer_limit_mb = true;
             }
             continue;
         }
-        if (xp.parse_int("daily_xfer_period_days", itemp)) {
+        if ((!mask.daily_xfer_period_days || in_correct_venue) && xp.parse_int("daily_xfer_period_days", itemp)) {
             if (itemp >= 0) {
                 daily_xfer_period_days = itemp;
                 mask.daily_xfer_period_days = true;
