@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1337,7 +1337,6 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     int                showDialog = wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage();
     int                doShutdownClient = 0;
-    CDlgGenericMessage dlg(this);
     wxString           strDialogTitle = wxEmptyString;
     wxString           strDialogMessage = wxEmptyString;
 
@@ -1368,13 +1367,13 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
             pSkinAdvanced->GetApplicationName().c_str()
         );
 
-        dlg.SetTitle(strDialogTitle);
-        dlg.m_DialogMessage->SetLabel(strDialogMessage);
-        dlg.Fit();
-        dlg.Centre();
+        CDlgGenericMessageParameters dlgParams;
+        dlgParams.caption = strDialogTitle;
+        dlgParams.message = strDialogMessage;
+        CDlgGenericMessage dlg(this, &dlgParams);
 
         if (wxID_OK == dlg.ShowModal()) {
-            wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.m_DialogDisableMessage->GetValue());
+            wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.GetDisableMessageValue());
             doShutdownClient = 1;
         }
     }
