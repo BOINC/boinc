@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,6 +31,8 @@
 ////@begin XPM images
 ////@end XPM images
 
+#define ID_DISABLEDIALOG 10017
+
 /*!
  * CDlgGenericMessage type definition
  */
@@ -56,25 +58,28 @@ CDlgGenericMessage::CDlgGenericMessage( )
 {
 }
 
-CDlgGenericMessage::CDlgGenericMessage( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+CDlgGenericMessage::CDlgGenericMessage( wxWindow* parent, CDlgGenericMessageParameters* parameters )
 {
-    Create(parent, id, caption, pos, size, style);
+    m_DialogParent = parent;
+    if (parameters != NULL) {
+        m_DialogParameters = *parameters;
+    }
+    Create();
 }
 
 /*!
  * CDlgFileExit creator
  */
 
-bool CDlgGenericMessage::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+bool CDlgGenericMessage::Create( )
 {
 ////@begin CDlgGenericMessage member initialisation
-    m_DialogMessage = NULL;
-    m_DialogDisableMessage = NULL;
 ////@end CDlgGenericMessage member initialisation
 
 ////@begin CDlgGenericMessage creation
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-    wxDialog::Create( parent, id, caption, pos, size, style );
+    wxDialog::Create( m_DialogParent, m_DialogParameters.id, m_DialogParameters.caption, m_DialogParameters.pos,
+        m_DialogParameters.size, m_DialogParameters.style );
 
     CreateControls();
     GetSizer()->Fit(this);
@@ -102,28 +107,37 @@ void CDlgGenericMessage::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(1, 0, 0);
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    m_DialogMessage = new wxStaticText;
-    m_DialogMessage->Create( itemDialog1, wxID_STATIC, _T(""), wxDefaultPosition, wxDefaultSize, 0);
-    itemFlexGridSizer4->Add(m_DialogMessage, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxStaticText* dialogMessage = new wxStaticText;
+    dialogMessage->Create( itemDialog1, wxID_STATIC, m_DialogParameters.message, wxDefaultPosition, wxDefaultSize, 0);
+    itemFlexGridSizer4->Add(dialogMessage, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer4->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_DialogDisableMessage = new wxCheckBox;
-    m_DialogDisableMessage->Create( itemDialog1, ID_DISABLEDIALOG, _("Don't show this dialog again."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_DialogDisableMessage->SetValue(false);
-    itemFlexGridSizer4->Add(m_DialogDisableMessage, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    if (m_DialogParameters.showDisableMessage)
+    {
+        m_DialogDisableMessage = new wxCheckBox;
+        m_DialogDisableMessage->Create(itemDialog1, ID_DISABLEDIALOG, _("Don't show this dialog again."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+        m_DialogDisableMessage->SetValue(false);
+        itemFlexGridSizer4->Add(m_DialogDisableMessage, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    }
 
     wxFlexGridSizer* itemFlexGridSizer8 = new wxFlexGridSizer(1, 0, 0);
     itemFlexGridSizer2->Add(itemFlexGridSizer8, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
 
-    wxButton* itemButton9 = new wxButton;
-    itemButton9->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton9->SetDefault();
-    itemFlexGridSizer8->Add(itemButton9, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    if (m_DialogParameters.button1.show)
+    {
+        wxButton* itemButton9 = new wxButton;
+        itemButton9->Create( itemDialog1, m_DialogParameters.button1.id, m_DialogParameters.button1.label, wxDefaultPosition, wxDefaultSize, 0 );
+        itemButton9->SetDefault();
+        itemFlexGridSizer8->Add(itemButton9, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    }
 
-    wxButton* itemButton10 = new wxButton;
-    itemButton10->Create( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer8->Add(itemButton10, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    if (m_DialogParameters.button2.show)
+    {
+        wxButton* itemButton10 = new wxButton;
+        itemButton10->Create( itemDialog1, m_DialogParameters.button2.id, m_DialogParameters.button2.label, wxDefaultPosition, wxDefaultSize, 0 );
+        itemFlexGridSizer8->Add(itemButton10, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    }
 
 ////@end CDlgGenericMessage content construction
 }
@@ -135,6 +149,11 @@ void CDlgGenericMessage::CreateControls()
 bool CDlgGenericMessage::ShowToolTips()
 {
     return true;
+}
+
+bool CDlgGenericMessage::GetDisableMessageValue()
+{
+    return m_DialogDisableMessage != NULL ? m_DialogDisableMessage->GetValue() : false;
 }
 
 /*!
