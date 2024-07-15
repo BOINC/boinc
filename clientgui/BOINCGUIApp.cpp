@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -50,6 +50,7 @@
 #include "DlgEventLog.h"
 #include "procinfo.h"
 #include "sg_BoincSimpleFrame.h"
+#include "DlgGenericMessage.h"
 
 
 bool s_bSkipExitConfirmation = false;
@@ -119,6 +120,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iShutdownCoreClient = 0;
     m_iDisplayExitDialog = 1;
     m_iDisplayShutdownConnectedClientDialog = 1;
+    m_iDisplayAnotherInstanceRunningDialog = 1;
 #ifdef __WXMAC__
     m_iHideMenuBarIcon = 0;
 #endif
@@ -201,6 +203,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
     m_pConfig->Read(wxT("DisplayShutdownConnectedClientDialog"), &m_iDisplayShutdownConnectedClientDialog, 1L);
+    m_pConfig->Read(wxT("DisplayAnotherInstanceRunningDialog"), &m_iDisplayAnotherInstanceRunningDialog, 1L);
 #ifdef __WXMAC__
     m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
 #endif
@@ -461,14 +464,20 @@ bool CBOINCGUIApp::OnInit() {
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
-      wxMessageDialog dialog(
-          NULL,
-          _("Another instance of BOINC Manager is already running."),
-          _("BOINC Manager"),
-          wxOK|wxICON_WARNING
-      );
-      dialog.ShowModal();
-      return false;
+        if (GetBOINCMGRDisplayAnotherInstanceRunningMessage()) {
+            wxString appName = m_pSkinManager->GetAdvanced()->GetApplicationName();
+            wxString message;
+            message.Printf(_("Another instance of %s is already running."), appName);
+            CDlgGenericMessageParameters params;
+            params.caption = appName;
+            params.message = message;
+            params.button2 = CDlgGenericMessageButton(false);
+            CDlgGenericMessage dlg(NULL, &params);
+            dlg.ShowModal();
+            SetBOINCMGRDisplayAnotherInstanceRunningMessage(!dlg.GetDisableMessageValue());
+            SaveState();
+        }
+        return false;
     }
 
     // Initialize the main document
@@ -648,6 +657,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
+    m_pConfig->Write(wxT("DisplayAnotherInstanceRunningDialog"), m_iDisplayAnotherInstanceRunningDialog);
 #ifdef __WXMAC__
     m_pConfig->Write(wxT("HideMenuBarIcon"), m_iHideMenuBarIcon);
 #endif
