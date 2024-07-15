@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,6 +40,7 @@
 #include "Events.h"
 #include "SkinManager.h"
 #include "version.h"
+#include "DlgGenericMessage.h"
 
 #ifndef _WIN32
 #include <sys/wait.h>
@@ -1295,6 +1296,7 @@ void CMainDocument::CheckForVersionUpdate(bool showMessage) {
     wxString message, title;
     title.Printf(_("Version Update"));
     wxString applicationName = wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName();
+    bool newVersionAvailable = false;
     if (IsConnected()) {
         rpc.get_newer_version(version, url);
 
@@ -1302,7 +1304,8 @@ void CMainDocument::CheckForVersionUpdate(bool showMessage) {
             return;
 
         if (!version.empty() && !url.empty()) {
-            message.Printf(_("A new version of %s is available. You can download it here: %s"), applicationName, url);
+            message.Printf(_("A new version of %s is available.\nYou can download it here: %s"), applicationName, url);
+            newVersionAvailable = true;
         }
         else {
             message.Printf(_("There is no new version of %s available for download."), applicationName);
@@ -1312,7 +1315,16 @@ void CMainDocument::CheckForVersionUpdate(bool showMessage) {
         message.Printf(_("%s is not connected to the client"), applicationName);
     }
     if (showMessage) {
-        wxGetApp().SafeMessageBox(message, title);
+        CDlgGenericMessageParameters params;
+        params.caption = title;
+        params.message = message;
+        params.showDisableMessage = false;
+        params.button1 = CDlgGenericMessageButton(newVersionAvailable, wxID_OK, _("Go to download page"));
+        params.button2 = CDlgGenericMessageButton(true, wxID_CANCEL, _("Close"));
+        CDlgGenericMessage dlg(wxGetApp().GetFrame(), &params);
+        if (dlg.ShowModal() == wxID_OK) {
+            wxLaunchDefaultBrowser(url);
+        }
     }
 }
 
