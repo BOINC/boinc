@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -43,32 +43,45 @@
 
 ////@begin control identifiers
 #define ID_DIALOG 10000
+#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
 #ifdef __WXMAC__
 #define SYMBOL_CDLGGENERICMESSAGE_STYLE wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX
 #else
 #define SYMBOL_CDLGGENERICMESSAGE_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
 #endif
-#define SYMBOL_CDLGGENERICMESSAGE_TITLE _T("")
-#define SYMBOL_CDLGGENERICMESSAGE_IDNAME ID_DIALOG
-#define SYMBOL_CDLGGENERICMESSAGE_SIZE wxSize(400, 300)
-#define SYMBOL_CDLGGENERICMESSAGE_POSITION wxDefaultPosition
-#define ID_DISABLEDIALOG 10017
 ////@end control identifiers
-
-/*!
- * Compatibility
- */
-
-#ifndef wxCLOSE_BOX
-#define wxCLOSE_BOX 0x1000
-#endif
-#ifndef wxFIXED_MINSIZE
-#define wxFIXED_MINSIZE 0
-#endif
 
 /*!
  * CDlgGenericMessage class declaration
  */
+
+struct CDlgGenericMessageButton
+{
+    CDlgGenericMessageButton(bool show = true, wxWindowID id = wxID_OK, wxString label = _T("&OK"))
+    {
+        this->show = show;
+        this->id = id;
+        this->label = label;
+    }
+    bool show = true;
+    wxWindowID id = wxID_OK;
+    wxString label = _T("&OK");
+};
+
+struct CDlgGenericMessageParameters
+{
+    wxWindowID id = ID_DIALOG;
+    wxString caption = _T("");
+    wxPoint pos = wxDefaultPosition;
+    wxSize size = wxSize(400, 300);
+    long style = SYMBOL_CDLGGENERICMESSAGE_STYLE;
+    wxString message = _T("");
+    bool showDisableMessage = true;
+    CDlgGenericMessageButton button1 = CDlgGenericMessageButton(true, wxID_OK, _T("&OK"));
+    CDlgGenericMessageButton button2 = CDlgGenericMessageButton(true, wxID_CANCEL, _T("Cancel"));
+};
 
 class CDlgGenericMessage: public wxDialog
 {
@@ -78,13 +91,7 @@ class CDlgGenericMessage: public wxDialog
 public:
     /// Constructors
     CDlgGenericMessage( );
-    CDlgGenericMessage( wxWindow* parent, wxWindowID id = SYMBOL_CDLGGENERICMESSAGE_IDNAME, const wxString& caption = SYMBOL_CDLGGENERICMESSAGE_TITLE, const wxPoint& pos = SYMBOL_CDLGGENERICMESSAGE_POSITION, const wxSize& size = SYMBOL_CDLGGENERICMESSAGE_SIZE, long style = SYMBOL_CDLGGENERICMESSAGE_STYLE );
-
-    /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGGENERICMESSAGE_IDNAME, const wxString& caption = SYMBOL_CDLGGENERICMESSAGE_TITLE, const wxPoint& pos = SYMBOL_CDLGGENERICMESSAGE_POSITION, const wxSize& size = SYMBOL_CDLGGENERICMESSAGE_SIZE, long style = SYMBOL_CDLGGENERICMESSAGE_STYLE );
-
-    /// Creates the controls and sizers
-    void CreateControls();
+    CDlgGenericMessage( wxWindow* parent, CDlgGenericMessageParameters* parameters = NULL );
 
 ////@begin CDlgGenericMessage event handler declarations
 
@@ -102,10 +109,19 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
-////@begin CDlgGenericMessage member variables
-    wxStaticText* m_DialogMessage;
-    wxCheckBox* m_DialogDisableMessage;
-////@end CDlgGenericMessage member variables
+    bool GetDisableMessageValue();
+
+private:
+    /// Creation
+    bool Create();
+    /// Creates the controls and sizers
+    void CreateControls();
+
+    ////@begin CDlgGenericMessage member variables
+    wxWindow* m_DialogParent;
+    CDlgGenericMessageParameters m_DialogParameters;
+    wxCheckBox* m_DialogDisableMessage = NULL;
+    ////@end CDlgGenericMessage member variables
 };
 
 #endif
