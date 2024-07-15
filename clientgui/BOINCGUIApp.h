@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -120,6 +120,7 @@ protected:
     int                 m_iShutdownCoreClient;
     int                 m_iDisplayExitDialog;
     int                 m_iDisplayShutdownConnectedClientDialog;
+    int                 m_iDisplayAnotherInstanceRunningDialog;
 #ifdef __WXMAC__
     int                 m_iHideMenuBarIcon;
 #endif
@@ -190,6 +191,11 @@ public:
                                                     { return m_iDisplayShutdownConnectedClientDialog; }
     void                SetBOINCMGRDisplayShutdownConnectedClientMessage(int iDisplayShutdownConnectedClientDialog)
                                                     { m_iDisplayShutdownConnectedClientDialog = iDisplayShutdownConnectedClientDialog; }
+
+    int                 GetBOINCMGRDisplayAnotherInstanceRunningMessage()
+                                                    { return m_iDisplayAnotherInstanceRunningDialog; }
+    void                SetBOINCMGRDisplayAnotherInstanceRunningMessage(int iDisplayAnotherInstanceRunningDialog)
+                                                    { m_iDisplayAnotherInstanceRunningDialog = iDisplayAnotherInstanceRunningDialog; }
 
 #ifdef __WXMAC__
     int                 GetBOINCMGRHideMenuBarIcon()
