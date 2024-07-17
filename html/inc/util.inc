@@ -99,7 +99,7 @@ if (!defined('HOME_PAGE')) {
     define('HOME_PAGE', 'home.php');
 }
 
-// the page showing another user.
+// the page showing another user ('userid' arg).
 // Link to here wherever we show a user name.
 //
 if (!defined('SHOW_USER_PAGE')) {

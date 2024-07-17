@@ -75,7 +75,10 @@ function show_row($x, $y, $mode) {
         break;
     case 'user':
         $user = BoincUser::lookup_id($x);
-        echo "<a href=show_user.php?userid=$x>$user->name</a>";
+        echo sprintf(
+            '<a href=%s?userid=%d>%s</a>',
+            SHOW_USER_PAGE, $x, $user->name
+        );
         break;
     case 'team':
         $team = BoincTeam::lookup_id($x);

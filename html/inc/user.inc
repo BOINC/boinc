@@ -94,7 +94,12 @@ function show_project($project) {
     if ($project->url == "http://www.worldcommunitygrid.org/") {
         $x = $project->name;
     } else {
-        $x = "<a href=\"$project->url"."show_user.php?userid=$project->id\">$project->name</a>";
+        $x = sprintf(
+            '<a href="%sshow_user.php?userid=%d">%s</a>',
+            $project->url,
+            $project->id,
+            $project->name
+        );
     }
     echo "<tr>
         <td>$x</td>
