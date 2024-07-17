@@ -627,7 +627,13 @@ function print_prefs_form(
         prefs_form_project_specific($prefs->project_specific, $project_error);
     }
 
-    row2("", "<input class=\"btn btn-success\" type=submit value=\"$submit_value\" name=\"action\">");
+    row2("",
+        sprintf(
+            '<input class="btn" %s type=submit value="%s" name="action">',
+            button_style(),
+            $submit_value
+        )
+    );
     end_table();
     echo "</form>\n";
 }

@@ -97,7 +97,9 @@ echo '
 
 if (user_can_create_thread($user, $forum)) {
     show_button(
-        "forum_post.php?id=$id", tra("New thread"), tra("Add a new thread to this forum")
+        "forum_post.php?id=$id",
+        tra("New thread"),
+        tra("Add a new thread to this forum")
     );
 }
 
@@ -106,15 +108,16 @@ echo '</td>
     <div class="form-group">
 ';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '
-    <input class="btn btn-success btn-sm" type="submit" value="Sort">
+echo sprintf('
+    <input class="btn btn-sm" %s type="submit" value="Sort">
     </div>
     </td>
     </tr>
     </table>
     </form>
-    <p></p>
-';
+    <p></p> ',
+    button_style()
+);
 
 show_forum($forum, $start, $sort_style, $user);
 

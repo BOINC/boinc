@@ -42,13 +42,22 @@ if ($retval) {
     if ($venue == '') {
         $venue = '('.tra("none").')';
     }
-    echo "
-        ".tra("The venue of this computer has been set to %1.", "<b>$venue</b>")."
+    echo sprintf(
+        '%s
         <p>
-        ".tra("Preference changes will take effect when the computer communicates with this project.")."
+        %s
         <p>
-        <a href=show_host_detail.php?hostid=$hostid>".tra("Return to computer page")."</a>.
-    ";
+        <a class="btn" %s href=%s>%s</a>
+        ',
+        tra(
+            'The venue of this computer has been set to %1.',
+            "<b>$venue</b>"
+        ),
+        tra('Preference changes will take effect when the computer communicates with this project.'),
+        button_style(),
+        HOME_PAGE,
+        tra('Continue to home page')
+    );
     page_tail();
 } else {
     db_error_page();

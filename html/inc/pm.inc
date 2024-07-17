@@ -91,11 +91,17 @@ function pm_team_form($user, $teamid, $error=null) {
     echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
     echo "</td></tr>\n";
     end_table();
-    echo "<tr><td></td><td>
-        <input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Send message")."\">
-        </td></tr>\n
-    ";
+    echo sprintf(
+        '<tr><td></td><td>
+        <input class="btn" %s type="submit" name="preview" value="%s">
+        <input class="btn" %s type="submit" value="%s">
+        </td></tr>
+        ',
+        button_style('blue'),
+        tra("Preview"),
+        button_style(),
+        tra("Send message")
+    );
     end_table();
     page_tail();
 }

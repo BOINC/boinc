@@ -31,9 +31,15 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
         $email_addr = $user->email_addr;
     }
     if (defined('EMAIL_USE_CMD')) {
-        $cmd = "mail -s \"$subject\" $email_addr";
-        $pipe = popen($cmd, "w");
-        fwrite($pipe, $body);
+        if ($body_html) {
+            $cmd = "mail  -a \"Content-type: text/html\" -s \"$subject\" $email_addr";
+            $pipe = popen($cmd, "w");
+            fwrite($pipe, $body_html);
+        } else {
+            $cmd = "mail  -s \"$subject\" $email_addr";
+            $pipe = popen($cmd, "w");
+            fwrite($pipe, $body);
+        }
         pclose($pipe);
         return true;
     } else if (function_exists("make_php_mailer")) {

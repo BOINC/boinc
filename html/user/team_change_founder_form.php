@@ -110,7 +110,11 @@ foreach ($users as $user) {
 if ($navailable_users > 0) {
     echo "<input type=hidden name=navailable_users value=$navailable_users>";
     end_table();
-    echo "<input class=\"btn btn-success\" type=submit value=\"".tra("Change founder")."\">";
+    echo sprintf(
+        '<input class="btn" %s type=submit value="%s">',
+        button_style(),
+        tra("Change founder")
+    );
 } else {
     echo "<tr>
         <td colspan='4'>".tra("There are no users to transfer team to.")."</td>

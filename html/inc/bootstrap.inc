@@ -490,8 +490,9 @@ function form_general($label, $item) {
 function form_submit($text, $attrs='') {
     form_general(
         "",
-        sprintf('<button %s type="submit" class="btn btn-success">%s</button>',
-            $attrs, $text
+        sprintf(
+            '<button %s type="submit" class="btn" %s>%s</button>',
+            $attrs, button_style(), $text
         )
     );
 }
