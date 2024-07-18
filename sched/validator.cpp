@@ -685,7 +685,11 @@ int handle_wu(
                 );
                 wu.canonical_resultid = canonicalid;
                 wu.canonical_credit = credit;
-                wu.assimilate_state = ASSIMILATE_READY;
+
+                // DON'T modify assimilate_state here, under bad conditions the
+                // assimilator may have already started to work on this WU.
+                // Instead, let the transitioner decide what to do with it.
+                transition_time = IMMEDIATE;
 
                 // don't need to send any more results
                 //
