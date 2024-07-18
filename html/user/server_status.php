@@ -256,10 +256,12 @@ function show_status_xml($x) {
         item_xml("name", $app->name);
         item_xml("unsent", $app->unsent);
         item_xml("in_progress", $app->in_progress);
-        item_xml("avg_runtime", $app->info->avg);
-        item_xml("min_runtime", $app->info->min);
-        item_xml("max_runtime", $app->info->max);
-        item_xml("users", $app->info->users);
+        if ($app->info) {
+            item_xml("avg_runtime", $app->info->avg);
+            item_xml("min_runtime", $app->info->min);
+            item_xml("max_runtime", $app->info->max);
+            item_xml("users", $app->info->users);
+        }
         echo "</app>\n";
     }
     echo "</tasks_by_app>
