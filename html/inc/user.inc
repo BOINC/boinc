@@ -575,11 +575,11 @@ function community_links($clo, $logged_in_user){
     }
 
     if ($friends) {
-        $x = '';
+        $x = [];
         foreach($friends as $friend) {
-            $x .= friend_links($friend);
+            $x[] = friend_links($friend);
         }
-        row2(tra('Friends'), $x);
+        row2(tra('Friends'), implode('<br>', $x));
     }
 }
 
