@@ -159,6 +159,7 @@ class BoincDb extends DbConn {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincUser {
     public $prefs;
     static $cache;
@@ -241,6 +242,7 @@ class BoincUser {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincTeam {
     static $cache;
     static function insert($clause) {
@@ -296,6 +298,7 @@ class BoincTeam {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincTeamDelta {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -311,6 +314,7 @@ class BoincTeamDelta {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincHost {
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -355,6 +359,7 @@ class BoincHost {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincResult {
     static function count($clause) {
         $db = BoincDb::get();
@@ -391,6 +396,7 @@ class BoincResult {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincWorkunit {
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -424,6 +430,7 @@ class BoincWorkunit {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincApp {
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -453,6 +460,7 @@ class BoincApp {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincAppVersion {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -478,6 +486,7 @@ class BoincAppVersion {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincProfile {
     static function lookup_fields($fields, $clause) {
         $db = BoincDb::get();
@@ -521,6 +530,7 @@ class BoincProfile {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincTeamAdmin {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -540,6 +550,7 @@ class BoincTeamAdmin {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincPrivateMessage {
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -573,6 +584,7 @@ class BoincPrivateMessage {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincPlatform {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -596,6 +608,7 @@ class BoincPlatform {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincHostAppVersion {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -655,6 +668,7 @@ function latest_avs_app($appid) {
     return $r;
 }
 
+#[AllowDynamicProperties]
 class BoincBadge {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -684,6 +698,7 @@ class BoincBadge {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincBadgeUser {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -713,6 +728,7 @@ class BoincBadgeUser {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincBadgeTeam {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -742,6 +758,7 @@ class BoincBadgeTeam {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincCreditUser {
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -769,6 +786,7 @@ class BoincCreditUser {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincCreditTeam {
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -792,6 +810,7 @@ class BoincCreditTeam {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincToken {
 
     static function lookup($clause) {
@@ -843,8 +862,8 @@ class BoincToken {
 
 }
 
+#[AllowDynamicProperties]
 class BoincUserDeleted {
-
     static function insert_user($user) {
         $now = time();
         $cpid = md5($user->cross_project_id.$user->email_addr);
@@ -862,8 +881,8 @@ class BoincUserDeleted {
 
 }
 
+#[AllowDynamicProperties]
 class BoincHostDeleted {
-
     static function insert_hosts_for_user($user) {
         $now = time();
         $clause = "select id, host_cpid, $now from host where userid = $user->id";
@@ -880,6 +899,7 @@ class BoincHostDeleted {
 
 }
 
+#[AllowDynamicProperties]
 class BoincConsent {
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -914,6 +934,7 @@ class BoincConsent {
 
 }
 
+#[AllowDynamicProperties]
 class BoincConsentType {
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -949,6 +970,7 @@ class BoincConsentType {
 
 // Class to interface with SQL View latest_consent. Only read
 // operations permitted.
+#[AllowDynamicProperties]
 class BoincLatestConsent {
     static function lookup($clause) {
         $db = BoincDb::get();
