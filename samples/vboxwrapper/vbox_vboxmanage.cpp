@@ -109,15 +109,20 @@ int VBOX_VM::initialize() {
     } else {
         // If the override environment variable isn't specified then
         // it is based of the current users HOME directory.
+        const char *home;
 #ifdef _WIN32
-        virtualbox_home_directory = getenv("USERPROFILE");
+        home = getenv("USERPROFILE");
+        if (home == NULL) {
+            vboxlog_msg("no USERPROFILE - exiting");
+            exit(1);
+        }
 #else
-        const char *home = getenv("HOME");
+        home = getenv("HOME");
         if (home == NULL) {
             home = getpwuid(getuid())->pw_dir;
         }
-        virtualbox_home_directory = home;
 #endif
+        virtualbox_home_directory = home;
         virtualbox_home_directory += "/.VirtualBox";
     }
 
