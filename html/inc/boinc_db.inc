@@ -57,31 +57,27 @@ class BoincDb extends DbConn {
             if ($host && $name && $user && $passwd) {
                 $retval = $instance->init_conn($user, $passwd, $host, $name);
                 if ($retval) {
-                    if ($instance->do_query("use $name")) {
-                        //error_log("BoincDb::get_aux(): connected to replica DB $dbnum");
-                        self::$instance = $instance;
-                        return;
-                    }
+                    //error_log("BoincDb::get_aux(): connected to replica DB $dbnum");
+                    self::$instance = $instance;
+                    return;
                 }
             }
             // if can't connect to replica, fall through and try DB 0
         }
         $host = parse_config($config, '<db_host>');
+        if (!$host) $host = 'localhost';
         $user = parse_config($config, '<db_user>');
         $name = parse_config($config, '<db_name>');
         $passwd = parse_config($config, '<db_passwd>');
-        // OK if host is null; it will use localhost
         if (!$name || !$user || !$passwd) {
             error_log("BoincDb::get_aux(): must specify DB name, user, passwd");
             return;
         }
         $retval = $instance->init_conn($user, $passwd, $host, $name);
         if ($retval) {
-            if ($instance->do_query("use $name")) {
-                //error_log("BoincDb::get_aux(): connected to DB $dbnum");
-                self::$instance = $instance;
-                return;
-            }
+            //error_log("BoincDb::get_aux(): connected to DB $dbnum");
+            self::$instance = $instance;
+            return;
         }
         error_log("BoincDb::get_aux(): Couldn't connect to DB $dbnum");
     }
@@ -95,7 +91,7 @@ class BoincDb extends DbConn {
     // at the top of it.
     //
     // Note: true == 1.
-    // You can also 2, 3... to select other replicas
+    // You can also use 2, 3... to select other replicas
     //
     static function get($dbnum = 0) {
         global $generating_xml;
