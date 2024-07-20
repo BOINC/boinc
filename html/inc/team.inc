@@ -515,7 +515,11 @@ function team_edit_form($team, $label, $url) {
         );
     }
     row2("",
-        "<input class=\"btn btn-success\" type=submit name=new value='$label'>"
+        sprintf(
+            '<input class="btn" %s type=submit name=new value="%s">',
+            button_style(),
+            $label
+        )
     );
     end_table();
     echo "</form>\n";

@@ -165,19 +165,24 @@ function show_message_row($thread, $parent_post) {
         }
     }
     if (!$logged_in_user->prefs->no_signature_by_default) {
-        $enable_signature="checked=\"true\"";
+        $enable_signature='checked="true"';
     } else {
         $enable_signature="";
     }
-    $x2 .= "</textarea><p> </p>
-        <input class=\"btn btn-primary btn-sm \" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn btn-success btn-sm \" type=\"submit\" value=\"".tra("Post reply")."\">
+    $x2 .= sprintf('</textarea><p> </p>
+        <input class="btn btn-sm" %s type="submit" name="preview" value="%s">
+        <input class="btn btn-sm" %s type="submit" value="%s">
         &nbsp;&nbsp;&nbsp;
-        <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
-        <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>
-
-        </form>
-    ";
+        <input type="checkbox" name="add_signature" id="add_signature" %s>
+        <label for="add_signature"> %s </label>
+        </form>',
+        button_style('blue'),
+        tra("Preview"),
+        button_style(),
+        tra("Post reply"),
+        $enable_signature,
+        tra("Add my signature to this reply")
+    );
     row2($x1, $x2, false, "20%");
 }
 

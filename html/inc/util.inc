@@ -99,7 +99,7 @@ if (!defined('HOME_PAGE')) {
     define('HOME_PAGE', 'home.php');
 }
 
-// the page showing another user.
+// the page showing another user ('userid' arg).
 // Link to here wherever we show a user name.
 //
 if (!defined('SHOW_USER_PAGE')) {
@@ -913,20 +913,38 @@ function current_url() {
     return $url;
 }
 
-// Show a single link formatted to look like a button.
-// @param url The destination URL of the button
-// @param text The text to display on the button
-// @param desc The title of the destination - typically used as a popup
-// @param class The optional CSS class of the button. Defaults to a standard button
-// @params extra Additional text in href tag
+// style for a button
+// the colors for bootstrap' btn-success are almost illegible;
+// the green is too light.  Use a darker green.
 //
-
+function button_style($color='green', $font_size=null) {
+    $fs = '';
+    if ($font_size) {
+        $fs = sprintf('; font-size:%dpx', $font_size);
+    }
+    $c = 'seagreen';
+    if ($color == 'blue') $c = 'steelblue';
+    return sprintf(
+        'style="background-color:%s; color:white; text-decoration:none%s"',
+        $c, $fs
+    );
+}
+// Show a link formatted to look like a button.
+// url: the destination of the lin
+// text: The text to display on the button
+// desc: tooltip text (show on hover)
+// class: class of the button, e.g. btn
+// extra: Additional text in href tag
+//
 function button_text($url, $text, $desc=null, $class=null, $extra='') {
     if (!$desc) {
         $desc = $text;
     }
+    if (!$extra && !$class) {
+        $extra = button_style();
+    }
     if (!$class) {
-        $class = "btn-success btn-sm";
+        $class = "btn btn-sm";
     }
     return sprintf(' <a href="%s" title="%s" class="btn %s" %s>%s</a>',
         $url, $desc, $class, $extra, $text

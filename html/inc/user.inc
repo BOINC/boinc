@@ -94,7 +94,12 @@ function show_project($project) {
     if ($project->url == "http://www.worldcommunitygrid.org/") {
         $x = $project->name;
     } else {
-        $x = "<a href=\"$project->url"."show_user.php?userid=$project->id\">$project->name</a>";
+        $x = sprintf(
+            '<a href="%sshow_user.php?userid=%d">%s</a>',
+            $project->url,
+            $project->id,
+            $project->name
+        );
     }
     echo "<tr>
         <td>$x</td>
@@ -325,7 +330,8 @@ function show_preference_links() {
     }
 }
 
-// return describing a friend: their name, and profile picture if it exists
+// return string describing a friend:
+// their name, and profile picture if it exists
 //
 function friend_links($user) {
     if (is_banished($user)) {
@@ -348,7 +354,7 @@ function friend_links($user) {
         }
         $alt = tra("Profile");
         $x .= sprintf(
-            '<a href="%sview_profile.php?userid=%d"><img title="%s" src="%s" alt="%s"></a><br>',
+            '<p><a href="%sview_profile.php?userid=%d"><img title="%s" src="%s" alt="%s"></a><br>',
             url_base(),
             $user->id,
             tra("View the profile of %1", $user->name),
@@ -359,7 +365,6 @@ function friend_links($user) {
     if (function_exists("project_user_links")) {
         $x .= project_user_links($user);
     }
-    $x .= '</div>';
     return $x;
 }
 
@@ -470,14 +475,14 @@ function show_community_private($user) {
     }
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $x = '';
+    $x = [];
     if ($friends) {
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
             if (!$fuser) continue;
-            $x .= friend_links($fuser);
+            $x[] = friend_links($fuser);
         }
-        row2(tra("Friends"), $x);
+        row2(tra("Friends"), implode('<br>', $x));
     } else {
         row2(tra("Friends"), '---');
     }
@@ -570,11 +575,11 @@ function community_links($clo, $logged_in_user){
     }
 
     if ($friends) {
-        $x = '';
+        $x = [];
         foreach($friends as $friend) {
-            $x .= friend_links($friend);
+            $x[] = friend_links($friend);
         }
-        row2(tra('Friends'), $x);
+        row2(tra('Friends'), implode('<br>', $x));
     }
 }
 
