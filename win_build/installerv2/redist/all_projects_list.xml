@@ -805,6 +805,7 @@
         <description><![CDATA[The Ramanujan Machine uses your computer power to search for new mathematical formulas.]]></description>
         <home>Independent</home>
     <platforms>
+        <name>arm64-apple-darwin</name>
         <name>windows_x86_64</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
