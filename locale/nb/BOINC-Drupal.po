@@ -6,15 +6,17 @@
 # 
 # Translators:
 # Eirik Birkeland <eirikbirkeland@gmail.com>, 2015
+# Jan Sherdahl, 2020
+# Patrick Williamson <patrickwill@me.com>, 2020
 # Rune Bjørge <runetbj@hotmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2017-11-09 20:23+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/boinc/boinc/language/nb/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Jan Sherdahl, 2020\n"
+"Language-Team: Norwegian Bokmål (http://app.transifex.com/boinc/boinc/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,10 +35,10 @@ msgid ""
 msgstr "Du må få @Count fler poeng for å kunne skrive kommentarer på denne siden."
 
 msgid "Enforced by version @number"
-msgstr "Fra versjon @number"
+msgstr "Påtvunget av versjon @number"
 
 msgid "Total Credit"
-msgstr "Totale poeng"
+msgstr "Poeng totalt"
 
 msgid "App ID"
 msgstr "App ID"
@@ -183,7 +185,7 @@ msgid "this project"
 msgstr "dette prosjektet"
 
 msgid "Featured"
-msgstr ""
+msgstr "Utvalgt"
 
 msgid "Locked"
 msgstr "Låst"
@@ -207,12 +209,12 @@ msgid ""
 msgstr "!name la deg til som venn på !site. Du kan godkjenne eller avvise denne forespørselen. Dersom du avviser forespørselen vil vi ikke varsle avsenderen, bare slette forespørselen fra begge kontoer.\n\nFølg lenken under for å vise denne forespørselen:\n!link\n\nTakk,\n!site teamet"
 
 msgid "Please set the minimum time required between posts."
-msgstr ""
+msgstr "Angi minimum tid som kreves mellom innlegg."
 
 msgid ""
 "Please set the minimum total credit that a user must earn in order to post "
 "to this message board."
-msgstr ""
+msgstr "Angi den minste totale poengsummen en bruker må ha for å kunne legge inn på denne oppslagstavlen."
 
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
@@ -229,7 +231,7 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr ""
+msgstr "!name bekreftet deg som en venn på !site.\n\nFølg denne lenken for å se hans eller hennes profil:\n!link\n\n!message\n\nTakk,\n!site teamet"
 
 msgid ""
 "A team foundership change was already requested recently. Only one request "
@@ -237,29 +239,29 @@ msgid ""
 msgstr "Et skifte av grunnlegger har nylig vært forespurt. Et nytt skifte kan ikke utføres før det har gått minst 90 dager."
 
 msgid "Team name is required."
-msgstr ""
+msgstr "Team navn er påkrevd."
 
 msgid "You are banned from community participation until @date"
 msgstr "Du er utestengt fra å delta til @date"
 
 msgid "There is no user on your team with that email address."
-msgstr ""
+msgstr "Det er ingen brukere på teamet ditt med den e-postadressen."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr ""
+msgstr "Einstein@Home er et program som bruker datamaskinens inaktive tid til å kjøre en skjermsparer for å søke etter gravitasjonsbølger fra å spinne isolerte kompakte objekter (blant annet pulsarer) ved hjelp av data fra LIGO gravitasjonsbølgedetektor."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
 " gravitational waves from spinning isolated compact objects (among which are"
 " pulsars) using data from the LIGO gravitational wave detector."
-msgstr ""
+msgstr "Einstein@Home er et program som bruker datamaskinens inaktiv tid til å søke etter gravitasjonsbølger fra spinning av isolerte kompakte objekter (blant annet pulsarer) ved hjelp av data fra LIGO gravitasjonsbølgedetektor."
 
 msgid "Add separate preferences for @venue"
-msgstr ""
+msgstr "Legg til separate innstillinger for @møteplass"
 
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
@@ -267,31 +269,31 @@ msgid ""
 msgstr "Medlemmet @name har bedt om å overta grunnlegger status for dette teamet. Dette kan være fordi du har forlatt, eller ikke hatt kontakt med teamet på en lang stund."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr ""
+msgstr "Lagets grunnlegger har 1 dag på seg til å svare på overføringsforespørselen din."
 
 msgid "Message board title is required."
-msgstr ""
+msgstr "Tittel på oppslagstavlen kreves."
 
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr ""
+msgstr "Advarsel: Innholdet ditt <a href=\"@url\">må indekseres på nytt</a> før Apache Solr vil søke i kommentarer."
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr ""
+msgstr "Velg innholdstyper der kommentarene indekseres av Apace Solr. Innholdet ditt må indekseres på nytt etter at du har endret denne konfigurasjonen."
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr ""
+msgstr "Hvis du endrer brukerens e-postadresse, må du også endre passordet samtidig."
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr ""
+msgstr "Bruk: 'Lagre konfigurasjon' lagrer innstillingene ovenfor i drupal-databasen. Dette vil være de (globale) forhåndsinnstilte datakalkuleringsinnstillingene som fyller ut innstillinger når en bruker laster inn siden Kontoinnstillinger."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -301,12 +303,12 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr ""
+msgstr "'Lagre konfigurasjon med innstillinger for diskbruk fra config.xml' lagrer innstillingene ovenfor i drupal-databasen, men laster også inn innstillinger for diskbruk fra BOINC-prosjektets config.xml-fil. Disse overskriver alle innstillinger for diskbruk du har plassert ovenfor. Forsiktig: En brukers personlige preferanser endres ikke hvis du laster inn innstillingene for diskbruk fra config.xml her inn i Drupal-databasen. De må endre innstillingene manuelt."
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "My stats"
-msgstr ""
+msgstr "Mine stats"
 
 #: menu-link
 msgctxt "menu-link"
@@ -316,7 +318,7 @@ msgstr "Hjem"
 #: menu-link
 msgctxt "menu-link"
 msgid "Credentials"
-msgstr ""
+msgstr "Opplysninger"
 
 #: menu-link
 msgctxt "menu-link"
@@ -331,7 +333,7 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr ""
+msgstr "Din personlige bakgrunn"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -343,7 +345,7 @@ msgstr "Fortell om deg selv. Du kan fortelle hvor du er fra, alder, yrke, hobby 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr ""
+msgstr "Dine meninger angående dette prosjektet"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -352,7 +354,7 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr ""
+msgstr "Fortell oss tankene dine om @this_project\n1. Hvorfor kjører du @this_project?\n2. Hva er dine synspunkter om prosjektet?\n3. Noen forslag?"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -372,17 +374,17 @@ msgstr "Land"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr ""
+msgstr "Profilbilde"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr ""
+msgstr "URL nettsted"
 
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr ""
+msgstr "@this_project Fremgang"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -392,27 +394,27 @@ msgstr "Prosjekter"
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr ""
+msgstr "Ingen venner har blitt lag til."
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr ""
+msgstr "Vis alle venner"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Friend Requests"
-msgstr ""
+msgstr "Venneforespørseler"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr ""
+msgstr "Venter på godkjenning fra venner"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr ""
+msgstr "Søk nettsted"
 
 #: menu-link
 msgctxt "menu-link"
@@ -422,7 +424,7 @@ msgstr "Nyheter"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr ""
+msgstr "Sertifikater"
 
 #: account-host-list
 msgctxt "account-host-list"
@@ -432,7 +434,7 @@ msgstr "Alle datamaskiner"
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr ""
+msgstr "Datamaskiner aktive siste 30 dager"
 
 #: menu-link
 msgctxt "menu-link"
@@ -447,27 +449,27 @@ msgstr "Fellesskap"
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr ""
+msgstr "Personvern"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonnement"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonnement"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr ""
+msgstr "Oppdaterte"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr ""
+msgstr "Kø"
 
 #: menu-link
 msgctxt "menu-link"
@@ -477,7 +479,7 @@ msgstr "Profil"
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Aktiv de siste 30 dager"
 
 #: user-host-list
 msgctxt "user-host-list"
@@ -517,7 +519,7 @@ msgstr "Skriv ny"
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr ""
+msgstr "Vis datamaskiner"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -532,22 +534,22 @@ msgstr "Utesteng bruker"
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Authenticator login"
-msgstr ""
+msgstr "Innlogging autentiserer"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr ""
+msgstr "Intet innhold står i køen for moderering."
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr ""
+msgstr "Kø for moderering av brukerprofil"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Aktiv de siste 30 dager"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
@@ -557,7 +559,7 @@ msgstr "Kommentar fra"
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonnement"
 
 #: country-of-origin
 msgctxt "country-of-origin"
@@ -989,27 +991,27 @@ msgstr "Valider tilstand"
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr ""
+msgstr "Toppunkt størrelse arbeidssett"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr ""
+msgstr "Maks mellomlager størrelse"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr ""
+msgstr "Maks disk bruk"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical credit"
-msgstr ""
+msgstr "Kanonisk poeng"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result ID"
-msgstr ""
+msgstr "Kanonisk resultat ID"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1024,7 +1026,7 @@ msgstr "Feilmaske"
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Minimum quorum"
-msgstr ""
+msgstr "Minimum  beslutningsdyktig antall  "
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreovewrite
 msgctxt ""
@@ -1071,7 +1073,7 @@ msgstr "Applikasjonsversjon ID"
 #: application-details
 msgctxt "application-details"
 msgid "Plan class"
-msgstr ""
+msgstr "Planlegg klasse"
 
 #: application-details
 msgctxt "application-details"
@@ -1121,7 +1123,7 @@ msgstr "Moderering"
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Unvetted profiles"
-msgstr ""
+msgstr "Profiler ikke undersøkt"
 
 #: team-dashboard
 msgctxt "team-dashboard"
@@ -1146,27 +1148,27 @@ msgstr "Sitat"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr ""
+msgstr "Svar på denne kommentaren med et sitat"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr ""
+msgstr "Ble med: @join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr ""
+msgstr "Innlegg: @post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr ""
+msgstr "Poengsum: @user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr ""
+msgstr "RAC: @user_rac"
 
 #: message-header
 msgctxt "message-header"
@@ -1323,7 +1325,7 @@ msgstr "Navn"
 #: page-submitted-info
 msgctxt "page-submitted-info"
 msgid "Submitted by !username on !datetime"
-msgstr "Skrevet av !username den !datetime"
+msgstr "Innsendt av !username den !datetime"
 
 #: user-profile
 msgctxt "user-profile"
@@ -1473,37 +1475,37 @@ msgstr "Prosessorbruk"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr ""
+msgstr "Suspendere når datamaskinen går på batteri?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr ""
+msgstr "Stanser kalkulering på bærbare datamaskiner når den kjører på batteristrøm."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr ""
+msgstr "Suspendere når datamaskinen er i bruk?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr ""
+msgstr "Suspenderer databehandling og filoverføring når du bruker datamaskinen."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr ""
+msgstr "Stanser GPU-kalkulering når datamaskinen er i bruk?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr ""
+msgstr "Stanser GPU kalkulering når du bruker datamaskinen."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr ""
+msgstr "Med \"I bruk\" menes i det minste mus-/tastaturbruk"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1513,7 +1515,7 @@ msgstr "minutter"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr ""
+msgstr "Dette avgjør når datamaskinen regnes som \"i bruk\"."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1538,7 +1540,7 @@ msgstr "Sett på pause når datamaskinen er opptatt med å kjøre andre programm
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr ""
+msgstr "Kalkuler bare mellom:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -1553,7 +1555,7 @@ msgstr "Utfører beregninger kun innefor gitte tidsrom hver dag."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr ""
+msgstr "La ikke-GPU oppgaver bli i minnet når suspendert?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1561,7 +1563,7 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr ""
+msgstr "Hvis \"Ja\", forblir suspenderte oppgaver i minnet og fortsetter uten tapt arbeid. Hvis \"Nei\", blir suspenderte oppgaver fjernet fra minnet og gjenopptatt fra det siste kontrollpunktet."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1611,7 +1613,7 @@ msgstr "Disk- og minnebruk"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr ""
+msgstr "Disk: ikke bruk mer enn"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1621,7 +1623,7 @@ msgstr "Begrens total diskforbruk til BOINC"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr ""
+msgstr "Disk: la minst være igjen"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1657,7 +1659,7 @@ msgctxt "account-preferences-computing"
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr ""
+msgstr "Dette styrer hvor ofte oppgaver lagrer tilstanden til disken, slik at de senere kan fortsettes fra det punktet."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1784,14 +1786,14 @@ msgstr "Eksempel: BOINC kan overføre maks 2000 MB med data i løpet av 30 dager
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr ""
+msgstr "Hopp over dataverifisering for speilbildefiler?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr ""
+msgstr "Velg bare \"Ja\" hvis Internett-leverandøren endrer speilbildefiler. Hopp over verifisering reduserer sikkerheten til BOINC."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -1840,7 +1842,7 @@ msgstr "Bruk CPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr ""
+msgstr "Be kun om CPU-oppgaver fra dette prosjektet."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1850,7 +1852,7 @@ msgstr "Bruk NVIDIA GPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr ""
+msgstr "Etterspør NVIDIA GPU-oppgaver fra dette prosjektet."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1860,7 +1862,7 @@ msgstr "Bruk ATI GPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr ""
+msgstr "Etterspør ATI GPU-oppgaver fra dette prosjektet."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1870,7 +1872,7 @@ msgstr "Bruk Intel GPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr ""
+msgstr "Etterspør Intel GPU-oppgaver fra dette prosjektet."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1956,7 +1958,7 @@ msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, it will be used for your user picture."
-msgstr ""
+msgstr "Hvis du har en <a href=\"@gravatar-check\">gyldig Gravatar</a> tilknyttet e-postadressen din, vil den brukes som brukerbildet ditt."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1968,7 +1970,7 @@ msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, use it for your user picture."
-msgstr ""
+msgstr "Hvis du har en <a href=\"@gravatar-check\">gyldig Gravatar</a> tilknyttet e-postadressen din, bruk den som brukerbildet ditt."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1993,7 +1995,7 @@ msgstr "Foruminnstillinger"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "In discussion topics, show at most @comments_per_page"
-msgstr ""
+msgstr "I diskusjonstemaer, vis på det meste @comments_per_page"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -2033,17 +2035,17 @@ msgstr "Skjul signaturer i forum"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr ""
+msgstr "Ignorer brukere i forum:"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr ""
+msgstr "<a href=\"@ignore-user-list\">Vis/rediger</a> listen over ignorerte brukere."
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Privacy settings"
-msgstr ""
+msgstr "Personverninnstillinger"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
@@ -2173,12 +2175,12 @@ msgstr "Søk etter lag"
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr ""
+msgstr "Oppgaver venter for denne arbeidsenheten."
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
 msgid "Submitted on !datetime"
-msgstr "Skrevet den !datetime"
+msgstr "Innsendt av !datetime"
 
 #: Comments-section-header
 msgctxt "Comments-section-header"
@@ -2267,7 +2269,7 @@ msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr ""
+msgstr "Ingen innstillinger funnet for settet '@venue'. Klikk på LAGRE ENDRINGER nedenfor for å lagre følgende innstillinger i kontoen din."
 
 #: join-page
 msgctxt "join-page"
@@ -2282,7 +2284,7 @@ msgstr "Kjør installasjonsprogrammet"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr ""
+msgstr "svar"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
@@ -2292,7 +2294,7 @@ msgstr "Svar på denne kommentaren"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr ""
+msgstr "Svar på dette emnet med et sitat"
 
 #: private-message
 msgctxt "private-message"
@@ -2387,7 +2389,7 @@ msgstr "Legg til som venn"
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: kommentar skrevet i \"topic_name\""
+msgstr "!site: kommentar postet i \"topic_name\""
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
@@ -2409,7 +2411,7 @@ msgstr "Forlat team"
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Click here to revoke your membership with @this_team"
-msgstr ""
+msgstr "Klikk her for å oppheve medlemskapet ditt med @this_team"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
@@ -2459,7 +2461,7 @@ msgstr "Hvis du ikke kan finne et team som er riktig for deg, kan du opprette et
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr ""
+msgstr "Logg inn for å opprette et nytt team"
 
 #: join-page
 msgctxt "join-page"
@@ -2488,17 +2490,17 @@ msgstr "Hvis du bruker BOINC versjon eldre enn 5.0 vennligst\noppgrader til en n
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "ignore list"
-msgstr ""
+msgstr "ignorereliste"
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "here"
-msgstr ""
+msgstr "her"
 
 #: coment-from-ignored-user
 msgctxt "coment-from-ignored-user"
 msgid "!username is on your !ignore_list. Click !here to view this post."
-msgstr ""
+msgstr "!username er på din! ignore_list. Klikk !here for å se dette innlegget."
 
 #: comment-preview-title
 msgctxt "comment-preview-title"
@@ -2548,7 +2550,7 @@ msgstr "Glemt passord"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "authenticator-based login"
-msgstr ""
+msgstr "autentikatorbasert innlogging"
 
 #: forgot-password
 msgctxt "forgot-password"
@@ -2606,7 +2608,7 @@ msgctxt "authenticator-login-page"
 msgid ""
 "Select and Copy the string between &lt;authenticator&gt; and "
 "&lt;/authenticator&gt; (%auth in the above example)."
-msgstr ""
+msgstr "Merk og kopier tekststrengen mellom &lt;authenticator&gt; og &lt;/authenticator&gt; (%auth i eksempelet over)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
@@ -2687,7 +2689,7 @@ msgstr "Bytt visning"
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr ""
+msgstr "Overfør filer bare mellom:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -2712,7 +2714,7 @@ msgstr "@ip_adress (lik de siste @count ganger)"
 #: message-header
 msgctxt "message-header"
 msgid "parent removed"
-msgstr ""
+msgstr "forelder fjernet"
 
 #: host-details
 msgctxt "host-details"
@@ -2986,12 +2988,12 @@ msgstr "Datamaskin @old_id har blitt slått sammen med @id."
 #: link-to-BOINC-wide-teams-Website
 msgctxt "link-to-BOINC-wide-teams-Website"
 msgid "BOINC-wide teams site"
-msgstr ""
+msgstr "BOINC-bredt team's nettsted"
 
 #: team-edit-warning-message
 msgctxt "team-edit-warning-message"
 msgid "This is a BOINC-wide team. Changes can be made at the !site."
-msgstr ""
+msgstr "Dette er et BOINC-bredt team. Endringer kan gjøres på !site."
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
@@ -3001,7 +3003,7 @@ msgstr "Skriv emne"
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Maximum value exceeded for @field"
-msgstr ""
+msgstr "Maksimumsverdien overskredet for @field"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3200,7 +3202,7 @@ msgstr "Nåværende grunnlegger har 60 dager til å besvare forespørselen"
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "That authenticator is not valid."
-msgstr ""
+msgstr "Ugyldig autentikator"
 
 #: forgot-password
 msgctxt "forgot-password"
@@ -3210,7 +3212,7 @@ msgstr "@email er ikke en velformulert epoatadresse. Vennligst kontroller"
 #: friend-approve
 msgctxt "friend-approve"
 msgid "Approve friend request"
-msgstr ""
+msgstr "Godta venneforespørsel"
 
 #: moderate-unban-user
 msgctxt "moderate-unban-user"
@@ -3220,7 +3222,7 @@ msgstr "opphev utestenging av bruker"
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "1 day remaining"
-msgstr ""
+msgstr "1 dag igjen"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
@@ -3305,7 +3307,7 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr ""
+msgstr "@project deltakere kan danne lag. Du kan bare tilhøre ett team. Du kan når som helst bli med i eller avslutte et team. For å bli med på et team, besøk teamets side og klikk \"Bli med i dette teamet\". Hvert team har en grunnlegger som kan:"
 
 #: join-page
 msgctxt "join-page"
@@ -3315,14 +3317,14 @@ msgstr "Skriv @siteurl når du blir bedt om det"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr ""
+msgstr "Instruksjoner"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr ""
+msgstr "Det finnes ingen konto for @email -- vennligst opprett en konto med en BOINC-klient  -- !instructions"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3356,7 +3358,7 @@ msgstr "Venter"
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr ""
+msgstr "Oppgaver for din konto"
 
 #: task-table
 msgctxt "task-table"
@@ -3366,7 +3368,7 @@ msgstr "Applikasjon"
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr ""
+msgstr "Alle programmer"
 
 #: task-table
 msgctxt "task-table"
@@ -3391,7 +3393,7 @@ msgstr "Sendt"
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr ""
+msgstr "Tid rapportert eller frist"
 
 #: task-table
 msgctxt "task-table"
@@ -3411,12 +3413,12 @@ msgstr "CPU tid"
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr ""
+msgstr "Hevdede poeng"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr ""
+msgstr "Tildelte poeng"
 
 #: task-table
 msgctxt "task-table"
@@ -3456,32 +3458,32 @@ msgstr "Nullstill"
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr ""
+msgstr "Påfør filter"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr ""
+msgstr "Du har ikke tillatelse til å gjøre endringer på denne verten."
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr ""
+msgstr "Oppgaver for datamaskinen @host_id"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr ""
+msgstr "Plasseringen til denne verten har blitt oppdatert."
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr ""
+msgstr "Dette vil tre i kraft neste gang verten kontakter prosjektet."
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr ""
+msgstr "Profil eksisterer ikke."
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
@@ -3517,29 +3519,29 @@ msgctxt "join-page"
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
-msgstr ""
+msgstr "For Android-enheter, last ned BOINC fra Google Play Store eller Amazon App Store."
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer."
-msgstr ""
+msgstr "Kjør installasjonsprogrammet."
 
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr ""
+msgstr "Velg @sitename fra listen, eller tast inn @siteurl."
 
 #: join-page
 msgctxt "join-page"
 msgid "Install BOINC on this device if not already present."
-msgstr ""
+msgstr "Installer BOINC på denne enheten hvis den ikke allerede er installert"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr ""
+msgstr "Velg <i>Verktøy / Legg til prosjekt</i>. Velg @sitename fra listen, eller skriv inn @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3548,7 +3550,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr ""
+msgstr "Hvis du kjører en kommandolinjeversjon av BOINC,\nbruk først BOINC administrator-programvaren (andre steder hvis nødvendig) for å opprette en\nen konto på dette prosjektet, og bruk deretter kontoen til å koble til\nkommandolinjeversjon ved hjelp av <b>!boinccmd</b>."
 
 #: join-page
 msgctxt "join-page"
@@ -3556,62 +3558,62 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr ""
+msgstr "Hvis du kjører en pre-5.0-versjon av BOINC, vær så snill\noppgrader til en nyere versjon av BOINC for å opprette en konto\npå @this_project."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr ""
+msgstr "@user er grunnleggeren av @team!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr ""
+msgstr "BOINC-oversettelsesfilter for å dele innhold i biter for oversettelser."
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr ""
+msgstr "Deler nodeinnhold i biter for oversettelse."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr ""
+msgstr "BOINC oversett filter"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr ""
+msgstr "Innholdstyper å filtrere"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr ""
+msgstr "Velg hvilke innholdstyper (noder) som skal deles i biter for oversettelse."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr ""
+msgstr "Skriv ut feilsøkingsinfo"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr ""
+msgstr "Skriver ut ekstra feilsøkingsinformasjon. Dette alternativet skal deaktiveres på produksjonssider."
 
 #: join-page
 msgctxt "join-page"
 msgid "Rules and Policies"
-msgstr ""
+msgstr "Regler og retningslinjer"
 
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr ""
+msgstr "Les våre !rules_and_policies."
 
 #: account-password
 msgctxt "account-password"
@@ -3643,7 +3645,7 @@ msgctxt "account-profile-edit"
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
-msgstr ""
+msgstr "CAPTCHA-valideringsfeil: ukjent CAPTCHA-økt-ID. Kontakt nettstedsadministrator hvis dette problemet vedvarer."
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -3673,72 +3675,72 @@ msgstr "Aktiviser rik tekst"
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr ""
+msgstr "abonnér"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr ""
+msgstr "avslutt abonnement"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr ""
+msgstr "Rapport"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr ""
+msgstr "Avbryt rapport"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr ""
+msgstr "Nullstill flagg"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr ""
+msgstr "Ignorer bruker"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr ""
+msgstr "Alle oppgaver"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr ""
+msgstr "Tid rapportert eller frist"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr ""
+msgstr "Kjøretid (sek)"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr ""
+msgstr "CPU-tid (sek)"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr ""
+msgstr "Kanonisk resultat"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr ""
+msgstr "Maks # feil/total/vellykkede oppgaver"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr ""
+msgstr "Melding for nettstedets hjemmeside"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr ""
+msgstr "Tekst som skal vises på nettstedets landingsside."
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3765,7 +3767,7 @@ msgstr "Ikke publisert"
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr ""
+msgstr "Skjul dette emnet"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3817,17 +3819,17 @@ msgstr "Venligst velg en lagtype."
 #: boincid
 msgctxt "boincid"
 msgid "BOINC ID"
-msgstr ""
+msgstr "BOINC ID"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr ""
+msgstr "Oppgaver ikke funnet i databasen."
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr ""
+msgstr "Arbeidsenhet ikke funnet i databasen."
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
@@ -3837,7 +3839,7 @@ msgstr "Stderr logg"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr ""
+msgstr "Merk: Brukerprofiler kan modereres."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3846,60 +3848,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr ""
+msgstr "Takk @user_name for at du ble med på @site_name. Din konto har blitt opprettet. BOINC-klienten din skal begynne å jobbe med tildelte oppgaver snart, uten ytterligere handling eller konfigurasjon. Vennligst besøk lenkene nedenfor for mer informasjon og flere alternativer. (Koblinger åpnes i et nytt vindu.)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr ""
+msgstr "Samfunnsinnstillinger"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr ""
+msgstr "Endre ditt brukernavn i !community_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr ""
+msgstr "Brukernavnet ditt brukes til å identifisere deg for andre frivillige på dette nettstedet."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr ""
+msgstr "I tillegg kan du angi standardspråk for kontoen, og endre varslingsinnstillinger."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr ""
+msgstr "Kalkuleringsinnstillinger"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr ""
+msgstr "Endre dine !computing_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr ""
+msgstr "Du kan justere hvor mye CPU, RAM og diskplass BOINC-klienten har lov til å bruke til oppgaver på datamaskinen din."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr ""
+msgstr "Som standard kjører du @site_name tasks uten ytterligere konfigurasjon."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr ""
+msgstr "fora"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3907,24 +3909,24 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr ""
+msgstr "Det anbefales at nye frivillige ikke endrer standardinnstillingene til de får erfaring med å kjøre noen oppgaver. Still spørsmål i !forums for å få råd før du endrer innstillinger du ikke forstår."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr ""
+msgstr "Brukerprofil"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr ""
+msgstr "Opprett en !user_profile."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr ""
+msgstr "En brukerprofil vil informere andre frivillige om hvem du er og hvorfor du ble med på @site_name."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3934,29 +3936,29 @@ msgstr "Team"
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr ""
+msgstr "Bli med i et !team."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr ""
+msgstr "Du kan bli med i et team bestående av andre frivillige."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr ""
+msgstr "Konto kontrollpanel"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr ""
+msgstr "Gå til ditt !account_dashboard."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr ""
+msgstr "Kontooversikten har informasjon og lenker om datamaskinen(e) og oppgaven(e) som er tildelt."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3966,17 +3968,17 @@ msgstr "Hjelp"
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr ""
+msgstr "Gå til våre !help pages."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr ""
+msgstr "Be om hjelp i fellesskapets !forums."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr ""
+msgstr "FEIL: Det finnes ingen konto med den autentikatoren."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -3986,19 +3988,19 @@ msgstr "Innstillinger sist endret: @mod_time"
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr ""
+msgstr "Vert ikke funnet i databasen."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr ""
+msgstr "FEIL: Det oppsto et problem under innlasting av kontoen din. Prøv å logge på med brukernavn og passord."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "There is no user on your team with that email address."
-msgstr ""
+msgstr "Det er ingen brukere på ditt team med den e-postadressen."
 
 #: account-finish
 msgctxt "account-finish"
@@ -4008,30 +4010,30 @@ msgstr "Moderering"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr ""
+msgstr "Merk: brukerprofiler er underlagt !moderation."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr ""
+msgstr "Som standard samsvarer et søk med ALLE søkeord. Resultater med mer enn ett begrep vil bli presentert høyere i søkeresultatene."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr ""
+msgstr "Du kan bruke 'AND' for å få søkemotoren til å returnere resultater med ALLE søkeord."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr ""
+msgstr "Hvis du for eksempel søker etter 'boinc AND client' vil bare inneholde resultater med ord boinc og client."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr ""
+msgstr "Søk i hjelp"

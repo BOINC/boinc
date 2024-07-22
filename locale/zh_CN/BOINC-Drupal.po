@@ -10,13 +10,13 @@
 # Gavin Zheng <179873196@qq.com>, 2018
 # Mingye Wang <arthur200126@gmail.com>, 2019
 # Heyang Qin <qysnn1@gmail.com>, 2017
-# woclass, 2019
+# inky, 2019
 # Cally Mal <zhouxiaobo.500@gmail.com>, 2018
 # Cally Mal <zhouxiaobo.500@gmail.com>, 2018
-# yanglin Xun <xunyanglins@gmail.com>, 2016
+# COCOCO X <xunyanglins@gmail.com>, 2016
 # Gang Yin <zenith.yin@gmail.com>, 2015,2018
 # 政麟 杨 <1546535923@qq.com>, 2018
-# 李泽林, 2015
+# Li Zelin, 2015
 # 浩然 王 <9709021@qq.com>, 2018
 # Heyang Qin <qysnn1@gmail.com>, 2015-2016
 # 鹏希 刘 <lpx.ustc@gmail.com>, 2018
@@ -25,9 +25,9 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2019-02-18 03:10+0000\n"
-"Last-Translator: woclass\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: inky, 2019\n"
+"Language-Team: Chinese (China) (http://app.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

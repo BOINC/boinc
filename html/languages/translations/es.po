@@ -8,7 +8,7 @@
 # Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>, 2017-2018,2024
 # Amaru Villamediana <villamaru@outlook.com>, 2018
 # Danilo Quispe Lucana <daniloquispe@gmail.com>, 2020
-# David Elizalde <david.elizalde.r.a@gmail.com>, 2022-2023
+# David Adrian Elizalde <david.elizalde.r.a@gmail.com>, 2022-2023
 # el buve, 2015
 # el buve, 2015
 # Gonzalo Pesquero <gpesquero@yahoo.es>, 2016

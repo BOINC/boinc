@@ -8,7 +8,7 @@
 # Николай Сахаров <saharovna@gmail.com>, 2015
 # Olga Liienko <o.k.lienko@gmail.com>, 2015
 # Vasya Pupkin <vecherins@gmail.com>, 2018
-# Viktor Kostin <youseeisme@gmail.com>, 2018
+# Sun Week <youseeisme@gmail.com>, 2018
 # Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2016
 # Денис Саяпин <deniss.sayapin@gmail.com>, 2018
 # Николай Сахаров <saharovna@gmail.com>, 2016,2018
@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2019-02-10 10:48+0000\n"
-"Last-Translator: Николай Сахаров <saharovna@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Николай Сахаров <saharovna@gmail.com>, 2016,2018\n"
+"Language-Team: Russian (http://app.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

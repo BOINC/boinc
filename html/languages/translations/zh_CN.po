@@ -11,6 +11,7 @@
 # Hansong Zhang, 2017
 # Hansong Zhang, 2017
 # Heyang Qin <qysnn1@gmail.com>, 2017,2019,2021-2022
+# inky, 2019
 # Mingye Wang <arthur200126@gmail.com>, 2019
 # Heyang Qin <qysnn1@gmail.com>, 2017,2019
 # woclass, 2019
@@ -1715,7 +1716,7 @@ msgstr "使用Intel GPU"
 
 #: html/inc/prefs_project.inc:109
 msgid "Use Apple GPU"
-msgstr ""
+msgstr "使用 Apple GPU"
 
 #: html/inc/prefs_project.inc:119
 msgid "Run test applications?"
@@ -1845,7 +1846,7 @@ msgstr "Intel GPU"
 
 #: html/inc/result.inc:82
 msgid "Apple GPU"
-msgstr ""
+msgstr "Apple GPU"
 
 #: html/inc/result.inc:107
 msgid "pending"
@@ -3546,7 +3547,7 @@ msgstr "修改电子邮箱地址"
 msgid ""
 "Note: if you change your email address, your %1weak account key%2 will "
 "change."
-msgstr ""
+msgstr "注意：如果您更改电子邮件地址，您的%1弱帐户密钥%2将会更改。"
 
 #: html/user/edit_email_form.php:40
 msgid "New email address"
@@ -3771,7 +3772,7 @@ msgstr "你的密码已修改。"
 #: html/user/edit_passwd_form.php:27
 msgid ""
 "Note: if you change your password, your %1weak account key%2 will change."
-msgstr ""
+msgstr "注意：如果您更改密码，您的%1弱帐户密钥%2将会更改。"
 
 #: html/user/edit_passwd_form.php:31
 msgid "New password"
@@ -6922,7 +6923,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr ""
+msgstr "不使用 BOINC Manager 将计算机连接到您的帐户。\n        为此，请安装 BOINC，\n        在 BOINC 中创建名为 %1 的文件\n        进入data 目录，并将其内容设置为："
 
 #: html/user/weak_auth.php:74
 msgid "Weak account key"
@@ -6941,7 +6942,7 @@ msgstr "你的“弱账户密钥”能用来为你的账户添加计算机\n    
 msgid ""
 "The key depends on your account's email address and password.  If you change"
 " either of these, the weak account key will change."
-msgstr ""
+msgstr "密钥取决于您帐户的电子邮件地址和密码。 如果您更改其中任何一个，弱帐户密钥将会更改。"
 
 #: html/user/welcome.php:22
 msgid ""

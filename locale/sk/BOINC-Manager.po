@@ -8,6 +8,7 @@
 # aceman444, 2015-2016
 # Jakub Meisner <jakub@jlfoto.sk>, 2017-2018
 # Michal Zajacka, 2015
+# octastylos pseudodipteros, 2024
 # Ondrej Sluciak, 2019
 msgid ""
 msgstr ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: aceman444, 2016-2017,2019,2021-2022,2024\n"
+"Last-Translator: octastylos pseudodipteros, 2024\n"
 "Language-Team: Slovak (http://app.transifex.com/boinc/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -814,7 +815,7 @@ msgstr "Správca BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:466
 msgid "Another instance of BOINC Manager is already running."
-msgstr ""
+msgstr "Iná instancia BOINC Manažéra už beží."
 
 #: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
@@ -1039,7 +1040,7 @@ msgstr "Autorské práva:"
 msgid ""
 "(C) 2003-2024 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
+msgstr "(C) 2003-2024 Kalifornská univerzita v Berkeley.\nVšetky práva vyhradené."
 
 #: clientgui/DlgAbout.cpp:202
 #, c-format

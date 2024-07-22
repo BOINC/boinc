@@ -66,12 +66,12 @@
   <string name="attachproject_error_short_pwd">Mật khẩu ngắn quá ngắn</string>
   <string name="attachproject_error_no_internet">Kết nối thất bại</string>
   <string name="attachproject_error_no_url">Hãy nhập địa chỉ URL</string>
-  <string name="attachproject_error_no_email">Hãy nhập địa chỉ email</string>
+  <string name="attachproject_error_no_email">Xin nhập địa chỉ Email</string>
   <string name="attachproject_error_no_pwd">Hãy nhập mật khẩu</string>
   <string name="attachproject_error_no_name">Hãy nhập tên người dùng</string>
   <string name="attachproject_error_unknown">thất bại</string>
   <string name="attachproject_error_bad_username">Tên tài khoản bị từ chối</string>
-  <string name="attachproject_error_email_in_use">Địa chỉ email đã được sử dụng</string>
+  <string name="attachproject_error_email_in_use">Địa chỉ Email đã được sử dụng</string>
   <string name="attachproject_error_project_down">Dự án đang ngoại tuyến</string>
   <string name="attachproject_error_email_bad_syntax">Địa chỉ email bị từ chối</string>
   <string name="attachproject_error_bad_pwd">Mật khẩu bị từ chối mất rồi</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Bật kết nối từ xa</string>
   <string name="prefs_remote_summary">Khi thay đổi, máy khách BOINC sẽ được khởi động lại.</string>
   <string name="prefs_show_notification_notices_header">Hiển thị lời nhắc cho bạn biết về các thông báo mới</string>
+  <string name="prefs_show_notification_suspended_header">Hiện thông báo khi dừng</string>
   <string name="prefs_cpu_number_cpus_header">Các nhân CPU sử dụng</string>
   <string name="prefs_cpu_number_cpus_description">Giới hạn số lượng nhân CPU mà BOINC sử dụng cho tính toán</string>
   <string name="prefs_cpu_other_load_suspension_header">Tạm ngưng khi sử dụng CPU trên mức (%)</string>
@@ -140,6 +141,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Bộ đệm đơn vị làm việc (ngày)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Bộ đệm đơn vị công việc bổ sung (ngày)</string>
   <string name="prefs_remote_authentication_key">Chìa khóa xác thực GUI authentication</string>
+  <string name="prefs_remote_authentication_key_input_hint">Khóa xác thực</string>
   <string name="prefs_remote_empty_password">Cập nhật mật khẩu thất bại: giá trị không thể để trống</string>
   <string name="prefs_remote_boinc_relaunched">Máy khách BOINC sẽ được khởi động lại sau khi thay đổi mật khẩu.</string>
   <string name="prefs_client_log_flags_header">Cờ đánh dấu nhật ký log máy khách BOINC</string>
@@ -295,7 +297,15 @@
   <string name="notice_notification_channel_name">Thông báo</string>
   <string name="notice_notification_channel_description">Hiển thị thông báo từ dự án của bạn</string>
   <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Chào mừng đến với Trung tâm mua sắm Xiaomi! Để mang lại trải nghiệm mua sắm chất lượng cao,
+Ứng dụng Mi Mall cần được kết nối với Internet và sử dụng thông tin vị trí của bạn để kiểm tra kho sản phẩm,
+tối ưu hóa dịch vụ giao hàng và cá nhân hóa đề xuất sản phẩm. Bạn có quyền từ chối hoặc hủy bỏ sự ủy quyền này.</string>
+  <string name="terms_of_use_content_second">Trước khi sử dụng Ứng dụng, vui lòng đọc và hiểu đầy đủ \"Thỏa thuận người dùng\"
+và \"Chính sách quyền riêng tư\" của Xiaomi Mall, đồng thời hiểu rõ quyền người dùng của bạn cũng như cách xử lý dữ liệu của bạn.
+Nếu bạn đồng ý với nội dung thỏa thuận trên, vui lòng nhấp vào \"Đồng ý\" để bắt đầu sử dụng sản phẩm và dịch vụ của chúng tôi.
+Chúng tôi sẽ bảo vệ thông tin cá nhân của bạn bằng công nghệ bảo mật hàng đầu trong ngành. Cảm ơn bạn đã tin tưởng vào Xiaomi Mall.</string>
   <string name="terms_of_use_content_user_agreement">Điều khoản người dùng: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Chính sách quyền riêng tư: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
   <string name="welcome_content_second">Tôi là David, nhà sáng lập Boinc. Boinc là nền tảng phần mềm điện toán mã nguồn mở sử dụng tài nguyên được cung cấp bởi các tình nguyện viên.</string>
   <string name="agree_button">Đồng ý</string>
   <string name="prefs_expand_wu_data">Luôn mở rộng thông tin nhiệm vụ</string>

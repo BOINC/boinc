@@ -6,19 +6,19 @@
 # 
 # Translators:
 # Christian Beer <christian.beer@posteo.de>, 2016
-# Frans Ingelstam <02frasse11@gmail.com>, 2016
+# 3af3389731e835d21c16e11546eae9b9_fe449cf <0fccc7442243ff76ac53c685d796b3c0_423447>, 2016
 # Henrik Mattsson-Mårn <h@reglage.net>, 2016
 # Johan Holmström, 2016-2017
-# Josef Andersson <josef.andersson@fripost.org>, 2017
+# Josef Andersson <janderssonse@proton.me>, 2017
 # 8385e6e60a22e18cd347a1f6e4685fb9, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-06-27 07:09+0000\n"
-"Last-Translator: Tommy Kronkvist <tommykronkvist@me.com>\n"
-"Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Johan Holmström, 2016-2017\n"
+"Language-Team: Swedish (http://app.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
