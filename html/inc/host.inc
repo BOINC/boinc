@@ -155,17 +155,17 @@ function show_host($host, $user, $ipprivate) {
     $x = $host->p_iops/1e9;
     $y = round($x, 2);
     row2(tra("Measured integer speed"), tra("%1 billion ops/sec", $y));
-    $x = $host->n_bwup/KILO;
+    $x = $host->n_bwup/MEGA;
     $y = round($x, 2);
     if ($y > 0) {
-        row2(tra("Average upload rate"), tra("%1 KB/sec", $y));
+        row2(tra("Average upload rate"), tra("%1 MB/sec", $y));
     } else {
         row2(tra("Average upload rate"), tra("Unknown"));
     }
-    $x = $host->n_bwdown/KILO;
+    $x = $host->n_bwdown/MEGA;
     $y = round($x, 2);
     if ($y > 0) {
-        row2(tra("Average download rate"), tra("%1 KB/sec", $y));
+        row2(tra("Average download rate"), tra("%1 MB/sec", $y));
     } else {
         row2(tra("Average download rate"), tra("Unknown"));
     }
