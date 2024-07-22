@@ -121,10 +121,19 @@ function show_other_projects($user, $personal) {
 
     usort($user->projects, "cmp");
     if ($personal) {
-        echo "<h3>".tra("Projects in which you are participating")."</h3>";
+        $t  = tra("Projects in which you are participating");
     } else {
-        echo "<h3>".tra("Projects in which %1 is participating", $user->name)."</h3>";
+        $t = tra("Projects in which %1 is participating", $user->name);
     }
+    panel(
+        $t,
+        function() use ($user) {
+            show_other_projects_aux($user);
+        }
+    );
+}
+
+function show_other_projects_aux($user) {
     start_table('table-striped');
     row_heading_array(
         array(
@@ -158,11 +167,6 @@ require_once("../inc/stats_sites.inc");
 //
 function show_user_stats_private($user) {
     global $cpid_stats_sites;
-
-    if (NO_COMPUTING && NO_STATS && NO_HOSTS) {
-        return;
-    }
-    row1(tra("Computing"));
 
     if (!NO_STATS) {
         show_credit($user);
@@ -313,7 +317,6 @@ function show_user_info_private($user) {
 }
 
 function show_preference_links() {
-    row1("<a name=\"prefs\"></a>".tra("Preferences"));
     if (!NO_GLOBAL_PREFS) {
         row2(
             tra("When and how BOINC uses your computer"),
@@ -354,7 +357,7 @@ function friend_links($user) {
         }
         $alt = tra("Profile");
         $x .= sprintf(
-            '<p><a href="%sview_profile.php?userid=%d"><img title="%s" src="%s" alt="%s"></a><br>',
+            '<a href="%sview_profile.php?userid=%d"><img title="%s" src="%s" alt="%s"></a><br>',
             url_base(),
             $user->id,
             tra("View the profile of %1", $user->name),
@@ -373,6 +376,10 @@ function friend_links($user) {
 // if $name_limit, limit name to N chars
 //
 function user_links($user, $badge_height=0, $name_limit=0) {
+    if (!$user) {
+        error_log("user_links(): null arg\n");
+        return;
+    }
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
@@ -521,9 +528,8 @@ function show_user_summary_public($user) {
     }
 }
 
-// Returns a cacheable community links data object
-// @param user The user to produce a community links object for
-
+// return an object with data to show the user's community links
+//
 function get_community_links_object($user){
     $cache_object = new StdClass;
     $cache_object->post_count = total_posts($user);
@@ -544,6 +550,10 @@ function get_community_links_object($user){
 //
 function community_links($clo, $logged_in_user){
     $user = $clo->user;
+    if (!$user) {
+        error_log("community_links(): null user\n");
+        return;
+    }
     $team = $clo->team;
     $friends = $clo->friends;
     $tot = $clo->post_count;
@@ -552,7 +562,7 @@ function community_links($clo, $logged_in_user){
         if ($user->teamid && $team) {
             row2(tra("Team"), "<a href=\"".url_base()."team_display.php?teamid=$team->id\">$team->name</a>");
         } else {
-            row2(tra("Team"), tra("None"));
+            row2(tra("Team"), '&mdash;');
         }
     }
     if (!DISABLE_FORUMS) {
@@ -593,16 +603,27 @@ function show_account_private($user) {
     grid(
         false,
         function() use ($user) {
-            start_table();
-            row1(tra("Account information"), 2, 'heading');
-            show_user_info_private($user);
-            show_preference_links();
-            show_user_stats_private($user);
-
+            panel(
+                tra("Account information"),
+                function() use ($user) {
+                    start_table();
+                    show_user_info_private($user);
+                    end_table();
+                }
+            );
+            if (!NO_COMPUTING || !NO_STATS || !NO_HOSTS) {
+                panel(
+                    tra("Computing"),
+                    function() use($user) {
+                        start_table();
+                        show_user_stats_private($user);
+                        end_table();
+                    }
+                );
+            }
             if (function_exists('show_user_donations_private')) {
                 show_user_donations_private($user);
             }
-            end_table();
             if (!NO_COMPUTING) {
                 show_other_projects($user, true);
             }
@@ -611,10 +632,22 @@ function show_account_private($user) {
             }
         },
         function() use ($user) {
-            start_table();
-            row1(tra("Community"));
-            show_community_private($user);
-            end_table();
+            panel(
+                tra("Community"),
+                function() use ($user) {
+                    start_table();
+                    show_community_private($user);
+                    end_table();
+                }
+            );
+            panel(
+                tra("Preferences"),
+                function() use($user) {
+                    start_table();
+                    show_preference_links();
+                    end_table();
+                }
+            );
         }
     );
 }

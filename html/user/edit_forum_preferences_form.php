@@ -154,7 +154,7 @@ $blocked_str = "";
 foreach ($blocked_users as $id) {
     if ($id) {
         $blocked_user = BoincUser::lookup_id((int)$id);
-        if (!$blocked) {
+        if (!$blocked_user) {
             echo "Missing user $id";
             continue;
         }

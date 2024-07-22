@@ -8,6 +8,10 @@ body, navbar-text, panel {
     color:white;
 }
 
+.panel-body .table {
+    background-color: #303030;
+}
+
 table a:not(.btn), .table a:not(.btn), a:not(.btn) {
     color: #EA9185;
     text-decoration: none;

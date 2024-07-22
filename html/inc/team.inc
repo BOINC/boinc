@@ -86,7 +86,6 @@ function display_team_page($team, $user) {
     global $team_name_sites;
     page_head("$team->name");
 
-    echo sanitize_html($team->name_html);
     echo "<p>";
     start_table();
     row1(tra('Team info'));
