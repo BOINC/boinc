@@ -22,7 +22,7 @@ fi
 
 echo "pulling translations from transifex"
 # this updates existing languages and adds new languages
-tx pull -a
+tx pull -a -f
 
 echo "compiling localization files for Manager and Client"
 srcdir=`pwd`

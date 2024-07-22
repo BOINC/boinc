@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: Norifumi Yamamura, 2023-2024\n"
+"Last-Translator: middlingphys, 2024\n"
 "Language-Team: Japanese (http://app.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6862,7 +6862,7 @@ msgstr "Eメールを %1 に送信しました。そこに含まれるリンク�
 
 #: html/user/validate_email_addr.php:37
 msgid "If you don't receive this email, check your spam folder."
-msgstr "メールが届かない場合、スパムフォルダ確認してください。"
+msgstr "メールが届かない場合、スパムフォルダを確認してください。"
 
 #: html/user/validate_email_addr.php:46
 msgid "No such user."
@@ -6917,7 +6917,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr ""
+msgstr "BOINC マネージャーを使用せずに、アカウントにコンピュータを接続します。\nそのためには、BOINC をインストールし、BOINC のデータディレクトリに %1 という名前のファイルを作成し、以下の内容を設定します:"
 
 #: html/user/weak_auth.php:74
 msgid "Weak account key"
@@ -6936,7 +6936,7 @@ msgstr "あなたの「弱いアカウント・キー」は前述のように、
 msgid ""
 "The key depends on your account's email address and password.  If you change"
 " either of these, the weak account key will change."
-msgstr ""
+msgstr "キーはアカウントのEメールアドレスとパスワードに依存します。これらのいずれかを変更した場合、弱いアカウントキーも変更されます。"
 
 #: html/user/welcome.php:22
 msgid ""
