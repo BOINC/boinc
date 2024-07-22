@@ -8,7 +8,7 @@
 # Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>, 2017-2018,2024
 # Antonio Regidor García <chikitosan@gmail.com>, 2015
 # Christian Beer <christian.beer@posteo.de>, 2017-2018
-# David Elizalde <david.elizalde.r.a@gmail.com>, 2022-2023
+# David Adrian Elizalde <david.elizalde.r.a@gmail.com>, 2022-2023
 # el buve, 2015
 # fco.aguilarm <fco.aguilarm@gmail.com>, 2015,2021
 # Gonzalo Pesquero <gpesquero@yahoo.es>, 2016
@@ -21,6 +21,7 @@
 # Miguel Raz Guzmán Macedo <miguelraz@ciencias.unam.mx>, 2015
 # Pablo Hinojosa <pablohn6@gmail.com>, 2016
 # Raúl, 2015
+# circulosmeos, 2024
 # Ronald Roncalla <rjpre30@hotmail.com>, 2016
 # Yoel CM <vladevil@gmail.com>, 2015
 msgid ""
@@ -53,7 +54,7 @@ msgstr "Escriba la información de su cuenta\n(para crear una cuenta, visite la 
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr "Este proyecto actualmente no está aceptando nuevas cuentas.\nSólo puede unirse si ya tiene una cuenta."
+msgstr "Este proyecto no está aceptando actualmente nuevas cuentas.\nSólo puede unirse si ya tiene una cuenta."
 
 #: clientgui/AccountInfoPage.cpp:343
 msgid "Are you already running this project?"
@@ -90,7 +91,7 @@ msgstr "&Nombre  de usuario:"
 
 #: clientgui/AccountInfoPage.cpp:441
 msgid "&Email address or LDAP ID:"
-msgstr "&Dirección de email o ID LDAP"
+msgstr "&Dirección de email o ID de LDAP"
 
 #: clientgui/AccountInfoPage.cpp:445
 msgid "&Email address:"
@@ -205,12 +206,12 @@ msgstr "Desconectado"
 #: clientgui/AdvancedFrame.cpp:334
 #, c-format
 msgid "New %s window..."
-msgstr "Nueva %s ventana..."
+msgstr "Nueva ventana de %s ..."
 
 #: clientgui/AdvancedFrame.cpp:338
 #, c-format
 msgid "Open another %s window"
-msgstr "Abra otra %s ventana"
+msgstr "Abra otra ventana de %s "
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Select computer...\tCtrl+Shift+I"
@@ -231,7 +232,7 @@ msgstr "Apagar el cliente BOINC que se encuentra conectado"
 #: clientgui/AdvancedFrame.cpp:360 clientgui/sg_BoincSimpleFrame.cpp:150
 #, c-format
 msgid "Close the %s window"
-msgstr "Cerrar la ventana %s"
+msgstr "Cerrar la ventana de %s"
 
 #: clientgui/AdvancedFrame.cpp:363 clientgui/sg_BoincSimpleFrame.cpp:153
 msgid "&Close window"
@@ -294,7 +295,7 @@ msgstr "Mostrar estadísticas"
 
 #: clientgui/AdvancedFrame.cpp:435
 msgid "&Disk\tCtrl+Shift+D"
-msgstr "&Disk\tCtrl+Shift+D"
+msgstr "&Disco\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "Show disk usage"
@@ -532,7 +533,7 @@ msgstr "Ver más información sobre %s en la web"
 #: clientgui/sg_BoincSimpleFrame.cpp:327 clientgui/sg_BoincSimpleFrame.cpp:331
 #, c-format
 msgid "Check for new %s version"
-msgstr "Buscar nueva versión de%s"
+msgstr "Buscar nueva versión de %s"
 
 #: clientgui/AdvancedFrame.cpp:711 clientgui/sg_BoincSimpleFrame.cpp:343
 msgid "Report Issue"
@@ -2540,7 +2541,7 @@ msgstr "Está disponible una nueva versión de %s. Puede descargarla aquí: %s"
 #: clientgui/MainDocument.cpp:1308
 #, c-format
 msgid "There is no new version of %s available for download."
-msgstr "No hay una nueva versión de%s disponible para descargar."
+msgstr "No hay una nueva versión de %s disponible para descargar."
 
 #: clientgui/MainDocument.cpp:1312
 #, c-format

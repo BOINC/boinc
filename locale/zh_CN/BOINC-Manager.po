@@ -9,10 +9,13 @@
 # Aaron Y <yhaoquan@gmail.com>, 2018
 # Cally Mal <zhouxiaobo.500@gmail.com>, 2015,2018-2019
 # FIRST LAST, 2023
+# FIRST LAST, 2023
 # Gang Yin <zenith.yin@gmail.com>, 2015,2018
 # Hansong Zhang, 2017
 # Han Xiaojun <15075320251@163.com>, 2021
 # Heyang Qin <qysnn1@gmail.com>, 2017,2019-2022
+# inky, 2018-2019
+# Li Zelin, 2015
 # Mingye Wang <arthur200126@gmail.com>, 2019
 # 37615e072eace5a9287437b9c1b42712_c82c5bb, 2015
 # Heyang Qin <qysnn1@gmail.com>, 2017,2019
@@ -35,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: FIRST LAST, 2023\n"
+"Last-Translator: 浩然 王 <9709021@qq.com>, 2018\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -834,7 +837,7 @@ msgstr "BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:466
 msgid "Another instance of BOINC Manager is already running."
-msgstr ""
+msgstr "BOINC Manager 的另一个实例已在运行。"
 
 #: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
@@ -1059,7 +1062,7 @@ msgstr "版权所有："
 msgid ""
 "(C) 2003-2024 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
+msgstr "(C) 2003-2024 University of California, Berkeley。\n版权所有。"
 
 #: clientgui/DlgAbout.cpp:202
 #, c-format
@@ -2472,7 +2475,7 @@ msgstr "您的团队信息"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr "从 CPDN 得到帮助"
+msgstr "从 climateprediction.net 得到帮助"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
@@ -2480,7 +2483,7 @@ msgstr "新闻"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
-msgstr "CPDN 的项目新闻"
+msgstr "climateprediction.net 的项目新闻"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"

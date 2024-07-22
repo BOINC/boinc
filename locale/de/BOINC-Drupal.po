@@ -8,7 +8,8 @@
 # Bernd Unger <bernd.unger@gmx.net>, 2017
 # Christian Beer <christian.beer@posteo.de>, 2015-2016
 # Jakub Meisner <tangornsvk@gmail.com>, 2015
-# Jan Schladetzky <inactive+Keiken@transifex.com>, 2015
+# e43564bfabe3a3b54204d4137a7f1a32_c3076f9 <8a94e6410999a2c09ed3160a25d072a7_336619>, 2015
+# Joachim Przibylla <joachimprzibyllla@gmail.com>, 2021
 # Jonas <jesus_007@posteo.de>, 2015
 # Marcus Haupt <oldsql.Triso@gmail.com>, 2018
 # Maximilian Borm <bormolino@gmail.com>, 2018
@@ -24,9 +25,9 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-03-22 14:51+0000\n"
-"Last-Translator: Marcus Haupt <oldsql.Triso@gmail.com>\n"
-"Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Joachim Przibylla <joachimprzibyllla@gmail.com>, 2021\n"
+"Language-Team: German (http://app.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,7 +43,7 @@ msgstr "Ich bin ein BOINC-Benutzer"
 
 msgid ""
 "You must earn @count more credits to be able to post comments on this site."
-msgstr "Um Beiträge auf dieser Seite zu schreiben müssen noch @count Punkte errechnet werden."
+msgstr "Um Beiträge auf dieser Seite zu schreiben, müssen noch @count Punkte errechnet werden."
 
 msgid "Enforced by version @number"
 msgstr "Unterstützt ab Version @number"
@@ -60,7 +61,7 @@ msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@home ist ein Programm, welches die Leerlaufzeit Ihres Computers nutzt, um einen Bildschirmschoner anzuzeigen, welcher nach Gravitationswellen von rotierenden Neutronensternen sucht, auch Pulsare genannt. Die Daten kommen vom LIGO (Laser-Interferometer Gravitationswellen-Observatorium) Gravitationswellendetektor."
+msgstr "Einstein@home ist ein Programm, welches die Leerlaufzeit Ihres Computers nutzt, um einen Bildschirmschoner anzuzeigen, welcher nach Gravitationswellen von rotierenden Neutronensternen (auch Pulsare genannt) sucht. Die Daten kommen vom LIGO (Laser-Interferometer Gravitationswellen-Observatorium) Gravitationswellendetektor."
 
 msgid "Run while computer is on battery power?"
 msgstr "Rechnen während der Computer auf Batteriebetrieb läuft?"
@@ -72,7 +73,7 @@ msgid "Run while computer is in use?"
 msgstr "Rechnen während der Computer benutzt wird?"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "GPU-Arbeit ausführen wenn der Computer benutzt wird?"
+msgstr "Graphikkarte benutzen während der Computer genutzt wird?"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
 msgstr "'In Benutzung' bedeutet Maus/Tastatur Aktivitäten in den letzten"
@@ -96,7 +97,7 @@ msgid "No restriction if equal"
 msgstr "keine Einschränkungen, wenn gleich"
 
 msgid "Leave tasks in memory while suspended?"
-msgstr "Aufgaben im Speicher belassen, wenn sie pausiert sind?"
+msgstr "Aufgaben im Arbeitsspeicher belassen, wenn sie pausiert sind?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
 msgstr "Wenn 'Ja', wird Speicher in der Auslagerungsdatei belegt"

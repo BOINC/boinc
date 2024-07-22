@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Popis:</string>
   <string name="attachproject_login_header_home">Domovská stránka:</string>
   <string name="attachproject_login_header_url">Stránka:</string>
-  <string name="attachproject_login_header_id_email">e-mail</string>
+  <string name="attachproject_login_header_id_email">E-mailová adresa:</string>
   <string name="attachproject_login_header_id_name">Meno:</string>
   <string name="attachproject_login_header_pwd">Heslo:</string>
   <string name="attachproject_login_button_registration">Registrácia</string>
@@ -66,14 +66,14 @@
   <string name="attachproject_error_short_pwd">Heslo je príliš krátke</string>
   <string name="attachproject_error_no_internet">Pripojenie zlyhalo</string>
   <string name="attachproject_error_no_url">Prosím zadajte URL</string>
-  <string name="attachproject_error_no_email">Prosím zadajte e-mailovú adresu</string>
+  <string name="attachproject_error_no_email">Prosím zadajte emailovú adresu</string>
   <string name="attachproject_error_no_pwd">Prosím zadajte heslo</string>
   <string name="attachproject_error_no_name">Prosím zadajte používateľské meno</string>
   <string name="attachproject_error_unknown">zlyhalo</string>
   <string name="attachproject_error_bad_username">Používateľské meno bolo odmietnuté</string>
   <string name="attachproject_error_email_in_use">Emailová adresa sa už používa</string>
   <string name="attachproject_error_project_down">Projekt je offline</string>
-  <string name="attachproject_error_email_bad_syntax">Emailová adresa bola odmietnutá</string>
+  <string name="attachproject_error_email_bad_syntax">Emailová adresa odmietnutá</string>
   <string name="attachproject_error_bad_pwd">Heslo bolo odmietnuté</string>
   <string name="attachproject_error_creation_disabled">Vytváranie účtov na tomto projekte je pozastavené</string>
   <string name="attachproject_error_invalid_url">Neplatná URL</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Zapnúť diaľkové ovládanie</string>
   <string name="prefs_remote_summary">Ak bude zmenené, klient BOINC bude reštartovaný.</string>
   <string name="prefs_show_notification_notices_header">Zobraziť oznamy pri nových správach</string>
+  <string name="prefs_show_notification_suspended_header">Zobraziť upozornenie pri pozastavení</string>
   <string name="prefs_cpu_number_cpus_header">Používané jadrá procesoru</string>
   <string name="prefs_cpu_number_cpus_description">Obmedzí počet jadier procesoru ktoré BOINC používa pri výpočtoch</string>
   <string name="prefs_cpu_other_load_suspension_header">Pozastaviť pri využití procesoru nad (%)</string>
@@ -140,6 +141,7 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Zásoba pracovných úloh (dni)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočná zásoba pracovných úloh (dni)</string>
   <string name="prefs_remote_authentication_key">kľúč autentifikácie pre GUI</string>
+  <string name="prefs_remote_authentication_key_input_hint">Autentifikačný kľúč</string>
   <string name="prefs_remote_empty_password">Aktualizácia hesla zlyhala: hodnota nemôže byť prázdna</string>
   <string name="prefs_remote_boinc_relaunched">Klient BOINC bude reštartovaný po zmene hesla.</string>
   <string name="prefs_client_log_flags_header">Nastavenia zaznamenávania BOINC klienta</string>
@@ -297,5 +299,25 @@
   <string name="main_notification_channel_description">Zobrazí upozornenia iné ako oznamy.</string>
   <string name="notice_notification_channel_name">Oznamy</string>
   <string name="notice_notification_channel_description">Zobrazí oznamy z vašich projektov.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Vitajte v Xiaomi Mall! Aby sme dokázali poskytnúť vysoko kvalitný zážitok z nakupovania,
+        Mi Mall aplikácia potrebuje byť pripojená na internet a používať vaše informácie o polohe na overenie zoznamu produktov,
+        optimalizovanie doručovacích služieb a personalizáciu odporúčaní produktov. Máte právo odmietnuť alebo zrušiť túto autorizáciu.</string>
+  <string name="terms_of_use_content_second">Pred používaním aplikácie si prosím pozorne prečítajte \"Súhlas užívateľa\" 
+        a \"Zásady ochrany osobných údajov\" Xiaomi Mall-u, oboznámte sa s vašimi užívateľskými právami a so spracovaním vašich dát.
+        Ak súhlasíte s obsahom vyššie uvedeného súhlasu, prosím kliknite \"Súhlasím\" na začatie používania našich produktov a služieb.
+        Budeme chrániť vaše osobné informácie pomocou jednej z najlepších bezpečnostných technológií. Ďakujeme za vašu dôveru v Xiaomi Mall.</string>
+  <string name="terms_of_use_content_user_agreement">Súhlas užívateľa: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Zásady ochrany osobných údajov: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Milí Mi fanúšikovia, dobrý deň, Da Jia Hao!</string>
+  <string name="welcome_content_second">Som David, zakladateľ Boincu. Boinc je open-source softwarová platforma pre výpočty využívajúce dobrovoľné zdroje.</string>
+  <string name="welcome_content_third">Chcel by som poďakovať pánovi Lei Jun a Xiaomi a zdieľať s vami dobré správy:
+        Mi 11 sa stane mobilným výpočtovým zariadením, ktoré je oficiálne certifikované Boincom!</string>
+  <string name="welcome_content_fourth">So vstavaným Qualcomm Snapdragon 888 sa Mi 11 pýši úžasnou výpočtovou silou.
+        Dokáže veľmi rýchlo spracovať úlohy a zabezpečiť pomoc výskumným združeniam po celom svete.</string>
+  <string name="welcome_content_fifth">Chcel by som poďakovať všetkým Xiaomi inžinierom, ktorí prispeli k Boinc projektu.
+        Povzbudzujem všetkých Mi fanúšikov, aby si stiahli Boinc na svoje telefóny a prispeli kúskom svojho výkonu, kým sa váš telefón nepoužíva.</string>
+  <string name="welcome_content_sixth">V neposlednom rade, mojim čínskym kamarátom - Šťastný Nový rok! Xin Nian Kuai Le!</string>
   <string name="agree_button">Súhlasím</string>
+  <string name="prefs_expand_wu_data">Vždy rozbaliť informácie o úlohe</string>
 </resources>

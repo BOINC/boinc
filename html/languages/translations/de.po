@@ -9,7 +9,7 @@
 # Christian Beer <christian.beer@posteo.de>, 2015-2020
 # Gregor Werfel <33gregg33@gmail.com>, 2020
 # Maximilian Borm <bormolino@gmail.com>, 2023
-# Pascal Wegener <pascal.wegener@outlook.com>, 2021
+# pepe_jam <pascal.wegener@outlook.com>, 2021
 # Peter Pogodsky <peterpogodsky@gmx.de>, 2018-2019
 # Sebastian, 2017
 # Stephan R, 2024

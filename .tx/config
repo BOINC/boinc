@@ -1,5 +1,5 @@
 [main]
-host = https://www.transifex.com
+host = https://app.transifex.com
 
 [o:boinc:p:boinc:r:android]
 file_filter  = android/BOINC/app/src/main/res/values-<lang>/strings.xml
