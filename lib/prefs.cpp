@@ -408,15 +408,28 @@ int GLOBAL_PREFS::parse_override(
             }
             return 0;
         }
+        // parse these first; they're independent of venue
+        //
+        if (xp.parse_str("source_project", source_project, sizeof(source_project))) {
+            continue;
+        }
+        if (xp.parse_str("source_scheduler", source_scheduler, sizeof(source_scheduler))) {
+            continue;
+        }
+        if (xp.parse_double("mod_time", mod_time)) {
+            double now = dtime();
+            if (mod_time > now) {
+                mod_time = now;
+            }
+            continue;
+        }
         if (in_venue) {
             if (xp.match_tag("/venue")) {
-                if (in_correct_venue) {
-                    return 0;
-                } else {
-                    in_venue = false;
-                    continue;
-                }
+                in_venue = false;
+                continue;
             } else {
+                // we're in a venue but not the right one; skip tag
+                //
                 if (!in_correct_venue) continue;
             }
         } else {
@@ -434,17 +447,11 @@ int GLOBAL_PREFS::parse_override(
                 }
                 continue;
             }
-        }
-        if (xp.parse_str("source_project", source_project, sizeof(source_project))) continue;
-        if (xp.parse_str("source_scheduler", source_scheduler, sizeof(source_scheduler))) {
-            continue;
-        }
-        if (xp.parse_double("mod_time", mod_time)) {
-            double now = dtime();
-            if (mod_time > now) {
-                mod_time = now;
+            if (found_venue) {
+                // we already found and parsed the target venue;
+                // skip subsequent prefs tags not in a venue
+                continue;
             }
-            continue;
         }
         if (xp.parse_double("battery_charge_min_pct", battery_charge_min_pct)) {
             mask.battery_charge_min_pct = true;
