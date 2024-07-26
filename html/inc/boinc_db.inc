@@ -58,7 +58,7 @@ class BoincDb extends DbConn {
             if ($host && $name && $user && $passwd) {
                 $retval = $instance->init_conn($user, $passwd, $host, $name);
                 if ($retval) {
-                    //error_log("BoincDb::get_aux(): connected to replica DB $dbnum");
+                    echo "<!-- BoincDb::get_aux(): connected to DB $host($dbnum) -->");
                     self::$instance = $instance;
                     return;
                 }
@@ -76,7 +76,7 @@ class BoincDb extends DbConn {
         }
         $retval = $instance->init_conn($user, $passwd, $host, $name);
         if ($retval) {
-            //error_log("BoincDb::get_aux(): connected to DB $dbnum");
+            echo "<!-- BoincDb::get_aux(): connected to DB $host($dbnum) -->");
             self::$instance = $instance;
             return;
         }
