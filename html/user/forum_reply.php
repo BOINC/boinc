@@ -161,7 +161,7 @@ function show_message_row($thread, $parent_post) {
         $x2 .= htmlspecialchars($content);
     } else if (!$no_quote) {
         if ($parent_post) {
-            $x2 .= quote_text(htmlspecialchars($parent_post->content))."\n";
+            $x2 .= quote_text($parent_post)."\n";
         }
     }
     if (!$logged_in_user->prefs->no_signature_by_default) {
@@ -186,9 +186,15 @@ function show_message_row($thread, $parent_post) {
     row2($x1, $x2, false, "20%");
 }
 
-function quote_text($text) {
-    $text = "[quote]" . $text . "[/quote]";
-    return $text;
+function quote_text($post) {
+    $user = BoincUser::lookup_id($post->user);
+    return sprintf(
+        'In reply to %s\'s message of %s:
+        [quote]%s[/quote]',
+        $user?$user->name:'unknown user',
+        date_str($post->timestamp),
+        htmlspecialchars($post->content)
+    );
 }
 
 $cvs_version_tracker[]="\$Id$";
