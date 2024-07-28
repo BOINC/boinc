@@ -262,25 +262,25 @@ function do_send($logged_in_user) {
         pm_form($replyto, $userid);
     }
     if (($to == null) || ($subject == null) || ($content == null)) {
-        pm_form($replyto, $userid, tra("You need to fill all fields to send a private message"));
+        pm_form(
+            $replyto, $userid,
+            tra("You need to fill all fields to send a private message")
+        );
         return;
     }
     if (!akismet_check($logged_in_user, $content)) {
-        pm_form($replyto, $userid, tra("Your message was flagged as spam
-            by the Akismet anti-spam system.
-            Please modify your text and try again.")
+        pm_form($replyto, $userid,
+            tra("Your message was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again.")
         );
     }
-    $to = str_replace(", ", ",", $to); // Filter out spaces after separator
-    $users = explode(",", $to);
+    $users = explode("\n", $to);
 
     $userlist = array();
     $userids = array(); // To prevent from spamming a single user by adding it multiple times
 
     foreach ($users as $username) {
-        $user = explode(" ", $username);
-        if (is_numeric($user[0])) { // user ID is given
-            $userid = $user[0];
+        if (is_numeric($username)) {     // user ID is given
+            $userid = (int)$username;
             $user = BoincUser::lookup_id($userid);
             if ($user == null) {
                 pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));

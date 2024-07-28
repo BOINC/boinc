@@ -2,8 +2,8 @@
 
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,7 +64,7 @@ function lookup_platform($p) {
     foreach ($platforms as $platform) {
         if ($platform->name == $p) return $platform;
     }
-    die("platform not found: $p\n");
+    return null;
 }
 
 function readdir_aux($d) {
@@ -173,7 +173,7 @@ function stage_file($a, $v, $p, $fd) {
     $path = "apps/$a/$v/$p/$name";
     $dl_path = "$download_dir/$name";
     if (is_file($dl_path)) {
-        if ($verbose) echo "md5 check start\n";
+        if ($verbose) echo "         md5 check start\n";
         if (md5_file($path) != md5_file($dl_path)) {
             die ("Error: files $path and $dl_path differ.\nBOINC files are immutable.\nIf you change a file, you must give it a new name.\n");
         }
@@ -182,12 +182,12 @@ function stage_file($a, $v, $p, $fd) {
         $subdirs = dirname($name);
         if ($subdirs) {
             if ($verbose) {
-                echo 'mkdir -p '.$download_dir.'/'.$subdirs.PHP_EOL;
+                echo '         mkdir -p '.$download_dir.'/'.$subdirs.PHP_EOL;
             }
             system('mkdir -p '.$download_dir.'/'.$subdirs);
         }
         if ($verbose) {
-            echo("cp $path $dl_path\n");
+            echo("         cp $path $dl_path\n");
         }
         system("cp $path $dl_path");
     }
@@ -253,7 +253,7 @@ function process_file($a, $v, $p, $name, $fds) {
     global $key_dir, $confirm, $verbose;
 
     if ($verbose) {
-        echo "process_file(): $a/$v/$p/$name\n";
+        echo "         process_file(): $a/$v/$p/$name\n";
     }
 
     $fd = lookup_file($fds, $name);
@@ -288,9 +288,9 @@ function process_file($a, $v, $p, $name, $fds) {
         }
     }
 
-    if ($verbose) echo "stage start\n";
+    if ($verbose) echo "         stage start\n";
     $fd = stage_file($a, $v, $p, $fd);
-    if ($verbose) echo "stage done\n";
+    if ($verbose) echo "         stage done\n";
 
     if (!isset($fd->executable)) {
         $perms = fileperms($path);
@@ -320,7 +320,7 @@ function process_files($a, $v, $p, $fds) {
     return $fds;
 }
 
-function parse_platform_name($p, &$platform, &$plan_class) {
+function parse_platform_name($p) {
     $x = explode("__", $p);
     $platform = $x[0];
     if (sizeof($x) > 1) {
@@ -328,6 +328,7 @@ function parse_platform_name($p, &$platform, &$plan_class) {
     } else {
         $plan_class = "";
     }
+    return [$platform, $plan_class];
 }
 
 function parse_version($v) {
@@ -342,9 +343,16 @@ function parse_version($v) {
 
 function already_exists($a, $v, $platform, $plan_class) {
     $app = lookup_app($a);
-    $plat = lookup_platform($platform);
     $vnum = parse_version($v);
-    $av = BoincAppVersion::lookup("appid=$app->id and version_num=$vnum and platformid=$plat->id and plan_class='$plan_class'");
+    $av = BoincAppVersion::lookup(
+        sprintf(
+            "appid=%d and version_num=%d and platformid=%d and plan_class='%s'",
+            $app->id,
+            $vnum,
+            $platform->id,
+            $plan_class
+        )
+    );
     if ($av) return true;
     return false;
 }
@@ -368,11 +376,11 @@ function check_main_program($fds) {
         if ($fd->main_program) $n++;
     }
     if ($n == 0) {
-        echo "    No file was marked as the main program - skipping.\n";
+        echo "         No file was marked as the main program - skipping.\n";
         return 1;
     }
     if ($n > 1) {
-        echo "    More than one file was marked as the main program - skipping.\n";
+        echo "         More than one file was marked as the main program - skipping.\n";
         return 1;
     }
     return 0;
@@ -443,13 +451,18 @@ function convert_simplexml($x) {
 function process_version($a, $v, $p) {
     global $confirm, $verbose;
     if ($verbose) {
-        echo "Found app version directory for: $a $v $p\n";
+        echo "      App version: $p\n";
     }
     $app = lookup_app($a);
-    parse_platform_name($p, $platform, $plan_class);
+    [$platform_name, $plan_class] = parse_platform_name($p);
+    $platform = lookup_platform($platform_name);
+    if (!$platform) {
+        echo "         no such platform: $platform_name\n";
+        return;
+    }
     if (already_exists($a, $v, $platform, $plan_class)) {
         if ($verbose) {
-            echo "  (already exists in database)\n";
+            echo "         (already in database)\n";
         }
         return;
     }
@@ -457,7 +470,7 @@ function process_version($a, $v, $p) {
     if (is_file($vfile)) {
         $x = simplexml_load_file($vfile);
         if (!$x) {
-            die("Can't load XML file apps/$a/$v/$p.  Check that it exists and is valid.");
+            die("         Can't load XML file apps/$a/$v/$p.  Check that it exists and is valid.");
         }
         $vers = convert_simplexml($x);
     } else {
@@ -538,9 +551,8 @@ function process_version($a, $v, $p) {
 
     $now = time();
     $vnum = parse_version($v);
-    $plat = lookup_platform($platform);
     $b = $vers->beta?1:0;
-    $query = "set create_time=$now, appid=$app->id, version_num=$vnum, platformid=$plat->id , xml_doc='$xml', plan_class='$plan_class', beta=$b";
+    $query = "set create_time=$now, appid=$app->id, version_num=$vnum, platformid=$platform->id , xml_doc='$xml', plan_class='$plan_class', beta=$b";
 
     $id = BoincAppVersion::insert($query);
     if ($id) {
@@ -551,6 +563,8 @@ function process_version($a, $v, $p) {
 }
 
 function scan_version_dir($a, $v) {
+    global $verbose;
+    if ($verbose) echo "   Version $v:\n";
     $d = opendir("apps/$a/$v");
     while ($p = readdir_aux($d)) {
         process_version($a, $v, $p);
@@ -558,6 +572,8 @@ function scan_version_dir($a, $v) {
 }
 
 function scan_app_dir($a) {
+    global $verbose;
+    if ($verbose) echo "App $a:\n";
     $d = opendir("apps/$a");
     while ($v = readdir_aux($d)) {
         if (parse_version($v) < 0) {
@@ -571,6 +587,7 @@ function scan_app_dir($a) {
 
 function scan_apps() {
     $d = opendir("apps");
+    if (!$d) die("can't open apps/");
     while ($a = readdir_aux($d)) {
         if (!lookup_app($a)) {
             echo "$a is not an app\n";
@@ -578,6 +595,7 @@ function scan_apps() {
         }
         scan_app_dir($a);
     }
+    closedir($d);
 }
 
 foreach (array_slice($argv, 1) as $arg) {

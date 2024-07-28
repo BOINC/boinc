@@ -165,10 +165,13 @@ function pm_form($replyto, $userid, $error = null) {
         sprintf('%s <br><small>%s</small>',
             tra("To"),
             UNIQUE_USER_NAME
-                ?tra('User names, separated with commas')
-                :tra("User IDs or unique usernames, separated with commas")
+                ?tra('User names, one per line')
+                :tra("User IDs or unique usernames, one per line")
         ),
-        "<input type=\"text\" class=\"form-control\" name=\"to\" value=\"$writeto\">",
+        sprintf(
+            '<textarea rows=2 class="form-control" name="to">%s</textarea>',
+            $writeto
+        ),
         null, '20%'
     );
     row2(
