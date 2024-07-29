@@ -25,4 +25,4 @@ if [ "debug" == "$1" ]; then
 fi
 
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-emconfigure ./configure $debug_flags --enable-wasm --enable-vcpkg --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --enable-client --disable-manager
+emconfigure ./configure $debug_flags --enable-wasm --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --enable-client --disable-manager
