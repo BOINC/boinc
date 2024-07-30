@@ -30,7 +30,7 @@ CXXFLAGS += \
     -L$(BOINC_ZIP_DIR)
 
 
-ifdef BUILD_WITH_VCPKG
+ifdef BUILD_APPS_WITH_VCPKG
   BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
   VCPKG_DIR     ?= $(BUILD_DIR)/vcpkg/installed/x64-linux
 

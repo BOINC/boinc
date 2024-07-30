@@ -128,13 +128,6 @@ AC_ARG_ENABLE(apps,
     [enable_apps=${enableval}],
     [enable_apps=no])
 
-AC_ARG_ENABLE(vcpkg,
-    AS_HELP_STRING([--enable-vcpkg],
-                   [tell boinc manager that is has been built with vcpkg]),
-    [enable_vcpkg=${enableval}],
-    [enable_vcpkg=no])
-
-
 AC_ARG_ENABLE(apps-vcpkg,
     AS_HELP_STRING([--enable-apps-vcpkg],
                    [enable building the boinc apps that depend on vcpkg]),
@@ -1135,7 +1128,6 @@ AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
 AM_CONDITIONAL(OS_ARMV6_LINUX, [echo $host_alias | grep '^armv6-linux' > /dev/null])
 AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
 
-AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_APPS_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])

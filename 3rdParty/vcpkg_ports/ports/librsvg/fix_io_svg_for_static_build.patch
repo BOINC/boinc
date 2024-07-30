@@ -1,5 +1,5 @@
 diff --git a/gdk-pixbuf-loader/io-svg.c b/gdk-pixbuf-loader/io-svg.c
-index bcdfd0bb..1d2fd7d1 100644
+index bcdfd0bb..4e8ede6d 100644
 --- a/gdk-pixbuf-loader/io-svg.c
 +++ b/gdk-pixbuf-loader/io-svg.c
 @@ -43,8 +43,8 @@ typedef struct {
@@ -13,7 +13,7 @@ index bcdfd0bb..1d2fd7d1 100644
  
  enum {
          ERROR_WRITING = 1,
-@@ -173,16 +173,20 @@ gdk_pixbuf__svg_image_stop_load (gpointer data, GError **error)
+@@ -173,17 +173,23 @@ gdk_pixbuf__svg_image_stop_load (gpointer data, GError **error)
          return result;
  }
  
@@ -27,6 +27,7 @@ index bcdfd0bb..1d2fd7d1 100644
 +
 +MODULE_ENTRY (fill_vtable) (GdkPixbufModule *module)
  {
++        if (module == NULL) return;
          module->begin_load     = gdk_pixbuf__svg_image_begin_load;
          module->stop_load      = gdk_pixbuf__svg_image_stop_load;
          module->load_increment = gdk_pixbuf__svg_image_load_increment;
@@ -36,5 +37,7 @@ index bcdfd0bb..1d2fd7d1 100644
 -fill_info (GdkPixbufFormat *info)
 +MODULE_ENTRY (fill_info) (GdkPixbufFormat *info)
  {
++        if (info == NULL) return;
          static const GdkPixbufModulePattern signature[] = {
                  {  " <svg",  "*    ", 100 },
+                 {  " <!DOCTYPE svg",  "*             ", 100 },

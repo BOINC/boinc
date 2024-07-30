@@ -74,21 +74,27 @@ extern "C" {
     void _gdk_pixbuf__svg_fill_info (void*);
     void _gdk_pixbuf__svg_fill_vtable (void*);
     unsigned int rsvg_error_quark (void);
-    void rsvg_handle_pixbuf (void*);
+    void rsvg_handle_get_pixbuf (void*);
 }
 
 typedef void (*GdkPixbufFillInfo) (void*);
 typedef void (*GdkPixbufFillVtable) (void*);
 typedef unsigned int (*RsvgErrorQuark) (void);
-typedef void (*RsvgHandlePixbuf) (void*);
+typedef void (*RsvgHandleGetPixbuf) (void*);
 #endif
 
 bool CBOINCGUIApp::OnInit() {
 #if defined(__WXGTK__) && defined(BUILD_WITH_VCPKG)
-    GdkPixbufFillInfo fi = _gdk_pixbuf__svg_fill_info;
-    GdkPixbufFillVtable fv = _gdk_pixbuf__svg_fill_vtable;
-    RsvgErrorQuark eq = rsvg_error_quark;
-    RsvgHandlePixbuf hp = rsvg_handle_pixbuf;
+    try {
+        GdkPixbufFillInfo fi = _gdk_pixbuf__svg_fill_info;
+        GdkPixbufFillVtable fv = _gdk_pixbuf__svg_fill_vtable;
+        RsvgErrorQuark eq = rsvg_error_quark;
+        RsvgHandleGetPixbuf hp = rsvg_handle_get_pixbuf;
+        fi(NULL);
+        fv(NULL);
+        eq();
+        hp(NULL);
+    } catch (...) {}
 #endif
     // Initialize globals
 #ifdef SANDBOX
