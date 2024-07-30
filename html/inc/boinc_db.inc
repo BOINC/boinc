@@ -26,6 +26,7 @@ incs();
 
 class BoincDb extends DbConn {
     static $instance;
+    static $dbnum = 0;
 
     // A project can have one or more databases:
     // DB 0:
@@ -95,7 +96,7 @@ class BoincDb extends DbConn {
     //
     static function get($dbnum = 0) {
         global $generating_xml;
-        if (isset(self::$instance)) {
+        if (isset(self::$instance) && intval(self::$dbnum) == intval($dbnum)) {
             return self::$instance;
         }
         if (web_stopped()) {
@@ -107,6 +108,7 @@ class BoincDb extends DbConn {
         }
         self::get_aux($dbnum);
         if (self::$instance) {
+            self::$dbnum = $dbnum;
             return self::$instance;
         }
         if ($generating_xml) {
