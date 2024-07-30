@@ -16,6 +16,12 @@
           "name": "wxwidgets",
           "default-features": false
         },
-        "freetype"
+        "freetype",
+        "librsvg",
+        {
+          "name": "gdk-pixbuf",
+          "features": ["jpeg", "png", "svg", "tiff", "others"],
+          "default-features": false
+        }
     ]
 }

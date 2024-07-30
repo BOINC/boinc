@@ -69,7 +69,33 @@ BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
 #endif
 END_EVENT_TABLE ()
 
+#if defined(__WXGTK__) && defined(BUILD_WITH_VCPKG)
+extern "C" {
+    void _gdk_pixbuf__svg_fill_info (void*);
+    void _gdk_pixbuf__svg_fill_vtable (void*);
+    unsigned int rsvg_error_quark (void);
+    void rsvg_handle_get_pixbuf (void*);
+}
+
+typedef void (*GdkPixbufFillInfo) (void*);
+typedef void (*GdkPixbufFillVtable) (void*);
+typedef unsigned int (*RsvgErrorQuark) (void);
+typedef void (*RsvgHandleGetPixbuf) (void*);
+#endif
+
 bool CBOINCGUIApp::OnInit() {
+#if defined(__WXGTK__) && defined(BUILD_WITH_VCPKG)
+    try {
+        GdkPixbufFillInfo fi = _gdk_pixbuf__svg_fill_info;
+        GdkPixbufFillVtable fv = _gdk_pixbuf__svg_fill_vtable;
+        RsvgErrorQuark eq = rsvg_error_quark;
+        RsvgHandleGetPixbuf hp = rsvg_handle_get_pixbuf;
+        fi(NULL);
+        fv(NULL);
+        eq();
+        hp(NULL);
+    } catch (...) {}
+#endif
     // Initialize globals
 #ifdef SANDBOX
     g_use_sandbox = true;
