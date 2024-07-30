@@ -106,7 +106,9 @@ function pm_team_form($user, $teamid, $error=null) {
     page_tail();
 }
 
-function pm_form($replyto, $userid, $error = null) {
+// show the send-PM page, possibly with an error message
+//
+function pm_form_page($replyto, $userid, $error = null) {
     global $bbcode_html, $bbcode_js;
     global $g_logged_in_user;
     page_head(tra("Send private message"),'','','', $bbcode_js);
@@ -193,7 +195,6 @@ function pm_form($replyto, $userid, $error = null) {
     end_table();
 
     page_tail();
-    exit();
 }
 
 function send_pm_notification_email(

@@ -193,7 +193,7 @@ function do_new($logged_in_user) {
     if (VALIDATE_EMAIL_TO_POST) {
         check_validated_email($logged_in_user);
     }
-    pm_form($replyto, $userid);
+    pm_form_page($replyto, $userid);
 }
 
 function do_delete($logged_in_user) {
@@ -259,44 +259,62 @@ function do_send($logged_in_user) {
     $content = post_str("content", true);
 
     if (post_str("preview", true) == tra("Preview")) {
-        pm_form($replyto, $userid);
+        pm_form_page($replyto, $userid);
+        return;
     }
     if (($to == null) || ($subject == null) || ($content == null)) {
-        pm_form(
+        pm_form_page(
             $replyto, $userid,
             tra("You need to fill all fields to send a private message")
         );
         return;
     }
     if (!akismet_check($logged_in_user, $content)) {
-        pm_form($replyto, $userid,
+        pm_form_page($replyto, $userid,
             tra("Your message was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again.")
         );
+        return;
     }
-    $users = explode("\n", $to);
+    $usernames = explode("\n", $to);
 
     $userlist = array();
     $userids = array(); // To prevent from spamming a single user by adding it multiple times
 
-    foreach ($users as $username) {
-        if (is_numeric($username)) {     // user ID is given
-            $userid = (int)$username;
+    foreach ($usernames as $username) {
+        // can be <id>, name, or '<id> (name)'
+        // (PM reply fills in the latter)
+        //
+        $x = explode(' ', $username);
+        if (is_numeric($x[0])) {     // user ID
+            $userid = (int)$x[0];
             $user = BoincUser::lookup_id($userid);
             if ($user == null) {
-                pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
+                pm_form_page(
+                    $replyto, $userid,
+                    tra("Could not find user with id %1", $userid)
+                );
+                return;
             }
         } else {
             $users = BoincUser::lookup_name($username);
             if (count($users) == 0) {
-                pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
+                pm_form_page(
+                    $replyto, $userid,
+                    tra("Could not find user with username %1", $username)
+                );
+                return;
             } elseif (count($users) > 1) { // Non-unique username
-                pm_form($replyto, $userid, tra("%1 is not a unique username; you will have to use user ID", $username));
+                pm_form_page(
+                    $replyto, $userid,
+                    tra("%1 is not a unique username; you will have to use user ID", $username)
+                );
+                return;
             }
             $user = $users[0];
         }
         BoincForumPrefs::lookup($user);
-        if (is_ignoring($user, $logged_in_user)) {
-            pm_form(
+        if (!is_moderator($logged_in_user) && is_ignoring($user, $logged_in_user)) {
+            pm_form_page(
                 $replyto, $userid,
                 UNIQUE_USER_NAME
                 ?tra("User %1 is not accepting private messages from you.",
@@ -307,6 +325,7 @@ function do_send($logged_in_user) {
                     $user->id
                 )
             );
+            return;
         }
         if (!isset($userids[$user->id])) {
             $userlist[] = $user;
@@ -350,6 +369,13 @@ function do_confirmedblock($logged_in_user) {
     $id = post_int("id");
     $blocked_user = BoincUser::lookup_id($id);
     if (!$blocked_user) error_page(tra("no such user"));
+    if (is_moderator($blocked_user)) {
+        error_page(
+            sprintf('%s is a moderator, and can\'t be blocked',
+                $blocked_user->name
+            )
+        );
+    }
     add_ignored_user($logged_in_user, $blocked_user);
 
     page_head(tra("User %1 blocked", $blocked_user->name));
