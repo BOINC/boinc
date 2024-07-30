@@ -69,7 +69,7 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        if [ $BUILD_WITH_VCPKG = "yes" ]; then
+        if [ $BUILD_APPS_WITH_VCPKG = "yes" ]; then
             export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
         fi
         ./configure --host=armv6-linux --with-boinc-platform="arm-android-linux-gnu" $CONFIG_FLAGS --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
