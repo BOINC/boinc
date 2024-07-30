@@ -1128,7 +1128,7 @@ AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
 AM_CONDITIONAL(OS_ARMV6_LINUX, [echo $host_alias | grep '^armv6-linux' > /dev/null])
 AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
 
-AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
+AM_CONDITIONAL(BUILD_APPS_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
 AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])

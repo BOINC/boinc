@@ -40,12 +40,6 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall  -funroll-loo
 export LDFLAGS="$CONFIG_LDFLAGS -L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -lz"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
-ENABLE_VCPKG_FLAG=""
-
-if [ $BUILD_WITH_VCPKG = "yes" ]; then
-    ENABLE_VCPKG_FLAG="--enable-vcpkg"
-fi
-
 MAKE_FLAGS=""
 
 if [ $VERBOSE = "no" ]; then
