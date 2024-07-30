@@ -1291,8 +1291,9 @@ function check_reply_access($user, $forum, $thread) {
 // - edit their posts at any time
 // - hide/unhide/move threads and posts
 
-function is_moderator($user, $forum) {
+function is_moderator($user, $forum=null) {
     if (!$user) return false;
+    BoincForumPrefs::lookup($user);
     $type = $forum?$forum->parent_type:0;
     switch ($type) {
     case 0:
