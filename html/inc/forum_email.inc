@@ -123,15 +123,33 @@ For assistance with ".PROJECT." go to ".$master_url;
     return $success;
 }
 
-// If a user is subscribed to a thread that is replied to,
-// send them an email notifying them of the reply.
+// There's a new post in the thread, which the user is subscribed to.
+// send them an email notifying them.
 //
-function send_reply_notification_email($thread, $user){
-    $title = PROJECT . ": A user has posted to '". $thread->title ."'";
+function send_thread_notification_email($thread, $user){
+    $title = PROJECT . ": there is a new post in '". $thread->title ."'";
     $link = secure_url_base() . "forum_thread.php?id=" . $thread->id;
-    $body = "Another " . PROJECT . " user has posted to the thread
+    $body = "A " . PROJECT . " user has posted to the thread
 \"" . $thread->title . "\".\n"
            ."To view the updated thread, visit:\n$link
+
+--------------------------
+To change email preferences, visit:
+".secure_url_base()."edit_forum_preferences_form.php
+Do not reply to this message.
+";
+    return send_email($user, $title, $body);
+}
+
+// There's a new thread in the forum, which the user is subscribed to.
+// send them an email notifying them.
+//
+function send_forum_notification_email($forum, $user){
+    $title = PROJECT . ": there is a new thread in '". $forum->title ."'";
+    $link = secure_url_base() . "forum_forum.php?id=" . $forum->id;
+    $body = "A " . PROJECT . " user has added a thread to the forum
+\"" . $thread->title . "\".\n"
+           ."To view the updated forum, visit:\n$link
 
 --------------------------
 To change email preferences, visit:

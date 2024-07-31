@@ -329,6 +329,7 @@ class BoincNotify {
 define ('NOTIFY_FRIEND_REQ', 1);
 define ('NOTIFY_FRIEND_ACCEPT', 2);
 define ('NOTIFY_PM', 3);
-define ('NOTIFY_SUBSCRIBED_POST', 4);
+define ('NOTIFY_SUBSCRIBED_THREAD', 4);
+define ('NOTIFY_SUBSCRIBED_FORUM', 5);
 
 ?>

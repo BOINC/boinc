@@ -958,7 +958,7 @@ function show_button($url, $text, $desc=null, $class=null, $extra=null) {
 // for places with a bunch of buttons, like forum posts
 //
 function show_button_small($url, $text, $desc=null) {
-    echo button_text($url, $text, $desc, "btn-primary btn-xs");
+    echo button_text($url, $text, $desc, "btn btn-xs", button_style());
 }
 
 // used for showing icons
