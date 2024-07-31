@@ -550,7 +550,7 @@ create table post (
 create table subscriptions (
     userid                  integer         not null,
     threadid                integer         not null,
-        -- or negative of forum ID (kludge)
+        -- or negative if forum ID (kludge)
     notified_time           integer         not null default 0
         -- deprecated
 ) engine=InnoDB;
