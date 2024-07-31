@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,6 +15,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// notifications as an RSS feed
 
 require_once("../project/project.inc");
 
@@ -37,8 +39,8 @@ function show_notify_rss_item($notify) {
     case NOTIFY_PM:
         pm_rss($notify, $title, $msg, $url);
         break;
-    case NOTIFY_SUBSCRIBED_POST:
-        subscribe_rss($notify, $title, $msg, $url);
+    case NOTIFY_SUBSCRIBED_THREAD:
+        [$title, $msg, $url] = subscribe_rss($notify);
         break;
     }
     if (!$msg) {

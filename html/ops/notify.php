@@ -87,8 +87,8 @@ function send_notify_emails() {
         case NOTIFY_PM:
             $x = pm_email_line($notify);
             break;
-        case NOTIFY_SUBSCRIBED_POST:
-            $x = subscribed_post_email_line($notify);
+        case NOTIFY_SUBSCRIBED_THREAD:
+            $x = subscribed_thread_email_line($notify);
             break;
         }
         if ($x) {

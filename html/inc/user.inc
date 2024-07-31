@@ -207,8 +207,10 @@ function notify_description($notify) {
         return friend_notify_accept_web_line($notify);
     case NOTIFY_PM:
         return pm_web_line($notify);
-    case NOTIFY_SUBSCRIBED_POST:
-        return subscribed_post_web_line($notify);
+    case NOTIFY_SUBSCRIBED_THREAD:
+        return subscribed_thread_web_line($notify);
+    case NOTIFY_SUBSCRIBED_FORUM:
+        return subscribed_forum_web_line($notify);
     }
     return null;
 }

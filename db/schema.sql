@@ -545,11 +545,12 @@ create table post (
     primary key (id)
 ) engine=InnoDB;
 
--- subscription to a thread
+-- subscription to a thread or forum
 --
 create table subscriptions (
     userid                  integer         not null,
     threadid                integer         not null,
+        -- or negative if forum ID (kludge)
     notified_time           integer         not null default 0
         -- deprecated
 ) engine=InnoDB;
@@ -723,8 +724,9 @@ create table notify (
         -- destination of notification
     create_time             integer         not null,
     type                    integer         not null,
+        -- see html/inc/forum_db.inc
     opaque                  integer         not null
-        -- some other ID, e.g. that of the thread, user or PM record
+        -- the ID of the thread, user or PM record
 );
 
 create table badge (

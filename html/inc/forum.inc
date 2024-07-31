@@ -145,7 +145,15 @@ function show_forum_header($user) {
         <input type="hidden" name="search_forum" value="-1">
         <input type="hidden" name="search_sort" value="'.CREATE_TIME_NEW.'">
         <input type="text" class="" name="search_keywords">
-        <input class="btn btn-primary btn-sm" title="'.tra("Search for words in forum messages").'" type="submit" value="'.tra("Search forums").'"><br>
+    ';
+    echo sprintf(
+        '<input class="%s" %s title="%s" type="submit" value="%s"><br>',
+        'btn btn-sm',
+        button_style(),
+        tra("Search for words in forum messages"),
+        tra("Search forums")
+    );
+    echo '
         <small><a href="forum_search.php">'.tra("Advanced search").'</a></small>
         </td>
     ';
@@ -863,25 +871,53 @@ function post_warning($forum=null) {
     return $x;
 }
 
-function notify_subscriber($thread, $user) {
+function notify_thread_subscriber($thread, $user) {
     BoincForumPrefs::lookup($user);
     if ($user->prefs->pm_notification == 1) {
-        send_reply_notification_email($thread, $user);
+        send_thread_notification_email($thread, $user);
     }
     $now = time();
-    $type = NOTIFY_SUBSCRIBED_POST;
-    BoincNotify::replace("userid=$user->id, create_time=$now, type=$type, opaque=$thread->id");
+    $type = NOTIFY_SUBSCRIBED_THREAD;
+    BoincNotify::replace(
+        "userid=$user->id, create_time=$now, type=$type, opaque=$thread->id"
+    );
 }
 
 // notify subscribed users, except for the given user
 //
-function notify_subscribers($thread, $user) {
+function notify_thread_subscribers($thread, $user) {
     $subs = BoincSubscription::enum("threadid=$thread->id");
     foreach ($subs as $sub) {
         if ($user && ($user->id == $sub->userid)) continue;
         $user2 = BoincUser::lookup_id($sub->userid);
         if ($user2) {
-            notify_subscriber($thread, $user2);
+            notify_thread_subscriber($thread, $user2);
+        }
+    }
+}
+
+function notify_forum_subscriber($forum, $user) {
+    BoincForumPrefs::lookup($user);
+    if ($user->prefs->pm_notification == 1) {
+        send_forum_notification_email($forum, $user);
+    }
+    $now = time();
+    $type = NOTIFY_SUBSCRIBED_FORUM;
+    BoincNotify::replace(
+        "userid=$user->id, create_time=$now, type=$type, opaque=$forum->id"
+    );
+}
+
+// notify subscribed users, except for the given user
+//
+function notify_forum_subscribers($forum, $user) {
+    $id = -$forum->id;
+    $subs = BoincSubscription::enum("threadid=$id");
+    foreach ($subs as $sub) {
+        if ($user && ($user->id == $sub->userid)) continue;
+        $user2 = BoincUser::lookup_id($sub->userid);
+        if ($user2) {
+            notify_forum_subscriber($forum, $user2);
         }
     }
 }
@@ -909,7 +945,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
         return null;
     }
 
-    notify_subscribers($thread, $user);
+    notify_thread_subscribers($thread, $user);
 
     $user->prefs->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
@@ -961,6 +997,8 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
     $thread = BoincThread::lookup_id($id);
     create_post($content, 0, $user, $forum, $thread, $signature);
     $forum->update("threads=threads+1");
+    notify_forum_subscribers($forum, $user);
+    exit;
     return $thread;
 }
 
@@ -1043,7 +1081,7 @@ function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
     update_thread_timestamp($new_thread);
     update_forum_timestamp($old_forum);
     update_forum_timestamp($new_forum);
-    notify_subscribers($new_thread, $g_logged_in_user);
+    notify_thread_subscribers($new_thread, $g_logged_in_user);
     return true;
 }
 
@@ -1350,11 +1388,11 @@ function show_thread_and_context($thread, $user) {
     ';
 }
 
-// see if thread is in subscription list
+// see if ID is in subscription list
 //
-function is_subscribed($thread, $subs) {
+function is_subscribed($id, $subs) {
     foreach ($subs as $sub) {
-        if ($sub->threadid == $thread->id) return true;
+        if ($sub->threadid == $id) return true;
     }
     return false;
 }
@@ -1369,21 +1407,40 @@ function is_forum_visible_to_user($forum, $user) {
     return true;
 }
 
-function subscribed_post_email_line($notify) {
+function subscribed_thread_email_line($notify) {
     $thread = BoincThread::lookup_id($notify->opaque);
     return "There are new posts in the thread '$thread->title'";
 }
 
-function subscribed_post_web_line($notify) {
+function subscribed_thread_web_line($notify) {
     $thread = BoincThread::lookup_id($notify->opaque);
     return tra("New posts in the thread %1","<a href=forum_thread.php?id=$thread->id>$thread->title</a>");
 }
 
-function subscribe_rss($notify, &$title, &$msg, &$url) {
+function subscribed_thread_rss($notify) {
     $thread = BoincThread::lookup_id($notify->opaque);
     $title = tra("New posts in subscribed thread");
     $msg = tra("There are new posts in the thread '%1'",$thread->title);
     $url = secure_url_base()."forum_thread.php?id=$thread->id";
+    return [$title, $msg, $url];
+}
+
+function subscribed_forum_email_line($notify) {
+    $forum = BoincForum::lookup_id($notify->opaque);
+    return "There are new threads in the forum '$forum->title'";
+}
+
+function subscribed_forum_web_line($notify) {
+    $forum = BoincForum::lookup_id($notify->opaque);
+    return tra("New threads in the forum %1","<a href=forum_forum.php?id=$forum->id>$forum->title</a>");
+}
+
+function subscribed_forum_rss($notify) {
+    $forum = BoincForum::lookup_id($notify->opaque);
+    $title = tra("New posts in subscribed forum");
+    $msg = tra("There are new threads in the forum '%1'",$forum->title);
+    $url = secure_url_base()."forum_forum.php?id=$forum->id";
+    return [$title, $msg, $url];
 }
 
 function show_mark_as_read_button($user) {
@@ -1399,14 +1456,14 @@ function show_mark_as_read_button($user) {
 }
 
 function remove_subscriptions_forum($userid, $forumid) {
-    $subs = BoincSubscription::enum("userid=$userid");
+    $subs = BoincSubscription::enum("userid=$userid and threadid>0");
     foreach ($subs as $sub) {
         $thread = BoincThread::lookup_id($sub->threadid);
         if ($thread && $thread->forum == $forumid) {
             BoincSubscription::delete($userid, $thread->id);
         }
     }
-    $notices = BoincNotify::enum("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST);
+    $notices = BoincNotify::enum("userid=$userid and type=".NOTIFY_SUBSCRIBED_THREAD);
     foreach ($notices as $n) {
         $thread = BoincThread::lookup_id($n->opaque);
         if ($thread && $thread->forum == $forumid) {
@@ -1417,7 +1474,7 @@ function remove_subscriptions_forum($userid, $forumid) {
 
 function remove_subscriptions_thread($userid, $threadid) {
     BoincSubscription::delete($userid, $threadid);
-    BoincNotify::delete_aux("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST." and opaque=$threadid");
+    BoincNotify::delete_aux("userid=$userid and type=".NOTIFY_SUBSCRIBED_THREAD." and opaque=$threadid");
 }
 
 function parse_forum_cookie() {

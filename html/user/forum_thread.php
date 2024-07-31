@@ -167,10 +167,12 @@ if (!$logged_in_user) {
     }
 
     if ($is_subscribed) {
-        $type = NOTIFY_SUBSCRIBED_POST;
-        BoincNotify::delete_aux(
-            "userid=$logged_in_user->id and type=$type and opaque=$thread->id"
-        );
+        BoincNotify::delete_aux(sprintf(
+            'userid=%d and type=%d and opaque=%d',
+            $logged_in_user->id,
+            NOTIFY_SUBSCRIBED_THREAD,
+            $thread->id
+        ));
         $url = "forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->id."$tokens";
         show_button_small(
             $url,
@@ -182,7 +184,7 @@ if (!$logged_in_user) {
         show_button_small(
             $url,
             tra("Subscribe"),
-            tra("Click to get email when there are new posts in this thread")
+            tra("Click to get notified when there are new posts in this thread")
         );
     }
 
