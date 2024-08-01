@@ -27,16 +27,25 @@ require_once("../inc/boinc_db.inc");
 
 die("Delete this line first\n");
 
-$id = (int) $argv[1];
-
-$user = BoincUser::lookup_id($id);
-if (!$user) die("no such user\n");
-
-$retval = delete_account($user);
-if ($retval) {
-    echo "Failed to delete user: $retval\n";
+if (is_numeric($argv[1])) {
+    $user = BoincUser::lookup_id((int) $argv[1]);
+    if (!$user) die("no such user\n");
+    $retval = delete_account($user);
+    if ($retval) {
+        echo "Failed to delete user: $retval\n";
+    } else {
+        echo "User deleted\n";
+    }
 } else {
-    echo "User deleted\n";
+    $users = BoincUser::enum(sprintf("name='%s'", $argv[1]));
+    foreach ($users as $user) {
+        $retval = delete_account($user);
+        if ($retval) {
+            echo "Failed to delete user: $retval\n";
+        } else {
+            echo "User $user->id deleted\n";
+        }
+    }
 }
 
 ?>
