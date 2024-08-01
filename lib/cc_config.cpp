@@ -235,6 +235,7 @@ void CC_CONFIG::defaults() {
     max_event_log_lines = DEFAULT_MAX_EVENT_LOG_LINES;
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
+    max_overdue_days = -1;
     max_stderr_file_size = 0;
     max_stdout_file_size = 0;
     max_tasks_reported = 0;
@@ -398,6 +399,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
+        if (xp.parse_double("max_overdue_days", max_overdue_days)) continue;
         if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
         if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
@@ -633,6 +635,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
+        "        <max_overdue_days>%f</max_overdue_days>\n"
         "        <max_stderr_file_size>%f</max_stderr_file_size>\n"
         "        <max_stdout_file_size>%f</max_stdout_file_size>\n"
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
@@ -649,6 +652,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         max_event_log_lines,
         max_file_xfers,
         max_file_xfers_per_project,
+        max_overdue_days,
         max_stderr_file_size,
         max_stdout_file_size,
         max_tasks_reported,

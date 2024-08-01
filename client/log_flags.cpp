@@ -251,6 +251,12 @@ void CC_CONFIG::show() {
             msg_printf(NULL, MSG_INFO, "Config: event log limit disabled");
         }
     }
+    if (max_overdue_days >= 0) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: abort tasks overdue by > %.2f days",
+            max_overdue_days
+        );
+    }
     if (ncpus>0) {
         msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", cc_config.ncpus);
     }
@@ -427,6 +433,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
+        if (xp.parse_double("max_overdue_days", max_overdue_days)) continue;
         if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
         if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;

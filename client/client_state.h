@@ -380,6 +380,7 @@ struct CLIENT_STATE {
     bool start_apps();
     bool handle_finished_apps();
     void check_for_finished_jobs();
+    void check_overdue();
 
     ACTIVE_TASK* get_task(RESULT*);
 

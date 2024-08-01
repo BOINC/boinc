@@ -433,6 +433,7 @@ int boinc_main_loop() {
 
     log_message_startup("Initialization completed");
 
+    // client main loop; poll interval is 1 sec
     while (1) {
         if (!gstate.poll_slow_events()) {
             gstate.do_io_or_sleep(POLL_INTERVAL);
@@ -461,6 +462,7 @@ int boinc_main_loop() {
                 break;
             }
         }
+        gstate.check_overdue();
     }
 
     return finalize();

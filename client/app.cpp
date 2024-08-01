@@ -1114,16 +1114,29 @@ bool MSG_QUEUE::timeout(double diff) {
 
 #endif
 
+// Report overdue jobs.
+// if CC_CONFIG.max_overdue_days is set, abort jobs overdue by more than that.
+// Called at startup and every day after that.
+//
 void ACTIVE_TASK_SET::report_overdue() {
     unsigned int i;
     ACTIVE_TASK* atp;
+    double mod = cc_config.max_overdue_days;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         double diff = (gstate.now - atp->result->report_deadline)/86400;
-        if (diff > 0) {
+        if (diff <= 0) continue;
+        if (mod>=0 && diff > mod) {
             msg_printf(atp->result->project, MSG_INFO,
-                "Task %s is %.2f days overdue; you may not get credit for it.  Consider aborting it.", atp->result->name, diff
+                "Task %s is %.2f days overdue; aborting it.",
+                atp->result->name, diff
+            );
+            atp->abort_task(EXIT_OVERDUE_EXCEEDED, "Overdue limit exceeded");
+        } else {
+            msg_printf(atp->result->project, MSG_INFO,
+                "Task %s is %.2f days overdue; you may not get credit for it.  Consider aborting it.",
+                atp->result->name, diff
             );
         }
     }
