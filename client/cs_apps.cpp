@@ -186,6 +186,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         switch (rp->exit_status) {
         case EXIT_ABORTED_VIA_GUI:
         case EXIT_ABORTED_BY_PROJECT:
+        case EXIT_OVERDUE_EXCEEDED:
             rp->set_state(RESULT_ABORTED, "CS::app_finished");
             break;
         default:
