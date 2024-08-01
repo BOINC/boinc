@@ -22,8 +22,8 @@ require_once("../inc/db.inc");
 // Intended to be subclassed (e.g., BoincDb, BossaDb)
 //
 class DbConn {
-    var $db_conn;
-    var $db_name;
+    var $db_conn;       // a mysqli object
+    var $db_name;       // the DB name
 
     function init_conn($user, $passwd, $host, $name) {
         $x = explode(":", $host);
@@ -52,6 +52,12 @@ class DbConn {
         }
         $this->db_name = $name;
         return true;
+    }
+
+    function close() {
+        if ($this->db_conn) {
+            $this->db_conn->close();
+        }
     }
 
     // in keeping with PHP/MySQL convention, return true (nonzero) on success.

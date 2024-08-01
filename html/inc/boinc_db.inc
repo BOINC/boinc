@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,6 +16,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// A project can have one or more BOINC databases:
+// DB 0:
+//      the main DB; read/write
+//      identified in config file by db_host, db_name, db_user, db_passwd
+//      db_host defaults to localhost
+// DB 1:
+//      read-only replica; identified by
+//      replica_db_host/name/user/passwd (must include all)
+// DB 2:
+//      read-only replica; identified by
+//      replica2_db_host/name/user/passwd (must include all)
+// ... and potentially more
+
 function incs() {
     $d = dirname(__FILE__);
     require_once("$d/db_conn.inc");
@@ -24,21 +37,15 @@ function incs() {
 
 incs();
 
-class BoincDb extends DbConn {
-    static $instance;
+// class BoincDb represents a connection to a BOINC database.
+// All its members are static, so there's only 1 connection at a time.
+// get(n) establishes a connection to DB n,
+// or DB 0 if that fails or doesn't exit.
+// close() closes the connection.
 
-    // A project can have one or more databases:
-    // DB 0:
-    //      the main DB; read/write
-    //      identified in config file by db_host, db_name, db_user, db_passwd
-    //      db_host defaults to localhost
-    // DB 1:
-    //      read-only replica; identified by
-    //      replica_db_host/name/user/passwd (must include all)
-    // DB 2:
-    //      read-only replica; identified by
-    //      replica2_db_host/name/user/passwd (must include all)
-    // ... and potentially more
+class BoincDb {
+    static $instance;       // a DbConn object, or null
+    static $dbnum;          // which replica we're connected to
 
     // connect to DB $dbnum (0, 1, ...)
     // If the requested DB doesn't exist or connection fails, connect to DB 0.
@@ -59,6 +66,7 @@ class BoincDb extends DbConn {
                 if ($retval) {
                     //error_log("BoincDb::get_aux(): connected to replica DB $dbnum");
                     self::$instance = $instance;
+                    self::$dbnum = $dbnum;
                     return;
                 }
             }
@@ -77,6 +85,7 @@ class BoincDb extends DbConn {
         if ($retval) {
             //error_log("BoincDb::get_aux(): connected to DB $dbnum");
             self::$instance = $instance;
+            self::$dbnum = 0;
             return;
         }
         error_log("BoincDb::get_aux(): Couldn't connect to DB $dbnum");
@@ -113,6 +122,13 @@ class BoincDb extends DbConn {
             xml_error(-138, "Can't connect to database");
         } else {
             error_page("Can't connect to database");
+        }
+    }
+
+    static function close() {
+        if (isset(self::$instance)) {
+            self::$instance->close();
+            self::$instance = null;
         }
     }
 
