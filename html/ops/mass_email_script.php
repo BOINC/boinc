@@ -189,7 +189,7 @@ function mail_type($user, $email_file) {
         echo $text;
     }
     if ($globals->send) {
-        if (is_valid_email_addr($user->email_addr)) {
+        if (is_valid_email_syntax($user->email_addr)) {
             send_email(
                 $user,
                 $email_file['subject'],

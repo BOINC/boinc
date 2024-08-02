@@ -104,7 +104,7 @@ try {
         }
         $new_email_addr = $data['contact/email'];
         $new_email_addr = strtolower($new_email_addr);
-        if (!is_valid_email_addr($new_email_addr)) {
+        if (!is_valid_email_syntax($new_email_addr)) {
             show_error("Invalid email address:
                 you must enter a valid address of the form
                 name@domain"

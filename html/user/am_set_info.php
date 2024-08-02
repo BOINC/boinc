@@ -159,8 +159,11 @@ if ($email_addr && $email_addr != $user->email_addr) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change is incorrect.");
     }
 
-    if (!is_valid_email_addr($email_addr)) {
+    if (!is_valid_email_syntax($email_addr)) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
+    }
+    if (!is_valid_email_sfs($email_addr)) {
+        xml_error(ERR_BAD_EMAIL_ADDR, "email address flagged by stopforumspam.com");
     }
     if (is_banned_email_addr($email_addr)) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
