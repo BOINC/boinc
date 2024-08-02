@@ -756,7 +756,7 @@ int CLIENT_STATE::init() {
 
     msg_printf(NULL, MSG_INFO, "Checking active tasks");
     active_tasks.init();
-    active_tasks.report_overdue();
+    check_overdue();
     active_tasks.handle_upload_files();
     had_or_requested_work = (active_tasks.active_tasks.size() > 0);
 

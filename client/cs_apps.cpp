@@ -186,6 +186,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         switch (rp->exit_status) {
         case EXIT_ABORTED_VIA_GUI:
         case EXIT_ABORTED_BY_PROJECT:
+        case EXIT_OVERDUE_EXCEEDED:
             rp->set_state(RESULT_ABORTED, "CS::app_finished");
             break;
         default:
@@ -371,3 +372,13 @@ void ACTIVE_TASK_SET::check_for_finished_jobs() {
     }
 }
 #endif
+
+// check for overdue results once/day
+// called at startup and once/sec after
+//
+void CLIENT_STATE::check_overdue() {
+    static double t = 0;
+    if (now < t) return;
+    active_tasks.report_overdue();
+    t = now + 86400;
+}

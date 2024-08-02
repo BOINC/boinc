@@ -42,6 +42,7 @@
 #define EXIT_INIT_FAILURE           206
 #define EXIT_NO_SUB_TASKS           207
 #define EXIT_SUB_TASK_FAILURE       208
+#define EXIT_OVERDUE_EXCEEDED       209
 
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change

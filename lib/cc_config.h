@@ -185,6 +185,7 @@ struct CC_CONFIG {
     int max_event_log_lines;
     int max_file_xfers;
     int max_file_xfers_per_project;
+    double max_overdue_days;
     double max_stderr_file_size;
     double max_stdout_file_size;
     int max_tasks_reported;
