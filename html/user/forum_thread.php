@@ -109,10 +109,10 @@ echo "<p>";
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
-    show_forum_title($category, $forum, $thread);
+    echo forum_title($category, $forum, $thread);
     break;
 case 1:
-    show_team_forum_title($forum, $thread);
+    echo team_forum_title($forum, $thread);
     break;
 }
 echo "<br><small><a href=moderation.php>".tra("Message board moderation")."</a></small>
@@ -306,10 +306,10 @@ if ($reply_url) {
 echo "<p></p>";
 switch ($forum->parent_type) {
 case 0:
-    show_forum_title($category, $forum, $thread);
+    echo forum_title($category, $forum, $thread);
     break;
 case 1:
-    show_team_forum_title($forum, $thread);
+    echo team_forum_title($forum, $thread);
     break;
 }
 

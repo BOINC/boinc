@@ -35,10 +35,10 @@ function show_title($forum, $thread) {
     switch ($forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($forum->category);
-        show_forum_title($category, $forum, $thread);
+        echo forum_title($category, $forum, $thread);
         break;
     case 1:
-        show_team_forum_title($forum, $thread);
+        echo team_forum_title($forum, $thread);
         break;
     }
 }

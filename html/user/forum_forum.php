@@ -74,14 +74,14 @@ function forum_page($forum, $user, $msg=null) {
         }
         if ($msg) echo "<p>$msg</p>\n";
         show_forum_header($user);
-        show_forum_title($category, $forum, NULL);
+        echo forum_title($category, $forum, NULL);
         break;
     case 1:
         $team = BoincTeam::lookup_id($forum->category);
         page_head(tra("Team message board for %1", $team->name));
         if ($msg) echo "<p>$msg</p>\n";
         show_forum_header($user);
-        show_team_forum_title($forum);
+        echo team_forum_title($forum);
         break;
     }
 

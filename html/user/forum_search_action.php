@@ -175,10 +175,11 @@ $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, rou
 //
 if (count($threads)){
     echo "<h3>" . tra("Thread titles matching your query:") . "</h3>";
-    show_thread_and_context_header();
+    start_table('table-striped');
+    thread_list_header();
     foreach ($threads as $thread){
         if ($thread->hidden) continue;
-        show_thread_and_context($thread, $logged_in_user);
+        thread_list_item($thread, $logged_in_user);
     }
     end_table();
     echo "<br /><br />";
