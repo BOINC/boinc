@@ -356,17 +356,13 @@ function get_daemon_status() {
         $have_remote = true;
     }
 
-    // Scheduler is a daemon too
-    //
-    if ($sched_host == $main_host) {
-        $y = new StdClass;
-        $y->cmd = "Scheduler";
-        $y->host = $sched_host;
-        $y->status = !file_exists("../../stop_sched");;
-        $local_daemons[] = $y;
-    } else {
-        $have_remote = true;
-    }
+    // the scheduler is a CGI program, not a daemon;
+    // it doesn't have a PID.
+    $y = new StdClass;
+    $y->cmd = "Scheduler";
+    $y->host = $sched_host;
+    $y->status = !file_exists("../../stop_sched");;
+    $local_daemons[] = $y;
 
     foreach ($daemons->daemon as $d) {
         if ((int)$d->disabled != 0) {
