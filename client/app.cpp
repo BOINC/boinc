@@ -1119,6 +1119,7 @@ bool MSG_QUEUE::timeout(double diff) {
 // Called at startup and every day after that.
 //
 void ACTIVE_TASK_SET::report_overdue() {
+#ifndef SIM
     unsigned int i;
     ACTIVE_TASK* atp;
     double mod = cc_config.max_overdue_days;
@@ -1140,6 +1141,7 @@ void ACTIVE_TASK_SET::report_overdue() {
             );
         }
     }
+#endif
 }
 
 // scan the slot directory, looking for files with names
