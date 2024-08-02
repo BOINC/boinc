@@ -191,7 +191,7 @@ if ($email_addr) {
 }
 $passwd = post_str("passwd", true);
 if ($email_addr && $passwd) {
-    if (LDAP_HOST && !is_valid_email_addr($email_addr)) {
+    if (LDAP_HOST && !is_valid_email_syntax($email_addr)) {
         login_with_ldap($email_addr, $passwd, $next_url, $perm);
     } else {
         login_with_email($email_addr, $passwd, $next_url, $perm);

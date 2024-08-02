@@ -71,10 +71,12 @@ if (!is_valid_user_name($user_name, $reason)) {
     xml_error(ERR_BAD_USER_NAME, $reason);
 }
 
-if (!is_valid_email_addr($email_addr)) {
+if (!is_valid_email_syntax($email_addr)) {
     xml_error(ERR_BAD_EMAIL_ADDR);
 }
-
+if (!is_valid_email_sfs($email_addr)) {
+    xml_error(ERR_BAD_EMAIL_ADDR, 'flagged by stopforumspam.com');
+}
 if (is_banned_email_addr($email_addr)) {
     xml_error(ERR_BAD_EMAIL_ADDR);
 }

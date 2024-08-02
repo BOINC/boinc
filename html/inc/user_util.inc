@@ -110,7 +110,8 @@ function make_user(
     $email_addr, $name, $passwd_hash,
     $country=null, $postal_code=null, $project_prefs=null, $teamid=0
 ) {
-    if (!is_valid_email_addr($email_addr)) return null;
+    if (!is_valid_email_syntax($email_addr)) return null;
+        // caller generally has already checked
     if (is_banned_email_addr($email_addr)) return null;
 
     $authenticator = random_string();
@@ -251,13 +252,18 @@ function validate_post_make_user() {
     }
 
     $new_email_addr = strtolower(post_str("new_email_addr"));
-    if (!is_valid_email_addr($new_email_addr)) {
+    if (!is_valid_email_syntax($new_email_addr)) {
         show_error(tra("Invalid email address: please enter a valid address of the form name@xxx.yyy"));
     }
+    if (!is_valid_email_sfs($new_email_addr)) {
+        show_error("$new_email_addr was flagged by stopforumspam.com");
+    }
+
     $user = BoincUser::lookup_email_addr($new_email_addr);
     if ($user) {
         show_error(tra("There's already an account with that email address."));
     }
+
     $tmpuser = BoincUser::lookup_prev_email_addr($new_email_addr);
     if ($tmpuser) {
         show_error(tra("There's already an account with that email address."));

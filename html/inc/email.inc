@@ -145,27 +145,39 @@ Note:  Your password will need to be recovered after clicking this link";
     return send_email($user, $subject, $body_new) && send_email($user, $subject, $body_old, null, $user->previous_email_addr);
 }
 
-// a valid email address is of the form A@B.C
-// where A, B, C are nonempty,
-// A and B don't contain @ or .,
-// and C doesn't contain @ and is at least 2 chars
+// return true if the email address
+// - is syntactically valid according to filter_var()
+// - if configured, is OK with stopforumspam.com
 //
-function is_valid_email_addr($addr) {
-    if (defined("USE_STOPFORUMSPAM") && USE_STOPFORUMSPAM && array_key_exists('REMOTE_ADDR', $_SERVER)) {
+function is_valid_email_sfs($addr) {
+    if (!defined("USE_STOPFORUMSPAM")) return true;
+    if (!USE_STOPFORUMSPAM) return true;
+    $ip = '';
+    if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
         $ip = $_SERVER['REMOTE_ADDR'];
-        // For obviously private IPs check just the email against SFS, otherwise check both IP and email
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-            $x = @file_get_contents("https://www.stopforumspam.com/api?ip=".$ip."&email=".$addr);
-        } else {
-            $x = @file_get_contents("https://www.stopforumspam.com/api?email=".$addr);
-        }
-        if (substr_count($x, '<appears>yes</appears>')) {
-            return false;
-        }
     }
-    $pattern = '/^([^@]+)@([^@\.]+)\.([^@]{2,})$/';
-    $match = preg_match($pattern, $addr);
-    return (bool) $match;
+    // For obviously private IPs check just the email against SFS,
+    // otherwise check both IP and email
+    if ($ip && filter_var(
+        $ip, FILTER_VALIDATE_IP,
+        FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+    )) {
+        $x = @file_get_contents("https://www.stopforumspam.com/api?ip=".$ip."&email=".$addr);
+    } else {
+        $x = @file_get_contents("https://www.stopforumspam.com/api?email=".$addr);
+    }
+    // could also look at 'frequency' and 'lastseen'
+    // see https://www.stopforumspam.com/usage
+    //
+    if (substr_count($x, '<appears>yes</appears>')) {
+        error_log("stopforumspam.com rejected email $addr, IP $ip");
+        return false;
+    }
+    return true;
+}
+
+function is_valid_email_syntax($addr) {
+    return filter_var($addr, FILTER_VALIDATE_EMAIL);
 }
 
 function send_confirm_delete_email($user) {

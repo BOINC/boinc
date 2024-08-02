@@ -28,7 +28,7 @@ echo tra("Note: if you change your email address, your %1weak account key%2 will
 echo "<p>";
 
 $email_text = "";
-if (is_valid_email_addr($user->email_addr)) {
+if (is_valid_email_syntax($user->email_addr)) {
     $email_text = $user->email_addr;
 }
 
