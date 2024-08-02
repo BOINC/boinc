@@ -502,8 +502,8 @@ void OLD_RESULT::print() {
         "   app name: %s\n"
         "   exit status: %d\n"
         "   elapsed time: %f sec\n"
-        "   completed time: %s\n"
-        "   reported time: %s\n",
+        "   task completed: %s\n"
+        "   acked by project: %s\n",
         result_name,
         project_url,
         app_name,
