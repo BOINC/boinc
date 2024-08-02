@@ -119,11 +119,6 @@ int ACTIVE_TASK::request_exit() {
     return 0;
 }
 
-int ACTIVE_TASK::abort_task(int exit_status, const char*) {
-    set_task_state(PROCESS_ABORTED, "abort_task");
-    return 0;
-}
-
 int ACTIVE_TASK::resume_or_start(bool first_time) {
     if (log_flags.task) {
         msg_printf(result->project, MSG_INFO,
