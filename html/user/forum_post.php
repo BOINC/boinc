@@ -88,10 +88,10 @@ if ($warning) {
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
-    show_forum_title($category, $forum, null);
+    echo forum_title($category, $forum, null);
     break;
 case 1:
-    show_team_forum_title($forum);
+    echo team_forum_title($forum);
     break;
 }
 

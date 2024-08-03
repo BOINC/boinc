@@ -170,9 +170,9 @@ function show_forum_header($user) {
     ";
 }
 
-// Output the forum/thread title.
+// return forum/thread title, with links.
 //
-function show_forum_title($category, $forum, $thread, $link_thread=false) {
+function forum_title($category, $forum, $thread, $link_thread=false) {
     if ($category) {
         $is_helpdesk = $category->is_helpdesk;
     } else {
@@ -182,50 +182,57 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
     $where = $is_helpdesk?tra("Questions and Answers"):tra("Message boards");
     $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
 
+    $x = '';
     if (!$forum && !$thread) {
-        echo "<span class=\"title\">$where</span>\n";
-
+        $x .= $where;
     } else if ($forum && !$thread) {
-        echo "<span class=title>";
-        echo "<a href=\"$top_url\">$where</a> : ";
-        echo $forum->title;
-        echo "</span>";
+        $x .= sprintf('<a href="%s">%s</a> : %s',
+            $top_url,
+            $where,
+            $forum->title
+        );
     } else if ($forum && $thread) {
-        echo "<span class=title>
-            <a href=\"$top_url\">$where</a> :
-            <a href=\"forum_forum.php?id=".$forum->id."\">", $forum->title, "</a> :
-        ";
+        $x .= sprintf('<a href="%s">%s</a> :',
+            $top_url,
+            $where
+        );
+        $x .= sprintf('<a href="forum_forum.php?id=%d">%s</a> :',
+            $forum->id,
+            $forum->title
+        );
         if ($link_thread) {
-            echo "<a href=forum_thread.php?id=$thread->id>";
+            $x .= sprintf('<a href=forum_thread.php?id=%d>%s</a>',
+                $thread->id,
+                cleanup_title($thread->title)
+            );
+        } else {
+            $x .= cleanup_title($thread->title);
         }
-        echo cleanup_title($thread->title);
-        if ($link_thread) {
-            echo "</a>";
-        }
-        echo "</span>";
     } else {
-        echo "Invalid thread ID";
+        $x = "Invalid thread ID";
     }
+    return $x;
 }
 
-function show_team_forum_title($forum, $thread=null, $link_thread=false) {
+function team_forum_title($forum, $thread=null, $link_thread=false) {
     $team = BoincTeam::lookup_id($forum->category);
-    echo "<span class=title>
-        <a href=\"forum_index.php\">".tra("Message boards")."</a> :
-    ";
+    $x = sprintf('<a href="forum_index.php">%s</a> :',
+        tra("Message boards")
+    );
     if ($thread) {
-        echo "
-            <a href=team_forum.php?teamid=$team->id>".tra("%1 message board", $team->name)."</a>
-        ";
+        $x .= sprintf('<a href=team_forum.php?teamid=%d>%s</a>',
+            $team->id,
+            tra("%1 message board", $team->name)
+        );
         if ($link_thread) {
-            echo " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
+            $x .= " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
         } else {
-            echo " : $thread->title";
+            $x .= " : $thread->title";
         }
     } else {
-        echo tra("%1 message board", $team->name);
+        $x .= tra("%1 message board", $team->name);
     }
-    echo "</span>";
+    return $x;
 }
 
 // start a table of forum posts
@@ -782,10 +789,10 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     switch ($forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($forum->category);
-        show_forum_title($category, $forum, $thread, true);
+        echo forum_title($category, $forum, $thread, true);
         break;
     case 1:
-        show_team_forum_title($forum);
+        echo team_forum_title($forum);
         break;
     }
     echo "
@@ -1349,43 +1356,63 @@ function is_moderator($user, $forum=null) {
     return false;
 }
 
-function show_thread_and_context_header() {
-    start_table('table-striped');
-    row_heading_array(array(
-        tra("Thread"),
-        tra("Posts"),
-        tra("Author"),
-        tra("Views"),
-        "<nobr>".tra("Last post")."</nobr>"
-    ));
+function thread_list_header($subscriptions=false) {
+    if ($subscriptions) {
+        $x = [
+            tra("Thread"),
+            tra("Author"),
+            "<nobr>".tra("Last post")."</nobr>",
+            'Unsubscribe'
+        ];
+    } else {
+        $x = [
+            tra("Thread"),
+            tra("Posts"),
+            tra("Author"),
+            tra("Views"),
+            "<nobr>".tra("Last post")."</nobr>"
+        ];
+    }
+    row_heading_array($x);
 }
 
 // show a 1-line summary of thread and its forum.
 // Used for search results and subscription list
 //
-function show_thread_and_context($thread, $user) {
+function thread_list_item($thread, $user, $subscriptions=false) {
     $thread_forum = BoincForum::lookup_id($thread->forum);
     if (!$thread_forum) return;
     if (!is_forum_visible_to_user($thread_forum, $user)) return;
     $owner = BoincUser::lookup_id($thread->owner);
     if (!$owner) return;
-    echo "<tr><td>\n";
     switch($thread_forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($thread_forum->category);
-        show_forum_title($category, $thread_forum, $thread, true);
+        $title = forum_title($category, $thread_forum, $thread, true);
         break;
     case 1:
-        show_team_forum_title($thread_forum, $thread);
+        $title = team_forum_title($thread_forum, $thread);
         break;
+    default:
+        $title = '???';
     }
-    echo '
-        </td><td class="numbers">'.($thread->replies+1).'</td>
-        <td>'.user_links($owner).'</td>
-        <td class="numbers">'.$thread->views.'</td>
-        <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
-        </tr>
-    ';
+    if ($subscriptions) {
+        $x = [
+            $title,
+            user_links($owner),
+            time_diff_str($thread->timestamp, time()),
+            "<input type=checkbox name=unsub_thread_$thread->id>"
+        ];
+    } else {
+        $x = [
+            $title,
+            $thread->replies+1,
+            user_links($owner),
+            $thread->views,
+            time_diff_str($thread->timestamp, time())
+        ];
+    }
+    row_array($x);
 }
 
 // see if ID is in subscription list
