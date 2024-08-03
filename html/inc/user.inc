@@ -495,6 +495,10 @@ function show_community_private($user) {
     } else {
         row2(tra("Friends"), '---');
     }
+
+    if (is_admin($user)) {
+        row2('Special users', '<a href=user_permissions.php>Manage</a>');
+    }
 }
 
 // show summary of dynamic and static info (public)

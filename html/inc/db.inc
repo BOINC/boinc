@@ -18,11 +18,9 @@
 
 require_once("../inc/util_basic.inc");
 
-// database-related functions.
-// Presentation code (HTML) shouldn't be here
-
-// DEPRECATED; use boinc_db.inc instead.
-// TODO: replace calls to these functions
+// functions for doing arbitrary SQL queries, including joins.
+// When possible, use the classes in boinc_db.inc instead.
+// Lots of old code uses these functions, e.g. in ops/
 
 // use mysqli if available,
 // but let projects not use it if they want
