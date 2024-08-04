@@ -97,6 +97,7 @@ if [ -d "$PREFIX" ]; then
     echo "$PREFIX already exists. Will not clone but use it instead."
 else
     git clone https://github.com/BOINC/boinc-server-test.git "${PREFIX}"
+    git -C "${PREFIX}" checkout origin/vko_switch_to_docker_compose_v2
     if [ $? -ne 0 ]; then exit 1; fi
 fi
 
