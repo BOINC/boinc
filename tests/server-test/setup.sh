@@ -33,10 +33,10 @@ then
     exit 1
 fi
 
-# Check if docker-compose is installed.  If it isn't, direct user to instructions
-if [ -z "$(command -v docker-compose)" ]; 
+# Check if docker compose is installed.  If it isn't, direct user to instructions
+if [ -z "$(command -v docker compose)" ]; 
 then
-    echo "Please install docker-compose.  See https://docs.docker.com/compose/install/"
+    echo "Please install docker compose.  See https://docs.docker.com/compose/install/"
     exit 1
 fi
 
