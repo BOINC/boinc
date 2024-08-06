@@ -24,6 +24,7 @@ require_once("../inc/news.inc");
 require_once("../inc/text_transform.inc");
 
 define('THREADS_PER_PAGE', 50);
+define('FORUM_LH_PCT', '25%');      // width of LH column
 
 $forum_error = "";
     // for functions that return null on error,
@@ -192,11 +193,11 @@ function forum_title($category, $forum, $thread, $link_thread=false) {
             $forum->title
         );
     } else if ($forum && $thread) {
-        $x .= sprintf('<a href="%s">%s</a> :',
+        $x .= sprintf('<a href="%s">%s</a> : ',
             $top_url,
             $where
         );
-        $x .= sprintf('<a href="forum_forum.php?id=%d">%s</a> :',
+        $x .= sprintf('<a href="forum_forum.php?id=%d">%s</a> : ',
             $forum->id,
             $forum->title
         );
@@ -781,30 +782,29 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     } else {
         $deleted = "";
     }
-    echo "
-        <tr>
-        <td>
-            $n)
-    ";
     switch ($forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($forum->category);
-        echo forum_title($category, $forum, $thread, true);
+        $title= forum_title($category, $forum, $thread, true);
         break;
     case 1:
-        echo team_forum_title($forum);
+        $title= team_forum_title($forum);
         break;
     }
-    echo "
-        (<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->id."\">".tra("Message %1", $post->id)."</a>)
-        <br>
-        ".tra("Posted %1 by %2", $when, user_links($user))." $deleted
-        <br>
-        Post:
-        <hr>
+    row_array([
+        sprintf(
+            '%d) %s
+                <br><a href="forum_thread.php?id=%d&amp;postid=%d">%s</a>
+                <br>%s%s
+            ',
+            $n, $title,
+            $thread->id, $post->id,
+            tra("Message %1", $post->id),
+            tra("Posted %1 by %2", $when, user_links($user)),
+            $deleted
+        ),
         $content
-        </td></tr>
-    ";
+    ]);
 }
 
 function is_banished($user) {
@@ -858,9 +858,7 @@ function post_rules() {
 }
 
 function post_warning($forum=null) {
-    $x = "<br><br>
-        <table><tr><td align=left>
-    ";
+    $x = '<p><div style="text-align:left">';
 
     // let projects add extra instructions in specific forums,
     // e.g. Questions and Problems
@@ -873,7 +871,7 @@ function post_warning($forum=null) {
         <small>
         ".post_rules()."
         </small>
-        </td></tr></table>
+        </div>
     ";
     return $x;
 }
