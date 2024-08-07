@@ -20,6 +20,8 @@ require_once("boinc_db.inc");
 require_once("sanitize_html.inc");
 require_once("bbcode_html.inc");
 
+define('PM_LH_PCT', '30%');
+
 function pm_header() {
     echo "<div>\n";
     echo "    <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
@@ -29,7 +31,7 @@ function pm_header() {
 
 function pm_rules() {
     if (defined('PM_RULES')) return PM_RULES;
-    $x = "<table><tr><td align=left><small>";
+    $x = '<span style="text-align: left"><p>';
     $x .= tra("
         <ul>
         <li> Messages may not contain content that is obscene, hate-related,
@@ -45,7 +47,7 @@ function pm_rules() {
         <li> If your account is suspended, don't create a new one.
         </ul>
     ");
-    $x .= "</small></td></tr></table>\n";
+    $x .= "</span>";
     return $x;
 }
 
@@ -82,25 +84,25 @@ function pm_team_form($user, $teamid, $error=null) {
     row2(
         tra("Subject"),
         "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
-        null, '20%'
+        null, PM_LH_PCT
     );
-    row2_init(tra("Message")."<small>".bbcode_info()."</small>", '20%');
-    start_table();
-    echo $bbcode_html;
-    echo "<tr><td>\n";
-    echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
-    echo "</td></tr>\n";
-    end_table();
-    echo sprintf(
-        '<tr><td></td><td>
-        <input class="btn" %s type="submit" name="preview" value="%s">
-        <input class="btn" %s type="submit" value="%s">
-        </td></tr>
-        ',
-        button_style('blue'),
-        tra("Preview"),
-        button_style(),
-        tra("Send message")
+    row2(
+        tra("Message")."<small>".bbcode_info()."</small>",
+        $bbcode_html."<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>",
+        null, PM_LH_PCT
+    );
+    row2(
+        '',
+        sprintf(
+            '<input class="btn" %s type="submit" name="preview" value="%s">
+            <input class="btn" %s type="submit" value="%s">
+            ',
+            button_style('blue'),
+            tra("Preview"),
+            button_style(),
+            tra("Send message")
+        ),
+        null, PM_LH_PCT
     );
     end_table();
     page_tail();
@@ -174,24 +176,33 @@ function pm_form_page($replyto, $userid, $error = null) {
             '<textarea rows=2 class="form-control" name="to">%s</textarea>',
             $writeto
         ),
-        null, '20%'
+        null, PM_LH_PCT
     );
     row2(
         tra("Subject"),
-            "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
-        null, '20%'
+        "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
+        null, PM_LH_PCT
     );
-    row2_init(
+    row2(
         tra("Message")."<small>".bbcode_info().pm_rules()."</small>",
-        '20%'
+        sprintf(
+            '%s <textarea name="content" class="form-control" rows="18">%s</textarea>',
+            $bbcode_html,
+            $content
+        ),
+        null, PM_LH_PCT
     );
-    start_table();
-    echo $bbcode_html;
-    echo "<tr><td>\n";
-    echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
-    echo "</td></tr>\n";
-    end_table();
-    echo "<tr><td></td><td><input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
+    row2(
+        '',
+        sprintf(
+            '<input class="btn btn-primary" type="submit" name="preview" value="%s">
+                <input class="btn btn-success" type="submit" value="%s">
+            ',
+            tra("Preview"),
+            tra("Send message")
+        ),
+        null, PM_LH_PCT
+    );
     end_table();
 
     page_tail();

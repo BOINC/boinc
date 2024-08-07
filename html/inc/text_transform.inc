@@ -296,12 +296,12 @@ function externalize_links($text) {
     $linkpos=true;
     $out = "";
     while (true){
-        //Find a link
+        // Find a link
         //
         $linkpos=strpos($text, "<a ", $i);
         if ($linkpos===false) break;
 
-        //Replace with target='_new'
+        // Replace with target='_new'
         //
         $out .= substr($text, $i, $linkpos-$i)."<a target=\"_new\" ";
         $i = $linkpos+3;
@@ -311,18 +311,15 @@ function externalize_links($text) {
 }
 
 // Converts image tags to links to the images.
-
+//
 function image_as_link($text){
-    /* This function depends on sanitized HTML */
-    // Build some regex (should be a *lot* faster)
     $pattern = '@<img([\S\s]+?)src=([^>]+?)>@si';
-    $replacement = '<a href=${2}>[Image link]</a>'; // Turns that URL into a hyperlink
-    $text = preg_replace($pattern, $replacement, $text);
-    return $text;
+    $replacement = '<a href=${2}>[Image link]</a>';
+    return preg_replace($pattern, $replacement, $text);
 }
 
-// Highlight terms in text (most likely used with searches)
-
+// Highlight terms in text (used in search results)
+//
 function highlight_terms($text, $terms) {
     $search = $terms;
     $replace = array();

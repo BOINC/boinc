@@ -67,11 +67,7 @@ function forum_page($forum, $user, $msg=null) {
     switch ($forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($forum->category);
-        if ($category->is_helpdesk) {
-            page_head(tra("Questions and Answers").' : '.$forum->title);
-        } else {
-            page_head(tra("Message boards").' : '.$forum->title);
-        }
+        page_head(sprintf("%s '%s'", tra("Forum"), $forum->title));
         if ($msg) echo "<p>$msg</p>\n";
         show_forum_header($user);
         echo forum_title($category, $forum, NULL);

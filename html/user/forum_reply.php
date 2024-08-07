@@ -16,8 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Post a reply to a thread.
-// Both input (form) and action take place here.
+// Post to a thread (possibly replying to an existing post).
+// Both form and action are here.
+//
+// Note: the filename is confusing:
+// we "reply" to a post, not a thread
 
 require_once('../inc/util.inc');
 require_once('../inc/forum_email.inc');
@@ -69,21 +72,20 @@ if (!$sort_style) {
 
 $warning = null;
 if ($content && (!$preview)){
-    if (post_str('add_signature',true)=="add_it"){
-        $add_signature=true;    // set a flag and concatenate later
-    }  else {
-        $add_signature=false;
-    }
     check_tokens($logged_in_user->authenticator);
     if (!akismet_check($logged_in_user, $content)) {
         $warning = tra("Your post has been flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
     } else {
+        $add_signature = post_str('add_signature', true);
         $post_id = create_post(
             $content, $parent_post_id, $logged_in_user, $forum,
             $thread, $add_signature
         );
         if ($post_id) {
+            if (post_str('subscribe', true)) {
+                BoincSubscription::replace($logged_in_user->id, $thread->id);
+            }
             header("Location: forum_thread.php?id=$thread->id&postid=$post_id");
         } else {
             error_page("Can't create post.  $forum_error");
@@ -91,9 +93,15 @@ if ($content && (!$preview)){
     }
 }
 
-page_head(tra("Post to thread"),'','','', $bbcode_js);
+page_head(tra("Post to thread")." '$thread->title'",'','','', $bbcode_js);
 
-show_forum_header($logged_in_user);
+if ($parent_post) {
+    echo sprintf(
+        '<h4>Replying to <a href=#%d>message %d</a></h4>',
+        $parent_post->id,
+        $parent_post->id
+    );
+}
 
 if ($warning) {
     echo "<p class=\"text-danger\">$warning</p>";
@@ -144,9 +152,6 @@ function show_message_row($thread, $parent_post) {
 
     $x1 = tra("Message:").bbcode_info().post_warning();
     $x2 = "";
-    if ($parent_post) {
-        $x2 .=" ".tra("reply to %1 Message ID %2:", "<a href=#".$parent_post->id.">", " ".$parent_post->id."</a>");
-    }
     $x2 .= "<form action=forum_reply.php?thread=".$thread->id;
 
     if ($parent_post) {
@@ -155,7 +160,7 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     $x2 .= form_tokens($logged_in_user->authenticator);
-    $x2 .= start_table_str().$bbcode_html.end_table_str()."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
+    $x2 .= $bbcode_html."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);
@@ -174,16 +179,20 @@ function show_message_row($thread, $parent_post) {
         <input class="btn btn-sm" %s type="submit" value="%s">
         &nbsp;&nbsp;&nbsp;
         <input type="checkbox" name="add_signature" id="add_signature" %s>
-        <label for="add_signature"> %s </label>
+        <label for="add_signature">%s</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="checkbox" name="subscribe" id="subscribe" checked>
+        <label for="subscribe">%s</label>
         </form>',
         button_style('blue'),
         tra("Preview"),
         button_style(),
-        tra("Post reply"),
+        tra("Post"),
         $enable_signature,
-        tra("Add my signature to this reply")
+        tra("Add my signature to this post"),
+        tra("Subscribe to this thread")
     );
-    row2($x1, $x2, false, "20%");
+    row2($x1, $x2, false, FORUM_LH_PCT);
 }
 
 function quote_text($post) {

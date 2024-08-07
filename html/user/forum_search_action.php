@@ -195,7 +195,8 @@ $posts = search_post_content(
 
 if (count($posts)){
     echo "<h3>" . tra("Messages matching your query:") . "</h3>";
-    start_table();
+    start_table('table-striped');
+    row_heading_array(['Info', 'Post'], ['', 'width=70%']);
     $n = 1;
     $options = get_output_options($logged_in_user);
     $options->setHighlightTerms($search_list);
