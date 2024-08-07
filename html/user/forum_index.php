@@ -65,6 +65,10 @@ function main($user) {
 
     show_forum_header($user);
 
+    if (function_exists('project_forum_index_intro')) {
+        project_forum_index_intro();
+    }
+
     if (defined('FORUM_QA_MERGED_MODE') && FORUM_QA_MERGED_MODE){
         $categories = BoincCategory::enum("true order by orderID");
     } else {
