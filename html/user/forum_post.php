@@ -57,7 +57,7 @@ $preview = post_str("preview", true);
 $warning = null;
 
 if ($content && $title && (!$preview)){
-    if (post_str('add_signature', true) == "add_it"){
+    if (post_str('add_signature', true)) {
         $add_signature = true;    // set a flag and concatenate later
     }  else {
         $add_signature = false;
@@ -71,6 +71,9 @@ if ($content && $title && (!$preview)){
             $title, $content, $logged_in_user, $forum, $add_signature, $export
         );
         if ($thread) {
+            if (post_str('subscribe', true)) {
+                BoincSubscription::replace($logged_in_user->id, $thread->id);
+            }
             header('Location: forum_thread.php?id=' . $thread->id);
         } else {
             error_page("Can't create thread.  $forum_error");
@@ -150,9 +153,9 @@ row2(
 );
 
 if (!$logged_in_user->prefs->no_signature_by_default) {
-    $enable_signature="checked=\"true\"";
+    $enable_signature = 'checked="true"';
 } else {
-    $enable_signature="";
+    $enable_signature='';
 }
 
 if (is_news_forum($forum)) {
@@ -166,20 +169,22 @@ if (is_news_forum($forum)) {
         null, FORUM_LH_PCT
     );
 }
-row2("",
-    sprintf(
-        '<input name="add_signature" value="add_it" %s type="checkbox"> %s',
-        $enable_signature,
-        tra("Add my signature to this post")
-    ),
-    null, FORUM_LH_PCT
-);
+
 row2("",
     sprintf(
         '<input class="btn btn-primary" type="submit" name="preview" value="%s">
-        <input class="btn btn-success" type="submit" value="%s">',
+        <input class="btn btn-success" type="submit" value="%s">
+        &nbsp;&nbsp;&nbsp;
+        <input name="add_signature" %s id="add_sig" type="checkbox">
+        <label for="add_sig">%s</label>
+        &nbsp;&nbsp;&nbsp;
+        <input name="subscribe" id="subscribe" type="checkbox" checked>
+        <label for="subscribe">%s</label>',
         tra("Preview"),
-        tra("OK")
+        tra("OK"),
+        $enable_signature,
+        tra("Add my signature to this post"),
+        tra("Subscribe to the new thread")
     ),
     null, FORUM_LH_PCT
 );

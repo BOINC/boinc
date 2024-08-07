@@ -72,21 +72,20 @@ if (!$sort_style) {
 
 $warning = null;
 if ($content && (!$preview)){
-    if (post_str('add_signature',true)=="add_it"){
-        $add_signature=true;    // set a flag and concatenate later
-    }  else {
-        $add_signature=false;
-    }
     check_tokens($logged_in_user->authenticator);
     if (!akismet_check($logged_in_user, $content)) {
         $warning = tra("Your post has been flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
     } else {
+        $add_signature = post_str('add_signature', true);
         $post_id = create_post(
             $content, $parent_post_id, $logged_in_user, $forum,
             $thread, $add_signature
         );
         if ($post_id) {
+            if (post_str('subscribe', true)) {
+                BoincSubscription::replace($logged_in_user->id, $thread->id);
+            }
             header("Location: forum_thread.php?id=$thread->id&postid=$post_id");
         } else {
             error_page("Can't create post.  $forum_error");
@@ -180,14 +179,18 @@ function show_message_row($thread, $parent_post) {
         <input class="btn btn-sm" %s type="submit" value="%s">
         &nbsp;&nbsp;&nbsp;
         <input type="checkbox" name="add_signature" id="add_signature" %s>
-        <label for="add_signature"> %s </label>
+        <label for="add_signature">%s</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="checkbox" name="subscribe" id="subscribe" checked>
+        <label for="subscribe">%s</label>
         </form>',
         button_style('blue'),
         tra("Preview"),
         button_style(),
         tra("Post"),
         $enable_signature,
-        tra("Add my signature to this post")
+        tra("Add my signature to this post"),
+        tra("Subscribe to this thread")
     );
     row2($x1, $x2, false, FORUM_LH_PCT);
 }

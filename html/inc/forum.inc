@@ -60,8 +60,10 @@ define('AVATAR_HEIGHT',100);
 define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
 define('ST_NEW', 'New member');
 
-define('MAXIMUM_EDIT_TIME',3600);
-    // allow edits of forums posts up till one hour after posting.
+if (!defined('MAXIMUM_EDIT_TIME')) {
+    define('MAXIMUM_EDIT_TIME', 3600);
+        // allow edits of forums posts up till one hour after posting.
+}
 
 define('MAX_FORUM_LOGGING_TIME', 2419200); //3600*24*28 - 28 days
 define('NO_CONTROLS', 0);
@@ -1003,7 +1005,6 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
     create_post($content, 0, $user, $forum, $thread, $signature);
     $forum->update("threads=threads+1");
     notify_forum_subscribers($forum, $user);
-    exit;
     return $thread;
 }
 
