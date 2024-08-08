@@ -300,6 +300,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_ams(this, "CPU");
             continue;
         }
+
+        // the following 3 deprecated; use no_rsc_ams instead
         if (xp.parse_bool("no_cuda_ams", btemp)) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_NVIDIA);
             continue;
@@ -312,6 +314,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_INTEL);
             continue;
         }
+
         if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {
             handle_no_rsc_ams(this, buf);
             continue;

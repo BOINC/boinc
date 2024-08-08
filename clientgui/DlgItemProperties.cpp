@@ -345,6 +345,12 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
                 project->rsc_desc_intel_gpu
             );
         }
+        if (pDoc->state.host_info.coprocs.have_apple_gpu()) {
+            show_rsc(
+                wxString(proc_type_name(PROC_TYPE_APPLE_GPU), wxConvUTF8),
+                project->rsc_desc_apple_gpu
+            );
+        }
         double dcf = project->duration_correction_factor;
         // if it's exactly 1, it's not being used
         //
