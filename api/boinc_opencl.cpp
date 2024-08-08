@@ -54,27 +54,23 @@ static int compareBOINCVersionTo(int toMajor, int toMinor, int toRelease);
 //
 int get_vendor(cl_device_id device_id, char* vendor, int len) {
     int retval = 0;
-
+    strlcpy(vendor, "", len);
     retval = clGetDeviceInfo(
         device_id, CL_DEVICE_VENDOR, len, vendor, NULL
     );
     if (retval != CL_SUCCESS) return retval;
     if (!strlen(vendor)) return CL_INVALID_DEVICE_TYPE;
-
     if ((strstr(vendor, "AMD")) ||
         (strstr(vendor, "Advanced Micro Devices, Inc."))
     ) {
         strlcpy(vendor, GPU_TYPE_ATI, len);       // "ATI"
-    }
-
-    if (strcasestr(vendor, "nvidia")) {
+    } else if (strcasestr(vendor, "nvidia")) {
         strlcpy(vendor, GPU_TYPE_NVIDIA, len);    // "NVIDIA"
-    }
-
-    if (strcasestr(vendor, "intel")) {
+    } else if (strcasestr(vendor, "intel")) {
         strlcpy(vendor, GPU_TYPE_INTEL, len);     // "intel_gpu"
+    } else if (strcasestr(vendor, "apple")) {
+        strlcpy(vendor, GPU_TYPE_APPLE, len);     // "intel_gpu"
     }
-
     return 0;
 }
 
@@ -154,8 +150,9 @@ int boinc_get_opencl_ids_aux(
 // This version is compatible with older clients.
 // Usage:
 // Pass the argc and argv received from the BOINC client
-// type: may be PROC_TYPE_NVIDIA_GPU, PROC_TYPE_AMD_GPU or PROC_TYPE_INTEL_GPU
-//       (it may also be 0, but then it will fail on older clients.)
+// type: may be PROC_TYPE_NVIDIA_GPU, PROC_TYPE_AMD_GPU,
+//      PROC_TYPE_INTEL_GPU or PROC_TYPE_APPLE_GPU
+//      (it may also be 0, but then it will fail on older clients.)
 //
 // The argc, argv and type arguments are ignored for 6.13.3 or later clients.
 //
@@ -194,6 +191,9 @@ int boinc_get_opencl_ids(
             break;
         case PROC_TYPE_INTEL_GPU:
             gpu_type = (char *)GPU_TYPE_INTEL;
+            break;
+        case PROC_TYPE_APPLE_GPU:
+            gpu_type = (char *)GPU_TYPE_APPLE;
             break;
         }
     }
