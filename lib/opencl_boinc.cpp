@@ -263,10 +263,10 @@ void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
     snprintf(s2, sizeof(s2),
-        "%.64s (driver version %.64s, device version %.64s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        "%.64s (driver version %.64s, device version %.64s, %.2fGB, %.2fGB available, %.0f GFLOPS peak)",
         name, opencl_driver_version,
-        s1, global_mem_size/MEGA,
-        opencl_available_ram/MEGA, peak_flops/1.e9
+        s1, global_mem_size/GIGA,
+        opencl_available_ram/GIGA, peak_flops/1.e9
     );
 
     switch(is_used) {
