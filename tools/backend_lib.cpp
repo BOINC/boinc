@@ -377,7 +377,7 @@ int create_work2(
             );
             return retval;
         }
-        wu.id = boinc_db.insert_id();
+        wu.id = wu.db->insert_id();
     }
 
     return 0;
