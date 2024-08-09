@@ -285,7 +285,7 @@ def create_database(srcdir, config = None, drop_first = False):
     cursor = dbcon.cursor()
     if drop_first:
         cursor.execute("drop database if exists %s"%config.db_name)
-    cursor.execute("create database %s"%config.db_name)
+    cursor.execute("create database %s character set utf8mb4 collate utf8mb4_unicode_ci"%config.db_name)
     cursor.execute("use %s"%config.db_name)
     for file in ['schema.sql', 'constraints.sql', 'content.sql']:
         _execute_sql_script(cursor, os.path.join(srcdir, 'db', file))
