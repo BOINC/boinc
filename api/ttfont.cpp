@@ -31,6 +31,8 @@
 
 // originally adapted by Carl Christensen
 
+//#define TTFONT_DEBUG
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
@@ -105,8 +107,8 @@ void ttf_load_fonts(
             //g_font[i] = new FTPolygonFont(vpath);
             g_font[i] = new FTTextureFont(vpath);
             if(!g_font[i]->Error()) {
-#ifdef _DEBUG
-               fprintf(stderr, "Successfully loaded '%s'...\n", vpath);
+#ifdef TTFONT_DEBUG
+                fprintf(stderr, "Successfully loaded '%s'...\n", vpath);
 #endif
                 int iScale = 30;
                 if (strScaleFont && !strcmp(strScaleFont, g_cstrFont[i])) iScale = iScaleFont;
@@ -121,7 +123,7 @@ void ttf_load_fonts(
                 g_iFont = i;
 
             }
-#ifdef _DEBUG
+#ifdef TTFONT_DEBUG
             else {
                 fprintf(stderr, "Failed to load '%s'...\n", vpath);
             }

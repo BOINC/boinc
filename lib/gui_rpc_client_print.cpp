@@ -134,6 +134,7 @@ void APP_VERSION::print() {
 }
 
 void WORKUNIT::print() {
+    printf("   project: %s\n", project->project_name.c_str());
     printf("   name: %s\n", name);
     printf("   FP estimate: %e\n", rsc_fpops_est);
     printf("   FP bound: %e\n", rsc_fpops_bound);
@@ -151,7 +152,11 @@ void WORKUNIT::print() {
 void RESULT::print() {
     printf("   name: %s\n", name);
     printf("   WU name: %s\n", wu_name);
-    printf("   project URL: %s\n", project_url);
+    if (project) {
+        printf("   project: %s\n", project->project_name.c_str());
+    } else {
+        printf("   project URL: %s\n", project_url);
+    }
     time_t foo = (time_t)received_time;
     printf("   received: %s", ctime(&foo));
     foo = (time_t)report_deadline;
