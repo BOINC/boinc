@@ -46,9 +46,9 @@
 
 using std::vector;
 
-//#define DEBUG
+//#define DEBUG_PROC_CONTROL
 
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
 #include <stdio.h>
 #endif
 
@@ -74,7 +74,7 @@ void get_descendants(int pid, vector<int>& pids) {
     retval = procinfo_setup(pm);
     if (retval) return;
     get_descendants_aux(pm, pid, pids);
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "descendants of %d:\n", pid);
     for (unsigned int i=0; i<pids.size(); i++) {
         fprintf(stderr, "   %d\n", pids[i]);
@@ -107,7 +107,7 @@ int suspend_or_resume_threads(
     DWORD n;
     static vector<DWORD> suspended_threads;
 
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
     fprintf(stderr, "%s processes", resume?"resume":"suspend");
     for (unsigned int i=0; i<pids.size(); i++) {
@@ -135,12 +135,12 @@ int suspend_or_resume_threads(
 
     do {
         if (check_exempt && !diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) {
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
             fprintf(stderr, "thread is exempt\n");
 #endif
             continue;
         }
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
         fprintf(stderr, "thread %d PID %d %s\n",
             te.th32ThreadID, te.th32OwnerProcessID,
             precision_time_to_string(dtime())
@@ -157,7 +157,7 @@ int suspend_or_resume_threads(
                 te.th32ThreadID
             ) != suspended_threads.end()) {
                 n = ResumeThread(thread);
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
                 fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
             } else {
@@ -166,7 +166,7 @@ int suspend_or_resume_threads(
         } else {
             n = SuspendThread(thread);
             suspended_threads.push_back(te.th32ThreadID);
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
             fprintf(stderr, "SuspendThread returns %d\n", n);
 #endif
         }
@@ -175,7 +175,7 @@ int suspend_or_resume_threads(
     } while (Thread32Next(threads, &te));
 
     CloseHandle (threads);
-#ifdef DEBUG
+#ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
 #endif
     return retval;

@@ -51,6 +51,8 @@
 using std::string;
 using std::vector;
 
+//#define SHOW_MSGS
+
 RPC_CLIENT::RPC_CLIENT() {
     sock = -1;
     start_time = 0;
@@ -352,7 +354,7 @@ int RPC::do_rpc(const char* req) {
 
     //fprintf(stderr, "RPC::do_rpc rpc_client->sock = '%d'", rpc_client->sock);
     if (rpc_client->sock == -1) return ERR_CONNECT;
-#ifdef DEBUG
+#ifdef SHOW_MSGS
     puts(req);
 #endif
     retval = rpc_client->send_request(req);
@@ -360,7 +362,7 @@ int RPC::do_rpc(const char* req) {
     retval = rpc_client->get_reply(mbuf);
     if (retval) return retval;
     fin.init_buf_read(mbuf);
-#ifdef DEBUG
+#ifdef SHOW_MSGS
     puts(mbuf);
 #endif
     return 0;
