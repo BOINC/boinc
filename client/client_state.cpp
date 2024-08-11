@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -253,11 +253,11 @@ void CLIENT_STATE::show_host_info() {
             const WSL& wsl = host_info.wsls.wsls[i];
             if (wsl.is_default) {
                 msg_printf(NULL, MSG_INFO,
-                    "   [%s] (default): %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                    "   [%s] <v%s> (default): %s (%s)", wsl.distro_name.c_str(), wsl.wsl_version.c_str(), wsl.os_name.c_str(), wsl.os_version.c_str()
                 );
             } else {
                 msg_printf(NULL, MSG_INFO,
-                    "   [%s]: %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                    "   [%s] <v%s>: %s (%s)", wsl.distro_name.c_str(), wsl.wsl_version.c_str(), wsl.os_name.c_str(), wsl.os_version.c_str()
                 );
             }
         }
