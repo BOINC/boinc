@@ -148,7 +148,8 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <PropertyGroup>
-    <CudaGuardFile>$(CudaRootDir)\cuda.12.0.0.lock</CudaGuardFile>
+    <CudaVersion>12.6.0</CudaVersion>
+    <CudaGuardFile>$(CudaRootDir)\cuda.$(CudaVersion).lock</CudaGuardFile>
   </PropertyGroup>
   <Target Name="CleanUpCudaFolder" BeforeTargets="CreateFolders" Condition="Exists($(CudaRootDir)) And !Exists($(CudaGuardFile))">
     <RemoveDir Directories="$(CudaRootDir)" />
@@ -159,13 +160,13 @@
   </Target>
   <Target Name="DownloadCUDA" BeforeTargets="InstallVcpkg" DependsOnTargets="CreateFolders" AfterTargets="CreateFolders" Condition="'$(Platform)' == 'x64' And !Exists($(CudaNvccPath)) And !Exists($(CudaGuardFile))">
     <DownloadFile SourceUrl="https://www.7-zip.org/a/7zr.exe" DestinationFolder="$(TMP)" />
-    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/12.5.0/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7zr.exe x $(TMP)\nvcc.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
-    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/12.5.0/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7zr.exe x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
-    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/12.5.0/network_installers/windows/x86_64/wddm2/cudart.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/cudart.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7zr.exe x $(TMP)\cudart.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
-    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/12.5.0/network_installers/windows/x86_64/wddm2/thrust.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/thrust.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7zr.exe x $(TMP)\thrust.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
     <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
