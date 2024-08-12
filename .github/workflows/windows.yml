@@ -168,7 +168,4 @@ jobs:
         if: success() && matrix.platform == 'x64' && matrix.type == 'msbuild'
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673
         env:
-          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
-        with:
-          fail_ci_if_error: true
-          verbose: false
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
