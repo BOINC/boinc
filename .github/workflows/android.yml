@@ -188,13 +188,10 @@ jobs:
           path: android/BOINC/app/build/test-results/testDebugUnitTest/TEST-*.xml
 
       - name: Upload coverage report
+        if: ${{ matrix.task == 'jacocoTestReportDebug' }}
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        if: ${{ matrix.task == 'jacocoTestReportDebug' }}
-        with:
-          fail_ci_if_error: true
-          verbose: false
 
   build:
     name: ${{ matrix.type }}-build

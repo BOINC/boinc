@@ -195,13 +195,10 @@ jobs:
           path: "tests/gtest/**/*_xml_report.xml"
 
       - name: Upload coverage report
+        if: success() && matrix.type == 'unit-test'
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        if: success() && matrix.type == 'unit-test'
-        with:
-          fail_ci_if_error: true
-          verbose: false
 
   build-release:
     name: ${{ matrix.type }}-build-release
