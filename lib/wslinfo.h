@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,10 +23,17 @@
 #include "miofile.h"
 #include "parse.h"
 
+// this structure describes the information about every WSL (Windows Subsystem for Linux) installation enabled on the host
 struct WSL {
+    // unique identifier of installed WSL distribution
     std::string distro_name;
-    std::string name;
-    std::string version;
+    // name of the operating system
+    std::string os_name;
+    // version of the operating system
+    std::string os_version;
+    // version of WSL (currently 1 or 2)
+    std::string wsl_version;
+    // flag indicating whether this is the default WSL distribution
     bool is_default;
 
     WSL();

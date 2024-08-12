@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,7 +23,7 @@
 
 #include "hostinfo.h"
 
-bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl) {
+bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::string& default_wsl) {
     const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
 
     HKEY hKey;
@@ -65,20 +65,24 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
             break;
         }
 
-        char wsl_name[buf_len];
-        DWORD wsl_name_len = sizeof(wsl_name);
         DWORD wsl_state = 0;
         DWORD wsl_state_len = sizeof(wsl_state);
-
         ret = RegQueryValueEx(hSubKey, "State", NULL, NULL, (LPBYTE)&wsl_state, &wsl_state_len);
         if (ret != ERROR_SUCCESS || wsl_state != 1) {
             continue;
         }
 
+        DWORD wsl_version = 1;
+        DWORD wsl_version_len = sizeof(wsl_version);
+        // there might be no version key, so we ignore the return value
+        RegQueryValueEx(hSubKey, "Version", NULL, NULL, (LPBYTE)&wsl_version, &wsl_version_len);
+
+        char wsl_name[buf_len];
+        DWORD wsl_name_len = sizeof(wsl_name);
         ret = RegQueryValueEx(hSubKey, "DistributionName", NULL, NULL,
             (LPBYTE)wsl_name, &wsl_name_len);
         if ((ret == ERROR_SUCCESS) && (wsl_name_len < buf_len)) {
-            wsls.push_back(wsl_name);
+            wsls.push_back(std::make_pair(wsl_name, wsl_version));
             if (std::string(wsl_guid) == std::string(default_wsl_guid)) {
                 default_wsl = wsl_name;
             }
@@ -117,8 +121,8 @@ std::wstring s2ws(const std::string& s)
     return r;
 }
 
-bool create_wsl_process(const std::string& wsl_distro_name, const std::string& command, HANDLE* handle) {
-    return (pWslLaunch(s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(), FALSE, in_read, out_write, out_write, handle) == S_OK);
+bool create_wsl_process(const std::string& wsl_distro_name, const std::string& command, HANDLE* handle, bool use_current_work_dir = false) {
+    return (pWslLaunch(s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(), use_current_work_dir, in_read, out_write, out_write, handle) == S_OK);
 }
 
 bool CreateWslProcess(const std::string& wsl_app, const std::string& command, HANDLE& handle) {
@@ -226,7 +230,7 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
     out_write = NULL;
     pWslLaunch = NULL;
 
-    std::vector<std::string> distros;
+    std::vector<std::pair<std::string, DWORD>> distros;
     std::string default_distro;
 
     if (!get_available_wsls(distros, default_distro)) {
@@ -270,7 +274,7 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         char wsl_dist_name[256];
         char wsl_dist_version[256];
 
-        const std::string& distro = distros[i];
+        const std::string& distro = distros[i].first;
         WSL wsl;
         wsl.distro_name = distro;
         if (distro == default_distro) {
@@ -278,6 +282,7 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         } else {
             wsl.is_default = false;
         }
+        wsl.wsl_version = std::to_string(distros[i].second);
 
         // lsbrelease
         if (!create_wsl_process(distro, command_lsbrelease, &handle)) {
@@ -344,16 +349,16 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         }
 
         if (!os_name.empty()) {
-            wsl.name = os_name + " " + wsl_dist_name;
+            wsl.os_name = os_name + " " + wsl_dist_name;
         }
         else {
-            wsl.name = wsl_dist_name;
+            wsl.os_name = wsl_dist_name;
         }
         if (!os_version_extra.empty()) {
-            wsl.version = std::string(wsl_dist_version) + " [" + os_version_extra + "]";
+            wsl.os_version = std::string(wsl_dist_version) + " [" + os_version_extra + "]";
         }
         else {
-            wsl.version = wsl_dist_version;
+            wsl.os_version = wsl_dist_version;
         }
         wsls.wsls.push_back(wsl);
     }
