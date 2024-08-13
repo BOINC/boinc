@@ -847,8 +847,9 @@ void show_resource(int rsc_type) {
     bool found = false;
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
-        RESULT* rp = atp->result;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
+        RESULT* rp = atp->result;
+        PROJECT* p = rp->project;
         double ninst=0;
         if (rsc_type) {
             if (rp->avp->gpu_usage.rsc_type != rsc_type) continue;
@@ -857,12 +858,11 @@ void show_resource(int rsc_type) {
             ninst = rp->avp->avg_ncpus;
         }
 
-        PROJECT* p = rp->project;
         if (!found) {
             found = true;
             fprintf(html_out,
                 "<table>\n"
-                "<tr><th>#devs</th><th>Job name (* = high priority)</th><th>GFLOPs left</th>%s</tr>\n",
+                "<tr><th>#devs</th><th>App</th><th>Job name (* = high priority)</th><th>GFLOPs left</th>%s</tr>\n",
                 rsc_type?"<th>GPU</th>":""
             );
         }
@@ -871,8 +871,9 @@ void show_resource(int rsc_type) {
         } else {
             safe_strcpy(buf, "");
         }
-        fprintf(html_out, "<tr valign=top><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
+        fprintf(html_out, "<tr valign=top><td>%.2f</td><td>%s</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
             ninst,
+            rp->wup->app->name,
             colors[p->proj_index%NCOLORS],
             rp->edf_scheduled?"*":"",
             rp->name,
@@ -1340,7 +1341,7 @@ void clear_backoff() {
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].reset();
+            p->rsc_pwf[j].reset(j);
         }
         p->min_rpc_time = 0;
     }
