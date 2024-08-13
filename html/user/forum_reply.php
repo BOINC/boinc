@@ -181,7 +181,7 @@ function show_message_row($thread, $parent_post) {
         <input type="checkbox" name="add_signature" id="add_signature" %s>
         <label for="add_signature">%s</label>
         &nbsp;&nbsp;&nbsp;
-        <input type="checkbox" name="subscribe" id="subscribe" checked>
+        <input type="checkbox" name="subscribe" id="subscribe">
         <label for="subscribe">%s</label>
         </form>',
         button_style('blue'),

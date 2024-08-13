@@ -178,7 +178,7 @@ row2("",
         <input name="add_signature" %s id="add_sig" type="checkbox">
         <label for="add_sig">%s</label>
         &nbsp;&nbsp;&nbsp;
-        <input name="subscribe" id="subscribe" type="checkbox" checked>
+        <input name="subscribe" id="subscribe" type="checkbox">
         <label for="subscribe">%s</label>',
         tra("Preview"),
         tra("OK"),
