@@ -68,6 +68,7 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
 ///////////////  RSC_PROJECT_WORK_FETCH  ///////////////
 
 void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
+    unsigned int i;
     fetchable_share = 0;
     n_runnable_jobs = 0;
     sim_nused = 0;
@@ -75,7 +76,29 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
     deadlines_missed = 0;
     mc_shortfall = 0;
     last_mc_limit_reltime = 0;
-    max_nused = p->app_configs.project_min_mc;
+    if (p->app_configs.project_has_mc) {
+        // compute x = max usage over this resource over P's app versions
+        double x = 0;
+        for (i=0; i<gstate.app_versions.size(); i++) {
+            APP_VERSION* avp = gstate.app_versions[i];
+            if (avp->project != p) continue;
+            if (rsc_type && (avp->gpu_usage.rsc_type == rsc_type)) {
+                if (avp->gpu_usage.usage > x) x = avp->gpu_usage.usage;
+            } else {
+                if (avp->avg_ncpus > x) x = avp->avg_ncpus;
+            }
+        }
+
+        // max instances this project could use is (approximately)
+        // its smallest max concurrent limit times x
+        // This doesn't take into account e.g. that the MC limit
+        // could be from a different app than the one that determined x
+        //
+        mc_max_could_use = std::min(
+            p->app_configs.project_min_mc*x,
+            (double)(rsc_work_fetch[rsc_type].ninstances)
+        );
+    }
 }
 
 void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
@@ -98,9 +121,7 @@ void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
 // check for backoff must go last, so that if that's the reason
 // we know that there are no other reasons (for piggyback)
 //
-RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
-    PROJECT *p, int rsc_type
-) {
+RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(PROJECT *p) {
     RSC_WORK_FETCH& rwf = rsc_work_fetch[rsc_type];
     // see whether work fetch for this resource is banned
     // by prefs, config, project, or acct mgr
@@ -373,7 +394,7 @@ void RSC_WORK_FETCH::clear_request() {
 
 void PROJECT_WORK_FETCH::reset(PROJECT* p) {
     for (int i=0; i<coprocs.n_rsc; i++) {
-        p->rsc_pwf[i].reset();
+        p->rsc_pwf[i].reset(i);
     }
 }
 
@@ -696,7 +717,7 @@ void WORK_FETCH::setup() {
         p->pwf.project_reason = compute_project_reason(p);
         for (int j=0; j<coprocs.n_rsc; j++) {
             RSC_PROJECT_WORK_FETCH& rpwf = p->rsc_pwf[j];
-            rpwf.rsc_project_reason = rpwf.compute_rsc_project_reason(p, j);
+            rpwf.rsc_project_reason = rpwf.compute_rsc_project_reason(p);
         }
     }
     for (int j=0; j<coprocs.n_rsc; j++) {
@@ -827,7 +848,7 @@ PROJECT* WORK_FETCH::choose_project() {
             }
         }
 
-        // If rsc_index is nonzero, it's a resource that this project
+        // If rsc_index is non-neg, it's a resource that this project
         // can ask for work, and which needs work.
         // And this is the highest-priority project having this property.
         // Request work from this resource,

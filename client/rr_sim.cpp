@@ -111,12 +111,6 @@ struct RR_SIM {
         }
         if (have_max_concurrent) {
             max_concurrent_inc(rp);
-            if (p->rsc_pwf[0].sim_nused > p->rsc_pwf[0].max_nused) {
-                p->rsc_pwf[0].max_nused = p->rsc_pwf[0].sim_nused;
-            }
-            if (rt && p->rsc_pwf[rt].sim_nused > p->rsc_pwf[rt].max_nused) {
-                p->rsc_pwf[rt].max_nused = p->rsc_pwf[rt].sim_nused;
-            }
         }
     }
 
@@ -438,9 +432,11 @@ static void mc_update_stats(double sim_now, double dt, double buf_end) {
         if (!p->app_configs.project_has_mc) continue;
         for (int rt=0; rt<coprocs.n_rsc; rt++) {
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
-            RSC_WORK_FETCH& rwf = rsc_work_fetch[rt];
-            double x = rsc_pwf.max_nused - rsc_pwf.sim_nused;
-            x = std::min(x, rwf.ninstances - rwf.sim_nused);
+
+            // x is the number of instances this project isn't using but could
+            // (given MC constraints)
+            //
+            double x = rsc_pwf.mc_max_could_use - rsc_pwf.sim_nused;
             if (x > 1e-6 && sim_now < buf_end) {
                 double dt2;
                 if (sim_now + dt > buf_end) {

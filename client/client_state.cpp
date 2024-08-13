@@ -2118,7 +2118,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     project->min_rpc_time = 0;
     project->pwf.reset(project);
     for (int j=0; j<coprocs.n_rsc; j++) {
-        project->rsc_pwf[j].reset();
+        project->rsc_pwf[j].reset(j);
     }
     write_state_file();
     return 0;

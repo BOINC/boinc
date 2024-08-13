@@ -260,9 +260,10 @@ struct APP_CONFIGS {
     std::vector<APP_VERSION_CONFIG> app_version_configs;
     int project_max_concurrent;
     bool project_has_mc;
-        // have app- or project-level max concurrent restriction
+        // the project has app- or project-level restriction
+        // on # of concurrent jobs
     int project_min_mc;
-        // the min of these restrictions
+        // if true, the min of these restrictions
     bool report_results_immediately;
 
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);

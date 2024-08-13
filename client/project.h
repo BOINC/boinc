@@ -276,9 +276,9 @@ struct PROJECT : PROJ_AM {
     //
     RSC_PROJECT_WORK_FETCH rsc_pwf[MAX_RSC];
     PROJECT_WORK_FETCH pwf;
-    inline void reset() {
+    inline void work_fetch_reset() {
         for (int i=0; i<coprocs.n_rsc; i++) {
-            rsc_pwf[i].reset();
+            rsc_pwf[i].reset(i);
         }
     }
     inline int deadlines_missed(int rsc_type) {

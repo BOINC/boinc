@@ -1,5 +1,8 @@
 # makefile for client simulator
 # Do "make_clean" in client/, lib/, and sched/ first
+#
+# this doesn't have .h dependencies; if you change something,
+# do make clean and make
 
 CXXFLAGS = -g -DSIM -Wall \
     -I ../lib \
