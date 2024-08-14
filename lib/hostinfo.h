@@ -47,6 +47,8 @@ enum LINUX_OS_INFO_PARSER {
 const char command_lsbrelease[] = "/usr/bin/lsb_release -a 2>&1";
 const char file_osrelease[] = "/etc/os-release";
 const char file_redhatrelease[] = "/etc/redhat-release";
+const char command_get_docker_version[] = "docker --version";
+const char command_get_docker_compose_version[] = "docker compose version";
 
 // if you add fields, update clear_host_info()
 
@@ -80,11 +82,19 @@ public:
     char os_name[256];
     char os_version[256];
 
+    bool docker_available;
+    bool docker_compose_available;
+#ifndef _WIN64
+    // on Windows we can have several docker installation within WSL
+    // that is why it makes no sense to have this information put here
+    // instead the information about the available 'docker' and 'docker compose'
+    // installations should be taken from every particular WSL distro
+    char docker_version[256];
+    char docker_compose_version[256];
+#endif
+#ifdef _WIN64
     // WSL information for Win10 only
     bool wsl_available;
-    bool docker_use;
-    char docker_compose_version[256];
-#ifdef _WIN64
     WSLS wsls;
 #endif
 
@@ -126,8 +136,14 @@ public:
     int get_host_battery_state();
     int get_local_network_info();
     int get_virtualbox_version();
-    int get_docker_info(bool& docker_use);
+#ifndef _WIN64
+    // on Windows we can have several docker installation within WSL
+    // that is why it makes no sense to have this information put here
+    // instead the information about the available 'docker' and 'docker compose'
+    // installations should be taken from every particular WSL distro
+    int get_docker_info();
     int get_docker_compose_info();
+#endif
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
     static bool parse_linux_os_info(
@@ -146,6 +162,8 @@ public:
         char* os_name, const int os_name_size, char* os_version,
         const int os_version_size
     );
+    static bool get_docker_version_string(std::string raw, std::string& parsed);
+    static bool get_docker_compose_version_string(std::string raw, std::string& parsed);
 #ifdef _WIN32
     void win_get_processor_info();
 #endif
@@ -154,7 +172,7 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
-extern int get_wsl_information(bool& wsl_available, WSLS& wsls);
+extern int get_wsl_information(bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available);
 extern int get_processor_group(HANDLE);
 #endif
 

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -456,23 +456,120 @@ bool PLAN_CLASS_SPEC::check(
     }
 
     if (docker){
-        if (sreq.core_client_major_version < 8) {
-            add_no_work_message("BOINC client 8.0+ required for Docker jobs");
-            return false;
-        }
-        if (!(sreq.host.docker_use)) {
+        if (!(sreq.host.docker_available)) {
             add_no_work_message("Docker is not installed or is not available");
             return false;
         }
 
-        if ((strstr(docker_compose_version, "v1")) && (!(strstr(sreq.host.docker_compose_version, "v1")))){
-            add_no_work_message("Docker compose (older version: docker-compose) is required, but is not installed or is not available");
+        if (docker_compose && !(sreq.host.docker_compose_available)) {
+            add_no_work_message("Docker compose is not installed or is not available");
             return false;
         }
+        if (sreq.host.wsl_available) {
+            bool docker_found = false;
+            bool docker_compose_found = false;
+            for (int i = 0; i < sreq.host.wsls.wsls.size(); i++) {
+                if (sreq.host.wsls.wsls[i].is_docker_available) {
+                    if (docker_compose && sreq.host.wsls.wsls[i].is_docker_compose_available) {
+                        int maj, min, rel;
+                        int n = sscanf(sreq.host.wsls.wsls[i].docker_version.c_str(), "%d.%d.%d", &maj, &min, &rel);
+                        if (n != 3) {
+                            if (config.debug_version_select) {
+                                log_messages.printf(MSG_NORMAL,
+                                    "[version] plan_class_spec: can't parse docker version\n"
+                                );
+                                continue;
+                            }
+                        }
+                        int v = maj*10000 + min*100 + rel;
+                        if (min_docker_version && v < min_docker_version) {
+                            if (config.debug_version_select) {
+                                log_messages.printf(MSG_NORMAL,
+                                    "[version] plan_class_spec: docker version too low: %d < %d\n",
+                                    v, min_docker_version
+                                );
+                                continue;
+                            }
+                        }
+                        docker_found = true;
+                    }
+                    if (!docker_compose && docker_found) {
+                        break;
+                    }
+                }
+                if (docker_compose && sreq.host.wsls.wsls[i].is_docker_compose_available) {
+                    int maj, min, rel;
+                    int n = sscanf(sreq.host.wsls.wsls[i].docker_compose_version.c_str(), "%d.%d.%d", &maj, &min, &rel);
+                    if (n != 3) {
+                        if (config.debug_version_select) {
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] plan_class_spec: can't parse docker compose version\n"
+                            );
+                            continue;
+                        }
+                    }
+                    int v = maj*10000 + min*100 + rel;
+                    if (min_docker_compose_version && v < min_docker_compose_version) {
+                        if (config.debug_version_select) {
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] plan_class_spec: docker compose version too low: %d < %d\n",
+                                v, min_docker_compose_version
+                            );
+                            continue;
+                        }
+                    }
+                    docker_compose_found = true;
+                }
+            }
+            if (!docker_found) {
+                add_no_work_message("Suitable Docker is not installed or is not available");
+                return false;
+            }
+            if (docker_compose && !docker_compose_found) {
+                add_no_work_message("Suitable Docker compose is not installed or is not available");
+                return false;
+            }
+        } else {
+            int maj, min, rel;
+            int n = sscanf(sreq.host.docker_version, "%d.%d.%d", &maj, &min, &rel);
+            if (n != 3) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] plan_class_spec: can't parse docker version\n"
+                    );
+                }
+                return false;
+            }
+            int v = maj*10000 + min*100 + rel;
+            if (min_docker_version && v < min_docker_version) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] plan_class_spec: docker version too low: %d < %d\n",
+                        v, min_docker_version
+                    );
+                }
+                return false;
+            }
 
-        if ((strstr(docker_compose_version, "v2")) && (!(strstr(sreq.host.docker_compose_version, "v2")))){
-            add_no_work_message("Docker compose (newer version: docker compose) is required, but is not installed or is not available");
-            return false;
+            n = sscanf(sreq.host.docker_compose_version, "%d.%d.%d", &maj, &min, &rel);
+            if (n != 3) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] plan_class_spec: can't parse docker compose version\n"
+                    );
+                }
+                return false;
+            }
+            v = maj*10000 + min*100 + rel;
+            if (min_docker_compose_version && v < min_docker_compose_version) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] plan_class_spec: docker compose version too low: %d < %d\n",
+                        v, min_docker_compose_version
+                    );
+                }
+                return false;
+            }
         }
     }
 
@@ -1121,7 +1218,9 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("opencl", opencl)) continue;
         if (xp.parse_bool("virtualbox", virtualbox)) continue;
         if (xp.parse_bool("docker", docker)) continue;
-        if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
+        if (xp.parse_bool("docker_compose", docker_compose)) continue;
+        if (xp.parse_int("min_docker_version", min_docker_version)) continue;
+        if (xp.parse_int("min_docker_compose_version", min_docker_compose_version)) continue;
         if (xp.parse_bool("is64bit", is64bit)) continue;
         if (xp.parse_str("cpu_feature", buf, sizeof(buf))) {
             cpu_features.push_back(" " + (string)buf + " ");
@@ -1269,7 +1368,9 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     opencl = false;
     virtualbox = false;
     docker = false;
-    strcpy(docker_compose_version, "");
+    docker_compose = false;
+    min_docker_version = 0;
+    min_docker_compose_version = 0;
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;

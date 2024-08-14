@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -869,40 +869,27 @@ static inline bool app_plan_opencl(
     }
 }
 
-// handles vbox[32|64][_[mt]|[hwaccel]]
-// "mt" is tailored to the needs of CERN:
-// use 1 or 2 CPUs
-
-
 //plan class for Docker jobs
 //
 static inline bool app_plan_docker(
     SCHEDULER_REQUEST& sreq, char* plan_class
 ){
-     if (sreq.core_client_major_version < 8) {
-        add_no_work_message("BOINC client 8.0+ required for Docker jobs");
-        return false;
-    }
-
-    if (!(sreq.host.docker_use)) {
+    if (!(sreq.host.docker_available)) {
         add_no_work_message("Docker is not installed or is not available");
         return false;
     }
 
-    if ((strstr(plan_class, "v1")) && (!(strstr(sreq.host.docker_compose_version, "v1")))){
-        add_no_work_message("Docker compose (older version: docker-compose) is required, but is not installed or is not available");
-        return false;
-    }
-
-    if ((strstr(plan_class, "v2")) && (!(strstr(sreq.host.docker_compose_version, "v2")))){
-        add_no_work_message("Docker compose (newer version: docker compose) is required, but is not installed or is not available");
+    if (strstr(plan_class, "compose") && !(sreq.host.docker_compose_available)) {
+        add_no_work_message("Docker compose is not installed or is not available");
         return false;
     }
 
     return true;
-
 }
 
+// handles vbox[32|64][_[mt]|[hwaccel]]
+// "mt" is tailored to the needs of CERN:
+// use 1 or 2 CPUs
 
 static inline bool app_plan_vbox(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu

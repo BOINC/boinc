@@ -120,4 +120,16 @@
         <min_ncpus>             2           </min_ncpus>
         <max_threads>           2           </max_threads>
     </plan_class>
+    <plan_class>
+        <name>                  docker      </name>
+        <docker/>
+        <min_docker_version>    270102       </min_docker_version>
+    </plan_class>
+    <plan_class>
+        <name>                  docker_compose      </name>
+        <docker/>
+        <docker_compose/>
+        <min_docker_version>    270102       </min_docker_version>
+        <min_docker_compose_version>32901       </min_docker_compose_version>
+    </plan_class>
 </plan_classes>

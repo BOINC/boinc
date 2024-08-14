@@ -280,24 +280,15 @@ void CLIENT_STATE::show_host_info() {
         }
 #endif
     }
-    if (host_info.docker_use){
+    if (host_info.docker_available) {
         msg_printf(NULL, MSG_INFO, "Docker is installed and available");
-    }
-    else{
+    } else {
         msg_printf(NULL, MSG_INFO, "Docker is not installed or is not available for running task");
     }
-
-    if (strlen(host_info.docker_compose_version)){
-        if ((strstr(host_info.docker_compose_version, "v1")) && (strstr(host_info.docker_compose_version, "v2"))){
-            msg_printf(NULL, MSG_INFO, "Docker compose (new and old versions: docker-compose and docker compose) is installed and available for running task");
-        }else if (strstr(host_info.docker_compose_version, "v1")) {
-            msg_printf(NULL, MSG_INFO, "Docker compose (old version: docker-compose) is installed and available for running task");
-        }else if (strstr(host_info.docker_compose_version, "v2")){
-            msg_printf(NULL, MSG_INFO, "Docker compose (new version: docker compose) is installed and available for running task");
-        }
-        else{
-            msg_printf(NULL, MSG_INFO, "Docker compose is not installed or is not available for running task");
-        }
+    if (host_info.docker_compose_available) {
+        msg_printf(NULL, MSG_INFO, "Docker compose is installed and available");
+    } else {
+        msg_printf(NULL, MSG_INFO, "Docker compose is not installed or is not available for running task");
     }
 }
 

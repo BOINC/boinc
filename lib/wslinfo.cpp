@@ -27,6 +27,10 @@ void WSL::clear() {
     os_version = "";
     is_default = false;
     wsl_version = "1";
+    is_docker_available = false;
+    is_docker_compose_available = false;
+    docker_version = "";
+    docker_compose_version = "";
 }
 
 void WSL::write_xml(MIOFILE& f) {
@@ -41,12 +45,20 @@ void WSL::write_xml(MIOFILE& f) {
         "            <os_version>%s</os_version>\n"
         "            <is_default>%d</is_default>\n"
         "            <wsl_version>%s</wsl_version>\n"
+        "            <is_docker_available>%d</is_docker_available>\n"
+        "            <is_docker_compose_available>%d</is_docker_compose_available>\n"
+        "            <docker_version>%s</docker_version>\n"
+        "            <docker_compose_version>%s</docker_compose_version>\n"
         "        </distro>\n",
         dn,
         n,
         v,
         is_default ? 1 : 0,
-        wsl_version.c_str()
+        wsl_version.c_str(),
+        is_docker_available ? 1 : 0,
+        is_docker_compose_available ? 1 : 0,
+        docker_version.c_str(),
+        docker_compose_version.c_str()
     );
 }
 
@@ -61,6 +73,10 @@ int WSL::parse(XML_PARSER& xp) {
         if (xp.parse_string("os_version", os_version)) continue;
         if (xp.parse_bool("is_default", is_default)) continue;
         if (xp.parse_string("wsl_version", wsl_version)) continue;
+        if (xp.parse_bool("is_docker_available", is_docker_available)) continue;
+        if (xp.parse_bool("is_docker_compose_available", is_docker_compose_available)) continue;
+        if (xp.parse_string("docker_version", docker_version)) continue;
+        if (xp.parse_string("docker_compose_version", docker_compose_version)) continue;
     }
     return ERR_XML_PARSE;
 }

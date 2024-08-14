@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -216,7 +216,6 @@ void CC_CONFIG::defaults() {
     dont_use_vbox = false;
     dont_use_wsl = false;
     dont_use_docker = false;
-    dont_use_docker_compose = false;
     exclude_gpus.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
@@ -350,7 +349,6 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
-        if (xp.parse_bool("dont_use_docker_compose", dont_use_docker_compose)) continue;
         if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
@@ -570,8 +568,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <dont_suspend_nci>%d</dont_suspend_nci>\n"
         "        <dont_use_vbox>%d</dont_use_vbox>\n"
         "        <dont_use_wsl>%d</dont_use_wsl>\n"
-        "        <dont_use_docker>%d</dont_use_docker>\n"
-        "        <dont_use_docker_compose>%d</dont_use_docker_compose>\n",
+        "        <dont_use_docker>%d</dont_use_docker>\n",
         disallow_attach,
         dont_check_file_sizes,
         dont_contact_ref_site,
@@ -579,8 +576,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         dont_suspend_nci,
         dont_use_vbox,
         dont_use_wsl,
-        dont_use_docker,
-        dont_use_docker_compose
+        dont_use_docker
     );
 
     for (i=0; i<exclude_gpus.size(); i++) {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -376,7 +376,9 @@ struct HOST {
     WSLS wsls;
 
     //Docker available
-    bool docker_use;
+    bool docker_available;
+    bool docker_compose_available;
+    char docker_version[256];
     char docker_compose_version[256];
 
     // stuff from time_stats

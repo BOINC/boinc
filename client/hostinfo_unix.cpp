@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2021 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,7 +20,6 @@
 // Try to keep this well-organized and not nested.
 
 #include "version.h"         // version numbers from autoconf
-#include <fstream>
 #include "cpp.h"
 #include "config.h"
 
@@ -1237,91 +1236,38 @@ int HOST_INFO::get_virtualbox_version() {
 //check if docker compose or docker-compose is installed on volunteer's host
 //
 int HOST_INFO::get_docker_compose_info(){
-    FILE* fd;
-    char buf[MAXPATHLEN];
-
-    std::ofstream compose_file ("docker-compose.yaml");
-    compose_file << "version: \"2\"\nservices: \n  hello: \n    image: \"hello-world\" \n" << std::endl;
-
-    char* docker_command = "docker-compose up 2>&1";
-    fd = popen(docker_command, "r");
-    if (fd){
-        while(!feof(fd)){
-            if (fgets(buf, sizeof(buf), fd)){
-                if (strstr(buf, "Hello from Docker!")){
-                    safe_strcat(docker_compose_version, "v1");
-                    break;
-                }
-            }
+    FILE* f = popen(command_get_docker_compose_version, "r");
+    if (f) {
+        char buf[256];
+        fgets(buf, 256, f);
+        std::string version;
+        if (get_docker_compose_version_string(buf, version)) {
+            docker_compose_available = true;
+            safe_strcpy(docker_compose_version, version.c_str());
         }
-        pclose(fd);
+        pclose(f);
+        return 0;
     }
-
-    docker_command = "docker compose up 2>&1";
-    fd = popen(docker_command, "r");
-    if (fd){
-        while(!feof(fd)){
-            if (fgets(buf, sizeof(buf), fd)){
-                if (strstr(buf, "Hello from Docker!")){
-                    safe_strcat(docker_compose_version, "v2");
-                    break;
-                }
-            }
-        }
-        pclose(fd);
-    }
-
-    std::remove("docker-compose.yaml");
-
-    if (!(strstr(docker_compose_version, "v1"))){
-        if (!(strstr(docker_compose_version, "v2"))){
-            safe_strcat(docker_compose_version, "not_used");
-        }
-    }
-
-    return 0;
+    return 1;
 }
 
 
 //check if docker is installed on volunteer's host
 //
-int HOST_INFO::get_docker_info(bool& docker_use){
-    char buf[256];
-    char buf_command[256];
-    FILE* fd;
-    FILE* fd_1;
-    char docker_cmd [256];
-
-    strcpy(docker_cmd, "which -a docker 2>&1");
-    fd = popen(docker_cmd, "r");
-    if (fd){
-        while(!feof(fd)){
-            if (fgets(buf, sizeof(buf), fd)){
-                strip_whitespace(buf);
-                if (!(access(buf, X_OK))){
-                    strcpy(docker_cmd, buf);
-                    strcat(docker_cmd, " run --rm hello-world 2>&1");
-                    fd_1 = popen(docker_cmd, "r");
-                    if (fd_1){
-                        while(!feof(fd_1)){
-                            if (fgets(buf_command, sizeof(buf_command), fd_1)){
-                                if (strstr(buf_command, "Hello from Docker!")){
-                                    docker_use = true;
-                                    break;
-                                }
-                            }
-                        }
-                        pclose(fd_1);
-                    }
-                }
-                if (docker_use){
-                    break;
-                }
-            }
+int HOST_INFO::get_docker_info(){
+    FILE* f = popen(command_get_docker_version, "r");
+    if (f) {
+        char buf[256];
+        fgets(buf, 256, f);
+        std::string version;
+        if (get_docker_version_string(buf, version)) {
+            docker_available = true;
+            safe_strcpy(docker_version, version.c_str());
         }
-        pclose(fd);
+        pclose(f);
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
 
@@ -1773,10 +1719,7 @@ int HOST_INFO::get_host_info(bool init) {
     }
 
     if(!cc_config.dont_use_docker){
-        get_docker_info(docker_use);
-    }
-
-    if(!cc_config.dont_use_docker_compose){
+        get_docker_info();
         get_docker_compose_info();
     }
 
