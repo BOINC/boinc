@@ -17,6 +17,7 @@
 
 // check_security.C
 
+//#define DEBUG_CHECK_SECURITY
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -83,7 +84,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
     int                 isMacInstaller = 0;
 
     useFakeProjectUserAndGroup = ! use_sandbox;
-#ifdef _DEBUG
+#ifdef DEBUG_CHECK_SECURITY
 #ifdef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
     useFakeProjectUserAndGroup = 1;
 #endif
@@ -107,7 +108,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         return -1099;
     }
 #endif
-#endif      // _DEBUG
+#endif      // DEBUG_CHECK_SECURITY
 
 // GDB can't attach to applications which are running as a different user or group so
 //  it ignores the S_ISUID and S_ISGID permission bits when launching an application.
@@ -280,7 +281,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
                 snprintf(full_path, sizeof(full_path), "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher", saverName[i]);
                 retval = stat(full_path, &sbuf);
                 if (! retval) {
-#ifdef _DEBUG
+#ifdef DEBUG_CHECK_SECURITY
                     if (sbuf.st_uid != boinc_master_uid)
                         return -1101;
 
