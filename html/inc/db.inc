@@ -48,6 +48,9 @@ if (MYSQLI) {
             $port = null;
         }
         $mysqli = @new mysqli($host, $user, $pass, $dbname, $port);
+        if ($mysqli->connect_errno) {
+            return null;
+        }
         return $mysqli;
     }
     function _mysql_query($q) {
