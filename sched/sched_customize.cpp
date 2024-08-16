@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -869,6 +869,24 @@ static inline bool app_plan_opencl(
     }
 }
 
+//plan class for Docker jobs
+//
+static inline bool app_plan_docker(
+    SCHEDULER_REQUEST& sreq, char* plan_class
+){
+    if (!(sreq.host.docker_available)) {
+        add_no_work_message("Docker is not installed or is not available");
+        return false;
+    }
+
+    if (strstr(plan_class, "compose") && !(sreq.host.docker_compose_available)) {
+        add_no_work_message("Docker compose is not installed or is not available");
+        return false;
+    }
+
+    return true;
+}
+
 // handles vbox[32|64][_[mt]|[hwaccel]]
 // "mt" is tailored to the needs of CERN:
 // use 1 or 2 CPUs
@@ -1019,6 +1037,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const W
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
+    } else if (strstr(plan_class, "docker")){
+        return app_plan_docker(sreq, plan_class);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
