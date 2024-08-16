@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,10 +32,6 @@ struct PLAN_CLASS_SPEC {
     bool cal;
     bool opencl;
     bool virtualbox;
-    bool docker;
-    bool docker_compose;
-    int min_docker_version;
-    int min_docker_compose_version;
     bool is64bit;
     std::vector<std::string> cpu_features;
     double min_ncpus;
