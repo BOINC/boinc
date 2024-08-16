@@ -20,7 +20,7 @@
 #include "boinc_win.h"
 
 #include "str_replace.h"
-
+#include "client_msgs.h"
 #include "hostinfo.h"
 
 bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::string& default_wsl) {
@@ -262,7 +262,7 @@ void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ost
 
 // Returns the OS name and version for WSL when enabled
 //
-int get_wsl_information(bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available) {
+int get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available) {
     std::vector<std::pair<std::string, DWORD>> distros;
     std::string default_distro;
 
@@ -292,6 +292,12 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls, bool detect_docker, boo
         if (distro == "docker-desktop-data"){
             continue;
         }
+        // skip distros that are not allowed except for 'docker-desktop'
+        if (distro != "docker-desktop" && std::find(allowed_wsls.begin(), allowed_wsls.end(), distro) == allowed_wsls.end()) {
+            msg_printf(0, MSG_INFO, "WSL distro '%s' detected but is not allowed", distro.c_str());
+            continue;
+        }
+
         WSL wsl;
         wsl.distro_name = distro;
         if (distro == default_distro) {

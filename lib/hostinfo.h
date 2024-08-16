@@ -172,7 +172,7 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
-extern int get_wsl_information(bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available);
+extern int get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available);
 extern int get_processor_group(HANDLE);
 #endif
 

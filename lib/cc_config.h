@@ -151,7 +151,7 @@ struct EXCLUDE_GPU {
 // client/log_flags.cpp:
 //      parse_options_client()
 //      possibly show()
-// the web doc: https://boinc.berkeley.edu/wiki/Client_configuration
+// the web doc: https://github.com/BOINC/boinc/wiki/Client-configuration
 //
 struct CC_CONFIG {
     bool abort_jobs_on_exit;
@@ -167,6 +167,7 @@ struct CC_CONFIG {
     bool dont_suspend_nci;
     bool dont_use_vbox;
     bool dont_use_wsl;
+    std::vector<std::string> allowed_wsls;
     bool dont_use_docker;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;

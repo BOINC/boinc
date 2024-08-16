@@ -372,6 +372,9 @@ bool HOST_INFO::get_docker_version_string(std::string raw, std::string& parsed) 
         return false;
     }
     parsed = raw.substr(pos1 + prefix.size() + 1, pos2 - pos1 - prefix.size() - 1);
+    if (!parsed.empty() && parsed[parsed.length() - 1] == '\n') {
+        parsed.erase(parsed.length() - 1);
+    }
     return true;
 }
 bool HOST_INFO::get_docker_compose_version_string(std::string raw, std::string& parsed) {
@@ -381,6 +384,9 @@ bool HOST_INFO::get_docker_compose_version_string(std::string raw, std::string& 
         return false;
     }
     parsed = raw.substr(pos1 + prefix.size(), raw.size() - pos1 - prefix.size());
+    if (!parsed.empty() && parsed[parsed.length() - 1] == '\n') {
+        parsed.erase(parsed.length() - 1);
+    }
     return true;
 }
 
