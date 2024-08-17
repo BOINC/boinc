@@ -33,14 +33,10 @@ class DbConn {
         } else {
             $port = null;
         }
-        if (1) {        // don't use persistent connections for now
-            $this->db_conn = @new mysqli(
-                $host, $user, $passwd, $name, $port
-            );
-        } else {
-            $this->db_conn = @new mysqli(
-                'p:'.$host, $user, $passwd, $name, $port
-            );
+        try {
+            $this->db_conn = @new mysqli($host, $user, $passwd, $name, $port);
+        } catch(Exception $e) {
+            return false;
         }
         if (mysqli_connect_error()) {
             return false;
