@@ -282,6 +282,8 @@ void CLIENT_STATE::show_host_info() {
     }
 }
 
+// TODO: the following 3 should be members of COPROCS
+
 int rsc_index(const char* name) {
     const char* nm = strcmp(name, "CUDA")?name:GPU_TYPE_NVIDIA;
         // handle old state files

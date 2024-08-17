@@ -1139,6 +1139,9 @@ void COPROC_APPLE::fake(double ram, double avail_ram, int n) {
 //      used in client_state.xml,
 //      and within <coproc> elements in sched requests
 
+// TODO: move rsc_name() etc from client_state.cpp;
+// make them members of COPROCS
+
 // proc_type to name
 // TODO: fix the function name
 //
