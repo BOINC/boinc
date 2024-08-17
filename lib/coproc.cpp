@@ -1171,6 +1171,7 @@ const char* proc_type_name(int pt) {
 // TODO: fix the function name
 //
 int coproc_type_name_to_num(const char* name) {
+    if (!strcmp(name, "CPU")) return PROC_TYPE_CPU;
     if (!strcmp(name, "CUDA")) return PROC_TYPE_NVIDIA_GPU;
     if (!strcmp(name, "NVIDIA")) return PROC_TYPE_NVIDIA_GPU;
     if (!strcmp(name, "ATI")) return PROC_TYPE_AMD_GPU;
