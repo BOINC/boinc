@@ -1320,10 +1320,14 @@ const char* project_reason_string(PROJECT* p, char* buf, int len) {
             x = "don't need (";
             for (int i=0; i<coprocs.n_rsc; i++) {
                 char buf2[256];
+                RSC_REASON reason = p->rsc_pwf[i].rsc_project_reason;
+                if (!reason) {
+                    reason = rsc_work_fetch[i].dont_fetch_reason;
+                }
                 snprintf(buf2, sizeof(buf2),
                     "%s: %s",
                     rsc_name_long(i),
-                    rsc_reason_string(p->rsc_pwf[i].rsc_project_reason)
+                    rsc_reason_string(reason)
                 );
                 x += buf2;
                 if (i < coprocs.n_rsc-1) {
