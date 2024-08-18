@@ -799,10 +799,18 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         // process prefs if any
         //
         if (!global_prefs_xml.empty()) {
-            double mod_time = GLOBAL_PREFS::parse_mod_time(
-                global_prefs_xml.c_str()
-            );
-            if (mod_time > gstate.global_prefs.mod_time) {
+            bool use_am_prefs;
+            // if dynamic AM (like SU) its prefs are our net prefs
+            //
+            if (ami.dynamic) {
+                use_am_prefs = true;
+            } else {
+                double mod_time = GLOBAL_PREFS::parse_mod_time(
+                    global_prefs_xml.c_str()
+                );
+                use_am_prefs = mod_time > gstate.global_prefs.mod_time;
+            }
+            if (use_am_prefs) {
                 retval = gstate.save_global_prefs(
                     global_prefs_xml.c_str(), ami.master_url, ami.master_url
                 );
