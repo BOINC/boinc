@@ -248,7 +248,7 @@ void CLIENT_STATE::show_host_info() {
 
 #ifdef _WIN64
     if (host_info.wsl_available) {
-        msg_printf(NULL, MSG_INFO, "WSL detected:");
+        msg_printf(NULL, MSG_INFO, "WSL present:");
         for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
             const WSL& wsl = host_info.wsls.wsls[i];
             if (wsl.is_default) {
@@ -262,7 +262,7 @@ void CLIENT_STATE::show_host_info() {
             }
         }
     } else {
-        msg_printf(NULL, MSG_INFO, "WSL is not found or not allowed to be used. For more details see https://github.com/BOINC/boinc/wiki/Client-configuration");
+        msg_printf(NULL, MSG_INFO, "WSL is not present or is not allowed by configuration file. For more details see https://github.com/BOINC/boinc/wiki/Client-configuration");
     }
 #endif
 
@@ -280,37 +280,37 @@ void CLIENT_STATE::show_host_info() {
         }
 #endif
     }
-#ifndef _WIN64
-    if (host_info.docker_available && strlen(host_info.docker_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker %s is installed and available", host_info.docker_version);
-#else
+#ifdef _WIN64
     if (host_info.docker_available) {
-        msg_printf(NULL, MSG_INFO, "Docker is installed and available on next WSLs:");
+        msg_printf(NULL, MSG_INFO, "Docker is present on next WSLs:");
         for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
             const WSL& wsl = host_info.wsls.wsls[i];
             if (wsl.is_docker_available) {
                 msg_printf(NULL, MSG_INFO, "   [%s]: Docker version is: %s", wsl.distro_name.c_str(), wsl.docker_version.c_str());
             }
         }
+#else
+    if (host_info.docker_available && strlen(host_info.docker_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker %s is present", host_info.docker_version);
 #endif
     } else {
-        msg_printf(NULL, MSG_INFO, "Docker is not installed or is not available for running task");
+        msg_printf(NULL, MSG_INFO, "Docker is not present");
     }
-#ifndef _WIN64
-    if (host_info.docker_compose_available && strlen(host_info.docker_compose_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker compose %s is installed and available", host_info.docker_compose_version);
-#else
+#ifdef _WIN64
     if (host_info.docker_compose_available) {
-        msg_printf(NULL, MSG_INFO, "Docker compose is installed and available on next WSLs:");
+        msg_printf(NULL, MSG_INFO, "Docker compose is present on next WSLs:");
         for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
             const WSL& wsl = host_info.wsls.wsls[i];
             if (wsl.is_docker_compose_available) {
                 msg_printf(NULL, MSG_INFO, "   [%s]: Docker compose version is: %s", wsl.distro_name.c_str(), wsl.docker_compose_version.c_str());
             }
         }
+#else
+    if (host_info.docker_compose_available && strlen(host_info.docker_compose_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker compose %s is present", host_info.docker_compose_version);
 #endif
     } else {
-        msg_printf(NULL, MSG_INFO, "Docker compose is not installed or is not available for running task");
+        msg_printf(NULL, MSG_INFO, "Docker compose is not present");
     }
 }
 

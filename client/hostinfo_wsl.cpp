@@ -98,8 +98,7 @@ bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::s
 
 typedef HRESULT(WINAPI *PWslLaunch)(PCWSTR, PCWSTR, BOOL, HANDLE, HANDLE, HANDLE, HANDLE*);
 
-struct resource_helper {
-public:
+struct WSL_RESOURCE_MANAGER {
     HINSTANCE wsl_lib = NULL;
     HANDLE in_read = NULL;
     HANDLE in_write = NULL;
@@ -107,7 +106,7 @@ public:
     HANDLE out_write = NULL;
     PWslLaunch pWslLaunch = NULL;
 
-    ~resource_helper() {
+    ~WSL_RESOURCE_MANAGER() {
         close_handle(in_read);
         close_handle(in_write);
         close_handle(out_read);
@@ -180,7 +179,7 @@ std::wstring s2ws(const std::string& s)
     return r;
 }
 
-bool create_wsl_process(const resource_helper& rs, const std::string& wsl_distro_name, const std::string& command, HANDLE* handle, bool use_current_work_dir = false) {
+bool create_wsl_process(const WSL_RESOURCE_MANAGER& rs, const std::string& wsl_distro_name, const std::string& command, HANDLE* handle, bool use_current_work_dir = false) {
     return (rs.pWslLaunch(s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(), use_current_work_dir, rs.in_read, rs.out_write, rs.out_write, handle) == S_OK);
 }
 
@@ -262,18 +261,18 @@ void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ost
 
 // Returns the OS name and version for WSL when enabled
 //
-int get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available) {
+bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available) {
     std::vector<std::pair<std::string, DWORD>> distros;
     std::string default_distro;
 
     if (!get_available_wsls(distros, default_distro)) {
-        return 1;
+        return false;
     }
 
-    resource_helper rs;
+    WSL_RESOURCE_MANAGER rs;
 
     if (rs.prepare_resources()) {
-        return 1;
+        return false;
     }
 
     wsl_available = false;
@@ -410,7 +409,7 @@ int get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availab
         wsls.wsls.push_back(wsl);
     }
 
-    return 0;
+    return true;
 }
 
 #endif // _WIN64

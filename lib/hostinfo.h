@@ -141,8 +141,8 @@ public:
     // that is why it makes no sense to have this information put here
     // instead the information about the available 'docker' and 'docker compose'
     // installations should be taken from every particular WSL distro
-    int get_docker_info();
-    int get_docker_compose_info();
+    bool get_docker_info();
+    bool get_docker_compose_info();
 #endif
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
@@ -172,7 +172,7 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
-extern int get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available);
+extern bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available);
 extern int get_processor_group(HANDLE);
 #endif
 

@@ -1233,9 +1233,9 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-//check if docker compose or docker-compose is installed on volunteer's host
-//
-int HOST_INFO::get_docker_compose_info(){
+// check if docker compose is installed on volunteer's host
+// populates docker compose version and docker_compose_available on success
+bool HOST_INFO::get_docker_compose_info(){
     FILE* f = popen(command_get_docker_compose_version, "r");
     if (f) {
         char buf[256];
@@ -1246,15 +1246,15 @@ int HOST_INFO::get_docker_compose_info(){
             safe_strcpy(docker_compose_version, version.c_str());
         }
         pclose(f);
-        return 0;
+        return true;
     }
-    return 1;
+    return false;
 }
 
 
-//check if docker is installed on volunteer's host
-//
-int HOST_INFO::get_docker_info(){
+// check if docker is installed on volunteer's host
+// populates docker version and docker_available on success
+bool HOST_INFO::get_docker_info(){
     FILE* f = popen(command_get_docker_version, "r");
     if (f) {
         char buf[256];
@@ -1265,9 +1265,9 @@ int HOST_INFO::get_docker_info(){
             safe_strcpy(docker_version, version.c_str());
         }
         pclose(f);
-        return 0;
+        return true;
     }
-    return 1;
+    return false;
 }
 
 
