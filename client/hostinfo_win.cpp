@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1550,7 +1550,6 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
     return iRetVal;
 }
 
-
 // see if Virtualbox is installed
 //
 int HOST_INFO::get_virtualbox_version() {
@@ -1670,7 +1669,7 @@ int HOST_INFO::get_host_info(bool init) {
     if (!cc_config.dont_use_wsl) {
         OSVERSIONINFOEX osvi;
         if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
-            get_wsl_information(wsl_available, wsls);
+            get_wsl_information(cc_config.allowed_wsls, wsl_available, wsls, !cc_config.dont_use_docker, docker_available, docker_compose_available);
         }
     }
 #endif

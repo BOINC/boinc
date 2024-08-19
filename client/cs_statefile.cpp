@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -966,6 +966,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             if (cc_config.dont_use_wsl && strstr(avp->plan_class, "wsl")) {
                 msg_printf(p, MSG_INFO,
                     "skipping wsl app in app_info.xml; wsl disabled in cc_config.xml"
+                );
+                delete avp;
+                continue;
+            }
+            if (cc_config.dont_use_docker && strstr(avp->plan_class, "docker")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping docker app in app_info.xml; docker disabled in cc_config.xml"
                 );
                 delete avp;
                 continue;

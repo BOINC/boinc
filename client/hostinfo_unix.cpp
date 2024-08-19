@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2021 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,7 +20,6 @@
 // Try to keep this well-organized and not nested.
 
 #include "version.h"         // version numbers from autoconf
-
 #include "cpp.h"
 #include "config.h"
 
@@ -1231,9 +1230,46 @@ int HOST_INFO::get_virtualbox_version() {
             pclose(fd);
         }
     }
-
     return 0;
 }
+
+// check if docker compose is installed on volunteer's host
+// populates docker compose version and docker_compose_available on success
+bool HOST_INFO::get_docker_compose_info(){
+    FILE* f = popen(command_get_docker_compose_version, "r");
+    if (f) {
+        char buf[256];
+        fgets(buf, 256, f);
+        std::string version;
+        if (get_docker_compose_version_string(buf, version)) {
+            docker_compose_available = true;
+            safe_strcpy(docker_compose_version, version.c_str());
+        }
+        pclose(f);
+        return true;
+    }
+    return false;
+}
+
+
+// check if docker is installed on volunteer's host
+// populates docker version and docker_available on success
+bool HOST_INFO::get_docker_info(){
+    FILE* f = popen(command_get_docker_version, "r");
+    if (f) {
+        char buf[256];
+        fgets(buf, 256, f);
+        std::string version;
+        if (get_docker_version_string(buf, version)) {
+            docker_available = true;
+            safe_strcpy(docker_version, version.c_str());
+        }
+        pclose(f);
+        return true;
+    }
+    return false;
+}
+
 
 // get p_vendor, p_model, p_features
 //
@@ -1680,6 +1716,11 @@ int HOST_INFO::get_host_info(bool init) {
 
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
+    }
+
+    if(!cc_config.dont_use_docker){
+        get_docker_info();
+        get_docker_compose_info();
     }
 
     get_cpu_info();

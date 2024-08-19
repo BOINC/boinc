@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -71,7 +71,15 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(os_name, "");
     safe_strcpy(os_version, "");
 
+#ifdef _WIN64
     wsl_available = false;
+#endif
+    docker_available = false;
+    docker_compose_available = false;
+#ifndef _WIN64
+    safe_strcpy(docker_version, "");
+    safe_strcpy(docker_compose_version, "");
+#endif
 #ifdef _WIN64
     wsls.clear();
 #endif
@@ -133,11 +141,16 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
 #ifdef _WIN64
-        if (xp.parse_bool("os_wsl_enabled", wsl_available)) continue;
+        if (xp.parse_bool("wsl_available", wsl_available)) continue;
         if (xp.match_tag("wsl")) {
             this->wsls.parse(xp);
             continue;
         }
+#endif
+        if (xp.parse_bool("docker_available", docker_available)) continue;
+#ifndef _WIN64
+        if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
+        if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
 #endif
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
@@ -207,7 +220,8 @@ int HOST_INFO::write(
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
         "    <n_usable_coprocs>%d</n_usable_coprocs>\n"
-        "    <wsl_available>%d</wsl_available>\n",
+        "    <wsl_available>%d</wsl_available>\n"
+        "    <docker_available>%d</docker_available>\n",
         host_cpid,
         p_ncpus,
         pv,
@@ -227,14 +241,29 @@ int HOST_INFO::write(
         osv,
         coprocs.ndevs(),
 #ifdef _WIN64
-        wsl_available ? 1 : 0
+        wsl_available ? 1 : 0,
 #else
-        0
+        0,
 #endif
+        docker_available ? 1 : 0
     );
 #ifdef _WIN64
     if (wsl_available) {
         wsls.write_xml(out);
+    }
+#endif
+#ifndef _WIN64
+    if (strlen(docker_version)) {
+        out.printf(
+            "    <docker_version>%s</docker_version>\n",
+            docker_version
+        );
+    }
+    if (strlen(docker_compose_version)) {
+        out.printf(
+            "    <docker_compose_version>%s</docker_compose_version>\n",
+            docker_compose_version
+        );
     }
 #endif
     if (strlen(product_name)) {
@@ -258,6 +287,20 @@ int HOST_INFO::write(
             buf
         );
     }
+#ifndef _WIN64
+    if (docker_available){
+        out.printf(
+            "    <docker_version>%s</docker_compose_version>\n",
+            docker_version
+        );
+    }
+    if (docker_compose_available){
+        out.printf(
+            "    <docker_compose_version>%s</docker_compose_version>\n",
+            docker_compose_version
+        );
+    }
+#endif
     if (include_coprocs) {
         this->coprocs.write_xml(out, false);
     }
@@ -317,3 +360,33 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     );
     return 0;
 }
+
+bool HOST_INFO::get_docker_version_string(std::string raw, std::string& parsed) {
+    std::string prefix = "Docker version";
+    size_t pos1 = raw.find(prefix);
+    if (pos1 == std::string::npos) {
+        return false;
+    }
+    size_t pos2 = raw.find(",");
+    if (pos2 == std::string::npos) {
+        return false;
+    }
+    parsed = raw.substr(pos1 + prefix.size() + 1, pos2 - pos1 - prefix.size() - 1);
+    if (!parsed.empty() && parsed[parsed.length() - 1] == '\n') {
+        parsed.erase(parsed.length() - 1);
+    }
+    return true;
+}
+bool HOST_INFO::get_docker_compose_version_string(std::string raw, std::string& parsed) {
+    std::string prefix = "Docker Compose version v";
+    size_t pos1 = raw.find(prefix);
+    if (pos1 == std::string::npos) {
+        return false;
+    }
+    parsed = raw.substr(pos1 + prefix.size(), raw.size() - pos1 - prefix.size());
+    if (!parsed.empty() && parsed[parsed.length() - 1] == '\n') {
+        parsed.erase(parsed.length() - 1);
+    }
+    return true;
+}
+

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -198,6 +198,14 @@ void CC_CONFIG::show() {
     if (dont_use_wsl) {
         msg_printf(NULL, MSG_INFO, "Config: don't use the Windows Subsystem for Linux");
     }
+    for (i=0; i<allowed_wsls.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: allowed WSL: %s", allowed_wsls[i].c_str()
+        );
+    }
+    if (dont_use_docker) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use the Docker");
+    }
     for (i=0; i<alt_platforms.size(); i++) {
         msg_printf(NULL, MSG_INFO,
             "Config: alternate platform: %s", alt_platforms[i].c_str()
@@ -373,6 +381,11 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
+        if (xp.parse_string("allowed_wsl", s)) {
+            allowed_wsls.push_back(s);
+            continue;
+        }
+        if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);

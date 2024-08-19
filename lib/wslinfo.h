@@ -35,6 +35,14 @@ struct WSL {
     std::string wsl_version;
     // flag indicating whether this is the default WSL distribution
     bool is_default;
+    // flag indicating whether Docker is available in this WSL distribution
+    bool is_docker_available;
+    // flag indicating whether Docker Compose is available in this WSL distribution
+    bool is_docker_compose_available;
+    // version of Docker installed in this WSL distribution
+    std::string docker_version;
+    // version of Docker Compose installed in this WSL distribution
+    std::string docker_compose_version;
 
     WSL();
 

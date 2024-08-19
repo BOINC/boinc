@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -215,6 +215,8 @@ void CC_CONFIG::defaults() {
     dont_suspend_nci = false;
     dont_use_vbox = false;
     dont_use_wsl = false;
+    allowed_wsls.clear();
+    dont_use_docker = false;
     exclude_gpus.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
@@ -347,7 +349,12 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("lower_client_priority", lower_client_priority)) continue;
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
+        if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
         if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
+        if (xp.parse_string("allowed_wsl", s)) {
+            allowed_wsls.push_back(s);
+            continue;
+        }
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
@@ -565,15 +572,24 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <lower_client_priority>%d</lower_client_priority>\n"
         "        <dont_suspend_nci>%d</dont_suspend_nci>\n"
         "        <dont_use_vbox>%d</dont_use_vbox>\n"
-        "        <dont_use_wsl>%d</dont_use_wsl>\n",
+        "        <dont_use_wsl>%d</dont_use_wsl>\n"
+        "        <dont_use_docker>%d</dont_use_docker>\n",
         disallow_attach,
         dont_check_file_sizes,
         dont_contact_ref_site,
         lower_client_priority,
         dont_suspend_nci,
         dont_use_vbox,
-        dont_use_wsl
+        dont_use_wsl,
+        dont_use_docker
     );
+
+    for (i=0; i<allowed_wsls.size(); ++i) {
+        out.printf(
+            "        <allowed_wsl>%s</allowed_wsl>\n",
+            allowed_wsls[i].c_str()
+        );
+    }
 
     for (i=0; i<exclude_gpus.size(); i++) {
         exclude_gpus[i].write(out);

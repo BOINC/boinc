@@ -20,7 +20,7 @@
 #include "boinc_win.h"
 
 #include "str_replace.h"
-
+#include "client_msgs.h"
 #include "hostinfo.h"
 
 bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::string& default_wsl) {
@@ -98,15 +98,73 @@ bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::s
 
 typedef HRESULT(WINAPI *PWslLaunch)(PCWSTR, PCWSTR, BOOL, HANDLE, HANDLE, HANDLE, HANDLE*);
 
-HINSTANCE wsl_lib = NULL;
+struct WSL_RESOURCE_MANAGER {
+    HINSTANCE wsl_lib = NULL;
+    HANDLE in_read = NULL;
+    HANDLE in_write = NULL;
+    HANDLE out_read = NULL;
+    HANDLE out_write = NULL;
+    PWslLaunch pWslLaunch = NULL;
 
-HANDLE in_read = NULL;
-HANDLE in_write = NULL;
-HANDLE out_read = NULL;
-HANDLE out_write = NULL;
+    ~WSL_RESOURCE_MANAGER() {
+        close_handle(in_read);
+        close_handle(in_write);
+        close_handle(out_read);
+        close_handle(out_write);
 
-PWslLaunch pWslLaunch = NULL;
+        if (wsl_lib) {
+            FreeLibrary(wsl_lib);
+        }
+    }
 
+    // prepare resources
+    int prepare_resources() {
+        wsl_lib = NULL;
+        in_read = NULL;
+        in_write = NULL;
+        out_read = NULL;
+        out_write = NULL;
+        pWslLaunch = NULL;
+
+        wsl_lib = LoadLibrary("wslapi.dll");
+        if (!wsl_lib) {
+            return 1;
+        }
+
+        pWslLaunch = (PWslLaunch)GetProcAddress(wsl_lib, "WslLaunch");
+
+        if (!pWslLaunch) {
+            return 1;
+        }
+
+        SECURITY_ATTRIBUTES sa;
+        sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+        sa.bInheritHandle = TRUE;
+        sa.lpSecurityDescriptor = NULL;
+
+        if (!CreatePipe(&out_read, &out_write, &sa, 0)) {
+            return 1;
+        }
+        if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) {
+            return 1;
+        }
+        if (!CreatePipe(&in_read, &in_write, &sa, 0)) {
+            return 1;
+        }
+        if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+private:
+    inline void close_handle(HANDLE handle) {
+        if (handle) {
+            CloseHandle(handle);
+        }
+    }
+};
 
 //convert std::string to PCWSTR
 //taken from https://stackoverflow.com/questions/27220/how-to-convert-stdstring-to-lpcwstr-in-c-unicode
@@ -121,11 +179,11 @@ std::wstring s2ws(const std::string& s)
     return r;
 }
 
-bool create_wsl_process(const std::string& wsl_distro_name, const std::string& command, HANDLE* handle, bool use_current_work_dir = false) {
-    return (pWslLaunch(s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(), use_current_work_dir, in_read, out_write, out_write, handle) == S_OK);
+bool create_wsl_process(const WSL_RESOURCE_MANAGER& rs, const std::string& wsl_distro_name, const std::string& command, HANDLE* handle, bool use_current_work_dir = false) {
+    return (rs.pWslLaunch(s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(), use_current_work_dir, rs.in_read, rs.out_write, rs.out_write, handle) == S_OK);
 }
 
-bool CreateWslProcess(const std::string& wsl_app, const std::string& command, HANDLE& handle) {
+bool CreateWslProcess(const HANDLE& out_write, const std::string& wsl_app, const std::string& command, HANDLE& handle) {
     PROCESS_INFORMATION pi;
     STARTUPINFO si;
 
@@ -152,26 +210,7 @@ bool CreateWslProcess(const std::string& wsl_app, const std::string& command, HA
     return res;
 }
 
-inline void close_handle(HANDLE handle) {
-    if (handle) {
-        CloseHandle(handle);
-    }
-}
-
-int free_resources_and_exit(const int return_code) {
-    close_handle(in_read);
-    close_handle(in_write);
-    close_handle(out_read);
-    close_handle(out_write);
-
-    if (wsl_lib) {
-        FreeLibrary(wsl_lib);
-    }
-
-    return return_code;
-}
-
-std::string read_from_pipe(HANDLE handle) {
+std::string read_from_pipe(const HANDLE& handle, const HANDLE& out_read) {
     DWORD avail, read, exitcode;
     const int bufsize = 256;
     char buf[bufsize];
@@ -222,59 +261,42 @@ void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ost
 
 // Returns the OS name and version for WSL when enabled
 //
-int get_wsl_information(bool& wsl_available, WSLS& wsls) {
-    wsl_lib = NULL;
-    in_read = NULL;
-    in_write = NULL;
-    out_read = NULL;
-    out_write = NULL;
-    pWslLaunch = NULL;
-
+bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available) {
     std::vector<std::pair<std::string, DWORD>> distros;
     std::string default_distro;
 
     if (!get_available_wsls(distros, default_distro)) {
-        return 1;
+        return false;
     }
 
-    wsl_lib = LoadLibrary("wslapi.dll");
-    if (!wsl_lib) {
-        return 1;
-    }
+    WSL_RESOURCE_MANAGER rs;
 
-    pWslLaunch = (PWslLaunch) GetProcAddress(wsl_lib, "WslLaunch");
-
-    if (!pWslLaunch) {
-        free_resources_and_exit(1);
+    if (rs.prepare_resources()) {
+        return false;
     }
 
     wsl_available = false;
+    docker_available = false;
+    docker_compose_available = false;
 
-    SECURITY_ATTRIBUTES sa;
     HANDLE handle;
-
-    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-    sa.bInheritHandle = TRUE;
-    sa.lpSecurityDescriptor = NULL;
-
-    if (!CreatePipe(&out_read, &out_write, &sa, 0)) {
-        return 1;
-    }
-    if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) {
-        return free_resources_and_exit(1);
-    }
-    if (!CreatePipe(&in_read, &in_write, &sa, 0)) {
-        return free_resources_and_exit(1);
-    }
-    if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) {
-        return free_resources_and_exit(1);
-    }
 
     for (size_t i = 0; i < distros.size(); ++i) {
         char wsl_dist_name[256];
         char wsl_dist_version[256];
 
         const std::string& distro = distros[i].first;
+        // skip 'docker-desktop-data'
+        // Ref: https://stackoverflow.com/a/61431088/4210508
+        if (distro == "docker-desktop-data"){
+            continue;
+        }
+        // skip distros that are not allowed except for 'docker-desktop'
+        if (distro != "docker-desktop" && std::find(allowed_wsls.begin(), allowed_wsls.end(), distro) == allowed_wsls.end()) {
+            msg_printf(0, MSG_INFO, "WSL distro '%s' detected but is not allowed", distro.c_str());
+            continue;
+        }
+
         WSL wsl;
         wsl.distro_name = distro;
         if (distro == default_distro) {
@@ -285,32 +307,32 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         wsl.wsl_version = std::to_string(distros[i].second);
 
         // lsbrelease
-        if (!create_wsl_process(distro, command_lsbrelease, &handle)) {
+        if (!create_wsl_process(rs, distro, command_lsbrelease, &handle)) {
             continue;
         }
         wsl_available = HOST_INFO::parse_linux_os_info(
-            read_from_pipe(handle), lsbrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
+            read_from_pipe(handle, rs.out_read), lsbrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
         CloseHandle(handle);
 
         if (!wsl_available) {
             //osrelease
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
-            if (!create_wsl_process(distro, command_osrelease, &handle)) {
+            if (!create_wsl_process(rs, distro, command_osrelease, &handle)) {
                 continue;
             }
             wsl_available = HOST_INFO::parse_linux_os_info(
-                read_from_pipe(handle), osrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
+                read_from_pipe(handle, rs.out_read), osrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
             CloseHandle(handle);
         }
 
         //redhatrelease
         if (!wsl_available) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!create_wsl_process(distro, command_redhatrelease, &handle)) {
+            if (!create_wsl_process(rs, distro, command_redhatrelease, &handle)) {
                 continue;
             }
             wsl_available = HOST_INFO::parse_linux_os_info(
-                read_from_pipe(handle), redhatrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
+                read_from_pipe(handle, rs.out_read), redhatrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
             CloseHandle(handle);
         }
 
@@ -323,16 +345,16 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
 
         // sysctl -a
         const std::string command_sysctl = "sysctl -a";
-        if (create_wsl_process(distro, command_sysctl, &handle)) {
-            parse_sysctl_output(split(read_from_pipe(handle), '\n'), os_name, os_version_extra);
+        if (create_wsl_process(rs, distro, command_sysctl, &handle)) {
+            parse_sysctl_output(split(read_from_pipe(handle, rs.out_read), '\n'), os_name, os_version_extra);
             CloseHandle(handle);
         }
 
         // uname -s
         if (os_name.empty()) {
             const std::string command_uname_s = "uname -s";
-            if (create_wsl_process(distro, command_uname_s, &handle)) {
-                os_name = read_from_pipe(handle);
+            if (create_wsl_process(rs, distro, command_uname_s, &handle)) {
+                os_name = read_from_pipe(handle, rs.out_read);
                 strip_whitespace(os_name);
                 CloseHandle(handle);
             }
@@ -341,8 +363,8 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         // uname -r
         if (os_version_extra.empty()) {
             const std::string command_uname_r = "uname -r";
-            if (create_wsl_process(distro, command_uname_r ,&handle)) {
-                os_version_extra = read_from_pipe(handle);
+            if (create_wsl_process(rs, distro, command_uname_r ,&handle)) {
+                os_version_extra = read_from_pipe(handle, rs.out_read);
                 strip_whitespace(os_version_extra);
                 CloseHandle(handle);
             }
@@ -360,10 +382,34 @@ int get_wsl_information(bool& wsl_available, WSLS& wsls) {
         else {
             wsl.os_version = wsl_dist_version;
         }
+
+        if (detect_docker) {
+            if (create_wsl_process(rs, distro, command_get_docker_version, &handle)) {
+                std::string raw = read_from_pipe(handle, rs.out_read);
+                std::string version;
+                wsl.is_docker_available = HOST_INFO::get_docker_version_string(raw, version);
+                if (wsl.is_docker_available) {
+                    docker_available = true;
+                    wsl.docker_version = version;
+                }
+                CloseHandle(handle);
+            }
+            if (create_wsl_process(rs, distro, command_get_docker_compose_version, &handle)) {
+                std::string raw = read_from_pipe(handle, rs.out_read);
+                std::string version;
+                wsl.is_docker_compose_available = HOST_INFO::get_docker_compose_version_string(raw, version);
+                if (wsl.is_docker_compose_available) {
+                    docker_compose_available = true;
+                    wsl.docker_compose_version = version;
+                }
+                CloseHandle(handle);
+            }
+        }
+
         wsls.wsls.push_back(wsl);
     }
 
-    return free_resources_and_exit(0);
+    return true;
 }
 
 #endif // _WIN64
