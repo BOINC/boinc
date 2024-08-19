@@ -75,11 +75,6 @@ def set_version_h_in(version):
                     line = '#define BOINC_PRERELEASE 1\n'
             f.write(line)
 
-def set_version_log(version):
-    with open('version.log', 'w') as f:
-        line = f'{version}\n'
-        f.write(line)
-
 def set_build_gradle(version):
     _, minor, _ = split_version(version)
     if (is_release(minor)):
@@ -137,7 +132,6 @@ print(f'Setting BOINC client version to {version}...')
 set_configure_ac(version)
 set_version_h(version)
 set_version_h_in(version)
-set_version_log(version)
 set_build_gradle(version)
 set_installshield(version)
 set_snapcraft(version)
