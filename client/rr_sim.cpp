@@ -688,7 +688,7 @@ void rr_simulation(const char* why) {
 //
 int n_idle_resources() {
     int nidle_rsc = 0;
-    coprocs.coprocs[0] = gstate.n_usable_cpus;
+    coprocs.coprocs[0].count = gstate.n_usable_cpus;
     for (int i=0; i<coprocs.n_rsc; i++) {
         int c = coprocs.coprocs[i].count;
         rsc_work_fetch[i].nidle_now = c;
