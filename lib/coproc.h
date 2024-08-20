@@ -84,6 +84,7 @@
 #include "cal_boinc.h"
 #include "cl_boinc.h"
 #include "opencl_boinc.h"
+#include "common_defs.h"
 
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
@@ -205,9 +206,9 @@ struct COPROC {
 
     OPENCL_DEVICE_PROP opencl_prop;
 
-    COPROC(int){}
+    COPROC(DUMMY_TYPE){}
     inline void clear() {
-        static const COPROC x(0);
+        static const COPROC x(DUMMY);
         *this = x;
     }
     COPROC(){
@@ -284,9 +285,9 @@ struct CUDA_DEVICE_PROP {
     int   deviceOverlap;
     int   multiProcessorCount;
 
-    CUDA_DEVICE_PROP(int){}
+    CUDA_DEVICE_PROP(DUMMY_TYPE){}
     void clear() {
-        static const CUDA_DEVICE_PROP x(0);
+        static const CUDA_DEVICE_PROP x(DUMMY);
         *this = x;
     }
     CUDA_DEVICE_PROP() {

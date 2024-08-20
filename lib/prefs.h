@@ -20,6 +20,7 @@
 
 #include <cstdio>
 
+#include "common_defs.h"
 #include "miofile.h"
 #include "parse.h"
 
@@ -74,9 +75,9 @@ struct GLOBAL_PREFS_MASK {
     bool work_buf_additional_days;
     bool work_buf_min_days;
 
-    GLOBAL_PREFS_MASK(int){}
+    GLOBAL_PREFS_MASK(DUMMY_TYPE){}
     void clear() {
-        static const GLOBAL_PREFS_MASK x(0);
+        static const GLOBAL_PREFS_MASK x(DUMMY);
         *this = x;
     }
     GLOBAL_PREFS_MASK() {
