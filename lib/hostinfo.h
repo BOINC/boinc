@@ -84,8 +84,8 @@ public:
 
 #ifdef _WIN64
     // on Windows, Docker info is per WSL_DISTRO, not global
-    bool wsl_available;
-    WSL_DISTROS wsls;
+    bool wsl_present;
+    WSL_DISTROS wsl_distros;
 #else
     bool docker_available;
     bool docker_compose_available;
@@ -132,10 +132,7 @@ public:
     int get_local_network_info();
     int get_virtualbox_version();
 #ifndef _WIN64
-    // on Windows we can have several docker installation within WSL
-    // that is why it makes no sense to have this information put here
-    // instead the information about the available 'docker' and 'docker compose'
-    // installations should be taken from every particular WSL distro
+    // on Windows, Docker info is per WSL_DISTRO, not global
     bool get_docker_info();
     bool get_docker_compose_info();
 #endif
@@ -167,7 +164,11 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
-extern bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available);
+extern bool get_wsl_information(
+    std::vector<std::string> allowed_wsls,
+    WSL_DISTROS& usable_distros,
+    bool detect_docker
+);
 extern int get_processor_group(HANDLE);
 #endif
 

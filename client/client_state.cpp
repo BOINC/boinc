@@ -249,8 +249,7 @@ void CLIENT_STATE::show_host_info() {
 #ifdef _WIN64
     if (host_info.wsl_available) {
         msg_printf(NULL, MSG_INFO, "WSL present:");
-        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
-            const WSL& wsl = host_info.wsls.wsls[i];
+        for (auto &wsl: host_info.wsl_distros.distros) {
             if (wsl.is_default) {
                 msg_printf(NULL, MSG_INFO,
                     "   [%s] <v%s> (default): %s (%s)", wsl.distro_name.c_str(), wsl.wsl_version.c_str(), wsl.os_name.c_str(), wsl.os_version.c_str()
