@@ -23,7 +23,10 @@
 #include "client_msgs.h"
 #include "hostinfo.h"
 
-bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::string& default_wsl) {
+bool get_available_wsls(
+    std::vector<std::pair<std::string,
+    DWORD>>& wsls, std::string& default_wsl
+) {
     const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
 
     HKEY hKey;
@@ -32,26 +35,31 @@ bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::s
 
     LONG lRet = RegOpenKeyEx(HKEY_CURRENT_USER,
         lxss_path.c_str(),
-        0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey);
-    if (lRet != ERROR_SUCCESS)
+        0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey
+    );
+    if (lRet != ERROR_SUCCESS) {
         return false;
+    }
 
     const int buf_len = 256;
     char default_wsl_guid[buf_len];
     DWORD default_wsl_guid_len = sizeof(default_wsl_guid);
 
     lRet = RegQueryValueEx(hKey, "DefaultDistribution", NULL, NULL,
-        (LPBYTE)default_wsl_guid, &default_wsl_guid_len);
-    if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len))
+        (LPBYTE)default_wsl_guid, &default_wsl_guid_len
+    );
+    if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len)) {
         return false;
+    }
 
     int i = 0;
     while(true) {
         char wsl_guid[buf_len];
         DWORD wsl_guid_len = sizeof(wsl_guid);
 
-        LONG ret = RegEnumKeyEx(hKey, i++, wsl_guid, &wsl_guid_len,
-            NULL, NULL, NULL, NULL);
+        LONG ret = RegEnumKeyEx(
+            hKey, i++, wsl_guid, &wsl_guid_len, NULL, NULL, NULL, NULL
+        );
         if (ret != ERROR_SUCCESS) {
             break;
         }
@@ -60,14 +68,17 @@ bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::s
         const std::string sub_key = lxss_path + "\\" + wsl_guid;
         ret = RegOpenKeyEx(HKEY_CURRENT_USER,
             sub_key.c_str(),
-            0, KEY_QUERY_VALUE, &hSubKey);
+            0, KEY_QUERY_VALUE, &hSubKey
+        );
         if (ret != ERROR_SUCCESS) {
             break;
         }
 
         DWORD wsl_state = 0;
         DWORD wsl_state_len = sizeof(wsl_state);
-        ret = RegQueryValueEx(hSubKey, "State", NULL, NULL, (LPBYTE)&wsl_state, &wsl_state_len);
+        ret = RegQueryValueEx(
+            hSubKey, "State", NULL, NULL, (LPBYTE)&wsl_state, &wsl_state_len
+        );
         if (ret != ERROR_SUCCESS || wsl_state != 1) {
             continue;
         }
@@ -75,18 +86,21 @@ bool get_available_wsls(std::vector<std::pair<std::string, DWORD>>& wsls, std::s
         DWORD wsl_version = 1;
         DWORD wsl_version_len = sizeof(wsl_version);
         // there might be no version key, so we ignore the return value
-        RegQueryValueEx(hSubKey, "Version", NULL, NULL, (LPBYTE)&wsl_version, &wsl_version_len);
+        RegQueryValueEx(
+            hSubKey, "Version", NULL, NULL, (LPBYTE)&wsl_version,
+            &wsl_version_len
+        );
 
         char wsl_name[buf_len];
         DWORD wsl_name_len = sizeof(wsl_name);
         ret = RegQueryValueEx(hSubKey, "DistributionName", NULL, NULL,
-            (LPBYTE)wsl_name, &wsl_name_len);
+            (LPBYTE)wsl_name, &wsl_name_len
+        );
         if ((ret == ERROR_SUCCESS) && (wsl_name_len < buf_len)) {
             wsls.push_back(std::make_pair(wsl_name, wsl_version));
             if (std::string(wsl_guid) == std::string(default_wsl_guid)) {
                 default_wsl = wsl_name;
             }
-
             RegCloseKey(hSubKey);
         }
     }
@@ -168,8 +182,7 @@ private:
 
 //convert std::string to PCWSTR
 //taken from https://stackoverflow.com/questions/27220/how-to-convert-stdstring-to-lpcwstr-in-c-unicode
-std::wstring s2ws(const std::string& s)
-{
+std::wstring s2ws(const std::string& s) {
     const int slength = (int)s.length() + 1;
     const int len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
     wchar_t* buf = new wchar_t[len];
@@ -179,11 +192,23 @@ std::wstring s2ws(const std::string& s)
     return r;
 }
 
-bool create_wsl_process(const WSL_RESOURCE_MANAGER& rs, const std::string& wsl_distro_name, const std::string& command, HANDLE* handle, bool use_current_work_dir = false) {
-    return (rs.pWslLaunch(s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(), use_current_work_dir, rs.in_read, rs.out_write, rs.out_write, handle) == S_OK);
+bool create_wsl_process(
+    const WSL_RESOURCE_MANAGER& rs, const std::string& wsl_distro_name,
+    const std::string& command, HANDLE* handle,
+    bool use_current_work_dir = false
+) {
+    HRESULT ret = rs.pWslLaunch(
+        s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(),
+        use_current_work_dir, rs.in_read, rs.out_write, rs.out_write,
+        handle
+    );
+    return (ret == S_OK);
 }
 
-bool CreateWslProcess(const HANDLE& out_write, const std::string& wsl_app, const std::string& command, HANDLE& handle) {
+bool CreateWslProcess(
+    const HANDLE& out_write, const std::string& wsl_app,
+    const std::string& command, HANDLE& handle
+) {
     PROCESS_INFORMATION pi;
     STARTUPINFO si;
 
@@ -200,7 +225,10 @@ bool CreateWslProcess(const HANDLE& out_write, const std::string& wsl_app, const
 
     const std::string cmd = wsl_app + " " + command;
 
-    const bool res = (CreateProcess(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi) != FALSE);
+    const bool res = (CreateProcess(
+        NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags,
+        NULL, NULL, &si, &pi
+    ) != FALSE);
 
     if (res) {
         handle = pi.hProcess;
@@ -226,8 +254,7 @@ std::string read_from_pipe(const HANDLE& handle, const HANDLE& out_read) {
 
             buf[read] = '\0';
             res += buf;
-        }
-        else {
+        } else {
             if (!GetExitCodeProcess(handle, &exitcode) || exitcode != STILL_ACTIVE) {
                 break;
             }
@@ -238,7 +265,10 @@ std::string read_from_pipe(const HANDLE& handle, const HANDLE& out_read) {
     return res;
 }
 
-void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ostype, std::string& osrelease) {
+void parse_sysctl_output(
+    const std::vector<std::string>& lines, std::string& ostype,
+    std::string& osrelease
+) {
     char buf[256], ostype_found[256], osrelease_found[256];
     ostype.clear();
     osrelease.clear();
@@ -261,7 +291,11 @@ void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ost
 
 // Returns the OS name and version for WSL when enabled
 //
-bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available) {
+bool get_wsl_information(
+    std::vector<std::string> allowed_wsls, bool& wsl_available,
+    WSLS& wsls, bool detect_docker, bool& docker_available,
+    bool& docker_compose_available
+) {
     std::vector<std::pair<std::string, DWORD>> distros;
     std::string default_distro;
 
@@ -311,7 +345,10 @@ bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availa
             continue;
         }
         wsl_available = HOST_INFO::parse_linux_os_info(
-            read_from_pipe(handle, rs.out_read), lsbrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
+            read_from_pipe(handle, rs.out_read), lsbrelease,
+            wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version,
+            sizeof(wsl_dist_version)
+        );
         CloseHandle(handle);
 
         if (!wsl_available) {
@@ -321,7 +358,11 @@ bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availa
                 continue;
             }
             wsl_available = HOST_INFO::parse_linux_os_info(
-                read_from_pipe(handle, rs.out_read), osrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
+                read_from_pipe(handle, rs.out_read),
+                osrelease,
+                wsl_dist_name, sizeof(wsl_dist_name),
+                wsl_dist_version, sizeof(wsl_dist_version)
+            );
             CloseHandle(handle);
         }
 
@@ -332,7 +373,10 @@ bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availa
                 continue;
             }
             wsl_available = HOST_INFO::parse_linux_os_info(
-                read_from_pipe(handle, rs.out_read), redhatrelease, wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version, sizeof(wsl_dist_version));
+                read_from_pipe(handle, rs.out_read),
+                redhatrelease, wsl_dist_name, sizeof(wsl_dist_name),
+                wsl_dist_version, sizeof(wsl_dist_version)
+            );
             CloseHandle(handle);
         }
 
@@ -346,7 +390,10 @@ bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availa
         // sysctl -a
         const std::string command_sysctl = "sysctl -a";
         if (create_wsl_process(rs, distro, command_sysctl, &handle)) {
-            parse_sysctl_output(split(read_from_pipe(handle, rs.out_read), '\n'), os_name, os_version_extra);
+            parse_sysctl_output(
+                split(read_from_pipe(handle, rs.out_read), '\n'),
+                os_name, os_version_extra
+            );
             CloseHandle(handle);
         }
 
@@ -372,8 +419,7 @@ bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availa
 
         if (!os_name.empty()) {
             wsl.os_name = os_name + " " + wsl_dist_name;
-        }
-        else {
+        } else {
             wsl.os_name = wsl_dist_name;
         }
         if (!os_version_extra.empty()) {
@@ -384,7 +430,9 @@ bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availa
         }
 
         if (detect_docker) {
-            if (create_wsl_process(rs, distro, command_get_docker_version, &handle)) {
+            if (create_wsl_process(
+                rs, distro, command_get_docker_version, &handle
+            )) {
                 std::string raw = read_from_pipe(handle, rs.out_read);
                 std::string version;
                 wsl.is_docker_available = HOST_INFO::get_docker_version_string(raw, version);
@@ -394,7 +442,9 @@ bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_availa
                 }
                 CloseHandle(handle);
             }
-            if (create_wsl_process(rs, distro, command_get_docker_compose_version, &handle)) {
+            if (create_wsl_process(
+                rs, distro, command_get_docker_compose_version, &handle
+            )) {
                 std::string raw = read_from_pipe(handle, rs.out_read);
                 std::string version;
                 wsl.is_docker_compose_available = HOST_INFO::get_docker_compose_version_string(raw, version);
