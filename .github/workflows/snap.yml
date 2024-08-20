@@ -98,12 +98,12 @@ jobs:
           --workdir /root \
           --platform "${{ matrix.architecture }}" \
           diddledani/snapcraft:core22 \
-          "snap install --devmode ${{ matrix.snap_file }} && boinc --version && boinc.client --version"
+          "snap install --dangerous ${{ matrix.snap_file }} && boinc --version && boinc.client --version"
 
     - name: Install and test snap boinc x64
       if: success() && matrix.type == 'x64'
       run: |
-        sudo snap install --devmode ${{ matrix.snap_file }}
+        sudo snap install --dangerous ${{ matrix.snap_file }}
         boinc --version
         boinc.client --version
 
