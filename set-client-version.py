@@ -111,8 +111,8 @@ def set_snap_boinc_desktop(version):
         lines = f.readlines()
     with open('snap/gui/boinc.desktop','w') as f:
         for line in lines:
-            if line.startswith('version='):
-                line = f'version="{version}"\n'
+            if line.startswith('Version='):
+                line = f'Version={version}\n'
             f.write(line)
 
 if (len(sys.argv) != 2):
