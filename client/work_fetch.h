@@ -334,9 +334,9 @@ struct PROJECT_WORK_FETCH {
         // If we're uploading but a resource is idle, make a work request.
         // If this succeeds, clear the flag.
 
-    PROJECT_WORK_FETCH(int) {}
+    PROJECT_WORK_FETCH(DUMMY_TYPE) {}
     void clear() {
-        static const PROJECT_WORK_FETCH x(0);
+        static const PROJECT_WORK_FETCH x(DUMMY);
         *this = x;
     }
     PROJECT_WORK_FETCH() {

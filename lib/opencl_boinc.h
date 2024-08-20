@@ -19,6 +19,7 @@
 #define BOINC_OPENCL_BOINC_H
 
 #include "cl_boinc.h"
+#include "common_defs.h"
 #include "miofile.h"
 #include "parse.h"
 

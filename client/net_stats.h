@@ -55,9 +55,9 @@ public:
     NET_INFO up;
     NET_INFO down;
 
-    NET_STATS(int){}
+    NET_STATS(DUMMY_TYPE){}
     void clear() {
-        static const NET_STATS x(0);
+        static const NET_STATS x(DUMMY);
         *this = x;
     }
     NET_STATS() {
