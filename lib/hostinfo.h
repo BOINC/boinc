@@ -87,8 +87,8 @@ public:
     bool wsl_present;
     WSL_DISTROS wsl_distros;
 #else
-    bool docker_available;
-    bool docker_compose_available;
+    bool docker_present;
+    bool docker_compose_present;
     char docker_version[256];
     char docker_compose_version[256];
 #endif

@@ -247,21 +247,36 @@ void CLIENT_STATE::show_host_info() {
     );
 
 #ifdef _WIN64
-    if (host_info.wsl_available) {
-        msg_printf(NULL, MSG_INFO, "WSL present:");
+    if (host_info.wsl_present) {
+        msg_printf(NULL, MSG_INFO, "WSL present");
         for (auto &wsl: host_info.wsl_distros.distros) {
-            if (wsl.is_default) {
-                msg_printf(NULL, MSG_INFO,
-                    "   [%s] <v%s> (default): %s (%s)", wsl.distro_name.c_str(), wsl.wsl_version.c_str(), wsl.os_name.c_str(), wsl.os_version.c_str()
+            msg_printf(NULL, MSG_INFO,
+                "WSL %d distro %s%s",
+                wsl.wsl_version,
+                wsl.distro_name.c_str(),
+                wsl.is_default?" (default)":""
+            );
+            msg_printf(NULL, MSG_INFO,
+                "   OS: %s (%s)",
+                wsl.os_name.c_str(), wsl.os_version.c_str()
+            );
+            if (wsl.is_docker_available) {
+                msg_printf(NULL, MSG_INFO, "   Docker version %s",
+                    wsl.docker_version.c_str()
                 );
-            } else {
-                msg_printf(NULL, MSG_INFO,
-                    "   [%s] <v%s>: %s (%s)", wsl.distro_name.c_str(), wsl.wsl_version.c_str(), wsl.os_name.c_str(), wsl.os_version.c_str()
+            }
+            if (wsl.is_docker_compose_available) {
+                msg_printf(NULL, MSG_INFO, "   Docker compose version is %s",
+                    wsl.docker_compose_version.c_str()
                 );
             }
         }
     } else {
-        msg_printf(NULL, MSG_INFO, "WSL is not present or is not allowed by configuration file. For more details see https://github.com/BOINC/boinc/wiki/Client-configuration");
+        if (!config.done_use_swl) {
+            msg_printf(NULL, MSG_INFO,
+                "WSL is not present"
+            )
+        }
     }
 #endif
 
@@ -279,38 +294,23 @@ void CLIENT_STATE::show_host_info() {
         }
 #endif
     }
-#ifdef _WIN64
-    if (host_info.docker_available) {
-        msg_printf(NULL, MSG_INFO, "Docker is present on next WSLs:");
-        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
-            const WSL& wsl = host_info.wsls.wsls[i];
-            if (wsl.is_docker_available) {
-                msg_printf(NULL, MSG_INFO, "   [%s]: Docker version is: %s", wsl.distro_name.c_str(), wsl.docker_version.c_str());
-            }
-        }
-#else
-    if (host_info.docker_available && strlen(host_info.docker_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker %s is present", host_info.docker_version);
-#endif
+
+#ifndef _WIN64
+    if (host_info.docker_present && strlen(host_info.docker_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker %s is present",
+            host_info.docker_version
+        );
     } else {
         msg_printf(NULL, MSG_INFO, "Docker is not present");
     }
-#ifdef _WIN64
-    if (host_info.docker_compose_available) {
-        msg_printf(NULL, MSG_INFO, "Docker compose is present on next WSLs:");
-        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
-            const WSL& wsl = host_info.wsls.wsls[i];
-            if (wsl.is_docker_compose_available) {
-                msg_printf(NULL, MSG_INFO, "   [%s]: Docker compose version is: %s", wsl.distro_name.c_str(), wsl.docker_compose_version.c_str());
-            }
-        }
-#else
-    if (host_info.docker_compose_available && strlen(host_info.docker_compose_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker compose %s is present", host_info.docker_compose_version);
-#endif
+    if (host_info.docker_compose_present && strlen(host_info.docker_compose_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker compose %s is present",
+            host_info.docker_compose_version
+        );
     } else {
         msg_printf(NULL, MSG_INFO, "Docker compose is not present");
     }
+#endif
 }
 
 // TODO: the following 3 should be members of COPROCS

@@ -72,10 +72,10 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(os_version, "");
 
 #ifdef _WIN64
-    wsl_available = false;
+    wsl_present = false;
 #endif
-    docker_available = false;
-    docker_compose_available = false;
+    docker_present = false;
+    docker_compose_present = false;
 #ifndef _WIN64
     safe_strcpy(docker_version, "");
     safe_strcpy(docker_compose_version, "");
@@ -141,13 +141,13 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
 #ifdef _WIN64
-        if (xp.parse_bool("wsl_available", wsl_available)) continue;
+        if (xp.parse_bool("wsl_present", wsl_present)) continue;
         if (xp.match_tag("wsl")) {
             this->wsls.parse(xp);
             continue;
         }
 #endif
-        if (xp.parse_bool("docker_available", docker_available)) continue;
+        if (xp.parse_bool("docker_present", docker_present)) continue;
 #ifndef _WIN64
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
         if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
@@ -219,9 +219,7 @@ int HOST_INFO::write(
         "    <d_free>%f</d_free>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
-        "    <n_usable_coprocs>%d</n_usable_coprocs>\n"
-        "    <wsl_available>%d</wsl_available>\n"
-        "    <docker_available>%d</docker_available>\n",
+        "    <n_usable_coprocs>%d</n_usable_coprocs>\n",
         host_cpid,
         p_ncpus,
         pv,
@@ -239,20 +237,21 @@ int HOST_INFO::write(
         d_free,
         osn,
         osv,
-        coprocs.ndevs(),
-#ifdef _WIN64
-        wsl_available ? 1 : 0,
-#else
-        0,
-#endif
-        docker_available ? 1 : 0
+        coprocs.ndevs()
     );
 #ifdef _WIN64
-    if (wsl_available) {
+    out.printf(
+        "    <wsl_present>%d</wsl_present>\n",
+        wsl_present ? 1 : 0,
+    );
+    if (wsl_present) {
         wsls.write_xml(out);
     }
-#endif
-#ifndef _WIN64
+#else
+    out.printf(
+        "    <docker_present>%d</docker_present>\n",
+        docker_present ? 1 : 0
+    );
     if (strlen(docker_version)) {
         out.printf(
             "    <docker_version>%s</docker_version>\n",
@@ -287,20 +286,6 @@ int HOST_INFO::write(
             buf
         );
     }
-#ifndef _WIN64
-    if (docker_available){
-        out.printf(
-            "    <docker_version>%s</docker_compose_version>\n",
-            docker_version
-        );
-    }
-    if (docker_compose_available){
-        out.printf(
-            "    <docker_compose_version>%s</docker_compose_version>\n",
-            docker_compose_version
-        );
-    }
-#endif
     if (include_coprocs) {
         this->coprocs.write_xml(out, false);
     }
