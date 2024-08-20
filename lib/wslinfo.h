@@ -23,42 +23,41 @@
 #include "miofile.h"
 #include "parse.h"
 
-// this structure describes the information about every WSL (Windows Subsystem for Linux) installation enabled on the host
-struct WSL {
-    // unique identifier of installed WSL distribution
+// describes a WSL (Windows Subsystem for Linux) distro
+//
+struct WSL_DISTRO {
     std::string distro_name;
-    // name of the operating system
+        // name (unique) of distro
     std::string os_name;
-    // version of the operating system
+        // name of the operating system
     std::string os_version;
-    // version of WSL (currently 1 or 2)
-    std::string wsl_version;
-    // flag indicating whether this is the default WSL distribution
+        // version of the operating system
+    int wsl_version;
+        // version of WSL (currently 1 or 2)
     bool is_default;
-    // flag indicating whether Docker is available in this WSL distribution
+        // whether this is the default distro
     bool is_docker_available;
-    // flag indicating whether Docker Compose is available in this WSL distribution
+        // whether Docker is available in this distro
     bool is_docker_compose_available;
-    // version of Docker installed in this WSL distribution
+        // whether Docker Compose is available in this distro
     std::string docker_version;
-    // version of Docker Compose installed in this WSL distribution
+        // version of Docker in this distro
     std::string docker_compose_version;
+        // version of Docker Compose in this distro
 
-    WSL();
-
+    WSL_DISTRO();
     void clear();
-
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
 };
 
-struct WSLS {
-    std::vector<WSL> wsls;
+// a set of WSL distros
+//
+struct WSL_DISTROS {
+    std::vector<WSL_DISTRO> distros;
 
-    WSLS();
-
+    WSL_DISTROS();
     void clear();
-
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
 };

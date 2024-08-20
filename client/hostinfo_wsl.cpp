@@ -17,28 +17,30 @@
 
 #ifdef _WIN64
 
+using std::vector;
+
 #include "boinc_win.h"
 
 #include "str_replace.h"
 #include "client_msgs.h"
 #include "hostinfo.h"
 
-bool get_available_wsls(
-    std::vector<std::pair<std::string,
-    DWORD>>& wsls, std::string& default_wsl
-) {
+// scan the registry to get the list of all distros on this host.
+// See https://patrickwu.space/2020/07/19/wsl-related-registry/
+// Return nonzero on error
+//
+int get_all_distros(WSL_DISTROS& distros) {
     const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
 
     HKEY hKey;
 
-    default_wsl.clear();
-
+    // look up main entry (Lxss)
+    //
     LONG lRet = RegOpenKeyEx(HKEY_CURRENT_USER,
-        lxss_path.c_str(),
-        0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey
+        lxss_path.c_str(), 0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey
     );
     if (lRet != ERROR_SUCCESS) {
-        return false;
+        return -1;
     }
 
     const int buf_len = 256;
@@ -49,9 +51,11 @@ bool get_available_wsls(
         (LPBYTE)default_wsl_guid, &default_wsl_guid_len
     );
     if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len)) {
-        return false;
+        return -1;
     }
 
+    // scan subkeys (one per distro)
+    //
     int i = 0;
     while(true) {
         char wsl_guid[buf_len];
@@ -67,8 +71,7 @@ bool get_available_wsls(
         HKEY hSubKey;
         const std::string sub_key = lxss_path + "\\" + wsl_guid;
         ret = RegOpenKeyEx(HKEY_CURRENT_USER,
-            sub_key.c_str(),
-            0, KEY_QUERY_VALUE, &hSubKey
+            sub_key.c_str(), 0, KEY_QUERY_VALUE, &hSubKey
         );
         if (ret != ERROR_SUCCESS) {
             break;
@@ -97,22 +100,30 @@ bool get_available_wsls(
             (LPBYTE)wsl_name, &wsl_name_len
         );
         if ((ret == ERROR_SUCCESS) && (wsl_name_len < buf_len)) {
-            wsls.push_back(std::make_pair(wsl_name, wsl_version));
-            if (std::string(wsl_guid) == std::string(default_wsl_guid)) {
-                default_wsl = wsl_name;
+            WSL_DISTRO distro;
+            distro.distro_name = wsl_name;
+            distro.wsl_version = wsl_version;
+            if (!strcmp(wsl_guid, default_wsl_guid)) {
+                distro.is_default = true;
             }
-            RegCloseKey(hSubKey);
+            distros.push_back(distro);
         }
+        RegCloseKey(hSubKey);
     }
 
     RegCloseKey(hKey);
 
-    return !default_wsl.empty();
+    return 0;
 }
+
+// we run WSL commands by calling a DLL function,
+// and communicating with it through two pipes
 
 typedef HRESULT(WINAPI *PWslLaunch)(PCWSTR, PCWSTR, BOOL, HANDLE, HANDLE, HANDLE, HANDLE*);
 
-struct WSL_RESOURCE_MANAGER {
+// handles for running a WSL command
+//
+struct WSL_CMD {
     HINSTANCE wsl_lib = NULL;
     HANDLE in_read = NULL;
     HANDLE in_write = NULL;
@@ -120,7 +131,7 @@ struct WSL_RESOURCE_MANAGER {
     HANDLE out_write = NULL;
     PWslLaunch pWslLaunch = NULL;
 
-    ~WSL_RESOURCE_MANAGER() {
+    ~WSL_CMD() {
         close_handle(in_read);
         close_handle(in_write);
         close_handle(out_read);
@@ -131,8 +142,7 @@ struct WSL_RESOURCE_MANAGER {
         }
     }
 
-    // prepare resources
-    int prepare_resources() {
+    int prepare_cmd() {
         wsl_lib = NULL;
         in_read = NULL;
         in_write = NULL;
@@ -180,8 +190,9 @@ private:
     }
 };
 
-//convert std::string to PCWSTR
-//taken from https://stackoverflow.com/questions/27220/how-to-convert-stdstring-to-lpcwstr-in-c-unicode
+// convert std::string to PCWSTR
+// taken from https://stackoverflow.com/questions/27220/how-to-convert-stdstring-to-lpcwstr-in-c-unicode
+//
 std::wstring s2ws(const std::string& s) {
     const int slength = (int)s.length() + 1;
     const int len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
@@ -192,8 +203,12 @@ std::wstring s2ws(const std::string& s) {
     return r;
 }
 
+// run a (Linux) command in the given distro,
+// using the given pipes.
+// Return S_OK on success
+//
 bool create_wsl_process(
-    const WSL_RESOURCE_MANAGER& rs, const std::string& wsl_distro_name,
+    const WSL_CMD& rs, const std::string& wsl_distro_name,
     const std::string& command, HANDLE* handle,
     bool use_current_work_dir = false
 ) {
@@ -205,6 +220,7 @@ bool create_wsl_process(
     return (ret == S_OK);
 }
 
+#if 0
 bool CreateWslProcess(
     const HANDLE& out_write, const std::string& wsl_app,
     const std::string& command, HANDLE& handle
@@ -237,8 +253,12 @@ bool CreateWslProcess(
 
     return res;
 }
+#endif
 
-std::string read_from_pipe(const HANDLE& handle, const HANDLE& out_read) {
+// read from the given pipe until the given process exits;
+// return the result
+//
+std::string read_from_pipe(const HANDLE& proc_handle, const HANDLE& out_read) {
     DWORD avail, read, exitcode;
     const int bufsize = 256;
     char buf[bufsize];
@@ -255,7 +275,7 @@ std::string read_from_pipe(const HANDLE& handle, const HANDLE& out_read) {
             buf[read] = '\0';
             res += buf;
         } else {
-            if (!GetExitCodeProcess(handle, &exitcode) || exitcode != STILL_ACTIVE) {
+            if (!GetExitCodeProcess(proc_handle, &exitcode) || exitcode != STILL_ACTIVE) {
                 break;
             }
             Sleep(200);
@@ -265,9 +285,11 @@ std::string read_from_pipe(const HANDLE& handle, const HANDLE& out_read) {
     return res;
 }
 
+// parse the output of 'sysctl -a' to get OS name and version
+//
 void parse_sysctl_output(
-    const std::vector<std::string>& lines, std::string& ostype,
-    std::string& osrelease
+    const std::vector<std::string>& lines,
+    std::string& ostype, std::string& osrelease
 ) {
     char buf[256], ostype_found[256], osrelease_found[256];
     ostype.clear();
@@ -289,68 +311,70 @@ void parse_sysctl_output(
     }
 }
 
-// Returns the OS name and version for WSL when enabled
+// Get list of WSL distros usable by BOINC
+// (docker_desktop and those allowed by config)
+// For each of them:
+//      try to find the OS name and version
+//      get Docker info.
+// Return nonzero on error
 //
-bool get_wsl_information(
-    std::vector<std::string> allowed_wsls, bool& wsl_available,
-    WSLS& wsls, bool detect_docker, bool& docker_available,
-    bool& docker_compose_available
+int get_wsl_information(
+    vector<string> allowed_wsls,
+    WSL_DISTROS usable_distros,
+    bool detect_docker      // whether to check for Docker
 ) {
-    std::vector<std::pair<std::string, DWORD>> distros;
-    std::string default_distro;
+    WSL_DISTROS all_distros;
+    int retval = get_all_distros(all_distros);
+    if (retval) return retval;
 
-    if (!get_available_wsls(distros, default_distro)) {
-        return false;
-    }
+    WSL_CMD rs;
 
-    WSL_RESOURCE_MANAGER rs;
-
-    if (rs.prepare_resources()) {
-        return false;
+    if (rs.prepare_cmd()) {
+        return -1;
     }
 
     wsl_available = false;
     docker_available = false;
     docker_compose_available = false;
 
-    HANDLE handle;
+    HANDLE proc_handle;
 
-    for (size_t i = 0; i < distros.size(); ++i) {
-        char wsl_dist_name[256];
-        char wsl_dist_version[256];
-
-        const std::string& distro = distros[i].first;
+    // loop over all WSL distros
+    for (auto &wd: all_distros) {
         // skip 'docker-desktop-data'
-        // Ref: https://stackoverflow.com/a/61431088/4210508
-        if (distro == "docker-desktop-data"){
+        // See: https://stackoverflow.com/a/61431088/4210508
+        if (wd.distro_name == "docker-desktop-data"){
             continue;
         }
         // skip distros that are not allowed except for 'docker-desktop'
-        if (distro != "docker-desktop" && std::find(allowed_wsls.begin(), allowed_wsls.end(), distro) == allowed_wsls.end()) {
-            msg_printf(0, MSG_INFO, "WSL distro '%s' detected but is not allowed", distro.c_str());
+        //
+        if (wd.distro_name != "docker-desktop"
+            && std::find(allowed_wsls.begin(), allowed_wsls.end(), wd.distro_name) == allowed_wsls.end()
+        ) {
+            msg_printf(0, MSG_INFO, "WSL distro '%s' detected but is not allowed", wd.distro_name.c_str());
             continue;
         }
 
-        WSL wsl;
-        wsl.distro_name = distro;
-        if (distro == default_distro) {
-            wsl.is_default = true;
-        } else {
-            wsl.is_default = false;
-        }
-        wsl.wsl_version = std::to_string(distros[i].second);
+        char wsl_dist_name[256];
+        char wsl_dist_version[256];
 
-        // lsbrelease
-        if (!create_wsl_process(rs, distro, command_lsbrelease, &handle)) {
+        // Try to get the name and version of the OS in the WSL distro.
+        // There are several ways of doing this
+
+        // try running 'lsbrelease -a'
+        //
+        if (!create_wsl_process(rs, distro, command_lsbrelease, &proc_handle)) {
             continue;
         }
         wsl_available = HOST_INFO::parse_linux_os_info(
-            read_from_pipe(handle, rs.out_read), lsbrelease,
+            read_from_pipe(proc_handle, rs.out_read), lsbrelease,
             wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version,
             sizeof(wsl_dist_version)
         );
         CloseHandle(handle);
 
+        // try reading '/etc/os-relese'
+        //
         if (!wsl_available) {
             //osrelease
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
@@ -366,7 +390,8 @@ bool get_wsl_information(
             CloseHandle(handle);
         }
 
-        //redhatrelease
+        // try reading '/etc/redhatrelease'
+        //
         if (!wsl_available) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
             if (!create_wsl_process(rs, distro, command_redhatrelease, &handle)) {
@@ -387,7 +412,8 @@ bool get_wsl_information(
         std::string os_name = "";
         std::string os_version_extra = "";
 
-        // sysctl -a
+        // try running 'sysctl -a'
+        //
         const std::string command_sysctl = "sysctl -a";
         if (create_wsl_process(rs, distro, command_sysctl, &handle)) {
             parse_sysctl_output(
@@ -397,7 +423,8 @@ bool get_wsl_information(
             CloseHandle(handle);
         }
 
-        // uname -s
+        // try running 'uname -s'
+        //
         if (os_name.empty()) {
             const std::string command_uname_s = "uname -s";
             if (create_wsl_process(rs, distro, command_uname_s, &handle)) {
@@ -407,7 +434,8 @@ bool get_wsl_information(
             }
         }
 
-        // uname -r
+        // try running 'uname -r'
+        //
         if (os_version_extra.empty()) {
             const std::string command_uname_r = "uname -r";
             if (create_wsl_process(rs, distro, command_uname_r ,&handle)) {
@@ -424,11 +452,12 @@ bool get_wsl_information(
         }
         if (!os_version_extra.empty()) {
             wsl.os_version = std::string(wsl_dist_version) + " [" + os_version_extra + "]";
-        }
-        else {
+        } else {
             wsl.os_version = wsl_dist_version;
         }
 
+        // see if Docker is installed in the distro
+        //
         if (detect_docker) {
             if (create_wsl_process(
                 rs, distro, command_get_docker_version, &handle
@@ -456,10 +485,10 @@ bool get_wsl_information(
             }
         }
 
-        wsls.wsls.push_back(wsl);
+        usable_distros.push_back(wd);
     }
 
-    return true;
+    return 0;
 }
 
 #endif // _WIN64

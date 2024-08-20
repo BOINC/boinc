@@ -82,20 +82,15 @@ public:
     char os_name[256];
     char os_version[256];
 
+#ifdef _WIN64
+    // on Windows, Docker info is per WSL_DISTRO, not global
+    bool wsl_available;
+    WSL_DISTROS wsls;
+#else
     bool docker_available;
     bool docker_compose_available;
-#ifndef _WIN64
-    // on Windows we can have several docker installation within WSL
-    // that is why it makes no sense to have this information put here
-    // instead the information about the available 'docker' and 'docker compose'
-    // installations should be taken from every particular WSL distro
     char docker_version[256];
     char docker_compose_version[256];
-#endif
-#ifdef _WIN64
-    // WSL information for Win10 only
-    bool wsl_available;
-    WSLS wsls;
 #endif
 
     char product_name[256];       // manufacturer and/or model of system
