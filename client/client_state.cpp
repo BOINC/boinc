@@ -247,35 +247,31 @@ void CLIENT_STATE::show_host_info() {
     );
 
 #ifdef _WIN64
-    if (host_info.wsl_present) {
-        msg_printf(NULL, MSG_INFO, "WSL present");
+    if (host_info.wsl_distros.distros.empty()) {
+        msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+    } else {
+        msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
         for (auto &wsl: host_info.wsl_distros.distros) {
             msg_printf(NULL, MSG_INFO,
-                "WSL %d distro %s%s",
-                wsl.wsl_version,
+                "-   %s: WSL %d%s",
                 wsl.distro_name.c_str(),
+                wsl.wsl_version,
                 wsl.is_default?" (default)":""
             );
             msg_printf(NULL, MSG_INFO,
-                "   OS: %s (%s)",
+                "-   OS: %s (%s)",
                 wsl.os_name.c_str(), wsl.os_version.c_str()
             );
             if (wsl.is_docker_available) {
-                msg_printf(NULL, MSG_INFO, "   Docker version %s",
+                msg_printf(NULL, MSG_INFO, "-   Docker version %s",
                     wsl.docker_version.c_str()
                 );
             }
             if (wsl.is_docker_compose_available) {
-                msg_printf(NULL, MSG_INFO, "   Docker compose version is %s",
+                msg_printf(NULL, MSG_INFO, "-   Docker compose version is %s",
                     wsl.docker_compose_version.c_str()
                 );
             }
-        }
-    } else {
-        if (!cc_config.dont_use_wsl) {
-            msg_printf(NULL, MSG_INFO,
-                "WSL is not present"
-            );
         }
     }
 #endif

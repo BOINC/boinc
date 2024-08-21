@@ -84,7 +84,6 @@ public:
 
 #ifdef _WIN64
     // on Windows, Docker info is per WSL_DISTRO, not global
-    bool wsl_present;
     WSL_DISTROS wsl_distros;
 #else
     bool docker_present;
