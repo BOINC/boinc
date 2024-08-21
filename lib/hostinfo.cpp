@@ -73,15 +73,12 @@ void HOST_INFO::clear_host_info() {
 
 #ifdef _WIN64
     wsl_present = false;
-#endif
+    wsl_distros.clear();
+#else
     docker_present = false;
     docker_compose_present = false;
-#ifndef _WIN64
     safe_strcpy(docker_version, "");
     safe_strcpy(docker_compose_version, "");
-#endif
-#ifdef _WIN64
-    wsls.clear();
 #endif
 
     safe_strcpy(product_name, "");
@@ -143,12 +140,11 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
 #ifdef _WIN64
         if (xp.parse_bool("wsl_present", wsl_present)) continue;
         if (xp.match_tag("wsl")) {
-            this->wsls.parse(xp);
+            this->wsl_distros.parse(xp);
             continue;
         }
-#endif
+#else
         if (xp.parse_bool("docker_present", docker_present)) continue;
-#ifndef _WIN64
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
         if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
 #endif
@@ -242,10 +238,10 @@ int HOST_INFO::write(
 #ifdef _WIN64
     out.printf(
         "    <wsl_present>%d</wsl_present>\n",
-        wsl_present ? 1 : 0,
+        wsl_present ? 1 : 0
     );
     if (wsl_present) {
-        wsls.write_xml(out);
+        wsl_distros.write_xml(out);
     }
 #else
     out.printf(

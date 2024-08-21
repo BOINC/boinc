@@ -18,6 +18,7 @@
 #ifdef _WIN64
 
 using std::vector;
+using std::string;
 
 #include "boinc_win.h"
 
@@ -106,7 +107,7 @@ int get_all_distros(WSL_DISTROS& distros) {
             if (!strcmp(wsl_guid, default_wsl_guid)) {
                 distro.is_default = true;
             }
-            distros.push_back(distro);
+            distros.distros.push_back(distro);
         }
         RegCloseKey(hSubKey);
     }
@@ -319,8 +320,8 @@ void parse_sysctl_output(
 // Return nonzero on error
 //
 int get_wsl_information(
-    vector<string> allowed_wsls,
-    WSL_DISTROS usable_distros,
+    vector<string> &allowed_wsls,
+    WSL_DISTROS &usable_distros,
     bool detect_docker      // whether to check for Docker
 ) {
     WSL_DISTROS all_distros;
@@ -333,14 +334,14 @@ int get_wsl_information(
         return -1;
     }
 
-    wsl_available = false;
-    docker_available = false;
-    docker_compose_available = false;
+    bool wsl_available = false;
+    bool docker_available = false;
+    bool docker_compose_available = false;
 
     HANDLE proc_handle;
 
     // loop over all WSL distros
-    for (auto &wd: all_distros) {
+    for (auto &wd: all_distros.distros) {
         // skip 'docker-desktop-data'
         // See: https://stackoverflow.com/a/61431088/4210508
         if (wd.distro_name == "docker-desktop-data"){
@@ -363,7 +364,7 @@ int get_wsl_information(
 
         // try running 'lsbrelease -a'
         //
-        if (!create_wsl_process(rs, distro, command_lsbrelease, &proc_handle)) {
+        if (!create_wsl_process(rs, wd.distro_name, command_lsbrelease, &proc_handle)) {
             continue;
         }
         wsl_available = HOST_INFO::parse_linux_os_info(
@@ -371,38 +372,38 @@ int get_wsl_information(
             wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version,
             sizeof(wsl_dist_version)
         );
-        CloseHandle(handle);
+        CloseHandle(proc_handle);
 
         // try reading '/etc/os-relese'
         //
         if (!wsl_available) {
             //osrelease
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
-            if (!create_wsl_process(rs, distro, command_osrelease, &handle)) {
+            if (!create_wsl_process(rs, wd.distro_name, command_osrelease, &proc_handle)) {
                 continue;
             }
             wsl_available = HOST_INFO::parse_linux_os_info(
-                read_from_pipe(handle, rs.out_read),
+                read_from_pipe(proc_handle, rs.out_read),
                 osrelease,
                 wsl_dist_name, sizeof(wsl_dist_name),
                 wsl_dist_version, sizeof(wsl_dist_version)
             );
-            CloseHandle(handle);
+            CloseHandle(proc_handle);
         }
 
         // try reading '/etc/redhatrelease'
         //
         if (!wsl_available) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!create_wsl_process(rs, distro, command_redhatrelease, &handle)) {
+            if (!create_wsl_process(rs, wd.distro_name, command_redhatrelease, &proc_handle)) {
                 continue;
             }
             wsl_available = HOST_INFO::parse_linux_os_info(
-                read_from_pipe(handle, rs.out_read),
+                read_from_pipe(proc_handle, rs.out_read),
                 redhatrelease, wsl_dist_name, sizeof(wsl_dist_name),
                 wsl_dist_version, sizeof(wsl_dist_version)
             );
-            CloseHandle(handle);
+            CloseHandle(proc_handle);
         }
 
         if (!wsl_available) {
@@ -415,22 +416,22 @@ int get_wsl_information(
         // try running 'sysctl -a'
         //
         const std::string command_sysctl = "sysctl -a";
-        if (create_wsl_process(rs, distro, command_sysctl, &handle)) {
+        if (create_wsl_process(rs, wd.distro_name, command_sysctl, &proc_handle)) {
             parse_sysctl_output(
-                split(read_from_pipe(handle, rs.out_read), '\n'),
+                split(read_from_pipe(proc_handle, rs.out_read), '\n'),
                 os_name, os_version_extra
             );
-            CloseHandle(handle);
+            CloseHandle(proc_handle);
         }
 
         // try running 'uname -s'
         //
         if (os_name.empty()) {
             const std::string command_uname_s = "uname -s";
-            if (create_wsl_process(rs, distro, command_uname_s, &handle)) {
-                os_name = read_from_pipe(handle, rs.out_read);
+            if (create_wsl_process(rs, wd.distro_name, command_uname_s, &proc_handle)) {
+                os_name = read_from_pipe(proc_handle, rs.out_read);
                 strip_whitespace(os_name);
-                CloseHandle(handle);
+                CloseHandle(proc_handle);
             }
         }
 
@@ -438,54 +439,54 @@ int get_wsl_information(
         //
         if (os_version_extra.empty()) {
             const std::string command_uname_r = "uname -r";
-            if (create_wsl_process(rs, distro, command_uname_r ,&handle)) {
-                os_version_extra = read_from_pipe(handle, rs.out_read);
+            if (create_wsl_process(rs, wd.distro_name, command_uname_r ,&proc_handle)) {
+                os_version_extra = read_from_pipe(proc_handle, rs.out_read);
                 strip_whitespace(os_version_extra);
-                CloseHandle(handle);
+                CloseHandle(proc_handle);
             }
         }
 
         if (!os_name.empty()) {
-            wsl.os_name = os_name + " " + wsl_dist_name;
+            wd.os_name = os_name + " " + wsl_dist_name;
         } else {
-            wsl.os_name = wsl_dist_name;
+            wd.os_name = wsl_dist_name;
         }
         if (!os_version_extra.empty()) {
-            wsl.os_version = std::string(wsl_dist_version) + " [" + os_version_extra + "]";
+            wd.os_version = std::string(wsl_dist_version) + " [" + os_version_extra + "]";
         } else {
-            wsl.os_version = wsl_dist_version;
+            wd.os_version = wsl_dist_version;
         }
 
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
             if (create_wsl_process(
-                rs, distro, command_get_docker_version, &handle
+                rs, wd.distro_name, command_get_docker_version, &proc_handle
             )) {
-                std::string raw = read_from_pipe(handle, rs.out_read);
+                std::string raw = read_from_pipe(proc_handle, rs.out_read);
                 std::string version;
-                wsl.is_docker_available = HOST_INFO::get_docker_version_string(raw, version);
-                if (wsl.is_docker_available) {
+                wd.is_docker_available = HOST_INFO::get_docker_version_string(raw, version);
+                if (wd.is_docker_available) {
                     docker_available = true;
-                    wsl.docker_version = version;
+                    wd.docker_version = version;
                 }
-                CloseHandle(handle);
+                CloseHandle(proc_handle);
             }
             if (create_wsl_process(
-                rs, distro, command_get_docker_compose_version, &handle
+                rs, wd.distro_name, command_get_docker_compose_version, &proc_handle
             )) {
-                std::string raw = read_from_pipe(handle, rs.out_read);
+                std::string raw = read_from_pipe(proc_handle, rs.out_read);
                 std::string version;
-                wsl.is_docker_compose_available = HOST_INFO::get_docker_compose_version_string(raw, version);
-                if (wsl.is_docker_compose_available) {
+                wd.is_docker_compose_available = HOST_INFO::get_docker_compose_version_string(raw, version);
+                if (wd.is_docker_compose_available) {
                     docker_compose_available = true;
-                    wsl.docker_compose_version = version;
+                    wd.docker_compose_version = version;
                 }
-                CloseHandle(handle);
+                CloseHandle(proc_handle);
             }
         }
 
-        usable_distros.push_back(wd);
+        usable_distros.distros.push_back(wd);
     }
 
     return 0;

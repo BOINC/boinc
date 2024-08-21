@@ -272,10 +272,10 @@ void CLIENT_STATE::show_host_info() {
             }
         }
     } else {
-        if (!config.done_use_swl) {
+        if (!cc_config.dont_use_wsl) {
             msg_printf(NULL, MSG_INFO,
                 "WSL is not present"
-            )
+            );
         }
     }
 #endif

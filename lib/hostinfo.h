@@ -164,9 +164,9 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
-extern bool get_wsl_information(
-    std::vector<std::string> allowed_wsls,
-    WSL_DISTROS& usable_distros,
+extern int get_wsl_information(
+    std::vector<std::string> &allowed_wsls,
+    WSL_DISTROS &usable_distros,
     bool detect_docker
 );
 extern int get_processor_group(HANDLE);
