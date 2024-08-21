@@ -253,22 +253,22 @@ void CLIENT_STATE::show_host_info() {
         msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
         for (auto &wsl: host_info.wsl_distros.distros) {
             msg_printf(NULL, MSG_INFO,
-                "-   %s: WSL %d%s",
+                "-   %s (WSL %d)%s",
                 wsl.distro_name.c_str(),
                 wsl.wsl_version,
                 wsl.is_default?" (default)":""
             );
             msg_printf(NULL, MSG_INFO,
-                "-   OS: %s (%s)",
+                "-      OS: %s (%s)",
                 wsl.os_name.c_str(), wsl.os_version.c_str()
             );
             if (wsl.is_docker_available) {
-                msg_printf(NULL, MSG_INFO, "-   Docker version %s",
+                msg_printf(NULL, MSG_INFO, "-      Docker version %s",
                     wsl.docker_version.c_str()
                 );
             }
             if (wsl.is_docker_compose_available) {
-                msg_printf(NULL, MSG_INFO, "-   Docker compose version is %s",
+                msg_printf(NULL, MSG_INFO, "-      Docker compose version %s",
                     wsl.docker_compose_version.c_str()
                 );
             }
