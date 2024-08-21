@@ -89,8 +89,9 @@ public:
     // on Windows, Docker info is per WSL_DISTRO, not global
     WSL_DISTROS wsl_distros;
 #else
-    bool docker_present;
-    bool docker_compose_present;
+    bool docker_available;
+        // Docker is present and allowed by config
+    bool docker_compose_available;
     char docker_version[256];
     char docker_compose_version[256];
 #endif

@@ -35,15 +35,15 @@ struct WSL_DISTRO {
     int wsl_version;
         // version of WSL (currently 1 or 2)
     bool is_default;
-        // whether this is the default distro
+        // this is the default distro
     bool is_docker_available;
-        // whether Docker is available in this distro
+        // Docker is present and allowed by config
     bool is_docker_compose_available;
-        // whether Docker Compose is available in this distro
+        // Docker Compose is present and allowed by config
     std::string docker_version;
-        // version of Docker in this distro
+        // version of Docker
     std::string docker_compose_version;
-        // version of Docker Compose in this distro
+        // version of Docker Compose
 
     WSL_DISTRO();
     void clear();

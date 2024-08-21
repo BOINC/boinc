@@ -292,19 +292,15 @@ void CLIENT_STATE::show_host_info() {
     }
 
 #ifndef _WIN64
-    if (host_info.docker_present && strlen(host_info.docker_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker %s is present",
+    if (host_info.docker_available && strlen(host_info.docker_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker version %s found",
             host_info.docker_version
         );
-    } else {
-        msg_printf(NULL, MSG_INFO, "Docker is not present");
     }
-    if (host_info.docker_compose_present && strlen(host_info.docker_compose_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker compose %s is present",
+    if (host_info.docker_compose_available && strlen(host_info.docker_compose_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker compose version %s found",
             host_info.docker_compose_version
         );
-    } else {
-        msg_printf(NULL, MSG_INFO, "Docker compose is not present");
     }
 #endif
 }

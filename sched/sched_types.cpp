@@ -1412,9 +1412,8 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
-        if (xp.parse_bool("wsl_available", wsl_available)) continue;
         if (xp.match_tag("wsl")) {
-            wsls.parse(xp);
+            wsl_distros.parse(xp);
             continue;
         }
 

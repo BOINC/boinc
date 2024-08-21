@@ -1242,7 +1242,7 @@ bool HOST_INFO::get_docker_compose_info(){
         fgets(buf, 256, f);
         std::string version;
         if (get_docker_compose_version_string(buf, version)) {
-            docker_compose_present = true;
+            docker_compose_available = true;
             safe_strcpy(docker_compose_version, version.c_str());
         }
         pclose(f);
@@ -1261,7 +1261,7 @@ bool HOST_INFO::get_docker_info(){
         fgets(buf, 256, f);
         std::string version;
         if (get_docker_version_string(buf, version)) {
-            docker_present = true;
+            docker_available = true;
             safe_strcpy(docker_version, version.c_str());
         }
         pclose(f);

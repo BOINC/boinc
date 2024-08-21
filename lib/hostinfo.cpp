@@ -74,8 +74,8 @@ void HOST_INFO::clear_host_info() {
 #ifdef _WIN64
     wsl_distros.clear();
 #else
-    docker_present = false;
-    docker_compose_present = false;
+    docker_available = false;
+    docker_compose_available = false;
     safe_strcpy(docker_version, "");
     safe_strcpy(docker_compose_version, "");
 #endif
@@ -142,7 +142,8 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
             continue;
         }
 #else
-        if (xp.parse_bool("docker_present", docker_present)) continue;
+        if (xp.parse_bool("docker_available", docker_available)) continue;
+        if (xp.parse_bool("docker_compose_available", docker_compose_available)) continue;
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
         if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
 #endif
@@ -238,8 +239,12 @@ int HOST_INFO::write(
 
 #else
     out.printf(
-        "    <docker_present>%d</docker_present>\n",
-        docker_present ? 1 : 0
+        "    <docker_available>%d</docker_available>\n",
+        docker_available ? 1 : 0
+    );
+    out.printf(
+        "    <docker_compose_available>%d</docker_compose_available>\n",
+        docker_compose_available ? 1 : 0
     );
     if (strlen(docker_version)) {
         out.printf(
