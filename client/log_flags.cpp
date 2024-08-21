@@ -198,9 +198,9 @@ void CC_CONFIG::show() {
     if (dont_use_wsl) {
         msg_printf(NULL, MSG_INFO, "Config: don't use the Windows Subsystem for Linux");
     }
-    for (i=0; i<allowed_wsls.size(); i++) {
+    for (string s: allowed_wsls) {
         msg_printf(NULL, MSG_INFO,
-            "Config: allowed WSL: %s", allowed_wsls[i].c_str()
+            "Config: allowed WSL distro: %s", s.c_str()
         );
     }
     if (dont_use_docker) {
