@@ -314,7 +314,7 @@ void parse_sysctl_output(
 
 // if either name or version is not already there, add
 //
-static void update_os(WSL_DISTRO &wd, char* os_name, char* os_version) {
+static void update_os(WSL_DISTRO &wd, const char* os_name, const char* os_version) {
     if (wd.os_name.empty() && strlen(os_name)) {
         wd.os_name = os_name;
     }
@@ -326,14 +326,13 @@ static void update_os(WSL_DISTRO &wd, char* os_name, char* os_version) {
 // have both name and version?
 //
 static bool got_both(WSL_DISTRO &wd) {
-    return !os_name.empty() && !os_version.empty();
+    return !wd.os_name.empty() && !wd.os_version.empty();
 }
 
 // Get list of WSL distros usable by BOINC
 // (docker_desktop and those allowed by config)
 // For each of them:
 //      try to find the OS name and version
-//      get Docker info.
 // Return nonzero on error
 //
 int get_wsl_information(
@@ -375,6 +374,8 @@ int get_wsl_information(
 
         char os_name[256];
         char os_version[256];
+        strcpy(os_name, "");
+        strcpy(os_version, "");
 
         // Try to get the name and version of the OS in the WSL distro.
         // There are several ways of doing this
@@ -384,7 +385,7 @@ int get_wsl_information(
         if (!create_wsl_process(rs, wd.distro_name, command_lsbrelease, &proc_handle)) {
             continue;
         }
-        wsl_available = HOST_INFO::parse_linux_os_info(
+        HOST_INFO::parse_linux_os_info(
             read_from_pipe(proc_handle, rs.out_read), lsbrelease,
             os_name, sizeof(os_name),
             os_version, sizeof(os_version)
@@ -399,15 +400,15 @@ int get_wsl_information(
             if (!create_wsl_process(rs, wd.distro_name, command_osrelease, &proc_handle)) {
                 continue;
             }
-            wsl_available = HOST_INFO::parse_linux_os_info(
+            HOST_INFO::parse_linux_os_info(
                 read_from_pipe(proc_handle, rs.out_read),
                 osrelease,
                 os_name, sizeof(os_name),
                 os_version, sizeof(os_version)
             );
             CloseHandle(proc_handle);
+            update_os(wd, os_name, os_version);
         }
-        update_os(wd, os_name, os_version);
 
         // try reading '/etc/redhatrelease'
         //
@@ -416,14 +417,14 @@ int get_wsl_information(
             if (!create_wsl_process(rs, wd.distro_name, command_redhatrelease, &proc_handle)) {
                 continue;
             }
-            wsl_available = HOST_INFO::parse_linux_os_info(
+            HOST_INFO::parse_linux_os_info(
                 read_from_pipe(proc_handle, rs.out_read),
                 redhatrelease, os_name, sizeof(os_name),
                 os_version, sizeof(os_version)
             );
             CloseHandle(proc_handle);
+            update_os(wd, os_name, os_version);
         }
-        update_os(wd, os_name, os_version);
 
         std::string os_name_str = "";
         std::string os_version_str = "";
@@ -462,7 +463,7 @@ int get_wsl_information(
                 os_version_str = read_from_pipe(proc_handle, rs.out_read);
                 strip_whitespace(os_version_str);
                 CloseHandle(proc_handle);
-                update_os(wd, "", os_version.c_str());
+                update_os(wd, "", os_version_str.c_str());
             }
         }
 
@@ -479,7 +480,6 @@ int get_wsl_information(
                 std::string version;
                 wd.is_docker_available = HOST_INFO::get_docker_version_string(raw, version);
                 if (wd.is_docker_available) {
-                    docker_available = true;
                     wd.docker_version = version;
                 }
                 CloseHandle(proc_handle);
@@ -491,7 +491,6 @@ int get_wsl_information(
                 std::string version;
                 wd.is_docker_compose_available = HOST_INFO::get_docker_compose_version_string(raw, version);
                 if (wd.is_docker_compose_available) {
-                    docker_compose_available = true;
                     wd.docker_compose_version = version;
                 }
                 CloseHandle(proc_handle);
