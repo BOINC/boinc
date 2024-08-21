@@ -38,6 +38,9 @@
 
 #define USER_IDLE_TIME_INF   86400
 
+// we use three ways of getting info about a Linux OS (name/version)
+// They all involve parsing some text.
+// Variants:
 enum LINUX_OS_INFO_PARSER {
     lsbrelease,
     osrelease,

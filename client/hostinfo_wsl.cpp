@@ -312,6 +312,23 @@ void parse_sysctl_output(
     }
 }
 
+// if either name or version is not already there, add
+//
+static void update_os(WSL_DISTRO &wd, char* os_name, char* os_version) {
+    if (wd.os_name.empty() && strlen(os_name)) {
+        wd.os_name = os_name;
+    }
+    if (wd.os_version.empty() && strlen(os_version)) {
+        wd.os_version = os_version;
+    }
+}
+
+// have both name and version?
+//
+static bool got_both(WSL_DISTRO &wd) {
+    return !os_name.empty() && !os_version.empty();
+}
+
 // Get list of WSL distros usable by BOINC
 // (docker_desktop and those allowed by config)
 // For each of them:
@@ -334,9 +351,9 @@ int get_wsl_information(
         return -1;
     }
 
-    bool wsl_available = false;
-    bool docker_available = false;
-    bool docker_compose_available = false;
+    //bool wsl_available = false;
+    //bool docker_available = false;
+    //bool docker_compose_available = false;
 
     HANDLE proc_handle;
 
@@ -356,8 +373,8 @@ int get_wsl_information(
             continue;
         }
 
-        char wsl_dist_name[256];
-        char wsl_dist_version[256];
+        char os_name[256];
+        char os_version[256];
 
         // Try to get the name and version of the OS in the WSL distro.
         // There are several ways of doing this
@@ -369,15 +386,15 @@ int get_wsl_information(
         }
         wsl_available = HOST_INFO::parse_linux_os_info(
             read_from_pipe(proc_handle, rs.out_read), lsbrelease,
-            wsl_dist_name, sizeof(wsl_dist_name), wsl_dist_version,
-            sizeof(wsl_dist_version)
+            os_name, sizeof(os_name),
+            os_version, sizeof(os_version)
         );
         CloseHandle(proc_handle);
+        update_os(wd, os_name, os_version);
 
         // try reading '/etc/os-relese'
         //
-        if (!wsl_available) {
-            //osrelease
+        if (!got_both(wd)) {
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
             if (!create_wsl_process(rs, wd.distro_name, command_osrelease, &proc_handle)) {
                 continue;
@@ -385,77 +402,72 @@ int get_wsl_information(
             wsl_available = HOST_INFO::parse_linux_os_info(
                 read_from_pipe(proc_handle, rs.out_read),
                 osrelease,
-                wsl_dist_name, sizeof(wsl_dist_name),
-                wsl_dist_version, sizeof(wsl_dist_version)
+                os_name, sizeof(os_name),
+                os_version, sizeof(os_version)
             );
             CloseHandle(proc_handle);
         }
+        update_os(wd, os_name, os_version);
 
         // try reading '/etc/redhatrelease'
         //
-        if (!wsl_available) {
+        if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
             if (!create_wsl_process(rs, wd.distro_name, command_redhatrelease, &proc_handle)) {
                 continue;
             }
             wsl_available = HOST_INFO::parse_linux_os_info(
                 read_from_pipe(proc_handle, rs.out_read),
-                redhatrelease, wsl_dist_name, sizeof(wsl_dist_name),
-                wsl_dist_version, sizeof(wsl_dist_version)
+                redhatrelease, os_name, sizeof(os_name),
+                os_version, sizeof(os_version)
             );
             CloseHandle(proc_handle);
         }
+        update_os(wd, os_name, os_version);
 
-        if (!wsl_available) {
-            continue;
-        }
-
-        std::string os_name = "";
-        std::string os_version_extra = "";
+        std::string os_name_str = "";
+        std::string os_version_str = "";
 
         // try running 'sysctl -a'
         //
-        const std::string command_sysctl = "sysctl -a";
-        if (create_wsl_process(rs, wd.distro_name, command_sysctl, &proc_handle)) {
-            parse_sysctl_output(
-                split(read_from_pipe(proc_handle, rs.out_read), '\n'),
-                os_name, os_version_extra
-            );
-            CloseHandle(proc_handle);
+        if (!got_both(wd)) {
+            const std::string command_sysctl = "sysctl -a";
+            if (create_wsl_process(rs, wd.distro_name, command_sysctl, &proc_handle)) {
+                parse_sysctl_output(
+                    split(read_from_pipe(proc_handle, rs.out_read), '\n'),
+                    os_name_str, os_version_str
+                );
+                CloseHandle(proc_handle);
+            }
+            update_os(wd, os_name_str.c_str(), os_version_str.c_str());
         }
 
         // try running 'uname -s'
         //
-        if (os_name.empty()) {
+        if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
             if (create_wsl_process(rs, wd.distro_name, command_uname_s, &proc_handle)) {
-                os_name = read_from_pipe(proc_handle, rs.out_read);
-                strip_whitespace(os_name);
+                os_name_str = read_from_pipe(proc_handle, rs.out_read);
+                strip_whitespace(os_name_str);
                 CloseHandle(proc_handle);
+                update_os(wd, os_name_str.c_str(), "");
             }
         }
 
         // try running 'uname -r'
         //
-        if (os_version_extra.empty()) {
+        if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
             if (create_wsl_process(rs, wd.distro_name, command_uname_r ,&proc_handle)) {
-                os_version_extra = read_from_pipe(proc_handle, rs.out_read);
-                strip_whitespace(os_version_extra);
+                os_version_str = read_from_pipe(proc_handle, rs.out_read);
+                strip_whitespace(os_version_str);
                 CloseHandle(proc_handle);
+                update_os(wd, "", os_version.c_str());
             }
         }
 
-        if (!os_name.empty()) {
-            wd.os_name = os_name + " " + wsl_dist_name;
-        } else {
-            wd.os_name = wsl_dist_name;
-        }
-        if (!os_version_extra.empty()) {
-            wd.os_version = std::string(wsl_dist_version) + " [" + os_version_extra + "]";
-        } else {
-            wd.os_version = wsl_dist_version;
-        }
+        // in case nothing worked
+        update_os(wd, "unknown", "unknown");
 
         // see if Docker is installed in the distro
         //
