@@ -38,6 +38,9 @@
 
 #define USER_IDLE_TIME_INF   86400
 
+// we use three ways of getting info about a Linux OS (name/version)
+// They all involve parsing some text.
+// Variants:
 enum LINUX_OS_INFO_PARSER {
     lsbrelease,
     osrelease,
@@ -82,20 +85,15 @@ public:
     char os_name[256];
     char os_version[256];
 
+#ifdef _WIN64
+    // on Windows, Docker info is per WSL_DISTRO, not global
+    WSL_DISTROS wsl_distros;
+#else
     bool docker_available;
+        // Docker is present and allowed by config
     bool docker_compose_available;
-#ifndef _WIN64
-    // on Windows we can have several docker installation within WSL
-    // that is why it makes no sense to have this information put here
-    // instead the information about the available 'docker' and 'docker compose'
-    // installations should be taken from every particular WSL distro
     char docker_version[256];
     char docker_compose_version[256];
-#endif
-#ifdef _WIN64
-    // WSL information for Win10 only
-    bool wsl_available;
-    WSLS wsls;
 #endif
 
     char product_name[256];       // manufacturer and/or model of system
@@ -137,10 +135,7 @@ public:
     int get_local_network_info();
     int get_virtualbox_version();
 #ifndef _WIN64
-    // on Windows we can have several docker installation within WSL
-    // that is why it makes no sense to have this information put here
-    // instead the information about the available 'docker' and 'docker compose'
-    // installations should be taken from every particular WSL distro
+    // on Windows, Docker info is per WSL_DISTRO, not global
     bool get_docker_info();
     bool get_docker_compose_info();
 #endif
@@ -172,7 +167,11 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
-extern bool get_wsl_information(std::vector<std::string> allowed_wsls, bool& wsl_available, WSLS& wsls, bool detect_docker, bool& docker_available, bool& docker_compose_available);
+extern int get_wsl_information(
+    std::vector<std::string> &allowed_wsls,
+    WSL_DISTROS &usable_distros,
+    bool detect_docker
+);
 extern int get_processor_group(HANDLE);
 #endif
 

@@ -17,23 +17,23 @@
 
 #include "wslinfo.h"
 
-WSL::WSL() {
+WSL_DISTRO::WSL_DISTRO() {
     clear();
 }
 
-void WSL::clear() {
+void WSL_DISTRO::clear() {
     distro_name = "";
     os_name = "";
     os_version = "";
     is_default = false;
-    wsl_version = "1";
+    wsl_version = 1;
     is_docker_available = false;
     is_docker_compose_available = false;
     docker_version = "";
     docker_compose_version = "";
 }
 
-void WSL::write_xml(MIOFILE& f) {
+void WSL_DISTRO::write_xml(MIOFILE& f) {
     char dn[256], n[256], v[256];
     xml_escape(distro_name.c_str(), dn, sizeof(dn));
     xml_escape(os_name.c_str(), n, sizeof(n));
@@ -44,7 +44,7 @@ void WSL::write_xml(MIOFILE& f) {
         "            <os_name>%s</os_name>\n"
         "            <os_version>%s</os_version>\n"
         "            <is_default>%d</is_default>\n"
-        "            <wsl_version>%s</wsl_version>\n"
+        "            <wsl_version>%d</wsl_version>\n"
         "            <is_docker_available>%d</is_docker_available>\n"
         "            <is_docker_compose_available>%d</is_docker_compose_available>\n"
         "            <docker_version>%s</docker_version>\n"
@@ -54,7 +54,7 @@ void WSL::write_xml(MIOFILE& f) {
         n,
         v,
         is_default ? 1 : 0,
-        wsl_version.c_str(),
+        wsl_version,
         is_docker_available ? 1 : 0,
         is_docker_compose_available ? 1 : 0,
         docker_version.c_str(),
@@ -62,7 +62,7 @@ void WSL::write_xml(MIOFILE& f) {
     );
 }
 
-int WSL::parse(XML_PARSER& xp) {
+int WSL_DISTRO::parse(XML_PARSER& xp) {
     clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/distro")) {
@@ -72,7 +72,7 @@ int WSL::parse(XML_PARSER& xp) {
         if (xp.parse_string("os_name", os_name)) continue;
         if (xp.parse_string("os_version", os_version)) continue;
         if (xp.parse_bool("is_default", is_default)) continue;
-        if (xp.parse_string("wsl_version", wsl_version)) continue;
+        if (xp.parse_int("wsl_version", wsl_version)) continue;
         if (xp.parse_bool("is_docker_available", is_docker_available)) continue;
         if (xp.parse_bool("is_docker_compose_available", is_docker_compose_available)) continue;
         if (xp.parse_string("docker_version", docker_version)) continue;
@@ -81,23 +81,23 @@ int WSL::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-WSLS::WSLS() {
+WSL_DISTROS::WSL_DISTROS() {
     clear();
 }
 
-void WSLS::clear() {
-    wsls.clear();
+void WSL_DISTROS::clear() {
+    distros.clear();
 }
 
-void WSLS::write_xml(MIOFILE& f) {
+void WSL_DISTROS::write_xml(MIOFILE& f) {
     f.printf("    <wsl>\n");
-    for (size_t i = 0; i < wsls.size(); ++i) {
-        wsls[i].write_xml(f);
+    for (WSL_DISTRO &wd: distros) {
+        wd.write_xml(f);
     }
     f.printf("    </wsl>\n");
 }
 
-int WSLS::parse(XML_PARSER& xp) {
+int WSL_DISTROS::parse(XML_PARSER& xp) {
     clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/wsl")) {
@@ -105,9 +105,9 @@ int WSLS::parse(XML_PARSER& xp) {
         }
         if (xp.match_tag("distro"))
         {
-            WSL wsl;
-            wsl.parse(xp);
-            wsls.push_back(wsl);
+            WSL_DISTRO wd;
+            wd.parse(xp);
+            distros.push_back(wd);
         }
     }
     return ERR_XML_PARSE;
