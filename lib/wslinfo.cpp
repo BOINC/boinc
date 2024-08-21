@@ -91,7 +91,7 @@ void WSL_DISTROS::clear() {
 
 void WSL_DISTROS::write_xml(MIOFILE& f) {
     f.printf("    <wsl>\n");
-    for (auto &wd: distros) {
+    for (WSL_DISTRO &wd: distros) {
         wd.write_xml(f);
     }
     f.printf("    </wsl>\n");

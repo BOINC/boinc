@@ -357,7 +357,7 @@ int get_wsl_information(
     HANDLE proc_handle;
 
     // loop over all WSL distros
-    for (auto &wd: all_distros.distros) {
+    for (WSL_DISTRO &wd: all_distros.distros) {
         // skip 'docker-desktop-data'
         // See: https://stackoverflow.com/a/61431088/4210508
         if (wd.distro_name == "docker-desktop-data"){
