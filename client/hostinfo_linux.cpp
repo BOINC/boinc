@@ -34,7 +34,7 @@
 
 // functions for getting Linux OS and version from various sources
 // (lsb_release -a, /etc/os-release, /etc/redhat-release)
-// 
+//
 // in all cases: return true if we get either os_name or os_version
 //
 bool HOST_INFO::parse_linux_os_info(

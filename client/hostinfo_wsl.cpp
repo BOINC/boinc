@@ -350,10 +350,6 @@ int get_wsl_information(
         return -1;
     }
 
-    //bool wsl_available = false;
-    //bool docker_available = false;
-    //bool docker_compose_available = false;
-
     HANDLE proc_handle;
 
     // loop over all WSL distros
