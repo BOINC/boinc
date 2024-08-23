@@ -24,9 +24,8 @@ using std::string;
 #include "client_msgs.h"
 #include "hostinfo.h"
 
-// scan the registry to get the list of all distros on this host.
+// scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
-// Return nonzero on error
 //
 int get_all_distros(WSL_DISTROS& distros) {
     const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
@@ -173,7 +172,9 @@ void parse_sysctl_output(
 
 // if either name or version is not already there, add
 //
-static void update_os(WSL_DISTRO &wd, const char* os_name, const char* os_version) {
+static void update_os(
+    WSL_DISTRO &wd, const char* os_name, const char* os_version
+) {
     if (wd.os_name.empty() && strlen(os_name)) {
         wd.os_name = os_name;
     }
@@ -182,7 +183,7 @@ static void update_os(WSL_DISTRO &wd, const char* os_name, const char* os_versio
     }
 }
 
-// have both name and version?
+// have both OS name and version?
 //
 static bool got_both(WSL_DISTRO &wd) {
     return !wd.os_name.empty() && !wd.os_version.empty();
@@ -237,10 +238,9 @@ int get_wsl_information(
 
         // try running 'lsbrelease -a'
         //
-        retval = rs.run_command(
+        if (!rs.run_command(
             wd.distro_name, command_lsbrelease, &proc_handle
-        );
-        if (!retval) {
+        )) {
             HOST_INFO::parse_linux_os_info(
                 read_from_pipe(proc_handle, rs.out_read), lsbrelease,
                 os_name, sizeof(os_name),
@@ -254,10 +254,9 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
-            retval = rs.run_command(
+            if (!rs.run_command(
                 wd.distro_name, command_osrelease, &proc_handle
-            );
-            if (!retval) {
+            )) {
                 HOST_INFO::parse_linux_os_info(
                     read_from_pipe(proc_handle, rs.out_read),
                     osrelease,
@@ -273,10 +272,9 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            retval = rs.run_command(
+            if (!rs.run_command(
                 wd.distro_name, command_redhatrelease, &proc_handle
-            );
-            if (!retval) {
+            )) {
                 HOST_INFO::parse_linux_os_info(
                     read_from_pipe(proc_handle, rs.out_read),
                     redhatrelease, os_name, sizeof(os_name),
@@ -294,10 +292,9 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_sysctl = "sysctl -a";
-            retval = rs.run_command(
+            if (!rs.run_command(
                 wd.distro_name, command_sysctl, &proc_handle
-            );
-            if (!retval) {
+            )) {
                 parse_sysctl_output(
                     split(read_from_pipe(proc_handle, rs.out_read), '\n'),
                     os_name_str, os_version_str
@@ -311,10 +308,9 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
-            retval = rs.run_command(
+            if (!rs.run_command(
                 wd.distro_name, command_uname_s, &proc_handle
-            );
-            if (!retval) {
+            )) {
                 os_name_str = read_from_pipe(proc_handle, rs.out_read);
                 strip_whitespace(os_name_str);
                 CloseHandle(proc_handle);
@@ -326,10 +322,9 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
-            retval = rs.run_command(
+            if (!rs.run_command(
                 wd.distro_name, command_uname_r ,&proc_handle
-            );
-            if (!retval) {
+            )) {
                 os_version_str = read_from_pipe(proc_handle, rs.out_read);
                 strip_whitespace(os_version_str);
                 CloseHandle(proc_handle);
