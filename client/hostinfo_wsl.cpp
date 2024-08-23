@@ -343,8 +343,8 @@ int get_wsl_information(
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
-            if (create_wsl_process(
-                rs, wd.distro_name, command_get_docker_version, &proc_handle
+            if (!rs.run_command(
+                wd.distro_name, command_get_docker_version, &proc_handle
             )) {
                 std::string raw = read_from_pipe(proc_handle, rs.out_read);
                 std::string version;
@@ -354,8 +354,8 @@ int get_wsl_information(
                 }
                 CloseHandle(proc_handle);
             }
-            if (create_wsl_process(
-                rs, wd.distro_name, command_get_docker_compose_version, &proc_handle
+            if (!rs.run_command(
+                wd.distro_name, command_get_docker_compose_version, &proc_handle
             )) {
                 std::string raw = read_from_pipe(proc_handle, rs.out_read);
                 std::string version;

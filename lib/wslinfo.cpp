@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "win_util.h"
+
 #include "wslinfo.h"
 
 WSL_DISTRO::WSL_DISTRO() {
@@ -129,7 +131,7 @@ int WSL_CMD::setup() {
 
     if (!pWslLaunch) {
         wsl_lib = LoadLibrary("wslapi.dll");
-        if (!wsl_lib) return -`1;
+        if (!wsl_lib) return -1;
         pWslLaunch = (PWslLaunch)GetProcAddress(wsl_lib, "WslLaunch");
         if (!pWslLaunch) return -1;
     }
@@ -148,13 +150,13 @@ int WSL_CMD::setup() {
 
 int WSL_CMD::run_command(
     const std::string distro_name, const std::string command,
-    HANDLE* proc_handle, bool use_cwd = false
+    HANDLE* proc_handle, bool use_cwd
 ) {
-    HRESULT ret = rs.pWslLaunch(
+    HRESULT ret = pWslLaunch(
         boinc_ascii_to_wide(distro_name).c_str(),
         boinc_ascii_to_wide(command).c_str(),
         use_cwd, in_read, out_write, out_write,
-        handle
+        proc_handle
     );
     return (ret == S_OK)?0:-1;
 }

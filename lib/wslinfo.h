@@ -72,10 +72,10 @@ struct WSL_CMD {
     HANDLE out_write = NULL;
 
     ~WSL_CMD() {
-        close_handle(in_read);
-        close_handle(in_write);
-        close_handle(out_read);
-        close_handle(out_write);
+        if (in_read) CloseHandle(in_read);
+        if (in_write) CloseHandle(in_write);
+        if (out_read) CloseHandle(out_read);
+        if (out_write) CloseHandle(out_write);
     }
 
     int setup();
