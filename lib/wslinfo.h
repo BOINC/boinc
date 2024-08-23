@@ -62,4 +62,31 @@ struct WSL_DISTROS {
     int parse(XML_PARSER&);
 };
 
+#ifdef _WIN64
+// struct for running a WSL command, connected via pipes
+//
+struct WSL_CMD {
+    HANDLE in_read = NULL;
+    HANDLE in_write = NULL;
+    HANDLE out_read = NULL;
+    HANDLE out_write = NULL;
+
+    ~WSL_CMD() {
+        close_handle(in_read);
+        close_handle(in_write);
+        close_handle(out_read);
+        close_handle(out_write);
+    }
+
+    int setup();
+
+    // run command, direct both stdout and stderr to the out pipe
+    //
+    int run_command(
+        const std::string distro_name, const std::string command,
+        HANDLE* proc_handle, bool use_cwd = false
+    );
+};
+#endif
+
 #endif
