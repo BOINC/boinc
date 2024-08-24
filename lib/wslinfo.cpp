@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _WIN64
 #include "win_util.h"
+#endif
 
 #include "wslinfo.h"
 
@@ -130,7 +132,7 @@ int WSL_CMD::setup() {
     out_write = NULL;
 
     if (!pWslLaunch) {
-        wsl_lib = LoadLibrary("wslapi.dll");
+        wsl_lib = LoadLibraryA("wslapi.dll");
         if (!wsl_lib) return -1;
         pWslLaunch = (PWslLaunch)GetProcAddress(wsl_lib, "WslLaunch");
         if (!pWslLaunch) return -1;
