@@ -19,6 +19,7 @@ using std::vector;
 using std::string;
 
 #include "boinc_win.h"
+#include "win_util.h"
 
 #include "str_replace.h"
 #include "client_msgs.h"
