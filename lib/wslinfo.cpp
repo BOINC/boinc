@@ -15,15 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef _WIN64
-#include "win_util.h"
-#endif
-
 #include "wslinfo.h"
-
-WSL_DISTRO::WSL_DISTRO() {
-    clear();
-}
 
 void WSL_DISTRO::clear() {
     distro_name = "";
@@ -116,50 +108,3 @@ int WSL_DISTROS::parse(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
-
-#ifdef _WIN64
-typedef HRESULT(WINAPI *PWslLaunch)(
-    PCWSTR, PCWSTR, BOOL, HANDLE, HANDLE, HANDLE, HANDLE*
-);
-
-static PWslLaunch pWslLaunch = NULL;
-static HINSTANCE wsl_lib = NULL;
-
-int WSL_CMD::setup() {
-    in_read = NULL;
-    in_write = NULL;
-    out_read = NULL;
-    out_write = NULL;
-
-    if (!pWslLaunch) {
-        wsl_lib = LoadLibraryA("wslapi.dll");
-        if (!wsl_lib) return -1;
-        pWslLaunch = (PWslLaunch)GetProcAddress(wsl_lib, "WslLaunch");
-        if (!pWslLaunch) return -1;
-    }
-
-    SECURITY_ATTRIBUTES sa;
-    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-    sa.bInheritHandle = TRUE;
-    sa.lpSecurityDescriptor = NULL;
-
-    if (!CreatePipe(&out_read, &out_write, &sa, 0)) return -1;
-    if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) return -1;
-    if (!CreatePipe(&in_read, &in_write, &sa, 0)) return -1;
-    if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) return -1;
-    return 0;
-}
-
-int WSL_CMD::run_command(
-    const std::string distro_name, const std::string command,
-    HANDLE* proc_handle, bool use_cwd
-) {
-    HRESULT ret = pWslLaunch(
-        boinc_ascii_to_wide(distro_name).c_str(),
-        boinc_ascii_to_wide(command).c_str(),
-        use_cwd, in_read, out_write, out_write,
-        proc_handle
-    );
-    return (ret == S_OK)?0:-1;
-}
-#endif // _WIN64

@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// structs describing WSL (Windows Subsystem for Linux) distros.
+// Used in Win client and also in server code (for plan class logic)
+
 #ifndef BOINC_WSLINFO_H
 #define BOINC_WSLINFO_H
 
@@ -45,7 +48,9 @@ struct WSL_DISTRO {
     std::string docker_compose_version;
         // version of Docker Compose
 
-    WSL_DISTRO();
+    WSL_DISTRO(){
+        clear();
+    };
     void clear();
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
@@ -61,32 +66,5 @@ struct WSL_DISTROS {
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
 };
-
-#ifdef _WIN64
-// struct for running a WSL command, connected via pipes
-//
-struct WSL_CMD {
-    HANDLE in_read = NULL;
-    HANDLE in_write = NULL;
-    HANDLE out_read = NULL;
-    HANDLE out_write = NULL;
-
-    ~WSL_CMD() {
-        if (in_read) CloseHandle(in_read);
-        if (in_write) CloseHandle(in_write);
-        if (out_read) CloseHandle(out_read);
-        if (out_write) CloseHandle(out_write);
-    }
-
-    int setup();
-
-    // run command, direct both stdout and stderr to the out pipe
-    //
-    int run_command(
-        const std::string distro_name, const std::string command,
-        HANDLE* proc_handle, bool use_cwd = false
-    );
-};
-#endif
 
 #endif
