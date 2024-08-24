@@ -1669,9 +1669,14 @@ int HOST_INFO::get_host_info(bool init) {
     if (!cc_config.dont_use_wsl) {
         OSVERSIONINFOEX osvi;
         if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
-            get_wsl_information(
+            retval = get_wsl_information(
                 cc_config.allowed_wsls, wsl_distros, !cc_config.dont_use_docker
             );
+            if (retval) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "get_wsl_information(): %s", boincerror(retval)
+                );
+            }
         }
     }
 #endif

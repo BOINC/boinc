@@ -15,20 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef _WIN64
-
 using std::vector;
 using std::string;
 
 #include "boinc_win.h"
+#include "win_util.h"
 
 #include "str_replace.h"
 #include "client_msgs.h"
 #include "hostinfo.h"
 
-// scan the registry to get the list of all distros on this host.
+// scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
-// Return nonzero on error
 //
 int get_all_distros(WSL_DISTROS& distros) {
     const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
@@ -117,145 +115,6 @@ int get_all_distros(WSL_DISTROS& distros) {
     return 0;
 }
 
-// we run WSL commands by calling a DLL function,
-// and communicating with it through two pipes
-
-typedef HRESULT(WINAPI *PWslLaunch)(PCWSTR, PCWSTR, BOOL, HANDLE, HANDLE, HANDLE, HANDLE*);
-
-// handles for running a WSL command
-//
-struct WSL_CMD {
-    HINSTANCE wsl_lib = NULL;
-    HANDLE in_read = NULL;
-    HANDLE in_write = NULL;
-    HANDLE out_read = NULL;
-    HANDLE out_write = NULL;
-    PWslLaunch pWslLaunch = NULL;
-
-    ~WSL_CMD() {
-        close_handle(in_read);
-        close_handle(in_write);
-        close_handle(out_read);
-        close_handle(out_write);
-
-        if (wsl_lib) {
-            FreeLibrary(wsl_lib);
-        }
-    }
-
-    int prepare_cmd() {
-        wsl_lib = NULL;
-        in_read = NULL;
-        in_write = NULL;
-        out_read = NULL;
-        out_write = NULL;
-        pWslLaunch = NULL;
-
-        wsl_lib = LoadLibrary("wslapi.dll");
-        if (!wsl_lib) {
-            return 1;
-        }
-
-        pWslLaunch = (PWslLaunch)GetProcAddress(wsl_lib, "WslLaunch");
-
-        if (!pWslLaunch) {
-            return 1;
-        }
-
-        SECURITY_ATTRIBUTES sa;
-        sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-        sa.bInheritHandle = TRUE;
-        sa.lpSecurityDescriptor = NULL;
-
-        if (!CreatePipe(&out_read, &out_write, &sa, 0)) {
-            return 1;
-        }
-        if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) {
-            return 1;
-        }
-        if (!CreatePipe(&in_read, &in_write, &sa, 0)) {
-            return 1;
-        }
-        if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-private:
-    inline void close_handle(HANDLE handle) {
-        if (handle) {
-            CloseHandle(handle);
-        }
-    }
-};
-
-// convert std::string to PCWSTR
-// taken from https://stackoverflow.com/questions/27220/how-to-convert-stdstring-to-lpcwstr-in-c-unicode
-//
-std::wstring s2ws(const std::string& s) {
-    const int slength = (int)s.length() + 1;
-    const int len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
-    wchar_t* buf = new wchar_t[len];
-    MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
-    std::wstring r(buf);
-    delete[] buf;
-    return r;
-}
-
-// run a (Linux) command in the given distro,
-// using the given pipes.
-// Return S_OK on success
-//
-bool create_wsl_process(
-    const WSL_CMD& rs, const std::string& wsl_distro_name,
-    const std::string& command, HANDLE* handle,
-    bool use_current_work_dir = false
-) {
-    HRESULT ret = rs.pWslLaunch(
-        s2ws(wsl_distro_name).c_str(), s2ws(command).c_str(),
-        use_current_work_dir, rs.in_read, rs.out_write, rs.out_write,
-        handle
-    );
-    return (ret == S_OK);
-}
-
-#if 0
-bool CreateWslProcess(
-    const HANDLE& out_write, const std::string& wsl_app,
-    const std::string& command, HANDLE& handle
-) {
-    PROCESS_INFORMATION pi;
-    STARTUPINFO si;
-
-    ZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
-    ZeroMemory(&si, sizeof(STARTUPINFO));
-
-    si.cb = sizeof(STARTUPINFO);
-    si.hStdError = out_write;
-    si.hStdOutput = out_write;
-    si.hStdInput = NULL;
-    si.dwFlags |= STARTF_USESTDHANDLES;
-
-    const DWORD dwFlags = CREATE_NO_WINDOW;
-
-    const std::string cmd = wsl_app + " " + command;
-
-    const bool res = (CreateProcess(
-        NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags,
-        NULL, NULL, &si, &pi
-    ) != FALSE);
-
-    if (res) {
-        handle = pi.hProcess;
-        CloseHandle(pi.hThread);
-    }
-
-    return res;
-}
-#endif
-
 // read from the given pipe until the given process exits;
 // return the result
 //
@@ -314,7 +173,9 @@ void parse_sysctl_output(
 
 // if either name or version is not already there, add
 //
-static void update_os(WSL_DISTRO &wd, const char* os_name, const char* os_version) {
+static void update_os(
+    WSL_DISTRO &wd, const char* os_name, const char* os_version
+) {
     if (wd.os_name.empty() && strlen(os_name)) {
         wd.os_name = os_name;
     }
@@ -323,7 +184,7 @@ static void update_os(WSL_DISTRO &wd, const char* os_name, const char* os_versio
     }
 }
 
-// have both name and version?
+// have both OS name and version?
 //
 static bool got_both(WSL_DISTRO &wd) {
     return !wd.os_name.empty() && !wd.os_version.empty();
@@ -346,7 +207,7 @@ int get_wsl_information(
 
     WSL_CMD rs;
 
-    if (rs.prepare_cmd()) {
+    if (rs.setup()) {
         return -1;
     }
 
@@ -378,27 +239,11 @@ int get_wsl_information(
 
         // try running 'lsbrelease -a'
         //
-        if (!create_wsl_process(rs, wd.distro_name, command_lsbrelease, &proc_handle)) {
-            continue;
-        }
-        HOST_INFO::parse_linux_os_info(
-            read_from_pipe(proc_handle, rs.out_read), lsbrelease,
-            os_name, sizeof(os_name),
-            os_version, sizeof(os_version)
-        );
-        CloseHandle(proc_handle);
-        update_os(wd, os_name, os_version);
-
-        // try reading '/etc/os-relese'
-        //
-        if (!got_both(wd)) {
-            const std::string command_osrelease = "cat " + std::string(file_osrelease);
-            if (!create_wsl_process(rs, wd.distro_name, command_osrelease, &proc_handle)) {
-                continue;
-            }
+        if (!rs.run_command(
+            wd.distro_name, command_lsbrelease, &proc_handle
+        )) {
             HOST_INFO::parse_linux_os_info(
-                read_from_pipe(proc_handle, rs.out_read),
-                osrelease,
+                read_from_pipe(proc_handle, rs.out_read), lsbrelease,
                 os_name, sizeof(os_name),
                 os_version, sizeof(os_version)
             );
@@ -406,20 +251,39 @@ int get_wsl_information(
             update_os(wd, os_name, os_version);
         }
 
+        // try reading '/etc/os-relese'
+        //
+        if (!got_both(wd)) {
+            const std::string command_osrelease = "cat " + std::string(file_osrelease);
+            if (!rs.run_command(
+                wd.distro_name, command_osrelease, &proc_handle
+            )) {
+                HOST_INFO::parse_linux_os_info(
+                    read_from_pipe(proc_handle, rs.out_read),
+                    osrelease,
+                    os_name, sizeof(os_name),
+                    os_version, sizeof(os_version)
+                );
+                CloseHandle(proc_handle);
+                update_os(wd, os_name, os_version);
+            }
+        }
+
         // try reading '/etc/redhatrelease'
         //
         if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!create_wsl_process(rs, wd.distro_name, command_redhatrelease, &proc_handle)) {
-                continue;
+            if (!rs.run_command(
+                wd.distro_name, command_redhatrelease, &proc_handle
+            )) {
+                HOST_INFO::parse_linux_os_info(
+                    read_from_pipe(proc_handle, rs.out_read),
+                    redhatrelease, os_name, sizeof(os_name),
+                    os_version, sizeof(os_version)
+                );
+                CloseHandle(proc_handle);
+                update_os(wd, os_name, os_version);
             }
-            HOST_INFO::parse_linux_os_info(
-                read_from_pipe(proc_handle, rs.out_read),
-                redhatrelease, os_name, sizeof(os_name),
-                os_version, sizeof(os_version)
-            );
-            CloseHandle(proc_handle);
-            update_os(wd, os_name, os_version);
         }
 
         std::string os_name_str = "";
@@ -429,21 +293,25 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_sysctl = "sysctl -a";
-            if (create_wsl_process(rs, wd.distro_name, command_sysctl, &proc_handle)) {
+            if (!rs.run_command(
+                wd.distro_name, command_sysctl, &proc_handle
+            )) {
                 parse_sysctl_output(
                     split(read_from_pipe(proc_handle, rs.out_read), '\n'),
                     os_name_str, os_version_str
                 );
                 CloseHandle(proc_handle);
+                update_os(wd, os_name_str.c_str(), os_version_str.c_str());
             }
-            update_os(wd, os_name_str.c_str(), os_version_str.c_str());
         }
 
         // try running 'uname -s'
         //
         if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
-            if (create_wsl_process(rs, wd.distro_name, command_uname_s, &proc_handle)) {
+            if (!rs.run_command(
+                wd.distro_name, command_uname_s, &proc_handle
+            )) {
                 os_name_str = read_from_pipe(proc_handle, rs.out_read);
                 strip_whitespace(os_name_str);
                 CloseHandle(proc_handle);
@@ -455,7 +323,9 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
-            if (create_wsl_process(rs, wd.distro_name, command_uname_r ,&proc_handle)) {
+            if (!rs.run_command(
+                wd.distro_name, command_uname_r ,&proc_handle
+            )) {
                 os_version_str = read_from_pipe(proc_handle, rs.out_read);
                 strip_whitespace(os_version_str);
                 CloseHandle(proc_handle);
@@ -469,8 +339,8 @@ int get_wsl_information(
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
-            if (create_wsl_process(
-                rs, wd.distro_name, command_get_docker_version, &proc_handle
+            if (!rs.run_command(
+                wd.distro_name, command_get_docker_version, &proc_handle
             )) {
                 std::string raw = read_from_pipe(proc_handle, rs.out_read);
                 std::string version;
@@ -480,8 +350,8 @@ int get_wsl_information(
                 }
                 CloseHandle(proc_handle);
             }
-            if (create_wsl_process(
-                rs, wd.distro_name, command_get_docker_compose_version, &proc_handle
+            if (!rs.run_command(
+                wd.distro_name, command_get_docker_compose_version, &proc_handle
             )) {
                 std::string raw = read_from_pipe(proc_handle, rs.out_read);
                 std::string version;
@@ -498,5 +368,3 @@ int get_wsl_information(
 
     return 0;
 }
-
-#endif // _WIN64

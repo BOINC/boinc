@@ -17,10 +17,6 @@
 
 #include "wslinfo.h"
 
-WSL_DISTRO::WSL_DISTRO() {
-    clear();
-}
-
 void WSL_DISTRO::clear() {
     distro_name = "";
     os_name = "";

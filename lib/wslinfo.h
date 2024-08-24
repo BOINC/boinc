@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// structs describing WSL (Windows Subsystem for Linux) distros.
+// Used in Win client and also in server code (for plan class logic)
+
 #ifndef BOINC_WSLINFO_H
 #define BOINC_WSLINFO_H
 
@@ -45,7 +48,9 @@ struct WSL_DISTRO {
     std::string docker_compose_version;
         // version of Docker Compose
 
-    WSL_DISTRO();
+    WSL_DISTRO(){
+        clear();
+    };
     void clear();
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
