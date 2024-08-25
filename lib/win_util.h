@@ -53,4 +53,18 @@ struct WSL_CMD {
     );
 };
 
+enum PIPE_READ_RET(GOT_EOM, PROC_DIED, TIMEOUT, READ_ERROR);
+
+// read from the pipe until either
+// - we get the eom string (if any)
+// - there's no data and the given process (if any) doesn't exist
+// - there's no data and the given timeout (if any) is reached
+// - a read fails
+//
+extern PIPE_READ_RET read_from_pipe(
+    HANDLE pipe, HANDLE proc_handle, string& out,
+    double timeout = 0,
+    const char* eom = NULL
+);
+
 #endif

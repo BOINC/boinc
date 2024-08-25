@@ -233,3 +233,39 @@ int WSL_CMD::run_command(
     );
     return (ret == S_OK)?0:-1;
 }
+
+PIPE_READ_RET read_from_pipe(
+    HANDLE pipe, HANDLE proc_handle, string& eom, double timeout,
+    string& out
+) {
+    char buf[1024];
+    DWORD avail, nread, exit_code;
+    bool ret;
+    double elapsed = 0;
+    out = "";
+    while (1) {
+        PeekNamedPipe(pipe, NULL, 0, NULL, &avail, NULL);
+        if (avail) {
+            ret = ReadFile(pipe, buf, sizeof(buf) - 1, &nread, NULL);
+            if (!ret) return READ_ERROR;
+            buf[nread] = 0;
+            out += buf;
+            if (!eom.empty()) {
+                if (out.find(eom) != std::string::npos) {
+                    return GOT_EOM;
+                }
+            }
+        } else {
+            Sleep(200);
+            elapsed += .2;
+            if (timeout && elapsed > timeout) {
+                return TIMEOUT;
+            }
+            if (proc_handle) {
+                ret = GetExitCodeProcess(proc_handle, &exit_code);
+                if (!ret) return PROC_DIED;
+                if (exit_code != STILL_ACTIVE) return PROC_DIED;
+            }
+        }
+    }
+}

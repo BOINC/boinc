@@ -25,46 +25,6 @@
 
 using std::string;
 
-// read from the pipe until
-// - get a line with 'EOM seqno'
-// - the given process (if any) doesn't exist
-// - the given timeout (if any) is reached
-// - a read fails
-//
-// return error if any of last 3
-int read_to_eom(HANDLE pipe, int seqno, HANDLE proc_handle, double timeout, string& out) {
-    char buf[1024];
-    DWORD avail, nread, exit_code;
-    bool ret;
-    sprintf(buf, "EOM %d", seqno);
-    string eom = buf;
-    double elapsed = 0;
-    out = "";
-    while (1) {
-        PeekNamedPipe(pipe, NULL, 0, NULL, &avail, NULL);
-        if (avail) {
-            ret = ReadFile(pipe, buf, sizeof(buf) - 1, &nread, NULL);
-            if (!ret) return -1;
-            buf[nread] = 0;
-            out += buf;
-            if (out.find(eom) != std::string::npos) {
-                return 0;
-            }
-        } else {
-            Sleep(200);
-            elapsed += .2;
-            if (timeout && elapsed > timeout) {
-                return -1;
-            }
-            if (proc_handle) {
-                ret = GetExitCodeProcess(proc_handle, &exit_code);
-                if (!ret) return -1;
-                if (exit_code != STILL_ACTIVE) return -1;
-            }
-        }
-    }
-}
-
 int get_pid(string s) {
     return atoi(s.c_str());
 }
@@ -75,6 +35,8 @@ int get_pid(string s) {
 //
 int poll(int pid, int seqno, double& cpu_time, double& wss, bool& job_done) {
     char cmd[256];
+    sprintf(buf, "EOM %d", seqno);
+    string eom = buf;
     sprintf(cmd, "ps u -g %d ; echo 'EOM %d'", pid, seqno);
     return 0;
 }
