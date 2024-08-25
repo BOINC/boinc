@@ -34,7 +34,7 @@ int get_pid(string s) {
 // else return nonzero
 //
 int poll(int pid, int seqno, double& cpu_time, double& wss, bool& job_done) {
-    char cmd[256];
+    char cmd[256], buf[256];
     sprintf(buf, "EOM %d", seqno);
     string eom = buf;
     sprintf(cmd, "ps u -g %d ; echo 'EOM %d'", pid, seqno);
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     if (wc.setup()) exit(1);
     if (wc.run_command("Ubuntu-22.04", "./main 1", &proc_handle)) exit(1);
     string reply;
-    int retval = read_to_eom(wc.out_read, seqno, proc_handle, 0, reply);
+    int retval = read_from_pipe(wc.out_read, proc_handle, reply);
     if (retval) exit(1);
     int pid = get_pid(reply);
     printf("pid: %d\n", pid);

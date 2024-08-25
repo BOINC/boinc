@@ -214,7 +214,7 @@ int get_wsl_information(
         // Try to get the name and version of the OS in the WSL distro.
         // There are several ways of doing this
 
-        // try running 'lsbrelease -a'
+        // try running 'lsb_release -a'
         //
         if (!rs.run_command(
             wd.distro_name, command_lsbrelease, &proc_handle
