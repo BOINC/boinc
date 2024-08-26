@@ -42,8 +42,10 @@ MyEvtHandler::MyEvtHandler() {}
 
 MyEvtHandler::MyEvtHandler(CBOINCListCtrl *theListControl) {
     m_listCtrl = theListControl;
+#if !USE_NATIVE_LISTCONTROL
 #ifdef __WXGTK__
     m_view_startX = 0;
+#endif
 #endif
 }
 
@@ -653,6 +655,7 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
     if (m_listCtrl) {
         m_listCtrl->savedHandler->ProcessEvent(event);
         m_listCtrl->DrawProgressBars();
+#if !USE_NATIVE_LISTCONTROL
 #ifdef __WXGTK__
         // Work around a wxWidgets 3.0 bug in wxGenericListCtrl (Linux
         // only) which causes headers to be misaligned after horizontal
@@ -666,6 +669,7 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
             ((wxWindow *)m_listCtrl->m_headerWin)->Refresh();
             ((wxWindow *)m_listCtrl->m_headerWin)->Update();
         }
+#endif
 #endif
     } else {
         event.Skip();

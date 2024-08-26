@@ -22,10 +22,10 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
-#ifdef __WXMSW__
-#define USE_NATIVE_LISTCONTROL 1
-#else
+#ifdef __WXMAC__
 #define USE_NATIVE_LISTCONTROL 0
+#else
+#define USE_NATIVE_LISTCONTROL 1
 #endif
 
 
