@@ -420,7 +420,7 @@ struct DEVICE_STATUS {
 // You can define this in "configure" if you want.
 //
 #ifndef LINUX_DEFAULT_DATA_DIR
-#define LINUX_DEFAULT_DATA_DIR      "/var/lib/boinc-client"
+#define LINUX_DEFAULT_DATA_DIR      "/var/lib/boinc"
 #endif
 
 #endif

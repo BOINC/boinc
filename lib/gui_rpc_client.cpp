@@ -409,7 +409,7 @@ int RPC::parse_reply() {
 // Linux: look in:
 //  - current dir
 //  - a directory specified in /etc/boinc-client/config.properties
-//  - /var/lib/boinc-client
+//  - /var/lib/boinc
 //
 // Note: the Manager (on all platforms) has a -datadir cmdline option.
 // If present, it chdirs to that directory.
