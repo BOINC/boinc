@@ -278,3 +278,13 @@ PIPE_READ_RET read_from_pipe(
         }
     }
 }
+
+int write_to_pipe(HANDLE pipe, const char* buf) {
+    int n = strlen(buf);
+    int nwritten;
+    bool ret = WriteFile(pipe, buf, n, &nwritten);
+        // what if nwritten != n?
+        // The Win docs and examples do not clarify this
+    if (ret) return 0;
+    return -1;
+}
