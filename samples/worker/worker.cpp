@@ -64,14 +64,13 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--nsecs")) {
             nsecs = atoi(argv[++i]);
-        }
-        if (!in) {
+        } else if (!in) {
             if (!strcmp(argv[i], "stdin")) {
                 in = stdin;
             } else {
                 in = fopen(argv[i], "r");
                 if (!in) {
-                    fprintf(stderr, "missing input file\n");
+                    fprintf(stderr, "missing input file %s\n", argv[i]);
                     exit(1);
                 }
             }
@@ -81,7 +80,7 @@ int main(int argc, char** argv) {
             } else {
                 out = fopen(argv[i], "w");
                 if (!out) {
-                    fprintf(stderr, "missing output file\n");
+                    fprintf(stderr, "missing output file %s\n", argv[i]);
                     exit(1);
                 }
             }
