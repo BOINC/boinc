@@ -35,6 +35,7 @@ struct WSL_CMD {
     HANDLE in_write = NULL;
     HANDLE out_read = NULL;
     HANDLE out_write = NULL;
+    HANDLE proc_handle = NULL;
 
     ~WSL_CMD() {
         if (in_read) CloseHandle(in_read);
@@ -49,7 +50,7 @@ struct WSL_CMD {
     //
     int run_command(
         const std::string distro_name, const std::string command,
-        HANDLE* proc_handle, bool use_cwd = false
+        bool use_cwd = false
     );
 };
 
@@ -69,5 +70,7 @@ extern PIPE_READ_RET read_from_pipe(
     double timeout = 0,
     const char* eom = NULL
 );
+
+extern int write_to_pipe(HANDLE pipe, const char* buf);
 
 #endif

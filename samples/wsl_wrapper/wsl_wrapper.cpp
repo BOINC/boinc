@@ -30,18 +30,19 @@
 //      resolve link files and create symbolic links
 //      if the workflow has multiple steps, keep track of where we are
 //      run the executable(s)
-//      when done, write a finish file
+// Also:
+//      If the executable finishes, write a finish file 'boinc_done'
+//      If the executable fails, write a file 'boinc_fail'
+//      If the script exits without doing either, the job fails
 //
-// checkpointing: the wrapper conveys a checkpoint request
-// by touching a file.
-// The app can check this file to decide when to checkpoint.
-// It signals that a checkpoint has been written
-// by touching another file
+// checkpointing: the wrapper signals that a checkpoint has been written
+// by touching a file 'boinc_checkpoint_done'
 
 #include <cstdio>
 #include <string>
 
 #include "boinc_win.h"
+#include "util.h"
 #include "win_util.h"
 #include "boinc_api.h"
 
@@ -52,8 +53,11 @@ WSL_CMD ctl_wc;
 int seqno = 0;
 int pgid;       // process group ID of job
 bool running;
+double checkpoint_cpu_time = 0;
+APP_INIT_DATA aid;
 
 #define CMD_TIMEOUT 10.0
+#define POLL_PERIOD 1.0
 
 struct RSC_USAGE {
     double cpu_time;
@@ -69,40 +73,56 @@ struct RSC_USAGE {
 int launch(const char* distro, const char* cmd) {
     char launch_cmd[256];
     sprintf(launch_cmd, "echo $$; %s\n", cmd);
-    int retval = app_wc.run_command(distro, launch_cmd, &proc_handle);
+    int retval = app_wc.setup();
+    if (retval) return retval;
+    retval = app_wc.run_command(distro, launch_cmd, true);
     if (retval) return retval;
     string reply;
-    retval = read_from_pipe(wc.out_read, proc_handle, reply, CMD_TIMEOUT, "\n");
+    retval = read_from_pipe(app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, "\n");
     if (retval) return retval;
     pgid = atoi(reply.c_str());
     printf("reply: [%s]\n", reply.c_str());
-    printf("pgid: %d\n", pid);
+    printf("pgid: %d\n", pgid);
     running = true;
+
+    // set up control channel
+    //
+    retval = ctl_wc.setup();
+    if (retval) return retval;
+    retval = ctl_wc.run_command(distro, NULL, true);
+    if (retval) return retval;
+    return 0;
 }
+
+enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
 
 // Get app resources usage.
 // if processes in group still exist, return cpu time and wss
-// else if finish file found, return job_done = true
-// else return nonzero
+// else if finish file found, return SUCCESS
+// else return FAIL
 //
-int poll_app(int pid, int seqno, RSC_USAGE &ru, bool& job_done) {
-    char cmd[256], buf[256];
-    sprintf(buf, "EOM %d", seqno);
-    string eom = buf;
-    sprintf(cmd, "ps u -g %d ; echo 'EOM %d'\n", pid, seqno);
+JOB_STATUS poll_app(RSC_USAGE &ru) {
+    char cmd[256];
+    sprintf(cmd, "ps u -g %d ; echo EOM\n", pgid);
     string reply;
-    retval = read_from_pipe(
-        wc.out_read, proc_handle, reply, CMD_TIMEOUT, "EOM"
+    int retval = read_from_pipe(
+        ctl_wc.out_read, ctl_wc.proc_handle, reply, CMD_TIMEOUT, "EOM"
     );
+    if (retval) return JOB_FAIL;
+    if (reply.empty()) {
+        if (boinc_file_exists("boinc_done")) return JOB_SUCCESS;
+        return JOB_FAIL;
+    }
     ru.clear();
     for (string s: split(reply, '\n')) {
-        n = sscanf("%f %f", s.c_str(), &cpu_time, &wss);
+        double cpu_time, wss;
+        int n = sscanf("%f %f", s.c_str(), &cpu_time, &wss);
         if (n == 2) {
-            ru.cpu_time += cpu;
+            ru.cpu_time += cpu_time;
             ru.wss += wss;
         }
     }
-    return 0;
+    return JOB_IN_PROGRESS;
 }
 
 int suspend() {
@@ -117,7 +137,7 @@ int resume() {
     running = true;
     return write_to_pipe(ctl_wc.out_write, cmd);
 }
-int abort() {
+int abort_job() {
     char cmd[256];
     sprintf(cmd, "kill KILL %d\n", pgid);
     return write_to_pipe(ctl_wc.out_write, cmd);
@@ -126,8 +146,8 @@ int abort() {
 void poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
-    if (status.no_heartbeat || status.quit_request || status.abort_request) }
-        abort();
+    if (status.no_heartbeat || status.quit_request || status.abort_request) {
+        abort_job();
         exit(0);
     }
     if (status.suspended) {
@@ -137,25 +157,37 @@ void poll_client_msgs() {
     }
 }
 
-int main(int argc, char** argv) {
-    int retval = app_wc.setup();
-    if (retval) {
-        fprintf(stderr, "setup() failed: %s\n", boincerror(retval));
-        exit(1);
-    }
-    retval = launch("Ubuntu-22.04", "./main 1");
-    if (retval) {
-        fprintf(stderr, "launch() failed: %s\n", boincerror(retval));
+int main(int , char** ) {
+    BOINC_OPTIONS options;
+    memset(&options, 0, sizeof(options));
+    options.main_program = true;
+    options.check_heartbeat = true;
+    options.handle_process_control = true;
+
+    SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
+
+    boinc_init_options(&options);
+    boinc_get_init_data(aid);
+
+    if (launch("Ubuntu-22.04", "./main 1")) {
+        printf("launch failed\n");
         exit(1);
     }
     while (1) {
         // poll period for message from client must be 1 sec.
         poll_client_msgs();
         // poll period for app status could be greater, but we'll use 1 sec
-        poll_app(ru);
-        boinc_report_app_status();
+        RSC_USAGE ru;
+        JOB_STATUS js = poll_app(ru);
+        if (js == JOB_FAIL) {
+            boinc_finish(1);
+            break;
+        }
+        if (js == JOB_SUCCESS) {
+            boinc_finish(0);
+            break;
+        }
+        boinc_report_app_status(ru.cpu_time, checkpoint_cpu_time, 0);
         boinc_sleep(POLL_PERIOD);
-        retval = poll(rsc_usage);
     }
-    boinc_finish(0);
 }

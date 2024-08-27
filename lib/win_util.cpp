@@ -225,14 +225,13 @@ int WSL_CMD::setup() {
 }
 
 int WSL_CMD::run_command(
-    const string distro_name, const string command,
-    HANDLE* proc_handle, bool use_cwd
+    const string distro_name, const string command, bool use_cwd
 ) {
     HRESULT ret = pWslLaunch(
         boinc_ascii_to_wide(distro_name).c_str(),
         boinc_ascii_to_wide(command).c_str(),
         use_cwd, in_read, out_write, out_write,
-        proc_handle
+        &proc_handle
     );
     return (ret == S_OK)?0:-1;
 }
@@ -280,9 +279,9 @@ PIPE_READ_RET read_from_pipe(
 }
 
 int write_to_pipe(HANDLE pipe, const char* buf) {
-    int n = strlen(buf);
-    int nwritten;
-    bool ret = WriteFile(pipe, buf, n, &nwritten);
+    DWORD n = (DWORD) strlen(buf);
+    DWORD nwritten;
+    bool ret = WriteFile(pipe, buf, n, &nwritten, NULL);
         // what if nwritten != n?
         // The Win docs and examples do not clarify this
     if (ret) return 0;
