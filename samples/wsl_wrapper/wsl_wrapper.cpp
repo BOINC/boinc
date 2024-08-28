@@ -72,7 +72,7 @@ struct RSC_USAGE {
 //
 int launch(const char* distro, const char* cmd) {
     char launch_cmd[256];
-    sprintf(launch_cmd, "echo $$; %s\n", cmd);
+    sprintf(launch_cmd, "echo $$; %s; touch boinc_job_done\n", cmd);
     int retval = app_wc.setup();
     if (retval) return retval;
     retval = app_wc.run_command(distro, launch_cmd, true);
@@ -89,7 +89,7 @@ int launch(const char* distro, const char* cmd) {
     //
     retval = ctl_wc.setup();
     if (retval) return retval;
-    retval = ctl_wc.run_command(distro, NULL, true);
+    retval = ctl_wc.run_command(distro, "", true);
     if (retval) return retval;
     return 0;
 }
@@ -103,24 +103,29 @@ enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
 //
 JOB_STATUS poll_app(RSC_USAGE &ru) {
     char cmd[256];
-    sprintf(cmd, "ps u -g %d ; echo EOM\n", pgid);
+    sprintf(cmd, "ps --no-headers -g %d -o cputime,rss; echo EOM\n", pgid);
+    write_to_pipe(ctl_wc.in_write, cmd);
     string reply;
     int retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, reply, CMD_TIMEOUT, "EOM"
     );
+    printf("read: %d\n", retval);
     if (retval) return JOB_FAIL;
-    if (reply.empty()) {
-        if (boinc_file_exists("boinc_done")) return JOB_SUCCESS;
-        return JOB_FAIL;
-    }
+    printf("ps reply: [%s]\n", reply.c_str());
     ru.clear();
-    for (string s: split(reply, '\n')) {
-        double cpu_time, wss;
-        int n = sscanf("%f %f", s.c_str(), &cpu_time, &wss);
-        if (n == 2) {
-            ru.cpu_time += cpu_time;
-            ru.wss += wss;
+    int nlines = 0;
+    for (string line: split(reply, '\n')) {
+        int h, m, s, wss;
+        int n = sscanf(line.c_str(), "%d:%d:%d %d", &h, &m, &s, &wss);
+        if (n == 4) {
+            ru.cpu_time += h*3600+m*60+s;
+            ru.wss += wss * 1024;
+            nlines++;
         }
+    }
+    if (nlines == 0) {
+        if (boinc_file_exists("boinc_job_done")) return JOB_SUCCESS;
+        return JOB_FAIL;
     }
     return JOB_IN_PROGRESS;
 }
@@ -169,7 +174,7 @@ int main(int , char** ) {
     boinc_init_options(&options);
     boinc_get_init_data(aid);
 
-    if (launch("Ubuntu-22.04", "./main 1")) {
+    if (launch("Ubuntu-22.04", "./main.sh")) {
         printf("launch failed\n");
         exit(1);
     }
@@ -178,16 +183,19 @@ int main(int , char** ) {
         poll_client_msgs();
         // poll period for app status could be greater, but we'll use 1 sec
         RSC_USAGE ru;
-        JOB_STATUS js = poll_app(ru);
-        if (js == JOB_FAIL) {
+        switch (poll_app(ru)) {
+        case JOB_FAIL:
+            printf("job failed\n");
             boinc_finish(1);
-            break;
-        }
-        if (js == JOB_SUCCESS) {
+            goto done;
+        case JOB_SUCCESS:
+            printf("job succeeded\n");
             boinc_finish(0);
-            break;
+            goto done;
         }
+        printf("job in progress; cpu: %f wss: %f\n", ru.cpu_time, ru.wss);
         boinc_report_app_status(ru.cpu_time, checkpoint_cpu_time, 0);
         boinc_sleep(POLL_PERIOD);
     }
+    done: return 0;
 }
