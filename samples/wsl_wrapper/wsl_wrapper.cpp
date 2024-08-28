@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -114,6 +114,10 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     printf("ps reply: [%s]\n", reply.c_str());
     ru.clear();
     int nlines = 0;
+    // the first line produced by the ps command is the rather unhelpful
+    // 'your 131072x1 screen is bogus; expect trouble'
+    // I can't figure out how to prevent this.
+    //
     for (string line: split(reply, '\n')) {
         int h, m, s, wss;
         int n = sscanf(line.c_str(), "%d:%d:%d %d", &h, &m, &s, &wss);
@@ -162,19 +166,24 @@ void poll_client_msgs() {
     }
 }
 
-int main(int , char** ) {
+int main(int argc, char** argv) {
+    string distro, main_script;
     BOINC_OPTIONS options;
     memset(&options, 0, sizeof(options));
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
 
-    SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
-
     boinc_init_options(&options);
-    boinc_get_init_data(aid);
+    if (boinc_is_standalone()) {
+        SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
+        distro = "Ubuntu-22.04";
+        main_script = "./main.sh";
+    } else {
+        boinc_get_init_data(aid);
+    }
 
-    if (launch("Ubuntu-22.04", "./main.sh")) {
+    if (launch(distro.c_str(), main_script.c_str())) {
         printf("launch failed\n");
         exit(1);
     }
