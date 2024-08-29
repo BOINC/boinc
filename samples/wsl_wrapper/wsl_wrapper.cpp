@@ -167,7 +167,21 @@ void poll_client_msgs() {
 }
 
 int main(int argc, char** argv) {
-    string distro, main_script;
+    string distro;
+    const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru="";
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--os_name_regexp")) {
+            os_name_regexp = argv[++i];
+        } else if (!strcmp(argv[i], "--os_version_regexp")) {
+            os_version_regexp = argv[++i];
+        } else if (!strcmp(argv[i], "--pass_thru")) {
+            pass_thru = argv[++i];
+        } else {
+            fprintf(stderr, "unknown option %s\n", argv[i]);
+            exit(1);
+        }
+    }
+
     BOINC_OPTIONS options;
     memset(&options, 0, sizeof(options));
     options.main_program = true;
@@ -178,12 +192,18 @@ int main(int argc, char** argv) {
     if (boinc_is_standalone()) {
         SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
         distro = "Ubuntu-22.04";
-        main_script = "./main.sh";
     } else {
         boinc_get_init_data(aid);
+        distro = find_distr(aid.wsl, os_name_regexp, os_version_regexp);
+        if (distro.empty()) {
+            fprintf(stderr, "can't find distro\n");
+            exit(1);
+        }
     }
+    char main_cmd[256];
+    sprintf(cmd, "./main %s", pass_thru)
 
-    if (launch(distro.c_str(), main_script.c_str())) {
+    if (launch(distro.c_str(), main_cmd)) {
         printf("launch failed\n");
         exit(1);
     }
