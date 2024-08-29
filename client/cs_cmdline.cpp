@@ -49,7 +49,6 @@ static void print_options(char* prog) {
         "    --abort_jobs_on_exit           when client exits, abort and report jobs\n"
         "    --allow_remote_gui_rpc         allow remote GUI RPC connections\n"
         "    --allow_multiple_clients       allow >1 instances per host\n"
-        "    --app_test F                   run a simulated job with the given app\n"
         "    --attach_project <URL> <key>   attach to a project\n"
         "    --check_all_logins             for idle detection, check remote logins too\n"
         "    --daemon                       run as daemon (Unix)\n"
@@ -128,13 +127,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             cc_config.allow_multiple_clients = true;
         } else if (ARG(allow_remote_gui_rpc)) {
             cc_config.allow_remote_gui_rpc = true;
-        } else if (ARG(app_test)) {
-            if (i+1 >= argc) {
-                fprintf(stderr, "usage: boinc --app_test exec-file\n");
-                exit(1);
-            }
-            app_test = true;
-            app_test_file = argv[++i];
         } else if (ARG(attach_project)) {
             if (i >= argc-2) {
                 show_options = true;

@@ -644,9 +644,7 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
-    if (app_test) {
-        app_test_init();
-    }
+    app_test_init();
 
     bool new_client = is_new_client();
 
