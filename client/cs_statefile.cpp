@@ -755,6 +755,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (retval) return retval;
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
+        if (p->app_test) continue;  // don't write app_test project
         retval = p->write_state(f);
         if (retval) return retval;
         for (i=0; i<apps.size(); i++) {

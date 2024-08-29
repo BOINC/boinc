@@ -52,7 +52,7 @@
 
 // set to 0 to enable
 
-#if 0
+#if 1
 void CLIENT_STATE::app_test_init() {}
 #else
 #include "log_flags.h"
