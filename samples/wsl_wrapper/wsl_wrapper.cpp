@@ -45,6 +45,7 @@
 #include "util.h"
 #include "win_util.h"
 #include "boinc_api.h"
+#include "app_ipc.h"
 
 using std::string;
 
@@ -167,7 +168,6 @@ void poll_client_msgs() {
 }
 
 int main(int argc, char** argv) {
-    string distro;
     const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru="";
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--os_name_regexp")) {
@@ -187,23 +187,25 @@ int main(int argc, char** argv) {
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
-
     boinc_init_options(&options);
+
+    string distro_name;
     if (boinc_is_standalone()) {
         SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
-        distro = "Ubuntu-22.04";
+        distro_name = "Ubuntu-22.04";
     } else {
         boinc_get_init_data(aid);
-        distro = find_distr(aid.wsl, os_name_regexp, os_version_regexp);
-        if (distro.empty()) {
+        WSL_DISTRO *distro = aid.host_info.wsl_distros.find_match(os_name_regexp, os_version_regexp);
+        if (!distro) {
             fprintf(stderr, "can't find distro\n");
             exit(1);
         }
+        distro_name = distro->distro_name;
     }
-    char main_cmd[256];
-    sprintf(cmd, "./main %s", pass_thru)
 
-    if (launch(distro.c_str(), main_cmd)) {
+    char main_cmd[256];
+    sprintf(main_cmd, "./main %s", pass_thru);
+    if (launch(distro_name.c_str(), main_cmd)) {
         printf("launch failed\n");
         exit(1);
     }
