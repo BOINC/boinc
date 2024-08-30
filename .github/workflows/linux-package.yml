@@ -675,6 +675,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ubuntu:${{ matrix.os }}
+      options: --privileged
     needs: build-deb-package
     strategy:
       matrix:
@@ -750,9 +751,30 @@ jobs:
           apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
 
       - name: Run integration tests
-        if: success()
+        if: success() && !(matrix.os == 'focal' && matrix.type == 'install')
         run: |
           python3 ./tests/linux_package_tests/integration_tests.py
+
+      - name: Install kcov and git
+        if: success() && matrix.os == 'focal' && matrix.type == 'install'
+        run: |
+          apt install -y software-properties-common
+          add-apt-repository "deb http://archive.ubuntu.com/ubuntu focal universe"
+          apt update -qq
+          apt install -y kcov git
+
+      - name: Run integration tests with kcov
+        if: success() && matrix.os == 'focal' && matrix.type == 'install'
+        run: |
+          kcov ./coverage python3 ./tests/linux_package_tests/integration_tests.py
+
+      - name: Upload coverage report
+        if: success() && matrix.os == 'focal' && matrix.type == 'install'
+        uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673
+        with:
+          directory: ./coverage/
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   test-fedora-rpm-package:
     name: Test Fedora RPM Package
