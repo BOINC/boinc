@@ -22,20 +22,7 @@ require_once("../inc/util_basic.inc");
 // When possible, use the classes in boinc_db.inc instead.
 // Lots of old code uses these functions, e.g. in ops/
 
-// use mysqli if available,
-// but let projects not use it if they want
-// (put <no_mysqli/> in config.xml)
-//
-if (parse_bool(get_config(), "no_mysqli")) {
-    define("MYSQLI", false);
-} else {
-    if (class_exists("mysqli")) {
-        define("MYSQLI", true);
-        $mysqli = null;
-    } else {
-        define("MYSQLI", false);
-    }
-}
+define("MYSQLI", true);
 
 if (MYSQLI) {
     function _mysql_connect($host, $user, $pass, $dbname) {
