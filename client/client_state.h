@@ -245,6 +245,8 @@ struct CLIENT_STATE {
     void process_autologin(bool first);
 
 // --------------- app_test.cpp:
+    bool app_test;          // this and the follow are not used,
+    string app_test_file;   // but if I remove them the client crashes on exit.  WTF???
     void app_test_init();
 
 // --------------- current_version.cpp:

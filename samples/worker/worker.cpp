@@ -59,7 +59,6 @@ void copy_uc(FILE* fin, FILE* fout) {
 int main(int argc, char** argv) {
     FILE* in=0, *out=0;
     int i, nsecs = 0;
-    char c;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--nsecs")) {
@@ -95,10 +94,8 @@ int main(int argc, char** argv) {
 
     copy_uc(in, out);
 
-    int start = (int)time(0);
-
     i=0;
-    while (time(0) < start+nsecs) {
+    while (clock()/(double)CLOCKS_PER_SEC < nsecs) {
         do_a_giga_flop(i++);
     }
 
@@ -168,7 +165,7 @@ int parse_command_line(char* p, char** argv) {
     return argc;
 }
 
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int) {
     LPSTR command_line;
     char* argv[100];
     int argc;

@@ -48,17 +48,18 @@
 //      You can examine the contents of the slot dir,
 //      and examine the output files in the project dir.
 
-#include "client_state.h"
-
-// set to 0 to enable
-
-#if 1
-void CLIENT_STATE::app_test_init() {}
-#else
-#include "log_flags.h"
 #include "project.h"
 #include "client_types.h"
 #include "result.h"
+#include "client_state.h"
+#include "log_flags.h"
+
+// set to 0 to enable
+
+#if 0
+void CLIENT_STATE::app_test_init() {}
+#else
+
 
 // The following functions create client data structures
 // (PROJECT, APP, APP_VERSION, WORKUNIT, RESULT, FILE_REF, FILE_INFO)
@@ -155,7 +156,6 @@ static RESULT* make_result(APP_VERSION *av, WORKUNIT* wu) {
 // so that the client runs a test job.
 //
 void CLIENT_STATE::app_test_init() {
-
     PROJECT *proj = make_project();
 
     APP *app = make_app(proj);
@@ -170,10 +170,10 @@ void CLIENT_STATE::app_test_init() {
         *make_file(app->project, "wsl_wrapper.exe", NULL, MAIN_PROG, false)
     );
     av->app_files.push_back(
-        *make_file(app->project, "main.sh", NULL, INPUT_FILE, true)
+        *make_file(app->project, "main", NULL, INPUT_FILE, true)
     );
     av->app_files.push_back(
-        *make_file(app->project, "worker", NULL, INPUT_FILE, true)
+        *make_file(app->project, "worker", NULL, INPUT_FILE, false)
     );
 
     // can put other stuff here like

@@ -49,6 +49,8 @@
 
 using std::string;
 
+#define VERBOSE 1
+
 WSL_CMD app_wc;
 WSL_CMD ctl_wc;
 int seqno = 0;
@@ -69,29 +71,36 @@ struct RSC_USAGE {
     }
 };
 
+int error(const char* where, int retval) {
+    fprintf(stderr, "%s failed: %d\n", where, retval);
+    return retval;
+}
+
 // launch application and get process group ID
 //
 int launch(const char* distro, const char* cmd) {
     char launch_cmd[256];
     sprintf(launch_cmd, "echo $$; %s; touch boinc_job_done\n", cmd);
     int retval = app_wc.setup();
-    if (retval) return retval;
+    if (retval) return error("app setup", retval);
     retval = app_wc.run_command(distro, launch_cmd, true);
-    if (retval) return retval;
+    if (retval) return error("app run_command", retval);
     string reply;
     retval = read_from_pipe(app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, "\n");
-    if (retval) return retval;
+    if (retval) return error("app read_from_pipe", retval);
     pgid = atoi(reply.c_str());
-    printf("reply: [%s]\n", reply.c_str());
-    printf("pgid: %d\n", pgid);
+#if VERBOSE
+    fprintf(stderr, "reply: [%s]\n", reply.c_str());
+    fprintf(stderr, "pgid: %d\n", pgid);
+#endif
     running = true;
 
     // set up control channel
     //
     retval = ctl_wc.setup();
-    if (retval) return retval;
+    if (retval) return error("ctl setup", retval);
     retval = ctl_wc.run_command(distro, "", true);
-    if (retval) return retval;
+    if (retval) return error("ctl run_command", retval);
     return 0;
 }
 
@@ -110,9 +119,13 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     int retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, reply, CMD_TIMEOUT, "EOM"
     );
-    printf("read: %d\n", retval);
-    if (retval) return JOB_FAIL;
-    printf("ps reply: [%s]\n", reply.c_str());
+    if (retval) {
+        error("poll read", retval);
+        return JOB_FAIL;
+    }
+#if VERBOSE
+    fprintf(stderr, "ps reply: [%s]\n", reply.c_str());
+#endif
     ru.clear();
     int nlines = 0;
     // the first line produced by the ps command is the rather unhelpful
@@ -130,6 +143,7 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     }
     if (nlines == 0) {
         if (boinc_file_exists("boinc_job_done")) return JOB_SUCCESS;
+        fprintf(stderr, "no finish file\n");
         return JOB_FAIL;
     }
     return JOB_IN_PROGRESS;
@@ -137,19 +151,28 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
 
 int suspend() {
     char cmd[256];
-    sprintf(cmd, "kill STOP %d\n", pgid);
+    sprintf(cmd, "kill -STOP %d\n", -pgid);     // negative means whole process group
     running = false;
+#if VERBOSE
+    fprintf(stderr, "sending %s\n", cmd);
+#endif
     return write_to_pipe(ctl_wc.out_write, cmd);
 }
 int resume() {
     char cmd[256];
-    sprintf(cmd, "kill CONT %d\n", pgid);
+    sprintf(cmd, "kill -CONT %d\n", -pgid);
     running = true;
+#if VERBOSE
+    fprintf(stderr, "sending %s\n", cmd);
+#endif
     return write_to_pipe(ctl_wc.out_write, cmd);
 }
 int abort_job() {
     char cmd[256];
-    sprintf(cmd, "kill KILL %d\n", pgid);
+    sprintf(cmd, "kill -KILL %d\n", -pgid);
+#if VERBOSE
+    fprintf(stderr, "sending %s\n", cmd);
+#endif
     return write_to_pipe(ctl_wc.out_write, cmd);
 }
 
@@ -157,12 +180,19 @@ void poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
     if (status.no_heartbeat || status.quit_request || status.abort_request) {
+        fprintf(stderr, "got quite/abort from client\n");
         abort_job();
         exit(0);
     }
     if (status.suspended) {
+#if VERBOSE
+        fprintf(stderr, "suspended\n");
+#endif
         if (running) suspend();
     } else {
+#if VERBOSE
+        fprintf(stderr, "not suspended\n");
+#endif
         if (!running) resume();
     }
 }
@@ -206,7 +236,7 @@ int main(int argc, char** argv) {
     char main_cmd[256];
     sprintf(main_cmd, "./main %s", pass_thru);
     if (launch(distro_name.c_str(), main_cmd)) {
-        printf("launch failed\n");
+        fprintf(stderr, "launch failed\n");
         exit(1);
     }
     while (1) {
@@ -216,15 +246,17 @@ int main(int argc, char** argv) {
         RSC_USAGE ru;
         switch (poll_app(ru)) {
         case JOB_FAIL:
-            printf("job failed\n");
+            fprintf(stderr, "job failed\n");
             boinc_finish(1);
             goto done;
         case JOB_SUCCESS:
-            printf("job succeeded\n");
+            fprintf(stderr, "job succeeded\n");
             boinc_finish(0);
             goto done;
         }
-        printf("job in progress; cpu: %f wss: %f\n", ru.cpu_time, ru.wss);
+#if VERBOSE
+        fprintf(stderr, "job in progress; cpu: %f wss: %f\n", ru.cpu_time, ru.wss);
+#endif
         boinc_report_app_status(ru.cpu_time, checkpoint_cpu_time, 0);
         boinc_sleep(POLL_PERIOD);
     }
