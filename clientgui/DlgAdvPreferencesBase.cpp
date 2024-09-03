@@ -1214,7 +1214,7 @@ bool CDlgAdvPreferencesBase::doesLocalPrefsFileExist() {
 }
 
 void CDlgAdvPreferencesBase::makeStaticBoxLabelItalic(wxStaticBox* staticBox) {
-#if defined(__WXMSW__) || defined(__WXGTK__)
+#if defined(__WXMSW__)
     wxFont myFont = staticBox->GetFont();
     myFont.MakeItalic();
     myFont.MakeBold();
