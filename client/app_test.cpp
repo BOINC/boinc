@@ -64,22 +64,23 @@ void CLIENT_STATE::app_test_init() {}
 // The following functions create client data structures
 // (PROJECT, APP, APP_VERSION, WORKUNIT, RESULT, FILE_REF, FILE_INFO)
 // for the test app and job.
+// The names and version numbers must match up.
 
 static PROJECT* make_project() {
     PROJECT *proj = new PROJECT;
     strcpy(proj->project_name, "app_test project");
-    strcpy(proj->master_url, "app_test_project_url");
+    strcpy(proj->master_url, "https://app.test/");
     strcpy(proj->_project_dir, "projects/app_test");
     proj->app_test = true;
-        // this tells the scheduler not to allocate a slot
+        // tell the scheduler to use the slots/app_test slot dir for this project
     gstate.projects.push_back(proj);
     return proj;
 }
 
 static APP* make_app(PROJECT* proj) {
     APP *app = new APP;
-    strcpy(app->name, "test app");
-    strcpy(app->user_friendly_name, "test app");
+    strcpy(app->name, "test_app");
+    strcpy(app->user_friendly_name, "test_app");
     app->project = proj;
     gstate.apps.push_back(app);
     return app;
@@ -115,26 +116,29 @@ static FILE_REF* make_file(
 
 static APP_VERSION* make_app_version(APP *app) {
     APP_VERSION *av = new APP_VERSION;
-    strcpy(av->app_name, "test_av");
+    strcpy(av->app_name, app->name);
     strcpy(av->api_version, "8.0");
     av->app = app;
     av->project = app->project;
     av->avg_ncpus = 1;
+    av->version_num = 1;
     av->flops = 1e9;
     gstate.app_versions.push_back(av);
     return av;
 }
 
-static WORKUNIT* make_workunit(APP* app) {
+static WORKUNIT* make_workunit(APP_VERSION *av) {
     WORKUNIT *wu = new WORKUNIT;
+    APP* app = av->app;
     strcpy(wu->name, "test_wu");
-    strcpy(wu->app_name, "test_app");
+    strcpy(wu->app_name, app->name);
     wu->app = app;
     wu->project = app->project;
     wu->rsc_fpops_est = 1e9;
     wu->rsc_fpops_bound = 1e12;
     wu->rsc_memory_bound = 1e9;
     wu->rsc_disk_bound = 1e9;
+    wu->version_num = av->version_num;
     gstate.workunits.push_back(wu);
     return wu;
 }
@@ -142,7 +146,7 @@ static WORKUNIT* make_workunit(APP* app) {
 static RESULT* make_result(APP_VERSION *av, WORKUNIT* wu) {
     RESULT *res = new RESULT;
     strcpy(res->name, "test_result");
-    strcpy(res->wu_name, "test_wu");
+    strcpy(res->wu_name, wu->name);
     res->project = av->project;
     res->avp = av;
     res->wup = wu;
@@ -183,7 +187,7 @@ void CLIENT_STATE::app_test_init() {
     av->gpu_usage.usage = 1;
 #endif
 
-    WORKUNIT *wu = make_workunit(app);
+    WORKUNIT *wu = make_workunit(av);
 #if 1
     //wu->command_line = "in out";
     wu->input_files.push_back(

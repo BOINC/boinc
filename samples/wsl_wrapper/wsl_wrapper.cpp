@@ -133,12 +133,22 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     // I can't figure out how to prevent this.
     //
     for (string line: split(reply, '\n')) {
-        int h, m, s, wss;
-        int n = sscanf(line.c_str(), "%d:%d:%d %d", &h, &m, &s, &wss);
-        if (n == 4) {
-            ru.cpu_time += h*3600+m*60+s;
-            ru.wss += wss * 1024;
-            nlines++;
+        int n, d=0, h, m, s, wss;
+        const char* p = line.c_str();
+        if (strchr(p, '-')) {
+            n = sscanf(line.c_str(), "%d-%d:%d:%d %d", &d, &h, &m, &s, &wss);
+            if (n == 5) {
+                ru.cpu_time += d*86400 + h*3600 + m*60 + s;
+                ru.wss += wss * 1024;
+                nlines++;
+            }
+        } else {
+            n = sscanf(line.c_str(), "%d:%d:%d %d", &h, &m, &s, &wss);
+            if (n == 4) {
+                ru.cpu_time += h*3600 + m*60 + s;
+                ru.wss += wss * 1024;
+                nlines++;
+            }
         }
     }
     if (nlines == 0) {
@@ -156,7 +166,7 @@ int suspend() {
 #if VERBOSE
     fprintf(stderr, "sending %s\n", cmd);
 #endif
-    return write_to_pipe(ctl_wc.out_write, cmd);
+    return write_to_pipe(ctl_wc.in_write, cmd);
 }
 int resume() {
     char cmd[256];
@@ -165,7 +175,7 @@ int resume() {
 #if VERBOSE
     fprintf(stderr, "sending %s\n", cmd);
 #endif
-    return write_to_pipe(ctl_wc.out_write, cmd);
+    return write_to_pipe(ctl_wc.in_write, cmd);
 }
 int abort_job() {
     char cmd[256];
@@ -173,7 +183,7 @@ int abort_job() {
 #if VERBOSE
     fprintf(stderr, "sending %s\n", cmd);
 #endif
-    return write_to_pipe(ctl_wc.out_write, cmd);
+    return write_to_pipe(ctl_wc.in_write, cmd);
 }
 
 void poll_client_msgs() {
