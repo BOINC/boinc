@@ -103,8 +103,9 @@ int CLIENT_STATE::make_project_dirs() {
 
     string name;
     char path[MAXPATHLEN];
-    DirScanner dir("projects");
+    DirScanner dir(PROJECTS_DIR);
     while (dir.scan(name)) {
+        if (name == "app_test") continue;
         snprintf(path, sizeof(path), "projects/%s", name.c_str());
         if (std::find(pds.begin(), pds.end(), path) != pds.end()) {
             continue;
