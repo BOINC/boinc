@@ -120,4 +120,8 @@
         <min_ncpus>             2           </min_ncpus>
         <max_threads>           2           </max_threads>
     </plan_class>
+    <plan_class>
+        <name>                  wsl         </name>
+        <wsl/>
+    </plan_class>
 </plan_classes>

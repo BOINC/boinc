@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -959,6 +959,11 @@ static inline bool app_plan_vbox(
     return true;
 }
 
+static inline bool app_plan_wsl(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+    // no additional checks at the moment, just return true
+    return true;
+}
+
 // app planning function.
 // See https://github.com/BOINC/boinc/wiki/AppPlan
 //
@@ -1019,6 +1024,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const W
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
+    } else if (strstr(plan_class, "wsl")) {
+        return app_plan_wsl(sreq, plan_class, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
