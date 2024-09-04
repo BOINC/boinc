@@ -20,46 +20,39 @@
 // This lets you debug client/app interactions.
 //
 // To use this framework:
-// edit this file to describe your application:
+// - edit this file to describe your application:
 //      input/output files, attributes, etc.
-//      NOTE: currently it's set up for an app that:
-//          - is a native BOINC app (i.e. uses the BOINC library)
-//          - is named 'worker'
-//          - has 1 input file:
-//              logical name 'in' and physical name 'infile'
-//          - has 1 output file:
-//              logical name 'out' and physical name 'outfile'
-//          - has the command line 'in out' (i.e. the logical file names)
-//          To change these, edit app_test_init() below
+//      NOTE: currently it's set up for an app that uses the WSL wrapper
 //
-// build the BOINC client with these changes
-// make a BOINC data directory, say 'test'
+// - build the BOINC client with these changes
+// - make a BOINC data directory, say 'test'
 //      (or you can use an existing BOINC data directory,
 //      in which case the client will also run jobs that are there)
-// make a directory test/slots/app_test
+// - make a directory test/slots/app_test
 //      The client will run the test job there.
 //      Clean it out between runs.
-// make test/projects/app_test
-// In the project directory, put:
+// - make a dir test/projects/app_test
+// - In the project directory, put:
 //      - the executable file
 //      - the input file(s) with physical names
-// run boinc in the data directory
+// - run boinc (in the data directory if you created one)
 //      when the job is done, the client won't clean out the slot dir.
 //      You can examine the contents of the slot dir,
 //      and examine the output files in the project dir.
+//      Clean out the slot dir between tests.
 
-#include "project.h"
-#include "client_types.h"
-#include "result.h"
 #include "client_state.h"
-#include "log_flags.h"
 
-// set to 0 to enable
+// set to 0 to enable app test
 
-#if 0
+#if 1
 void CLIENT_STATE::app_test_init() {}
 #else
 
+#include "client_types.h"
+#include "log_flags.h"
+#include "project.h"
+#include "result.h"
 
 // The following functions create client data structures
 // (PROJECT, APP, APP_VERSION, WORKUNIT, RESULT, FILE_REF, FILE_INFO)
@@ -72,7 +65,7 @@ static PROJECT* make_project() {
     strcpy(proj->master_url, "https://app.test/");
     strcpy(proj->_project_dir, "projects/app_test");
     proj->app_test = true;
-        // tell the scheduler to use the slots/app_test slot dir for this project
+        // tell the client to use the slots/app_test slot dir for this project
     gstate.projects.push_back(proj);
     return proj;
 }
@@ -189,7 +182,7 @@ void CLIENT_STATE::app_test_init() {
 
     WORKUNIT *wu = make_workunit(av);
 #if 1
-    //wu->command_line = "in out";
+    //wu->command_line = "--nsecs 60";
     wu->input_files.push_back(
         *make_file(proj, "infile", "in", INPUT_FILE, false)
     );
