@@ -65,6 +65,9 @@ struct WSL_DISTROS {
     void clear();
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
+    WSL_DISTRO *find_match(
+        const char *os_name_regexp, const char *os_version_regexp
+    );
 };
 
 #endif

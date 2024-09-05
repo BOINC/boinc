@@ -210,7 +210,8 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
     bool app_test;
-        // this is the project created by --app_test
+        // this is the project created by app_test_init();
+        // use slots/app_test for its jobs
 
     ///////////////// member functions /////////////////
 

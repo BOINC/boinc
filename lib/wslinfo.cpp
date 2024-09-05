@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <regex>
+
 #include "wslinfo.h"
 
 void WSL_DISTRO::clear() {
@@ -107,4 +109,20 @@ int WSL_DISTROS::parse(XML_PARSER& xp) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+WSL_DISTRO* WSL_DISTROS::find_match(
+    const char *os_name_regexp, const char *os_version_regexp
+) {
+    std::regex name_regex(os_name_regexp), version_regex(os_version_regexp);
+    for (WSL_DISTRO &wd: distros) {
+        if (!std::regex_match(wd.os_name.c_str(), name_regex)) {
+            continue;
+        }
+        if (!std::regex_match(wd.os_version.c_str(), version_regex)) {
+            continue;
+        }
+        return &wd;
+    }
+    return NULL;
 }

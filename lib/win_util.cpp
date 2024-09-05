@@ -15,16 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(_WIN32)
+// Windows utilities
+
 #include "boinc_win.h"
-#endif
 
 #include "diagnostics.h"
 #include "util.h"
 #include "filesys.h"
-#include "win_util.h"
 #include "str_replace.h"
 #include "str_util.h"
+
+#include "win_util.h"
+
+using std::string;
 
 // terminate a process by process ID instead of a handle.
 //
@@ -119,7 +122,7 @@ void chdir_to_data_dir() {
 
 // convert string to wide string
 //
-std::wstring boinc_ascii_to_wide(const std::string& str) {
+std::wstring boinc_ascii_to_wide(const string& str) {
     int length_wide = MultiByteToWideChar(CP_ACP, 0, str.data(), -1, NULL, 0);
     wchar_t *string_wide = static_cast<wchar_t*>(
         _alloca((length_wide * sizeof(wchar_t)) + sizeof(wchar_t))
@@ -139,7 +142,7 @@ std::string boinc_wide_to_ascii(const std::wstring& str) {
     WideCharToMultiByte(
         CP_UTF8, 0, str.data(), -1, string_ansi, length_ansi, NULL, NULL
     );
-    std::string result(string_ansi, length_ansi - 1);
+    string result(string_ansi, length_ansi - 1);
     return result;
 }
 
@@ -222,14 +225,65 @@ int WSL_CMD::setup() {
 }
 
 int WSL_CMD::run_command(
-    const std::string distro_name, const std::string command,
-    HANDLE* proc_handle, bool use_cwd
+    const string distro_name, const string command, bool use_cwd
 ) {
     HRESULT ret = pWslLaunch(
         boinc_ascii_to_wide(distro_name).c_str(),
         boinc_ascii_to_wide(command).c_str(),
         use_cwd, in_read, out_write, out_write,
-        proc_handle
+        &proc_handle
     );
     return (ret == S_OK)?0:-1;
+}
+
+PIPE_READ_RET read_from_pipe(
+    HANDLE pipe, HANDLE proc_handle, string& out, double timeout,
+    const char* eom
+) {
+    char buf[1024];
+    DWORD avail, nread, exit_code;
+    bool ret;
+    double elapsed = 0;
+    bool exited = false;
+    out = "";
+    while (1) {
+        PeekNamedPipe(pipe, NULL, 0, NULL, &avail, NULL);
+        if (avail) {
+            ret = ReadFile(pipe, buf, sizeof(buf) - 1, &nread, NULL);
+            if (!ret) return READ_ERROR;
+            buf[nread] = 0;
+            out += buf;
+            if (eom) {
+                if (out.find(eom) != std::string::npos) {
+                    return GOT_EOM;
+                }
+            }
+        } else {
+            if (exited) {
+                return PROC_DIED;
+            }
+            Sleep(200);
+            if (timeout) {
+                elapsed += .2;
+                if (elapsed > timeout) {
+                    return TIMEOUT;
+                }
+            }
+            if (proc_handle) {
+                ret = GetExitCodeProcess(proc_handle, &exit_code);
+                if (!ret) exited = true;
+                if (exit_code != STILL_ACTIVE) exited = true;
+            }
+        }
+    }
+}
+
+int write_to_pipe(HANDLE pipe, const char* buf) {
+    DWORD n = (DWORD) strlen(buf);
+    DWORD nwritten;
+    bool ret = WriteFile(pipe, buf, n, &nwritten, NULL);
+        // what if nwritten != n?
+        // The Win docs and examples do not clarify this
+    if (ret) return 0;
+    return -1;
 }

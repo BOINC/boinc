@@ -227,7 +227,7 @@ void delete_old_slot_dirs() {
         safe_strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
-        if (!strcmp(filename, "app_test")) {
+        if (strstr(filename, "test")) {
             continue;
         }
         snprintf(path, sizeof(path), "%s/%s", SLOTS_DIR, filename);
