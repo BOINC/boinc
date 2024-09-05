@@ -108,7 +108,7 @@ class BoincDb {
             if (self::$dbnum == $dbnum) {
                 return self::$instance;
             }
-            close();
+            self::close();
         }
         if (web_stopped()) {
             if ($generating_xml) {

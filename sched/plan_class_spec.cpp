@@ -157,6 +157,8 @@ static bool wu_is_infeasible_for_plan_class(
     return false;
 }
 
+// parse plan_class_spec.xml
+//
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
     FILE* f = boinc::fopen(path, "r");
     if (!f) return ERR_FOPEN;
@@ -544,7 +546,7 @@ bool PLAN_CLASS_SPEC::check(
     }
 
     if (wsl) {
-        if (!sreq.host.wsl_available) {
+        if (sreq.host.wsl_distros.distros.empty()) {
             add_no_work_message("WSL is not available on this host");
             return false;
         }
@@ -1106,6 +1108,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("cal", cal)) continue;
         if (xp.parse_bool("opencl", opencl)) continue;
         if (xp.parse_bool("virtualbox", virtualbox)) continue;
+        if (xp.parse_bool("wsl", wsl)) continue;
         if (xp.parse_bool("is64bit", is64bit)) continue;
         if (xp.parse_str("cpu_feature", buf, sizeof(buf))) {
             cpu_features.push_back(" " + (string)buf + " ");
@@ -1244,7 +1247,6 @@ int PLAN_CLASS_SPECS::parse_specs(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-
 PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     strcpy(name, "");
     strcpy(gpu_type, "");
@@ -1252,6 +1254,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     cal = false;
     opencl = false;
     virtualbox = false;
+    wsl = false;
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;
