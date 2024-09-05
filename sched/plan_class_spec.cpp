@@ -544,7 +544,7 @@ bool PLAN_CLASS_SPEC::check(
     }
 
     if (wsl) {
-        if (!sreq.host.wsl_available) {
+        if (!sreq.host.wsl_distros.distros.empty()) {
             add_no_work_message("WSL is not available on this host");
             return false;
         }
