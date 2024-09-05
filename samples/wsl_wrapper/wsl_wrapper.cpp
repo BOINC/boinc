@@ -49,7 +49,7 @@
 
 using std::string;
 
-#define VERBOSE 1
+#define VERBOSE 0
 
 WSL_CMD app_wc;
 WSL_CMD ctl_wc;
@@ -243,9 +243,9 @@ int main(int argc, char** argv) {
         distro_name = distro->distro_name;
     }
 
-    char main_cmd[256];
-    sprintf(main_cmd, "./main %s", pass_thru);
-    if (launch(distro_name.c_str(), main_cmd)) {
+    string main_cmd = "./main ";
+    main_cmd += pass_thru;
+    if (launch(distro_name.c_str(), main_cmd.c_str())) {
         fprintf(stderr, "launch failed\n");
         exit(1);
     }
