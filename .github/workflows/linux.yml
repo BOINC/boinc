@@ -246,7 +246,7 @@ jobs:
         if: success() && matrix.type == 'apps'
         run: |
           export CFLAGS="-O3"
-          export CXXFLAGS="-O3"
+          export CXXFLAGS="-O3 -std=c++11"
           export LDFLAGS="-static-libstdc++ -s"
           export RELEASE_ARCH=x86_64
           ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager
@@ -256,7 +256,7 @@ jobs:
         if: success() && matrix.type == 'apps-x86'
         run: |
           export CFLAGS="-O3 -m32"
-          export CXXFLAGS="-O3 -m32"
+          export CXXFLAGS="-O3 -m32 -std=c++11"
           export LDFLAGS="-static-libstdc++ -s -m32"
           export RELEASE_ARCH=i686
           ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --host=i686-linux-gnu

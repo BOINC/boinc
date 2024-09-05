@@ -26,7 +26,7 @@ export CC=aarch64-linux-gnu-gcc
 export CXX=aarch64-linux-gnu-g++
 export LD=aarch64-linux-gnu-ld
 export CFLAGS="--sysroot=$TCSYSROOT -I$TCINCLUDES/include -march=armv8-a -O3 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
-export CXXFLAGS="--sysroot=$TCSYSROOT -I$TCINCLUDES/include -march=armv8-a -O3 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
+export CXXFLAGS="--sysroot=$TCSYSROOT -I$TCINCLUDES/include -march=armv8-a -O3 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR -std=c++11"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -march=armv8-a -latomic -static-libstdc++"
 
 CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
