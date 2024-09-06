@@ -1019,18 +1019,30 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 #endif
 
-    bool old_user_active = user_active;
-#ifdef ANDROID
-    user_active = device_status.user_active;
-#else
-    long idle_time = host_info.user_idle_time(check_all_logins);
-    user_active = idle_time < global_prefs.idle_time_to_run * 60;
+    // there are 2 reasons to get idle state:
+    // if needed for computing prefs,
+    // or (on Mac) we were started by screensaver
+    //
+    bool get_idle_state = global_prefs.need_idle_state;
+#ifdef __APPLE__
+    if (started_by_screensaver) get_idle_state = true;
 #endif
-
-    if (user_active != old_user_active) {
-        set_n_usable_cpus();
-            // if niu_max_ncpus_pct pref is set, # usable CPUs may change
-        request_schedule_cpus(user_active?"Not idle":"Idle");
+    long idle_time;
+    if (get_idle_state) {
+        bool old_user_active = user_active;
+#ifdef ANDROID
+        user_active = device_status.user_active;
+#else
+        idle_time = host_info.user_idle_time(check_all_logins);
+        user_active = idle_time < global_prefs.idle_time_to_run * 60;
+#endif
+        if (user_active != old_user_active) {
+            set_n_usable_cpus();
+                // if niu_max_ncpus_pct pref is set, # usable CPUs may change
+            request_schedule_cpus(user_active?"Not idle":"Idle");
+        }
+    } else {
+        user_active = false;    // shouldn't matter what it is
     }
 
 #if 0

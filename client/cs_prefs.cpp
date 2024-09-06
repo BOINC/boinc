@@ -675,6 +675,9 @@ void CLIENT_STATE::read_global_prefs(
     file_xfers->set_bandwidth_limits(true);
     file_xfers->set_bandwidth_limits(false);
 #endif
+
+    bool have_gpu = coprocs.n_rsc > 1;
+    global_prefs.need_idle_state = global_prefs.get_need_idle_state(have_gpu);
     print_global_prefs();
     request_schedule_cpus("Prefs update");
     request_work_fetch("Prefs update");
@@ -815,6 +818,11 @@ void CLIENT_STATE::print_global_prefs() {
         allowed_disk_usage(total_disk_usage)/GIGA
     );
 #endif
+    if (!global_prefs.need_idle_state) {
+        msg_printf(NULL, MSG_INFO,
+            "-  Preferences don't depend on whether computer is in use"
+        );
+    }
     msg_printf(NULL, MSG_INFO,
         "-  (to change preferences, visit a project web site or select 'Options / Computing preferences...' in the Manager)"
     );
