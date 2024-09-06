@@ -221,6 +221,7 @@ struct GLOBAL_PREFS {
         //
         if (!run_if_user_active) return true;
         if (have_gpu && !run_gpu_if_user_active) return true;
+        if (suspend_if_no_recent_input) return true;
         if (niu_cpu_usage_limit && niu_cpu_usage_limit != cpu_usage_limit) return true;
         if (niu_max_ncpus_pct && niu_max_ncpus_pct != max_ncpus_pct) return true;
         if (niu_suspend_cpu_usage && niu_suspend_cpu_usage != suspend_cpu_usage) return true;

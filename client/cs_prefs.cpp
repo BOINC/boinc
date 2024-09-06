@@ -675,15 +675,15 @@ void CLIENT_STATE::read_global_prefs(
     file_xfers->set_bandwidth_limits(true);
     file_xfers->set_bandwidth_limits(false);
 #endif
+
+    bool have_gpu = coprocs.n_rsc > 1;
+    global_prefs.need_idle_state = global_prefs.get_need_idle_state(have_gpu);
     print_global_prefs();
     request_schedule_cpus("Prefs update");
     request_work_fetch("Prefs update");
 #ifndef SIM
     active_tasks.request_reread_app_info();
 #endif
-
-    bool have_gpu = coprocs.n_rsc > 1;
-    global_prefs.need_idle_state = global_prefs.get_need_idle_state(have_gpu);
 }
 
 void CLIENT_STATE::print_global_prefs() {
@@ -820,7 +820,7 @@ void CLIENT_STATE::print_global_prefs() {
 #endif
     if (!global_prefs.need_idle_state) {
         msg_printf(NULL, MSG_INFO,
-            "-  Prefs don't depend on whether computer is in use"
+            "-  Preferences don't depend on whether computer is in use"
         );
     }
     msg_printf(NULL, MSG_INFO,
