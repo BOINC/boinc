@@ -197,6 +197,8 @@ struct GLOBAL_PREFS {
     bool host_specific;
         // an account manager can set this; if set, don't propagate
     bool override_file_present;
+    bool need_idle_state;
+        // whether idle state makes any difference
 
     GLOBAL_PREFS();
     void defaults();
@@ -214,6 +216,16 @@ struct GLOBAL_PREFS {
         return cpu_scheduling_period_minutes*60;
     }
     static double parse_mod_time(const char*);
+    bool get_need_idle_state(bool have_gpu) {
+        // is any pref set that causes different behavior if user is active?
+        //
+        if (!run_if_user_active) return true;
+        if (have_gpu && !run_gpu_if_user_active) return true;
+        if (niu_cpu_usage_limit && niu_cpu_usage_limit != cpu_usage_limit) return true;
+        if (niu_max_ncpus_pct && niu_max_ncpus_pct != max_ncpus_pct) return true;
+        if (niu_suspend_cpu_usage && niu_suspend_cpu_usage != suspend_cpu_usage) return true;
+        return false;
+    }
 };
 
 #endif

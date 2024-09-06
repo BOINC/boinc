@@ -681,6 +681,9 @@ void CLIENT_STATE::read_global_prefs(
 #ifndef SIM
     active_tasks.request_reread_app_info();
 #endif
+
+    bool have_gpu = coprocs.n_rsc > 1;
+    global_prefs.need_idle_state = global_prefs.get_need_idle_state(have_gpu);
 }
 
 void CLIENT_STATE::print_global_prefs() {
@@ -815,6 +818,11 @@ void CLIENT_STATE::print_global_prefs() {
         allowed_disk_usage(total_disk_usage)/GIGA
     );
 #endif
+    if (!global_prefs.need_idle_state) {
+        msg_printf(NULL, MSG_INFO,
+            "-  Prefs don't depend on whether computer is in use"
+        );
+    }
     msg_printf(NULL, MSG_INFO,
         "-  (to change preferences, visit a project web site or select 'Options / Computing preferences...' in the Manager)"
     );
