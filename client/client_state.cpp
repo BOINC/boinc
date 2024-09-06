@@ -1019,12 +1019,21 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 #endif
 
-    if (global_prefs.need_idle_state) {
+    // there are 2 reasons to get idle state:
+    // if needed for computing prefs,
+    // or (on Mac) we were started by screensaver
+    //
+    bool get_idle_state = global_prefs.need_idle_state;
+#ifdef __APPLE__
+    if (started_by_screensaver) get_idle_state = true;
+#endif
+    long idle_time;
+    if (get_idle_state) {
         bool old_user_active = user_active;
 #ifdef ANDROID
         user_active = device_status.user_active;
 #else
-        long idle_time = host_info.user_idle_time(check_all_logins);
+        idle_time = host_info.user_idle_time(check_all_logins);
         user_active = idle_time < global_prefs.idle_time_to_run * 60;
 #endif
         if (user_active != old_user_active) {
