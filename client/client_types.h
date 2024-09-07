@@ -245,9 +245,9 @@ struct DAILY_STATS {
     double host_expavg_credit;
     double day;
 
-    DAILY_STATS(int){}
+    DAILY_STATS(DUMMY_TYPE){}
     void clear() {
-        static const DAILY_STATS x(0);
+        static const DAILY_STATS x(DUMMY);
         *this = x;
     }
     DAILY_STATS() {
@@ -299,9 +299,9 @@ struct APP {
     bool ignore;
 #endif
 
-    APP(int){}
+    APP(DUMMY_TYPE){}
     void clear() {
-        static const APP x(0);
+        static const APP x(DUMMY);
         *this = x;
     }
     APP(){

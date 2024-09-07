@@ -157,6 +157,8 @@ static bool wu_is_infeasible_for_plan_class(
     return false;
 }
 
+// parse plan_class_spec.xml
+//
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
     FILE* f = boinc::fopen(path, "r");
     if (!f) return ERR_FOPEN;
@@ -658,6 +660,13 @@ bool PLAN_CLASS_SPEC::check(
             if (!is64bit) return false;
         } else {
             if (is64bit) return false;
+        }
+    }
+
+    if (wsl) {
+        if (sreq.host.wsl_distros.distros.empty()) {
+            add_no_work_message("WSL is not available on this host");
+            return false;
         }
     }
 
@@ -1217,6 +1226,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("cal", cal)) continue;
         if (xp.parse_bool("opencl", opencl)) continue;
         if (xp.parse_bool("virtualbox", virtualbox)) continue;
+        if (xp.parse_bool("wsl", wsl)) continue;
         if (xp.parse_bool("docker", docker)) continue;
         if (xp.parse_bool("docker_compose", docker_compose)) continue;
         if (xp.parse_int("min_docker_version", min_docker_version)) continue;
@@ -1359,7 +1369,6 @@ int PLAN_CLASS_SPECS::parse_specs(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-
 PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     strcpy(name, "");
     strcpy(gpu_type, "");
@@ -1367,6 +1376,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     cal = false;
     opencl = false;
     virtualbox = false;
+    wsl = false;
     docker = false;
     docker_compose = false;
     min_docker_version = 0;

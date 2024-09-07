@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -372,8 +372,14 @@ struct HOST {
     bool p_vm_extensions_disabled;
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
-    bool wsl_available;
-    WSLS wsls;
+    WSL_DISTROS wsl_distros;
+
+    // Docker info (non-Win only)
+    bool docker_available;
+        // present and allowed by config
+    bool docker_compose_available;
+    char docker_version[256];
+    char docker_compose_version[256];
 
     // stuff from time_stats
     double cpu_and_network_available_frac;

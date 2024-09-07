@@ -282,6 +282,14 @@ enum SPORADIC_AC_STATE {
 #define CREDIT_TYPE_NETWORK         2
 #define CREDIT_TYPE_PROJECT         3
 
+// An arg type for the 'dummy constructors' used to zero out structs.
+// Something that won't occur naturally, so that
+// COPROC c = 0;
+// will give a compile error, rather than creating a COPROC
+// using a dummy COPROC(int) constructor
+//
+typedef enum DUMMY_ENUM{DUMMY=0} DUMMY_TYPE;
+
 struct TIME_STATS {
     double now;
         // the client's current time of day
@@ -412,7 +420,7 @@ struct DEVICE_STATUS {
 // You can define this in "configure" if you want.
 //
 #ifndef LINUX_DEFAULT_DATA_DIR
-#define LINUX_DEFAULT_DATA_DIR      "/var/lib/boinc-client"
+#define LINUX_DEFAULT_DATA_DIR      "/var/lib/boinc"
 #endif
 
 #endif

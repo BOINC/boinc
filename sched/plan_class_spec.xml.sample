@@ -121,6 +121,10 @@
         <max_threads>           2           </max_threads>
     </plan_class>
     <plan_class>
+        <name>                  wsl         </name>
+        <wsl/>
+    </plan_class>
+    <plan_class>
         <name>                  docker      </name>
         <docker/>
         <min_docker_version>    270102       </min_docker_version>

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,60 +17,63 @@
 
 // A framework that lets you run jobs under a BOINC client
 // without a project, and without fake XML files
-// Lets you debug client/app interactions.
+// This lets you debug client/app interactions.
 //
 // To use this framework:
-// edit this file to describe your application:
+// - edit this file to describe your application:
 //      input/output files, attributes, etc.
-//      NOTE: currently it's set up for an app that:
-//          - is a native BOINC app (i.e. uses the BOINC library)
-//          - has 1 input file:
-//              logical name 'in' and physical name 'infile'
-//          - has 1 output file:
-//              logical name 'out' and physical name 'outfile'
-//          - has the command line 'in out' (i.e. the logical file names)
-//          To change these, edit app_test_init() below
+//      NOTE: currently it's set up for an app that uses the WSL wrapper
 //
-// build the BOINC client with these changes
-// make a BOINC data directory, say 'test'
+// - build the BOINC client with these changes
+// - make a BOINC data directory, say 'test'
 //      (or you can use an existing BOINC data directory,
 //      in which case the client will also run jobs that are there)
-// make a directory test/slots/app_test
+// - make a directory test/slots/app_test
 //      The client will run the test job there.
 //      Clean it out between runs.
-// the test directory acts as the project directory. In it, put
+// - make a dir test/projects/app_test
+// - In the project directory, put:
 //      - the executable file
 //      - the input file(s) with physical names
-// in the test directory, run boinc --app_test exec_filename
+// - run boinc (in the data directory if you created one)
 //      when the job is done, the client won't clean out the slot dir.
 //      You can examine the contents of the slot dir,
-//      and examine the output files in the test dir.
+//      and examine the output files in the project dir.
+//      Clean out the slot dir between tests.
 
-#include "project.h"
-#include "client_types.h"
-#include "result.h"
 #include "client_state.h"
+
+// set to 0 to enable app test
+
+#if 1
+void CLIENT_STATE::app_test_init() {}
+#else
+
+#include "client_types.h"
 #include "log_flags.h"
+#include "project.h"
+#include "result.h"
 
 // The following functions create client data structures
 // (PROJECT, APP, APP_VERSION, WORKUNIT, RESULT, FILE_REF, FILE_INFO)
 // for the test app and job.
+// The names and version numbers must match up.
 
 static PROJECT* make_project() {
     PROJECT *proj = new PROJECT;
-    strcpy(proj->project_name, "test project");
-    strcpy(proj->master_url, "test_project_url");
-    strcpy(proj->_project_dir, ".");
+    strcpy(proj->project_name, "app_test project");
+    strcpy(proj->master_url, "https://app.test/");
+    strcpy(proj->_project_dir, "projects/app_test");
     proj->app_test = true;
-    proj->non_cpu_intensive = false;
+        // tell the client to use the slots/app_test slot dir for this project
     gstate.projects.push_back(proj);
     return proj;
 }
 
 static APP* make_app(PROJECT* proj) {
     APP *app = new APP;
-    strcpy(app->name, "test app");
-    strcpy(app->user_friendly_name, "test app");
+    strcpy(app->name, "test_app");
+    strcpy(app->user_friendly_name, "test_app");
     app->project = proj;
     gstate.apps.push_back(app);
     return app;
@@ -78,16 +81,17 @@ static APP* make_app(PROJECT* proj) {
 
 #define INPUT_FILE  0
 #define OUTPUT_FILE 1
-#define EXEC_FILE   2
+#define MAIN_PROG   2
 
 static FILE_REF* make_file(
-    PROJECT *proj, const char* phys_name, const char* log_name, int ftype
+    PROJECT *proj, const char* phys_name, const char* log_name,
+    int ftype, bool copy_file
 ) {
     FILE_INFO *fip = new FILE_INFO;
     strcpy(fip->name, phys_name);
     fip->project = proj;
     fip->status = (ftype == OUTPUT_FILE)?FILE_NOT_PRESENT:FILE_PRESENT;
-    if (ftype == EXEC_FILE) fip->executable = true;
+    if (ftype == MAIN_PROG) fip->executable = true;
     if (ftype == OUTPUT_FILE) {
         fip->max_nbytes = 1e9;
         fip->upload_urls.add(string("foobar"));
@@ -98,38 +102,36 @@ static FILE_REF* make_file(
         strcpy(fref->open_name, log_name);
     }
     fref->file_info = fip;
-    if (ftype == EXEC_FILE) fref->main_program = true;
+    if (ftype == MAIN_PROG) fref->main_program = true;
+    fref->copy_file = copy_file;
     return fref;
 }
 
-static APP_VERSION* make_app_version(APP *app, const char* exec_name) {
-    if (!boinc_file_exists(exec_name)) {
-        fprintf(stderr, "%s doesn't exist\n", exec_name);
-        exit(1);
-    }
+static APP_VERSION* make_app_version(APP *app) {
     APP_VERSION *av = new APP_VERSION;
-    strcpy(av->app_name, "test_av");
+    strcpy(av->app_name, app->name);
     strcpy(av->api_version, "8.0");
     av->app = app;
     av->project = app->project;
     av->avg_ncpus = 1;
+    av->version_num = 1;
     av->flops = 1e9;
-    FILE_REF *fref = make_file(app->project, exec_name, NULL, EXEC_FILE);
-    av->app_files.push_back(*fref);
     gstate.app_versions.push_back(av);
     return av;
 }
 
-static WORKUNIT* make_workunit(APP* app) {
+static WORKUNIT* make_workunit(APP_VERSION *av) {
     WORKUNIT *wu = new WORKUNIT;
+    APP* app = av->app;
     strcpy(wu->name, "test_wu");
-    strcpy(wu->app_name, "test_app");
+    strcpy(wu->app_name, app->name);
     wu->app = app;
     wu->project = app->project;
     wu->rsc_fpops_est = 1e9;
     wu->rsc_fpops_bound = 1e12;
     wu->rsc_memory_bound = 1e9;
     wu->rsc_disk_bound = 1e9;
+    wu->version_num = av->version_num;
     gstate.workunits.push_back(wu);
     return wu;
 }
@@ -137,7 +139,7 @@ static WORKUNIT* make_workunit(APP* app) {
 static RESULT* make_result(APP_VERSION *av, WORKUNIT* wu) {
     RESULT *res = new RESULT;
     strcpy(res->name, "test_result");
-    strcpy(res->wu_name, "test_wu");
+    strcpy(res->wu_name, wu->name);
     res->project = av->project;
     res->avp = av;
     res->wup = wu;
@@ -160,7 +162,17 @@ void CLIENT_STATE::app_test_init() {
     have_sporadic_app = true;
 #endif
 
-    APP_VERSION *av = make_app_version(app, app_test_file.c_str());
+    APP_VERSION *av = make_app_version(app);
+    av->app_files.push_back(
+        *make_file(app->project, "wsl_wrapper.exe", NULL, MAIN_PROG, false)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "main", NULL, INPUT_FILE, true)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "worker", NULL, INPUT_FILE, false)
+    );
+
     // can put other stuff here like
 #if 0
     av->gpu_ram = 1e7;
@@ -168,18 +180,18 @@ void CLIENT_STATE::app_test_init() {
     av->gpu_usage.usage = 1;
 #endif
 
-    WORKUNIT *wu = make_workunit(app);
+    WORKUNIT *wu = make_workunit(av);
 #if 1
-    wu->command_line = "in out";
+    //wu->command_line = "--nsecs 60";
     wu->input_files.push_back(
-        *make_file(proj, "infile", "in", INPUT_FILE)
+        *make_file(proj, "infile", "in", INPUT_FILE, false)
     );
 #endif
 
     RESULT *result = make_result(av, wu);
 #if 1
     result->output_files.push_back(
-        *make_file(proj, "outfile", "out", OUTPUT_FILE)
+        *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
     );
 #endif
 
@@ -188,3 +200,4 @@ void CLIENT_STATE::app_test_init() {
     cc_config.unsigned_apps_ok = true;
     cc_config.skip_cpu_benchmarks = true;
 }
+#endif

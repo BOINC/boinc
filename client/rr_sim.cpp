@@ -682,14 +682,17 @@ void rr_simulation(const char* why) {
 }
 
 // Compute the number resources with > 0 idle instance
-// Put results in global state (rsc_work_fetch)
+// Put results in global state (rsc_work_fetch[].nidle_now)
 // This is called from the account manager logic,
 // to decide if we need to get new projects from the AM.
 //
 int n_idle_resources() {
-    int nidle_rsc = coprocs.n_rsc;
+    int nidle_rsc = 0;
+    coprocs.coprocs[0].count = gstate.n_usable_cpus;
     for (int i=0; i<coprocs.n_rsc; i++) {
-        rsc_work_fetch[i].nidle_now = coprocs.coprocs[i].count;
+        int c = coprocs.coprocs[i].count;
+        rsc_work_fetch[i].nidle_now = c;
+        if (c > 0) nidle_rsc++;
     }
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];

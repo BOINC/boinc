@@ -697,12 +697,6 @@ int ACTIVE_TASK::start(bool test) {
         exit(0);
     }
 
-    // use special exec path for test app
-    //
-    if (wup->project->app_test) {
-        strcpy(exec_path, gstate.app_test_file.c_str());
-    }
-
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;

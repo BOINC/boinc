@@ -1987,20 +1987,20 @@ void GUI_RPC_CONN::handle_get() {
 // return nonzero only if we need to close the connection
 //
 int GUI_RPC_CONN::handle_rpc() {
-    int n, retval=0;
+    int retval=0;
     char* p;
 
     int left = GUI_RPC_REQ_MSG_SIZE - request_nbytes;
 #ifdef _WIN32
-    n = recv(sock, request_msg+request_nbytes, left, 0);
+    SSIZE_T nb = recv(sock, request_msg+request_nbytes, left, 0);
 #else
-    n = read(sock, request_msg+request_nbytes, left);
+    ssize_t nb = read(sock, request_msg+request_nbytes, left);
 #endif
-    if (n <= 0) {
+    if (nb <= 0) {
         request_nbytes = 0;
         return ERR_READ;
     }
-    request_nbytes += n;
+    request_nbytes += nb;
 
     // buffer full?
     if (request_nbytes >= GUI_RPC_REQ_MSG_SIZE) {
@@ -2102,6 +2102,7 @@ int GUI_RPC_CONN::handle_rpc() {
     if (!http_request) {
         mfout.printf("\003");   // delimiter for non-HTTP replies
     }
+    int n;
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];

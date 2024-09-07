@@ -32,6 +32,7 @@ struct PLAN_CLASS_SPEC {
     bool cal;
     bool opencl;
     bool virtualbox;
+    bool wsl;
     bool docker;
     bool docker_compose;
     int min_docker_version;

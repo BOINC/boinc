@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// structs describing WSL (Windows Subsystem for Linux) distros.
+// Used in Win client and also in server code (for plan class logic)
+
 #ifndef BOINC_WSLINFO_H
 #define BOINC_WSLINFO_H
 
@@ -23,36 +26,48 @@
 #include "miofile.h"
 #include "parse.h"
 
-// this structure describes the information about every WSL (Windows Subsystem for Linux) installation enabled on the host
-struct WSL {
-    // unique identifier of installed WSL distribution
+// describes a WSL (Windows Subsystem for Linux) distro
+//
+struct WSL_DISTRO {
     std::string distro_name;
-    // name of the operating system
+        // name (unique) of distro
     std::string os_name;
-    // version of the operating system
+        // name of the operating system
     std::string os_version;
-    // version of WSL (currently 1 or 2)
-    std::string wsl_version;
-    // flag indicating whether this is the default WSL distribution
+        // version of the operating system
+    int wsl_version;
+        // version of WSL (currently 1 or 2)
     bool is_default;
+        // this is the default distro
+    bool is_docker_available;
+        // Docker is present and allowed by config
+    bool is_docker_compose_available;
+        // Docker Compose is present and allowed by config
+    std::string docker_version;
+        // version of Docker
+    std::string docker_compose_version;
+        // version of Docker Compose
 
-    WSL();
-
+    WSL_DISTRO(){
+        clear();
+    };
     void clear();
-
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
 };
 
-struct WSLS {
-    std::vector<WSL> wsls;
+// a set of WSL distros
+//
+struct WSL_DISTROS {
+    std::vector<WSL_DISTRO> distros;
 
-    WSLS();
-
+    WSL_DISTROS();
     void clear();
-
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
+    WSL_DISTRO *find_match(
+        const char *os_name_regexp, const char *os_version_regexp
+    );
 };
 
 #endif

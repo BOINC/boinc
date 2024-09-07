@@ -247,22 +247,32 @@ void CLIENT_STATE::show_host_info() {
     );
 
 #ifdef _WIN64
-    if (host_info.wsl_available) {
-        msg_printf(NULL, MSG_INFO, "WSL detected:");
-        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
-            const WSL& wsl = host_info.wsls.wsls[i];
-            if (wsl.is_default) {
-                msg_printf(NULL, MSG_INFO,
-                    "   [%s] <v%s> (default): %s (%s)", wsl.distro_name.c_str(), wsl.wsl_version.c_str(), wsl.os_name.c_str(), wsl.os_version.c_str()
+    if (host_info.wsl_distros.distros.empty()) {
+        msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+    } else {
+        msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
+        for (auto &wsl: host_info.wsl_distros.distros) {
+            msg_printf(NULL, MSG_INFO,
+                "-   %s (WSL %d)%s",
+                wsl.distro_name.c_str(),
+                wsl.wsl_version,
+                wsl.is_default?" (default)":""
+            );
+            msg_printf(NULL, MSG_INFO,
+                "-      OS: %s (%s)",
+                wsl.os_name.c_str(), wsl.os_version.c_str()
+            );
+            if (wsl.is_docker_available) {
+                msg_printf(NULL, MSG_INFO, "-      Docker version %s",
+                    wsl.docker_version.c_str()
                 );
-            } else {
-                msg_printf(NULL, MSG_INFO,
-                    "   [%s] <v%s>: %s (%s)", wsl.distro_name.c_str(), wsl.wsl_version.c_str(), wsl.os_name.c_str(), wsl.os_version.c_str()
+            }
+            if (wsl.is_docker_compose_available) {
+                msg_printf(NULL, MSG_INFO, "-      Docker compose version %s",
+                    wsl.docker_compose_version.c_str()
                 );
             }
         }
-    } else {
-        msg_printf(NULL, MSG_INFO, "No WSL found.");
     }
 #endif
 
@@ -280,7 +290,22 @@ void CLIENT_STATE::show_host_info() {
         }
 #endif
     }
+
+#ifndef _WIN64
+    if (host_info.docker_available && strlen(host_info.docker_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker version %s found",
+            host_info.docker_version
+        );
+    }
+    if (host_info.docker_compose_available && strlen(host_info.docker_compose_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker compose version %s found",
+            host_info.docker_compose_version
+        );
+    }
+#endif
 }
+
+// TODO: the following 3 should be members of COPROCS
 
 int rsc_index(const char* name) {
     const char* nm = strcmp(name, "CUDA")?name:GPU_TYPE_NVIDIA;
@@ -619,9 +644,7 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
-    if (app_test) {
-        app_test_init();
-    }
+    app_test_init();
 
     bool new_client = is_new_client();
 
@@ -996,18 +1019,30 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 #endif
 
-    bool old_user_active = user_active;
-#ifdef ANDROID
-    user_active = device_status.user_active;
-#else
-    long idle_time = host_info.user_idle_time(check_all_logins);
-    user_active = idle_time < global_prefs.idle_time_to_run * 60;
+    // there are 2 reasons to get idle state:
+    // if needed for computing prefs,
+    // or (on Mac) we were started by screensaver
+    //
+    bool get_idle_state = global_prefs.need_idle_state;
+#ifdef __APPLE__
+    if (started_by_screensaver) get_idle_state = true;
 #endif
-
-    if (user_active != old_user_active) {
-        set_n_usable_cpus();
-            // if niu_max_ncpus_pct pref is set, # usable CPUs may change
-        request_schedule_cpus(user_active?"Not idle":"Idle");
+    long idle_time;
+    if (get_idle_state) {
+        bool old_user_active = user_active;
+#ifdef ANDROID
+        user_active = device_status.user_active;
+#else
+        idle_time = host_info.user_idle_time(check_all_logins);
+        user_active = idle_time < global_prefs.idle_time_to_run * 60;
+#endif
+        if (user_active != old_user_active) {
+            set_n_usable_cpus();
+                // if niu_max_ncpus_pct pref is set, # usable CPUs may change
+            request_schedule_cpus(user_active?"Not idle":"Idle");
+        }
+    } else {
+        user_active = false;    // shouldn't matter what it is
     }
 
 #if 0

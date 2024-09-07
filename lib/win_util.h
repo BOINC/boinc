@@ -28,4 +28,49 @@ extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize ...
 );
 
+// struct for running a WSL command, connected via pipes
+//
+struct WSL_CMD {
+    HANDLE in_read = NULL;
+    HANDLE in_write = NULL;
+    HANDLE out_read = NULL;
+    HANDLE out_write = NULL;
+    HANDLE proc_handle = NULL;
+
+    ~WSL_CMD() {
+        if (in_read) CloseHandle(in_read);
+        if (in_write) CloseHandle(in_write);
+        if (out_read) CloseHandle(out_read);
+        if (out_write) CloseHandle(out_write);
+    }
+
+    int setup();
+
+    // run command, direct both stdout and stderr to the out pipe
+    //
+    int run_command(
+        const std::string distro_name, const std::string command,
+        bool use_cwd = false
+    );
+};
+
+enum PIPE_READ_RET {GOT_EOM, PROC_DIED, TIMEOUT, READ_ERROR};
+
+// read from the pipe until either
+// - we get the eom string (if any)
+//      If you want to read at least 1 line, use "\n"
+// - there's no more data and the given process (if any) doesn't exist
+// - there's no more data and the given timeout (if any) is reached
+// - a read fails
+//
+extern PIPE_READ_RET read_from_pipe(
+    HANDLE pipe,
+    HANDLE proc_handle,
+    std::string& out,
+    double timeout = 0,
+    const char* eom = NULL
+);
+
+extern int write_to_pipe(HANDLE pipe, const char* buf);
+
 #endif
