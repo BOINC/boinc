@@ -467,14 +467,14 @@ bool PLAN_CLASS_SPEC::check(
             add_no_work_message("Docker compose is not installed or is not available");
             return false;
         }
-        if (sreq.host.wsl_available) {
+        if (!sreq.host.wsl_distros.distros.empty()) {
             bool docker_found = false;
             bool docker_compose_found = false;
-            for (int i = 0; i < sreq.host.wsls.wsls.size(); i++) {
-                if (sreq.host.wsls.wsls[i].is_docker_available) {
-                    if (docker_compose && sreq.host.wsls.wsls[i].is_docker_compose_available) {
+            for (int i = 0; i < sreq.host.wsl_distros.distros.size(); i++) {
+                if (sreq.host.wsl_distros.distros[i].is_docker_available) {
+                    if (docker_compose && sreq.host.wsl_distros.distros[i].is_docker_compose_available) {
                         int maj, min, rel;
-                        int n = sscanf(sreq.host.wsls.wsls[i].docker_version.c_str(), "%d.%d.%d", &maj, &min, &rel);
+                        int n = sscanf(sreq.host.wsl_distros.distros[i].docker_version.c_str(), "%d.%d.%d", &maj, &min, &rel);
                         if (n != 3) {
                             if (config.debug_version_select) {
                                 log_messages.printf(MSG_NORMAL,
@@ -499,9 +499,9 @@ bool PLAN_CLASS_SPEC::check(
                         break;
                     }
                 }
-                if (docker_compose && sreq.host.wsls.wsls[i].is_docker_compose_available) {
+                if (docker_compose && sreq.host.wsl_distros.distros[i].is_docker_compose_available) {
                     int maj, min, rel;
-                    int n = sscanf(sreq.host.wsls.wsls[i].docker_compose_version.c_str(), "%d.%d.%d", &maj, &min, &rel);
+                    int n = sscanf(sreq.host.wsl_distros.distros[i].docker_compose_version.c_str(), "%d.%d.%d", &maj, &min, &rel);
                     if (n != 3) {
                         if (config.debug_version_select) {
                             log_messages.printf(MSG_NORMAL,
