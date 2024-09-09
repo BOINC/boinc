@@ -161,7 +161,7 @@ int main(int argc, char * argv[]) {
 
     print_to_file(&out,input,matrixSize);
 
-    for (int i=lastInversion+1;i<=NUM_ITERATIONS;++i) {
+    for (i=lastInversion+1;i<=NUM_ITERATIONS;++i) {
         //the invert function will trigger kernel calls.
         invert(input,output,matrixSize);
         printf("Finish inversion #%d\n",i);
@@ -225,7 +225,7 @@ int main(int argc, char * argv[]) {
     if (cpu_time) {
         printf("\nBurning up some CPU time ... \n");
         double start = dtime();
-        for (int i=0; ; i++) {
+        for (i=0; ; i++) {
             double e = dtime()-start;
             if (e > cpu_time) break;
             fd = .5 + .5*(e/cpu_time);
@@ -273,7 +273,7 @@ static double do_a_giga_flop(int foo) {
 }
 
 /* Save the computation state into checkpoint file */
-int do_checkpoint(MFILE& mf, int n, cl_float *input, int matrixSize) {
+int do_checkpoint(MFILE& mf, int n, cl_float *in, int matrixSize) {
     int retval;
     string resolved_name;
 
@@ -285,7 +285,7 @@ int do_checkpoint(MFILE& mf, int n, cl_float *input, int matrixSize) {
     fprintf(f, " ");
     for (int i=0;i<matrixSize*matrixSize;++i) {
         fprintf(f, " ");
-        fprintf(f, "%f", input[i]);
+        fprintf(f, "%f", in[i]);
     }
     fclose(f);
     retval = mf.flush();
@@ -303,17 +303,17 @@ void generate_random_input_file(int n) {
     FILE *infile;
 
     infile=fopen(INPUT_FILENAME,"w");
-    cl_float *input = (cl_float *)malloc(sizeof(cl_float)*(n*n));
+    cl_float *in = (cl_float *)malloc(sizeof(cl_float)*(n*n));
     srand(n);
     for( int i = 0; i < n; i++ ) {
         for (int j = 0; j < n; j++) {
-            input[i*n+j] = 2.0*(rand()%32768)/32768.0 - 1.0;
+            in[i*n+j] = 2.0*(rand()%32768)/32768.0 - 1.0;
         }
-        input[i*n+i] += sqrt((float)n);
+        in[i*n+i] += sqrt((float)n);
     }
     int j=0;
     for (int i=0;i<n*n;++i) {
-        fprintf(infile,"%15f",input[i]);
+        fprintf(infile,"%15f",in[i]);
         if (j+1==n) {
             fprintf(infile,"\n");
             j=0;
@@ -322,7 +322,7 @@ void generate_random_input_file(int n) {
         }
     }
     fclose(infile);
-    free(input);
+    free(in);
 }
 
 /*
@@ -400,14 +400,14 @@ int initialize_host(FILE *infile) {
 /*
  * Read the float values from input file into "input" array.
  */
-void fetch_elements_into_host_memory(FILE *infile, cl_float *input) {
+void fetch_elements_into_host_memory(FILE *infile, cl_float *in) {
     float num=0;
     int i=0;
     if (!isStateFileInUse) {
         fseek(infile,0,SEEK_SET);
     }
     while (fscanf(infile,"%f",&num)==1) {
-        input[i]=num;
+        in[i]=num;
         ++i;
     }
 }
@@ -977,7 +977,7 @@ void invertge(cl_float * AI_d, int lda, int n) {
 }
 
 /* inverts nxn matrix input and stores the result in output */
-void invert(cl_float * input, cl_float *output, int n) {
+void invert(cl_float * in, cl_float *out, int n) {
     printf("starting inversion n = %d ", n);
     volatile clock_t gputime;
     gputime=clock();
@@ -986,7 +986,7 @@ void invert(cl_float * input, cl_float *output, int n) {
     cl_float * AI_d = (cl_float *)malloc(sizeof(cl_float)*n*lda*2);
     memset(AI_d,0,sizeof(cl_float)*n*lda*2);
     for (int i = 0; i < n; i++) {
-        memcpy(&AI_d[lda*i*2], &input[n*i], sizeof(cl_float)*n);
+        memcpy(&AI_d[lda*i*2], &in[n*i], sizeof(cl_float)*n);
         AI_d[lda*i*2+n+i] = 1;
     }
 
@@ -1038,7 +1038,7 @@ void invert(cl_float * input, cl_float *output, int n) {
 
     //copy the result to output
     for (int i = 0; i < n; i++) {
-        memcpy(&output[n*i], &AI_d[lda*i*2+n], sizeof(cl_float)*n);
+        memcpy(&out[n*i], &AI_d[lda*i*2+n], sizeof(cl_float)*n);
     }
 
     status = clReleaseMemObject(inputBuffer);
