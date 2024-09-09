@@ -225,6 +225,7 @@ struct GLOBAL_PREFS {
         if (niu_cpu_usage_limit && niu_cpu_usage_limit != cpu_usage_limit) return true;
         if (niu_max_ncpus_pct && niu_max_ncpus_pct != max_ncpus_pct) return true;
         if (niu_suspend_cpu_usage && niu_suspend_cpu_usage != suspend_cpu_usage) return true;
+        if (ram_max_used_busy_frac != ram_max_used_idle_frac) return true;
         return false;
     }
 };
