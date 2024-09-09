@@ -63,7 +63,7 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 	m_LabelColour = isDarkMode ? *wxWHITE : *wxBLACK;
 	m_LegendBackColour = isDarkMode ? wxColour(0, 0, 255) : wxColour(255,255,0);
 	m_TitleFont = *wxSWISS_FONT;
-	m_TitleFont.SetWeight(wxBOLD);
+	m_TitleFont.SetWeight(wxFONTWEIGHT_BOLD);
 	m_LabelFont = *wxSWISS_FONT;
 	m_legendHorBorder = 10;
  	m_LegendVerBorder = 10;
