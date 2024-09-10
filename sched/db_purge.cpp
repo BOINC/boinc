@@ -590,7 +590,7 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
             retval = result.delete_from_db();
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Couldn't delete result [%d] from database\n", result.id
+                    "Couldn't delete result [%lu] from database\n", result.id
                 );
                 return retval;
             }

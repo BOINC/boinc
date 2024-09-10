@@ -104,6 +104,8 @@ void validate_handler_usage() {
     );
 }
 
+// see validate_util2.h for return values
+//
 int init_result(RESULT& result, void*&) {
     if (init_script.empty()) {
         return 0;
@@ -119,7 +121,6 @@ int init_result(RESULT& result, void*&) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
         return retval;
     }
-
 
     char cmd[4096];
     sprintf(cmd, "../bin/%s", init_script[0].c_str());
@@ -139,10 +140,19 @@ int init_result(RESULT& result, void*&) {
         }
     }
     retval = system(cmd);
-    if (retval) {
-        return retval;
+    if (WIFEXITED(retval)) {
+        int s = WEXITSTATUS(retval);
+        if (!s) return 0;
+        if (s == VAL_RESULT_TRANSIENT_ERROR) {
+            return VAL_RESULT_TRANSIENT_ERROR;
+        }
+        log_messages.printf(MSG_CRITICAL,
+            "init script %s failed: %d\n", cmd, s
+        );
+        return -1;
     }
-    return 0;
+    log_messages.printf(MSG_CRITICAL, "init script %s didn't exit\n", cmd);
+    return -1;
 }
 
 int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
@@ -196,12 +206,20 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
         }
     }
     retval = system(cmd);
-    if (retval) {
+    if (WIFEXITED(retval)) {
+        int s = WEXITSTATUS(retval);
+        if (s == 0) {
+            match = true;
+            return 0;
+        }
+        if (s == VAL_RESULT_TRANSIENT_ERROR) {
+            return VAL_RESULT_TRANSIENT_ERROR;
+        }
         match = false;
-    } else {
-        match = true;
+        return 0;
     }
-    return 0;
+    log_messages.printf(MSG_CRITICAL, "compare script %s didn't exit\n", cmd);
+    return -1;
 }
 
 int cleanup_result(RESULT const&, void*) {
