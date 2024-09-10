@@ -165,7 +165,7 @@ int parse_command_line(char* p, char** argv) {
     return argc;
 }
 
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int) {
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     LPSTR command_line;
     char* argv[100];
     int argc;

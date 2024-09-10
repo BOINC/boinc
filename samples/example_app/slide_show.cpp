@@ -177,7 +177,7 @@ static void init_camera(double dist) {
     set_viewpoint(dist);
 }
 
-void app_graphics_render(int xs, int ys, double time_of_day) {
+void app_graphics_render(int, int, double) {
     // boinc_graphics_get_shmem() must be called after
     // boinc_parse_init_data_file()
     // Put this in the main loop to allow retries if the
@@ -212,12 +212,9 @@ void app_graphics_resize(int w, int h){
 // mouse drag w/ left button rotates 3D objects;
 // mouse draw w/ right button zooms 3D objects
 //
-void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
+void boinc_app_mouse_move(int, int, int, int, int){}
 
-}
-
-void boinc_app_mouse_button(int x, int y, int which, int is_down) {
-}
+void boinc_app_mouse_button(int, int, int, int){}
 
 void boinc_app_key_press(int, int){}
 
