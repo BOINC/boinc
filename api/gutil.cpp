@@ -626,8 +626,8 @@ void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 }
 
 struct my_error_mgr {
-  struct jpeg_error_mgr pub;
   jmp_buf setjmp_buffer;
+  struct jpeg_error_mgr pub;
 };
 
 typedef struct my_error_mgr * my_error_ptr;
