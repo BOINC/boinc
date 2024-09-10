@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
             printf("Last inversion # is : %d\n",lastInversion);
             fscanf(state,"%d",&dimension);
             cudaMallocHost((void **)&h_idata,dimension*dimension*sizeof(REAL));
-            for (int i=0;i<dimension*dimension;++i) {
+            for (i=0;i<dimension*dimension;++i) {
                 fscanf(state, "%lf", &num);
                 h_idata[i] = num;
 			}
@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
     }
     print_to_file(&out,h_idata,dimension);
 
-    for (int i=lastInversion+1;i<=NUM_ITERATIONS;++i) {
+    for (i=lastInversion+1;i<=NUM_ITERATIONS;++i) {
         invert(h_idata,dimension);
         printf("Finish inversion #%d\n",i);
         if (run_slow) {
@@ -217,7 +217,7 @@ int main(int argc, char** argv) {
     if (cpu_time) {
         printf("\nBurning up some CPU time ... \n");
         double start = dtime();
-        for (int i=0; ; i++) {
+        for (i=0; ; i++) {
             double e = dtime()-start;
             if (e > cpu_time) break;
             fd = .5 + .5*(e/cpu_time);
