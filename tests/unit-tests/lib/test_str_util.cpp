@@ -297,12 +297,11 @@ namespace test_str_util {
 
     TEST_F(test_str_util, lf_terminate) {
         char *buf;
-        const size_t buf_size = 256;
-        buf = (char*)malloc(buf_size);
-        strncpy(buf, "no\nlf ending", buf_size);
+        buf = (char*)malloc(256);
+        strcpy(buf, "no\nlf ending");
         buf = lf_terminate(buf);
         EXPECT_STREQ(buf, "no\nlf ending\n");
-        strncpy(buf, "lf\n ending\n", buf_size);
+        strcpy(buf, "lf\n ending\n");
         buf = lf_terminate(buf);
         EXPECT_STREQ(buf, "lf\n ending\n");
     }
@@ -391,7 +390,7 @@ namespace test_str_util {
         EXPECT_STREQ(buf, "blah");
         EXPECT_EQ(path_to_filename("hellokeith", buf), 0);
         EXPECT_STREQ(buf, "hellokeith");
-        strncpy(buf, "", 2);
+        strcpy(buf, "");
         EXPECT_EQ(path_to_filename("/home/blah/", buf), -2);
         EXPECT_STREQ(buf, "");
         EXPECT_EQ(path_to_filename("", buf), -1);
