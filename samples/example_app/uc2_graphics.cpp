@@ -61,7 +61,7 @@ APP_INIT_DATA uc_aid;
 bool mouse_down = false;
 int mouse_x, mouse_y;
 double pitch_angle, roll_angle, viewpoint_distance=10;
-float color[4] = {.7, .2, .5, 1};
+float color[4] = {.7f, .2f, .5f, 1};
     // the color of the 3D object.
     // Can be changed using preferences
 UC_SHMEM* shmem = NULL;
@@ -79,15 +79,15 @@ static void init_lights() {
 
 static void draw_logo() {
     if (logo.present) {
-        float pos[3] = {.2, .3, 0};
-        float size[3] = {.6, .4, 0};
+        float pos[3] = {.2f, .3f, 0};
+        float size[3] = {.6f, .4f, 0};
         logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER);
     }
 }
 
 static void draw_text() {
     static float x=0, y=0;
-    static float dx=0.0003, dy=0.0007;
+    static float dx=0.0003f, dy=0.0007f;
     char buf[256];
     x += dx;
     y += dy;
@@ -122,7 +122,7 @@ static void draw_text() {
 
 static void draw_3d_stuff() {
     static float x=0, y=0, z=10;
-    static float dx=0.3, dy=0.2, dz=0.5;
+    static float dx=0.3f, dy=0.2f, dz=0.5f;
     x += dx;
     y += dy;
     z += dz;
@@ -165,7 +165,7 @@ static void init_camera(double dist) {
     set_viewpoint(dist);
 }
 
-void app_graphics_render(int xs, int ys, double time_of_day) {
+void app_graphics_render(int, int, double) {
     // boinc_graphics_get_shmem() must be called after
     // boinc_parse_init_data_file()
     // Put this in the main loop to allow retries if the
@@ -211,7 +211,7 @@ void app_graphics_resize(int w, int h){
 // mouse drag w/ left button rotates 3D objects;
 // mouse draw w/ right button zooms 3D objects
 //
-void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
+void boinc_app_mouse_move(int x, int y, int left, int, int right) {
     if (left) {
         pitch_angle += (y-mouse_y)*.1;
         roll_angle += (x-mouse_x)*.1;
@@ -227,7 +227,7 @@ void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
     }
 }
 
-void boinc_app_mouse_button(int x, int y, int which, int is_down) {
+void boinc_app_mouse_button(int x, int y, int, int is_down) {
     if (is_down) {
         mouse_down = true;
         mouse_x = x;

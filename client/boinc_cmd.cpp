@@ -122,7 +122,6 @@ char* next_arg(int argc, char** argv, int& i) {
     if (i >= argc) {
         fprintf(stderr, "Missing command-line argument\n");
         usage();
-        exit(1);
     }
     return argv[i++];
 }
@@ -212,7 +211,7 @@ void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
         for (const STR_LIST& s: lines) {
             max = std::max(max, strlen(s[i]));
         }
-        lengths.push_back(max);
+        lengths.push_back(static_cast<int>(max));
     }
     for (const STR_LIST &line : lines) {
         for (i=0; i<ncols; i++) {

@@ -395,7 +395,7 @@ struct DEVICE_STATUS {
         battery_temperature_celsius = 0;
         wifi_online = false;
         user_active = false;
-        strcpy(device_name, "");
+        strncpy(device_name, "", sizeof(device_name));
     }
 };
 

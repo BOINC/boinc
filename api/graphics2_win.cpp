@@ -71,7 +71,7 @@ void boinc_close_window_and_quit(const char* p) {
     }
 }
 
-void SetupPixelFormat(HDC win_dc) {
+void SetupPixelFormat(HDC dc) {
     int nPixelFormat;
     char buf[256];
 
@@ -98,11 +98,11 @@ void SetupPixelFormat(HDC win_dc) {
 
     // chooses the best pixel format
     //
-    nPixelFormat = ChoosePixelFormat(win_dc, &pfd);
+    nPixelFormat = ChoosePixelFormat(dc, &pfd);
 
     // set pixel format to device context.
     //
-    if (!SetPixelFormat(win_dc, nPixelFormat, &pfd)) {
+    if (!SetPixelFormat(dc, nPixelFormat, &pfd)) {
         fprintf(stderr,
             "%s ERROR: Couldn't set pixel format for device context (0x%x).\n",
             boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
@@ -468,14 +468,14 @@ void boinc_set_windows_icon(const char* icon16, const char* icon48) {
     LONGLONG ic;
     HWND hWnd = FindWindow("BOINC_app",NULL);
 
-    if (ic = (LONGLONG)LoadIcon(instance, icon48)) {
+    if ((ic = (LONGLONG)LoadIcon(instance, icon48)) != 0) {
 #ifdef _WIN64
         SetClassLongPtr(hWnd, GCLP_HICON, (LONG_PTR)ic);
 #else
         SetClassLongPtr(hWnd, GCLP_HICON, (LONG)ic);
 #endif
     }
-    if (ic = (LONGLONG)LoadImage(instance, icon16, IMAGE_ICON, 16, 16, 0)) {
+    if ((ic = (LONGLONG)LoadImage(instance, icon16, IMAGE_ICON, 16, 16, 0)) != 0) {
 #ifdef _WIN64
         SetClassLongPtr(hWnd, GCLP_HICONSM, (LONG_PTR)ic);
 #else

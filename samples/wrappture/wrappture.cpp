@@ -338,7 +338,7 @@ bool TASK::poll(int& status) {
 
 void TASK::kill() {
 #ifdef _WIN32
-    TerminateProcess(pid_handle, -1);
+    TerminateProcess(pid_handle, static_cast<UINT>(-1));
 #else
     ::kill(pid, SIGKILL);
 #endif
@@ -408,12 +408,12 @@ double TASK::cpu_time() {
 }
 
 void send_status_message(
-    TASK& task, double frac_done, double checkpoint_cpu_time
+    TASK& task, double frac_done, double checkpoint_cpu_time_value
 ) {
     double current_cpu_time = task.starting_cpu + task.cpu_time();
     boinc_report_app_status(
         current_cpu_time,
-        checkpoint_cpu_time,
+        checkpoint_cpu_time_value,
         frac_done
     );
 }

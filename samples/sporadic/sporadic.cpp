@@ -49,7 +49,7 @@ void set_ac_state(SPORADIC_AC_STATE ac_state) {
             char buf[256];
             sprintf(buf, "%d\n", ac_state);
             lseek(ac_fd, 0, SEEK_SET);
-            write(ac_fd, buf, strlen(buf));
+            write(ac_fd, buf, static_cast<unsigned int>(strlen(buf)));
         }
         last = ac_state;
     } else {
