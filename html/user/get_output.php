@@ -168,7 +168,6 @@ function get_wu_output_files($wu_id, $auth_str) {
         return_error("no user $batch->user_id");
     }
     $x = md5($user->authenticator.$wu_id);
-    echo "user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
     if ($x != $auth_str) {
         return_error("bad authenticator");
     }
