@@ -41,18 +41,8 @@ def set_vcxproj(version):
             lines = f.readlines()
         with open(vcxproj, 'w') as f:
             for line in lines:
-                if line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">worker_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">worker_{version}_windows_x86_64</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">worker_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">worker_{version}_windows_x86_64</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">worker_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">worker_{version}_windows_intelx86</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">worker_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">worker_{version}_windows_intelx86</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">worker_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">worker_{version}_windows_arm64</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">worker_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">worker_{version}_windows_arm64</TargetName>\n'
+                if line.startswith('    <TargetVersion>'):
+                    line = f'    <TargetVersion>{version}</TargetVersion>\n'
                 f.write(line)
 
 if (len(sys.argv) != 2):
