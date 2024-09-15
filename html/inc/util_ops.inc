@@ -241,7 +241,7 @@ function cancel_wus($wuid1, $wuid2) {
         sprintf(
             'server_state=%d, outcome=%d where server_state=%d and workunitid>=%d and workunitid<=%d',
             RESULT_SERVER_STATE_OVER,
-            RESULT_OUTECOME_DIDNT_NEED,
+            RESULT_OUTCOME_DIDNT_NEED,
             RESULT_SERVER_STATE_UNSENT,
             $wuid1, $wuid2
         )
