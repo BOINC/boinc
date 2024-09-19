@@ -190,7 +190,7 @@ void poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
     if (status.no_heartbeat || status.quit_request || status.abort_request) {
-        fprintf(stderr, "got quite/abort from client\n");
+        fprintf(stderr, "got quit/abort from client\n");
         abort_job();
         exit(0);
     }
