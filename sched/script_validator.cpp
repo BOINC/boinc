@@ -104,7 +104,11 @@ void validate_handler_usage() {
     );
 }
 
-// see validate_util2.h for return values
+// run script to check a result
+// if script exits with VAL_RESULT_TRANSIENT_ERROR, return that;
+// the WU will be validated again after a delay.
+//
+// any other nonzero return means the result is not valid
 //
 int init_result(RESULT& result, void*&) {
     if (init_script.empty()) {
@@ -144,10 +148,13 @@ int init_result(RESULT& result, void*&) {
         int s = WEXITSTATUS(retval);
         if (!s) return 0;
         if (s == VAL_RESULT_TRANSIENT_ERROR) {
+            log_messages.printf(MSG_NORMAL,
+                "init script return transient error"
+            );
             return VAL_RESULT_TRANSIENT_ERROR;
         }
-        log_messages.printf(MSG_CRITICAL,
-            "init script %s failed: %d\n", cmd, s
+        log_messages.printf(MSG_NORMAL,
+            "init script %s returned: %d\n", cmd, s
         );
         return -1;
     }
