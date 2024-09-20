@@ -59,6 +59,8 @@ using std::vector;
 //    (i.e. there was a broken NFS mount).
 //    Should call this again after a while.
 //
+// always return zero
+//
 int check_set(
     vector<RESULT>& results, WORKUNIT& wu,
     DB_ID_TYPE& canonicalid, double&, bool& retry
@@ -74,6 +76,9 @@ int check_set(
     had_error.resize(n);
 
     // Initialize results
+    // For each one we potentially allocate data,
+    // so always exit via goto cleanup:
+    // to free this mem
 
     for (i=0; i<n; i++) {
         data[i] = NULL;
@@ -134,21 +139,22 @@ int check_set(
 
     if (good_results < wu.min_quorum) goto cleanup;
 
-    // Compare results
+    // for each result, count how many it matches (including itself)
+    // If this is at least min_valid, it's the canonical result
 
     for (i=0; i<n; i++) {
         if (had_error[i]) continue;
         vector<bool> matches;
         matches.resize(n);
         neq = 0;
-        for (j=0; j!=n; j++) {
+        for (j=0; j<n; j++) {
             if (had_error[j]) continue;
-            bool match = false;
             if (i == j) {
                 ++neq;
                 matches[j] = true;
                 continue;
             }
+            bool match = false;
             retval = compare_results(
                 results[i], data[i], results[j], data[j], match
             );
@@ -156,7 +162,6 @@ int check_set(
             case ERR_OPENDIR:
             case VAL_RESULT_TRANSIENT_ERROR:
                 retry = true;
-                retval = 0;
                 goto cleanup;
             case 0:
                 if (match) {
@@ -169,7 +174,6 @@ int check_set(
                     "check_set(): compare_results([RESULT#%lu %s], [RESULT#%lu %s]) failed\n",
                     results[i].id, results[i].name, results[j].id, results[j].name
                 );
-                goto cleanup;
             }
         }
         if (neq >= min_valid) {
@@ -185,12 +189,11 @@ int check_set(
         }
     }
 
-    retval = 0;
 cleanup:
     for (i=0; i<n; i++) {
         cleanup_result(results[i], data[i]);
     }
-    return retval;
+    return 0;
 }
 
 // a straggler instance has arrived after the WU is already validated.
