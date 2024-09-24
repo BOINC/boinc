@@ -302,6 +302,7 @@ logs_list = [
     'parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/*.log',
     'android/BOINC/app/build/reports/',
     'mac_build/xcodebuild_*.log',
+    'build/*.log',
 ]
 
 def prepare_7z_archive(archive_name, target_directory, files_list):
