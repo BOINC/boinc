@@ -41,7 +41,7 @@ jobs:
     strategy:
       matrix:
         type: [libs-cmake, msbuild]
-        platform: [x64, ARM64]
+        platform: [x64, arm64]
         configuration: [Release]
       fail-fast: false
     steps:
