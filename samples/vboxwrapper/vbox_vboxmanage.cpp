@@ -1770,7 +1770,7 @@ bool VBOX_VM::is_extpack_installed() {
     command = "list extpacks";
 
     if (vbm_popen(command, output, "extpack detection", false, false) == 0) {
-        if ((output.find("Oracle VM VirtualBox Extension Pack") != string::npos) && (output.find("VBoxVRDP") != string::npos)) {
+        if ((output.find("VirtualBox Extension Pack") != string::npos) && (output.find("VBoxVRDP") != string::npos)) {
             return true;
         }
     }
