@@ -800,6 +800,9 @@ int VBOX_VM::create_vm() {
             command += "--vrdeauthlibrary default ";
             command += "--vrdeauthtype null ";
             command += "--vrdeport " + string(buf) + " ";
+            if (is_virtualbox_version_newer(7, 0, 99)) {
+                command += "--vrde-property \"Security/Method=RDP\" ";
+            }
 
             retval = vbm_popen(command, output, "remote desktop");
             if (retval) return retval;
