@@ -43,3 +43,6 @@ distclean:
 
 multi_thread: multi_thread.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o multi_thread multi_thread.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
+
+install:
+	echo "Install step"
