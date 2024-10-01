@@ -167,12 +167,16 @@ samples/multi_thread/*multi_thread
 samples/sleeper/*sleeper
 samples/vboxmonitor/*vboxmonitor
 samples/vboxwrapper/*vboxwrapper
+samples/vboxwrapper/vboxwrapper_*-*
 samples/worker/*worker
+samples/worker/worker_*-*
 samples/wrapper/*wrapper
+samples/wrapper/wrapper_*-*
 samples/openclapp/*openclapp
 samples/wrappture/*wrappture_example
 samples/wrappture/*fermi
 samples/**/*.exe
+samples/sporadic/sporadic
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census

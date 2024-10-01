@@ -45,3 +45,5 @@ distclean:
 
 vboxmonitor: vboxmonitor.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxmonitor vboxmonitor.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
+
+install: all

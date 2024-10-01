@@ -44,7 +44,7 @@ clean:
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
-install: openclapp
+install: all
 
 openclapp: openclapp.o boinc_opencl.o libstdc++.a
 	$(CXX) $(CXXFLAGS) -o openclapp openclapp.o boinc_opencl.o \
