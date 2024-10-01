@@ -78,3 +78,5 @@ vboxwrapper.o: vboxwrapper.cpp $(HEADERS)
 
 vboxwrapper$(VBOXWRAPPER_RELEASE_SUFFIX): vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxwrapper$(VBOXWRAPPER_RELEASE_SUFFIX) vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc -lrt $(STDCPPTC)
+
+install: all

@@ -49,7 +49,7 @@ clean: distclean
 distclean:
 	/bin/rm -f sporadic $(addsuffix .exe, sporadic) *.o libstdc++.a
 
-install: sporadic
+install: all
 
 sporadic: sporadic.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o sporadic sporadic.o \

@@ -55,3 +55,5 @@ wrappture_example: wrappture.o wrappture_example.o $(MAKEFILE_STDLIB) $(BOINC_LI
 
 fermi: fermi.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o fermi fermi.cpp
+
+install: all
