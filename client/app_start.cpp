@@ -188,6 +188,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.release = BOINC_RELEASE;
     aid.app_version = app_version->version_num;
     safe_strcpy(aid.app_name, wup->app->name);
+    safe_strcpy(aid.plan_class, app_version->plan_class);
     safe_strcpy(aid.symstore, project->symstore);
     safe_strcpy(aid.acct_mgr_url, gstate.acct_mgr_info.master_url);
     if (project->project_specific_prefs.length()) {

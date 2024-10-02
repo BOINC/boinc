@@ -127,7 +127,10 @@ public:
 #endif
 
 // parsed version of main init file
-// If you add anything here, update copy()
+// If you add anything here, update
+// APP_INIT_DATA::clear(), copy(),
+// write_init_data_file(), parse_init_data_file()
+// ACTIVE_TASK::init_app_init_data()
 //
 struct APP_INIT_DATA {
     int major_version;          // BOINC client version info
@@ -135,6 +138,7 @@ struct APP_INIT_DATA {
     int release;
     int app_version;
     char app_name[256];
+    char plan_class[256];
     char symstore[256];         // symstore URL (Windows)
     char acct_mgr_url[256];
         // if client is using account manager, its URL

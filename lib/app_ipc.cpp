@@ -53,13 +53,14 @@ APP_INIT_DATA::APP_INIT_DATA(const APP_INIT_DATA& a) {
 
 APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
     if (this != &a) {
-      copy(a);
+        copy(a);
     }
     return *this;
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     safe_strcpy(app_name, a.app_name);
+    safe_strcpy(plan_class, a.plan_class);
     safe_strcpy(symstore, a.symstore);
     safe_strcpy(acct_mgr_url, a.acct_mgr_url);
     safe_strcpy(user_name, a.user_name);
@@ -138,8 +139,12 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.teamid,
         ai.hostid
     );
-    if (strlen(ai.app_name)) {
-        fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
+    // some strings are always present;
+    // for others, print only if present
+
+    fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
+    if (strlen(ai.plan_class)) {
+        fprintf(f, "<plan_class>%s</plan_class>\n", ai.plan_class);
     }
     if (strlen(ai.symstore)) {
         fprintf(f, "<symstore>%s</symstore>\n", ai.symstore);
@@ -158,21 +163,11 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         xml_escape(ai.user_name, buf, sizeof(buf));
         fprintf(f, "<user_name>%s</user_name>\n", buf);
     }
-    if (strlen(ai.project_dir)) {
-        fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);
-    }
-    if (strlen(ai.boinc_dir)) {
-        fprintf(f, "<boinc_dir>%s</boinc_dir>\n", ai.boinc_dir);
-    }
-    if (strlen(ai.authenticator)) {
-        fprintf(f, "<authenticator>%s</authenticator>\n", ai.authenticator);
-    }
-    if (strlen(ai.wu_name)) {
-        fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
-    }
-    if (strlen(ai.result_name)) {
-        fprintf(f, "<result_name>%s</result_name>\n", ai.result_name);
-    }
+    fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);
+    fprintf(f, "<boinc_dir>%s</boinc_dir>\n", ai.boinc_dir);
+    fprintf(f, "<authenticator>%s</authenticator>\n", ai.authenticator);
+    fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
+    fprintf(f, "<result_name>%s</result_name>\n", ai.result_name);
 #ifdef _WIN32
     if (strlen(ai.shmem_seg_name)) {
         fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.shmem_seg_name);
@@ -241,7 +236,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     MIOFILE mf;
     mf.init_file(f);
     ai.host_info.write(mf, true, true);
-    ai.proxy_info.write(mf);
+    if (ai.proxy_info.using_proxy()) {
+        ai.proxy_info.write(mf);
+    }
     ai.global_prefs.write(mf);
     for (unsigned int i=0; i<ai.app_files.size(); i++) {
         fprintf(f, "<app_file>%s</app_file>\n", ai.app_files[i].c_str());
@@ -255,20 +252,21 @@ void APP_INIT_DATA::clear() {
     minor_version = 0;
     release = 0;
     app_version = 0;
-    safe_strcpy(app_name, "");
-    safe_strcpy(symstore, "");
-    safe_strcpy(acct_mgr_url, "");
+    app_name[0] = 0;
+    plan_class[0] = 0;
+    symstore[0] = 0;
+    acct_mgr_url[0] = 0;
     project_preferences = NULL;
     userid = 0;
     teamid = 0;
     hostid = 0;
-    safe_strcpy(user_name, "");
-    safe_strcpy(team_name, "");
-    safe_strcpy(project_dir, "");
-    safe_strcpy(boinc_dir, "");
-    safe_strcpy(wu_name, "");
-    safe_strcpy(result_name, "");
-    safe_strcpy(authenticator, "");
+    user_name[0] = 0;
+    team_name[0] = 0;
+    project_dir[0] = 0;
+    boinc_dir[0] = 0;
+    wu_name[0] = 0;
+    result_name[0] = 0;
+    authenticator[0] = 0;
     slot = 0;
     client_pid = 0;
     user_total_credit = 0;
@@ -292,7 +290,7 @@ void APP_INIT_DATA::clear() {
     checkpoint_period = 0;
     // gpu_type is an empty string for client versions before 6.13.3 without this
     // field or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
-    safe_strcpy(gpu_type, "");
+    gpu_type[0] = 0;
     // gpu_device_num < 0 for client versions before 6.13.3 without this field
     // or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
     gpu_device_num = -1;
@@ -365,6 +363,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_int("release", ai.release)) continue;
         if (xp.parse_int("app_version", ai.app_version)) continue;
         if (xp.parse_str("app_name", ai.app_name, sizeof(ai.app_name))) continue;
+        if (xp.parse_str("plan_class", ai.plan_class, sizeof(ai.plan_class))) continue;
         if (xp.parse_str("symstore", ai.symstore, sizeof(ai.symstore))) continue;
         if (xp.parse_str("acct_mgr_url", ai.acct_mgr_url, sizeof(ai.acct_mgr_url))) continue;
         if (xp.parse_int("userid", ai.userid)) continue;
