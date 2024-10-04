@@ -1423,6 +1423,8 @@ function is_subscribed($id, $subs) {
     return false;
 }
 
+// If it's a team forum, user must be member of team to view
+//
 function is_forum_visible_to_user($forum, $user) {
     if ($forum->parent_type == 1) {
         if (parse_config(get_config(), "<team_forums_members_only>")) {
