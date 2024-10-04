@@ -23,17 +23,6 @@ require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 require_once('../inc/time.inc');
 
-// Process request to mark all posts as read
-//
-if ((get_int("read", true) == 1)) {
-    if ($user) {
-        check_tokens($user->authenticator);
-        $now = time();
-        $user->prefs->update("mark_as_read_timestamp=$now");
-        Header("Location: ".get_str("return", true));
-    }
-}
-
 function show_forum_summary($forum) {
     switch ($forum->parent_type) {
     case 0:
@@ -202,6 +191,17 @@ BoincForumPrefs::lookup($user);
 
 if (DISABLE_FORUMS && !is_admin($user)) {
     error_page("Forums are disabled");
+}
+
+// Process request to mark all posts as read
+//
+if ((get_int("read", true) == 1)) {
+    if ($user) {
+        check_tokens($user->authenticator);
+        $now = time();
+        $user->prefs->update("mark_as_read_timestamp=$now");
+        Header("Location: ".get_str("return", true));
+    }
 }
 
 $submit = post_str('submit', true);
