@@ -23,16 +23,23 @@ require_once('../inc/time.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 
+// show a forum.
+// $user is null if not logged in
+//
 function forum_page($forum, $user, $msg=null) {
     global $forum_sort_styles;
+
+    if (DISABLE_FORUMS) {
+        if (!$user || !is_admin($user)) {
+            error_page("Forums are disabled");
+        }
+    }
     $sort_style = get_int("sort", true);
     $start = get_int("start", true);
     if (!$start) $start = 0;
+
     $subs = null;
     if ($user) {
-        if (DISABLE_FORUMS && !is_admin($user)) {
-            error_page("Forums are disabled");
-        }
         BoincForumPrefs::lookup($user);
         $subs = BoincSubscription::enum("userid=$user->id");
     }
@@ -90,32 +97,34 @@ function forum_page($forum, $user, $msg=null) {
         <td colspan=2>
     ';
 
-    if (user_can_create_thread($user, $forum)) {
-        show_button(
-            "forum_post.php?id=$forum->id",
-            tra("New thread"),
-            tra("Add a new thread to this forum")
-        );
-    }
+    if ($user) {
+        if (user_can_create_thread($user, $forum)) {
+            show_button(
+                "forum_post.php?id=$forum->id",
+                tra("New thread"),
+                tra("Add a new thread to this forum")
+            );
+        }
 
-    if (is_subscribed(-$forum->id, $subs)) {
-        BoincNotify::delete_aux(sprintf(
-            'userid=%d and type=%d and opaque=%d',
-            $logged_in_user->id,
-            NOTIFY_SUBSCRIBED_FORUM,
-            $forum->id
-        ));
-        show_button_small(
-            "forum_forum.php?id=$forum->id&action=unsubscribe",
-            'Unsubscribe',
-            'Unsubscribe from this forum'
-        );
-    } else {
-        show_button_small(
-            "forum_forum.php?id=$forum->id&action=subscribe",
-            'Subscribe',
-            'Click to get notified when there are new threads in this forum'
-        );
+        if (is_subscribed(-$forum->id, $subs)) {
+            BoincNotify::delete_aux(sprintf(
+                'userid=%d and type=%d and opaque=%d',
+                $logged_in_user->id,
+                NOTIFY_SUBSCRIBED_FORUM,
+                $forum->id
+            ));
+            show_button_small(
+                "forum_forum.php?id=$forum->id&action=unsubscribe",
+                'Unsubscribe',
+                'Unsubscribe from this forum'
+            );
+        } else {
+            show_button_small(
+                "forum_forum.php?id=$forum->id&action=subscribe",
+                'Subscribe',
+                'Click to get notified when there are new threads in this forum'
+            );
+        }
     }
 
     echo '</td>
@@ -146,7 +155,8 @@ function forum_page($forum, $user, $msg=null) {
 // Show the threads for the given forum
 // starting from $start,
 // using the given $sort_style (as defined in forum.php)
-// and using the features for the logged in user in $user.
+// $user is logged-in user, or null
+// If $user is not null, $subs is list of their subscriptions
 //
 function show_forum_threads($forum, $start, $sort_style, $user, $subs) {
     $page_nav = page_links(
