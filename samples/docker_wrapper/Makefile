@@ -6,5 +6,5 @@ CXXFLAGS = -g -I../../lib -I../../api\
 
 docker_wrapper: docker_wrapper.cpp
 	g++ $(CXXFLAGS) docker_wrapper.cpp \
-	-lboinc_api -lboinc \
+	-lboinc_api -lboinc -lpthread \
     -o docker_wrapper

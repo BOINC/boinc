@@ -207,9 +207,9 @@ void boinc_crash() {
 }
 
 // chdir into the given directory, and run a program there.
-// argv is set up Unix-style, i.e. argv[0] is the program name
+// Don't wait for it to exit.
+// argv is Unix-style, i.e. argv[0] is the program name
 //
-
 #ifdef _WIN32
 int run_program(
     const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
@@ -278,6 +278,92 @@ int run_program(
     return 0;
 }
 #endif
+
+// Run command and return output as vector of lines.
+// Return error if command failed
+//
+int run_command(char *cmd, vector<string> &out, bool verbose) {
+    out.clear();
+    if (verbose) {
+        fprintf(stderr, "running command: %s\n", cmd);
+    }
+#ifdef _WIN32
+    HANDLE pipe_read, pipe_write;
+    SECURITY_ATTRIBUTES sa;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = NULL;
+
+    if (!CreatePipe(&pipe_read, &pipe_write, &sa, 0)) return -1;
+    SetHandleInformation(pipe_write, HANDLE_FLAG_INHERIT, 0);
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = pipe_write;
+    si.hStdError = pipe_write;
+    si.hStdInput = NULL;
+
+    if (!CreateProcess(
+        NULL,
+        (LPTSTR)cmd,
+        NULL,
+        NULL,
+        TRUE,
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        return -1;
+    }
+
+    // wait for command to finish
+    //
+    WaitForSingleObject(pi.hProcess, INFINITE);
+
+    unsigned long exit_code;
+    GetExitCodeProcess(pi.hProcess, &exit_code);
+    if (exit_code) return -1;
+
+    DWORD count;
+    PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &count, NULL);
+    char* p = malloc(count+1);
+    p[count]=0;
+    ReadFile(pipe_read, p, count, &count, NULL)) {
+    stringstream ss(string(p));
+    string line;
+    while (getline(ss, line, '\n')) {
+        out.push_back(line);
+    }
+
+#else
+    char buf[256];
+    FILE* fp = popen(cmd, "r");
+    if (!fp) {
+        fprintf(stderr, "can't run command %s\n", cmd);
+        return ERR_FOPEN;
+    }
+    while (fgets(buf, 256, fp)) {
+        out.push_back(buf);
+    }
+    if (verbose) {
+        fprintf(stderr, "output:\n");
+        for (string line: out) {
+            fprintf(stderr, "%s", line.c_str());
+        }
+    }
+    return 0;
+#endif
+}
 
 #ifdef _WIN32
 int kill_process_with_status(int pid, int exit_code) {
@@ -376,8 +462,7 @@ double rand_normal() {
     return z*cos(PI2*u2);
 }
 
-// determines the real path and filename of the current process
-// not the current working directory
+// get the path of the calling process's executable
 //
 int get_real_executable_path(char* path, size_t max_len) {
 #if defined(__APPLE__)

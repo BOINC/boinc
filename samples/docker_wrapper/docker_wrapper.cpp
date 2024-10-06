@@ -145,36 +145,6 @@ int parse_config_file(CONFIG& config) {
     return 0;
 }
 
-
-// Run command and return output as vector of lines.
-// Return error if command failed
-//
-int run_command(char *cmd, vector<string> &out) {
-    out.clear();
-    if (verbose) {
-        fprintf(stderr, "running command: %s\n", cmd);
-    }
-#ifdef _WIN32
-#else
-    char buf[256];
-    FILE* fp = popen(cmd, "r");
-    if (!fp) {
-        fprintf(stderr, "can't run command %s\n", cmd);
-        return ERR_FOPEN;
-    }
-    while (fgets(buf, 256, fp)) {
-        out.push_back(buf);
-    }
-    if (verbose) {
-        fprintf(stderr, "output:\n");
-        for (string line: out) {
-            fprintf(stderr, "%s", line.c_str());
-        }
-    }
-    return 0;
-#endif
-}
-
 // See if command output includes "Error"
 //
 int error_output(vector<string> &out) {
