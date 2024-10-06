@@ -82,7 +82,7 @@ jobs:
         run: vcpkg.exe integrate remove
 
       - name: Cache dependencies
-        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9
+        uses: actions/cache@2cdf405574d6ef1f33a1d12acccd3ae82f47b3f2
         with:
           path: |
             ${{github.workspace}}\3rdParty\Windows\cuda\
@@ -166,6 +166,6 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.platform == 'x64' && matrix.type == 'msbuild'
-        uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673
+        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
