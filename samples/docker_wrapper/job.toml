@@ -1,0 +1,7 @@
+#slot_dir_mount = "/foo/bar"
+
+copy_to_container = [
+]
+copy_from_container = [
+    {src="/app/out", dst="out"}
+]
