@@ -617,7 +617,14 @@ int CLIENT_STATE::handle_scheduler_reply(
                 //
                 strcpy(project->_project_dir, "");
                 strcpy(path2, project->project_dir());
-                boinc_rename(old_project_dir, path2);
+                retval = boinc_rename(old_project_dir, path2);
+                if (retval) {
+                    msg_printf(project, MSG_USER_ALERT,
+                        "Can't rename project dir from %s to %s",
+                        old_project_dir, path2
+                    );
+                    return retval;
+                }
 
                 // reset the project (clear jobs etc.).
                 // If any jobs are running, their soft links
