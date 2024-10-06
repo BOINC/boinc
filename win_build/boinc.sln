@@ -132,6 +132,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_sporadic", "spo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wsl_wrapper", "wsl_wrapper.vcxproj", "{97F092A0-AF80-4E60-89CB-D811F5AFA542}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "docker_wrapper", "docker_wrapper.vcxproj", "{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -442,6 +444,14 @@ Global
 		{97F092A0-AF80-4E60-89CB-D811F5AFA542}.Release|ARM64.Build.0 = Release|ARM64
 		{97F092A0-AF80-4E60-89CB-D811F5AFA542}.Release|x64.ActiveCfg = Release|x64
 		{97F092A0-AF80-4E60-89CB-D811F5AFA542}.Release|x64.Build.0 = Release|x64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Debug|ARM64.Build.0 = Debug|ARM64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Debug|x64.ActiveCfg = Debug|x64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Debug|x64.Build.0 = Debug|x64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Release|ARM64.ActiveCfg = Release|ARM64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Release|ARM64.Build.0 = Release|ARM64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Release|x64.ActiveCfg = Release|x64
+		{D6DDDD6C-BB00-43B8-B21D-DD76DD6A4E03}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
