@@ -21,6 +21,7 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/api/graphics2.h \
 	$(BOINC_SRC)/lib/app_ipc.h \
 	$(BOINC_SRC)/lib/boinc_win.h \
+	$(BOINC_SRC)/lib/boinc_stdio.h \
 	$(BOINC_SRC)/lib/url.h \
 	$(BOINC_SRC)/lib/common_defs.h \
 	$(BOINC_SRC)/lib/diagnostics.h \
