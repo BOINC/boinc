@@ -113,7 +113,7 @@ int parse_config_copies(const toml::Value *x, vector<FILE_COPY> &copies) {
 
 // parse job config file
 //
-int parse_config_file(CONFIG& config) {
+int parse_config_file() {
     int retval;
     std::ifstream ifs(CONFIG_FILE_NAME);
     toml::ParseResult r = toml::parse(ifs);
@@ -169,8 +169,8 @@ int image_exists(bool &exists) {
     char cmd[256];
     vector<string> out;
 
-    sprintf(cmd, "docker images 2>&1");
-    int retval = run_command(cmd, out);
+    sprintf(cmd, "docker images");
+    int retval = run_command(cmd, out, verbose);
     if (retval) return retval;
     for (string line: out) {
         if (line.find(image_name) != string::npos) {
@@ -185,8 +185,8 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    sprintf(cmd, "docker build . -t %s 2>&1", image_name);
-    int retval = run_command(cmd, out);
+    sprintf(cmd, "docker build . -t %s", image_name);
+    int retval = run_command(cmd, out, verbose);
     if (retval) return retval;
     return 0;
 }
@@ -227,14 +227,16 @@ int container_exists(bool &exists) {
     sprintf(cmd, "docker ps --filter \"name=%s\"",
         container_name
     );
-    retval = run_command(cmd, out);
+    retval = run_command(cmd, out, verbose);
     if (retval) return retval;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
-            return true;
+            exists = true;
+            return 0;
         }
     }
-    return false;
+    exists = false;
+    return 0;
 }
 
 int create_container() {
@@ -265,7 +267,7 @@ int create_container() {
         slot_cmd, project_cmd,
         image_name
     );
-    retval = run_command(cmd, out);
+    retval = run_command(cmd, out, verbose);
     if (retval) return retval;
     if (error_output(out)) return -1;
 
@@ -275,7 +277,7 @@ int create_container() {
         sprintf(cmd, "docker cp %s %s:%s",
             c.src.c_str(), container_name, c.dst.c_str()
         );
-        retval = run_command(cmd, out);
+        retval = run_command(cmd, out, verbose);
         if (retval) return retval;
         if (error_output(out)) return -1;
     }
@@ -301,7 +303,7 @@ int remove_container() {
     char cmd[1024];
     vector<string> out;
     sprintf(cmd, "docker rm %s", container_name);
-    int retval = run_command(cmd, out);
+    int retval = run_command(cmd, out, verbose);
     return retval;
 }
 
@@ -319,7 +321,7 @@ int suspend() {
     char cmd[1024];
     vector<string> out;
     sprintf(cmd, "docker stop %s", container_name);
-    int retval = run_command(cmd, out);
+    int retval = run_command(cmd, out, verbose);
     return retval;
 }
 
@@ -351,7 +353,7 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     int retval;
 
     sprintf(cmd, "docker ps -all -f \"name=%s\"", container_name);
-    retval = run_command(cmd, out);
+    retval = run_command(cmd, out, verbose);
     if (retval) return JOB_FAIL;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
@@ -378,7 +380,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = parse_config_file(config);
+    retval = parse_config_file();
     if (retval) {
         fprintf(stderr, "can't parse config file\n");
         exit(1);

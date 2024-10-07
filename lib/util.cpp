@@ -302,7 +302,7 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
     sa.lpSecurityDescriptor = NULL;
 
     if (!CreatePipe(&pipe_read, &pipe_write, &sa, 0)) return -1;
-    SetHandleInformation(pipe_write, HANDLE_FLAG_INHERIT, 0);
+    SetHandleInformation(pipe_read, HANDLE_FLAG_INHERIT, 0);
 
     si.cb = sizeof(STARTUPINFO);
     si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
@@ -335,16 +335,22 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
     if (exit_code) return -1;
 
     DWORD count;
-    PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &count, NULL);
-    char* p = malloc(count+1);
-    p[count]=0;
-    ReadFile(pipe_read, p, count, &count, NULL)) {
-    stringstream ss(string(p));
-    string line;
-    while (getline(ss, line, '\n')) {
-        out.push_back(line);
+    PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
+    if (count == 0) {
+        fprintf(stderr, "No response\n");
+        return -1;
     }
-
+    char* buf = (char*)malloc(count+1);
+    buf[count] = 0;
+    ReadFile(pipe_read, buf, count, &count, NULL);
+    char* p = buf;
+    while (*p) {
+        char* q = strchr(p, '\n');
+        if (!q) break;
+        *q = 0;
+        out.push_back(string(p));
+        p = q + 1;
+    }
 #else
     char buf[256];
     FILE* fp = popen(cmd, "r");
