@@ -334,7 +334,7 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
     GetExitCodeProcess(pi.hProcess, &exit_code);
     if (exit_code) return -1;
 
-    DWORD count;
+    DWORD count, nread;
     PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
     if (count == 0) {
         if (verbose) {
@@ -343,8 +343,11 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
         return 0;
     }
     char* buf = (char*)malloc(count+1);
-    buf[count] = 0;
-    ReadFile(pipe_read, buf, count, &count, NULL);
+    if (!ReadFile(pipe_read, buf, count, &nread, NULL)) {
+        free(buf);
+        return -1;
+    }
+    buf[nread] = 0;
     char* p = buf;
     while (*p) {
         char* q = strchr(p, '\n');
@@ -353,6 +356,7 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
         out.push_back(string(p));
         p = q + 1;
     }
+    free(buf);
 #else
     char buf[256];
     FILE* fp = popen(cmd, "r");
