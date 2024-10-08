@@ -337,8 +337,10 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
     DWORD count;
     PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
     if (count == 0) {
-        fprintf(stderr, "No response\n");
-        return -1;
+        if (verbose) {
+            fprintf(stderr, "No response from command\n");
+        }
+        return 0;
     }
     char* buf = (char*)malloc(count+1);
     buf[count] = 0;
@@ -367,8 +369,8 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
             fprintf(stderr, "%s", line.c_str());
         }
     }
-    return 0;
 #endif
+    return 0;
 }
 
 #ifdef _WIN32
