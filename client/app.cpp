@@ -363,7 +363,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     int retval;
     static bool first = true;
     double diff=0;
-    bool using_vbox = false;
+    bool vbox_app_running = false;
 
     if (!first) {
         diff = gstate.now - last_mem_time;
@@ -415,7 +415,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
         procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
         if (atp->app_version->is_vm_app) {
-            using_vbox = true;
+            vbox_app_running = true;
             // the memory of virtual machine apps is not reported correctly,
             // at least on Windows.  Use the VM size instead.
             //
@@ -540,7 +540,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_nbrc=0;
     double total_cpu_time_now = total_cpu_time();
     if (total_cpu_time_now != 0.0) {    // total_cpu_time() returns 0.0 on error
-        double nbrc = total_cpu_time_now - boinc_related_cpu_time(pm, using_vbox);
+        double nbrc = total_cpu_time_now - boinc_related_cpu_time(pm, vbox_app_running);
         double delta_nbrc = nbrc - last_nbrc;
         if (delta_nbrc < 0) delta_nbrc = 0;
         last_nbrc = nbrc;
