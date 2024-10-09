@@ -213,7 +213,6 @@ struct VBOX_BASE : VBOX_JOB {
     static void sanitize_output(string& output);
 
     int launch_vboxsvc();
-    int launch_vboxvm();
 
     int vbm_popen(
         string& command, string& output, const char* item,
