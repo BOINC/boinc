@@ -43,9 +43,11 @@
 
 #include "client_state.h"
 
-// set to 0 to enable app test
+#define APP_NONE            0
+#define APP_WSL_WRAPPER     0
+#define APP_DOCKER_WRAPPER  1
 
-#if 1
+#if APP_NONE
 void CLIENT_STATE::app_test_init() {}
 #else
 
@@ -163,6 +165,7 @@ void CLIENT_STATE::app_test_init() {
 #endif
 
     APP_VERSION *av = make_app_version(app);
+#if APP_WSL_WRAPPER
     av->app_files.push_back(
         *make_file(app->project, "wsl_wrapper.exe", NULL, MAIN_PROG, false)
     );
@@ -172,6 +175,20 @@ void CLIENT_STATE::app_test_init() {
     av->app_files.push_back(
         *make_file(app->project, "worker", NULL, INPUT_FILE, false)
     );
+#elif APP_DOCKER_WRAPPER
+    av->app_files.push_back(
+        *make_file(app->project, "docker_wrapper.exe", NULL, MAIN_PROG, false)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "job.toml", NULL, INPUT_FILE, true)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "Dockerfile", NULL, INPUT_FILE, true)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "worker", NULL, INPUT_FILE, true)
+    );
+#endif
 
     // can put other stuff here like
 #if 0
@@ -181,15 +198,20 @@ void CLIENT_STATE::app_test_init() {
 #endif
 
     WORKUNIT *wu = make_workunit(av);
-#if 1
+#if APP_WSL_WRAPPER
     //wu->command_line = "--nsecs 60";
     wu->input_files.push_back(
         *make_file(proj, "infile", "in", INPUT_FILE, false)
     );
 #endif
+#if APP_DOCKER_WRAPPER
+    wu->input_files.push_back(
+        *make_file(proj, "infile", "in", INPUT_FILE, true)
+    );
+#endif
 
     RESULT *result = make_result(av, wu);
-#if 1
+#if APP_WSL_WRAPPER || APP_DOCKER_WRAPPER
     result->output_files.push_back(
         *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
     );
