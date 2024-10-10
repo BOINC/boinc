@@ -65,6 +65,7 @@ parts:
     - libxrandr-dev
     - libdbus-1-dev
     - libxtst-dev
+    - libgirepository1.0-dev
     # vcpkg dependencies
     - build-essential
     - pkg-config
@@ -121,7 +122,7 @@ parts:
       pip install --user ninja
       ninja --version
 
-      pip install --user jinja2
+      pip install --user jinja2 packaging
 
       export CFLAGS=-w
       export CMAKE_C_FLAGS=-w
