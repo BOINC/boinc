@@ -26,7 +26,7 @@ check_get_args(array("tnow", "ttok"));
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
-$name = trim(post_str("user_name"));
+$name = filter_input(INPUT_POST, 'user_name', FILTER_SANITIZE_SPECIAL_CHARS);
 if ($name != sanitize_tags($name)) {
     error_page(tra("HTML tags are not allowed in your name."));
 }
