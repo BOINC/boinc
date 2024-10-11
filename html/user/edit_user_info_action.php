@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/util.inc");
+require_once("../inc/user_util.inc");
 require_once("../inc/countries.inc");
 
 check_get_args(array("tnow", "ttok"));
@@ -26,9 +27,9 @@ check_get_args(array("tnow", "ttok"));
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
-$name = trim(post_str("user_name"));
-if ($name != sanitize_tags($name)) {
-    error_page(tra("HTML tags are not allowed in your name."));
+$name = post_str("user_name");
+if (!is_valid_user_name($name, $reason)) {
+    error_page($reason);
 }
 if (strlen($name) == 0) {
     error_page(tra("You must supply a name for your account."));
