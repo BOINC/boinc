@@ -59,6 +59,10 @@
 #include "util.h"
 #include "boinc_api.h"
 
+#ifdef _WIN32
+#include "win_util.h"
+#endif
+
 using std::string;
 using std::vector;
 
@@ -108,6 +112,7 @@ APP_INIT_DATA aid;
 CONFIG config;
 bool running;
 bool verbose = true;
+char* config_file = CONFIG_FILE_NAME;
 #ifdef _WIN32
 WSL_CMD ctl_wc;
 #endif
@@ -174,17 +179,17 @@ int error_output(vector<string> &out) {
     return 0;
 }
 
-inline int run_docker_command(char* cmd, vector<string> &out, bool verbose) {
+inline int run_docker_command(char* cmd, vector<string> &out) {
 #ifdef _WIN32
     // Win: run the command in the WSL container
 
     char buf[1024];
     string output;
 
-    sprintf(buf, "%s; echo EOM\n"
-    write_to_pipe(ctl_wx.in_write, buf);
+    sprintf(buf, "%s; echo EOM\n", cmd);
+    write_to_pipe(ctl_wc.in_write, buf);
     int retval = read_from_pipe(
-        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
+        ctl_wc.out_read, ctl_wc.proc_handle, output, TIMEOUT, "EOM"
     );
     if (retval) return retval;
     out = split(output, '\n');
@@ -408,7 +413,7 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
 //
 int wsl_init() {
     WSL_DISTRO *distro = aid.host_info.wsl_distros.find_docker();
-    if (!wdp) return -1;
+    if (!distro) return -1;
     int retval = ctl_wc.setup();
     if (retval) return retval;
     retval = ctl_wc.run_program_in_wsl(distro->distro_name, "", true);
@@ -428,6 +433,8 @@ int main(int argc, char** argv) {
             sporadic = true;
         } else if (!strcmp(argv[j], "--verbose")) {
             verbose = true;
+        } else if (!strcmp(argv[j], "--config")) {
+            config_file = argv[++j];
         }
     }
 
