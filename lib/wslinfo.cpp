@@ -126,3 +126,12 @@ WSL_DISTRO* WSL_DISTROS::find_match(
     }
     return NULL;
 }
+
+WSL_DISTRO* WSL_DISTROS::find_docker() {
+    for (WSL_DISTRO &wd: distros) {
+        if (wd.is_docker_available) {
+            return &wd;
+        }
+    }
+    return NULL;
+}

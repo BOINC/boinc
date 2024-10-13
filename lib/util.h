@@ -111,7 +111,8 @@ extern int get_exit_status(PROCESS_REF, int& status, double dt);
     // Note: to see if a process has exited:
     // get_exit_status(pid, status, 0) == 0
 
-// Run command and return output as vector of lines.
+// Run command.
+// Wait for exit, and return output as vector of lines.
 // Return error if command failed
 //
 extern int run_command(

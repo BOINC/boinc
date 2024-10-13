@@ -68,6 +68,8 @@ struct WSL_DISTROS {
     WSL_DISTRO *find_match(
         const char *os_name_regexp, const char *os_version_regexp
     );
+    WSL_DISTRO *find_docker();
+        // find a distro containing Docker
 };
 
 #endif

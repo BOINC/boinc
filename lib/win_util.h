@@ -28,7 +28,13 @@ extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize ...
 );
 
-// struct for running a WSL command, connected via pipes
+// struct for running a program in a WSL, connected via pipes.
+// This can be a one-time command,
+// or a shell to which you send a sequence of commands via the pipe.
+// In the latter case:
+//  - write to the input pipe to run commands from the shell
+//  - the output of each command should end with 'EOM'
+//      so that you know when you've read the complete output.
 //
 struct WSL_CMD {
     HANDLE in_read = NULL;
@@ -47,8 +53,9 @@ struct WSL_CMD {
     int setup();
 
     // run command, direct both stdout and stderr to the out pipe
+    // Use read_from_pipe() to get the output.
     //
-    int run_command(
+    int run_program_in_wsl(
         const std::string distro_name, const std::string command,
         bool use_cwd = false
     );

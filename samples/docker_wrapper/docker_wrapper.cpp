@@ -1,4 +1,5 @@
-// docker_wrapper
+// docker_wrapper: runs a BOINC job in a Docker container
+//
 // runs in a directory (normally slot dir) containing
 //
 // Dockerfile
@@ -9,6 +10,19 @@
 //
 // For now all files must be <copy_file>
 //
+// Win:
+//      There must be a WSL image containing the Docker engine
+//      e.g. an Ubuntu image downloaded from the Windows app store.
+//      This image can access the host (Win) filesystem.
+//      The wrapper runs a pipe-connected shell in WSL
+//      (running in the current dir)
+//      and sends commands (e.g. docker commands) via the pipe.
+//
+// Unix:
+//      The host must have the Docker engine.
+//      The wrapper runs Docker commands using popen()
+//      
+// Logic:
 // If the container already exists
 //      this is a restart of the job
 //      start the container if it's stopped
@@ -17,8 +31,9 @@
 //      if the image doesn't already exist
 //          build image with 'docker build'
 //      (need a log around the above?)
-//      create the container image with -v to mount slot, project dirs
+//      create the container with -v to mount slot, project dirs
 //      copy input files as needed
+// start container
 // loop: handle msgs from client, check for container exit
 // on successful exit
 //      copy output files as needed
@@ -93,6 +108,9 @@ APP_INIT_DATA aid;
 CONFIG config;
 bool running;
 bool verbose = true;
+#ifdef _WIN32
+WSL_CMD ctl_wc;
+#endif
 
 // parse a list of file copy specs
 //
@@ -154,6 +172,25 @@ int error_output(vector<string> &out) {
         }
     }
     return 0;
+}
+
+inline int run_docker_command(char* cmd, vector<string> &out, bool verbose) {
+#ifdef _WIN32
+    // Win: run the command in the WSL container
+
+    char buf[1024];
+    string output;
+
+    sprintf(buf, "%s; echo EOM\n"
+    write_to_pipe(ctl_wx.in_write, buf);
+    int retval = read_from_pipe(
+        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
+    );
+    if (retval) return retval;
+    out = split(output, '\n');
+#else
+    return run_command(cmd, out, verbose);
+#endif
 }
 
 //////////  IMAGE  ////////////
@@ -366,6 +403,20 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     return JOB_FAIL;
 }
 
+#ifdef _WIN32
+// find a WSL distro with Docker and set up a command link to it
+//
+int wsl_init() {
+    WSL_DISTRO *distro = aid.host_info.wsl_distros.find_docker();
+    if (!wdp) return -1;
+    int retval = ctl_wc.setup();
+    if (retval) return retval;
+    retval = ctl_wc.run_program_in_wsl(distro->distro_name, "", true);
+    if (retval) return retval;
+    return 0;
+}
+#endif
+
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
@@ -391,9 +442,7 @@ int main(int argc, char** argv) {
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
-
-    //boinc_init_options(&options);
-    boinc_get_init_data(aid);
+    boinc_init_options(&options);
 
     if (boinc_is_standalone()) {
         strcpy(image_name, "boinc_standalone");
@@ -402,9 +451,18 @@ int main(int argc, char** argv) {
         strcpy(aid.project_dir, ".");
         strcpy(aid.boinc_dir, ".");
     } else {
+        boinc_get_init_data(aid);
         get_image_name();
         get_container_name();
     }
+
+#ifdef _WIN32
+    retval = wsl_init();
+    if (retval) {
+        fprintf(stderr, "wsl_init() failed: %d\n", retval);
+        boinc_finish(1);
+    }
+#endif
 
     retval = container_exists(exists);
     if (retval) {

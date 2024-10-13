@@ -224,7 +224,7 @@ int WSL_CMD::setup() {
     return 0;
 }
 
-int WSL_CMD::run_command(
+int WSL_CMD::run_program_in_wsl(
     const string distro_name, const string command, bool use_cwd
 ) {
     HRESULT ret = pWslLaunch(

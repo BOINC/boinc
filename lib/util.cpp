@@ -279,7 +279,10 @@ int run_program(
 }
 #endif
 
-// Run command and return output as vector of lines.
+// Run command, wait for exit.
+// Return its output as vector of lines.
+// Win: output includes stdout and stderr
+// Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
 int run_command(char *cmd, vector<string> &out, bool verbose) {
