@@ -383,7 +383,7 @@ struct GR_PROXY_INFO {
     std::string socks5_user_passwd;
     bool socks5_remote_dns;
 
-	std::string noproxy_hosts;
+    std::string noproxy_hosts;
 
     GR_PROXY_INFO();
 
@@ -494,7 +494,6 @@ struct NOTICES {
 
     NOTICES();
 
-    void print();
     void clear();
 };
 
@@ -559,7 +558,7 @@ struct PROJECT_CONFIG {
     bool sched_stopped;         // scheduler disabled
     bool web_stopped;           // DB-driven web functions disabled
     int min_client_version;
-	std::string error_msg;
+    std::string error_msg;
     bool terms_of_use_is_html;
     std::string terms_of_use;
         // if present, show this text in an "accept terms of use?" dialog
@@ -594,7 +593,7 @@ struct ACCOUNT_IN {
 
 struct ACCOUNT_OUT {
     int error_num;
-	std::string error_msg;
+    std::string error_msg;
     std::string authenticator;
 
     ACCOUNT_OUT();
@@ -610,16 +609,16 @@ struct CC_STATUS {
     bool manager_must_quit;
     int task_suspend_reason;    // bitmap, see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
-    int task_mode_perm;			// same, but permanent version
-	double task_mode_delay;		// time until perm becomes actual
+    int task_mode_perm;         // same, but permanent version
+    double task_mode_delay;     // time until perm becomes actual
     int gpu_suspend_reason;
     int gpu_mode;
     int gpu_mode_perm;
-	double gpu_mode_delay;
+    double gpu_mode_delay;
     int network_suspend_reason;
     int network_mode;
     int network_mode_perm;
-	double network_mode_delay;
+    double network_mode_delay;
     bool disallow_attach;
     bool simple_gui_only;
     int max_event_log_lines;
@@ -732,7 +731,6 @@ struct RPC_CLIENT {
     int get_statistics(PROJECTS&);
     int network_available();
     int get_project_init_status(PROJECT_INIT_STATUS& pis);
-    int report_device_status(DEVICE_STATUS&);
 
     // the following are asynch operations.
     // Make the first call to start the op,
@@ -773,7 +771,7 @@ struct RPC_CLIENT {
     int get_app_config(const char* url, APP_CONFIGS& conf);
     int set_app_config(const char* url, APP_CONFIGS& conf);
     int get_daily_xfer_history(DAILY_XFER_HISTORY&);
-	int set_language(const char*);
+    int set_language(const char*);
 };
 
 struct RPC {
