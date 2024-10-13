@@ -122,11 +122,9 @@
         <home>Charles University in Prague</home>
     <platforms>
         <name>aarch64-android-linux-gnu</name>
-        <name>aarch64-unknown-linux-gnu</name>
         <name>aarch64-unknown-linux-gnu[aarch64_armv8-a_asimd]</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm64-apple-darwin[arm64_macos_1100]</name>
-        <name>armv6l-unknown-linux-gnueabihf</name>
         <name>armv6l-unknown-linux-gnueabihf[armv6l_vfp2]</name>
         <name>armv7l-unknown-linux-gnueabihf[arm_armv7l_vfp4]</name>
         <name>i686-pc-linux-gnu</name>
