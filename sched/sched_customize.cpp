@@ -869,6 +869,24 @@ static inline bool app_plan_opencl(
     }
 }
 
+//plan class for Docker jobs
+//
+static inline bool app_plan_docker(
+    SCHEDULER_REQUEST& sreq, char* plan_class
+){
+    if (!(sreq.host.docker_available)) {
+        add_no_work_message("Docker is not installed or is not available");
+        return false;
+    }
+
+    if (strstr(plan_class, "compose") && !(sreq.host.docker_compose_available)) {
+        add_no_work_message("Docker compose is not installed or is not available");
+        return false;
+    }
+
+    return true;
+}
+
 // handles vbox[32|64][_[mt]|[hwaccel]]
 // "mt" is tailored to the needs of CERN:
 // use 1 or 2 CPUs
@@ -1026,6 +1044,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const W
         return app_plan_vbox(sreq, plan_class, hu);
     } else if (strstr(plan_class, "wsl")) {
         return app_plan_wsl(sreq, plan_class, hu);
+    } else if (strstr(plan_class, "docker")){
+        return app_plan_docker(sreq, plan_class);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
