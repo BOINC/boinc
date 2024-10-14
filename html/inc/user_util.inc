@@ -86,8 +86,8 @@ function is_valid_user_name($name, &$reason) {
         $reason = tra("user name must be nonempty");
         return false;
     }
-    if (sanitize_tags($name) !== $name) {
-        $reason = tra("user name may not contain HTML tags");
+    if (filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS) !== $name) {
+        $reason = tra("user name may not contain special characters");
         return false;
     }
     if (is_numeric($name)) {
