@@ -139,7 +139,7 @@ int parse_config_copies(const toml::Value *x, vector<FILE_COPY> &copies) {
 //
 int parse_config_file() {
     int retval;
-    std::ifstream ifs(CONFIG_FILE_NAME);
+    std::ifstream ifs(config_file);
     toml::ParseResult r = toml::parse(ifs);
     if (!r.valid()) {
         fprintf(stderr, "TOML error: %s\n", r.errorReason.c_str());
@@ -203,8 +203,8 @@ inline int run_docker_command(char* cmd, vector<string> &out) {
 
 void get_image_name() {
     char *p = strchr(aid.project_dir, '/');
-    sprintf(image_name, "boinc_%s_%s_%s:%d",
-        p+1, aid.app_name, aid.plan_class, aid.app_version
+    sprintf(image_name, "boinc_%s_%s",
+        p+1, aid.wu_name
     );
 }
 
@@ -259,7 +259,8 @@ int get_image() {
 //////////  CONTAINER  ////////////
 
 void get_container_name() {
-    sprintf(container_name, "boinc_%s", aid.result_name);
+    char *p = strchr(aid.project_dir, '/');
+    sprintf(container_name, "boinc_%s_%s", p, aid.result_name);
 }
 
 int container_exists(bool &exists) {
