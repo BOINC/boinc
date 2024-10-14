@@ -213,7 +213,7 @@ int image_exists(bool &exists) {
     vector<string> out;
 
     sprintf(cmd, "docker images");
-    int retval = run_command(cmd, out, verbose);
+    int retval = run_docker_command(cmd, out);
     if (retval) return retval;
     for (string line: out) {
         if (line.find(image_name) != string::npos) {
@@ -229,7 +229,7 @@ int build_image() {
     char cmd[256];
     vector<string> out;
     sprintf(cmd, "docker build . -t %s -f %s", image_name, dockerfile);
-    int retval = run_command(cmd, out, verbose);
+    int retval = run_docker_command(cmd, out);
     if (retval) return retval;
     return 0;
 }
@@ -271,7 +271,7 @@ int container_exists(bool &exists) {
     sprintf(cmd, "docker ps --filter \"name=%s\"",
         container_name
     );
-    retval = run_command(cmd, out, verbose);
+    retval = run_docker_command(cmd, out);
     if (retval) return retval;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
@@ -311,7 +311,7 @@ int create_container() {
         slot_cmd, project_cmd,
         image_name
     );
-    retval = run_command(cmd, out, verbose);
+    retval = run_docker_command(cmd, out);
     if (retval) return retval;
     if (error_output(out)) return -1;
 
@@ -321,7 +321,7 @@ int create_container() {
         sprintf(cmd, "docker cp %s %s:%s",
             c.src.c_str(), container_name, c.dst.c_str()
         );
-        retval = run_command(cmd, out, verbose);
+        retval = run_docker_command(cmd, out);
         if (retval) return retval;
         if (error_output(out)) return -1;
     }
@@ -337,7 +337,7 @@ int copy_files_from_container() {
         sprintf(cmd, "docker cp %s:%s %s",
             container_name, c.src.c_str(), c.dst.c_str()
         );
-        retval = run_command(cmd, out);
+        retval = run_docker_command(cmd, out);
         if (retval) return retval;
     }
     return 0;
@@ -346,8 +346,8 @@ int copy_files_from_container() {
 int remove_container() {
     char cmd[1024];
     vector<string> out;
-    sprintf(cmd, "docker rm %s", container_name);
-    int retval = run_command(cmd, out, verbose);
+    sprintf(cmd, "docker container rm %s", container_name);
+    int retval = run_docker_command(cmd, out);
     return retval;
 }
 
@@ -357,7 +357,7 @@ int resume() {
     char cmd[1024];
     vector<string> out;
     sprintf(cmd, "docker start %s", container_name);
-    int retval = run_command(cmd, out);
+    int retval = run_docker_command(cmd, out);
     return retval;
 }
 
@@ -365,7 +365,7 @@ int suspend() {
     char cmd[1024];
     vector<string> out;
     sprintf(cmd, "docker stop %s", container_name);
-    int retval = run_command(cmd, out, verbose);
+    int retval = run_docker_command(cmd, out);
     return retval;
 }
 
@@ -397,7 +397,7 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     int retval;
 
     sprintf(cmd, "docker ps -all -f \"name=%s\"", container_name);
-    retval = run_command(cmd, out, verbose);
+    retval = run_docker_command(cmd, out);
     if (retval) return JOB_FAIL;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
@@ -423,6 +423,20 @@ int wsl_init() {
     return 0;
 }
 #endif
+
+// clean up at end of job; remove container and image
+//
+void cleanup(int code) {
+    char cmd[1024];
+    int retval;
+    vector<string> out;
+
+    sprintf(cmd, "docker container rm %s", container_name);
+    run_docker_command(cmd, out);
+    sprintf(cmd, "docker image rm %s", image_name);
+    run_docker_command(cmd, out);
+    boinc_finish(code);
+}
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
