@@ -1,0 +1,4 @@
+FROM debian
+WORKDIR /app
+COPY in /app
+CMD ./worker in out

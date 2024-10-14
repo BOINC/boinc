@@ -39,15 +39,16 @@
 //      copy output files as needed
 
 // Names:
-// image name: name:tag
+// image name
 //      name: lower case letters, digits, separators (. _ -); max 4096 chars
 //      tag: max 128 chars
-//      we'll use: boinc_proj_appname_planclass:version
+//      in the universal model, each WU has a different image
+//      so we'll use: boinc_<proj>_<wuname>
 //
 // container name:
 //      letters, numbers, _
 //      max 255 chars
-//      we'll use: boinc_proj_resultname
+//      we'll use: boinc_<proj>_<resultname>
 
 #include <cstdio>
 #include <string>
@@ -67,7 +68,6 @@ using std::string;
 using std::vector;
 
 #define POLL_PERIOD 1.0
-#define CONFIG_FILE_NAME "job.toml"
 
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
 
@@ -112,7 +112,8 @@ APP_INIT_DATA aid;
 CONFIG config;
 bool running;
 bool verbose = true;
-char* config_file = CONFIG_FILE_NAME;
+const char* config_file = "job.toml";
+const char* dockerfile = "Dockerfile";
 #ifdef _WIN32
 WSL_CMD ctl_wc;
 #endif
@@ -227,7 +228,7 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    sprintf(cmd, "docker build . -t %s", image_name);
+    sprintf(cmd, "docker build . -t %s -f %s", image_name, dockerfile);
     int retval = run_command(cmd, out, verbose);
     if (retval) return retval;
     return 0;
@@ -435,6 +436,8 @@ int main(int argc, char** argv) {
             verbose = true;
         } else if (!strcmp(argv[j], "--config")) {
             config_file = argv[++j];
+        } else if (!strcmp(argv[j], "--dockerfile")) {
+            dockerfile = argv[++j];
         }
     }
 

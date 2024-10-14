@@ -1,0 +1,2 @@
+slot_dir_mount = "/slot"
+project_dir_mount = "/project"
