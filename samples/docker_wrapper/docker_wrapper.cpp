@@ -50,6 +50,12 @@
 //      max 255 chars
 //      we'll use: boinc_<proj>_<resultname>
 
+// standalone mode:
+// image name: boinc_standalone
+// container name: boinc_test
+// slot dir: .
+// project dir: project/
+
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -95,13 +101,18 @@ struct CONFIG {
     vector<FILE_COPY> copy_to_container;
     vector<FILE_COPY> copy_from_container;
     void print() {
-        printf("slot: %s\n", slot_dir_mount.c_str());
-        printf("proj: %s\n", project_dir_mount.c_str());
+        fprintf(stderr, "Wrapper config file:\n");
+        if (!slot_dir_mount.empty()) {
+            fprintf(stderr, "   slot dir mounted at: %s\n", slot_dir_mount.c_str());
+        }
+        if (!project_dir_mount.empty()) {
+            fprintf(stderr, "   project dir mounted at: %s\n", project_dir_mount.c_str());
+        }
         for (FILE_COPY c:copy_to_container) {
-            printf("to src %s dst %s\n", c.src.c_str(), c.dst.c_str());
+            fprintf(stderr, "   copy to:src %s dst %s\n", c.src.c_str(), c.dst.c_str());
         }
         for (FILE_COPY c:copy_from_container) {
-            printf("from src %s dst %s\n", c.src.c_str(), c.dst.c_str());
+            fprintf(stderr, "   copy from: src %s dst %s\n", c.src.c_str(), c.dst.c_str());
         }
     }
 };
@@ -246,7 +257,7 @@ int get_image() {
         exit(1);
     }
     if (!exists) {
-        if (verbose) printf("building image\n");
+        if (verbose) fprintf(stderr, "building image\n");
         retval = build_image();
         if (retval) {
             fprintf(stderr, "build_image() failed: %d\n", retval);
@@ -295,8 +306,8 @@ int create_container() {
     if (config.slot_dir_mount.empty()) {
         slot_cmd[0] = 0;
     } else {
-        sprintf(slot_cmd, " -v %s/slots/%d:%s",
-            aid.boinc_dir, aid.slot, config.slot_dir_mount.c_str()
+        sprintf(slot_cmd, " -v .:%s",
+            config.slot_dir_mount.c_str()
         );
     }
     if (config.project_dir_mount.empty()) {
@@ -343,15 +354,32 @@ int copy_files_from_container() {
     return 0;
 }
 
-int remove_container() {
-    char cmd[1024];
-    vector<string> out;
-    sprintf(cmd, "docker container rm %s", container_name);
-    int retval = run_docker_command(cmd, out);
-    return retval;
-}
-
 //////////  JOB CONTROL  ////////////
+
+// Clean up at end of job.
+// Show log output if verbose;
+// remove container and image
+//
+void cleanup() {
+    char cmd[1024];
+    int retval;
+    vector<string> out;
+
+    if (verbose) {
+        sprintf(cmd, "docker logs %s", container_name);
+        run_docker_command(cmd, out);
+        fprintf(stderr, "container log:\n");
+        for (string line: out) {
+            fprintf(stderr, "   %s\n", line.c_str());
+        }
+    }
+
+    sprintf(cmd, "docker container rm %s", container_name);
+    run_docker_command(cmd, out);
+
+    sprintf(cmd, "docker image rm %s", image_name);
+    run_docker_command(cmd, out);
+}
 
 int resume() {
     char cmd[1024];
@@ -375,7 +403,6 @@ void poll_client_msgs() {
     if (status.no_heartbeat || status.quit_request || status.abort_request) {
         fprintf(stderr, "got quit/abort from client\n");
         suspend();
-        //remove_container();
         exit(0);
     }
     if (status.suspended) {
@@ -396,7 +423,7 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     vector<string> out;
     int retval;
 
-    sprintf(cmd, "docker ps -all -f \"name=%s\"", container_name);
+    sprintf(cmd, "docker ps --all -f \"name=%s\"", container_name);
     retval = run_docker_command(cmd, out);
     if (retval) return JOB_FAIL;
     for (string line: out) {
@@ -424,20 +451,6 @@ int wsl_init() {
 }
 #endif
 
-// clean up at end of job; remove container and image
-//
-void cleanup(int code) {
-    char cmd[1024];
-    int retval;
-    vector<string> out;
-
-    sprintf(cmd, "docker container rm %s", container_name);
-    run_docker_command(cmd, out);
-    sprintf(cmd, "docker image rm %s", image_name);
-    run_docker_command(cmd, out);
-    boinc_finish(code);
-}
-
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
@@ -461,7 +474,6 @@ int main(int argc, char** argv) {
         fprintf(stderr, "can't parse config file\n");
         exit(1);
     }
-    if (verbose) config.print();
 
     memset(&options, 0, sizeof(options));
     options.main_program = true;
@@ -469,12 +481,12 @@ int main(int argc, char** argv) {
     options.handle_process_control = true;
     boinc_init_options(&options);
 
+    if (verbose) config.print();
+
     if (boinc_is_standalone()) {
         strcpy(image_name, "boinc_standalone");
         strcpy(container_name, "boinc_test");
-        aid.slot = 0;
-        strcpy(aid.project_dir, ".");
-        strcpy(aid.boinc_dir, ".");
+        strcpy(aid.project_dir, "project");
     } else {
         boinc_get_init_data(aid);
         get_image_name();
@@ -495,16 +507,18 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
     if (!exists) {
-        if (verbose) printf("creating container\n");
+        if (verbose) fprintf(stderr, "creating container %s\n", container_name);
         retval = create_container();
         if (retval) {
             fprintf(stderr, "create_container() failed: %d\n", retval);
             boinc_finish(1);
         }
     }
+    if (verbose) fprintf(stderr, "resuming container\n");
     retval = resume();
     if (retval) {
         fprintf(stderr, "resume() failed: %d\n", retval);
+        cleanup();
         boinc_finish(1);
     }
     running = true;
@@ -512,12 +526,12 @@ int main(int argc, char** argv) {
         poll_client_msgs();
         switch(poll_app(ru)) {
         case JOB_FAIL:
-            //remove_container();
-            boinc_finish(1);    // doesn't return
+            cleanup();
+            boinc_finish(1);
             break;
         case JOB_SUCCESS:
             copy_files_from_container();
-            //remove_container();
+            cleanup();
             boinc_finish(0);
             break;
         }

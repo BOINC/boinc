@@ -1,3 +1,4 @@
 FROM debian
 WORKDIR /app
-CMD ./worker in out
+COPY main.sh /app
+CMD ./main.sh

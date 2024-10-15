@@ -362,9 +362,12 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
     free(buf);
 #else
     char buf[256];
+    if (verbose) {
+        fprintf(stderr, "run_command(): %s\n", cmd);
+    }
     FILE* fp = popen(cmd, "r");
     if (!fp) {
-        fprintf(stderr, "can't run command %s\n", cmd);
+        fprintf(stderr, "popen() failed: %s\n", cmd);
         return ERR_FOPEN;
     }
     while (fgets(buf, 256, fp)) {
