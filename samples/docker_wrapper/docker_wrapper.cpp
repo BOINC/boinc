@@ -127,6 +127,9 @@ const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
 #ifdef _WIN32
 WSL_CMD ctl_wc;
+const char* cli_prog = "podman";
+#else
+const char* cli_prog = "docker";
 #endif
 
 // parse a list of file copy specs
@@ -151,6 +154,9 @@ int parse_config_copies(const toml::Value *x, vector<FILE_COPY> &copies) {
 int parse_config_file() {
     int retval;
     std::ifstream ifs(config_file);
+    if (ifs.fail()) {
+        return -1;
+    }
     toml::ParseResult r = toml::parse(ifs);
     if (!r.valid()) {
         fprintf(stderr, "TOML error: %s\n", r.errorReason.c_str());
@@ -192,6 +198,7 @@ int error_output(vector<string> &out) {
 }
 
 inline int run_docker_command(char* cmd, vector<string> &out) {
+    out.clear();
 #ifdef _WIN32
     // Win: run the command in the WSL container
 
@@ -205,6 +212,7 @@ inline int run_docker_command(char* cmd, vector<string> &out) {
     );
     if (retval) return retval;
     out = split(output, '\n');
+    return 0;
 #else
     return run_command(cmd, out, verbose);
 #endif
@@ -223,7 +231,7 @@ int image_exists(bool &exists) {
     char cmd[256];
     vector<string> out;
 
-    sprintf(cmd, "docker images");
+    sprintf(cmd, "%s images", cli_prog);
     int retval = run_docker_command(cmd, out);
     if (retval) return retval;
     for (string line: out) {
@@ -239,7 +247,7 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    sprintf(cmd, "docker build . -t %s -f %s", image_name, dockerfile);
+    sprintf(cmd, "%s build . -t %s -f %s", cli_prog, image_name, dockerfile);
     int retval = run_docker_command(cmd, out);
     if (retval) return retval;
     return 0;
@@ -279,8 +287,8 @@ int container_exists(bool &exists) {
     int retval;
     vector<string> out;
 
-    sprintf(cmd, "docker ps --filter \"name=%s\"",
-        container_name
+    sprintf(cmd, "%s ps --filter \"name=%s\"",
+        cli_prog, container_name
     );
     retval = run_docker_command(cmd, out);
     if (retval) return retval;
@@ -317,7 +325,8 @@ int create_container() {
             aid.project_dir, config.project_dir_mount.c_str()
         );
     }
-    sprintf(cmd, "docker create --name %s %s %s %s",
+    sprintf(cmd, "%s create --name %s %s %s %s",
+        cli_prog,
         container_name,
         slot_cmd, project_cmd,
         image_name
@@ -329,7 +338,8 @@ int create_container() {
     // copy files into container
     //
     for (FILE_COPY &c: config.copy_to_container) {
-        sprintf(cmd, "docker cp %s %s:%s",
+        sprintf(cmd, "%s cp %s %s:%s",
+            cli_prog,
             c.src.c_str(), container_name, c.dst.c_str()
         );
         retval = run_docker_command(cmd, out);
@@ -345,7 +355,8 @@ int copy_files_from_container() {
     vector<string> out;
 
     for (FILE_COPY &c: config.copy_from_container) {
-        sprintf(cmd, "docker cp %s:%s %s",
+        sprintf(cmd, "%s cp %s:%s %s",
+            cli_prog,
             container_name, c.src.c_str(), c.dst.c_str()
         );
         retval = run_docker_command(cmd, out);
@@ -362,11 +373,10 @@ int copy_files_from_container() {
 //
 void cleanup() {
     char cmd[1024];
-    int retval;
     vector<string> out;
 
     if (verbose) {
-        sprintf(cmd, "docker logs %s", container_name);
+        sprintf(cmd, "%s logs %s", cli_prog, container_name);
         run_docker_command(cmd, out);
         fprintf(stderr, "container log:\n");
         for (string line: out) {
@@ -374,17 +384,17 @@ void cleanup() {
         }
     }
 
-    sprintf(cmd, "docker container rm %s", container_name);
+    sprintf(cmd, "%s container rm %s", cli_prog, container_name);
     run_docker_command(cmd, out);
 
-    sprintf(cmd, "docker image rm %s", image_name);
+    sprintf(cmd, "%s image rm %s", cli_prog, image_name);
     run_docker_command(cmd, out);
 }
 
 int resume() {
     char cmd[1024];
     vector<string> out;
-    sprintf(cmd, "docker start %s", container_name);
+    sprintf(cmd, "%s start %s", cli_prog, container_name);
     int retval = run_docker_command(cmd, out);
     return retval;
 }
@@ -392,7 +402,7 @@ int resume() {
 int suspend() {
     char cmd[1024];
     vector<string> out;
-    sprintf(cmd, "docker stop %s", container_name);
+    sprintf(cmd, "%s stop %s", cli_prog, container_name);
     int retval = run_docker_command(cmd, out);
     return retval;
 }
@@ -423,7 +433,7 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     vector<string> out;
     int retval;
 
-    sprintf(cmd, "docker ps --all -f \"name=%s\"", container_name);
+    sprintf(cmd, "%s ps --all -f \"name=%s\"", cli_prog, container_name);
     retval = run_docker_command(cmd, out);
     if (retval) return JOB_FAIL;
     for (string line: out) {
@@ -441,11 +451,17 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
 // find a WSL distro with Docker and set up a command link to it
 //
 int wsl_init() {
-    WSL_DISTRO *distro = aid.host_info.wsl_distros.find_docker();
-    if (!distro) return -1;
+    string distro_name;
+    if (boinc_is_standalone()) {
+        distro_name = "Ubuntu";
+    } else {
+        WSL_DISTRO* distro = aid.host_info.wsl_distros.find_docker();
+        if (!distro) return -1;
+        distro_name = distro->distro_name;
+    }
     int retval = ctl_wc.setup();
     if (retval) return retval;
-    retval = ctl_wc.run_program_in_wsl(distro->distro_name, "", true);
+    retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
     if (retval) return retval;
     return 0;
 }
@@ -469,19 +485,24 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = parse_config_file();
-    if (retval) {
-        fprintf(stderr, "can't parse config file\n");
-        exit(1);
-    }
+#ifdef _WIN32
+#if 1
+    SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_copy");
+    config_file = "job_copy.toml";
+    dockerfile = "Dockerfile_copy";
+#endif
+#if 0
+    SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_mount");
+    config_file = "job_mount.toml";
+    dockerfile = "Dockerfile_mount";
+#endif
+#endif
 
     memset(&options, 0, sizeof(options));
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
     boinc_init_options(&options);
-
-    if (verbose) config.print();
 
     if (boinc_is_standalone()) {
         strcpy(image_name, "boinc_standalone");
@@ -492,6 +513,13 @@ int main(int argc, char** argv) {
         get_image_name();
         get_container_name();
     }
+    retval = parse_config_file();
+    if (retval) {
+        fprintf(stderr, "can't parse config file\n");
+        exit(1);
+    }
+    if (verbose) config.print();
+
 
 #ifdef _WIN32
     retval = wsl_init();
