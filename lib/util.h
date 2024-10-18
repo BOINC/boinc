@@ -115,9 +115,7 @@ extern int get_exit_status(PROCESS_REF, int& status, double dt);
 // Wait for exit, and return output as vector of lines.
 // Return error if command failed
 //
-extern int run_command(
-    char *cmd, std::vector<std::string> &out, bool verbose=false
-);
+extern int run_command(char *cmd, std::vector<std::string> &out);
 
 // get the path of the calling process's executable
 //

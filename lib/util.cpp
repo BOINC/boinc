@@ -285,11 +285,8 @@ int run_program(
 // Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
-int run_command(char *cmd, vector<string> &out, bool verbose) {
+int run_command(char *cmd, vector<string> &out) {
     out.clear();
-    if (verbose) {
-        fprintf(stderr, "running command: %s\n", cmd);
-    }
 #ifdef _WIN32
     HANDLE pipe_read, pipe_write;
     SECURITY_ATTRIBUTES sa;
@@ -362,9 +359,6 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
     free(buf);
 #else
     char buf[256];
-    if (verbose) {
-        fprintf(stderr, "run_command(): %s\n", cmd);
-    }
     FILE* fp = popen(cmd, "r");
     if (!fp) {
         fprintf(stderr, "popen() failed: %s\n", cmd);
@@ -372,12 +366,6 @@ int run_command(char *cmd, vector<string> &out, bool verbose) {
     }
     while (fgets(buf, 256, fp)) {
         out.push_back(buf);
-    }
-    if (verbose) {
-        fprintf(stderr, "output:\n");
-        for (string line: out) {
-            fprintf(stderr, "%s", line.c_str());
-        }
     }
 #endif
     return 0;

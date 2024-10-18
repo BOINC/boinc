@@ -198,7 +198,10 @@ int error_output(vector<string> &out) {
 }
 
 inline int run_docker_command(char* cmd, vector<string> &out) {
-    out.clear();
+    int retval;
+    if (verbose) {
+        fprintf(stderr, "running docker command: %s\n", cmd);
+    }
 #ifdef _WIN32
     // Win: run the command in the WSL container
 
@@ -207,15 +210,22 @@ inline int run_docker_command(char* cmd, vector<string> &out) {
 
     sprintf(buf, "%s; echo EOM\n", cmd);
     write_to_pipe(ctl_wc.in_write, buf);
-    int retval = read_from_pipe(
+    retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, output, TIMEOUT, "EOM"
     );
     if (retval) return retval;
     out = split(output, '\n');
-    return 0;
 #else
-    return run_command(cmd, out, verbose);
+    retval = run_command(cmd, out);
+    if (retval) return retval;
 #endif
+    if (verbose) {
+        fprintf(stderr, "output:\n");
+        for (string line: out) {
+            fprintf(stderr, "%s", line.c_str());
+        }
+    }
+    return 0;
 }
 
 //////////  IMAGE  ////////////
