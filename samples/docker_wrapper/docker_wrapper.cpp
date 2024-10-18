@@ -383,7 +383,7 @@ void cleanup() {
             fprintf(stderr, "   %s\n", line.c_str());
         }
     }
-
+    return;
     sprintf(cmd, "%s container rm %s", cli_prog, container_name);
     run_docker_command(cmd, out);
 
@@ -486,12 +486,12 @@ int main(int argc, char** argv) {
     }
 
 #ifdef _WIN32
-#if 1
+#if 0
     SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_copy");
     config_file = "job_copy.toml";
     dockerfile = "Dockerfile_copy";
 #endif
-#if 0
+#if 1
     SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_mount");
     config_file = "job_mount.toml";
     dockerfile = "Dockerfile_mount";
