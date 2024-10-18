@@ -303,6 +303,7 @@ struct CLIENT_STATE {
     double total_resource_share();
     double potentially_runnable_resource_share();
     double nearly_runnable_resource_share();
+    double fetchable_resource_share();
     double rec_interval_start;
     double total_cpu_time_this_rec_interval;
     bool must_enforce_cpu_schedule;
@@ -376,7 +377,9 @@ struct CLIENT_STATE {
 
     int latest_version(APP*, char*);
     int app_finished(ACTIVE_TASK&);
+    bool start_apps();
     bool handle_finished_apps();
+    void check_for_finished_jobs();
     void check_overdue();
 
     ACTIVE_TASK* get_task(RESULT*);
@@ -422,6 +425,7 @@ struct CLIENT_STATE {
     int get_disk_usages();
     void get_disk_shares();
     double allowed_disk_usage(double boinc_total);
+    int allowed_project_disk_usage(double&);
     void show_suspend_tasks_message(int reason);
     int resume_tasks(int reason=0);
     void read_global_prefs(
@@ -434,6 +438,7 @@ struct CLIENT_STATE {
     double max_available_ram();
     int check_suspend_processing();
     void check_suspend_network();
+    void install_global_prefs();
     PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);
 
@@ -507,10 +512,13 @@ struct CLIENT_STATE {
     void free_mem();
 
 // --------------- work_fetch.cpp:
+    int proj_min_results(PROJECT*, double);
     void check_project_timeout();
     double overall_cpu_frac();
     double overall_cpu_and_network_frac();
     double overall_gpu_frac();
+    double time_until_work_done(PROJECT*, int, double);
+    bool compute_work_requests();
     void scale_duration_correction_factors(double);
     void generate_new_host_cpid();
     void compute_nuploading_results();
