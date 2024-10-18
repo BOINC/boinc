@@ -111,12 +111,6 @@ public:
     /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
     void OnEraseBackground( wxEraseEvent& event );
 
-    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_WORKBETWEENBEGIN
-    void OnWorkBetweenBeginSelected( wxCommandEvent& event );
-
-    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CONNECTBETWEENBEGIN
-    void OnConnectBetweenBeginSelected( wxCommandEvent& event );
-
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
 
@@ -129,21 +123,21 @@ public:
     bool UpdateControlStates();
 
     bool ClearPreferenceSettings();
-	wxString DoubleToTimeString(double dt);
-	double TimeStringToDouble(wxString timeStr);
+    wxString DoubleToTimeString(double dt);
+    double TimeStringToDouble(wxString timeStr);
     double RoundToHundredths(double td);
     void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
     bool ReadPreferenceSettings();
     bool SavePreferenceSettings();
-	bool ValidateInput();
+    bool ValidateInput();
     bool m_bUsingLocalPrefs;
-	void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
-	bool IsValidFloatChar(const wxChar& ch);
-	bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
+    void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
+    bool IsValidFloatChar(const wxChar& ch);
+    bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
     bool IsValidFloatValueBetween(const wxString& value, double minVal, double maxVal);
-	bool IsValidTimeChar(const wxChar& ch);
-	bool IsValidTimeValue(const wxString& value);
-	void OnHandleCheckboxEvent(wxCommandEvent& ev);
+    bool IsValidTimeChar(const wxChar& ch);
+    bool IsValidTimeValue(const wxString& value);
+    void OnHandleCheckboxEvent(wxCommandEvent& ev);
 
     void addNewRowToSizer(wxSizer* toSizer, wxString& toolTipText,
                 wxWindow* first, wxWindow* second, wxWindow* third,

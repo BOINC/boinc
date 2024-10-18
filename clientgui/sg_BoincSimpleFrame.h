@@ -40,30 +40,30 @@ public:
     CSimpleGUIPanel(wxWindow* parent);
 
    ~CSimpleGUIPanel();
-	//
+    //
     // My tasks panel (shown when there are active tasks)
     CSimpleTaskPanel *m_taskPanel;
-	// My projects panel
-	CSimpleProjectPanel *m_projPanel;
-	////////////////////////////;
+    // My projects panel
+    CSimpleProjectPanel *m_projPanel;
+    ////////////////////////////;
 
     void SetBackgroundBitmap();
     void ReskinInterface();
-	void UpdateProjectView();
+    void UpdateProjectView();
     void OnFrameRender();
-	void OnProjectsAttachToProject(wxCommandEvent& event);
+    void OnProjectsAttachToProject(wxCommandEvent& event);
     void OnShowNotices(wxCommandEvent& event);
     void OnSuspendResume(wxCommandEvent& event);
     void OnHelp( wxCommandEvent& event );
-	void SetDlgOpen(bool newDlgState) { dlgOpen = newDlgState; }
-	bool GetDlgOpen() { return dlgOpen; }
+    void SetDlgOpen(bool newDlgState) { dlgOpen = newDlgState; }
+    bool GetDlgOpen() { return dlgOpen; }
     wxBitmap *GetBackgroundBitMap() { return &m_bmpBg; }
     void OnCheckForNewNotices(wxTimerEvent& WXUNUSED(event));
     void NoticesViewed();
 
-	//////////
-	wxBoxSizer *mainSizer;
-	//////////
+    //////////
+    wxBoxSizer *mainSizer;
+    //////////
     bool        m_bNewNoticeAlert;
     bool        m_bNoticesButtonIsRed;
     DECLARE_EVENT_TABLE()
@@ -86,7 +86,7 @@ protected:
 private:
     int         m_irefreshCount;
     bool        dlgOpen;
-	wxTimer*    checkForNewNoticesTimer;
+    wxTimer*    checkForNewNoticesTimer;
     wxString    m_sSuspendButtonToolTip;
     wxString    m_sResumeButtonToolTip;
 };
@@ -112,21 +112,20 @@ public:
     void OnPreferences( wxCommandEvent& event );
     void OnOptions( wxCommandEvent& event );
     void OnDiagnosticLogFlags( wxCommandEvent& event );
-    void OnOldSG( wxCommandEvent& event );
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
     void OnCheckVersion( wxCommandEvent& event );
     void OnReportBug( wxCommandEvent& event );
 
-	void OnConnect(CFrameEvent& event );
+    void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
     void OnEventLog(wxCommandEvent& event);
     void OnDarkModeChanged( wxSysColourChangedEvent& event );
 
-	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
+    void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
     bool SaveWindowPosition();
@@ -145,12 +144,12 @@ public:
 protected:
     virtual int     _GetCurrentViewPage();
 
-	wxMenuBar*          m_pMenubar;
+    wxMenuBar*          m_pMenubar;
     wxMenu*             m_pSubmenuSkins;
     wxAcceleratorEntry  m_Shortcuts[3];
     wxAcceleratorTable* m_pAccelTable;
 
-	CSimpleGUIPanel* m_pBackgroundPanel;
+    CSimpleGUIPanel* m_pBackgroundPanel;
 
 
 private:
