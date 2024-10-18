@@ -51,8 +51,8 @@
 //      we'll use: boinc_<proj>_<resultname>
 
 // standalone mode:
-// image name: boinc_standalone
-// container name: boinc_test
+// image name: boinc
+// container name: boinc
 // slot dir: .
 // project dir: project/
 
@@ -222,7 +222,7 @@ inline int run_docker_command(char* cmd, vector<string> &out) {
     if (verbose) {
         fprintf(stderr, "output:\n");
         for (string line: out) {
-            fprintf(stderr, "%s", line.c_str());
+            fprintf(stderr, "%s\n", line.c_str());
         }
     }
     return 0;
@@ -393,7 +393,7 @@ void cleanup() {
             fprintf(stderr, "   %s\n", line.c_str());
         }
     }
-    return;
+
     sprintf(cmd, "%s container rm %s", cli_prog, container_name);
     run_docker_command(cmd, out);
 
@@ -515,9 +515,9 @@ int main(int argc, char** argv) {
     boinc_init_options(&options);
 
     if (boinc_is_standalone()) {
-        strcpy(image_name, "boinc_standalone");
-        strcpy(container_name, "boinc_test");
-        strcpy(aid.project_dir, "project");
+        strcpy(image_name, "boinc");
+        strcpy(container_name, "boinc");
+        strcpy(aid.project_dir, "./project");
     } else {
         boinc_get_init_data(aid);
         get_image_name();
