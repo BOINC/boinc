@@ -123,9 +123,6 @@ struct WEEK_PREFS {
     void set(int day, double start, double end);
     void set(int day, TIME_SPAN* time);
     void unset(int day);
-
-protected:
-    void copy(const WEEK_PREFS& original);
 };
 
 

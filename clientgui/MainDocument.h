@@ -147,9 +147,6 @@ public:
                                 );
     int                         Reconnect();
 
-    int                         CachedStateLock();
-    int                         CachedStateUnlock();
-
     void                        ForceDisconnect();
     int                         FrameShutdownDetected();
     int                         CoreClientQuit();
@@ -199,7 +196,6 @@ public:
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; }
     bool                        WaitingForRPC() { return m_bWaitingForRPC; }
     wxDialog*                   GetRPCWaitDialog() { return m_RPCWaitDlg; }
-//    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
     bool                        m_bRPCThreadIsReady;
     bool                        m_bShutDownRPCThread;
@@ -239,7 +235,6 @@ public:
 
     int                         ProjectNoMoreWork(int iIndex);
     int                         ProjectAllowMoreWork(int iIndex);
-    int                         ProjectAttach(const wxString& strURL, const wxString& strAccountKey);
     int                         ProjectDetach(int iIndex);
     int                         ProjectUpdate(int iIndex);
     int                         ProjectReset(int iIndex);

@@ -144,7 +144,6 @@ public:
 
     void reset();
     void init(PROJECT*);
-    int get_ip_addr(int &ip_addr);
     void close_socket();
     void close_files();
     void update_speed();

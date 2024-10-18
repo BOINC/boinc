@@ -380,7 +380,6 @@ class AsyncRPCDlg : public wxDialog
 
 public:
     AsyncRPCDlg();
-    void                        OnRPCDlgTimer(wxTimerEvent &event);
     void                        OnExit(wxCommandEvent& event);
 };
 

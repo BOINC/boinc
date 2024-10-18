@@ -334,7 +334,6 @@ struct TIME_STATS {
     double total_gpu_active_duration;
         // time GPU computation allowed
 
-    void write(MIOFILE&);
     int parse(XML_PARSER&);
     void print();
     TIME_STATS() {

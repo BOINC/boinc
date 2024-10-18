@@ -152,9 +152,6 @@ public:
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
-    bool                    OnSaveState(wxConfigBase* pConfig);
-    bool                    OnRestoreState(wxConfigBase* pConfig);
-
     void                    UpdateButtons();
 
 private:
@@ -197,8 +194,6 @@ private:
     void                    SetWindowDimensions();
     void                    OnSize(wxSizeEvent& event);
     void                    OnMove(wxMoveEvent& event);
-
-    void                    OnMouseUp(wxMouseEvent& event);
 
     void                    ResetMessageFiltering();
 

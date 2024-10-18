@@ -106,9 +106,6 @@ struct RSS_FEED {
     bool found;
         // temp used in garbage collection
 
-    int fetch_start();
-    int fetch_complete();
-
     void write(MIOFILE&);
     int parse_desc(XML_PARSER&);
     int parse_items(XML_PARSER&, int&);
