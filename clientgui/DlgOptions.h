@@ -158,6 +158,8 @@ public:
     wxString GetDefaultDialupConnection() const;
     void SetDefaultDialupConnection(wxString value);
 
+    bool UpdateControlStates();
+
     bool ReadSettings();
     bool SaveSettings();
 
@@ -186,8 +188,8 @@ private:
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKSPasswordCtrl;
-    wxTextCtrl* m_HTTPNoProxiesCtrl;
-    wxTextCtrl* m_SOCKSNoProxiesCtrl;
+	wxTextCtrl* m_HTTPNoProxiesCtrl;
+	wxTextCtrl* m_SOCKSNoProxiesCtrl;
 ////@end CDlgOptions member variables
     bool m_bRetrievedProxyConfiguration;
 };
