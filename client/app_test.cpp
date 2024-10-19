@@ -15,39 +15,68 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A framework that lets you run jobs under a BOINC client
-// without a project, and without fake XML files
-// This lets you debug client/app interactions.
+// This framework lets you run jobs under a BOINC client without a project.
+// This lets you debug client/app interactions like suspend/resume.
+// The properties of the app and its files
+// are described procedurally (in this file)
+// rather than with XML files.
 //
 // To use this framework:
 // - edit this file to describe your application:
 //      input/output files, attributes, etc.
-//      NOTE: currently it's set up for an app that uses the WSL wrapper
-//
+//      It currently has several test cases, selected with #ifdef
 // - build the BOINC client with these changes
 // - make a BOINC data directory, say 'test'
 //      (or you can use an existing BOINC data directory,
-//      in which case the client will also run jobs that are there)
+//      in which case the client will also run existing jobs)
 // - make a directory test/slots/app_test
-//      The client will run the test job there.
+//      The client will run your test job there.
 //      Clean it out between runs.
 // - make a dir test/projects/app_test
 // - In the project directory, put:
 //      - the executable file
 //      - the input file(s) with physical names
-// - run boinc (in the data directory if you created one)
-//      when the job is done, the client won't clean out the slot dir.
-//      You can examine the contents of the slot dir,
-//      and examine the output files in the project dir.
+//      NOTE: slots/app_test and projects/app_test can be symbolic links
+//      in case you have multiple test cases
+// - run boinc in the data directory, e.g. test/
+//      The client will copy files and create link files
+//      as needed in the slot dir,
+//      and create init_data.xml there.
+//      When the job is done, the client won't clean out the slot dir.
+//      You can examine the contents of the slot and project dir,
 //      Clean out the slot dir between tests.
 
 #include "client_state.h"
 
-#define APP_NONE            0
-#define APP_WSL_WRAPPER     0
-#define APP_DOCKER_WRAPPER  1
+// define exactly one
 
-#if APP_NONE
+//#define APP_NONE
+//#define APP_WSL_WRAPPER
+//      type    physical            logical             copy?
+//      app     wsl_wrapper.exe     wsl_wrapper.exe
+//      app     worker              worker
+//      app     main                main                yes
+//      input   infile              in
+//      output  outfile             out
+#define APP_DOCKER_WRAPPER_COPY
+//      type    physical            logical             copy?
+//      app     worker              worker              yes
+//      app     job_copy.toml       job_copy.toml       yes
+//      app     Dockerfile_copy     Dockerfile_copy     yes
+//      app     docker_wrapper      docker_wrapper
+//      input   infile              in                  yes
+//      output  outfile             out                 yes
+//#define APP_DOCKER_WRAPPER_MOUNT
+//      type    physical            logical             copy?
+//      app     worker              worker
+//      app     job_mount.toml      job_mount.toml      yes
+//      app     Dockerfile_mount    Dockerfile_mount    yes
+//      app     main.sh             main.sh             yes
+//      app     docker_wrapper      docker_wrapper
+//      input   infile              in
+//      output  outfile             out
+
+#ifdef APP_NONE
 void CLIENT_STATE::app_test_init() {}
 #else
 
@@ -85,6 +114,8 @@ static APP* make_app(PROJECT* proj) {
 #define OUTPUT_FILE 1
 #define MAIN_PROG   2
 
+// if log_name is NULL, logical name is physical name
+//
 static FILE_REF* make_file(
     PROJECT *proj, const char* phys_name, const char* log_name,
     int ftype, bool copy_file
@@ -165,7 +196,10 @@ void CLIENT_STATE::app_test_init() {
 #endif
 
     APP_VERSION *av = make_app_version(app);
-#if APP_WSL_WRAPPER
+
+////////////// APP VERSION FILES /////////////////
+
+#ifdef APP_WSL_WRAPPER
     av->app_files.push_back(
         *make_file(app->project, "wsl_wrapper.exe", NULL, MAIN_PROG, false)
     );
@@ -175,18 +209,19 @@ void CLIENT_STATE::app_test_init() {
     av->app_files.push_back(
         *make_file(app->project, "worker", NULL, INPUT_FILE, false)
     );
-#elif APP_DOCKER_WRAPPER
+#endif
+#ifdef APP_DOCKER_WRAPPER_COPY
     av->app_files.push_back(
         *make_file(app->project, "docker_wrapper.exe", NULL, MAIN_PROG, false)
     );
     av->app_files.push_back(
-        *make_file(app->project, "job.toml", NULL, INPUT_FILE, true)
-    );
-    av->app_files.push_back(
-        *make_file(app->project, "Dockerfile", NULL, INPUT_FILE, true)
-    );
-    av->app_files.push_back(
         *make_file(app->project, "worker", NULL, INPUT_FILE, true)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "job_copy.toml", NULL, INPUT_FILE, true)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "Dockerfile_copy", NULL, INPUT_FILE, true)
     );
 #endif
 
@@ -198,20 +233,31 @@ void CLIENT_STATE::app_test_init() {
 #endif
 
     WORKUNIT *wu = make_workunit(av);
-#if APP_WSL_WRAPPER
+
+////////////// INPUT FILES /////////////////
+
+#ifdef APP_WSL_WRAPPER
     //wu->command_line = "--nsecs 60";
     wu->input_files.push_back(
         *make_file(proj, "infile", "in", INPUT_FILE, false)
     );
 #endif
-#if APP_DOCKER_WRAPPER
+#ifdef APP_DOCKER_WRAPPER_COPY
     wu->input_files.push_back(
         *make_file(proj, "infile", "in", INPUT_FILE, true)
     );
 #endif
 
     RESULT *result = make_result(av, wu);
-#if APP_WSL_WRAPPER || APP_DOCKER_WRAPPER
+
+////////////// OUTPUT FILES /////////////////
+
+#ifdef APP_WSL_WRAPPER
+    result->output_files.push_back(
+        *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
+    );
+#endif
+#ifdef APP_DOCKER_WRAPPER_COPY
     result->output_files.push_back(
         *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
     );
