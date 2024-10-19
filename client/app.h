@@ -339,7 +339,6 @@ public:
     void get_msgs();
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
-    bool check_quit_timeout_exceeded();
     bool is_slot_in_use(int);
     bool is_slot_dir_in_use(char*);
     void send_heartbeats();
