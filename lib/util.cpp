@@ -337,9 +337,6 @@ int run_command(char *cmd, vector<string> &out) {
     DWORD count, nread;
     PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
     if (count == 0) {
-        if (verbose) {
-            fprintf(stderr, "No response from command\n");
-        }
         return 0;
     }
     char* buf = (char*)malloc(count+1);

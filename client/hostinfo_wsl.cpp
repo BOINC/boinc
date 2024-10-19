@@ -215,7 +215,7 @@ int get_wsl_information(
 
         // try running 'lsb_release -a'
         //
-        if (!rs.run_command(wd.distro_name, command_lsbrelease)) {
+        if (!rs.run_program_in_wsl(wd.distro_name, command_lsbrelease)) {
             read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
             HOST_INFO::parse_linux_os_info(
                 reply, lsbrelease,
@@ -230,7 +230,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
-            if (!rs.run_command( wd.distro_name, command_osrelease)) {
+            if (!rs.run_program_in_wsl( wd.distro_name, command_osrelease)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, osrelease,
@@ -246,7 +246,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_redhatrelease
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
@@ -267,7 +267,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_sysctl = "sysctl -a";
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_sysctl
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
@@ -284,7 +284,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_uname_s
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, os_name_str, CMD_TIMEOUT);
@@ -298,7 +298,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_uname_r
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, os_version_str, CMD_TIMEOUT);
@@ -314,7 +314,7 @@ int get_wsl_information(
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_get_docker_version
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
@@ -327,7 +327,7 @@ int get_wsl_information(
                 }
                 CloseHandle(rs.proc_handle);
             }
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_get_docker_compose_version
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
