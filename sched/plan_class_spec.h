@@ -33,6 +33,10 @@ struct PLAN_CLASS_SPEC {
     bool opencl;
     bool virtualbox;
     bool wsl;
+    bool docker;
+    bool docker_compose;
+    int min_docker_version;
+    int min_docker_compose_version;
     bool is64bit;
     std::vector<std::string> cpu_features;
     double min_ncpus;
