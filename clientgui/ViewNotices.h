@@ -55,7 +55,6 @@ protected:
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
     virtual void            OnListRender( wxTimerEvent& event );
-    void                    OnRetryButton( wxCommandEvent& event );
 };
 
 #endif

@@ -243,8 +243,6 @@ struct PROJECT : PROJ_AM {
         // runnable or contactable or downloading
     bool nearly_runnable();
         // runnable or downloading
-    bool overworked();
-        // the project has used too much CPU time recently
     bool some_download_stalled();
         // a download is backed off
     bool some_result_suspended();
@@ -342,7 +340,6 @@ struct PROJECT : PROJ_AM {
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
-    int parse_statistics(MIOFILE&);
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&);
     int write_statistics_file();
@@ -387,7 +384,6 @@ struct PROJECT : PROJ_AM {
     PROJECT_RESULTS project_results;
     void print_results(FILE*, SIM_RESULTS&);
     void backoff();
-    void update_dcf_stats(RESULT*);
 #endif
 };
 

@@ -147,9 +147,6 @@ public:
                                 );
     int                         Reconnect();
 
-    int                         CachedStateLock();
-    int                         CachedStateUnlock();
-
     void                        ForceDisconnect();
     int                         FrameShutdownDetected();
     int                         CoreClientQuit();
@@ -239,7 +236,6 @@ public:
 
     int                         ProjectNoMoreWork(int iIndex);
     int                         ProjectAllowMoreWork(int iIndex);
-    int                         ProjectAttach(const wxString& strURL, const wxString& strAccountKey);
     int                         ProjectDetach(int iIndex);
     int                         ProjectUpdate(int iIndex);
     int                         ProjectReset(int iIndex);
