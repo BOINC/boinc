@@ -453,6 +453,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     if (avp) {
         addProperty(_("Executable"), wxString(avp->exec_filename, wxConvUTF8));
         addProperty(_("Application Name"), wxString(avp->app_name, wxConvUTF8));
+        addProperty(_("Plan Class"), wxString(avp->plan_class, wxConvUTF8));
     }
     renderInfos();
 }
