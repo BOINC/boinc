@@ -154,8 +154,8 @@ function pm_form_page($replyto, $userid, $error = null) {
         $content = post_str("content", true);
     }
 
-    $content = htmlspecialchars($content);
-    $subject = htmlspecialchars($subject);
+    $content = $content?htmlspecialchars($content):'';
+    $subject = $subject?htmlspecialchars($subject):'';
 
     if ($error != null) {
         echo "<p class=\"text-danger\">".$error."</p>\n";
