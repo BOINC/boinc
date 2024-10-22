@@ -38,7 +38,7 @@ function forum_page($forum, $user, $msg=null) {
     $start = get_int("start", true);
     if (!$start) $start = 0;
 
-    $subs = null;
+    $subs = [];
     if ($user) {
         BoincForumPrefs::lookup($user);
         $subs = BoincSubscription::enum("userid=$user->id");
