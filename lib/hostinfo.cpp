@@ -240,7 +240,7 @@ int HOST_INFO::write(
     if (strlen(docker_version)) {
         out.printf(
             "    <docker_version>%s</docker_version>\n"
-            "    <docker_type>%s</docker_type>\n",
+            "    <docker_type>%d</docker_type>\n",
             docker_version,
             docker_type
         );
@@ -248,7 +248,7 @@ int HOST_INFO::write(
     if (strlen(docker_compose_version)) {
         out.printf(
             "    <docker_compose_version>%s</docker_compose_version>\n"
-            "    <docker_compose_type>%s</docker_compose_type>\n",
+            "    <docker_compose_type>%d</docker_compose_type>\n",
             docker_compose_version,
             docker_compose_type
         );
