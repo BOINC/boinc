@@ -30,6 +30,9 @@ using std::string;
 //
 #define CMD_TIMEOUT 10.0
 
+void get_docker_version(WSL_DISTRO &wd);
+void get_docker_compose_version(WSL_DISTRO &wd);
+
 // scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
 //
@@ -314,36 +317,58 @@ int get_wsl_information(
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, command_get_docker_version
-            )) {
-                read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
-                string version;
-                wd.is_docker_available = HOST_INFO::get_docker_version_string(
-                    reply, version
-                );
-                if (wd.is_docker_available) {
-                    wd.docker_version = version;
-                }
-                CloseHandle(rs.proc_handle);
-            }
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, command_get_docker_compose_version
-            )) {
-                read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
-                string version;
-                wd.is_docker_compose_available = HOST_INFO::get_docker_compose_version_string(
-                    reply, version
-                );
-                if (wd.is_docker_compose_available) {
-                    wd.docker_compose_version = version;
-                }
-                CloseHandle(rs.proc_handle);
-            }
+            get_docker_version(wd);
+            get_docker_compose_version(wd);
         }
 
         usable_distros.distros.push_back(wd);
     }
 
     return 0;
+}
+
+static bool get_docker_version_aux(WSL_DISTRO &wd, DOCKER_TYPE type) {
+    bool ret = false;
+    if (!rs.run_program_in_wsl(
+        wd.distro_name, get_docker_version_command(type)
+    )) {
+        read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+        string version;
+        if (HOST_INFO::get_docker_version_string(type, reply, version)) {
+            wd.docker_version = version;
+            wd.docker_type = type;
+            ret = true;
+        }
+        CloseHandle(rs.proc_handle);
+    }
+    return ret;
+}
+
+static void get_docker_version(WSL_DISTRO &wd) {
+    if (get_docker_version_aux(wd, PODMAN)) return;
+    get_docker_version_aux(wd, DOCKER);
+}
+
+static void get_docker_compose_version_aux(WSL_DISTRO &wd, DOCKER_TYPE type) {
+    bool ret = false;
+    if (!rs.run_program_in_wsl(
+        wd.distro_name, get_docker_compose_version_command(type)
+    )) {
+        read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+        string version;
+        if (HOST_INFO::get_docker_compose_version_string(
+            type, reply, version
+        )) {
+            wd.docker_compose_version = version;
+            wd.docker_compose_type = type;
+            ret = true;
+        }
+        CloseHandle(rs.proc_handle);
+    }
+    return false;
+}
+
+static void get_docker_compose_version(WSL_DISTRO &wd) {
+    if (get_docker_compose_version_aux(wd, PODMAN)) return;
+    get_docker_compose_version_aux(wd, DOCKER);
 }

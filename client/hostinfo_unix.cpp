@@ -1233,16 +1233,16 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-// check if docker compose is installed on volunteer's host
-// populates docker compose version and docker_compose_present on success
-bool HOST_INFO::get_docker_compose_info(){
-    FILE* f = popen(command_get_docker_compose_version, "r");
+// check if docker compose is installed on this host
+// populates docker_compose_version on success
+//
+bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
+    FILE* f = popen(get_docker_compose_version_command(type), "r");
     if (f) {
         char buf[256];
         fgets(buf, 256, f);
         std::string version;
-        if (get_docker_compose_version_string(buf, version)) {
-            docker_compose_available = true;
+        if (get_docker_compose_version_string(type, buf, version)) {
             safe_strcpy(docker_compose_version, version.c_str());
         }
         pclose(f);
@@ -1251,17 +1251,28 @@ bool HOST_INFO::get_docker_compose_info(){
     return false;
 }
 
+bool HOST_INFO::get_docker_compose_version(){
+    if (get_docker_compose_version_aux(PODMAN)) {
+        docker_type = PODMAN;
+        return true;
+    }
+    if (get_docker_compose_version_aux(DOCKER)) {
+        docker_type = DOCKER;
+        return true;
+    }
+    return false;
+}
 
-// check if docker is installed on volunteer's host
-// populates docker version and docker_present on success
-bool HOST_INFO::get_docker_info(){
-    FILE* f = popen(command_get_docker_version, "r");
+// check if docker is installed on this host
+// populates docker_version on success
+//
+bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
+    FILE* f = popen(get_docker_version_command(type), "r");
     if (f) {
         char buf[256];
         fgets(buf, 256, f);
         std::string version;
-        if (get_docker_version_string(buf, version)) {
-            docker_available = true;
+        if (get_docker_version_string(type, buf, version)) {
             safe_strcpy(docker_version, version.c_str());
         }
         pclose(f);
@@ -1270,6 +1281,17 @@ bool HOST_INFO::get_docker_info(){
     return false;
 }
 
+bool HOST_INFO::get_docker_version(){
+    if (get_docker_version_aux(PODMAN)) {
+        docker_compose_type = PODMAN;
+        return true;
+    }
+    if (get_docker_version_aux(DOCKER)) {
+        docker_compose_type = DOCKER;
+        return true;
+    }
+    return false;
+}
 
 // get p_vendor, p_model, p_features
 //
@@ -1718,10 +1740,8 @@ int HOST_INFO::get_host_info(bool init) {
         get_virtualbox_version();
     }
 
-    if(!cc_config.dont_use_docker){
-        get_docker_info();
-        get_docker_compose_info();
-    }
+    get_docker_version();
+    get_docker_compose_version();
 
     get_cpu_info();
     get_cpu_count();

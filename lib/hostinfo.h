@@ -50,8 +50,10 @@ enum LINUX_OS_INFO_PARSER {
 const char command_lsbrelease[] = "/usr/bin/lsb_release -a 2>&1";
 const char file_osrelease[] = "/etc/os-release";
 const char file_redhatrelease[] = "/etc/redhat-release";
-const char command_get_docker_version[] = "docker --version";
-const char command_get_docker_compose_version[] = "docker compose version";
+
+extern const char* get_docker_version_command(DOCKER_TYPE type);
+extern const char* get_docker_compose_version_command(DOCKER_TYPE type);
+extern const char* docker_type_str(DOCKER_TYPE type);
 
 // if you add fields, update clear_host_info()
 
@@ -89,11 +91,10 @@ public:
     // on Windows, Docker info is per WSL_DISTRO, not global
     WSL_DISTROS wsl_distros;
 #else
-    bool docker_available;
-        // Docker is present and allowed by config
-    bool docker_compose_available;
-    char docker_version[256];
+    char docker_version[256]; // null if not present
+    DOCKER_TYPE docker_type;
     char docker_compose_version[256];
+    DOCKER_TYPE docker_compose_type;
 #endif
 
     char product_name[256];       // manufacturer and/or model of system
@@ -136,8 +137,10 @@ public:
     int get_virtualbox_version();
 #ifndef _WIN64
     // on Windows, Docker info is per WSL_DISTRO, not global
-    bool get_docker_info();
-    bool get_docker_compose_info();
+    bool get_docker_version();
+    bool get_docker_version_aux(DOCKER_TYPE);
+    bool get_docker_compose_version();
+    bool get_docker_compose_version_aux(DOCKER_TYPE);
 #endif
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
@@ -157,8 +160,12 @@ public:
         char* os_name, const int os_name_size, char* os_version,
         const int os_version_size
     );
-    static bool get_docker_version_string(std::string raw, std::string& parsed);
-    static bool get_docker_compose_version_string(std::string raw, std::string& parsed);
+    static bool get_docker_version_string(
+        DOCKER_TYPE type, const char* raw, std::string& version
+    );
+    static bool get_docker_compose_version_string(
+        DOCKER_TYPE type, const char* raw, std::string& version
+    );
 #ifdef _WIN32
     void win_get_processor_info();
 #endif
