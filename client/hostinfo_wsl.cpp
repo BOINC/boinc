@@ -30,8 +30,8 @@ using std::string;
 //
 #define CMD_TIMEOUT 10.0
 
-void get_docker_version(WSL_DISTRO &wd);
-void get_docker_compose_version(WSL_DISTRO &wd);
+static void get_docker_version(WSL_CMD&, WSL_DISTRO&);
+static void get_docker_compose_version(WSL_CMD&, WSL_DISTRO&);
 
 // scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
@@ -317,8 +317,8 @@ int get_wsl_information(
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
-            get_docker_version(wd);
-            get_docker_compose_version(wd);
+            get_docker_version(rs, wd);
+            get_docker_compose_version(rs, wd);
         }
 
         usable_distros.distros.push_back(wd);
@@ -327,14 +327,15 @@ int get_wsl_information(
     return 0;
 }
 
-static bool get_docker_version_aux(WSL_DISTRO &wd, DOCKER_TYPE type) {
+static bool get_docker_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
     bool ret = false;
+    string reply;
     if (!rs.run_program_in_wsl(
         wd.distro_name, get_docker_version_command(type)
     )) {
         read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
         string version;
-        if (HOST_INFO::get_docker_version_string(type, reply, version)) {
+        if (HOST_INFO::get_docker_version_string(type, reply.c_str(), version)) {
             wd.docker_version = version;
             wd.docker_type = type;
             ret = true;
@@ -344,20 +345,21 @@ static bool get_docker_version_aux(WSL_DISTRO &wd, DOCKER_TYPE type) {
     return ret;
 }
 
-static void get_docker_version(WSL_DISTRO &wd) {
-    if (get_docker_version_aux(wd, PODMAN)) return;
-    get_docker_version_aux(wd, DOCKER);
+static void get_docker_version(WSL_CMD &rs, WSL_DISTRO &wd) {
+    if (get_docker_version_aux(rs, wd, PODMAN)) return;
+    get_docker_version_aux(rs, wd, DOCKER);
 }
 
-static void get_docker_compose_version_aux(WSL_DISTRO &wd, DOCKER_TYPE type) {
+static bool get_docker_compose_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
     bool ret = false;
+    string reply;
     if (!rs.run_program_in_wsl(
         wd.distro_name, get_docker_compose_version_command(type)
     )) {
         read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
         string version;
         if (HOST_INFO::get_docker_compose_version_string(
-            type, reply, version
+            type, reply.c_str(), version
         )) {
             wd.docker_compose_version = version;
             wd.docker_compose_type = type;
@@ -368,7 +370,7 @@ static void get_docker_compose_version_aux(WSL_DISTRO &wd, DOCKER_TYPE type) {
     return false;
 }
 
-static void get_docker_compose_version(WSL_DISTRO &wd) {
-    if (get_docker_compose_version_aux(wd, PODMAN)) return;
-    get_docker_compose_version_aux(wd, DOCKER);
+static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
+    if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
+    get_docker_compose_version_aux(rs, wd, DOCKER);
 }

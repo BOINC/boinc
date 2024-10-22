@@ -268,7 +268,7 @@ void CLIENT_STATE::show_host_info() {
                     docker_type_str(wsl.docker_type)
                 );
             }
-            if (!wsl.docker_composer_version) {
+            if (!wsl.docker_compose_version.empty()) {
                 msg_printf(NULL, MSG_INFO, "-      Docker compose version %s (%s)",
                     wsl.docker_compose_version.c_str(),
                     docker_type_str(wsl.docker_compose_type)
