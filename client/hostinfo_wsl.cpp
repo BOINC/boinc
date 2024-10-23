@@ -330,9 +330,8 @@ int get_wsl_information(
 static bool get_docker_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
     bool ret = false;
     string reply;
-    if (!rs.run_program_in_wsl(
-        wd.distro_name, get_docker_version_command(type)
-    )) {
+    string cmd = string(docker_cli_prog(type)) + " --version";
+    if (!rs.run_program_in_wsl(wd.distro_name, cmd.c_str())) {
         read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
         string version;
         if (HOST_INFO::get_docker_version_string(type, reply.c_str(), version)) {
@@ -353,9 +352,8 @@ static void get_docker_version(WSL_CMD &rs, WSL_DISTRO &wd) {
 static bool get_docker_compose_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
     bool ret = false;
     string reply;
-    if (!rs.run_program_in_wsl(
-        wd.distro_name, get_docker_compose_version_command(type)
-    )) {
+    string cmd = string(docker_cli_prog(type)) + " compose version";
+    if (!rs.run_program_in_wsl(wd.distro_name, cmd.c_str())) {
         read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
         string version;
         if (HOST_INFO::get_docker_compose_version_string(
