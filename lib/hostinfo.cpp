@@ -335,24 +335,19 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
-const char* get_docker_version_command(DOCKER_TYPE type) {
+// name of CLI program
+//
+const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
-    case DOCKER: return "docker --version";
-    case PODMAN: return "podman --version";
+    case DOCKER: return "docker";
+    case PODMAN: return "podman";
     default: break;
     }
-    return "";
+    return "unknown";
 }
 
-const char* get_docker_compose_version_command(DOCKER_TYPE type) {
-    switch (type) {
-    case DOCKER: return "docker compose version";
-    case PODMAN: return "podman compose version";
-    default: break;
-    }
-    return "";
-}
-
+// display name
+//
 const char* docker_type_str(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "Docker";

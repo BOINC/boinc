@@ -51,8 +51,7 @@ const char command_lsbrelease[] = "/usr/bin/lsb_release -a 2>&1";
 const char file_osrelease[] = "/etc/os-release";
 const char file_redhatrelease[] = "/etc/redhat-release";
 
-extern const char* get_docker_version_command(DOCKER_TYPE type);
-extern const char* get_docker_compose_version_command(DOCKER_TYPE type);
+extern const char* docker_cli_prog(DOCKER_TYPE type);
 extern const char* docker_type_str(DOCKER_TYPE type);
 
 // if you add fields, update clear_host_info()

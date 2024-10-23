@@ -5,7 +5,7 @@
 // Dockerfile
 // job.toml
 //      optional job config file
-// files added to contrainer via Dockerfile
+// files added to container via Dockerfile
 // other input files
 //
 // For now all files must be <copy_file>
@@ -125,11 +125,10 @@ bool running;
 bool verbose = true;
 const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
+const char* cli_prog;
+
 #ifdef _WIN32
 WSL_CMD ctl_wc;
-const char* cli_prog = "podman";
-#else
-const char* cli_prog = "docker";
 #endif
 
 // parse a list of file copy specs
@@ -464,10 +463,12 @@ int wsl_init() {
     string distro_name;
     if (boinc_is_standalone()) {
         distro_name = "Ubuntu";
+        cli_prog = "podman";
     } else {
         WSL_DISTRO* distro = aid.host_info.wsl_distros.find_docker();
         if (!distro) return -1;
         distro_name = distro->distro_name;
+        cli_prog = docker_cli_prog(distro->docker_type);
     }
     int retval = ctl_wc.setup();
     if (retval) return retval;
@@ -536,6 +537,12 @@ int main(int argc, char** argv) {
     if (retval) {
         fprintf(stderr, "wsl_init() failed: %d\n", retval);
         boinc_finish(1);
+    }
+#else
+    if (boinc_is_standalone()) {
+        cli_prog = "docker";
+    } else {
+        cli_prog = docker_cli_prog(aid.hostinfo.docker_type);
     }
 #endif
 

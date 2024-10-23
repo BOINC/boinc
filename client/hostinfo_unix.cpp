@@ -1238,8 +1238,8 @@ int HOST_INFO::get_virtualbox_version() {
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    const char *cmd = get_docker_version_command(type);
-    FILE* f = popen(cmd, "r");
+    string cmd = string(docker_cli_prog(type)) + " --version";
+    FILE* f = popen(cmd.c_str(), "r");
     if (f) {
         char buf[256];
         fgets(buf, 256, f);
@@ -1269,7 +1269,8 @@ bool HOST_INFO::get_docker_version(){
 //
 bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    FILE* f = popen(get_docker_compose_version_command(type), "r");
+    string cmd = string(docker_cli_prog(type)) + " compose version";
+    FILE* f = popen(cmd.c_str(), "r");
     if (f) {
         char buf[256];
         fgets(buf, 256, f);
