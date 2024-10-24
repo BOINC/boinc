@@ -461,19 +461,28 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
 //
 int wsl_init() {
     string distro_name;
+    DOCKER_TYPE docker_type;
     if (boinc_is_standalone()) {
         distro_name = "Ubuntu";
-        cli_prog = "podman";
+        docker_type = PODMAN;
     } else {
         WSL_DISTRO* distro = aid.host_info.wsl_distros.find_docker();
         if (!distro) return -1;
         distro_name = distro->distro_name;
-        cli_prog = docker_cli_prog(distro->docker_type);
+        docker_type = distro->docker_type;
     }
-    int retval = ctl_wc.setup();
-    if (retval) return retval;
-    retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
-    if (retval) return retval;
+    cli_prog = docker_cli_prog(docker_type);
+    if (docker_type == DOCKER) {
+        int retval = ctl_wc.setup();
+        if (retval) return retval;
+        retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
+        if (retval) return retval;
+    } else if (docker_type == PODMAN) {
+        int retval = ctl_wc.setup_root(distro_name);
+        if (retval) return retval;
+    } else {
+        return -1;
+    }
     return 0;
 }
 #endif

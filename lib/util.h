@@ -105,7 +105,7 @@ extern int run_program(
 #ifdef _WIN32
 // run program, return handles to read and write to it
 //
-extern int run_program(
+extern int run_program_pipe(
     char *cmd, HANDLE &write_handle, HANDLE &read_handle, HANDLE &proc_handle
 );
 #endif
