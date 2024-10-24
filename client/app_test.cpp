@@ -218,10 +218,10 @@ void CLIENT_STATE::app_test_init() {
         *make_file(app->project, "worker", NULL, INPUT_FILE, true)
     );
     av->app_files.push_back(
-        *make_file(app->project, "job_copy.toml", NULL, INPUT_FILE, true)
+        *make_file(app->project, "job_copy.toml", "job.toml", INPUT_FILE, true)
     );
     av->app_files.push_back(
-        *make_file(app->project, "Dockerfile_copy", NULL, INPUT_FILE, true)
+        *make_file(app->project, "Dockerfile_copy", "Dockerfile", INPUT_FILE, true)
     );
 #endif
 
@@ -259,7 +259,7 @@ void CLIENT_STATE::app_test_init() {
 #endif
 #ifdef APP_DOCKER_WRAPPER_COPY
     result->output_files.push_back(
-        *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
+        *make_file(proj, "outfile", "out", OUTPUT_FILE, true)
     );
 #endif
 

@@ -43,12 +43,12 @@
 //      name: lower case letters, digits, separators (. _ -); max 4096 chars
 //      tag: max 128 chars
 //      in the universal model, each WU has a different image
-//      so we'll use: boinc_<proj>_<wuname>
+//      so we'll use: boinc__<proj>__<wuname>
 //
 // container name:
 //      letters, numbers, _
 //      max 255 chars
-//      we'll use: boinc_<proj>_<resultname>
+//      we'll use: boinc__<proj>__<resultname>
 
 // standalone mode:
 // image name: boinc
@@ -230,8 +230,8 @@ inline int run_docker_command(char* cmd, vector<string> &out) {
 //////////  IMAGE  ////////////
 
 void get_image_name() {
-    char *p = strchr(aid.project_dir, '/');
-    sprintf(image_name, "boinc_%s_%s",
+    char *p = strrchr(aid.project_dir, '/');
+    sprintf(image_name, "boinc__%s__%s",
         p+1, aid.wu_name
     );
 }
@@ -287,8 +287,8 @@ int get_image() {
 //////////  CONTAINER  ////////////
 
 void get_container_name() {
-    char *p = strchr(aid.project_dir, '/');
-    sprintf(container_name, "boinc_%s_%s", p, aid.result_name);
+    char *p = strrchr(aid.project_dir, '/');
+    sprintf(container_name, "boinc__%s__%s", p+1, aid.result_name);
 }
 
 int container_exists(bool &exists) {
@@ -403,7 +403,7 @@ void cleanup() {
 int resume() {
     char cmd[1024];
     vector<string> out;
-    sprintf(cmd, "%s start %s", cli_prog, container_name);
+    sprintf(cmd, "%s unpause %s", cli_prog, container_name);
     int retval = run_docker_command(cmd, out);
     return retval;
 }
@@ -411,7 +411,7 @@ int resume() {
 int suspend() {
     char cmd[1024];
     vector<string> out;
-    sprintf(cmd, "%s stop %s", cli_prog, container_name);
+    sprintf(cmd, "%s pause %s", cli_prog, container_name);
     int retval = run_docker_command(cmd, out);
     return retval;
 }
@@ -425,14 +425,14 @@ void poll_client_msgs() {
         exit(0);
     }
     if (status.suspended) {
-#if VERBOSE
-        fprintf(stderr, "suspended\n");
-#endif
+        if (verbose) {
+            fprintf(stderr, "client: suspended\n");
+        }
         if (running) suspend();
     } else {
-#if VERBOSE
-        fprintf(stderr, "not suspended\n");
-#endif
+        if (verbose) {
+            fprintf(stderr, "client: not suspended\n");
+        }
         if (!running) resume();
     }
 }
@@ -497,12 +497,13 @@ int main(int argc, char** argv) {
     }
 
 #ifdef _WIN32
+    // standalone tests; comment out if using client
 #if 0
     SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_copy");
     config_file = "job_copy.toml";
     dockerfile = "Dockerfile_copy";
 #endif
-#if 1
+#if 0
     SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_mount");
     config_file = "job_mount.toml";
     dockerfile = "Dockerfile_mount";
