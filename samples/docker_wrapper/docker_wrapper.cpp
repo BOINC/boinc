@@ -21,7 +21,7 @@
 // Unix:
 //      The host must have the Docker engine.
 //      The wrapper runs Docker commands using popen()
-//      
+//
 // Logic:
 // If the container already exists
 //      this is a restart of the job
