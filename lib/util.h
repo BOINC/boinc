@@ -101,6 +101,15 @@ extern int run_program(
     char *const argv[],     // cmdline args, UNIX-style
     PROCESS_REF&             // ID of child process
 );
+
+#ifdef _WIN32
+// run program, return handles to read and write to it
+//
+extern int run_program(
+    char *cmd, HANDLE &write_handle, HANDLE &read_handle, HANDLE &proc_handle
+);
+#endif
+
 extern int kill_process(PROCESS_REF);
 extern int get_exit_status(PROCESS_REF, int& status, double dt);
     // get exit code of process

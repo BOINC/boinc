@@ -224,6 +224,14 @@ int WSL_CMD::setup() {
     return 0;
 }
 
+int WSL_CMD::setup_root(const char* distro_name) {
+    char cmd[1024];
+    sprintf(cmd, "wsl -d %s -u root", distro_name);
+    int retval = run_command_pipe(cmd, in_write, out_read, proc_handle);
+    if (retval) return retval;
+    return 0;
+}
+
 int WSL_CMD::run_program_in_wsl(
     const string distro_name, const string command, bool use_cwd
 ) {

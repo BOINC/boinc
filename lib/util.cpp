@@ -238,7 +238,7 @@ int run_program(
         cmdline,
         NULL,
         NULL,
-        FALSE,
+        FALSE,  // don't inherit handles
         0,
         NULL,
         dir,
@@ -316,7 +316,7 @@ int run_command(char *cmd, vector<string> &out) {
         (LPTSTR)cmd,
         NULL,
         NULL,
-        TRUE,
+        TRUE,   // inherit handles
         CREATE_NO_WINDOW,
         NULL,
         NULL,
@@ -369,6 +369,59 @@ int run_command(char *cmd, vector<string> &out) {
 }
 
 #ifdef _WIN32
+
+// run the program, and return handles to write to and read from it
+//
+int run_command_pipe(
+    char *cmd, HANDLE &write_handle, HANDLE &read_handle, HANDLE &proc_handle
+) {
+    HANDLE in_read, in_write, out_read, out_write;
+
+    SECURITY_ATTRIBUTES sa;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = NULL;
+
+    if (!CreatePipe(&out_read, &out_write, &sa, 0)) return -1;
+    if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) return -1;
+    if (!CreatePipe(&in_read, &in_write, &sa, 0)) return -1;
+    if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) return -1;
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = out_write;
+    si.hStdError = out_write;
+    si.hStdInput = in_read;
+
+    if (!CreateProcess(
+        NULL,
+        (LPTSTR)cmd,
+        NULL,
+        NULL,
+        TRUE,   // inherit handles
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        return -1;
+    }
+
+    write_handle = in_write;
+    read_handle = out_read;
+    proc_handle = pi.hProcess;
+    return 0;
+}
+
 int kill_process_with_status(int pid, int exit_code) {
     int retval;
 

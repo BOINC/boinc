@@ -50,7 +50,14 @@ struct WSL_CMD {
         if (out_write) CloseHandle(out_write);
     }
 
+    // Use WslLaunch() to run a shell in the WSL container
+    // The shell will run as the default user
+    //
     int setup();
+
+    // Use wsl.exe to run a shell as root in the WSL container
+    //
+    int setup_root();
 
     // run command, direct both stdout and stderr to the out pipe
     // Use read_from_pipe() to get the output.
