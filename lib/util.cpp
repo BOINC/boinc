@@ -355,6 +355,7 @@ int run_command(char *cmd, vector<string> &out) {
     }
     free(buf);
 #else
+#ifndef _USING_FCGI_
     char buf[256];
     FILE* fp = popen(cmd, "r");
     if (!fp) {
@@ -364,6 +365,7 @@ int run_command(char *cmd, vector<string> &out) {
     while (fgets(buf, 256, fp)) {
         out.push_back(buf);
     }
+#endif
 #endif
     return 0;
 }
