@@ -56,6 +56,11 @@
 // slot dir: .
 // project dir: project/
 
+// enable standalone tests on Win
+//
+#define WIN_STANDALONE_COPY     0
+#define WIN_STANDALONE_MOUNT    0
+
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -376,6 +381,14 @@ int copy_files_from_container() {
 
 //////////  JOB CONTROL  ////////////
 
+int container_op(const char *op) {
+    char cmd[1024];
+    vector<string> out;
+    sprintf(cmd, "%s %s %s", cli_prog, op, container_name);
+    int retval = run_docker_command(cmd, out);
+    return retval;
+}
+
 // Clean up at end of job.
 // Show log output if verbose;
 // remove container and image
@@ -388,10 +401,12 @@ void cleanup() {
         sprintf(cmd, "%s logs %s", cli_prog, container_name);
         run_docker_command(cmd, out);
         fprintf(stderr, "container log:\n");
-        for (string line: out) {
+        for (string line : out) {
             fprintf(stderr, "   %s\n", line.c_str());
         }
     }
+
+    container_op("stop");
 
     sprintf(cmd, "%s container rm %s", cli_prog, container_name);
     run_docker_command(cmd, out);
@@ -400,40 +415,30 @@ void cleanup() {
     run_docker_command(cmd, out);
 }
 
-int resume() {
-    char cmd[1024];
-    vector<string> out;
-    sprintf(cmd, "%s unpause %s", cli_prog, container_name);
-    int retval = run_docker_command(cmd, out);
-    return retval;
-}
-
-int suspend() {
-    char cmd[1024];
-    vector<string> out;
-    sprintf(cmd, "%s pause %s", cli_prog, container_name);
-    int retval = run_docker_command(cmd, out);
-    return retval;
-}
-
 void poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
     if (status.no_heartbeat || status.quit_request || status.abort_request) {
         fprintf(stderr, "got quit/abort from client\n");
-        suspend();
+        container_op("stop");
         exit(0);
     }
     if (status.suspended) {
         if (verbose) {
             fprintf(stderr, "client: suspended\n");
         }
-        if (running) suspend();
+        if (running) {
+            container_op("pause");
+            running = false;
+        }
     } else {
         if (verbose) {
             fprintf(stderr, "client: not suspended\n");
         }
-        if (!running) resume();
+        if (!running) {
+            container_op("unpause");
+            running = true;
+        }
     }
 }
 
@@ -478,7 +483,7 @@ int wsl_init() {
         retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
         if (retval) return retval;
     } else if (docker_type == PODMAN) {
-        int retval = ctl_wc.setup_root(distro_name);
+        int retval = ctl_wc.setup_root(distro_name.c_str());
         if (retval) return retval;
     } else {
         return -1;
@@ -505,18 +510,15 @@ int main(int argc, char** argv) {
         }
     }
 
-#ifdef _WIN32
-    // standalone tests; comment out if using client
-#if 0
+#if WIN_STANDALONE_COPY
     SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_copy");
     config_file = "job_copy.toml";
     dockerfile = "Dockerfile_copy";
 #endif
-#if 0
+#if WIN_STANDALONE_MOUNT
     SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_mount");
     config_file = "job_mount.toml";
     dockerfile = "Dockerfile_mount";
-#endif
 #endif
 
     memset(&options, 0, sizeof(options));
@@ -540,7 +542,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
     if (verbose) config.print();
-
 
 #ifdef _WIN32
     retval = wsl_init();
@@ -569,8 +570,8 @@ int main(int argc, char** argv) {
             boinc_finish(1);
         }
     }
-    if (verbose) fprintf(stderr, "resuming container\n");
-    retval = resume();
+    if (verbose) fprintf(stderr, "starting container\n");
+    retval = container_op("start");
     if (retval) {
         fprintf(stderr, "resume() failed: %d\n", retval);
         cleanup();

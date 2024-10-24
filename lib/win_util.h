@@ -57,7 +57,7 @@ struct WSL_CMD {
 
     // Use wsl.exe to run a shell as root in the WSL container
     //
-    int setup_root();
+    int setup_root(const char* distro_name);
 
     // run command, direct both stdout and stderr to the out pipe
     // Use read_from_pipe() to get the output.

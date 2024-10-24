@@ -372,7 +372,7 @@ int run_command(char *cmd, vector<string> &out) {
 
 // run the program, and return handles to write to and read from it
 //
-int run_command_pipe(
+int run_program_pipe(
     char *cmd, HANDLE &write_handle, HANDLE &read_handle, HANDLE &proc_handle
 ) {
     HANDLE in_read, in_write, out_read, out_write;
