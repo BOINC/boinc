@@ -339,6 +339,7 @@ struct SCHEDULER_REQUEST {
         // whether client uses account-based sandbox.  -1 = don't know
     int allow_multiple_clients;
         // whether client allows multiple clients per host, -1 don't know
+    bool dont_use_docker;
     bool using_weak_auth;
         // Request uses weak authenticator.
         // Don't modify user prefs or CPID

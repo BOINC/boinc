@@ -30,6 +30,9 @@ using std::string;
 //
 #define CMD_TIMEOUT 10.0
 
+static void get_docker_version(WSL_CMD&, WSL_DISTRO&);
+static void get_docker_compose_version(WSL_CMD&, WSL_DISTRO&);
+
 // scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
 //
@@ -215,7 +218,7 @@ int get_wsl_information(
 
         // try running 'lsb_release -a'
         //
-        if (!rs.run_command(wd.distro_name, command_lsbrelease)) {
+        if (!rs.run_program_in_wsl(wd.distro_name, command_lsbrelease)) {
             read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
             HOST_INFO::parse_linux_os_info(
                 reply, lsbrelease,
@@ -230,7 +233,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
-            if (!rs.run_command( wd.distro_name, command_osrelease)) {
+            if (!rs.run_program_in_wsl( wd.distro_name, command_osrelease)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, osrelease,
@@ -246,7 +249,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_redhatrelease
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
@@ -267,7 +270,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_sysctl = "sysctl -a";
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_sysctl
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
@@ -284,7 +287,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_uname_s
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, os_name_str, CMD_TIMEOUT);
@@ -298,7 +301,7 @@ int get_wsl_information(
         //
         if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
-            if (!rs.run_command(
+            if (!rs.run_program_in_wsl(
                 wd.distro_name, command_uname_r
             )) {
                 read_from_pipe(rs.out_read, rs.proc_handle, os_version_str, CMD_TIMEOUT);
@@ -314,36 +317,58 @@ int get_wsl_information(
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
-            if (!rs.run_command(
-                wd.distro_name, command_get_docker_version
-            )) {
-                read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
-                string version;
-                wd.is_docker_available = HOST_INFO::get_docker_version_string(
-                    reply, version
-                );
-                if (wd.is_docker_available) {
-                    wd.docker_version = version;
-                }
-                CloseHandle(rs.proc_handle);
-            }
-            if (!rs.run_command(
-                wd.distro_name, command_get_docker_compose_version
-            )) {
-                read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
-                string version;
-                wd.is_docker_compose_available = HOST_INFO::get_docker_compose_version_string(
-                    reply, version
-                );
-                if (wd.is_docker_compose_available) {
-                    wd.docker_compose_version = version;
-                }
-                CloseHandle(rs.proc_handle);
-            }
+            get_docker_version(rs, wd);
+            get_docker_compose_version(rs, wd);
         }
 
         usable_distros.distros.push_back(wd);
     }
 
     return 0;
+}
+
+static bool get_docker_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
+    bool ret = false;
+    string reply;
+    string cmd = string(docker_cli_prog(type)) + " --version";
+    if (!rs.run_program_in_wsl(wd.distro_name, cmd.c_str())) {
+        read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+        string version;
+        if (HOST_INFO::get_docker_version_string(type, reply.c_str(), version)) {
+            wd.docker_version = version;
+            wd.docker_type = type;
+            ret = true;
+        }
+        CloseHandle(rs.proc_handle);
+    }
+    return ret;
+}
+
+static void get_docker_version(WSL_CMD &rs, WSL_DISTRO &wd) {
+    if (get_docker_version_aux(rs, wd, PODMAN)) return;
+    get_docker_version_aux(rs, wd, DOCKER);
+}
+
+static bool get_docker_compose_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
+    bool ret = false;
+    string reply;
+    string cmd = string(docker_cli_prog(type)) + " compose version";
+    if (!rs.run_program_in_wsl(wd.distro_name, cmd.c_str())) {
+        read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+        string version;
+        if (HOST_INFO::get_docker_compose_version_string(
+            type, reply.c_str(), version
+        )) {
+            wd.docker_compose_version = version;
+            wd.docker_compose_type = type;
+            ret = true;
+        }
+        CloseHandle(rs.proc_handle);
+    }
+    return false;
+}
+
+static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
+    if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
+    get_docker_compose_version_aux(rs, wd, DOCKER);
 }

@@ -89,6 +89,11 @@ extern int kill_process_with_status(int, int exit_code=0);
 #endif
 
 extern bool process_exists(PROCESS_REF);
+
+// chdir into the given directory, and run a program there.
+// Don't wait for it to exit.
+// argv is Unix-style, i.e. argv[0] is the program name
+//
 extern int run_program(
     const char* dir,        // directory to run program in; NULL if current dir
     const char* file,       // path of executable
@@ -96,6 +101,15 @@ extern int run_program(
     char *const argv[],     // cmdline args, UNIX-style
     PROCESS_REF&             // ID of child process
 );
+
+#ifdef _WIN32
+// run program, return handles to read and write to it
+//
+extern int run_program_pipe(
+    char *cmd, HANDLE &write_handle, HANDLE &read_handle, HANDLE &proc_handle
+);
+#endif
+
 extern int kill_process(PROCESS_REF);
 extern int get_exit_status(PROCESS_REF, int& status, double dt);
     // get exit code of process
@@ -106,6 +120,14 @@ extern int get_exit_status(PROCESS_REF, int& status, double dt);
     // Note: to see if a process has exited:
     // get_exit_status(pid, status, 0) == 0
 
+// Run command.
+// Wait for exit, and return output as vector of lines.
+// Return error if command failed
+//
+extern int run_command(char *cmd, std::vector<std::string> &out);
+
+// get the path of the calling process's executable
+//
 extern int get_real_executable_path(char* path, size_t max_len);
 
 #ifdef GCL_SIMULATOR

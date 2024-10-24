@@ -33,6 +33,7 @@ struct PLAN_CLASS_SPEC {
     bool opencl;
     bool virtualbox;
     bool wsl;
+    bool docker;
     bool is64bit;
     std::vector<std::string> cpu_features;
     double min_ncpus;

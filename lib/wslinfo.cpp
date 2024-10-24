@@ -15,8 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// write and parse WSL_DISTRO structs,
+// which describe WSL distros and their possible Docker contents
+
 #include <regex>
 
+#include "common_defs.h"
 #include "wslinfo.h"
 
 void WSL_DISTRO::clear() {
@@ -25,8 +29,6 @@ void WSL_DISTRO::clear() {
     os_version = "";
     is_default = false;
     wsl_version = 1;
-    is_docker_available = false;
-    is_docker_compose_available = false;
     docker_version = "";
     docker_compose_version = "";
 }
@@ -42,25 +44,36 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
         "            <os_name>%s</os_name>\n"
         "            <os_version>%s</os_version>\n"
         "            <is_default>%d</is_default>\n"
-        "            <wsl_version>%d</wsl_version>\n"
-        "            <is_docker_available>%d</is_docker_available>\n"
-        "            <is_docker_compose_available>%d</is_docker_compose_available>\n"
-        "            <docker_version>%s</docker_version>\n"
-        "            <docker_compose_version>%s</docker_compose_version>\n"
-        "        </distro>\n",
+        "            <wsl_version>%d</wsl_version>\n",
         dn,
         n,
         v,
         is_default ? 1 : 0,
-        wsl_version,
-        is_docker_available ? 1 : 0,
-        is_docker_compose_available ? 1 : 0,
-        docker_version.c_str(),
-        docker_compose_version.c_str()
+        wsl_version
+    );
+    if (!docker_version.empty()) {
+        f.printf(
+            "            <docker_version>%s</docker_version>\n"
+            "            <docker_type>%d</docker_type>\n",
+            docker_version.c_str(),
+            docker_type
+        );
+    }
+    if (!docker_compose_version.empty()) {
+        f.printf(
+            "            <docker_compose_version>%s</docker_compose_version>\n"
+            "            <docker_compose_type>%d</docker_compose_type>\n",
+            docker_compose_version.c_str(),
+            docker_compose_type
+        );
+    }
+    f.printf(
+        "        </distro>\n"
     );
 }
 
 int WSL_DISTRO::parse(XML_PARSER& xp) {
+    int i;
     clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/distro")) {
@@ -71,10 +84,16 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
         if (xp.parse_string("os_version", os_version)) continue;
         if (xp.parse_bool("is_default", is_default)) continue;
         if (xp.parse_int("wsl_version", wsl_version)) continue;
-        if (xp.parse_bool("is_docker_available", is_docker_available)) continue;
-        if (xp.parse_bool("is_docker_compose_available", is_docker_compose_available)) continue;
         if (xp.parse_string("docker_version", docker_version)) continue;
+        if (xp.parse_int("docker_type", i)) {
+            docker_type = (DOCKER_TYPE) i;
+            continue;
+        }
         if (xp.parse_string("docker_compose_version", docker_compose_version)) continue;
+        if (xp.parse_int("docker_compose_type", i)) {
+            docker_compose_type = (DOCKER_TYPE) i;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -123,6 +142,15 @@ WSL_DISTRO* WSL_DISTROS::find_match(
             continue;
         }
         return &wd;
+    }
+    return NULL;
+}
+
+WSL_DISTRO* WSL_DISTROS::find_docker() {
+    for (WSL_DISTRO &wd: distros) {
+        if (!wd.docker_version.empty()) {
+            return &wd;
+        }
     }
     return NULL;
 }

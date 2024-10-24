@@ -25,8 +25,10 @@
 
 #include "miofile.h"
 #include "parse.h"
+#include "common_defs.h"
 
-// describes a WSL (Windows Subsystem for Linux) distro
+// describes a WSL (Windows Subsystem for Linux) distro,
+// and its Docker features
 //
 struct WSL_DISTRO {
     std::string distro_name;
@@ -39,14 +41,13 @@ struct WSL_DISTRO {
         // version of WSL (currently 1 or 2)
     bool is_default;
         // this is the default distro
-    bool is_docker_available;
-        // Docker is present and allowed by config
-    bool is_docker_compose_available;
-        // Docker Compose is present and allowed by config
     std::string docker_version;
-        // version of Docker
+        // version of Docker (or podman)
+        // empty if not present
+    DOCKER_TYPE docker_type;
     std::string docker_compose_version;
-        // version of Docker Compose
+        // version of Docker Compose; empty if none
+    DOCKER_TYPE docker_compose_type;
 
     WSL_DISTRO(){
         clear();
@@ -68,6 +69,8 @@ struct WSL_DISTROS {
     WSL_DISTRO *find_match(
         const char *os_name_regexp, const char *os_version_regexp
     );
+    WSL_DISTRO *find_docker();
+        // find a distro containing Docker
 };
 
 #endif

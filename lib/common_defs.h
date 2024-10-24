@@ -422,4 +422,7 @@ struct DEVICE_STATUS {
 #define LINUX_DEFAULT_DATA_DIR      "/var/lib/boinc"
 #endif
 
+// impementations of Docker
+enum DOCKER_TYPE {NONE, DOCKER, PODMAN};
+
 #endif

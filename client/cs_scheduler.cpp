@@ -141,6 +141,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         g_use_sandbox?1:0,
         p->dont_request_more_work?1:0
     );
+    if (cc_config.dont_use_docker) {
+        fprintf(f, "    <dont_use_docker/>\n");
+    }
     work_fetch.write_request(f, p);
 
     // write client capabilities
