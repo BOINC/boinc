@@ -262,14 +262,16 @@ void CLIENT_STATE::show_host_info() {
                 "-      OS: %s (%s)",
                 wsl.os_name.c_str(), wsl.os_version.c_str()
             );
-            if (wsl.is_docker_available) {
-                msg_printf(NULL, MSG_INFO, "-      Docker version %s",
-                    wsl.docker_version.c_str()
+            if (!wsl.docker_version.empty()) {
+                msg_printf(NULL, MSG_INFO, "-      Docker version %s (%s)",
+                    wsl.docker_version.c_str(),
+                    docker_type_str(wsl.docker_type)
                 );
             }
-            if (wsl.is_docker_compose_available) {
-                msg_printf(NULL, MSG_INFO, "-      Docker compose version %s",
-                    wsl.docker_compose_version.c_str()
+            if (!wsl.docker_compose_version.empty()) {
+                msg_printf(NULL, MSG_INFO, "-      Docker compose version %s (%s)",
+                    wsl.docker_compose_version.c_str(),
+                    docker_type_str(wsl.docker_compose_type)
                 );
             }
         }
@@ -292,14 +294,16 @@ void CLIENT_STATE::show_host_info() {
     }
 
 #ifndef _WIN64
-    if (host_info.docker_available && strlen(host_info.docker_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker version %s found",
-            host_info.docker_version
+    if (strlen(host_info.docker_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker: version %s (%s)",
+            host_info.docker_version,
+            docker_type_str(host_info.docker_type)
         );
     }
-    if (host_info.docker_compose_available && strlen(host_info.docker_compose_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker compose version %s found",
-            host_info.docker_compose_version
+    if (strlen(host_info.docker_compose_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker compose: version %s (%s)",
+            host_info.docker_compose_version,
+            docker_type_str(host_info.docker_compose_type)
         );
     }
 #endif

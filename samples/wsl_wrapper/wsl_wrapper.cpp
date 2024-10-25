@@ -76,15 +76,19 @@ int error(const char* where, int retval) {
     return retval;
 }
 
-// launch application and get process group ID
+// launch application (typically ./main) and get process group ID.
+// This doesn't wait for the application to finish.
 //
 int launch(const char* distro, const char* cmd) {
     char launch_cmd[256];
     sprintf(launch_cmd, "echo $$; %s; touch boinc_job_done\n", cmd);
     int retval = app_wc.setup();
     if (retval) return error("app setup", retval);
-    retval = app_wc.run_command(distro, launch_cmd, true);
-    if (retval) return error("app run_command", retval);
+    retval = app_wc.run_program_in_wsl(distro, launch_cmd, true);
+    if (retval) return error("app run_program_in_wsl", retval);
+
+    // get the process group ID
+    //
     string reply;
     retval = read_from_pipe(app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, "\n");
     if (retval) return error("app read_from_pipe", retval);
@@ -99,8 +103,9 @@ int launch(const char* distro, const char* cmd) {
     //
     retval = ctl_wc.setup();
     if (retval) return error("ctl setup", retval);
-    retval = ctl_wc.run_command(distro, "", true);
-    if (retval) return error("ctl run_command", retval);
+    retval = ctl_wc.run_program_in_wsl(distro, "", true);
+        // empty string means run shell
+    if (retval) return error("ctl run_program_in_wsl", retval);
     return 0;
 }
 

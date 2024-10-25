@@ -264,6 +264,7 @@ void SCHEDULER_REQUEST::clear() {
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
     dont_send_work = false;
+    dont_use_docker = false;
     strcpy(client_brand, "");
     global_prefs.defaults();
     strcpy(global_prefs_source_email_hash, "");
@@ -401,6 +402,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
         if (xp.parse_bool("dont_send_work", dont_send_work)) continue;
+        if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
         if (xp.match_tag("global_preferences")) {
             safe_strcpy(global_prefs_xml, "<global_preferences>\n");
             char buf[BLOB_SIZE];
