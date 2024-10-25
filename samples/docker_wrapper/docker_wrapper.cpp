@@ -553,7 +553,7 @@ int main(int argc, char** argv) {
     if (boinc_is_standalone()) {
         cli_prog = "docker";
     } else {
-        cli_prog = docker_cli_prog(aid.hostinfo.docker_type);
+        cli_prog = docker_cli_prog(aid.host_info.docker_type);
     }
 #endif
 
