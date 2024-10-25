@@ -35,4 +35,8 @@ if BUILD_WITH_OPENCL
     SUBDIRS += openclapp
 endif
 
+if ! ANDROID
+    SUBDIRS += docker_wrapper
+endif
+
 maintainer-clean:
