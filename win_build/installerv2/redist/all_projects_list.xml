@@ -220,6 +220,7 @@
         <description><![CDATA[Einstein@Home uses your computer's idle time to search for weak astrophysical signals from spinning neutron stars (often called pulsars) using data from the LIGO gravitational-wave detectors, the Arecibo radio telescope, and the Fermi gamma-ray satellite.]]></description>
         <home>University of Wisconsin - Milwaukee (USA), Max Planck Institute for Gravitational Physics - Hanover (Germany)</home>
     <platforms>
+        <name>aarch64-android-linux-gnu</name>
         <name>aarch64-unknown-linux-gnu</name>
         <name>arm-android-linux-gnu[ASIMDPIE]</name>
         <name>arm-android-linux-gnu[ASIMDPIE_1X]</name>
