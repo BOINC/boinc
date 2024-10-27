@@ -43,7 +43,7 @@ jobs:
         type: [client, client-debug]
       fail-fast: false
     steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 2
 
@@ -53,7 +53,7 @@ jobs:
           sudo apt-get install -y p7zip-full zip
 
       - name: Cache dependencies
-        uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a
         with:
           path: |
             3rdParty/buildCache
