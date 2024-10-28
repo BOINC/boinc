@@ -27,6 +27,7 @@ void WSL_DISTRO::clear() {
     distro_name = "";
     os_name = "";
     os_version = "";
+    libc_version = "";
     is_default = false;
     wsl_version = 1;
     docker_version = "";
@@ -51,6 +52,12 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
         is_default ? 1 : 0,
         wsl_version
     );
+    if (!libc_version.empty()) {
+        f.printf(
+            "           <libc_version>%s</libc_version>\n",
+            libc_version.c_str()
+        );
+    }
     if (!docker_version.empty()) {
         f.printf(
             "            <docker_version>%s</docker_version>\n"
@@ -82,6 +89,7 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
         if (xp.parse_string("distro_name", distro_name)) continue;
         if (xp.parse_string("os_name", os_name)) continue;
         if (xp.parse_string("os_version", os_version)) continue;
+        if (xp.parse_string("libc_version", libc_version)) continue;
         if (xp.parse_bool("is_default", is_default)) continue;
         if (xp.parse_int("wsl_version", wsl_version)) continue;
         if (xp.parse_string("docker_version", docker_version)) continue;

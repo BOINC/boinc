@@ -314,6 +314,15 @@ int get_wsl_information(
         // in case nothing worked
         update_os(wd, "unknown", "unknown");
 
+        // get the libc version
+        if (!rs.run_program_in_wsl(
+            wd.distro_name, "ldd --version"
+        )) {
+            string buf;
+            read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT);
+            wd.libc_version = parse_ldd_libc(buf);
+        }
+
         // see if Docker is installed in the distro
         //
         if (detect_docker) {
@@ -327,7 +336,9 @@ int get_wsl_information(
     return 0;
 }
 
-static bool get_docker_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
+static bool get_docker_version_aux(
+    WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type
+) {
     bool ret = false;
     string reply;
     string cmd = string(docker_cli_prog(type)) + " --version";
@@ -349,7 +360,9 @@ static void get_docker_version(WSL_CMD &rs, WSL_DISTRO &wd) {
     get_docker_version_aux(rs, wd, DOCKER);
 }
 
-static bool get_docker_compose_version_aux(WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type) {
+static bool get_docker_compose_version_aux(
+    WSL_CMD &rs, WSL_DISTRO &wd, DOCKER_TYPE type
+) {
     bool ret = false;
     string reply;
     string cmd = string(docker_cli_prog(type)) + " compose version";

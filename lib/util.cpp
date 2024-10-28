@@ -685,3 +685,13 @@ bool process_exists(int pid) {
 }
 
 #endif
+
+string parse_ldd_libc(const char* input) {
+    const char *p = strrchr(input, ' ');
+    if (!p) return "";
+    int maj, min;
+    if (sscanf(p, "%d.%d", &maj, &min) != 2) return "";
+    string s = (string)p;
+    strip_whitespace(s);
+    return s;
+}

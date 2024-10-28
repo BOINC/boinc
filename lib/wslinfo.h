@@ -37,6 +37,8 @@ struct WSL_DISTRO {
         // name of the operating system
     std::string os_version;
         // version of the operating system
+    std::string libc_version;
+        // version of libc, as reported by ldd --version
     int wsl_version;
         // version of WSL (currently 1 or 2)
     bool is_default;

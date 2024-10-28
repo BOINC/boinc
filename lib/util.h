@@ -130,6 +130,13 @@ extern int run_command(char *cmd, std::vector<std::string> &out);
 //
 extern int get_real_executable_path(char* path, size_t max_len);
 
+// given a string of the form
+// ldd (Ubuntu GLIBC 2.27-3ubuntu1.6) 2.27
+// return "2.27" (or empty string if can't parse)
+//
+
+extern std::string parse_ldd_libc(const char* input);
+
 #ifdef GCL_SIMULATOR
 extern double simtime;
 #define time(x) ((int)simtime)
