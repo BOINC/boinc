@@ -209,7 +209,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 
 void CProjectInfoPage::CreateControls()
 {
-////@begin CProjectInfoPage content construction
+    ////@begin CProjectInfoPage content construction
 #ifdef __WXMAC__
     const int descriptionWidth = 350;
 #else
@@ -256,10 +256,32 @@ void CProjectInfoPage::CreateControls()
     // so we don't need to worry about duplicate entries here.
     // Get the project list
     m_apl = new ALL_PROJECTS_LIST;
-    pDoc->rpc.get_all_projects_list(*m_apl);
-    for (unsigned int i=0; i<m_apl->projects.size(); i++) {
-        wxString strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
-        aCategories.Add(strGeneralArea);
+    std::string tempstring;
+    if (pDoc) {
+        pDoc->rpc.get_all_projects_list(*m_apl);
+
+        for (unsigned int i = 0; i < m_apl->projects.size(); i++) {
+            wxString strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
+            aCategories.Add(strGeneralArea);
+            tempstring = m_apl->projects[i]->url;
+            // Canonicalize/trim/store the URLs of all projects. This will be used later on for the wxListBox
+            // to visually indicate any projects that are currently attached, as well as checking for when a
+            // project or manual URL is selected.
+            //
+            canonicalize_master_url(tempstring);
+            TrimURL(tempstring);
+            m_pTrimmedURL.push_back(tempstring);
+        }
+        // Take all projects that the Client is already attached to and create an array of their
+        // canonicalized and trimmed URLs. This will be used for comparing against the master list of projects
+        // to visually indicate which projectes have already been attached.
+        //
+        for (unsigned int i = 0; i < pDoc->GetProjectCount(); i++) {
+            tempstring = pDoc->project(i)->master_url;
+            canonicalize_master_url(tempstring);
+            TrimURL(tempstring);
+            m_pTrimmedURL_attached.push_back(tempstring);
+        }
     }
     m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxDefaultSize, aCategories, wxCB_READONLY
 #ifndef __WXMAC__   // wxCB_SORT is not available in wxCocoa 3.0
@@ -277,7 +299,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
     wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT|wxLB_OWNERDRAW );
     itemFlexGridSizer11->Add(m_pProjectsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
     m_pProjectDetailsStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_ANY, _("Project details"));
@@ -514,13 +536,26 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
 
     m_pProjectsCtrl->Clear();
 
+    int lastproject = -1;
     // Populate the list box with the list of project names that belong to either the specific
     // category or all of them.
-    for (unsigned int i=0; i<m_Projects.size(); i++) {
+    //
+    for (unsigned int i=0; i<m_Projects.size(); i++) {  // cycle through all projects
         if ((m_pProjectCategoriesCtrl->GetValue() == _("All")) ||
             (m_pProjectCategoriesCtrl->GetValue() == m_Projects[i]->m_strGeneralArea)
         ) {
             m_pProjectsCtrl->Append(m_Projects[i]->m_strName, m_Projects[i]);
+            lastproject = m_pProjectsCtrl->GetCount() - 1;
+            // Since this project was added to the wxListBox, check to see if the project has already been attached.
+            // If it has, grey out the text for a visual indicator that the project has been added.
+            //
+            for (unsigned int j = 0; j < m_pTrimmedURL_attached.size(); j++) {  // cycle through all attached projects
+                if (m_pTrimmedURL[i] == m_pTrimmedURL_attached[j]) {
+                    //  Color 117,117,117 has a 4.6:1 contract ratio that passes accessibility
+                    m_pProjectsCtrl->GetItem(lastproject)->SetTextColour(wxColour(117,117,117));
+                    break;
+                }
+            }
         }
     }
 
@@ -706,27 +741,27 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
                     if (strProjectPlanClass.Find(_T("cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
-						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("nvidia")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
-						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
-						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("amd")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
-						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("intel_gpu")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsIntelGPU = true;
-						if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("vbox")) != wxNOT_FOUND) {
@@ -739,11 +774,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 }
             }
 
-			// If project doesn't export its platforms, assume we're supported
-			//
-			if (aProjectPlatforms.size() == 0) {
-				pProjectInfo->m_bSupportedPlatformFound = true;
-			}
+            // If project doesn't export its platforms, assume we're supported
+            //
+            if (aProjectPlatforms.size() == 0) {
+                pProjectInfo->m_bSupportedPlatformFound = true;
+            }
         }
 
 
@@ -816,11 +851,11 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     const std::string http = "http://";
     const std::string https = "https://";
 
-	std::string new_project_url = (const char*)m_strProjectURL.mb_str();
-	canonicalize_master_url(new_project_url);
+    std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+    canonicalize_master_url(new_project_url);
     TrimURL(new_project_url);
- 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) {
- 	    PROJECT* project = pDoc->project(i);
+     for (int i = 0; i < pDoc->GetProjectCount(); ++i) {
+        PROJECT* project = pDoc->project(i);
         if (project) {
             std::string project_url = project->master_url;
 

@@ -129,6 +129,8 @@ private:
     std::vector<CProjectInfo*> m_Projects;
     bool m_bProjectSupported;
     bool m_bProjectListPopulated;
+    std::vector<std::string> m_pTrimmedURL;
+    std::vector<std::string> m_pTrimmedURL_attached;
 };
 
 #endif
