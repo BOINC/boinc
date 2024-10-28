@@ -43,6 +43,8 @@ struct WSL_DISTRO {
         // version of WSL (currently 1 or 2)
     bool is_default;
         // this is the default distro
+    bool disallowed;
+        // disallowed in cc_config.xml
     std::string docker_version;
         // version of Docker (or podman)
         // empty if not present
@@ -57,6 +59,7 @@ struct WSL_DISTRO {
     void clear();
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
+    int libc_version_int();
 };
 
 // a set of WSL distros
@@ -69,7 +72,8 @@ struct WSL_DISTROS {
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
     WSL_DISTRO *find_match(
-        const char *os_name_regexp, const char *os_version_regexp
+        const char *os_name_regexp, const char *os_version_regexp,
+        int min_libc_version
     );
     WSL_DISTRO *find_docker();
         // find a distro containing Docker

@@ -264,6 +264,7 @@ void SCHEDULER_REQUEST::clear() {
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
     dont_send_work = false;
+    dont_use_wsl = false;
     dont_use_docker = false;
     strcpy(client_brand, "");
     global_prefs.defaults();
@@ -403,6 +404,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
         if (xp.parse_bool("dont_send_work", dont_send_work)) continue;
         if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
+        if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
         if (xp.match_tag("global_preferences")) {
             safe_strcpy(global_prefs_xml, "<global_preferences>\n");
             char buf[BLOB_SIZE];

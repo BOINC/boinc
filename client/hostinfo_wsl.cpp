@@ -170,17 +170,12 @@ static bool got_both(WSL_DISTRO &wd) {
 }
 
 // Get list of WSL distros usable by BOINC
-// (docker_desktop and those allowed by config)
 // For each of them:
 //      try to find the OS name and version
 //      see if Docker and docker compose are present, get versions
 // Return nonzero on error
 //
-int get_wsl_information(
-    vector<string> &allowed_wsls,
-    WSL_DISTROS &usable_distros,
-    bool detect_docker      // whether to check for Docker
-) {
+int get_wsl_information(WSL_DISTROS &distros) {
     WSL_DISTROS all_distros;
     int retval = get_all_distros(all_distros);
     if (retval) return retval;
@@ -198,14 +193,6 @@ int get_wsl_information(
         // skip 'docker-desktop-data'
         // See: https://stackoverflow.com/a/61431088/4210508
         if (wd.distro_name == "docker-desktop-data"){
-            continue;
-        }
-        // skip distros that are not allowed except for 'docker-desktop'
-        //
-        if (wd.distro_name != "docker-desktop"
-            && std::find(allowed_wsls.begin(), allowed_wsls.end(), wd.distro_name) == allowed_wsls.end()
-        ) {
-            msg_printf(0, MSG_INFO, "WSL distro '%s' detected but is not allowed", wd.distro_name.c_str());
             continue;
         }
 
@@ -326,12 +313,16 @@ int get_wsl_information(
 
         // see if Docker is installed in the distro
         //
-        if (detect_docker) {
-            get_docker_version(rs, wd);
-            get_docker_compose_version(rs, wd);
-        }
+        get_docker_version(rs, wd);
+        get_docker_compose_version(rs, wd);
 
-        usable_distros.distros.push_back(wd);
+        // see if distro is disallowed
+        //
+        vector<string> &dw = cc_config.disallowed_wsls;
+        if (std::find(dw.begin(), dw.end(), wd.distro_name,) != dw.end()) {
+            dw.disallowed = true;
+        }
+        distros.distros.push_back(wd);
     }
 
     return 0;

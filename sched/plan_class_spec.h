@@ -54,6 +54,7 @@ struct PLAN_CLASS_SPEC {
     int min_android_version;
     int max_android_version;
     int min_libc_version;
+        // if WSL: applies to WSL distro
     char project_prefs_tag[256];
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;
@@ -64,6 +65,7 @@ struct PLAN_CLASS_SPEC {
         // for non-compute-intensive, or override for GPU apps
     bool have_host_summary_regex;
     regex_t host_summary_regex;
+        // matched against host.serialnum
     int user_id;
     double infeasible_random;
     long min_wu_id;
