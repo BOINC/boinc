@@ -798,6 +798,7 @@ int main(int argc, char** argv) {
     last_checkpoint_elapsed_time = elapsed_time;
     last_heartbeat_elapsed_time = elapsed_time;
     last_checkpoint_cpu_time = starting_cpu_time;
+    initial_heartbeat_check = true;
 
 
     // Choose a random interleave value for checkpoint intervals
@@ -1050,35 +1051,40 @@ int main(int argc, char** argv) {
         }
         if (pVM->heartbeat_filename.size()) {
 
-            if (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval))
-            {
+            if (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval)) {
 
+                int return_code = BOINC_SUCCESS;
                 bool should_exit = false;
                 struct stat heartbeat_stat;
 
                 if (!shared_file_exists(pVM->heartbeat_filename)) {
                     vboxlog_msg("VM Heartbeat file specified, but missing.");
+                    return_code = ERR_FILE_MISSING;
                     should_exit = true;
-                }
-
-                if (shared_stat(pVM->heartbeat_filename, &heartbeat_stat)) {
-                    // Error
-                    vboxlog_msg("VM Heartbeat file specified, but missing file system status. (errno = '%d')", errno);
-                    should_exit = true;
-                }
-
-                if (initial_heartbeat_check) {
-                    // Force the next check to be successful
-                    last_heartbeat_mod_time = heartbeat_stat.st_mtime - 1;
-                }
-
-                if (heartbeat_stat.st_mtime > last_heartbeat_mod_time) {
-                    // Heartbeat successful
-                    last_heartbeat_mod_time = heartbeat_stat.st_mtime;
-                    last_heartbeat_elapsed_time = elapsed_time;
                 } else {
-                    vboxlog_msg("VM Heartbeat file specified, but missing heartbeat.");
-                    should_exit = true;
+
+                    if (shared_stat(pVM->heartbeat_filename, &heartbeat_stat)) {
+                        // Error
+                        vboxlog_msg("VM Heartbeat file specified, but missing file system status. (errno = '%d')", errno);
+                        return_code = ERR_STAT;
+                        should_exit = true;
+                    } else {
+
+                        if (initial_heartbeat_check) {
+                            // Force the next check to be successful
+                            last_heartbeat_mod_time = heartbeat_stat.st_mtime - 1;
+                        }
+
+                        if (heartbeat_stat.st_mtime > last_heartbeat_mod_time) {
+                            // Heartbeat successful
+                            last_heartbeat_mod_time = heartbeat_stat.st_mtime;
+                            last_heartbeat_elapsed_time = elapsed_time;
+                        } else {
+                            vboxlog_msg("VM Heartbeat file specified, but missing heartbeat.");
+                            return_code = ERR_TIMEOUT;
+                            should_exit = true;
+                        }
+                    }
                 }
 
                 if (should_exit) {
@@ -1086,7 +1092,7 @@ int main(int argc, char** argv) {
                     pVM->capture_screenshot();
                     pVM->cleanup();
                     pVM->dump_hypervisor_logs(true);
-                    boinc_finish(EXIT_ABORTED_BY_CLIENT);
+                    boinc_finish(return_code);
                 }
 
                 initial_heartbeat_check = false;
