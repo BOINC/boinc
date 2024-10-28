@@ -319,8 +319,8 @@ int get_wsl_information(WSL_DISTROS &distros) {
         // see if distro is disallowed
         //
         vector<string> &dw = cc_config.disallowed_wsls;
-        if (std::find(dw.begin(), dw.end(), wd.distro_name,) != dw.end()) {
-            dw.disallowed = true;
+        if (std::find(dw.begin(), dw.end(), wd.distro_name) != dw.end()) {
+            wd.disallowed = true;
         }
         distros.distros.push_back(wd);
     }
