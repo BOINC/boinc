@@ -167,7 +167,7 @@ struct CC_CONFIG {
     bool dont_suspend_nci;
     bool dont_use_vbox;
     bool dont_use_wsl;
-    std::vector<std::string> allowed_wsls;
+    std::vector<std::string> disallowed_wsls;
     bool dont_use_docker;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;

@@ -267,6 +267,9 @@ struct PLATFORM_LIST {
     std::vector<PLATFORM*> list;
 };
 
+// if you add anything:
+// - add it to clear()
+// - add it to parse()
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     CLIENT_PLATFORM platform;
@@ -339,6 +342,7 @@ struct SCHEDULER_REQUEST {
         // whether client uses account-based sandbox.  -1 = don't know
     int allow_multiple_clients;
         // whether client allows multiple clients per host, -1 don't know
+    bool dont_use_wsl;
     bool dont_use_docker;
     bool using_weak_auth;
         // Request uses weak authenticator.

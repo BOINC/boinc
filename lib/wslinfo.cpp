@@ -27,8 +27,10 @@ void WSL_DISTRO::clear() {
     distro_name = "";
     os_name = "";
     os_version = "";
+    libc_version = "";
+    disallowed = false;
     is_default = false;
-    wsl_version = 1;
+    wsl_version = 0;
     docker_version = "";
     docker_compose_version = "";
 }
@@ -43,14 +45,28 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
         "            <distro_name>%s</distro_name>\n"
         "            <os_name>%s</os_name>\n"
         "            <os_version>%s</os_version>\n"
-        "            <is_default>%d</is_default>\n"
         "            <wsl_version>%d</wsl_version>\n",
         dn,
         n,
         v,
-        is_default ? 1 : 0,
         wsl_version
     );
+    if (is_default) {
+        f.printf(
+            "            <is_default/>\n"
+        );
+    }
+    if (disallowed) {
+        f.printf(
+            "            <disallowed/>\n"
+        );
+    }
+    if (!libc_version.empty()) {
+        f.printf(
+            "           <libc_version>%s</libc_version>\n",
+            libc_version.c_str()
+        );
+    }
     if (!docker_version.empty()) {
         f.printf(
             "            <docker_version>%s</docker_version>\n"
@@ -82,7 +98,9 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
         if (xp.parse_string("distro_name", distro_name)) continue;
         if (xp.parse_string("os_name", os_name)) continue;
         if (xp.parse_string("os_version", os_version)) continue;
+        if (xp.parse_string("libc_version", libc_version)) continue;
         if (xp.parse_bool("is_default", is_default)) continue;
+        if (xp.parse_bool("disallowed", disallowed)) continue;
         if (xp.parse_int("wsl_version", wsl_version)) continue;
         if (xp.parse_string("docker_version", docker_version)) continue;
         if (xp.parse_int("docker_type", i)) {
@@ -96,6 +114,13 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+int WSL_DISTRO::libc_version_int() {
+    int maj, min;
+    int n = sscanf(libc_version.c_str(), "%d.%d", &maj, &min);
+    if (n==2) return maj*100+min;
+    return 0;
 }
 
 WSL_DISTROS::WSL_DISTROS() {
@@ -131,7 +156,8 @@ int WSL_DISTROS::parse(XML_PARSER& xp) {
 }
 
 WSL_DISTRO* WSL_DISTROS::find_match(
-    const char *os_name_regexp, const char *os_version_regexp
+    const char *os_name_regexp, const char *os_version_regexp,
+    int min_libc_version
 ) {
     std::regex name_regex(os_name_regexp), version_regex(os_version_regexp);
     for (WSL_DISTRO &wd: distros) {
@@ -139,6 +165,9 @@ WSL_DISTRO* WSL_DISTROS::find_match(
             continue;
         }
         if (!std::regex_match(wd.os_version.c_str(), version_regex)) {
+            continue;
+        }
+        if (wd.libc_version_int() < min_libc_version) {
             continue;
         }
         return &wd;

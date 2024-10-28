@@ -546,9 +546,61 @@ bool PLAN_CLASS_SPEC::check(
     }
 
     if (wsl) {
-        if (sreq.host.wsl_distros.distros.empty()) {
-            add_no_work_message("WSL is not available on this host");
+        if (sreq.dont_use_wsl) {
+            add_no_work_message("Client config does not allow using WSL");
             return false;
+        }
+        if (sreq.host.wsl_distros.distros.empty()) {
+            add_no_work_message("No WSL distros found");
+            return false;
+        }
+        bool found = false;
+        for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
+            if (wd.disallowed) continue;
+            if (min_libc_version) {
+                if (wd.libc_version_int() < min_libc_version) continue;
+            }
+            found = true;
+        }
+        if (!found) {
+            add_no_work_message("No usable WSL distros found");
+            return false;
+        }
+    }
+
+    // Docker apps: check that:
+    // - Docker is allowed
+    // - Win:
+    //      - WSL is allowed
+    //      - There's an allowed WSL distro containing Docker
+    // - Unix:
+    //      - Docker is present
+    if (docker) {
+        if (sreq.dont_use_docker) {
+            add_no_work_message("Client config does not allow using Docker");
+            return false;
+        }
+        if (strstr(sreq.host.os_name, "Windows")) {
+            if (sreq.dont_use_wsl) {
+                add_no_work_message("Client config does not allow using WSL");
+                return false;
+            }
+            bool found = false;
+            for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
+                if (wd.disallowed) continue;
+                if (wd.docker_version.empty()) continue;
+                found = true;
+                break;
+            }
+            if (!found) {
+                add_no_work_message("No usable WSL distros found");
+                return false;
+            }
+        } else {
+            if (strlen(sreq.host.docker_version) == 0) {
+                add_no_work_message("Docker not present");
+                return false;
+            }
         }
     }
 

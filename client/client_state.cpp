@@ -262,6 +262,11 @@ void CLIENT_STATE::show_host_info() {
                 "-      OS: %s (%s)",
                 wsl.os_name.c_str(), wsl.os_version.c_str()
             );
+            if (!wsl.libc_version.empty()) {
+                msg_printf(NULL, MSG_INFO,
+                    "-      libc version: %s", wsl.libc_version.c_str()
+                );
+            }
             if (!wsl.docker_version.empty()) {
                 msg_printf(NULL, MSG_INFO, "-      Docker version %s (%s)",
                     wsl.docker_version.c_str(),

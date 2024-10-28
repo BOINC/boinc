@@ -214,6 +214,7 @@ void poll_client_msgs() {
 
 int main(int argc, char** argv) {
     const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru="";
+    int min_libc_version = 0;
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--os_name_regexp")) {
             os_name_regexp = argv[++i];
@@ -221,6 +222,8 @@ int main(int argc, char** argv) {
             os_version_regexp = argv[++i];
         } else if (!strcmp(argv[i], "--pass_thru")) {
             pass_thru = argv[++i];
+        } else if (!strcmp(argv[i], "--min_libc_version")) {
+            min_libc_version = atoi(argv[++i]);
         } else {
             fprintf(stderr, "unknown option %s\n", argv[i]);
             exit(1);
@@ -240,7 +243,9 @@ int main(int argc, char** argv) {
         distro_name = "Ubuntu-22.04";
     } else {
         boinc_get_init_data(aid);
-        WSL_DISTRO *distro = aid.host_info.wsl_distros.find_match(os_name_regexp, os_version_regexp);
+        WSL_DISTRO *distro = aid.host_info.wsl_distros.find_match(
+            os_name_regexp, os_version_regexp, min_libc_version
+        );
         if (!distro) {
             fprintf(stderr, "can't find distro\n");
             exit(1);

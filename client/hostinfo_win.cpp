@@ -1666,23 +1666,19 @@ int HOST_INFO::get_host_info(bool init) {
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
 #ifdef _WIN64
-    if (!cc_config.dont_use_wsl) {
-        OSVERSIONINFOEX osvi;
-        if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
-            retval = get_wsl_information(
-                cc_config.allowed_wsls, wsl_distros, !cc_config.dont_use_docker
+    OSVERSIONINFOEX osvi;
+    if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
+        retval = get_wsl_information(wsl_distros);
+        if (retval) {
+            msg_printf(0, MSG_INTERNAL_ERROR,
+                "get_wsl_information(): %s", boincerror(retval)
             );
-            if (retval) {
-                msg_printf(0, MSG_INTERNAL_ERROR,
-                    "get_wsl_information(): %s", boincerror(retval)
-                );
-            }
         }
     }
 #endif
-    if (!cc_config.dont_use_vbox) {
-        get_virtualbox_version();
-    }
+
+    get_virtualbox_version();
+
     get_processor_info(
         p_vendor, sizeof(p_vendor),
         p_model, sizeof(p_model),
