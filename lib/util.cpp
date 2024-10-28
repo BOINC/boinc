@@ -365,7 +365,7 @@ int run_command(char *cmd, vector<string> &out) {
     while (fgets(buf, 256, fp)) {
         out.push_back(buf);
     }
-    fclose(fp);
+    pclose(fp);
 #endif
 #endif
     return 0;
