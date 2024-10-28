@@ -24,6 +24,7 @@ using std::string;
 #include "str_replace.h"
 #include "client_msgs.h"
 #include "hostinfo.h"
+#include "util.h"
 
 // timeout for commands run in WSL container
 // If something goes wrong we don't want client to hang
@@ -320,7 +321,7 @@ int get_wsl_information(
         )) {
             string buf;
             read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT);
-            wd.libc_version = parse_ldd_libc(buf);
+            wd.libc_version = parse_ldd_libc(buf.c_str());
         }
 
         // see if Docker is installed in the distro
