@@ -428,6 +428,7 @@ int main(int argc, char** argv) {
     double timeout = 0.0;
     bool report_net_usage = false;
     bool initial_heartbeat_check = true;
+    int backtoback_heartbeat_failure = 1;
     double net_usage_timer = 600;
     int vm_image = 0;
     unsigned long vm_exit_code = 0;
@@ -1050,8 +1051,9 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (pVM->heartbeat_filename.size()) {
+            int backtoback = 3;
 
-            if (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval)) {
+            if (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval/backtoback)) {
 
                 int return_code = BOINC_SUCCESS;
                 bool should_exit = false;
@@ -1079,10 +1081,24 @@ int main(int argc, char** argv) {
                             // Heartbeat successful
                             last_heartbeat_mod_time = heartbeat_stat.st_mtime;
                             last_heartbeat_elapsed_time = elapsed_time;
+                            backtoback_heartbeat_failure = 1;
                         } else {
-                            vboxlog_msg("VM Heartbeat file specified, but missing heartbeat.");
-                            return_code = ERR_TIMEOUT;
-                            should_exit = true;
+                            // Timestamps are not always monotonuous
+                            // or in sync between guest and host
+                            // e.g. after a suspend/resume
+                            // or when local time switches between
+                            // normal time and DST
+                            //
+                            // Instead of fiddling around with complex checks
+                            // simply count backtoback inconsistencies
+                            //
+                            if (backtoback_heartbeat_failure < backtoback) {
+                                backtoback_heartbeat_failure++;
+                            } else {
+                                vboxlog_msg("VM Heartbeat file specified, but missing heartbeat.");
+                                return_code = ERR_TIMEOUT;
+                                should_exit = true;
+                            }
                         }
                     }
                 }
