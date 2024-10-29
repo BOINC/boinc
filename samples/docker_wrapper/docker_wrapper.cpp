@@ -79,14 +79,16 @@ using std::string;
 using std::vector;
 
 #define POLL_PERIOD 1.0
+#define STATUS_PERIOD 10
+    // reports status this often
 
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
 
 struct RSC_USAGE {
-    double cpu_time;
+    double cpu_frac;
     double wss;
     void clear() {
-        cpu_time = 0;
+        cpu_frac = 0;
         wss = 0;
     }
 };
@@ -442,7 +444,10 @@ void poll_client_msgs() {
     }
 }
 
-JOB_STATUS poll_app(RSC_USAGE &ru) {
+// check whether job has exited
+// Note: on both Podman and Docker this takes significant CPU time
+// (like .03 sec) so do it infrequently (like 5 sec)
+JOB_STATUS poll_app() {
     char cmd[1024];
     vector<string> out;
     int retval;
@@ -459,6 +464,41 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
         }
     }
     return JOB_FAIL;
+}
+
+// get CPU and mem usage
+// This is also surprisingly slow
+int get_stats(RSC_USAGE &ru) {
+    char cmd[1024];
+    vector<string> out;
+    int retval;
+    unsigned int n;
+
+    sprintf(cmd,
+        "%s stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
+        cli_prog, container_name
+    );
+    retval = run_docker_command(cmd, out);
+    if (retval) return -1;
+    n = out.size();
+    if (n == 0) return -1;
+    const char *buf = out[n-1].c_str();
+    // output is like
+    // 0.00% 420KiB / 503.8GiB
+    double cpu_pct, mem;
+    char mem_unit;
+    n = sscanf(buf, "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+    if (n != 3) return -1;
+    switch (mem_unit) {
+    case 'G': mem *= GIGA; break;
+    case 'M': mem *= MEGA; break;
+    case 'K': mem *= KILO; break;
+    case 'B': break;
+    default: return -1;
+    }
+    ru.cpu_frac = cpu_pct/100.;
+    ru.wss = mem;
+    return 0;
 }
 
 #ifdef _WIN32
@@ -543,6 +583,14 @@ int main(int argc, char** argv) {
     }
     if (verbose) config.print();
 
+    if (sporadic) {
+        retval = boinc_sporadic_dir(".");
+        if (retval) {
+            fprintf(stderr, "can't create sporadic files\n");
+            boinc_finish(retval);
+        }
+    }
+
 #ifdef _WIN32
     retval = wsl_init();
     if (retval) {
@@ -578,18 +626,35 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
     running = true;
-    while (1) {
+    double cpu_time = 0;
+    for (int i=0; ; i++) {
         poll_client_msgs();
-        switch(poll_app(ru)) {
-        case JOB_FAIL:
-            cleanup();
-            boinc_finish(1);
-            break;
-        case JOB_SUCCESS:
-            copy_files_from_container();
-            cleanup();
-            boinc_finish(0);
-            break;
+        if (i%STATUS_PERIOD == 0) {
+            switch(poll_app()) {
+            case JOB_FAIL:
+                cleanup();
+                boinc_finish(1);
+                break;
+            case JOB_SUCCESS:
+                copy_files_from_container();
+                cleanup();
+                boinc_finish(0);
+                break;
+            default:
+                break;
+            }
+            retval = get_stats(ru);
+            if (!retval) {
+                cpu_time += STATUS_PERIOD*ru.cpu_frac;
+                boinc_report_app_status_aux(
+                    cpu_time,
+                    0,      // checkpoint CPU time
+                    0,      // frac done
+                    0,      // other PID
+                    0,0,    // bytes send/received
+                    ru.wss
+                );
+            }
         }
         boinc_sleep(POLL_PERIOD);
     }

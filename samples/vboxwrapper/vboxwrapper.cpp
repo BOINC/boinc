@@ -889,7 +889,8 @@ int main(int argc, char** argv) {
         fraction_done,
         pVM->vm_pid,
         bytes_sent,
-        bytes_received
+        bytes_received,
+        0
     );
 
     // Wait for up to 5 minutes for the VM to switch states.
@@ -1373,7 +1374,8 @@ int main(int argc, char** argv) {
                 fraction_done,
                 pVM->vm_pid,
                 bytes_sent,
-                bytes_received
+                bytes_received,
+                0
             );
 
             if (!retval) {

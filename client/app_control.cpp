@@ -1439,8 +1439,23 @@ bool ACTIVE_TASK::get_app_status_msg() {
             }
         }
     }
-    parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
-    parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
+    if (parse_double(msg_buf, "<current_cpu_time>", current_cpu_time)) {
+        if (current_cpu_time < 0) {
+            msg_printf(result->project, MSG_INFO,
+                "app reporting negative CPU: %f", current_cpu_time
+            );
+            current_cpu_time = 0;
+        }
+    }
+    if (parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) {
+        if (checkpoint_cpu_time < 0) {
+            msg_printf(result->project, MSG_INFO,
+                "app reporting negative checkpoint CPU: %f", checkpoint_cpu_time
+            );
+            checkpoint_cpu_time = 0;
+        }
+    }
+    parse_double(msg_buf, "<wss>", wss_from_app);
     parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
@@ -1469,18 +1484,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
     }
     if (parse_int(msg_buf, "<sporadic_ac>", i)) {
         sporadic_ac_state = (SPORADIC_AC_STATE)i;
-    }
-    if (current_cpu_time < 0) {
-        msg_printf(result->project, MSG_INFO,
-            "app reporting negative CPU: %f", current_cpu_time
-        );
-        current_cpu_time = 0;
-    }
-    if (checkpoint_cpu_time < 0) {
-        msg_printf(result->project, MSG_INFO,
-            "app reporting negative checkpoint CPU: %f", checkpoint_cpu_time
-        );
-        checkpoint_cpu_time = 0;
     }
     return true;
 }

@@ -1052,7 +1052,8 @@ int boinc_report_app_status_aux(
     double _fraction_done,
     int other_pid,
     double _bytes_sent,
-    double _bytes_received
+    double _bytes_received,
+    double wss
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[1024];
     if (standalone) return 0;
@@ -1081,6 +1082,10 @@ int boinc_report_app_status_aux(
         sprintf(buf, "<sporadic_ac>%d</sporadic_ac>\n", ac_state);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
+    if (wss) {
+        sprintf(buf, "<wss>%f</wss>\n", wss);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
+    }
 #ifdef MSGS_FROM_FILE
     if (fout) {
         fputs(msg_buf, fout);
@@ -1100,7 +1105,7 @@ int boinc_report_app_status(
     double _fraction_done
 ){
     return boinc_report_app_status_aux(
-        cpu_time, checkpoint_cpu_time, _fraction_done, 0, 0, 0
+        cpu_time, checkpoint_cpu_time, _fraction_done, 0, 0, 0, 0
     );
 }
 
