@@ -1079,8 +1079,6 @@ int main(int argc, char** argv) {
 
                         if (heartbeat_stat.st_mtime > last_heartbeat_mod_time) {
                             // Heartbeat successful
-                            last_heartbeat_mod_time = heartbeat_stat.st_mtime;
-                            last_heartbeat_elapsed_time = elapsed_time;
                             backtoback_heartbeat_failure = 1;
                         } else {
                             // Timestamps are not always monotonuous
@@ -1111,6 +1109,8 @@ int main(int argc, char** argv) {
                     boinc_finish(return_code);
                 }
 
+                last_heartbeat_mod_time = heartbeat_stat.st_mtime;
+                last_heartbeat_elapsed_time = elapsed_time;
                 initial_heartbeat_check = false;
             }
         }
