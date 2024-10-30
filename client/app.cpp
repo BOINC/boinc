@@ -110,6 +110,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     peak_disk_usage = 0;
     once_ran_edf = false;
 
+    wss_from_app = 0;
     fraction_done = 0;
     fraction_done_elapsed_time = 0;
     first_fraction_done = 0;
@@ -420,6 +421,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             // at least on Windows.  Use the VM size instead.
             //
             pi.working_set_size_smoothed = atp->wup->rsc_memory_bound;
+        } else if (atp->wss_from_app > 0) {
+            pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + atp->wss_from_app);
         } else {
             pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
         }

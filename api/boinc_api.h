@@ -138,7 +138,8 @@ extern int boinc_upload_status(std::string& name);
 extern char* boinc_msg_prefix(char*, int);
 extern int boinc_report_app_status_aux(
     double cpu_time, double checkpoint_cpu_time, double _fraction_done,
-    int other_pid, double bytes_sent, double bytes_received
+    int other_pid, double bytes_sent, double bytes_received,
+    double wss
 );
 extern int boinc_temporary_exit(
     int delay, const char* reason=NULL, bool is_notice=false

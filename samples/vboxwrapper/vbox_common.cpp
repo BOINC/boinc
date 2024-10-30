@@ -316,7 +316,8 @@ void VBOX_VM::report_clean(
                 fraction_done,
                 vm_pid,
                 bytes_sent,
-                bytes_received
+                bytes_received,
+                0
             );
         }
 

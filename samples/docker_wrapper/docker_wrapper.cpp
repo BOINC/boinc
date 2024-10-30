@@ -30,7 +30,7 @@
 //      this is the first run of the job
 //      if the image doesn't already exist
 //          build image with 'docker build'
-//      (need a log around the above?)
+//      (need a lock around the above?)
 //      create the container with -v to mount slot, project dirs
 //      copy input files as needed
 // start container
@@ -42,7 +42,7 @@
 // image name
 //      name: lower case letters, digits, separators (. _ -); max 4096 chars
 //      tag: max 128 chars
-//      in the universal model, each WU has a different image
+//      in the universal model, each WU must have a different image
 //      so we'll use: boinc__<proj>__<wuname>
 //
 // container name:
@@ -54,7 +54,7 @@
 // image name: boinc
 // container name: boinc
 // slot dir: .
-// project dir: project/
+// project dir (mount mode): project/
 
 // enable standalone tests on Win
 //
@@ -79,14 +79,16 @@ using std::string;
 using std::vector;
 
 #define POLL_PERIOD 1.0
+#define STATUS_PERIOD 10
+    // reports status this often
 
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
 
 struct RSC_USAGE {
-    double cpu_time;
+    double cpu_frac;
     double wss;
     void clear() {
-        cpu_time = 0;
+        cpu_frac = 0;
         wss = 0;
     }
 };
@@ -127,7 +129,7 @@ char container_name[512];
 APP_INIT_DATA aid;
 CONFIG config;
 bool running;
-bool verbose = true;
+bool verbose = false;
 const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
 const char* cli_prog;
@@ -217,7 +219,24 @@ inline int run_docker_command(char* cmd, vector<string> &out) {
     retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, output, TIMEOUT, "EOM"
     );
-    if (retval) return retval;
+    if (retval) {
+        const char* msg = "";
+        switch (retval) {
+        case PROC_DIED:
+            msg = "Process died";
+            break;
+        case TIMEOUT:
+            msg = "Timeout";
+            break;
+        case READ_ERROR:
+            msg = "Read Error";
+            break;
+        default:
+            break;
+        }
+        fprintf(stderr, "read_from_pipe() error: %s\n", msg);
+        return retval;
+    }
     out = split(output, '\n');
 #else
     retval = run_command(cmd, out);
@@ -248,8 +267,9 @@ int image_exists(bool &exists) {
     sprintf(cmd, "%s images", cli_prog);
     int retval = run_docker_command(cmd, out);
     if (retval) return retval;
+    string image_name_space = image_name + string(" ");
     for (string line: out) {
-        if (line.find(image_name) != string::npos) {
+        if (line.find(image_name_space) != string::npos) {
             exists = true;
             return 0;
         }
@@ -301,7 +321,7 @@ int container_exists(bool &exists) {
     int retval;
     vector<string> out;
 
-    sprintf(cmd, "%s ps --filter \"name=%s\"",
+    sprintf(cmd, "%s ps --all --filter \"name=%s\"",
         cli_prog, container_name
     );
     retval = run_docker_command(cmd, out);
@@ -442,7 +462,10 @@ void poll_client_msgs() {
     }
 }
 
-JOB_STATUS poll_app(RSC_USAGE &ru) {
+// check whether job has exited
+// Note: on both Podman and Docker this takes significant CPU time
+// (like .03 sec) so do it infrequently (like 5 sec)
+JOB_STATUS poll_app() {
     char cmd[1024];
     vector<string> out;
     int retval;
@@ -459,6 +482,48 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
         }
     }
     return JOB_FAIL;
+}
+
+// get CPU and mem usage
+// This is also surprisingly slow
+int get_stats(RSC_USAGE &ru) {
+    char cmd[1024];
+    vector<string> out;
+    int retval;
+    size_t n;
+
+    sprintf(cmd,
+        "%s stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
+        cli_prog, container_name
+    );
+    retval = run_docker_command(cmd, out);
+    if (retval) return -1;
+    if (out.empty()) return -1;
+    const char *buf = out[0].c_str();
+    // output is like
+    // 0.00% 420KiB / 503.8GiB
+    double cpu_pct, mem;
+    char mem_unit;
+    n = sscanf(buf, "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+    if (n != 3) return -1;
+    switch (mem_unit) {
+    case 'G':
+    case 'g':
+        mem *= GIGA; break;
+    case 'M':
+    case 'm':
+        mem *= MEGA; break;
+    case 'K':
+    case 'k':
+        mem *= KILO; break;
+    case 'B':
+    case 'b':
+        break;
+    default: return -1;
+    }
+    ru.cpu_frac = cpu_pct/100.;
+    ru.wss = mem;
+    return 0;
 }
 
 #ifdef _WIN32
@@ -528,6 +593,7 @@ int main(int argc, char** argv) {
     boinc_init_options(&options);
 
     if (boinc_is_standalone()) {
+        verbose = true;
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         strcpy(aid.project_dir, "./project");
@@ -542,6 +608,14 @@ int main(int argc, char** argv) {
         exit(1);
     }
     if (verbose) config.print();
+
+    if (sporadic) {
+        retval = boinc_sporadic_dir(".");
+        if (retval) {
+            fprintf(stderr, "can't create sporadic files\n");
+            boinc_finish(retval);
+        }
+    }
 
 #ifdef _WIN32
     retval = wsl_init();
@@ -578,18 +652,38 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
     running = true;
-    while (1) {
+    double cpu_time = 0;
+    for (int i=0; ; i++) {
         poll_client_msgs();
-        switch(poll_app(ru)) {
-        case JOB_FAIL:
-            cleanup();
-            boinc_finish(1);
-            break;
-        case JOB_SUCCESS:
-            copy_files_from_container();
-            cleanup();
-            boinc_finish(0);
-            break;
+        if (i%STATUS_PERIOD == 0) {
+            switch(poll_app()) {
+            case JOB_FAIL:
+                cleanup();
+                boinc_finish(1);
+                break;
+            case JOB_SUCCESS:
+                copy_files_from_container();
+                cleanup();
+                boinc_finish(0);
+                break;
+            default:
+                break;
+            }
+            retval = get_stats(ru);
+            if (!retval) {
+                cpu_time += STATUS_PERIOD*ru.cpu_frac;
+                if (verbose) {
+                    fprintf(stderr, "reporting CPU %f WSS %f\n", cpu_time, ru.wss);
+                }
+                boinc_report_app_status_aux(
+                    cpu_time,
+                    0,      // checkpoint CPU time
+                    0,      // frac done
+                    0,      // other PID
+                    0,0,    // bytes send/received
+                    ru.wss
+                );
+            }
         }
         boinc_sleep(POLL_PERIOD);
     }

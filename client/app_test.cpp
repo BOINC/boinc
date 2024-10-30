@@ -26,7 +26,7 @@
 //      input/output files, attributes, etc.
 //      It currently has several test cases, selected with #ifdef
 // - build the BOINC client with these changes
-// - make a BOINC data directory, say 'test'
+// - Linux: make a BOINC data directory, say 'test'
 //      (or you can use an existing BOINC data directory,
 //      in which case the client will also run existing jobs)
 // - make a directory test/slots/app_test
@@ -224,6 +224,20 @@ void CLIENT_STATE::app_test_init() {
         *make_file(app->project, "Dockerfile_copy", "Dockerfile", INPUT_FILE, true)
     );
 #endif
+#ifdef APP_DOCKER_WRAPPER_MOUNT
+    av->app_files.push_back(
+        *make_file(app->project, "docker_wrapper.exe", NULL, MAIN_PROG, false)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "worker", NULL, INPUT_FILE, false)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "job_copy.toml", "job.toml", INPUT_FILE, true)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "Dockerfile_copy", "Dockerfile", INPUT_FILE, true)
+    );
+#endif
 
     // can put other stuff here like
 #if 0
@@ -243,11 +257,17 @@ void CLIENT_STATE::app_test_init() {
     );
 #endif
 #ifdef APP_DOCKER_WRAPPER_COPY
+    wu->command_line = "--verbose";
     wu->input_files.push_back(
         *make_file(proj, "infile", "in", INPUT_FILE, true)
     );
 #endif
-
+#ifdef APP_DOCKER_WRAPPER_MOUNT
+    wu->command_line = "--verbose";
+    wu->input_files.push_back(
+        *make_file(proj, "infile", "in", INPUT_FILE, false)
+    );
+#endif
     RESULT *result = make_result(av, wu);
 
 ////////////// OUTPUT FILES /////////////////
@@ -260,6 +280,11 @@ void CLIENT_STATE::app_test_init() {
 #ifdef APP_DOCKER_WRAPPER_COPY
     result->output_files.push_back(
         *make_file(proj, "outfile", "out", OUTPUT_FILE, true)
+    );
+#endif
+#ifdef APP_DOCKER_WRAPPER_MOUNT
+    result->output_files.push_back(
+        *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
     );
 #endif
 
