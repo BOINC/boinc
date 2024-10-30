@@ -50,7 +50,7 @@
 
 // define exactly one
 
-//#define APP_NONE
+#define APP_NONE
 //#define APP_WSL_WRAPPER
 //      type    physical            logical             copy?
 //      app     wsl_wrapper.exe     wsl_wrapper.exe
@@ -58,7 +58,7 @@
 //      app     main                main                yes
 //      input   infile              in
 //      output  outfile             out
-#define APP_DOCKER_WRAPPER_COPY
+//#define APP_DOCKER_WRAPPER_COPY
 //      type    physical            logical             copy?
 //      app     worker              worker              yes
 //      app     job_copy.toml       job_copy.toml       yes
