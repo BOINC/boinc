@@ -219,7 +219,24 @@ inline int run_docker_command(char* cmd, vector<string> &out) {
     retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, output, TIMEOUT, "EOM"
     );
-    if (retval) return retval;
+    if (retval) {
+        const char* msg = "";
+        switch (retval) {
+        case PROC_DIED:
+            msg = "Process died";
+            break;
+        case TIMEOUT:
+            msg = "Timeout";
+            break;
+        case READ_ERROR:
+            msg = "Read Error";
+            break;
+        default:
+            break;
+        }
+        fprintf(stderr, "read_from_pipe() error: %s\n", msg);
+        return retval;
+    }
     out = split(output, '\n');
 #else
     retval = run_command(cmd, out);
@@ -481,9 +498,8 @@ int get_stats(RSC_USAGE &ru) {
     );
     retval = run_docker_command(cmd, out);
     if (retval) return -1;
-    n = out.size();
-    if (n == 0) return -1;
-    const char *buf = out[n-1].c_str();
+    if (out.empty()) return -1;
+    const char *buf = out[0].c_str();
     // output is like
     // 0.00% 420KiB / 503.8GiB
     double cpu_pct, mem;
@@ -491,10 +507,18 @@ int get_stats(RSC_USAGE &ru) {
     n = sscanf(buf, "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
     if (n != 3) return -1;
     switch (mem_unit) {
-    case 'G': mem *= GIGA; break;
-    case 'M': mem *= MEGA; break;
-    case 'K': mem *= KILO; break;
-    case 'B': break;
+    case 'G':
+    case 'g':
+        mem *= GIGA; break;
+    case 'M':
+    case 'm':
+        mem *= MEGA; break;
+    case 'K':
+    case 'k':
+        mem *= KILO; break;
+    case 'B':
+    case 'b':
+        break;
     default: return -1;
     }
     ru.cpu_frac = cpu_pct/100.;
@@ -648,6 +672,9 @@ int main(int argc, char** argv) {
             retval = get_stats(ru);
             if (!retval) {
                 cpu_time += STATUS_PERIOD*ru.cpu_frac;
+                if (verbose) {
+                    fprintf(stderr, "reporting CPU %f WSS %f\n", cpu_time, ru.wss);
+                }
                 boinc_report_app_status_aux(
                     cpu_time,
                     0,      // checkpoint CPU time
