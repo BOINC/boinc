@@ -30,7 +30,7 @@
 //      this is the first run of the job
 //      if the image doesn't already exist
 //          build image with 'docker build'
-//      (need a log around the above?)
+//      (need a lock around the above?)
 //      create the container with -v to mount slot, project dirs
 //      copy input files as needed
 // start container
@@ -42,7 +42,7 @@
 // image name
 //      name: lower case letters, digits, separators (. _ -); max 4096 chars
 //      tag: max 128 chars
-//      in the universal model, each WU has a different image
+//      in the universal model, each WU must have a different image
 //      so we'll use: boinc__<proj>__<wuname>
 //
 // container name:
@@ -304,7 +304,7 @@ int container_exists(bool &exists) {
     int retval;
     vector<string> out;
 
-    sprintf(cmd, "%s ps --filter \"name=%s\"",
+    sprintf(cmd, "%s ps --all --filter \"name=%s\"",
         cli_prog, container_name
     );
     retval = run_docker_command(cmd, out);
