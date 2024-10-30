@@ -165,7 +165,7 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 // get CPU time of BOINC-related processes, low-priority processes,
 // and (if we're using Vbox) the Vbox daemon.
 //
-double boinc_related_cpu_time(PROC_MAP& pm, bool using_vbox) {
+double boinc_related_cpu_time(PROC_MAP& pm, bool vbox_app_running) {
     double sum = 0;
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); ++i) {
@@ -176,7 +176,10 @@ double boinc_related_cpu_time(PROC_MAP& pm, bool using_vbox) {
         if (
             p.is_boinc_app
             || p.is_low_priority
-            || (using_vbox && strstr(p.command, "VBoxSVC"))
+            || (vbox_app_running && strstr(p.command, "VBox"))
+                // if a VBox app is running,
+                // count VBox processes as BOINC-related
+                // e.g. VBoxHeadless.exe and VBoxSVC.exe on Win
         ) {
             sum += p.user_time;
         }

@@ -87,7 +87,7 @@ extern double process_tree_cpu_time(int pid);
 extern double total_cpu_time();
     // total user-mode CPU time, as reported by OS
 
-extern double boinc_related_cpu_time(PROC_MAP&, bool using_vbox);
+extern double boinc_related_cpu_time(PROC_MAP&, bool vbox_app_running);
     // total CPU of current BOINC processes, low-priority processes,
-    // and (if using vbox) the Vbox daemon
+    // and (if a VBox app is running) VBox-related processes
 #endif
