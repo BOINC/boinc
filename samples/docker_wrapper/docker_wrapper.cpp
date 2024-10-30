@@ -54,7 +54,7 @@
 // image name: boinc
 // container name: boinc
 // slot dir: .
-// project dir: project/
+// project dir (mount mode): project/
 
 // enable standalone tests on Win
 //
@@ -129,7 +129,7 @@ char container_name[512];
 APP_INIT_DATA aid;
 CONFIG config;
 bool running;
-bool verbose = true;
+bool verbose = false;
 const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
 const char* cli_prog;
@@ -250,8 +250,9 @@ int image_exists(bool &exists) {
     sprintf(cmd, "%s images", cli_prog);
     int retval = run_docker_command(cmd, out);
     if (retval) return retval;
+    string image_name_space = image_name + string(" ");
     for (string line: out) {
-        if (line.find(image_name) != string::npos) {
+        if (line.find(image_name_space) != string::npos) {
             exists = true;
             return 0;
         }
@@ -472,7 +473,7 @@ int get_stats(RSC_USAGE &ru) {
     char cmd[1024];
     vector<string> out;
     int retval;
-    unsigned int n;
+    size_t n;
 
     sprintf(cmd,
         "%s stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
@@ -568,6 +569,7 @@ int main(int argc, char** argv) {
     boinc_init_options(&options);
 
     if (boinc_is_standalone()) {
+        verbose = true;
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         strcpy(aid.project_dir, "./project");
