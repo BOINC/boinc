@@ -176,7 +176,7 @@ double boinc_related_cpu_time(PROC_MAP& pm, bool vbox_app_running) {
         if (
             p.is_boinc_app
             || p.is_low_priority
-            || (vbox_app_running && strcasestr(p.command, "vbox"))
+            || (vbox_app_running && strstr(p.command, "VBox"))
                 // if a VBox app is running,
                 // count VBox processes as BOINC-related
                 // e.g. VBoxHeadless.exe and VBoxSVC.exe on Win
