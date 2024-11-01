@@ -258,23 +258,23 @@ PIPE_READ_RET read_from_pipe(
         PeekNamedPipe(pipe, NULL, 0, NULL, &avail, NULL);
         if (avail) {
             ret = ReadFile(pipe, buf, sizeof(buf) - 1, &nread, NULL);
-            if (!ret) return READ_ERROR;
+            if (!ret) return ERR_READ;
             buf[nread] = 0;
             out += buf;
             if (eom) {
                 if (out.find(eom) != std::string::npos) {
-                    return GOT_EOM;
+                    return 0;
                 }
             }
         } else {
             if (exited) {
-                return PROC_DIED;
+                return ERR_CONNECT;
             }
             Sleep(200);
             if (timeout) {
                 elapsed += .2;
                 if (elapsed > timeout) {
-                    return TIMEOUT;
+                    return ERR_TIMEOUT;
                 }
             }
             if (proc_handle) {

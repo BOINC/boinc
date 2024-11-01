@@ -132,11 +132,7 @@ bool running;
 bool verbose = false;
 const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
-const char* cli_prog;
-
-#ifdef _WIN32
-WSL_CMD ctl_wc;
-#endif
+DOCKER_CONN docker_conn;
 
 // parse a list of file copy specs
 //
@@ -203,69 +199,18 @@ int error_output(vector<string> &out) {
     return 0;
 }
 
-inline int run_docker_command(char* cmd, vector<string> &out) {
-    int retval;
-    if (verbose) {
-        fprintf(stderr, "running docker command: %s\n", cmd);
-    }
-#ifdef _WIN32
-    // Win: run the command in the WSL container
-
-    char buf[1024];
-    string output;
-
-    sprintf(buf, "%s; echo EOM\n", cmd);
-    write_to_pipe(ctl_wc.in_write, buf);
-    retval = read_from_pipe(
-        ctl_wc.out_read, ctl_wc.proc_handle, output, TIMEOUT, "EOM"
-    );
-    if (retval) {
-        const char* msg = "";
-        switch (retval) {
-        case PROC_DIED:
-            msg = "Process died";
-            break;
-        case TIMEOUT:
-            msg = "Timeout";
-            break;
-        case READ_ERROR:
-            msg = "Read Error";
-            break;
-        default:
-            break;
-        }
-        fprintf(stderr, "read_from_pipe() error: %s\n", msg);
-        return retval;
-    }
-    out = split(output, '\n');
-#else
-    retval = run_command(cmd, out);
-    if (retval) return retval;
-#endif
-    if (verbose) {
-        fprintf(stderr, "output:\n");
-        for (string line: out) {
-            fprintf(stderr, "%s\n", line.c_str());
-        }
-    }
-    return 0;
-}
-
 //////////  IMAGE  ////////////
 
 void get_image_name() {
     char *p = strrchr(aid.project_dir, '/');
-    sprintf(image_name, "boinc__%s__%s",
-        p+1, aid.wu_name
-    );
+    string s = docker_image_name(p+1, aid.wu_name);
+    strcpy(image_name, s.c_str());
 }
 
 int image_exists(bool &exists) {
-    char cmd[256];
     vector<string> out;
 
-    sprintf(cmd, "%s images", cli_prog);
-    int retval = run_docker_command(cmd, out);
+    int retval = docker_conn.command("images", out);
     if (retval) return retval;
     string image_name_space = image_name + string(" ");
     for (string line: out) {
@@ -281,8 +226,8 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    sprintf(cmd, "%s build . -t %s -f %s", cli_prog, image_name, dockerfile);
-    int retval = run_docker_command(cmd, out);
+    sprintf(cmd, "build . -t %s -f %s", image_name, dockerfile);
+    int retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     return 0;
 }
@@ -313,7 +258,8 @@ int get_image() {
 
 void get_container_name() {
     char *p = strrchr(aid.project_dir, '/');
-    sprintf(container_name, "boinc__%s__%s", p+1, aid.result_name);
+    string s = docker_container_name(p+1, aid.result_name);
+    strcpy(container_name, s.c_str());
 }
 
 int container_exists(bool &exists) {
@@ -321,10 +267,8 @@ int container_exists(bool &exists) {
     int retval;
     vector<string> out;
 
-    sprintf(cmd, "%s ps --all --filter \"name=%s\"",
-        cli_prog, container_name
-    );
-    retval = run_docker_command(cmd, out);
+    sprintf(cmd, "ps --all --filter \"name=%s\"", container_name);
+    retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
@@ -359,24 +303,22 @@ int create_container() {
             aid.project_dir, config.project_dir_mount.c_str()
         );
     }
-    sprintf(cmd, "%s create --name %s %s %s %s",
-        cli_prog,
+    sprintf(cmd, "create --name %s %s %s %s",
         container_name,
         slot_cmd, project_cmd,
         image_name
     );
-    retval = run_docker_command(cmd, out);
+    retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     if (error_output(out)) return -1;
 
     // copy files into container
     //
     for (FILE_COPY &c: config.copy_to_container) {
-        sprintf(cmd, "%s cp %s %s:%s",
-            cli_prog,
+        sprintf(cmd, "cp %s %s:%s",
             c.src.c_str(), container_name, c.dst.c_str()
         );
-        retval = run_docker_command(cmd, out);
+        retval = docker_conn.command(cmd, out);
         if (retval) return retval;
         if (error_output(out)) return -1;
     }
@@ -389,11 +331,10 @@ int copy_files_from_container() {
     vector<string> out;
 
     for (FILE_COPY &c: config.copy_from_container) {
-        sprintf(cmd, "%s cp %s:%s %s",
-            cli_prog,
+        sprintf(cmd, "cp %s:%s %s",
             container_name, c.src.c_str(), c.dst.c_str()
         );
-        retval = run_docker_command(cmd, out);
+        retval = docker_conn.command(cmd, out);
         if (retval) return retval;
     }
     return 0;
@@ -404,8 +345,8 @@ int copy_files_from_container() {
 int container_op(const char *op) {
     char cmd[1024];
     vector<string> out;
-    sprintf(cmd, "%s %s %s", cli_prog, op, container_name);
-    int retval = run_docker_command(cmd, out);
+    sprintf(cmd, "%s %s", op, container_name);
+    int retval = docker_conn.command(cmd, out);
     return retval;
 }
 
@@ -418,8 +359,8 @@ void cleanup() {
     vector<string> out;
 
     if (verbose) {
-        sprintf(cmd, "%s logs %s", cli_prog, container_name);
-        run_docker_command(cmd, out);
+        sprintf(cmd, "logs %s", container_name);
+        docker_conn.command(cmd, out);
         fprintf(stderr, "container log:\n");
         for (string line : out) {
             fprintf(stderr, "   %s\n", line.c_str());
@@ -428,11 +369,11 @@ void cleanup() {
 
     container_op("stop");
 
-    sprintf(cmd, "%s container rm %s", cli_prog, container_name);
-    run_docker_command(cmd, out);
+    sprintf(cmd, "container rm %s", container_name);
+    docker_conn.command(cmd, out);
 
-    sprintf(cmd, "%s image rm %s", cli_prog, image_name);
-    run_docker_command(cmd, out);
+    sprintf(cmd, "image rm %s", image_name);
+    docker_conn.command(cmd, out);
 }
 
 void poll_client_msgs() {
@@ -465,13 +406,14 @@ void poll_client_msgs() {
 // check whether job has exited
 // Note: on both Podman and Docker this takes significant CPU time
 // (like .03 sec) so do it infrequently (like 5 sec)
+//
 JOB_STATUS poll_app() {
     char cmd[1024];
     vector<string> out;
     int retval;
 
-    sprintf(cmd, "%s ps --all -f \"name=%s\"", cli_prog, container_name);
-    retval = run_docker_command(cmd, out);
+    sprintf(cmd, "ps --all -f \"name=%s\"", container_name);
+    retval = docker_conn.command(cmd, out);
     if (retval) return JOB_FAIL;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
@@ -493,10 +435,10 @@ int get_stats(RSC_USAGE &ru) {
     size_t n;
 
     sprintf(cmd,
-        "%s stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
-        cli_prog, container_name
+        "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
+        container_name
     );
-    retval = run_docker_command(cmd, out);
+    retval = docker_conn.command(cmd, out);
     if (retval) return -1;
     if (out.empty()) return -1;
     const char *buf = out[0].c_str();
@@ -541,19 +483,7 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
-    cli_prog = docker_cli_prog(docker_type);
-    if (docker_type == DOCKER) {
-        int retval = ctl_wc.setup();
-        if (retval) return retval;
-        retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
-        if (retval) return retval;
-    } else if (docker_type == PODMAN) {
-        int retval = ctl_wc.setup_root(distro_name.c_str());
-        if (retval) return retval;
-    } else {
-        return -1;
-    }
-    return 0;
+    return docker_conn.init (docker_type, distro_name);
 }
 #endif
 
@@ -624,11 +554,9 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
 #else
-    if (boinc_is_standalone()) {
-        cli_prog = "docker";
-    } else {
-        cli_prog = docker_cli_prog(aid.host_info.docker_type);
-    }
+    docker_conn.init(
+        boinc_is_standalone()?DOCKER:aid.host_info.docker_type
+    );
 #endif
 
     retval = container_exists(exists);

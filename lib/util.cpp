@@ -63,6 +63,7 @@ extern "C" {
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
+#include "hostinfo.h"
 #include "util.h"
 
 using std::min;
@@ -697,4 +698,107 @@ string parse_ldd_libc(const char* input) {
     string s = (string)p;
     strip_whitespace(s);
     return s;
+}
+
+#ifdef _WIN32
+int DOCKER_CONN::init(DOCKER_TYPE docker_type, string distro_name) {
+    cli_prog = docker_cli_prog(docker_type);
+    if (docker_type == DOCKER) {
+        int retval = ctl_wc.setup();
+        if (retval) return retval;
+        retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
+        if (retval) return retval;
+    } else if (docker_type == PODMAN) {
+        int retval = ctl_wc.setup_root(distro_name.c_str());
+        if (retval) return retval;
+    } else {
+        return -1;
+    }
+    return 0;
+}
+#else
+int DOCKER_CONN::init(DOCKER_TYPE docker_type) {
+    cli_prog = docker_cli_prog(docker_type);
+    return 0;
+}
+#endif
+
+int DOCKER_CONN::command(const char* cmd, vector<string> out, bool verbose) {
+    char buf[1024];
+    if (verbose) {
+        fprintf(stderr, "running docker command: %s\n", cmd);
+    }
+#ifdef _WIN32
+    string output;
+
+    sprintf(buf, "%s %s; echo EOM\n", cli_prog, cmd);
+    write_to_pipe(ctl_wc.in_write, buf);
+    retval = read_from_pipe(
+        ctl_wc.out_read, ctl_wc.proc_handle, output, TIMEOUT, "EOM"
+    );
+    if (retval) {
+        fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
+        return retval;
+    }
+    out = split(output, '\n');
+#else
+    sprintf(buf, "%s %s\n", cli_prog, cmd);
+    return run_command(buf, out);
+#endif
+    if (verbose) {
+        fprintf(stderr, "output:\n");
+        for (string line: out) {
+            fprintf(stderr, "%s\n", line.c_str());
+        }
+    }
+}
+
+
+// REPOSITORY                          TAG         IMAGE ID      CREATED       SIZE
+// localhost/boinc__app_test__test_wu  latest      cbc1498dfc49  43 hours ago  121 MB
+
+int DOCKER_CONN::parse_image_name(string line, string &name) {
+    char buf[1024];
+    strcpy(buf, line.c_str());
+    if (strstr(buf, "REPOSITORY")) return -1;
+    if (strstr(buf, "localhost/") != buf) return -1;
+    char *p = buf + strlen("localhost/");
+    char *q = strstr(p, " ");
+    if (!q) return -1;
+    *q = 0;
+    name = (string)p;
+    return 0;
+}
+
+// CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS                   PORTS       NAMES
+// 6d4877e0d071  localhost/boinc__app_test__test_wu:latest  /bin/sh -c ./work...  43 hours ago   Exited (0) 21 hours ago              boinc__app_test__test_result
+
+int DOCKER_CONN::parse_container_name(string line, string &name) {
+    char buf[1024];
+    strcpy(buf, line.c_str());
+    if (strstr(buf, "CONTAINER")) return -1;
+    char *p = strrchr(buf, ' ');
+    if (!p) return -1;
+    name = (string)(p+1);
+    return 0;
+}
+
+string docker_image_name(
+    const char* proj_url_esc, const char* wu_name
+) {
+    char buf[1024];
+    sprintf(buf, "boinc__%s__%s", proj_url_esc, wu_name);
+    return string(buf);
+}
+
+string docker_container_name(
+    const char* proj_url_esc, const char* result_name
+){
+    char buf[1024];
+    sprintf(buf, "boinc__%s__%s", proj_url_esc, result_name);
+    return string(buf);
+}
+
+bool docker_is_boinc_name(const char* name) {
+    return strstr(name, "boinc__") == name;
 }

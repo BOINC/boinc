@@ -68,8 +68,6 @@ struct WSL_CMD {
     );
 };
 
-enum PIPE_READ_RET {GOT_EOM, PROC_DIED, TIMEOUT, READ_ERROR};
-
 // read from the pipe until either
 // - we get the eom string (if any)
 //      If you want to read at least 1 line, use "\n"
@@ -77,7 +75,7 @@ enum PIPE_READ_RET {GOT_EOM, PROC_DIED, TIMEOUT, READ_ERROR};
 // - there's no more data and the given timeout (if any) is reached
 // - a read fails
 //
-extern PIPE_READ_RET read_from_pipe(
+extern int read_from_pipe(
     HANDLE pipe,
     HANDLE proc_handle,
     std::string& out,

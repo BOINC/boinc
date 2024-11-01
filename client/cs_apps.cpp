@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // The "policy" part of task execution is here.
-// The "mechanism" part is in app.C
+// The "mechanism" part is in app.cpp
 //
 
 #include "cpp.h"
@@ -29,11 +29,14 @@
 #include <csignal>
 #endif
 
+#include <algorithm>
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
 #include "shmem.h"
 #include "util.h"
+#include "url.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -381,4 +384,110 @@ void CLIENT_STATE::check_overdue() {
     if (now < t) return;
     active_tasks.report_overdue();
     t = now + 86400;
+}
+
+////////////// DOCKER CLEANUP ///////////////////
+
+// lists of image and container names for active jobs
+//
+struct DOCKER_JOB_INFO {
+    vector<string> images;
+    vector<string> containers;
+    bool image_present(string name) {
+        return std::find(images.begin(), images.end(), name) != images.end();
+    }
+    bool container_present(string name) {
+        return std::find(containers.begin(), containers.end(), name) != containers.end();
+    }
+};
+
+// clean up a Docker installation
+// (Unix: the host; Win: a WSL distro)
+//
+void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
+    int retval;
+    vector<string> out, out2;
+    char cmd[1024];
+    string name;
+
+    // first containers
+    //
+    retval = dc.command("ps --all", out);
+    if (retval) {
+        fprintf(stderr, "Docker command failed: ps --all\n");
+    } else {
+        for (string line: out) {
+            retval = dc.parse_container_name(line, name);
+            if (retval) continue;
+            if (!docker_is_boinc_name(name.c_str())) continue;
+            if (info.container_present(name)) continue;
+            sprintf(cmd, "rm %s", name.c_str());
+            retval = dc.command(cmd, out);
+            if (retval) {
+                fprintf(stderr, "Docker command failed: %s\n", cmd);
+                continue;
+            }
+            msg_printf(NULL, MSG_INFO,
+                "Removed unused Docker container: %s", name.c_str()
+            );
+        }
+    }
+
+    // then images
+    //
+    retval = dc.command("images", out);
+    if (retval) {
+        fprintf(stderr, "Docker command failed: images\n");
+    } else {
+        for (string line: out) {
+            retval = dc.parse_image_name(line, name);
+            if (retval) continue;
+            if (!docker_is_boinc_name(name.c_str())) continue;
+            if (info.image_present(name)) continue;
+            sprintf(cmd, "image rm %s", name.c_str());
+            retval = dc.command(cmd, out2);
+            if (retval) {
+                fprintf(stderr, "Docker command failed: %s\n", cmd);
+                continue;
+            }
+            msg_printf(NULL, MSG_INFO,
+                "Removed unused Docker image: %s", name.c_str()
+            );
+        }
+    }
+}
+
+// remove old BOINC images and containers from Docker installations
+//
+void CLIENT_STATE::docker_cleanup() {
+    // make lists of the images and containers used by active jobs
+    //
+    DOCKER_JOB_INFO info;
+    for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+        if (!strstr(atp->app_version->plan_class, "docker")) continue;
+        char buf[256];
+        escape_project_url(atp->wup->project->master_url, buf);
+        string s = docker_image_name(buf, atp->wup->name);
+        info.images.push_back(s);
+        s = docker_container_name(buf, atp->result->name);
+        info.containers.push_back(s);
+    }
+
+    // go through local Docker installations and remove
+    // BOINC images and containers not in the above lists
+    //
+#ifdef _WIN32
+    for (WSL_DISTR &wd: hostinfo.wsl_distros.distros) {
+        if (wd.docker_version.empty()) continue;
+        DOCKER_CONN dc;
+        dc.init(wd.docker_type, wd.distro_name);
+        cleanup_docker(info, dc);
+    }
+#else
+    if (strlen(host_info.docker_version)) {
+        DOCKER_CONN dc;
+        dc.init(host_info.docker_type);
+        cleanup_docker(info, dc);
+    }
+#endif
 }

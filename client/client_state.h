@@ -378,6 +378,7 @@ struct CLIENT_STATE {
     int app_finished(ACTIVE_TASK&);
     bool handle_finished_apps();
     void check_overdue();
+    void docker_cleanup();
 
     ACTIVE_TASK* get_task(RESULT*);
 
