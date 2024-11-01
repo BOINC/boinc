@@ -725,6 +725,7 @@ int DOCKER_CONN::init(DOCKER_TYPE docker_type) {
 
 int DOCKER_CONN::command(const char* cmd, vector<string> out, bool verbose) {
     char buf[1024];
+    int retval;
     if (verbose) {
         fprintf(stderr, "running docker command: %s\n", cmd);
     }
@@ -743,7 +744,8 @@ int DOCKER_CONN::command(const char* cmd, vector<string> out, bool verbose) {
     out = split(output, '\n');
 #else
     sprintf(buf, "%s %s\n", cli_prog, cmd);
-    return run_command(buf, out);
+    retval = run_command(buf, out);
+    if (retval) return retval;
 #endif
     if (verbose) {
         fprintf(stderr, "output:\n");
@@ -751,6 +753,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> out, bool verbose) {
             fprintf(stderr, "%s\n", line.c_str());
         }
     }
+    return 0;
 }
 
 

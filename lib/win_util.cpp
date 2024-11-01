@@ -244,7 +244,7 @@ int WSL_CMD::run_program_in_wsl(
     return (ret == S_OK)?0:-1;
 }
 
-PIPE_READ_RET read_from_pipe(
+int read_from_pipe(
     HANDLE pipe, HANDLE proc_handle, string& out, double timeout,
     const char* eom
 ) {

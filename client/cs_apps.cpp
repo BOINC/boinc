@@ -477,7 +477,7 @@ void CLIENT_STATE::docker_cleanup() {
     // BOINC images and containers not in the above lists
     //
 #ifdef _WIN32
-    for (WSL_DISTR &wd: hostinfo.wsl_distros.distros) {
+    for (WSL_DISTRO &wd: host_info.wsl_distros.distros) {
         if (wd.docker_version.empty()) continue;
         DOCKER_CONN dc;
         dc.init(wd.docker_type, wd.distro_name);

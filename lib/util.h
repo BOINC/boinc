@@ -25,6 +25,7 @@
 #include <vector>
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #endif
 #include "common_defs.h"
 
@@ -159,6 +160,7 @@ struct DOCKER_CONN {
     int command(
         const char* cmd, std::vector<std::string> out, bool verbose=false
     );
+    static const int TIMEOUT = 10;    // timeout for docker commands
 
     // parse a line from "docker images" output; return name
     int parse_image_name(std::string line, std::string &name);
