@@ -486,7 +486,7 @@ void CLIENT_STATE::docker_cleanup() {
 #else
     if (strlen(host_info.docker_version)) {
         DOCKER_CONN dc;
-        dc.init(host_info.docker_type);
+        dc.init(host_info.docker_type, false);
         cleanup_docker(info, dc);
     }
 #endif
