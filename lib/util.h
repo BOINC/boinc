@@ -154,9 +154,9 @@ struct DOCKER_CONN {
     bool verbose;
 #ifdef _WIN32
     WSL_CMD ctl_wc;
-    int init(DOCKER_TYPE type, std::string distro_name, bool verbose);
+    int init(DOCKER_TYPE type, std::string distro_name, bool verbose=false);
 #else
-    int init(DOCKER_TYPE, bool verbose);
+    int init(DOCKER_TYPE, bool verbose=false);
 #endif
     int command(const char* cmd, std::vector<std::string> &out);
 
