@@ -483,7 +483,7 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
-    return docker_conn.init (docker_type, distro_name);
+    return docker_conn.init(docker_type, distro_name, verbose);
 }
 #endif
 
@@ -555,7 +555,7 @@ int main(int argc, char** argv) {
     }
 #else
     docker_conn.init(
-        boinc_is_standalone()?DOCKER:aid.host_info.docker_type
+        boinc_is_standalone()?DOCKER:aid.host_info.docker_type, verbose
     );
 #endif
 

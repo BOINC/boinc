@@ -151,15 +151,15 @@ extern double simtime;
 struct DOCKER_CONN {
     DOCKER_TYPE type;
     const char* cli_prog;
+    bool verbose;
 #ifdef _WIN32
     WSL_CMD ctl_wc;
-    int init(DOCKER_TYPE type, std::string distro_name);
+    int init(DOCKER_TYPE type, std::string distro_name, bool verbose);
 #else
-    int init(DOCKER_TYPE);
+    int init(DOCKER_TYPE, bool verbose);
 #endif
-    int command(
-        const char* cmd, std::vector<std::string> out, bool verbose=false
-    );
+    int command(const char* cmd, std::vector<std::string> &out);
+
     static const int TIMEOUT = 10;    // timeout for docker commands
 
     // parse a line from "docker images" output; return name

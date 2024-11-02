@@ -701,7 +701,7 @@ string parse_ldd_libc(const char* input) {
 }
 
 #ifdef _WIN32
-int DOCKER_CONN::init(DOCKER_TYPE docker_type, string distro_name) {
+int DOCKER_CONN::init(DOCKER_TYPE docker_type, string distro_name, bool _verbose) {
     cli_prog = docker_cli_prog(docker_type);
     if (docker_type == DOCKER) {
         int retval = ctl_wc.setup();
@@ -714,16 +714,18 @@ int DOCKER_CONN::init(DOCKER_TYPE docker_type, string distro_name) {
     } else {
         return -1;
     }
+    verbose = _verbose;
     return 0;
 }
 #else
-int DOCKER_CONN::init(DOCKER_TYPE docker_type) {
+int DOCKER_CONN::init(DOCKER_TYPE docker_type, bool _verbose) {
     cli_prog = docker_cli_prog(docker_type);
+    verbose = _verbose;
     return 0;
 }
 #endif
 
-int DOCKER_CONN::command(const char* cmd, vector<string> out, bool verbose) {
+int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     char buf[1024];
     int retval;
     if (verbose) {
@@ -745,17 +747,21 @@ int DOCKER_CONN::command(const char* cmd, vector<string> out, bool verbose) {
 #else
     sprintf(buf, "%s %s\n", cli_prog, cmd);
     retval = run_command(buf, out);
-    if (retval) return retval;
+    if (retval) {
+        if (verbose) {
+            fprintf(stderr, "command failed: %s\n", boincerror(retval));
+        }
+        return retval;
+    }
 #endif
     if (verbose) {
-        fprintf(stderr, "output:\n");
+        fprintf(stderr, "command output:\n");
         for (string line: out) {
             fprintf(stderr, "%s\n", line.c_str());
         }
     }
     return 0;
 }
-
 
 // REPOSITORY                          TAG         IMAGE ID      CREATED       SIZE
 // localhost/boinc__app_test__test_wu  latest      cbc1498dfc49  43 hours ago  121 MB
