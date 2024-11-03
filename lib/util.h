@@ -25,7 +25,10 @@
 #include <vector>
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #endif
+#include "common_defs.h"
+
 extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);
@@ -141,5 +144,40 @@ extern std::string parse_ldd_libc(const char* input);
 extern double simtime;
 #define time(x) ((int)simtime)
 #endif
+
+// represents a connection to a Docker/Podman installation
+// used from docker_wrapper and the client
+//
+struct DOCKER_CONN {
+    DOCKER_TYPE type;
+    const char* cli_prog;
+    bool verbose;
+#ifdef _WIN32
+    WSL_CMD ctl_wc;
+    int init(DOCKER_TYPE type, std::string distro_name, bool verbose=false);
+#else
+    int init(DOCKER_TYPE, bool verbose=false);
+#endif
+    int command(const char* cmd, std::vector<std::string> &out);
+
+    static const int TIMEOUT = 10;    // timeout for docker commands
+
+    // parse a line from "docker images" output; return name
+    int parse_image_name(std::string line, std::string &name);
+
+    // parse a line from "docker ps --all" output; return name
+    int parse_container_name(std::string line, std::string &name);
+};
+
+extern std::string docker_image_name(
+    const char* proj_url_esc,       // escaped project URL
+    const char* wu_name
+);
+extern std::string docker_container_name(
+    const char* proj_url_esc,       // escaped project URL
+    const char* result_name
+);
+// is the name (of a Docker image or container) a BOINC name?
+extern bool docker_is_boinc_name(const char* name);
 
 #endif

@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// client initialization and main loop
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -728,6 +730,8 @@ int CLIENT_STATE::init() {
     }
 
     process_gpu_exclusions();
+
+    docker_cleanup();
 
     check_clock_reset();
 

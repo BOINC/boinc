@@ -18,7 +18,7 @@
 #ifndef BOINC_HOSTINFO_H
 #define BOINC_HOSTINFO_H
 
-// Description of a host's hardware and software.
+// struct HOST_INFO describes a host's hardware and software.
 // This is used a few places:
 // - it's part of the client's state file, client_state.xml
 // - it's passed in the reply to the get_host_info GUI RPC
