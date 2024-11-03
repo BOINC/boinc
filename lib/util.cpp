@@ -646,7 +646,7 @@ bool process_exists(HANDLE h) {
     return false;
 }
 
-#else
+#else   // _WIN32
 
 // Unix: pthreads doesn't provide an API for getting per-thread CPU time,
 // so just get the process's CPU time
@@ -686,7 +686,9 @@ bool process_exists(int pid) {
     return true;
 }
 
-#endif
+#endif  // _WIN32
+
+#ifndef _USING_FCGI_
 
 string parse_ldd_libc(const char* input) {
     char *q = (char*)strchr(input, '\n');
@@ -811,3 +813,4 @@ string docker_container_name(
 bool docker_is_boinc_name(const char* name) {
     return strstr(name, "boinc__") == name;
 }
+#endif  // _USING_FCGI
