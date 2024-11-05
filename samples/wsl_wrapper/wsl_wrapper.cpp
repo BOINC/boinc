@@ -16,26 +16,43 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // wsl_wrapper: wrapper for WSL apps on Windows.
+//
+// cmdline options:
+//
+// --main_prog X        name of main program (default "main")
+// --pass_thru args     additional cmdline arg for main program
+// --os_name_regex      use only distros w/ matching OS name
+// --os_version_regex
+// --min_libc_version MMmm      e.g. 235 means 2.35
+// --verbose            write debugging info to stderr
+
+// The wrapper runs the main program in the WSL container,
+// gets its processor group ID, then
+// - checks for suspend/resume/abort from client,
+//   and handles these by sending signals to the process group
+// - checks for the status and CPU usage of the app
+//   and relays this to the client.
+
 // implementation:
-// We use two WSL_CMDs:
-// one to run the app, and get its process group ID,
-//      and to capture its stdout and stderr
+// We use two WSL_CMDs (connections into the WSL container):
+// one to run the app, get its process group ID,
+//      and capture its stdout and stderr
 // another to run a shell for monitoring and control operations (ps, kill)
-//      (this has less overhead than a shell per op)
+//      (this has less overhead than creating a shell per op)
 //
 // Typically, the app has a control script as well as an executable.
 //      This might be written in bash or perl,
 //      since these languages are in all distros
 // The control script might:
 //      resolve link files and create symbolic links
-//      if the workflow has multiple steps, keep track of where we are
+//      if the workflow has multiple steps, keep track of where it is
 //      run the executable(s)
 // Also:
 //      If the executable finishes, write a finish file 'boinc_done'
 //      If the executable fails, write a file 'boinc_fail'
 //      If the script exits without doing either, the job fails
 //
-// checkpointing: the wrapper signals that a checkpoint has been written
+// checkpointing: the app signals that a checkpoint has been written
 // by touching a file 'boinc_checkpoint_done'
 
 #include <cstdio>
@@ -49,8 +66,6 @@
 
 using std::string;
 
-#define VERBOSE 0
-
 WSL_CMD app_wc;
 WSL_CMD ctl_wc;
 int seqno = 0;
@@ -58,6 +73,7 @@ int pgid;       // process group ID of job
 bool running;
 double checkpoint_cpu_time = 0;
 APP_INIT_DATA aid;
+bool verbose = false;
 
 #define CMD_TIMEOUT 10.0
 #define POLL_PERIOD 1.0
@@ -93,10 +109,10 @@ int launch(const char* distro, const char* cmd) {
     retval = read_from_pipe(app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, "\n");
     if (retval) return error("app read_from_pipe", retval);
     pgid = atoi(reply.c_str());
-#if VERBOSE
-    fprintf(stderr, "reply: [%s]\n", reply.c_str());
-    fprintf(stderr, "pgid: %d\n", pgid);
-#endif
+    if (verbose) {
+        fprintf(stderr, "launch reply: [%s]\n", reply.c_str());
+        fprintf(stderr, "pgid: %d\n", pgid);
+    }
     running = true;
 
     // set up control channel
@@ -128,9 +144,9 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
         error("poll read", retval);
         return JOB_FAIL;
     }
-#if VERBOSE
-    fprintf(stderr, "ps reply: [%s]\n", reply.c_str());
-#endif
+    if (verbose) {
+        fprintf(stderr, "ps reply: [%s]\n", reply.c_str());
+    }
     ru.clear();
     int nlines = 0;
     // the first line produced by the ps command is the rather unhelpful
@@ -168,26 +184,26 @@ int suspend() {
     char cmd[256];
     sprintf(cmd, "kill -STOP %d\n", -pgid);     // negative means whole process group
     running = false;
-#if VERBOSE
-    fprintf(stderr, "sending %s\n", cmd);
-#endif
+    if (verbose) {
+        fprintf(stderr, "suspend: sending %s\n", cmd);
+    }
     return write_to_pipe(ctl_wc.in_write, cmd);
 }
 int resume() {
     char cmd[256];
     sprintf(cmd, "kill -CONT %d\n", -pgid);
     running = true;
-#if VERBOSE
-    fprintf(stderr, "sending %s\n", cmd);
-#endif
+    if (verbose) {
+        fprintf(stderr, "resume: sending %s\n", cmd);
+    }
     return write_to_pipe(ctl_wc.in_write, cmd);
 }
 int abort_job() {
     char cmd[256];
     sprintf(cmd, "kill -KILL %d\n", -pgid);
-#if VERBOSE
-    fprintf(stderr, "sending %s\n", cmd);
-#endif
+    if (verbose) {
+        fprintf(stderr, "abort: sending %s\n", cmd);
+    }
     return write_to_pipe(ctl_wc.in_write, cmd);
 }
 
@@ -200,20 +216,15 @@ void poll_client_msgs() {
         exit(0);
     }
     if (status.suspended) {
-#if VERBOSE
-        fprintf(stderr, "suspended\n");
-#endif
         if (running) suspend();
     } else {
-#if VERBOSE
-        fprintf(stderr, "not suspended\n");
-#endif
         if (!running) resume();
     }
 }
 
 int main(int argc, char** argv) {
-    const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru="";
+    const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru=NULL;
+    const char *main_prog = "main";
     int min_libc_version = 0;
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--os_name_regexp")) {
@@ -224,6 +235,10 @@ int main(int argc, char** argv) {
             pass_thru = argv[++i];
         } else if (!strcmp(argv[i], "--min_libc_version")) {
             min_libc_version = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "--verbose")) {
+            verbose = true;
+        } else if (!strcmp(argv[i], "--main_prog")) {
+            main_prog = argv[++i];
         } else {
             fprintf(stderr, "unknown option %s\n", argv[i]);
             exit(1);
@@ -253,8 +268,12 @@ int main(int argc, char** argv) {
         distro_name = distro->distro_name;
     }
 
-    string main_cmd = "./main ";
-    main_cmd += pass_thru;
+    string main_cmd = "./";
+    main_cmd += main_prog;
+    if (pass_thru){
+        main_cmd += " ";
+        main_cmd += pass_thru;
+    }
     if (launch(distro_name.c_str(), main_cmd.c_str())) {
         fprintf(stderr, "launch failed\n");
         exit(1);
@@ -274,9 +293,11 @@ int main(int argc, char** argv) {
             boinc_finish(0);
             goto done;
         }
-#if VERBOSE
-        fprintf(stderr, "job in progress; cpu: %f wss: %f\n", ru.cpu_time, ru.wss);
-#endif
+        if (verbose) {
+            fprintf(stderr, "job in progress; cpu: %f wss: %f\n",
+                ru.cpu_time, ru.wss
+            );
+        }
         boinc_report_app_status(ru.cpu_time, checkpoint_cpu_time, 0);
         boinc_sleep(POLL_PERIOD);
     }
