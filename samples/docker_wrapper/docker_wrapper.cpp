@@ -54,7 +54,7 @@
 
 // enable standalone test on Win
 //
-//#define WIN_STANDALONE_TEST
+#define WIN_STANDALONE_TEST
 
 #include <cstdio>
 #include <string>
