@@ -1,4 +1,3 @@
 FROM debian
 WORKDIR /app
-COPY main.sh /app
 CMD ./main.sh

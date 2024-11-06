@@ -1,6 +1,0 @@
-copy_to_container = [
-    {src="worker", dst="/app/worker"}
-]
-copy_from_container = [
-    {src="/app/out", dst="out"}
-]

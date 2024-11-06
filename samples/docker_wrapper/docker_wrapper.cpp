@@ -1,25 +1,21 @@
 // docker_wrapper: runs a BOINC job in a Docker container
 //
-// runs in a directory (normally slot dir) containing
+// runs in a directory (i.e. slot dir) containing
 //
 // Dockerfile
 // job.toml
 //      optional job config file
-// files added to container via Dockerfile
-// other input files
-//
-// For now all files must be <copy_file>
+// input files (link or physical)
+// executable files (link or physical)
 //
 // Win:
-//      There must be a WSL image containing the Docker engine
-//      e.g. an Ubuntu image downloaded from the Windows app store.
-//      This image can access the host (Win) filesystem.
+//      There must be a WSL image containing Docker or Podman
 //      The wrapper runs a pipe-connected shell in WSL
 //      (running in the current dir)
 //      and sends commands (e.g. docker commands) via the pipe.
 //
 // Unix:
-//      The host must have the Docker engine.
+//      The host must have Docker or Podman
 //      The wrapper runs Docker commands using popen()
 //
 // Logic:
@@ -50,16 +46,15 @@
 //      max 255 chars
 //      we'll use: boinc__<proj>__<resultname>
 
-// standalone mode:
+// standalone mode (debugging):
 // image name: boinc
 // container name: boinc
 // slot dir: .
-// project dir (mount mode): project/
+// project dir (if any indirect files): ./project/
 
-// enable standalone tests on Win
+// enable standalone test on Win
 //
-#define WIN_STANDALONE_COPY     0
-#define WIN_STANDALONE_MOUNT    0
+//#define WIN_STANDALONE_TEST
 
 #include <cstdio>
 #include <string>
@@ -93,33 +88,22 @@ struct RSC_USAGE {
     }
 };
 
-struct FILE_COPY {
-    string src;
-    string dst;
-};
-
 // parsed version of job.toml
 //
 struct CONFIG {
-    string slot_dir_mount;
-        // mount slot dir here
+    string workdir;
+        // WORKDIR in Dockerfile; default "/app"
+        // slot dir will be mounted here
     string project_dir_mount;
-        // mount project dir here
-    vector<FILE_COPY> copy_to_container;
-    vector<FILE_COPY> copy_from_container;
+        // mount project dir here in container
+        // default: don't mount it
     void print() {
         fprintf(stderr, "Wrapper config file:\n");
-        if (!slot_dir_mount.empty()) {
-            fprintf(stderr, "   slot dir mounted at: %s\n", slot_dir_mount.c_str());
+        if (!workdir.empty()) {
+            fprintf(stderr, "   workdir: %s\n", workdir.c_str());
         }
         if (!project_dir_mount.empty()) {
             fprintf(stderr, "   project dir mounted at: %s\n", project_dir_mount.c_str());
-        }
-        for (FILE_COPY c:copy_to_container) {
-            fprintf(stderr, "   copy to:src %s dst %s\n", c.src.c_str(), c.dst.c_str());
-        }
-        for (FILE_COPY c:copy_from_container) {
-            fprintf(stderr, "   copy from: src %s dst %s\n", c.src.c_str(), c.dst.c_str());
         }
     }
 };
@@ -134,27 +118,9 @@ const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
 DOCKER_CONN docker_conn;
 
-// parse a list of file copy specs
-//
-int parse_config_copies(const toml::Value *x, vector<FILE_COPY> &copies) {
-    const toml::Array& ar = x->as<toml::Array>();
-    for (const toml::Value& a : ar) {
-        FILE_COPY copy;
-        const toml::Value *b = a.find("src");
-        if (!b) return -1;
-        copy.src = b->as<string>();
-        const toml::Value *c = a.find("dst");
-        if (!c) return -1;
-        copy.dst = c->as<string>();
-        copies.push_back(copy);
-    }
-    return 0;
-}
-
 // parse job config file
 //
 int parse_config_file() {
-    int retval;
     std::ifstream ifs(config_file);
     if (ifs.fail()) {
         return -1;
@@ -166,25 +132,16 @@ int parse_config_file() {
     }
     const toml::Value &v = r.value;
     const toml::Value *x;
-    x = v.find("slot_dir_mount");
+    x = v.find("workdir");
     if (x) {
-        config.slot_dir_mount = x->as<string>();
+        config.workdir = x->as<string>();
+    } else {
+        config.workdir = "/app";
     }
     x = v.find("project_dir_mount");
     if (x) {
         config.project_dir_mount = x->as<string>();
     }
-    x = v.find("copy_to_container");
-    if (x) {
-        retval = parse_config_copies(x, config.copy_to_container);
-        if (retval) return retval;
-    }
-    x = v.find("copy_from_container");
-    if (x) {
-        retval = parse_config_copies(x, config.copy_from_container);
-        if (retval) return retval;
-    }
-
     return 0;
 }
 
@@ -289,13 +246,9 @@ int create_container() {
     retval = get_image();
     if (retval) return retval;
 
-    if (config.slot_dir_mount.empty()) {
-        slot_cmd[0] = 0;
-    } else {
-        sprintf(slot_cmd, " -v .:%s",
-            config.slot_dir_mount.c_str()
-        );
-    }
+    sprintf(slot_cmd, " -v .:%s",
+        config.workdir.c_str()
+    );
     if (config.project_dir_mount.empty()) {
         project_cmd[0] = 0;
     } else {
@@ -312,31 +265,6 @@ int create_container() {
     if (retval) return retval;
     if (error_output(out)) return -1;
 
-    // copy files into container
-    //
-    for (FILE_COPY &c: config.copy_to_container) {
-        sprintf(cmd, "cp %s %s:%s",
-            c.src.c_str(), container_name, c.dst.c_str()
-        );
-        retval = docker_conn.command(cmd, out);
-        if (retval) return retval;
-        if (error_output(out)) return -1;
-    }
-    return 0;
-}
-
-int copy_files_from_container() {
-    char cmd[1024];
-    int retval;
-    vector<string> out;
-
-    for (FILE_COPY &c: config.copy_from_container) {
-        sprintf(cmd, "cp %s:%s %s",
-            container_name, c.src.c_str(), c.dst.c_str()
-        );
-        retval = docker_conn.command(cmd, out);
-        if (retval) return retval;
-    }
     return 0;
 }
 
@@ -505,15 +433,8 @@ int main(int argc, char** argv) {
         }
     }
 
-#if WIN_STANDALONE_COPY
-    SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_copy");
-    config_file = "job_copy.toml";
-    dockerfile = "Dockerfile_copy";
-#endif
-#if WIN_STANDALONE_MOUNT
-    SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker_mount");
-    config_file = "job_mount.toml";
-    dockerfile = "Dockerfile_mount";
+#ifdef WIN_STANDALONE_TEST
+    SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test_docker");
 #endif
 
     memset(&options, 0, sizeof(options));
@@ -590,7 +511,6 @@ int main(int argc, char** argv) {
                 boinc_finish(1);
                 break;
             case JOB_SUCCESS:
-                copy_files_from_container();
                 cleanup();
                 boinc_finish(0);
                 break;
