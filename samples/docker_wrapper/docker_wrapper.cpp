@@ -108,6 +108,7 @@ struct CONFIG {
     }
 };
 
+const char* project_dir;
 char image_name[512];
 char container_name[512];
 APP_INIT_DATA aid;
@@ -159,8 +160,7 @@ int error_output(vector<string> &out) {
 //////////  IMAGE  ////////////
 
 void get_image_name() {
-    char *p = strrchr(aid.project_dir, '/');
-    string s = docker_image_name(p+1, aid.wu_name);
+    string s = docker_image_name(project_dir, aid.wu_name);
     strcpy(image_name, s.c_str());
 }
 
@@ -214,8 +214,7 @@ int get_image() {
 //////////  CONTAINER  ////////////
 
 void get_container_name() {
-    char *p = strrchr(aid.project_dir, '/');
-    string s = docker_container_name(p+1, aid.result_name);
+    string s = docker_container_name(project_dir, aid.result_name);
     strcpy(container_name, s.c_str());
 }
 
@@ -252,9 +251,15 @@ int create_container() {
     if (config.project_dir_mount.empty()) {
         project_cmd[0] = 0;
     } else {
-        sprintf(project_cmd, " -v %s:%s",
-            aid.project_dir, config.project_dir_mount.c_str()
-        );
+        if (boinc_is_standalone()) {
+            sprintf(project_cmd, " -v %s:%s",
+                project_dir, config.project_dir_mount.c_str()
+            );
+        } else {
+            sprintf(project_cmd, " -v ../../projects/%s:%s",
+                project_dir, config.project_dir_mount.c_str()
+            );
+        }
     }
     sprintf(cmd, "create --name %s %s %s %s",
         container_name,
@@ -447,9 +452,10 @@ int main(int argc, char** argv) {
         verbose = true;
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
-        strcpy(aid.project_dir, "./project");
+        project_dir = "project";
     } else {
         boinc_get_init_data(aid);
+        project_dir = strrchr(aid.project_dir, '/')+1;
         get_image_name();
         get_container_name();
     }
