@@ -50,7 +50,7 @@
 
 // define exactly one
 
-#define APP_NONE
+//#define APP_NONE
 //#define APP_WSL_WRAPPER
 //      type    physical            logical             copy?
 //      app     wsl_wrapper.exe     wsl_wrapper.exe
@@ -58,14 +58,14 @@
 //      app     main                main                yes
 //      input   infile              in
 //      output  outfile             out
-//#define APP_DOCKER_WRAPPER
+#define APP_DOCKER_WRAPPER
 //      type    physical            logical             copy?
 //      app     worker              worker              yes
 //      app     job.toml            job.toml            yes
 //      app     Dockerfile          Dockerfile          yes
 //      app     main.sh             main.sh             yes
 //      app     docker_wrapper      docker_wrapper
-//      input   infile              in
+//      input   infile              in                  no
 //      output  outfile             out                 yes
 
 #ifdef APP_NONE
