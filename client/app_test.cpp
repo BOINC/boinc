@@ -50,7 +50,7 @@
 
 // define exactly one
 
-//#define APP_NONE
+#define APP_NONE
 //#define APP_WSL_WRAPPER
 //      type    physical            logical             copy?
 //      app     wsl_wrapper.exe     wsl_wrapper.exe
@@ -58,7 +58,7 @@
 //      app     main                main                yes
 //      input   infile              in
 //      output  outfile             out
-#define APP_DOCKER_WRAPPER
+//#define APP_DOCKER_WRAPPER
 //      type    physical            logical             copy?
 //      app     worker              worker              yes
 //      app     job.toml            job.toml            yes
@@ -208,6 +208,9 @@ void CLIENT_STATE::app_test_init() {
     );
     av->app_files.push_back(
         *make_file(app->project, "worker", NULL, INPUT_FILE, true)
+    );
+    av->app_files.push_back(
+        *make_file(app->project, "main.sh", "main.sh", INPUT_FILE, true)
     );
     av->app_files.push_back(
         *make_file(app->project, "job.toml", "job.toml", INPUT_FILE, true)
