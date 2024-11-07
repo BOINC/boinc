@@ -348,14 +348,8 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_chkGPUProcInUse->Disable();
     }
 
-    // idle for X minutes
-    if (m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked()) {
-        m_txtProcIdleFor->Enable();
-        DisplayValue(prefs.idle_time_to_run, m_txtProcIdleFor);
-    } else {
-        m_txtProcIdleFor->Clear();
-        m_txtProcIdleFor->Disable();
-    }
+    // idle if no input in X minutes
+    DisplayValue(prefs.idle_time_to_run, m_txtProcIdleFor);
 
     m_chkNoRecentInput->SetValue(prefs.suspend_if_no_recent_input > 0.0);
     DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput, m_chkNoRecentInput);
@@ -713,14 +707,6 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 //
 void CDlgAdvPreferences::UpdateControlStates() {
     // ######### proc usage page
-    // Disable idle timeout edit text item if we allow both CPU and GPU when idle.
-    bool wasEnabled = m_txtProcIdleFor->IsEnabled();
-    bool shouldEnable = m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked();
-    m_txtProcIdleFor->Enable(shouldEnable);
-    if (wasEnabled && !shouldEnable) m_txtProcIdleFor->Clear();
-    if (shouldEnable && !wasEnabled) {
-        DisplayValue(defaultPrefs.idle_time_to_run, m_txtProcIdleFor);
-    }
 
     // If we suspend work when in use, disable and check "Use GPU when in use"
     m_chkGPUProcInUse->Enable(! m_chkProcInUse->IsChecked());
