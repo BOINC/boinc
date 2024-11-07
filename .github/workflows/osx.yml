@@ -33,6 +33,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
   AWS_DEFAULT_REGION: us-west-2
+  XCODE_VERSION: '15.4.0'
 
 jobs:
   build-dependencies:
@@ -41,7 +42,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
-          xcode-version: '15.4.0'
+          xcode-version: ${{ env.XCODE_VERSION }}
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
@@ -65,7 +66,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
-          xcode-version: '14.3.1'
+          xcode-version: ${{ env.XCODE_VERSION }}
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
@@ -130,7 +131,7 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
-          xcode-version: '14.3.1'
+          xcode-version: ${{ env.XCODE_VERSION }}
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
