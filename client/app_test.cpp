@@ -58,23 +58,15 @@
 //      app     main                main                yes
 //      input   infile              in
 //      output  outfile             out
-//#define APP_DOCKER_WRAPPER_COPY
+//#define APP_DOCKER_WRAPPER
 //      type    physical            logical             copy?
 //      app     worker              worker              yes
-//      app     job_copy.toml       job_copy.toml       yes
-//      app     Dockerfile_copy     Dockerfile_copy     yes
-//      app     docker_wrapper      docker_wrapper
-//      input   infile              in                  yes
-//      output  outfile             out                 yes
-//#define APP_DOCKER_WRAPPER_MOUNT
-//      type    physical            logical             copy?
-//      app     worker              worker
-//      app     job_mount.toml      job_mount.toml      yes
-//      app     Dockerfile_mount    Dockerfile_mount    yes
+//      app     job.toml            job.toml            yes
+//      app     Dockerfile          Dockerfile          yes
 //      app     main.sh             main.sh             yes
 //      app     docker_wrapper      docker_wrapper
-//      input   infile              in
-//      output  outfile             out
+//      input   infile              in                  no
+//      output  outfile             out                 yes
 
 #ifdef APP_NONE
 void CLIENT_STATE::app_test_init() {}
@@ -210,7 +202,7 @@ void CLIENT_STATE::app_test_init() {
         *make_file(app->project, "worker", NULL, INPUT_FILE, false)
     );
 #endif
-#ifdef APP_DOCKER_WRAPPER_COPY
+#ifdef APP_DOCKER_WRAPPER
     av->app_files.push_back(
         *make_file(app->project, "docker_wrapper.exe", NULL, MAIN_PROG, false)
     );
@@ -218,24 +210,13 @@ void CLIENT_STATE::app_test_init() {
         *make_file(app->project, "worker", NULL, INPUT_FILE, true)
     );
     av->app_files.push_back(
-        *make_file(app->project, "job_copy.toml", "job.toml", INPUT_FILE, true)
+        *make_file(app->project, "main.sh", "main.sh", INPUT_FILE, true)
     );
     av->app_files.push_back(
-        *make_file(app->project, "Dockerfile_copy", "Dockerfile", INPUT_FILE, true)
-    );
-#endif
-#ifdef APP_DOCKER_WRAPPER_MOUNT
-    av->app_files.push_back(
-        *make_file(app->project, "docker_wrapper.exe", NULL, MAIN_PROG, false)
+        *make_file(app->project, "job.toml", "job.toml", INPUT_FILE, true)
     );
     av->app_files.push_back(
-        *make_file(app->project, "worker", NULL, INPUT_FILE, false)
-    );
-    av->app_files.push_back(
-        *make_file(app->project, "job_copy.toml", "job.toml", INPUT_FILE, true)
-    );
-    av->app_files.push_back(
-        *make_file(app->project, "Dockerfile_copy", "Dockerfile", INPUT_FILE, true)
+        *make_file(app->project, "Dockerfile", "Dockerfile", INPUT_FILE, true)
     );
 #endif
 
@@ -256,13 +237,7 @@ void CLIENT_STATE::app_test_init() {
         *make_file(proj, "infile", "in", INPUT_FILE, false)
     );
 #endif
-#ifdef APP_DOCKER_WRAPPER_COPY
-    wu->command_line = "--verbose";
-    wu->input_files.push_back(
-        *make_file(proj, "infile", "in", INPUT_FILE, true)
-    );
-#endif
-#ifdef APP_DOCKER_WRAPPER_MOUNT
+#ifdef APP_DOCKER_WRAPPER
     wu->command_line = "--verbose";
     wu->input_files.push_back(
         *make_file(proj, "infile", "in", INPUT_FILE, false)
@@ -277,14 +252,9 @@ void CLIENT_STATE::app_test_init() {
         *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
     );
 #endif
-#ifdef APP_DOCKER_WRAPPER_COPY
+#ifdef APP_DOCKER_WRAPPER
     result->output_files.push_back(
         *make_file(proj, "outfile", "out", OUTPUT_FILE, true)
-    );
-#endif
-#ifdef APP_DOCKER_WRAPPER_MOUNT
-    result->output_files.push_back(
-        *make_file(proj, "outfile", "out", OUTPUT_FILE, false)
     );
 #endif
 
