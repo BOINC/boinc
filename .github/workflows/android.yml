@@ -140,7 +140,7 @@ jobs:
           java-version: "17"
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@00854ea68c109d98c75d956347303bf7c45b0277
+        uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
 
       - name: Build manager with vcpkg
         run: ./android/ci_build_vcpkg_manager.sh --skip-client-build --tasks "clean ${{ matrix.task }}"
