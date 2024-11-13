@@ -28,16 +28,14 @@
 //
 // files        list of output files of the job's canonical result
 // wu_id        workunit ID
+// wu_name      workunit name
 // result_id    ID of the canonical result
 // runtime      runtime of the canonical result
 // batch_id     the job's batch ID
 //
-// if no args are specified, the script is invoked as
-// scriptname wu_id files
-//
 // If the workunit has no canonical result (i.e. it failed)
 // the script is invoked as
-// scriptname --error N wu_id
+// scriptname --error N wu_name wu_id batch_id
 // where N is an integer encoding the reasons for the job's failure
 // (see WU_ERROR_* in html/inc/common_defs.inc)
 
@@ -110,6 +108,12 @@ int assimilate_handler(
                 }
             } else if (s == "wu_id") {
                 sprintf(buf, " %lu", wu.id);
+                strcat(cmd, buf);
+            } else if (s == "wu_name") {
+                sprintf(buf, " %s", wu.name);
+                strcat(cmd, buf);
+            } else if (s == "result_id") {
+                sprintf(buf, " %lu", wu.canonical_resultid);
                 strcat(cmd, buf);
             } else if (s == "runtime") {
                 sprintf(buf, " %f", canonical_result.elapsed_time);

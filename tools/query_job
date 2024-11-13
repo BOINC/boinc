@@ -1,23 +1,18 @@
 #! /usr/bin/env php
 
 <?php
-// query a job created with demo_submit
+// query a job or batch for an app that uses sample assimilator
 //
-// usage: bin/demo_query jobname
-
+// usage: bin/query_job jobname|batchid
 
 chdir("html/ops");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/submit_db.inc");
 require_once("../inc/common_defs.inc");
 require_once("../inc/result.inc");
 chdir("../..");
 
-function main($wu_name) {
-    $wu = BoincWorkunit::lookup("name='$wu_name'");
-    if (!$wu) {
-        die("no such job: $wu_name\n");
-    }
-
+function show_wu($wu, $dir) {
     if ($wu->error_mask) {
         echo sprintf("Job failed: %s\n",
             wu_error_mask_str($wu->error_mask)
@@ -46,22 +41,45 @@ function main($wu_name) {
         $nofs = $ofs->count();
         for ($i=0; $i<$nofs; $i++) {
             if ($nofs == 1) {
-                $path = "sample_results/$wu_name";
+                $path = "$dir/$wu->name";
             } else {
-                $path = sprintf("sample_results/%s_%d", $wu_name, $i);
+                $path = sprintf("$dir/%s_%d", $wu->name, $i);
             }
             if (!is_file($path)) {
-                die("output file is missing: $path\n");
+                die("output file $i is missing: $path\n");
             }
             echo "Output file $i ($path):\n";
-            readfile($path);
+            $x = file_get_contents($path);
+            if (strlen($x) > 256) {
+                $x = substr($x, 0, 256);
+                $x .= '...';
+            }
+            echo "$x\n";
         }
         break;
     }
 }
 
 if ($argc != 2) {
-    die("usage: demo_query jobname\n");
+    die("usage: demo_query jobname|batchid\n");
 }
-main($argv[1]);
+$x = $argv[1];
+if (is_numeric($x)) {
+    $id = (int)$x;
+    $batch = BoincBatch::lookup_id($id);
+    if (!$batch) {
+        die("no such batch\n");
+    }
+    $wus = BoincWorkunit::enum("batch=$id");
+    foreach ($wus as $wu) {
+        echo "-------------------\nWorkunit $wu->id:\n";
+        show_wu($wu, "results/$id");
+    }
+} else {
+    $wu = BoincWorkunit::lookup("name='$x'");
+    if (!$wu) {
+        die("no such job: $wu_name\n");
+    }
+    show_wu($wu, "results/$wu->batch");
+}
 ?>

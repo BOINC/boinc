@@ -1,14 +1,11 @@
 #! /usr/bin/env python3
 
-# usage: demo_submit_batch user_id app_name dir
+# usage: submit_batch user_id app_name dir
 # submit a batch of jobs
 # assumptions:
 # - you have an app that takes 1 input file
 # - there's a directory of input files
-#
-# The job names will be of the form
-# appname__batchid__*
-# so that assimilators can know where to put output files
+# - the app uses templates/*_in, _out
 
 import os, sys, time, subprocess
 

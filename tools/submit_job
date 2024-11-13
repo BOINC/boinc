@@ -1,0 +1,98 @@
+#! /usr/bin/env php
+<?php
+
+// submit a job and show the WU name
+//
+// usage: submit_job [options] appname [infile ...]
+// options:
+//      --template fname: use template files fname_in and fname_out
+//      --dir X: files are in dir X
+//
+// If the app uses a sample assimilator,
+// you can use query_job to query the job status and see output files.
+
+$appname = null;
+$template = null;
+$dir = '.';
+$infiles = [];
+
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == '--template') {
+        $template = $argv[++$i];
+    } else if ($argv[$i] == '--dir') {
+        $dir = $argv[++$i];
+    } else if (!$appname) {
+        $appname = $argv[$i];
+    } else {
+        $infiles[] = $argv[$i];
+    }
+}
+
+if (!$appname) {
+    die("usage: demo_submit [--template fname] [--dir dir] appname [infile ...]\n");
+}
+
+chdir("html/ops");
+require_once("../inc/boinc_db.inc");
+chdir("../..");
+
+$app = BoincApp::lookup("name='$appname'");
+
+if (!$app) {
+    die("no such application: $appname\n");
+}
+
+// load the input template for this app,
+// and make sure the right number of input files were specified
+//
+if ($template) {
+    $path = sprintf('%s/%s_in', $dir, $template);
+} else {
+    $path = sprintf('templates/%s_in', $appname);
+}
+if (!is_file($path)) {
+    die("missing input template $path\n");
+}
+$intemp = simplexml_load_file($path);
+if (!$intemp) die("can't parse input template\n");
+$frefs = $intemp->workunit->file_ref;
+$nrefs = $frefs->count();
+
+if (count($infiles) != $nrefs) {
+    die("wrong number of input files; expected $nrefs\n");
+}
+
+// stage the input files
+//
+foreach ($infiles as $fname) {
+    if (!is_file("$dir/$fname")) {
+        die("no such file: $fname\n");
+    }
+    system("cp $dir/$fname `bin/dir_hier_path $fname`", $ret);
+    if ($ret) {
+        die("Couldn't stage file $dir/$fname\n");
+    }
+}
+
+// create the job
+//
+$wu_name = sprintf('%s_%d', $appname, time());
+$x = '';
+if ($template) {
+    $x = sprintf('--wu_template %s/%s_in --result_template %s/%s_out',
+        $dir, $template, $dir, $template
+    );
+}
+$cmd = sprintf('bin/create_work --appname %s --wu_name %s %s %s',
+    $appname, $wu_name, $x, implode(' ', $infiles)
+);
+if (system($cmd, $ret) === false) {
+    die("system($cmd) failed\n");
+}
+if ($ret) {
+    die("Couldn't create job\n");
+}
+
+echo "Job name: $wu_name\n";
+
+?>
