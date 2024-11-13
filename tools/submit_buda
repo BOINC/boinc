@@ -4,7 +4,7 @@
 // submit a job for the Docker universal app (which must be named 'buda')
 //
 // submit_buda [--buda_dir dir] infile ...
-// 
+//
 // the buda dir (default buda/) must contain
 // - buda_in, buda_out: input, output templates
 // - other files; typically
