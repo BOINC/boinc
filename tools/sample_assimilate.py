@@ -13,7 +13,7 @@
 #
 # in the 1st case, move the output files from the upload hierarchy
 # to results/<batch_id>/<wu_name>_i
-# in the 2nd case, write the error code 
+# in the 2nd case, write the error code
 # to results/<batch_id>/<wu_name>_error
 
 import sys, os
