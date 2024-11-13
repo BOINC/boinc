@@ -5,22 +5,24 @@
 //
 // usage: submit_job [options] appname [infile ...]
 // options:
-//      --template fname: use template files fname_in and fname_out
-//      --dir X: files are in dir X
+//      --templates in out: specify in/out template files
+//      --verbose
 //
 // If the app uses a sample assimilator,
 // you can use query_job to query the job status and see output files.
 
 $appname = null;
-$template = null;
-$dir = '.';
+$input_template = null;
+$output_template = null;
 $infiles = [];
+$verbose = false;
 
 for ($i=1; $i<$argc; $i++) {
-    if ($argv[$i] == '--template') {
-        $template = $argv[++$i];
-    } else if ($argv[$i] == '--dir') {
-        $dir = $argv[++$i];
+    if ($argv[$i] == '--templates') {
+        $input_template = $argv[++$i];
+        $output_template = $argv[++$i];
+    } else if ($argv[$i] == '--verbose') {
+        $verbose = true;
     } else if (!$appname) {
         $appname = $argv[$i];
     } else {
@@ -45,8 +47,8 @@ if (!$app) {
 // load the input template for this app,
 // and make sure the right number of input files were specified
 //
-if ($template) {
-    $path = sprintf('%s/%s_in', $dir, $template);
+if ($input_template) {
+    $path = $input_template;
 } else {
     $path = sprintf('templates/%s_in', $appname);
 }
@@ -64,13 +66,16 @@ if (count($infiles) != $nrefs) {
 
 // stage the input files
 //
-foreach ($infiles as $fname) {
-    if (!is_file("$dir/$fname")) {
-        die("no such file: $fname\n");
+$fnames = [];
+foreach ($infiles as $path) {
+    if (!is_file("$path")) {
+        die("no such file: $path\n");
     }
-    system("cp $dir/$fname `bin/dir_hier_path $fname`", $ret);
+    $fname = basename($path);
+    $fnames[] = $fname;
+    system("cp $path `bin/dir_hier_path $fname`", $ret);
     if ($ret) {
-        die("Couldn't stage file $dir/$fname\n");
+        die("Couldn't stage file $path\n");
     }
 }
 
@@ -78,14 +83,18 @@ foreach ($infiles as $fname) {
 //
 $wu_name = sprintf('%s_%d', $appname, time());
 $x = '';
-if ($template) {
-    $x = sprintf('--wu_template %s/%s_in --result_template %s/%s_out',
-        $dir, $template, $dir, $template
-    );
+if ($input_template) {
+    $x .= " --wu_template $input_template";
+}
+if ($output_template) {
+    $x .= " --result_template $output_template";
 }
 $cmd = sprintf('bin/create_work --appname %s --wu_name %s %s %s',
-    $appname, $wu_name, $x, implode(' ', $infiles)
+    $appname, $wu_name, $x, implode(' ', $fnames)
 );
+if ($verbose) {
+    echo "submit_job: cmd: $cmd\n";
+}
 if (system($cmd, $ret) === false) {
     die("system($cmd) failed\n");
 }
