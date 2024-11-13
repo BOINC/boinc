@@ -124,4 +124,8 @@
         <name>                  wsl         </name>
         <wsl/>
     </plan_class>
+    <plan_class>
+        <name>                  docker      </name>
+        <docker/>
+    </plan_class>
 </plan_classes>

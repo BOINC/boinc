@@ -17,11 +17,14 @@ toolbin_PROGRAMS = \
 dist_toolbin_SCRIPTS = \
 	    boinc_submit \
 		dbcheck_files_exist \
-		demo_submit \
-		demo_query \
 		grep_logs \
 		make_project \
 		parse_config \
+		query_job \
+		sample_assimilate.py \
+		submit_batch \
+		submit_buda \
+		submit_job \
 		update_versions \
 		upgrade \
 		vote_monitor \

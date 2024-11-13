@@ -97,9 +97,11 @@ function stage_file($path) {
         break;
     case -1:
         error_exit("
-$path: There is already a file in your project's download hierarchy with that name,
-but with different contents.
-This is not allowed by BOINC, which requires that files be immutable.
+Can't stage input file $path:
+There is a file in your project's download hierarchy,
+$dl_path,
+with the same name but different contents.
+This is not allowed by BOINC.
 ");
         break;
     }
