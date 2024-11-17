@@ -171,27 +171,6 @@
         <keywords>1 20 36 37</keywords>
     </project>
     <project>
-        <name>Universe@Home</name>
-        <id>13</id>
-        <url>https://universeathome.pl/universe/</url>
-        <web_url>https://universeathome.pl/universe/</web_url>
-        <general_area>Physical Science</general_area>
-        <specific_area>Astronomy</specific_area>
-        <description><![CDATA[Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries.]]></description>
-        <home>University of Warsaw</home>
-    <platforms>
-        <name>aarch64-unknown-linux-gnu</name>
-        <name>arm-android-linux-gnu[android_arm_pie]</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>armv7l-unknown-linux-gnueabihf</name>
-        <name>windows_x86_64</name>
-        <name>x86_64-pc-linux-gnu</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/universe_at_home.png</image>
-      <summary>Do research in physics and astronomy</summary>
-        <keywords>1 20 43 57</keywords>
-    </project>
-    <project>
         <name>Milkyway@home</name>
         <id>14</id>
         <url>https://milkyway.cs.rpi.edu/milkyway/</url>
