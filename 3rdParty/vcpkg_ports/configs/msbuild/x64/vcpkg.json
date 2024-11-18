@@ -20,6 +20,7 @@
         },
         "gtest",
         "ftgl",
-        "opencl"
+        "opencl",
+        "nlohmann-json"
     ]
 }

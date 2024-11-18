@@ -250,3 +250,4 @@ parts/
 prime/
 stage/
 *.snap
+*.msi
