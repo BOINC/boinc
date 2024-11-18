@@ -288,4 +288,40 @@ function boinc_get_wu_output_files_url($user, $wu_id) {
     return "get_output.php?cmd=workunit_files&wu_id=$wu_id&auth_str=$auth_str";
 }
 
+////////////////// FILE INFO FILES //////////////
+
+// these are used:
+// 1) in user file sandbox
+// 2) in BUDA app variant dirs
+// in each case a file dir/foo has an info file dir/.md5/foo
+// containing its md5 and size
+// (same format as .md5 files in download hierarchy)
+
+// get the MD5 and size of a file
+//
+function get_file_info($path) {
+    $md5 = md5_file($path);
+    $s = stat($path);
+    $size = $s['size'];
+    return [$md5, $size];
+}
+
+// write a "info file" containing MD5 and size
+//
+function write_info_file($path, $md5, $size) {
+    file_put_contents($path, "$md5 $size");
+}
+
+// parse info file and return [md5, size]
+//
+function parse_info_file($path) {
+    if (!file_exists($path)) return null;
+    $x = file_get_contents($path);
+    $n = sscanf($x, "%s %d", $md5, $size);
+    if ($n != 2 || strlen($md5)!=32) {
+        return null;
+    }
+    return [$md5, $size];
+}
+
 ?>

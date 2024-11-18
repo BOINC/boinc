@@ -116,8 +116,8 @@ class DbConn {
 
     function enum_general($classname, $query) {
         $result = $this->do_query($query);
-        if (!$result) return null;
-        $x = array();
+        if (!$result) return [];
+        $x = [];
         while ($obj = $result->fetch_object($classname)) {
             $x[] = $obj;
         }
@@ -133,7 +133,7 @@ class DbConn {
             $where_clause = "where $where_clause";
         }
         $query = "select $fields from DBNAME.$table $where_clause $order_clause";
-        return $this->enum_general($classname,$query);
+        return $this->enum_general($classname, $query);
     }
 
     function enum($table, $classname, $where_clause=null, $order_clause=null) {

@@ -1,35 +1,40 @@
 #! /usr/bin/env php
 <?php
 
-// submit a job for the Docker universal app (which must be named 'buda')
+// submit a job for a BUDA (BOINC Universal Docker app) science app
 //
-// submit_buda [--buda_dir dir] [--verbose] infile ...
+// submit_buda [options] sci_app infile ...
 //
-// the buda dir (default buda_dir/) must contain
-// - buda_in, buda_out: input, output templates
-// - other files; typically
-//      a Dockerfile
-//      job.toml
-//      main.sh script
-//      science executable
-// - file_list
-//      a list of the other filenames (one per line)
-//      in the order of the input template
+// --buda_root dir      root of BUDA app hierarchy, default 'buda_apps'
+// --variant x          variant, default 'cpu'
+// --verbose
 
-$buda_dir = 'buda_dir';
+$buda_root = 'buda_apps';
 $infiles = [];
 $verbose = false;
+$variant = 'cpu';
+$sci_app = null;
 
 for ($i=1; $i<$argc; $i++) {
-    if ($argv[$i] == '--buda_dir') {
-        $buda_dir = $argv[++$i];
+    if ($argv[$i] == '--buda_root') {
+        $buda_root = $argv[++$i];
+    } else if ($argv[$i] == '--variant') {
+        $variant = $argv[++$i];
     } else if ($argv[$i] == '--verbose') {
         $verbose = true;
     } else {
-        $infiles[] = $argv[$i];
+        if (!$sci_app) {
+            $sci_app = $argv[$i];
+        } else {
+            $infiles[] = $argv[$i];
+        }
     }
 }
 
+$buda_dir = "$buda_root/$sci_app/$variant";
+if (!is_dir($buda_dir)) {
+    die("No version dir $buda_dir\n");
+}
 if (!file_exists("$buda_dir/template_in")) {
     die("no input template\n");
 }

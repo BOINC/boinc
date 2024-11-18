@@ -16,14 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Per-user "file sandboxes" for job submission.
-// These are stored in project-root/sandbox/USERID/
-//
-// The entries in a sandbox directory have contents
-// size md5
-//
-// The actual files are stored in the download hierarchy,
-// with sb_userid_MD5 as the physical name
+// Per-user "file sandboxes".
+// Files are stored in <project>/sandbox/<userid>/
+// File infos (md5/size) are scored in a parallel dir
+// <project>/sandbox/<userid>/.md5/
 
 // NOTE: PHP's default max file upload size is 2MB.
 // To increase this, edit /etc/php.ini, and change, e.g.
@@ -32,33 +28,31 @@
 // post_max_size = 64M
 
 require_once("../inc/sandbox.inc");
-require_once("../inc/submit_db.inc");
 require_once("../inc/submit_util.inc");
 
 display_errors();
 
 function list_files($user, $notice) {
     $dir = sandbox_dir($user);
-    $d = opendir($dir);
-    if (!$d) error_page("Can't open sandbox directory");
+    if (!is_dir($dir)) error_page("Can't open sandbox directory");
     page_head("File sandbox");
     if ($notice) {
         echo "<p>$notice<hr>";
     }
     echo "
         <p>
+        <h3>Upload files</h3>
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
-        Upload files to your sandbox:
         <p><p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
         <p> <input class=\"btn btn-success\" type=submit value=Upload>
         </form>
         <hr>
+        <h3>Sandbox contents</h3>
     ";
     $files = array();
-    while (($f = readdir($d)) !== false) {
-        if ($f == '.') continue;
-        if ($f == '..') continue;
+    foreach (scandir($dir) as $f) {
+        if ($f[0] == '.') continue;
         $files[] = $f;
     }
     if (count($files) == 0) {
@@ -66,19 +60,10 @@ function list_files($user, $notice) {
     } else {
         sort($files);
         start_table();
-        table_header("Name<br><p class=\"text-muted\">(click to view)</p>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
+        table_header("Name<br><p class=\"text-muted\">(click to view text files)</p>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
         foreach ($files as $f) {
+            [$md5, $size] = sandbox_parse_info_file($user, $f);
             $path = "$dir/$f";
-            list($error, $size, $md5) = sandbox_parse_link_file($path);
-            if ($error) {
-                table_row($f, "Can't parse link file", "", "<a href=sandbox.php?action=delete_files&name=$f>delete</a>");
-                continue;
-            }
-            $p = sandbox_physical_path($user, $md5);
-            if (!is_file($p)) {
-                table_row($f, "Physical file not found", "", "");
-                continue;
-            }
             $ct = time_str(filemtime($path));
             table_row(
                 "<a href=sandbox.php?action=view_file&name=$f>$f</a>",
@@ -100,10 +85,13 @@ function list_files($user, $notice) {
     page_tail();
 }
 
+// upload one or more files
+
 function upload_file($user) {
     $notice = "";
+    $dir = sandbox_dir($user);
     $count = count($_FILES['new_file']['tmp_name']);
-    for ($i = 0; $i < $count; $i++) {
+    for ($i=0; $i<$count; $i++) {
         $tmp_name = $_FILES['new_file']['tmp_name'][$i];
         if (!is_uploaded_file($tmp_name)) {
             error_page("$tmp_name is not uploaded file");
@@ -112,79 +100,48 @@ function upload_file($user) {
         if (strstr($name, "/")) {
             error_page("no / allowed");
         }
-        $md5 = md5_file($tmp_name);
-        $s = stat($tmp_name);
-        $size = $s['size'];
-        [$exists, $elf] = sandbox_lf_exists($user, $md5);
-        if (!$exists){
-            // move file to download dir
-            //
-            $phys_path = sandbox_physical_path($user, $md5);
-            move_uploaded_file($tmp_name, $phys_path);
+        if (file_exists("$dir/$name")) {
+            $notice .= "can't upload $name; file exists.<br>";
+            continue;
         }
+        move_uploaded_file($tmp_name, "$dir/$name");
 
-        // write link file
+        // write info file
         //
-        $dir = sandbox_dir($user);
-        $link_path = "$dir/$name";
-        sandbox_write_link_file($link_path, $size, $md5);
+        [$md5, $size] = get_file_info("$dir/$name");
+        write_info_file("$dir/.md5/$name", $md5, $size);
+
         $notice .= "Uploaded file <strong>$name</strong><br/>";
     }
     list_files($user, $notice);
 }
 
-// delete a link to a file.
-// check if currently being used by a batch.
-// If the last link w/ that contents, delete the file itself
+// delete a sandbox file.
 //
 function delete_file($user) {
     $name = get_str('name');
     $dir = sandbox_dir($user);
-    list($error, $size, $md5) = sandbox_parse_link_file("$dir/$name");
-    if ($error) {
-        error_page("can't parse link file");
-    }
-    $p = sandbox_physical_path($user, $md5);
-    if (!is_file($p)) {
-        error_page("physical file is missing");
-    }
-    $bused = sandbox_file_in_use($user, $name);
-    if ($bused){
-        $notice = "<strong>$name</strong> is being used by batch(es), you can not delete it now!<br/>";
-    } else{
-        unlink("$dir/$name");
-        $notice = "<strong>$name</strong> was deleted from your sandbox<br/>";
-        [$exists, $elf] = sandbox_lf_exists($user, $md5);
-        if (!$exists) {
-            unlink($p);
-        }
-
-    }
+    unlink("$dir/$name");
+    unlink("$dir/.md5/$name");
+    $notice = "<strong>$name</strong> was deleted from your sandbox<br/>";
     list_files($user, $notice);
-    //Header("Location: sandbox.php");
 }
+
 function download_file($user) {
     $name = get_str('name');
     $dir = sandbox_dir($user);
-    list($err, $size, $md5) = sandbox_parse_link_file("$dir/$name");
-    if ($err) {
-        error_page("can't parse link file");
-    }
-    $p = sandbox_physical_path($user, $md5);
-    if (!is_file($p)) {
-        error_page("$p does not exist!");
-    }
-    do_download($p, $name);
+    do_download("$dir/$name");
 }
+
 function view_file($user) {
     $name = get_str('name');
     $dir = sandbox_dir($user);
-    list($error, $size, $md5) = sandbox_parse_link_file("$dir/$name");
-    if ($error) error_page("no such link file");
-    $p = sandbox_physical_path($user, $md5);
-    if (!is_file($p)) error_page("no such physical file");
+    $path = "$dir/$name";
+    if (!is_file($path)) {
+        error_path("no such file $name");
+    }
     echo "<pre>\n";
-    readfile($p);
+    readfile($path);
     echo "</pre>\n";
 }
 
