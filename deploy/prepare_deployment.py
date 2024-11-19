@@ -218,6 +218,14 @@ windows_manager_list = [
 windows_installer_list = [
     './win_build/Build/x64/Release/boinccas.dll',
     './win_build/Build/ARM64/Release/boinccas.dll',
+    './win_build/Build/x64/Release/installer_icon.exe',
+    './win_build/Build/ARM64/Release/installer_icon.exe',
+    './win_build/Build/x64/Release/installer.exe',
+    './win_build/Build/ARM64/Release/installer.exe',
+    './win_build/Build/x64/Release/boinc.msi',
+    './win_build/Build/ARM64/Release/boinc.msi',
+    './win_build/Build/x64/Release/installer_setup.exe',
+    './win_build/Build/ARM64/Release/installer_setup.exe',
 ]
 
 wasm_client_list = [

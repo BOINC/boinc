@@ -19,6 +19,7 @@
         "default-features": false
       },
       "gtest",
-      "opencl"
+      "opencl",
+      "nlohmann-json"
   ]
 }
