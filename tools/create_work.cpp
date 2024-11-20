@@ -436,10 +436,6 @@ int main(int argc, char** argv) {
     strcat(jd.result_template_path, jd.result_template_file);
 
     if (use_stdin) {
-        // clear the WU template name so we'll recognize a job-level one
-        //
-        strcpy(jd.wu_template_file, "");
-
         if (jd.assign_flag) {
             // if we're doing assignment we can't use the bulk-query method;
             // create the jobs one at a time.

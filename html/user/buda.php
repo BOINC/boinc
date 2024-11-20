@@ -134,6 +134,7 @@ function copy_and_stage_file($user, $fname, $dir, $app, $variant) {
     [$md5, $size] = parse_info_file("$dir/.md5/$fname");
     $phys_name = buda_file_phys_name($app, $variant, $md5);
     stage_file_aux("$dir/$fname", $md5, $size, $phys_name);
+    return $phys_name;
 }
 
 // create variant
@@ -154,13 +155,6 @@ function variant_action($user) {
     mkdir($dir);
     mkdir("$dir/.md5");
 
-    // copy files from sandbox to variant dir
-    //
-    copy_and_stage_file($user, $dockerfile, $dir, $app, $variant);
-    foreach ($app_files as $fname) {
-        copy_and_stage_file($user, $fname, $dir, $app, $variant);
-    }
-
     // create variant description JSON file
     //
     $desc = new StdClass;
@@ -168,6 +162,17 @@ function variant_action($user) {
     $desc->app_files = $app_files;
     $desc->input_file_names = $input_file_names;
     $desc->output_file_names = $output_file_names;
+
+    // copy files from sandbox to variant dir
+    //
+    $pname = copy_and_stage_file($user, $dockerfile, $dir, $app, $variant);
+    $desc->dockerfile_phys = $pname;
+    $desc->app_files_phys = [];
+    foreach ($app_files as $fname) {
+        $pname = copy_and_stage_file($user, $fname, $dir, $app, $variant);
+        $desc->app_files_phys[] = $pname;
+    }
+
     file_put_contents(
         "$dir/variant.json",
         json_encode($desc, JSON_PRETTY_PRINT)
@@ -177,39 +182,6 @@ function variant_action($user) {
     // If we did, we'd need to create job.toml to mount project dir
 
     app_list("Variant $variant added for app $app.");
-}
-
-function file_ref_in($fname) {
-    return(sprintf(
-'      <file_ref>
-          <open_name>%s</open_name>
-       </file_ref>
-',
-        $fname
-    ));
-}
-function file_info_out($i) {
-    return sprintf(
-'    <file_info>
-        <name><OUTFILE_%d/></name>
-        <generated_locally/>
-        <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
-        <url><UPLOAD_URL/></url>
-    </file_info>
-',
-        $i
-    );
-}
-
-function file_ref_out($i, $fname) {
-    return sprintf(
-'        <file_ref>
-            <file_name><OUTFILE_%d/></file_name>
-            <open_name>%s</open_name>
-        </file_ref>
-',      $i, $fname
-    );
 }
 
 function variant_delete() {

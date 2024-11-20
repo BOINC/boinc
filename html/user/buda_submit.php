@@ -19,6 +19,7 @@
 // web interface for submitting BUDA jobs
 
 require_once('../inc/util.inc');
+require_once('../inc/submit_util.inc');
 require_once('../inc/sandbox.inc');
 
 display_errors();
@@ -43,13 +44,14 @@ function submit_form($user) {
     page_tail();
 }
 
-// unzip batch file into a temp dir; return dir
+// unzip batch file into a temp dir; return dir name
 //
 function unzip_batch_file($user, $batch_file) {
     @mkdir("../../buda_batches");
     for ($i=0; $i<1000; $i++) {
         $batch_dir = "../../buda_batches/$i";
-        $ret = mkdir($batch_dir);
+        $batch_dir_name = $i;
+        $ret = @mkdir($batch_dir);
         if ($ret) break;
     }
     if (!$ret) error_page("can't create batch dir");
@@ -57,11 +59,11 @@ function unzip_batch_file($user, $batch_file) {
     if (!file_exists("$sb_dir/$batch_file")) {
         error_page("no batch file $batch_file");
     }
-    system("cd $batch_dir; unzip $sb_dir/$batch_file", $ret);
+    system("cd $batch_dir; unzip $sb_dir/$batch_file > /dev/null", $ret);
     if ($ret) {
         error_page("unzip error: $ret");
     }
-    return $batch_dir;
+    return $batch_dir_name;
 }
 
 // check validity of batch dir.
@@ -71,7 +73,8 @@ function unzip_batch_file($user, $batch_file) {
 // return struct describing the batch, and the md5/size of files
 //
 function parse_batch_dir($batch_dir, $variant_desc) {
-    $input_files = sort($variant_desc->input_file_names);
+    $input_files = $variant_desc->input_file_names;
+    sort($input_files);
     $shared_files = [];
     $shared_file_infos = [];
     if (is_dir("$batch_dir/shared_input_files")) {
@@ -84,7 +87,8 @@ function parse_batch_dir($batch_dir, $variant_desc) {
             $shared_file_infos[] = get_file_info("$batch_dir/shared_input_files/$fname");
         }
     }
-    $unshared_files = sort(array_dir($input_files, $shared_files));
+    $unshared_files = array_diff($input_files, $shared_files);
+    sort($unshared_files);
     $jobs = [];
     foreach (scandir($batch_dir) as $fname) {
         if ($fname[0] == '.') continue;
@@ -139,8 +143,8 @@ function create_batch($user, $njobs, $boinc_app) {
 
 function stage_input_files($batch_dir, $batch_desc, $batch_id) {
     $n = count($batch_desc->shared_files);
-    $batch_desc->shared_files_phys = [];
-    for ($i=0; $i<n; $i++) {
+    $batch_desc->shared_files_phys_names = [];
+    for ($i=0; $i<$n; $i++) {
         $path = sprintf('%s/%s', $batch_dir, $batch_desc->shared_files[$i]);
         [$md5, $size] = $batch_desc->shared_file_infos[$i];
         $phys_name = sprintf('batch_%d_%s', $batch_id, $md5);
@@ -151,7 +155,7 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
         $n = count($batch_desc->unshared_files);
         $job->phys_names = [];
         for ($i=0; $i<$n; $i++) {
-            $path = sprintf('%s/%s/%d',
+            $path = sprintf('%s/%s/%s',
                 $batch_dir, $job->dir, $batch_desc->unshared_files[$i]
             );
             [$md5, $size] = $job->file_infos[$i];
@@ -162,31 +166,49 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
     }
 }
 
-function create_jobs($batch_desc, $batch_id, $boinc_app) {
+function create_jobs(
+    $variant_desc, $batch_desc, $batch_id, $boinc_app, $batch_dir_name
+) {
+    // get list of names of app files
+    //
+    $app_file_names = $variant_desc->dockerfile_phys;
+    foreach ($variant_desc->app_files_phys as $pname) {
+        $app_file_names .= " $pname";
+    }
     $job_cmds = '';
     foreach ($batch_desc->jobs as $job) {
         $job_cmd = '';
         if ($job->cmdline) {
             $job_cmd .= sprintf('--command_line "%s"', $job->cmdline);
         }
-        foreach ($batch_desc->shared_file_phys_names as $x) {
+        $job_cmd .= " $app_file_names";
+        foreach ($batch_desc->shared_files_phys_names as $x) {
             $job_cmd .= " $x";
         }
         foreach ($job->phys_names as $x) {
             $job_cmd .= " $x";
         }
-        $job_cmds[] .= "$job_cmd\n";
+        $job_cmds .= "$job_cmd\n";
     }
     $cmd = sprintf(
-        '../../bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s"',
-        $boinc_app->name, $batch_id, $batch_desc->dockerfile
+        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s" --wu_template %s --result_template %s',
+        $boinc_app->name, $batch_id, $variant_desc->dockerfile,
+        "buda_batches/$batch_dir_name/template_in",
+        "buda_batches/$batch_dir_name/template_out"
     );
+    $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
     $h = popen($cmd, "w");
-    if (!$h) error_paage('create_work launch failed');
+    if (!$h) error_page('create_work launch failed');
     fwrite($h, $job_cmds);
     $ret = pclose($h);
     if ($ret) {
-        error_page('create_work failed');
+        echo $cmd;
+        echo "\n\n";
+        echo $job_cmds;
+        echo "\n\n";
+        readfile("../../buda_batches/errfile");
+        exit;
+        error_page("create_work failed: $x");
     }
 }
 
@@ -228,20 +250,20 @@ function file_ref_out($i, $fname) {
 
 // create templates and put them in batch dir
 //
-function create_templates($batch_desc, $batch_dir) {
+function create_templates($variant_desc, $batch_dir) {
     // input template
     //
     $x = "<input_template>\n";
-    $ninfiles = 1 + count($batch_desc->input_file_names) + count($batch_desc->app_files);
+    $ninfiles = 1 + count($variant_desc->input_file_names) + count($variant_desc->app_files);
     for ($i=0; $i<$ninfiles; $i++) {
         $x .= "   <file_info>\n      <no_delete/>\n   </file_info>\n";
     }
     $x .= "   <workunit>\n";
-    $x .= file_ref_in($batch_desc->dockerfile);
-    foreach ($batch_desc->app_files as $fname) {
+    $x .= file_ref_in($variant_desc->dockerfile);
+    foreach ($variant_desc->app_files as $fname) {
         $x .= file_ref_in($fname);
     }
-    foreach ($batch_desc->input_file_names as $fname) {
+    foreach ($variant_desc->input_file_names as $fname) {
         $x .= file_ref_in($fname);
     }
     $x .= "   </workunit>\n<input_template>\n";
@@ -251,12 +273,12 @@ function create_templates($batch_desc, $batch_dir) {
     //
     $x = "<output_template>\n";
     $i = 0;
-    foreach ($batch_desc->output_file_names as $fname) {
+    foreach ($variant_desc->output_file_names as $fname) {
         $x .= file_info_out($i++);
     }
     $x .= "   <result>\n";
     $i = 0;
-    foreach ($batch_desc->output_file_names as $fname) {
+    foreach ($variant_desc->output_file_names as $fname) {
         $x .= file_ref_out($i++, $fname);
     }
     $x .= "   </result>\n</output_template>\n";
@@ -264,7 +286,7 @@ function create_templates($batch_desc, $batch_dir) {
 }
 
 function handle_submit($user) {
-    $boinc_app = BoincApp::lookup_name('buda');
+    $boinc_app = BoincApp::lookup("name='buda'");
     if (!$boinc_app) {
         error_page("No buda app found");
     }
@@ -279,20 +301,23 @@ function handle_submit($user) {
     );
 
     // unzip batch file into temp dir
-    $batch_dir = unzip_batch_file($user, $batch_file);
+    $batch_dir_name = unzip_batch_file($user, $batch_file);
+    $batch_dir = "../../buda_batches/$batch_dir_name";
 
     // scan batch dir; validate and return struct
     $batch_desc = parse_batch_dir($batch_dir, $variant_desc);
 
-    create_templates($batch_desc, $batch_dir);
+    create_templates($variant_desc, $batch_dir);
 
     $batch_id = create_batch($user, count($batch_desc->jobs), $boinc_app);
 
     // stage input files and record the physical names
     //
-    stage_input_files($batch_desc, $batch_dir, $batch_id);
+    stage_input_files($batch_dir, $batch_desc, $batch_id);
 
-    create_jobs($batch_desc, $batch_id, $boinc_app);
+    create_jobs(
+        $variant_desc, $batch_desc, $batch_id, $boinc_app, $batch_dir_name
+    );
 
     page_head("BUDA jobs submitted");
     echo sprintf('Submitted %d jobs to app %s variant %s',
