@@ -19,12 +19,7 @@
 // web interface for managing BUDA science apps
 //
 // in the following, 'app' means BUDA science app
-// and 'variant' means a variant of one of these
-//
-// files can have 3 names
-// - sandbox name
-// - physical name (e.g. sb_<md5>)
-// - logical name (how the science app refers to it)
+// and 'variant' means a variant of one of these (e.g. CPU, GPU)
 
 require_once('../inc/util.inc');
 require_once('../inc/sandbox.inc');
@@ -90,7 +85,7 @@ function variant_view() {
     table_header('name', 'size', 'md5');
     foreach(scandir($dir) as $f) {
         if ($f[0] == '.') continue;
-        [$size, $md5] = parse_info_file("$dir/.md5/$f");
+        [$md5, $size] = parse_info_file("$dir/.md5/$f");
         table_row(
             "<a href=buda.php?action=view_file&app=$app&variant=$variant&fname=$f>$f</a>",
             $size,
@@ -118,10 +113,9 @@ function variant_form($user) {
     form_start('buda.php');
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
-    form_input_text('Plan class', 'plan_class');
+    form_input_text('Plan class', 'variant');
     form_select('Dockerfile', 'dockerfile', $sbitems);
-    form_select('Main program', 'main_prog', $sbitems);
-    form_select_multiple('Other application files', 'others', $sbitems);
+    form_select_multiple('Application files', 'app_files', $sbitems);
     form_input_text('Input file names', 'input_file_names');
     form_input_text('Output file names', 'output_file_names');
     form_submit('OK');
@@ -129,12 +123,16 @@ function variant_form($user) {
     page_tail();
 }
 
+function buda_file_phys_name($app, $variant, $md5) {
+    return sprintf('buda_%s_%s_%s', $app, $variant, $md5);
+}
+
 // copy file from sandbox to variant dir, and stage to download hier
 //
-function copy_and_stage_file($user, $fname, $dir, $variant) {
+function copy_and_stage_file($user, $fname, $dir, $app, $variant) {
     copy_sandbox_file($user, $fname, $dir);
     [$md5, $size] = parse_info_file("$dir/.md5/$fname");
-    $phys_name = sprintf('buda_%s_%s_%s', $app, $variant, $md5);
+    $phys_name = buda_file_phys_name($app, $variant, $md5);
     stage_file_aux("$dir/$fname", $md5, $size, $phys_name);
 }
 
@@ -142,67 +140,43 @@ function copy_and_stage_file($user, $fname, $dir, $variant) {
 //
 function variant_action($user) {
     global $buda_root;
-    $plan_class = get_str('plan_class');
+    $variant = get_str('variant');
     $app = get_str('app');
     $dockerfile = get_str('dockerfile');
-    $main_prog = get_str('main_prog');
-    $others = get_array('others');
+    $app_files = get_array('app_files');
     $input_file_names = explode(' ', get_str('input_file_names'));
     $output_file_names = explode(' ', get_str('output_file_names'));
 
-    if (file_exists("$buda_root/$app/$plan_class")) {
-        error_page("Variant '$plan_class' already exists.");
+    if (file_exists("$buda_root/$app/$variant")) {
+        error_page("Variant '$variant' already exists.");
     }
-    $dir = "$buda_root/$app/$plan_class";
+    $dir = "$buda_root/$app/$variant";
     mkdir($dir);
     mkdir("$dir/.md5");
 
     // copy files from sandbox to variant dir
     //
     copy_and_stage_file($user, $dockerfile, $dir, $app, $variant);
-    copy_and_stage_file($user, $main_prog, $dir, $app, $variant);
-    foreach ($others as $fname) {
+    foreach ($app_files as $fname) {
         copy_and_stage_file($user, $fname, $dir, $app, $variant);
     }
 
-    // create input template
+    // create variant description JSON file
     //
-    $x = "<input_template>\n";
-    $ninfiles = 2 + count($input_file_names) + count($others);
-    for ($i=0; $i<$ninfiles; $i++) {
-        $x .= "   <file_info>\n   </file_info>\n";
-    }
-    $x .= "   <workunit>\n";
-    $x .= file_ref_in('Dockerfile');
-    $x .= file_ref_in($main_prog);
-    foreach ($others as $fname) {
-        $x .= file_ref_in($fname);
-    }
-    foreach ($input_file_names as $fname) {
-        $x .= file_ref_in($fname);
-    }
-    $x .= "   </workunit>\n<input_template>\n";
-    file_put_contents("$dir/template_in", $x);
-
-    // create output template
-    //
-    $x = "<output_template>\n";
-    $i = 0;
-    foreach ($output_file_names as $fname) {
-        $x .= file_info_out($i++);
-    }
-    $x .= "   <result>\n";
-    $i = 0;
-    foreach ($output_file_names as $fname) {
-        $x .= file_ref_out($i++, $fname);
-    }
-    $x .= "   </result>\n</output_template>\n";
-    file_put_contents("$dir/template_out", $x);
+    $desc = new StdClass;
+    $desc->dockerfile = $dockerfile;
+    $desc->app_files = $app_files;
+    $desc->input_file_names = $input_file_names;
+    $desc->output_file_names = $output_file_names;
+    file_put_contents(
+        "$dir/variant.json",
+        json_encode($desc, JSON_PRETTY_PRINT)
+    );
 
     // Note: we don't currently allow indirect file access.
     // If we did, we'd need to create job.toml to mount project dir
 
-    app_list("Variant $plan_class added for app $app.");
+    app_list("Variant $variant added for app $app.");
 }
 
 function file_ref_in($fname) {
@@ -249,10 +223,11 @@ function variant_delete() {
         //
         foreach (scandir("$dir/.md5") as $fname) {
             if ($fname[0] == '.') continue;
-            [$size, $md5] = parse_file_info("$dir/$fname");
-            $phys_name = buda_app_file_phys_name($app, $variant, $md5);
-            $phys_path = download_path($phys_name);
+            [$md5, $size] = parse_info_file("$dir/.md5/$fname");
+            $phys_name = buda_file_phys_name($app, $variant, $md5);
+            $phys_path = download_hier_path($phys_name);
             unlink($phys_path);
+            unlink("$phys_path.md5");
         }
         system("rm -r $buda_root/$app/$variant", $ret);
         if ($ret) {
@@ -300,6 +275,7 @@ function view_file() {
     $fname = get_str('fname');
     echo "<pre>\n";
     readfile("$buda_root/$app/$variant/$fname");
+    echo "</pre>\n";
 }
 
 $user = get_logged_in_user();
