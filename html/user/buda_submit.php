@@ -243,6 +243,7 @@ function file_ref_out($i, $fname) {
 '        <file_ref>
             <file_name><OUTFILE_%d/></file_name>
             <open_name>%s</open_name>
+            <copy_file/>
         </file_ref>
 ',      $i, $fname
     );
