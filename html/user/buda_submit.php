@@ -191,7 +191,7 @@ function create_jobs(
         $job_cmds .= "$job_cmd\n";
     }
     $cmd = sprintf(
-        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s" --wu_template %s --result_template %s',
+        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s --verbose" --wu_template %s --result_template %s',
         $boinc_app->name, $batch_id, $variant_desc->dockerfile,
         "buda_batches/$batch_dir_name/template_in",
         "buda_batches/$batch_dir_name/template_out"
