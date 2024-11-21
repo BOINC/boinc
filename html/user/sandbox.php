@@ -42,11 +42,28 @@ function list_files($user, $notice) {
     echo "
         <p>
         <h3>Upload files</h3>
+        <p>
+        NOTE: if you upload text files from Windows,
+        they will have CRLF line endings.
+        If they are shell scripts, they won't work on Linux.
+        Add shell scripts using Add File.
+        <p>
+
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
         <p><p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
         <p> <input class=\"btn btn-success\" type=submit value=Upload>
         </form>
+        <hr>
+        <h3>Add file</h3>
+    ";
+    form_start('sandbox.php', 'post');
+    form_input_hidden('action', 'add_file');
+    form_input_text('Name', 'name');
+    form_input_textarea('Contents', 'contents');
+    form_submit('OK');
+    form_end();
+    echo "
         <hr>
         <h3>Sandbox contents</h3>
     ";
@@ -116,6 +133,23 @@ function upload_file($user) {
     list_files($user, $notice);
 }
 
+function add_file($user) {
+    $dir = sandbox_dir($user);
+    $name = post_str('name');
+    if (file_exists("$dir/$name")) {
+        error_page("file $name exists");
+    }
+    $contents = post_str('contents');
+    $contents = str_replace("\r\n", "\n", $contents);
+    file_put_contents("$dir/$name", $contents);
+
+    [$md5, $size] = get_file_info("$dir/$name");
+    write_info_file("$dir/.md5/$name", $md5, $size);
+
+    $notice = "Uploaded file <strong>$name</strong><br/>";
+    list_files($user, $notice);
+}
+
 // delete a sandbox file.
 //
 function delete_file($user) {
@@ -154,6 +188,7 @@ if (!$action) $action = post_str('action', true);
 switch ($action) {
 case '': list_files($user,""); break;
 case 'upload_file': upload_file($user); break;
+case 'add_file': add_file($user); break;
 case 'delete_file': delete_file($user); break;
 case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;
