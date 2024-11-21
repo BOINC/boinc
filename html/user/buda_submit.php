@@ -319,6 +319,10 @@ function handle_submit($user) {
         $variant_desc, $batch_desc, $batch_id, $boinc_app, $batch_dir_name
     );
 
+    // clean up batch dir
+    //
+    //system("rm -rf $batch_dir");
+
     page_head("BUDA jobs submitted");
     echo sprintf('Submitted %d jobs to app %s variant %s',
         count($batch_desc->jobs), $app, $variant

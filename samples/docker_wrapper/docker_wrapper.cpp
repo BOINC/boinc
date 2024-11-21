@@ -124,7 +124,8 @@ DOCKER_CONN docker_conn;
 int parse_config_file() {
     std::ifstream ifs(config_file);
     if (ifs.fail()) {
-        return -1;
+        fprintf(stderr, "no job.toml config file\n");
+        return 0;
     }
     toml::ParseResult r = toml::parse(ifs);
     if (!r.valid()) {
