@@ -37,17 +37,35 @@ function app_list($notice=null) {
     if (!is_dir($buda_root)) {
         mkdir($buda_root);
     }
-    page_head('Docker apps');
+    page_head('BUDA science apps');
     if ($notice) {
         echo "$notice <p>\n";
     }
+    text_start();
+    echo "
+        <p>BUDA (BOINC Universal Docker App)
+        lets you submit Docker jobs through a web interface;
+        you don't need to log into the BOINC server.
+        <p>
+        To use BUDA, you set up a 'science app' and one or more 'variants'.
+        Each variant includes a Dockerfile,
+        a main program to run within the container,
+        and any other files that are needed.
+        <p>
+        Typically there is a variant named 'cpu' that uses one CPU.
+        The names of other variants are plan class names;
+        these can be versions that use a GPU or multiple CPUs.
+    ";
+
+    echo "<h2>Science apps</h2>";
     $dirs = scandir($buda_root);
     foreach ($dirs as $dir) {
         if ($dir[0] == '.') continue;
         show_app($dir);
     }
     echo '<hr>';
-    show_button_small('buda.php?action=app_form', 'Add app');
+    show_button_small('buda.php?action=app_form', 'Add science app');
+    text_end();
     page_tail();
 }
 
@@ -55,23 +73,24 @@ function show_app($dir) {
     global $buda_root;
     $indent = "&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp";
     echo "<hr><font size=+3>$dir</font>\n";
-    echo "<p>$indent Variants (click for details):<ul>";
+    start_table('table-striped');
+    table_header('Variant name (click for details)', 'Submit jobs');
     $pcs = scandir("$buda_root/$dir");
     foreach ($pcs as $pc) {
         if ($pc[0] == '.') continue;
-        echo "<li><a href=buda.php?action=variant_view&app=$dir&variant=$pc>$pc</href>";
-        show_button_small("buda.php?action=variant_delete&app=$dir&variant=$pc", 'Delete variant');
-        show_button_small(
-            "buda_submit.php?app=$dir&variant=$pc", "Submit jobs"
+        table_row(
+            "<a href=buda.php?action=variant_view&app=$dir&variant=$pc>$pc</href>",
+            button_text(
+                "buda_submit.php?app=$dir&variant=$pc", "Submit"
+            )
         );
     }
-    echo '</ul>';
-    echo $indent;
-    show_button_small("buda.php?action=variant_form&app=$dir", 'Add variant');
+    end_table();
     echo "<p>";
+    show_button("buda.php?action=variant_form&app=$dir", 'Add variant');
     echo "<p>";
     show_button_small(
-        "buda.php?action=app_delete&app=$dir", "Delete app '$dir'"
+        "buda.php?action=app_delete&app=$dir", "Delete science app '$dir'"
     );
 }
 
@@ -93,6 +112,10 @@ function variant_view() {
         );
     }
     end_table();
+    show_button_small(
+        "buda.php?action=variant_delete&app=$dir&variant=$variant",
+        'Delete variant'
+    );
     page_tail();
 }
 

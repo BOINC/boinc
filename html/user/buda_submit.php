@@ -32,13 +32,19 @@ function submit_form($user) {
     $app = get_str('app');
     $variant = get_str('variant');
 
+    $desc = "<br><small>
+        A zipped directory with one subdirectory per job,
+        containing the input file(s) for that job
+        and an optional file <code>cmdline</code>
+        containing command-line arguments.
+        See <a href=https://github.com/BOINC/boinc/wiki/Docker-apps>more details</a></small>.
+    ";
     page_head("Submit jobs to $app ($variant)");
     form_start('buda_submit.php');
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
     form_input_hidden('variant', $variant);
-    form_input_text('Batch name', 'batch_name');
-    form_select('Batch file', 'batch_file', $sbitems_zip);
+    form_select("Batch zip file $desc", 'batch_file', $sbitems_zip);
     form_submit('OK');
     form_end();
     page_tail();
@@ -131,14 +137,16 @@ function parse_batch_dir($batch_dir, $variant_desc) {
     return $batch_desc;
 }
 
-function create_batch($user, $njobs, $boinc_app) {
+function create_batch($user, $njobs, $boinc_app, $app, $variant) {
     $now = time();
     $batch_name = sprintf('buda_%d_%d', $user->id, $now);
+    $description = "$app ($variant)";
     $batch_id = BoincBatch::insert(sprintf(
-        "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values (%d, %d, 0, 0, 0, %d, 0, 0, %d, 0, 0, 0, 0, '%s', %d, 0, '', 0)",
-        $user->id, $now, $njobs, BATCH_STATE_INIT, $batch_name, $boinc_app->id
+        "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values (%d, %d, 0, 0, 0, %d, 0, 0, %d, 0, 0, 0, 0, '%s', %d, 0, '%s', 0)",
+        $user->id, $now, $njobs, BATCH_STATE_INIT, $batch_name, $boinc_app->id,
+        $description
     ));
-    return $batch_id;
+    return BoincBatch::lookup_id($batch_id);
 }
 
 function stage_input_files($batch_dir, $batch_desc, $batch_id) {
@@ -293,7 +301,6 @@ function handle_submit($user) {
     }
     $app = get_str('app');
     $variant = get_str('variant');
-    $batch_name = get_str('batch_name', true);
     $batch_file = get_str('batch_file');
 
     $variant_dir = "../../buda_apps/$app/$variant";
@@ -310,25 +317,27 @@ function handle_submit($user) {
 
     create_templates($variant_desc, $batch_dir);
 
-    $batch_id = create_batch($user, count($batch_desc->jobs), $boinc_app);
+    $batch = create_batch(
+        $user, count($batch_desc->jobs), $boinc_app, $app, $variant
+    );
 
     // stage input files and record the physical names
     //
-    stage_input_files($batch_dir, $batch_desc, $batch_id);
+    stage_input_files($batch_dir, $batch_desc, $batch->id);
 
     create_jobs(
-        $variant_desc, $batch_desc, $batch_id, $boinc_app, $batch_dir_name
+        $variant_desc, $batch_desc, $batch->id, $boinc_app, $batch_dir_name
     );
+
+    // mark batch as in progress
+    //
+    $batch->update(sprintf('state=%d', BATCH_STATE_IN_PROGRESS));
 
     // clean up batch dir
     //
     //system("rm -rf $batch_dir");
 
-    page_head("BUDA jobs submitted");
-    echo sprintf('Submitted %d jobs to app %s variant %s',
-        count($batch_desc->jobs), $app, $variant
-    );
-    page_tail();
+    header("Location: submit.php?action=query_batch&batch_id=$batch->id");
 }
 
 $user = get_logged_in_user();

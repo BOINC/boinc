@@ -17,7 +17,7 @@
 
 // A sample assimilator that:
 // 1) if success, copy the output file(s) to a directory
-//      ../sample_results/batchid
+//      ../results/batchid
 //      If 1 output file, its name is the WU name
 //      If >1 files, file i is named <wuname>_i
 // 2) if failure, write a message to <wuname>_error

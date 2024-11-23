@@ -12,7 +12,8 @@
 # sample_assimilator.py --error error_code wu_name wu_id batch_id
 #
 # in the 1st case, move the output files from the upload hierarchy
-# to results/<batch_id>/<wu_name>_i
+# to results/<batch_id>/<wu_name>_file=<log_name>
+# where <log_name> is the file's logical name (from template)
 # in the 2nd case, write the error code
 # to results/<batch_id>/<wu_name>_error
 

@@ -202,7 +202,7 @@ function handle_main($user) {
         error_page("Ask the project admins for permission to submit jobs");
     }
 
-    page_head("Job submission and control");
+    page_head("Job submission");
 
     if (isset($submit_urls)) {
         // show links to per-app job submission pages
@@ -254,40 +254,8 @@ function handle_main($user) {
         }
     }
     if ($user_submit->manage_all || $app_admin) {
-        echo "<h3>Administrative functions</h3><ul>\n";
-        if ($user_submit->manage_all) {
-            echo "<li>All applications<br>
-                <ul>
-                <li> <a href=submit.php?action=admin&app_id=0>View all batches</a>
-                <li> <a href=manage_project.php>Manage user permissions</a>
-                </ul>
-            ";
-            $apps = BoincApp::enum("deprecated=0");
-            foreach ($apps as $app) {
-                echo "
-                    <li>$app->user_friendly_name<br>
-                    <ul>
-                    <li><a href=submit.php?action=admin&app_id=$app->id>View batches</a>
-                    <li> <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
-                    <li> <a href=manage_app.php?app_id=$app->id&amp;action=permissions_form>Manage user permissions</a>
-                    <li> <a href=manage_app.php?app_id=$app->id&amp;action=batches_form>Manage batches</a>
-                    </ul>
-                ";
-            }
-        } else {
-            foreach ($usas as $usa) {
-                $app = BoincApp::lookup_id($usa->app_id);
-                echo "<li>$app->user_friendly_name<br>
-                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
-                ";
-                if ($usa->manage) {
-                    echo "&middot;
-                        <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
-                    ";
-                }
-            }
-        }
-        echo "</ul>\n";
+        echo "<h3>Administer job submission</h3>\n";
+        show_button('submit.php?action=admin', 'Administer');
     }
 
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
@@ -318,20 +286,59 @@ function check_admin_access($user, $app_id) {
     }
 }
 
-function handle_admin($user) {
+function handle_admin() {
+    page_head("Administer job submission");
+    if ($user_submit->manage_all) {
+        echo "<li>All applications<br>
+            <ul>
+            <li> <a href=submit.php?action=admin_all>View all batches</a>
+            <li> <a href=manage_project.php>Manage user permissions</a>
+            </ul>
+        ";
+        $apps = BoincApp::enum("deprecated=0");
+        foreach ($apps as $app) {
+            echo "
+                <li>$app->user_friendly_name<br>
+                <ul>
+                <li><a href=submit.php?action=admin_app&app_id=$app->id>View batches</a>
+                <li> <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
+                <li> <a href=manage_app.php?app_id=$app->id&amp;action=permissions_form>Manage user permissions</a>
+                <li> <a href=manage_app.php?app_id=$app->id&amp;action=batches_form>Manage batches</a>
+                </ul>
+            ";
+        }
+    } else {
+        foreach ($usas as $usa) {
+            $app = BoincApp::lookup_id($usa->app_id);
+            echo "<li>$app->user_friendly_name<br>
+                <a href=submit.php?action=admin_app&app_id=$app->id>Batches</a>
+            ";
+            if ($usa->manage) {
+                echo "&middot;
+                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                ";
+            }
+        }
+    }
+    echo "</ul>\n";
+    page_tail();
+}
+
+function handle_admin_app($user) {
     $app_id = get_int("app_id");
     check_admin_access($user, $app_id);
-    if ($app_id) {
-        $app = BoincApp::lookup_id($app_id);
-        if (!$app) error_page("no such app");
-        page_head("Administer batches for $app->user_friendly_name");
-        $batches = BoincBatch::enum("app_id = $app_id order by id desc");
-        show_batches($batches, PAGE_SIZE, null, $app);
-    } else {
-        page_head("Administer batches (all apps)");
-        $batches = BoincBatch::enum("true order by id desc");
-        show_batches($batches, PAGE_SIZE, null, null);
-    }
+    $app = BoincApp::lookup_id($app_id);
+    if (!$app) error_page("no such app");
+
+    page_head("Administer batches for $app->user_friendly_name");
+    $batches = BoincBatch::enum("app_id = $app_id order by id desc");
+    show_batches($batches, PAGE_SIZE, null, $app);
+    page_tail();
+}
+function handle_admin_all($user) {
+    page_head("Administer batches (all apps)");
+    $batches = BoincBatch::enum("true order by id desc");
+    show_batches($batches, PAGE_SIZE, null, null);
     page_tail();
 }
 
@@ -378,7 +385,8 @@ function handle_batch_stats($user) {
         page_tail();
         return;
     }
-    start_table();
+    text_start();
+    start_table('table-striped');
     row2("qualifying results", $n);
     row2("mean WSS", size_string($wss_sum/$n));
     row2("max WSS", size_string($wss_max));
@@ -387,7 +395,7 @@ function handle_batch_stats($user) {
     row2("mean disk usage", size_string($disk_sum/$n));
     row2("max disk usage", size_string($disk_max));
     end_table();
-
+    text_end();
     page_tail();
 }
 
@@ -438,10 +446,21 @@ function handle_query_batch($user) {
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum("batch = $batch->id");
     $batch = get_batch_params($batch, $wus);
+    if ($batch->user_id == $user->id) {
+        $owner = $user;
+    } else {
+        $owner = BoincUser::lookup_id($batch->user_id);
+    }
 
     page_head("Batch $batch_id");
     start_table();
     row2("name", $batch->name);
+    if ($batch->description) {
+        row2('description', $batch->description);
+    }
+    if ($owner) {
+        row2('submitter', $owner->name);
+    }
     row2("application", $app?$app->name:'---');
     row2("state", batch_state_string($batch->state));
     //row2("# jobs", $batch->njobs);
@@ -459,10 +478,11 @@ function handle_query_batch($user) {
     row2("Output File Size", size_string(batch_output_file_size($batch->id)));
     end_table();
     $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
+    echo "<p>";
     show_button($url, "Get zipped output files");
+    echo "<p>";
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
-        echo "<p></p>";
         show_button(
             "submit.php?action=abort_batch_confirm&batch_id=$batch_id",
             "Abort batch"
@@ -470,13 +490,13 @@ function handle_query_batch($user) {
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
-        echo "<p></p>";
         show_button(
             "submit.php?action=retire_batch_confirm&batch_id=$batch_id",
             "Retire batch"
         );
         break;
     }
+    echo "<p>";
     show_button("submit.php?action=batch_stats&batch_id=$batch_id",
         "Show memory/disk usage statistics"
     );
@@ -484,7 +504,8 @@ function handle_query_batch($user) {
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
-        "Job ID and name<br><small>click for details or to get output files</small>",
+        "ID <br><small>click for details or to get output files</small>",
+        "Name",
         "status",
         "Canonical instance<br><small>click to see result page on BOINC server</smallp>",
         "Download Results"
@@ -504,13 +525,13 @@ function handle_query_batch($user) {
                 $y = "in progress";
             }
         }
-        echo "<tr>
-                <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id &middot; $wu->name</a></td>
-                <td>$y</td>
-                <td>$x</td>
-                <td>$text</td>
-            </tr>
-        ";
+        row_array([
+            "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->id</a>",
+            $wu->name,
+            $y,
+            $x,
+            $text
+        ]);
     }
     end_table();
     echo "<p><a href=submit.php>Return to job control page</a>\n";
@@ -714,6 +735,8 @@ case '': handle_main($user); break;
 case 'abort_batch': handle_abort_batch($user); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'admin': handle_admin($user); break;
+case 'admin_app': handle_admin_app($user); break;
+case 'admin_all': handle_admin_all($user); break;
 case 'batch_stats': handle_batch_stats($user); break;
 case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
