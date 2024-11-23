@@ -13,7 +13,7 @@
   </PropertyGroup>
   <Import Project="boinc.props" />
   <PropertyGroup>
-    <TargetVersion>26208</TargetVersion>
+    <TargetVersion>26209</TargetVersion>
     <TargetName>vboxwrapper_$(TargetVersion)_windows_x86_64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
