@@ -164,7 +164,9 @@ function wus_nsent($wus) {
     return $n;
 }
 
-function get_outfile_names($result) {
+// get the physical names of a result's output files.
+/
+function get_outfile_phys_names($result) {
     $names = [];
     $xml = "<a>".$result->xml_doc_out."</a>";
     $r = simplexml_load_string($xml);
@@ -261,7 +263,7 @@ function batch_output_file_size($batchid) {
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);
-        $names = get_outfile_names($result);
+        $names = get_outfile_phys_names($result);
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {

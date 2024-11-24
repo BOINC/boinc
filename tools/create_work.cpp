@@ -25,6 +25,15 @@
 // - to create a single job, with everything passed on the cmdline
 // - to create multiple jobs, where per-job info is passed via stdin,
 //      one line per job
+//      available options here:
+//      --wu_name X
+//      --wu_template F
+//      --result_template F
+//      --remote_file url nbytes md5
+//      --target_host ID
+//      --target_user ID
+//      --priority N
+//      phys_name1 ...
 //
 // The input files must already be staged (i.e. in the download hierarchy).
 

@@ -51,6 +51,7 @@ int OUTPUT_FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.match_tag("/file_ref")) {
             if (phys_name.empty()) return ERR_XML_PARSE;
             if (logical_name.empty()) return ERR_XML_PARSE;
+            return 0;
         }
         if (xp.parse_string("file_name", phys_name)) {
             continue;
@@ -74,7 +75,13 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("file_ref")) {
             int retval = fi.parse(xp);
-            if (retval) return retval;
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "get_output_file_info(): error parsing %s\n",
+                    result.xml_doc_in
+                );
+                return retval;
+            }
             if (standalone) {
                 safe_strcpy(path, fi.phys_name.c_str());
                 if (!path_to_filename(fi.phys_name, name)) {
@@ -105,7 +112,13 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
         if (xp.match_tag("file_ref")) {
             OUTPUT_FILE_INFO fi;
             int retval =  fi.parse(xp);
-            if (retval) return retval;
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "get_output_file_infos(): error parsing %s\n",
+                    result.xml_doc_in
+                );
+                return retval;
+            }
             if (standalone) {
                 safe_strcpy(path, fi.phys_name.c_str());
                 if (!path_to_filename(fi.phys_name, name)) {

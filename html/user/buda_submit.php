@@ -185,9 +185,9 @@ function create_jobs(
     }
     $job_cmds = '';
     foreach ($batch_desc->jobs as $job) {
-        $job_cmd = '';
+        $job_cmd = sprintf('--wu_name batch_%d__job_%s', $batch_id, $job->dir);
         if ($job->cmdline) {
-            $job_cmd .= sprintf('--command_line "%s"', $job->cmdline);
+            $job_cmd .= sprintf(' --command_line "%s"', $job->cmdline);
         }
         $job_cmd .= " $app_file_names";
         foreach ($batch_desc->shared_files_phys_names as $x) {

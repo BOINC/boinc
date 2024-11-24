@@ -17,6 +17,8 @@
 
 
 // file deleter.  See usage() below for usage.
+// skips WUs with 'nodelete' in the name
+// skips files with <no_delete/> in the <file_info>
 
 // enum sizes.  RESULT_PER_ENUM is three times larger on the
 // assumption of 3-fold average redundancy.

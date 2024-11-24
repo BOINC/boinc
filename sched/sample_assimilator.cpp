@@ -89,11 +89,9 @@ int assimilate_handler(
         bool file_copied = false;
         for (i=0; i<n; i++) {
             OUTPUT_FILE_INFO& fi = output_files[i];
-            if (n==1) {
-                sprintf(buf, "%s/%d/%s", outdir, wu.batch, wu.name);
-            } else {
-                sprintf(buf, "%s/%d/%s_%d", outdir, wu.batch, wu.name, i);
-            }
+            sprintf(buf, "%s/%d/%s__file_%s",
+                outdir, wu.batch, wu.name, fi.logical_name.c_str()
+            );
             retval = boinc_copy(fi.path.c_str() , buf);
             if (!retval) {
                 file_copied = true;

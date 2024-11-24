@@ -160,7 +160,8 @@ bool do_pass(APP& app) {
         retval = assimilate_handler(wu, results, canonical_result);
         if (retval && retval != DEFER_ASSIMILATION) {
             log_messages.printf(MSG_CRITICAL,
-                "[%s] handler error: %s; exiting\n", wu.name, boincerror(retval)
+                "assimilator.cpp [%s] handler error %d: %s; exiting\n",
+                wu.name, retval, boincerror(retval)
             );
             exit(retval);
         }
