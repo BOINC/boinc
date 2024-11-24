@@ -457,6 +457,7 @@ function handle_query_batch($user) {
     $web_app = $web_apps[$app->name];
 
     page_head("Batch $batch_id");
+    text_start();
     start_table();
     row2("name", $batch->name);
     if ($batch->description) {
@@ -513,10 +514,8 @@ function handle_query_batch($user) {
     echo "<h2>Jobs</h2>\n";
     start_table();
     $x = [
-        "ID <br><small>click for details or to get output files</small>",
-        "Name",
-        "status",
-        "Canonical instance<br><small>click for details</small>"
+        "Name <br><small>click for details</small>",
+        "status"
     ];
     if (!$web_app->assim_move) {
         $x[] = "Download Results";
@@ -525,11 +524,9 @@ function handle_query_batch($user) {
     foreach($wus as $wu) {
         $resultid = $wu->canonical_resultid;
         if ($resultid) {
-            $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
             $y = '<font color="green">completed</font>';
             $text = "<a href=get_output2.php?cmd=workunit&wu_id=$wu->id>Download output files</a>";
         } else {
-            $x = "---";
             $text = "---";
             if ($batch->state == BATCH_STATE_COMPLETE) {
                 $y = '<font color="red">failed</font>';
@@ -538,10 +535,8 @@ function handle_query_batch($user) {
             }
         }
         $x = [
-            "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->id</a>",
-            $wu->name,
+            "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
-            $x
         ];
         if (!$web_app->assim_move) {
             $x[] = $text;
@@ -550,6 +545,7 @@ function handle_query_batch($user) {
     }
     end_table();
     echo "<p><a href=submit.php>Return to job control page</a>\n";
+    text_end();
     page_tail();
 }
 
@@ -565,7 +561,8 @@ function handle_query_job($user) {
     $app = BoincApp::lookup_id($wu->appid);
     $web_app = $web_apps[$app->name];
 
-    page_head("Job $wuid");
+    page_head("Job $wu->name");
+    text_start();
 
     echo "
         <a href=workunit.php?wuid=$wuid>Workunit details</a>
@@ -573,32 +570,7 @@ function handle_query_job($user) {
         <a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch $wu->batch</a>
     ";
 
-    // show input files
-    //
-    echo "<h2>Input files</h2>\n";
-    $x = "<in>".$wu->xml_doc."</in>";
-    $x = simplexml_load_string($x);
-    start_table();
-    table_header("Name<br><small>(click to view)</small>",
-        "Size (bytes)", "MD5"
-    );
-    foreach ($x->workunit->file_ref as $fr) {
-        $pname = (string)$fr->file_name;
-        $lname = (string)$fr->open_name;
-        foreach ($x->file_info as $fi) {
-            if ((string)$fi->name == $pname) {
-                table_row(
-                    "<a href=$fi->url>$lname</a>",
-                    $fi->nbytes,
-                    $fi->md5_cksum
-                );
-                break;
-            }
-        }
-    }
-    end_table();
-
-    echo "<h2>Job instances</h2>\n";
+    echo "<h2>Instances</h2>\n";
     start_table();
     table_header(
         "ID<br><small>click for result page</small>",
@@ -647,6 +619,33 @@ function handle_query_job($user) {
         row_array($x);
     }
     end_table();
+
+    // show input files
+    //
+    echo "<h2>Input files</h2>\n";
+    $x = "<in>".$wu->xml_doc."</in>";
+    $x = simplexml_load_string($x);
+    start_table();
+    table_header("Name<br><small>(click to view)</small>",
+        "Size (bytes)", "MD5"
+    );
+    foreach ($x->workunit->file_ref as $fr) {
+        $pname = (string)$fr->file_name;
+        $lname = (string)$fr->open_name;
+        foreach ($x->file_info as $fi) {
+            if ((string)$fi->name == $pname) {
+                table_row(
+                    "<a href=$fi->url>$lname</a>",
+                    $fi->nbytes,
+                    $fi->md5_cksum
+                );
+                break;
+            }
+        }
+    }
+
+    end_table();
+    text_end();
     echo "<p><a href=submit.php>Return to job control page</a>\n";
     page_tail();
 }
