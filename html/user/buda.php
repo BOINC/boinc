@@ -71,7 +71,6 @@ function app_list($notice=null) {
 
 function show_app($dir) {
     global $buda_root;
-    $indent = "&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp";
     echo "<hr><font size=+3>$dir</font>\n";
     start_table('table-striped');
     table_header('Variant name (click for details)', 'Submit jobs');
@@ -97,7 +96,9 @@ function show_app($dir) {
 function variant_view() {
     global $buda_root;
     $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
     page_head("App $app variant $variant");
     $dir = "$buda_root/$app/$variant";
     start_table();
@@ -131,6 +132,7 @@ function variant_view() {
 function variant_form($user) {
     $sbitems = sandbox_select_items($user);
     $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
 
     page_head("Create variant of Docker app $app");
     form_start('buda.php');
@@ -165,11 +167,23 @@ function copy_and_stage_file($user, $fname, $dir, $app, $variant) {
 function variant_action($user) {
     global $buda_root;
     $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
     $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
     $dockerfile = get_str('dockerfile');
+    if (!is_valid_filename($dockerfile)) die('bad arg');
     $app_files = get_array('app_files');
+    foreach ($app_files as $fname) {
+        if (!is_valid_filename($fname)) die('bad arg');
+    }
     $input_file_names = explode(' ', get_str('input_file_names'));
     $output_file_names = explode(' ', get_str('output_file_names'));
+    foreach ($input_file_names as $fname) {
+        if (!is_valid_filename($fname)) die('bad arg');
+    }
+    foreach ($output_file_names as $fname) {
+        if (!is_valid_filename($fname)) die('bad arg');
+    }
 
     if (file_exists("$buda_root/$app/$variant")) {
         error_page("Variant '$variant' already exists.");
@@ -210,10 +224,13 @@ function variant_action($user) {
 function variant_delete() {
     global $buda_root;
     $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
     $confirmed = get_str('confirmed', true);
     if ($confirmed) {
         $dir = "$buda_root/$app/$variant";
+        if (!file_exists($dir)) error_page('no such variant');
         // delete staged files
         //
         foreach (scandir("$dir/.md5") as $fname) {
@@ -232,9 +249,7 @@ function variant_delete() {
         app_list($notice);
     } else {
         page_head("Confirm");
-        echo "Are you sure want to delete variant $variant of app $app?
-            <p>
-        ";
+        echo "Are you sure you want to delete variant $variant of app $app?  <p>";
         show_button(
             "buda.php?action=variant_delete&app=$app&variant=$variant&confirmed=yes",
             "Yes"
@@ -243,8 +258,37 @@ function variant_delete() {
     }
 }
 
+function app_delete() {
+    global $buda_root;
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $confirmed = get_str('confirmed', true);
+    if ($confirmed) {
+        $dir = "$buda_root/$app";
+        if (!file_exists($dir)) error_page('no such app');
+        foreach (scandir($dir) as $fname) {
+            if ($fname[0] == '.') continue;
+            error_page("You must delete all variants first.");
+        }
+        system("rmdir $buda_root/$app", $ret);
+        if ($ret) {
+            error_page('delete failed');
+        }
+        $notice = "App $app removed.";
+        app_list($notice);
+    } else {
+        page_head('Confirm');
+        echo "Are you sure you want to delete app $app?  <p>";
+        show_button(
+            "buda.php?action=app_delete&app=$app&confirmed=yes",
+            "Yes"
+        );
+        page_tail();
+    }
+}
+
 function app_form() {
-    page_head("Create Docker app");
+    page_head('Create Docker app');
     form_start();
     form_input_text('Name', 'name');
     form_submit('OK');
@@ -255,6 +299,7 @@ function app_form() {
 function app_action() {
     global $buda_root;
     $name = get_str('name');
+    if (!is_valid_filename($name)) die('bad arg');
     $dir = "$buda_root/$name";
     if (file_exists($dir)) {
         error_page("App $name already exists.");
@@ -266,8 +311,11 @@ function app_action() {
 function view_file() {
     global $buda_root;
     $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
+    if (!is_valid_filename($arg)) die('bad arg');
     $fname = get_str('fname');
+    if (!is_valid_filename($fname)) die('bad arg');
     echo "<pre>\n";
     readfile("$buda_root/$app/$variant/$fname");
     echo "</pre>\n";
