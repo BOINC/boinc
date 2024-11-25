@@ -30,7 +30,9 @@ function submit_form($user) {
         error_page("No .zip files in your sandbox.");
     }
     $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
 
     $desc = "<br><small>
         A zipped directory with one subdirectory per job,
@@ -300,8 +302,11 @@ function handle_submit($user) {
         error_page("No buda app found");
     }
     $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
     $batch_file = get_str('batch_file');
+    if (!is_valid_filename($batch_file)) die('bad arg');
 
     $variant_dir = "../../buda_apps/$app/$variant";
     $variant_desc = json_decode(
