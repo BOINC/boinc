@@ -39,7 +39,7 @@ function submit_form($user) {
         containing the input file(s) for that job
         and an optional file <code>cmdline</code>
         containing command-line arguments.
-        See <a href=https://github.com/BOINC/boinc/wiki/Docker-apps>more details</a></small>.
+        <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission>Details</a></small>.
     ";
     page_head("Submit jobs to $app ($variant)");
     form_start('buda_submit.php');
@@ -74,11 +74,12 @@ function unzip_batch_file($user, $batch_file) {
     return $batch_dir_name;
 }
 
-// check validity of batch dir.
-// top level should have only infiles (shared)
-// job dirs should have only remaining infiles and possibly cmdline
+// Scan a batch dir.
+// Check its validity:
+// - Top level can have only infiles (shared)
+// - Subdirs (job dirs) can have only remaining infiles and possibly cmdline
 //
-// return struct describing the batch, and the md5/size of files
+// Return a structure describing its contents, and the md5/size of files
 //
 function parse_batch_dir($batch_dir, $variant_desc) {
     $input_files = $variant_desc->input_file_names;
