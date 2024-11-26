@@ -86,7 +86,7 @@ function show_app($dir) {
     }
     end_table();
     echo "<p>";
-    show_button("buda.php?action=variant_form&app=$dir", 'Add variant');
+    show_button_small("buda.php?action=variant_form&app=$dir", 'Add variant');
     echo "<p>";
     show_button_small(
         "buda.php?action=app_delete&app=$dir", "Delete science app '$dir'"
@@ -289,7 +289,8 @@ function app_delete() {
 
 function app_form() {
     page_head('Create Docker app');
-    form_start();
+    form_start('buda.php');
+    form_input_hidden('action', 'app_action');
     form_input_text('Name', 'name');
     form_submit('OK');
     form_end();
@@ -321,7 +322,17 @@ function view_file() {
     echo "</pre>\n";
 }
 
+// check access.
+// Anyone with submit access to BUDA can add/delete apps and variants.
+// Might want to refine this at some point
+
 $user = get_logged_in_user();
+$buda_app = BoincApp::lookup("name='buda'");
+if (!$buda_app) error_page('no buda app');
+if (!has_submit_access($user, $buda_app->id)) {
+    error_page('no access');
+}
+
 $action = get_str('action', true);
 switch ($action) {
 case 'app_form':

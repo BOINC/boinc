@@ -140,13 +140,14 @@ function parse_batch_dir($batch_dir, $variant_desc) {
     return $batch_desc;
 }
 
-function create_batch($user, $njobs, $boinc_app, $app, $variant) {
+function create_batch($user, $njobs, $app, $variant) {
+    global $buda_app;
     $now = time();
     $batch_name = sprintf('buda_%d_%d', $user->id, $now);
     $description = "$app ($variant)";
     $batch_id = BoincBatch::insert(sprintf(
         "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values (%d, %d, 0, 0, 0, %d, 0, 0, %d, 0, 0, 0, 0, '%s', %d, 0, '%s', 0)",
-        $user->id, $now, $njobs, BATCH_STATE_INIT, $batch_name, $boinc_app->id,
+        $user->id, $now, $njobs, BATCH_STATE_INIT, $batch_name, $buda_app->id,
         $description
     ));
     return BoincBatch::lookup_id($batch_id);
@@ -178,8 +179,10 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 }
 
 function create_jobs(
-    $variant_desc, $batch_desc, $batch_id, $boinc_app, $batch_dir_name
+    $variant_desc, $batch_desc, $batch_id, $batch_dir_name
 ) {
+    global $buda_app;
+
     // get list of names of app files
     //
     $app_file_names = $variant_desc->dockerfile_phys;
@@ -203,7 +206,7 @@ function create_jobs(
     }
     $cmd = sprintf(
         'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s --verbose" --wu_template %s --result_template %s',
-        $boinc_app->name, $batch_id, $variant_desc->dockerfile,
+        $buda_app->name, $batch_id, $variant_desc->dockerfile,
         "buda_batches/$batch_dir_name/template_in",
         "buda_batches/$batch_dir_name/template_out"
     );
@@ -298,10 +301,6 @@ function create_templates($variant_desc, $batch_dir) {
 }
 
 function handle_submit($user) {
-    $boinc_app = BoincApp::lookup("name='buda'");
-    if (!$boinc_app) {
-        error_page("No buda app found");
-    }
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
@@ -324,7 +323,7 @@ function handle_submit($user) {
     create_templates($variant_desc, $batch_dir);
 
     $batch = create_batch(
-        $user, count($batch_desc->jobs), $boinc_app, $app, $variant
+        $user, count($batch_desc->jobs), $app, $variant
     );
 
     // stage input files and record the physical names
@@ -332,7 +331,7 @@ function handle_submit($user) {
     stage_input_files($batch_dir, $batch_desc, $batch->id);
 
     create_jobs(
-        $variant_desc, $batch_desc, $batch->id, $boinc_app, $batch_dir_name
+        $variant_desc, $batch_desc, $batch->id, $batch_dir_name
     );
 
     // mark batch as in progress
@@ -347,6 +346,11 @@ function handle_submit($user) {
 }
 
 $user = get_logged_in_user();
+$buda_app = BoincApp::lookup("name='buda'");
+if (!$buda_app) error_page('no buda app');
+if (!has_submit_access($user, $buda_app->id)) {
+    error_page('no access');
+}
 $action = get_str('action', true);
 if ($action == 'submit') {
     handle_submit($user);
