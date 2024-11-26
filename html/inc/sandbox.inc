@@ -19,14 +19,23 @@
 // Utility functions for user file sandbox feature
 //
 // In this system:
-// - sandbox files live in the download hierarchy,
-//   with names of the form sb_userid_md5
-// - each user has a "sandbox dir" project/sandbox/userid.
-//   The files in this have user-visible names, and contents of the form
-//   sb file_size file_md5
+// - each user (job submitter) has a 'sandbox' where they can store files
+//      on the BOINC server, via a web interface.
+//      These files are mutable; you can modify a file w/ a given name.
+// - files are stored in a dir project/sandbox/<userid>
+// - When a file is uploaded, its size and MD5 are computed and stored
+//      in an 'info file' in a parallel dir, project/sandbox/<userid>/.md5
+//
+// Sandbox files can be used for web-based job submissions systems
+// like BUDA and autodock on BOINC Central.
+// Typically they are used as job input files or app files,
+// in which case they are downloadable.
+// When a file is used in this way,
+// it must be copied to the download hierarchy,
+// and assigned a physical name that includes its MD5.
+// The name depends on the role of the file.
 
 require_once("../inc/util.inc");
-require_once("../inc/submit_db.inc");
 require_once("../inc/dir_hier.inc");
 
 // Return path of sandbox directory for the given user.
@@ -44,73 +53,51 @@ function sandbox_dir($user) {
     if (!is_dir($d)) {
         mkdir($d);
     }
+    if (!is_dir("$d/.md5")) {
+        mkdir("$d/.md5");
+    }
     return $d;
 }
 
-function sandbox_write_link_file($path, $size, $md5) {
-    file_put_contents($path, "sb $size $md5");
-}
-
-// check if a link with the given md5 exists
+// parse a sandbox file's info file.
+// If missing, create it.
 //
-function sandbox_lf_exists($user, $md5) {
-    $exist = false;
-    $elf = "";
+function sandbox_parse_info_file($user, $name) {
     $dir = sandbox_dir($user);
-    $files = sandbox_file_names($user);
-    foreach ($files as $file) {
-        $path = "$dir/$file";
-        [$err, $file_size, $file_md5] = sandbox_parse_link_file($path);
-        if (!$err){
-            if (strcmp($md5, $file_md5) == 0) {
-                $exist = true;
-                $elf = $file;
-                break;
-            }
-        }
+    $info_path = "$dir/.md5/$name";
+    $info = parse_info_file($info_path);
+    if ($info) {
+        return $info;
     }
-    return array($exist, $elf);
-}
-
-// parse a link file and return (error, size, md5)
-//
-function sandbox_parse_link_file($path) {
-    if (!file_exists($path)) { return array(true, null, null); }
-    $x = file_get_contents($path);
-    $n = sscanf($x, "%s %d %s", $s, $size, $md5);
-    if ($n != 3) return array(true, null, null);
-    if ($s != 'sb') return array(true, null, null);
-    return array(false, $size, $md5);
-}
-
-$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-
-// return the physical name of the file
-//
-function sandbox_file_name($user, $md5) {
-    return "sb_".$user->id."_".$md5;
-}
-
-// return the path of the file in the download directory
-//
-function sandbox_physical_path($user, $md5) {
-    global $fanout;
-    $f = sandbox_file_name($user, $md5);
-    return dir_hier_path($f, parse_config(get_config(), "<download_dir>"), $fanout);
+    [$size, $md5] = get_file_info("$dir/$name");
+    write_info_file($info_path, $md5, $size);
+    return [$md5, $size];
 }
 
 // return list of files in sandbox
 //
 function sandbox_file_names($user) {
-    $d = opendir(sandbox_dir($user));
+    $files = scandir(sandbox_dir($user));
     $names = array();
-    while (($f = readdir($d)) !== false) {
-        if ($f == '.') continue;
-        if ($f == '..') continue;
+    foreach ($files as $f) {
+        if ($f[0] == '.') continue;
         $names[] = $f;
     }
     natsort($names);
     return $names;
+}
+
+// return list of files matching given pattern,
+// in the format used for form_select() and form_select_multiple()
+//
+function sandbox_select_items($user, $pattern=null) {
+    $sbfiles = sandbox_file_names($user);
+    $sbitems = [];
+    foreach ($sbfiles as $f) {
+        if ($pattern && !preg_match($pattern, $f)) continue;
+        $sbitems[] = [$f, $f];
+    }
+    return $sbitems;
 }
 
 // return a <select> for files in sandbox
@@ -131,66 +118,13 @@ function sandbox_file_select(
     return $x;
 }
 
-// convert sandbox (link) name to physical path
+// copy file and info file from sandbox to $dir
+// (which must have a subdir .md5/)
 //
-function sandbox_log_to_phys($user, $log_name) {
-    $dir = sandbox_dir($user);
-    [$err, $file_size, $file_md5] = sandbox_parse_link_file("$dir/$log_name");
-    if ($err) return null;
-    return sandbox_physical_path($user, $file_md5);
-}
-
-// convert sandbox name to physical name
-//
-function sandbox_name_to_phys_name($user, $log_name) {
-    $dir = sandbox_dir($user);
-    [$err, $file_size, $file_md5] = sandbox_parse_link_file("$dir/$log_name");
-    if ($err) return null;
-    return sandbox_file_name($user, $file_md5);
-}
-
-// check if a file is still being used by a unfinished batch
-//
-// TODO: this is a kludge.
-// Should we use the job_file and batch_file_assoc tables instead?
-//
-function sandbox_file_in_use($user, $file){
-    $ufiles = array();
-
-    $pbatches = BoincBatch::enum(
-        sprintf('user_id=%d and state!=%d and state!=%d',
-            $user->id, BATCH_STATE_COMPLETE, BATCH_STATE_ABORTED
-        )
-    );
-    if (!$pbatches) return false;
-
-    foreach ($pbatches as $batch){
-        $wus = BoincWorkUnit::enum("batch = $batch->id limit 1" );
-        if ($wus == null){
-            continue;
-        }
-        foreach($wus as $wu){
-            $x = "<in>".$wu->xml_doc."</in>";
-            $x = simplexml_load_string($x);
-            global $fanout;
-            foreach($x->workunit->file_ref as $fr){
-                $pname = (string)$fr->file_name;
-                $ufiles[] = $pname;
-            }
-        }
-    }
-    $dir = sandbox_dir($user);
-    $path = $dir."/".$file;
-    list($err, $size, $md5) = sandbox_parse_link_file($path);
-    if (!$err){
-        $f = sandbox_file_name($user, $md5);
-        foreach($ufiles as $uf) {
-            if (strcmp($f,$uf) == 0){
-                return true;
-            }
-        }
-    }
-    return false;
+function copy_sandbox_file($user, $fname, $dir) {
+    $sbdir = sandbox_dir($user);
+    copy("$sbdir/$fname", "$dir/$fname");
+    copy("$sbdir/.md5/$fname", "$dir/.md5/$fname");
 }
 
 ?>

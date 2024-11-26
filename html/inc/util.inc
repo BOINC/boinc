@@ -1133,10 +1133,8 @@ function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
 
-function do_download($path,$name="") {
-    if (strcmp($name,"") == 0) {
-        $name=basename($path);
-    }
+function do_download($path) {
+    $name=basename($path);
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
     header('Content-Disposition: attachment; filename='.$name);

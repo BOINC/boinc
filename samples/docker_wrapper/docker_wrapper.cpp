@@ -122,9 +122,13 @@ DOCKER_CONN docker_conn;
 // parse job config file
 //
 int parse_config_file() {
+    // defaults
+    config.workdir = "/app";
+
     std::ifstream ifs(config_file);
     if (ifs.fail()) {
-        return -1;
+        fprintf(stderr, "no job.toml config file\n");
+        return 0;
     }
     toml::ParseResult r = toml::parse(ifs);
     if (!r.valid()) {
@@ -136,8 +140,6 @@ int parse_config_file() {
     x = v.find("workdir");
     if (x) {
         config.workdir = x->as<string>();
-    } else {
-        config.workdir = "/app";
     }
     x = v.find("project_dir_mount");
     if (x) {

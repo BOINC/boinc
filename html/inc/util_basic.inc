@@ -56,14 +56,6 @@ function sched_stopped() {
     return file_exists("$d/stop_sched");
 }
 
-function show_page($x, $y) {
-    echo "
-        <title>$x</title>
-        <h1>$x</h1>
-        $y
-    ";
-}
-
 function xml_error($num=-1, $msg=null, $file=null, $line=null) {
     global $xml_outer_tag;
     if (!$msg) {
@@ -203,6 +195,13 @@ function random_string() {
 //
 function dtime() {
     return microtime(true);
+}
+
+// is $x a valid file (or dir) name?
+//
+function is_valid_filename($x) {
+    if (strstr($x, '/')) return false;
+    return true;
 }
 
 ?>

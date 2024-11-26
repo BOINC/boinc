@@ -164,7 +164,9 @@ function wus_nsent($wus) {
     return $n;
 }
 
-function get_outfile_names($result) {
+// get the physical names of a result's output files.
+/
+function get_outfile_phys_names($result) {
     $names = [];
     $xml = "<a>".$result->xml_doc_out."</a>";
     $r = simplexml_load_string($xml);
@@ -261,7 +263,7 @@ function batch_output_file_size($batchid) {
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);
-        $names = get_outfile_names($result);
+        $names = get_outfile_phys_names($result);
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
@@ -286,6 +288,42 @@ function boinc_get_output_files_url($user, $batch_id) {
 function boinc_get_wu_output_files_url($user, $wu_id) {
     $auth_str =  md5($user->authenticator.$wu_id);
     return "get_output.php?cmd=workunit_files&wu_id=$wu_id&auth_str=$auth_str";
+}
+
+////////////////// FILE INFO FILES //////////////
+
+// these are used:
+// 1) in user file sandbox
+// 2) in BUDA app variant dirs
+// in each case a file dir/foo has an info file dir/.md5/foo
+// containing its md5 and size
+// (same format as .md5 files in download hierarchy)
+
+// get the MD5 and size of a file
+//
+function get_file_info($path) {
+    $md5 = md5_file($path);
+    $s = stat($path);
+    $size = $s['size'];
+    return [$md5, $size];
+}
+
+// write a "info file" containing MD5 and size
+//
+function write_info_file($path, $md5, $size) {
+    file_put_contents($path, "$md5 $size");
+}
+
+// parse info file and return [md5, size]
+//
+function parse_info_file($path) {
+    if (!file_exists($path)) return null;
+    $x = file_get_contents($path);
+    $n = sscanf($x, "%s %d", $md5, $size);
+    if ($n != 2 || strlen($md5)!=32) {
+        return null;
+    }
+    return [$md5, $size];
 }
 
 ?>

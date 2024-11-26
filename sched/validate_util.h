@@ -27,8 +27,9 @@
 // of result.xml_doc_in
 //
 struct OUTPUT_FILE_INFO {
-    std::string name;
+    std::string phys_name;
     std::string path;
+    std::string logical_name;
     bool optional;
         // sample_bitwise_validator: not an error if this file is missing
     bool no_validate;

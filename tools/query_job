@@ -34,17 +34,17 @@ function show_wu($wu, $dir) {
             ."    Host $host->id ($host->os_name, $host->p_vendor)\n"
             ."    User $user->id ($user->name)\n"
         ;
+        $xmlin = simplexml_load_string(
+            sprintf("<foo>%s</foo>", $result->xml_doc_in)
+        );
         $xmlout = simplexml_load_string(
             sprintf("<foo>%s</foo>", $result->xml_doc_out)
         );
         $ofs = $xmlout->file_info;
+        $ifs = $xmlin->result->file_ref;
         $nofs = $ofs->count();
         for ($i=0; $i<$nofs; $i++) {
-            if ($nofs == 1) {
-                $path = "$dir/$wu->name";
-            } else {
-                $path = sprintf("$dir/%s_%d", $wu->name, $i);
-            }
+            $path = sprintf("$dir/%s__file_%s", $wu->name, $ifs[$i]->open_name);
             if (!is_file($path)) {
                 die("output file $i is missing: $path\n");
             }
