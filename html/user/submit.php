@@ -58,6 +58,7 @@ function show_all_link($batches, $state, $limit, $user, $app) {
 }
 
 function show_in_progress($batches, $limit, $user, $app) {
+    echo "<h3>Batches in progress</h3>\n";
     $first = true;
     $n = 0;
     foreach ($batches as $batch) {
@@ -66,7 +67,6 @@ function show_in_progress($batches, $limit, $user, $app) {
         $n++;
         if ($first) {
             $first = false;
-            echo "<h2>Batches in progress</h2>\n";
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app);
             }
@@ -95,7 +95,7 @@ function show_in_progress($batches, $limit, $user, $app) {
         );
     }
     if ($first) {
-        echo "<p>No in-progress batches.\n";
+        echo "<p>None.\n";
     } else {
         end_table();
     }
@@ -273,20 +273,11 @@ function handle_toggle_loc($user) {
     handle_main($user);
 }
 
-function check_admin_access($user, $app_id) {
+// show links for everything the user has admin access to
+//
+function handle_admin($user) {
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
-    if (!$user_submit) error_page("no access");
-    if ($app_id) {
-        if (!$user_submit->manage_all) {
-            $usa = BoincUserSubmitApp::lookup("user_id = $user->id and app_id=$app_id");
-            if (!$usa) error_page("no access");
-        }
-    } else {
-        if (!$user_submit->manage_all) error_page("no access");
-    }
-}
-
-function handle_admin() {
+    if (!$user_submit) error_page('no access');
     page_head("Administer job submission");
     if ($user_submit->manage_all) {
         echo "<li>All applications<br>
@@ -326,9 +317,11 @@ function handle_admin() {
 
 function handle_admin_app($user) {
     $app_id = get_int("app_id");
-    check_admin_access($user, $app_id);
     $app = BoincApp::lookup_id($app_id);
     if (!$app) error_page("no such app");
+    if (!has_admin_access($user, $app_id)) {
+        error_page('no access');
+    }
 
     page_head("Administer batches for $app->user_friendly_name");
     $batches = BoincBatch::enum("app_id = $app_id order by id desc");
@@ -745,7 +738,9 @@ function handle_show_all($user) {
     } else {
         // admin looking at batches
         //
-        check_admin_access($user, $appid);
+        if (!has_admin_access($user, $appid)) {
+            error_page('no access');
+        }
         if ($appid) {
             $app = BoincApp::lookup_id($appid);
             if (!$app) error_page("no such app");

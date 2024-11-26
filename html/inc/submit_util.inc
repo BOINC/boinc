@@ -54,23 +54,41 @@ function job_file_name($md5) {
     return "jf_$md5";
 }
 
-// does user have submit permissions?
+// can user upload files?
 //
-function submit_permissions($user) {
-    return BoincUserSubmit::lookup_userid($user->id);
+function has_file_access($user) {
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if (!$us) return false;
+    return true;
 }
 
-// does user have submit permissions for given app?
+// can user submit to given app?
 //
-function submit_permissions_app($user, $app) {
-    return BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+function has_submit_access($user, $app_id) {
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if (!$us) return false;
+    if ($us->submit_all) return true;
+    $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app_id");
+    if (!$usa) return false;
+    return true;
+}
+
+// can user administer given app (or all apps if zero)?
+//
+function has_admin_access($user, $app_id) {
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if (!$us) return false;
+    if ($us->admin_all) return true;
+    $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app_id");
+    if (!$usa) return false;
+    return $usa->manage;
 }
 
 // check whether user has permissions for a remote job submission
 // or job file request.
 // $r is a request message that includes an 'authenticator' field
 // $app is the app being submitted to (or null if file op)
-// returns [user, UserSubmit], or give XML error
+// returns user, or give XML error and quit
 //
 function check_remote_submit_permissions($r, $app) {
     $auth = (string)$r->authenticator;
@@ -84,21 +102,25 @@ function check_remote_submit_permissions($r, $app) {
         log_write("bad authenticator");
         xml_error(-1, "bad authenticator");
     }
-    $user_submit = submit_permissions($user);
-    if (!$user_submit) {
-        log_write("no submit access");
-        xml_error(-1, "no submit access");
-    }
-    if ($app && !$user_submit->submit_all) {
-        $usa = submit_permissions_app($user, $app);
-        if (!$usa) {
-            log_write("no app submit access");
-            xml_error(-1, "no app submit access");
+
+    // check access
+    //
+    if ($app) {
+        if (!has_submit_access($user, $app->id)) {
+            log_write("no submit access");
+            xml_error(-1, "no submit access");
+        }
+    } else {
+        if (!has_file_access($user)) {
+            log_write("no file access");
+            xml_error(-1, "no file access");
         }
     }
-    return array($user, $user_submit);
+    return $user;
 }
 
+// remove all of user's permissions
+//
 function delete_remote_submit_user($user) {
     BoincUserSubmit::delete_user($user->id);
     BoincUserSubmitApp::delete_user($user->id);
@@ -165,7 +187,7 @@ function wus_nsent($wus) {
 }
 
 // get the physical names of a result's output files.
-/
+//
 function get_outfile_phys_names($result) {
     $names = [];
     $xml = "<a>".$result->xml_doc_out."</a>";
