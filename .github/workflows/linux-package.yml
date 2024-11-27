@@ -668,7 +668,7 @@ jobs:
       - name: Run integration tests
         if: success()
         run: |
-          python3 ./tests/linux_package_tests/integration_tests.py
+          python3 ./tests/linux_package_integration_tests.py
 
   test-ubuntu-deb-package:
     name: Test Ubuntu DEB Package
@@ -752,7 +752,7 @@ jobs:
       - name: Run integration tests
         if: success()
         run: |
-          python3 ./tests/linux_package_tests/integration_tests.py
+          python3 ./tests/linux_package_integration_tests.py
 
   test-fedora-rpm-package:
     name: Test Fedora RPM Package
@@ -825,7 +825,7 @@ jobs:
       - name: Run integration tests
         if: success()
         run: |
-          python3 ./tests/linux_package_tests/integration_tests.py
+          python3 ./tests/linux_package_integration_tests.py
 
   test-opensuse-rpm-package:
     name: Test openSUSE RPM Package
@@ -893,7 +893,7 @@ jobs:
       - name: Run integration tests
         if: success()
         run: |
-          python3 ./tests/linux_package_tests/integration_tests.py
+          python3 ./tests/linux_package_integration_tests.py
 
   publish-deb-package:
     name: Publish DEB Package

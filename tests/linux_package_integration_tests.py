@@ -17,12 +17,13 @@
 
 import os
 import pathlib
-import re
 import sys
 import testset
+import testhelper
 
 class IntegrationTests:
     def __init__(self):
+        self.testhelper = testhelper.TestHelper()
         self.result = True
         self.result &= self.test_files_exist()
         self.result &= self.test_version()
@@ -37,23 +38,8 @@ class IntegrationTests:
                 return os.path.join(p, filename)
         return ""
 
-    def _get_current_version_number(self):
-        with open("version.h", "r") as f:
-            lines = f.readlines()
-            for line in lines:
-                res = re.search("#define BOINC_VERSION_STRING \"([\d]+.[\d]+.[\d]+)\"", line)
-                if res is not None:
-                    return res[1]
-        return ""
-
-    def _get_version_from_string(self, string):
-        res = re.search("([\d]+.[\d]+.[\d]+)", string)
-        if res is not None:
-            return res[1]
-        return ""
-
     def _get_file_version(self, filename):
-        return self._get_version_from_string(os.popen(("{app} --version").format(app=self._get_test_executable_file_path(filename))).read().strip())
+        return self.testhelper.get_version_from_string(os.popen(("{app} --version").format(app=self._get_test_executable_file_path(filename))).read().strip())
 
     def _get_user_exists(self, username):
         return os.popen("id -un {username}".format(username=username)).read().strip() == username
@@ -142,7 +128,7 @@ class IntegrationTests:
 
     def test_version(self):
         ts = testset.TestSet("Test version is correct")
-        current_version = self._get_current_version_number()
+        current_version = self.testhelper.get_current_version_number()
         ts.expect_not_equal("", current_version, "Test current version could be read from the 'version.h' file")
         ts.expect_equal(current_version, self._get_file_version("boinc"), "Test 'boinc' version is correctly set")
         ts.expect_equal(current_version, self._get_file_version("boinccmd"), "Test 'boinccmd' version is correctly set")
