@@ -78,7 +78,7 @@ function has_submit_access($user, $app_id) {
 function has_admin_access($user, $app_id) {
     $us = BoincUserSubmit::lookup_userid($user->id);
     if (!$us) return false;
-    if ($us->admin_all) return true;
+    if ($us->manage_all) return true;
     $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app_id");
     if (!$usa) return false;
     return $usa->manage;
@@ -126,11 +126,23 @@ function delete_remote_submit_user($user) {
     BoincUserSubmitApp::delete_user($user->id);
 }
 
-
-// given its WUs, compute progress of a batch
-// (fraction done, est completion time etc.)
-// NOTE: this is inefficient because we need all the WUs.
-// it could be done by server components
+// given its WUs, compute parameters of a batch:
+//   credit_canonical: credit granted to canonical instances
+//   fraction_done: frac of jobs that are done (success or failed)
+//   state: whether complete (all jobs done)
+//   completion_time: if newly complete
+//   nerror_jobs: # of failed jobs
+// Update the above in DB.
+// Also compute (not in DB):
+//   njobs_success: # of jobs with canonical instance
+//   njobs_in_prog: # of jobs not success or fail,
+//      and at least one result in progress
+//
+// return the batch object, with these values
+//
+// NOTE: this involves reading the batch's WUs and results,
+// which could be inefficient for huge batches.
+// It could instead be done by server components
 // (transitioner, validator etc.) as jobs complete or time out
 //
 // TODO: update est_completion_time
@@ -141,49 +153,59 @@ function get_batch_params($batch, $wus) {
         //
         return $batch;
     }
+    if (!$wus) {
+        if ($batch->njobs) {
+            $batch->update('njobs=0');
+            $batch->njobs = 0;
+        }
+        return $batch;
+    }
+
+    // make list of WU IDs with an in-progress result
+    $res_in_prog = BoincResult::enum(
+        sprintf('batch=%d and server_state<>%d',
+            $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
+        )
+    );
+    $wus_in_prog = [];
+    foreach ($res_in_prog as $res) {
+        $wus_in_prog[$res->workunitid] = true;
+    }
+
     $fp_total = 0;
     $fp_done = 0;
     $completed = true;
     $batch->nerror_jobs = 0;
     $batch->credit_canonical = 0;
+    $njobs_success = 0;
+    $njobs_in_prog = 0;
     foreach ($wus as $wu) {
         $fp_total += $wu->rsc_fpops_est;
         if ($wu->canonical_resultid) {
             $fp_done += $wu->rsc_fpops_est;
+            $njobs_success++;
             $batch->credit_canonical += $wu->canonical_credit;
         } else if ($wu->error_mask) {
             $batch->nerror_jobs++;
         } else {
             $completed = false;
+            if (array_key_exists($wu->id, $wus_in_prog)) {
+                $njobs_in_prog++;
+            }
         }
     }
-    if ($fp_total) {
-        $batch->fraction_done = $fp_done / $fp_total;
-    }
+    $njobs = count($wus);
+    $batch->njobs = $njobs;
+    $batch->fraction_done = ($njobs_success + $batch->nerror_jobs)/$batch->njobs;
     if ($completed && $batch->state == BATCH_STATE_IN_PROGRESS) {
         $batch->state = BATCH_STATE_COMPLETE;
         $batch->completion_time = time();
     }
-    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical");
+    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical, njobs=$njobs");
 
-    $batch->credit_estimate = flops_to_credit($fp_total);
+    $batch->njobs_success = $njobs_success;
+    $batch->njobs_in_prog = $njobs_in_prog;
     return $batch;
-}
-
-// get the number of WUs for which we've sent at least 1 instance
-// TODO: do this more efficiently (single query)
-//
-function wus_nsent($wus) {
-    $n = 0;
-    foreach ($wus as $wu) {
-        $res = BoincResult::enum(
-            sprintf('workunitid=%d and server_state<>%d',
-                $wu->id, RESULT_SERVER_STATE_UNSENT
-            )
-        );
-        if (count($res) > 0) $n++;
-    }
-    return $n;
 }
 
 // get the physical names of a result's output files.

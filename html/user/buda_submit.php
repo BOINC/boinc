@@ -35,11 +35,14 @@ function submit_form($user) {
     if (!is_valid_filename($variant)) die('bad arg');
 
     $desc = "<br><small>
-        A zipped directory with one subdirectory per job,
-        containing the input file(s) for that job
+        A zip file with one directory per job.
+        Each directory contains the input file(s) for that job
         and an optional file <code>cmdline</code>
         containing command-line arguments.
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission>Details</a></small>.
+    ";
+    $desc2 = "<br><small>
+        Write Docker commands and output to stderr (for debugging).
     ";
     page_head("Submit jobs to $app ($variant)");
     form_start('buda_submit.php');
@@ -47,6 +50,7 @@ function submit_form($user) {
     form_input_hidden('app', $app);
     form_input_hidden('variant', $variant);
     form_select("Batch zip file $desc", 'batch_file', $sbitems_zip);
+    form_checkbox("Verbose Docker output? $desc2", 'wrapper_verbose');
     form_submit('OK');
     form_end();
     page_tail();
@@ -179,7 +183,7 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 }
 
 function create_jobs(
-    $variant_desc, $batch_desc, $batch_id, $batch_dir_name
+    $variant_desc, $batch_desc, $batch_id, $batch_dir_name, $wrapper_verbose
 ) {
     global $buda_app;
 
@@ -205,8 +209,10 @@ function create_jobs(
         $job_cmds .= "$job_cmd\n";
     }
     $cmd = sprintf(
-        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s --verbose" --wu_template %s --result_template %s',
-        $buda_app->name, $batch_id, $variant_desc->dockerfile,
+        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s %s" --wu_template %s --result_template %s',
+        $buda_app->name, $batch_id,
+        $variant_desc->dockerfile,
+        $wrapper_verbose?'--verbose':'',
         "buda_batches/$batch_dir_name/template_in",
         "buda_batches/$batch_dir_name/template_out"
     );
@@ -307,6 +313,7 @@ function handle_submit($user) {
     if (!is_valid_filename($variant)) die('bad arg');
     $batch_file = get_str('batch_file');
     if (!is_valid_filename($batch_file)) die('bad arg');
+    $wrapper_verbose = get_str('wrapper_verbose', true);
 
     $variant_dir = "../../buda_apps/$app/$variant";
     $variant_desc = json_decode(
@@ -331,7 +338,8 @@ function handle_submit($user) {
     stage_input_files($batch_dir, $batch_desc, $batch->id);
 
     create_jobs(
-        $variant_desc, $batch_desc, $batch->id, $batch_dir_name
+        $variant_desc, $batch_desc, $batch->id, $batch_dir_name,
+        $wrapper_verbose
     );
 
     // mark batch as in progress

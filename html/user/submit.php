@@ -34,6 +34,10 @@ display_errors();
 
 define("PAGE_SIZE", 20);
 
+function return_link() {
+    echo "<p><a href=submit.php>Return to job submission page</a>\n";
+}
+
 function state_count($batches, $state) {
     $n = 0;
     foreach ($batches as $batch) {
@@ -378,7 +382,7 @@ function handle_batch_stats($user) {
         page_tail();
         return;
     }
-    text_start();
+    text_start(800);
     start_table('table-striped');
     row2("qualifying results", $n);
     row2("mean WSS", size_string($wss_sum/$n));
@@ -399,13 +403,13 @@ function handle_batch_stats($user) {
 // light gray: unsent
 //
 function progress_bar($batch, $wus, $width) {
-    $w_success = $width*$batch->fraction_done;
-    $w_fail = $width*$batch->nerror_jobs/$batch->njobs;
-    $nsuccess = $batch->njobs * $batch->fraction_done;
-    $nsent = wus_nsent($wus);
-    $nprog = $nsent - $nsuccess - $batch->nerror_jobs;
-    $w_prog = $width*$nprog/$batch->njobs;
-    $nunsent = $batch->njobs-$nsent;
+    $nsuccess = $batch->njobs_success;
+    $nerror = $batch->nerror_jobs;
+    $nin_prog = $batch->njobs_in_prog;
+    $nunsent = $batch->njobs - $nsuccess - $nerror - $nin_prog;
+    $w_success = $width*$nsuccess/$batch->njobs;
+    $w_fail = $width*$nerror/$batch->njobs;
+    $w_prog = $width*$nin_prog/$batch->njobs;
     $w_unsent = $width*$nunsent/$batch->njobs;
     $x = '<table height=20><tr>';
     if ($w_fail) {
@@ -422,9 +426,9 @@ function progress_bar($batch, $wus, $width) {
     }
     $x .= "</tr></table>
         <strong>
-        <font color=red>$batch->nerror_jobs fail</font> &middot;
+        <font color=red>$nerror fail</font> &middot;
         <font color=green>$nsuccess success</font> &middot;
-        <font color=lightgreen>$nprog in progress</font> &middot;
+        <font color=lightgreen>$nin_prog in progress</font> &middot;
         <font color=lightgray>$nunsent unsent</font>
         </strong>
     ";
@@ -434,8 +438,6 @@ function progress_bar($batch, $wus, $width) {
 // show the details of an existing batch
 //
 function handle_query_batch($user) {
-    global $web_apps;
-
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     $app = BoincApp::lookup_id($batch->app_id);
@@ -447,10 +449,10 @@ function handle_query_batch($user) {
         $owner = BoincUser::lookup_id($batch->user_id);
     }
 
-    $web_app = $web_apps[$app->name];
+    $web_app = get_web_app($app);
 
     page_head("Batch $batch_id");
-    text_start();
+    text_start(800);
     start_table();
     row2("name", $batch->name);
     if ($batch->description) {
@@ -467,14 +469,21 @@ function handle_query_batch($user) {
     if ($batch->expire_time) {
         row2("expiration time", time_str($batch->expire_time));
     }
-    row2("progress", progress_bar($batch, $wus, 600));
+    if ($batch->njobs) {
+        row2("progress", progress_bar($batch, $wus, 600));
+    }
     if ($batch->completion_time) {
         row2("completed", local_time_str($batch->completion_time));
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
-    row2("Output File Size", size_string(batch_output_file_size($batch->id)));
+    if (!$web_app->assim_move) {
+        row2("Total size of output files",
+            size_string(batch_output_file_size($batch->id))
+        );
+    }
     end_table();
+    echo "<p>";
 
     if ($web_app->assim_move) {
         $url = "get_output3.php?action=get_batch&batch_id=$batch->id";
@@ -537,34 +546,47 @@ function handle_query_batch($user) {
         row_array($x);
     }
     end_table();
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     text_end();
     page_tail();
+}
+
+// get the 'web app' structure (from project.inc) for the given app.
+// This says what output file scheme it uses and what the submit page URL is.
+// If not listed, return a default structure
+//
+function get_web_app($app) {
+    global $web_apps;
+    if (isset($web_apps) && array_key_exists($app->name, $web_apps)) {
+        return $web_apps[$app->name];
+    }
+    $x = new StdClass;
+    $x->submit_url = null;
+    $x->assim_move = false;
+    return $x;
 }
 
 // show the details of a job, including links to see the output files
 //
 function handle_query_job($user) {
-    global $web_apps;
-
     $wuid = get_int('wuid');
     $wu = BoincWorkunit::lookup_id($wuid);
     if (!$wu) error_page("no such job");
 
     $app = BoincApp::lookup_id($wu->appid);
-    $web_app = $web_apps[$app->name];
+    $web_app = get_web_app($app);
 
-    page_head("Job $wu->name");
-    text_start();
+    page_head("Job '$wu->name'");
+    text_start(800);
 
     echo "
-        <a href=workunit.php?wuid=$wuid>Workunit details</a>
+        <li><a href=workunit.php?wuid=$wuid>Workunit details</a>
         <p>
-        <a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch $wu->batch</a>
+        <li><a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch details</a>
     ";
 
     echo "<h2>Instances</h2>\n";
-    start_table();
+    start_table('table-striped');
     table_header(
         "ID<br><small>click for result page</small>",
         "State",
@@ -580,7 +602,7 @@ function handle_query_job($user) {
         ];
         $i = 0;
         if ($result->server_state == RESULT_SERVER_STATE_OVER) {
-            $phys_names = get_outfile_names($result);
+            $phys_names = get_outfile_phys_names($result);
             $log_names = get_outfile_log_names($result);
             for ($i=0; $i<count($phys_names); $i++) {
                 if ($web_app->assim_move) {
@@ -591,19 +613,24 @@ function handle_query_job($user) {
                     );
                     $x[] = "<a href=get_output3.php?action=get_file&path=$path>view</a> &middot; <a href=get_output3.php?action=get_file&path=$path&download=1>download</a>";
                 } else {
-                    // file is in upload hier
-                    $url = sprintf(
-                        'get_output2.php?cmd=result&result_id=%d&file_num=%d',
-                        $result->id, $i
+                    $path = dir_hier_path(
+                        $phys_names[$i], $upload_dir, $fanout
                     );
-                    $path = dir_hier_path($phys_names[$i], $upload_dir, $fanout);
-                    $s = stat($path);
-                    $size = $s['size'];
-                    $x[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
-                        $url,
-                        $log_names[$i],
-                        number_format($size)
-                    );
+                    if (file_exists($path)) {
+                        $url = sprintf(
+                            'get_output2.php?cmd=result&result_id=%d&file_num=%d',
+                            $result->id, $i
+                        );
+                        $s = stat($path);
+                        $size = $s['size'];
+                        $x[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
+                            $url,
+                            $log_names[$i],
+                            number_format($size)
+                        );
+                    } else {
+                        $x[] = sprintf("file '%s' is missing", $log_names[$i]);
+                    }
                 }
             }
         } else {
@@ -618,7 +645,7 @@ function handle_query_job($user) {
     echo "<h2>Input files</h2>\n";
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
-    start_table();
+    start_table('table-striped');
     table_header("Name<br><small>(click to view)</small>",
         "Size (bytes)", "MD5"
     );
@@ -639,7 +666,7 @@ function handle_query_job($user) {
 
     end_table();
     text_end();
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -655,7 +682,7 @@ function handle_abort_batch_confirm() {
         "submit.php?action=abort_batch&batch_id=$batch_id",
         "Yes - abort batch"
     );
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -675,7 +702,7 @@ function handle_abort_batch($user) {
     check_access($user, $batch);
     abort_batch($batch);
     page_head("Batch aborted");
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -691,7 +718,7 @@ function handle_retire_batch_confirm() {
         "submit.php?action=retire_batch&batch_id=$batch_id",
         "Yes - retire batch"
     );
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -702,7 +729,7 @@ function handle_retire_batch($user) {
     check_access($user, $batch);
     retire_batch($batch);
     page_head("Batch retired");
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 

@@ -99,7 +99,7 @@ function upload_error_description($errno) {
 
 function query_files($r) {
     xml_start_tag("query_files");
-    list($user, $user_submit) = check_remote_submit_permissions($r, null);
+    $user = check_remote_submit_permissions($r, null);
     $absent_files = array();
     $now = time();
     $delete_time = (int)$r->delete_time;
@@ -177,7 +177,7 @@ function delete_uploaded_files() {
 
 function upload_files($r) {
     xml_start_tag("upload_files");
-    list($user, $user_submit) = check_remote_submit_permissions($r, null);
+    $user = check_remote_submit_permissions($r, null);
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
