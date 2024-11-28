@@ -284,6 +284,8 @@ function handle_admin($user) {
     if (!$user_submit) error_page('no access');
     page_head("Administer job submission");
     if ($user_submit->manage_all) {
+        // user can administer all apps
+        //
         echo "<li>All applications<br>
             <ul>
             <li> <a href=submit.php?action=admin_all>View all batches</a>
@@ -303,6 +305,9 @@ function handle_admin($user) {
             ";
         }
     } else {
+        // see if user can administer specific apps
+        //
+        $usas = BoincUserSubmitApp::enum("user_id=$user->id");
         foreach ($usas as $usa) {
             $app = BoincApp::lookup_id($usa->app_id);
             echo "<li>$app->user_friendly_name<br>
