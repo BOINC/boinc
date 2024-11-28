@@ -109,7 +109,7 @@ function forum_page($forum, $user, $msg=null) {
         if (is_subscribed(-$forum->id, $subs)) {
             BoincNotify::delete_aux(sprintf(
                 'userid=%d and type=%d and opaque=%d',
-                $logged_in_user->id,
+                $user->id,
                 NOTIFY_SUBSCRIBED_FORUM,
                 $forum->id
             ));
