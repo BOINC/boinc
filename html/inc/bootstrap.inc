@@ -500,8 +500,14 @@ function form_submit($text, $attrs='') {
 function form_checkbox($label, $name, $checked=false) {
     echo sprintf('
         <div class="form-group">
-            <input type="checkbox" name="%s" %s> &nbsp; <span class="lead">%s</span>
+            <label align=right class="%s">%s</label>
+            <div class="%s">
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
+    );
+    echo sprintf('
+        <input type="checkbox" name="%s" %s>
         </div>
-        ', $name, $checked?"checked":"", $label
+        ', $name, $checked?"checked":""
     );
 }

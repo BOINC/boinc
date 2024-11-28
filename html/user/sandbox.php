@@ -44,9 +44,9 @@ function list_files($user, $notice) {
         <h3>Upload files</h3>
         <p>
         NOTE: if you upload text files from Windows,
-        they will have CRLF line endings.
-        If they are shell scripts, they won't work on Linux.
-        Add shell scripts using Add File.
+        they will be given CRLF line endings.
+        Then, if they are shell scripts, they won't work on Linux.
+        Add shell scripts using 'Add text file' below.
         <p>
 
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
@@ -55,7 +55,7 @@ function list_files($user, $notice) {
         <p> <input class=\"btn btn-success\" type=submit value=Upload>
         </form>
         <hr>
-        <h3>Add file</h3>
+        <h3>Add text file</h3>
     ";
     form_start('sandbox.php', 'post');
     form_input_hidden('action', 'add_file');
@@ -180,7 +180,7 @@ function view_file($user) {
 }
 
 $user = get_logged_in_user();
-if (!submit_permissions($user)) error_page("no job submission access");
+if (!has_file_access($user)) error_page("no job submission access");
 
 $action = get_str('action', true);
 if (!$action) $action = post_str('action', true);

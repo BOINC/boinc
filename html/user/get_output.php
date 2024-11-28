@@ -52,7 +52,7 @@ function get_output_file($instance_name, $file_num, $auth_str) {
         return_error("bad authenticator");
     }
 
-    $names = get_outfile_names($result);
+    $names = get_outfile_phys_names($result);
     if ($file_num >= count($names)) {
         return_error("bad file num: $file_num > ".count($names));
     }
@@ -105,7 +105,7 @@ function get_batch_output_files($auth_str) {
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);
-        $names = get_outfile_names($result);
+        $names = get_outfile_phys_names($result);
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
@@ -143,7 +143,7 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
         return_error("no canonical result for wu $wu->name");
     }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
-    $names = get_outfile_names($result);
+    $names = get_outfile_phys_names($result);
     $path = dir_hier_path($names[$file_num], $upload_dir, $fanout);
     if (file_exists($path)) {
         do_download($path);
@@ -181,7 +181,7 @@ function get_wu_output_files($wu_id, $auth_str) {
         return_error("no canonical result for wu $wu->name");
     }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
-    $names = get_outfile_names($result);
+    $names = get_outfile_phys_names($result);
     foreach ($names as $name) {
         $path = dir_hier_path($name, $upload_dir, $fanout);
         if (is_file($path)) {
