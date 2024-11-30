@@ -31,7 +31,6 @@
     <ClCompile Include="..\clientsetup\win\aclmgmt.cpp" />
     <ClCompile Include="..\clientsetup\win\boinccas.cpp" />
     <ClCompile Include="..\clientsetup\win\CAAnnounceUpgrade.cpp" />
-    <ClCompile Include="..\clientsetup\win\CACCConfigMd5sum.cpp" />
     <ClCompile Include="..\clientsetup\win\CACleanupOldBinaries.cpp" />
     <ClCompile Include="..\clientsetup\win\CACreateAcctMgrLoginFile.cpp" />
     <ClCompile Include="..\clientsetup\win\CACreateBOINCAccounts.cpp" />
@@ -68,7 +67,6 @@
     <ClCompile Include="..\clientsetup\win\CAShutdownBOINC.cpp" />
     <ClCompile Include="..\clientsetup\win\CAShutdownBOINCManager.cpp" />
     <ClCompile Include="..\clientsetup\win\CAShutdownBOINCScreensaver.cpp" />
-    <ClCompile Include="..\clientsetup\win\CAShutdownUD.cpp" />
     <ClCompile Include="..\clientsetup\win\CAValidateInstall.cpp" />
     <ClCompile Include="..\clientsetup\win\CAValidateRebootRequest.cpp" />
     <ClCompile Include="..\clientsetup\win\CAValidateSetupType.cpp" />
@@ -91,7 +89,6 @@
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
     <ClInclude Include="..\clientsetup\win\CAAnnounceUpgrade.h" />
-    <ClInclude Include="..\clientsetup\win\CACCConfigMd5sum.h" />
     <ClInclude Include="..\clientsetup\win\CACleanupOldBinaries.h" />
     <ClInclude Include="..\clientsetup\win\CACreateAcctMgrLoginFile.h" />
     <ClInclude Include="..\clientsetup\win\CACreateBOINCAccounts.h" />
@@ -128,7 +125,6 @@
     <ClInclude Include="..\clientsetup\win\CAShutdownBOINC.h" />
     <ClInclude Include="..\clientsetup\win\CAShutdownBOINCManager.h" />
     <ClInclude Include="..\clientsetup\win\CAShutdownBOINCScreensaver.h" />
-    <ClInclude Include="..\clientsetup\win\CAShutdownUD.h" />
     <ClInclude Include="..\clientsetup\win\CAValidateInstall.h" />
     <ClInclude Include="..\clientsetup\win\CAValidateRebootRequest.h" />
     <ClInclude Include="..\clientsetup\win\CAValidateSetupType.h" />

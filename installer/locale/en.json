@@ -13,7 +13,7 @@
     },
     {
         "Id": "COMPANY_URL",
-        "Value": "http://boinc.berkeley.edu/"
+        "Value": "https://boinc.berkeley.edu/"
     },
     {
         "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN",
@@ -3108,7 +3108,7 @@
         "Value": "&Print"
     },
     {
-        "Id": "IDS_PRODUCTNAME_INSTALLSHIELD",
+        "Id": "IDS_PRODUCTNAME",
         "Value": "[ProductName] - BOINC Installer Wizard"
     },
     {

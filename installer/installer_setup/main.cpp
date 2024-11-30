@@ -140,47 +140,44 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName)
     return false;
 }
 
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
+void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
     hBitmap = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_SPLASH));
-    if (!hBitmap) {
-        MessageBox(NULL, "Failed to load image!", "Error", MB_ICONERROR);
-        return -1;
+    if (hBitmap) {
+        const auto CLASS_NAME = "SplashScreen";
+        WNDCLASS wc = {};
+        wc.lpfnWndProc = WndProc;
+        wc.hInstance = hInstance;
+        wc.lpszClassName = CLASS_NAME;
+        wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+
+        if (!RegisterClass(&wc)) {
+            return;
+        }
+
+        auto hwnd = CreateWindowEx(
+            WS_EX_TOPMOST, CLASS_NAME, "Splash Screen", WS_POPUP,
+            CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, NULL, NULL, hInstance, NULL);
+
+        if (!hwnd) {
+            return;
+        }
+
+        RECT rect;
+        GetWindowRect(hwnd, &rect);
+        const auto screenWidth = GetSystemMetrics(SM_CXSCREEN);
+        const auto screenHeight = GetSystemMetrics(SM_CYSCREEN);
+        const auto x = (screenWidth - 400) / 2;
+        const auto y = (screenHeight - 300) / 2;
+        SetWindowPos(hwnd, HWND_NOTOPMOST, x, y, 400, 300,
+            SWP_SHOWWINDOW);
+
+        ShowWindow(hwnd, nCmdShow);
+        UpdateWindow(hwnd);
     }
+}
 
-    const auto CLASS_NAME = "SplashScreen";
-    WNDCLASS wc = {};
-    wc.lpfnWndProc = WndProc;
-    wc.hInstance = hInstance;
-    wc.lpszClassName = CLASS_NAME;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-
-    if (!RegisterClass(&wc)) {
-        MessageBox(NULL, "Window registration failed!", "Error", MB_ICONERROR);
-        return -1;
-    }
-
-    auto hwnd = CreateWindowEx(
-        WS_EX_TOPMOST, CLASS_NAME, "Splash Screen", WS_POPUP,
-        CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, NULL, NULL, hInstance, NULL);
-
-    if (!hwnd) {
-        MessageBox(NULL, "Window creation failed!", "Error", MB_ICONERROR);
-        return -1;
-    }
-
-    RECT rect;
-    GetWindowRect(hwnd, &rect);
-    const auto screenWidth = GetSystemMetrics(SM_CXSCREEN);
-    const auto screenHeight = GetSystemMetrics(SM_CYSCREEN);
-    const auto x = (screenWidth - 400) / 2;
-    const auto y = (screenHeight - 300) / 2;
-    SetWindowPos(hwnd, HWND_NOTOPMOST, x, y, 400, 300,
-        SWP_SHOWWINDOW);
-
-    ShowWindow(hwnd, nCmdShow);
-    UpdateWindow(hwnd);
-
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
+    ShowWindow(hInstance, nCmdShow);
     ExtractResourceAndExecute(IDB_MSI, "BOINC.msi");
-
     return 0;
 }

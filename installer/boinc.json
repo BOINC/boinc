@@ -512,88 +512,44 @@
     ],
     "Binary": [
         {
-            "Name": "ISSetupFilesHelper",
-            "Path": "res\\SFHelper.dll"
+            "Name": "banner.jpg",
+            "Path": "res\\banner.jpg"
         },
         {
-            "Name": "InteriorBin1",
-            "Path": "res\\IsDialogBanner.jpg"
+            "Name": "folder.ico",
+            "Path": "res\\folder.ico"
         },
         {
-            "Name": "NewBinary1",
-            "Path": "res\\IsDialogBanner.jpg"
+            "Name": "new.ico",
+            "Path": "res\\new.ico"
         },
         {
-            "Name": "NewBinary11",
-            "Path": "res\\CustomSetupIco.ico"
+            "Name": "up.ico",
+            "Path": "res\\up.ico"
         },
         {
-            "Name": "NewBinary12",
-            "Path": "res\\DestIcon.ico"
+            "Name": "warning.ico",
+            "Path": "res\\warning.ico"
         },
         {
-            "Name": "NewBinary13",
-            "Path": "res\\NetworkInstall.ico"
+            "Name": "dialog.jpg",
+            "Path": "res\\dialog.jpg"
         },
         {
-            "Name": "NewBinary14",
-            "Path": "res\\DontInstall.ico"
-        },
-        {
-            "Name": "NewBinary15",
-            "Path": "res\\Install.ico"
-        },
-        {
-            "Name": "NewBinary16",
-            "Path": "res\\InstallFirstUse.ico"
-        },
-        {
-            "Name": "NewBinary17",
-            "Path": "res\\InstallPartial.ico"
-        },
-        {
-            "Name": "NewBinary18",
-            "Path": "res\\InstallStateMenu.ico"
-        },
-        {
-            "Name": "NewBinary19",
-            "Path": "res\\setup.bmp"
-        },
-        {
-            "Name": "NewBinary2",
-            "Path": "res\\New.ico"
-        },
-        {
-            "Name": "NewBinary3",
-            "Path": "res\\Up.ico"
-        },
-        {
-            "Name": "NewBinary4",
-            "Path": "res\\WarningIcon.ico"
-        },
-        {
-            "Name": "NewBinary5",
-            "Path": "res\\IsDialogBitmap.jpg"
-        },
-        {
-            "Name": "NewBinary6",
+            "Name": "boinccas.dll",
             "Path": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinccas.dll"
         },
         {
-            "Name": "NewBinary7",
-            "Path": "res\\ReinstIco.ico"
+            "Name": "reinstall.ico",
+            "Path": "res\\reinstall.ico"
         },
         {
-            "Name": "NewBinary8",
-            "Path": "res\\RemoveIco.ico"
+            "Name": "remove.ico",
+            "Path": "res\\remove.ico"
         },
         {
-            "Name": "NewBinary9",
-            "Path": "res\\SetupIcon.ico"
-        },
-        {
-            "Name": "SetAllUsers.dll",
-            "Path": "res\\SetAllUsers.dll"
+            "Name": "setup.ico",
+            "Path": "res\\setup.ico"
         }
     ],
     "Checkbox": [
@@ -618,181 +574,181 @@
         {
             "Action": "CAAnnounceUpgrade",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "AnnounceUpgrade"
         },
         {
             "Action": "CACleanupOldBinaries",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "CleanupOldBinaries"
         },
         {
             "Action": "CACreateAcctMgrLoginFile",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "CreateAcctMgrLoginFile"
         },
         {
             "Action": "CACreateBOINCAccounts",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "CreateBOINCAccounts"
         },
         {
             "Action": "CACreateBOINCGroups",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "CreateBOINCGroups"
         },
         {
             "Action": "CACreateClientAuthFile",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "CreateClientAuthFile"
         },
         {
             "Action": "CACreateProjectInitFile",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "CreateProjectInitFile"
         },
         {
             "Action": "CADeleteBOINCAccounts",
             "Type": 65,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "DeleteBOINCAccounts"
         },
         {
             "Action": "CADeleteBOINCGroups",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "DeleteBOINCGroups"
         },
         {
             "Action": "CAGetAdministratorsGroupName",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GetAdministratorsGroupName"
         },
         {
             "Action": "CAGetUsersGroupName",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GetUsersGroupName"
         },
         {
             "Action": "CAGrantBOINCAdminsRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GrantBOINCAdminsRights"
         },
         {
             "Action": "CAGrantBOINCAdminsVirtualBoxRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GrantBOINCAdminsVirtualBoxRights"
         },
         {
             "Action": "CAGrantBOINCMasterRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GrantBOINCMasterRights"
         },
         {
             "Action": "CAGrantBOINCProjectRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GrantBOINCProjectRights"
         },
         {
             "Action": "CAGrantBOINCProjectsRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GrantBOINCProjectsRights"
         },
         {
             "Action": "CAGrantBOINCProjectsVirtualBoxRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GrantBOINCProjectsVirtualBoxRights"
         },
         {
             "Action": "CAGrantBOINCUsersRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "GrantBOINCUsersRights"
         },
         {
             "Action": "CALaunchBOINCManager",
             "Type": 65,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "LaunchBOINCManager"
         },
         {
             "Action": "CALaunchBOINCTray",
             "Type": 65,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "LaunchBOINCTray"
         },
         {
             "Action": "CARestoreExecutionState",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RestoreExecutionState"
         },
         {
             "Action": "CARestorePermissionBOINCData",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RestorePermissionBOINCData"
         },
         {
             "Action": "CARestoreSetupState",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RestoreSetupState"
         },
         {
             "Action": "CARevokeBOINCAdminsRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RevokeBOINCAdminsRights"
         },
         {
             "Action": "CARevokeBOINCMasterRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RevokeBOINCMasterRights"
         },
         {
             "Action": "CARevokeBOINCProjectRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RevokeBOINCProjectRights"
         },
         {
             "Action": "CARevokeBOINCProjectsRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RevokeBOINCProjectsRights"
         },
         {
             "Action": "CARevokeBOINCUsersRights",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "RevokeBOINCUsersRights"
         },
         {
             "Action": "CASaveExecutionState",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "SaveExecutionState"
         },
         {
             "Action": "CASaveSetupState",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "SaveSetupState"
         },
         {
@@ -810,98 +766,73 @@
         {
             "Action": "CASetPermissionBOINC",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "SetPermissionBOINC"
         },
         {
             "Action": "CASetPermissionBOINCData",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "SetPermissionBOINCData"
         },
         {
             "Action": "CASetPermissionBOINCDataProjects",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "SetPermissionBOINCDataProjects"
         },
         {
             "Action": "CASetPermissionBOINCDataSlots",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "SetPermissionBOINCDataSlots"
         },
         {
             "Action": "CAShutdownBOINC",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "ShutdownBOINC"
         },
         {
             "Action": "CAShutdownBOINCManager",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "ShutdownBOINCManager"
         },
         {
             "Action": "CAShutdownBOINCScreensaver",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "ShutdownBOINCScreensaver"
         },
         {
             "Action": "CAValidateInstall",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "ValidateInstall"
         },
         {
             "Action": "CAValidateRebootRequest",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "ValidateRebootRequest"
         },
         {
             "Action": "CAValidateSetupType",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "ValidateSetupType"
         },
         {
             "Action": "CAVerifyInstallDirectories",
             "Type": 1,
-            "Source": "NewBinary6",
+            "Source": "boinccas.dll",
             "Target": "VerifyInstallDirectories"
         },
         {
             "Action": "ISPreventDowngrade",
             "Type": 19,
             "Target": "[IS_PREVENT_DOWNGRADE_EXIT]"
-        },
-        {
-            "Action": "ISPrint",
-            "Type": 1,
-            "Source": "SetAllUsers.dll",
-            "Target": "PrintScrollableText",
-            "ISComments": "Prints the contents of a ScrollableText control on a dialog."
-        },
-        {
-            "Action": "ISSetAllUsers",
-            "Type": 257,
-            "Source": "SetAllUsers.dll",
-            "Target": "SetAllUsers"
-        },
-        {
-            "Action": "ISSetupFilesCleanup",
-            "Type": 257,
-            "Source": "ISSetupFilesHelper",
-            "Target": "SFCleanupEx"
-        },
-        {
-            "Action": "ISSetupFilesExtract",
-            "Type": 257,
-            "Source": "ISSetupFilesHelper",
-            "Target": "SFStartupEx"
         },
         {
             "Action": "SetARPINSTALLLOCATION",
@@ -936,7 +867,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Tail",
             "Control_Default": "OK",
             "Control_Cancel": "Cancel",
@@ -949,7 +880,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -1059,7 +990,7 @@
                     "Attributes": 3670019,
                     "Control_Next": "List",
                     "Help": "IDS__IsAdminInstallBrowse_CreateFolder",
-                    "Binary_": "NewBinary2",
+                    "Binary_": "new.ico",
                     "Events": [
                         {
                             "Event": "DirectoryListNew",
@@ -1127,7 +1058,7 @@
                     "Attributes": 3670019,
                     "Control_Next": "NewFolder",
                     "Help": "IDS__IsAdminInstallBrowse_UpOneLevel",
-                    "Binary_": "NewBinary3",
+                    "Binary_": "up.ico",
                     "Events": [
                         {
                             "Event": "DirectoryListUp",
@@ -1146,7 +1077,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "InstallNow",
             "Control_Default": "InstallNow",
             "Control_Cancel": "Cancel",
@@ -1178,7 +1109,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -1327,7 +1258,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Next",
             "Control_Default": "Next",
             "Control_Cancel": "Cancel",
@@ -1379,7 +1310,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "Next",
@@ -1429,7 +1360,7 @@
             "Width": 260,
             "Height": 85,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "No",
             "Control_Default": "No",
             "Control_Cancel": "No",
@@ -1442,7 +1373,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5242881,
-                    "Binary_": "NewBinary4"
+                    "Binary_": "warning.ico"
                 },
                 {
                     "Control": "No",
@@ -1501,7 +1432,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Tail",
             "Control_Default": "OK",
             "Control_Cancel": "Cancel",
@@ -1514,7 +1445,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -1624,7 +1555,7 @@
                     "Attributes": 3670019,
                     "Control_Next": "List",
                     "Help": "IDS__IsBrowseFolderDlg_CreateFolder",
-                    "Binary_": "NewBinary2",
+                    "Binary_": "new.ico",
                     "Events": [
                         {
                             "Event": "DirectoryListNew",
@@ -1686,7 +1617,7 @@
                     "Attributes": 3670019,
                     "Control_Next": "NewFolder",
                     "Help": "IDS__IsBrowseFolderDlg_UpOneLevel",
-                    "Binary_": "NewBinary3",
+                    "Binary_": "up.ico",
                     "Events": [
                         {
                             "Event": "DirectoryListUp",
@@ -1705,7 +1636,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Tail",
             "Control_Default": "OK",
             "Control_Cancel": "Cancel",
@@ -1718,7 +1649,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -1828,7 +1759,7 @@
                     "Attributes": 3670019,
                     "Control_Next": "List",
                     "Help": "IDS__IsBrowseFolderDlg_CreateFolder",
-                    "Binary_": "NewBinary2",
+                    "Binary_": "new.ico",
                     "Events": [
                         {
                             "Event": "DirectoryListNew",
@@ -1896,7 +1827,7 @@
                     "Attributes": 3670019,
                     "Control_Next": "NewFolder",
                     "Help": "IDS__IsBrowseFolderDlg_UpOneLevel",
-                    "Binary_": "NewBinary3",
+                    "Binary_": "up.ico",
                     "Events": [
                         {
                             "Event": "DirectoryListUp",
@@ -1915,7 +1846,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "OK",
             "Control_Default": "OK",
             "Control_Cancel": "OK",
@@ -1928,7 +1859,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -2015,7 +1946,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Back",
             "Control_Default": "Back",
             "Control_Cancel": "Cancel",
@@ -2046,7 +1977,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "InteriorBin1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -2130,7 +2061,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 19,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Retry",
             "Control_Default": "Retry",
             "Control_Cancel": "Exit",
@@ -2143,7 +2074,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -2270,7 +2201,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Next",
             "Control_Default": "Next",
             "Control_Cancel": "Cancel",
@@ -2284,15 +2215,7 @@
                     "Height": 17,
                     "Attributes": 1,
                     "Text": "IDS_BACK",
-                    "Control_Next": "Copyright",
-                    "Events": [
-                        {
-                            "Event": "NewDialog",
-                            "Argument": "SplashBitmap",
-                            "Condition": "Display_IsBitmapDlg",
-                            "Ordering": 1
-                        }
-                    ]
+                    "Control_Next": "Copyright"
                 },
                 {
                     "Control": "Cancel",
@@ -2351,7 +2274,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "Next",
@@ -2401,7 +2324,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 2,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Agree",
             "Control_Default": "Next",
             "Control_Cancel": "Cancel",
@@ -2444,7 +2367,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -2464,7 +2387,7 @@
                     "Height": 17,
                     "Attributes": 3,
                     "Text": "IDS_CANCEL",
-                    "Control_Next": "ISPrintButton",
+                    "Control_Next": "Agree",
                     "Events": [
                         {
                             "Event": "SpawnDialog",
@@ -2502,25 +2425,6 @@
                     "Height": 25,
                     "Attributes": 65539,
                     "Text": "IDS__IsLicenseDlg_LicenseAgreement"
-                },
-                {
-                    "Control": "ISPrintButton",
-                    "Type": "PushButton",
-                    "X": 301,
-                    "Y": 188,
-                    "Width": 65,
-                    "Height": 17,
-                    "Attributes": 3,
-                    "Text": "IDS_PRINT_BUTTON",
-                    "Control_Next": "Agree",
-                    "Events": [
-                        {
-                            "Event": "DoAction",
-                            "Argument": "ISPrint",
-                            "Condition": "1",
-                            "Ordering": 1
-                        }
-                    ]
                 },
                 {
                     "Control": "Memo",
@@ -2570,7 +2474,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "RadioGroup",
             "Control_Default": "Next",
             "Control_Cancel": "Cancel",
@@ -2602,7 +2506,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -2669,7 +2573,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5767169,
-                    "Binary_": "NewBinary7"
+                    "Binary_": "reinstall.ico"
                 },
                 {
                     "Control": "Ico3",
@@ -2679,7 +2583,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5767169,
-                    "Binary_": "NewBinary8"
+                    "Binary_": "remove.ico"
                 },
                 {
                     "Control": "Next",
@@ -2783,7 +2687,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Next",
             "Control_Default": "Next",
             "Control_Cancel": "Cancel",
@@ -2835,7 +2739,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "Next",
@@ -2885,7 +2789,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 19,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "OK",
             "Control_Default": "OK",
             "Control_Cancel": "Cancel",
@@ -2898,7 +2802,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -3023,7 +2927,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Resume",
             "Control_Default": "Resume",
             "Control_Cancel": "Resume",
@@ -3036,7 +2940,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -3143,15 +3047,7 @@
                     "Height": 17,
                     "Attributes": 1,
                     "Text": "IDS_BACK",
-                    "Control_Next": "Next",
-                    "Events": [
-                        {
-                            "Event": "NewDialog",
-                            "Argument": "SplashBitmap",
-                            "Condition": "Display_IsBitmapDlg",
-                            "Ordering": 1
-                        }
-                    ]
+                    "Control_Next": "Next"
                 },
                 {
                     "Control": "Cancel",
@@ -3189,7 +3085,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "Next",
@@ -3251,7 +3147,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 35,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "InstallNow",
             "Control_Default": "InstallNow",
             "Control_Cancel": "Cancel",
@@ -3289,7 +3185,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -3470,7 +3366,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "RemoveNow",
             "Control_Default": "RemoveNow",
             "Control_Cancel": "Cancel",
@@ -3502,7 +3398,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -3648,7 +3544,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Finish",
             "Control_Default": "Finish",
             "Control_Cancel": "Finish",
@@ -3809,7 +3705,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "RestContText1",
@@ -3880,7 +3776,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "OK",
             "Control_Default": "LaunchProgramCheck",
             "Control_Cancel": "OK",
@@ -3925,7 +3821,7 @@
                     "Height": 234,
                     "Attributes": 1,
                     "Control_Next": "Back",
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "LaunchProgramCheck",
@@ -4149,7 +4045,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "InteriorBin1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -4251,7 +4147,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5767169,
-                    "Binary_": "NewBinary12"
+                    "Binary_": "folder.ico"
                 },
                 {
                     "Control": "Icon2",
@@ -4261,7 +4157,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5767169,
-                    "Binary_": "NewBinary12"
+                    "Binary_": "folder.ico"
                 },
                 {
                     "Control": "Next",
@@ -4399,7 +4295,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "InteriorBin1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -4552,7 +4448,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5767169,
-                    "Binary_": "NewBinary12"
+                    "Binary_": "folder.ico"
                 },
                 {
                     "Control": "Icon2",
@@ -4562,7 +4458,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5767169,
-                    "Binary_": "NewBinary12"
+                    "Binary_": "folder.ico"
                 },
                 {
                     "Control": "Next",
@@ -4784,7 +4680,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5242881,
-                    "Binary_": "NewBinary4"
+                    "Binary_": "warning.ico"
                 },
                 {
                     "Control": "Y",
@@ -4813,7 +4709,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 5,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Cancel",
             "Control_Default": "Cancel",
             "Control_Cancel": "Cancel",
@@ -4895,7 +4791,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "Next",
@@ -4936,7 +4832,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Finish",
             "Control_Default": "Finish",
             "Control_Cancel": "Finish",
@@ -5094,7 +4990,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "RestContText1",
@@ -5165,7 +5061,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 5,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Cancel",
             "Control_Default": "Cancel",
             "Control_Cancel": "Cancel",
@@ -5253,7 +5149,7 @@
                     "Width": 374,
                     "Height": 44,
                     "Attributes": 1,
-                    "Binary_": "NewBinary1"
+                    "Binary_": "banner.jpg"
                 },
                 {
                     "Control": "BannerLine",
@@ -5427,7 +5323,7 @@
                     "Width": 24,
                     "Height": 24,
                     "Attributes": 5242881,
-                    "Binary_": "NewBinary9"
+                    "Binary_": "setup.ico"
                 },
                 {
                     "Control": "ShowTime",
@@ -5458,7 +5354,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Next",
             "Control_Default": "Next",
             "Control_Cancel": "Cancel",
@@ -5510,7 +5406,7 @@
                     "Width": 374,
                     "Height": 234,
                     "Attributes": 1,
-                    "Binary_": "NewBinary5"
+                    "Binary_": "dialog.jpg"
                 },
                 {
                     "Control": "Next",
@@ -5586,88 +5482,6 @@
                     "Height": 45,
                     "Attributes": 65539,
                     "Text": "IDS__IsResumeDlg_Resuming"
-                }
-            ]
-        },
-        {
-            "Dialog": "SplashBitmap",
-            "HCentering": 50,
-            "VCentering": 50,
-            "Width": 374,
-            "Height": 266,
-            "Attributes": 3,
-            "Title": "IDS_PRODUCTNAME_INSTALLSHIELD",
-            "Control_First": "Next",
-            "Control_Default": "Next",
-            "Control_Cancel": "Cancel",
-            "Controls": [
-                {
-                    "Control": "Back",
-                    "Type": "PushButton",
-                    "X": 164,
-                    "Y": 243,
-                    "Width": 66,
-                    "Height": 17,
-                    "Attributes": 1,
-                    "Text": "IDS_BACK",
-                    "Control_Next": "Next"
-                },
-                {
-                    "Control": "Cancel",
-                    "Type": "PushButton",
-                    "X": 301,
-                    "Y": 243,
-                    "Width": 66,
-                    "Height": 17,
-                    "Attributes": 3,
-                    "Text": "IDS_CANCEL",
-                    "Control_Next": "Back",
-                    "Events": [
-                        {
-                            "Event": "SpawnDialog",
-                            "Argument": "CancelSetup",
-                            "Condition": "1",
-                            "Ordering": 0
-                        }
-                    ]
-                },
-                {
-                    "Control": "DlgLine",
-                    "Type": "Line",
-                    "X": 0,
-                    "Y": 234,
-                    "Width": 374,
-                    "Height": 0,
-                    "Attributes": 1
-                },
-                {
-                    "Control": "Image",
-                    "Type": "Bitmap",
-                    "X": 13,
-                    "Y": 12,
-                    "Width": 349,
-                    "Height": 211,
-                    "Attributes": 1,
-                    "Binary_": "NewBinary19"
-                },
-                {
-                    "Control": "Next",
-                    "Type": "PushButton",
-                    "X": 230,
-                    "Y": 243,
-                    "Width": 66,
-                    "Height": 17,
-                    "Attributes": 3,
-                    "Text": "IDS_NEXT",
-                    "Control_Next": "Cancel",
-                    "Events": [
-                        {
-                            "Event": "NewDialog",
-                            "Argument": "InstallWelcome",
-                            "Condition": "1",
-                            "Ordering": 0
-                        }
-                    ]
                 }
             ]
         }
@@ -9682,19 +9496,6 @@
             "Sequence": 450
         },
         {
-            "Action": "ISSetAllUsers",
-            "Condition": "Not Installed",
-            "Sequence": 10
-        },
-        {
-            "Action": "ISSetupFilesCleanup",
-            "Sequence": 6615
-        },
-        {
-            "Action": "ISSetupFilesExtract",
-            "Sequence": 3
-        },
-        {
             "Action": "InstallFiles",
             "Sequence": 4000
         },
@@ -9979,19 +9780,6 @@
             "Action": "ISPreventDowngrade",
             "Condition": "ISFOUNDNEWERPRODUCTVERSION",
             "Sequence": 450
-        },
-        {
-            "Action": "ISSetAllUsers",
-            "Condition": "Not Installed",
-            "Sequence": 10
-        },
-        {
-            "Action": "ISSetupFilesCleanup",
-            "Sequence": 1302
-        },
-        {
-            "Action": "ISSetupFilesExtract",
-            "Sequence": 3
         },
         {
             "Action": "InstallWelcome",
@@ -10334,7 +10122,7 @@
         },
         {
             "Property": "SecureCustomProperties",
-            "Value": "ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02;INSTALLDIR;SUPPORTDIR;ENABLEPROTECTEDAPPLICATIONEXECUTION3;LAUNCHPROGRAM;ISACTIONPROP1;ISACTIONPROP2"
+            "Value": "ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02;INSTALLDIR;ENABLEPROTECTEDAPPLICATIONEXECUTION3;LAUNCHPROGRAM;ISACTIONPROP1;ISACTIONPROP2"
         },
         {
             "Property": "UpgradeCode",
