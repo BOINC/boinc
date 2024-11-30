@@ -16,7 +16,6 @@ EXPORTS
 	ShutdownBOINC
 	ShutdownBOINCManager
 	ShutdownBOINCScreensaver
-	ShutdownUD
 	GrantBOINCAdminsRights
 	GrantBOINCAdminsVirtualBoxRights
 	GrantBOINCUsersRights
@@ -38,7 +37,6 @@ EXPORTS
 	ValidateRebootRequest
 	SaveExecutionState
 	RestoreExecutionState
-	CCConfigMd5sum
 	CreateProjectInitFile
 	CreateAcctMgrLoginFile
 	RestorePermissionBOINCData

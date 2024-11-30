@@ -190,7 +190,15 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <Import Project="boinc_signing.targets" />
-  <Target Name="BuildMsi" DependsOnTargets="Build" AfterTargets="Build" BeforeTargets="Signing">
-    <Exec Command="$(OutDir)$(ProjectName).exe" WorkingDirectory="$(MSBuildThisFileDirectory)" ConsoleToMSBuild="true" />
-  </Target>
+  <ItemDefinitionGroup>
+    <CustomBuildStep>
+      <Command>$(OutDir)$(ProjectName).exe</Command>
+      <Inputs>$(MSBuildThisFileDirectory)..\installer\boinc.json;$(MSBuildThisFileDirectory)..\installer\locale\en.json;$(OutDir)boinccas.dll</Inputs>
+      <Outputs>$(OutDir)boinc.msi</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <PropertyGroup>
+    <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
+    <CustomBuildBeforeTargets>Signing</CustomBuildBeforeTargets>
+  </PropertyGroup>
 </Project>
