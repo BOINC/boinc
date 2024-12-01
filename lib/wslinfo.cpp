@@ -18,6 +18,8 @@
 // write and parse WSL_DISTRO structs,
 // which describe WSL distros and their possible Docker contents
 
+#if !defined(__aarch64__)
+
 #include <regex>
 
 #include "common_defs.h"
@@ -183,3 +185,5 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     }
     return NULL;
 }
+
+#endif

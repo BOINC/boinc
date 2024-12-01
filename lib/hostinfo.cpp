@@ -75,7 +75,9 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(os_version, "");
 
 #ifdef _WIN64
+#if !defined(__aarch64__)
     wsl_distros.clear();
+#endif
 #else
     safe_strcpy(docker_version, "");
     safe_strcpy(docker_compose_version, "");
@@ -138,10 +140,12 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
 #ifdef _WIN64
+#if !defined(__aarch64__)
         if (xp.match_tag("wsl")) {
             this->wsl_distros.parse(xp);
             continue;
         }
+#endif
 #else
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
         if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
@@ -235,7 +239,9 @@ int HOST_INFO::write(
         coprocs.ndevs()
     );
 #ifdef _WIN64
+#if !defined(__aarch64__)
     wsl_distros.write_xml(out);
+#endif
 #else
     if (strlen(docker_version)) {
         out.printf(

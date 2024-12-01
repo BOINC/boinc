@@ -21,6 +21,8 @@
 #ifndef BOINC_WSLINFO_H
 #define BOINC_WSLINFO_H
 
+#if !defined(__aarch64__)
+
 #include <string>
 
 #include "miofile.h"
@@ -78,5 +80,7 @@ struct WSL_DISTROS {
     WSL_DISTRO *find_docker();
         // find a distro containing Docker
 };
+
+#endif
 
 #endif

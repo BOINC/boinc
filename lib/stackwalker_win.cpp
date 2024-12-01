@@ -745,6 +745,8 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8lx\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
+#elif defined(__aarch64__)
+    // not implemented
 #else
     fprintf(stderr,
         "eax=%.8lx ebx=%.8lx ecx=%.8lx edx=%.8lx esi=%.8lx edi=%.8lx\n",
@@ -780,6 +782,8 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     StackFrame.AddrPC.Mode = AddrModeFlat;
     StackFrame.AddrFrame.Offset = Context.Rbp;
     StackFrame.AddrFrame.Mode = AddrModeFlat;
+#elif defined(__aarch64__)
+    // not implemented
 #else
 	StackFrame.AddrPC.Offset = Context.Eip;
     StackFrame.AddrPC.Mode = AddrModeFlat;

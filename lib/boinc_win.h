@@ -148,6 +148,8 @@
 #define SECURITY_WIN32
 #endif
 
+#include <cstddef>
+
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
 /* If we're not running under CYGWIN use windows networking */

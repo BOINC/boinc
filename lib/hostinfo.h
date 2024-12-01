@@ -32,7 +32,7 @@
 #include "coproc.h"
 #include "common_defs.h"
 
-#ifdef _WIN64
+#if defined(_WIN64) && !defined(__aarch64__)
 #include "wslinfo.h"
 #endif
 
@@ -86,7 +86,7 @@ public:
     char os_name[256];
     char os_version[256];
 
-#ifdef _WIN64
+#if defined(_WIN64) && !defined(__aarch64__)
     // on Windows, Docker info is per WSL_DISTRO, not global
     WSL_DISTROS wsl_distros;
 #else
@@ -173,7 +173,9 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
+#if !defined(__aarch64__)
 extern int get_wsl_information(WSL_DISTROS &distros);
+#endif
 extern int get_processor_group(HANDLE);
 #endif
 

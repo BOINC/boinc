@@ -154,7 +154,7 @@ char* windows_format_error_string(
     DWORD dwRet = 0;
     LPSTR lpszTemp = NULL;
 
-    va_list args = NULL;
+    va_list args;
     va_start(args, iSize);
     try {
         dwRet = FormatMessage(
