@@ -291,16 +291,18 @@ int create_container() {
             );
         }
     }
-    sprintf(cmd, "create --name %s %s %s %s",
+    sprintf(cmd, "create --name %s %s %s",
         container_name,
-        slot_cmd, project_cmd,
-        image_name
+        slot_cmd, project_cmd
     );
     // add command-line args
+    strcat(cmd, " -e ARGS=\"");
     for (string arg: app_args) {
         strcat(cmd, " ");
         strcat(cmd, arg.c_str());
     }
+    strcat(cmd, "\" ");
+    strcat(cmd, image_name);
     retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     if (error_output(out)) return -1;
