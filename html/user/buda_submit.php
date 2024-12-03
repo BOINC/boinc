@@ -114,7 +114,7 @@ function parse_batch_dir($batch_dir, $variant_desc) {
         foreach(scandir("$batch_dir/$fname") as $f2) {
             if ($f2[0] == '.') continue;
             if ($f2 == 'cmdline') {
-                $cmdline = file_get_contents("$batch_dir/$f2");
+                $cmdline = trim(file_get_contents("$batch_dir/$f2"));
             }
             if (!in_array($f2, $unshared_files)) {
                 error_page("$fname/$f2 is not an input file name");
@@ -182,6 +182,9 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
     }
 }
 
+// run bin/create_work to create the jobs.
+// Use --stdin, where each job is described by a line
+//
 function create_jobs(
     $variant_desc, $batch_desc, $batch_id, $batch_dir_name, $wrapper_verbose
 ) {
@@ -222,13 +225,12 @@ function create_jobs(
     fwrite($h, $job_cmds);
     $ret = pclose($h);
     if ($ret) {
-        echo $cmd;
-        echo "\n\n";
-        echo $job_cmds;
-        echo "\n\n";
+        echo "<pre>create_work failed.\n";
+        echo "command: $cmd\n\n";
+        echo "job lines:\n$job_cmds\n\n";
+        echo "error file:\n";
         readfile("../../buda_batches/errfile");
         exit;
-        error_page("create_work failed: $x");
     }
 }
 
