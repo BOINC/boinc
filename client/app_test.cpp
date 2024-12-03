@@ -238,7 +238,7 @@ void CLIENT_STATE::app_test_init() {
     );
 #endif
 #ifdef APP_DOCKER_WRAPPER
-    wu->command_line = "--verbose";
+    wu->command_line = "--verbose --nsecs 20";
     wu->input_files.push_back(
         *make_file(proj, "infile", "in", INPUT_FILE, false)
     );

@@ -1,10 +1,37 @@
-// docker_wrapper: runs a BOINC job in a Docker container
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
-// runs in a directory (i.e. slot dir) containing
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// docker_wrapper: run a BOINC job in a Docker container,
+//      and interface between the BOINC client and the container
+//
+// docker_wrapper [options] arg1 arg2 ...
+// options:
+// --verbose            write Docker commands and outputs to stderr
+// --config <filename>  config filename, default job.toml
+// --dockerfile         Dockerfile name, default Dockerfile
+// --sporadic           app is sporadic
+//
+// args are passed as cmdline args to main prog in container
+//
+// docker_wrapper runs in a directory (usually slot dir) containing
 //
 // Dockerfile
 // job.toml
-//      optional job config file
+//      optional config file
 // input files (link or physical)
 // executable files (link or physical)
 //
@@ -118,6 +145,7 @@ bool verbose = false;
 const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
 DOCKER_CONN docker_conn;
+vector<string> app_args;
 
 // parse job config file
 //
@@ -263,11 +291,18 @@ int create_container() {
             );
         }
     }
-    sprintf(cmd, "create --name %s %s %s %s",
+    sprintf(cmd, "create --name %s %s %s",
         container_name,
-        slot_cmd, project_cmd,
-        image_name
+        slot_cmd, project_cmd
     );
+    // add command-line args
+    strcat(cmd, " -e ARGS=\"");
+    for (string arg: app_args) {
+        strcat(cmd, " ");
+        strcat(cmd, arg.c_str());
+    }
+    strcat(cmd, "\" ");
+    strcat(cmd, image_name);
     retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     if (error_output(out)) return -1;
@@ -437,6 +472,8 @@ int main(int argc, char** argv) {
             config_file = argv[++j];
         } else if (!strcmp(argv[j], "--dockerfile")) {
             dockerfile = argv[++j];
+        } else {
+            app_args.push_back(argv[j]);
         }
     }
 
