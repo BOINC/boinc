@@ -19,22 +19,54 @@
 
 #include "Installer.h"
 
-int main(int, char**) {
-    const std::string configuration =
+int main(int argc, char** argv) {
+    std::string configuration =
 #ifdef _DEBUG
         "Debug";
 #else
         "Release";
 #endif
-    const std::string platform =
+    std::string platform =
 #ifdef _ARM64_
         "ARM64";
 #else
         "x64";
 #endif
+
+    for (int i = 0; i < argc; i++) {
+        auto arg = std::string(argv[i]);
+        if (arg == "-c") {
+            if (++i >= argc) {
+                std::cerr << "Missing configuration" << std::endl;
+                return 1;
+            }
+            arg = argv[i];
+            if (arg != "Debug" && arg != "Release") {
+                std::cerr << "Invalid configuration: " << arg << std::endl;
+                std::cerr << "Valid configurations are Debug and Release"
+                    << std::endl;
+                return 1;
+            }
+            configuration = arg;
+        }
+        else if (arg == "-p") {
+            if (++i >= argc) {
+                std::cerr << "Missing platform" << std::endl;
+                return 1;
+            }
+            arg = argv[i];
+            if (arg != "x64" && arg != "ARM64") {
+                std::cerr << "Invalid platform " << arg << std::endl;
+                std::cerr << "Valid platforms are x64 and ARM64" << std::endl;
+                return 1;
+            }
+            platform = arg;
+        }
+    }
+
     const auto output_path =
         std::filesystem::current_path() / "Build" / platform / configuration;
-    Installer installer(output_path);
+    Installer installer(output_path, platform, configuration);
     if (!installer.load(
         std::filesystem::current_path() / "../installer/boinc.json")) {
         return 1;

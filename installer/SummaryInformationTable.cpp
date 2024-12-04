@@ -24,7 +24,7 @@
 #include "SummaryInformationTable.h"
 
 SummaryInformationTable::SummaryInformationTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings)
+    const InstallerStrings& installerStrings, const std::string& platform)
 {
     std::cout << "Loading SummaryInformationTable..." << std::endl;
 
@@ -42,13 +42,34 @@ SummaryInformationTable::SummaryInformationTable(const nlohmann::json& json,
     summary[5] = JsonHelper::get<std::string>(json, "keywords");
     summary[6] =
         JsonHelper::get<std::string>(json, "comments", installerStrings);
-    summary[7] = JsonHelper::get<std::string>(json, "template");
+
+    auto tmplt = JsonHelper::get<std::string>(json, "template");
+    const std::string platform_template = "%%PLATFORM%%";
+    const auto index = tmplt.find(platform_template);
+    if (index != std::string::npos) {
+        tmplt.replace(index, platform_template.size(),
+            platform == "ARM64" ? "Arm64" : platform);
+    }
+
+    summary[7] = tmplt;
     summary[8] = JsonHelper::get<std::string>(json, "lastauthor");
     summary[9] = GuidHelper::generate_guid();
     summary[11] = fileTime;
     summary[12] = fileTime;
     summary[13] = fileTime;
-    summary[14] = JsonHelper::get<int>(json, "pagecount");
+    const auto pagecount = JsonHelper::get<std::string>(json, "pagecount");
+    const auto colon = pagecount.find(':');
+    if (colon != std::string::npos) {
+        if (platform == "x64") {
+            summary[14] = std::stoi(pagecount.substr(0, colon));
+        }
+        else {
+            summary[14] = std::stoi(pagecount.substr(colon + 1));
+        }
+    }
+    else {
+        summary[14] = std::stoi(pagecount);
+    }
     summary[15] = JsonHelper::get<int>(json, "wordcount");
     summary[16] = JsonHelper::get<int>(json, "charcount");
     summary[18] = JsonHelper::get<std::string>(json, "appname");

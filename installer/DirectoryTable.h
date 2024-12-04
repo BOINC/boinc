@@ -25,11 +25,14 @@ public:
     explicit DirectoryTable(const nlohmann::json& json,
         const std::filesystem::path& root_path,
         const std::filesystem::path& output_path,
-        const InstallerStrings& installerStrings);
+        const InstallerStrings& installerStrings, const std::string& platform,
+        const std::string& configuration);
     ~DirectoryTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:
     std::vector<Directory> directories{};
     std::filesystem::path root_path{};
     std::filesystem::path output_path{};
+    std::string platform{};
+    std::string configuration{};
 };

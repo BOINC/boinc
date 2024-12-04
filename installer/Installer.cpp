@@ -44,8 +44,10 @@
 
 #include "Installer.h"
 
-Installer::Installer(const std::filesystem::path& output_path) :
-    output_path(output_path) {
+Installer::Installer(const std::filesystem::path& output_path,
+    const std::string& platform, const std::string& configuration) :
+    output_path(output_path), platform(platform),
+    configuration(configuration) {
 }
 
 bool Installer::load(const std::filesystem::path& json) {
@@ -76,8 +78,8 @@ bool Installer::load_from_json(const nlohmann::json& json,
 {
     try {
         if (JsonHelper::exists(json, "Summary")) {
-            tables["Summary"] =std::make_shared<SummaryInformationTable>(
-                json["Summary"], installer_strings);
+            tables["Summary"] = std::make_shared<SummaryInformationTable>(
+                json["Summary"], installer_strings, platform);
         }
         if (JsonHelper::exists(json, "ActionText")) {
             tables["ActionText"] = std::make_shared<ActionTextTable>(
@@ -99,7 +101,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
         }
         if (JsonHelper::exists(json, "Binary")) {
             tables["Binary"] = std::make_shared<BinaryTable>(
-                json["Binary"], path);
+                json["Binary"], path, platform, configuration);
         }
         if (JsonHelper::exists(json, "Checkbox")) {
             tables["Checkbox"] = std::make_shared<CheckboxTable>(
@@ -115,7 +117,8 @@ bool Installer::load_from_json(const nlohmann::json& json,
         }
         if (JsonHelper::exists(json, "Directory")) {
             tables["Directory"] = std::make_shared<DirectoryTable>(
-                json["Directory"], path, output_path, installer_strings);
+                json["Directory"], path, output_path, installer_strings,
+                platform, configuration);
         }
         if (JsonHelper::exists(json, "Error")) {
             tables["Error"] = std::make_shared<ErrorTable>(json["Error"],
@@ -126,7 +129,8 @@ bool Installer::load_from_json(const nlohmann::json& json,
                 installer_strings);
         }
         if (JsonHelper::exists(json, "Icon")) {
-            tables["Icon"] = std::make_shared<IconTable>(json["Icon"], path);
+            tables["Icon"] = std::make_shared<IconTable>(json["Icon"], path,
+                platform, configuration);
         }
         if (JsonHelper::exists(json, "InstallExecuteSequence")) {
             tables["InstallExecuteSequence"] =

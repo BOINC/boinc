@@ -26,7 +26,7 @@
 class SummaryInformationTable : public Generator<std::any> {
 public:
     explicit SummaryInformationTable(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        const InstallerStrings& installerStrings, const std::string& platform);
     ~SummaryInformationTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

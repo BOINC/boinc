@@ -18,11 +18,12 @@
 #include "IconTable.h"
 
 IconTable::IconTable(const nlohmann::json& json,
-    const std::filesystem::path& path) {
+    const std::filesystem::path& path, const std::string& platform,
+    const std::string& configuration) {
     std::cout << "Loading IconTable..." << std::endl;
 
     for (const auto& item : json) {
-        values.emplace_back(item, path);
+        values.emplace_back(item, path, platform, configuration);
     }
 }
 

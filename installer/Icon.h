@@ -23,7 +23,8 @@
 class Icon : public Record {
 public:
     explicit Icon(const nlohmann::json& json,
-        const std::filesystem::path& root_path);
+        const std::filesystem::path& root_path, const std::string& platform,
+        const std::string& configuration);
     ~Icon() = default;
     MSIHANDLE getRecord() const override;
 private:
