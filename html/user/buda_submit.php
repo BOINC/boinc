@@ -81,8 +81,8 @@ function unzip_batch_file($user, $batch_file) {
 
 // Scan a batch dir.
 // Check its validity:
-// - Top level can have only infiles (shared)
-// - Subdirs (job dirs) can have only remaining infiles and possibly cmdline
+// - optional dir 'shared_input_files' has shared input files
+// - other dirs (job dirs) can have only remaining infiles and possibly cmdline
 //
 // Return a structure describing its contents, and the md5/size of files
 //

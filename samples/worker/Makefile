@@ -1,4 +1,4 @@
-CXXFLAGS += -g
+#CXXFLAGS += -g
 CXX ?= g++
 
 ifdef ANDROID
@@ -20,8 +20,8 @@ clean: distclean
 distclean:
 	rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o
 
-worker$(WORKER_RELEASE_SUFFIX): worker.o
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker$(WORKER_RELEASE_SUFFIX) worker.o
+worker$(WORKER_RELEASE_SUFFIX): worker.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker$(WORKER_RELEASE_SUFFIX) worker.cpp
 
 install: all
 

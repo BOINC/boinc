@@ -114,7 +114,7 @@ function variant_view() {
     }
     end_table();
     show_button_small(
-        "buda.php?action=variant_delete&app=$dir&variant=$variant",
+        "buda.php?action=variant_delete&app=$app&variant=$variant",
         'Delete variant'
     );
     page_tail();
@@ -167,6 +167,7 @@ function copy_and_stage_file($user, $fname, $dir, $app, $variant) {
 function variant_action($user) {
     global $buda_root;
     $variant = get_str('variant');
+    if (!$variant) $variant = 'cpu';
     if (!is_valid_filename($variant)) die('bad arg');
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
@@ -300,7 +301,7 @@ function app_form() {
 function app_action() {
     global $buda_root;
     $name = get_str('name');
-    if (!is_valid_filename($name)) die('bad arg');
+    if (!is_valid_filename($name)) die("bad arg: $name");
     $dir = "$buda_root/$name";
     if (file_exists($dir)) {
         error_page("App $name already exists.");

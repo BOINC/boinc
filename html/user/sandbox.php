@@ -41,7 +41,7 @@ function list_files($user, $notice) {
     }
     echo "
         <p>
-        <h3>Upload files</h3>
+        <h3>Upload files from this computer</h3>
         <p>
         NOTE: if you upload text files from Windows,
         they will be given CRLF line endings.
@@ -61,6 +61,15 @@ function list_files($user, $notice) {
     form_input_hidden('action', 'add_file');
     form_input_text('Name', 'name');
     form_input_textarea('Contents', 'contents');
+    form_submit('OK');
+    form_end();
+    echo "
+        <hr>
+        <h3>Get web file</h3>
+    ";
+    form_start('sandbox.php', 'post');
+    form_input_hidden('action', 'get_file');
+    form_input_text('URL', 'url');
     form_submit('OK');
     form_end();
     echo "
@@ -150,6 +159,19 @@ function add_file($user) {
     list_files($user, $notice);
 }
 
+function get_file($user) {
+    $dir = sandbox_dir($user);
+    $url = post_str('url');
+    $fname = basename($url);
+    $path = "$dir/$fname";
+    if (file_exists($path)) {
+        error_page("File $fname exists; delete it first.");
+    }
+    copy($url, $path);
+    $notice = "Fetched file from <strong>$url</strong><br/>";
+    list_files($user, $notice);
+}
+
 // delete a sandbox file.
 //
 function delete_file($user) {
@@ -189,6 +211,7 @@ switch ($action) {
 case '': list_files($user,""); break;
 case 'upload_file': upload_file($user); break;
 case 'add_file': add_file($user); break;
+case 'get_file': get_file($user); break;
 case 'delete_file': delete_file($user); break;
 case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;

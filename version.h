@@ -27,7 +27,7 @@
 #define VBOXWRAPPER_RELEASE 26209
 
 // worker version number
-#define WORKER_RELEASE 2
+#define WORKER_RELEASE 4
 
 // client version number as string
 #define BOINC_VERSION_STRING "8.1.0"

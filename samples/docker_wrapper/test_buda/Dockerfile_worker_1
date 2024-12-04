@@ -1,3 +1,0 @@
-FROM debian
-WORKDIR /app
-CMD ./main_2.sh
