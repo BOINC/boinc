@@ -24,6 +24,9 @@
 #include "boinc_win.h"
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 LPFN_ISWOW64PROCESS fnIsWow64Process;
+#ifndef SIM
+#include "hostinfo.h"
+#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -172,7 +175,24 @@ int launch_child_process_to_detect_emulated_cpu() {
 void CLIENT_STATE::detect_platforms() {
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
-#if defined(_WIN64) && defined(_M_X64)
+#if defined(_ARM64_)
+    add_platform("windows_arm64");
+#ifndef SIM
+    // according to
+    // https://learn.microsoft.com/en-us/windows/arm/apps-on-arm-x86-emulation
+    // Windows 10 on ARM can run x86 applications,
+    // and Windows 11 on ARM can run x86_64 applications
+    // so we will add these platfroms as well
+    OSVERSIONINFOEX osvi;
+    BOOL bOsVersionInfoEx = get_OSVERSIONINFO(osvi);
+    if (osvi.dwMajorVersion >= 10) {
+        add_platform("windows_intelx86");
+        if (osvi.dwBuildNumber >= 22000) {
+            add_platform("windows_x86_64");
+        }
+    }
+#endif
+#elif defined(_WIN64) && defined(_M_X64)
     add_platform("windows_x86_64");
     add_platform("windows_intelx86");
 #else
