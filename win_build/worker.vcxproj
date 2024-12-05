@@ -11,7 +11,7 @@
   </PropertyGroup>
   <Import Project="boinc.props" />
   <PropertyGroup>
-    <TargetVersion>2</TargetVersion>
+    <TargetVersion>4</TargetVersion>
     <TargetName>worker_$(TargetVersion)_windows_x86_64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>

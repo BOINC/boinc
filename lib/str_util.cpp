@@ -235,6 +235,11 @@ void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
 // return an array of pointers to the null-terminated words.
 // Modifies the string arg.
 // Returns argc
+//
+// WARNING: the argv[] pointers are into the original string.
+// If that goes away (stack) or is modified,
+// the pointers are invalidated.
+
 // TODO: use strtok here
 
 #define NOT_IN_TOKEN                0

@@ -321,21 +321,20 @@ int container_op(const char *op) {
 }
 
 // Clean up at end of job.
-// Show log output if verbose;
+// Show log output.
 // remove container and image
 //
 void cleanup() {
     char cmd[1024];
     vector<string> out;
 
-    if (verbose) {
-        sprintf(cmd, "logs %s", container_name);
-        docker_conn.command(cmd, out);
-        fprintf(stderr, "container log:\n");
-        for (string line : out) {
-            fprintf(stderr, "   %s\n", line.c_str());
-        }
+    sprintf(cmd, "logs %s", container_name);
+    docker_conn.command(cmd, out);
+    fprintf(stderr, "stderr from container:\n");
+    for (string line : out) {
+        fprintf(stderr, "%s\n", line.c_str());
     }
+    fprintf(stderr, "stderr end\n");
 
     container_op("stop");
 

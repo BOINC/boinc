@@ -69,7 +69,7 @@ function sandbox_parse_info_file($user, $name) {
     if ($info) {
         return $info;
     }
-    [$size, $md5] = get_file_info("$dir/$name");
+    [$md5, $size] = get_file_info("$dir/$name");
     write_info_file($info_path, $md5, $size);
     return [$md5, $size];
 }

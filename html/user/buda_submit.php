@@ -41,16 +41,17 @@ function submit_form($user) {
         containing command-line arguments.
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission>Details</a></small>.
     ";
-    $desc2 = "<br><small>
-        Write Docker commands and output to stderr (for debugging).
-    ";
     page_head("Submit jobs to $app ($variant)");
     form_start('buda_submit.php');
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
     form_input_hidden('variant', $variant);
     form_select("Batch zip file $desc", 'batch_file', $sbitems_zip);
-    form_checkbox("Verbose Docker output? $desc2", 'wrapper_verbose');
+    form_input_text('Command-line arguments', 'cmdline');
+    form_checkbox(
+        "Enabled debugging output <br><small>Write Docker commands and output to stderr</small>.",
+        'wrapper_verbose'
+    );
     form_submit('OK');
     form_end();
     page_tail();
@@ -80,8 +81,8 @@ function unzip_batch_file($user, $batch_file) {
 
 // Scan a batch dir.
 // Check its validity:
-// - Top level can have only infiles (shared)
-// - Subdirs (job dirs) can have only remaining infiles and possibly cmdline
+// - optional dir 'shared_input_files' has shared input files
+// - other dirs (job dirs) can have only remaining infiles and possibly cmdline
 //
 // Return a structure describing its contents, and the md5/size of files
 //
@@ -114,7 +115,8 @@ function parse_batch_dir($batch_dir, $variant_desc) {
         foreach(scandir("$batch_dir/$fname") as $f2) {
             if ($f2[0] == '.') continue;
             if ($f2 == 'cmdline') {
-                $cmdline = trim(file_get_contents("$batch_dir/$f2"));
+                $cmdline = trim(file_get_contents("$batch_dir/$fname/cmdline"));
+                continue;
             }
             if (!in_array($f2, $unshared_files)) {
                 error_page("$fname/$f2 is not an input file name");
@@ -186,7 +188,8 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 // Use --stdin, where each job is described by a line
 //
 function create_jobs(
-    $variant_desc, $batch_desc, $batch_id, $batch_dir_name, $wrapper_verbose
+    $variant_desc, $batch_desc, $batch_id, $batch_dir_name,
+    $wrapper_verbose, $cmdline
 ) {
     global $buda_app;
 
@@ -211,15 +214,20 @@ function create_jobs(
         }
         $job_cmds .= "$job_cmd\n";
     }
-    $cmd = sprintf(
-        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line "--dockerfile %s %s" --wu_template %s --result_template %s',
-        $buda_app->name, $batch_id,
+    $cw_cmdline = sprintf('"--dockerfile %s %s %s"',
         $variant_desc->dockerfile,
         $wrapper_verbose?'--verbose':'',
+        $cmdline
+    );
+    $cmd = sprintf(
+        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line %s --wu_template %s --result_template %s',
+        $buda_app->name, $batch_id,
+        $cw_cmdline,
         "buda_batches/$batch_dir_name/template_in",
         "buda_batches/$batch_dir_name/template_out"
     );
     $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
+
     $h = popen($cmd, "w");
     if (!$h) error_page('create_work launch failed');
     fwrite($h, $job_cmds);
@@ -316,6 +324,7 @@ function handle_submit($user) {
     $batch_file = get_str('batch_file');
     if (!is_valid_filename($batch_file)) die('bad arg');
     $wrapper_verbose = get_str('wrapper_verbose', true);
+    $cmdline = get_str('cmdline');
 
     $variant_dir = "../../buda_apps/$app/$variant";
     $variant_desc = json_decode(
@@ -341,7 +350,7 @@ function handle_submit($user) {
 
     create_jobs(
         $variant_desc, $batch_desc, $batch->id, $batch_dir_name,
-        $wrapper_verbose
+        $wrapper_verbose, $cmdline
     );
 
     // mark batch as in progress
