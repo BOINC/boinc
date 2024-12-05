@@ -32,28 +32,37 @@ require_once("../inc/submit_util.inc");
 
 display_errors();
 
-function list_files($user, $notice) {
-    $dir = sandbox_dir($user);
-    if (!is_dir($dir)) error_page("Can't open sandbox directory");
-    page_head("File sandbox");
-    if ($notice) {
-        echo "<p>$notice<hr>";
-    }
+function add_form() {
+    page_head('Upload files to your sandbox');
     echo "
+        There are several ways to upload files:
         <p>
+        <hr>
         <h3>Upload files from this computer</h3>
-        <p>
-        NOTE: if you upload text files from Windows,
+    ";
+    form_start('sandbox.php', 'post', 'ENCTYPE="multipart/form-data"');
+    form_general('',
+        "NOTE: if you upload text files from Windows,
         they will be given CRLF line endings.
-        Then, if they are shell scripts, they won't work on Linux.
-        Add shell scripts using 'Add text file' below.
-        <p>
-
+        If they are shell scripts, they won't work on Linux.
+        Add shell scripts using 'Add text file' below."
+    );
+    form_input_hidden('action', 'upload_file');
+    form_general('',
+        '<input size=80 type=file name="new_file[]" multiple="multiple">'
+    );
+    form_submit('Upload');
+    form_end();
+if (0) {
+    echo "
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
         <p><p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
         <p> <input class=\"btn btn-success\" type=submit value=Upload>
         </form>
+    ";
+}
+    echo "
         <hr>
         <h3>Add text file</h3>
     ";
@@ -72,9 +81,20 @@ function list_files($user, $notice) {
     form_input_text('URL', 'url');
     form_submit('OK');
     form_end();
+    page_tail();
+}
+
+function list_files($user) {
+    $dir = sandbox_dir($user);
+    if (!is_dir($dir)) error_page("Can't open sandbox directory");
+    page_head("File sandbox");
+    $notice = get_str('notice', true);
+    if ($notice) {
+        echo "<p>$notice<hr>";
+    }
     echo "
-        <hr>
-        <h3>Sandbox contents</h3>
+        <p>
+        Your 'File sandbox' is where you store files to this BOINC server.
     ";
     $files = array();
     foreach (scandir($dir) as $f) {
@@ -86,7 +106,7 @@ function list_files($user, $notice) {
     } else {
         sort($files);
         start_table();
-        table_header("Name<br><p class=\"text-muted\">(click to view text files)</p>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
+        table_header("Name<br><small>(click to view text files)</small>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
         foreach ($files as $f) {
             [$md5, $size] = sandbox_parse_info_file($user, $f);
             $path = "$dir/$f";
@@ -108,6 +128,7 @@ function list_files($user, $notice) {
         }
         end_table();
     }
+    show_button('sandbox.php?action=add_form', 'Upload files');
     page_tail();
 }
 
@@ -139,12 +160,13 @@ function upload_file($user) {
 
         $notice .= "Uploaded file <strong>$name</strong><br/>";
     }
-    list_files($user, $notice);
+    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
 }
 
 function add_file($user) {
     $dir = sandbox_dir($user);
     $name = post_str('name');
+    if (!$name) error_page('No name given');
     if (file_exists("$dir/$name")) {
         error_page("file $name exists");
     }
@@ -155,8 +177,8 @@ function add_file($user) {
     [$md5, $size] = get_file_info("$dir/$name");
     write_info_file("$dir/.md5/$name", $md5, $size);
 
-    $notice = "Uploaded file <strong>$name</strong><br/>";
-    list_files($user, $notice);
+    $notice = "Added file <strong>$name</strong> ($size bytes)";
+    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
 }
 
 function get_file($user) {
@@ -169,7 +191,7 @@ function get_file($user) {
     }
     copy($url, $path);
     $notice = "Fetched file from <strong>$url</strong><br/>";
-    list_files($user, $notice);
+    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
 }
 
 // delete a sandbox file.
@@ -180,7 +202,7 @@ function delete_file($user) {
     unlink("$dir/$name");
     unlink("$dir/.md5/$name");
     $notice = "<strong>$name</strong> was deleted from your sandbox<br/>";
-    list_files($user, $notice);
+    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
 }
 
 function download_file($user) {
@@ -208,13 +230,14 @@ $action = get_str('action', true);
 if (!$action) $action = post_str('action', true);
 
 switch ($action) {
-case '': list_files($user,""); break;
+case '': list_files($user); break;
 case 'upload_file': upload_file($user); break;
 case 'add_file': add_file($user); break;
 case 'get_file': get_file($user); break;
 case 'delete_file': delete_file($user); break;
 case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;
+case 'add_form': add_form($user); break;
 default: error_page("no such action: $action");
 }
 

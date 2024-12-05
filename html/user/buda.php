@@ -44,17 +44,10 @@ function app_list($notice=null) {
     text_start();
     echo "
         <p>BUDA (BOINC Universal Docker App)
-        lets you submit Docker jobs through a web interface;
+        lets you submit Docker jobs using a web interface;
         you don't need to log into the BOINC server.
         <p>
-        To use BUDA, you set up a 'science app' and one or more 'variants'.
-        Each variant includes a Dockerfile,
-        a main program to run within the container,
-        and any other files that are needed.
-        <p>
-        Typically there is a variant named 'cpu' that uses one CPU.
-        The names of other variants are plan class names;
-        these can be versions that use a GPU or multiple CPUs.
+        <a href=https://github.com/BOINC/boinc/wiki/BUDA-overview>BUDA overview</a>.
     ";
 
     echo "<h2>Science apps</h2>";
@@ -73,14 +66,14 @@ function show_app($dir) {
     global $buda_root;
     echo "<hr><font size=+3>$dir</font>\n";
     start_table('table-striped');
-    table_header('Variant name (click for details)', 'Submit jobs');
+    table_header('Variant name<br><small>click for details</small>', 'Submit jobs');
     $pcs = scandir("$buda_root/$dir");
     foreach ($pcs as $pc) {
         if ($pc[0] == '.') continue;
         table_row(
             "<a href=buda.php?action=variant_view&app=$dir&variant=$pc>$pc</href>",
             button_text(
-                "buda_submit.php?app=$dir&variant=$pc", "Submit"
+                "buda_submit.php?app=$dir&variant=$pc", "Submission form"
             )
         );
     }
@@ -134,15 +127,25 @@ function variant_form($user) {
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
 
-    page_head("Create variant of Docker app $app");
+    page_head("Create a variant of Docker app $app");
+    echo "
+        Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#adding-a-variant>here</a>.
+    ";
+    $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
     form_start('buda.php');
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
     form_input_text('Plan class', 'variant');
-    form_select('Dockerfile', 'dockerfile', $sbitems);
-    form_select_multiple('Application files', 'app_files', $sbitems);
-    form_input_text('Input file names', 'input_file_names');
-    form_input_text('Output file names', 'output_file_names');
+    form_select("Dockerfile$sb", 'dockerfile', $sbitems);
+    form_select_multiple("Application files$sb", 'app_files', $sbitems);
+    form_input_text(
+        'Input file names<br><small>Space-separated</small>',
+        'input_file_names'
+    );
+    form_input_text(
+        'Output file names<br><small>Space-separated</small>',
+        'output_file_names'
+    );
     form_submit('OK');
     form_end();
     page_tail();

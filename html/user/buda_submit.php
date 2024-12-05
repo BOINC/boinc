@@ -47,7 +47,7 @@ function submit_form($user) {
     form_input_hidden('app', $app);
     form_input_hidden('variant', $variant);
     form_select("Batch zip file $desc", 'batch_file', $sbitems_zip);
-    form_input_text('Command line arguments', 'cmdline');
+    form_input_text('Command-line arguments', 'cmdline');
     form_checkbox(
         "Enabled debugging output <br><small>Write Docker commands and output to stderr</small>.",
         'wrapper_verbose'
