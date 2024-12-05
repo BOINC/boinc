@@ -24,7 +24,8 @@
 class Binary : public Record {
 public:
     explicit Binary(const nlohmann::json& json,
-        const std::filesystem::path& root_path);
+        const std::filesystem::path& root_path, const std::string& platform,
+        const std::string& configuration);
     ~Binary() = default;
     MSIHANDLE getRecord() const override;
 private:

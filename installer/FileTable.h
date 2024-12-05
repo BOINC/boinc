@@ -25,7 +25,8 @@ class FileTable : public Generator<File> {
 public:
     explicit FileTable(const std::vector<Directory>& directories,
         const std::filesystem::path& root_path,
-        const std::filesystem::path& output_path);
+        const std::filesystem::path& output_path, const std::string& platform,
+        const std::string& configuration);
     ~FileTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:
@@ -37,4 +38,6 @@ private:
     std::vector<File> files{};
     std::filesystem::path root_path{};
     std::filesystem::path output_path{};
+    std::string platform{};
+    std::string configuration{};
 };

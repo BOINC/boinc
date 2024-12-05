@@ -27,7 +27,8 @@
 
 class Installer {
 public:
-    explicit Installer(const std::filesystem::path& output_path);
+    explicit Installer(const std::filesystem::path& output_path,
+        const std::string& platform, const std::string& configuration);
     ~Installer() = default;
     bool load(const std::filesystem::path& json);
     bool create_msi(const std::filesystem::path& msi);
@@ -39,4 +40,6 @@ private:
     std::map<std::string, std::shared_ptr<GeneratorTable>> tables{};
     InstallerStrings installer_strings;
     std::filesystem::path output_path{};
+    std::string platform;
+    std::string configuration;
 };

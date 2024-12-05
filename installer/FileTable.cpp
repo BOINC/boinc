@@ -105,19 +105,7 @@ size_t FileTable::GetFileSize(const std::string& filePath) {
 std::filesystem::path FileTable::GetAbsolutePath(
     const std::filesystem::path& filePath) {
     const std::string configuration_template = "%%CONFIGURATION%%";
-    const std::string configuration =
-#ifdef _DEBUG
-        "Debug";
-#else
-        "Release";
-#endif
     const std::string platform_template = "%%PLATFORM%%";
-    const std::string platform =
-#ifdef _ARM64_
-        "ARM64";
-#else
-        "x64";
-#endif
 
     auto p = filePath.string();
     auto index = p.find(configuration_template);
@@ -133,8 +121,10 @@ std::filesystem::path FileTable::GetAbsolutePath(
 
 FileTable::FileTable(const std::vector<Directory>& directories,
     const std::filesystem::path& root_path,
-    const std::filesystem::path& output_path) : root_path(root_path),
-    output_path(output_path) {
+    const std::filesystem::path& output_path, const std::string& platform,
+    const std::string& configuration) : root_path(root_path),
+    output_path(output_path), platform(platform),
+    configuration(configuration) {
     int sequence = 0;
     for (const auto& directory : directories) {
         for (const auto& component : directory.getComponents()) {

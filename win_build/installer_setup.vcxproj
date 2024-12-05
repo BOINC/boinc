@@ -22,7 +22,7 @@
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <ResourceCompile>
-      <PreprocessorDefinitions>BOINC_MSI=$(SolutionDir)Build\\$(Platform)\$(Configuration)\boinc.msi;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOINC_MSI=$(SolutionDir)Build\$(Platform)\$(Configuration)\boinc.msi;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -37,5 +37,15 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <PropertyGroup>
+    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <CustomBuildStep>
+      <Command>$(SolutionDir)Build\x64\$(Configuration)\installer.exe -p $(Platform)</Command>
+      <Inputs>$(MSBuildThisFileDirectory)..\installer\boinc.json;$(MSBuildThisFileDirectory)..\installer\locale\en.json;$(OutDir)boinccas.dll</Inputs>
+      <Outputs>$(OutDir)boinc.msi</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
   <Import Project="boinc_signing.targets" />
 </Project>

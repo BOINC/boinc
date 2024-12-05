@@ -18,11 +18,12 @@
 #include "BinaryTable.h"
 
 BinaryTable::BinaryTable(const nlohmann::json& json,
-    const std::filesystem::path& path) {
+    const std::filesystem::path& path, const std::string& platform,
+    const std::string& configuration) {
     std::cout << "Loading BinaryTable..." << std::endl;
 
     for (const auto& element : json) {
-        binaries.emplace_back(element, path);
+        binaries.emplace_back(element, path, platform, configuration);
     }
 }
 

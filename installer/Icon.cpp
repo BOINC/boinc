@@ -20,21 +20,10 @@
 #include "JsonHelper.h"
 
 Icon::Icon(const nlohmann::json& json,
-    const std::filesystem::path& root_path) {
+    const std::filesystem::path& root_path, const std::string& platform,
+    const std::string& configuration) {
     const std::string configuration_template = "%%CONFIGURATION%%";
-    const std::string configuration =
-#ifdef _DEBUG
-        "Debug";
-#else
-        "Release";
-#endif
     const std::string platform_template = "%%PLATFORM%%";
-    const std::string platform =
-#ifdef _ARM64_
-        "ARM64";
-#else
-        "x64";
-#endif
 
     JsonHelper::get(json, "Name", name);
     JsonHelper::handle(json, "Path", [&](std::string p) {

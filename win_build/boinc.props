@@ -33,8 +33,8 @@
         <VcpkgExe>$(VcpkgRootDir)\vcpkg.exe</VcpkgExe>
         <VcpkgTripletConfig Condition="'$(VcpkgTripletConfig)' == ''">default</VcpkgTripletConfig>
         <VcpkgCacheDir Condition="'$(VcpkgCacheDir)' == ''">..\..\boinc_depends_win_vs2019</VcpkgCacheDir>
-        <VcpkgTripletName Condition="'$(VcpkgTripletName)|$(Platform)' == '|x64'">x64-windows-static</VcpkgTripletName>
-        <VcpkgTripletName Condition="'$(VcpkgTripletName)|$(Platform)' == '|arm64'">arm64-windows-static</VcpkgTripletName>
+        <VcpkgTripletName Condition="'$(Platform)' == 'x64'">x64-windows-static</VcpkgTripletName>
+        <VcpkgTripletName Condition="'$(Platform)' == 'arm64'">arm64-windows-static</VcpkgTripletName>
         <VcpkgInstalledDir Condition="'$(VcpkgInstalledDir)' == ''">$(VcpkgRootDir)\installed\$(VcpkgTripletName)</VcpkgInstalledDir>
         <CUDA_BIN_PATH Condition="'$(CUDA_BIN_PATH)|$(Platform)' == '|x64'">$(VcpkgRootDir)\..\cuda\nvcc\bin</CUDA_BIN_PATH>
         <CUDA_INC_PATH Condition="'$(CUDA_INC_PATH)|$(Platform)' == '|x64'">$(VcpkgRootDir)\..\cuda\nvcc\include</CUDA_INC_PATH>
@@ -82,6 +82,7 @@
             <Culture>0x0409</Culture>
             <PreprocessorDefinitions Condition="'$(Configuration)' == 'Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
             <PreprocessorDefinitions Condition="'$(Configuration)' == 'Release'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions Condition="'$(Platform)' == 'ARM64'">_ARM64_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
         </ResourceCompile>
     </ItemDefinitionGroup>
 </Project>

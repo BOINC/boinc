@@ -23,7 +23,8 @@
 class IconTable : public Generator<Icon> {
 public:
     explicit IconTable(const nlohmann::json& json,
-        const std::filesystem::path& path);
+        const std::filesystem::path& path, const std::string& platform,
+        const std::string& configuration);
     ~IconTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:
