@@ -386,8 +386,8 @@ int get_os_information(
                     }
                 } else {
                     if  (osvi.dwBuildNumber >= 26100) {
-			strlcat(os_name, "Windows Server 2025", os_name_size);
-		    } else if (osvi.dwBuildNumber >= 25398) {
+			            strlcat(os_name, "Windows Server 2025", os_name_size);
+		            } else if (osvi.dwBuildNumber >= 25398) {
                         strlcat(os_name, "Windows Server 23H2", os_name_size);
                     } else if (osvi.dwBuildNumber >= 20348) {
                         strlcat(os_name, "Windows Server 2022", os_name_size);

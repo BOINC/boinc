@@ -172,6 +172,12 @@ public:
 
 extern void make_secure_random_string(char*);
 
+#ifdef _WIN32
+#ifndef SIM
+extern BOOL get_OSVERSIONINFO(OSVERSIONINFOEX& osvi);
+#endif
+#endif
+
 #ifdef _WIN64
 extern int get_wsl_information(WSL_DISTROS &distros);
 extern int get_processor_group(HANDLE);
