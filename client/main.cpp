@@ -494,11 +494,6 @@ int main(int argc, char** argv) {
             return 0;
         }
 
-        if (!strcmp(argv[index], "--run_test_app")) {
-            read_config_file(true);
-            run_test_app();
-        }
-
 #ifdef _WIN32
         // This bit of silliness is required to properly detach when run from within a command
         // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return

@@ -233,7 +233,8 @@ struct ACTIVE_TASK {
         // This is compared with project-specified limits
         // to decide whether to abort job; no other use.
     int get_free_slot(RESULT*);
-    int start(bool test=false);         // start a process
+    int setup_slot_dir(char *buf, unsigned int size);
+    int start();
 
     // Termination stuff.
     // Terminology:
