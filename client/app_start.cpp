@@ -715,6 +715,7 @@ int ACTIVE_TASK::start() {
         fref = app_version->app_files[i];
         fip = fref.file_info;
         if (fref.main_program) {
+            get_pathname(fip, file_path, sizeof(file_path));
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
         }
