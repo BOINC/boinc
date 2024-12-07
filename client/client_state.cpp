@@ -123,7 +123,6 @@ CLIENT_STATE::CLIENT_STATE()
     app_started = 0;
     cmdline_dir = false;
     exit_before_upload = false;
-    run_test_app = false;
 #ifndef _WIN32
     boinc_project_gid = 0;
 #endif

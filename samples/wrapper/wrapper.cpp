@@ -1241,16 +1241,18 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
-    do_unzip_inputs();
-
     retval = read_checkpoint(ntasks_completed, checkpoint_cpu_time, runtime);
-    if (retval && !zip_filename.empty()) {
-        // this is the first time we've run.
+    if (retval) {
+        // this is the first time we've run; unzip inputs
+        do_unzip_inputs();
+        write_checkpoint(0, 0, 0);
+
         // If we're going to zip output files,
         // make a list of files present at this point so we can exclude them.
         //
-        write_checkpoint(0, 0, 0);
-        get_initial_file_list();
+        if (!zip_filename.empty()) {
+            get_initial_file_list();
+        }
     }
 
     // do initialization after getting initial file list,

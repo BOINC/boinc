@@ -521,9 +521,100 @@ static int get_priority(bool is_high_priority) {
 #endif
 }
 
+// set up slot dir; copy or link app version and input files.
+// If copy a big file, setup_file() will start an async copy
+// and return ERR_IN_PROGRESS.
+//
+int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
+    unsigned int i;
+    int retval;
+    FILE_REF fref;
+    FILE_INFO *fip;
+    char file_path[MAXPATHLEN];
+    char path[1024];
+
+    *buf = 0;
+
+    sprintf(path, "%s/boinc_setup_complete", slot_dir);
+    if (boinc_file_exists(path)) return 0;
+
+    // make sure the needed files exist
+    //
+    retval = gstate.task_files_present(result, true, &fip);
+    if (retval) {
+        snprintf(
+            buf, buf_len,
+            "Task file %s: %s",
+            fip->name, boincerror(retval)
+        );
+        return retval;
+    }
+
+    // set up app version files
+    //
+    for (i=0; i<app_version->app_files.size(); i++) {
+        fref = app_version->app_files[i];
+        fip = fref.file_info;
+        get_pathname(fip, file_path, sizeof(file_path));
+        if (fref.main_program) {
+            if (is_image_file(fip->name)) {
+                snprintf(buf, buf_len,
+                    "Main program %s is an image file", fip->name
+                );
+                return ERR_NO_SIGNATURE;
+            }
+            if (!fip->executable && !wup->project->anonymous_platform) {
+                snprintf(buf, buf_len,
+                    "Main program %s is not executable", fip->name
+                );
+                return ERR_NO_SIGNATURE;
+            }
+        }
+        retval = setup_file(fip, fref, file_path, true, false);
+        if (retval == ERR_IN_PROGRESS) {
+            return retval;
+        } else if (retval) {
+            safe_strcpy(buf, "Can't link app version file");
+            return retval;
+        }
+    }
+
+    // set up input, output files
+    //
+    for (i=0; i<wup->input_files.size(); i++) {
+        fref = wup->input_files[i];
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path, sizeof(file_path));
+        retval = setup_file(fip, fref, file_path, true, true);
+        if (retval == ERR_IN_PROGRESS) {
+            return retval;
+        } else if (retval) {
+            strcpy(buf, "Can't link input file");
+            return retval;
+        }
+    }
+    for (i=0; i<result->output_files.size(); i++) {
+        fref = result->output_files[i];
+        if (must_copy_file(fref, true)) continue;
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path, sizeof(file_path));
+        retval = setup_file(fip, fref, file_path, false, true);
+        if (retval) {
+            strcpy(buf, "Can't link output file");
+            return retval;
+        }
+    }
+
+    link_user_files();
+        // don't check retval here
+
+    FILE *f = fopen(path, "w");
+    fclose(f);
+    return 0;
+}
+
 // Start a task in a slot directory.
-// This includes setting up soft links,
-// passing preferences, and starting the process
+// set up the slot dir if needed
 //
 // Current dir is top-level BOINC dir
 //
@@ -534,20 +625,22 @@ static int get_priority(bool is_high_priority) {
 // else
 //   ACTIVE_TASK::task_state is PROCESS_EXECUTING
 //
-// If "test" is set, we're doing the API test; just run "test_app".
-//
-int ACTIVE_TASK::start(bool test) {
+int ACTIVE_TASK::start() {
     char exec_name[256], file_path[MAXPATHLEN], buf[MAXPATHLEN], exec_path[MAXPATHLEN];
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
+    FILE_INFO *fip;
     int retval;
     APP_INIT_DATA aid;
+    bool high_priority;
 #ifdef _WIN32
     bool success = false;
     LPVOID environment_block=NULL;
 #endif
 
+    // is an async copy in progress for this job?
+    //
     if (async_copy) {
         if (log_flags.task_debug) {
             msg_printf(wup->project, MSG_INFO,
@@ -563,28 +656,24 @@ int ACTIVE_TASK::start(bool test) {
         strcpy(slot_dir, "slots/app_test");
     }
 
-    // run it at above idle priority if it
+    // set up the slot dir
+    //
+    retval = setup_slot_dir(buf, sizeof(buf));
+    if (retval == ERR_IN_PROGRESS) {
+        set_task_state(PROCESS_COPY_PENDING, "start");
+        return 0;
+    }
+    if (retval) goto error;
+
+    // run process at above idle priority if it
     // - uses coprocs
     // - uses less than one CPU
     // - is a wrapper
     //
-    bool high_priority = false;
+    high_priority = false;
     if (app_version->rsc_type()) high_priority = true;
     if (app_version->avg_ncpus < 1) high_priority = true;
     if (app_version->is_wrapper) high_priority = true;
-
-    // make sure the task files exist
-    //
-    FILE_INFO* fip = 0;
-    retval = gstate.task_files_present(result, true, &fip);
-    if (retval) {
-        snprintf(
-            buf, sizeof(buf),
-            "Task file %s: %s",
-            fip->name, boincerror(retval)
-        );
-        goto error;
-    }
 
     current_cpu_time = checkpoint_cpu_time;
     elapsed_time = checkpoint_elapsed_time;
@@ -613,43 +702,22 @@ int ACTIVE_TASK::start(bool test) {
     init_app_init_data(aid);
     retval = write_app_init_file(aid);
     if (retval) {
-        snprintf(buf, sizeof(buf), "Can't write init file: %s", boincerror(retval));
+        snprintf(buf, sizeof(buf),
+            "Can't write init file: %s", boincerror(retval)
+        );
         goto error;
     }
 
-    // set up applications files
+    // get main prog filename and path
     //
-    if (test) {
-        safe_strcpy(exec_name, "test_app");
-        safe_strcpy(exec_path, "test_app");
-    } else {
-        safe_strcpy(exec_name, "");
-    }
+    safe_strcpy(exec_name, "");
     for (i=0; i<app_version->app_files.size(); i++) {
         fref = app_version->app_files[i];
         fip = fref.file_info;
-        get_pathname(fip, file_path, sizeof(file_path));
         if (fref.main_program) {
-            if (is_image_file(fip->name)) {
-                snprintf(buf, sizeof(buf), "Main program %s is an image file", fip->name);
-                retval = ERR_NO_SIGNATURE;
-                goto error;
-            }
-            if (!fip->executable && !wup->project->anonymous_platform) {
-                snprintf(buf, sizeof(buf), "Main program %s is not executable", fip->name);
-                retval = ERR_NO_SIGNATURE;
-                goto error;
-            }
+            get_pathname(fip, file_path, sizeof(file_path));
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
-        }
-        retval = setup_file(fip, fref, file_path, true, false);
-        if (retval == ERR_IN_PROGRESS) {
-            set_task_state(PROCESS_COPY_PENDING, "start");
-            return 0;
-        } else if (retval) {
-            safe_strcpy(buf, "Can't link app version file");
-            goto error;
         }
     }
     if (!strlen(exec_name)) {
@@ -658,39 +726,11 @@ int ACTIVE_TASK::start(bool test) {
         goto error;
     }
 
-    // set up input, output files
-    //
-    for (i=0; i<wup->input_files.size(); i++) {
-        fref = wup->input_files[i];
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path, sizeof(file_path));
-        retval = setup_file(fip, fref, file_path, true, true);
-        if (retval == ERR_IN_PROGRESS) {
-            set_task_state(PROCESS_COPY_PENDING, "start");
-            return 0;
-        } else if (retval) {
-            safe_strcpy(buf, "Can't link input file");
-            goto error;
-        }
-    }
-    for (i=0; i<result->output_files.size(); i++) {
-        fref = result->output_files[i];
-        if (must_copy_file(fref, true)) continue;
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path, sizeof(file_path));
-        retval = setup_file(fip, fref, file_path, false, true);
-        if (retval) {
-            safe_strcpy(buf, "Can't link output file");
-            goto error;
-        }
-    }
-
-    link_user_files();
-        // don't check retval here
-
     // remove temporary exit file from last run
     //
-    snprintf(file_path, sizeof(file_path), "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
+    snprintf(file_path, sizeof(file_path), "%s/%s",
+        slot_dir, TEMPORARY_EXIT_FILE
+    );
     delete_project_owned_file(file_path, true);
 
     if (cc_config.exit_before_start) {
@@ -1096,11 +1136,7 @@ int ACTIVE_TASK::start(bool test) {
         // If using account-based sandboxing, use a helper app
         // to do this, to set the right user ID
         //
-        if (test) {
-            strcpy(buf, exec_path);
-        } else {
-            snprintf(buf, sizeof(buf), "../../%.1024s", exec_path);
-        }
+        snprintf(buf, sizeof(buf), "../../%.1024s", exec_path);
         if (g_use_sandbox) {
             char switcher_path[MAXPATHLEN];
             snprintf(switcher_path, sizeof(switcher_path),
@@ -1149,9 +1185,6 @@ int ACTIVE_TASK::start(bool test) {
 error:
     // here on error; "buf" contains error message, "retval" is nonzero
     //
-    if (test) {
-        return retval;
-    }
 
     // if failed to run program, it's possible that the executable was munged.
     // Verify the app version files to detect this
@@ -1176,6 +1209,7 @@ error:
 }
 
 // Resume the task if it was previously running; otherwise start it
+// "first_time" is set if the slot dir is empty
 // Postcondition: "state" is set correctly
 //
 int ACTIVE_TASK::resume_or_start(bool first_time) {
@@ -1233,81 +1267,4 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         );
     }
     return 0;
-}
-
-// The following runs "test_app" and sends it various messages.
-// Used for testing the runtime system.
-//
-void run_test_app() {
-    WORKUNIT wu;
-    PROJECT project;
-    APP app;
-    APP_VERSION av;
-    ACTIVE_TASK at;
-    ACTIVE_TASK_SET ats;
-    RESULT result;
-    int retval;
-
-    gstate.run_test_app = true;
-
-    wu.project = &project;
-    wu.app = &app;
-    wu.command_line = string("--critical_section");
-
-    safe_strcpy(app.name, "test app");
-    av.init();
-    av.avg_ncpus = 1;
-
-    safe_strcpy(result.name, "test result");
-    result.avp = &av;
-    result.wup = &wu;
-    result.project = &project;
-    result.app = &app;
-
-    at.result = &result;
-    at.wup = &wu;
-    at.app_version = &av;
-    at.max_elapsed_time = 1e6;
-    at.max_disk_usage = 1e14;
-    at.max_mem_usage = 1e14;
-    safe_strcpy(at.slot_dir, ".");
-
-#if 0
-    // test file copy
-    //
-    ASYNC_COPY* ac = new ASYNC_COPY;
-    FILE_INFO fi;
-    retval = ac->init(&at, &fi, "big_file", "./big_file_copy");
-    if (retval) {
-        exit(1);
-    }
-    while (1) {
-        do_async_file_op();
-        if (at.async_copy == NULL) {
-            break;
-        }
-    }
-    fprintf(stderr, "done\n");
-    exit(0);
-#endif
-    ats.active_tasks.push_back(&at);
-
-    unlink("boinc_finish_called");
-    unlink("boinc_lockfile");
-    unlink("boinc_temporary_exit");
-    unlink("stderr.txt");
-    retval = at.start(true);
-    if (retval) {
-        fprintf(stderr, "start() failed: %s\n", boincerror(retval));
-    }
-    while (1) {
-        gstate.now = dtime();
-        at.preempt(REMOVE_NEVER);
-        ats.poll();
-        boinc_sleep(.1);
-        at.unsuspend();
-        ats.poll();
-        boinc_sleep(.2);
-        //at.request_reread_prefs();
-    }
 }
