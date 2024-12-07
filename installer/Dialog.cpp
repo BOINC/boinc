@@ -23,7 +23,7 @@
 #include "JsonHelper.h"
 
 Dialog::Dialog(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     JsonHelper::get(json, "Dialog", dialog);
     JsonHelper::get(json, "HCentering", hcentering);
     JsonHelper::get(json, "VCentering", vcentering);

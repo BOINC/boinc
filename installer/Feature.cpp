@@ -20,7 +20,7 @@
 #include "JsonHelper.h"
 
 Feature::Feature(const nlohmann::json& json, const std::string& parent,
-    const InstallerStrings& installerStrings) : feature_parent(parent) {
+    InstallerStrings& installerStrings) : feature_parent(parent) {
     JsonHelper::get(json, "Feature", feature);
     JsonHelper::get(json, "Title", title, installerStrings);
     JsonHelper::get(json, "Description", description, installerStrings);

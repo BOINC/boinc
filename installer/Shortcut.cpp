@@ -20,7 +20,7 @@
 #include "MsiHelper.h"
 
 Shortcut::Shortcut(const nlohmann::json& json, const std::string& component,
-    const InstallerStrings& installerStrings) : component(component) {
+    InstallerStrings& installerStrings) : component(component) {
     JsonHelper::get(json, "Shortcut", shortcut);
     JsonHelper::get(json, "Directory_", directory);
     JsonHelper::get(json, "Name", name, installerStrings);

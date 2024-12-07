@@ -30,7 +30,7 @@
 class Control : public Record {
 public:
     explicit Control(const nlohmann::json& json,
-        const InstallerStrings& installerStrings, const std::string& dialog);
+        InstallerStrings& installerStrings, const std::string& dialog);
     ~Control() = default;
     const std::vector<ControlCondition>& get_conditions() const noexcept;
     const std::vector<ControlEvent>& get_events() const noexcept;

@@ -24,7 +24,7 @@
 class Shortcut : public Record {
 public:
     explicit Shortcut(const nlohmann::json& json, const std::string& component,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~Shortcut() = default;
     MSIHANDLE getRecord() const override;
 private:

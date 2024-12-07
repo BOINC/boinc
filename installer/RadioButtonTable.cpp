@@ -18,7 +18,7 @@
 #include "RadioButtonTable.h"
 
 RadioButtonTable::RadioButtonTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading RadioButtonTable..." << std::endl;
     for (const auto& item : json) {
         properties.emplace_back(item, installerStrings);

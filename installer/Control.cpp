@@ -20,7 +20,7 @@
 #include "JsonHelper.h"
 
 Control::Control(const nlohmann::json& json,
-    const InstallerStrings& installerStrings, const std::string& dialog) :
+    InstallerStrings& installerStrings, const std::string& dialog) :
     dialog(dialog) {
     JsonHelper::get(json, "Control", control);
     JsonHelper::get(json, "Type", type);

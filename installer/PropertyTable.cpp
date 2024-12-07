@@ -19,7 +19,7 @@
 #include "GuidHelper.h"
 
 PropertyTable::PropertyTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading PropertyTable..." << std::endl;
     for (const auto& item : json) {
         properties.emplace_back(item, installerStrings);

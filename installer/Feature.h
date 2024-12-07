@@ -25,7 +25,7 @@
 class Feature : public Record {
 public:
     explicit Feature(const nlohmann::json& json, const std::string& parent,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~Feature() = default;
     MSIHANDLE getRecord() const override;
     std::vector<Feature> getFeatures() const;

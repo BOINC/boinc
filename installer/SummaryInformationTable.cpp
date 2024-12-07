@@ -24,7 +24,7 @@
 #include "SummaryInformationTable.h"
 
 SummaryInformationTable::SummaryInformationTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings, const std::string& platform)
+    InstallerStrings& installerStrings, const std::string& platform)
 {
     std::cout << "Loading SummaryInformationTable..." << std::endl;
 

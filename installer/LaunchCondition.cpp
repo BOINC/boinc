@@ -20,7 +20,7 @@
 #include "JsonHelper.h"
 
 LaunchCondition::LaunchCondition(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     JsonHelper::get(json, "Condition", condition);
     JsonHelper::get(json, "Description", description, installerStrings);
 }

@@ -26,7 +26,7 @@
 class ActionTextTable : public Generator<ActionText>{
 public:
     explicit ActionTextTable(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~ActionTextTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

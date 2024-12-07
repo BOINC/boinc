@@ -20,7 +20,7 @@
 #include "JsonHelper.h"
 
 Property::Property(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     JsonHelper::get(json, "Property", property);
     JsonHelper::get(json, "Value", value, installerStrings);
 }

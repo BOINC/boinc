@@ -25,7 +25,7 @@
 class Error : public Record {
 public:
     explicit Error(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~Error() = default;
     MSIHANDLE getRecord() const override;
 private:

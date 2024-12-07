@@ -20,7 +20,7 @@
 #include "JsonHelper.h"
 
 Error::Error(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     JsonHelper::get(json, "Error", error);
     JsonHelper::get(json, "Message", message, installerStrings);
 }

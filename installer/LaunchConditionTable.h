@@ -23,7 +23,7 @@
 class LaunchConditionTable : public Generator<LaunchCondition> {
 public:
     explicit LaunchConditionTable(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~LaunchConditionTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

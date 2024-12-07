@@ -20,7 +20,7 @@
 #include "JsonHelper.h"
 
 UIText::UIText(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     JsonHelper::get(json, "Key", key);
     JsonHelper::get(json, "Text", text, installerStrings);
 }

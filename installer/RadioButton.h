@@ -25,7 +25,7 @@
 class RadioButton : public Record {
 public:
     explicit RadioButton(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~RadioButton() = default;
     MSIHANDLE getRecord() const override;
 private:
