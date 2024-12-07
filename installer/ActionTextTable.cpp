@@ -20,7 +20,7 @@
 #include "ActionTextTable.h"
 
 ActionTextTable::ActionTextTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading ActionTextTable..." << std::endl;
     for (const auto& item : json) {
         values.emplace_back(item, installerStrings);

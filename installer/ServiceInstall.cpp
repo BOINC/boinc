@@ -20,7 +20,7 @@
 #include "MsiHelper.h"
 
 ServiceInstall::ServiceInstall(const nlohmann::json& json,
-    const std::string& component, const InstallerStrings& installerStrings) :
+    const std::string& component, InstallerStrings& installerStrings) :
     component(component) {
     JsonHelper::get(json, "ServiceInstall", serviceInstall);
     JsonHelper::get(json, "Name", name);

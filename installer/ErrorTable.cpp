@@ -18,7 +18,7 @@
 #include "ErrorTable.h"
 
 ErrorTable::ErrorTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading ErrorTable..." << std::endl;
 
     for (const auto& error : json) {

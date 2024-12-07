@@ -18,7 +18,7 @@
 #include "UITextTable.h"
 
 UITextTable::UITextTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading UITextTable.." << std::endl;
     for (const auto& item : json) {
         uiTexts.emplace_back(item, installerStrings);

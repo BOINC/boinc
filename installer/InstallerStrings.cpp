@@ -21,10 +21,21 @@
 #include "JsonHelper.h"
 #include "InstallerStrings.h"
 
-const std::string& InstallerStrings::get(const std::string& key) const {
+InstallerStrings::~InstallerStrings() {
+    for (const auto& key : strings) {
+        if (keys_used.find(key.first) == keys_used.end()) {
+            std::cerr << "WARNING: Key " << key.first<< " not used."
+                << std::endl;
+        }
+    }
+}
+
+const std::string& InstallerStrings::get(const std::string& key) {
     if (strings.find(key) == strings.end()) {
+        std::cerr << "WARNING: Key " << key << " not found." << std::endl;
         return key;
     }
+    keys_used.insert(key);
     return strings.at(key);
 };
 bool InstallerStrings::load(const std::filesystem::path& path) {

@@ -34,7 +34,7 @@ class Component : public Record {
 public:
     explicit Component(const nlohmann::json& json,
         const std::string& directory, const std::string& parent,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~Component() = default;
     MSIHANDLE getRecord() const override;
     FeatureComponents getFeatureComponent() const;

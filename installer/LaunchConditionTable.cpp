@@ -18,7 +18,7 @@
 #include "LaunchConditionTable.h"
 
 LaunchConditionTable::LaunchConditionTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading LaunchConditionTable..." << std::endl;
 
     for (const auto& launchCondition : json) {

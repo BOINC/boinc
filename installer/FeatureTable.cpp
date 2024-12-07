@@ -18,7 +18,7 @@
 #include "FeatureTable.h"
 
 FeatureTable::FeatureTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading FeatureTable..." << std::endl;
     for (const auto& feature : json) {
         features.emplace_back(feature, "", installerStrings);

@@ -20,7 +20,7 @@
 #include "JsonHelper.h"
 
 Directory::Directory(const nlohmann::json& json, const std::string& parent,
-    const InstallerStrings& installerStrings) : parent(parent) {
+    InstallerStrings& installerStrings) : parent(parent) {
     JsonHelper::get(json, "Directory", directory);
     JsonHelper::get(json, "DefaultDir", default);
     JsonHelper::handle(json, "Directories", [&](const auto& dir) {

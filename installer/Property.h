@@ -25,7 +25,7 @@
 class Property : public Record {
 public:
     explicit Property(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     explicit Property(const std::string& property, const std::string& value);
     ~Property() = default;
     MSIHANDLE getRecord() const override;

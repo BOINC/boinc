@@ -21,7 +21,7 @@
 #include "JsonHelper.h"
 
 Component::Component(const nlohmann::json& json, const std::string& directory,
-    const std::string& parent, const InstallerStrings& installerStrings) :
+    const std::string& parent, InstallerStrings& installerStrings) :
     directory(directory) {
     JsonHelper::get(json, "Component", component);
     JsonHelper::get(json, "Attributes", attributes);

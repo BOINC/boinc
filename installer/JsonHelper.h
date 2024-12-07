@@ -57,14 +57,14 @@ public:
     }
     template <class T>
     static void get(const nlohmann::json& json, const std::string& key,
-        T& value, const InstallerStrings& installerStrings) {
+        T& value, InstallerStrings& installerStrings) {
         if (exists(json, key)) {
             value = installerStrings.get(json[key]);
         }
     }
     template <class T>
     static T get(const nlohmann::json& json, const std::string& key,
-        const InstallerStrings& installerStrings) {
+        InstallerStrings& installerStrings) {
         if (exists(json, key)) {
             return installerStrings.get(json[key]);
         }

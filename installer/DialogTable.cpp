@@ -20,7 +20,7 @@
 #include "Generator.h"
 
 DialogTable::DialogTable(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     std::cout << "Loading DialogTable..." << std::endl;
 
     for (const auto& dialog : json) {

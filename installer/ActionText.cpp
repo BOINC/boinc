@@ -22,7 +22,7 @@
 #include "JsonHelper.h"
 
 ActionText::ActionText(const nlohmann::json& json,
-    const InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings) {
     JsonHelper::get(json, "Action", action);
     JsonHelper::get(json, "Description", description, installerStrings);
     JsonHelper::get(json, "Template", tmplt, installerStrings);

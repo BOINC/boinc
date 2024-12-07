@@ -25,7 +25,7 @@
 class LaunchCondition : public Record {
 public:
     explicit LaunchCondition(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~LaunchCondition() = default;
     MSIHANDLE getRecord() const override;
 private:

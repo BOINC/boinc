@@ -19,6 +19,7 @@
 
 #include <string>
 #include <map>
+#include <unordered_set>
 #include <filesystem>
 
 #include "nlohmann/json.hpp"
@@ -26,12 +27,13 @@
 class InstallerStrings {
 public:
     InstallerStrings() noexcept = default;
-    ~InstallerStrings() = default;
+    ~InstallerStrings();
 
-    const std::string& get(const std::string& key) const;
+    const std::string& get(const std::string& key);
     bool load(const std::filesystem::path& path);
 private:
     std::map<std::string, std::string> strings{};
+    std::unordered_set<std::string> keys_used{};
 
     bool load_from_json(const nlohmann::json& json);
 };

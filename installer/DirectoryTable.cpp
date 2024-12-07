@@ -30,7 +30,7 @@
 DirectoryTable::DirectoryTable(const nlohmann::json& json,
     const std::filesystem::path& root_path,
     const std::filesystem::path& output_path,
-    const InstallerStrings& installerStrings, const std::string& platform,
+    InstallerStrings& installerStrings, const std::string& platform,
     const std::string& configuration) :
     root_path(root_path), output_path(output_path), platform(platform),
     configuration(configuration) {

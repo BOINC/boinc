@@ -20,30 +20,6 @@
         "Value": "You must have administrative privileges in order to install [ProductName]."
     },
     {
-        "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR",
-        "Value": "The color settings of your system are not adequate for running [ProductName]."
-    },
-    {
-        "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_IE5FOUND",
-        "Value": "Internet Explorer 5 or greater needs to be installed for this installation to continue."
-    },
-    {
-        "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_OS",
-        "Value": "[ProductName] requires that your computer is running Windows 2000 or better."
-    },
-    {
-        "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_PROCESSOR",
-        "Value": "The processor is not adequate for running [ProductName]."
-    },
-    {
-        "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_RAM",
-        "Value": "The amount of RAM is not adequate for running [ProductName]."
-    },
-    {
-        "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_SCREEN",
-        "Value": "The screen resolution is not adequate for running [ProductName]."
-    },
-    {
         "Id": "IDS_ACTIONTEXT_1",
         "Value": "[1]"
     },
@@ -440,10 +416,6 @@
         "Value": "Searching for qualifying products"
     },
     {
-        "Id": "IDS_ACTIONTEXT_SearchingQualifyingProducts2",
-        "Value": "Searching for qualifying products"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_Service",
         "Value": "Service: [1]"
     },
@@ -550,38 +522,6 @@
     {
         "Id": "IDS_CANCEL2",
         "Value": "&Cancel"
-    },
-    {
-        "Id": "IDS_CHANGE",
-        "Value": "&Change..."
-    },
-    {
-        "Id": "IDS_DEFAULT_CONFIRMPASSWORD",
-        "Value": "Password &Confirmation:"
-    },
-    {
-        "Id": "IDS_DEFAULT_LAUNCHATLOGON",
-        "Value": "&Launch BOINC when logging on."
-    },
-    {
-        "Id": "IDS_DEFAULT_MAKESCREENSAVER",
-        "Value": "&Make BOINC your default screensaver."
-    },
-    {
-        "Id": "IDS_DEFAULT_OPTIONS",
-        "Value": "Please select the options you would like to enable."
-    },
-    {
-        "Id": "IDS_DEFAULT_PASSWORD",
-        "Value": "&Password:"
-    },
-    {
-        "Id": "IDS_DEFAULT_SERVICEACCOUNTCREDENTIALS",
-        "Value": "Service account credentials"
-    },
-    {
-        "Id": "IDS_DEFAULT_USERNAME",
-        "Value": "&Username:"
     },
     {
         "Id": "IDS_ERROR_0",
@@ -3056,14 +2996,6 @@
         "Value": "BOINC"
     },
     {
-        "Id": "IDS_FEATURE_BOINC_README_DESCRIPTION",
-        "Value": null
-    },
-    {
-        "Id": "IDS_FEATURE_BOINC_README_NAME",
-        "Value": "Readme"
-    },
-    {
         "Id": "IDS_FEATURE_BOINC_SCREENSAVER_DESCRIPTION",
         "Value": "The BOINC screensaver"
     },
@@ -3072,40 +3004,12 @@
         "Value": "BOINC Screensaver"
     },
     {
-        "Id": "IDS_INSTALLDIR",
-        "Value": "[INSTALLDIR]"
-    },
-    {
-        "Id": "IDS_ISSCRIPT_VERSION_MISSING",
-        "Value": "The InstallScript engine is missing from this machine.  If available, please run ISScript.msi, or contact your support personnel for further assistance."
-    },
-    {
-        "Id": "IDS_ISSCRIPT_VERSION_OLD",
-        "Value": "The InstallScript engine on this machine is older than the version required to run this setup.  If available, please install the latest version of ISScript.msi, or contact your support personnel for further assistance."
-    },
-    {
         "Id": "IDS_NEXT",
         "Value": "&Next >"
     },
     {
         "Id": "IDS_OK",
         "Value": "OK"
-    },
-    {
-        "Id": "IDS_PREREQUISITE_SETUP_BROWSE",
-        "Value": "Open [ProductName]'s original [SETUPEXENAME]"
-    },
-    {
-        "Id": "IDS_PREREQUISITE_SETUP_INVALID",
-        "Value": "This executable file does not appear to be the original executable file for [ProductName]. Without using the original [SETUPEXENAME] to install additional dependencies, [ProductName] may not work correctly. Would you like to find the original [SETUPEXENAME]?"
-    },
-    {
-        "Id": "IDS_PREREQUISITE_SETUP_SEARCH",
-        "Value": "This installation may require additional dependencies. Without its dependencies, [ProductName] may not work correctly. Would you like to find the original [SETUPEXENAME]?"
-    },
-    {
-        "Id": "IDS_PRINT_BUTTON",
-        "Value": "&Print"
     },
     {
         "Id": "IDS_PRODUCTNAME",
@@ -3196,100 +3100,8 @@
         "Value": "readme.txt"
     },
     {
-        "Id": "IDS_SETUPEXE_EXPIRE_MSG",
-        "Value": "This setup works until %s. The setup will now exit."
-    },
-    {
-        "Id": "IDS_SQLBROWSE_INTRO",
-        "Value": "From the list of servers below, select the database server you would like to target."
-    },
-    {
-        "Id": "IDS_SQLBROWSE_INTRO_DB",
-        "Value": "From the list of catalog names below, select the database catalog you would like to target."
-    },
-    {
-        "Id": "IDS_SQLBROWSE_INTRO_TEMPLATE",
-        "Value": "[IS_SQLBROWSE_INTRO]"
-    },
-    {
-        "Id": "IDS_SQLLOGIN_BROWSE_DB",
-        "Value": "Br&owse..."
-    },
-    {
-        "Id": "IDS_SQLLOGIN_CATALOG",
-        "Value": "&Name of database catalog:"
-    },
-    {
-        "Id": "IDS_SQLLOGIN_DESC",
-        "Value": "Select database server and authentication method"
-    },
-    {
-        "Id": "IDS_SQLLOGIN_INTRO",
-        "Value": "Select the database server to install to from the list below or click Browse to see a list of all database servers. You can also specify the way to authenticate your login using your current credentials or a SQL Login ID and Password."
-    },
-    {
-        "Id": "IDS_SQLLOGIN_SERVER",
-        "Value": "&Database Server:"
-    },
-    {
-        "Id": "IDS_SQLLOGIN_SERVER2",
-        "Value": "&Database server that you are installing to:"
-    },
-    {
-        "Id": "IDS_SQLLOGIN_SQL",
-        "Value": "S&erver authentication using the Login ID and password below"
-    },
-    {
-        "Id": "IDS_SQLLOGIN_TITLE",
-        "Value": "{&MSSansBold8}Database Server"
-    },
-    {
-        "Id": "IDS_STANDARD_USE_SETUPEXE",
-        "Value": "This installation cannot be run by directly launching the MSI package. You must run setup.exe."
-    },
-    {
         "Id": "IDS_SUMMARY_DESCRIPTION",
         "Value": "Berkeley Open Infrastructure for Network Computing (BOINC)"
-    },
-    {
-        "Id": "IDS_SetupTips_Advertise",
-        "Value": "Will be installed on first use. (Available only if the feature supports this option.)"
-    },
-    {
-        "Id": "IDS_SetupTips_AllInstalledLocal",
-        "Value": "Will be completely installed to the local hard drive."
-    },
-    {
-        "Id": "IDS_SetupTips_CustomSetup",
-        "Value": "{&MSSansBold8}Custom Setup Tips"
-    },
-    {
-        "Id": "IDS_SetupTips_CustomSetupDescription",
-        "Value": "Custom Setup allows you to selectively install program features."
-    },
-    {
-        "Id": "IDS_SetupTips_IconInstallState",
-        "Value": "The icon next to the feature name indicates the install state of the feature. Click the icon to drop down the install state menu for each feature."
-    },
-    {
-        "Id": "IDS_SetupTips_InstallState",
-        "Value": "This install state means the feature..."
-    },
-    {
-        "Id": "IDS_SetupTips_Network",
-        "Value": "Will be installed to run from the network. (Available only if the feature supports this option.)"
-    },
-    {
-        "Id": "IDS_SetupTips_OK",
-        "Value": "OK"
-    },
-    {
-        "Id": "IDS_SetupTips_SubFeaturesInstalledLocal",
-        "Value": "Will have some subfeatures installed to the local hard drive. (Available only if the feature has subfeatures.)"
-    },
-    {
-        "Id": "IDS_SetupTips_WillNotBeInstalled",
-        "Value": "Will not be installed."
     },
     {
         "Id": "IDS_UITEXT_Available",
@@ -3492,28 +3304,12 @@
         "Value": "I &accept the terms in the license agreement"
     },
     {
-        "Id": "IDS__DestinationFolder_Change",
-        "Value": "&Change..."
-    },
-    {
-        "Id": "IDS__DestinationFolder_ChangeFolder",
-        "Value": "Click Next to install to this folder, or click Change to install to a different folder."
-    },
-    {
-        "Id": "IDS__DestinationFolder_DestinationFolder",
-        "Value": "{&MSSansBold8}Destination Folder"
-    },
-    {
-        "Id": "IDS__DestinationFolder_InstallTo",
-        "Value": "Install [ProductName] to:"
-    },
-    {
         "Id": "IDS__FeatueNotSupportedDlg_DialogDescription",
         "Value": "This feature is not currently supported.  Please go back and choose a different option."
     },
     {
         "Id": "IDS__FeatueNotSupportedDlg_DialogTitle",
-        "Value": "{&MSSansBold8}Feature Not Supported"
+        "Value": "{&TahomaBold8}Feature Not Supported"
     },
     {
         "Id": "IDS__IsAdminInstallBrowse_11",
@@ -3533,7 +3329,7 @@
     },
     {
         "Id": "IDS__IsAdminInstallBrowse_ChangeDestination",
-        "Value": "{&MSSansBold8}Change Current Destination Folder"
+        "Value": "{&TahomaBold8}Change Current Destination Folder"
     },
     {
         "Id": "IDS__IsAdminInstallBrowse_CreateFolder",
@@ -3577,15 +3373,11 @@
     },
     {
         "Id": "IDS__IsAdminInstallPoint_NetworkLocationFormatted",
-        "Value": "{&MSSansBold8}Network Location"
+        "Value": "{&TahomaBold8}Network Location"
     },
     {
         "Id": "IDS__IsAdminInstallPoint_SpecifyNetworkLocation",
         "Value": "Specify a network location for the server image of the product."
-    },
-    {
-        "Id": "IDS__IsBrowseButton",
-        "Value": "&Browse..."
     },
     {
         "Id": "IDS__IsBrowseFolderDlg_11",
@@ -3605,7 +3397,7 @@
     },
     {
         "Id": "IDS__IsBrowseFolderDlg_ChangeCurrentFolder",
-        "Value": "{&MSSansBold8}Change Current Destination Folder"
+        "Value": "{&TahomaBold8}Change Current Destination Folder"
     },
     {
         "Id": "IDS__IsBrowseFolderDlg_CreateFolder",
@@ -3628,18 +3420,6 @@
         "Value": "Up One Level|"
     },
     {
-        "Id": "IDS__IsBrowseForAccount",
-        "Value": "Browse for a User Account"
-    },
-    {
-        "Id": "IDS__IsBrowseGroup",
-        "Value": "Select a Group"
-    },
-    {
-        "Id": "IDS__IsBrowseUsernameTitle",
-        "Value": "Select a User Name"
-    },
-    {
         "Id": "IDS__IsCancelDlg_ConfirmCancel",
         "Value": "Are you sure you want to cancel [ProductName] installation?"
     },
@@ -3650,62 +3430,6 @@
     {
         "Id": "IDS__IsCancelDlg_Yes",
         "Value": "&Yes"
-    },
-    {
-        "Id": "IDS__IsConfirmPassword",
-        "Value": "Con&firm password:"
-    },
-    {
-        "Id": "IDS__IsCreateNewUserTitle",
-        "Value": "New User Information"
-    },
-    {
-        "Id": "IDS__IsCreateUserBrowse",
-        "Value": "N&ew User Information..."
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_Change",
-        "Value": "&Change..."
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_ClickFeatureIcon",
-        "Value": "Click on an icon in the list below to change how a feature is installed."
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_CustomSetup",
-        "Value": "{&MSSansBold8}Custom Setup"
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_FeatureDescription",
-        "Value": "Feature Description"
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_FeaturePath",
-        "Value": "<selected feature path>"
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_FeatureSize",
-        "Value": "Feature size"
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_Help",
-        "Value": "&Help"
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_InstallTo",
-        "Value": "Install to:"
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_MultilineDescription",
-        "Value": "Multiline description of the currently selected item"
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_SelectFeatures",
-        "Value": "Select the program features you want installed."
-    },
-    {
-        "Id": "IDS__IsCustomSelectionDlg_Space",
-        "Value": "&Space"
     },
     {
         "Id": "IDS__IsDiskSpaceDlg_DiskSpace",
@@ -3725,11 +3449,7 @@
     },
     {
         "Id": "IDS__IsDiskSpaceDlg_OutOfDiskSpace",
-        "Value": "{&MSSansBold8}Out of Disk Space"
-    },
-    {
-        "Id": "IDS__IsDomainOrServer",
-        "Value": "&Domain or server:"
+        "Value": "{&TahomaBold8}Out of Disk Space"
     },
     {
         "Id": "IDS__IsErrorDlg_Abort",
@@ -3772,32 +3492,12 @@
         "Value": "The BOINC Installer Wizard has successfully installed [ProductName]. Click Finish to exit the wizard."
     },
     {
-        "Id": "IDS__IsExitDialog_LaunchProgram",
-        "Value": "Launch the program"
-    },
-    {
-        "Id": "IDS__IsExitDialog_ShowReadMe",
-        "Value": "Show the readme file"
-    },
-    {
         "Id": "IDS__IsExitDialog_UninstallSuccess",
         "Value": "The BOINC Installer Wizard has successfully uninstalled [ProductName]. Click Finish to exit the wizard."
     },
     {
-        "Id": "IDS__IsExitDialog_Update_InternetConnection",
-        "Value": "Your Internet connection can be used to make sure that you have the latest updates."
-    },
-    {
-        "Id": "IDS__IsExitDialog_Update_PossibleUpdates",
-        "Value": "Some program files might have been updated since you purchased your copy of [ProductName]."
-    },
-    {
         "Id": "IDS__IsExitDialog_Update_SetupFinished",
         "Value": "Setup has finished installing [ProductName]."
-    },
-    {
-        "Id": "IDS__IsExitDialog_Update_YesCheckForUpdates",
-        "Value": "&Yes, check for program updates (Recommended) after the setup completes."
     },
     {
         "Id": "IDS__IsExitDialog_WizardCompleted",
@@ -3833,7 +3533,7 @@
     },
     {
         "Id": "IDS__IsFeatureDetailsDlg_DiskSpaceRequirements",
-        "Value": "{&MSSansBold8}Disk Space Requirements"
+        "Value": "{&TahomaBold8}Disk Space Requirements"
     },
     {
         "Id": "IDS__IsFeatureDetailsDlg_Numbers",
@@ -3861,7 +3561,7 @@
     },
     {
         "Id": "IDS__IsFilesInUse_FilesInUse",
-        "Value": "{&MSSansBold8}Files in Use"
+        "Value": "{&TahomaBold8}Files in Use"
     },
     {
         "Id": "IDS__IsFilesInUse_FilesInUseMessage",
@@ -3874,14 +3574,6 @@
     {
         "Id": "IDS__IsFilesInUse_Retry",
         "Value": "&Retry"
-    },
-    {
-        "Id": "IDS__IsGroup",
-        "Value": "&Group:"
-    },
-    {
-        "Id": "IDS__IsGroupLabel",
-        "Value": "Gr&oup:"
     },
     {
         "Id": "IDS__IsInitDlg_1",
@@ -3901,51 +3593,27 @@
     },
     {
         "Id": "IDS__IsLicenseDlg_LicenseAgreement",
-        "Value": "{&MSSansBold8}License Agreement"
+        "Value": "{&TahomaBold8}License Agreement"
     },
     {
         "Id": "IDS__IsLicenseDlg_ReadLicenseAgreement",
         "Value": "Please read the following license agreement carefully."
     },
     {
-        "Id": "IDS__IsLogonInfoDescription",
-        "Value": "Specify the user name and password of the user account that will logon to use this application. The user account must be in the form DOMAIN\\Username."
-    },
-    {
-        "Id": "IDS__IsLogonInfoTitle",
-        "Value": "{&MSSansBold8}Logon Information"
-    },
-    {
-        "Id": "IDS__IsLogonInfoTitleDescription",
-        "Value": "Specify a user name and password"
-    },
-    {
-        "Id": "IDS__IsLogonNewUserDescription",
-        "Value": "Select the button below to specify information about a new user that will be created during the installation."
-    },
-    {
         "Id": "IDS__IsMaintenanceDlg_11",
         "Value": null
-    },
-    {
-        "Id": "IDS__IsMaintenanceDlg_ChangeFeatures",
-        "Value": "Change which program features are installed. This option displays the Custom Selection dialog in which you can change the way features are installed."
     },
     {
         "Id": "IDS__IsMaintenanceDlg_MaitenanceOptions",
         "Value": "Modify, repair, or remove the program."
     },
     {
-        "Id": "IDS__IsMaintenanceDlg_Modify",
-        "Value": "{&MSSansBold8}&Modify"
-    },
-    {
         "Id": "IDS__IsMaintenanceDlg_ProgramMaintenance",
-        "Value": "{&MSSansBold8}Program Maintenance"
+        "Value": "{&TahomaBold8}Program Maintenance"
     },
     {
         "Id": "IDS__IsMaintenanceDlg_Remove",
-        "Value": "{&MSSansBold8}&Remove"
+        "Value": "{&TahomaBold8}&Remove"
     },
     {
         "Id": "IDS__IsMaintenanceDlg_RemoveProductName",
@@ -3953,7 +3621,7 @@
     },
     {
         "Id": "IDS__IsMaintenanceDlg_Repair",
-        "Value": "{&MSSansBold8}Re&pair"
+        "Value": "{&TahomaBold8}Re&pair"
     },
     {
         "Id": "IDS__IsMaintenanceDlg_RepairMessage",
@@ -4009,7 +3677,7 @@
     },
     {
         "Id": "IDS__IsProgressDlg_InstallingProductName",
-        "Value": "{&MSSansBold8}Installing [ProductName]"
+        "Value": "{&TahomaBold8}Installing [ProductName]"
     },
     {
         "Id": "IDS__IsProgressDlg_ProgressDone",
@@ -4025,7 +3693,7 @@
     },
     {
         "Id": "IDS__IsProgressDlg_Uninstalling",
-        "Value": "{&MSSansBold8}Uninstalling [ProductName]"
+        "Value": "{&TahomaBold8}Uninstalling [ProductName]"
     },
     {
         "Id": "IDS__IsProgressDlg_UninstallingFeatures",
@@ -4044,46 +3712,6 @@
         "Value": "Please wait while the BOINC Installer Wizard installs [ProductName]. This may take several minutes."
     },
     {
-        "Id": "IDS__IsReadmeDlg_Cancel",
-        "Value": "&Cancel"
-    },
-    {
-        "Id": "IDS__IsReadmeDlg_PleaseReadInfo",
-        "Value": "Please read the following readme information carefully."
-    },
-    {
-        "Id": "IDS__IsReadmeDlg_ReadMeInfo",
-        "Value": "{&MSSansBold8}Readme Information"
-    },
-    {
-        "Id": "IDS__IsRegisterUserDlg_16",
-        "Value": null
-    },
-    {
-        "Id": "IDS__IsRegisterUserDlg_CustomerInformation",
-        "Value": "{&MSSansBold8}Customer Information"
-    },
-    {
-        "Id": "IDS__IsRegisterUserDlg_Organization",
-        "Value": "&Organization:"
-    },
-    {
-        "Id": "IDS__IsRegisterUserDlg_PleaseEnterInfo",
-        "Value": "Please enter your information."
-    },
-    {
-        "Id": "IDS__IsRegisterUserDlg_Tahoma50",
-        "Value": "{\\Tahoma8}{50}"
-    },
-    {
-        "Id": "IDS__IsRegisterUserDlg_Tahoma80",
-        "Value": "{\\Tahoma8}{80}"
-    },
-    {
-        "Id": "IDS__IsRegisterUserDlg_UserName",
-        "Value": "&User Name:"
-    },
-    {
         "Id": "IDS__IsResumeDlg_ResumeSuspended",
         "Value": "The BOINC Installer Wizard will complete the installation of [ProductName] on your computer. To continue, click Next."
     },
@@ -4096,56 +3724,16 @@
         "Value": "The BOINC Installer Wizard will complete the upgrade of [ProductName] on your computer. To continue, click Next."
     },
     {
-        "Id": "IDS__IsSelectDomainOrServer",
-        "Value": "Select a Domain or Server"
-    },
-    {
-        "Id": "IDS__IsSelectDomainUserInstructions",
-        "Value": "Use the browse buttons to select a domain\\server and a user name."
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_ChooseSetupType",
-        "Value": "Choose the setup type that best suits your needs."
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_SelectSetupType",
-        "Value": "Please select a setup type."
-    },
-    {
         "Id": "IDS__IsSetupTypeDlg_Service",
-        "Value": "{&MSSansBold8}Ser&vice Installation"
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_ServiceGUI",
-        "Value": "{&MSSansBold8}Service Installation w/ &GUI Support"
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_ServiceGUIText",
-        "Value": "Not currently supported."
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_ServiceText",
-        "Value": "BOINC runs even when no one is logged on. Only you can manage BOINC.\nThe screensaver does NOT work in this configuration.\nThe show graphics feature does NOT work in this configuration."
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_SetupType",
-        "Value": "{&MSSansBold8}Setup Type"
+        "Value": "{&TahomaBold8}Ser&vice Installation"
     },
     {
         "Id": "IDS__IsSetupTypeDlg_Shared",
-        "Value": "{&MSSansBold8}S&hared Installation"
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_SharedText",
-        "Value": "BOINC runs whenever anyone is logged on, and anyone can manage BOINC."
+        "Value": "{&TahomaBold8}S&hared Installation"
     },
     {
         "Id": "IDS__IsSetupTypeDlg_Single",
-        "Value": "{&MSSansBold8}&Single-User Installation"
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_SingleText",
-        "Value": "BOINC runs only when you're logged on, and only you can manage BOINC (recommended)."
+        "Value": "{&TahomaBold8}&Single-User Installation"
     },
     {
         "Id": "IDS__IsUserExit_ClickFinish",
@@ -4176,10 +3764,6 @@
         "Value": "The wizard was interrupted before [ProductName] could be completely installed."
     },
     {
-        "Id": "IDS__IsUserNameLabel",
-        "Value": "&User name:"
-    },
-    {
         "Id": "IDS__IsVerifyReadyDlg_BackOrCancel",
         "Value": "If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard."
     },
@@ -4188,56 +3772,20 @@
         "Value": "Click Install to begin the installation."
     },
     {
-        "Id": "IDS__IsVerifyReadyDlg_Company",
-        "Value": "Company: [COMPANYNAME]"
-    },
-    {
-        "Id": "IDS__IsVerifyReadyDlg_CurrentSettings",
-        "Value": "Current Settings:"
-    },
-    {
-        "Id": "IDS__IsVerifyReadyDlg_DestFolder",
-        "Value": "Destination Folder:"
-    },
-    {
         "Id": "IDS__IsVerifyReadyDlg_Install",
         "Value": "&Install"
     },
     {
-        "Id": "IDS__IsVerifyReadyDlg_Installdir",
-        "Value": "[INSTALLDIR]"
-    },
-    {
         "Id": "IDS__IsVerifyReadyDlg_ModifyReady",
-        "Value": "{&MSSansBold8}Ready to Modify the Program"
+        "Value": "{&TahomaBold8}Ready to Modify the Program"
     },
     {
         "Id": "IDS__IsVerifyReadyDlg_ReadyInstall",
-        "Value": "{&MSSansBold8}Ready to Install the Program"
+        "Value": "{&TahomaBold8}Ready to Install the Program"
     },
     {
         "Id": "IDS__IsVerifyReadyDlg_ReadyRepair",
-        "Value": "{&MSSansBold8}Ready to Repair the Program"
-    },
-    {
-        "Id": "IDS__IsVerifyReadyDlg_SelectedSetupType",
-        "Value": "[SelectedSetupType]"
-    },
-    {
-        "Id": "IDS__IsVerifyReadyDlg_Serial",
-        "Value": "Serial: [ISX_SERIALNUM]"
-    },
-    {
-        "Id": "IDS__IsVerifyReadyDlg_SetupType",
-        "Value": "Setup Type:"
-    },
-    {
-        "Id": "IDS__IsVerifyReadyDlg_UserInfo",
-        "Value": "User Information:"
-    },
-    {
-        "Id": "IDS__IsVerifyReadyDlg_UserName",
-        "Value": "Name: [USERNAME]"
+        "Value": "{&TahomaBold8}Ready to Repair the Program"
     },
     {
         "Id": "IDS__IsVerifyReadyDlg_WizardReady",
@@ -4261,7 +3809,7 @@
     },
     {
         "Id": "IDS__IsVerifyRemoveAllDlg_RemoveProgram",
-        "Value": "{&MSSansBold8}Remove the Program"
+        "Value": "{&TahomaBold8}Remove the Program"
     },
     {
         "Id": "IDS__IsWelcomeDlg_InstallProductName",
@@ -4274,74 +3822,6 @@
     {
         "Id": "IDS__IsWelcomeDlg_WelcomeProductName",
         "Value": "{&TahomaBold10}Welcome to the BOINC Installer Wizard for [ProductName]"
-    },
-    {
-        "Id": "IDS__ServiceConfigDlg_DialogDescription",
-        "Value": "Allows you to configure the settings for the service installation configuration"
-    },
-    {
-        "Id": "IDS__ServiceConfigDlg_DialogTitle",
-        "Value": "{&MSSansBold8}Service Installation Configuration"
-    },
-    {
-        "Id": "IDS__ServiceGUIConfigDlg_DialogDescription",
-        "Value": "Allows you to configure the settings for the service installation with GUI configuration"
-    },
-    {
-        "Id": "IDS__ServiceGUIConfigDlg_DialogTitle",
-        "Value": "{&MSSansBold8}Service Installation w/ GUI Configuration"
-    },
-    {
-        "Id": "IDS__SharedConfigDlg_DialogDescription",
-        "Value": "Allows you to configure the settings for the shared installation configuration"
-    },
-    {
-        "Id": "IDS__SharedConfigDlg_DialogTitle",
-        "Value": "{&MSSansBold8}Shared Installation Configuration"
-    },
-    {
-        "Id": "IDS__SingleConfigDlg_DialogDescription",
-        "Value": "Allows you to configure the settings for the single-user installation configuration"
-    },
-    {
-        "Id": "IDS__SingleConfigDlg_DialogTitle",
-        "Value": "{&MSSansBold8}Single-User Installation Configuration"
-    },
-    {
-        "Id": "IDS__TargetReq_DESC_COLOR",
-        "Value": "The color settings of your system are not adequate for running [ProductName]."
-    },
-    {
-        "Id": "IDS__TargetReq_DESC_OS",
-        "Value": "The operating system is not adequate for running [ProductName]."
-    },
-    {
-        "Id": "IDS__TargetReq_DESC_PROCESSOR",
-        "Value": "The processor is not adequate for running [ProductName]."
-    },
-    {
-        "Id": "IDS__TargetReq_DESC_RAM",
-        "Value": "The amount of RAM is not adequate for running [ProductName]."
-    },
-    {
-        "Id": "IDS__TargetReq_DESC_RESOLUTION",
-        "Value": "The screen resolution is not adequate for running [ProductName]."
-    },
-    {
-        "Id": "ID_STRING1",
-        "Value": "system.ini"
-    },
-    {
-        "Id": "ID_STRING10",
-        "Value": "The password cannot be blank.  Please enter a password."
-    },
-    {
-        "Id": "ID_STRING11",
-        "Value": null
-    },
-    {
-        "Id": "ID_STRING12",
-        "Value": "BOINCM~1|BOINC Manager"
     },
     {
         "Id": "ID_STRING13",
@@ -4357,7 +3837,7 @@
     },
     {
         "Id": "ID_STRING16",
-        "Value": "{&MSSansBold8}BOINC Configuration"
+        "Value": "{&TahomaBold8}BOINC Configuration"
     },
     {
         "Id": "ID_STRING17",
@@ -4366,10 +3846,6 @@
     {
         "Id": "ID_STRING18",
         "Value": "[ProductName] - BOINC Installer Wizard"
-    },
-    {
-        "Id": "ID_STRING2",
-        "Value": "boot"
     },
     {
         "Id": "ID_STRING21",
@@ -4385,7 +3861,7 @@
     },
     {
         "Id": "ID_STRING24",
-        "Value": "{&MSSansBold8}Customize installation options"
+        "Value": "{&TahomaBold8}Customize installation options"
     },
     {
         "Id": "ID_STRING25",
@@ -4396,58 +3872,6 @@
         "Value": "[ProductName] - BOINC Installer Wizard"
     },
     {
-        "Id": "ID_STRING27",
-        "Value": "{&MSSWhiteSerif8}BOINC Installer"
-    },
-    {
-        "Id": "ID_STRING28",
-        "Value": "{&Tahoma8}BOINC Installer"
-    },
-    {
-        "Id": "ID_STRING29",
-        "Value": "NewFeature1"
-    },
-    {
-        "Id": "ID_STRING3",
-        "Value": "SCRNSAVE.EXE"
-    },
-    {
-        "Id": "ID_STRING30",
-        "Value": "*.*"
-    },
-    {
-        "Id": "ID_STRING31",
-        "Value": "BOINCS~1|BOINC System Tray"
-    },
-    {
-        "Id": "ID_STRING32",
-        "Value": "MANAGE~1|Manager Startup"
-    },
-    {
-        "Id": "ID_STRING33",
-        "Value": "TRAYST~1|Tray Startup"
-    },
-    {
-        "Id": "ID_STRING34",
-        "Value": "BOINCM~1|BOINC Manager Startup"
-    },
-    {
-        "Id": "ID_STRING35",
-        "Value": "BOINCT~1|BOINC Tray Startup"
-    },
-    {
-        "Id": "ID_STRING36",
-        "Value": "BOINCM~1|BOINC Manager Startup"
-    },
-    {
-        "Id": "ID_STRING37",
-        "Value": "BOINCT~1|BOINC Tray"
-    },
-    {
-        "Id": "ID_STRING38",
-        "Value": "BOINCM~1|BOINC Manager"
-    },
-    {
         "Id": "ID_STRING39",
         "Value": "[ProductName] requires that your computer is running Windows XP or newer."
     },
@@ -4456,56 +3880,12 @@
         "Value": "Closing any running instances of the BOINC Manager"
     },
     {
-        "Id": "ID_STRING40",
-        "Value": "Installing [ProductName] on a domain controller is not currently supported."
-    },
-    {
-        "Id": "ID_STRING41",
-        "Value": "Description"
-    },
-    {
-        "Id": "ID_STRING42",
-        "Value": "BOINC"
-    },
-    {
-        "Id": "ID_STRING43",
-        "Value": "BOINCM~1|BOINC Manager"
-    },
-    {
-        "Id": "ID_STRING5",
-        "Value": "You are installing BOINC on a Windows NT 4.0 domain controller.  You'll need to manually grant the selected user the permission to 'Logon As a Service' through the User Manager for Domains."
-    },
-    {
-        "Id": "ID_STRING6",
-        "Value": "Setup may need to grant the selected username permission to 'Logon As a Service', is it okay to do so?"
-    },
-    {
-        "Id": "ID_STRING7",
-        "Value": "Setup may need to grant the selected username permission to 'Logon As a Service', is it okay to do so?"
-    },
-    {
-        "Id": "ID_STRING8",
-        "Value": "You are installing BOINC on a Windows NT 4.0 domain controller.  You'll need to manually grant the selected user the permission to 'Logon As a Service' through the User Manager for Domains."
-    },
-    {
-        "Id": "ID_STRING9",
-        "Value": "The password and confirm password editboxes must match."
-    },
-    {
-        "Id": "IIDS_UITEXT_FeatureUninstalled",
-        "Value": "This feature will remain uninstalled."
-    },
-    {
         "Id": "NEW_STRING1",
         "Value": "Advanced"
     },
     {
         "Id": "NEW_STRING10",
         "Value": "Data directory:"
-    },
-    {
-        "Id": "NEW_STRING11",
-        "Value": "Launch BOINC Manager on system startup"
     },
     {
         "Id": "NEW_STRING12",
@@ -4532,16 +3912,8 @@
         "Value": "[DATADIR]"
     },
     {
-        "Id": "NEW_STRING19",
-        "Value": "Launch BOINC Manager on system startup"
-    },
-    {
         "Id": "NEW_STRING2",
         "Value": "Launch the BOINC Manager"
-    },
-    {
-        "Id": "NEW_STRING20",
-        "Value": "If checked, your system will be protected from faulty BOINC project applications.\nHowever, this may cause screensaver graphics to not work with older applications."
     },
     {
         "Id": "NEW_STRING21",
@@ -4552,20 +3924,12 @@
         "Value": "Use BOINC Screensaver"
     },
     {
-        "Id": "NEW_STRING23",
-        "Value": "&Change..."
-    },
-    {
         "Id": "NEW_STRING24",
         "Value": "Service Install"
     },
     {
         "Id": "NEW_STRING25",
         "Value": "Allow all users on this computer to control BOINC"
-    },
-    {
-        "Id": "NEW_STRING26",
-        "Value": "&Change..."
     },
     {
         "Id": "NEW_STRING27",
@@ -4580,20 +3944,12 @@
         "Value": "A BOINC component didn't get updated properly. Please run the repair tool from the \"Control Panel - Add/Remove Programs\" tool (\"Control Panel - Program Features\" tool on newer version of Windows)."
     },
     {
-        "Id": "NEW_STRING3",
-        "Value": "Show the readme file"
-    },
-    {
         "Id": "NEW_STRING30",
         "Value": "This option is now disabled by default.\nA reboot may be required."
     },
     {
         "Id": "NEW_STRING31",
         "Value": "Run project applications under an unprivileged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs)\n(A reboot may be required.)"
-    },
-    {
-        "Id": "NEW_STRING4",
-        "Value": "Click Next to use installation defaults.\nClick Advanced to customize."
     },
     {
         "Id": "NEW_STRING5",
@@ -4614,9 +3970,5 @@
     {
         "Id": "NEW_STRING9",
         "Value": "[DATADIR]"
-    },
-    {
-        "Id": "IS_STRING_NOT_DEFINED",
-        "Value": "***IS_STRING_NOT_DEFINED***"
     }
 ]

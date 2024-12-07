@@ -23,7 +23,7 @@
 class FeatureTable : public Generator<Feature> {
 public:
     explicit FeatureTable(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~FeatureTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

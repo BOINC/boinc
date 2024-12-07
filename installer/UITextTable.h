@@ -23,7 +23,7 @@
 class UITextTable : public Generator<UIText> {
 public:
     explicit UITextTable(const nlohmann::json& json,
-        const InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings);
     ~UITextTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

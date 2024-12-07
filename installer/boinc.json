@@ -10235,91 +10235,9 @@
     ],
     "TextStyle": [
         {
-            "TextStyle": "Arial8",
-            "FaceName": "Arial",
-            "Size": 8
-        },
-        {
-            "TextStyle": "Arial9",
-            "FaceName": "Arial",
-            "Size": 9
-        },
-        {
-            "TextStyle": "ArialBlue10",
-            "FaceName": "Arial",
-            "Size": 10,
-            "Color": 16711680
-        },
-        {
-            "TextStyle": "ArialBlueStrike10",
-            "FaceName": "Arial",
-            "Size": 10,
-            "Color": 16711680,
-            "StyleBits": 8
-        },
-        {
-            "TextStyle": "CourierNew8",
-            "FaceName": "Courier New",
-            "Size": 8
-        },
-        {
-            "TextStyle": "CourierNew9",
-            "FaceName": "Courier New",
-            "Size": 9
-        },
-        {
-            "TextStyle": "MSGothic9",
-            "FaceName": "MS Gothic",
-            "Size": 9
-        },
-        {
-            "TextStyle": "MSSGreySerif8",
-            "FaceName": "MS Sans Serif",
-            "Size": 8,
-            "Color": 8421504
-        },
-        {
-            "TextStyle": "MSSWhiteSerif8",
-            "FaceName": "Tahoma",
-            "Size": 8,
-            "Color": 16777215
-        },
-        {
-            "TextStyle": "MSSansBold8",
-            "FaceName": "Tahoma",
-            "Size": 8,
-            "StyleBits": 1
-        },
-        {
-            "TextStyle": "MSSansSerif8",
-            "FaceName": "MS Sans Serif",
-            "Size": 8
-        },
-        {
-            "TextStyle": "MSSansSerif9",
-            "FaceName": "MS Sans Serif",
-            "Size": 9
-        },
-        {
-            "TextStyle": "Tahoma10",
-            "FaceName": "Tahoma",
-            "Size": 10
-        },
-        {
             "TextStyle": "Tahoma8",
             "FaceName": "Tahoma",
             "Size": 8
-        },
-        {
-            "TextStyle": "Tahoma9",
-            "FaceName": "Tahoma",
-            "Size": 9
-        },
-        {
-            "TextStyle": "TahomaBold10",
-            "FaceName": "Tahoma",
-            "Size": 10,
-            "StyleBits": 1
         },
         {
             "TextStyle": "TahomaBold8",
@@ -10328,33 +10246,10 @@
             "StyleBits": 1
         },
         {
-            "TextStyle": "Times8",
-            "FaceName": "Times New Roman",
-            "Size": 8
-        },
-        {
-            "TextStyle": "Times9",
-            "FaceName": "Times New Roman",
-            "Size": 9
-        },
-        {
-            "TextStyle": "TimesItalic12",
-            "FaceName": "Times New Roman",
-            "Size": 12,
-            "StyleBits": 2
-        },
-        {
-            "TextStyle": "TimesItalicBlue10",
-            "FaceName": "Times New Roman",
+            "TextStyle": "TahomaBold10",
+            "FaceName": "Tahoma",
             "Size": 10,
-            "Color": 16711680,
-            "StyleBits": 2
-        },
-        {
-            "TextStyle": "TimesRed16",
-            "FaceName": "Times New Roman",
-            "Size": 16,
-            "Color": 255
+            "StyleBits": 1
         }
     ],
     "UIText": [
