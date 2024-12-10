@@ -590,10 +590,10 @@ function handle_query_job($user) {
         <li><a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch details</a>
     ";
 
-    echo "<h2>Instances</h2>\n";
+    echo "<h2>Job instances</h2>\n";
     start_table('table-striped');
     table_header(
-        "ID<br><small>click for result page</small>",
+        "ID<br><small>click for details and stderr</small>",
         "State",
         "Output files"
     );
@@ -651,9 +651,7 @@ function handle_query_job($user) {
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
     start_table('table-striped');
-    table_header("Name<br><small>(click to view)</small>",
-        "Size (bytes)", "MD5"
-    );
+    table_header("Name<br><small>(click to view)</small>", "Size (bytes)");
     foreach ($x->workunit->file_ref as $fr) {
         $pname = (string)$fr->file_name;
         $lname = (string)$fr->open_name;
@@ -661,8 +659,7 @@ function handle_query_job($user) {
             if ((string)$fi->name == $pname) {
                 table_row(
                     "<a href=$fi->url>$lname</a>",
-                    $fi->nbytes,
-                    $fi->md5_cksum
+                    $fi->nbytes
                 );
                 break;
             }

@@ -92,36 +92,67 @@ function list_files($user) {
     if ($notice) {
         echo "<p>$notice<hr>";
     }
-    echo "
-        <p>
-        Your 'File sandbox' is where you store files to this BOINC server.
-    ";
-    $files = array();
+    echo "<p>Click a column title to sort on that attribute.<p>\n";
+    $fnames = array();
     foreach (scandir($dir) as $f) {
         if ($f[0] == '.') continue;
-        $files[] = $f;
+        $fnames[] = $f;
     }
-    if (count($files) == 0) {
+    if (count($fnames) == 0) {
         echo "Your sandbox is currently empty.";
     } else {
-        sort($files);
+        $files = [];
+        foreach ($fnames as $fname) {
+            [$md5, $size] = sandbox_parse_info_file($user, $fname);
+            $f = new StdClass;
+            $f->name = $fname;
+            $f->size = $size;
+            $f->md5 = $md5;
+            $f->date = filemtime("$dir/$fname");
+            $files[] = $f;
+        }
+        $sort_field = get_str('sort_field', true);
+        if (!$sort_field) $sort_field = 'name';
+        $sort_rev = get_str('sort_rev', true);
+        column_sort($files, $sort_field, $sort_rev);
+
         start_table();
-        table_header("Name<br><small>(click to view text files)</small>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
+        table_header(
+            column_sort_header(
+                'name',
+                'Name',
+                'sandbox.php?',
+                $sort_field, $sort_rev
+            ).'<br><small>(click to view text files)</small>',
+            column_sort_header(
+                'date',
+                'Modified',
+                'sandbox.php?',
+                $sort_field, $sort_rev
+            ),
+            column_sort_header(
+                'size',
+                "Size (bytes)",
+                'sandbox.php?',
+                $sort_field, $sort_rev
+            ),
+            "MD5",
+            "Delete",
+            "Download"
+        );
         foreach ($files as $f) {
-            [$md5, $size] = sandbox_parse_info_file($user, $f);
-            $path = "$dir/$f";
-            $ct = time_str(filemtime($path));
+            $ct = time_str($f->date);
             table_row(
-                "<a href=sandbox.php?action=view_file&name=$f>$f</a>",
+                "<a href=sandbox.php?action=view_file&name=$f->name>$f->name</a>",
                 $ct,
-                $size,
-                $md5,
-                button_text(
-                    "sandbox.php?action=delete_file&name=$f",
+                $f->size,
+                $f->md5,
+                button_text_small(
+                    "sandbox.php?action=delete_file&name=$f->name",
                     "Delete"
                 ),
-                button_text(
-                    "sandbox.php?action=download_file&name=$f",
+                button_text_small(
+                    "sandbox.php?action=download_file&name=$f->name",
                     "Download"
                 )
             );

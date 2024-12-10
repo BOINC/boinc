@@ -22,18 +22,19 @@
 // - each user (job submitter) has a 'sandbox' where they can store files
 //      on the BOINC server, via a web interface.
 //      These files are mutable; you can modify a file w/ a given name.
-// - files are stored in a dir project/sandbox/<userid>
+// - files are stored in project/sandbox/<userid>/
 // - When a file is uploaded, its size and MD5 are computed and stored
-//      in an 'info file' in a parallel dir, project/sandbox/<userid>/.md5
+//      in an 'info file' in a parallel dir, project/sandbox/<userid>/.md5/
 //
 // Sandbox files can be used for web-based job submissions systems
 // like BUDA and autodock on BOINC Central.
 // Typically they are used as job input files or app files,
-// in which case they are downloadable.
+// in which case they are downloadable by BOINC clients.
 // When a file is used in this way,
 // it must be copied to the download hierarchy,
 // and assigned a physical name that includes its MD5.
-// The name depends on the role of the file.
+// The name can depend on the role of the file;
+// e.g. it can include a batch ID or BUDA app name
 
 require_once("../inc/util.inc");
 require_once("../inc/dir_hier.inc");
@@ -118,13 +119,56 @@ function sandbox_file_select(
     return $x;
 }
 
-// copy file and info file from sandbox to $dir
+// Copy file and info file from sandbox to $dir
 // (which must have a subdir .md5/)
+// Used for BUDA app files.
 //
 function copy_sandbox_file($user, $fname, $dir) {
     $sbdir = sandbox_dir($user);
     copy("$sbdir/$fname", "$dir/$fname");
     copy("$sbdir/.md5/$fname", "$dir/.md5/$fname");
+}
+
+//////////// tables with sortable columns ////////////////
+
+// maybe this should go in util.inc
+
+$g_field = null;
+
+function field_compare($a, $b) {
+    global $g_field;
+    if ($a->$g_field == $b->$g_field) return 0;
+    return $a->$g_field > $b->$g_field;
+}
+
+function column_sort(&$items, $field, $rev) {
+    global $g_field;
+    $g_field = $field;
+    usort($items, 'field_compare');
+    if ($rev) {
+        $items = array_reverse($items);
+    }
+}
+
+// column header for a given field.
+// If it's the sort field, show up or down arrow to change order
+// Otherwise name is a link to make it the sort field
+//
+function column_sort_header($field, $title, $url, $sort_field, $sort_rev) {
+    if ($field == $sort_field) {
+        return sprintf(
+            '%s <a href="%s&sort_field=%s&sort_rev=%d">%s</a>',
+            $title,
+            $url, $sort_field,
+            $sort_rev?0:1,
+            $sort_rev?'&uarr;':'&darr;'
+        );
+    } else {
+        return sprintf(
+            '<a href="%s&sort_field=%s">%s</a>',
+            $url, $field, $title
+        );
+    }
 }
 
 ?>
