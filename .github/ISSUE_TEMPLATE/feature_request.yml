@@ -12,10 +12,10 @@ body:
       label: Describe the solution you'd like
       placeholder: "<!-- A clear and concise description of what you want to happen. -->"
     validations:
-      required: true
+      required: false
   - type: textarea
     attributes:
       label: Additional context
       placeholder: "<!-- A clear and concise description of any alternative solutions or features you've considered. -->"
     validations:
-      required: true
+      required: false
