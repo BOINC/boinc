@@ -318,7 +318,7 @@ function view_file() {
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
-    if (!is_valid_filename($arg)) die('bad arg');
+    if (!is_valid_filename($variant)) die('bad arg');
     $fname = get_str('fname');
     if (!is_valid_filename($fname)) die('bad arg');
     echo "<pre>\n";

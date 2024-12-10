@@ -913,8 +913,8 @@ function current_url() {
     return $url;
 }
 
-// style for a button
-// the colors for bootstrap' btn-success are almost illegible;
+// return style for a button
+// the colors for bootstrap's btn-success are almost illegible;
 // the green is too light.  Use a darker green.
 //
 function button_style($color='green', $font_size=null) {
@@ -951,6 +951,10 @@ function button_text($url, $text, $desc=null, $class=null, $extra='') {
     );
 }
 
+function button_text_small($url, $text, $desc=null) {
+    return button_text($url, $text, $desc, "btn btn-xs", button_style());
+}
+
 function show_button($url, $text, $desc=null, $class=null, $extra=null) {
     echo button_text($url, $text, $desc, $class, $extra);
 }
@@ -958,7 +962,7 @@ function show_button($url, $text, $desc=null, $class=null, $extra=null) {
 // for places with a bunch of buttons, like forum posts
 //
 function show_button_small($url, $text, $desc=null) {
-    echo button_text($url, $text, $desc, "btn btn-xs", button_style());
+    echo button_text_small($url, $text, $desc);
 }
 
 // used for showing icons
