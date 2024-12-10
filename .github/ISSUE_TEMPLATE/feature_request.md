@@ -1,14 +1,16 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-
 ---
 
-**Describe the problem**
-A clear and concise description of the problem you're looking to solve.
+#### **Describe the problem**
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+<!-- A clear and concise description of the problem you're looking to solve. -->
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+#### **Describe the solution you'd like**
+
+<!-- A clear and concise description of what you want to happen. -->
+
+#### **Additional context**
+
+<!-- Add any other context or screenshots about the feature request here. -->
