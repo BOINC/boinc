@@ -29,7 +29,7 @@ body:
       required: false
   - type: textarea
     attributes:
-      label: Steps to reproduce
+      label: System information
       placeholder: |
         - OS:            
         - BOINC Version: 
