@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -91,6 +91,8 @@ public:
 
     void RefreshPage();
 
+    void TrimURL(std::string& purl);
+
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
@@ -127,6 +129,8 @@ private:
     std::vector<CProjectInfo*> m_Projects;
     bool m_bProjectSupported;
     bool m_bProjectListPopulated;
+    std::vector<std::string> m_pTrimmedURL;
+    std::vector<std::string> m_pTrimmedURL_attached;
 };
 
 #endif
