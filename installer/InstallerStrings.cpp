@@ -24,7 +24,7 @@
 InstallerStrings::~InstallerStrings() {
     for (const auto& key : strings) {
         if (keys_used.find(key.first) == keys_used.end()) {
-            std::cerr << "WARNING: Key " << key.first<< " not used."
+            std::cerr << "WARNING: Key " << key.first << " not used."
                 << std::endl;
         }
     }
@@ -38,8 +38,33 @@ const std::string& InstallerStrings::get(const std::string& key) {
     keys_used.insert(key);
     return strings.at(key);
 };
-bool InstallerStrings::load(const std::filesystem::path& path) {
-    const auto filename = path / "locale/en.json";
+bool InstallerStrings::load(const nlohmann::json& json,
+    const std::filesystem::path& path) {
+    std::string en_path{};
+    for (const auto& item : json) {
+        std::string p{};
+        std::string language{};
+        std::string title{};
+        JsonHelper::get(item, "Path", p);
+        JsonHelper::get(item, "Language", language);
+        JsonHelper::get(item, "Title", title);
+
+        if (language == "en") {
+            en_path = p;
+        }
+        else {
+            std::cerr << "WARNING: Unsupported language " << language
+                << std::endl;
+        }
+
+    }
+
+    if (en_path.empty()) {
+        std::cerr << "No English locale specified." << std::endl;
+        return false;
+    }
+
+    const auto filename = path / en_path;
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Could not open file " << filename << std::endl;
@@ -47,7 +72,9 @@ bool InstallerStrings::load(const std::filesystem::path& path) {
     }
     nlohmann::json j;
     file >> j;
-    return load_from_json(j);
+    const auto result = load_from_json(j);
+    file.close();
+    return result;
 }
 bool InstallerStrings::load_from_json(const nlohmann::json& json) {
     for (const auto& item : json) {

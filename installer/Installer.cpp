@@ -51,10 +51,6 @@ Installer::Installer(const std::filesystem::path& output_path,
 }
 
 bool Installer::load(const std::filesystem::path& json) {
-    if (!installer_strings.load(json.parent_path())) {
-        return false;
-    }
-
     std::ifstream file(json);
     if (!file.is_open()) {
         std::cerr << "Could not open file " << json << std::endl;
@@ -77,6 +73,11 @@ bool Installer::load_from_json(const nlohmann::json& json,
     const std::filesystem::path& path)
 {
     try {
+        if (JsonHelper::exists(json, "Locale")) {
+            if (!installer_strings.load(json["Locale"], path)) {
+                return false;
+            }
+        }
         if (JsonHelper::exists(json, "Summary")) {
             tables["Summary"] = std::make_shared<SummaryInformationTable>(
                 json["Summary"], installer_strings, platform);
@@ -149,10 +150,6 @@ bool Installer::load_from_json(const nlohmann::json& json,
         if (JsonHelper::exists(json, "Property")) {
             tables["Property"] = std::make_shared<PropertyTable>(
                 json["Property"], installer_strings);
-        }
-        if (JsonHelper::exists(json, "RadioButton")) {
-            tables["RadioButton"] = std::make_shared<RadioButtonTable>(
-                json["RadioButton"], installer_strings);
         }
         if (JsonHelper::exists(json, "TextStyle")) {
             tables["TextStyle"] = std::make_shared<TextStyleTable>(

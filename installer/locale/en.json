@@ -3724,18 +3724,6 @@
         "Value": "The BOINC Installer Wizard will complete the upgrade of [ProductName] on your computer. To continue, click Next."
     },
     {
-        "Id": "IDS__IsSetupTypeDlg_Service",
-        "Value": "{&TahomaBold8}Ser&vice Installation"
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_Shared",
-        "Value": "{&TahomaBold8}S&hared Installation"
-    },
-    {
-        "Id": "IDS__IsSetupTypeDlg_Single",
-        "Value": "{&TahomaBold8}&Single-User Installation"
-    },
-    {
         "Id": "IDS__IsUserExit_ClickFinish",
         "Value": "Click Finish to exit the wizard."
     },

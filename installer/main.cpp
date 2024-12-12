@@ -32,8 +32,9 @@ int main(int argc, char** argv) {
 #else
         "x64";
 #endif
+    std::string project_path{};
 
-    for (int i = 0; i < argc; i++) {
+    for (int i = 1; i < argc; i++) {
         auto arg = std::string(argv[i]);
         if (arg == "-c") {
             if (++i >= argc) {
@@ -62,13 +63,21 @@ int main(int argc, char** argv) {
             }
             platform = arg;
         }
+        else if (project_path.empty()) {
+            project_path = arg;
+        }
+        else {
+            std::cerr << "Unknown argument: " << arg << std::endl;
+            return 1;
+        }
     }
 
     const auto output_path =
         std::filesystem::current_path() / "Build" / platform / configuration;
     Installer installer(output_path, platform, configuration);
     if (!installer.load(
-        std::filesystem::current_path() / "../installer/boinc.json")) {
+        std::filesystem::current_path() / (project_path.empty() ?
+            "../installer/boinc.json" : project_path))) {
         return 1;
     }
     return installer.create_msi(output_path / "boinc.msi") ? 0 : 1;

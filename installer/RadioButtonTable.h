@@ -19,12 +19,12 @@
 
 #include "Generator.h"
 #include "RadioButton.h"
+#include "Control.h"
 #include "InstallerStrings.h"
 
 class RadioButtonTable : public Generator<RadioButton> {
 public:
-    explicit RadioButtonTable(const nlohmann::json& json,
-        InstallerStrings& installerStrings);
+    explicit RadioButtonTable(const std::vector<Control>& controls);
     ~RadioButtonTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

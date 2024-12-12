@@ -20,8 +20,8 @@
 #include "JsonHelper.h"
 
 RadioButton::RadioButton(const nlohmann::json& json,
-    InstallerStrings& installerStrings) {
-    JsonHelper::get(json, "Property", property);
+    const std::string& property, InstallerStrings& installerStrings)
+    : property(property) {
     JsonHelper::get(json, "Order", order);
     JsonHelper::get(json, "Value", value);
     JsonHelper::get(json, "X", x);

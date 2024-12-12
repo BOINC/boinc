@@ -25,6 +25,7 @@
 #include "ControlCondition.h"
 #include "ControlEvent.h"
 #include "EventMapping.h"
+#include "RadioButton.h"
 #include "InstallerStrings.h"
 
 class Control : public Record {
@@ -35,6 +36,7 @@ public:
     const std::vector<ControlCondition>& get_conditions() const noexcept;
     const std::vector<ControlEvent>& get_events() const noexcept;
     const std::vector<EventMapping>& get_event_mappings() const noexcept;
+    const std::vector<RadioButton>& get_radio_buttons() const noexcept;
     MSIHANDLE getRecord() const override;
 private:
     std::string dialog{};
@@ -52,4 +54,5 @@ private:
     std::vector<ControlCondition> conditions{};
     std::vector<ControlEvent> events{};
     std::vector<EventMapping> eventMappings{};
+    std::vector<RadioButton> radioButtons{};
 };
