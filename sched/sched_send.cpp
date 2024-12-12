@@ -885,10 +885,50 @@ inline static DB_ID_TYPE get_app_version_id(BEST_APP_VERSION* bavp) {
     }
 }
 
+static bool wu_has_plan_class(WORKUNIT &wu, char* buf) {
+    char *p = strstr(wu.xml_doc, "<plan_class>");
+    if (!p) return false;
+    p += strlen("<plan_class>");
+    strncpy(buf, p, 256);
+    p = strstr(buf, "</plan_class>");
+    if (!p) return false;
+    *p = 0;
+    return true;
+}
+
+// if workunit has a plan class (e.g. BUDA), check it
+// in any case, fill in the HOST_USAGE
+//
+bool handle_wu_plan_class(
+    WORKUNIT &wu, BEST_APP_VERSION *bavp, HOST_USAGE &hu
+) {
+    char plan_class[256];
+    if (wu_has_plan_class(wu, plan_class)) {
+        if (strlen(plan_class)) {
+            if (!app_plan(*g_request, plan_class, hu, &wu)) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%lu] app_plan(%s) returned false\n",
+                        bavp->avp->id, plan_class
+                    );
+                }
+                // can't send this job
+                return false;
+            }
+        } else {
+            hu.sequential_app(g_reply->host.p_fpops);
+        }
+    } else {
+        hu = bavp->host_usage;
+    }
+    return true;
+}
+
 int add_result_to_reply(
     SCHED_DB_RESULT& result,
     WORKUNIT& wu,
     BEST_APP_VERSION* bavp,
+    HOST_USAGE &host_usage,
     bool locality_scheduling
 ) {
     int retval;
@@ -899,7 +939,7 @@ int add_result_to_reply(
     result.userid = g_reply->user.id;
     result.sent_time = time(0);
     result.report_deadline = result.sent_time + wu.delay_bound;
-    result.flops_estimate = bavp->host_usage.peak_flops;
+    result.flops_estimate = host_usage.peak_flops;
     result.app_version_id = get_app_version_id(bavp);
 
     // update WU DB record.
@@ -978,7 +1018,7 @@ int add_result_to_reply(
 
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
-        double max_time = wu.rsc_fpops_bound / bavp->host_usage.projected_flops;
+        double max_time = wu.rsc_fpops_bound / host_usage.projected_flops;
         char buf1[64],buf2[64];
         secs_to_hmsf(est_dur, buf1);
         secs_to_hmsf(max_time, buf2);
@@ -1017,11 +1057,11 @@ int add_result_to_reply(
     // because the scheduling of GPU jobs is constrained by the # of GPUs
     //
     if (g_wreq->rsc_spec_request) {
-        int pt = bavp->host_usage.proc_type;
+        int pt = host_usage.proc_type;
         if (pt == PROC_TYPE_CPU) {
-            double est_cpu_secs = est_dur*bavp->host_usage.avg_ncpus;
+            double est_cpu_secs = est_dur*host_usage.avg_ncpus;
             g_wreq->req_secs[PROC_TYPE_CPU] -= est_cpu_secs;
-            g_wreq->req_instances[PROC_TYPE_CPU] -= bavp->host_usage.avg_ncpus;
+            g_wreq->req_instances[PROC_TYPE_CPU] -= host_usage.avg_ncpus;
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
                     "[send_job] est_dur %f est_cpu_secs %f; new req_secs %f\n",
@@ -1029,9 +1069,9 @@ int add_result_to_reply(
                 );
             }
         } else {
-            double est_gpu_secs = est_dur*bavp->host_usage.gpu_usage;
+            double est_gpu_secs = est_dur*host_usage.gpu_usage;
             g_wreq->req_secs[pt] -= est_gpu_secs;
-            g_wreq->req_instances[pt] -= bavp->host_usage.gpu_usage;
+            g_wreq->req_instances[pt] -= host_usage.gpu_usage;
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
                     "[send_job] est_dur %f est_gpu_secs %f; new req_secs %f\n",
@@ -1045,7 +1085,7 @@ int add_result_to_reply(
     }
     update_estimated_delay(*bavp, est_dur);
     g_wreq->njobs_sent++;
-    config.max_jobs_in_progress.register_job(app, bavp->host_usage.proc_type);
+    config.max_jobs_in_progress.register_job(app, host_usage.proc_type);
     if (!resent_result) {
         DB_HOST_APP_VERSION* havp = bavp->host_app_version();
         if (havp) {

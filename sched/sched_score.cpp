@@ -202,6 +202,7 @@ void send_work_score_type(int rt) {
         }
         WORKUNIT wu = wu_result.workunit;
         JOB job;
+
         job.app = ssp->lookup_app(wu.appid);
         if (job.app->non_cpu_intensive) {
             if (config.debug_send_job) {
@@ -220,6 +221,12 @@ void send_work_score_type(int rt) {
                     wu_result.resultid
                 );
             }
+            continue;
+        }
+
+        // check WU plan class (for BUDA jobs)
+        //
+        if (!handle_wu_plan_class(wu, job.bavp, job.host_usage)) {
             continue;
         }
 
@@ -350,7 +357,7 @@ void send_work_score_type(int rt) {
             SCHED_DB_RESULT result;
             result.id = wu_result.resultid;
             if (result_still_sendable(result, wu)) {
-                add_result_to_reply(result, wu, job.bavp, false);
+                add_result_to_reply(result, wu, job.bavp, job.host_usage, false);
 
                 // add_result_to_reply() fails only in pathological cases -
                 // e.g. we couldn't update the DB record or modify XML fields.

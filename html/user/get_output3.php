@@ -47,7 +47,7 @@ function get_batch() {
     $batch_id = get_str('batch_id');
     $dir = "../../results/$batch_id";
     $name = "batch_$batch_id.zip";
-    $cmd = "cd $dir; rm -f $name; zip $name *";
+    $cmd = "cd $dir; rm -f $name; zip -q $name *";
     system($cmd);
     do_download("$dir/$name");
 }

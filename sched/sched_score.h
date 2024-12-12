@@ -23,6 +23,7 @@ struct JOB {
     double score;
     APP* app;
     BEST_APP_VERSION* bavp;
+    HOST_USAGE host_usage;
 
     bool get_score(int);
 };

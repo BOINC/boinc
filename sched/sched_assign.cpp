@@ -154,7 +154,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     DB_ID_TYPE result_id = boinc_db.insert_id();
     SCHED_DB_RESULT result;
     retval = result.lookup_id(result_id);
-    add_result_to_reply(result, wu, bavp, false);
+    add_result_to_reply(result, wu, bavp, bavp->host_usage, false);
 
     if (config.debug_assignment) {
         log_messages.printf(MSG_NORMAL,

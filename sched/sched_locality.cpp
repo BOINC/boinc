@@ -332,7 +332,11 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
         if (count > 0) return ERR_WU_USER_RULE;
     }
 
-    return add_result_to_reply(result, wu, bavp, true);
+    HOST_USAGE hu;
+    if (!handle_wu_plan_class(wu, bavp, hu)) {
+        return false;
+    }
+    return add_result_to_reply(result, wu, bavp, hu, true);
 }
 
 // Retrieves and returns a trigger instance identified by the given

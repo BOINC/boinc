@@ -249,7 +249,13 @@ bool resend_lost_work() {
             );
             g_reply->insert_message(warning_msg, "low");
         } else {
-            retval = add_result_to_reply(result, wu, bavp, false);
+            HOST_USAGE host_usage;
+            if (!handle_wu_plan_class(wu, bavp, host_usage)) {
+                continue;
+            }
+            retval = add_result_to_reply(
+                result, wu, bavp, host_usage, false
+            );
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%lu] failed to send [RESULT#%lu]\n",

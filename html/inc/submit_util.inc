@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// server-side utility functions for remote job submissions and control
+// server-side utility functions for remote job submission and control
 
 require_once("../inc/submit_db.inc");
 
@@ -368,6 +368,43 @@ function parse_info_file($path) {
         return null;
     }
     return [$md5, $size];
+}
+
+///////////////// TEMPLATE CREATION //////////////
+
+function file_ref_in($fname) {
+    return(sprintf(
+'      <file_ref>
+         <open_name>%s</open_name>
+         <copy_file/>
+      </file_ref>
+',
+        $fname
+    ));
+}
+function file_info_out($i) {
+    return sprintf(
+'    <file_info>
+        <name><OUTFILE_%d/></name>
+        <generated_locally/>
+        <upload_when_present/>
+        <max_nbytes>5000000</max_nbytes>
+        <url><UPLOAD_URL/></url>
+    </file_info>
+',
+        $i
+    );
+}
+
+function file_ref_out($i, $fname) {
+    return sprintf(
+'        <file_ref>
+            <file_name><OUTFILE_%d/></file_name>
+            <open_name>%s</open_name>
+            <copy_file/>
+        </file_ref>
+',      $i, $fname
+    );
 }
 
 ?>

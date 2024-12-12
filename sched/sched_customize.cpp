@@ -959,15 +959,21 @@ static inline bool app_plan_vbox(
     return true;
 }
 
-static inline bool app_plan_wsl(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+static inline bool app_plan_wsl(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
     // no additional checks at the moment, just return true
     return true;
 }
 
-// app planning function.
+// if host can handle the plan class, populate host usage and return true
+//
 // See https://github.com/BOINC/boinc/wiki/AppPlan
 //
-bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu) {
+bool app_plan(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu,
+    const WORKUNIT* wu
+) {
     char buf[256];
     static bool check_plan_class_spec = true;
     static bool have_plan_class_spec = false;

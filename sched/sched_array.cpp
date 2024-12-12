@@ -323,7 +323,11 @@ recheck:
             //
             result.id = wu_result.resultid;
             if (result_still_sendable(result, wu)) {
-                add_result_to_reply(result, wu, bavp, false);
+                HOST_USAGE hu;
+                if (!handle_wu_plan_class(wu, bavp, hu)) {
+                    continue;
+                }
+                add_result_to_reply(result, wu, bavp, hu, false);
 
                 // add_result_to_reply() fails only in pathological cases -
                 // e.g. we couldn't update the DB record or modify XML fields.
