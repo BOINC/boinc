@@ -153,6 +153,7 @@ exclude_extensions = [
     ".nib",
     ".o",
     ".odp",
+    ".patch",
     ".pdb",
     ".pdf",
     ".pdn",
