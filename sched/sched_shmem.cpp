@@ -28,6 +28,7 @@
 #include <sys/param.h>
 
 using std::vector;
+using std::string;
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -107,6 +108,19 @@ static void overflow(const char* table, const char* param_name) {
     exit(1);
 }
 
+void get_buda_plan_classes(vector<string> &pcs) {
+    pcs.clear();
+    FILE *f = boinc::fopen("../buda_plan_classes", "r");
+    if (!f) return;
+    char buf[256];
+    while (fgets(buf, 256, f)) {
+        strip_whitespace(buf);
+        pcs.push_back(buf);
+    }
+}
+
+// scan various DB tables and populate shared-memory arrays
+//
 int SCHED_SHMEM::scan_tables() {
     DB_PLATFORM platform;
     DB_APP app;
@@ -241,6 +255,12 @@ int SCHED_SHMEM::scan_tables() {
     for (i=0; i<napp_versions; i++) {
         APP_VERSION& av = app_versions[i];
         int rt = plan_class_to_proc_type(av.plan_class);
+        have_apps_for_proc_type[rt] = true;
+    }
+    vector<string> buda_plan_classes;
+    get_buda_plan_classes(buda_plan_classes);
+    for (string pc: buda_plan_classes) {
+        int rt = plan_class_to_proc_type(pc.c_str());
         have_apps_for_proc_type[rt] = true;
     }
     for (i=0; i<NPROC_TYPES; i++) {

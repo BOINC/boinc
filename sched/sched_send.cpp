@@ -896,14 +896,19 @@ static bool wu_has_plan_class(WORKUNIT &wu, char* buf) {
     return true;
 }
 
-// if workunit has a plan class (e.g. BUDA), check it
-// in any case, fill in the HOST_USAGE
+// If workunit has a plan class (e.g. BUDA), check it.
+// In any case, fill in the HOST_USAGE
 //
 bool handle_wu_plan_class(
     WORKUNIT &wu, BEST_APP_VERSION *bavp, HOST_USAGE &hu
 ) {
     char plan_class[256];
     if (wu_has_plan_class(wu, plan_class)) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] plan class: %s\n", plan_class
+            );
+        }
         if (strlen(plan_class)) {
             if (!app_plan(*g_request, plan_class, hu, &wu)) {
                 if (config.debug_version_select) {

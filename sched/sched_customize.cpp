@@ -981,7 +981,11 @@ bool app_plan(
 
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
-            "[version] Checking plan class '%s'\n", plan_class
+            "[version] Checking plan class '%s' check %d have %d bad %d\n",
+            plan_class,
+            check_plan_class_spec,
+            have_plan_class_spec,
+            bad_plan_class_spec
         );
     }
 

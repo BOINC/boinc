@@ -29,6 +29,32 @@ display_errors();
 
 $buda_root = "../../buda_apps";
 
+// scan BUDA apps and variants, and write a file 'buda_plan_classes' 
+// in the project dir with list of plan classes
+//
+function write_plan_class_file() {
+    $pcs = [];
+    global $buda_root;
+    if (is_dir($buda_root)) {
+        $apps = scandir($buda_root);
+        foreach ($apps as $app) {
+            if ($app[0] == '.') continue;
+            if (!is_dir("$buda_root/$app")) continue;
+            $vars = scandir("$buda_root/$app");
+            foreach ($vars as $var) {
+                if ($var[0] == '.') continue;
+                if (!is_dir("$buda_root/$app/$var")) continue;
+                $pcs[] = $var;
+            }
+        }
+    }
+    $pcs = array_unique($pcs);
+    file_put_contents(
+        "../../buda_plan_classes",
+        implode("\n", $pcs)."\n"
+    );
+}
+
 // show list of BUDA apps and variants,
 // w/ buttons for adding and deleting
 //
@@ -394,9 +420,13 @@ case 'variant_view':
 case 'variant_form':
     variant_form($user); break;
 case 'variant_action':
-    variant_action($user); break;
+    variant_action($user);
+    write_plan_class_file();
+    break;
 case 'variant_delete':
-    variant_delete(); break;
+    variant_delete();
+    write_plan_class_file();
+    break;
 case 'view_file':
     view_file(); break;
 case null:
