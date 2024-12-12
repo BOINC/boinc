@@ -20,6 +20,7 @@
 #include "ControlConditionTable.h"
 #include "ControlEventTable.h"
 #include "EventMappingTable.h"
+#include "RadioButtonTable.h"
 #include "ControlTable.h"
 
 ControlTable::ControlTable(const std::vector<Dialog>& dialogs) noexcept :
@@ -44,6 +45,10 @@ bool ControlTable::generate(MSIHANDLE hDatabase)
     }
     if (!EventMappingTable(controls).generate(hDatabase)) {
         std::cerr << "Failed to generate EventMappingTable" << std::endl;
+        return false;
+    }
+    if (!RadioButtonTable(controls).generate(hDatabase)) {
+        std::cerr << "Failed to generate RadioButtonTable" << std::endl;
         return false;
     }
 

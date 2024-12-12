@@ -43,6 +43,9 @@ Control::Control(const nlohmann::json& json,
     JsonHelper::handle(json, "EventMappings", [&](const auto& eventMapping) {
         eventMappings.emplace_back(eventMapping, dialog, control);
         });
+    JsonHelper::handle(json, "RadioButtons", [&](const auto& radioButton) {
+        radioButtons.emplace_back(radioButton, property, installerStrings);
+        });
 }
 
 const std::vector<ControlCondition>& Control::get_conditions() const noexcept {
@@ -55,6 +58,10 @@ const std::vector<ControlEvent>& Control::get_events() const noexcept {
 
 const std::vector<EventMapping>& Control::get_event_mappings() const noexcept {
     return eventMappings;
+}
+
+const std::vector<RadioButton>& Control::get_radio_buttons() const noexcept {
+    return radioButtons;
 }
 
 MSIHANDLE Control::getRecord() const {

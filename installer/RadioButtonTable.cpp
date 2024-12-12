@@ -17,11 +17,11 @@
 
 #include "RadioButtonTable.h"
 
-RadioButtonTable::RadioButtonTable(const nlohmann::json& json,
-    InstallerStrings& installerStrings) {
-    std::cout << "Loading RadioButtonTable..." << std::endl;
-    for (const auto& item : json) {
-        properties.emplace_back(item, installerStrings);
+RadioButtonTable::RadioButtonTable(const std::vector<Control>& controls) {
+    for (const auto& control : controls) {
+        for (const auto& radioButton : control.get_radio_buttons()) {
+            properties.emplace_back(radioButton);
+        }
     }
 }
 

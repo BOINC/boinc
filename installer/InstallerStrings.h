@@ -30,7 +30,7 @@ public:
     ~InstallerStrings();
 
     const std::string& get(const std::string& key);
-    bool load(const std::filesystem::path& path);
+    bool load(const nlohmann::json& json, const std::filesystem::path& path);
 private:
     std::map<std::string, std::string> strings{};
     std::unordered_set<std::string> keys_used{};

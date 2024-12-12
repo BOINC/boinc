@@ -43,7 +43,7 @@
   <ItemDefinitionGroup>
     <CustomBuildStep>
       <Command>$(SolutionDir)Build\x64\$(Configuration)\installer.exe -p $(Platform)</Command>
-      <Inputs>$(MSBuildThisFileDirectory)..\installer\boinc.json;$(MSBuildThisFileDirectory)..\installer\locale\en.json;$(OutDir)boinccas.dll</Inputs>
+      <Inputs>$(MSBuildThisFileDirectory)..\installer\boinc.json;$(MSBuildThisFileDirectory)..\installer\locale\en.json;$(OutDir)boinccas.dll;$(SolutionDir)Build\x64\$(Configuration)\installer.exe</Inputs>
       <Outputs>$(OutDir)boinc.msi</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>

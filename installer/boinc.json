@@ -14,6 +14,13 @@
         "appname": "BOINC",
         "security": 1
     },
+    "Locale": [
+        {
+            "Path": "locale/en.json",
+            "Language": "en",
+            "Title": "English (United States)"
+        }
+    ],
     "ActionText": [
         {
             "Action": "Advertise",
@@ -2338,7 +2345,27 @@
                     "Height": 40,
                     "Attributes": 3,
                     "Property": "AgreeToLicense",
-                    "Control_Next": "Back"
+                    "Control_Next": "Back",
+                    "RadioButtons": [
+                        {
+                            "Order": 1,
+                            "Value": "No",
+                            "X": 0,
+                            "Y": 15,
+                            "Width": 291,
+                            "Height": 15,
+                            "Text": "IDS__AgreeToLicense_0"
+                        },
+                        {
+                            "Order": 2,
+                            "Value": "Yes",
+                            "X": 0,
+                            "Y": 0,
+                            "Width": 291,
+                            "Height": 15,
+                            "Text": "IDS__AgreeToLicense_1"
+                        }
+                    ]
                 },
                 {
                     "Control": "Back",
@@ -2656,7 +2683,27 @@
                     "Attributes": 3,
                     "Property": "_IsMaintenance",
                     "Text": "IDS__IsMaintenanceDlg_11",
-                    "Control_Next": "Back"
+                    "Control_Next": "Back",
+                    "RadioButtons": [
+                        {
+                            "Order": 2,
+                            "Value": "Reinstall",
+                            "X": 0,
+                            "Y": 0,
+                            "Width": 290,
+                            "Height": 14,
+                            "Text": "IDS__IsMaintenanceDlg_Repair"
+                        },
+                        {
+                            "Order": 3,
+                            "Value": "Remove",
+                            "X": 0,
+                            "Y": 60,
+                            "Width": 290,
+                            "Height": 14,
+                            "Text": "IDS__IsMaintenanceDlg_Remove"
+                        }
+                    ]
                 },
                 {
                     "Control": "Text2",
@@ -2916,7 +2963,27 @@
                     "Height": 40,
                     "Attributes": 3,
                     "Property": "RestartManagerOption",
-                    "Control_Next": "List"
+                    "Control_Next": "List",
+                    "RadioButtons": [
+                        {
+                            "Order": 1,
+                            "Value": "CloseRestart",
+                            "X": 6,
+                            "Y": 9,
+                            "Width": 331,
+                            "Height": 14,
+                            "Text": "IDS__IsMsiRMFilesInUse_CloseRestart"
+                        },
+                        {
+                            "Order": 2,
+                            "Value": "Reboot",
+                            "X": 6,
+                            "Y": 21,
+                            "Width": 331,
+                            "Height": 14,
+                            "Text": "IDS__IsMsiRMFilesInUse_RebootAfter"
+                        }
+                    ]
                 }
             ]
         },
@@ -10139,98 +10206,6 @@
         {
             "Property": "_IsMaintenance",
             "Value": "Install"
-        }
-    ],
-    "RadioButton": [
-        {
-            "Property": "AgreeToLicense",
-            "Order": 1,
-            "Value": "No",
-            "X": 0,
-            "Y": 15,
-            "Width": 291,
-            "Height": 15,
-            "Text": "IDS__AgreeToLicense_0"
-        },
-        {
-            "Property": "AgreeToLicense",
-            "Order": 2,
-            "Value": "Yes",
-            "X": 0,
-            "Y": 0,
-            "Width": 291,
-            "Height": 15,
-            "Text": "IDS__AgreeToLicense_1"
-        },
-        {
-            "Property": "RestartManagerOption",
-            "Order": 1,
-            "Value": "CloseRestart",
-            "X": 6,
-            "Y": 9,
-            "Width": 331,
-            "Height": 14,
-            "Text": "IDS__IsMsiRMFilesInUse_CloseRestart"
-        },
-        {
-            "Property": "RestartManagerOption",
-            "Order": 2,
-            "Value": "Reboot",
-            "X": 6,
-            "Y": 21,
-            "Width": 331,
-            "Height": 14,
-            "Text": "IDS__IsMsiRMFilesInUse_RebootAfter"
-        },
-        {
-            "Property": "SETUPTYPE",
-            "Order": 1,
-            "Value": "Single",
-            "X": 0,
-            "Y": 0,
-            "Width": 270,
-            "Height": 15,
-            "Text": "IDS__IsSetupTypeDlg_Single"
-        },
-        {
-            "Property": "SETUPTYPE",
-            "Order": 2,
-            "Value": "Shared",
-            "X": 0,
-            "Y": 38,
-            "Width": 270,
-            "Height": 15,
-            "Text": "IDS__IsSetupTypeDlg_Shared"
-        },
-        {
-            "Property": "SETUPTYPE",
-            "Order": 3,
-            "Value": "Service",
-            "X": 0,
-            "Y": 75,
-            "Width": 270,
-            "Height": 15,
-            "Text": "IDS__IsSetupTypeDlg_Service"
-        },
-        {
-            "Property": "_IsMaintenance",
-            "Order": 2,
-            "Value": "Reinstall",
-            "X": 0,
-            "Y": 0,
-            "Width": 290,
-            "Height": 14,
-            "Text": "IDS__IsMaintenanceDlg_Repair"
-        },
-        {
-            "Property": "_IsMaintenance",
-            "Order": 3,
-            "Value": "Remove",
-            "X": 0,
-            "Y": 60,
-            "Width": 290,
-            "Height": 14,
-            "Text": "IDS__IsMaintenanceDlg_Remove"
         }
     ],
     "TextStyle": [
