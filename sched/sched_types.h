@@ -61,6 +61,11 @@ struct USER_MESSAGE {
     USER_MESSAGE(const char* m, const char*p);
 };
 
+// The resource usage (CPU, GPU, RAM) of a job,
+// and estimates of its speed
+// Populated by plan-class functions if have plan class,
+// else by HOST_USAGE::sequential_app()
+//
 struct HOST_USAGE {
     int proc_type;
     double gpu_usage;

@@ -50,6 +50,10 @@ static int get_size_class(APP& app, double es) {
     return app.n_size_classes - 1;
 }
 
+JOB::JOB() {
+    memset(this, 0, sizeof(JOB));
+}
+
 // Assign a score to this job,
 // representing the value of sending the job to this host.
 // Also do some initial screening,
@@ -226,8 +230,15 @@ void send_work_score_type(int rt) {
 
         // check WU plan class (for BUDA jobs)
         //
-        if (!handle_wu_plan_class(wu, job.bavp, job.host_usage)) {
-            continue;
+        bool is_buda, is_ok;
+        HOST_USAGE hu;
+        check_buda_plan_class(wu, hu, is_buda, is_ok);
+        if (is_buda) {
+            if (!is_ok) continue;
+            job.host_usage = hu;
+            job.is_buda = true;
+        } else {
+            job.host_usage = job.bavp->host_usage;
         }
 
         job.index = i;
@@ -357,7 +368,11 @@ void send_work_score_type(int rt) {
             SCHED_DB_RESULT result;
             result.id = wu_result.resultid;
             if (result_still_sendable(result, wu)) {
-                add_result_to_reply(result, wu, job.bavp, job.host_usage, false);
+                add_result_to_reply(
+                    result, wu, job.bavp, job.host_usage,
+                    job.is_buda,
+                    false   // locality scheduling
+                );
 
                 // add_result_to_reply() fails only in pathological cases -
                 // e.g. we couldn't update the DB record or modify XML fields.

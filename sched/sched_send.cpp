@@ -896,37 +896,42 @@ static bool wu_has_plan_class(WORKUNIT &wu, char* buf) {
     return true;
 }
 
-// If workunit has a plan class (e.g. BUDA), check it.
-// In any case, fill in the HOST_USAGE
+// If workunit has a plan class (e.g. BUDA)
+//      return false if host not capable
+//      plan class computes host usage
+//      is_buda = true
+// else
+//      host usage is from app version
+//      is_buda = false
 //
-bool handle_wu_plan_class(
-    WORKUNIT &wu, BEST_APP_VERSION *bavp, HOST_USAGE &hu
+void check_buda_plan_class(
+    WORKUNIT &wu, HOST_USAGE &hu, bool &is_buda, bool &is_ok
 ) {
     char plan_class[256];
-    if (wu_has_plan_class(wu, plan_class)) {
+    if (!wu_has_plan_class(wu, plan_class)) {
+        is_buda = false;
+        return;
+    }
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] plan class: %s\n", plan_class
+        );
+    }
+    is_buda = true;
+    is_ok = true;
+    if (!strlen(plan_class)) {
+        hu.sequential_app(g_reply->host.p_fpops);
+        return;
+    }
+    if (!app_plan(*g_request, plan_class, hu, &wu)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] plan class: %s\n", plan_class
+                "[version]  app_plan(%s) returned false\n", plan_class
             );
         }
-        if (strlen(plan_class)) {
-            if (!app_plan(*g_request, plan_class, hu, &wu)) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%lu] app_plan(%s) returned false\n",
-                        bavp->avp->id, plan_class
-                    );
-                }
-                // can't send this job
-                return false;
-            }
-        } else {
-            hu.sequential_app(g_reply->host.p_fpops);
-        }
-    } else {
-        hu = bavp->host_usage;
+        // can't send this job
+        is_ok = false;
     }
-    return true;
 }
 
 int add_result_to_reply(
@@ -934,6 +939,7 @@ int add_result_to_reply(
     WORKUNIT& wu,
     BEST_APP_VERSION* bavp,
     HOST_USAGE &host_usage,
+    bool is_buda,
     bool locality_scheduling
 ) {
     int retval;

@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// structures corresponding to various DB tables.
+// In some cases the structures have extra fields,
+// used by the server code but not stored in the DB
+
 #ifndef _BOINC_DB_TYPES_
 #define _BOINC_DB_TYPES_
 

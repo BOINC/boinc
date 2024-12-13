@@ -332,11 +332,15 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
         if (count > 0) return ERR_WU_USER_RULE;
     }
 
+    bool is_buda, is_ok;
     HOST_USAGE hu;
-    if (!handle_wu_plan_class(wu, bavp, hu)) {
-        return false;
+    check_buda_plan_class(wu, hu, is_buda, is_ok);
+    if (is_buda) {
+        if (!is_ok) ERR_NO_APP_VERSION;
+    } else {
+        hu = bavp->host_usage;
     }
-    return add_result_to_reply(result, wu, bavp, hu, true);
+    return add_result_to_reply(result, wu, bavp, hu, is_buda, false);
 }
 
 // Retrieves and returns a trigger instance identified by the given
