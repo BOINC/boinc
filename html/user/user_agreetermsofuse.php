@@ -35,9 +35,6 @@ $next_url = urldecode($next_url);
 $next_url = sanitize_local_url($next_url);
 $next_url = urlencode($next_url);
 
-$u = "user_agreetermsofuse.php?next_url=".$next_url;
-redirect_to_secure_url($u);
-
 page_head(tra("Agree to our Terms of Use."));
 
 user_agreetermsofuse_form($next_url);
