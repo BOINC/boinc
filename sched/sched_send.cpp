@@ -570,10 +570,58 @@ static int insert_wu_tags(WORKUNIT& wu, APP& app) {
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
+// add host usage into to WU's xml_doc (for BUDA jobs)
+//
+static int add_usage_to_wu(WORKUNIT &wu, HOST_USAGE &hu) {
+    char buf[2048], buf2[2048];
+    snprintf(buf, sizeof(buf),
+        "   <avg_ncpus>%f</avg_ncpus>\n"
+        "   <flops>%f</flops>\n",
+        hu.avg_ncpus,
+        hu.projected_flops
+    );
+    if (hu.proc_type != PROC_TYPE_CPU) {
+        snprintf(buf2, sizeof(buf2),
+            "   <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            proc_type_name_xml(hu.proc_type),
+            hu.gpu_usage
+        );
+        strcat(buf, buf2);
+    }
+    if (strlen(hu.cmdline)) {
+        snprintf(buf2, sizeof(buf2),
+            "   <cmdline>%s</cmdline>\n",
+            hu.cmdline
+        );
+        strcat(buf, buf2);
+    }
+
+    char *p = wu.xml_doc;
+    if (strlen(p) + strlen(buf) + 10 > sizeof(wu.xml_doc)) {
+        log_messages.printf(MSG_CRITICAL,
+            "add_usage_to_wu(): field too small: %ld %ld %ld\n",
+            strlen(p), strlen(buf), sizeof(wu.xml_doc)
+        );
+        return -1;
+    }
+    p = strstr(p, "</workunit>");
+    if (!p) {
+        log_messages.printf(MSG_CRITICAL, "add_usage_to_wu(): no end tag\n");
+        return -1;
+    }
+    strcpy(p, buf);
+    strcat(p, "</workunit>");
+    return 0;
+}
+
 // Add the given workunit, app, and app version to a reply.
 //
 static int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY&, APP* app, BEST_APP_VERSION* bavp
+    WORKUNIT& wu, SCHEDULER_REPLY&, APP* app, BEST_APP_VERSION* bavp,
+    bool is_buda, HOST_USAGE &hu
 ) {
     int retval;
     WORKUNIT wu2, wu3;
@@ -625,6 +673,11 @@ static int add_wu_to_reply(
             "insert_wu_tags failed: %s\n", boincerror(retval)
         );
         return retval;
+    }
+
+    if (is_buda) {
+        retval = add_usage_to_wu(wu2, hu);
+        if (retval) return retval;
     }
     wu3 = wu2;
     if (strlen(config.replace_download_url_by_timezone)) {
@@ -1015,7 +1068,7 @@ int add_result_to_reply(
     // done with DB updates.
     //
 
-    retval = add_wu_to_reply(wu, *g_reply, app, bavp);
+    retval = add_wu_to_reply(wu, *g_reply, app, bavp, is_buda, host_usage);
     if (retval) return retval;
 
     // Adjust available disk space.

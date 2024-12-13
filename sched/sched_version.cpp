@@ -982,4 +982,3 @@ BEST_APP_VERSION* get_app_version(
     }
     return bavp;
 }
-

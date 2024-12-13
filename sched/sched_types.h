@@ -63,13 +63,13 @@ struct USER_MESSAGE {
 
 // The resource usage (CPU, GPU, RAM) of a job,
 // and estimates of its speed
-// Populated by plan-class functions if have plan class,
+// Populated by plan-class functions if there's a plan class,
 // else by HOST_USAGE::sequential_app()
 //
 struct HOST_USAGE {
     int proc_type;
     double gpu_usage;
-    double gpu_ram;
+    double gpu_ram;     // not currently used by client
     double avg_ncpus;
     double mem_usage;
         // mem usage if specified by the plan class
@@ -439,7 +439,7 @@ struct WORK_REQ_BASE {
         req_instances[proc_type] = 0;
     }
 
-    // older clients send send a single number, the requested duration of jobs
+    // older clients send a single number, the requested duration of jobs
     //
     double seconds_to_fill;
 

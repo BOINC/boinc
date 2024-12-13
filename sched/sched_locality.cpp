@@ -336,7 +336,7 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
     HOST_USAGE hu;
     check_buda_plan_class(wu, hu, is_buda, is_ok);
     if (is_buda) {
-        if (!is_ok) ERR_NO_APP_VERSION;
+        if (!is_ok) return ERR_NO_APP_VERSION;
     } else {
         hu = bavp->host_usage;
     }
