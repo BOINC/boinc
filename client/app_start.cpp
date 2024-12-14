@@ -767,12 +767,12 @@ int ACTIVE_TASK::start() {
 
     snprintf(cmdline, sizeof(cmdline),
         "%s %s %s",
-        exec_path, wup->command_line.c_str(), app_version->cmdline
+        exec_path, wup->command_line.c_str(), result->resource_usage.cmdline
     );
     if (!app_version->api_version_at_least(7, 5)) {
-        int rt = app_version->gpu_usage.rsc_type;
+        int rt = result->resource_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
+            coproc_cmdline(rt, result, result->resource_usage.coproc_usage, cmdline, sizeof(cmdline));
         }
     }
 

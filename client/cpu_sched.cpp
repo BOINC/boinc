@@ -276,7 +276,7 @@ bool check_coprocs_usable() {
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
                 if (rp->resource_usage.rsc_type) {
-                    rp->coproc_missing = true;
+                    rp->resource_usage.missing_coproc = true;
                 }
             }
             msg_printf(NULL, MSG_INFO,
@@ -290,7 +290,7 @@ bool check_coprocs_usable() {
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
                 if (rp->resource_usage.rsc_type) {
-                    rp->coproc_missing = false;
+                    rp->resource_usage.missing_coproc = false;
                 }
             }
             msg_printf(NULL, MSG_INFO,
