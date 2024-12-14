@@ -94,5 +94,4 @@ if ($action) {
     print_prefs_form("add", $subset, $venue, $user, $prefs, $columns);
 }
 page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

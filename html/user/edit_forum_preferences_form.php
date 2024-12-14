@@ -206,5 +206,4 @@ row2(tra("Or click here to reset preferences to the defaults"),
 end_table();
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

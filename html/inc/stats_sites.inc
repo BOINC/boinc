@@ -160,5 +160,4 @@ function site_list($sites) {
 $GLOBALS['cpid_stats_sites'] = $cpid_stats_sites;
 $GLOBALS['host_sites'] = $host_sites;
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

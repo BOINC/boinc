@@ -634,6 +634,5 @@ function make_team(
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

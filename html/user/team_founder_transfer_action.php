@@ -152,6 +152,5 @@ echo "<a href='team_display.php?teamid=$team->id'>".tra("Return to team page")."
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

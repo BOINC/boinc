@@ -195,5 +195,4 @@ echo "</form>\n";
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";
 ?>

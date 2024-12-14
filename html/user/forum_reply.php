@@ -206,5 +206,4 @@ function quote_text($post) {
     );
 }
 
-$cvs_version_tracker[]="\$Id$";
 ?>

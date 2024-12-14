@@ -446,5 +446,4 @@ if ($action == "inbox") {
     error_page(tra("Unknown action"));
 }
 
-$cvs_version_tracker[]="\$Id: pm.php 14077 2007-11-03 04:26:47Z davea $";
 ?>

@@ -659,6 +659,5 @@ function show_account_private($user) {
 }
 
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

@@ -37,5 +37,4 @@ if ($user->teamid == $team->id) {
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

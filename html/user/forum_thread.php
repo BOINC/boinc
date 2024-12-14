@@ -314,5 +314,4 @@ case 1:
 $thread->update("views=views+1");
 
 page_tail();
-$cvs_version_tracker[]="\$Id$";
 ?>
