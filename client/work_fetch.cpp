@@ -60,7 +60,7 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->project != p) continue;
-        if (avp->gpu_usage.rsc_type == rsc_type) return true;
+        if (avp->resource_usage.rsc_type == rsc_type) return true;
     }
     return false;
 }
@@ -82,10 +82,10 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
         for (i=0; i<gstate.app_versions.size(); i++) {
             APP_VERSION* avp = gstate.app_versions[i];
             if (avp->project != p) continue;
-            if (rsc_type && (avp->gpu_usage.rsc_type == rsc_type)) {
-                if (avp->gpu_usage.usage > x) x = avp->gpu_usage.usage;
+            if (rsc_type && (avp->resource_usage.rsc_type == rsc_type)) {
+                if (avp->resource_usage.coproc_usage > x) x = avp->resource_usage.coproc_usage;
             } else {
-                if (avp->avg_ncpus > x) x = avp->avg_ncpus;
+                if (avp->resource_usage.avg_ncpus > x) x = avp->resource_usage.avg_ncpus;
             }
         }
 
@@ -442,7 +442,7 @@ void WORK_FETCH::rr_init() {
         RESULT* rp = gstate.results[i];
         if (rp->schedule_backoff) {
             if (rp->schedule_backoff > gstate.now) {
-                int rt = rp->avp->gpu_usage.rsc_type;
+                int rt = rp->resource_usage.rsc_type;
                 rp->project->rsc_pwf[rt].has_deferred_job = true;
             } else {
                 rp->schedule_backoff = 0;
@@ -947,14 +947,14 @@ PROJECT* WORK_FETCH::choose_project() {
 // in last dt sec, and add to project totals
 //
 void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
-    APP_VERSION* avp = atp->result->avp;
-    PROJECT* p = atp->result->project;
-    double x = dt*avp->avg_ncpus;
+    RESULT *rp = atp->result;
+    PROJECT* p = rp->project;
+    double x = dt*rp->resource_usage.avg_ncpus;
     p->rsc_pwf[0].secs_this_rec_interval += x;
     rsc_work_fetch[0].secs_this_rec_interval += x;
-    int rt = avp->gpu_usage.rsc_type;
+    int rt = rp->resource_usage.rsc_type;
     if (rt) {
-        x = dt*avp->gpu_usage.usage;
+        x = dt*rp->resource_usage.coproc_usage;
         p->rsc_pwf[rt].secs_this_rec_interval += x;
         rsc_work_fetch[rt].secs_this_rec_interval += x;
     }
@@ -1049,7 +1049,7 @@ void WORK_FETCH::handle_reply(
     }
     for (unsigned int i=0; i<new_results.size(); i++) {
         RESULT* rp = new_results[i];
-        got_work[rp->avp->gpu_usage.rsc_type] = true;
+        got_work[rp->resource_usage.rsc_type] = true;
     }
 
     for (int i=0; i<coprocs.n_rsc; i++) {
@@ -1127,7 +1127,7 @@ void WORK_FETCH::init() {
         for (j=0; j<gstate.app_versions.size(); j++) {
             APP_VERSION* avp = gstate.app_versions[j];
             if (avp->project != p) continue;
-            p->rsc_pwf[avp->gpu_usage.rsc_type].anonymous_platform_no_apps = false;
+            p->rsc_pwf[avp->resource_usage.rsc_type].anonymous_platform_no_apps = false;
         }
     }
 }
@@ -1135,7 +1135,7 @@ void WORK_FETCH::init() {
 // clear backoff for app's resource
 //
 void WORK_FETCH::clear_backoffs(APP_VERSION& av) {
-    av.project->rsc_pwf[av.gpu_usage.rsc_type].clear_backoff();
+    av.project->rsc_pwf[av.resource_usage.rsc_type].clear_backoff();
 }
 
 ////////////////////////

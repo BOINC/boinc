@@ -156,9 +156,9 @@ struct PROC_RESOURCES {
             } else {
                 return false;
             }
-        } else if (rp->avp->avg_ncpus > 1) {
+        } else if (rp->resource_usage.avg_ncpus > 1) {
             if (ncpus_used_mt == 0) return true;
-            return (ncpus_used_mt + rp->avp->avg_ncpus <= ncpus);
+            return (ncpus_used_mt + rp->resource_usage.avg_ncpus <= ncpus);
         } else {
             return (ncpus_used_st < ncpus);
         }
@@ -167,7 +167,7 @@ struct PROC_RESOURCES {
     // we've decided to add this to the runnable list; update bookkeeping
     //
     void schedule(RESULT* rp, ACTIVE_TASK* atp, bool is_edf) {
-        int rt = rp->avp->gpu_usage.rsc_type;
+        int rt = rp->resource_usage.rsc_type;
 
         // see if it's possible this job will be ruled out
         // when we try to actually run it
@@ -195,10 +195,10 @@ struct PROC_RESOURCES {
                 // - we end up running the uncheckpointed job
                 // - this causes all or part of a CPU to be idle
                 //
-            } else if (rp->avp->avg_ncpus > 1) {
-                ncpus_used_mt += rp->avp->avg_ncpus;
+            } else if (rp->resource_usage.avg_ncpus > 1) {
+                ncpus_used_mt += rp->resource_usage.avg_ncpus;
             } else {
-                ncpus_used_st += rp->avp->avg_ncpus;
+                ncpus_used_st += rp->resource_usage.avg_ncpus;
             }
         }
         if (log_flags.cpu_sched_debug) {
@@ -215,10 +215,9 @@ struct PROC_RESOURCES {
     }
 
     bool sufficient_coprocs(RESULT& r) {
-        APP_VERSION& av = *r.avp;
-        int rt = av.gpu_usage.rsc_type;
+        int rt = r.resource_usage.rsc_type;
         if (!rt) return true;
-        double x = av.gpu_usage.usage;
+        double x = r.resource_usage.coproc_usage;
         COPROC& cp = pr_coprocs.coprocs[rt];
         for (int i=0; i<cp.count; i++) {
             if (gpu_excluded(r.app, cp, i)) continue;
@@ -237,10 +236,9 @@ struct PROC_RESOURCES {
 
     void reserve_coprocs(RESULT& r) {
         double x;
-        APP_VERSION& av = *r.avp;
-        int rt = av.gpu_usage.rsc_type;
+        int rt = r.resource_usage.rsc_type;
         COPROC& cp = pr_coprocs.coprocs[rt];
-        x = av.gpu_usage.usage;
+        x = r.resource_usage.coproc_usage;
         for (int i=0; i<cp.count; i++) {
             if (gpu_excluded(r.app, cp, i)) continue;
             double unused = 1 - cp.usage[i];
@@ -255,7 +253,7 @@ struct PROC_RESOURCES {
         if (log_flags.cpu_sched_debug) {
             msg_printf(r.project, MSG_INFO,
                 "[cpu_sched_debug] reserving %f of coproc %s",
-                av.gpu_usage.usage, cp.type
+                r.resource_usage.coproc_usage, cp.type
             );
         }
     }
@@ -277,7 +275,7 @@ bool check_coprocs_usable() {
             gpus_usable = false;
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
-                if (rp->avp->gpu_usage.rsc_type) {
+                if (rp->resource_usage.rsc_type) {
                     rp->coproc_missing = true;
                 }
             }
@@ -291,7 +289,7 @@ bool check_coprocs_usable() {
             gpus_usable = true;
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
-                if (rp->avp->gpu_usage.rsc_type) {
+                if (rp->resource_usage.rsc_type) {
                     rp->coproc_missing = false;
                 }
             }
@@ -614,12 +612,12 @@ static void update_rec() {
     }
 }
 
-static double peak_flops(APP_VERSION* avp) {
+static double peak_flops(RESULT *rp) {
     double f = gstate.host_info.p_fpops;
-    double x = f * avp->avg_ncpus;
-    int rt = avp->gpu_usage.rsc_type;
+    double x = f * rp->resource_usage.avg_ncpus;
+    int rt = rp->resource_usage.rsc_type;
     if (rt) {
-        x += f * avp->gpu_usage.usage * rsc_work_fetch[rt].relative_speed;
+        x += f * rp->resource_usage.coproc_usage * rsc_work_fetch[rt].relative_speed;
     }
     return x;
 }
@@ -698,7 +696,7 @@ void PROJECT::compute_sched_priority() {
 //
 void adjust_rec_sched(RESULT* rp) {
     PROJECT* p = rp->project;
-    p->pwf.rec_temp += peak_flops(rp->avp)/total_peak_flops() * rec_sum/24;
+    p->pwf.rec_temp += peak_flops(rp)/total_peak_flops() * rec_sum/24;
     p->compute_sched_priority();
 }
 
@@ -803,7 +801,7 @@ static void promote_once_ran_edf() {
         if (atp->once_ran_edf) {
             RESULT* rp = atp->result;
             PROJECT* p = rp->project;
-            if (p->deadlines_missed(rp->avp->rsc_type())) {
+            if (p->deadlines_missed(rp->resource_usage.rsc_type)) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(p, MSG_INFO,
                         "[cpu_sched_debug] domino prevention: mark %s as deadline miss",
@@ -1085,8 +1083,8 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     // for CPU jobs, favor jobs that use more CPUs
     //
     if (!cp0) {
-        if (r0->avp->avg_ncpus > r1->avp->avg_ncpus) return true;
-        if (r1->avp->avg_ncpus > r0->avp->avg_ncpus) return false;
+        if (r0->resource_usage.avg_ncpus > r1->resource_usage.avg_ncpus) return true;
+        if (r1->resource_usage.avg_ncpus > r0->resource_usage.avg_ncpus) return false;
     }
 
     // favor jobs selected first by schedule_cpus()
@@ -1277,7 +1275,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         //
         if (ncpus_used >= n_usable_cpus) {
             if (rp->uses_coprocs()) {
-                if (ncpus_used + rp->avp->avg_ncpus > n_usable_cpus+1) {
+                if (ncpus_used + rp->resource_usage.avg_ncpus > n_usable_cpus+1) {
                     if (log_flags.cpu_sched_debug) {
                         msg_printf(rp->project, MSG_INFO,
                             "[cpu_sched_debug] skipping GPU job %s; CPU committed",
@@ -1370,7 +1368,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             continue;
         }
 
-        ncpus_used += rp->avp->avg_ncpus;
+        ncpus_used += rp->resource_usage.avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= ewss;
         if (have_max_concurrent) {

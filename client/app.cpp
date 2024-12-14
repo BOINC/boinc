@@ -285,7 +285,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
     app_version = rp->avp;
-    max_elapsed_time = rp->wup->rsc_fpops_bound/rp->avp->flops;
+    max_elapsed_time = rp->wup->rsc_fpops_bound/rp->resource_usage.flops;
     if (max_elapsed_time < MIN_TIME_BOUND) {
         msg_printf(wup->project, MSG_INFO,
             "Elapsed time limit %f < %f; setting to %f",
@@ -790,7 +790,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
     //
     double fd = fraction_done;
     if (((fd<=0)||(fd>1)) && elapsed_time > 60) {
-        double est_time = wup->rsc_fpops_est/app_version->flops;
+        double est_time = wup->rsc_fpops_est/result->resource_usage.flops;
         double x = elapsed_time/est_time;
         fd = 1 - exp(-x);
     }

@@ -770,8 +770,8 @@ void process_gpu_exclusions() {
 
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
-        if (avp->missing_coproc) continue;
-        int rt = avp->gpu_usage.rsc_type;
+        if (avp->resource_usage.missing_coproc) continue;
+        int rt = avp->resource_usage.rsc_type;
         if (!rt) continue;
         COPROC& cp = coprocs.coprocs[rt];
         bool found = false;
@@ -782,12 +782,11 @@ void process_gpu_exclusions() {
             }
         }
         if (found) continue;
-        avp->missing_coproc = true;
-        safe_strcpy(avp->missing_coproc_name, "");
+        avp->resource_usage.missing_coproc = true;
+        safe_strcpy(avp->resource_usage.missing_coproc_name, "");
         for (j=0; j<gstate.results.size(); j++) {
             RESULT* rp = gstate.results[j];
             if (rp->avp != avp) continue;
-            rp->coproc_missing = true;
             msg_printf(avp->project, MSG_INFO,
                 "marking %s as coproc missing",
                 rp->name

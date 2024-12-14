@@ -292,18 +292,18 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                     safe_strcpy(avp->platform, get_primary_platform());
                 }
             }
-            if (avp->missing_coproc) {
-                if (strstr(avp->missing_coproc_name, "Apple ")) {
+            if (avp->resource_usage.missing_coproc) {
+                if (strstr(avp->resource_usage.missing_coproc_name, "Apple ")) {
                     msg_printf(project, MSG_INFO,
                         "App version uses deprecated GPU type '%s' - discarding",
-                        avp->missing_coproc_name
+                        avp->resource_usage.missing_coproc_name
                     );
                     delete avp;
                     continue;
                 } else {
                     msg_printf(project, MSG_INFO,
                         "App version uses missing GPU '%s'",
-                        avp->missing_coproc_name
+                        avp->resource_usage.missing_coproc_name
                     );
                 }
             }
@@ -394,11 +394,11 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 delete rp;
                 continue;
             }
-            if (rp->avp->missing_coproc) {
+            rp->init_resource_usage();
+            if (rp->resource_usage.missing_coproc) {
                 msg_printf(project, MSG_INFO,
                     "Missing coprocessor for task %s", rp->name
                 );
-                rp->coproc_missing = true;
             }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);

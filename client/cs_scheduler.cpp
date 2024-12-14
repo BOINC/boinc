@@ -305,22 +305,22 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             double x = rp->estimated_runtime_remaining();
             if (x == 0) continue;
             safe_strcpy(buf, "");
-            int rt = rp->avp->gpu_usage.rsc_type;
+            int rt = rp->resource_usage.rsc_type;
             if (rt) {
                 if (rt == rsc_index(GPU_TYPE_NVIDIA)) {
                     snprintf(buf, sizeof(buf),
                         "        <ncudas>%f</ncudas>\n",
-                        rp->avp->gpu_usage.usage
+                        rp->resource_usage.coproc_usage
                     );
                 } else if (rt == rsc_index(GPU_TYPE_ATI)) {
                     snprintf(buf, sizeof(buf),
                         "        <natis>%f</natis>\n",
-                        rp->avp->gpu_usage.usage
+                        rp->resource_usage.coproc_usage
                     );
                 } else if (rt == rsc_index(GPU_TYPE_INTEL)) {
                     snprintf(buf, sizeof(buf),
                         "        <nintel_gpus>%f</nintel_gpus>\n",
-                        rp->avp->gpu_usage.usage
+                        rp->resource_usage.coproc_usage
                     );
                 }
             }
@@ -335,7 +335,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
                 rp->name,
                 rp->report_deadline,
                 x,
-                rp->avp->avg_ncpus,
+                rp->resource_usage.avg_ncpus,
                 buf
             );
         }
@@ -912,10 +912,10 @@ int CLIENT_STATE::handle_scheduler_reply(
                 continue;
             }
         }
-        if (avpp.missing_coproc) {
+        if (avpp.resource_usage.missing_coproc) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "App version uses non-existent %s GPU",
-                avpp.missing_coproc_name
+                avpp.resource_usage.missing_coproc_name
             );
         }
         APP* app = lookup_app(project, avpp.app_name);
@@ -931,10 +931,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (avp) {
             // update app version attributes in case they changed on server
             //
-            avp->avg_ncpus = avpp.avg_ncpus;
-            avp->flops = avpp.flops;
-            safe_strcpy(avp->cmdline, avpp.cmdline);
-            avp->gpu_usage = avpp.gpu_usage;
+            avp->resource_usage = avpp.resource_usage;
             strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
             avp->dont_throttle = avpp.dont_throttle;
             avp->needs_network = avpp.needs_network;
@@ -1016,7 +1013,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             delete rp;
             continue;
         }
-        if (rp->avp->missing_coproc) {
+        rp->init_resource_usage();
+        if (rp->resource_usage.missing_coproc) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Missing coprocessor for task %s; aborting", rp->name
             );
@@ -1024,7 +1022,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
             got_work_for_rsc[0] = true;
-            int rt = rp->avp->gpu_usage.rsc_type;
+            int rt = rp->resource_usage.rsc_type;
             if (rt > 0) {
                 est_rsc_runtime[rt] += rp->estimated_runtime();
                 got_work_for_rsc[rt] = true;

@@ -698,7 +698,7 @@ void PROJECT::get_task_durs(double& not_started_dur, double& in_progress_dur) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
         double d = rp->estimated_runtime_remaining();
-        d /= gstate.time_stats.availability_frac(rp->avp->gpu_usage.rsc_type);
+        d /= gstate.time_stats.availability_frac(rp->resource_usage.rsc_type);
         if (rp->is_not_started()) {
             not_started_dur += d;
         } else {
@@ -827,7 +827,7 @@ bool PROJECT::runnable(int rsc_type) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
         if (rsc_type != RSC_TYPE_ANY) {
-            if (rp->avp->gpu_usage.rsc_type != rsc_type) {
+            if (rp->resource_usage.rsc_type != rsc_type) {
                 continue;
             }
         }
@@ -981,7 +981,7 @@ void PROJECT::check_no_apps() {
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->project != this) continue;
-        no_rsc_apps[avp->gpu_usage.rsc_type] = false;
+        no_rsc_apps[avp->resource_usage.rsc_type] = false;
     }
 }
 

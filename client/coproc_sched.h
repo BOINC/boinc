@@ -54,14 +54,13 @@ struct SPORADIC_RESOURCES {
             return false;
         }
         RESULT *rp = atp->result;
-        APP_VERSION *avp = rp->avp;
-        if (ncpus_used + avp->avg_ncpus > ncpus_max) {
+        if (ncpus_used + rp->resource_usage.avg_ncpus > ncpus_max) {
             return false;
         }
-        int rt = avp->gpu_usage.rsc_type;
+        int rt = rp->resource_usage.rsc_type;
         bool found = false;
         if (rt) {
-            double u = avp->gpu_usage.usage;
+            double u = rp->resource_usage.coproc_usage;
             COPROC& cp = sr_coprocs.coprocs[rt];
             for (int i=0; i<cp.count; i++) {
                 if (gpu_excluded(rp->app, cp, i)) continue;
@@ -78,12 +77,11 @@ struct SPORADIC_RESOURCES {
     // reserve resources for the task
     void reserve(ACTIVE_TASK *atp) {
         RESULT *rp = atp->result;
-        APP_VERSION *avp = rp->avp;
         mem_used += atp->procinfo.working_set_size_smoothed;
-        ncpus_used+= avp->avg_ncpus;
-        int rt = avp->gpu_usage.rsc_type;
+        ncpus_used+= rp->resource_usage.avg_ncpus;
+        int rt = rp->resource_usage.rsc_type;
         if (rt) {
-            double u = avp->gpu_usage.usage;
+            double u = rp->resource_usage.coproc_usage;
             COPROC& cp = sr_coprocs.coprocs[rt];
             for (int i=0; i<cp.count; i++) {
                 if (gpu_excluded(rp->app, cp, i)) continue;
