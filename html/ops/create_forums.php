@@ -29,7 +29,7 @@ require_once("../inc/util_ops.inc");
 
 function create_category($orderID, $name, $is_helpdesk) {
     $q = "(orderID, lang, name, is_helpdesk) values ($orderID, 1, '$name', $is_helpdesk)";
-    $db = BoincDB::get();
+    $db = BoincDb::get();
     $result = $db->insert("category", $q);
     if (!$result) {
         $cat = BoincCategory::lookup("name='$name' and is_helpdesk=$is_helpdesk");
@@ -43,7 +43,7 @@ function create_category($orderID, $name, $is_helpdesk) {
 
 function create_forum($category, $orderID, $title, $description, $is_dev_blog=0) {
     $q = "(category, orderID, title, description, is_dev_blog) values ($category, $orderID, '$title', '$description', $is_dev_blog)";
-    $db = BoincDB::get();
+    $db = BoincDb::get();
     $result = $db->insert("forum",$q);
     if (!$result) {
         $forum = BoincForum::lookup("category=$category and title='$title'");

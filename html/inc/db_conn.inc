@@ -114,6 +114,12 @@ class DbConn {
         return $this->lookup($table, $classname, "id=$id");
     }
 
+    /**
+     * @template T
+     * @param class-string<T> $classname
+     * @param string $query
+     * @return list<T>
+     */
     function enum_general($classname, $query) {
         $result = $this->do_query($query);
         if (!$result) return [];
@@ -125,10 +131,18 @@ class DbConn {
         return $x;
     }
 
+    /**
+     * @template T
+     * @param string $table
+     * @param class-string<T> $classname
+     * @param string $fields
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<T>
+     */
     function enum_fields(
         $table, $classname, $fields, $where_clause, $order_clause
     ) {
-        $x = array();
         if ($where_clause) {
             $where_clause = "where $where_clause";
         }
@@ -136,6 +150,14 @@ class DbConn {
         return $this->enum_general($classname, $query);
     }
 
+    /**
+     * @template T
+     * @param string $table
+     * @param class-string<T> $classname
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<T>
+     */
     function enum($table, $classname, $where_clause=null, $order_clause=null) {
         return self::enum_fields(
             $table, $classname, '*', $where_clause, $order_clause

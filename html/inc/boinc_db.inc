@@ -204,6 +204,11 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->update($this, 'user', $clause);
     }
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincUser>
+     */
     static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
         return $db->enum('user', 'BoincUser', $where_clause, $order_clause);
@@ -258,6 +263,11 @@ class BoincTeam {
         $db = BoincDb::get();
         return $db->update($this, 'team', $clause);
     }
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincTeam>
+     */
     static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
         return $db->enum('team', 'BoincTeam', $where_clause, $order_clause);
@@ -297,9 +307,14 @@ class BoincTeamDelta {
         $db = BoincDb::get();
         return $db->insert('team_delta', $clause);
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincTeamDelta>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('team_delta', 'BoincTeamDelta', $where_clause);
+        return $db->enum('team_delta', 'BoincTeamDelta', $where_clause, $order_clause);
     }
     static function delete_for_user($user_id) {
         $db = BoincDb::get();
@@ -321,6 +336,11 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->delete($this, 'host');
     }
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincHost>
+     */
     static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
         return $db->enum('host', 'BoincHost', $where_clause, $order_clause);
@@ -358,9 +378,14 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->count('result', $clause);
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincResult>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('result', 'BoincResult', $where_clause);
+        return $db->enum('result', 'BoincResult', $where_clause, $order_clause);
     }
 	static function enum_fields($fields, $where_clause, $order_clause) {
         $db = BoincDb::get();
@@ -405,9 +430,14 @@ class BoincWorkunit {
         if (!$ret) return $ret;
         return $db->insert_id();
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincWorkunit>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('workunit', 'BoincWorkunit', $where_clause);
+        return $db->enum('workunit', 'BoincWorkunit', $where_clause, $order_clause);
     }
     function update($clause) {
         $db = BoincDb::get();
@@ -433,9 +463,14 @@ class BoincApp {
         $db = BoincDb::get();
         return $db->lookup('app', 'BoincApp', $clause);
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincApp>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('app', 'BoincApp', $where_clause);
+        return $db->enum('app', 'BoincApp', $where_clause, $order_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -455,9 +490,14 @@ class BoincApp {
 
 #[AllowDynamicProperties]
 class BoincAppVersion {
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincAppVersion>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('app_version', 'BoincAppVersion', $where_clause);
+        return $db->enum('app_version', 'BoincAppVersion', $where_clause, $order_clause);
     }
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -505,6 +545,11 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->insert('profile', $clause);
     }
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincProfile>
+     */
     static function enum($where_clause=null, $order_clause=null) {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $where_clause, $order_clause);
@@ -529,9 +574,14 @@ class BoincTeamAdmin {
         $db = BoincDb::get();
         return $db->insert('team_admin', $clause);
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincTeamAdmin>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('team_admin', 'BoincTeamAdmin', $where_clause);
+        return $db->enum('team_admin', 'BoincTeamAdmin', $where_clause, $order_clause);
     }
     static function delete($clause) {
         $db = BoincDb::get();
@@ -553,9 +603,14 @@ class BoincPrivateMessage {
         $db = BoincDb::get();
         return $db->update($this, 'private_messages', $clause);
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincPrivateMessage>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('private_messages', 'BoincPrivateMessage', $where_clause);
+        return $db->enum('private_messages', 'BoincPrivateMessage', $where_clause, $order_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -579,9 +634,14 @@ class BoincPrivateMessage {
 
 #[AllowDynamicProperties]
 class BoincPlatform {
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincPlatform>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('platform', 'BoincPlatform', $where_clause);
+        return $db->enum('platform', 'BoincPlatform', $where_clause, $order_clause);
     }
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -603,9 +663,14 @@ class BoincPlatform {
 
 #[AllowDynamicProperties]
 class BoincHostAppVersion {
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincHostAppVersion>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('host_app_version', 'BoincHostAppVersion', $where_clause);
+        return $db->enum('host_app_version', 'BoincHostAppVersion', $where_clause, $order_clause);
     }
     static function lookup($host_id, $app_version_id) {
         $db = BoincDb::get();
@@ -663,9 +728,14 @@ function latest_avs_app($appid) {
 
 #[AllowDynamicProperties]
 class BoincBadge {
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincBadge>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('badge', 'BoincBadge', $where_clause);
+        return $db->enum('badge', 'BoincBadge', $where_clause, $order_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -693,9 +763,14 @@ class BoincBadge {
 
 #[AllowDynamicProperties]
 class BoincBadgeUser {
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincBadgeUser>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('badge_user', 'BoincBadgeUser', $where_clause);
+        return $db->enum('badge_user', 'BoincBadgeUser', $where_clause, $order_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -723,9 +798,14 @@ class BoincBadgeUser {
 
 #[AllowDynamicProperties]
 class BoincBadgeTeam {
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincBadgeTeam>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('badge_team', 'BoincBadgeTeam', $where_clause);
+        return $db->enum('badge_team', 'BoincBadgeTeam', $where_clause, $order_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -757,9 +837,14 @@ class BoincCreditUser {
         $db = BoincDb::get();
         return $db->lookup('credit_user', 'BoincCreditUser', $clause);
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincCreditUser>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('credit_user', 'BoincCreditUser', $where_clause);
+        return $db->enum('credit_user', 'BoincCreditUser', $where_clause, $order_clause);
     }
     static function sum($field, $clause) {
         $db = BoincDb::get();
@@ -774,7 +859,7 @@ class BoincCreditUser {
         $db->delete_aux('credit_user', "userid=$user->id");
     }
     static function get_list($where_clause, $order_clause, $limit) {
-        $db = BoincDB::get();
+        $db = BoincDb::get();
         return $db->get_list('user', 'credit_user', 'id', 'userid', 'BoincCreditUser', '*', $where_clause, $order_clause, $limit);
     }
 }
@@ -785,9 +870,14 @@ class BoincCreditTeam {
         $db = BoincDb::get();
         return $db->lookup('credit_team', 'BoincCreditTeam', $clause);
     }
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincCreditTeam>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('credit_team', 'BoincCreditTeam', $where_clause);
+        return $db->enum('credit_team', 'BoincCreditTeam', $where_clause, $order_clause);
     }
     static function sum($field, $clause) {
         $db = BoincDb::get();
@@ -798,7 +888,7 @@ class BoincCreditTeam {
         return $db->update_aux('credit_team', $clause);
     }
     static function get_list($where_clause, $order_clause, $limit) {
-        $db = BoincDB::get();
+        $db = BoincDb::get();
         return $db->get_list('team', 'credit_team', 'id', 'teamid', 'BoincCreditTeam', '*', $where_clause, $order_clause, $limit);
     }
 }
@@ -819,9 +909,14 @@ class BoincToken {
         return self::lookup("userid=$userid and token='$token' and expire_time > $now and type = '$type'");
     }
 
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincToken>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('token', 'BoincToken', $where_clause);
+        return $db->enum('token', 'BoincToken', $where_clause, $order_clause);
     }
 
     static function insert($clause) {
@@ -830,7 +925,7 @@ class BoincToken {
     }
 
     static function get_list($where_clause, $order_clause, $limit) {
-        $db = BoincDB::get();
+        $db = BoincDb::get();
         return $db->get_list('token', 'userid', 'type', 'create_time', 'expire_time', 'BoincToken', '*', $where_clause, $order_clause, $limit);
     }
 
@@ -899,9 +994,14 @@ class BoincConsent {
         return $db->lookup('consent', 'BoincConsent', $clause);
     }
 
-    static function enum($where_clause) {
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincConsent>
+     */
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('consent', 'BoincConsent', $where_clause);
+        return $db->enum('consent', 'BoincConsent', $where_clause, $order_clause);
     }
 
     static function insert ($clause) {
@@ -934,6 +1034,11 @@ class BoincConsentType {
         return $db->lookup('consent_type', 'BoincConsentType', $clause);
     }
 
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincConsentType>
+     */
     static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
         return $db->enum('consent_type', 'BoincConsentType', $where_clause, $order_clause);
@@ -970,6 +1075,11 @@ class BoincLatestConsent {
         return $db->lookup('latest_consent', 'BoincLatestConsent', $clause);
     }
 
+    /**
+     * @param string|null $where_clause
+     * @param string|null $order_clause
+     * @return list<BoincLatestConsent>
+     */
     static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
         return $db->enum('latest_consent', 'BoincLatestConsent', $where_clause, $order_clause);

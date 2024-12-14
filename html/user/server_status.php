@@ -414,7 +414,7 @@ function get_job_status() {
     $s = new StdClass;
     $apps = BoincApp::enum("deprecated=0");
     foreach ($apps as $app) {
-        $info = BoincDB::get()->lookup_fields("result", "stdClass",
+        $info = BoincDb::get()->lookup_fields("result", "stdClass",
             "ceil(avg(elapsed_time)/3600*100)/100 as avg,
             ceil(min(elapsed_time)/3600*100)/100 as min,
             ceil(max(elapsed_time)/3600*100)/100 as max,
@@ -440,7 +440,7 @@ function get_job_status() {
     $s->wus_need_validate = BoincWorkunit::count("need_validate=1");
     $s->wus_need_assimilate = BoincWorkunit::count("assimilate_state=1");
     $s->wus_need_file_delete = BoincWorkunit::count("file_delete_state=1");
-    $x = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
+    $x = BoincDb::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
     $gap = (time() - $x->min)/3600;
     if (($gap < 0) || ($x->min == 0)) {
         $gap = 0;
