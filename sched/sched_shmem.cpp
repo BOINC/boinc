@@ -113,7 +113,7 @@ void get_buda_plan_classes(vector<string> &pcs) {
     FILE *f = boinc::fopen("../buda_plan_classes", "r");
     if (!f) return;
     char buf[256];
-    while (fgets(buf, 256, f)) {
+    while (boinc::fgets(buf, 256, f)) {
         strip_whitespace(buf);
         pcs.push_back(buf);
     }
