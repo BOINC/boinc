@@ -29,7 +29,7 @@ display_errors();
 
 $buda_root = "../../buda_apps";
 
-// scan BUDA apps and variants, and write a file 'buda_plan_classes' 
+// scan BUDA apps and variants, and write a file 'buda_plan_classes'
 // in the project dir with list of plan classes
 //
 function write_plan_class_file() {
