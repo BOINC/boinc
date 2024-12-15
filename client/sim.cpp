@@ -133,13 +133,13 @@ void usage(char* prog) {
     exit(1);
 }
 
-// peak flops of an app version
+// peak flops of a result
 //
-double app_peak_flops(APP_VERSION* avp, double cpu_scale) {
-    double x = avp->avg_ncpus*cpu_scale;
-    int rt = avp->gpu_usage.rsc_type;
+double app_peak_flops(RESULT* rp, double cpu_scale) {
+    double x = rp->resource_usage.avg_ncpus*cpu_scale;
+    int rt = rp->resource_usage.rsc_type;
     if (rt) {
-        x += avp->gpu_usage.usage * rsc_work_fetch[rt].relative_speed;
+        x += rp->resource_usage.coproc_usage * rsc_work_fetch[rt].relative_speed;
     }
     x *= gstate.host_info.p_fpops;
     return x;
@@ -184,7 +184,7 @@ APP* choose_app(vector<APP*>& apps) {
 
 bool app_version_needs_work(APP_VERSION* avp) {
     if (avp->dont_use) return false;
-    int rt = avp->gpu_usage.rsc_type;
+    int rt = avp->resource_usage.rsc_type;
     if (rt) {
         return (rsc_work_fetch[rt].req_secs>0 || rsc_work_fetch[rt].req_instances>0);
     }
@@ -210,7 +210,7 @@ APP_VERSION* choose_app_version(APP* app) {
         if (!app_version_needs_work(avp)) continue;
         if (!best_avp) {
             best_avp = avp;
-        } else if (avp->flops > best_avp->flops) {
+        } else if (avp->resource_usage.flops > best_avp->resource_usage.flops) {
             best_avp = avp;
         }
     }
@@ -325,18 +325,21 @@ void decrement_request_rsc(
 }
 
 void decrement_request(RESULT* rp) {
-    APP_VERSION* avp = rp->avp;
-    double est_runtime = rp->wup->rsc_fpops_est/avp->flops;
+    double est_runtime = rp->wup->rsc_fpops_est/rp->resource_usage.flops;
     est_runtime /= (gstate.time_stats.on_frac*gstate.time_stats.active_frac);
-    decrement_request_rsc(rsc_work_fetch[0], avp->avg_ncpus, est_runtime);
-    int rt = avp->gpu_usage.rsc_type;
+    decrement_request_rsc(
+        rsc_work_fetch[0], rp->resource_usage.avg_ncpus, est_runtime
+    );
+    int rt = rp->resource_usage.rsc_type;
     if (rt) {
-        decrement_request_rsc(rsc_work_fetch[rt], avp->gpu_usage.usage, est_runtime);
+        decrement_request_rsc(
+            rsc_work_fetch[rt], rp->resource_usage.coproc_usage, est_runtime
+        );
     }
 }
 
 double get_estimated_delay(RESULT* rp) {
-    int rt = rp->avp->gpu_usage.rsc_type;
+    int rt = rp->resource_usage.rsc_type;
     return rsc_work_fetch[rt].estimated_delay;
 }
 
@@ -415,7 +418,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         WORKUNIT* wup = new WORKUNIT;
         make_job(p, wup, rp, wapps);
 
-        double et = wup->rsc_fpops_est / rp->avp->flops;
+        double et = wup->rsc_fpops_est / rp->resource_usage.flops;
         if (server_uses_workload) {
             IP_RESULT c(rp->name, rp->report_deadline-now, et);
             if (check_candidate(c, n_usable_cpus, ip_results)) {
@@ -596,10 +599,10 @@ bool ACTIVE_TASK_SET::poll() {
         RESULT* rp = atp->result;
         if (rp->uses_gpu()) {
             if (gpu_active) {
-                cpu_usage_gpu += rp->avp->avg_ncpus;
+                cpu_usage_gpu += rp->resource_usage.avg_ncpus;
             }
         } else {
-            cpu_usage_cpu += rp->avp->avg_ncpus;
+            cpu_usage_cpu += rp->resource_usage.avg_ncpus;
         }
     }
     double cpu_usage = cpu_usage_cpu + cpu_usage_gpu;
@@ -620,7 +623,7 @@ bool ACTIVE_TASK_SET::poll() {
             continue;
         }
         atp->elapsed_time += diff;
-        double flops = rp->avp->flops;
+        double flops = rp->resource_usage.flops;
         if (!rp->uses_gpu()) {
             flops *= cpu_scale;
         }
@@ -641,7 +644,7 @@ bool ACTIVE_TASK_SET::poll() {
             html_msg += buf;
             action = true;
         }
-        double pf = diff * app_peak_flops(rp->avp, cpu_scale);
+        double pf = diff * app_peak_flops(rp, cpu_scale);
         rp->project->project_results.flops_used += pf;
         rp->peak_flop_count += pf;
         sim_results.flops_used += pf;
@@ -852,10 +855,10 @@ void show_resource(int rsc_type) {
         PROJECT* p = rp->project;
         double ninst=0;
         if (rsc_type) {
-            if (rp->avp->gpu_usage.rsc_type != rsc_type) continue;
-            ninst = rp->avp->gpu_usage.usage;
+            if (rp->resource_usage.rsc_type != rsc_type) continue;
+            ninst = rp->resource_usage.coproc_usage;
         } else {
-            ninst = rp->avp->avg_ncpus;
+            ninst = rp->resource_usage.avg_ncpus;
         }
 
         if (!found) {
@@ -1127,8 +1130,8 @@ void simulate() {
             "   %s %s (%s)\n      time left %s deadline %s\n",
             rp->project->project_name,
             rp->name,
-            rsc_name_long(rp->avp->gpu_usage.rsc_type),
-            timediff_format(rp->sim_flops_left/rp->avp->flops).c_str(),
+            rsc_name_long(rp->resource_usage.rsc_type),
+            timediff_format(rp->sim_flops_left/rp->resource_usage.flops).c_str(),
             timediff_format(rp->report_deadline - START_TIME).c_str()
         );
     }
@@ -1209,23 +1212,23 @@ void show_app(APP* app) {
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app != app) continue;
-        if (avp->gpu_usage.rsc_type) {
+        if (avp->resource_usage.rsc_type) {
             fprintf(summary_file,
                 "      app version %d (%s)\n"
                 "         %.2f CPUs, %.2f %s GPUs, %.0f GFLOPS\n",
                 avp->version_num, avp->plan_class,
-                avp->avg_ncpus,
-                avp->gpu_usage.usage,
-                rsc_name(avp->gpu_usage.rsc_type),
-                avp->flops/1e9
+                avp->resource_usage.avg_ncpus,
+                avp->resource_usage.coproc_usage,
+                rsc_name(avp->resource_usage.rsc_type),
+                avp->resource_usage.flops/1e9
             );
         } else {
             fprintf(summary_file,
                 "      app version %d (%s)\n"
                 "         %.2f CPUs, %.0f GFLOPS\n",
                 avp->version_num, avp->plan_class,
-                avp->avg_ncpus,
-                avp->flops/1e9
+                avp->resource_usage.avg_ncpus,
+                avp->resource_usage.flops/1e9
             );
         }
     }
@@ -1266,7 +1269,7 @@ void get_app_params() {
     }
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
-        if (avp->missing_coproc) continue;
+        if (avp->resource_usage.missing_coproc) continue;
         avp->app->ignore = false;
     }
     fprintf(summary_file, "Applications and version\n");

@@ -664,7 +664,7 @@ double RESULT::estimated_runtime_remaining() {
 
     if (atp) {
 #ifdef SIM
-        return sim_flops_left/avp->flops;
+        return sim_flops_left/resource_usage.flops;
 #else
         return atp->est_dur() - atp->elapsed_time;
 #endif
