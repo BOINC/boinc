@@ -187,5 +187,4 @@ if ($action) {
     user_search_form();
 }
 
-$cvs_version_tracker[]="\$Id: user_search.php 13586 2007-09-13 09:46:36Z Rytis $";  //Generated automatically - do not edit
 ?>

@@ -330,5 +330,4 @@ function highlight_terms($text, $terms) {
     return str_ireplace($search, $replace, $text);
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

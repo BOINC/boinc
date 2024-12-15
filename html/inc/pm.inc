@@ -335,5 +335,4 @@ function pm_delete_user($user) {
     }
 }
 
-$cvs_version_tracker[]="\$Id: pm.inc 14019 2007-11-01 23:04:39Z davea $";
 ?>

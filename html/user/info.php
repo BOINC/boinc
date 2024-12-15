@@ -58,5 +58,4 @@ echo "
     <p>".tra("These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk.", PROJECT);
 }
 page_tail();
-$cvs_version_tracker[]="\$Id$";
 ?>

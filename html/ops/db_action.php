@@ -228,5 +228,4 @@ if ($result) {
 }
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

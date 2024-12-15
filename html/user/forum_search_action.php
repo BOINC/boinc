@@ -228,5 +228,4 @@ if (!count($threads) && !count($posts)){
 echo "<p><a href=\"forum_search.php\">".tra("Perform another search")."</a></p>";
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

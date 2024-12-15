@@ -845,6 +845,5 @@ function result_navigation($info, $where_clause) {
     return $x;
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

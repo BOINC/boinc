@@ -306,6 +306,4 @@ if (isset($_POST['suspend_submit'])) {
 
 show_manage_user_form($user);
 
-$cvs_version_tracker[]=        //Generated automatically - do not edit
-    "\$Id$";
 ?>

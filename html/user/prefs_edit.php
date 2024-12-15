@@ -112,5 +112,4 @@ if ($action) {
 echo "<a href=prefs.php?subset=$subset$c>".tra("Back to preferences")."</a>\n";
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

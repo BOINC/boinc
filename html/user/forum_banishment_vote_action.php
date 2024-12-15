@@ -71,5 +71,4 @@ if (post_str('reason', true)){
     start_vote($config,$logged_in_user,$user, $mod_category,"None given");
 }
 
-$cvs_version_tracker[]="\$Id: forum_moderate_post_action.php 13718 2007-09-30 11:17:11Z Rytis $";  //Generated automatically - do not edit
 ?>

@@ -46,5 +46,4 @@ admin_page_head("Cancel jobs");
 echo " canceled jobs with $wuid1 <= workunit ID <= $wuid2</h2>";
 admin_page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

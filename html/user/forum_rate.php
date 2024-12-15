@@ -88,5 +88,4 @@ function show_result_page($success, $post, $thread, $choice) {
     exit;
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

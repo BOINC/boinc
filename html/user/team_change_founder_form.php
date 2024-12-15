@@ -125,5 +125,4 @@ if ($navailable_users > 0) {
 echo "</form>";
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

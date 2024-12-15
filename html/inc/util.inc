@@ -358,7 +358,6 @@ EOT;
         $body_attrs .= ' style="padding-top:70px"';
     }
     echo "<body $body_attrs>";
-    display_cvs_versions();
     echo '<div class="container-fluid">
     ';
 
@@ -396,14 +395,6 @@ function page_tail(
         </html>
     ';
 }
-}
-
-function display_cvs_versions(){
-    global $cvs_version_tracker;
-    echo "\n<!-- SVN VERSIONS -->\n";
-    for ($i=0;$i<sizeof($cvs_version_tracker);$i++) {
-        echo "<!-- ".$cvs_version_tracker[$i]." -->\n";
-    }
 }
 
 function db_error_page() {
@@ -1300,6 +1291,5 @@ function check_validated_email($user) {
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

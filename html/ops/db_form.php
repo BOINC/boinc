@@ -102,5 +102,4 @@ echo "</form>\n";
 print_describe_table($table, 4);
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

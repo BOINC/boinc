@@ -103,5 +103,4 @@ if ($user_id) {
     user_permissions_form();
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

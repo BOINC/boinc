@@ -99,5 +99,4 @@ if ($confirm != "yes" && $update_needed) {
 _mysql_free_result($result);
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>
