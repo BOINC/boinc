@@ -9976,14 +9976,6 @@
             "Value": "No"
         },
         {
-            "Property": "DWUSINTERVAL",
-            "Value": "30"
-        },
-        {
-            "Property": "DWUSLINK",
-            "Value": "CE5CE738F9BC809F69AC80EFCE0B978F0EBC808FCEBC8038CE9B07DF4ECBB07FC92CF058A9AC"
-        },
-        {
             "Property": "DefaultUIFont",
             "Value": "Tahoma8"
         },
@@ -10016,38 +10008,6 @@
             "Value": "100"
         },
         {
-            "Property": "ISVROOT_PORT_NO",
-            "Value": "0"
-        },
-        {
-            "Property": "IS_PROGMSG_TEXTFILECHANGS_REPLACE",
-            "Value": "IDS_PROGMSG_TEXTFILECHANGS_REPLACE"
-        },
-        {
-            "Property": "IS_PROGMSG_XML_COSTING",
-            "Value": "IDS_PROGMSG_XML_COSTING"
-        },
-        {
-            "Property": "IS_PROGMSG_XML_CREATE_FILE",
-            "Value": "IDS_PROGMSG_XML_CREATE_FILE"
-        },
-        {
-            "Property": "IS_PROGMSG_XML_FILES",
-            "Value": "IDS_PROGMSG_XML_FILES"
-        },
-        {
-            "Property": "IS_PROGMSG_XML_REMOVE_FILE",
-            "Value": "IDS_PROGMSG_XML_REMOVE_FILE"
-        },
-        {
-            "Property": "IS_PROGMSG_XML_ROLLBACK_FILES",
-            "Value": "IDS_PROGMSG_XML_ROLLBACK_FILES"
-        },
-        {
-            "Property": "IS_PROGMSG_XML_UPDATE_FILE",
-            "Value": "IDS_PROGMSG_XML_UPDATE_FILE"
-        },
-        {
             "Property": "InstallChoice",
             "Value": "AR"
         },
@@ -10074,58 +10034,6 @@
         {
             "Property": "PIDTemplate",
             "Value": "12345<#-%%%%%%%>@@@@@"
-        },
-        {
-            "Property": "PROGMSG_IIS_CREATEAPPPOOL",
-            "Value": "IDS_PROGMSG_IIS_CREATEAPPPOOL"
-        },
-        {
-            "Property": "PROGMSG_IIS_CREATEAPPPOOLS",
-            "Value": "IDS_PROGMSG_IIS_CREATEAPPPOOLS"
-        },
-        {
-            "Property": "PROGMSG_IIS_CREATEWEBSERVICEEXTENSION",
-            "Value": "IDS_PROGMSG_IIS_CREATEWEBSERVICEEXTENSION"
-        },
-        {
-            "Property": "PROGMSG_IIS_CREATEWEBSERVICEEXTENSIONS",
-            "Value": "IDS_PROGMSG_IIS_CREATEWEBSERVICEEXTENSIONS"
-        },
-        {
-            "Property": "PROGMSG_IIS_CREATEWEBSITE",
-            "Value": "IDS_PROGMSG_IIS_CREATEWEBSITE"
-        },
-        {
-            "Property": "PROGMSG_IIS_CREATEWEBSITES",
-            "Value": "IDS_PROGMSG_IIS_CREATEWEBSITES"
-        },
-        {
-            "Property": "PROGMSG_IIS_REMOVEAPPPOOL",
-            "Value": "IDS_PROGMSG_IIS_REMOVEAPPPOOL"
-        },
-        {
-            "Property": "PROGMSG_IIS_REMOVEAPPPOOLS",
-            "Value": "IDS_PROGMSG_IIS_REMOVEAPPPOOLS"
-        },
-        {
-            "Property": "PROGMSG_IIS_REMOVEWEBSERVICEEXTENSION",
-            "Value": "IDS_PROGMSG_IIS_REMOVEWEBSERVICEEXTENSION"
-        },
-        {
-            "Property": "PROGMSG_IIS_REMOVEWEBSERVICEEXTENSIONS",
-            "Value": "IDS_PROGMSG_IIS_REMOVEWEBSERVICEEXTENSIONS"
-        },
-        {
-            "Property": "PROGMSG_IIS_REMOVEWEBSITES",
-            "Value": "IDS_PROGMSG_IIS_REMOVEWEBSITES"
-        },
-        {
-            "Property": "PROGMSG_IIS_ROLLBACKAPPPOOLS",
-            "Value": "IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS"
-        },
-        {
-            "Property": "PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS",
-            "Value": "IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS"
         },
         {
             "Property": "PROGRAMFILETOLAUNCHATEND",
