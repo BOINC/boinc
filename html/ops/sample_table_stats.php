@@ -16,20 +16,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// show detailed info about the tables in project's DB
+
 require_once("../inc/util_ops.inc");
 
-function showTableStatus($db) {
+function showTableStatus() {
     $size = 0;
     $out = "";
     start_table();
-    row1($db, 15);
     row_array(array("Name", "Engine", "Version", "Row Format", "Rows", "Avg Row Length (KB)", "Data Length (MB)", "Max Data Length (MB)", "Index Length (MB)", "Data free (MB)", "Create Time", "Update Time", "Check Time", "Create Options", "Comment"));
-    _mysql_select_db($db);
+    db_init();
     $result = _mysql_query("show table status");
     while($row = _mysql_fetch_array($result)) {
         $size += ($row["Data_length"] + $row["Index_length"]);
         $engine = $row["Engine"];
-        if (!$engine) $engine = $row["Type"];
+        //if (!$engine) $engine = $row["Type"];
         row_array(array(
             $row["Name"],
             $engine,
@@ -55,11 +56,9 @@ function showTableStatus($db) {
 }
 
 db_init();
-page_head("MySQL Table Stats");
+admin_page_head("MySQL Table Stats");
 
-// add the databases you want to keep track of here
-//
-showTableStatus("boinc_alpha");
-showTableStatus("cplan");
+showTableStatus();
+admin_page_tail();
 ?>
 
