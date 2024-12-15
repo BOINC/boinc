@@ -713,17 +713,17 @@ int CLIENT_STATE::init() {
     //
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
-        if (!avp->flops) {
-            if (!avp->avg_ncpus) {
-                avp->avg_ncpus = 1;
+        if (!avp->resource_usage.flops) {
+            if (!avp->resource_usage.avg_ncpus) {
+                avp->resource_usage.avg_ncpus = 1;
             }
-            avp->flops = avp->avg_ncpus * host_info.p_fpops;
+            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
 
             // for GPU apps, use conservative estimate:
             // assume GPU runs at 10X peak CPU speed
             //
-            if (avp->gpu_usage.rsc_type) {
-                avp->flops += avp->gpu_usage.usage * 10 * host_info.p_fpops;
+            if (avp->resource_usage.rsc_type) {
+                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
             }
         }
     }

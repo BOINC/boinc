@@ -29,6 +29,32 @@ display_errors();
 
 $buda_root = "../../buda_apps";
 
+// scan BUDA apps and variants, and write a file 'buda_plan_classes'
+// in the project dir with list of plan classes
+//
+function write_plan_class_file() {
+    $pcs = [];
+    global $buda_root;
+    if (is_dir($buda_root)) {
+        $apps = scandir($buda_root);
+        foreach ($apps as $app) {
+            if ($app[0] == '.') continue;
+            if (!is_dir("$buda_root/$app")) continue;
+            $vars = scandir("$buda_root/$app");
+            foreach ($vars as $var) {
+                if ($var[0] == '.') continue;
+                if (!is_dir("$buda_root/$app/$var")) continue;
+                $pcs[] = $var;
+            }
+        }
+    }
+    $pcs = array_unique($pcs);
+    file_put_contents(
+        "../../buda_plan_classes",
+        implode("\n", $pcs)."\n"
+    );
+}
+
 // show list of BUDA apps and variants,
 // w/ buttons for adding and deleting
 //
@@ -165,6 +191,48 @@ function copy_and_stage_file($user, $fname, $dir, $app, $variant) {
     return $phys_name;
 }
 
+// create templates and put them in variant dir
+//
+function create_templates($variant, $variant_desc, $dir) {
+    // input template
+    //
+    $x = "<input_template>\n";
+    $ninfiles = 1 + count($variant_desc->input_file_names) + count($variant_desc->app_files);
+    for ($i=0; $i<$ninfiles; $i++) {
+        $x .= "   <file_info>\n      <no_delete/>\n   </file_info>\n";
+    }
+    $x .= "   <workunit>\n";
+    $x .= file_ref_in($variant_desc->dockerfile);
+    foreach ($variant_desc->app_files as $fname) {
+        $x .= file_ref_in($fname);
+    }
+    foreach ($variant_desc->input_file_names as $fname) {
+        $x .= file_ref_in($fname);
+    }
+    if ($variant == 'cpu') {
+        $x .= "      <plan_class></plan_class>\n";
+    } else {
+        $x .= "      <plan_class>$variant</plan_class>\n";
+    }
+    $x .= "   </workunit>\n<input_template>\n";
+    file_put_contents("$dir/template_in", $x);
+
+    // output template
+    //
+    $x = "<output_template>\n";
+    $i = 0;
+    foreach ($variant_desc->output_file_names as $fname) {
+        $x .= file_info_out($i++);
+    }
+    $x .= "   <result>\n";
+    $i = 0;
+    foreach ($variant_desc->output_file_names as $fname) {
+        $x .= file_ref_out($i++, $fname);
+    }
+    $x .= "   </result>\n</output_template>\n";
+    file_put_contents("$dir/template_out", $x);
+}
+
 // create variant
 //
 function variant_action($user) {
@@ -218,6 +286,8 @@ function variant_action($user) {
         "$dir/variant.json",
         json_encode($desc, JSON_PRETTY_PRINT)
     );
+
+    create_templates($variant, $desc, $dir);
 
     // Note: we don't currently allow indirect file access.
     // If we did, we'd need to create job.toml to mount project dir
@@ -350,9 +420,13 @@ case 'variant_view':
 case 'variant_form':
     variant_form($user); break;
 case 'variant_action':
-    variant_action($user); break;
+    variant_action($user);
+    write_plan_class_file();
+    break;
 case 'variant_delete':
-    variant_delete(); break;
+    variant_delete();
+    write_plan_class_file();
+    break;
 case 'view_file':
     view_file(); break;
 case null:

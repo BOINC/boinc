@@ -761,12 +761,14 @@ BEST_APP_VERSION* get_app_version(
                 }
             }
 
+            // if app version has plan class, make sure host can handle it
+            //
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage, &wu)) {
                     if (config.debug_version_select) {
                         log_messages.printf(MSG_NORMAL,
-                            "[version] [AV#%lu] app_plan() returned false\n",
-                            av.id
+                            "[version] [AV#%lu] app_plan(%s) returned false\n",
+                            av.id, av.plan_class
                         );
                     }
                     continue;
@@ -980,4 +982,3 @@ BEST_APP_VERSION* get_app_version(
     }
     return bavp;
 }
-

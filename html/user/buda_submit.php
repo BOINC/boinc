@@ -147,13 +147,13 @@ function parse_batch_dir($batch_dir, $variant_desc) {
 }
 
 function create_batch($user, $njobs, $app, $variant) {
-    global $buda_app;
+    global $buda_boinc_app;
     $now = time();
     $batch_name = sprintf('buda_%d_%d', $user->id, $now);
     $description = "$app ($variant)";
     $batch_id = BoincBatch::insert(sprintf(
         "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values (%d, %d, 0, 0, 0, %d, 0, 0, %d, 0, 0, 0, 0, '%s', %d, 0, '%s', 0)",
-        $user->id, $now, $njobs, BATCH_STATE_INIT, $batch_name, $buda_app->id,
+        $user->id, $now, $njobs, BATCH_STATE_INIT, $batch_name, $buda_boinc_app->id,
         $description
     ));
     return BoincBatch::lookup_id($batch_id);
@@ -188,17 +188,21 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 // Use --stdin, where each job is described by a line
 //
 function create_jobs(
-    $variant_desc, $batch_desc, $batch_id, $batch_dir_name,
+    $app, $variant, $variant_desc,
+    $batch_desc, $batch_id, $batch_dir_name,
     $wrapper_verbose, $cmdline
 ) {
-    global $buda_app;
+    global $buda_boinc_app;
 
-    // get list of names of app files
+    // get list of physical names of app files
     //
     $app_file_names = $variant_desc->dockerfile_phys;
     foreach ($variant_desc->app_files_phys as $pname) {
         $app_file_names .= " $pname";
     }
+
+    // make per-job lines to pass as stdin
+    //
     $job_cmds = '';
     foreach ($batch_desc->jobs as $job) {
         $job_cmd = sprintf('--wu_name batch_%d__job_%s', $batch_id, $job->dir);
@@ -221,10 +225,10 @@ function create_jobs(
     );
     $cmd = sprintf(
         'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line %s --wu_template %s --result_template %s',
-        $buda_app->name, $batch_id,
+        $buda_boinc_app->name, $batch_id,
         $cw_cmdline,
-        "buda_batches/$batch_dir_name/template_in",
-        "buda_batches/$batch_dir_name/template_out"
+        "buda_apps/$app/$variant/template_in",
+        "buda_apps/$app/$variant/template_out"
     );
     $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
 
@@ -240,80 +244,6 @@ function create_jobs(
         readfile("../../buda_batches/errfile");
         exit;
     }
-}
-
-///////////////// TEMPLATE CREATION //////////////
-
-function file_ref_in($fname) {
-    return(sprintf(
-'      <file_ref>
-          <open_name>%s</open_name>
-          <copy_file/>
-       </file_ref>
-',
-        $fname
-    ));
-}
-function file_info_out($i) {
-    return sprintf(
-'    <file_info>
-        <name><OUTFILE_%d/></name>
-        <generated_locally/>
-        <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
-        <url><UPLOAD_URL/></url>
-    </file_info>
-',
-        $i
-    );
-}
-
-function file_ref_out($i, $fname) {
-    return sprintf(
-'        <file_ref>
-            <file_name><OUTFILE_%d/></file_name>
-            <open_name>%s</open_name>
-            <copy_file/>
-        </file_ref>
-',      $i, $fname
-    );
-}
-
-// create templates and put them in batch dir
-//
-function create_templates($variant_desc, $batch_dir) {
-    // input template
-    //
-    $x = "<input_template>\n";
-    $ninfiles = 1 + count($variant_desc->input_file_names) + count($variant_desc->app_files);
-    for ($i=0; $i<$ninfiles; $i++) {
-        $x .= "   <file_info>\n      <no_delete/>\n   </file_info>\n";
-    }
-    $x .= "   <workunit>\n";
-    $x .= file_ref_in($variant_desc->dockerfile);
-    foreach ($variant_desc->app_files as $fname) {
-        $x .= file_ref_in($fname);
-    }
-    foreach ($variant_desc->input_file_names as $fname) {
-        $x .= file_ref_in($fname);
-    }
-    $x .= "   </workunit>\n<input_template>\n";
-    file_put_contents("$batch_dir/template_in", $x);
-
-    // output template
-    //
-    $x = "<output_template>\n";
-    $i = 0;
-    foreach ($variant_desc->output_file_names as $fname) {
-        $x .= file_info_out($i++);
-    }
-    $x .= "   <result>\n";
-    $i = 0;
-    foreach ($variant_desc->output_file_names as $fname) {
-        $x .= file_ref_out($i++, $fname);
-    }
-    $x .= "   </result>\n</output_template>\n";
-    file_put_contents("$batch_dir/template_out", $x);
 }
 
 function handle_submit($user) {
@@ -338,8 +268,6 @@ function handle_submit($user) {
     // scan batch dir; validate and return struct
     $batch_desc = parse_batch_dir($batch_dir, $variant_desc);
 
-    create_templates($variant_desc, $batch_dir);
-
     $batch = create_batch(
         $user, count($batch_desc->jobs), $app, $variant
     );
@@ -349,7 +277,8 @@ function handle_submit($user) {
     stage_input_files($batch_dir, $batch_desc, $batch->id);
 
     create_jobs(
-        $variant_desc, $batch_desc, $batch->id, $batch_dir_name,
+        $app, $variant, $variant_desc,
+        $batch_desc, $batch->id, $batch_dir_name,
         $wrapper_verbose, $cmdline
     );
 
@@ -365,9 +294,9 @@ function handle_submit($user) {
 }
 
 $user = get_logged_in_user();
-$buda_app = BoincApp::lookup("name='buda'");
-if (!$buda_app) error_page('no buda app');
-if (!has_submit_access($user, $buda_app->id)) {
+$buda_boinc_app = BoincApp::lookup("name='buda'");
+if (!$buda_boinc_app) error_page('no buda app');
+if (!has_submit_access($user, $buda_boinc_app->id)) {
     error_page('no access');
 }
 $action = get_str('action', true);

@@ -292,10 +292,9 @@ void assign_coprocs(vector<RESULT*>& jobs) {
     //
     for (i=0; i<jobs.size(); i++) {
         RESULT* rp = jobs[i];
-        APP_VERSION* avp = rp->avp;
-        int rt = avp->gpu_usage.rsc_type;
+        int rt = rp->resource_usage.rsc_type;
         if (rt) {
-            usage = avp->gpu_usage.usage;
+            usage = rp->resource_usage.coproc_usage;
             cp = &coprocs.coprocs[rt];
         } else {
             continue;
@@ -311,10 +310,9 @@ void assign_coprocs(vector<RESULT*>& jobs) {
     job_iter = jobs.begin();
     while (job_iter != jobs.end()) {
         RESULT* rp = *job_iter;
-        APP_VERSION* avp = rp->avp;
-        int rt = avp->gpu_usage.rsc_type;
+        int rt = rp->resource_usage.rsc_type;
         if (rt) {
-            usage = avp->gpu_usage.usage;
+            usage = rp->resource_usage.coproc_usage;
             cp = &coprocs.coprocs[rt];
         } else {
             ++job_iter;

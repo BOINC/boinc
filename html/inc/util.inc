@@ -1009,46 +1009,6 @@ function db_init($try_replica=false) {
     return 0;
 }
 
-// return a structure indicating whether project has non-deprecated
-// apps versions for various resource types,
-// and with a count of app versions
-//
-function get_app_types() {
-    $t = new StdClass;
-    $t->cpu = false;
-    $t->cuda = false;
-    $t->ati = false;
-    $t->intel_gpu = false;
-    $t->apple_gpu = false;
-    $t->count = 0;
-    $avs = BoincAppVersion::enum("deprecated=0");
-    foreach ($avs as $av) {
-        if (strstr($av->plan_class, "ati")) {
-            $t->ati = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "amd")) {
-            $t->ati = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "cuda")) {
-            $t->cuda = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "nvidia")) {
-            $t->cuda = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "intel_gpu")) {
-            $t->intel_gpu = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "apple_gpu")) {
-            $t->apple_gpu = true;
-            $t->count++;
-        } else {
-            $t->cpu = true;
-            $t->count++;
-        }
-    }
-    return $t;
-}
-
 // Functions to sanitize GET and POST args
 
 // "next_url" arguments (must be local, not full URLs)

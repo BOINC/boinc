@@ -154,7 +154,15 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     DB_ID_TYPE result_id = boinc_db.insert_id();
     SCHED_DB_RESULT result;
     retval = result.lookup_id(result_id);
-    add_result_to_reply(result, wu, bavp, false);
+    bool is_buda, is_ok;
+    HOST_USAGE hu;
+    check_buda_plan_class(wu, hu, is_buda, is_ok);
+    if (is_buda) {
+        if (!is_ok) return -1;
+    } else {
+        hu = bavp->host_usage;
+    }
+    add_result_to_reply(result, wu, bavp, hu, is_buda, false);
 
     if (config.debug_assignment) {
         log_messages.printf(MSG_NORMAL,

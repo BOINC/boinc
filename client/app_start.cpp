@@ -233,7 +233,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.rsc_memory_bound = wup->rsc_memory_bound;
     aid.rsc_disk_bound = wup->rsc_disk_bound;
     aid.computation_deadline = result->computation_deadline();
-    int rt = app_version->gpu_usage.rsc_type;
+    int rt = result->resource_usage.rsc_type;
     if (rt) {
         COPROC& cp = coprocs.coprocs[rt];
         if (coproc_type_name_to_num(cp.type) >= 0) {
@@ -252,14 +252,14 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         }
         aid.gpu_device_num = cp.device_nums[k];
         aid.gpu_opencl_dev_index = cp.opencl_device_indexes[k];
-        aid.gpu_usage = app_version->gpu_usage.usage;
+        aid.gpu_usage = result->resource_usage.coproc_usage;
     } else {
         safe_strcpy(aid.gpu_type, "");
         aid.gpu_device_num = -1;
         aid.gpu_opencl_dev_index = -1;
         aid.gpu_usage = 0;
     }
-    aid.ncpus = app_version->avg_ncpus;
+    aid.ncpus = result->resource_usage.avg_ncpus;
     aid.vbox_window = cc_config.vbox_window;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
@@ -671,8 +671,8 @@ int ACTIVE_TASK::start() {
     // - is a wrapper
     //
     high_priority = false;
-    if (app_version->rsc_type()) high_priority = true;
-    if (app_version->avg_ncpus < 1) high_priority = true;
+    if (result->resource_usage.rsc_type) high_priority = true;
+    if (result->resource_usage.avg_ncpus < 1) high_priority = true;
     if (app_version->is_wrapper) high_priority = true;
 
     current_cpu_time = checkpoint_cpu_time;
@@ -767,12 +767,12 @@ int ACTIVE_TASK::start() {
 
     snprintf(cmdline, sizeof(cmdline),
         "%s %s %s",
-        exec_path, wup->command_line.c_str(), app_version->cmdline
+        exec_path, wup->command_line.c_str(), result->resource_usage.cmdline
     );
     if (!app_version->api_version_at_least(7, 5)) {
-        int rt = app_version->gpu_usage.rsc_type;
+        int rt = result->resource_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
+            coproc_cmdline(rt, result, result->resource_usage.coproc_usage, cmdline, sizeof(cmdline));
         }
     }
 
@@ -968,13 +968,13 @@ int ACTIVE_TASK::start() {
 
     snprintf(cmdline, sizeof(cmdline),
         "%s %s",
-        wup->command_line.c_str(), app_version->cmdline
+        wup->command_line.c_str(), result->resource_usage.cmdline
     );
 
     if (!app_version->api_version_at_least(7, 5)) {
-        int rt = app_version->gpu_usage.rsc_type;
+        int rt = result->resource_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
+            coproc_cmdline(rt, result, result->resource_usage.coproc_usage, cmdline, sizeof(cmdline));
         }
     }
 

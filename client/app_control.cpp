@@ -351,11 +351,11 @@ static void limbo_message(ACTIVE_TASK& at) {
 // that use the GPU type, in case they're waiting for GPU RAM
 //
 static void clear_schedule_backoffs(ACTIVE_TASK* atp) {
-    int rt = atp->result->avp->rsc_type();
+    int rt = atp->result->resource_usage.rsc_type;
     if (rt == RSC_TYPE_CPU) return;
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
-        if (rp->avp->rsc_type() == rt) {
+        if (rp->resource_usage.rsc_type == rt) {
             rp->schedule_backoff = 0;
         }
     }
@@ -895,7 +895,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             snprintf(buf, sizeof(buf), "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
                 atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
-                atp->result->avp->flops/1e9
+                atp->result->resource_usage.flops/1e9
             );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s", atp->result->name, buf

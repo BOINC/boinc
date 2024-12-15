@@ -94,7 +94,7 @@ static int send_job_for_app(APP& app) {
                     "Sending non-CPU-intensive job: %s\n", wu.name
                 );
             }
-            add_result_to_reply(result, wu, bavp, false);
+            add_result_to_reply(result, wu, bavp, bavp->host_usage, false, false);
             return 0;
         }
         log_messages.printf(MSG_NORMAL,

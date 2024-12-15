@@ -44,6 +44,7 @@
 // (send_email and show_hosts) that are treated as project preferences
 
 include_once("../inc/prefs_util.inc");
+include_once("../inc/app_types.inc");
 include_once("../project/project_specific_prefs.inc");
 
 global $app_types;
@@ -70,7 +71,7 @@ if (!empty($accelerate_gpu_apps_pref)) {
 
 if ($app_types->cpu) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use CPU"),
+        tra("Allow CPU-only tasks"),
         "Request CPU-only tasks from this project.",
         "no_cpu",
         false,

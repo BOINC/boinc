@@ -23,7 +23,12 @@ struct JOB {
     double score;
     APP* app;
     BEST_APP_VERSION* bavp;
+    bool is_buda;
+    HOST_USAGE host_usage;
+        // if is_buda, usage returned by WU plan class
+        // else a copy of bavp->host_usage
 
+    JOB();
     bool get_score(int);
 };
 

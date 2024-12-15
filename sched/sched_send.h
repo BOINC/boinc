@@ -33,7 +33,15 @@ extern void send_work();
 
 extern int add_result_to_reply(
     SCHED_DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
+    HOST_USAGE&,
+    bool is_buda,
     bool locality_scheduling
+);
+
+// if WU has plan class, check host, and get corresponding host_usage
+//
+extern void check_buda_plan_class(
+    WORKUNIT &wu, HOST_USAGE &host_usage, bool &is_buda, bool &is_ok
 );
 
 inline bool is_anonymous(PLATFORM* platform) {
