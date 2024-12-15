@@ -804,6 +804,7 @@
         <home>Independent</home>
     <platforms>
         <name>aarch64-unknown-linux-gnu</name>
+        <name>arm64-apple-darwin</name>
         <name>windows_x86_64</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
