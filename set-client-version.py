@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+import json
 import os
 import subprocess
 import sys
@@ -87,15 +88,15 @@ def set_build_gradle(version):
                 line = f'    def version = \'{version} : DEVELOPMENT\'\n'
             f.write(line)
 
-def set_installshield(version):
-    for ism in ['win_build/installerv2/BOINCx64_vbox.ism', 'win_build/installerv2/BOINCx64.ism']:
-        with open(ism, 'r') as f:
-            lines = f.readlines()
-        with open(ism, 'w') as f:
-            for line in lines:
-                if line.startswith('		<row><td>ProductVersion</td><td>'):
-                    line = f'		<row><td>ProductVersion</td><td>{version}</td><td/></row>\n'
-                f.write(line)
+def set_boinc_json(version):
+    with open('installer/boinc.json','r') as f:
+        data = json.load(f)
+    for item in data['Property']:
+        if item['Property'] == 'ProductVersion':
+            item['Value'] = version
+            break
+    with open('installer/boinc.json','w') as f:
+        json.dump(data, f, indent=4)
 
 def set_snapcraft(version):
     with open('snap/snapcraft.yaml','r') as f:
@@ -133,7 +134,7 @@ set_configure_ac(version)
 set_version_h(version)
 set_version_h_in(version)
 set_build_gradle(version)
-set_installshield(version)
+set_boinc_json(version)
 set_snapcraft(version)
 set_snap_boinc_desktop(version)
 
