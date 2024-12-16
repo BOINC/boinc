@@ -117,6 +117,7 @@ void get_buda_plan_classes(vector<string> &pcs) {
         strip_whitespace(buf);
         pcs.push_back(buf);
     }
+    boinc::fclose(f);
 }
 
 // scan various DB tables and populate shared-memory arrays

@@ -153,7 +153,7 @@ bool JOB::get_score(int array_index) {
     return true;
 }
 
-bool job_compare(JOB j1, JOB j2) {
+bool job_compare(JOB &j1, JOB &j2) {
     return (j1.score > j2.score);
 }
 
