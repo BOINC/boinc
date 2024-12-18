@@ -331,6 +331,9 @@ function app_version_desc($avid) {
 ////// badge-related stuff
 
 function get_badge($name, $title, $image_url) {
+    $name = BoincDb::escape_string($name);
+    $title = BoincDb::escape_string($title);
+    $image_url = BoincDb::escape_string($image_url);
     $b = BoincBadge::lookup("name='$name'");
     if ($b) return $b;
     $now = time();

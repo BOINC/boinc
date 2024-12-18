@@ -1,5 +1,7 @@
 <?php
 
+DEPRECATED
+
 // Handler for TreeThreader remote job submission.
 //
 // Assumptions:
@@ -155,7 +157,7 @@ if (!$r) {
 
 // authenticate the user
 //
-$auth = (string)$r->auth;
+$auth = BoincDb::escape_string((string)$r->auth);
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) error("invalid authenticator");
 $user_submit = BoincUserSubmit::lookup_userid($user->id);
