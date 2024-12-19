@@ -37,7 +37,7 @@ env:
 jobs:
   build-client:
     name: client-${{ matrix.type }}-build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         type: [armv6, arm, arm64, x86, x86_64]
@@ -92,7 +92,7 @@ jobs:
 
   build-manager:
     name: manager-build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build-client
     strategy:
       matrix:
@@ -195,7 +195,7 @@ jobs:
 
   build:
     name: ${{ matrix.type }}-build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         type: [libs, apps, libs-cmake]

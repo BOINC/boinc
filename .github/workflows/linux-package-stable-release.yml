@@ -35,7 +35,7 @@ jobs:
   publish-deb-package:
     name: Publish DEB Package
     if: github.repository == 'BOINC/boinc'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         os: [focal, jammy, noble, buster, bullseye, bookworm]
@@ -96,7 +96,7 @@ jobs:
   publish-rpm-package:
     name: Publish RPM Package
     if: github.repository == 'BOINC/boinc'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: fedora:38
     strategy:

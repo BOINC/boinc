@@ -44,7 +44,7 @@ env:
 jobs:
   prepare-binaries:
     name: Prepare Binaries
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: debian:buster
       env:
@@ -126,7 +126,7 @@ jobs:
 
   build-deb-package:
     name: Build DEB Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: prepare-binaries
     strategy:
       matrix:
@@ -233,7 +233,7 @@ jobs:
 
   build-rpm-package:
     name: Build RPM Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: fedora:38
     needs: prepare-binaries
@@ -600,7 +600,7 @@ jobs:
 
   test-debian-deb-package:
     name: Test Debian DEB Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: debian:${{ matrix.os }}
     needs: build-deb-package
@@ -672,7 +672,7 @@ jobs:
 
   test-ubuntu-deb-package:
     name: Test Ubuntu DEB Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: ubuntu:${{ matrix.os }}
     needs: build-deb-package
@@ -756,7 +756,7 @@ jobs:
 
   test-fedora-rpm-package:
     name: Test Fedora RPM Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: fedora:${{ matrix.os }}
     needs: build-rpm-package
@@ -829,7 +829,7 @@ jobs:
 
   test-opensuse-rpm-package:
     name: Test openSUSE RPM Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: opensuse/leap:${{ matrix.os }}
     needs: build-rpm-package
@@ -898,7 +898,7 @@ jobs:
   publish-deb-package:
     name: Publish DEB Package
     if: github.repository == 'BOINC/boinc'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
@@ -989,7 +989,7 @@ jobs:
   publish-rpm-package:
     name: Publish RPM Package
     if: github.repository == 'BOINC/boinc'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: fedora:38
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
