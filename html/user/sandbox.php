@@ -162,8 +162,6 @@ function upload_file($user) {
     list_files($user, $notice);
 }
 
-<<<<<<< HEAD
-=======
 function add_file($user) {
     $dir = sandbox_dir($user);
     $name = post_str('name');
@@ -203,7 +201,6 @@ function get_file($user) {
 
 // delete a sandbox file.
 //
->>>>>>> c2defb6df6 (web: fix various vulnerabilities)
 function delete_file($user) {
     $name = get_str('name');
     if (!is_valid_filename($name)) {
@@ -252,17 +249,10 @@ function view_file($user) {
         error_page('bad filename');
     }
     $dir = sandbox_dir($user);
-<<<<<<< HEAD
-    list($error, $size, $md5) = sandbox_parse_link_file("$dir/$name");
-    if ($error) error_page("no such link file");
-    $p = sandbox_physical_path($user, $md5);
-    if (!is_file($p)) error_page("no such physical file");
-=======
     $path = "$dir/$name";
     if (!is_file($path)) {
         error_page("no such file");
     }
->>>>>>> c2defb6df6 (web: fix various vulnerabilities)
     echo "<pre>\n";
     readfile($p);
     echo "</pre>\n";
@@ -280,12 +270,9 @@ case 'upload_file': upload_file($user); break;
 case 'delete_file': delete_file($user); break;
 case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;
-<<<<<<< HEAD
 default: error_page("no such action: $action");
-=======
 case 'add_form': add_form($user); break;
 default: error_page("no such action: ".htmlspecialchars($action));
->>>>>>> c2defb6df6 (web: fix various vulnerabilities)
 }
 
 ?>
