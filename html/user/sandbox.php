@@ -88,7 +88,7 @@ function list_files($user) {
     $dir = sandbox_dir($user);
     if (!is_dir($dir)) error_page("Can't open sandbox directory");
     page_head("File sandbox");
-    $notice = get_str('notice', true);
+    $notice = htmlspecialchars(get_str('notice', true));
     if ($notice) {
         echo "<p>$notice<hr>";
     }
@@ -197,6 +197,9 @@ function upload_file($user) {
 function add_file($user) {
     $dir = sandbox_dir($user);
     $name = post_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
     if (!$name) error_page('No name given');
     if (file_exists("$dir/$name")) {
         error_page("file $name exists");
@@ -215,6 +218,9 @@ function add_file($user) {
 function get_file($user) {
     $dir = sandbox_dir($user);
     $url = post_str('url');
+    if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+        error_page('Not a valid URL');
+    }
     $fname = basename($url);
     $path = "$dir/$fname";
     if (file_exists($path)) {
@@ -229,6 +235,9 @@ function get_file($user) {
 //
 function delete_file($user) {
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
     $dir = sandbox_dir($user);
     unlink("$dir/$name");
     unlink("$dir/.md5/$name");
@@ -238,16 +247,22 @@ function delete_file($user) {
 
 function download_file($user) {
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
     $dir = sandbox_dir($user);
     do_download("$dir/$name");
 }
 
 function view_file($user) {
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
     $dir = sandbox_dir($user);
     $path = "$dir/$name";
     if (!is_file($path)) {
-        error_path("no such file $name");
+        error_page("no such file");
     }
     echo "<pre>\n";
     readfile($path);
@@ -269,7 +284,7 @@ case 'delete_file': delete_file($user); break;
 case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;
 case 'add_form': add_form($user); break;
-default: error_page("no such action: $action");
+default: error_page("no such action: ".htmlspecialchars($action));
 }
 
 ?>

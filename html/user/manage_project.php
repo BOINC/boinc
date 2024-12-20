@@ -208,7 +208,7 @@ case 'edit_form':
 case 'edit_action':
     handle_edit_action(); break;
 default:
-    error_page("unknown action: $action");
+    error_page("unknown action");
 }
 
 ?>

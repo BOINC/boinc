@@ -205,7 +205,7 @@ if ($cmd == 'manage') {
     require_founder_login($user, $team);
     remove($team);
 } else if ($cmd != "") {
-    error_page("unknown command $cmd");
+    error_page("unknown command ".htmlspecialchars($cmd));
 } else {
     show_forum($team);
 }

@@ -145,7 +145,7 @@ case "decline":
     }
     break;
 default:
-    error_page(tra("undefined action %1", $action));
+    error_page("undefined action ".htmlspecialchars($action));
 }
 
 echo "<a href='team_display.php?teamid=$team->id'>".tra("Return to team page")."</a>";
