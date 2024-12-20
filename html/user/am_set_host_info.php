@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Handler for RPC to change the venue of a host
+
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 

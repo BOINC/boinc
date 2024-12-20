@@ -206,7 +206,7 @@ function validate_post_make_user() {
         $team = BoincTeam::lookup_id($teamid);
         $clone_user = BoincUser::lookup_id($team->userid);
         if (!$clone_user) {
-            error_page("User $userid not found");
+            error_page("User $team->userid not found");
         }
         $project_prefs = $clone_user->project_prefs;
     } else {

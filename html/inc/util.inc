@@ -157,7 +157,11 @@ function send_cookie($name, $value, $permanent, $ops=false) {
         $path .= "_ops/";
     }
     $expire = $permanent?time()+3600*24*365:0;
-    setcookie($name, $value, $expire, $path);
+    setcookie($name, $value, $expire, $path,
+        '',
+        is_https(),     // if this page is secure, make cookie secure
+        true            // httponly; no JS access
+    );
 }
 
 function clear_cookie($name, $ops=false) {
@@ -878,10 +882,7 @@ function strip_bbcode($string){
 }
 
 function current_url() {
-    $url = "http";
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
-        $url .= "s";
-    }
+    $url = is_https()?'https':'http';
     $url .= "://";
     $url .= $_SERVER['SERVER_NAME'];
     $url .= ":".$_SERVER['SERVER_PORT'];
@@ -1098,7 +1099,7 @@ function do_download($path,$name="") {
 function redirect_to_secure_url() {
     if (defined('SECURE_URL_BASE')
         && strstr(SECURE_URL_BASE, "https://")
-        && empty($_SERVER['HTTPS'])
+        && !is_https()
     ) {
         Header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit;

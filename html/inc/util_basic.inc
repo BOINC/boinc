@@ -185,4 +185,12 @@ function dtime() {
     return microtime(true);
 }
 
+// is $x a valid file (or dir) name?
+//
+function is_valid_filename($x) {
+    if (htmlspecialchars($x) != $x) return false;
+    if (strstr($x, '/')) return false;
+    return true;
+}
+
 ?>

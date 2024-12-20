@@ -53,8 +53,32 @@ function list_files($user, $err_msg) {
         </form>
         <hr>
     ";
-    if (strcmp($err_msg,"")!=0){
-        echo "<p>$err_msg<hr>";
+
+    form_start('sandbox.php', 'post');
+    form_input_hidden('action', 'add_file');
+    form_input_text('Name', 'name');
+    form_input_textarea('Contents', 'contents');
+    form_submit('OK');
+    form_end();
+    echo "
+        <hr>
+        <h3>Get web file</h3>
+    ";
+    form_start('sandbox.php', 'post');
+    form_input_hidden('action', 'get_file');
+    form_input_text('URL', 'url');
+    form_submit('OK');
+    form_end();
+    page_tail();
+}
+
+function list_files($user) {
+    $dir = sandbox_dir($user);
+    if (!is_dir($dir)) error_page("Can't open sandbox directory");
+    page_head("File sandbox");
+    $notice = htmlspecialchars(get_str('notice', true));
+    if ($notice) {
+        echo "<p>$notice<hr>";
     }
     $files = array();
     while (($f = readdir($d)) !== false) {
@@ -138,8 +162,53 @@ function upload_file($user) {
     list_files($user, $notice);
 }
 
+<<<<<<< HEAD
+=======
+function add_file($user) {
+    $dir = sandbox_dir($user);
+    $name = post_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
+    if (!$name) error_page('No name given');
+    if (file_exists("$dir/$name")) {
+        error_page("file $name exists");
+    }
+    $contents = post_str('contents');
+    $contents = str_replace("\r\n", "\n", $contents);
+    file_put_contents("$dir/$name", $contents);
+
+    [$md5, $size] = get_file_info("$dir/$name");
+    write_info_file("$dir/.md5/$name", $md5, $size);
+
+    $notice = "Added file <strong>$name</strong> ($size bytes)";
+    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
+}
+
+function get_file($user) {
+    $dir = sandbox_dir($user);
+    $url = post_str('url');
+    if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+        error_page('Not a valid URL');
+    }
+    $fname = basename($url);
+    $path = "$dir/$fname";
+    if (file_exists($path)) {
+        error_page("File $fname exists; delete it first.");
+    }
+    copy($url, $path);
+    $notice = "Fetched file from <strong>$url</strong><br/>";
+    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
+}
+
+// delete a sandbox file.
+//
+>>>>>>> c2defb6df6 (web: fix various vulnerabilities)
 function delete_file($user) {
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
     $dir = sandbox_dir($user);
     list($error, $size, $md5) = sandbox_parse_link_file("$dir/$name");
     if ($error) {
@@ -163,6 +232,9 @@ function delete_file($user) {
 }
 function download_file($user) {
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
     $dir = sandbox_dir($user);
     list($err, $size, $md5) = sandbox_parse_link_file("$dir/$name");
     if ($err) {
@@ -176,11 +248,21 @@ function download_file($user) {
 }
 function view_file($user) {
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page('bad filename');
+    }
     $dir = sandbox_dir($user);
+<<<<<<< HEAD
     list($error, $size, $md5) = sandbox_parse_link_file("$dir/$name");
     if ($error) error_page("no such link file");
     $p = sandbox_physical_path($user, $md5);
     if (!is_file($p)) error_page("no such physical file");
+=======
+    $path = "$dir/$name";
+    if (!is_file($path)) {
+        error_page("no such file");
+    }
+>>>>>>> c2defb6df6 (web: fix various vulnerabilities)
     echo "<pre>\n";
     readfile($p);
     echo "</pre>\n";
@@ -198,7 +280,12 @@ case 'upload_file': upload_file($user); break;
 case 'delete_file': delete_file($user); break;
 case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;
+<<<<<<< HEAD
 default: error_page("no such action: $action");
+=======
+case 'add_form': add_form($user); break;
+default: error_page("no such action: ".htmlspecialchars($action));
+>>>>>>> c2defb6df6 (web: fix various vulnerabilities)
 }
 
 ?>

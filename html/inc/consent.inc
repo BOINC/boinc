@@ -48,7 +48,9 @@ function consent_to_a_policy(
 function check_user_consent($user, $consent_name) {
     list($checkct, $ctid) = check_consent_type($consent_name);
     if ($checkct) {
-        $consent_result = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id=$ctid AND consent_flag=1");
+        $consent_result = BoincLatestConsent::lookup(
+            "userid=$user->id AND consent_type_id=$ctid AND consent_flag=1"
+        );
         if ($consent_result) {
             return TRUE;
         }
@@ -64,7 +66,8 @@ function check_user_consent($user, $consent_name) {
 // If the boolean is FALSE, the integer returned is -1.
 //
 function check_consent_type($name, $checkenabled=TRUE) {
-    $ct = BoincConsentType::lookup("shortname = '{$name}'");
+    $name = BoincDb::escape_string($name);
+    $ct = BoincConsentType::lookup("shortname = '$name'");
     if ($ct and ( !$checkenabled or ($ct->enabled)) ) {
         return array(TRUE, $ct->id);
     }
