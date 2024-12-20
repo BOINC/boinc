@@ -47,8 +47,8 @@ row2_plain(
     "[github]#1392[/github] or [github]ticket:1392[/github]",
     tra("link to an issue on the BOINC Github repository").": <a href=\"https://github.com/BOINC/boinc/issues/1392\">#1392</a>");
 row2_plain(
-    "[github]wiki:WebForum[/github]",
-    tra("link to a Wiki page on the BOINC Github repository").": <a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/BoincIntro\">BoincIntro</a>");
+    "[github]wiki:Volunteer[/github]",
+    tra("link to a Wiki page on the BOINC Github repository").": <a href=\"https://github.com/BOINC/boinc/wiki/BoincIntro\">Volunteer</a>");
 end_table();
 
 echo "<p>
