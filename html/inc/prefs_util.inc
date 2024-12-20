@@ -32,13 +32,13 @@ function check_venue($x) {
     if ($x == "home") return;
     if ($x == "work") return;
     if ($x == "school") return;
-    error_page(tra("bad venue: %1", $x));
+    error_page("bad venue");
 }
 
 function check_subset($x) {
     if ($x == "global") return;
     if ($x == "project") return;
-    error_page(tra("bad subset: %1", $x));
+    error_page("bad subset");
 }
 
 abstract class PREF {
@@ -281,7 +281,7 @@ class PREF_CONSENT extends PREF {
                 $user, $consent_type_id, $flag, 0, 'Webform', time()
             );
             if (!$rc) {
-                error_page(tra("Database error:").BoincDb::error());
+                error_page("Database error");
             }
         }
     }
@@ -300,7 +300,7 @@ class PREF_CONSENT extends PREF {
             $user, $consent_type_id, $this->default, 0, 'Webform'
         );
         if (!$rc) {
-            error_page(tra("Database error:").BoincDb::error());
+            error_page("Database error");
         }
     }
 

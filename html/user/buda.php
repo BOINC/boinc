@@ -432,7 +432,7 @@ case 'view_file':
 case null:
     app_list(); break;
 default:
-    error_page("unknown action $action");
+    error_page("unknown action");
 }
 
 ?>

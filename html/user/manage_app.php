@@ -208,6 +208,6 @@ case "batches_form":
 case "batches_action":
     batches_action($app); break;
 default:
-    error_page("unknown action $action");
+    error_page("unknown action");
 }
 ?>
