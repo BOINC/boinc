@@ -299,7 +299,7 @@ xml_header();
 $req = $_POST['request'];
 $r = simplexml_load_string($req);
 if (!$r) {
-    xml_error(-1, "can't parse request message: $req", __FILE__, __LINE__);
+    xml_error(-1, "can't parse request message: ".htmlspecialchars($req), __FILE__, __LINE__);
 }
 
 switch($r->getName()) {
