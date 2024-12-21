@@ -36,7 +36,7 @@ function get_wu($name) {
     $wu = BoincWorkunit::lookup("name='$name'");
     if (!$wu) {
         log_write("no job named $name was found");
-        xml_error(-1, "no job named $name was found");
+        xml_error(-1, "job not found: ".htmlspecialchars($name));
     }
     return $wu;
 }
@@ -46,7 +46,7 @@ function get_submit_app($name) {
     $app = BoincApp::lookup("name='$name'");
     if (!$app) {
         log_write("no app named $name was found");
-        xml_error(-1, "no app named $name was found");
+        xml_error(-1, "app not found: ".htmlspecialchars($name));
     }
     return $app;
 }
@@ -105,7 +105,7 @@ function read_input_template($app, $r) {
         $x = simplexml_load_file($path);
         if (!$x) {
             log_write("couldn't parse input template file $path");
-            xml_error(-1, "couldn't parse input template file $path");
+            xml_error(-1, "couldn't parse input template file ".htmlspecialchars($path));
         }
         return $x;
     } else {
@@ -1068,7 +1068,7 @@ if (0) {
 $r = simplexml_load_string($req);
 if (!$r) {
     log_write("----- RPC request: can't parse request message: $req");
-    xml_error(-1, "can't parse request message: $req");
+    xml_error(-1, "can't parse request message: ".htmlspecialchars($req));
 }
 
 log_write("----- Handling RPC; command ".$r->getName());

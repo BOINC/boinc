@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+NOT FINISHED.   DON'T USE
+
 require 'openid.php';
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
@@ -25,8 +27,6 @@ include_once("../inc/user.inc");
 function show_error($str) {
     page_head("Can't create account");
     echo "$str<br>\n";
-    echo BoincDb::error();
-    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
     page_tail();
     exit();
 }
@@ -34,7 +34,6 @@ function show_error($str) {
 try {
     $openid = new LightOpenID;
     echo "<pre>";
-    print_r($openid); exit;
     if(!$openid->mode) {
         if(isset($_POST['openid_identifier'])) {
             $openid->identity = $_POST['openid_identifier'];
@@ -52,7 +51,6 @@ try {
         echo 'User has canceled authentication!';
     } else {
         echo 'User ' . ($openid->validate() ? $openid->identity . ' has ' : 'has not ') . 'logged in.';
-        //print_r($openid->getAttributes());
         // Create the user in the DB
         $data = $openid->getAttributes();
         $email_addr = $data['contact/email'];
@@ -67,7 +65,6 @@ try {
             error_page("Account creation is disabled");
         }
 
-        
         // see whether the new account should be pre-enrolled in a team,
         // and initialized with its founder's project prefs
         //
@@ -93,10 +90,7 @@ try {
         //    if (!preg_match(INVITE_CODES, $invite_code)) {
         //        show_error(tra("The invitation code you gave is not valid."));
         //    }
-        //} 
-        
-        print_r($data);
-        exit();
+        //}
 
         $new_name = $data['namePerson/friendly'];
         if (!is_valid_user_name($new_name, $reason)) {

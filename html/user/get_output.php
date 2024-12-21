@@ -33,7 +33,7 @@ function return_error($str) {
 function get_output_file($instance_name, $file_num, $auth_str) {
     $result = BoincResult::lookup_name(BoincDb::escape_string($instance_name));
     if (!$result) {
-        return_error("no job instance $instance_name");
+        return_error("no job instance ".htmlspecialchars($instance_name));
     }
     $workunit = BoincWorkunit::lookup_id($result->workunitid);
     if (!$workunit) {
@@ -124,7 +124,7 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
     $wu_name = BoincDb::escape_string($wu_name);
     $wu = BoincWorkunit::lookup("name='$wu_name'");
     if (!$wu) {
-        return_error("no workunit $wu_name");
+        return_error("no workunit ".htmlspecialchars($wu_name));
     }
     $batch = BoincBatch::lookup_id($wu->batch);
     if (!$batch) {
@@ -140,7 +140,7 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
     if (!$wu->canonical_resultid) {
-        return_error("no canonical result for wu $wu->name");
+        return_error("no canonical result for wu ".htmlspecialchars($wu->name));
     }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
     $names = get_outfile_names($result);
@@ -148,7 +148,7 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
     if (file_exists($path)) {
         do_download($path);
     } else {
-        return_error("no such file: $path");
+        return_error("no such file: ".htmlspecialchars($path));
     }
 }
 
@@ -179,7 +179,7 @@ function get_wu_output_files($wu_id, $auth_str) {
     $upload_dir = parse_config(get_config(), "<upload_dir>");
 
     if (!$wu->canonical_resultid) {
-        return_error("no canonical result for wu $wu->name");
+        return_error("no canonical result for wu ".htmlspecialchars($wu->name));
     }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
     $names = get_outfile_names($result);

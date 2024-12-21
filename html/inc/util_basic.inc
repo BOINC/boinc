@@ -185,12 +185,34 @@ function dtime() {
     return microtime(true);
 }
 
+// security vulnerabilities and user-supplied strings:
+// sources:
+// GET and POST arguments
+//      including XML documents passed as args to RPC handlers
+// cookies
+//
+// when used as SQL query args:
+//      use BoincDb::escape_string() to prevent SQL injection
+// when shown as HTML output
+//      (e.g. 'not found' error pages, user names, forum posts)
+//      use htmlspecialchars() to prevent XSS
+// when used as file or dir name
+//      use is_valid_filename()
+
 // is $x a valid file (or dir) name?
+// we want to avoid
+//      FS traversal, e.g. "../../foo" or "/usr/lib/..."
+//      shell command injection, e.g. "foo; rm*"
+//      XSS stuff
+// let's be conservative and allow only 'POSIX fully portable filenames',
+// which can have only A-Z a-z 0-9 . - _
+// In some cases filenames are used on volunteer hosts,
+// whose OSs may have such restrictions.
 //
 function is_valid_filename($x) {
-    if (htmlspecialchars($x) != $x) return false;
-    if (strstr($x, '/')) return false;
-    return true;
+    if (strlen($x)>255) return false;
+    // \w means A-Za-z0-9_
+    return preg_match('/^[\w\-.]+$/', $x);
 }
 
 ?>
