@@ -645,7 +645,7 @@ void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
             m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
         }
     }
-    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
 
