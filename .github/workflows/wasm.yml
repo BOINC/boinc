@@ -93,7 +93,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         with:
           name: wasm_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -113,7 +113,7 @@ jobs:
         run:  python ./deploy/prepare_deployment.py wasm_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         if: ${{ ! contains(matrix.type, 'libs') }}
         with:
           name: wasm_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
