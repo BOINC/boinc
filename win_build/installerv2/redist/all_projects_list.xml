@@ -218,6 +218,7 @@
         <name>windows_intelx86</name>
         <name>windows_intelx86[FGRPSSE]</name>
         <name>windows_x86_64[BRP4X64]</name>
+        <name>windows_x86_64[BRP7-cuda102W]</name>
         <name>windows_x86_64[BRP7-cuda55]</name>
         <name>windows_x86_64[BRP7-opencl-ati]</name>
         <name>windows_x86_64[BRP7-opencl-intel_gpu]</name>
