@@ -44,8 +44,9 @@ function get_file() {
 // download a zip of the given directory
 //
 function get_batch() {
-    $batch_id = get_str('batch_id');
+    $batch_id = get_int('batch_id');
     $dir = "../../results/$batch_id";
+    if (!is_dir($dir)) die('no batch dir');
     $name = "batch_$batch_id.zip";
     $cmd = "cd $dir; rm -f $name; zip -q $name *";
     system($cmd);

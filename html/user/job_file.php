@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Web RPCs for managing input files for remote job submission
-// These support systems where user - possibly lots of them -
+// These support systems where users - possibly lots of them -
 // process jobs without logging on to the BOINC server.
 //
 // Issues:
@@ -111,6 +111,9 @@ function query_files($r) {
     }
     $i = 0;
     foreach($phys_names as $fname) {
+        if (!is_valid_filename($fname)) {
+            xml_error(-1, 'bad filename');
+        }
         $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
 
         // if the job_file record is there,
@@ -194,11 +197,18 @@ function upload_files($r) {
 
     $phys_names = array();
     foreach ($r->phys_name as $cs) {
-        $phys_names[] = (string)$cs;
+        $fname = (string)$cs;
+        if (!is_valid_filename($fname)) {
+            xml_error(-1, 'bad filename');
+        }
+        $phys_names[] = $fname;
     }
 
     foreach ($_FILES as $f) {
         $name = $f['name'];
+        if (!is_valid_filename($fname)) {
+            xml_error(-1, 'bad FILES filename');
+        }
         $tmp_name = $f['tmp_name'];
 
         if ($f['error'] != UPLOAD_ERR_OK) {
@@ -289,7 +299,7 @@ xml_header();
 $req = $_POST['request'];
 $r = simplexml_load_string($req);
 if (!$r) {
-    xml_error(-1, "can't parse request message: $req", __FILE__, __LINE__);
+    xml_error(-1, "can't parse request message: ".htmlspecialchars($req), __FILE__, __LINE__);
 }
 
 switch($r->getName()) {
