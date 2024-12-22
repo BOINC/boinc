@@ -55,8 +55,8 @@ public:
     /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTCATEGORY
     void OnProjectCategorySelected( wxCommandEvent& event );
 
-    /// wxEVT_COMMAND_LISTBOX_SELECTED event handler for ID_PROJECTS
-    void OnProjectSelected( wxCommandEvent& event );
+    /// wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
+    void OnProjectSelected( wxListEvent& event );
 
     /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
     void OnPageChanged( wxWizardExEvent& event );
@@ -99,7 +99,7 @@ public:
     wxStaticText* m_pProjectCategoriesStaticCtrl;
     wxComboBox* m_pProjectCategoriesCtrl;
     wxStaticText* m_pProjectsStaticCtrl;
-    wxListBox* m_pProjectsCtrl;
+    wxListCtrl* m_pProjectsCtrl;
     wxStaticBox* m_pProjectDetailsStaticCtrl;
     wxTextCtrl* m_pProjectDetailsDescriptionCtrl;
     wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl;

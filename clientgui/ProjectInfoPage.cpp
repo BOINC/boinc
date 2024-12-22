@@ -111,7 +111,7 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
 
 ////@begin CProjectInfoPage event table entries
     EVT_COMBOBOX( ID_CATEGORIES, CProjectInfoPage::OnProjectCategorySelected )
-    EVT_LISTBOX( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
+    EVT_LIST_ITEM_SELECTED( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
     EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CProjectInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CProjectInfoPage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( wxID_ANY, CProjectInfoPage::OnCancel )
@@ -298,8 +298,9 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer11->AddGrowableCol(0);
     itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
-    wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT|wxLB_OWNERDRAW );
+    m_pProjectsCtrl = new wxListCtrl(itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, 175), wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL | wxLC_SORT_ASCENDING);
+    m_pProjectsCtrl->InsertColumn(0, wxT(""));
+    m_pProjectsCtrl->SetColumnWidth(0, -2);
     itemFlexGridSizer11->Add(m_pProjectsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
     m_pProjectDetailsStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_ANY, _("Project details"));
@@ -534,36 +535,41 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function Begin"));
 
-    m_pProjectsCtrl->Clear();
+    m_pProjectsCtrl->DeleteAllItems();
 
-    int lastproject = -1;
-    // Populate the list box with the list of project names that belong to either the specific
+    long lastproject = -1;
+    //  Color 117,117,117 has a 4.6:1 contract ratio that passes accessibility
+    wxColour addedcolour = wxColour(117, 117, 117);
+    // Populate the list control with the list of project names that belong to either the specific
     // category or all of them.
     //
     for (unsigned int i=0; i<m_Projects.size(); i++) {  // cycle through all projects
         if ((m_pProjectCategoriesCtrl->GetValue() == _("All")) ||
             (m_pProjectCategoriesCtrl->GetValue() == m_Projects[i]->m_strGeneralArea)
         ) {
-            m_pProjectsCtrl->Append(m_Projects[i]->m_strName, m_Projects[i]);
-            lastproject = m_pProjectsCtrl->GetCount() - 1;
-            // Since this project was added to the wxListBox, check to see if the project has already been attached.
-            // If it has, grey out the text for a visual indicator that the project has been added.
-            //
-            for (unsigned int j = 0; j < m_pTrimmedURL_attached.size(); j++) {  // cycle through all attached projects
-                if (m_pTrimmedURL[i] == m_pTrimmedURL_attached[j]) {
-                    //  Color 117,117,117 has a 4.6:1 contract ratio that passes accessibility
-                    m_pProjectsCtrl->GetItem(lastproject)->SetTextColour(wxColour(117,117,117));
-                    break;
+            lastproject = m_pProjectsCtrl->InsertItem(i, m_Projects[i]->m_strName);
+            if (lastproject != -1) {
+                m_pProjectsCtrl->SetItemPtrData(lastproject, reinterpret_cast<wxUIntPtr>(m_Projects[i]));
+                // Since this project was added to the wxListCtrl, check to see if the project has already been attached.
+                // If it has, grey out the text for a visual indicator that the project has been added.
+                //
+                for (unsigned int j = 0; j < m_pTrimmedURL_attached.size(); j++) {  // cycle through all attached projects
+                    if (m_pTrimmedURL[i] == m_pTrimmedURL_attached[j]) {
+                        m_pProjectsCtrl->SetItemTextColour(lastproject, addedcolour);
+                        break;
+                    }
                 }
             }
         }
     }
+    // Adjust the size of the column width so that a horizontal scroll bar doesn't appear when a vertical scroll bar is present.
+    int width = m_pProjectsCtrl->GetClientSize().GetWidth();
+    m_pProjectsCtrl->SetColumnWidth(0, width);
 
-    // Set the first item to be the selected item and then pop the next event.
-    if (m_pProjectsCtrl->GetCount() > 0) {
-        m_pProjectsCtrl->SetSelection(0);
-        wxCommandEvent evtEvent(wxEVT_COMMAND_LISTBOX_SELECTED, ID_PROJECTS);
-        ProcessEvent(evtEvent);
+    // Set the first item to be the selected and focused item.
+    if (!m_pProjectsCtrl->IsEmpty()) {
+        m_pProjectsCtrl->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        m_pProjectsCtrl->SetItemState(0, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function End"));
@@ -571,71 +577,75 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
 
 
 /*
- * wxEVT_COMMAND_LISTBOX_SELECTED event handler for ID_PROJECTS
+ * wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
  */
 
-void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
+void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function Begin"));
 
-    if (m_pProjectsCtrl->GetSelection() != wxNOT_FOUND) {
+    if (m_pProjectsCtrl->GetSelectedItemCount() == 1) {
+        wxListItem pProjectSelected;
+        pProjectSelected.SetId(event.m_itemIndex);
+        pProjectSelected.SetColumn(0);
+        pProjectSelected.SetMask(wxLIST_MASK_TEXT);
 
-        CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
+        const CProjectInfo* pProjectInfo = reinterpret_cast<CProjectInfo*>(m_pProjectsCtrl->GetItemData(pProjectSelected.GetId()));
+        if (pProjectInfo) {
+            wxString strWebURL = pProjectInfo->m_strWebURL;
+            EllipseStringIfNeeded(strWebURL, m_pProjectDetailsURLCtrl);
 
-        wxString strWebURL = pProjectInfo->m_strWebURL;
-        EllipseStringIfNeeded(strWebURL, m_pProjectDetailsURLCtrl);
+            // Populate the project details area
+            wxString desc = pProjectInfo->m_strDescription;
+            // Change all occurrences of "<sup>n</sup>" to "^n"
+            desc.Replace(wxT("<sup>"), wxT("^"), true);
+            desc.Replace(wxT("</sup>"), wxT(""), true);
+            desc.Replace(wxT("&lt;"), wxT("<"), true);
 
-        // Populate the project details area
-        wxString desc = pProjectInfo->m_strDescription;
-        // Change all occurrences of "<sup>n</sup>" to "^n"
-        desc.Replace(wxT("<sup>"), wxT("^"), true);
-        desc.Replace(wxT("</sup>"), wxT(""), true);
-        desc.Replace(wxT("&lt;"), wxT("<"), true);
+            m_pProjectDetailsURLCtrl->SetLabel(strWebURL);
+            m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strWebURL);
+            m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strWebURL);
+            m_pProjectDetailsDescriptionCtrl->SetValue(desc);
 
-        m_pProjectDetailsURLCtrl->SetLabel(strWebURL);
-        m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strWebURL);
-        m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strWebURL);
-        m_pProjectDetailsDescriptionCtrl->SetValue(desc);
+            m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformATICtrl->Hide();
+            m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
+            if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsLinuxARM) m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsIntelGPU) m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
 
-        m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformATICtrl->Hide();
-        m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
-        if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsLinuxARM) m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsIntelGPU) m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
+            // Populate non-control data for use in other places of the wizard
+            m_strProjectURL = pProjectInfo->m_strURL;
+            m_bProjectSupported = pProjectInfo->m_bSupportedPlatformFound;
 
-        // Populate non-control data for use in other places of the wizard
-        m_strProjectURL = pProjectInfo->m_strURL;
-        m_bProjectSupported = pProjectInfo->m_bSupportedPlatformFound;
+            Layout();
+            TransferDataToWindow();
 
-        Layout();
-        TransferDataToWindow();
+            wxString strResearchArea = pProjectInfo->m_strSpecificArea;
+            EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
+            wxString strOrganization = pProjectInfo->m_strOrganization;
+            EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
 
-        wxString strResearchArea = pProjectInfo->m_strSpecificArea;
-        EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
-        wxString strOrganization = pProjectInfo->m_strOrganization;
-        EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
-
-        m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
-        m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
-        m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
-        m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
-
+            m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
+            m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
+            m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
+            m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
+        }
     }
-
+    
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
 
