@@ -78,14 +78,14 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         with:
           name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Upload client on success
         if: ${{ success() }}
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         with:
           name: android_client_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
@@ -134,7 +134,7 @@ jobs:
           path: android/BOINC/app/src/main/assets/
 
       - name: Setup Java
-        uses: actions/setup-java@8df1039502a15bceb9433410b1a100fbe190c53b
+        uses: actions/setup-java@7a6d8a8234af8eb26422e24e3006232cccaa061b
         with:
           distribution: 'zulu'
           java-version: "17"
@@ -151,7 +151,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         with:
           name: android_logs_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -160,28 +160,28 @@ jobs:
         run: python ./deploy/prepare_deployment.py android_manager
 
       - name: Upload generic artifacts
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         if: ${{ matrix.task == 'assembleRelease' }}
         with:
           name: android_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/android_manager.7z
 
       - name: Upload xiaomi manager
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         if: ${{ matrix.task == 'assembleXiaomi_release' }}
         with:
           name: android_xiaomi_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/android_manager_xiaomi.7z
 
       - name: Upload armv6 only manager
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         if: ${{ matrix.task == 'assembleArmv6_release' }}
         with:
           name: android_armv6_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/android_manager_armv6.7z
 
       - name: Upload JUnit Tests Results
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         if: ${{ always() && matrix.task == 'jacocoTestReportDebug' }}
         with:
           name: Android_tests_results
@@ -189,7 +189,7 @@ jobs:
 
       - name: Upload coverage report
         if: ${{ matrix.task == 'jacocoTestReportDebug' }}
-        uses: codecov/codecov-action@7f8b4b4bde536c465e797be725718b88c5d95e0e
+        uses: codecov/codecov-action@1e68e06f1dbfde0e4cefc87efeba9e4643565303
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -244,7 +244,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         with:
           name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -254,7 +254,7 @@ jobs:
         run: python ./deploy/prepare_deployment.py android_${{ matrix.type }}
 
       - name: Upload generic artifacts
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         if: ${{ ! contains(matrix.type, 'libs') }}
         with:
           name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
