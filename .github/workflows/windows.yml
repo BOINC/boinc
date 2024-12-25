@@ -119,7 +119,7 @@ jobs:
         if: ${{failure()}}
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
         with:
-          name: windows_logs_${{matrix.type}}_${{github.event.pull_request.head.sha}}
+          name: windows_logs_${{matrix.type}}_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
