@@ -704,9 +704,10 @@ string parse_ldd_libc(const char* input) {
 
 #ifdef _WIN32
 int DOCKER_CONN::init(DOCKER_TYPE docker_type, string distro_name, bool _verbose) {
+    string err_msg;
     cli_prog = docker_cli_prog(docker_type);
     if (docker_type == DOCKER) {
-        int retval = ctl_wc.setup();
+        int retval = ctl_wc.setup(err_msg);
         if (retval) return retval;
         retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
         if (retval) return retval;
