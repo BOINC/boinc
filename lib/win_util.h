@@ -53,7 +53,7 @@ struct WSL_CMD {
     // Use WslLaunch() to run a shell in the WSL container
     // The shell will run as the default user
     //
-    int setup();
+    int setup(std::string&);
 
     // Use wsl.exe to run a shell as root in the WSL container
     //

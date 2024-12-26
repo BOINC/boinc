@@ -48,6 +48,7 @@ int get_all_distros(WSL_DISTROS& distros) {
         lxss_path.c_str(), 0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey
     );
     if (lRet != ERROR_SUCCESS) {
+        msg_printf(0, MSG_INFO, "WSL: registry open failed");
         return -1;
     }
 
@@ -59,6 +60,7 @@ int get_all_distros(WSL_DISTROS& distros) {
         (LPBYTE)default_wsl_guid, &default_wsl_guid_len
     );
     if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len)) {
+        msg_printf(0, MSG_INFO, "WSL: registry query failed");
         return -1;
     }
 
@@ -179,10 +181,12 @@ int get_wsl_information(WSL_DISTROS &distros) {
     WSL_DISTROS all_distros;
     int retval = get_all_distros(all_distros);
     if (retval) return retval;
+    string err_msg;
 
     WSL_CMD rs;
 
-    if (rs.setup()) {
+    if (rs.setup(err_msg)) {
+        msg_printf(0, MSG_INFO, "WSL setup error: %s", err_msg.c_str());
         return -1;
     }
 

@@ -199,7 +199,7 @@ typedef HRESULT(WINAPI *PWslLaunch)(
 static PWslLaunch pWslLaunch = NULL;
 static HINSTANCE wsl_lib = NULL;
 
-int WSL_CMD::setup() {
+int WSL_CMD::setup(string &err_msg) {
     in_read = NULL;
     in_write = NULL;
     out_read = NULL;
@@ -207,9 +207,15 @@ int WSL_CMD::setup() {
 
     if (!pWslLaunch) {
         wsl_lib = LoadLibraryA("wslapi.dll");
-        if (!wsl_lib) return -1;
+        if (!wsl_lib) {
+            err_msg = "Can't load wslapi.dll";
+            return -1;
+        }
         pWslLaunch = (PWslLaunch)GetProcAddress(wsl_lib, "WslLaunch");
-        if (!pWslLaunch) return -1;
+        if (!pWslLaunch) {
+            err_msg = "WslLaunch not in wslapi.dll";
+            return -1;
+        }
     }
 
     SECURITY_ATTRIBUTES sa;
@@ -217,10 +223,22 @@ int WSL_CMD::setup() {
     sa.bInheritHandle = TRUE;
     sa.lpSecurityDescriptor = NULL;
 
-    if (!CreatePipe(&out_read, &out_write, &sa, 0)) return -1;
-    if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) return -1;
-    if (!CreatePipe(&in_read, &in_write, &sa, 0)) return -1;
-    if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) return -1;
+    if (!CreatePipe(&out_read, &out_write, &sa, 0)) {
+        err_msg = "Can't create out pipe";
+        return -1;
+    }
+    if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) {
+        err_msg = "Can't inherit out pipe";
+        return -1;
+    }
+    if (!CreatePipe(&in_read, &in_write, &sa, 0)) {
+        err_msg = "Can't create in pipe";
+        return -1;
+    }
+    if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) {
+        err_msg = "Can't inherit in pipe";
+        return -1;
+    }
     return 0;
 }
 
