@@ -618,7 +618,7 @@ jobs:
         if: success()
         run: |
           apt update -qq
-          apt install -y python3 gnupg2
+          apt install -y python3 gnupg2 curl
 
       - name: Install distro package for further upgrade
         if: success() && matrix.type == 'upgrade'
@@ -629,21 +629,19 @@ jobs:
       - name: Install distro package for further upgrade from the alpha
         if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
-          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
-          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
-          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main"
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
           apt update -qq
-          mv /bin/systemctl /bin/systemctl.bak
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
         if: success() && matrix.type == 'upgrade-from-stable'
         run: |
-          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
-          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
-          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main"
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
           apt update -qq
-          mv /bin/systemctl /bin/systemctl.bak
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Download client
@@ -690,7 +688,7 @@ jobs:
         if: success()
         run: |
           apt update -qq
-          apt install -y python3
+          apt install -y python3 gnupg2 curl
 
       - name: Install distro package for further upgrade
         if: success() && matrix.type == 'upgrade'
@@ -708,21 +706,19 @@ jobs:
       - name: Install distro package for further upgrade from the alpha
         if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
-          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
-          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
-          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main"
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
           apt update -qq
-          mv /bin/systemctl /bin/systemctl.bak
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
         if: success() && matrix.type == 'upgrade-from-stable'
         run: |
-          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
-          apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 40254C9B29853EA6
-          apt-add-repository "deb https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main"
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
           apt update -qq
-          mv /bin/systemctl /bin/systemctl.bak
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Rename systemctl (not supported on CI)
