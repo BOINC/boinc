@@ -182,12 +182,7 @@
     <ClInclude Include="..\installer\UpgradeTable.h" />
     <ClInclude Include="..\installer\JsonHelper.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\installer\boinc.json" />
-    <None Include="..\installer\locale\en.json" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets"/>
   <Import Project="boinc_signing.targets" />
 </Project>

@@ -152,6 +152,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "installer_icon", "installer
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "installer_setup", "installer_setup.vcxproj", "{80DFF29A-7B1D-41F4-BEAE-307CDB39BF54}"
 	ProjectSection(ProjectDependencies) = postProject
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27} = {88EB73FC-A865-4C3F-906D-44E00EF27A27}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "installer_msi", "installer_msi.vcxproj", "{88EB73FC-A865-4C3F-906D-44E00EF27A27}"
+	ProjectSection(ProjectDependencies) = postProject
+		{49723CA5-DA05-43C0-93AB-6FD30D046919} = {49723CA5-DA05-43C0-93AB-6FD30D046919}
 		{BB5EF2AB-F453-463B-835A-65BBE7182378} = {BB5EF2AB-F453-463B-835A-65BBE7182378}
 	EndProjectSection
 EndProject
@@ -505,6 +511,14 @@ Global
 		{80DFF29A-7B1D-41F4-BEAE-307CDB39BF54}.Release|ARM64.Build.0 = Release|ARM64
 		{80DFF29A-7B1D-41F4-BEAE-307CDB39BF54}.Release|x64.ActiveCfg = Release|x64
 		{80DFF29A-7B1D-41F4-BEAE-307CDB39BF54}.Release|x64.Build.0 = Release|x64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Debug|ARM64.Build.0 = Debug|ARM64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Debug|x64.ActiveCfg = Debug|x64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Debug|x64.Build.0 = Debug|x64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Release|ARM64.ActiveCfg = Release|ARM64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Release|ARM64.Build.0 = Release|ARM64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Release|x64.ActiveCfg = Release|x64
+		{88EB73FC-A865-4C3F-906D-44E00EF27A27}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
