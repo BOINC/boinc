@@ -276,8 +276,12 @@ void CProjectInfoPage::CreateControls()
         // canonicalized and trimmed URLs. This will be used for comparing against the master list of projects
         // to visually indicate which projectes have already been attached.
         //
-        for (unsigned int i = 0; i < pDoc->GetProjectCount(); i++) {
-            tempstring = pDoc->project(i)->master_url;
+        for (int i = 0; i < pDoc->GetProjectCount(); i++) {
+            PROJECT* pProject = pDoc->project(i);
+            if (!pProject) {
+                continue;
+            }
+            tempstring = pProject->master_url;
             canonicalize_master_url(tempstring);
             TrimURL(tempstring);
             m_pTrimmedURL_attached.push_back(tempstring);
