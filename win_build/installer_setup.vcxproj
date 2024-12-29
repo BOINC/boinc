@@ -35,17 +35,6 @@
     <ResourceCompile Include="..\installer\installer_setup\installer_setup.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
-  <PropertyGroup>
-    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
-  </PropertyGroup>
-  <ItemDefinitionGroup>
-    <CustomBuildStep>
-      <Command>$(SolutionDir)Build\x64\$(Configuration)\installer.exe -p $(Platform)</Command>
-      <Inputs>$(MSBuildThisFileDirectory)..\installer\boinc.json;$(MSBuildThisFileDirectory)..\installer\locale\en.json;$(OutDir)boinccas.dll;$(SolutionDir)Build\x64\$(Configuration)\installer.exe</Inputs>
-      <Outputs>$(OutDir)boinc.msi</Outputs>
-    </CustomBuildStep>
-  </ItemDefinitionGroup>
+  <ImportGroup Label="ExtensionTargets"/>
   <Import Project="boinc_signing.targets" />
 </Project>

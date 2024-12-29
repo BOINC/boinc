@@ -33,6 +33,15 @@ env:
   AWS_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY}}
   AWS_SECRET_ACCESS_KEY: ${{secrets.S3_SECRET_KEY}}
   AWS_DEFAULT_REGION: us-west-2
+  AZURE_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+  AZURE_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+  AZURE_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+  AZURE_ENDPOINT: ${{secrets.AZURE_ENDPOINT}}
+  AZURE_CODE_SIGNING_NAME: ${{secrets.AZURE_CODE_SIGNING_NAME}}
+  AZURE_CERT_PROFILE_NAME: ${{secrets.AZURE_CERT_PROFILE_NAME}}
+  TSCT: ${{github.workspace}}\temp\TSCT
+  DLIB: ${{github.workspace}}\temp\TSCT\Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll
+  DMDF: ${{github.workspace}}\metadata.json
 
 jobs:
   build:
@@ -88,9 +97,18 @@ jobs:
             ${{github.workspace}}\3rdParty\Windows\cuda\
           key: windows-${{matrix.platform}}-${{matrix.configuration}}-${{hashFiles('win_build/vcpkg_3rdparty_dependencies.vcxproj', '.github/workflows/windows.yml')}}
 
+      - name: Install Trusted Signing Client Tools
+        if: success() && matrix.type == 'msbuild' && startsWith(github.ref, 'refs/tags/') && env.AZURE_CLIENT_ID != 0 && env.AZURE_CLIENT_SECRET != 0 && env.AZURE_TENANT_ID != 0 && env.AZURE_ENDPOINT != 0 && env.AZURE_CODE_SIGNING_NAME != 0 && env.AZURE_CERT_PROFILE_NAME != 0
+        run: nuget.exe install Microsoft.Trusted.Signing.Client -Version 1.0.60 -x -OutputDirectory "${{ env.TSCT }}"
+
+      - name: Write metadata.json
+        if: success() && matrix.type == 'msbuild' && startsWith(github.ref, 'refs/tags/') && env.AZURE_CLIENT_ID != 0 && env.AZURE_CLIENT_SECRET != 0 && env.AZURE_TENANT_ID != 0 && env.AZURE_ENDPOINT != 0 && env.AZURE_CODE_SIGNING_NAME != 0 && env.AZURE_CERT_PROFILE_NAME != 0
+        run: |
+          python ./ci_tools/create_signing_metadata.py "${{ env.DMDF }}" "${{ env.AZURE_ENDPOINT }}" "${{ env.AZURE_CODE_SIGNING_NAME }}" "${{ env.AZURE_CERT_PROFILE_NAME }}"
+
       - name: Build
         if: success() && matrix.type == 'msbuild'
-        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -m
+        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -m
 
       - name: Build CMake
         if: success() && matrix.type == 'libs-cmake'
