@@ -148,6 +148,7 @@ class IntegrationTests:
     def test_selected_values_from_boinc_client_service_file(self):
         ts = testset.TestSet("Test selected values from the '/usr/lib/systemd/system/boinc-client.service' file")
         data = self._get_key_value_pairs_from_file("/usr/lib/systemd/system/boinc-client.service")
+        ts.expect_equal(data["ProtectSystem"], "strict", "Test 'ProtectSystem' is correctly set")
         ts.expect_equal(data["ReadWritePaths"], "-/var/lib/boinc -/etc/boinc-client -/tmp", "Test 'ReadWritePaths' is correctly set")
         ts.expect_equal(data["User"], "boinc", "Test 'User' is correctly set")
         ts.expect_equal(data["WorkingDirectory"], "/var/lib/boinc", "Test 'WorkingDirectory' is correctly set")
