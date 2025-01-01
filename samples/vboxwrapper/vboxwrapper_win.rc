@@ -58,7 +58,7 @@ BEGIN
             VALUE "FileDescription", "BOINC VirtualBox Wrapper"
             VALUE "FileVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
             VALUE "InternalName", "vboxwrapper"
-            VALUE "LegalCopyright", "© 2011-2024 University of California"
+            VALUE "LegalCopyright", "© 2011-2025 University of California"
             VALUE "OriginalFilename", "vboxwrapper.exe"
             VALUE "ProductName", "BOINC VirtualBox Wrapper"
             VALUE "ProductVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)

@@ -57,7 +57,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Installer Icon"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "installer_icon"
-            VALUE "LegalCopyright", "� 2003-2024 University of California"
+            VALUE "LegalCopyright", "� 2003-2025 University of California"
             VALUE "OriginalFilename", "installer_icon.exe"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"

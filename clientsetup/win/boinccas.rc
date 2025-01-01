@@ -72,7 +72,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Dynamic Link Library"
             VALUE "FileVersion", "1.0.0.171"
             VALUE "InternalName", "BOINC"
-            VALUE "LegalCopyright", "Copyright (C) 2005-2024"
+            VALUE "LegalCopyright", "Copyright (C) 2005-2025"
             VALUE "OriginalFilename", "BOINC.dll"
             VALUE "ProductName", " BOINC Dynamic Link Library"
             VALUE "ProductVersion", "1.0.0.171"
