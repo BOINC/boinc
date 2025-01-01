@@ -14,7 +14,7 @@ export CXX="x86_64-w64-mingw32-g++"
 export CC="x86_64-w64-mingw32-gcc"
 # condor
 export MINGW_FLAGS="-Dflockfile=_lock_file -Dfunlockfile=_unlock_file"
-export CURL_EXTRA_LDFLAGS="-lcurl -lwinmm -lpthread -lssl -lcrypto -lws2_32 -lzlib -ladvapi32 -lcrypt32"
+export CURL_EXTRA_LDFLAGS="-lcurl -lwinmm -lpthread -lssl -lcrypto -lws2_32 -lzlib -ladvapi32 -lcrypt32 -lbcrypt"
 # wrapper
 export MINGW_WRAPPER_FLAGS="-DEINSTEINATHOME_CROSS_BUILD -DMINGW_WIN32 -DHAVE_STRCASECMP -D_WINDOWS -D_WIN32 -DWIN32 -DWINVER=0x0500 -D_WIN32_WINNT=0x0500 -D_MT -DBOINC -DNODB -D_CONSOLE -fexceptions"
 export MINGW_ZIP_FIX="../../zip/zip/__p___mb_cur_max.c"
