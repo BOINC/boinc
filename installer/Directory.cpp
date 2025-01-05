@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,10 @@
 Directory::Directory(const nlohmann::json& json, const std::string& parent,
     InstallerStrings& installerStrings) : parent(parent) {
     JsonHelper::get(json, "Directory", directory);
+    auto p = directory.find("@");
+    if (p != std::string::npos) {
+        directory = directory.replace(p, 1, "_");
+    }
     JsonHelper::get(json, "DefaultDir", default);
     JsonHelper::handle(json, "Directories", [&](const auto& dir) {
         directories.emplace_back(dir, directory, installerStrings);

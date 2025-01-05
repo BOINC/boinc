@@ -25,6 +25,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <CustomBuildStep>
+      <Inputs>..\installer\boinc.json;..\installer\locale\en.json;$(SolutionDir)Build\x64\$(Configuration)\installer.exe</Inputs>
       <Command>$(SolutionDir)Build\x64\$(Configuration)\installer.exe -p $(Platform)</Command>
       <Outputs>$(OutDir)$(TargetName)$(TargetExt)</Outputs>
     </CustomBuildStep>

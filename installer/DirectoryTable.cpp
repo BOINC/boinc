@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,9 +31,10 @@ DirectoryTable::DirectoryTable(const nlohmann::json& json,
     const std::filesystem::path& root_path,
     const std::filesystem::path& output_path,
     InstallerStrings& installerStrings, const std::string& platform,
-    const std::string& configuration) :
+    const std::string& configuration,
+    std::shared_ptr<ValidationTable> validationTable) :
     root_path(root_path), output_path(output_path), platform(platform),
-    configuration(configuration) {
+    configuration(configuration), validationTable(validationTable) {
     std::cout << "Loading DirectoryTable..." << std::endl;
     for (const auto& directory : json) {
         directories.emplace_back(directory, "", installerStrings);
@@ -41,7 +42,7 @@ DirectoryTable::DirectoryTable(const nlohmann::json& json,
 }
 
 bool DirectoryTable::generate(MSIHANDLE hDatabase) {
-    if (!ComponentTable(directories).generate(hDatabase)) {
+    if (!ComponentTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ComponentTable" << std::endl;
         return false;
     }

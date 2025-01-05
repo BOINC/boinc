@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,7 +28,7 @@ File::File(const nlohmann::json& json, const std::string& component) :
 }
 
 MSIHANDLE File::getRecord() const {
-    return MsiHelper::MsiRecordSet({ file, component, filename, filesize,
+    return MsiHelper::MsiRecordSet({ getFileId(), component, filename, filesize,
         version, language, attributes, sequence });
 }
 
@@ -37,7 +37,16 @@ std::filesystem::path File::getFilepath() const {
 }
 
 std::string File::getFileId() const {
-    return file;
+    auto result = file;
+    auto p = result.find("-");
+    if (p != std::string::npos) {
+        result.replace(p, 1, "_");
+    }
+    p = result.find("@");
+    if (p != std::string::npos) {
+        result.replace(p, 1, "_");
+    }
+    return result;
 }
 
 bool File::isFontFile() const noexcept {
@@ -66,4 +75,8 @@ void File::setSequence(int s) noexcept {
 
 void File::setFilepath(const std::filesystem::path& p) {
     filepath = p;
+}
+
+bool File::isVersioned() const noexcept {
+    return !version.empty();
 }

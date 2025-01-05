@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -41,8 +41,39 @@
 #include "TextStyleTable.h"
 #include "UITextTable.h"
 #include "UpgradeTable.h"
+#include "ValidationTable.h"
 
 #include "Installer.h"
+
+// for temporary debugging
+#define MSI_VALIDATE
+
+#if defined(_DEBUG) && !defined(MSI_VALIDATE)
+#define MSI_VALIDATE
+#endif
+
+const auto ActionTextTableName = std::string("ActionText");
+const auto AdminExecuteSequenceTableName = std::string("AdminExecuteSequence");
+const auto AdminUISequenceTableName = std::string("AdminUISequence");
+const auto AdvtExecuteSequenceTableName = std::string("AdvtExecuteSequence");
+const auto BinaryTableName = std::string("Binary");
+const auto CheckboxTableName = std::string("Checkbox");
+const auto CustomActionTableName = std::string("CustomAction");
+const auto DialogTableName = std::string("Dialog");
+const auto DirectoryTableName = std::string("Directory");
+const auto ErrorTableName = std::string("Error");
+const auto FeatureTableName = std::string("Feature");
+const auto IconTableName = std::string("Icon");
+const auto InstallExecuteSequenceTableName =
+    std::string("InstallExecuteSequence");
+const auto InstallUISequenceTableName = std::string("InstallUISequence");
+const auto LaunchConditionTableName = std::string("LaunchCondition");
+const auto PropertyTableName = std::string("Property");
+const auto SummaryTableName = std::string("Summary");
+const auto TextStyleTableName = std::string("TextStyle");
+const auto UITextTableName = std::string("UIText");
+const auto UpgradeTableName = std::string("Upgrade");
+const auto ValidationTableName = std::string("Validation");
 
 Installer::Installer(const std::filesystem::path& output_path,
     const std::string& platform, const std::string& configuration) :
@@ -78,90 +109,108 @@ bool Installer::load_from_json(const nlohmann::json& json,
                 return false;
             }
         }
-        if (JsonHelper::exists(json, "Summary")) {
-            tables["Summary"] = std::make_shared<SummaryInformationTable>(
-                json["Summary"], installer_strings, platform);
+        // should always be first
+        std::shared_ptr<ValidationTable> validationTable = 
+#ifndef MSI_VALIDATE
+            nullptr;
+#else
+            std::make_shared<ValidationTable>();
+        tables[ValidationTableName] = validationTable;
+#endif
+        if (JsonHelper::exists(json, SummaryTableName)) {
+            tables[SummaryTableName] =
+                std::make_shared<SummaryInformationTable>(
+                json[SummaryTableName], installer_strings, platform);
         }
-        if (JsonHelper::exists(json, "ActionText")) {
-            tables["ActionText"] = std::make_shared<ActionTextTable>(
-                json["ActionText"], installer_strings);
+        if (JsonHelper::exists(json, ActionTextTableName)) {
+            tables[ActionTextTableName] = std::make_shared<ActionTextTable>(
+                json[ActionTextTableName], installer_strings, validationTable);
         }
-        if (JsonHelper::exists(json, "AdminExecuteSequence")) {
-            tables["AdminExecuteSequence"] =
+        if (JsonHelper::exists(json, AdminExecuteSequenceTableName)) {
+            tables[AdminExecuteSequenceTableName] =
                 std::make_shared<AdminExecuteSequenceTable>(
-                    json["AdminExecuteSequence"]);
+                    json[AdminExecuteSequenceTableName], validationTable);
         }
-        if (JsonHelper::exists(json, "AdminUISequence")) {
-            tables["AdminUISequence"] = std::make_shared<AdminUISequenceTable>(
-                json["AdminUISequence"]);
+        if (JsonHelper::exists(json, AdminUISequenceTableName)) {
+            tables[AdminUISequenceTableName] =
+                std::make_shared<AdminUISequenceTable>(
+                    json[AdminUISequenceTableName], validationTable);
         }
-        if (JsonHelper::exists(json, "AdvtExecuteSequence")) {
-            tables["AdvtExecuteSequence"] =
+        if (JsonHelper::exists(json, AdvtExecuteSequenceTableName)) {
+            tables[AdvtExecuteSequenceTableName] =
                 std::make_shared<AdvtExecuteSequenceTable>(
-                    json["AdvtExecuteSequence"]);
+                    json[AdvtExecuteSequenceTableName], validationTable);
         }
-        if (JsonHelper::exists(json, "Binary")) {
-            tables["Binary"] = std::make_shared<BinaryTable>(
-                json["Binary"], path, platform, configuration);
+        if (JsonHelper::exists(json, BinaryTableName)) {
+            tables[BinaryTableName] = std::make_shared<BinaryTable>(
+                json[BinaryTableName], path, platform, configuration,
+                validationTable);
         }
-        if (JsonHelper::exists(json, "Checkbox")) {
-            tables["Checkbox"] = std::make_shared<CheckboxTable>(
-                json["Checkbox"]);
+        if (JsonHelper::exists(json, CheckboxTableName)) {
+            tables[CheckboxTableName] = std::make_shared<CheckboxTable>(
+                json[CheckboxTableName], validationTable);
         }
-        if (JsonHelper::exists(json, "CustomAction")) {
-            tables["CustomAction"] = std::make_shared<CustomActionTable>(
-                json["CustomAction"]);
+        if (JsonHelper::exists(json, CustomActionTableName)) {
+            tables[CustomActionTableName] =
+                std::make_shared<CustomActionTable>(
+                    json[CustomActionTableName]);
         }
-        if (JsonHelper::exists(json, "Dialog")) {
-            tables["Dialog"] = std::make_shared<DialogTable>(json["Dialog"],
+        if (JsonHelper::exists(json, DialogTableName)) {
+            tables[DialogTableName] =
+                std::make_shared<DialogTable>(json[DialogTableName],
                 installer_strings);
         }
-        if (JsonHelper::exists(json, "Directory")) {
-            tables["Directory"] = std::make_shared<DirectoryTable>(
-                json["Directory"], path, output_path, installer_strings,
+        if (JsonHelper::exists(json, DirectoryTableName)) {
+            tables[DirectoryTableName] = std::make_shared<DirectoryTable>(
+                json[DirectoryTableName], path, output_path, installer_strings,
+                platform, configuration, validationTable);
+        }
+        if (JsonHelper::exists(json, ErrorTableName)) {
+            tables[ErrorTableName] =
+                std::make_shared<ErrorTable>(json[ErrorTableName],
+                installer_strings);
+        }
+        if (JsonHelper::exists(json, FeatureTableName)) {
+            tables[FeatureTableName] =
+                std::make_shared<FeatureTable>(json[FeatureTableName],
+                installer_strings);
+        }
+        if (JsonHelper::exists(json, IconTableName)) {
+            tables[IconTableName] =
+                std::make_shared<IconTable>(json[IconTableName], path,
                 platform, configuration);
         }
-        if (JsonHelper::exists(json, "Error")) {
-            tables["Error"] = std::make_shared<ErrorTable>(json["Error"],
-                installer_strings);
-        }
-        if (JsonHelper::exists(json, "Feature")) {
-            tables["Feature"] = std::make_shared<FeatureTable>(json["Feature"],
-                installer_strings);
-        }
-        if (JsonHelper::exists(json, "Icon")) {
-            tables["Icon"] = std::make_shared<IconTable>(json["Icon"], path,
-                platform, configuration);
-        }
-        if (JsonHelper::exists(json, "InstallExecuteSequence")) {
-            tables["InstallExecuteSequence"] =
+        if (JsonHelper::exists(json, InstallExecuteSequenceTableName)) {
+            tables[InstallExecuteSequenceTableName] =
                 std::make_shared<InstallExecuteSequenceTable>(
-                    json["InstallExecuteSequence"]);
+                    json[InstallExecuteSequenceTableName]);
         }
-        if (JsonHelper::exists(json, "InstallUISequence")) {
-            tables["InstallUISequence"] =
+        if (JsonHelper::exists(json, InstallUISequenceTableName)) {
+            tables[InstallUISequenceTableName] =
                 std::make_shared<InstallUISequenceTable>(
-                    json["InstallUISequence"]);
+                    json[InstallUISequenceTableName]);
         }
-        if (JsonHelper::exists(json, "LaunchCondition")) {
-            tables["LaunchCondition"] = std::make_shared<LaunchConditionTable>(
-                json["LaunchCondition"], installer_strings);
+        if (JsonHelper::exists(json, LaunchConditionTableName)) {
+            tables[LaunchConditionTableName] =
+                std::make_shared<LaunchConditionTable>(
+                json[LaunchConditionTableName], installer_strings);
         }
-        if (JsonHelper::exists(json, "Property")) {
-            tables["Property"] = std::make_shared<PropertyTable>(
-                json["Property"], installer_strings);
+        if (JsonHelper::exists(json, PropertyTableName)) {
+            tables[PropertyTableName] = std::make_shared<PropertyTable>(
+                json[PropertyTableName], installer_strings);
         }
-        if (JsonHelper::exists(json, "TextStyle")) {
-            tables["TextStyle"] = std::make_shared<TextStyleTable>(
-                json["TextStyle"]);
+        if (JsonHelper::exists(json, TextStyleTableName)) {
+            tables[TextStyleTableName] = std::make_shared<TextStyleTable>(
+                json[TextStyleTableName]);
         }
-        if (JsonHelper::exists(json, "UIText")) {
-            tables["UIText"] = std::make_shared<UITextTable>(json["UIText"],
+        if (JsonHelper::exists(json, UITextTableName)) {
+            tables[UITextTableName] =
+                std::make_shared<UITextTable>(json[UITextTableName],
                 installer_strings);
         }
-        if (JsonHelper::exists(json, "Upgrade")) {
-            tables["Upgrade"] = std::make_shared<UpgradeTable>(
-                json["Upgrade"]);
+        if (JsonHelper::exists(json, UpgradeTableName)) {
+            tables[UpgradeTableName] = std::make_shared<UpgradeTable>(
+                json[UpgradeTableName]);
         }
     }
     catch (const std::exception& e) {
@@ -210,9 +259,21 @@ bool Installer::create_msi(const std::filesystem::path& msi) {
         }
 
         for (const auto& table : tables) {
+            if (table.first == ValidationTableName) {
+                continue;
+            }
             if (!table.second->generate(hDatabase)) {
                 std::cerr << "Failed to write table " << table.first
                     << std::endl;
+                return false;
+            }
+        }
+
+        // should always be last
+        if (tables.find(ValidationTableName) != tables.end() &&
+            tables[ValidationTableName] != nullptr) {
+            if (!tables[ValidationTableName]->generate(hDatabase)) {
+                std::cerr << "Failed to write table Validation" << std::endl;
                 return false;
             }
         }

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,10 +20,55 @@
 #include "ActionTextTable.h"
 
 ActionTextTable::ActionTextTable(const nlohmann::json& json,
-    InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings,
+    std::shared_ptr<ValidationTable> validationTable) {
     std::cout << "Loading ActionTextTable..." << std::endl;
     for (const auto& item : json) {
         values.emplace_back(item, installerStrings);
+    }
+    const auto tableName = std::string("ActionText");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/actiontext-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Action",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("Name of the action.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Description",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("Localized description that is displayed in "
+                "the progress dialog box, or written to the log when the "
+                "action is executing.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Template",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryTemplate,
+            "",
+            DescriptionWithUrl("A localized format template that is used to "
+                "format action data records to display during action "
+            "execution.", url)
+        ));
     }
 }
 

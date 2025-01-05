@@ -17,20 +17,28 @@
 
 #pragma once
 
-#include <filesystem>
-
 #include "Generator.h"
-#include "Binary.h"
-#include "ValidationTable.h"
+#include "Validation.h"
 
-class BinaryTable : public Generator<Binary> {
+const auto ValidationCategoryIdentifier = std::string("Identifier");
+const auto ValidationCategoryText = std::string("Text");
+const auto ValidationCategoryTemplate = std::string("Template");
+const auto ValidationCategoryCondition = std::string("Condition");
+const auto ValidationCategoryBinary = std::string("Binary");
+const auto ValidationCategoryFormatted = std::string("Formatted");
+const auto ValidationCategoryGuid = std::string("Guid");
+
+const auto DescriptionWithUrl = [](const std::string& description,
+    const std::string& url) {
+        return description + " For more information, see " + url;
+    };
+
+class ValidationTable : public Generator<Validation> {
 public:
-    explicit BinaryTable(const nlohmann::json& json,
-        const std::filesystem::path& path, const std::string& platform,
-        const std::string& configuration,
-        std::shared_ptr<ValidationTable> validationTable);
-    ~BinaryTable() = default;
+    explicit ValidationTable();
+    ~ValidationTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
+    void add(const Validation& value);
 private:
-    std::vector<Binary> binaries{};
+    std::vector<Validation> values{};
 };

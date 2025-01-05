@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,6 +35,7 @@ public:
     void setAttributes(int a) noexcept;
     void setSequence(int s) noexcept;
     void setFilepath(const std::filesystem::path& p);
+    bool isVersioned() const noexcept;
 private:
     std::string file{};
     std::string component{};
