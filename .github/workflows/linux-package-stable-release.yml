@@ -59,12 +59,7 @@ jobs:
       - name: Install dependencies
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
-          # Install aptly version 1.5.0+ (to support ubuntu xz compression)
-          # gpg1 is used for compatibility with aptly
-          wget -qO - https://www.aptly.info/pubkey.txt | sudo apt-key add -
-          echo "deb http://repo.aptly.info/ squeeze main" | sudo tee -a /etc/apt/sources.list
-          sudo apt update -qq
-          sudo apt-get install -y aptly gnupg1 gpgv1
+          sudo apt-get install -y aptly gnupg2 gpgv
 
       - name: Setup GPG keys
         if: ${{ success() && env.SKIP_RUN == 0 }}
