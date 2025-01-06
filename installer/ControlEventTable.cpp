@@ -18,7 +18,92 @@
 #include "ControlEventTable.h"
 
 ControlEventTable::ControlEventTable(
-    const std::vector<Control>& controls) noexcept : controls(controls) {}
+    const std::vector<Control>& controls,
+    std::shared_ptr<ValidationTable> validationTable) : controls(controls) {
+    const auto tableName = std::string("ControlEvent");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/controlevent-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Dialog_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Dialog",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key to the first column of the "
+                "Dialog table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Control_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Control",
+            2,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key to the second column of the "
+                "Control table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Event",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("An identifier that specifies the type of "
+                "event that should take place when the user interacts with "
+                "the control specified by Dialog_ and Control_.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Argument",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("A value used as a modifier when triggering a "
+                "particular event.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Condition",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryCondition,
+            "",
+            DescriptionWithUrl("A conditional statement that determines "
+                "whether the installer activates the event in the Event "
+                "column.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Ordering",
+            true,
+            0,
+            2147483647,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("An integer used to order several events tied to the same control.", url)
+        ));
+    }
+}
 
 bool ControlEventTable::generate(MSIHANDLE hDatabase) {
     std::cout << "Generating ControlEventTable..." << std::endl;

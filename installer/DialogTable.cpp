@@ -20,7 +20,9 @@
 #include "Generator.h"
 
 DialogTable::DialogTable(const nlohmann::json& json,
-    InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings,
+    std::shared_ptr<ValidationTable> validationTable) :
+    validationTable(validationTable) {
     std::cout << "Loading DialogTable..." << std::endl;
 
     for (const auto& dialog : json) {
@@ -29,7 +31,7 @@ DialogTable::DialogTable(const nlohmann::json& json,
 }
 
 bool DialogTable::generate(MSIHANDLE hDatabase) {
-    if (!ControlTable(dialogs).generate(hDatabase)) {
+    if (!ControlTable(dialogs, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ControlTable" << std::endl;
         return false;
     }

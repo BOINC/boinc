@@ -158,7 +158,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
         if (JsonHelper::exists(json, DialogTableName)) {
             tables[DialogTableName] =
                 std::make_shared<DialogTable>(json[DialogTableName],
-                installer_strings);
+                installer_strings, validationTable);
         }
         if (JsonHelper::exists(json, DirectoryTableName)) {
             tables[DirectoryTableName] = std::make_shared<DirectoryTable>(

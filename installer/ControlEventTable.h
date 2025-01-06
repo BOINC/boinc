@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,10 +20,12 @@
 #include "ControlEvent.h"
 #include "Generator.h"
 #include "Control.h"
+#include "ValidationTable.h"
 
 class ControlEventTable : public Generator<ControlEvent> {
 public:
-    explicit ControlEventTable(const std::vector<Control>& controls) noexcept;
+    explicit ControlEventTable(const std::vector<Control>& controls,
+        std::shared_ptr<ValidationTable> validationTable);
     ~ControlEventTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:
