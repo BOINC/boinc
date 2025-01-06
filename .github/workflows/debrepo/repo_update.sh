@@ -93,12 +93,12 @@ pushd $CWD
 
 rm -rf $CWD/http-data/$DISTRO/*
 
-gpg1 --version
+gpg2 --version
 
 # import public key to allow the repo mirroring
-gpg1 --no-default-keyring --primary-keyring $KEYRING --import $PUBKEYFILE || true
-gpg1 --no-default-keyring --primary-keyring $KEYRING --import $PRIVKEYFILE || true
-gpg1 --no-default-keyring --primary-keyring $KEYRING --list-keys
+gpg2 --no-default-keyring --primary-keyring $KEYRING --import $PUBKEYFILE || true
+gpg2 --no-default-keyring --primary-keyring $KEYRING --import $PRIVKEYFILE || true
+gpg2 --no-default-keyring --primary-keyring $KEYRING --list-keys
 
 # create repo for indicated type and distribution
 aptly -config=$CONF_FILE -distribution=$DISTRO repo create boinc-$TYPE

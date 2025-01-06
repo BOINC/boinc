@@ -919,7 +919,7 @@ jobs:
       - name: Install dependencies
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
-          sudo apt-get install -y aptly
+          sudo apt-get install -y aptly gnupg2 gpgv
 
       - name: Setup GPG keys
         if: ${{ success() && env.SKIP_RUN == 0 }}
