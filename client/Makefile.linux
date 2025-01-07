@@ -140,7 +140,7 @@ clean:
 LIBS = ../lib/boinc.a \
     -L /usr/local/lib/ \
     -lpthread \
-    -lX11 \
+    -lX11 -lXss\
     -lcurl -lssl -lcrypto \
     -lz -ldl
 
