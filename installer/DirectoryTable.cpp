@@ -39,6 +39,51 @@ DirectoryTable::DirectoryTable(const nlohmann::json& json,
     for (const auto& directory : json) {
         directories.emplace_back(directory, "", installerStrings);
     }
+
+    const auto tableName = std::string("Directory");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/directory-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Directory",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The Directory column contains a unique "
+                "identifier for a directory or directory path.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Directory_Parent",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Directory",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("This column is a reference to the directory's "
+                "parent directory.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "DefaultDir",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryDefaultDir,
+            "",
+            DescriptionWithUrl("The DefaultDir column contains the "
+                "directory's name (localizable)under the parent directory.",
+                url)
+        ));
+    }
 }
 
 bool DirectoryTable::generate(MSIHANDLE hDatabase) {
@@ -50,7 +95,7 @@ bool DirectoryTable::generate(MSIHANDLE hDatabase) {
         std::cerr << "Failed to generate FeatureComponentsTable" << std::endl;
         return false;
     }
-    if (!CreateFolderTable(directories).generate(hDatabase)) {
+    if (!CreateFolderTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate CreateFolderTable" << std::endl;
         return false;
     }

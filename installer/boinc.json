@@ -5686,7 +5686,7 @@
                                     "DefaultDir": "locale",
                                     "Directories": [
                                         {
-                                            "Directory": "ar",
+                                            "Directory": "locale_ar",
                                             "DefaultDir": "ar",
                                             "Components": [
                                                 {
@@ -5703,7 +5703,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "az",
+                                            "Directory": "locale_az",
                                             "DefaultDir": "az",
                                             "Components": [
                                                 {
@@ -5725,7 +5725,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "bg",
+                                            "Directory": "locale_bg",
                                             "DefaultDir": "bg",
                                             "Components": [
                                                 {
@@ -5747,7 +5747,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ca",
+                                            "Directory": "locale_ca",
                                             "DefaultDir": "ca",
                                             "Components": [
                                                 {
@@ -5769,7 +5769,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "cs",
+                                            "Directory": "locale_cs",
                                             "DefaultDir": "cs",
                                             "Components": [
                                                 {
@@ -5791,7 +5791,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "da",
+                                            "Directory": "locale_da",
                                             "DefaultDir": "da",
                                             "Components": [
                                                 {
@@ -5813,7 +5813,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "de",
+                                            "Directory": "locale_de",
                                             "DefaultDir": "de",
                                             "Components": [
                                                 {
@@ -5835,7 +5835,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "el",
+                                            "Directory": "locale_el",
                                             "DefaultDir": "el",
                                             "Components": [
                                                 {
@@ -5852,7 +5852,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "eo",
+                                            "Directory": "locale_eo",
                                             "DefaultDir": "eo",
                                             "Components": [
                                                 {
@@ -5869,7 +5869,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "es",
+                                            "Directory": "locale_es",
                                             "DefaultDir": "es",
                                             "Components": [
                                                 {
@@ -5891,7 +5891,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "eu",
+                                            "Directory": "locale_eu",
                                             "DefaultDir": "eu",
                                             "Components": [
                                                 {
@@ -5913,7 +5913,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "fa_IR",
+                                            "Directory": "locale_fa_IR",
                                             "DefaultDir": "fa_IR",
                                             "Components": [
                                                 {
@@ -5930,7 +5930,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "fi",
+                                            "Directory": "locale_fi",
                                             "DefaultDir": "fi",
                                             "Components": [
                                                 {
@@ -5952,7 +5952,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "fr",
+                                            "Directory": "locale_fr",
                                             "DefaultDir": "fr",
                                             "Components": [
                                                 {
@@ -5974,7 +5974,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "he",
+                                            "Directory": "locale_he",
                                             "DefaultDir": "he",
                                             "Components": [
                                                 {
@@ -5996,7 +5996,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "hu",
+                                            "Directory": "locale_hu",
                                             "DefaultDir": "hu",
                                             "Components": [
                                                 {
@@ -6018,7 +6018,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "it",
+                                            "Directory": "locale_it",
                                             "DefaultDir": "it",
                                             "Components": [
                                                 {
@@ -6040,7 +6040,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "it_IT",
+                                            "Directory": "locale_it_IT",
                                             "DefaultDir": "it_IT",
                                             "Components": [
                                                 {
@@ -6062,7 +6062,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ja",
+                                            "Directory": "locale_ja",
                                             "DefaultDir": "ja",
                                             "Components": [
                                                 {
@@ -6084,7 +6084,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ka",
+                                            "Directory": "locale_ka",
                                             "DefaultDir": "ka",
                                             "Components": [
                                                 {
@@ -6106,7 +6106,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ko",
+                                            "Directory": "locale_ko",
                                             "DefaultDir": "ko",
                                             "Components": [
                                                 {
@@ -6128,7 +6128,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "lt",
+                                            "Directory": "locale_lt",
                                             "DefaultDir": "lt",
                                             "Components": [
                                                 {
@@ -6145,7 +6145,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "lv",
+                                            "Directory": "locale_lv",
                                             "DefaultDir": "lv",
                                             "Components": [
                                                 {
@@ -6167,7 +6167,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "nb",
+                                            "Directory": "locale_nb",
                                             "DefaultDir": "nb",
                                             "Components": [
                                                 {
@@ -6189,7 +6189,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "nl",
+                                            "Directory": "locale_nl",
                                             "DefaultDir": "nl",
                                             "Components": [
                                                 {
@@ -6211,7 +6211,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "pl",
+                                            "Directory": "locale_pl",
                                             "DefaultDir": "pl",
                                             "Components": [
                                                 {
@@ -6233,7 +6233,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "pt_BR",
+                                            "Directory": "locale_pt_BR",
                                             "DefaultDir": "pt_BR",
                                             "Components": [
                                                 {
@@ -6255,7 +6255,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "pt_PT",
+                                            "Directory": "locale_pt_PT",
                                             "DefaultDir": "pt_PT",
                                             "Components": [
                                                 {
@@ -6277,7 +6277,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ro",
+                                            "Directory": "locale_ro",
                                             "DefaultDir": "ro",
                                             "Components": [
                                                 {
@@ -6299,7 +6299,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ru",
+                                            "Directory": "locale_ru",
                                             "DefaultDir": "ru",
                                             "Components": [
                                                 {
@@ -6321,7 +6321,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "sk",
+                                            "Directory": "locale_sk",
                                             "DefaultDir": "sk",
                                             "Components": [
                                                 {
@@ -6343,7 +6343,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "sr@latin",
+                                            "Directory": "locale_sr_latin",
                                             "DefaultDir": "sr@latin",
                                             "Components": [
                                                 {
@@ -6360,7 +6360,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "sv",
+                                            "Directory": "locale_sv",
                                             "DefaultDir": "sv",
                                             "Components": [
                                                 {
@@ -6382,7 +6382,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "tr",
+                                            "Directory": "locale_tr",
                                             "DefaultDir": "tr",
                                             "Components": [
                                                 {
@@ -6404,7 +6404,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "uk",
+                                            "Directory": "locale_uk",
                                             "DefaultDir": "uk",
                                             "Components": [
                                                 {
@@ -6426,7 +6426,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "vi",
+                                            "Directory": "locale_vi",
                                             "DefaultDir": "vi",
                                             "Components": [
                                                 {
@@ -6448,7 +6448,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "zh_CN",
+                                            "Directory": "locale_zh_CN",
                                             "DefaultDir": "zh_CN",
                                             "Components": [
                                                 {
@@ -6470,7 +6470,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "zh_TW",
+                                            "Directory": "locale_zh_TW",
                                             "DefaultDir": "zh_TW",
                                             "Components": [
                                                 {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,6 +27,140 @@ DialogTable::DialogTable(const nlohmann::json& json,
 
     for (const auto& dialog : json) {
         dialogs.emplace_back(dialog, installerStrings);
+    }
+
+    const auto tableName = std::string("Dialog");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/dialog-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Dialog",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The primary key and name of the dialog box.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "HCentering",
+            false,
+            0,
+            100,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The horizontal position of the dialog box.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "VCentering",
+            false,
+            0,
+            100,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The vertical position of the dialog box.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Width",
+            false,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The width of the rectangular boundary of the "
+                "dialog box.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Height",
+            false,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The height of the rectangular boundary of the "
+                "dialog box.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Attributes",
+            true,
+            0,
+            2147483647,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("A 32-bit word that specifies the attribute "
+                "flags to be applied to this dialog box.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Title",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("A localizable text string specifying the "
+                "title to be displayed in the title bar of the dialog box.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Control_First",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Control",
+            2,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key to the second column of the "
+                "Control Table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Control_Default",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Control",
+            2,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key to the second column of the "
+                "Control Table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Control_Cancel",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Control",
+            2,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key to the second column of the "
+                "Control Table.", url)
+        ));
     }
 }
 

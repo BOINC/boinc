@@ -153,7 +153,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
         if (JsonHelper::exists(json, CustomActionTableName)) {
             tables[CustomActionTableName] =
                 std::make_shared<CustomActionTable>(
-                    json[CustomActionTableName]);
+                    json[CustomActionTableName], validationTable);
         }
         if (JsonHelper::exists(json, DialogTableName)) {
             tables[DialogTableName] =
@@ -168,7 +168,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
         if (JsonHelper::exists(json, ErrorTableName)) {
             tables[ErrorTableName] =
                 std::make_shared<ErrorTable>(json[ErrorTableName],
-                installer_strings);
+                installer_strings, validationTable);
         }
         if (JsonHelper::exists(json, FeatureTableName)) {
             tables[FeatureTableName] =
