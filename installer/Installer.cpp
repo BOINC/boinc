@@ -173,7 +173,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
         if (JsonHelper::exists(json, FeatureTableName)) {
             tables[FeatureTableName] =
                 std::make_shared<FeatureTable>(json[FeatureTableName],
-                installer_strings);
+                installer_strings, validationTable);
         }
         if (JsonHelper::exists(json, IconTableName)) {
             tables[IconTableName] =

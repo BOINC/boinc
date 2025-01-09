@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -119,10 +119,23 @@ std::filesystem::path FileTable::GetAbsolutePath(
     return root_path / p;
 }
 
+std::string FileTable::GetFileName(const std::filesystem::path& filePath) {
+    char shortName[MAX_PATH];
+    auto fileName = filePath.filename().string();
+    if (GetShortPathName(filePath.string().c_str(), shortName, MAX_PATH) != 0) {
+        const auto converted = std::filesystem::path(shortName).filename().string();
+        if (converted != fileName) {
+            return converted + "|" + fileName;
+        }
+    }
+    return fileName;
+}
+
 FileTable::FileTable(const std::vector<Directory>& directories,
     const std::filesystem::path& root_path,
     const std::filesystem::path& output_path, const std::string& platform,
-    const std::string& configuration) : root_path(root_path),
+    const std::string& configuration,
+    std::shared_ptr<ValidationTable> validationTable) : root_path(root_path),
     output_path(output_path), platform(platform),
     configuration(configuration) {
     int sequence = 0;
@@ -144,9 +157,117 @@ FileTable::FileTable(const std::vector<Directory>& directories,
                 }
                 file.setFilesize(static_cast<int>(
                     GetFileSize(file.getFilepath().string())));
+                file.setFileName(GetFileName(file.getFilepath()));
                 files.push_back(file);
             }
         }
+    }
+
+    const auto tableName = std::string("File");
+    const auto url = std::string("https://learn.microsoft.com/en-us/windows/win32/msi/file-table");
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "File",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("A non-localized token that uniquely "
+                "identifies the file.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Component_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Component",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The external key into the first column of the "
+                "Component Table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "FileName",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFilename,
+            "",
+            DescriptionWithUrl("The file name used for installation.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "FileSize",
+            false,
+            0,
+            2147483647,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The size of the file in bytes.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Version",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "File",
+            1,
+            ValidationCategoryVersion,
+            "",
+            DescriptionWithUrl("This field is the version string for a "
+                "versioned file.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Language",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryLanguage,
+            "",
+            DescriptionWithUrl("A list of decimal language IDs separated by "
+                "commas.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Attributes",
+            true,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The integer that contains bit flags that "
+                "represent file attributes.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Sequence",
+            false,
+            1,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("Sequence position of this file on the media "
+                "images.", url)
+        ));
     }
 }
 
@@ -165,7 +286,7 @@ bool FileTable::generate(MSIHANDLE hDatabase) {
     std::filesystem::remove(output_path / cabname);
 
     if (!MediaTable({ Media(1, static_cast<int>(files.size()), "1",
-        "#" + cabname, "DISK1", "")}).generate(hDatabase)) {
+        "#" + cabname, "DISK1", "") }).generate(hDatabase)) {
         std::cerr << "Failed to generate MediaTable" << std::endl;
         return false;
     }

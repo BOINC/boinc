@@ -31,10 +31,6 @@ Component::Component(const nlohmann::json& json, const std::string& directory,
 
     if (component.empty()) {
         component = parent + "_" + directory;
-        auto p = component.find("@");
-        if (p != std::string::npos) {
-            component = component.replace(p, 1, "_");
-        }
     }
     JsonHelper::handle(json, "Files", [&](const auto& file) {
         files.emplace_back(file, component);

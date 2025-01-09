@@ -91,7 +91,8 @@ bool DirectoryTable::generate(MSIHANDLE hDatabase) {
         std::cerr << "Failed to generate ComponentTable" << std::endl;
         return false;
     }
-    if (!FeatureComponentsTable(directories).generate(hDatabase)) {
+    if (!FeatureComponentsTable(directories,validationTable).generate(
+        hDatabase)) {
         std::cerr << "Failed to generate FeatureComponentsTable" << std::endl;
         return false;
     }
@@ -100,7 +101,8 @@ bool DirectoryTable::generate(MSIHANDLE hDatabase) {
         return false;
     }
     if (!FileTable(directories, root_path,
-        output_path, platform, configuration).generate(hDatabase)) {
+        output_path, platform, configuration,validationTable).generate(
+            hDatabase)) {
         std::cerr << "Failed to generate FileTable" << std::endl;
         return false;
     }

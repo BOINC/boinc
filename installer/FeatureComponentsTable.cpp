@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,11 +18,41 @@
 #include "FeatureComponentsTable.h"
 
 FeatureComponentsTable::FeatureComponentsTable(
-    const std::vector<Directory>& directories) {
+    const std::vector<Directory>& directories,
+    std::shared_ptr<ValidationTable> validationTable) {
     for (const auto& directory : directories) {
         for (const auto& component : directory.getComponents()) {
             featureComponents.emplace_back(component.getFeatureComponent());
         }
+    }
+
+    const auto tableName = std::string("FeatureComponents");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/featurecomponents-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Feature_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Feature",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key into the first column of the Feature table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Component_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Component",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key into the first column of the Component table.", url)
+        ));
     }
 }
 

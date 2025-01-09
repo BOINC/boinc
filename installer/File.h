@@ -35,6 +35,7 @@ public:
     void setAttributes(int a) noexcept;
     void setSequence(int s) noexcept;
     void setFilepath(const std::filesystem::path& p);
+    void setFileName(const std::string& n);
     bool isVersioned() const noexcept;
 private:
     std::string file{};

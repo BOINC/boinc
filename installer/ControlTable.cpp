@@ -205,7 +205,7 @@ bool ControlTable::generate(MSIHANDLE hDatabase)
         std::cerr << "Failed to generate ControlEventTable" << std::endl;
         return false;
     }
-    if (!EventMappingTable(controls).generate(hDatabase)) {
+    if (!EventMappingTable(controls, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate EventMappingTable" << std::endl;
         return false;
     }

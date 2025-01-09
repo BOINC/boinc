@@ -29,6 +29,10 @@ const auto ValidationCategoryFormatted = std::string("Formatted");
 const auto ValidationCategoryGuid = std::string("Guid");
 const auto ValidationCategoryCustomSource = std::string("CustomSource");
 const auto ValidationCategoryDefaultDir = std::string("DefaultDir");
+const auto ValidationCategoryUpperCase = std::string("UpperCase");
+const auto ValidationCategoryFilename = std::string("Filename");
+const auto ValidationCategoryVersion = std::string("Version");
+const auto ValidationCategoryLanguage = std::string("Language");
 
 const auto DescriptionWithUrl = [](const std::string& description,
     const std::string& url) {
