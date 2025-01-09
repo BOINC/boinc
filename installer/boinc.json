@@ -5578,12 +5578,7 @@
                                             "Feature_": "BOINC",
                                             "Component": "_BOINCDataProjects",
                                             "Attributes": 272,
-                                            "Files": [
-                                                {
-                                                    "File": "placeholder.txt1",
-                                                    "FilePath": "res\\placeholder.txt"
-                                                }
-                                            ]
+                                            "CreateFolder": true
                                         }
                                     ]
                                 },
@@ -5595,12 +5590,7 @@
                                             "Feature_": "BOINC",
                                             "Component": "_BOINCDataSlots",
                                             "Attributes": 272,
-                                            "Files": [
-                                                {
-                                                    "File": "placeholder.txt2",
-                                                    "FilePath": "res\\placeholder.txt"
-                                                }
-                                            ]
+                                            "CreateFolder": true
                                         }
                                     ]
                                 }
@@ -5610,14 +5600,11 @@
                                     "Feature_": "BOINC",
                                     "Component": "_BOINCData",
                                     "Attributes": 272,
+                                    "CreateFolder": true,
                                     "Files": [
                                         {
                                             "File": "all_projects_list.xml",
                                             "FilePath": "..\\win_build\\installerv2\\redist\\all_projects_list.xml"
-                                        },
-                                        {
-                                            "File": "placeholder.txt",
-                                            "FilePath": "res\\placeholder.txt"
                                         }
                                     ]
                                 }
@@ -6429,13 +6416,6 @@
                                     "Component": "BOINCServiceConfig",
                                     "Attributes": 256,
                                     "Condition": "ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
-                                    "CreateFolder": true,
-                                    "Files": [
-                                        {
-                                            "File": "boinc.exe1",
-                                            "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinc.exe"
-                                        }
-                                    ],
                                     "ServiceControl": [
                                         {
                                             "ServiceControl": "BOINC",
@@ -6525,7 +6505,6 @@
                                     "Component": "_BOINCManagerStartMenu",
                                     "Attributes": 256,
                                     "Condition": "ENABLESTARTMENUITEMS = 1",
-                                    "CreateFolder": true,
                                     "RemoveFile": [
                                         {
                                             "FileKey": "NewShortcut4",
@@ -6552,7 +6531,6 @@
                                     "Component": "_BOINCManagerStartup",
                                     "Attributes": 256,
                                     "Condition": "ENABLEUSEBYALLUSERS <> 1",
-                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry3",
@@ -6568,7 +6546,6 @@
                                     "Component": "_BOINCManagerStartupAll",
                                     "Attributes": 256,
                                     "Condition": "ENABLEUSEBYALLUSERS = 1",
-                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry5",
@@ -6603,7 +6580,6 @@
                                     "Feature_": "BOINC",
                                     "Component": "_BOINCSvcCtrl",
                                     "Attributes": 256,
-                                    "CreateFolder": true,
                                     "Files": [
                                         {
                                             "File": "boincsvcctrl.exe",
@@ -6638,7 +6614,6 @@
                                     "Feature_": "BOINC",
                                     "Component": "_BOINCTrayStartup",
                                     "Attributes": 264,
-                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry30",
@@ -6654,7 +6629,6 @@
                                     "Component": "_ScreensaverEnableNT",
                                     "Attributes": 256,
                                     "Condition": "ENABLESCREENSAVER = 1",
-                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry1",
