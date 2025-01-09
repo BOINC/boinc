@@ -178,7 +178,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
         if (JsonHelper::exists(json, IconTableName)) {
             tables[IconTableName] =
                 std::make_shared<IconTable>(json[IconTableName], path,
-                platform, configuration);
+                platform, configuration, validationTable);
         }
         if (JsonHelper::exists(json, InstallExecuteSequenceTableName)) {
             tables[InstallExecuteSequenceTableName] =

@@ -106,7 +106,7 @@ bool DirectoryTable::generate(MSIHANDLE hDatabase) {
         std::cerr << "Failed to generate FileTable" << std::endl;
         return false;
     }
-    if (!FontTable(directories).generate(hDatabase)) {
+    if (!FontTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate FontTable" << std::endl;
         return false;
     }

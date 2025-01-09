@@ -23,37 +23,7 @@
 
 File::File(const nlohmann::json& json, const std::string& component) :
     component(component) {
-    JsonHelper::get(json, "File", file);
     JsonHelper::get(json, "FilePath", filepath);
-    //JsonHelper::handle(json, "FileName", [&](const auto& value) {
-    //    //// we don't really support 8.3 file names, but we wan't to be compliant
-    //    //// with the MSI standard
-    //    //const auto longNameWithExt = value.get<std::string>();
-    //    //const auto path = std::filesystem::path(longNameWithExt);
-    //    //const auto longName = path.stem().string();
-    //    //const auto longExt = path.extension().string();
-    //    //auto shortName = longName;
-    //    //auto shortExt = longExt;
-    //    //if (longName.size() > 8) {
-    //    //    shortName = longName.substr(0, 8);
-    //    //}
-    //    //if (longExt.size() > 4) {
-    //    //    shortExt = longExt.substr(0, 4);
-    //    //}
-    //    //if (shortName != longName || shortExt != longExt) {
-    //    //    filename = shortName + shortExt + "|" + longNameWithExt;
-    //    //}
-    //    //else {
-    //    //    filename = longNameWithExt;
-    //    //}
-    //    char shortName[MAX_PATH];
-    //    if (GetShortPathName(filepath.string().c_str(), shortName, MAX_PATH) != 0) {
-    //        filename = std::string(shortName) + "|" + value.get<std::string>();
-    //    }
-    //    else {
-    //        filename = value.get<std::string>();
-    //    }
-    //    });
     JsonHelper::get(json, "IsFont", isFont);
 }
 
@@ -67,15 +37,13 @@ std::filesystem::path File::getFilepath() const {
 }
 
 std::string File::getFileId() const {
-    auto result = file;
-    auto p = result.find("-");
-    if (p != std::string::npos) {
-        result.replace(p, 1, "_");
-    }
-    p = result.find("@");
-    if (p != std::string::npos) {
-        result.replace(p, 1, "_");
-    }
+    auto result = component + "_" + filepath.filename().string();
+    std::transform(result.begin(), result.end(), result.begin(), [](auto c) {
+        if (c == '-') {
+            return '_';
+        }
+        return c;
+        });
     return result;
 }
 

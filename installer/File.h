@@ -38,7 +38,6 @@ public:
     void setFileName(const std::string& n);
     bool isVersioned() const noexcept;
 private:
-    std::string file{};
     std::string component{};
     std::string filename{};
     int filesize = MSI_NULL_INTEGER;
