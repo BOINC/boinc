@@ -6416,6 +6416,7 @@
                                     "Component": "BOINCServiceConfig",
                                     "Attributes": 256,
                                     "Condition": "ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+                                    "CreateFolder": true,
                                     "ServiceControl": [
                                         {
                                             "ServiceControl": "BOINC",
@@ -6505,6 +6506,7 @@
                                     "Component": "_BOINCManagerStartMenu",
                                     "Attributes": 256,
                                     "Condition": "ENABLESTARTMENUITEMS = 1",
+                                    "CreateFolder": true,
                                     "RemoveFile": [
                                         {
                                             "FileKey": "NewShortcut4",
@@ -6531,6 +6533,7 @@
                                     "Component": "_BOINCManagerStartup",
                                     "Attributes": 256,
                                     "Condition": "ENABLEUSEBYALLUSERS <> 1",
+                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry3",
@@ -6546,6 +6549,7 @@
                                     "Component": "_BOINCManagerStartupAll",
                                     "Attributes": 256,
                                     "Condition": "ENABLEUSEBYALLUSERS = 1",
+                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry5",
@@ -6614,6 +6618,7 @@
                                     "Feature_": "BOINC",
                                     "Component": "_BOINCTrayStartup",
                                     "Attributes": 264,
+                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry30",
@@ -6629,6 +6634,7 @@
                                     "Component": "_ScreensaverEnableNT",
                                     "Attributes": 256,
                                     "Condition": "ENABLESCREENSAVER = 1",
+                                    "CreateFolder": true,
                                     "Registry": [
                                         {
                                             "Registry": "Registry1",
