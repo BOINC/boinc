@@ -139,7 +139,7 @@ FileTable::FileTable(const std::vector<Directory>& directories,
     const std::string& configuration,
     std::shared_ptr<ValidationTable> validationTable) : root_path(root_path),
     output_path(output_path), platform(platform),
-    configuration(configuration) {
+    configuration(configuration), validationTable(validationTable) {
     int sequence = 0;
     for (const auto& directory : directories) {
         for (const auto& component : directory.getComponents()) {
@@ -288,11 +288,11 @@ bool FileTable::generate(MSIHANDLE hDatabase) {
     std::filesystem::remove(output_path / cabname);
 
     if (!MediaTable({ Media(1, static_cast<int>(files.size()), "1",
-        "#" + cabname, "DISK1", "") }).generate(hDatabase)) {
+        "#" + cabname, "DISK1", "") }, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate MediaTable" << std::endl;
         return false;
     }
-    if (!MsiFileHashTable(files).generate(hDatabase)) {
+    if (!MsiFileHashTable(files, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate MsiFileHashTable" << std::endl;
         return false;
     }

@@ -198,7 +198,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
         }
         if (JsonHelper::exists(json, PropertyTableName)) {
             tables[PropertyTableName] = std::make_shared<PropertyTable>(
-                json[PropertyTableName], installer_strings);
+                json[PropertyTableName], installer_strings, validationTable);
         }
         if (JsonHelper::exists(json, TextStyleTableName)) {
             tables[TextStyleTableName] = std::make_shared<TextStyleTable>(

@@ -17,7 +17,8 @@
 
 #include "MsiFileHashTable.h"
 
-MsiFileHashTable::MsiFileHashTable(const std::vector<File>& files) {
+MsiFileHashTable::MsiFileHashTable(const std::vector<File>& files,
+    std::shared_ptr<ValidationTable> validationTable) {
     for (const auto& file : files) {
         if (file.isVersioned()) {
             continue;
@@ -32,6 +33,84 @@ MsiFileHashTable::MsiFileHashTable(const std::vector<File>& files) {
         }
         msiFileHashes.emplace_back(file.getFileId(), hashInfo.dwData[0],
             hashInfo.dwData[1], hashInfo.dwData[2], hashInfo.dwData[3]);
+    }
+
+    const auto tableName = std::string("MsiFileHash");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/msifilehash-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "File_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "File",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("Foreign key to File table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Options",
+            false,
+            0,
+            0,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("This column must be 0 and is reserved for "
+                "future use.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "HashPart1",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("First 32 bits of hash.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "HashPart2",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("Second 32 bits of hash.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "HashPart3",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("Third 32 bits of hash.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "HashPart4",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("Fourth 32 bits of hash.", url)
+        ));
     }
 }
 

@@ -33,6 +33,8 @@ const auto ValidationCategoryUpperCase = std::string("UpperCase");
 const auto ValidationCategoryFilename = std::string("Filename");
 const auto ValidationCategoryVersion = std::string("Version");
 const auto ValidationCategoryLanguage = std::string("Language");
+const auto ValidationCategoryCabinet = std::string("Cabinet");
+const auto ValidationCategoryProperty = std::string("Property");
 
 const auto DescriptionWithUrl = [](const std::string& description,
     const std::string& url) {

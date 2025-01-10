@@ -43,4 +43,5 @@ private:
     std::filesystem::path output_path{};
     std::string platform{};
     std::string configuration{};
+    std::shared_ptr<ValidationTable> validationTable;
 };
