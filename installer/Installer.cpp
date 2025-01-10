@@ -183,17 +183,18 @@ bool Installer::load_from_json(const nlohmann::json& json,
         if (JsonHelper::exists(json, InstallExecuteSequenceTableName)) {
             tables[InstallExecuteSequenceTableName] =
                 std::make_shared<InstallExecuteSequenceTable>(
-                    json[InstallExecuteSequenceTableName]);
+                    json[InstallExecuteSequenceTableName], validationTable);
         }
         if (JsonHelper::exists(json, InstallUISequenceTableName)) {
             tables[InstallUISequenceTableName] =
                 std::make_shared<InstallUISequenceTable>(
-                    json[InstallUISequenceTableName]);
+                    json[InstallUISequenceTableName], validationTable);
         }
         if (JsonHelper::exists(json, LaunchConditionTableName)) {
             tables[LaunchConditionTableName] =
                 std::make_shared<LaunchConditionTable>(
-                json[LaunchConditionTableName], installer_strings);
+                json[LaunchConditionTableName], installer_strings,
+                    validationTable);
         }
         if (JsonHelper::exists(json, PropertyTableName)) {
             tables[PropertyTableName] = std::make_shared<PropertyTable>(

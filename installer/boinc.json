@@ -9736,7 +9736,7 @@
             "Description": "ID_STRING39"
         },
         {
-            "Condition": "AdminUser",
+            "Condition": "Privileged",
             "Description": "IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN"
         }
     ],
