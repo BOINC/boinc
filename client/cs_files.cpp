@@ -111,14 +111,8 @@ int CLIENT_STATE::make_project_dirs() {
             continue;
         }
         msg_printf(0, MSG_INFO,
-            "%s is not a project dir - removing", path
+            "%s is not a project directory", path
         );
-        if (is_dir(path)) {
-            clean_out_dir(path);
-            boinc_rmdir(path);
-        } else {
-            boinc_delete_file(path);
-        }
     }
 
     return 0;
