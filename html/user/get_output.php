@@ -117,7 +117,7 @@ function get_batch_output_files($auth_str) {
     // if no output files, make empty zip file
     //
     if (!file_exists($zip_filename)) {
-        system("zip -rq $zip_filename . -i notafilename");
+        touch($zip_filename);
     }
     do_download($zip_filename);
     unlink($zip_filename);
@@ -199,7 +199,7 @@ function get_wu_output_files($wu_id, $auth_str) {
     // if no output files, make empty zip file
     //
     if (!file_exists($zip_filename)) {
-        system("zip -rq $zip_filename . -i notafilename");
+        touch($zip_filename);
     }
     do_download($zip_filename);
     unlink($zip_filename);
