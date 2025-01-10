@@ -114,8 +114,14 @@ function get_batch_output_files($auth_str) {
             // output file may be optional; don't complain if not there
         }
     }
+    // if no output files, make empty zip file
+    //
+    if (!file_exists($zip_filename)) {
+        system("zip -rq $zip_filename . -i notafilename");
+    }
     do_download($zip_filename);
     unlink($zip_filename);
+    unlink($zip_basename);
 }
 
 // return a single output file of a WU's canonical instance
@@ -189,6 +195,11 @@ function get_wu_output_files($wu_id, $auth_str) {
         }
         // output file may be optional; don't complain if not there
         //
+    }
+    // if no output files, make empty zip file
+    //
+    if (!file_exists($zip_filename)) {
+        system("zip -rq $zip_filename . -i notafilename");
     }
     do_download($zip_filename);
     unlink($zip_filename);
