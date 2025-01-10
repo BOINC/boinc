@@ -423,7 +423,7 @@ bool CLIENT_STATE::is_new_client() {
         || (core_client_version.release != old_release)
     ) {
         msg_printf_notice(0, true, 0,
-            "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<p>View the <a href=%s>Client release notes</a>.",
+            "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
             old_major_version, old_minor_version, old_release,
             core_client_version.major,
             core_client_version.minor,
