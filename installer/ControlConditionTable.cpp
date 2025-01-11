@@ -58,7 +58,7 @@ ControlConditionTable::ControlConditionTable(
             MSI_NULL_INTEGER,
             "",
             MSI_NULL_INTEGER,
-            "",
+            ValidationCategoryText,
             "Default;Disable;Enable;Hide;Show",
             DescriptionWithUrl("The action that is to be taken on the "
                 "control.", url)

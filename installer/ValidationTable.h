@@ -35,6 +35,10 @@ const auto ValidationCategoryVersion = std::string("Version");
 const auto ValidationCategoryLanguage = std::string("Language");
 const auto ValidationCategoryCabinet = std::string("Cabinet");
 const auto ValidationCategoryProperty = std::string("Property");
+const auto ValidationCategoryRegPath = std::string("RegPath");
+const auto ValidationCategoryWildCardFilename =
+std::string("WildCardFilename");
+const auto ValidationCategoryShortcut = std::string("Shortcut");
 
 const auto DescriptionWithUrl = [](const std::string& description,
     const std::string& url) {

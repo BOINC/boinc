@@ -209,7 +209,7 @@ bool ControlTable::generate(MSIHANDLE hDatabase)
         std::cerr << "Failed to generate EventMappingTable" << std::endl;
         return false;
     }
-    if (!RadioButtonTable(controls).generate(hDatabase)) {
+    if (!RadioButtonTable(controls, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate RadioButtonTable" << std::endl;
         return false;
     }

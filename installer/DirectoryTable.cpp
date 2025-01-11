@@ -101,7 +101,7 @@ bool DirectoryTable::generate(MSIHANDLE hDatabase) {
         return false;
     }
     if (!FileTable(directories, root_path,
-        output_path, platform, configuration,validationTable).generate(
+        output_path, platform, configuration, validationTable).generate(
             hDatabase)) {
         std::cerr << "Failed to generate FileTable" << std::endl;
         return false;
@@ -110,23 +110,23 @@ bool DirectoryTable::generate(MSIHANDLE hDatabase) {
         std::cerr << "Failed to generate FontTable" << std::endl;
         return false;
     }
-    if (!RegistryTable(directories).generate(hDatabase)) {
+    if (!RegistryTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate RegistryTable" << std::endl;
         return false;
     }
-    if (!RemoveFileTable(directories).generate(hDatabase)) {
+    if (!RemoveFileTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate RemoveFileTable" << std::endl;
         return false;
     }
-    if (!ServiceControlTable(directories).generate(hDatabase)) {
+    if (!ServiceControlTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ServiceControlTable" << std::endl;
         return false;
     }
-    if (!ServiceInstallTable(directories).generate(hDatabase)) {
+    if (!ServiceInstallTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ServiceInstallTable" << std::endl;
         return false;
     }
-    if (!ShortcutTable(directories).generate(hDatabase)) {
+    if (!ShortcutTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ShortcutTable" << std::endl;
         return false;
     }

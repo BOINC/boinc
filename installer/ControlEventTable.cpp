@@ -100,7 +100,8 @@ ControlEventTable::ControlEventTable(
             MSI_NULL_INTEGER,
             "",
             "",
-            DescriptionWithUrl("An integer used to order several events tied to the same control.", url)
+            DescriptionWithUrl("An integer used to order several events tied "
+                "to the same control.", url)
         ));
     }
 }

@@ -55,7 +55,8 @@ DialogTable::DialogTable(const nlohmann::json& json,
             MSI_NULL_INTEGER,
             "",
             "",
-            DescriptionWithUrl("The horizontal position of the dialog box.", url)
+            DescriptionWithUrl("The horizontal position of the dialog box.",
+                url)
         ));
         validationTable->add(Validation(
             tableName,

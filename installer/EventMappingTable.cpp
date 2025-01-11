@@ -64,7 +64,7 @@ EventMappingTable::EventMappingTable(const std::vector<Control>& controls,
         validationTable->add(Validation(
             tableName,
             "Attribute",
-            true,
+            false,
             MSI_NULL_INTEGER,
             MSI_NULL_INTEGER,
             "",
@@ -90,7 +90,7 @@ bool EventMappingTable::generate(MSIHANDLE hDatabase) {
 
     const auto sql_create = "CREATE TABLE `EventMapping` "
         "(`Dialog_` CHAR(72) NOT NULL, `Control_` CHAR(50) NOT NULL, "
-        "`Event` CHAR(50) NOT NULL, `Attribute` CHAR(50) "
+        "`Event` CHAR(50) NOT NULL, `Attribute` CHAR(50) NOT NULL "
         "PRIMARY KEY Dialog_, Control_, Event)";
     const auto sql_insert = "INSERT INTO `EventMapping` "
         "(`Dialog_`, `Control_`, `Event`, `Attribute`) VALUES (?, ?, ?, ?)";
