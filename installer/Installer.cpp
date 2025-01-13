@@ -202,16 +202,16 @@ bool Installer::load_from_json(const nlohmann::json& json,
         }
         if (JsonHelper::exists(json, TextStyleTableName)) {
             tables[TextStyleTableName] = std::make_shared<TextStyleTable>(
-                json[TextStyleTableName]);
+                json[TextStyleTableName], validationTable);
         }
         if (JsonHelper::exists(json, UITextTableName)) {
             tables[UITextTableName] =
                 std::make_shared<UITextTable>(json[UITextTableName],
-                installer_strings);
+                installer_strings, validationTable);
         }
         if (JsonHelper::exists(json, UpgradeTableName)) {
             tables[UpgradeTableName] = std::make_shared<UpgradeTable>(
-                json[UpgradeTableName]);
+                json[UpgradeTableName], validationTable);
         }
     }
     catch (const std::exception& e) {

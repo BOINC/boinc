@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,11 +17,110 @@
 
 #include "UpgradeTable.h"
 
-UpgradeTable::UpgradeTable(const nlohmann::json& json) {
+UpgradeTable::UpgradeTable(const nlohmann::json& json,
+    std::shared_ptr<ValidationTable> validationTable) {
     std::cout << "Loading UpgradeTable..." << std::endl;
 
     for (const auto& item : json) {
         values.emplace_back(item);
+    }
+
+    const auto tableName = std::string("Upgrade");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/upgrade-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "UpgradeCode",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryGuid,
+            "",
+            DescriptionWithUrl("The UpgradeCode property in this column "
+                "specifies the upgrade code of all products that are to be "
+                "detected by the FindRelatedProducts action.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "VersionMin",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("Lower boundary of the range of product "
+                "versions detected by FindRelatedProducts.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "VersionMax",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("Upper boundary of the range of product "
+                "versions detected by the FindRelatedProducts action.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Language",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("The set of languages detected by "
+                "FindRelatedProducts.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Attributes",
+            false,
+            0,
+            2147483647,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("This column contains bit flags specifying "
+                "attributes of the Upgrade table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Remove",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("The installer sets the REMOVE property to "
+                "features specified in this column.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "ActionProperty",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("When the FindRelatedProducts action detects a "
+                "related product installed on the system, it appends the "
+                "product code to the property specified in this field.", url)
+        ));
     }
 }
 
