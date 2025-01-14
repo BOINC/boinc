@@ -109,7 +109,7 @@ jobs:
       - name: Install MsiVal2 tool
         if: success() && matrix.type == 'msbuild' && !startsWith(github.ref, 'refs/tags/')
         shell: powershell
-        run: Start-Process "msiexec.exe" -ArgumentList "/i "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100\x86\MsiVal2-x86_en-us.msi" /quiet /qn" -Wait
+        run: Start-Process "msiexec.exe" -ArgumentList "/i "C:\Program\ Files\ (x86)\Windows\ Kits\10\bin\10.0.26100\x86\MsiVal2-x86_en-us.msi" /quiet /qn" -Wait
 
       - name: Build
         if: success() && matrix.type == 'msbuild'
