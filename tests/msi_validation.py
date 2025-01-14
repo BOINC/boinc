@@ -39,7 +39,7 @@ def main():
         sys.exit(1)
 
     ignore_list = [
-        "ICE          Type       Description",
+        # "ICE          Type       Description",
         "ICE07        WARNING   '_BOINCScreensaver_LiberationSans_Regular.ttf' is a Font and must be installed to the FontsFolder. Current Install Directory: 'INSTALLDIR'",
         "ICE43        ERROR     Component _BOINCManagerStartMenu has non-advertised shortcuts. It should use a registry key under HKCU as its KeyPath, not a file.",
         "ICE57        ERROR     Component '_ScreensaverEnableNT' has both per-user and per-machine data with a per-machine KeyPath.",
