@@ -109,7 +109,7 @@ bool Installer::load_from_json(const nlohmann::json& json,
             }
         }
         // should always be first
-        std::shared_ptr<ValidationTable> validationTable = 
+        std::shared_ptr<ValidationTable> validationTable =
 #ifndef MSI_VALIDATE
             nullptr;
 #else
