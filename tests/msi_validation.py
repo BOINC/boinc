@@ -1,3 +1,20 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 import os
 import sys
 
@@ -24,6 +41,7 @@ def main():
     ignore_list = [
         "ICE          Type       Description",
         "ICE07        WARNING   '_BOINCScreensaver_LiberationSans_Regular.ttf' is a Font and must be installed to the FontsFolder. Current Install Directory: 'INSTALLDIR'",
+        "ICE43        ERROR     Component _BOINCManagerStartMenu has non-advertised shortcuts. It should use a registry key under HKCU as its KeyPath, not a file.",
         "ICE57        ERROR     Component '_ScreensaverEnableNT' has both per-user and per-machine data with a per-machine KeyPath.",
         "ICE57        ERROR     Component '_BOINCManagerStartup' has both per-user and per-machine data with a per-machine KeyPath.",
         "ICE57        ERROR     Component '_BOINCManagerStartMenu' has both per-user and per-machine data with a per-machine KeyPath.",

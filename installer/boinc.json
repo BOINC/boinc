@@ -1969,8 +1969,8 @@
                     "Text": "IDS_BACK",
                     "Events": [
                         {
-                            "Event": "NewDialog",
-                            "Argument": "NoDialog",
+                            "Event": "EndDialog",
+                            "Argument": "Return",
                             "Condition": "1",
                             "Ordering": 1
                         }
@@ -3084,8 +3084,8 @@
                             "Ordering": 0
                         },
                         {
-                            "Event": "NewDialog",
-                            "Argument": "NoDialog",
+                            "Event": "EndDialog",
+                            "Argument": "Return",
                             "Condition": "ACTION <> \"ADMIN\"",
                             "Ordering": 0
                         }
@@ -9915,7 +9915,7 @@
         },
         {
             "Property": "_IsMaintenance",
-            "Value": "Install"
+            "Value": "Reinstall"
         }
     ],
     "TextStyle": [

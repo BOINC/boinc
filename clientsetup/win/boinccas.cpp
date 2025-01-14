@@ -841,6 +841,11 @@ UINT BOINCCABase::GetComponentKeyFilename(
     // Save the string
     strComponentKeyFilename = szBuffer;
 
+    // strComponentKeyFilename format is [strComponentName]_[filename]
+    // Remove the component name from the string
+    strComponentKeyFilename =
+        strComponentKeyFilename.substr(strComponentName.size() + 1);
+
     strMessage  = _T("The key filename for component '");
     strMessage += strComponentName;
     strMessage += _T("' is '");
