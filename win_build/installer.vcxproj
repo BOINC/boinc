@@ -13,6 +13,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.;..;../api;../lib;$(VcpkgRootDir)\installed\arm64-windows-static\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(MsiVal2Path)' != '' And Exists($(MsiVal2Path))">MSI_VALIDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -67,6 +68,8 @@
     <ClCompile Include="..\installer\InstallUISequenceTable.cpp" />
     <ClCompile Include="..\installer\LaunchCondition.cpp" />
     <ClCompile Include="..\installer\LaunchConditionTable.cpp" />
+    <ClCompile Include="..\installer\Listbox.cpp" />
+    <ClCompile Include="..\installer\ListboxTable.cpp" />
     <ClCompile Include="..\installer\main.cpp" />
     <ClCompile Include="..\installer\Media.cpp" />
     <ClCompile Include="..\installer\MediaTable.cpp" />
@@ -150,6 +153,8 @@
     <ClInclude Include="..\installer\InstallUISequenceTable.h" />
     <ClInclude Include="..\installer\LaunchCondition.h" />
     <ClInclude Include="..\installer\LaunchConditionTable.h" />
+    <ClInclude Include="..\installer\Listbox.h" />
+    <ClInclude Include="..\installer\ListboxTable.h" />
     <ClInclude Include="..\installer\Media.h" />
     <ClInclude Include="..\installer\MediaTable.h" />
     <ClInclude Include="..\installer\MsiFileHash.h" />

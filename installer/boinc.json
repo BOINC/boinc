@@ -9740,6 +9740,8 @@
             "Description": "IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN"
         }
     ],
+    "Listbox": [
+    ],
     "Property": [
         {
             "Property": "ARPCOMMENTS",

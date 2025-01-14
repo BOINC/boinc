@@ -36,6 +36,7 @@
 #include "InstallExecuteSequenceTable.h"
 #include "InstallUISequenceTable.h"
 #include "LaunchConditionTable.h"
+#include "ListboxTable.h"
 #include "PropertyTable.h"
 #include "RadioButtonTable.h"
 #include "TextStyleTable.h"
@@ -44,9 +45,6 @@
 #include "ValidationTable.h"
 
 #include "Installer.h"
-
-// for temporary debugging
-#define MSI_VALIDATE
 
 #if defined(_DEBUG) && !defined(MSI_VALIDATE)
 #define MSI_VALIDATE
@@ -68,6 +66,7 @@ const auto InstallExecuteSequenceTableName =
     std::string("InstallExecuteSequence");
 const auto InstallUISequenceTableName = std::string("InstallUISequence");
 const auto LaunchConditionTableName = std::string("LaunchCondition");
+const auto ListboxTableName = std::string("Listbox");
 const auto PropertyTableName = std::string("Property");
 const auto SummaryTableName = std::string("Summary");
 const auto TextStyleTableName = std::string("TextStyle");
@@ -195,6 +194,10 @@ bool Installer::load_from_json(const nlohmann::json& json,
                 std::make_shared<LaunchConditionTable>(
                 json[LaunchConditionTableName], installer_strings,
                     validationTable);
+        }
+        if (JsonHelper::exists(json, ListboxTableName)) {
+            tables[ListboxTableName] = std::make_shared<ListboxTable>(
+                json[ListboxTableName], installer_strings, validationTable);
         }
         if (JsonHelper::exists(json, PropertyTableName)) {
             tables[PropertyTableName] = std::make_shared<PropertyTable>(
