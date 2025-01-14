@@ -118,7 +118,7 @@
   <string name="prefs_power_source_usb">Conexión USB</string>
   <string name="prefs_power_source_wireless">Cargador inalámbrico</string>
   <string name="prefs_power_source_battery">Batería</string>
-  <string name="battery_charge_min_pct_header">Nivel de bateria minimo (%)</string>
+  <string name="battery_charge_min_pct_header">Nivel de batería minimo (%)</string>
   <string name="battery_temperature_max_header">Temperatura de la batería maxima (˚C)</string>
   <string name="prefs_disk_max_pct_header">Espacio de almacenamiento máximo utilizado(%)</string>
   <string name="prefs_disk_min_free_gb_header">Espacio mínimo de almacenamiento extra (GB)</string>

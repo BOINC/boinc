@@ -65,7 +65,7 @@ msgid ""
 msgstr "Einstein@Home es un programa que utiliza el tiempo de inactividad de tu computadora para correr un salvapantallas que busca ondas gravitacionales provenientes de estrellas de neutrones que giran (también llamadas Púlsar) usando datos del detector de ondas gravitacionales LIGO."
 
 msgid "Run while computer is on battery power?"
-msgstr "¿Correr cuando el ordenador esta funcionando con baterias?"
+msgstr "¿Correr cuando el ordenador esta funcionando con baterías?"
 
 msgid "Only applies to portable computers"
 msgstr "Solo se aplica a ordenadores portátiles"
