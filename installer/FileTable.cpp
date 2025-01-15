@@ -123,8 +123,11 @@ std::filesystem::path FileTable::GetAbsolutePath(
 std::string FileTable::GetFileName(const std::filesystem::path& filePath) {
     char shortName[MAX_PATH];
     auto fileName = filePath.filename().string();
+    std::cout << "Get short file name for " << fileName << std::endl;
     if (GetShortPathName(filePath.string().c_str(), shortName, MAX_PATH)
         != 0) {
+        std::cout << "Short file name for " << fileName << " is " << shortName
+            << std::endl;
         const auto converted =
             std::filesystem::path(shortName).filename().string();
         if (converted != fileName) {
