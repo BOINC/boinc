@@ -25,6 +25,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <CustomBuildStep>
+      <Inputs>$(SolutionDir)..\installer\boinc.json;$(SolutionDir)..\installer\locale\en.json;$(SolutionDir)Build\x64\$(Configuration)\installer.exe;$(SolutionDir)Build\$(Platform)\$(Configuration)\boinccas.dll</Inputs>
       <Command>$(SolutionDir)Build\x64\$(Configuration)\installer.exe -p $(Platform)</Command>
       <Outputs>$(OutDir)$(TargetName)$(TargetExt)</Outputs>
     </CustomBuildStep>

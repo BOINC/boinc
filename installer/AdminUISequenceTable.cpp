@@ -17,10 +17,55 @@
 
 #include "AdminUISequenceTable.h"
 
-AdminUISequenceTable::AdminUISequenceTable(const nlohmann::json& json) {
+AdminUISequenceTable::AdminUISequenceTable(const nlohmann::json& json,
+    std::shared_ptr<ValidationTable> validationTable) {
     std::cout << "Loading AdminUISequenceTable..." << std::endl;
     for (const auto& value : json) {
         actions.emplace_back(value);
+    }
+
+    const auto tableName = std::string("AdminUISequence");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/adminuisequence-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Action",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("Name of the action to execute.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Condition",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryCondition,
+            "",
+            DescriptionWithUrl("Logical expression.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Sequence",
+            true,
+            -4,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("A positive value indicates the sequence "
+                "position of the action. The negative values indicate that "
+                "the action is called if the installer returns the "
+            "termination flag.", url)
+        ));
     }
 }
 

@@ -17,17 +17,25 @@
 
 #pragma once
 
-#include "ServiceControl.h"
-#include "Generator.h"
-#include "Directory.h"
-#include "ValidationTable.h"
+#include "Record.h"
 
-class ServiceControlTable : public Generator<ServiceControl> {
+class Validation : public Record {
 public:
-    explicit ServiceControlTable(const std::vector<Directory>& directories,
-        std::shared_ptr<ValidationTable> validationTable);
-    ~ServiceControlTable() = default;
-    bool generate(MSIHANDLE hDatabase) override;
+    explicit Validation(const std::string& table, const std::string& column,
+        bool nullable, int minValue, int maxValue, const std::string& keyTable,
+        int keyColumn, const std::string& category, const std::string& set,
+        const std::string& description);
+    ~Validation() = default;
+    MSIHANDLE getRecord() const override;
 private:
-    std::vector<ServiceControl> values{};
+    std::string table{};
+    std::string column{};
+    bool nullable = false;
+    int minValue = MSI_NULL_INTEGER;
+    int maxValue = MSI_NULL_INTEGER;
+    std::string keyTable{};
+    int keyColumn = MSI_NULL_INTEGER;
+    std::string category{};
+    std::string set{};
+    std::string description{};
 };

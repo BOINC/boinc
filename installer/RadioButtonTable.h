@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,10 +21,12 @@
 #include "RadioButton.h"
 #include "Control.h"
 #include "InstallerStrings.h"
+#include "ValidationTable.h"
 
 class RadioButtonTable : public Generator<RadioButton> {
 public:
-    explicit RadioButtonTable(const std::vector<Control>& controls);
+    explicit RadioButtonTable(const std::vector<Control>& controls,
+        std::shared_ptr<ValidationTable> validationTable);
     ~RadioButtonTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

@@ -13,6 +13,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.;..;../api;../lib;$(VcpkgRootDir)\installed\arm64-windows-static\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="Exists('C:\Program Files (x86)\MsiVal2\MsiVal2.exe')">MSI_VALIDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -67,6 +68,8 @@
     <ClCompile Include="..\installer\InstallUISequenceTable.cpp" />
     <ClCompile Include="..\installer\LaunchCondition.cpp" />
     <ClCompile Include="..\installer\LaunchConditionTable.cpp" />
+    <ClCompile Include="..\installer\Listbox.cpp" />
+    <ClCompile Include="..\installer\ListboxTable.cpp" />
     <ClCompile Include="..\installer\main.cpp" />
     <ClCompile Include="..\installer\Media.cpp" />
     <ClCompile Include="..\installer\MediaTable.cpp" />
@@ -99,6 +102,8 @@
     <ClCompile Include="..\installer\EventMappingTable.cpp" />
     <ClCompile Include="..\installer\Upgrade.cpp" />
     <ClCompile Include="..\installer\UpgradeTable.cpp" />
+    <ClCompile Include="..\installer\Validation.cpp" />
+    <ClCompile Include="..\installer\ValidationTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\installer\Action.h" />
@@ -148,6 +153,8 @@
     <ClInclude Include="..\installer\InstallUISequenceTable.h" />
     <ClInclude Include="..\installer\LaunchCondition.h" />
     <ClInclude Include="..\installer\LaunchConditionTable.h" />
+    <ClInclude Include="..\installer\Listbox.h" />
+    <ClInclude Include="..\installer\ListboxTable.h" />
     <ClInclude Include="..\installer\Media.h" />
     <ClInclude Include="..\installer\MediaTable.h" />
     <ClInclude Include="..\installer\MsiFileHash.h" />
@@ -181,8 +188,10 @@
     <ClInclude Include="..\installer\Upgrade.h" />
     <ClInclude Include="..\installer\UpgradeTable.h" />
     <ClInclude Include="..\installer\JsonHelper.h" />
+    <ClInclude Include="..\installer\Validation.h" />
+    <ClInclude Include="..\installer\ValidationTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets"/>
+  <ImportGroup Label="ExtensionTargets" />
   <Import Project="boinc_signing.targets" />
 </Project>

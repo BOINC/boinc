@@ -17,17 +17,20 @@
 
 #pragma once
 
-#include "ServiceControl.h"
-#include "Generator.h"
-#include "Directory.h"
-#include "ValidationTable.h"
+#include <nlohmann/json.hpp>
 
-class ServiceControlTable : public Generator<ServiceControl> {
+#include "Record.h"
+#include "InstallerStrings.h"
+
+class Listbox : public Record {
 public:
-    explicit ServiceControlTable(const std::vector<Directory>& directories,
-        std::shared_ptr<ValidationTable> validationTable);
-    ~ServiceControlTable() = default;
-    bool generate(MSIHANDLE hDatabase) override;
+    explicit Listbox(const nlohmann::json& json,
+        InstallerStrings& installerStrings);
+    ~Listbox() = default;
+    MSIHANDLE getRecord() const override;
 private:
-    std::vector<ServiceControl> values{};
+    std::string property{};
+    int order = MSI_NULL_INTEGER;
+    std::string value{};
+    std::string text{};
 };

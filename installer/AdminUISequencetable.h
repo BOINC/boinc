@@ -19,10 +19,12 @@
 
 #include "Action.h"
 #include "Generator.h"
+#include "ValidationTable.h"
 
 class AdminUISequenceTable : public Generator<Action> {
 public:
-    explicit AdminUISequenceTable(const nlohmann::json& json);
+    explicit AdminUISequenceTable(const nlohmann::json& json,
+        std::shared_ptr<ValidationTable> validationTable);
     ~AdminUISequenceTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

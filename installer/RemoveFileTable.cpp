@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,12 +17,83 @@
 
 #include "RemoveFileTable.h"
 
-RemoveFileTable::RemoveFileTable(const std::vector<Directory>& directories) {
+RemoveFileTable::RemoveFileTable(const std::vector<Directory>& directories,
+    std::shared_ptr<ValidationTable> validationTable) {
     for (const auto& directory : directories) {
         for (const auto& component : directory.getComponents()) {
             for (const auto& file : component.getRemoveFiles())
                 values.emplace_back(file);
         }
+    }
+
+    const auto tableName = std::string("RemoveFile");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/removefile-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "FileKey",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("Primary key used to identify this particular "
+                "table entry.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Component_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Component",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("External key the first column of the "
+                "Component table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "FileName",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryWildCardFilename,
+            "",
+            DescriptionWithUrl("This column contains the localizable name of "
+                "the file to be removed.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "DirProperty",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("Name of a property whose value is assumed to "
+                "resolve to the full path to the folder of the file to be "
+                "removed.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "InstallMode",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "1;2;3",
+            DescriptionWithUrl("Specifies the mode in which the file is installed.", url)
+        ));
     }
 }
 

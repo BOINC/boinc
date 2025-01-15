@@ -158,6 +158,7 @@ exclude_files = [
 exclude_extensions = [
     ".a",
     ".bmp",
+    ".cub",
     ".dll",
     ".exe",
     ".gif",

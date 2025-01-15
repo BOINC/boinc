@@ -17,21 +17,22 @@
 
 #include <iostream>
 
-#include "ActionTextTable.h"
+#include "ListboxTable.h"
 
-ActionTextTable::ActionTextTable(const nlohmann::json& json,
+ListboxTable::ListboxTable(const nlohmann::json& json,
     InstallerStrings& installerStrings,
     std::shared_ptr<ValidationTable> validationTable) {
-    std::cout << "Loading ActionTextTable..." << std::endl;
+    std::cout << "Loading ListboxTable..." << std::endl;
     for (const auto& item : json) {
         values.emplace_back(item, installerStrings);
     }
-    const auto tableName = std::string("ActionText");
-    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/actiontext-table";
+
+    const auto tableName = std::string("ListBox");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/listbox-table";
     if (validationTable != nullptr) {
         validationTable->add(Validation(
             tableName,
-            "Action",
+            "Property",
             false,
             MSI_NULL_INTEGER,
             MSI_NULL_INTEGER,
@@ -39,11 +40,38 @@ ActionTextTable::ActionTextTable(const nlohmann::json& json,
             MSI_NULL_INTEGER,
             ValidationCategoryIdentifier,
             "",
-            DescriptionWithUrl("Name of the action.", url)
+            DescriptionWithUrl("A named property to be tied to this item.",
+                url)
         ));
         validationTable->add(Validation(
             tableName,
-            "Description",
+            "Order",
+            false,
+            1,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("A positive integer used to determine the "
+                "ordering of the items that appear in a single list box.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Value",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("The value string associated with this item.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Text",
             true,
             MSI_NULL_INTEGER,
             MSI_NULL_INTEGER,
@@ -51,35 +79,21 @@ ActionTextTable::ActionTextTable(const nlohmann::json& json,
             MSI_NULL_INTEGER,
             ValidationCategoryText,
             "",
-            DescriptionWithUrl("Localized description that is displayed in "
-                "the progress dialog box, or written to the log when the "
-                "action is executing.", url)
-        ));
-        validationTable->add(Validation(
-            tableName,
-            "Template",
-            true,
-            MSI_NULL_INTEGER,
-            MSI_NULL_INTEGER,
-            "",
-            MSI_NULL_INTEGER,
-            ValidationCategoryTemplate,
-            "",
-            DescriptionWithUrl("A localized format template that is used to "
-                "format action data records to display during action "
-            "execution.", url)
+            DescriptionWithUrl("The localizable, visible text to be assigned "
+                "to the item.", url)
         ));
     }
 }
 
-bool ActionTextTable::generate(MSIHANDLE hDatabase) {
-    std::cout << "Generating ActionTextTable..." << std::endl;
+bool ListboxTable::generate(MSIHANDLE hDatabase) {
+    std::cout << "Generating ListboxTable..." << std::endl;
 
-    const auto sql_create = "CREATE TABLE `ActionText` "
-        "(`Action` CHAR(72) NOT NULL, `Description` LONGCHAR LOCALIZABLE, "
-        "`Template` LONGCHAR LOCALIZABLE PRIMARY KEY `Action`)";
-    const auto sql_insert = "INSERT INTO `ActionText` "
-        "(`Action`, `Description`, `Template`) VALUES (?, ?, ?)";
+    const auto sql_create = "CREATE TABLE `ListBox` "
+        "(`Property` CHAR(72) NOT NULL, `Order` SHORT NOT NULL, "
+        "`Value` CHAR(64) NOT NULL, `Text` CHAR(64) "
+        "PRIMARY KEY `Property`, `Order`)";
+    const auto sql_insert = "INSERT INTO `ListBox` "
+        "(`Property`, `Order`, `Value`, `Text`) VALUES (?, ?, ?, ?)";
 
     return Generator::generate(hDatabase, sql_create, sql_insert, values);
 }

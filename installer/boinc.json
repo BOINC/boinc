@@ -8,7 +8,7 @@
         "comments": "IDS_FEATURE_BOINC_DESCRIPTION",
         "template": "%%PLATFORM%%;1033",
         "lastauthor": "BOINC",
-        "pagecount": "200:500",
+        "pagecount": "400:500",
         "wordcount": 0,
         "charcount": 0,
         "appname": "BOINC",
@@ -1969,8 +1969,8 @@
                     "Text": "IDS_BACK",
                     "Events": [
                         {
-                            "Event": "NewDialog",
-                            "Argument": "NoDialog",
+                            "Event": "EndDialog",
+                            "Argument": "Return",
                             "Condition": "1",
                             "Ordering": 1
                         }
@@ -2599,7 +2599,7 @@
                     "Y": 75,
                     "Width": 24,
                     "Height": 24,
-                    "Attributes": 5767169,
+                    "Attributes": 6291457,
                     "Binary_": "reinstall.ico"
                 },
                 {
@@ -2609,7 +2609,7 @@
                     "Y": 135,
                     "Width": 24,
                     "Height": 24,
-                    "Attributes": 5767169,
+                    "Attributes": 6291457,
                     "Binary_": "remove.ico"
                 },
                 {
@@ -3084,8 +3084,8 @@
                             "Ordering": 0
                         },
                         {
-                            "Event": "NewDialog",
-                            "Argument": "NoDialog",
+                            "Event": "EndDialog",
+                            "Argument": "Return",
                             "Condition": "ACTION <> \"ADMIN\"",
                             "Ordering": 0
                         }
@@ -4213,7 +4213,7 @@
                     "Y": 52,
                     "Width": 24,
                     "Height": 24,
-                    "Attributes": 5767169,
+                    "Attributes": 6291457,
                     "Binary_": "folder.ico"
                 },
                 {
@@ -4223,7 +4223,7 @@
                     "Y": 87,
                     "Width": 24,
                     "Height": 24,
-                    "Attributes": 5767169,
+                    "Attributes": 6291457,
                     "Binary_": "folder.ico"
                 },
                 {
@@ -4514,7 +4514,7 @@
                     "Y": 52,
                     "Width": 24,
                     "Height": 24,
-                    "Attributes": 5767169,
+                    "Attributes": 6291457,
                     "Binary_": "folder.ico"
                 },
                 {
@@ -4524,7 +4524,7 @@
                     "Y": 87,
                     "Width": 24,
                     "Height": 24,
-                    "Attributes": 5767169,
+                    "Attributes": 6291457,
                     "Binary_": "folder.ico"
                 },
                 {
@@ -5578,13 +5578,7 @@
                                             "Feature_": "BOINC",
                                             "Component": "_BOINCDataProjects",
                                             "Attributes": 272,
-                                            "Files": [
-                                                {
-                                                    "File": "placeholder.txt1",
-                                                    "FileName": "PLACEH~1.TXT|placeholder.txt",
-                                                    "FilePath": "res\\placeholder.txt"
-                                                }
-                                            ]
+                                            "CreateFolder": true
                                         }
                                     ]
                                 },
@@ -5596,13 +5590,7 @@
                                             "Feature_": "BOINC",
                                             "Component": "_BOINCDataSlots",
                                             "Attributes": 272,
-                                            "Files": [
-                                                {
-                                                    "File": "placeholder.txt2",
-                                                    "FileName": "PLACEH~1.TXT|placeholder.txt",
-                                                    "FilePath": "res\\placeholder.txt"
-                                                }
-                                            ]
+                                            "CreateFolder": true
                                         }
                                     ]
                                 }
@@ -5612,16 +5600,10 @@
                                     "Feature_": "BOINC",
                                     "Component": "_BOINCData",
                                     "Attributes": 272,
+                                    "CreateFolder": true,
                                     "Files": [
                                         {
-                                            "File": "all_projects_list.xml",
-                                            "FileName": "ALL_PR~1.XML|all_projects_list.xml",
                                             "FilePath": "..\\win_build\\installerv2\\redist\\all_projects_list.xml"
-                                        },
-                                        {
-                                            "File": "placeholder.txt",
-                                            "FileName": "PLACEH~1.TXT|placeholder.txt",
-                                            "FilePath": "res\\placeholder.txt"
                                         }
                                     ]
                                 }
@@ -5651,28 +5633,18 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "DEFAULT_skin.xml",
-                                                            "FileName": "skin.xml",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\skins\\\\Default\\skin.xml"
                                                         },
                                                         {
-                                                            "File": "DEFAULT_background_image.png",
-                                                            "FileName": "background_image.png",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\skins\\\\Default\\background_image.png"
                                                         },
                                                         {
-                                                            "File": "DEFAULT_workunit_running_image.png",
-                                                            "FileName": "workunit_running_image.png",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\skins\\\\Default\\workunit_running_image.png"
                                                         },
                                                         {
-                                                            "File": "DEFAULT_workunit_suspended_image.png",
-                                                            "FileName": "workunit_suspended_image.png",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\skins\\\\Default\\workunit_suspended_image.png"
                                                         },
                                                         {
-                                                            "File": "DEFAULT_workunit_waiting_image.png",
-                                                            "FileName": "workunit_waiting_image.png",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\skins\\\\Default\\workunit_waiting_image.png"
                                                         }
                                                     ]
@@ -5686,7 +5658,7 @@
                                     "DefaultDir": "locale",
                                     "Directories": [
                                         {
-                                            "Directory": "ar",
+                                            "Directory": "locale_ar",
                                             "DefaultDir": "ar",
                                             "Components": [
                                                 {
@@ -5694,8 +5666,6 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_ar_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ar\\BOINC-Client.mo"
                                                         }
                                                     ]
@@ -5703,7 +5673,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "az",
+                                            "Directory": "locale_az",
                                             "DefaultDir": "az",
                                             "Components": [
                                                 {
@@ -5711,13 +5681,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_az_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\az\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_az_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\az\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5725,7 +5691,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "bg",
+                                            "Directory": "locale_bg",
                                             "DefaultDir": "bg",
                                             "Components": [
                                                 {
@@ -5733,13 +5699,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_bg_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\bg\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_bg_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\bg\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5747,7 +5709,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ca",
+                                            "Directory": "locale_ca",
                                             "DefaultDir": "ca",
                                             "Components": [
                                                 {
@@ -5755,13 +5717,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_ca_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ca\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_ca_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ca\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5769,7 +5727,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "cs",
+                                            "Directory": "locale_cs",
                                             "DefaultDir": "cs",
                                             "Components": [
                                                 {
@@ -5777,13 +5735,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_cs_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\cs\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_cs_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\cs\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5791,7 +5745,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "da",
+                                            "Directory": "locale_da",
                                             "DefaultDir": "da",
                                             "Components": [
                                                 {
@@ -5799,13 +5753,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_da_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\da\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_da_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\da\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5813,7 +5763,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "de",
+                                            "Directory": "locale_de",
                                             "DefaultDir": "de",
                                             "Components": [
                                                 {
@@ -5821,13 +5771,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_de_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\de\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_de_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\de\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5835,7 +5781,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "el",
+                                            "Directory": "locale_el",
                                             "DefaultDir": "el",
                                             "Components": [
                                                 {
@@ -5843,8 +5789,6 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_el_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\el\\BOINC-Client.mo"
                                                         }
                                                     ]
@@ -5852,7 +5796,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "eo",
+                                            "Directory": "locale_eo",
                                             "DefaultDir": "eo",
                                             "Components": [
                                                 {
@@ -5860,8 +5804,6 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_eo_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\eo\\BOINC-Client.mo"
                                                         }
                                                     ]
@@ -5869,7 +5811,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "es",
+                                            "Directory": "locale_es",
                                             "DefaultDir": "es",
                                             "Components": [
                                                 {
@@ -5877,13 +5819,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_es_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\es\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_es_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\es\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5891,7 +5829,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "eu",
+                                            "Directory": "locale_eu",
                                             "DefaultDir": "eu",
                                             "Components": [
                                                 {
@@ -5899,13 +5837,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_eu_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\eu\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_eu_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\eu\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5913,7 +5847,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "fa_IR",
+                                            "Directory": "locale_fa_IR",
                                             "DefaultDir": "fa_IR",
                                             "Components": [
                                                 {
@@ -5921,8 +5855,6 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_fa_IR_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\fa_IR\\BOINC-Client.mo"
                                                         }
                                                     ]
@@ -5930,7 +5862,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "fi",
+                                            "Directory": "locale_fi",
                                             "DefaultDir": "fi",
                                             "Components": [
                                                 {
@@ -5938,13 +5870,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_fi_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\fi\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_fi_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\fi\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5952,7 +5880,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "fr",
+                                            "Directory": "locale_fr",
                                             "DefaultDir": "fr",
                                             "Components": [
                                                 {
@@ -5960,13 +5888,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_fr_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\fr\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_fr_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\fr\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5974,7 +5898,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "he",
+                                            "Directory": "locale_he",
                                             "DefaultDir": "he",
                                             "Components": [
                                                 {
@@ -5982,13 +5906,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_hr_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\he\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_he_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\he\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -5996,7 +5916,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "hu",
+                                            "Directory": "locale_hu",
                                             "DefaultDir": "hu",
                                             "Components": [
                                                 {
@@ -6004,13 +5924,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_hu_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\hu\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_hu_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\hu\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6018,7 +5934,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "it",
+                                            "Directory": "locale_it",
                                             "DefaultDir": "it",
                                             "Components": [
                                                 {
@@ -6026,13 +5942,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_it_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\it\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_it_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\it\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6040,7 +5952,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "it_IT",
+                                            "Directory": "locale_it_IT",
                                             "DefaultDir": "it_IT",
                                             "Components": [
                                                 {
@@ -6048,13 +5960,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_it_IT_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\it_IT\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_it_IT_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\it_IT\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6062,7 +5970,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ja",
+                                            "Directory": "locale_ja",
                                             "DefaultDir": "ja",
                                             "Components": [
                                                 {
@@ -6070,13 +5978,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_ja_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ja\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_ja_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ja\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6084,7 +5988,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ka",
+                                            "Directory": "locale_ka",
                                             "DefaultDir": "ka",
                                             "Components": [
                                                 {
@@ -6092,13 +5996,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_ka_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ka\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_ka_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ka\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6106,7 +6006,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ko",
+                                            "Directory": "locale_ko",
                                             "DefaultDir": "ko",
                                             "Components": [
                                                 {
@@ -6114,13 +6014,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_ko_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ko\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_ko_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ko\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6128,7 +6024,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "lt",
+                                            "Directory": "locale_lt",
                                             "DefaultDir": "lt",
                                             "Components": [
                                                 {
@@ -6136,8 +6032,6 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_lt_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\lt\\BOINC-Client.mo"
                                                         }
                                                     ]
@@ -6145,7 +6039,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "lv",
+                                            "Directory": "locale_lv",
                                             "DefaultDir": "lv",
                                             "Components": [
                                                 {
@@ -6153,13 +6047,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_lv_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\lv\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_lv_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\lv\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6167,7 +6057,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "nb",
+                                            "Directory": "locale_nb",
                                             "DefaultDir": "nb",
                                             "Components": [
                                                 {
@@ -6175,13 +6065,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_nb_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\nb\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_nb_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\nb\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6189,7 +6075,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "nl",
+                                            "Directory": "locale_nl",
                                             "DefaultDir": "nl",
                                             "Components": [
                                                 {
@@ -6197,13 +6083,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_nl_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\nl\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_nl_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\nl\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6211,7 +6093,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "pl",
+                                            "Directory": "locale_pl",
                                             "DefaultDir": "pl",
                                             "Components": [
                                                 {
@@ -6219,13 +6101,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_pl_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\pl\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_pl_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\pl\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6233,7 +6111,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "pt_BR",
+                                            "Directory": "locale_pt_BR",
                                             "DefaultDir": "pt_BR",
                                             "Components": [
                                                 {
@@ -6241,13 +6119,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_pt_BR_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\pt_BR\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_pt_BR_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\pt_BR\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6255,7 +6129,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "pt_PT",
+                                            "Directory": "locale_pt_PT",
                                             "DefaultDir": "pt_PT",
                                             "Components": [
                                                 {
@@ -6263,13 +6137,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_pt_PT_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\pt_PT\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_pt_PT_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\pt_PT\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6277,7 +6147,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ro",
+                                            "Directory": "locale_ro",
                                             "DefaultDir": "ro",
                                             "Components": [
                                                 {
@@ -6285,13 +6155,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_ro_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ro\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_ro_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ro\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6299,7 +6165,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "ru",
+                                            "Directory": "locale_ru",
                                             "DefaultDir": "ru",
                                             "Components": [
                                                 {
@@ -6307,13 +6173,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_ru_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ru\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_ru_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\ru\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6321,7 +6183,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "sk",
+                                            "Directory": "locale_sk",
                                             "DefaultDir": "sk",
                                             "Components": [
                                                 {
@@ -6329,13 +6191,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_sk_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\sk\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_sk_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\sk\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6343,7 +6201,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "sr@latin",
+                                            "Directory": "locale_sr_latin",
                                             "DefaultDir": "sr@latin",
                                             "Components": [
                                                 {
@@ -6351,8 +6209,6 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_sr_latin_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\sr@latin\\BOINC-Client.mo"
                                                         }
                                                     ]
@@ -6360,7 +6216,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "sv",
+                                            "Directory": "locale_sv",
                                             "DefaultDir": "sv",
                                             "Components": [
                                                 {
@@ -6368,13 +6224,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_sv_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\sv\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_sv_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\sv\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6382,7 +6234,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "tr",
+                                            "Directory": "locale_tr",
                                             "DefaultDir": "tr",
                                             "Components": [
                                                 {
@@ -6390,13 +6242,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_tr_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\tr\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_tr_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\tr\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6404,7 +6252,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "uk",
+                                            "Directory": "locale_uk",
                                             "DefaultDir": "uk",
                                             "Components": [
                                                 {
@@ -6412,13 +6260,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_uk_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\uk\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_uk_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\uk\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6426,7 +6270,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "vi",
+                                            "Directory": "locale_vi",
                                             "DefaultDir": "vi",
                                             "Components": [
                                                 {
@@ -6434,13 +6278,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_vi_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\vi\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_vi_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\vi\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6448,7 +6288,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "zh_CN",
+                                            "Directory": "locale_zh_CN",
                                             "DefaultDir": "zh_CN",
                                             "Components": [
                                                 {
@@ -6456,13 +6296,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_zh_CN_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\zh_CN\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_zh_CN_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\zh_CN\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6470,7 +6306,7 @@
                                             ]
                                         },
                                         {
-                                            "Directory": "zh_TW",
+                                            "Directory": "locale_zh_TW",
                                             "DefaultDir": "zh_TW",
                                             "Components": [
                                                 {
@@ -6478,13 +6314,9 @@
                                                     "Attributes": 256,
                                                     "Files": [
                                                         {
-                                                            "File": "LOCALE_zh_TW_BOINC-Client.mo",
-                                                            "FileName": "BOINC-Client.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\zh_TW\\BOINC-Client.mo"
                                                         },
                                                         {
-                                                            "File": "LOCALE_zh_TW_BOINC-Manager.mo",
-                                                            "FileName": "BOINC-Manager.mo",
                                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\locale\\zh_TW\\BOINC-Manager.mo"
                                                         }
                                                     ]
@@ -6509,13 +6341,6 @@
                                     "Attributes": 256,
                                     "Condition": "ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
                                     "CreateFolder": true,
-                                    "Files": [
-                                        {
-                                            "File": "boinc.exe1",
-                                            "FileName": "boinc.exe",
-                                            "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinc.exe"
-                                        }
-                                    ],
                                     "ServiceControl": [
                                         {
                                             "ServiceControl": "BOINC",
@@ -6546,8 +6371,6 @@
                                     "CreateFolder": true,
                                     "Files": [
                                         {
-                                            "File": "boinc.exe",
-                                            "FileName": "boinc.exe",
                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinc.exe"
                                         }
                                     ]
@@ -6558,8 +6381,6 @@
                                     "Attributes": 256,
                                     "Files": [
                                         {
-                                            "File": "boinccmd.exe",
-                                            "FileName": "boinccmd.exe",
                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinccmd.exe"
                                         }
                                     ]
@@ -6570,13 +6391,9 @@
                                     "Attributes": 256,
                                     "Files": [
                                         {
-                                            "File": "copying",
-                                            "FileName": "COPYING",
                                             "FilePath": "..\\COPYING"
                                         },
                                         {
-                                            "File": "copyright",
-                                            "FileName": "COPYRI~1|COPYRIGHT",
                                             "FilePath": "..\\COPYRIGHT"
                                         }
                                     ]
@@ -6587,8 +6404,6 @@
                                     "Attributes": 256,
                                     "Files": [
                                         {
-                                            "File": "boincmgr.exe",
-                                            "FileName": "boincmgr.exe",
                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boincmgr.exe"
                                         }
                                     ],
@@ -6670,18 +6485,12 @@
                                     "Attributes": 264,
                                     "Files": [
                                         {
-                                            "File": "boinc_logo_black.jpg",
-                                            "FileName": "BOINC_~1.JPG|boinc_logo_black.jpg",
                                             "FilePath": "..\\doc\\logo\\boinc_logo_black.jpg"
                                         },
                                         {
-                                            "File": "boincscr.exe",
-                                            "FileName": "boincscr.exe",
                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boincscr.exe"
                                         },
                                         {
-                                            "File": "liberationsans_regular.ttf",
-                                            "FileName": "LIBERA~1.TTF|LiberationSans-Regular.ttf",
                                             "FilePath": "..\\api\\ttf\\liberation-fonts-ttf-2.00.0\\LiberationSans-Regular.ttf",
                                             "IsFont": true
                                         }
@@ -6691,11 +6500,8 @@
                                     "Feature_": "BOINC",
                                     "Component": "_BOINCSvcCtrl",
                                     "Attributes": 256,
-                                    "CreateFolder": true,
                                     "Files": [
                                         {
-                                            "File": "boincsvcctrl.exe",
-                                            "FileName": "BOINCS~1.EXE|boincsvcctrl.exe",
                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boincsvcctrl.exe"
                                         }
                                     ]
@@ -6706,8 +6512,6 @@
                                     "Attributes": 256,
                                     "Files": [
                                         {
-                                            "File": "boinctray.exe",
-                                            "FileName": "BOINCT~1.EXE|boinctray.exe",
                                             "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinctray.exe"
                                         }
                                     ],
@@ -6797,8 +6601,6 @@
                             "Attributes": 256,
                             "Files": [
                                 {
-                                    "File": "boinc.scr",
-                                    "FileName": "boinc.scr",
                                     "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinc.scr"
                                 }
                             ]
@@ -9934,9 +9736,11 @@
             "Description": "ID_STRING39"
         },
         {
-            "Condition": "AdminUser",
+            "Condition": "Privileged",
             "Description": "IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN"
         }
+    ],
+    "Listbox": [
     ],
     "Property": [
         {
@@ -10113,7 +9917,7 @@
         },
         {
             "Property": "_IsMaintenance",
-            "Value": "Install"
+            "Value": "Reinstall"
         }
     ],
     "TextStyle": [
@@ -10339,24 +10143,24 @@
     "Upgrade": [
         {
             "UpgradeCode": "{76DD37FC-EE51-408D-9FB5-3D59FC8ED22A}",
-            "VersionMin": "0000.0000.0000",
-            "VersionMax": "9999.9999.9999",
+            "VersionMin": "0.0.0",
+            "VersionMax": "255.255.65535",
             "Attributes": 769,
             "ActionProperty": "ISACTIONPROP2",
             "Comments": "World Community Grid Upgrade (7.14.2)"
         },
         {
             "UpgradeCode": "{862B80F6-835D-4F72-8C4F-EE68ED34C6F8}",
-            "VersionMin": "0000.0000.0000",
-            "VersionMax": "9999.9999.9999",
+            "VersionMin": "0.0.0",
+            "VersionMax": "255.255.65535",
             "Attributes": 769,
             "ActionProperty": "ISACTIONPROP1",
             "Comments": "World Community Grid Upgrade"
         },
         {
             "UpgradeCode": "{E913E54D-5080-42EC-A312-B21948BA1C02}",
-            "VersionMin": "0000.0000.0000",
-            "VersionMax": "9999.9999.9999",
+            "VersionMin": "0.0.0",
+            "VersionMax": "255.255.65535",
             "Attributes": 769,
             "ActionProperty": "ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02",
             "Comments": "General Upgrade"

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,7 +19,65 @@
 #include "ControlConditionTable.h"
 
 ControlConditionTable::ControlConditionTable(
-    const std::vector<Control>& controls) noexcept : controls(controls) {}
+    const std::vector<Control>& controls,
+    std::shared_ptr<ValidationTable> validationTable) : controls(controls) {
+    const auto tableName = std::string("ControlCondition");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/controlcondition-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Dialog_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Dialog",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key to the first column of the "
+                "Dialog table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Control_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Control",
+            2,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("An external key to the second column of the "
+                "Control table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Action",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "Default;Disable;Enable;Hide;Show",
+            DescriptionWithUrl("The action that is to be taken on the "
+                "control.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Condition",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryCondition,
+            "",
+            DescriptionWithUrl("A conditional statement that specifies under "
+                "which conditions the action should be triggered.", url)
+        ));
+    }
+}
 
 bool ControlConditionTable::generate(MSIHANDLE hDatabase)
 {

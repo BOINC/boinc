@@ -15,19 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once
+#include "Listbox.h"
+#include "MsiHelper.h"
+#include "JsonHelper.h"
 
-#include "ServiceControl.h"
-#include "Generator.h"
-#include "Directory.h"
-#include "ValidationTable.h"
+Listbox::Listbox(const nlohmann::json& json,
+    InstallerStrings& installerStrings) {
+    JsonHelper::get(json, "Property", property);
+    JsonHelper::get(json, "Order", order);
+    JsonHelper::get(json, "Value", value);
+    JsonHelper::get(json, "Text", text, installerStrings);
+}
 
-class ServiceControlTable : public Generator<ServiceControl> {
-public:
-    explicit ServiceControlTable(const std::vector<Directory>& directories,
-        std::shared_ptr<ValidationTable> validationTable);
-    ~ServiceControlTable() = default;
-    bool generate(MSIHANDLE hDatabase) override;
-private:
-    std::vector<ServiceControl> values{};
-};
+MSIHANDLE Listbox::getRecord() const {
+    return MsiHelper::MsiRecordSet({ property, order, value, text });
+}

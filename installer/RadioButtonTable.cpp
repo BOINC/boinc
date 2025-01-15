@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,11 +17,133 @@
 
 #include "RadioButtonTable.h"
 
-RadioButtonTable::RadioButtonTable(const std::vector<Control>& controls) {
+RadioButtonTable::RadioButtonTable(const std::vector<Control>& controls,
+    std::shared_ptr<ValidationTable> validationTable) {
     for (const auto& control : controls) {
         for (const auto& radioButton : control.get_radio_buttons()) {
             properties.emplace_back(radioButton);
         }
+    }
+
+    const auto tableName = std::string("RadioButton");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/radiobutton-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Property",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("A named property to be tied to this radio "
+                "button.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Order",
+            false,
+            1,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("A positive integer used to determine the "
+                "ordering of the items within one list.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Value",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("The value string associated with this button.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "X",
+            false,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The horizontal coordinate within the group of "
+                "the upper-left corner of the bounding rectangle of the radio "
+                "button.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Y",
+            false,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The vertical coordinate within the group of "
+                "the upper-left corner of the bounding rectangle of the radio "
+                "button.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Width",
+            false,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The width of the button.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Height",
+            false,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The height of the button.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Text",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("The localizable, visible title to be assigned "
+                "to the radio button.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Help",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("The Help strings used with the button.", url)
+        ));
     }
 }
 

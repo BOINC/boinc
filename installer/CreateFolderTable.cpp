@@ -18,7 +18,8 @@
 #include "CreateFolderTable.h"
 
 CreateFolderTable::CreateFolderTable(
-    const std::vector<Directory>& directories) {
+    const std::vector<Directory>& directories,
+    std::shared_ptr<ValidationTable> validationTable) {
     for (const auto& directory : directories) {
         for (const auto& component : directory.getComponents()) {
             auto [result, record] = component.getCreateFolder();
@@ -26,6 +27,37 @@ CreateFolderTable::CreateFolderTable(
                 createFolders.emplace_back(record);
             }
         }
+    }
+
+    const auto tableName = std::string("CreateFolder");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/createfolder-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Directory_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Directory",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("External key into the first column of the "
+                "Directory table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Component_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Component",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("External key into the first column of the "
+                "Component table.", url)
+        ));
     }
 }
 

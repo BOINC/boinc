@@ -15,17 +15,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ActionText.h"
+#include "Validation.h"
 #include "MsiHelper.h"
-#include "JsonHelper.h"
 
-ActionText::ActionText(const nlohmann::json& json,
-    InstallerStrings& installerStrings) {
-    JsonHelper::get(json, "Action", action);
-    JsonHelper::get(json, "Description", description, installerStrings);
-    JsonHelper::get(json, "Template", tmplt, installerStrings);
+Validation::Validation(const std::string& table, const std::string& column,
+    bool nullable, int minValue, int maxValue, const std::string& keyTable,
+    int keyColumn, const std::string& category, const std::string& set,
+    const std::string& description) : table(table), column(column),
+    nullable(nullable), minValue(minValue), maxValue(maxValue),
+    keyTable(keyTable), keyColumn(keyColumn), category(category), set(set),
+    description(description) {
 }
 
-MSIHANDLE ActionText::getRecord() const {
-    return MsiHelper::MsiRecordSet({ action, description, tmplt });
+MSIHANDLE Validation::getRecord() const {
+    const std::string yval = "Y";
+    const std::string nval = "N";
+    return MsiHelper::MsiRecordSet({ table, column, nullable ? yval : nval,
+        minValue, maxValue, keyTable, keyColumn, category, set, description });
 }

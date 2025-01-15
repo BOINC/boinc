@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,13 +17,226 @@
 
 #include "ShortcutTable.h"
 
-ShortcutTable::ShortcutTable(const std::vector<Directory>& directories) {
+ShortcutTable::ShortcutTable(const std::vector<Directory>& directories,
+    std::shared_ptr<ValidationTable> validationTable) {
     for (const auto& directory : directories) {
         for (const auto& component : directory.getComponents()) {
             for (const auto& shortcut : component.getShortcuts()) {
                 values.push_back(shortcut);
             }
         }
+    }
+
+    const auto tableName = std::string("Shortcut");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/shortcut-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Shortcut",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The key value for this table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Directory_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Directory",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The external key into the first column of the "
+                "Directory table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Name",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFilename,
+            "",
+            DescriptionWithUrl("The localizable name of the shortcut to be "
+                "created.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Component_",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Component",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The external key into the first column of the "
+                "Component table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Target",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryShortcut,
+            "",
+            DescriptionWithUrl("The shortcut target.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Arguments",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("The command-line arguments for the shortcut.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Description",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("The localizable description of the shortcut.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Hotkey",
+            true,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The hotkey for the shortcut.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Icon_",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Icon",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The external key to column one of the Icon "
+                "table.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "IconIndex",
+            true,
+            -32767,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The icon index for the shortcut.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "ShowCmd",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "1;3;7",
+            DescriptionWithUrl("The Show command for the application window.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "WkDir",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The name of the property that has the path of "
+                "the working directory for the shortcut.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "DisplayResourceDll",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("This field contains a Formatted string value "
+                "for the full path to the language-neutral portable "
+                "executable (LN file) that contains the resource "
+                "configuration (RC Config) data.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "DisplayResourceId",
+            true,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The display name index for the shortcut.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "DescriptionResourceDll",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryFormatted,
+            "",
+            DescriptionWithUrl("This field contains a Formatted string value "
+                "for the full path to the language-neutral portable "
+                "executable (LN file) that contains the resource "
+                "configuration (RC Config) data.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "DescriptionResourceId",
+            true,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The description name index for the shortcut.",
+                url)
+        ));
     }
 }
 

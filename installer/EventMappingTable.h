@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,10 +20,12 @@
 #include "Generator.h"
 #include "EventMapping.h"
 #include "Control.h"
+#include "ValidationTable.h"
 
 class EventMappingTable : public Generator<EventMapping> {
 public:
-    explicit EventMappingTable(const std::vector<Control>& controls);
+    explicit EventMappingTable(const std::vector<Control>& controls,
+        std::shared_ptr<ValidationTable> validationTable);
     ~EventMappingTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

@@ -106,6 +106,22 @@ jobs:
         run: |
           python ./ci_tools/create_signing_metadata.py "${{ env.DMDF }}" "${{ env.AZURE_ENDPOINT }}" "${{ env.AZURE_CODE_SIGNING_NAME }}" "${{ env.AZURE_CERT_PROFILE_NAME }}"
 
+      - name: Install MsiVal2 and Orca tools
+        if: success() && matrix.type == 'msbuild' && !startsWith(github.ref, 'refs/tags/')
+        shell: powershell
+        run: |
+          md -Force ./temp
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\MsiVal2-x86_en-us.msi' ./temp/
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\8e4755178e6b5bcba8d3538c3630b7a5.cab' ./temp/
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\b80b7321357f7c9f281536f9440dfe68.cab' ./temp/
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\c2aabf6ea5c1d348ec22f3aeb92f8656.cab' ./temp/
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\Orca-x86_en-us.msi' ./temp/
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\838060235bcd28bf40ef7532c50ee032.cab' ./temp/
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\a35cd6c9233b6ba3da66eecaa9190436.cab' ./temp/
+          cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\fe38b2fd0d440e3c6740b626f51a22fc.cab' ./temp/
+          Start-Process "msiexec.exe" -ArgumentList "/i temp\MsiVal2-x86_en-us.msi" -Wait
+          Start-Process "msiexec.exe" -ArgumentList "/i temp\Orca-x86_en-us.msi" -Wait
+
       - name: Build
         if: success() && matrix.type == 'msbuild'
         run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -m
@@ -118,6 +134,10 @@ jobs:
         if: success() && matrix.platform == 'x64' && matrix.type == 'msbuild'
         working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
         run: ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage-x64\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{github.workspace}} --export_type=cobertura:cobertura.xml -- unittests.exe --gtest_output=xml:gtest.xml
+
+      - name: Verify MSI file
+        if: success() && matrix.type == 'msbuild' && !startsWith(github.ref, 'refs/tags/')
+        run: python ./tests/msi_validation.py "C:\Program Files (x86)\MsiVal2\MsiVal2.exe" "${{github.workspace}}\win_build\Build\${{matrix.platform}}\${{matrix.configuration}}\boinc.msi" "${{github.workspace}}\installer\darice.cub"
 
       - name: Run installation
         if: success() && matrix.platform == 'x64' && matrix.type == 'msbuild'

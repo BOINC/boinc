@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,11 +17,81 @@
 
 #include "TextStyleTable.h"
 
-TextStyleTable::TextStyleTable(const nlohmann::json& json) {
+TextStyleTable::TextStyleTable(const nlohmann::json& json,
+    std::shared_ptr<ValidationTable> validationTable) {
     std::cout << "Loading TextStyleTable..." << std::endl;
 
     for (const auto& textStyle : json) {
         textStyles.emplace_back(textStyle);
+    }
+
+    const auto tableName = std::string("TextStyle");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/textstyle-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "TextStyle",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("This column is the name of the font style.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "FaceName",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("A string indicating the name of the font.",
+                url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Size",
+            true,
+            0,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("The font size measured in points.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Color",
+            true,
+            0,
+            16777215,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("This column specifies the text color "
+                "displayed by a Text Control.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "StyleBits",
+            true,
+            0,
+            15,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("A combination of bits indicating the "
+                "formatting for the text.", url)
+        ));
     }
 }
 
