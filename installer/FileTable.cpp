@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <sstream>
+#include <iostream>
 
 #include "FileTable.h"
 #include "CabHelper.h"
@@ -129,6 +130,10 @@ std::string FileTable::GetFileName(const std::filesystem::path& filePath) {
         if (converted != fileName) {
             return converted + "|" + fileName;
         }
+    }
+    else {
+        std::cerr << "Failed to get short path name for " << filePath <<
+            ": " << GetLastError() << std::endl;
     }
     return fileName;
 }
