@@ -115,7 +115,7 @@ jobs:
           cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\8e4755178e6b5bcba8d3538c3630b7a5.cab' ./temp/
           cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\b80b7321357f7c9f281536f9440dfe68.cab' ./temp/
           cp 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\c2aabf6ea5c1d348ec22f3aeb92f8656.cab' ./temp/
-          Start-Process "msiexec.exe" -ArgumentList "/i './temp/MsiVal2-x86_en-us.msi'" -Wait
+          Start-Process "msiexec.exe" -ArgumentList "/i temp\MsiVal2-x86_en-us.msi" -Wait
 
       - name: Build
         if: success() && matrix.type == 'msbuild'
