@@ -189,7 +189,7 @@ FileTable::FileTable(const std::vector<Directory>& directories,
                 }
                 file.setFilesize(static_cast<int>(
                     GetFileSize(file.getFilepath().string())));
-                auto [filename_short, filename_long] = 
+                auto [filename_short, filename_long] =
                     GetFileName(file.getFilepath(),
                         component.getDirectory());
                 file.setShortFileName(filename_short);
