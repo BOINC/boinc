@@ -23,7 +23,8 @@
 
 class File : public Record {
 public:
-    explicit File(const nlohmann::json& json, const std::string& component);
+    explicit File(const nlohmann::json& json, const std::string& component,
+        const std::string& directory);
     ~File() = default;
     MSIHANDLE getRecord() const override;
     std::filesystem::path getFilepath() const;
@@ -35,11 +36,16 @@ public:
     void setAttributes(int a) noexcept;
     void setSequence(int s) noexcept;
     void setFilepath(const std::filesystem::path& p);
-    void setFileName(const std::string& n);
+    void setShortFileName(const std::string& n);
+    void setLongFileName(const std::string& n);
+    std::string getShortFileName() const;
+    std::string getLongFileName() const;
     bool isVersioned() const noexcept;
+    std::string getDirectory() const;
 private:
     std::string component{};
-    std::string filename{};
+    std::string filename_short{};
+    std::string filename_long{};
     int filesize = MSI_NULL_INTEGER;
     std::string version{};
     std::string language{};
@@ -47,4 +53,5 @@ private:
     int sequence = MSI_NULL_INTEGER;
     std::filesystem::path filepath{};
     bool isFont = false;
+    std::string directory{};
 };

@@ -57,7 +57,7 @@ def main():
 
     if error_found:
         print("Validation failed")
-        sys.exit(0)
+        sys.exit(1)
 
     print("Validation succeeded")
     sys.exit(0)

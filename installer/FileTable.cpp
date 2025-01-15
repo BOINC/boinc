@@ -120,25 +120,47 @@ std::filesystem::path FileTable::GetAbsolutePath(
     return root_path / p;
 }
 
-std::string FileTable::GetFileName(const std::filesystem::path& filePath) {
-    char shortName[MAX_PATH];
-    auto fileName = filePath.filename().string();
-    std::cout << "Get short file name for " << fileName << std::endl;
-    if (GetShortPathName(filePath.string().c_str(), shortName, MAX_PATH)
-        != 0) {
-        std::cout << "Short file name for " << fileName << " is " << shortName
-            << std::endl;
-        const auto converted =
-            std::filesystem::path(shortName).filename().string();
-        if (converted != fileName) {
-            return converted + "|" + fileName;
+std::tuple<std::string, std::string> FileTable::GetFileName(
+    const std::filesystem::path& filePath, const std::string& directory) {
+    auto extension = filePath.extension().string();
+    if (extension.size() > 4) {
+        extension = extension.substr(0, 4);
+    }
+    std::transform(extension.begin(), extension.end(), extension.begin(),
+        ::toupper);
+    auto name = filePath.filename().stem().string();
+    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+    auto i = 0;
+    const auto filename_long = name;
+    while (true) {
+        auto suffix_len = 1;
+        auto t = i;
+        while (t /= 10) {
+            suffix_len++;
+        }
+        ++suffix_len;
+        if (suffix_len > 6) {
+            suffix_len = 6;
+        }
+        if (filename_long.size() > 8) {
+            name = filename_long.substr(0, 8 - suffix_len) + "~" +
+                std::to_string(++i);
+            std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+        }
+        auto found = false;
+        for (const auto& file : files) {
+            if (file.getDirectory() == directory &&
+                file.getShortFileName() == name + extension) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            break;
         }
     }
-    else {
-        std::cerr << "Failed to get short path name for " << filePath <<
-            ": " << GetLastError() << std::endl;
-    }
-    return fileName;
+
+    return { name + extension, filePath.filename().string() };
 }
 
 FileTable::FileTable(const std::vector<Directory>& directories,
@@ -167,7 +189,11 @@ FileTable::FileTable(const std::vector<Directory>& directories,
                 }
                 file.setFilesize(static_cast<int>(
                     GetFileSize(file.getFilepath().string())));
-                file.setFileName(GetFileName(file.getFilepath()));
+                auto [filename_short, filename_long] = 
+                    GetFileName(file.getFilepath(),
+                        component.getDirectory());
+                file.setShortFileName(filename_short);
+                file.setLongFileName(filename_long);
                 files.push_back(file);
             }
         }

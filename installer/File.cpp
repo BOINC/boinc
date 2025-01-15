@@ -21,15 +21,17 @@
 #include "MsiHelper.h"
 #include "JsonHelper.h"
 
-File::File(const nlohmann::json& json, const std::string& component) :
-    component(component) {
+File::File(const nlohmann::json& json, const std::string& component,
+    const std::string& directory) :
+    component(component), directory(directory) {
     JsonHelper::get(json, "FilePath", filepath);
     JsonHelper::get(json, "IsFont", isFont);
 }
 
 MSIHANDLE File::getRecord() const {
-    return MsiHelper::MsiRecordSet({ getFileId(), component, filename,
-        filesize, version, language, attributes, sequence });
+    return MsiHelper::MsiRecordSet({ getFileId(), component,
+        filename_short + "|" + filename_long, filesize, version, language,
+        attributes, sequence });
 }
 
 std::filesystem::path File::getFilepath() const {
@@ -75,10 +77,26 @@ void File::setFilepath(const std::filesystem::path& p) {
     filepath = p;
 }
 
-void File::setFileName(const std::string& n) {
-    filename = n;
+void File::setShortFileName(const std::string& n) {
+    filename_short = n;
+}
+
+void File::setLongFileName(const std::string& n) {
+    filename_long = n;
+}
+
+std::string File::getShortFileName() const {
+    return filename_short;
+}
+
+std::string File::getLongFileName() const {
+    return filename_long;
 }
 
 bool File::isVersioned() const noexcept {
     return !version.empty();
+}
+
+std::string File::getDirectory() const {
+    return directory;
 }

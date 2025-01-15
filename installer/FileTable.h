@@ -37,7 +37,8 @@ private:
     size_t GetFileSize(const std::string& filePath);
     std::filesystem::path GetAbsolutePath(
         const std::filesystem::path& filePath);
-    std::string GetFileName(const std::filesystem::path& filePath);
+    std::tuple<std::string, std::string> GetFileName(
+        const std::filesystem::path& filePath, const std::string& directory);
     std::vector<File> files{};
     std::filesystem::path root_path{};
     std::filesystem::path output_path{};
