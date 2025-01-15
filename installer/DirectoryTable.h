@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,6 +19,7 @@
 
 #include "Generator.h"
 #include "Directory.h"
+#include "ValidationTable.h"
 
 class DirectoryTable : public Generator<Directory> {
 public:
@@ -26,7 +27,8 @@ public:
         const std::filesystem::path& root_path,
         const std::filesystem::path& output_path,
         InstallerStrings& installerStrings, const std::string& platform,
-        const std::string& configuration);
+        const std::string& configuration,
+        std::shared_ptr<ValidationTable> validationTable);
     ~DirectoryTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:
@@ -35,4 +37,5 @@ private:
     std::filesystem::path output_path{};
     std::string platform{};
     std::string configuration{};
+    std::shared_ptr<ValidationTable> validationTable;
 };

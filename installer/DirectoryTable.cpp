@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,54 +31,102 @@ DirectoryTable::DirectoryTable(const nlohmann::json& json,
     const std::filesystem::path& root_path,
     const std::filesystem::path& output_path,
     InstallerStrings& installerStrings, const std::string& platform,
-    const std::string& configuration) :
+    const std::string& configuration,
+    std::shared_ptr<ValidationTable> validationTable) :
     root_path(root_path), output_path(output_path), platform(platform),
-    configuration(configuration) {
+    configuration(configuration), validationTable(validationTable) {
     std::cout << "Loading DirectoryTable..." << std::endl;
     for (const auto& directory : json) {
         directories.emplace_back(directory, "", installerStrings);
     }
+
+    const auto tableName = std::string("Directory");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/directory-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Directory",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("The Directory column contains a unique "
+                "identifier for a directory or directory path.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Directory_Parent",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "Directory",
+            1,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("This column is a reference to the directory's "
+                "parent directory.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "DefaultDir",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryDefaultDir,
+            "",
+            DescriptionWithUrl("The DefaultDir column contains the "
+                "directory's name (localizable)under the parent directory.",
+                url)
+        ));
+    }
 }
 
 bool DirectoryTable::generate(MSIHANDLE hDatabase) {
-    if (!ComponentTable(directories).generate(hDatabase)) {
+    if (!ComponentTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ComponentTable" << std::endl;
         return false;
     }
-    if (!FeatureComponentsTable(directories).generate(hDatabase)) {
+    if (!FeatureComponentsTable(directories,validationTable).generate(
+        hDatabase)) {
         std::cerr << "Failed to generate FeatureComponentsTable" << std::endl;
         return false;
     }
-    if (!CreateFolderTable(directories).generate(hDatabase)) {
+    if (!CreateFolderTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate CreateFolderTable" << std::endl;
         return false;
     }
     if (!FileTable(directories, root_path,
-        output_path, platform, configuration).generate(hDatabase)) {
+        output_path, platform, configuration, validationTable).generate(
+            hDatabase)) {
         std::cerr << "Failed to generate FileTable" << std::endl;
         return false;
     }
-    if (!FontTable(directories).generate(hDatabase)) {
+    if (!FontTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate FontTable" << std::endl;
         return false;
     }
-    if (!RegistryTable(directories).generate(hDatabase)) {
+    if (!RegistryTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate RegistryTable" << std::endl;
         return false;
     }
-    if (!RemoveFileTable(directories).generate(hDatabase)) {
+    if (!RemoveFileTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate RemoveFileTable" << std::endl;
         return false;
     }
-    if (!ServiceControlTable(directories).generate(hDatabase)) {
+    if (!ServiceControlTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ServiceControlTable" << std::endl;
         return false;
     }
-    if (!ServiceInstallTable(directories).generate(hDatabase)) {
+    if (!ServiceInstallTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ServiceInstallTable" << std::endl;
         return false;
     }
-    if (!ShortcutTable(directories).generate(hDatabase)) {
+    if (!ShortcutTable(directories, validationTable).generate(hDatabase)) {
         std::cerr << "Failed to generate ShortcutTable" << std::endl;
         return false;
     }

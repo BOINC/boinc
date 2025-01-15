@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -33,7 +33,7 @@ Component::Component(const nlohmann::json& json, const std::string& directory,
         component = parent + "_" + directory;
     }
     JsonHelper::handle(json, "Files", [&](const auto& file) {
-        files.emplace_back(file, component);
+        files.emplace_back(file, component, directory);
         });
     JsonHelper::handle(json, "Registry", [&](const auto& registry) {
         registries.emplace_back(registry, component);
@@ -98,4 +98,12 @@ std::vector<ServiceInstall> Component::getServiceInstalls() const {
 
 std::vector<Shortcut> Component::getShortcuts() const {
     return shortcuts;
+}
+
+std::string Component::getComponentName() const {
+    return component;
+}
+
+std::string Component::getDirectory() const {
+    return directory;
 }

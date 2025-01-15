@@ -17,17 +17,18 @@
 
 #pragma once
 
-#include "ServiceControl.h"
 #include "Generator.h"
-#include "Directory.h"
+#include "InstallerStrings.h"
+#include "Listbox.h"
 #include "ValidationTable.h"
 
-class ServiceControlTable : public Generator<ServiceControl> {
+class ListboxTable : public Generator<Listbox> {
 public:
-    explicit ServiceControlTable(const std::vector<Directory>& directories,
+    explicit ListboxTable(const nlohmann::json& json,
+        InstallerStrings& installerStrings,
         std::shared_ptr<ValidationTable> validationTable);
-    ~ServiceControlTable() = default;
+    ~ListboxTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:
-    std::vector<ServiceControl> values{};
+    std::vector<Listbox> values{};
 };

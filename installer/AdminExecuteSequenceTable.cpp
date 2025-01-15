@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,11 +18,54 @@
 #include "AdminExecuteSequenceTable.h"
 
 AdminExecuteSequenceTable::AdminExecuteSequenceTable(
-    const nlohmann::json& json) {
+    const nlohmann::json& json,
+    std::shared_ptr<ValidationTable> validationTable) {
     std::cout << "Loading AdminExecuteSequenceTable..." << std::endl;
 
     for (const auto& value : json) {
         actions.emplace_back(value);
+    }
+
+    const auto tableName = std::string("AdminExecuteSequence");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/adminexecutesequence-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Action",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("Name of the action to execute.", url)
+            ));
+        validationTable->add(Validation(
+            tableName,
+            "Condition",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryCondition,
+            "",
+            DescriptionWithUrl("Logical expression.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Sequence",
+            true,
+            -4,
+            32767,
+            "",
+            MSI_NULL_INTEGER,
+            "",
+            "",
+            DescriptionWithUrl("A positive value indicates the "
+            "sequence position of the action.", url)
+        ));
     }
 }
 

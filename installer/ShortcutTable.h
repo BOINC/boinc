@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,10 +20,12 @@
 #include "Shortcut.h"
 #include "Directory.h"
 #include "Generator.h"
+#include "ValidationTable.h"
 
 class ShortcutTable : public Generator<Shortcut> {
 public:
-    explicit ShortcutTable(const std::vector<Directory>& directories);
+    explicit ShortcutTable(const std::vector<Directory>& directories,
+        std::shared_ptr<ValidationTable> validationTable);
     ~ShortcutTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

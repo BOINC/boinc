@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,11 +20,13 @@
 #include "Generator.h"
 #include "InstallerStrings.h"
 #include "Error.h"
+#include "ValidationTable.h"
 
 class ErrorTable : public Generator<Error> {
 public:
     explicit ErrorTable(const nlohmann::json& json,
-        InstallerStrings& installerStrings);
+        InstallerStrings& installerStrings,
+        std::shared_ptr<ValidationTable> validationTable);
     ~ErrorTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

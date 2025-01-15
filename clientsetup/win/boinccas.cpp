@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2025 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -840,6 +840,11 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
     // Save the string
     strComponentKeyFilename = szBuffer;
+
+    // strComponentKeyFilename format is [strComponentName]_[filename]
+    // Remove the component name from the string
+    strComponentKeyFilename =
+        strComponentKeyFilename.substr(strComponentName.size() + 1);
 
     strMessage  = _T("The key filename for component '");
     strMessage += strComponentName;

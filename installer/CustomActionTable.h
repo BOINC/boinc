@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,10 +19,12 @@
 
 #include "Generator.h"
 #include "CustomAction.h"
+#include "ValidationTable.h"
 
 class CustomActionTable : public Generator<CustomAction> {
 public:
-    explicit CustomActionTable(const nlohmann::json& json);
+    explicit CustomActionTable(const nlohmann::json& json,
+        std::shared_ptr<ValidationTable> validationTable);
     ~CustomActionTable() = default;
     bool generate(MSIHANDLE hDatabase) override;
 private:

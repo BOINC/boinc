@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,10 +18,41 @@
 #include "UITextTable.h"
 
 UITextTable::UITextTable(const nlohmann::json& json,
-    InstallerStrings& installerStrings) {
+    InstallerStrings& installerStrings,
+    std::shared_ptr<ValidationTable> validationTable) {
     std::cout << "Loading UITextTable.." << std::endl;
     for (const auto& item : json) {
         uiTexts.emplace_back(item, installerStrings);
+    }
+
+    const auto tableName = std::string("UIText");
+    const auto url = "https://learn.microsoft.com/en-us/windows/win32/msi/uitext-table";
+    if (validationTable != nullptr) {
+        validationTable->add(Validation(
+            tableName,
+            "Key",
+            false,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryIdentifier,
+            "",
+            DescriptionWithUrl("A unique key that identifies the particular "
+                "string.", url)
+        ));
+        validationTable->add(Validation(
+            tableName,
+            "Text",
+            true,
+            MSI_NULL_INTEGER,
+            MSI_NULL_INTEGER,
+            "",
+            MSI_NULL_INTEGER,
+            ValidationCategoryText,
+            "",
+            DescriptionWithUrl("The localized version of the string.", url)
+        ));
     }
 }
 

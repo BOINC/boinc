@@ -45,6 +45,8 @@ public:
     std::vector<ServiceControl> getServiceControls() const;
     std::vector<ServiceInstall> getServiceInstalls() const;
     std::vector<Shortcut> getShortcuts() const;
+    std::string getComponentName() const;
+    std::string getDirectory() const;
 private:
     std::string component{};
     std::string componentId{};
