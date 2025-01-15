@@ -87,7 +87,7 @@ ListboxTable::ListboxTable(const nlohmann::json& json,
 
 bool ListboxTable::generate(MSIHANDLE hDatabase) {
     std::cout << "Generating ListboxTable..." << std::endl;
- 
+
     const auto sql_create = "CREATE TABLE `ListBox` "
         "(`Property` CHAR(72) NOT NULL, `Order` SHORT NOT NULL, "
         "`Value` CHAR(64) NOT NULL, `Text` CHAR(64) "
