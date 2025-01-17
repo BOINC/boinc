@@ -856,7 +856,8 @@ int CLIENT_STATE::write_state_file_if_needed() {
 
 // look for app_versions.xml file in project dir.
 // If find, get app versions from there,
-// and use "anonymous platform" mechanism for this project
+// and mark project as "anonymous platform".
+// This is called before parsing client_state.xml
 //
 void CLIENT_STATE::check_anonymous() {
     unsigned int i;

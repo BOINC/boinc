@@ -787,7 +787,7 @@ void RESOURCE_USAGE::clear() {
     rsc_type = 0;
     coproc_usage = 0;
     gpu_ram = 0;
-    flops = gstate.host_info.p_fpops;
+    flops = 0;
     cmdline[0] = 0;
     missing_coproc = false;
     missing_coproc_name[0] = 0;
