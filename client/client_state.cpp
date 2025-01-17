@@ -714,10 +714,10 @@ int CLIENT_STATE::init() {
     //
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
+        if (!avp->resource_usage.avg_ncpus) {
+            avp->resource_usage.avg_ncpus = 1;
+        }
         if (!avp->resource_usage.flops) {
-            if (!avp->resource_usage.avg_ncpus) {
-                avp->resource_usage.avg_ncpus = 1;
-            }
             avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
 
             // for GPU apps, use conservative estimate:
