@@ -709,7 +709,8 @@ int CLIENT_STATE::init() {
         }
     }
 
-    // fill in avp->flops for anonymous platform projects
+    // fill in resource usage for app versions that are missing it
+    // (typically anonymous platform)
     //
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
