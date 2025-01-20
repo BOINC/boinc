@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -47,7 +47,6 @@ class IntegrationTests:
 
     def test_files_exist(self):
         ts = testset.TestSet("Test files exist")
-        print(self._get_test_executable_file_path("boinc.exe"))
         ts.expect_true(os.path.exists(self._get_test_executable_file_path("boinc.exe")), "Test 'boinc.exe' file exists in 'C:\\Program Files\\BOINC\\'")
         ts.expect_true(os.path.exists(self._get_test_executable_file_path("boinccmd.exe")), "Test 'boinccmd.exe' file exists in 'C:\\Program Files\\BOINC\\'")
         ts.expect_true(os.path.exists(self._get_test_executable_file_path("boincmgr.exe")), "Test 'boincmgr.exe' file exists in 'C:\\Program Files\\BOINC\\'")

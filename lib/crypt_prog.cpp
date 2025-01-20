@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -43,6 +43,7 @@
 #else
 #include "config.h"
 #endif
+#include<iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -57,10 +58,16 @@
 #include "crypt.h"
 #include "md5_file.h"
 
-void die(const char* p) {
-    fprintf(stderr, "Error: %s\n", p);
-    exit(2);
+void print_error(const std::string& error) {
+    std::cerr << "Error: " << error << std::endl;
 }
+
+void die(const std::string& error, int exit_code = 2) {
+    print_error(error);
+    exit(exit_code);
+}
+
+
 
 void usage() {
     fprintf(stderr,
@@ -80,7 +87,9 @@ void usage() {
         "    test encrypt/decrypt functions\n"
         "-convkey o2b/b2o priv/pub input_file output_file\n"
         "    convert keys between BOINC and OpenSSL format\n"
-        "-cert_verify file signature certificate_dir\n"
+        "-convsig b2o/o2b input_file output_file\n"
+        "    convert signature between BOINC and OpenSSL format\n"
+        "-cert_verify file signature certificate_dir ca_dir\n"
         "    verify a signature using a directory of certificates\n"
    );
 }
@@ -120,15 +129,52 @@ unsigned int random_int() {
     return n;
 }
 
+int genkey(int n, const std::string& private_keyfile,
+    const std::string& public_keyfile) {
+    std::cout << "creating keys in " << private_keyfile << " and "
+        << public_keyfile << std::endl;
+    
+    srand(random_int());
+    BIGNUM *e = BN_new();
+    if (BN_set_word(e, (unsigned long)65537) != 1) {
+        print_error("BN_set_word");
+        return 2;
+    }
+    RSA* rp = RSA_new();
+    if (RSA_generate_key_ex(rp, n, e, NULL) != 1) {
+        print_error("RSA_generate_key_ex");
+        return 2;
+    }
+    R_RSA_PUBLIC_KEY public_key;
+    R_RSA_PRIVATE_KEY private_key;
+    openssl_to_keys(rp, n, private_key, public_key);
+    FILE *fpriv = fopen(private_keyfile.c_str(), "w");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+    FILE* fpub = fopen(public_keyfile.c_str(), "w");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+    print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    fclose(fpriv);
+    fclose(fpub);
+
+    return 0;
+}
+
 int main(int argc, char** argv) {
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
-    int i, n, retval;
+    int i, retval;
     bool is_valid;
     DATA_BLOCK signature, in, out;
     unsigned char signature_buf[256], buf[256], buf2[256];
     FILE *f, *fpriv, *fpub;
-    char cbuf[256];
+    char cbuf[512];
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
     RSA *rsa_key = RSA_new();
 #else
@@ -140,39 +186,17 @@ int main(int argc, char** argv) {
     char *certpath;
     bool b2o=false; // boinc key to openssl key ?
     bool kpriv=false; // private key ?
-    BIGNUM *e;
 
     if (argc == 1) {
         usage();
-        exit(1);
+        return 1;
     }
     if (!strcmp(argv[1], "-genkey")) {
         if (argc < 5) {
             usage();
-            exit(1);
+            return 1;
         }
-        printf("creating keys in %s and %s\n", argv[3], argv[4]);
-        n = atoi(argv[2]);
-
-        srand(random_int());
-        e = BN_new();
-        retval = BN_set_word(e, (unsigned long)65537);
-        if (retval != 1) {
-            die("BN_set_word");
-        }
-        RSA *rp = RSA_new();
-        retval = RSA_generate_key_ex(rp, n, e, NULL);
-        if (retval != 1) {
-            die("RSA_generate_key_ex");
-        }
-        openssl_to_keys(rp, n, private_key, public_key);
-        fpriv = fopen(argv[3], "w");
-        if (!fpriv) die("fopen");
-        fpub = fopen(argv[4], "w");
-        if (!fpub) die("fopen");
-        print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-        print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-
+        return genkey(atoi(argv[2]), argv[3], argv[4]);
     } else if (!strcmp(argv[1], "-sign")) {
         if (argc < 4) {
             usage();
@@ -196,7 +220,7 @@ int main(int argc, char** argv) {
         retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
         if (retval) die("scan_key_hex\n");
         generate_signature(argv[2], cbuf, private_key);
-        puts(cbuf);
+        printf(cbuf);
     } else if (!strcmp(argv[1], "-verify")) {
         if (argc < 5) {
             usage();
@@ -238,7 +262,8 @@ int main(int argc, char** argv) {
         if (retval) die("read_public_key");
         f = fopen(argv[3], "r");
         if (!f) die("fopen");
-        size_t k = fread(cbuf, 1, 256, f);
+        size_t k = fread(cbuf, 1, 512, f);
+        k = (k < 512) ? k : 511;
         cbuf[k] = 0;
 
         retval = check_string_signature(argv[2], cbuf, public_key, is_valid);
@@ -272,8 +297,10 @@ int main(int argc, char** argv) {
         decrypt_public(public_key, in, out);
         printf("out: %s\n", out.data);
     } else if (!strcmp(argv[1], "-cert_verify")) {
-        if (argc < 6)
-            die("usage: crypt_prog -cert_verify file signature_file certificate_dir ca_dir \n");
+        if (argc < 6) {
+            usage();
+            exit(1);
+        }
 
         f = fopen(argv[3], "r");
         if (!f) die("fopen");
@@ -310,7 +337,7 @@ int main(int argc, char** argv) {
             signature.len = 256;
             retval = scan_hex_data(f, signature);
             fclose(f);
-            f = fopen(argv[4], "w+");
+            f = fopen(argv[4], "w");
             if (!f) die("fopen");
             print_raw_data(f, signature);
             fclose(f);
@@ -321,7 +348,7 @@ int main(int argc, char** argv) {
             signature.len = 256;
             retval = scan_raw_data(f, signature);
             fclose(f);
-            f = fopen(argv[4], "w+");
+            f = fopen(argv[4], "w");
             if (!f) die("fopen");
             print_hex_data(f, signature);
             fclose(f);
@@ -456,7 +483,7 @@ int main(int argc, char** argv) {
         }
     } else {
         usage();
-        exit(1);
+        return 1;
     }
     return 0;
 }
