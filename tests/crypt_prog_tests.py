@@ -36,6 +36,13 @@ class IntegrationTests:
             ts.expect_false(filecmp.cmp("private.key", "private1.key"), "Test two private keys are different")
             ts.expect_false(filecmp.cmp("public.key", "public1.key"), "Test two public keys are different")
 
+            ts.expect_true(self._convkey("b2o", "priv", "private.key", "private_o.key"), "Test convert private key")
+            ts.expect_true(self._convkey("o2b", "priv", "private_o.key", "private_b.key"), "Test convert private key")
+            ts.expect_true(filecmp.cmp("private.key", "private_b.key"), "Test two private keys are the same")
+            ts.expect_true(self._convkey("b2o", "pub", "public.key", "public_o.key"), "Test convert public key")
+            ts.expect_true(self._convkey("o2b", "pub", "public_o.key", "public_b.key"), "Test convert public key")
+            ts.expect_true(filecmp.cmp("public.key", "public_b.key"), "Test two public keys are the same")
+
             result, signature = self._sign_file(self.crypt_prog, "private.key")
             with open("signature", "wb") as f:
                 f.write(signature)
@@ -86,7 +93,8 @@ class IntegrationTests:
 
             ts.expect_true(self._test_crypt("private.key", "public.key"), "Test crypt")
 
-            self._clean_up(["private.key", "public.key", "private1.key", "public1.key", "signature", "signature1", "signature_o", "signature_b", "signature1_o", "signature1_b"])
+            self._clean_up(["private.key", "public.key", "private1.key", "public1.key", "private_o.key", "public_o.key", "private_b.key", "public_b.key",
+                            "signature", "signature1", "signature_o", "signature_b", "signature1_o", "signature1_b"])
         return ts.result()
 
     def _clean_up(self, files):

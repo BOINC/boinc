@@ -43,7 +43,7 @@
 #else
 #include "config.h"
 #endif
-#include<iostream>
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -366,12 +366,11 @@ int convsig_b2o(const std::string& input, const std::string& output) {
     signature.data = signature_buf;
     signature.len = signature_len;
     int retval = scan_hex_data(f, signature);
+    fclose(f);
     if (retval) {
-        fclose(f);
         print_error("scan_hex_data");
         return 2;
     }
-    fclose(f);
 
     f = fopen(output.c_str(), "wb");
     if (!f) {
@@ -395,12 +394,11 @@ int convsig_o2b(const std::string& input, const std::string& output) {
     signature.data = signature_buf;
     signature.len = signature_len;
     int retval = scan_raw_data(f, signature);
+    fclose(f);
     if (retval) {
-        fclose(f);
         print_error("scan_raw_data");
         return 2;
     }
-    fclose(f);
 
     f = fopen(output.c_str(), "w");
     if (!f) {
@@ -417,33 +415,214 @@ int convsig(const std::string& conversion, const std::string& input,
     if (conversion == "b2o") {
         return convsig_b2o(input, output);
     }
-    else if (conversion == "o2b") {
+    if (conversion == "o2b") {
         return convsig_o2b(input, output);
+    }    
+    print_error("invalid conversion type: " + conversion);
+    return 2;
+}
+
+int convkey_private_b2o(const std::string& input, const std::string& output) {
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
+    ENGINE_load_builtin_engines();
+
+    BIO* bio_err = NULL;
+    if (bio_err == NULL) {
+        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
     }
-    else {
-        print_error("invalid conversion type: " + conversion);
+
+    BIO* bio_out = NULL;
+    bio_out = BIO_new(BIO_s_file());
+    if (BIO_write_filename(bio_out,
+        reinterpret_cast<void*>(const_cast<char*>(output.c_str()))) <= 0) {
+        print_error("could not create output file.");
         return 2;
     }
+
+    RSA* rsa_key = RSA_new();
+    if (rsa_key == NULL) {
+        print_error("could not allocate memory for RSA structure.");
+        return 2;
+    }
+
+    FILE* fpriv = fopen(input.c_str(), "r");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+
+    R_RSA_PRIVATE_KEY private_key;
+    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    fclose(fpriv);
+    if (retval) {
+        print_error("scan_key_hex");
+        return 2;
+    }
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    private_to_openssl(private_key, rsa_key);
+#else
+    private_to_openssl(private_key, &rsa_key);
+#endif
+
+
+    fpriv = fopen(output.c_str(), "w+");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    PEM_write_RSAPrivateKey(fpriv, rsa_key, NULL, NULL, 0, 0, NULL);
+#else
+    PEM_write_RSAPrivateKey(fpriv, &rsa_key, NULL, NULL, 0, 0, NULL);
+#endif
+    fclose(fpriv);
+    return 0;
+}
+
+int convkey_private_o2b(const std::string& input, const std::string& output) {
+    BIO* bio_err = NULL;
+    if (bio_err == NULL) {
+        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
+    }
+
+    FILE* fpriv = fopen(input.c_str(), "r");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+    RSA* rsa_key = PEM_read_RSAPrivateKey(fpriv, NULL, NULL, NULL);
+    fclose(fpriv);
+    if (rsa_key == NULL) {
+        ERR_print_errors(bio_err);
+        print_error("could not load private key.");
+        return 2;
+    }
+    R_RSA_PRIVATE_KEY private_key;
+    openssl_to_private(rsa_key, &private_key);
+    fpriv = fopen(output.c_str(), "w");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+    return print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+}
+
+int convkey_public_b2o(const std::string& input, const std::string& output) {
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
+    ENGINE_load_builtin_engines();
+
+    BIO* bio_err = NULL;
+    if (bio_err == NULL) {
+        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
+    }
+
+    BIO* bio_out = NULL;
+    bio_out = BIO_new(BIO_s_file());
+    if (BIO_write_filename(bio_out,
+        reinterpret_cast<void*>(const_cast<char*>(output.c_str()))) <= 0) {
+        print_error("could not create output file.");
+        return 2;
+    }
+
+    RSA* rsa_key = RSA_new();
+    if (rsa_key == NULL) {
+        print_error("could not allocate memory for RSA structure.");
+        return 2;
+    }
+
+    FILE* fpub = fopen(input.c_str(), "r");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+    R_RSA_PUBLIC_KEY public_key;
+    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    fclose(fpub);
+    if (retval) {
+        print_error("scan_key_hex");
+        return 2;
+    }
+    fpub = fopen(output.c_str(), "w+");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+    public_to_openssl(public_key, rsa_key);
+    retval = PEM_write_RSA_PUBKEY(fpub, rsa_key);
+    fclose(fpub);
+    if (retval == 0) {
+        ERR_print_errors(bio_err);
+        print_error("could not write key file.");
+        return 2;
+    }
+    return 0;
+}
+
+int convkey_public_o2b(const std::string& input, const std::string& output) {
+    BIO* bio_err = NULL;
+    if (bio_err == NULL) {
+        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
+    }
+
+    FILE* fpub = fopen(input.c_str(), "r");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+    RSA* rsa_key = PEM_read_RSA_PUBKEY(fpub, NULL, NULL, NULL);
+    fclose(fpub);
+
+    if (rsa_key == NULL) {
+        ERR_print_errors(bio_err);
+        print_error("could not load public key.");
+        return 2;
+    }
+    R_RSA_PUBLIC_KEY public_key;
+    R_RSA_PRIVATE_KEY private_key;
+    openssl_to_keys(rsa_key, 1024, private_key, public_key);
+    public_to_openssl(public_key, rsa_key);
+    fpub = fopen(output.c_str(), "w");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+    return print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+}
+
+int convkey(const std::string& conversion, const std::string& key_type,
+    const std::string& input, const std::string& output) {
+    if (conversion == "b2o") {
+        if (key_type == "priv") {
+            return convkey_private_b2o(input, output);
+        }
+        if (key_type == "pub") {
+            return convkey_public_b2o(input, output);
+        }
+        print_error("invalid key type: " + key_type);
+        return 2;
+    }
+    if (conversion == "o2b") {
+        if (key_type == "priv") {
+            return convkey_private_o2b(input, output);
+        }
+        if (key_type == "pub") {
+            return convkey_public_o2b(input, output);
+        }
+        print_error("invalid key type: " + key_type);
+        return 2;
+    }
+    print_error("invalid conversion type: " + conversion);
+    return 2;
 }
 
 int main(int argc, char** argv) {
-    R_RSA_PUBLIC_KEY public_key;
-    R_RSA_PRIVATE_KEY private_key;
-    int i, retval;
+    int retval;
     DATA_BLOCK signature;
     unsigned char signature_buf[256];
-    FILE *f, *fpriv, *fpub;
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-    RSA *rsa_key = RSA_new();
-#else
-    RSA rsa_key;
-#endif
-    RSA *rsa_key_;
-    BIO *bio_out=NULL;
-    BIO *bio_err=NULL;
+    FILE *f;
     char *certpath;
-    bool b2o=false; // boinc key to openssl key ?
-    bool kpriv=false; // private key ?
 
     if (argc == 1) {
         usage();
@@ -501,7 +680,15 @@ int main(int argc, char** argv) {
             exit(1);
         }
         return convsig(argv[2], argv[3], argv[4]);
-    } else if (!strcmp(argv[1], "-cert_verify")) {
+    } 
+    if (operation == "-convkey") {
+        if (argc < 6) {
+            usage();
+            exit(1);
+        }
+        return convkey(argv[2], argv[3], argv[4], argv[5]);
+    }
+    if (!strcmp(argv[1], "-cert_verify")) {
         if (argc < 6) {
             usage();
             exit(1);
@@ -519,134 +706,6 @@ int main(int argc, char** argv) {
         } else {
             printf("signature verified using certificate '%s'.\n\n", certpath);
             free(certpath);
-        }
-    } else if (!strcmp(argv[1], "-convkey")) {
-        if (argc < 6) {
-            usage();
-            exit(1);
-        }
-        if (strcmp(argv[2], "b2o") == 0) {
-            b2o = true;
-        } else if (strcmp(argv[2], "o2b") == 0) {
-            b2o = false;
-        } else {
-            die("either 'o2b' or 'b2o' must be defined for -convkey\n");
-        }
-        if (strcmp(argv[3], "pub") == 0) {
-            kpriv = false;
-        } else if (strcmp(argv[3], "priv") == 0)  {
-            kpriv = true;
-        } else {
-            die("either 'pub' or 'priv' must be defined for -convkey\n");
-        }
-        OpenSSL_add_all_algorithms();
-        ERR_load_crypto_strings();
-        ENGINE_load_builtin_engines();
-        if (bio_err == NULL) {
-            bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-        }
-        //enc=EVP_get_cipherbyname("des");
-        //if (enc == NULL)
-        //    die("could not get cypher.\n");
-        // no encryption yet.
-        bio_out=BIO_new(BIO_s_file());
-        if (BIO_write_filename(bio_out,argv[5]) <= 0) {
-            perror(argv[5]);
-            die("could not create output file.\n");
-        }
-        if (b2o) {
-            rsa_key_ = RSA_new();
-            if (kpriv) {
-                fpriv = fopen(argv[4], "r");
-                if (!fpriv) {
-                    die("fopen");
-                }
-                retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-                fclose(fpriv);
-                if (retval) die("scan_key_hex\n");
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-                private_to_openssl(private_key, rsa_key);
-#else
-                private_to_openssl(private_key, &rsa_key);
-#endif
-
-                //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
-                //				enc, NULL, 0, pass_cb, NULL);
-                // no encryption yet.
-
-                //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
-                //				NULL, NULL, 0, pass_cb, NULL);
-                fpriv = fopen(argv[5], "w+");
-                if (!fpriv) die("fopen");
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-                PEM_write_RSAPrivateKey(fpriv, rsa_key, NULL, NULL, 0, 0, NULL);
-#else
-                PEM_write_RSAPrivateKey(fpriv, &rsa_key, NULL, NULL, 0, 0, NULL);
-#endif
-                fclose(fpriv);
-                //if (i == 0) {
-                //    ERR_print_errors(bio_err);
-                //    die("could not write key file.\n");
-                //}
-            } else {
-                fpub = fopen(argv[4], "r");
-                if (!fpub) {
-                    die("fopen");
-                }
-                retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-                fclose(fpub);
-                if (retval) die("scan_key_hex\n");
-                fpub = fopen(argv[5], "w+");
-                if (!fpub) {
-                    die("fopen");
-                }
-                public_to_openssl(public_key, rsa_key_);
-                i = PEM_write_RSA_PUBKEY(fpub, rsa_key_);
-                if (i == 0) {
-                    ERR_print_errors(bio_err);
-                    die("could not write key file.\n");
-                }
-                fclose(fpub);
-            }
-        } else {
-            // o2b
-            rsa_key_ = RSA_new();
-            if (rsa_key_ == NULL) {
-                die("could not allocate memory for RSA structure.\n");
-            }
-            if (kpriv) {
-                fpriv = fopen (argv[4], "r");
-                if (!fpriv) die("fopen");
-                rsa_key_ = PEM_read_RSAPrivateKey(fpriv, NULL, NULL, NULL);
-                fclose(fpriv);
-                if (rsa_key_ == NULL) {
-                    ERR_print_errors(bio_err);
-                    die("could not load private key.\n");
-                }
-                openssl_to_private(rsa_key_, &private_key);
-                fpriv = fopen(argv[5], "w");
-                if (!fpriv) {
-                    die("fopen");
-                }
-                print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-            } else {
-                fpub = fopen (argv[4], "r");
-                if (!fpub) die("fopen");
-                rsa_key_ = PEM_read_RSA_PUBKEY(fpub, NULL, NULL, NULL);
-                fclose(fpub);
-                if (rsa_key_ == NULL) {
-                    ERR_print_errors(bio_err);
-                    die("could not load public key.\n");
-                }
-                openssl_to_keys(rsa_key_, 1024, private_key, public_key);
-                //openssl_to_public(rsa_key_, &public_key);
-                public_to_openssl(public_key, rsa_key_); //
-                fpub = fopen(argv[5], "w");
-                if (!fpub) {
-                    die("fopen");
-                }
-                print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-            }
         }
     } else {
         usage();
