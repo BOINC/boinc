@@ -67,8 +67,6 @@ void die(const std::string& error, int exit_code = 2) {
     exit(exit_code);
 }
 
-
-
 void usage() {
     fprintf(stderr,
         "Usage: crypt_prog options\n\n"
@@ -166,15 +164,275 @@ int genkey(int n, const std::string& private_keyfile,
     return 0;
 }
 
+int sign(const std::string& file, const std::string& private_keyfile) {
+    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+    R_RSA_PRIVATE_KEY private_key;
+    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    if (retval) {
+        print_error("scan_key_hex");
+        return 2;
+    }
+    const int data_len = 256;
+    unsigned char signature_buf[data_len];
+    DATA_BLOCK signature;
+    signature.data = signature_buf;
+    signature.len = data_len;
+    retval = sign_file(file.c_str(), private_key, signature);
+    if (retval) {
+        print_error("sign_file");
+        return 2;
+    }
+    print_hex_data(stdout, signature);
+    return 0;
+}
+
+int sign_string(const std::string& str, const std::string& private_keyfile) {
+    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+    R_RSA_PRIVATE_KEY private_key;
+    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    if (retval) {
+        print_error("scan_key_hex");
+        return 2;
+    }
+    char cbuf[512];
+    // this const_cast need to be removed once 'generate_signature' is updated
+    // to accept const char*
+    retval = generate_signature(const_cast<char*>(str.c_str()), cbuf,
+        private_key);
+    if (retval) {
+        print_error("generate_signature");
+        return 2;
+    }
+    std::cout << cbuf;
+    return 0;
+}
+
+int verify(const std::string& file, const std::string& signature_file,
+    const std::string& public_keyfile) {
+    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+    R_RSA_PUBLIC_KEY public_key;
+    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    if (retval) {
+        print_error("read_public_key");
+        return 2;
+    }
+    FILE* f = fopen(signature_file.c_str(), "r");
+    if (!f) {
+        print_error("fopen");
+        return 2;
+    }
+    const int signature_len = 256;
+    unsigned char signature_buf[signature_len];
+    DATA_BLOCK signature;
+    signature.data = signature_buf;
+    signature.len = signature_len;
+    retval = scan_hex_data(f, signature);
+    if (retval) {
+        print_error("scan_hex_data");
+        return 2;
+    }
+
+    char md5_buf[64];
+    double size;
+    retval = md5_file(file.c_str(), md5_buf, size);
+    if (retval) {
+        print_error("md5_file");
+        return 2;
+    }
+    bool is_valid = false;
+    retval = check_file_signature(
+        md5_buf, public_key, signature, is_valid
+    );
+    if (retval) {
+        print_error("check_file_signature");
+        return 2;
+    }
+
+    if (!is_valid) {
+        std::cout << "signature is invalid" << std::endl;
+        return 1;
+    }
+    std::cout << "signature is valid" << std::endl;
+    return 0;
+}
+
+int verify_string(const std::string& str, const std::string& signature_file,
+    const std::string& public_keyfile) {
+    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+    R_RSA_PUBLIC_KEY public_key;
+    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    if (retval) {
+        print_error("read_public_key");
+        return 2;
+    }
+    FILE* f = fopen(signature_file.c_str(), "r");
+    if (!f) {
+        print_error("fopen");
+        return 2;
+    }
+    const int signature_len = 512;
+    char cbuf[signature_len];
+    size_t k = fread(cbuf, 1, signature_len, f);
+    k = (k < signature_len) ? k : signature_len - 1;
+    cbuf[k] = 0;
+
+    bool is_valid = false;
+    retval = check_string_signature(str.c_str(), cbuf, public_key, is_valid);
+    if (retval) {
+        print_error("check_string_signature");
+        return 2;
+    }
+    if (!is_valid) {
+        std::cout << "signature is invalid" << std::endl;
+        return 1;
+    }
+    std::cout << "signature is valid" << std::endl;
+    return 0;
+}
+
+int test_crypt(const std::string& private_keyfile,
+    const std::string& public_keyfile) {
+    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+    if (!fpriv) {
+        print_error("fopen");
+        return 2;
+    }
+    R_RSA_PRIVATE_KEY private_key;
+    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    if (retval) {
+        print_error("scan_key_hex\n");
+        return 2;
+    }
+    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+    if (!fpub) {
+        print_error("fopen");
+        return 2;
+    }
+
+    R_RSA_PUBLIC_KEY public_key;
+    retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    if (retval) {
+        print_error("read_public_key");
+        return 2;
+    }
+    const std::string test_string("encryption test successful");
+    unsigned char buf[256], buf2[256];
+    strcpy((char*)buf2, test_string.c_str());
+    DATA_BLOCK in, out;
+    in.data = buf2;
+    in.len = test_string.size();
+    out.data = buf;
+    retval = encrypt_private(private_key, in, out);
+    if (retval) {
+        print_error("encrypt_private");
+        return 2;
+    }
+    in = out;
+    out.data = buf2;
+    retval = decrypt_public(public_key, in, out);
+    if (retval) {
+        print_error("decrypt_public");
+        return 2;
+    }
+    std::cout << "out: " << out.data << std::endl;
+    return 0;
+}
+
+int convsig_b2o(const std::string& input, const std::string& output) {
+    FILE* f = fopen(input.c_str(), "r");
+    if (!f) {
+        print_error("fopen");
+        return 2;
+    }
+    const int signature_len = 256;
+    unsigned char signature_buf[signature_len];
+    DATA_BLOCK signature;
+    signature.data = signature_buf;
+    signature.len = signature_len;
+    int retval = scan_hex_data(f, signature);
+    if (retval) {
+        fclose(f);
+        print_error("scan_hex_data");
+        return 2;
+    }
+    fclose(f);
+
+    f = fopen(output.c_str(), "wb");
+    if (!f) {
+        print_error("fopen");
+        return 2;
+    }
+    print_raw_data(f, signature);
+    fclose(f);
+    return 0;
+}
+
+int convsig_o2b(const std::string& input, const std::string& output) {
+    FILE* f = fopen(input.c_str(), "rb");
+    if (!f) {
+        print_error("fopen");
+        return 2;
+    }
+    const int signature_len = 256;
+    unsigned char signature_buf[signature_len];
+    DATA_BLOCK signature;
+    signature.data = signature_buf;
+    signature.len = signature_len;
+    int retval = scan_raw_data(f, signature);
+    if (retval) {
+        fclose(f);
+        print_error("scan_raw_data");
+        return 2;
+    }
+    fclose(f);
+
+    f = fopen(output.c_str(), "w");
+    if (!f) {
+        print_error("fopen");
+        return 2;
+    }
+    print_hex_data(f, signature);
+    fclose(f);
+    return 0;
+}
+
+int convsig(const std::string& conversion, const std::string& input,
+    const std::string& output) {
+    if (conversion == "b2o") {
+        return convsig_b2o(input, output);
+    }
+    else if (conversion == "o2b") {
+        return convsig_o2b(input, output);
+    }
+    else {
+        print_error("invalid conversion type: " + conversion);
+        return 2;
+    }
+}
+
 int main(int argc, char** argv) {
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
     int i, retval;
-    bool is_valid;
-    DATA_BLOCK signature, in, out;
-    unsigned char signature_buf[256], buf[256], buf2[256];
+    DATA_BLOCK signature;
+    unsigned char signature_buf[256];
     FILE *f, *fpriv, *fpub;
-    char cbuf[512];
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
     RSA *rsa_key = RSA_new();
 #else
@@ -191,111 +449,58 @@ int main(int argc, char** argv) {
         usage();
         return 1;
     }
-    if (!strcmp(argv[1], "-genkey")) {
+    const std::string operation(argv[1]);
+    if (operation == "-genkey") {
         if (argc < 5) {
             usage();
             return 1;
         }
         return genkey(atoi(argv[2]), argv[3], argv[4]);
-    } else if (!strcmp(argv[1], "-sign")) {
+    }
+    if (operation == "-sign") {
         if (argc < 4) {
             usage();
             exit(1);
         }
-        fpriv = fopen(argv[3], "r");
-        if (!fpriv) die("fopen");
-        retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-        if (retval) die("scan_key_hex\n");
-        signature.data = signature_buf;
-        signature.len = 256;
-        retval = sign_file(argv[2], private_key, signature);
-        print_hex_data(stdout, signature);
-    } else if (!strcmp(argv[1], "-sign_string")) {
+        return sign(argv[2], argv[3]);
+    }
+    if (operation == "-sign_string") {
         if (argc < 4) {
             usage();
             exit(1);
         }
-        fpriv = fopen(argv[3], "r");
-        if (!fpriv) die("fopen");
-        retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-        if (retval) die("scan_key_hex\n");
-        generate_signature(argv[2], cbuf, private_key);
-        printf(cbuf);
-    } else if (!strcmp(argv[1], "-verify")) {
+        return sign_string(argv[2], argv[3]);
+    }
+    if (operation == "-verify") {
         if (argc < 5) {
             usage();
             exit(1);
         }
-        fpub = fopen(argv[4], "r");
-        if (!fpub) die("fopen");
-        retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-        if (retval) die("read_public_key");
-        f = fopen(argv[3], "r");
-        if (!f) die("fopen");
-        signature.data = signature_buf;
-        signature.len = 256;
-        retval = scan_hex_data(f, signature);
-        if (retval) die("scan_hex_data");
-
-        char md5_buf[64];
-        double size;
-        retval = md5_file(argv[2], md5_buf, size);
-        if (retval) die("md5_file");
-        retval = check_file_signature(
-             md5_buf, public_key, signature, is_valid
-         );
-        if (retval) die("check_file_signature");
-        if (is_valid) {
-            printf("signature is valid\n");
-        } else {
-            printf("signature is invalid\n");
-            return 1;
-        }
-    } else if (!strcmp(argv[1], "-verify_string")) {
+        return verify(argv[2], argv[3], argv[4]);
+    }
+    if (operation == "-verify_string") {
         if (argc < 5) {
             usage();
             exit(1);
         }
-        fpub = fopen(argv[4], "r");
-        if (!fpub) die("fopen");
-        retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-        if (retval) die("read_public_key");
-        f = fopen(argv[3], "r");
-        if (!f) die("fopen");
-        size_t k = fread(cbuf, 1, 512, f);
-        k = (k < 512) ? k : 511;
-        cbuf[k] = 0;
-
-        retval = check_string_signature(argv[2], cbuf, public_key, is_valid);
-        if (retval) die("check_string_signature");
-        if (is_valid) {
-            printf("signature is valid\n");
-        } else {
-            printf("signature is invalid\n");
-            return 1;
-        }
-    } else if (!strcmp(argv[1], "-test_crypt")) {
+        return verify_string(argv[2], argv[3], argv[4]);
+    }
+    if (operation == "-test_crypt") {
         if (argc < 4) {
             usage();
             exit(1);
         }
-        fpriv = fopen(argv[2], "r");
-        if (!fpriv) die("fopen");
-        retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-        if (retval) die("scan_key_hex\n");
-        fpub = fopen(argv[3], "r");
-        if (!fpub) die("fopen");
-        retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-        if (retval) die("read_public_key");
-        strcpy((char*)buf2, "encryption test successful");
-        in.data = buf2;
-        in.len = static_cast<unsigned int>(strlen((char*)in.data));
-        out.data = buf;
-        encrypt_private(private_key, in, out);
-        in = out;
-        out.data = buf2;
-        decrypt_public(public_key, in, out);
-        printf("out: %s\n", out.data);
+        return test_crypt(argv[2], argv[3]);
+    }
+// this converts, but an executable signed with sign_executable,
+// and signature converted to OpenSSL format cannot be verified with
+// OpenSSL
+    if (operation == "-convsig") {
+        if (argc < 5) {
+            usage();
+            exit(1);
+        }
+        return convsig(argv[2], argv[3], argv[4]);
     } else if (!strcmp(argv[1], "-cert_verify")) {
         if (argc < 6) {
             usage();
@@ -314,44 +519,6 @@ int main(int argc, char** argv) {
         } else {
             printf("signature verified using certificate '%s'.\n\n", certpath);
             free(certpath);
-        }
-        // this converts, but an executable signed with sign_executable,
-        // and signature converted to OpenSSL format cannot be verified with
-        // OpenSSL
-    } else if (!strcmp(argv[1], "-convsig")) {
-        if (argc < 5) {
-            usage();
-            exit(1);
-        }
-        if (strcmp(argv[2], "b2o") == 0) {
-            b2o = true;
-        } else if (strcmp(argv[2], "o2b") == 0) {
-            b2o = false;
-        } else {
-            die("either 'o2b' or 'b2o' must be defined for -convsig\n");
-        }
-        if (b2o) {
-            f = fopen(argv[3], "r");
-            if (!f) die("fopen");
-            signature.data = signature_buf;
-            signature.len = 256;
-            retval = scan_hex_data(f, signature);
-            fclose(f);
-            f = fopen(argv[4], "w");
-            if (!f) die("fopen");
-            print_raw_data(f, signature);
-            fclose(f);
-        } else {
-            f = fopen(argv[3], "r");
-            if (!f) die("fopen");
-            signature.data = signature_buf;
-            signature.len = 256;
-            retval = scan_raw_data(f, signature);
-            fclose(f);
-            f = fopen(argv[4], "w");
-            if (!f) die("fopen");
-            print_hex_data(f, signature);
-            fclose(f);
         }
     } else if (!strcmp(argv[1], "-convkey")) {
         if (argc < 6) {

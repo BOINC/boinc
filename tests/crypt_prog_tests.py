@@ -60,12 +60,14 @@ class IntegrationTests:
             ts.expect_true(filecmp.cmp("signature1", "signature1_b"), "Test two signatures are the same")
 
             result, signature = self._sign_string("test", "private.key")
+            print(signature)
             with open("signature", "wb") as f:
                 f.write(signature)
             ts.expect_true(result, "Test sign string")
             ts.expect_true(self._verify_string("test", "signature", "public.key"), "Test verify string")
 
             result, signature1 = self._sign_string("test", "private1.key")
+            print(signature)
             with open("signature1", "wb") as f:
                 f.write(signature1)
             ts.expect_true(result, "Test sign string")
