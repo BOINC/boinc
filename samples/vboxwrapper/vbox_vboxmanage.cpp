@@ -100,7 +100,7 @@ int VBOX_VM::initialize() {
     }
 #endif
 
-    // Determine the VirtualBox home directory.
+    // Determine the 'VirtualBox home directory'.
     // NOTE: I'm not sure this is relevant; see
     // https://docs.oracle.com/en/virtualization/virtualbox/6.1/admin/TechnicalBackground.html#3.1.3.-Summary-of-Configuration-Data-Locations
     //
@@ -116,6 +116,8 @@ int VBOX_VM::initialize() {
             vboxlog_msg("no USERPROFILE - exiting");
             exit(1);
         }
+#elif __APPLE__
+        home = "/Library/Application Support/BOINC Data";
 #else
         home = getenv("HOME");
         if (home == NULL) {
