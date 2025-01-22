@@ -101,14 +101,20 @@ int VBOX_VM::initialize() {
 #endif
 
     // Determine the 'VirtualBox home directory'.
+    // On Windows, we run VboxSVC.exe in this directory,
+    // and we look for its log file there.
+    // On other platforms I don't think this is used.
+    //
     // NOTE: I'm not sure this is relevant; see
     // https://docs.oracle.com/en/virtualization/virtualbox/6.1/admin/TechnicalBackground.html#3.1.3.-Summary-of-Configuration-Data-Locations
     //
     if (getenv("VBOX_USER_HOME")) {
         virtualbox_home_directory = getenv("VBOX_USER_HOME");
     } else {
-        // If the override environment variable isn't specified then
-        // it is based of the current users HOME directory.
+        // If not specified by environment variable then create it
+        // Win, Linux: under user home dir
+        // Mac: in BOINC data dir
+        //
         const char *home;
 #ifdef _WIN32
         home = getenv("USERPROFILE");
@@ -126,6 +132,7 @@ int VBOX_VM::initialize() {
 #endif
         virtualbox_home_directory = home;
         virtualbox_home_directory += "/.VirtualBox";
+        boinc_mkdir(virtualbox_home_directory.c_str());
     }
 
 #ifdef _WIN32
