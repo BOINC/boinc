@@ -103,7 +103,7 @@ int VBOX_VM::initialize() {
     // Determine the 'VirtualBox home directory'.
     // NOTE: I'm not sure this is relevant; see
     // https://docs.oracle.com/en/virtualization/virtualbox/6.1/admin/TechnicalBackground.html#3.1.3.-Summary-of-Configuration-Data-Locations
-    //
+    // This is relevant for MacOS since ~ dir is strictly for the user.
     if (getenv("VBOX_USER_HOME")) {
         virtualbox_home_directory = getenv("VBOX_USER_HOME");
     } else {
@@ -126,6 +126,11 @@ int VBOX_VM::initialize() {
 #endif
         virtualbox_home_directory = home;
         virtualbox_home_directory += "/.VirtualBox";
+        // Set the environment variable after changing it since VirtualBox uses this as reference.
+        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
+            vboxlog_msg("Failed to modify the home path.");
+        }
+        boinc_mkdir(virtualbox_home_directory.c_str());
     }
 
 #ifdef _WIN32
