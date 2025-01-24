@@ -29,7 +29,11 @@ class IntegrationTests:
 
     def test_genkey(self):
         ts = testset.TestSet("Test genkey")
+        unsupported_bits = ["512", "2048"]
         bits = ["1024"]
+        for bit in unsupported_bits:
+            ts.expect_false(self._genkey(bit, "private.key", "public.key"), "Test genkey with " + bit + " bits")
+
         for bit in bits:
             ts.expect_true(self._genkey(bit, "private.key", "public.key"), "Test genkey with " + bit + " bits")
             ts.expect_true(self._genkey(bit, "private1.key", "public1.key"), "Test genkey with " + bit + " bits")
@@ -103,7 +107,6 @@ class IntegrationTests:
                 os.remove(file)
 
     def _run_crypt_prog(self, args):
-        # print("Running " + self.crypt_prog + " " + args)
         proc = subprocess.Popen(self.crypt_prog + " " + args, stdout=subprocess.PIPE)
         result, err = proc.communicate()
         print("Result: " + str(result))

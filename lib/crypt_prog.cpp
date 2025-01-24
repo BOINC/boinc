@@ -35,7 +35,7 @@
 //                  test encrypt/decrypt
 // -convkey o2b/b2o priv/pub input_file output_file
 //                  convert keys between BOINC and OpenSSL format
-// -cert_verify file signature_file certificate_dir
+// -cert_verify file signature_file certificate_dir ca_dir
 //                  verify a signature using a directory of certificates
 
 #if defined(_WIN32)
@@ -60,11 +60,6 @@
 
 void print_error(const std::string& error) {
     std::cerr << "Error: " << error << std::endl;
-}
-
-void die(const std::string& error, int exit_code = 2) {
-    print_error(error);
-    exit(exit_code);
 }
 
 void usage() {
@@ -101,7 +96,8 @@ unsigned int random_int() {
     HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
 #endif
     if (!hLib) {
-        die("Can't load ADVAPI32.DLL");
+        print_error("Can't load ADVAPI32.DLL");
+        return 2;
     }
     BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
         (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
@@ -117,10 +113,12 @@ unsigned int random_int() {
 #else
     FILE* f = fopen("/dev/random", "r");
     if (!f) {
-        die("can't open /dev/random\n");
+        print_error("can't open /dev/random\n");
+        return 2;
     }
     if (1 != fread(&n, sizeof(n), 1, f)) {
-        die("couldn't read from /dev/random\n");
+        print_error("couldn't read from /dev/random\n");
+        return 2;
     }
     fclose(f);
 #endif
@@ -129,6 +127,11 @@ unsigned int random_int() {
 
 int genkey(int n, const std::string& private_keyfile,
     const std::string& public_keyfile) {
+    if (n != 1024) {
+        std::cerr << "only 1024-bit keys are supported" << std::endl;
+        return 2;
+    }
+
     std::cout << "creating keys in " << private_keyfile << " and "
         << public_keyfile << std::endl;
     
@@ -617,13 +620,37 @@ int convkey(const std::string& conversion, const std::string& key_type,
     return 2;
 }
 
-int main(int argc, char** argv) {
-    int retval;
+int cert_verify(const std::string& file, const std::string& signature_file,
+    const std::string& certificate_dir, const std::string& ca_dir) {
+    FILE* f = fopen(signature_file.c_str(), "r");
+    if (!f) {
+        print_error("fopen");
+        return 2;
+    }
+    const int signature_len = 256;
+    unsigned char signature_buf[signature_len];
     DATA_BLOCK signature;
-    unsigned char signature_buf[256];
-    FILE *f;
-    char *certpath;
+    signature.data = signature_buf;
+    signature.len = signature_len;
+    int retval = scan_hex_data(f, signature);
+    if (retval) {
+        print_error("cannot scan_hex_data");
+        return 2;
+    }
+    char* certpath = check_validity(certificate_dir.c_str(), file.c_str(),
+        signature.data, const_cast<char*>(ca_dir.c_str()));
+    if (certpath == NULL) {
+        print_error("signature cannot be verified.");
+        return 2;
+    }
+    else {
+        std::cout << "signature verified using certificate" << certpath
+            << std::endl;
+    }
+    return 0;
+}
 
+int main(int argc, char** argv) {
     if (argc == 1) {
         usage();
         return 1;
@@ -688,28 +715,13 @@ int main(int argc, char** argv) {
         }
         return convkey(argv[2], argv[3], argv[4], argv[5]);
     }
-    if (!strcmp(argv[1], "-cert_verify")) {
+    if (operation  == "-cert_verify") {
         if (argc < 6) {
             usage();
             exit(1);
         }
-
-        f = fopen(argv[3], "r");
-        if (!f) die("fopen");
-        signature.data = signature_buf;
-        signature.len = 256;
-        retval = scan_hex_data(f, signature);
-        if (retval) die("cannot scan_hex_data");
-        certpath = check_validity(argv[4], argv[2], signature.data, argv[5]);
-        if (certpath == NULL) {
-            die("signature cannot be verified.\n\n");
-        } else {
-            printf("signature verified using certificate '%s'.\n\n", certpath);
-            free(certpath);
-        }
-    } else {
-        usage();
-        return 1;
-    }
-    return 0;
+        return cert_verify(argv[2], argv[3], argv[4], argv[5]);
+    } 
+    usage();
+    return 1;
 }
