@@ -134,7 +134,7 @@ int genkey(int n, const std::string& private_keyfile,
 
     std::cout << "creating keys in " << private_keyfile << " and "
         << public_keyfile << std::endl;
-    
+
     srand(random_int());
     BIGNUM *e = BN_new();
     if (BN_set_word(e, (unsigned long)65537) != 1) {
@@ -420,7 +420,7 @@ int convsig(const std::string& conversion, const std::string& input,
     }
     if (conversion == "o2b") {
         return convsig_o2b(input, output);
-    }    
+    }
     print_error("invalid conversion type: " + conversion);
     return 2;
 }
@@ -707,7 +707,7 @@ int main(int argc, char** argv) {
             exit(1);
         }
         return convsig(argv[2], argv[3], argv[4]);
-    } 
+    }
     if (operation == "-convkey") {
         if (argc < 6) {
             usage();
@@ -721,7 +721,7 @@ int main(int argc, char** argv) {
             exit(1);
         }
         return cert_verify(argv[2], argv[3], argv[4], argv[5]);
-    } 
+    }
     usage();
     return 1;
 }
