@@ -162,7 +162,7 @@ jobs:
         run: ./tests/executeUnitTests.sh --report-coverage --report-xml
 
       - name: Execute automation tests
-        if: success() && matrix.type == 'server'
+        if: success() && matrix.type == 'unit-test'
         run: python ./tests/crypt_prog_tests.py ./lib/crypt_prog
 
       - name: Execute integration-test
