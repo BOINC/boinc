@@ -161,6 +161,10 @@ jobs:
         if: success() && matrix.type == 'unit-test'
         run: ./tests/executeUnitTests.sh --report-coverage --report-xml
 
+      - name: Execute automation tests
+        if: success() && matrix.type == 'server'
+        run: python ./tests/crypt_prog_tests.py ./lib/crypt_prog
+
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
         run: ./integration_test/executeTestSuite.sh
