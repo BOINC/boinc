@@ -109,8 +109,6 @@ class IntegrationTests:
     def _run_crypt_prog(self, args):
         proc = subprocess.Popen(self.crypt_prog + " " + args, stdout=subprocess.PIPE)
         result, err = proc.communicate()
-        print("Result: " + str(result))
-        print("Error: " + str(err))
         exit_code = proc.wait()
         return result, err, exit_code
 
