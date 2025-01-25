@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,7 +34,6 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/conf.h>
-#include <openssl/engine.h>
 #include <openssl/err.h>
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
@@ -470,8 +469,10 @@ void openssl_to_keys(
     RSA_get0_factors(rp, &p, &q);
     RSA_get0_crt_params(rp, &dmp1, &dmq1, &iqmp);
 
-    bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
-    bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
+    if (n)
+        bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
+    if (e)
+        bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
 #else
     bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
     bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));
@@ -480,14 +481,22 @@ void openssl_to_keys(
     memset(&priv, 0, sizeof(priv));
     priv.bits = nbits;
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-    bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
-    bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
-    bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
-    bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
-    bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
-    bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
-    bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
-    bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
+    if (n)
+        bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
+    if (e)
+        bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
+    if (d)
+        bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
+    if (p)
+        bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
+    if (q)
+        bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
+    if (dmp1)
+        bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
+    if (dmq1)
+        bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
+    if (iqmp)
+        bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
 #else
     bn_to_bin(rp->n, priv.modulus, sizeof(priv.modulus));
     bn_to_bin(rp->e, priv.publicExponent, sizeof(priv.publicExponent));

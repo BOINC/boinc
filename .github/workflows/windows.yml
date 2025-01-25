@@ -133,7 +133,9 @@ jobs:
       - name: Run unit tests
         if: success() && matrix.platform == 'x64' && matrix.type == 'msbuild'
         working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
-        run: ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage-x64\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{github.workspace}} --export_type=cobertura:cobertura.xml -- unittests.exe --gtest_output=xml:gtest.xml
+        run: |
+          ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage-x64\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{github.workspace}} --export_type=binary:gtest.cov -- unittests.exe --gtest_output=xml:gtest.xml
+          ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage-x64\OpenCppCoverage.exe --cover_children --optimized_build --modules ${{github.workspace}} --sources ${{github.workspace}} --input_coverage=gtest.cov --export_type=cobertura:cobertura.xml -- python ${{github.workspace}}\tests\crypt_prog_tests.py ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\crypt_prog.exe
 
       - name: Verify MSI file
         if: success() && matrix.type == 'msbuild' && !startsWith(github.ref, 'refs/tags/')
