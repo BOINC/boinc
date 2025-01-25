@@ -112,12 +112,16 @@ int VBOX_VM::initialize() {
     if (p) {
         virtualbox_home_directory = p;
     } else {
-        // If not then make one in the BOINC data directory.
-        // Note: in a sandboxed config we're running as user 'boinc_project'.
-        // This user doesn't have write access to the (real user) home dir.
+        // If not then make one in the BOINC project directory.
+        // Notes:
+        // 1) we can't put it in the home dir;
+        //  in a sandboxed config we're running as user 'boinc_projects',
+        //  which doesn't have write access to the (real user) home dir.
+        // 2) we can't put it in the BOINC data dir.
+        //  boinc_projects can't write their either
         //
         virtualbox_home_directory = aid.boinc_dir;
-        virtualbox_home_directory += "/.VirtualBox";
+        virtualbox_home_directory += "/projects/VirtualBox";
 
         // create if not there already
         boinc_mkdir(virtualbox_home_directory.c_str());
