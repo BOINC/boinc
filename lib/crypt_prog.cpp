@@ -51,7 +51,6 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/conf.h>
-#include <openssl/engine.h>
 #include <openssl/err.h>
 
 #include "crypt.h"
@@ -347,7 +346,6 @@ int main(int argc, char** argv) {
         }
         OpenSSL_add_all_algorithms();
         ERR_load_crypto_strings();
-        ENGINE_load_builtin_engines();
         if (bio_err == NULL) {
             bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
         }

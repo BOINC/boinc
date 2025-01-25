@@ -34,7 +34,6 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/conf.h>
-#include <openssl/engine.h>
 #include <openssl/err.h>
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
