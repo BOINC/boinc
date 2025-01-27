@@ -177,6 +177,7 @@ void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
+    SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
     ShowWindow(hInstance, nCmdShow);
     ExtractResourceAndExecute(IDB_MSI, "BOINC.msi");
     return 0;
