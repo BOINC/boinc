@@ -9752,14 +9752,6 @@
             "Value": "https://boinc.berkeley.edu/"
         },
         {
-            "Property": "ARPNOMODIFY",
-            "Value": "1"
-        },
-        {
-            "Property": "ARPNOREPAIR",
-            "Value": "1"
-        },
-        {
             "Property": "ARPPRODUCTICON",
             "Value": "ARPPRODUCTICON.exe"
         },
