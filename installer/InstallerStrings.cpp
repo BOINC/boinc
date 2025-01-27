@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,6 +31,9 @@ InstallerStrings::~InstallerStrings() {
 }
 
 const std::string& InstallerStrings::get(const std::string& key) {
+    if (!key._Starts_with("IDS_")) {
+        return key;
+    }
     if (strings.find(key) == strings.end()) {
         std::cerr << "WARNING: Key " << key << " not found." << std::endl;
         return key;
