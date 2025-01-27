@@ -1,39 +1,7 @@
 [
     {
-        "Id": "COMPANY_NAME",
-        "Value": "Space Sciences Laboratory, U.C. Berkeley"
-    },
-    {
-        "Id": "COMPANY_PRODUCT",
-        "Value": "BOINC for Windows"
-    },
-    {
-        "Id": "COMPANY_PRODUCT_SUBJECT",
-        "Value": "BOINC"
-    },
-    {
-        "Id": "COMPANY_URL",
-        "Value": "https://boinc.berkeley.edu/"
-    },
-    {
-        "Id": "IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN",
+        "Id": "IDS_IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN",
         "Value": "You must have administrative privileges in order to install [ProductName]."
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_1",
-        "Value": "[1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_1b",
-        "Value": "[1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_1c",
-        "Value": "[1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_1d",
-        "Value": "[1]"
     },
     {
         "Id": "IDS_ACTIONTEXT_Advertising",
@@ -68,15 +36,7 @@
         "Value": "Class ID: [1]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_ClsID",
-        "Value": "Class ID: [1]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_ComponentIDQualifier",
-        "Value": "Component ID: [1], Qualifier: [2]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_ComponentIdQualifier2",
         "Value": "Component ID: [1], Qualifier: [2]"
     },
     {
@@ -84,19 +44,7 @@
         "Value": "Computing space requirements"
     },
     {
-        "Id": "IDS_ACTIONTEXT_ComputingSpace2",
-        "Value": "Computing space requirements"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_ComputingSpace3",
-        "Value": "Computing space requirements"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_ContentTypeExtension",
-        "Value": "MIME Content Type: [1], Extension: [2]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_ContentTypeExtension2",
         "Value": "MIME Content Type: [1], Extension: [2]"
     },
     {
@@ -140,23 +88,11 @@
         "Value": "Extension: [1]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_Extension2",
-        "Value": "Extension: [1]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_Feature",
         "Value": "Feature: [1]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_FeatureColon",
-        "Value": "Feature: [1]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_File",
-        "Value": "File: [1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_File2",
         "Value": "File: [1]"
     },
     {
@@ -168,39 +104,15 @@
         "Value": "File: [1], Directory: [9]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_FileDir2",
-        "Value": "File: [1], Directory: [9]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_FileDir3",
-        "Value": "File: [1], Directory: [9]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_FileDirSize",
         "Value": "File: [1], Directory: [9], Size: [6]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_FileDirSize2",
-        "Value": "File: [1],  Directory: [9],  Size: [6]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_FileDirSize3",
-        "Value": "File: [1],  Directory: [9],  Size: [6]"
     },
     {
         "Id": "IDS_ACTIONTEXT_FileDirSize4",
         "Value": "File: [1],  Directory: [2],  Size: [3]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_FileDirectorySize",
-        "Value": "File: [1],  Directory: [9],  Size: [6]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_FileFolder",
-        "Value": "File: [1], Folder: [2]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_FileFolder2",
         "Value": "File: [1], Folder: [2]"
     },
     {
@@ -208,23 +120,11 @@
         "Value": "File: [1],  Section: [2],  Key: [3], Value: [4]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_FileSectionKeyValue2",
-        "Value": "File: [1],  Section: [2],  Key: [3], Value: [4]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_Folder",
         "Value": "Folder: [1]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_Folder1",
-        "Value": "Folder: [1]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_Font",
-        "Value": "Font: [1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_Font2",
         "Value": "Font: [1]"
     },
     {
@@ -268,10 +168,6 @@
         "Value": "LibID: [1]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_Libid2",
-        "Value": "LibID: [1]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_MigratingFeatureStates",
         "Value": "Migrating feature states from related applications"
     },
@@ -284,19 +180,11 @@
         "Value": "Name: [1], Value: [2], Action [3]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_NameValueAction2",
-        "Value": "Name: [1], Value: [2], Action [3]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_PatchingFiles",
         "Value": "Patching files"
     },
     {
         "Id": "IDS_ACTIONTEXT_ProgID",
-        "Value": "ProgID: [1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_ProgID2",
         "Value": "ProgID: [1]"
     },
     {
@@ -424,19 +312,7 @@
         "Value": "Service: [2]"
     },
     {
-        "Id": "IDS_ACTIONTEXT_Service3",
-        "Value": "Service: [1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_Service4",
-        "Value": "Service: [1]"
-    },
-    {
         "Id": "IDS_ACTIONTEXT_Shortcut",
-        "Value": "Shortcut: [1]"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_Shortcut1",
         "Value": "Shortcut: [1]"
     },
     {
@@ -494,10 +370,6 @@
     {
         "Id": "IDS_ACTIONTEXT_UpdateComponentRegistration",
         "Value": "Updating component registration"
-    },
-    {
-        "Id": "IDS_ACTIONTEXT_UpdateEnvironmentStrings",
-        "Value": "Updating environment strings"
     },
     {
         "Id": "IDS_ACTIONTEXT_Validating",
@@ -2992,10 +2864,6 @@
         "Value": "BOINCM~1|BOINC Manager"
     },
     {
-        "Id": "IDS_FEATURE_BOINC_NAME",
-        "Value": "BOINC"
-    },
-    {
         "Id": "IDS_FEATURE_BOINC_SCREENSAVER_DESCRIPTION",
         "Value": "The BOINC screensaver"
     },
@@ -3058,10 +2926,6 @@
     {
         "Id": "IDS_UITEXT_FeatureInstalledCD",
         "Value": "This feature, and all subfeatures, will be installed to run from the CD."
-    },
-    {
-        "Id": "IDS_UITEXT_FeatureInstalledCD2",
-        "Value": "This feature will be installed to run from CD."
     },
     {
         "Id": "IDS_UITEXT_FeatureInstalledLocal",
@@ -3148,18 +3012,6 @@
         "Value": "This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive."
     },
     {
-        "Id": "IDS_UITEXT_FeatureSpaceFree2",
-        "Value": "This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive."
-    },
-    {
-        "Id": "IDS_UITEXT_FeatureSpaceFree3",
-        "Value": "This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive."
-    },
-    {
-        "Id": "IDS_UITEXT_FeatureSpaceFree4",
-        "Value": "This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive."
-    },
-    {
         "Id": "IDS_UITEXT_FeatureUnavailable",
         "Value": "This feature will become unavailable."
     },
@@ -3232,36 +3084,8 @@
         "Value": "{&TahomaBold8}Feature Not Supported"
     },
     {
-        "Id": "IDS__IsAdminInstallBrowse_11",
-        "Value": null
-    },
-    {
-        "Id": "IDS__IsAdminInstallBrowse_4",
-        "Value": null
-    },
-    {
-        "Id": "IDS__IsAdminInstallBrowse_8",
-        "Value": null
-    },
-    {
-        "Id": "IDS__IsAdminInstallBrowse_BrowseDestination",
-        "Value": "Browse to the destination folder."
-    },
-    {
-        "Id": "IDS__IsAdminInstallBrowse_ChangeDestination",
-        "Value": "{&TahomaBold8}Change Current Destination Folder"
-    },
-    {
         "Id": "IDS__IsAdminInstallBrowse_CreateFolder",
         "Value": "Create new folder|"
-    },
-    {
-        "Id": "IDS__IsAdminInstallBrowse_FolderName",
-        "Value": "&Folder name:"
-    },
-    {
-        "Id": "IDS__IsAdminInstallBrowse_LookIn",
-        "Value": "&Look in:"
     },
     {
         "Id": "IDS__IsAdminInstallBrowse_UpOneLevel",
@@ -3272,20 +3096,12 @@
         "Value": "The BOINC Installer Wizard will create a server image of [ProductName] at a specified network location. To continue, click Next."
     },
     {
-        "Id": "IDS__IsAdminInstallPointWelcome_Wizard",
-        "Value": "{&TahomaBold10}Welcome to the BOINC Installer Wizard for [ProductName]"
-    },
-    {
         "Id": "IDS__IsAdminInstallPoint_Change",
         "Value": "&Change..."
     },
     {
         "Id": "IDS__IsAdminInstallPoint_EnterNetworkLocation",
         "Value": "Enter the network location or click Change to browse to a location.  Click Install to create a server image of [ProductName] at the specified network location or click Cancel to exit the wizard."
-    },
-    {
-        "Id": "IDS__IsAdminInstallPoint_Install",
-        "Value": "&Install"
     },
     {
         "Id": "IDS__IsAdminInstallPoint_NetworkLocation",
@@ -3298,18 +3114,6 @@
     {
         "Id": "IDS__IsAdminInstallPoint_SpecifyNetworkLocation",
         "Value": "Specify a network location for the server image of the product."
-    },
-    {
-        "Id": "IDS__IsBrowseFolderDlg_11",
-        "Value": null
-    },
-    {
-        "Id": "IDS__IsBrowseFolderDlg_4",
-        "Value": null
-    },
-    {
-        "Id": "IDS__IsBrowseFolderDlg_8",
-        "Value": null
     },
     {
         "Id": "IDS__IsBrowseFolderDlg_BrowseDestFolder",
@@ -3330,10 +3134,6 @@
     {
         "Id": "IDS__IsBrowseFolderDlg_LookIn",
         "Value": "&Look in:"
-    },
-    {
-        "Id": "IDS__IsBrowseFolderDlg_OK",
-        "Value": "OK"
     },
     {
         "Id": "IDS__IsBrowseFolderDlg_UpOneLevel",
@@ -3360,14 +3160,6 @@
         "Value": "The highlighted volumes do not have enough disk space available for the currently selected features. You can remove files from the highlighted volumes, choose to install fewer features onto local drives, or select different destination drives."
     },
     {
-        "Id": "IDS__IsDiskSpaceDlg_Numbers",
-        "Value": "{120}{70}{70}{70}{70}"
-    },
-    {
-        "Id": "IDS__IsDiskSpaceDlg_OK",
-        "Value": "OK"
-    },
-    {
         "Id": "IDS__IsDiskSpaceDlg_OutOfDiskSpace",
         "Value": "{&TahomaBold8}Out of Disk Space"
     },
@@ -3388,20 +3180,12 @@
         "Value": "[ProductName] Installer Information"
     },
     {
-        "Id": "IDS__IsErrorDlg_NO",
-        "Value": "&No"
-    },
-    {
         "Id": "IDS__IsErrorDlg_OK",
         "Value": "&OK"
     },
     {
         "Id": "IDS__IsErrorDlg_Retry",
         "Value": "&Retry"
-    },
-    {
-        "Id": "IDS__IsErrorDlg_Yes",
-        "Value": "&Yes"
     },
     {
         "Id": "IDS__IsExitDialog_Finish",
@@ -3424,52 +3208,16 @@
         "Value": "{&TahomaBold10}BOINC Installer Wizard Completed"
     },
     {
-        "Id": "IDS__IsFatalError_ClickFinish",
-        "Value": "Click Finish to exit the wizard."
-    },
-    {
-        "Id": "IDS__IsFatalError_Finish",
-        "Value": "&Finish"
-    },
-    {
-        "Id": "IDS__IsFatalError_KeepOrRestore",
-        "Value": "You can either keep any existing installed elements on your system to continue this installation at a later time or you can restore your system to its original state prior to the installation."
-    },
-    {
         "Id": "IDS__IsFatalError_NotModified",
         "Value": "Your system has not been modified. To complete installation at another time, please run setup again."
-    },
-    {
-        "Id": "IDS__IsFatalError_RestoreOrContinueLater",
-        "Value": "Click Restore or Continue Later to exit the wizard."
-    },
-    {
-        "Id": "IDS__IsFatalError_WizardCompleted",
-        "Value": "{&TahomaBold10}BOINC Installer Wizard Completed"
-    },
-    {
-        "Id": "IDS__IsFatalError_WizardInterrupted",
-        "Value": "The wizard was interrupted before [ProductName] could be completely installed."
     },
     {
         "Id": "IDS__IsFeatureDetailsDlg_DiskSpaceRequirements",
         "Value": "{&TahomaBold8}Disk Space Requirements"
     },
     {
-        "Id": "IDS__IsFeatureDetailsDlg_Numbers",
-        "Value": "{120}{70}{70}{70}{70}"
-    },
-    {
-        "Id": "IDS__IsFeatureDetailsDlg_OK",
-        "Value": "OK"
-    },
-    {
         "Id": "IDS__IsFeatureDetailsDlg_SpaceRequired",
         "Value": "The disk space required for the installation of the selected features."
-    },
-    {
-        "Id": "IDS__IsFeatureDetailsDlg_VolumesTooSmall",
-        "Value": "The highlighted volumes do not have enough disk space available for the currently selected features. You can remove files from the highlighted volumes, choose to install fewer features onto local drives, or select different destination drives."
     },
     {
         "Id": "IDS__IsFilesInUse_ApplicationsUsingFiles",
@@ -3488,28 +3236,8 @@
         "Value": "Some files that need to be updated are currently in use."
     },
     {
-        "Id": "IDS__IsFilesInUse_Ignore",
-        "Value": "&Ignore"
-    },
-    {
-        "Id": "IDS__IsFilesInUse_Retry",
-        "Value": "&Retry"
-    },
-    {
-        "Id": "IDS__IsInitDlg_1",
-        "Value": null
-    },
-    {
-        "Id": "IDS__IsInitDlg_2",
-        "Value": null
-    },
-    {
         "Id": "IDS__IsInitDlg_PreparingWizard",
         "Value": "[ProductName] Setup is preparing the BOINC Installer Wizard which will guide you through the program setup process.  Please wait."
-    },
-    {
-        "Id": "IDS__IsInitDlg_WelcomeWizard",
-        "Value": "{&TahomaBold10}Welcome to the BOINC Installer Wizard for [ProductName]"
     },
     {
         "Id": "IDS__IsLicenseDlg_LicenseAgreement",
@@ -3518,10 +3246,6 @@
     {
         "Id": "IDS__IsLicenseDlg_ReadLicenseAgreement",
         "Value": "Please read the following license agreement carefully."
-    },
-    {
-        "Id": "IDS__IsMaintenanceDlg_11",
-        "Value": null
     },
     {
         "Id": "IDS__IsMaintenanceDlg_MaitenanceOptions",
@@ -3552,10 +3276,6 @@
         "Value": "The BOINC Installer Wizard will allow you to modify, repair, or remove [ProductName]. To continue, click Next."
     },
     {
-        "Id": "IDS__IsMaintenanceWelcome_WizardWelcome",
-        "Value": "{&TahomaBold10}Welcome to the BOINC Installer Wizard for [ProductName]"
-    },
-    {
         "Id": "IDS__IsMsiRMFilesInUse_ApplicationsUsingFiles",
         "Value": "The following applications are using files that need to be updated by this setup."
     },
@@ -3584,16 +3304,12 @@
         "Value": "{&TahomaBold10}Welcome to the Patch for [ProductName]"
     },
     {
-        "Id": "IDS__IsProgressDlg_2",
-        "Value": null
-    },
-    {
         "Id": "IDS__IsProgressDlg_Hidden",
         "Value": "(Hidden for now)"
     },
     {
         "Id": "IDS__IsProgressDlg_HiddenTimeRemaining",
-        "Value": ")Hidden for now)Estimated time remaining:"
+        "Value": "(Hidden for now)Estimated time remaining:"
     },
     {
         "Id": "IDS__IsProgressDlg_InstallingProductName",
@@ -3648,10 +3364,6 @@
         "Value": "Click Finish to exit the wizard."
     },
     {
-        "Id": "IDS__IsUserExit_Finish",
-        "Value": "&Finish"
-    },
-    {
         "Id": "IDS__IsUserExit_KeepOrRestore",
         "Value": "You can either keep any existing installed elements on your system to continue this installation at a later time or you can restore your system to its original state prior to the installation."
     },
@@ -3662,10 +3374,6 @@
     {
         "Id": "IDS__IsUserExit_RestoreOrContinue",
         "Value": "Click Restore or Continue Later to exit the wizard."
-    },
-    {
-        "Id": "IDS__IsUserExit_WizardCompleted",
-        "Value": "{&TahomaBold10}BOINC Installer Wizard Completed"
     },
     {
         "Id": "IDS__IsUserExit_WizardInterrupted",
@@ -3732,151 +3440,83 @@
         "Value": "{&TahomaBold10}Welcome to the BOINC Installer Wizard for [ProductName]"
     },
     {
-        "Id": "ID_STRING13",
-        "Value": "&Next >"
-    },
-    {
-        "Id": "ID_STRING14",
-        "Value": "< &Back"
-    },
-    {
-        "Id": "ID_STRING15",
-        "Value": "Cancel"
-    },
-    {
-        "Id": "ID_STRING16",
+        "Id": "IDS_STRING16",
         "Value": "{&TahomaBold8}BOINC Configuration"
     },
     {
-        "Id": "ID_STRING17",
+        "Id": "IDS_STRING17",
         "Value": "These are the current installation options"
     },
     {
-        "Id": "ID_STRING18",
-        "Value": "[ProductName] - BOINC Installer Wizard"
-    },
-    {
-        "Id": "ID_STRING21",
-        "Value": "&Next >"
-    },
-    {
-        "Id": "ID_STRING22",
-        "Value": "< &Back"
-    },
-    {
-        "Id": "ID_STRING23",
-        "Value": "Cancel"
-    },
-    {
-        "Id": "ID_STRING24",
+        "Id": "IDS_STRING24",
         "Value": "{&TahomaBold8}Customize installation options"
     },
     {
-        "Id": "ID_STRING25",
+        "Id": "IDS_STRING25",
         "Value": "Customize how BOINC is installed on your computer"
     },
     {
-        "Id": "ID_STRING26",
-        "Value": "[ProductName] - BOINC Installer Wizard"
-    },
-    {
-        "Id": "ID_STRING39",
+        "Id": "IDS_STRING39",
         "Value": "[ProductName] requires that your computer is running Windows XP or newer."
     },
     {
-        "Id": "ID_STRING4",
+        "Id": "IDS_STRING4",
         "Value": "Closing any running instances of the BOINC Manager"
     },
     {
-        "Id": "NEW_STRING1",
+        "Id": "IDS_NEW_STRING1",
         "Value": "Advanced"
     },
     {
-        "Id": "NEW_STRING10",
+        "Id": "IDS_NEW_STRING10",
         "Value": "Data directory:"
     },
     {
-        "Id": "NEW_STRING12",
+        "Id": "IDS_NEW_STRING12",
         "Value": "Use BOINC Screensaver"
     },
     {
-        "Id": "NEW_STRING13",
+        "Id": "IDS_NEW_STRING13",
         "Value": "Service Install"
     },
     {
-        "Id": "NEW_STRING15",
+        "Id": "IDS_NEW_STRING15",
         "Value": "Allow all users on this computer to control BOINC"
     },
     {
-        "Id": "NEW_STRING16",
+        "Id": "IDS_NEW_STRING16",
         "Value": "[INSTALLDIR]"
     },
     {
-        "Id": "NEW_STRING17",
-        "Value": "Program directory:"
-    },
-    {
-        "Id": "NEW_STRING18",
+        "Id": "IDS_NEW_STRING18",
         "Value": "[DATADIR]"
     },
     {
-        "Id": "NEW_STRING2",
+        "Id": "IDS_NEW_STRING2",
         "Value": "Launch the BOINC Manager"
     },
     {
-        "Id": "NEW_STRING21",
-        "Value": "Data directory:"
-    },
-    {
-        "Id": "NEW_STRING22",
-        "Value": "Use BOINC Screensaver"
-    },
-    {
-        "Id": "NEW_STRING24",
-        "Value": "Service Install"
-    },
-    {
-        "Id": "NEW_STRING25",
-        "Value": "Allow all users on this computer to control BOINC"
-    },
-    {
-        "Id": "NEW_STRING27",
+        "Id": "IDS_NEW_STRING27",
         "Value": "Click Next to use these options.\nClick Advanced to customize options."
     },
     {
-        "Id": "NEW_STRING28",
+        "Id": "IDS_NEW_STRING28",
         "Value": "On clicking finish you will be given an option to restart your computer. Please save all unfinished work first.\nBOINC will not start until you have restarted your computer."
     },
     {
-        "Id": "NEW_STRING29",
+        "Id": "IDS_NEW_STRING29",
         "Value": "A BOINC component didn't get updated properly. Please run the repair tool from the \"Control Panel - Add/Remove Programs\" tool (\"Control Panel - Program Features\" tool on newer version of Windows)."
     },
     {
-        "Id": "NEW_STRING30",
+        "Id": "IDS_NEW_STRING30",
         "Value": "This option is now disabled by default.\nA reboot may be required."
     },
     {
-        "Id": "NEW_STRING31",
+        "Id": "IDS_NEW_STRING31",
         "Value": "Run project applications under an unprivileged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs)\n(A reboot may be required.)"
     },
     {
-        "Id": "NEW_STRING5",
-        "Value": "&Change..."
-    },
-    {
-        "Id": "NEW_STRING6",
-        "Value": "[INSTALLDIR]"
-    },
-    {
-        "Id": "NEW_STRING7",
+        "Id": "IDS_NEW_STRING7",
         "Value": "Program directory:"
-    },
-    {
-        "Id": "NEW_STRING8",
-        "Value": "&Change..."
-    },
-    {
-        "Id": "NEW_STRING9",
-        "Value": "[DATADIR]"
     }
 ]

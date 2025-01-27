@@ -1,9 +1,9 @@
 {
     "Summary": {
         "codepage": 1252,
-        "title": "COMPANY_PRODUCT",
-        "subject": "COMPANY_PRODUCT_SUBJECT",
-        "author": "COMPANY_NAME",
+        "title": "BOINC",
+        "subject": "BOINC",
+        "author": "Space Sciences Laboratory, U.C. Berkeley",
         "keywords": "BOINC",
         "comments": "IDS_FEATURE_BOINC_DESCRIPTION",
         "template": "%%PLATFORM%%;1033",
@@ -47,7 +47,7 @@
         },
         {
             "Action": "CostFinalize",
-            "Description": "IDS_ACTIONTEXT_ComputingSpace3"
+            "Description": "IDS_ACTIONTEXT_ComputingSpace"
         },
         {
             "Action": "CostInitialize",
@@ -71,11 +71,11 @@
         {
             "Action": "DuplicateFiles",
             "Description": "IDS_ACTIONTEXT_CreatingDuplicate",
-            "Template": "IDS_ACTIONTEXT_FileDirectorySize"
+            "Template": "IDS_ACTIONTEXT_FileDirSize"
         },
         {
             "Action": "FileCost",
-            "Description": "IDS_ACTIONTEXT_ComputingSpace2"
+            "Description": "IDS_ACTIONTEXT_ComputingSpace"
         },
         {
             "Action": "FindRelatedProducts",
@@ -85,7 +85,7 @@
         {
             "Action": "GenerateScript",
             "Description": "IDS_ACTIONTEXT_GeneratingScript",
-            "Template": "IDS_ACTIONTEXT_1"
+            "Template": "[1]"
         },
         {
             "Action": "InstallAdminPackage",
@@ -95,7 +95,7 @@
         {
             "Action": "InstallFiles",
             "Description": "IDS_ACTIONTEXT_CopyingNewFiles",
-            "Template": "IDS_ACTIONTEXT_FileDirSize2"
+            "Template": "IDS_ACTIONTEXT_FileDirSize"
         },
         {
             "Action": "InstallODBC",
@@ -127,7 +127,7 @@
         {
             "Action": "MoveFiles",
             "Description": "IDS_ACTIONTEXT_MovingFiles",
-            "Template": "IDS_ACTIONTEXT_FileDirSize3"
+            "Template": "IDS_ACTIONTEXT_FileDirSize"
         },
         {
             "Action": "PatchFiles",
@@ -146,7 +146,7 @@
         {
             "Action": "PublishFeatures",
             "Description": "IDS_ACTIONTEXT_PublishProductFeatures",
-            "Template": "IDS_ACTIONTEXT_FeatureColon"
+            "Template": "IDS_ACTIONTEXT_Feature"
         },
         {
             "Action": "PublishProduct",
@@ -169,7 +169,7 @@
         {
             "Action": "RegisterExtensionInfo",
             "Description": "IDS_ACTIONTEXT_RegisterExtensionServers",
-            "Template": "IDS_ACTIONTEXT_Extension2"
+            "Template": "IDS_ACTIONTEXT_Extension"
         },
         {
             "Action": "RegisterFonts",
@@ -184,12 +184,12 @@
         {
             "Action": "RegisterProduct",
             "Description": "IDS_ACTIONTEXT_RegisteringProduct",
-            "Template": "IDS_ACTIONTEXT_1b"
+            "Template": "[1]"
         },
         {
             "Action": "RegisterProgIdInfo",
             "Description": "IDS_ACTIONTEXT_RegisteringProgIdentifiers",
-            "Template": "IDS_ACTIONTEXT_ProgID2"
+            "Template": "IDS_ACTIONTEXT_ProgID"
         },
         {
             "Action": "RegisterTypeLibraries",
@@ -199,7 +199,7 @@
         {
             "Action": "RegisterUser",
             "Description": "IDS_ACTIONTEXT_RegUser",
-            "Template": "IDS_ACTIONTEXT_1c"
+            "Template": "[1]"
         },
         {
             "Action": "RemoveDuplicateFiles",
@@ -208,8 +208,8 @@
         },
         {
             "Action": "RemoveEnvironmentStrings",
-            "Description": "IDS_ACTIONTEXT_UpdateEnvironmentStrings",
-            "Template": "IDS_ACTIONTEXT_NameValueAction2"
+            "Description": "IDS_ACTIONTEXT_EnvironmentStrings",
+            "Template": "IDS_ACTIONTEXT_NameValueAction"
         },
         {
             "Action": "RemoveExistingProducts",
@@ -219,12 +219,12 @@
         {
             "Action": "RemoveFiles",
             "Description": "IDS_ACTIONTEXT_RemovingFiles",
-            "Template": "IDS_ACTIONTEXT_FileDir2"
+            "Template": "IDS_ACTIONTEXT_FileDir"
         },
         {
             "Action": "RemoveFolders",
             "Description": "IDS_ACTIONTEXT_RemovingFolders",
-            "Template": "IDS_ACTIONTEXT_Folder1"
+            "Template": "IDS_ACTIONTEXT_Folder"
         },
         {
             "Action": "RemoveIniValues",
@@ -243,17 +243,17 @@
         {
             "Action": "RemoveShortcuts",
             "Description": "IDS_ACTIONTEXT_RemovingShortcuts",
-            "Template": "IDS_ACTIONTEXT_Shortcut1"
+            "Template": "IDS_ACTIONTEXT_Shortcut"
         },
         {
             "Action": "Rollback",
             "Description": "IDS_ACTIONTEXT_RollingBack",
-            "Template": "IDS_ACTIONTEXT_1d"
+            "Template": "[1]"
         },
         {
             "Action": "RollbackCleanup",
             "Description": "IDS_ACTIONTEXT_RemovingBackup",
-            "Template": "IDS_ACTIONTEXT_File2"
+            "Template": "IDS_ACTIONTEXT_File"
         },
         {
             "Action": "SelfRegModules",
@@ -263,7 +263,7 @@
         {
             "Action": "SelfUnregModules",
             "Description": "IDS_ACTIONTEXT_UnregisterModules",
-            "Template": "IDS_ACTIONTEXT_FileFolder2"
+            "Template": "IDS_ACTIONTEXT_FileFolder"
         },
         {
             "Action": "SetODBCFolders",
@@ -271,27 +271,27 @@
         },
         {
             "Action": "ShutdownBOINCManager",
-            "Description": "ID_STRING4"
+            "Description": "IDS_STRING4"
         },
         {
             "Action": "StartServices",
             "Description": "IDS_ACTIONTEXT_StartingServices",
-            "Template": "IDS_ACTIONTEXT_Service3"
+            "Template": "IDS_ACTIONTEXT_Service"
         },
         {
             "Action": "StopServices",
             "Description": "IDS_ACTIONTEXT_StoppingServices",
-            "Template": "IDS_ACTIONTEXT_Service4"
+            "Template": "IDS_ACTIONTEXT_Service"
         },
         {
             "Action": "UnmoveFiles",
             "Description": "IDS_ACTIONTEXT_RemovingMoved",
-            "Template": "IDS_ACTIONTEXT_FileDir3"
+            "Template": "IDS_ACTIONTEXT_FileDir"
         },
         {
             "Action": "UnpublishComponents",
             "Description": "IDS_ACTIONTEXT_UnpublishQualified",
-            "Template": "IDS_ACTIONTEXT_ComponentIdQualifier2"
+            "Template": "IDS_ACTIONTEXT_ComponentIDQualifier"
         },
         {
             "Action": "UnpublishFeatures",
@@ -305,7 +305,7 @@
         {
             "Action": "UnregisterClassInfo",
             "Description": "IDS_ACTIONTEXT_UnregisterClassServers",
-            "Template": "IDS_ACTIONTEXT_ClsID"
+            "Template": "IDS_ACTIONTEXT_ClassId"
         },
         {
             "Action": "UnregisterComPlus",
@@ -320,12 +320,12 @@
         {
             "Action": "UnregisterFonts",
             "Description": "IDS_ACTIONTEXT_UnregisteringFonts",
-            "Template": "IDS_ACTIONTEXT_Font2"
+            "Template": "IDS_ACTIONTEXT_Font"
         },
         {
             "Action": "UnregisterMIMEInfo",
             "Description": "IDS_ACTIONTEXT_UnregisteringMimeInfo",
-            "Template": "IDS_ACTIONTEXT_ContentTypeExtension2"
+            "Template": "IDS_ACTIONTEXT_ContentTypeExtension"
         },
         {
             "Action": "UnregisterProgIdInfo",
@@ -335,7 +335,7 @@
         {
             "Action": "UnregisterTypeLibraries",
             "Description": "IDS_ACTIONTEXT_UnregTypeLibs",
-            "Template": "IDS_ACTIONTEXT_Libid2"
+            "Template": "IDS_ACTIONTEXT_LibId"
         },
         {
             "Action": "WriteEnvironmentStrings",
@@ -345,7 +345,7 @@
         {
             "Action": "WriteIniValues",
             "Description": "IDS_ACTIONTEXT_WritingINI",
-            "Template": "IDS_ACTIONTEXT_FileSectionKeyValue2"
+            "Template": "IDS_ACTIONTEXT_FileSectionKeyValue"
         },
         {
             "Action": "WriteRegistryValues",
@@ -932,7 +932,7 @@
                     "Height": 80,
                     "Attributes": 458755,
                     "Property": "TARGETDIR",
-                    "Text": "IDS__IsAdminInstallBrowse_4",
+                    "Text": "",
                     "Control_Next": "Up"
                 },
                 {
@@ -943,7 +943,7 @@
                     "Width": 99,
                     "Height": 14,
                     "Attributes": 3,
-                    "Text": "IDS__IsAdminInstallBrowse_LookIn",
+                    "Text": "IDS__IsBrowseFolderDlg_LookIn",
                     "Control_Next": "Combo"
                 },
                 {
@@ -954,7 +954,7 @@
                     "Width": 292,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "IDS__IsAdminInstallBrowse_BrowseDestination"
+                    "Text": "IDS__IsBrowseFolderDlg_BrowseDestFolder"
                 },
                 {
                     "Control": "DlgLine",
@@ -973,7 +973,7 @@
                     "Width": 292,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "IDS__IsAdminInstallBrowse_ChangeDestination"
+                    "Text": "IDS__IsBrowseFolderDlg_ChangeCurrentFolder"
                 },
                 {
                     "Control": "List",
@@ -984,7 +984,7 @@
                     "Height": 97,
                     "Attributes": 7,
                     "Property": "TARGETDIR",
-                    "Text": "IDS__IsAdminInstallBrowse_8",
+                    "Text": "",
                     "Control_Next": "TailText"
                 },
                 {
@@ -1041,7 +1041,7 @@
                     "Height": 17,
                     "Attributes": 3,
                     "Property": "TARGETDIR",
-                    "Text": "IDS__IsAdminInstallBrowse_11",
+                    "Text": "",
                     "Control_Next": "OK"
                 },
                 {
@@ -1052,7 +1052,7 @@
                     "Width": 99,
                     "Height": 13,
                     "Attributes": 3,
-                    "Text": "IDS__IsAdminInstallBrowse_FolderName",
+                    "Text": "IDS__IsBrowseFolderDlg_FolderName",
                     "Control_Next": "Tail"
                 },
                 {
@@ -1212,7 +1212,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsAdminInstallPoint_Install",
+                    "Text": "IDS__IsVerifyReadyDlg_Install",
                     "Control_Next": "Cancel",
                     "Events": [
                         {
@@ -1346,7 +1346,7 @@
                     "Width": 225,
                     "Height": 45,
                     "Attributes": 65539,
-                    "Text": "IDS__IsAdminInstallPointWelcome_Wizard"
+                    "Text": "IDS__IsWelcomeDlg_WelcomeProductName"
                 },
                 {
                     "Control": "TextLine2",
@@ -1497,7 +1497,7 @@
                     "Height": 80,
                     "Attributes": 4128779,
                     "Property": "_BrowseDataProperty",
-                    "Text": "IDS__IsBrowseFolderDlg_4",
+                    "Text": "",
                     "Control_Next": "Up"
                 },
                 {
@@ -1549,7 +1549,7 @@
                     "Height": 97,
                     "Attributes": 15,
                     "Property": "_BrowseDataProperty",
-                    "Text": "IDS__IsBrowseFolderDlg_8",
+                    "Text": "",
                     "Control_Next": "TailText"
                 },
                 {
@@ -1580,7 +1580,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsBrowseFolderDlg_OK",
+                    "Text": "IDS_OK",
                     "Control_Next": "Cancel",
                     "Events": [
                         {
@@ -1600,7 +1600,7 @@
                     "Height": 17,
                     "Attributes": 15,
                     "Property": "_BrowseDataProperty",
-                    "Text": "IDS__IsBrowseFolderDlg_11",
+                    "Text": "",
                     "Control_Next": "OK"
                 },
                 {
@@ -1701,7 +1701,7 @@
                     "Height": 80,
                     "Attributes": 4128779,
                     "Property": "_BrowseInstallProperty",
-                    "Text": "IDS__IsBrowseFolderDlg_4",
+                    "Text": "",
                     "Control_Next": "Up"
                 },
                 {
@@ -1753,7 +1753,7 @@
                     "Height": 97,
                     "Attributes": 15,
                     "Property": "_BrowseInstallProperty",
-                    "Text": "IDS__IsBrowseFolderDlg_8",
+                    "Text": "",
                     "Control_Next": "TailText"
                 },
                 {
@@ -1784,7 +1784,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsBrowseFolderDlg_OK",
+                    "Text": "IDS_OK",
                     "Control_Next": "Cancel",
                     "Events": [
                         {
@@ -1810,7 +1810,7 @@
                     "Height": 17,
                     "Attributes": 15,
                     "Property": "_BrowseInstallProperty",
-                    "Text": "IDS__IsBrowseFolderDlg_11",
+                    "Text": "",
                     "Control_Next": "OK"
                 },
                 {
@@ -1904,7 +1904,7 @@
                     "Width": 358,
                     "Height": 41,
                     "Attributes": 3,
-                    "Text": "IDS__IsFeatureDetailsDlg_VolumesTooSmall"
+                    "Text": "IDS__IsDiskSpaceDlg_HighlightedVolumes"
                 },
                 {
                     "Control": "DlgTitle",
@@ -1924,7 +1924,7 @@
                     "Width": 358,
                     "Height": 125,
                     "Attributes": 393223,
-                    "Text": "IDS__IsFeatureDetailsDlg_Numbers"
+                    "Text": "{120}{70}{70}{70}{70}"
                 },
                 {
                     "Control": "OK",
@@ -1934,7 +1934,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsFeatureDetailsDlg_OK",
+                    "Text": "IDS_OK",
                     "Events": [
                         {
                             "Event": "EndDialog",
@@ -2158,7 +2158,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsFilesInUse_Ignore",
+                    "Text": "IDS__IsErrorDlg_Ignore",
                     "Control_Next": "Exit",
                     "Events": [
                         {
@@ -2188,7 +2188,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsFilesInUse_Retry",
+                    "Text": "IDS__IsErrorDlg_Retry",
                     "Control_Next": "Ignore",
                     "Events": [
                         {
@@ -2682,7 +2682,7 @@
                     "Height": 170,
                     "Attributes": 3,
                     "Property": "_IsMaintenance",
-                    "Text": "IDS__IsMaintenanceDlg_11",
+                    "Text": "",
                     "Control_Next": "Back",
                     "RadioButtons": [
                         {
@@ -2815,7 +2815,7 @@
                     "Width": 225,
                     "Height": 45,
                     "Attributes": 65539,
-                    "Text": "IDS__IsMaintenanceWelcome_WizardWelcome"
+                    "Text": "IDS__IsWelcomeDlg_WelcomeProductName"
                 },
                 {
                     "Control": "TextLine2",
@@ -3065,7 +3065,7 @@
                     "Width": 332,
                     "Height": 120,
                     "Attributes": 393223,
-                    "Text": "IDS__IsDiskSpaceDlg_Numbers"
+                    "Text": "{120}{70}{70}{70}{70}"
                 },
                 {
                     "Control": "Resume",
@@ -3075,7 +3075,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsDiskSpaceDlg_OK",
+                    "Text": "IDS_OK",
                     "Events": [
                         {
                             "Event": "NewDialog",
@@ -3707,7 +3707,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsFatalError_Finish",
+                    "Text": "IDS__IsExitDialog_Finish",
                     "Control_Next": "Cancel",
                     "Conditions": [
                         {
@@ -3752,7 +3752,7 @@
                     "Width": 228,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "IDS__IsFatalError_ClickFinish",
+                    "Text": "IDS__IsUserExit_ClickFinish",
                     "Conditions": [
                         {
                             "Action": "Hide",
@@ -3782,7 +3782,7 @@
                     "Width": 228,
                     "Height": 50,
                     "Attributes": 65539,
-                    "Text": "IDS__IsFatalError_KeepOrRestore",
+                    "Text": "IDS__IsUserExit_KeepOrRestore",
                     "Conditions": [
                         {
                             "Action": "Hide",
@@ -3802,7 +3802,7 @@
                     "Width": 228,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "IDS__IsFatalError_RestoreOrContinueLater",
+                    "Text": "IDS__IsUserExit_RestoreOrContinue",
                     "Conditions": [
                         {
                             "Action": "Hide",
@@ -3822,7 +3822,7 @@
                     "Width": 225,
                     "Height": 45,
                     "Attributes": 65539,
-                    "Text": "IDS__IsFatalError_WizardCompleted"
+                    "Text": "IDS__IsExitDialog_WizardCompleted"
                 },
                 {
                     "Control": "TextLine2",
@@ -3832,7 +3832,7 @@
                     "Width": 228,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "IDS__IsFatalError_WizardInterrupted"
+                    "Text": "IDS__IsUserExit_WizardInterrupted"
                 }
             ]
         },
@@ -3916,7 +3916,7 @@
                     "Height": 15,
                     "Attributes": 65538,
                     "Property": "NewProperty1",
-                    "Text": "NEW_STRING2",
+                    "Text": "IDS_NEW_STRING2",
                     "Control_Next": "OK",
                     "Conditions": [
                         {
@@ -3970,7 +3970,7 @@
                     "Width": 225,
                     "Height": 35,
                     "Attributes": 65538,
-                    "Text": "NEW_STRING28",
+                    "Text": "IDS_NEW_STRING28",
                     "Conditions": [
                         {
                             "Action": "Show",
@@ -3986,7 +3986,7 @@
                     "Width": 225,
                     "Height": 52,
                     "Attributes": 65538,
-                    "Text": "NEW_STRING29",
+                    "Text": "IDS_NEW_STRING29",
                     "Conditions": [
                         {
                             "Action": "Show",
@@ -4061,7 +4061,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "ID_STRING18",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Advanced",
             "Control_Default": "CheckBox4",
             "Control_Cancel": "Cancel",
@@ -4074,7 +4074,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "NEW_STRING1",
+                    "Text": "IDS_NEW_STRING1",
                     "Control_Next": "Back",
                     "Events": [
                         {
@@ -4093,7 +4093,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "ID_STRING14",
+                    "Text": "IDS_BACK",
                     "Control_Next": "CheckBox4",
                     "Events": [
                         {
@@ -4131,7 +4131,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "ID_STRING15",
+                    "Text": "IDS_CANCEL",
                     "Events": [
                         {
                             "Event": "SpawnDialog",
@@ -4150,7 +4150,7 @@
                     "Height": 13,
                     "Attributes": 1,
                     "Property": "ENABLESCREENSAVER",
-                    "Text": "NEW_STRING22",
+                    "Text": "IDS_NEW_STRING12",
                     "Control_Next": "CheckBox3"
                 },
                 {
@@ -4162,7 +4162,7 @@
                     "Height": 13,
                     "Attributes": 1,
                     "Property": "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-                    "Text": "NEW_STRING24",
+                    "Text": "IDS_NEW_STRING13",
                     "Control_Next": "Advanced"
                 },
                 {
@@ -4174,7 +4174,7 @@
                     "Height": 13,
                     "Attributes": 1,
                     "Property": "ENABLEUSEBYALLUSERS",
-                    "Text": "NEW_STRING25",
+                    "Text": "IDS_NEW_STRING15",
                     "Control_Next": "CheckBox2"
                 },
                 {
@@ -4185,7 +4185,7 @@
                     "Width": 292,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "ID_STRING17"
+                    "Text": "IDS_STRING17"
                 },
                 {
                     "Control": "DlgLine",
@@ -4204,7 +4204,7 @@
                     "Width": 292,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "ID_STRING16"
+                    "Text": "IDS_STRING16"
                 },
                 {
                     "Control": "Icon1",
@@ -4234,7 +4234,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "ID_STRING13",
+                    "Text": "IDS_NEXT",
                     "Events": [
                         {
                             "Event": "DoAction",
@@ -4265,7 +4265,7 @@
                     "Height": 13,
                     "Attributes": 3,
                     "Property": "_BrowseInstallProperty",
-                    "Text": "NEW_STRING16"
+                    "Text": "IDS_NEW_STRING16"
                 },
                 {
                     "Control": "Text2",
@@ -4276,7 +4276,7 @@
                     "Height": 12,
                     "Attributes": 3,
                     "Property": "NewProperty1",
-                    "Text": "NEW_STRING17"
+                    "Text": "IDS_NEW_STRING7"
                 },
                 {
                     "Control": "Text3",
@@ -4287,7 +4287,7 @@
                     "Height": 13,
                     "Attributes": 3,
                     "Property": "_BrowseDataProperty1",
-                    "Text": "NEW_STRING18"
+                    "Text": "IDS_NEW_STRING18"
                 },
                 {
                     "Control": "Text4",
@@ -4298,7 +4298,7 @@
                     "Height": 22,
                     "Attributes": 3,
                     "Property": "NewProperty211",
-                    "Text": "NEW_STRING27"
+                    "Text": "IDS_NEW_STRING27"
                 },
                 {
                     "Control": "Text5",
@@ -4309,7 +4309,7 @@
                     "Height": 11,
                     "Attributes": 3,
                     "Property": "NewProperty21",
-                    "Text": "NEW_STRING21"
+                    "Text": "IDS_NEW_STRING10"
                 },
                 {
                     "Control": "Text6",
@@ -4319,7 +4319,7 @@
                     "Width": 328,
                     "Height": 25,
                     "Attributes": 1,
-                    "Text": "NEW_STRING30"
+                    "Text": "IDS_NEW_STRING30"
                 }
             ]
         },
@@ -4330,7 +4330,7 @@
             "Width": 374,
             "Height": 266,
             "Attributes": 3,
-            "Title": "ID_STRING26",
+            "Title": "IDS_PRODUCTNAME",
             "Control_First": "Next",
             "Control_Default": "CheckBox4",
             "Control_Cancel": "Cancel",
@@ -4343,7 +4343,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "ID_STRING22",
+                    "Text": "IDS_BACK",
                     "Control_Next": "ChangeInstall",
                     "Events": [
                         {
@@ -4381,7 +4381,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "ID_STRING23",
+                    "Text": "IDS_CANCEL",
                     "Control_Next": "ChangeData",
                     "Events": [
                         {
@@ -4400,7 +4400,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "NEW_STRING8",
+                    "Text": "IDS__IsAdminInstallPoint_Change",
                     "Control_Next": "Back",
                     "Events": [
                         {
@@ -4425,7 +4425,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "NEW_STRING5",
+                    "Text": "IDS__IsAdminInstallPoint_Change",
                     "Control_Next": "CheckBox4",
                     "Events": [
                         {
@@ -4451,7 +4451,7 @@
                     "Height": 13,
                     "Attributes": 3,
                     "Property": "ENABLESCREENSAVER",
-                    "Text": "NEW_STRING12",
+                    "Text": "IDS_NEW_STRING12",
                     "Control_Next": "CheckBox3"
                 },
                 {
@@ -4463,7 +4463,7 @@
                     "Height": 13,
                     "Attributes": 3,
                     "Property": "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-                    "Text": "NEW_STRING13",
+                    "Text": "IDS_NEW_STRING13",
                     "Control_Next": "Next"
                 },
                 {
@@ -4475,7 +4475,7 @@
                     "Height": 13,
                     "Attributes": 3,
                     "Property": "ENABLEUSEBYALLUSERS",
-                    "Text": "NEW_STRING15",
+                    "Text": "IDS_NEW_STRING15",
                     "Control_Next": "CheckBox2"
                 },
                 {
@@ -4486,7 +4486,7 @@
                     "Width": 292,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "ID_STRING25"
+                    "Text": "IDS_STRING25"
                 },
                 {
                     "Control": "DlgLine",
@@ -4505,7 +4505,7 @@
                     "Width": 292,
                     "Height": 25,
                     "Attributes": 65539,
-                    "Text": "ID_STRING24"
+                    "Text": "IDS_STRING24"
                 },
                 {
                     "Control": "Icon1",
@@ -4535,7 +4535,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "ID_STRING21",
+                    "Text": "IDS_NEXT",
                     "Control_Next": "Cancel",
                     "Events": [
                         {
@@ -4561,7 +4561,7 @@
                     "Height": 13,
                     "Attributes": 3,
                     "Property": "_BrowseInstallProperty",
-                    "Text": "NEW_STRING6"
+                    "Text": "[INSTALLDIR]"
                 },
                 {
                     "Control": "Text2",
@@ -4572,7 +4572,7 @@
                     "Height": 11,
                     "Attributes": 3,
                     "Property": "NewProperty1",
-                    "Text": "NEW_STRING7"
+                    "Text": "IDS_NEW_STRING7"
                 },
                 {
                     "Control": "Text3",
@@ -4583,7 +4583,7 @@
                     "Height": 13,
                     "Attributes": 3,
                     "Property": "_BrowseDataProperty",
-                    "Text": "NEW_STRING9"
+                    "Text": "[DATADIR]"
                 },
                 {
                     "Control": "Text4",
@@ -4594,7 +4594,7 @@
                     "Height": 11,
                     "Attributes": 3,
                     "Property": "NewProperty2",
-                    "Text": "NEW_STRING10"
+                    "Text": "IDS_NEW_STRING10"
                 },
                 {
                     "Control": "Text6",
@@ -4605,7 +4605,7 @@
                     "Height": 44,
                     "Attributes": 3,
                     "Property": "NewProperty1",
-                    "Text": "NEW_STRING31"
+                    "Text": "IDS_NEW_STRING31"
                 }
             ]
         },
@@ -4693,7 +4693,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsErrorDlg_NO",
+                    "Text": "IDS__IsCancelDlg_No",
                     "Events": [
                         {
                             "Event": "EndDialog",
@@ -4757,7 +4757,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsErrorDlg_Yes",
+                    "Text": "IDS__IsCancelDlg_Yes",
                     "Events": [
                         {
                             "Event": "EndDialog",
@@ -4789,7 +4789,7 @@
                     "Width": 228,
                     "Height": 12,
                     "Attributes": 65539,
-                    "Text": "IDS__IsInitDlg_1",
+                    "Text": "",
                     "EventMappings": [
                         {
                             "Event": "ActionData",
@@ -4805,7 +4805,7 @@
                     "Width": 220,
                     "Height": 36,
                     "Attributes": 65539,
-                    "Text": "IDS__IsInitDlg_2",
+                    "Text": "",
                     "EventMappings": [
                         {
                             "Event": "ActionText",
@@ -4878,7 +4878,7 @@
                     "Width": 225,
                     "Height": 45,
                     "Attributes": 65539,
-                    "Text": "IDS__IsInitDlg_WelcomeWizard"
+                    "Text": "IDS__IsWelcomeDlg_WelcomeProductName"
                 },
                 {
                     "Control": "TextLine2",
@@ -4993,7 +4993,7 @@
                     "Width": 66,
                     "Height": 17,
                     "Attributes": 3,
-                    "Text": "IDS__IsUserExit_Finish",
+                    "Text": "IDS__IsExitDialog_Finish",
                     "Conditions": [
                         {
                             "Action": "Default",
@@ -5107,7 +5107,7 @@
                     "Width": 225,
                     "Height": 45,
                     "Attributes": 65539,
-                    "Text": "IDS__IsUserExit_WizardCompleted"
+                    "Text": "IDS__IsExitDialog_WizardCompleted"
                 },
                 {
                     "Control": "TextLine2",
@@ -5189,7 +5189,7 @@
                     "Width": 275,
                     "Height": 12,
                     "Attributes": 3,
-                    "Text": "IDS__IsProgressDlg_2",
+                    "Text": "",
                     "EventMappings": [
                         {
                             "Event": "ActionText",
@@ -6352,7 +6352,7 @@
                                         {
                                             "ServiceInstall": "NewServiceInstall1",
                                             "Name": "BOINC",
-                                            "DisplayName": "IDS_FEATURE_BOINC_NAME",
+                                            "DisplayName": "BOINC",
                                             "ServiceType": 16,
                                             "StartType": 2,
                                             "ErrorControl": 1,
@@ -9063,7 +9063,7 @@
     "Feature": [
         {
             "Feature": "BOINC",
-            "Title": "IDS_FEATURE_BOINC_NAME",
+            "Title": "BOINC",
             "Description": "IDS_FEATURE_BOINC_DESCRIPTION",
             "Display": 3,
             "Level": 1,
@@ -9733,11 +9733,11 @@
     "LaunchCondition": [
         {
             "Condition": "VersionNT>=600",
-            "Description": "ID_STRING39"
+            "Description": "IDS_STRING39"
         },
         {
             "Condition": "Privileged",
-            "Description": "IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN"
+            "Description": "IDS_IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN"
         }
     ],
     "Listbox": [
@@ -9749,7 +9749,7 @@
         },
         {
             "Property": "ARPHELPLINK",
-            "Value": "COMPANY_URL"
+            "Value": "https://boinc.berkeley.edu/"
         },
         {
             "Property": "ARPNOMODIFY",
@@ -9769,11 +9769,11 @@
         },
         {
             "Property": "ARPURLINFOABOUT",
-            "Value": "COMPANY_URL"
+            "Value": "https://boinc.berkeley.edu/"
         },
         {
             "Property": "ARPURLUPDATEINFO",
-            "Value": "COMPANY_URL"
+            "Value": "https://boinc.berkeley.edu/"
         },
         {
             "Property": "AgreeToLicense",
@@ -9825,7 +9825,7 @@
         },
         {
             "Property": "Manufacturer",
-            "Value": "COMPANY_NAME"
+            "Value": "Space Sciences Laboratory, U.C. Berkeley"
         },
         {
             "Property": "MsiHiddenProperties",
@@ -9977,7 +9977,7 @@
         },
         {
             "Key": "MenuCD",
-            "Text": "IDS_UITEXT_FeatureInstalledCD2"
+            "Text": "IDS_UITEXT_FeatureOnCD"
         },
         {
             "Key": "MenuLocal",
@@ -10101,15 +10101,15 @@
         },
         {
             "Key": "SelParentCostNegPos",
-            "Text": "IDS_UITEXT_FeatureSpaceFree2"
+            "Text": "IDS_UITEXT_FeatureSpaceFree"
         },
         {
             "Key": "SelParentCostPosNeg",
-            "Text": "IDS_UITEXT_FeatureSpaceFree3"
+            "Text": "IDS_UITEXT_FeatureSpaceFree"
         },
         {
             "Key": "SelParentCostPosPos",
-            "Text": "IDS_UITEXT_FeatureSpaceFree4"
+            "Text": "IDS_UITEXT_FeatureSpaceFree"
         },
         {
             "Key": "TimeRemaining",
