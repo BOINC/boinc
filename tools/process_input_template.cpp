@@ -468,8 +468,11 @@ static int process_workunit(
             }
             n_file_refs++;
         } else if (xp.parse_string("command_line", cmdline)) {
-            if (command_line) {
-                boinc::fprintf(stderr, "Can't specify command line twice\n");
+            if (strlen(command_line)) {
+                boinc::fprintf(stderr,
+                    "Can't specify command line %s; already specified as %s\n",
+                    cmdline.c_str(), command_line
+                );
                 return ERR_XML_PARSE;
             }
             out += "<command_line>\n";

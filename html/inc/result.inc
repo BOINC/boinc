@@ -82,6 +82,9 @@ function app_version_string($result) {
         return anon_platform_string($result, tra("Apple GPU"));
     }
     $av = get_app_version($id);
+    if (!$av) {
+        return "missing app version $id";
+    }
     $app = get_app($av->appid);
     $platform = get_platform($av->platformid);
     $n = $app->user_friendly_name;
