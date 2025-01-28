@@ -196,7 +196,7 @@ struct TASK {
         double temp, frac = 0;
         while (!feof(f)) {
             char buf[256];
-            char* p = fgets(buf, 256, f);
+            char* p = fgets(buf, sizeof(buf), f);
             if (p == NULL) break;
             int n = sscanf(buf, "%lf", &temp);
             if (n == 1) frac = temp;
@@ -300,7 +300,7 @@ void macro_substitute(string &str) {
         sprintf(nt, "%d", gpu_device_num);
         str_replace_all(str, "$GPU_DEVICE_NUM", nt);
 #ifdef DEBUG
-	fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$GPU_DEVICE_NUM", nt);
+        fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$GPU_DEVICE_NUM", nt);
 #endif
     }
 
@@ -331,8 +331,8 @@ void get_initial_file_list() {
     }
     dir_close(d);
     FILE* f = fopen("initial_file_list_temp", "w");
-    for (unsigned int i=0; i<initial_files.size(); i++) {
-        fprintf(f, "%s\n", initial_files[i].c_str());
+    for (string &s: initial_files) {
+        fprintf(f, "%s\n", s.c_str());
     }
     fclose(f);
     int retval = boinc_rename("initial_file_list_temp", "initial_file_list");
@@ -375,8 +375,8 @@ void do_unzip_inputs() {
 }
 
 bool in_vector(string s, vector<string>& v) {
-    for (unsigned int i=0; i<v.size(); i++) {
-        if (s == v[i]) return true;
+    for (string &s2: v) {
+        if (s == s2) return true;
     }
     return false;
 }
@@ -392,9 +392,9 @@ void get_zip_inputs(ZipFileList &files) {
     while (!dir_scan(fname, d, sizeof(fname))) {
         string filename = string(fname);
         if (in_vector(filename, initial_files)) continue;
-        for (unsigned int i=0; i<zip_patterns.size(); i++) {
+        for (regexp* re: zip_patterns) {
             regmatch match;
-            if (re_exec_w(zip_patterns[i], fname, 1, &match) == 1) {
+            if (re_exec_w(re, fname, 1, &match) == 1) {
                 files.push_back(filename);
                 break;
             }
@@ -541,7 +541,7 @@ int parse_job_file() {
     MIOFILE mf;
     char buf[256], buf2[256];
 
-    boinc_resolve_filename(JOB_FILENAME, buf, 1024);
+    boinc_resolve_filename(JOB_FILENAME, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "r");
     if (!f) {
         fprintf(stderr,
@@ -597,8 +597,7 @@ int parse_job_file() {
 }
 
 int start_daemons(int argc, char** argv) {
-    for (unsigned int i=0; i<daemons.size(); i++) {
-        TASK& task = daemons[i];
+    for (TASK& task: daemons) {
         int retval = task.run(argc, argv);
         if (retval) return retval;
     }
@@ -607,8 +606,7 @@ int start_daemons(int argc, char** argv) {
 
 void kill_daemons() {
     vector<int> daemon_pids;
-    for (unsigned int i=0; i<daemons.size(); i++) {
-        TASK& task = daemons[i];
+    for (TASK& task: daemons) {
         if (task.pid) {
             daemon_pids.push_back(task.pid);
         }
