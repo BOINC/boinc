@@ -100,7 +100,7 @@ function forum_page($forum, $user, $msg=null) {
     switch (user_can_create_thread($user, $forum)) {
     case 'yes':
         show_button(
-            "forum_post.php?id=$id", tra("New thread"),
+            "forum_post.php?id=$forum->id", tra("New thread"),
             tra("Add a new thread to this forum")
         );
         break;
