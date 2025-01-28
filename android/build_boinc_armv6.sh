@@ -2,7 +2,7 @@
 set -e
 
 #
-# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+# See: https://github.com/BOINC/boinc/wiki/AndroidBuildClient#
 #
 
 # Script to compile BOINC for Android
@@ -27,15 +27,9 @@ export VCPKG_DIR=$VCPKG_ROOT/installed/armv6-android
 CONFIG_FLAGS=""
 CONFIG_LDFLAGS=""
 
-if [ $BUILD_WITH_VCPKG = "yes" ]; then
-    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
-    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
-    export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-else
-    CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
-    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
-    export _libcurl_pc="$TCINCLUDES/lib/pkgconfig/libcurl.pc"
-fi
+CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
+export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-clang
@@ -75,7 +69,7 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        if [ $BUILD_WITH_VCPKG = "yes" ]; then
+        if [ $BUILD_APPS_WITH_VCPKG = "yes" ]; then
             export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
         fi
         ./configure --host=armv6-linux --with-boinc-platform="arm-android-linux-gnu" $CONFIG_FLAGS --disable-server --disable-manager --disable-shared --enable-static --disable-largefile

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,7 +22,7 @@
 
 // To debug BOINCSaver.saver under Xcode:
 //
-// [1] Copy ScreenSaverEngine.app to a location outside the /System directory 
+// [1] Copy ScreenSaverEngine.app to a location outside the /System directory
 //     to allow bypassing limitations caused by System Integrity Protection
 //
 // [2] Prior to High Sierra ScreenSaverEngine.app is at:
@@ -30,41 +30,41 @@
 //     As of High Sierra ScreenSaverEngine.app is at:
 //     /System/Library/CoreServices/ScreenSaverEngine.app
 //
-// [3] In Xcode, select the ScreenSaver target as the active scheme. 
+// [3] In Xcode, select the ScreenSaver target as the active scheme.
 //     Click on the scheme popup and select "Edit scheme ..."
 //
 // [4] In the Edit Scheme dialog, select "Run"
 //
 // [5] In the Edit Scheme dialog Info tab, in the "Build Configuration" popup select "Development"
 //
-// [6] In the Edit Scheme dialog Info tab, in the "Executable" popup select "Other..." 
+// [6] In the Edit Scheme dialog Info tab, in the "Executable" popup select "Other..."
 //   then browse to and select the copy of ScreenSaverEngine.app you made in step [1]
 //
-// [7] In the Edit Scheme dialog Arguments tab, add "-debug" and "-window" to 
+// [7] In the Edit Scheme dialog Arguments tab, add "-debug" and "-window" to
 //     "Arguments passed on launch"
 //
 // [8] In the Finder, open the directory "/Library/Screen Savers" and remove "BOINCSaver.saver"
 //
-// [9] In Xcode's Project navigator, under "Products", control-click on "BOINCSaver.saver" and 
+// [9] In Xcode's Project navigator, under "Products", control-click on "BOINCSaver.saver" and
 //     select " Show in Finder"; make sure your are looking at the Development subdirectory.
 //
 // [10] In the Terminal application, enter "sudo ln -s " then drag the BOINCSaver.saver file
-//      from the Development subdirectory onto the Terminal Window, then type 
+//      from the Development subdirectory onto the Terminal Window, then type
 //      "/Library/Screen\ Savers/BOINCSaver.saver" (without the quotes) and press the return key.
 //      Enter your password when requested.
 //
-// [12] In Mac_Saver_ModuleView.m, set the "#define DEBUG_UNDER_XCODE" to 1. (Be sure to set it 
+// [12] In Mac_Saver_ModuleView.m, set the "#define DEBUG_UNDER_XCODE" to 1. (Be sure to set it
 //      back to 0 to build the non-debugging version.)
 //
 // [13] In some cases, it may be useful to set the permissions and owner of gfx_switcher, which is
 //      embedded in the development BOINCSaver.saver bundle, by running the Mac_SA_Secure.sh script.
 //
-// [14] The screensaver display will appear in a window, with graphics apps appearing full screen 
-//      behind it. Under High Sierra, new-style graphics apps (those using Mach-O communication 
+// [14] The screensaver display will appear in a window, with graphics apps appearing full screen
+//      behind it. Under High Sierra, new-style graphics apps (those using Mach-O communication
 //      and IOSurfaceBuffer) will appear all white, but the bottom left portion of their animation
 //      will appear in the screensaver window.
 //
-// It is best if the Xcode window is on a second display; otherwise the graphics apps will cover it. 
+// It is best if the Xcode window is on a second display; otherwise the graphics apps will cover it.
 // If you have only one display, you can dismiss the graphics app by clicking on it, but BOINCSaver
 // will soon relaunch it.
 //
@@ -136,7 +136,6 @@ NSInteger myWindowNumber;
 NSRect gMovingRect;
 float gImageXIndent;
 float gTextBoxHeight;
-CGFloat gActualTextBoxHeight;
 NSPoint gCurrentPosition;
 NSPoint gCurrentDelta;
 
@@ -151,6 +150,7 @@ static pid_t childPid;
 static int gfxAppWindowNum;
 static NSView *imageView;
 static char gfxAppPath[MAXPATHLEN];
+static char gfxWuName[MAXPATHLEN];
 static int taskSlot;
 static NSRunningApplication *childApp;
 static double gfxAppStartTime;
@@ -170,18 +170,23 @@ static bool myIsPreview;
 #define MINDELTA 8
 #define MAXDELTA 16
 
-// On OS 10.13+, assume graphics app is not compatible if no MachO 
+// On OS 10.13+, assume graphics app is not compatible if no MachO
 // connection after MAXWAITFORCONNECTION seconds
 #define MAXWAITFORCONNECTION 8.0
 #define MAXWAITFORCONNECTIONCATALINA 12.0
 #define MAX_CGWINDOWLIST_TRIES 3
 
+#define MAJORBOINCGFXLIBNEEDEDFORSONOMA 7
+#define MINORBOINCGFXLIBNEEDEDFORSONOMA 24
+#define RELEASEBOINCGFXLIBNEEDEDFORSONOMA 4
+
 int signof(float x) {
     return (x > 0.0 ? 1 : -1);
 }
 
-void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
+void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     strlcpy(gfxAppPath, appPath, sizeof(gfxAppPath));
+    strlcpy(gfxWuName, wuName, sizeof(gfxWuName));
     childPid = thePID;
     taskSlot = slot;
     gfxAppStartTime = getDTime();
@@ -189,32 +194,45 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     if (thePID == 0) {
         useCGWindowList = false;
         gfxAppStartTime = 0.0;
+        gfxWuName[0] = '\0';
+        if (mySharedGraphicsController) {
+            [ mySharedGraphicsController cleanUpOpenGL ];
+        }
         if (imageView) {
             // removeFromSuperview must be called from main thread
-            if (pthread_equal(mainThreadID, pthread_self())) {
+            if (NSThread.isMainThread) {
                 [imageView removeFromSuperview];   // Releases imageView
-                imageView = nil;
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [imageView removeFromSuperview];   // Releases imageView
+                });
             }
+            imageView = nil;
+        }
+    } else {    // thePID != 0
+        if (childPid) {
+            childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
         }
     }
 }
 
 @implementation BOINC_Saver_ModuleView
 
-// If there are multiple displays, this may get called 
-// multiple times (once for each display), so we need to guard 
+// If there are multiple displays, this may get called
+// multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
     NSBundle * myBundle;
     int period;
 
     self = [ super initWithFrame:frame isPreview:isPreview ];
-    
+
     gIsHighSierra = (compareOSVersionTo(10, 13) >= 0);
     gIsMojave = (compareOSVersionTo(10, 14) >= 0);
     gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
     gIsBigSur = (compareOSVersionTo(11, 0) >= 0);
-    
+    gIsSonoma = (compareOSVersionTo(14, 0) >= 0);
+
     if (gIsCatalina) {
         // Under OS 10.15, isPreview is often true even when it shouldn't be
         // so we use this hack instead
@@ -222,28 +240,28 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     } else {
         myIsPreview = isPreview;
     }
-    
-    // OpenGL / GLUT apps which call glutFullScreen() and are built using 
-    // Xcode 11 apparently use window dimensions based on the number of 
-    // backing store pixels. That is, they double the window dimensions 
-    // for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+
+    // OpenGL / GLUT apps which call glutFullScreen() and are built using
+    // Xcode 11 apparently use window dimensions based on the number of
+    // backing store pixels. That is, they double the window dimensions
+    // for Retina displays (which have 2X2 pixels per point.) But OpenGL
     // apps built under earlier versions of Xcode don't.
     //
-    // OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
-    // Xcode 11, so it displays older builds at half width and height, 
-    // unless we compensate in our code. 
+    // OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under
+    // Xcode 11, so it displays older builds at half width and height,
+    // unless we compensate in our code.
     //
-    // To ensure that BOINC graphics apps built on all versions of Xcode work 
-    // properly on different versions of OS X, we set the IOSurface dimensions 
-    // in this module to double the screen dimensions when running under 
-    // OS 10.15 or later. 
+    // To ensure that BOINC graphics apps built on all versions of Xcode work
+    // properly on different versions of OS X, we set the IOSurface dimensions
+    // in this module to double the screen dimensions when running under
+    // OS 10.15 or later.
     //
     // See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
     //
     // NOTE: Graphics apps must now be linked with the IOSurface framework.
     //
 #if __MAC_OS_X_VERSION_MAX_ALLOWED < 101500 // If built on Xcode 10.x or earlier
-    if (!gIsBigSur)  // If built with Xcode 10.x or earlier don't do this on Big Sur 
+    if (!gIsBigSur)  // If built with Xcode 10.x or earlier don't do this on Big Sur
 #endif
     {
         if (gIsCatalina) {
@@ -266,22 +284,22 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             }
 
             ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
-            
+
             // try to load the version key, used to see if we have any saved settings
             mVersion = [defaults floatForKey:@"version"];
             if (!mVersion) {
                 // no previous settings so define our defaults
                 gGoToBlank = NO;
                 gBlankingTime = 1;
-                
+
                 // write out the defaults
                 [ defaults setInteger:gGoToBlank forKey:@"GoToBlank" ];
                 [ defaults setInteger:gBlankingTime forKey:@"BlankingTime" ];
             }
-            
+
             if (mVersion < 2) {
                 mVersion = 2;
-            
+
                 [ defaults setInteger:mVersion forKey:@"version" ];
                 period = getGFXDefaultPeriod() / 60;
                 [ defaults setInteger:period forKey:@"DefaultPeriod" ];
@@ -289,7 +307,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
                 [ defaults setInteger:period forKey:@"SciencePeriod" ];
                 period = getGGFXChangePeriod() / 60;
                 [ defaults setInteger:period forKey:@"ChangePeriod" ];
-                
+
                 // synchronize
                 [defaults synchronize];
             }
@@ -307,40 +325,40 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
            [ self setAutoresizesSubviews:YES ];	// make sure the subview resizes.
         }
     }
-    
+
     // Path to our copy of switcher utility application in this screensaver bundle
     if (gPathToBundleResources == NULL) {
         gPathToBundleResources = [ myBundle resourcePath ];
     }
-    
+
     return self;
 }
 
-// If there are multiple displays, this may get called 
-// multiple times (once for each display), so we need to guard 
+// If there are multiple displays, this may get called
+// multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 - (void)startAnimation {
     int newFrequency;
 
     gEventHandle = NXOpenEventStatus();
-    
+
     mainThreadID = pthread_self();
 
     // Under OS 10.14 Mojave, [super drawRect:] is slow but not needed if we do this:
     [[self window] setBackgroundColor:[NSColor blackColor]];
 
-    if (gBOINC_Logo == NULL) {    
+    if (gBOINC_Logo == NULL) {
         NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc_ss_logo" ];
         if (! fileName) {
             // What should we do in this case?
             return;
         }
-        
+
         gBOINC_Logo = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
         gMovingRect.origin.x = 0.0;
         gMovingRect.origin.y = 0.0;
         gMovingRect.size = [gBOINC_Logo size];
-        
+
         if (gMovingRect.size.width < TEXTBOXMINWIDTH) {
             gImageXIndent = (TEXTBOXMINWIDTH - gMovingRect.size.width) / 2;
             gMovingRect.size.width = TEXTBOXMINWIDTH;
@@ -353,9 +371,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
         gCurrentDelta.x = 1.0;
         gCurrentDelta.y = 1.0;
-        
-        gActualTextBoxHeight = MINTEXTBOXHEIGHT;
-        
+
         [ self setAnimationTimeInterval:1/8.0 ];
     }
 
@@ -365,10 +381,10 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         [ self setAnimationTimeInterval:1.0/8.0 ];
         return;
     }
-    
+
     NSWindow *myWindow = [ self window ];
 #if DEBUG_UNDER_XCODE
-    [ myWindow setLevel:2030 ]; 
+    [ myWindow setLevel:2030 ];
 #else   // NOT DEBUG_UNDER_XCODE
     NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x == 0) && (windowFrame.origin.y == 0) )   // Main screen
@@ -376,13 +392,13 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     {
         // If a dual-GPU MacBook Pro was using integrated GPU, switching to discrete GPU will
         // cause ScreenSaverEngine to call stopAnimation, initWithFrame and startAnimation.
-        // This will destroy the old ScreenSaverView and create a new one, so we need to 
+        // This will destroy the old ScreenSaverView and create a new one, so we need to
         // pass our new ScreenSaverView to our SharedGraphicsController.
         if (mySharedGraphicsController) {
             [mySharedGraphicsController init:self];
         }
 
-        newFrequency = startBOINCSaver();  
+        newFrequency = startBOINCSaver();
         if (newFrequency) {
             [ self setAnimationTimeInterval:1.0/newFrequency ];
         }
@@ -390,8 +406,8 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gSS_StartTime = getDTime();
 }
 
-// If there are multiple displays, this may get called 
-// multiple times (once for each display), so we need to guard 
+// If there are multiple displays, this may get called
+// multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 - (void)stopAnimation {
     [ super stopAnimation ];
@@ -406,27 +422,33 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     if (imageView) {
         useCGWindowList = false;
         // removeFromSuperview must be called from main thread
-        [imageView removeFromSuperview];   // Releases imageView
+        if (NSThread.isMainThread) {
+            [imageView removeFromSuperview];   // Releases imageView
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [imageView removeFromSuperview];   // Releases imageView
+            });
+        }
         imageView = nil;
     }
 
     if (!myIsPreview) {
         closeBOINCSaver();
     }
- 
+
     gTopWindowListIndex = -1;
-    
+
 //    if (gBOINC_Logo) {
 //        [ gBOINC_Logo release ];
 //    }
     gBOINC_Logo = NULL;
-    
+
     // gPathToBundleResources has been released by autorelease
     gPathToBundleResources = NULL;
 }
 
-// If there are multiple displays, this may get called 
-// multiple times (once for each display), so we need to guard 
+// If there are multiple displays, this may get called
+// multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 - (void)drawRect:(NSRect)rect {
 //  optionally draw here
@@ -437,8 +459,8 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     }
 }
 
-// If there are multiple displays, this may get called 
-// multiple times (once for each display), so we need to guard 
+// If there are multiple displays, this may get called
+// multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 - (void)doPeriodicTasks {
     int newFrequency = 0;
@@ -447,11 +469,31 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     NSUInteger n;
     double maxWaitTime;
     NSRect currentDrawingRect, eraseRect;
+    CGFloat actualTextBoxHeight = MINTEXTBOXHEIGHT;
     NSPoint imagePosition;
     char *msg;
     CFStringRef cf_msg;
     double timeToBlock, frameStartTime = getDTime();
     HIThemeTextInfo textInfo;
+
+    NSWindow *myWindow = [ self window ];
+    NSRect windowFrame = [ myWindow frame ];
+
+    if (gIsSonoma) {
+        // Under MacOS 14 Sonoma, screensavers continue to run and "draw" invisibly
+        // after they are dismissed by user activity, to allow them to be used as
+        // wallpaper. Since we don't want the BOINC screensaver to be used as wallpaper,
+        // this would waste system resources.
+        // The only way I've found to determine that the screensaver has been dismissed
+        // by the user is this test of the window level.
+        if ((windowFrame.size.width > 500.) && (windowFrame.size.height > 500.)) {
+            if ([ [ self window ] level ] == 0) {
+//TODO: more cleanup as in stopAnimation ??
+                closeBOINCSaver();
+                return;
+            }
+        }
+    }
 
    if (myIsPreview) {
 #if 1   // Currently drawRect just draws our logo in the preview window
@@ -468,13 +510,11 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         [ self setAnimationTimeInterval:1/1.0 ];
 #else   // Code for possible future use if we want to draw more in preview
         myContext = [[NSGraphicsContext currentContext] graphicsPort];
-        drawPreview(myContext);        
+        drawPreview(myContext);
         [ self setAnimationTimeInterval:1/30.0 ];
 #endif
         return;
     }
-
-    NSWindow *myWindow = [ self window ];
 
 #if ! DEBUG_UNDER_XCODE
     // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
@@ -489,7 +529,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         }
     }
 
-    NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
 #ifdef _DEBUG
@@ -544,15 +583,15 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         //
         if (childApp) {
              if (![ childApp activateWithOptions:NSApplicationActivateIgnoringOtherApps ]) {
-                launchedGfxApp("", 0, -1);  // Graphics app is no longer running
+                launchedGfxApp("", "", 0, -1);  // Graphics app is no longer running
              } else if (useCGWindowList) {
                 // As a safety precaution, prevent terminating gfx app while copying its window
                 pthread_mutex_lock(&saver_mutex);
 
                 // terminate_v6_screensaver may have removed imageView via launchedGfxApp("", 0, -1)
                 //
-                // CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy 
-                // windows between user boinc_project and the user running the 
+                // CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy
+                // windows between user boinc_project and the user running the
                 // screensaver only if OS < 10.15 (before Catalina)
                 //
                 if (imageView) {
@@ -574,10 +613,10 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
                 pthread_mutex_unlock(&saver_mutex);
             }
         }
-        
+
         isErased = false;
         if (IsDualGPUMacbook) {
-            // Check once per second for change in status of running on battery 
+            // Check once per second for change in status of running on battery
             double timeNow = getDTime();
             if ((timeNow - lastGetSSMsgTime) >= 1.0) {
                 getSSMessage(&msg, &coveredFreq);
@@ -586,13 +625,19 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             windowIsCovered();
             [ self setAnimationTimeInterval:1.0 ];
         }
-        
+
         return;
     }
 
     if (imageView && !useCGWindowList) {
         // removeFromSuperview must be called from main thread
-        [imageView removeFromSuperview];   // Releases imageView
+        if (NSThread.isMainThread) {
+            [imageView removeFromSuperview];   // Releases imageView
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [imageView removeFromSuperview];   // Releases imageView
+            });
+        }
         imageView = nil;
     }
 
@@ -603,8 +648,8 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     if (UseSharedOffscreenBuffer()) {
         // If runningSharedGraphics is still false after MAXWAITFORCONNECTION,
         // assume the graphics app has not been built with MachO comunication
-        // and IOSurfaceBuffer support, so try to use CGWindowListCreateImage 
-        // method. If that fails MAX_CGWINDOWLIST_TRIES times then assume 
+        // and IOSurfaceBuffer support, so try to use CGWindowListCreateImage
+        // method. If that fails MAX_CGWINDOWLIST_TRIES times then assume
         // the graphics app is not compatible with OS 10.13+ and kill it.
         //
         // taskSlot<0 if no worker app is running, so launching default graphics
@@ -612,16 +657,26 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             maxWaitTime = gIsCatalina ? MAXWAITFORCONNECTIONCATALINA : MAXWAITFORCONNECTION;
             if ((getDTime() - gfxAppStartTime) > maxWaitTime) {
                 if (gIsCatalina) {
-                    // CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy 
-                    // windows between user boinc_project and the user running the 
+                    if (gMach_bootstrap_unavailable_to_screensavers) {
+                        // Is the gfx app built with a new enough BOINC graphics library version?
+                        if (compareBOINCLibVersionTo(MAJORBOINCGFXLIBNEEDEDFORSONOMA, MINORBOINCGFXLIBNEEDEDFORSONOMA, RELEASEBOINCGFXLIBNEEDEDFORSONOMA) >= 0) {
+                            runningSharedGraphics = true;
+                            if (childPid) {
+                                gfxAppStartTime = 0.0;
+                                childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+                            }
+                        }
+                    }
+                    // CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy
+                    // windows between user boinc_project and the user running the
                     // screensaver only if OS < 10.15 (before Catalina)
-                    incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                    incompatibleGfxApp(gfxAppPath, gfxWuName, childPid, taskSlot);
                 } else {
                     if (++CGWindowListTries > MAX_CGWINDOWLIST_TRIES) {
                         // After displaying message for 5 seconds, incompatibleGfxApp
-                        // will call launchedGfxApp("", 0, -1) which will clear 
+                        // will call launchedGfxApp("", 0, -1) which will clear
                         // gfxAppStartTime and CGWindowListTries
-                        incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                        incompatibleGfxApp(gfxAppPath, gfxWuName, childPid, taskSlot);
                     } else {
                         if ([self setUpToUseCGWindowList]) {
                             CGWindowListTries = 0;
@@ -678,9 +733,9 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             }
         }
     }
-    
+
     // Draw our moving BOINC logo and screensaver status text
-    
+
     // Clear the previous drawing area
     currentDrawingRect = gMovingRect;
     currentDrawingRect.origin.x = (float) ((int)gCurrentPosition.x);
@@ -688,40 +743,28 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
     if ( (msg != NULL) && (msg[0] != '\0') ) {
 
-        // Set direction of motion to "bounce" off edges of screen
-       if (currentDrawingRect.origin.x <= SAFETYBORDER) {
-            gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
-        }
-        if ( (currentDrawingRect.origin.x + currentDrawingRect.size.width) >= 
-                    (viewBounds.origin.x + viewBounds.size.width - SAFETYBORDER) ) {
-            gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
-        }
-        if (currentDrawingRect.origin.y + gTextBoxHeight - gActualTextBoxHeight <= SAFETYBORDER) {
-            gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-        }
-        if ( (currentDrawingRect.origin.y + currentDrawingRect.size.height) >= 
-                   (viewBounds.origin.y + viewBounds.size.height - SAFETYBORDER) ) {
-            gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-        }
-#if 0
-        // For testing
-        gCurrentDelta.x = 0;
-        gCurrentDelta.y = 0;
-#endif
+        cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+
+        CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+        HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont,
+                    kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop,
+                    kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                    0, myFont
+                    };
+        textInfo = theTextInfo;
+
+        HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &actualTextBoxHeight, NULL);
+        gTextBoxHeight = actualTextBoxHeight + TEXTBOXTOPBORDER;
 
         if (!isErased) {
             [[NSColor blackColor] set];
-            
+
             // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
             imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
             imagePosition.y = (float) (int)gCurrentPosition.y;
             eraseRect.origin.y = imagePosition.y;
             eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
-            
+
             if (gCurrentDelta.x > 0) {
                 eraseRect.origin.x = imagePosition.x - 1;
                 eraseRect.size.width = gCurrentDelta.x + 1;
@@ -729,10 +772,10 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
                 eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
                 eraseRect.size.width = -gCurrentDelta.x + 1;
             }
-            
+
             eraseRect = NSInsetRect(eraseRect, -1, -1);
             NSRectFill(eraseRect);
-            
+
             eraseRect.origin.x = imagePosition.x;
             eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
 
@@ -745,93 +788,107 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             }
             eraseRect = NSInsetRect(eraseRect, -1, -1);
             NSRectFill(eraseRect);
-            
+
             eraseRect = currentDrawingRect;
             eraseRect.size.height = gTextBoxHeight;
             eraseRect = NSInsetRect(eraseRect, -1, -1);
             NSRectFill(eraseRect);
 
-            isErased  = true;
+            isErased = true;
+           // If text has changed and it now goes below bottom of screen, jump up to show it all.
+            if ((gCurrentPosition.y - gTextBoxHeight) <= SAFETYBORDER) {
+                gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
+                if (gCurrentDelta.y < 0) {
+                    gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                }
+            }
+
+            // Set direction of motion to "bounce" off edges of screen
+           if ( (gCurrentDelta.x < 0) && (gCurrentPosition.x <= SAFETYBORDER) ) {
+                gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+            }
+            if ( (gCurrentDelta.x > 0) && ( (gCurrentPosition.x + gMovingRect.size.width) >=
+                        (viewBounds.origin.x + viewBounds.size.width - SAFETYBORDER) ) ){
+                gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+            }
+            if ( (gCurrentDelta.y < 0) && (gCurrentPosition.y - gTextBoxHeight <= SAFETYBORDER) ) {
+                gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+            }
+            if ( (gCurrentDelta.y > 0) && ( (gCurrentPosition.y + gMovingRect.size.height) >=
+                       (viewBounds.origin.y + viewBounds.size.height - SAFETYBORDER) ) ) {
+                gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+            }
         }
 
         // Get the new drawing area
         gCurrentPosition.x += gCurrentDelta.x;
         gCurrentPosition.y += gCurrentDelta.y;
-        
+
         imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
         imagePosition.y = (float) (int)gCurrentPosition.y;
 
         [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
+#if 0
+    // For testing
+    gCurrentDelta.x = 0;
+    gCurrentDelta.y = 0;
+#endif
+        CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x),
+                             viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
+                             gMovingRect.size.width,
+                             MAXTEXTBOXHEIGHT
+                        );
 
-        if ( (msg != NULL) && (msg[0] != '\0') ) {
-            cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+        CGContextSaveGState (myContext);
+        CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
+        CGContextScaleCTM (myContext, 1.0f, -1.0f);
 
-            CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x), 
-                                 viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
-                                 gMovingRect.size.width,
-                                 MAXTEXTBOXHEIGHT
-                            );
+        CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
+        CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
+        CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
 
-            CGContextSaveGState (myContext);
-            CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
-            CGContextScaleCTM (myContext, 1.0f, -1.0f);
+        CGContextSetFillColorWithColor(myContext, myTextColor);
 
-            CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+        HIThemeDrawTextBox(cf_msg, &bounds, &textInfo, myContext, kHIThemeOrientationNormal);
 
-            HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
-                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
-                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
-                        0, myFont
-                        };
-            textInfo = theTextInfo;
+        CGColorRelease(myTextColor);
+        CGColorSpaceRelease(myColorSpace);
+        CGContextRestoreGState (myContext);
+        CFRelease(cf_msg);
 
-            HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &gActualTextBoxHeight, NULL);
-            gActualTextBoxHeight += TEXTBOXTOPBORDER;
-            
-            CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
-            CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
-            CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
-
-            CGContextSetFillColorWithColor(myContext, myTextColor);
-
-            HIThemeDrawTextBox(cf_msg, &bounds, &textInfo, myContext, kHIThemeOrientationNormal);
-
-            CGColorRelease(myTextColor);
-            CGColorSpaceRelease(myColorSpace);
-            CGContextRestoreGState (myContext);
-            CFRelease(cf_msg);
-        }
-        
-        gTextBoxHeight = MAXTEXTBOXHEIGHT + TEXTBOXTOPBORDER;
-        gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
-        
         isErased  = false;
-        
+
     } else {        // Empty or NULL message
         if (!isErased) {
             eraseRect = NSInsetRect(currentDrawingRect, -1, -1);
             [[NSColor blackColor] set];
             isErased  = true;
             NSRectFill(eraseRect);
-            gTextBoxHeight = MAXTEXTBOXHEIGHT;
             gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
         }
     }
-    
+
     if (newFrequency) {
         [ self setAnimationTimeInterval:(1.0/newFrequency) ];
-        // setAnimationTimeInterval does not seem to be working, so we 
+        // setAnimationTimeInterval does not seem to be working, so we
         // throttle the screensaver directly here.
         timeToBlock = (1.0/newFrequency) - (getDTime() - frameStartTime);
         if (timeToBlock > 0.0) {
             doBoinc_Sleep(timeToBlock);
         }
     }
-    
+
     // Check for a new graphics app sending us data
     if (UseSharedOffscreenBuffer() && gfxAppStartTime) {
         if (mySharedGraphicsController) {
-            [mySharedGraphicsController testConnection];
+            if (!runningSharedGraphics) {
+                // wait for a connection from a gfx app
+                [mySharedGraphicsController testConnection];
+            }
         }
     }
 }
@@ -839,7 +896,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 - (void)animateOneFrame {
 #if ! DEBUG_UNDER_XCODE
-    if (!myIsPreview) {    
+    if (!myIsPreview) {
         NSRect windowFrame = [ [ self window ] frame ];
         if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
             return;         // We draw only to main screen
@@ -867,7 +924,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 	// if we haven't loaded our configure sheet, load the nib named MyScreenSaver.nib
 	if (!mConfigureSheet) {
         if ([[ NSBundle bundleForClass:[ self class ]] respondsToSelector: @selector(loadNibNamed: owner: topLevelObjects:)]) {
-        
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-method-access"
             // [NSBundle loadNibNamed: owner: topLevelObjects:] is not available before OS 10.8
@@ -889,19 +946,19 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
     mBlankingTimeString = [[ NSString alloc ] initWithFormat:@"%d", gBlankingTime ];
 	[ mBlankingTimeTextField setStringValue:mBlankingTimeString ];
-    
+
     period = getGFXDefaultPeriod() / 60;
     mDefaultPeriodString = [[ NSString alloc ] initWithFormat:@"%d", period ];
 	[ mDefaultPeriodTextField setStringValue:mDefaultPeriodString ];
-    
+
     period = getGFXSciencePeriod() / 60;
     mSciencePeriodString = [[ NSString alloc ] initWithFormat:@"%d", period ];
 	[ mSciencePeriodTextField setStringValue:mSciencePeriodString ];
-    
+
     period = getGGFXChangePeriod() / 60;
     mChangePeriodString = [[ NSString alloc ] initWithFormat:@"%d", period ];
 	[ mChangePeriodTextField setStringValue:mChangePeriodString ];
-    
+
 	return mConfigureSheet;
 }
 
@@ -909,9 +966,9 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 - (IBAction) closeSheetSave:(id) sender
 {
     int period = 0;
-    
+
     NSScanner *scanner, *scanner2;
-    
+
     // get the defaults
 	ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
 
@@ -945,7 +1002,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGGFXChangePeriod((double)(period * 60));
-	
+
 	// write the defaults
 	[ defaults setInteger:gGoToBlank forKey:@"GoToBlank" ];
 	[ defaults setInteger:gBlankingTime forKey:@"BlankingTime" ];
@@ -955,7 +1012,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     [ defaults setInteger:period forKey:@"SciencePeriod" ];
     period = getGGFXChangePeriod() / 60;
     [ defaults setInteger:period forKey:@"ChangePeriod" ];
-	
+
 	// synchronize
     [ defaults synchronize ];
 
@@ -968,7 +1025,7 @@ Bad:
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];
-    
+
     if ([alert respondsToSelector: @selector(beginSheetModalForWindow: completionHandler:)]){
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-method-access"
@@ -996,8 +1053,8 @@ Bad:
 
 // Find the gtaphics app's window number (window ID)
 //
-// CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy 
-// windows between user boinc_project and the user running the 
+// CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy
+// windows between user boinc_project and the user running the
 // screensaver only if OS < 10.15 (before Catalina)
 //
 - (bool) setUpToUseCGWindowList
@@ -1041,16 +1098,16 @@ int IOSurfaceHeight;
 {
 	NSMachPort *serverPort;
 	NSMachPort *localPort;
-    
+
 	uint32_t serverPortName;
 	uint32_t localPortName;
-    
+
 	int32_t clientIndex;
 	uint32_t nextFrameIndex;
-	
+
     NSView *screenSaverView;
     saverOpenGLView *openGLView;
-    
+
 	IOSurfaceRef _ioSurfaceBuffers[NUM_IOSURFACE_BUFFERS];
     mach_port_t _ioSurfaceMachPorts[NUM_IOSURFACE_BUFFERS];
 	GLuint _textureNames[NUM_IOSURFACE_BUFFERS];
@@ -1063,16 +1120,18 @@ static bool okToDraw;
 
 - (void)init:(NSView*)saverView {
     screenSaverView = saverView;
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
         name:NSPortDidBecomeInvalidNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-        selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
-    
+
     openGLView = nil;
-    
+
     [self testConnection];
+
+    if (! gMach_bootstrap_unavailable_to_screensavers)  {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
+    }
 }
 
 
@@ -1080,110 +1139,168 @@ static bool okToDraw;
 {
     mach_port_t servicePortNum = MACH_PORT_NULL;
     kern_return_t machErr;
-    char *portName = "edu.berkeley.boincsaver";
-    
-	// Try to check in with master.
+    char *portNameV1 = "edu.berkeley.boincsaver";
+    char *portNameV2 = "edu.berkeley.boincsaver-v2";
+
+    if ((!gMach_bootstrap_unavailable_to_screensavers) || (serverPort == MACH_PORT_NULL)) {
+       // Try to check in with master.
 // NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_look_up
 //	serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] portForName:@"edu.berkeley.boincsaver"]) retain];
-	machErr = bootstrap_look_up(bootstrap_port, portName, &servicePortNum);
-    if (machErr == KERN_SUCCESS) {
-        serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
-    } else {
-        serverPort = MACH_PORT_NULL;
+        machErr = bootstrap_look_up(bootstrap_port, portNameV1, &servicePortNum);
+        if (machErr != KERN_SUCCESS) {
+            if (machErr != BOOTSTRAP_NOT_PRIVILEGED) {
+            //  bootstrap_look_up() returned error other than BOOTSTRAP_NOT_PRIVILEGED
+            // machErr is probably BOOTSTRAP_UNKNOWN_SERVICE because no gfx app is running
+            // Keep trying bootstrap_look_up() until we get a connection from gfx app
+            serverPort = MACH_PORT_NULL;
+            } else {    //  bootstrap_look_up() returned error BOOTSTRAP_NOT_PRIVILEGED
+                // As of MacOS 14.0, the legacyScreenSave sandbox prevents using
+                // bootstrap_look_up. I have filed bug report FB13300491 with
+                // Apple and hope they will change this in a future MacOS.
+                machErr = bootstrap_check_in(bootstrap_port, portNameV2, &servicePortNum);
+                if (machErr != KERN_SUCCESS) {
+                    [NSApp terminate:nil];
+                }
+                gMach_bootstrap_unavailable_to_screensavers = true;
+            }   //  bootstrap_look_up() returned error BOOTSTRAP_NOT_PRIVILEGED
+        }   // bootstrap_look_up() did not return KERN_SUCCESS
+
+         if (machErr == KERN_SUCCESS) {
+           serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
+        }
+
+        if ((serverPort != MACH_PORT_NULL) && (localPort == MACH_PORT_NULL)) {
+            // Retrieve raw mach port names.
+            serverPortName = [serverPort machPort];
+
+            if (gMach_bootstrap_unavailable_to_screensavers) {
+               // Register server port with the current runloop.
+                [serverPort setDelegate:self];
+                [serverPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+            } else {    // (! gMach_bootstrap_unavailable_to_screensavers)
+                // Create our own local port.
+                localPort = [[NSMachPort alloc] init];
+                localPortName  = [localPort machPort];
+                // Register our local port with the current runloop.
+                [localPort setDelegate:self];
+                [localPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+
+                // Check in with server.
+                int kr;
+                kr = _MGCCheckinClient(serverPortName, localPortName, &clientIndex);
+                if(kr != 0) {
+                    [NSApp terminate:nil];
+                }
+
+                runningSharedGraphics = true;
+
+                if (childPid) {
+                    gfxAppStartTime = 0.0;
+                    childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+                }
+            }   // (! gMach_bootstrap_unavailable_to_screensavers)
+        }   // ((serverPort != MACH_PORT_NULL) && (localPort == MACH_PORT_NULL))
+    }   // ((!gMach_bootstrap_unavailable_to_screensavers) || (serverPort == MACH_PORT_NULL))
+}
+
+
+- (void)cleanUpOpenGL
+{
+    if (gMach_bootstrap_unavailable_to_screensavers) {
+        [serverPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    }
+    childPid=0;
+    childApp = nil;
+
+    if (gMach_bootstrap_unavailable_to_screensavers ||
+            ((serverPort == MACH_PORT_NULL) && (localPort == MACH_PORT_NULL))
+            ) {
+        if (openGLView) {
+            if (NSThread.isMainThread) {
+                [openGLView removeFromSuperview];   // Releases openGLView
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [openGLView removeFromSuperview];   // Releases openGLView
+                });
+            }
+            openGLView = nil;
+        }
+
+    int i;
+    for(i = 0; i < NUM_IOSURFACE_BUFFERS; i++) {
+        if (_ioSurfaceBuffers[i]) {
+            CFRelease(_ioSurfaceBuffers[i]);
+            _ioSurfaceBuffers[i] = nil;
+        }
+
+        // if (glIsTexture(_textureNames[i])) {
+            // glDeleteTextures(1, _textureNames[i]);
+        // }
+        _textureNames[i] = 0;
+
+        if (_ioSurfaceMachPorts[i] != MACH_PORT_NULL) {
+            mach_port_deallocate(mach_task_self(), _ioSurfaceMachPorts[i]);
+            _ioSurfaceMachPorts[i] = MACH_PORT_NULL;
+        }
     }
 
-	if(serverPort != MACH_PORT_NULL)
-	{
-		// Create our own local port.
-		localPort = [[NSMachPort alloc] init];
-		
-		// Retrieve raw mach port names.
-		serverPortName = [serverPort machPort];
-		localPortName  = [localPort machPort];
-		
-		// Register our local port with the current runloop.
-		[localPort setDelegate:self];
-		[localPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-		 
-		// Check in with server.
-		int kr;
-		kr = _MGCCheckinClient(serverPortName, localPortName, &clientIndex);
-		if(kr != 0)
-			[NSApp terminate:nil];
-
-        runningSharedGraphics = true;
-
-        if (childPid) {
-            gfxAppStartTime = 0.0;
-            childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+        runningSharedGraphics = false;  // Do this last!!
+        if (gMach_bootstrap_unavailable_to_screensavers) {
+            [serverPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         }
     }
 }
 
 - (void)portDied:(NSNotification *)notification
 {
+    if (gMach_bootstrap_unavailable_to_screensavers) {
+        return; // This should never be called if using MacOS 14 workaround
+    }
 	NSPort *port = [notification object];
 	if(port == serverPort) {
         childApp = nil;
         gfxAppStartTime = 0.0;
         gfxAppPath[0] = '\0';
+        gfxWuName[0] = '\0';
 
         if ([serverPort isValid]) {
             [serverPort invalidate];
 //            [serverPort release];
         }
-        serverPort = nil;
+        serverPort = MACH_PORT_NULL;
 		[localPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 
         if ([localPort isValid]) {
             [localPort invalidate];
         }
 //        [localPort release];
-        localPort = nil;
+        localPort = MACH_PORT_NULL;
 
-        int i;
-        for(i = 0; i < NUM_IOSURFACE_BUFFERS; i++) {
-            if (_ioSurfaceBuffers[i]) {
-                CFRelease(_ioSurfaceBuffers[i]);
-                _ioSurfaceBuffers[i] = nil;
-            }
-
-            // if (glIsTexture(_textureNames[i])) {
-                // glDeleteTextures(1, _textureNames[i]);
-            // }
-            _textureNames[i] = 0;
-            
-            if (_ioSurfaceMachPorts[i] != MACH_PORT_NULL) {
-                mach_port_deallocate(mach_task_self(), _ioSurfaceMachPorts[i]);
-                _ioSurfaceMachPorts[i] = MACH_PORT_NULL;
-            }
-        }
-
-        if ((serverPort == nil) && (localPort == nil)) {
-            runningSharedGraphics = false;
-            [openGLView removeFromSuperview];   // Releases openGLView
-            openGLView = nil;
-        }
+        [ self cleanUpOpenGL ];
 	}
 }
+
 - (void)handleMachMessage:(void *)msg
 {
 	union __ReplyUnion___MGCMGSServer_subsystem reply;
-	
+
 	mach_msg_header_t *reply_header = (void *)&reply;
 	kern_return_t kr;
-	
+
 	if(MGSServer_server(msg, reply_header) && reply_header->msgh_remote_port != MACH_PORT_NULL)
 	{
-		kr = mach_msg(reply_header, MACH_SEND_MSG, reply_header->msgh_size, 0, MACH_PORT_NULL, 
+		kr = mach_msg(reply_header, MACH_SEND_MSG, reply_header->msgh_size, 0, MACH_PORT_NULL,
 			     0, MACH_PORT_NULL);
-        if(kr != 0)
+        if(kr != 0) {
 			[NSApp terminate:nil];
+        }
 	}
 }
 
 - (kern_return_t)displayFrame:(int32_t)frameIndex surfacemachport:(mach_port_t)iosurface_port
 {
+    if (!childPid) return 0;
+
 	nextFrameIndex = frameIndex;
 
 	if(!_ioSurfaceBuffers[frameIndex])
@@ -1200,7 +1317,7 @@ static bool okToDraw;
         theframe.origin.x = theframe.origin.y = 0.0;
         theframe.size.width = IOSurfaceWidth;
         theframe.size.height = IOSurfaceHeight;
-        
+
         openGLView = [[saverOpenGLView alloc] initWithFrame:theframe];
         [screenSaverView addSubview:openGLView];
     }
@@ -1210,11 +1327,21 @@ static bool okToDraw;
 		_textureNames[frameIndex] = [openGLView setupIOSurfaceTexture:_ioSurfaceBuffers[frameIndex]];
     }
 
-    okToDraw = true;    // Tell drawRect that we have real data to display
+    if (openGLView) {
+        okToDraw = true;    // Tell drawRect that we have real data to display
 
-	[openGLView setNeedsDisplay:YES];
-	[openGLView display];
+        [openGLView setNeedsDisplay:YES];
+        [openGLView display];
+    }
 
+    if (gMach_bootstrap_unavailable_to_screensavers && (runningSharedGraphics == false)) {
+        // We have now heard from gfx app so connection has been established
+        runningSharedGraphics = true;
+        if (childPid) {
+            gfxAppStartTime = 0.0;
+            childApp = [NSRunningApplication runningApplicationWithProcessIdentifier:childPid];
+        }
+    }
 	return 0;
 }
 
@@ -1254,8 +1381,9 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
     NSOpenGLPixelFormat *pix_fmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];
 
-    if(!pix_fmt)
+    if(!pix_fmt) {
        [ NSApp terminate:nil];
+    }
 
 	self = [super initWithFrame:frame pixelFormat:pix_fmt];
 
@@ -1288,7 +1416,7 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 	CGLContextObj cgl_ctx = (CGLContextObj)[[self openGLContext] CGLContextObj];
 
 	glGenTextures(1, &name);
-    
+
 	glBindTexture(GL_TEXTURE_RECTANGLE, name);
     // At the moment, CGLTexImageIOSurface2D requires the GL_TEXTURE_RECTANGLE target
 	CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE, GL_RGBA, (GLsizei)self.bounds.size.width, (GLsizei)self.bounds.size.height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
@@ -1297,7 +1425,7 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 	glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);	
+	glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	return name;
 }
@@ -1325,10 +1453,10 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
     glPushMatrix();
     glLoadMatrixf(quad);
     glMatrixMode(saveMatrixMode);
-    
+
     glBindTexture(GL_TEXTURE_RECTANGLE, [mySharedGraphicsController currentTextureName]);
     glEnable(GL_TEXTURE_RECTANGLE);
-    
+
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	//Draw textured quad
@@ -1342,9 +1470,9 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 		glTexCoord2f(0.0, 1.0);
 		glVertex3f(-1.0, 1.0, 0.0);
 	glEnd();
-    
+
 		glDisable(GL_TEXTURE_RECTANGLE);
-		
+
 		glGetIntegerv(GL_MATRIX_MODE, &saveMatrixMode);
 		glMatrixMode(GL_TEXTURE);
 		glPopMatrix();
@@ -1352,20 +1480,20 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
 }
 
-// OpenGL / GLUT apps which call glutFullScreen() and are built using 
-// Xcode 11 apparently use window dimensions based on the number of 
-// backing store pixels. That is, they double the window dimensions 
-// for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+// OpenGL / GLUT apps which call glutFullScreen() and are built using
+// Xcode 11 apparently use window dimensions based on the number of
+// backing store pixels. That is, they double the window dimensions
+// for Retina displays (which have 2X2 pixels per point.) But OpenGL
 // apps built under earlier versions of Xcode don't.
 //
-// OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
-// Xcode 11, so it displays older builds at half width and height, 
-// unless we compensate in our code. 
+// OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under
+// Xcode 11, so it displays older builds at half width and height,
+// unless we compensate in our code.
 //
-// To ensure that BOINC graphics apps built on all versions of Xcode work 
-// properly on different versions of OS X, we set the IOSurface dimensions 
-// in this module to double the screen dimensions when running under 
-// OS 10.15 or later. 
+// To ensure that BOINC graphics apps built on all versions of Xcode work
+// properly on different versions of OS X, we set the IOSurface dimensions
+// in this module to double the screen dimensions when running under
+// OS 10.15 or later.
 //
 // See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
 //

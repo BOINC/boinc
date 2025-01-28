@@ -16,15 +16,27 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Command-line program for creating jobs (workunits).
-// Used directly for local job submission;
+// Use directly for local job submission;
 // run from PHP script for remote job submission.
 //
-// see http://boinc.berkeley.edu/trac/wiki/JobSubmission
+// see https://github.com/BOINC/boinc/wiki/JobSubmission
 //
 // This program can be used in two ways:
 // - to create a single job, with everything passed on the cmdline
 // - to create multiple jobs, where per-job info is passed via stdin,
 //      one line per job
+//      available options here:
+//      --command_line X
+//      --wu_name X
+//      --wu_template F
+//      --result_template F
+//      --remote_file url nbytes md5
+//      --target_host ID
+//      --target_user ID
+//      --priority N
+//      phys_name1 ...
+//
+// The input files must already be staged (i.e. in the download hierarchy).
 
 #include "config.h"
 
@@ -92,16 +104,16 @@ void usage() {
         "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
         "   [ --wu_name name ]              default: generate a name based on app name\n"
         "   [ --wu_template filename ]      default: appname_in\n"
-        "\nSee http://boinc.berkeley.edu/trac/wiki/JobSubmission\n"
+        "\nSee https://github.com/BOINC/boinc/wiki/JobSubmission\n"
     );
     exit(1);
 }
 
 bool arg(char** argv, int i, const char* name) {
     char buf[256];
-    sprintf(buf, "-%s", name);
+    snprintf(buf, sizeof(buf), "-%s", name);
     if (!strcmp(argv[i], buf)) return true;
-    sprintf(buf, "--%s", name);
+    snprintf(buf, sizeof(buf), "--%s", name);
     if (!strcmp(argv[i], buf)) return true;
     return false;
 }
@@ -126,7 +138,7 @@ struct JOB_DESC {
     char result_template_file[256];
     char result_template_path[MAXPATHLEN];
     vector <INFILE_DESC> infiles;
-    char* command_line;
+    char command_line[1024];
     bool assign_flag;
     bool assign_multi;
     int assign_id;
@@ -134,7 +146,7 @@ struct JOB_DESC {
 
     JOB_DESC() {
         wu.clear();
-        command_line = NULL;
+        strcpy(command_line, "");
         assign_flag = false;
         assign_multi = false;
         strcpy(wu_template_file, "");
@@ -160,15 +172,19 @@ struct JOB_DESC {
 
     }
     void create();
-    void parse_cmdline(int, char**);
+    void parse_stdin_line(int, char**);
 };
 
 // parse additional job-specific info when using --stdin
 //
-void JOB_DESC::parse_cmdline(int argc, char** argv) {
+void JOB_DESC::parse_stdin_line(int argc, char** argv) {
     for (int i=0; i<argc; i++) {
         if (arg(argv, i, (char*)"command_line")) {
-            command_line = argv[++i];
+            // concatenate per-job args to main args
+            if (strlen(command_line)) {
+                strcat(command_line, " ");
+            }
+            strcat(command_line, argv[++i]);
         } else if (arg(argv, i, (char*)"wu_name")) {
             safe_strcpy(wu.name, argv[++i]);
         } else if (arg(argv, i, (char*)"wu_template")) {
@@ -299,7 +315,7 @@ int main(int argc, char** argv) {
         } else if (arg(argv, i, "opaque")) {
             jd.wu.opaque = atoi(argv[++i]);
         } else if (arg(argv, i, "command_line")) {
-            jd.command_line= argv[++i];
+            strcpy(jd.command_line, argv[++i]);
         } else if (arg(argv, i, "wu_id")) {
             jd.wu.id = atoi(argv[++i]);
         } else if (arg(argv, i, "broadcast")) {
@@ -368,13 +384,13 @@ int main(int argc, char** argv) {
         usage();
     }
     if (!strlen(jd.wu.name)) {
-        sprintf(jd.wu.name, "%s_%d_%f", app.name, getpid(), dtime());
+        snprintf(jd.wu.name, sizeof(jd.wu.name), "%s_%d_%f", app.name, getpid(), dtime());
     }
     if (!strlen(jd.wu_template_file)) {
-        sprintf(jd.wu_template_file, "templates/%s_in", app.name);
+        snprintf(jd.wu_template_file, sizeof(jd.wu_template_file), "templates/%s_in", app.name);
     }
     if (!strlen(jd.result_template_file)) {
-        sprintf(jd.result_template_file, "templates/%s_out", app.name);
+        snprintf(jd.result_template_file, sizeof(jd.result_template_file), "templates/%s_out", app.name);
     }
 
     retval = config.parse_file(config_dir);
@@ -397,7 +413,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     boinc_db.set_isolation_level(READ_UNCOMMITTED);
-    sprintf(buf, "where name='%s'", app.name);
+    snprintf(buf, sizeof(buf), "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
         fprintf(stderr, "create_work: app not found\n");
@@ -418,6 +434,14 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
+    } else {
+        if (!use_stdin) {
+            fprintf(stderr,
+                "create_work: input template file %s doesn't exist\n",
+                jd.wu_template_file
+            );
+            exit(1);
+        }
     }
 
     jd.wu.appid = app.id;
@@ -426,10 +450,6 @@ int main(int argc, char** argv) {
     strcat(jd.result_template_path, jd.result_template_file);
 
     if (use_stdin) {
-        // clear the WU template name so we'll recognize a job-level one
-        //
-        strcpy(jd.wu_template_file, "");
-
         if (jd.assign_flag) {
             // if we're doing assignment we can't use the bulk-query method;
             // create the jobs one at a time.
@@ -443,10 +463,10 @@ int main(int argc, char** argv) {
                     // things default to what was passed on cmdline
                 strcpy(jd2.wu.name, "");
                 _argc = parse_command_line(buf, _argv);
-                jd2.parse_cmdline(_argc, _argv);
+                jd2.parse_stdin_line(_argc, _argv);
                     // get info from stdin line
                 if (!strlen(jd2.wu.name)) {
-                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                    snprintf(jd2.wu.name, sizeof(jd2.wu.name), "%s_%d", jd.wu.name, j);
                 }
                 if (strlen(jd2.wu_template_file)) {
                     get_wu_template(jd2);
@@ -468,9 +488,9 @@ int main(int argc, char** argv) {
                 JOB_DESC jd2 = jd;
                 strcpy(jd2.wu.name, "");
                 _argc = parse_command_line(buf, _argv);
-                jd2.parse_cmdline(_argc, _argv);
+                jd2.parse_stdin_line(_argc, _argv);
                 if (!strlen(jd2.wu.name)) {
-                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                    snprintf(jd2.wu.name, sizeof(jd2.wu.name), "%s_%d", jd.wu.name, j);
                 }
                 // if the stdin line specified assignment,
                 // create the job individually

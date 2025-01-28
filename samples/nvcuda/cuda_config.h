@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// See https://github.com/BOINC/boinc/wiki/GPUApp
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #ifndef CUDA_CONFIG_H_

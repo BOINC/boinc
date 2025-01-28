@@ -18,7 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // handler for output file requests from remote job submission.
-// See http://boinc.berkeley.edu/trac/wiki/RemoteJobs
+// See https://github.com/BOINC/boinc/wiki/RemoteJobs
 
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
@@ -33,7 +33,7 @@ function return_error($str) {
 function get_output_file($instance_name, $file_num, $auth_str) {
     $result = BoincResult::lookup_name(BoincDb::escape_string($instance_name));
     if (!$result) {
-        return_error("no job instance $instance_name");
+        return_error("no job instance ".htmlspecialchars($instance_name));
     }
     $workunit = BoincWorkunit::lookup_id($result->workunitid);
     if (!$workunit) {
@@ -52,7 +52,7 @@ function get_output_file($instance_name, $file_num, $auth_str) {
         return_error("bad authenticator");
     }
 
-    $names = get_outfile_names($result);
+    $names = get_outfile_phys_names($result);
     if ($file_num >= count($names)) {
         return_error("bad file num: $file_num > ".count($names));
     }
@@ -65,7 +65,7 @@ function get_output_file($instance_name, $file_num, $auth_str) {
     if (!is_file($path)) {
         return_error("no such file $path");
     }
-    do_download($path);    
+    do_download($path);
 }
 
 // get all the output files of a batch (canonical instances only)
@@ -105,7 +105,7 @@ function get_batch_output_files($auth_str) {
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);
-        $names = get_outfile_names($result);
+        $names = get_outfile_phys_names($result);
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
@@ -114,8 +114,14 @@ function get_batch_output_files($auth_str) {
             // output file may be optional; don't complain if not there
         }
     }
+    // if no output files, make empty zip file
+    //
+    if (!file_exists($zip_filename)) {
+        touch($zip_filename);
+    }
     do_download($zip_filename);
     unlink($zip_filename);
+    unlink($zip_basename);
 }
 
 // return a single output file of a WU's canonical instance
@@ -124,7 +130,7 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
     $wu_name = BoincDb::escape_string($wu_name);
     $wu = BoincWorkunit::lookup("name='$wu_name'");
     if (!$wu) {
-        return_error("no workunit $wu_name");
+        return_error("no workunit ".htmlspecialchars($wu_name));
     }
     $batch = BoincBatch::lookup_id($wu->batch);
     if (!$batch) {
@@ -140,15 +146,15 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
     if (!$wu->canonical_resultid) {
-        return_error("no canonical result for wu $wu->name");
+        return_error("no canonical result for wu ".htmlspecialchars($wu->name));
     }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
-    $names = get_outfile_names($result);
+    $names = get_outfile_phys_names($result);
     $path = dir_hier_path($names[$file_num], $upload_dir, $fanout);
     if (file_exists($path)) {
         do_download($path);
     } else {
-        return_error("no such file: $path");
+        return_error("no such file: ".htmlspecialchars($path));
     }
 }
 
@@ -168,7 +174,6 @@ function get_wu_output_files($wu_id, $auth_str) {
         return_error("no user $batch->user_id");
     }
     $x = md5($user->authenticator.$wu_id);
-    echo "user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
     if ($x != $auth_str) {
         return_error("bad authenticator");
     }
@@ -179,10 +184,10 @@ function get_wu_output_files($wu_id, $auth_str) {
     $upload_dir = parse_config(get_config(), "<upload_dir>");
 
     if (!$wu->canonical_resultid) {
-        return_error("no canonical result for wu $wu->name");
+        return_error("no canonical result for wu ".htmlspecialchars($wu->name));
     }
     $result = BoincResult::lookup_id($wu->canonical_resultid);
-    $names = get_outfile_names($result);
+    $names = get_outfile_phys_names($result);
     foreach ($names as $name) {
         $path = dir_hier_path($name, $upload_dir, $fanout);
         if (is_file($path)) {
@@ -190,6 +195,11 @@ function get_wu_output_files($wu_id, $auth_str) {
         }
         // output file may be optional; don't complain if not there
         //
+    }
+    // if no output files, make empty zip file
+    //
+    if (!file_exists($zip_filename)) {
+        touch($zip_filename);
     }
     do_download($zip_filename);
     unlink($zip_filename);

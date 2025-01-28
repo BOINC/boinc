@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,10 +23,13 @@
 #include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <errno.h>
-#include <fcntl.h> 
+#include <fcntl.h>
 #include <unistd.h>
 #include <grp.h>
+#include <pwd.h>
+#include <stdlib.h>
 #endif
 
 #include "error_numbers.h"
@@ -45,10 +48,10 @@ bool g_use_sandbox = false;
 
 #ifndef _WIN32
 
-// POSIX requires that shells run from an application will use the 
-// real UID and GID if different from the effective UID and GID.  
-// Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
-// system() invokes a shell, we can't use it to run the switcher 
+// POSIX requires that shells run from an application will use the
+// real UID and GID if different from the effective UID and GID.
+// Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since
+// system() invokes a shell, we can't use it to run the switcher
 // or setprojectgrp utilities, so we must do a fork() and execv().
 //
 int switcher_exec(const char *util_filename, const char* cmdline) {
@@ -72,7 +75,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         perror("pipe() for fds_out failed in switcher_exec");
         return ERR_PIPE;
     }
-    
+
     if (pipe(fds_err) == -1) {
         perror("pipe() for fds_err failed in switcher_exec");
         return ERR_PIPE;
@@ -101,10 +104,10 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
     // Parent only needs one-way (read) pipes so close write pipes
     close(fds_out[1]);
     close(fds_err[1]);
-    
+
     // Capture stdout output
     while (1) {
-        ssize_t count = read(fds_out[0], buffer, sizeof(buffer));
+        ssize_t count = read(fds_out[0], buffer, sizeof(buffer)-1);
         if (count == -1) {
             if (errno == EINTR) {
                 continue;
@@ -121,7 +124,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
 
     // Capture stderr output
     while (1) {
-        ssize_t count = read(fds_err[0], buffer, sizeof(buffer));
+        ssize_t count = read(fds_err[0], buffer, sizeof(buffer)-1);
         if (count == -1) {
             if (errno == EINTR) {
                 continue;
@@ -164,10 +167,10 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
 
 int kill_via_switcher(int pid) {
     char cmd[1024];
-    
+
     if (!g_use_sandbox) return 0;
 
-    // if project application is running as user boinc_project and 
+    // if project application is running as user boinc_project and
     // client is running as user boinc_master,
     // we cannot send a signal directly, so use switcher.
     //
@@ -175,17 +178,15 @@ int kill_via_switcher(int pid) {
     return switcher_exec(SWITCHER_FILE_NAME, cmd);
 }
 
-#ifndef _DEBUG
 static int lookup_group(const char* name, gid_t& gid) {
     struct group* gp = getgrnam(name);
     if (!gp) return ERR_GETGRNAM;
     gid = gp->gr_gid;
     return 0;
 }
-#endif
 
 int remove_project_owned_file_or_dir(const char* path) {
-    char cmd[1024];
+    char cmd[5120];
 
     if (g_use_sandbox) {
         snprintf(cmd, sizeof(cmd), "/bin/rm rm -fR \"%s\"", path);
@@ -201,7 +202,7 @@ int remove_project_owned_file_or_dir(const char* path) {
 int get_project_gid() {
     if (g_use_sandbox) {
 #ifdef _DEBUG
-        // GDB can't attach to applications which are running as a different user   
+        // GDB can't attach to applications which are running as a different user
         //  or group, so fix up data with current user and group during debugging
         gstate.boinc_project_gid = getegid();
 #else
@@ -211,6 +212,78 @@ int get_project_gid() {
         gstate.boinc_project_gid = 0;
     }
     return 0;
+}
+
+// Graphics apps called by screensaver or Manager (via Show
+// Graphics button) now write files in their slot directory as
+// the logged in user, not boinc_master. This ugly hack uses
+// setprojectgrp to fix all ownerships in this slot directory.
+#ifdef __APPLE__
+int fix_slot_owners(const int slot){
+    char relative_path[100];
+    char full_path[MAXPATHLEN];
+
+    if (g_use_sandbox) {
+        snprintf(relative_path, sizeof(relative_path), "slots/%d", slot);
+        realpath(relative_path, full_path);
+        fix_owners_in_directory(full_path);
+    }
+    return 0;
+}
+#else
+int fix_slot_owners(const int){
+    return 0;
+}
+#endif
+
+int fix_owners_in_directory(char* dir_path) {
+    char item_path[MAXPATHLEN];
+    char quoted_item_path[MAXPATHLEN+2];
+    DIR* dirp;
+    struct stat sbuf;
+    int retval = 0;
+    bool isDirectory = false;
+    passwd              *pw;
+    uid_t boinc_master_uid = -1;
+    uid_t boinc_project_uid = -1;
+    gid_t boinc_project_gid = -1;
+
+    pw = getpwnam(BOINC_MASTER_USER_NAME);
+    if (pw == NULL) return -1;
+    boinc_master_uid = pw->pw_uid;
+
+    pw = getpwnam(BOINC_PROJECT_USER_NAME);
+    if (pw == NULL) return -1;
+    boinc_project_uid = pw->pw_uid;
+
+    lookup_group(BOINC_PROJECT_GROUP_NAME, boinc_project_gid);
+
+    dirp = opendir(dir_path);
+    if (!dirp) return ERR_READDIR;
+    while (1) {
+        dirent* dp = readdir(dirp);
+        if (!dp) break;
+        if (dp->d_name[0] == '.') continue;
+        snprintf(item_path, sizeof(item_path), "%s/%s", dir_path, dp->d_name);
+        retval = lstat(item_path, &sbuf);
+        if (retval)
+            break;              // Should never happen
+
+        isDirectory = S_ISDIR(sbuf.st_mode);
+        if (isDirectory) {
+            fix_owners_in_directory(item_path);
+        }
+
+       if ( (sbuf.st_uid == boinc_master_uid) || (sbuf.st_uid == boinc_project_uid) ) {
+            if (sbuf.st_gid == boinc_project_gid) {
+                continue;
+            }
+        }
+        snprintf(quoted_item_path, sizeof(quoted_item_path),"\"%s\"", item_path);
+        set_to_project_group(quoted_item_path);
+    }
+    closedir(dirp);
+    return retval;
 }
 
 int set_to_project_group(const char* path) {

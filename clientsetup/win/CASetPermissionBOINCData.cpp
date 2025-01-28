@@ -28,10 +28,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CASetPermissionBOINCData::CASetPermissionBOINCData(MSIHANDLE hMSIHandle) :
@@ -40,10 +40,10 @@ CASetPermissionBOINCData::CASetPermissionBOINCData(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CASetPermissionBOINCData::~CASetPermissionBOINCData()
@@ -53,10 +53,10 @@ CASetPermissionBOINCData::~CASetPermissionBOINCData()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CASetPermissionBOINCData::OnExecution()
@@ -110,7 +110,7 @@ UINT CASetPermissionBOINCData::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -125,7 +125,7 @@ UINT CASetPermissionBOINCData::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -140,7 +140,7 @@ UINT CASetPermissionBOINCData::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -150,11 +150,11 @@ UINT CASetPermissionBOINCData::OnExecution()
     }
 
     // Create a SID for the current logged in user.
-    if(!ConvertStringSidToSid(strUserSID.c_str(), &pInstallingUserSID)) 
+    if(!ConvertStringSidToSid(strUserSID.c_str(), &pInstallingUserSID))
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -265,11 +265,11 @@ UINT CASetPermissionBOINCData::OnExecution()
 
     // Create a new ACL that contains the new ACEs.
     dwRes = SetEntriesInAcl(ulEntries, &ea[0], NULL, &pACL);
-    if (ERROR_SUCCESS != dwRes) 
+    if (ERROR_SUCCESS != dwRes)
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -277,7 +277,7 @@ UINT CASetPermissionBOINCData::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -287,7 +287,7 @@ UINT CASetPermissionBOINCData::OnExecution()
     }
 
     // Set the ACL on the Data Directory itself.
-    dwRes = SetNamedSecurityInfo( 
+    dwRes = SetNamedSecurityInfo(
         (LPWSTR)strBOINCDataDirectory.c_str(),
         SE_FILE_OBJECT,
         DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
@@ -296,11 +296,11 @@ UINT CASetPermissionBOINCData::OnExecution()
         pACL,
         NULL
     );
-    if (ERROR_SUCCESS != dwRes) 
+    if (ERROR_SUCCESS != dwRes)
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -308,7 +308,7 @@ UINT CASetPermissionBOINCData::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -321,9 +321,9 @@ UINT CASetPermissionBOINCData::OnExecution()
     RecursiveSetPermissions(strBOINCDataDirectory, pACL);
 
 
-    if (pACL) 
+    if (pACL)
         LocalFree(pACL);
-    if (pInstallingUserSID != NULL) 
+    if (pInstallingUserSID != NULL)
         FreeSid(pInstallingUserSID);
 
     return ERROR_SUCCESS;
@@ -331,10 +331,10 @@ UINT CASetPermissionBOINCData::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    SetPermissionBOINCData
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall SetPermissionBOINCData(MSIHANDLE hInstall)

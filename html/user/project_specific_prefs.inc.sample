@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 // Place your version in project_specific/project_specific_prefs.inc
 
 // Functions to display and edit project-specific prefs go here

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectName>installer_msi</ProjectName>
+    <ProjectGuid>{88EB73FC-A865-4C3F-906D-44E00EF27A27}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="boinc.props" />
+  <PropertyGroup>
+    <TargetName>boinc</TargetName>
+    <TargetExt>.msi</TargetExt>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\installer\boinc.json" />
+    <None Include="..\installer\locale\en.json" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <PropertyGroup>
+    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <CustomBuildStep>
+      <Inputs>$(SolutionDir)..\installer\boinc.json;$(SolutionDir)..\installer\locale\en.json;$(SolutionDir)Build\x64\$(Configuration)\installer.exe;$(SolutionDir)Build\$(Platform)\$(Configuration)\boinccas.dll</Inputs>
+      <Command>$(SolutionDir)Build\x64\$(Configuration)\installer.exe -p $(Platform)</Command>
+      <Outputs>$(OutDir)$(TargetName)$(TargetExt)</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <Import Project="boinc_signing.targets" />
+</Project>

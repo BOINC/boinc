@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -234,8 +234,8 @@ bool PERS_FILE_XFER::poll() {
             fip->project->file_xfer_backoff(is_upload).file_xfer_succeeded();
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Finished %s of %s",
-                    is_upload?"upload":"download", fip->name
+                    fip->project, MSG_INFO, "Finished %s of %s (%.0f bytes)",
+                    is_upload?"upload":"download", fip->name, fip->nbytes
                 );
             }
             if (log_flags.file_xfer_debug) {
@@ -446,11 +446,13 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
     if (fxp) {
         fout.printf(
             "    <file_xfer>\n"
+            "        <estimated_xfer_time_remaining>%f</estimated_xfer_time_remaining>\n"
             "        <bytes_xferred>%f</bytes_xferred>\n"
             "        <file_offset>%f</file_offset>\n"
             "        <xfer_speed>%f</xfer_speed>\n"
             "        <url>%s</url>\n"
             "    </file_xfer>\n",
+            estimated_xfer_time_remaining(),
             fxp->bytes_xferred,
             fxp->file_offset,
             fxp->xfer_speed,
@@ -475,6 +477,24 @@ void PERS_FILE_XFER::suspend() {
     }
     fip->upload_offset = -1;
 }
+
+// Determines the amount of time for a pfx to complete.  Returns time in seconds.
+//
+double PERS_FILE_XFER::estimated_xfer_time_remaining() {
+    // The estimated transfer duration will be set to 0 (or, '---' as displayed in the Manager) in three conditions:
+    // 1.  The pfx is complete.
+    // 2.  The file has not started transferring.
+    // 3.  If the transfer speed is 0.  This is for conditions when xfer_speed has not been calculated yet
+    //      (either from the transfer returning from suspension or the BOINC starting up).
+    if (pers_xfer_done || fxp==0 || fxp->xfer_speed==0) {
+        return 0;
+    }
+    double bytes_remaining = (fip->nbytes - last_bytes_xferred);
+    double est_duration = bytes_remaining / fxp->xfer_speed;
+    if (est_duration <= 0) est_duration = 1;
+    return est_duration;
+}
+
 
 PERS_FILE_XFER_SET::PERS_FILE_XFER_SET(FILE_XFER_SET* p) {
     file_xfers = p;

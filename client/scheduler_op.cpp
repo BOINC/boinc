@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,6 +14,10 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// Functions for doing scheduler RPCs,
+// including creating requests and parsing replies.
+// The reply handler is in cs_scheduler.cpp
 
 #include "cpp.h"
 
@@ -69,7 +73,9 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     retval = init_master_fetch(p);
     if (retval) {
         msg_printf(p, MSG_INTERNAL_ERROR,
-            "Couldn't start download of scheduler list: %s", boincerror(retval)
+            "Couldn't start download of scheduler list from %s: %s",
+            http_op.m_url,
+            boincerror(retval)
         );
         p->master_fetch_failures++;
         project_rpc_backoff(p, "scheduler list fetch failed\n");
@@ -456,13 +462,15 @@ bool SCHEDULER_OP::poll() {
                         cur_proj->nrpc_failures = 0;
                     }
                 }
-            } else {
+            }
+            else {
                 // master file fetch failed.
                 //
-                char buf[256];
-                snprintf(buf, sizeof(buf), "Scheduler list fetch failed: %s",
-                    boincerror(http_op.http_op_retval)
-                );
+                if (log_flags.sched_ops) {
+                    msg_printf(cur_proj, MSG_INFO, "Scheduler list fetch from %s failed: %s",
+                        http_op.m_url, boincerror(http_op.http_op_retval)
+                    );
+                }
                 cur_proj->master_fetch_failures++;
                 rpc_failed("Master file request failed");
             }
@@ -482,7 +490,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(cur_proj, MSG_INFO,
-                        "Scheduler request failed: %s", http_op.error_msg
+                        "Scheduler request to %s failed: %s", http_op.m_url, http_op.error_msg
                     );
                 }
 
@@ -586,9 +594,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     string delete_file_name;
-    bool verify_files_on_app_start = false;
-    bool non_cpu_intensive = false;
-    bool ended = false;
+    bool ended = false, strict_memory_bound = false, non_cpu_intensive = false;
 
     mf.init_file(in);
     bool found_start_tag = false, btemp;
@@ -649,9 +655,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // boolean project attributes.
             // If the scheduler reply didn't specify them, they're not set.
             //
-            project->verify_files_on_app_start = verify_files_on_app_start;
-            project->non_cpu_intensive = non_cpu_intensive;
             project->ended = ended;
+            project->non_cpu_intensive = non_cpu_intensive;
+            project->strict_memory_bound = strict_memory_bound;
             return 0;
         }
         else if (xp.parse_str("project_name", project->project_name, sizeof(project->project_name))) {
@@ -855,8 +861,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
             }
             continue;
-        } else if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) {
-            continue;
         } else if (xp.parse_bool("ended", ended)) {
             continue;
         } else if (xp.parse_bool("no_cpu_apps", btemp)) {
@@ -882,11 +886,13 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 handle_no_rsc_apps(buf, project, true);
             }
             continue;
-        } else if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) {
-            continue;
         } else if (xp.parse_bool("send_full_workload", send_full_workload)) {
             continue;
         } else if (xp.parse_bool("dont_use_dcf", dont_use_dcf)) {
+            continue;
+        } else if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) {
+            continue;
+        } else if (xp.parse_bool("strict_memory_bound", strict_memory_bound)) {
             continue;
         } else if (xp.parse_int("send_time_stats_log", send_time_stats_log)){
             continue;

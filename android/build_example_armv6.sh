@@ -25,15 +25,9 @@ export VCPKG_DIR=$VCPKG_ROOT/installed/armv6-android
 CONFIG_FLAGS=""
 CONFIG_LDFLAGS=""
 
-if [ $BUILD_WITH_VCPKG = "yes" ]; then
-    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
-    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg"
-    export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-else
-    CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
-    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
-    export _libcurl_pc="$TCINCLUDES/lib/pkgconfig/libcurl.pc"
-fi
+CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg"
+export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 
 export ANDROID="yes"
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
@@ -44,12 +38,6 @@ export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCL
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall  -funroll-loops -fexceptions -O3 -fomit-frame-pointer -I$TCINCLUDES/include -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
 export LDFLAGS="$CONFIG_LDFLAGS -L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv6"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
-
-ENABLE_VCPKG_FLAG=""
-
-if [ $BUILD_WITH_VCPKG = "yes" ]; then
-    ENABLE_VCPKG_FLAG="--enable-vcpkg"
-fi
 
 MAKE_FLAGS=""
 

@@ -287,7 +287,7 @@ int COMMAND::parse_submit(char* p) {
         }
         submit_req.jobs.push_back(job);
     }
-    
+
     JOB_PARAMS jp;
     char *chr = NULL;
     chr = strtok_r(NULL, " ", &p);

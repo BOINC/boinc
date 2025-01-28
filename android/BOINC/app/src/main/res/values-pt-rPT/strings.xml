@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Descrição:</string>
   <string name="attachproject_login_header_home">Início:</string>
   <string name="attachproject_login_header_url">Website:</string>
-  <string name="attachproject_login_header_id_email">E-mail:</string>
+  <string name="attachproject_login_header_id_email">Endereço de e-mail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Palavra-passe:</string>
   <string name="attachproject_login_button_registration">Registar</string>
@@ -66,14 +66,14 @@
   <string name="attachproject_error_short_pwd">Palavra-passe demasiado curta</string>
   <string name="attachproject_error_no_internet">Falha de ligação</string>
   <string name="attachproject_error_no_url">Por favor, insira o URL</string>
-  <string name="attachproject_error_no_email">Por favor, insira o endereço de \"e-mail\"</string>
+  <string name="attachproject_error_no_email">Por favor, insira o endereço de e-mail</string>
   <string name="attachproject_error_no_pwd">Por favor, insira uma palavra-passe</string>
   <string name="attachproject_error_no_name">Por favor, insira o nome de utilizador</string>
   <string name="attachproject_error_unknown">falhou</string>
   <string name="attachproject_error_bad_username">Nome de utilizador recusado</string>
-  <string name="attachproject_error_email_in_use">O endereço de \"e-mail\" já está a ser usado</string>
+  <string name="attachproject_error_email_in_use">Endereço de e-mail já em utilização</string>
   <string name="attachproject_error_project_down">O projeto está \"off-line\"</string>
-  <string name="attachproject_error_email_bad_syntax">E-mail recusado</string>
+  <string name="attachproject_error_email_bad_syntax">Endereço de e-mail recusado</string>
   <string name="attachproject_error_bad_pwd">Palavra-passe recusada</string>
   <string name="attachproject_error_creation_disabled">A criação de conta está desativada neste projeto</string>
   <string name="attachproject_error_invalid_url">URL inválido</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Ativar Controlo Remoto</string>
   <string name="prefs_remote_summary">Quando alterado, o cliente BOINC será executado novamente.</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificação para as novas notícias</string>
+  <string name="prefs_show_notification_suspended_header">Mostrar notificação quando suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC utiliza para computação.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausar CPU quando utilização acima de (%)</string>
@@ -140,12 +141,13 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Reserva de unidades de trabalho (dias)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Reserva adicional de unidades de trabalho (dias)</string>
   <string name="prefs_remote_authentication_key">Chave de autenticação GUI</string>
+  <string name="prefs_remote_authentication_key_input_hint">Chave de Autenticação</string>
   <string name="prefs_remote_empty_password">Atualização da palavra-passe falhada: valor não pode estar vazio</string>
   <string name="prefs_remote_boinc_relaunched">O cliente BOINC será novamente lançado depois de alterar a palavra-passe.</string>
   <string name="prefs_client_log_flags_header">Log das bandeiras do BOINC</string>
   <string name="prefs_gui_log_categories">Categorias de log da GUI do BOINC</string>
-  <string name="prefs_gui_log_level_header">Nível de log da GUI</string>
-  <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens de log da GUI.</string>
+  <string name="prefs_gui_log_level_header">Nível de registo da GUI</string>
+  <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens de registo da GUI.</string>
   <string name="prefs_theme_light">Claro</string>
   <string name="prefs_theme_dark">Escuro</string>
   <string name="prefs_theme_system">Por padrão do sistema</string>
@@ -161,8 +163,8 @@
   <string name="projects_status_dontrequestmorework">Não obter novas tarefas</string>
   <string name="projects_status_ended">Projeto terminado - Pode remover</string>
   <string name="projects_status_detachwhendone">Irá ser removido quando as tarefas terminarem</string>
-  <string name="projects_status_schedrpcpending">Solicitação agendada pendente</string>
-  <string name="projects_status_schedrpcinprogress">Solicitação agendada em progresso</string>
+  <string name="projects_status_schedrpcpending">Pedido de agendamento pendente</string>
+  <string name="projects_status_schedrpcinprogress">Pedido de agendamento pendente</string>
   <string name="projects_status_trickleuppending">Mensagem de aviso pendente</string>
   <string name="projects_status_backoff">Comunicação agendada em: %1$s</string>
   <!--project controls-->
@@ -267,7 +269,6 @@
   <string name="menu_help">Ajuda</string>
   <string name="menu_report_issue">Reportar anomalia</string>
   <!--about dialog-->
-  <string name="about_button">Regressar</string>
   <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão %1$s</string>
@@ -297,5 +298,25 @@
   <string name="main_notification_channel_description">Mostrar notificações que não são notícias do BOINC e/ou projetos.</string>
   <string name="notice_notification_channel_name">Notícias</string>
   <string name="notice_notification_channel_description">Mostrar notícias dos seus projetos.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Bem-vindo à Loja da Xiaomi! Para fornecer uma agradável experiência de compras,
+      a aplicação de compras da Xiaomi necessita de estar ligada à Internet e utilizar informação de localização para verificar o inventário de produtos,
+       otimizar serviços de entrega e, personalizar a recomendação de produtos. Tem o direito de recusar ou cancelar esta autorização.</string>
+  <string name="terms_of_use_content_second">Antes de utilizar a aplicação, por favor leia atentamente os \"Termos de Acordo do Utilizador\"
+      bem como a \"Política de Privacidade\" da Loja Xiaomi  e, entenda os seus direitos e como os seus dados são processados.
+       Se concordar com o conteúdo do acordo, por favor clique em \"Concordo\" para começar a utilizar os nossos produtos e serviços.
+        Iremos proteger a sua informação pessoal através duma empresa líder no setor de segurança. Obrigado pela sua confiança na Loja da Xiaomi.</string>
+  <string name="terms_of_use_content_user_agreement">Termos de Acordo do Utilizador: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Política de Privacidade: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Caros Fãs da Mi, olá, Da Jia Hao!</string>
+  <string name="welcome_content_second">Sou o David, fundador do BOINC. O Boinc é um software em plataforma open-source utilizado para computação através de recursos voluntários.</string>
+  <string name="welcome_content_third">Gostaria de agradecer ao Sr. Lei Jun e à Xiaomi e partilhar algumas novidades convosco:
+      O M11 irá tornar-se certificado oficialmente pelo Boinc como dispositivo de computação portátil!</string>
+  <string name="welcome_content_fourth">Com a construção interna do Qualcomm Snapdragon 888, o M11 possui um poder de computação excecional.
+      Pode processar tarefas muito rapidamente e fornecer ajuda a comunidades em todo o mundo.</string>
+  <string name="welcome_content_fifth">Gostaria de agradecer a todos os engenheiros na Xiaomi que contribuíram para o projeto Boinc.
+      Encorajo todos os fãs Mi a transferir o Boinc nos seus telemóveis, contribuindo com um pouco do poder do seu telemóvel, quando o mesmo não está a ser utilizado.</string>
+  <string name="welcome_content_sixth">Por último mas não menos importante, aos meus amigos Chineses - Feliz Ano Novo Chinês! Xin Nian Kuai Le!</string>
   <string name="agree_button">Concordar</string>
+  <string name="prefs_expand_wu_data">Expandir sempre as informações da tarefa </string>
 </resources>

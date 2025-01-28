@@ -22,12 +22,20 @@
 
 #include "boinc_db_types.h"
 
-// special return values of init_result():
+// return values of init_result() and compare_result()
+// (in addition to usual error codes)
 //
 #define VAL_RESULT_SUSPICIOUS       1
-    // if an "adaptive replication" result looks suspicious
+    // the result looks 'suspicious'.
+    // if we're using adaptive replication and this is the only copy,
+    // create a 2nd replica rather than accepting it.
+    // (Are any projects using this?)
 #define VAL_RESULT_LONG_TERM_FAIL   2
-    // host is unlikely to handle this app version; stop using
+    // host is unlikely to handle this app version; stop using it
+#define VAL_RESULT_TRANSIENT_ERROR  3
+    // a transient error happened (e.g. couldn't read file due to NFS failure).
+    // Retry validation later.
+    // ERR_OPENDIR is also treated this way.
 
 extern int init_result(RESULT&, void*&);
 extern int compare_results(RESULT &, void*, RESULT const&, void*, bool&);

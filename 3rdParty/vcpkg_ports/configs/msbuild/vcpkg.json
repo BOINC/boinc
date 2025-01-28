@@ -1,0 +1,26 @@
+{
+  "name": "boinc-msbuild",
+  "dependencies":
+  [
+    {
+      "name": "curl",
+      "features": ["schannel"],
+      "default-features": false
+    },
+    {
+      "name": "openssl",
+      "features": ["ssl3", "weak-ssl-ciphers"],
+      "default-features": false
+    },
+    "rappture",
+    {
+      "name": "wxwidgets",
+      "features": ["webview"],
+      "default-features": false
+    },
+    "gtest",
+    "ftgl",
+    "opencl",
+    "nlohmann-json"
+  ]
+}

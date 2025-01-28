@@ -28,19 +28,19 @@ bool is_daemon_installed()
     SC_HANDLE schService = NULL;
     bool bRetVal = false;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ); 
-     
-        if (schService) 
+            GENERIC_READ);
+
+        if (schService)
         {
             bRetVal = true;
         }
@@ -66,19 +66,19 @@ bool is_daemon_starting()
     SERVICE_STATUS ssStatus;
     bool bRetVal = false;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ); 
-     
-        if (schService) 
+            GENERIC_READ);
+
+        if (schService)
         {
             if (QueryServiceStatus(schService, &ssStatus))
             {
@@ -108,19 +108,19 @@ bool is_daemon_running()
     SERVICE_STATUS ssStatus;
     bool bRetVal = false;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ); 
-     
-        if (schService) 
+            GENERIC_READ);
+
+        if (schService)
         {
             if (QueryServiceStatus(schService, &ssStatus))
             {
@@ -150,19 +150,19 @@ bool is_daemon_stopping()
     SERVICE_STATUS ssStatus;
     bool bRetVal = false;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ); 
-     
-        if (schService) 
+            GENERIC_READ);
+
+        if (schService)
         {
             if (QueryServiceStatus(schService, &ssStatus))
             {
@@ -192,19 +192,19 @@ bool is_daemon_stopped()
     SERVICE_STATUS ssStatus;
     bool bRetVal = false;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ); 
-     
-        if (schService) 
+            GENERIC_READ);
+
+        if (schService)
         {
             if (QueryServiceStatus(schService, &ssStatus))
             {
@@ -240,7 +240,7 @@ bool start_daemon_via_daemonctrl()
     //   by finding out the path to the executable that requested
     //   that we start the service.
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
+
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
         szPath[pszProg - szPath] = 0;
@@ -290,19 +290,19 @@ bool start_daemon()
     SC_HANDLE schService = NULL;
     bool bRetVal = false;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ | GENERIC_EXECUTE); 
-     
-        if (schService) 
+            GENERIC_READ | GENERIC_EXECUTE);
+
+        if (schService)
         {
             if (StartService(schService, 0, NULL))
             {
@@ -337,7 +337,7 @@ bool stop_daemon_via_daemonctrl()
     //   by finding out the path to the executable that requested
     //   that we start the service.
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
+
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
         szPath[pszProg - szPath] = 0;
@@ -388,19 +388,19 @@ bool stop_daemon()
     SERVICE_STATUS ssStatus;
     bool bRetVal = false;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
+    schSCManager = OpenSCManager(
+        NULL,                    // local machine
+        NULL,                    // ServicesActive database
+        GENERIC_READ);           // full access rights
 
     if (schSCManager)
     {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
+        schService = OpenService(
+            schSCManager,            // SCM database
             _T("BOINC"),             // service name
-            GENERIC_READ | GENERIC_EXECUTE); 
-     
-        if (schService) 
+            GENERIC_READ | GENERIC_EXECUTE);
+
+        if (schService)
         {
             if (ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus))
             {

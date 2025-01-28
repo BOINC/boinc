@@ -24,6 +24,7 @@ require_once("../inc/news.inc");
 require_once("../inc/text_transform.inc");
 
 define('THREADS_PER_PAGE', 50);
+define('FORUM_LH_PCT', '25%');      // width of LH column
 
 $forum_error = "";
     // for functions that return null on error,
@@ -59,8 +60,10 @@ define('AVATAR_HEIGHT',100);
 define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
 define('ST_NEW', 'New member');
 
-define('MAXIMUM_EDIT_TIME',3600);
-    // allow edits of forums posts up till one hour after posting.
+if (!defined('MAXIMUM_EDIT_TIME')) {
+    define('MAXIMUM_EDIT_TIME', 3600);
+        // allow edits of forums posts up till one hour after posting.
+}
 
 define('MAX_FORUM_LOGGING_TIME', 2419200); //3600*24*28 - 28 days
 define('NO_CONTROLS', 0);
@@ -145,7 +148,15 @@ function show_forum_header($user) {
         <input type="hidden" name="search_forum" value="-1">
         <input type="hidden" name="search_sort" value="'.CREATE_TIME_NEW.'">
         <input type="text" class="" name="search_keywords">
-        <input class="btn btn-primary btn-sm" title="'.tra("Search for words in forum messages").'" type="submit" value="'.tra("Search forums").'"><br>
+    ';
+    echo sprintf(
+        '<input class="%s" %s title="%s" type="submit" value="%s"><br>',
+        'btn btn-sm',
+        button_style(),
+        tra("Search for words in forum messages"),
+        tra("Search forums")
+    );
+    echo '
         <small><a href="forum_search.php">'.tra("Advanced search").'</a></small>
         </td>
     ';
@@ -162,9 +173,9 @@ function show_forum_header($user) {
     ";
 }
 
-// Output the forum/thread title.
+// return forum/thread title, with links.
 //
-function show_forum_title($category, $forum, $thread, $link_thread=false) {
+function forum_title($category, $forum, $thread, $link_thread=false) {
     if ($category) {
         $is_helpdesk = $category->is_helpdesk;
     } else {
@@ -174,50 +185,57 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
     $where = $is_helpdesk?tra("Questions and Answers"):tra("Message boards");
     $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
 
+    $x = '';
     if (!$forum && !$thread) {
-        echo "<span class=\"title\">$where</span>\n";
-
+        $x .= $where;
     } else if ($forum && !$thread) {
-        echo "<span class=title>";
-        echo "<a href=\"$top_url\">$where</a> : ";
-        echo $forum->title;
-        echo "</span>";
+        $x .= sprintf('<a href="%s">%s</a> : %s',
+            $top_url,
+            $where,
+            $forum->title
+        );
     } else if ($forum && $thread) {
-        echo "<span class=title>
-            <a href=\"$top_url\">$where</a> : 
-            <a href=\"forum_forum.php?id=".$forum->id."\">", $forum->title, "</a> : 
-        ";
+        $x .= sprintf('<a href="%s">%s</a> : ',
+            $top_url,
+            $where
+        );
+        $x .= sprintf('<a href="forum_forum.php?id=%d">%s</a> : ',
+            $forum->id,
+            $forum->title
+        );
         if ($link_thread) {
-            echo "<a href=forum_thread.php?id=$thread->id>";
+            $x .= sprintf('<a href=forum_thread.php?id=%d>%s</a>',
+                $thread->id,
+                cleanup_title($thread->title)
+            );
+        } else {
+            $x .= cleanup_title($thread->title);
         }
-        echo cleanup_title($thread->title);
-        if ($link_thread) {
-            echo "</a>";
-        }
-        echo "</span>";
     } else {
-        echo "Invalid thread ID";
+        $x = "Invalid thread ID";
     }
+    return $x;
 }
 
-function show_team_forum_title($forum, $thread=null, $link_thread=false) {
+function team_forum_title($forum, $thread=null, $link_thread=false) {
     $team = BoincTeam::lookup_id($forum->category);
-    echo "<span class=title>
-        <a href=\"forum_index.php\">".tra("Message boards")."</a> :
-    ";
+    $x = sprintf('<a href="forum_index.php">%s</a> :',
+        tra("Message boards")
+    );
     if ($thread) {
-        echo "
-            <a href=team_forum.php?teamid=$team->id>".tra("%1 message board", $team->name)."</a>
-        ";
+        $x .= sprintf('<a href=team_forum.php?teamid=%d>%s</a>',
+            $team->id,
+            tra("%1 message board", $team->name)
+        );
         if ($link_thread) {
-            echo " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
+            $x .= " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
         } else {
-            echo " : $thread->title";
+            $x .= " : $thread->title";
         }
     } else {
-        echo tra("%1 message board", $team->name);
+        $x .= tra("%1 message board", $team->name);
     }
-    echo "</span>";
+    return $x;
 }
 
 // start a table of forum posts
@@ -244,7 +262,7 @@ function page_links($url, $nitems, $items_per_page, $start){
     $postshow = 3;
 
     $x = "";
-    
+
     if ($nitems <= $items_per_page) return "";
     $npages = ceil($nitems / $items_per_page);
     $curpage = ceil($start / $items_per_page);
@@ -437,7 +455,7 @@ function show_posts(
             $post, $thread, $forum, $logged_in_user, $start, $latest_viewed,
             FORUM_CONTROLS, $filter
         );
-        
+
         if ($post->timestamp > $latest_shown_timestamp) {
             $latest_shown_timestamp = $post->timestamp;
         }
@@ -575,7 +593,7 @@ function show_post(
             $is_posted_by_special = true;
         }
     }
-    
+
     // Highlight special users if set in prefs;
     //
     if ($logged_in_user && $logged_in_user->prefs){
@@ -605,7 +623,7 @@ function show_post(
         }
     }
     echo "<p> </p>";
-    
+
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
     show_button_small($url, tra("Send message"), tra("Send %1 a private message",$name));
@@ -614,7 +632,7 @@ function show_post(
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
     }
-    
+
     if (function_exists('project_forum_user_info')){
         project_forum_user_info($user);
     } else {
@@ -766,30 +784,29 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     } else {
         $deleted = "";
     }
-    echo "
-        <tr>
-        <td>
-            $n)
-    ";
     switch ($forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($forum->category);
-        show_forum_title($category, $forum, $thread, true);
+        $title= forum_title($category, $forum, $thread, true);
         break;
     case 1:
-        show_team_forum_title($forum);
+        $title= team_forum_title($forum);
         break;
     }
-    echo "
-        (<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->id."\">".tra("Message %1", $post->id)."</a>)
-        <br>
-        ".tra("Posted %1 by %2", $when, user_links($user))." $deleted
-        <br>
-        Post:
-        <hr>
+    row_array([
+        sprintf(
+            '%d) %s
+                <br><a href="forum_thread.php?id=%d&amp;postid=%d">%s</a>
+                <br>%s%s
+            ',
+            $n, $title,
+            $thread->id, $post->id,
+            tra("Message %1", $post->id),
+            tra("Posted %1 by %2", $when, user_links($user)),
+            $deleted
+        ),
         $content
-        </td></tr>
-    ";
+    ]);
 }
 
 function is_banished($user) {
@@ -809,6 +826,7 @@ function check_banished($user) {
 }
 
 function post_rules() {
+    if (defined('FORUM_RULES')) return FORUM_RULES;
     if (function_exists("project_forum_post_rules")) {
       $project_rules=project_forum_post_rules();
     } else {
@@ -842,9 +860,7 @@ function post_rules() {
 }
 
 function post_warning($forum=null) {
-    $x = "<br><br>
-        <table><tr><td align=left>
-    ";
+    $x = '<p><div style="text-align:left">';
 
     // let projects add extra instructions in specific forums,
     // e.g. Questions and Problems
@@ -854,33 +870,61 @@ function post_warning($forum=null) {
     }
 
     $x .= "
-        <font size=-2>
-        ".tra("Rules:").post_rules()."
-        </font>
-        </td></tr></table>
+        <small>
+        ".post_rules()."
+        </small>
+        </div>
     ";
     return $x;
 }
 
-function notify_subscriber($thread, $user) {
+function notify_thread_subscriber($thread, $user) {
     BoincForumPrefs::lookup($user);
     if ($user->prefs->pm_notification == 1) {
-        send_reply_notification_email($thread, $user);
+        send_thread_notification_email($thread, $user);
     }
     $now = time();
-    $type = NOTIFY_SUBSCRIBED_POST;
-    BoincNotify::replace("userid=$user->id, create_time=$now, type=$type, opaque=$thread->id");
+    $type = NOTIFY_SUBSCRIBED_THREAD;
+    BoincNotify::replace(
+        "userid=$user->id, create_time=$now, type=$type, opaque=$thread->id"
+    );
 }
 
 // notify subscribed users, except for the given user
 //
-function notify_subscribers($thread, $user) {
+function notify_thread_subscribers($thread, $user) {
     $subs = BoincSubscription::enum("threadid=$thread->id");
     foreach ($subs as $sub) {
         if ($user && ($user->id == $sub->userid)) continue;
         $user2 = BoincUser::lookup_id($sub->userid);
         if ($user2) {
-            notify_subscriber($thread, $user2);
+            notify_thread_subscriber($thread, $user2);
+        }
+    }
+}
+
+function notify_forum_subscriber($forum, $user) {
+    BoincForumPrefs::lookup($user);
+    if ($user->prefs->pm_notification == 1) {
+        send_forum_notification_email($forum, $user);
+    }
+    $now = time();
+    $type = NOTIFY_SUBSCRIBED_FORUM;
+    BoincNotify::replace(
+        "userid=$user->id, create_time=$now, type=$type, opaque=$forum->id"
+    );
+}
+
+// notify subscribed users, except for the given user
+//
+function notify_forum_subscribers($forum, $user) {
+    $id = -$forum->id;
+    $subs = BoincSubscription::enum("threadid=$id");
+    foreach ($subs as $sub) {
+        if ($user && ($user->id == $sub->userid)) continue;
+        $user2 = BoincUser::lookup_id($sub->userid);
+        if ($user2) {
+            notify_forum_subscriber($forum, $user2);
         }
     }
 }
@@ -908,7 +952,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
         return null;
     }
 
-    notify_subscribers($thread, $user);
+    notify_thread_subscribers($thread, $user);
 
     $user->prefs->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
@@ -960,6 +1004,7 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
     $thread = BoincThread::lookup_id($id);
     create_post($content, 0, $user, $forum, $thread, $signature);
     $forum->update("threads=threads+1");
+    notify_forum_subscribers($forum, $user);
     return $thread;
 }
 
@@ -1042,7 +1087,7 @@ function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
     update_thread_timestamp($new_thread);
     update_forum_timestamp($old_forum);
     update_forum_timestamp($new_forum);
-    notify_subscribers($new_thread, $g_logged_in_user);
+    notify_thread_subscribers($new_thread, $g_logged_in_user);
     return true;
 }
 
@@ -1086,7 +1131,7 @@ function get_forum_threads(
     //if (! (is_numeric($forumID) && is_numeric($min) && is_numeric($nRec))) {
     //    return NULL;  // Something is wrong here.
     //}
-        
+
     $sql = 'forum = ' . $forumID ;
     $stickysql = "";
     if ($sticky){
@@ -1171,7 +1216,7 @@ function get_thread_posts($threadid, $sort_style, $show_hidden) {
 function show_post_moderation_links(
     $config, $logged_in_user, $post, $forum, $tokens
 ){
-    $moderators_allowed_to_ban = parse_bool($config, "moderators_allowed_to_ban"); 
+    $moderators_allowed_to_ban = parse_bool($config, "moderators_allowed_to_ban");
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
@@ -1290,8 +1335,9 @@ function check_reply_access($user, $forum, $thread) {
 // - edit their posts at any time
 // - hide/unhide/move threads and posts
 
-function is_moderator($user, $forum) {
+function is_moderator($user, $forum=null) {
     if (!$user) return false;
+    BoincForumPrefs::lookup($user);
     $type = $forum?$forum->parent_type:0;
     switch ($type) {
     case 0:
@@ -1309,54 +1355,76 @@ function is_moderator($user, $forum) {
     return false;
 }
 
-function show_thread_and_context_header() {
-    start_table('table-striped');
-    row_heading_array(array(
-        tra("Thread"),
-        tra("Posts"),
-        tra("Author"),
-        tra("Views"),
-        "<nobr>".tra("Last post")."</nobr>"
-    ));
+function thread_list_header($subscriptions=false) {
+    if ($subscriptions) {
+        $x = [
+            tra("Thread"),
+            tra("Author"),
+            "<nobr>".tra("Last post")."</nobr>",
+            'Unsubscribe'
+        ];
+    } else {
+        $x = [
+            tra("Thread"),
+            tra("Posts"),
+            tra("Author"),
+            tra("Views"),
+            "<nobr>".tra("Last post")."</nobr>"
+        ];
+    }
+    row_heading_array($x);
 }
 
 // show a 1-line summary of thread and its forum.
 // Used for search results and subscription list
 //
-function show_thread_and_context($thread, $user) {
+function thread_list_item($thread, $user, $subscriptions=false) {
     $thread_forum = BoincForum::lookup_id($thread->forum);
     if (!$thread_forum) return;
     if (!is_forum_visible_to_user($thread_forum, $user)) return;
     $owner = BoincUser::lookup_id($thread->owner);
     if (!$owner) return;
-    echo "<tr><td>\n";
     switch($thread_forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($thread_forum->category);
-        show_forum_title($category, $thread_forum, $thread, true);
+        $title = forum_title($category, $thread_forum, $thread, true);
         break;
     case 1:
-        show_team_forum_title($thread_forum, $thread);
+        $title = team_forum_title($thread_forum, $thread);
         break;
+    default:
+        $title = '???';
     }
-    echo '
-        </td><td class="numbers">'.($thread->replies+1).'</td>
-        <td>'.user_links($owner).'</td>
-        <td class="numbers">'.$thread->views.'</td>
-        <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
-        </tr>
-    ';
+    if ($subscriptions) {
+        $x = [
+            $title,
+            user_links($owner),
+            time_diff_str($thread->timestamp, time()),
+            "<input type=checkbox name=unsub_thread_$thread->id>"
+        ];
+    } else {
+        $x = [
+            $title,
+            $thread->replies+1,
+            user_links($owner),
+            $thread->views,
+            time_diff_str($thread->timestamp, time())
+        ];
+    }
+    row_array($x);
 }
 
-// see if thread is in subscription list
+// see if ID is in subscription list
 //
-function is_subscribed($thread, $subs) {
+function is_subscribed($id, $subs) {
     foreach ($subs as $sub) {
-        if ($sub->threadid == $thread->id) return true;
+        if ($sub->threadid == $id) return true;
     }
     return false;
 }
 
+// If it's a team forum, user must be member of team to view
+//
 function is_forum_visible_to_user($forum, $user) {
     if ($forum->parent_type == 1) {
         if (parse_config(get_config(), "<team_forums_members_only>")) {
@@ -1367,21 +1435,40 @@ function is_forum_visible_to_user($forum, $user) {
     return true;
 }
 
-function subscribed_post_email_line($notify) {
+function subscribed_thread_email_line($notify) {
     $thread = BoincThread::lookup_id($notify->opaque);
     return "There are new posts in the thread '$thread->title'";
 }
 
-function subscribed_post_web_line($notify) {
+function subscribed_thread_web_line($notify) {
     $thread = BoincThread::lookup_id($notify->opaque);
     return tra("New posts in the thread %1","<a href=forum_thread.php?id=$thread->id>$thread->title</a>");
 }
 
-function subscribe_rss($notify, &$title, &$msg, &$url) {
+function subscribed_thread_rss($notify) {
     $thread = BoincThread::lookup_id($notify->opaque);
     $title = tra("New posts in subscribed thread");
     $msg = tra("There are new posts in the thread '%1'",$thread->title);
     $url = secure_url_base()."forum_thread.php?id=$thread->id";
+    return [$title, $msg, $url];
+}
+
+function subscribed_forum_email_line($notify) {
+    $forum = BoincForum::lookup_id($notify->opaque);
+    return "There are new threads in the forum '$forum->title'";
+}
+
+function subscribed_forum_web_line($notify) {
+    $forum = BoincForum::lookup_id($notify->opaque);
+    return tra("New threads in the forum %1","<a href=forum_forum.php?id=$forum->id>$forum->title</a>");
+}
+
+function subscribed_forum_rss($notify) {
+    $forum = BoincForum::lookup_id($notify->opaque);
+    $title = tra("New posts in subscribed forum");
+    $msg = tra("There are new threads in the forum '%1'",$forum->title);
+    $url = secure_url_base()."forum_forum.php?id=$forum->id";
+    return [$title, $msg, $url];
 }
 
 function show_mark_as_read_button($user) {
@@ -1397,14 +1484,14 @@ function show_mark_as_read_button($user) {
 }
 
 function remove_subscriptions_forum($userid, $forumid) {
-    $subs = BoincSubscription::enum("userid=$userid");
+    $subs = BoincSubscription::enum("userid=$userid and threadid>0");
     foreach ($subs as $sub) {
         $thread = BoincThread::lookup_id($sub->threadid);
         if ($thread && $thread->forum == $forumid) {
             BoincSubscription::delete($userid, $thread->id);
         }
     }
-    $notices = BoincNotify::enum("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST);
+    $notices = BoincNotify::enum("userid=$userid and type=".NOTIFY_SUBSCRIBED_THREAD);
     foreach ($notices as $n) {
         $thread = BoincThread::lookup_id($n->opaque);
         if ($thread && $thread->forum == $forumid) {
@@ -1415,7 +1502,7 @@ function remove_subscriptions_forum($userid, $forumid) {
 
 function remove_subscriptions_thread($userid, $threadid) {
     BoincSubscription::delete($userid, $threadid);
-    BoincNotify::delete_aux("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST." and opaque=$threadid");
+    BoincNotify::delete_aux("userid=$userid and type=".NOTIFY_SUBSCRIBED_THREAD." and opaque=$threadid");
 }
 
 function parse_forum_cookie() {

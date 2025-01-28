@@ -20,6 +20,8 @@ require_once("boinc_db.inc");
 require_once("sanitize_html.inc");
 require_once("bbcode_html.inc");
 
+define('PM_LH_PCT', '30%');
+
 function pm_header() {
     echo "<div>\n";
     echo "    <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
@@ -28,7 +30,8 @@ function pm_header() {
 }
 
 function pm_rules() {
-    $x = "<table><tr><td align=left><small>";
+    if (defined('PM_RULES')) return PM_RULES;
+    $x = '<span style="text-align: left"><p>';
     $x .= tra("
         <ul>
         <li> Messages may not contain content that is obscene, hate-related,
@@ -44,7 +47,7 @@ function pm_rules() {
         <li> If your account is suspended, don't create a new one.
         </ul>
     ");
-    $x .= "</small></td></tr></table>\n";
+    $x .= "</span>";
     return $x;
 }
 
@@ -72,7 +75,7 @@ function pm_team_form($user, $teamid, $error=null) {
     if ($error) {
         echo "<p class=\"text-danger\">".$error."</p>\n";
     }
-    
+
     echo "<form action=\"pm.php\" method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo "<input type=\"hidden\" name=\"teamid\" value=\"$teamid\">\n";
@@ -81,29 +84,37 @@ function pm_team_form($user, $teamid, $error=null) {
     row2(
         tra("Subject"),
         "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
-        null, '20%'
+        null, PM_LH_PCT
     );
-    row2_init(tra("Message")."<small>".bbcode_info()."</small>", "", '20%');
-    start_table();
-    echo $bbcode_html;
-    echo "<tr><td>\n";
-    echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
-    echo "</td></tr>\n";
-    end_table();
-    echo "<tr><td></td><td>
-        <input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Send message")."\">
-        </td></tr>\n
-    ";
+    row2(
+        tra("Message")."<small>".bbcode_info()."</small>",
+        $bbcode_html."<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>",
+        null, PM_LH_PCT
+    );
+    row2(
+        '',
+        sprintf(
+            '<input class="btn" %s type="submit" name="preview" value="%s">
+            <input class="btn" %s type="submit" value="%s">
+            ',
+            button_style('blue'),
+            tra("Preview"),
+            button_style(),
+            tra("Send message")
+        ),
+        null, PM_LH_PCT
+    );
     end_table();
     page_tail();
 }
 
-function pm_form($replyto, $userid, $error = null) {
+// show the send-PM page, possibly with an error message
+//
+function pm_form_page($replyto, $userid, $error = null) {
     global $bbcode_html, $bbcode_js;
     global $g_logged_in_user;
     page_head(tra("Send private message"),'','','', $bbcode_js);
-    
+
     if (post_str("preview", true) == tra("Preview")) {
         $content = post_str("content", true);
         panel(tra('Preview'),
@@ -112,9 +123,9 @@ function pm_form($replyto, $userid, $error = null) {
             }
         );
     }
-    
-    $subject = null;
-    $content = null;
+
+    $subject = '';
+    $content = '';
     if ($replyto) {
         $message = BoincPrivateMessage::lookup_id($replyto);
         if (!$message || $message->userid != $g_logged_in_user->id) {
@@ -126,7 +137,7 @@ function pm_form($replyto, $userid, $error = null) {
         if (!$user) {
             error_page("Sender no longer exists");
         }
-        $writeto = $userid." (".$user->name.")";
+        $writeto = UNIQUE_USER_NAME?$user->name:$userid." (".$user->name.")";
         $subject = $message->subject;
         if (substr($subject, 0, 3) != "re:") {
             $subject = "re: ".$subject;
@@ -136,49 +147,65 @@ function pm_form($replyto, $userid, $error = null) {
         if (!$user) {
             error_page("Sender no longer exists");
         }
-        $writeto = $userid." (".$user->name.")";
+        $writeto = UNIQUE_USER_NAME?$user->name:$userid." (".$user->name.")";
     } else {
         $writeto = sanitize_tags(post_str("to", true));
         $subject = post_str("subject", true);
         $content = post_str("content", true);
     }
-    
-    $content = htmlspecialchars($content);
-    $subject = htmlspecialchars($subject);
-    
+
+    $content = $content?htmlspecialchars($content):'';
+    $subject = $subject?htmlspecialchars($subject):'';
+
     if ($error != null) {
         echo "<p class=\"text-danger\">".$error."</p>\n";
     }
-    
+
     echo "<form action=\"pm.php\" method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo form_tokens($g_logged_in_user->authenticator);
     start_table();
-    row2(tra("To")."<br /><small>".tra("User IDs or unique usernames, separated with commas")."</small>",
-        "<input type=\"text\" class=\"form-control\" name=\"to\" value=\"$writeto\">",
-        null, '20%'
+    row2(
+        sprintf('%s <br><small>%s</small>',
+            tra("To"),
+            UNIQUE_USER_NAME
+                ?tra('User names, one per line')
+                :tra("User IDs or unique usernames, one per line")
+        ),
+        sprintf(
+            '<textarea rows=2 class="form-control" name="to">%s</textarea>',
+            $writeto
+        ),
+        null, PM_LH_PCT
     );
     row2(
         tra("Subject"),
-            "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
-        null, '20%'
+        "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
+        null, PM_LH_PCT
     );
-    row2_init(
+    row2(
         tra("Message")."<small>".bbcode_info().pm_rules()."</small>",
-        "",
-        '20%'
+        sprintf(
+            '%s <textarea name="content" class="form-control" rows="18">%s</textarea>',
+            $bbcode_html,
+            $content
+        ),
+        null, PM_LH_PCT
     );
-    start_table();
-    echo $bbcode_html;
-    echo "<tr><td>\n";
-    echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
-    echo "</td></tr>\n";
+    row2(
+        '',
+        sprintf(
+            '<input class="btn btn-primary" type="submit" name="preview" value="%s">
+                <input class="btn btn-success" type="submit" value="%s">
+            ',
+            tra("Preview"),
+            tra("Send message")
+        ),
+        null, PM_LH_PCT
+    );
     end_table();
-    echo "<tr><td></td><td><input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
-    end_table();
-    
+
     page_tail();
-    exit();
 }
 
 function send_pm_notification_email(
@@ -267,7 +294,7 @@ function check_pm_count($userid) {
 function pm_notification($user) {
     $output = "";
     $unread = BoincPrivateMessage::count("userid=$user->id AND opened=0");
-    
+
     $output .= "<a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>";
     if ($unread) {
         $output .= "<span class=\"inboxunread\"> ($unread ".tra("unread").")</span>\n";
@@ -308,5 +335,4 @@ function pm_delete_user($user) {
     }
 }
 
-$cvs_version_tracker[]="\$Id: pm.inc 14019 2007-11-01 23:04:39Z davea $";
 ?>

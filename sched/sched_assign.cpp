@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,11 +20,7 @@
 
 #include "config.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
+#include "boinc_stdio.h"
 
 #include <sys/param.h>
 #include <unistd.h>
@@ -110,7 +106,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     static int seqno=0;
     static R_RSA_PRIVATE_KEY key;
     BEST_APP_VERSION* bavp;
-                                 
+
     if (first) {
         first = false;
         sprintf(path, "%s/upload_private", config.key_dir);
@@ -158,7 +154,15 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     DB_ID_TYPE result_id = boinc_db.insert_id();
     SCHED_DB_RESULT result;
     retval = result.lookup_id(result_id);
-    add_result_to_reply(result, wu, bavp, false);
+    bool is_buda, is_ok;
+    HOST_USAGE hu;
+    check_buda_plan_class(wu, hu, is_buda, is_ok);
+    if (is_buda) {
+        if (!is_ok) return -1;
+    } else {
+        hu = bavp->host_usage;
+    }
+    add_result_to_reply(result, wu, bavp, hu, is_buda, false);
 
     if (config.debug_assignment) {
         log_messages.printf(MSG_NORMAL,

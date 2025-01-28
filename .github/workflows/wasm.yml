@@ -1,11 +1,38 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 name: Webassembly
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'client_release/**' ]
+    tags: [ 'client_release/**' ]
   pull_request:
     branches: [ master ]
   schedule:
-    - cron:  '10 12 * * 0'
+    - cron:  '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY}}
+  AWS_SECRET_ACCESS_KEY: ${{secrets.S3_SECRET_KEY}}
+  AWS_DEFAULT_REGION: us-west-2
 
 jobs:
   build:
@@ -13,10 +40,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [client]
+        type: [client, client-debug]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 2
 
@@ -26,7 +53,7 @@ jobs:
           sudo apt-get install -y p7zip-full zip
 
       - name: Cache dependencies
-        uses: actions/cache@v2.1.3
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: |
             3rdParty/buildCache
@@ -52,32 +79,41 @@ jobs:
         if: success() && matrix.type == 'client'
         run: wasm/ci_configure_client.sh
 
+      - name: Configure client as webassembly
+        if: success() && matrix.type == 'client-debug'
+        run: wasm/ci_configure_client.sh debug
+
       - name: Make
         if: success()
         run: wasm/ci_make.sh
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        uses: edgarrc/action-7z@v1.0.4
-        with:
-          args: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/wasm/vcpkg/buildtrees/*.log
-      
+        run: python ./deploy/prepare_deployment.py logs
+
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
           name: wasm_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: success() && ! contains(matrix.type, 'libs') 
+        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'debug')
         env:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
         run: python ./deploy/prepare_deployment.py wasm_${{ matrix.type }}
 
+      - name: Prepare artifacts for debug deploy
+        if: success() && matrix.type == 'client-debug'
+        env:
+          PULL_REQUEST: ${{ github.event.number }}
+          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
+        run:  python ./deploy/prepare_deployment.py wasm_${{ matrix.type }}
+
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         if: ${{ ! contains(matrix.type, 'libs') }}
         with:
           name: wasm_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}

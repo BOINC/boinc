@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -273,7 +273,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 );
                 delete avp;
                 continue;
-            } 
+            }
             if (strlen(avp->platform) == 0) {
                 safe_strcpy(avp->platform, get_primary_platform());
             } else {
@@ -292,11 +292,20 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                     safe_strcpy(avp->platform, get_primary_platform());
                 }
             }
-            if (avp->missing_coproc) {
-                msg_printf(project, MSG_INFO,
-                    "Application uses missing %s GPU",
-                    avp->missing_coproc_name
-                );
+            if (avp->resource_usage.missing_coproc) {
+                if (strstr(avp->resource_usage.missing_coproc_name, "Apple ")) {
+                    msg_printf(project, MSG_INFO,
+                        "App version uses deprecated GPU type '%s' - discarding",
+                        avp->resource_usage.missing_coproc_name
+                    );
+                    delete avp;
+                    continue;
+                } else {
+                    msg_printf(project, MSG_INFO,
+                        "App version uses missing GPU '%s'",
+                        avp->resource_usage.missing_coproc_name
+                    );
+                }
             }
             retval = link_app_version(project, avp);
             if (retval) {
@@ -385,11 +394,11 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 delete rp;
                 continue;
             }
-            if (rp->avp->missing_coproc) {
+            rp->init_resource_usage();
+            if (rp->resource_usage.missing_coproc) {
                 msg_printf(project, MSG_INFO,
                     "Missing coprocessor for task %s", rp->name
                 );
-                rp->coproc_missing = true;
             }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
@@ -511,6 +520,10 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             continue;
         }
+        if (xp.match_tag("user_cpids")) {
+            user_cpids.parse(xp);
+            continue;
+        }
 #ifdef ENABLE_AUTO_UPDATE
         if (xp.match_tag("auto_update")) {
             if (!project) {
@@ -536,7 +549,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     }
     sort_results();
     fclose(f);
-    
+
     // if total resource share is zero, set all shares to 1
     //
     if (projects.size()) {
@@ -554,6 +567,13 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             }
         }
     }
+
+    // this should happen once, on client update
+    //
+    if (user_cpids.cpids.empty()) {
+        user_cpids.init_from_projects();
+    }
+
     return 0;
 }
 
@@ -567,7 +587,9 @@ void CLIENT_STATE::sort_results() {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        rp->name_md5 = md5_string(string(rp->name));
+        if (rp) {
+            rp->name_md5 = md5_string(string(rp->name));
+        }
     }
     std::sort(
         results.begin(),
@@ -576,7 +598,9 @@ void CLIENT_STATE::sort_results() {
     );
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        rp->index = i;
+        if (rp) {
+            rp->index = i;
+        }
     }
 }
 
@@ -605,7 +629,7 @@ int CLIENT_STATE::write_state_file() {
 
     for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
         if (attempt > 1) boinc_sleep(1.0);
-            
+
         if (log_flags.statefile_debug) {
             msg_printf(0, MSG_INFO,
                 "[statefile] Writing state file"
@@ -666,7 +690,7 @@ int CLIENT_STATE::write_state_file() {
                     if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
                 }
             }
-            
+
             retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
             if (retval) {
                 if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
@@ -676,8 +700,8 @@ int CLIENT_STATE::write_state_file() {
                         windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
                     );
 #else
-                    msg_printf(0, MSG_INFO, 
-                        "Can't rename current state file to previous state file: %s", 
+                    msg_printf(0, MSG_INFO,
+                        "Can't rename current state file to previous state file: %s",
                         strerror(errno)
                     );
 #endif
@@ -693,7 +717,7 @@ int CLIENT_STATE::write_state_file() {
             );
         }
         if (!retval) break;     // Success!
-        
+
         if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
 #ifdef _WIN32
             msg_printf(0, MSG_INFO,
@@ -731,6 +755,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (retval) return retval;
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
+        if (p->app_test) continue;  // don't write app_test project
         retval = p->write_state(f);
         if (retval) return retval;
         for (i=0; i<apps.size(); i++) {
@@ -809,6 +834,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }
+    user_cpids.write(f);
     f.printf("</client_state>\n");
     return 0;
 }
@@ -830,7 +856,8 @@ int CLIENT_STATE::write_state_file_if_needed() {
 
 // look for app_versions.xml file in project dir.
 // If find, get app versions from there,
-// and use "anonymous platform" mechanism for this project
+// and mark project as "anonymous platform".
+// This is called before parsing client_state.xml
 //
 void CLIENT_STATE::check_anonymous() {
     unsigned int i;
@@ -945,6 +972,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
+            if (cc_config.dont_use_docker && strstr(avp->plan_class, "docker")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping docker app in app_info.xml; docker disabled in cc_config.xml"
+                );
+                delete avp;
+                continue;
+            }
             if (strlen(avp->platform) == 0) {
                 safe_strcpy(avp->platform, get_primary_platform());
             }
@@ -1047,18 +1081,22 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     return 0;
 }
 
-int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only) {
+int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only, bool ac_updated) {
     unsigned int i;
 
     if (active_only) {
         for (i=0; i<active_tasks.active_tasks.size(); i++) {
             RESULT* rp = active_tasks.active_tasks[i]->result;
-            rp->write_gui(f);
+            if (rp) {
+                rp->write_gui(f, ac_updated);
+            }
         }
     } else {
         for (i=0; i<results.size(); i++) {
             RESULT* rp = results[i];
-            rp->write_gui(f);
+            if (rp) {
+                rp->write_gui(f, ac_updated);
+            }
         }
     }
     return 0;

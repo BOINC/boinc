@@ -37,7 +37,7 @@ require_once("../inc/bootstrap.inc");
 $config = get_config();
 $no_web_account_creation = parse_bool($config, "no_web_account_creation");
 $project_id = parse_config($config, "<project_id>");
-    
+
 $stopped = web_stopped();
 $user = get_logged_in_user(false);
 
@@ -85,9 +85,13 @@ function left(){
                     }
                 }
                 echo "<p><p>";
-                echo sprintf('<center><a href=home.php class="btn btn-success">%s</a></center>
-                    ',
-                    tra('Continue to your home page')
+                echo sprintf('<center>%s</center>',
+                    button_text('home.php',
+                        tra('Continue to your home page'),
+                        '',
+                        '',
+                        button_style('green', 16)
+                    )
                 );
                 echo "<p><p>";
                 echo sprintf('%s

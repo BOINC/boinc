@@ -21,17 +21,19 @@
 // cmdline args to this program:
 // --init_script "scriptname arg1 ... argn"
 // --compare_script "scriptname arg1 ... argn"
-//
-// You must specify at least one.
+// where
+// scriptname is the name of a script (in bin/)
+// argi are keywords (see below) representing
+//    args to be passed to the script.
+// You must specify at least one script.
 //
 // The init script checks the validity of a result,
 // e.g. that the output files have the proper format.
-// It returns zero if the files are valid
+// It exits zero if the files are valid
 //
 // The compare script compares two results.
-// If returns zero if the output files are equivalent.
+// If exits zero if the output files are equivalent.
 //
-// arg1 ... argn represent cmdline args to be passed to the scripts.
 // The options for init_script are:
 //
 // files        list of paths of output files of the result
@@ -39,6 +41,7 @@
 // runtime      task runtime
 //
 // Additional options for compare_script, for the second result:
+//
 // files2       list of paths of output files
 // result_id2   result ID
 // runtime2     task runtime
@@ -101,6 +104,12 @@ void validate_handler_usage() {
     );
 }
 
+// run script to check a result
+// if script exits with VAL_RESULT_TRANSIENT_ERROR, return that;
+// the WU will be validated again after a delay.
+//
+// any other nonzero return means the result is not valid
+//
 int init_result(RESULT& result, void*&) {
     if (init_script.empty()) {
         return 0;
@@ -116,7 +125,6 @@ int init_result(RESULT& result, void*&) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
         return retval;
     }
-
 
     char cmd[4096];
     sprintf(cmd, "../bin/%s", init_script[0].c_str());
@@ -136,10 +144,22 @@ int init_result(RESULT& result, void*&) {
         }
     }
     retval = system(cmd);
-    if (retval) {
-        return retval;
+    if (WIFEXITED(retval)) {
+        int s = WEXITSTATUS(retval);
+        if (!s) return 0;
+        if (s == VAL_RESULT_TRANSIENT_ERROR) {
+            log_messages.printf(MSG_NORMAL,
+                "init script return transient error"
+            );
+            return VAL_RESULT_TRANSIENT_ERROR;
+        }
+        log_messages.printf(MSG_NORMAL,
+            "init script %s returned: %d\n", cmd, s
+        );
+        return -1;
     }
-    return 0;
+    log_messages.printf(MSG_CRITICAL, "init script %s didn't exit\n", cmd);
+    return -1;
 }
 
 int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
@@ -193,15 +213,22 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
         }
     }
     retval = system(cmd);
-    if (retval) {
+    if (WIFEXITED(retval)) {
+        int s = WEXITSTATUS(retval);
+        if (s == 0) {
+            match = true;
+            return 0;
+        }
+        if (s == VAL_RESULT_TRANSIENT_ERROR) {
+            return VAL_RESULT_TRANSIENT_ERROR;
+        }
         match = false;
-    } else {
-        match = true;
+        return 0;
     }
-    return 0;
+    log_messages.printf(MSG_CRITICAL, "compare script %s didn't exit\n", cmd);
+    return -1;
 }
 
 int cleanup_result(RESULT const&, void*) {
     return 0;
 }
-

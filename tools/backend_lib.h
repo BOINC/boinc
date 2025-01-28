@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,11 +26,11 @@
 
 // default job parameters
 //
-#define DEFAULT_MIN_QUORUM  2
-#define DEFAULT_TARGET_NRESULTS 2
-#define DEFAULT_MAX_ERROR_RESULTS 3
-#define DEFAULT_MAX_TOTAL_RESULTS 10
-#define DEFAULT_MAX_SUCCESS_RESULTS 6
+#define DEFAULT_MIN_QUORUM  1
+#define DEFAULT_TARGET_NRESULTS 1
+#define DEFAULT_MAX_ERROR_RESULTS 1
+#define DEFAULT_MAX_TOTAL_RESULTS 1
+#define DEFAULT_MAX_SUCCESS_RESULTS 1
 #define DEFAULT_RSC_FPOPS_EST 3600.e9
 #define DEFAULT_RSC_FPOPS_BOUND 86400.e9
 #define DEFAULT_RSC_MEMORY_BOUND 5.e8
@@ -72,9 +72,9 @@ extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 
 extern int create_result(
     WORKUNIT&,
-    char* result_template_filename, 
+    char* result_template_filename,
     char* suffix,
-    R_RSA_PRIVATE_KEY& key, 
+    R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config,
     char* query_string=0,
     int priority_increase=0
@@ -82,9 +82,9 @@ extern int create_result(
 
 extern int create_result_ti(
     TRANSITIONER_ITEM&,
-    char* result_template_filename, 
+    char* result_template_filename,
     char* suffix,
-    R_RSA_PRIVATE_KEY& key, 
+    R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config,
     char* query_string=0,
     int priority_increase=0
@@ -114,8 +114,6 @@ extern int create_work2(
     const char* additional_xml = NULL,
     char* query_string = 0
 );
-
-extern int stage_file(const char*, bool);
 
 // the following functions return XML that can be put in
 // scheduler replies to do file operations

@@ -6,16 +6,19 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.21.0)
+AC_INIT(BOINC, 8.1.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
-WRAPPER_RELEASE=26017
+WRAPPER_RELEASE=26018
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26205
+VBOXWRAPPER_RELEASE=26209
 AC_SUBST([VBOXWRAPPER_RELEASE])
+
+WORKER_RELEASE=4
+AC_SUBST([WORKER_RELEASE])
 
 AC_CANONICAL_TARGET
 
@@ -547,8 +550,14 @@ SAH_CHECK_LIB([freetype], [fopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-SAH_CHECK_LIB([z], [gzopen],
-    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([z], [gzopen], [
+      zlib_found=yes
+      BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+if test "x${zlib_found}" = "x" -a "${isWIN32}" = "no"; then
+    if test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" -o "x${enable_apps_vbox}" = "xyes"]; then
+        AC_MSG_ERROR([zlib is required but was not found])
+    fi
+fi
 SAH_CHECK_LIB([cups], [md5_finish],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 if test "${isWIN32}" = "yes" ; then
@@ -561,6 +570,10 @@ if test "${isWIN32}" = "yes" ; then
    SAH_CHECK_LIB([winmm], [fopen],
        [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
    SAH_CHECK_LIB([msimg32], [fopen],
+       [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+fi
+if test "x${enable_manager}" = "xyes" -a "${isWIN32}" = "no"; then
+    SAH_CHECK_LIB([xkbcommon], [xkb_state_key_get_utf8],
        [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 fi
 
@@ -738,7 +751,7 @@ CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
 CXXFLAGS="${save_cxxflags} ${avx_flags}"
 CPPFLAGS="${save_cppflags} ${avx_flags}"
-AC_CHECK_HEADERS([immintrin.h avxintrin.h])
+AC_CHECK_HEADERS([immintrin.h])
 
 AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
     [],[],[[
@@ -747,9 +760,6 @@ AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
 #endif
 #if HAVE_IMMINTRIN_H
 # include <immintrin.h>
-#endif
-#if HAVE_AVXINTRIN_H
-# include <avxintrin.h>
 #endif
 #if HAVE_X86INTRIN_H
 # include <x86intrin.h>
@@ -997,7 +1007,7 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup _strdup strdupa _strdupa daemon stat64 putenv setenv unsetenv res_init strtoull localtime localtime_r gmtime gmtime_r uselocale _configthreadlocale])
+AC_CHECK_FUNCS([ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup _strdup strdupa _strdupa daemon stat64 putenv setenv unsetenv res_init strtoull localtime localtime_r gmtime gmtime_r uselocale _configthreadlocale ftok])
 
 AC_CHECK_DECLS([_fpreset, fpreset],
     [],[],[[
@@ -1081,7 +1091,7 @@ fi
 
 dnl ---------- wxWidgets --------------------------------------------------
 if test "${enable_manager}" = yes ; then
-  BOINC_OPTIONS_WXWIDGETS([3.0.0])
+  BOINC_OPTIONS_WXWIDGETS([3.1.3])
 else
   AM_CONDITIONAL([GUI_GTK], false)
 fi
@@ -1118,11 +1128,10 @@ AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
 AM_CONDITIONAL(OS_ARMV6_LINUX, [echo $host_alias | grep '^armv6-linux' > /dev/null])
 AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
 
-AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
+AM_CONDITIONAL(BUILD_APPS_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
 AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])
-AM_CONDITIONAL(BUILD_WITH_WASM, [test "${enable_wasm}" = yes])
 if test "${enable_wasm}" = yes ; then
   AC_DEFINE([WASM], [1], [build boinc wasm])
 fi
@@ -1372,6 +1381,7 @@ AC_CONFIG_FILES([
                  apps/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
+                 clientgui/skins/Makefile
                  clientscr/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/boinc_path_config.py.in
@@ -1427,6 +1437,10 @@ AC_OUTPUT
 
 if test "$enable_libraries" = "yes" -a "$have_glut" = yes -a "$have_jpeg" = 1; then
   configured_to_build="${configured_to_build} libraries_graphics"
+fi
+
+if test "${enable_manager}" = yes -a "$have_Xcb" = yes -a "$have_Xcbatom" = yes; then
+  configured_to_build="${configured_to_build} manager_clientscr"
 fi
 
 if test "$enable_apps" = yes -a "$enable_apps_gui" = yes; then

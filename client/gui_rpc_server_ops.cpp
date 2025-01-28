@@ -82,7 +82,7 @@ static void auth_failure(MIOFILE& fout) {
 }
 
 void GUI_RPC_CONN::handle_auth1(MIOFILE& fout) {
-    sprintf(nonce, "%f", dtime());
+    snprintf(nonce, sizeof(nonce), "%f", dtime());
     fout.printf("<nonce>%s</nonce>\n", nonce);
 }
 
@@ -174,7 +174,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         char path[MAXPATHLEN];
         double manager_size = 0.0;
         OSStatus err = noErr;
-        
+
         retval = proc_pidpath(getppid(), path, sizeof(path));
         if (retval <= 0) {
             err = fnfErr;
@@ -533,13 +533,13 @@ static void handle_file_transfer_op(GUI_RPC_CONN& grc, const char* op) {
         grc.mfout.printf("<error>Missing filename</error>\n");
         return;
     }
-    
+
     FILE_INFO* f = gstate.lookup_file_info(p, filename.c_str());
     if (!f) {
         grc.mfout.printf("<error>No such file</error>\n");
         return;
     }
-    
+
     PERS_FILE_XFER* pfx = f->pers_file_xfer;
     if (!pfx) {
         grc.mfout.printf("<error>No such transfer waiting</error>\n");
@@ -636,7 +636,7 @@ static void handle_reset_host_info(GUI_RPC_CONN& grc) {
     gstate.host_info.get_host_info(true);
     // the amount of RAM or #CPUs may have changed
     //
-    gstate.set_ncpus();
+    gstate.set_n_usable_cpus();
     gstate.request_schedule_cpus("reset_host_info");
     gstate.show_host_info();
     grc.mfout.printf("<success/>\n");
@@ -757,12 +757,12 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     // If we're already attached to the project specified in the
     // project init file, delete the file.
     //
-    for (unsigned i=0; i<gstate.projects.size(); i++) { 
-        PROJECT* p = gstate.projects[i]; 
-        if (urls_match(p->master_url, gstate.project_init.url)) { 
-            gstate.project_init.remove(); 
-            break; 
-        } 
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (urls_match(p->master_url, gstate.project_init.url)) {
+            gstate.project_init.remove();
+            break;
+        }
     }
 
     grc.mfout.printf(
@@ -835,10 +835,10 @@ void handle_lookup_account_poll(GUI_RPC_CONN& grc) {
         );
     } else {
         const char *p = grc.lookup_account_op.reply.c_str();
-        const char *q = strstr(p, "<account_out"); 
+        const char *q = strstr(p, "<account_out");
         if (!q) q = strstr(p, "<error");
-        if (!q) q = "<account_out/>\n"; 
-        grc.mfout.printf("%s", q); 
+        if (!q) q = "<account_out/>\n";
+        grc.mfout.printf("%s", q);
     }
 }
 
@@ -869,7 +869,7 @@ void handle_create_account_poll(GUI_RPC_CONN& grc) {
 }
 
 static void handle_project_attach(GUI_RPC_CONN& grc) {
-    string url, authenticator, project_name;
+    string url, authenticator, project_name, email_addr;
     bool use_config_file = false;
     bool already_attached = false;
     unsigned int i;
@@ -880,6 +880,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_string("project_url", url)) continue;
         if (grc.xp.parse_string("authenticator", authenticator)) continue;
         if (grc.xp.parse_string("project_name", project_name)) continue;
+        if (grc.xp.parse_string("email_addr", email_addr)) continue;
     }
 
     // Get URL/auth from project_init.xml?
@@ -908,46 +909,17 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
         }
     }
 
-	// remove http(s):// at the beginning of project address
-	// there is no reason to connect to secure address project
-	// if we're already connected to the non-secure address
-	// or vice versa
-	// also clear last '/' character if present
-
-	const string http = "http://";
-	const string https = "https://";
-
-	string new_project_url = url;
-	size_t pos = new_project_url.find(http);
-	if (pos != string::npos) {
-		new_project_url.erase(pos, http.length());
-	}
-	else if ((pos = new_project_url.find(https)) != string::npos) {
-		new_project_url.erase(pos, https.length());
-	}
-	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
-		new_project_url.erase(new_project_url.length() - 1, 1);
-	}
+    canonicalize_master_url(url);
 
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-		string project_url = p->master_url;
+        string project_url = p->master_url;
+        canonicalize_master_url(project_url);
 
-		pos = project_url.find(http);
-		if (pos != string::npos) {
-			project_url.erase(pos, http.length());
-		}
-		else if ((pos = project_url.find(https)) != string::npos) {
-			project_url.erase(pos, https.length());
-		}
-		if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
-			project_url.erase(project_url.length() - 1, 1);
-		}
-
-		if (new_project_url == project_url) {
-			already_attached = true;
-			break;
-		}
+        if (url == project_url) {
+            already_attached = true;
+            break;
+        }
     }
 
     if (already_attached) {
@@ -959,7 +931,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
     //
     gstate.project_attach.messages.clear();
     gstate.project_attach.error_num = gstate.add_project(
-        url.c_str(), authenticator.c_str(), project_name.c_str(), false
+        url.c_str(), authenticator.c_str(), project_name.c_str(), email_addr.c_str(), false
     );
 
     // if project_init.xml refers to this project,
@@ -1059,7 +1031,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
             safe_strcpy(ami.login_name, name.c_str());
             safe_strcpy(ami.password_hash, password_hash.c_str());
             safe_strcpy(ami.authenticator, authenticator.c_str());
-       }
+        }
     }
 
     if (bad_arg) {
@@ -1172,7 +1144,7 @@ static void read_all_projects_list_file(GUI_RPC_CONN& grc) {
     if (!retval) {
         strip_whitespace(s);
         const char *q = strstr(s.c_str(), "<projects");
-        if (!q) q = "<projects/>";        
+        if (!q) q = "<projects/>";
         grc.mfout.printf("%s\n", q);
     }
 }
@@ -1202,7 +1174,7 @@ static void handle_get_app_config(GUI_RPC_CONN& grc) {
         grc.mfout.printf("<error>no such project</error>");
         return;
     }
-    sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
+    snprintf(path, sizeof(path), "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
     int retval = read_file_string(path, s);
     if (retval) {
         grc.mfout.printf("<error>app_config.xml not found</error>\n");
@@ -1263,7 +1235,7 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
         return;
     }
     char path[MAXPATHLEN];
-    sprintf(path, "%s/app_config.xml", p->project_dir());
+    snprintf(path, sizeof(path), "%s/app_config.xml", p->project_dir());
     FILE* f = boinc_fopen(path, "w");
     if (!f) {
         msg_printf(p, MSG_INTERNAL_ERROR,
@@ -1331,13 +1303,13 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     read_config_file(false);
     cc_config.show();
     log_flags.show();
-    gstate.set_ncpus();
+    gstate.set_n_usable_cpus();
     process_gpu_exclusions();
 
     // also reread app_config.xml files
     //
     check_app_config();
-
+    gstate.write_tasks_gui(grc.mfout, false, true);
     gstate.request_schedule_cpus("Core client configuration");
     gstate.request_work_fetch("Core client configuration");
     set_no_rsc_config();
@@ -1348,13 +1320,13 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
 }
 
 #ifdef __APPLE__
-static void stop_graphics_app(pid_t thePID, 
-                            long iBrandID, 
-                            char current_dir[], 
-                            char switcher_path[], 
-                            string theScreensaverLoginUser, 
-                            GUI_RPC_CONN& grc
-                            ) {
+static void stop_graphics_app(pid_t thePID,
+    long iBrandID,
+    char current_dir[],
+    char switcher_path[],
+    string theScreensaverLoginUser,
+    GUI_RPC_CONN& grc
+) {
     char* argv[16];
     int argc;
     char screensaverLoginUser[256];
@@ -1363,34 +1335,43 @@ static void stop_graphics_app(pid_t thePID,
 
     if (g_use_sandbox) {
         char pidString[10];
-        
+
         snprintf(pidString, sizeof(pidString), "%d", thePID);
-    #if 1
+#if 1
         argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
         argv[1] = saverName[iBrandID];
         argv[2] = "-kill_gfx";
         argv[3] = pidString;
         argc = 4;
-    #else 
+#else
         argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
         argv[1] = "/bin/kill";
         argv[2] = "-kill";
         argv[3] = (char *)pidString;
         argc = 4;
-    #endif
-        if (!theScreensaverLoginUser.empty()) {
-            argv[argc++] = "--ScreensaverLoginUser";
-            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
-            argv[argc++] = screensaverLoginUser;
+#endif
+        // Graphics apps called by screensaver or Manager (via Show
+        // Graphics button) now write files in their slot directory
+        // as the logged in user, not boinc_master. This ugly hack
+        // uses setprojectgrp to fix all ownerships in this slot
+        // directory.
+        // To fix all ownerships in the slot directory, invoke the
+        // run_graphics_app RPC with operation "stop", slot number
+        // for the operand and empty string for screensaverLoginUser
+        // after the graphics app stops.
+        if (theScreensaverLoginUser.empty()) {
+            fix_slot_owners(thePID);    // Manager passes slot # instead of PID
+            return;
         }
+
+        argv[argc++] = "--ScreensaverLoginUser";
+        safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+        argv[argc++] = screensaverLoginUser;
         argv[argc] = 0;
 
-        retval = run_program(
-            current_dir, switcher_path,
-            argc, argv, 0, newPID
-        );
+        retval = run_program(current_dir, switcher_path, argc, argv, newPID);
     } else {
-        retval = kill_program(thePID);
+        retval = kill_process(thePID);
     }
     if (retval) {
         grc.mfout.printf("<error>attempt to kill graphics app failed</error>\n");
@@ -1436,7 +1417,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     int newPID = 0;
     ACTIVE_TASK* atp = NULL;
     char cmd[256];
-    
+
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("/run_graphics_app")) break;
         if (grc.xp.parse_int("slot", slot)) continue;
@@ -1447,8 +1428,18 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_int("graphics_pid", thePID)) continue;
         if (grc.xp.parse_string("ScreensaverLoginUser", theScreensaverLoginUser)) continue;
     }
-    
-    if (stop || test) {
+
+    if (stop) {
+        if (theScreensaverLoginUser.empty() ){
+             if (thePID < 0) {
+                 grc.mfout.printf("<error>missing or invalid slot number</error>\n");
+            }
+        } else {
+            if (thePID < 1) {
+                grc.mfout.printf("<error>missing or invalid process id</error>\n");
+            }
+        }
+    } else if (test) {
         if (thePID < 1) {
             grc.mfout.printf("<error>missing or invalid process id</error>\n");
             return;
@@ -1494,14 +1485,14 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     getcwd(current_dir, sizeof(current_dir));
 
     if (g_use_sandbox) {
-        snprintf(switcher_path, sizeof(switcher_path), 
+        snprintf(switcher_path, sizeof(switcher_path),
             "%s/%s/%s",
             current_dir, SWITCHER_DIR, SWITCHER_FILE_NAME
         );
     }
 
     if (stop) {
-        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
+        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path,
                             theScreensaverLoginUser, grc);
         grc.mfout.printf("<success/>\n");
         return;
@@ -1529,7 +1520,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             grc.mfout.printf("<error>job has no graphics app</error>\n");
             return;
         }
-        
+
         execPath = atp->app_version->graphics_exec_path;
         execName = atp->app_version->graphics_exec_file;
         execDir = atp->slot_path;
@@ -1545,7 +1536,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argc = 5;
         } else {
             char theSlot[10];
-            sprintf(theSlot, "%d", slot);
+            snprintf(theSlot, sizeof(theSlot), "%d", slot);
             argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
             argv[1] = execDir;
             argv[2] = saverName[iBrandID];
@@ -1553,7 +1544,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argv[4] = (char *)theSlot;
             argc = 5;
         }
-        
+
         if (runfullscreen) {
             argv[argc++] = "--fullscreen";
         }
@@ -1563,11 +1554,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argv[argc++] = screensaverLoginUser;
         }
         argv[argc] = 0;
-
-        retval = run_program(
-            execDir, switcher_path,
-            argc, argv, 0, newPID
-        );
+        retval = run_program(execDir, switcher_path, argc, argv, newPID);
     } else {    // not g_use_sandbox
         argv[0] = execName;
         if (runfullscreen) {
@@ -1582,15 +1569,12 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
             argv[argc++] = screensaverLoginUser;
         }
         argv[argc] = 0;
-        retval = run_program(
-            execDir, execPath,
-            argc, argv, 0, newPID
-        );
+        retval = run_program(execDir, execPath, argc, argv, newPID);
     }
-    
+
     if (retval) {
         grc.mfout.printf("<error>couldn't run graphics app</error>\n");
-        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
+        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path,
                             theScreensaverLoginUser, grc);
     } else {
         grc.mfout.printf("<success/>\n");
@@ -1864,7 +1848,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("project_reset", handle_project_reset,                  true,   true,   false),
     GUI_RPC("project_update", handle_project_update,                true,   true,   false),
     GUI_RPC("retry_file_transfer", handle_retry_file_transfer,      true,   true,   false),
-    GUI_RPC("run_graphics_app", handle_run_graphics_app,            true,   true,   false),
+    GUI_RPC("run_graphics_app", handle_run_graphics_app,            false,   false,   false),
 };
 
 // return nonzero only if we need to close the connection
@@ -2003,20 +1987,20 @@ void GUI_RPC_CONN::handle_get() {
 // return nonzero only if we need to close the connection
 //
 int GUI_RPC_CONN::handle_rpc() {
-    int n, retval=0;
+    int retval=0;
     char* p;
 
     int left = GUI_RPC_REQ_MSG_SIZE - request_nbytes;
 #ifdef _WIN32
-    n = recv(sock, request_msg+request_nbytes, left, 0);
+    SSIZE_T nb = recv(sock, request_msg+request_nbytes, left, 0);
 #else
-    n = read(sock, request_msg+request_nbytes, left);
+    ssize_t nb = read(sock, request_msg+request_nbytes, left);
 #endif
-    if (n <= 0) {
+    if (nb <= 0) {
         request_nbytes = 0;
         return ERR_READ;
     }
-    request_nbytes += n;
+    request_nbytes += nb;
 
     // buffer full?
     if (request_nbytes >= GUI_RPC_REQ_MSG_SIZE) {
@@ -2118,6 +2102,7 @@ int GUI_RPC_CONN::handle_rpc() {
     if (!http_request) {
         mfout.printf("\003");   // delimiter for non-HTTP replies
     }
+    int n;
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];

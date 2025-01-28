@@ -29,10 +29,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCProjectsVirtualBoxRights::CAGrantBOINCProjectsVirtualBoxRights(MSIHANDLE hMSIHandle) :
@@ -41,10 +41,10 @@ CAGrantBOINCProjectsVirtualBoxRights::CAGrantBOINCProjectsVirtualBoxRights(MSIHA
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAGrantBOINCProjectsVirtualBoxRights::~CAGrantBOINCProjectsVirtualBoxRights()
@@ -54,10 +54,10 @@ CAGrantBOINCProjectsVirtualBoxRights::~CAGrantBOINCProjectsVirtualBoxRights()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAGrantBOINCProjectsVirtualBoxRights::OnExecution()
@@ -81,7 +81,7 @@ UINT CAGrantBOINCProjectsVirtualBoxRights::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GrantBOINCProjectsVirtualBoxRights
 //
 // Description: This custom action grants the 'boinc_projects' group the

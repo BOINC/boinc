@@ -142,6 +142,7 @@ int APP::parse(XML_PARSER& xp) {
     safe_strcpy(user_friendly_name, "");
     project = NULL;
     non_cpu_intensive = false;
+    sporadic = false;
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) {
             if (!strlen(user_friendly_name)) {
@@ -152,7 +153,12 @@ int APP::parse(XML_PARSER& xp) {
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("user_friendly_name", user_friendly_name, sizeof(user_friendly_name))) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("sporadic", sporadic)) continue;
         if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) continue;
+        if (xp.parse_bool("sporadic", sporadic)) {
+            if (sporadic) gstate.have_sporadic_app = true;
+            continue;
+        }
 #ifdef SIM
         if (xp.parse_double("latency_bound", latency_bound)) continue;
         if (xp.parse_double("fpops_est", fpops_est)) continue;
@@ -402,13 +408,13 @@ int FILE_INFO::parse(XML_PARSER& xp) {
             retval = pfxp->parse(xp);
 #ifdef SIM
             delete pfxp;
-            continue;
-#endif
+#else
             if (!retval) {
                 pers_file_xfer = pfxp;
             } else {
                 delete pfxp;
             }
+#endif
             continue;
         }
         if (xp.match_tag("file_xfer")) {
@@ -685,7 +691,7 @@ bool FILE_INFO::had_failure(int& failnum) {
 
 void FILE_INFO::failure_message(string& s) {
     char buf[1024];
-    snprintf(buf, sizeof(buf), 
+    snprintf(buf, sizeof(buf),
         "<file_xfer_error>\n"
         "  <file_name>%s</file_name>\n"
         "  <error_code>%d (%s)</error_code>\n",
@@ -776,31 +782,63 @@ int FILE_INFO::gunzip(char* md5_buf) {
 }
 #endif  // SIM
 
+void RESOURCE_USAGE::clear() {
+    avg_ncpus = 0;
+    rsc_type = 0;
+    coproc_usage = 0;
+    gpu_ram = 0;
+    flops = 0;
+    cmdline[0] = 0;
+    missing_coproc = false;
+    missing_coproc_name[0] = 0;
+}
+
+void RESOURCE_USAGE::check_gpu(char* plan_class) {
+    int rt = rsc_type;
+    if (!rt) return;
+    if (strstr(plan_class, "opencl")) {
+        if (!coprocs.coprocs[rt].have_opencl) {
+            msg_printf(0, MSG_INFO,
+                "App version needs OpenCL but GPU doesn't support it"
+            );
+            missing_coproc = true;
+            safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+        }
+    } else if (strstr(plan_class, "cuda")) {
+        if (!coprocs.coprocs[rt].have_cuda) {
+            msg_printf(0, MSG_INFO,
+                "App version needs CUDA but GPU doesn't support it"
+            );
+            missing_coproc = true;
+            safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+        }
+    } else if (strstr(plan_class, "ati")) {
+        if (!coprocs.coprocs[rt].have_cal) {
+            msg_printf(0, MSG_INFO,
+                "App version needs CAL but GPU doesn't support it"
+            );
+            missing_coproc = true;
+            safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+        }
+    }
+}
+
 void APP_VERSION::init() {
     safe_strcpy(app_name, "");
     version_num = 0;
-    safe_strcpy(platform, "");
-    safe_strcpy(plan_class, "");
-    safe_strcpy(api_version, "");
-    avg_ncpus = 1;
-    gpu_usage.rsc_type = 0;
-    gpu_usage.usage = 0;
-    gpu_ram = 0;
-    flops = gstate.host_info.p_fpops;
-    safe_strcpy(cmdline, "");
-    safe_strcpy(file_prefix, "");
+    platform[0] = 0;
+    plan_class[0] = 0;
+    api_version[0] = 0;
+    resource_usage.clear();
+    file_prefix[0] = 0;
     needs_network = false;
     app = NULL;
     project = NULL;
     ref_cnt = 0;
     graphics_exec_fip = NULL;
-    safe_strcpy(graphics_exec_path,"");
-    safe_strcpy(graphics_exec_file, "");
+    graphics_exec_path[0] = 0;
+    graphics_exec_file[0] = 0;
     max_working_set_size = 0;
-    missing_coproc = false;
-    missing_coproc_usage = 0.0;
-    safe_strcpy(missing_coproc_name, "");
-    dont_throttle = false;
     is_vm_app = false;
     is_wrapper = false;
     index = 0;
@@ -812,42 +850,13 @@ void APP_VERSION::init() {
 int APP_VERSION::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
     double dtemp;
-    int rt;
 
     init();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) {
-            rt = gpu_usage.rsc_type;
-            if (rt) {
-                dont_throttle = true;        // don't throttle GPU apps
-                if (strstr(plan_class, "opencl")) {
-                    if (!coprocs.coprocs[rt].have_opencl) {
-                        msg_printf(0, MSG_INFO,
-                            "App version needs OpenCL but GPU doesn't support it"
-                        );
-                        missing_coproc = true;
-                        missing_coproc_usage = gpu_usage.usage;
-                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
-                    }
-                } else if (strstr(plan_class, "cuda")) {
-                    if (!coprocs.coprocs[rt].have_cuda) {
-                        msg_printf(0, MSG_INFO,
-                            "App version needs CUDA but GPU doesn't support it"
-                        );
-                        missing_coproc = true;
-                        missing_coproc_usage = gpu_usage.usage;
-                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
-                    }
-                } else if (strstr(plan_class, "ati")) {
-                    if (!coprocs.coprocs[rt].have_cal) {
-                        msg_printf(0, MSG_INFO,
-                            "App version needs CAL but GPU doesn't support it"
-                        );
-                        missing_coproc = true;
-                        missing_coproc_usage = gpu_usage.usage;
-                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
-                    }
-                }
+            resource_usage.check_gpu(plan_class);
+            if (resource_usage.rsc_type || is_wrapper) {
+                dont_throttle = true;
             }
             if (strstr(plan_class, "vbox")) {
                 is_vm_app = true;
@@ -873,7 +882,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
         if (xp.parse_str("api_version", api_version, sizeof(api_version))) continue;
         if (xp.parse_str("platform", platform, sizeof(platform))) continue;
         if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
-        if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
+        if (xp.parse_double("avg_ncpus", resource_usage.avg_ncpus)) continue;
         if (xp.parse_double("max_ncpus", dtemp)) continue;
         if (xp.parse_double("flops", dtemp)) {
             if (dtemp <= 0) {
@@ -881,29 +890,29 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                     "non-positive FLOPS in app version"
                 );
             } else {
-                flops = dtemp;
+                resource_usage.flops = dtemp;
             }
             continue;
         }
-        if (xp.parse_str("cmdline", cmdline, sizeof(cmdline))) continue;
+        if (xp.parse_str("cmdline", resource_usage.cmdline, sizeof(resource_usage.cmdline))) continue;
         if (xp.parse_str("file_prefix", file_prefix, sizeof(file_prefix))) continue;
-        if (xp.parse_double("gpu_ram", gpu_ram)) continue;
+        if (xp.parse_double("resource_usage.gpu_ram", resource_usage.gpu_ram)) continue;
         if (xp.match_tag("coproc")) {
             COPROC_REQ cp;
             int retval = cp.parse(xp);
             if (!retval) {
-                rt = rsc_index(cp.type);
+                int rt = rsc_index(cp.type);
                 if (rt <= 0) {
                     msg_printf(0, MSG_INFO,
                         "app version refers to missing GPU type %s", cp.type
                     );
-                    missing_coproc = true;
-                    missing_coproc_usage = cp.count;
-                    safe_strcpy(missing_coproc_name, cp.type);
+                    resource_usage.missing_coproc = true;
+                    resource_usage.coproc_usage = cp.count;
+                    safe_strcpy(resource_usage.missing_coproc_name, cp.type);
                     continue;
                 }
-                gpu_usage.rsc_type = rt;
-                gpu_usage.usage = cp.count;
+                resource_usage.rsc_type = rt;
+                resource_usage.coproc_usage = cp.count;
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
             }
@@ -937,8 +946,8 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
         app_name,
         version_num,
         platform,
-        avg_ncpus,
-        flops
+        resource_usage.avg_ncpus,
+        resource_usage.flops
     );
     if (strlen(plan_class)) {
         out.printf("    <plan_class>%s</plan_class>\n", plan_class);
@@ -946,8 +955,8 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
     if (strlen(api_version)) {
         out.printf("    <api_version>%s</api_version>\n", api_version);
     }
-    if (strlen(cmdline)) {
-        out.printf("    <cmdline>%s</cmdline>\n", cmdline);
+    if (strlen(resource_usage.cmdline)) {
+        out.printf("    <cmdline>%s</cmdline>\n", resource_usage.cmdline);
     }
     if (strlen(file_prefix)) {
         out.printf("    <file_prefix>%s</file_prefix>\n", file_prefix);
@@ -958,30 +967,30 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             if (retval) return retval;
         }
     }
-    if (gpu_usage.rsc_type) {
+    if (resource_usage.rsc_type) {
         out.printf(
             "    <coproc>\n"
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            rsc_name(gpu_usage.rsc_type),
-            gpu_usage.usage
+            rsc_name(resource_usage.rsc_type),
+            resource_usage.coproc_usage
         );
     }
-    if (missing_coproc && strlen(missing_coproc_name)) {
+    if (resource_usage.missing_coproc && strlen(resource_usage.missing_coproc_name)) {
         out.printf(
             "    <coproc>\n"
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            missing_coproc_name,
-            missing_coproc_usage
+            resource_usage.missing_coproc_name,
+            resource_usage.coproc_usage
         );
     }
-    if (gpu_ram) {
+    if (resource_usage.gpu_ram) {
         out.printf(
             "    <gpu_ram>%f</gpu_ram>\n",
-            gpu_ram
+            resource_usage.gpu_ram
         );
     }
     if (dont_throttle) {
@@ -1087,11 +1096,7 @@ void APP_VERSION::check_graphics_exec() {
 int FILE_REF::parse(XML_PARSER& xp) {
     bool temp;
 
-    safe_strcpy(file_name, "");
-    safe_strcpy(open_name, "");
-    main_program = false;
-    copy_file = false;
-    optional = false;
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/file_ref")) {
             if (strstr(open_name, "..")) return ERR_BAD_FILENAME;
@@ -1148,9 +1153,9 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     safe_strcpy(app_name, "");
     version_num = 0;
     command_line.clear();
-    //strcpy(env_vars, "");
     app = NULL;
     project = NULL;
+    has_resource_usage = false;
     // Default these to very large values (1 week on a 1 cobblestone machine)
     // so we don't keep asking the server for more work
     rsc_fpops_est = 1e9*SECONDS_PER_DAY*7;
@@ -1158,7 +1163,15 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     rsc_memory_bound = 1e8;
     rsc_disk_bound = 1e9;
     while (!xp.get_tag()) {
-        if (xp.match_tag("/workunit")) return 0;
+        if (xp.match_tag("/workunit")) {
+            has_resource_usage = resource_usage.avg_ncpus>0
+                || resource_usage.rsc_type!=0
+                || resource_usage.missing_coproc;
+            if (has_resource_usage) {
+                resource_usage.check_gpu(plan_class);
+            }
+            return 0;
+        }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.parse_int("version_num", version_num)) continue;
@@ -1185,6 +1198,40 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 #endif
             continue;
         }
+        if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
+        if (xp.parse_double("avg_ncpus", resource_usage.avg_ncpus)) continue;
+        if (xp.parse_double("flops", dtemp)) {
+            if (dtemp <= 0) {
+                msg_printf(0, MSG_INTERNAL_ERROR, "non-positive FLOPS in WU");
+            } else {
+                resource_usage.flops = dtemp;
+            }
+            continue;
+        }
+        if (xp.parse_str("cmdline", resource_usage.cmdline, sizeof(resource_usage.cmdline))) continue;
+        if (xp.parse_double("resource_usage.gpu_ram", resource_usage.gpu_ram)) continue;
+        if (xp.match_tag("coproc")) {
+            COPROC_REQ cp;
+            retval = cp.parse(xp);
+            if (!retval) {
+                int rt = rsc_index(cp.type);
+                if (rt <= 0) {
+                    msg_printf(0, MSG_INFO,
+                        "WU refers to missing GPU type %s", cp.type
+                    );
+                    resource_usage.missing_coproc = true;
+                    resource_usage.coproc_usage = cp.count;
+                    safe_strcpy(resource_usage.missing_coproc_name, cp.type);
+                    continue;
+                }
+                resource_usage.rsc_type = rt;
+                resource_usage.coproc_usage = cp.count;
+            } else {
+                msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
+            }
+            continue;
+        }
+
         if (xp.parse_str("job_keyword_ids", buf, sizeof(buf))) {
             job_keyword_ids.parse_str(buf );
             continue;
@@ -1349,3 +1396,92 @@ double RUN_MODE::delay() {
         return 0;
     }
 }
+
+int USER_CPID::parse(XML_PARSER& xp) {
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/user_cpid")) {
+            if (!strlen(email_hash) || !strlen(cpid) || !time) {
+                msg_printf(0, MSG_INTERNAL_ERROR, "USER_CPID::parse() failed");
+                return ERR_XML_PARSE;
+            }
+            break;
+        }
+        if (xp.parse_str("email_hash", email_hash, sizeof(email_hash))) continue;
+        if (xp.parse_str("cpid", cpid, sizeof(cpid))) continue;
+        if (xp.parse_double("time", time)) continue;
+    }
+    return 0;
+}
+
+int USER_CPID::write(MIOFILE& out) {
+    out.printf(
+        "   <user_cpid>\n"
+        "      <email_hash>%s</email_hash>\n"
+        "      <cpid>%s</cpid>\n"
+        "      <time>%f</time>\n"
+        "   </user_cpid>\n",
+        email_hash, cpid, time
+    );
+    return 0;
+}
+
+int USER_CPIDS::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/user_cpids")) {
+            break;
+        }
+        if (xp.match_tag("user_cpid")) {
+            USER_CPID uc;
+            int retval = uc.parse(xp);
+            if (retval) continue;
+            cpids.push_back(uc);
+        }
+    }
+    return 0;
+}
+
+int USER_CPIDS::write(MIOFILE& out) {
+    out.printf("<user_cpids>\n");
+    for (USER_CPID &cpid: cpids) {
+        cpid.write(out);
+    }
+    out.printf("</user_cpids>\n");
+    return 0;
+}
+
+USER_CPID* USER_CPIDS::lookup(const char* email_hash) {
+    for (USER_CPID &cpid: cpids) {
+        if (!strcmp(cpid.email_hash, email_hash)) {
+            return &cpid;
+        }
+    }
+    return NULL;
+}
+
+// if empty, initialize from projects
+// (should get done once, when updating to this client version)
+//
+void USER_CPIDS::init_from_projects() {
+    for (PROJECT *p: gstate.projects) {
+        if (!strlen(p->email_hash) || !strlen(p->cross_project_id) || !p->user_create_time) {
+            continue;
+        }
+        USER_CPID* ucp = lookup(p->email_hash);
+        if (ucp) {
+            if (p->user_create_time < ucp->time) {
+                strcpy(ucp->cpid, p->cross_project_id);
+                ucp->time = p->user_create_time;
+            }
+        } else {
+            USER_CPID uc;
+            strcpy(uc.email_hash, p->email_hash);
+            strcpy(uc.cpid, p->cross_project_id);
+            uc.time = p->user_create_time;
+            cpids.push_back(uc);
+
+        }
+    }
+}
+
+USER_CPIDS user_cpids;

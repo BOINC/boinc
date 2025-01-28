@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -52,17 +52,21 @@
 #define COLUMN_REPORTDEADLINE       5
 #define COLUMN_APPLICATION          6
 #define COLUMN_NAME                 7
+#define COLUMN_ESTIMATEDCOMPLETION  8
+#define COLUMN_DEADLINEDIFF         9
+
 
 // DefaultShownColumns is an array containing the
 // columnIDs of the columns to be shown by default,
 // in ascending order.  It may or may not include
 // all columns.
+// Columns ESTIMATEDCOMPLETION and DEADLINEDIFF are hidden by default.
+// Not all users may want to see those columns.
 //
-// For now, show all columns by default
-static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, COLUMN_STATUS, 
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, COLUMN_STATUS,
                                 COLUMN_CPUTIME, COLUMN_TOCOMPLETION,
-                                COLUMN_REPORTDEADLINE, COLUMN_APPLICATION, 
-                                COLUMN_NAME};
+                                COLUMN_REPORTDEADLINE, COLUMN_APPLICATION,
+                                COLUMN_NAME };
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -81,7 +85,9 @@ CWork::CWork() {
     m_fCPUTime = -1.0;
     m_fProgress = -1.0;
     m_fTimeToCompletion = -1.0;
-    m_tReportDeadline = (time_t)0;
+    m_fDeadlineDiff = -1.0;
+    m_tReportDeadline = (time_t)-1;
+    m_tEstimatedCompletion = (time_t)-1;
 }
 
 
@@ -95,6 +101,8 @@ CWork::~CWork() {
     m_strProgress.Clear();
     m_strTimeToCompletion.Clear();
     m_strReportDeadline.Clear();
+    m_strEstimatedCompletion.Clear();
+    m_strDeadlineDiff.Clear();
 }
 
 
@@ -108,7 +116,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_SHOW_PROPERTIES, CViewWork::OnShowItemProperties)
     EVT_BUTTON(ID_TASK_ACTIVE_ONLY, CViewWork::OnActiveTasksOnly)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
-// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// We currently handle EVT_LIST_CACHE_HINT on Windows or
 // EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
 // or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
 #if USE_LIST_CACHE_HINT
@@ -127,7 +135,7 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
     CWork*          work1;
     CWork*          work2;
     int             result = false;
-    
+
     try {
         work1 = myCViewWork->m_WorkCache.at(iRowIndex1);
     } catch ( std::out_of_range ) {
@@ -181,6 +189,20 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
     case COLUMN_STATUS:
         result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
         break;
+    case COLUMN_ESTIMATEDCOMPLETION:
+        if (work1->m_tEstimatedCompletion < work2->m_tEstimatedCompletion) {
+            result = -1;
+        } else if (work1->m_tEstimatedCompletion > work2->m_tEstimatedCompletion) {
+            result = 1;
+        }
+        break;
+    case COLUMN_DEADLINEDIFF:
+        if (work1->m_fDeadlineDiff < work2->m_fDeadlineDiff) {
+            result = -1;
+        } else if (work1->m_fDeadlineDiff > work2->m_fDeadlineDiff) {
+            result = 1;
+        }
+        break;
     }
 
     // Always return FALSE for equality (result == 0)
@@ -210,42 +232,42 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     pItem = new CTaskItem(
         _("Show active tasks"),
         _("Show only active tasks."),
-        ID_TASK_ACTIVE_ONLY 
+        ID_TASK_ACTIVE_ONLY
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Show graphics"),
         _("Show application graphics in a window."),
-        ID_TASK_WORK_SHOWGRAPHICS 
+        ID_TASK_WORK_SHOWGRAPHICS
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Show VM Console"),
         _("Show VM Console in a window."),
-        ID_TASK_WORK_VMCONSOLE 
+        ID_TASK_WORK_VMCONSOLE
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Suspend"),
         _("Suspend work for this result."),
-        ID_TASK_WORK_SUSPEND 
+        ID_TASK_WORK_SUSPEND
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Abort"),
         _("Abandon work on the result. You will get no credit for it."),
-        ID_TASK_WORK_ABORT 
+        ID_TASK_WORK_ABORT
     );
     pGroup->m_Tasks.push_back( pItem );
 
     pItem = new CTaskItem(
         _("Properties"),
         _("Show task details."),
-        ID_TASK_SHOW_PROPERTIES 
+        ID_TASK_SHOW_PROPERTIES
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -265,7 +287,9 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Deadline"), COLUMN_REPORTDEADLINE);
     m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
-    
+    m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
+    m_aStdColNameOrder->Insert(_("Completion Before Deadline"), COLUMN_DEADLINEDIFF);
+
     // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initialize
     // it here to the default column widths.  It is updated by
@@ -281,6 +305,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_iStdColWidthOrder.Insert(150, COLUMN_REPORTDEADLINE);
     m_iStdColWidthOrder.Insert(95, COLUMN_APPLICATION);
     m_iStdColWidthOrder.Insert(285, COLUMN_NAME);
+    m_iStdColWidthOrder.Insert(150, COLUMN_ESTIMATEDCOMPLETION);
+    m_iStdColWidthOrder.Insert(150, COLUMN_DEADLINEDIFF);
 
     wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
@@ -330,6 +356,14 @@ void CViewWork::AppendColumn(int columnID){
         case COLUMN_NAME:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_NAME],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_NAME]);
+            break;
+        case COLUMN_ESTIMATEDCOMPLETION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ESTIMATEDCOMPLETION],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ESTIMATEDCOMPLETION]);
+            break;
+        case COLUMN_DEADLINEDIFF:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_DEADLINEDIFF],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_DEADLINEDIFF]);
             break;
     }
 }
@@ -390,7 +424,7 @@ wxString CViewWork::GetKeyValue2(int iRowIndex) {
         // Column is hidden, so SynchronizeCacheItem() did not set its value
         GetDocProjectURL(m_iSortedIndexes[iRowIndex], work->m_strProjectURL);
     }
-    
+
     return work->m_strProjectURL;
 }
 
@@ -428,6 +462,15 @@ void CViewWork::OnActiveTasksOnly( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
+// Comparator functions for sort operations in OnWorkSuspend() and OnWorkAbort()
+static bool sort_order_started(const RESULT* a, const RESULT* b) {
+    return !a->is_not_started() && b->is_not_started();
+}
+static bool sort_order_not_started(const RESULT* a, const RESULT* b) {
+    return a->is_not_started() && !b->is_not_started();
+}
+
+
 void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
 
@@ -442,20 +485,55 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
+    // It shouldn't be possible to get in here with a mixture of suspended and non-
+    // suspended tasks selected, so one of these lists should always end up empty.
+    // It is not possible for any one task to end up in both lists.
+    std::vector<RESULT*> results_to_resume;
+    std::vector<RESULT*> results_to_suspend;
+
+    // Collect the selected tasks, without actioning the request yet
     row = -1;
     while (1) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         RESULT* result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
             if (result->suspended_via_gui) {
-                pDoc->WorkResume(result->project_url, result->name);
+                results_to_resume.push_back(result);
             } else {
-                pDoc->WorkSuspend(result->project_url, result->name);
+                results_to_suspend.push_back(result);
             }
         }
+    }
+
+    // Sort
+    //
+    // Until/unless the client can accept requests to operate on a batch of tasks at once
+    // (and thus make its own decision about the order in which to perform the actions),
+    // sort the lists to avoid unwanted side-effects of the client asynchronously scheduling tasks.
+    // In particular this takes care of the case where the user wants to suspend all tasks,
+    // some of which are running and some of which have not yet started. Without this sorting,
+    // suspending the first running task will open up a slot to the client, which will immediately
+    // find a ready task and start it running, not knowing that we also want to suspend that one.
+    // Resume is the opposite: resume tasks that have already started before those that have not.
+    // Otherwise, the user probably expects to see requests take effect in the same order as the
+    // selection in the GUI - so use a stable sort.
+    std::stable_sort(results_to_resume.begin(), results_to_resume.end(), sort_order_started);
+    std::stable_sort(results_to_suspend.begin(), results_to_suspend.end(), sort_order_not_started);
+
+    // Do the action(s)
+    //
+    // One of these lists should always be empty, so the order in which we action
+    // the two makes no difference. If somehow we do end up with entries in both,
+    // sending the resume requests first gives the client a more up-to-date picture
+    // before the suspensions cause it to go looking for tasks that are ready to run.
+    for (const RESULT* result : results_to_resume) {
+        pDoc->WorkResume(result->project_url, result->name);
+    }
+    for (const RESULT* result : results_to_suspend) {
+        pDoc->WorkSuspend(result->project_url, result->name);
     }
 
     UpdateSelection();
@@ -484,7 +562,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
             pDoc->WorkShowGraphics(result);
@@ -517,7 +595,7 @@ void CViewWork::OnWorkShowVMConsole( wxCommandEvent& WXUNUSED(event) ) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
             pDoc->WorkShowVMConsole(result);
@@ -552,7 +630,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         return;
 
     n = m_pListPane->GetSelectedItemCount();
-    
+
     if (n == 1) {
         row = -1;
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
@@ -561,7 +639,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
             return;
         }
         strMessage.Printf(
-           _("Are you sure you want to abort this task '%s'?\n(Progress: %s, Status: %s)"), 
+           _("Are you sure you want to abort this task '%s'?\n(Progress: %s, Status: %s)"),
            (work->m_strName).c_str(),
            (work->m_strProgress).c_str(),
            (work->m_strStatus).c_str()
@@ -581,16 +659,26 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         return;
     }
 
+    std::vector<RESULT*> results_to_abort;
+
     row = -1;
     while (1) {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
-        
+
         RESULT* result = pDoc->result(m_iSortedIndexes[row]);
         if (result) {
-            pDoc->WorkAbort(result->project_url, result->name);
+            results_to_abort.push_back(result);
         }
+    }
+
+    // Abort tasks that have not yet started before those that have.
+    // See longer explanation in OnWorkSuspend()
+    std::stable_sort(results_to_abort.begin(), results_to_abort.end(), sort_order_not_started);
+
+    for (const RESULT* result : results_to_abort) {
+        pDoc->WorkAbort(result->project_url, result->name);
     }
 
     UpdateSelection();
@@ -616,7 +704,7 @@ void CViewWork::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
 
 bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
     bool bReturnValue = true;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -624,17 +712,24 @@ bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-    if (!m_pTaskPane->OnSaveState(pConfig)) {
+    if (!pConfig) {
+        return false;
+    }
+
+    if (!m_pTaskPane || !m_pTaskPane->OnSaveState(pConfig)) {
         bReturnValue = false;
     }
-    if (!m_pListPane->OnSaveState(pConfig)) {
+    if (!m_pListPane || !m_pListPane->OnSaveState(pConfig)) {
         bReturnValue = false;
     }
 
-    wxString    strBaseConfigLocation = wxEmptyString;
-    strBaseConfigLocation = wxT("/Tasks");
-    pConfig->SetPath(strBaseConfigLocation);
-    pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
+    if (pConfig && pDoc) {
+        const wxString strBaseConfigLocation = wxT("/Tasks");
+        pConfig->SetPath(strBaseConfigLocation);
+        pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
+    } else {
+        bReturnValue = false;
+    }
 
     return bReturnValue;
 }
@@ -707,7 +802,7 @@ wxInt32 CViewWork::GetDocCount() {
 wxString CViewWork::OnListGetItemText(long item, long column) const {
     CWork*    work      = NULL;
     wxString  strBuffer = wxEmptyString;
-    
+
     m_pListPane->AddPendingProgressBar(item);
 
     try {
@@ -731,8 +826,8 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strCPUTime;
                 break;
             case COLUMN_PROGRESS:
-                // CBOINCListCtrl::DrawProgressBars() will draw this using 
-                // data provided by GetProgressText() and GetProgressValue(), 
+                // CBOINCListCtrl::DrawProgressBars() will draw this using
+                // data provided by GetProgressText() and GetProgressValue(),
                 // but we need it here for accessibility programs.
                 strBuffer = work->m_strProgress;
                 break;
@@ -745,9 +840,15 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
             case COLUMN_STATUS:
                 strBuffer = work->m_strStatus;
                 break;
+            case COLUMN_ESTIMATEDCOMPLETION:
+                strBuffer = work->m_strEstimatedCompletion;
+                break;
+            case COLUMN_DEADLINEDIFF:
+                strBuffer = work->m_strDeadlineDiff;
+                break;
         }
     }
-    
+
     return strBuffer;
 }
 
@@ -823,14 +924,14 @@ void CViewWork::UpdateSelection() {
     CBOINCBaseView::PreUpdateSelection();
 
     pGroup = m_TaskGroups[0];
-    
+
     n = m_pListPane->GetSelectedItemCount();
     if (n > 0) {
         enableShowGraphics = true;
         enableShowVMConsole = true;
         enableSuspendResume = true;
         enableAbort = true;
-        
+
         pDoc->GetCoreClientStatus(status);
         if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
             enableShowGraphics = false;
@@ -863,7 +964,7 @@ void CViewWork::UpdateSelection() {
         // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;     // Should never happen
-        
+
         result = pDoc->result(m_iSortedIndexes[row]);
         if (!result) continue;
         if (i == 0) {
@@ -912,7 +1013,7 @@ void CViewWork::UpdateSelection() {
                 enableShowGraphics = false;
             }
         }
-        
+
         // Disable Show VM console if the selected task hasn't registered a remote
         // desktop connection
         //
@@ -927,19 +1028,19 @@ void CViewWork::UpdateSelection() {
         }
 
         if (result->suspended_via_gui ||
-            result->project_suspended_via_gui || 
+            result->project_suspended_via_gui ||
             (result->scheduler_state != CPU_SCHED_SCHEDULED)
         ) {
             if (!isGFXRunning) {
                 enableShowGraphics = false;
             }
         }
-       
+
         // Disable Abort button if any selected task already aborted
         if (
             result->active_task_state == PROCESS_ABORT_PENDING ||
             result->active_task_state == PROCESS_ABORTED ||
-            result->state == RESULT_ABORTED 
+            result->state == RESULT_ABORTED
         ) {
             enableAbort = false;
         }
@@ -952,7 +1053,7 @@ void CViewWork::UpdateSelection() {
                 all_same_project = false;
             }
         }
-        
+
         if (n == 1) {
             enableProperties = true;
         }
@@ -995,7 +1096,7 @@ void CViewWork::UpdateSelection() {
 bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
-    double       x = 0.0;
+    double      x = 0.0;
     time_t      tDocumentTime = (time_t)0;
     CWork*      work;
 
@@ -1004,9 +1105,9 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
      if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
         return false;
     }
-    
+
     if (iColumnIndex < 0) return false;
-    
+
     switch (m_iColumnIndexToColumnID[iColumnIndex]) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
@@ -1059,7 +1160,39 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocReportDeadline(m_iSortedIndexes[iRowIndex], tDocumentTime);
             if (tDocumentTime != work->m_tReportDeadline) {
                 work->m_tReportDeadline = tDocumentTime;
-                FormatReportDeadline(tDocumentTime, work->m_strReportDeadline);
+                FormatDateTime(tDocumentTime, work->m_strReportDeadline);
+                return true;
+            }
+            break;
+        case COLUMN_ESTIMATEDCOMPLETION:
+            GetDocEstCompletionDate(m_iSortedIndexes[iRowIndex], tDocumentTime);
+            if (tDocumentTime != work->m_tEstimatedCompletion) {
+                work->m_tEstimatedCompletion = tDocumentTime;
+                if (work->m_tEstimatedCompletion == 0) {
+                    work->m_strEstimatedCompletion = _("---");
+                }
+                else {
+                    FormatDateTime(tDocumentTime, work->m_strEstimatedCompletion);
+                }
+                return true;
+            }
+            break;
+        case COLUMN_DEADLINEDIFF:
+            GetDocEstDeadlineDiff(m_iSortedIndexes[iRowIndex], x);
+            if (x != work->m_fDeadlineDiff) {
+                work->m_fDeadlineDiff = x;
+                if (x < 0) {
+                    // A negative difference means the task will not meet the
+                    // deadline. Because FormatTime does not recognize negative
+                    // numbers, the adjustment will be made here.
+                    //
+                    x *= -1;
+                    work->m_strDeadlineDiff = _("-");
+                    work->m_strDeadlineDiff += FormatTime(x);
+                }
+                else {
+                    work->m_strDeadlineDiff = FormatTime(x);
+                }
                 return true;
             }
             break;
@@ -1130,7 +1263,7 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         } else {
             strAppBuffer = HtmlEntityDecode(wxString(state_result->avp->app_name, wxConvUTF8));
         }
-        
+
         if (strlen(avp->plan_class)) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
@@ -1178,6 +1311,7 @@ void CViewWork::GetDocCPUTime(wxInt32 item, double& fBuffer) const {
     }
 }
 
+
 void CViewWork::GetDocProgress(wxInt32 item, double& fBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
@@ -1212,35 +1346,66 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
     }
 }
 
-void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
+
+void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& tBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
-        time = (time_t)result->report_deadline;
+        tBuffer = (time_t)result->report_deadline;
     } else {
-        time = (time_t)0;
+        tBuffer = (time_t)0;
     }
 }
 
 
-wxInt32 CViewWork::FormatReportDeadline(time_t deadline, wxString& strBuffer) const {
+// Calculates the estimated date and time a task will be completed.
+// This is only calculated for active tasks.  If a task is not active,
+// time pt will remain at zero.  The intent is for the command calling this
+// function to use that value to display '---', not the epoch time.
+//
+void CViewWork::GetDocEstCompletionDate(wxInt32 item, time_t& tBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    tBuffer = 0;
+    if (result) {
+        if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
+            time_t ttime = time(0);
+            tBuffer = ttime;
+            tBuffer += (time_t)result->estimated_cpu_time_remaining;
+        }
+    }
+}
+
+
+void CViewWork::GetDocEstDeadlineDiff(wxInt32 item, double& fBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    fBuffer = 0;
+    if (result) {
+        if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
+            time_t tdeadline, testcompletion;
+            GetDocEstCompletionDate(item, testcompletion);
+            GetDocReportDeadline(item, tdeadline);
+            fBuffer = (double)(tdeadline - testcompletion);
+        }
+    }
+}
+
+
+wxInt32 CViewWork::FormatDateTime(time_t datetime, wxString& strBuffer) const {
 #ifdef __WXMAC__
     // Work around a wxCocoa bug(?) in wxDateTime::Format()
     char buf[80];
-    struct tm * timeinfo = localtime(&deadline);
+    struct tm * timeinfo = localtime(&datetime);
     strftime(buf, sizeof(buf), "%c", timeinfo);
     strBuffer = buf;
 #else
     wxDateTime     dtTemp;
 
-    dtTemp.Set(deadline);
+    dtTemp.Set(datetime);
     strBuffer = dtTemp.Format();
 #endif
 
     return 0;
 }
-
-
 
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
@@ -1294,7 +1459,7 @@ double CViewWork::GetProgressValue(long item) {
 wxString CViewWork::GetProgressText( long item) {
     CWork*    work      = NULL;
     wxString  strBuffer = wxEmptyString;
-    
+
     if (GetWorkCacheAtIndex(work, m_iSortedIndexes[item])) {
         strBuffer = wxEmptyString;
     } else {
@@ -1312,7 +1477,7 @@ int CViewWork::GetWorkCacheAtIndex(CWork*& workPtr, int index) {
         workPtr = NULL;
         return -1;
     }
-    
+
     return 0;
 }
 

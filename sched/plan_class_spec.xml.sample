@@ -29,7 +29,6 @@
         <gpu_type>              nvidia      </gpu_type>
         <cuda/>
         <min_nvidia_compcap>    100         </min_nvidia_compcap>
-        <max_nvidia_compcap>    200         </max_nvidia_compcap>
         <min_cuda_version>      3000        </min_cuda_version>
         <min_driver_version>    17700       </min_driver_version>
         <min_gpu_ram_mb>        254         </min_gpu_ram_mb>
@@ -119,5 +118,13 @@
         <min_vbox_version>      30200       </min_vbox_version>
         <min_ncpus>             2           </min_ncpus>
         <max_threads>           2           </max_threads>
+    </plan_class>
+    <plan_class>
+        <name>                  wsl         </name>
+        <wsl/>
+    </plan_class>
+    <plan_class>
+        <name>                  docker      </name>
+        <docker/>
     </plan_class>
 </plan_classes>

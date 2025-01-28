@@ -1,4 +1,4 @@
-/** 
+/**
  * @file
  *
  * Javascript for flag_abuse_reason. Shows the dropdown box defined in
@@ -28,19 +28,19 @@ $(document).bind('flagGlobalBeforeLinkUpdate', function(event, data) {
      */
     // User clicks on the Report link
     if ( window.getComputedStyle(ddelement).display === "none" &&
-         data.flagName == "abuse_node_meta" && 
+         data.flagName == "abuse_node_meta" &&
          data.flagStatus == "flagged" ) {
       ddelement.style.display = "block";
     }
-  
+
     if ( window.getComputedStyle(ddelement).display === "block" ) {
       // User clicks on any of the flags in the drop down
-      if ( data.flagName != "abuse_node_meta" && 
+      if ( data.flagName != "abuse_node_meta" &&
   	 data.flagStatus == "flagged" ) {
         ddelement.style.display = "none";
       }
       // User clicks on Cancel Report
-      else if ( data.flagName == "abuse_node_meta" && 
+      else if ( data.flagName == "abuse_node_meta" &&
   	      data.flagStatus == "unflagged" ) {
         ddelement.style.display = "none";
       }
@@ -61,19 +61,19 @@ $(document).bind('flagGlobalBeforeLinkUpdate', function(event, data) {
      */
     // User clicks on the Report link
     if ( window.getComputedStyle(ddelement).display === "none" &&
-         data.flagName == "abuse_comment_meta" && 
+         data.flagName == "abuse_comment_meta" &&
          data.flagStatus == "flagged" ) {
       ddelement.style.display = "block";
     }
-  
+
     if ( window.getComputedStyle(ddelement).display === "block" ) {
       // User clicks on any of the flags in the drop down
-      if ( data.flagName != "abuse_comment_meta" && 
+      if ( data.flagName != "abuse_comment_meta" &&
   	 data.flagStatus == "flagged" ) {
         ddelement.style.display = "none";
       }
       // User clicks on Cancel Report
-      else if ( data.flagName == "abuse_comment_meta" && 
+      else if ( data.flagName == "abuse_comment_meta" &&
   	      data.flagStatus == "unflagged" ) {
         ddelement.style.display = "none";
       }
@@ -94,19 +94,19 @@ $(document).bind('flagGlobalBeforeLinkUpdate', function(event, data) {
    */
   // User clicks on the Report link
     if ( window.getComputedStyle(ddelement).display === "none" &&
-         data.flagName == "abuse_user_meta" && 
+         data.flagName == "abuse_user_meta" &&
          data.flagStatus == "flagged" ) {
       ddelement.style.display = "block";
     }
-  
+
     if ( window.getComputedStyle(ddelement).display === "block" ) {
       // User clicks on any of the flags in the drop down
-      if ( data.flagName != "abuse_user_meta" && 
+      if ( data.flagName != "abuse_user_meta" &&
   	 data.flagStatus == "flagged" ) {
         ddelement.style.display = "none";
       }
       // User clicks on Cancel Report
-      else if ( data.flagName == "abuse_user_meta" && 
+      else if ( data.flagName == "abuse_user_meta" &&
   	      data.flagStatus == "unflagged" ) {
         ddelement.style.display = "none";
       }

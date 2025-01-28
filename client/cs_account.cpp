@@ -33,6 +33,7 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
+#include "md5_file.h"
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
@@ -322,6 +323,7 @@ int CLIENT_STATE::parse_account_files() {
     PROJECT* project;
     FILE* f;
     int retval;
+    char path[MAXPATHLEN];
 
     DirScanner dir(".");
     while (dir.scan(name)) {
@@ -344,16 +346,50 @@ int CLIENT_STATE::parse_account_files() {
                 "Couldn't parse account file %s", name.c_str()
             );
             delete project;
-        } else {
-            if (lookup_project(project->master_url)) {
+            continue;
+        }
+
+        // see if the account file name doesn't match the master URL.
+        // This can happen if a project changes its URL
+        //
+        // If this happens, anything in client_state.xml for the old project
+        // will be ignored.
+        //
+        get_account_filename(project->master_url, path, sizeof(path));
+        if (strcmp(path, name.c_str())) {
+            // if not, see if account file with proper name exists
+            //
+            if (boinc_file_exists(path)) {
+                // yes - delete this file
+                //
                 msg_printf(project, MSG_INFO,
-                    "Duplicate account file %s - ignoring", name.c_str()
+                    "Misnamed account file %s - deleting", name.c_str()
                 );
+                boinc_delete_file(name.c_str());
                 delete project;
+                continue;
             } else {
-                projects.push_back(project);
+                // no - rename this file
+                //
+                msg_printf(project, MSG_INFO,
+                    "Misnamed account file %s - renaming to %s",
+                    name.c_str(), path
+                );
+                boinc_rename(name.c_str(), path);
             }
         }
+
+        // shouldn't happen given the above logic, but just in case
+        //
+        if (lookup_project(project->master_url)) {
+            msg_printf(project, MSG_INFO,
+                "Duplicate account file %s - ignoring", name.c_str()
+            );
+            delete project;
+            continue;
+        }
+
+        projects.push_back(project);
     }
     return 0;
 }
@@ -465,7 +501,7 @@ int PROJECT::write_statistics_file() {
     get_statistics_filename(master_url, path, sizeof(path));
     f = boinc_fopen(TEMP_STATS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
-    fprintf(f, 
+    fprintf(f,
         "<project_statistics>\n"
         "    <master_url>%s</master_url>\n",
         master_url
@@ -474,7 +510,7 @@ int PROJECT::write_statistics_file() {
     for (std::vector<DAILY_STATS>::iterator i=statistics.begin();
         i!=statistics.end(); ++i
     ) {
-        fprintf(f, 
+        fprintf(f,
             "    <daily_statistics>\n"
             "        <day>%f</day>\n"
             "        <user_total_credit>%f</user_total_credit>\n"
@@ -490,7 +526,7 @@ int PROJECT::write_statistics_file() {
         );
     }
 
-    fprintf(f, 
+    fprintf(f,
         "</project_statistics>\n"
     );
 
@@ -502,6 +538,7 @@ int PROJECT::write_statistics_file() {
 
 int CLIENT_STATE::add_project(
     const char* master_url, const char* _auth, const char* project_name,
+    const char* email_addr,
     bool attached_via_acct_mgr
 ) {
     char path[MAXPATHLEN], canonical_master_url[256], auth[256];
@@ -588,6 +625,16 @@ int CLIENT_STATE::add_project(
     projects.push_back(project);
     sort_projects_by_name();
     project->sched_rpc_pending = RPC_REASON_INIT;
+
+    // compute email addr hash
+    //
+    if (strlen(email_addr)) {
+        md5_block(
+            (unsigned char*)email_addr,
+            (int)strlen(email_addr),
+            project->email_hash
+        );
+    }
     set_client_state_dirty("Add project");
     return 0;
 }

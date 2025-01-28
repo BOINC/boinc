@@ -26,6 +26,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -35,7 +36,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
-import edu.berkeley.boinc.attach.HintFragment.*
+import edu.berkeley.boinc.attach.HintFragment.Companion.HINT_TYPE_CONTRIBUTION
+import edu.berkeley.boinc.attach.HintFragment.Companion.HINT_TYPE_PLATFORMS
+import edu.berkeley.boinc.attach.HintFragment.Companion.HINT_TYPE_PROJECTWEBSITE
+import edu.berkeley.boinc.attach.HintFragment.Companion.newInstance
 import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_READY
 import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_SUCCESS
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
@@ -72,6 +76,19 @@ class BatchProcessingActivity : AppCompatActivity() {
         })
         adaptHintHeader()
         doBindService()
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.hintContainer.currentItem == 0) {
+                    // If the user is currently looking at the first step, allow the system to handle the
+                    // Back button. This calls finish() on this activity and pops the back stack.
+                    finish()
+                } else {
+                    // Otherwise, select the previous step.
+                    binding.hintContainer.currentItem--
+                }
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -79,17 +96,6 @@ class BatchProcessingActivity : AppCompatActivity() {
 
         super.onDestroy()
         doUnbindService()
-    }
-
-    override fun onBackPressed() {
-        if (binding.hintContainer.currentItem == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed()
-        } else {
-            // Otherwise, select the previous step.
-            binding.hintContainer.currentItem--
-        }
     }
 
     // triggered by continue button

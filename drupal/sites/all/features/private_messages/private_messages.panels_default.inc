@@ -41,7 +41,7 @@ function private_messages_default_panels_mini() {
     $pane->configuration = array(
       'admin_title' => 'Mail summary',
       'title' => 'Messages',
-      'body' => '<?php 
+      'body' => '<?php
   $l1 = url(\'messages\');
   $l2 = url(\'messages/new\');
 ?>

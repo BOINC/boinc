@@ -25,7 +25,7 @@ require_once("../inc/user.inc");
 require_once("../inc/consent.inc");
 
 if (empty($_POST)) {
-    error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
+    error_page("Missing args");
 }
 
 // Get the next url from POST
@@ -33,26 +33,28 @@ $next_url = post_str("next_url", true);
 $next_url = urldecode($next_url);
 $next_url = sanitize_local_url($next_url);
 if (strlen($next_url) == 0) {
-    $next_url = USER_HOME;
+    $next_url = HOME_PAGE;
 }
 
-// validate checkbox
 $agree = post_str("agree_to_terms_of_use", true);
 if (!$agree) {
-    error_page(tra("You have not agreed to our terms of use. You may not continue until you do so."));
+    error_page(tra("Agree to terms of use to continue."));
 }
 
 // Obtain data from cookies
 if (isset($_COOKIE['logintoken'])) {
     $logintoken = $_COOKIE['logintoken'];
 } else {
-    error_page(tra("Website error when attempting to agree to terms of use."));
+    error_page("Missing arg");
 }
 
 if (isset($_COOKIE['tempuserid'])) {
     $userid = $_COOKIE['tempuserid'];
+    if (filter_var($userid, FILTER_VALIDATE_INT) === false) {
+        error_page("Bad arg");
+    }
 } else {
-    error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
+    error_page("Missing arg");
 }
 
 if (isset($_COOKIE['tempperm'])) {
@@ -66,22 +68,21 @@ if (isset($_COOKIE['tempperm'])) {
 // misuse of the token.
 if (!is_valid_token($userid, $logintoken, TOKEN_TYPE_LOGIN_INTERCEPT)) {
     delete_token($userid, $logintoken, TOKEN_TYPE_LOGIN_INTERCEPT);
-    error_page(tra("Authentication error attempting to agree to terms of use."));
+    error_page("Invalid token");
 }
 delete_token($userid, $logintoken, TOKEN_TYPE_LOGIN_INTERCEPT);
 
 $user = BoincUser::lookup_id_nocache($userid);
 $authenticator = $user->authenticator;
 
-// Set CONSENT_TYPE_ENROLL in database.
 list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
 if ($checkct) {
     $rc1 = consent_to_a_policy($user, $ctid, 1, 0, 'Webform', time());
     if (!$rc1) {
-        error_page("Database error when attempting to INSERT into table consent with ID=$user->id. " . BoincDb::error() . " Please contact site administrators.");
+        error_page("Database error");
     }
 } else {
-    error_page("Error: consent type for enrollment not found. Please contact site administrators.");
+    error_page("Consent type not found");
 }
 
 

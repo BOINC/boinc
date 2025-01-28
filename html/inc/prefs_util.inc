@@ -32,13 +32,13 @@ function check_venue($x) {
     if ($x == "home") return;
     if ($x == "work") return;
     if ($x == "school") return;
-    error_page(tra("bad venue: %1", $x));
+    error_page("bad venue");
 }
 
 function check_subset($x) {
     if ($x == "global") return;
     if ($x == "project") return;
-    error_page(tra("bad subset: %1", $x));
+    error_page("bad subset");
 }
 
 abstract class PREF {
@@ -192,7 +192,9 @@ class PREF_CONSENT extends PREF {
         $this->tooltip_tr();
         echo "<td class=\"text-right \">$this->desc</td>";
         $consent_type_id = $this->consent_type_id;
-        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        $cr = BoincLatestConsent::lookup(
+            "userid=$user->id AND consent_type_id='$consent_type_id'"
+        );
         if ($cr) {
             $this->show_value($user);
         } else {
@@ -210,7 +212,9 @@ class PREF_CONSENT extends PREF {
         $this->tooltip_tr();
         echo "<td class=\"text-right \">$this->desc</td>";
         $consent_type_id = $this->consent_type_id;
-        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        $cr = BoincLatestConsent::lookup(
+            "userid=$user->id AND consent_type_id='$consent_type_id'"
+        );
         if ($cr) {
             $this->show_value($user);
         } else {
@@ -228,7 +232,9 @@ class PREF_CONSENT extends PREF {
 
     function show_value($user) {
         $consent_type_id = $this->consent_type_id;
-        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        $cr = BoincLatestConsent::lookup(
+            "userid=$user->id AND consent_type_id='$consent_type_id'"
+        );
         if ($cr) {
             $value = $cr->consent_flag;
         } else {
@@ -238,7 +244,8 @@ class PREF_CONSENT extends PREF {
     }
     function show_form($user, $error) {
         $consent_type_id = $this->consent_type_id;
-        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        $cr = BoincLatestConsent::lookup(
+            "userid=$user->id AND consent_type_id='$consent_type_id'");
         if ($cr) {
             if ($this->invert) {
                 $checked = !$cr->consent_flag;
@@ -265,13 +272,16 @@ class PREF_CONSENT extends PREF {
         // Check to see if latest consent of this name is already
         // given, i.e., consent_flag set to "formget". If not, consent
         // to this consent type.
-        $cr = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id='${consent_type_id}'");
+        $cr = BoincLatestConsent::lookup(
+            "userid=$user->id AND consent_type_id='$consent_type_id$'"
+        );
 
-        if ( (($cr) and ($cr->consent_flag!=$flag)) or
-             (!$cr) ) {
-            $rc = consent_to_a_policy($user, $consent_type_id, $flag, 0, 'Webform', time());
+        if ((($cr) and ($cr->consent_flag!=$flag)) or (!$cr)) {
+            $rc = consent_to_a_policy(
+                $user, $consent_type_id, $flag, 0, 'Webform', time()
+            );
             if (!$rc) {
-                error_page(tra("Database error:").BoincDb::error());
+                error_page("Database error");
             }
         }
     }
@@ -286,9 +296,11 @@ class PREF_CONSENT extends PREF {
     function set_default(&$user) {
         $consent_type_id = $this->consent_type_id;
 
-        $rc = consent_to_a_policy($user, $consent_type_id, $this->default, 0, 'Webform');
+        $rc = consent_to_a_policy(
+            $user, $consent_type_id, $this->default, 0, 'Webform'
+        );
         if (!$rc) {
-            error_page(tra("Database error:").BoincDb::error());
+            error_page("Database error");
         }
     }
 

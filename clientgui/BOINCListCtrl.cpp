@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,7 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "BOINCBaseView.h"
 #include "BOINCListCtrl.h"
 #include "Events.h"
@@ -132,7 +133,7 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
     for (iIndex = 0; iIndex < iActualColumnCount; iIndex++) {
         m_pParentView->m_iStdColWidthOrder[m_pParentView->m_iColumnIndexToColumnID[iIndex]] = GetColumnWidth(iIndex);
     }
-    
+
     for (iIndex = 0; iIndex < iStdColumnCount; iIndex++) {
         pConfig->SetPath(strBaseConfigLocation + m_pParentView->m_aStdColNameOrder->Item(iIndex));
         pConfig->Write(wxT("Width"), m_pParentView->m_iStdColWidthOrder[iIndex]);
@@ -158,9 +159,9 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
         aOrder[i] = i;
     }
 #endif
-    
+
     strColumnOrder.Printf(wxT("%s"), pView->m_aStdColNameOrder->Item(pView->m_iColumnIndexToColumnID[aOrder[0]]));
-    
+
     for (i = 1; i < iActualColumnCount; ++i)
     {
         strBuffer.Printf(wxT(";%s"), pView->m_aStdColNameOrder->Item(pView->m_iColumnIndexToColumnID[aOrder[i]]));
@@ -185,7 +186,7 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
         strHiddenColumns += pView->m_aStdColNameOrder->Item(i);
     }
     pConfig->Write(wxT("HiddenColumns"), strHiddenColumns);
-    
+
     return true;
 }
 
@@ -207,7 +208,6 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     // Cycle through the possible columns updating column widths
     for (iIndex = 0; iIndex < iStdColumnCount; iIndex++) {
         pConfig->SetPath(strBaseConfigLocation + m_pParentView->m_aStdColNameOrder->Item(iIndex));
-
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
             m_pParentView->m_iStdColWidthOrder[iIndex] = iTempValue;
@@ -238,21 +238,24 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         // If the user installed a new version of BOINC, new columns may have
         // been added that didn't exist in the older version. Check for this.
         //
-        // This will also be triggered if the locale is changed, which will cause 
-        // SetListColumnOrder() to be called again so the wxListCtrl will be set 
-        // up with the correctly labeled columns. 
+        // This will also be triggered if the locale is changed, which will cause
+        // SetListColumnOrder() to be called again so the wxListCtrl will be set
+        // up with the correctly labeled columns.
+        //
         bool foundNewColumns = false;
-        
+        bool foundNewDefaultColumns = false;
+
         if (pConfig->Read(wxT("HiddenColumns"), &strHiddenColumns)) {
             wxArrayString hiddenArray;
+            wxArrayString defaultArray;
             TokenizedStringToArray(strHiddenColumns, ";", &hiddenArray);
             int shownCount = orderArray.size();
             int hiddenCount = hiddenArray.size();
             int totalCount = pView->m_aStdColNameOrder->size();
-            for (int i = 0; i < totalCount; ++i) {
+            for (int i = 0; i < totalCount; ++i) {  // cycles through updated array of columns.
                 wxString columnNameToFind = pView->m_aStdColNameOrder->Item(i);
                 bool found = false;
-                for (int j = 0; j < shownCount; ++j) {
+                for (int j = 0; j < shownCount; ++j) {  // cycles through list of visible columns.
                     if (orderArray[j].IsSameAs(columnNameToFind)) {
                         found = true;
                         break;
@@ -260,28 +263,47 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
                 }
                 if (found) continue;
 
-                for (int j = 0; j < hiddenCount; ++j) {
+                for (int j = 0; j < hiddenCount; ++j) {  // cycles through the hidden columns.
                     if (hiddenArray[j].IsSameAs(columnNameToFind)) {
                         found = true;
                         break;
                     }
                 }
                 if (found) continue;
-                
-                foundNewColumns =  true;
-                orderArray.Add(columnNameToFind);
+
+                foundNewColumns = true;
+                // If we got this far, then we know this column is new.
+                // Now it needs to be determined if the new column should be shown by default or not.
+                // Create array of default columns.
+                //
+                defaultArray.Clear();
+                for (int k = 0; k < pView->m_iNumDefaultShownColumns; ++k) {
+                    defaultArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[k]));
+                }
+                for (int k = 0; k < defaultArray.GetCount(); ++k) {
+                    if (defaultArray[k].IsSameAs(columnNameToFind)) {
+                        orderArray.Add(columnNameToFind);
+                        foundNewDefaultColumns = true;
+                        break;
+                    }
+                }
+                if (!foundNewDefaultColumns) {
+                    hiddenArray.Add(columnNameToFind);  // No need to order new hidden columns since they are hidden.
+                }
             }
         }
         if (foundNewColumns) {
-            bool wasInStandardOrder = IsColumnOrderStandard();
-            SetListColumnOrder(orderArray);
-            if (wasInStandardOrder) SetStandardColumnOrder();
+            if (foundNewDefaultColumns) {
+                bool wasInStandardOrder = IsColumnOrderStandard();
+                SetListColumnOrder(orderArray);
+                if (wasInStandardOrder) SetStandardColumnOrder();
+            }
         }
     } else {
         // No "ColumnOrder" tag in pConfig
         // Show all columns in default column order
         wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
-    
+
         SetDefaultColumnDisplay();
     }
 
@@ -293,9 +315,9 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array) {
+void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, const char * delimiters, wxArrayString* array) {
     wxString name;
-    
+
     array->Clear();
     wxStringTokenizer tok(tokenized, delimiters);
     while (tok.HasMoreTokens())
@@ -314,30 +336,31 @@ void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, char * delimiter
 // Unfortunately, we have no way of immediately calling OnSaveState() when
 // the user manually reorders columns because that does not generate a
 // notification from MS Windows so wxWidgets can't generate an event.
+//
 void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
-    int i, stdCount, columnPosition;
-    int colCount = GetColumnCount();
+    int stdCount, columnPosition;
     int shownColCount = orderArray.GetCount();
     int columnIndex = 0;    // Column number among shown columns before re-ordering
     int columnID = 0;       // ID of column, e.g. COLUMN_PROJECT, COLUMN_STATUS, etc.
     int sortColumnIndex = -1;
     wxArrayInt aOrder(shownColCount);
-    
+
     CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
     wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
-    
+
+    // Manager will crash if the scroll bar is not at the left-most position on the
+    // current view if columns are modified.
+    //
+    pView->Freeze();
     pView->m_iColumnIndexToColumnID.Clear();
-    for (i=colCount-1; i>=0; --i) {
-        DeleteColumn(i);
-    }
-    
+    DeleteAllColumns();
     stdCount = pView->m_aStdColNameOrder->GetCount();
 
     pView->m_iColumnIDToColumnIndex.Clear();
     for (columnID=0; columnID<stdCount; ++columnID) {
         pView->m_iColumnIDToColumnIndex.Add(-1);
     }
-    
+
     for (columnID=0; columnID<stdCount; ++columnID) {
         for (columnPosition=0; columnPosition<shownColCount; ++columnPosition) {
             if (orderArray[columnPosition].IsSameAs(pView->m_aStdColNameOrder->Item(columnID))) {
@@ -351,7 +374,7 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
             }
         }
     }
-    
+
     // Prevent a crash bug if we just changed to a new locale.
     //
     // If a column has the same name in both the old and new locale, we guard against
@@ -369,7 +392,7 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
             pView->m_iColumnIDToColumnIndex[columnID] = columnID;
         }
     }
-    
+
     // If sort column is now hidden, set the new first column as sort column
     if (pView->m_iSortColumnID >= 0) {
         sortColumnIndex = pView->m_iColumnIDToColumnIndex[pView->m_iSortColumnID];
@@ -382,13 +405,14 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
             pView->SetSortColumn(sortColumnIndex);
         }
     }
-    
+
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    colCount = GetColumnCount();
+    int colCount = GetColumnCount();
     if ((shownColCount > 0) && (shownColCount <= stdCount) && (colCount == shownColCount)) {
         SetColumnsOrder(aOrder);
     }
 #endif
+    pView->Thaw();
 }
 
 
@@ -425,14 +449,14 @@ void CBOINCListCtrl::SetDefaultColumnDisplay() {
     int i;
     wxArrayString orderArray;
     CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
-    
+
     wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
 
     orderArray.Clear();
     for (i=0; i<pView->m_iNumDefaultShownColumns; ++i) {
         orderArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[i]));
     }
-    
+
     SetListColumnOrder(orderArray);
     SetStandardColumnOrder();
 }
@@ -479,11 +503,12 @@ void CBOINCListCtrl::DrawProgressBars()
     wxRect r, rr;
     int w = 0, x = 0, xx, yy, ww;
     int progressColumn = -1;
-    
+    bool isDarkMode = wxGetApp().GetIsDarkMode();
+
     if (m_pParentView->GetProgressColumn() >= 0) {
         progressColumn = m_pParentView->m_iColumnIDToColumnIndex[m_pParentView->GetProgressColumn()];
     }
-    
+
 #if USE_NATIVE_LISTCONTROL
     wxClientDC dc(this);
     m_bProgressBarEventPending = false;
@@ -498,10 +523,10 @@ void CBOINCListCtrl::DrawProgressBars()
 
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
-    
-    wxColour progressColor = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
+
+    wxColour progressColor = isDarkMode ? wxColour(0, 64, 128) : wxColour(192, 217, 217);
     wxBrush progressBrush(progressColor);
-    
+
     numItems = GetItemCount();
     if (numItems) {
         topItem = GetTopItem();     // Doesn't work properly for Mac Native control in wxMac-2.8.7
@@ -517,7 +542,7 @@ void CBOINCListCtrl::DrawProgressBars()
             x += GetColumnWidth(GetColumnIndexFromOrder(i));
         }
         w = GetColumnWidth(progressColumn);
-        
+
 #if USE_NATIVE_LISTCONTROL
         x -= GetScrollPos(wxHORIZONTAL);
 #else
@@ -525,12 +550,12 @@ void CBOINCListCtrl::DrawProgressBars()
 #endif
         wxFont theFont = GetFont();
         dc.SetFont(theFont);
-        
+
         for (int i=0; i<n; ++i) {
             row = m_iRowsNeedingProgressBars[i];
             if (row < topItem) continue;
             if (row > (topItem + numVisibleItems -1)) continue;
-        
+
 
             GetItemRect(row, r);
 #if ! USE_NATIVE_LISTCONTROL
@@ -543,9 +568,9 @@ void CBOINCListCtrl::DrawProgressBars()
 
             wxString progressString = m_pParentView->GetProgressText(row);
             dc.GetTextExtent(progressString, &xx, &yy);
-            
+
             r.y += (r.height - yy - 1) / 2;
-            
+
             // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
             if (xx > r.width) {
                 int ellipsisWidth;
@@ -562,7 +587,7 @@ void CBOINCListCtrl::DrawProgressBars()
                     xx += ellipsisWidth;
                 }
             }
-            
+
             dc.SetLogicalFunction(wxCOPY);
             dc.SetBackgroundMode(wxSOLID);
             dc.SetPen(progressColor);
@@ -581,8 +606,8 @@ void CBOINCListCtrl::DrawProgressBars()
             dc.SetPen(bkgd);
             dc.SetBrush(bkgd);
 #else
-            dc.SetPen(*wxWHITE_PEN);
-            dc.SetBrush(*wxWHITE_BRUSH);
+            dc.SetPen(isDarkMode ? *wxBLACK_PEN : *wxWHITE_PEN);
+            dc.SetBrush(isDarkMode ? *wxBLACK_BRUSH : *wxWHITE_BRUSH);
 #endif
             dc.DrawRectangle( rr );
 
@@ -610,7 +635,7 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
 
 void CBOINCListCtrl::PostDrawProgressBarEvent() {
     if (m_bProgressBarEventPending) return;
-    
+
     CDrawProgressBarEvent newEvent(wxEVT_DRAW_PROGRESSBAR, this);
     AddPendingEvent(newEvent);
     m_bProgressBarEventPending = true;
@@ -672,11 +697,11 @@ void CBOINCListCtrl::OnMouseDown(wxMouseEvent& event) {
 #endif
 
 
-// To reduce flicker, refresh only changed columns (except 
+// To reduce flicker, refresh only changed columns (except
 // on Mac, which is double-buffered to eliminate flicker.)
 void CBOINCListCtrl::RefreshCell(int row, int col) {
     wxRect r;
-    
+
     GetSubItemRect(row, col, r);
     RefreshRect(r);
 }

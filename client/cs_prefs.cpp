@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -119,7 +119,7 @@ int CLIENT_STATE::get_disk_usages() {
 // - each project has a "disk_resource_share" (DRS)
 //   This is the resource share plus .1*(max resource share).
 //   This ensures that backup projects get some disk.
-// - each project has a "desired_disk_usage (DDU)", 
+// - each project has a "desired_disk_usage (DDU)",
 //   which is either its current usage
 //   or an amount sent from the scheduler.
 // - each project has a "quota": (available space)*(drs/total_drs).
@@ -177,8 +177,8 @@ void CLIENT_STATE::get_disk_shares() {
     double greedy_allowed = allowed - non_greedy_ddu;
     if (log_flags.disk_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[disk_usage] allowed %.2fMB used %.2fMB",
-            allowed/MEGA, total_disk_usage/MEGA
+            "[disk_usage] allowed %.2fGB used %.2fGB",
+            allowed/GIGA, total_disk_usage/GIGA
         );
     }
     for (i=0; i<projects.size(); i++) {
@@ -191,8 +191,8 @@ void CLIENT_STATE::get_disk_shares() {
         }
         if (log_flags.disk_usage_debug) {
             msg_printf(p, MSG_INFO,
-                "[disk_usage] usage %.2fMB share %.2fMB",
-                p->disk_usage/MEGA, p->disk_share/MEGA
+                "[disk_usage] usage %.2fGB share %.2fGB",
+                p->disk_usage/GIGA, p->disk_share/GIGA
             );
         }
     }
@@ -203,6 +203,8 @@ void CLIENT_STATE::get_disk_shares() {
 // and if it's zero set gpu_suspend_reason
 //
 int CLIENT_STATE::check_suspend_processing() {
+    static double last_cpu_usage_suspend=0;
+
     if (benchmarks_running) {
         return SUSPEND_REASON_BENCHMARKS;
     }
@@ -247,23 +249,44 @@ int CLIENT_STATE::check_suspend_processing() {
         if (now - exclusive_app_running < MEMORY_USAGE_PERIOD + EXCLUSIVE_APP_WAIT) {
             return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
         }
-        if (global_prefs.suspend_cpu_usage && non_boinc_cpu_usage*100 > global_prefs.suspend_cpu_usage) {
-            return SUSPEND_REASON_CPU_USAGE;
+
+        // if we suspended because of CPU usage,
+        // don't unsuspend for at least 2*MEMORY_USAGE_PERIOD
+        //
+        if (current_suspend_cpu_usage()) {
+            if (now < last_cpu_usage_suspend+2*MEMORY_USAGE_PERIOD) {
+                return SUSPEND_REASON_CPU_USAGE;
+            }
+            if (non_boinc_cpu_usage*100 > current_suspend_cpu_usage()) {
+                last_cpu_usage_suspend = now;
+                return SUSPEND_REASON_CPU_USAGE;
+            }
         }
     }
 
 #ifdef ANDROID
+    // suspend if we haven't heard from the GUI in 30 sec
+    // (we rely on it for battery info)
+    //
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
         requested_exit = true;
         return SUSPEND_REASON_NO_GUI_KEEPALIVE;
     }
 
     // check for hot battery
+    // If suspend because of hot battery, don't resume for at least 5 min
+    // (crude hysteresis)
     //
+    static double battery_heat_resume_time=0;
+    if (now < battery_heat_resume_time) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
     if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
+        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
     if (device_status.battery_temperature_celsius > global_prefs.battery_max_temperature) {
+        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
         return SUSPEND_REASON_BATTERY_OVERHEATED;
     }
 
@@ -271,13 +294,18 @@ int CLIENT_STATE::check_suspend_processing() {
     // while it's recharging.
     // So compute only if 95% charged or more.
     //
+    static double battery_charge_resume_time=0;
+    if (now < battery_charge_resume_time) {
+        return SUSPEND_REASON_BATTERY_CHARGING;
+    }
     int cp = device_status.battery_charge_pct;
     if (cp >= 0) {
         if (cp < global_prefs.battery_charge_min_pct) {
+            battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
     }
-    
+
     // user active.
     // Do this check after checks that user can not influence on Android.
     // E.g.
@@ -286,26 +314,6 @@ int CLIENT_STATE::check_suspend_processing() {
     // 3. "turn screen off to continue computing"
     if (!global_prefs.run_if_user_active && user_active) {
         return SUSPEND_REASON_USER_ACTIVE;
-    }
-#endif
-
-#ifndef NEW_CPU_THROTTLE
-    // CPU throttling.
-    // Do this check last; that way if suspend_reason is CPU_THROTTLE,
-    // the GUI knows there's no other source of suspension
-    //
-    if (global_prefs.cpu_usage_limit < 99) {        // round-off?
-        static double last_time=0, debt=0;
-        double diff = now - last_time;
-        last_time = now;
-        if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
-            debt += diff*global_prefs.cpu_usage_limit/100;
-            if (debt < 0) {
-                return SUSPEND_REASON_CPU_THROTTLE;
-            } else {
-                debt -= diff;
-            }
-        }
     }
 #endif
 
@@ -425,7 +433,7 @@ void CLIENT_STATE::check_suspend_network() {
     );
 
     switch(network_run_mode.get_current()) {
-    case RUN_MODE_ALWAYS: 
+    case RUN_MODE_ALWAYS:
         goto done;
     case RUN_MODE_NEVER:
         file_xfers_suspended = true;
@@ -471,7 +479,7 @@ void CLIENT_STATE::check_suspend_network() {
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
     }
-#endif    
+#endif
     if (global_prefs.net_times.suspended(now)) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
@@ -505,12 +513,12 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
     PROJECT* pp = global_prefs_source_project();
     if (pp) {
         msg_printf(pp, MSG_INFO,
-            "General prefs: from %s (last modified %s)",
+            "Computing prefs: from %s (last modified %s)",
             pp->get_project_name(), time_to_string(global_prefs.mod_time)
         );
     } else {
         msg_printf(NULL, MSG_INFO,
-            "General prefs: from %s (last modified %s)",
+            "Computing prefs: from %s (last modified %s)",
             global_prefs.source_project,
             time_to_string(global_prefs.mod_time)
         );
@@ -519,17 +527,16 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
         msg_printf(pp, MSG_INFO, "Computer location: %s", main_host_venue);
         if (found_venue) {
             msg_printf(NULL, MSG_INFO,
-                "General prefs: using separate prefs for %s", main_host_venue
+                "Computing prefs: using separate prefs for %s", main_host_venue
             );
         } else {
             msg_printf(pp, MSG_INFO,
-                "General prefs: no separate prefs for %s; using your defaults",
+                "Computing prefs: no separate prefs for %s; using default location",
                 main_host_venue
             );
         }
     } else {
-        msg_printf(pp, MSG_INFO, "Host location: none");
-        msg_printf(pp, MSG_INFO, "General prefs: using your defaults");
+        msg_printf(pp, MSG_INFO, "Computing prefs: computer location unspecified; using default");
     }
 }
 
@@ -656,71 +663,169 @@ void CLIENT_STATE::read_global_prefs(
         }
     }
 
-    msg_printf(NULL, MSG_INFO, "Preferences:");
-    msg_printf(NULL, MSG_INFO,
-        "   max memory usage when active: %.2f MB",
-        (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
-    );
-    msg_printf(NULL, MSG_INFO,
-        "   max memory usage when idle: %.2f MB",
-        (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
-    );
 #ifndef SIM
     get_disk_usages();
-    msg_printf(NULL, MSG_INFO,
-        "   max disk usage: %.2f GB",
-        allowed_disk_usage(total_disk_usage)/GIGA
-    );
 #endif
-    // max_cpus, bandwidth limits may have changed
-    //
-    set_ncpus();
-    if (ncpus != host_info.p_ncpus) {
-        msg_printf(NULL, MSG_INFO,
-            "   max CPUs used: %d", ncpus
-        );
-    }
-    if (!global_prefs.run_if_user_active) {
-        msg_printf(NULL, MSG_INFO, "   don't compute while active");
+    set_n_usable_cpus();
+
 #ifdef ANDROID
-    } else {
-        msg_printf(NULL, MSG_INFO, "   Android: don't compute while active");
-        global_prefs.run_if_user_active = false;
+    global_prefs.run_if_user_active = false;
 #endif
-    }
-    if (!global_prefs.run_gpu_if_user_active) {
-        msg_printf(NULL, MSG_INFO, "   don't use GPU while active");
-    }
-    if (global_prefs.suspend_cpu_usage) {
-        msg_printf(NULL, MSG_INFO,
-            "   suspend work if non-BOINC CPU load exceeds %.0f%%",
-            global_prefs.suspend_cpu_usage
-        );
-    }
-    if (global_prefs.max_bytes_sec_down) {
-        msg_printf(NULL, MSG_INFO,
-            "   max download rate: %.0f bytes/sec",
-            global_prefs.max_bytes_sec_down
-        );
-    }
-    if (global_prefs.max_bytes_sec_up) {
-        msg_printf(NULL, MSG_INFO,
-            "   max upload rate: %.0f bytes/sec",
-            global_prefs.max_bytes_sec_up
-        );
-    }
 #ifndef SIM
     file_xfers->set_bandwidth_limits(true);
     file_xfers->set_bandwidth_limits(false);
 #endif
-    msg_printf(NULL, MSG_INFO,
-        "   (to change preferences, visit a project web site or select Preferences in the Manager)"
-    );
+
+    bool have_gpu = coprocs.n_rsc > 1;
+    global_prefs.need_idle_state = global_prefs.get_need_idle_state(have_gpu);
+    print_global_prefs();
     request_schedule_cpus("Prefs update");
     request_work_fetch("Prefs update");
 #ifndef SIM
     active_tasks.request_reread_app_info();
 #endif
+}
+
+void CLIENT_STATE::print_global_prefs() {
+    msg_printf(NULL, MSG_INFO, "Computing preferences:");
+
+    // in-use prefs
+    //
+    msg_printf(NULL, MSG_INFO, "-  When computer is in use");
+    msg_printf(NULL, MSG_INFO,
+        "-     'In use' means mouse/keyboard input in last %.2f minutes",
+        global_prefs.idle_time_to_run
+    );
+    if (!global_prefs.run_if_user_active) {
+        msg_printf(NULL, MSG_INFO, "-     don't compute");
+    }
+    if (!global_prefs.run_gpu_if_user_active) {
+        msg_printf(NULL, MSG_INFO, "-     don't use GPU");
+    }
+    double p = global_prefs.max_ncpus_pct;
+    if (p) {
+        int n = (int)((host_info.p_ncpus * p)/100);
+        msg_printf(NULL, MSG_INFO,
+            "-     max CPUs used: %d", n
+        );
+    }
+    if (global_prefs.cpu_usage_limit) {
+        msg_printf(NULL, MSG_INFO,
+            "-     Use at most %.0f%% of the CPU time",
+            global_prefs.cpu_usage_limit
+        );
+    }
+    if (global_prefs.suspend_cpu_usage) {
+        msg_printf(NULL, MSG_INFO,
+            "-     suspend if non-BOINC CPU load exceeds %.0f%%",
+            global_prefs.suspend_cpu_usage
+        );
+    }
+    msg_printf(NULL, MSG_INFO,
+        "-     max memory usage: %.2f GB",
+        (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/GIGA
+    );
+
+    // not-in-use prefs
+    //
+    msg_printf(NULL, MSG_INFO,
+        "-  When computer is not in use"
+    );
+    p = global_prefs.niu_max_ncpus_pct;
+    int n = (int)((host_info.p_ncpus * p)/100);
+    msg_printf(NULL, MSG_INFO,
+        "-     max CPUs used: %d", n
+    );
+
+    msg_printf(NULL, MSG_INFO,
+        "-     Use at most %.0f%% of the CPU time",
+        global_prefs.niu_cpu_usage_limit
+    );
+
+    if (global_prefs.niu_suspend_cpu_usage > 0) {
+        msg_printf(NULL, MSG_INFO,
+            "-     suspend if non-BOINC CPU load exceeds %.0f%%",
+            global_prefs.niu_suspend_cpu_usage
+        );
+    }
+    msg_printf(NULL, MSG_INFO,
+        "-     max memory usage: %.2f GB",
+        (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/GIGA
+    );
+    if (global_prefs.suspend_if_no_recent_input > 0) {
+        msg_printf(NULL, MSG_INFO,
+            "-     Suspend if no input in last %.2f minutes",
+            global_prefs.suspend_if_no_recent_input
+        );
+    }
+
+    // Computing (CPU or GPU) could be suspended indefinitely
+    // if the idle time required before continuing computing
+    // is longer than the time required to suspend computing
+    // when the computer is idle.
+    // In this case show an alert message.
+    //
+    if ((!global_prefs.run_if_user_active || !global_prefs.run_gpu_if_user_active) && (global_prefs.suspend_if_no_recent_input > 0) &&
+        ((global_prefs.idle_time_to_run - global_prefs.suspend_if_no_recent_input) >= 0)) {
+        msg_printf(0, MSG_USER_ALERT,
+            "Preference settings don't allow computing (%.2f > %.2f). Please review.",
+            global_prefs.idle_time_to_run, global_prefs.suspend_if_no_recent_input
+        );
+    }
+
+    // other prefs
+    //
+
+    if (!global_prefs.run_on_batteries) {
+        msg_printf(NULL, MSG_INFO,
+            "-  Suspend if running on batteries"
+        );
+    }
+    if (global_prefs.leave_apps_in_memory) {
+        msg_printf(NULL, MSG_INFO,
+            "-  Leave apps in memory if not running"
+        );
+    }
+    msg_printf(NULL, MSG_INFO,
+        "-  Store at least %.2f days of work",
+        global_prefs.work_buf_min_days
+    );
+    msg_printf(NULL, MSG_INFO,
+        "-  Store up to an additional %.2f days of work",
+        global_prefs.work_buf_additional_days
+    );
+
+    // network
+    //
+    if (global_prefs.max_bytes_sec_down) {
+        msg_printf(NULL, MSG_INFO,
+            "-  max download rate: %.0f bytes/sec",
+            global_prefs.max_bytes_sec_down
+        );
+    }
+    if (global_prefs.max_bytes_sec_up) {
+        msg_printf(NULL, MSG_INFO,
+            "-  max upload rate: %.0f bytes/sec",
+            global_prefs.max_bytes_sec_up
+        );
+    }
+
+    // disk
+    //
+#ifndef SIM
+    msg_printf(NULL, MSG_INFO,
+        "-  max disk usage: %.2f GB",
+        allowed_disk_usage(total_disk_usage)/GIGA
+    );
+#endif
+    if (!global_prefs.need_idle_state) {
+        msg_printf(NULL, MSG_INFO,
+            "-  Preferences don't depend on whether computer is in use"
+        );
+    }
+    msg_printf(NULL, MSG_INFO,
+        "-  (to change preferences, visit a project web site or select 'Options / Computing preferences...' in the Manager)"
+    );
 }
 
 int CLIENT_STATE::save_global_prefs(

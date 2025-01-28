@@ -42,17 +42,17 @@ typedef enum _MANDATORY_LEVEL {
 @todo Removing was checked. To check enabling and disabling.
 */
 inline HRESULT SetPrivilege(
-		  HANDLE hToken,          
-		  LPCTSTR lpszPrivilege, 
-		  DWORD dwAttributes=SE_PRIVILEGE_ENABLED   
-		  ) 
+		  HANDLE hToken,
+		  LPCTSTR lpszPrivilege,
+		  DWORD dwAttributes=SE_PRIVILEGE_ENABLED
+		  )
 {
 	HRESULT hr=S_OK;
 	LUID luid;
 
-	if ( LookupPrivilegeValue( 
+	if ( LookupPrivilegeValue(
 			NULL,            // lookup privilege on local system
-			lpszPrivilege,   // privilege to lookup 
+			lpszPrivilege,   // privilege to lookup
 			&luid ) )        // receives LUID of privilege
 	{
 		TOKEN_PRIVILEGES tp;
@@ -63,11 +63,11 @@ inline HRESULT SetPrivilege(
 		// Enable the privilege or disable all privileges.
 
 		if ( !AdjustTokenPrivileges(
-				hToken, 
-				FALSE, 
-				&tp, 
-				sizeof(TOKEN_PRIVILEGES), 
-				(PTOKEN_PRIVILEGES) NULL, 
+				hToken,
+				FALSE,
+				&tp,
+				sizeof(TOKEN_PRIVILEGES),
+				(PTOKEN_PRIVILEGES) NULL,
 				(PDWORD) NULL) )
 			hr=HRESULT_FROM_WIN32(GetLastError());
 	}//if(LookupPrivilegeValue(...))
@@ -81,7 +81,7 @@ inline HRESULT SetPrivilege(
 Function removes the privileges which are not associated by default with explorer.exe at Medium Integration Level in Vista
 @returns HRESULT of the operation on SE_CREATE_GLOBAL_NAME (="SeCreateGlobalPrivilege")
 */
-inline HRESULT ReducePrivilegesForMediumIL(HANDLE hToken) 
+inline HRESULT ReducePrivilegesForMediumIL(HANDLE hToken)
 {
 	HRESULT hr=S_OK;
 	hr=SetPrivilege(hToken, SE_CREATE_GLOBAL_NAME, SE_PRIVILEGE_REMOVED);
@@ -108,16 +108,16 @@ inline HRESULT ReducePrivilegesForMediumIL(HANDLE hToken)
 }
 
 /*!
-@brief Gets Integration level of the given process in Vista. 
+@brief Gets Integration level of the given process in Vista.
 In the older OS assumes the integration level is equal to SECURITY_MANDATORY_HIGH_RID
 
-The function opens the process for all access and opens its token for all access. 
+The function opens the process for all access and opens its token for all access.
 Then it extracts token information and closes the handles.
 @param[in] dwProcessId ID of the process to operate
 @param[out] pdwProcessIL pointer to write the value
 @return HRESULT
 @retval <return value> { description }
-@remarks Function check for OS version by querying the presence of Kernel32.GetProductInfo function. 
+@remarks Function check for OS version by querying the presence of Kernel32.GetProductInfo function.
 This way is used due to the function is called from InstallShield12 script, so GetVersionEx returns incorrect value.
 @todo restrict access rights when quering for tokens
 */
@@ -148,7 +148,7 @@ inline HRESULT GetProcessIL(DWORD dwProcessId, LPDWORD pdwProcessIL)
 				{
 					PTOKEN_MANDATORY_LABEL pTIL=NULL;
 					DWORD dwSize=0;
-					if (!GetTokenInformation(hToken, TokenIntegrityLevel, NULL, 0, &dwSize) 
+					if (!GetTokenInformation(hToken, TokenIntegrityLevel, NULL, 0, &dwSize)
 						&& ERROR_INSUFFICIENT_BUFFER==GetLastError() && dwSize)
 						pTIL=(PTOKEN_MANDATORY_LABEL)HeapAlloc(GetProcessHeap(), 0, dwSize);
 
@@ -177,14 +177,14 @@ inline HRESULT GetProcessIL(DWORD dwProcessId, LPDWORD pdwProcessIL)
 @brief Function launches process with the integration level of Explorer on Vista. On the previous OS, simply creates the process.
 
 Function gets the integration level of the current process and Explorer, then launches the new process.
-If the integration levels are equal, CreateProcess is called. 
-If Explorer has Medium IL, and the current process has High IL, new token is created, its rights are adjusted 
-and CreateProcessWithTokenW is called. 
+If the integration levels are equal, CreateProcess is called.
+If Explorer has Medium IL, and the current process has High IL, new token is created, its rights are adjusted
+and CreateProcessWithTokenW is called.
 If Explorer has Medium IL, and the current process has High IL, error is returned.
-@param[in] szProcessName - the name of exe file (see CreateProcess()) 
+@param[in] szProcessName - the name of exe file (see CreateProcess())
 @param[in] szCmdLine - the name of exe file (see CreateProcess())
 @return HRESULT code
-@note The function cannot be used in services, due to if uses USER32.FindWindow() to get the proper instance of Explorer. 
+@note The function cannot be used in services, due to if uses USER32.FindWindow() to get the proper instance of Explorer.
 The parent of new process in taskmgr.exe, but not the current process.
 @sa ReducePrivilegesForMediumIL()
 */
@@ -204,18 +204,18 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
         }
         FreeLibrary(hmodKernel32);
     }
-	
+
 	if(bVista)
 	{
 	    HANDLE hToken;
 	    HANDLE hNewToken;
-		DWORD dwCurIL = SECURITY_MANDATORY_HIGH_RID, dwExplorerIL = SECURITY_MANDATORY_HIGH_RID; 
+		DWORD dwCurIL = SECURITY_MANDATORY_HIGH_RID, dwExplorerIL = SECURITY_MANDATORY_HIGH_RID;
 		DWORD dwExplorerID = 0;
         DWORD dwEnableVirtualization = 0;
 
 		HWND hwndShell = ::FindWindow( _T("Progman"), NULL);
 		if(hwndShell) GetWindowThreadProcessId(hwndShell, &dwExplorerID);
-		
+
 		GetProcessIL(dwExplorerID, &dwExplorerIL);
 		GetProcessIL(GetCurrentProcessId(), &dwCurIL);
 
@@ -255,7 +255,10 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
                                 &StartupInfo,
                                 &ProcInfo
                             );
-                            if(!bRet) {
+                            if(bRet) {
+                                CloseHandle(ProcInfo.hThread);
+                                CloseHandle(ProcInfo.hProcess);
+                            } else {
 								hr = HRESULT_FROM_WIN32(GetLastError());
                             }
 						}
@@ -277,7 +280,7 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
 	if(!ProcInfo.dwProcessId) {
 		bRet = CreateProcess(
             szProcessName,
-            szCmdLine, 
+            szCmdLine,
 			NULL,
             NULL,
             FALSE,
@@ -287,7 +290,10 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
             &StartupInfo,
             &ProcInfo
         );
-        if(!bRet) {
+        if(bRet) {
+            CloseHandle(ProcInfo.hThread);
+            CloseHandle(ProcInfo.hProcess);
+        } else {
 			hr = HRESULT_FROM_WIN32(GetLastError());
         }
 	}

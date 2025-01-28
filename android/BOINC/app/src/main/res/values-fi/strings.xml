@@ -265,7 +265,6 @@
   <string name="menu_help">Ohje</string>
   <string name="menu_report_issue">Raportoi virheestä</string>
   <!--about dialog-->
-  <string name="about_button">Takaisin</string>
   <string name="about_title">Tietoja</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versio %1$s</string>

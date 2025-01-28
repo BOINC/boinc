@@ -10,8 +10,8 @@ ifdef ANDROID
   BOINC_API_DIR = $(TCINCLUDES)/lib
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
   BOINC_ZIP_DIR = $(TCINCLUDES)/lib
-  MAKEFILE_LDFLAGS = 
-  MAKEFILE_STDLIB  = 
+  MAKEFILE_LDFLAGS =
+  MAKEFILE_STDLIB  =
 else
   BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
   BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
@@ -40,7 +40,7 @@ PROGS = wrappture_example fermi
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `$(CXX) -print-file-name=libstdc++.a`
+	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
 
 clean: distclean
 
@@ -55,3 +55,5 @@ wrappture_example: wrappture.o wrappture_example.o $(MAKEFILE_STDLIB) $(BOINC_LI
 
 fermi: fermi.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o fermi fermi.cpp
+
+install: all

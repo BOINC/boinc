@@ -30,6 +30,7 @@
 #include "sched_config.h"
 
 #include "sched_result.h"
+#include <ctime>
 
 // got a SUCCESS result; double max jobs per day.
 // TODO: shouldn't we do this only for valid results?
@@ -408,7 +409,7 @@ int handle_results() {
                 );
             }
             got_good_result(*srip);
-            
+
             if (config.dont_store_success_stderr) {
                 strcpy(srip->stderr_out, "");
             }

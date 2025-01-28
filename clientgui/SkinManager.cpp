@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,6 +31,9 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "version.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <cstdlib>
 
 
 ////@begin XPM images
@@ -43,6 +46,7 @@
 #include "res/skins/default/graphic/workunit_waiting_image.xpm"
 #include "res/boinc.xpm"
 #include "res/boinc32.xpm"
+#include "res/boinc64.xpm"
 #include "res/boincdisconnect.xpm"
 #include "res/boincdisconnect32.xpm"
 #include "res/boincsnooze.xpm"
@@ -305,10 +309,13 @@ bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
 }
 
 
-bool CSkinIcon::SetDefaults(wxString strComponentName, const char** m_ppIcon, const char** m_ppIcon32) {
+bool CSkinIcon::SetDefaults(wxString strComponentName, const char** m_ppIcon, const char** m_ppIcon32, const char** m_ppIcon64) {
     m_strComponentName = strComponentName;
     m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon));
     m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon32));
+    if (m_ppIcon64) {
+        m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon64));
+    }
     return true;
 }
 
@@ -377,7 +384,6 @@ void CSkinSimple::Clear() {
     m_iPanelOpacity = DEFAULT_OPACITY;
 }
 
-
 int CSkinSimple::Parse(MIOFILE& in) {
     char buf[256];
     std::string strBuffer;
@@ -429,7 +435,7 @@ bool CSkinSimple::InitializeDelayedValidation() {
     );
     m_DialogBackgroundImage.SetDefaults(
         wxT("dialog background"), (const char**)dialog_background_image_xpm,
-        wxT("255:255:255"), BKGD_ANCHOR_HORIZ_CENTER, BKGD_ANCHOR_VERT_CENTER
+        wxGetApp().GetIsDarkMode() ? wxT("0:0:0") : wxT("255:255:255"), BKGD_ANCHOR_HORIZ_CENTER, BKGD_ANCHOR_VERT_CENTER
     );
     m_ProjectImage.SetDefaults(
         wxT("project"), (const char**)project_image_xpm
@@ -651,7 +657,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), wxT("boincdisconnect"));
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), wxT("boincsnooze"));
 #else
-    m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_xpm, boinc32_xpm);
+    m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_xpm, boinc32_xpm, boinc64_xpm);
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), boincdisconnect_xpm, boincdisconnect32_xpm);
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), boincsnooze_xpm, boincsnooze32_xpm);
 #endif
@@ -700,7 +706,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         if (show_error_msgs) {
             fprintf(stderr, "Skin Manager: Organization report bug url was not defined. Using defaults.\n");
         }
-        m_strOrganizationReportBugUrl = wxT("https://boinc.berkeley.edu/trac/wiki/ReportBugs");
+        m_strOrganizationReportBugUrl = wxT("https://github.com/BOINC/boinc/wiki/ReportBugs");
         wxASSERT(!m_strOrganizationReportBugUrl.IsEmpty());
     }
     return true;
@@ -976,6 +982,17 @@ wxString CSkinManager::GetSkinsLocation() {
     strSkinLocation  = wxGetApp().GetRootDirectory();
     strSkinLocation += wxFileName::GetPathSeparator();
     strSkinLocation += wxT("skins");
+#elif defined(__WXGTK__)
+    strSkinLocation = wxGetApp().GetRootDirectory();
+    wxString strLinuxSkinLocation = strSkinLocation + wxT("/../share/boinc-manager/skins");
+    struct stat info;
+    // check if folder exist
+    if (stat( strLinuxSkinLocation.mb_str(), &info ) == 0 && info.st_mode & S_IFDIR) {
+        strSkinLocation = strLinuxSkinLocation;
+    }
+    else {
+        strSkinLocation += wxT("/skins");
+    }
 #else
     strSkinLocation = wxString(wxGetCwd() + wxString(wxFileName::GetPathSeparator()) + wxT("skins"));
 #endif

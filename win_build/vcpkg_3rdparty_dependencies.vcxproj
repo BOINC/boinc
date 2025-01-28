@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}</ProjectGuid>
+    <RootNamespace>vcpkg3rdpartydependencies</RootNamespace>
+    <ProjectName>vcpkg_3rdparty_dependencies</ProjectName>
+  </PropertyGroup>
+  <Import Project="boinc.props" />
+  <ImportGroup Label="Shared" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <PropertyGroup>
+    <CudaVersion>12.6.0</CudaVersion>
+    <CudaGuardFile>$(CudaRootDir)\cuda.$(CudaVersion).lock</CudaGuardFile>
+  </PropertyGroup>
+  <Target Name="CleanUpCudaFolder" BeforeTargets="CreateFolders" Condition="Exists($(CudaRootDir)) And !Exists($(CudaGuardFile))">
+    <RemoveDir Directories="$(CudaRootDir)" />
+  </Target>
+  <Target Name="CreateFolders" BeforeTargets="InstallVcpkg" DependsOnTargets="CleanUpCudaFolder" Condition="!Exists($(Windows3rdPartyBuildDir)) Or !Exists($(CudaRootDir))">
+    <MakeDir Directories="$(Windows3rdPartyBuildDir)" />
+    <MakeDir Directories="$(CudaRootDir)" />
+  </Target>
+  <Target Name="DownloadCUDA" BeforeTargets="InstallVcpkg" DependsOnTargets="CreateFolders" AfterTargets="CreateFolders" Condition="'$(Platform)' == 'x64' And !Exists($(CudaNvccPath)) And !Exists($(CudaGuardFile))">
+    <DownloadFile SourceUrl="https://www.7-zip.org/a/7zr.exe" DestinationFolder="$(TMP)" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7zr.exe x $(TMP)\nvcc.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7zr.exe x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/cudart.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7zr.exe x $(TMP)\cudart.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+    <DownloadFile SourceUrl="https://developer.download.nvidia.com/compute/cuda/$(CudaVersion)/network_installers/windows/x86_64/wddm2/thrust.exe" DestinationFolder="$(TMP)" />
+    <Exec Command="$(TMP)\7zr.exe x $(TMP)\thrust.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+    <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
+  </Target>
+  <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
+    <Exec Command="$(Windows3rdPartyBuildDir)\..\vcpkg_ports\vcpkg_link.bat" WorkingDirectory="$(Windows3rdPartyBuildDir)" ConsoleToMSBuild="true" >
+            <Output TaskParameter="ConsoleOutput" PropertyName="VCPKG_LINK" />
+    </Exec>
+    <Exec Command="git clone $(VCPKG_LINK)" WorkingDirectory="$(Windows3rdPartyBuildDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgRootDir))" />
+    <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+  </Target>
+  <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
+    <Exec Command="vcpkg.exe install --x-manifest-root=$(VcpkgConfigsDir)/ --x-install-root=$(VcpkgRootDir)/installed/ --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+  </Target>
+</Project>

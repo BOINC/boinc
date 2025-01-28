@@ -175,21 +175,21 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 #if defined(ANDROID) && defined(__arm__)
 #if defined(ARMV6)
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
-#else 
+#else
     // check for FP accelerator: VFP, Neon, or none;
     // run the appropriate version of Whetstone
     // (separated using namespaces)
     //
-    if (strstr(gstate.host_info.p_features, " neon ")) { 
+    if (strstr(gstate.host_info.p_features, " neon ")) {
         // have ARM neon FP capabilities
         retval = android_neon::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
-    } else if (strstr(gstate.host_info.p_features, " vfp ")) { 
+    } else if (strstr(gstate.host_info.p_features, " vfp ")) {
         // have ARM vfp FP capabilities
         retval = android_vfp::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     } else { // just run normal test
         retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     }
-#endif    
+#endif
 #else
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
 #endif
@@ -262,9 +262,9 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
     cpu_benchmarks_start = dtime();
 
     benchmark_descs.clear();
-    benchmark_descs.resize(ncpus);
+    benchmark_descs.resize(n_usable_cpus);
 
-    bm_ncpus = ncpus;
+    bm_ncpus = n_usable_cpus;
     benchmarks_running = true;
 
     for (i=0; i<bm_ncpus; i++) {

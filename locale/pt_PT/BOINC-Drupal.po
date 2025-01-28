@@ -5,10 +5,12 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Ivo Micael Frazão Costeira <ivo.frazao95@gmail.com>, 2015
-# Manuela Silva <manuelarodsilva@gmail.com>, 2016-2018
-# Manuela Silva <manuelarodsilva@gmail.com>, 2016
-# Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2017
+# 09bb97fff2569d612d67bb86d55e1d4f_584c978 <a697293dc036570f7ccda8b4cd8a92d8_339413>, 2015
+# Manuela Silva <mmsrs@sky.com>, 2020
+# Manuela Silva <mmsrs@sky.com>, 2016-2018
+# Manuela Silva <mmsrs@sky.com>, 2023
+# Manuela Silva <mmsrs@sky.com>, 2016
+# Miguel Veiga <Miguel.veig@gmail.com>, 2015-2017
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
 # Paco Banderas <duimpera1@gmail.com>, 2015
 msgid ""
@@ -16,14 +18,14 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-05-15 18:25+0000\n"
-"Last-Translator: Manuela Silva <manuelarodsilva@gmail.com>\n"
-"Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>, 2023\n"
+"Language-Team: Portuguese (Portugal) (http://app.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_PT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"
@@ -103,7 +105,7 @@ msgid "processors"
 msgstr "processadores"
 
 msgid "Set to 0 for no limit"
-msgstr "Definir 0 para sem limite"
+msgstr "Definir para 0 para sem limite"
 
 msgid "Can be used to reduce CPU heat"
 msgstr "Pode ser utilizado para reduzir o aquecimento da CPU"
@@ -138,19 +140,19 @@ msgid "Matters only if you have a modem, ISDN, or VPN connection"
 msgstr "Apenas relevante se tiver um modem, ISDN, ou uma conexão VPN"
 
 msgid "Maximum download rate"
-msgstr "Taxa máxima de transferência"
+msgstr "Taxa de transferência máxima"
 
 msgid "Maximum upload rate"
-msgstr "Taxa máxima de upload"
+msgstr "Taxa de envio máxima"
 
 msgid "Use network only between the hours of:"
-msgstr "Usar rede apenas entre as horas:"
+msgstr "Usar a rede apenas entre as horas:"
 
 msgid "Transfer at most"
 msgstr "Transferir no máximo"
 
 msgid "Skip image file verification?"
-msgstr "Saltar verificação do ficheiro de imagem?"
+msgstr "Ignorar verificação do ficheiro de imagem?"
 
 msgid ""
 "Check this ONLY if your Internet provider modifies image files (UMTS does "
@@ -170,7 +172,7 @@ msgid "Recent avg credits"
 msgstr "Média de créditos recentes"
 
 msgid "Web site"
-msgstr "Website"
+msgstr "Site da Web"
 
 #: preference set
 msgctxt "preference set"
@@ -241,7 +243,7 @@ msgid ""
 msgstr "A alteração da equipa fundadora já foi solicitada recentemente. Só é permitido um pedido dentro de um período de 90 dias."
 
 msgid "Team name is required."
-msgstr "Nome de equipa é necessário."
+msgstr "O nome da equipa é necessário."
 
 msgid "You are banned from community participation until @date"
 msgstr "Está banido de participar na comunidade até @date"
@@ -1185,7 +1187,7 @@ msgstr "moderação"
 #: task-dtails-errorlog
 msgctxt "task-dtails-errorlog"
 msgid "Stderr output"
-msgstr "Stderr output"
+msgstr "Saída Stderr"
 
 #: message-header
 msgctxt "message-header"
@@ -1200,7 +1202,7 @@ msgstr "em resposta ao !parent"
 #: front-page
 msgctxt "front-page"
 msgid "Welcome back!"
-msgstr "Bem-vindo de novo!"
+msgstr "Seja bem-vindo!"
 
 #: front-page
 msgctxt "front-page"
@@ -2276,7 +2278,7 @@ msgstr "Não foram encontradas preferências para definir '@venue'. Clique em ba
 #: join-page
 msgctxt "join-page"
 msgid "Download the desktop software"
-msgstr "Transferir o software"
+msgstr "Transferir o ''software'' de PC"
 
 #: join-page
 msgctxt "join-page"
@@ -3514,7 +3516,7 @@ msgstr "Por favor, insira o seu endereço de e-mail"
 #: join-page
 msgctxt "join-page"
 msgid "Download the BOINC desktop software."
-msgstr "Transferir o software BOINC."
+msgstr "Transferir o ''software'' de PC BOINC."
 
 #: join-page
 msgctxt "join-page"
@@ -3960,7 +3962,7 @@ msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr "O painel de controlo da sua conta tem informação e hiperligações sobre o seu(s) computador(es) e tarefa(s) atribuída(s)."
+msgstr "O painel da sua conta tem informação e hiperligações sobre o seu(s) computador(es) e tarefa(s) atribuída(s)."
 
 #: account-finish
 msgctxt "account-finish"

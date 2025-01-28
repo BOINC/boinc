@@ -267,7 +267,6 @@
   <string name="menu_help">Palīdzība</string>
   <string name="menu_report_issue">Ziņot par problēmu</string>
   <!--about dialog-->
-  <string name="about_button">Atgriezties</string>
   <string name="about_title">Par</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versija %1$s</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2021 University of California
+  Copyright (C) 2022 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -65,7 +65,7 @@
     <string name="attachproject_login_header_description">Description:</string>
     <string name="attachproject_login_header_home">Home:</string>
     <string name="attachproject_login_header_url">Website:</string>
-    <string name="attachproject_login_header_id_email">eMail:</string>
+    <string name="attachproject_login_header_id_email">Email address:</string>
     <string name="attachproject_login_header_id_name">Name:</string>
     <string name="attachproject_login_header_pwd">Password:</string>
     <string name="attachproject_login_button_registration">Register</string>
@@ -84,14 +84,14 @@
     <string name="attachproject_error_short_pwd">Password too short</string>
     <string name="attachproject_error_no_internet">Connection failure</string>
     <string name="attachproject_error_no_url">Please enter URL</string>
-    <string name="attachproject_error_no_email">Please enter eMail address</string>
+    <string name="attachproject_error_no_email">Please enter Email address</string>
     <string name="attachproject_error_no_pwd">Please enter a password</string>
     <string name="attachproject_error_no_name">Please enter user name</string>
     <string name="attachproject_error_unknown">failed</string>
     <string name="attachproject_error_bad_username">User name refused</string>
-    <string name="attachproject_error_email_in_use">eMail is already in use</string>
+    <string name="attachproject_error_email_in_use">Email address is already in use</string>
     <string name="attachproject_error_project_down">Project is offline</string>
-    <string name="attachproject_error_email_bad_syntax">eMail refused</string>
+    <string name="attachproject_error_email_bad_syntax">Email address refused</string>
     <string name="attachproject_error_bad_pwd">Password refused</string>
     <string name="attachproject_error_creation_disabled">Account creation is disabled on this project</string>
     <string name="attachproject_error_invalid_url">Invalid URL</string>
@@ -151,6 +151,7 @@
     <string name="prefs_remote_header">Enable Remote Control</string>
     <string name="prefs_remote_summary">When changed, the BOINC client will be relaunched.</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
+    <string name="prefs_show_notification_suspended_header">Show notification when suspended</string>
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
     <string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above (%)</string>
@@ -161,6 +162,7 @@
     <string name="prefs_other_store_at_least_x_days_of_work_header">Work unit buffer (days)</string>
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Additional work unit buffer (days)</string>
     <string name="prefs_remote_authentication_key">GUI authentication key</string>
+    <string name="prefs_remote_authentication_key_input_hint">Authentication Key</string>
     <string name="prefs_remote_empty_password">Password update failed: value cannot be empty</string>
     <string name="prefs_remote_boinc_relaunched">The BOINC client will be relaunched after password change.</string>
     <string name="prefs_client_log_flags_header">BOINC client log flags</string>
@@ -298,7 +300,6 @@
     <string name="menu_report_issue">Report Issue</string>
 
     <!-- about dialog -->
-    <string name="about_button">Return</string>
     <string name="about_title">About</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Version %1$s</string>
@@ -352,5 +353,6 @@
     <string name="welcome_content_sixth">Last but not least, to my Chinese friends - Happy Chinese New Year! Xin Nian Kuai Le!</string>
 
     <string name="agree_button">Agree</string>
+    <string name="prefs_expand_wu_data">Always expand task information</string>
 
 </resources>

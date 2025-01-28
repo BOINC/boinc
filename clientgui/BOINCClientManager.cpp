@@ -59,6 +59,7 @@ extern int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer
 
 #else
 #include <sys/wait.h>
+#include <cstdio>
 #endif
 
 CBOINCClientManager::CBOINCClientManager() {
@@ -87,8 +88,8 @@ CBOINCClientManager::~CBOINCClientManager() {
 bool CBOINCClientManager::AutoRestart() {
     double timeNow, timeDiff;
     if (IsBOINCCoreRunning()) return true;
-#if ! (defined(__WXMAC__) || defined(__WXMSW__)) 
-// Mac and Windows can restart Client as a daemon, but 
+#if ! (defined(__WXMAC__) || defined(__WXMSW__))
+// Mac and Windows can restart Client as a daemon, but
 // Linux may not know Client's location if it didn't start the Client
     if (!m_bBOINCStartedByManager) return false;
 #endif
@@ -122,7 +123,7 @@ bool CBOINCClientManager::AutoRestart() {
 bool CBOINCClientManager::IsSystemBooting() {
     bool bReturnValue = false;
 #if   defined(__WXMSW__)
-    if (GetTickCount() < (1000*60*5)) bReturnValue = true;  // If system has been up for less than 5 minutes 
+    if (GetTickCount() < (1000*60*5)) bReturnValue = true;  // If system has been up for less than 5 minutes
 #elif defined(__WXMAC__)
     if (getTimeSinceBoot() < (120)) bReturnValue = true;    // If system has been up for less than 2 minutes
 #endif
@@ -131,15 +132,22 @@ bool CBOINCClientManager::IsSystemBooting() {
 
 
 int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
-    bool bReturnValue = false;
+    int bReturnValue = 0;
 #if   defined(__WXMSW__)
     if (is_daemon_installed()) bReturnValue = 1;
 #elif defined(__WXMAC__)
-    if ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist")) {
+    if (boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist")) {
         bReturnValue = NewStyleDaemon;                      // New-style daemon uses launchd
     }
     if (boinc_file_exists("/Library/StartupItems/boinc/boinc") ) {
         bReturnValue = OldStyleDaemon;                      // Old-style daemon uses StartupItem
+    }
+#else
+    FILE *f = popen("systemctl -q is-active boinc-client.service", "r");
+    if (f) {
+        if (pclose(f) == 0) {
+            bReturnValue = 1;
+        }
     }
 #endif
     return bReturnValue;
@@ -165,7 +173,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     // Look for BOINC Client in list of all running processes
     retval = procinfo_setup(pm);
     if (retval) return false;     // Should never happen
-    
+
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& pi = i->second;
@@ -274,11 +282,11 @@ bool CBOINCClientManager::StartupBOINCCore() {
             }
         }
     } else {
-        
+
         // Get the full path to core client inside this application's bundle
         getPathToThisApp(buf, sizeof(buf));
 #if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
-        strExecute = wxT("\"");            
+        strExecute = wxT("\"");
         strExecute += wxT(buf);
         strExecute += wxT("/Contents/Resources/boinc\" --redirectio --launched_by_manager");
         m_lBOINCCoreProcessId = ::wxExecute(strExecute);
@@ -301,30 +309,33 @@ bool CBOINCClientManager::StartupBOINCCore() {
 //                m_lBOINCCoreProcessId = ::wxExecute(argv);
         run_program(
             "/Library/Application Support/BOINC Data",
-            buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId
+            buf, argv[3] ? 4 : 3, argv, m_lBOINCCoreProcessId
         );
 #endif
     }
 
 #else   // Unix based systems
-    wxString savedWD = ::wxGetCwd();
-    
-    wxSetWorkingDirectory(wxGetApp().GetDataDirectory());
-    
-    // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = wxGetApp().GetRootDirectory() + wxT("boinc --redirectio --launched_by_manager");
+    // if BOINC client is installed as a systemd service - skip starting it
+    if (!IsBOINCConfiguredAsDaemon()) {
+        wxString savedWD = ::wxGetCwd();
+
+        wxSetWorkingDirectory(wxGetApp().GetDataDirectory());
+
+        // Append boinc.exe to the end of the strExecute string and get ready to rock
+        strExecute = wxGetApp().GetRootDirectory() + wxT("boinc --redirectio --launched_by_manager");
 #ifdef SANDBOX
-    if (!g_use_sandbox) {
-        strExecute += wxT(" --insecure");
-    }
+        if (!g_use_sandbox) {
+            strExecute += wxT(" --insecure");
+        }
 #endif
 
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), wxGetApp().GetDataDirectory().c_str());
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), wxGetApp().GetDataDirectory().c_str());
 
-    m_lBOINCCoreProcessId = ::wxExecute(strExecute);
-    
-    wxSetWorkingDirectory(savedWD);
+        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
+
+        wxSetWorkingDirectory(savedWD);
+    }
 #endif
 
     if (0 != m_lBOINCCoreProcessId) {
@@ -360,7 +371,7 @@ void CBOINCClientManager::KillClient() {
     PSYSTEM_PROCESSES       pProcesses = NULL;
 
     if (m_hBOINCCoreProcess != NULL) {
-        kill_program(m_hBOINCCoreProcess);
+        kill_process(m_hBOINCCoreProcess);
         return;
     }
 
@@ -394,20 +405,20 @@ void CBOINCClientManager::KillClient() {
 void CBOINCClientManager::KillClient() {
     PROC_MAP pm;
     int retval;
-    
+
     if (m_lBOINCCoreProcessId) {
-        kill_program(m_lBOINCCoreProcessId);
+        kill_process(m_lBOINCCoreProcessId);
         return;
     }
 
     retval = procinfo_setup(pm);
 	if (retval) return;     // Should never happen
-    
+
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& procinfo = i->second;
         if (!strcmp(procinfo.command, "boinc")) {
-            kill_program(procinfo.id);
+            kill_process(procinfo.id);
             break;
         }
     }
@@ -435,6 +446,11 @@ void CBOINCClientManager::ShutdownBOINCCore(bool ShuttingDownManager) {
 #ifdef __WXMAC__
     // Mac Manager shuts down client only if Manager started client
     if (!m_bBOINCStartedByManager) return;
+#endif
+
+#ifdef __WXGTK__
+    // Linux Manager shuts down client only if Manager started client or client is not a daemon
+    if (!m_bBOINCStartedByManager && IsBOINCConfiguredAsDaemon()) return;
 #endif
 
 #ifdef __WXMSW__
@@ -469,7 +485,7 @@ void CBOINCClientManager::ShutdownBOINCCore(bool ShuttingDownManager) {
         } else {
             if (IsBOINCCoreRunning()) {
                 if (ShuttingDownManager) {
-                    // Set event filtering to allow RPC completion 
+                    // Set event filtering to allow RPC completion
                     // events but not events which start new RPCs
                     wxGetApp().SetEventFiltering(true);
                 }
@@ -525,7 +541,7 @@ ClientCrashDlg::ClientCrashDlg(double timeDiff) : wxDialog( NULL, wxID_ANY, wxT(
     int                 minutes = wxMax((int)((timeDiff + 59.) / 60.), 2);
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
-    
+
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
@@ -541,18 +557,18 @@ ClientCrashDlg::ClientCrashDlg(double timeDiff) : wxDialog( NULL, wxID_ANY, wxT(
     strDialogMessage.Printf(
         _("The %s client has exited unexpectedly 3 times within the last %d minutes.\nWould you like to restart it again?"),
         pSkinAdvanced->GetApplicationShortName().c_str(),
-        minutes        
+        minutes
     );
-            
+
     wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
     wxBoxSizer *icon_text = new wxBoxSizer( wxHORIZONTAL );
 
     icon_text->Add( CreateTextSizer( strDialogMessage ), 0, wxALIGN_CENTER | wxLEFT, 10 );
     topsizer->Add( icon_text, 1, wxCENTER | wxLEFT|wxRIGHT|wxTOP, 10 );
-    
+
     wxStdDialogButtonSizer *sizerBtn = CreateStdDialogButtonSizer(wxYES | wxNO | wxHELP);
     SetEscapeId(wxID_NO);   // Changes return value of NO button to wxID_CANCEL
-    
+
     if ( sizerBtn )
         topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
 

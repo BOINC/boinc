@@ -20,13 +20,11 @@ endif ## ENABLE_CLIENT_RELEASE
 
 LIBS += $(CLIENTLIBS)
 
+bin_PROGRAMS = boinc_client boinccmd boinc
+
 if OS_DARWIN
    LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework CoreServices
-endif
-
-bin_PROGRAMS = boinc_client boinccmd boinc
-if !OS_WIN32
-bin_PROGRAMS += switcher
+   bin_PROGRAMS += switcher
 endif
 
 boinccmd_SOURCES = boinc_cmd.cpp
@@ -42,6 +40,7 @@ boinc_client_SOURCES = \
     app_config.cpp \
     app_control.cpp \
     app_start.cpp \
+    app_test.cpp \
     async_file.cpp \
     check_state.cpp \
     client_msgs.cpp \
@@ -59,6 +58,7 @@ boinc_client_SOURCES = \
     cs_prefs.cpp \
     cs_proxy.cpp \
     cs_scheduler.cpp \
+    cs_sporadic.cpp \
     cs_statefile.cpp \
     cs_trickle.cpp \
     current_version.cpp \

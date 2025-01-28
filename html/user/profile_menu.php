@@ -72,12 +72,16 @@ if (file_exists(PROFILE_PATH . "profile_alpha.html")) {
 echo "</ul></td></tr>";
 
 row1(tra("Search profile text"));
-rowify("
-    <form action=\"profile_search_action.php\" method=\"GET\">
-    <input type=\"text\" name=\"search_string\">
-    <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Search")."\">
-    </form>
-");
+rowify(
+    sprintf(
+        '<form action="profile_search_action.php" method="GET">
+        <input type="text" name="search_string">
+        <input class="btn btn-sm" %s type="submit" value="%s">
+        </form>',
+        button_style(),
+        tra("Search")
+    )
+);
 end_table();
 
 page_tail();
@@ -110,5 +114,4 @@ function select_profile($cmd) {
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

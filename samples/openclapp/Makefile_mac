@@ -4,23 +4,29 @@
 #   make -f Makefile_mac [clean] all
 #
 # Updated 4/14/15 for compatibility with Xcode 6
+# Updated 2/6/23 to add arm64 support
 
 
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
-BOINC_LIB_DIR = $(BOINC_DIR)/lib 
+BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_MAC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
 FRAMEWORKS_DIR = /System/Library/Frameworks
 
-CXXFLAGS = -g \
-    -stdlib=libstdc++ \
+CXXFLAGS_ALL = -g \
+    -stdlib=libc++ \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
     -I$(BOINC_MAC_CONFIG_DIR)
 
-PROGS = openclapp \
+CXXFLAGS_X86_64 = -arch x86_64 $(CXXFLAGS_ALL)
+CXXFLAGS_ARM64 = -arch arm64 $(CXXFLAGS_ALL)
+LDFLAGS_x86_64 = -Wl,-arch,x86_64
+LDFLAGS_arm64 = -Wl,-arch,arm64
+
+PROGS = openclapp_x86_64 openclapp_arm64 \
 
 all: $(PROGS)
 
@@ -30,17 +36,30 @@ clean:
 distclean:
 	/bin/rm -f $(PROGS) *.o
 
-install: openclapp
-
-openclapp: openclapp.o boinc_opencl.o
-	$(CXX) $(CXXFLAGS) -o openclapp openclapp.o \
-        boinc_opencl.o \
+openclapp_x86_64: openclapp_x86_64.o boinc_opencl_x86_64.o
+	$(CXX) $(CXXFLAGS_X86_64) $(LDFLAGS_x86_64) \
+        -o openclapp_x86_64 openclapp_x86_64.o \
+        boinc_opencl_x86_64.o \
         -framework OpenCL \
         -lboinc_api -L$(BOINC_BUILD_DIR) \
         -lboinc -L$(BOINC_BUILD_DIR)
 
-openclapp.o: openclapp.cpp openclapp.hpp
-	$(CXX) $(CXXFLAGS) -c openclapp.cpp 
+openclapp_arm64: openclapp_arm64.o boinc_opencl_arm64.o
+	$(CXX) $(CXXFLAGS_ARM64) $(LDFLAGS_arm64) \
+        -o openclapp_arm64 openclapp_arm64.o \
+        boinc_opencl_arm64.o \
+        -framework OpenCL \
+        -lboinc_api -L$(BOINC_BUILD_DIR) \
+        -lboinc -L$(BOINC_BUILD_DIR)
 
-boinc_opencl.o: $(BOINC_API_DIR)/boinc_opencl.cpp $(BOINC_API_DIR)/boinc_opencl.h
-	$(CXX) $(CXXFLAGS) -c $(BOINC_API_DIR)/boinc_opencl.cpp
+openclapp_x86_64.o: openclapp.cpp openclapp.hpp
+	$(CXX) $(CXXFLAGS_X86_64) -c openclapp.cpp -o openclapp_x86_64.o
+
+openclapp_arm64.o: openclapp.cpp openclapp.hpp
+	$(CXX) $(CXXFLAGS_ARM64) -c openclapp.cpp -o openclapp_arm64.o
+
+boinc_opencl_x86_64.o: $(BOINC_API_DIR)/boinc_opencl.cpp $(BOINC_API_DIR)/boinc_opencl.h
+	$(CXX) $(CXXFLAGS_X86_64) -c $(BOINC_API_DIR)/boinc_opencl.cpp -o boinc_opencl_x86_64.o
+
+boinc_opencl_arm64.o: $(BOINC_API_DIR)/boinc_opencl.cpp $(BOINC_API_DIR)/boinc_opencl.h
+	$(CXX) $(CXXFLAGS_ARM64) -c $(BOINC_API_DIR)/boinc_opencl.cpp -o boinc_opencl_arm64.o

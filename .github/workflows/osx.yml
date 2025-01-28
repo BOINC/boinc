@@ -1,46 +1,160 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 name: OSX
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'client_release/**' ]
+    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**' ]
   pull_request:
     branches: [ master ]
   schedule:
-    - cron:  '20 12 * * 0'
+    - cron:  '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+  XCODE_VERSION: '15.4.0'
 
 jobs:
+  build-dependencies:
+    name: build-dependencies
+    runs-on: macos-latest
+    steps:
+      - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Cache dependencies
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
+        with:
+          path: 3rdParty/buildCache
+          key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
+
+      - name: install dependencies
+        run: ./3rdParty/buildMacDependencies.sh -q
+
   build:
     name: ${{matrix.type}}-build
     runs-on: macos-latest
+    needs: build-dependencies
     strategy:
       matrix:
-        type: [manager, libs-cmake]
+        type: [manager, samples-makefile]
       fail-fast: false
     steps:
-      - uses: maxim-lobanov/setup-xcode@v1
+      - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
-          xcode-version: '12.5.1'
+          xcode-version: ${{ env.XCODE_VERSION }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: 3rdParty/buildCache
-          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/setupForBOINC.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh', '.github/workflows/osx.yml') }}
+          key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
 
-      - name: install dependencies
-        if: ${{! contains(matrix.type, 'cmake')}}
-        run: ./3rdParty/buildMacDependencies.sh -q
-
-      - name: make
-        if: success() && ! contains(matrix.type, 'cmake')
+      - name: make manager
+        if: success() && matrix.type == 'manager'
         run: ./mac_build/buildMacBOINC-CI.sh --no_shared_headers
 
+      - name: make samples makefile
+        if: matrix.type == 'samples-makefile'
+        run: ./mac_build/buildMacMakefiles-CI.sh
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        run: python ./deploy/prepare_deployment.py macos_${{ matrix.type }}
+
+      - name: Upload manager
+        if: matrix.type == 'manager'
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: osx_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_manager.7z
+
+      - name: Upload apps
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: osx_${{ matrix.type }}_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_apps.7z
+
+      - name: Upload x86_64 apps
+        if: matrix.type == 'samples-makefile'
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: osx_x86_64_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_apps_x86_64.7z
+
+      - name: Upload arm64 apps
+        if: matrix.type == 'samples-makefile'
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: osx_arm64_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/macos_apps_arm64.7z
+
+  cmake-build:
+    name: cmake-build
+    runs-on: macos-latest
+    steps:
+      - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
       - name: libs cmake
-        if: matrix.type == 'libs-cmake'
         run: osx/ci_build_libs_cmake.sh
 
-      - name: deploy
-        if: success() && ! contains(matrix.type, 'libs')
-        run: echo "Would start deployment now"
-        #run: ./deploy/prepare_deployment.sh osx_${BOINC_TYPE} deploy/osx_${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/osx_${BOINC_TYPE}/
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: osx_logs_cmake-build_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z

@@ -1,46 +1,57 @@
-/* Platform independent version definitions... */
+// BOINC version definitions.
+// version.h is automatically updated by `configure` on *nix systems
+// Do not edit version.h directly
+//
+// To update versions run:
+// - for the client/manager: set-client-version.py
+// - for the vboxwrapper: set-vboxwrapper-version.py
+// - for the worker: set-worker-version.py
+// - for the wrapper: set-wrapper-version.py
 
 #ifndef BOINC_VERSION_H
 #define BOINC_VERSION_H
 
-/* Major part of BOINC version number */
+// Major part of client version number
 #define BOINC_MAJOR_VERSION @BOINC_MAJOR_VERSION@
 
-/* Minor part of BOINC version number */
+// Minor part of client version number
 #define BOINC_MINOR_VERSION @BOINC_MINOR_VERSION@
 
-/* Release part of BOINC version number */
+// Release part of client version number
 #define BOINC_RELEASE @BOINC_RELEASE@
 
-/* Release part of wrapper version number */
+// wrapper version number
 #define WRAPPER_RELEASE @WRAPPER_RELEASE@
 
-/* Release part of vboxwrapper version number */
+// vboxwrapper version number
 #define VBOXWRAPPER_RELEASE @VBOXWRAPPER_RELEASE@
 
-/* String representation of BOINC version number */
+// worker version number
+#define WORKER_RELEASE @WORKER_RELEASE@
+
+// client version number as string
 #define BOINC_VERSION_STRING "@BOINC_VERSION_STRING@"
 
-/* Package is a pre-release (Alpha/Beta) package */
+// Package is a pre-release (Alpha/Beta) package
 #define BOINC_PRERELEASE 1
 
 #if (defined(_WIN32) || defined(__APPLE__))
-/* Name of package */
+// Name of package */
 #define PACKAGE "@PACKAGE@"
 
-/* Define to the address where bug reports for this package should be sent. */
+// address where bug reports for this package should be sent.
 #define PACKAGE_BUGREPORT "@PACKAGE_BUGREPORT@"
 
-/* Define to the full name of this package. */
+// full name of this package.
 #define PACKAGE_NAME "@PACKAGE_NAME@"
 
-/* Define to the full name and version of this package. */
+// full name and version of this package.
 #define PACKAGE_STRING "@PACKAGE_STRING@"
 
-/* Define to the one symbol short name of this package. */
+// short name of this package.
 #define PACKAGE_TARNAME "@PACKAGE_TARNAME@"
 
-/* Define to the version of this package. */
+// version of this package.
 #define PACKAGE_VERSION "@PACKAGE_VERSION@"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */

@@ -126,6 +126,7 @@ locale/*/*.flag
 ## dependency builds and CI cache directories
 3rdParty/Windows/
 3rdParty/linux/
+3rdParty/linux-arm64/
 3rdParty/mac/
 3rdParty/buildCache/
 3rdParty/android/
@@ -166,12 +167,16 @@ samples/multi_thread/*multi_thread
 samples/sleeper/*sleeper
 samples/vboxmonitor/*vboxmonitor
 samples/vboxwrapper/*vboxwrapper
+samples/vboxwrapper/vboxwrapper_*-*
 samples/worker/*worker
+samples/worker/worker_*-*
 samples/wrapper/*wrapper
+samples/wrapper/wrapper_*-*
 samples/openclapp/*openclapp
 samples/wrappture/*wrappture_example
 samples/wrappture/*fermi
 samples/**/*.exe
+samples/sporadic/sporadic
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census
@@ -216,6 +221,7 @@ tools/dir_hier_move
 tools/dir_hier_path
 tools/remote_submit_test
 tools/sign_executable
+tools/stage_file_native
 vda/ssim
 vda/vda
 vda/vdad
@@ -238,3 +244,10 @@ boinc.html
 boinc_client.html
 boinccmd.html
 switcher.html
+
+# snap
+parts/
+prime/
+stage/
+*.snap
+*.msi

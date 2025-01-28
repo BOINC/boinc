@@ -26,7 +26,7 @@ $user = get_logged_in_user();
 $action = sanitize_tags(get_str("action", true));
 $subset = sanitize_tags(get_str("subset"));
 $venue = sanitize_tags(get_str("venue", true));
-$columns = get_str("cols", true);
+$columns = get_int("cols", true);
 $c = $columns?"&cols=$columns":"";
 check_subset($subset);
 if ($action) {
@@ -112,5 +112,4 @@ if ($action) {
 echo "<a href=prefs.php?subset=$subset$c>".tra("Back to preferences")."</a>\n";
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

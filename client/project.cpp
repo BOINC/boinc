@@ -87,7 +87,7 @@ void PROJECT::init() {
     disk_share = 0.0;
     anonymous_platform = false;
     non_cpu_intensive = false;
-    verify_files_on_app_start = false;
+    strict_memory_bound = false;
     report_results_immediately = false;
     pwf.reset(this);
     send_time_stats_log = 0;
@@ -127,6 +127,7 @@ void PROJECT::init() {
     app_configs.clear();
     upload_backoff.is_upload = true;
     download_backoff.is_upload = false;
+    app_test = false;
 
 #ifdef SIM
     idle_time = 0;
@@ -246,7 +247,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_bool("send_full_workload", send_full_workload)) continue;
         if (xp.parse_bool("dont_use_dcf", dont_use_dcf)) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
-        if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) continue;
+        if (xp.parse_bool("strict_memory_bound", strict_memory_bound)) continue;
         if (xp.parse_bool("suspended_via_gui", suspended_via_gui)) continue;
         if (xp.parse_bool("dont_request_more_work", dont_request_more_work)) continue;
         if (xp.parse_bool("detach_when_done", detach_when_done)) continue;
@@ -299,6 +300,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_ams(this, "CPU");
             continue;
         }
+
+        // the following 3 deprecated; use no_rsc_ams instead
         if (xp.parse_bool("no_cuda_ams", btemp)) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_NVIDIA);
             continue;
@@ -311,6 +314,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_INTEL);
             continue;
         }
+
         if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {
             handle_no_rsc_ams(this, buf);
             continue;
@@ -467,7 +471,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         send_full_workload?"    <send_full_workload/>\n":"",
         dont_use_dcf?"    <dont_use_dcf/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
-        verify_files_on_app_start?"    <verify_files_on_app_start/>\n":"",
+        strict_memory_bound?"    <strict_memory_bound/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
         detach_when_done?"    <detach_when_done/>\n":"",
@@ -606,10 +610,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     pwf = p.pwf;
     send_full_workload = p.send_full_workload;
     dont_use_dcf = p.dont_use_dcf;
+    non_cpu_intensive = p.non_cpu_intensive;
+    strict_memory_bound = p.strict_memory_bound;
     send_time_stats_log = p.send_time_stats_log;
     send_job_log = p.send_job_log;
-    non_cpu_intensive = p.non_cpu_intensive;
-    verify_files_on_app_start = p.verify_files_on_app_start;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
     detach_when_done = p.detach_when_done;
@@ -694,7 +698,7 @@ void PROJECT::get_task_durs(double& not_started_dur, double& in_progress_dur) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
         double d = rp->estimated_runtime_remaining();
-        d /= gstate.time_stats.availability_frac(rp->avp->gpu_usage.rsc_type);
+        d /= gstate.time_stats.availability_frac(rp->resource_usage.rsc_type);
         if (rp->is_not_started()) {
             not_started_dur += d;
         } else {
@@ -823,7 +827,7 @@ bool PROJECT::runnable(int rsc_type) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
         if (rsc_type != RSC_TYPE_ANY) {
-            if (rp->avp->gpu_usage.rsc_type != rsc_type) {
+            if (rp->resource_usage.rsc_type != rsc_type) {
                 continue;
             }
         }
@@ -977,7 +981,7 @@ void PROJECT::check_no_apps() {
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->project != this) continue;
-        no_rsc_apps[avp->gpu_usage.rsc_type] = false;
+        no_rsc_apps[avp->resource_usage.rsc_type] = false;
     }
 }
 

@@ -35,9 +35,11 @@ struct PROCINFO {
         // running at or below priority of BOINC apps
     char command[256];
     bool scanned;
-
     double page_fault_rate;        // derived by higher-level code
     std::vector<int> children;
+#ifdef _WIN32
+    LARGE_INTEGER create_time;
+#endif
 
     PROCINFO() {
       clear();
@@ -82,4 +84,10 @@ extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
 extern double process_tree_cpu_time(int pid);
     // get the CPU time of the given process and its descendants
 
+extern double total_cpu_time();
+    // total user-mode CPU time, as reported by OS
+
+extern double boinc_related_cpu_time(PROC_MAP&, bool vbox_app_running);
+    // total CPU of current BOINC processes, low-priority processes,
+    // and (if a VBox app is running) VBox-related processes
 #endif

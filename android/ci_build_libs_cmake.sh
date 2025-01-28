@@ -28,14 +28,14 @@ TRIPLETS_LIST="armv6-android arm-android arm-neon-android arm64-android x86-andr
 
 for TRIPLET in $TRIPLETS_LIST ; do
     echo "\e[0;35m building $TRIPLET ... \e[0m"
-    
+
     if [ "$TRIPLET" = "armv6-android" ]; then
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
     else
         export ANDROID_NDK_HOME=$NDK_ROOT
     fi
     BUILD_TRIPLET=build-$TRIPLET
-    cmake lib -B $BUILD_TRIPLET -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_MANIFEST_DIR=3rdParty/vcpkg_ports/configs/libs/ -DVCPKG_MANIFEST_INSTALL=$VCPKG_ROOT/installed/ -DVCPKG_OVERLAY_PORTS=$VCPKG_PORTS/ports -DVCPKG_OVERLAY_TRIPLETS=$VCPKG_PORTS/triplets/ci -DVCPKG_TARGET_TRIPLET=$TRIPLET -DVCPKG_INSTALL_OPTIONS=--clean-after-build
+    cmake lib -B $BUILD_TRIPLET -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_MANIFEST_DIR=3rdParty/vcpkg_ports/configs/libs/ -DVCPKG_INSTALLED_DIR=$VCPKG_ROOT/installed/ -DVCPKG_OVERLAY_PORTS=$VCPKG_PORTS/ports -DVCPKG_OVERLAY_TRIPLETS=$VCPKG_PORTS/triplets/ci -DVCPKG_TARGET_TRIPLET=$TRIPLET -DVCPKG_INSTALL_OPTIONS=--clean-after-build
     cmake --build $BUILD_TRIPLET
 
     echo "\e[1;32m $TRIPLET done \e[0m"

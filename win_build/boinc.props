@@ -1,4 +1,31 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup Label="ProjectConfigurations">
+        <ProjectConfiguration Include="Debug|ARM64">
+            <Configuration>Debug</Configuration>
+            <Platform>ARM64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x64">
+            <Configuration>Debug</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|ARM64">
+            <Configuration>Release</Configuration>
+            <Platform>ARM64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x64">
+            <Configuration>Release</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+    </ItemGroup>
+    <PropertyGroup Label="Configuration">
+        <PlatformToolset>v143</PlatformToolset>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+    <ImportGroup Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+        <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    </ImportGroup>
     <PropertyGroup>
         <Windows3rdPartyBuildDir Condition="'$(Windows3rdPartyBuildDir)' == ''">$(MSBuildThisFileDirectory)..\3rdParty\Windows</Windows3rdPartyBuildDir>
         <VcpkgConfigsDir Condition="'$(VcpkgConfigsDir)' == ''">$(MSBuildThisFileDirectory)..\3rdParty\vcpkg_ports\configs\msbuild</VcpkgConfigsDir>
@@ -6,34 +33,56 @@
         <VcpkgExe>$(VcpkgRootDir)\vcpkg.exe</VcpkgExe>
         <VcpkgTripletConfig Condition="'$(VcpkgTripletConfig)' == ''">default</VcpkgTripletConfig>
         <VcpkgCacheDir Condition="'$(VcpkgCacheDir)' == ''">..\..\boinc_depends_win_vs2019</VcpkgCacheDir>
-        <VcpkgTripletName Condition="'$(VcpkgTripletName)|$(Platform)' == '|x64'">x64-windows-static</VcpkgTripletName>
-        <VcpkgTripletName Condition="'$(VcpkgTripletName)|$(Platform)' == '|arm64'">arm64-windows-static</VcpkgTripletName>
+        <VcpkgTripletName Condition="'$(Platform)' == 'x64'">x64-windows-static</VcpkgTripletName>
+        <VcpkgTripletName Condition="'$(Platform)' == 'arm64'">arm64-windows-static</VcpkgTripletName>
         <VcpkgInstalledDir Condition="'$(VcpkgInstalledDir)' == ''">$(VcpkgRootDir)\installed\$(VcpkgTripletName)</VcpkgInstalledDir>
         <CUDA_BIN_PATH Condition="'$(CUDA_BIN_PATH)|$(Platform)' == '|x64'">$(VcpkgRootDir)\..\cuda\nvcc\bin</CUDA_BIN_PATH>
         <CUDA_INC_PATH Condition="'$(CUDA_INC_PATH)|$(Platform)' == '|x64'">$(VcpkgRootDir)\..\cuda\nvcc\include</CUDA_INC_PATH>
         <CUDA_LIB_PATH Condition="'$(CUDA_LIB_PATH)|$(Platform)' == '|x64'">$(VcpkgRootDir)\..\cuda\nvcc\lib</CUDA_LIB_PATH>
         <CudaNvccPath Condition="'$(Platform)' == 'x64'">$(CUDA_BIN_PATH)\nvcc.exe</CudaNvccPath>
         <CudaRootDir Condition="'$(CudaRootDir)|$(Platform)' == '|x64'">$(CUDA_BIN_PATH)\..\..\</CudaRootDir>
-        <BuildConfig Condition="'$(BuildConfig)' == ''">default</BuildConfig>
+    </PropertyGroup>
+    <PropertyGroup>
+        <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+        <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
+        <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
+        <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+        <LinkIncremental>false</LinkIncremental>
     </PropertyGroup>
     <ItemDefinitionGroup>
         <ClCompile>
+            <AdditionalIncludeDirectories>$(VcpkgInstalledDir)/include/;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <BasicRuntimeChecks Condition="'$(Configuration)' == 'Debug'">EnableFastChecks</BasicRuntimeChecks>
+            <ExceptionHandling>Async</ExceptionHandling>
+            <FloatingPointModel>Fast</FloatingPointModel>
+            <FunctionLevelLinking>true</FunctionLevelLinking>
+            <Optimization Condition="'$(Configuration)' == 'Debug'">Disabled</Optimization>
+            <PreprocessorDefinitions>_WIN32;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">_NDEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <RuntimeLibrary Condition="'$(Configuration)' == 'Debug'">MultiThreadedDebug</RuntimeLibrary>
+            <RuntimeLibrary Condition="'$(Configuration)' == 'Release'">MultiThreaded</RuntimeLibrary>
             <WarningLevel>Level4</WarningLevel>
         </ClCompile>
-    </ItemDefinitionGroup>
-    <ItemDefinitionGroup Condition="'$(BuildConfig)|$(Configuration)' == 'ci|Release'">
+        <Lib>
+            <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">$(VcpkgInstalledDir)/debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+            <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">$(VcpkgInstalledDir)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+        </Lib>
         <Link>
-            <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-        </Link>
-    </ItemDefinitionGroup>
-    <ItemDefinitionGroup Condition="'$(BuildConfig)|$(Configuration)' == 'default|Release'">
-        <Link>
+            <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">$(VcpkgInstalledDir)/debug/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+            <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">$(VcpkgInstalledDir)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
             <GenerateDebugInformation>true</GenerateDebugInformation>
+            <OptimizeReferences Condition="'$(Configuration)' == 'Release'">true</OptimizeReferences>
+            <ProgramDatabaseFile Condition="'$(TargetName)' == ''">$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
+            <ProgramDatabaseFile Condition="'$(TargetName)' != ''">$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+            <SetChecksum Condition="'$(Configuration)' == 'Release'">true</SetChecksum>
         </Link>
-    </ItemDefinitionGroup>
-    <ItemDefinitionGroup Condition="'$(Configuration)' == 'Debug'">
-        <Link>
-            <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-        </Link>
+        <ResourceCompile>
+            <AdditionalIncludeDirectories>$(VcpkgInstalledDir)/include/;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <Culture>0x0409</Culture>
+            <PreprocessorDefinitions Condition="'$(Configuration)' == 'Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions Condition="'$(Configuration)' == 'Release'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions Condition="'$(Platform)' == 'ARM64'">_ARM64_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+        </ResourceCompile>
     </ItemDefinitionGroup>
 </Project>

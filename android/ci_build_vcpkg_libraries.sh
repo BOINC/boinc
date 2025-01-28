@@ -2,7 +2,7 @@
 set -e
 
 #
-# See: https://boinc.berkeley.edu/trac/wiki/AndroidBuildClient
+# See: https://github.com/BOINC/boinc/wiki/AndroidBuildClient
 #
 
 # Script to compile BOINC libs for Android
@@ -14,5 +14,5 @@ if [ ! -d "android" ]; then
 fi
 
 echo '===== BOINC libs for all platforms build start ====='
-android/build_component.sh --ci --component libs --with-vcpkg
+android/build_component.sh --ci --component libs
 echo '===== BOINC libs for all platforms build done ====='

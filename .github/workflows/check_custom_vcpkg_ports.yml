@@ -1,0 +1,42 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2024 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Check vcpkg ports
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  build:
+    if: github.repository == 'BOINC/boinc'
+    name: ${{ matrix.type }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [check]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+      - name: Bootstrap vcpkg
+        run: |
+          ./linux/bootstrap_vcpkg_cmake.sh
+      - name: Check custom vcpkg ports for upstream updates
+        if: success()
+        run: |
+          python ./ci_tools/check_custom_vcpkg_ports_for_updates.py

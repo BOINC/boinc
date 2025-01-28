@@ -16,7 +16,7 @@ for file in `find ${srcdir} -name 'BOINC-Manager.mo'` ; do
   locale=`basename $dir`
   mkdir BOINC/locale/${locale}
   cp -f $file BOINC/locale/${locale}
-done  
+done
 for file in `find ${srcdir} -name 'BOINC-Client.mo'` ; do
   dir=`dirname $file`
   locale=`basename $dir`

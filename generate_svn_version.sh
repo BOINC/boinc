@@ -19,7 +19,7 @@ elif [ -d .git ]; then
     fi
     URL=`git config --get remote.$remote.url`
     DATE=`git log -n1 --pretty="format:%ct"`
-    SERVER_VERSION=`git describe --abbrev=0 --match server_release/*` 
+    SERVER_VERSION=`git describe --abbrev=0 --match server_release/*`
 elif [ -d .svn ]; then
     CMD="svn info"
 else

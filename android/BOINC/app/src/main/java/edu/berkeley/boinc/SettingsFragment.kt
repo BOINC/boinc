@@ -18,12 +18,26 @@
  */
 package edu.berkeley.boinc
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -33,6 +47,7 @@ import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.setAppTheme
 import java.io.File
+import java.util.concurrent.Executor
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
 
@@ -43,7 +58,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     private val passwordLength = 32
     private var authKey = ""
-
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var authenticationPopupView: View
+    private lateinit var authenticationPopupEditText: EditText
 
     override fun onResume() {
         super.onResume()
@@ -96,11 +113,79 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             usedCpuCores?.max = hostInfo.noOfCPUs
         }
 
-        val preference = findPreference<EditTextPreference>("authenticationKey")!!
-        preference.setSummaryProvider {
+        authenticationPopupView = LayoutInflater.from(context).inflate(R.layout.authenticationkey_preference_dialog, null)
+        authenticationPopupEditText = authenticationPopupView.findViewById(R.id.authentication_key_input)
+
+        val preference = findPreference<Preference>("authenticationKey")!!
+
+        val executor: Executor = ContextCompat.getMainExecutor(requireContext())
+
+        biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                preference.isEnabled = true
+                authenticationPopup(sharedPreferences)
+            }
+
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                Toast.makeText(context, "Authentication Error", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        preference.summaryProvider = Preference.SummaryProvider<Preference> {
             getString(R.string.prefs_remote_boinc_relaunched) + '\n' +
-            setAsterisks(authKey.length)
+                    setAsterisks(authKey.length)
         }
+
+        val biometricManager = BiometricManager.from(this.requireContext())
+
+        preference.setOnPreferenceClickListener {
+            when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or BIOMETRIC_WEAK or DEVICE_CREDENTIAL)) {
+                BiometricManager.BIOMETRIC_SUCCESS -> {
+                    val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                        .setTitle("Authenticate")
+                        .setSubtitle("Use biometric authentication to reveal or edit the authentication key.")
+                        .setAllowedAuthenticators(DEVICE_CREDENTIAL or BIOMETRIC_WEAK or BIOMETRIC_STRONG)
+                        .build()
+                    biometricPrompt.authenticate(promptInfo)
+                }
+                BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                        putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                            BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
+                    }
+                    startActivityForResult(enrollIntent, 0)
+                }
+                else -> authenticationPopup(sharedPreferences)
+            }
+            true
+        }
+    }
+
+    private fun authenticationPopup(sharedPreferences: SharedPreferences) {
+        val builder = AlertDialog.Builder(requireContext())
+
+        if (authenticationPopupView.parent != null) {
+            (authenticationPopupView.parent as ViewGroup).removeView(authenticationPopupView)
+        }
+
+        builder.setView(authenticationPopupView)
+
+        val currentAuthKey = sharedPreferences.getString("authenticationKey", "")!!
+        authenticationPopupEditText.setText(currentAuthKey)
+
+
+        builder.setPositiveButton("OK") { _, _ ->
+            val enteredText = authenticationPopupEditText.text.toString()
+            sharedPreferences.edit { putString("authenticationKey", enteredText) }
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -204,7 +289,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 val currentAuthKey = sharedPreferences.getString(key, "")!!
                 if (currentAuthKey.isEmpty()) {
                     sharedPreferences.edit { putString(key, authKey) }
-                    findPreference<EditTextPreference>(key)?.text = authKey
                     Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT).show()
                 } else {
                     authKey = currentAuthKey
@@ -216,7 +300,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             "remoteEnable" -> {
                 val isRemote = sharedPreferences.getBoolean(key, false)
                 BOINCActivity.monitor!!.isRemote = isRemote
-                findPreference<EditTextPreference>("authenticationKey")?.isVisible = isRemote
+                findPreference<Preference>("authenticationKey")?.isVisible = isRemote
                 quitClient()
             }
 
@@ -267,7 +351,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference<PreferenceCategory>("debug")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("remote")?.isVisible = showAdvanced
         val isRemote = findPreference<CheckBoxPreference>("remoteEnable")?.isChecked
-        findPreference<EditTextPreference>("authenticationKey")?.isVisible = showAdvanced && isRemote == true
+        findPreference<Preference>("authenticationKey")?.isVisible = showAdvanced && isRemote == true
     }
 
     private fun writeClientPrefs(prefs: GlobalPreferences) {

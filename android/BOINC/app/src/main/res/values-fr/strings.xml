@@ -7,15 +7,15 @@
   <string name="generic_button_finish">Terminer</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Choisir un projet scientifique auquel vous voulez collaborer :</string>
+  <string name="attachproject_list_desc">Choisir les projets scientifiques auxquels vous voulez contribuer :</string>
   <string name="attachproject_list_header">Choisissez un projet</string>
   <string name="attachproject_list_manual_button">Ajouter un projet via son URL</string>
-  <string name="attachproject_list_manual_dialog_title">URL du projet :</string>
+  <string name="attachproject_list_manual_dialog_title">Saisir l\'URL du projet :</string>
   <string name="attachproject_list_no_internet">Pas de connexion Internet</string>
   <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Éditer les informations de compte</string>
-  <string name="attachproject_credential_input_desc">Éditer les informations de compte pour les projets sélectionnés :</string>
-  <string name="attachproject_credential_input_show_pwd">Montrer le mot de passe</string>
+  <string name="attachproject_credential_input_sing_desc">Saisir les informations du compte</string>
+  <string name="attachproject_credential_input_desc">Saisir les informations du compte pour les projets sélectionnés :</string>
+  <string name="attachproject_credential_input_show_pwd">Afficher le mot de passe</string>
   <string name="attachproject_individual_credential_input">Ajouter des projets individuellement</string>
   <!--conflicts-->
   <string name="attachproject_conflicts_desc">Il y a des problèmes pour ajouter les projets suivants :</string>
@@ -30,12 +30,12 @@
   <string name="attachproject_working_attaching">Ajout du projet %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
-  <string name="attachproject_hints_header">Astuce</string>
+  <string name="attachproject_hints_header">Conseil</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Comment participer :</string>
   <string name="attachproject_hint_contribtion_wifi">1. Se connecter au WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Brancher le chargeur</string>
-  <string name="attachproject_hint_contribtion_app">3. Lancer BOINC et laisser le actif</string>
+  <string name="attachproject_hint_contribtion_app">3. Lancer BOINC et laissez-le actif</string>
   <string name="attachproject_hint_contribtion_screen">4. Éteindre l\'écran</string>
   <string name="attachproject_hint_projectwebsite_header">Visitez les sites web des projets :</string>
   <string name="attachproject_hint_projectwebsite_science">En savoir plus au sujet du projet</string>
@@ -51,7 +51,7 @@
   <string name="attachproject_login_header_description">Description :</string>
   <string name="attachproject_login_header_home">Accueil :</string>
   <string name="attachproject_login_header_url">Site web :</string>
-  <string name="attachproject_login_header_id_email">Email :</string>
+  <string name="attachproject_login_header_id_email">Adresse email :</string>
   <string name="attachproject_login_header_id_name">Nom :</string>
   <string name="attachproject_login_header_pwd">Mot de passe :</string>
   <string name="attachproject_login_button_registration">S\'inscrire</string>
@@ -70,14 +70,14 @@
   <string name="attachproject_error_short_pwd">Mot de passe trop court</string>
   <string name="attachproject_error_no_internet">Erreur de connexion</string>
   <string name="attachproject_error_no_url">Veuillez saisir l\'URL du projet</string>
-  <string name="attachproject_error_no_email">Veuillez entrer une adresse email</string>
+  <string name="attachproject_error_no_email">Veuillez saisir l\'adresse de courriel</string>
   <string name="attachproject_error_no_pwd">Veuillez saisir un mot de passe</string>
   <string name="attachproject_error_no_name">Veuillez saisir un nom d\'utilisateur</string>
   <string name="attachproject_error_unknown">échec</string>
   <string name="attachproject_error_bad_username">Nom d\'utilisateur refusé</string>
-  <string name="attachproject_error_email_in_use">Adresse email déjà utilisée</string>
+  <string name="attachproject_error_email_in_use">L\'adresse de courriel est déjà utilisée</string>
   <string name="attachproject_error_project_down">Projet hors ligne</string>
-  <string name="attachproject_error_email_bad_syntax">Email refusé</string>
+  <string name="attachproject_error_email_bad_syntax">Adresse de courriel refusée</string>
   <string name="attachproject_error_bad_pwd">Mot de passe refusé</string>
   <string name="attachproject_error_creation_disabled">La création de compte est désactivée pour ce projet</string>
   <string name="attachproject_error_invalid_url">URL non valide</string>
@@ -116,7 +116,7 @@
   <string name="prefs_general_device_name_header">Nom de l\'appareil</string>
   <string name="prefs_theme_header">Thème</string>
   <string name="prefs_stationary_device_mode_header">Mode appareil fixe</string>
-  <string name="prefs_stationary_device_mode_description">Permettre le calcul indépendamment des préférence d’alimentation. Seulement autorisé si l\'appareil n\'a pas de batterie.</string>
+  <string name="prefs_stationary_device_mode_description">Autoriser le calcul sans tenir compte des préférences d\'alimentation. N\'activez cette option que si l\'appareil n\'a pas de batterie.</string>
   <string name="prefs_power_source_header">Sources d\'alimentation pour le calcul</string>
   <string name="prefs_power_source_ac">Prise murale</string>
   <string name="prefs_power_source_usb">Connexion USB</string>
@@ -125,25 +125,27 @@
   <string name="battery_charge_min_pct_header">Niveau minimum de la batterie (%)</string>
   <string name="battery_temperature_max_header">Température maximale de la batterie (°C)</string>
   <string name="prefs_disk_max_pct_header">Espace de stockage maximal utilisé (%)</string>
-  <string name="prefs_disk_min_free_gb_header">Capacité de stockage de réserve minimale (GB)</string>
+  <string name="prefs_disk_min_free_gb_header">Capacité de stockage de réserve minimale (Go)</string>
   <string name="prefs_disk_access_interval_header">Intervalle d\'accès (secondes)</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transfert quotidienne (MB)</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transfert quotidienne (Mo)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Limite de transfert quotidienne (jours)</string>
   <string name="prefs_network_wifi_only_header">Transférer les tâches seulement en WiFi</string>
   <string name="prefs_autostart_header">Démarrage automatique</string>
   <string name="prefs_remote_header">Autoriser le contrôle à distance</string>
-  <string name="prefs_remote_summary">Lorsqu\'il est modifié, le client BOINC sera relancé.</string>
+  <string name="prefs_remote_summary">Une fois modifié, le client BOINC sera relancé.</string>
   <string name="prefs_show_notification_notices_header">Afficher des notifications pour les nouveaux messages</string>
+  <string name="prefs_show_notification_suspended_header">Afficher une notification lorsque les calculs sont suspendus</string>
   <string name="prefs_cpu_number_cpus_header">Cœurs du processeur utilisés</string>
   <string name="prefs_cpu_number_cpus_description">Limiter le nombre de cœurs du processeur que BOINC peut utiliser pour les calculs.</string>
   <string name="prefs_cpu_other_load_suspension_header">Suspendre le calcul lorsque l’utilisation du processeur dépasse (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Détermine si BOINC doit suspendre les calculs du fait de l\'exécution d\'autres applications.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Détermine quand BOINC suspend le calcul en raison de l\'utilisation du CPU par d\'autres applications.</string>
   <string name="prefs_cpu_time_max_header">Limite du processeur (%)</string>
   <string name="prefs_cpu_time_max_description">Limite le temps processeur que BOINC utilise pour les calculs.</string>
   <string name="prefs_memory_max_idle_header">Limite de la mémoire vive (%)</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Tampon d\'unité de travail (jours)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Tampon d\'unité de travail supplémentaire (jours)</string>
   <string name="prefs_remote_authentication_key">Mot de passe de l\'interface graphique</string>
+  <string name="prefs_remote_authentication_key_input_hint">Clef d\'authentification</string>
   <string name="prefs_remote_empty_password">La mise à jour du mot de passe a échoué : la valeur ne peut pas être vide</string>
   <string name="prefs_remote_boinc_relaunched">Le client BOINC sera relancé après le changement de mot de passe.</string>
   <string name="prefs_client_log_flags_header">Indicateurs de journal du client BOINC</string>
@@ -159,7 +161,7 @@
   <string name="projects_credits">Crédits :</string>
   <string name="projects_credits_host_and_user">%1$,d (sur cet appareil) %2$,d (total)</string>
   <string name="projects_disk_usage">Utilisation disque :</string>
-  <string name="projects_disk_usage_with_unit">%1$s MO</string>
+  <string name="projects_disk_usage_with_unit">%1$s Mo</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendu par l\'utilisateur</string>
   <string name="projects_status_dontrequestmorework">Aucune nouvelle tâche</string>
@@ -189,7 +191,7 @@
   <string name="projects_confirm_detach_confirm">Supprimer</string>
   <string name="projects_confirm_reset_confirm">Réinitialiser</string>
   <string name="projects_confirm_remove_acctmgr_title">Désactiver le gestionnaire de compte</string>
-  <string name="projects_confirm_remove_acctmgr_message">arrête d\'utiliser</string>
+  <string name="projects_confirm_remove_acctmgr_message">arrêter d\'utiliser</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Désactiver</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Nom de la tâche :</string>
@@ -261,7 +263,7 @@
   <string name="rpcreason_projectreq">Demandé par le projet</string>
   <string name="rpcreason_unknown">Raison inconnue</string>
   <!--menu-->
-  <string name="menu_refresh">Rafraîchir</string>
+  <string name="menu_refresh">Actualiser</string>
   <string name="menu_emailto">Envoyer par email </string>
   <string name="menu_copy">Copier dans le presse-papier</string>
   <string name="menu_eventlog">Journal des évènements</string>
@@ -271,10 +273,10 @@
   <string name="menu_help">Aide</string>
   <string name="menu_report_issue">Signaler un problème</string>
   <!--about dialog-->
-  <string name="about_button">Retour</string>
   <string name="about_title">À propos</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
+  <string name="about_copyright">\u00A9 2003–2022 Université de  Californie, Berkeley.</string>
   <string name="about_copyright_reserved">Tous droits réservés.</string>
   <string name="about_credits">Merci à l\'Institut Max Planck de physique gravitationnelle, IBM Corporation et HTC Corporation pour leur soutien.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -291,7 +293,7 @@
   <string name="social_invite_button">Inviter des amis</string>
   <string name="social_invite_intent_title">Comment voulez-vous partager ? </string>
   <string name="social_invite_content_title">Je fais du calcul scientifique sur mon smatphone !</string>
-  <string name="social_invite_content_body">J\'utilise mon %1$s pour faire du calcul scientifique. Vous pouvez le faire aussi! Téléchargez l\'application à partir de: %2$s</string>
+  <string name="social_invite_content_body">J\'utilise mon %1$s pour faire du calcul scientifique. Vous pouvez le faire aussi ! Téléchargez l\'application à partir de : %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
@@ -300,5 +302,25 @@
   <string name="main_notification_channel_description">Affiche les notifications sans avis</string>
   <string name="notice_notification_channel_name">Notifications</string>
   <string name="notice_notification_channel_description">Affiche les notifications de vos projets.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Bienvenue à Xiaomi Mall ! Afin d\'offrir une expérience d\'achat de haute qualité, l\'application Mi Mall doit être connectée à Internet,
+l\'application Mi Mall doit être connectée à Internet et utiliser vos informations de localisation pour vérifier l\'inventaire des produits, optimiser les services de livraison et personnaliser les recommandations de produits,
+optimiser les services de livraison et personnaliser les recommandations de produits. Vous avez le droit de refuser ou d\'annuler cette autorisation.</string>
+  <string name="terms_of_use_content_second">Avant d\'utiliser l\'application, merci de lire et comprendre entièrement l\'\"accord d\'utilisation\" 
+et la \"Politique de confidentialité\" de Xiaomi Mall, et comprendre vos droits d\'utilisateur et la manière dont vos données sont traitées.
+Si vous acceptez le contenu de l\'accord ci-dessus, veuillez cliquer sur \"Accepter\" pour commencer à utiliser nos produits et services.
+Nous protégerons vos informations personnelles grâce à une technologie de sécurité de pointe. Nous vous remercions de la confiance que vous accordez à Xiaomi Mall.</string>
+  <string name="terms_of_use_content_user_agreement">Accord d’utilisation: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Politique de confidentialité : https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Chers fans de Mi, bonjour, Da Jia Hao !</string>
+  <string name="welcome_content_second">Je suis David, fondateur de Boinc. Boinc est une plateforme logicielle open-source pour l\'informatique utilisant des ressources bénévoles.</string>
+  <string name="welcome_content_third">Je voudrais remercier M. Lei Jun et Xiaomi et partager avec vous quelques bonnes nouvelles :
+Le Mi 11 deviendra un appareil informatique mobile officiellement certifié par Boinc !</string>
+  <string name="welcome_content_fourth">Avec le Qualcomm Snapdragon 888 intégré, le Mi 11 dispose d\'une puissance de calcul étonnante.
+Il peut traiter des tâches très rapidement et fournir de l\'aide aux communautés de recherche dans le monde entier.</string>
+  <string name="welcome_content_fifth">J\'aimerais remercier tous les ingénieurs de Xiaomi qui ont contribué au projet Boinc.
+J\'encourage tous les fans de Xiaomi à télécharger Boinc sur leur téléphone et à partager une partie de la puissance de calcul pendant que leur téléphone n\'est pas utilisé.</string>
+  <string name="welcome_content_sixth">Enfin, à mes amis chinois, je souhaite un joyeux Nouvel An chinois ! Xin Nian Kuai Le !</string>
   <string name="agree_button">OK</string>
+  <string name="prefs_expand_wu_data">Toujours développer les informations sur les tâches</string>
 </resources>

@@ -27,7 +27,22 @@ require_once("../inc/token.inc");
 // send an email, using PHPMailer or not.
 //
 function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
-    if (function_exists("make_php_mailer")) {
+    if (!$email_addr) {
+        $email_addr = $user->email_addr;
+    }
+    if (defined('EMAIL_USE_CMD')) {
+        if ($body_html) {
+            $cmd = "mail  -a \"Content-type: text/html\" -s \"$subject\" $email_addr";
+            $pipe = popen($cmd, "w");
+            fwrite($pipe, $body_html);
+        } else {
+            $cmd = "mail  -s \"$subject\" $email_addr";
+            $pipe = popen($cmd, "w");
+            fwrite($pipe, $body);
+        }
+        pclose($pipe);
+        return true;
+    } else if (function_exists("make_php_mailer")) {
         if (file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php")) {
             require_once("../inc/PHPMailer/src/PHPMailer.php");
             require_once("../inc/PHPMailer/src/SMTP.php");
@@ -38,11 +53,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             return false;
         }
         $mail = make_php_mailer();
-        if ($email_addr) {
-            $mail->AddAddress($email_addr, $user->name);
-        } else {
-            $mail->AddAddress($user->email_addr, $user->name);
-        }
+        $mail->AddAddress($email_addr, $user->name);
         $mail->Subject = $subject;
         if ($body_html) {
             $mail->AltBody = $body;
@@ -64,14 +75,11 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
         } else if (defined('EMAIL_FROM')) {
             $headers = "From: ". EMAIL_FROM;
         }
-        if (!$email_addr) {
-            $email_addr = $user->email_addr;
-        }
         if ($body_html) {
-            $body = "<html><body>\n"; 
-            $body .= $body_html; 
-            $body .= "\n</body></html>\n"; 
-            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n"; 
+            $body = "<html><body>\n";
+            $body .= $body_html;
+            $body .= "\n</body></html>\n";
+            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
         }
         return mail($email_addr, $subject, $body, $headers);
     }
@@ -127,7 +135,7 @@ function send_changed_email($user) {
 
     // We need to send a different version of the email to the old address.
     //
-    $body_old = "Your email address has been changed. If you did not take this action, 
+    $body_old = "Your email address has been changed. If you did not take this action,
 then please click on the link below to reverse this process and change your password.
 
 ".secure_url_base()."recover_email.php?id=".$user->id."&token=".$token."
@@ -137,27 +145,39 @@ Note:  Your password will need to be recovered after clicking this link";
     return send_email($user, $subject, $body_new) && send_email($user, $subject, $body_old, null, $user->previous_email_addr);
 }
 
-// a valid email address is of the form A@B.C
-// where A, B, C are nonempty,
-// A and B don't contain @ or .,
-// and C doesn't contain @ and is at least 2 chars
+// return true if the email address
+// - is syntactically valid according to filter_var()
+// - if configured, is OK with stopforumspam.com
 //
-function is_valid_email_addr($addr) {
-    if (defined("USE_STOPFORUMSPAM") && USE_STOPFORUMSPAM && array_key_exists('REMOTE_ADDR', $_SERVER)) {
+function is_valid_email_sfs($addr) {
+    if (!defined("USE_STOPFORUMSPAM")) return true;
+    if (!USE_STOPFORUMSPAM) return true;
+    $ip = '';
+    if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
         $ip = $_SERVER['REMOTE_ADDR'];
-        // For obviously private IPs check just the email against SFS, otherwise check both IP and email
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-            $x = @file_get_contents("https://www.stopforumspam.com/api?ip=".$ip."&email=".$addr);
-        } else {
-            $x = @file_get_contents("https://www.stopforumspam.com/api?email=".$addr);
-        }
-        if (substr_count($x, '<appears>yes</appears>')) {
-            return false;
-        }
     }
-    $pattern = '/^([^@]+)@([^@\.]+)\.([^@]{2,})$/';
-    $match = preg_match($pattern, $addr);
-    return (bool) $match;
+    // For obviously private IPs check just the email against SFS,
+    // otherwise check both IP and email
+    if ($ip && filter_var(
+        $ip, FILTER_VALIDATE_IP,
+        FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+    )) {
+        $x = @file_get_contents("https://www.stopforumspam.com/api?ip=".$ip."&email=".$addr);
+    } else {
+        $x = @file_get_contents("https://www.stopforumspam.com/api?email=".$addr);
+    }
+    // could also look at 'frequency' and 'lastseen'
+    // see https://www.stopforumspam.com/usage
+    //
+    if (substr_count($x, '<appears>yes</appears>')) {
+        error_log("stopforumspam.com rejected email $addr, IP $ip");
+        return false;
+    }
+    return true;
+}
+
+function is_valid_email_syntax($addr) {
+    return filter_var($addr, FILTER_VALIDATE_EMAIL);
 }
 
 function send_confirm_delete_email($user) {
@@ -165,10 +185,10 @@ function send_confirm_delete_email($user) {
     if ($token === null) {
         error_page("Error creating token.  Please try again later.");
     }
-    
+
     $subject = "Confirm your request to delete your account at ".PROJECT;
     $body = "This email was sent in response to a request on the ".PROJECT." web site.
-    
+
 You have requested to delete your account at ".PROJECT.". In order to do this, use the following link to confirm your intent to delete your account. ".
 "The link will take you to a web page where you will be asked to enter your password and complete the process of deleting your account.
 

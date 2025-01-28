@@ -76,8 +76,10 @@ function app_version_string($result) {
         return anon_platform_string($result, tra("NVIDIA GPU"));
     case ANON_PLATFORM_ATI:
         return anon_platform_string($result, tra("AMD GPU"));
-    case ANON_PLATFORM_INTEL:
+    case ANON_PLATFORM_INTEL_GPU:
         return anon_platform_string($result, tra("Intel GPU"));
+    case ANON_PLATFORM_APPLE_GPU:
+        return anon_platform_string($result, tra("Apple GPU"));
     }
     $av = get_app_version($id);
     $app = get_app($av->appid);
@@ -310,7 +312,11 @@ function file_delete_state_str($s) {
     }
     return "Unknown";
 }
-function wu_error_mask_str($s) {
+
+// convert WU error bitmask to str.
+// If $color, add HTML red color
+//
+function wu_error_mask_str($s, $color=false) {
     $x = "";
     if ($s & WU_ERROR_COULDNT_SEND_RESULT) {
         $x = $x." ".tra("Couldn't send result");
@@ -339,10 +345,8 @@ function wu_error_mask_str($s) {
     if ($s) {
         $x = $x." ".tra("Unrecognized Error: %1", $s);
     }
-    if (strlen($x)) {
-        $x="<font color=\"#ff3333\">".$x."</font>";
-    } else {
-        $x="";
+    if ($color) {
+        return sprintf('<font color="#ff3333">%s</font>', $x);
     }
     return $x;
 }
@@ -638,8 +642,8 @@ function error_code_str($x){
     case -192: return "ERR_MKDIR";
     case -193: return "ERR_INVALID_EVENT";
     case -194: return "ERR_ALREADY_RUNNING";
-    case -195: return "ERR_NO_APP_VERSION";  
-    case -196: return "ERR_WU_USER_RULE";    
+    case -195: return "ERR_NO_APP_VERSION";
+    case -196: return "ERR_WU_USER_RULE";
     case -197: return "ERR_ABORTED_VIA_GUI";
     case -198: return "ERR_INSUFFICIENT_RESOURCE";
     case -199: return "ERR_RETRY";
@@ -719,7 +723,7 @@ function show_result($result, $show_outfile_links=false) {
     }
     if ($show_outfile_links && $result->outcome == 1) {
         $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-        $names = get_outfile_names($result);
+        $names = get_outfile_phys_names($result);
         $i = 0;
         $x = "";
         foreach ($names as $name) {
@@ -841,6 +845,5 @@ function result_navigation($info, $where_clause) {
     return $x;
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

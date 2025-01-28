@@ -26,7 +26,7 @@
 //
 // ------ Shared Memory Parameters -----------
 // #define MAX_PLATFORMS        50
-// #define MAX_APPS             10 
+// #define MAX_APPS             10
 // #define MAX_APP_VERSIONS     50
 // #define MAX_ASSIGNMENTS      10
 // #define MAX_WU_RESULTS       100
@@ -38,6 +38,7 @@
 // #define CUDAFERMI_MIN_RAM            384*MEGA
 // #define OPENCL_NVIDIA_MIN_RAM        384*MEGA
 // #define OPENCL_INTEL_GPU_MIN_RAM     256*MEGA
+// #define OPENCL_APPLE_GPU_MIN_RAM     256*MEGA
 //
 // #define CUDA_MIN_DRIVER_VERSION              17700
 // #define CUDA23_MIN_CUDA_VERSION              2030

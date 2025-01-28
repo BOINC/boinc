@@ -39,47 +39,47 @@
 /*!
  * CErrAlreadyExistsPage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CErrAlreadyExistsPage, wxWizardPageEx )
- 
+
 /*!
  * CErrAlreadyExistsPage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CErrAlreadyExistsPage, wxWizardPageEx )
- 
+
 ////@begin CErrAlreadyExistsPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CErrAlreadyExistsPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CErrAlreadyExistsPage::OnCancel )
 
 ////@end CErrAlreadyExistsPage event table entries
- 
+
 END_EVENT_TABLE()
- 
+
 /*!
  * CErrAlreadyExistsPage constructors
  */
- 
+
 CErrAlreadyExistsPage::CErrAlreadyExistsPage( )
 {
 }
- 
+
 CErrAlreadyExistsPage::CErrAlreadyExistsPage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * CErrAccountAlreadyExists creator
  */
- 
+
 bool CErrAlreadyExistsPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrAlreadyExistsPage member initialisation
     m_pTitleStaticCtrl = NULL;
     m_pDirectionsStaticCtrl = NULL;
 ////@end CErrAlreadyExistsPage member initialisation
- 
+
 ////@begin CErrAlreadyExistsPage creation
     wxWizardPageEx::Create( parent, ID_ERRALREADYEXISTSPAGE );
 
@@ -89,13 +89,13 @@ bool CErrAlreadyExistsPage::Create( CBOINCBaseWizard* parent )
 
     return TRUE;
 }
- 
+
 /*!
  * Control creation for CErrAccountAlreadyExists
  */
- 
+
 void CErrAlreadyExistsPage::CreateControls()
-{    
+{
 ////@begin CErrAlreadyExistsPage content construction
     CErrAlreadyExistsPage* itemWizardPage96 = this;
 
@@ -114,38 +114,38 @@ void CErrAlreadyExistsPage::CreateControls()
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrAlreadyExistsPage content construction
 }
- 
+
 /*!
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CErrAlreadyExistsPage::GetPrev() const
 {
     return PAGE_TRANSITION_BACK;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CErrAlreadyExistsPage::GetNext() const
 {
     return NULL;
 }
- 
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CErrAlreadyExistsPage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CErrAlreadyExistsPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -153,11 +153,11 @@ wxBitmap CErrAlreadyExistsPage::GetBitmapResource( const wxString& WXUNUSED(name
     return wxNullBitmap;
 ////@end CErrAlreadyExistsPage bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CErrAlreadyExistsPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -166,11 +166,11 @@ wxIcon CErrAlreadyExistsPage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CErrAlreadyExistsPage icon retrieval
 }
-  
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
  */
- 
+
 void CErrAlreadyExistsPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
@@ -197,11 +197,11 @@ void CErrAlreadyExistsPage::OnPageChanged( wxWizardExEvent& event ) {
 
     Fit();
 }
-  
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
  */
- 
+
 void CErrAlreadyExistsPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }

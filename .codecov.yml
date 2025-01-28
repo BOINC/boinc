@@ -1,8 +1,8 @@
 codecov:
-  require_ci_to_pass: yes
+  require_ci_to_pass: true
   notify:
     after_n_builds: 3
-    wait_for_ci: yes
+    wait_for_ci: true
 
 coverage:
   status:
@@ -14,12 +14,15 @@ coverage:
 comment:
   layout: "diff, files"
   behavior: default
-  require_changes: yes    # if true: only post the comment if coverage changes
-  require_base: no        # [yes :: must have a base report to post]
-  require_head: yes       # [yes :: must have a head report to post]
-  branches: 
+  require_changes: true    # if true: only post the comment if coverage changes
+  require_base: false      # [true :: must have a base report to post]
+  require_head: true       # [true :: must have a head report to post]
+  branches:
     - master
   after_n_builds: 3
+
+github_checks:
+    annotations: false
 
 flags:
   # filter the folder(s) you wish to measure by that flag

@@ -93,6 +93,8 @@
 #include <cstdio>
 #include <cstdarg>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/time.h>
@@ -144,6 +146,10 @@ using std::vector;
     // CPPFLAGS=-DGETRUSAGE_IN_TIMER_THREAD
 #endif
 
+// Anything shared between the worker and timer thread
+// must be declared volatile to ensure that writes in one thread
+// are seen immediately by the other.
+
 const char* api_version = "API_VERSION_" PACKAGE_VERSION;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
@@ -155,7 +161,7 @@ static volatile double last_checkpoint_cpu_time;
 static volatile bool ready_to_checkpoint = false;
 static volatile int in_critical_section = 0;
 static volatile double last_wu_cpu_time;
-static volatile bool standalone = false;
+static volatile bool standalone = true;
 static volatile double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
@@ -194,6 +200,9 @@ char remote_desktop_addr[256];
 bool send_remote_desktop_addr = false;
 int app_min_checkpoint_period = 0;
     // min checkpoint period requested by app
+static volatile SPORADIC_AC_STATE ac_state;
+static volatile int ac_fd, ca_fd;
+static volatile bool do_sporadic_files;
 
 #define TIMER_PERIOD 0.1
     // Sleep interval for timer thread;
@@ -274,7 +283,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         strlcpy(sbuf, "localtime() failed", len);
         return sbuf;
     }
-    if (strftime(buf, sizeof(buf)-1, "%H:%M:%S", tmp) == 0) {
+    if (strftime(buf, sizeof(buf)-1, "%F %H:%M:%S", tmp) == 0) {
         strlcpy(sbuf, "strftime() failed", len);
         return sbuf;
     }
@@ -306,7 +315,7 @@ static int setup_shared_mem() {
     app_client_shm = new APP_CLIENT_SHM;
 
 #ifdef _WIN32
-    sprintf(buf, "%s%s", SHM_PREFIX, aid.shmem_seg_name);
+    snprintf(buf, sizeof(buf), "%s%s", SHM_PREFIX, aid.shmem_seg_name);
     hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
     if (hSharedMem == NULL) {
         delete app_client_shm;
@@ -412,7 +421,7 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
 
     if (standalone) return true;
 
-    sprintf(msg_buf,
+    snprintf(msg_buf, sizeof(msg_buf),
         "<current_cpu_time>%e</current_cpu_time>\n"
         "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n",
         cpu_t, cp_cpu_t
@@ -423,15 +432,19 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
-        sprintf(buf, "<fraction_done>%e</fraction_done>\n", fdone);
+        snprintf(buf, sizeof(buf), "<fraction_done>%e</fraction_done>\n", fdone);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_sent) {
-        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
+        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (bytes_received) {
-        sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
+        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", bytes_received);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
+    }
+    if (ac_state) {
+        sprintf(buf, "<sporadic_ac>%d</sporadic_ac>\n", ac_state);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
 #ifdef MSGS_FROM_FILE
@@ -450,6 +463,7 @@ static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     double dtemp;
     bool btemp;
+    int i;
 
     if (!app_client_shm->shm->heartbeat.get_msg(buf)) {
         return;
@@ -466,6 +480,9 @@ static void handle_heartbeat_msg() {
     }
     if (parse_bool(buf, "suspend_network", btemp)) {
         boinc_status.network_suspended = btemp;
+    }
+    if (parse_int(buf, "<sporadic_ca>", i)) {
+        boinc_status.ca_state = (SPORADIC_CA_STATE)i;
     }
 }
 
@@ -507,6 +524,57 @@ static bool client_dead() {
         return true;
     }
     return false;
+}
+
+// called once/sec in timer thread.
+// Copy sporadic app messages to/from files (for wrappers)
+//
+static void sporadic_files() {
+    static time_t last_ac_mod_time = 0;
+    static SPORADIC_CA_STATE last_ca_state = CA_NONE;
+    char buf[256];
+
+    // if C->A state has changed, write to file
+    //
+    if (last_ca_state != boinc_status.ca_state) {
+        sprintf(buf, "%d\n", boinc_status.ca_state);
+        lseek(ca_fd, 0, SEEK_SET);
+        if (write(ca_fd, buf, sizeof(buf))) {}
+            // one way to avoid warnings
+        last_ca_state = boinc_status.ca_state;
+    }
+
+    // check if app has updated file with A->C state
+    //
+    struct stat sbuf;
+    int ret = fstat(ac_fd, &sbuf);
+    if (!ret) {
+#ifdef _WIN32
+        time_t t = sbuf.st_mtime;
+#elif defined(__APPLE__)
+        time_t t = sbuf.st_mtimespec.tv_sec;
+#else
+        time_t t = sbuf.st_mtim.tv_sec;
+#endif
+        if (t != last_ac_mod_time) {
+            lseek(ac_fd, 0, SEEK_SET);
+            int nc = read(ac_fd, buf, sizeof(buf));
+            if (nc>0) {
+                int val;
+                buf[nc] = 0;
+                int n = sscanf(buf, "%d", &val);
+                if (n == 1) {
+                    ac_state = (SPORADIC_AC_STATE)val;
+                } else {
+                    ac_state = AC_NONE;
+                    fprintf(stderr, "API: error parsing AC state: %s\n", buf);
+                }
+                last_ac_mod_time = t;
+            } else {
+                fprintf(stderr, "API: error reading AC state: %d\n", nc);
+            }
+        }
+    }
 }
 
 #ifndef _WIN32
@@ -678,6 +746,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         }
     }
 
+    standalone = false;
     retval = boinc_parse_init_data_file();
     if (retval) {
         standalone = true;
@@ -714,6 +783,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
 }
 
 int boinc_get_status(BOINC_STATUS *s) {
+    // can just do a struct copy??
     s->no_heartbeat = boinc_status.no_heartbeat;
     s->suspended = boinc_status.suspended;
     s->quit_request = boinc_status.quit_request;
@@ -722,6 +792,7 @@ int boinc_get_status(BOINC_STATUS *s) {
     s->working_set_size = boinc_status.working_set_size;
     s->max_working_set_size = boinc_status.max_working_set_size;
     s->network_suspended = boinc_status.network_suspended;
+    s->ca_state = boinc_status.ca_state;
     return 0;
 }
 
@@ -759,8 +830,10 @@ int boinc_finish_message(int status, const char* msg, bool is_notice) {
         boinc_msg_prefix(buf, sizeof(buf)), status
     );
     finishing = true;
-    boinc_sleep(2.0);   // let the timer thread send final messages
-    boinc_disable_timer_thread = true;     // then disable it
+    if (!standalone) {
+        boinc_sleep(2.0);   // let the timer thread send final messages
+        boinc_disable_timer_thread = true;     // then disable it
+    }
 
     if (options.main_program) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
@@ -871,6 +944,28 @@ int boinc_is_standalone() {
     return 0;
 }
 
+int boinc_sporadic_dir(const char* dir) {
+    char buf[MAXPATHLEN];
+
+    do_sporadic_files = true;
+    sprintf(buf, "%s/ac", dir);
+    ac_fd = open(buf, O_CREAT|O_RDONLY, 0666);
+    if (ac_fd < 0) {
+        fprintf(stderr, "can't open sporadic file %s\n", buf);
+        do_sporadic_files = false;
+    }
+    sprintf(buf, "%s/ca", dir);
+    ca_fd = open(buf, O_CREAT|O_WRONLY, 0666);
+    if (ca_fd < 0) {
+        fprintf(stderr, "can't open sporadic file %s\n", buf);
+        do_sporadic_files = false;
+    }
+    if (!do_sporadic_files) return ERR_FOPEN;
+    boinc_status.ca_state = CA_DONT_COMPUTE;
+    ac_state = AC_NONE;
+    return 0;
+}
+
 // called from the timer thread if we need to exit,
 // e.g. quit message from client, or client has gone away
 //
@@ -957,12 +1052,13 @@ int boinc_report_app_status_aux(
     double _fraction_done,
     int other_pid,
     double _bytes_sent,
-    double _bytes_received
+    double _bytes_received,
+    double wss
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[1024];
     if (standalone) return 0;
 
-    sprintf(msg_buf,
+    snprintf(msg_buf, sizeof(msg_buf),
         "<current_cpu_time>%e</current_cpu_time>\n"
         "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n"
         "<fraction_done>%e</fraction_done>\n",
@@ -971,16 +1067,24 @@ int boinc_report_app_status_aux(
         _fraction_done
     );
     if (other_pid) {
-        sprintf(buf, "<other_pid>%d</other_pid>\n", other_pid);
+        snprintf(buf, sizeof(buf), "<other_pid>%d</other_pid>\n", other_pid);
         safe_strcat(msg_buf, buf);
     }
     if (_bytes_sent) {
-        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
+        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
         safe_strcat(msg_buf, buf);
     }
     if (_bytes_received) {
-        sprintf(buf, "<bytes_received>%f</bytes_received>\n", _bytes_received);
+        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", _bytes_received);
         safe_strcat(msg_buf, buf);
+    }
+    if (ac_state) {
+        sprintf(buf, "<sporadic_ac>%d</sporadic_ac>\n", ac_state);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
+    }
+    if (wss) {
+        sprintf(buf, "<wss>%f</wss>\n", wss);
+        strlcat(msg_buf, buf, sizeof(msg_buf));
     }
 #ifdef MSGS_FROM_FILE
     if (fout) {
@@ -1001,7 +1105,7 @@ int boinc_report_app_status(
     double _fraction_done
 ){
     return boinc_report_app_status_aux(
-        cpu_time, checkpoint_cpu_time, _fraction_done, 0, 0, 0
+        cpu_time, checkpoint_cpu_time, _fraction_done, 0, 0, 0, 0
     );
 }
 
@@ -1032,6 +1136,7 @@ static int suspend_activities(bool called_from_worker) {
     );
 #endif
 #ifdef _WIN32
+    (void) called_from_worker;  // suppress warning
     static vector<int> pids;
     if (options.multi_thread) {
         if (pids.size() == 0) {
@@ -1046,7 +1151,7 @@ static int suspend_activities(bool called_from_worker) {
         suspend_or_resume_descendants(false);
     }
     // if called from worker thread, sleep until suspension is over
-    // if called from time thread, don't need to do anything;
+    // if called from timer thread, don't need to do anything;
     // suspension is done by signal handler in worker thread
     //
     if (called_from_worker) {
@@ -1338,7 +1443,7 @@ static void timer_handler() {
     // send graphics-related messages
     //
     if (send_web_graphics_url && !app_client_shm->shm->graphics_reply.has_msg()) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "<web_graphics_url>%s</web_graphics_url>",
             web_graphics_url
         );
@@ -1346,12 +1451,16 @@ static void timer_handler() {
         send_web_graphics_url = false;
     }
     if (send_remote_desktop_addr && !app_client_shm->shm->graphics_reply.has_msg()) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "<remote_desktop_addr>%s</remote_desktop_addr>",
             remote_desktop_addr
         );
         app_client_shm->shm->graphics_reply.send_msg(buf);
         send_remote_desktop_addr = false;
+    }
+
+    if (do_sporadic_files) {
+        sporadic_files();
     }
 }
 
@@ -1477,7 +1586,7 @@ int start_timer_thread() {
 
 // called in the worker thread.
 // set up a handler for SIGALRM.
-// If Android, we'll get signals from the time thread.
+// If Android, we'll get signals from the timer thread.
 // otherwise, set an interval timer to deliver signals
 //
 static int start_worker_signals() {
@@ -1625,7 +1734,7 @@ int boinc_upload_file(std::string& name) {
 
     retval = boinc_resolve_filename_s(name.c_str(), pname);
     if (retval) return retval;
-    sprintf(buf, "%s%s", UPLOAD_FILE_REQ_PREFIX, name.c_str());
+    snprintf(buf, sizeof(buf), "%s%s", UPLOAD_FILE_REQ_PREFIX, name.c_str());
     FILE* f = boinc_fopen(buf, "w");
     if (!f) return ERR_FOPEN;
     have_new_upload_file = true;
@@ -1696,3 +1805,12 @@ void boinc_remote_desktop_addr(char* addr) {
     strlcpy(remote_desktop_addr, addr, sizeof(remote_desktop_addr));
     send_remote_desktop_addr = true;
 }
+
+void boinc_sporadic_set_ac_state(SPORADIC_AC_STATE a) {
+    ac_state = a;
+}
+
+SPORADIC_CA_STATE boinc_sporadic_get_ca_state() {
+    return boinc_status.ca_state;
+}
+

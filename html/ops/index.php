@@ -97,6 +97,7 @@ echo "
         <li><a href=\"db_form.php?table=app_version\">Application versions</a></li>
         <li><a href=\"db_action.php?table=platform\">Platforms</a></li>
         <li><a href=dbinfo.php>DB row counts and disk usage</a>
+        <li><a href=sample_table_stats.php>DB table details</a>
         <li><a href=\"show_log.php?f=mysql*.log&amp;l=-20\">Tail MySQL logs</a>
     </ul>
 
@@ -199,7 +200,7 @@ if ($show_deprecated) {
 
 echo "<h3>Periodic tasks</h3>
 The following scripts should be run as periodic tasks, not via this web page
-(see <a href=\"https://boinc.berkeley.edu/trac/wiki/ProjectTasks\">https://boinc.berkeley.edu/trac/wiki/ProjectTasks</a>):
+(see <a href=\"https://github.com/BOINC/boinc/wiki/ProjectTasks\">https://github.com/BOINC/boinc/wiki/ProjectTasks</a>):
 <pre>
     update_forum_activities.php, update_profile_pages.php, update_uotd.php, delete_expired_tokens.php, delete_expired_users_and_hosts.php
 </pre>
@@ -220,5 +221,4 @@ or by clicking here:
 
 admin_page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

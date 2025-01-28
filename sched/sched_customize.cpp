@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -43,7 +43,7 @@
 // 2) put this in a differently-named file and change the Makefile.am
 //    (and write-protect that)
 // In either case, put your version under source-code control, e.g. SVN
-#include "config.h" 
+#include "config.h"
 
 #include <string>
 
@@ -73,6 +73,10 @@ using std::string;
 
 #ifndef OPENCL_INTEL_GPU_MIN_RAM
 #define OPENCL_INTEL_GPU_MIN_RAM 256*MEGA
+#endif
+
+#ifndef OPENCL_APPLE_GPU_MIN_RAM
+#define OPENCL_APPLE_GPU_MIN_RAM 256*MEGA
 #endif
 
 #ifndef CUDA_MIN_RAM
@@ -256,7 +260,7 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
             int dev_rev=(c.version_num%10000);
             log_messages.printf(MSG_NORMAL,
                 "[version] Bad display driver revision %d.%d.%d<%d.%d.%d.\n",
-                dev_major,dev_minor,dev_rev,app_major,app_minor,app_rev 
+                dev_major,dev_minor,dev_rev,app_major,app_minor,app_rev
             );
         }
         return false;
@@ -424,7 +428,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
         return false;
     }
 
-    if (max_cc && cc >= max_cc) { 
+    if (max_cc && cc >= max_cc) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
@@ -555,8 +559,8 @@ static inline bool app_plan_nvidia(
         )) {
             return false;
         }
-    } else 
-#endif // SETIATHOME   
+    } else
+#endif // SETIATHOME
     if (!strcmp(plan_class, "cuda_fermi")) {
         if (!cuda_check(c, hu,
             200, 0,
@@ -672,7 +676,7 @@ static inline bool opencl_check(
         cp.opencl_prop.global_mem_size=cp.opencl_prop.local_mem_size;
     }
 #endif
-        
+
     if (cp.opencl_prop.global_mem_size && (cp.opencl_prop.global_mem_size < min_global_mem_size)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
@@ -692,6 +696,9 @@ static inline bool opencl_check(
         hu.gpu_usage = ndevs;
     } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
         hu.proc_type = PROC_TYPE_INTEL_GPU;
+        hu.gpu_usage = ndevs;
+    } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_APPLE_GPU))) {
+        hu.proc_type = PROC_TYPE_APPLE_GPU;
         hu.gpu_usage = ndevs;
     }
 
@@ -801,12 +808,46 @@ static inline bool app_plan_opencl(
             return false;
         }
 
-
         if (strstr(plan_class,"opencl_intel_gpu") == plan_class) {
             return opencl_check(
                 c, hu,
                 ver,
                 OPENCL_INTEL_GPU_MIN_RAM,
+                1,
+                .1,
+                .2
+            );
+        } else {
+            log_messages.printf(MSG_CRITICAL,
+                "[version] [opencl] Unknown plan class: %s\n", plan_class
+            );
+            return false;
+        }
+    } else if (strstr(plan_class, "apple_gpu")) {
+        COPROC_APPLE& c = sreq.coprocs.apple_gpu;
+        if (!c.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] HOST has no Apple GPUs\n"
+                );
+            }
+            return false;
+        }
+
+        if (!c.have_opencl) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] GPU/Driver/BOINC revision doesn not support OpenCL\n"
+                );
+            }
+            return false;
+        }
+
+        if (strstr(plan_class,"opencl_apple_gpu") == plan_class) {
+            return opencl_check(
+                c, hu,
+                ver,
+                OPENCL_APPLE_GPU_MIN_RAM,
                 1,
                 .1,
                 .2
@@ -918,10 +959,21 @@ static inline bool app_plan_vbox(
     return true;
 }
 
-// app planning function.
-// See http://boinc.berkeley.edu/trac/wiki/AppPlan
+static inline bool app_plan_wsl(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    // no additional checks at the moment, just return true
+    return true;
+}
+
+// if host can handle the plan class, populate host usage and return true
 //
-bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu) {
+// See https://github.com/BOINC/boinc/wiki/AppPlan
+//
+bool app_plan(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu,
+    const WORKUNIT* wu
+) {
     char buf[256];
     static bool check_plan_class_spec = true;
     static bool have_plan_class_spec = false;
@@ -929,7 +981,11 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const W
 
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
-            "[version] Checking plan class '%s'\n", plan_class
+            "[version] Checking plan class '%s' check %d have %d bad %d\n",
+            plan_class,
+            check_plan_class_spec,
+            have_plan_class_spec,
+            bad_plan_class_spec
         );
     }
 
@@ -978,6 +1034,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const W
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
+    } else if (strstr(plan_class, "wsl")) {
+        return app_plan_wsl(sreq, plan_class, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

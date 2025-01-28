@@ -20,10 +20,6 @@
 // in admin web pages
 // TODO: most of this code shouldn't exist; use the standard code instead
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/util_basic.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/result.inc");
@@ -58,7 +54,7 @@ function mysqltime_str($x) {
         $hour = substr($x,8,2);
         $minute = substr($x,10,2);
         $second = substr($x,12,2);
-    
+
     }
     //make a Unix-Timestamp
     // echo "Time string is " . "$x";
@@ -103,7 +99,7 @@ function mysql_fieldtype_str($type_id) {
     return array_key_exists($type_id, $types)? strtolower($types[$type_id]) : "unknown";
 }
 
-// Function prints a description of $table 
+// Function prints a description of $table
 //
 function print_describe_table_onecol($table, $which, $columns) {
     $db = BoincDb::get(true);
@@ -390,7 +386,7 @@ function link_results($n, $mq, $query, $clauses) {
         else {
             return "<a href=\"db_action.php?table=result&query=$mq&$query&sort_by=mod_time&detail=low\">$n</a>";
         }
-        
+
     }
 }
 
@@ -443,7 +439,7 @@ function admin_show_result_summary() {
         $query_appid = $_GET['appid'];
     } else {
         $query_appid = "";
-    }     
+    }
     $query_mod_time = 0;
     if (isset($_GET['nsecs'])) {
         //$query_mod_time = time() - $_GET['nsecs'];
@@ -614,7 +610,7 @@ FROM result WHERE true
     end_table();
     start_table('table-striped');
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
-  
+
     for ($fds=0; $fds<4; $fds++) {
         row2(file_delete_state_str($fds),
         link_results("$file_delete[$fds]", $urlquery, "outcome=1", "file_delete_state=$fds"));
@@ -773,7 +769,6 @@ function admin_show_app_version($app_version) {
     row("min_core_version", $app_version->min_core_version);
     row("max_core_version", $app_version->max_core_version);
     row("deprecated", $app_version->deprecated);
-    row("plan_class", $app_version->plan_class);
     end_table();
 }
 
@@ -976,7 +971,7 @@ function admin_show_workunit($wu) {
     row("Canonical credit", $wu->canonical_credit);
     //row("Timeout check time", time_str($wu->timeout_check_time));
     row("Delay bound", "$wu->delay_bound" . " =  " . time_diff($wu->delay_bound) );
-    row("Error mask", wu_error_mask_str($wu->error_mask));
+    row("Error mask", wu_error_mask_str($wu->error_mask, true));
     row("File delete state", file_delete_state_str($wu->file_delete_state)." [".$wu->file_delete_state."]");
     row("Assimilation state", assimilate_state_str($wu->assimilate_state)." [".$wu->assimilate_state."]");
     // row("","<a href=db_action.php?table=result&workunitid=$wu->id&detail=low>Show associated results</a>");
@@ -1028,7 +1023,7 @@ function admin_show_workunit_short($wu) {
         $wu->id,
         $wu->id
     );
-    $e = wu_error_mask_str($wu->error_mask);
+    $e = wu_error_mask_str($wu->error_mask, true);
     $f = file_delete_state_str($wu->file_delete_state);
     $a = assimilate_state_str($wu->assimilate_state);
     echo "
@@ -1064,10 +1059,10 @@ function validate_color($validate_state) {
 
 function outcome_color($outcome) {
     switch($outcome) {
-    case 0: return '9900cc'; // "Init", purple 
+    case 0: return '9900cc'; // "Init", purple
     case 1: return '33cc33'; // "Success", green
     case 3: return 'ff3333'; // "Client error", red
-    case 4: return 'ff6699'; // "No reply", pink 
+    case 4: return 'ff6699'; // "No reply", pink
     case 6: return 'ffff33'; // "Validate error", yellow
     }
     return '';
@@ -1177,7 +1172,7 @@ function admin_show_result_short($result) {
         // in green if in the future or in red if in the past.
         $timenow=time();
         if ($result->report_deadline==0)  {
-            // not sent -- show create time in purple 
+            // not sent -- show create time in purple
             $received = "<font color=\"9900cc\">". time_str($result->create_time) . "</font>";
         } else if ($result->report_deadline>=$timenow) {
             // overdue -- show deadline in red
@@ -1292,7 +1287,7 @@ function admin_show_user_summary($maxuser) {
     echo "<td><table border=\"2\">\n";
     echo "<tr><th>Country</th><th># users</th></tr>\n";
     arsort($top_country);
-    
+
     foreach ($top_country as $key => $value) {
         row2_plain($key, $value);
     }

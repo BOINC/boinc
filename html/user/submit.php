@@ -2,7 +2,7 @@
 
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,17 +17,26 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// web interface for remote job submission:
+// - links to job-submission pages
+// - Admin (if privileged user)
+// - manage batches
+//      view status, get output files, abort, retire
+// - toggle 'use only my computers'
+
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 require_once("../project/project.inc");
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
+display_errors();
 
 define("PAGE_SIZE", 20);
+
+function return_link() {
+    echo "<p><a href=submit.php>Return to job submission page</a>\n";
+}
 
 function state_count($batches, $state) {
     $n = 0;
@@ -53,6 +62,7 @@ function show_all_link($batches, $state, $limit, $user, $app) {
 }
 
 function show_in_progress($batches, $limit, $user, $app) {
+    echo "<h3>Batches in progress</h3>\n";
     $first = true;
     $n = 0;
     foreach ($batches as $batch) {
@@ -61,7 +71,6 @@ function show_in_progress($batches, $limit, $user, $app) {
         $n++;
         if ($first) {
             $first = false;
-            echo "<h2>Batches in progress</h2>\n";
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app);
             }
@@ -90,7 +99,7 @@ function show_in_progress($batches, $limit, $user, $app) {
         );
     }
     if ($first) {
-        echo "<p>No in-progress batches.\n";
+        echo "<p>None.\n";
     } else {
         end_table();
     }
@@ -105,7 +114,7 @@ function show_complete($batches, $limit, $user, $app) {
         $n++;
         if ($first) {
             $first = false;
-            echo "<h2>Completed batches</h2>\n";
+            echo "<h3>Completed batches</h3>\n";
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
             }
@@ -162,10 +171,6 @@ function show_aborted($batches, $limit, $user, $app) {
 //
 function fill_in_app_and_user_names(&$batches) {
     foreach ($batches as $batch) {
-        //if ($batch->state < BATCH_STATE_COMPLETE || $batch->fraction_done < 1) {
-        //    $wus = BoincWorkunit::enum("batch = $batch->id");
-        //    $batch = get_batch_params($batch, $wus);
-        //}
         $app = BoincApp::lookup_id($batch->app_id);
         if ($app) {
             $batch->app_name = $app->name;
@@ -195,30 +200,51 @@ function show_batches($batches, $limit, $user, $app) {
 // and a button for creating a new batch
 //
 function handle_main($user) {
-    global $submit_urls;
+    global $web_apps;
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
     if (!$user_submit) {
         error_page("Ask the project admins for permission to submit jobs");
     }
 
-    page_head("Job submission and control");
+    page_head("Job submission");
 
-    if (isset($submit_urls)) {
+    if (isset($web_apps) && $web_apps) {
         // show links to per-app job submission pages
         //
         echo "<h3>Submit jobs</h3>
             <ul>
         ";
-        foreach ($submit_urls as $appname=>$submit_url) {
+        foreach ($web_apps as $appname => $web_app) {
             $appname = BoincDb::escape_string($appname);
             $app = BoincApp::lookup("name='$appname'");
-            if (!$app) error_page("bad submit_url name: $appname");
+            if (!$app) error_page("bad web app name: $appname");
             $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
             if ($usa || $user_submit->submit_all) {
-                echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
+                echo "<li> <a href=$web_app->submit_url> $app->user_friendly_name </a>";
             }
         }
         echo "</ul>\n";
+    }
+
+    echo '<h3>Where your jobs run</h3>';
+    if ($user->seti_id) {
+        echo "<p>
+            Jobs you submit can run only on your computers.
+            <p>
+        ";
+        show_button(
+            'submit.php?action=toggle_loc',
+            'Allow them to run on any computer.'
+        );
+    } else {
+        echo "<p>
+            Jobs you submit can run on any computer.
+            <p>
+        ";
+        show_button(
+            'submit.php?action=toggle_loc',
+            'Allow them to run only on your computers.'
+        );
     }
 
     // show links to admin pages if relevant
@@ -232,35 +258,8 @@ function handle_main($user) {
         }
     }
     if ($user_submit->manage_all || $app_admin) {
-        echo "<h3>Administrative functions</h3><ul>\n";
-        if ($user_submit->manage_all) {
-            echo "<li>All applications<br>
-                <a href=submit.php?action=admin&app_id=0>Batches</a>
-                &middot;
-                <a href=manage_project.php>Users</a>
-            ";
-            $apps = BoincApp::enum("deprecated=0");
-            foreach ($apps as $app) {
-                echo "<li>$app->user_friendly_name<br>
-                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
-                    &middot;
-                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
-                ";
-            }
-        } else {
-            foreach ($usas as $usa) {
-                $app = BoincApp::lookup_id($usa->app_id);
-                echo "<li>$app->user_friendly_name<br>
-                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
-                ";
-                if ($usa->manage) {
-                    echo "&middot;
-                        <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
-                    ";
-                }
-            }
-        }
-        echo "</ul>\n";
+        echo "<h3>Administer job submission</h3>\n";
+        show_button('submit.php?action=admin', 'Administer');
     }
 
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
@@ -269,33 +268,79 @@ function handle_main($user) {
     page_tail();
 }
 
-function check_admin_access($user, $app_id) {
-    $user_submit = BoincUserSubmit::lookup_userid($user->id);
-    if (!$user_submit) error_page("no access");
-    if ($app_id) {
-        if (!$user_submit->manage_all) {
-            $usa = BoincUserSubmitApp::lookup("user_id = $user->id and app_id=$app_id");
-            if (!$usa) error_page("no access");
-        }
+function handle_toggle_loc($user) {
+    if ($user->seti_id) {
+        $user->update('seti_id=0');
     } else {
-        if (!$user_submit->manage_all) error_page("no access");
+        $user->update('seti_id=1');
     }
+    handle_main($user);
 }
 
+// show links for everything the user has admin access to
+//
 function handle_admin($user) {
-    $app_id = get_int("app_id");
-    check_admin_access($user, $app_id);
-    if ($app_id) {
-        $app = BoincApp::lookup_id($app_id);
-        if (!$app) error_page("no such app");
-        page_head("Administer batches for $app->user_friendly_name");
-        $batches = BoincBatch::enum("app_id = $app_id order by id desc");
-        show_batches($batches, PAGE_SIZE, null, $app);
+    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    if (!$user_submit) error_page('no access');
+    page_head("Administer job submission");
+    if ($user_submit->manage_all) {
+        // user can administer all apps
+        //
+        echo "<li>All applications<br>
+            <ul>
+            <li> <a href=submit.php?action=admin_all>View all batches</a>
+            <li> <a href=manage_project.php>Manage user permissions</a>
+            </ul>
+        ";
+        $apps = BoincApp::enum("deprecated=0");
+        foreach ($apps as $app) {
+            echo "
+                <li>$app->user_friendly_name<br>
+                <ul>
+                <li><a href=submit.php?action=admin_app&app_id=$app->id>View batches</a>
+                <li> <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
+                <li> <a href=manage_app.php?app_id=$app->id&amp;action=permissions_form>Manage user permissions</a>
+                <li> <a href=manage_app.php?app_id=$app->id&amp;action=batches_form>Manage batches</a>
+                </ul>
+            ";
+        }
     } else {
-        page_head("Administer batches (all apps)");
-        $batches = BoincBatch::enum("true order by id desc");
-        show_batches($batches, PAGE_SIZE, null, null);
+        // see if user can administer specific apps
+        //
+        $usas = BoincUserSubmitApp::enum("user_id=$user->id");
+        foreach ($usas as $usa) {
+            $app = BoincApp::lookup_id($usa->app_id);
+            echo "<li>$app->user_friendly_name<br>
+                <a href=submit.php?action=admin_app&app_id=$app->id>Batches</a>
+            ";
+            if ($usa->manage) {
+                echo "&middot;
+                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                ";
+            }
+        }
     }
+    echo "</ul>\n";
+    page_tail();
+}
+
+function handle_admin_app($user) {
+    $app_id = get_int("app_id");
+    $app = BoincApp::lookup_id($app_id);
+    if (!$app) error_page("no such app");
+    if (!has_admin_access($user, $app_id)) {
+        error_page('no access');
+    }
+
+    page_head("Administer batches for $app->user_friendly_name");
+    $batches = BoincBatch::enum("app_id = $app_id order by id desc");
+    show_batches($batches, PAGE_SIZE, null, $app);
+    page_tail();
+}
+function handle_admin_all($user) {
+    page_head("Administer batches (all apps)");
+    $batches = BoincBatch::enum("true order by id desc");
+    show_batches($batches, PAGE_SIZE, null, null);
     page_tail();
 }
 
@@ -342,7 +387,8 @@ function handle_batch_stats($user) {
         page_tail();
         return;
     }
-    start_table();
+    text_start(800);
+    start_table('table-striped');
     row2("qualifying results", $n);
     row2("mean WSS", size_string($wss_sum/$n));
     row2("max WSS", size_string($wss_max));
@@ -351,8 +397,47 @@ function handle_batch_stats($user) {
     row2("mean disk usage", size_string($disk_sum/$n));
     row2("max disk usage", size_string($disk_max));
     end_table();
-
+    text_end();
     page_tail();
+}
+
+// return HTML for a color-coded batch progress bar
+// green: successfully completed jobs
+// red: failed
+// light green: in progress
+// light gray: unsent
+//
+function progress_bar($batch, $wus, $width) {
+    $nsuccess = $batch->njobs_success;
+    $nerror = $batch->nerror_jobs;
+    $nin_prog = $batch->njobs_in_prog;
+    $nunsent = $batch->njobs - $nsuccess - $nerror - $nin_prog;
+    $w_success = $width*$nsuccess/$batch->njobs;
+    $w_fail = $width*$nerror/$batch->njobs;
+    $w_prog = $width*$nin_prog/$batch->njobs;
+    $w_unsent = $width*$nunsent/$batch->njobs;
+    $x = '<table height=20><tr>';
+    if ($w_fail) {
+        $x .= "<td width=$w_fail bgcolor=red></td>";
+    }
+    if ($w_success) {
+        $x .= "<td width=$w_success bgcolor=green></td>";
+    }
+    if ($w_prog) {
+        $x .= "<td width=$w_prog bgcolor=lightgreen></td>";
+    }
+    if ($w_unsent) {
+        $x .= "<td width=$w_unsent bgcolor=lightgray></td>";
+    }
+    $x .= "</tr></table>
+        <strong>
+        <font color=red>$nerror fail</font> &middot;
+        <font color=green>$nsuccess success</font> &middot;
+        <font color=lightgreen>$nin_prog in progress</font> &middot;
+        <font color=lightgray>$nunsent unsent</font>
+        </strong>
+    ";
+    return $x;
 }
 
 // show the details of an existing batch
@@ -363,29 +448,58 @@ function handle_query_batch($user) {
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum("batch = $batch->id");
     $batch = get_batch_params($batch, $wus);
+    if ($batch->user_id == $user->id) {
+        $owner = $user;
+    } else {
+        $owner = BoincUser::lookup_id($batch->user_id);
+    }
+
+    $web_app = get_web_app($app);
 
     page_head("Batch $batch_id");
+    text_start(800);
     start_table();
     row2("name", $batch->name);
-    row2("application", $app->name);
+    if ($batch->description) {
+        row2('description', $batch->description);
+    }
+    if ($owner) {
+        row2('submitter', $owner->name);
+    }
+    row2("application", $app?$app->name:'---');
     row2("state", batch_state_string($batch->state));
-    row2("# jobs", $batch->njobs);
-    row2("# error jobs", $batch->nerror_jobs);
+    //row2("# jobs", $batch->njobs);
+    //row2("# error jobs", $batch->nerror_jobs);
     //row2("logical end time", time_str($batch->logical_end_time));
-    row2("expiration time", time_str($batch->expire_time));
-    row2("progress", sprintf("%.0f%%", $batch->fraction_done*100));
+    if ($batch->expire_time) {
+        row2("expiration time", time_str($batch->expire_time));
+    }
+    if ($batch->njobs) {
+        row2("progress", progress_bar($batch, $wus, 600));
+    }
     if ($batch->completion_time) {
         row2("completed", local_time_str($batch->completion_time));
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
-    row2("Output File Size", size_string(batch_output_file_size($batch->id)));
+    if (!$web_app->assim_move) {
+        row2("Total size of output files",
+            size_string(batch_output_file_size($batch->id))
+        );
+    }
     end_table();
-    $url = boinc_get_output_files_url($user, $batch_id);
+    echo "<p>";
+
+    if ($web_app->assim_move) {
+        $url = "get_output3.php?action=get_batch&batch_id=$batch->id";
+    } else {
+        $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
+    }
+    echo "<p>";
     show_button($url, "Get zipped output files");
+    echo "<p>";
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
-        echo "<p></p>";
         show_button(
             "submit.php?action=abort_batch_confirm&batch_id=$batch_id",
             "Abort batch"
@@ -393,34 +507,33 @@ function handle_query_batch($user) {
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
-        echo "<p></p>";
         show_button(
             "submit.php?action=retire_batch_confirm&batch_id=$batch_id",
             "Retire batch"
         );
         break;
     }
+    echo "<p>";
     show_button("submit.php?action=batch_stats&batch_id=$batch_id",
         "Show memory/disk usage statistics"
     );
 
     echo "<h2>Jobs</h2>\n";
     start_table();
-    table_header(
-        "Job ID and name<br><small>click for details or to get output files</small>",
-        "status",
-        "Canonical instance<br><small>click to see result page on BOINC server</smallp>",
-        "Download Results"
-    );
+    $x = [
+        "Name <br><small>click for details</small>",
+        "status"
+    ];
+    if (!$web_app->assim_move) {
+        $x[] = "Download Results";
+    }
+    row_heading_array($x);
     foreach($wus as $wu) {
         $resultid = $wu->canonical_resultid;
-        $durl = boinc_get_wu_output_files_url($user,$wu->id);
         if ($resultid) {
-            $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
             $y = '<font color="green">completed</font>';
-            $text = "<a href=$durl> Download Result Files</a>";
+            $text = "<a href=get_output2.php?cmd=workunit&wu_id=$wu->id>Download output files</a>";
         } else {
-            $x = "---";
             $text = "---";
             if ($batch->state == BATCH_STATE_COMPLETE) {
                 $y = '<font color="red">failed</font>';
@@ -428,17 +541,34 @@ function handle_query_batch($user) {
                 $y = "in progress";
             }
         }
-        echo "<tr>
-                <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id &middot; $wu->name</a></td>
-                <td>$y</td>
-                <td>$x</td>
-                <td>$text</td>
-            </tr>
-        ";
+        $x = [
+            "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
+            $y,
+        ];
+        if (!$web_app->assim_move) {
+            $x[] = $text;
+        }
+        row_array($x);
     }
     end_table();
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
+    text_end();
     page_tail();
+}
+
+// get the 'web app' structure (from project.inc) for the given app.
+// This says what output file scheme it uses and what the submit page URL is.
+// If not listed, return a default structure
+//
+function get_web_app($app) {
+    global $web_apps;
+    if (isset($web_apps) && array_key_exists($app->name, $web_apps)) {
+        return $web_apps[$app->name];
+    }
+    $x = new StdClass;
+    $x->submit_url = null;
+    $x->assim_move = false;
+    return $x;
 }
 
 // show the details of a job, including links to see the output files
@@ -448,22 +578,80 @@ function handle_query_job($user) {
     $wu = BoincWorkunit::lookup_id($wuid);
     if (!$wu) error_page("no such job");
 
-    page_head("Job $wuid");
+    $app = BoincApp::lookup_id($wu->appid);
+    $web_app = get_web_app($app);
+
+    page_head("Job '$wu->name'");
+    text_start(800);
 
     echo "
-        <a href=workunit.php?wuid=$wuid>Workunit details</a> &middot;
-        <a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch $wu->batch</a>
+        <li><a href=workunit.php?wuid=$wuid>Workunit details</a>
+        <p>
+        <li><a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch details</a>
     ";
+
+    echo "<h2>Job instances</h2>\n";
+    start_table('table-striped');
+    table_header(
+        "ID<br><small>click for details and stderr</small>",
+        "State",
+        "Output files"
+    );
+    $results = BoincResult::enum("workunitid=$wuid");
+    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    foreach($results as $result) {
+        $x = [
+            "<a href=result.php?resultid=$result->id>$result->id</a>",
+            state_string($result)
+        ];
+        $i = 0;
+        if ($result->server_state == RESULT_SERVER_STATE_OVER) {
+            $phys_names = get_outfile_phys_names($result);
+            $log_names = get_outfile_log_names($result);
+            for ($i=0; $i<count($phys_names); $i++) {
+                if ($web_app->assim_move) {
+                    // file is in
+                    // project/results/<batchid>/<wu_name>__file_<log_name>
+                    $path = sprintf('results/%s/%s__file_%s',
+                        $wu->batch, $wu->name, $log_names[$i]
+                    );
+                    $x[] = "<a href=get_output3.php?action=get_file&path=$path>view</a> &middot; <a href=get_output3.php?action=get_file&path=$path&download=1>download</a>";
+                } else {
+                    $path = dir_hier_path(
+                        $phys_names[$i], $upload_dir, $fanout
+                    );
+                    if (file_exists($path)) {
+                        $url = sprintf(
+                            'get_output2.php?cmd=result&result_id=%d&file_num=%d',
+                            $result->id, $i
+                        );
+                        $s = stat($path);
+                        $size = $s['size'];
+                        $x[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
+                            $url,
+                            $log_names[$i],
+                            number_format($size)
+                        );
+                    } else {
+                        $x[] = sprintf("file '%s' is missing", $log_names[$i]);
+                    }
+                }
+            }
+        } else {
+            $x[] = '---';
+        }
+        row_array($x);
+    }
+    end_table();
 
     // show input files
     //
     echo "<h2>Input files</h2>\n";
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
-    start_table();
-    table_header("Logical name<br><small>(click to view)</small>",
-        "Size (bytes)", "MD5"
-    );
+    start_table('table-striped');
+    table_header("Name<br><small>(click to view)</small>", "Size (bytes)");
     foreach ($x->workunit->file_ref as $fr) {
         $pname = (string)$fr->file_name;
         $lname = (string)$fr->open_name;
@@ -471,47 +659,16 @@ function handle_query_job($user) {
             if ((string)$fi->name == $pname) {
                 table_row(
                     "<a href=$fi->url>$lname</a>",
-                    $fi->nbytes,
-                    $fi->md5_cksum
+                    $fi->nbytes
                 );
                 break;
             }
         }
     }
-    end_table();
 
-    echo "<h2>Instances</h2>\n";
-    start_table();
-    table_header(
-        "Instance ID<br><small>click for result page</small>",
-        "State", "Output files<br><small>click to view the file</small>"
-    );
-    $results = BoincResult::enum("workunitid=$wuid");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    foreach($results as $result) {
-        echo "<tr>
-            <td><a href=result.php?resultid=$result->id>$result->id &middot; $result->name </a></td>
-            <td>".state_string($result)."</td>
-            <td>
-";
-        $i = 0;
-        if ($result->server_state == 5) {
-            $names = get_outfile_names($result);
-            $i = 0;
-            foreach ($names as $name) {
-                $url = boinc_get_output_file_url($user, $result, $i++);
-                $path = dir_hier_path($name, $upload_dir, $fanout);
-                $s = stat($path);
-                $size = $s['size'];
-                echo "<a href=$url>$name </a> (".number_format($size)." bytes)<br/>";
-            }
-            $i++;
-        }
-        echo "</td></tr>\n";
-    }
     end_table();
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    text_end();
+    return_link();
     page_tail();
 }
 
@@ -527,7 +684,7 @@ function handle_abort_batch_confirm() {
         "submit.php?action=abort_batch&batch_id=$batch_id",
         "Yes - abort batch"
     );
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -547,7 +704,7 @@ function handle_abort_batch($user) {
     check_access($user, $batch);
     abort_batch($batch);
     page_head("Batch aborted");
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -563,7 +720,7 @@ function handle_retire_batch_confirm() {
         "submit.php?action=retire_batch&batch_id=$batch_id",
         "Yes - retire batch"
     );
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -574,7 +731,7 @@ function handle_retire_batch($user) {
     check_access($user, $batch);
     retire_batch($batch);
     page_head("Batch retired");
-    echo "<p><a href=submit.php>Return to job control page</a>\n";
+    return_link();
     page_tail();
 }
 
@@ -610,7 +767,9 @@ function handle_show_all($user) {
     } else {
         // admin looking at batches
         //
-        check_admin_access($user, $appid);
+        if (!has_admin_access($user, $appid)) {
+            error_page('no access');
+        }
         if ($appid) {
             $app = BoincApp::lookup_id($appid);
             if (!$app) error_page("no such app");
@@ -632,12 +791,15 @@ case '': handle_main($user); break;
 case 'abort_batch': handle_abort_batch($user); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'admin': handle_admin($user); break;
+case 'admin_app': handle_admin_app($user); break;
+case 'admin_all': handle_admin_all($user); break;
 case 'batch_stats': handle_batch_stats($user); break;
 case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch($user); break;
 case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
 case 'show_all': handle_show_all($user); break;
+case 'toggle_loc': handle_toggle_loc($user); break;
 default:
     error_page("no such action $action");
 }

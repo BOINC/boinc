@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,7 +18,6 @@
 #ifndef BOINC_CLIENT_STATE_H
 #define BOINC_CLIENT_STATE_H
 
-#define NEW_CPU_THROTTLE
 // do CPU throttling using a separate thread.
 // This makes it possible to throttle faster than the client's 1-sec poll period
 // NOTE: we can't actually do this because the runtime system's
@@ -35,9 +34,7 @@ using std::vector;
 
 #include "coproc.h"
 #include "util.h"
-#ifdef NEW_CPU_THROTTLE
 #include "thread.h"
-#endif
 
 #include "acct_mgr.h"
 #include "acct_setup.h"
@@ -151,8 +148,6 @@ struct CLIENT_STATE {
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
-    bool run_test_app;
-        // API test mode
 #ifndef _WIN32
     gid_t boinc_project_gid;
 #endif
@@ -247,6 +242,11 @@ struct CLIENT_STATE {
     PROJECT_LIST project_list;
     void process_autologin(bool first);
 
+// --------------- app_test.cpp:
+    bool app_test;          // this and the follow are not used,
+    string app_test_file;   // but if I remove them the client crashes on exit.  WTF???
+    void app_test_init();
+
 // --------------- current_version.cpp:
     string newer_version;
     string client_version_check_url;
@@ -301,7 +301,6 @@ struct CLIENT_STATE {
     double total_resource_share();
     double potentially_runnable_resource_share();
     double nearly_runnable_resource_share();
-    double fetchable_resource_share();
     double rec_interval_start;
     double total_cpu_time_this_rec_interval;
     bool must_enforce_cpu_schedule;
@@ -345,12 +344,13 @@ struct CLIENT_STATE {
         // - an app fails to start (CS::schedule_cpus())
         // - any project op is done via RPC (suspend/resume)
         // - any result op is done via RPC (suspend/resume)
-    void set_ncpus();
+    void set_n_usable_cpus();
 
 // --------------- cs_account.cpp:
     int add_project(
         const char* master_url, const char* authenticator,
-        const char* project_name, bool attached_via_acct_mgr
+        const char* project_name, const char* email_addr,
+        bool attached_via_acct_mgr
     );
 
     int parse_account_files();
@@ -361,20 +361,22 @@ struct CLIENT_STATE {
 
 // --------------- cs_apps.cpp:
     double get_fraction_done(RESULT* result);
-    int input_files_available(RESULT*, bool, FILE_INFO** f=0);
+    int task_files_present(RESULT*, bool check_size, FILE_INFO** f=0);
+    int verify_app_version_files(RESULT*);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
-    int ncpus;
-        // Act like there are this many CPUs.
+    int n_usable_cpus;
+        // number of usable CPUs
         // By default this is the # of physical CPUs,
         // but it can be changed in two ways:
-        // - type <ncpus>N</ncpus> in the config file
-        // - type the max_ncpus_pct pref
+        // - <ncpus>N</ncpus> in cc_config.xml
+        //      (for debugging; can be > # physical CPUs)
+        // - the max_ncpus_pct and niu_max_ncpus_pct prefs
 
     int latest_version(APP*, char*);
     int app_finished(ACTIVE_TASK&);
-    bool start_apps();
     bool handle_finished_apps();
-    void check_for_finished_jobs();
+    void check_overdue();
+    void docker_cleanup();
 
     ACTIVE_TASK* get_task(RESULT*);
 
@@ -419,19 +421,18 @@ struct CLIENT_STATE {
     int get_disk_usages();
     void get_disk_shares();
     double allowed_disk_usage(double boinc_total);
-    int allowed_project_disk_usage(double&);
     void show_suspend_tasks_message(int reason);
     int resume_tasks(int reason=0);
     void read_global_prefs(
         const char* fname = GLOBAL_PREFS_FILE_NAME,
         const char* override_fname = GLOBAL_PREFS_OVERRIDE_FILE
     );
+    void print_global_prefs();
     int save_global_prefs(const char* prefs, char* url, char* sched);
     double available_ram();
     double max_available_ram();
     int check_suspend_processing();
     void check_suspend_network();
-    void install_global_prefs();
     PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);
 
@@ -442,7 +443,7 @@ struct CLIENT_STATE {
         // - task is completed or fails
         // - tasks are killed
         // - an RPC completes
-        // - project suspend/detch/attach/reset GUI RPC
+        // - project suspend/detach/attach/reset GUI RPC
         // - result suspend/abort GUI RPC
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url);
@@ -453,6 +454,11 @@ struct CLIENT_STATE {
     PROJECT* find_project_with_overdue_results(bool network_suspend_soon);
     bool had_or_requested_work;
     bool scheduler_rpc_poll();
+
+// --------------- cs_sporadic.cpp:
+    bool have_sporadic_app;
+    void sporadic_poll();
+    void sporadic_init();
 
 // --------------- cs_statefile.cpp:
     void set_client_state_dirty(const char*);
@@ -465,7 +471,7 @@ struct CLIENT_STATE {
     int parse_app_info(PROJECT*, FILE*);
     int write_state_gui(MIOFILE&);
     int write_file_transfers_gui(MIOFILE&);
-    int write_tasks_gui(MIOFILE&, bool);
+    int write_tasks_gui(MIOFILE&, bool active_only, bool ac_updated = false);
     void sort_results();
     void sort_projects_by_name();
 
@@ -500,13 +506,10 @@ struct CLIENT_STATE {
     void free_mem();
 
 // --------------- work_fetch.cpp:
-    int proj_min_results(PROJECT*, double);
     void check_project_timeout();
     double overall_cpu_frac();
     double overall_cpu_and_network_frac();
     double overall_gpu_frac();
-    double time_until_work_done(PROJECT*, int, double);
-    bool compute_work_requests();
     void scale_duration_correction_factors(double);
     void generate_new_host_cpid();
     void compute_nuploading_results();
@@ -521,6 +524,24 @@ struct CLIENT_STATE {
 #endif
 
     KEYWORDS keywords;
+
+    double current_cpu_usage_limit() {
+        double x = global_prefs.cpu_usage_limit;
+        if (!user_active && global_prefs.niu_cpu_usage_limit>=0) {
+            x = global_prefs.niu_cpu_usage_limit;
+        }
+        if (x < 0.005 || x > 99.99) {
+            x = 100;
+        }
+        return x;
+    }
+    double current_suspend_cpu_usage() {
+        double x = global_prefs.suspend_cpu_usage;
+        if (!user_active && global_prefs.niu_suspend_cpu_usage>=0) {
+            x = global_prefs.niu_suspend_cpu_usage;
+        }
+        return x;
+    }
 };
 
 extern CLIENT_STATE gstate;
@@ -535,10 +556,10 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
-#ifdef NEW_CPU_THROTTLE
-extern THREAD_LOCK client_mutex;
+// mutual exclusion for the client's threads (main thread, throttle thread)
+//
+extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
-#endif
 
 //////// TIME-RELATED CONSTANTS ////////////
 
@@ -666,6 +687,10 @@ extern THREAD throttle_thread;
     // Android: if don't get a report_device_status() RPC from the GUI
     // in this interval, exit.
     // We rely on the GUI to report battery status.
+#define ANDROID_BATTERY_BACKOFF     300
+    // Android: if battery is overheated or undercharged,
+    // suspend for at least this long
+    // (avoid rapid start/stop)
 
 #ifndef ANDROID
 #define USE_NET_PREFS

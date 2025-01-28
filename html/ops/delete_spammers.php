@@ -3,7 +3,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -141,6 +141,7 @@ function delete_list($fname) {
 }
 
 function has_link($x) {
+    if (strstr($x, "<a ")) return true;
     if (strstr($x, "[url")) return true;
     if (strstr($x, "http://")) return true;
     if (strstr($x, "https://")) return true;
@@ -398,7 +399,7 @@ function delete_team_id_range($id1, $id2) {
     }
 }
 
-echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+echo "Starting: ".date(DATE_RFC2822)."\n";
 
 // get settings first
 //
@@ -461,6 +462,6 @@ for ($i=1; $i<$argc; $i++) {
         delete_users(true, true, true, false);
     }
 }
-echo "Finished: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+echo "Finished: ".date(DATE_RFC2822)."\n";
 
 ?>

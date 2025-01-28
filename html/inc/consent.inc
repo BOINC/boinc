@@ -23,12 +23,14 @@ require_once("../inc/util.inc");
 
 define('CONSENT_TYPE_ENROLL','ENROLL');
 
-// Utility function to check the terms of use.
 function check_termsofuse() {
     return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
 }
 
-function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
+function consent_to_a_policy(
+    $user, $consent_type_id, $consent_flag, $consent_not_required,
+    $source, $ctime = 0
+) {
     $mys = BoincDb::escape_string($source);
     if ($ctime==0) {
         $mytime = $user->create_time;
@@ -46,7 +48,9 @@ function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_no
 function check_user_consent($user, $consent_name) {
     list($checkct, $ctid) = check_consent_type($consent_name);
     if ($checkct) {
-        $consent_result = BoincLatestConsent::lookup("userid={$user->id} AND consent_type_id=$ctid AND consent_flag=1");
+        $consent_result = BoincLatestConsent::lookup(
+            "userid=$user->id AND consent_type_id=$ctid AND consent_flag=1"
+        );
         if ($consent_result) {
             return TRUE;
         }
@@ -54,27 +58,34 @@ function check_user_consent($user, $consent_name) {
     return FALSE;
 }
 
-// Checks to see if a particular consent_type name is in
-// available. Returns an array of format: (BOOLEAN, INTEGER). The
-// boolean is T/F depending on whether that consent_type exists, and
-// if checkenabled=TRUE, if the consent_type is enabled/available for
-// use. The integer is the consent_type_id- the id from consent_type
-// table. If the boolean is FALSE, the integer returned is -1.
+// Check if a particular consent_type name is available.
+// Returns an array of format: (BOOLEAN, INTEGER).
+// The boolean is T/F depending on whether that consent_type exists,
+// and if checkenabled=TRUE, if the consent_type is enabled/available for use.
+// The integer is the consent_type_id- the id from consent_type table.
+// If the boolean is FALSE, the integer returned is -1.
+//
 function check_consent_type($name, $checkenabled=TRUE) {
-    $ct = BoincConsentType::lookup("shortname = '{$name}'");
+    $name = BoincDb::escape_string($name);
+    $ct = BoincConsentType::lookup("shortname = '$name'");
     if ($ct and ( !$checkenabled or ($ct->enabled)) ) {
         return array(TRUE, $ct->id);
     }
     return array(FALSE, -1);
 }
 
-// When a user uses the Web site to login, this funtion checks the
-// ENROLL consent and intercepts the login, presenting the terms of
-// use page Web form before they can continue.
+// When a user uses the Web site to login, this function checks the
+// ENROLL consent and intercepts the login,
+// presenting the terms of use page Web form before they can continue.
+//
 function intercept_login($user, $perm, $in_next_url = "") {
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     $config = get_config();
-    if ( parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
+    if (parse_bool($config, "enable_login_mustagree_termsofuse")
+        and $checkct
+        and check_termsofuse()
+        and (!check_user_consent($user, CONSENT_TYPE_ENROLL))
+    ) {
         // sent user to terms-of-use Web form after login
         $mytoken = create_token($user->id, TOKEN_TYPE_LOGIN_INTERCEPT, TOKEN_DURATION_TWO_HOURS);
         send_cookie('logintoken', $mytoken, false);

@@ -16,120 +16,149 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// display the threads in a forum.
+// forum page: display 'New thread' button and list of threads
 
 require_once('../inc/util.inc');
 require_once('../inc/time.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 
-check_get_args(array("id", "sort", "start"));
-
-$id = get_int("id");
-$sort_style = get_int("sort", true);
-$start = get_int("start", true);
-if (!$start) $start = 0;
-
-$forum = BoincForum::lookup_id($id);
-if (!$forum) error_page("forum ID not found");
-$user = get_logged_in_user(false);
-BoincForumPrefs::lookup($user);
-
-if (DISABLE_FORUMS && !is_admin($user)) {
-    error_page("Forums are disabled");
-}
-
-if (!is_forum_visible_to_user($forum, $user)) {
-    if ($user) {
-        remove_subscriptions_forum($user->id, $id);
-    }
-    error_page(tra("Not visible to you"));
-}
-
-if (!$sort_style) {
-    // get the sort style either from the logged in user or a cookie
-    if ($user){
-        $sort_style = $user->prefs->forum_sorting;
-    } else {
-        list($sort_style, $thread_style) = parse_forum_cookie();
-    }
-} else {
-    // set the sort style
-    if ($user){
-        $user->prefs->forum_sorting = $sort_style;
-        $user->prefs->update("forum_sorting=$sort_style");
-    } else {
-        list($old_style, $thread_style) = parse_forum_cookie();
-        send_cookie(
-            'sorting', implode("|", array($sort_style, $thread_style)), true
-        );
-    }
-}
-
-
-switch ($forum->parent_type) {
-case 0:
-    $category = BoincCategory::lookup_id($forum->category);
-    if ($category->is_helpdesk) {
-        page_head(tra("Questions and Answers").' : '.$forum->title);
-    } else {
-        page_head(tra("Message boards").' : '.$forum->title);
-    }
-    show_forum_header($user);
-    show_forum_title($category, $forum, NULL);
-    break;
-case 1:
-    $team = BoincTeam::lookup_id($forum->category);
-    page_head(tra("Team message board for %1", $team->name));
-    show_forum_header($user);
-    show_team_forum_title($forum);
-    break;
-}
-
-echo '
-    <p>
-    <form action="forum_forum.php" method="get" class="form-inline">
-    <input type="hidden" name="id" value="'.$forum->id.'">
-    <table width="100%" cellspacing="0" cellpadding="0">
-    <tr valign="top">
-    <td colspan=2>
-';
-
-if (user_can_create_thread($user, $forum)) {
-    show_button(
-        "forum_post.php?id=$id", tra("New thread"), tra("Add a new thread to this forum")
-    );
-}
-
-echo '</td>
-    <td valign=top align="right">
-    <div class="form-group">
-';
-echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '
-    <input class="btn btn-success btn-sm" type="submit" value="Sort">
-    </div>
-    </td>
-    </tr>
-    </table>
-    </form>
-    <p></p>
-';
-
-show_forum($forum, $start, $sort_style, $user);
-
-echo "
-    <p>".
-    tra("This message board is available as an %1 RSS feed %2", "<a href=forum_rss.php?forumid=$forum->id&setup=1>", "<img src=img/feed_logo.png></a>");
-
-page_tail();
-
-// This function shows the threads for the given forum
-// Starting from $start,
-// using the given $sort_style (as defined in forum.php)
-// and using the features for the logged in user in $user.
+// show a forum.
+// $user is null if not logged in
 //
-function show_forum($forum, $start, $sort_style, $user) {
+function forum_page($forum, $user, $msg=null) {
+    global $forum_sort_styles;
+
+    if (DISABLE_FORUMS) {
+        if (!$user || !is_admin($user)) {
+            error_page("Forums are disabled");
+        }
+    }
+    $sort_style = get_int("sort", true);
+    $start = get_int("start", true);
+    if (!$start) $start = 0;
+
+    $subs = [];
+    if ($user) {
+        BoincForumPrefs::lookup($user);
+        $subs = BoincSubscription::enum("userid=$user->id");
+    }
+
+    if (!is_forum_visible_to_user($forum, $user)) {
+        if ($user) {
+            remove_subscriptions_forum($user->id, $forum->id);
+        }
+        error_page(tra("Not visible to you"));
+    }
+
+    if (!$sort_style) {
+        // get the sort style either from the logged in user or a cookie
+        if ($user){
+            $sort_style = $user->prefs->forum_sorting;
+        } else {
+            list($sort_style, $thread_style) = parse_forum_cookie();
+        }
+    } else {
+        // set the sort style
+        if ($user){
+            $user->prefs->forum_sorting = $sort_style;
+            $user->prefs->update("forum_sorting=$sort_style");
+        } else {
+            list($old_style, $thread_style) = parse_forum_cookie();
+            send_cookie(
+                'sorting', implode("|", array($sort_style, $thread_style)), true
+            );
+        }
+    }
+
+    switch ($forum->parent_type) {
+    case 0:
+        $category = BoincCategory::lookup_id($forum->category);
+        page_head(sprintf("%s '%s'", tra("Forum"), $forum->title));
+        if ($msg) echo "<p>$msg</p>\n";
+        show_forum_header($user);
+        echo forum_title($category, $forum, NULL);
+        break;
+    case 1:
+        $team = BoincTeam::lookup_id($forum->category);
+        page_head(tra("Team message board for %1", $team->name));
+        if ($msg) echo "<p>$msg</p>\n";
+        show_forum_header($user);
+        echo team_forum_title($forum);
+        break;
+    }
+
+    echo '
+        <p>
+        <form action="forum_forum.php" method="get" class="form-inline">
+        <input type="hidden" name="id" value="'.$forum->id.'">
+        <table width="100%" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+        <td colspan=2>
+    ';
+
+    if ($user) {
+        if (user_can_create_thread($user, $forum)) {
+            show_button(
+                "forum_post.php?id=$forum->id",
+                tra("New thread"),
+                tra("Add a new thread to this forum")
+            );
+        }
+
+        if (is_subscribed(-$forum->id, $subs)) {
+            BoincNotify::delete_aux(sprintf(
+                'userid=%d and type=%d and opaque=%d',
+                $user->id,
+                NOTIFY_SUBSCRIBED_FORUM,
+                $forum->id
+            ));
+            show_button_small(
+                "forum_forum.php?id=$forum->id&action=unsubscribe",
+                'Unsubscribe',
+                'Unsubscribe from this forum'
+            );
+        } else {
+            show_button_small(
+                "forum_forum.php?id=$forum->id&action=subscribe",
+                'Subscribe',
+                'Click to get notified when there are new threads in this forum'
+            );
+        }
+    }
+
+    echo '</td>
+        <td valign=top align="right">
+        <div class="form-group">
+    ';
+    echo select_from_array("sort", $forum_sort_styles, $sort_style);
+    echo sprintf('
+        <input class="btn btn-sm" %s type="submit" value="Sort">
+        </div>
+        </td>
+        </tr>
+        </table>
+        </form>
+        <p></p> ',
+        button_style()
+    );
+
+    show_forum_threads($forum, $start, $sort_style, $user, $subs);
+
+    echo "
+        <p>".
+        tra("This message board is available as an %1 RSS feed %2", "<a href=forum_rss.php?forumid=$forum->id&setup=1>", "<img src=img/feed_logo.png></a>");
+
+    page_tail();
+}
+
+// Show the threads for the given forum
+// starting from $start,
+// using the given $sort_style (as defined in forum.php)
+// $user is logged-in user, or null
+// If $user is not null, $subs is list of their subscriptions
+//
+function show_forum_threads($forum, $start, $sort_style, $user, $subs) {
     $page_nav = page_links(
         "forum_forum.php?id=$forum->id&amp;sort=$sort_style",
         $forum->threads,
@@ -161,10 +190,6 @@ function show_forum($forum, $start, $sort_style, $user) {
         $sort_style, $show_hidden, $sticky_first
     );
 
-    if ($user) {
-        $subs = BoincSubscription::enum("userid=$user->id");
-    }
-
     // Run through the list of threads, displaying each of them
     //
     foreach ($threads as $thread) {
@@ -174,7 +199,7 @@ function show_forum($forum, $start, $sort_style, $user) {
 
         //if ($thread->status==1){
             // This is an answered helpdesk thread
-        if ($user && is_subscribed($thread, $subs)) {
+        if ($user && is_subscribed($thread->id, $subs)) {
             echo '<tr class="bg-info">';
         } else {
             // Just a standard thread.
@@ -233,6 +258,22 @@ function show_forum($forum, $start, $sort_style, $user) {
     }
     end_table();
     echo "<br>$page_nav";    // show page links
+}
+
+$id = get_int("id");
+$forum = BoincForum::lookup_id($id);
+if (!$forum) error_page("forum ID not found");
+$user = get_logged_in_user(false);
+$action = get_str('action', true);
+
+if ($action == 'subscribe') {
+    BoincSubscription::replace($user->id, -$id);
+    forum_page($forum, $user, 'You are now subscribed to this forum.');
+} else if ($action == 'unsubscribe') {
+    BoincSubscription::delete($user->id, -$id);
+    forum_page($forum, $user, 'You are now unsubscribed from this forum.');
+} else {
+    forum_page($forum, $user);
 }
 
 ?>

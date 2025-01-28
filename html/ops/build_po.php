@@ -17,7 +17,7 @@ if (!isset($FILE_LIST)) {
     exit;
 }
 
-$date = strftime('%Y-%m-%d %H:%M %Z');
+$date = date(DATE_RFC2822);
 $header = <<<HDR
 # PROJECT translation
 # Copyright (C) PROJECT

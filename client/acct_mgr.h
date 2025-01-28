@@ -84,6 +84,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // This AM dynamically decides what projects to assign.
         // - send EC in AM RPCs
         // - send starvation info if idle resources
+        // - network preferences are those from AM
     USER_KEYWORDS user_keywords;
         // user's yes/no keywords.
         // These are conveyed to projects in scheduler requests

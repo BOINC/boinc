@@ -55,7 +55,7 @@ if (defined('INVITE_CODES_RPC')) {
         if (!preg_match(INVITE_CODES, $invite_code)) {
             xml_error(-1, "Invalid invitation code");
         }
-    } 
+    }
 }
 
 $email_addr = get_str("email_addr");
@@ -71,10 +71,12 @@ if (!is_valid_user_name($user_name, $reason)) {
     xml_error(ERR_BAD_USER_NAME, $reason);
 }
 
-if (!is_valid_email_addr($email_addr)) {
+if (!is_valid_email_syntax($email_addr)) {
     xml_error(ERR_BAD_EMAIL_ADDR);
 }
-
+if (!is_valid_email_sfs($email_addr)) {
+    xml_error(ERR_BAD_EMAIL_ADDR, 'flagged by stopforumspam.com');
+}
 if (is_banned_email_addr($email_addr)) {
     xml_error(ERR_BAD_EMAIL_ADDR);
 }
@@ -135,7 +137,7 @@ if ($user) {
     if (!$user) {
         xml_error(ERR_DB_NOT_UNIQUE);
     }
-    
+
 
     if (defined('INVITE_CODES_RPC')) {
         // record the invite code

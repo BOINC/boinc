@@ -19,7 +19,7 @@
 
 
 // configure a BOINC server to run single jobs;
-// see http://boinc.berkeley.edu/trac/wiki/SingleJob
+// see https://github.com/BOINC/boinc/wiki/SingleJob
 //
 // Run this from project home dir.
 // usage: html/ops/single_job_setup path-to-boinc_samples

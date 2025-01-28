@@ -46,7 +46,7 @@
 create table platform (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
-    name                    varchar(254)    not null,
+    name                    varchar(191)    not null,
     user_friendly_name      varchar(254)    not null,
     deprecated              tinyint         not null default 0,
     primary key (id)
@@ -55,7 +55,7 @@ create table platform (
 create table app (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
-    name                    varchar(254)    not null,
+    name                    varchar(191)    not null,
     min_version             integer         not null default 0,
     deprecated              smallint        not null default 0,
     user_friendly_name      varchar(254)    not null,
@@ -83,7 +83,7 @@ create table app_version (
     min_core_version        integer         not null default 0,
     max_core_version        integer         not null default 0,
     deprecated              tinyint         not null default 0,
-    plan_class              varchar(254)    not null default '',
+    plan_class              varchar(128)    not null default '',
     pfc_n                   double          not null default 0,
     pfc_avg                 double          not null default 0,
     pfc_scale               double          not null default 0,
@@ -96,9 +96,9 @@ create table app_version (
 create table user (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
-    email_addr              varchar(254)    not null,
-    name                    varchar(254),
-    authenticator           varchar(254),
+    email_addr              varchar(191)    not null,
+    name                    varchar(191),
+    authenticator           varchar(191),
     country                 varchar(254),
     postal_code             varchar(254),
     total_credit            double          not null,
@@ -114,8 +114,9 @@ create table user (
     posts                   smallint        not null,
         -- reused: salt for weak auth
 
-    -- the following 4 not used by BOINC
     seti_id                 integer         not null,
+        -- reused as 'run jobs on my hosts' flag from remote job submission
+    -- the following 3 not used by BOINC
     seti_nresults           integer         not null,
     seti_last_result_time   integer     not null,
     seti_total_cpu          double          not null,
@@ -138,7 +139,7 @@ create table team (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
     userid                  integer         not null,
-    name                    varchar(254)    not null,
+    name                    varchar(191)    not null,
     name_lc                 varchar(254),
     url                     varchar(254),
     type                    integer         not null,
@@ -156,7 +157,7 @@ create table team (
     joinable                tinyint         not null default 1,
     mod_time                timestamp default current_timestamp on update current_timestamp,
     primary key (id)
-) engine=InnoDB;  
+) engine=InnoDB;
 
 create table host (
     id                      integer         not null auto_increment,
@@ -248,7 +249,7 @@ create table workunit (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
     appid                   integer         not null,
-    name                    varchar(254)    not null,
+    name                    varchar(191)    not null,
     xml_doc                 blob,
     batch                   integer         not null,
     rsc_fpops_est           double          not null,
@@ -295,7 +296,7 @@ create table result (
     report_deadline         integer         not null,
     sent_time               integer         not null,
     received_time           integer         not null,
-    name                    varchar(254)    not null,
+    name                    varchar(191)    not null,
     cpu_time                double          not null,
     xml_doc_in              blob,
     xml_doc_out             blob,
@@ -380,7 +381,7 @@ create table user_submit_app (
 --
 create table job_file (
     id                      integer         not null auto_increment,
-    name                    varchar(255)    not null,
+    name                    varchar(191)    not null,
     create_time             double          not null,
     delete_time             double          not null,
     primary key (id)
@@ -455,7 +456,7 @@ create table category (
         -- order in which to display
     lang                    integer         not null,
         -- not used
-    name                    varchar(254) binary,
+    name                    varchar(180)    not null,
     is_helpdesk             smallint        not null,
     primary key (id)
 ) engine=InnoDB;
@@ -468,7 +469,7 @@ create table forum (
         -- ID of entity to which this forum is attached.
         -- The type (table) of the entity is determined by parent_type
     orderID                 integer         not null,
-    title                   varchar(254)    not null,
+    title                   varchar(175)    not null,
     description             varchar(254)    not null,
     timestamp               integer         not null default 0,
         -- time of last new or modified thread or post
@@ -544,11 +545,12 @@ create table post (
     primary key (id)
 ) engine=InnoDB;
 
--- subscription to a thread
+-- subscription to a thread or forum
 --
 create table subscriptions (
     userid                  integer         not null,
     threadid                integer         not null,
+        -- or negative if forum ID (kludge)
     notified_time           integer         not null default 0
         -- deprecated
 ) engine=InnoDB;
@@ -588,7 +590,7 @@ create table forum_preferences (
         -- 2 = digest email
     highlight_special       tinyint         not null default 1,
     primary key (userid)
-) engine=InnoDB; 
+) engine=InnoDB;
 
 -- keep track of last time a user read a thread
 create table forum_logging (
@@ -722,8 +724,9 @@ create table notify (
         -- destination of notification
     create_time             integer         not null,
     type                    integer         not null,
+        -- see html/inc/forum_db.inc
     opaque                  integer         not null
-        -- some other ID, e.g. that of the thread, user or PM record
+        -- the ID of the thread, user or PM record
 );
 
 create table badge (
@@ -783,7 +786,7 @@ create table credit_team (
 ) engine=InnoDB;
 
 create table token (
-    token                   varchar(255)    not null,
+    token                   varchar(64)     not null,
     userid                  integer         not null,
     type                    char            not null,
     create_time             integer         not null,
@@ -818,7 +821,7 @@ create table consent (
 
 create table consent_type (
     id                      integer         not null auto_increment,
-    shortname               varchar(255)    not null,
+    shortname               varchar(191)    not null,
     description             varchar(255)    not null,
     enabled                 integer         not null,
     project_specific        integer         not null,

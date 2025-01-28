@@ -5,12 +5,12 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Alonso Lara <alonso.lara.plana@gmail.com>, 2018
+# Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>, 2018
 # axel ezequiel ramos <axel.ezequiel@outlook.com>, 2015
 # el buve, 2015
 # Gonzalo Pesquero <gpesquero@yahoo.es>, 2016
 # Jose Nuñez <jose87_jose87@hotmail.com>, 2016
-# juanda097 <juanda097@protonmail.ch>, 2015
+# Juan Jaramillo <juanda097@protonmail.ch>, 2015
 # kinoxl <kinoxl@gmail.com>, 2015
 # Liliana Faouen <liliana.faouen@gmail.com>, 2017
 # Miguel Raz Guzmán Macedo <miguelraz@ciencias.unam.mx>, 2015
@@ -26,14 +26,14 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-12-10 12:11+0000\n"
-"Last-Translator: Alonso Lara <alonso.lara.plana@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/boinc/boinc/language/es/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Alonso Lara (AlonsoLP) <alonso.lara.plana@gmail.com>, 2018\n"
+"Language-Team: Spanish (http://app.transifex.com/boinc/boinc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"

@@ -32,17 +32,17 @@
 
 // Cocoa routines which are part of CBOINCGUIApp
 // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
-// to run properly when launched hidden on login via Login Item. 
+// to run properly when launched hidden on login via Login Item.
 bool CBOINCGUIApp::CallOnInit() {
         NSAutoreleasePool *mypool = [[NSAutoreleasePool alloc] init];
 
         NSEvent *event = [NSEvent otherEventWithType:NSEventTypeApplicationDefined
-                                        location:NSMakePoint(0.0, 0.0) 
-                                   modifierFlags:0 
-                                       timestamp:0 
-                                    windowNumber:0 
+                                        location:NSMakePoint(0.0, 0.0)
+                                   modifierFlags:0
+                                       timestamp:0
+                                    windowNumber:0
                                          context:nil
-                                         subtype:0 data1:0 data2:0]; 
+                                         subtype:0 data1:0 data2:0];
         [NSApp postEvent:event atStart:FALSE];
 
     bool retVal = wxApp::CallOnInit();
@@ -53,14 +53,14 @@ bool CBOINCGUIApp::CallOnInit() {
 #endif
 
 
-// Our application can get into a strange state 
+// Our application can get into a strange state
 // if our login item launched it hidden and the
 // first time the user "opens" it he either
 // double-clicks on our Finder icon or uses
 // command-tab.  It becomes the frontmost
 // application (with its menu in the menubar)
 // but the windows remain hidden, and it does
-// not receive an activate event, so we must 
+// not receive an activate event, so we must
 // handle this case by polling.
 //
 // We can stop the polling after the windows
@@ -72,13 +72,13 @@ bool CBOINCGUIApp::CallOnInit() {
 //
 void CBOINCGUIApp::CheckPartialActivation() {
     // This code is not needed and has bad effects on OS 10.5.
-    // Initializing wasHidden this way avoids the problem 
+    // Initializing wasHidden this way avoids the problem
     // because we are briefly shown at login on OS 10.5.
     static bool wasHidden = [ NSApp isHidden ];
-    
+
     if (wasHidden) {
         if (m_bAboutDialogIsOpen) return;
-        
+
         if (! [ NSApp isHidden ]) {
             wasHidden = false;
             ShowInterface();
@@ -99,7 +99,7 @@ bool CBOINCGUIApp::WasFileModifiedBeforeSystemBoot(char * filePath) {
         NSTimeInterval ageOfFile = -[fileLastModifiedDate timeIntervalSinceNow];
         return (ageOfFile > upTime);
     }
-    
+
     return false;
 }
 
@@ -116,7 +116,7 @@ void CBOINCGUIApp::HideThisApp() {
 ///
 /// @return
 ///  true if the current process is visible, otherwise false.
-/// 
+///
 bool CBOINCGUIApp::IsApplicationVisible() {
     return (! [ NSApp isHidden ]);
 }
@@ -156,7 +156,7 @@ void CBOINCGUIApp::getDisplayNameForThisApp(char* pathBuf, size_t bufSize) {
 #define NSWindowStyleMaskTitled NSTitledWindowMask
 #endif
 
-// Returns true if at least a 5 X 5 pixel area of the 
+// Returns true if at least a 5 X 5 pixel area of the
 // window's title bar is entirely on the displays
 // Note: Arguments are wxWidgets / Quickdraw-style coordinates
 // (y=0 at top) but NSScreen coordinates have y=0 at bottom
@@ -202,7 +202,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
     pid_t               senderPid;
     OSStatus            anErr;
 
-    // Refuse to quit if a modal dialog is open.  
+    // Refuse to quit if a modal dialog is open.
     // Unfortunately, I know of no way to disable the Quit item in our Dock menu
     if (wxGetApp().IsModalDialogDisplayed()) {
         NSBeep();
@@ -223,7 +223,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
             }
         }
     }
-    
+
     wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
     wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
     return noErr;

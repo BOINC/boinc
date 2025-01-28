@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -88,6 +88,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("sched_op_debug", sched_op_debug)) continue;
         if (xp.parse_bool("scrsave_debug", scrsave_debug)) continue;
         if (xp.parse_bool("slot_debug", slot_debug)) continue;
+        if (xp.parse_bool("sporadic_debug", sporadic_debug)) continue;
         if (xp.parse_bool("state_debug", state_debug)) continue;
         if (xp.parse_bool("statefile_debug", statefile_debug)) continue;
         if (xp.parse_bool("suspend_debug", suspend_debug)) continue;
@@ -138,6 +139,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <sched_op_debug>%d</sched_op_debug>\n"
         "        <scrsave_debug>%d</scrsave_debug>\n"
         "        <slot_debug>%d</slot_debug>\n"
+        "        <sporadic_debug>%d</sporadic_debug>\n"
         "        <state_debug>%d</state_debug>\n"
         "        <statefile_debug>%d</statefile_debug>\n"
         "        <suspend_debug>%d</suspend_debug>\n"
@@ -181,6 +183,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         sched_op_debug ? 1 : 0,
         scrsave_debug ? 1 : 0,
         slot_debug ? 1 : 0,
+        sporadic_debug ? 1 : 0,
         state_debug ? 1 : 0,
         statefile_debug ? 1 : 0,
         suspend_debug ? 1 : 0,
@@ -209,10 +212,11 @@ void CC_CONFIG::defaults() {
     disallow_attach = false;
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
-    lower_client_priority = false;
     dont_suspend_nci = false;
     dont_use_vbox = false;
     dont_use_wsl = false;
+    disallowed_wsls.clear();
+    dont_use_docker = false;
     exclude_gpus.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
@@ -228,9 +232,12 @@ void CC_CONFIG::defaults() {
     for (int i=1; i<NPROC_TYPES; i++) {
         ignore_gpu_instance[i].clear();
     }
+    ignore_tty.clear();
+    lower_client_priority = false;
     max_event_log_lines = DEFAULT_MAX_EVENT_LOG_LINES;
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
+    max_overdue_days = -1;
     max_stderr_file_size = 0;
     max_stdout_file_size = 0;
     max_tasks_reported = 0;
@@ -240,6 +247,7 @@ void CC_CONFIG::defaults() {
     no_info_fetch = false;
     no_opencl = false;
     no_priority_change = false;
+    no_rdp_check = false;
     os_random_only = false;
     process_priority = CONFIG_PRIORITY_UNSPECIFIED;
     process_priority_special = CONFIG_PRIORITY_UNSPECIFIED;
@@ -262,7 +270,6 @@ void CC_CONFIG::defaults() {
     use_certs = false;
     use_certs_only = false;
     vbox_window = false;
-    ignore_tty.clear();
 }
 
 int EXCLUDE_GPU::parse(XML_PARSER& xp) {
@@ -274,6 +281,9 @@ int EXCLUDE_GPU::parse(XML_PARSER& xp) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/exclude_gpu")) {
             if (!found_url) return ERR_XML_PARSE;
+            if (device_num >= MAX_COPROC_INSTANCES) {
+                return ERR_XML_PARSE;
+            }
             return 0;
         }
         if (xp.parse_string("url", url)) {
@@ -339,7 +349,12 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("lower_client_priority", lower_client_priority)) continue;
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
+        if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
         if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
+        if (xp.parse_string("disallowed_wsl", s)) {
+            disallowed_wsls.push_back(s);
+            continue;
+        }
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
@@ -388,9 +403,14 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
+        if (xp.parse_int("ignore_apple_dev", n)) {
+            ignore_gpu_instance[PROC_TYPE_APPLE_GPU].push_back(n);
+            continue;
+        }
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
+        if (xp.parse_double("max_overdue_days", max_overdue_days)) continue;
         if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
         if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
@@ -400,6 +420,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
         if (xp.parse_bool("no_opencl", no_opencl)) continue;
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
+        if (xp.parse_bool("no_rdp_check", no_rdp_check)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
         if (xp.parse_int("process_priority_special", process_priority_special)) continue;
@@ -434,8 +455,8 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_string("device_name", device_name)) continue;
 
         // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
-        // but CC_CONFIG::write() in older clients 
-        // may have written their default values to CONFIG_FILE. 
+        // but CC_CONFIG::write() in older clients
+        // may have written their default values to CONFIG_FILE.
         // Silently skip them if present.
         //
         if (xp.parse_string("client_download_url", s)) continue;
@@ -551,15 +572,24 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <lower_client_priority>%d</lower_client_priority>\n"
         "        <dont_suspend_nci>%d</dont_suspend_nci>\n"
         "        <dont_use_vbox>%d</dont_use_vbox>\n"
-        "        <dont_use_wsl>%d</dont_use_wsl>\n",
+        "        <dont_use_wsl>%d</dont_use_wsl>\n"
+        "        <dont_use_docker>%d</dont_use_docker>\n",
         disallow_attach,
         dont_check_file_sizes,
         dont_contact_ref_site,
         lower_client_priority,
         dont_suspend_nci,
         dont_use_vbox,
-        dont_use_wsl
+        dont_use_wsl,
+        dont_use_docker
     );
+
+    for (i=0; i<disallowed_wsls.size(); ++i) {
+        out.printf(
+            "        <disallowed_wsl>%s</disallowed_wsl>\n",
+            disallowed_wsls[i].c_str()
+        );
+    }
 
     for (i=0; i<exclude_gpus.size(); i++) {
         exclude_gpus[i].write(out);
@@ -625,6 +655,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
+        "        <max_overdue_days>%f</max_overdue_days>\n"
         "        <max_stderr_file_size>%f</max_stderr_file_size>\n"
         "        <max_stdout_file_size>%f</max_stdout_file_size>\n"
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
@@ -634,12 +665,14 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <no_info_fetch>%d</no_info_fetch>\n"
         "        <no_opencl>%d</no_opencl>\n"
         "        <no_priority_change>%d</no_priority_change>\n"
+        "        <no_rdp_check>%d</no_rdp_check>\n"
         "        <os_random_only>%d</os_random_only>\n"
         "        <process_priority>%d</process_priority>\n"
         "        <process_priority_special>%d</process_priority_special>\n",
         max_event_log_lines,
         max_file_xfers,
         max_file_xfers_per_project,
+        max_overdue_days,
         max_stderr_file_size,
         max_stdout_file_size,
         max_tasks_reported,
@@ -649,6 +682,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         no_info_fetch,
         no_opencl,
         no_priority_change,
+        no_rdp_check,
         os_random_only,
         process_priority,
         process_priority_special

@@ -41,14 +41,69 @@ function credit_string($credit, $bolden) {
     $cobbs = number_format($credit, 0);
 
     credit_to_ops($credit, $ops, $unit);
-      
+
     if ($bolden) {
         $lbold="[[";
         $rbold="]]";
     } else {
         $lbold="";        $rbold="";
-    } 
+    }
     return " $lbold$cobbs Cobblestones$rbold of computation ($ops $unit floating-point operations)";
 }
 
+// show button to download certificate as PNG
+//
+function show_download_button() {
+    echo '
+        <p>
+        <button id="export" style="margin-top: 5px;">Download as PNG image</button>
+        <script src="html2canvas.min.js"></script>
+        <script type="text/javascript">
+            const $btn = document.querySelector("#export");
+            const $toExport = document.querySelector("#certificate");
+            const $myCanvas = document.querySelector("#canvasDiv");
+
+            $btn.addEventListener("click", () => {
+                html2canvas($toExport)
+                .then(canvas => {
+                    var dataURL = canvas.toDataURL("image/png");
+                    downloadImage(dataURL, "certificate_image.");
+                });
+            });
+
+            function downloadImage(data, filename = "untitled.png") {
+                var a = document.createElement("a");
+                a.href = data;
+                a.download = filename;
+                a.click();
+            }
+        </script>
+    ';
+}
+
+// show buttons to share certificate on facebook and twitter
+// Note: the cert pages don't use bootstrap, so we can't use show_button()
+//
+function show_share_buttons() {
+    echo '<p>';
+    $current_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $cert_url = urlencode($current_url);
+
+    // Share on Facebook
+    $fb_url = 'https://www.facebook.com/sharer/sharer.php?u='.$cert_url;
+    echo sprintf(
+        '<button onclick="window.location.href=\'%s\';">%s</button>',
+        $fb_url,
+        tra('Share on Facebook')
+    );
+    echo '<p>';
+
+    // Share on Twitter
+    $twitter_text = urlencode("Check out my computation certificate from BOINC!");
+    $tw_url = 'https://twitter.com/intent/tweet?url='.$cert_url.'&text='.$twitter_text;
+    echo sprintf('<button onclick="window.location.href=\'%s\';">%s</button>',
+        $tw_url,
+        tra('Share on Twitter')
+    );
+}
 ?>

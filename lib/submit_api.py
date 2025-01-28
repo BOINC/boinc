@@ -1,3 +1,5 @@
+# THIS IS DEPRECATED.  USE boinc_submit.py INSTEAD
+
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
 # Copyright (C) 2020 University of California
@@ -17,7 +19,7 @@
 
 
 # Python bindings of the remote job submission and file management APIs
-# See https://boinc.berkeley.edu/trac/wiki/RemoteJobs#Pythonbinding
+# See https://github.com/BOINC/boinc/wiki/RemoteJobs#Pythonbinding
 
 import urllib
 import urllib2

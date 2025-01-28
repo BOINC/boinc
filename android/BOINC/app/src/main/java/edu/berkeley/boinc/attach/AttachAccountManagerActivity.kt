@@ -234,7 +234,7 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
             // This should not happen
             monitor = null
             mIsBound = false
-            
+
             Logging.logError(Logging.Category.GUI_ACTIVITY, "AttachAccountManagerActivity onServiceDisconnected")
         }
     }

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,10 +20,6 @@
 #else
 #include <cstring>
 #include <string>
-#endif
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
 #endif
 
 #include "str_util.h"
@@ -98,12 +94,12 @@ void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
     const char* now_timestamp = precision_time_to_string(dtime());
     if (!v_message_wanted(kind)) return;
     if (pid) {
-        sprintf(buf, " [PID=%-5d]", pid);
+        snprintf(buf, sizeof(buf), " [PID=%-5d]", pid);
     } else {
         buf[0] = 0;
     }
-    fprintf(output, "%s%s %s%s ", now_timestamp, buf, v_format_kind(kind), spaces);
-    vfprintf(output, format, va);
+    boinc::fprintf(output, "%s%s %s%s ", now_timestamp, buf, v_format_kind(kind), spaces);
+    boinc::vfprintf(output, format, va);
 }
 
 // break a multi-line string into lines (so that we show prefix on each line)
@@ -124,7 +120,7 @@ void MSG_LOG::vprintf_multiline(
     string line;
     while (*str) {
         if (*str == '\n') {
-            fprintf(output, "%s %s%s %s%s\n", now_timestamp, skind, spaces, sprefix, line.c_str());
+            boinc::fprintf(output, "%s %s%s %s%s\n", now_timestamp, skind, spaces, sprefix, line.c_str());
             line.erase();
         } else {
             line += *str;
@@ -132,7 +128,7 @@ void MSG_LOG::vprintf_multiline(
         ++str;
     }
     if (!line.empty()) {
-        fprintf(output, "%s %s[%s] %s%s\n", now_timestamp, spaces, skind, sprefix, line.c_str());
+        boinc::fprintf(output, "%s %s[%s] %s%s\n", now_timestamp, spaces, skind, sprefix, line.c_str());
     }
 }
 
@@ -148,18 +144,14 @@ void MSG_LOG::vprintf_file(
     const char* now_timestamp = precision_time_to_string(dtime());
     const char* skind = v_format_kind(kind);
 
-#ifndef _USING_FCGI_
-    FILE* f = fopen(filename, "r");
-#else
-    FILE* f = FCGI::fopen(filename, "r");
-#endif
+    FILE* f = boinc::fopen(filename, "r");
     if (!f) return;
     char buf[256];
 
-    while (fgets(buf, 256, f)) {
-        fprintf(output, "%s %s%s %s%s\n", now_timestamp, skind, spaces, sprefix, buf);
+    while (boinc::fgets(buf, 256, f)) {
+        boinc::fprintf(output, "%s %s%s %s%s\n", now_timestamp, skind, spaces, sprefix, buf);
     }
-    fclose(f);
+    boinc::fclose(f);
 }
 
 void MSG_LOG::printf(int kind, const char* format, ...) {

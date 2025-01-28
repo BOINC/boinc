@@ -319,7 +319,9 @@ void NOTICES::unkeep(const char* url) {
             ++i;
         }
     }
-#ifndef SIM
+#ifdef SIM
+    (void)removed_something;
+#else
     if (removed_something) {
         gstate.gui_rpcs.set_notice_refresh();
     }
@@ -404,7 +406,9 @@ bool NOTICES::remove_dups(NOTICE& n) {
             ++i;
         }
     }
-#ifndef SIM
+#ifdef SIM
+    (void)removed_something;
+#else
     if (removed_something) {
         gstate.gui_rpcs.set_notice_refresh();
     }
@@ -413,7 +417,7 @@ bool NOTICES::remove_dups(NOTICE& n) {
 }
 
 // add a notice.
-// 
+//
 bool NOTICES::append(NOTICE& n) {
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,

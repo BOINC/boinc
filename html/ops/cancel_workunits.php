@@ -36,7 +36,7 @@ if (!$limit || $limit==0) {
 $qclause = "";
 
 $minid = get_int('minid', true);
-$minid = get_int('maxid', true);
+$maxid = get_int('maxid', true);
 $list = get_str('list', true);
 $uclause = get_str('uclause', true);
 $clause = get_str('clause', true);
@@ -161,5 +161,4 @@ if ($qclause == "") {
 
 admin_page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

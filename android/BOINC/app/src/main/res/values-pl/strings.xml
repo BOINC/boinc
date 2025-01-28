@@ -246,7 +246,6 @@
     <string name="menu_help">Pomoc</string>
     <string name="menu_report_issue">Zgłoś problem</string>
     <!--about dialog-->
-    <string name="about_button">Wróć</string>
     <string name="about_title">O BOINC</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Wersja %1$s</string>

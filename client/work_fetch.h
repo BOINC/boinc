@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Work fetch logic for CPU, GPU, and other processing resources.
-// See http://boinc.berkeley.edu/trac/wiki/GpuWorkFetch
+// See https://github.com/BOINC/boinc/wiki/GpuWorkFetch
 
 #ifndef BOINC_WORK_FETCH_H
 #define BOINC_WORK_FETCH_H
@@ -75,6 +75,8 @@ typedef long long COPROC_INSTANCE_BITMAP;
 // state per (resource, project) pair
 //
 struct RSC_PROJECT_WORK_FETCH {
+    int rsc_type;
+
     // the following are persistent (saved in state file)
     double backoff_time;
     double backoff_interval;
@@ -121,8 +123,10 @@ struct RSC_PROJECT_WORK_FETCH {
 
     // stuff for max concurrent logic
     //
-    double max_nused;
-        // max # instances used so far in simulation.
+    double mc_max_could_use;
+        // max # instances the project could use,
+        // given its max concurrent limitations
+        // (we compute this in a kinda sloppy way)
     double mc_shortfall;
         // project's shortfall for this resources, given MC limits
 
@@ -143,11 +147,12 @@ struct RSC_PROJECT_WORK_FETCH {
         pending.clear();
         has_deferred_job = false;
         rsc_project_reason = RSC_REASON_NONE;
-        max_nused = 0.0;
+        mc_max_could_use = 0.0;
         mc_shortfall = 0.0;
     }
 
-    inline void reset() {
+    inline void reset(int rt) {
+        rsc_type = rt;
         backoff_time = 0;
         backoff_interval = 0;
     }
@@ -155,7 +160,7 @@ struct RSC_PROJECT_WORK_FETCH {
     inline void reset_rec_accounting() {
         secs_this_rec_interval = 0;
     }
-    RSC_REASON compute_rsc_project_reason(PROJECT*, int rsc_type);
+    RSC_REASON compute_rsc_project_reason(PROJECT*);
     void resource_backoff(PROJECT*, const char*);
     void rr_init(PROJECT*);
     void clear_backoff() {
@@ -329,9 +334,9 @@ struct PROJECT_WORK_FETCH {
         // If we're uploading but a resource is idle, make a work request.
         // If this succeeds, clear the flag.
 
-    PROJECT_WORK_FETCH(int) {}
+    PROJECT_WORK_FETCH(DUMMY_TYPE) {}
     void clear() {
-        static const PROJECT_WORK_FETCH x(0);
+        static const PROJECT_WORK_FETCH x(DUMMY);
         *this = x;
     }
     PROJECT_WORK_FETCH() {

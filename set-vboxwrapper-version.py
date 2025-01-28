@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2022 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -36,25 +36,13 @@ def set_version_h(version):
             f.write(line)
 
 def set_vcxproj(version):
-    for vcxproj in ['win_build/vboxwrapper.vcxproj',
-                    'win_build/vboxwrapper_vs2013.vcxproj',
-                    'win_build/vboxwrapper_vs2019.vcxproj']:
+    for vcxproj in ['win_build/vboxwrapper.vcxproj']:
         with open(vcxproj, 'r') as f:
             lines = f.readlines()
         with open(vcxproj, 'w') as f:
             for line in lines:
-                if line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">vboxwrapper_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">vboxwrapper_{version}_windows_x86_64</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">vboxwrapper_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">vboxwrapper_{version}_windows_x86_64</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">vboxwrapper_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">vboxwrapper_{version}_windows_intelx86</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">vboxwrapper_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">vboxwrapper_{version}_windows_intelx86</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">vboxwrapper_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">vboxwrapper_{version}_windows_arm64</TargetName>\n'
-                elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">vboxwrapper_'):
-                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">vboxwrapper_{version}_windows_arm64</TargetName>\n'
+                if line.startswith('    <TargetVersion>'):
+                    line = f'    <TargetVersion>{version}</TargetVersion>\n'
                 f.write(line)
 
 if (len(sys.argv) != 2):

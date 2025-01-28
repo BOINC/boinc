@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -25,7 +25,6 @@
 				DDBD681507FA830E0082C20D /* PBXTargetDependency */,
 				DD58247D0B198BDD003B6A2F /* PBXTargetDependency */,
 				DD6178CE1488F09E0042482E /* PBXTargetDependency */,
-				DD3EAAB1216A26C700BC673C /* PBXTargetDependency */,
 				DD127877081F44E5007B5DE1 /* PBXTargetDependency */,
 				DD664F19084321A2009BFB11 /* PBXTargetDependency */,
 				DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */,
@@ -41,6 +40,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		81FD378F2AB95D4A00E29818 /* app_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81FD378E2AB95D4A00E29818 /* app_test.cpp */; };
 		B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */; };
 		DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
@@ -50,6 +50,7 @@
 		DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0052F710CA6F1D0067570C /* cs_proxy.cpp */; };
 		DD00F554176C081500850424 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		DD0428462ACD7D3F00229B6D /* cs_sporadic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0428452ACD7D3F00229B6D /* cs_sporadic.cpp */; };
 		DD08648D19E0BE6D00994039 /* ProjectWelcomePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD08648B19E0BE6D00994039 /* ProjectWelcomePage.cpp */; };
 		DD0925B51FB05490000902DF /* project_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0925B31FB05490000902DF /* project_list.cpp */; };
 		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -61,7 +62,6 @@
 		DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */; };
 		DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */; };
-		DD19D2C0216E0211004A5E0D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
@@ -157,10 +157,6 @@
 		DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD3E15330A774397007E0084 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
-		DD3EAAAD216A262100BC673C /* mac_branding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD93854320F609C7008EDE5A /* mac_branding.cpp */; };
-		DD3EAAAF216A268600BC673C /* finish_install.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3EAAAE216A268500BC673C /* finish_install.cpp */; };
-		DD3EAAB7216A2A7900BC673C /* boinc_finish_install in Resources */ = {isa = PBXBuildFile; fileRef = DD3EAAA6216A25AD00BC673C /* boinc_finish_install */; };
-		DD3EAABA216A2A9B00BC673C /* boinc_finish_install in Resources */ = {isa = PBXBuildFile; fileRef = DD3EAAA6216A25AD00BC673C /* boinc_finish_install */; };
 		DD407A4D07D2FB6500163EF5 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DD407A4F07D2FB7100163EF5 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B6307C5ACEB0043025C /* base64.cpp */; };
 		DD407A5307D2FB7C00163EF5 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
@@ -192,6 +188,7 @@
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD55AF6D1916248200259439 /* coproc_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD55AF6B1916248200259439 /* coproc_sched.cpp */; };
+		DD57E7922913D08E00E857CA /* mac_restrict_access.sb in Resources */ = {isa = PBXBuildFile; fileRef = DD57E7912913D08E00E857CA /* mac_restrict_access.sb */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5F6550236064E4009ED2A2 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DD5F6551236064E4009ED2A2 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
@@ -546,6 +543,11 @@
 		DDE900271E643E3C003728F2 /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
 		DDEEAA991F73D3D70051E8C5 /* MultiGPUMig.defs in Sources */ = {isa = PBXBuildFile; fileRef = DD64D8001F6BE5BA00FEEAAA /* MultiGPUMig.defs */; settings = {ATTRIBUTES = (Client, Server, ); }; };
 		DDEEAA9A1F73E8630051E8C5 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0BB7A11F62B105000151B2 /* IOSurface.framework */; };
+		DDEED39829ADFDC400DC3E5D /* finish_install.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3EAAAE216A268500BC673C /* finish_install.cpp */; };
+		DDEED39929ADFDEC00DC3E5D /* mac_branding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD93854320F609C7008EDE5A /* mac_branding.cpp */; };
+		DDEED39B29ADFDFA00DC3E5D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		DDEED3A029AE114D00DC3E5D /* BOINC_Finish_Install.app in Resources */ = {isa = PBXBuildFile; fileRef = DDEED38629ADFD7000DC3E5D /* BOINC_Finish_Install.app */; };
+		DDEED3A129AE116E00DC3E5D /* BOINC_Finish_Install.app in Resources */ = {isa = PBXBuildFile; fileRef = DDEED38629ADFD7000DC3E5D /* BOINC_Finish_Install.app */; };
 		DDF07768236C4D410046EE44 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DDF07769236C4D6A0046EE44 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DDF0776B236C4DD60046EE44 /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
@@ -553,6 +555,7 @@
 		DDF0776D236C4E420046EE44 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDF0776E236C4E650046EE44 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DDF0776F236C4E8A0046EE44 /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
+		DDF0C980291D2C3E00E72E0C /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
@@ -582,6 +585,7 @@
 		DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */; };
 		DDFF2AE90A53D599002BC19D /* setprojectgrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */; };
 		DDFF2EAB245BA6A300347B89 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0BB7A11F62B105000151B2 /* IOSurface.framework */; };
+		DDFF50582917D08F0050D03C /* mac_restrict_access.sb in Resources */ = {isa = PBXBuildFile; fileRef = DD57E7912913D08E00E857CA /* mac_restrict_access.sb */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -634,6 +638,20 @@
 			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
 			remoteInfo = SetVersion;
 		};
+		DD3D127629B622C700F89058 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDEED38529ADFD7000DC3E5D;
+			remoteInfo = boinc_finish_install;
+		};
+		DD3D127A29B6243800F89058 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDEED38529ADFD7000DC3E5D;
+			remoteInfo = boinc_finish_install;
+		};
 		DD3E14D50A774397007E0084 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -647,27 +665,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDD74D8607CF482E0065AC9D;
 			remoteInfo = BOINC_Client;
-		};
-		DD3EAAB0216A26C700BC673C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD3EAAA5216A25AD00BC673C;
-			remoteInfo = boinc_finish_install;
-		};
-		DD3EAAB5216A2A6700BC673C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD3EAAA5216A25AD00BC673C;
-			remoteInfo = boinc_finish_install;
-		};
-		DD3EAAB8216A2A8A00BC673C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD3EAAA5216A25AD00BC673C;
-			remoteInfo = boinc_finish_install;
 		};
 		DD45C4A00A53E73500E923D1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -717,6 +714,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD96AFF80811075000A06F22;
 			remoteInfo = ScreenSaver;
+		};
+		DD7C3B102ABC3F85000C307D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
+			remoteInfo = setprojectgrp;
+		};
+		DD7C3B122ABC3F85000C307D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4;
+			remoteInfo = switcher;
 		};
 		DD81C823144D904D000BE61A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -809,6 +820,13 @@
 			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
 			remoteInfo = SetVersion;
 		};
+		DDEED39629ADFD9900DC3E5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
 		DDF9EC0C144EB338005D6144 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -872,15 +890,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DD3EAAA4216A25AD00BC673C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		DD5F653F23605B41009ED2A2 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -894,6 +903,7 @@
 
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		81FD378E2AB95D4A00E29818 /* app_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_test.cpp; sourceTree = "<group>"; };
 		AA8B6B1B046C364400A80164 /* app_ipc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = app_ipc.cpp; sourceTree = "<group>"; };
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
@@ -903,6 +913,7 @@
 		DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
 		DD0052F810CA6F1D0067570C /* cs_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_proxy.h; path = ../client/cs_proxy.h; sourceTree = SOURCE_ROOT; };
+		DD0428452ACD7D3F00229B6D /* cs_sporadic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cs_sporadic.cpp; sourceTree = "<group>"; };
 		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
 		DD08648B19E0BE6D00994039 /* ProjectWelcomePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectWelcomePage.cpp; sourceTree = "<group>"; };
 		DD08648C19E0BE6D00994039 /* ProjectWelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectWelcomePage.h; sourceTree = "<group>"; };
@@ -996,7 +1007,6 @@
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BOINCSaver.xib; path = ../clientscr/res/BOINCSaver.xib; sourceTree = "<group>"; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD3EAAA6216A25AD00BC673C /* boinc_finish_install */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_finish_install; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3EAAAE216A268500BC673C /* finish_install.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = finish_install.cpp; path = ../mac_installer/finish_install.cpp; sourceTree = "<group>"; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mem_usage.cpp; sourceTree = "<group>"; };
@@ -1023,6 +1033,7 @@
 		DD531BC70C193D5200742E50 /* MacUninstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacUninstaller.icns; path = ../clientgui/res/MacUninstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD55AF6B1916248200259439 /* coproc_sched.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coproc_sched.cpp; sourceTree = "<group>"; };
 		DD55AF6C1916248200259439 /* coproc_sched.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coproc_sched.h; sourceTree = "<group>"; };
+		DD57E7912913D08E00E857CA /* mac_restrict_access.sb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mac_restrict_access.sb; path = ../clientscr/res/mac_restrict_access.sb; sourceTree = "<group>"; };
 		DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountInfoPage.cpp; path = ../clientgui/AccountInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C41908F3343F00C1DF66 /* AccountInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountInfoPage.h; path = ../clientgui/AccountInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C41C08F3343F00C1DF66 /* AccountManagerInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerInfoPage.cpp; path = ../clientgui/AccountManagerInfoPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1334,6 +1345,7 @@
 		DDE7A3AF15C6739E002B3B96 /* ttfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ttfont.cpp; path = ../api/ttfont.cpp; sourceTree = "<group>"; };
 		DDE7A3B015C6739E002B3B96 /* ttfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ttfont.h; path = ../api/ttfont.h; sourceTree = "<group>"; };
 		DDEB3CA80981084A0087E200 /* gridrepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gridrepublic.icns; path = ../clientgui/res/gridrepublic.icns; sourceTree = SOURCE_ROOT; };
+		DDEED38629ADFD7000DC3E5D /* BOINC_Finish_Install.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINC_Finish_Install.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
 		DDEFB8A3134689C7001E325E /* cl_boinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cl_boinc.h; path = ../lib/cl_boinc.h; sourceTree = SOURCE_ROOT; };
@@ -1441,14 +1453,6 @@
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 				DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD3EAAA3216A25AD00BC673C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD19D2C0216E0211004A5E0D /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1566,6 +1570,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDEED38329ADFD7000DC3E5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDEED39B29ADFDFA00DC3E5D /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDF9EC00144EB14B005D6144 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1614,9 +1626,9 @@
 				DDD337021062235D00867C7D /* AddRemoveUser */,
 				DD81C79A144D8DA9000BE61A /* libjpeg.a */,
 				DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */,
-				DD3EAAA6216A25AD00BC673C /* boinc_finish_install */,
 				DD5F654123605B41009ED2A2 /* gfx_cleanup */,
 				B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */,
+				DDEED38629ADFD7000DC3E5D /* BOINC_Finish_Install.app */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1641,6 +1653,7 @@
 				DD4688430C165F3C0089F500 /* Uninstaller-Info.plist */,
 				DDB219A610B3BB6200417AEF /* WaitPermissions-Info.plist */,
 				DD213C9B2568099200A535C1 /* BoincCmd-Info.plist */,
+				DDEED39A29ADFDFA00DC3E5D /* Frameworks */,
 			);
 			name = "¬´PROJECTNAME¬ª";
 			sourceTree = "<group>";
@@ -1652,6 +1665,7 @@
 				DD957E59181B908800ECA34E /* thumbnail.png */,
 				DD957E5A181B908800ECA34E /* thumbnail@2x.png */,
 				DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */,
+				DD57E7912913D08E00E857CA /* mac_restrict_access.sb */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */,
 				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
@@ -1981,6 +1995,13 @@
 			name = common;
 			sourceTree = "<group>";
 		};
+		DDEED39A29ADFDFA00DC3E5D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DDF9385307E288F0004DC076 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -2072,6 +2093,7 @@
 		F54B8FBE02AC0A0C01FB7237 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				81FD378E2AB95D4A00E29818 /* app_test.cpp */,
 				DD344B3D07C5ABF40043025C /* acct_mgr.cpp */,
 				DD344B3E07C5ABF40043025C /* acct_mgr.h */,
 				DD33C6F608B5BB4500768630 /* acct_setup.h */,
@@ -2112,6 +2134,7 @@
 				DD0052F710CA6F1D0067570C /* cs_proxy.cpp */,
 				DD0052F810CA6F1D0067570C /* cs_proxy.h */,
 				F54B8FC902AC0A0C01FB7237 /* cs_scheduler.cpp */,
+				DD0428452ACD7D3F00229B6D /* cs_sporadic.cpp */,
 				DD344B9307C5AE2E0043025C /* cs_statefile.cpp */,
 				DD344B9407C5AE2E0043025C /* cs_trickle.cpp */,
 				B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */,
@@ -2222,6 +2245,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		DD361D4C29E599A4000CC8D1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDF9EC01144EB14B005D6144 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -2237,6 +2267,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B13E2D13265564D100D5C977 /* Build configuration list for PBXNativeTarget "detect_rosetta_cpu" */;
 			buildPhases = (
+				DD361D5B29E59B19000CC8D1 /* ShellScript */,
 				B13E2D0B265564D100D5C977 /* Sources */,
 				B13E2D0C265564D100D5C977 /* Frameworks */,
 				B13E2D0D265564D100D5C977 /* CopyFiles */,
@@ -2255,6 +2286,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2371091CBDAE0048316E /* Build configuration list for PBXNativeTarget "PostInstall" */;
 			buildPhases = (
+				DD361D4E29E599E1000CC8D1 /* ShellScript */,
 				DD1277AF081F3D67007B5DE1 /* Resources */,
 				DD1277B0081F3D67007B5DE1 /* Sources */,
 				DD1277B1081F3D67007B5DE1 /* Frameworks */,
@@ -2263,7 +2295,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DD3EAAB6216A2A6700BC673C /* PBXTargetDependency */,
+				DD3D127729B622C700F89058 /* PBXTargetDependency */,
 				DDAD19DF09090914004E7DD0 /* PBXTargetDependency */,
 			);
 			name = PostInstall;
@@ -2275,6 +2307,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD1AFEB50A512D8700EE5B82 /* Build configuration list for PBXNativeTarget "Install_BOINC" */;
 			buildPhases = (
+				DD361D5129E59A25000CC8D1 /* ShellScript */,
 				DD1AFEA70A512D8700EE5B82 /* Resources */,
 				DD1AFEA90A512D8700EE5B82 /* Sources */,
 				DD1AFEAE0A512D8700EE5B82 /* Frameworks */,
@@ -2294,6 +2327,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2359091CBDAE0048316E /* Build configuration list for PBXNativeTarget "api_libboinc" */;
 			buildPhases = (
+				DD77897B2A459410005B0A0E /* ShellScript */,
 				DD35352E07E1E05C00C4718D /* Sources */,
 				DD35352F07E1E05C00C4718D /* Frameworks */,
 				DD5E20A8140CE842000FADAA /* ShellScript */,
@@ -2311,6 +2345,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD3E153D0A774397007E0084 /* Build configuration list for PBXNativeTarget "mgr_boinc" */;
 			buildPhases = (
+				DD361D5429E59A6F000CC8D1 /* ShellScript */,
 				DD3E14DA0A774397007E0084 /* Resources */,
 				DD3E14DE0A774397007E0084 /* Sources */,
 				DD3E15300A774397007E0084 /* Frameworks */,
@@ -2329,27 +2364,11 @@
 			productReference = DD3E15420A774397007E0084 /* BOINCManager.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DD3EAAA5216A25AD00BC673C /* boinc_finish_install */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DD3EAAAC216A25AE00BC673C /* Build configuration list for PBXNativeTarget "boinc_finish_install" */;
-			buildPhases = (
-				DD3EAAA2216A25AD00BC673C /* Sources */,
-				DD3EAAA3216A25AD00BC673C /* Frameworks */,
-				DD3EAAA4216A25AD00BC673C /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = boinc_finish_install;
-			productName = boinc_finish_install;
-			productReference = DD3EAAA6216A25AD00BC673C /* boinc_finish_install */;
-			productType = "com.apple.product-type.tool";
-		};
 		DD407A4907D2FB1200163EF5 /* libboinc */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2351091CBDAE0048316E /* Build configuration list for PBXNativeTarget "libboinc" */;
 			buildPhases = (
+				DD7789792A4593E9005B0A0E /* ShellScript */,
 				DD407A4707D2FB1200163EF5 /* Sources */,
 				DD407A4807D2FB1200163EF5 /* Frameworks */,
 				DD3B67F6140CFFA20088683F /* ShellScript */,
@@ -2367,6 +2386,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD4688440C165F3C0089F500 /* Build configuration list for PBXNativeTarget "Uninstaller" */;
 			buildPhases = (
+				DD361D5529E59A94000CC8D1 /* ShellScript */,
 				DD46883D0C165F3C0089F500 /* Resources */,
 				DD46883E0C165F3C0089F500 /* Sources */,
 				DD46883F0C165F3C0089F500 /* Frameworks */,
@@ -2376,8 +2396,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD3D127B29B6243800F89058 /* PBXTargetDependency */,
 				DDE382012200806D0077E85A /* PBXTargetDependency */,
-				DD3EAAB9216A2A8A00BC673C /* PBXTargetDependency */,
 			);
 			name = Uninstaller;
 			productName = Uninstaller;
@@ -2388,6 +2408,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD5F654723605B41009ED2A2 /* Build configuration list for PBXNativeTarget "gfx_cleanup" */;
 			buildPhases = (
+				DD361D5A29E59B08000CC8D1 /* ShellScript */,
 				DD5F653D23605B41009ED2A2 /* Sources */,
 				DD5F653E23605B41009ED2A2 /* Frameworks */,
 				DD5F653F23605B41009ED2A2 /* CopyFiles */,
@@ -2405,6 +2426,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2375091CBDAE0048316E /* Build configuration list for PBXNativeTarget "cmd_boinc" */;
 			buildPhases = (
+				DD7789782A4593CF005B0A0E /* ShellScript */,
 				DD69FEE508416C1300C01361 /* Sources */,
 				DD69FEE608416C1300C01361 /* Frameworks */,
 			);
@@ -2423,6 +2445,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD7748A50A356CAE0025D05E /* Build configuration list for PBXNativeTarget "SetUpSecurity" */;
 			buildPhases = (
+				DD361D4F29E599F9000CC8D1 /* ShellScript */,
 				DD7748950A356C880025D05E /* Sources */,
 				DD7748960A356C880025D05E /* Frameworks */,
 			);
@@ -2439,6 +2462,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD81C79B144D8DA9000BE61A /* Build configuration list for PBXNativeTarget "jpeg" */;
 			buildPhases = (
+				DD77897C2A459427005B0A0E /* ShellScript */,
 				DD81C796144D8DA9000BE61A /* Sources */,
 				DD81C797144D8DA9000BE61A /* Frameworks */,
 				DD81C827144D90FC000BE61A /* ShellScript */,
@@ -2456,6 +2480,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD8916200F3B17E900DE5B1C /* Build configuration list for PBXNativeTarget "ss_app" */;
 			buildPhases = (
+				DD361D5829E59AE5000CC8D1 /* ShellScript */,
 				DD89161D0F3B17E900DE5B1C /* Sources */,
 				DD89161F0F3B17E900DE5B1C /* Frameworks */,
 				DDC8FB2B1F6D398700BE55B8 /* ShellScript */,
@@ -2474,7 +2499,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2361091CBDAE0048316E /* Build configuration list for PBXNativeTarget "ScreenSaver" */;
 			buildPhases = (
+				DD361D4D29E599CB000CC8D1 /* ShellScript */,
 				DD96AFF50811075000A06F22 /* Resources */,
+				DD361D4C29E599A4000CC8D1 /* Headers */,
 				DD96AFF60811075000A06F22 /* Sources */,
 				DD96AFF70811075000A06F22 /* Frameworks */,
 				DD5FD5990A0233D60093C19F /* ShellScript */,
@@ -2497,6 +2524,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E235D091CBDAE0048316E /* Build configuration list for PBXNativeTarget "SetVersion" */;
 			buildPhases = (
+				DD77897E2A459453005B0A0E /* ShellScript */,
 				DDAEC9DE07FA583B00A7BC36 /* Sources */,
 				DDAEC9DF07FA583B00A7BC36 /* Frameworks */,
 				DDAD1A380909139E004E7DD0 /* Run Script */,
@@ -2514,6 +2542,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDB873FC0C850BC800E0DE1F /* Build configuration list for PBXNativeTarget "gfx2libboinc" */;
 			buildPhases = (
+				DD77897A2A4593FB005B0A0E /* ShellScript */,
 				DDB873EA0C850BC800E0DE1F /* Sources */,
 				DDB873F80C850BC800E0DE1F /* Frameworks */,
 				DD5E20A7140CE808000FADAA /* Run Script */,
@@ -2533,6 +2562,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDD095410A3EDD4300C95BA4 /* Build configuration list for PBXNativeTarget "switcher" */;
 			buildPhases = (
+				DD361D5029E59A11000CC8D1 /* ShellScript */,
 				DDD0953C0A3EDD2500C95BA4 /* Sources */,
 				DDD0953D0A3EDD2500C95BA4 /* Frameworks */,
 			);
@@ -2549,6 +2579,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDD336FA1062235D00867C7D /* Build configuration list for PBXNativeTarget "AddRemoveUser" */;
 			buildPhases = (
+				DD361D5929E59AF7000CC8D1 /* ShellScript */,
 				DDD336F61062235D00867C7D /* Sources */,
 				DDD336F81062235D00867C7D /* Frameworks */,
 			);
@@ -2565,6 +2596,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2365091CBDAE0048316E /* Build configuration list for PBXNativeTarget "BOINC_Client" */;
 			buildPhases = (
+				DD361D4329E5722D000CC8D1 /* ShellScript */,
 				DDD74D8407CF482E0065AC9D /* Sources */,
 				DDD74D8507CF482E0065AC9D /* Frameworks */,
 				DDFE33E224EA9AC300F5C838 /* ShellScript */,
@@ -2575,16 +2607,38 @@
 			dependencies = (
 				B1A32E55265D206800896566 /* PBXTargetDependency */,
 				DD25E20D220438090040366F /* PBXTargetDependency */,
+				DD7C3B112ABC3F85000C307D /* PBXTargetDependency */,
+				DD7C3B132ABC3F85000C307D /* PBXTargetDependency */,
 			);
 			name = BOINC_Client;
 			productName = BOINC_Client;
 			productReference = DDD74D8707CF482E0065AC9D /* boinc */;
 			productType = "com.apple.product-type.tool";
 		};
+		DDEED38529ADFD7000DC3E5D /* boinc_finish_install */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDEED39329ADFD7100DC3E5D /* Build configuration list for PBXNativeTarget "boinc_finish_install" */;
+			buildPhases = (
+				DD361D5229E59A41000CC8D1 /* ShellScript */,
+				DDEED38229ADFD7000DC3E5D /* Sources */,
+				DDEED38329ADFD7000DC3E5D /* Frameworks */,
+				DDEED38429ADFD7000DC3E5D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DDEED39729ADFD9900DC3E5D /* PBXTargetDependency */,
+			);
+			name = boinc_finish_install;
+			productName = boinc_finish_installl_app;
+			productReference = DDEED38629ADFD7000DC3E5D /* BOINC_Finish_Install.app */;
+			productType = "com.apple.product-type.application";
+		};
 		DDF9EC02144EB14B005D6144 /* boinc_opencl */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDF9EC06144EB14B005D6144 /* Build configuration list for PBXNativeTarget "boinc_opencl" */;
 			buildPhases = (
+				DD77897D2A45943C005B0A0E /* ShellScript */,
 				DDF9EBFF144EB14B005D6144 /* Sources */,
 				DDF9EC00144EB14B005D6144 /* Frameworks */,
 				DDF9EC01144EB14B005D6144 /* Headers */,
@@ -2603,6 +2657,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDFA60CD0CB337D40037B88C /* Build configuration list for PBXNativeTarget "gfx_switcher" */;
 			buildPhases = (
+				DD361D5629E59AA6000CC8D1 /* ShellScript */,
 				DDFA60CA0CB337D40037B88C /* Sources */,
 				DDFA60CC0CB337D40037B88C /* Frameworks */,
 			);
@@ -2619,6 +2674,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDFF2ACE0A53D4AE002BC19D /* Build configuration list for PBXNativeTarget "setprojectgrp" */;
 			buildPhases = (
+				DD361D5329E59A52000CC8D1 /* ShellScript */,
 				DDFF2ACB0A53D4AE002BC19D /* Sources */,
 				DDFF2ACD0A53D4AE002BC19D /* Frameworks */,
 			);
@@ -2642,11 +2698,11 @@
 					B13E2D0E265564D100D5C977 = {
 						CreatedOnToolsVersion = 12.5;
 					};
-					DD3EAAA5216A25AD00BC673C = {
-						CreatedOnToolsVersion = 9.4.1;
-					};
 					DD5F654023605B41009ED2A2 = {
 						CreatedOnToolsVersion = 10.1;
+					};
+					DDEED38529ADFD7000DC3E5D = {
+						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
@@ -2659,6 +2715,7 @@
 				Japanese,
 				French,
 				German,
+				Base,
 			);
 			mainGroup = 20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */;
 			projectDirPath = "";
@@ -2678,7 +2735,7 @@
 				DD7748970A356C880025D05E /* SetUpSecurity */,
 				DDD0953E0A3EDD2500C95BA4 /* switcher */,
 				DD1AFEA40A512D8700EE5B82 /* Install_BOINC */,
-				DD3EAAA5216A25AD00BC673C /* boinc_finish_install */,
+				DDEED38529ADFD7000DC3E5D /* boinc_finish_install */,
 				DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */,
 				DD3E14D30A774397007E0084 /* mgr_boinc */,
 				DD4688400C165F3C0089F500 /* Uninstaller */,
@@ -2696,8 +2753,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD3EAAB7216A2A7900BC673C /* boinc_finish_install in Resources */,
 				DD00F554176C081500850424 /* MacInstaller.icns in Resources */,
+				DDEED3A029AE114D00DC3E5D /* BOINC_Finish_Install.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2715,6 +2772,7 @@
 			files = (
 				DD3E14DB0A774397007E0084 /* boinc in Resources */,
 				DDB0805E2163019F00520B63 /* InfoPlist.strings in Resources */,
+				DDFF50582917D08F0050D03C /* mac_restrict_access.sb in Resources */,
 				DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2723,9 +2781,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD3EAABA216A2A9B00BC673C /* boinc_finish_install in Resources */,
 				DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */,
 				DD74B686177074AF005CF7DC /* PutInTrash.icns in Resources */,
+				DDEED3A129AE116E00DC3E5D /* BOINC_Finish_Install.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2738,9 +2796,17 @@
 				DD818295245ED4110076E5D0 /* boinc_ss_helper.sh in Resources */,
 				DD35BF3A27E3601800F1BBFC /* BOINCSaver.xib in Resources */,
 				DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */,
+				DD57E7922913D08E00E857CA /* mac_restrict_access.sb in Resources */,
 				DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */,
 				DD957E5B181B908800ECA34E /* thumbnail.png in Resources */,
 				DD957E5C181B908800ECA34E /* thumbnail@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDEED38429ADFD7000DC3E5D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2774,6 +2840,7 @@
 		};
 		DD1B90070A954C9A00FF5591 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2798,10 +2865,281 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/\"\ncp -fpRv \"${SRCROOT}/English.lproj/Uninstaller-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/\"\ncp -fpRv \"${SRCROOT}/English.lproj/Uninstaller-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
+		};
+		DD361D4329E5722D000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/dependencyNames.sh\"\nln -fhs ${curlDirName} ../../${curlBaseName}\nln -fhs ${caresDirName} ../../${caresBaseName}\nln -fhs ${opensslDirName} ../../${opensslBaseName}\n";
+		};
+		DD361D4D29E599CB000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D4E29E599E1000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D4F29E599F9000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5029E59A11000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5129E59A25000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5229E59A41000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5329E59A52000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5429E59A6F000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/dependencyNames.sh\"\nln -fhs ${wxWidgetsDirName} ../../${wxWidgetsBaseName}\n";
+		};
+		DD361D5529E59A94000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5629E59AA6000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5829E59AE5000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/dependencyNames.sh\"\nln -fhs ${freetypeDirName} ../../${freetypeBaseName}\nln -fhs ${ftglDirName} ../../${ftglBaseName}\n\n";
+		};
+		DD361D5929E59AF7000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5A29E59B08000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD361D5B29E59B19000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD3B67F6140CFFA20088683F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2815,6 +3153,7 @@
 		};
 		DD3E15390A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2828,6 +3167,7 @@
 		};
 		DD5E20A7140CE808000FADAA /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2842,6 +3182,7 @@
 		};
 		DD5E20A8140CE842000FADAA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2851,10 +3192,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
 		};
 		DD5FD5990A0233D60093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2883,8 +3225,135 @@
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/PostInstall-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
+		DD7789782A4593CF005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD7789792A4593E9005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD77897A2A4593FB005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD77897B2A459410005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD77897C2A459427005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD77897D2A45943C005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD77897E2A459453005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
 		DD818296245EDA220076E5D0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2902,6 +3371,7 @@
 		};
 		DD81C827144D90FC000BE61A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2941,6 +3411,7 @@
 		};
 		DDC8FB2B1F6D398700BE55B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2954,6 +3425,7 @@
 		};
 		DDC8FB2C1F6D39B800BE55B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2967,6 +3439,7 @@
 		};
 		DDF9B764245C12AA00587EBE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2984,6 +3457,7 @@
 		};
 		DDF9EC07144EB255005D6144 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2997,6 +3471,7 @@
 		};
 		DDFE33E224EA9AC300F5C838 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3014,6 +3489,7 @@
 		};
 		DDFE33E324EA9ADC00F5C838 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3197,15 +3673,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DD3EAAA2216A25AD00BC673C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD3EAAAF216A268600BC673C /* finish_install.cpp in Sources */,
-				DD3EAAAD216A262100BC673C /* mac_branding.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD407A4707D2FB1200163EF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3281,6 +3748,7 @@
 				DD5F6551236064E4009ED2A2 /* gui_rpc_client_ops.cpp in Sources */,
 				DD5F656523606AED009ED2A2 /* hostinfo.cpp in Sources */,
 				DD5F656123606AA3009ED2A2 /* keyword.cpp in Sources */,
+				DDF0C980291D2C3E00E72E0C /* shmem.cpp in Sources */,
 				DD5F6559236067B3009ED2A2 /* mac_spawn.cpp in Sources */,
 				DDA70B4123632035007097BD /* mac_util.mm in Sources */,
 				DD5F655723606728009ED2A2 /* md5.cpp in Sources */,
@@ -3551,6 +4019,7 @@
 				DDD74D9707CF48F30065AC9D /* cs_files.cpp in Sources */,
 				DDD74D9807CF48F40065AC9D /* cs_prefs.cpp in Sources */,
 				DDD74D9907CF48F50065AC9D /* cs_scheduler.cpp in Sources */,
+				DD0428462ACD7D3F00229B6D /* cs_sporadic.cpp in Sources */,
 				DD0925B51FB05490000902DF /* project_list.cpp in Sources */,
 				DDD74D9A07CF48F60065AC9D /* cs_statefile.cpp in Sources */,
 				DDD74D9B07CF48F90065AC9D /* cs_trickle.cpp in Sources */,
@@ -3627,8 +4096,18 @@
 				DD76BF9517CB45D20075936D /* opencl_boinc.cpp in Sources */,
 				DD82D83C1F831E0500EEC6AD /* keyword.cpp in Sources */,
 				DD6A829C181103990037172D /* thread.cpp in Sources */,
+				81FD378F2AB95D4A00E29818 /* app_test.cpp in Sources */,
 				DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */,
 				DD55AF6D1916248200259439 /* coproc_sched.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDEED38229ADFD7000DC3E5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDEED39929ADFDEC00DC3E5D /* mac_branding.cpp in Sources */,
+				DDEED39829ADFDC400DC3E5D /* finish_install.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3710,6 +4189,16 @@
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
 			targetProxy = DD25E20C220438090040366F /* PBXContainerItemProxy */;
 		};
+		DD3D127729B622C700F89058 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDEED38529ADFD7000DC3E5D /* boinc_finish_install */;
+			targetProxy = DD3D127629B622C700F89058 /* PBXContainerItemProxy */;
+		};
+		DD3D127B29B6243800F89058 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDEED38529ADFD7000DC3E5D /* boinc_finish_install */;
+			targetProxy = DD3D127A29B6243800F89058 /* PBXContainerItemProxy */;
+		};
 		DD3E14D40A774397007E0084 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
@@ -3719,21 +4208,6 @@
 			isa = PBXTargetDependency;
 			target = DDD74D8607CF482E0065AC9D /* BOINC_Client */;
 			targetProxy = DD3E14D70A774397007E0084 /* PBXContainerItemProxy */;
-		};
-		DD3EAAB1216A26C700BC673C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD3EAAA5216A25AD00BC673C /* boinc_finish_install */;
-			targetProxy = DD3EAAB0216A26C700BC673C /* PBXContainerItemProxy */;
-		};
-		DD3EAAB6216A2A6700BC673C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD3EAAA5216A25AD00BC673C /* boinc_finish_install */;
-			targetProxy = DD3EAAB5216A2A6700BC673C /* PBXContainerItemProxy */;
-		};
-		DD3EAAB9216A2A8A00BC673C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD3EAAA5216A25AD00BC673C /* boinc_finish_install */;
-			targetProxy = DD3EAAB8216A2A8A00BC673C /* PBXContainerItemProxy */;
 		};
 		DD45C4A10A53E73500E923D1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3769,6 +4243,16 @@
 			isa = PBXTargetDependency;
 			target = DD96AFF80811075000A06F22 /* ScreenSaver */;
 			targetProxy = DD791FF00819063C00BE2906 /* PBXContainerItemProxy */;
+		};
+		DD7C3B112ABC3F85000C307D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */;
+			targetProxy = DD7C3B102ABC3F85000C307D /* PBXContainerItemProxy */;
+		};
+		DD7C3B132ABC3F85000C307D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
+			targetProxy = DD7C3B122ABC3F85000C307D /* PBXContainerItemProxy */;
 		};
 		DD81C824144D904D000BE61A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3834,6 +4318,11 @@
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
 			targetProxy = DDED8BBB2569358C005F4C8E /* PBXContainerItemProxy */;
+		};
+		DDEED39729ADFD9900DC3E5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DDEED39629ADFD9900DC3E5D /* PBXContainerItemProxy */;
 		};
 		DDF9EC0D144EB338005D6144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3951,13 +4440,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.5/include",
-					"../../wxWidgets-3.1.5/build/osx/setup/cocoa/include",
+					../../wxWidgets/include,
+					../../wxWidgets/build/osx/setup/cocoa/include,
 					../clientgui,
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.5/build/osx/build/Debug";
+				LIBRARY_SEARCH_PATHS = ../../wxWidgets/build/osx/build/Debug;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3967,7 +4456,8 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
+					"-DBUILDING_MANAGER",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -3979,7 +4469,8 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
+					"-DBUILDING_MANAGER",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3991,7 +4482,8 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
+					"-DBUILDING_MANAGER",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4029,13 +4521,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.5/include",
-					"../../wxWidgets-3.1.5/build/osx/setup/cocoa/include",
+					../../wxWidgets/include,
+					../../wxWidgets/build/osx/setup/cocoa/include,
 					../clientgui,
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.5/build/osx/build/Release";
+				LIBRARY_SEARCH_PATHS = ../../wxWidgets/build/osx/build/Release;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -4047,7 +4539,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -4061,7 +4553,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -4075,7 +4567,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4099,117 +4591,6 @@
 					"-Wno-write-strings",
 					"-Wno-frame-address",
 				);
-			};
-			name = Deployment;
-		};
-		DD3EAAAA216A25AE00BC673C /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Development;
-		};
-		DD3EAAAB216A25AE00BC673C /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
@@ -4253,7 +4634,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 			};
 			name = Development;
 		};
@@ -4267,7 +4647,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
@@ -4331,15 +4710,15 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../../freetype-2.11.0/include",
-					"../../ftgl-2.1.3~rc5/src",
+					../../freetype/include,
+					../../ftgl/src,
 					"../lib/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",
-					"../../freetype-2.11.0/objs/.libs",
-					"../../ftgl-2.1.3~rc5/src/.libs",
+					../../freetype/objs/.libs,
+					../../ftgl/src/.libs,
 				);
 				OTHER_LDFLAGS = (
 					"-lresolv",
@@ -4366,15 +4745,15 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../../freetype-2.11.0/include",
-					"../../ftgl-2.1.3~rc5/src",
+					../../freetype/include,
+					../../ftgl/src,
 					"../lib/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",
-					"../../freetype-2.11.0/objs/.libs",
-					"../../ftgl-2.1.3~rc5/src/.libs",
+					../../freetype/objs/.libs,
+					../../ftgl/src/.libs,
 				);
 				OTHER_LDFLAGS = (
 					"-lresolv",
@@ -4437,6 +4816,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSCREENSAVER",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4445,7 +4832,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Deployment;
@@ -4457,15 +4843,15 @@
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../curl-7.79.1/include",
-					"../../openssl-3.0.0/include",
+					../../curl/include,
+					../../openssl/include,
 					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
-					"../../curl-7.79.1/lib/.libs",
-					"../../c-ares-1.17.2/src/lib/.libs",
-					"../../openssl-3.0.0/",
+					../../curl/lib/.libs,
+					"../../c-ares/src/lib/.libs",
+					../../openssl/,
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
@@ -4478,7 +4864,11 @@
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.79.1/include ../../openssl-3.0.0/include ../lib/**";
+				USER_HEADER_SEARCH_PATHS = (
+					../../curl/include,
+					../../openssl/include,
+					"../lib/**",
+				);
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4554,11 +4944,12 @@
 				GCC_FAST_MATH = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				"GCC_WARN_64_TO_32_BIT_CONVERSION[arch=*64]" = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4621,6 +5012,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-D_DEBUG",
+					"-DSCREENSAVER",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4629,7 +5028,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Development;
@@ -4641,15 +5039,15 @@
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../curl-7.79.1/include",
-					"../../openssl-3.0.0/include",
+					../../curl/include,
+					../../openssl/include,
 					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
-					"../../curl-7.79.1/lib/.libs",
-					"../../c-ares-1.17.2/src/lib/.libs",
-					"../../openssl-3.0.0/",
+					../../curl/lib/.libs,
+					"../../c-ares/src/lib/.libs",
+					../../openssl/,
 				);
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -4668,7 +5066,11 @@
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.79.1/include ../../openssl-3.0.0/include ../lib/**";
+				USER_HEADER_SEARCH_PATHS = (
+					../../curl/include,
+					../../openssl/include,
+					"../lib/**",
+				);
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4744,11 +5146,12 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				"GCC_WARN_64_TO_32_BIT_CONVERSION[arch=*64]" = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -4815,6 +5218,118 @@
 			buildSettings = {
 				PRODUCT_NAME = AddRemoveUser;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = Deployment;
+		};
+		DDEED39429ADFD7100DC3E5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.berkeley.boinc.finish-install";
+				PRODUCT_NAME = BOINC_Finish_Install;
+			};
+			name = Development;
+		};
+		DDEED39529ADFD7100DC3E5D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.berkeley.boinc.finish-install";
+				PRODUCT_NAME = BOINC_Finish_Install;
 			};
 			name = Deployment;
 		};
@@ -4912,15 +5427,6 @@
 			buildConfigurations = (
 				DD3E153E0A774397007E0084 /* Development */,
 				DD3E15410A774397007E0084 /* Deployment */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		DD3EAAAC216A25AE00BC673C /* Build configuration list for PBXNativeTarget "boinc_finish_install" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DD3EAAAA216A25AE00BC673C /* Development */,
-				DD3EAAAB216A25AE00BC673C /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5074,6 +5580,15 @@
 			buildConfigurations = (
 				DDD336FB1062235D00867C7D /* Development */,
 				DDD336FF1062235D00867C7D /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		DDEED39329ADFD7100DC3E5D /* Build configuration list for PBXNativeTarget "boinc_finish_install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDEED39429ADFD7100DC3E5D /* Development */,
+				DDEED39529ADFD7100DC3E5D /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

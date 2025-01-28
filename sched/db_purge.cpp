@@ -588,7 +588,12 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
             );
         } else {
             retval = result.delete_from_db();
-            if (retval) return retval;
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Couldn't delete result [%lu] from database\n", result.id
+                );
+                return retval;
+            }
             log_messages.printf(MSG_DEBUG,
                 "Purged result [%lu] from database\n", result.id
             );
@@ -675,6 +680,10 @@ bool do_pass() {
         }
 
         retval = purge_and_archive_results(wu, n);
+        // if a result fails to be deleted, don't purge this workunit,
+        // or this result will be left orphaned and never get deleted
+        if (retval) continue;
+
         do_pass_purged_results += n;
 
         if (!no_archive) {

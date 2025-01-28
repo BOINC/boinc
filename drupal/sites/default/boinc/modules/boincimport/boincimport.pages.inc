@@ -8,11 +8,11 @@ function boincimport_admin_settings() {
   global $conf ;
   global $db_url;
   global $base_url;
-  $stage = variable_get('boincimport_config_stage', 0); 
-  
+  $stage = variable_get('boincimport_config_stage', 0);
+
   // Start with a quick sanity check on the BOINC environment
   boinc_get_path();
-  
+
   //We'll be checking that the setup is complete.
   //If it is not complete, the migration will not go ahead.
   $ready_for_migration = 1;
@@ -24,7 +24,7 @@ function boincimport_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-    
+
   $output = '';
   if (!variable_get('boincimport_tested', 0)) {
     $form['test']['#collapsed']= FALSE;
@@ -52,13 +52,13 @@ function boincimport_admin_settings() {
     '#default_value' => variable_get('boincimport_tested', 0),
     '#description' => '',
   );
-  
+
   // Where is BOINC data?
   $pre = variable_get('boincimport_table_prefix', '');
   $tables = array($pre .'forum', $pre .'post', $pre .'thread', $pre .'user');
   $db = (is_array($db_url) AND isset($db_url['boinc_rw'])) ? 'boinc_rw' : 'default';
   $result = _boincimport_check_tables($tables, $db, 0);
-  
+
   $config_path = conf_path();
   $form['boinc_data'] = array(
     '#type' => 'fieldset',
@@ -106,7 +106,7 @@ function boincimport_admin_settings() {
     postgresql, see !this_issue.', array('!this_issue' => l(t('this issue'),
     'http://drupal.org/node/64877', array('attributes' => array('target' => '_blank'))))) . '</p>';
   $form['boinc_data']['note'] = array('#value' => $output);
-  
+
   // BOINC table prefix
   $form['boinc_data']['boincimport_table_prefix'] = array(
     '#type' => 'textfield',
@@ -117,7 +117,7 @@ function boincimport_admin_settings() {
     '#description' => t('What prefix is used for your BOINC tables?'),
     '#disabled' => ($result['result']) ? TRUE : FALSE
   );
-  
+
   $output = $result['html'];
   if ($result['result'] != 1) {
     $ready_for_migration = 0;
@@ -129,7 +129,7 @@ function boincimport_admin_settings() {
   }
 
   $form['boinc_data']['result'] = array('#value' => $output);
-  
+
   // USERS settings
   $form['users'] = array(
     '#type' => 'fieldset',
@@ -171,20 +171,20 @@ function boincimport_admin_settings() {
   );
   $output = '<p>'. t('Select which !input_format should be used for the imported
     messages. It is highly-recommended that this value be left as it is, as the
-    Full HTML and PHP code formats can be very dangerous!', 
+    Full HTML and PHP code formats can be very dangerous!',
     array('!input_format' => l(t('input format'), 'admin/settings/filters'))) .'</p>';
   $form['input']['intro'] = array('#value' => $output);
-  
+
   $formats = db_query('SELECT format, name FROM {filter_formats}');
   while ($format = db_fetch_array($formats)) {
     $input_formats[$format['format']]= $format['name'];
   }
-  
+
   // By default, use the format named "Rich text"; fall back to Filtered HTML
   $default_input_format = db_result(db_query("
     SELECT format FROM {filter_formats} WHERE name = '%s'", 'Rich text'));
   if (!$default_input_format) $default_input_format = 1;
-  
+
   $input_format = variable_get('boincimport_input_format', $default_input_format);
   $form['input']['boincimport_input_format'] = array(
     '#type' => 'radios',
@@ -199,7 +199,7 @@ function boincimport_admin_settings() {
   $output = '<p><em>'. t('This setting will be applied to all posts and private
     messages.') .'</em></p>';
   $form['input']['result'] = array('#value' => $output);
-  
+
   // BBcode settings
   $form['bbcode'] = array(
     '#type' => 'fieldset',
@@ -207,7 +207,7 @@ function boincimport_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  
+
   $output = '<p>' . t('BOINC posts are often formatted in BBcode. During the
     import process, BBcode can be handled in two diffent ways') . ':</p>';
   $output .= '<ul><li>' . t('Leave the BBcode as is and use the !bbcode_module
@@ -225,7 +225,7 @@ function boincimport_admin_settings() {
     "Filtered HTML" input format unless they are first added to the list of
     allowed tags in that format. See the !input_formats page.',
     array('!input_formats' => l(t('input formats'), 'admin/settings/filters'))) . '</p>';
-    
+
   $form['bbcode']['intro'] = array('#value' => $output);
   $form['bbcode']['boincimport_bbcode'] = array(
     '#type' => 'radios',
@@ -234,11 +234,11 @@ function boincimport_admin_settings() {
     '#options' => array(t('Leave BBcode as is.'), t('Transform BBcode into HTML.')),
     '#description' => '',
   );
-  
+
   $module_status = _boincimport_check_module('bbcode');
   $bbcode_disabled = ($module_status['result'] == 0) ? true : false;
   $output = $module_status['html'];
-  
+
   if (variable_get('boincimport_bbcode', 0)) {
     if ($bbcode_disabled) {
       $ready_for_migration = 0;
@@ -259,7 +259,7 @@ function boincimport_admin_settings() {
           '!enable_bbcode_input' =>  l(t('enable BBcode in the selected input format'), "admin/settings/filters/{$input_format}"),
           '!configure_bbcode_options' => l(t('configure BBcode options'), "admin/settings/filters/{$input_format}/configure"))) .'</p>';
     }
-    $output .= '<p>'. t('For best results, !disable_all_options', 
+    $output .= '<p>'. t('For best results, !disable_all_options',
     array('!disable_all_options' => l(t('all four BBcode configure options should be disabled'), "admin/settings/filters/{$input_format}/configure"))) . '.</p>';
   } else {
     if ($bbcode_disabled) {
@@ -276,9 +276,9 @@ function boincimport_admin_settings() {
   }
   $output .= '<p><em>'. t('This setting will be applied to all posts, private
     messages and the users\' signature.') .'</em></p>';
-    
+
   $form['bbcode']['result'] = array('#value' => $output);
-  
+
   // URL transform settings
   $form['url_transforms'] = array(
     '#type' => 'fieldset',
@@ -310,7 +310,7 @@ function boincimport_admin_settings() {
       left blank, the base_url configured in this Drupal environment will be
       used (currently: %url)', array('%url' =>$base_url)),
   );
-  
+
   // Are we ready for migration?
   $form['migration'] = array(
     '#type' => 'fieldset',
@@ -326,9 +326,9 @@ function boincimport_admin_settings() {
     $output = '<p class="marker">'. t('You are not ready for the migration yet.
       Please check the settings above.') .'</p>';
   }
-  
+
   $form['migration']['info'] = array('#value' => $output);
-  return system_settings_form($form); 
+  return system_settings_form($form);
 }
 
 /**
@@ -345,11 +345,11 @@ function boincimport_post_configuration() {
     available.') .'</li>';
   $output .= '</ul>';
   //User Set up
-  $output .= '<h2>'. t('User settings') .'</h2>';  
+  $output .= '<h2>'. t('User settings') .'</h2>';
   $output .= '<p>'. t('Make sure your !user_settings are correct. Specifically,
     you can enable or disable signatures there. ', array(
       '!user_settings' => l(t('user settings'), 'admin/user/settings')
-    )) .'</p>'; 
+    )) .'</p>';
   $output .= '<p>' . t('Note that avatar/picture support is not tied to user
     settings Picture support at this time.') . '</p>';
   /*$output .= '<p>' . t('In order to activate avatar/picture support, you need to
@@ -364,7 +364,7 @@ function boincimport_post_configuration() {
       '@files' => file_directory_path(). '/pictures'
     )) .'</li>';
   $output .= '</ul>'; */
-  
+
   // Forum Set up
   $output .= '<h2>'. t('Forum settings') .'</h2>';
   $output .= '<p>'. t('Check any additional changes to make on the

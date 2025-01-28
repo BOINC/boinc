@@ -71,7 +71,7 @@ void boinc_close_window_and_quit(const char* p) {
     }
 }
 
-void SetupPixelFormat(HDC win_dc) {
+void SetupPixelFormat(HDC dc) {
     int nPixelFormat;
     char buf[256];
 
@@ -98,11 +98,11 @@ void SetupPixelFormat(HDC win_dc) {
 
     // chooses the best pixel format
     //
-    nPixelFormat = ChoosePixelFormat(win_dc, &pfd);
+    nPixelFormat = ChoosePixelFormat(dc, &pfd);
 
     // set pixel format to device context.
     //
-    if (!SetPixelFormat(win_dc, nPixelFormat, &pfd)) {
+    if (!SetPixelFormat(dc, nPixelFormat, &pfd)) {
         fprintf(stderr,
             "%s ERROR: Couldn't set pixel format for device context (0x%x).\n",
             boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
@@ -250,19 +250,19 @@ LRESULT CALLBACK WndProc(
     case WM_ERASEBKGND:
         return 0;
     case WM_KEYDOWN:
-        if(!window_ready) return 0;    
+        if(!window_ready) return 0;
         if (fullscreen) {
             boinc_close_window_and_quit("key down");
-        } else {           
+        } else {
             boinc_app_key_press((int)wParam, (int)lParam);
         }
         return 0;
     case WM_KEYUP:
-        if(!window_ready) return 0;    
+        if(!window_ready) return 0;
         if (fullscreen) {
             boinc_close_window_and_quit("key up");
         } else {
-            boinc_app_key_release((int)wParam, (int)lParam);           
+            boinc_app_key_release((int)wParam, (int)lParam);
         }
         return 0;
     case WM_LBUTTONDOWN:
@@ -271,7 +271,7 @@ LRESULT CALLBACK WndProc(
     case WM_LBUTTONUP:
     case WM_MBUTTONUP:
     case WM_RBUTTONUP:
-        if(!window_ready) return 0;    
+        if(!window_ready) return 0;
 
         if (fullscreen) {
             boinc_close_window_and_quit("button up");
@@ -286,8 +286,8 @@ LRESULT CALLBACK WndProc(
         }
         return 0;
     case WM_MOUSEMOVE:
-        if(!window_ready) return 0;    
-        if (fullscreen) { 
+        if(!window_ready) return 0;
+        if (fullscreen) {
             if((int)(short)LOWORD(lParam) != mousePos.x || (int)(short)HIWORD(lParam) != mousePos.y) {
                 boinc_close_window_and_quit("mouse move");
             }
@@ -323,8 +323,8 @@ LRESULT CALLBACK WndProc(
             visible = FALSE;
         } else {
             visible = TRUE;
-        }          
-        if(!window_ready) return 0;    
+        }
+        if(!window_ready) return 0;
         app_graphics_resize(LOWORD(lParam), HIWORD(lParam));
         return 0;
     }
@@ -381,10 +381,10 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     if (throttled_app_render(width, height, dtime())) {
         SwapBuffers(win_dc);
         if (!fullscreen) {
-            // If user has changed window size, wait until it stops 
+            // If user has changed window size, wait until it stops
             // changing and then write the new dimensions to file
             //
-            if ((rt.left != rect.left) || (rt.top != rect.top) || 
+            if ((rt.left != rect.left) || (rt.top != rect.top) ||
                 (rt.right != rect.right) || (rt.bottom != rect.bottom)
             ) {
 				if (IsZoomed(window)) return;
@@ -407,7 +407,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
                         fclose(f);
                     }
                 }
-            }               // End if (new size != previous size) else 
+            }               // End if (new size != previous size) else
         }
     }
 }
@@ -436,7 +436,7 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
     //
     reg_win_class();
 
-    wglMakeCurrent(NULL,NULL); 
+    wglMakeCurrent(NULL,NULL);
     make_window(title);
 
     // Create a timer thread to do rendering
@@ -468,14 +468,14 @@ void boinc_set_windows_icon(const char* icon16, const char* icon48) {
     LONGLONG ic;
     HWND hWnd = FindWindow("BOINC_app",NULL);
 
-    if (ic = (LONGLONG)LoadIcon(instance, icon48)) {
+    if ((ic = (LONGLONG)LoadIcon(instance, icon48)) != 0) {
 #ifdef _WIN64
         SetClassLongPtr(hWnd, GCLP_HICON, (LONG_PTR)ic);
 #else
         SetClassLongPtr(hWnd, GCLP_HICON, (LONG)ic);
 #endif
     }
-    if (ic = (LONGLONG)LoadImage(instance, icon16, IMAGE_ICON, 16, 16, 0)) {
+    if ((ic = (LONGLONG)LoadImage(instance, icon16, IMAGE_ICON, 16, 16, 0)) != 0) {
 #ifdef _WIN64
         SetClassLongPtr(hWnd, GCLP_HICONSM, (LONG_PTR)ic);
 #else

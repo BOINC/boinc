@@ -20,22 +20,22 @@
 
 #include "sg_CustomControls.h"
 
-class CSimpleProjectCommandPopupButton : public CTransparentButton 
+class CSimpleProjectCommandPopupButton : public CTransparentButton
 {
     DECLARE_DYNAMIC_CLASS( CSimpleProjectCommandPopupButton )
     DECLARE_EVENT_TABLE()
 
     public:
         CSimpleProjectCommandPopupButton();
-        
-		CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id, 
-        const wxString& label = wxEmptyString, 
-        const wxPoint& pos = wxDefaultPosition, 
-        const wxSize& size = wxDefaultSize, 
-        long style = 0, 
-        const wxValidator& validator = wxDefaultValidator, 
+
+		CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id,
+        const wxString& label = wxEmptyString,
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = 0,
+        const wxValidator& validator = wxDefaultValidator,
         const wxString& name = wxT("ProjectCommandsPopupMenu"));
-        
+
 		~CSimpleProjectCommandPopupButton();
 
 	private:

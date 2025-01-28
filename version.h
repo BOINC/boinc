@@ -1,49 +1,58 @@
-/* Platform independent version definitions... */
+// BOINC version definitions.
+// version.h is automatically updated by `configure` on *nix systems
+// Do not edit version.h directly
+//
+// To update versions run:
+// - for the client/manager: set-client-version.py
+// - for the vboxwrapper: set-vboxwrapper-version.py
+// - for the worker: set-worker-version.py
+// - for the wrapper: set-wrapper-version.py
 
 #ifndef BOINC_VERSION_H
 #define BOINC_VERSION_H
 
-/* Major part of BOINC version number */
-#define BOINC_MAJOR_VERSION 7
+// Major part of client version number
+#define BOINC_MAJOR_VERSION 8
 
-/* Minor part of BOINC version number */
-#define BOINC_MINOR_VERSION 21
+// Minor part of client version number
+#define BOINC_MINOR_VERSION 1
 
-/* Release part of BOINC version number */
+// Release part of client version number
 #define BOINC_RELEASE 0
 
 // wrapper version number
-// when you change this, change .exe file names in VS project files
-#define WRAPPER_RELEASE 26017
+#define WRAPPER_RELEASE 26018
 
 // vboxwrapper version number
-// when you change this, change .exe file names in VS project files
-#define VBOXWRAPPER_RELEASE 26205
+#define VBOXWRAPPER_RELEASE 26209
 
-/* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "7.21.0"
+// worker version number
+#define WORKER_RELEASE 4
 
-/* Package is a pre-release (Alpha/Beta) package */
+// client version number as string
+#define BOINC_VERSION_STRING "8.1.0"
+
+// Package is a pre-release (Alpha/Beta) package
 #define BOINC_PRERELEASE 1
 
 #if (defined(_WIN32) || defined(__APPLE__))
-/* Name of package */
+// Name of package */
 #define PACKAGE "boinc"
 
-/* Define to the address where bug reports for this package should be sent. */
+// address where bug reports for this package should be sent.
 #define PACKAGE_BUGREPORT ""
 
-/* Define to the full name of this package. */
+// full name of this package.
 #define PACKAGE_NAME "BOINC"
 
-/* Define to the full name and version of this package. */
-#define PACKAGE_STRING "BOINC 7.21.0"
+// full name and version of this package.
+#define PACKAGE_STRING "BOINC 8.1.0"
 
-/* Define to the one symbol short name of this package. */
+// short name of this package.
 #define PACKAGE_TARNAME "boinc"
 
-/* Define to the version of this package. */
-#define PACKAGE_VERSION "7.21.0"
+// version of this package.
+#define PACKAGE_VERSION "8.1.0"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 

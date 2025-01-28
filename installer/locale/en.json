@@ -1,0 +1,3522 @@
+[
+    {
+        "Id": "IDS_IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN",
+        "Value": "You must have administrative privileges in order to install [ProductName]."
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Advertising",
+        "Value": "Advertising application"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_AllocatingRegistry",
+        "Value": "Allocating registry space"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_AppCommandLine",
+        "Value": "Application: [1], Command line: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_AppId",
+        "Value": "AppId: [1]{{, AppType: [2]}}"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_AppIdAppTypeRSN",
+        "Value": "AppId: [1]{{, AppType: [2], Users: [3], RSN: [4]}}"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Application",
+        "Value": "Application: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_BindingExes",
+        "Value": "Binding executables"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_ClassId",
+        "Value": "Class ID: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_ComponentIDQualifier",
+        "Value": "Component ID: [1], Qualifier: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_ComputingSpace",
+        "Value": "Computing space requirements"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_ContentTypeExtension",
+        "Value": "MIME Content Type: [1], Extension: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_CopyingNetworkFiles",
+        "Value": "Copying files to the network"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_CopyingNewFiles",
+        "Value": "Copying new files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_CreatingDuplicate",
+        "Value": "Creating duplicate files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_CreatingFolders",
+        "Value": "Creating folders"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_CreatingIISRoots",
+        "Value": "Creating IIS Virtual Roots..."
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_CreatingShortcuts",
+        "Value": "Creating shortcuts"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_DeletingServices",
+        "Value": "Deleting services"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_EnvironmentStrings",
+        "Value": "Updating environment strings"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_EvaluateLaunchConditions",
+        "Value": "Evaluating launch conditions"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Extension",
+        "Value": "Extension: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Feature",
+        "Value": "Feature: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_File",
+        "Value": "File: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FileDependencies",
+        "Value": "File: [1],  Dependencies: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FileDir",
+        "Value": "File: [1], Directory: [9]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FileDirSize",
+        "Value": "File: [1], Directory: [9], Size: [6]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FileDirSize4",
+        "Value": "File: [1],  Directory: [2],  Size: [3]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FileFolder",
+        "Value": "File: [1], Folder: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FileSectionKeyValue",
+        "Value": "File: [1],  Section: [2],  Key: [3], Value: [4]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Folder",
+        "Value": "Folder: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Font",
+        "Value": "Font: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FoundApp",
+        "Value": "Found application: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_FreeSpace",
+        "Value": "Free space: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_GeneratingScript",
+        "Value": "Generating script operations for action:"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_InitializeODBCDirs",
+        "Value": "Initializing ODBC directories"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_InstallODBC",
+        "Value": "Installing ODBC components"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_InstallServices",
+        "Value": "Installing new services"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_InstallingSystemCatalog",
+        "Value": "Installing system catalog"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_KeyName",
+        "Value": "Key: [1], Name: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_KeyNameValue",
+        "Value": "Key: [1], Name: [2], Value: [3]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_LibId",
+        "Value": "LibID: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_MigratingFeatureStates",
+        "Value": "Migrating feature states from related applications"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_MovingFiles",
+        "Value": "Moving files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_NameValueAction",
+        "Value": "Name: [1], Value: [2], Action [3]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_PatchingFiles",
+        "Value": "Patching files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_ProgID",
+        "Value": "ProgID: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_PropertySignature",
+        "Value": "Property: [1], Signature: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_PublishProductFeatures",
+        "Value": "Publishing product features"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_PublishProductInfo",
+        "Value": "Publishing product information"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_PublishingQualifiedComponents",
+        "Value": "Publishing qualified components"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegUser",
+        "Value": "Registering user"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisterClassServer",
+        "Value": "Registering class servers"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisterExtensionServers",
+        "Value": "Registering extension servers"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisterFonts",
+        "Value": "Registering fonts"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisterMimeInfo",
+        "Value": "Registering MIME info"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisterTypeLibs",
+        "Value": "Registering type libraries"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisteringComPlus",
+        "Value": "Registering COM+ Applications and Components"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisteringModules",
+        "Value": "Registering modules"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisteringProduct",
+        "Value": "Registering product"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RegisteringProgIdentifiers",
+        "Value": "Registering program identifiers"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemoveApps",
+        "Value": "Removing applications"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingBackup",
+        "Value": "Removing backup files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingDuplicates",
+        "Value": "Removing duplicated files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingFiles",
+        "Value": "Removing files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingFolders",
+        "Value": "Removing folders"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingIISRoots",
+        "Value": "Removing IIS Virtual Roots..."
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingIni",
+        "Value": "Removing INI file entries"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingMoved",
+        "Value": "Removing moved files"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingODBC",
+        "Value": "Removing ODBC components"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingRegistry",
+        "Value": "Removing system registry values"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RemovingShortcuts",
+        "Value": "Removing shortcuts"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_RollingBack",
+        "Value": "Rolling back action:"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_SearchForRelated",
+        "Value": "Searching for related applications"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_SearchInstalled",
+        "Value": "Searching for installed applications"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_SearchingQualifyingProducts",
+        "Value": "Searching for qualifying products"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Service",
+        "Value": "Service: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Service2",
+        "Value": "Service: [2]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Shortcut",
+        "Value": "Shortcut: [1]"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_StartingServices",
+        "Value": "Starting services"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_StoppingServices",
+        "Value": "Stopping services"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnpublishProductFeatures",
+        "Value": "Unpublishing product features"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnpublishQualified",
+        "Value": "Unpublishing Qualified Components"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnpublishingProductInfo",
+        "Value": "Unpublishing product information"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregTypeLibs",
+        "Value": "Unregistering type libraries"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregisterClassServers",
+        "Value": "Unregister class servers"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregisterExtensionServers",
+        "Value": "Unregistering extension servers"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregisterModules",
+        "Value": "Unregistering modules"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregisteringComPlus",
+        "Value": "Unregistering COM+ Applications and Components"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregisteringFonts",
+        "Value": "Unregistering fonts"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregisteringMimeInfo",
+        "Value": "Unregistering MIME info"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UnregisteringProgramIds",
+        "Value": "Unregistering program identifiers"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_UpdateComponentRegistration",
+        "Value": "Updating component registration"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_Validating",
+        "Value": "Validating install"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_WritingINI",
+        "Value": "Writing INI file values"
+    },
+    {
+        "Id": "IDS_ACTIONTEXT_WritingRegistry",
+        "Value": "Writing system registry values"
+    },
+    {
+        "Id": "IDS_BACK",
+        "Value": "< &Back"
+    },
+    {
+        "Id": "IDS_CANCEL",
+        "Value": "Cancel"
+    },
+    {
+        "Id": "IDS_CANCEL2",
+        "Value": "&Cancel"
+    },
+    {
+        "Id": "IDS_ERROR_0",
+        "Value": "{{Fatal error: }}"
+    },
+    {
+        "Id": "IDS_ERROR_1",
+        "Value": "Error [1]."
+    },
+    {
+        "Id": "IDS_ERROR_10",
+        "Value": "=== Logging started: [Date]  [Time] ==="
+    },
+    {
+        "Id": "IDS_ERROR_100",
+        "Value": "Could not remove shortcut [2]. Verify that the shortcut file exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_101",
+        "Value": "Could not register type library for file [2].  Contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_102",
+        "Value": "Could not unregister type library for file [2].  Contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_103",
+        "Value": "Could not update the INI file [2][3].  Verify that the file exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_104",
+        "Value": "Could not schedule file [2] to replace file [3] on reboot.  Verify that you have write permissions to file [3]."
+    },
+    {
+        "Id": "IDS_ERROR_105",
+        "Value": "Error removing ODBC driver manager, ODBC error [2]: [3]. Contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_106",
+        "Value": "Error installing ODBC driver manager, ODBC error [2]: [3]. Contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_107",
+        "Value": "Error removing ODBC driver [4], ODBC error [2]: [3]. Verify that you have sufficient privileges to remove ODBC drivers."
+    },
+    {
+        "Id": "IDS_ERROR_108",
+        "Value": "Error installing ODBC driver [4], ODBC error [2]: [3]. Verify that the file [4] exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_109",
+        "Value": "Error configuring ODBC data source [4], ODBC error [2]: [3]. Verify that the file [4] exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_11",
+        "Value": "=== Logging stopped: [Date]  [Time] ==="
+    },
+    {
+        "Id": "IDS_ERROR_110",
+        "Value": "Service [2] ([3]) failed to start.  Verify that you have sufficient privileges to start system services."
+    },
+    {
+        "Id": "IDS_ERROR_111",
+        "Value": "Service [2] ([3]) could not be stopped.  Verify that you have sufficient privileges to stop system services."
+    },
+    {
+        "Id": "IDS_ERROR_112",
+        "Value": "Service [2] ([3]) could not be deleted.  Verify that you have sufficient privileges to remove system services."
+    },
+    {
+        "Id": "IDS_ERROR_113",
+        "Value": "Service [2] ([3]) could not be installed.  Verify that you have sufficient privileges to install system services."
+    },
+    {
+        "Id": "IDS_ERROR_114",
+        "Value": "Could not update environment variable [2].  Verify that you have sufficient privileges to modify environment variables."
+    },
+    {
+        "Id": "IDS_ERROR_115",
+        "Value": "You do not have sufficient privileges to complete this installation for all users of the machine.  Log on as an administrator and then retry this installation."
+    },
+    {
+        "Id": "IDS_ERROR_116",
+        "Value": "Could not set file security for file [3]. Error: [2].  Verify that you have sufficient privileges to modify the security permissions for this file."
+    },
+    {
+        "Id": "IDS_ERROR_117",
+        "Value": "Component Services (COM+ 1.0) are not installed on this computer.  This installation requires Component Services in order to complete successfully.  Component Services are available on Windows 2000."
+    },
+    {
+        "Id": "IDS_ERROR_118",
+        "Value": "Error registering COM+ application.  Contact your support personnel for more information."
+    },
+    {
+        "Id": "IDS_ERROR_119",
+        "Value": "Error unregistering COM+ application.  Contact your support personnel for more information."
+    },
+    {
+        "Id": "IDS_ERROR_12",
+        "Value": "Action start [Time]: [1]."
+    },
+    {
+        "Id": "IDS_ERROR_120",
+        "Value": "Removing older versions of this application"
+    },
+    {
+        "Id": "IDS_ERROR_121",
+        "Value": "Preparing to remove older versions of this application"
+    },
+    {
+        "Id": "IDS_ERROR_122",
+        "Value": "Error applying patch to file [2].  It has probably been updated by other means, and can no longer be modified by this patch.  For more information contact your patch vendor.  {{System Error: [3]}}"
+    },
+    {
+        "Id": "IDS_ERROR_123",
+        "Value": "[2] cannot install one of its required products. Contact your technical support group.  {{System Error: [3].}}"
+    },
+    {
+        "Id": "IDS_ERROR_124",
+        "Value": "The older version of [2] cannot be removed.  Contact your technical support group.  {{System Error [3].}}"
+    },
+    {
+        "Id": "IDS_ERROR_125",
+        "Value": "The description for service '[2]' ([3]) could not be changed."
+    },
+    {
+        "Id": "IDS_ERROR_126",
+        "Value": "The Windows Installer service cannot update the system file [2] because the file is protected by Windows.  You may need to update your operating system for this program to work correctly. {{Package version: [3], OS Protected version: [4]}}"
+    },
+    {
+        "Id": "IDS_ERROR_127",
+        "Value": "The Windows Installer service cannot update the protected Windows file [2]. {{Package version: [3], OS Protected version: [4], SFP Error: [5]}}"
+    },
+    {
+        "Id": "IDS_ERROR_128",
+        "Value": "The Windows Installer service cannot update one or more protected Windows files. SFP Error: [2]. List of protected files: [3]"
+    },
+    {
+        "Id": "IDS_ERROR_129",
+        "Value": "User installations are disabled via policy on the machine."
+    },
+    {
+        "Id": "IDS_ERROR_13",
+        "Value": "Action ended [Time]: [1]. Return value [2]."
+    },
+    {
+        "Id": "IDS_ERROR_130",
+        "Value": "This setup requires Internet Information Server 4.0 or higher for configuring IIS Virtual Roots. Please make sure that you have IIS 4.0 or higher."
+    },
+    {
+        "Id": "IDS_ERROR_131",
+        "Value": "This setup requires Administrator privileges for configuring IIS Virtual Roots."
+    },
+    {
+        "Id": "IDS_ERROR_1329",
+        "Value": "A file that is required cannot be installed because the cabinet file [2] is not digitally signed. This may indicate that the cabinet file is corrupt."
+    },
+    {
+        "Id": "IDS_ERROR_1330",
+        "Value": "A file that is required cannot be installed because the cabinet file [2] has an invalid digital signature. This may indicate that the cabinet file is corrupt.{ Error [3] was returned by WinVerifyTrust.}"
+    },
+    {
+        "Id": "IDS_ERROR_1331",
+        "Value": "Failed to correctly copy [2] file: CRC error."
+    },
+    {
+        "Id": "IDS_ERROR_1332",
+        "Value": "Failed to correctly patch [2] file: CRC error."
+    },
+    {
+        "Id": "IDS_ERROR_1333",
+        "Value": "Failed to correctly patch [2] file: CRC error."
+    },
+    {
+        "Id": "IDS_ERROR_1334",
+        "Value": "The file '[2]' cannot be installed because the file cannot be found in cabinet file '[3]'. This could indicate a network error, an error reading from the CD-ROM, or a problem with this package."
+    },
+    {
+        "Id": "IDS_ERROR_1335",
+        "Value": "The cabinet file '[2]' required for this installation is corrupt and cannot be used. This could indicate a network error, an error reading from the CD-ROM, or a problem with this package."
+    },
+    {
+        "Id": "IDS_ERROR_1336",
+        "Value": "There was an error creating a temporary file that is needed to complete this installation. Folder: [3]. System error code: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_14",
+        "Value": "Time remaining: {[1] minutes }{[2] seconds}"
+    },
+    {
+        "Id": "IDS_ERROR_15",
+        "Value": "Out of memory. Shut down other applications before retrying."
+    },
+    {
+        "Id": "IDS_ERROR_16",
+        "Value": "Installer is no longer responding."
+    },
+    {
+        "Id": "IDS_ERROR_1609",
+        "Value": "An error occurred while applying security settings. [2] is not a valid user or group. This could be a problem with the package, or a problem connecting to a domain controller on the network. Check your network connection and click Retry, or Cancel to end the install. Unable to locate the user's SID, system error [3]"
+    },
+    {
+        "Id": "IDS_ERROR_1651",
+        "Value": "Admin user failed to apply patch for a per-user managed or a per-machine application which is in advertise state."
+    },
+    {
+        "Id": "IDS_ERROR_17",
+        "Value": "Installer terminated prematurely."
+    },
+    {
+        "Id": "IDS_ERROR_1715",
+        "Value": "Installed [2]."
+    },
+    {
+        "Id": "IDS_ERROR_1716",
+        "Value": "Configured [2]."
+    },
+    {
+        "Id": "IDS_ERROR_1717",
+        "Value": "Removed [2]."
+    },
+    {
+        "Id": "IDS_ERROR_1718",
+        "Value": "File [2] was rejected by digital signature policy."
+    },
+    {
+        "Id": "IDS_ERROR_1719",
+        "Value": "Windows Installer service could not be accessed. Contact your support personnel to verify that it is properly registered and enabled."
+    },
+    {
+        "Id": "IDS_ERROR_1720",
+        "Value": "There is a problem with this Windows Installer package. A script required for this install to complete could not be run. Contact your support personnel or package vendor. Custom action [2] script error [3], [4]: [5] Line [6], Column [7], [8]"
+    },
+    {
+        "Id": "IDS_ERROR_1721",
+        "Value": "There is a problem with this Windows Installer package. A program required for this install to complete could not be run. Contact your support personnel or package vendor. Action: [2], location: [3], command: [4]"
+    },
+    {
+        "Id": "IDS_ERROR_1722",
+        "Value": "There is a problem with this Windows Installer package. A program run as part of the setup did not finish as expected. Contact your support personnel or package vendor. Action [2], location: [3], command: [4]"
+    },
+    {
+        "Id": "IDS_ERROR_1723",
+        "Value": "There is a problem with this Windows Installer package. A DLL required for this install to complete could not be run. Contact your support personnel or package vendor. Action [2], entry: [3], library: [4]"
+    },
+    {
+        "Id": "IDS_ERROR_1724",
+        "Value": "Removal completed successfully."
+    },
+    {
+        "Id": "IDS_ERROR_1725",
+        "Value": "Removal failed."
+    },
+    {
+        "Id": "IDS_ERROR_1726",
+        "Value": "Advertisement completed successfully."
+    },
+    {
+        "Id": "IDS_ERROR_1727",
+        "Value": "Advertisement failed."
+    },
+    {
+        "Id": "IDS_ERROR_1728",
+        "Value": "Configuration completed successfully."
+    },
+    {
+        "Id": "IDS_ERROR_1729",
+        "Value": "Configuration failed."
+    },
+    {
+        "Id": "IDS_ERROR_1730",
+        "Value": "You must be an Administrator to remove this application. To remove this application, you can log on as an administrator, or contact your technical support group for assistance."
+    },
+    {
+        "Id": "IDS_ERROR_1731",
+        "Value": "The source installation package for the product [2] is out of sync with the client package. Try the installation again using a valid copy of the installation package '[3]'."
+    },
+    {
+        "Id": "IDS_ERROR_1732",
+        "Value": "In order to complete the installation of [2], you must restart the computer. Other users are currently logged on to this computer, and restarting may cause them to lose their work. Do you want to restart now?"
+    },
+    {
+        "Id": "IDS_ERROR_18",
+        "Value": "Please wait while Windows configures [ProductName]"
+    },
+    {
+        "Id": "IDS_ERROR_19",
+        "Value": "Gathering required information..."
+    },
+    {
+        "Id": "IDS_ERROR_1935",
+        "Value": "An error occurred during the installation of assembly component [2]. HRESULT: [3]. {{assembly interface: [4], function: [5], assembly name: [6]}}"
+    },
+    {
+        "Id": "IDS_ERROR_1936",
+        "Value": "An error occurred during the installation of assembly '[6]'. The assembly is not strongly named or is not signed with the minimal key length. HRESULT: [3]. {{assembly interface: [4], function: [5], component: [2]}}"
+    },
+    {
+        "Id": "IDS_ERROR_1937",
+        "Value": "An error occurred during the installation of assembly '[6]'. The signature or catalog could not be verified or is not valid. HRESULT: [3]. {{assembly interface: [4], function: [5], component: [2]}}"
+    },
+    {
+        "Id": "IDS_ERROR_1938",
+        "Value": "An error occurred during the installation of assembly '[6]'. One or more modules of the assembly could not be found. HRESULT: [3]. {{assembly interface: [4], function: [5], component: [2]}}"
+    },
+    {
+        "Id": "IDS_ERROR_2",
+        "Value": "Warning [1]."
+    },
+    {
+        "Id": "IDS_ERROR_20",
+        "Value": "{[ProductName] }Setup completed successfully."
+    },
+    {
+        "Id": "IDS_ERROR_21",
+        "Value": "{[ProductName] }Setup failed."
+    },
+    {
+        "Id": "IDS_ERROR_2101",
+        "Value": "Shortcuts not supported by the operating system."
+    },
+    {
+        "Id": "IDS_ERROR_2102",
+        "Value": "Invalid .ini action: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_2103",
+        "Value": "Could not resolve path for shell folder [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2104",
+        "Value": "Writing .ini file: [3]: System error: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2105",
+        "Value": "Shortcut Creation [3] Failed. System error: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2106",
+        "Value": "Shortcut Deletion [3] Failed. System error: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2107",
+        "Value": "Error [3] registering type library [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2108",
+        "Value": "Error [3] unregistering type library [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2109",
+        "Value": "Section missing for .ini action."
+    },
+    {
+        "Id": "IDS_ERROR_2110",
+        "Value": "Key missing for .ini action."
+    },
+    {
+        "Id": "IDS_ERROR_2111",
+        "Value": "Detection of running applications failed, could not get performance data. Registered operation returned : [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2112",
+        "Value": "Detection of running applications failed, could not get performance index. Registered operation returned : [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2113",
+        "Value": "Detection of running applications failed."
+    },
+    {
+        "Id": "IDS_ERROR_22",
+        "Value": "Error reading from file: [2]. {{ System error [3].}}  Verify that the file exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_2200",
+        "Value": "Database: [2]. Database object creation failed, mode = [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2201",
+        "Value": "Database: [2]. Initialization failed, out of memory."
+    },
+    {
+        "Id": "IDS_ERROR_2202",
+        "Value": "Database: [2]. Data access failed, out of memory."
+    },
+    {
+        "Id": "IDS_ERROR_2203",
+        "Value": "Database: [2]. Cannot open database file. System error [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2204",
+        "Value": "Database: [2]. Table already exists: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2205",
+        "Value": "Database: [2]. Table does not exist: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2206",
+        "Value": "Database: [2]. Table could not be dropped: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2207",
+        "Value": "Database: [2]. Intent violation."
+    },
+    {
+        "Id": "IDS_ERROR_2208",
+        "Value": "Database: [2]. Insufficient parameters for Execute."
+    },
+    {
+        "Id": "IDS_ERROR_2209",
+        "Value": "Database: [2]. Cursor in invalid state."
+    },
+    {
+        "Id": "IDS_ERROR_2210",
+        "Value": "Database: [2]. Invalid update data type in column [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2211",
+        "Value": "Database: [2]. Could not create database table [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2212",
+        "Value": "Database: [2]. Database not in writable state."
+    },
+    {
+        "Id": "IDS_ERROR_2213",
+        "Value": "Database: [2]. Error saving database tables."
+    },
+    {
+        "Id": "IDS_ERROR_2214",
+        "Value": "Database: [2]. Error writing export file: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2215",
+        "Value": "Database: [2]. Cannot open import file: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2216",
+        "Value": "Database: [2]. Import file format error: [3], Line [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2217",
+        "Value": "Database: [2]. Wrong state to CreateOutputDatabase [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2218",
+        "Value": "Database: [2]. Table name not supplied."
+    },
+    {
+        "Id": "IDS_ERROR_2219",
+        "Value": "Database: [2]. Invalid Installer database format."
+    },
+    {
+        "Id": "IDS_ERROR_2220",
+        "Value": "Database: [2]. Invalid row/field data."
+    },
+    {
+        "Id": "IDS_ERROR_2221",
+        "Value": "Database: [2]. Code page conflict in import file: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2222",
+        "Value": "Database: [2]. Transform or merge code page [3] differs from database code page [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2223",
+        "Value": "Database: [2]. Databases are the same. No transform generated."
+    },
+    {
+        "Id": "IDS_ERROR_2224",
+        "Value": "Database: [2]. GenerateTransform: Database corrupt. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2225",
+        "Value": "Database: [2]. Transform: Cannot transform a temporary table. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2226",
+        "Value": "Database: [2]. Transform failed."
+    },
+    {
+        "Id": "IDS_ERROR_2227",
+        "Value": "Database: [2]. Invalid identifier '[3]' in SQL query: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2228",
+        "Value": "Database: [2]. Unknown table '[3]' in SQL query: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2229",
+        "Value": "Database: [2]. Could not load table '[3]' in SQL query: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2230",
+        "Value": "Database: [2]. Repeated table '[3]' in SQL query: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2231",
+        "Value": "Database: [2]. Missing ')' in SQL query: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2232",
+        "Value": "Database: [2]. Unexpected token '[3]' in SQL query: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2233",
+        "Value": "Database: [2]. No columns in SELECT clause in SQL query: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2234",
+        "Value": "Database: [2]. No columns in ORDER BY clause in SQL query: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2235",
+        "Value": "Database: [2]. Column '[3]' not present or ambiguous in SQL query: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2236",
+        "Value": "Database: [2]. Invalid operator '[3]' in SQL query: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2237",
+        "Value": "Database: [2]. Invalid or missing query string: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2238",
+        "Value": "Database: [2]. Missing FROM clause in SQL query: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2239",
+        "Value": "Database: [2]. Insufficient values in INSERT SQL statement."
+    },
+    {
+        "Id": "IDS_ERROR_2240",
+        "Value": "Database: [2]. Missing update columns in UPDATE SQL statement."
+    },
+    {
+        "Id": "IDS_ERROR_2241",
+        "Value": "Database: [2]. Missing insert columns in INSERT SQL statement."
+    },
+    {
+        "Id": "IDS_ERROR_2242",
+        "Value": "Database: [2]. Column '[3]' repeated."
+    },
+    {
+        "Id": "IDS_ERROR_2243",
+        "Value": "Database: [2]. No primary columns defined for table creation."
+    },
+    {
+        "Id": "IDS_ERROR_2244",
+        "Value": "Database: [2]. Invalid type specifier '[3]' in SQL query [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2245",
+        "Value": "IStorage::Stat failed with error [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2246",
+        "Value": "Database: [2]. Invalid Installer transform format."
+    },
+    {
+        "Id": "IDS_ERROR_2247",
+        "Value": "Database: [2] Transform stream read/write failure."
+    },
+    {
+        "Id": "IDS_ERROR_2248",
+        "Value": "Database: [2] GenerateTransform/Merge: Column type in base table does not match reference table. Table: [3] Col #: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2249",
+        "Value": "Database: [2] GenerateTransform: More columns in base table than in reference table. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2250",
+        "Value": "Database: [2] Transform: Cannot add existing row. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2251",
+        "Value": "Database: [2] Transform: Cannot delete row that does not exist. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2252",
+        "Value": "Database: [2] Transform: Cannot add existing table. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2253",
+        "Value": "Database: [2] Transform: Cannot delete table that does not exist. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2254",
+        "Value": "Database: [2] Transform: Cannot update row that does not exist. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2255",
+        "Value": "Database: [2] Transform: Column with this name already exists. Table: [3] Col: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2256",
+        "Value": "Database: [2] GenerateTransform/Merge: Number of primary keys in base table does not match reference table. Table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2257",
+        "Value": "Database: [2]. Intent to modify read only table: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2258",
+        "Value": "Database: [2]. Type mismatch in parameter: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2259",
+        "Value": "Database: [2] Table(s) Update failed"
+    },
+    {
+        "Id": "IDS_ERROR_2260",
+        "Value": "Storage CopyTo failed. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2261",
+        "Value": "Could not remove stream [2]. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2262",
+        "Value": "Stream does not exist: [2]. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2263",
+        "Value": "Could not open stream [2]. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2264",
+        "Value": "Could not remove stream [2]. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2265",
+        "Value": "Could not commit storage. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2266",
+        "Value": "Could not rollback storage. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2267",
+        "Value": "Could not delete storage [2]. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2268",
+        "Value": "Database: [2]. Merge: There were merge conflicts reported in [3] tables."
+    },
+    {
+        "Id": "IDS_ERROR_2269",
+        "Value": "Database: [2]. Merge: The column count differed in the '[3]' table of the two databases."
+    },
+    {
+        "Id": "IDS_ERROR_2270",
+        "Value": "Database: [2]. GenerateTransform/Merge: Column name in base table does not match reference table. Table: [3] Col #: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2271",
+        "Value": "SummaryInformation write for transform failed."
+    },
+    {
+        "Id": "IDS_ERROR_2272",
+        "Value": "Database: [2]. MergeDatabase will not write any changes because the database is open read-only."
+    },
+    {
+        "Id": "IDS_ERROR_2273",
+        "Value": "Database: [2]. MergeDatabase: A reference to the base database was passed as the reference database."
+    },
+    {
+        "Id": "IDS_ERROR_2274",
+        "Value": "Database: [2]. MergeDatabase: Unable to write errors to Error table. Could be due to a non-nullable column in a predefined Error table."
+    },
+    {
+        "Id": "IDS_ERROR_2275",
+        "Value": "Database: [2]. Specified Modify [3] operation invalid for table joins."
+    },
+    {
+        "Id": "IDS_ERROR_2276",
+        "Value": "Database: [2]. Code page [3] not supported by the system."
+    },
+    {
+        "Id": "IDS_ERROR_2277",
+        "Value": "Database: [2]. Failed to save table [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2278",
+        "Value": "Database: [2]. Exceeded number of expressions limit of 32 in WHERE clause of SQL query: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2279",
+        "Value": "Database: [2] Transform: Too many columns in base table [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2280",
+        "Value": "Database: [2]. Could not create column [3] for table [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2281",
+        "Value": "Could not rename stream [2]. System error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2282",
+        "Value": "Stream name invalid [2]."
+    },
+    {
+        "Id": "IDS_ERROR_23",
+        "Value": "Cannot create the file [3].  A directory with this name already exists.  Cancel the installation and try installing to a different location."
+    },
+    {
+        "Id": "IDS_ERROR_2302",
+        "Value": "Patch notify: [2] bytes patched to far."
+    },
+    {
+        "Id": "IDS_ERROR_2303",
+        "Value": "Error getting volume info. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2304",
+        "Value": "Error getting disk free space. GetLastError: [2]. Volume: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2305",
+        "Value": "Error waiting for patch thread. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2306",
+        "Value": "Could not create thread for patch application. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2307",
+        "Value": "Source file key name is null."
+    },
+    {
+        "Id": "IDS_ERROR_2308",
+        "Value": "Destination file name is null."
+    },
+    {
+        "Id": "IDS_ERROR_2309",
+        "Value": "Attempting to patch file [2] when patch already in progress."
+    },
+    {
+        "Id": "IDS_ERROR_2310",
+        "Value": "Attempting to continue patch when no patch is in progress."
+    },
+    {
+        "Id": "IDS_ERROR_2315",
+        "Value": "Missing path separator: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2318",
+        "Value": "File does not exist: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2319",
+        "Value": "Error setting file attribute: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2320",
+        "Value": "File not writable: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2321",
+        "Value": "Error creating file: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2322",
+        "Value": "User canceled."
+    },
+    {
+        "Id": "IDS_ERROR_2323",
+        "Value": "Invalid file attribute."
+    },
+    {
+        "Id": "IDS_ERROR_2324",
+        "Value": "Could not open file: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2325",
+        "Value": "Could not get file time for file: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2326",
+        "Value": "Error in FileToDosDateTime."
+    },
+    {
+        "Id": "IDS_ERROR_2327",
+        "Value": "Could not remove directory: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2328",
+        "Value": "Error getting file version info for file: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2329",
+        "Value": "Error deleting file: [3]. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2330",
+        "Value": "Error getting file attributes: [3]. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2331",
+        "Value": "Error loading library [2] or finding entry point [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2332",
+        "Value": "Error getting file attributes. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2333",
+        "Value": "Error setting file attributes. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2334",
+        "Value": "Error converting file time to local time for file: [3]. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2335",
+        "Value": "Path: [2] is not a parent of [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2336",
+        "Value": "Error creating temp file on path: [3]. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2337",
+        "Value": "Could not close file: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2338",
+        "Value": "Could not update resource for file: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2339",
+        "Value": "Could not set file time for file: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2340",
+        "Value": "Could not update resource for file: [3], Missing resource."
+    },
+    {
+        "Id": "IDS_ERROR_2341",
+        "Value": "Could not update resource for file: [3], Resource too large."
+    },
+    {
+        "Id": "IDS_ERROR_2342",
+        "Value": "Could not update resource for file: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2343",
+        "Value": "Specified path is empty."
+    },
+    {
+        "Id": "IDS_ERROR_2344",
+        "Value": "Could not find required file IMAGEHLP.DLL to validate file:[2]."
+    },
+    {
+        "Id": "IDS_ERROR_2345",
+        "Value": "[2]: File does not contain a valid checksum value."
+    },
+    {
+        "Id": "IDS_ERROR_2347",
+        "Value": "User ignore."
+    },
+    {
+        "Id": "IDS_ERROR_2348",
+        "Value": "Error attempting to read from cabinet stream."
+    },
+    {
+        "Id": "IDS_ERROR_2349",
+        "Value": "Copy resumed with different info."
+    },
+    {
+        "Id": "IDS_ERROR_2350",
+        "Value": "FDI server error"
+    },
+    {
+        "Id": "IDS_ERROR_2351",
+        "Value": "File key '[2]' not found in cabinet '[3]'. The installation cannot continue."
+    },
+    {
+        "Id": "IDS_ERROR_2352",
+        "Value": "Could not initialize cabinet file server. The required file 'CABINET.DLL' may be missing."
+    },
+    {
+        "Id": "IDS_ERROR_2353",
+        "Value": "Not a cabinet."
+    },
+    {
+        "Id": "IDS_ERROR_2354",
+        "Value": "Cannot handle cabinet."
+    },
+    {
+        "Id": "IDS_ERROR_2355",
+        "Value": "Corrupt cabinet."
+    },
+    {
+        "Id": "IDS_ERROR_2356",
+        "Value": "Could not locate cabinet in stream: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2357",
+        "Value": "Cannot set attributes."
+    },
+    {
+        "Id": "IDS_ERROR_2358",
+        "Value": "Error determining whether file is in-use: [3]. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2359",
+        "Value": "Unable to create the target file - file may be in use."
+    },
+    {
+        "Id": "IDS_ERROR_2360",
+        "Value": "Progress tick."
+    },
+    {
+        "Id": "IDS_ERROR_2361",
+        "Value": "Need next cabinet."
+    },
+    {
+        "Id": "IDS_ERROR_2362",
+        "Value": "Folder not found: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2363",
+        "Value": "Could not enumerate subfolders for folder: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2364",
+        "Value": "Bad enumeration constant in CreateCopier call."
+    },
+    {
+        "Id": "IDS_ERROR_2365",
+        "Value": "Could not BindImage exe file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2366",
+        "Value": "User failure."
+    },
+    {
+        "Id": "IDS_ERROR_2367",
+        "Value": "User abort."
+    },
+    {
+        "Id": "IDS_ERROR_2368",
+        "Value": "Failed to get network resource information. Error [2], network path [3]. Extended error: network provider [5], error code [4], error description [6]."
+    },
+    {
+        "Id": "IDS_ERROR_2370",
+        "Value": "Invalid CRC checksum value for [2] file.{ Its header says [3] for checksum, its computed value is [4].}"
+    },
+    {
+        "Id": "IDS_ERROR_2371",
+        "Value": "Could not apply patch to file [2]. GetLastError: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2372",
+        "Value": "Patch file [2] is corrupt or of an invalid format. Attempting to patch file [3]. GetLastError: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2373",
+        "Value": "File [2] is not a valid patch file."
+    },
+    {
+        "Id": "IDS_ERROR_2374",
+        "Value": "File [2] is not a valid destination file for patch file [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2375",
+        "Value": "Unknown patching error: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2376",
+        "Value": "Cabinet not found."
+    },
+    {
+        "Id": "IDS_ERROR_2379",
+        "Value": "Error opening file for read: [3] GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2380",
+        "Value": "Error opening file for write: [3]. GetLastError: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2381",
+        "Value": "Directory does not exist: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2382",
+        "Value": "Drive not ready: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_24",
+        "Value": "Please insert the disk: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_2401",
+        "Value": "64-bit registry operation attempted on 32-bit operating system for key [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2402",
+        "Value": "Out of memory."
+    },
+    {
+        "Id": "IDS_ERROR_25",
+        "Value": "The installer has insufficient privileges to access this directory: [2].  The installation cannot continue.  Log on as an administrator or contact your system administrator."
+    },
+    {
+        "Id": "IDS_ERROR_2501",
+        "Value": "Could not create rollback script enumerator."
+    },
+    {
+        "Id": "IDS_ERROR_2502",
+        "Value": "Called InstallFinalize when no install in progress."
+    },
+    {
+        "Id": "IDS_ERROR_2503",
+        "Value": "Called RunScript when not marked in progress."
+    },
+    {
+        "Id": "IDS_ERROR_26",
+        "Value": "Error writing to file [2].  Verify that you have access to that directory."
+    },
+    {
+        "Id": "IDS_ERROR_2601",
+        "Value": "Invalid value for property [2]: '[3]'"
+    },
+    {
+        "Id": "IDS_ERROR_2602",
+        "Value": "The [2] table entry '[3]' has no associated entry in the Media table."
+    },
+    {
+        "Id": "IDS_ERROR_2603",
+        "Value": "Duplicate table name [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2604",
+        "Value": "[2] Property undefined."
+    },
+    {
+        "Id": "IDS_ERROR_2605",
+        "Value": "Could not find server [2] in [3] or [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2606",
+        "Value": "Value of property [2] is not a valid full path: '[3]'."
+    },
+    {
+        "Id": "IDS_ERROR_2607",
+        "Value": "Media table not found or empty (required for installation of files)."
+    },
+    {
+        "Id": "IDS_ERROR_2608",
+        "Value": "Could not create security descriptor for object. Error: '[2]'."
+    },
+    {
+        "Id": "IDS_ERROR_2609",
+        "Value": "Attempt to migrate product settings before initialization."
+    },
+    {
+        "Id": "IDS_ERROR_2611",
+        "Value": "The file [2] is marked as compressed, but the associated media entry does not specify a cabinet."
+    },
+    {
+        "Id": "IDS_ERROR_2612",
+        "Value": "Stream not found in '[2]' column. Primary key: '[3]'."
+    },
+    {
+        "Id": "IDS_ERROR_2613",
+        "Value": "RemoveExistingProducts action sequenced incorrectly."
+    },
+    {
+        "Id": "IDS_ERROR_2614",
+        "Value": "Could not access IStorage object from installation package."
+    },
+    {
+        "Id": "IDS_ERROR_2615",
+        "Value": "Skipped unregistration of Module [2] due to source resolution failure."
+    },
+    {
+        "Id": "IDS_ERROR_2616",
+        "Value": "Companion file [2] parent missing."
+    },
+    {
+        "Id": "IDS_ERROR_2617",
+        "Value": "Shared component [2] not found in Component table."
+    },
+    {
+        "Id": "IDS_ERROR_2618",
+        "Value": "Isolated application component [2] not found in Component table."
+    },
+    {
+        "Id": "IDS_ERROR_2619",
+        "Value": "Isolated components [2], [3] not part of same feature."
+    },
+    {
+        "Id": "IDS_ERROR_2620",
+        "Value": "Key file of isolated application component [2] not in File table."
+    },
+    {
+        "Id": "IDS_ERROR_2621",
+        "Value": "Resource DLL or Resource ID information for shortcut [2] set incorrectly."
+    },
+    {
+        "Id": "IDS_ERROR_27",
+        "Value": "Error reading from file [2].  Verify that the file exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_2701",
+        "Value": "The depth of a feature exceeds the acceptable tree depth of [2] levels."
+    },
+    {
+        "Id": "IDS_ERROR_2702",
+        "Value": "A Feature table record ([2]) references a non-existent parent in the Attributes field."
+    },
+    {
+        "Id": "IDS_ERROR_2703",
+        "Value": "Property name for root source path not defined: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_2704",
+        "Value": "Root directory property undefined: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_2705",
+        "Value": "Invalid table: [2]; Could not be linked as tree."
+    },
+    {
+        "Id": "IDS_ERROR_2706",
+        "Value": "Source paths not created. No path exists for entry [2] in Directory table."
+    },
+    {
+        "Id": "IDS_ERROR_2707",
+        "Value": "Target paths not created. No path exists for entry [2] in Directory table."
+    },
+    {
+        "Id": "IDS_ERROR_2708",
+        "Value": "No entries found in the file table."
+    },
+    {
+        "Id": "IDS_ERROR_2709",
+        "Value": "The specified Component name ('[2]') not found in Component table."
+    },
+    {
+        "Id": "IDS_ERROR_2710",
+        "Value": "The requested 'Select' state is illegal for this Component."
+    },
+    {
+        "Id": "IDS_ERROR_2711",
+        "Value": "The specified Feature name ('[2]') not found in Feature table."
+    },
+    {
+        "Id": "IDS_ERROR_2712",
+        "Value": "Invalid return from modeless dialog: [3], in action [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2713",
+        "Value": "Null value in a non-nullable column ('[2]' in '[3]' column of the '[4]' table."
+    },
+    {
+        "Id": "IDS_ERROR_2714",
+        "Value": "Invalid value for default folder name: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2715",
+        "Value": "The specified File key ('[2]') not found in the File table."
+    },
+    {
+        "Id": "IDS_ERROR_2716",
+        "Value": "Could not create a random subcomponent name for component '[2]'."
+    },
+    {
+        "Id": "IDS_ERROR_2717",
+        "Value": "Bad action condition or error calling custom action '[2]'."
+    },
+    {
+        "Id": "IDS_ERROR_2718",
+        "Value": "Missing package name for product code '[2]'."
+    },
+    {
+        "Id": "IDS_ERROR_2719",
+        "Value": "Neither UNC nor drive letter path found in source '[2]'."
+    },
+    {
+        "Id": "IDS_ERROR_2720",
+        "Value": "Error opening source list key. Error: '[2]'"
+    },
+    {
+        "Id": "IDS_ERROR_2721",
+        "Value": "Custom action [2] not found in Binary table stream."
+    },
+    {
+        "Id": "IDS_ERROR_2722",
+        "Value": "Custom action [2] not found in File table."
+    },
+    {
+        "Id": "IDS_ERROR_2723",
+        "Value": "Custom action [2] specifies unsupported type."
+    },
+    {
+        "Id": "IDS_ERROR_2724",
+        "Value": "The volume label '[2]' on the media you're running from does not match the label '[3]' given in the Media table. This is allowed only if you have only 1 entry in your Media table."
+    },
+    {
+        "Id": "IDS_ERROR_2725",
+        "Value": "Invalid database tables"
+    },
+    {
+        "Id": "IDS_ERROR_2726",
+        "Value": "Action not found: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2727",
+        "Value": "The directory entry '[2]' does not exist in the Directory table."
+    },
+    {
+        "Id": "IDS_ERROR_2728",
+        "Value": "Table definition error: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_2729",
+        "Value": "Install engine not initialized."
+    },
+    {
+        "Id": "IDS_ERROR_2730",
+        "Value": "Bad value in database. Table: '[2]'; Primary key: '[3]'; Column: '[4]'"
+    },
+    {
+        "Id": "IDS_ERROR_2731",
+        "Value": "Selection Manager not initialized."
+    },
+    {
+        "Id": "IDS_ERROR_2732",
+        "Value": "Directory Manager not initialized."
+    },
+    {
+        "Id": "IDS_ERROR_2733",
+        "Value": "Bad foreign key ('[2]') in '[3]' column of the '[4]' table."
+    },
+    {
+        "Id": "IDS_ERROR_2734",
+        "Value": "Invalid reinstall mode character."
+    },
+    {
+        "Id": "IDS_ERROR_2735",
+        "Value": "Custom action '[2]' has caused an unhandled exception and has been stopped. This may be the result of an internal error in the custom action, such as an access violation."
+    },
+    {
+        "Id": "IDS_ERROR_2736",
+        "Value": "Generation of custom action temp file failed: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2737",
+        "Value": "Could not access custom action [2], entry [3], library [4]"
+    },
+    {
+        "Id": "IDS_ERROR_2738",
+        "Value": "Could not access VBScript run time for custom action [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2739",
+        "Value": "Could not access JavaScript run time for custom action [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2740",
+        "Value": "Custom action [2] script error [3], [4]: [5] Line [6], Column [7], [8]."
+    },
+    {
+        "Id": "IDS_ERROR_2741",
+        "Value": "Configuration information for product [2] is corrupt. Invalid info: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2742",
+        "Value": "Marshaling to Server failed: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2743",
+        "Value": "Could not execute custom action [2], location: [3], command: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2744",
+        "Value": "EXE failed called by custom action [2], location: [3], command: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2745",
+        "Value": "Transform [2] invalid for package [3]. Expected language [4], found language [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2746",
+        "Value": "Transform [2] invalid for package [3]. Expected product [4], found product [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2747",
+        "Value": "Transform [2] invalid for package [3]. Expected product version < [4], found product version [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2748",
+        "Value": "Transform [2] invalid for package [3]. Expected product version <= [4], found product version [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2749",
+        "Value": "Transform [2] invalid for package [3]. Expected product version == [4], found product version [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2750",
+        "Value": "Transform [2] invalid for package [3]. Expected product version >= [4], found product version [5]."
+    },
+    {
+        "Id": "IDS_ERROR_27502",
+        "Value": "Could not connect to [2] '[3]'. [4]"
+    },
+    {
+        "Id": "IDS_ERROR_27503",
+        "Value": "Error retrieving version string from [2] '[3]'. [4]"
+    },
+    {
+        "Id": "IDS_ERROR_27504",
+        "Value": "SQL version requirements not met: [3]. This installation requires [2] [4] or later."
+    },
+    {
+        "Id": "IDS_ERROR_27505",
+        "Value": "Could not open SQL script file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_27506",
+        "Value": "Error executing SQL script [2]. Line [3]. [4]"
+    },
+    {
+        "Id": "IDS_ERROR_27507",
+        "Value": "Connection or browsing for database servers requires that MDAC be installed."
+    },
+    {
+        "Id": "IDS_ERROR_27508",
+        "Value": "Error installing COM+ application [2]. [3]"
+    },
+    {
+        "Id": "IDS_ERROR_27509",
+        "Value": "Error uninstalling COM+ application [2]. [3]"
+    },
+    {
+        "Id": "IDS_ERROR_2751",
+        "Value": "Transform [2] invalid for package [3]. Expected product version > [4], found product version [5]."
+    },
+    {
+        "Id": "IDS_ERROR_27510",
+        "Value": "Error installing COM+ application [2].  Could not load Microsoft(R) .NET class libraries. Registering .NET serviced components requires that Microsoft(R) .NET Framework be installed."
+    },
+    {
+        "Id": "IDS_ERROR_27511",
+        "Value": "Could not execute SQL script file [2]. Connection not open: [3]"
+    },
+    {
+        "Id": "IDS_ERROR_27512",
+        "Value": "Error beginning transactions for [2] '[3]'. Database [4]. [5]"
+    },
+    {
+        "Id": "IDS_ERROR_27513",
+        "Value": "Error committing transactions for [2] '[3]'. Database [4]. [5]"
+    },
+    {
+        "Id": "IDS_ERROR_27514",
+        "Value": "This installation requires a Microsoft SQL Server. The specified server '[3]' is a Microsoft SQL Server Desktop Engine or SQL Server Express."
+    },
+    {
+        "Id": "IDS_ERROR_27515",
+        "Value": "Error retrieving schema version from [2] '[3]'. Database: '[4]'. [5]"
+    },
+    {
+        "Id": "IDS_ERROR_27516",
+        "Value": "Error writing schema version to [2] '[3]'. Database: '[4]'. [5]"
+    },
+    {
+        "Id": "IDS_ERROR_27517",
+        "Value": "This installation requires Administrator privileges for installing COM+ applications. Log on as an administrator and then retry this installation."
+    },
+    {
+        "Id": "IDS_ERROR_27518",
+        "Value": "The COM+ application \"[2]\" is configured to run as an NT service; this requires COM+ 1.5 or later on the system. Since your system has COM+ 1.0, this application will not be installed."
+    },
+    {
+        "Id": "IDS_ERROR_27519",
+        "Value": "Error updating XML file [2]. [3]"
+    },
+    {
+        "Id": "IDS_ERROR_2752",
+        "Value": "Could not open transform [2] stored as child storage of package [4]."
+    },
+    {
+        "Id": "IDS_ERROR_27520",
+        "Value": "Error opening XML file [2]. [3]"
+    },
+    {
+        "Id": "IDS_ERROR_27521",
+        "Value": "This setup requires MSXML 3.0 or higher for configuring XML files. Please make sure that you have version 3.0 or higher."
+    },
+    {
+        "Id": "IDS_ERROR_27522",
+        "Value": "Error creating XML file [2]. [3]"
+    },
+    {
+        "Id": "IDS_ERROR_27523",
+        "Value": "Error loading servers."
+    },
+    {
+        "Id": "IDS_ERROR_27524",
+        "Value": "Error loading NetApi32.DLL. The ISNetApi.dll needs to have NetApi32.DLL properly loaded and requires an NT based operating system."
+    },
+    {
+        "Id": "IDS_ERROR_27525",
+        "Value": "Server not found. Verify that the specified server exists. The server name can not be empty."
+    },
+    {
+        "Id": "IDS_ERROR_27526",
+        "Value": "Unspecified error from ISNetApi.dll."
+    },
+    {
+        "Id": "IDS_ERROR_27527",
+        "Value": "The buffer is too small."
+    },
+    {
+        "Id": "IDS_ERROR_27528",
+        "Value": "Access denied. Check administrative rights."
+    },
+    {
+        "Id": "IDS_ERROR_27529",
+        "Value": "Invalid computer."
+    },
+    {
+        "Id": "IDS_ERROR_2753",
+        "Value": "The File '[2]' is not marked for installation."
+    },
+    {
+        "Id": "IDS_ERROR_27530",
+        "Value": "Unknown error returned from NetAPI. System error: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_27531",
+        "Value": "Unhandled exception."
+    },
+    {
+        "Id": "IDS_ERROR_27532",
+        "Value": "Invalid user name for this server or domain."
+    },
+    {
+        "Id": "IDS_ERROR_27533",
+        "Value": "The case-sensitive passwords do not match."
+    },
+    {
+        "Id": "IDS_ERROR_27534",
+        "Value": "The list is empty."
+    },
+    {
+        "Id": "IDS_ERROR_27535",
+        "Value": "Access violation."
+    },
+    {
+        "Id": "IDS_ERROR_27536",
+        "Value": "Error getting group."
+    },
+    {
+        "Id": "IDS_ERROR_27537",
+        "Value": "Error adding user to group. Verify that the group exists for this domain or server."
+    },
+    {
+        "Id": "IDS_ERROR_27538",
+        "Value": "Error creating user."
+    },
+    {
+        "Id": "IDS_ERROR_27539",
+        "Value": "ERROR_NETAPI_ERROR_NOT_PRIMARY returned from NetAPI."
+    },
+    {
+        "Id": "IDS_ERROR_2754",
+        "Value": "The File '[2]' is not a valid patch file."
+    },
+    {
+        "Id": "IDS_ERROR_27540",
+        "Value": "The specified user already exists."
+    },
+    {
+        "Id": "IDS_ERROR_27541",
+        "Value": "The specified group already exists."
+    },
+    {
+        "Id": "IDS_ERROR_27542",
+        "Value": "Invalid password. Verify that the password is in accordance with your network password policy."
+    },
+    {
+        "Id": "IDS_ERROR_27543",
+        "Value": "Invalid name."
+    },
+    {
+        "Id": "IDS_ERROR_27544",
+        "Value": "Invalid group."
+    },
+    {
+        "Id": "IDS_ERROR_27545",
+        "Value": "The user name can not be empty and must be in the format DOMAIN\\Username."
+    },
+    {
+        "Id": "IDS_ERROR_27546",
+        "Value": "Error loading or creating INI file in the user TEMP directory."
+    },
+    {
+        "Id": "IDS_ERROR_27547",
+        "Value": "ISNetAPI.dll is not loaded or there was an error loading the dll. This dll needs to be loaded for this operation. Verify that the dll is in the SUPPORTDIR directory."
+    },
+    {
+        "Id": "IDS_ERROR_27548",
+        "Value": "Error deleting INI file containing new user information from the user's TEMP directory."
+    },
+    {
+        "Id": "IDS_ERROR_27549",
+        "Value": "Error getting the primary domain controller (PDC)."
+    },
+    {
+        "Id": "IDS_ERROR_2755",
+        "Value": "Server returned unexpected error [2] attempting to install package [3]."
+    },
+    {
+        "Id": "IDS_ERROR_27550",
+        "Value": "Every field must have a value in order to create a user."
+    },
+    {
+        "Id": "IDS_ERROR_27551",
+        "Value": "ODBC driver for [2] not found. This is required to connect to [2] database servers."
+    },
+    {
+        "Id": "IDS_ERROR_27552",
+        "Value": "Error creating database [4]. Server: [2] [3]. [5]"
+    },
+    {
+        "Id": "IDS_ERROR_27553",
+        "Value": "Error connecting to database [4]. Server: [2] [3]. [5]"
+    },
+    {
+        "Id": "IDS_ERROR_27554",
+        "Value": "Error attempting to open connection [2]. No valid database metadata associated with this connection."
+    },
+    {
+        "Id": "IDS_ERROR_2756",
+        "Value": "The property '[2]' was used as a directory property in one or more tables, but no value was ever assigned."
+    },
+    {
+        "Id": "IDS_ERROR_2757",
+        "Value": "Could not create summary info for transform [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2758",
+        "Value": "Transform [2] does not contain an MSI version."
+    },
+    {
+        "Id": "IDS_ERROR_2759",
+        "Value": "Transform [2] version [3] incompatible with engine; Min: [4], Max: [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2760",
+        "Value": "Transform [2] invalid for package [3]. Expected upgrade code [4], found [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2761",
+        "Value": "Cannot begin transaction. Global mutex not properly initialized."
+    },
+    {
+        "Id": "IDS_ERROR_2762",
+        "Value": "Cannot write script record. Transaction not started."
+    },
+    {
+        "Id": "IDS_ERROR_2763",
+        "Value": "Cannot run script. Transaction not started."
+    },
+    {
+        "Id": "IDS_ERROR_2765",
+        "Value": "Assembly name missing from AssemblyName table : Component: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2766",
+        "Value": "The file [2] is an invalid MSI storage file."
+    },
+    {
+        "Id": "IDS_ERROR_2767",
+        "Value": "No more data{ while enumerating [2]}."
+    },
+    {
+        "Id": "IDS_ERROR_2768",
+        "Value": "Transform in patch package is invalid."
+    },
+    {
+        "Id": "IDS_ERROR_2769",
+        "Value": "Custom Action [2] did not close [3] MSIHANDLEs."
+    },
+    {
+        "Id": "IDS_ERROR_2770",
+        "Value": "Cached folder [2] not defined in internal cache folder table."
+    },
+    {
+        "Id": "IDS_ERROR_2771",
+        "Value": "Upgrade of feature [2] has a missing component."
+    },
+    {
+        "Id": "IDS_ERROR_2772",
+        "Value": "New upgrade feature [2] must be a leaf feature."
+    },
+    {
+        "Id": "IDS_ERROR_28",
+        "Value": "Another application has exclusive access to the file [2].  Please shut down all other applications, then click Retry."
+    },
+    {
+        "Id": "IDS_ERROR_2801",
+        "Value": "Unknown Message -- Type [2]. No action is taken."
+    },
+    {
+        "Id": "IDS_ERROR_2802",
+        "Value": "No publisher is found for the event [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2803",
+        "Value": "Dialog View did not find a record for the dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2804",
+        "Value": "On activation of the control [3] on dialog [2] CMsiDialog failed to evaluate the condition [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2806",
+        "Value": "The dialog [2] failed to evaluate the condition [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2807",
+        "Value": "The action [2] is not recognized."
+    },
+    {
+        "Id": "IDS_ERROR_2808",
+        "Value": "Default button is ill-defined on dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2809",
+        "Value": "On the dialog [2] the next control pointers do not form a cycle. There is a pointer from [3] to [4], but there is no further pointer."
+    },
+    {
+        "Id": "IDS_ERROR_2810",
+        "Value": "On the dialog [2] the next control pointers do not form a cycle. There is a pointer from both [3] and [5] to [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2811",
+        "Value": "On dialog [2] control [3] has to take focus, but it is unable to do so."
+    },
+    {
+        "Id": "IDS_ERROR_2812",
+        "Value": "The event [2] is not recognized."
+    },
+    {
+        "Id": "IDS_ERROR_2813",
+        "Value": "The EndDialog event was called with the argument [2], but the dialog has a parent."
+    },
+    {
+        "Id": "IDS_ERROR_2814",
+        "Value": "On the dialog [2] the control [3] names a nonexistent control [4] as the next control."
+    },
+    {
+        "Id": "IDS_ERROR_2815",
+        "Value": "ControlCondition table has a row without condition for the dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2816",
+        "Value": "The EventMapping table refers to an invalid control [4] on dialog [2] for the event [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2817",
+        "Value": "The event [2] failed to set the attribute for the control [4] on dialog [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2818",
+        "Value": "In the ControlEvent table EndDialog has an unrecognized argument [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2819",
+        "Value": "Control [3] on dialog [2] needs a property linked to it."
+    },
+    {
+        "Id": "IDS_ERROR_2820",
+        "Value": "Attempted to initialize an already initialized handler."
+    },
+    {
+        "Id": "IDS_ERROR_2821",
+        "Value": "Attempted to initialize an already initialized dialog: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2822",
+        "Value": "No other method can be called on dialog [2] until all the controls are added."
+    },
+    {
+        "Id": "IDS_ERROR_2823",
+        "Value": "Attempted to initialize an already initialized control: [3] on dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2824",
+        "Value": "The dialog attribute [3] needs a record of at least [2] field(s)."
+    },
+    {
+        "Id": "IDS_ERROR_2825",
+        "Value": "The control attribute [3] needs a record of at least [2] field(s)."
+    },
+    {
+        "Id": "IDS_ERROR_2826",
+        "Value": "Control [3] on dialog [2] extends beyond the boundaries of the dialog [4] by [5] pixels."
+    },
+    {
+        "Id": "IDS_ERROR_2827",
+        "Value": "The button [4] on the radio button group [3] on dialog [2] extends beyond the boundaries of the group [5] by [6] pixels."
+    },
+    {
+        "Id": "IDS_ERROR_2828",
+        "Value": "Tried to remove control [3] from dialog [2], but the control is not part of the dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2829",
+        "Value": "Attempt to use an uninitialized dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2830",
+        "Value": "Attempt to use an uninitialized control on dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2831",
+        "Value": "The control [3] on dialog [2] does not support [5] the attribute [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2832",
+        "Value": "The dialog [2] does not support the attribute [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2833",
+        "Value": "Control [4] on dialog [3] ignored the message [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2834",
+        "Value": "The next pointers on the dialog [2] do not form a single loop."
+    },
+    {
+        "Id": "IDS_ERROR_2835",
+        "Value": "The control [2] was not found on dialog [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2836",
+        "Value": "The control [3] on the dialog [2] cannot take focus."
+    },
+    {
+        "Id": "IDS_ERROR_2837",
+        "Value": "The control [3] on dialog [2] wants the winproc to return [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2838",
+        "Value": "The item [2] in the selection table has itself as a parent."
+    },
+    {
+        "Id": "IDS_ERROR_2839",
+        "Value": "Setting the property [2] failed."
+    },
+    {
+        "Id": "IDS_ERROR_2840",
+        "Value": "Error dialog name mismatch."
+    },
+    {
+        "Id": "IDS_ERROR_2841",
+        "Value": "No OK button was found on the error dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2842",
+        "Value": "No text field was found on the error dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2843",
+        "Value": "The ErrorString attribute is not supported for standard dialogs."
+    },
+    {
+        "Id": "IDS_ERROR_2844",
+        "Value": "Cannot execute an error dialog if the Errorstring is not set."
+    },
+    {
+        "Id": "IDS_ERROR_2845",
+        "Value": "The total width of the buttons exceeds the size of the error dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2846",
+        "Value": "SetFocus did not find the required control on the error dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2847",
+        "Value": "The control [3] on dialog [2] has both the icon and the bitmap style set."
+    },
+    {
+        "Id": "IDS_ERROR_2848",
+        "Value": "Tried to set control [3] as the default button on dialog [2], but the control does not exist."
+    },
+    {
+        "Id": "IDS_ERROR_2849",
+        "Value": "The control [3] on dialog [2] is of a type, that cannot be integer valued."
+    },
+    {
+        "Id": "IDS_ERROR_2850",
+        "Value": "Unrecognized volume type."
+    },
+    {
+        "Id": "IDS_ERROR_2851",
+        "Value": "The data for the icon [2] is not valid."
+    },
+    {
+        "Id": "IDS_ERROR_2852",
+        "Value": "At least one control has to be added to dialog [2] before it is used."
+    },
+    {
+        "Id": "IDS_ERROR_2853",
+        "Value": "Dialog [2] is a modeless dialog. The execute method should not be called on it."
+    },
+    {
+        "Id": "IDS_ERROR_2854",
+        "Value": "On the dialog [2] the control [3] is designated as first active control, but there is no such control."
+    },
+    {
+        "Id": "IDS_ERROR_2855",
+        "Value": "The radio button group [3] on dialog [2] has fewer than 2 buttons."
+    },
+    {
+        "Id": "IDS_ERROR_2856",
+        "Value": "Creating a second copy of the dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2857",
+        "Value": "The directory [2] is mentioned in the selection table but not found."
+    },
+    {
+        "Id": "IDS_ERROR_2858",
+        "Value": "The data for the bitmap [2] is not valid."
+    },
+    {
+        "Id": "IDS_ERROR_2859",
+        "Value": "Test error message."
+    },
+    {
+        "Id": "IDS_ERROR_2860",
+        "Value": "Cancel button is ill-defined on dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2861",
+        "Value": "The next pointers for the radio buttons on dialog [2] control [3] do not form a cycle."
+    },
+    {
+        "Id": "IDS_ERROR_2862",
+        "Value": "The attributes for the control [3] on dialog [2] do not define a valid icon size. Setting the size to 16."
+    },
+    {
+        "Id": "IDS_ERROR_2863",
+        "Value": "The control [3] on dialog [2] needs the icon [4] in size [5]x[5], but that size is not available. Loading the first available size."
+    },
+    {
+        "Id": "IDS_ERROR_2864",
+        "Value": "The control [3] on dialog [2] received a browse event, but there is no configurable directory for the present selection. Likely cause: browse button is not authored correctly."
+    },
+    {
+        "Id": "IDS_ERROR_2865",
+        "Value": "Control [3] on billboard [2] extends beyond the boundaries of the billboard [4] by [5] pixels."
+    },
+    {
+        "Id": "IDS_ERROR_2866",
+        "Value": "The dialog [2] is not allowed to return the argument [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2867",
+        "Value": "The error dialog property is not set."
+    },
+    {
+        "Id": "IDS_ERROR_2868",
+        "Value": "The error dialog [2] does not have the error style bit set."
+    },
+    {
+        "Id": "IDS_ERROR_2869",
+        "Value": "The dialog [2] has the error style bit set, but is not an error dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2870",
+        "Value": "The help string [4] for control [3] on dialog [2] does not contain the separator character."
+    },
+    {
+        "Id": "IDS_ERROR_2871",
+        "Value": "The [2] table is out of date: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2872",
+        "Value": "The argument of the CheckPath control event on dialog [2] is invalid."
+    },
+    {
+        "Id": "IDS_ERROR_2873",
+        "Value": "On the dialog [2] the control [3] has an invalid string length limit: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2874",
+        "Value": "Changing the text font to [2] failed."
+    },
+    {
+        "Id": "IDS_ERROR_2875",
+        "Value": "Changing the text color to [2] failed."
+    },
+    {
+        "Id": "IDS_ERROR_2876",
+        "Value": "The control [3] on dialog [2] had to truncate the string: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2877",
+        "Value": "The binary data [2] was not found"
+    },
+    {
+        "Id": "IDS_ERROR_2878",
+        "Value": "On the dialog [2] the control [3] has a possible value: [4]. This is an invalid or duplicate value."
+    },
+    {
+        "Id": "IDS_ERROR_2879",
+        "Value": "The control [3] on dialog [2] cannot parse the mask string: [4]."
+    },
+    {
+        "Id": "IDS_ERROR_2880",
+        "Value": "Do not perform the remaining control events."
+    },
+    {
+        "Id": "IDS_ERROR_2881",
+        "Value": "CMsiHandler initialization failed."
+    },
+    {
+        "Id": "IDS_ERROR_2882",
+        "Value": "Dialog window class registration failed."
+    },
+    {
+        "Id": "IDS_ERROR_2883",
+        "Value": "CreateNewDialog failed for the dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2884",
+        "Value": "Failed to create a window for the dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2885",
+        "Value": "Failed to create the control [3] on the dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2886",
+        "Value": "Creating the [2] table failed."
+    },
+    {
+        "Id": "IDS_ERROR_2887",
+        "Value": "Creating a cursor to the [2] table failed."
+    },
+    {
+        "Id": "IDS_ERROR_2888",
+        "Value": "Executing the [2] view failed."
+    },
+    {
+        "Id": "IDS_ERROR_2889",
+        "Value": "Creating the window for the control [3] on dialog [2] failed."
+    },
+    {
+        "Id": "IDS_ERROR_2890",
+        "Value": "The handler failed in creating an initialized dialog."
+    },
+    {
+        "Id": "IDS_ERROR_2891",
+        "Value": "Failed to destroy window for dialog [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2892",
+        "Value": "[2] is an integer only control, [3] is not a valid integer value."
+    },
+    {
+        "Id": "IDS_ERROR_2893",
+        "Value": "The control [3] on dialog [2] can accept property values that are at most [5] characters long. The value [4] exceeds this limit, and has been truncated."
+    },
+    {
+        "Id": "IDS_ERROR_2894",
+        "Value": "Loading RICHED20.DLL failed. GetLastError() returned: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2895",
+        "Value": "Freeing RICHED20.DLL failed. GetLastError() returned: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2896",
+        "Value": "Executing action [2] failed."
+    },
+    {
+        "Id": "IDS_ERROR_2897",
+        "Value": "Failed to create any [2] font on this system."
+    },
+    {
+        "Id": "IDS_ERROR_2898",
+        "Value": "For [2] textstyle, the system created a '[3]' font, in [4] character set."
+    },
+    {
+        "Id": "IDS_ERROR_2899",
+        "Value": "Failed to create [2] textstyle. GetLastError() returned: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_29",
+        "Value": "There is not enough disk space to install the file [2].  Free some disk space and click Retry, or click Cancel to exit."
+    },
+    {
+        "Id": "IDS_ERROR_2901",
+        "Value": "Invalid parameter to operation [2]: Parameter [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2902",
+        "Value": "Operation [2] called out of sequence."
+    },
+    {
+        "Id": "IDS_ERROR_2903",
+        "Value": "The file [2] is missing."
+    },
+    {
+        "Id": "IDS_ERROR_2904",
+        "Value": "Could not BindImage file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2905",
+        "Value": "Could not read record from script file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2906",
+        "Value": "Missing header in script file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2907",
+        "Value": "Could not create secure security descriptor. Error: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2908",
+        "Value": "Could not register component [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2909",
+        "Value": "Could not unregister component [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2910",
+        "Value": "Could not determine user's security ID."
+    },
+    {
+        "Id": "IDS_ERROR_2911",
+        "Value": "Could not remove the folder [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2912",
+        "Value": "Could not schedule file [2] for removal on restart."
+    },
+    {
+        "Id": "IDS_ERROR_2919",
+        "Value": "No cabinet specified for compressed file: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2920",
+        "Value": "Source directory not specified for file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2924",
+        "Value": "Script [2] version unsupported. Script version: [3], minimum version: [4], maximum version: [5]."
+    },
+    {
+        "Id": "IDS_ERROR_2927",
+        "Value": "ShellFolder id [2] is invalid."
+    },
+    {
+        "Id": "IDS_ERROR_2928",
+        "Value": "Exceeded maximum number of sources. Skipping source '[2]'."
+    },
+    {
+        "Id": "IDS_ERROR_2929",
+        "Value": "Could not determine publishing root. Error: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2932",
+        "Value": "Could not create file [2] from script data. Error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2933",
+        "Value": "Could not initialize rollback script [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2934",
+        "Value": "Could not secure transform [2]. Error [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2935",
+        "Value": "Could not unsecure transform [2]. Error [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2936",
+        "Value": "Could not find transform [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2937",
+        "Value": "Windows Installer cannot install a system file protection catalog. Catalog: [2], Error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2938",
+        "Value": "Windows Installer cannot retrieve a system file protection catalog from the cache. Catalog: [2], Error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2939",
+        "Value": "Windows Installer cannot delete a system file protection catalog from the cache. Catalog: [2], Error: [3]."
+    },
+    {
+        "Id": "IDS_ERROR_2940",
+        "Value": "Directory Manager not supplied for source resolution."
+    },
+    {
+        "Id": "IDS_ERROR_2941",
+        "Value": "Unable to compute the CRC for file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_2942",
+        "Value": "BindImage action has not been executed on [2] file."
+    },
+    {
+        "Id": "IDS_ERROR_2943",
+        "Value": "This version of Windows does not support deploying 64-bit packages. The script [2] is for a 64-bit package."
+    },
+    {
+        "Id": "IDS_ERROR_2944",
+        "Value": "GetProductAssignmentType failed."
+    },
+    {
+        "Id": "IDS_ERROR_2945",
+        "Value": "Installation of ComPlus App [2] failed with error [3]."
+    },
+    {
+        "Id": "IDS_ERROR_3",
+        "Value": "Info [1]."
+    },
+    {
+        "Id": "IDS_ERROR_30",
+        "Value": "Source file not found: [2].  Verify that the file exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_3001",
+        "Value": "The patches in this list contain incorrect sequencing information: [2][3][4][5][6][7][8][9][10][11][12][13][14][15][16]."
+    },
+    {
+        "Id": "IDS_ERROR_3002",
+        "Value": "Patch [2] contains invalid sequencing information. "
+    },
+    {
+        "Id": "IDS_ERROR_31",
+        "Value": "Error reading from file: [3]. {{ System error [2].}}  Verify that the file exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_32",
+        "Value": "Error writing to file: [3]. {{ System error [2].}}  Verify that you have access to that directory."
+    },
+    {
+        "Id": "IDS_ERROR_33",
+        "Value": "Source file not found{{(cabinet)}}: [2].  Verify that the file exists and that you can access it."
+    },
+    {
+        "Id": "IDS_ERROR_34",
+        "Value": "Cannot create the directory [2].  A file with this name already exists.  Please rename or remove the file and click Retry, or click Cancel to exit."
+    },
+    {
+        "Id": "IDS_ERROR_35",
+        "Value": "The volume [2] is currently unavailable.  Please select another."
+    },
+    {
+        "Id": "IDS_ERROR_36",
+        "Value": "The specified path [2] is unavailable."
+    },
+    {
+        "Id": "IDS_ERROR_37",
+        "Value": "Unable to write to the specified folder [2]."
+    },
+    {
+        "Id": "IDS_ERROR_38",
+        "Value": "A network error occurred while attempting to read from the file [2]"
+    },
+    {
+        "Id": "IDS_ERROR_39",
+        "Value": "An error occurred while attempting to create the directory [2]"
+    },
+    {
+        "Id": "IDS_ERROR_4",
+        "Value": "Internal Error [1]. [2]{, [3]}{, [4]}"
+    },
+    {
+        "Id": "IDS_ERROR_40",
+        "Value": "A network error occurred while attempting to create the directory [2]"
+    },
+    {
+        "Id": "IDS_ERROR_41",
+        "Value": "A network error occurred while attempting to open the source file cabinet [2]."
+    },
+    {
+        "Id": "IDS_ERROR_42",
+        "Value": "The specified path is too long [2]."
+    },
+    {
+        "Id": "IDS_ERROR_43",
+        "Value": "The Installer has insufficient privileges to modify the file [2]."
+    },
+    {
+        "Id": "IDS_ERROR_44",
+        "Value": "A portion of the path [2] exceeds the length allowed by the system."
+    },
+    {
+        "Id": "IDS_ERROR_45",
+        "Value": "The path [2] contains words that are not valid in folders."
+    },
+    {
+        "Id": "IDS_ERROR_46",
+        "Value": "The path [2] contains an invalid character."
+    },
+    {
+        "Id": "IDS_ERROR_47",
+        "Value": "[2] is not a valid short file name."
+    },
+    {
+        "Id": "IDS_ERROR_48",
+        "Value": "Error getting file security: [3] GetLastError: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_49",
+        "Value": "Invalid Drive: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_5",
+        "Value": "{{Disk full: }}"
+    },
+    {
+        "Id": "IDS_ERROR_50",
+        "Value": "Could not create key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_51",
+        "Value": "Could not open key: [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_52",
+        "Value": "Could not delete value [2] from key [3]. {{ System error [4].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_53",
+        "Value": "Could not delete key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_54",
+        "Value": "Could not read value [2] from key [3]. {{ System error [4].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_55",
+        "Value": "Could not write value [2] to key [3]. {{ System error [4].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_56",
+        "Value": "Could not get value names for key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_57",
+        "Value": "Could not get sub key names for key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_58",
+        "Value": "Could not read security information for key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_59",
+        "Value": "Could not increase the available registry space. [2] KB of free registry space is required for the installation of this application."
+    },
+    {
+        "Id": "IDS_ERROR_6",
+        "Value": "Action [Time]: [1]. [2]"
+    },
+    {
+        "Id": "IDS_ERROR_60",
+        "Value": "Another installation is in progress. You must complete that installation before continuing this one."
+    },
+    {
+        "Id": "IDS_ERROR_61",
+        "Value": "Error accessing secured data. Please make sure the Windows Installer is configured properly and try the installation again."
+    },
+    {
+        "Id": "IDS_ERROR_62",
+        "Value": "User [2] has previously initiated an installation for product [3].  That user will need to run that installation again before using that product.  Your current installation will now continue."
+    },
+    {
+        "Id": "IDS_ERROR_63",
+        "Value": "User [2] has previously initiated an installation for product [3].  That user will need to run that installation again before using that product."
+    },
+    {
+        "Id": "IDS_ERROR_64",
+        "Value": "Out of disk space -- Volume: '[2]'; required space: [3] KB; available space: [4] KB.  Free some disk space and retry."
+    },
+    {
+        "Id": "IDS_ERROR_65",
+        "Value": "Are you sure you want to cancel?"
+    },
+    {
+        "Id": "IDS_ERROR_66",
+        "Value": "The file [2][3] is being held in use{ by the following process: Name: [4], ID: [5], Window Title: [6]}.  Close that application and retry."
+    },
+    {
+        "Id": "IDS_ERROR_67",
+        "Value": "The product [2] is already installed, preventing the installation of this product.  The two products are incompatible."
+    },
+    {
+        "Id": "IDS_ERROR_68",
+        "Value": "Out of disk space -- Volume: [2]; required space: [3] KB; available space: [4] KB.  If rollback is disabled, enough space is available. Click Cancel to quit, Retry to check available disk space again, or Ignore to continue without rollback."
+    },
+    {
+        "Id": "IDS_ERROR_69",
+        "Value": "Could not access network location [2]."
+    },
+    {
+        "Id": "IDS_ERROR_7",
+        "Value": "[ProductName]"
+    },
+    {
+        "Id": "IDS_ERROR_70",
+        "Value": "The following applications should be closed before continuing the installation:"
+    },
+    {
+        "Id": "IDS_ERROR_71",
+        "Value": "Could not find any previously installed compliant products on the machine for installing this product."
+    },
+    {
+        "Id": "IDS_ERROR_72",
+        "Value": "The key [2] is not valid.  Verify that you entered the correct key."
+    },
+    {
+        "Id": "IDS_ERROR_73",
+        "Value": "The installer must restart your system before configuration of [2] can continue.  Click Yes to restart now or No if you plan to restart later."
+    },
+    {
+        "Id": "IDS_ERROR_74",
+        "Value": "You must restart your system for the configuration changes made to [2] to take effect. Click Yes to restart now or No if you plan to restart later."
+    },
+    {
+        "Id": "IDS_ERROR_75",
+        "Value": "An installation for [2] is currently suspended.  You must undo the changes made by that installation to continue.  Do you want to undo those changes?"
+    },
+    {
+        "Id": "IDS_ERROR_76",
+        "Value": "A previous installation for this product is in progress.  You must undo the changes made by that installation to continue.  Do you want to undo those changes?"
+    },
+    {
+        "Id": "IDS_ERROR_77",
+        "Value": "No valid source could be found for product [2].  The Windows Installer cannot continue."
+    },
+    {
+        "Id": "IDS_ERROR_78",
+        "Value": "Installation operation completed successfully."
+    },
+    {
+        "Id": "IDS_ERROR_79",
+        "Value": "Installation operation failed."
+    },
+    {
+        "Id": "IDS_ERROR_8",
+        "Value": "{[2]}{, [3]}{, [4]}"
+    },
+    {
+        "Id": "IDS_ERROR_80",
+        "Value": "Product: [2] -- [3]"
+    },
+    {
+        "Id": "IDS_ERROR_81",
+        "Value": "You may either restore your computer to its previous state or continue the installation later. Would you like to restore?"
+    },
+    {
+        "Id": "IDS_ERROR_82",
+        "Value": "An error occurred while writing installation information to disk.  Check to make sure enough disk space is available, and click Retry, or Cancel to end the installation."
+    },
+    {
+        "Id": "IDS_ERROR_83",
+        "Value": "One or more of the files required to restore your computer to its previous state could not be found.  Restoration will not be possible."
+    },
+    {
+        "Id": "IDS_ERROR_84",
+        "Value": "The path [2] is not valid.  Please specify a valid path."
+    },
+    {
+        "Id": "IDS_ERROR_85",
+        "Value": "Out of memory. Shut down other applications before retrying."
+    },
+    {
+        "Id": "IDS_ERROR_86",
+        "Value": "There is no disk in drive [2]. Please insert one and click Retry, or click Cancel to go back to the previously selected volume."
+    },
+    {
+        "Id": "IDS_ERROR_87",
+        "Value": "There is no disk in drive [2]. Please insert one and click Retry, or click Cancel to return to the browse dialog and select a different volume."
+    },
+    {
+        "Id": "IDS_ERROR_88",
+        "Value": "The folder [2] does not exist.  Please enter a path to an existing folder."
+    },
+    {
+        "Id": "IDS_ERROR_89",
+        "Value": "You have insufficient privileges to read this folder."
+    },
+    {
+        "Id": "IDS_ERROR_9",
+        "Value": "Message type: [1], Argument: [2]"
+    },
+    {
+        "Id": "IDS_ERROR_90",
+        "Value": "A valid destination folder for the installation could not be determined."
+    },
+    {
+        "Id": "IDS_ERROR_91",
+        "Value": "Error attempting to read from the source installation database: [2]."
+    },
+    {
+        "Id": "IDS_ERROR_92",
+        "Value": "Scheduling reboot operation: Renaming file [2] to [3]. Must reboot to complete operation."
+    },
+    {
+        "Id": "IDS_ERROR_93",
+        "Value": "Scheduling reboot operation: Deleting file [2]. Must reboot to complete operation."
+    },
+    {
+        "Id": "IDS_ERROR_94",
+        "Value": "Module [2] failed to register.  HRESULT [3].  Contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_95",
+        "Value": "Module [2] failed to unregister.  HRESULT [3].  Contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_96",
+        "Value": "Failed to cache package [2]. Error: [3]. Contact your support personnel."
+    },
+    {
+        "Id": "IDS_ERROR_97",
+        "Value": "Could not register font [2].  Verify that you have sufficient permissions to install fonts, and that the system supports this font."
+    },
+    {
+        "Id": "IDS_ERROR_98",
+        "Value": "Could not unregister font [2]. Verify that you have sufficient permissions to remove fonts."
+    },
+    {
+        "Id": "IDS_ERROR_99",
+        "Value": "Could not create shortcut [2]. Verify that the destination folder exists and that you can access it."
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_DESCRIPTION",
+        "Value": "Downloads, executes, and uploads BOINC tasks"
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_MANAGER_DESCRIPTION",
+        "Value": "Lets you monitor and control BOINC"
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_DESCRIPTION",
+        "Value": "Localized content for the BOINC Manager"
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_NAME",
+        "Value": "BOINC Manager globalization files"
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_MANAGER_NAME",
+        "Value": "BOINCM~1|BOINC Manager"
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_SCREENSAVER_DESCRIPTION",
+        "Value": "The BOINC screensaver"
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_SCREENSAVER_NAME",
+        "Value": "BOINC Screensaver"
+    },
+    {
+        "Id": "IDS_NEXT",
+        "Value": "&Next >"
+    },
+    {
+        "Id": "IDS_OK",
+        "Value": "OK"
+    },
+    {
+        "Id": "IDS_PRODUCTNAME",
+        "Value": "[ProductName] - BOINC Installer Wizard"
+    },
+    {
+        "Id": "IDS_README_LOCATION",
+        "Value": "readme.txt"
+    },
+    {
+        "Id": "IDS_SUMMARY_DESCRIPTION",
+        "Value": "Berkeley Open Infrastructure for Network Computing (BOINC)"
+    },
+    {
+        "Id": "IDS_UITEXT_Available",
+        "Value": "Available"
+    },
+    {
+        "Id": "IDS_UITEXT_Bytes",
+        "Value": "bytes"
+    },
+    {
+        "Id": "IDS_UITEXT_CompilingFeaturesCost",
+        "Value": "Compiling cost for this feature..."
+    },
+    {
+        "Id": "IDS_UITEXT_Differences",
+        "Value": "Differences"
+    },
+    {
+        "Id": "IDS_UITEXT_DiskSize",
+        "Value": "Disk Size"
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureCompletelyRemoved",
+        "Value": "This feature will be completely removed."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureContinueNetwork",
+        "Value": "This feature will continue to be run from the network"
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureFreeSpace",
+        "Value": "This feature frees up [1] on your hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledCD",
+        "Value": "This feature, and all subfeatures, will be installed to run from the CD."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledLocal",
+        "Value": "This feature, and all subfeatures, will be installed on local hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledLocal2",
+        "Value": "This feature will be installed on local hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledNetwork",
+        "Value": "This feature, and all subfeatures, will be installed to run from the network."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledNetwork2",
+        "Value": "This feature will be installed to run from network."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledRequired",
+        "Value": "Will be installed when required."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledWhenRequired",
+        "Value": "This feature will be set to be installed when required."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureInstalledWhenRequired2",
+        "Value": "This feature will be installed when required."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureLocal",
+        "Value": "This feature will be installed on the local hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureLocal2",
+        "Value": "This feature will be installed on your local hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureNetwork",
+        "Value": "This feature will be installed to run from the network."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureNetwork2",
+        "Value": "This feature will be available to run from the network."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureNotAvailable",
+        "Value": "This feature will not be available."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureOnCD",
+        "Value": "This feature will be installed to run from CD."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureOnCD2",
+        "Value": "This feature will be available to run from CD."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureRemainLocal",
+        "Value": "This feature will remain on your local hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureRemoveNetwork",
+        "Value": "This feature will be removed from your local hard drive, but will be still available to run from the network."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureRemovedCD",
+        "Value": "This feature will be removed from your local hard drive but will still be available to run from CD."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureRemovedUnlessRequired",
+        "Value": "This feature will be removed from your local hard drive but will be set to be installed when required."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureRequiredSpace",
+        "Value": "This feature requires [1] on your hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureRunFromCD",
+        "Value": "This feature will continue to be run from the CD"
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureSpaceFree",
+        "Value": "This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureUnavailable",
+        "Value": "This feature will become unavailable."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureUninstallNoNetwork",
+        "Value": "This feature will be uninstalled completely, and you won't be able to run it from the network."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureWasCD",
+        "Value": "This feature was run from the CD but will be set to be installed when required."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureWasCDLocal",
+        "Value": "This feature was run from the CD but will be installed on the local hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureWasOnNetworkInstalled",
+        "Value": "This feature was run from the network but will be installed when required."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureWasOnNetworkLocal",
+        "Value": "This feature was run from the network but will be installed on the local hard drive."
+    },
+    {
+        "Id": "IDS_UITEXT_FeatureWillBeUninstalled",
+        "Value": "This feature will be uninstalled completely, and you won't be able to run it from CD."
+    },
+    {
+        "Id": "IDS_UITEXT_Folder",
+        "Value": "Fldr|New Folder"
+    },
+    {
+        "Id": "IDS_UITEXT_GB",
+        "Value": "GB"
+    },
+    {
+        "Id": "IDS_UITEXT_KB",
+        "Value": "KB"
+    },
+    {
+        "Id": "IDS_UITEXT_MB",
+        "Value": "MB"
+    },
+    {
+        "Id": "IDS_UITEXT_Required",
+        "Value": "Required"
+    },
+    {
+        "Id": "IDS_UITEXT_TimeRemaining",
+        "Value": "Time remaining: {[1] min }[2] sec"
+    },
+    {
+        "Id": "IDS_UITEXT_Volume",
+        "Value": "Volume"
+    },
+    {
+        "Id": "IDS__AgreeToLicense_0",
+        "Value": "I &do not accept the terms in the license agreement"
+    },
+    {
+        "Id": "IDS__AgreeToLicense_1",
+        "Value": "I &accept the terms in the license agreement"
+    },
+    {
+        "Id": "IDS__FeatueNotSupportedDlg_DialogDescription",
+        "Value": "This feature is not currently supported.  Please go back and choose a different option."
+    },
+    {
+        "Id": "IDS__FeatueNotSupportedDlg_DialogTitle",
+        "Value": "{&TahomaBold8}Feature Not Supported"
+    },
+    {
+        "Id": "IDS__IsAdminInstallBrowse_CreateFolder",
+        "Value": "Create new folder|"
+    },
+    {
+        "Id": "IDS__IsAdminInstallBrowse_UpOneLevel",
+        "Value": "Up one level|"
+    },
+    {
+        "Id": "IDS__IsAdminInstallPointWelcome_ServerImage",
+        "Value": "The BOINC Installer Wizard will create a server image of [ProductName] at a specified network location. To continue, click Next."
+    },
+    {
+        "Id": "IDS__IsAdminInstallPoint_Change",
+        "Value": "&Change..."
+    },
+    {
+        "Id": "IDS__IsAdminInstallPoint_EnterNetworkLocation",
+        "Value": "Enter the network location or click Change to browse to a location.  Click Install to create a server image of [ProductName] at the specified network location or click Cancel to exit the wizard."
+    },
+    {
+        "Id": "IDS__IsAdminInstallPoint_NetworkLocation",
+        "Value": "&Network location:"
+    },
+    {
+        "Id": "IDS__IsAdminInstallPoint_NetworkLocationFormatted",
+        "Value": "{&TahomaBold8}Network Location"
+    },
+    {
+        "Id": "IDS__IsAdminInstallPoint_SpecifyNetworkLocation",
+        "Value": "Specify a network location for the server image of the product."
+    },
+    {
+        "Id": "IDS__IsBrowseFolderDlg_BrowseDestFolder",
+        "Value": "Browse to the destination folder."
+    },
+    {
+        "Id": "IDS__IsBrowseFolderDlg_ChangeCurrentFolder",
+        "Value": "{&TahomaBold8}Change Current Destination Folder"
+    },
+    {
+        "Id": "IDS__IsBrowseFolderDlg_CreateFolder",
+        "Value": "Create New Folder|"
+    },
+    {
+        "Id": "IDS__IsBrowseFolderDlg_FolderName",
+        "Value": "&Folder name:"
+    },
+    {
+        "Id": "IDS__IsBrowseFolderDlg_LookIn",
+        "Value": "&Look in:"
+    },
+    {
+        "Id": "IDS__IsBrowseFolderDlg_UpOneLevel",
+        "Value": "Up One Level|"
+    },
+    {
+        "Id": "IDS__IsCancelDlg_ConfirmCancel",
+        "Value": "Are you sure you want to cancel [ProductName] installation?"
+    },
+    {
+        "Id": "IDS__IsCancelDlg_No",
+        "Value": "&No"
+    },
+    {
+        "Id": "IDS__IsCancelDlg_Yes",
+        "Value": "&Yes"
+    },
+    {
+        "Id": "IDS__IsDiskSpaceDlg_DiskSpace",
+        "Value": "Disk space required for the installation exceeds available disk space."
+    },
+    {
+        "Id": "IDS__IsDiskSpaceDlg_HighlightedVolumes",
+        "Value": "The highlighted volumes do not have enough disk space available for the currently selected features. You can remove files from the highlighted volumes, choose to install fewer features onto local drives, or select different destination drives."
+    },
+    {
+        "Id": "IDS__IsDiskSpaceDlg_OutOfDiskSpace",
+        "Value": "{&TahomaBold8}Out of Disk Space"
+    },
+    {
+        "Id": "IDS__IsErrorDlg_Abort",
+        "Value": "&Abort"
+    },
+    {
+        "Id": "IDS__IsErrorDlg_ErrorText",
+        "Value": "<error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here>"
+    },
+    {
+        "Id": "IDS__IsErrorDlg_Ignore",
+        "Value": "&Ignore"
+    },
+    {
+        "Id": "IDS__IsErrorDlg_InstallerInfo",
+        "Value": "[ProductName] Installer Information"
+    },
+    {
+        "Id": "IDS__IsErrorDlg_OK",
+        "Value": "&OK"
+    },
+    {
+        "Id": "IDS__IsErrorDlg_Retry",
+        "Value": "&Retry"
+    },
+    {
+        "Id": "IDS__IsExitDialog_Finish",
+        "Value": "&Finish"
+    },
+    {
+        "Id": "IDS__IsExitDialog_InstallSuccess",
+        "Value": "The BOINC Installer Wizard has successfully installed [ProductName]. Click Finish to exit the wizard."
+    },
+    {
+        "Id": "IDS__IsExitDialog_UninstallSuccess",
+        "Value": "The BOINC Installer Wizard has successfully uninstalled [ProductName]. Click Finish to exit the wizard."
+    },
+    {
+        "Id": "IDS__IsExitDialog_Update_SetupFinished",
+        "Value": "Setup has finished installing [ProductName]."
+    },
+    {
+        "Id": "IDS__IsExitDialog_WizardCompleted",
+        "Value": "{&TahomaBold10}BOINC Installer Wizard Completed"
+    },
+    {
+        "Id": "IDS__IsFatalError_NotModified",
+        "Value": "Your system has not been modified. To complete installation at another time, please run setup again."
+    },
+    {
+        "Id": "IDS__IsFeatureDetailsDlg_DiskSpaceRequirements",
+        "Value": "{&TahomaBold8}Disk Space Requirements"
+    },
+    {
+        "Id": "IDS__IsFeatureDetailsDlg_SpaceRequired",
+        "Value": "The disk space required for the installation of the selected features."
+    },
+    {
+        "Id": "IDS__IsFilesInUse_ApplicationsUsingFiles",
+        "Value": "The following applications are using files that need to be updated by this setup. Close these applications and click Retry to continue."
+    },
+    {
+        "Id": "IDS__IsFilesInUse_Exit",
+        "Value": "&Exit"
+    },
+    {
+        "Id": "IDS__IsFilesInUse_FilesInUse",
+        "Value": "{&TahomaBold8}Files in Use"
+    },
+    {
+        "Id": "IDS__IsFilesInUse_FilesInUseMessage",
+        "Value": "Some files that need to be updated are currently in use."
+    },
+    {
+        "Id": "IDS__IsInitDlg_PreparingWizard",
+        "Value": "[ProductName] Setup is preparing the BOINC Installer Wizard which will guide you through the program setup process.  Please wait."
+    },
+    {
+        "Id": "IDS__IsLicenseDlg_LicenseAgreement",
+        "Value": "{&TahomaBold8}License Agreement"
+    },
+    {
+        "Id": "IDS__IsLicenseDlg_ReadLicenseAgreement",
+        "Value": "Please read the following license agreement carefully."
+    },
+    {
+        "Id": "IDS__IsMaintenanceDlg_MaitenanceOptions",
+        "Value": "Modify, repair, or remove the program."
+    },
+    {
+        "Id": "IDS__IsMaintenanceDlg_ProgramMaintenance",
+        "Value": "{&TahomaBold8}Program Maintenance"
+    },
+    {
+        "Id": "IDS__IsMaintenanceDlg_Remove",
+        "Value": "{&TahomaBold8}&Remove"
+    },
+    {
+        "Id": "IDS__IsMaintenanceDlg_RemoveProductName",
+        "Value": "Remove [ProductName] from your computer."
+    },
+    {
+        "Id": "IDS__IsMaintenanceDlg_Repair",
+        "Value": "{&TahomaBold8}Re&pair"
+    },
+    {
+        "Id": "IDS__IsMaintenanceDlg_RepairMessage",
+        "Value": "Repair installation errors in the program. This option fixes missing or corrupt files, shortcuts, and registry entries."
+    },
+    {
+        "Id": "IDS__IsMaintenanceWelcome_MaintenanceOptionsDescription",
+        "Value": "The BOINC Installer Wizard will allow you to modify, repair, or remove [ProductName]. To continue, click Next."
+    },
+    {
+        "Id": "IDS__IsMsiRMFilesInUse_ApplicationsUsingFiles",
+        "Value": "The following applications are using files that need to be updated by this setup."
+    },
+    {
+        "Id": "IDS__IsMsiRMFilesInUse_CloseRestart",
+        "Value": "Automatically close and attempt to restart applications."
+    },
+    {
+        "Id": "IDS__IsMsiRMFilesInUse_RebootAfter",
+        "Value": "Do not close applications. (A reboot will be required.)"
+    },
+    {
+        "Id": "IDS__IsPatchDlg_PatchClickUpdate",
+        "Value": "The BOINC Installer Wizard will install the Patch for [ProductName] on your computer.  To continue, click Update."
+    },
+    {
+        "Id": "IDS__IsPatchDlg_PatchWizard",
+        "Value": "[ProductName] Patch - BOINC Installer Wizard"
+    },
+    {
+        "Id": "IDS__IsPatchDlg_Update",
+        "Value": "&Update >"
+    },
+    {
+        "Id": "IDS__IsPatchDlg_WelcomePatchWizard",
+        "Value": "{&TahomaBold10}Welcome to the Patch for [ProductName]"
+    },
+    {
+        "Id": "IDS__IsProgressDlg_Hidden",
+        "Value": "(Hidden for now)"
+    },
+    {
+        "Id": "IDS__IsProgressDlg_HiddenTimeRemaining",
+        "Value": "(Hidden for now)Estimated time remaining:"
+    },
+    {
+        "Id": "IDS__IsProgressDlg_InstallingProductName",
+        "Value": "{&TahomaBold8}Installing [ProductName]"
+    },
+    {
+        "Id": "IDS__IsProgressDlg_ProgressDone",
+        "Value": "Progress done"
+    },
+    {
+        "Id": "IDS__IsProgressDlg_SecHidden",
+        "Value": "(Hidden for now)Sec."
+    },
+    {
+        "Id": "IDS__IsProgressDlg_Status",
+        "Value": "Status:"
+    },
+    {
+        "Id": "IDS__IsProgressDlg_Uninstalling",
+        "Value": "{&TahomaBold8}Uninstalling [ProductName]"
+    },
+    {
+        "Id": "IDS__IsProgressDlg_UninstallingFeatures",
+        "Value": "The program features you selected are being uninstalled."
+    },
+    {
+        "Id": "IDS__IsProgressDlg_UninstallingFeatures2",
+        "Value": "The program features you selected are being installed."
+    },
+    {
+        "Id": "IDS__IsProgressDlg_WaitUninstall",
+        "Value": "Please wait while the BOINC Installer Wizard uninstalls [ProductName]. This may take several minutes."
+    },
+    {
+        "Id": "IDS__IsProgressDlg_WaitUninstall2",
+        "Value": "Please wait while the BOINC Installer Wizard installs [ProductName]. This may take several minutes."
+    },
+    {
+        "Id": "IDS__IsResumeDlg_ResumeSuspended",
+        "Value": "The BOINC Installer Wizard will complete the installation of [ProductName] on your computer. To continue, click Next."
+    },
+    {
+        "Id": "IDS__IsResumeDlg_Resuming",
+        "Value": "{&TahomaBold10}Upgrading [ProductName]"
+    },
+    {
+        "Id": "IDS__IsResumeDlg_WizardResume",
+        "Value": "The BOINC Installer Wizard will complete the upgrade of [ProductName] on your computer. To continue, click Next."
+    },
+    {
+        "Id": "IDS__IsUserExit_ClickFinish",
+        "Value": "Click Finish to exit the wizard."
+    },
+    {
+        "Id": "IDS__IsUserExit_KeepOrRestore",
+        "Value": "You can either keep any existing installed elements on your system to continue this installation at a later time or you can restore your system to its original state prior to the installation."
+    },
+    {
+        "Id": "IDS__IsUserExit_NotModified",
+        "Value": "Your system has not been modified. To install this program at a later time, please run the installation again."
+    },
+    {
+        "Id": "IDS__IsUserExit_RestoreOrContinue",
+        "Value": "Click Restore or Continue Later to exit the wizard."
+    },
+    {
+        "Id": "IDS__IsUserExit_WizardInterrupted",
+        "Value": "The wizard was interrupted before [ProductName] could be completely installed."
+    },
+    {
+        "Id": "IDS__IsVerifyReadyDlg_BackOrCancel",
+        "Value": "If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard."
+    },
+    {
+        "Id": "IDS__IsVerifyReadyDlg_ClickInstall",
+        "Value": "Click Install to begin the installation."
+    },
+    {
+        "Id": "IDS__IsVerifyReadyDlg_Install",
+        "Value": "&Install"
+    },
+    {
+        "Id": "IDS__IsVerifyReadyDlg_ModifyReady",
+        "Value": "{&TahomaBold8}Ready to Modify the Program"
+    },
+    {
+        "Id": "IDS__IsVerifyReadyDlg_ReadyInstall",
+        "Value": "{&TahomaBold8}Ready to Install the Program"
+    },
+    {
+        "Id": "IDS__IsVerifyReadyDlg_ReadyRepair",
+        "Value": "{&TahomaBold8}Ready to Repair the Program"
+    },
+    {
+        "Id": "IDS__IsVerifyReadyDlg_WizardReady",
+        "Value": "The wizard is ready to begin installation."
+    },
+    {
+        "Id": "IDS__IsVerifyRemoveAllDlg_ChoseRemoveProgram",
+        "Value": "You have chosen to remove the program from your system."
+    },
+    {
+        "Id": "IDS__IsVerifyRemoveAllDlg_ClickBack",
+        "Value": "If you want to review or change any settings, click Back."
+    },
+    {
+        "Id": "IDS__IsVerifyRemoveAllDlg_ClickRemove",
+        "Value": "Click Remove to remove [ProductName] from your computer. After removal, this program will no longer be available for use."
+    },
+    {
+        "Id": "IDS__IsVerifyRemoveAllDlg_Remove",
+        "Value": "&Remove"
+    },
+    {
+        "Id": "IDS__IsVerifyRemoveAllDlg_RemoveProgram",
+        "Value": "{&TahomaBold8}Remove the Program"
+    },
+    {
+        "Id": "IDS__IsWelcomeDlg_InstallProductName",
+        "Value": "The BOINC Installer Wizard will install [ProductName] on your computer. To continue, click Next."
+    },
+    {
+        "Id": "IDS__IsWelcomeDlg_WarningCopyright",
+        "Value": "WARNING: This program is protected by copyright law and international treaties."
+    },
+    {
+        "Id": "IDS__IsWelcomeDlg_WelcomeProductName",
+        "Value": "{&TahomaBold10}Welcome to the BOINC Installer Wizard for [ProductName]"
+    },
+    {
+        "Id": "IDS_STRING16",
+        "Value": "{&TahomaBold8}BOINC Configuration"
+    },
+    {
+        "Id": "IDS_STRING17",
+        "Value": "These are the current installation options"
+    },
+    {
+        "Id": "IDS_STRING24",
+        "Value": "{&TahomaBold8}Customize installation options"
+    },
+    {
+        "Id": "IDS_STRING25",
+        "Value": "Customize how BOINC is installed on your computer"
+    },
+    {
+        "Id": "IDS_STRING39",
+        "Value": "[ProductName] requires that your computer is running Windows XP or newer."
+    },
+    {
+        "Id": "IDS_STRING4",
+        "Value": "Closing any running instances of the BOINC Manager"
+    },
+    {
+        "Id": "IDS_NEW_STRING1",
+        "Value": "Advanced"
+    },
+    {
+        "Id": "IDS_NEW_STRING10",
+        "Value": "Data directory:"
+    },
+    {
+        "Id": "IDS_NEW_STRING12",
+        "Value": "Use BOINC Screensaver"
+    },
+    {
+        "Id": "IDS_NEW_STRING13",
+        "Value": "Service Install"
+    },
+    {
+        "Id": "IDS_NEW_STRING15",
+        "Value": "Allow all users on this computer to control BOINC"
+    },
+    {
+        "Id": "IDS_NEW_STRING16",
+        "Value": "[INSTALLDIR]"
+    },
+    {
+        "Id": "IDS_NEW_STRING18",
+        "Value": "[DATADIR]"
+    },
+    {
+        "Id": "IDS_NEW_STRING2",
+        "Value": "Launch the BOINC Manager"
+    },
+    {
+        "Id": "IDS_NEW_STRING27",
+        "Value": "Click Next to use these options.\nClick Advanced to customize options."
+    },
+    {
+        "Id": "IDS_NEW_STRING28",
+        "Value": "On clicking finish you will be given an option to restart your computer. Please save all unfinished work first.\nBOINC will not start until you have restarted your computer."
+    },
+    {
+        "Id": "IDS_NEW_STRING29",
+        "Value": "A BOINC component didn't get updated properly. Please run the repair tool from the \"Control Panel - Add/Remove Programs\" tool (\"Control Panel - Program Features\" tool on newer version of Windows)."
+    },
+    {
+        "Id": "IDS_NEW_STRING30",
+        "Value": "This option is now disabled by default.\nA reboot may be required."
+    },
+    {
+        "Id": "IDS_NEW_STRING31",
+        "Value": "Run project applications under an unprivileged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs)\n(A reboot may be required.)"
+    },
+    {
+        "Id": "IDS_NEW_STRING7",
+        "Value": "Program directory:"
+    }
+]

@@ -1,19 +1,20 @@
 # BOINC manager localization template
-# Copyright (C) 2021 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Nikolay Aleksandrov, 2018
 # Petko Stoyanov <masteraip@gmail.com>, 2017
+# Shimmer Blade, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
-"PO-Revision-Date: 2021-07-05 12:10+0000\n"
-"Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
-"Language-Team: Bulgarian (http://www.transifex.com/boinc/boinc/language/bg/)\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: Shimmer Blade, 2024\n"
+"Language-Team: Bulgarian (http://app.transifex.com/boinc/boinc/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -177,418 +178,424 @@ msgstr "Моля изчакайте..."
 msgid "An internal server error has occurred.\n"
 msgstr "Възникна системна грешка на сървъра.\n"
 
-#: clientgui/AdvancedFrame.cpp:101
+#: clientgui/AdvancedFrame.cpp:102
 msgid "Connected"
 msgstr "Свързан"
 
-#: clientgui/AdvancedFrame.cpp:109
+#: clientgui/AdvancedFrame.cpp:110
 msgid "Disconnected"
 msgstr "Прекъснат"
 
-#: clientgui/AdvancedFrame.cpp:327
+#: clientgui/AdvancedFrame.cpp:334
 #, c-format
 msgid "New %s window..."
 msgstr "Нов %s прозорец..."
 
-#: clientgui/AdvancedFrame.cpp:331
+#: clientgui/AdvancedFrame.cpp:338
 #, c-format
 msgid "Open another %s window"
 msgstr "Отвори друг %s прозорец"
 
-#: clientgui/AdvancedFrame.cpp:342
+#: clientgui/AdvancedFrame.cpp:349
 msgid "Select computer...\tCtrl+Shift+I"
 msgstr "Избери компютър...\tCtrl+Shift+I"
 
-#: clientgui/AdvancedFrame.cpp:343
+#: clientgui/AdvancedFrame.cpp:350
 msgid "Connect to a BOINC client on another computer"
 msgstr "Свържи се с BOINC клиент на друг компютър"
 
-#: clientgui/AdvancedFrame.cpp:347
+#: clientgui/AdvancedFrame.cpp:354
 msgid "Shut down connected client..."
 msgstr "Спри свързаният клиент..."
 
-#: clientgui/AdvancedFrame.cpp:348
+#: clientgui/AdvancedFrame.cpp:355
 msgid "Shut down the currently connected BOINC client"
 msgstr "Спиране на BOINC клиента, свързан в момента"
 
-#: clientgui/AdvancedFrame.cpp:353 clientgui/sg_BoincSimpleFrame.cpp:145
+#: clientgui/AdvancedFrame.cpp:360 clientgui/sg_BoincSimpleFrame.cpp:150
 #, c-format
 msgid "Close the %s window"
 msgstr "Затвори прозореца на %s"
 
-#: clientgui/AdvancedFrame.cpp:356 clientgui/sg_BoincSimpleFrame.cpp:148
+#: clientgui/AdvancedFrame.cpp:363 clientgui/sg_BoincSimpleFrame.cpp:153
 msgid "&Close window"
 msgstr "&Затвори прозореца"
 
-#: clientgui/AdvancedFrame.cpp:365 clientgui/AdvancedFrame.cpp:370
-#: clientgui/AdvancedFrame.cpp:375 clientgui/sg_BoincSimpleFrame.cpp:157
-#: clientgui/sg_BoincSimpleFrame.cpp:162
+#: clientgui/AdvancedFrame.cpp:372 clientgui/sg_BoincSimpleFrame.cpp:162
 #, c-format
 msgid "Exit %s"
 msgstr "Изход от %s"
 
-#: clientgui/AdvancedFrame.cpp:389 clientgui/sg_BoincSimpleFrame.cpp:176
-msgid "Preferences..."
+#: clientgui/AdvancedFrame.cpp:377 clientgui/AdvancedFrame.cpp:382
+#: clientgui/AsyncRPC.cpp:1086 clientgui/sg_BoincSimpleFrame.cpp:167
+#, c-format
+msgid "E&xit %s"
+msgstr "И&зход от %s"
+
+#: clientgui/AdvancedFrame.cpp:396 clientgui/sg_BoincSimpleFrame.cpp:181
+msgid "Preferences...\tCtrl+,"
 msgstr "Предпочитания..."
 
-#: clientgui/AdvancedFrame.cpp:398
+#: clientgui/AdvancedFrame.cpp:405
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "&Известия\tCtrl+Shift+N"
 
-#: clientgui/AdvancedFrame.cpp:399
+#: clientgui/AdvancedFrame.cpp:406
 msgid "Show notices"
 msgstr "Покажи известията"
 
-#: clientgui/AdvancedFrame.cpp:404
+#: clientgui/AdvancedFrame.cpp:411
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "&Проекти\tCtrl+Shift+P"
 
-#: clientgui/AdvancedFrame.cpp:405
+#: clientgui/AdvancedFrame.cpp:412
 msgid "Show projects"
 msgstr "Покажи проектите"
 
-#: clientgui/AdvancedFrame.cpp:410
+#: clientgui/AdvancedFrame.cpp:417
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "&Задачи\tCtrl+Shift+T"
 
-#: clientgui/AdvancedFrame.cpp:411
+#: clientgui/AdvancedFrame.cpp:418
 msgid "Show tasks"
 msgstr "Покажи задачите"
 
-#: clientgui/AdvancedFrame.cpp:416
+#: clientgui/AdvancedFrame.cpp:423
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "Транс&фери\tCtrl+Shift+X"
 
-#: clientgui/AdvancedFrame.cpp:417
+#: clientgui/AdvancedFrame.cpp:424
 msgid "Show file transfers"
 msgstr "Покажи трансферите на файлове"
 
-#: clientgui/AdvancedFrame.cpp:422
+#: clientgui/AdvancedFrame.cpp:429
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "&Статистика\tCtrl+Shift+S"
 
-#: clientgui/AdvancedFrame.cpp:423
+#: clientgui/AdvancedFrame.cpp:430
 msgid "Show statistics"
 msgstr "Покажи статистиката"
 
-#: clientgui/AdvancedFrame.cpp:428
+#: clientgui/AdvancedFrame.cpp:435
 msgid "&Disk\tCtrl+Shift+D"
 msgstr "&Диск\tCtrl+Shift+D"
 
-#: clientgui/AdvancedFrame.cpp:429
+#: clientgui/AdvancedFrame.cpp:436
 msgid "Show disk usage"
 msgstr "Покажи потреблението на диска"
 
-#: clientgui/AdvancedFrame.cpp:436
+#: clientgui/AdvancedFrame.cpp:443
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Опростен &изглед...\tCtrl+Shift+V"
 
-#: clientgui/AdvancedFrame.cpp:437
+#: clientgui/AdvancedFrame.cpp:444
 msgid "Switch to the Simple View"
 msgstr "Смени на Опростен изглед"
 
-#: clientgui/AdvancedFrame.cpp:451 clientgui/AdvancedFrame.cpp:475
-#: clientgui/sg_BoincSimpleFrame.cpp:231 clientgui/sg_BoincSimpleFrame.cpp:255
+#: clientgui/AdvancedFrame.cpp:458 clientgui/AdvancedFrame.cpp:482
+#: clientgui/sg_BoincSimpleFrame.cpp:236 clientgui/sg_BoincSimpleFrame.cpp:260
 msgid "&Add project..."
 msgstr "&Добави проект..."
 
-#: clientgui/AdvancedFrame.cpp:452 clientgui/AdvancedFrame.cpp:476
-#: clientgui/sg_BoincSimpleFrame.cpp:232 clientgui/sg_BoincSimpleFrame.cpp:256
+#: clientgui/AdvancedFrame.cpp:459 clientgui/AdvancedFrame.cpp:483
+#: clientgui/sg_BoincSimpleFrame.cpp:237 clientgui/sg_BoincSimpleFrame.cpp:261
 msgid "Add a project"
 msgstr "Добави проект"
 
-#: clientgui/AdvancedFrame.cpp:456 clientgui/sg_BoincSimpleFrame.cpp:236
+#: clientgui/AdvancedFrame.cpp:463 clientgui/sg_BoincSimpleFrame.cpp:241
 msgid "&Use account manager..."
 msgstr "&Използвай акаунт мениджър..."
 
-#: clientgui/AdvancedFrame.cpp:457 clientgui/sg_BoincSimpleFrame.cpp:237
+#: clientgui/AdvancedFrame.cpp:464 clientgui/sg_BoincSimpleFrame.cpp:242
 msgid "Use an account manager to control this computer."
 msgstr "Използвай акаунт мениджър, за да контролираш този компютър."
 
-#: clientgui/AdvancedFrame.cpp:461 clientgui/sg_BoincSimpleFrame.cpp:241
+#: clientgui/AdvancedFrame.cpp:468 clientgui/sg_BoincSimpleFrame.cpp:246
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Синхронизирай с %s"
 
-#: clientgui/AdvancedFrame.cpp:465 clientgui/sg_BoincSimpleFrame.cpp:245
+#: clientgui/AdvancedFrame.cpp:472 clientgui/sg_BoincSimpleFrame.cpp:250
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Вземи текущите настройки от %s"
 
-#: clientgui/AdvancedFrame.cpp:479 clientgui/sg_BoincSimpleFrame.cpp:259
+#: clientgui/AdvancedFrame.cpp:486 clientgui/sg_BoincSimpleFrame.cpp:264
 #, c-format
 msgid "S&top using %s..."
 msgstr "С&при да използваш %s..."
 
-#: clientgui/AdvancedFrame.cpp:485 clientgui/sg_BoincSimpleFrame.cpp:265
+#: clientgui/AdvancedFrame.cpp:492 clientgui/sg_BoincSimpleFrame.cpp:270
 msgid "Remove this computer from account manager control."
 msgstr "Премахни този компютър от контрола на акаунт мениджъра."
 
-#: clientgui/AdvancedFrame.cpp:491
+#: clientgui/AdvancedFrame.cpp:498
 msgid "Run CPU &benchmarks"
 msgstr "Стартирай CPU &тест"
 
-#: clientgui/AdvancedFrame.cpp:492
+#: clientgui/AdvancedFrame.cpp:499
 msgid "Run tests that measure CPU speed"
 msgstr "Стартира тестове, които измерват скоростта на централния процесор"
 
-#: clientgui/AdvancedFrame.cpp:496
+#: clientgui/AdvancedFrame.cpp:503
 msgid "Retry pending transfers"
 msgstr "Опитай отново предстоящите трансфери"
 
-#: clientgui/AdvancedFrame.cpp:497
+#: clientgui/AdvancedFrame.cpp:504
 msgid "Retry deferred file transfers and task requests"
 msgstr "Опитай отново отложените трансфери и заявки за задачи"
 
-#: clientgui/AdvancedFrame.cpp:502 clientgui/sg_BoincSimpleFrame.cpp:271
+#: clientgui/AdvancedFrame.cpp:509 clientgui/sg_BoincSimpleFrame.cpp:276
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Регистър на събитията...\tCtrl+Shift+E"
 
-#: clientgui/AdvancedFrame.cpp:503
+#: clientgui/AdvancedFrame.cpp:510
 msgid "Show diagnostic messages"
 msgstr "Покажи диагностичните съобщения"
 
-#: clientgui/AdvancedFrame.cpp:511
+#: clientgui/AdvancedFrame.cpp:518
 msgid "&Run always"
 msgstr "&Работи винаги"
 
-#: clientgui/AdvancedFrame.cpp:512
+#: clientgui/AdvancedFrame.cpp:519
 msgid "Allow work regardless of preferences"
 msgstr "Разрешава работа независимо от предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:516
+#: clientgui/AdvancedFrame.cpp:523
 msgid "Run based on &preferences"
 msgstr "Работи на база на &предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:517
+#: clientgui/AdvancedFrame.cpp:524
 msgid "Allow work according to preferences"
 msgstr "Разрешава работа според предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:521
+#: clientgui/AdvancedFrame.cpp:528
 msgid "&Suspend"
 msgstr "&Временно прекрати"
 
-#: clientgui/AdvancedFrame.cpp:522
+#: clientgui/AdvancedFrame.cpp:529
 msgid "Stop work regardless of preferences"
 msgstr "Спира работа независимо от предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:547
+#: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU always"
 msgstr "Използвай GPU винаги"
 
-#: clientgui/AdvancedFrame.cpp:548
+#: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work regardless of preferences"
 msgstr "Разрешава GPU работа независимо от предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:552
+#: clientgui/AdvancedFrame.cpp:559
 msgid "Use GPU based on preferences"
 msgstr "Използвай GPU на база на предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:553
+#: clientgui/AdvancedFrame.cpp:560
 msgid "Allow GPU work according to preferences"
 msgstr "Разрешава GPU работа според предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:557
+#: clientgui/AdvancedFrame.cpp:564
 msgid "Suspend GPU"
 msgstr "Временно прекрати GPU"
 
-#: clientgui/AdvancedFrame.cpp:558
+#: clientgui/AdvancedFrame.cpp:565
 msgid "Stop GPU work regardless of preferences"
 msgstr "Спира GPU работа независимо от предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:582
+#: clientgui/AdvancedFrame.cpp:589
 msgid "Network activity always"
 msgstr "Винаги позволена мрежова активност"
 
-#: clientgui/AdvancedFrame.cpp:583
+#: clientgui/AdvancedFrame.cpp:590
 msgid "Allow network activity regardless of preferences"
 msgstr "Разрешава връзка по мрежата независимо от предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:587
+#: clientgui/AdvancedFrame.cpp:594
 msgid "Network activity based on preferences"
 msgstr "Мрежова активност на база на предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:588
+#: clientgui/AdvancedFrame.cpp:595
 msgid "Allow network activity according to preferences"
 msgstr "Разрешава мрежова активност според предпочитанията"
 
-#: clientgui/AdvancedFrame.cpp:592
+#: clientgui/AdvancedFrame.cpp:599
 msgid "Suspend network activity"
 msgstr "Спри временно мрежовата активност"
 
-#: clientgui/AdvancedFrame.cpp:593
+#: clientgui/AdvancedFrame.cpp:600
 msgid "Stop network activity"
 msgstr "Забранява мрежовата активност"
 
-#: clientgui/AdvancedFrame.cpp:602 clientgui/sg_BoincSimpleFrame.cpp:216
+#: clientgui/AdvancedFrame.cpp:609 clientgui/sg_BoincSimpleFrame.cpp:221
 msgid "Computing &preferences..."
 msgstr "Предпочитания за изчисление..."
 
-#: clientgui/AdvancedFrame.cpp:603 clientgui/sg_BoincSimpleFrame.cpp:217
+#: clientgui/AdvancedFrame.cpp:610 clientgui/sg_BoincSimpleFrame.cpp:222
 msgid "Configure computing preferences"
 msgstr "Настройте своите предпочитания за изчисление"
 
-#: clientgui/AdvancedFrame.cpp:608
+#: clientgui/AdvancedFrame.cpp:615
 msgid "Exclusive applications..."
 msgstr "Ексклузивни приложения..."
 
-#: clientgui/AdvancedFrame.cpp:609
+#: clientgui/AdvancedFrame.cpp:616
 msgid "Configure exclusive applications"
 msgstr "Настройка на ексклузивните приложения"
 
-#: clientgui/AdvancedFrame.cpp:614
+#: clientgui/AdvancedFrame.cpp:621
 msgid "Select columns..."
 msgstr "Изберете колони..."
 
-#: clientgui/AdvancedFrame.cpp:615
+#: clientgui/AdvancedFrame.cpp:622
 msgid "Select which columns to display"
 msgstr "Изберете кои колони да се показват"
 
-#: clientgui/AdvancedFrame.cpp:619
+#: clientgui/AdvancedFrame.cpp:626
 msgid "Event Log options...\tCtrl+Shift+F"
 msgstr "Опции на Регистъра на Събития...\tCtrl+Shift+F"
 
-#: clientgui/AdvancedFrame.cpp:620
+#: clientgui/AdvancedFrame.cpp:627
 msgid "Enable or disable various diagnostic messages"
 msgstr "Включване или изключване на разнообразни диагностични съобщения"
 
-#: clientgui/AdvancedFrame.cpp:624 clientgui/sg_BoincSimpleFrame.cpp:222
+#: clientgui/AdvancedFrame.cpp:631 clientgui/sg_BoincSimpleFrame.cpp:227
 msgid "&Other options..."
 msgstr "&Други опции..."
 
-#: clientgui/AdvancedFrame.cpp:625
+#: clientgui/AdvancedFrame.cpp:632
 msgid "Configure display options and network settings"
 msgstr "Конфигурация на опциите за визуализация и настройките на мрежата"
 
-#: clientgui/AdvancedFrame.cpp:630
+#: clientgui/AdvancedFrame.cpp:637
 msgid "Read config files"
 msgstr "Прочети конфигурационните файлове"
 
-#: clientgui/AdvancedFrame.cpp:631
+#: clientgui/AdvancedFrame.cpp:638
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "Прочети конфигурационната информация от файловете cc_config.xml и app_config.xml"
 
-#: clientgui/AdvancedFrame.cpp:635
+#: clientgui/AdvancedFrame.cpp:642
 msgid "Read local prefs file"
 msgstr "Прочети файла с локални предпочитания"
 
-#: clientgui/AdvancedFrame.cpp:636
+#: clientgui/AdvancedFrame.cpp:643
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Прочети предпочитанията от файла global_prefs_override.xml."
 
-#: clientgui/AdvancedFrame.cpp:644 clientgui/sg_BoincSimpleFrame.cpp:279
+#: clientgui/AdvancedFrame.cpp:651 clientgui/sg_BoincSimpleFrame.cpp:284
 #, c-format
 msgid "%s &help"
 msgstr "%s &помощ"
 
-#: clientgui/AdvancedFrame.cpp:648 clientgui/sg_BoincSimpleFrame.cpp:283
+#: clientgui/AdvancedFrame.cpp:655 clientgui/sg_BoincSimpleFrame.cpp:288
 #, c-format
 msgid "Show information about %s"
 msgstr "Покажи информацията за %s"
 
-#: clientgui/AdvancedFrame.cpp:658 clientgui/sg_BoincSimpleFrame.cpp:293
+#: clientgui/AdvancedFrame.cpp:665 clientgui/sg_BoincSimpleFrame.cpp:298
 #, c-format
 msgid "&%s help"
 msgstr "&%s помощ"
 
-#: clientgui/AdvancedFrame.cpp:662 clientgui/sg_BoincSimpleFrame.cpp:297
+#: clientgui/AdvancedFrame.cpp:669 clientgui/sg_BoincSimpleFrame.cpp:302
 #, c-format
 msgid "Show information about the %s"
 msgstr "Покажи информацията за %s"
 
-#: clientgui/AdvancedFrame.cpp:673 clientgui/sg_BoincSimpleFrame.cpp:307
+#: clientgui/AdvancedFrame.cpp:680 clientgui/sg_BoincSimpleFrame.cpp:312
 #, c-format
 msgid "%s &web site"
 msgstr "%s &уеб сайт"
 
-#: clientgui/AdvancedFrame.cpp:677
+#: clientgui/AdvancedFrame.cpp:684
 #, c-format
 msgid "See more information about %s on the web"
 msgstr "Виж повече информация за %s в интернет"
 
-#: clientgui/AdvancedFrame.cpp:688 clientgui/AdvancedFrame.cpp:692
-#: clientgui/sg_BoincSimpleFrame.cpp:322 clientgui/sg_BoincSimpleFrame.cpp:326
+#: clientgui/AdvancedFrame.cpp:695 clientgui/AdvancedFrame.cpp:699
+#: clientgui/sg_BoincSimpleFrame.cpp:327 clientgui/sg_BoincSimpleFrame.cpp:331
 #, c-format
 msgid "Check for new %s version"
 msgstr "Провери за нова %sверсия"
 
-#: clientgui/AdvancedFrame.cpp:704 clientgui/sg_BoincSimpleFrame.cpp:338
+#: clientgui/AdvancedFrame.cpp:711 clientgui/sg_BoincSimpleFrame.cpp:343
 msgid "Report Issue"
-msgstr ""
+msgstr "Съобщи за проблем"
 
-#: clientgui/AdvancedFrame.cpp:705 clientgui/sg_BoincSimpleFrame.cpp:339
+#: clientgui/AdvancedFrame.cpp:712 clientgui/sg_BoincSimpleFrame.cpp:344
 msgid "Report bug or enhancement request"
-msgstr ""
+msgstr "Докладване на грешка или заявка за подобрения"
 
-#: clientgui/AdvancedFrame.cpp:710 clientgui/BOINCTaskBar.cpp:530
-#: clientgui/sg_BoincSimpleFrame.cpp:344
+#: clientgui/AdvancedFrame.cpp:717 clientgui/BOINCTaskBar.cpp:564
+#: clientgui/sg_BoincSimpleFrame.cpp:349
 #, c-format
 msgid "&About %s..."
 msgstr "&Относно %s..."
 
-#: clientgui/AdvancedFrame.cpp:716 clientgui/sg_BoincSimpleFrame.cpp:350
+#: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:355
 msgid "Licensing and copyright information."
 msgstr "Информация за лицензи и авторски права."
 
-#: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:357
+#: clientgui/AdvancedFrame.cpp:730 clientgui/sg_BoincSimpleFrame.cpp:362
 msgid "&File"
 msgstr "&Файл"
 
-#: clientgui/AdvancedFrame.cpp:727 clientgui/sg_BoincSimpleFrame.cpp:361
+#: clientgui/AdvancedFrame.cpp:734 clientgui/sg_BoincSimpleFrame.cpp:366
 msgid "&View"
 msgstr "&Изглед"
 
-#: clientgui/AdvancedFrame.cpp:731
+#: clientgui/AdvancedFrame.cpp:738
 msgid "&Activity"
 msgstr "&Дейност"
 
-#: clientgui/AdvancedFrame.cpp:735 clientgui/sg_BoincSimpleFrame.cpp:365
+#: clientgui/AdvancedFrame.cpp:742 clientgui/sg_BoincSimpleFrame.cpp:370
 msgid "&Options"
 msgstr "&Опции"
 
-#: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:369
+#: clientgui/AdvancedFrame.cpp:746 clientgui/sg_BoincSimpleFrame.cpp:374
 msgid "&Tools"
 msgstr "И&нструменти"
 
-#: clientgui/AdvancedFrame.cpp:743 clientgui/sg_BoincSimpleFrame.cpp:373
-#: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
+#: clientgui/AdvancedFrame.cpp:750 clientgui/DlgAdvPreferencesBase.cpp:202
+#: clientgui/DlgExclusiveApps.cpp:157 clientgui/sg_BoincSimpleFrame.cpp:378
+#: clientgui/sg_DlgPreferences.cpp:371 clientgui/wizardex.cpp:383
+#: clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "&Помощ"
 
-#: clientgui/AdvancedFrame.cpp:1348
+#: clientgui/AdvancedFrame.cpp:1358
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Спри текущия клиент..."
 
-#: clientgui/AdvancedFrame.cpp:1357
+#: clientgui/AdvancedFrame.cpp:1367
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr "%s ще изключи текущия клиент\nи ще ви предложи да се свържете към друг хост."
 
-#: clientgui/AdvancedFrame.cpp:1747 clientgui/DlgAbout.cpp:121
+#: clientgui/AdvancedFrame.cpp:1757 clientgui/DlgAbout.cpp:121
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1757
+#: clientgui/AdvancedFrame.cpp:1767
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s успешно добави %s"
 
-#: clientgui/AdvancedFrame.cpp:1904
+#: clientgui/AdvancedFrame.cpp:1914
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1908
+#: clientgui/AdvancedFrame.cpp:1918
 #, c-format
 msgid "Connecting to %s"
 msgstr "Свързване към %s"
 
-#: clientgui/AdvancedFrame.cpp:1911
+#: clientgui/AdvancedFrame.cpp:1921
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Свързан към %s (%s)"
@@ -617,73 +624,71 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr "Акаунт с този имейл адрес вече съществува и има\nразлична парола от тази, която въведохте.\n\nМоля, посетете уеб сайта на проекта и следвайте инструкциите там."
 
-#: clientgui/AsyncRPC.cpp:1037
+#: clientgui/AsyncRPC.cpp:1081
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Комуникация с BOINC клиент.  Моля изчакайте ..."
 
-#: clientgui/AsyncRPC.cpp:1040
+#: clientgui/AsyncRPC.cpp:1084
 #, c-format
 msgid "&Quit %s"
 msgstr "&Изход%s"
 
-#: clientgui/AsyncRPC.cpp:1042
-#, c-format
-msgid "E&xit %s"
-msgstr "И&зход от %s"
-
-#: clientgui/AsyncRPC.cpp:1046
+#: clientgui/AsyncRPC.cpp:1090
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Комуникация"
 
-#: clientgui/AsyncRPC.cpp:1062 clientgui/DlgAdvPreferencesBase.cpp:183
+#: clientgui/AsyncRPC.cpp:1106 clientgui/DlgAdvPreferencesBase.cpp:195
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
-#: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:360
+#: clientgui/DlgExitMessage.cpp:190 clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgHiddenColumns.cpp:108 clientgui/DlgOptions.cpp:445
+#: clientgui/DlgSelectComputer.cpp:168 clientgui/sg_DlgPreferences.cpp:361
+#: clientgui/wizardex.cpp:387
 msgid "Cancel"
 msgstr "Отказ"
 
-#: clientgui/BOINCBaseFrame.cpp:495
+#: clientgui/BOINCBaseFrame.cpp:506
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - Грешка при Връзката"
 
-#: clientgui/BOINCBaseFrame.cpp:550
+#: clientgui/BOINCBaseFrame.cpp:561
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - Неуспешно Свързване"
 
-#: clientgui/BOINCBaseFrame.cpp:559
+#: clientgui/BOINCBaseFrame.cpp:570
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr "%s не успява да се свърже с %s клиент.\nИскате ли да опитате да се свържете отново?"
 
-#: clientgui/BOINCBaseFrame.cpp:595
+#: clientgui/BOINCBaseFrame.cpp:606
 #, c-format
 msgid "%s - Daemon Start Failed"
 msgstr "%s - Демон Неуспешно Стартиране"
 
-#: clientgui/BOINCBaseFrame.cpp:605
+#: clientgui/BOINCBaseFrame.cpp:616
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
-msgstr "%s не успява да стартира %s клиент.\nМоля стартирайте приложението Control Panel->Administrative Tools->Services и от там стартирайте BOINC сервиза."
+"Please launch the Control Panel->Administrative Tools->Services applet and start the BOINC service."
+msgstr "%s не успява да стартира %s клиент.\nМоля, стартирайте приложението Control Panel->Administrative Tools->Services и от там стартирайте BOINC услугата."
 
-#: clientgui/BOINCBaseFrame.cpp:611
+#: clientgui/BOINCBaseFrame.cpp:622
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please run the client and try again."
-msgstr ""
+msgstr "%s не успява да стартира %s клиент.\nМоля, стартирайте клиента и опитайте отново."
 
-#: clientgui/BOINCBaseFrame.cpp:657
+#: clientgui/BOINCBaseFrame.cpp:668
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - Статус на Връзката"
 
-#: clientgui/BOINCBaseFrame.cpp:668
+#: clientgui/BOINCBaseFrame.cpp:679
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -691,12 +696,12 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr "%s в момента не е свързан към %s клиент.\nМоля използвайте 'За напреднали\\Избери Компютър...' меню опцията, за да се свържете към %s client.\nЗа да се свържете към локалния Ви компютър моля използвайте 'localhost' за име на хоста."
 
-#: clientgui/BOINCBaseFrame.cpp:983
+#: clientgui/BOINCBaseFrame.cpp:994
 #, c-format
 msgid "%s - Stop using %s"
 msgstr "%s - Спри да използваш %s"
 
-#: clientgui/BOINCBaseFrame.cpp:988
+#: clientgui/BOINCBaseFrame.cpp:999
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -707,16 +712,16 @@ msgid ""
 msgstr "Ако спрете да използвате %s,\nще запазите всички текущи проекти,\nно ще трябва да ги управлявате ръчно.\n\nИскате ли да спрете да използвате %s?"
 
 #. Create the web sites task group
-#: clientgui/BOINCBaseView.cpp:781
+#: clientgui/BOINCBaseView.cpp:789
 msgid "Project web pages"
 msgstr "Уеб страници на проекта"
 
-#: clientgui/BOINCClientManager.cpp:532
+#: clientgui/BOINCClientManager.cpp:539
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - Неочакван Изход"
 
-#: clientgui/BOINCClientManager.cpp:542
+#: clientgui/BOINCClientManager.cpp:549
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -728,46 +733,46 @@ msgstr "Клиента %s се изключи неочаквано 3 пъти з
 msgid "%s - Network Status"
 msgstr "%s - Статус на Връзката"
 
-#: clientgui/BOINCDialupManager.cpp:240
+#: clientgui/BOINCDialupManager.cpp:237
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr "%s трябва да се свърже с Интернет.\nМоже ли да го направи сега?"
 
-#: clientgui/BOINCDialupManager.cpp:253
+#: clientgui/BOINCDialupManager.cpp:250
 #, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s се свързва към Интернет."
 
-#: clientgui/BOINCDialupManager.cpp:302
+#: clientgui/BOINCDialupManager.cpp:299
 #, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s успя да се свърже към Интернет."
 
-#: clientgui/BOINCDialupManager.cpp:330
+#: clientgui/BOINCDialupManager.cpp:327
 #, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s не успя да се свърже към Интернет."
 
-#: clientgui/BOINCDialupManager.cpp:371
+#: clientgui/BOINCDialupManager.cpp:368
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr "%s установи, че сега е свързан към Интернет.\nОбновяване на всички проекти и възстановяване на всички трансфери."
 
-#: clientgui/BOINCDialupManager.cpp:416
+#: clientgui/BOINCDialupManager.cpp:413
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s успя да прекъсне връзката с Интернет."
 
-#: clientgui/BOINCDialupManager.cpp:432
+#: clientgui/BOINCDialupManager.cpp:429
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s не успя да прекъсне връзката с Интернет."
 
-#: clientgui/BOINCGUIApp.cpp:340
+#: clientgui/BOINCGUIApp.cpp:390
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -776,172 +781,164 @@ msgid ""
 "- reinstall %s answering \"Yes\" to the question about non-administrative users\n"
 " or\n"
 "- contact your administrator to add you to the 'boinc_master' user group."
-msgstr ""
+msgstr "В момента не сте оторизиран да управлявате %s.\n\nЗа да стартирате %s като такъв потребител, моля:\n- преинсталирайте %s като отговорите \"Да\" на въпроса за\nпотребители, които не са администратори\nили\n- се свържете с вашия администратор за да Ви добави към\n'boinc_master' потребителската група."
 
-#: clientgui/BOINCGUIApp.cpp:348
+#: clientgui/BOINCGUIApp.cpp:398
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "%s собственост или разрешения не са настроени правилно; моля преинсталирайте %s.\n(Код за грешка %d"
 
-#: clientgui/BOINCGUIApp.cpp:354
+#: clientgui/BOINCGUIApp.cpp:404
 msgid " at "
 msgstr " @ "
 
-#: clientgui/BOINCGUIApp.cpp:357 clientgui/MainDocument.cpp:2521
-#: clientgui/MainDocument.cpp:2580 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:407 clientgui/MainDocument.cpp:2636
+#: clientgui/MainDocument.cpp:2695 clientgui/ViewTransfers.cpp:922
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:387
+#: clientgui/BOINCGUIApp.cpp:437
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "За да работи правилно BOINC се нуждае от рестартиране.\nМоля рестартирайте Вашия компютър и опитайте отново."
 
-#: clientgui/BOINCGUIApp.cpp:388 clientgui/DlgAbout.cpp:158
+#: clientgui/BOINCGUIApp.cpp:438 clientgui/BOINCGUIApp.cpp:467
+#: clientgui/DlgAbout.cpp:158
 msgid "BOINC Manager"
 msgstr "BOINC Мениджър"
 
-#: clientgui/BOINCGUIApp.cpp:604
+#: clientgui/BOINCGUIApp.cpp:466
+msgid "Another instance of BOINC Manager is already running."
+msgstr "Друга инстанция на BOINC Manager вече работи."
+
+#: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Мениджър бе стартиран от операционната система автоматично"
 
-#: clientgui/BOINCGUIApp.cpp:606
+#: clientgui/BOINCGUIApp.cpp:666
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Стартирай BOINC така че само иконата в системната лента да е видима"
 
-#: clientgui/BOINCGUIApp.cpp:608
+#: clientgui/BOINCGUIApp.cpp:668
 msgid "Directory containing the BOINC Client executable"
 msgstr "Папка съдържаща изпълнимия BOINC Клиент файл"
 
-#: clientgui/BOINCGUIApp.cpp:609
+#: clientgui/BOINCGUIApp.cpp:669
 msgid "BOINC data directory"
 msgstr "Папка с BOINC данни"
 
-#: clientgui/BOINCGUIApp.cpp:611
+#: clientgui/BOINCGUIApp.cpp:671
 msgid "Host name or IP address"
 msgstr "Име на хоста или IP адрес"
 
-#: clientgui/BOINCGUIApp.cpp:612
+#: clientgui/BOINCGUIApp.cpp:672
 msgid "GUI RPC port number"
 msgstr "GUI RPC номер на порт"
 
-#: clientgui/BOINCGUIApp.cpp:613
+#: clientgui/BOINCGUIApp.cpp:673
 msgid "Password"
 msgstr "Парола"
 
-#: clientgui/BOINCGUIApp.cpp:614
+#: clientgui/BOINCGUIApp.cpp:674
 msgid "Startup BOINC with these optional arguments"
 msgstr "Стартирай BOINC с тези аргументи по избор"
 
-#: clientgui/BOINCGUIApp.cpp:615
+#: clientgui/BOINCGUIApp.cpp:675
 msgid "disable BOINC security users and permissions"
 msgstr "изключи BOINC защитени потребители и разрешения"
 
-#: clientgui/BOINCGUIApp.cpp:616
+#: clientgui/BOINCGUIApp.cpp:676
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "задайте режим на отстраняване на грешки за да позволите съобщения за грешки от мениджърa"
 
-#: clientgui/BOINCGUIApp.cpp:617
+#: clientgui/BOINCGUIApp.cpp:677
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "позволени множество прозорци на BOINC Мениджъра"
 
-#: clientgui/BOINCGUIApp.cpp:619
+#: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Не се използва: заобиколно решение за бъг в XCode 4.2"
 
-#: clientgui/BOINCGUIApp.cpp:621
+#: clientgui/BOINCGUIApp.cpp:681
 msgid "Don't run the client"
-msgstr ""
+msgstr "Не стартирайте клиента"
 
-#. These are just special tags so deal with them in a special way
-#: clientgui/BOINCGUIApp.cpp:890
-msgid "(Automatic Detection)"
-msgstr "(Автоматично Разпознаване)"
-
-#: clientgui/BOINCGUIApp.cpp:891
-msgid "(Unknown)"
-msgstr "(Непознат)"
-
-#: clientgui/BOINCGUIApp.cpp:892
-msgid "(User Defined)"
-msgstr "(Дефиниран от Потребителя)"
-
-#: clientgui/BOINCTaskBar.cpp:508
+#: clientgui/BOINCTaskBar.cpp:542
 #, c-format
 msgid "Open %s Web..."
 msgstr "Отвори %s Интернет страница..."
 
-#: clientgui/BOINCTaskBar.cpp:515
+#: clientgui/BOINCTaskBar.cpp:549
 #, c-format
 msgid "Open %s..."
 msgstr "Отвори %s..."
 
-#: clientgui/BOINCTaskBar.cpp:522 clientgui/BOINCTaskBar.cpp:620
-#: clientgui/BOINCTaskBar.cpp:625
+#: clientgui/BOINCTaskBar.cpp:556 clientgui/BOINCTaskBar.cpp:654
+#: clientgui/BOINCTaskBar.cpp:659
 msgid "Snooze"
 msgstr "Почивка"
 
-#: clientgui/BOINCTaskBar.cpp:524 clientgui/BOINCTaskBar.cpp:639
-#: clientgui/BOINCTaskBar.cpp:644
+#: clientgui/BOINCTaskBar.cpp:558 clientgui/BOINCTaskBar.cpp:673
+#: clientgui/BOINCTaskBar.cpp:678
 msgid "Snooze GPU"
 msgstr "Почивка за GPU"
 
-#: clientgui/BOINCTaskBar.cpp:542
+#: clientgui/BOINCTaskBar.cpp:576
 msgid "E&xit"
 msgstr "И&зход"
 
-#: clientgui/BOINCTaskBar.cpp:615 clientgui/ViewProjects.cpp:788
-#: clientgui/ViewWork.cpp:874 clientgui/sg_BoincSimpleFrame.cpp:957
+#: clientgui/BOINCTaskBar.cpp:649 clientgui/ViewProjects.cpp:788
+#: clientgui/ViewWork.cpp:975 clientgui/sg_BoincSimpleFrame.cpp:1014
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
 msgstr "Възобнови работа"
 
-#: clientgui/BOINCTaskBar.cpp:635
+#: clientgui/BOINCTaskBar.cpp:669
 msgid "Resume GPU"
 msgstr "Възобнови GPU работа"
 
-#: clientgui/BOINCTaskBar.cpp:706
+#: clientgui/BOINCTaskBar.cpp:740
 msgid "Computing is enabled"
 msgstr "Изчисленията са позволени"
 
-#: clientgui/BOINCTaskBar.cpp:710
+#: clientgui/BOINCTaskBar.cpp:744
 msgid "Computing is suspended - "
 msgstr "Изчисленията за временно прекратени - "
 
-#: clientgui/BOINCTaskBar.cpp:720
+#: clientgui/BOINCTaskBar.cpp:754
 msgid "GPU computing is enabled"
 msgstr "GPU изчисленията са позволени"
 
-#: clientgui/BOINCTaskBar.cpp:723
+#: clientgui/BOINCTaskBar.cpp:757
 msgid "GPU computing is suspended - "
 msgstr "GPU изчисленията са временно прекратени - "
 
-#: clientgui/BOINCTaskBar.cpp:732
+#: clientgui/BOINCTaskBar.cpp:766
 msgid "Network is enabled"
 msgstr "Мрежата е активирана"
 
-#: clientgui/BOINCTaskBar.cpp:735
+#: clientgui/BOINCTaskBar.cpp:769
 msgid "Network is suspended - "
 msgstr "Мрежата е временно деактивирана - "
 
-#: clientgui/BOINCTaskBar.cpp:743
+#: clientgui/BOINCTaskBar.cpp:777
 msgid "Reconnecting to client."
 msgstr "Повторно свързване с клиента."
 
-#: clientgui/BOINCTaskBar.cpp:745
+#: clientgui/BOINCTaskBar.cpp:779
 msgid "Not connected to a client."
 msgstr "Не сте свързан с клиент."
 
-#: clientgui/BOINCTaskBar.cpp:798
+#: clientgui/BOINCTaskBar.cpp:832
 #, c-format
 msgid "%s Notices"
 msgstr "%s Известия"
 
-#: clientgui/BOINCTaskBar.cpp:804
+#: clientgui/BOINCTaskBar.cpp:838
 msgid "There are new notices - click to view."
 msgstr "Има нови известия - натиснете за преглед."
 
@@ -1038,166 +1035,221 @@ msgstr "Авторски права:"
 
 #: clientgui/DlgAbout.cpp:197
 msgid ""
-"(C) 2003-2020 University of California, Berkeley.\n"
+"(C) 2003-2024 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
+msgstr "(C) 2003-2024 Калифорнийски университет, Бъркли.\nВсички права запазени."
 
 #: clientgui/DlgAbout.cpp:202
 #, c-format
 msgid "%s is distributed under the GNU Lesser General Public License v3.0."
-msgstr ""
+msgstr "%s се разпространява под лиценза GNU Lesser General Public License v3.0."
 
 #: clientgui/DlgAbout.cpp:214
 msgid "For more information, visit "
 msgstr "За повече информация, посетете "
 
-#: clientgui/DlgAbout.cpp:226 clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgAbout.cpp:226 clientgui/DlgExitMessage.cpp:185
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&OK"
 
-#: clientgui/DlgAdvPreferences.cpp:659 clientgui/sg_DlgPreferences.cpp:787
+#: clientgui/DlgAdvPreferences.cpp:761 clientgui/sg_DlgPreferences.cpp:830
 msgid "Invalid number"
 msgstr "Невалидно число"
 
-#: clientgui/DlgAdvPreferences.cpp:660 clientgui/sg_DlgPreferences.cpp:788
+#: clientgui/DlgAdvPreferences.cpp:762 clientgui/sg_DlgPreferences.cpp:831
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "Невалиден час, стойностите трябва да бъдат между 0:00 и 24:00, форматът е ЧЧ:ММ"
 
-#: clientgui/DlgAdvPreferences.cpp:661 clientgui/sg_DlgPreferences.cpp:789
+#: clientgui/DlgAdvPreferences.cpp:763 clientgui/sg_DlgPreferences.cpp:832
 msgid "Start time must be different from end time"
 msgstr "Началният час трябва да бъде различен от крайния час."
 
-#: clientgui/DlgAdvPreferences.cpp:662
+#: clientgui/DlgAdvPreferences.cpp:764
 msgid "Number must be between 0 and 10"
 msgstr "Числото трябва да бъде между 0 и 10"
 
-#: clientgui/DlgAdvPreferences.cpp:663 clientgui/sg_DlgPreferences.cpp:790
+#: clientgui/DlgAdvPreferences.cpp:765 clientgui/sg_DlgPreferences.cpp:833
 msgid "Number must be between 0 and 100"
 msgstr "Числото трябва да бъде между 0 и 100"
 
-#: clientgui/DlgAdvPreferences.cpp:664
+#: clientgui/DlgAdvPreferences.cpp:766
 msgid "Number must be between 1 and 100"
 msgstr "Числото трябва да бъде между 1 и 100"
 
-#: clientgui/DlgAdvPreferences.cpp:922 clientgui/sg_DlgPreferences.cpp:861
+#: clientgui/DlgAdvPreferences.cpp:767
+msgid ""
+"Suspend when no mouse or keyboard input needs to be greater than 'in use' "
+"mouse or keyboard input."
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:1060 clientgui/sg_DlgPreferences.cpp:904
 msgid "invalid input value detected"
 msgstr "засечена невалидна въведена стойност"
 
-#: clientgui/DlgAdvPreferences.cpp:934 clientgui/sg_DlgPreferences.cpp:873
+#: clientgui/DlgAdvPreferences.cpp:1072 clientgui/sg_DlgPreferences.cpp:916
 msgid "Validation Error"
 msgstr "Грешка при Проверка"
 
-#: clientgui/DlgAdvPreferences.cpp:1118 clientgui/sg_DlgPreferences.cpp:1207
+#: clientgui/DlgAdvPreferences.cpp:1267 clientgui/sg_DlgPreferences.cpp:1250
 msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
 "there. Do you want to proceed?"
-msgstr ""
+msgstr "Промяна за използване на локалните предпочитания, дефинирани на тази страница. Това ще замени вашите уеб-базирани предпочитания, дори ако след това направите промени там. Желаете ли да продължите?"
 
-#: clientgui/DlgAdvPreferences.cpp:1122 clientgui/DlgAdvPreferences.cpp:1163
-#: clientgui/sg_DlgPreferences.cpp:1199 clientgui/sg_DlgPreferences.cpp:1211
+#: clientgui/DlgAdvPreferences.cpp:1271 clientgui/DlgAdvPreferences.cpp:1312
+#: clientgui/WizardAttach.cpp:573 clientgui/sg_DlgPreferences.cpp:1242
+#: clientgui/sg_DlgPreferences.cpp:1254
 msgid "Confirmation"
 msgstr "Потвърждение"
 
-#: clientgui/DlgAdvPreferences.cpp:1162
+#: clientgui/DlgAdvPreferences.cpp:1311
 msgid "Discard local preferences and use web-based preferences?"
 msgstr "Изчистете локалните предпочитания и използвайте уеб-базираните?"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:61
+#: clientgui/DlgAdvPreferencesBase.cpp:62
 #, c-format
 msgid "%s - Computing preferences"
 msgstr "%s - Изчислителни предпочитания"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:88 clientgui/sg_DlgPreferences.cpp:163
-msgid ""
-"Using local preferences.\n"
-"Click \"Use web prefs\" to use web-based preferences from"
-msgstr "Използвам локалните предпочитания.\nИзберете \"Използвай уеб предпочитания\" за да използвате уеб-базираните предпочитания от"
+#: clientgui/DlgAdvPreferencesBase.cpp:99
+msgid "Using local prefs."
+msgstr "Използване на локални настройки."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:96 clientgui/sg_DlgPreferences.cpp:171
-msgid "Using web-based preferences from"
-msgstr "Използвам уеб-базирани предпочитания от"
+#: clientgui/DlgAdvPreferencesBase.cpp:101
+msgid "Click to use web prefs from"
+msgstr "Кликнете, за да използвате уеб предпочитания от"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:113 clientgui/sg_DlgPreferences.cpp:189
-msgid "Set values and click Save to use local preferences instead."
-msgstr ""
+#: clientgui/DlgAdvPreferencesBase.cpp:108
+msgid "Using web prefs from"
+msgstr "Използване на уеб предпочитания от"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:121 clientgui/sg_DlgPreferences.cpp:217
+#: clientgui/DlgAdvPreferencesBase.cpp:125
+msgid "Set values and click Save to use local prefs instead."
+msgstr "Въведете стойности и кликнете Запазване, за да използвате локалните настройки."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:133 clientgui/sg_DlgPreferences.cpp:218
 msgid "Use web prefs"
 msgstr "Използвай уеб предпочитания"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:122 clientgui/sg_DlgPreferences.cpp:218
+#: clientgui/DlgAdvPreferencesBase.cpp:134 clientgui/sg_DlgPreferences.cpp:219
 msgid "Restore web-based preferences and close the dialog."
 msgstr "Възстанови уеб-базираните предпочитания и затвори този диалог."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:151
-#: clientgui/DlgAdvPreferencesBase.cpp:701
+#: clientgui/DlgAdvPreferencesBase.cpp:163
+#: clientgui/DlgAdvPreferencesBase.cpp:817
 msgid "Computing"
 msgstr "Изчисляване"
 
 #. Network schedule
-#: clientgui/DlgAdvPreferencesBase.cpp:155
-#: clientgui/DlgAdvPreferencesBase.cpp:903
+#: clientgui/DlgAdvPreferencesBase.cpp:167
+#: clientgui/DlgAdvPreferencesBase.cpp:1019
 msgid "Network"
 msgstr "Мрежа"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:159
-msgid "Disk and memory"
-msgstr "Диск и памет"
+#: clientgui/DlgAdvPreferencesBase.cpp:171 clientgui/ViewResources.cpp:119
+msgid "Disk"
+msgstr "Дисково пространство"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:163
+#: clientgui/DlgAdvPreferencesBase.cpp:175
 msgid "Daily schedules"
 msgstr "Дневен план"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:176
+#: clientgui/DlgAdvPreferencesBase.cpp:188
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgExclusiveApps.cpp:146
-#: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:353
-msgid "Save"
-msgstr "Запази"
+#: clientgui/DlgHiddenColumns.cpp:100 clientgui/DlgOptions.cpp:440
+#: clientgui/sg_DlgPreferences.cpp:354
+msgid "&Save"
+msgstr "и запази"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:177 clientgui/sg_DlgPreferences.cpp:354
-msgid "Save all values and close the dialog."
-msgstr "Запамети всички стойности и затвори този диалог."
+#: clientgui/DlgAdvPreferencesBase.cpp:189
+#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgExclusiveApps.cpp:147
+#: clientgui/DlgHiddenColumns.cpp:101 clientgui/DlgOptions.cpp:441
+#: clientgui/sg_DlgPreferences.cpp:355
+msgid "Save all values and close the dialog"
+msgstr "Запамети всички стойности и затвори този диалог"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:184 clientgui/sg_DlgPreferences.cpp:361
-msgid "Close the dialog without saving."
-msgstr "Затвори диалога без запаметяване."
+#: clientgui/DlgAdvPreferencesBase.cpp:196
+#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgExclusiveApps.cpp:152
+#: clientgui/DlgHiddenColumns.cpp:109 clientgui/DlgOptions.cpp:446
+#: clientgui/sg_DlgPreferences.cpp:362
+msgid "Close the dialog without saving"
+msgstr "Затвори този диалог без да запаметяваш промените"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
-#: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:993
-#: clientgui/sg_DlgPreferences.cpp:370
-msgid "Help"
-msgstr "Помощ"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:191
+#: clientgui/DlgAdvPreferencesBase.cpp:203
 msgid "Shows the preferences web page."
 msgstr "Отваря уебстраницата с предпочитанията."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:253
-#: clientgui/DlgAdvPreferencesBase.cpp:480
-msgid "Usage limits"
-msgstr "Лимити на потреблението"
+#. ------------ In-use box --------------
+#: clientgui/DlgAdvPreferencesBase.cpp:300
+msgid "When computer is in use"
+msgstr "Докато компютъра се използва"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:258
+#. in-use if input in last X min
+#. min idle time
+#: clientgui/DlgAdvPreferencesBase.cpp:306 clientgui/sg_DlgPreferences.cpp:265
+msgid "This determines when the computer is considered 'in use'."
+msgstr "Това определя кога компютър се счита за 'в употреба'."
+
+#. context: 'In use' means mouse or keyboard input in last ___ minutes
+#: clientgui/DlgAdvPreferencesBase.cpp:310
+msgid "'In use' means mouse or keyboard input in last"
+msgstr ""
+
+#. context: 'In use' means mouse or keyboard input in last ___ minutes
+#. context: Switch between tasks every ___ minutes
+#: clientgui/DlgAdvPreferencesBase.cpp:319
+#: clientgui/DlgAdvPreferencesBase.cpp:465
+#: clientgui/DlgAdvPreferencesBase.cpp:509 clientgui/sg_DlgPreferences.cpp:277
+msgid "minutes"
+msgstr "минути"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:328 clientgui/sg_DlgPreferences.cpp:254
+msgid "Suspend when computer is in use"
+msgstr "Временно спри докато компютърът е в употреба"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:331 clientgui/sg_DlgPreferences.cpp:250
+msgid ""
+"Check this to suspend computing and file transfers when you're using the "
+"computer."
+msgstr "Отметнете, за да спирате изчисленията и трансферите на файлове докато използвате компютъра."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:339
+msgid "Suspend GPU computing when computer is in use"
+msgstr "Временно спри GPU изчисленията докато компютърът е в употреба"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:342
+msgid "Check this to suspend GPU computing when you're using the computer."
+msgstr "Отметнете за да спирате GPU изчисленията докато използвате компютъра."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:392
+#: clientgui/DlgAdvPreferencesBase.cpp:412
+#: clientgui/DlgAdvPreferencesBase.cpp:450 clientgui/sg_DlgPreferences.cpp:287
+msgid "Use at most"
+msgstr "Използвай максимум"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:354
+#: clientgui/DlgAdvPreferencesBase.cpp:417
+#, no-c-format
+msgid "% of the CPUs and at most"
+msgstr "% от CPU-та и най-много"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:358
+#: clientgui/DlgAdvPreferencesBase.cpp:421 clientgui/sg_DlgPreferences.cpp:292
+#, no-c-format
+msgid "% of CPU time"
+msgstr "% процесорно време"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:360
 #, no-c-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
 msgstr "Резервирайте няколко процесора за други приложения. Например, 75% означава 'използвай 6 ядра от 8-ядрен процесор'."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:260
-#: clientgui/DlgAdvPreferencesBase.cpp:272 clientgui/sg_DlgPreferences.cpp:286
-msgid "Use at most"
-msgstr "Използвай максимум"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:265
-#, no-c-format
-msgid "% of the CPUs"
-msgstr "% от всички процесори"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:270 clientgui/sg_DlgPreferences.cpp:284
+#: clientgui/DlgAdvPreferencesBase.cpp:362 clientgui/sg_DlgPreferences.cpp:285
 #, no-c-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
@@ -1205,363 +1257,354 @@ msgid ""
 "and repeat."
 msgstr "Временно спирай/възстановявай изчисленията на всеки няколко секунди, за да се понижат температурата на процесора и потреблението на енергия. Например, 75% означава 'изчислявай 3 секунди, изчакай 1 секунда, след което повтори цикъла'."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:277 clientgui/sg_DlgPreferences.cpp:291
+#: clientgui/DlgAdvPreferencesBase.cpp:375
+#: clientgui/DlgAdvPreferencesBase.cpp:433
+msgid "Suspend when non-BOINC CPU usage is above"
+msgstr "Временно спри докато потреблението на процесора от други приложения е над"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:381
+#: clientgui/DlgAdvPreferencesBase.cpp:443
+msgid "Suspend computing when your computer is busy running other programs."
+msgstr "Временно спри изчисленията докато компютърът е зает, изпълнявайки други програми."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:391
+#, c-format
+msgid "Limit the memory used by %s when you're using the computer."
+msgstr "Ограничаване потреблението на системна памет от %s докато използвате компютъра."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:396
+#: clientgui/DlgAdvPreferencesBase.cpp:453
 #, no-c-format
-msgid "% of CPU time"
-msgstr "% процесорно време"
+msgid "% of memory"
+msgstr "% от паметта"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:284
-msgid "When to suspend"
-msgstr "Кога да се спре временно"
+#. ------------ Not-in-use box --------------
+#: clientgui/DlgAdvPreferencesBase.cpp:405
+msgid "When computer is not in use"
+msgstr "Докато компютъра не се използва"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:290 clientgui/sg_DlgPreferences.cpp:239
+#: clientgui/DlgAdvPreferencesBase.cpp:449
+#, c-format
+msgid "Limit the memory used by %s when you're not using the computer."
+msgstr "Ограничаване потреблението на системна памет от %s докато не използвате компютъра."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:459
+msgid "Suspend when no mouse or keyboard input in last"
+msgstr "Отлагане, когато няма вход от мишка или клавиатура в последните"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:471
+msgid "This allows some computers to enter low-power mode when not in use."
+msgstr "Това позволява на някои компютри да влязат в режим на ниска консумация, когато не се използват."
+
+#. ------------ General box --------------
+#. layout controls
+#: clientgui/DlgAdvPreferencesBase.cpp:480 clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgOptions.cpp:262
+msgid "General"
+msgstr "Основни"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:488 clientgui/sg_DlgPreferences.cpp:240
 msgid "Suspend when computer is on battery"
 msgstr "Временно спри докато компютърът е на батерия"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:293 clientgui/sg_DlgPreferences.cpp:235
+#: clientgui/DlgAdvPreferencesBase.cpp:491 clientgui/sg_DlgPreferences.cpp:236
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
 msgstr "Отметнете, за да спирате изчисленията на портативни устройства докато работят на батерии."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:253
-msgid "Suspend when computer is in use"
-msgstr "Временно спри докато компютърът е в употреба"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:302 clientgui/sg_DlgPreferences.cpp:249
-msgid ""
-"Check this to suspend computing and file transfers when you're using the "
-"computer."
-msgstr "Отметнете, за да спирате изчисленията и трансферите на файлове докато използвате компютъра."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:308
-msgid "Suspend GPU computing when computer is in use"
-msgstr "Временно спри GPU изчисленията докато компютърът е в употреба"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:311
-msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Отметнете за да спирате GPU изчисленията докато използвате компютъра."
-
-#. min idle time
-#: clientgui/DlgAdvPreferencesBase.cpp:316 clientgui/sg_DlgPreferences.cpp:264
-msgid "This determines when the computer is considered 'in use'."
-msgstr "Това определя кога компютър се счита за 'в употреба'."
-
-#. context: 'In use' means mouse/keyboard input in last ___ minutes
-#: clientgui/DlgAdvPreferencesBase.cpp:321 clientgui/sg_DlgPreferences.cpp:268
-msgid "'In use' means mouse/keyboard input in last"
-msgstr "'В употреба' означава активност на мишката/клавиатурата през последните"
-
-#. context: 'In use' means mouse/keyboard input in last ___ minutes
-#. context: Switch between tasks every ___ minutes
-#: clientgui/DlgAdvPreferencesBase.cpp:332
-#: clientgui/DlgAdvPreferencesBase.cpp:430 clientgui/sg_DlgPreferences.cpp:276
-msgid "minutes"
-msgstr "минути"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:340
-msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Временно спри докато потреблението на процесора от други приложения е над"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:342
-msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Временно спри изчисленията докато компютърът е зает, изпълнявайки други програми."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:356
-msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "За да спирате изчисленията в зависимост от времето на денонощието, вижте секцията \"Дневен план\"."
-
-#. Context: heading for a group of miscellaneous preferences
-#: clientgui/DlgAdvPreferencesBase.cpp:366
-#: clientgui/DlgAdvPreferencesBase.cpp:533
-msgid "Other"
-msgstr "Други"
-
-#. buffer sizes
-#: clientgui/DlgAdvPreferencesBase.cpp:372
-msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Складирай минимум толкова задачи, колкото да държат компютъра зает за толкова време."
-
-#. context: Store at least ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:376
-msgid "Store at least"
-msgstr "Складирай минимум"
-
-#. context: Store at least ___ days of work
-#. context: Store up to an additional ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:387
-#: clientgui/DlgAdvPreferencesBase.cpp:409
-msgid "days of work"
-msgstr "денонощия работа"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:393
-msgid ""
-"Store additional tasks above the minimum level.  Determines how much work is"
-" requested when contacting a project."
-msgstr "Складирай допълнително задачи над минималното ниво. Определя за колко време е заявена работа при контакт с проекта."
-
-#. context: Store up to an additional ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:397
-msgid "Store up to an additional"
-msgstr "Складирай максимум допълнително"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:416
+#: clientgui/DlgAdvPreferencesBase.cpp:498
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
 msgstr "Ако подпомагате няколко проекта, %s може да сменя между тях толкова често."
 
 #. context: Switch between tasks every ___ minutes
-#: clientgui/DlgAdvPreferencesBase.cpp:421
+#: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Switch between tasks every"
 msgstr "Сменяй между задачите на всеки"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:436
+#. checkpoint every X
+#: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
 msgstr "Това определя колко често задачите запаметяват състоянието си на диска, за да могат по-късно да продължат от тази точка."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
-#: clientgui/DlgAdvPreferencesBase.cpp:440
+#: clientgui/DlgAdvPreferencesBase.cpp:520
 msgid "Request tasks to checkpoint at most every"
 msgstr "Изисквай от задачите да запаметяват състоянието си най-много на всеки"
 
 #. context: Request tasks to checkpoint at most every ___ seconds
-#: clientgui/DlgAdvPreferencesBase.cpp:449
+#: clientgui/DlgAdvPreferencesBase.cpp:527
 msgid "seconds"
 msgstr "секунди"
 
-#. upload/download rates
-#: clientgui/DlgAdvPreferencesBase.cpp:486
-msgid "Limit the download rate of file transfers."
-msgstr "Ограничи скоростта на сваляне при файлови трансфери."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:487
-msgid "Limit download rate to"
-msgstr "Ограничи скоростта на изтегляне до"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:491
-#: clientgui/DlgAdvPreferencesBase.cpp:500
-msgid "KB/second"
-msgstr "КБ/секунда"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:495
-msgid "Limit the upload rate of file transfers."
-msgstr "Ограничи скоростта на качване при файлови трансфери."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:496
-msgid "Limit upload rate to"
-msgstr "Ограничи скоростта на качване до"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:507
-#, c-format
-msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
-msgstr "Например: %s би трябвало да прехвърля най-много 2000 МБ данни на всеки 30 дни."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:509
-msgid "Limit usage to"
-msgstr "Ограничи потреблението до"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:513
-msgid "MB every"
-msgstr "МБ на всеки"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:517
-msgid "days"
-msgstr "дни"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:522
-msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "За ограничение на трансферите в зависимост от времето на денонощието, вижте секцията \"Дневен план\"."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:539
-#, c-format
-msgid ""
-"Check this only if your Internet provider modifies image files. Skipping "
-"verification reduces the security of %s."
-msgstr "Отметнете само ако интернет доставчика ви модифицира изображения. Пропускането на стъпката за проверка намалява сигурността на %s."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:541
-msgid "Skip data verification for image files"
-msgstr "Пропусни проверката на данни за изображения"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:545
-msgid "Confirm before connecting to Internet"
-msgstr "Питай за потвърждение преди свързване с интернет"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:546
-#: clientgui/DlgAdvPreferencesBase.cpp:550
-msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Полезно само ако използвате модем, ISDN или VPN връзка."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:549
-msgid "Disconnect when done"
-msgstr "Прекъсни връзката когато си готов"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:576 clientgui/ViewResources.cpp:118
-msgid "Disk"
-msgstr "Дисково пространство"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:581
-#, c-format
-msgid "%s will use the most restrictive of these settings:"
-msgstr "%s ще използва най-ограничаващите от следните настройки:"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:587 clientgui/sg_DlgPreferences.cpp:335
-#, c-format
-msgid "Limit the total amount of disk space used by %s."
-msgstr "Ограничаване на дисковото пространство, използвано от %s."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:590
-#: clientgui/DlgAdvPreferencesBase.cpp:614 clientgui/sg_DlgPreferences.cpp:338
-msgid "Use no more than"
-msgstr "Използвай не повече от"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:594
-msgid "GB"
-msgstr "GB"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:599
-#, c-format
-msgid ""
-"Limit disk usage to leave this much free space on the volume where %s stores"
-" data."
-msgstr "Ограничаване потреблението на диска така, че на дяла, където %s складира данни, да остава не по-малко свободно пространство от посоченото."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:602
-msgid "Leave at least"
-msgstr "Остави поне"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:606
-msgid "GB free"
-msgstr "ГБ свободни"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:611
-#, c-format
-msgid ""
-"Limit the percentage of disk space used by %s on the volume where it stores "
-"data."
-msgstr "Ограничаване процента използвано дисково пространство на дяла, използван от %s."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:619
-#, no-c-format
-msgid "% of total"
-msgstr "%"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:626
-msgid "Memory"
-msgstr "Памет"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:631
-#, c-format
-msgid "Limit the memory used by %s when you're using the computer."
-msgstr "Ограничаване потреблението на системна памет от %s докато използвате компютъра."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:633
-msgid "When computer is in use, use at most"
-msgstr "Когато компютърът е в употреба, използвай най-много"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:639
-#: clientgui/DlgAdvPreferencesBase.cpp:651
-#: clientgui/DlgAdvPreferencesBase.cpp:667
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:644
-#, c-format
-msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "Ограничаване потреблението на системна памет от %s докато не използвате компютъра."
-
-#: clientgui/DlgAdvPreferencesBase.cpp:646
-msgid "When computer is not in use, use at most"
-msgstr "Когато компютърът не е в употреба, използвай най-много"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:655
+#. leave non-GPU tasks in memory while suspended
+#: clientgui/DlgAdvPreferencesBase.cpp:534
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr "Оставяй в системната памет задачите, които не се обработват от графичния процесор, докато са временно спрени"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:656
+#: clientgui/DlgAdvPreferencesBase.cpp:535
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr "Ако е отметнато, временно спрените задачи остават в системната памет и възстановяването им е без загуба на работа. В противен случай те се разреждат от паметта и при възстановяване се зарежда състоянието от последното запаметяване на диска."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:660
+#. work buffer min
+#. work buffer
+#: clientgui/DlgAdvPreferencesBase.cpp:541
+#: clientgui/DlgAdvPreferencesBase.cpp:582
+msgid "Store at least enough tasks to keep the computer busy for this long."
+msgstr "Складирай минимум толкова задачи, колкото да държат компютъра зает за толкова време."
+
+#. context: Store at least ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:545
+#: clientgui/DlgAdvPreferencesBase.cpp:586
+msgid "Store at least"
+msgstr "Складирай минимум"
+
+#. context: Store at least ___ days of work
+#. context: Store up to an additional ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:554
+#: clientgui/DlgAdvPreferencesBase.cpp:575
+#: clientgui/DlgAdvPreferencesBase.cpp:605
+msgid "days of work"
+msgstr "денонощия работа"
+
+#. work buffer additional
+#: clientgui/DlgAdvPreferencesBase.cpp:561
+#: clientgui/DlgAdvPreferencesBase.cpp:598
+msgid ""
+"Store additional tasks above the minimum level.  Determines how much work is"
+" requested when contacting a project."
+msgstr "Складирай допълнително задачи над минималното ниво. Определя за колко време е заявена работа при контакт с проекта."
+
+#. context: Store up to an additional ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:565
+msgid "Store up to an additional"
+msgstr "Складирай максимум допълнително"
+
+#. context: Store at least ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:595
+msgid "days and up to an additional"
+msgstr "дни и допълнително до"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:619
+msgid "To suspend by time of day, see the \"Daily Schedules\" section."
+msgstr "За да спирате изчисленията в зависимост от времето на денонощието, вижте секцията \"Дневен план\"."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:649
+msgid "Network usage"
+msgstr "използване на мрежата"
+
+#. download rate
+#: clientgui/DlgAdvPreferencesBase.cpp:655
+msgid "Limit the download rate of file transfers."
+msgstr "Ограничи скоростта на сваляне при файлови трансфери."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:656
+msgid "Limit download rate to"
+msgstr "Ограничи скоростта на изтегляне до"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:658
+#: clientgui/DlgAdvPreferencesBase.cpp:666
+msgid "KB/second"
+msgstr "КБ/секунда"
+
+#. upload rate
+#: clientgui/DlgAdvPreferencesBase.cpp:663
+msgid "Limit the upload rate of file transfers."
+msgstr "Ограничи скоростта на качване при файлови трансфери."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:664
+msgid "Limit upload rate to"
+msgstr "Ограничи скоростта на качване до"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:672
+#, c-format
+msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
+msgstr "Например: %s би трябвало да прехвърля най-много 2000 МБ данни на всеки 30 дни."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:673
+msgid "Limit usage to"
+msgstr "Ограничи потреблението до"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:675
+msgid "MB every"
+msgstr "МБ на всеки"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:677
+msgid "days"
+msgstr "дни"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:680
+msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
+msgstr "За ограничение на трансферите в зависимост от времето на денонощието, вижте секцията \"Дневен план\"."
+
+#. Context: heading for a group of miscellaneous preferences
+#: clientgui/DlgAdvPreferencesBase.cpp:691
+msgid "Other"
+msgstr "Други"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:699
+#, c-format
+msgid ""
+"Check this only if your Internet provider modifies image files. Skipping "
+"verification reduces the security of %s."
+msgstr "Отметнете само ако интернет доставчика ви модифицира изображения. Пропускането на стъпката за проверка намалява сигурността на %s."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:700
+msgid "Skip data verification for image files"
+msgstr "Пропусни проверката на данни за изображения"
+
+#. confirm before connecting
+#: clientgui/DlgAdvPreferencesBase.cpp:706
+msgid "Confirm before connecting to Internet"
+msgstr "Питай за потвърждение преди свързване с интернет"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:707
+#: clientgui/DlgAdvPreferencesBase.cpp:712
+msgid "Useful only if you have a modem, ISDN or VPN connection."
+msgstr "Полезно само ако използвате модем, ISDN или VPN връзка."
+
+#. disconnect when done
+#: clientgui/DlgAdvPreferencesBase.cpp:711
+msgid "Disconnect when done"
+msgstr "Прекъсни връзката когато си готов"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:737 clientgui/DlgItemProperties.cpp:277
+msgid "Disk usage"
+msgstr "Употреба на диска"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:744 clientgui/sg_DlgPreferences.cpp:336
+#, c-format
+msgid "Limit the total amount of disk space used by %s."
+msgstr "Ограничаване на дисковото пространство, използвано от %s."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:746
+#: clientgui/DlgAdvPreferencesBase.cpp:766 clientgui/sg_DlgPreferences.cpp:339
+msgid "Use no more than"
+msgstr "Използвай не повече от"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:748
+msgid "GB"
+msgstr "GB"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:754
+#, c-format
+msgid ""
+"Limit disk usage to leave this much free space on the volume where %s stores"
+" data."
+msgstr "Ограничаване потреблението на диска така, че на дяла, където %s складира данни, да остава не по-малко свободно пространство от посоченото."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:756
+msgid "Leave at least"
+msgstr "Остави поне"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:758
+msgid "GB free"
+msgstr "ГБ свободни"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:764
+#, c-format
+msgid ""
+"Limit the percentage of disk space used by %s on the volume where it stores "
+"data."
+msgstr "Ограничаване процента използвано дисково пространство на дяла, използван от %s."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:769
+#, no-c-format
+msgid "% of total"
+msgstr "%"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:773
+#, c-format
+msgid "%s will use the most restrictive of the above settings"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:781
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
 msgstr "Ограничаване на използваното от %s swap пространство (page file)."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:662
+#: clientgui/DlgAdvPreferencesBase.cpp:782
 msgid "Page/swap file: use at most"
 msgstr "Page/swap пространство: използвай най-много"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:687 clientgui/sg_DlgPreferences.cpp:295
+#: clientgui/DlgAdvPreferencesBase.cpp:785
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:803 clientgui/sg_DlgPreferences.cpp:296
 msgid "and"
 msgstr "и"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:688
+#: clientgui/DlgAdvPreferencesBase.cpp:804
 msgid "to"
 msgstr "до"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:708 clientgui/sg_DlgPreferences.cpp:296
+#: clientgui/DlgAdvPreferencesBase.cpp:824 clientgui/sg_DlgPreferences.cpp:297
 msgid "Compute only during a particular period each day."
 msgstr "Извършвай изчисления само в определен период от денонощието."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:711 clientgui/sg_DlgPreferences.cpp:299
+#: clientgui/DlgAdvPreferencesBase.cpp:827 clientgui/sg_DlgPreferences.cpp:300
 msgid "Compute only between"
 msgstr "Извършвай изчисления само между"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:735
-#: clientgui/DlgAdvPreferencesBase.cpp:919
+#: clientgui/DlgAdvPreferencesBase.cpp:851
+#: clientgui/DlgAdvPreferencesBase.cpp:1035
 msgid "Day-of-week override"
 msgstr "Корекция за ден от седмицата"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:744
-#: clientgui/DlgAdvPreferencesBase.cpp:923
+#: clientgui/DlgAdvPreferencesBase.cpp:860
+#: clientgui/DlgAdvPreferencesBase.cpp:1039
 msgid "Override the times above on the selected days:"
 msgstr "Използвай тези времена за горепосочените дни:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:767
-#: clientgui/DlgAdvPreferencesBase.cpp:940
+#: clientgui/DlgAdvPreferencesBase.cpp:883
+#: clientgui/DlgAdvPreferencesBase.cpp:1056
 msgid "Monday"
 msgstr "Понеделник"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:794
-#: clientgui/DlgAdvPreferencesBase.cpp:955
+#: clientgui/DlgAdvPreferencesBase.cpp:910
+#: clientgui/DlgAdvPreferencesBase.cpp:1071
 msgid "Friday"
 msgstr "Петък"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:809
-#: clientgui/DlgAdvPreferencesBase.cpp:968
+#: clientgui/DlgAdvPreferencesBase.cpp:925
+#: clientgui/DlgAdvPreferencesBase.cpp:1084
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:824
-#: clientgui/DlgAdvPreferencesBase.cpp:983
+#: clientgui/DlgAdvPreferencesBase.cpp:940
+#: clientgui/DlgAdvPreferencesBase.cpp:1099
 msgid "Saturday"
 msgstr "Събота"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:837
-#: clientgui/DlgAdvPreferencesBase.cpp:996
+#: clientgui/DlgAdvPreferencesBase.cpp:953
+#: clientgui/DlgAdvPreferencesBase.cpp:1112
 msgid "Wednesday"
 msgstr "Сряда"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:852
-#: clientgui/DlgAdvPreferencesBase.cpp:1011
+#: clientgui/DlgAdvPreferencesBase.cpp:968
+#: clientgui/DlgAdvPreferencesBase.cpp:1127
 msgid "Sunday"
 msgstr "Неделя"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:865
-#: clientgui/DlgAdvPreferencesBase.cpp:1024
+#: clientgui/DlgAdvPreferencesBase.cpp:981
+#: clientgui/DlgAdvPreferencesBase.cpp:1140
 msgid "Thursday"
 msgstr "Четвъртък"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:907 clientgui/sg_DlgPreferences.cpp:317
+#: clientgui/DlgAdvPreferencesBase.cpp:1023
+#: clientgui/sg_DlgPreferences.cpp:318
 msgid "Transfer files only during a particular period each day."
 msgstr "Осъществявай трансфер на файлове само в определен период от денонощието."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:909 clientgui/sg_DlgPreferences.cpp:319
+#: clientgui/DlgAdvPreferencesBase.cpp:1025
+#: clientgui/sg_DlgPreferences.cpp:320
 msgid "Transfer files only between"
 msgstr "Осъществявай трансфер на файлове само между"
 
@@ -1579,10 +1622,6 @@ msgstr "Тези флагове позволяват различни типов
 msgid "More info ..."
 msgstr "Повече информация ..."
 
-#: clientgui/DlgDiagnosticLogFlags.cpp:121 clientgui/DlgHiddenColumns.cpp:101
-msgid "Save all values and close the dialog"
-msgstr "Запамети всички стойности и затвори този диалог"
-
 #: clientgui/DlgDiagnosticLogFlags.cpp:124 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
 msgstr "Стойности по подразбиране"
@@ -1590,10 +1629,6 @@ msgstr "Стойности по подразбиране"
 #: clientgui/DlgDiagnosticLogFlags.cpp:125 clientgui/DlgHiddenColumns.cpp:105
 msgid "Restore default settings"
 msgstr "Възстанови настройките по подразбиране"
-
-#: clientgui/DlgDiagnosticLogFlags.cpp:129 clientgui/DlgHiddenColumns.cpp:109
-msgid "Close the dialog without saving"
-msgstr "Затвори този диалог без да запаметяваш промените"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:132
 msgid "Apply"
@@ -1603,45 +1638,49 @@ msgstr "Приложи"
 msgid "Save all values"
 msgstr "Запиши всички стойности"
 
-#: clientgui/DlgEventLog.cpp:227
+#: clientgui/DlgEventLog.cpp:230
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Регистър на Събитията"
 
 #. Create List Pane Items
-#: clientgui/DlgEventLog.cpp:237 clientgui/ViewMessages.cpp:117
+#: clientgui/DlgEventLog.cpp:240 clientgui/ViewMessages.cpp:117
 #: clientgui/ViewProjects.cpp:251 clientgui/ViewStatistics.cpp:411
-#: clientgui/ViewStatistics.cpp:1988 clientgui/ViewTransfers.cpp:209
-#: clientgui/ViewWork.cpp:260
+#: clientgui/ViewStatistics.cpp:1989 clientgui/ViewTransfers.cpp:226
+#: clientgui/ViewWork.cpp:282
 msgid "Project"
 msgstr "Проект"
 
-#: clientgui/DlgEventLog.cpp:238 clientgui/ViewMessages.cpp:118
+#: clientgui/DlgEventLog.cpp:241 clientgui/ViewMessages.cpp:118
 msgid "Time"
 msgstr "Време"
 
-#: clientgui/DlgEventLog.cpp:239 clientgui/ViewMessages.cpp:119
+#: clientgui/DlgEventLog.cpp:242 clientgui/ViewMessages.cpp:119
 msgid "Message"
 msgstr "Съобщение"
 
-#: clientgui/DlgEventLog.cpp:330 clientgui/DlgEventLog.cpp:380
+#: clientgui/DlgEventLog.cpp:333 clientgui/DlgEventLog.cpp:400
+msgid "Show only aler&ts"
+msgstr "Покажи само известията"
+
+#: clientgui/DlgEventLog.cpp:336 clientgui/DlgEventLog.cpp:386
 msgid "&Show only this project"
 msgstr "&Покажи само този проект"
 
-#: clientgui/DlgEventLog.cpp:334 clientgui/DlgItemProperties.cpp:74
+#: clientgui/DlgEventLog.cpp:340 clientgui/DlgItemProperties.cpp:74
 msgid "Copy &All"
 msgstr "Копирай &Всичко"
 
-#: clientgui/DlgEventLog.cpp:336 clientgui/DlgEventLog.cpp:340
+#: clientgui/DlgEventLog.cpp:342 clientgui/DlgEventLog.cpp:346
 #: clientgui/ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Копира всички съобщения в клип-борда."
 
-#: clientgui/DlgEventLog.cpp:345 clientgui/DlgItemProperties.cpp:77
+#: clientgui/DlgEventLog.cpp:351 clientgui/DlgItemProperties.cpp:77
 msgid "Copy &Selected"
 msgstr "Копирай &Избраното"
 
-#: clientgui/DlgEventLog.cpp:348 clientgui/DlgEventLog.cpp:356
+#: clientgui/DlgEventLog.cpp:354 clientgui/DlgEventLog.cpp:362
 #: clientgui/ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1649,7 +1688,7 @@ msgid ""
 "messages."
 msgstr "Копира избраните съобщения в клип-борда. Може да изберете няколко съобщения като задържите клавиша Shift или командния клавиш, докато кликвате на съобщенията."
 
-#: clientgui/DlgEventLog.cpp:350 clientgui/DlgEventLog.cpp:358
+#: clientgui/DlgEventLog.cpp:356 clientgui/DlgEventLog.cpp:364
 #: clientgui/ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
@@ -1657,21 +1696,38 @@ msgid ""
 "messages."
 msgstr "Копира избраните съобщения в клип-борда. Можете да изберете няколко съобщения като задържите клавиша Shift или Ctrl, докато кликвате на съобщенията."
 
-#: clientgui/DlgEventLog.cpp:365 clientgui/DlgItemProperties.cpp:81
+#: clientgui/DlgEventLog.cpp:371 clientgui/DlgItemProperties.cpp:81
+#: clientgui/sg_DlgMessages.cpp:148
 msgid "&Close"
 msgstr "&Затвори"
 
-#: clientgui/DlgEventLog.cpp:374
+#: clientgui/DlgEventLog.cpp:380
 msgid "Show all &messages"
 msgstr "Покажи всички &съобщения"
 
-#: clientgui/DlgEventLog.cpp:375 clientgui/DlgEventLog.cpp:377
+#: clientgui/DlgEventLog.cpp:381 clientgui/DlgEventLog.cpp:383
 msgid "Show messages for all projects"
 msgstr "Показва съобщения за всички проекти"
 
-#: clientgui/DlgEventLog.cpp:381 clientgui/DlgEventLog.cpp:383
+#: clientgui/DlgEventLog.cpp:387 clientgui/DlgEventLog.cpp:389
 msgid "Show only the messages for the selected project"
 msgstr "Покажи само съобщенията за избрания проект"
+
+#: clientgui/DlgEventLog.cpp:393
+msgid "Show al&l"
+msgstr "Покажи всичко"
+
+#: clientgui/DlgEventLog.cpp:394 clientgui/DlgEventLog.cpp:396
+msgid "Shows messages of all types (information, alerts, etc.)"
+msgstr "Показва съобщения от всички видове (информация, известия и т.н.)"
+
+#: clientgui/DlgEventLog.cpp:401
+msgid "Shows only the messages that are alerts"
+msgstr ""
+
+#: clientgui/DlgEventLog.cpp:403
+msgid "Show only the messages that are alerts"
+msgstr ""
 
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
@@ -1708,48 +1764,40 @@ msgstr "Временно прекрати употребата на GPU кога
 msgid "For advanced options, refer to "
 msgstr "За допълнителни опции се обърнете към "
 
-#: clientgui/DlgExclusiveApps.cpp:147
-msgid "save all values and close the dialog"
-msgstr "запазва всички стойности и затваря диалога"
-
-#: clientgui/DlgExclusiveApps.cpp:152
-msgid "close the dialog without saving"
-msgstr "затваря диалоговия прозорец без да запази"
-
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
 msgstr "показва предпочитанията от интернет страницата"
 
 #. TODO: fill in the default directory for MSW
 #. TODO: fill in the default directory for Linux
-#: clientgui/DlgExclusiveApps.cpp:306 clientgui/DlgExclusiveApps.cpp:312
-#: clientgui/DlgExclusiveApps.cpp:318
+#: clientgui/DlgExclusiveApps.cpp:303 clientgui/DlgExclusiveApps.cpp:309
+#: clientgui/DlgExclusiveApps.cpp:315
 msgid "Choose application or enter file name"
 msgstr ""
 
-#: clientgui/DlgExclusiveApps.cpp:338
+#: clientgui/DlgExclusiveApps.cpp:335
 msgid "Name of application to add?"
 msgstr "Име на приложение за добавяне?"
 
-#: clientgui/DlgExclusiveApps.cpp:338
+#: clientgui/DlgExclusiveApps.cpp:335
 msgid "Add exclusive app"
 msgstr "Добави ексклузивно приложение"
 
-#: clientgui/DlgExclusiveApps.cpp:368
+#: clientgui/DlgExclusiveApps.cpp:365
 #, c-format
 msgid "'%s' is already in the list."
 msgstr "'%s' е вече в списъка."
 
-#: clientgui/DlgExclusiveApps.cpp:369
+#: clientgui/DlgExclusiveApps.cpp:366
 msgid "Add Exclusive App"
 msgstr "Добави Ексклузивно Приложение"
 
-#: clientgui/DlgExitMessage.cpp:82
+#: clientgui/DlgExitMessage.cpp:84
 #, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - Потвърждение за Изход"
 
-#: clientgui/DlgExitMessage.cpp:130
+#: clientgui/DlgExitMessage.cpp:132
 #, c-format
 msgid ""
 "You have requested to exit the %s,\n"
@@ -1760,7 +1808,18 @@ msgid ""
 "choose from the following options:"
 msgstr "Пожелахте да излезете от %s,\nкойто Ви позволява да преглеждате и управлявате\nзадачите работещи на вашия компютър.\n\nАко също така искате да изключите и задачите,\nизберете измежду следните възможности:"
 
-#: clientgui/DlgExitMessage.cpp:135
+#: clientgui/DlgExitMessage.cpp:138
+#, c-format
+msgid ""
+"This will shut down %s and its tasks until the\n"
+"%s is run again.\n"
+"\n"
+"In most cases, it is better just to close the %s window\n"
+"rather than to exit the application; that will allow %s to run its\n"
+"tasks at the times you selected in your preferences."
+msgstr ""
+
+#: clientgui/DlgExitMessage.cpp:146
 #, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
@@ -1771,20 +1830,14 @@ msgid ""
 "tasks at the times you selected in your preferences."
 msgstr "Това ще изключи %s и неговите задачи докато или\n%s или %s скрийн-сейвъра се стартира отново.\n\nВ повечето случаи, е по-добре само да затворите %s прозореца\nотколкото да излезете от приложението; това ще позволи на %s да стартира\nзадачите според часовите диапазони избрани във вашите предпочитания."
 
-#: clientgui/DlgExitMessage.cpp:153
+#: clientgui/DlgExitMessage.cpp:165
 #, c-format
 msgid "Stop running tasks when exiting the %s"
 msgstr "Спри работещите задачи при излизане от %s"
 
-#: clientgui/DlgExitMessage.cpp:165
+#: clientgui/DlgExitMessage.cpp:177
 msgid "Remember this decision and do not show this dialog."
 msgstr "Запомни това решение и не показвай повече този диалог."
-
-#: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:425 clientgui/DlgSelectComputer.cpp:168
-#: clientgui/wizardex.cpp:387
-msgid "&Cancel"
-msgstr "&Откажи"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
@@ -1846,11 +1899,6 @@ msgstr "Интервал при отлагане поискването на з�
 msgid "Properties of project "
 msgstr "Свойства на проект "
 
-#. layout controls
-#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:243
-msgid "General"
-msgstr "Основни"
-
 #: clientgui/DlgItemProperties.cpp:264
 msgid "URL"
 msgstr "URL"
@@ -1878,10 +1926,6 @@ msgstr "Сваляне на файловете е отсрочено за"
 #: clientgui/DlgItemProperties.cpp:275
 msgid "File uploads deferred for"
 msgstr "Качване на файловете е отсрочено за"
-
-#: clientgui/DlgItemProperties.cpp:277
-msgid "Disk usage"
-msgstr "Употреба на диска"
 
 #: clientgui/DlgItemProperties.cpp:278
 msgid "Computer ID"
@@ -1987,11 +2031,11 @@ msgstr "Последен отговор от Планировчика"
 msgid "Properties of task "
 msgstr "Свойства на задача "
 
-#: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:383 clientgui/ViewWork.cpp:288
 msgid "Application"
 msgstr "Приложение"
 
-#: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:384 clientgui/ViewWork.cpp:289
 msgid "Name"
 msgstr "Име"
 
@@ -2076,169 +2120,173 @@ msgstr "за секунда"
 msgid "Executable"
 msgstr "Изпълним"
 
-#: clientgui/DlgItemProperties.cpp:513 clientgui/ViewWork.cpp:1143
-#: clientgui/sg_TaskPanel.cpp:821
+#: clientgui/DlgItemProperties.cpp:513 clientgui/ViewWork.cpp:1276
+#: clientgui/sg_TaskPanel.cpp:824
 msgid "Local: "
 msgstr "Локален: "
 
-#: clientgui/DlgOptions.cpp:131 clientgui/DlgOptions.cpp:137
+#: clientgui/DlgOptions.cpp:134 clientgui/DlgOptions.cpp:140
 msgid "Options"
 msgstr "Опции"
 
-#: clientgui/DlgOptions.cpp:180
+#: clientgui/DlgOptions.cpp:183
 msgid "Language:"
 msgstr "Език:"
 
-#: clientgui/DlgOptions.cpp:187
+#: clientgui/DlgOptions.cpp:194
 msgid "What language should BOINC use?"
 msgstr "Кой език да използва BOINC?"
 
-#: clientgui/DlgOptions.cpp:191
+#: clientgui/DlgOptions.cpp:198
 msgid "Notice reminder interval:"
 msgstr "Интервал за напомнящи известия:"
 
-#: clientgui/DlgOptions.cpp:198
+#: clientgui/DlgOptions.cpp:205
 msgid "How often should BOINC remind you of new notices?"
 msgstr "Колко често следва BOINC да Ви напомня за нови известия?"
 
-#: clientgui/DlgOptions.cpp:203
+#: clientgui/DlgOptions.cpp:210
 msgid "Run Manager at login?"
 msgstr "Стартирай Мениджъра при влизане?"
 
-#: clientgui/DlgOptions.cpp:209
+#: clientgui/DlgOptions.cpp:216
 msgid "Run the BOINC Manager when you log on."
 msgstr "Стартирай BOINC Мениджъра при включване."
 
-#: clientgui/DlgOptions.cpp:214
+#: clientgui/DlgOptions.cpp:221
 msgid "Run the client?"
-msgstr ""
+msgstr "Да се стартира ли клиентът?"
 
-#: clientgui/DlgOptions.cpp:220
+#: clientgui/DlgOptions.cpp:227
 msgid "Run the client when launching the Manager."
-msgstr ""
+msgstr "Стартирай клиента при пускане на Мениджъра."
 
-#: clientgui/DlgOptions.cpp:224
+#: clientgui/DlgOptions.cpp:231
 msgid "Enable Manager exit dialog?"
 msgstr "Активиране на диалог при излизане от Мениджъра?"
 
-#: clientgui/DlgOptions.cpp:230
+#: clientgui/DlgOptions.cpp:237
 msgid "Display the exit dialog when shutting down the Manager."
 msgstr "Покажи диалоговия прозорец за изход когато Мениждъра се изключва."
 
-#: clientgui/DlgOptions.cpp:234
+#: clientgui/DlgOptions.cpp:241
 msgid "Enable Client shutdown dialog?"
-msgstr ""
+msgstr "Включване на диалогов прозорец за изключване на клиента?"
 
-#: clientgui/DlgOptions.cpp:240
+#: clientgui/DlgOptions.cpp:247
 msgid "Display confirmation dialog when shutting down the connected client."
-msgstr ""
+msgstr "Показване на диалогов прозорец за потвърждение при изключване на свързания клиент."
 
-#: clientgui/DlgOptions.cpp:251
+#: clientgui/DlgOptions.cpp:252
+msgid "Show status in menu bar?"
+msgstr "Показване на състоянието в лентата с меню?"
+
+#: clientgui/DlgOptions.cpp:258
+msgid "Display a status icon in the system menu bar."
+msgstr "Показване на икона за състояние в системната лента с менюта."
+
+#: clientgui/DlgOptions.cpp:270
 msgid "Dial-up and Virtual Private Network settings"
 msgstr "Dial-up и Virtual Private Network настройки"
 
-#: clientgui/DlgOptions.cpp:265
+#: clientgui/DlgOptions.cpp:284
 msgid "&Set Default"
 msgstr "&Задай стойности по подразбиране"
 
-#: clientgui/DlgOptions.cpp:270
+#: clientgui/DlgOptions.cpp:289
 msgid "&Clear Default"
 msgstr "&Изчисти стойности по подразбиране"
 
-#: clientgui/DlgOptions.cpp:277
+#: clientgui/DlgOptions.cpp:296
 msgid "Default Connection:"
 msgstr "Връзка по подразбиране:"
 
-#: clientgui/DlgOptions.cpp:284
+#: clientgui/DlgOptions.cpp:303
 msgid "Connections"
 msgstr "Връзки"
 
-#: clientgui/DlgOptions.cpp:293
+#: clientgui/DlgOptions.cpp:312
 msgid "Connect via HTTP proxy server"
 msgstr "Свържи се чрез HTTP прокси сървър"
 
-#: clientgui/DlgOptions.cpp:297
+#: clientgui/DlgOptions.cpp:316
 msgid "HTTP Proxy Server Configuration"
 msgstr "Настройки на HTTP Прокси Сървър"
 
-#: clientgui/DlgOptions.cpp:305 clientgui/DlgOptions.cpp:369
+#: clientgui/DlgOptions.cpp:324 clientgui/DlgOptions.cpp:388
 msgid "Address:"
 msgstr "Адрес:"
 
-#: clientgui/DlgOptions.cpp:313 clientgui/DlgOptions.cpp:377
+#: clientgui/DlgOptions.cpp:332 clientgui/DlgOptions.cpp:396
 #: clientgui/ProxyPage.cpp:340 clientgui/ProxyPage.cpp:360
 msgid "Port:"
 msgstr "Порт:"
 
-#: clientgui/DlgOptions.cpp:321 clientgui/DlgOptions.cpp:385
+#: clientgui/DlgOptions.cpp:340 clientgui/DlgOptions.cpp:404
 msgid "Don't use proxy for:"
 msgstr "Не използвай прокси за:"
 
-#: clientgui/DlgOptions.cpp:328 clientgui/DlgOptions.cpp:392
+#: clientgui/DlgOptions.cpp:347 clientgui/DlgOptions.cpp:411
 msgid "Leave these blank if not needed"
 msgstr "Остави тези полета празни ако не са нужни"
 
-#: clientgui/DlgOptions.cpp:334 clientgui/DlgOptions.cpp:398
+#: clientgui/DlgOptions.cpp:353 clientgui/DlgOptions.cpp:417
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "Потребителско Име:"
 
-#: clientgui/DlgOptions.cpp:342 clientgui/DlgOptions.cpp:406
+#: clientgui/DlgOptions.cpp:361 clientgui/DlgOptions.cpp:425
 #: clientgui/DlgSelectComputer.cpp:152 clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Парола:"
 
-#: clientgui/DlgOptions.cpp:349
+#: clientgui/DlgOptions.cpp:368
 msgid "HTTP Proxy"
 msgstr "HTTP Прокси"
 
-#: clientgui/DlgOptions.cpp:357
+#: clientgui/DlgOptions.cpp:376
 msgid "Connect via SOCKS proxy server"
 msgstr "Свържи се чрез SOCKS прокси сървър"
 
-#: clientgui/DlgOptions.cpp:361
+#: clientgui/DlgOptions.cpp:380
 msgid "SOCKS Proxy Server Configuration"
 msgstr "Настройки на SOCKS Прокси Сървър"
 
-#: clientgui/DlgOptions.cpp:413
+#: clientgui/DlgOptions.cpp:432
 msgid "SOCKS Proxy"
 msgstr "SOCKS Прокси"
 
-#: clientgui/DlgOptions.cpp:421
-msgid "&Save"
-msgstr "и запази"
-
-#: clientgui/DlgOptions.cpp:611
+#: clientgui/DlgOptions.cpp:646
 msgid "always"
 msgstr "винаги"
 
-#: clientgui/DlgOptions.cpp:612
+#: clientgui/DlgOptions.cpp:647
 msgid "1 hour"
 msgstr "1 час"
 
-#: clientgui/DlgOptions.cpp:613
+#: clientgui/DlgOptions.cpp:648
 msgid "6 hours"
 msgstr "6 часа"
 
-#: clientgui/DlgOptions.cpp:614
+#: clientgui/DlgOptions.cpp:649
 msgid "1 day"
 msgstr "1 ден"
 
-#: clientgui/DlgOptions.cpp:615
+#: clientgui/DlgOptions.cpp:650
 msgid "1 week"
 msgstr "1 седмица"
 
-#: clientgui/DlgOptions.cpp:616
+#: clientgui/DlgOptions.cpp:651
 msgid "never"
 msgstr "никога"
 
-#: clientgui/DlgOptions.cpp:715
+#: clientgui/DlgOptions.cpp:771
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - Избор на Език"
 
-#: clientgui/DlgOptions.cpp:722
+#: clientgui/DlgOptions.cpp:778
 #, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
@@ -2262,6 +2310,7 @@ msgid "Host name:"
 msgstr "Име на хоста:"
 
 #: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:163
 msgid "Message boards"
 msgstr "Форуми"
 
@@ -2269,12 +2318,18 @@ msgstr "Форуми"
 msgid "Correspond with other users on the SETI@home message boards"
 msgstr "Общувайте с други потребители във форумите на SETI@home"
 
+#: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1050
+msgid "Help"
+msgstr "Помощ"
+
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
 msgstr "Задавайте въпроси и докладвайте проблеми"
 
 #: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
 #: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:165
 msgid "Your account"
 msgstr "Вашият акаунт"
 
@@ -2308,6 +2363,7 @@ msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "Вижте списък на всички ваши компютри, които работят по SETI@Home"
 
 #: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:169
 msgid "Your team"
 msgstr "Вашият отбор"
 
@@ -2448,210 +2504,218 @@ msgstr "Проучване"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Научи за проектите включени в World Community Grid"
 
-#: clientgui/MainDocument.cpp:1299
+#: clientgui/Localization.cpp:161
+msgid "Home page"
+msgstr "Начална страница"
+
+#: clientgui/Localization.cpp:167
+msgid "Your tasks"
+msgstr "Вашите задачи"
+
+#: clientgui/MainDocument.cpp:1296
 msgid "Version Update"
 msgstr "Обновяване на версията"
 
-#: clientgui/MainDocument.cpp:1308
+#: clientgui/MainDocument.cpp:1305
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
 msgstr "Налична е нова версия на %s. Можете да я свалите от тук: %s"
 
-#: clientgui/MainDocument.cpp:1311
+#: clientgui/MainDocument.cpp:1308
 #, c-format
 msgid "There is no new version of %s available for download."
 msgstr "Няма налична нова версия на %s за сваляне"
 
-#: clientgui/MainDocument.cpp:1315
+#: clientgui/MainDocument.cpp:1312
 #, c-format
 msgid "%s is not connected to the client"
 msgstr "%s не е свързан към клиента"
 
-#: clientgui/MainDocument.cpp:1860
+#: clientgui/MainDocument.cpp:1975
 msgid "Missing application"
 msgstr "Липсващо приложение"
 
-#: clientgui/MainDocument.cpp:1861
+#: clientgui/MainDocument.cpp:1976
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "Моля изтеглете и инсталирайте приложението CoRD от http://cord.sourceforge.net"
 
-#: clientgui/MainDocument.cpp:2469
+#: clientgui/MainDocument.cpp:2584
 msgid "on batteries"
 msgstr "на батерии"
 
-#: clientgui/MainDocument.cpp:2470
+#: clientgui/MainDocument.cpp:2585
 msgid "computer is in use"
 msgstr "компютъра се използва"
 
-#: clientgui/MainDocument.cpp:2471
+#: clientgui/MainDocument.cpp:2586
 msgid "user request"
 msgstr "заявка от потребителя"
 
-#: clientgui/MainDocument.cpp:2472
+#: clientgui/MainDocument.cpp:2587
 msgid "time of day"
 msgstr "ограничителни часове"
 
-#: clientgui/MainDocument.cpp:2473
+#: clientgui/MainDocument.cpp:2588
 msgid "CPU benchmarks in progress"
 msgstr "CPU изчисляване на референтни показатели е в прогрес"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2589
 msgid "need disk space - check preferences"
 msgstr "нуждае се от дисково пространство - проверете предпочитанията"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2590
 msgid "computer is not in use"
 msgstr "компютъра не се използва"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2591
 msgid "starting up"
 msgstr "стартиране"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2592
 msgid "an exclusive app is running"
 msgstr "стартирано е ексклузивно приложение"
 
-#: clientgui/MainDocument.cpp:2478
+#: clientgui/MainDocument.cpp:2593
 msgid "CPU is busy"
 msgstr "CPU е зает"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2594
 msgid "network bandwidth limit exceeded"
 msgstr "лимита за мрежов трафик е надхвърлен"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2595
 msgid "requested by operating system"
 msgstr "поискано от операционната система"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2597
 msgid "unknown reason"
 msgstr "неизвестна причина"
 
-#: clientgui/MainDocument.cpp:2504
+#: clientgui/MainDocument.cpp:2619
 msgid "GPU missing, "
 msgstr "GPU липсва, "
 
-#: clientgui/MainDocument.cpp:2511
+#: clientgui/MainDocument.cpp:2626
 msgid "New"
 msgstr "Нов"
 
-#: clientgui/MainDocument.cpp:2515
+#: clientgui/MainDocument.cpp:2630
 msgid "Download failed"
 msgstr "Свалянето е неуспешно"
 
-#: clientgui/MainDocument.cpp:2517
+#: clientgui/MainDocument.cpp:2632
 msgid "Downloading"
 msgstr "Сваляне"
 
-#: clientgui/MainDocument.cpp:2519 clientgui/MainDocument.cpp:2578
+#: clientgui/MainDocument.cpp:2634 clientgui/MainDocument.cpp:2693
 msgid " (suspended - "
 msgstr " (временно прекратен - "
 
-#: clientgui/MainDocument.cpp:2527
+#: clientgui/MainDocument.cpp:2642
 msgid "Project suspended by user"
 msgstr "Проектът е временно прекратен от потребителя"
 
-#: clientgui/MainDocument.cpp:2529
+#: clientgui/MainDocument.cpp:2644
 msgid "Task suspended by user"
 msgstr "Задачата е временно прекратена от потребителя"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2534
+#: clientgui/MainDocument.cpp:2649
 msgid "Suspended - "
 msgstr "Временно прекратен - "
 
-#: clientgui/MainDocument.cpp:2537
+#: clientgui/MainDocument.cpp:2652
 msgid "GPU suspended - "
 msgstr "GPU временно прекратено - "
 
-#: clientgui/MainDocument.cpp:2541
+#: clientgui/MainDocument.cpp:2656
 msgid "Waiting for memory"
 msgstr "Изчакване на паметта"
 
-#: clientgui/MainDocument.cpp:2543
+#: clientgui/MainDocument.cpp:2658
 msgid "Waiting for shared memory"
 msgstr "Изчакване на споделената памет"
 
-#: clientgui/MainDocument.cpp:2545
+#: clientgui/MainDocument.cpp:2660
 msgid "Running"
 msgstr "Работи"
 
-#: clientgui/MainDocument.cpp:2547
+#: clientgui/MainDocument.cpp:2662
 msgid " (non-CPU-intensive)"
 msgstr " (не-CPU-интензивен)"
 
-#: clientgui/MainDocument.cpp:2550
+#: clientgui/MainDocument.cpp:2665
 msgid "Waiting to run"
 msgstr "Изчаква да работи"
 
-#: clientgui/MainDocument.cpp:2552 clientgui/MainDocument.cpp:2555
+#: clientgui/MainDocument.cpp:2667 clientgui/MainDocument.cpp:2670
 msgid "Ready to start"
 msgstr "Готова да започне"
 
-#: clientgui/MainDocument.cpp:2559
+#: clientgui/MainDocument.cpp:2674
 msgid "Postponed: "
 msgstr "Отложени: "
 
-#: clientgui/MainDocument.cpp:2562
+#: clientgui/MainDocument.cpp:2677
 msgid "Postponed"
 msgstr "Отложени"
 
-#: clientgui/MainDocument.cpp:2566
+#: clientgui/MainDocument.cpp:2681
 msgid "Waiting for network access"
 msgstr "Изчакване на достъп до мрежата"
 
-#: clientgui/MainDocument.cpp:2570
+#: clientgui/MainDocument.cpp:2685
 msgid "Computation error"
 msgstr "Изчислителна грешка"
 
-#: clientgui/MainDocument.cpp:2574
+#: clientgui/MainDocument.cpp:2689
 msgid "Upload failed"
 msgstr "Изпращането неуспешно"
 
-#: clientgui/MainDocument.cpp:2576
+#: clientgui/MainDocument.cpp:2691
 msgid "Uploading"
 msgstr "Изпращане"
 
-#: clientgui/MainDocument.cpp:2587
+#: clientgui/MainDocument.cpp:2702
 msgid "Aborted by user"
 msgstr "Прекратена от потребителя"
 
-#: clientgui/MainDocument.cpp:2590
+#: clientgui/MainDocument.cpp:2705
 msgid "Aborted by project"
 msgstr "Прекратена от проекта"
 
-#: clientgui/MainDocument.cpp:2593
+#: clientgui/MainDocument.cpp:2708
 msgid "Aborted: not started by deadline"
 msgstr "Прекратена: не е стартирана преди крайния срок"
 
-#: clientgui/MainDocument.cpp:2596
+#: clientgui/MainDocument.cpp:2711
 msgid "Aborted: task disk limit exceeded"
 msgstr "Прекратена: надхвърлен лимит за задачи на диска"
 
-#: clientgui/MainDocument.cpp:2599
+#: clientgui/MainDocument.cpp:2714
 msgid "Aborted: run time limit exceeded"
 msgstr "Прекратена: надхвърлен работен лимит от време"
 
-#: clientgui/MainDocument.cpp:2602
+#: clientgui/MainDocument.cpp:2717
 msgid "Aborted: memory limit exceeded"
 msgstr "Прекратена: надхвърлен лимит памет"
 
-#: clientgui/MainDocument.cpp:2605
+#: clientgui/MainDocument.cpp:2720
 msgid "Aborted"
 msgstr "Прекратена"
 
-#: clientgui/MainDocument.cpp:2610
+#: clientgui/MainDocument.cpp:2725
 msgid "Acknowledged"
 msgstr "Придобита"
 
-#: clientgui/MainDocument.cpp:2612
+#: clientgui/MainDocument.cpp:2727
 msgid "Ready to report"
 msgstr "Готова за докладване"
 
-#: clientgui/MainDocument.cpp:2614
+#: clientgui/MainDocument.cpp:2729
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Грешка: невалидно състояние '%d'"
@@ -2699,7 +2763,7 @@ msgstr "Проверете потребителското име и парола
 msgid "Check the email address and password, and try again."
 msgstr "Проверете имейл адреса и паролата, и опитайте отново."
 
-#: clientgui/NoticeListCtrl.cpp:235
+#: clientgui/NoticeListCtrl.cpp:260
 msgid "more..."
 msgstr "още..."
 
@@ -2741,43 +2805,43 @@ msgstr "Поддържани системи:"
 
 #: clientgui/ProjectInfoPage.cpp:331
 msgid "Supports Microsoft Windows"
-msgstr ""
+msgstr "Поддържа Microsoft Windows"
 
 #: clientgui/ProjectInfoPage.cpp:335
 msgid "Supports Mac OS X"
-msgstr ""
+msgstr "Поддържа Mac OS X"
 
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "Supports Linux on Intel"
-msgstr ""
+msgstr "Поддържа Linux на Intel"
 
 #: clientgui/ProjectInfoPage.cpp:343
 msgid "Supports Android"
-msgstr ""
+msgstr "Поддържа Android"
 
 #: clientgui/ProjectInfoPage.cpp:347
 msgid "Supports FreeBSD"
-msgstr ""
+msgstr "Поддържа FreeBSD"
 
 #: clientgui/ProjectInfoPage.cpp:351
 msgid "Supports Linux on ARM (e.g. Raspberry Pi)"
-msgstr ""
+msgstr "Поддържа Linux на ARM (напр. Raspberry Pi)"
 
 #: clientgui/ProjectInfoPage.cpp:355
 msgid "Supports NVIDIA GPUs"
-msgstr ""
+msgstr "Поддържа NVIDIA GPU-та"
 
 #: clientgui/ProjectInfoPage.cpp:359
 msgid "Supports AMD GPUs"
-msgstr ""
+msgstr "Поддържа AMD GPU-та"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "Supports Intel GPUs"
-msgstr ""
+msgstr "Поддържа Intel GPU-та"
 
 #: clientgui/ProjectInfoPage.cpp:367
 msgid "Supports VirtualBox"
-msgstr ""
+msgstr "Поддържа VirtualBox"
 
 #: clientgui/ProjectInfoPage.cpp:377
 msgid "Project URL:"
@@ -2810,7 +2874,7 @@ msgid "Required files not found on the server."
 msgstr "Необходимите файлове не са намерени на сървъра."
 
 #: clientgui/ProjectProcessingPage.cpp:520
-#: clientgui/ProjectProcessingPage.cpp:593
+#: clientgui/ProjectProcessingPage.cpp:594
 msgid "An internal server error has occurred."
 msgstr "Възникна вътрешна грешка на сървъра."
 
@@ -2893,21 +2957,21 @@ msgstr "Автоматично засичане"
 msgid "SOCKS proxy"
 msgstr "SOCKS прокси"
 
-#: clientgui/TermsOfUsePage.cpp:232
-msgid "Terms of Use"
-msgstr "Условия за Ползване"
-
-#: clientgui/TermsOfUsePage.cpp:236
-msgid "Please read the following terms of use:"
-msgstr "Моля прочетете следните условия за ползване:"
-
-#: clientgui/TermsOfUsePage.cpp:250
+#: clientgui/TermsOfUsePage.cpp:129
 msgid "I agree to the terms of use."
 msgstr "Съгласен съм с условията на ползване."
 
-#: clientgui/TermsOfUsePage.cpp:256
+#: clientgui/TermsOfUsePage.cpp:134
 msgid "I do not agree to the terms of use."
 msgstr "Не съм съгласен с условията за ползване."
+
+#: clientgui/TermsOfUsePage.cpp:230
+msgid "Terms of Use"
+msgstr "Условия за Ползване"
+
+#: clientgui/TermsOfUsePage.cpp:234
+msgid "Please read the following terms of use:"
+msgstr "Моля прочетете следните условия за ползване:"
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -2988,8 +3052,8 @@ msgstr "'%s' не съдържа валидна пътека."
 
 #. Setup View
 #: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:198
-#: clientgui/ViewStatistics.cpp:1957 clientgui/ViewTransfers.cpp:183
-#: clientgui/ViewWork.cpp:207
+#: clientgui/ViewStatistics.cpp:1958 clientgui/ViewTransfers.cpp:200
+#: clientgui/ViewWork.cpp:229
 msgid "Commands"
 msgstr "Команди"
 
@@ -3033,15 +3097,15 @@ msgstr "Покажи всички съобщения"
 msgid "Show messages for all projects."
 msgstr "Показва съобщенията за всички проекти."
 
-#: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:124
+#: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:125
 msgid "Fetching notices; please wait..."
 msgstr "Търсене на известия; моля изчакайте..."
 
-#: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:132
+#: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:133
 msgid "There are no notices at this time."
 msgstr "Няма известия в този момент."
 
-#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:975
+#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:1032
 msgid "Notices"
 msgstr "Известия"
 
@@ -3056,8 +3120,8 @@ msgid ""
 msgstr "Докладва всички приключили задачи, получава най-новия кредит, получава най-новите предпочитания и е възможно да вземе още задачи."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:792
-#: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:880
-#: clientgui/sg_BoincSimpleFrame.cpp:956
+#: clientgui/ViewWork.cpp:254 clientgui/ViewWork.cpp:981
+#: clientgui/sg_BoincSimpleFrame.cpp:1013
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -3096,7 +3160,7 @@ msgid ""
 "report any completed tasks)."
 msgstr "Премахва този проект.  Задачите по които се работи ще бъдат изгубени (използвайте първо 'Обнови' за да докладвате завършените задачи)."
 
-#: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
+#: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:268
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
 msgid "Properties"
@@ -3118,8 +3182,8 @@ msgstr "Извършена работа"
 msgid "Avg. work done"
 msgstr "Средно извършена работа"
 
-#: clientgui/ViewProjects.cpp:257 clientgui/ViewTransfers.cpp:215
-#: clientgui/ViewWork.cpp:262
+#: clientgui/ViewProjects.cpp:257 clientgui/ViewTransfers.cpp:233
+#: clientgui/ViewWork.cpp:284
 msgid "Status"
 msgstr "Статус"
 
@@ -3225,218 +3289,218 @@ msgstr "Очаква се изходящо съобщение"
 msgid "Communication deferred"
 msgstr "Комуникацията е отсрочена"
 
-#: clientgui/ViewResources.cpp:62
+#: clientgui/ViewResources.cpp:63
 msgid "Total disk usage"
 msgstr "Общо използвано дисково пространство"
 
-#: clientgui/ViewResources.cpp:83
+#: clientgui/ViewResources.cpp:84
 msgid "Disk usage by BOINC projects"
 msgstr "Използвано дисково пространство от BOINC проекти"
 
-#: clientgui/ViewResources.cpp:227
+#: clientgui/ViewResources.cpp:229
 msgid "no projects: 0 bytes used"
 msgstr "няма проекти: 0 байта заети"
 
-#: clientgui/ViewResources.cpp:261
+#: clientgui/ViewResources.cpp:264
 msgid "used by BOINC: "
 msgstr "използвано от BOINC: "
 
-#: clientgui/ViewResources.cpp:271
+#: clientgui/ViewResources.cpp:275
 msgid "free, available to BOINC: "
 msgstr "свободно, достъпно за BOINC: "
 
-#: clientgui/ViewResources.cpp:279
+#: clientgui/ViewResources.cpp:283
 msgid "free, not available to BOINC: "
 msgstr "свободно, недостъпно за BOINC: "
 
-#: clientgui/ViewResources.cpp:289
+#: clientgui/ViewResources.cpp:293
 msgid "free: "
 msgstr "свободно: "
 
-#: clientgui/ViewResources.cpp:298
+#: clientgui/ViewResources.cpp:302
 msgid "used by other programs: "
 msgstr "използвано от други програми: "
 
-#: clientgui/ViewStatistics.cpp:1184
+#: clientgui/ViewStatistics.cpp:1185
 msgid "User Total"
 msgstr "Общ кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:1185
+#: clientgui/ViewStatistics.cpp:1186
 msgid "User Average"
 msgstr "Среден кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:1186
+#: clientgui/ViewStatistics.cpp:1187
 msgid "Host Total"
 msgstr "Общ кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:1187
+#: clientgui/ViewStatistics.cpp:1188
 msgid "Host Average"
 msgstr "Среден кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:1334
+#: clientgui/ViewStatistics.cpp:1335
 #, c-format
 msgid "Last update: %.0f days ago"
 msgstr "Последно обновяване: преди %.0f дни"
 
-#: clientgui/ViewStatistics.cpp:1961
+#: clientgui/ViewStatistics.cpp:1962
 msgid "Show user total"
 msgstr "Покажи общия кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:1962
+#: clientgui/ViewStatistics.cpp:1963
 msgid "Show total credit for user"
 msgstr "Покажи общия кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:1968
+#: clientgui/ViewStatistics.cpp:1969
 msgid "Show user average"
 msgstr "Покажи среден кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:1969
+#: clientgui/ViewStatistics.cpp:1970
 msgid "Show average credit for user"
 msgstr "Покажи среден кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:1975
+#: clientgui/ViewStatistics.cpp:1976
 msgid "Show host total"
 msgstr "Покажи общ кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:1976
+#: clientgui/ViewStatistics.cpp:1977
 msgid "Show total credit for host"
 msgstr "Покажи общия кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:1982
+#: clientgui/ViewStatistics.cpp:1983
 msgid "Show host average"
 msgstr "Покажи среден кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:1983
+#: clientgui/ViewStatistics.cpp:1984
 msgid "Show average credit for host"
 msgstr "Покажи среден кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:1992
+#: clientgui/ViewStatistics.cpp:1993
 msgid "< &Previous project"
 msgstr "< &Предходен проект"
 
-#: clientgui/ViewStatistics.cpp:1993
+#: clientgui/ViewStatistics.cpp:1994
 msgid "Show chart for previous project"
 msgstr "Покажи диаграма за предходния проект"
 
-#: clientgui/ViewStatistics.cpp:1998
+#: clientgui/ViewStatistics.cpp:1999
 msgid "&Next project >"
 msgstr "&Следващ проект >"
 
-#: clientgui/ViewStatistics.cpp:1999
+#: clientgui/ViewStatistics.cpp:2000
 msgid "Show chart for next project"
 msgstr "Покажи диаграма за следващия проект"
 
-#: clientgui/ViewStatistics.cpp:2005 clientgui/ViewStatistics.cpp:2375
+#: clientgui/ViewStatistics.cpp:2006 clientgui/ViewStatistics.cpp:2376
 msgid "Hide project list"
 msgstr "Скрий списъка с проекти"
 
-#: clientgui/ViewStatistics.cpp:2006 clientgui/ViewStatistics.cpp:2375
+#: clientgui/ViewStatistics.cpp:2007 clientgui/ViewStatistics.cpp:2376
 msgid "Use entire area for graphs"
 msgstr "Използвай цялата област за графики"
 
-#: clientgui/ViewStatistics.cpp:2011
+#: clientgui/ViewStatistics.cpp:2012
 msgid "Mode view"
 msgstr "Режим изглед"
 
-#: clientgui/ViewStatistics.cpp:2015
+#: clientgui/ViewStatistics.cpp:2016
 msgid "One project"
 msgstr "Един проект"
 
-#: clientgui/ViewStatistics.cpp:2016
+#: clientgui/ViewStatistics.cpp:2017
 msgid "Show one chart with selected project"
 msgstr "Покажи една диаграма с избрания проект"
 
-#: clientgui/ViewStatistics.cpp:2022
+#: clientgui/ViewStatistics.cpp:2023
 msgid "All projects (separate)"
 msgstr "Всички проекти (по отделно)"
 
-#: clientgui/ViewStatistics.cpp:2023
+#: clientgui/ViewStatistics.cpp:2024
 msgid "Show all projects, one chart per project"
 msgstr "Покажи всички проекти, с по една диаграма за всеки проект"
 
-#: clientgui/ViewStatistics.cpp:2029
+#: clientgui/ViewStatistics.cpp:2030
 msgid "All projects (together)"
 msgstr "Всички проекти (заедно)"
 
-#: clientgui/ViewStatistics.cpp:2030
+#: clientgui/ViewStatistics.cpp:2031
 msgid "Show one chart with all projects"
 msgstr "Покажи една диаграма с всички проекти"
 
-#: clientgui/ViewStatistics.cpp:2036
+#: clientgui/ViewStatistics.cpp:2037
 msgid "All projects (sum)"
 msgstr "Всички проекти (сума)"
 
-#: clientgui/ViewStatistics.cpp:2037
+#: clientgui/ViewStatistics.cpp:2038
 msgid "Show one chart with sum of projects"
 msgstr "Покажи една диаграма със сумата от проектите"
 
-#: clientgui/ViewStatistics.cpp:2058
+#: clientgui/ViewStatistics.cpp:2059
 msgid "Statistics"
 msgstr "Статистики"
 
-#: clientgui/ViewStatistics.cpp:2379
+#: clientgui/ViewStatistics.cpp:2380
 msgid "Show project list"
 msgstr "Покажи списъка с проекти"
 
-#: clientgui/ViewStatistics.cpp:2379
+#: clientgui/ViewStatistics.cpp:2380
 msgid "Uses smaller area for graphs"
 msgstr "Използва по-малка област за графики"
 
-#: clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewTransfers.cpp:204
 msgid "Retry Now"
 msgstr "Опитай отново сега"
 
-#: clientgui/ViewTransfers.cpp:188
+#: clientgui/ViewTransfers.cpp:205
 msgid "Retry the file transfer now"
 msgstr "Опитай отново файлов трансфер сега"
 
-#: clientgui/ViewTransfers.cpp:194
+#: clientgui/ViewTransfers.cpp:211
 msgid "Abort Transfer"
 msgstr "Прекрати Трансфер"
 
-#: clientgui/ViewTransfers.cpp:195
+#: clientgui/ViewTransfers.cpp:212
 msgid "Abort this file transfer.  You won't get credit for the task."
 msgstr "Прекрати този файлов трансфер.  Вие няма да получите кредит за задачата."
 
-#: clientgui/ViewTransfers.cpp:210
+#: clientgui/ViewTransfers.cpp:227
 msgid "File"
 msgstr "Файл"
 
-#: clientgui/ViewTransfers.cpp:211 clientgui/ViewWork.cpp:261
+#: clientgui/ViewTransfers.cpp:228 clientgui/ViewWork.cpp:283
 msgid "Progress"
 msgstr "Прогрес"
 
-#: clientgui/ViewTransfers.cpp:212
+#: clientgui/ViewTransfers.cpp:229
 msgid "Size"
 msgstr "Размер"
 
-#: clientgui/ViewTransfers.cpp:213 clientgui/ViewWork.cpp:263
+#: clientgui/ViewTransfers.cpp:230 clientgui/ViewWork.cpp:285
 msgid "Elapsed"
 msgstr "Изминало"
 
-#: clientgui/ViewTransfers.cpp:214
+#: clientgui/ViewTransfers.cpp:231 clientgui/ViewWork.cpp:286
+msgid "Remaining (estimated)"
+msgstr "Оставащо (предполагаема стойност)"
+
+#: clientgui/ViewTransfers.cpp:232
 msgid "Speed"
 msgstr "Скорост"
 
-#: clientgui/ViewTransfers.cpp:295
+#: clientgui/ViewTransfers.cpp:318
 msgid "Transfers"
 msgstr "Трансфери"
 
-#: clientgui/ViewTransfers.cpp:372
+#: clientgui/ViewTransfers.cpp:396
 msgid "Network activity is suspended - "
 msgstr "Мрежовата активност е временно прекратена - "
 
-#: clientgui/ViewTransfers.cpp:374
+#: clientgui/ViewTransfers.cpp:398
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ".\nМожете да я активирате с помощта на менюто Дейности."
 
-#: clientgui/ViewTransfers.cpp:377
-msgid "BOINC"
-msgstr "BOINC"
-
-#: clientgui/ViewTransfers.cpp:431
+#: clientgui/ViewTransfers.cpp:455
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3444,218 +3508,240 @@ msgid ""
 "will not receive credit for it."
 msgstr "Сигурни ли сте, че искате да прекратите прехвърлянето на този файл '%s'?\nВНИМАНИЕ: Прекратяването на трансфера ще направи\nневалидна задачата и Вие няма да получите кредит за нея."
 
-#: clientgui/ViewTransfers.cpp:437
+#: clientgui/ViewTransfers.cpp:461
 msgid "Abort File Transfer"
 msgstr "Прекъсни Трансфер на Файла"
 
-#: clientgui/ViewTransfers.cpp:849
+#: clientgui/ViewTransfers.cpp:900
 msgid "Upload"
 msgstr "Качване"
 
-#: clientgui/ViewTransfers.cpp:849
+#: clientgui/ViewTransfers.cpp:900
 msgid "Download"
 msgstr "Сваляне"
 
-#: clientgui/ViewTransfers.cpp:853
+#: clientgui/ViewTransfers.cpp:904
 msgid "retry in "
 msgstr "нов опит след "
 
-#: clientgui/ViewTransfers.cpp:855
+#: clientgui/ViewTransfers.cpp:906
 msgid "failed"
 msgstr "неуспешен"
 
-#: clientgui/ViewTransfers.cpp:858
+#: clientgui/ViewTransfers.cpp:909
 msgid "suspended"
 msgstr "временно прекъснат"
 
-#: clientgui/ViewTransfers.cpp:863
+#: clientgui/ViewTransfers.cpp:914
 msgid "active"
 msgstr "активен"
 
-#: clientgui/ViewTransfers.cpp:865
+#: clientgui/ViewTransfers.cpp:916
 msgid "pending"
 msgstr "в очакване"
 
-#: clientgui/ViewTransfers.cpp:871
+#: clientgui/ViewTransfers.cpp:922
 msgid " (project backoff: "
 msgstr " (отстъп на проекта: "
 
-#: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:856
+#: clientgui/ViewWork.cpp:233 clientgui/ViewWork.cpp:957
 msgid "Show active tasks"
 msgstr "Покажи активните задачи"
 
-#: clientgui/ViewWork.cpp:212 clientgui/ViewWork.cpp:857
+#: clientgui/ViewWork.cpp:234 clientgui/ViewWork.cpp:958
 msgid "Show only active tasks."
 msgstr "Покажи само активните задачи."
 
-#: clientgui/ViewWork.cpp:218 clientgui/ViewWork.cpp:897
+#: clientgui/ViewWork.cpp:240 clientgui/ViewWork.cpp:998
 #: clientgui/sg_TaskCommandPopup.cpp:66 clientgui/sg_TaskCommandPopup.cpp:155
 msgid "Show graphics"
 msgstr "Покажи графики"
 
-#: clientgui/ViewWork.cpp:219 clientgui/ViewWork.cpp:898
+#: clientgui/ViewWork.cpp:241 clientgui/ViewWork.cpp:999
 #: clientgui/sg_TaskCommandPopup.cpp:67 clientgui/sg_TaskCommandPopup.cpp:156
 msgid "Show application graphics in a window."
 msgstr "Покажи графиката от приложението в прозорец."
 
-#: clientgui/ViewWork.cpp:225
+#: clientgui/ViewWork.cpp:247
 msgid "Show VM Console"
 msgstr "Покажи VM Конзола"
 
-#: clientgui/ViewWork.cpp:226
+#: clientgui/ViewWork.cpp:248
 msgid "Show VM Console in a window."
 msgstr "Показва VM Конзола в прозорец."
 
-#: clientgui/ViewWork.cpp:233
+#: clientgui/ViewWork.cpp:255
 msgid "Suspend work for this result."
 msgstr "Временно прекрати работа по този резултат."
 
-#: clientgui/ViewWork.cpp:239 clientgui/sg_TaskCommandPopup.cpp:78
+#: clientgui/ViewWork.cpp:261 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
 msgstr "Прекрати"
 
-#: clientgui/ViewWork.cpp:240
+#: clientgui/ViewWork.cpp:262
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "Отказвате се от работа по резултата. Няма да получите кредит за него."
 
-#: clientgui/ViewWork.cpp:247 clientgui/sg_TaskCommandPopup.cpp:85
+#: clientgui/ViewWork.cpp:269 clientgui/sg_TaskCommandPopup.cpp:85
 msgid "Show task details."
 msgstr "Покажи подробности по задачата."
 
-#: clientgui/ViewWork.cpp:264
-msgid "Remaining (estimated)"
-msgstr "Оставащо (предполагаема стойност)"
-
-#: clientgui/ViewWork.cpp:265
+#: clientgui/ViewWork.cpp:287
 msgid "Deadline"
 msgstr "Краен срок"
 
-#: clientgui/ViewWork.cpp:351
+#: clientgui/ViewWork.cpp:290
+msgid "Estimated Completion"
+msgstr "Очаквано завършване"
+
+#: clientgui/ViewWork.cpp:291
+msgid "Completion Before Deadline"
+msgstr "Завършване преди Краен срок"
+
+#: clientgui/ViewWork.cpp:385
 msgid "Tasks"
 msgstr "Задачи"
 
-#: clientgui/ViewWork.cpp:564
+#: clientgui/ViewWork.cpp:642
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr "Сигурни ли сте, че искате да прекъснете тази задача '%s'?\n(Прогрес: %s, Статус: %s)"
 
-#: clientgui/ViewWork.cpp:570
+#: clientgui/ViewWork.cpp:648
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Сигурни ли сте, че искате да прекъснете тези %d задачи?"
 
-#: clientgui/ViewWork.cpp:575 clientgui/sg_TaskCommandPopup.cpp:283
+#: clientgui/ViewWork.cpp:653 clientgui/sg_TaskCommandPopup.cpp:283
 msgid "Abort task"
 msgstr "Прекрати задача"
 
-#: clientgui/ViewWork.cpp:850
+#: clientgui/ViewWork.cpp:951
 msgid "Show all tasks"
 msgstr "Покажи всички задачи"
 
-#: clientgui/ViewWork.cpp:851
+#: clientgui/ViewWork.cpp:952
 msgid "Show all tasks."
 msgstr "Покажи всички задачи."
 
-#: clientgui/ViewWork.cpp:875 clientgui/sg_TaskCommandPopup.cpp:119
+#: clientgui/ViewWork.cpp:976 clientgui/sg_TaskCommandPopup.cpp:119
 msgid "Resume work for this task."
 msgstr "Поднови работа по тази задача."
 
-#: clientgui/ViewWork.cpp:881 clientgui/sg_TaskCommandPopup.cpp:123
+#: clientgui/ViewWork.cpp:982 clientgui/sg_TaskCommandPopup.cpp:123
 msgid "Suspend work for this task."
 msgstr "Временно прекрати работа по тази задача."
 
-#: clientgui/ViewWork.cpp:889 clientgui/sg_TaskCommandPopup.cpp:149
+#: clientgui/ViewWork.cpp:990 clientgui/sg_TaskCommandPopup.cpp:149
 msgid "Stop graphics"
-msgstr ""
+msgstr "Спри графиките"
 
-#: clientgui/ViewWork.cpp:890 clientgui/sg_TaskCommandPopup.cpp:150
+#: clientgui/ViewWork.cpp:991 clientgui/sg_TaskCommandPopup.cpp:150
 msgid "Close application graphics window."
-msgstr ""
+msgstr "Затвори графичния прозорец на приложението."
 
-#: clientgui/WizardAttach.cpp:573
+#: clientgui/ViewWork.cpp:1172
+msgid "---"
+msgstr "---"
+
+#: clientgui/ViewWork.cpp:1190
+msgid "-"
+msgstr "-"
+
+#: clientgui/WizardAttach.cpp:572
 msgid "Do you really want to cancel?"
 msgstr "Сигурни ли сте че искате да се откажете?"
 
-#: clientgui/WizardAttach.cpp:574
-msgid "Question"
-msgstr "Въпрос"
-
-#: clientgui/sg_BoincSimpleFrame.cpp:194
+#: clientgui/sg_BoincSimpleFrame.cpp:199
 msgid "Skin"
 msgstr "Скин"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:196
+#: clientgui/sg_BoincSimpleFrame.cpp:201
 msgid "Select the appearance of the user interface."
 msgstr "Изберете изгледа на потребителския интерфейс."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:206
+#: clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Разширен Изглед...\t Ctrl+Shift+A"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:207
+#: clientgui/sg_BoincSimpleFrame.cpp:212
 msgid "Display the advanced graphical interface."
 msgstr "Показване на разширения графичен интерфейс."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:223
+#: clientgui/sg_BoincSimpleFrame.cpp:228
 msgid "Configure display options and proxy settings"
 msgstr "Конфигурирай опциите на дисплея и настройките на проксито"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:272
+#: clientgui/sg_BoincSimpleFrame.cpp:277
 msgid "Display diagnostic messages."
 msgstr "Покажи диагностични съобщения."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:311
+#: clientgui/sg_BoincSimpleFrame.cpp:316
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Покажи информация за BOINC и %s"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:535
+#: clientgui/sg_BoincSimpleFrame.cpp:542
 msgid "Default"
 msgstr "По подразбиране"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:958
+#: clientgui/sg_BoincSimpleFrame.cpp:1015
 msgid "Suspend Computing"
 msgstr "Временно прекратете Изчисленията"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:959
+#: clientgui/sg_BoincSimpleFrame.cpp:1016
 msgid "Resume Computing"
 msgstr "Подновете Изчисленията"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:976
+#: clientgui/sg_BoincSimpleFrame.cpp:1033
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Отворете прозорец за да прегледате известията от проектите или от BOINC"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:997 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1054 clientgui/sg_DlgPreferences.cpp:374
 #, c-format
 msgid "Get help with %s"
 msgstr "Вземи помощ с %s"
 
-#: clientgui/sg_DlgMessages.cpp:146
-msgid "Close"
-msgstr "Затвори"
-
-#: clientgui/sg_DlgMessages.cpp:394
+#: clientgui/sg_DlgMessages.cpp:463
 #, c-format
 msgid "%s - Notices"
 msgstr "%s - Известия"
 
-#: clientgui/sg_DlgPreferences.cpp:208
+#: clientgui/sg_DlgPreferences.cpp:164
+msgid ""
+"Using local preferences.\n"
+"Click \"Use web prefs\" to use web-based preferences from"
+msgstr "Използвам локалните предпочитания.\nИзберете \"Използвай уеб предпочитания\" за да използвате уеб-базираните предпочитания от"
+
+#: clientgui/sg_DlgPreferences.cpp:172
+msgid "Using web-based preferences from"
+msgstr "Използвам уеб-базирани предпочитания от"
+
+#: clientgui/sg_DlgPreferences.cpp:190
+msgid "Set values and click Save to use local preferences instead."
+msgstr "Въведете стойности и кликнете Запазване, за да използвате локалните настройки."
+
+#: clientgui/sg_DlgPreferences.cpp:209
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr "За допълнителни настройки, изберете Изчислителни предпочитания от Разширен Изглед."
 
-#: clientgui/sg_DlgPreferences.cpp:346
+#: clientgui/sg_DlgPreferences.cpp:269
+msgid "'In use' means mouse/keyboard input in last"
+msgstr "'В употреба' означава активност на мишката/клавиатурата през последните"
+
+#: clientgui/sg_DlgPreferences.cpp:347
 msgid "GB of disk space"
 msgstr "ГБ дисково пространство"
 
-#: clientgui/sg_DlgPreferences.cpp:1117
+#: clientgui/sg_DlgPreferences.cpp:1160
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s - Изчислителни предпочитания"
 
-#: clientgui/sg_DlgPreferences.cpp:1198
+#: clientgui/sg_DlgPreferences.cpp:1241
 msgid "Discard all local preferences and use web-based preferences?"
 msgstr "Изчистете всички локални предпочитания и използвайте уеб-базираните?"
 
@@ -3725,114 +3811,114 @@ msgstr "Нямате добавени проекти.  Моля Добавете
 msgid "Not available"
 msgstr "Няма на разположение"
 
-#: clientgui/sg_TaskPanel.cpp:473
+#: clientgui/sg_TaskPanel.cpp:476
 msgid "Tasks:"
 msgstr "Задачи:"
 
 #. TODO: Might want better wording for Task Selection Combo Box tooltip
-#: clientgui/sg_TaskPanel.cpp:479
+#: clientgui/sg_TaskPanel.cpp:482
 msgid "Select a task to access"
 msgstr "Изберете задача, до която да получите достъп"
 
 #. what project the task is from, e.g. "From: SETI@home"
-#: clientgui/sg_TaskPanel.cpp:491
+#: clientgui/sg_TaskPanel.cpp:494
 msgid "From:"
 msgstr "От:"
 
-#: clientgui/sg_TaskPanel.cpp:545
+#: clientgui/sg_TaskPanel.cpp:548
 msgid "This task's progress"
 msgstr "Прогреса на тази задача"
 
-#: clientgui/sg_TaskPanel.cpp:563
+#: clientgui/sg_TaskPanel.cpp:566
 msgid "Task Commands"
 msgstr "Команди за Задача"
 
-#: clientgui/sg_TaskPanel.cpp:564
+#: clientgui/sg_TaskPanel.cpp:567
 msgid "Pop up a menu of commands to apply to this task"
 msgstr "Появява се меню с команди, които да прилагате върху тази задача"
 
-#: clientgui/sg_TaskPanel.cpp:699
+#: clientgui/sg_TaskPanel.cpp:702
 #, c-format
 msgid "Application: %s"
 msgstr "Приложение: %s"
 
-#: clientgui/sg_TaskPanel.cpp:722
+#: clientgui/sg_TaskPanel.cpp:725
 #, c-format
 msgid "%.3f%%"
 msgstr "%.3f%%"
 
-#: clientgui/sg_TaskPanel.cpp:730
+#: clientgui/sg_TaskPanel.cpp:733
 msgid "Application: Not available"
 msgstr "Приложение: Няма на разположение"
 
-#: clientgui/sg_TaskPanel.cpp:830
+#: clientgui/sg_TaskPanel.cpp:833
 msgid "Not Available"
 msgstr "Няма на Разположение"
 
-#: clientgui/sg_TaskPanel.cpp:845
+#: clientgui/sg_TaskPanel.cpp:848
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Изминало време: %s"
 
-#: clientgui/sg_TaskPanel.cpp:859
+#: clientgui/sg_TaskPanel.cpp:862
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Оставащо време (пресметнато): %s"
 
-#: clientgui/sg_TaskPanel.cpp:874
+#: clientgui/sg_TaskPanel.cpp:877
 #, c-format
 msgid "Status: %s"
 msgstr "Статус: %s"
 
-#: clientgui/sg_TaskPanel.cpp:1208
+#: clientgui/sg_TaskPanel.cpp:1211
 msgid "Retrieving current status."
 msgstr "Изтегляне на текущия статус."
 
-#: clientgui/sg_TaskPanel.cpp:1214
+#: clientgui/sg_TaskPanel.cpp:1217
 msgid "Downloading work from the server."
 msgstr "Изтегляне на работа от сървъра."
 
-#: clientgui/sg_TaskPanel.cpp:1219
+#: clientgui/sg_TaskPanel.cpp:1222
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Процесите са Временно Прекратени:  Работи се На Батерии."
 
-#: clientgui/sg_TaskPanel.cpp:1221
+#: clientgui/sg_TaskPanel.cpp:1224
 msgid "Processing Suspended:  User Active."
 msgstr "Процесите са Временно Прекратени:  Потребителя е Активен."
 
-#: clientgui/sg_TaskPanel.cpp:1223
+#: clientgui/sg_TaskPanel.cpp:1226
 msgid "Processing Suspended:  User paused processing."
 msgstr "Процесите са Временно Прекратени:  Потребителят спря на пауза процесите."
 
-#: clientgui/sg_TaskPanel.cpp:1225
+#: clientgui/sg_TaskPanel.cpp:1228
 msgid "Processing Suspended:  Time of Day."
 msgstr "Процесите са Временно Прекратени:  Ограничителни Часове."
 
-#: clientgui/sg_TaskPanel.cpp:1227
+#: clientgui/sg_TaskPanel.cpp:1230
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr "Процесите са Временно Прекратени:  Изчисляват се Референтните Показатели."
 
-#: clientgui/sg_TaskPanel.cpp:1229
+#: clientgui/sg_TaskPanel.cpp:1232
 msgid "Processing Suspended:  need disk space."
 msgstr "Обработката прекратена:  необходимо е дисково пространство."
 
-#: clientgui/sg_TaskPanel.cpp:1231
+#: clientgui/sg_TaskPanel.cpp:1234
 msgid "Processing Suspended."
 msgstr "Процесите са Временно Прекратени."
 
-#: clientgui/sg_TaskPanel.cpp:1235
+#: clientgui/sg_TaskPanel.cpp:1238
 msgid "Waiting to contact project servers."
 msgstr "Изчаква за свързване със сървърите на проекта."
 
-#: clientgui/sg_TaskPanel.cpp:1239 clientgui/sg_TaskPanel.cpp:1248
+#: clientgui/sg_TaskPanel.cpp:1242 clientgui/sg_TaskPanel.cpp:1251
 msgid "Retrieving current status"
 msgstr "Извличане на текущ статус"
 
-#: clientgui/sg_TaskPanel.cpp:1243
+#: clientgui/sg_TaskPanel.cpp:1246
 msgid "No work available to process"
 msgstr "Няма налична работа за обработване"
 
-#: clientgui/sg_TaskPanel.cpp:1245
+#: clientgui/sg_TaskPanel.cpp:1248
 msgid "Unable to connect to the core client"
 msgstr "Не може да се свърже с централния клиент"
 

@@ -17,7 +17,12 @@
 
 // A sample assimilator that:
 // 1) if success, copy the output file(s) to a directory
-// 2) if failure, append a message to an error log
+//      ../results/batchid
+//      If 1 output file, its name is the WU name
+//      If >1 files, file i is named <wuname>_i
+// 2) if failure, write a message to <wuname>_error
+
+// Note: daemons like this run in project/tmp_<host>
 
 #include <vector>
 #include <string>
@@ -28,24 +33,20 @@
 #include "filesys.h"
 #include "sched_msgs.h"
 #include "validate_util.h"
-#include "sched_config.h"
 #include "assimilate_handler.h"
 
 using std::vector;
 using std::string;
 
-const char* outdir = "sample_results";
+const char* outdir = "../results";
 
-int write_error(char* p) {
-    static FILE* f = 0;
-    if (!f) {
-        char path[1024];
-        sprintf(path, "%s/errors", outdir);
-        f = fopen(config.project_path(path), "a");
-        if (!f) return ERR_FOPEN;
-    }
+int write_error(WORKUNIT &wu, char* p) {
+    char path[1024];
+    sprintf(path, "%s/%d/%s_error", outdir, wu.batch, wu.name);
+    FILE* f = fopen(path, "a");
+    if (!f) return ERR_FOPEN;
     fprintf(f, "%s", p);
-    fflush(f);
+    fclose(f);
     return 0;
 }
 
@@ -75,38 +76,36 @@ int assimilate_handler(
     char buf[1024];
     unsigned int i;
 
-    retval = boinc_mkdir(config.project_path(outdir));
+    retval = boinc_mkdir(outdir);
+    if (retval) return retval;
+    sprintf(buf, "%s/%d", outdir, wu.batch);
+    retval = boinc_mkdir(buf);
     if (retval) return retval;
 
     if (wu.canonical_resultid) {
         vector<OUTPUT_FILE_INFO> output_files;
-        const char *copy_path;
         get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
         bool file_copied = false;
         for (i=0; i<n; i++) {
             OUTPUT_FILE_INFO& fi = output_files[i];
-            if (n==1) {
-                sprintf(buf, "%s/%s", outdir, wu.name);
-            } else {
-                sprintf(buf, "%s/%s_%d", outdir, wu.name, i);
-            }
-            copy_path = config.project_path(buf);
-            retval = boinc_copy(fi.path.c_str() , copy_path);
+            sprintf(buf, "%s/%d/%s__file_%s",
+                outdir, wu.batch, wu.name, fi.logical_name.c_str()
+            );
+            retval = boinc_copy(fi.path.c_str() , buf);
             if (!retval) {
                 file_copied = true;
             }
         }
         if (!file_copied) {
-            sprintf(buf, "%s/%s_no_output_files", outdir, wu.name);
-            copy_path = config.project_path(buf);
-            FILE* f = fopen(copy_path, "w");
+            sprintf(buf, "%s/%d/%s_no_output_files", outdir, wu.batch, wu.name);
+            FILE* f = fopen(buf, "w");
             if (!f) return ERR_FOPEN;
             fclose(f);
         }
     } else {
-        sprintf(buf, "%s: 0x%x\n", wu.name, wu.error_mask);
-        return write_error(buf);
+        sprintf(buf, "0x%x\n", wu.error_mask);
+        return write_error(wu, buf);
     }
     return 0;
 }

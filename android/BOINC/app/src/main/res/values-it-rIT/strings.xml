@@ -28,17 +28,18 @@
   <string name="attachproject_working_attaching">Allegando %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
-  <string name="attachproject_hints_header">Consiglio</string>
+  <string name="attachproject_hints_header">Suggerimento</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Come contribuire:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Connettiti ad una rete WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Collega il caricabatterie</string>
+  <string name="attachproject_hint_contribtion_app">3. Avvia BOINC e mantienilo in esecuzione</string>
   <string name="attachproject_hint_contribtion_screen">4. Spegni lo schermo</string>
   <string name="attachproject_hint_projectwebsite_header">Visita il sito web del progetto a:</string>
   <string name="attachproject_hint_projectwebsite_science">Scopri di più sul calcolo scientifico</string>
   <string name="attachproject_hint_projectwebsite_stats">Vedi le statistiche dei contributi</string>
   <string name="attachproject_hint_projectwebsite_community">Conosci gli altri volontari</string>
-  <string name="attachproject_hint_platforms_header">BOINC disponibile anche per computer e laptop, visita boinc.berkeley.edu per maggiori informazioni.</string>
+  <string name="attachproject_hint_platforms_header">Il software BOINC è disponibile anche per PC e laptop, visita boinc.berkeley.edu per maggiori informazioni.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Comunicazione con il server del progetto in corso…</string>
   <string name="attachproject_login_header_general_area">Area di ricerca:</string>
@@ -53,8 +54,10 @@
   <string name="attachproject_login_button_login">Login</string>
   <string name="attachproject_login_button_forgotpw">Password dimenticata</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Usa BOINC account manager per aggiungere e gestire più progetti</string>
-  <string name="attachproject_acctmgr_header">Usa l\'account manager</string>
+  <string name="attachproject_acctmgr_list_desc">Usa un account manager per controllare questo dispositivo</string>
+  <string name="attachproject_acctmgr_header">Utilizza un account manager</string>
+  <string name="attachproject_attach_projects_header">Aggiungi progetti</string>
+  <string name="attachproject_attach_projects_desc">Connetti progetti dalla lista progetti</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Utente:</string>
   <string name="attachproject_acctmgr_header_pwd">Password:</string>
@@ -103,6 +106,7 @@
   <string name="prefs_category_memory">Memoria</string>
   <string name="prefs_category_other">Altro</string>
   <string name="prefs_category_debug">Debug</string>
+  <string name="prefs_category_remote">Controllo remoto</string>
   <string name="prefs_show_advanced_header">Mostra preferenze e controlli avanzati</string>
   <string name="prefs_suspend_when_screen_on">Interrompi il calcolo quando lo schermo è acceso</string>
   <string name="prefs_general_device_name_header">Nome dispositivo</string>
@@ -123,16 +127,21 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">Limite trasferimento giornaliero (giorni)</string>
   <string name="prefs_network_wifi_only_header">Trasferisci attività solo tramite WiFi</string>
   <string name="prefs_autostart_header">Avvio automatico</string>
+  <string name="prefs_remote_header">Abilita il controllo remoto</string>
+  <string name="prefs_remote_summary">Dopo la modifica il client BOINC verrà riavviato.</string>
   <string name="prefs_show_notification_notices_header">Visualizza notifiche delle notizie</string>
   <string name="prefs_cpu_number_cpus_header">Usa questo numero di core CPU</string>
   <string name="prefs_cpu_number_cpus_description">Limita il numero di core CPU che BOINC usa per l\'elaborazione.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausa con utilizzo CPU superiore a (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Determina quando BOINC fermerà l\'elaborazione a causa dell\'utilizzo CPU di altre applicazioni.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Determina quando BOINC mette in pausa l\'elaborazione a causa dell\'utilizzo CPU di altre applicazioni.</string>
   <string name="prefs_cpu_time_max_header">Limite CPU (%)</string>
   <string name="prefs_cpu_time_max_description">Limita il tempo CPU che BOINC usa per l\'elaborazione.</string>
   <string name="prefs_memory_max_idle_header">Limite RAM (%)</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Buffer delle work unit (giorni)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Buffer unità di lavoro aggiuntiva (giorni)</string>
+  <string name="prefs_remote_authentication_key">Chiave di autenticazione GUI</string>
+  <string name="prefs_remote_empty_password">Modifica della password fallita: il valore non può essere vuoto</string>
+  <string name="prefs_remote_boinc_relaunched">Il client BOINC verrà riavviato dopo la modifica della password.</string>
   <string name="prefs_client_log_flags_header">Flag di log del client BOINC</string>
   <string name="prefs_gui_log_level_header">Livello di log della GUI</string>
   <string name="prefs_gui_log_level_description">Specifica la verbosità dei messaggi di log della GUI.</string>
@@ -144,6 +153,8 @@
   <string name="projects_icon">Icona progetto</string>
   <string name="projects_credits">Crediti:</string>
   <string name="projects_credits_host_and_user">%1$,d (da questo dispositivo) %2$,d (in totale)</string>
+  <string name="projects_disk_usage">Uso del disco:</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Sospeso dall\'utente</string>
   <string name="projects_status_dontrequestmorework">Non chiedere nuove attività</string>
@@ -232,7 +243,7 @@
   <string name="suspend_os">Fermato da Android.</string>
   <string name="suspend_wifi">Non connesso al WiFi</string>
   <string name="suspend_battery_charging">In attesa che la batteria si ricarichi.</string>
-  <string name="suspend_battery_charging_long">L\'elaborazione riprenderà quando il livello di carica della batteria sarà almeno %1$d%% (al momento %2$d%%) </string>
+  <string name="suspend_battery_charging_long">L\'elaborazione riprenderà quando la batteria raggiungera %1$d%%(attualmente %2$d%%)</string>
   <string name="suspend_battery_overheating">In attesa che la batteria si raffreddi</string>
   <string name="suspend_user_req">Ripresa elaborazione…</string>
   <!--rpc reasons-->
@@ -255,7 +266,6 @@
   <string name="menu_help">Assistenza</string>
   <string name="menu_report_issue">Segnala problema</string>
   <!--about dialog-->
-  <string name="about_button">Invio</string>
   <string name="about_title">Informazioni</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versione %1$s</string>
@@ -265,11 +275,12 @@
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nuovo avviso da %1$s</item>
+    <item quantity="many">%2$,d nuovi avvisi</item>
     <item quantity="other">%2$,d nuovi avvisi</item>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Applicazione di calcolo distribuito rilevata</string>
-  <string name="nonexcl_dialog_text">Un\'altra applicazione di calcolo distribuito volontario è in uso su questo dispositivo. Solo una versione per volta può essere utilizzata.</string>
+  <string name="nonexcl_dialog_text">Un\'altra applicazione di calcolo distribuito volontario è in uso su questo dispositivo. Solo una versione per volta può essere utilizzata.   </string>
   <string name="nonexcl_dialog_exit">Esci</string>
   <!--social integration-->
   <string name="social_invite_button">Invita amici</string>
@@ -278,9 +289,10 @@
   <string name="social_invite_content_body">Sto usando il mio %1$s per fare calcolo scientifico distribuito. Puoi farlo anche tu! Scarica l\'applicazione da: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">https://www.amazon.it/gp/product/B00DCCGLAG</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.it/dp/B00DCCGLAG</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">Avvisi</string>
   <string name="notice_notification_channel_description">Mostra avvisi dei tuoi progetti.</string>
+  <string name="agree_button">Accetto</string>
 </resources>

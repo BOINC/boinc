@@ -18,6 +18,7 @@
 
 require_once("../inc/boinc_db.inc");
 
+#[AllowDynamicProperties]
 class BoincCategory {
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -33,6 +34,7 @@ class BoincCategory {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincForum {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -62,6 +64,7 @@ class BoincForum {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincThread {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -92,6 +95,7 @@ class BoincThread {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincPost {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -132,6 +136,7 @@ class BoincPost {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincForumPrefs {
     static $cache;
     static function lookup_userid($id) {
@@ -181,6 +186,7 @@ class BoincForumPrefs {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincForumLogging {
     static $cache;
     static function replace($userid, $threadid, $timestamp) {
@@ -227,6 +233,7 @@ class BoincForumLogging {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincSubscription {
     static function lookup($userid, $threadid) {
         $db = BoincDb::get();
@@ -246,6 +253,7 @@ class BoincSubscription {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincPostRating {
     static function lookup($userid, $postid) {
         $db = BoincDb::get();
@@ -257,6 +265,7 @@ class BoincPostRating {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincFriend {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -289,6 +298,7 @@ class BoincFriend {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincNotify {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -329,6 +339,7 @@ class BoincNotify {
 define ('NOTIFY_FRIEND_REQ', 1);
 define ('NOTIFY_FRIEND_ACCEPT', 2);
 define ('NOTIFY_PM', 3);
-define ('NOTIFY_SUBSCRIBED_POST', 4);
+define ('NOTIFY_SUBSCRIBED_THREAD', 4);
+define ('NOTIFY_SUBSCRIBED_FORUM', 5);
 
 ?>

@@ -73,13 +73,13 @@ function show_news($start, $count) {
         ";
         return;
     }
-    
+
     if (is_array($start)) {
         echo "You have not changed show_news() to use 0 instead of
             deprecated \$project_news as the first param.";
         return;
     }
-    
+
     $lim = "";
     if ($start) {
         if ($count) {
@@ -118,5 +118,4 @@ function show_news($start, $count) {
     ";
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

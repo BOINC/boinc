@@ -176,10 +176,10 @@ struct PROJECT_INIT_STATUS;
 //
 #define PAGE_TRANSITION_NEXT(id) \
     ((CWizardAttach*)GetParent())->PushPageTransition((wxWizardPageEx*)this, id)
- 
+
 #define PAGE_TRANSITION_BACK \
     ((CWizardAttach*)GetParent())->PopPageTransition()
- 
+
 #define PROCESS_CANCELEVENT(event) \
     ((CWizardAttach*)GetParent())->ProcessCancelEvent(event)
 
@@ -192,7 +192,7 @@ struct PROJECT_INIT_STATUS;
  */
 
 class CWizardAttach: public CBOINCBaseWizard
-{    
+{
     DECLARE_DYNAMIC_CLASS( CWizardAttach )
     DECLARE_EVENT_TABLE()
 
@@ -225,14 +225,14 @@ public:
     bool Run(
         wxString strProjectName,
         wxString strProjectURL,
-        wxString strProjectAuthenticator, 
+        wxString strProjectAuthenticator,
         wxString strProjectInstitution,
         wxString strProjectDescription,
         wxString strProjectKnown,
         bool     bAccountKeyDetected,
         bool     bEmbedded
     );
-    
+
     /// Synchronize to Account Manager
     bool SyncToAccountManager();
 

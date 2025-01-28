@@ -65,7 +65,7 @@ if not options.srcdir:
 
 if not options.web_only:
     print ("Don't forget to do 'make' first!")
-    
+
 if not tools.query_noyes("Overwrite files in "+INSTALL_DIR):
     raise SystemExit
 

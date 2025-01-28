@@ -97,6 +97,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
         p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
         p.is_low_priority = (pProcesses->BasePriority <= 4);
+        p.create_time = pProcesses->CreateTime;
         WideCharToMultiByte(CP_ACP, 0,
             pProcesses->ProcessName.Buffer,
             pProcesses->ProcessName.Length,
@@ -105,22 +106,22 @@ int get_procinfo_XP(PROC_MAP& pm) {
             NULL, NULL
         );
         p.is_boinc_app = (p.id == (int)pid) || (strcasestr(p.command, "boinc") != NULL);
-        
+
 #ifdef _CHARITYENGINE
         if (!strcmp(p.command, "charityengine.exe")) {
             p.is_boinc_app = true;
         }
-#endif        
+#endif
 #ifdef _GRIDREPUBLIC
         if (!strcmp(p.command, "gridrepublic.exe")) {
             p.is_boinc_app = true;
         }
-#endif        
+#endif
 #ifdef _PROGRESSTHRUPROCESSORS
         if (!strcmp(p.command, "progressthruprocessors.exe")) {
             p.is_boinc_app = true;
         }
-#endif        
+#endif
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
         if (!pProcesses->NextEntryDelta) {
             break;
@@ -136,7 +137,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
 // get a list of all running processes.
 //
 int procinfo_setup(PROC_MAP& pm) {
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
 
@@ -148,4 +149,20 @@ int procinfo_setup(PROC_MAP& pm) {
         return get_procinfo_XP(pm);
     }
     return 0;
+}
+
+// get total CPU time
+// see https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getsystemtimes
+//
+double total_cpu_time() {
+    FILETIME i, s, u;
+    GetSystemTimes(&i, &s, &u);
+    ULARGE_INTEGER ix, sx,ux;
+    ix.LowPart = i.dwLowDateTime;
+    ix.HighPart = i.dwHighDateTime;
+    sx.LowPart = s.dwLowDateTime;
+    sx.HighPart = s.dwHighDateTime;
+    ux.LowPart = u.dwLowDateTime;
+    ux.HighPart = u.dwHighDateTime;
+    return ((double)ux.QuadPart + (double)sx.QuadPart - (double)ix.QuadPart)/1e7;
 }

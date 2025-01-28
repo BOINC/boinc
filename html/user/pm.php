@@ -22,8 +22,6 @@ require_once("../inc/pm.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/akismet.inc");
 
-check_get_args(array("replyto", "deleted", "userid", "action", "sent", "id", "tnow", "ttok", "teamid"));
-
 function show_block_link($userid) {
     echo " <a href=\"pm.php?action=block&amp;id=$userid\">";
     show_image(REPORT_POST_IMAGE, tra("Block messages from this user"), tra("Block user"), REPORT_POST_IMAGE_HEIGHT);
@@ -50,11 +48,16 @@ function make_script() {
     ";
 }
 
-// show all private messages,
+// show private messages,
 // and delete notifications of new messages
 //
 function do_inbox($logged_in_user) {
-    page_head(tra("Private messages").": ".tra("Inbox"));
+    page_head(
+        sprintf('%s: %s',
+            tra("Private messages"),
+            tra("Inbox")
+        )
+    );
 
     make_script();
     if (get_int("sent", true) == 1) {
@@ -67,9 +70,38 @@ function do_inbox($logged_in_user) {
     $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id ORDER BY date DESC"
     );
-    if (count($msgs) == 0) {
+    $nmsgs = count($msgs);
+    if ($nmsgs == 0) {
         echo tra("You have no private messages.");
     } else {
+        // see if we have to paginate messages
+        //
+        $nshow = $logged_in_user->prefs->display_wrap_postcount;
+        if ($nshow < 1) $nshow = 20;
+        $offset = 0;
+        if ($nmsgs > $nshow) {
+            $offset = get_int('offset', true);
+            if ($offset === false) $offset = 0;
+            if ($offset >= $nmsgs) $offset = 0;
+            echo sprintf('Showing messages %d to %d of %d',
+                $offset+1,
+                min($offset+$nshow, $nmsgs),
+                $nmsgs
+            );
+            if ($offset) {
+                echo sprintf(
+                    ' &middot; <a href=pm.php?action=inbox&offset=%d>Previous %d</a>',
+                    max(0, $offset-$nshow), $nshow
+                );
+            }
+            if ($offset+$nshow < $nmsgs) {
+                echo sprintf(
+                    ' &middot; <a href=pm.php?action=inbox&offset=%d>Next %d</a>',
+                    $offset+$nshow, $nshow
+                );
+            }
+        }
+
         echo "<form name=msg_list action=pm.php method=post>
             <input type=hidden name=action value=delete_selected>
         ";
@@ -79,7 +111,14 @@ function do_inbox($logged_in_user) {
             array(tra("Subject"), tra("Sender and date"), tra("Message")),
             array('style="width: 12em;"', 'style="width: 10em;"', "")
         );
+        $i = 0;
         foreach($msgs as $msg) {
+            if ($i<$offset) {
+                $i++;
+                continue;
+            }
+            if ($i>=$offset+$nshow) break;
+            $i++;
             $sender = BoincUser::lookup_id($msg->senderid);
             if (!$sender) {
                 $msg->delete();
@@ -154,7 +193,7 @@ function do_new($logged_in_user) {
     if (VALIDATE_EMAIL_TO_POST) {
         check_validated_email($logged_in_user);
     }
-    pm_form($replyto, $userid);
+    pm_form_page($replyto, $userid);
 }
 
 function do_delete($logged_in_user) {
@@ -220,44 +259,73 @@ function do_send($logged_in_user) {
     $content = post_str("content", true);
 
     if (post_str("preview", true) == tra("Preview")) {
-        pm_form($replyto, $userid);
+        pm_form_page($replyto, $userid);
+        return;
     }
     if (($to == null) || ($subject == null) || ($content == null)) {
-        pm_form($replyto, $userid, tra("You need to fill all fields to send a private message"));
+        pm_form_page(
+            $replyto, $userid,
+            tra("You need to fill all fields to send a private message")
+        );
         return;
     }
     if (!akismet_check($logged_in_user, $content)) {
-        pm_form($replyto, $userid, tra("Your message was flagged as spam
-            by the Akismet anti-spam system.
-            Please modify your text and try again.")
+        pm_form_page($replyto, $userid,
+            tra("Your message was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again.")
         );
+        return;
     }
-    $to = str_replace(", ", ",", $to); // Filter out spaces after separator
-    $users = explode(",", $to);
+    $usernames = explode("\n", $to);
 
     $userlist = array();
     $userids = array(); // To prevent from spamming a single user by adding it multiple times
 
-    foreach ($users as $username) {
-        $user = explode(" ", $username);
-        if (is_numeric($user[0])) { // user ID is given
-            $userid = $user[0];
+    foreach ($usernames as $username) {
+        // can be <id>, name, or '<id> (name)'
+        // (PM reply fills in the latter)
+        //
+        $x = explode(' ', $username);
+        if (is_numeric($x[0])) {     // user ID
+            $userid = (int)$x[0];
             $user = BoincUser::lookup_id($userid);
             if ($user == null) {
-                pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
+                pm_form_page(
+                    $replyto, $userid,
+                    tra("Could not find user with id %1", $userid)
+                );
+                return;
             }
         } else {
             $users = BoincUser::lookup_name($username);
             if (count($users) == 0) {
-                pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
+                pm_form_page(
+                    $replyto, $userid,
+                    tra("Could not find user with username %1", $username)
+                );
+                return;
             } elseif (count($users) > 1) { // Non-unique username
-                pm_form($replyto, $userid, tra("%1 is not a unique username; you will have to use user ID", $username));
+                pm_form_page(
+                    $replyto, $userid,
+                    tra("%1 is not a unique username; you will have to use user ID", $username)
+                );
+                return;
             }
             $user = $users[0];
         }
         BoincForumPrefs::lookup($user);
-        if (is_ignoring($user, $logged_in_user)) {
-            pm_form($replyto, $userid, tra("User %1 (ID: %2) is not accepting private messages from you.", $user->name, $user->id));
+        if (!is_moderator($logged_in_user) && is_ignoring($user, $logged_in_user)) {
+            pm_form_page(
+                $replyto, $userid,
+                UNIQUE_USER_NAME
+                ?tra("User %1 is not accepting private messages from you.",
+                    $user->name
+                )
+                :tra("User %1 (ID: %2) is not accepting private messages from you.",
+                    $user->name,
+                    $user->id
+                )
+            );
+            return;
         }
         if (!isset($userids[$user->id])) {
             $userlist[] = $user;
@@ -301,6 +369,13 @@ function do_confirmedblock($logged_in_user) {
     $id = post_int("id");
     $blocked_user = BoincUser::lookup_id($id);
     if (!$blocked_user) error_page(tra("no such user"));
+    if (is_moderator($blocked_user)) {
+        error_page(
+            sprintf('%s is a moderator, and can\'t be blocked',
+                $blocked_user->name
+            )
+        );
+    }
     add_ignored_user($logged_in_user, $blocked_user);
 
     page_head(tra("User %1 blocked", $blocked_user->name));
@@ -371,5 +446,4 @@ if ($action == "inbox") {
     error_page(tra("Unknown action"));
 }
 
-$cvs_version_tracker[]="\$Id: pm.php 14077 2007-11-03 04:26:47Z davea $";
 ?>

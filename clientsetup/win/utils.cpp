@@ -20,7 +20,8 @@ Environment:
     Windows NT
 
 --*/
-
+// the following fixes mysterious/sporadic errors in Win include files
+//#define _NTDEF_
 #include "stdafx.h"
 #include <windows.h>
 #include <stdio.h>

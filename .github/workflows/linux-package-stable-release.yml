@@ -1,0 +1,162 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2024 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Linux Package Stable Release
+on:
+  workflow_dispatch:
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  REPO_PRIV_KEY: ${{ secrets.REPO_PRIV_KEY }}
+  REPO_KEY: ${{ secrets.REPO_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+  PUBKEY: boinc.gpg # keep extension
+  MANTAINER: Vitalii Koshura <lestat.de.lionkur@gmail.com>
+  HOMEPAGE: https://boinc.berkeley.edu/
+  DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
+  BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+
+jobs:
+  publish-deb-package:
+    name: Publish DEB Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [focal, jammy, noble, buster, bullseye, bookworm]
+      fail-fast: false
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          sudo apt-get install -y aptly gnupg2 gpgv
+
+      - name: Setup GPG keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ env.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+          cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
+
+      - name: Update or create the repository using aptly
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          # 0 true / 1 false
+          ALLOW_CREATE=0
+          cd ${{ github.workspace }}/.github/workflows/debrepo/
+          ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} "stable" ${{ env.PUBKEY }}
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: repo-stable-${{ matrix.os }}
+          path: "${{ github.workspace }}/repo-stable-${{ matrix.os }}.tar.gz"
+
+      - name: Deploy to boinc server
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          set -e
+          curl -s --fail --write-out "%{http_code}" -F 'upload_file=@${{ github.workspace }}/repo-stable-${{ matrix.os }}.tar.gz' https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }}" --form "submit=on"
+
+  publish-rpm-package:
+    name: Publish RPM Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:38
+    strategy:
+      matrix:
+        os: [fc37, fc38, fc39, fc40, fc41, suse15_4, suse15_5, suse15_6]
+      fail-fast: false
+    env:
+      ARCH: x86_64
+      PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: DNF Preparation
+        id: dnf-prep
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
+          sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
+          sudo dnf install -y wget rpm rpm-build rpm-sign expect createrepo_c dnf-utils jq p7zip-plugins
+
+      - name: Setup GPG keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ env.REPO_PRIV_KEY }}" > boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > boinc.pub.key
+          cp "boinc.pub.key" "${{ env.PUBKEY }}"
+          # keyring prepare
+          gpg --import "boinc.pub.key"
+          gpg --import "boinc.priv.key"
+          expect -c 'spawn gpg --edit-key ${{ env.PUBKEY_HASH }} trust quit; send "5\ry\r"; expect eof'
+          gpg --list-keys
+
+      - name: Update or create the repository
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+            # Bash scripts do not support boolean values so convert to 0 true / 1 false
+            # 0 true / 1 false
+            ALLOW_CREATE=0
+            CWD=$(pwd)
+
+            cd .github/workflows/rpmrepo/
+            # Updates or creates the repository
+            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} "stable" ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: repo-stable-${{ matrix.os }}
+          path: "repo-stable-${{ matrix.os }}.tar.gz"
+
+      - name: Deploy to boinc server
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          set -e
+          curl -s --fail --write-out "%{http_code}" -F 'upload_file=@repo-stable-${{ matrix.os }}.tar.gz' https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }}" --form "submit=on"

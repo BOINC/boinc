@@ -37,7 +37,7 @@ if ($user->email_addr_change_time + 7*86400 > time()) {
 
 function delete_account_request_form($user) {
     page_head(tra("Delete Account"));
-    
+
     echo "<p>".tra("You have the ability to delete your account.  Please note that this <b>cannot be undone</b> once it is completed.")."</p>"
         ."<p>".tra("The process works as follows:")."</p>"
         ."<ul>"
@@ -46,12 +46,12 @@ function delete_account_request_form($user) {
         ."<li>".tra("On the page displayed, you will need to re-enter your password and then click \"Delete Account\"")."</li>"
         ."<li>".tra("Your account will then be immediately deleted")
         ."</ul><br/>";
-    
+
     form_start(secure_url_base()."delete_account_request.php", "post");
     form_input_text(tra("Password"), "passwd", "", "password", 'id="passwd"', passwd_visible_checkbox("passwd"));
     form_submit(tra("Send Confirmation Email"));
     form_end();
-    
+
     page_tail();
 }
 
@@ -59,7 +59,7 @@ function delete_account_request_action($user) {
     $passwd = post_str("passwd");
     check_passwd_ui($user, $passwd);
     send_confirm_delete_email($user);
-    
+
     page_head(tra("Confirmation Email Sent"));
     echo "<p>".tra("The email to confirm your request to delete your account has been sent.")."</p>";
     page_tail();

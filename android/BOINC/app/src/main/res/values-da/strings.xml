@@ -266,7 +266,6 @@
   <string name="menu_help">Hjælp</string>
   <string name="menu_report_issue">Rapportér Problem</string>
   <!--about dialog-->
-  <string name="about_button">Tilbage</string>
   <string name="about_title">Om</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>

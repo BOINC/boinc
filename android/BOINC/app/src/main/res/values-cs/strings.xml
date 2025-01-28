@@ -25,15 +25,16 @@
   <string name="attachproject_conflict_unknown_user">Účet neexistuje</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">Účet neexistuje, navštivte webové stránky projektu k registraci</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Připojování %1$s</string>
+  <string name="attachproject_working_attaching">Připojuji %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
-  <string name="attachproject_hints_header">Tip</string>
+  <string name="attachproject_hints_header">Nápověda</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Jak přispět:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Připojte se k WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Připojte nabíječku</string>
-  <string name="attachproject_hint_contribtion_screen">4. Vypněte obrazovku</string>
+  <string name="attachproject_hint_contribtion_app">3. Spusťte BOINC a nechejte ho běžet</string>
+  <string name="attachproject_hint_contribtion_screen">4. Vypněte Obrazovku</string>
   <string name="attachproject_hint_projectwebsite_header">Navštivte webové stránky projektu:</string>
   <string name="attachproject_hint_projectwebsite_science">Chvi se dozvědět více o vědě</string>
   <string name="attachproject_hint_projectwebsite_stats">Zobrazit statistiky přispívání</string>
@@ -53,8 +54,10 @@
   <string name="attachproject_login_button_login">Přihlásit se</string>
   <string name="attachproject_login_button_forgotpw">Zapomenuté heslo</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Použít správce účtu BOINC pro přidání a správu vícero projektů</string>
+  <string name="attachproject_acctmgr_list_desc">Použít Správce účtu pro ovládání tohoto počítače.</string>
   <string name="attachproject_acctmgr_header">Použít Správce účtu</string>
+  <string name="attachproject_attach_projects_header">Přidat projekty</string>
+  <string name="attachproject_attach_projects_desc">Přidat projekt ze seznamu projektů</string>
   <string name="attachproject_acctmgr_header_url">URL adresa</string>
   <string name="attachproject_acctmgr_header_name">Uživatel:</string>
   <string name="attachproject_acctmgr_header_pwd">Heslo:</string>
@@ -103,9 +106,11 @@
   <string name="prefs_category_memory">Paměť</string>
   <string name="prefs_category_other">Ostatní</string>
   <string name="prefs_category_debug">Ladění</string>
-  <string name="prefs_show_advanced_header">Zobrazit pokročilá nastavení a ovládání...</string>
+  <string name="prefs_category_remote">Dálkové ovládání</string>
+  <string name="prefs_show_advanced_header">Ukázat pokročilé možnosti</string>
   <string name="prefs_suspend_when_screen_on">Pozastavit výpočet když obrazovka je zapnutá</string>
   <string name="prefs_general_device_name_header">Název zařízení</string>
+  <string name="prefs_theme_header">Téma</string>
   <string name="prefs_stationary_device_mode_header">Režim stacionárního zařízení</string>
   <string name="prefs_stationary_device_mode_description">Umožní počítání, bez ohledu na nastavení výkonu. Zapněte pouze, pokud zařízení nemá baterii.</string>
   <string name="prefs_power_source_header">Zdroje energie pro počítání</string>
@@ -113,32 +118,44 @@
   <string name="prefs_power_source_usb">USB připojení</string>
   <string name="prefs_power_source_wireless">Bezdrátová nabíječka</string>
   <string name="prefs_power_source_battery">Baterie</string>
-  <string name="battery_charge_min_pct_header">Min. úroveň baterie</string>
-  <string name="battery_temperature_max_header">Max. teplota baterie</string>
-  <string name="prefs_disk_max_pct_header">Max. použitelné úložiště</string>
-  <string name="prefs_disk_min_free_gb_header">Min. rezerva úložiště</string>
-  <string name="prefs_disk_access_interval_header">Interval přístupu</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Denní limit přenosu</string>
+  <string name="battery_charge_min_pct_header">Minimální nabití baterie (%)</string>
+  <string name="battery_temperature_max_header">Maximální teplota baterie (°C)</string>
+  <string name="prefs_disk_max_pct_header">Maximální úložiště (%)</string>
+  <string name="prefs_disk_min_free_gb_header">Minimální volný prostor (GB)</string>
+  <string name="prefs_disk_access_interval_header">Interval přístupu (sekundy)</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Denní limit přenosu (MB)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Denní limit přenosu (dnů)</string>
   <string name="prefs_network_wifi_only_header">Přenášej úkoly pouze na WiFi</string>
   <string name="prefs_autostart_header">Automatické spuštění</string>
+  <string name="prefs_remote_header">Povolit vzdálené ovládání</string>
+  <string name="prefs_remote_summary">BOINC klient bude restartován při změně,</string>
   <string name="prefs_show_notification_notices_header">Zobrazit upozornění pro nové oznámení</string>
   <string name="prefs_cpu_number_cpus_header">Použitá jádra procesoru</string>
   <string name="prefs_cpu_number_cpus_description">Omezuje počet jader procesoru, které může BOINC použít pro výpočet.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pozastav při využití procesoru nad</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pozastav při využití procesoru nad (%)</string>
   <string name="prefs_cpu_other_load_suspension_description">Určuje kdy se BOINC pozastaví kvůli využití procesoru ostatními aplikacemi.</string>
-  <string name="prefs_cpu_time_max_header">Omezení procesoru</string>
+  <string name="prefs_cpu_time_max_header">Omezení procesoru (%)</string>
   <string name="prefs_cpu_time_max_description">Omezuje procesorový čas, který BOINC využívá pro počítání.</string>
-  <string name="prefs_memory_max_idle_header">Limit paměti</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Zásobník pracovních jednotek</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Zásobník dodatečných pracovních jednotek</string>
-  <string name="prefs_client_log_flags_header">Praporky zápisu BOINC klienta</string>
+  <string name="prefs_memory_max_idle_header">Limit paměti (%)</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Zásoba práce (dny)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatečná zásoba práce (dny)</string>
+  <string name="prefs_remote_authentication_key">Autentikační klíč pro GUI</string>
+  <string name="prefs_remote_empty_password">Změna hesla se nezdařila: hodnota nemůže být prázdná</string>
+  <string name="prefs_remote_boinc_relaunched">Aplikace BOINC bude po změně hesla znovu spuštěna.</string>
+  <string name="prefs_client_log_flags_header">Nastavení logu BOINC aplikace</string>
+  <string name="prefs_gui_log_categories">Kategorie logu BOINC aplikace</string>
   <string name="prefs_gui_log_level_header">Úroveň protokolu GUI</string>
   <string name="prefs_gui_log_level_description">Určuje podrobnost ve výpisu zpráv GUI.</string>
+  <string name="prefs_theme_light">Světlý</string>
+  <string name="prefs_theme_dark">Tmavý</string>
+  <string name="prefs_theme_system">Výchozí dle systému</string>
   <!--projects tab strings-->
   <string name="projects_add">Přidat projekt</string>
   <string name="projects_icon">Ikona projektu</string>
   <string name="projects_credits">Kredit:</string>
   <string name="projects_credits_host_and_user">%1$,d (na tomto zařízení) %2$,d (celkem)</string>
+  <string name="projects_disk_usage">Využití disku:</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Pozastaveno uživatelem</string>
   <string name="projects_status_dontrequestmorework">Neobdrží další práci</string>
@@ -147,7 +164,7 @@
   <string name="projects_status_schedrpcpending">Nevyřízený požadavek plánovače</string>
   <string name="projects_status_schedrpcinprogress">Zpracovávám požadavek plánovače</string>
   <string name="projects_status_trickleuppending">Nevyřízené odeslání zprávy o průběhu</string>
-  <string name="projects_status_backoff">Komunikace za: %1$s</string>
+  <string name="projects_status_backoff">Komunikace naplánovaná za: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Příkazy projektu:</string>
   <string name="projects_control_visit_website">Navštívit webové stránky</string>
@@ -162,11 +179,13 @@
   <string name="projects_control_sync_acctmgr">Synchronizovat</string>
   <string name="projects_control_remove_acctmgr">Zakázat</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_message">Jste si jisti, že chcete odstranit</string>
+  <string name="projects_confirm_title">%1$s projekt?</string>
+  <string name="projects_confirm_message">Jste si jisti, že chcete %1$s %2$s?</string>
+  <string name="projects_confirm_detach_message">od BOINCu</string>
   <string name="projects_confirm_detach_confirm">Odebrat</string>
   <string name="projects_confirm_reset_confirm">Restartovat</string>
   <string name="projects_confirm_remove_acctmgr_title">Vypnout správce účtu</string>
-  <string name="projects_confirm_remove_acctmgr_message">Jste si jisti, že chcete přestat používat</string>
+  <string name="projects_confirm_remove_acctmgr_message">přestat používat</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Zakázat</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Název úkolu:</string>
@@ -174,7 +193,7 @@
   <string name="tasks_header_project_paused">(pozastaveno)</string>
   <string name="tasks_header_deadline">Odevzdat do:</string>
   <string name="tasks_result_new">nové</string>
-  <string name="tasks_result_files_downloading">čeká na stažení</string>
+  <string name="tasks_result_files_downloading">stahuji</string>
   <string name="tasks_result_files_downloaded">stahování dokončeno</string>
   <string name="tasks_result_compute_error">chyba při výpočtu</string>
   <string name="tasks_result_files_uploading">odesílání</string>
@@ -198,8 +217,8 @@
   <!--transfers tab strings-->
   <string name="trans_upload">Odesílání</string>
   <string name="trans_download">Stáhování</string>
+  <string name="trans_retry_in">zkusit znovu za %1$s</string>
   <string name="trans_failed">nezdařilo se</string>
-  <string name="trans_retry_in">opakovat za %1$s</string>
   <string name="trans_suspended">pozastaveno</string>
   <string name="trans_active">probíhá</string>
   <string name="trans_pending">vyčkává</string>
@@ -225,7 +244,7 @@
   <string name="suspend_os">Zastaveno Androidem.</string>
   <string name="suspend_wifi">Není připojen k WiFi.</string>
   <string name="suspend_battery_charging">Čekání na větší nabití baterie.</string>
-  <string name="suspend_battery_charging_long">Výpočet bude pokračovat, když nabití baterie dosáhne</string>
+  <string name="suspend_battery_charging_long">Výpočet bude pokračovat, když nabití baterie dosáhne %1$d%% (nyní je %2$d%%)</string>
   <string name="suspend_battery_overheating">Čekání na ochlazení baterie</string>
   <string name="suspend_user_req">Obnovuji výpočet...</string>
   <!--rpc reasons-->
@@ -248,13 +267,13 @@
   <string name="menu_help">Nápověda</string>
   <string name="menu_report_issue">Nahlásit chybu</string>
   <!--about dialog-->
-  <string name="about_button">Návrat</string>
   <string name="about_title">O programu</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Verze %1$s</string>
-  <string name="about_copyright">/u00A9 2003-2021 Univerzita v Kalifornii, Berkeley.</string>
-  <string name="about_copyright_reserved">Všechna práva vyhrazena. Překlad do češtiny: petnek</string>
-  <string name="about_credits">Díky patří Max Planck institutu pro gravitační fyziku, IBM Corporation a HTC Corporation za jejich podporu.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Kalifornská univerzita v Berkeley</string>
+  <string name="about_copyright_reserved">Všechna práva vyhrazena.
+Překlad do češtiny: petnek</string>
+  <string name="about_credits">Poděkování náleží Institutu Maxe Plancka pro gravitační fyziku, IBM Corporation a HTC Corporation za jejich podporu.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nové upozornění od %1$s</item>
@@ -264,6 +283,7 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Dobrovolníkova výpočetní aplikace zaregistrována</string>
+  <string name="nonexcl_dialog_text">Na tomto zařízení je již spuštěna jiná výpočetní aplikace. V jednu chvíli může běžet pouze jedna.</string>
   <string name="nonexcl_dialog_exit">Konec</string>
   <!--social integration-->
   <string name="social_invite_button">Pozvat přátele</string>
@@ -275,5 +295,9 @@
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Zobrazovat i ostatní zprávy.</string>
   <string name="notice_notification_channel_name">Zprávy</string>
+  <string name="notice_notification_channel_description">Zobrazovat zprávy z projektů.</string>
+  <string name="agree_button">Souhlasím</string>
+  <string name="prefs_expand_wu_data">Vždy rozbalit informaci o úkolu</string>
 </resources>

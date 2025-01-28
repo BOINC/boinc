@@ -59,12 +59,12 @@ unsigned char g_ucSort;
 
 bool StringVectorSort(const std::string& first, const std::string& second) {
     bool bRet = false;
-    if (g_ucSort & SORT_NAME 
+    if (g_ucSort & SORT_NAME
         && g_ucSort & SORT_ASCENDING
         && strcmp(first.c_str(), second.c_str())<0
     ) {
         bRet = true;
-    } else if (g_ucSort & SORT_NAME 
+    } else if (g_ucSort & SORT_NAME
         && g_ucSort & SORT_DESCENDING
         && strcmp(first.c_str(), second.c_str())>0
     ) {
@@ -124,7 +124,7 @@ int boinc_zip(
 
     // just form an argc/argv to spoof the "main"
     // default options are to recurse into directories
-    //if (options && strlen(options)) 
+    //if (options && strlen(options))
     //      strcpy(av[1], options);
 
     if (bZipType == ZIP_IT) {
@@ -142,7 +142,7 @@ int boinc_zip(
         }
     } else {
         strcpy(av[0], "unzip");
-        // default unzip options -- preserve subdirs, overwrite 
+        // default unzip options -- preserve subdirs, overwrite
         if (strlen(av[1])==0) {
             strcpy(av[1], "-oq");
         }
@@ -159,9 +159,9 @@ int boinc_zip(
     if (bZipType == ZIP_IT) {
         if (access(szFileZip.c_str(), 0) == 0) {
             // old zip file exists so unlink
-            // (otherwise zip will reuse, doesn't seem to be a flag to 
+            // (otherwise zip will reuse, doesn't seem to be a flag to
             // bypass zip reusing it
-            unlink(szFileZip.c_str());   
+            unlink(szFileZip.c_str());
         }
         iRet = zipmain(carg, av);
     } else {
@@ -169,7 +169,7 @@ int boinc_zip(
         if (access(szFileZip.c_str(), 0) == 0) {
             iRet = UzpMain(carg, av);
         } else {
-            iRet = 2;   
+            iRet = 2;
         }
     }
 
@@ -201,11 +201,11 @@ bool boinc_filelist(
     ZipFileList* pList,
     const unsigned char ucSort,
     const bool bClear
-) {    
+) {
     g_ucSort = ucSort;  // set the global sort type right off the bat
     string strFile;
     // at most three |'s may be passed in pattern match
-    int iPos[3], iFnd, iCtr, i, lastPos;  
+    int iPos[3], iFnd, iCtr, i, lastPos;
     string strFullPath;
     char strPart[3][32];
     string spattern = pattern;
@@ -239,7 +239,7 @@ bool boinc_filelist(
     int j;
     for (j=0; j<(int)directory.size(); j++)  {
         // take off final / or backslash
-        if (j == ((int)directory.size()-1) 
+        if (j == ((int)directory.size()-1)
              && (strDir[j] == '/' || strDir[j]=='\\')
         ) {
             strDir.resize(directory.size()-1);
@@ -339,7 +339,7 @@ int boinc_UnzipToMemory (char *zip, char *file, string &retstr) {
     }
 
     if (buf.strptr) free (buf.strptr);
-  
+
     return ret;
 
 }

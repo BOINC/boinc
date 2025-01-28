@@ -1,0 +1,78 @@
+#! /usr/bin/env php
+<?php
+
+// submit a job for a BUDA (BOINC Universal Docker app) science app
+//
+// submit_buda [options] sci_app infile ...
+//
+// --buda_root dir      root of BUDA app hierarchy, default 'buda_apps'
+// --variant x          variant, default 'cpu'
+// --verbose
+
+$buda_root = 'buda_apps';
+$infiles = [];
+$verbose = false;
+$variant = 'cpu';
+$sci_app = null;
+
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == '--buda_root') {
+        $buda_root = $argv[++$i];
+    } else if ($argv[$i] == '--variant') {
+        $variant = $argv[++$i];
+    } else if ($argv[$i] == '--verbose') {
+        $verbose = true;
+    } else {
+        if (!$sci_app) {
+            $sci_app = $argv[$i];
+        } else {
+            $infiles[] = $argv[$i];
+        }
+    }
+}
+
+$buda_dir = "$buda_root/$sci_app/$variant";
+if (!is_dir($buda_dir)) {
+    die("No version dir $buda_dir\n");
+}
+if (!file_exists("$buda_dir/template_in")) {
+    die("no input template\n");
+}
+if (!file_exists("$buda_dir/template_out")) {
+    die("no output template\n");
+}
+$file_list = file("$buda_dir/file_list");
+if (!$file_list) {
+    die("no file list\n");
+}
+
+$cmd = "bin/submit_job --templates $buda_dir/template_in $buda_dir/template_out buda";
+
+foreach ($file_list as $fname) {
+    $fname = trim($fname);
+    if (!file_exists("$buda_dir/$fname")) {
+        die("missing app file '$buda_dir/$fname'\n");
+    }
+    $cmd .= " $buda_dir/$fname";
+}
+
+foreach ($infiles as $path) {
+    if (!file_exists("$path")) {
+        die("missing input file $path\n");
+    }
+    $cmd .= " $path";
+}
+
+if ($verbose) {
+    echo "cmd: $cmd\n";
+    $cmd .= " --verbose";
+}
+
+if (system($cmd, $ret) === false) {
+    die("system($cmd) failed\n");
+}
+if ($ret) {
+    die("$cmd returned $ret\n");
+}
+
+?>

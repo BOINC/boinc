@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,10 +34,6 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "boinc_db.h"
-
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
 
 using std::string;
 
@@ -449,7 +445,7 @@ void DB_USER_DELETED::db_print(char* buf){
         "public_cross_project_id=%s, create_time=%.15e",
         public_cross_project_id, create_time
     );
-} 
+}
 
 void DB_USER_DELETED::db_parse(MYSQL_ROW &r) {
     int i=0;
@@ -1564,16 +1560,16 @@ void DB_STATE_COUNTS::db_print(char* buf) {
         "workunit_file_delete_state_1=%d, "
         "workunit_file_delete_state_2=%d, ",
         appid,
-        last_update_time,   
-        result_server_state_2,      
-        result_server_state_4,      
-        result_file_delete_state_1, 
-        result_file_delete_state_2, 
-        result_server_state_5_and_file_delete_state_0,      
-        workunit_need_validate_1,   
+        last_update_time,
+        result_server_state_2,
+        result_server_state_4,
+        result_file_delete_state_1,
+        result_file_delete_state_2,
+        result_server_state_5_and_file_delete_state_0,
+        workunit_need_validate_1,
         workunit_assimilate_state_1,
-        workunit_file_delete_state_1,       
-        workunit_file_delete_state_2  
+        workunit_file_delete_state_1,
+        workunit_file_delete_state_2
     );
 }
 
@@ -1582,14 +1578,14 @@ void DB_STATE_COUNTS::db_parse(MYSQL_ROW& r) {
     clear();
     appid = atoi(r[i++]);
     last_update_time = atoi(r[i++]);
-    result_server_state_2 = atoi(r[i++]);      
-    result_server_state_4 = atoi(r[i++]);      
-    result_file_delete_state_1 = atoi(r[i++]); 
-    result_file_delete_state_2 = atoi(r[i++]); 
-    result_server_state_5_and_file_delete_state_0 = atoi(r[i++]);      
-    workunit_need_validate_1 = atoi(r[i++]);   
+    result_server_state_2 = atoi(r[i++]);
+    result_server_state_4 = atoi(r[i++]);
+    result_file_delete_state_1 = atoi(r[i++]);
+    result_file_delete_state_2 = atoi(r[i++]);
+    result_server_state_5_and_file_delete_state_0 = atoi(r[i++]);
+    workunit_need_validate_1 = atoi(r[i++]);
     workunit_assimilate_state_1 = atoi(r[i++]);
-    workunit_file_delete_state_1 = atoi(r[i++]);       
+    workunit_file_delete_state_1 = atoi(r[i++]);
     workunit_file_delete_state_2 = atoi(r[i++]);
 }
 

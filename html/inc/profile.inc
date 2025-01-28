@@ -136,8 +136,10 @@ function scale_image(
     }
 
     $gd_info = gd_info();
-    $newGD = (strstr($gd_info["GD Version"], "2.0")!="");
-    if ($newGD) {
+    $v = $gd_info["GD Version"];
+    $v = explode('.', $v);
+    $v = (int)$v[0];        // major version
+    if ($v >= 2) {
         // If you are using a modern PHP/GD installation that does
         // 'truecolor' images, this is what's needed.
         $newImage = ImageCreateTrueColor($destWidth, $destHeight);
@@ -276,6 +278,5 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

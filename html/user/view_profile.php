@@ -38,7 +38,7 @@ if (!$user->has_profile) {
         error_page(tra("This user has no profile"));
     }
 }
- 
+
 $logged_in_user = get_logged_in_user(false);
 check_whether_to_show_profile($user, $logged_in_user);
 
@@ -62,8 +62,11 @@ show_profile($user, $logged_in_user);
 end_table();
 echo "</td><td valign=\"top\">";
 start_table("table-striped");
-row2(tra("Account data"),
-    "<a href=\"show_user.php?userid=".$userid."\">".tra("View")."</a>"
+row2(tra("User info"),
+    sprintf(
+        '<a href="%s?userid=%d">%s</a>',
+        SHOW_USER_PAGE, $userid, tra("View")
+    )
 );
 
 community_links($community_links_object, $logged_in_user);

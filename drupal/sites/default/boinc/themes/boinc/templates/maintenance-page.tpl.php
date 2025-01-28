@@ -26,7 +26,7 @@
 <body class="<?php print $classes; ?>">
 
   <div id="page-wrapper"><div id="page">
-    
+
     <div id="header-wrapper" class="shadow">
 
     <div id="header"><div class="section clearfix">
@@ -53,7 +53,7 @@
       <?php print $header; ?>
 
     </div></div> <!-- /.section, /#header -->
-    
+
     </div> <!-- /.shadow -->
 
     <div id="main-wrapper"><div id="main" class="clearfix<?php if ($navigation) { print ' with-navigation'; } ?>">

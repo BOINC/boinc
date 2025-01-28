@@ -56,9 +56,9 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         for (unsigned int j=0; j<gstate.app_versions.size(); j++) {
             APP_VERSION* avp = gstate.app_versions[j];
             if (avp->app != app) continue;
-            if (!avp->gpu_usage.rsc_type) continue;
-            avp->gpu_usage.usage = ac.gpu_gpu_usage;
-            avp->avg_ncpus = ac.gpu_cpu_usage;
+            if (!avp->resource_usage.rsc_type) continue;
+            avp->resource_usage.coproc_usage = ac.gpu_gpu_usage;
+            avp->resource_usage.avg_ncpus = ac.gpu_cpu_usage;
         }
     }
     for (i=0; i<app_version_configs.size(); i++) {
@@ -79,13 +79,13 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
             if (strcmp(avp->plan_class, avc.plan_class)) continue;
             found = true;
             if (cmdline_len) {
-                safe_strcpy(avp->cmdline, avc.cmdline);
+                safe_strcpy(avp->resource_usage.cmdline, avc.cmdline);
             }
             if (avc.avg_ncpus) {
-                avp->avg_ncpus = avc.avg_ncpus;
+                avp->resource_usage.avg_ncpus = avc.avg_ncpus;
             }
             if (avc.ngpus) {
-                avp->gpu_usage.usage = avc.ngpus;
+                avp->resource_usage.coproc_usage = avc.ngpus;
             }
         }
         if (!found) {

@@ -15,17 +15,17 @@
   require_once('./includes/bootstrap.inc');
   drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
   require_boinc('db');
-  
+
   // Parse arguments
   $import_lurkers = isset($argv[1]) ? $argv[1] : false;
   $record_offset = isset($argv[2]) ? $argv[2] : 0;
   $chunk_size = isset($argv[3]) ? $argv[3] : 100;
-  
+
   // Construct sql conditions
   $limit = sprintf('LIMIT %d,%d', $record_offset, $chunk_size);
-  
+
   $count = 0;
-  
+
   db_set_active('boinc_rw');
   if ($import_lurkers) {
     $boinc_accounts = db_query('SELECT id FROM user ORDER BY id %s', $limit);
@@ -60,12 +60,12 @@
     );
   }
   db_set_active('default');
-  
+
   while ($boinc_account = db_fetch_object($boinc_accounts)) {
     // Grab the BOINC user object and create a Drupal user from it
     if (boincuser_register_make_drupal_user($boinc_account->id)) {
       $count++;
     }
   }
-  
+
   echo $count;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -81,9 +81,6 @@ struct RESULT {
         //
         // - <stderr_txt>X</stderr_txt>, where X is the app's stderr output
     bool suspended_via_gui;
-    bool coproc_missing;
-        // a coproc needed by this job is missing
-        // (e.g. because user removed their GPU board).
     bool report_immediately;
     bool not_started;   // temp for CPU sched
 
@@ -92,6 +89,8 @@ struct RESULT {
 
     APP* app;
     WORKUNIT* wup;
+    RESOURCE_USAGE resource_usage;
+        // copied from either app version or workunit
     PROJECT* project;
 
     RESULT(){
@@ -103,7 +102,7 @@ struct RESULT {
     int parse_state(XML_PARSER&);
     int parse_name(XML_PARSER&, const char* end_tag);
     int write(MIOFILE&, bool to_server);
-    int write_gui(MIOFILE&);
+    int write_gui(MIOFILE&, bool check_resources = false);
     bool is_upload_done();    // files uploaded?
     void clear_uploaded_flags();
     FILE_REF* lookup_file(FILE_INFO*);
@@ -124,12 +123,19 @@ struct RESULT {
 #ifdef SIM
         return sim_flops_left;
 #else
-        return estimated_runtime_remaining()*avp->flops;
+        return estimated_runtime_remaining()*resource_usage.flops;
 #endif
     }
 
+    inline void init_resource_usage() {
+        if (wup->has_resource_usage) {
+            resource_usage = wup->resource_usage;
+        } else {
+            resource_usage = avp->resource_usage;
+        }
+    }
     inline bool computing_done() {
-        if (state() >= RESULT_COMPUTE_ERROR) return true; 
+        if (state() >= RESULT_COMPUTE_ERROR) return true;
         if (ready_to_report) return true;
         return false;
     }
@@ -144,27 +150,45 @@ struct RESULT {
         // some input or app file is downloading, and backed off
         // i.e. it may be a long time before we can run this result
     inline bool uses_coprocs() {
-        return (avp->gpu_usage.rsc_type != 0);
+        return (resource_usage.rsc_type != 0);
     }
     inline bool uses_gpu() {
-        int rt = avp->gpu_usage.rsc_type;
+        int rt = resource_usage.rsc_type;
         if (!rt) return false;
         if (coprocs.coprocs[rt].non_gpu) return false;
         return true;
     }
     inline int resource_type() {
-        return avp->gpu_usage.rsc_type;
+        return resource_usage.rsc_type;
     }
     inline bool non_cpu_intensive() {
         if (project->non_cpu_intensive) return true;
-        if (app->non_cpu_intensive) return true;
-        return false;
+        return app->non_cpu_intensive;
+    }
+    inline bool sporadic() {
+        return app->sporadic;
+    }
+    inline bool always_run() {
+        return non_cpu_intensive() || sporadic();
     }
     inline bool dont_throttle() {
         if (non_cpu_intensive()) return true;
         if (avp->dont_throttle) return true;
         return false;
     }
+    // make a string describing resource usage
+    inline void rsc_string(char* buf, int len) {
+        if (resource_usage.rsc_type) {
+            snprintf(buf, len,
+                "%.2f CPU + %.2f %s",
+                resource_usage.avg_ncpus, resource_usage.coproc_usage,
+                rsc_name_long(resource_usage.rsc_type)
+            );
+        } else {
+            snprintf(buf, len, "%.2f CPU", resource_usage.avg_ncpus);
+        }
+    }
+
 
     // temporaries used in CLIENT_STATE::rr_simulation():
     double rrsim_flops_left;

@@ -2,7 +2,7 @@
 set -e
 
 #
-# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+# See: https://github.com/BOINC/boinc/wiki/AndroidBuildClient#
 #
 
 # Script to setup Android toolchain

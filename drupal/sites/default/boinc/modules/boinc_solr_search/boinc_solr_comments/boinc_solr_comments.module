@@ -36,18 +36,18 @@ function boinc_solr_comments_menu() {
 
 /**
  * Implementation of hook_apachesolr_index_documents_alter()
- * 
+ *
  * This function separates the comments from a parent node and indexes
- * the individual comments as separate ApacheSolrDocuments. 
- * 
+ * the individual comments as separate ApacheSolrDocuments.
+ *
  * The function loads each node’s Solr document, and removes the
  * ts_comments field. Then it loops over all the node's comments found
  * with a db_query and creates separate ApacheSolrDocument objects for
- * each one. 
+ * each one.
  *
  * At the end, the new documents representing the comments are merged
  * with the input $documents array.
- * 
+ *
  * @param array $documents
  *   Array of ApacheSolrDocument which are to be indexed
  * @param string $entity
@@ -73,14 +73,14 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
         'team_forum' => 'team_forum',
     );
   }
-  
+
   // Loop over all documents and alter:
   foreach ($documents as $document) {
     //dd($document, "index documents alter - document");
 
     $to_process = ( array_key_exists($document->bundle, $node_types) AND $node_types[$document->bundle] );
     if ( $document->entity_type=='node' AND $to_process) {
-      
+
       // Remove ts_comments if present.
       if (isset($document->ts_comments)) {
         unset($document->ts_comments);
@@ -88,7 +88,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
       // Node information.
       $nid = $document->entity_id;
       $node = node_load($nid);
-      
+
       // Query database for comments of node. Only return comments
       // with status 0 (0 is published for comments).
       $sql = 'SELECT cid from {comments} WHERE nid = %d AND status = 0 ORDER by timestamp DESC';
@@ -121,7 +121,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
             $comment_document->path_alias = $output;
           }
         }
-        
+
         // Code derived from apachesolr_index_node_solr_document
         $comment_document->label = truncate_utf8(apachesolr_clean_text($comment->comment), 32, TRUE);
         $comment_document->content = apachesolr_clean_text($comment->comment);
@@ -161,7 +161,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
         }
         if (isset($comment_document->bs_promote)) {
           unset($comment_document->bs_promote);
-        }    
+        }
         if (isset($comment_document->is_tnid)) {
           unset($comment_document->is_tnid);
         }
@@ -189,7 +189,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
               $comment_document->addField($fieldName, $subvalue);
             }
           }// if preg_match
-               
+
           // Set the access keys so this module will work with
           // apachesolr_access.
           if (module_exists('apachesolr_access')) {
@@ -199,9 +199,9 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
               }
             }// if preg_match
           }// if module_exist
-            
+
         }// foreach document
-        
+
         $comdocs[] = $comment_document;
       }// while
     }// if entity_type=node
@@ -214,7 +214,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
 
 /**
  * Implementation of hook_apachesolr_process_results()
- * 
+ *
  * After a query, the search results for comments are filled by this
  * function. The search results are used by the serach results
  * template.
@@ -246,7 +246,7 @@ function boinc_solr_comments_apachesolr_process_results(&$results, DrupalSolrQue
  * An additional field is added to the query results,
  * tos_content_extra. This is used for comment search results, as the
  * field contains the parent node id.
- * 
+ *
  * @params query
  *   The Solr query used for the search.
  */
@@ -262,7 +262,7 @@ function boinc_solr_comments_apachesolr_query_alter($query) {
 
 /**
  * Implementation of hook_nodeapi()
- * 
+ *
  */
 function boinc_solr_comments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   // Array of node types that will have comments indexed.
@@ -309,7 +309,7 @@ function boinc_solr_comments_delete($node) {
   if (apachesolr_environment_variable_get($env_id, 'apachesolr_read_only', APACHESOLR_READ_WRITE) == APACHESOLR_READ_ONLY) {
     return FALSE;
   }
-  
+
   // Code derived from apachesolr_index_delete_entity_from_index
   try {
     $solr = apachesolr_get_solr($env_id);
@@ -345,7 +345,7 @@ function boinc_solr_comments_comment(&$a1, $op) {
   }// switch
 }
 
-/** 
+/**
  * Helper function for hook_comment()
  *
  * When a comment is deleted, the corresponding apache Solr document
@@ -365,7 +365,7 @@ function boinc_solr_comments_deletecomment($comment) {
     return FALSE;
   }
   //dd($comment->cid, "delete - nid begin");
-    
+
   // Code derived from apachesolr_index_delete_entity_from_index.
   try {
     $solr = apachesolr_get_solr($env_id);
@@ -402,7 +402,7 @@ function boinc_solr_comments_enable() {
   drupal_set_message( bts('Warning: Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index')), NULL, 'boinc:admin-solr-index-comments-message'), 'warning');
 }
 
-/** 
+/**
  * Helper function which is called when a comment is published.
  * Interfaces with boinccore module.
  *
@@ -418,12 +418,12 @@ function boinc_solr_comments_publish($comment) {
   }
 }
 
-/** 
+/**
  * Helper function which is called when a comment is unpublished.
  * Interfaces with boinccore module.
  *
  * @param comment $comment
- *   The comment to be unpublished (hidden). 
+ *   The comment to be unpublished (hidden).
  */
 function boinc_solr_comments_unpublish($comment) {
   if ( ($comment->cid) ) {

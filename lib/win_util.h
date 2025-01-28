@@ -25,7 +25,64 @@ extern std::wstring boinc_ascii_to_wide(const std::string& str);
 extern std::string boinc_wide_to_ascii(const std::wstring& str);
 
 extern char* windows_format_error_string(
-    unsigned long dwError, char* pszBuf, int iSize
+    unsigned long dwError, char* pszBuf, int iSize ...
 );
+
+// struct for running a program in a WSL, connected via pipes.
+// This can be a one-time command,
+// or a shell to which you send a sequence of commands via the pipe.
+// In the latter case:
+//  - write to the input pipe to run commands from the shell
+//  - the output of each command should end with 'EOM'
+//      so that you know when you've read the complete output.
+//
+struct WSL_CMD {
+    HANDLE in_read = NULL;
+    HANDLE in_write = NULL;
+    HANDLE out_read = NULL;
+    HANDLE out_write = NULL;
+    HANDLE proc_handle = NULL;
+
+    ~WSL_CMD() {
+        if (in_read) CloseHandle(in_read);
+        if (in_write) CloseHandle(in_write);
+        if (out_read) CloseHandle(out_read);
+        if (out_write) CloseHandle(out_write);
+    }
+
+    // Use WslLaunch() to run a shell in the WSL container
+    // The shell will run as the default user
+    //
+    int setup(std::string&);
+
+    // Use wsl.exe to run a shell as root in the WSL container
+    //
+    int setup_root(const char* distro_name);
+
+    // run command, direct both stdout and stderr to the out pipe
+    // Use read_from_pipe() to get the output.
+    //
+    int run_program_in_wsl(
+        const std::string distro_name, const std::string command,
+        bool use_cwd = false
+    );
+};
+
+// read from the pipe until either
+// - we get the eom string (if any)
+//      If you want to read at least 1 line, use "\n"
+// - there's no more data and the given process (if any) doesn't exist
+// - there's no more data and the given timeout (if any) is reached
+// - a read fails
+//
+extern int read_from_pipe(
+    HANDLE pipe,
+    HANDLE proc_handle,
+    std::string& out,
+    double timeout = 0,
+    const char* eom = NULL
+);
+
+extern int write_to_pipe(HANDLE pipe, const char* buf);
 
 #endif

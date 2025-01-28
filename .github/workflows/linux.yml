@@ -1,11 +1,33 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 name: Linux
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'client_release/**' ]
+    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**' ]
   pull_request:
     branches: [ master ]
   schedule:
-    - cron:  '10 12 * * 0'
+    - cron:  '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
@@ -18,27 +40,32 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 2
 
       - name: Install dependencies
         run: |
           sudo apt-get -qq update
-          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.0-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
+          sudo apt-get install -y autopoint libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip libltdl-dev
+
+      - name: Install dependencies for arm64
+        if: success() && endsWith(matrix.type, 'arm64')
+        run: |
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
       - name: Install dependencies for integration testing
-        if: matrix.type == 'integration-test'
+        if: success() && matrix.type == 'integration-test'
         run: |
           sudo apt-get install ansible
           sudo service mysql stop
           ./integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: |
             3rdParty/buildCache
@@ -108,17 +135,35 @@ jobs:
         run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
       - name: Make
-        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake')
+        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'arm64')
         run: make
 
       - name: Make for cmake
         if: success() && endsWith(matrix.type, 'cmake')
-        run: 
+        run:
           cmake --build build
+
+      - name: Build libraries for arm64
+        if: success() && matrix.type == 'libs-arm64'
+        run: |
+          ./linux/arm64/build_libraries_arm64.sh
+
+      - name: Build apps for arm64
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          export CI=yes
+          ./linux/arm64/build_libraries_arm64.sh
+          ./linux/arm64/build_openssl_arm64.sh
+          ./linux/arm64/build_curl_arm64.sh
+          ./linux/arm64/build_example_arm64.sh
 
       - name: Execute unit-test and report coverage
         if: success() && matrix.type == 'unit-test'
         run: ./tests/executeUnitTests.sh --report-coverage --report-xml
+
+      - name: Execute automation tests
+        if: success() && matrix.type == 'unit-test'
+        run: python ./tests/crypt_prog_tests.py ./lib/crypt_prog
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
@@ -126,11 +171,11 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        run: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
+        run: python ./deploy/prepare_deployment.py logs
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
           name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -140,23 +185,116 @@ jobs:
         run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
 
       - name: Upload Google Tests Results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
         with:
           name: Linux_tests_results
           path: "tests/gtest/**/*_xml_report.xml"
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v3
         if: success() && matrix.type == 'unit-test'
+        uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  build-release:
+    name: ${{ matrix.type }}-build-release
+    runs-on: ubuntu-latest
+    container:
+      image: debian:buster
+    strategy:
+      matrix:
+        type: [apps, apps-x86, apps-arm64]
+      fail-fast: false
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get -qq update
+          apt-get install -y make build-essential m4 pkg-config autoconf libtool git p7zip-full python3
+
+      - name: Install dependencies for x86
+        if: success() && matrix.type == 'apps-x86'
+        run: |
+          dpkg --add-architecture i386
+          apt-get update
+          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386
+
+      - name: Install dependencies for x64
+        if: success() && matrix.type == 'apps'
+        run: |
+          apt-get install -y libcurl4-openssl-dev libssl-dev
+
+      - name: Install dependencies for arm64
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          fail_ci_if_error: true
-          gcov: true
-          verbose: false
+          fetch-depth: 2
+
+      - name: Automake
+        if: success()
+        run: ./_autosetup
+
+      - name: Make x64 apps
+        if: success() && matrix.type == 'apps'
+        run: |
+          export CFLAGS="-O3"
+          export CXXFLAGS="-O3 -std=c++11"
+          export LDFLAGS="-static-libstdc++ -s"
+          export RELEASE_ARCH=x86_64
+          ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager
+          make -j $(nproc --all)
+
+      - name: Make x86 apps
+        if: success() && matrix.type == 'apps-x86'
+        run: |
+          export CFLAGS="-O3 -m32"
+          export CXXFLAGS="-O3 -m32 -std=c++11"
+          export LDFLAGS="-static-libstdc++ -s -m32"
+          export RELEASE_ARCH=i686
+          ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --host=i686-linux-gnu
+          make -j $(nproc --all)
+
+      - name: Make arm64 apps
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          export CI=yes
+          export RELEASE=yes
+          export RELEASE_ARCH=arm64
+          ./linux/arm64/build_libraries_arm64.sh
+          ./linux/arm64/build_openssl_arm64.sh
+          ./linux/arm64/build_curl_arm64.sh
+          ./linux/arm64/build_example_arm64.sh
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: success()
+        run: python3 ./deploy/prepare_deployment.py linux_apps
+
+      - name: Upload wrapper artifacts
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: success()
+        with:
+          name: linux_release_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/linux_apps.7z

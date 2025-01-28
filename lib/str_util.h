@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,8 @@
 #include <vector>
 #include <string.h>
 
+#include "str_replace.h"
+
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 #define safe_strcat(x, y) strlcat(x, y, sizeof(x))
 
@@ -29,7 +31,6 @@ extern void strcpy_overlap(char*, const char*);
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);
 extern int parse_command_line(char*, char**);
-extern void c2x(char *what);
 extern void strip_whitespace(char *str);
 extern void strip_whitespace(std::string&);
 extern void strip_quotes(char *str);

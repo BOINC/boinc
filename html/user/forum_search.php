@@ -83,15 +83,19 @@ foreach ($thread_sort_styles as $id => $style){
         $sortlist.="<option value=\"".$id."\">".$style."</option>";
     }
 }
-row2(tra("Sort by"), 
+row2(tra("Sort by"),
     '<select class="form-control" name="search_sort">'.$sortlist.'</select');
 
 row1("&nbsp;");
-row2("","<input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Start the search")."\">");
+row2("",
+    sprintf('<input class="btn btn-success" %s type="submit" value="%s"',
+        button_style(),
+        tra("Start the search")
+    )
+);
 echo "</form>";
 end_table();
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

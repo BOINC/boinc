@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,10 +28,10 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 #include <string>
 
 #include "error_numbers.h"
-
 #include "sched_check.h"
 #include "sched_config.h"
 #include "sched_customize.h"
@@ -43,13 +43,8 @@
 #include "sched_types.h"
 #include "sched_util.h"
 #include "sched_version.h"
-
 #include "sched_resend.h"
-
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 // Assign a new deadline for the result;
 // if it's not likely to complete by this time, return nonzero.
@@ -80,7 +75,7 @@ static int possibly_give_result_new_deadline(
         }
         return 1;
     }
-    
+
     // update result with new report time and sent time
     //
     if (config.debug_resend) {
@@ -254,7 +249,15 @@ bool resend_lost_work() {
             );
             g_reply->insert_message(warning_msg, "low");
         } else {
-            retval = add_result_to_reply(result, wu, bavp, false);
+            bool is_buda, is_ok;
+            HOST_USAGE hu;
+            check_buda_plan_class(wu, hu, is_buda, is_ok);
+            if (is_buda) {
+                if (!is_ok) continue;
+            } else {
+                hu = bavp->host_usage;
+            }
+            retval = add_result_to_reply(result, wu, bavp, hu, is_buda, false);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%lu] failed to send [RESULT#%lu]\n",
@@ -277,7 +280,7 @@ bool resend_lost_work() {
     if (num_eligible_to_resend && config.debug_resend) {
         log_messages.printf(MSG_NORMAL,
             "[resend] [HOST#%lu] %d lost results, resent %d\n",
-            g_reply->host.id, num_eligible_to_resend, num_resent 
+            g_reply->host.id, num_eligible_to_resend, num_resent
         );
     }
 

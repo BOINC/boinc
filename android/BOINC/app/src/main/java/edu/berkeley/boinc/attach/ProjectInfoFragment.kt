@@ -19,6 +19,8 @@
 package edu.berkeley.boinc.attach
 
 import android.app.Dialog
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +45,12 @@ class ProjectInfoFragment : DialogFragment() {
         _binding = AttachProjectInfoLayoutBinding.inflate(inflater, container, false)
 
         // get data
-        val info: ProjectInfo? = requireArguments().getParcelable("info")
+        val info: ProjectInfo? = if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+            requireArguments().getParcelable("info", ProjectInfo::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            requireArguments().getParcelable("info")
+        }
         if (info == null) {
             Logging.logError(Logging.Category.GUI_VIEW, "ProjectInfoFragment info is null, return.")
 

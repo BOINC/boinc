@@ -48,7 +48,7 @@ public:
 #endif
 
 private:
-    
+
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
     virtual wxListItemAttr* OnGetItemAttr(long item) const;

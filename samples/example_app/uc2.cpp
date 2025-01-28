@@ -141,7 +141,7 @@ void update_shmem() {
 
 int main(int argc, char **argv) {
     int i;
-    int c, nchars = 0, retval, n;
+    int c, nchars = 0, retval, n = 0;
     double fsize, fd;
     char input_path[512], output_path[512], chkpt_path[512], buf[256];
     MFILE out;

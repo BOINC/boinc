@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// client initialization and main loop
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -72,10 +74,8 @@ CLIENT_STATE gstate;
 COPROCS coprocs;
 
 #ifndef SIM
-#ifdef NEW_CPU_THROTTLE
-THREAD_LOCK client_mutex;
+THREAD_LOCK client_thread_mutex;
 THREAD throttle_thread;
-#endif
 #endif
 
 CLIENT_STATE::CLIENT_STATE()
@@ -123,7 +123,6 @@ CLIENT_STATE::CLIENT_STATE()
     app_started = 0;
     cmdline_dir = false;
     exit_before_upload = false;
-    run_test_app = false;
 #ifndef _WIN32
     boinc_project_gid = 0;
 #endif
@@ -156,7 +155,7 @@ CLIENT_STATE::CLIENT_STATE()
     redirect_io = false;
     disable_graphics = false;
     cant_write_state_file = false;
-    ncpus = 1;
+    n_usable_cpus = 1;
     benchmarks_running = false;
     client_disk_usage = 0.0;
     total_disk_usage = 0.0;
@@ -188,13 +187,14 @@ CLIENT_STATE::CLIENT_STATE()
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
+    have_sporadic_app = false;
 }
 
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
 
     msg_printf(NULL, MSG_INFO,
-        "Host name: %s",
+        "Computer name: %s",
         host_info.domain_name
     );
     nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
@@ -202,8 +202,8 @@ void CLIENT_STATE::show_host_info() {
         "Processor: %d %s %s",
         host_info.p_ncpus, host_info.p_vendor, host_info.p_model
     );
-    if (ncpus != host_info.p_ncpus) {
-        msg_printf(NULL, MSG_INFO, "Using %d CPUs", ncpus);
+    if (n_usable_cpus != host_info.p_ncpus) {
+        msg_printf(NULL, MSG_INFO, "Using %d CPUs", n_usable_cpus);
     }
 #if 0
     if (host_info.m_cache > 0) {
@@ -248,22 +248,39 @@ void CLIENT_STATE::show_host_info() {
     );
 
 #ifdef _WIN64
-    if (host_info.wsl_available) {
-        msg_printf(NULL, MSG_INFO, "WSL detected:");
-        for (size_t i = 0; i < host_info.wsls.wsls.size(); ++i) {
-            const WSL& wsl = host_info.wsls.wsls[i];
-            if (wsl.is_default) {
+    if (host_info.wsl_distros.distros.empty()) {
+        msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+    } else {
+        msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
+        for (auto &wsl: host_info.wsl_distros.distros) {
+            msg_printf(NULL, MSG_INFO,
+                "-   %s (WSL %d)%s",
+                wsl.distro_name.c_str(),
+                wsl.wsl_version,
+                wsl.is_default?" (default)":""
+            );
+            msg_printf(NULL, MSG_INFO,
+                "-      OS: %s (%s)",
+                wsl.os_name.c_str(), wsl.os_version.c_str()
+            );
+            if (!wsl.libc_version.empty()) {
                 msg_printf(NULL, MSG_INFO,
-                    "   [%s] (default): %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+                    "-      libc version: %s", wsl.libc_version.c_str()
                 );
-            } else {
-                msg_printf(NULL, MSG_INFO,
-                    "   [%s]: %s (%s)", wsl.distro_name.c_str(), wsl.name.c_str(), wsl.version.c_str()
+            }
+            if (!wsl.docker_version.empty()) {
+                msg_printf(NULL, MSG_INFO, "-      Docker version %s (%s)",
+                    wsl.docker_version.c_str(),
+                    docker_type_str(wsl.docker_type)
+                );
+            }
+            if (!wsl.docker_compose_version.empty()) {
+                msg_printf(NULL, MSG_INFO, "-      Docker compose version %s (%s)",
+                    wsl.docker_compose_version.c_str(),
+                    docker_type_str(wsl.docker_compose_type)
                 );
             }
         }
-    } else {
-        msg_printf(NULL, MSG_INFO, "No WSL found.");
     }
 #endif
 
@@ -281,7 +298,24 @@ void CLIENT_STATE::show_host_info() {
         }
 #endif
     }
+
+#ifndef _WIN64
+    if (strlen(host_info.docker_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker: version %s (%s)",
+            host_info.docker_version,
+            docker_type_str(host_info.docker_type)
+        );
+    }
+    if (strlen(host_info.docker_compose_version)) {
+        msg_printf(NULL, MSG_INFO, "Docker compose: version %s (%s)",
+            host_info.docker_compose_version,
+            docker_type_str(host_info.docker_compose_type)
+        );
+    }
+#endif
 }
+
+// TODO: the following 3 should be members of COPROCS
 
 int rsc_index(const char* name) {
     const char* nm = strcmp(name, "CUDA")?name:GPU_TYPE_NVIDIA;
@@ -365,7 +399,7 @@ void CLIENT_STATE::set_now() {
 #ifdef _WIN32
     // On Win, check for evidence that we're awake after a suspension
     // (in case we missed the event announcing this)
-    // 
+    //
     if (os_requested_suspend) {
         if (x > now+10) {
             msg_printf(0, MSG_INFO, "Resuming after OS suspension");
@@ -388,12 +422,13 @@ bool CLIENT_STATE::is_new_client() {
         || (core_client_version.minor != old_minor_version)
         || (core_client_version.release != old_release)
     ) {
-        msg_printf(NULL, MSG_INFO,
-            "Version change (%d.%d.%d -> %d.%d.%d)",
+        msg_printf_notice(0, true, 0,
+            "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
             old_major_version, old_minor_version, old_release,
             core_client_version.major,
             core_client_version.minor,
-            core_client_version.release
+            core_client_version.release,
+            "https://github.com/BOINC/boinc/wiki/Client-release-notes"
         );
         new_client = true;
     }
@@ -585,10 +620,17 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.intel_gpu);
         }
     }
+    if (coprocs.have_apple_gpu()) {
+        if (rsc_index(GPU_TYPE_APPLE)>0) {
+            msg_printf(NULL, MSG_INFO, "APPLE GPU info taken from cc_config.xml");
+        } else {
+            coprocs.add(coprocs.apple_gpu);
+        }
+    }
     coprocs.add_other_coproc_types();
-    
+
     host_info.coprocs = coprocs;
-    
+
     if (coprocs.none() ) {
         msg_printf(NULL, MSG_INFO, "No usable GPUs found");
     }
@@ -613,6 +655,8 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
+    app_test_init();
+
     bool new_client = is_new_client();
 
     // this follows parse_state_file() since we need to have read
@@ -626,7 +670,7 @@ int CLIENT_STATE::init() {
     //
     host_info.p_vm_extensions_disabled = false;
 
-    set_ncpus();
+    set_n_usable_cpus();
     show_host_info();
 
     // this follows parse_state_file() because that's where we read project names
@@ -666,26 +710,29 @@ int CLIENT_STATE::init() {
         }
     }
 
-    // fill in avp->flops for anonymous platform projects
+    // fill in resource usage for app versions that are missing it
+    // (typically anonymous platform)
     //
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
-        if (!avp->flops) {
-            if (!avp->avg_ncpus) {
-                avp->avg_ncpus = 1;
-            }
-            avp->flops = avp->avg_ncpus * host_info.p_fpops;
+        if (!avp->resource_usage.avg_ncpus) {
+            avp->resource_usage.avg_ncpus = 1;
+        }
+        if (!avp->resource_usage.flops) {
+            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
 
             // for GPU apps, use conservative estimate:
             // assume GPU runs at 10X peak CPU speed
             //
-            if (avp->gpu_usage.rsc_type) {
-                avp->flops += avp->gpu_usage.usage * 10 * host_info.p_fpops;
+            if (avp->resource_usage.rsc_type) {
+                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
             }
         }
     }
 
     process_gpu_exclusions();
+
+    docker_cleanup();
 
     check_clock_reset();
 
@@ -746,7 +793,7 @@ int CLIENT_STATE::init() {
 
     msg_printf(NULL, MSG_INFO, "Checking active tasks");
     active_tasks.init();
-    active_tasks.report_overdue();
+    check_overdue();
     active_tasks.handle_upload_files();
     had_or_requested_work = (active_tasks.active_tasks.size() > 0);
 
@@ -759,10 +806,14 @@ int CLIENT_STATE::init() {
     process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
+
     // if project_init.xml specifies an account, attach
     //
     if (strlen(project_init.url) && strlen(project_init.account_key)) {
-        add_project(project_init.url, project_init.account_key, project_init.name, false);
+        add_project(
+            project_init.url, project_init.account_key, project_init.name, "",
+            false
+        );
         project_init.remove();
     }
 
@@ -810,7 +861,7 @@ int CLIENT_STATE::init() {
 #endif
 
     http_ops->cleanup_temp_files();
-    
+
     // must parse env vars after parsing state file
     // otherwise items will get overwritten with state file info
     //
@@ -849,10 +900,11 @@ int CLIENT_STATE::init() {
     //
     project_priority_init(false);
 
-#ifdef NEW_CPU_THROTTLE
-    client_mutex.lock();
+    client_thread_mutex.lock();
     throttle_thread.run(throttler, NULL);
-#endif
+
+    sporadic_init();
+
     initialized = true;
     return 0;
 }
@@ -891,9 +943,8 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
         // otherwise do it for the remaining amount of time.
 
         double_to_timeval(have_async?0:time_remaining, tv);
-#ifdef NEW_CPU_THROTTLE
-        client_mutex.unlock();
-#endif
+        client_thread_mutex.unlock();
+
         if (all_fds.max_fd == -1) {
             boinc_sleep(time_remaining);
             n = 0;
@@ -905,9 +956,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
             );
         }
         //printf("select in %d out %d\n", all_fds.max_fd, n);
-#ifdef NEW_CPU_THROTTLE
-        client_mutex.lock();
-#endif
+        client_thread_mutex.lock();
 
         // Note: curl apparently likes to have curl_multi_perform()
         // (called from net_xfers->got_select())
@@ -947,6 +996,7 @@ void CLIENT_STATE::do_io_or_sleep(double max_time) {
 // possibly triggering state transitions.
 // Returns true if something happened
 // (in which case should call this again immediately)
+// Called every POLL_INTERVAL (1 sec)
 //
 bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, retval;
@@ -983,16 +1033,30 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 #endif
 
-    bool old_user_active = user_active;
-#ifdef ANDROID
-    user_active = device_status.user_active;
-#else
-    long idle_time = host_info.user_idle_time(check_all_logins);
-    user_active = idle_time < global_prefs.idle_time_to_run * 60;
+    // there are 2 reasons to get idle state:
+    // if needed for computing prefs,
+    // or (on Mac) we were started by screensaver
+    //
+    bool get_idle_state = global_prefs.need_idle_state;
+#ifdef __APPLE__
+    if (started_by_screensaver) get_idle_state = true;
 #endif
-
-    if (user_active != old_user_active) {
-        request_schedule_cpus(user_active?"Not idle":"Idle");
+    long idle_time;
+    if (get_idle_state) {
+        bool old_user_active = user_active;
+#ifdef ANDROID
+        user_active = device_status.user_active;
+#else
+        idle_time = host_info.user_idle_time(check_all_logins);
+        user_active = idle_time < global_prefs.idle_time_to_run * 60;
+#endif
+        if (user_active != old_user_active) {
+            set_n_usable_cpus();
+                // if niu_max_ncpus_pct pref is set, # usable CPUs may change
+            request_schedule_cpus(user_active?"Not idle":"Idle");
+        }
+    } else {
+        user_active = false;    // shouldn't matter what it is
     }
 
 #if 0
@@ -1158,6 +1222,9 @@ bool CLIENT_STATE::poll_slow_events() {
     if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }
+    if (have_sporadic_app) {
+        sporadic_poll();
+    }
     retval = write_state_file_if_needed();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -1202,7 +1269,8 @@ PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     for (unsigned int i=0; i<projects.size(); i++) {
         char* q = strstr(projects[i]->master_url, "//");
         if (!q) continue;
-        if (!strcmp(p, q)) {
+        if (!strcasecmp(p, q)) {
+            // note: canonicalize_master_url() doesn't lower-case
             return projects[i];
         }
     }
@@ -1631,7 +1699,9 @@ bool CLIENT_STATE::garbage_collect_always() {
             }
             rp->output_files[i].file_info->ref_cnt++;
         }
-#ifndef SIM
+#ifdef SIM
+        (void)found_error;
+#else
         if (found_error) {
             // check for process still running; this can happen
             // e.g. if an intermediate upload fails
@@ -1803,7 +1873,7 @@ bool CLIENT_STATE::update_results() {
             break;
 #ifndef SIM
         case RESULT_FILES_DOWNLOADING:
-            if (input_files_available(rp, false) == 0) {
+            if (task_files_present(rp, false) == 0) {
                 if (rp->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //
@@ -1909,7 +1979,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
     res.set_ready_to_report();
     res.completed_time = now;
 
-    sprintf(buf, "Unrecoverable error for task %s", res.name);
+    snprintf(buf, sizeof(buf), "Unrecoverable error for task %s", res.name);
 #ifndef SIM
     scheduler_op->project_rpc_backoff(res.project, buf);
 #endif
@@ -1951,7 +2021,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
         //
         for (i=0; i<res.output_files.size(); i++) {
             if (res.output_files[i].file_info->had_failure(failnum)) {
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "<upload_error>\n"
                     "    <file_name>%s</file_name>\n"
                     "    <error_code>%d</error_code>\n"
@@ -2097,7 +2167,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     project->min_rpc_time = 0;
     project->pwf.reset(project);
     for (int j=0; j<coprocs.n_rsc; j++) {
-        project->rsc_pwf[j].reset();
+        project->rsc_pwf[j].reset(j);
     }
     write_state_file();
     return 0;
@@ -2296,7 +2366,7 @@ void CLIENT_STATE::log_show_projects() {
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->hostid) {
-            sprintf(buf, "%d", p->hostid);
+            snprintf(buf, sizeof(buf), "%d", p->hostid);
         } else {
             safe_strcpy(buf, "not assigned yet");
         }

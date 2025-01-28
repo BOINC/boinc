@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // The "policy" part of task execution is here.
-// The "mechanism" part is in app.C
+// The "mechanism" part is in app.cpp
 //
 
 #include "cpp.h"
@@ -29,11 +29,14 @@
 #include <csignal>
 #endif
 
+#include <algorithm>
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
 #include "shmem.h"
 #include "util.h"
+#include "url.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -186,6 +189,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         switch (rp->exit_status) {
         case EXIT_ABORTED_VIA_GUI:
         case EXIT_ABORTED_BY_PROJECT:
+        case EXIT_OVERDUE_EXCEEDED:
             rp->set_state(RESULT_ABORTED, "CS::app_finished");
             break;
         default:
@@ -215,62 +219,82 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     return 0;
 }
 
-// Returns zero iff all the input files for a result are present
-// (both WU and app version)
-// Called from CLIENT_STATE::update_results (with verify=false)
-// to transition result from DOWNLOADING to DOWNLOADED.
-// Called from ACTIVE_TASK::start() (with verify=true)
-// when project has verify_files_on_app_start set.
+// Check whether the input and app version files for a result are
+// marked as FILE_PRESENT.
+// If check_size is set, also check whether they exist and have the right size.
+// (Side-effect: files with a size mismatch will be deleted.)
+// Side effect: files with size mismatch are deleted.
 //
 // If fipp is nonzero, return a pointer to offending FILE_INFO on error
 //
-int CLIENT_STATE::input_files_available(
-    RESULT* rp, bool verify_contents, FILE_INFO** fipp
+// Called from:
+// CLIENT_STATE::update_results (with check_size=false)
+//      to transition result from DOWNLOADING to DOWNLOADED.
+// ACTIVE_TASK::start() (with check_size=true)
+//      to check files before running a task
+//
+int CLIENT_STATE::task_files_present(
+    RESULT* rp, bool check_size, FILE_INFO** fipp
 ) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
-    APP_VERSION* avp;
-    FILE_REF fr;
-    PROJECT* project = rp->project;
-    int retval;
+    APP_VERSION* avp = rp->avp;
+    int retval, ret = 0;
 
-    avp = rp->avp;
     for (i=0; i<avp->app_files.size(); i++) {
-        fr = avp->app_files[i];
-        fip = fr.file_info;
+        fip = avp->app_files[i].file_info;
         if (fip->status != FILE_PRESENT) {
             if (fipp) *fipp = fip;
-            return ERR_FILE_MISSING;
-        }
-
-        // don't verify app files if using anonymous platform
-        //
-        if (verify_contents && !project->anonymous_platform) {
-            retval = fip->verify_file(true, true, false);
+            ret = ERR_FILE_MISSING;
+        } else if (check_size) {
+            retval = fip->check_size();
             if (retval) {
                 if (fipp) *fipp = fip;
-                return retval;
+                ret = retval;
             }
         }
     }
 
     for (i=0; i<wup->input_files.size(); i++) {
+        if (wup->input_files[i].optional) continue;
         fip = wup->input_files[i].file_info;
         if (fip->status != FILE_PRESENT) {
-            if (wup->input_files[i].optional) continue;
             if (fipp) *fipp = fip;
-            return ERR_FILE_MISSING;
-        }
-        if (verify_contents) {
-            retval = fip->verify_file(true, true, false);
+            ret = ERR_FILE_MISSING;
+        } else if (check_size) {
+            retval = fip->check_size();
             if (retval) {
                 if (fipp) *fipp = fip;
-                return retval;
+                ret = retval;
             }
         }
     }
-    return 0;
+    return ret;
+}
+
+// The app for the given result failed to start.
+// Verify the app version files; maybe one of them was corrupted.
+//
+int CLIENT_STATE::verify_app_version_files(RESULT* rp) {
+    int ret = 0;
+    FILE_INFO* fip;
+    PROJECT* project = rp->project;
+
+    if (project->anonymous_platform) return 0;
+    APP_VERSION* avp = rp->avp;
+    for (unsigned int i=0; i<avp->app_files.size(); i++) {
+        fip = avp->app_files[i].file_info;
+        int retval = fip->verify_file(true, true, false);
+        if (retval && log_flags.task_debug) {
+            msg_printf(fip->project, MSG_INFO,
+                "app version file %s: bad contents",
+                fip->name
+            );
+            ret = retval;
+        }
+    }
+    return ret;
 }
 
 inline double force_fraction(double f) {
@@ -351,3 +375,119 @@ void ACTIVE_TASK_SET::check_for_finished_jobs() {
     }
 }
 #endif
+
+// check for overdue results once/day
+// called at startup and once/sec after
+//
+void CLIENT_STATE::check_overdue() {
+    static double t = 0;
+    if (now < t) return;
+    active_tasks.report_overdue();
+    t = now + 86400;
+}
+
+////////////// DOCKER CLEANUP ///////////////////
+
+// lists of image and container names for active jobs
+//
+struct DOCKER_JOB_INFO {
+    vector<string> images;
+    vector<string> containers;
+    bool image_present(string name) {
+        return std::find(images.begin(), images.end(), name) != images.end();
+    }
+    bool container_present(string name) {
+        return std::find(containers.begin(), containers.end(), name) != containers.end();
+    }
+};
+
+// clean up a Docker installation
+// (Unix: the host; Win: a WSL distro)
+//
+void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
+    int retval;
+    vector<string> out, out2;
+    char cmd[1024];
+    string name;
+
+    // first containers
+    //
+    retval = dc.command("ps --all", out);
+    if (retval) {
+        fprintf(stderr, "Docker command failed: ps --all\n");
+    } else {
+        for (string line: out) {
+            retval = dc.parse_container_name(line, name);
+            if (retval) continue;
+            if (!docker_is_boinc_name(name.c_str())) continue;
+            if (info.container_present(name)) continue;
+            sprintf(cmd, "rm %s", name.c_str());
+            retval = dc.command(cmd, out2);
+            if (retval) {
+                fprintf(stderr, "Docker command failed: %s\n", cmd);
+                continue;
+            }
+            msg_printf(NULL, MSG_INFO,
+                "Removed unused Docker container: %s", name.c_str()
+            );
+        }
+    }
+
+    // then images
+    //
+    retval = dc.command("images", out);
+    if (retval) {
+        fprintf(stderr, "Docker command failed: images\n");
+    } else {
+        for (string line: out) {
+            retval = dc.parse_image_name(line, name);
+            if (retval) continue;
+            if (!docker_is_boinc_name(name.c_str())) continue;
+            if (info.image_present(name)) continue;
+            sprintf(cmd, "image rm %s", name.c_str());
+            retval = dc.command(cmd, out2);
+            if (retval) {
+                fprintf(stderr, "Docker command failed: %s\n", cmd);
+                continue;
+            }
+            msg_printf(NULL, MSG_INFO,
+                "Removed unused Docker image: %s", name.c_str()
+            );
+        }
+    }
+}
+
+// remove old BOINC images and containers from Docker installations
+//
+void CLIENT_STATE::docker_cleanup() {
+    // make lists of the images and containers used by active jobs
+    //
+    DOCKER_JOB_INFO info;
+    for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+        if (!strstr(atp->app_version->plan_class, "docker")) continue;
+        char buf[256];
+        escape_project_url(atp->wup->project->master_url, buf);
+        string s = docker_image_name(buf, atp->wup->name);
+        info.images.push_back(s);
+        s = docker_container_name(buf, atp->result->name);
+        info.containers.push_back(s);
+    }
+
+    // go through local Docker installations and remove
+    // BOINC images and containers not in the above lists
+    //
+#ifdef _WIN32
+    for (WSL_DISTRO &wd: host_info.wsl_distros.distros) {
+        if (wd.docker_version.empty()) continue;
+        DOCKER_CONN dc;
+        dc.init(wd.docker_type, wd.distro_name);
+        cleanup_docker(info, dc);
+    }
+#else
+    if (strlen(host_info.docker_version)) {
+        DOCKER_CONN dc;
+        dc.init(host_info.docker_type);
+        cleanup_docker(info, dc);
+    }
+#endif
+}

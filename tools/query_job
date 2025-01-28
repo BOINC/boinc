@@ -1,0 +1,85 @@
+#! /usr/bin/env php
+
+<?php
+// query a job or batch for an app that uses sample assimilator
+//
+// usage: bin/query_job jobname|batchid
+
+chdir("html/ops");
+require_once("../inc/boinc_db.inc");
+require_once("../inc/submit_db.inc");
+require_once("../inc/common_defs.inc");
+require_once("../inc/result.inc");
+chdir("../..");
+
+function show_wu($wu, $dir) {
+    if ($wu->error_mask) {
+        echo sprintf("Job failed: %s\n",
+            wu_error_mask_str($wu->error_mask)
+        );
+        return;
+    }
+    switch ($wu->assimilate_state) {
+    case ASSIMILATE_INIT:
+        echo "Job is in progress.\n";
+        break;
+    case ASSIMILATE_READY:
+        echo "Job is waiting for assimilation.\n";
+        break;
+    case ASSIMILATE_DONE:
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        $host = BoincHost::lookup_id($result->hostid);
+        $user = BoincUser::lookup_id($result->userid);
+        echo "Job completed\n"
+            ."    Host $host->id ($host->os_name, $host->p_vendor)\n"
+            ."    User $user->id ($user->name)\n"
+        ;
+        $xmlin = simplexml_load_string(
+            sprintf("<foo>%s</foo>", $result->xml_doc_in)
+        );
+        $xmlout = simplexml_load_string(
+            sprintf("<foo>%s</foo>", $result->xml_doc_out)
+        );
+        $ofs = $xmlout->file_info;
+        $ifs = $xmlin->result->file_ref;
+        $nofs = $ofs->count();
+        for ($i=0; $i<$nofs; $i++) {
+            $path = sprintf("$dir/%s__file_%s", $wu->name, $ifs[$i]->open_name);
+            if (!is_file($path)) {
+                die("output file $i is missing: $path\n");
+            }
+            echo "Output file $i ($path):\n";
+            $x = file_get_contents($path);
+            if (strlen($x) > 256) {
+                $x = substr($x, 0, 256);
+                $x .= '...';
+            }
+            echo "$x\n";
+        }
+        break;
+    }
+}
+
+if ($argc != 2) {
+    die("usage: demo_query jobname|batchid\n");
+}
+$x = $argv[1];
+if (is_numeric($x)) {
+    $id = (int)$x;
+    $batch = BoincBatch::lookup_id($id);
+    if (!$batch) {
+        die("no such batch\n");
+    }
+    $wus = BoincWorkunit::enum("batch=$id");
+    foreach ($wus as $wu) {
+        echo "-------------------\nWorkunit $wu->id:\n";
+        show_wu($wu, "results/$id");
+    }
+} else {
+    $wu = BoincWorkunit::lookup("name='$x'");
+    if (!$wu) {
+        die("no such job: $wu_name\n");
+    }
+    show_wu($wu, "results/$wu->batch");
+}
+?>

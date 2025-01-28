@@ -1,0 +1,1081 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2024 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Linux Package
+on:
+  push:
+    branches: [ 'master' ]
+    tags: [ 'client_release/**' ]
+  pull_request:
+      branches: [ master ]
+  schedule:
+    - cron: '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  REPO_PRIV_KEY: ${{ secrets.REPO_PRIV_KEY }}
+  REPO_KEY: ${{ secrets.REPO_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+  PUBKEY: boinc.gpg # keep extension
+  MANTAINER: Vitalii Koshura <lestat.de.lionkur@gmail.com>
+  HOMEPAGE: https://boinc.berkeley.edu/
+  DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
+  BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+
+jobs:
+  prepare-binaries:
+    name: Prepare Binaries
+    runs-on: ubuntu-latest
+    container:
+      image: debian:buster
+      env:
+        AWS_ACCESS_KEY_ID: env.AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: env.AWS_SECRET_ACCESS_KEY
+        AWS_DEFAULT_REGION: env.AWS_DEFAULT_REGION
+    strategy:
+      matrix:
+        type: [client, manager]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          apt-get -qq update
+          apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-pip curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
+
+      - name: Install aws cli tool
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          ./aws/install
+
+      - name: Update Python packages to build Manager
+        if: success() && matrix.type == 'manager'
+        run: |
+          pip3 install -U --user pip
+          pip3 install --user jinja2
+
+      - name: Automake
+        if: success()
+        run: ./_autosetup
+
+      - name: Configure client
+        if: success() && matrix.type == 'client'
+        run: linux/ci_configure_client.sh --exec_prefix "/usr/local"
+
+      - name: Configure manager
+        if: success() && matrix.type == 'manager'
+        run: linux/ci_configure_manager.sh --exec_prefix "/usr/local"
+
+      - name: Make
+        if: success()
+        run: make -j $(nproc --all) LDFLAGS="-static-libstdc++ -s"
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: linux-package_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: success()
+        run: python3 ./deploy/prepare_deployment.py linux_${{ matrix.type }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: success()
+        with:
+          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/linux_${{ matrix.type }}.7z
+
+  build-deb-package:
+    name: Build DEB Package
+    runs-on: ubuntu-latest
+    needs: prepare-binaries
+    strategy:
+      matrix:
+        os: [focal, jammy, noble, buster, bullseye, bookworm]
+        type: [client, manager]
+      fail-fast: false
+    env:
+      ARCH: amd64
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        if: success()
+        with:
+          fetch-depth: 2
+
+      - name: Packages info preparation
+        if: success()
+        run: |
+          PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+          if [[ "x${PKG_VERSION}" == "x" ]]; then
+            printf "Could not obtain release package version from version.h"
+            exit 1
+          fi
+
+          # Setup Environment vars
+          PKG_NAME="boinc-${{ matrix.type }}"
+          PKG_VERSION="${PKG_VERSION}-${{ github.run_number }}"
+          PKG_FULL="${PKG_NAME}_${PKG_VERSION}_${{ env.ARCH }}"
+
+          echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
+          echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
+          echo "PKG_FULL=${PKG_FULL}" >> $GITHUB_ENV
+          echo "PUBKEY=${{ env.PUBKEY }}" >> $GITHUB_ENV
+
+          echo "Package name: ${PKG_NAME}"
+          echo "Package version: ${PKG_VERSION}"
+          echo "Full package name: ${PKG_FULL}"
+          echo "Key file: ${{ env.PUBKEY }}"
+
+      - name: Download
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: pkgs/
+
+      - name: Prepare package
+        if: success()
+        run: |
+          ls -l pkgs/
+          mkdir ${PKG_FULL}
+          ${{ github.workspace }}/.github/workflows/debrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
+
+      - name: Prepare package definition
+        if: success()
+        run: |
+          # Derive the package dependencies for the selected package / os / release combination selected
+          cd ${{ github.workspace }}/.github/workflows/debrepo/
+          PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+          echo "Dependencies: ${PKG_DEPS}"
+
+          # Produce the package DEB definition
+          cd "${{ github.workspace }}/${PKG_FULL}"
+          echo "Name:${PKG_NAME}
+          Package:${PKG_NAME}
+          Version:${PKG_VERSION}
+          Maintainer:${{ env.MANTAINER }}
+          Build-Depends: debhelper-compat (= 13)
+          Depends:${PKG_DEPS}
+          Architecture:${{ env.ARCH }}
+          Homepage:${{ env.HOMEPAGE }}
+          Description:${{ env.DESCRIPTION }}" \
+          > "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
+
+          echo "------------------------"
+          cat "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
+          echo "------------------------"
+
+      - name: Create Ubuntu Package
+        if: ${{ success() && ( matrix.os == 'focal' || matrix.os == 'jammy' || matrix.os == 'noble' ) }}
+        run: |
+          cd ${{ github.workspace }}/
+          # Build the actual package for Ubuntu with XZ compression
+          fakeroot dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
+
+      - name: Create Debian Package
+        if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' ) }}
+        run: |
+          cd ${{ github.workspace }}/
+          # Build the actual package for Debian with GZIP compression
+          fakeroot dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
+
+      - name: Get info from generated package
+        if: success()
+        run: |
+          # Get info from the generated package
+          dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: success()
+        with:
+          name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          path: ${{ github.workspace }}/${{ env.PKG_FULL }}.deb
+
+  build-rpm-package:
+    name: Build RPM Package
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:38
+    needs: prepare-binaries
+    strategy:
+      matrix:
+        os: [fc37, fc38, fc39, fc40, fc41, suse15_4, suse15_5, suse15_6]
+        type: [client, manager]
+      fail-fast: false
+    env:
+      ARCH: x86_64
+      PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        if: success()
+        with:
+          fetch-depth: 2
+
+      - name: DNF Preparation
+        id: dnf-prep
+        if: success()
+        run: |
+          sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
+          sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
+          sudo dnf install -y wget rpm rpm-build rpm-sign expect createrepo_c dnf-utils jq p7zip-plugins
+
+      - name: Packages info preparation
+        if: success()
+        run: |
+          PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+          if [[ "x${PKG_VERSION}" == "x" ]]; then
+            printf "Could not obtain release package version from version.h"
+            exit 1
+          fi
+
+          # Setup Environment vars
+          PKG_NAME="boinc-${{ matrix.type }}"
+          PKG_VERSION="${PKG_VERSION}"
+          PKG_FULL="${PKG_NAME}-${PKG_VERSION}-${{ github.run_number }}.${{ env.ARCH }}"
+
+          echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
+          echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
+          echo "PKG_FULL=${PKG_FULL}" >> $GITHUB_ENV
+          echo "PUBKEY=${{ env.PUBKEY }}" >> $GITHUB_ENV
+
+          echo "Package name: ${PKG_NAME}"
+          echo "Package version: ${PKG_VERSION}"
+          echo "Full package name: ${PKG_FULL}"
+          echo "Key file: ${{ env.PUBKEY }}"
+
+      - name: Download
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: pkgs/
+
+      - name: Create RPM folder
+        if: success()
+        run: |
+          mkdir ${PKG_FULL}
+          .github/workflows/rpmrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
+
+      - name: Setup gpg keys
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
+        run: |
+          echo "${{ env.REPO_PRIV_KEY }}" > boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > boinc.pub.key
+          cp "boinc.pub.key" "${{ env.PUBKEY }}"
+
+      - name: Setup test gpg keys
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
+        run: |
+          gpg --batch --gen-key <<EOF
+          Key-Type: RSA
+          Key-Length: 2048
+          Subkey-Type: RSA
+          Subkey-Length: 2048
+          Name-Real: BOINC Test
+          Name-Comment: BOINC Test
+          Name-Email: boinc@test.com
+          Expire-Date: 0
+          %no-ask-passphrase
+          %no-protection
+          EOF
+          echo "List keys"
+          gpg --list-keys
+          echo "Export keys"
+          gpg --export --armor > boinc.pub.key
+          gpg --export-secret-keys --armor > boinc.priv.key
+          echo "PUBKEY_HASH=$(gpg --list-keys | grep -Eo '([0-9A-F]{40})')" >> $GITHUB_ENV
+          cp "boinc.pub.key" "${{ env.PUBKEY }}"
+
+      - name: Create RPM client Definition
+        if: ${{ success() && matrix.type == 'client' }}
+        run: |
+            # Derive the package dependencies for the selected package / os / release combination selected
+            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            BOINCUSER=boinc
+            BOINCGROUP=boinc
+            BOINCDIR=/var/lib/boinc
+
+            case ${{ matrix.os }} in
+            "fc37" | "fc38" | "fc39" | "fc40" | "fc41")
+              CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
+              ;;
+            "suse15_4" | "suse15_5" | "suse15_6")
+              CA_BUNDLE="/etc/ssl/ca-bundle.pem"
+              ;;
+            esac
+
+            cd rpmbuild
+            echo """
+            Name:${PKG_NAME}
+            Version:${PKG_VERSION}
+            Release:${{ github.run_number }}
+            BuildArch:${{ env.ARCH }}
+            URL:${{ env.HOMEPAGE }}
+            Summary:${{ env.DESCRIPTION }}
+            License:LGPL3+
+            Requires:${PKG_DEPS}
+
+            %changelog
+            # not extracted
+
+            %description
+            ${{ env.DESCRIPTION }}
+
+            %prep
+            # nothing build is not done here
+
+            %build
+            # nothing to build
+
+            %install
+            cp -rfa * %{buildroot}
+
+            %post
+            set_perm() {
+              chown \$2:\$3 \"\$1\"
+              chmod \$4 \"\$1\"
+            }
+            set_perm_recursive() {
+              chown -R \$2:\$3 \"\$1\"
+              chmod -R \$4 \"\$1\"
+            }
+            set_perm_dir() {
+              for file in $(ls \"\$1\")
+              do
+                  path=\"\$1/\${file}\"
+                  set_perm \"\${path}\" \$2 \$3 \$4
+              done
+            }
+            update_nested_dirs() {
+              chmod \$2 \"\${1}\"
+              for file in \$(ls \"\$1\")
+                do
+              if [ -d \"\${1}/\${file}\" ] ; then
+                update_nested_dirs \"\${1}/\${file}\" \$2
+              fi
+                done
+            }
+            if ! getent group ${BOINCGROUP} >/dev/null; then
+              groupadd -r ${BOINCGROUP}
+            fi
+            if ! getent passwd ${BOINCUSER} >/dev/null; then
+              useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c \"BOINC user\" ${BOINCUSER}
+            fi
+            if ! getent group ${BOINCGROUP} | grep -q ${BOINCUSER}; then
+              usermod -a -G ${BOINCGROUP} ${BOINCUSER}
+            fi
+            if getent group video >/dev/null; then
+              if ! getent group video | grep -q ${BOINCUSER}; then
+                usermod -a -G video ${BOINCUSER}
+              fi
+            fi
+            if getent group render >/dev/null; then
+              if ! getent group render | grep -q ${BOINCUSER}; then
+                usermod -a -G render ${BOINCUSER}
+              fi
+            fi
+            if [ -n \"\$SUDO_USER\" ]; then
+                if ! getent group ${BOINCGROUP} | grep -q \"\$SUDO_USER\"; then
+                    usermod -a -G ${BOINCGROUP} \"\$SUDO_USER\"
+                fi
+            fi
+            if [ ! -d /etc/boinc-client ] ; then
+              mkdir -p /etc/boinc-client
+            fi
+            if [ ! -e ${BOINCDIR}/cc_config.xml ] ; then
+              echo \"\"\"
+              <!--
+              This is a configuration file of the BOINC client.
+              For a complete list of options see https://boinc.berkeley.edu/wiki/client_configuration
+              -->
+              <cc_config>
+              </cc_config>
+              \"\"\" > ${BOINCDIR}/cc_config.xml
+            fi
+            if [ ! -e /etc/boinc-client/cc_config.xml ] ; then
+              ln -s ${BOINCDIR}/cc_config.xml /etc/boinc-client/cc_config.xml
+            fi
+            if [ ! -e ${BOINCDIR}/global_prefs_override.xml ] ; then
+              echo \"\"\"
+              <!--
+              This is a configuration file of the BOINC client that can be used to override global preferences
+              received from the attached project locally.
+              For a complete list of options see https://github.com/BOINC/boinc/wiki/PrefsOverride
+              -->
+              <global_preferences>
+              </global_preferences>
+              \"\"\" > ${BOINCDIR}/global_prefs_override.xml
+            fi
+            if [ ! -e /etc/boinc-client/global_prefs_override.xml ] ;
+            then
+              ln -s ${BOINCDIR}/global_prefs_override.xml /etc/boinc-client/global_prefs_override.xml
+            fi
+            if [ ! -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+                echo \"\" > ${BOINCDIR}/gui_rpc_auth.cfg
+            fi
+            if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
+                ln -s ${BOINCDIR}/gui_rpc_auth.cfg /etc/boinc-client/gui_rpc_auth.cfg
+            fi
+            if [ ! -e ${BOINCDIR}/remote_hosts.cfg ] ; then
+              echo \"\"\"
+              # This file contains a list of remote host names or IP addresses (one per line)
+              # that are allowed to connect to the BOINC client via the GUI RPC interface.
+              # Only the hosts listed in this file will be allowed to connect.
+              # Lines starting with '#' and ';' are comments and are ignored.
+              \"\"\" > ${BOINCDIR}/remote_hosts.cfg
+            fi
+            if [ ! -e /etc/boinc-client/remote_hosts.cfg ] ; then
+              ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
+            fi
+            if [ ! -e ${BOINCDIR}/ca-bundle.crt ] ; then
+              ln -s ${CA_BUNDLE} ${BOINCDIR}/ca-bundle.crt
+            fi
+            set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
+            set_perm ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} 0775
+            if [ -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+                set_perm ${BOINCDIR}/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -e ${BOINC_DIR}/remote_hosts.cfg ] ; then
+              set_perm ${BOINCDIR}/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -d ${BOINCDIR}/projects ] ; then
+                set_perm ${BOINCDIR}/projects ${BOINCUSER} ${BOINCGROUP} 0775
+                update_nested_dirs ${BOINCDIR}/projects u+x,g+x,o+x
+            fi
+            if [ -d ${BOINCDIR}/slots ] ; then
+                set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
+                update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
+            fi
+            if [ -e /etc/boinc-client/cc_config.xml ] ; then
+              set_perm /etc/boinc-client/cc_config.xml ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -e /etc/boinc-client/global_prefs_override.xml ] ; then
+                set_perm /etc/boinc-client/global_prefs_override.xml ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
+                set_perm /etc/boinc-client/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
+                set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+            fi
+            if [ -x /bin/systemctl ] ; then
+                systemctl enable --now boinc-client.service
+            fi
+
+            %files
+            ${PKG_FILELIST}
+            """ > SPECS/${PKG_FULL}.spec
+
+            echo "------------------------"
+            cat SPECS/${PKG_FULL}.spec
+            echo "------------------------"
+
+      - name: Create RPM manager Definition
+        if: ${{ success() && matrix.type == 'manager' }}
+        run: |
+            # Derive the package dependencies for the selected package / os / release combination selected
+            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
+
+            cd rpmbuild
+            echo """
+            Name:${PKG_NAME}
+            Version:${PKG_VERSION}
+            Release:${{ github.run_number }}
+            BuildArch:${{ env.ARCH }}
+            URL:${{ env.HOMEPAGE }}
+            Summary:${{ env.DESCRIPTION }}
+            License:LGPL3+
+            Requires:${PKG_DEPS}
+
+            %changelog
+            # not extracted
+
+            %description
+            ${{ env.DESCRIPTION }}
+
+            %pre
+            # nothing build is not done here
+
+            %build
+            # nothing to build
+
+            %install
+            cp -rfa * %{buildroot}
+
+            %post
+            # nothing to do
+
+            %files
+            ${PKG_FILELIST}
+            """ > SPECS/${PKG_FULL}.spec
+
+            echo "------------------------"
+            cat SPECS/${PKG_FULL}.spec
+            echo "------------------------"
+
+      - name: Build RPM Package
+        if: success()
+        run: |
+          export GPG_TTY=$(tty) # fixes gpg signing
+
+          # build package
+          cd rpmbuild
+          rpmbuild --define "_topdir `pwd`" -v -ba SPECS/*
+
+          # keyring prepare
+          gpg --import "../boinc.pub.key"
+          gpg --import "../boinc.priv.key"
+          expect -c 'spawn gpg --edit-key ${{ env.PUBKEY_HASH }} trust quit; send "5\ry\r"; expect eof'
+
+          gpg --list-keys
+
+          echo """%_signature gpg
+          %_gpg_path ${HOME}/.gnupg
+          %_gpg_name boinc
+          %_gpgbin /usr/bin/gpg2
+          %__gpg_sign_cmd %{__gpg} gpg --force-v3-sigs --batch --verbose --no-armor --no-secmem-warning -u "%{_gpg_name}" -sbo %{__signature_filename} --digest-algo sha256 %{__plaintext_filename}'
+          """ > $HOME/.rpmmacros
+
+          # import for rpm
+          rpm --import "../boinc.pub.key"
+
+          echo 'search for RPM'
+          find . -name "*.rpm"
+
+          # sign package
+          rpm --addsign "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
+
+          # check signature
+          rpm --checksig "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
+          rpm -qp --qf '%|DSAHEADER?{%{DSAHEADER:pgpsig}}:{%|RSAHEADER?{%{RSAHEADER:pgpsig}}:{(none)}|}|\n' "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: success()
+        with:
+          name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          path: rpmbuild/RPMS/${{ env.ARCH }}/${{ env.PKG_FULL }}.rpm
+
+  test-debian-deb-package:
+    name: Test Debian DEB Package
+    runs-on: ubuntu-latest
+    container:
+      image: debian:${{ matrix.os }}
+    needs: build-deb-package
+    strategy:
+      matrix:
+        os: [buster, bullseye, bookworm]
+        type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y python3 gnupg2 curl
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+          mv /bin/systemctl /bin/systemctl.bak
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha'
+        run: |
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
+          apt update -qq
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable'
+        run: |
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
+          apt update -qq
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
+          apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_integration_tests.py
+
+  test-ubuntu-deb-package:
+    name: Test Ubuntu DEB Package
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:${{ matrix.os }}
+    needs: build-deb-package
+    strategy:
+      matrix:
+        os: [focal, jammy, noble]
+        type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha, upgrade-from-stable]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y python3 gnupg2 curl
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the PPA
+        if: success() && matrix.type == 'upgrade-from-ppa'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+          add-apt-repository -y ppa:costamagnagianfranco/boinc
+          apt update -qq
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha'
+        run: |
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
+          apt update -qq
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable'
+        run: |
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
+          echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
+          apt update -qq
+          DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
+
+      - name: Rename systemctl (not supported on CI)
+        if: success() && (matrix.type == 'upgrade' || matrix.type == 'upgrade-from-ppa')
+        run: |
+          mv /bin/systemctl /bin/systemctl.bak
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager
+        if: success()
+        run: |
+          apt update -qq
+          apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
+          apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_integration_tests.py
+
+  test-fedora-rpm-package:
+    name: Test Fedora RPM Package
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:${{ matrix.os }}
+    needs: build-rpm-package
+    strategy:
+      matrix:
+        os: [37, 38, 39, 40, 41]
+        type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: success()
+        run: |
+          dnf install -y python3
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          dnf install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '41'
+        run: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}
+          dnf config-manager --set-enabled boinc.berkeley.edu_dl_linux_alpha_fc${{ matrix.os }}
+          rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
+          yum install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41'
+        run: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}
+          dnf config-manager --set-enabled boinc.berkeley.edu_dl_linux_stable_fc${{ matrix.os }}
+          rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
+          yum install -y boinc-client boinc-manager
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_client_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_manager_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager for Fedora < 41
+        if: success() && matrix.os != '41'
+        run: |
+          yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
+          yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
+
+      - name: Install client and manager for Fedora >= 41
+        if: success() && matrix.os == '41'
+        run: |
+          dnf5 install -y --allowerasing $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
+          dnf5 install -y --allowerasing $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_integration_tests.py
+
+  test-opensuse-rpm-package:
+    name: Test openSUSE RPM Package
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/leap:${{ matrix.os }}
+    needs: build-rpm-package
+    strategy:
+      matrix:
+        os: [15.4, 15.5, 15.6]
+        type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
+      fail-fast: false
+    steps:
+      - name: Install dependencies
+        if: success()
+        run: |
+          zypper install -y python3 tar gzip
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+
+      - name: Get OS name
+        if: success()
+        run: |
+          echo "OS=`echo ${{ matrix.os }} | sed 's/\./_/g'`" >> $GITHUB_ENV
+
+      - name: Install distro package for further upgrade
+        if: success() && matrix.type == 'upgrade'
+        run: |
+          zypper install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha'
+        run: |
+          rpm --import https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }}/boinc.gpg
+          zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }} official-boinc-repo
+          zypper install -y boinc-client boinc-manager
+
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable'
+        run: |
+          rpm --import https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }}/boinc.gpg
+          zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }} official-boinc-repo
+          zypper install -y boinc-client boinc-manager
+
+      - name: Download client
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_client_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: success()
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_manager_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Install client and manager
+        if: success()
+        run: |
+          zypper --no-gpg-checks install -y $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
+          zypper --no-gpg-checks install -y $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
+
+      - name: Run integration tests
+        if: success()
+        run: |
+          python3 ./tests/linux_package_integration_tests.py
+
+  publish-deb-package:
+    name: Publish DEB Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    needs: [test-debian-deb-package, test-ubuntu-deb-package]
+    strategy:
+      matrix:
+        os: [focal, jammy, noble, buster, bullseye, bookworm]
+      fail-fast: false
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          sudo apt-get install -y aptly gnupg2 gpgv
+
+      - name: Setup GPG keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ env.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+          cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
+
+      - name: Download client
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Check if Release type is alpha
+        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is nightly
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is not set
+        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - name: Update or create the repository using aptly
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          # 0 true / 1 false
+          ALLOW_CREATE=0
+          cd ${{ github.workspace }}/.github/workflows/debrepo/
+          ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }}
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
+          path: "${{ github.workspace }}/repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz"
+
+      - name: Deploy to boinc server
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          set -e
+          curl -s --fail --write-out "%{http_code}" -F 'upload_file=@${{ github.workspace }}/repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz' https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }}" --form "submit=on"
+
+  publish-rpm-package:
+    name: Publish RPM Package
+    if: github.repository == 'BOINC/boinc'
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:38
+    needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
+    strategy:
+      matrix:
+        os: [fc37, fc38, fc39, fc40, fc41, suse15_4, suse15_5, suse15_6]
+      fail-fast: false
+    env:
+      ARCH: x86_64
+      PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
+    steps:
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.REPO_PRIV_KEY != 0 && env.REPO_KEY != 0 }}
+        run: |
+          echo "SKIP_RUN=0" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: DNF Preparation
+        id: dnf-prep
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          sudo echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf
+          sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf
+          sudo dnf install -y wget rpm rpm-build rpm-sign expect createrepo_c dnf-utils jq p7zip-plugins
+
+      - name: Setup GPG keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ env.REPO_PRIV_KEY }}" > boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > boinc.pub.key
+          cp "boinc.pub.key" "${{ env.PUBKEY }}"
+          # keyring prepare
+          gpg --import "boinc.pub.key"
+          gpg --import "boinc.priv.key"
+          expect -c 'spawn gpg --edit-key ${{ env.PUBKEY_HASH }} trust quit; send "5\ry\r"; expect eof'
+          gpg --list-keys
+
+      - name: Download client
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Check if Release type is alpha
+        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is nightly
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is not set
+        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - name: Update or create the repository
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+            # Bash scripts do not support boolean values so convert to 0 true / 1 false
+            # 0 true / 1 false
+            ALLOW_CREATE=0
+            CWD=$(pwd)
+
+            cd .github/workflows/rpmrepo/
+            # Updates or creates the repository
+            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
+          path: "repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz"
+
+      - name: Deploy to boinc server
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          set -e
+          curl -s --fail --write-out "%{http_code}" -F 'upload_file=@repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}.tar.gz' https://boinc.berkeley.edu/upload.php --cookie "auth=${{ secrets.BOINC_AUTH }}" --form "submit=on"

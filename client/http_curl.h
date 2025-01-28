@@ -57,7 +57,7 @@ public:
     PROXY_INFO pi;
     PROJECT* project;   // associated project, if any
 
-    char m_url[1024];  
+    char m_url[1024];
     char m_curl_user_credentials[1024];
         // string needed for proxy username/password
 
@@ -76,8 +76,6 @@ public:
         // a pointer to a form item for POST
     struct curl_httppost *pcurlFormEnd;
         // a pointer to a form item for POST
-    unsigned char* pByte;
-        // pointer to bytes for reading via libcurl_read function
 
     // request message stuff
     //
@@ -92,7 +90,7 @@ public:
     //
     // reply is always written to a file
     char outfile[256];
-        // if specified, it's written to this file w/ optional offset 
+        // if specified, it's written to this file w/ optional offset
         // otherwise it's written to a temp file
     // if type POST2, copy output to req1 buffer
     int req1_len;
@@ -146,9 +144,8 @@ public:
 
     void reset();
     void init(PROJECT*);
-    int get_ip_addr(int &ip_addr);
     void close_socket();
-    void close_file();
+    void close_files();
     void update_speed();
     void set_speed_limit(bool is_upload, double bytes_sec);
     void handle_messages(CURLMsg*);
@@ -178,7 +175,7 @@ public:
 private:
     // take an init_get/post/post2 and turns it into a libcurl request
     //
-    int libcurl_exec(const char* url, const char* in, const char* out, 
+    int libcurl_exec(const char* url, const char* in, const char* out,
         double offset, double size, bool is_post
     );
 };

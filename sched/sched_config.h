@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,6 +64,7 @@ struct SCHED_CONFIG {
     double delete_delay;
     bool msg_to_host;
     bool non_cpu_intensive;
+    bool strict_memory_bound;
     bool verify_files_on_app_start;
     int homogeneous_redundancy;
     bool hr_allocate_slots;
@@ -77,7 +78,7 @@ struct SCHED_CONFIG {
     int fuh_set_initial_permission;
     int reliable_priority_on_over;
         // additional results generated after at least one result
-        // is over will have their priority boosted by this amount    
+        // is over will have their priority boosted by this amount
     int reliable_priority_on_over_except_error;
         // additional results generated after at least one result is over
         // (unless there is an error) will have their priority boosted
@@ -111,8 +112,6 @@ struct SCHED_CONFIG {
     int daily_result_quota;         // max results per day is this * mult
     char debug_req_reply_dir[256];
         // keep sched_request and sched_reply in files in this directory
-    double default_disk_max_used_gb;
-    double default_disk_max_used_pct;
     double default_disk_min_free_gb;
     vector<int> dont_search_host_for_userid;
     bool dont_store_success_stderr;
@@ -180,7 +179,7 @@ struct SCHED_CONFIG {
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
     bool estimate_flops_from_hav_pfc;
-        // Use host_app_version peak flop count rather than elapsed time 
+        // Use host_app_version peak flop count rather than elapsed time
         // to calculate projected_flops when choosing version.
     bool credit_by_app;
         // store per-app credit info in credit_user and credit_team

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -101,7 +101,22 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    m_noticesBody = wxT("<html><head></head><body></body></html>");
+    if (wxGetApp().GetIsDarkMode()){
+#if wxUSE_WEBVIEW
+        m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
+#else
+        m_noticesBody = wxT("<html><head></head><body bgcolor=black></body></html>");
+#endif
+    } else {
+        m_noticesBody = wxT("<html><head></head><body></body></html>");
+    }
+
+    // In Dark Mode, paint the window black immediately
+#if wxUSE_WEBVIEW
+    m_browser->SetPage(m_noticesBody, wxEmptyString);
+#else
+    m_browser->SetPage(m_noticesBody);
+#endif
 
     // Display the fetching notices message until we have notices
     // to display or have determined that there are no notices.
@@ -139,7 +154,17 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
+
+
+    if (wxGetApp().GetIsDarkMode()){
+#if wxUSE_WEBVIEW
+        m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
+#else
+       m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
+#endif
+    } else {
+        m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
+    }
 
     for (i=0; i<newCount; ++i) {
         if (pDoc->IsConnected()) {

@@ -24,6 +24,9 @@
 #include "boinc_win.h"
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 LPFN_ISWOW64PROCESS fnIsWow64Process;
+#ifndef SIM
+#include "hostinfo.h"
+#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -77,7 +80,7 @@ void CLIENT_STATE::add_platform(const char* platform) {
 // detect a possibly emulated x86_64 CPU and its features on a Apple Silicon M1 Mac
 //
 int launch_child_process_to_detect_emulated_cpu() {
-    int prog;
+    int pid;
     char data_dir[MAXPATHLEN];
     char execpath[MAXPATHLEN];
     int retval = 0;
@@ -94,7 +97,6 @@ int launch_child_process_to_detect_emulated_cpu() {
             boinc_sleep(0.01);
         }
     }
-
 
     // write the EMULATED_CPU_INFO into the BOINC data dir
     boinc_getcwd(data_dir);
@@ -121,8 +123,7 @@ int launch_child_process_to_detect_emulated_cpu() {
         execpath,
         argc,
         argv,
-        0,
-        prog
+        pid
     );
 
     if (retval) {
@@ -135,25 +136,37 @@ int launch_child_process_to_detect_emulated_cpu() {
         return retval;
     }
 
-    retval = get_exit_status(prog);
+    int status;
+    retval = get_exit_status(pid, status, 10);
     if (retval) {
+        msg_printf(0, MSG_INFO, "CPU emulation check process didn't exit");
+        kill_process(pid);
+        return retval;
+    }
+
+    if (status) {
         char buf[200];
-        if (WIFEXITED(retval)) {
-            int code = WEXITSTATUS(retval);
-            snprintf(buf, sizeof(buf), "process exited with status %d: %s", code, strerror(code));
-        } else if (WIFSIGNALED(retval)) {
-            int sig = WTERMSIG(retval);
-            snprintf(buf, sizeof(buf), "process was terminated by signal %d", sig);
+        if (WIFEXITED(status)) {
+            int code = WEXITSTATUS(status);
+            snprintf(buf, sizeof(buf),
+                "process exited with status %d: %s", code, strerror(code)
+            );
+        } else if (WIFSIGNALED(status)) {
+            int sig = WTERMSIG(status);
+            snprintf(buf, sizeof(buf),
+                "process was terminated by signal %d", sig
+            );
         } else {
-            snprintf(buf, sizeof(buf), "unknown status %d", retval);
+            snprintf(buf, sizeof(buf), "unknown status %d", status);
         }
         msg_printf(0, MSG_INFO,
             "Emulated CPU detection failed: %s",
             buf
         );
+        return -1;
     }
 
-    return retval;
+    return 0;
 }
 #endif
 
@@ -162,7 +175,24 @@ int launch_child_process_to_detect_emulated_cpu() {
 void CLIENT_STATE::detect_platforms() {
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
-#if defined(_WIN64) && defined(_M_X64)
+#if defined(_ARM64_)
+    add_platform("windows_arm64");
+#ifndef SIM
+    // according to
+    // https://learn.microsoft.com/en-us/windows/arm/apps-on-arm-x86-emulation
+    // Windows 10 on ARM can run x86 applications,
+    // and Windows 11 on ARM can run x86_64 applications
+    // so we will add these platfroms as well
+    OSVERSIONINFOEX osvi;
+    BOOL bOsVersionInfoEx = get_OSVERSIONINFO(osvi);
+    if (osvi.dwMajorVersion >= 10) {
+        add_platform("windows_intelx86");
+        if (osvi.dwBuildNumber >= 22000) {
+            add_platform("windows_x86_64");
+        }
+    }
+#endif
+#elif defined(_WIN64) && defined(_M_X64)
     add_platform("windows_x86_64");
     add_platform("windows_intelx86");
 #else

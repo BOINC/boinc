@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,10 +26,7 @@
 #include "str_replace.h"
 #include "db_base.h"
 
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
 #include "sched_msgs.h"
-#endif
 
 bool g_print_queries = false;
 
@@ -49,9 +46,12 @@ int DB_CONN::open(
     //
     // v < 5.0.13: not supported
     // 5.0.13 <= v < 5.0.19: set option after real_connect()
-    // 5.0.19 < v < 5.1: set option before real_connect();
+    // 5.0.19 < v < 5.1: set option before real_connect()
     // 5.1.0 <= v < 5.1.6: set option after real_connect()
-    // 5.1.6 <= v: set option before real_connect
+    // 5.1.6 <= v: set option before real_connect()
+    // 5.1.6 < v < 8.0.34: set option after real_connect()
+    // 8.0.34 <= v: reconnect feature deprecated
+    // https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-34.html#mysqld-8-0-34-deprecation-removal
 
     int v = MYSQL_VERSION_ID;
     bool set_opt_before = false, set_opt_after = false;
@@ -62,7 +62,7 @@ int DB_CONN::open(
         set_opt_before = true;
     } else if (v < 50106) {
         set_opt_after = true;
-    } else {
+    } else if (v < 80034) {
         set_opt_before = true;
     }
 
@@ -89,7 +89,7 @@ int DB_CONN::open(
         mysql, host, db_user, dbpassword, db_name, port, 0, CLIENT_FOUND_ROWS
     );
     if (mysql2 == 0) {
-        fprintf(stderr, "mysql_real_connect(): %d: %s\n", mysql_errno(mysql), mysql_error(mysql));
+        boinc::fprintf(stderr, "mysql_real_connect(): %d: %s\n", mysql_errno(mysql), mysql_error(mysql));
         return ERR_DB_CANT_CONNECT;
     }
     mysql = mysql2;
@@ -140,7 +140,7 @@ int DB_CONN::do_query(const char* p) {
     }
     retval = mysql_query(mysql, p);
     if (retval) {
-        fprintf(stderr, "Database error: %s\nquery=%s\n", error_string(), p);
+        boinc::fprintf(stderr, "Database error: %s\nquery=%s\n", error_string(), p);
     }
     return retval;
 }
@@ -168,7 +168,7 @@ DB_ID_TYPE DB_CONN::insert_id() {
 }
 
 void DB_CONN::print_error(const char* p) {
-    fprintf(stderr, "%s: Database error: %s\n", p, error_string());
+    boinc::fprintf(stderr, "%s: Database error: %s\n", p, error_string());
 }
 
 const char* DB_CONN::error_string() {
@@ -488,7 +488,7 @@ void escape_string(char* field, int len) {
     //
     while (*p && q < buf+len-3) {
         if (*p == '\'') {
-            // this does ' to \' transformation 
+            // this does ' to \' transformation
             //
             *q++ = '\\';
             *q++ = '\'';

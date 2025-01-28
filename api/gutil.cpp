@@ -470,7 +470,7 @@ void STARFIELD::build_stars(int sz, float sp) {
 	nstars=sz;
 
     if (stars) free(stars);
-    stars = (STAR*)calloc(sizeof(STAR), (long unsigned int)nstars);
+    stars = (STAR*)calloc((long unsigned int)nstars, sizeof(STAR));
     if (!stars) {
         fprintf(stderr, "out of mem in STARFIELD::build_stars");
         sz = 0;
@@ -626,8 +626,8 @@ void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 }
 
 struct my_error_mgr {
-  struct jpeg_error_mgr pub;
   jmp_buf setjmp_buffer;
+  struct jpeg_error_mgr pub;
 };
 
 typedef struct my_error_mgr * my_error_ptr;

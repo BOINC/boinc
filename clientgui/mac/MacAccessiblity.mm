@@ -229,10 +229,10 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
         return [listControlView window];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
         return [listControlView window];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityDescriptionAttribute]) {
         NSString *desc;
         wxString s;
@@ -283,7 +283,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
             sz.height = r.height;
         }
         return [NSValue valueWithSize:sz];
-        
+
     } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
         int i, xoff, yoff;
         NSPoint pt;
@@ -306,9 +306,9 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 		//Convert the point to global (screen) coordinates
 		NSPoint windowPoint = [listControlView convertPoint:pt toView: nil];
 		pt = [[listControlView window] convertBaseToScreen:windowPoint];
-        
+
         return [NSValue valueWithPoint:pt];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityTitleAttribute]) {
         wxString str;
         if (isHeader) {
@@ -340,7 +340,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilitySubroleAttribute]) {
         return NSAccessibilitySortButtonSubrole;
-        
+
     } else if ([attribute isEqualToString:NSAccessibilitySortDirectionAttribute]) {
         if (col == BOINCView->m_iColumnIDToColumnIndex[BOINCView->m_iSortColumnID]) {
             return BOINCView->m_bReverseSort ?
@@ -481,7 +481,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     int col, numCols, x = 0, yoff;
     pList->CalcScrolledPosition(0, 0, &x, &yoff);
-        
+
     numCols = pList->GetColumnCount();
     for (col=0; col<numCols; col++) {
         // First get the position relative to the ListCtrl
@@ -500,7 +500,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         return cell;
 #endif
         }
-        
+
         x += r.size.width;
     }
 
@@ -575,9 +575,9 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 - (id)accessibilityAttributeValue:(NSString *)attribute {
     if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
         return NSAccessibilityRowRole;
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute]) {
-        return NSAccessibilityRoleDescription(NSAccessibilityRowRole, nil);	
+        return NSAccessibilityRoleDescription(NSAccessibilityRowRole, nil);
 
     } else if ([attribute isEqualToString:NSAccessibilitySubroleAttribute]) {
         return NSAccessibilityTableRowSubrole;
@@ -613,9 +613,9 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         //Convert the point to global (screen) coordinates
         NSPoint windowPoint = [parent convertPoint:pt toView: nil];
         pt = [[parent window] convertBaseToScreen:windowPoint];
-        
+
         return [NSValue valueWithPoint:pt];
-        
+
     } else if ([attribute isEqualToString:NSAccessibilityTitleAttribute]) {
         wxString s;
         s.Printf(_("row %d"), (int)row+1);
@@ -654,7 +654,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         pList->CalcUnscrolledPosition(0, 0, &xoff, &yoff);
         int leftVisiblePos = xoff;      // Horizontal scrolled offset in pixels
         int rightVisiblePos = leftVisiblePos + w;
-        
+
         NSInteger i, cellLeftEdge = 0, cellRightEdge;
         NSMutableArray *visibleChildren = [NSMutableArray array];
 
@@ -673,7 +673,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
             } else if ((leftVisiblePos > cellLeftEdge) && (rightVisiblePos < cellRightEdge)) {
                 isVisible = YES;        // Visible area of row is totally within cell
             }
-            
+
             if (isVisible) {
 #if RETAIN_KIDS_OF_ROWS
                 [visibleChildren addObject:[kids objectAtIndex:i] ];
@@ -683,10 +683,10 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
                 [visibleChildren addObject:cell];
 #endif
             }
-            
+
             cellLeftEdge = cellRightEdge;
         }
-        
+
         return visibleChildren;
 
     } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
@@ -694,7 +694,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilityIndexAttribute]) {
         return [NSNumber numberWithInt:row];
-        
+
     } else if ([attribute isEqualToString:NSAccessibilitySelectedAttribute]) {
         BOOL isSelected = pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED;
         return [NSNumber numberWithBool:isSelected];
@@ -779,7 +779,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
     id item;
 
     [self adjustKidsIfNeeded];
-    
+
     NSPoint windowPoint;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
     //convertRectFromScreen is not available before OS 10.7
@@ -825,19 +825,19 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         if (numkids <= (firstVisibleRow + numVisibleRows)) {
             numVisibleRows = numkids - firstVisibleRow;
         }
-        // This allows for an additional partially visible row 
+        // This allows for an additional partially visible row
         NSInteger lastVisibleRow = firstVisibleRow + numVisibleRows;
         if (lastVisibleRow > (numkids - 1)) {
             lastVisibleRow = (numkids - 1);
         }
-        
+
         for (rowNumber = firstVisibleRow; rowNumber <= lastVisibleRow; ++rowNumber) {
             NSRect r;
             r = [parent bounds];
             r.origin.x = 0;
             r.size.width = wxcr.width;
             r.size.height = wxcr.height;
-            
+
             wxRect wxr;
             pList->GetItemRect(rowNumber, wxr);
             r.origin.y = wxr.y;
@@ -861,7 +861,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 - (void)adjustKidsIfNeeded {
     NSInteger i, newNumKids;
     newNumKids = pList->GetItemCount(); // Number of rows
-    
+
     if (kids == nil) {
         kids = [[NSMutableArray arrayWithCapacity:newNumKids] retain];
     }
@@ -927,19 +927,19 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
         return [NSNumber numberWithBool:NO];
-        
+
     } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         return NSAccessibilityUnignoredAncestor(parent);
 
     } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
 	// We're in the same window as our parent.
         return [parent window];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
         return [parent window];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityDescriptionAttribute]) {
-        // To allow localization, we can't just append string 
+        // To allow localization, we can't just append string
         // " is empty" because that assumes English word order.
         wxString s;
         if (isEventLog) {
@@ -961,16 +961,16 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilitySizeAttribute]) {
         return [NSValue valueWithSize:[parent frame].size];
-        
+
     } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
         NSPoint pt = [parent bounds].origin;
         pt.y += [parent bounds].size.height;    // We need the bottom left corner
 		//Convert the point to global (screen) coordinates
 		NSPoint windowPoint = [parent convertPoint:pt toView: nil];
 		pt = [[parent window] convertBaseToScreen:windowPoint];
-        
+
         return [NSValue valueWithPoint:pt];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityChildrenAttribute]) {
         [self adjustKidsIfNeeded];
         return kids;
@@ -991,7 +991,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         for (i = 0; i < numVisibleKids; ++i) {
             [visibleChildren addObject:[kids objectAtIndex:i+firstVisibleKid] ];
         }
-        
+
         return visibleChildren;
 
     } else if ([attribute isEqualToString:NSAccessibilitySelectedChildrenAttribute] ||
@@ -1005,10 +1005,10 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
             [selectedChildren addObject:[kids objectAtIndex:i] ];
         }
         return selectedChildren;
-        
+
     } else if ([attribute isEqualToString:NSAccessibilityOrientationAttribute]) {
         return NSAccessibilityVerticalOrientationValue;
-        
+
     } else {
         return [super accessibilityAttributeValue:attribute];
     }
@@ -1095,23 +1095,23 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 static BOOL AccessibilityEnabled = false;
 
 - (NSView *)hitTest:(NSPoint)aPoint {
-    // [NSThread callStackSymbols] is not available in OS 10.5, so 
+    // [NSThread callStackSymbols] is not available in OS 10.5, so
     // BOINC does not fully implement accessibility under OS 10.5.
     //
-    // Weak linking of objective-C classes and methods is not 
+    // Weak linking of objective-C classes and methods is not
     // supported before OS 10.6.8 so to be compatible with
     // OS 10.5 we must test availability at run time.
     //
     static BOOL firstTime = true;
     static BOOL haveMethod = false;
-    
+
     if (AccessibilityEnabled) {
         if (firstTime) {
             IMP callStackSyms = class_getMethodImplementation(objc_getClass("NSThread"), @selector(callStackSymbols));
             haveMethod = (callStackSyms != nil);
             firstTime = false;
         }
-        
+
         if (!haveMethod) {
             return [super hitTest:aPoint];
         }
@@ -1124,7 +1124,7 @@ static BOOL AccessibilityEnabled = false;
 
     //    NSArray *theStack = [NSThread callStackSymbols];
         NSArray *theStack = [ NSThread performSelector:@selector(callStackSymbols) ];
-        
+
         int limit = [ theStack count ];
         int i = 0;
         do {
@@ -1144,7 +1144,7 @@ static BOOL AccessibilityEnabled = false;
             ++i;
         } while (i < 15);
     }
-    
+
     return [super hitTest:aPoint];  // Not an accessibility call
 }
 
@@ -1172,7 +1172,7 @@ static BOOL AccessibilityEnabled = false;
     }
 
     NSPoint localPoint = [parent convertPoint:windowPoint fromView:nil];
-    
+
     // The scroll bars are among the list control's subviews.
     // If we are outside the list control's client area, determine
     // which scroll bar we are over and return the info for it.
@@ -1195,7 +1195,7 @@ static BOOL AccessibilityEnabled = false;
     if (kids) {
         int col, numCols, x = 0, yoff;
         pList->CalcScrolledPosition(0, 0, &x, &yoff);
-        
+
         numCols = pList->GetColumnCount();
         for (col=0; col<numCols; col++) {
             // First get the position relative to the ListCtrl
@@ -1243,26 +1243,26 @@ static BOOL AccessibilityEnabled = false;
 - (id)accessibilityAttributeValue:(NSString *)attribute {
     if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
         return NSAccessibilityGroupRole;
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute]) {
         return NSAccessibilityRoleDescription(NSAccessibilityGroupRole, nil);
 
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
         return [NSNumber numberWithBool:NO];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         return NSAccessibilityUnignoredAncestor(parent);
 
     } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
 	// We're in the same window as our parent.
         return [parent window];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
         return [parent window];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilitySizeAttribute]) {
         return [NSValue valueWithSize:[self frame].size];
-        
+
     } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
         NSPoint pt = [self bounds].origin;
         pt.y += [self bounds].size.height;    // We need the bottom left corner
@@ -1270,7 +1270,7 @@ static BOOL AccessibilityEnabled = false;
 //		NSPoint windowPoint = [self convertPoint:pt toView: nil];
 		NSPoint windowPoint = [parent convertPoint:pt toView: nil];
 		pt = [[parent window] convertBaseToScreen:windowPoint];
-        
+
         return [NSValue valueWithPoint:pt];
 
 //TODO: Why does NSAccessibilityDescriptionAttribute for header view prevent
@@ -1285,7 +1285,7 @@ static BOOL AccessibilityEnabled = false;
         }
         NSString *desc = [NSString stringWithUTF8String:(char *)(s.utf8_str().data())];
         return desc;
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityChildrenAttribute]) {
         if (kids == nil) {
             numkids = pList->GetColumnCount();
@@ -1298,7 +1298,7 @@ static BOOL AccessibilityEnabled = false;
                 [kids addObject:cell];
             }
         }
-	
+
         return kids;
 //        return NSAccessibilityUnignoredChildren(kids);    // No children are ignored
 
@@ -1345,7 +1345,7 @@ void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
     rb.size.height -= ((wxWindow *)m_headerWin)->GetSize().y;
     [fauxBodyView initWithFrame:rb listCtrl:this listFlags:(isEventLogFlag) parent:listControlView BOINCView:nil];
     [listControlView addSubview:fauxBodyView ];
-    
+
     m_fauxHeaderView = fauxHeaderView;
     m_fauxBodyView = fauxBodyView;
 }
@@ -1362,7 +1362,7 @@ void CDlgEventLogListCtrl::OnSize(wxSizeEvent& event) {
         rh.size.height = ((wxWindow *)m_headerWin)->GetSize().y;
         [fauxHeaderView setFrame:rh];
     }
-    
+
     if (fauxBodyView) {
         NSRect rb = r;
         rb.origin.y += ((wxWindow *)m_headerWin)->GetSize().y;
@@ -1370,7 +1370,7 @@ void CDlgEventLogListCtrl::OnSize(wxSizeEvent& event) {
         wxString s = wxEmptyString;
         [fauxBodyView setFrame:rb];
     }
-    
+
     event.Skip();
 }
 
@@ -1410,7 +1410,7 @@ void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     rb.size.height -= ((wxWindow *)m_headerWin)->GetSize().y;
     [fauxBodyView initWithFrame:rb listCtrl:this listFlags:0 parent:listControlView BOINCView:m_pParentView];
     [listControlView addSubview:fauxBodyView ];
-    
+
     m_fauxHeaderView = fauxHeaderView;
     m_fauxBodyView = fauxBodyView;
 }
@@ -1427,7 +1427,7 @@ void CBOINCListCtrl::OnSize(wxSizeEvent& event) {
         rh.size.height = ((wxWindow *)m_headerWin)->GetSize().y;
         [fauxHeaderView setFrame:rh];
     }
-    
+
     if (fauxBodyView) {
         NSRect rb = r;
         rb.origin.y += ((wxWindow *)m_headerWin)->GetSize().y;
@@ -1435,7 +1435,7 @@ void CBOINCListCtrl::OnSize(wxSizeEvent& event) {
         wxString s = wxEmptyString;
         [fauxBodyView setFrame:rb];
     }
-    
+
     event.Skip();
 }
 
@@ -1486,7 +1486,7 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
 
 - (NSString*) getValue {
     wxString s;
-    
+
     switch (viewPage) {
     case statisticsPage:
         s = _("This panel contains graphs showing user totals for projects");
@@ -1496,7 +1496,7 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
             wxPieCtrl* pPieCtrl = (wxPieCtrl*)theClass;
             s = pPieCtrl->GetLabel();
             unsigned int i;
-            
+
             for(i=0; i<pPieCtrl->m_Series.Count(); i++) {
                 s += wxT("; ");
                 s += pPieCtrl->m_Series[i].GetLabel();
@@ -1557,12 +1557,12 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
 //		NSPoint windowPoint = [self convertPoint:pt toView: nil];
 		NSPoint windowPoint = [parent convertPoint:pt toView: nil];
 		pt = [[parent window] convertBaseToScreen:windowPoint];
-        
+
         return [NSValue valueWithPoint:pt];
 
     } else if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
         return NSAccessibilityStaticTextRole;
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute]) {
         return NSAccessibilityRoleDescription(NSAccessibilityStaticTextRole, nil);
 
@@ -1584,14 +1584,14 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
 
     } else if ([attribute isEqualToString:NSAccessibilitySizeAttribute]) {
         return [NSValue valueWithSize:[self frame].size];
-        
+
     } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
         return [parent window];
-    
+
     } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
 	// We're in the same window as our parent.
         return [parent window];
-    
+
     } else {
         return [super accessibilityAttributeValue:attribute];
     }

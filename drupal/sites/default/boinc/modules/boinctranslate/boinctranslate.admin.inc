@@ -27,15 +27,15 @@ function boinctranslate_admin_settings(&$form_state) {
     'transifex_boinc_drupal_resource' => variable_get(
       'boinc_translate_transifex_boinc_drupal_resource',
       'drupal'
-    ), 
+    ),
     'transifex_project_name' => variable_get(
       'boinc_translate_transifex_project_name', ''
     ),
     'transifex_project_resources' => variable_get(
       'boinc_translate_transifex_project_resources', ''
-    ), 
+    ),
   );
-  
+
   if ($default['transifex_user'] AND $default['transifex_pass']) {
     if (trim($default['transifex_boinc_resources'])
     OR trim($default['transifex_project_resources'])) {
@@ -48,9 +48,9 @@ function boinctranslate_admin_settings(&$form_state) {
       $initialized = TRUE;
     }
   }
-  
+
   // Define the form
-  
+
   $form['transifex'] = array(
     '#title' => t('Transifex settings'),
     '#type' => 'fieldset',
@@ -121,7 +121,7 @@ function boinctranslate_admin_settings(&$form_state) {
     '#type' => 'submit',
     '#value' => t('Save configuration'),
   );
-  
+
   $form['tools'] = array(
     '#title' => t('Tools'),
     '#type' => 'fieldset',
@@ -204,10 +204,10 @@ function boinctranslate_admin_settings(&$form_state) {
     '#submit' => array('boinctranslate_admin_settings_export_now'),
     '#disabled' => !$import_enabled,
   );
-  
+
   $form['#submit'][] = 'system_settings_form_submit';
-  $form['#theme'] = 'system_settings_form'; 
-  
+  $form['#theme'] = 'system_settings_form';
+
   return $form;
 }
 
@@ -243,7 +243,7 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   $values = $form_state['values'];
   $errors = array();
   $api_base_url = 'https://www.transifex.com/api/2';
-  
+
   if (!$values['boinc_translate_transifex_user']) {
     form_set_error('boinc_translate_transifex_user', t('User name is required.'));
   }
@@ -256,7 +256,7 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
     }
   }
   if (!$values['boinc_translate_transifex_standard_name']) {
-    form_set_error('boinc_translate_transifex_standard_name', 
+    form_set_error('boinc_translate_transifex_standard_name',
       t('BOINC Transifex project name is required.')
     );
   }
@@ -270,20 +270,20 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
       t('At least one project-specific Transifex Resource is required.')
     );
   }
-  
+
   $username = $values['boinc_translate_transifex_user'];
   $password = ($values['boinc_translate_transifex_pass']) ? $values['boinc_translate_transifex_pass'] : variable_get('boinc_translate_transifex_pass', '');
   $boinc_name = $values['boinc_translate_transifex_standard_name'];
   $boinc_resources = boinctranslate_parse_resources(
     $values['boinc_translate_transifex_standard_resources']
   );
-  
+
   if ($username AND $password AND $boinc_name AND $boinc_resources) {
     // Test authentication
     $authenticated = FALSE;
     $path = "project/{$boinc_name}/resource/{$boinc_resources[0]}/translation/en";
     $response = boinctranslate_transifex_request($path, NULL, TRUE, FALSE, $username, $password);
-    
+
     if ($response) {
       if ($response == '401 UNAUTHORIZED') {
         form_set_error(
@@ -295,7 +295,7 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
         $authenticated = TRUE;
       }
     }
-    
+
     if ($authenticated) {
       // Prepare list of resources to validate
       $transifex_resources = array(
@@ -321,14 +321,14 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
           'warning'
         );
       }
-      
+
       // Try to access the given resources
       foreach ($transifex_resources as $project => $resources) {
         foreach ($resources as $resource) {
-          
+
           $path = "project/{$project}/resource/{$resource}/translation/en";
           $response = boinctranslate_transifex_request($path);
-          
+
           if ($response == '404 NOT FOUND') {
             form_set_error(
               'boinc_translate_transifex_' . ($project == $boinc_name ? 'standard' : 'project') . '_resources',

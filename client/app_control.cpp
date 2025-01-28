@@ -236,10 +236,10 @@ int ACTIVE_TASK::request_abort() {
 #ifdef _WIN32
 static void kill_app_process(int pid, bool will_restart) {
     int retval = 0;
-    retval = kill_program(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
+    retval = kill_process_with_status(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
     if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
-            "[task] kill_program(%d) failed: %s",
+            "[task] kill_process_with_status(%d) failed: %s",
             pid, boincerror(retval)
         );
     }
@@ -257,10 +257,10 @@ static void kill_app_process(int pid, bool) {
             );
         }
     } else {
-        retval = kill_program(pid);
+        retval = kill_process(pid);
         if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "[task] kill_program(%d) failed: %s",
+                "[task] kill_process(%d) failed: %s",
                 pid, strerror(errno)
             );
         }
@@ -351,11 +351,11 @@ static void limbo_message(ACTIVE_TASK& at) {
 // that use the GPU type, in case they're waiting for GPU RAM
 //
 static void clear_schedule_backoffs(ACTIVE_TASK* atp) {
-    int rt = atp->result->avp->rsc_type();
+    int rt = atp->result->resource_usage.rsc_type;
     if (rt == RSC_TYPE_CPU) return;
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
-        if (rp->avp->rsc_type() == rt) {
+        if (rp->resource_usage.rsc_type == rt) {
             rp->schedule_backoff = 0;
         }
     }
@@ -596,11 +596,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     //
     cleanup_task();
 
-    if (gstate.run_test_app) {
-        msg_printf(0, MSG_INFO, "test app finished - exiting");
-        exit(0);
-    }
-
     if (!will_restart) {
         copy_output_files();
         int retval = read_stderr_file();
@@ -609,7 +604,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 "read_stderr_file(): %s", boincerror(retval)
             );
         }
-        client_clean_out_dir(slot_dir, "handle_exited_app()");
+        if (!wup->project->app_test) {
+            client_clean_out_dir(slot_dir, "handle_exited_app()");
+        }
         clear_schedule_backoffs(this);
             // clear scheduling backoffs of jobs waiting for GPU
     }
@@ -630,7 +627,7 @@ bool ACTIVE_TASK::finish_file_present(int &exit_code) {
 
     exit_code = 0;
 
-    sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
+    snprintf(path, sizeof(path), "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
     char* p = fgets(buf, sizeof(buf), f);
@@ -657,7 +654,7 @@ bool ACTIVE_TASK::temporary_exit_file_present(
     double& x, char* buf, bool& is_notice
 ) {
     char path[MAXPATHLEN], buf2[256];
-    sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
+    snprintf(path, sizeof(path), "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
     strcpy(buf, "");
@@ -725,12 +722,19 @@ void ACTIVE_TASK_SET::send_heartbeats() {
         if (gstate.network_suspended) {
             safe_strcat(buf, "<network_suspended/>");
         }
+        if (atp->sporadic_ca_state != CA_NONE) {
+            char buf2[256];
+            sprintf(buf2, "<sporadic_ca>%d</sporadic_ca>",
+                atp->sporadic_ca_state
+            );
+            safe_strcat(buf, buf2);
+        }
         bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
         if (log_flags.heartbeat_debug) {
             if (sent) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[heartbeat] Heartbeat sent to task %s",
-                    atp->result->name
+                    "[heartbeat] Heartbeat sent to task %s: %s",
+                    atp->result->name, buf
                 );
             } else {
                 msg_printf(atp->result->project, MSG_INFO,
@@ -887,11 +891,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-        if (!atp->result->non_cpu_intensive() && (atp->elapsed_time > atp->max_elapsed_time)) {
-            sprintf(buf, "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
+        if (!atp->always_run() && (atp->elapsed_time > atp->max_elapsed_time)) {
+            snprintf(buf, sizeof(buf), "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
                 atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
-                atp->result->avp->flops/1e9
+                atp->result->resource_usage.flops/1e9
             );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s", atp->result->name, buf
@@ -908,7 +912,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // accurate bounds.
         //
         if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
-            sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
+            snprintf(buf, sizeof(buf), "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
                 atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
             );
             msg_printf(atp->result->project, MSG_INFO,
@@ -921,7 +925,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         }
 #endif
         if (atp->procinfo.working_set_size_smoothed > max_ram) {
-            sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
+            snprintf(buf, sizeof(buf), "working set size > client RAM limit: %.2fMB > %.2fMB",
                 atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
             );
             msg_printf(atp->result->project, MSG_INFO,
@@ -941,7 +945,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
         // don't count RAM usage of non-CPU-intensive jobs
         //
-        if (!atp->result->non_cpu_intensive()) {
+        if (!atp->non_cpu_intensive()) {
             ram_left -= atp->procinfo.working_set_size_smoothed;
         }
     }
@@ -987,7 +991,7 @@ int ACTIVE_TASK::read_stderr_file() {
     // it's unlikely that more than that will be useful
     //
     int max_len = 63*1024;
-    sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
+    snprintf(path, sizeof(path), "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return 0;
     int retval  = read_file_malloc(
         path, buf1, max_len, !cc_config.stderr_head
@@ -1204,7 +1208,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
 
         // special cases for non-CPU-intensive apps
         //
-        if (atp->result->non_cpu_intensive()) {
+        if (atp->non_cpu_intensive()) {
             if (cc_config.dont_suspend_nci) {
                 continue;
             }
@@ -1216,7 +1220,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         // handle CPU throttling separately
         //
         if (reason == SUSPEND_REASON_CPU_THROTTLE) {
-            if (atp->result->dont_throttle()) continue;
+            if (atp->dont_throttle()) continue;
             atp->preempt(REMOVE_NEVER, reason);
             continue;
         }
@@ -1244,7 +1248,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             // which uses a lot of CPU.
             // Avoid going into a preemption loop.
             //
-            if (atp->result->non_cpu_intensive()) break;
+            if (atp->always_run()) break;
             atp->preempt(REMOVE_NEVER);
             break;
         case SUSPEND_REASON_BATTERY_OVERHEATED:
@@ -1388,7 +1392,7 @@ void ACTIVE_TASK::send_network_available() {
 bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     double fd;
-    int other_pid;
+    int other_pid, i;
     double dtemp;
     static double last_msg_time=0;
 
@@ -1430,8 +1434,23 @@ bool ACTIVE_TASK::get_app_status_msg() {
             }
         }
     }
-    parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
-    parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
+    if (parse_double(msg_buf, "<current_cpu_time>", current_cpu_time)) {
+        if (current_cpu_time < 0) {
+            msg_printf(result->project, MSG_INFO,
+                "app reporting negative CPU: %f", current_cpu_time
+            );
+            current_cpu_time = 0;
+        }
+    }
+    if (parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) {
+        if (checkpoint_cpu_time < 0) {
+            msg_printf(result->project, MSG_INFO,
+                "app reporting negative checkpoint CPU: %f", checkpoint_cpu_time
+            );
+            checkpoint_cpu_time = 0;
+        }
+    }
+    parse_double(msg_buf, "<wss>", wss_from_app);
     parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
@@ -1458,17 +1477,8 @@ bool ACTIVE_TASK::get_app_status_msg() {
         other_pids.clear();
         other_pids.push_back(other_pid);
     }
-    if (current_cpu_time < 0) {
-        msg_printf(result->project, MSG_INFO,
-            "app reporting negative CPU: %f", current_cpu_time
-        );
-        current_cpu_time = 0;
-    }
-    if (checkpoint_cpu_time < 0) {
-        msg_printf(result->project, MSG_INFO,
-            "app reporting negative checkpoint CPU: %f", checkpoint_cpu_time
-        );
-        checkpoint_cpu_time = 0;
+    if (parse_int(msg_buf, "<sporadic_ac>", i)) {
+        sporadic_ac_state = (SPORADIC_AC_STATE)i;
     }
     return true;
 }
@@ -1546,7 +1556,7 @@ void ACTIVE_TASK_SET::get_msgs() {
     last_time = gstate.now;
 
     double et_diff = delta_t;
-    double et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
+    double et_diff_throttle = delta_t * gstate.current_cpu_usage_limit()/100;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
@@ -1560,7 +1570,7 @@ void ACTIVE_TASK_SET::get_msgs() {
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {
                 char buf[512];
-                sprintf(buf, "%s checkpointed", atp->result->name);
+                snprintf(buf, sizeof(buf), "%s checkpointed", atp->result->name);
                 if (atp->overdue_checkpoint) {
                     gstate.request_schedule_cpus(buf);
                 }
@@ -1589,7 +1599,7 @@ void ACTIVE_TASK_SET::get_msgs() {
 //
 void ACTIVE_TASK::write_task_state_file() {
     char path[MAXPATHLEN];
-    sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
+    snprintf(path, sizeof(path), "%s/%s", slot_dir, TASK_STATE_FILENAME);
     FILE* f = boinc_fopen(path, "w");
     if (!f) return;
     fprintf(f,
@@ -1620,7 +1630,7 @@ void ACTIVE_TASK::write_task_state_file() {
 //
 void ACTIVE_TASK::read_task_state_file() {
     char buf[4096], path[MAXPATHLEN], s[1024];
-    sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
+    snprintf(path, sizeof(path), "%s/%s", slot_dir, TASK_STATE_FILENAME);
     FILE* f = boinc_fopen(path, "r");
     if (!f) return;
     buf[0] = 0;

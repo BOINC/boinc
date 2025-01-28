@@ -1,12 +1,14 @@
 # BOINC client localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2015,2018
 # Gang Yin <zenith.yin@gmail.com>, 2018
 # Heyang Qin <qysnn1@gmail.com>, 2022
-# woclass, 2018
+# inky, 2018
+# inky, 2018
 # Cally Mal <zhouxiaobo.500@gmail.com>, 2018
 # Cally Mal <zhouxiaobo.500@gmail.com>, 2015
 # Heyang Qin <qysnn1@gmail.com>, 2016-2017
@@ -14,10 +16,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Heyang Qin <qysnn1@gmail.com>, 2022\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
+"Last-Translator: Cally Mal <zhouxiaobo.500@gmail.com>, 2015,2018\n"
+"Language-Team: Chinese (China) (http://app.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,32 +35,30 @@ msgstr "来自账户管理器的消息"
 msgid "Message from server"
 msgstr "来自服务器的消息"
 
-#: client/client_state.cpp:330
+#: client/client_state.cpp:329
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "部分计算任务所需要的内存超出了你的设定值，请检查参数设置中的相关选项。"
 
-#: client/client_state.cpp:698
+#: client/client_state.cpp:708
 msgid "Couldn't write state file; check directory permissions"
 msgstr "无法写入状态文件，请检查目录权限"
 
-#: client/cs_cmdline.cpp:295
+#: client/cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "必须在环境变量 HTTP_PROXY 中指定一个 HTTP 代理服务器"
 
-#: client/cs_scheduler.cpp:617
+#: client/cs_scheduler.cpp:592
 #, c-format
-msgid ""
-"This project seems to have changed its URL.  When convenient, remove the "
-"project, then add %s"
-msgstr "这个项目似乎改变了它的 URL。 当您方便时，请删除此项目，然后重新添加 %s"
+msgid "Master URL changed from %s to %s"
+msgstr "主 URL 从 %s 更改为 %s"
 
-#: client/cs_statefile.cpp:857
+#: client/cs_statefile.cpp:873
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml 中存在语法错误"
 
-#: client/cs_statefile.cpp:901
+#: client/cs_statefile.cpp:917
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml 中引用的下列文件不存在："
 
@@ -91,92 +91,92 @@ msgstr "下载"
 msgid "A new version of %s is available"
 msgstr " %s 有新版本可用"
 
-#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
+#: client/gpu_detect.cpp:308 client/gpu_detect.cpp:351
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "不能在 CUDA 驱动程序 6.5 或更高版本中用于 CUDA 或 OpenCL 计算"
 
-#: client/log_flags.cpp:326 client/log_flags.cpp:506
+#: client/log_flags.cpp:330 client/log_flags.cpp:515
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml 中有异常文本"
 
-#: client/log_flags.cpp:480 client/log_flags.cpp:535
+#: client/log_flags.cpp:489 client/log_flags.cpp:544
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml 中有无法识别的标签"
 
-#: client/log_flags.cpp:497
+#: client/log_flags.cpp:506
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml 中有起始标签丢失"
 
-#: client/log_flags.cpp:525
+#: client/log_flags.cpp:534
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml 中有错误的选项"
 
-#: client/log_flags.cpp:543
+#: client/log_flags.cpp:552
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml 中有结束标签丢失"
 
-#: sched/handle_request.cpp:317
+#: sched/handle_request.cpp:313
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "帐户密钥错误或者不存在，请退出并重新加入该项目以修复这个问题。"
 
-#: sched/handle_request.cpp:951
+#: sched/handle_request.cpp:947
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "该项目已经修改了它的安全密钥，请退出并重新加入该项目以修复这个问题。"
 
-#: sched/handle_request.cpp:1022
+#: sched/handle_request.cpp:1018
 msgid "This project doesn't support operating system"
 msgstr "该项目不支持您的操作系统"
 
-#: sched/handle_request.cpp:1048
+#: sched/handle_request.cpp:1044
 msgid "This project doesn't support CPU type"
 msgstr "该项目不支持你的中央处理器（CPU）类型"
 
-#: sched/handle_request.cpp:1072
+#: sched/handle_request.cpp:1068
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "您的 BOINC 客户端软件版本过低，请安装当前的最新版本。"
 
-#: sched/handle_request.cpp:1348
+#: sched/handle_request.cpp:1344
 msgid "This project doesn't support computers of type"
 msgstr "该项目不支持的计算机类型"
 
-#: sched/sched_send.cpp:1121
+#: sched/sched_send.cpp:1146
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能继续运行计算任务"
 
-#: sched/sched_send.cpp:1128
+#: sched/sched_send.cpp:1153
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能运行该项目的 GPU 计算程序"
 
-#: sched/sched_send.cpp:1147
+#: sched/sched_send.cpp:1172
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "如果要使用你的 NVIDIA GPU 来进行计算，请将 BOINC 升级至最新的正式版本。"
 
-#: sched/sched_send.cpp:1181
+#: sched/sched_send.cpp:1206
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "运行这个项目要求计算机配备一块 %s 显卡。"
 
-#: sched/sched_send.cpp:1297
+#: sched/sched_send.cpp:1328
 msgid "No tasks are available for the applications you have selected."
 msgstr "你当前选择的计算程序类型没有任务可供处理。"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1354
 msgid "Your computer type is not supported by this project"
 msgstr "该项目不支持您的计算机类型"
 
-#: sched/sched_send.cpp:1329
+#: sched/sched_send.cpp:1360
 msgid "Newer BOINC version required; please install current version"
 msgstr "要求更新 BOINC 的版本，请安装当前最新的正式版本"
 
-#: sched/sched_send.cpp:1340
+#: sched/sched_send.cpp:1371
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

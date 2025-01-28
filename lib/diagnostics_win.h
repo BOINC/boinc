@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,28 +29,15 @@ typedef LONG       KPRIORITY;
 //MinGW-W64 defines this struct in its own header
 #if !defined(HAVE_CLIENT_ID) && !defined(__MINGW32__) && _MSC_VER <= 1800
 typedef struct _CLIENT_ID {
-    DWORD          UniqueProcess;
-    DWORD          UniqueThread;
+    HANDLE         UniqueProcess;
+    HANDLE         UniqueThread;
 } CLIENT_ID;
 #endif
 
 //MinGW-W64 defines this struct in its own header
 #if !defined(HAVE_VM_COUNTERS) && !defined(__MINGW32__)
+// https://learn.microsoft.com/windows/win32/api/winternl/nf-winternl-ntquerysysteminformation
 typedef struct _VM_COUNTERS {
-#ifdef _WIN64
-// the following was inferred by painful reverse engineering
-	SIZE_T		   PeakVirtualSize;	// not actually
-    SIZE_T         PageFaultCount;
-    SIZE_T         PeakWorkingSetSize;
-    SIZE_T         WorkingSetSize;
-    SIZE_T         QuotaPeakPagedPoolUsage;
-    SIZE_T         QuotaPagedPoolUsage;
-    SIZE_T         QuotaPeakNonPagedPoolUsage;
-    SIZE_T         QuotaNonPagedPoolUsage;
-    SIZE_T         PagefileUsage;
-    SIZE_T         PeakPagefileUsage;
-    SIZE_T         VirtualSize;		// not actually
-#else
     SIZE_T         PeakVirtualSize;
     SIZE_T         VirtualSize;
     ULONG          PageFaultCount;
@@ -62,7 +49,7 @@ typedef struct _VM_COUNTERS {
     SIZE_T         QuotaNonPagedPoolUsage;
     SIZE_T         PagefileUsage;
     SIZE_T         PeakPagefileUsage;
-#endif
+    SIZE_T         PrivatePageCount;
 } VM_COUNTERS;
 #endif
 
@@ -98,13 +85,14 @@ typedef struct _SYSTEM_PROCESSES {
     ULONG          ProcessId;
 	ULONG pad2;
     ULONG          InheritedFromProcessId;
-	ULONG pad3, pad4, pad5;
+	ULONG pad3;
 #else
     ULONG          ProcessId;
     ULONG          InheritedFromProcessId;
 #endif
     ULONG          HandleCount;
-    ULONG          Reserved2[2];
+    ULONG          SessionId;
+    PVOID          Reserved3;
     VM_COUNTERS    VmCounters;
     IO_COUNTERS    IoCounters;
     SYSTEM_THREADS Threads[1];

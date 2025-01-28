@@ -5,7 +5,7 @@ a:link, a:visited, a:active {
 
 a:hover {
     text-decoration: underline;
-    color: #00A0E3;    
+    color: #00A0E3;
 }
 
 a.button {
@@ -73,7 +73,7 @@ th {
 td {
     padding: 4px;
     border: 0px;
-    margin-bottom: 0px;    
+    margin-bottom: 0px;
     vertical-align: top;
 }
 
@@ -254,7 +254,7 @@ tr.postseparator td{
 
 td.threadline {
     text-align: left;
-    color: #0074A4;    
+    color: #0074A4;
 }
 
 td.threadline a, tr.row1 em a {
@@ -264,20 +264,20 @@ td.threadline a, tr.row1 em a {
 
 td.threadline a:hover, tr.row1 em a:hover {
     text-decoration: underline;
-    color: #00A0E3;    
+    color: #00A0E3;
 }
 
-td.running { 
+td.running {
     background-color: #00ff00;
-} 
+}
 
-td.notrunning { 
+td.notrunning {
     background-color: #ff0000;
-} 
- 
-td.disabled { 
+}
+
+td.disabled {
     background-color: #ff8800;
-} 
+}
 
 span.page_title {
     font-size: 24px;

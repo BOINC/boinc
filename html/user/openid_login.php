@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+NOT FINISHED.   DON'T USE
+
 require 'openid.php';
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
@@ -25,8 +27,6 @@ include_once("../inc/user.inc");
 function show_error($str) {
     page_head("Can't create account");
     echo "$str<br>\n";
-    echo BoincDb::error();
-    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
     page_tail();
     exit();
 }
@@ -34,7 +34,6 @@ function show_error($str) {
 try {
     $openid = new LightOpenID;
     echo "<pre>";
-    print_r($openid); exit;
     if(!$openid->mode) {
         if(isset($_POST['openid_identifier'])) {
             $openid->identity = $_POST['openid_identifier'];
@@ -52,14 +51,13 @@ try {
         echo 'User has canceled authentication!';
     } else {
         echo 'User ' . ($openid->validate() ? $openid->identity . ' has ' : 'has not ') . 'logged in.';
-        //print_r($openid->getAttributes());
         // Create the user in the DB
         $data = $openid->getAttributes();
         $email_addr = $data['contact/email'];
         $email_addr = strtolower($email_addr);
         $user_name = $data['namePerson/friendly'];
 
-       
+
         $config = get_config();
         if (parse_bool($config, "disable_account_creation")
             || parse_bool($config, "no_web_account_creation")
@@ -67,7 +65,6 @@ try {
             error_page("Account creation is disabled");
         }
 
-        
         // see whether the new account should be pre-enrolled in a team,
         // and initialized with its founder's project prefs
         //
@@ -84,7 +81,7 @@ try {
         //    $teamid = 0;
         //    $project_prefs = "";
         //}
-        
+
         //if(defined('INVITE_CODES')) {
         //    $invite_code = post_str("invite_code");
         //    if (strlen($invite_code)==0) {
@@ -93,10 +90,7 @@ try {
         //    if (!preg_match(INVITE_CODES, $invite_code)) {
         //        show_error(tra("The invitation code you gave is not valid."));
         //    }
-        //} 
-        
-        print_r($data);
-        exit();
+        //}
 
         $new_name = $data['namePerson/friendly'];
         if (!is_valid_user_name($new_name, $reason)) {
@@ -104,7 +98,7 @@ try {
         }
         $new_email_addr = $data['contact/email'];
         $new_email_addr = strtolower($new_email_addr);
-        if (!is_valid_email_addr($new_email_addr)) {
+        if (!is_valid_email_syntax($new_email_addr)) {
             show_error("Invalid email address:
                 you must enter a valid address of the form
                 name@domain"
@@ -113,7 +107,7 @@ try {
         $user = BoincUser::lookup_email_addr($new_email_addr);
         if (!$user) {
             $passwd_hash = random_string();
-            
+
             $country = $data['contact/country/home'];
             if ($country == "") {
                 $country = "International";
@@ -122,7 +116,7 @@ try {
                 echo "bad country";
                 exit();
             }
-            
+
             $user = make_user(
                 $new_email_addr, $new_name, $passwd_hash,
                 $country, '', $project_prefs="", $teamid=0
@@ -130,12 +124,12 @@ try {
             if (!$user) {
                 show_error("Couldn't create account");
             }
-            
+
             if(defined('INVITE_CODES')) {
                 error_log("Account '$new_email_addr' created using invitation code '$invite_code'");
             }
         }
-        
+
         // Log-in user in the web
 
         // In success case, redirect to a fixed page so that user can
@@ -146,7 +140,7 @@ try {
         if ($next_url) {
             Header("Location: ".url_base()."$next_url");
         } else {
-            Header("Location: ".url_base().USER_HOME);
+            Header("Location: ".url_base().HOME_PAGE);
             send_cookie('init', "1", true);
             send_cookie('via_web', "1", true);
         }

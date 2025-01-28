@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,7 +35,6 @@
 #include "util.h"
 #include "str_util.h"
 #include "synch.h"
-
 #include "credit.h"
 #include "hr.h"
 #include "sched_array.h"
@@ -53,12 +52,8 @@
 #include "sched_types.h"
 #include "sched_util.h"
 #include "sched_version.h"
-
 #include "sched_send.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 // if host sends us an impossible RAM size, use this instead
 //
@@ -135,7 +130,7 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 void WORK_REQ::get_job_limits() {
     int ninstances[NPROC_TYPES];
     int i;
-    
+
     memset(ninstances, 0, sizeof(ninstances));
     int n;
     n = g_reply->host.p_ncpus;
@@ -348,20 +343,12 @@ static void get_reliability_and_trust() {
 double max_allowable_disk() {
     HOST host = g_request->host;
     GLOBAL_PREFS prefs = g_request->global_prefs;
-    double x1, x2, x3, x;
+    double x, x1=0, x2=0, x3;
 
     // defaults are from config.xml
     // if not there these are used:
-    // -default_max_used_gb= 100
-    // -default_max_used_pct = 50
-    // -default_min_free_gb = .001
+    // default_disk_min_free_gb = 1
     //
-    if (prefs.disk_max_used_gb == 0) {
-       prefs.disk_max_used_gb = config.default_disk_max_used_gb;
-    }
-    if (prefs.disk_max_used_pct == 0) {
-       prefs.disk_max_used_pct = config.default_disk_max_used_pct;
-    }
     if (prefs.disk_min_free_gb < config.default_disk_min_free_gb) {
        prefs.disk_min_free_gb = config.default_disk_min_free_gb;
     }
@@ -374,17 +361,32 @@ double max_allowable_disk() {
         // The post 4 oct 2005 case.
         // Compute the max allowable additional disk usage based on prefs
         //
-        x1 = prefs.disk_max_used_gb*GIGA - host.d_boinc_used_total;
-        x2 = host.d_total * prefs.disk_max_used_pct / 100.0
-            - host.d_boinc_used_total;
-        x3 = host.d_free - prefs.disk_min_free_gb*GIGA;      // may be negative
-        x = std::min(x1, std::min(x2, x3));
+        x3 = host.d_free - prefs.disk_min_free_gb*GIGA;
+            // may be negative
+        x = x3;
+        int which = 3;
+        if (prefs.disk_max_used_pct > 0) {
+            x2 = host.d_total * prefs.disk_max_used_pct / 100.0
+                - host.d_boinc_used_total;
+            if (x2 < x) {
+                x = x2;
+                which = 2;
+            }
+        }
+        if (prefs.disk_max_used_gb > 0) {
+            x1 = prefs.disk_max_used_gb*GIGA - host.d_boinc_used_total;
+            if (x1 < x) {
+                x = x1;
+                which = 1;
+            }
+        }
 
         // see which bound is the most stringent
+        // (for client notification in sched_locality.cpp)
         //
-        if (x==x1) {
+        if (which == 1) {
             g_reply->disk_limits.max_used = x;
-        } else if (x==x2) {
+        } else if (which == 2) {
             g_reply->disk_limits.max_frac = x;
         } else {
             g_reply->disk_limits.min_free = x;
@@ -568,10 +570,58 @@ static int insert_wu_tags(WORKUNIT& wu, APP& app) {
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
+// add host usage into to WU's xml_doc (for BUDA jobs)
+//
+static int add_usage_to_wu(WORKUNIT &wu, HOST_USAGE &hu) {
+    char buf[2048], buf2[2048];
+    snprintf(buf, sizeof(buf),
+        "   <avg_ncpus>%f</avg_ncpus>\n"
+        "   <flops>%f</flops>\n",
+        hu.avg_ncpus,
+        hu.projected_flops
+    );
+    if (hu.proc_type != PROC_TYPE_CPU) {
+        snprintf(buf2, sizeof(buf2),
+            "   <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            proc_type_name_xml(hu.proc_type),
+            hu.gpu_usage
+        );
+        strcat(buf, buf2);
+    }
+    if (strlen(hu.cmdline)) {
+        snprintf(buf2, sizeof(buf2),
+            "   <cmdline>%s</cmdline>\n",
+            hu.cmdline
+        );
+        strcat(buf, buf2);
+    }
+
+    char *p = wu.xml_doc;
+    if (strlen(p) + strlen(buf) + 10 > sizeof(wu.xml_doc)) {
+        log_messages.printf(MSG_CRITICAL,
+            "add_usage_to_wu(): field too small: %ld %ld %ld\n",
+            strlen(p), strlen(buf), sizeof(wu.xml_doc)
+        );
+        return -1;
+    }
+    p = strstr(p, "</workunit>");
+    if (!p) {
+        log_messages.printf(MSG_CRITICAL, "add_usage_to_wu(): no end tag\n");
+        return -1;
+    }
+    strcpy(p, buf);
+    strcat(p, "</workunit>");
+    return 0;
+}
+
 // Add the given workunit, app, and app version to a reply.
 //
 static int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY&, APP* app, BEST_APP_VERSION* bavp
+    WORKUNIT& wu, SCHEDULER_REPLY&, APP* app, BEST_APP_VERSION* bavp,
+    bool is_buda, HOST_USAGE &hu
 ) {
     int retval;
     WORKUNIT wu2, wu3;
@@ -623,6 +673,11 @@ static int add_wu_to_reply(
             "insert_wu_tags failed: %s\n", boincerror(retval)
         );
         return retval;
+    }
+
+    if (is_buda) {
+        retval = add_usage_to_wu(wu2, hu);
+        if (retval) return retval;
     }
     wu3 = wu2;
     if (strlen(config.replace_download_url_by_timezone)) {
@@ -883,10 +938,61 @@ inline static DB_ID_TYPE get_app_version_id(BEST_APP_VERSION* bavp) {
     }
 }
 
+static bool wu_has_plan_class(WORKUNIT &wu, char* buf) {
+    char *p = strstr(wu.xml_doc, "<plan_class>");
+    if (!p) return false;
+    p += strlen("<plan_class>");
+    strncpy(buf, p, 256);
+    p = strstr(buf, "</plan_class>");
+    if (!p) return false;
+    *p = 0;
+    return true;
+}
+
+// If workunit has a plan class (e.g. BUDA)
+//      return false if host not capable
+//      plan class computes host usage
+//      is_buda = true
+// else
+//      host usage is from app version
+//      is_buda = false
+//
+void check_buda_plan_class(
+    WORKUNIT &wu, HOST_USAGE &hu, bool &is_buda, bool &is_ok
+) {
+    char plan_class[256];
+    if (!wu_has_plan_class(wu, plan_class)) {
+        is_buda = false;
+        return;
+    }
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] plan class: %s\n", plan_class
+        );
+    }
+    is_buda = true;
+    is_ok = true;
+    if (!strlen(plan_class)) {
+        hu.sequential_app(g_reply->host.p_fpops);
+        return;
+    }
+    if (!app_plan(*g_request, plan_class, hu, &wu)) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version]  app_plan(%s) returned false\n", plan_class
+            );
+        }
+        // can't send this job
+        is_ok = false;
+    }
+}
+
 int add_result_to_reply(
     SCHED_DB_RESULT& result,
     WORKUNIT& wu,
     BEST_APP_VERSION* bavp,
+    HOST_USAGE &host_usage,
+    bool is_buda,
     bool locality_scheduling
 ) {
     int retval;
@@ -897,7 +1003,7 @@ int add_result_to_reply(
     result.userid = g_reply->user.id;
     result.sent_time = time(0);
     result.report_deadline = result.sent_time + wu.delay_bound;
-    result.flops_estimate = bavp->host_usage.peak_flops;
+    result.flops_estimate = host_usage.peak_flops;
     result.app_version_id = get_app_version_id(bavp);
 
     // update WU DB record.
@@ -962,7 +1068,7 @@ int add_result_to_reply(
     // done with DB updates.
     //
 
-    retval = add_wu_to_reply(wu, *g_reply, app, bavp);
+    retval = add_wu_to_reply(wu, *g_reply, app, bavp, is_buda, host_usage);
     if (retval) return retval;
 
     // Adjust available disk space.
@@ -976,7 +1082,7 @@ int add_result_to_reply(
 
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
-        double max_time = wu.rsc_fpops_bound / bavp->host_usage.projected_flops;
+        double max_time = wu.rsc_fpops_bound / host_usage.projected_flops;
         char buf1[64],buf2[64];
         secs_to_hmsf(est_dur, buf1);
         secs_to_hmsf(max_time, buf2);
@@ -1006,21 +1112,44 @@ int add_result_to_reply(
     }
     result.bav = *bavp;
     g_reply->insert_result(result);
+
+    // decrement the work requests (seconds and instances)
+    // based on the estimated duration of this job
+    // and how many instances it uses.
+    //
+    // If it's a GPU job, don't decrement the CPU requests,
+    // because the scheduling of GPU jobs is constrained by the # of GPUs
+    //
     if (g_wreq->rsc_spec_request) {
-        int pt = bavp->host_usage.proc_type;
+        int pt = host_usage.proc_type;
         if (pt == PROC_TYPE_CPU) {
-            g_wreq->req_secs[PROC_TYPE_CPU] -= est_dur;
-            g_wreq->req_instances[PROC_TYPE_CPU] -= bavp->host_usage.avg_ncpus;
+            double est_cpu_secs = est_dur*host_usage.avg_ncpus;
+            g_wreq->req_secs[PROC_TYPE_CPU] -= est_cpu_secs;
+            g_wreq->req_instances[PROC_TYPE_CPU] -= host_usage.avg_ncpus;
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] est_dur %f est_cpu_secs %f; new req_secs %f\n",
+                    est_dur, est_cpu_secs, g_wreq->req_secs[PROC_TYPE_CPU]
+                );
+            }
         } else {
-            g_wreq->req_secs[pt] -= est_dur;
-            g_wreq->req_instances[pt] -= bavp->host_usage.gpu_usage;
+            double est_gpu_secs = est_dur*host_usage.gpu_usage;
+            g_wreq->req_secs[pt] -= est_gpu_secs;
+            g_wreq->req_instances[pt] -= host_usage.gpu_usage;
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] est_dur %f est_gpu_secs %f; new req_secs %f\n",
+                    est_dur, est_gpu_secs, g_wreq->req_secs[pt]
+                );
+            }
         }
     } else {
+        // extremely old clients don't send per-resource requests
         g_wreq->seconds_to_fill -= est_dur;
     }
     update_estimated_delay(*bavp, est_dur);
     g_wreq->njobs_sent++;
-    config.max_jobs_in_progress.register_job(app, bavp->host_usage.proc_type);
+    config.max_jobs_in_progress.register_job(app, host_usage.proc_type);
     if (!resent_result) {
         DB_HOST_APP_VERSION* havp = bavp->host_app_version();
         if (havp) {
@@ -1205,7 +1334,13 @@ void send_gpu_messages() {
             proc_type_name(PROC_TYPE_INTEL_GPU)
         );
     }
-
+    if (g_request->coprocs.apple_gpu.count && ssp->have_apps_for_proc_type[PROC_TYPE_APPLE_GPU]) {
+        send_gpu_property_messages(gpu_requirements[PROC_TYPE_APPLE_GPU],
+            g_request->coprocs.apple_gpu.opencl_prop.global_mem_size,
+            0,
+            proc_type_name(PROC_TYPE_APPLE_GPU)
+        );
+    }
 }
 
 // send messages to user about why jobs were or weren't sent,

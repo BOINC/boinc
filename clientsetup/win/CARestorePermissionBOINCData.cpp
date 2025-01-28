@@ -28,10 +28,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARestorePermissionBOINCData::CARestorePermissionBOINCData(MSIHANDLE hMSIHandle) :
@@ -40,10 +40,10 @@ CARestorePermissionBOINCData::CARestorePermissionBOINCData(MSIHANDLE hMSIHandle)
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARestorePermissionBOINCData::~CARestorePermissionBOINCData()
@@ -53,10 +53,10 @@ CARestorePermissionBOINCData::~CARestorePermissionBOINCData()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CARestorePermissionBOINCData::OnExecution()
@@ -84,7 +84,7 @@ UINT CARestorePermissionBOINCData::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -99,7 +99,7 @@ UINT CARestorePermissionBOINCData::OnExecution()
     {
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -128,11 +128,11 @@ UINT CARestorePermissionBOINCData::OnExecution()
 
     // Create a new ACL that contains the new ACEs.
     dwRes = SetEntriesInAcl(ulEntries, &ea[0], NULL, &pACL);
-    if (ERROR_SUCCESS != dwRes) 
+    if (ERROR_SUCCESS != dwRes)
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -140,7 +140,7 @@ UINT CARestorePermissionBOINCData::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -150,7 +150,7 @@ UINT CARestorePermissionBOINCData::OnExecution()
     }
 
     // Set the ACL on the Data Directory itself.
-    dwRes = SetNamedSecurityInfo( 
+    dwRes = SetNamedSecurityInfo(
         (LPWSTR)strBOINCDataDirectory.c_str(),
         SE_FILE_OBJECT,
         DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
@@ -159,11 +159,11 @@ UINT CARestorePermissionBOINCData::OnExecution()
         pACL,
         NULL
     );
-    if (ERROR_SUCCESS != dwRes) 
+    if (ERROR_SUCCESS != dwRes)
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -171,7 +171,7 @@ UINT CARestorePermissionBOINCData::OnExecution()
         );
         LogMessage(
             INSTALLMESSAGE_ERROR,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             GetLastError(),
@@ -184,7 +184,7 @@ UINT CARestorePermissionBOINCData::OnExecution()
     RecursiveSetPermissions(strBOINCDataDirectory, pACL);
 
 
-    if (pACL) 
+    if (pACL)
         LocalFree(pACL);
 
     return ERROR_SUCCESS;
@@ -192,10 +192,10 @@ UINT CARestorePermissionBOINCData::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RestorePermissionBOINCData
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall RestorePermissionBOINCData(MSIHANDLE hInstall)

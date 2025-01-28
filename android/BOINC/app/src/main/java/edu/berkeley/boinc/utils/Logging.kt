@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2021 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2022 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -43,9 +43,8 @@ object Logging {
     }
 
     @JvmStatic
-    fun setLogCategories(categories: List<String>)
-    {
-        enumValues<Category>().forEach{
+    fun setLogCategories(categories: List<String>) {
+        enumValues<Category>().forEach {
             setLogCategory(it.name, categories.contains(it.name))
         }
     }
@@ -60,8 +59,7 @@ object Logging {
             } else if (!value && key in categories) {
                 categories.remove(key)
             }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             logError(Category.SETTINGS, "Wrong settings key: $logCategory")
         }
     }
@@ -72,7 +70,12 @@ object Logging {
     }
 
     @JvmStatic
-    fun logMessage(logLevel: Level, logCategory: Category, logMessage: String, e: Throwable? = null) {
+    fun logMessage(
+        logLevel: Level,
+        logCategory: Category,
+        logMessage: String,
+        e: Throwable? = null
+    ) {
         if (!isLoggable(logLevel, logCategory)) return
 
         val message = "[$logCategory] $logMessage"
@@ -86,7 +89,7 @@ object Logging {
     }
 
     @JvmStatic
-    fun logException(logCategory: Category, logMessage: String, e: Throwable) {
+    fun logException(logCategory: Category, logMessage: String, e: Throwable?) {
         logMessage(Level.ERROR, logCategory, logMessage, e)
     }
 

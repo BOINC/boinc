@@ -20,10 +20,6 @@
 // Stuff that's not web-specific (e.g. that's used in non-web scripts)
 // should go in util_basic.inc
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/util_basic.inc");
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
@@ -33,7 +29,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse some stuff from config.xml (do it here for efficiency)
+// parse config.xml (do it here for efficiency)
 //
 $config = get_config();
 global $master_url;
@@ -41,28 +37,21 @@ $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
-// the following default to on
-//
+// Set parameters to defaults if not defined in config.xml
+
 $x = parse_config($config, "<user_country>");
 define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
 $x = parse_config($config, "<user_url>");
 define('USER_URL', ($x===null)?1:(int)$x);
 
-// don't allow /... at the end of URL
-//
-if (array_key_exists("PATH_INFO", $_SERVER)) {
-    die("bad URL");
-}
+// Set parameters to defaults if not defined in project.inc
 
-// define TIMEZONE in project.inc
-//
 if (defined('TIMEZONE')) {
     date_default_timezone_set(TIMEZONE);
 } else {
     date_default_timezone_set('UTC');
 }
-
 if (!defined('DISABLE_PROFILES')) {
     define('DISABLE_PROFILES', false);
 }
@@ -102,18 +91,38 @@ if (!defined('NO_STATS')) {
 if (!defined('NO_GLOBAL_PREFS')) {
     define('NO_GLOBAL_PREFS', false);
 }
-if (!defined('USER_HOME')) {
-    define('USER_HOME', 'home.php');
+
+// the 'home page' of the logged-in user.
+// go here after login, account creation, team operations, etc.
+//
+if (!defined('HOME_PAGE')) {
+    define('HOME_PAGE', 'home.php');
 }
+
+// the page showing another user ('userid' arg).
+// Link to here wherever we show a user name.
+//
+if (!defined('SHOW_USER_PAGE')) {
+    define('SHOW_USER_PAGE', 'show_user.php');
+}
+
 if (!defined('POST_MAX_LINKS')) {
     define('POST_MAX_LINKS', 0);
 }
 if (!defined('DARK_MODE')) {
     define('DARK_MODE', false);
 }
-// require validated email to post in forums, send PMs, or make a profile
 if (!defined('VALIDATE_EMAIL_TO_POST')) {
     define('VALIDATE_EMAIL_TO_POST', false);
+}
+if (!defined('UNIQUE_USER_NAME')) {
+    define('UNIQUE_USER_NAME', false);
+}
+
+// don't allow anything between .php and ? in URL
+//
+if (array_key_exists("PATH_INFO", $_SERVER)) {
+    die("bad URL");
 }
 
 // sleep this long on any login failure
@@ -128,6 +137,7 @@ $did_page_head = false;
 define('KILO', 1024);
 define('MEGA', 1024*KILO);
 define('GIGA', 1024*MEGA);
+define('TERA', 1024*GIGA);
 
 // return true if this page is HTTPS
 //
@@ -156,7 +166,11 @@ function send_cookie($name, $value, $permanent, $ops=false) {
         $path .= "_ops/";
     }
     $expire = $permanent?time()+3600*24*365:0;
-    setcookie($name, $value, $expire, $path);
+    setcookie($name, $value, $expire, $path,
+        '',
+        is_https(),     // if this page is secure, make cookie secure
+        true            // httponly; no JS access
+    );
 }
 
 function clear_cookie($name, $ops=false) {
@@ -259,7 +273,7 @@ function page_head(
     if ($did_page_head) {
         return;
     }
-    
+
     $did_page_head = true;
     $url_base = url_base();
 
@@ -348,7 +362,6 @@ EOT;
         $body_attrs .= ' style="padding-top:70px"';
     }
     echo "<body $body_attrs>";
-    display_cvs_versions();
     echo '<div class="container-fluid">
     ';
 
@@ -388,14 +401,6 @@ function page_tail(
 }
 }
 
-function display_cvs_versions(){
-    global $cvs_version_tracker;
-    echo "\n<!-- SVN VERSIONS -->\n";
-    for ($i=0;$i<sizeof($cvs_version_tracker);$i++) {
-        echo "<!-- ".$cvs_version_tracker[$i]." -->\n";
-    }
-}
-
 function db_error_page() {
     page_head("Database error");
     echo tra("A database error occurred while handling your request; please try again later.");
@@ -413,46 +418,46 @@ function error_page($msg) {
     exit();
 }
 
-// takes argument in second and returns a human formatted time string
-// in the form D days + h Hours + m Min + s sec.
+// convert time interval in seconds to a string of the form
+// 'D days h hours m min s sec'.
 
 function time_diff($x, $res=3) {
+    $x = (int)$x;
     $days    = (int)($x/86400);
     $hours   = (int)(($x-$days*86400)/3600);
     $minutes = (int)(($x-$days*86400-$hours*3600)/60);
-    $seconds = (int)($x % 60);
+    $seconds = $x % 60;
 
-    $datestring = "";
+    $s = "";
     if ($days) {
-        $datestring .= "$days ".tra("days")." ";
+        $s .= "$days ".tra("days")." ";
     }
-    if ($res>0 && ($hours || strlen($datestring))) {
-        $datestring .= "$hours ".tra("hours")." ";
+    if ($res>0 && ($hours || strlen($s))) {
+        $s .= "$hours ".tra("hours")." ";
     }
-    if ($res>1 && ($minutes || strlen($datestring))) {
-        $datestring .= "$minutes ".tra("min")." ";
+    if ($res>1 && ($minutes || strlen($s))) {
+        $s .= "$minutes ".tra("min")." ";
     }
-    if ($res>2 && ($seconds)) {
-        $datestring .= "$seconds ".tra("sec")." ";
+    if ($res>2) {
+        $s .= "$seconds ".tra("sec")." ";
     }
-
-    return $datestring;
+    return $s;
 }
 
 
 function date_str($x) {
     if ($x == 0) return "---";
-    return gmdate('j M Y', $x);
+    return gmdate('j M Y', (int)$x);
 }
 
 function time_str($x) {
     if ($x == 0) return "---";
-    return gmdate('j M Y, G:i:s', $x) . " UTC";
+    return gmdate('j M Y, G:i:s', (int)$x) . " UTC";
 }
 
 function local_time_str($x) {
     if ($x == 0) return "---";
-    return date('j M Y, H:i T', $x);
+    return date('j M Y, H:i T', (int)$x);
 }
 
 function pretty_time_str($x) {
@@ -523,6 +528,8 @@ define('NAME_ATTRS', 'class="text-right " style="padding-right:12px"');
 define('VALUE_ATTRS', 'style="padding-left:12px"');
 define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
 
+// a table row with 2 columns, with the left on right-aligned
+
 function row2($x, $y, $show_error=false, $lwidth='40%') {
     if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
@@ -534,11 +541,15 @@ function row2($x, $y, $show_error=false, $lwidth='40%') {
     ";
 }
 
-function row2_init($x, $y, $lwidth='40%') {
-    echo '<tr>
-        <td class="text-right " width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
-        <td '.VALUE_ATTRS.'>'.$y.'
-    ';
+// output the first part of row2();
+// then write the content, followed by </td></tr>
+
+function row2_init($x, $lwidth='40%') {
+    echo sprintf('<tr>
+        <td width="%s" %s>%s</td>
+        <td %s>',
+        $lwidth, NAME_ATTRS, $x, VALUE_ATTRS
+    );
 }
 
 function row2_plain($x, $y) {
@@ -549,10 +560,13 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row_array($x) {
+function row_array($x, $attrs=null) {
     echo "<tr>\n";
+    $i = 0;
     foreach ($x as $h) {
-        echo "<td>$h</td>\n";
+        $a = $attrs?$attrs[$i]:"";
+        echo "<td $a>$h</td>\n";
+        $i++;
     }
     echo "</tr>\n";
 }
@@ -877,10 +891,7 @@ function strip_bbcode($string){
 }
 
 function current_url() {
-    $url = "http";
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
-        $url .= "s";
-    }
+    $url = is_https()?'https':'http';
     $url .= "://";
     $url .= $_SERVER['SERVER_NAME'];
     $url .= ":".$_SERVER['SERVER_PORT'];
@@ -894,30 +905,56 @@ function current_url() {
     return $url;
 }
 
-// Show a single link formatted to look like a button.
-// @param url The destination URL of the button
-// @param text The text to display on the button
-// @param desc The title of the destination - typically used as a popup
-// @param class The optional CSS class of the button. Defaults to a standard button
+// return style for a button
+// the colors for bootstrap's btn-success are almost illegible;
+// the green is too light.  Use a darker green.
 //
-
-function button_text($url, $text, $desc=null, $class="btn-success btn-sm") {
+function button_style($color='green', $font_size=null) {
+    $fs = '';
+    if ($font_size) {
+        $fs = sprintf('; font-size:%dpx', $font_size);
+    }
+    $c = 'seagreen';
+    if ($color == 'blue') $c = 'steelblue';
+    return sprintf(
+        'style="background-color:%s; color:white; text-decoration:none%s"',
+        $c, $fs
+    );
+}
+// Show a link formatted to look like a button.
+// url: the destination of the lin
+// text: The text to display on the button
+// desc: tooltip text (show on hover)
+// class: class of the button, e.g. btn
+// extra: Additional text in href tag
+//
+function button_text($url, $text, $desc=null, $class=null, $extra='') {
     if (!$desc) {
         $desc = $text;
     }
-    return sprintf(' <a href="%s" title="%s" class="btn %s">%s</a>',
-        $url, $desc, $class, $text
+    if (!$extra && !$class) {
+        $extra = button_style();
+    }
+    if (!$class) {
+        $class = "btn btn-sm";
+    }
+    return sprintf(' <a href="%s" title="%s" class="btn %s" %s>%s</a>',
+        $url, $desc, $class, $extra, $text
     );
 }
 
-function show_button($url, $text, $desc=null, $class="btn-success btn-sm") {
-    echo button_text($url, $text, $desc, $class);
+function button_text_small($url, $text, $desc=null) {
+    return button_text($url, $text, $desc, "btn btn-xs", button_style());
+}
+
+function show_button($url, $text, $desc=null, $class=null, $extra=null) {
+    echo button_text($url, $text, $desc, $class, $extra);
 }
 
 // for places with a bunch of buttons, like forum posts
 //
 function show_button_small($url, $text, $desc=null) {
-    echo button_text($url, $text, $desc, "btn-primary btn-xs");
+    echo button_text_small($url, $text, $desc);
 }
 
 // used for showing icons
@@ -973,47 +1010,12 @@ function db_init($try_replica=false) {
     return 0;
 }
 
-// return a structure indicating whether project has non-deprecated
-// apps versions for various resource types,
-// and with a count of app versions
-//
-function get_app_types() {
-    $t = new StdClass;
-    $t->cpu = false;
-    $t->cuda = false;
-    $t->ati = false;
-    $t->intel_gpu = false;
-    $t->count = 0;
-    $avs = BoincAppVersion::enum("deprecated=0");
-    foreach ($avs as $av) {
-        if (strstr($av->plan_class, "ati")) {
-            $t->ati = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "amd")) {
-            $t->ati = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "cuda")) {
-            $t->cuda = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "nvidia")) {
-            $t->cuda = true;
-            $t->count++;
-        } else if (strstr($av->plan_class, "intel_gpu")) {
-            $t->intel_gpu = true;
-            $t->count++;
-        } else {
-            $t->cpu = true;
-            $t->count++;
-        }
-    }
-    return $t;
-}
-
 // Functions to sanitize GET and POST args
 
 // "next_url" arguments (must be local, not full URLs)
 //
 function sanitize_local_url($x) {
+    if (!$x) return $x;
     $x = trim($x, "/");
     if (strstr($x, "/")) return "";
     if (strstr($x, "<")) return "";
@@ -1021,20 +1023,39 @@ function sanitize_local_url($x) {
     return $x;
 }
 
+function sanitize_user_url($x) {
+    // if protocol is given, must be http: or https:
+    $y = explode('//', $x);
+    switch (count($y)) {
+    case 1:
+        $z = $x;
+        break;
+    case 2:
+        $z = $y[1];
+        if (strtolower($y[0]) == 'http:') break;
+        if (strtolower($y[0]) == 'https:') break;
+        return '';
+    default: return '';
+    }
+    // everything else must be alphanumeric, or -_/.#?&=
+    if (preg_match('/^[-_.\/#?&=a-zA-Z0-9]*$/', $z)) {
+        return $x;
+    }
+    return '';
+}
+
 // strip HTML tags
 //
 function sanitize_tags($x) {
+    if (!$x) return $x;
     return strip_tags($x);
 }
 
 function sanitize_numeric($x) {
-    if (is_numeric($x)) {
-        return $x;
-    } else if (trim($x) == '' ) {
+    if (!$x || !is_numeric($x)) {
         return '';
-    } else {
-        return "not numeric";
     }
+    return $x;
 }
 
 function sanitize_email($x) {
@@ -1046,6 +1067,20 @@ function sanitize_email($x) {
     }
 }
 
+// pages like top_hosts.php, team_members.php etc. have a textual
+// "sort_by" argument.
+// Check this to avoid XSS vulnerability
+//
+function sanitize_sort_by($x) {
+    switch($x) {
+    case 'expavg_credit':
+    case 'total_credit':
+        return;
+    default:
+        error_page('bad sort_by');
+    }
+}
+
 function flops_to_credit($f) {
     return $f*(200/86400e9);
 }
@@ -1054,10 +1089,8 @@ function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
 
-function do_download($path,$name="") {
-    if (strcmp($name,"") == 0) {
-        $name=basename($path);
-    }
+function do_download($path) {
+    $name=basename($path);
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
     header('Content-Disposition: attachment; filename='.$name);
@@ -1075,7 +1108,7 @@ function do_download($path,$name="") {
 function redirect_to_secure_url() {
     if (defined('SECURE_URL_BASE')
         && strstr(SECURE_URL_BASE, "https://")
-        && empty($_SERVER['HTTPS'])
+        && !is_https()
     ) {
         Header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit;
@@ -1183,13 +1216,22 @@ function text_end() {
     echo "</div>\n";
 }
 
-// express a size in terms of GB or MB
+// express a size in terms of TB, GB etc.
 //
 function size_string($x) {
+    if ($x > TERA) {
+        return number_format($x/TERA, 2)." TB";
+    }
     if ($x > GIGA) {
         return number_format($x/GIGA, 2)." GB";
     }
-    return number_format($x/MEGA, 2)." MB";
+    if ($x > MEGA) {
+        return number_format($x/MEGA, 2)." MB";
+    }
+    if ($x > KILO) {
+        return number_format($x/KILO, 2)." KB";
+    }
+    return "$x bytes";
 }
 
 function cert_filename() {
@@ -1210,6 +1252,5 @@ function check_validated_email($user) {
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

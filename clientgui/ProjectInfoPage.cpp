@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -111,7 +111,7 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
 
 ////@begin CProjectInfoPage event table entries
     EVT_COMBOBOX( ID_CATEGORIES, CProjectInfoPage::OnProjectCategorySelected )
-    EVT_LISTBOX( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
+    EVT_LIST_ITEM_SELECTED( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
     EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CProjectInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CProjectInfoPage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( wxID_ANY, CProjectInfoPage::OnCancel )
@@ -209,7 +209,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 
 void CProjectInfoPage::CreateControls()
 {
-////@begin CProjectInfoPage content construction
+    ////@begin CProjectInfoPage content construction
 #ifdef __WXMAC__
     const int descriptionWidth = 350;
 #else
@@ -256,10 +256,36 @@ void CProjectInfoPage::CreateControls()
     // so we don't need to worry about duplicate entries here.
     // Get the project list
     m_apl = new ALL_PROJECTS_LIST;
-    pDoc->rpc.get_all_projects_list(*m_apl);
-    for (unsigned int i=0; i<m_apl->projects.size(); i++) {
-        wxString strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
-        aCategories.Add(strGeneralArea);
+    std::string tempstring;
+    if (pDoc) {
+        pDoc->rpc.get_all_projects_list(*m_apl);
+
+        for (unsigned int i = 0; i < m_apl->projects.size(); i++) {
+            wxString strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
+            aCategories.Add(strGeneralArea);
+            tempstring = m_apl->projects[i]->url;
+            // Canonicalize/trim/store the URLs of all projects. This will be used later on for the wxListBox
+            // to visually indicate any projects that are currently attached, as well as checking for when a
+            // project or manual URL is selected.
+            //
+            canonicalize_master_url(tempstring);
+            TrimURL(tempstring);
+            m_pTrimmedURL.push_back(tempstring);
+        }
+        // Take all projects that the Client is already attached to and create an array of their
+        // canonicalized and trimmed URLs. This will be used for comparing against the master list of projects
+        // to visually indicate which projectes have already been attached.
+        //
+        for (int i = 0; i < pDoc->GetProjectCount(); i++) {
+            PROJECT* pProject = pDoc->project(i);
+            if (!pProject) {
+                continue;
+            }
+            tempstring = pProject->master_url;
+            canonicalize_master_url(tempstring);
+            TrimURL(tempstring);
+            m_pTrimmedURL_attached.push_back(tempstring);
+        }
     }
     m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxDefaultSize, aCategories, wxCB_READONLY
 #ifndef __WXMAC__   // wxCB_SORT is not available in wxCocoa 3.0
@@ -276,8 +302,9 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer11->AddGrowableCol(0);
     itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
-    wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectsCtrl = new wxListCtrl(itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, 175), wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL | wxLC_SORT_ASCENDING);
+    m_pProjectsCtrl->InsertColumn(0, wxT(""));
+    m_pProjectsCtrl->SetColumnWidth(0, -2);
     itemFlexGridSizer11->Add(m_pProjectsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
     m_pProjectDetailsStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_ANY, _("Project details"));
@@ -512,23 +539,41 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function Begin"));
 
-    m_pProjectsCtrl->Clear();
+    m_pProjectsCtrl->DeleteAllItems();
 
-    // Populate the list box with the list of project names that belong to either the specific
+    long lastproject = -1;
+    //  Color 117,117,117 has a 4.6:1 contract ratio that passes accessibility
+    wxColour addedcolour = wxColour(117, 117, 117);
+    // Populate the list control with the list of project names that belong to either the specific
     // category or all of them.
-    for (unsigned int i=0; i<m_Projects.size(); i++) {
+    //
+    for (unsigned int i=0; i<m_Projects.size(); i++) {  // cycle through all projects
         if ((m_pProjectCategoriesCtrl->GetValue() == _("All")) ||
             (m_pProjectCategoriesCtrl->GetValue() == m_Projects[i]->m_strGeneralArea)
         ) {
-            m_pProjectsCtrl->Append(m_Projects[i]->m_strName, m_Projects[i]);
+            lastproject = m_pProjectsCtrl->InsertItem(i, m_Projects[i]->m_strName);
+            if (lastproject != -1) {
+                m_pProjectsCtrl->SetItemPtrData(lastproject, reinterpret_cast<wxUIntPtr>(m_Projects[i]));
+                // Since this project was added to the wxListCtrl, check to see if the project has already been attached.
+                // If it has, grey out the text for a visual indicator that the project has been added.
+                //
+                for (unsigned int j = 0; j < m_pTrimmedURL_attached.size(); j++) {  // cycle through all attached projects
+                    if (m_pTrimmedURL[i] == m_pTrimmedURL_attached[j]) {
+                        m_pProjectsCtrl->SetItemTextColour(lastproject, addedcolour);
+                        break;
+                    }
+                }
+            }
         }
     }
+    // Adjust the size of the column width so that a horizontal scroll bar doesn't appear when a vertical scroll bar is present.
+    int width = m_pProjectsCtrl->GetClientSize().GetWidth();
+    m_pProjectsCtrl->SetColumnWidth(0, width);
 
-    // Set the first item to be the selected item and then pop the next event.
-    if (m_pProjectsCtrl->GetCount() > 0) {
-        m_pProjectsCtrl->SetSelection(0);
-        wxCommandEvent evtEvent(wxEVT_COMMAND_LISTBOX_SELECTED, ID_PROJECTS);
-        ProcessEvent(evtEvent);
+    // Set the first item to be the selected and focused item.
+    if (!m_pProjectsCtrl->IsEmpty()) {
+        m_pProjectsCtrl->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        m_pProjectsCtrl->SetItemState(0, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function End"));
@@ -536,69 +581,73 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
 
 
 /*
- * wxEVT_COMMAND_LISTBOX_SELECTED event handler for ID_PROJECTS
+ * wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
  */
 
-void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
+void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function Begin"));
 
-    if (m_pProjectsCtrl->GetSelection() != wxNOT_FOUND) {
+    if (m_pProjectsCtrl->GetSelectedItemCount() == 1) {
+        wxListItem pProjectSelected;
+        pProjectSelected.SetId(event.m_itemIndex);
+        pProjectSelected.SetColumn(0);
+        pProjectSelected.SetMask(wxLIST_MASK_TEXT);
 
-        CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
+        const CProjectInfo* pProjectInfo = reinterpret_cast<CProjectInfo*>(m_pProjectsCtrl->GetItemData(pProjectSelected.GetId()));
+        if (pProjectInfo) {
+            wxString strWebURL = pProjectInfo->m_strWebURL;
+            EllipseStringIfNeeded(strWebURL, m_pProjectDetailsURLCtrl);
 
-        wxString strWebURL = pProjectInfo->m_strWebURL;
-        EllipseStringIfNeeded(strWebURL, m_pProjectDetailsURLCtrl);
+            // Populate the project details area
+            wxString desc = pProjectInfo->m_strDescription;
+            // Change all occurrences of "<sup>n</sup>" to "^n"
+            desc.Replace(wxT("<sup>"), wxT("^"), true);
+            desc.Replace(wxT("</sup>"), wxT(""), true);
+            desc.Replace(wxT("&lt;"), wxT("<"), true);
 
-        // Populate the project details area
-        wxString desc = pProjectInfo->m_strDescription;
-        // Change all occurrences of "<sup>n</sup>" to "^n"
-        desc.Replace(wxT("<sup>"), wxT("^"), true);
-        desc.Replace(wxT("</sup>"), wxT(""), true);
-        desc.Replace(wxT("&lt;"), wxT("<"), true);
+            m_pProjectDetailsURLCtrl->SetLabel(strWebURL);
+            m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strWebURL);
+            m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strWebURL);
+            m_pProjectDetailsDescriptionCtrl->SetValue(desc);
 
-        m_pProjectDetailsURLCtrl->SetLabel(strWebURL);
-        m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strWebURL);
-        m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strWebURL);
-        m_pProjectDetailsDescriptionCtrl->SetValue(desc);
+            m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformATICtrl->Hide();
+            m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
+            if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsLinuxARM) m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsIntelGPU) m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
 
-        m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformATICtrl->Hide();
-        m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
-        if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsLinuxARM) m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsIntelGPU) m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
+            // Populate non-control data for use in other places of the wizard
+            m_strProjectURL = pProjectInfo->m_strURL;
+            m_bProjectSupported = pProjectInfo->m_bSupportedPlatformFound;
 
-        // Populate non-control data for use in other places of the wizard
-        m_strProjectURL = pProjectInfo->m_strURL;
-        m_bProjectSupported = pProjectInfo->m_bSupportedPlatformFound;
+            Layout();
+            TransferDataToWindow();
 
-        Layout();
-        TransferDataToWindow();
+            wxString strResearchArea = pProjectInfo->m_strSpecificArea;
+            EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
+            wxString strOrganization = pProjectInfo->m_strOrganization;
+            EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
 
-        wxString strResearchArea = pProjectInfo->m_strSpecificArea;
-        EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
-        wxString strOrganization = pProjectInfo->m_strOrganization;
-        EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
-
-        m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
-        m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
-        m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
-        m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
-
+            m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
+            m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
+            m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
+            m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
+        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
@@ -706,27 +755,27 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
                     if (strProjectPlanClass.Find(_T("cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
-						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("nvidia")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
-						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
-						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("amd")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
-						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("intel_gpu")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsIntelGPU = true;
-						if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
+                        if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
                     }
 
                     if (strProjectPlanClass.Find(_T("vbox")) != wxNOT_FOUND) {
@@ -739,11 +788,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 }
             }
 
-			// If project doesn't export its platforms, assume we're supported
-			//
-			if (aProjectPlatforms.size() == 0) {
-				pProjectInfo->m_bSupportedPlatformFound = true;
-			}
+            // If project doesn't export its platforms, assume we're supported
+            //
+            if (aProjectPlatforms.size() == 0) {
+                pProjectInfo->m_bSupportedPlatformFound = true;
+            }
         }
 
 
@@ -816,38 +865,16 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     const std::string http = "http://";
     const std::string https = "https://";
 
-	std::string new_project_url = (const char*)m_strProjectURL.mb_str();
-	canonicalize_master_url(new_project_url);
-	// remove http(s):// at the beginning of project address
-	// there is no reason to connect to secure address project
-	// if we're already connected to the non-secure address
-	// or vice versa
-	// also clear last '/' character if present
-	size_t pos = new_project_url.find(http);
-	if (pos != std::string::npos) {
-		new_project_url.erase(pos, http.length());
-	}
-	else if ((pos = new_project_url.find(https)) != std::string::npos) {
-		new_project_url.erase(pos, https.length());
-	}
-	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
-		new_project_url.erase(new_project_url.length() - 1, 1);
-	}
- 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) {
- 	    PROJECT* project = pDoc->project(i);
+    std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+    canonicalize_master_url(new_project_url);
+    TrimURL(new_project_url);
+     for (int i = 0; i < pDoc->GetProjectCount(); ++i) {
+        PROJECT* project = pDoc->project(i);
         if (project) {
             std::string project_url = project->master_url;
 
             canonicalize_master_url(project_url);
-
-            if ((pos = project_url.find(http)) != std::string::npos) {
-                project_url.erase(pos, http.length());
-            } else if ((pos = project_url.find(https)) != std::string::npos) {
-                project_url.erase(pos, https.length());
-            }
-			if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
-				project_url.erase(project_url.length() - 1, 1);
-			}
+            TrimURL(project_url);
 
             if (project_url == new_project_url) {
                 bAlreadyAttached = true;
@@ -913,4 +940,30 @@ void CProjectInfoPage::RefreshPage() {
     // Trigger initial event to populate the list control
     wxCommandEvent evtEvent(wxEVT_COMMAND_COMBOBOX_SELECTED, ID_CATEGORIES);
     ProcessEvent(evtEvent);
+}
+
+
+// Function to "trim" the URL of the http(s) prefix and the last slash.
+// Prior to running this function, the string should be canonicalized using
+// the canonicalize_master_url function.
+//
+void CProjectInfoPage::TrimURL(std::string& purl) {
+    const std::string http = "http://";
+    const std::string https = "https://";
+    // Remove http(s):// at the beginning of project address
+    // there is no reason to connect to secure address project
+    // if we're already connected to the non-secure address
+    // or vice versa
+    // also clear last '/' character if present
+    //
+    size_t pos = purl.find(http);
+    if (pos != std::string::npos) {
+        purl.erase(pos, http.length());
+    }
+    else if ((pos = purl.find(https)) != std::string::npos) {
+        purl.erase(pos, https.length());
+    }
+    if (purl.length() >= 1 && purl[purl.length() - 1] == '/') {
+        purl.erase(purl.length() - 1, 1);
+    }
 }

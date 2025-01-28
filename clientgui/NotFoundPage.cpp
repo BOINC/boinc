@@ -39,13 +39,13 @@
 /*!
  * CErrNotFoundPage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CErrNotFoundPage, wxWizardPageEx )
- 
+
 /*!
  * CErrNotFoundPage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CErrNotFoundPage, wxWizardPageEx )
 
 ////@begin CErrNotFoundPage event table entries
@@ -53,33 +53,33 @@ BEGIN_EVENT_TABLE( CErrNotFoundPage, wxWizardPageEx )
     EVT_WIZARDEX_CANCEL( -1, CErrNotFoundPage::OnCancel )
 
 ////@end CErrNotFoundPage event table entries
- 
+
 END_EVENT_TABLE()
- 
+
 /*!
  * CErrNotFoundPage constructors
  */
- 
+
 CErrNotFoundPage::CErrNotFoundPage( )
 {
 }
- 
+
 CErrNotFoundPage::CErrNotFoundPage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * CErrNoInternetConnection creator
  */
- 
+
 bool CErrNotFoundPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrNotFoundPage member initialisation
     m_pTitleStaticCtrl = NULL;
     m_pDirectionsStaticCtrl = NULL;
 ////@end CErrNotFoundPage member initialisation
- 
+
 ////@begin CErrNotFoundPage creation
     wxWizardPageEx::Create( parent, ID_ERRNOTFOUNDPAGE );
 
@@ -89,13 +89,13 @@ bool CErrNotFoundPage::Create( CBOINCBaseWizard* parent )
 
     return TRUE;
 }
- 
+
 /*!
  * Control creation for CErrNoInternetConnection
  */
- 
+
 void CErrNotFoundPage::CreateControls()
-{    
+{
 ////@begin CErrNotFoundPage content construction
     CErrNotFoundPage* itemWizardPage96 = this;
 
@@ -114,16 +114,16 @@ void CErrNotFoundPage::CreateControls()
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrNotFoundPage content construction
 }
- 
+
 /*!
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CErrNotFoundPage::GetPrev() const
 {
     return PAGE_TRANSITION_BACK;
 }
- 
+
 /*!
  * Gets the next page.
  */
@@ -132,20 +132,20 @@ wxWizardPageEx* CErrNotFoundPage::GetNext() const
 {
     return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
 }
- 
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CErrNotFoundPage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CErrNotFoundPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -153,7 +153,7 @@ wxBitmap CErrNotFoundPage::GetBitmapResource( const wxString& WXUNUSED(name) )
     return wxNullBitmap;
 ////@end CErrNotFoundPage bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
@@ -165,7 +165,7 @@ wxIcon CErrNotFoundPage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CErrNotFoundPage icon retrieval
 }
-  
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRNACCOUNTDOESNOTEXISTPAGE
  */

@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectName>installer</ProjectName>
+    <ProjectGuid>{BB5EF2AB-F453-463B-835A-65BBE7182378}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="boinc.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;$(VcpkgRootDir)\installed\arm64-windows-static\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="Exists('C:\Program Files (x86)\MsiVal2\MsiVal2.exe')">MSI_VALIDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;msi.lib;cabinet.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;msi.lib;cabinet.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\installer\Action.cpp" />
+    <ClCompile Include="..\installer\ActionText.cpp" />
+    <ClCompile Include="..\installer\ActionTextTable.cpp" />
+    <ClCompile Include="..\installer\AdminExecuteSequenceTable.cpp" />
+    <ClCompile Include="..\installer\AdminUISequenceTable.cpp" />
+    <ClCompile Include="..\installer\AdvtExecuteSequenceTable.cpp" />
+    <ClCompile Include="..\installer\Binary.cpp" />
+    <ClCompile Include="..\installer\BinaryTable.cpp" />
+    <ClCompile Include="..\installer\CabHelper.cpp" />
+    <ClCompile Include="..\installer\Checkbox.cpp" />
+    <ClCompile Include="..\installer\CheckboxTable.cpp" />
+    <ClCompile Include="..\installer\Component.cpp" />
+    <ClCompile Include="..\installer\ComponentTable.cpp" />
+    <ClCompile Include="..\installer\Control.cpp" />
+    <ClCompile Include="..\installer\ControlCondition.cpp" />
+    <ClCompile Include="..\installer\ControlConditionTable.cpp" />
+    <ClCompile Include="..\installer\ControlEventTable.cpp" />
+    <ClCompile Include="..\installer\ControlTable.cpp" />
+    <ClCompile Include="..\installer\CreateFolder.cpp" />
+    <ClCompile Include="..\installer\CreateFolderTable.cpp" />
+    <ClCompile Include="..\installer\CustomAction.cpp" />
+    <ClCompile Include="..\installer\CustomActionTable.cpp" />
+    <ClCompile Include="..\installer\Dialog.cpp" />
+    <ClCompile Include="..\installer\DialogTable.cpp" />
+    <ClCompile Include="..\installer\Directory.cpp" />
+    <ClCompile Include="..\installer\DirectoryTable.cpp" />
+    <ClCompile Include="..\installer\Error.cpp" />
+    <ClCompile Include="..\installer\ErrorTable.cpp" />
+    <ClCompile Include="..\installer\Feature.cpp" />
+    <ClCompile Include="..\installer\FeatureComponents.cpp" />
+    <ClCompile Include="..\installer\FeatureComponentsTable.cpp" />
+    <ClCompile Include="..\installer\FeatureTable.cpp" />
+    <ClCompile Include="..\installer\File.cpp" />
+    <ClCompile Include="..\installer\FileTable.cpp" />
+    <ClCompile Include="..\installer\Font.cpp" />
+    <ClCompile Include="..\installer\FontTable.cpp" />
+    <ClCompile Include="..\installer\GuidHelper.cpp" />
+    <ClCompile Include="..\installer\Icon.cpp" />
+    <ClCompile Include="..\installer\IconTable.cpp" />
+    <ClCompile Include="..\installer\Installer.cpp" />
+    <ClCompile Include="..\installer\InstallerStrings.cpp" />
+    <ClCompile Include="..\installer\InstallExecuteSequenceTable.cpp" />
+    <ClCompile Include="..\installer\InstallUISequenceTable.cpp" />
+    <ClCompile Include="..\installer\LaunchCondition.cpp" />
+    <ClCompile Include="..\installer\LaunchConditionTable.cpp" />
+    <ClCompile Include="..\installer\Listbox.cpp" />
+    <ClCompile Include="..\installer\ListboxTable.cpp" />
+    <ClCompile Include="..\installer\main.cpp" />
+    <ClCompile Include="..\installer\Media.cpp" />
+    <ClCompile Include="..\installer\MediaTable.cpp" />
+    <ClCompile Include="..\installer\MsiFileHash.cpp" />
+    <ClCompile Include="..\installer\MsiFileHashTable.cpp" />
+    <ClCompile Include="..\installer\MsiHelper.cpp" />
+    <ClCompile Include="..\installer\Property.cpp" />
+    <ClCompile Include="..\installer\PropertyTable.cpp" />
+    <ClCompile Include="..\installer\RadioButton.cpp" />
+    <ClCompile Include="..\installer\RadioButtonTable.cpp" />
+    <ClCompile Include="..\installer\Registry.cpp" />
+    <ClCompile Include="..\installer\RegistryTable.cpp" />
+    <ClCompile Include="..\installer\RemoveFile.cpp" />
+    <ClCompile Include="..\installer\RemoveFileTable.cpp" />
+    <ClCompile Include="..\installer\ServiceControl.cpp" />
+    <ClCompile Include="..\installer\ServiceControlTable.cpp" />
+    <ClCompile Include="..\installer\ServiceInstall.cpp" />
+    <ClCompile Include="..\installer\ServiceInstallTable.cpp" />
+    <ClCompile Include="..\installer\Shortcut.cpp" />
+    <ClCompile Include="..\installer\ShortcutTable.cpp" />
+    <ClCompile Include="..\installer\Stream.cpp" />
+    <ClCompile Include="..\installer\StreamTable.cpp" />
+    <ClCompile Include="..\installer\SummaryInformationTable.cpp" />
+    <ClCompile Include="..\installer\ControlEvent.cpp" />
+    <ClCompile Include="..\installer\TextStyle.cpp" />
+    <ClCompile Include="..\installer\TextStyleTable.cpp" />
+    <ClCompile Include="..\installer\UIText.cpp" />
+    <ClCompile Include="..\installer\UITextTable.cpp" />
+    <ClCompile Include="..\installer\EventMapping.cpp" />
+    <ClCompile Include="..\installer\EventMappingTable.cpp" />
+    <ClCompile Include="..\installer\Upgrade.cpp" />
+    <ClCompile Include="..\installer\UpgradeTable.cpp" />
+    <ClCompile Include="..\installer\Validation.cpp" />
+    <ClCompile Include="..\installer\ValidationTable.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\installer\Action.h" />
+    <ClInclude Include="..\installer\ActionText.h" />
+    <ClInclude Include="..\installer\ActionTextTable.h" />
+    <ClInclude Include="..\installer\AdminExecuteSequenceTable.h" />
+    <ClInclude Include="..\installer\AdminUISequencetable.h" />
+    <ClInclude Include="..\installer\AdvtExecuteSequenceTable.h" />
+    <ClInclude Include="..\installer\Binary.h" />
+    <ClInclude Include="..\installer\BinaryTable.h" />
+    <ClInclude Include="..\installer\CabHelper.h" />
+    <ClInclude Include="..\installer\Checkbox.h" />
+    <ClInclude Include="..\installer\CheckboxTable.h" />
+    <ClInclude Include="..\installer\Component.h" />
+    <ClInclude Include="..\installer\ComponentTable.h" />
+    <ClInclude Include="..\installer\Control.h" />
+    <ClInclude Include="..\installer\ControlCondition.h" />
+    <ClInclude Include="..\installer\ControlConditionTable.h" />
+    <ClInclude Include="..\installer\ControlEventTable.h" />
+    <ClInclude Include="..\installer\ControlTable.h" />
+    <ClInclude Include="..\installer\CreateFolder.h" />
+    <ClInclude Include="..\installer\CreateFolderTable.h" />
+    <ClInclude Include="..\installer\CustomAction.h" />
+    <ClInclude Include="..\installer\CustomActionTable.h" />
+    <ClInclude Include="..\installer\Dialog.h" />
+    <ClInclude Include="..\installer\DialogTable.h" />
+    <ClInclude Include="..\installer\Directory.h" />
+    <ClInclude Include="..\installer\DirectoryTable.h" />
+    <ClInclude Include="..\installer\Error.h" />
+    <ClInclude Include="..\installer\ErrorTable.h" />
+    <ClInclude Include="..\installer\Feature.h" />
+    <ClInclude Include="..\installer\FeatureComponents.h" />
+    <ClInclude Include="..\installer\FeatureComponentsTable.h" />
+    <ClInclude Include="..\installer\FeatureTable.h" />
+    <ClInclude Include="..\installer\File.h" />
+    <ClInclude Include="..\installer\FileTable.h" />
+    <ClInclude Include="..\installer\Font.h" />
+    <ClInclude Include="..\installer\FontTable.h" />
+    <ClInclude Include="..\installer\Generator.h" />
+    <ClInclude Include="..\installer\GeneratorTable.h" />
+    <ClInclude Include="..\installer\GuidHelper.h" />
+    <ClInclude Include="..\installer\Icon.h" />
+    <ClInclude Include="..\installer\IconTable.h" />
+    <ClInclude Include="..\installer\Installer.h" />
+    <ClInclude Include="..\installer\InstallerStrings.h" />
+    <ClInclude Include="..\installer\InstallExecuteSequenceTable.h" />
+    <ClInclude Include="..\installer\InstallUISequenceTable.h" />
+    <ClInclude Include="..\installer\LaunchCondition.h" />
+    <ClInclude Include="..\installer\LaunchConditionTable.h" />
+    <ClInclude Include="..\installer\Listbox.h" />
+    <ClInclude Include="..\installer\ListboxTable.h" />
+    <ClInclude Include="..\installer\Media.h" />
+    <ClInclude Include="..\installer\MediaTable.h" />
+    <ClInclude Include="..\installer\MsiFileHash.h" />
+    <ClInclude Include="..\installer\MsiFileHashTable.h" />
+    <ClInclude Include="..\installer\MsiHelper.h" />
+    <ClInclude Include="..\installer\Property.h" />
+    <ClInclude Include="..\installer\PropertyTable.h" />
+    <ClInclude Include="..\installer\RadioButton.h" />
+    <ClInclude Include="..\installer\RadioButtonTable.h" />
+    <ClInclude Include="..\installer\Record.h" />
+    <ClInclude Include="..\installer\Registry.h" />
+    <ClInclude Include="..\installer\RegistryTable.h" />
+    <ClInclude Include="..\installer\RemoveFile.h" />
+    <ClInclude Include="..\installer\RemoveFileTable.h" />
+    <ClInclude Include="..\installer\ServiceControl.h" />
+    <ClInclude Include="..\installer\ServiceControlTable.h" />
+    <ClInclude Include="..\installer\ServiceInstall.h" />
+    <ClInclude Include="..\installer\ServiceInstallTable.h" />
+    <ClInclude Include="..\installer\Shortcut.h" />
+    <ClInclude Include="..\installer\ShortcutTable.h" />
+    <ClInclude Include="..\installer\Stream.h" />
+    <ClInclude Include="..\installer\StreamTable.h" />
+    <ClInclude Include="..\installer\SummaryInformationTable.h" />
+    <ClInclude Include="..\installer\ControlEvent.h" />
+    <ClInclude Include="..\installer\TextStyle.h" />
+    <ClInclude Include="..\installer\TextStyleTable.h" />
+    <ClInclude Include="..\installer\UIText.h" />
+    <ClInclude Include="..\installer\UITextTable.h" />
+    <ClInclude Include="..\installer\EventMapping.h" />
+    <ClInclude Include="..\installer\EventMappingTable.h" />
+    <ClInclude Include="..\installer\Upgrade.h" />
+    <ClInclude Include="..\installer\UpgradeTable.h" />
+    <ClInclude Include="..\installer\JsonHelper.h" />
+    <ClInclude Include="..\installer\Validation.h" />
+    <ClInclude Include="..\installer\ValidationTable.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <Import Project="boinc_signing.targets" />
+</Project>

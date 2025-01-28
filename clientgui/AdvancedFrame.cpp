@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,6 +34,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "util.h"
+
 #include "BOINCGUIApp.h"
 #include "Events.h"
 #include "SkinManager.h"
@@ -289,6 +290,12 @@ CAdvancedFrame::~CAdvancedFrame() {
         wxCHECK_RET(DeleteNotebook(), _T("Failed to delete notebook."));
     }
 
+#ifdef __WXGTK__
+    if (wxGetApp().GetEventLog()) {
+        wxGetApp().GetEventLog()->Close();
+    }
+#endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::~CAdvancedFrame - Function End"));
 }
 
@@ -367,12 +374,12 @@ bool CAdvancedFrame::CreateMenus() {
     );
     if (is_boinc_started_by_manager) {
         strMenuName.Printf(
-            _("Exit %s"),
+            _("E&xit %s"),
             pSkinAdvanced->GetApplicationShortName().c_str()
         );
     } else {
         strMenuName.Printf(
-            _("Exit %s"),
+            _("E&xit %s"),
             pSkinAdvanced->GetApplicationName().c_str()
         );
     }
@@ -386,7 +393,7 @@ bool CAdvancedFrame::CreateMenus() {
     // wxWidgets actually puts this in the BOINCManager menu
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences...")
+        _("Preferences...\tCtrl+,")
     );
 #endif
 
@@ -1133,7 +1140,11 @@ void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
     // File->Shutdown connected client...
     wxMenuItem* shutClientItem = menu->FindChildItem(ID_SHUTDOWNCORECLIENT, NULL);
     if (shutClientItem) {
+#ifdef __WXGTK__
+        shutClientItem->Enable(isConnected && (pDoc->m_pClientManager->WasBOINCStartedByManager() || !pDoc->m_pClientManager->IsBOINCConfiguredAsDaemon()));
+#else
         shutClientItem->Enable(isConnected);
+#endif
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
@@ -1326,7 +1337,6 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     int                showDialog = wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage();
     int                doShutdownClient = 0;
-    CDlgGenericMessage dlg(this);
     wxString           strDialogTitle = wxEmptyString;
     wxString           strDialogMessage = wxEmptyString;
 
@@ -1357,13 +1367,13 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
             pSkinAdvanced->GetApplicationName().c_str()
         );
 
-        dlg.SetTitle(strDialogTitle);
-        dlg.m_DialogMessage->SetLabel(strDialogMessage);
-        dlg.Fit();
-        dlg.Centre();
+        CDlgGenericMessageParameters dlgParams;
+        dlgParams.caption = strDialogTitle;
+        dlgParams.message = strDialogMessage;
+        CDlgGenericMessage dlg(this, &dlgParams);
 
         if (wxID_OK == dlg.ShowModal()) {
-            wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.m_DialogDisableMessage->GetValue());
+            wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.GetDisableMessageValue());
             doShutdownClient = 1;
         }
     }
@@ -1453,11 +1463,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function Begin"));
 
 #ifndef __WXMAC__
-#ifdef __WXMSW__
-    HANDLE prog;
-#else
-    int prog;
-#endif
+    PROCESS_REF pid;
     wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
     wxCharBuffer mbStrExecutable = strExecutable.mb_str();
     int argc = 2;
@@ -1472,9 +1478,9 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
         mbStrExecutable,
         argc,
         argv,
-        2.0,
-        prog
+        pid
     );
+    // TODO: check error return; check for early exit
 #else
     char s[MAXPATHLEN];
     char path[MAXPATHLEN];
@@ -1980,6 +1986,63 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
   for (int i = 0; i < count; i++) {
     lCtrl->SelectRow(i, true);
   }
+}
+
+
+// On the Mac, we must destroy and recreate each wxListCtrl
+// to properly transition between dark mode and regular mode
+//
+void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+#if SUPPORTDARKMODE
+    CBOINCBaseView* theView = NULL;;
+    CBOINCListCtrl* theListCtrl = NULL;
+    long bottomItem;
+    wxTimerEvent    timerEvent;
+    int currentPage = _GetCurrentViewPage();
+
+    StopTimers();
+    SaveState();
+
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    wxGetApp().SetIsDarkMode(appearance.IsDark());
+
+    // Get the list control's current scroll position
+    if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
+        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(m_pNotebook->GetSelection()));
+        theListCtrl = theView->GetListCtrl();
+        bottomItem = theListCtrl->GetTopItem() + theListCtrl->GetCountPerPage() - 1;
+    }
+    RepopulateNotebook();
+    RestoreState();
+
+    // The last tab label ("Disk") is ellipsed here unless the window is resized
+    // TODO: figure out how to replace this hack with a proper fix
+
+    int x, y;
+    GetSize(&x, &y);
+    SetSize(x+1, y);
+    SetSize(x, y);
+
+    // Scroll the recreated list control to the same row as before
+    if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
+        theView = (CBOINCBaseView*)(m_pNotebook->GetPage(m_pNotebook->GetSelection()));
+        theView->FireOnListRender(timerEvent);
+        theListCtrl = theView->GetListCtrl();
+        if (theListCtrl->GetCountPerPage() < theListCtrl->GetItemCount()) {
+            theListCtrl->EnsureVisible(bottomItem);
+        }
+    }
+    // TODO: figure out how to preserve notices tab (currentPage == VW_NOTIF) scrolled position
+
+    StartTimers();
+
+    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        wxGetApp().OnEventLogClose();
+        delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
+        wxGetApp().DisplayEventLog();
+    }
+#endif  // #if SUPPORTDARKMODE
 }
 
 

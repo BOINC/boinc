@@ -41,6 +41,7 @@
  *
  *//////////////////////////////////////////////////////////////////////////////
 
+ // Altered by BOINC
 
 #if defined(_WIN32)
 #include "boinc_win.h"
@@ -52,6 +53,19 @@
 #include "stackwalker_win.h"
 #include "stackwalker_imports.h"
 
+#ifdef _WIN64
+#define ADDR_XDIG "16"
+#else
+#define ADDR_XDIG "8"
+#endif
+
+#ifndef PRIz
+#ifdef _WIN64
+#define PRIz "ll"
+#else
+#define PRIz "l"
+#endif
+#endif
 
 // Link to dbghelp.dll and version.dll dynamically at runtime so we
 //   can be specific about which version we are getting and where
@@ -73,8 +87,7 @@ static tSSO pSSO = NULL;                    // SymSetOptions()
 static tSW pSW = NULL;                      // StackWalk()
 static tUDSN pUDSN = NULL;                  // UnDecorateSymbolName()
 static tSSSO pSSSO = NULL;                  // SymbolServerSetOptions
-static tSDD pSDD = NULL;                    // SetDllDirectory
-static tGFVIS pGFVIS = NULL;                // GetFileVersionInfoSize 
+static tGFVIS pGFVIS = NULL;                // GetFileVersionInfoSize
 static tGFVI pGFVI = NULL;                  // GetFileVersionInfo
 static tVQV pVQV = NULL;                    // VerQueryValue
 
@@ -98,7 +111,7 @@ static CRITICAL_SECTION g_csFileOpenClose = {0};
 // ##########################################################################################
 
 
-bool DebuggerLoadLibrary( 
+bool DebuggerLoadLibrary(
     HINSTANCE* lphInstance, const std::string strBOINCLocation, const std::string strLibrary
 )
 {
@@ -234,7 +247,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
         fprintf(stderr, "SymGetModuleInfo(): GetLastError = %lu\n", gle);
     }
     else
-    { 
+    {
         switch ( Module.SymType )
         {
             case SymNone:
@@ -259,7 +272,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                 safe_strcpy( szSymbolType, "SYM" );
                 break;
             default:
-                snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%ld", (long) Module.SymType );
+                snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%d", Module.SymType );
                 break;
         }
     }
@@ -282,7 +295,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
 
                 // Version specified as part of the root record.
                 if (pVQV(lpData, "\\", (LPVOID*)&pFileInfo, &uiVarSize)) {
-                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%d.%d.%d.%d", 
+                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%u.%u.%u.%u",
                         HIWORD(pFileInfo->dwFileVersionMS),
                         LOWORD(pFileInfo->dwFileVersionMS),
                         HIWORD(pFileInfo->dwFileVersionLS),
@@ -290,65 +303,53 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     );                }
 
                 // Company Name.
-                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\CompanyName",
+                snprintf(szQuery, sizeof(szQuery), "\\StringFileInfo\\%04x%04x\\CompanyName",
                     lpTranslate[0].wLanguage,
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", lpVar);
-                    if ((sizeof(szCompanyName) == uiVarSize) || (-1 == uiVarSize)) {
-                        szCompanyName[255] = '\0';
-                    }
+                    safe_strcpy(szCompanyName, (const char*)lpVar);
                 } else {
                     fprintf(stderr, "Get Company Name Failed.\n");
                 }
 
                 // Product Name.
-                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\ProductName",
+                snprintf(szQuery, sizeof(szQuery), "\\StringFileInfo\\%04x%04x\\ProductName",
                     lpTranslate[0].wLanguage,
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", lpVar);
-                    if ((sizeof(szProductName) == uiVarSize) || (-1 == uiVarSize)) {
-                        szProductName[255] = '\0';
-                    }
+                    safe_strcpy(szProductName, (const char*)lpVar);
                 } else {
                     fprintf(stderr, "Get Product Name Failed.\n");
                 }
 
                 // File Version.
-                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\FileVersion",
+                snprintf(szQuery, sizeof(szQuery), "\\StringFileInfo\\%04x%04x\\FileVersion",
                     lpTranslate[0].wLanguage,
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", lpVar);
-                    if ((sizeof(szFileVersion) == uiVarSize) || (-1 == uiVarSize)) {
-                        szFileVersion[255] = '\0';
-                    }
+                    safe_strcpy(szFileVersion, (const char*)lpVar);
                 }
 
                 // Product Version.
-                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\ProductVersion",
+                snprintf(szQuery, sizeof(szQuery), "\\StringFileInfo\\%04x%04x\\ProductVersion",
                     lpTranslate[0].wLanguage,
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", lpVar);
-                    if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
-                        szProductVersion[255] = '\0';
-                    }
+                    safe_strcpy(szProductVersion, (const char*)lpVar);
                 }
 
-                free(lpData);
             }
+            free(lpData);
         }
     }
 
     fprintf(stderr, "ModLoad: ");
-    fprintf(stderr, "%.16x "                                , Module.BaseOfImage);
-    fprintf(stderr, "%.16x "                                , Module.ImageSize);
+    fprintf(stderr, "%." ADDR_XDIG "llx-"                   , Module.BaseOfImage);
+    fprintf(stderr, "%." ADDR_XDIG "llx "                   , Module.BaseOfImage + Module.ImageSize);
     fprintf(stderr, "%s "                                   , Module.LoadedImageName);
     if (bFileVersionSupported && bFileVersionRetrieved) {
         fprintf(stderr, "(%s) "                             , szVersionInfo);
@@ -380,8 +381,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentProcess(),
-        GetCurrentProcess(), 
-        &g_hProcess, 
+        GetCurrentProcess(),
+        &g_hProcess,
         0,
         false,
         DUPLICATE_SAME_ACCESS
@@ -409,7 +410,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
                 fprintf(stderr, "SymbolServerSetOptions(): Register Unattended Failed, GetLastError = %lu\n", gle);
             }
             if (bProxyEnabled) {
-                if (!pSSSO(SSRVOPT_PROXY, (ULONG64)pszProxyServer)) {
+                if (!pSSSO(SSRVOPT_PROXY, (ULONG64)(ULONG_PTR)pszProxyServer)) {
                     fprintf(stderr, "SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n", gle);
                 }
             } else {
@@ -559,8 +560,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // Microsoft Public Symbol Server
 	if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore))) {
 		if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
-			strSymbolSearchPath += 
-				std::string( "srv*" ) + strLocalSymbolStore + 
+			strSymbolSearchPath +=
+				std::string( "srv*" ) + strLocalSymbolStore +
 				std::string( "*http://msdl.microsoft.com/download/symbols;" );
 		}
 	}
@@ -568,7 +569,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // Project Symbol Server
 	if (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) && (0 < strlen(pszSymbolStore))) {
 		if (std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) {
-			strSymbolSearchPath += 
+			strSymbolSearchPath +=
 				std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
 				std::string( pszSymbolStore ) + std::string( ";" );
 		}
@@ -577,8 +578,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // BOINC Symbol Server
 	if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
 		if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
-			strSymbolSearchPath += 
-				std::string( "srv*" ) + strLocalSymbolStore + 
+			strSymbolSearchPath +=
+				std::string( "srv*" ) + strLocalSymbolStore +
 				std::string( "*http://boinc.berkeley.edu/symstore;" );
 		}
 	}
@@ -607,7 +608,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         goto error;
     }
 
-    if (!pSRC(g_hProcess, SymRegisterCallbackProc64, (ULONG64)g_hProcess))
+    if (!pSRC(g_hProcess, SymRegisterCallbackProc64, (ULONG64)(ULONG_PTR)g_hProcess))
     {
         fprintf(stderr, "SymRegisterCallback64(): GetLastError = %lu\n", gle);
     }
@@ -656,9 +657,9 @@ int DebuggerDisplayDiagnostics()
 // #################################################################################
 // #################################################################################
 // Here the Stackwalk-Part begins.
-//   Some of the code is from an example from a book 
+//   Some of the code is from an example from a book
 //   But I couldn't find the reference anymore... sorry...
-//   If someone knowns, please let me know...
+//   If someone knows, please let me know...
 // #################################################################################
 // #################################################################################
 
@@ -670,9 +671,9 @@ int DebuggerDisplayDiagnostics()
 // earliest opportunity, to avoid the interesting stackframes being gone
 // by the time you do the dump.
 
-// status: 
+// status:
 // - EXCEPTION_CONTINUE_SEARCH: exception wird weitergereicht
-// - EXCEPTION_CONTINUE_EXECUTION: 
+// - EXCEPTION_CONTINUE_EXECUTION:
 // - EXCEPTION_EXECUTE_HANDLER:
 DWORD StackwalkFilter(EXCEPTION_POINTERS *ep, DWORD status)
 {
@@ -728,40 +729,44 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 
     // Dump the Context data
 #if defined(_WIN64) && defined(_M_X64)
-    fprintf(stderr, 
-        "rax=%.16x rbx=%.16x rcx=%.16x rdx=%.16x rsi=%.16x rdi=%.16x\n",
+    fprintf(stderr,
+        "rax=%.16llx rbx=%.16llx rcx=%.16llx rdx=%.16llx rsi=%.16llx rdi=%.16llx\n",
         Context.Rax, Context.Rbx, Context.Rcx, Context.Rdx, Context.Rsi, Context.Rdi
     );
-    fprintf(stderr, 
-        "r8=%.16x r9=%.16x r10=%.16x r11=%.16x r12=%.16x r13=%.16x\n",
+    fprintf(stderr,
+        " r8=%.16llx  r9=%.16llx r10=%.16llx r11=%.16llx r12=%.16llx r13=%.16llx\n",
         Context.R8, Context.R9, Context.R10, Context.R11, Context.R12, Context.R13
     );
-    fprintf(stderr, 
-        "r14=%.16x r15=%.16x rip=%.16x rsp=%.16x rbp=%.16x\n",
+    fprintf(stderr,
+        "r14=%.16llx r15=%.16llx rip=%.16llx rsp=%.16llx rbp=%.16llx\n",
         Context.R14, Context.R15, Context.Rip, Context.Rsp, Context.Rbp
     );
-    fprintf(stderr, 
-        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
+    fprintf(stderr,
+        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8lx\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #else
-    fprintf(stderr, 
-        "eax=%.8x ebx=%.8x ecx=%.8x edx=%.8x esi=%.8x edi=%.8x\n",
+    fprintf(stderr,
+        "eax=%.8lx ebx=%.8lx ecx=%.8lx edx=%.8lx esi=%.8lx edi=%.8lx\n",
         Context.Eax, Context.Ebx, Context.Ecx, Context.Edx, Context.Esi, Context.Edi
     );
-    fprintf(stderr, 
-        "eip=%.8x esp=%.8x ebp=%.8x\n",
+    fprintf(stderr,
+        "eip=%.8lx esp=%.8lx ebp=%.8lx\n",
         Context.Eip, Context.Esp, Context.Ebp
     );
-    fprintf(stderr, 
-        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
+    fprintf(stderr,
+        "cs=%.4lx  ss=%.4lx  ds=%.4lx  es=%.4lx  fs=%.4lx  gs=%.4lx             efl=%.8lx\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #endif
 
     // Stack Header
     fprintf(stderr, "- Callstack -\n");
+#ifdef _WIN64
+    fprintf(stderr, "ChildRBP         RetAddr          Args to Child\n");
+#else
     fprintf(stderr, "ChildEBP RetAddr  Args to Child\n");
+#endif
     fflush( stderr );
 
 
@@ -791,7 +796,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 
     memset( &Module, '\0', sizeof(IMAGEHLP_MODULE64) );
     Module.SizeOfStruct = sizeof(IMAGEHLP_MODULE64);
-  
+
     safe_strcpy(szMsgSymFromAddr, "");
     safe_strcpy(szMsgSymGetLineFromAddr, "");
     safe_strcpy(szMsgSymGetModuleInfo, "");
@@ -822,6 +827,13 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             break;
         }
 
+        BOOL isSymbolValid = FALSE;
+        BOOL isLineValid = FALSE;
+        BOOL isModuleValid = FALSE;
+        BOOL isUndNameValid = FALSE;
+        szMsgSymFromAddr[0] = '\0';
+        szMsgSymGetLineFromAddr[0] = '\0';
+        szMsgSymGetModuleInfo[0] = '\0';
         if ( StackFrame.AddrPC.Offset == 0 )
         {
             // Special case: If we are here, we have no valid callstack entry!
@@ -832,7 +844,8 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             // show procedure info (SymFromAddr())
             undName[0] = 0;
             offsetFromSymbol = 0;
-            if ( !pSFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, pSymbol ) )
+            isSymbolValid = pSFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, pSymbol );
+            if ( !isSymbolValid )
             {
                 if ( gle != 487 )
                 {
@@ -847,12 +860,13 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             else
             {
                 // UnDecorateSymbolName()
-                pUDSN( pSymbol->Name, undName, MAX_SYM_NAME, UNDNAME_NAME_ONLY );
+                isUndNameValid = pUDSN( pSymbol->Name, undName, MAX_SYM_NAME, UNDNAME_NAME_ONLY ) > 0;
             }
 
             // show line number info (SymGetLineFromAddr())
             offsetFromLine = 0;
-            if ( !pSGLFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromLine, &Line ) )
+            isLineValid = pSGLFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromLine, &Line );
+            if ( !isLineValid )
             {
                 if ( (gle != 487) && (frameNum > 0) )
                 {
@@ -866,41 +880,42 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             }
 
             // show module info (SymGetModuleInfo())
-            if ( !pSGMI( g_hProcess, StackFrame.AddrPC.Offset, &Module ) )
+            isModuleValid = pSGMI( g_hProcess, StackFrame.AddrPC.Offset, &Module );
+            if ( !isModuleValid )
             {
                 snprintf(
                     szMsgSymGetModuleInfo,
                     sizeof(szMsgSymGetModuleInfo),
                     "SymGetModuleInfo(): GetLastError = '%lu'",
-                    gle                    
+                    gle
                 );
             }
         } // we seem to have a valid PC
 
 
-        fprintf(stderr, "%.8x ", StackFrame.AddrFrame.Offset);
-        fprintf(stderr, "%.8x ", StackFrame.AddrReturn.Offset);
-        fprintf(stderr, "%.8x ", StackFrame.Params[0]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[1]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[2]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[3]);
-        fprintf(stderr, "%s",    Module.ModuleName);
-        fprintf(stderr, "!%s+",  undName);
-        fprintf(stderr, "0x%x ", offsetFromLine);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.AddrFrame.Offset);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.AddrReturn.Offset);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[0]);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[1]);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[2]);
+        fprintf(stderr, "%." ADDR_XDIG PRIz "x ", (ULONG_PTR)StackFrame.Params[3]);
+        fprintf(stderr, "%s!", isModuleValid ? Module.ModuleName : "???");
+        fprintf(stderr, "%s", isUndNameValid ? undName : isSymbolValid ? pSymbol->Name : "???");
+        if (isSymbolValid) fprintf(stderr, "+0x%llx", offsetFromSymbol);
+        fputc(' ', stderr);
 
-        if (Line.LineNumber) {
-            fprintf(stderr, "(%s:%lu) ", Line.FileName, Line.LineNumber);
-        }
+        if (isLineValid)  fprintf(stderr, "(%s:%lu)", Line.FileName, Line.LineNumber);
+        fputc(' ', stderr);
 
         if (StackFrame.FuncTableEntry) {
             // FPO Data
             PFPO_DATA pFPO = (PFPO_DATA)StackFrame.FuncTableEntry;
             switch(pFPO->cbFrame) {
                 case FRAME_FPO:
-                    fprintf(stderr, "FPO: [%d,%d,%d] ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->cbRegs);
+                    fprintf(stderr, "FPO: [%u,%lu,%u] ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->cbRegs);
                     break;
                 case FRAME_TRAP:
-                    fprintf(stderr, "FPO: [%d,%d] TrapFrame @ 0x%.8x ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->ulOffStart);
+                    fprintf(stderr, "FPO: [%u,%lu] TrapFrame @ 0x%.8lx ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->ulOffStart);
                     break;
                 case FRAME_TSS:
                     fprintf(stderr, "FPO: TaskGate Segment: 0 ");
@@ -908,14 +923,14 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             }
         }
 
-        if (strlen(szMsgSymFromAddr) || strlen(szMsgSymGetLineFromAddr) || strlen(szMsgSymGetModuleInfo)) {
+        if (szMsgSymFromAddr[0] || szMsgSymGetLineFromAddr[0] || szMsgSymGetModuleInfo[0]) {
             fprintf(
                 stderr,
-                "%s %s %s Address = '%.8x'",
+                "%s %s %s Address = '%." ADDR_XDIG PRIz "x'",
                 szMsgSymFromAddr,
                 szMsgSymGetLineFromAddr,
                 szMsgSymGetModuleInfo,
-                StackFrame.AddrPC.Offset
+                (ULONG_PTR)StackFrame.AddrPC.Offset
             );
         }
 

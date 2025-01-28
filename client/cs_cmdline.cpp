@@ -249,10 +249,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
             exit(0);
 #ifdef __APPLE__
-        // workaround for bug in XCode 4.2: accept but ignore 
-        // argument -NSDocumentRevisionsDebugMode=YES 
+        // workaround for bug in XCode 4.2: accept but ignore
+        // argument -NSDocumentRevisionsDebugMode=YES
         } else if (ARG(NSDocumentRevisionsDebugMode)) {
-            ++i; 
+            ++i;
 #endif
         // detect_gpus is for internal use only - do not
         // add it to show_options() or doc/client.php
@@ -381,7 +381,7 @@ void CLIENT_STATE::do_cmdline_actions() {
 
     if (strlen(attach_project_url)) {
         canonicalize_master_url(attach_project_url, sizeof(attach_project_url));
-        add_project(attach_project_url, attach_project_auth, "", false);
+        add_project(attach_project_url, attach_project_auth, "", "", false);
     }
 }
 

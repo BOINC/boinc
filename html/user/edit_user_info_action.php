@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/util.inc");
+require_once("../inc/user_util.inc");
 require_once("../inc/countries.inc");
 
 check_get_args(array("tnow", "ttok"));
@@ -26,22 +27,30 @@ check_get_args(array("tnow", "ttok"));
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
-$name = trim(post_str("user_name"));
-if ($name != sanitize_tags($name)) {
-    error_page(tra("HTML tags are not allowed in your name."));
+$name = post_str("user_name");
+if (!is_valid_user_name($name, $reason)) {
+    error_page($reason);
 }
 if (strlen($name) == 0) {
     error_page(tra("You must supply a name for your account."));
 }
 $name = BoincDb::escape_string($name);
 
+$u = BoincUser::lookup(sprintf("name='%s'", $name));
+if ($u && ($u->id != $user->id)) {
+    error_page('That name is in use - go back and try another.');
+}
+
 $url = "";
 $country = "";
 $postal_code = "";
 if (USER_URL) {
     $url = post_str("url", true);
-    $url = sanitize_tags($url);
-    $url = BoincDb::escape_string($url);
+    $x = sanitize_user_url($url);
+    if ($x != $url) {
+        error_page("Invalid URL");
+    }
+    $url = BoincDb::escape_string($x);
 }
 if (USER_COUNTRY) {
     $country = post_str("country");
@@ -58,7 +67,7 @@ $result = $user->update(
     "name='$name', url='$url', country='$country', postal_code='$postal_code'"
 );
 if ($result) {
-    Header("Location: ".USER_HOME);
+    Header("Location: ".HOME_PAGE);
 } else {
     error_page(tra("Couldn't update user info."));
 }

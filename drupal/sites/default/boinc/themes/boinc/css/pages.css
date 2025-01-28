@@ -716,7 +716,7 @@ table.user-projects {
   font-size: 10px;
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 1px; 
+  letter-spacing: 1px;
 }
 .node-type-forum .item-list .pager {
   border-top: 1px dotted #aaa;
@@ -900,7 +900,7 @@ table.user-projects {
   font-weight: bold;
   text-transform: uppercase;
   color: #808080;
-  letter-spacing: 1px; 
+  letter-spacing: 1px;
 }
 
 .forum-links {

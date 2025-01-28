@@ -81,7 +81,7 @@ function navbar_right($user) {
         if ($user) {
             echo sprintf('
                 <li><a href=%s%s>%s</a></li>
-                ', url_base(), USER_HOME, $user->name
+                ', url_base(), HOME_PAGE, $user->name
             );
             $url_tokens = url_tokens($user->authenticator);
             echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
@@ -156,7 +156,7 @@ function sample_navbar(
 
     $x = array();
     if ($user) {
-        $x[] = array(tra("Account"), $url_prefix.USER_HOME);
+        $x[] = array(tra("Account"), $url_prefix.HOME_PAGE);
         $x[] = array(tra("Join"), $url_prefix."join.php");
         $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }
@@ -185,6 +185,7 @@ function sample_navbar(
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
             if ($user && BoincUserSubmit::lookup_userid($user->id)) {
                 $x[] = array("Job submission", $url_prefix."submit.php");
+                $x[] = ["File sandbox", "sandbox.php"];
             }
         }
         navbar_menu(tra("Computing"), $x);
@@ -235,12 +236,13 @@ function panel($title, $content_func, $class="panel-primary", $body_class="") {
     ';
 }
 
-// grid layout with a full-width row followed by two equal columns
+// grid layout with a full-width row followed by two columns.
 // $top_func, $left_func, and $right_func
-// are functions that generate the top, left, and right content
+// are functions that generate the top, left, and right content.
 // $left_width is the width of left column in 1/12 units.
+// $arg is passed to the functions.
 //
-function grid($top_func, $left_func, $right_func, $left_width=6) {
+function grid($top_func, $left_func, $right_func, $left_width=6, $arg=null) {
     echo '
         <div class="container-fluid">
     ';
@@ -249,7 +251,7 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
             <div class="row">
             <div class="col-sm-12">
         ';
-        $top_func();
+        $top_func($arg);
         echo '
             </div>
             </div>
@@ -260,12 +262,12 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
         <div class="row">
         <div class="col-sm-'.$left_width.'">
     ';
-    $left_func();
+    $left_func($arg);
     echo '
         </div>
         <div class="col-sm-'.$right_width.'">
     ';
-    $right_func();
+    $right_func($arg);
     echo '
         </div>
         </div>
@@ -366,7 +368,7 @@ function form_input_textarea($label, $name, $value='', $nrows=4) {
 
 // $items is either a string of <option> elements, or an array
 //
-function form_select($label, $name, $items) {
+function form_select($label, $name, $items, $selected=null) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>
@@ -377,8 +379,11 @@ function form_select($label, $name, $items) {
     );
     if (is_array($items)) {
         foreach ($items as $i) {
-            echo '<option value="'.$i[0].'">'.$i[1].'</option>
-            ';
+            echo sprintf(
+                '<option %s value=%s>%s</option>',
+                ($i[0]==$selected)?'selected':'',
+                $i[0], $i[1]
+            );
         }
     } else {
         echo $items;
@@ -387,9 +392,9 @@ function form_select($label, $name, $items) {
 }
 
 // same, for multiple select.
-// flags, if non-null, says which ones are selected
+// $selected, if non-null, is a list of selected values
 //
-function form_select_multiple($label, $name, $items, $flags) {
+function form_select_multiple($label, $name, $items, $selected=null) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>
@@ -398,12 +403,12 @@ function form_select_multiple($label, $name, $items, $flags) {
         ',
         FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
     );
-    $n = 0;
     foreach ($items as $i) {
-        $s = ($flags && $flags[$n])?'selected':'';
-        echo '<option '.$s.' value="'.$i[0].'">'.$i[1].'</option>
-        ';
-        $n++;
+        echo sprintf(
+            '<option %s value=%s>%s</option>',
+            ($selected && in_array($i[0], $selected))?'selected':'',
+            $i[0], $i[1]
+        );
     }
     echo "</select></div></div>\n";
 }
@@ -485,8 +490,9 @@ function form_general($label, $item) {
 function form_submit($text, $attrs='') {
     form_general(
         "",
-        sprintf('<button %s type="submit" class="btn btn-success">%s</button>',
-            $attrs, $text
+        sprintf(
+            '<button %s type="submit" class="btn" %s>%s</button>',
+            $attrs, button_style(), $text
         )
     );
 }
@@ -494,8 +500,14 @@ function form_submit($text, $attrs='') {
 function form_checkbox($label, $name, $checked=false) {
     echo sprintf('
         <div class="form-group">
-            <input type="checkbox" name="%s" %s> &nbsp; <span class="lead">%s</span>
+            <label align=right class="%s">%s</label>
+            <div class="%s">
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
+    );
+    echo sprintf('
+        <input type="checkbox" name="%s" %s>
         </div>
-        ', $name, $checked?"checked":"", $label
+        ', $name, $checked?"checked":""
     );
 }

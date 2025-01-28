@@ -48,11 +48,12 @@ function lookup_team_seti_id($seti_id) {
 }
 
 function decode($x) {
+    if (!$x) return $x;
     return html_entity_decode($x, ENT_COMPAT, 'UTF-8');
 }
 
 function parse_team($f) {
-    $t = new stdClass(); 
+    $t = new stdClass();
     while ($s = fgets($f)) {
         if (strstr($s, '</team>')) {
             $t->name = decode($t->name);

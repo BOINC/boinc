@@ -11,7 +11,7 @@
 # VirtualBox OSE distribution. VirtualBox OSE is distributed in the
 # hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
 #
-# Modified by Charlie Fenton 11/2/13 for combined BOINC + VirtualBox 
+# Modified by Charlie Fenton 11/2/13 for combined BOINC + VirtualBox
 # installer.
 #
 ## TODO: Find a way to automatically set the VirtualBox version

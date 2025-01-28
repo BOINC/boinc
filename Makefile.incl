@@ -31,7 +31,7 @@ AM_CPPFLAGS =					\
         -I$(top_srcdir)/vda			\
 	$(PTHREAD_CFLAGS)
 
-AM_CFLAGS = -Wall -Wextra -Wshadow -Wredundant-decls -Wdisabled-optimization -Wpointer-arith -Wstrict-aliasing -Wcast-align 
+AM_CFLAGS = -Wall -Wextra -Wshadow -Wredundant-decls -Wdisabled-optimization -Wpointer-arith -Wstrict-aliasing -Wcast-align
 
 AM_CXXFLAGS = $(AM_CFLAGS)
 
@@ -65,4 +65,5 @@ SERVERLIBS_MIN = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(PTHREAD_LIBS) $(RSA
 SERVERLIBS_FCGI = $(LIBSCHED_FCGI) $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
 APPLIBS = $(LIBAPI) $(LIBBOINC)
 FUHLIBS = $(LIBBOINC_CRYPT) $(LIBBOINC) $(RSA_LIBS) $(SSL_LIBS)
+FUHLIBS_FCGI = $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(RSA_LIBS) $(SSL_LIBS)
 

@@ -105,14 +105,14 @@ int main(int argc, char *argv[])
     }
 
     snprintf(tempDirName, sizeof(tempDirName), "InstallBOINC-%s", loginName);
-    
+
     snprintf(temp, sizeof(temp), "/tmp/%s", tempDirName);
     mkdir(temp, 0777);
     chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
 
     snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_Installer_Errors", tempDirName);
     err = callPosixSpawn(temp);
-    
+
     snprintf(Catalogs_Dir, sizeof(Catalogs_Dir),
             "/tmp/%s/BOINC_payload/Library/Application Support/BOINC Data/locale/",
             tempDirName);
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
     } else {
         *p = '\0';
     }
-    
+
     // Delete any old project auto-attach key file from our temp directory
     snprintf(temp2, sizeof(temp2), "rm -dfR \"/tmp/%s/%s\"", tempDirName, ACCOUNT_DATA_FILENAME);
     err = callPosixSpawn(temp2);
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
         err = callPosixSpawn(temp2);
         REPORT_ERROR(err);
     } else {
-        // Create an account_data.txt file containing our 
+        // Create an account_data.txt file containing our
         // installer's filename and put it in our temp directory
         snprintf(temp2, sizeof(temp2), "/tmp/%s/%s", tempDirName, ACCOUNT_DATA_FILENAME);
         f = fopen(temp2, "w");
@@ -173,18 +173,18 @@ int main(int argc, char *argv[])
     strlcat(pkgPath, p+1, sizeof(pkgPath));
     p = strrchr(pkgPath, ' ');         // Strip off last space character and everything following
     if (p)
-        *p = '\0'; 
+        *p = '\0';
 
     p = strrchr(brand, ' ');         // Strip off last space character and everything following
     if (p)
-        *p = '\0'; 
-    
+        *p = '\0';
+
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
-    
+
     // In the unlikely situation that /tmp has files from an earlier attempt to install
     // BOINC by a different user, we won't have permission to delete or overwrite them,
     // so include the current user's name as part of the paths to our temporary files.
-    
+
     // Expand the installer package
     snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC.pkg", tempDirName);
     err = callPosixSpawn(temp);
@@ -201,7 +201,7 @@ int main(int argc, char *argv[])
     snprintf(temp, sizeof(temp), "rm -f /tmp/%s/BOINC_restart_flag", tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    
+
     sprintf(temp, "cp -fpR \"%s\" /tmp/%s/PostInstall.app", postInstallAppPath, tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
         BringAppToFront();
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
-            *p = '\0'; 
+            *p = '\0';
         ShowMessage((char *)_("Sorry, this version of %s requires system %s or higher."), brand, Deployment_target);
 
         snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
     REPORT_ERROR(err);
 
     restartNeeded = IsRestartNeeded();
-    
+
     // Write a temp file to tell our PostInstall.app whether restart is needed
     snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_restart_flag", tempDirName);
     restartNeededFile = fopen(temp, "w");
@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
         fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
         fclose(restartNeededFile);
     }
-    
+
     if (restartNeeded) {
         if (err == noErr) {
             // Change onConclusion="none" to onConclusion="RequireRestart"
@@ -283,7 +283,7 @@ int main(int argc, char *argv[])
     sprintf(temp, "open \"%s\"", pkgPath);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-    
+
     return err;
 }
 
@@ -320,13 +320,13 @@ Boolean IsRestartNeeded()
     if (compareOSVersionTo(10, 9) >= 0) {
         return false;
     }
-    
+
     grp = getgrnam(boinc_master_group_name);
     if (grp == NULL)
         return true;       // Group boinc_master does not exist
 
     boinc_master_gid = grp->gr_gid;
-        
+
     grp = getgrnam(boinc_project_group_name);
     if (grp == NULL)
         return true;       // Group boinc_project does not exist
@@ -341,13 +341,13 @@ Boolean IsRestartNeeded()
 
     if (pw->pw_gid != boinc_master_gid)
         return true;       // User boinc_master does not have group boinc_master as its primary group
-    
+
     pw = getpwnam(boinc_project_user_name);
     if (pw == NULL)
         return true;       // User boinc_project does not exist
 
     boinc_project_uid = pw->pw_uid;
-        
+
     if (pw->pw_gid != boinc_project_gid)
         return true;       // User boinc_project does not have group boinc_project as its primary group
 
@@ -361,7 +361,7 @@ Boolean IsRestartNeeded()
         if (boinc_project_uid < 501)
             return true;       // We will change boinc_project_uid to a value > 501
 }
-    
+
     #ifdef SANDBOX
     if (loginName[0]) {
         if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
@@ -383,7 +383,7 @@ OSErr Initialize()	/* Initialize some managers */
 
 
 // Because language preferences are set on a per-user basis, we
-// must get the preferred languages while set to the current 
+// must get the preferred languages while set to the current
 // user, before the Apple Installer switches us to root.
 // So we get the preferred languages here and write them to a
 // temporary file to be retrieved by our PostInstall app.
@@ -417,7 +417,7 @@ static void GetPreferredLanguages() {
 
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
-    
+
     aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
     CFArrayAppendValue(supportedLanguages, aLanguage);
     CFRelease(aLanguage);
@@ -447,7 +447,7 @@ static void GetPreferredLanguages() {
         CFArrayAppendValue(supportedLanguages, aLanguage);
         CFRelease(aLanguage);
         aLanguage = NULL;
-        
+
         // If it has a region code ("it_IT") also try without region code ("it")
         // TODO: Find a more general solution
         strlcpy(shortLanguage, dp->d_name, sizeof(shortLanguage));
@@ -460,7 +460,7 @@ static void GetPreferredLanguages() {
             aLanguage = NULL;
         }
     }
-    
+
     closedir(dirp);
 
     // Write a temp file to tell our PostInstall.app our preferred languages
@@ -472,9 +472,9 @@ static void GetPreferredLanguages() {
     }
 
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
-    
+
         preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
-        
+
 #if 0   // For testing
         int c = CFArrayGetCount(preferredLanguages);
         for (k=0; k<c; ++k) {
@@ -506,7 +506,7 @@ static void GetPreferredLanguages() {
                 }
             }
 
-            // Since the original strings are English, no 
+            // Since the original strings are English, no
             // further translation is needed for language en.
             if (language) {
                 if (!strcmp(language, "en")) {
@@ -517,7 +517,7 @@ static void GetPreferredLanguages() {
                 }
             }
         }
-        
+
         CFRelease(preferredLanguages);
         preferredLanguages = NULL;
 
@@ -554,13 +554,13 @@ static void LoadPreferredLanguages(){
         REPORT_ERROR(true);
         return;
     }
-    
+
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
         fgets(language, sizeof(language), f);
         if (feof(f)) break;
         language[sizeof(language)-1] = '\0';    // Guarantee a null terminator
         p = strchr(language, '\n');
-        if (p) *p = '\0';           // Replace newline with null terminator 
+        if (p) *p = '\0';           // Replace newline with null terminator
         if (language[0]) {
             if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
                 REPORT_ERROR(true);
@@ -577,7 +577,7 @@ static long GetOldBrandID()
     long oldBrandId;
 
     oldBrandId = 0;   // Default value
-    
+
     FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &oldBrandId);
@@ -600,12 +600,12 @@ static void ShowMessage(const char *format, ...) {
     CFOptionFlags           responseFlags;
     CFURLRef                myIconURLRef = NULL;
     CFBundleRef             myBundleRef;
-   
+
     myBundleRef = CFBundleGetMainBundle();
     if (myBundleRef) {
         myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
     }
-   
+
 #if 1
     va_start(args, format);
     vsprintf(s, format, args);
@@ -616,7 +616,7 @@ static void ShowMessage(const char *format, ...) {
 
     // If defaultButton is nil or an empty string, a default localized
     // button title ("OK" in English) is used.
-    
+
     CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
 
     BringAppToFront();
@@ -624,7 +624,7 @@ static void ShowMessage(const char *format, ...) {
                 myIconURLRef, NULL, NULL, CFSTR(" "), myString,
                 NULL, NULL, NULL,
                 &responseFlags);
-    
+
     if (myIconURLRef) CFRelease(myIconURLRef);
     if (myString) CFRelease(myString);
 }
@@ -633,7 +633,7 @@ static void ShowMessage(const char *format, ...) {
 static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon )
 {
     gQuitFlag =  true;
-    
+
     return noErr;
 }
 
@@ -718,7 +718,7 @@ int callPosixSpawn(const char *cmdline) {
     } else {
         argv[0] = progName;
     }
-    
+
 #if VERBOSE_TEST
     print_to_log_file("***********");
     for (int i=0; i<argc; ++i) {
@@ -761,7 +761,7 @@ int callPosixSpawn(const char *cmdline) {
 #endif
         }   // end if (WIFEXITED(status)) else
     }       // end if waitpid returned 0 sstaus else
-    
+
     return result;
 }
 
@@ -792,7 +792,7 @@ void print_to_log_file(const char *format, ...) {
     va_start(args, format);
     vfprintf(f, format, args);
     va_end(args);
-    
+
     fputs("\n", f);
     fflush(f);
     fclose(f);

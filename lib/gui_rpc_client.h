@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -148,6 +148,7 @@ struct PROJECT {
     RSC_DESC rsc_desc_nvidia;
     RSC_DESC rsc_desc_ati;
     RSC_DESC rsc_desc_intel_gpu;
+    RSC_DESC rsc_desc_apple_gpu;
 
     double sched_priority;
 
@@ -262,7 +263,7 @@ struct RESULT {
     double final_cpu_time;
     double final_elapsed_time;
     int state;
-    int scheduler_state;
+    SCHEDULER_STATE scheduler_state;
     int exit_status;
     int signal;
     //std::string stderr_out;
@@ -311,6 +312,13 @@ struct RESULT {
     int parse(XML_PARSER&);
     void print();
     void clear();
+
+    bool is_not_started() const {
+        if (state >= RESULT_COMPUTE_ERROR) return false;
+        if (ready_to_report) return false;
+        if (active_task) return false;
+        return true;
+    }
 };
 
 struct FILE_TRANSFER {
@@ -329,6 +337,7 @@ struct FILE_TRANSFER {
     double next_request_time;
     int status;
     double time_so_far;
+    double estimated_xfer_time_remaining;
     double bytes_xferred;
     double file_offset;
     double xfer_speed;
@@ -374,7 +383,7 @@ struct GR_PROXY_INFO {
     std::string socks5_user_passwd;
     bool socks5_remote_dns;
 
-	std::string noproxy_hosts;
+    std::string noproxy_hosts;
 
     GR_PROXY_INFO();
 
@@ -485,7 +494,6 @@ struct NOTICES {
 
     NOTICES();
 
-    void print();
     void clear();
 };
 
@@ -493,7 +501,7 @@ struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
     bool have_credentials;
-    
+
     ACCT_MGR_INFO();
 
     int parse(XML_PARSER&);
@@ -550,7 +558,7 @@ struct PROJECT_CONFIG {
     bool sched_stopped;         // scheduler disabled
     bool web_stopped;           // DB-driven web functions disabled
     int min_client_version;
-	std::string error_msg;
+    std::string error_msg;
     bool terms_of_use_is_html;
     std::string terms_of_use;
         // if present, show this text in an "accept terms of use?" dialog
@@ -585,7 +593,7 @@ struct ACCOUNT_IN {
 
 struct ACCOUNT_OUT {
     int error_num;
-	std::string error_msg;
+    std::string error_msg;
     std::string authenticator;
 
     ACCOUNT_OUT();
@@ -601,16 +609,16 @@ struct CC_STATUS {
     bool manager_must_quit;
     int task_suspend_reason;    // bitmap, see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
-    int task_mode_perm;			// same, but permanent version
-	double task_mode_delay;		// time until perm becomes actual
+    int task_mode_perm;         // same, but permanent version
+    double task_mode_delay;     // time until perm becomes actual
     int gpu_suspend_reason;
     int gpu_mode;
     int gpu_mode_perm;
-	double gpu_mode_delay;
+    double gpu_mode_delay;
     int network_suspend_reason;
     int network_mode;
     int network_mode_perm;
-	double network_mode_delay;
+    double network_mode_delay;
     bool disallow_attach;
     bool simple_gui_only;
     int max_event_log_lines;
@@ -723,7 +731,6 @@ struct RPC_CLIENT {
     int get_statistics(PROJECTS&);
     int network_available();
     int get_project_init_status(PROJECT_INIT_STATUS& pis);
-    int report_device_status(DEVICE_STATUS&);
 
     // the following are asynch operations.
     // Make the first call to start the op,
@@ -737,7 +744,8 @@ struct RPC_CLIENT {
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
     int project_attach(
-        const char* url, const char* auth, const char* project_name
+        const char* url, const char* auth, const char* project_name,
+        const char* email_addr  // optional - pass empty string if unknown
     );
     int project_attach_from_file();
     int project_attach_poll(PROJECT_ATTACH_REPLY&);
@@ -763,7 +771,7 @@ struct RPC_CLIENT {
     int get_app_config(const char* url, APP_CONFIGS& conf);
     int set_app_config(const char* url, APP_CONFIGS& conf);
     int get_daily_xfer_history(DAILY_XFER_HISTORY&);
-	int set_language(const char*);
+    int set_language(const char*);
 };
 
 struct RPC {

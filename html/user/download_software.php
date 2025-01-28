@@ -16,20 +16,26 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Show a page with download links and instructions.
+// Page for downloading the BOINC client, with support for autoattach:
+// https://github.com/BOINC/boinc/wiki/SimpleAttach
+// Note: to use autoattach:
+// 1) You need to have the client versions file
+//      run html/ops/get_versions.php
+// 2) Put your project ID (ask DPA if you don't have one)
+//      in config.xml as <project_id>x</project_id>
+//
 // There's a logged-in user.
 //
-// If no project ID, direct user to BOINC web site
-// otherwise...
+// Autoattach case: if project has an ID and client is Win or Mac:
+//    - find latest version for that platform (regular and vbox)
+//    - Create a login token.
+//    - Show download button(s)
+//      The download will be via concierge, using the login token.
+// Otherwise:
+//    - show link to download page on BOINC web site,
+//      and instructions for what to do after that.
 //
-// - get platform from user agent string
-// - find latest version for that platform (regular and vbox)
-// - Create a login token.
-// - Show download button(s)
-//   The download will be via concierge, using the login token.
-//
-// VirtualBox
-//
+// VirtualBox:
 // config.xml entries:
 // <need_vbox/>     This project requires VBox
 // <recommend_vbox> This project can use VBox
@@ -38,14 +44,9 @@
 // For other platforms, direct user to VBox download page
 // before installing BOINC
 //
-// Notes:
-// 1) You need to have the client versions file
-//      run html/ops/get_versions.php
-// 2) Put your project ID in a constant PROJECT_ID
-//    (this all works only for listed projects)
 
 // Can also be called as a web RPC;
-// see https://boinc.berkeley.edu/trac/wiki/WebRpc#download
+// see https://github.com/BOINC/boinc/wiki/WebRpc#download
 //  rpc              this says it's an RPC
 //  user_agent       web browser info
 //  authenticator    the account to link to
@@ -97,6 +98,13 @@ function is_windows() {
     if (strstr($user_agent, 'Windows')) {
         return true;
     }
+    return false;
+}
+
+function is_windows_or_mac() {
+    global $user_agent;
+    if (strstr($user_agent, 'Windows')) return true;
+    if (strstr($user_agent, 'Mac')) return true;
     return false;
 }
 
@@ -180,8 +188,7 @@ function show_vbox_info($where) {
         echo "<p>";
         if ($need_vbox) {
             echo tra("This project requires VirtualBox.");
-        }
-        if ($recommend_vbox) {
+        } else if ($recommend_vbox) {
             echo tra("This project recommends VirtualBox.");
         }
         echo " ";
@@ -215,27 +222,41 @@ function direct_to_boinc() {
     global $master_url;
     page_head(tra("Download BOINC"));
     text_start();
-    show_vbox_info("direct");
-    echo sprintf(
-        '<p>%s
-        <p><p>
-        %s
-        <p>
-        ',
-        tra("To download and install BOINC,
+    echo "<p>";
+    echo tra("To download and install BOINC,
             click on the link below and follow the instructions.
-        "),
-        tra("When BOINC first runs it will ask you to select a project.
-            Select %1 from the list,
-            or enter this project's URL: %2",
-            PROJECT,
-            $master_url
-        )
-    );
+    ");
+    echo "<p>";
     show_button(
         "https://boinc.berkeley.edu/download.php",
-        tra("Go to the BOINC download page.")
+        tra("Go to the BOINC download page."),
+        null, null, 'target=_new'
     );
+    show_vbox_info("direct");
+
+    if (parse_bool(get_config(), 'account_manager')) {
+        echo sprintf(
+            "<p><p>%s<p>",
+            tra("When BOINC first runs it will ask you to select a project.
+                Cancel out of this dialog,
+                then select <b>Tools / Use Account Manager</b>
+                to connect BOINC to your %1 account.
+                See <a href=%2>detailed instructions</a>.",
+                PROJECT,
+                'https://boinc.berkeley.edu/wiki/Account_managers'
+            )
+        );
+    } else {
+        echo sprintf(
+            "<p><p>%s<p>",
+            tra("When BOINC first runs it will ask you to select a project.
+                Select '%1' from the list,
+                or enter this project's URL:<p>%2",
+                PROJECT,
+                $master_url
+            )
+        );
+    }
     text_end();
     page_tail();
 }
@@ -245,7 +266,7 @@ function show_download_page($user, $user_agent, $dev) {
 
     // If no project ID, we can't use simplified install
     //
-    if (!$project_id) {
+    if (!$project_id || !is_windows_or_mac()) {
         direct_to_boinc();
         return;
     }

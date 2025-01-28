@@ -19,7 +19,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#else 
+#else
 #include "config.h"
 #include <cstdio>
 #include <cstring>
@@ -57,6 +57,27 @@
 
 #include "hostinfo.h"
 
+#if WASM
+    #include <emscripten.h>
+#endif
+
+#if WASM
+    // unique user device in js.
+    EM_JS(int, get_uuid, (char* buf), {
+        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then(FingerprintJS => FingerprintJS.load());
+
+        // Get the visitor identifier when you need it.
+        fpPromise.then(fp => fp.get()).then(result => {
+                // This is the visitor identifier:
+                const visitorId = result.visitorId;
+                for (let i = 0; i < visitorId.length; i++) {
+                    buf[i] = visitorId[i];
+                }
+        });
+        return 0;
+    });
+#endif
+
 // get domain name and IP address of this host
 // Android: if domain_name is empty, set it to android_xxxxxxxx
 //
@@ -73,7 +94,7 @@ int HOST_INFO::get_local_network_info() {
 #endif
 
     struct sockaddr_storage s;
-    
+
     safe_strcpy(domain_name, "");
 
     // it seems like we should use getdomainname() instead of gethostname(),
@@ -145,11 +166,16 @@ void HOST_INFO::generate_host_cpid() {
     char buf[256+MAXPATHLEN];
     char dir[MAXPATHLEN];
 
+#if WASM
+    // unique user device in js.
+    retval = get_uuid(buf);
+#else
     // if a MAC address is available, compute an ID based on it;
     // this has the advantage of stability
     // (a given host will get the same ID each time BOINC is reinstalled)
     //
     retval = get_mac_address(buf);
+#endif
     if (retval) {
         make_random_string("", host_cpid);
         return;

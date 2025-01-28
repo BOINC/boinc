@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -194,6 +194,24 @@
 #ifndef PRODUCT_ENTERPRISE_S_N_EVALUATION
 #define PRODUCT_ENTERPRISE_S_N_EVALUATION           0x00000082
 #endif
+#ifndef PRODUCT_IOTENTERPRISE
+#define PRODUCT_IOTENTERPRISE                       0x000000BC
+#endif
+#ifndef PRODUCT_IOTENTERPRISES
+#define PRODUCT_IOTENTERPRISES                      0x000000BF
+#endif
+#ifndef PRODUCT_IOTENTERPRISESK
+#define PRODUCT_IOTENTERPRISESK                     0x000000CD
+#endif
+#ifndef PRODUCT_AZURESTACKHCI_SERVER_CORE
+#define PRODUCT_AZURESTACKHCI_SERVER_CORE           0x00000196
+#endif
+#ifndef PRODUCT_DATACENTER_SERVER_AZURE_EDITION
+#define PRODUCT_DATACENTER_SERVER_AZURE_EDITION     0x00000197
+#endif
+#ifndef PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION
+#define PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION 0x00000198
+#endif
 
 
 // new Architecture(s)
@@ -213,7 +231,7 @@ static unsigned long long _xgetbv(unsigned int index){
       unsigned int A=0, D=0;
 
 #ifdef __GNUC__
-  #ifdef ASM_SUPPORTS_XGETBV  
+  #ifdef ASM_SUPPORTS_XGETBV
       __asm__ __volatile__("xgetbv" : "=a"(A), "=d"(D) : "c"(index));
   #else
       __asm__ __volatile__(".byte 0x0f, 0x01, 0xd0": "=a"(A), "=d"(D) : "c"(index));
@@ -248,14 +266,14 @@ static unsigned long long _xgetbv(unsigned int index){
 #else
 static void __cpuid(unsigned int cpuinfo[4], unsigned int type)  {
 #ifdef __GNUC__
-  #ifdef ASM_SUPPORTS_CPUID  
-      __asm__ __volatile__("cpuid" 
-                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]), 
-                              "=c" (cpuinfo[2]), "=d" (cpuinfo[3]) 
+  #ifdef ASM_SUPPORTS_CPUID
+      __asm__ __volatile__("cpuid"
+                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]),
+                              "=c" (cpuinfo[2]), "=d" (cpuinfo[3])
                             : "a" (type));
   #else
       __asm__ __volatile__(".byte 0x0f, 0xa2"
-                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]), 
+                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]),
                               "=c" (cpuinfo[2]), "=d" (cpuinfo[3])
                             : "a" (type));
   #endif
@@ -367,7 +385,11 @@ int get_os_information(
                         strlcat(os_name, "Windows 10", os_name_size);
                     }
                 } else {
-                    if ( osvi.dwBuildNumber >= 20348 ) {
+                    if  (osvi.dwBuildNumber >= 26100) {
+			            strlcat(os_name, "Windows Server 2025", os_name_size);
+		            } else if (osvi.dwBuildNumber >= 25398) {
+                        strlcat(os_name, "Windows Server 23H2", os_name_size);
+                    } else if (osvi.dwBuildNumber >= 20348) {
                         strlcat(os_name, "Windows Server 2022", os_name_size);
                     } else if ( osvi.dwBuildNumber >= 17623) {
                         strlcat(os_name, "Windows Server 2019", os_name_size);
@@ -472,7 +494,7 @@ int get_os_information(
     }
 
 
-    snprintf_s( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
+    snprintf( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
         osvi.dwMajorVersion, osvi.dwMinorVersion, (osvi.dwBuildNumber & 0xFFFF), 0
     );
 
@@ -558,6 +580,15 @@ int get_os_information(
                                 break;
                             case PRODUCT_HOME_PREMIUM_N:
                                 safe_strcat(szSKU, "Home Premium N ");
+                                break;
+                            case PRODUCT_IOTENTERPRISE:
+                                safe_strcat(szSKU, "IoT Enterprise ");
+                                break;
+                            case PRODUCT_IOTENTERPRISES:
+                                safe_strcat(szSKU, "IoT Enterprise LTSC ");
+                                break;
+                            case PRODUCT_IOTENTERPRISESK:
+                                safe_strcat(szSKU, "IoT Enterprise Subscription LTSC ");
                                 break;
                             case PRODUCT_IOTUAP:
                                 safe_strcat(szSKU, "Internet of Things ");
@@ -657,6 +688,9 @@ int get_os_information(
                             case PRODUCT_ARM64_SERVER:
                                 safe_strcat(szSKU, "ARM64 Server ");
                                 break;
+                            case PRODUCT_AZURESTACKHCI_SERVER_CORE:
+                                safe_strcat(szSKU, "Azure Stack HCI ");
+                                break;
                             case PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER:
                                 safe_strcat(szSKU, "Cloud Host Infrastructure Server ");
                                 break;
@@ -681,8 +715,14 @@ int get_os_information(
                             case PRODUCT_DATACENTER_SERVER:
                                 safe_strcat(szSKU, "Datacenter ");
                                 break;
+                            case PRODUCT_DATACENTER_SERVER_AZURE_EDITION:
+                                safe_strcat(szSKU, "Datacenter Azure ");
+                                break;
                             case PRODUCT_DATACENTER_SERVER_CORE:
                                 safe_strcat(szSKU, "Datacenter (core installation) ");
+                                break;
+                            case PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION:
+                                safe_strcat(szSKU, "Datacenter Azure (core installation) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER_CORE_V:
                                 safe_strcat(szSKU, "Datacenter (core installation without Hyper-V) ");
@@ -1202,10 +1242,10 @@ bool is_avx_supported() {
     // the instruction needs to be conditionally run.
     unsigned int a,b,c,d;
     get_cpuid(1, a, b, c, d);
- 
+
     bool osUsesXSAVE_XRSTORE = c & (1 << 27) || false;
     bool cpuAVXSuport = c & (1 << 28) || false;
- 
+
     if (osUsesXSAVE_XRSTORE && cpuAVXSuport)
     {
         // Check if the OS will save the YMM registers
@@ -1276,7 +1316,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 		struc_ext_supported = 1;
 		get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
 	}
-    
+
     FEATURE_TEST(std_supported, (std_edx & (1 << 0)), "fpu ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 1)), "vme ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 2)), "de ");
@@ -1307,6 +1347,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(std_supported, (std_edx & (1 << 29)), "tm ");
 
     FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 1)), "pclmulqdq ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
@@ -1328,6 +1369,24 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
     if (is_avx_supported() && struc_ext_supported) {
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 16)), "avx512f ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 17)), "avx512dq ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 19)), "adx ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 21)), "avx512ifma ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 26)), "avx512pf ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 27)), "avx512er ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 28)), "avx512cd ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 30)), "avx512bw ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 31)), "avx512vl ");
+
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 1)), "avx512vbmi ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 6)), "avx512_vbmi2 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 8)), "gfni ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 9)), "vaes ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 10)), "vpclmulqdq ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 11)), "avx512_vnni ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 12)), "avx512_bitalg ");
+		FEATURE_TEST(struc_ext_supported, (struc_ecx & (1 << 14)), "avx512_vpopcntdq ");
     }
 
     if (intel_supported) {
@@ -1425,7 +1484,7 @@ int get_processor_info(
     );
 #else
     int family = 0, model = 0, stepping = 0;
-    get_processor_version(family, model, stepping);    
+    get_processor_version(family, model, stepping);
     snprintf(p_model, p_model_size,
         "%s [Family %d Model %d Stepping %d]",
         processor_name, family, model, stepping
@@ -1490,7 +1549,6 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
 
     return iRetVal;
 }
-
 
 // see if Virtualbox is installed
 //
@@ -1608,16 +1666,19 @@ int HOST_INFO::get_host_info(bool init) {
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
 #ifdef _WIN64
-    if (!cc_config.dont_use_wsl) {
-        OSVERSIONINFOEX osvi;
-        if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
-            get_wsl_information(wsl_available, wsls);
+    OSVERSIONINFOEX osvi;
+    if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
+        retval = get_wsl_information(wsl_distros);
+        if (retval) {
+            msg_printf(0, MSG_INTERNAL_ERROR,
+                "get_wsl_information(): %s", boincerror(retval)
+            );
         }
     }
 #endif
-    if (!cc_config.dont_use_vbox) {
-        get_virtualbox_version();
-    }
+
+    get_virtualbox_version();
+
     get_processor_info(
         p_vendor, sizeof(p_vendor),
         p_model, sizeof(p_model),

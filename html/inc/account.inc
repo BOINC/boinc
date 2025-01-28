@@ -31,7 +31,7 @@ function make_login_token($user) {
         $user->update("login_token_time=$now");
         return $user->login_token;
     }
-    $token = substr(random_string(), 0, 8);
+    $token = substr(random_string(), 0, 16);
     $user->update("login_token='$token', login_token_time=$now");
     return $token;
 }
@@ -156,7 +156,7 @@ function login_form($next_url) {
         passwd_visible_checkbox("passwd")
     );
     form_checkboxes(tra("Stay logged in"),
-        array(array("stay_logged_in", "", true)), 
+        array(array("stay_logged_in", "", true)),
         'tabindex="3"'
     );
     form_submit(tra("Log in"), 'tabindex="4"');

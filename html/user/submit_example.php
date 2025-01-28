@@ -38,9 +38,7 @@ require_once("../inc/submit_util.inc");
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
+display_errors();
 
 // hardwired app name for now
 define('APP_NAME', 'remote_test');
@@ -249,7 +247,7 @@ function form_to_request() {
     $req->app_name = APP_NAME;
     $req->batch_name = get_str('batch_name');
     $req->jobs = array();
-    
+
     $f = new StdClass;
     $f->source = $input_url;
     $f->mode = 'semilocal';
@@ -316,11 +314,12 @@ function handle_query_batch() {
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
     end_table();
+    echo "<p>";
     $url = boinc_get_output_files($req);
     show_button($url, "Get zipped output files");
+    echo "<p>";
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
-        echo "<br>";
         show_button(
             "submit_example.php?action=abort_batch_confirm&batch_id=$req->batch_id",
             "Abort batch"
@@ -328,14 +327,13 @@ function handle_query_batch() {
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
-        echo "<br>";
         show_button(
             "submit_example.php?action=retire_batch_confirm&batch_id=$req->batch_id",
             "Retire batch"
         );
         break;
     }
-    
+
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
@@ -367,7 +365,7 @@ function handle_query_batch() {
 }
 
 // show the details of a job, including links to see the output files
-// 
+//
 function handle_query_job() {
     global $project, $auth;
     $req = new StdClass;

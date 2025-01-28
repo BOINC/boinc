@@ -93,7 +93,7 @@ int setenv(const char *name, const char *value, int overwrite) {
         errno=ENOMEM;
         return -1;
     }
-    sprintf(buf,"%s=%s",name,value);
+    snprintf(buf, sizeof(buf),"%s=%s",name,value);
     rv=putenv(buf);
     // Yes, there is a potential memory leak here.  Some versions of operating
     // systems copy the string into the environment, others make the
@@ -143,9 +143,9 @@ int daemon(int nochdir, int noclose) {
         // setsid() failed
         return -1;
     }
- 
+
     // success
     return 0;
-}    
+}
 
 #endif /* !HAVE_DAEMON */

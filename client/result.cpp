@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -78,7 +78,6 @@ void RESULT::clear() {
     exit_status = 0;
     stderr_out.clear();
     suspended_via_gui = false;
-    coproc_missing = false;
     report_immediately = false;
     not_started = false;
     name_md5.clear();
@@ -352,7 +351,7 @@ static const char* cpu_string(double ncpus) {
     return (ncpus==1)?"CPU":"CPUs";
 }
 
-int RESULT::write_gui(MIOFILE& out) {
+int RESULT::write_gui(MIOFILE& out, bool check_resources) {
     out.printf(
         "<result>\n"
         "    <name>%s</name>\n"
@@ -389,7 +388,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
     if (report_immediately) out.printf("    <report_immediately/>\n");
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
-    if (coproc_missing) out.printf("    <coproc_missing/>\n");
+    if (resource_usage.missing_coproc) out.printf("    <coproc_missing/>\n");
     if (schedule_backoff > gstate.now) {
         out.printf("    <scheduler_wait/>\n");
         if (strlen(schedule_backoff_reason)) {
@@ -404,58 +403,57 @@ int RESULT::write_gui(MIOFILE& out) {
     if (atp) {
         atp->write_gui(out);
     }
-    if (!strlen(resources)) {
-        // only need to compute this string once
-        //
-        if (avp->gpu_usage.rsc_type) {
-            if (avp->gpu_usage.usage == 1) {
+    if (!strlen(resources) || check_resources) { // update resource string only when zero or when app_config is updated.
+        if (resource_usage.rsc_type) {
+            if (resource_usage.coproc_usage == 1) {
                 snprintf(resources, sizeof(resources),
                     "%.3g %s + 1 %s",
-                    avp->avg_ncpus,
-                    cpu_string(avp->avg_ncpus),
-                    rsc_name_long(avp->gpu_usage.rsc_type)
+                    resource_usage.avg_ncpus,
+                    cpu_string(resource_usage.avg_ncpus),
+                    rsc_name_long(resource_usage.rsc_type)
                 );
             } else {
                 snprintf(resources, sizeof(resources),
                     "%.3g %s + %.3g %ss",
-                    avp->avg_ncpus,
-                    cpu_string(avp->avg_ncpus),
-                    avp->gpu_usage.usage,
-                    rsc_name_long(avp->gpu_usage.rsc_type)
+                    resource_usage.avg_ncpus,
+                    cpu_string(resource_usage.avg_ncpus),
+                    resource_usage.coproc_usage,
+                    rsc_name_long(resource_usage.rsc_type)
                 );
             }
-        } else if (avp->missing_coproc) {
+        } else if (resource_usage.missing_coproc) {
             snprintf(resources, sizeof(resources),
                 "%.3g %s + %.12s GPU (missing)",
-                avp->avg_ncpus,
-                cpu_string(avp->avg_ncpus),
-                avp->missing_coproc_name
+                resource_usage.avg_ncpus,
+                cpu_string(resource_usage.avg_ncpus),
+                resource_usage.missing_coproc_name
             );
-        } else if (!project->non_cpu_intensive && (avp->avg_ncpus != 1)) {
+        } else if (!project->non_cpu_intensive && (resource_usage.avg_ncpus != 1)) {
             snprintf(resources, sizeof(resources),
                 "%.3g %s",
-                avp->avg_ncpus,
-                cpu_string(avp->avg_ncpus)
+                resource_usage.avg_ncpus,
+                cpu_string(resource_usage.avg_ncpus)
             );
         } else {
             safe_strcpy(resources, " ");
         }
     }
+    // update app version resources
     if (strlen(resources)>1) {
         char buf[256];
         safe_strcpy(buf, "");
         if (atp && atp->scheduler_state == CPU_SCHED_SCHEDULED) {
-            if (avp->gpu_usage.rsc_type) {
-                COPROC& cp = coprocs.coprocs[avp->gpu_usage.rsc_type];
+            if (resource_usage.rsc_type) {
+                COPROC& cp = coprocs.coprocs[resource_usage.rsc_type];
                 if (cp.count > 1) {
                     // if there are multiple GPUs of this type,
                     // show the user which one(s) are being used
                     //
-                    int n = (int)ceil(avp->gpu_usage.usage);
+                    int n = (int)ceil(resource_usage.coproc_usage);
                     safe_strcpy(buf, n>1?" (devices ":" (device ");
                     for (int i=0; i<n; i++) {
                         char buf2[256];
-                        sprintf(buf2, "%d", cp.device_nums[coproc_indices[i]]);
+                        snprintf(buf2, sizeof(buf2), "%d", cp.device_nums[coproc_indices[i]]);
                         if (i > 0) {
                             safe_strcat(buf, ", ");
                         }
@@ -592,7 +590,7 @@ bool RESULT::runnable() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
     if (state() != RESULT_FILES_DOWNLOADED) return false;
-    if (coproc_missing) return false;
+    if (resource_usage.missing_coproc) return false;
     if (schedule_backoff > gstate.now) return false;
     if (avp->needs_network && gstate.file_xfers_suspended) {
         // check file_xfers_suspended rather than network_suspended;
@@ -619,7 +617,7 @@ bool RESULT::nearly_runnable() {
     default:
         return false;
     }
-    if (coproc_missing) return false;
+    if (resource_usage.missing_coproc) return false;
     if (schedule_backoff > gstate.now) return false;
     return true;
 }
@@ -636,7 +634,7 @@ bool RESULT::downloading() {
 }
 
 double RESULT::estimated_runtime_uncorrected() {
-    return wup->rsc_fpops_est/avp->flops;
+    return wup->rsc_fpops_est/resource_usage.flops;
 }
 
 // estimate how long a result will take on this host
@@ -652,7 +650,8 @@ double RESULT::estimated_runtime() {
 double RESULT::estimated_runtime_remaining() {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
-    if (app->non_cpu_intensive) {
+    if (non_cpu_intensive()) {
+        // the following is questionable
         if (atp && atp->fraction_done>0) {
             double est_dur = atp->fraction_done_elapsed_time / atp->fraction_done;
             double x = est_dur - atp->elapsed_time;
@@ -661,10 +660,11 @@ double RESULT::estimated_runtime_remaining() {
         }
         return 0;
     }
+    if (sporadic()) return 0;
 
     if (atp) {
 #ifdef SIM
-        return sim_flops_left/avp->flops;
+        return sim_flops_left/resource_usage.flops;
 #else
         return atp->est_dur() - atp->elapsed_time;
 #endif

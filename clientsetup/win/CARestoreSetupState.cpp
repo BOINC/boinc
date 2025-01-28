@@ -27,10 +27,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARestoreSetupState::CARestoreSetupState(MSIHANDLE hMSIHandle) :
@@ -39,10 +39,10 @@ CARestoreSetupState::CARestoreSetupState(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CARestoreSetupState::~CARestoreSetupState()
@@ -52,10 +52,10 @@ CARestoreSetupState::~CARestoreSetupState()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CARestoreSetupState::OnExecution()
@@ -171,11 +171,14 @@ UINT CARestoreSetupState::OnExecution()
         if (strOverrideEnableUseByAllUsers.empty()) {
             if (_T("1") == strEnableUseByAllUsers) {
                 SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("1") );
+                SetProperty(_T("ALLUSERS"), _T("1"));
             } else {
                 SetProperty( _T("ENABLEUSEBYALLUSERS"), _T("") );
+                SetProperty(_T("ALLUSERS"), _T(""));
             }
         } else {
             SetProperty( _T("ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
+            SetProperty(_T("ALLUSERS"), strOverrideEnableUseByAllUsers);
         }
     }
 
@@ -194,15 +197,19 @@ UINT CARestoreSetupState::OnExecution()
         SetProperty( _T("DATADIR"), strDataDirectory );
     }
 
+    // Check if we are upgrading
+    if (IsUpgrading()) {
+        SetProperty(_T("IS_MAJOR_UPGRADE"), _T("Yes"));
+    }
     return ERROR_SUCCESS;
 }
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RestoreSetupState
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall RestoreSetupState(MSIHANDLE hInstall)

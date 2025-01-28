@@ -27,11 +27,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PackageInfoFlags
 import android.content.res.Configuration
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -49,6 +51,7 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem
+import edu.berkeley.boinc.attach.AboutActivity
 import edu.berkeley.boinc.attach.AttachAccountManagerActivity
 import edu.berkeley.boinc.attach.SelectionListActivity
 import edu.berkeley.boinc.client.ClientStatus
@@ -269,22 +272,7 @@ class BOINCActivity : AppCompatActivity() {
                 }
                 R.string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/wiki/BOINC_Help".toUri()))
                 R.string.menu_report_issue -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/trac/wiki/ReportBugs".toUri()))
-                R.string.menu_about -> {
-                    val dialog = Dialog(this).apply {
-                        requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        setContentView(R.layout.dialog_about)
-                    }
-                    val returnB = dialog.findViewById<Button>(R.id.returnB)
-                    val tvVersion = dialog.findViewById<TextView>(R.id.version)
-                    try {
-                        tvVersion.text = getString(R.string.about_version,
-                                packageManager.getPackageInfo(packageName, 0).versionName)
-                    } catch (e: PackageManager.NameNotFoundException) {
-                            Logging.logWarning(Logging.Category.USER_ACTION, "version name not found.")
-                    }
-                    returnB.setOnClickListener { dialog.dismiss() }
-                    dialog.show()
-                }
+                R.string.menu_about -> startActivity(Intent(this, AboutActivity::class.java))
                 R.string.menu_eventlog -> startActivity(Intent(this, EventLogActivity::class.java))
                 R.string.projects_add -> startActivity(Intent(this, SelectionListActivity::class.java))
                 R.string.attachproject_acctmgr_header -> startActivity(Intent(this, AttachAccountManagerActivity::class.java))

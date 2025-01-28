@@ -1,3 +1,20 @@
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2023 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 name: 'Test Report'
 on:
   workflow_run:
@@ -9,10 +26,17 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-    - uses: dorny/test-reporter@v1
-      with:
-        artifact: /(.*)_tests_results/ # artifact name
-        name: $1 Tests Report          # Name of the check run which will be created
-        path: '*.xml'                  # Path to test results (inside artifact .zip)
-        reporter: java-junit
-        fail-on-error: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Download artifacts
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          github-token: ${{ secrets.ACTIONS_TEST_REPORT_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          path: test-reports
+          pattern: '*_tests_results'
+      - uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5
+        with:
+          name: 'Tests Report'
+          path: 'test-reports/**/*.xml'
+          reporter: java-junit
+          fail-on-error: false

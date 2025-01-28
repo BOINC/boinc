@@ -67,7 +67,7 @@ $main_query = $q->get_select_query($entries_to_show, $start_at);
 $html_text=str_replace('<', '&lt;', str_replace('>', '&gt;', $main_query));
 
 echo "<p>Query: <b>$html_text</b><p>\n";
-    
+
 $start_1_offset = $start_at + 1;
 echo "
     <p>$count records match the query.
@@ -228,5 +228,4 @@ if ($result) {
 }
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

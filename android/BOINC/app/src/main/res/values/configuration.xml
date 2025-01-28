@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2022 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -51,6 +51,7 @@
     <bool name="prefs_power_source_wireless">true</bool>
     <bool name="prefs_stationary_device_mode">false</bool>
     <bool name="prefs_suspend_when_screen_on">true</bool>
+    <bool name="prefs_default_expand_wu_data">false</bool>
     <!-- Monitor behavior -->
     <integer name="status_update_interval_ms">1000</integer>
     <integer name="device_status_update_screen_off_every_X_loop">10

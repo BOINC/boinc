@@ -27,10 +27,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAValidateInstall::CAValidateInstall(MSIHANDLE hMSIHandle) :
@@ -39,10 +39,10 @@ CAValidateInstall::CAValidateInstall(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CAValidateInstall::~CAValidateInstall()
@@ -52,10 +52,10 @@ CAValidateInstall::~CAValidateInstall()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CAValidateInstall::OnExecution()
@@ -92,7 +92,7 @@ UINT CAValidateInstall::OnExecution()
     {
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
-    
+
     uiReturnValue = GetComponentKeyFilename( _T("_BOINCCMD"), strFilename );
     if ( uiReturnValue ) return uiReturnValue;
 
@@ -101,7 +101,7 @@ UINT CAValidateInstall::OnExecution()
     {
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
-    
+
     uiReturnValue = GetComponentKeyFilename( _T("_BOINCTray"), strFilename );
     if ( uiReturnValue ) return uiReturnValue;
 
@@ -117,10 +117,10 @@ UINT CAValidateInstall::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDesiredVersion )
@@ -143,7 +143,7 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
 
 
     _sntprintf(
-        szMessage, 
+        szMessage,
         sizeof(szMessage),
         _T("Validating Executable: '%s' Version: '%s'"),
         strExecutable.c_str(),
@@ -151,7 +151,7 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
     );
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
@@ -167,7 +167,7 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
         if(GetFileVersionInfo(strExecutable.c_str(), dwHandle, dwSize, lpData)) {
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -180,7 +180,7 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
 
             // Version specified as part of the root record.
             if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&pFileInfo, &uiVarSize)) {
-                _sntprintf(szVersionInfo, sizeof(szVersionInfo), _T("%d.%d.%d.%d"), 
+                _sntprintf(szVersionInfo, sizeof(szVersionInfo), _T("%d.%d.%d.%d"),
                     HIWORD(pFileInfo->dwFileVersionMS),
                     LOWORD(pFileInfo->dwFileVersionMS),
                     HIWORD(pFileInfo->dwFileVersionLS),
@@ -201,14 +201,14 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
             }
 
             _sntprintf(
-                szMessage, 
+                szMessage,
                 sizeof(szMessage),
                 _T("Product Version: '%s'"),
                 szProductVersion
             );
             LogMessage(
                 INSTALLMESSAGE_INFO,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -226,10 +226,10 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    ValidateInstall
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT __stdcall ValidateInstall(MSIHANDLE hInstall)

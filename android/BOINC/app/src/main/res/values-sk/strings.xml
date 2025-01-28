@@ -33,6 +33,7 @@
   <string name="attachproject_hint_contribtion_header">Ako pomôcť:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Pripojiť k WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Pripojte nabíjačku</string>
+  <string name="attachproject_hint_contribtion_app">3. Spustite BOINC a nechajte ho otvorený</string>
   <string name="attachproject_hint_contribtion_screen">4. Vypnite obrazovku</string>
   <string name="attachproject_hint_projectwebsite_header">Navštívte stránky projektov na:</string>
   <string name="attachproject_hint_projectwebsite_science">Zistiť viac o vede</string>
@@ -46,15 +47,17 @@
   <string name="attachproject_login_header_description">Popis:</string>
   <string name="attachproject_login_header_home">Domovská stránka:</string>
   <string name="attachproject_login_header_url">Stránka:</string>
-  <string name="attachproject_login_header_id_email">e-mail</string>
+  <string name="attachproject_login_header_id_email">E-mailová adresa:</string>
   <string name="attachproject_login_header_id_name">Meno:</string>
   <string name="attachproject_login_header_pwd">Heslo:</string>
   <string name="attachproject_login_button_registration">Registrácia</string>
   <string name="attachproject_login_button_login">Prihlásiť sa</string>
   <string name="attachproject_login_button_forgotpw">Zabudnuté heslo</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Použiť správcu účtu BOINC na spravovanie viacerých projektov</string>
+  <string name="attachproject_acctmgr_list_desc">Použiť správcu konta na ovládanie tohto zariadenia  </string>
   <string name="attachproject_acctmgr_header">Použiť Správcu konta</string>
+  <string name="attachproject_attach_projects_header">Pridať projekty</string>
+  <string name="attachproject_attach_projects_desc">Pridať projekty zo zoznamu projektov</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Používateľ:</string>
   <string name="attachproject_acctmgr_header_pwd">Heslo:</string>
@@ -63,14 +66,14 @@
   <string name="attachproject_error_short_pwd">Heslo je príliš krátke</string>
   <string name="attachproject_error_no_internet">Pripojenie zlyhalo</string>
   <string name="attachproject_error_no_url">Prosím zadajte URL</string>
-  <string name="attachproject_error_no_email">Prosím zadajte e-mailovú adresu</string>
+  <string name="attachproject_error_no_email">Prosím zadajte emailovú adresu</string>
   <string name="attachproject_error_no_pwd">Prosím zadajte heslo</string>
   <string name="attachproject_error_no_name">Prosím zadajte používateľské meno</string>
   <string name="attachproject_error_unknown">zlyhalo</string>
   <string name="attachproject_error_bad_username">Používateľské meno bolo odmietnuté</string>
   <string name="attachproject_error_email_in_use">Emailová adresa sa už používa</string>
   <string name="attachproject_error_project_down">Projekt je offline</string>
-  <string name="attachproject_error_email_bad_syntax">Emailová adresa bola odmietnutá</string>
+  <string name="attachproject_error_email_bad_syntax">Emailová adresa odmietnutá</string>
   <string name="attachproject_error_bad_pwd">Heslo bolo odmietnuté</string>
   <string name="attachproject_error_creation_disabled">Vytváranie účtov na tomto projekte je pozastavené</string>
   <string name="attachproject_error_invalid_url">Neplatná URL</string>
@@ -103,6 +106,7 @@
   <string name="prefs_category_memory">Pamäť</string>
   <string name="prefs_category_other">Ostatné</string>
   <string name="prefs_category_debug">Ladenie</string>
+  <string name="prefs_category_remote">Diaľkové ovládanie</string>
   <string name="prefs_show_advanced_header">Zobraziť pokročilé nastavenia a ovládania</string>
   <string name="prefs_suspend_when_screen_on">Pozastaviť výpočty keď je obrazovka zapnutá</string>
   <string name="prefs_general_device_name_header">Názov zariadenia</string>
@@ -123,7 +127,10 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">Denný limit prenosov (Dni)</string>
   <string name="prefs_network_wifi_only_header">Prenos úloh len pri pripojení k WiFi</string>
   <string name="prefs_autostart_header">Automatický štart</string>
-  <string name="prefs_show_notification_notices_header">Zobraziť upozornenia pri nových správach</string>
+  <string name="prefs_remote_header">Zapnúť diaľkové ovládanie</string>
+  <string name="prefs_remote_summary">Ak bude zmenené, klient BOINC bude reštartovaný.</string>
+  <string name="prefs_show_notification_notices_header">Zobraziť oznamy pri nových správach</string>
+  <string name="prefs_show_notification_suspended_header">Zobraziť upozornenie pri pozastavení</string>
   <string name="prefs_cpu_number_cpus_header">Používané jadrá procesoru</string>
   <string name="prefs_cpu_number_cpus_description">Obmedzí počet jadier procesoru ktoré BOINC používa pri výpočtoch</string>
   <string name="prefs_cpu_other_load_suspension_header">Pozastaviť pri využití procesoru nad (%)</string>
@@ -133,7 +140,12 @@
   <string name="prefs_memory_max_idle_header">Limit pamäte RAM (%)</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Zásoba pracovných úloh (dni)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočná zásoba pracovných úloh (dni)</string>
+  <string name="prefs_remote_authentication_key">kľúč autentifikácie pre GUI</string>
+  <string name="prefs_remote_authentication_key_input_hint">Autentifikačný kľúč</string>
+  <string name="prefs_remote_empty_password">Aktualizácia hesla zlyhala: hodnota nemôže byť prázdna</string>
+  <string name="prefs_remote_boinc_relaunched">Klient BOINC bude reštartovaný po zmene hesla.</string>
   <string name="prefs_client_log_flags_header">Nastavenia zaznamenávania BOINC klienta</string>
+  <string name="prefs_gui_log_categories">logovacie kategórie grafického rozhrania BOINC</string>
   <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
   <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>
   <string name="prefs_theme_light">Svetlá</string>
@@ -144,6 +156,8 @@
   <string name="projects_icon">Ikona projektu</string>
   <string name="projects_credits">Kredit:</string>
   <string name="projects_credits_host_and_user">%1$,d (na tomto zariadení) %2$,d (celkom)</string>
+  <string name="projects_disk_usage">Využitie disku:</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Pozastavené používateľom</string>
   <string name="projects_status_dontrequestmorework">Nebudú získané nové úlohy</string>
@@ -152,7 +166,7 @@
   <string name="projects_status_schedrpcpending">Žiadosť plánovača nevyriešená</string>
   <string name="projects_status_schedrpcinprogress">Spracováva sa požiadavka plánovača</string>
   <string name="projects_status_trickleuppending">Rýchla správa o stave čaká na odoslanie</string>
-  <string name="projects_status_backoff">Komunikácia naplánovaná o: %1$s</string>  
+  <string name="projects_status_backoff">Komunikácia naplánovaná o: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Príkazy projektu:</string>
   <string name="projects_control_visit_website">Navštíviť stránku</string>
@@ -232,7 +246,7 @@
   <string name="suspend_os">Zastavené Androidom.</string>
   <string name="suspend_wifi">Nepripojené k WiFi.</string>
   <string name="suspend_battery_charging">Čakanie na nabitie batérie.</string>
-  <string name="suspend_battery_charging_long">Výpočty sa obnovia, keď nabitie batérie dosiahne %1$d%% (teraz je %2$d%%)</string>
+  <string name="suspend_battery_charging_long">Počítanie bude obnovené ak nabitie batérie dosiahne %1$d%% (teraz %2$d%%)</string>
   <string name="suspend_battery_overheating">Čakanie na ochladenie batérie</string>
   <string name="suspend_user_req">Obnovovanie výpočtov...</string>
   <!--rpc reasons-->
@@ -255,7 +269,6 @@
   <string name="menu_help">Pomoc</string>
   <string name="menu_report_issue">Nahlásiť problém</string>
   <!--about dialog-->
-  <string name="about_button">Návrat</string>
   <string name="about_title">O</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Verzia %1$s</string>
@@ -271,18 +284,40 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Bola nájdená aplikácia na dobrovoľnícke výpočty</string>
-  <string name="nonexcl_dialog_text">Na tomto zariadení už beží iná výpočtová aplikácia. Naraz môže bežať len jedna verzia.</string>
+  <string name="nonexcl_dialog_text">Na tomto zariadení už beží iná dobrovoľnícka výpočtová aplikácia. Naraz môže bežať len jedna verzia.</string>
   <string name="nonexcl_dialog_exit">Ukončiť</string>
   <!--social integration-->
   <string name="social_invite_button">Pozvať priateľov</string>
   <string name="social_invite_intent_title">Akým spôsobom chcete zdieľať?</string>
   <string name="social_invite_content_title">Riešim vedu na mojom smartfóne!</string>
-  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty! Stiahni si aplikáciu z: %2$s</string>
+  <string name="social_invite_content_body">Používam môj %1$s na výpočty pre vedu. Môžeš aj ty! Stiahni si aplikáciu z: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Zobrazí upozornenia iné ako oznamy.</string>
   <string name="notice_notification_channel_name">Oznamy</string>
   <string name="notice_notification_channel_description">Zobrazí oznamy z vašich projektov.</string>
+  <!--Xiaomi specific strings-->
+  <string name="terms_of_use_content_first">Vitajte v Xiaomi Mall! Aby sme dokázali poskytnúť vysoko kvalitný zážitok z nakupovania,
+        Mi Mall aplikácia potrebuje byť pripojená na internet a používať vaše informácie o polohe na overenie zoznamu produktov,
+        optimalizovanie doručovacích služieb a personalizáciu odporúčaní produktov. Máte právo odmietnuť alebo zrušiť túto autorizáciu.</string>
+  <string name="terms_of_use_content_second">Pred používaním aplikácie si prosím pozorne prečítajte \"Súhlas užívateľa\" 
+        a \"Zásady ochrany osobných údajov\" Xiaomi Mall-u, oboznámte sa s vašimi užívateľskými právami a so spracovaním vašich dát.
+        Ak súhlasíte s obsahom vyššie uvedeného súhlasu, prosím kliknite \"Súhlasím\" na začatie používania našich produktov a služieb.
+        Budeme chrániť vaše osobné informácie pomocou jednej z najlepších bezpečnostných technológií. Ďakujeme za vašu dôveru v Xiaomi Mall.</string>
+  <string name="terms_of_use_content_user_agreement">Súhlas užívateľa: https://www.mi.com/about/user-agreement</string>
+  <string name="terms_of_use_content_privacy_policy">Zásady ochrany osobných údajov: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="welcome_content_first">Milí Mi fanúšikovia, dobrý deň, Da Jia Hao!</string>
+  <string name="welcome_content_second">Som David, zakladateľ Boincu. Boinc je open-source softwarová platforma pre výpočty využívajúce dobrovoľné zdroje.</string>
+  <string name="welcome_content_third">Chcel by som poďakovať pánovi Lei Jun a Xiaomi a zdieľať s vami dobré správy:
+        Mi 11 sa stane mobilným výpočtovým zariadením, ktoré je oficiálne certifikované Boincom!</string>
+  <string name="welcome_content_fourth">So vstavaným Qualcomm Snapdragon 888 sa Mi 11 pýši úžasnou výpočtovou silou.
+        Dokáže veľmi rýchlo spracovať úlohy a zabezpečiť pomoc výskumným združeniam po celom svete.</string>
+  <string name="welcome_content_fifth">Chcel by som poďakovať všetkým Xiaomi inžinierom, ktorí prispeli k Boinc projektu.
+        Povzbudzujem všetkých Mi fanúšikov, aby si stiahli Boinc na svoje telefóny a prispeli kúskom svojho výkonu, kým sa váš telefón nepoužíva.</string>
+  <string name="welcome_content_sixth">V neposlednom rade, mojim čínskym kamarátom - Šťastný Nový rok! Xin Nian Kuai Le!</string>
+  <string name="agree_button">Súhlasím</string>
+  <string name="prefs_expand_wu_data">Vždy rozbaliť informácie o úlohe</string>
 </resources>

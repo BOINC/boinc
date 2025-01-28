@@ -51,6 +51,7 @@
 #include <unistd.h>
 #include <climits>
 #include <cmath>
+#include <ctime>
 #include <vector>
 #include <cstdlib>
 #include <string>
@@ -751,7 +752,7 @@ leave:
     }
 
     wu.need_validate = 0;
-    
+
     if (dry_run) {
         log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
     } else {
@@ -847,7 +848,7 @@ void usage(char* name) {
     fprintf(stderr,
         "This program is a 'validator'; it handles completed tasks.\n"
         "Normally it is run as a daemon from config.xml.\n"
-        "See: https://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
+        "See: https://github.com/BOINC/boinc/wiki/BackendPrograms\n\n"
     );
 
     fprintf(stderr, "usage: %s [options]\n"
@@ -864,7 +865,7 @@ void usage(char* name) {
         "    [--credit_from_wu]         Credit is specified in WU XML\n"
         "    [--credit_from_runtime X]  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
         "    [--no_credit]              Don't grant credit\n"
-        "    [--check_punitive]         Check failed results and reduce the daily quota to one.\n"  
+        "    [--check_punitive]         Check failed results and reduce the daily quota to one.\n"
         "    [--sleep_interval n]       Set sleep-interval to n\n"
         "    [--wu_id n]                Process WU with given ID\n"
         "    [-d level|--debug_level n] Set log verbosity level\n"
@@ -948,7 +949,7 @@ int main(int argc, char** argv) {
             "must use '--app' to specify an application\n"
         );
         usage(argv[0]);
-        exit(1);      
+        exit(1);
     }
 
     retval = config.parse_file();

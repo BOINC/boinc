@@ -55,20 +55,20 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
         // Restore mode from before screensaver
         m.mode = graphics_mode_before_ss;
     }
-    
+
     graphics_msg = m;       // save graphics_station, desktop, display
 
     safe_strcpy(buf, xml_graphics_modes[m.mode]);
     if (strlen(m.window_station)) {
-        sprintf(buf2, "<window_station>%s</window_station>", m.window_station);
+        snprintf(buf2, sizeof(buf2), "<window_station>%s</window_station>", m.window_station);
         strcat(buf, buf2);
     }
     if (strlen(m.desktop)) {
-        sprintf(buf2, "<desktop>%s</desktop>", m.desktop);
+        snprintf(buf2, sizeof(buf2), "<desktop>%s</desktop>", m.desktop);
         strcat(buf, buf2);
     }
     if (strlen(m.display)) {
-        sprintf(buf2, "<display>%s</display>", m.display);
+        snprintf(buf2, sizeof(buf2), "<display>%s</display>", m.display);
         strcat(buf, buf2);
     }
 

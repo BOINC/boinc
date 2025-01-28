@@ -64,7 +64,7 @@ if ($query_all_versions == "1") {
                 $valid_app_versions .= ", $av->id";
             }
         }
-        $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";  
+        $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";
         $query_order = "app_version_id DESC";
     } else {
         $limit_app_versions = "";
@@ -197,5 +197,4 @@ echo "</form>\n";
 
 admin_page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

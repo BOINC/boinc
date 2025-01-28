@@ -34,7 +34,7 @@ admin_page_head("BOINC Database Info");
 // if you have other db's just add more get_db_info lines
 $db_rec = get_db_info($db_name);
 
-// show_db_info($db_name, $db_rec); 
+// show_db_info($db_name, $db_rec);
 sort_db_info($db_name, $db_rec);
 
 admin_page_tail();
@@ -48,11 +48,11 @@ function size_format($size){
     $MB = 1024*1024;
     $GB = 1024*1024*1024;
 	$TB = 1024*1024*1024*1024;
-	
+
     if ($size < $KB) {
 	    $retval = $size;
     } elseif (($size > $KB) && ($size < $MB)) {
-		$retval = sprintf("%.0fK", ($size / $KB));    
+		$retval = sprintf("%.0fK", ($size / $KB));
     } elseif ( ($size >= $MB) && ($size < $GB)) {
 		$retval = sprintf("%.2fMB", ($size / $MB));
     } elseif ( ($size >= $GB) && ($size < $TB)) {
@@ -65,16 +65,16 @@ function size_format($size){
 
 
 // returns the DB data structure as DB_REC
-function get_db_info($db_name) 
-{
-	// Carl grabbed this from the mysql.com boards http://dev.mysql.com/doc/refman/5.0/en/show-table-status.html  
+// see http://dev.mysql.com/doc/refman/5.0/en/show-table-status.html
+//
+function get_db_info($db_name) {
     $result = _mysql_query("SHOW TABLE STATUS FROM $db_name");
 
     // SQL output
     // mysql> show table status from [table_name];
-    // | Name | Engine | Version | Row_format | Rows    
-	// | Avg_row_length | Data_length | Max_data_length  
-	// | Index_length | Data_free  | Auto_increment | Create_time         
+    // | Name | Engine | Version | Row_format | Rows
+	// | Avg_row_length | Data_length | Max_data_length
+	// | Index_length | Data_free  | Auto_increment | Create_time
 	// | Update_time | Check_time | Collation | Checksum | Create_options | Comment |
     //
 
@@ -85,29 +85,33 @@ function get_db_info($db_name)
 
 	$i = 0;
 	$db_rec = array();
-	while($myarr = _mysql_fetch_assoc($result)) {
+	while ($myarr = _mysql_fetch_assoc($result)) {
+        if ($myarr['Comment'] == 'VIEW') continue;
 
 		// sum grand totals
 		$total  =  $myarr["Data_length"] + $myarr["Index_length"];
 		$gindex += $myarr["Index_length"];
         $gdata  += $myarr["Data_length"];
-		$grows  += $myarr["Rows"]; 
+		$grows  += $myarr["Rows"];
 		$gtotal += $total;
- 
-	    $db_rec[$i] = new DB_REC ($myarr["Name"], $myarr["Data_length"], $myarr["Index_length"], $total, $myarr["Rows"], $myarr["Avg_row_length"] );	
+
+	    $db_rec[$i] = new DB_REC(
+            $myarr["Name"],
+            $myarr["Data_length"],
+            $myarr["Index_length"],
+            $total,
+            $myarr["Rows"],
+            $myarr["Avg_row_length"]
+        );
 		$i++;
 	}
-
-    $db_rec[$i] = new DB_REC ("Total", $gdata, $gindex, $gtotal, $grows, "" );	
-
+    $db_rec[$i] = new DB_REC ("Total", $gdata, $gindex, $gtotal, $grows, "" );
 	return $db_rec;
 }
 
-
-// shows the plain db structure
-function show_db_info($db_name, $db_rec) 
-{ 
-
+// show the DB structure
+//
+function show_db_info($db_name, $db_rec) {
 	echo "<table cols=6>";
 	echo "<tr>";
 	echo "<th colspan=6> Database $db_name </th>";
@@ -122,7 +126,7 @@ function show_db_info($db_name, $db_rec)
 	echo "<th>Avg. Size per Row</th>";
 	echo "</tr>";
 
-	for ($i = 0; $i < sizeof($db_rec)-1; $i++){ 
+	for ($i = 0; $i < sizeof($db_rec)-1; $i++){
 		echo "<tr>";
 		echo "<td align=left valign=top class=fieldname>" . $db_rec[$i]->name . "</td>";
 		echo "<td align=left valign=top class=fieldname>" . size_format($db_rec[$i]->data_size)  . "</td>";
@@ -143,35 +147,32 @@ function show_db_info($db_name, $db_rec)
     echo "<th align=left>" . number_format($db_rec[$i]->rows)     . "</th>";
     echo "<th align=left></th>";
 	echo "</tr>";
-
     echo "</table>";
 }
 
-
-
-// NB: same as show_db_info but with sortable cloumns
-function sort_db_info($db_name, $db_rec) 
-{ 
-	// sort 
+// same as show_db_info but with sortable columns
+//
+function sort_db_info($db_name, $db_rec) {
 	$file_list = array();
     $file_sort = array();
 
 	$sort =  get_str("sort", true);
 	$r = get_str("r", true);
 
-	// check if its empty
-	if(empty($sort)) $sort = "name";
-	// check for allowed keys 
-	if ((strcmp($sort, "name")!=0) && 
-		(strcmp($sort, "data_size")!=0) && 
-		(strcmp($sort, "index_size")!=0) && 
-		(strcmp($sort, "total_size")!=0)  && 
-		(strcmp($sort, "rows")!=0) && 
-		(strcmp($sort, "size_per_row")!=0)) 
+	if (empty($sort)) $sort = "name";
+	// check for allowed keys
+	if ((strcmp($sort, "name")!=0) &&
+		(strcmp($sort, "data_size")!=0) &&
+		(strcmp($sort, "index_size")!=0) &&
+		(strcmp($sort, "total_size")!=0)  &&
+		(strcmp($sort, "rows")!=0) &&
+		(strcmp($sort, "size_per_row")!=0)
+    ) {
 		$sort = "name";
-	if(empty($r)) $r=0;
+    }
+	if (empty($r)) $r=0;
 
-	for ($i = 0; $i < sizeof($db_rec)-1; $i++){
+	for ($i=0; $i < sizeof($db_rec)-1; $i++){
 		$file_details["name"]         = $db_rec[$i]->name;
 		$file_details["data_size"]    = $db_rec[$i]->data_size;
 		$file_details["index_size"]   = $db_rec[$i]->index_size;
@@ -183,10 +184,12 @@ function sort_db_info($db_name, $db_rec)
 		$key = strtolower($file_details[$sort]);
 		$file_sort[$i] = $key;
 	}
-	
-	if($r)arsort($file_sort);
-    else  asort($file_sort);
-	// -- end sort 
+
+	if ($r) {
+        arsort($file_sort);
+    } else {
+        asort($file_sort);
+    }
 
 	echo "<table cols=6>";
 	echo "<tr>";
@@ -202,10 +205,10 @@ function sort_db_info($db_name, $db_rec)
 	echo "<th><a href='dbinfo.php?sort=size_per_row&r=" . (!$r) . "'>Avg. Size per Row</a></th>";
 	echo "</tr>";
 
-	$i = 0;
-	while ( list($key, $value) = each($file_sort) ) {
+    foreach ($file_sort as $key=>$value) {
 		$value = $file_list[$key];
-		echo "<tr>"; 
+
+		echo "<tr>";
 		echo "<td align=left valign=top class=fieldname>" . $value["name"] . "</td>";
 		echo "<td align=left valign=top class=fieldname>" . size_format($value["data_size"])  . "</td>";
 		echo "<td align=left valign=top class=fieldname>" . size_format($value["index_size"]) . "</td>";
@@ -213,10 +216,9 @@ function sort_db_info($db_name, $db_rec)
         echo "<td align=left valign=top class=fieldname>" . number_format($value["rows"])     . "</td>";
         echo "<td align=left valign=top class=fieldname>" . size_format($value["size_per_row"]) . "</td>";
 		echo "</tr>";
-		$i++;
 	}
 
-	// Last record is just a summary
+	// Last record is a summary
 	$i = sizeof($db_rec)-1;
 	echo "<tr>";
     echo "<th align=left>" . $db_rec[$i]->name . "</th>";
@@ -229,6 +231,5 @@ function sort_db_info($db_name, $db_rec)
 
     echo "</table>";
 }
-
 
 ?>

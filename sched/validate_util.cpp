@@ -44,16 +44,19 @@ bool standalone = false;
 ////////// functions for locating output files ///////////////
 
 int OUTPUT_FILE_INFO::parse(XML_PARSER& xp) {
-    bool found=false;
     optional = false;
     no_validate = false;
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/file_ref")) {
-            return found?0:ERR_XML_PARSE;
+            if (phys_name.empty()) return ERR_XML_PARSE;
+            if (logical_name.empty()) return ERR_XML_PARSE;
+            return 0;
         }
-        if (xp.parse_string("file_name", name)) {
-            found = true;
+        if (xp.parse_string("file_name", phys_name)) {
+            continue;
+        }
+        if (xp.parse_string("open_name", logical_name)) {
             continue;
         }
         if (xp.parse_bool("optional", optional)) continue;
@@ -72,15 +75,21 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("file_ref")) {
             int retval = fi.parse(xp);
-            if (retval) return retval;
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "get_output_file_info(): error parsing %s\n",
+                    result.xml_doc_in
+                );
+                return retval;
+            }
             if (standalone) {
-                safe_strcpy(path, fi.name.c_str());
-                if (!path_to_filename(fi.name, name)) {
-                    fi.name = name;
+                safe_strcpy(path, fi.phys_name.c_str());
+                if (!path_to_filename(fi.phys_name, name)) {
+                    fi.phys_name = name;
                 }
             } else {
                 dir_hier_path(
-                    fi.name.c_str(), config.upload_dir,
+                    fi.phys_name.c_str(), config.upload_dir,
                     config.uldl_dir_fanout, path
                 );
             }
@@ -103,15 +112,21 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
         if (xp.match_tag("file_ref")) {
             OUTPUT_FILE_INFO fi;
             int retval =  fi.parse(xp);
-            if (retval) return retval;
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "get_output_file_infos(): error parsing %s\n",
+                    result.xml_doc_in
+                );
+                return retval;
+            }
             if (standalone) {
-                safe_strcpy(path, fi.name.c_str());
-                if (!path_to_filename(fi.name, name)) {
-                    fi.name = name;
+                safe_strcpy(path, fi.phys_name.c_str());
+                if (!path_to_filename(fi.phys_name, name)) {
+                    fi.phys_name = name;
                 }
             } else {
                 dir_hier_path(
-                    fi.name.c_str(), config.upload_dir,
+                    fi.phys_name.c_str(), config.upload_dir,
                     config.uldl_dir_fanout, path
                 );
             }

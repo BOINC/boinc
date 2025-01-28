@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,7 +18,7 @@
 #ifndef BOINC_HOSTINFO_H
 #define BOINC_HOSTINFO_H
 
-// Description of a host's hardware and software.
+// struct HOST_INFO describes a host's hardware and software.
 // This is used a few places:
 // - it's part of the client's state file, client_state.xml
 // - it's passed in the reply to the get_host_info GUI RPC
@@ -38,6 +38,9 @@
 
 #define USER_IDLE_TIME_INF   86400
 
+// we use three ways of getting info about a Linux OS (name/version)
+// They all involve parsing some text.
+// Variants:
 enum LINUX_OS_INFO_PARSER {
     lsbrelease,
     osrelease,
@@ -48,9 +51,12 @@ const char command_lsbrelease[] = "/usr/bin/lsb_release -a 2>&1";
 const char file_osrelease[] = "/etc/os-release";
 const char file_redhatrelease[] = "/etc/redhat-release";
 
+extern const char* docker_cli_prog(DOCKER_TYPE type);
+extern const char* docker_type_str(DOCKER_TYPE type);
+
 // if you add fields, update clear_host_info()
 
-#define P_FEATURES_SIZE 1024
+#define P_FEATURES_SIZE 8192
 
 class HOST_INFO {
 public:
@@ -80,10 +86,14 @@ public:
     char os_name[256];
     char os_version[256];
 
-    // WSL information for Win10 only
-    bool wsl_available;
 #ifdef _WIN64
-    WSLS wsls;
+    // on Windows, Docker info is per WSL_DISTRO, not global
+    WSL_DISTROS wsl_distros;
+#else
+    char docker_version[256]; // null if not present
+    DOCKER_TYPE docker_type;
+    char docker_compose_version[256];
+    DOCKER_TYPE docker_compose_type;
 #endif
 
     char product_name[256];       // manufacturer and/or model of system
@@ -124,6 +134,13 @@ public:
     int get_host_battery_state();
     int get_local_network_info();
     int get_virtualbox_version();
+#ifndef _WIN64
+    // on Windows, Docker info is per WSL_DISTRO, not global
+    bool get_docker_version();
+    bool get_docker_version_aux(DOCKER_TYPE);
+    bool get_docker_compose_version();
+    bool get_docker_compose_version_aux(DOCKER_TYPE);
+#endif
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
     static bool parse_linux_os_info(
@@ -142,6 +159,12 @@ public:
         char* os_name, const int os_name_size, char* os_version,
         const int os_version_size
     );
+    static bool get_docker_version_string(
+        DOCKER_TYPE type, const char* raw, std::string& version
+    );
+    static bool get_docker_compose_version_string(
+        DOCKER_TYPE type, const char* raw, std::string& version
+    );
 #ifdef _WIN32
     void win_get_processor_info();
 #endif
@@ -149,8 +172,14 @@ public:
 
 extern void make_secure_random_string(char*);
 
+#ifdef _WIN32
+#ifndef SIM
+extern BOOL get_OSVERSIONINFO(OSVERSIONINFOEX& osvi);
+#endif
+#endif
+
 #ifdef _WIN64
-extern int get_wsl_information(bool& wsl_available, WSLS& wsls);
+extern int get_wsl_information(WSL_DISTROS &distros);
 extern int get_processor_group(HANDLE);
 #endif
 

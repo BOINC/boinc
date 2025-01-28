@@ -82,15 +82,26 @@ $signature_by_default = $user->prefs->no_signature_by_default==false?"checked=\"
 
 $signature=$user->prefs->signature;
 $maxlen=250;
+$x = '';
+if (!NO_COMPUTING) {
+    $x = tra(
+        "Check out %1 various free services %2 <br> providing dynamic 'signature images' <br> showing your latest credit info, project news, etc.",
+        '<a href=https://github.com/BOINC/boinc/wiki/WebResources>',
+        '</a>'
+    );
+}
 row2(
-    tra("Signature for message board posts")
-    .bbcode_info()
-    ."<br><br>"
-    .tra("Check out %1 various free services %2
-<br> providing dynamic 'signature images'
-<br> showing your latest credit info, project news, etc.", "<a href=https://boinc.berkeley.edu/links.php#sigs>", "</a>"),
-    textarea_with_counter("signature", 250, $signature)
-    ."<br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
+    sprintf(
+        'Signature for message board posts%s<br><br>%s',
+        bbcode_info(),
+        $x
+    ),
+    sprintf(
+        '%s <br><input type="checkbox" name="signature_by_default" %s> %s',
+        textarea_with_counter("signature", 250, $signature),
+        $signature_by_default,
+        tra("Attach signature by default")
+    )
 );
 if ($user->prefs->signature!=""){
     row2(tra("Signature preview").
@@ -103,7 +114,7 @@ if ($user->prefs->signature!=""){
 
 $forum_hide_avatars = $user->prefs->hide_avatars?"checked=\"checked\"":"";
 $forum_hide_signatures = $user->prefs->hide_signatures?"checked=\"checked\"":"";
-$forum_link_popup = $user->prefs->link_popup?"checked=\"checked\"":""; 
+$forum_link_popup = $user->prefs->link_popup?"checked=\"checked\"":"";
 $forum_image_as_link = $user->prefs->images_as_links?"checked=\"checked\"":"";
 $forum_jump_to_unread = $user->prefs->jump_to_unread?"checked=\"checked\"":"";
 $forum_ignore_sticky_posts = $user->prefs->ignore_sticky_posts?"checked=\"checked\"":"";
@@ -134,32 +145,59 @@ row2(tra("How to sort"),
 
 // ------------ Message filtering  -----------
 
-row1(tra("Message filtering"));
+row1(tra("Message blocking"));
 
-$filtered_userlist = get_ignored_list($user);
-$forum_filtered_userlist = "";
-for ($i=0; $i<sizeof($filtered_userlist); $i++){
-    $id = (int)$filtered_userlist[$i];
+// get list of blocked users
+//
+$blocked_users = get_ignored_list($user);
+$blocked_str = "";
+foreach ($blocked_users as $id) {
     if ($id) {
-        $filtered_user = BoincUser::lookup_id($id);
-        if (!$filtered_user) {
+        $blocked_user = BoincUser::lookup_id((int)$id);
+        if (!$blocked_user) {
             echo "Missing user $id";
             continue;
         }
-        $forum_filtered_userlist .= "<input class=\"btn btn-default\" type=\"submit\" name=\"remove".$filtered_user->id."\" value=\"".tra("Remove")."\"> ".$filtered_user->id." - ".user_links($filtered_user)."<br>";
+        $blocked_str .= sprintf(
+            '
+                %s %s
+                <input class="btn btn-default" type="submit" name="remove%d" value="%s">
+                <br>
+            ',
+            UNIQUE_USER_NAME?'':"$blocked_user->id -",
+            user_links($blocked_user),
+            $blocked_user->id,
+            tra("Unblock")
+        );
     }
 }
 
-row2(tra("Filtered users").
-    "<br><p class=\"text-muted\">".tra("Ignore message board posts and private messages from these users.")."</p>",
-    "$forum_filtered_userlist
-        <input type=\"text\" name=\"forum_filter_user\" size=12> ".tra("User ID (For instance: 123456789)")."
-        <p></p><input class=\"btn btn-default\" type=\"submit\" name=\"add_user_to_filter\" value=\"".tra("Add user to filter")."\">
-    "
+row2(
+    sprintf(
+        '%s<br><p class="text-muted">%s</p>',
+        tra("Blocked users"),
+        tra('Ignore message board posts and private messages from these users.')
+    ),
+    $blocked_str?$blocked_str:'---'
+);
+row2(
+    tra('Block user'),
+    sprintf(
+        '
+            %s
+            <input type="text" name="forum_filter_user" size=12>
+            <input class="btn btn-default" type="submit" name="add_user_to_filter" value="%s">
+        ',
+        UNIQUE_USER_NAME?tra('User name'):tra('User ID (For instance: 123456789)'),
+        tra("Block")
+    )
 );
 
 row1(tra("Update"));
-row2(tra("Click here to update preferences"), "<input class=\"btn btn-success\" type=submit value=\"".tra("Update")."\">");
+row2(
+    tra("Click here to update preferences"),
+    "<input class=\"btn btn-success\" type=submit value=\"".tra("Update")."\">"
+);
 echo "</form>\n";
 row1(tra("Reset"));
 row2(tra("Or click here to reset preferences to the defaults"),
@@ -168,5 +206,4 @@ row2(tra("Or click here to reset preferences to the defaults"),
 end_table();
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

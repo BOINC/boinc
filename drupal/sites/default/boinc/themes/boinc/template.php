@@ -216,7 +216,7 @@ function boinc_preprocess_page(&$vars, $hook) {
   // "head_title" which is placed in the HTML <head> section. Most of
   // these pages are defined in the Page Manager module.
   // See: https://dev.gridrepublic.org/browse/DBOINC-65
-  if (arg(0) == 'search') { 
+  if (arg(0) == 'search') {
     unset($vars['title']);
   }
   else if ( (arg(0)=='account') AND (is_numeric(arg(1))) AND (empty(arg(2))) ) {
@@ -326,19 +326,19 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   // Get the author of the node
   $account = user_load($vars['uid']);
   $comments_per_page = ($user->comments_per_page) ? $user->comments_per_page : variable_get("comment_default_per_page_{$vars['node']->type}", 50);
-  
+
   // Add signature
   $vars['signature'] = check_markup($account->signature, $vars['node']->format);
-  
+
   // Show signatures based on user preference
   $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
-  
+
   // Expose comment sort order so that the template can put the topic node
   // content (i.e. initial post) at the very end if "Newest post first" is the
   // preference used by this user
   $vars['oldest_post_first'] = ($user->sort != 1) ? TRUE : FALSE;
   $vars['node']->comment = 0;
-  
+
   $vars['first_page'] = (!isset($_GET['page']) OR ($_GET['page'] < 1));
   $page_count = max(ceil($vars['comment_count'] / $comments_per_page), 1);
   $vars['last_page'] = ($page_count == 1 OR ($page_count > 1 AND $_GET['page'] == $page_count - 1));
@@ -361,7 +361,7 @@ function boinc_preprocess_node_team_forum(&$vars, $hook) {
     // Process this node in the same way as node_forum
     boinc_preprocess_node_forum($vars, $hook);
 }
-    
+
 /**
  * Override or insert variables into the comment templates.
  *
@@ -426,7 +426,7 @@ function boinc_preprocess_forum_topic_list(&$variables) {
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_views_view(&$vars, $hook) {
   switch ($vars['name']) {
-  case 'boinc_account_computers': 
+  case 'boinc_account_computers':
     switch ($vars['display_id']) {
     case 'page_1':
     case 'panel_pane_1':
@@ -446,7 +446,7 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     break;
   case 'boinc_friends':
     if ($vars['display_id'] == 'block_1') {
-      $vars['header'] = boincuser_views_friends_block_header(); 
+      $vars['header'] = boincuser_views_friends_block_header();
     }
     break;
   case 'boinc_host':
@@ -538,7 +538,7 @@ function boinc_preprocess_privatemsg_view(&$vars, $hook) {
 function boinc_preprocess_block(&$vars, $hook) {
   $vars['sample_variable'] = t('Lorem ipsum.');
 }
-// */ 
+// */
 
 function boinc_preprocess_search_result(&$variables) {
   global $language;
@@ -607,12 +607,12 @@ function boinc_apachesolr_search_noresults() {
  * rather than the unique Drupal auth name
  */
 function phptemplate_username($object) {
-  
+
   if ($object->uid && $object->name) {
-    
+
     // Show the profile name in general, not the username
     $name = user_load($object->uid)->boincuser_name;
-    
+
     // Shorten the name when it is too long or it will break many tables.
     if (drupal_strlen($name) > 20) {
       $name = drupal_substr($name, 0, 15) . '...';
@@ -673,7 +673,7 @@ function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
   $email['type'] = 'flag-friend';
   // Reload the sender to get a full user object
   $sender = user_load($sender->uid);
-  
+
   switch ($status) {
     case FLAG_FRIEND_FLAGGED:
       // Sender accepted recipient's friend request
@@ -768,7 +768,7 @@ function reorder_links($links, $first_keys = array(), $last_keys = array()) {
         }
     }
     $links = array_merge($links, $last_links);
-   
+
     return $links;
 }
 
@@ -791,8 +791,8 @@ function boinc_tablesort_indicator($style) {
 /*
  * Private function to process the $links string, separate it into two
  * strings for $links and $moderator_links.
- * 
- * Parameters: 
+ *
+ * Parameters:
  *   @params $links
  *     links is a string of links to manipulate. The function will
  *     return a altered string of links.

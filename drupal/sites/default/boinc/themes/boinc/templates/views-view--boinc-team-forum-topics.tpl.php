@@ -55,10 +55,10 @@
   <?php if ($rows OR $empty): ?>
     <div class="view-content">
       <?php
-        
+
         $team_forum_id = arg(4);
         $team_forum = boincteam_forum_load($team_forum_id);
-        
+
         // Grab a sample forum topic node to get the forum vocabulary name
         $sample = db_result(db_query("
           SELECT nid FROM {node} WHERE type = 'forum' LIMIT 1"
@@ -76,11 +76,11 @@
           }
           drupal_set_title($forum_vocab->name);
         }
-        
+
       ?>
 
       <h1 class="title"><?php print $forum_vocab->name; ?></h1>
-      
+
       <div id="forum">
         <h2 class="title">
           <?php print l($forum_vocab->name, 'community/forum') . ' &rsaquo; '; ?>
@@ -92,14 +92,14 @@
           <?php print $empty; ?>
         <?php endif; ?>
       </div>
-      
+
     </div>
   <?php endif; ?>
 
   <?php if ($pager): ?>
     <?php print $pager; ?>
   <?php endif; ?>
-  
+
   <ul class="links">
     <li class="forum first last">
       <?php $account=user_load($user->uid); ?>
@@ -109,7 +109,7 @@
     </li>
   </ul>
   <div class="clearfix"></div>
-  
+
   <?php if ($attachment_after): ?>
     <div class="attachment attachment-after">
       <?php print $attachment_after; ?>

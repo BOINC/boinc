@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -61,10 +61,15 @@ struct USER_MESSAGE {
     USER_MESSAGE(const char* m, const char*p);
 };
 
+// The resource usage (CPU, GPU, RAM) of a job,
+// and estimates of its speed
+// Populated by plan-class functions if there's a plan class,
+// else by HOST_USAGE::sequential_app()
+//
 struct HOST_USAGE {
     int proc_type;
     double gpu_usage;
-    double gpu_ram;
+    double gpu_ram;     // not currently used by client
     double avg_ncpus;
     double mem_usage;
         // mem usage if specified by the plan class
@@ -111,7 +116,8 @@ struct HOST_USAGE {
         switch (proc_type) {
         case PROC_TYPE_NVIDIA_GPU: return ANON_PLATFORM_NVIDIA;
         case PROC_TYPE_AMD_GPU: return ANON_PLATFORM_ATI;
-        case PROC_TYPE_INTEL_GPU: return ANON_PLATFORM_INTEL;
+        case PROC_TYPE_INTEL_GPU: return ANON_PLATFORM_INTEL_GPU;
+        case PROC_TYPE_APPLE_GPU: return ANON_PLATFORM_APPLE_GPU;
         default: return ANON_PLATFORM_CPU;
         }
     }
@@ -266,6 +272,9 @@ struct PLATFORM_LIST {
     std::vector<PLATFORM*> list;
 };
 
+// if you add anything:
+// - add it to clear()
+// - add it to parse()
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     CLIENT_PLATFORM platform;
@@ -338,6 +347,8 @@ struct SCHEDULER_REQUEST {
         // whether client uses account-based sandbox.  -1 = don't know
     int allow_multiple_clients;
         // whether client allows multiple clients per host, -1 don't know
+    bool dont_use_wsl;
+    bool dont_use_docker;
     bool using_weak_auth;
         // Request uses weak authenticator.
         // Don't modify user prefs or CPID
@@ -428,7 +439,7 @@ struct WORK_REQ_BASE {
         req_instances[proc_type] = 0;
     }
 
-    // older clients send send a single number, the requested duration of jobs
+    // older clients send a single number, the requested duration of jobs
     //
     double seconds_to_fill;
 

@@ -37,7 +37,7 @@ function make_cache_dirs() {
         if (!@filemtime("../cache/$j")) {
             mkdir("../cache/$j", 0770);
             chmod("../cache/$j", 0770);
-        } 
+        }
     }
 }
 
@@ -102,7 +102,7 @@ function clean_cache($max_age, $dir) {
        @closedir($handle);
     }
     chdir($start_dir);
-} 
+}
 
 
 // check cache size every once in a while, purge if too big
@@ -148,7 +148,7 @@ function get_cached_data($max_age, $params=""){
     if ($max_age) {
         if (defined('MEMCACHE_SERVERS')) {
             $cache = BoincMemcache::get()->get($path);
-            if ($cache['content']) {
+            if (isset($cache['content'])) {
                 return $cache['content'];
             } else {
                 return $cache;
@@ -196,7 +196,7 @@ function start_cache($max_age, $params=""){
             ob_implicit_flush(0);
             Header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             Header("Expires: " . gmdate("D, d M Y H:i:s",time()+$max_age) . " GMT");
-            Header("Cache-Control: public, max-age=" . $max_age); 
+            Header("Cache-Control: public, max-age=" . $max_age);
 
             // allow the calling page to see cache period
             //
@@ -238,7 +238,7 @@ function end_cache($max_age,$params=""){
     }
     if ($max_age) {
         $path = get_path($params);
-        
+
         if (defined('MEMCACHE_SERVERS')) {
             $cache = array('content' => ob_get_contents(), 'timestamp' => time());
             ob_end_flush();
@@ -287,19 +287,20 @@ function clear_cache_entry($phpfile, $params) {
 // Memcached class
 class BoincMemcache {
     static $instance;
-    
+
     static function get() {
         self::$instance = new Memcached;
         if (defined('MEMCACHE_PREFIX')) {
             self::$instance->setOption(Memcached::OPT_PREFIX_KEY, MEMCACHE_PREFIX);
         }
+        $server_arr = array();
         $servers = explode('|', MEMCACHE_SERVERS);
         foreach($servers as &$server) {
-            list($ip, $port) = explode(':', $server);
+            list($ip, $port, $weight) = explode(':', $server);
             if (!$port) { $port = 11211; }
-            $server = array($ip, $port);
+            $server_arr[] = array($ip, $port, $weight);
         }
-        self::$instance->addServers($servers);
+        self::$instance->addServers($server_arr);
         return self::$instance;
     }
 }

@@ -32,7 +32,7 @@ class output_options {
     var $nl2br;                // Convert newlines to <br>'s? (on)
     var $htmlitems;            // Convert special chars to HTML entities? (on)
     var $htmlscrub;            // Scrub "bad" HTML tags? (off)
-    var $highlight_terms;// Array of terms to be highlighted (off)    
+    var $highlight_terms;// Array of terms to be highlighted (off)
 
     // Constructor - set the defaults.
 
@@ -72,7 +72,7 @@ function output_transform($text, $options = NULL) {
     }
     if (is_array($options->highlight_terms)) {
         $text = highlight_terms($text, $options->highlight_terms);
-    }    
+    }
 //    if ($options->htmlscrub) {
 //        $text = sanitize_html($text);
 //    }
@@ -103,55 +103,61 @@ function get_output_options($user) {
 // Converts bbcode to HTML
 // If $export is true, don't use BOINC CSS
 
-// handle [pre] and [code] separately because we need to remove <br />s
-//
-function replace_pre_code($text, $export) {
-    if ($export) {
-        $text = preg_replace_callback(
-            "@\[pre\](.*?)\[/pre\]@is",
-            function ($matches) {
-                $x = remove_br(substr($matches[0], 5, -6));
-                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
-                $x = str_replace("[", "&#91;", $x);
-                return "<pre>$x</pre>";
-            },
-            $text
-        );
-        return preg_replace_callback(
-            "@\[code\](.*?)\[/code\]@is",
-            function ($matches) {
-                $x = remove_br(substr($matches[0], 6, -7));
-                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
-                $x = str_replace("[", "&#91;", $x);
-                return "<code>$x</code>";
-            },
-            $text
-        );
-    } else {
-        $text = preg_replace_callback(
-            "@\[pre\](.*?)\[/pre\]@is",
-            function ($matches) {
-                $x = remove_br(substr($matches[0], 5, -6));
-                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
-                $x = str_replace("[", "&#91;", $x);
-                return "<pre style=\"white-space:pre-wrap; \">$x</pre>";
-            },
-            $text
-        );
-        return preg_replace_callback(
-            "@\[code\](.*?)\[/code\]@is",
-            function ($matches) {
-                $x = remove_br(substr($matches[0], 6, -7));
-                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
-                $x = str_replace("[", "&#91;", $x);
-                return "<pre style=\"white-space:pre-wrap; \">$x</pre>";
-            },
-            $text
-        );
-    }
+function substr2($s, $n1, $n2) {
+    return substr($s, $n1, $n2-$n1);
 }
 
-function bb2html($text, $export=false) {
+// process non-nestable constructs: [pre] and [code]
+//
+function replace_pre_code($text, $export) {
+    $out = '';
+    $pos = 0;
+    while (true) {
+        $n1 = strpos($text, '[code]', $pos);
+        $n2 = strpos($text, '[pre]', $pos);
+        if ($n1 === false && $n2 === false) {
+            $out .= substr($text, $pos);
+            break;
+        }
+        if ($n1 === false) $n1 = 9999;
+        if ($n2 === false) $n2 = 9999;
+        if ($n1 < $n2) {
+            $n = $n1;
+            $tag = '[code]';
+            $tag2 = '[/code]';
+        } else {
+            $n = $n2;
+            $tag = '[pre]';
+            $tag2 = '[/pre]';
+        }
+        $out .= substr2($text, $pos, $n);
+        $n2 = strpos($text, $tag2, $n);
+        $n += strlen($tag);
+        if (!$n2) {
+            $out .= substr($text, $n);
+            break;
+        }
+        $x = substr2($text, $n, $n2);
+        $x = remove_br($x);
+        $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
+        $x = str_replace("[", "&#91;", $x);
+        if ($export) {
+            if ($tag == '[pre]') {
+                $out .= "<pre>$x</pre>";
+            } else {
+                $out .= "<code>$x</code>";
+            }
+        } else {
+            $out .= "<pre style=\"white-space:pre-wrap;\">$x</pre>";
+        }
+        $pos = $n2 + strlen($tag2);
+    }
+    return $out;
+}
+
+// process nestable constructs
+//
+function bb2html_aux($text, $export) {
     $urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
     // NOTE:
     // This matches https:// too; I don't understand why.
@@ -186,7 +192,7 @@ function bb2html($text, $export=false) {
         "@\[quote=(.*?)\](.*?)\[/quote\]@is",
         "@\[quote\](.*?)\[/quote\]@is",
         "@\[list\](.*?)\[/list\]@is",
-        "@\[list=1\](.*?)\[/list\]@is",  
+        "@\[list=1\](.*?)\[/list\]@is",
         "@\[img\]$urlregex\[/img\]@is",
         "@\[sm_img\]$urlregex\[/sm_img\]@is",
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
@@ -197,7 +203,7 @@ function bb2html($text, $export=false) {
         "@\[github\](?:\#|ticket:)(\d+)\[/github\]@is",
         "@\[github\]wiki:(.*?)\[/github\]@is",
     );
-    
+
     // What the above tags are turned in to
     if ($export) {
         $htmltags = array (
@@ -224,7 +230,7 @@ function bb2html($text, $export=false) {
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
-            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc/wiki/\\1\">\\1</a>",
         );
     } else {
         $htmltags = array (
@@ -251,17 +257,16 @@ function bb2html($text, $export=false) {
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
-            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc/wiki/\\1\">\\1</a>",
         );
     }
-    
+
     // Do the actual replacing - iterations for nested items
     $lasttext = "";
     $i = 0;
     // $i<1000 to prevent DoS
     while ($text != $lasttext && $i<1000) {
         $lasttext = $text;
-        $text = replace_pre_code($text, $export);
         $text = preg_replace($bbtags, $htmltags, $text);
         $i = $i + 1;
     }
@@ -270,7 +275,12 @@ function bb2html($text, $export=false) {
     return $text;
 }
 
-// Removes any <br> tags added by nl2br which are not wanted,
+function bb2html($text, $export=false) {
+    $text = replace_pre_code($text, $export);
+    return bb2html_aux($text, $export);
+}
+
+// Remove any <br> tags added by nl2br which are not wanted,
 // for example inside <pre> containers
 // The original \n was retained after the br when it was added
 //
@@ -286,12 +296,12 @@ function externalize_links($text) {
     $linkpos=true;
     $out = "";
     while (true){
-        //Find a link
+        // Find a link
         //
         $linkpos=strpos($text, "<a ", $i);
         if ($linkpos===false) break;
 
-        //Replace with target='_new'
+        // Replace with target='_new'
         //
         $out .= substr($text, $i, $linkpos-$i)."<a target=\"_new\" ";
         $i = $linkpos+3;
@@ -301,18 +311,15 @@ function externalize_links($text) {
 }
 
 // Converts image tags to links to the images.
-
+//
 function image_as_link($text){
-    /* This function depends on sanitized HTML */
-    // Build some regex (should be a *lot* faster)
     $pattern = '@<img([\S\s]+?)src=([^>]+?)>@si';
-    $replacement = '<a href=${2}>[Image link]</a>'; // Turns that URL into a hyperlink
-    $text = preg_replace($pattern, $replacement, $text);
-    return $text;
+    $replacement = '<a href=${2}>[Image link]</a>';
+    return preg_replace($pattern, $replacement, $text);
 }
 
-// Highlight terms in text (most likely used with searches)
-
+// Highlight terms in text (used in search results)
+//
 function highlight_terms($text, $terms) {
     $search = $terms;
     $replace = array();
@@ -320,12 +327,7 @@ function highlight_terms($text, $terms) {
     foreach ($search as $key => $value) {
         $replace[$key] = "<span class=\"mark\">".$value."</span>";
     }
-    if (substr(phpversion(), 0, 1) > 4) {   // PHP 4.x doesn't support str_ireplace
-        return str_ireplace($search, $replace, $text);
-    } else {
-        return str_replace($search, $replace, $text);
-    }
+    return str_ireplace($search, $replace, $text);
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

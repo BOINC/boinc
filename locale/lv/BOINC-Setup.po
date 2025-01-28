@@ -1,5 +1,5 @@
 # BOINC setup localization template
-# Copyright (C) 2021 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
-"PO-Revision-Date: 2021-07-06 12:24+0000\n"
-"Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>\n"
-"Language-Team: Latvian (http://www.transifex.com/boinc/boinc/language/lv/)\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:29+0000\n"
+"Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>, 2015,2017-2018,2021\n"
+"Language-Team: Latvian (http://app.transifex.com/boinc/boinc/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,39 +20,39 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:216
-#: mac_installer/uninstall.cpp:115
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:213
+#: mac_installer/uninstall.cpp:116
 #, c-format
 msgid "Branding array has too few entries: %s"
 msgstr "Branding masīvam ir pārāk maz ierakstu: %s"
 
-#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:223
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:220
 msgid "Could not get user login name"
 msgstr "Nevarēja iegūt lietotājvārdu"
 
 #. Remove everything we've installed
 #. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
-#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:285
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:282
 #, c-format
 msgid "Sorry, this version of %s requires system %s or higher."
 msgstr "Atvainojiet, šī %s versija pieprasa sistēmas versiju %s vai augstāku."
 
-#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1493
-#: mac_installer/uninstall.cpp:1522
+#: mac_installer/PostInstall.cpp:153 mac_installer/PostInstall.cpp:1462
+#: mac_installer/uninstall.cpp:1673
 msgid "Yes"
 msgstr "Jā"
 
-#: mac_installer/PostInstall.cpp:155 mac_installer/PostInstall.cpp:1494
-#: mac_installer/uninstall.cpp:1523
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1463
+#: mac_installer/uninstall.cpp:1674
 msgid "No"
 msgstr "Nē"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:157
+#: mac_installer/PostInstall.cpp:156
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Vai BOINC ir jādarbojas pat, ja neviens nav pieslēdzies sistēmai?"
 
-#: mac_installer/PostInstall.cpp:1694
+#: mac_installer/PostInstall.cpp:1664
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -60,38 +60,38 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Lietotāji, kuriem ir ļauts administrēt šo datoru automātiski būs tiesīgi palaist un kontrolēt %s.\n\nVai vēlaties, lai arī ne-administratīvie lietotāji spētu palaist un kontrolēt %s uz šī Mac?"
 
-#: mac_installer/PostInstall.cpp:1722
+#: mac_installer/PostInstall.cpp:1699
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Vai vēlaties iestatīt %s kā ekrānsaudzētāju priekš visiem %s lietotājiem uz šī Mac?"
 
-#: mac_installer/PostInstall.cpp:2260
+#: mac_installer/PostInstall.cpp:2338
 msgid ""
 "BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
 "\n"
 "Do you want to install Rosetta 2 now?"
 msgstr "BOINC var darbināt lietotnes, kas rakstītas priekš intel Mac, ja ir uzstādīta Rosetta 2.\n\nVai vēlaties uzstādīt Rosetta 2 jau tagad?"
 
-#: mac_installer/uninstall.cpp:89
+#: mac_installer/uninstall.cpp:90
 msgid "OK"
 msgstr "Labi"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:154
+#: mac_installer/uninstall.cpp:155
 msgid "Permission error after relaunch"
 msgstr "Tiesību kļūda pēc atkārtotas palaišanas"
 
-#: mac_installer/uninstall.cpp:159
+#: mac_installer/uninstall.cpp:160
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Noņemšana var prasīt dažas minūtes.\nLūdzu, esat pacietīgi."
 
-#: mac_installer/uninstall.cpp:175
+#: mac_installer/uninstall.cpp:176
 msgid "Error saving user name"
 msgstr "Kļūda, saglabājot lietotājvārdu"
 
-#: mac_installer/uninstall.cpp:186
+#: mac_installer/uninstall.cpp:187
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -99,22 +99,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Vai esat pārliecināti, ka vēlaties pilnībā noņemt %s no jūsu datora?\n\nTas noņems visus izpildāmos failus, bet neaiztiks %s datu failus."
 
-#: mac_installer/uninstall.cpp:201
+#: mac_installer/uninstall.cpp:202
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Atcelts: %s netika aiztikts."
 
-#: mac_installer/uninstall.cpp:264
+#: mac_installer/uninstall.cpp:265
 msgid "name  of user"
 msgstr "lietotāja vārds"
 
-#: mac_installer/uninstall.cpp:317
+#: mac_installer/uninstall.cpp:318
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Vai vēlaties noņemt arī VirtualBox no jūsu datora?\n(VirtualBox tika uzstādīts kopā ar BOINC.)"
 
-#: mac_installer/uninstall.cpp:355
+#: mac_installer/uninstall.cpp:356
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -126,10 +126,10 @@ msgid ""
 "\"%s\"."
 msgstr "Noņemšana pabeigta.\n\nJūs varētu gribēt noņemt sekojošos vienumus, izmantojot Finder: \nkatalogu \"%s\"\n\nkatram lietotājam, failu\n\"%s\"."
 
-#: mac_installer/uninstall.cpp:1520
+#: mac_installer/uninstall.cpp:1671
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: mac_installer/uninstall.cpp:1521
+#: mac_installer/uninstall.cpp:1672
 msgid "Continue..."
 msgstr "Turpināt..."

@@ -29,7 +29,7 @@ check_get_args(array("keywords", "active", "country", "type", "submit", "xml"));
 // Merge list1 into list2.
 // list entries are of the form id => team,
 // where team includes a field "refcnt".
-// 
+//
 function merge_lists($list1, &$list2, $weight) {
     foreach($list1 as $team) {
         $id = $team->id;
@@ -155,11 +155,12 @@ function search($params) {
 
         $name_lc = escape_pattern($name_lc);
         $list2 = get_teams("name like '".$name_lc."%'", $params->active);
+        //echo "<br>name like matches: ",sizeof($list2);
         merge_lists($list2, $list, 5);
 
-        $list2 = get_teams("match(name) against ('$kw')", $params->active);
-        merge_lists($list2, $list, 5);
-        $list2 = get_teams("match(name, description) against ('$kw')", $params->active);
+        $list2 = get_teams(
+            "match(name, description) against ('$kw')", $params->active
+        );
         //echo "<br>keyword matches: ",sizeof($list2);
         merge_lists($list2, $list, 3);
         $tried = true;
@@ -209,7 +210,7 @@ if ($submit || $xml) {
     if (isset($_COOKIE['init'])) {
         echo "<p>
             ".tra("%1 I'm not interested %2 in joining a team right now.",
-                sprintf('<a href="%s">', USER_HOME),
+                sprintf('<a href="%s">', HOME_PAGE),
                 "</a>"
             );
     }

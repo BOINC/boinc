@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,9 +17,7 @@
 
 // Parse a project configuration file (config.xml)
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 #include <cstring>
 #include <string>
@@ -51,7 +49,7 @@ int SCHED_CONFIG::parse_aux(FILE* f) {
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            fprintf(stderr,
+            boinc::fprintf(stderr,
                 "SCHED_CONFIG::parse(): unexpected text %s\n",
                 xp.parsed_tag
             );
@@ -83,9 +81,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     locality_scheduling_workunit_file = new vector<regex_t>;
     locality_scheduling_sticky_file = new vector<regex_t>;
     max_wus_to_send = 10;
-    default_disk_max_used_gb = 100.;
-    default_disk_max_used_pct = 50.;
-    default_disk_min_free_gb = .001;
+    default_disk_min_free_gb = 1;
     sched_debug_level = MSG_NORMAL;
     fuh_debug_level = MSG_NORMAL;
     fuh_set_initial_permission = -1;
@@ -102,7 +98,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            fprintf(stderr,
+            boinc::fprintf(stderr,
                 "SCHED_CONFIG::parse(): unexpected text %s\n",
                 xp.parsed_tag
             );
@@ -144,6 +140,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_str("upload_url", upload_url, sizeof(upload_url))) continue;
         if (xp.parse_str("upload_dir", upload_dir, sizeof(upload_dir))) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("strict_memory_bound", strict_memory_bound)) continue;
         if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) continue;
         if (xp.parse_int("homogeneous_redundancy", homogeneous_redundancy)) continue;
         if (xp.parse_bool("hr_class_static", hr_class_static)) continue;
@@ -224,8 +221,6 @@ int SCHED_CONFIG::parse(FILE* f) {
             continue;
         }
         if (xp.parse_int("daily_result_quota", daily_result_quota)) continue;
-        if (xp.parse_double("default_disk_max_used_gb", default_disk_max_used_gb)) continue;
-        if (xp.parse_double("default_disk_max_used_pct", default_disk_max_used_pct)) continue;
         if (xp.parse_double("default_disk_min_free_gb", default_disk_min_free_gb)) continue;
         if (xp.parse_bool("dont_store_success_stderr", dont_store_success_stderr)) continue;
         if (xp.parse_int("file_deletion_strategy", file_deletion_strategy)) continue;
@@ -355,7 +350,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         // there are lots of tags the scheduler doesn't know about
 
         xp.skip_unexpected(false, "SCHED_CONFIG::parse");
-    }   
+    }
     return ERR_XML_PARSE;
 }
 
@@ -370,24 +365,16 @@ int SCHED_CONFIG::parse_file(const char* dir) {
         safe_strcpy(path, project_path(CONFIG_FILE));
         safe_strcpy(path_aux, project_path(CONFIG_FILE_AUX));
     }
-#ifndef _USING_FCGI_
-    FILE* f = fopen(path, "r");
-#else
-    FCGI_FILE *f = FCGI::fopen(path, "r");
-#endif
+    FILE* f = boinc::fopen(path, "r");
     if (!f) return ERR_FOPEN;
     retval = parse(f);
-    fclose(f);
+    boinc::fclose(f);
     if (retval) return retval;
 
-#ifndef _USING_FCGI_
-    FILE* f_aux = fopen(path_aux, "r");
-#else
-    FCGI_FILE *f_aux = FCGI::fopen(path_aux, "r");
-#endif
+    FILE* f_aux = boinc::fopen(path_aux, "r");
     if (!f_aux) return 0;
     retval = parse_aux(f_aux);
-    fclose(f_aux);
+    boinc::fclose(f_aux);
     return retval;
 }
 
@@ -424,7 +411,7 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
         char *p = getenv("BOINC_PROJECT_DIR");
         if (p) {
             if (!is_project_dir(p)) {
-                fprintf(stderr, "BOINC_PROJECT_DIR env var exists but is not a project dir\n");
+                boinc::fprintf(stderr, "BOINC_PROJECT_DIR env var exists but is not a project dir\n");
                 exit(1);
             }
             strlcpy(project_dir, p, sizeof(project_dir));
@@ -433,7 +420,7 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
         } else if (is_project_dir("..")) {
             strcpy(project_dir, "..");
         } else {
-            fprintf(stderr, "Not in a project directory or subdirectory\n");
+            boinc::fprintf(stderr, "Not in a project directory or subdirectory\n");
             exit(1);
         }
     }

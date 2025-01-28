@@ -47,13 +47,11 @@ function get_top_teams($offset, $sort_by, $type){
     return BoincTeam::enum($type_clause, "order by $sort_order limit $offset, $teams_per_page");
 }
 
-$sort_by = get_str("sort_by", true);
-switch ($sort_by) {
-case "total_credit":
-case "expavg_credit":
-    break;
-default:
-    $sort_by = "expavg_credit";
+$sort_by = get_str('sort_by', true);
+if ($sort_by) {
+    sanitize_sort_by($sort_by);
+} else {
+    $sort_by = 'expavg_credit';
 }
 
 $type = get_int("type", true);
@@ -80,7 +78,7 @@ if ($offset < ITEM_LIMIT) {
     } else {
         //if not do queries etc to generate new data
         $data = get_top_teams($offset,$sort_by,$type);
-        
+
         // Calculate nusers before storing into the cache
         foreach ($data as $team) {
             $team->nusers = team_count_members($team->id);

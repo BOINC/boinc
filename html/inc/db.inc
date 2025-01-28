@@ -18,26 +18,11 @@
 
 require_once("../inc/util_basic.inc");
 
-// database-related functions.
-// Presentation code (HTML) shouldn't be here
+// functions for doing arbitrary SQL queries, including joins.
+// When possible, use the classes in boinc_db.inc instead.
+// Lots of old code uses these functions, e.g. in ops/
 
-// DEPRECATED; use boinc_db.inc instead.
-// TODO: replace calls to these functions
-
-// use mysqli if available,
-// but let projects not use it if they want
-// (put <no_mysqli/> in config.xml)
-//
-if (parse_bool(get_config(), "no_mysqli")) {
-    define("MYSQLI", false);
-} else {
-    if (class_exists("mysqli")) {
-        define("MYSQLI", true);
-        $mysqli = null;
-    } else {
-        define("MYSQLI", false);
-    }
-}
+define("MYSQLI", true);
 
 if (MYSQLI) {
     function _mysql_connect($host, $user, $pass, $dbname) {
@@ -50,6 +35,9 @@ if (MYSQLI) {
             $port = null;
         }
         $mysqli = @new mysqli($host, $user, $pass, $dbname, $port);
+        if ($mysqli->connect_errno) {
+            return null;
+        }
         return $mysqli;
     }
     function _mysql_query($q) {

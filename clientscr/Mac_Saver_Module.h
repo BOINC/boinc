@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,20 +40,22 @@ int             startBOINCSaver(void);
 int             getSSMessage(char **theMessage, int* coveredFreq);
 void            windowIsCovered();
 void            drawPreview(CGContextRef myContext);
+void            stopAllGFXApps(void);
 void            closeBOINCSaver(void);
 void            setDefaultDisplayPeriods(void);
 bool            getShow_default_ss_first();
 double          getGFXDefaultPeriod();
 double          getGFXSciencePeriod();
 double          getGGFXChangePeriod();
-void            incompatibleGfxApp(char * appPath, pid_t pid, int slot);
+void            incompatibleGfxApp(char * appPath, char * wuName, pid_t pid, int slot);
 void            setShow_default_ss_first(bool value);
 void            setGFXDefaultPeriod(double value);
 void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
 double          getDTime();
 void            doBoinc_Sleep(double seconds);
-void            launchedGfxApp(char * appPath, pid_t thePID, int slot);
+void            launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot);
+int             compareBOINCLibVersionTo(int toMajor, int toMinor, int toRelease);
 void            print_to_log_file(const char *format, ...);
 void            strip_cr(char *buf);
 void            PrintBacktrace(void);
@@ -61,6 +63,9 @@ extern char     gUserName[64];
 extern bool     gIsMojave;
 extern bool     gIsCatalina;
 extern bool     gIsHighSierra;
+extern bool     gIsSonoma;
+extern bool     gMach_bootstrap_unavailable_to_screensavers;
+extern mach_port_name_t commsPort;
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -90,7 +95,7 @@ public:
     int             Run();
 
     //
-    // Infrastructure layer 
+    // Infrastructure layer
     //
 protected:
     OSStatus        initBOINCApp(void);
@@ -104,7 +109,7 @@ protected:
     void            SetDiscreteGPU(bool setDiscrete);
     void            CheckDualGPUPowerSource();
     bool            Host_is_running_on_batteries();
-    
+
     bool            m_bErrorMode;        // Whether to draw moving logo and possibly display an error
     unsigned int    m_hrError;           // Error code to display
 
@@ -127,8 +132,8 @@ protected:
 
     void*           DataManagementProc();
     static void*    DataManagementProcStub( void* param );
-    int             terminate_screensaver(int& graphics_application, RESULT *worker_app);
-    int             terminate_default_screensaver(int& graphics_application);
+    int             terminate_screensaver(int graphics_application);
+    int             terminate_default_screensaver(int graphics_application);
     int             launch_screensaver(RESULT* rp, int& graphics_application);
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
@@ -146,7 +151,7 @@ protected:
 //   was passed in.
 
     RESULT*         get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);
- 
+
     bool            m_bResetCoreState;
     bool            m_bQuitDataManagementProc;
     bool            m_bDataManagementProcStopped;
@@ -164,13 +169,14 @@ public:
     int             getSSMessage(char **theMessage, int* coveredFreq);
     void            windowIsCovered(void);
     void            drawPreview(CGContextRef myContext);
+    void            Shared_Offscreen_Buffer_Unavailable(void);
     void            ShutdownSaver();
     void            markAsIncompatible(char *gfxAppName);
     bool            isIncompatible(char *appName);
     bool            SetError( bool bErrorMode, unsigned int hrError );
     void            setSSMessageText(const char *msg);
 
-    int             terminate_v6_screensaver(int& graphics_application, RESULT* rp);
+    int             terminate_v6_screensaver(int graphics_application);
     bool            HasProcessExited(pid_t pid, int &exitCode);
 
     CC_STATE        state;

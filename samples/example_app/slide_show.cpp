@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Example graphics application that simply rotates images, like 
+// Example graphics application that simply rotates images, like
 // a slide show. Images must be located in the subdirectory
 // "slide_show_images". However, they may be shipped as a zip file,
 // "slide_show_images.zip", which will be extracted if the images
@@ -51,7 +51,7 @@ APP_INIT_DATA uc_aid;
 bool mouse_down = false;
 int mouse_x, mouse_y;
 double pitch_angle, roll_angle, viewpoint_distance=10;
-float color[4] = {.7, .2, .5, 1};
+float color[4] = {.7f, .2f, .5f, 1};
     // the color of the 3D object.
     // Can be changed using preferences
 UC_SHMEM* shmem = NULL;
@@ -90,7 +90,7 @@ int populate_image_list() {
         if(errno) fprintf(stderr,"Reason (%d): %s",errno,strerror(errno));
         return -1;
     }
-  
+
     while (dir_scan(path,dir,MAXPATHLEN) == 0) {
         dirent_name = path;
 #ifdef _WIN32
@@ -112,7 +112,7 @@ void load_next_image() {
     // If there are no images, leave immediately.
     //
     if (image_paths.size() == 0) return;
-  
+
     // If we have moved past the end of the path list,
     // reset counter.
     if (curr_image_idx >= image_paths.size()) {
@@ -143,8 +143,8 @@ static void init_lights() {
 
 static void draw_logo() {
     if (logo.present) {
-        float pos[3] = {.2, .3, 0};
-        float size[3] = {.6, .4, 0};
+        float pos[3] = {.2f, .3f, 0};
+        float size[3] = {.6f, .4f, 0};
         logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER);
     }
 }
@@ -177,10 +177,10 @@ static void init_camera(double dist) {
     set_viewpoint(dist);
 }
 
-void app_graphics_render(int xs, int ys, double time_of_day) {
-    // boinc_graphics_get_shmem() must be called after 
+void app_graphics_render(int, int, double) {
+    // boinc_graphics_get_shmem() must be called after
     // boinc_parse_init_data_file()
-    // Put this in the main loop to allow retries if the 
+    // Put this in the main loop to allow retries if the
     // worker application has not yet created shared memory
     //
     if (shmem == NULL) {
@@ -212,12 +212,9 @@ void app_graphics_resize(int w, int h){
 // mouse drag w/ left button rotates 3D objects;
 // mouse draw w/ right button zooms 3D objects
 //
-void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
+void boinc_app_mouse_move(int, int, int, int, int){}
 
-}
-
-void boinc_app_mouse_button(int x, int y, int which, int is_down) {
-}
+void boinc_app_mouse_button(int, int, int, int){}
 
 void boinc_app_key_press(int, int){}
 

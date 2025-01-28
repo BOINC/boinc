@@ -143,56 +143,82 @@ namespace test_url {
     }
 
     TEST_F(test_url, canonicalize_master_url) {
-        //Test to make sure a already good result comes back the same.
+        //Test to make sure an already good result comes back the same.
         string url = "http://secure.example.com/";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "http://secure.example.com/");
 
-        //Test that https works, also adds trailing /
+        //Test to make sure an already good mixed-case result comes back lower-cased.
+        url = "http://SeCuRe.eXamPle.coM/";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "http://secure.example.com/");
+
+        //Test that https works, also adds trailing /.
         url = "https://secure.example.com";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "https://secure.example.com/");
 
-        //Test if someone forgot the leading http://
+        //Test that https works, in a mixed-case scenario, also adds trailing /.
+        url = "https://sEcUre.exaMple.cOm";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "https://secure.example.com/");
+
+        //Test if someone forgot the leading http://.
         url = "www.example.com/";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "http://www.example.com/");
 
-        //Test removing extra slashes.  And changing socks to https.
+        //Test omitted http:// and mixed case.
+        url = "wwW.exaMple.cOm/";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "http://www.example.com/");
+
+        //Test removing extra slashes and changing socks to https.
         url = "socks://sock.example.com////////hello";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "https://sock.example.com/hello/");
 
-        //Test if poorly written url
+        //Test removing extra slashes and changing socks to https, in a mixed-case scenario.
+        //Mixed-case characters after the domain name remain unaffected.
+        url = "sOcks://Sock.exaMPle.com////////hElLO";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "https://sock.example.com/hElLO/");
+
+        //Test invalid protocol.
         url = "h://bad.example.com/";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "http://bad.example.com/");
+
+        //Test invalid protocol and mixed case.
+        url = "H://baD.exampLE.Com/";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "http://bad.example.com/");
     }
 
     TEST_F(test_url, valid_master_url) {
         char url[1024];
-        
-        //Check for a good unsecure url. 
+
+        //Check for a good unsecure url.
         strncpy(url, "http://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for a good secure url
         strncpy(url, "https://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for no http or https.
         strncpy(url, "hxxp://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if missing final slash.
         strncpy(url, "http://www.example.com", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if it has no . in the name
         strncpy(url, "http://example/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
     }
-    
+
     TEST_F(test_url, escape_project_url) {
         char buf[1024];
         char url[1024];
@@ -201,7 +227,7 @@ namespace test_url {
         strncpy(url, "https://secure.example.com", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com");
-        
+
         //Testing url with bad character at the end removed.
         strncpy(url, "https://secure.example.com/Dollar$", sizeof (url));
         escape_project_url(url, buf);

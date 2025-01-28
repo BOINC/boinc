@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build the wxMac-3.1.0 wxCocoa library for BOINC
+# Script to build the wxMac-3.1.6 wxCocoa library for BOINC
 #
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
@@ -43,11 +43,14 @@
 # Updated 5/18/21 for compatibility with zsh
 # Updated 9/30/21 for wxCocoa 3.1.5
 # Updated 10/18/21 to add -Werror=unguarded-availability compiler flag
+# Updated 2/6/23 changed MACOSX_DEPLOYMENT_TARGET to 10.13
+# Updated 4/6/23 for wxCocoa 3.1.6 and for args now accepted by patch utility
+# Updated 5/6/23/23 for wxCocoa 3.2.2.1
 #
 ## This script requires OS 10.6 or later
 ##
-## In Terminal, CD to the wxWidgets-3.1.0 directory.
-##    cd [path]/wxWidgets-3.1.0/
+## In Terminal, CD to the wxWidgets-3.1.6 directory.
+##    cd [path]/wxWidgets-3.1.6/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ] [ -nodebug ] [--prefix PATH]
 ##
@@ -74,28 +77,28 @@ fi
 echo ""
 
 ## Add our custom method SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
-## to wxChoice. We use this to create our own custom CBOINCBitmapComboBox 
+## to wxChoice. We use this to create our own custom CBOINCBitmapComboBox
 ## which uses native Mac controls instead of wxBitmapComboBox which does not.
 ## By using only native Mac controls in BOINC SImple View, MacOS will provide
 ## accessibility support automatically.
 ##
 ## We patch 4 files to accomplish this.
 ##
-# Patch wxWidgets-3.1.5/include/wx/osx/choice.h
+# Patch wxWidgets-3.1.6/include/wx/osx/choice.h
 if [ ! -f include/wx/osx/choice.h.orig ]; then
     cat >> /tmp/choice_h_diff << ENDOFFILE
---- include/wx/osx/choice.h    2021-04-12 15:23:58.000000000 -0700
-+++ include/wx/osx/choice_patched.h    2021-09-29 23:47:19.000000000 -0700
+--- include/wx/osx/choice.h
++++ include/wx/osx/choice_patched.h
 @@ -73,6 +73,7 @@
      virtual int FindString(const wxString& s, bool bCase = false) const wxOVERRIDE;
      virtual wxString GetString(unsigned int n) const wxOVERRIDE;
      virtual void SetString(unsigned int pos, const wxString& s) wxOVERRIDE;
 +    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
      // osx specific event handling common for all osx-ports
- 
+
      virtual bool OSXHandleClicked(double timestampsec) wxOVERRIDE;
 ENDOFFILE
-    patch -bfi /tmp/choice_h_diff include/wx/osx/choice.h
+    patch -b -f -i /tmp/choice_h_diff include/wx/osx/choice.h
     rm -f /tmp/choice_h_diff
 else
     echo "include/wx/osx/choice.h already patched"
@@ -103,15 +106,15 @@ fi
 
 echo ""
 
-# Patch wxWidgets-3.1.5/src/osx/choice_osx.cpp
+# Patch wxWidgets-3.1.6/src/osx/choice_osx.cpp
 if [ ! -f src/osx/choice_osx.cpp.orig ]; then
     cat >> /tmp/choice_osx_cpp_diff << ENDOFFILE
 --- src/osx/choice_osx.cpp    2021-04-12 15:23:58.000000000 -0700
 +++ src/osx/choice_osx_patched.cpp    2021-09-30 00:26:06.000000000 -0700
-@@ -212,6 +212,13 @@
+@@ -217,6 +217,13 @@
      return m_strings[n] ;
  }
- 
+
 +void wxChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
 +{
 +    wxCHECK_RET( IsValid(n), wxT("wxChoice::SetItemBitmap(): invalid index") );
@@ -123,7 +126,7 @@ if [ ! -f src/osx/choice_osx.cpp.orig ]; then
  // client data
  // ----------------------------------------------------------------------------
 ENDOFFILE
-    patch -bfi /tmp/choice_osx_cpp_diff src/osx/choice_osx.cpp
+    patch -b -f -i /tmp/choice_osx_cpp_diff src/osx/choice_osx.cpp
     rm -f /tmp/choice_osx_cpp_diff
 else
     echo "src/osx/choice_osx.cpp already patched"
@@ -131,22 +134,22 @@ fi
 
 echo ""
 
-# Patch wxWidgets-3.1.5/include/wx/osx/core/private.h
+# Patch wxWidgets-3.1.6/include/wx/osx/core/private.h
 if [ ! -f include/wx/osx/core/private.h.orig ]; then
     cat >> /tmp/private_h_cpp_diff << ENDOFFILE
 --- include/wx/osx/core/private.h    2021-04-12 15:23:58.000000000 -0700
 +++ include/wx/osx/core/private_patched.h    2021-09-30 01:11:28.000000000 -0700
-@@ -809,6 +809,8 @@
+@@ -821,6 +821,8 @@
      }
- 
+
      virtual void SetItem(int pos, const wxString& item) = 0;
-+    
++
 +    virtual void SetItemBitmap(unsigned int n, const wxBitmap& bitmap) = 0;
  };
- 
- 
+
+
 ENDOFFILE
-    patch -bfi /tmp/private_h_cpp_diff include/wx/osx/core/private.h
+    patch -b -f -i /tmp/private_h_cpp_diff include/wx/osx/core/private.h
     rm -f /tmp/private_h_cpp_diff
 else
     echo "include/wx/osx/core/private.h already patched"
@@ -154,26 +157,29 @@ fi
 
 echo ""
 
-# Patch wxWidgets-3.1.5/src/osx/cocoa/choice.mm
+# Patch wxWidgets-3.1.6/src/osx/cocoa/choice.mm
 if [ ! -f src/osx/cocoa/choice.mm.orig ]; then
     cat >> /tmp/choice_mm_diff << ENDOFFILE
 --- src/osx/cocoa/choice.mm    2021-09-28 22:52:32.000000000 -0700
 +++ src/osx/cocoa/choice_patched.mm    2021-09-30 01:08:32.000000000 -0700
-@@ -130,6 +130,12 @@
+@@ -93,6 +93,15 @@
          m_popUpMenu->FindItemByPosition( pos )->SetItemLabel( s ) ;
      }
- 
-+    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
+
++    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap) wxOVERRIDE
 +    {
-+        if ( bitmap.Ok() )
-+            m_popUpMenu->FindItemByPosition( n )->SetBitmap( bitmap ); ;
++        if ( bitmap.Ok() ) {
++            wxMenuItem *item = m_popUpMenu->FindItemByPosition( n );
++            item->SetBitmap( bitmap );
++            item->UpdateItemBitmap();
++        }
 +    }
 +
  private:
      wxMenu* m_popUpMenu;
  };
 ENDOFFILE
-    patch -bfi /tmp/choice_mm_diff src/osx/cocoa/choice.mm 
+    patch -b -f -i /tmp/choice_mm_diff src/osx/cocoa/choice.mm
     rm -f /tmp/choice_mm_diff
 else
     echo "src/osx/cocoa/choice.mm already patched"
@@ -245,7 +251,7 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" 
         lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
-    
+
     if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
         lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
@@ -261,18 +267,18 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    
+
     ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
     ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
     ## Xcode versions that can, otherwise it builds only the X86_64 library.
-    
+
     ## The "-Werror=unguarded-availability" compiler flag generates an error if
     ## there is an unguarded API not available in our Deployment Target. This
     ## helps ensure wxWidgets won't try to use unavailable APIs on older Mac
     ## systems supported by BOINC.
 
     set -o pipefail
-     xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.10" GCC_C_LANGUAE_STANDARD="compiler-default" CLANG_CXX_LANGUAGE_SANDARD="c++0x" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER NO_CXX11_REGEX WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
+     xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.13" GCC_C_LANGUAE_STANDARD="compiler-default" CLANG_CXX_LANGUAGE_STANDARD="compiler-default" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy library and headers to $lprefix
@@ -302,7 +308,7 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" 
         lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch x86_64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
-    
+
     if [ $alreadyBuilt -eq 1 ] && [ GCC_can_build_arm64 = "yes" ]; then
         lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch arm64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
@@ -321,14 +327,14 @@ else
     ##
     ## We don't use $doclean here because:
     ## * As of Xcode 10, "clean" would delete both the Release and Debug builds, and
-    ## * If there is a previous build of wrong architecture, both Xcode 10 and 
+    ## * If there is a previous build of wrong architecture, both Xcode 10 and
     ## earlier versions of Xcode correctly overwrite it with x86_64-only build.
     ##
     ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
     ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
     ## Xcode versions that can, otherwise it builds only the X86_64 library.
     set -o pipefail
-   xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.10" GCC_C_LANGUAE_STANDARD="compiler-default" CLANG_CXX_LANGUAGE_SANDARD="c++0x" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER NO_CXX11_REGEX WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
+   xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.13" GCC_C_LANGUAE_STANDARD="compiler-default" CLANG_CXX_LANGUAGE_STANDARD="compiler-default" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1  -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy debug library to $PREFIX

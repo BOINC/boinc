@@ -63,6 +63,8 @@ typedef struct BOINC_OPTIONS {
         // set this if application creates subprocesses.
 } BOINC_OPTIONS;
 
+// info passed from client to app in heartbeat message
+//
 typedef struct BOINC_STATUS {
     int no_heartbeat;
     int suspended;
@@ -72,6 +74,7 @@ typedef struct BOINC_STATUS {
     double working_set_size;
     double max_working_set_size;
     int network_suspended;
+    SPORADIC_CA_STATE ca_state;
 } BOINC_STATUS;
 
 extern volatile BOINC_STATUS boinc_status;
@@ -123,7 +126,7 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 } // extern "C" {
 #endif
 
-// C++ API follows 
+// C++ API follows
 #ifdef __cplusplus
 #include <string>
 
@@ -135,7 +138,8 @@ extern int boinc_upload_status(std::string& name);
 extern char* boinc_msg_prefix(char*, int);
 extern int boinc_report_app_status_aux(
     double cpu_time, double checkpoint_cpu_time, double _fraction_done,
-    int other_pid, double bytes_sent, double bytes_received
+    int other_pid, double bytes_sent, double bytes_received,
+    double wss
 );
 extern int boinc_temporary_exit(
     int delay, const char* reason=NULL, bool is_notice=false
@@ -143,6 +147,9 @@ extern int boinc_temporary_exit(
 extern int boinc_finish_message(
     int status, const char* message, bool is_notice
 );
+extern void boinc_sporadic_set_ac_state(SPORADIC_AC_STATE);
+extern SPORADIC_CA_STATE boinc_sporadic_get_ca_state();
+extern int boinc_sporadic_dir(const char*);
 
 /////////// API ENDS HERE
 

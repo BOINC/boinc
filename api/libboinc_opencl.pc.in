@@ -6,7 +6,7 @@ includedir=@includedir@
 Name: boinc_opencl
 Description: BOINC OpenCL API
 Version: @PACKAGE_VERSION@
-URL: https://boinc.berkeley.edu/trac/wiki/OpenclApps
+URL: https://github.com/BOINC/boinc/wiki/OpenclApps
 
 Cflags: -I${includedir}/boinc
 Cflags.private: @GLUT_CFLAGS@

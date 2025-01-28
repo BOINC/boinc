@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,6 +15,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// code related to 'friend' features
 
 // The following two are what gets put into notification email digests
 //
@@ -36,9 +38,13 @@ function friend_notify_accept_email_line($notify) {
 function friend_notify_req_web_line($notify) {
     $user = BoincUser::lookup_id($notify->opaque);
     if (!$user) return null;
-    return "
-        <a href=friend.php?action=query&userid=$notify->opaque>Friendship request</a> from <a href=show_user.php?userid=$user->id>$user->name</a>
-    ";
+    return sprintf(
+        '<a href=friend.php?action=query&userid=%d>Friendship request</a> from <a href=%s?userid=%d>%s</a>',
+        $notify->opaque,
+        SHOW_USER_PAGE,
+        $user->id,
+        $user->name
+    );
 }
 
 function friend_notify_accept_web_line($notify) {
@@ -61,7 +67,7 @@ $src_user->name says: $msg
 
     $message .= "
 Please accept or decline by visiting
-".secure_url_base().USER_HOME."
+".secure_url_base().HOME_PAGE."
 
 --------------------------
 To change email preferences, visit:
@@ -83,7 +89,7 @@ $dest_user->name says: $msg
 
     $message .= "
 Visit your Account page at
-".secure_url_base().USER_HOME."
+".secure_url_base().HOME_PAGE."
 
 --------------------------
 To change email preferences, visit:
@@ -112,7 +118,7 @@ function friend_accept_rss($notify, &$title, &$msg, &$url) {
     }
     $title = "Friendship confirmation";
     $msg = "$src_user->name has confirmed you as a friend";
-    $url = secure_url_base().USER_HOME;
+    $url = secure_url_base().HOME_PAGE;
 }
 
 // delete friendship connections

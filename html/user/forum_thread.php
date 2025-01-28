@@ -99,20 +99,18 @@ if ($temp_sort_style) {
     }
 }
 
-page_head($title, 'onload="jumpToUnread();"');
+page_head("Thread '$title'", 'onload="jumpToUnread();"');
 
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
-
-show_forum_header($logged_in_user);
 
 echo "<p>";
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
-    show_forum_title($category, $forum, $thread);
+    echo forum_title($category, $forum, $thread);
     break;
 case 1:
-    show_team_forum_title($forum, $thread);
+    echo team_forum_title($forum, $thread);
     break;
 }
 echo "<br><small><a href=moderation.php>".tra("Message board moderation")."</a></small>
@@ -129,7 +127,7 @@ if ($forum->parent_type == 0) {
                     show_button(
                         "forum_thread_status.php?id=$thread->id&action=set",
                         tra("My question was answered"),
-                        tra("Click here if your question has been adequately answered") 
+                        tra("Click here if your question has been adequately answered")
                     );
                 }
             } else {
@@ -167,10 +165,12 @@ if (!$logged_in_user) {
     }
 
     if ($is_subscribed) {
-        $type = NOTIFY_SUBSCRIBED_POST;
-        BoincNotify::delete_aux(
-            "userid=$logged_in_user->id and type=$type and opaque=$thread->id"
-        );
+        BoincNotify::delete_aux(sprintf(
+            'userid=%d and type=%d and opaque=%d',
+            $logged_in_user->id,
+            NOTIFY_SUBSCRIBED_THREAD,
+            $thread->id
+        ));
         $url = "forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->id."$tokens";
         show_button_small(
             $url,
@@ -182,7 +182,7 @@ if (!$logged_in_user) {
         show_button_small(
             $url,
             tra("Subscribe"),
-            tra("Click to get email when there are new posts in this thread")
+            tra("Click to get notified when there are new posts in this thread")
         );
     }
 
@@ -304,15 +304,14 @@ if ($reply_url) {
 echo "<p></p>";
 switch ($forum->parent_type) {
 case 0:
-    show_forum_title($category, $forum, $thread);
+    echo forum_title($category, $forum, $thread);
     break;
 case 1:
-    show_team_forum_title($forum, $thread);
+    echo team_forum_title($forum, $thread);
     break;
 }
 
 $thread->update("views=views+1");
 
 page_tail();
-$cvs_version_tracker[]="\$Id$";
 ?>

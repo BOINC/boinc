@@ -39,7 +39,7 @@ $first = true;
 foreach ($categories as $category) {
     if ($first) {
         $first = false;
-        show_forum_title($category, null, null);
+        echo forum_title($category, null, null);
         echo "<p>";
         show_mark_as_read_button($user);
         start_table('table-striped');
@@ -79,5 +79,4 @@ echo "
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

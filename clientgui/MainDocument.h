@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,6 +35,9 @@ typedef struct {
     HANDLE pid;
 #else
     int pid;
+#ifdef __APPLE__
+    int gfx_pid;  // Used only on Mac
+#endif
 #endif
 } RUNNING_GFX_APP;
 
@@ -144,9 +147,6 @@ public:
                                 );
     int                         Reconnect();
 
-    int                         CachedStateLock();
-    int                         CachedStateUnlock();
-
     void                        ForceDisconnect();
     int                         FrameShutdownDetected();
     int                         CoreClientQuit();
@@ -236,7 +236,6 @@ public:
 
     int                         ProjectNoMoreWork(int iIndex);
     int                         ProjectAllowMoreWork(int iIndex);
-    int                         ProjectAttach(const wxString& strURL, const wxString& strAccountKey);
     int                         ProjectDetach(int iIndex);
     int                         ProjectUpdate(int iIndex);
     int                         ProjectReset(int iIndex);
@@ -247,6 +246,10 @@ public:
     void                        KillGraphicsApp(HANDLE pid);
 #else
     void                        KillGraphicsApp(int tpid);
+#endif
+#ifdef __APPLE__
+    int                         GetGFXPIDFromForkedPID(RUNNING_GFX_APP* gfx_app);
+    int                         fix_slot_file_owners(int slot);
 #endif
 
     //
@@ -272,11 +275,11 @@ public:
 
     int                         GetWorkCount();
 
-    int                         WorkSuspend(char* url, char* name);
-    int                         WorkResume(char* url, char* name);
+    int                         WorkSuspend(const char* url, const char* name);
+    int                         WorkResume(const char* url, const char* name);
     int                         WorkShowGraphics(RESULT* result);
     int                         WorkShowVMConsole(RESULT* result);
-    int                         WorkAbort(char* url, char* name);
+    int                         WorkAbort(const char* url, const char* name);
     CC_STATE*                   GetState() { return &state; };
 
 
@@ -422,6 +425,7 @@ extern void remove_eols(wxString& strMessage);
 extern void https_to_http(wxString& strMessage);
 extern void color_cycle(int i, int n, wxColour& color);
 extern wxString FormatTime(double secs);
+extern wxTimeSpan convert_to_timespan(double secs);
 extern bool autoattach_in_progress();
 
 

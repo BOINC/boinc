@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2021 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,15 +34,11 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/conf.h>
-#include <openssl/engine.h>
 #include <openssl/err.h>
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "md5_file.h"
 #include "cert_sig.h"
 #include "filesys.h"
@@ -105,7 +101,7 @@ int scan_raw_data(FILE *f, DATA_BLOCK& x) {
         x.data[i]=j;
         i++;
     }
-    x.len = i;    
+    x.len = i;
     return 0;
 }
 
@@ -473,8 +469,10 @@ void openssl_to_keys(
     RSA_get0_factors(rp, &p, &q);
     RSA_get0_crt_params(rp, &dmp1, &dmq1, &iqmp);
 
-    bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
-    bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
+    if (n)
+        bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
+    if (e)
+        bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
 #else
     bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
     bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));
@@ -483,14 +481,22 @@ void openssl_to_keys(
     memset(&priv, 0, sizeof(priv));
     priv.bits = nbits;
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-    bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
-    bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
-    bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
-    bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
-    bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
-    bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
-    bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
-    bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
+    if (n)
+        bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
+    if (e)
+        bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
+    if (d)
+        bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
+    if (p)
+        bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
+    if (q)
+        bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
+    if (dmp1)
+        bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
+    if (dmq1)
+        bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
+    if (iqmp)
+        bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
 #else
     bn_to_bin(rp->n, priv.modulus, sizeof(priv.modulus));
     bn_to_bin(rp->e, priv.publicExponent, sizeof(priv.publicExponent));
@@ -644,14 +650,14 @@ int check_validity_of_cert(
         X509_STORE_CTX_free(ctx);
     }
     X509_STORE_free(store);
-    
+
     if (retval != 1) {
         fprintf(stderr,
             "%s: ERROR: Cannot verify certificate ('%s')\n",
             time_to_string(dtime()), cFile
         );
         return 0;
-    }        
+    }
     pubKey = X509_get_pubkey(cert);
     if (!pubKey) {
         X509_free(cert);
@@ -744,7 +750,7 @@ char *check_validity(
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
         snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
-        // TODO : replace '128'  
+        // TODO : replace '128'
         if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
             dir_close(dir);
             return strdup(fpath);
@@ -804,7 +810,7 @@ int cert_verify_file(
             FILE *f = fopen(fbuf, "r");
 #else
             FCGI_FILE *f = FCGI::fopen(fbuf, "r");
-#endif 
+#endif
             if (f==NULL)
                 break;
             fclose(f);
@@ -827,9 +833,9 @@ int cert_verify_file(
                 printf("Subject does not match ('%s' <-> '%s')\n", buf, signatures->signatures.at(i).subject);
                 file_counter++;
                 continue;
-            } 
+            }
             verified = check_validity_of_cert(fbuf, md5_md, sig_db.data, 128, trustLocation);
-            if (verified) 
+            if (verified)
                 break;
             file_counter++;
         }

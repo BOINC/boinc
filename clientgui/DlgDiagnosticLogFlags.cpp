@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgDiagnosticLogFlags.cpp"
+#pragma implementation "DlgDiagnosticLogFlags.h"
 #endif
 
 #include "stdwx.h"
@@ -117,7 +117,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
 
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    wxButton* btnOK = new wxButton( this, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* btnOK = new wxButton( this, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
     btnOK->SetToolTip( _("Save all values and close the dialog") );
     buttonSizer->Add( btnOK, 0, wxALL, 5 );
 

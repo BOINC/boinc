@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// server-side utility functions for remote job submissions and control
+// server-side utility functions for remote job submission and control
 
 require_once("../inc/submit_db.inc");
 
@@ -54,23 +54,41 @@ function job_file_name($md5) {
     return "jf_$md5";
 }
 
-// does user have submit permissions?
+// can user upload files?
 //
-function submit_permissions($user) {
-    return BoincUserSubmit::lookup_userid($user->id);
+function has_file_access($user) {
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if (!$us) return false;
+    return true;
 }
 
-// does user have submit permissions for given app?
+// can user submit to given app?
 //
-function submit_permissions_app($user, $app) {
-    return BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+function has_submit_access($user, $app_id) {
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if (!$us) return false;
+    if ($us->submit_all) return true;
+    $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app_id");
+    if (!$usa) return false;
+    return true;
+}
+
+// can user administer given app (or all apps if zero)?
+//
+function has_admin_access($user, $app_id) {
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if (!$us) return false;
+    if ($us->manage_all) return true;
+    $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app_id");
+    if (!$usa) return false;
+    return $usa->manage;
 }
 
 // check whether user has permissions for a remote job submission
 // or job file request.
 // $r is a request message that includes an 'authenticator' field
 // $app is the app being submitted to (or null if file op)
-// returns [user, UserSubmit], or give XML error
+// returns user, or give XML error and quit
 //
 function check_remote_submit_permissions($r, $app) {
     $auth = (string)$r->authenticator;
@@ -84,31 +102,47 @@ function check_remote_submit_permissions($r, $app) {
         log_write("bad authenticator");
         xml_error(-1, "bad authenticator");
     }
-    $user_submit = submit_permissions($user);
-    if (!$user_submit) {
-        log_write("no submit access");
-        xml_error(-1, "no submit access");
-    }
-    if ($app && !$user_submit->submit_all) {
-        $usa = submit_permissions_app($user, $app);
-        if (!$usa) {
-            log_write("no app submit access");
-            xml_error(-1, "no app submit access");
+
+    // check access
+    //
+    if ($app) {
+        if (!has_submit_access($user, $app->id)) {
+            log_write("no submit access");
+            xml_error(-1, "no submit access");
+        }
+    } else {
+        if (!has_file_access($user)) {
+            log_write("no file access");
+            xml_error(-1, "no file access");
         }
     }
-    return array($user, $user_submit);
+    return $user;
 }
 
+// remove all of user's permissions
+//
 function delete_remote_submit_user($user) {
     BoincUserSubmit::delete_user($user->id);
     BoincUserSubmitApp::delete_user($user->id);
 }
 
-
-// given its WUs, compute progress of a batch
-// (fraction done, est completion time etc.)
-// NOTE: this is inefficient because we need all the WUs.
-// it could be done by server components
+// given its WUs, compute parameters of a batch:
+//   credit_canonical: credit granted to canonical instances
+//   fraction_done: frac of jobs that are done (success or failed)
+//   state: whether complete (all jobs done)
+//   completion_time: if newly complete
+//   nerror_jobs: # of failed jobs
+// Update the above in DB.
+// Also compute (not in DB):
+//   njobs_success: # of jobs with canonical instance
+//   njobs_in_prog: # of jobs not success or fail,
+//      and at least one result in progress
+//
+// return the batch object, with these values
+//
+// NOTE: this involves reading the batch's WUs and results,
+// which could be inefficient for huge batches.
+// It could instead be done by server components
 // (transitioner, validator etc.) as jobs complete or time out
 //
 // TODO: update est_completion_time
@@ -119,42 +153,81 @@ function get_batch_params($batch, $wus) {
         //
         return $batch;
     }
+    if (!$wus) {
+        if ($batch->njobs) {
+            $batch->update('njobs=0');
+            $batch->njobs = 0;
+        }
+        return $batch;
+    }
+
+    // make list of WU IDs with an in-progress result
+    $res_in_prog = BoincResult::enum(
+        sprintf('batch=%d and server_state<>%d',
+            $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
+        )
+    );
+    $wus_in_prog = [];
+    foreach ($res_in_prog as $res) {
+        $wus_in_prog[$res->workunitid] = true;
+    }
+
     $fp_total = 0;
     $fp_done = 0;
     $completed = true;
     $batch->nerror_jobs = 0;
     $batch->credit_canonical = 0;
+    $njobs_success = 0;
+    $njobs_in_prog = 0;
     foreach ($wus as $wu) {
         $fp_total += $wu->rsc_fpops_est;
         if ($wu->canonical_resultid) {
             $fp_done += $wu->rsc_fpops_est;
+            $njobs_success++;
             $batch->credit_canonical += $wu->canonical_credit;
         } else if ($wu->error_mask) {
             $batch->nerror_jobs++;
         } else {
             $completed = false;
+            if (array_key_exists($wu->id, $wus_in_prog)) {
+                $njobs_in_prog++;
+            }
         }
     }
-    if ($fp_total) {
-        $batch->fraction_done = $fp_done / $fp_total;
-    }
+    $njobs = count($wus);
+    $batch->njobs = $njobs;
+    $batch->fraction_done = ($njobs_success + $batch->nerror_jobs)/$batch->njobs;
     if ($completed && $batch->state == BATCH_STATE_IN_PROGRESS) {
         $batch->state = BATCH_STATE_COMPLETE;
         $batch->completion_time = time();
     }
-    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical");
+    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical, njobs=$njobs");
 
-    $batch->credit_estimate = flops_to_credit($fp_total);
+    $batch->njobs_success = $njobs_success;
+    $batch->njobs_in_prog = $njobs_in_prog;
     return $batch;
 }
 
-function get_outfile_names($result) {
-    $names = array();
+// get the physical names of a result's output files.
+//
+function get_outfile_phys_names($result) {
+    $names = [];
     $xml = "<a>".$result->xml_doc_out."</a>";
     $r = simplexml_load_string($xml);
     if (!$r) return $names;
     foreach ($r->file_info as $fi) {
         $names[] = (string)($fi->name);
+    }
+    return $names;
+}
+
+function get_outfile_log_names($result) {
+    $names = [];
+    $xml = "<a>".$result->xml_doc_in."</a>";
+    $r = simplexml_load_string($xml);
+    if (!$r) return $names;
+    foreach ($r->result->file_ref as $fr) {
+        $names[] = (string)($fr->open_name);
     }
     return $names;
 }
@@ -234,13 +307,11 @@ function batch_output_file_size($batchid) {
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);
-        $names = get_outfile_names($result);
+        $names = get_outfile_phys_names($result);
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
-                $s=stat($path);
-                $size=$s['size'];
-                $batch_td_size+=$size;
+                $batch_td_size += filesize($path);
             }
         }
     }
@@ -261,6 +332,79 @@ function boinc_get_output_files_url($user, $batch_id) {
 function boinc_get_wu_output_files_url($user, $wu_id) {
     $auth_str =  md5($user->authenticator.$wu_id);
     return "get_output.php?cmd=workunit_files&wu_id=$wu_id&auth_str=$auth_str";
+}
+
+////////////////// FILE INFO FILES //////////////
+
+// these are used:
+// 1) in user file sandbox
+// 2) in BUDA app variant dirs
+// in each case a file dir/foo has an info file dir/.md5/foo
+// containing its md5 and size
+// (same format as .md5 files in download hierarchy)
+
+// get the MD5 and size of a file
+//
+function get_file_info($path) {
+    $md5 = md5_file($path);
+    $s = stat($path);
+    $size = $s['size'];
+    return [$md5, $size];
+}
+
+// write a "info file" containing MD5 and size
+//
+function write_info_file($path, $md5, $size) {
+    file_put_contents($path, "$md5 $size");
+}
+
+// parse info file and return [md5, size]
+//
+function parse_info_file($path) {
+    if (!file_exists($path)) return null;
+    $x = file_get_contents($path);
+    $n = sscanf($x, "%s %d", $md5, $size);
+    if ($n != 2 || strlen($md5)!=32) {
+        return null;
+    }
+    return [$md5, $size];
+}
+
+///////////////// TEMPLATE CREATION //////////////
+
+function file_ref_in($fname) {
+    return(sprintf(
+'      <file_ref>
+         <open_name>%s</open_name>
+         <copy_file/>
+      </file_ref>
+',
+        $fname
+    ));
+}
+function file_info_out($i) {
+    return sprintf(
+'    <file_info>
+        <name><OUTFILE_%d/></name>
+        <generated_locally/>
+        <upload_when_present/>
+        <max_nbytes>5000000</max_nbytes>
+        <url><UPLOAD_URL/></url>
+    </file_info>
+',
+        $i
+    );
+}
+
+function file_ref_out($i, $fname) {
+    return sprintf(
+'        <file_ref>
+            <file_name><OUTFILE_%d/></file_name>
+            <open_name>%s</open_name>
+            <copy_file/>
+        </file_ref>
+',      $i, $fname
+    );
 }
 
 ?>

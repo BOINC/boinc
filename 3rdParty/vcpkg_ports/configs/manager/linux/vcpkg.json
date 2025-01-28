@@ -1,0 +1,27 @@
+{
+    "name": "boinc-manager",
+    "dependencies":
+    [
+        {
+          "name": "curl",
+          "features": ["openssl"],
+          "default-features": false
+        },
+        {
+          "name": "openssl",
+          "features": ["ssl3", "weak-ssl-ciphers"],
+          "default-features": false
+        },
+        {
+          "name": "wxwidgets",
+          "default-features": false
+        },
+        "freetype",
+        "librsvg",
+        {
+          "name": "gdk-pixbuf",
+          "features": ["jpeg", "png", "svg", "tiff", "others"],
+          "default-features": false
+        }
+    ]
+}

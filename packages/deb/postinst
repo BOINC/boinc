@@ -1,0 +1,184 @@
+#!/bin/sh
+
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2024 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+set -e
+
+BOINCUSER=boinc
+BOINCGROUP=boinc
+BOINCDIR=/var/lib/boinc
+
+set_perm() {
+    chown $2:$3 "$1"
+    chmod $4 "$1"
+}
+
+set_perm_recursive() {
+    chown -R $2:$3 "$1"
+    chmod -R $4 "$1"
+}
+
+set_perm_dir() {
+    for file in $(ls "$1")
+    do
+        path="$1/${file}"
+        set_perm "${path}" $2 $3 $4
+    done
+}
+
+update_nested_dirs() {
+   chmod $2 "${1}"
+
+   for file in $(ls "$1")
+    do
+	if [ -d "${1}/${file}" ] ; then
+		update_nested_dirs "${1}/${file}" $2
+	fi
+    done
+}
+
+if ! getent group ${BOINCGROUP} >/dev/null; then
+    groupadd -r ${BOINCGROUP}
+fi
+
+if ! getent passwd ${BOINCUSER} >/dev/null; then
+    useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}
+fi
+
+if ! getent group ${BOINCGROUP} | grep -q ${BOINCUSER}; then
+    usermod -a -G ${BOINCGROUP} ${BOINCUSER}
+fi
+
+if getent group video >/dev/null; then
+    if ! getent group video | grep -q ${BOINCUSER}; then
+        usermod -a -G video ${BOINCUSER}
+    fi
+fi
+
+if getent group render >/dev/null; then
+    if ! getent group render | grep -q ${BOINCUSER}; then
+        usermod -a -G render ${BOINCUSER}
+    fi
+fi
+
+if [ -n "$SUDO_USER" ]; then
+    if ! getent group ${BOINCGROUP} | grep -q $SUDO_USER; then
+        usermod -a -G ${BOINCGROUP} $SUDO_USER
+    fi
+fi
+
+if [ ! -d /etc/boinc-client ] ; then
+    mkdir -p /etc/boinc-client
+fi
+
+if [ ! -e ${BOINCDIR}/cc_config.xml ] ; then
+    echo """
+    <!--
+    This is a configuration file of the BOINC client.
+    For a complete list of options see https://boinc.berkeley.edu/wiki/client_configuration
+    -->
+    <cc_config>
+    </cc_config>
+    """ > ${BOINCDIR}/cc_config.xml
+fi
+
+if [ ! -e /etc/boinc-client/cc_config.xml ] ; then
+    ln -s ${BOINCDIR}/cc_config.xml /etc/boinc-client/cc_config.xml
+fi
+
+if [ ! -e ${BOINCDIR}/global_prefs_override.xml ] ; then
+    echo """
+    <!--
+    This is a configuration file of the BOINC client that can be used to override global preferences
+    received from the attached project locally.
+    For a complete list of options see https://github.com/BOINC/boinc/wiki/PrefsOverride
+    -->
+    <global_preferences>
+    </global_preferences>
+    """ > ${BOINCDIR}/global_prefs_override.xml
+fi
+
+if [ ! -e /etc/boinc-client/global_prefs_override.xml ] ; then
+    ln -s ${BOINCDIR}/global_prefs_override.xml /etc/boinc-client/global_prefs_override.xml
+fi
+
+if [ ! -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+    echo "" > ${BOINCDIR}/gui_rpc_auth.cfg
+fi
+
+if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
+    ln -s ${BOINCDIR}/gui_rpc_auth.cfg /etc/boinc-client/gui_rpc_auth.cfg
+fi
+
+if [ ! -e ${BOINCDIR}/remote_hosts.cfg ] ; then
+    echo """
+    # This file contains a list of remote host names or IP addresses (one per line)
+    # that are allowed to connect to the BOINC client via the GUI RPC interface.
+    # Only the hosts listed in this file will be allowed to connect.
+    # Lines starting with '#' and ';' are comments and are ignored.
+    """ > ${BOINCDIR}/remote_hosts.cfg
+fi
+
+if [ ! -e /etc/boinc-client/remote_hosts.cfg ] ; then
+    ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
+fi
+
+if [ ! -e ${BOINCDIR}/ca-bundle.crt ] ; then
+    ln -s /etc/ssl/certs/ca-certificates.crt ${BOINCDIR}/ca-bundle.crt
+fi
+
+set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
+set_perm ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} 0775
+
+if [ -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
+    set_perm ${BOINCDIR}/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -e ${BOINC_DIR}/remote_hosts.cfg ] ; then
+    set_perm ${BOINCDIR}/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -d ${BOINCDIR}/projects ] ; then
+    set_perm ${BOINCDIR}/projects ${BOINCUSER} ${BOINCGROUP} 0775
+    update_nested_dirs ${BOINCDIR}/projects u+x,g+x,o+x
+fi
+
+if [ -d ${BOINCDIR}/slots ] ; then
+    set_perm ${BOINCDIR}/slots ${BOINCUSER} ${BOINCGROUP} 0775
+    update_nested_dirs ${BOINCDIR}/slots u+x,g+x,o+x
+fi
+
+if [ -e /etc/boinc-client/cc_config.xml ] ; then
+    set_perm /etc/boinc-client/cc_config.xml ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -e /etc/boinc-client/global_prefs_override.xml ] ; then
+    set_perm /etc/boinc-client/global_prefs_override.xml ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
+    set_perm /etc/boinc-client/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
+    set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
+fi
+
+if [ -x /bin/systemctl ] ; then
+    systemctl enable --now boinc-client.service
+fi

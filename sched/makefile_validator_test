@@ -1,5 +1,5 @@
 # makefile for building a validator test program; see
-# https://boinc.berkeley.edu/trac/wiki/ValidationSimple
+# https://github.com/BOINC/boinc/wiki/ValidationSimple
 
 # the object file containing result_init() etc. - replace with your own
 VALIDATOR_SRC = sample_bitwise_validator.cpp

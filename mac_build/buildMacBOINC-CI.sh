@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -19,7 +19,7 @@
 #
 #
 # Script to build the different targets in the BOINC xcode project using a
-# combined install directory for all dependencies
+# combined install directory for all dependencies, plus some samples.
 #
 # Usage:
 # ./mac_build/buildMacBOINC-CI.sh [--cache_dir PATH] [--debug] [--clean] [--no_shared_headers]
@@ -27,7 +27,8 @@
 # --cache_dir is the path where the dependencies are installed by 3rdParty/buildMacDependencies.sh.
 # --debug will build the debug Manager (needs debug wxWidgets library in cache_dir).
 # --clean will force a full rebuild.
-# --no_shared_headers will build targets individually instead of in one call of BuildMacBOINC.sh (NOT recommended)
+# --no_shared_headers will build targets individually instead of in one call of
+#   BuildMacBOINC.sh. Provides additional verification & details in build output.
 
 # check working directory because the script needs to be called like: ./mac_build/buildMacBOINC-CI.sh
 if [ ! -d "mac_build" ]; then
@@ -42,14 +43,14 @@ rm -fR ./mac_build/build
 cache_dir="$(pwd)/3rdParty/buildCache/mac"
 style="Deployment"
 config=""
-doclean=""
+doclean="-noclean"
 beautifier="cat" # we need a fallback if xcpretty is not available
 share_paths="yes"
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
         -clean|--clean)
-        doclean="yes"
+        doclean=""
         ;;
         --cache_dir)
         cache_dir="$2"
@@ -75,155 +76,134 @@ if [ $? -eq 0 ]; then
     beautifier="xcpretty"
 fi
 
+rootPath="${PWD}"
+
 cd ./mac_build || exit 1
 retval=0
 
+show_version_errors() {
+    if [ -f /tmp/depversions.txt ]; then
+        cat /tmp/depversions.txt
+        rm -f /tmp/depversions.txt
+    fi
+}
+
+libSearchPathDbg=""
+if [ "${style}" == "Development" ]; then
+    libSearchPathDbg="./build/Development  ${cache_dir}/lib/debug"
+fi
+
 if [ ${share_paths} = "yes" ]; then
     ## all targets share the same header and library search paths
+    ## Note: this does not build zip apps, upper case or VBoxWrapper projects.
     libSearchPathDbg=""
-    if [ "${style}" == "Development" ]; then
-        libSearchPathDbg="./build/Development  ${cache_dir}/lib/debug"
-    fi
-    source BuildMacBOINC.sh ${config} -all -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
+    source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
-        curl --upload-file ./xcodebuild_all.log https://transfer.sh/xcodebuild_all.log
-        cd ..; exit 1; fi
+        cd "${rootPath}"; show_version_errors; exit 1; fi
     return 0
 fi
 
-## This is code that builds each target individually in case the above shared header paths version is giving problems
-## Note: currently this does not build the boinc_zip library
-if [ "${doclean}" = "yes" ]; then
-    ## clean all targets
-    xcodebuild -project boinc.xcodeproj -target Build_All  -configuration ${style} clean | $beautifier; retval=${PIPESTATUS[0]}
-    if [ $retval -ne 0 ]; then cd ..; exit 1; fi
-
-    ## clean boinc_zip which is not included in Build_All
-    xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} clean | $beautifier; retval=${PIPESTATUS[0]}
-    if [ $retval -ne 0 ]; then cd ..; exit 1; fi
+verify_product_archs() {
+cd "${1}"
+if [ $? -ne 0 ]; then
+    cd "${rootPath}"
+    show_version_errors
+    exit 1
 fi
 
-## Target mgr_boinc also builds dependent targets SetVersion and BOINC_Client
-libSearchPathDbg=""
-if [ "${style}" == "Development" ]; then
-    libSearchPathDbg="${cache_dir}/lib/debug"
+    declare -a files=(*)
+    for (( i = 0; i < ${#files[*]}; ++ i )); do
+        if [[ -z "${files[i]}" ]]; then continue; fi
+        if [[ "${files[i]}" = *dSYM ]]; then continue; fi
+        if [[ "${files[i]}" = detect_rosetta_cpu ]]; then continue; fi
+        fileToCheck="${files[i]}"
+        if [[ -d "$fileToCheck" ]]; then
+            fileToCheck="${files[i]}/Contents/MacOS/${files[i]%.*}"
+        fi
+        echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ..."
+        lipo "${fileToCheck}" -verify_arch x86_64 arm64
+        if [ $? -ne 0 ]; then
+            echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} failed"
+            cd "${rootPath}"; show_version_errors; exit 1;
+        fi
+        echo "Verifying architecture (x86_64 arm64) of ${fileToCheck} ...done"
+        echo
+    done
+
+cd "${rootPath}/mac_build"
+if [ $? -ne 0 ]; then
+    cd "${rootPath}"
+    show_version_errors
+    exit 1
 fi
-target="mgr_boinc"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+}
+
+foundTargets=0
+target="x"
+
+rm -f /tmp/depversions.txt
+
+## This is code that builds each target individually in the main BOINC Xcode
+## project, plus the zip apps, upper case and VBoxWrapper projects.
+for buildTarget in `xcodebuild -list -project boinc.xcodeproj`
+do
+    if [[ "${target}" = "Build" && "${buildTarget}" = "Configurations:" ]]; then break; fi
+    if [ $foundTargets -eq 1 ]; then
+        if [ "${target}" != "Build_All" ]; then
+            echo "Building ${target}..."
+            source BuildMacBOINC.sh ${config} ${doclean} -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+            if [ ${retval} -eq 0 ]; then
+                echo "Building ${target}...success"
+                echo
+            else
+                echo "Building ${target}...failed"
+                cd "${rootPath}"; show_version_errors; exit 1;
+            fi
+        fi
+    fi
+    if [ "${target}" = "Targets:" ]; then foundTargets=1; fi
+    target="${buildTarget}"
+done
+
+## Now verify the architectures of the built products
+verify_product_archs "${rootPath}/mac_build/build/${style}"
+
+echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu..."
+if [[ `lipo "${rootPath}/mac_build/build/${style}/detect_rosetta_cpu" -archs` = "x86_64" ]]; then
+    echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu ...done"
+else
+    echo "Verifying architecture (x86_64 only) of detect_rosetta_cpu failed"
+    cd ..; show_version_errors; exit 1;
+fi
+
+target="zip apps"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} ${doclean} -zipapps | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
+    echo "Building ${target}...failed"
+    cd "${rootPath}"; show_version_errors; exit 1;
 fi
 
-## Target gfx2libboinc also build dependent target jpeg
-target="gfx2libboinc"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../samples/jpeglib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+verify_product_archs "${rootPath}/zip/build/${style}"
+
+target="UpperCase2"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} ${doclean} -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../zip/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
+    echo "Building ${target}...failed"
+    cd "${rootPath}"; show_version_errors; exit 1;
 fi
 
-target="libboinc"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+verify_product_archs "${rootPath}/samples/mac_build/build/${style}"
+
+target="VBoxWrapper"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} ${doclean} -vboxwrapper -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../clientgui/mac/ ../samples/jpeglib ${cache_dir}/include \\\${HEADER_SEARCH_PATHS}"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
+    echo "Building ${target}...failed"
+    cd "${rootPath}"; show_version_errors; exit 1;
 fi
 
-target="api_libboinc"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
+verify_product_archs "${rootPath}/samples/vboxwrapper/build/${style}"
 
-target="PostInstall"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="switcher"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="gfx_switcher"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="Install_BOINC"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-# screensaver disabled because Travis can't build some library correctly, see https://github.com/BOINC/boinc/issues/2662
-#libSearchPath="./build/Deployment"
-#if [ "${style}" == "Development" ]; then
-#    libSearchPath="./build/Development"
-#fi
-#target="ss_app"
-#source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../api/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2"  -setting LIBRARY_SEARCH_PATHS "${libSearchPath} ${cache_dir}/lib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-#if [ ${retval} -ne 0 ]; then
-#    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-#    cd ..; exit 1;
-#fi
-
-target="ScreenSaver"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting GCC_ENABLE_OBJC_GC "unsupported" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="boinc_opencl"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="setprojectgrp"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="cmd_boinc"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="Uninstaller"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="SetUpSecurity"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-target="AddRemoveUser"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
-cd ..
+cd "${rootPath}"

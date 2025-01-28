@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -191,7 +191,7 @@ int procinfo_setup(PROC_MAP& pm) {
 
 #if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)  // solaris
         psinfo_t psinfo;
-        sprintf(pidpath, "/proc/%s/psinfo", piddir->d_name);
+        snprintf(pidpath, sizeof(pidpath), "/proc/%s/psinfo", piddir->d_name);
         fd = fopen(pidpath, "r");
         if (!fd) continue;
         PROCINFO p;
@@ -204,7 +204,7 @@ int procinfo_setup(PROC_MAP& pm) {
             strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
         }
         fclose(fd);
-        sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
+        snprintf(pidpath, sizeof(pidpath), "/proc/%s/usage", piddir->d_name);
         prusage_t prusage;
         fd = fopen(pidpath, "r");
         if (!fd) continue;
@@ -220,7 +220,7 @@ int procinfo_setup(PROC_MAP& pm) {
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
 #else  // linux
-        sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
+        snprintf(pidpath, sizeof(pidpath), "/proc/%s/stat", piddir->d_name);
         fd = fopen(pidpath, "r");
         if (!fd) continue;
         if (fgets(buf, sizeof(buf), fd) == NULL) {
@@ -262,4 +262,36 @@ int procinfo_setup(PROC_MAP& pm) {
     closedir(dir);
     find_children(pm);
     return 0;
+}
+
+// get total user-mode CPU time
+// see https://www.baeldung.com/linux/get-cpu-usage
+//
+double total_cpu_time() {
+    char buf[1024];
+    static FILE *f=NULL;
+    static double scale;
+    if (!f) {
+        f = fopen("/proc/stat", "r");
+        if (!f) {
+            fprintf(stderr, "can't open /proc/stat\n");
+            return 0;
+        }
+        long hz = sysconf(_SC_CLK_TCK);
+        scale = 1./hz;
+    } else {
+        fflush(f);
+        rewind(f);
+    }
+    if (!fgets(buf, 256, f)) {
+        fprintf(stderr, "can't read /proc/stat\n");
+        return 0;
+    }
+    double user, nice;
+    int n = sscanf(buf, "cpu %lf %lf", &user, &nice);
+    if (n != 2) {
+        fprintf(stderr, "can't parse /proc/stat: %s\n", buf);
+        return 0;
+    }
+    return (user+nice)*scale;
 }

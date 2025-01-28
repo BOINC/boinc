@@ -1,6 +1,7 @@
 # make libraries for Linux client and boinccmd
 
-CC = g++ -O4 -Wall -I ../
+//CC = g++ -O4 -Wall -I ../
+CC = g++ -g -Wall -I ../
 
 all: boinc.a boinc_cmd.a
 

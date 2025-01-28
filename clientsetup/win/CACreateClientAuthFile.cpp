@@ -28,10 +28,10 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateClientAuthFile::CACreateClientAuthFile(MSIHANDLE hMSIHandle) :
@@ -40,10 +40,10 @@ CACreateClientAuthFile::CACreateClientAuthFile(MSIHANDLE hMSIHandle) :
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 CACreateClientAuthFile::~CACreateClientAuthFile()
@@ -53,10 +53,10 @@ CACreateClientAuthFile::~CACreateClientAuthFile()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
-// Function:    
 //
-// Description: 
+// Function:
+//
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT CACreateClientAuthFile::OnExecution()
@@ -108,7 +108,7 @@ UINT CACreateClientAuthFile::OnExecution()
             {
                 LogMessage(
                     INSTALLMESSAGE_INFO,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     NULL,
@@ -119,7 +119,7 @@ UINT CACreateClientAuthFile::OnExecution()
             {
                 LogMessage(
                     INSTALLMESSAGE_FATALEXIT,
-                    NULL, 
+                    NULL,
                     NULL,
                     NULL,
                     NULL,
@@ -141,7 +141,7 @@ UINT CACreateClientAuthFile::OnExecution()
         {
             LogMessage(
                 INSTALLMESSAGE_FATALEXIT,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -166,7 +166,7 @@ UINT CACreateClientAuthFile::OnExecution()
 		{
             LogMessage(
                 INSTALLMESSAGE_FATALEXIT,
-                NULL, 
+                NULL,
                 NULL,
                 NULL,
                 NULL,
@@ -177,14 +177,14 @@ UINT CACreateClientAuthFile::OnExecution()
         CA2W pszUnicodeEncodedPassword( szBuffer );
 
         _sntprintf(
-            szMessage, 
+            szMessage,
             sizeof(szMessage),
             _T("(Unicode) Base64 Encoded String: '%s'"),
             pszUnicodeEncodedPassword.m_psz
         );
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -193,7 +193,7 @@ UINT CACreateClientAuthFile::OnExecution()
 
         FILE* fClientAuthFile = NULL;
         fClientAuthFile = _tfopen(strClientAuthFile.c_str(), _T("w"));
-        
+
         _ftprintf(
             fClientAuthFile,
             _T("<client_authorization>\n")
@@ -215,7 +215,7 @@ UINT CACreateClientAuthFile::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    CreateClientAuthFile
 //
 // Description: This custom action stores the 'boinc_project' account

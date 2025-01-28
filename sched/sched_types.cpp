@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,23 +23,20 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <ctime>
 
 #include "parse.h"
 #include "error_numbers.h"
 #include "str_util.h"
-#include "util.h"
+#include "filesys.h"
 #include "boinc_db.h"
-
 #include "sched_main.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "time_stats_log.h"
 #include "sched_types.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 using std::string;
 
@@ -220,6 +217,9 @@ void PROJECT_PREFS::parse() {
     if (parse_bool(buf,"no_intel_gpu", flag)) {
         dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
     }
+    if (parse_bool(buf,"no_apple_gpu", flag)) {
+        dont_use_proc_type[PROC_TYPE_APPLE_GPU] = flag;
+    }
     if (parse_int(buf, "<max_cpus>", temp_int)) {
         max_cpus = temp_int;
     }
@@ -264,6 +264,8 @@ void SCHEDULER_REQUEST::clear() {
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
     dont_send_work = false;
+    dont_use_wsl = false;
+    dont_use_docker = false;
     strcpy(client_brand, "");
     global_prefs.defaults();
     strcpy(global_prefs_source_email_hash, "");
@@ -401,6 +403,8 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
         if (xp.parse_bool("dont_send_work", dont_send_work)) continue;
+        if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
+        if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
         if (xp.match_tag("global_preferences")) {
             safe_strcpy(global_prefs_xml, "<global_preferences>\n");
             char buf[BLOB_SIZE];
@@ -593,7 +597,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
 int SCHEDULER_REQUEST::write(FILE* fout) {
     unsigned int i;
 
-    fprintf(fout,
+    boinc::fprintf(fout,
         "<scheduler_request>\n"
         "  <authenticator>%s</authenticator>\n"
         "  <platform_name>%s</platform_name>\n"
@@ -628,7 +632,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
     );
 
     for (i=0; i<client_app_versions.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "  <app_version>\n"
             "    <app_name>%s</app_name>\n"
             "    <version_num>%d</version_num>\n"
@@ -638,19 +642,19 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         );
     }
 
-    fprintf(fout,
+    boinc::fprintf(fout,
         "  <global_prefs_xml>\n"
         "    %s"
         "  </globals_prefs_xml>\n",
         global_prefs_xml
     );
-  
-    fprintf(fout,
+
+    boinc::fprintf(fout,
         "  <global_prefs_source_email_hash>%s</global_prefs_source_email_hash>\n",
         global_prefs_source_email_hash
     );
-  
-    fprintf(fout,
+
+    boinc::fprintf(fout,
         "  <host>\n"
         "    <id>%lu</id>\n"
         "    <rpc_time>%d</rpc_time>\n"
@@ -671,7 +675,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
     );
 
     for (i=0; i<results.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "  <result>\n"
             "    <name>%s</name>\n"
             "    <client_state>%d</client_state>\n"
@@ -686,9 +690,9 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
             results[i].app_version_num
         );
     }
-  
+
     for (i=0; i<msgs_from_host.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "  <msg_from_host>\n"
             "    <variety>%s</variety>\n"
             "    <msg_text>%s</msg_text>\n"
@@ -699,13 +703,13 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
     }
 
     for (i=0; i<file_infos.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "  <file_info>\n"
             "    <name>%s</name>\n"
             "  </file_info>\n",
             file_infos[i].name
         );
-        fprintf(fout, "</scheduler_request>\n");
+        boinc::fprintf(fout, "</scheduler_request>\n");
     }
     return 0;
 }
@@ -762,23 +766,23 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     // after the Content-type (to make it legit XML),
     // but this broke 4.19 clients
     //
-    fprintf(fout,
+    boinc::fprintf(fout,
         "Content-type: text/xml\n\n"
         "<scheduler_reply>\n"
         "<scheduler_version>%d</scheduler_version>\n",
         BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION
     );
     if (sreq.core_client_version >= 70028) {
-        fprintf(fout, "<dont_use_dcf/>\n");
+        boinc::fprintf(fout, "<dont_use_dcf/>\n");
     }
     if (strlen(config.master_url)) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<master_url>%s</master_url>\n",
             config.master_url
         );
     }
     if (config.ended) {
-        fprintf(fout, "   <ended>1</ended>\n");
+        boinc::fprintf(fout, "   <ended>1</ended>\n");
     }
 
     // if the scheduler has requested a delay OR the sysadmin has configured
@@ -792,9 +796,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             min_delay_needed = config.min_sendwork_interval+1;
         }
         if (request_delay<min_delay_needed) {
-            request_delay = min_delay_needed; 
+            request_delay = min_delay_needed;
         }
-        fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
+        boinc::fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
     log_messages.printf(MSG_NORMAL,
         "Sending reply to [HOST#%lu]: %d results, delay req %.2f\n",
@@ -820,7 +824,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
                 if (pos == string::npos) break;
                 msg.replace(pos, 1, " ");
             }
-            fprintf(fout,
+            boinc::fprintf(fout,
                 "<message priority=\"%s\">%s</message>\n",
                 pri.c_str(), msg.c_str()
             );
@@ -833,7 +837,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             if (!strcmp(prio, "notice")) {
                 strcpy(prio, "high");
             }
-            fprintf(fout,
+            boinc::fprintf(fout,
                 "<message priority=\"%s\">%s</message>\n",
                 prio,
                 um.message.c_str()
@@ -842,43 +846,43 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     } else {
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
-            fprintf(fout,
+            boinc::fprintf(fout,
                 "<message priority=\"%s\">%s</message>\n",
                 um.priority.c_str(),
                 um.message.c_str()
             );
         }
     }
-    fprintf(fout,
+    boinc::fprintf(fout,
         "<project_name>%s</project_name>\n",
         config.long_name
     );
 
     if (config.request_time_stats_log) {
         if (!have_time_stats_log()) {
-            fprintf(fout, "<send_time_stats_log>1</send_time_stats_log>\n");
+            boinc::fprintf(fout, "<send_time_stats_log>1</send_time_stats_log>\n");
         }
     }
 
     if (project_is_down) {
-        fprintf(fout,"<project_is_down/>\n");
+        boinc::fprintf(fout,"<project_is_down/>\n");
         goto end;
     }
     if (config.workload_sim) {
-        fprintf(fout, "<send_full_workload/>\n");
+        boinc::fprintf(fout, "<send_full_workload/>\n");
     }
 
     if (nucleus_only) goto end;
 
     if (strlen(config.symstore)) {
-        fprintf(fout, "<symstore>%s</symstore>\n", config.symstore);
+        boinc::fprintf(fout, "<symstore>%s</symstore>\n", config.symstore);
     }
     if (config.next_rpc_delay) {
-        fprintf(fout, "<next_rpc_delay>%f</next_rpc_delay>\n", config.next_rpc_delay);
+        boinc::fprintf(fout, "<next_rpc_delay>%f</next_rpc_delay>\n", config.next_rpc_delay);
     }
     if (user.id) {
         xml_escape(user.name, buf, sizeof(buf));
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<userid>%lu</userid>\n"
             "<user_name>%s</user_name>\n"
             "<user_total_credit>%f</user_total_credit>\n"
@@ -893,7 +897,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         // be paranoid about the following to avoid sending null
         //
         if (strlen(email_hash)) {
-            fprintf(fout,
+            boinc::fprintf(fout,
                 "<email_hash>%s</email_hash>\n",
                 email_hash
             );
@@ -903,7 +907,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             safe_strcpy(buf, user.cross_project_id);
             safe_strcat(buf, user.email_addr);
             md5_block((unsigned char*)buf, strlen(buf), external_cpid);
-            fprintf(fout,
+            boinc::fprintf(fout,
                 "<cross_project_id>%s</cross_project_id>\n"
                 "<external_cpid>%s</external_cpid>\n",
                 user.cross_project_id,
@@ -912,23 +916,23 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         }
 
         if (send_global_prefs) {
-            fputs(user.global_prefs, fout);
-            fputs("\n", fout);
+            boinc::fputs(user.global_prefs, fout);
+            boinc::fputs("\n", fout);
         }
 
         // always send project prefs
         //
-        fputs(user.project_prefs, fout);
-        fputs("\n", fout);
+        boinc::fputs(user.project_prefs, fout);
+        boinc::fputs("\n", fout);
 
     }
     if (hostid) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<hostid>%lu</hostid>\n",
             hostid
         );
     }
-    fprintf(fout,
+    boinc::fprintf(fout,
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
         "<host_venue>%s</host_venue>\n"
@@ -943,14 +947,14 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     //
     if (team.id) {
         xml_escape(team.name, buf, sizeof(buf));
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<teamid>%lu</teamid>\n"
             "<team_name>%s</team_name>\n",
             team.id,
             buf
         );
     } else {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<team_name></team_name>\n"
         );
     }
@@ -958,7 +962,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     // acknowledge results
     //
     for (i=0; i<result_acks.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<result_ack>\n"
             "    <name>%s</name>\n"
             "</result_ack>\n",
@@ -969,7 +973,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     // abort results
     //
     for (i=0; i<result_aborts.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<result_abort>\n"
             "    <name>%s</name>\n"
             "</result_abort>\n",
@@ -980,7 +984,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     // abort results not started
     //
     for (i=0; i<result_abort_if_not_starteds.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<result_abort_if_not_started>\n"
             "    <name>%s</name>\n"
             "</result_abort_if_not_started>\n",
@@ -997,8 +1001,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     }
 
     for (i=0; i<wus.size(); i++) {
-        fputs(wus[i].xml_doc, fout);
-        fputs("\n", fout);  // for old clients
+        boinc::fputs(wus[i].xml_doc, fout);
+        boinc::fputs("\n", fout);  // for old clients
     }
 
     for (i=0; i<results.size(); i++) {
@@ -1006,42 +1010,46 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     }
 
     if (strlen(code_sign_key)) {
-        fputs("<code_sign_key>\n", fout);
-        fputs(code_sign_key, fout);
-        fputs("\n</code_sign_key>\n", fout);
+        boinc::fputs("<code_sign_key>\n", fout);
+        boinc::fputs(code_sign_key, fout);
+        boinc::fputs("\n</code_sign_key>\n", fout);
     }
 
     if (strlen(code_sign_key_signature)) {
-        fputs("<code_sign_key_signature>\n", fout);
-        fputs(code_sign_key_signature, fout);
-        fputs("</code_sign_key_signature>\n", fout);
+        boinc::fputs("<code_sign_key_signature>\n", fout);
+        boinc::fputs(code_sign_key_signature, fout);
+        boinc::fputs("</code_sign_key_signature>\n", fout);
     }
 
     if (send_msg_ack) {
-        fputs("<message_ack/>\n", fout);
+        boinc::fputs("<message_ack/>\n", fout);
     }
 
     for (i=0; i<msgs_to_host.size(); i++) {
         MSG_TO_HOST& md = msgs_to_host[i];
-        fprintf(fout, "%s\n", md.xml);
+        boinc::fprintf(fout, "%s\n", md.xml);
     }
 
     if (config.non_cpu_intensive) {
-        fprintf(fout, "<non_cpu_intensive/>\n");
+        boinc::fprintf(fout, "<non_cpu_intensive/>\n");
+    }
+
+    if (config.strict_memory_bound) {
+        boinc::fprintf(fout, "<strict_memory_bound/>\n");
     }
 
     if (config.verify_files_on_app_start) {
-        fprintf(fout, "<verify_files_on_app_start/>\n");
+        boinc::fprintf(fout, "<verify_files_on_app_start/>\n");
     }
 
     for (i=0; i<file_deletes.size(); i++) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "<delete_file_info>%s</delete_file_info>\n",
             file_deletes[i].name
         );
     }
     for (i=0; i<file_transfer_requests.size(); i++) {
-        fprintf(fout, "%s", file_transfer_requests[i].c_str());
+        boinc::fprintf(fout, "%s", file_transfer_requests[i].c_str());
     }
 
     // before writing no_X_apps elements,
@@ -1053,7 +1061,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         // write deprecated form for old clients
         //
         if (g_request->core_client_version < 70040) {
-            fprintf(fout,
+            boinc::fprintf(fout,
                 "<no_cpu_apps>%d</no_cpu_apps>\n"
                 "<no_cuda_apps>%d</no_cuda_apps>\n"
                 "<no_ati_apps>%d</no_ati_apps>\n",
@@ -1073,7 +1081,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
                 if (!cp || !cp->count) continue;
             }
             if (!ssp->have_apps_for_proc_type[i]) {
-                fprintf(fout,
+                boinc::fprintf(fout,
                     "<no_rsc_apps>%s</no_rsc_apps>\n",
                     proc_type_name_xml(i)
                 );
@@ -1088,14 +1096,14 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     }
 
     gui_urls.get_gui_urls(user, host, team, buf, sizeof(buf));
-    fputs(buf, fout);
+    boinc::fputs(buf, fout);
     if (project_files.text) {
-        fputs(project_files.text, fout);
-        fprintf(fout, "\n");
+        boinc::fputs(project_files.text, fout);
+        boinc::fprintf(fout, "\n");
     }
 
 end:
-    fprintf(fout,
+    boinc::fprintf(fout,
         "</scheduler_reply>\n"
     );
     return 0;
@@ -1111,7 +1119,7 @@ void SCHEDULER_REPLY::set_delay(double delay) {
     if (request_delay > DELAY_MAX) {
         request_delay = DELAY_MAX;
     }
-} 
+}
 
 
 void SCHEDULER_REPLY::insert_app_unique(APP& app) {
@@ -1163,7 +1171,7 @@ USER_MESSAGE::USER_MESSAGE(const char* m, const char* p) {
 }
 
 int APP::write(FILE* fout) {
-    fprintf(fout,
+    boinc::fprintf(fout,
         "<app>\n"
         "    <name>%s</name>\n"
         "    <user_friendly_name>%s</user_friendly_name>\n"
@@ -1183,24 +1191,24 @@ int APP_VERSION::write(FILE* fout) {
     safe_strcpy(buf, xml_doc);
     char* p = strstr(buf, "</app_version>");
     if (!p) {
-        fprintf(stderr, "ERROR: app version %lu XML has no end tag!\n", id);
+        boinc::fprintf(stderr, "ERROR: app version %lu XML has no end tag!\n", id);
         return -1;
     }
     *p = 0;
-    fputs(buf, fout);
+    boinc::fputs(buf, fout);
     PLATFORM* pp = ssp->lookup_platform_id(platformid);
-    fprintf(fout, "    <platform>%s</platform>\n", pp->name);
+    boinc::fprintf(fout, "    <platform>%s</platform>\n", pp->name);
     if (strlen(plan_class)) {
-        fprintf(fout, "    <plan_class>%s</plan_class>\n", plan_class);
+        boinc::fprintf(fout, "    <plan_class>%s</plan_class>\n", plan_class);
     }
-    fprintf(fout,
+    boinc::fprintf(fout,
         "    <avg_ncpus>%f</avg_ncpus>\n"
         "    <flops>%f</flops>\n",
         bavp->host_usage.avg_ncpus,
         bavp->host_usage.projected_flops
     );
     if (strlen(bavp->host_usage.cmdline)) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "    <cmdline>%s</cmdline>\n",
             bavp->host_usage.cmdline
         );
@@ -1219,7 +1227,7 @@ int APP_VERSION::write(FILE* fout) {
         } else {
             nm = proc_type_name_xml(pt);
         }
-        fprintf(fout,
+        boinc::fprintf(fout,
             "    <coproc>\n"
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
@@ -1229,7 +1237,7 @@ int APP_VERSION::write(FILE* fout) {
         );
     }
     if (strlen(bavp->host_usage.custom_coproc_type)) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "    <coproc>\n"
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
@@ -1239,12 +1247,12 @@ int APP_VERSION::write(FILE* fout) {
         );
     }
     if (bavp->host_usage.gpu_ram) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "    <gpu_ram>%f</gpu_ram>\n",
             bavp->host_usage.gpu_ram
         );
     }
-    fputs("</app_version>\n", fout);
+    boinc::fputs("</app_version>\n", fout);
     return 0;
 }
 
@@ -1254,25 +1262,25 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     safe_strcpy(buf, xml_doc_in);
     char* p = strstr(buf, "</result>");
     if (!p) {
-        fprintf(stderr, "ERROR: result %lu XML has no end tag!\n", id);
+        boinc::fprintf(stderr, "ERROR: result %lu XML has no end tag!\n", id);
         return -1;
     }
     *p = 0;
-    fputs(buf, fout);
-    fputs("\n", fout);  // for old clients
+    boinc::fputs(buf, fout);
+    boinc::fputs("\n", fout);  // for old clients
 
     APP_VERSION* avp = bav.avp;
     CLIENT_APP_VERSION* cavp = bav.cavp;
     if (avp) {
         PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
-        fprintf(fout,
+        boinc::fprintf(fout,
             "    <platform>%s</platform>\n"
             "    <version_num>%d</version_num>\n"
             "    <plan_class>%s</plan_class>\n",
             pp->name, avp->version_num, avp->plan_class
         );
     } else if (cavp) {
-        fprintf(fout,
+        boinc::fprintf(fout,
             "    <platform>%s</platform>\n"
             "    <version_num>%d</version_num>\n"
             "    <plan_class>%s</plan_class>\n",
@@ -1280,7 +1288,7 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
         );
     }
 
-    fputs("</result>\n", fout);
+    boinc::fputs("</result>\n", fout);
     return 0;
 }
 
@@ -1397,6 +1405,10 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_double("n_bwup", n_bwup)) continue;
         if (xp.parse_double("n_bwdown", n_bwdown)) continue;
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
+        if (xp.parse_bool("docker_available", docker_available)) continue;
+        if (xp.parse_bool("docker_compose_available", docker_compose_available)) continue;
+        if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
+        if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
         if (xp.match_tag("opencl_cpu_prop")) {
@@ -1404,9 +1416,8 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
-        if (xp.parse_bool("wsl_available", wsl_available)) continue;
         if (xp.match_tag("wsl")) {
-            wsls.parse(xp);
+            wsl_distros.parse(xp);
             continue;
         }
 

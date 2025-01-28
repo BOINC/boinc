@@ -235,7 +235,7 @@ $i = 1 + $offset;
 
 //The number of columns is the number of items we currently have
 //available to display in each row
-// 
+//
 for ($x = 0; $x < count($data[0]); $x++) {
     show_row($data, $x);
     $i++;

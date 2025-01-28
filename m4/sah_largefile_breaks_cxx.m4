@@ -16,7 +16,7 @@ AC_DEFUN([SAH_LARGEFILE_BREAKS_CXX],[
       ]])],
     [tmp_res="no"],
     [AC_DEFINE([LARGEFILE_BREAKS_CXX],[1],
-    ["Define to 1 if largefile support causes missing symbols in C++"] ) 
+    ["Define to 1 if largefile support causes missing symbols in C++"] )
     tmp_res="yes"
     sah_cxx_includes=`echo "#include  \"${ac_aux_dir}/lib/std_fixes.h\"" ; echo $sah_cxx_includes`
     ]
@@ -24,4 +24,4 @@ AC_DEFUN([SAH_LARGEFILE_BREAKS_CXX],[
   AC_MSG_RESULT($tmp_res)
   AC_LANG_POP
 ])
-  
+

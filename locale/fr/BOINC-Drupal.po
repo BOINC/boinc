@@ -5,13 +5,15 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Axel Coutemanche <inactive+axbrul@transifex.com>, 2016
-# Axel Andy, 2015
+# 246bd88cb52758bb444023b2931157d5_8dacb48 <2de2fc0e5f5f6e15035a315ffe43879d_386149>, 2016
+# Axel Lainerdo, 2022
+# b2b0c8b7180e1e75e6e97e0fb63dfbb9_36d8b66, 2015
 # Clément Jonglez <clement.jonglez@isae.fr>, 2015
 # Clément Marshall <7clement@gmail.com>, 2019
 # Poussinou, 2017
+# Frédéric Pauvert, 2023
 # lentrad <lentrad@gmail.com>, 2015
-# Lionel HANNEQUIN <lionel.hannequin@sfr.fr>, 2018
+# Lionel HANNEQUIN <lh56@proton.me>, 2018
 # Lucas Mascaro <mascaro.lucas@yahoo.fr>, 2015
 # Petit Jérôme <yeromu@gmail.com>, 2015
 # Philippe Janocha, 2016-2018
@@ -24,14 +26,14 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2019-01-11 10:43+0000\n"
-"Last-Translator: Clément Marshall <7clement@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Frédéric Pauvert, 2023\n"
+"Language-Team: French (http://app.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"
@@ -60,16 +62,16 @@ msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home est un programme qui utilise les moments d'inactivité de votre ordinateur pour vous offrir un économiseur d'écran et chercher les ondes gravitationnelles issues de la rotation d'étoiles à neutrons (aussi appelées pulsars) dans les données provenant du détecteur d'ondes gravitationnelles LIGO."
+msgstr "Einstein@Home est un programme qui exécute un économiseur d'écran lorsque votre ordinateur est inutilisé afin de rechercher des ondes gravitationnelles provenant d'étoiles à neutrons en rotation (également appelées pulsars) à l'aide de données provenant du détecteur d'ondes gravitationnelles LIGO."
 
 msgid "Run while computer is on battery power?"
-msgstr "Calculer quand votre ordinateur portable est sur batterie ?"
+msgstr "Exécuter lorsque l'ordinateur est sur batterie ?"
 
 msgid "Only applies to portable computers"
 msgstr "Applicable uniquement aux ordinateurs portables"
 
 msgid "Run while computer is in use?"
-msgstr "Calculer quand l'ordinateur est utilisé ?"
+msgstr "Exécuter quand l'ordinateur est en cours d'utilisation ?"
 
 msgid "Run GPU work while computer is in use?"
 msgstr "Calculer sur la carte graphique pendant que l'ordinateur est utilisé ?"
@@ -279,7 +281,7 @@ msgid ""
 msgstr "Le membre @name se propose d’être chef d'équipe. C'est peut-être parce que vous avez quitté l'équipe ou que vous n'avez pas eu de contact avec l'équipe depuis longtemps."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr "Le chef d'équipe a une journée pour répondre à votre requête de transfert."
+msgstr "Le fondateur de l'équipe a 1 jour pour répondre à votre demande de transfert."
 
 msgid "Message board title is required."
 msgstr "Le titre du forum est requis."
@@ -303,7 +305,7 @@ msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr "Utilisation : \"Enregistrer la configuration\" sauvegardera les préférences ci-dessus dans la base de données Drupal. Elle deviendront les préférences de calcul par défaut lorsqu'un utilisateur chargera la page des préférences du compte."
+msgstr "Utilisation : 'Enregistrer la configuration' sauvegardera les préférences ci-dessus dans la base de données Drupal. Elles seront les préférences de calcul (globales) par défaut quand l'utilisateur chargera la page des préférences du compte."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -1372,7 +1374,7 @@ msgstr "Saisissez votre mot de passe actuel si vous souhaitez changer votre adre
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "BOINC user ID"
-msgstr "Nom d'utilisateur Boinc"
+msgstr "Nom d'utilisateur BOINC"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
@@ -1751,7 +1753,7 @@ msgstr "Utile uniquement si vous avez un modem, une connexion VPN ou RNIS."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disconnect when done?"
-msgstr "Se déconnecter dès que terminé ?"
+msgstr "Se déconnecter une fois terminé ?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1791,7 +1793,7 @@ msgstr "Limiter à"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
-msgstr "Exemple : BOINC doit transférer au maximum 2000 MB de données tous les 30 jours."
+msgstr "Exemple : BOINC doit transférer au maximum 2000 Mo de données tous les 30 jours."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -3473,7 +3475,7 @@ msgstr "Appliquer le filtre"
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr "Vous n'êtes pas autorisé(e) à apporter des modifications à cet hôte."
+msgstr "Vous n'êtes pas autorisé à apporter des modifications à cet hôte."
 
 #: host-task-table
 msgctxt "host-task-table"
@@ -3601,7 +3603,7 @@ msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr "Sélectionner les types de contenus qui seront fractionnés pour les traductions."
+msgstr "Choisissez les types de contenu (nœuds) qui seront divisés en morceaux pour la traduction."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
@@ -3655,7 +3657,7 @@ msgctxt "account-profile-edit"
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
-msgstr "Error de validation du CAPTCHA : ID de session CAPTCHA inconnu. Contactez l'administrateur du site si le problème persiste."
+msgstr "Erreur de validation du CAPTCHA : ID de session CAPTCHA inconnu. Contactez l'administrateur du site si le problème persiste."
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -3705,7 +3707,7 @@ msgstr "Annuler l'envoi"
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr "Réinitialiser les drapeaux"
+msgstr "Réinitialiser les balises"
 
 #: forum
 msgctxt "forum"

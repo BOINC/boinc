@@ -19,37 +19,37 @@
  *  mac_backtrace.C
  *
  */
- 
-/* This is part of a backtrace generator for boinc project applications.  
+
+/* This is part of a backtrace generator for boinc project applications.
 *
 * Adapted from Apple Developer Technical Support Sample Code QCrashReport
 *
-* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some 
-* adjustment for future OS versions; see the discussion of _sigtramp and 
+* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some
+* adjustment for future OS versions; see the discussion of _sigtramp and
 * PowerPC Signal Stack Frames below.
 *
 *  For useful tips on using backtrace information, see Apple Tech Note 2123:
 *  http://developer.apple.com/technotes/tn2004/tn2123.html#SECNOSYMBOLS
 *
 *  To convert addresses to correct symbols, use the atos command-line tool:
-*  * If the .dSYM file is not in the same directory as the executable, put 
+*  * If the .dSYM file is not in the same directory as the executable, put
 *    a copy of the .dSYM file in that directory.
 *  atos -o <binary-image-file> -l <load-address>
 *  * <binary-image-file> must be the path to the binary executable; for
 *    example: "/Applications/BOINCManager.app/Conents/MacOS/BOINCManager"
 *  * The load address of the binary image can be found in the
-*   "Binary Images Description:" section of the backtrace. If the backtrace 
+*   "Binary Images Description:" section of the backtrace. If the backtrace
 *    contains the following two lines:
 *      Binary Images Description:
 *      0x10ebd9000 - 0x10f360fff /Applications/BOINCManager.app/Contents/MacOS/BOINCManager
 *    then <load-address> would be 0x10ebd9000
-*  * You can then enter addresses from the backtrace one line at a time to 
+*  * You can then enter addresses from the backtrace one line at a time to
 *    get their corresponding symbols.
 *  * Note: if an address 1a23 is hex, use 0x1a23.
 *  * For more information on using atos, see the atos man page.
 *
-*  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additional underscore before 
+*  To demangle mangled C++ symbols, use the c++filt command-line tool.
+*  You may need to prefix C++ symbols with an additional underscore before
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -133,11 +133,11 @@ void PrintBacktrace(void) {
 //  * Attach Debugger to this application.
 //  * Continue until you reach this breakpoint.
 //  * Change wait variable to 0 (false).
-// This is necessary because GDB intercepts signals even if you tell it 
+// This is necessary because GDB intercepts signals even if you tell it
 // not to, so you must attach GDB after the signal handler is invoked.
 
     bool wait = true;
-    
+
     while (wait) {
         fprintf(stderr, "waiting\n");
         sleep(1);
@@ -145,11 +145,11 @@ void PrintBacktrace(void) {
 #endif
 
     GetNameOfAndPathToThisProcess(nameBuf, sizeof(nameBuf), pathToThisProcess, sizeof(pathToThisProcess));
-    
+
     if (nameBuf[0]) {
         fprintf(stderr, "\nCrashed executable name: %s\n", nameBuf);
     }
-    
+
 #ifdef BOINC_VERSION_STRING
     fprintf(stderr, "built using BOINC library version %s\n", BOINC_VERSION_STRING);
 #endif
@@ -167,7 +167,7 @@ void PrintBacktrace(void) {
     time(&t);
     fputs(asctime(localtime(&t)), stderr);
     fputc('\n', stderr);
-    
+
     err = QCRCreateFromSelf(&crRef);
 
     if ((OSMajorVersion == 10) && (OSMinorVersion == 5)) {
@@ -181,7 +181,7 @@ void PrintBacktrace(void) {
         fputs("backtrace, run under OS 10.6.x or later.\n\n", stderr);
 #endif
     }
-    
+
     // Use new backtrace functions (available only in OS 10.5 and later)
     systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
     if (systemlib) {
@@ -197,11 +197,12 @@ void PrintBacktrace(void) {
     } else {
         goto skipBackTrace;     // Should never happen
     }
-    
+
     atosExists = boinc_file_exists("/usr/bin/atos");
-    cppfiltExists = boinc_file_exists("/usr/bin/atos");
+    cppfiltExists = boinc_file_exists("/usr/bin/c++filt");
+
     if (atosExists || cppfiltExists) {
-        // The bidirectional popen only works if the NSUnbufferedIO environment 
+        // The bidirectional popen only works if the NSUnbufferedIO environment
         // variable is set, so we save and restore its current value.
         env = getenv("NSUnbufferedIO");
         if (env) {
@@ -209,20 +210,20 @@ void PrintBacktrace(void) {
         }
         setenv("NSUnbufferedIO", "YES", 1);
     }
-    
+
     if (atosExists) {
-        // The backtrace_symbols() and backtrace_symbols() APIs are limited to 
-        // external symbols only, so we also use the atos command-line utility  
+        // The backtrace_symbols() and backtrace_symbols() APIs are limited to
+        // external symbols only, so we also use the atos command-line utility
         // which gives us debugging symbols when available.
         //
-        // For some reason, using the -p option with the value from getpid() 
+        // For some reason, using the -p option with the value from getpid()
         // fails here but the -o option with a path does work.
 #ifdef __x86_64__
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
 #elif defined (__i386__)
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
 #elif defined (__arm64__)
-        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch arm", pathToThisProcess);
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch arm64", pathToThisProcess);
 #else
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
 #endif
@@ -234,12 +235,12 @@ void PrintBacktrace(void) {
     }
 
     if (cppfiltExists) {
-        cppfiltPipe = popen("/usr/bin/c++filt -s gnu -n", "r+");
+        cppfiltPipe = popen("/usr/bin/c++filt --format=gnu -n", "r+");
         if (cppfiltPipe) {
             setbuf(cppfiltPipe, 0);
         }
     }
-    
+
     for (i=0; i<frames; i++) {
         strlcpy(outBuf, symbols[i], sizeof(outBuf));
         if (cppfiltPipe) {
@@ -265,7 +266,7 @@ void PrintBacktrace(void) {
                 }
             }
         }
-        
+
         if (atosPipe) {
             fprintf(atosPipe, "%#llx\n", (QTMAddr)callstack[i]);
             BT_PersistentFGets(atosPipeBuf, sizeof(atosPipeBuf), atosPipe);
@@ -288,7 +289,7 @@ void PrintBacktrace(void) {
     if (atosPipe) {
         pclose(atosPipe);
     }
-    
+
     if (cppfiltPipe) {
         pclose(cppfiltPipe);
     }
@@ -300,14 +301,14 @@ void PrintBacktrace(void) {
             unsetenv("NSUnbufferedIO");
         }
     }
-    
+
 skipBackTrace:
     fprintf(stderr, "\n");
 
-    // make sure this much gets written to file in case future 
+    // make sure this much gets written to file in case future
     // versions of OS break our crash dump code beyond this point.
     fflush(stderr);
-    
+
     QCRPrintThreadState(crRef, stderr);
     QCRPrintImages(crRef, stderr);
 }
@@ -340,17 +341,17 @@ void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbu
 
     *outbuf = '\0';
     *nameBuf = '\0';
-    
-    sprintf(buf, "ps -wo command -p %d", (int)aPID);
+
+    snprintf(buf, sizeof(buf), "ps -wo command -p %d", (int)aPID);
     f = popen(buf, "r");
     if (f == NULL)
         return;
-    
+
     BT_PersistentFGets (outbuf, outBufLen, f);     // Discard header line
     BT_PersistentFGets (outbuf, outBufLen, f);     // Get the UNIX command which ran us
     pclose(f);
 
-    sprintf(buf, "ps -p %d -c -o command", aPID);
+    snprintf(buf, sizeof(buf), "ps -p %d -c -o command", aPID);
     f = popen(buf,  "r");
     if (!f)
         return;
@@ -362,7 +363,7 @@ void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbu
     p = strchr(nameBuf, '\n');
     if (p)
         *p = '\0';
-    
+
     // Strip off any arguments
     p = outbuf;
     nameLen = strlen(nameBuf);
@@ -380,12 +381,12 @@ void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbu
 }
 
 
-// This is an alternative to using Gestalt(gestaltSystemVersion,..) so 
+// This is an alternative to using Gestalt(gestaltSystemVersion,..) so
 // we don't need the Carbon Framework
 static void PrintOSVersion(int *majorVersion, int *minorVersion) {
     char vers[100], build[100], *p1 = NULL;
     FILE *f;
-    
+
 //ToDo: f = popen("/usr/libexec/PlistBuddy -c \"Print :ProductUserVisibleVersion\" /System/Library/CoreServices/SystemVersion.plist");
 //      fgets(buf, f);
 //      flcose(f);
@@ -402,11 +403,11 @@ static void PrintOSVersion(int *majorVersion, int *minorVersion) {
     // Extract the minor system version number
     p1 = strchr(vers, '.');
     *minorVersion = atoi(p1+1);    // Pass minor version number back to caller
-    
+
     // Now print the full OS version string
     fputs("System version: Macintosh OS ", stderr);
     fputs(vers, stderr);
-    
+
     build[0] = '\0';
     f = popen("sw_vers -buildVersion", "r");
     if (f) {
@@ -415,6 +416,6 @@ static void PrintOSVersion(int *majorVersion, int *minorVersion) {
         fputs(" build ", stderr);
         fputs(build, stderr);
     }
-    
+
     fputc('\n', stderr);
 }

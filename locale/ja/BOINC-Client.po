@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2022 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -8,15 +8,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010
 # Kondo Yoshinori <taiyogakushujuku39@gmail.com>, 2018
 # Masahiro Tagashira, 2015
+# Norifumi Yamamura, 2023-2024
 # victory <victory.deb@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
-"Last-Translator: Kondo Yoshinori <taiyogakushujuku39@gmail.com>, 2018\n"
-"Language-Team: Japanese (http://www.transifex.com/boinc/boinc/language/ja/)\n"
+"Last-Translator: Norifumi Yamamura, 2023-2024\n"
+"Language-Team: Japanese (http://app.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,32 +33,30 @@ msgstr "アカウント・マネージャからのお知らせ"
 msgid "Message from server"
 msgstr "プロジェクト・サーバからのメッセージ"
 
-#: client/client_state.cpp:330
+#: client/client_state.cpp:329
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "あなたの設定したプレファレンス(好みの設定)を越えるメモリ量を必要とするタスクがあります。プレファレンスの内容を確認してください。"
 
-#: client/client_state.cpp:698
+#: client/client_state.cpp:708
 msgid "Couldn't write state file; check directory permissions"
 msgstr "状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめてください。"
 
-#: client/cs_cmdline.cpp:295
+#: client/cs_cmdline.cpp:299
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "環境変数 HTTP_PROXY でHTTPプロキシを指定する必要があります。"
 
-#: client/cs_scheduler.cpp:617
+#: client/cs_scheduler.cpp:592
 #, c-format
-msgid ""
-"This project seems to have changed its URL.  When convenient, remove the "
-"project, then add %s"
-msgstr ""
+msgid "Master URL changed from %s to %s"
+msgstr "マスターURLが %s から %s へ変更されました"
 
-#: client/cs_statefile.cpp:857
+#: client/cs_statefile.cpp:873
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml の中に構文誤りがあります。"
 
-#: client/cs_statefile.cpp:901
+#: client/cs_statefile.cpp:917
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml の中で参照されている次のファイルが存在しません: "
 
@@ -88,94 +87,94 @@ msgstr "ダウンロード"
 #: client/current_version.cpp:250
 #, c-format
 msgid "A new version of %s is available"
-msgstr "新しいバージョンの1%sが利用可能です。"
+msgstr "新しいバージョンの%sが利用可能です。"
 
-#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
+#: client/gpu_detect.cpp:308 client/gpu_detect.cpp:351
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "バージョン6.5以降のCUDAドライバーをCUDAまたはOpenCLによる計算に使用することはできません"
 
-#: client/log_flags.cpp:326 client/log_flags.cpp:506
+#: client/log_flags.cpp:330 client/log_flags.cpp:515
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml の中に予期しないテキストがみつかりました"
 
-#: client/log_flags.cpp:480 client/log_flags.cpp:535
+#: client/log_flags.cpp:489 client/log_flags.cpp:544
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml の中に認識されないタグが見つかりました"
 
-#: client/log_flags.cpp:497
+#: client/log_flags.cpp:506
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml の中で開始タグが不足しています。"
 
-#: client/log_flags.cpp:525
+#: client/log_flags.cpp:534
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml オプション内のエラー"
 
-#: client/log_flags.cpp:543
+#: client/log_flags.cpp:552
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml の中で終了タグが不足しています。"
 
-#: sched/handle_request.cpp:317
+#: sched/handle_request.cpp:313
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "アカウント・キーが無効であるか存在していません。修復するには、このプロジェクトを一旦削除し、再び追加してください。"
 
-#: sched/handle_request.cpp:951
+#: sched/handle_request.cpp:947
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "このプロジェクトはセキュリティ・キーを変更しました。このプロジェクトから一旦削除し、再び追加してください。"
 
-#: sched/handle_request.cpp:1022
+#: sched/handle_request.cpp:1018
 msgid "This project doesn't support operating system"
 msgstr "このプロジェクトは次に示すOSをサポートしていません: "
 
-#: sched/handle_request.cpp:1048
+#: sched/handle_request.cpp:1044
 msgid "This project doesn't support CPU type"
 msgstr "このプロジェクトは次に示すCPUをサポートしていません: "
 
-#: sched/handle_request.cpp:1072
+#: sched/handle_request.cpp:1068
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "あなたのマシンに入っているBOINCクライアントソフトウェアは古過ぎます。現在の版にインストールしなおしてください。"
 
-#: sched/handle_request.cpp:1348
+#: sched/handle_request.cpp:1344
 msgid "This project doesn't support computers of type"
 msgstr "このプロジェクトは次に示すプラットフォームをサポートしていません: "
 
-#: sched/sched_send.cpp:1121
+#: sched/sched_send.cpp:1146
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "あなたのコンピュータが持つGPUを使ってタスクを処理したければ、ドライバーを最新のものにアップグレードしてください。"
 
-#: sched/sched_send.cpp:1128
+#: sched/sched_send.cpp:1153
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "このプロジェクトのGPUアプリケーションの全てを使いたければ、ドライバーを最新のものにアップグレードしてください。"
 
-#: sched/sched_send.cpp:1147
+#: sched/sched_send.cpp:1172
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "あなたのマシンのNVIDIA GPUを使いたければ、より新しいバージョンのBOINCが必要です。最新バージョンのBOINCへアップグレードしてください。"
 
-#: sched/sched_send.cpp:1181
+#: sched/sched_send.cpp:1206
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "このプロジェクトの仕事を動作させるためには %s GPUが必要とされます"
 
-#: sched/sched_send.cpp:1297
+#: sched/sched_send.cpp:1328
 msgid "No tasks are available for the applications you have selected."
 msgstr "あなたが選択したアプリケーションで処理できるタスクがありません。"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1354
 msgid "Your computer type is not supported by this project"
 msgstr "あなたのコンピュータのプラットフォームはこのプロジェクトではサポートされていません。"
 
-#: sched/sched_send.cpp:1329
+#: sched/sched_send.cpp:1360
 msgid "Newer BOINC version required; please install current version"
 msgstr "より新しいバージョンのBOINCが必要です。最新バージョンをインストールしてください。"
 
-#: sched/sched_send.cpp:1340
+#: sched/sched_send.cpp:1371
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

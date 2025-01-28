@@ -1,58 +1,61 @@
 # BOINC setup localization template
-# Copyright (C) 2019 University of California
+# Copyright (C) 2024 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Danilo Silva, 2021
 # Noriel Chang Reissig <Noriel.Chang@gmail.com>, 2018
-# Noriel Chang Reissig <Noriel.Chang@gmail.com>, 2019
+# Noriel Chang Reissig <Noriel.Chang@gmail.com>, 2019,2023
 # Wiri Marcolan Kamei <wirimk@hotmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
-"PO-Revision-Date: 2019-09-23 00:11+0000\n"
-"Last-Translator: Noriel Chang Reissig <Noriel.Chang@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/boinc/boinc/language/pt_BR/)\n"
+"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:29+0000\n"
+"Last-Translator: Noriel Chang Reissig <Noriel.Chang@gmail.com>, 2019,2023\n"
+"Language-Team: Portuguese (Brazil) (http://app.transifex.com/boinc/boinc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:92 mac_installer/PostInstall.cpp:210
-#: mac_installer/uninstall.cpp:113
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:213
+#: mac_installer/uninstall.cpp:116
 #, c-format
 msgid "Branding array has too few entries: %s"
 msgstr "A matriz 'Branding' tem muito poucas entradas: %s"
 
-#: mac_installer/Installer.cpp:102 mac_installer/PostInstall.cpp:217
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:220
 msgid "Could not get user login name"
 msgstr "Não foi possível obter o nome de login do usuário"
 
-#: mac_installer/Installer.cpp:219
+#. Remove everything we've installed
+#. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:282
 #, c-format
-msgid "Sorry, this version of %s requires system 10.7 or higher."
-msgstr "Desculpe, esta versão de %s requer a versão do sistema 10.7 ou superior."
+msgid "Sorry, this version of %s requires system %s or higher."
+msgstr "Desculpe, esta versão de %s requer o sistema %s ou superior."
 
-#: mac_installer/PostInstall.cpp:150 mac_installer/PostInstall.cpp:1446
-#: mac_installer/uninstall.cpp:1472
+#: mac_installer/PostInstall.cpp:153 mac_installer/PostInstall.cpp:1462
+#: mac_installer/uninstall.cpp:1673
 msgid "Yes"
 msgstr "Sim"
 
-#: mac_installer/PostInstall.cpp:151 mac_installer/PostInstall.cpp:1447
-#: mac_installer/uninstall.cpp:1473
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1463
+#: mac_installer/uninstall.cpp:1674
 msgid "No"
 msgstr "Não"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:153
+#: mac_installer/PostInstall.cpp:156
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Pode o BOINC rodar mesmo quando nenhum usuário estiver logado?"
 
-#: mac_installer/PostInstall.cpp:1646
+#: mac_installer/PostInstall.cpp:1664
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -60,31 +63,38 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Usuários que tem permissão para administrar este computador serão automaticamente autorizados a rodar e controlar %s.\n\nVocê gostaria que usuários sem direitos administrativos também possam rodar e controlar %s neste Mac?"
 
-#: mac_installer/PostInstall.cpp:1674
+#: mac_installer/PostInstall.cpp:1699
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Você gostaria de aplicar %s como protetor de tela para todos os usuários de %s deste Mac?"
 
-#: mac_installer/uninstall.cpp:87
+#: mac_installer/PostInstall.cpp:2338
+msgid ""
+"BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
+"\n"
+"Do you want to install Rosetta 2 now?"
+msgstr "BOINC pode executar aplicações de projetos escritos para intel Macs se Rosetta 2 estiver instalado.\n\nVocê quer instalar Rosetta 2 agora?"
+
+#: mac_installer/uninstall.cpp:90
 msgid "OK"
 msgstr "OK"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:152
+#: mac_installer/uninstall.cpp:155
 msgid "Permission error after relaunch"
 msgstr "Error de permissão após a reabertura"
 
-#: mac_installer/uninstall.cpp:157
+#: mac_installer/uninstall.cpp:160
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "A remoção pode demorar vários minutos.\nPor favor seja paciente."
 
-#: mac_installer/uninstall.cpp:173
+#: mac_installer/uninstall.cpp:176
 msgid "Error saving user name"
 msgstr "Erro ao salvar o nome do usuário"
 
-#: mac_installer/uninstall.cpp:184
+#: mac_installer/uninstall.cpp:187
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -92,22 +102,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Você tem certeza que quer remover completamente %s de seu computador?\n\nIsto removerá os arquivos executáveis mas não irá alterar os arquivos de dados de %s."
 
-#: mac_installer/uninstall.cpp:199
+#: mac_installer/uninstall.cpp:202
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Cancelado: não houve alteração em %s."
 
-#: mac_installer/uninstall.cpp:262
+#: mac_installer/uninstall.cpp:265
 msgid "name  of user"
 msgstr "nome do usuário"
 
-#: mac_installer/uninstall.cpp:315
+#: mac_installer/uninstall.cpp:318
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Você também gostaria de remover VirtualBox do seu computador?\n(VirtualBox foi instalado junto com BOINC.)"
 
-#: mac_installer/uninstall.cpp:353
+#: mac_installer/uninstall.cpp:356
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -119,10 +129,10 @@ msgid ""
 "\"%s\"."
 msgstr "Remoção completa.\n\nVocê pode querer remover os seguintes itens restantes usando o Finder:\no diretório \"%s\"\n\npara cada usuário, o arquivo\n\"%s\"."
 
-#: mac_installer/uninstall.cpp:1470
+#: mac_installer/uninstall.cpp:1671
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: mac_installer/uninstall.cpp:1471
+#: mac_installer/uninstall.cpp:1672
 msgid "Continue..."
 msgstr "Continuar..."

@@ -11,13 +11,12 @@
 // project/lammps_test/USERID.
 // We assume that lammps_test exists and contains the LAMMPS executable
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 require_once("../inc/util.inc");
 require_once("../inc/submit_db.inc");
 require_once("../inc/sandbox.inc");
+
+display_errors();
+
 $debug=0;
 
 // test a LAMMPS job
@@ -64,7 +63,7 @@ function lammps_est() {
            if($GLOBALS["debug"]) echo "time out "."<br>";
            terminate_job($p);
            break;
-        } 
+        }
         if (file_exists("log.1")) {
             list($avg_cpu, $test_steps) = calc_step_cpu("log.1");
             if ($avg_cpu != 0) {
@@ -180,9 +179,9 @@ function calc_est_size($lammps_script, $structure_file, $cmd_file,$test_steps){
         $line = fgets($fd, 4096);
         //if (preg_match("/^\s*dump/", $line)
         //    and preg_match_all("/dump\S+\.\w{3}/", $line, $matches, PREG_PATTERN_ORDER))
-        
+
         if(preg_match("/^\s*dump\s+(\d)\s+/", $line,$matches))
-        {        
+        {
              if($GLOBALS["debug"]){print "matches=";print_r($matches);}
 
             $dump_types=(int)$matches[1];
@@ -199,7 +198,7 @@ function calc_est_size($lammps_script, $structure_file, $cmd_file,$test_steps){
         exit(-1);
     }
      if($GLOBALS["debug"]) print "structure_file_size=".$structure_file_size."<br>";
-   
+
     $loopno=1;
     $looprun=1;
     while (!feof($fd)){
@@ -230,7 +229,7 @@ function calc_est_size($lammps_script, $structure_file, $cmd_file,$test_steps){
     $dump_size = $loopno*$dump_size1*$dump_types;
     $app_fixed_size = 5e7;
     $est_size = $log_size+$dump_size+$app_fixed_size;
-    
+
     if($GLOBALS["debug"]){
         print "test_steps=".$test_steps."<br>";
         print "test_log_size=".$test_log_size."<br>";
@@ -274,7 +273,7 @@ function show_submit_form($user) {
         <p>
         <a href=sandbox.php><strong> File sandbox </strong></a>
     ";
-    
+
     page_tail();
 }
 
@@ -379,7 +378,7 @@ function prepare_batch($user) {
     system("rm *");
     $info->rsc_fpops_est = $est_cpu_time * 1.5e9;
     $info->rsc_fpops_bound = $info->rsc_fpops_est * 20;
-    
+
     if ($disk==0){
         $info->rsc_disk_bound=1000000;
     } else{
@@ -427,7 +426,7 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $cmd .= " ".basename($info->structure_file_path);
     $cmd .= " ".basename($info->command_file_path);
     $cmd .= " ".basename($info->pot_files_path);
-    //echo "<br> $cmd\n"; 
+    //echo "<br> $cmd\n";
 
     system($cmd, $ret);
     if ($ret === FALSE) {
@@ -449,7 +448,7 @@ function submit_batch($user, $app) {
             $njobs++;
         }
     }
-    
+
     $now = time();
     $batch_name = $info->area."_".date("Y-M-d D H:i:s");
 

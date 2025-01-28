@@ -39,40 +39,40 @@
 /*!
  * CCompletionErrorPage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CCompletionErrorPage, wxWizardPageEx )
- 
+
 /*!
  * CCompletionErrorPage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CCompletionErrorPage, wxWizardPageEx )
- 
+
 ////@begin CCompletionErrorPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CCompletionErrorPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CCompletionErrorPage::OnCancel )
 
 ////@end CCompletionErrorPage event table entries
- 
+
 END_EVENT_TABLE()
- 
+
 /*!
  * CCompletionErrorPage constructors
  */
- 
+
 CCompletionErrorPage::CCompletionErrorPage( )
 {
 }
- 
+
 CCompletionErrorPage::CCompletionErrorPage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * CAccountResultPage creator
  */
- 
+
 bool CCompletionErrorPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionErrorPage member initialisation
@@ -82,7 +82,7 @@ bool CCompletionErrorPage::Create( CBOINCBaseWizard* parent )
     m_pServerMessagesStaticBoxSizerCtrl = NULL;
     m_pServerMessagesCtrl = NULL;
 ////@end CCompletionErrorPage member initialisation
- 
+
 ////@begin CCompletionErrorPage creation
     wxWizardPageEx::Create( parent, ID_COMPLETIONERRORPAGE );
 
@@ -92,13 +92,13 @@ bool CCompletionErrorPage::Create( CBOINCBaseWizard* parent )
 
     return TRUE;
 }
- 
+
 /*!
  * Control creation for CAccountResultPage
  */
- 
+
 void CCompletionErrorPage::CreateControls()
-{    
+{
 ////@begin CCompletionErrorPage content construction
     CCompletionErrorPage* itemWizardPage85 = this;
 
@@ -127,38 +127,38 @@ void CCompletionErrorPage::CreateControls()
     m_pServerMessagesStaticBoxSizerCtrl->Add(m_pServerMessagesCtrl, 0, wxGROW|wxALL, 5);
 ////@end CCompletionErrorPage content construction
 }
- 
+
 /*!
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CCompletionErrorPage::GetPrev() const
 {
     return NULL;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CCompletionErrorPage::GetNext() const
 {
     return NULL;
 }
- 
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CCompletionErrorPage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CCompletionErrorPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -167,11 +167,11 @@ wxBitmap CCompletionErrorPage::GetBitmapResource( const wxString& WXUNUSED(name)
     return wxNullBitmap;
 ////@end CCompletionErrorPage bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CCompletionErrorPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -180,11 +180,11 @@ wxIcon CCompletionErrorPage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CCompletionErrorPage icon retrieval
 }
-  
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE
  */
- 
+
 void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
@@ -239,11 +239,11 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
 
     Fit();
 }
- 
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE
  */
- 
+
 void CCompletionErrorPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }

@@ -15,7 +15,7 @@
  */
 function boincteam_create_form(&$form_state) {
   $form = array();
-  
+
   $default = array(
     'name' => '',
     'name_html' => '',
@@ -25,13 +25,13 @@ function boincteam_create_form(&$form_state) {
     'joinable' => TRUE,
     'description' => '',
   );
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
     '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
-  
+
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
@@ -56,7 +56,7 @@ function boincteam_create_form(&$form_state) {
     '#type' => 'value',
     '#value' => boinccore_get_country_list(),
   );
-  
+
   // Form elements
   $form['name'] = array(
     '#title' => bts('Team name', array(), NULL, 'boinc:team-create/edit'),
@@ -107,7 +107,7 @@ function boincteam_create_form(&$form_state) {
     '#description' => NULL,
   );
   $form['format'] = filter_form();
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -121,7 +121,7 @@ function boincteam_create_form(&$form_state) {
   $form['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), $_GET['q']) . '</li>'
   );
-  
+
   return $form;
 }
 
@@ -132,7 +132,7 @@ function boincteam_create_form_validate($form, &$form_state) {
 
   $values = $form_state['values'];
   $name = $values['name'];
-  
+
   if (!$name) {
     form_set_error('name', bts('Team name is required.', array(), NULL, 'boinc:team-create/edit'));
   }
@@ -143,7 +143,7 @@ function boincteam_create_form_validate($form, &$form_state) {
         array('@name' => $name), NULL, 'boinc:team-create/edit'));
     }
   }
-  
+
   if (!$values['type'] OR !isset($values['type_options'][$values['type']])) {
     form_set_error('type', bts('Please select a team type.', array(), NULL, 'boinc:team-create/edit'));
   }
@@ -157,12 +157,12 @@ function boincteam_create_form_submit($form, &$form_state) {
   $account = user_load($user->uid);
   $values = $form_state['values'];
   //drupal_set_message('<pre>' . print_r($values,true) . '</pre>');
-  
+
   $input_format = !empty($values['format']) ? $values['format'] : 4;
   $values['description'] = check_markup($values['description'], $input_format);
-  
+
   // Create the team in the BOINC db
-  
+
   require_boinc(array('user','team'));
   $boinc_team = make_team(
     $account->boincuser_id,
@@ -185,13 +185,13 @@ function boincteam_create_form_submit($form, &$form_state) {
       reason.', 'error');
     return FALSE;
   }
-  
+
   // Create the team node in Drupal
-  
+
   $teaser = node_teaser($values['description']);
   $created_time = time();
   $input_format = variable_get('filter_default_format', 1);
-  
+
   $node = array(
     'type' => 'team',
     'title' => $values['name'],
@@ -207,7 +207,7 @@ function boincteam_create_form_submit($form, &$form_state) {
     'sticky' => 0,
     'format' => $input_format
   );
-  
+
   // Use pathauto function, if available, to clean up the path
   if (module_exists('pathauto')) {
     module_load_include('inc', 'pathauto', 'pathauto');
@@ -219,7 +219,7 @@ function boincteam_create_form_submit($form, &$form_state) {
     watchdog('BOINC team', 'BOINC teams require the Pathauto module. Teams
       cannot be created.', 'error');
   }
-  
+
   /*
   // Add special organic group properties
   $node['og_description'] = strip_tags($boincteam->description);
@@ -228,26 +228,26 @@ function boincteam_create_form_submit($form, &$form_state) {
   $node['og_directory'] = OG_DIRECTORY_CHOOSE_FALSE;
   $node['og_private'] = 0;
   */
-  
+
   $node = (object) $node; // node_save requires an object form
-  
+
   /*
   $node->field_description[]['value'] = $boincteam->description;
   $node->field_url[]['value'] = $boincteam->url;
   $node->field_country[]['value'] = $boincteam->country;
   */
-  
+
   $node->taxonomy[] = taxonomy_get_term($values['type']);
-  
+
   // Save the team node
   node_save($node);
-  
+
   // Save the team IDs to a BOINC <--> Drupal reference table.
   db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boinc_team->id, $node->nid);
-  
-  drupal_set_message(t('Team "@name" has been created.', 
+
+  drupal_set_message(t('Team "@name" has been created.',
     array('@name' => $values['name'])));
-  
+
   $form_state['redirect'] = "community/teams/{$node->nid}";
 }
 
@@ -260,15 +260,15 @@ function boincteam_create_form_submit($form, &$form_state) {
  */
 function boincteam_edit_form(&$form_state, $team_id) {
   $form = array();
-  
+
   $team = node_load($team_id);
   $boincteam = boincteam_load(boincteam_lookup_id($team_id));
-  
+
   $is_boinc_wide = ($boincteam->seti_id > 0) ? TRUE : FALSE;
-  
+
   $form_state['storage']['team_id'] = $team_id;
   $form_state['storage']['is_boinc_wide'] = $is_boinc_wide;
-  
+
   $default = array(
     'name' => $boincteam->name,
     'name_html' => $boincteam->name_html,
@@ -278,13 +278,13 @@ function boincteam_edit_form(&$form_state, $team_id) {
     'joinable' => $boincteam->joinable,
     'description' => $boincteam->description,
   );
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
     '#value' => array(1 => bts('yes', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-no'), 0 => bts('no', array(), NULL, 'boinc:form-yes-no:-1:binary-form-option-pairs-with-yes')),
   );
-  
+
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
@@ -309,7 +309,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
     '#type' => 'value',
     '#value' => boinccore_get_country_list(),
   );
-  
+
   // Form elements
   $form['name'] = array(
     '#title' => bts('Team name', array(), NULL, 'boinc:team-create/edit'),
@@ -367,7 +367,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
       '#description' => NULL,
     );
     $form['format'] = filter_form();
-    
+
     // Form control
     $form['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">'
@@ -396,9 +396,9 @@ function boincteam_edit_form(&$form_state, $team_id) {
         NULL, 'boinc:team-edit-warning-message'),
       'warning');
   }
-  
+
   $form['#redirect'] = "community/teams/{$team_id}";
-  
+
   return $form;
 }
 
@@ -409,7 +409,7 @@ function boincteam_edit_form_validate($form, &$form_state) {
 
   $values = $form_state['values'];
   $name = $values['name'];
-  
+
   if ($form_state['storage']['is_boinc_wide']) {
     form_set_error('none', bts('This team is managed by the BOINC-wide teams system and cannot be updated here.', array(), NULL, 'boinc:team-create/edit'));
   }
@@ -428,7 +428,7 @@ function boincteam_edit_form_validate($form, &$form_state) {
         }
       }
     }
-  
+
     if (!$values['type'] OR !isset($values['type_options'][$values['type']])) {
       form_set_error('type', bts('Please select a team type.', array(), NULL, 'boinc:team-create/edit'));
     }
@@ -439,16 +439,16 @@ function boincteam_edit_form_validate($form, &$form_state) {
  * The edit team submit handler
  */
 function boincteam_edit_form_submit($form, &$form_state) {
-  
+
   $team_id = $form_state['storage']['team_id'];
   $values = $form_state['values'];
-  
+
   $team = node_load($team_id);
   $boincteam_id = boincteam_lookup_id($team_id);
-  
+
   $input_format = !empty($values['format']) ? $values['format'] : 4;
   $values['description'] = check_markup($values['description'], $input_format);
-  
+
   // Update the team in the BOINC db
   db_set_active('boinc_rw');
   db_query("
@@ -473,28 +473,28 @@ function boincteam_edit_form_submit($form, &$form_state) {
     $boincteam_id
   );
   db_set_active('default');
-  
+
   // Update the team node in Drupal
-  
+
   $team->title = $values['name'];
   $team->body = $values['description'];
   $team->teaser = node_teaser($values['description']);
-  
+
   /*
   $node->field_description[]['value'] = $boincteam->description;
   $node->field_url[]['value'] = $boincteam->url;
   $node->field_country[]['value'] = $boincteam->country;
   */
-  
+
   // Replace any existing taxonomy with the new one
   $team->taxonomy = array(taxonomy_get_term($values['type']));
-  
+
   // Save the team node
   node_save($team);
-  
-  drupal_set_message(t('Details for "@team" have been updated.', 
+
+  drupal_set_message(t('Details for "@team" have been updated.',
     array('@team' => $values['name'])));
-    
+
   // The storage variable quietly kills redirection for some reason... unset it
   unset($form_state['storage']);
 }
@@ -509,16 +509,16 @@ function boincteam_edit_form_submit($form, &$form_state) {
  */
 function boincteam_add_admin_form(&$form_state, $team_id) {
   $form = array();
-  
+
   $team = node_load($team_id);
   $boincteam = boincteam_load(boincteam_lookup_id($team_id));
-  
+
   $form_state['storage']['team_id'] = $team_id;
-  
+
   $default = array(
     'username' => '',
   );
-  
+
   // Form elements
   $form['username'] = array(
     '#title' => bts('Enter BOINC username', array(), NULL, 'boinc:team--add-admin'),
@@ -528,7 +528,7 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
     '#size' => 34,
     '#autocomplete_path' => "community/teams/${team_id}/user-name-autocomplete",
   );
-  
+
   // Form control
   $form['form control tabs prefix'] = array(
     '#value' => '<ul class="form-control tab-list">'
@@ -542,9 +542,9 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
   $form['form control tabs'] = array(
     '#value' => '<li class="tab">' . l(bts('Cancel', array(), NULL, 'boinc:form-cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
   );
-  
+
   //$form['#redirect'] = "community/teams/{$team_id}";
-  
+
   return $form;
 }
 
@@ -556,7 +556,7 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
   $team_id = $form_state['storage']['team_id'];
   $values = $form_state['values'];
   $team = node_load($team_id);
-  
+
   if (!$values['username']) {
     form_set_error('username', bts('BOINC username is required.', array(), NULL, 'boinc:team-add-admin'));
   }
@@ -598,15 +598,15 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
  * The add team admin submit handler
  */
 function boincteam_add_admin_form_submit($form, &$form_state) {
-  
+
   $team_id = $form_state['storage']['team_id'];
   $boincuser_id = $form_state['storage']['boincuser_id'];
   $user_name = $form_state['storage']['boincuser_name'];
   $values = $form_state['values'];
-  
+
   $team = node_load($team_id);
   $boincteam_id = boincteam_lookup_id($team_id);
-  
+
   // Update the team in the BOINC db
   db_set_active('boinc_rw');
   db_query("
@@ -619,13 +619,13 @@ function boincteam_add_admin_form_submit($form, &$form_state) {
     time()
   );
   db_set_active('default');
-  
+
   // Could assign a role in Drupal here, as needed
-  
-  
-  drupal_set_message(t('@user has been added as an admin.', 
+
+
+  drupal_set_message(t('@user has been added as an admin.',
     array('@user' => $user_name)));
-    
+
   // The storage variable quietly kills redirection for some reason... unset it
   unset($form_state['storage']);
 }

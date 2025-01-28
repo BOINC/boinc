@@ -296,6 +296,5 @@ function project_specific_prefs_parse($prefs_xml) {
     return $prefs;
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

@@ -137,7 +137,7 @@ if [ "${doclean}" = "yes" ]; then
     echo ${build_config} >${PREFIX}/build-config
 fi
 
-wx_ver="3.1.6"
+wx_ver="3.2.0"
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
 if [ "${gtest_only}" = "yes" ]; then
     download_and_build "googletest-release-1.8.1" "release-1.8.1.tar.gz" "https://github.com/google/googletest/archive/release-1.8.1.tar.gz" "${ROOTDIR}/3rdParty/buildGoogletestLinux.sh"

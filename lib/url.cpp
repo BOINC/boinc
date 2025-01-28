@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(_WIN32) 
+#if defined(_WIN32)
 #include "boinc_win.h"
 #else
 #include "config.h"
@@ -174,8 +174,10 @@ void escape_url(string& url) {
     url = buf;
 }
 
-// Escape a URL for the project directory, cutting off the "http://",
+// Escape a project URL, cutting off the "http://",
 // converting everthing other than alphanumbers, ., - and _ to "_".
+// This is used as the project directory name.
+// Note: does not convert to lowercase.
 //
 void escape_url_readable(char *in, char* out) {
     int x, y;
@@ -203,6 +205,7 @@ void escape_url_readable(char *in, char* out) {
 // or prepend it
 //   - Remove double slashes in the rest
 //   - Add a trailing slash if necessary
+//   - Convert all alphabet characters to lower case
 //
 void canonicalize_master_url(char* url, int len) {
     char buf[1024];
@@ -224,6 +227,11 @@ void canonicalize_master_url(char* url, int len) {
     n = strlen(buf);
     if (buf[n-1] != '/' && (n<sizeof(buf)-2)) {
         safe_strcat(buf, "/");
+    }
+    for (size_t i=0; i<n-1; i++) {
+        // stop converting to lower-case, if we've reached the boundary of the domain name
+        if (buf[i] == '/') break;
+        buf[i] = tolower(static_cast<unsigned char>(buf[i]));
     }
     snprintf(url, len, "http%s://%s", (bSSL ? "s" : ""), buf);
     url[len-1] = 0;

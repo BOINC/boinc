@@ -339,7 +339,7 @@ int META_CHUNK::decide_reconstruct() {
             }
         }
     }
-    
+
     // if we need to stay present, so do a quorum of our present children
     //
     if (keep_present) {
