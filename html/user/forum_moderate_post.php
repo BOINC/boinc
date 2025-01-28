@@ -32,6 +32,7 @@ check_tokens($logged_in_user->authenticator);
 BoincForumPrefs::lookup($logged_in_user);
 $postid = get_int('id');
 $post = BoincPost::lookup_id($postid);
+if (!$post) error_page('No such post');
 $thread = BoincThread::lookup_id($post->thread);
 $forum = BoincForum::lookup_id($thread->forum);
 
@@ -74,10 +75,10 @@ if (get_str('action')=="hide") {
 } elseif (get_str('action')=="banish_user") {
     $userid = get_int('userid');
     $user = BoincUser::lookup_id($userid);
-    BoincForumPrefs::lookup($user);
     if (!$user) {
         error_page("no user found");
     }
+    BoincForumPrefs::lookup($user);
     $x = $user->prefs->banished_until;
     if ($x>time()) {
         error_page(tra("User is already banished"));

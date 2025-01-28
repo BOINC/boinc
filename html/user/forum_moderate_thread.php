@@ -32,6 +32,7 @@ if (!get_str('action')) {
     error_page("unknown action");
 }
 $thread = BoincThread::lookup_id(get_int('thread'));
+if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
 if (!is_moderator($logged_in_user, $forum)) {

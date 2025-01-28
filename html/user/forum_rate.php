@@ -29,7 +29,7 @@ if (parse_bool($config, "no_forum_rating")) {
 }
 
 if (!empty($_GET['post'])) {
-    $postId = get_int('post');
+    $post_id = get_int('post');
     $choice = post_str('submit', true);
     $rating = post_int('rating', true);
     if (!$choice) $choice = get_str('choice', true);
@@ -46,7 +46,8 @@ if (!empty($_GET['post'])) {
         show_result_page(false, NULL, NULL, $choice);
     }
 
-    $post = BoincPost::lookup_id($postId);
+    $post = BoincPost::lookup_id($post_id);
+    if (!$post) error_page('No such post');
     $thread = BoincThread::lookup_id($post->thread);
     $forum = BoincForum::lookup_id($thread->forum);
 
