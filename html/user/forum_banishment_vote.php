@@ -39,6 +39,7 @@ if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
 
 $userid = get_int('userid');
 $user = BoincUser::lookup_id($userid);
+if (!$user) error_page('No such user');
 
 page_head(tra("Banishment Vote"));
 

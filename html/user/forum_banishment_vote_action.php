@@ -48,6 +48,7 @@ if (!post_str('action', true)) {
 
 $userid = post_int('userid');
 $user=BoincUser::lookup_id($userid);
+if (!$user) error_page('No such user');
 
 if ($action!="start"){
     error_page("Unknown action");

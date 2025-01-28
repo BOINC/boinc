@@ -38,6 +38,7 @@ if (VALIDATE_EMAIL_TO_POST) {
 
 $forumid = get_int("id");
 $forum = BoincForum::lookup_id($forumid);
+if (!$forum) error_page('No such forum');
 
 if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
     error_page("Forums are disabled");

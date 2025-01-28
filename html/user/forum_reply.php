@@ -38,6 +38,7 @@ if (VALIDATE_EMAIL_TO_POST) {
 }
 
 $thread = BoincThread::lookup_id(get_int('thread'));
+if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
 $sort_style = get_str('sort', true);

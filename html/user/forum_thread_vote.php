@@ -27,6 +27,7 @@ check_get_args(array("id"));
 
 $threadid = get_int('id');
 $thread = BoincThread::lookup_id($threadid);
+if (!$thread) error_page('No such thread');
 $logged_in_user = get_logged_in_user();
 
 $posts = get_thread_posts($threadid, 0,true);

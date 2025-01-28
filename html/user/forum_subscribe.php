@@ -29,6 +29,7 @@ check_get_args(array("action", "thread", "tnow", "ttok"));
 $action = get_str('action');
 $threadid = get_int('thread');
 $thread = BoincThread::lookup_id($threadid);
+if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
 function show_title($forum, $thread) {
