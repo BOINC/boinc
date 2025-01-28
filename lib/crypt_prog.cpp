@@ -460,11 +460,7 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         print_error("scan_key_hex");
         return 2;
     }
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
     private_to_openssl(private_key, rsa_key);
-#else
-    private_to_openssl(private_key, &rsa_key);
-#endif
 
 
     fpriv = fopen(output.c_str(), "w+");
@@ -472,11 +468,7 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
     PEM_write_RSAPrivateKey(fpriv, rsa_key, NULL, NULL, 0, 0, NULL);
-#else
-    PEM_write_RSAPrivateKey(fpriv, &rsa_key, NULL, NULL, 0, 0, NULL);
-#endif
     fclose(fpriv);
     return 0;
 }
