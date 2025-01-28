@@ -174,8 +174,10 @@ void escape_url(string& url) {
     url = buf;
 }
 
-// Escape a URL for the project directory, cutting off the "http://",
+// Escape a project URL, cutting off the "http://",
 // converting everthing other than alphanumbers, ., - and _ to "_".
+// This is used as the project directory name.
+// Note: does not convert to lowercase.
 //
 void escape_url_readable(char *in, char* out) {
     int x, y;
