@@ -17,7 +17,6 @@
 
 #if defined(_WIN32)
 #include "boinc_win.h"
-#include "str_replace.h"
 #include "str_util.h"
 #include "win_util.h"
 #endif
@@ -798,16 +797,32 @@ int DOCKER_CONN::parse_container_name(string line, string &name) {
 string docker_image_name(
     const char* proj_url_esc, const char* wu_name
 ) {
-    char buf[1024];
-    sprintf(buf, "boinc__%s__%s", proj_url_esc, wu_name);
+    char buf[1024], url_buf[1024], wu_buf[1024];;
+
+    // Docker image names can't have upper case chars
+    //
+    safe_strcpy(url_buf, proj_url_esc);
+    downcase_string(url_buf);
+    safe_strcpy(wu_buf, wu_name);
+    downcase_string(wu_buf);
+
+    sprintf(buf, "boinc__%s__%s", url_buf, wu_buf);
     return string(buf);
 }
 
 string docker_container_name(
     const char* proj_url_esc, const char* result_name
 ){
-    char buf[1024];
-    sprintf(buf, "boinc__%s__%s", proj_url_esc, result_name);
+    char buf[1024], url_buf[1024], result_buf[1024];;
+
+    // Docker image names can't have upper case chars
+    //
+    safe_strcpy(url_buf, proj_url_esc);
+    downcase_string(url_buf);
+    safe_strcpy(result_buf, result_name);
+    downcase_string(result_buf);
+
+    sprintf(buf, "boinc__%s__%s", url_buf, result_buf);
     return string(buf);
 }
 
