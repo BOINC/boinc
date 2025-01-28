@@ -46,4 +46,4 @@ install: all
 docker_wrapper: docker_wrapper.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o docker_wrapper docker_wrapper.o \
 	-lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
-	$(STDCPPTC)
+	$(STDCPPTC); strip docker_wrapper
