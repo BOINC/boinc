@@ -1,3 +1,19 @@
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "boinccas.h"
@@ -88,7 +104,7 @@ inline HRESULT ReducePrivilegesForMediumIL(HANDLE hToken)
 
 	SetPrivilege(hToken, SE_BACKUP_NAME, SE_PRIVILEGE_REMOVED);
 	SetPrivilege(hToken, SE_CREATE_PAGEFILE_NAME, SE_PRIVILEGE_REMOVED);
-	SetPrivilege(hToken, TEXT("SeCreateSymbolicLinkPrivilege"), SE_PRIVILEGE_REMOVED);
+	SetPrivilege(hToken, SE_CREATE_SYMBOLIC_LINK_NAME, SE_PRIVILEGE_REMOVED);
 	SetPrivilege(hToken, SE_DEBUG_NAME, SE_PRIVILEGE_REMOVED);
 	SetPrivilege(hToken, SE_IMPERSONATE_NAME, SE_PRIVILEGE_REMOVED);
 	SetPrivilege(hToken, SE_INC_BASE_PRIORITY_NAME, SE_PRIVILEGE_REMOVED);
@@ -231,38 +247,63 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
                     }
 
 					if(SUCCEEDED(hr)) {
-
-						hr = ReducePrivilegesForMediumIL(hNewToken);
-
-                        SetTokenInformation(
-                            hNewToken,
-                            TokenVirtualizationEnabled,
-                            &dwEnableVirtualization,
-                            sizeof(DWORD)
-                        );
-
-                        if(SUCCEEDED(hr)) {
-							bRet = CreateProcessAsUser(
-                                hNewToken,
-                                szProcessName,
-                                szCmdLine,
-                                NULL,
-                                NULL,
-                                FALSE,
-                                NORMAL_PRIORITY_CLASS,
-                                NULL,
-                                NULL,
-                                &StartupInfo,
-                                &ProcInfo
-                            );
-                            if(bRet) {
-                                CloseHandle(ProcInfo.hThread);
-                                CloseHandle(ProcInfo.hProcess);
-                            } else {
-								hr = HRESULT_FROM_WIN32(GetLastError());
-                            }
+						HANDLE hProcessToken = NULL;
+						if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &hProcessToken)) {
+                            hr = HRESULT_FROM_WIN32(GetLastError());
 						}
-                        CloseHandle(hNewToken);
+						else {
+                            SetPrivilege(hProcessToken, SE_INCREASE_QUOTA_NAME);
+							CloseHandle(hProcessToken);
+                            hr = HRESULT_FROM_WIN32(GetLastError());
+						}
+
+						if (SUCCEEDED(hr)) {
+							hr = ReducePrivilegesForMediumIL(hNewToken);
+
+							SetTokenInformation(
+								hNewToken,
+								TokenVirtualizationEnabled,
+								&dwEnableVirtualization,
+								sizeof(DWORD)
+							);
+
+							if (SUCCEEDED(hr)) {
+								bRet = CreateProcessWithTokenW(
+									hNewToken,
+									0,
+									szProcessName,
+									szCmdLine,
+									0,
+									NULL,
+									NULL,
+									&StartupInfo,
+									&ProcInfo
+								);
+								if (!bRet) {
+									bRet = CreateProcessAsUser(
+										hNewToken,
+										szProcessName,
+										szCmdLine,
+										NULL,
+										NULL,
+										FALSE,
+										NORMAL_PRIORITY_CLASS,
+										NULL,
+										NULL,
+										&StartupInfo,
+										&ProcInfo
+									);
+								}
+                                if (bRet) {
+                                    CloseHandle(ProcInfo.hThread);
+                                    CloseHandle(ProcInfo.hProcess);
+                                }
+								else {
+									hr = HRESULT_FROM_WIN32(GetLastError());
+								}
+							}
+							CloseHandle(hNewToken);
+						}
                     } else {
 						hr = HRESULT_FROM_WIN32(GetLastError());
                     }
