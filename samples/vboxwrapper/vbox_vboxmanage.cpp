@@ -101,31 +101,42 @@ int VBOX_VM::initialize() {
 #endif
 
     // Determine the 'VirtualBox home directory'.
-    // NOTE: I'm not sure this is relevant; see
-    // https://docs.oracle.com/en/virtualization/virtualbox/6.1/admin/TechnicalBackground.html#3.1.3.-Summary-of-Configuration-Data-Locations
+    // We run VboxSVC.exe here, and look for its log file here.
     //
-    if (getenv("VBOX_USER_HOME")) {
-        virtualbox_home_directory = getenv("VBOX_USER_HOME");
+    // See
+    // https://docs.oracle.com/en/virtualization/virtualbox/6.1/admin/TechnicalBackground.html#3.1.3.-Summary-of-Configuration-Data-Locations
+
+    // Check if specified by environment variable
+    //
+    char *p = getenv("VBOX_USER_HOME");
+    if (p) {
+        virtualbox_home_directory = p;
     } else {
-        // If the override environment variable isn't specified then
-        // it is based of the current users HOME directory.
-        const char *home;
+        // If not then make one in the BOINC project directory.
+        // Notes:
+        // 1) we can't put it in the home dir;
+        //  in a sandboxed config we're running as user 'boinc_projects',
+        //  which doesn't have write access to the (real user) home dir.
+        // 2) we can't put it in the BOINC data dir.
+        //  boinc_projects can't write their either
+        //
+        virtualbox_home_directory = aid.boinc_dir;
+        virtualbox_home_directory += "/projects/VirtualBox";
+
+        // create if not there already
+        boinc_mkdir(virtualbox_home_directory.c_str());
+
+        // set env var telling VBox where to put log file
 #ifdef _WIN32
-        home = getenv("USERPROFILE");
-        if (home == NULL) {
-            vboxlog_msg("no USERPROFILE - exiting");
-            exit(1);
+        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()))) {
+            vboxlog_msg("Failed to modify the search path.");
         }
-#elif __APPLE__
-        home = "/Library/Application Support/BOINC Data";
 #else
-        home = getenv("HOME");
-        if (home == NULL) {
-            home = getpwuid(getuid())->pw_dir;
+        // putenv does not copy its input buffer, so we must use setenv
+        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
+            vboxlog_msg("Failed to modify the VBOX_USER_HOME path.");
         }
 #endif
-        virtualbox_home_directory = home;
-        virtualbox_home_directory += "/.VirtualBox";
     }
 
 #ifdef _WIN32
