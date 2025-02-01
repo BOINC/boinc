@@ -27,6 +27,7 @@ struct RESULT {
     double report_deadline;
     int version_num;        // identifies the app used
     char plan_class[64];
+        // used to associate this RESULT with an APP_VERSION
     char platform[256];
     APP_VERSION* avp;
     std::vector<FILE_REF> output_files;

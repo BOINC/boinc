@@ -409,6 +409,7 @@ struct WORKUNIT {
         // to versions before multi-platform support
     bool has_resource_usage;
     char plan_class[256];
+        // for BUDA jobs, the BUDA variant
     RESOURCE_USAGE resource_usage;
     std::string command_line;
     std::vector<FILE_REF> input_files;
