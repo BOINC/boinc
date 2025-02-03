@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,6 +19,13 @@
 
 #include <string>
 #include <filesystem>
+#include <iostream>
+#include <vector>
+#include <iomanip>
+#include <sstream>
+
+#include <openssl/evp.h>
+#include <openssl/md5.h>
 
 #include "installer_setup.h"
 #include "version.h"
@@ -60,27 +67,43 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     return 0;
 }
 
+std::string computeMD5(const void* buffer, size_t size) {
+    unsigned char md5Digest[MD5_DIGEST_LENGTH];
+    auto* mdContext = EVP_MD_CTX_new();
+
+    if (mdContext == nullptr) {
+        return {};
+    }
+
+    if (EVP_DigestInit_ex(mdContext, EVP_md5(), nullptr) != 1) {
+        EVP_MD_CTX_free(mdContext);
+        return {};
+    }
+
+    if (EVP_DigestUpdate(mdContext, buffer, size) != 1) {
+        EVP_MD_CTX_free(mdContext);
+        return {};
+    }
+
+    if (EVP_DigestFinal_ex(mdContext, md5Digest, nullptr) != 1) {
+        EVP_MD_CTX_free(mdContext);
+        return {};
+    }
+
+    EVP_MD_CTX_free(mdContext);
+
+    std::ostringstream oss;
+    for (auto i = 0u; i < MD5_DIGEST_LENGTH; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') <<
+            static_cast<int>(md5Digest[i]);
+    }
+
+    return oss.str();
+}
+
+
 bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName)
 {
-    char buffer[MAX_PATH];
-    const auto result = GetWindowsDirectory(buffer, MAX_PATH);
-    if (result == 0 || result > MAX_PATH) {
-        MessageBox(NULL, "Failed to get the Windows directory!", "Error",
-            MB_ICONERROR);
-        return false;
-    }
-
-    const std::filesystem::path windowsDir(buffer);
-    const auto outputDir = windowsDir / "Downloaded Installations" / "BOINC" /
-        BOINC_VERSION_STRING;
-    if (!std::filesystem::exists(outputDir)) {
-        if (!std::filesystem::create_directories(outputDir)) {
-            MessageBox(NULL, "Failed to create output directory!", "Error",
-                MB_ICONERROR);
-            return false;
-        }
-    }
-
     try {
         auto hResource = FindResource(nullptr, MAKEINTRESOURCE(ResourceID),
             "BINARY");
@@ -101,6 +124,25 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName)
         const auto dwSize = SizeofResource(nullptr, hResource);
         if (dwSize == 0) {
             return false;
+        }
+
+        char buffer[MAX_PATH];
+        const auto result = GetWindowsDirectory(buffer, MAX_PATH);
+        if (result == 0 || result > MAX_PATH) {
+            MessageBox(NULL, "Failed to get the Windows directory!", "Error",
+                MB_ICONERROR);
+            return false;
+        }
+
+        const std::filesystem::path windowsDir(buffer);
+        const auto outputDir = windowsDir / "Downloaded Installations" /
+            "BOINC" / BOINC_VERSION_STRING / computeMD5(lpFile, dwSize);
+        if (!std::filesystem::exists(outputDir)) {
+            if (!std::filesystem::create_directories(outputDir)) {
+                MessageBox(NULL, "Failed to create output directory!", "Error",
+                    MB_ICONERROR);
+                return false;
+            }
         }
 
         auto hFile = CreateFile((outputDir / OutputFileName).string().c_str(),
@@ -156,7 +198,8 @@ void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
 
         auto hwnd = CreateWindowEx(
             WS_EX_TOPMOST, CLASS_NAME, "Splash Screen", WS_POPUP,
-            CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, NULL, NULL, hInstance, NULL);
+            CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, NULL, NULL, hInstance,
+            NULL);
 
         if (!hwnd) {
             return;
