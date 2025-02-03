@@ -223,6 +223,8 @@ void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
+    SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
+
     LPWSTR* szArglist;
     int nArgs;
     szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
@@ -238,7 +240,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
     }
     LocalFree(szArglist);
 
-    SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
     if (args == "") {
         ShowWindow(hInstance, nCmdShow);
     }
