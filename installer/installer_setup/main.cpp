@@ -23,6 +23,7 @@
 #include <vector>
 #include <iomanip>
 #include <sstream>
+#include <codecvt>
 
 #include <openssl/evp.h>
 #include <openssl/md5.h>
@@ -102,7 +103,8 @@ std::string computeMD5(const void* buffer, size_t size) {
 }
 
 
-bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName)
+bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
+    std::string CmdParameters)
 {
     try {
         auto hResource = FindResource(nullptr, MAKEINTRESOURCE(ResourceID),
@@ -164,8 +166,9 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName)
         CloseHandle(hFile);
 
         const auto hInstance = ShellExecute(nullptr, "open",
-            (outputDir / OutputFileName).string().c_str(), nullptr, nullptr,
-            SW_SHOWNORMAL);
+            (outputDir / OutputFileName).string().c_str(),
+            CmdParameters.c_str(), nullptr,
+            CmdParameters == "" ? SW_SHOWNORMAL : SW_HIDE);
         if (reinterpret_cast<int>(hInstance) <= 32) {
             MessageBox(NULL, "Failed to execute the installer!", "Error",
                 MB_ICONERROR);
@@ -220,8 +223,25 @@ void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
+    LPWSTR* szArglist;
+    int nArgs;
+    szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
+    if (szArglist == NULL) {
+        return 0;
+    }
+    std::string args = "";
+    if (nArgs > 1) {
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        for (int i = 1; i < nArgs; i++) {
+            args += converter.to_bytes(szArglist[i]) + " ";
+        }
+    }
+    LocalFree(szArglist);
+
     SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
-    ShowWindow(hInstance, nCmdShow);
-    ExtractResourceAndExecute(IDB_MSI, "BOINC.msi");
+    if (args == "") {
+        ShowWindow(hInstance, nCmdShow);
+    }
+    ExtractResourceAndExecute(IDB_MSI, "BOINC.msi", args);
     return 0;
 }
