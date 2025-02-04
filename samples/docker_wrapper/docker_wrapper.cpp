@@ -500,7 +500,7 @@ int main(int argc, char** argv) {
     options.check_heartbeat = true;
     options.handle_process_control = true;
     boinc_init_options(&options);
-
+    retval = parse_config_file();
     if (boinc_is_standalone()) {
         verbose = true;
         strcpy(image_name, "boinc");
@@ -512,7 +512,7 @@ int main(int argc, char** argv) {
         get_image_name();
         get_container_name();
     }
-    retval = parse_config_file();
+
     if (retval) {
         fprintf(stderr, "can't parse config file\n");
         exit(1);
