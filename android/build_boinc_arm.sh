@@ -32,8 +32,7 @@ CONFIG_LDFLAGS=""
 CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
 CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-
-
+export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=armv7a-linux-androideabi16-clang

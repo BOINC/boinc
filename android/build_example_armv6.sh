@@ -28,6 +28,7 @@ CONFIG_LDFLAGS=""
 CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
 CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
+export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 
 export ANDROID="yes"
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"

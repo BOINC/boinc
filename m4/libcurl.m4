@@ -256,7 +256,11 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
            _libcurl_save_cppflags=$CPPFLAGS
            CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
            _libcurl_save_libs=$LIBS
+           # there is a bug with libcurl built with openssl using vcpkg
+           # that fails on this test binary only
+           # remove -pthread from LIBS to avoid the issue
            LIBS="$LIBS $LIBCURL"
+           LIBS="`echo $LIBS | sed -e 's/-pthread//g'`"
 
            AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <curl/curl.h>],[
 /* Try and use a few common options to force a failure if we are
@@ -285,7 +289,11 @@ x=CURLOPT_VERBOSE;
            _libcurl_save_cppflags=$CPPFLAGS
            CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
            _libcurl_save_libs=$LIBS
+           # there is a bug with libcurl built with openssl using vcpkg
+           # that fails on this test binary only
+           # remove -pthread from LIBS to avoid the issue
            LIBS="$LIBS $LIBCURL"
+           LIBS="`echo $LIBS | sed -e 's/-pthread//g'`"
 
            AC_CHECK_FUNC(curl_free,,
                 AC_DEFINE(curl_free,free,
