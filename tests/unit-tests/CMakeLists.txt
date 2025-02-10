@@ -8,6 +8,7 @@ set (CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror --coverage")
 
 
 find_package(Threads REQUIRED)
+find_package(GTest REQUIRED)
 
 # There is no easy way to interface with the autotools driven build system in boinc
 # so the paths below are hardcoded and are mainly suited for building on Travis CI
@@ -24,10 +25,6 @@ include_directories("/usr/include/mariadb/mysql")
 include_directories("/usr/include/mysql")
 
 
-find_library(GTEST_MAIN_LIB libgtest_main.a PATHS ${PROJECT_SOURCE_DIR}/../../3rdParty/buildCache/linux/lib NO_DEFAULT_PATH)
-message(STATUS "gtest_main_lib: ${GTEST_MAIN_LIB}")
-find_library(GTEST_LIB gtest PATHS ${PROJECT_SOURCE_DIR}/../../3rdParty/buildCache/linux/lib NO_DEFAULT_PATH)
-message(STATUS "gtest_lib: ${GTEST_LIB}")
 find_library(SCHED_LIB libsched.a PATHS ${PROJECT_SOURCE_DIR}/../../sched NO_DEFAULT_PATH)
 find_library(BOINC_CRYPT_LIB libboinc_crypt.a PATHS ${PROJECT_SOURCE_DIR}/../../lib NO_DEFAULT_PATH)
 find_library(BOINC_LIB libboinc.a PATHS ${PROJECT_SOURCE_DIR}/../../lib NO_DEFAULT_PATH)

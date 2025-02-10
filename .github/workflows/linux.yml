@@ -57,6 +57,11 @@ jobs:
         run: |
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
+      - name: Install dependencies for unit testing
+        if: success() && matrix.type == 'unit-test'
+        run: |
+          sudo apt-get install -y libgtest-dev
+
       - name: Install dependencies for integration testing
         if: success() && matrix.type == 'integration-test'
         run: |
@@ -132,7 +137,7 @@ jobs:
 
       - name: Configure server for unit testing
         if: success() && matrix.type == 'unit-test'
-        run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
+        run: ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
       - name: Make
         if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'arm64')
