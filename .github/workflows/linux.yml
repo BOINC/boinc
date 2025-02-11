@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, manager, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -51,6 +51,11 @@ jobs:
         run: |
           sudo apt-get -qq update
           sudo apt-get install -y autopoint libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip libltdl-dev
+
+      - name: Install dependencies for manager
+        if: success() && matrix.type == 'manager'
+        run: |
+          sudo apt-get install -y libwxgtk3.2-dev libwxgtk-webview3.2-dev
 
       - name: Install dependencies for arm64
         if: success() && endsWith(matrix.type, 'arm64')
@@ -97,6 +102,10 @@ jobs:
       - name: Configure apps
         if: success() && matrix.type == 'apps'
         run: ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
+
+      - name: Configure manager
+        if: success() && matrix.type == 'manager'
+        run: ./configure --disable-server --disable-client --enable-manager
 
       - name: Configure libs with vcpkg
         if: success() && matrix.type == 'libs-vcpkg'
