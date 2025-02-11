@@ -51,7 +51,6 @@ ROOTDIR=$(pwd)
 cache_dir=""
 doclean=""
 wxoption=""
-gtest_only=""
 build_config="Release"
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -69,9 +68,6 @@ while [[ $# -gt 0 ]]; do
         ;;
         --disable-webview)
         wxoption="--disable-webview ${wxoption} "
-        ;;
-        --gtest-only)
-        gtest_only="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -139,11 +135,7 @@ fi
 
 wx_ver="3.2.6"
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
-if [ "${gtest_only}" = "yes" ]; then
-    download_and_build "googletest-release-1.8.1" "release-1.8.1.tar.gz" "https://github.com/google/googletest/archive/release-1.8.1.tar.gz" "${ROOTDIR}/3rdParty/buildGoogletestLinux.sh"
-else
-    download_and_build "wxWidgets-$wx_ver" "wxWidgets-$wx_ver.tar.bz2" "https://github.com/wxWidgets/wxWidgets/releases/download/v$wx_ver/wxWidgets-$wx_ver.tar.bz2" "${ROOTDIR}/3rdParty/buildWxLinux.sh ${wxoption}"
-fi
+download_and_build "wxWidgets-$wx_ver" "wxWidgets-$wx_ver.tar.bz2" "https://github.com/wxWidgets/wxWidgets/releases/download/v$wx_ver/wxWidgets-$wx_ver.tar.bz2" "${ROOTDIR}/3rdParty/buildWxLinux.sh ${wxoption}"
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1
