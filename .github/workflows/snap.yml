@@ -64,6 +64,16 @@ jobs:
       run: |
         echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
+    - name: Fix version in the snapcraft.yaml
+      run: |
+        PKG_VERSION=$(cat version.h | grep BOINC_VERSION_STRING | sed -e 's|#define BOINC_VERSION_STRING||' | jq -r .)
+        if [[ "x${PKG_VERSION}" == "x" ]]; then
+          printf "Could not obtain release package version from version.h"
+          exit 1
+        fi
+        PKG_VERSION_FULL="${PKG_VERSION}-${{ github.run_number }}"
+        sed -i -E "s/(version: \"$PKG_VERSION\")/version: \"$PKG_VERSION_FULL\"/" ${{ github.workspace }}/snap/snapcraft.yaml
+
     - name: Configure docker qemu
       if: success()
       uses: docker/setup-qemu-action@4574d27a4764455b42196d70a065bc6853246a25
@@ -119,6 +129,15 @@ jobs:
       with:
         name: snap_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
         path: deploy/logs.7z
+
+    - name: Publish snap
+      if: success() && matrix.type == 'x64'
+      uses: snapcore/action-publish@214b86e5ca036ead1668c79afb81e550e6c54d40
+      env:
+        SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAP_LOGIN }}
+      with:
+        snap: ${{ matrix.snap_file }}
+        release: edge
 
     - name: Prepare artifacts for deploy
       if: success()
