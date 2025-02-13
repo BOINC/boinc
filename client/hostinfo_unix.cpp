@@ -1238,7 +1238,7 @@ int HOST_INFO::get_virtualbox_version() {
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    string cmd = string(docker_cli_prog(type)) + " --version";
+    string cmd = string(docker_cli_prog(type)) + " --version 2>/dev/null";
     FILE* f = popen(cmd.c_str(), "r");
     if (f) {
         char buf[256];
@@ -1269,7 +1269,7 @@ bool HOST_INFO::get_docker_version(){
 //
 bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    string cmd = string(docker_cli_prog(type)) + " compose version";
+    string cmd = string(docker_cli_prog(type)) + " compose version 2>/dev/null";
     FILE* f = popen(cmd.c_str(), "r");
     if (f) {
         char buf[256];
