@@ -682,6 +682,17 @@ int CLIENT_STATE::init() {
     check_app_config();
     show_app_config();
 
+    // must go after check_app_config() and parse_state_file()
+    //
+    for (RESULT* rp: results) {
+        rp->init_resource_usage();
+        if (rp->resource_usage.missing_coproc) {
+            msg_printf(rp->project, MSG_INFO,
+                "Missing coprocessor for task %s", rp->name
+            );
+        }
+    }
+
     // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
     //
