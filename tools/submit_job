@@ -7,6 +7,7 @@
 // options:
 //      --templates in out: specify in/out template files
 //      --verbose
+//      --target_user ID
 //
 // If the app uses a sample assimilator,
 // you can use query_job to query the job status and see output files.
@@ -16,6 +17,7 @@ $input_template = null;
 $output_template = null;
 $infiles = [];
 $verbose = false;
+$target_user = null;
 
 for ($i=1; $i<$argc; $i++) {
     if ($argv[$i] == '--templates') {
@@ -23,6 +25,8 @@ for ($i=1; $i<$argc; $i++) {
         $output_template = $argv[++$i];
     } else if ($argv[$i] == '--verbose') {
         $verbose = true;
+    } else if ($argv[$i] == '--target_user') {
+        $target_user = $argv[++$i];
     } else if (!$appname) {
         $appname = $argv[$i];
     } else {
@@ -88,6 +92,9 @@ if ($input_template) {
 }
 if ($output_template) {
     $x .= " --result_template $output_template";
+}
+if ($target_user) {
+    $x .= " --target_user $target_user";
 }
 $cmd = sprintf('bin/create_work --appname %s --wu_name %s %s %s',
     $appname, $wu_name, $x, implode(' ', $fnames)
