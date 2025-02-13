@@ -394,12 +394,6 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 delete rp;
                 continue;
             }
-            rp->init_resource_usage();
-            if (rp->resource_usage.missing_coproc) {
-                msg_printf(project, MSG_INFO,
-                    "Missing coprocessor for task %s", rp->name
-                );
-            }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
             continue;
