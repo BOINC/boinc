@@ -50,12 +50,14 @@ foreach ($apps as $app) {
     } else {
         $b = $app->beta?" (beta test)":"";
         echo "
-            <tr><th class=\"bg-primary\" colspan=4>$app->user_friendly_name$b</th></tr>
+            <tr><th class=\"bg-primary\" colspan=6>$app->user_friendly_name$b</th></tr>
             <tr>
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>
                 <th>".tra("Created")."</th>
-                <th>".tra("Average computing")."</th>
+                <th>".tra("Avg Run Time")."</th>
+                <th>".tra("Avg CPU Time")."</th>
+                <th style=text-align:right>".tra("Average computing")."</th>
             </tr>
         ";
     }
@@ -84,10 +86,23 @@ foreach ($apps as $app) {
                 $total_gf += $gf;
                 $gf = number_format($gf, 0);
                 $b = $av->beta?" (beta test)":"";
+                $runtime_avg="NA";
+                $cputime_avg="NA";
+                if ($av->runtime_avg>0) {
+                    $runtime_avg = number_format($av->runtime_avg/3600, 2);
+                    $runtime_avg .= " hrs/task";
+                }
+                if ($av->cputime_avg>0) {
+                    $cputime_avg = number_format($av->cputime_avg/3600, 2);
+                    $cputime_avg .= " hrs/task";
+                }
+
                 echo "<tr>
                     <td>$platform->user_friendly_name</td>
                     <td>$version_num_f$b</td>
                     <td>$create_time_f</td>
+                    <td>$runtime_avg</td>
+                    <td>$cputime_avg</td>
                     <td align=right>$gf GigaFLOPS</td>
                     </tr>
                 ";
