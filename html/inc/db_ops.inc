@@ -18,7 +18,8 @@
 
 // functions to query various entities, and display them,
 // in admin web pages
-// TODO: most of this code shouldn't exist; use the standard code instead
+// TODO: most of this code shouldn't exist;
+// use the standard code for displaying WUs etc. instead
 
 require_once("../inc/util_basic.inc");
 require_once("../inc/util_ops.inc");
@@ -34,9 +35,10 @@ class BoincAssignment {
 
 define("NVALIDATE_STATES", 6);
 
-// Converts a mysql-Timestamp to a user readable format
-// @return String A user readable DateTime-String in UTC
-// @param Integer $x The mysql-Timestamp to convert
+// Converts a mysql timestamp to a user readable form
+// NOTE: the result will say UTC but it's actually local time.
+// Should fix at some point.
+//
 function mysqltime_str($x) {
     if(strpos($x,"-")==4) {
         // Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
@@ -56,18 +58,16 @@ function mysqltime_str($x) {
         $second = substr($x,12,2);
 
     }
-    //make a Unix-Timestamp
-    // echo "Time string is " . "$x";
-    $time = mktime($hour,$minute,$second,$month,$day,$year);
+    $time = mktime($hour, $minute, $second, $month, $day, $year);
     return time_str($time);
 }
 
-// translate type_id into humand readable text
+// translate type_id into human readable text
 // http://php.net/manual/de/mysqli-result.fetch-field-direct.php
 //
 function mysql_fieldtype_str($type_id) {
     static $types;
-    // maps php constants to well known mysql definitions
+    // maps php constants to mysql type names
     static $mysql_data_type_hash = array(
         MYSQLI_TYPE_TINY=>'tinyint',
         MYSQLI_TYPE_SHORT=>'smallint',
@@ -94,12 +94,14 @@ function mysql_fieldtype_str($type_id) {
     if (!isset($types)) {
         $types = array();
         $constants = get_defined_constants(true);
-        foreach ($constants['mysqli'] as $c => $n) if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) $types[$n] = $m[1];
+        foreach ($constants['mysqli'] as $c => $n) {
+            if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) $types[$n] = $m[1];
+        }
     }
     return array_key_exists($type_id, $types)? strtolower($types[$type_id]) : "unknown";
 }
 
-// Function prints a description of $table
+// print a description of $table
 //
 function print_describe_table_onecol($table, $which, $columns) {
     $db = BoincDb::get(true);
@@ -243,7 +245,6 @@ class SqlQueryString {
         } else {
             $this->table = "";
         }
-        //$this->query = $_GET['query'];
         $this->query = "";
         $this->urlquery = "";
     }
@@ -281,8 +282,9 @@ class SqlQueryString {
             $value = "";
         }
         // On the selection menu, the ALL selection criteria sets (for example)
-        // outcome=='CHOOSE_ALL' rather than a numeric value.  This means that
-        // we enter no condition for this case.
+        // outcome=='CHOOSE_ALL' rather than a numeric value.
+        // This means that we enter no condition for this case.
+        //
         if (strlen($value) && strcmp("CHOOSE_ALL", $value)) {
             $this->add("$name = '$value'");
             $this->urlquery .= "&$name=".urlencode($value);
@@ -390,9 +392,10 @@ function link_results($n, $mq, $query, $clauses) {
     }
 }
 
-// Determines if in stderr_out is an error reported and prints as human readable String
+// Determines if stderr_out is an error reported and prints as human readable String
 // @return String A human readable string if error otherwise FALSE
 // @param String $stderr_out the stderr_out value to parse
+//
 function stderr_error_string($stderr_out){
     $y = parse_element($stderr_out, "<error_code>");
     $x = 0;
@@ -949,7 +952,7 @@ function admin_show_workunit($wu) {
     start_table();
     row("Created", time_str($wu->create_time));
     row("Transition Time", time_str($wu->transition_time));
-    row("Last time modified",mysqltime_str($wu->mod_time));
+    row("Last time modified", mysqltime_str($wu->mod_time));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=\"db_action.php?table=app&id=$wu->appid\">" . app_name_by_id($wu->appid) . " [".$wu->appid."]</a>");
@@ -1085,7 +1088,7 @@ function admin_show_result($result) {
     row("Sent", time_str($result->sent_time));
     row("Report deadline", time_str($result->report_deadline));
     row("Received", time_str($result->received_time));
-    row("Last time modified",mysqltime_str($result->mod_time));
+    row("Last time modified", mysqltime_str($result->mod_time));
     row("Name", $result->name);
     row("Workunit", "<a href=\"db_action.php?table=workunit&id=$result->workunitid\">" . wu_name_by_id($result->workunitid) . "</a> [$result->workunitid]" );
     row("Server state", result_server_state_string($result)." [$result->server_state]");
