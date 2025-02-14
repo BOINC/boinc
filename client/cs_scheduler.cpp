@@ -929,12 +929,10 @@ int CLIENT_STATE::handle_scheduler_reply(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
         if (avp) {
-            // update app version attributes in case they changed on server
-            //
-            avp->resource_usage = avpp.resource_usage;
-            strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
-            avp->dont_throttle = avpp.dont_throttle;
-            avp->needs_network = avpp.needs_network;
+            // don't copy resource usage info from avpp to avp.
+            // That would undo app_config.xml.
+            // App versions are immutable;
+            // if a project wants to change something, create a new one
 
             // if we had download failures, clear them
             //
