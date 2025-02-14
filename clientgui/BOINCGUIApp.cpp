@@ -1105,6 +1105,8 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     m_bProcessingActivateAppEvent = true;
 
+#ifndef _WIN32  // On Win, the following raises the wrong window
+
     if (event.GetActive()) {
 #ifdef __WXMAC__
         ShowInterface();
@@ -1131,6 +1133,7 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
         }
 #endif
     }
+#endif  // _WIN32
 
     event.Skip();
 
