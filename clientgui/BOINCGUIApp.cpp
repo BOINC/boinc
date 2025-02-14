@@ -1110,14 +1110,12 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     if (event.GetActive()) {
 #ifdef __WXMAC__
         ShowInterface();
-#else
-#ifdef __WXGTK__
+#elif defined(__WXGTK__)
         // Linux allows the Event Log to be brought forward and made active
         // even if we have a modal dialog displayed (associated with our
         // main frame.) This test is needed to allow bringing the modal
         // dialog forward again by clicking on its title bar.
         if (!IsModalDialogDisplayed())
-#endif
         {
             bool keepEventLogInFront = m_bEventLogWasActive;
 
@@ -1133,7 +1131,6 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
         }
 #endif
     }
-#endif  // _WIN32
 
     event.Skip();
 
