@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2021 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,37 +25,7 @@
 using namespace std;
 
 namespace test_synch {
-
-    // The fixture for testing class Foo.
-
-    class test_synch : public ::testing::Test {
-    protected:
-        // You can remove any or all of the following functions if its body
-        // is empty.
-
-        test_synch() {
-            // You can do set-up work for each test here.
-        }
-
-        virtual ~test_synch() {
-            // You can do clean-up work that doesn't throw exceptions here.
-        }
-
-        // If the constructor and destructor are not enough for setting up
-        // and cleaning up each test, you can define the following methods:
-
-        virtual void SetUp() {
-            // Code here will be called immediately after the constructor (right
-            // before each test).
-        }
-
-        virtual void TearDown() {
-            // Code here will be called immediately after each test (right
-            // before the destructor).
-        }
-
-        // Objects declared here can be used by all tests in the test case for Foo.
-    };
+    class test_synch : public ::testing::Test {};
 
     TEST_F(test_synch, synch) {
         EXPECT_EQ(create_semaphore(KEY), 0);
@@ -64,6 +34,6 @@ namespace test_synch {
         EXPECT_EQ(destroy_semaphore(KEY), 0);
     }
 
-} // namespace
+}
 
 #endif
