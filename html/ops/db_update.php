@@ -1230,6 +1230,12 @@ SELECT userid,
     ");
 }
 
+function update_2_15_2025() {
+    do_query('alter table result drop index res_wu_user');
+    do_query('alter table workunit add index wu_batch(batch)');
+    do_query('alter table result add index res_batch(batch)');
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1289,7 +1295,8 @@ $db_updates = array (
     array(27025, "update_4_19_2018"),
     array(27026, "update_5_9_2018"),
     array(27027, "update_8_23_2018"),
-    array(27028, "update_9_12_2018")
+    array(27028, "update_9_12_2018"),
+    array(27029, "update_2_15_2025"),
 );
 
 ?>
