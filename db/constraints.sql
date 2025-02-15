@@ -37,7 +37,7 @@ alter table workunit
         -- transitioner
     add index wu_filedel (file_delete_state),
         -- file_deleter, db_purge
-    add index wu_assim (appid, assimilate_state);
+    add index wu_assim (appid, assimilate_state),
         -- assimilator
     add index wu_batch(batch);
         -- job submission web
