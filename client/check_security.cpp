@@ -36,8 +36,12 @@
 
 #ifdef __APPLE__                            // If Mac BOINC Manager
 #include "mac_branding.h"
+#include "mac_spawn.h"
 
 bool IsUserInGroup(char* groupName);
+static int check_boinc_users_primarygroupIds(
+    int useFakeProjectUserAndGroup, int isMacInstaller
+);
 #endif
 
 static int CheckNestedDirectories(
@@ -75,8 +79,6 @@ char *bundlePath, char *dataPath,   // These arguments are used only when called
 #endif
 int use_sandbox, int isManager, char* path_to_error, int len
 ) {
-    passwd              *pw;
-    group               *grp;
     char                dir_path[MAXPATHLEN], full_path[MAXPATHLEN];
     struct stat         sbuf;
     int                 retval;
@@ -159,62 +161,42 @@ int use_sandbox, int isManager, char* path_to_error, int len
         boinc_master_gid = getegid();
     }
 
-    if ((!useFakeProjectUserAndGroup) || isMacInstaller) {
-       // Require absolute owner and group boinc_master:boinc_master
-        strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));
-        pw = getpwnam(boinc_master_user_name);
-        if (pw == NULL)
-            return -1006;      // User boinc_master does not exist
-        boinc_master_uid = pw->pw_uid;
+#ifdef __APPLE__
+    char DataDirPath[MAXPATHLEN];
+    getcwd(DataDirPath, sizeof(DataDirPath));
 
-        strlcpy(boinc_master_group_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_group_name));
-        grp = getgrnam(boinc_master_group_name);
-        if (grp == NULL)
-            return -1007;                // Group boinc_master does not exist
-        boinc_master_gid = grp->gr_gid;
+    snprintf(full_path, sizeof(full_path),
+        "%s/%s", DataDirPath, FIX_BOINC_USERS_FILENAME
+    );
+    retval = stat(full_path, &sbuf);
+    if (retval)
+    return -1061;
 
-        // A MacOS update sometimes changes the PrimaryGroupID of user boinc_master to staff (20).
-        if (pw->pw_gid != grp->gr_gid) {
-            return -1301;
-        }
-    } else {    // Use current user and group (see comment above)
+    if (sbuf.st_uid != 0)   // root
+         return -1062;
 
-        pw = getpwuid(boinc_master_uid);
-        if (pw == NULL)
-            return -1008;      // Should never happen
-        strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
+    if (sbuf.st_gid != boinc_master_gid)
+        return -1063;
 
-        grp = getgrgid(boinc_master_gid);
-        if (grp == NULL)
-            return -1009;
-        strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
+    if ((sbuf.st_mode & 07777) != 04555)
+        return -1064;
 
-    }
-
-    if (useFakeProjectUserAndGroup) {
-        // For easier debugging of project applications
-        strlcpy(boinc_project_user_name, boinc_master_user_name, sizeof(boinc_project_user_name));
-        strlcpy(boinc_project_group_name, boinc_master_group_name, sizeof(boinc_project_group_name));
-        boinc_project_uid = boinc_master_uid;
-        boinc_project_gid = boinc_master_gid;
-    } else {
-        strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
-        pw = getpwnam(boinc_project_user_name);
-        if (pw == NULL)
-            return -1010;      // User boinc_project does not exist
-        boinc_project_uid = pw->pw_uid;
-
-        strlcpy(boinc_project_group_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_group_name));
-        grp = getgrnam(boinc_project_group_name);
-        if (grp == NULL)
-            return -1011;                // Group boinc_project does not exist
-        boinc_project_gid = grp->gr_gid;
-
-        // A MacOS update sometimes changes the PrimaryGroupID of user boinc_project to staff (20).
-        if (pw->pw_gid != grp->gr_gid) {
-            return -1302;
+    if (! isMacInstaller) {
+    // MacOS updates often change the PrimaryGroupID of boinc_master and
+    // boinc_project to 20 (staff.)
+        retval = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
+        if ((retval == -1301) || (retval == -1302)) {
+            snprintf(full_path, sizeof(full_path),
+                "\"%s/%s\"", DataDirPath, FIX_BOINC_USERS_FILENAME
+            );
+            printf("Permissions error %d, calling %s\n", retval, full_path);
+            callPosixSpawn(full_path);  // Try to fix it
+            retval = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
         }
     }
+    if (retval)
+        return retval;
+#endif
 
 #if 0   // Manager is no longer setgid
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
@@ -495,6 +477,72 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
     return 0;
 }
+
+
+#ifdef __APPLE__
+static int check_boinc_users_primarygroupIds(int useFakeProjectUserAndGroup, int isMacInstaller) {
+    passwd              *pw;
+    group               *grp;
+
+    if ((!useFakeProjectUserAndGroup) || isMacInstaller) {
+       // Require absolute owner and group boinc_master:boinc_master
+        strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));
+        pw = getpwnam(boinc_master_user_name);
+        if (pw == NULL)
+            return -1006;      // User boinc_master does not exist
+        boinc_master_uid = pw->pw_uid;
+
+        strlcpy(boinc_master_group_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_group_name));
+        grp = getgrnam(boinc_master_group_name);
+        if (grp == NULL)
+            return -1007;                // Group boinc_master does not exist
+        boinc_master_gid = grp->gr_gid;
+
+        // A MacOS update sometimes changes the PrimaryGroupID of user boinc_master to staff (20).
+        if (pw->pw_gid != grp->gr_gid) {
+            return -1301;
+        }
+    } else {    // Use current user and group (see comment above)
+
+        pw = getpwuid(boinc_master_uid);
+        if (pw == NULL)
+            return -1008;      // Should never happen
+        strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
+
+        grp = getgrgid(boinc_master_gid);
+        if (grp == NULL)
+            return -1009;
+        strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
+
+    }
+
+    if (useFakeProjectUserAndGroup) {
+        // For easier debugging of project applications
+        strlcpy(boinc_project_user_name, boinc_master_user_name, sizeof(boinc_project_user_name));
+        strlcpy(boinc_project_group_name, boinc_master_group_name, sizeof(boinc_project_group_name));
+        boinc_project_uid = boinc_master_uid;
+        boinc_project_gid = boinc_master_gid;
+    } else {
+        strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
+        pw = getpwnam(boinc_project_user_name);
+        if (pw == NULL)
+            return -1010;      // User boinc_project does not exist
+        boinc_project_uid = pw->pw_uid;
+
+        strlcpy(boinc_project_group_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_group_name));
+        grp = getgrnam(boinc_project_group_name);
+        if (grp == NULL)
+            return -1011;                // Group boinc_project does not exist
+        boinc_project_gid = grp->gr_gid;
+
+        // A MacOS update sometimes changes the PrimaryGroupID of user boinc_project to staff (20).
+        if (pw->pw_gid != grp->gr_gid) {
+            return -1302;
+        }
+    }
+    return 0;
+}
+#endif
 
 
 static int CheckNestedDirectories(

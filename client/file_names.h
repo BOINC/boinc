@@ -77,6 +77,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define DAILY_XFER_HISTORY_FILENAME "daily_xfer_history.xml"
+#define FIX_BOINC_USERS_FILENAME    "Fix_BOINC_Users"
 #define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
 #define GET_PROJECT_CONFIG_FILENAME "get_project_config.xml"
 #define GLOBAL_PREFS_FILE_NAME      "global_prefs.xml"
