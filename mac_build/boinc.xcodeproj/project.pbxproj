@@ -98,7 +98,7 @@
 		DD35BF3A27E3601800F1BBFC /* BOINCSaver.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */; };
 		DD3741D610FC948C001257EB /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DD3741D910FC94BA001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
-		DD3C72CE2D62225F009BA4E6 /* MacFixUserGroups.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3C72CB2D62222A009BA4E6 /* MacFixUserGroups.cpp */; };
+		DD391E672D633AA700BD8761 /* MacFixUserGroups.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD391E662D633AA700BD8761 /* MacFixUserGroups.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
 		DD3E14DF0A774397007E0084 /* AccountInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */; };
@@ -1015,7 +1015,7 @@
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BOINCSaver.xib; path = ../clientscr/res/BOINCSaver.xib; sourceTree = "<group>"; };
-		DD3C72CB2D62222A009BA4E6 /* MacFixUserGroups.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MacFixUserGroups.cpp; sourceTree = "<group>"; };
+		DD391E662D633AA700BD8761 /* MacFixUserGroups.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MacFixUserGroups.cpp; sourceTree = "<group>"; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3EAAAE216A268500BC673C /* finish_install.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = finish_install.cpp; path = ../mac_installer/finish_install.cpp; sourceTree = "<group>"; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2249,7 +2249,7 @@
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */,
-				DD3C72CB2D62222A009BA4E6 /* MacFixUserGroups.cpp */,
+				DD391E662D633AA700BD8761 /* MacFixUserGroups.cpp */,
 				DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */,
 				DD64A774270329AA005FE681 /* MacBitmapComboBox.cpp */,
 				DD64A775270329AA005FE681 /* MacBitmapComboBox.h */,
@@ -3786,7 +3786,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD3C72CE2D62225F009BA4E6 /* MacFixUserGroups.cpp in Sources */,
+				DD391E672D633AA700BD8761 /* MacFixUserGroups.cpp in Sources */,
 				DD67F19D2D5A295B00A78699 /* mac_spawn.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
