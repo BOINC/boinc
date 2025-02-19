@@ -15,7 +15,7 @@ then
 fi
 
 #Check if using yum
-if [ -n "$(command -v yum)" ]; 
+if [ -n "$(command -v yum)" ];
 then
     sudo yum -y -q install epel-release
     sudo yum -y -q install ansible docker composer
@@ -34,14 +34,14 @@ then
 fi
 
 # Check if docker compose is installed.  If it isn't, direct user to instructions
-if [ -z "$(command -v docker compose)" ]; 
+if [ -z "$(command -v docker compose)" ];
 then
     echo "Please install docker compose.  See https://docs.docker.com/compose/install/"
     exit 1
 fi
 
 # Check if composer is installed.  If it isn't, direct user to instructions
-if [ -z "$(command -v composer)" ]; 
+if [ -z "$(command -v composer)" ];
 then
     echo "Please download and install composer.  See https://getcomposer.org/download/"
     exit 1
