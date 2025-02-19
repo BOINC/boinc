@@ -1,0 +1,14 @@
+diff --git a/build/cmake/init.cmake b/build/cmake/init.cmake
+index 0584ecaeb5..3e0f5feb3e 100644
+--- a/build/cmake/init.cmake
++++ b/build/cmake/init.cmake
+@@ -18,6 +18,9 @@ else()
+     # CMAKE_CXX_STANDARD not defined.
+ endif()
+ 
++set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
++set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
++
+ if(MSVC)
+     # Determine MSVC runtime library flag
+     set(MSVC_LIB_USE "/MD")
