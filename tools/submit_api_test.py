@@ -17,6 +17,8 @@
 
 # test functions for submit_api.py
 
+DEPRECATED: SEE boinc_submit_test.py
+
 # YOU MUST CREATE A FILE "test_auth' CONTAINING
 #
 # project URL
