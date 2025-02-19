@@ -56,13 +56,13 @@ isPathSubpath() {
 }
 
 # check working directory because the script needs to be called like: ./integration_test/installTestSuite.sh
-if [ ! -d "integration_test" ]; then
+if [ ! -d "tests/integration_test" ]; then
     echo "start this script in the source root directory"
     exit 1
 fi
 
 ROOTDIR=$(pwd)
-PREFIX=$(realpath -s $ROOTDIR/../bst)
+PREFIX=$ROOTDIR/tests/server-test
 test_dir=""
 while [[ $# -gt 0 ]]; do
     key="$1"

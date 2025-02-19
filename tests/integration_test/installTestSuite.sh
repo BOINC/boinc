@@ -57,13 +57,13 @@ isPathSubpath() {
 }
 
 # check working directory because the script needs to be called like: ./integration_test/installTestSuite.sh
-if [ ! -d "integration_test" ]; then
+if [ ! -d "tests/integration_test" ]; then
     echo "start this script in the source root directory"
     exit 1
 fi
 
 ROOTDIR=$(pwd)
-PREFIX=$(realpath -s $ROOTDIR/tests/server-test)
+PREFIX=$ROOTDIR/tests/server-test
 test_dir=""
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -94,11 +94,11 @@ if [ "x$test_dir" != "x" ]; then
 fi
 
 cd "${PREFIX}/tests" || exit 1
-composer require phpunit/phpunit
+composer require --dev phpunit/phpunit
 if [ $? -ne 0 ]; then exit 1; fi
-composer require guzzlehttp/guzzle
+composer require --dev guzzlehttp/guzzle
 if [ $? -ne 0 ]; then exit 1; fi
-composer update
+composer update --dev
 if [ $? -ne 0 ]; then exit 1; fi
 cd .. || exit 1
 

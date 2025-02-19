@@ -1,7 +1,7 @@
 {
-    "require": {
-        "phpunit/phpunit": "^7.2",
-        "guzzlehttp/guzzle": "^6.3"
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "guzzlehttp/guzzle": "*"
     },
 
     "scripts": {
