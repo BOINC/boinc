@@ -1,0 +1,6 @@
+- hosts: localhost
+  vars_files:
+    - vars/common.yml
+  roles:
+    - clone-boinc-server-docker
+    - build-boinc-docker

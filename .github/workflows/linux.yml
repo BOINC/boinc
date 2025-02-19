@@ -72,7 +72,7 @@ jobs:
         run: |
           sudo apt-get install ansible
           sudo service mysql stop
-          ./integration_test/installTestSuite.sh
+          ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
@@ -181,7 +181,7 @@ jobs:
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
-        run: ./integration_test/executeTestSuite.sh
+        run: ./tests/integration_test/executeTestSuite.sh
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
