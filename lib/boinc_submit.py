@@ -145,19 +145,17 @@ class BOINC_SERVER:
             self.query_files_xml(phys_names, batch_id, delete_time),
             'job_file.php'
         )
-        print(ret)
         if 'error' in ret:
             return ret
         absent = ret['absent_files']
         if isinstance(absent, str):
-            return {}
+            return {'success':None}
         if 'file' not in absent.keys():
-            return {}
+            return {'success':None}
         file = absent['file']
         if type(file) != list:
             file = [file]
         n = 0
-        print(file)
         files = []
         upload_phys_names = []
         for f in file:
@@ -335,7 +333,8 @@ class BOINC_SERVER:
 
 # convert ElementTree to a python data structure
 #
-def etree_to_dict(xml, result={}):
+def etree_to_dict(xml):
+    result = {}
     for child in xml:
         if len(child) == 0:
             # this means the element contains data, not other elements
@@ -349,7 +348,7 @@ def etree_to_dict(xml, result={}):
             if child.tag in result:
                 if not isinstance(result[child.tag], list):
                     result[child.tag] = [result[child.tag]]
-                result[child.tag].append(etree_to_dict(child, {}))
+                result[child.tag].append(etree_to_dict(child))
             else:
-                result[child.tag] = etree_to_dict(child, {})
+                result[child.tag] = etree_to_dict(child)
     return result

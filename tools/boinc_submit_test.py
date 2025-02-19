@@ -138,9 +138,9 @@ def test_get_job_counts():
 
 #test_query_batch(520)
 #test_abort_batch(117)
-test_query_batches()
+#test_query_batches()
 #test_submit_batch('batch_39')
 #test_estimate_batch()
-#test_upload_files()
+test_upload_files()
 #test_query_files()
 #test_create_batch('batch_140')
