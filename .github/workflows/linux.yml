@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -207,13 +207,13 @@ jobs:
 
       - name: Upload Google Tests Results
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
-        if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
+        if: always() && matrix.type == 'unit-test'
         with:
           name: Linux_tests_results
           path: "tests/gtest/**/*_xml_report.xml"
 
       - name: Upload coverage report
-        if: success() && matrix.type == 'unit-test'
+        if: success() && (matrix.type == 'unit-test' || matrix.type == 'integration-test')
         uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

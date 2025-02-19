@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         bootstrap="vendor/autoload.php"
+         cacheResultFile=".phpunit.cache/test-results"
+         convertDeprecationsToExceptions="true"
+         executionOrder="depends,defects"
+         failOnRisky="true"
+         failOnWarning="true"
+         forceCoversAnnotation="true"
+         verbose="true">
     <testsuites>
         <testsuite name="REST API Test Suite">
             <directory suffix=".php">./config-tests/</directory>
@@ -13,4 +25,13 @@
         <const name="base" value="boincserver"/>
         <const name="num_platforms" value="3"/>
     </php>
+    <coverage processUncoveredFiles="true">
+      <include>
+        <directory suffix=".php">html</directory>
+        <directory suffix=".inc">html</directory>
+      </include>
+      <report>
+        <cobertura outputFile="cobertura.xml"/>
+      </report>
+    </coverage>
 </phpunit>
