@@ -79,7 +79,7 @@ require_once("../inc/xml.inc");
 require_once("../inc/submit_util.inc");
 
 function upload_error_description($errno) {
-    switch($errno) {
+    switch ($errno) {
         case UPLOAD_ERR_INI_SIZE:
             return "The uploaded file exceeds upload_max_filesize of php.ini."; break;
         case UPLOAD_ERR_FORM_SIZE:
@@ -106,15 +106,15 @@ function query_files($r) {
     $batch_id = (int)$r->batch_id;
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $phys_names = [];
-    foreach($r->phys_name as $f) {
+    foreach ($r->phys_name as $f) {
         $phys_names[] = (string)$f;
     }
     $i = 0;
-    foreach($phys_names as $fname) {
+    foreach ($phys_names as $fname) {
         if (!is_valid_filename($fname)) {
             xml_error(-1, 'bad filename');
         }
-        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
+        $path = dir_hier_path($fname, project_dir()."/download", $fanout);
 
         // if the job_file record is there,
         // update the delete time first to avoid race condition
@@ -228,11 +228,11 @@ function upload_files($r) {
     foreach ($_FILES as $f) {
         $tmp_name = $f['tmp_name'];
         $fname = $phys_names[$i];
-        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
+        $path = dir_hier_path($fname, project_dir()."/download", $fanout);
 
         // see if file is in download hierarchy
         //
-        switch(check_download_file($tmp_name, $path)) {
+        switch (check_download_file($tmp_name, $path)) {
         case 0:
             // file is already there
             // note: check_download_file() generates .md5 in cases 1 and 2
@@ -287,10 +287,10 @@ $request_log = parse_config(get_config(), "<remote_submission_log>");
 if ($request_log) {
     $request_log_dir = parse_config(get_config(), "<log_dir>");
     if ($request_log_dir) {
-        $request_log = $request_log_dir . "/" . $request_log;
+        $request_log = $request_log_dir."/".$request_log;
     }
     if ($file = fopen($request_log, "a+")) {
-        fwrite($file, "\n<job_file date=\"" . date(DATE_ATOM) . "\">\n" . $_POST['request'] . "\n</job_file>\n");
+        fwrite($file, "\n<job_file date=\"".date(DATE_ATOM)."\">\n".$_POST['request']."\n</job_file>\n");
         fclose($file);
     }
 }
@@ -302,7 +302,7 @@ if (!$r) {
     xml_error(-1, "can't parse request message: ".htmlspecialchars($req), __FILE__, __LINE__);
 }
 
-switch($r->getName()) {
+switch ($r->getName()) {
 case 'query_files':
     query_files($r);
     break;
