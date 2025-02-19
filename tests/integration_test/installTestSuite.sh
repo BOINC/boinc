@@ -63,7 +63,7 @@ if [ ! -d "integration_test" ]; then
 fi
 
 ROOTDIR=$(pwd)
-PREFIX=$(realpath -s $ROOTDIR/../bst)
+PREFIX=$(realpath -s $ROOTDIR/tests/server-test)
 test_dir=""
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -91,13 +91,6 @@ if [ "x$test_dir" != "x" ]; then
         echo "test_dir must be an absolute path without ./ or ../ in it"
         exit 1
     fi
-fi
-
-if [ -d "$PREFIX" ]; then
-    echo "$PREFIX already exists. Will not clone but use it instead."
-else
-    git clone https://github.com/BOINC/boinc-server-test.git "${PREFIX}"
-    if [ $? -ne 0 ]; then exit 1; fi
 fi
 
 cd "${PREFIX}/tests" || exit 1
