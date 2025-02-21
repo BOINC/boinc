@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2022 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -68,6 +68,7 @@
 # and to create RealName key with empty string as value (for users)
 # Updated 11/8/22 revised setprojectgrp ownership & permissions for MacOS 13
 # Updated 4/6/23 revised setprojectgrp ownership to match PR #5061
+#Updated 2/11/25 to add Fix_BOINC_Users
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -265,6 +266,10 @@ set_perm switcher boinc_master boinc_master 0550
 if [ -d locale ] ; then
     set_perm_recursive locale boinc_master boinc_master +X
     set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o+r-w
+fi
+
+if [ -f Fix_BOINC_Users ] ; then
+    set_perm Fix_BOINC_Users root boinc_master 04555       # Fix_BOINC_Users
 fi
 
 if [ -f boinc ] ; then
