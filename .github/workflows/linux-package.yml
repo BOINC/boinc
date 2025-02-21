@@ -452,7 +452,7 @@ jobs:
               ln -s ${BOINCDIR}/global_prefs_override.xml /etc/boinc-client/global_prefs_override.xml
             fi
             if [ ! -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
-                echo \"\" > ${BOINCDIR}/gui_rpc_auth.cfg
+                echo $(head -c 20 /dev/urandom | sha1sum | awk '{print $1}') > ${BOINCDIR}/gui_rpc_auth.cfg
             fi
             if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
                 ln -s ${BOINCDIR}/gui_rpc_auth.cfg /etc/boinc-client/gui_rpc_auth.cfg
