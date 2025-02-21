@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ViewStatistics.h"
@@ -231,7 +231,7 @@ static bool CrossTwoLine(const double X1_1, const double Y1_1, const double X1_2
 
 //----Draw "Point"
 static void myDrawPoint(wxDC &dc,int X, int Y, wxColour graphColour,int numberTypePoint, int PointWidth) {
-	dc.SetPen(wxPen(graphColour , 1 , wxSOLID));
+    dc.SetPen(wxPen(graphColour , 1 , wxPENSTYLE_SOLID));
 	switch (numberTypePoint % 5){
 	case 1: {wxPoint* points = new wxPoint[3];
 		points[0] = wxPoint(X, Y - 1 - (PointWidth / 2));
@@ -501,8 +501,8 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 	if (project_name_max_width < 0) project_name_max_width = 0;
     totalTextAreaHeight = (m_Num_projects * m_Legend_dY);
 
-	dc.SetBrush(wxBrush(m_brush_LegendColour , wxSOLID));
-	dc.SetPen(wxPen(m_pen_LegendColour , 1 , wxSOLID));
+    dc.SetBrush(wxBrush(m_brush_LegendColour , wxBRUSHSTYLE_SOLID));
+    dc.SetPen(wxPen(m_pen_LegendColour , 1 , wxPENSTYLE_SOLID));
 	y0 = wxCoord(m_WorkSpace_Y_start) + buffer_y1;
 	if (y0 > wxCoord(m_WorkSpace_Y_end)) y0 = wxCoord(m_WorkSpace_Y_end);
 	if (y0 < wxCoord(m_WorkSpace_Y_start)) y0 = wxCoord(m_WorkSpace_Y_start);
@@ -591,8 +591,8 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 		if (state_project) head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
 
 		if (SelProj == count){
-			dc.SetBrush(wxBrush(m_brush_LegendSelectColour , wxSOLID));
-			dc.SetPen(wxPen(m_pen_LegendSelectColour , 1 , wxSOLID));
+            dc.SetBrush(wxBrush(m_brush_LegendSelectColour , wxBRUSHSTYLE_SOLID));
+            dc.SetPen(wxPen(m_pen_LegendSelectColour , 1 , wxPENSTYLE_SOLID));
 			x0 = wxCoord(m_WorkSpace_X_end) + buffer_x1 - wxCoord(1);
 			y0 = wxCoord(m_WorkSpace_Y_start + (double)(count - m_Legend_Shift) * m_Legend_dY + double(buffer_y1) + radius1);
 			w0 = project_name_max_width - buffer_x1 - buffer_x1 + 2;
@@ -615,7 +615,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 				graphColour = m_pen_LegendTextColour;
 			}
 
-		dc.SetBrush(wxBrush(m_brush_LegendColour , wxSOLID));
+        dc.SetBrush(wxBrush(m_brush_LegendColour , wxBRUSHSTYLE_SOLID));
 		x0 = wxCoord(m_WorkSpace_X_end) + buffer_x1 + wxCoord(4) + wxCoord(m_GraphPointWidth / 2);
 		y0 = wxCoord(m_WorkSpace_Y_start + ((double)(count - m_Legend_Shift) + 0.5) * m_Legend_dY + double(buffer_y1) + radius1);
 		if (x0 < 0) x0 = 0;
@@ -657,8 +657,8 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	if (h0 < 0) h0 = 0;
 	dc.SetClippingRegion(x0, y0, w0, h0);
 
-	dc.SetBrush(wxBrush(m_brush_AxisColour , wxSOLID));
-	dc.SetPen(wxPen(pen_AxisColour , 1 , wxSOLID));
+    dc.SetBrush(wxBrush(m_brush_AxisColour , wxBRUSHSTYLE_SOLID));
+    dc.SetPen(wxPen(pen_AxisColour , 1 , wxPENSTYLE_SOLID));
 
 	wxCoord w_temp, h_temp, des_temp, lead_temp;
 	wxCoord w_temp2;
@@ -718,7 +718,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	AB(m_WorkSpace_X_start, m_WorkSpace_Y_end, m_WorkSpace_X_end, m_WorkSpace_Y_start,
 		min_val_x, min_val_y, max_val_x, max_val_y);
 //Draw val and lines
-	dc.SetPen(wxPen(m_pen_AxisYColour , 1 , wxDOT));
+    dc.SetPen(wxPen(m_pen_AxisYColour , 1 , wxPENSTYLE_DOT));
 	dc.SetTextForeground (m_pen_AxisYTextColour);
 
 	int d_oy_count = 1;
@@ -762,7 +762,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	}
 
 //Draw day numbers and lines marking the days
-	dc.SetPen(wxPen(m_pen_AxisXColour , 1 , wxDOT));
+    dc.SetPen(wxPen(m_pen_AxisXColour , 1 , wxPENSTYLE_DOT));
 	dc.SetTextForeground (m_pen_AxisXTextColour);
 
 	dtTemp1.Set((time_t)max_val_x);
@@ -817,7 +817,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 	if (h0 < 0) h0 = 0;
 	dc.SetClippingRegion(x0, y0, w0, h0);
 
-	dc.SetPen(wxPen(graphColour , m_GraphLineWidth , wxSOLID));
+    dc.SetPen(wxPen(graphColour , m_GraphLineWidth , wxPENSTYLE_SOLID));
 
 	wxCoord last_x = 0;
 	wxCoord last_y = 0;
@@ -883,7 +883,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 			}
 			first_point = false;
 		}else {
-			dc.SetPen(wxPen(graphColour , m_GraphLineWidth , wxSOLID));
+            dc.SetPen(wxPen(graphColour , m_GraphLineWidth , wxPENSTYLE_SOLID));
 			// ïðîâåðêà ïîïàäàíèÿ ïåðâîé òî÷êè ëèíèè â îáëàñòü ðèñîâàíèÿ
 			if (last_point_in){
 				d_x1 = d_last_x;
@@ -1085,7 +1085,7 @@ void CPaintStatistics::DrawMarker(wxDC &dc) {
 		if (h0 < 0) h0 = 0;
 		dc.SetClippingRegion(x0, y0, w0, h0);
 
-		dc.SetPen(wxPen(m_pen_MarkerLineColour , 1 , wxSOLID));
+        dc.SetPen(wxPen(m_pen_MarkerLineColour , 1 , wxPENSTYLE_SOLID));
 		wxCoord x00 = wxCoord(m_Ax_ValToCoord * m_GraphMarker_X1 + m_Bx_ValToCoord);
 		wxCoord y00 = wxCoord(m_Ay_ValToCoord * m_GraphMarker_Y1 + m_By_ValToCoord);
 		if (x00 < 0) x00 = 0;
@@ -1101,7 +1101,7 @@ void CPaintStatistics::DrawMarker(wxDC &dc) {
 
 			dc.SetFont(m_font_bold);
 			dc.SetTextBackground (m_brush_AxisColour);
-			dc.SetBackgroundMode(wxSOLID);
+            dc.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
 			x0 += 2;
 			y0 += 2;
 			x00 += 2;
@@ -1115,7 +1115,7 @@ void CPaintStatistics::DrawMarker(wxDC &dc) {
 			dc.DrawText(wxString::Format(wxT("%s"), format_number(m_GraphMarker_Y1, 2)) , x0, y00);
 			dc.SetTextForeground (m_pen_AxisXTextColour);
 			dc.DrawText(strBuffer1 ,x00, y0);
-			dc.SetBackgroundMode(wxTRANSPARENT);
+            dc.SetBackgroundMode(wxBRUSHSTYLE_TRANSPARENT);
 		}
 		dc.DestroyClippingRegion();
 	}
@@ -1148,16 +1148,16 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 //	m_font_bold = dc.GetFont();
 //	m_font_standart_italic = dc.GetFont();
 
-	m_font_standart.SetWeight(wxNORMAL);
-	m_font_bold.SetWeight(wxBOLD);
+    m_font_standart.SetWeight(wxFONTWEIGHT_NORMAL);
+    m_font_bold.SetWeight(wxFONTWEIGHT_BOLD);
 //	m_font_standart_italic.SetFaceName(_T("Verdana"));
 	m_font_standart_italic.SetStyle(wxFONTSTYLE_ITALIC);
 
 	dc.SetFont(m_font_standart);
 //Start drawing
 	dc.Clear();
-	dc.SetBrush(wxBrush(m_brush_MainColour , wxSOLID));
-	dc.SetPen(wxPen(m_pen_MainColour , 1 , wxSOLID));
+    dc.SetBrush(wxBrush(m_brush_MainColour , wxBRUSHSTYLE_SOLID));
+    dc.SetPen(wxPen(m_pen_MainColour , 1 , wxPENSTYLE_SOLID));
 
 	wxCoord x0 = wxCoord(m_main_X_start);
 	wxCoord y0 = wxCoord(m_main_Y_start);
@@ -1167,8 +1167,8 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 	if (y0 < 0) y0 = 0;
 	if (w0 < 0) w0 = 0;
 	if (h0 < 0) h0 = 0;
-	dc.SetBrush(wxBrush(m_brush_MainColour , wxSOLID));
-	dc.SetPen(wxPen(m_pen_MainColour , 1 , wxSOLID));
+    dc.SetBrush(wxBrush(m_brush_MainColour , wxBRUSHSTYLE_SOLID));
+    dc.SetPen(wxPen(m_pen_MainColour , 1 , wxPENSTYLE_SOLID));
 	dc.DrawRectangle(x0, y0, w0, h0);
 //Number of Projects
 	int nb_proj = 0;
@@ -1584,7 +1584,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		}
 	}
     if (m_Space_for_scrollbar) {
-        dc.SetPen(wxPen(m_pen_MainColour , 1 , wxSOLID));
+        dc.SetPen(wxPen(m_pen_MainColour , 1 , wxPENSTYLE_SOLID));
         dc.DrawLine(w0 - m_Space_for_scrollbar - x0 - 1, y0, w0 - m_Space_for_scrollbar - x0 - 1, y0 + h0);
     }
 }
@@ -1630,8 +1630,8 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 #endif
 			if (m_GraphZoomStart && (width == m_dc_bmp.GetWidth()) &&(height == m_dc_bmp.GetHeight())){
 
-				mdc.SetPen(wxPen(m_pen_ZoomRectColour , 1 , wxSOLID));
-				mdc.SetBrush(wxBrush(m_brush_ZoomRectColour , wxSOLID));
+                mdc.SetPen(wxPen(m_pen_ZoomRectColour , 1 , wxPENSTYLE_SOLID));
+                mdc.SetBrush(wxBrush(m_brush_ZoomRectColour , wxBRUSHSTYLE_SOLID));
 				mdc.SetLogicalFunction(wxXOR);
 
 				wxCoord x0 = 0;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
@@ -67,7 +67,7 @@ void CSimplePanelBase::MakeBGBitMap() {
     unsigned char *whitePixels;
     int i, j, k;
     CSimpleGUIPanel* backgroundPanel = (CSimpleGUIPanel*)GetParent();
-    wxPen bgPen(*wxWHITE, 1, wxTRANSPARENT);
+    wxPen bgPen(*wxWHITE, 1, wxPENSTYLE_TRANSPARENT);
     wxBrush bgBrush(*wxWHITE);
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -97,9 +97,9 @@ void CSimplePanelBase::MakeBGBitMap() {
         fprintf(stderr, "SimpleGUI background image is too small\n");
         rawBmp = wxBitmap(r.width, r.height);
         wxMemoryDC dc(rawBmp);
-        wxPen rawPen(*wxBLACK, 1, wxTRANSPARENT);
+        wxPen rawPen(*wxBLACK, 1, wxPENSTYLE_TRANSPARENT);
         wxBrush rawBrush(*wxBLACK);
-        dc.SetBackgroundMode(wxSOLID);
+        dc.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
         dc.SetPen(rawPen);
         dc.SetBrush(rawBrush);
         dc.DrawRectangle(0, 0, r.width, r.height);
@@ -107,7 +107,7 @@ void CSimplePanelBase::MakeBGBitMap() {
 
     whiteBmp = wxBitmap(r.width, r.height);
     wxMemoryDC dc(whiteBmp);
-    dc.SetBackgroundMode(wxSOLID);
+    dc.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
     // Set the corners (outside the rounded rectangle) to black
     wxPen rawPen(*wxBLACK, 1);
     wxBrush rawBrush(*wxBLACK);
@@ -171,9 +171,9 @@ void CSimplePanelBase::EraseBackground(wxDC *dc) {
     int oldMode = dc->GetBackgroundMode();
     wxCoord w, h;
     wxPen bgPen(*wxLIGHT_GREY, 3);
-    wxBrush bgBrush(*wxLIGHT_GREY, wxTRANSPARENT);
+    wxBrush bgBrush(*wxLIGHT_GREY, wxBRUSHSTYLE_TRANSPARENT);
 
-    dc->SetBackgroundMode(wxSOLID);
+    dc->SetBackgroundMode(wxBRUSHSTYLE_SOLID);
     dc->SetPen(bgPen);
     dc->SetBrush(bgBrush);
     dc->GetSize(&w, &h);

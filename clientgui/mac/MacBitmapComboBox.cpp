@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 
 // On Macintosh we use only native controls in Simple View so the macOS
@@ -251,7 +251,7 @@ void CBOINCBitmapComboBox::DrawLargeBitmap(CDrawLargeBitmapEvent&) {
 
     myDC.SetPen(*wxTRANSPARENT_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
-    myDC.SetBackgroundMode(wxSOLID);
+    myDC.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
 
     GetSize(&x, &y);
     myDC.DrawRectangle(9, 1, y-2, y-2);
@@ -280,7 +280,7 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
 
     myDC.SetPen(*wxLIGHT_GREY_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
-    myDC.SetBackgroundMode(wxSOLID);
+    myDC.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
 
     GetSize(&x, &y);
     myDC.DrawRectangle(7, 0, y+1, y);
