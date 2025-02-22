@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * https://boinc.berkeley.edu
- * Copyright (C) 2022 University of California
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -97,7 +97,6 @@ class Monitor : LifecycleService() {
     private lateinit var fileNameNoMedia: String
     private lateinit var boincWorkingDir: String
     private lateinit var clientSocketAddress: String
-    private lateinit var fileNameWelcomeState: String
 
     private var clientStatusInterval by Delegates.notNull<Int>()
     private var deviceStatusIntervalScreenOff: Int = 0
@@ -204,7 +203,6 @@ class Monitor : LifecycleService() {
         fileNameGuiAuthentication = getString(R.string.auth_file_name)
         fileNameAllProjectsList = getString(R.string.all_projects_list)
         fileNameNoMedia = getString(R.string.nomedia)
-        fileNameWelcomeState = "welcome.state"
         clientStatusInterval = resources.getInteger(R.integer.status_update_interval_ms)
         deviceStatusIntervalScreenOff =
             resources.getInteger(R.integer.device_status_update_screen_off_every_X_loop)
@@ -309,18 +307,6 @@ class Monitor : LifecycleService() {
         } catch (e: Exception) {
             Logging.logException(Logging.Category.MONITOR, "Monitor.forceRefresh error: ", e)
         } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
-    }
-
-    fun getWelcomeStateFile(): Boolean {
-        val file = File(boincWorkingDir + fileNameWelcomeState)
-        return file.exists()
-    }
-
-    fun setWelcomeStateFile() {
-        val file = File(boincWorkingDir + fileNameWelcomeState)
-        if (!file.exists()) {
-            file.createNewFile()
-        }
     }
 
     //Kill boinc client nicely
@@ -1095,16 +1081,6 @@ class Monitor : LifecycleService() {
         @Throws(RemoteException::class)
         override fun forceRefresh() {
             this@Monitor.forceRefresh()
-        }
-
-        @Throws(RemoteException::class)
-        override fun getWelcomeStateFile(): Boolean {
-            return this@Monitor.getWelcomeStateFile()
-        }
-
-        @Throws(RemoteException::class)
-        override fun setWelcomeStateFile() {
-            this@Monitor.setWelcomeStateFile()
         }
 
         @Throws(RemoteException::class)

@@ -299,25 +299,5 @@
   <string name="main_notification_channel_description">Zobrazí upozornenia iné ako oznamy.</string>
   <string name="notice_notification_channel_name">Oznamy</string>
   <string name="notice_notification_channel_description">Zobrazí oznamy z vašich projektov.</string>
-  <!--Xiaomi specific strings-->
-  <string name="terms_of_use_content_first">Vitajte v Xiaomi Mall! Aby sme dokázali poskytnúť vysoko kvalitný zážitok z nakupovania,
-        Mi Mall aplikácia potrebuje byť pripojená na internet a používať vaše informácie o polohe na overenie zoznamu produktov,
-        optimalizovanie doručovacích služieb a personalizáciu odporúčaní produktov. Máte právo odmietnuť alebo zrušiť túto autorizáciu.</string>
-  <string name="terms_of_use_content_second">Pred používaním aplikácie si prosím pozorne prečítajte \"Súhlas užívateľa\" 
-        a \"Zásady ochrany osobných údajov\" Xiaomi Mall-u, oboznámte sa s vašimi užívateľskými právami a so spracovaním vašich dát.
-        Ak súhlasíte s obsahom vyššie uvedeného súhlasu, prosím kliknite \"Súhlasím\" na začatie používania našich produktov a služieb.
-        Budeme chrániť vaše osobné informácie pomocou jednej z najlepších bezpečnostných technológií. Ďakujeme za vašu dôveru v Xiaomi Mall.</string>
-  <string name="terms_of_use_content_user_agreement">Súhlas užívateľa: https://www.mi.com/about/user-agreement</string>
-  <string name="terms_of_use_content_privacy_policy">Zásady ochrany osobných údajov: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
-  <string name="welcome_content_first">Milí Mi fanúšikovia, dobrý deň, Da Jia Hao!</string>
-  <string name="welcome_content_second">Som David, zakladateľ Boincu. Boinc je open-source softwarová platforma pre výpočty využívajúce dobrovoľné zdroje.</string>
-  <string name="welcome_content_third">Chcel by som poďakovať pánovi Lei Jun a Xiaomi a zdieľať s vami dobré správy:
-        Mi 11 sa stane mobilným výpočtovým zariadením, ktoré je oficiálne certifikované Boincom!</string>
-  <string name="welcome_content_fourth">So vstavaným Qualcomm Snapdragon 888 sa Mi 11 pýši úžasnou výpočtovou silou.
-        Dokáže veľmi rýchlo spracovať úlohy a zabezpečiť pomoc výskumným združeniam po celom svete.</string>
-  <string name="welcome_content_fifth">Chcel by som poďakovať všetkým Xiaomi inžinierom, ktorí prispeli k Boinc projektu.
-        Povzbudzujem všetkých Mi fanúšikov, aby si stiahli Boinc na svoje telefóny a prispeli kúskom svojho výkonu, kým sa váš telefón nepoužíva.</string>
-  <string name="welcome_content_sixth">V neposlednom rade, mojim čínskym kamarátom - Šťastný Nový rok! Xin Nian Kuai Le!</string>
-  <string name="agree_button">Súhlasím</string>
   <string name="prefs_expand_wu_data">Vždy rozbaliť informácie o úlohe</string>
 </resources>

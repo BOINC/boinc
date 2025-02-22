@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -102,7 +102,7 @@ jobs:
     needs: build-client
     strategy:
       matrix:
-        task: [assembleRelease, assembleXiaomi_release, assembleArmv6_release, jacocoTestReportDebug]
+        task: [assembleRelease, assembleArmv6_release, jacocoTestReportDebug]
       fail-fast: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -171,13 +171,6 @@ jobs:
         with:
           name: android_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/android_manager.7z
-
-      - name: Upload xiaomi manager
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
-        if: ${{ matrix.task == 'assembleXiaomi_release' }}
-        with:
-          name: android_xiaomi_manager_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_manager_xiaomi.7z
 
       - name: Upload armv6 only manager
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08

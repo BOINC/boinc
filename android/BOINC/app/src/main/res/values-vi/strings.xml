@@ -296,17 +296,5 @@
   <string name="main_notification_channel_description">Hiển thị thông báo không quan trọng</string>
   <string name="notice_notification_channel_name">Thông báo</string>
   <string name="notice_notification_channel_description">Hiển thị thông báo từ dự án của bạn</string>
-  <!--Xiaomi specific strings-->
-  <string name="terms_of_use_content_first">Chào mừng đến với Trung tâm mua sắm Xiaomi! Để mang lại trải nghiệm mua sắm chất lượng cao,
-Ứng dụng Mi Mall cần được kết nối với Internet và sử dụng thông tin vị trí của bạn để kiểm tra kho sản phẩm,
-tối ưu hóa dịch vụ giao hàng và cá nhân hóa đề xuất sản phẩm. Bạn có quyền từ chối hoặc hủy bỏ sự ủy quyền này.</string>
-  <string name="terms_of_use_content_second">Trước khi sử dụng Ứng dụng, vui lòng đọc và hiểu đầy đủ \"Thỏa thuận người dùng\"
-và \"Chính sách quyền riêng tư\" của Xiaomi Mall, đồng thời hiểu rõ quyền người dùng của bạn cũng như cách xử lý dữ liệu của bạn.
-Nếu bạn đồng ý với nội dung thỏa thuận trên, vui lòng nhấp vào \"Đồng ý\" để bắt đầu sử dụng sản phẩm và dịch vụ của chúng tôi.
-Chúng tôi sẽ bảo vệ thông tin cá nhân của bạn bằng công nghệ bảo mật hàng đầu trong ngành. Cảm ơn bạn đã tin tưởng vào Xiaomi Mall.</string>
-  <string name="terms_of_use_content_user_agreement">Điều khoản người dùng: https://www.mi.com/about/user-agreement</string>
-  <string name="terms_of_use_content_privacy_policy">Chính sách quyền riêng tư: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
-  <string name="welcome_content_second">Tôi là David, nhà sáng lập Boinc. Boinc là nền tảng phần mềm điện toán mã nguồn mở sử dụng tài nguyên được cung cấp bởi các tình nguyện viên.</string>
-  <string name="agree_button">Đồng ý</string>
   <string name="prefs_expand_wu_data">Luôn mở rộng thông tin nhiệm vụ</string>
 </resources>

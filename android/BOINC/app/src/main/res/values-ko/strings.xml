@@ -292,25 +292,5 @@
   <string name="main_notification_channel_description">보지 않은 알림을 표시합니다.</string>
   <string name="notice_notification_channel_name">공지 사항</string>
   <string name="notice_notification_channel_description">프로젝트에서 온 공지 사항을 표시합니다.</string>
-  <!--Xiaomi specific strings-->
-  <string name="terms_of_use_content_first">샤오미 메일에 오신것을 환영합니다! 높은 질의 쇼핑을 제공하려면,
-Mi 메일 앱은 인터넷에 연결되어 있어야하고 상품 재고를 확인하고 배달 서비스를 최적화하고 제품 추천을 사용자하기 위해 위치정보를 사용해야 합니다
-당신은 이 권한을 허용하거나 거절할 권리가 있습니다</string>
-  <string name="terms_of_use_content_second">이 앱을 사용하기 전에,  샤오미 메일의 \"사용자 계약\"과 \"개인정보 보호정책\"을 꼭 읽고
-당신의 권리와 데이터가 어떻게 처리되어지는지를 이해하기 바랍니다.
-만약 당신이 위 계약의 내용에 동의한다면, \"동의\"를 눌러서 우리의 제품과 서비스를 사용할 수 있습니다.
-우리는 당신의 개인정보를 업계 최고수준으로 보호해드리겠습니다. 샤오미 메일에 대한 신뢰에 감사드립니다.</string>
-  <string name="terms_of_use_content_user_agreement">사용자 계약: https://www.mi.com/about/user-agreement</string>
-  <string name="terms_of_use_content_privacy_policy">개인정보 취급방침: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
-  <string name="welcome_content_first">Mi 사용자분들에게, 안녕하세요!</string>
-  <string name="welcome_content_second">저는 Boinc의 설립자인 데이비드입니다. Boinc 는 지원된 자원을 사용해 연산을 위한 오픈소스 소프트웨어 플랫폼입니다.</string>
-  <string name="welcome_content_third">저는 레이 준싸와 샤오미에게 감사하고 몇몇 좋은 소식을 여러분들과 공유하고 싶습니다:
-    Mi 11이 Boinc에 의해서 공식적으로 인정된 모바일 연산장치가 될 것입니다.</string>
-  <string name="welcome_content_fourth">Qualcomm Snapdragon 888이 내장되어 있는 Mi 11은 놀라운 연산 능력을 뽐냅니다.
-Mi 11은 작업들을 아주 빠르게 처리하고 전 세계의 연구들에 도움을 줄 수 있습니다.</string>
-  <string name="welcome_content_fifth">저는 Boinc프로젝트에 기여하셨던 샤오미의 모든 엔지니어분들께 감사의 말씀을 드리고 싶습니다.
-저는 모든 샤오미 유저들께 Boinc를 핸드폰에 다운로드하고 핸드폰을 사용하지 않는동안의 능력을 사회에 기여하시면 좋겠습니다. </string>
-  <string name="welcome_content_sixth">마지막으로, 내 중국인 친구들에게-춘절 잘 보내세요!  해피 뉴 이얼!</string>
-  <string name="agree_button">동의</string>
   <string name="prefs_expand_wu_data">항상 작업 정보 펼치기</string>
 </resources>

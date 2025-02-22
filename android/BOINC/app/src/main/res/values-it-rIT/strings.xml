@@ -294,5 +294,4 @@
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">Avvisi</string>
   <string name="notice_notification_channel_description">Mostra avvisi dei tuoi progetti.</string>
-  <string name="agree_button">Accetto</string>
 </resources>
