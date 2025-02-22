@@ -293,5 +293,4 @@
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">Meddelelser</string>
   <string name="notice_notification_channel_description">Viser meddelelser fra dine projekter.</string>
-  <string name="agree_button">Bekræft</string>
 </resources>

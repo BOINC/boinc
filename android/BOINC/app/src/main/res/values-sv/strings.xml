@@ -292,5 +292,4 @@
   <string name="main_notification_channel_description">Visar icke märkta notiser</string>
   <string name="notice_notification_channel_name">Meddelanden</string>
   <string name="notice_notification_channel_description">Visa notiser från dina projekt.</string>
-  <string name="agree_button">Godkänn</string>
 </resources>

@@ -298,6 +298,5 @@ Překlad do češtiny: petnek</string>
   <string name="main_notification_channel_description">Zobrazovat i ostatní zprávy.</string>
   <string name="notice_notification_channel_name">Zprávy</string>
   <string name="notice_notification_channel_description">Zobrazovat zprávy z projektů.</string>
-  <string name="agree_button">Souhlasím</string>
   <string name="prefs_expand_wu_data">Vždy rozbalit informaci o úkolu</string>
 </resources>

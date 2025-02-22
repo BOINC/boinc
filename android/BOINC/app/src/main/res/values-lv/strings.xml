@@ -292,5 +292,4 @@
   <string name="main_notification_channel_description">Attēlo vispārējus paziņojumus.</string>
   <string name="notice_notification_channel_name">Paziņojumi</string>
   <string name="notice_notification_channel_description">Attēlo paziņojumus no projektiem.</string>
-  <string name="agree_button">Piekrītu</string>
 </resources>
