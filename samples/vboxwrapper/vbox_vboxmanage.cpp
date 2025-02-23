@@ -239,7 +239,7 @@ int VBOX_VM::create_vm() {
 
     // Tweak the VM's Graphics Controller Options
     //
-    vboxlog_msg("Setting Graphics Controller Options for VM.");
+    vboxlog_msg("Setting Graphics Controller Options for VM. (Driver: %s, %dMB)", vm_graphics_controller_type.c_str(), (int)vram_size_mb);
     snprintf(buf, sizeof(buf), "%d", (int)vram_size_mb);
 
     command  = "modifyvm \"" + vm_name + "\" ";
