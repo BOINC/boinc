@@ -162,22 +162,19 @@ jobs:
           name: android_logs_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Prepare artifacts for deploy
-        run: python ./deploy/prepare_deployment.py android_manager
-
       - name: Upload generic artifacts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ matrix.task == 'assembleRelease' }}
         with:
           name: android_manager_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_manager.7z
+          path: ./android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Upload armv6 only manager
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ matrix.task == 'assembleArmv6_release' }}
         with:
           name: android_armv6_manager_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_manager_armv6.7z
+          path: ./android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk
 
       - name: Upload JUnit Tests Results
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
@@ -254,13 +251,59 @@ jobs:
           name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Prepare artifacts for deploy
-        if: ${{ success() && ! contains(matrix.type, 'libs') }}
-        run: python ./deploy/prepare_deployment.py android_${{ matrix.type }}
-
       - name: Upload generic artifacts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
-        if: ${{ ! contains(matrix.type, 'libs') }}
+        if: ${{ success() && matrix.type == 'apps' }}
         with:
           name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_${{ matrix.type }}.7z
+          path: |
+            ./samples/condor/android_armv6_boinc_gahp
+            ./samples/condor/android_arm_boinc_gahp
+            ./samples/condor/android_arm64_boinc_gahp
+            ./samples/condor/android_x86_boinc_gahp
+            ./samples/condor/android_x86_64_boinc_gahp
+            ./samples/example_app/android_armv6_uc2
+            ./samples/example_app/android_arm_uc2
+            ./samples/example_app/android_arm64_uc2
+            ./samples/example_app/android_x86_uc2
+            ./samples/example_app/android_x86_64_uc2
+            ./samples/example_app/android_armv6_ucn
+            ./samples/example_app/android_arm_ucn
+            ./samples/example_app/android_arm64_ucn
+            ./samples/example_app/android_x86_ucn
+            ./samples/example_app/android_x86_64_ucn
+            ./samples/multi_thread/android_armv6_multi_thread
+            ./samples/multi_thread/android_arm_multi_thread
+            ./samples/multi_thread/android_arm64_multi_thread
+            ./samples/multi_thread/android_x86_multi_thread
+            ./samples/multi_thread/android_x86_64_multi_thread
+            ./samples/sleeper/android_armv6_sleeper
+            ./samples/sleeper/android_arm_sleeper
+            ./samples/sleeper/android_arm64_sleeper
+            ./samples/sleeper/android_x86_sleeper
+            ./samples/sleeper/android_x86_64_sleeper
+            ./samples/worker/android_armv6_worker
+            ./samples/worker/android_arm_worker
+            ./samples/worker/android_arm64_worker
+            ./samples/worker/android_x86_worker
+            ./samples/worker/android_x86_64_worker
+            ./samples/wrapper/android_armv6_wrapper
+            ./samples/wrapper/android_arm_wrapper
+            ./samples/wrapper/android_arm64_wrapper
+            ./samples/wrapper/android_x86_wrapper
+            ./samples/wrapper/android_x86_64_wrapper
+            ./samples/wrappture/android_armv6_wrappture_example
+            ./samples/wrappture/android_arm_wrappture_example
+            ./samples/wrappture/android_arm64_wrappture_example
+            ./samples/wrappture/android_x86_wrappture_example
+            ./samples/wrappture/android_x86_64_wrappture_example
+            ./samples/wrappture/android_armv6_fermi
+            ./samples/wrappture/android_arm_fermi
+            ./samples/wrappture/android_arm64_fermi
+            ./samples/wrappture/android_x86_fermi
+            ./samples/wrappture/android_x86_64_fermi
+            ./samples/sporadic/android_armv6_sporadic
+            ./samples/sporadic/android_arm_sporadic
+            ./samples/sporadic/android_arm64_sporadic
+            ./samples/sporadic/android_x86_sporadic
+            ./samples/sporadic/android_x86_64_sporadic
