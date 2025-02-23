@@ -240,10 +240,6 @@ wasm_client_debug_folder_list = [
     'client/boinc_client.wasm',
 ]
 
-snap_list = [
-    './boinc_*.snap',
-]
-
 macos_manager_list = [
     'mac_build/build/Deployment/AddRemoveUser',
     'mac_build/build/Deployment/BOINC\ Installer.app',
@@ -387,9 +383,6 @@ def prepare_wasm_client(target_directory):
 def prepare_wasm_client_debug(target_directory):
     prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
 
-def prepare_linux_snap(target_directory):
-    prepare_7z_archive('linux_snap', target_directory, snap_list)
-
 def prepare_macos_apps(target_directory):
     prepare_7z_archive('macos_manager', target_directory, macos_manager_list)
     prepare_7z_archive('macos_apps', target_directory, macos_apps_list)
@@ -424,7 +417,6 @@ boinc_types = {
     'win_installer': prepare_win_installer,
     'wasm_client': prepare_wasm_client,
     'wasm_client-debug': prepare_wasm_client_debug,
-    'linux_snap': prepare_linux_snap,
     'macos_manager': prepare_macos_apps,
     'macos_samples-makefile': prepare_macos_makefile_apps,
     'logs': prepare_logs,
