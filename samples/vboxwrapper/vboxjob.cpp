@@ -118,8 +118,10 @@ void VBOX_JOB::clear() {
     enable_floppyio = false;
     enable_cache_disk = false;
     enable_isocontextualization = false;
+    vm_network_driver.clear();
     enable_network = false;
     network_bridged_mode = false;
+    enable_nat_dns_host_resolver = false;
     enable_remotedesktop = false;
     enable_gbac = false;
     enable_screenshots_on_error = false;
@@ -187,8 +189,10 @@ int VBOX_JOB::parse() {
         else if (xp.parse_string("temporary_exit_trigger_file", temporary_exit_trigger_file)) continue;
         else if (xp.parse_string("multiattach_vdi_file", multiattach_vdi_file)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", enable_cern_dataformat)) continue;
+        else if (xp.parse_string("vm_network_driver", vm_network_driver)) continue;
         else if (xp.parse_bool("enable_network", enable_network)) continue;
         else if (xp.parse_bool("network_bridged_mode", network_bridged_mode)) continue;
+        else if (xp.parse_bool("enable_nat_dns_host_resolver", enable_nat_dns_host_resolver)) continue;
         else if (xp.parse_bool("enable_shared_directory", enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_scratch_directory", enable_scratch_directory)) continue;
         else if (xp.parse_bool("share_slot_dir", share_slot_dir)) continue;

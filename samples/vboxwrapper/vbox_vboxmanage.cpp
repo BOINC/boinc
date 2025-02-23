@@ -158,11 +158,15 @@ int VBOX_VM::initialize() {
 int VBOX_VM::create_vm() {
     string command;
     string output;
+    string needle;
     string default_interface;
     bool disable_acceleration = false;
     char buf[256];
     int retval;
     int save_retval;
+    string vm_nictype1;
+    size_t vm_nictype1_start;
+    size_t vm_nictype1_end;
 
     vboxlog_msg("Create VM. (%s, slot#%d)", vm_master_name.c_str(), aid.slot);
 
@@ -264,11 +268,65 @@ int VBOX_VM::create_vm() {
 
     // Tweak the VM's Network Configuration
     //
+    command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--machinereadable ";
+
+    retval = vbm_popen(command, output, "get default networkadapter type", false, false);
+    if (retval) return retval;
+
+    vm_nictype1.clear();
+    needle = "nictype1=\"";
+
+    if ((vm_nictype1_start = output.find(needle.c_str())) != string::npos) {
+        vm_nictype1_start += needle.size();
+        vm_nictype1_end = output.find("\"", vm_nictype1_start);
+        vm_nictype1 = output.substr(vm_nictype1_start, vm_nictype1_end - vm_nictype1_start);
+    }
+
+    // virtio-net is available since VirtualBox version 3.1.
+    // use it for Linux guests.
+    // see the VirtualBox manual for further details.
+    //
+    if (output.find("effparavirtprovider=\"kvm\"") != string::npos) {
+        vm_nictype1 = "virtio";
+    }
+
+    // if a valid adapter name is set in vbox_job.xml use that one
+    // see the VirtualBox manual for valid names.
+    //
+    if (vm_network_driver.size()) {
+        command = "help modifyvm ";
+
+        retval = vbm_popen(command, output, "verify custom networkadapter name", false, false);
+        if (retval) return retval;
+
+        if (output.find(vm_network_driver.c_str()) != string::npos) {
+            vm_nictype1 = vm_network_driver;
+        } else {
+            vboxlog_msg("Invalid vm_network_driver '%s' detected in 'vbox_job.xml'.", vm_network_driver.c_str());
+            vboxlog_msg("Will use '%s' instead.", vm_nictype1.c_str());
+        }
+    }
+
     if (network_bridged_mode) {
-        vboxlog_msg("Setting Network Configuration for Bridged Mode.");
+        vboxlog_msg("Setting Network Configuration for Bridged Mode. (Driver: %s)", vm_nictype1.c_str());
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--nic1 bridged ";
-        command += "--cableconnected1 off ";
+        if (is_virtualbox_version_newer(6, 9, 99)) {
+            if (vm_nictype1.size()) {
+                command += "--nic-type1 \"";
+                command += vm_nictype1;
+                command += "\" ";
+            }
+            command += "--cable-connected1 off ";
+        } else {
+            if (vm_nictype1.size()) {
+                command += "--nictype1 \"";
+                command += vm_nictype1;
+                command += "\" ";
+            }
+            command += "--cableconnected1 off ";
+        }
 
         retval = vbm_popen(command, output, "set bridged mode");
         if (retval) return retval;
@@ -284,11 +342,32 @@ int VBOX_VM::create_vm() {
         retval = vbm_popen(command, output, "set bridged interface");
         if (retval) return retval;
     } else {
-        vboxlog_msg("Setting Network Configuration for NAT.");
+        vboxlog_msg("Setting Network Configuration for NAT. (Driver: %s)", vm_nictype1.c_str());
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--nic1 nat ";
-        command += "--natdnsproxy1 on ";
-        command += "--cableconnected1 off ";
+        if (is_virtualbox_version_newer(6, 9, 99)) {
+            if (vm_nictype1.size()) {
+                command += "--nic-type1 \"";
+                command += vm_nictype1;
+                command += "\" ";
+            }
+            command += "--cable-connected1 off ";
+            command += "--nat-dns-proxy1 on ";
+            if (enable_nat_dns_host_resolver) {
+                command += "--nat-dns-host-resolver1 on ";
+            }
+        } else {
+            if (vm_nictype1.size()) {
+                command += "--nictype1 \"";
+                command += vm_nictype1;
+                command += "\" ";
+            }
+            command += "--cableconnected1 off ";
+            command += "--natdnsproxy1 on ";
+            if (enable_nat_dns_host_resolver) {
+                command += "--natdnshostresolver1 on ";
+            }
+        }
 
         retval = vbm_popen(command, output, "set nat mode");
         if (retval) return retval;
@@ -297,13 +376,21 @@ int VBOX_VM::create_vm() {
     if (enable_network) {
         vboxlog_msg("Enabling VM Network Access.");
         command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--cableconnected1 on ";
+        if (is_virtualbox_version_newer(6, 9, 99)) {
+            command += "--cable-connected1 on ";
+        } else {
+            command += "--cableconnected1 on ";
+        }
         retval = vbm_popen(command, output, "enable network");
         if (retval) return retval;
     } else {
         vboxlog_msg("Disabling VM Network Access.");
         command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--cableconnected1 off ";
+        if (is_virtualbox_version_newer(6, 9, 99)) {
+            command += "--cable-connected1 off ";
+        } else {
+            command += "--cableconnected1 off ";
+        }
         retval = vbm_popen(command, output, "disable network");
         if (retval) return retval;
     }
