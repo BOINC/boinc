@@ -125,14 +125,14 @@ jobs:
 
     - name: Upload logs on failure
       if: ${{ failure() }}
-      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
       with:
         name: snap_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
         path: deploy/logs.7z
 
     - name: Publish nightly snap build to the edge
       if: success() && matrix.type == 'x64' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'
-      uses: snapcore/action-publish@214b86e5ca036ead1668c79afb81e550e6c54d40
+      uses: canonical/action-publish@214b86e5ca036ead1668c79afb81e550e6c54d40
       env:
         SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAP_LOGIN }}
       with:
@@ -141,7 +141,7 @@ jobs:
 
     - name: Publish alpha snap build to the beta
       if: success() && matrix.type == 'x64' && startsWith(github.ref, 'refs/tags/')
-      uses: snapcore/action-publish@214b86e5ca036ead1668c79afb81e550e6c54d40
+      uses: canonical/action-publish@214b86e5ca036ead1668c79afb81e550e6c54d40
       env:
         SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAP_LOGIN }}
       with:
@@ -153,7 +153,7 @@ jobs:
       run: python ./deploy/prepare_deployment.py linux_snap
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
       if: success()
       with:
         name: linux_snap_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
