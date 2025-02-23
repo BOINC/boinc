@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -228,7 +228,7 @@ void CProjectInfoPage::CreateControls()
 
     m_pTitleStaticCtrl = new wxStaticText;
     m_pTitleStaticCtrl->Create( itemWizardPage23, wxID_STATIC, _("Choose a project"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, FALSE, _T("Verdana")));
     itemBoxSizer24->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pDescriptionStaticCtrl = new wxStaticText;

@@ -107,7 +107,7 @@ void CCompletionErrorPage::CreateControls()
 
     m_pTitleStaticCtrl = new wxStaticText;
     m_pTitleStaticCtrl->Create( itemWizardPage85, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    m_pTitleStaticCtrl->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    m_pTitleStaticCtrl->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, FALSE, _T("Verdana")));
     itemBoxSizer86->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer86->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);

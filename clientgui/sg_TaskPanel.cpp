@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
 #include "miofile.h"
@@ -355,9 +355,9 @@ numSlides = 0;
         if ( (ratio < 0.95) || (ratio > 1.05) ) {
             wxImage img = m_SlideBitmap.ConvertToImage();
             img.Rescale((int) (m_SlideBitmap.GetWidth()*ratio),
-						(int) (m_SlideBitmap.GetHeight()*ratio),
-						(ratio > 1.0) ? wxIMAGE_QUALITY_BILINEAR : wxIMAGE_QUALITY_BOX_AVERAGE
-					);
+                       (int) (m_SlideBitmap.GetHeight()*ratio),
+                       (ratio > 1.0) ? wxIMAGE_QUALITY_BILINEAR : wxIMAGE_QUALITY_BOX_AVERAGE
+            );
             wxBitmap *bm = new wxBitmap(img);
             m_SlideBitmap = *bm;
             delete bm;
@@ -389,7 +389,7 @@ numSlides = 0;
         wxBrush oldBrush = dc.GetBrush();
         int oldMode = dc.GetBackgroundMode();
         wxPen bgPen(*wxBLACK, 2*slideshowBorder+1);
-        dc.SetBackgroundMode(wxSOLID);
+        dc.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
         dc.SetPen(bgPen);
         dc.SetBrush(*wxBLACK_BRUSH);
 
@@ -403,7 +403,7 @@ numSlides = 0;
 
         if(m_SlideBitmap.Ok())
         {
-		    dc.DrawBitmap(m_SlideBitmap,
+            dc.DrawBitmap(m_SlideBitmap,
                         (w - m_SlideBitmap.GetWidth())/2,
                         (h - m_SlideBitmap.GetHeight())/2
                         );

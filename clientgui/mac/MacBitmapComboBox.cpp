@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 
 // On Macintosh we use only native controls in Simple View so the macOS
@@ -75,7 +75,7 @@ DEFINE_EVENT_TYPE(wxEVT_DRAW_LARGEBITMAP)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBitmapComboBox, wxPanel)
 
 BEGIN_EVENT_TABLE(CBOINCBitmapComboBox, wxPanel)
-//	EVT_ERASE_BACKGROUND(CBOINCBitmapComboBox::OnEraseBackground)
+//    EVT_ERASE_BACKGROUND(CBOINCBitmapComboBox::OnEraseBackground)
     EVT_PAINT(CBOINCBitmapComboBox::OnPaint)
     EVT_DRAW_LARGEBITMAP(CBOINCBitmapComboBox::DrawLargeBitmap)
 //    EVT_CHOICE(CBOINCBitmapComboBox::OnSelection)
@@ -99,11 +99,11 @@ CBOINCBitmapComboBox::CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
     m_ChoiceControl = new CBOINCBitmapChoice(this, id, value, wxDefaultPosition,
                 wxSize(size.x, m_bHaveLargeBitmaps ? POPUPBUTTONCONTROLHEIGHT : size.y),
                 n, choices, style, validator);
-	wxBoxSizer* bSizer1;
-	bSizer1 = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer* bSizer1;
+    bSizer1 = new wxBoxSizer( wxVERTICAL );
     int margin = m_bHaveLargeBitmaps ? (size.y - POPUPBUTTONCONTROLHEIGHT)/2 : 0;
-	bSizer1->Add( m_ChoiceControl, 1, wxTOP | wxBOTTOM | wxEXPAND, margin);
-	this->SetSizer( bSizer1 );
+    bSizer1->Add( m_ChoiceControl, 1, wxTOP | wxBOTTOM | wxEXPAND, margin);
+    this->SetSizer( bSizer1 );
     Layout();
     if (m_bHaveLargeBitmaps) {
         for (i=0; i<n; ++i) {
@@ -223,7 +223,7 @@ void CBOINCBitmapComboBox::Delete(unsigned int n) {
 void CBOINCBitmapComboBox::Clear() {
     m_BitmapCache.clear();
     int count = GetCount();
-	for(int j = count-1; j >=0; --j) {
+    for(int j = count-1; j >=0; --j) {
         wxASSERT(!m_ChoiceControl->GetClientData(j));
         m_ChoiceControl->SetClientData(j, NULL);
     }
@@ -251,7 +251,7 @@ void CBOINCBitmapComboBox::DrawLargeBitmap(CDrawLargeBitmapEvent&) {
 
     myDC.SetPen(*wxTRANSPARENT_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
-    myDC.SetBackgroundMode(wxSOLID);
+    myDC.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
 
     GetSize(&x, &y);
     myDC.DrawRectangle(9, 1, y-2, y-2);
@@ -268,7 +268,7 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
     if (!m_bHaveLargeBitmaps) return;
 
     int x, y;
-	wxPaintDC myDC(this);
+    wxPaintDC myDC(this);
     unsigned int i = GetSelection();
     if (m_BitmapCache.size() <= i) {
         return;
@@ -280,7 +280,7 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
 
     myDC.SetPen(*wxLIGHT_GREY_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
-    myDC.SetBackgroundMode(wxSOLID);
+    myDC.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
 
     GetSize(&x, &y);
     myDC.DrawRectangle(7, 0, y+1, y);
