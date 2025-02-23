@@ -97,10 +97,16 @@ struct VBOX_JOB {
         // add an extra cache disk for systems like uCernVM
     bool boot_iso;
         // put the iso as the first boot device
+    string vm_network_driver;
+        // name of the virtual network driver to be used
+        // see the VirtualBox manual for valid values
     bool enable_network;
         // allow network access
     bool network_bridged_mode;
         // use bridged mode for network
+    bool enable_nat_dns_host_resolver;
+        // specifies whether the NAT engine uses the host system's
+        // resolver mechanisms to handle DNS requests
     bool enable_shared_directory;
         // create slot/shared and share it as 'shared'
     bool enable_scratch_directory;
