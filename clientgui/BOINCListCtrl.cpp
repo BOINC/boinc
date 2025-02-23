@@ -60,7 +60,7 @@ BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
     EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
 #else
 #ifdef __WXMAC__
-	EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
+    EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
 #endif
 #endif
 

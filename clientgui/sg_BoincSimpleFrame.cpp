@@ -81,7 +81,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_FRAME_NOTIFICATION(CSimpleFrame::OnNotification)
     EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
     EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
-	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
+    EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
     // Tools
     EVT_MENU(ID_WIZARDATTACHPROJECT, CBOINCBaseFrame::OnWizardAttachProject)
     EVT_MENU(ID_WIZARDATTACHACCOUNTMANAGER, CBOINCBaseFrame::OnWizardUpdate)
@@ -97,7 +97,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
 #ifdef __WXMAC__
-	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
+    EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
 #endif
 END_EVENT_TABLE()
 
@@ -419,12 +419,12 @@ CSimpleFrame::~CSimpleFrame() {
 
 bool CSimpleFrame::SaveWindowPosition() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
+    wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
     wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
 
-    // An odd case happens every once and awhile where wxWidgets looses
+    // An odd case happens every once and awhile where wxWidgets loses
     //   the pointer to the config object, or it is cleaned up before
     //   the window has finished it's cleanup duty.  If we detect a NULL
     //   pointer, return false.
@@ -439,13 +439,13 @@ bool CSimpleFrame::SaveWindowPosition() {
 
 
 bool CSimpleFrame::SaveState() {
-	CBOINCBaseFrame::SaveState();
+    CBOINCBaseFrame::SaveState();
     return SaveWindowPosition();
 }
 
 
 bool CSimpleFrame::RestoreState() {
-	CBOINCBaseFrame::RestoreState();
+    CBOINCBaseFrame::RestoreState();
     return true;
 }
 
@@ -506,10 +506,10 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
         exitItem->Enable(true);
     }
 
-	wxMenuItem* optionsItem = menu->FindChildItem(ID_SGOPTIONS, NULL);
-	if (optionsItem) {
-		optionsItem->Enable(true);
-	}
+    wxMenuItem* optionsItem = menu->FindChildItem(ID_SGOPTIONS, NULL);
+    if (optionsItem) {
+        optionsItem->Enable(true);
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
 }
@@ -628,9 +628,9 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
 void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnPreferences - Function Begin"));
 
-	m_pBackgroundPanel->SetDlgOpen(true);
+    m_pBackgroundPanel->SetDlgOpen(true);
 
-	CDlgPreferences dlg(GetParent());
+    CDlgPreferences dlg(GetParent());
     if (dlg.OKToShow()) {
         dlgPrefsPtr = &dlg;
         dlg.ShowModal();
@@ -646,7 +646,7 @@ void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 void CSimpleFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnOptions - Function Begin"));
 
-	m_pBackgroundPanel->SetDlgOpen(true);
+    m_pBackgroundPanel->SetDlgOpen(true);
 
 // TODO:  Create simple language selection dialog
     CDlgOptions dlg(this);
@@ -662,7 +662,7 @@ void CSimpleFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnDiagnosticLogFlags - Function Begin"));
 
     CDlgDiagnosticLogFlags dlg(this);
-	dlg.ShowModal();
+    dlg.ShowModal();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnDiagnosticLogFlags - Function End"));
 }
@@ -673,16 +673,16 @@ void CSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpBOINC - Function Begin"));
 
     if (IsShown()) {
-    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
+        wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
-		wxString wxurl;
-		wxurl.Printf(
+        wxString wxurl;
+        wxurl.Printf(
             wxT("%s?target=simple&version=%s&controlid=%d"),
             strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-		wxLaunchDefaultBrowser(wxurl);
+        wxLaunchDefaultBrowser(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpBOINC - Function End"));
@@ -692,7 +692,7 @@ void CSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
 void CSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpAbout - Function Begin"));
 
-	m_pBackgroundPanel->SetDlgOpen(true);
+    m_pBackgroundPanel->SetDlgOpen(true);
 
     CDlgAbout dlg(this);
     wxGetApp().SetAboutDialogIsOpen(true);
@@ -724,10 +724,10 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
 
     if (IsShown()) {
-    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
+        wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
-		wxString wxurl;
-		wxurl.Printf(
+        wxString wxurl;
+        wxurl.Printf(
             wxT("%s?target=simple&version=%s&controlid=%d"),
             strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
@@ -757,7 +757,7 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
 void CSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnNotification - Function Begin"));
 
-	CDlgMessages dlg(GetParent());
+    CDlgMessages dlg(GetParent());
 
     m_pBackgroundPanel->SetDlgOpen(true);
     SetMsgsDlgOpen(&dlg);
@@ -810,7 +810,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     bool        bEmbedded = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
-	CC_STATUS     status;
+    CC_STATUS     status;
 #ifndef __WXMAC__
     int wasShown = 0;
 #endif
@@ -822,7 +822,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->ForceCacheUpdate();
     pDoc->GetCoreClientStatus(status, true);
 
-	// If we are connected to the localhost, run a really quick screensaver
+    // If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
@@ -905,10 +905,10 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         );
     }
 
- 	if (pWizard) {
+    if (pWizard) {
         pWizard->Destroy();
         m_pBackgroundPanel->UpdateProjectView();
-	}
+    }
 
     // Update the menus
     //
@@ -975,10 +975,10 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
     EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)
-	EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
-	EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
-	EVT_BUTTON(ID_SIMPLE_HELP,CSimpleGUIPanel::OnHelp)
-	EVT_TIMER(ID_SIMPLEMESSAGECHECKTIMER, CSimpleGUIPanel::OnCheckForNewNotices)
+    EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
+    EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
+    EVT_BUTTON(ID_SIMPLE_HELP,CSimpleGUIPanel::OnHelp)
+    EVT_TIMER(ID_SIMPLEMESSAGECHECKTIMER, CSimpleGUIPanel::OnCheckForNewNotices)
     EVT_PAINT(CSimpleGUIPanel::OnPaint)
 END_EVENT_TABLE()
 
@@ -1006,16 +1006,16 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_bNoticesButtonIsRed = false;
     m_irefreshCount = 0;
 
-	checkForNewNoticesTimer = new wxTimer(this, ID_SIMPLEMESSAGECHECKTIMER);
-	checkForNewNoticesTimer->Start(5000);
+    checkForNewNoticesTimer = new wxTimer(this, ID_SIMPLEMESSAGECHECKTIMER);
+    checkForNewNoticesTimer->Start(5000);
 
-	dlgOpen = false;
+    dlgOpen = false;
     m_sSuspendString = _("Suspend");
     m_sResumeString = _("Resume");
     m_sSuspendButtonToolTip = _("Suspend Computing");
     m_sResumeButtonToolTip = _("Resume Computing");
 
-	m_taskPanel = new CSimpleTaskPanel(this);
+    m_taskPanel = new CSimpleTaskPanel(this);
     m_projPanel = new CSimpleProjectPanel(this);
 
     // Box Sizer
@@ -1026,12 +1026,12 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
     mainSizer->AddSpacer(8);
 
-	wxBoxSizer* buttonsSizer;
-	buttonsSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* buttonsSizer;
+    buttonsSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	m_NoticesButton = new wxButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_NoticesButton = new wxButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
     m_NoticesButton->SetToolTip( _("Open a window to view notices from projects or BOINC"));
-	buttonsSizer->Add( m_NoticesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
+    buttonsSizer->Add( m_NoticesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
     buttonsSizer->AddStretchSpacer();
 
     int suspendWidth, resumeWidth, y;
@@ -1044,17 +1044,17 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
                             wxDefaultPosition, wxDefaultSize, 0 );
     m_SuspendResumeButton->SetToolTip(wxEmptyString);
 
-	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND, 0 );
+    buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND, 0 );
     buttonsSizer->AddStretchSpacer();
 
     m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
-	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND, 0 );
+    buttonsSizer->Add( m_HelpButton, 0, wxEXPAND, 0 );
 
     wxString helpTip;
     helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
     m_HelpButton->SetToolTip(helpTip);
 
-	mainSizer->Add( buttonsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, 2 * sideMargins);
+    mainSizer->Add( buttonsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, 2 * sideMargins);
     mainSizer->AddSpacer(10);
 
     Layout();
@@ -1083,7 +1083,7 @@ CSimpleGUIPanel::~CSimpleGUIPanel()
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function Begin"));
 
     checkForNewNoticesTimer->Stop();
-	delete checkForNewNoticesTimer;
+    delete checkForNewNoticesTimer;
     m_bmpBg = wxNullBitmap; // Deletes old bitmap via reference counting
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function End"));
@@ -1211,7 +1211,7 @@ void CSimpleGUIPanel::ReskinInterface() {
     SetBackgroundBitmap();
 
     m_taskPanel->ReskinInterface();
-	m_projPanel->ReskinInterface();
+    m_projPanel->ReskinInterface();
 
     Thaw();
     Refresh();
@@ -1235,7 +1235,7 @@ void CSimpleGUIPanel::OnFrameRender() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     int                 workCount = pDoc->GetSimpleGUIWorkCount();
-	CC_STATUS           status;
+    CC_STATUS           status;
     bool                isSuspended;
 
     // OnFrameRender() may be called while SimpleGUI initialization is
@@ -1262,7 +1262,7 @@ void CSimpleGUIPanel::OnFrameRender() {
     }
 
     if (IsShown()) {
-	    if ( pDoc->IsConnected() ) {
+        if ( pDoc->IsConnected() ) {
 
             // Show Resume or Suspend as appropriate
             pDoc->GetCoreClientStatus(status);
@@ -1274,12 +1274,12 @@ void CSimpleGUIPanel::OnFrameRender() {
                 m_SuspendResumeButton->SetToolTip(m_bIsSuspended ? m_sResumeButtonToolTip : m_sSuspendButtonToolTip);
             }
             m_SuspendResumeButton->Enable();
-	    } else {
+        } else {
             m_SuspendResumeButton->SetToolTip(wxEmptyString);
             m_SuspendResumeButton->Disable();
         }
 
-		UpdateProjectView();
+        UpdateProjectView();
 
         if (m_bNewNoticeAlert) {
             wxRect r = m_NoticesButton->GetRect();
@@ -1304,40 +1304,40 @@ void CSimpleGUIPanel::OnFrameRender() {
 
 void CSimpleGUIPanel::UpdateProjectView()
 {
-	//update Project Panel
+    //update Project Panel
     m_projPanel->UpdateInterface();
 }
 
 
 void CSimpleGUIPanel::OnCheckForNewNotices(wxTimerEvent& WXUNUSED(event)) {
-	CMainDocument* pDoc = wxGetApp().GetDocument();
-	if ( pDoc->GetUnreadNoticeCount() ) {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    if ( pDoc->GetUnreadNoticeCount() ) {
         m_bNewNoticeAlert = true;
         checkForNewNoticesTimer->Stop();
-	}
+    }
 }
 
 
 void CSimpleGUIPanel::NoticesViewed() {
-	CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
 
-	m_bNewNoticeAlert = false;
+    m_bNewNoticeAlert = false;
     m_bNoticesButtonIsRed = false;
     wxRect r = m_NoticesButton->GetRect();
     r.Inflate(4, 4);
     RefreshRect(r, true);
     m_bNoticesButtonIsRed = !m_bNoticesButtonIsRed;
-	pDoc->UpdateUnreadNoticeState();
-	checkForNewNoticesTimer->Start();
+    pDoc->UpdateUnreadNoticeState();
+    checkForNewNoticesTimer->Start();
 }
 
 
 void CSimpleGUIPanel::OnShowNotices(wxCommandEvent& /*event*/) {
     NoticesViewed();
 
-	CDlgMessages dlg(GetParent());
+    CDlgMessages dlg(GetParent());
     SetDlgOpen(true);
 
     ((CSimpleFrame*)GetParent())->SetMsgsDlgOpen(&dlg);
@@ -1377,7 +1377,7 @@ void CSimpleGUIPanel::OnSuspendResume(wxCommandEvent& /*event*/) {
 void CSimpleGUIPanel::OnHelp(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::OnHelp - Function Begin"));
 
-	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
+    wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
     wxString wxurl;
     wxurl.Printf(
@@ -1395,16 +1395,16 @@ void CSimpleGUIPanel::OnHelp(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CSimpleGUIPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) {
-	wxPaintDC myDC(this);
+    wxPaintDC myDC(this);
 
     if (m_bNewNoticeAlert) {
         wxRect r = m_NoticesButton->GetRect();
         if (m_bNoticesButtonIsRed) {
-			CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+            CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
             wxPen oldPen = myDC.GetPen();
             wxBrush oldBrush = myDC.GetBrush();
             int oldMode = myDC.GetBackgroundMode();
-			wxPen bgPen(pSkinSimple->GetNoticeAlertColor(), 3);
+            wxPen bgPen(pSkinSimple->GetNoticeAlertColor(), 3);
             myDC.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
             myDC.SetPen(bgPen);
             myDC.SetBrush(*wxTRANSPARENT_BRUSH);
