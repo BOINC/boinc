@@ -76,7 +76,7 @@ jobs:
           cd ${{ github.workspace }}/.github/workflows/debrepo/
           ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} "stable" ${{ env.PUBKEY }}
 
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-stable-${{ matrix.os }}
@@ -149,7 +149,7 @@ jobs:
             # Updates or creates the repository
             ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} "stable" ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
 
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-stable-${{ matrix.os }}
