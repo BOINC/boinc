@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2021 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -32,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.berkeley.boinc.BuildConfig
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.adapter.ProjectListEntry
 import edu.berkeley.boinc.adapter.SelectionRecyclerViewAdapter
@@ -146,9 +145,6 @@ class SelectionListActivity : AppCompatActivity() {
             // the Monitor object that is needed to call functions.
             monitor = IMonitor.Stub.asInterface(service)
             mIsBound = true
-            if (BuildConfig.BUILD_TYPE.contains("xiaomi")) {
-                monitor!!.setWelcomeStateFile()
-            }
             lifecycleScope.launch {
                 updateProjectList()
             }

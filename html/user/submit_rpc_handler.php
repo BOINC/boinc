@@ -185,13 +185,13 @@ function stage_file($file, $user) {
     case "local_staged":
         return $file->source;
     case 'sandbox':
-        $name = sandbox_name_to_phys_name($user, $file->source);
-        if (!$name) {
+        [$md5, $size] = sandbox_parse_info_file($user, $file->source);
+        if (!$md5) {
             xml_error(-1, "sandbox link file $file->source not found");
         }
-        $path = dir_hier_path($name, $download_dir, $fanout);
-        if (file_exists($path)) return $name;
-        xml_error(-1, "sandbox physical file $file->source not found");
+        $phys_name = job_file_name($md5);
+        $path = sandbox_path($user, $file->source);
+        stage_file_aux($path, $md5, $size, $phys_name);
     case "inline":
         $md5 = md5($file->source);
         if (!$md5) {

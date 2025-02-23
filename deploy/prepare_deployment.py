@@ -86,11 +86,6 @@ android_manager_generic_list = [
     './android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk'
 ]
 
-android_manager_xiaomi_list = [
-    './android/BOINC/app/build/outputs/apk/xiaomi_debug/app-xiaomi_debug.apk',
-    './android/BOINC/app/build/outputs/apk/xiaomi_release/app-xiaomi_release-unsigned.apk'
-]
-
 android_manager_armv6_list = [
     './android/BOINC/app/build/outputs/apk/armv6_debug/app-armv6_debug.apk',
     './android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk'
@@ -362,12 +357,10 @@ def prepare_win_apps_mingw_vcpkg(target_directory):
 
 def prepare_android_manager(target_directory):
     prepare_7z_archive('android_manager', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager_xiaomi', target_directory, android_manager_xiaomi_list)
     prepare_7z_archive('android_manager_armv6', target_directory, android_manager_armv6_list)
 
 def prepare_android_manager_vcpkg(target_directory):
     prepare_7z_archive('android_manager-vcpkg', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager-vcpkg_xiaomi', target_directory, android_manager_xiaomi_list)
     prepare_7z_archive('android_manager-vcpkg_armv6', target_directory, android_manager_armv6_list)
 
 def prepare_android_apps(target_directory):

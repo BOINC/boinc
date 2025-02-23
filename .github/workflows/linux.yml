@@ -72,10 +72,10 @@ jobs:
         run: |
           sudo apt-get install ansible
           sudo service mysql stop
-          ./integration_test/installTestSuite.sh
+          ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
         with:
           path: |
             3rdParty/buildCache
@@ -181,7 +181,7 @@ jobs:
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
-        run: ./integration_test/executeTestSuite.sh
+        run: ./tests/integration_test/executeTestSuite.sh
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -189,7 +189,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         with:
           name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -199,14 +199,14 @@ jobs:
         run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
 
       - name: Upload Google Tests Results
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
         with:
           name: Linux_tests_results
@@ -297,7 +297,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         with:
           name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -307,7 +307,7 @@ jobs:
         run: python3 ./deploy/prepare_deployment.py linux_apps
 
       - name: Upload wrapper artifacts
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}

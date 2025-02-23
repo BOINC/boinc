@@ -21,6 +21,7 @@
 ## support script to install the boinc server docker environment
 ## test_dir must be outside of the code directory because the code is copied/symlinked
 ## into the testsuite
+## The testsuite will also be cloned into test_dir
 
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
@@ -56,13 +57,13 @@ isPathSubpath() {
 }
 
 # check working directory because the script needs to be called like: ./integration_test/installTestSuite.sh
-if [ ! -d "integration_test" ]; then
+if [ ! -d "tests/integration_test" ]; then
     echo "start this script in the source root directory"
     exit 1
 fi
 
 ROOTDIR=$(pwd)
-PREFIX=$(realpath -s $ROOTDIR/../bst)
+PREFIX=$ROOTDIR/tests/server-test
 test_dir=""
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -80,12 +81,12 @@ done
 
 if [ "x$test_dir" != "x" ]; then
     if isPathCanonical "$test_dir" && [ "$test_dir" != "/" ]; then
-      if isPathSubpath "$test_dir" "$ROOTDIR"; then
-          echo "test_dir must not be a subdirectory of $ROOTDIR"
-          exit 1
-      else
-          PREFIX="$test_dir"
-      fi
+        if isPathSubpath "$test_dir" "$ROOTDIR"; then
+            echo "test_dir must not be a subdirectory of $ROOTDIR"
+            exit 1
+        else
+            PREFIX="$test_dir"
+        fi
     else
         echo "test_dir must be an absolute path without ./ or ../ in it"
         exit 1
@@ -93,8 +94,24 @@ if [ "x$test_dir" != "x" ]; then
 fi
 
 cd "${PREFIX}/tests" || exit 1
-
-composer test
+composer require --dev phpunit/phpunit
 if [ $? -ne 0 ]; then exit 1; fi
+composer require --dev guzzlehttp/guzzle
+if [ $? -ne 0 ]; then exit 1; fi
+composer update --dev
+if [ $? -ne 0 ]; then exit 1; fi
+cd .. || exit 1
+
+cd "${PREFIX}/manage" || exit 1
+ansible-playbook -i hosts build.yml --extra-vars "boinc_dir=${ROOTDIR}"
+if [ $? -ne 0 ]; then exit 1; fi
+
+ansible-playbook -i hosts start.yml
+if [ $? -ne 0 ]; then exit 1; fi
+
+until $(curl -o /dev/null -SsifL http://127.0.0.1/boincserver/index.php ); do
+    printf '.'
+    sleep 5
+done
 
 cd "${ROOTDIR}" || exit 1

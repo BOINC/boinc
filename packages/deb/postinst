@@ -118,7 +118,7 @@ if [ ! -e /etc/boinc-client/global_prefs_override.xml ] ; then
 fi
 
 if [ ! -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
-    echo "" > ${BOINCDIR}/gui_rpc_auth.cfg
+    echo "$(head -c 20 /dev/urandom | sha1sum | awk '{print $1}')" > ${BOINCDIR}/gui_rpc_auth.cfg
 fi
 
 if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then

@@ -291,5 +291,4 @@
     <string name="main_notification_channel_name">BOINC</string>
     <string name="notice_notification_channel_name">Varsler</string>
     <string name="notice_notification_channel_description">Viser varsler fra prosjektene dine.</string>
-    <string name="agree_button">Aksepterer</string>
 </resources>

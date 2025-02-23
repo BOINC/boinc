@@ -298,22 +298,5 @@
   <string name="main_notification_channel_description">非通知のお知らせを表示します。</string>
   <string name="notice_notification_channel_name">お知らせ</string>
   <string name="notice_notification_channel_description">プロジェクトからのお知らせを表示します。</string>
-  <!--Xiaomi specific strings-->
-  <string name="terms_of_use_content_first">シャオミモールへようこそ！　質の高いショッピング体験を提供するため、Miモールアプリはインターネット接続・位置情報を使い、商品在庫の確認、配達サービスの最適化、おすすめ商品のパーソナライズを行う必要があります。あなたにはこの承認を拒否・キャンセルする権利があります。</string>
-  <string name="terms_of_use_content_second">アプリを使用する前に、「ユーザー規約」と「プライバシーポリシー」を読み、よく理解して、ユーザーの権利とあなたのデータがどう処理されるか理解してください。
-        上記の規約に同意する場合、「同意」をクリックして、商品とサービスの利用を始めてください。
-        我々は業界をリードするセキュリティ技術であなたの個人情報を保護します。シャオミモールを信頼していただきありがとうございます。</string>
-  <string name="terms_of_use_content_user_agreement">ユーザー規約： https://www.mi.com/about/user-agreement</string>
-  <string name="terms_of_use_content_privacy_policy">プライバシーポリシー: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
-  <string name="welcome_content_first">Miファンの皆さん、こんにちは、大家好！</string>
-  <string name="welcome_content_second">Boinc創設者のデビッドです。Boincはボランティアで提供されたリソースを使って計算を行うためのオープンソースソフトウェアプラットフォームです。</string>
-  <string name="welcome_content_third">レイ・ジュンさんとシャオミに感謝するとともに、良い知らせをお伝えしたいと思います：
-        Mi 11が、Boincによって公式に認証されたモバイル計算デバイスとなります！</string>
-  <string name="welcome_content_fourth">Mi 11はQualcomm Snapdragon 888を内蔵し、驚くべき計算力を誇っています。
-        タスクをすばやく処理でき、世界中の研究コミュニティに貢献します。</string>
-  <string name="welcome_content_fifth">Boincプロジェクトに貢献してくれたシャオミのすべてのエンジニアに感謝します。
-        Boincをスマホにダウンロードして、使われていないときにその力の一部を提供するよう、すべてのMiファンに勧めます。</string>
-  <string name="welcome_content_sixth">最後になりますが、中国の友人の皆さんへ - 春節おめでとうございます！　新年快乐！</string>
-  <string name="agree_button">同意</string>
   <string name="prefs_expand_wu_data">タスク情報を常に展開</string>
 </resources>

@@ -233,6 +233,9 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pServerMessagesDescriptionCtrl->SetLabel(
             _("Messages from server:")
         );
+        const wxSize page_width = this->GetClientSize();
+        const int minimum_size = page_width.x - 15;  // 15 seems to be needed to keep the right border visible.
+        m_pServerMessagesCtrl->Wrap(minimum_size);
         m_pServerMessagesDescriptionCtrl->Show();
         m_pServerMessagesCtrl->Show();
     }

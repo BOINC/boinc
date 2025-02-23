@@ -148,21 +148,26 @@ class BOINC_SERVER:
         if 'error' in ret:
             return ret
         absent = ret['absent_files']
-        if absent == '\n':
-            return ret
-        if type(absent) != list:
-            absent = [absent]
-        files = []
+        if isinstance(absent, str):
+            return {'success':None}
+        if 'file' not in absent.keys():
+            return {'success':None}
+        file = absent['file']
+        if type(file) != list:
+            file = [file]
         n = 0
-        for f in absent:
-            i = int(f['file'])
+        files = []
+        upload_phys_names = []
+        for f in file:
+            i = int(f)
             pn = phys_names[i]
             ln = local_names[i]
             upload_name = 'file_%d'%(n)
+            upload_phys_names.append(pn)
             files.append((upload_name, (pn, open(ln, 'rb'),'application/octet-stream')))
             n += 1
         url = self.url + 'job_file.php'
-        req_xml = self.upload_files_xml(phys_names, batch_id, delete_time)
+        req_xml = self.upload_files_xml(upload_phys_names, batch_id, delete_time)
         req = {'request': req_xml}
         reply = requests.post(url, data=req, files=files)
         root = ElementTree.XML(reply.text)
@@ -328,15 +333,22 @@ class BOINC_SERVER:
 
 # convert ElementTree to a python data structure
 #
-def etree_to_dict(xml, result={}):
+def etree_to_dict(xml):
+    result = {}
     for child in xml:
         if len(child) == 0:
-            result[child.tag] = child.text
+            # this means the element contains data, not other elements
+            if child.tag in result:
+                if not isinstance(result[child.tag], list):
+                    result[child.tag] = [result[child.tag]]
+                result[child.tag].append(child.text)
+            else:
+                result[child.tag] = child.text
         else:
             if child.tag in result:
                 if not isinstance(result[child.tag], list):
                     result[child.tag] = [result[child.tag]]
-                result[child.tag].append(etree_to_dict(child, {}))
+                result[child.tag].append(etree_to_dict(child))
             else:
-                result[child.tag] = etree_to_dict(child, {})
+                result[child.tag] = etree_to_dict(child)
     return result

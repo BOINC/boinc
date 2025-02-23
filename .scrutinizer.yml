@@ -1,4 +1,6 @@
 build:
+    environment:
+        php: 7.2.0
     nodes:
         analysis:
             dependencies:
@@ -27,6 +29,7 @@ filter:
         - '*.min.js'
         - 'drupal/sites/default/modules/boinc/*'
         - 'drupal/sites/default/themes/boinc/*'
+        - 'tests/server-test/*'
     dependency_paths:
         - 'html/inc/htmLawed.php'
         - 'drupal/sites/all/libraries/*'

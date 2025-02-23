@@ -297,20 +297,5 @@
   <string name="main_notification_channel_description">顯示非提醒事項的通知。</string>
   <string name="notice_notification_channel_name">訊息</string>
   <string name="notice_notification_channel_description">顯示項目中的通知</string>
-  <!--Xiaomi specific strings-->
-  <string name="terms_of_use_content_first">歡迎來到小米商城！為了提供高品質的購物體驗，小米商城應用程式需要連接到互聯網並使用您的位置信息來檢查產品庫存、優化交付服務和個性化產品推薦。您有權拒絕或取消此授權。</string>
-  <string name="terms_of_use_content_second">在使用小米商城應用程式之前，請閱讀並充分了解小米商城的「用戶協議」和「隱私政策」，並了解您的用戶權利以及您的數據如何被處理。如果您同意上述協議的內容，請點擊「同意」以開始使用我們的產品和服務。我們將使用行業領先的安全技術保護您的個人信息。感謝您對小米商城的信任。</string>
-  <string name="terms_of_use_content_user_agreement">使用條款：https://www.mi.com/about/user-agreement</string>
-  <string name="terms_of_use_content_privacy_policy">隱私權政策：https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
-  <string name="welcome_content_first">親愛的小米粉絲，大家好！</string>
-  <string name="welcome_content_second">我是 David，Boinc 的創始人。Boinc 是一個使用志願者資源進行計算的開源軟體平台。</string>
-  <string name="welcome_content_third">我想在此感謝雷軍先生及小米，並和大家分享一些好消息：
-小米11 將會成為 Boinc 官方認證的行動運算設備！</string>
-  <string name="welcome_content_fourth">小米11 內建高通 Snapdragon 888 處理器，具有驚人的運算效能。
-它能快速處理任務並支援全球的研究社群。</string>
-  <string name="welcome_content_fifth">我想感謝所有為 Boinc 專案做出貢獻的小米工程師。
-我鼓勵所有小米的粉絲在手機上下載 Boinc，在您的手機閒置時也能貢獻您的一股力量。</string>
-  <string name="welcome_content_sixth">最後，祝我的中國朋友們——農曆新年快樂！</string>
-  <string name="agree_button">同意</string>
   <string name="prefs_expand_wu_data">永遠展開任務資訊</string>
 </resources>

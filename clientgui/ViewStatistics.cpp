@@ -2350,7 +2350,7 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
     return true;
 }
 
-void CViewStatistics::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
+void CViewStatistics::OnListRender() {
 	if (wxGetApp().GetDocument()->GetStatisticsCount()) {
 		m_PaintStatistics->m_full_repaint = true;
 		m_PaintStatistics->Refresh(false);

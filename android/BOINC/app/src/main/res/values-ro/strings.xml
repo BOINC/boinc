@@ -296,6 +296,5 @@
   <string name="main_notification_channel_description">Afișează notificări neobservabile.</string>
   <string name="notice_notification_channel_name">Anunţuri</string>
   <string name="notice_notification_channel_description">Afișează notificări de la proiectul tău.</string>
-  <string name="agree_button">De acord</string>
   <string name="prefs_expand_wu_data">Mărește mereu coloana cu infromațiile despre task-uri</string>
 </resources>

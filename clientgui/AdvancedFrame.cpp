@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1567,7 +1567,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     if (IsShown()) {
         CMainDocument*  pDoc = wxGetApp().GetDocument();
         CBOINCBaseView* pView = NULL;
-        wxTimerEvent    timerEvent;
         wxString        strTabTitle = wxEmptyString;
         int             iCount = 0;
         static int      iLastCount = 0;
@@ -1613,7 +1612,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
         // Update current tab contents
         pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
-        pView->FireOnListRender(timerEvent);
+        pView->FireOnListRender();
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
@@ -1997,7 +1996,6 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
     long bottomItem;
-    wxTimerEvent    timerEvent;
     int currentPage = _GetCurrentViewPage();
 
     StopTimers();
@@ -2026,7 +2024,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     // Scroll the recreated list control to the same row as before
     if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
         theView = (CBOINCBaseView*)(m_pNotebook->GetPage(m_pNotebook->GetSelection()));
-        theView->FireOnListRender(timerEvent);
+        theView->FireOnListRender();
         theListCtrl = theView->GetListCtrl();
         if (theListCtrl->GetCountPerPage() < theListCtrl->GetItemCount()) {
             theListCtrl->EnsureVisible(bottomItem);
