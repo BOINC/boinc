@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -125,7 +125,7 @@ bool CViewNotices::OnRestoreState(wxConfigBase* WXUNUSED(pConfig)) {
 }
 
 
-void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
+void CViewNotices::OnListRender() {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function Begin"));
 
     static bool s_bInProgress = false;
