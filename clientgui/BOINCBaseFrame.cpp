@@ -779,12 +779,13 @@ bool CBOINCBaseFrame::SaveState() {
     // Write existing computers that are not in the MRU list into the config.
     for (auto computer : existingComputers) {
         if (m_aSelectedComputerMRU.Index(computer) == wxNOT_FOUND) {
+            strBuffer.Printf(wxT("%d"), iIndex++);
             pConfig->Write(strBuffer, computer);
-            strBuffer.Printf(wxT("%d"), ++iIndex);
         }
     }
 
     // Remove any remaining MRU computer entries in the config to avoid duplicates.
+    strBuffer.Printf(wxT("%d"), iIndex);
     while (pConfig->Exists(strBuffer)) {
         pConfig->DeleteEntry(strBuffer);
         strBuffer.Printf(wxT("%d"), ++iIndex);
