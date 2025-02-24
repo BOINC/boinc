@@ -96,32 +96,12 @@ function make_boinc_user() {
         baseID="25"
     fi
 
-
-
-    # Check whether group already exists
-    name=$(dscl . search /groups RecordName $1 | cut -f1 -s)
-    if [ "$name" = "$1" ] ; then
-        gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -s)
-    else
-        # Find an unused group ID
-        gid="$baseID"
-        while true; do
-            name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -s)
-            if [ -z "$name" ] ; then
-                break
-            fi
-            gid=$[$gid +1]
-        done
-        dscl . -create /groups/$1
-        dscl . -create /groups/$1 gid $gid
-    fi
-
     # Check whether user already exists
     name=$(dscl . search /users RecordName $1 | cut -f1 -s)
     if [ -z "$name" ] ; then
 
         # Is uid=gid available?
-        uid=$gid
+        uid="$baseID"
         name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
         if [ -n "$name" ] ; then
             # uid=gid already in use, so find an unused user ID
@@ -140,8 +120,28 @@ function make_boinc_user() {
         dscl . -create /users/$1 shell /usr/bin/false
         dscl . -create /users/$1 home /var/empty
     fi
-    dscl . -create /users/$1 gid $gid
 
+    # Check whether group already exists
+    name=$(dscl . search /groups RecordName $1 | cut -f1 -s)
+    if [ "$name" = "$1" ] ; then
+        gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -s)
+    else
+        # Find an unused group ID
+        gid=$uid
+        while true; do
+            name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -s)
+            if [ -z "$name" ] ; then
+                break
+            fi
+            gid=$[$gid +1]
+        done
+        dscl . -create /groups/$1
+        dscl . -create /groups/$1 gid $gid
+    fi
+
+    ## MacOS update may change PrimaryGroupID of users boinc_master and
+    ## boinc_project to 20 (staff). Fix it.
+    dscl . -create /users/$1 gid $gid
 
     ## Under OS 10.7 dscl won't directly create RealName key with empty
     ## string as value but will allow changing value to empty string.
