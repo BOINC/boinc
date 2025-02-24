@@ -99,8 +99,7 @@ function make_boinc_user() {
     # Check whether user already exists
     name=$(dscl . search /users RecordName $1 | cut -f1 -s)
     if [ -z "$name" ] ; then
-
-        # Is uid=gid available?
+        # Is uid available?
         uid="$baseID"
         name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
         if [ -n "$name" ] ; then
@@ -119,6 +118,8 @@ function make_boinc_user() {
         dscl . -create /users/$1 uid $uid
         dscl . -create /users/$1 shell /usr/bin/false
         dscl . -create /users/$1 home /var/empty
+    else
+        uid=$(dscl . read /users/$1 UniqueID | cut -d" " -f2 -s)
     fi
 
     # Check whether group already exists
