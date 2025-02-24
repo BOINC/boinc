@@ -26,10 +26,34 @@
 //
 // USE WITH CARE.  You don't want to delete legit accounts.
 // Run with --test and examine the results first.
+
+// In this context, 'spam' is text that advertises something
+// (e.g. viagra, porn sites etc.) and contains hyperlinks.
+// Spammers can put such text in
+// - profiles
+// - team URLs or descriptions
+// - account URLs
+// - forum posts
 //
-// TODO: change commands so that instead of a command for each
-// combinations of properties, we have one option per property.
+// All the above can legitimately contain links,
+// so to decide what's spam we look at attributes of the user:
+// - whether they've attached a client to the project
+//      Most spammers haven't, so they have no hosts.
+//      Note: legit users might create an account just to participate
+//      in the project forums (e.g. Science United users).
+//      So we generally need to check for forum activity.
+// - whether they've been granted any credit
+//      This is more stringent.
+//      But we need to take into account that it may take a month or two
+//      to get credit because of validation
 //
+// When we identify spam, we delete everything associated with that user:
+// - profile
+// - forum stuff: post, thread, subscriptions etc.
+// - private messages
+// - friend links
+// - badges
+
 // options:
 // --min_days N
 //    Only delete accounts created at least N days ago
@@ -45,7 +69,6 @@
 //   - have a profile containing a link.
 //   - have no hosts
 //   - have no message-board posts
-//   Use this for spammers who create accounts and profiles with commercial links.
 //
 // --user_url
 //   delete accounts that
@@ -87,6 +110,11 @@
 //   and the owner and members
 //   - have no posts
 //   - have no hosts
+//
+// --all (recommended for BOINC projects)
+//   Does: --teams --user_url --profiles
+//   Doesn't do --forums (see comments above).
+//   Can use moderators for that.
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -302,6 +330,18 @@ function delete_teams() {
     $teams = BoincTeam::enum($query);
     $count = 0;
     foreach ($teams as $team) {
+        $founder = null;
+        if ($team->userid) {
+            $founder = BoincUser::lookup_id($team->userid);
+        }
+
+        // delete teams with no founder
+        if (!$founder) {
+            delete_team($team, []);
+            $count++;
+            continue;
+        }
+
         $n = team_count_members($team->id);
         if ($n > 1) continue;
         if (!has_link($team->description) && !$team->url) continue;
@@ -312,14 +352,11 @@ function delete_teams() {
 
         // add team founder if not member
         //
-        if ($team->userid) {
-            $user = BoincUser::lookup_id($team->userid);
-            if ($user && $user->teamid != $team->id) {
-                $users[] = $user;
-            }
+        if ($founder->teamid != $team->id) {
+            $users[] = $founder;
         }
 
-        // if any of these has signs of life, skip team
+        // if any of these users has signs of life, skip team
         //
         $life = false;
         foreach ($users as $user) {
@@ -344,25 +381,29 @@ function delete_teams() {
         }
 
         $count++;
-
-        if ($test) {
-            echo "would delete team:\n";
-            echo "   ID: $team->id\n";
-            echo "   name: $team->name\n";
-            echo "   description: $team->description\n";
-            echo "   URL: $team->url\n";
-            foreach ($users as $user) {
-                echo "would delete user $user->id: $user->email_addr:\n";
-            }
-        } else {
-            $team->delete();
-            echo "deleted team ID $team->id name $team->name\n";
-            foreach ($users as $user) {
-                do_delete_user($user);
-            }
-        }
+        delete_team($team, $users);
     }
     echo "deleted $count teams\n";
+}
+
+function delete_team($team, $users) {
+    global $test;
+    if ($test) {
+        echo "would delete team:\n";
+        echo "   ID: $team->id\n";
+        echo "   name: $team->name\n";
+        echo "   description: $team->description\n";
+        echo "   URL: $team->url\n";
+        foreach ($users as $user) {
+            echo "would delete user $user->id: $user->email_addr:\n";
+        }
+    } else {
+        $team->delete();
+        echo "deleted team ID $team->id name $team->name\n";
+        foreach ($users as $user) {
+            do_delete_user($user);
+        }
+    }
 }
 
 function delete_user_id($id) {
@@ -460,6 +501,10 @@ for ($i=1; $i<$argc; $i++) {
         delete_users(true, true, false, true);
     } else if ($argv[$i] == "--user_null") {
         delete_users(true, true, true, false);
+    } else if ($argv[$i] == "--all") {
+        delete_profiles();
+        delete_teams();
+        delete_users(true, true, false, true);
     }
 }
 echo "Finished: ".date(DATE_RFC2822)."\n";

@@ -156,7 +156,8 @@ class BoincForumPrefs {
             $prefs = self::lookup_userid($user->id);
             if (!$prefs) {
                 $db = BoincDb::get();
-                if ($db->readonly) {
+                // is DB readonly? (shouldn't ever happen)
+                if ($db->dbnum) {
                     return;
                 }
                 self::insert("(userid, last_post, forum_sorting, thread_sorting, rated_posts, ignorelist, pm_notification) values ($user->id, 0, 0, 8, '', '', 0)");
