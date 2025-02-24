@@ -68,7 +68,8 @@
 # and to create RealName key with empty string as value (for users)
 # Updated 11/8/22 revised setprojectgrp ownership & permissions for MacOS 13
 # Updated 4/6/23 revised setprojectgrp ownership to match PR #5061
-#Updated 2/11/25 to add Fix_BOINC_Users
+# Updated 2/11/25 to add Fix_BOINC_Users
+# Updated 2/23/25 to fix PrimaryGroupID for users boinc_master, boinc_project
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -138,8 +139,8 @@ function make_boinc_user() {
         dscl . -create /users/$1 uid $uid
         dscl . -create /users/$1 shell /usr/bin/false
         dscl . -create /users/$1 home /var/empty
-        dscl . -create /users/$1 gid $gid
     fi
+    dscl . -create /users/$1 gid $gid
 
 
     ## Under OS 10.7 dscl won't directly create RealName key with empty
