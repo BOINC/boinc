@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2022 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -68,6 +68,8 @@
 # and to create RealName key with empty string as value (for users)
 # Updated 11/8/22 revised setprojectgrp ownership & permissions for MacOS 13
 # Updated 4/6/23 revised setprojectgrp ownership to match PR #5061
+# Updated 2/11/25 to add Fix_BOINC_Users
+# Updated 2/23/25 to fix PrimaryGroupID for users boinc_master, boinc_project
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -94,32 +96,11 @@ function make_boinc_user() {
         baseID="25"
     fi
 
-
-
-    # Check whether group already exists
-    name=$(dscl . search /groups RecordName $1 | cut -f1 -s)
-    if [ "$name" = "$1" ] ; then
-        gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -s)
-    else
-        # Find an unused group ID
-        gid="$baseID"
-        while true; do
-            name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -s)
-            if [ -z "$name" ] ; then
-                break
-            fi
-            gid=$[$gid +1]
-        done
-        dscl . -create /groups/$1
-        dscl . -create /groups/$1 gid $gid
-    fi
-
     # Check whether user already exists
     name=$(dscl . search /users RecordName $1 | cut -f1 -s)
     if [ -z "$name" ] ; then
-
-        # Is uid=gid available?
-        uid=$gid
+        # Is uid available?
+        uid="$baseID"
         name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
         if [ -n "$name" ] ; then
             # uid=gid already in use, so find an unused user ID
@@ -137,9 +118,31 @@ function make_boinc_user() {
         dscl . -create /users/$1 uid $uid
         dscl . -create /users/$1 shell /usr/bin/false
         dscl . -create /users/$1 home /var/empty
-        dscl . -create /users/$1 gid $gid
+    else
+        uid=$(dscl . read /users/$1 UniqueID | cut -d" " -f2 -s)
     fi
 
+    # Check whether group already exists
+    name=$(dscl . search /groups RecordName $1 | cut -f1 -s)
+    if [ "$name" = "$1" ] ; then
+        gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -s)
+    else
+        # Find an unused group ID
+        gid=$uid
+        while true; do
+            name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -s)
+            if [ -z "$name" ] ; then
+                break
+            fi
+            gid=$[$gid +1]
+        done
+        dscl . -create /groups/$1
+        dscl . -create /groups/$1 gid $gid
+    fi
+
+    ## MacOS update may change PrimaryGroupID of users boinc_master and
+    ## boinc_project to 20 (staff). Fix it.
+    dscl . -create /users/$1 gid $gid
 
     ## Under OS 10.7 dscl won't directly create RealName key with empty
     ## string as value but will allow changing value to empty string.
@@ -265,6 +268,10 @@ set_perm switcher boinc_master boinc_master 0550
 if [ -d locale ] ; then
     set_perm_recursive locale boinc_master boinc_master +X
     set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o+r-w
+fi
+
+if [ -f Fix_BOINC_Users ] ; then
+    set_perm Fix_BOINC_Users root boinc_master 04555       # Fix_BOINC_Users
 fi
 
 if [ -f boinc ] ; then
