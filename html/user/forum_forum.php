@@ -199,6 +199,7 @@ function show_forum_threads($forum, $start, $sort_style, $user, $subs) {
     foreach ($threads as $thread) {
         $owner = BoincUser::lookup_id($thread->owner);
         if (!$owner) continue;
+        if (!$show_hidden && is_banished($owner)) continue;
         $unread = thread_is_unread($user, $thread);
 
         //if ($thread->status==1){
