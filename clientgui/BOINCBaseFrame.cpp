@@ -763,7 +763,10 @@ bool CBOINCBaseFrame::SaveState() {
     iIndex = 0;
     strBuffer.Printf(wxT("%d"), iIndex);
     while (pConfig->Exists(strBuffer)) {
-        existingComputers.Add(pConfig->Read(strBuffer, wxEmptyString));
+		wxString computer = pConfig->Read(strBuffer, wxEmptyString);
+		if (computer != wxEmptyString && existingComputers.Index(computer) == wxNOT_FOUND) {
+			existingComputers.Add(computer);
+		}
         strBuffer.Printf(wxT("%d"), ++iIndex);
     }
 
