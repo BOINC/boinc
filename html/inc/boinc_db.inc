@@ -105,7 +105,7 @@ class BoincDb {
     static function get($dbnum = 0) {
         global $generating_xml;
         if (isset(self::$instance)) {
-            if (self::$dbnum == $dbnum) {
+            if (intval(self::$dbnum) == intval($dbnum)) {
                 return self::$instance;
             }
             self::close();
