@@ -196,10 +196,6 @@ function check_whether_to_show_profile($user, $logged_in_user) {
            tra("To prevent spam, profiles of users with an average credit of less than %1 are displayed only to logged-in users. We apologize for this inconvenience.", $min_credit)
         );
     }
-    if (is_banished($user)) {
-        error_page(tra("User is banished"));
-    }
-
 }
 
 // Displays a user's profile (if they have one);
