@@ -731,7 +731,6 @@ bool CBOINCBaseFrame::SaveState() {
     wxString        strPreviousLocation;
     wxString        strBuffer;
     size_t          iIndex;
-    size_t          iItemCount;
     wxArrayString   existingComputers;
 
 
