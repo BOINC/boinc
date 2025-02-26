@@ -409,7 +409,29 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     if (err)
         return err;
 
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, FIX_BOINC_USERS_FILENAME, MAXPATHLEN);
 
+    result = stat(fullpath, &sbuf);
+    isDirectory = S_ISDIR(sbuf.st_mode);
+    if ((result == noErr) && (! isDirectory)) {
+       // Set owner and group of Fix_BOINC_Users application
+        sprintf(buf1, "root:%s", boinc_master_group_name);
+        // chown root:boinc_master "/Library/Application Support/BOINC Data/Fix_BOINC_Users"
+        err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions of Fix_BOINC_Users application
+        // chmod u=rsx,g=rx,o=rx "/Library/Application Support/BOINC Data/Fix_BOINC_Users"
+        // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        // Set setuid-on-execution plus read and execute permission for user, group & others
+        err = DoSudoPosixSpawn(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+    }
+    
     // Does projects directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
