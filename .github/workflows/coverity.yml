@@ -56,4 +56,4 @@ jobs:
         with:
           project: 'BOINC/boinc'
           token: ${{ secrets.COVERITY_SCAN_TOKEN }}
-          email: 'boinc_cvs@ssl.berkeley.edu'
+          email: 'lestat.de.lionkur@gmail.com'
