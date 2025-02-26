@@ -169,7 +169,7 @@ int VBOX_VM::initialize() {
 
         if (is_dir(vbox_profile_dir.c_str())) {
             virtualbox_home_directory  = vbox_profile_dir;
-            virtualbox_home_directory += "/projects/VirtualBox";
+            virtualbox_home_directory += "/VirtualBox";
 
             // If necessary VirtualBox automatically creates required dirs
             // at the default locations.
