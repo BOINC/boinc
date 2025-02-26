@@ -142,7 +142,8 @@ int VBOX_VM::initialize() {
 #ifdef _WIN32
     // Not sure this is needed now that we're not using COM
     //
-    launch_vboxsvc();
+    //launch_vboxsvc();
+    vboxlog_msg("[DEBUG]Function 'launch_vboxsvc()' removed. Check logfiles for issues.");
 #endif
 
     rc = get_version_information(
