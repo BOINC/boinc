@@ -431,7 +431,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }
-    
+
     // Does projects directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
