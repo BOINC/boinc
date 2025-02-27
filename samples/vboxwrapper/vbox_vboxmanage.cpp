@@ -200,12 +200,6 @@ int VBOX_VM::initialize() {
 #endif
     }
 
-#ifdef _WIN32
-    // Not sure this is needed now that we're not using COM
-    //
-    launch_vboxsvc();
-#endif
-
     rc = get_version_information(
         virtualbox_version_raw, virtualbox_version_display
     );

@@ -231,8 +231,6 @@ struct VBOX_BASE : VBOX_JOB {
     static void sanitize_format(string& output);
     static void sanitize_output(string& output);
 
-    int launch_vboxsvc();
-
     int vbm_popen(
         string& command, string& output, const char* item,
         bool log_error = true, bool retry_failures = true,
