@@ -72,7 +72,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get -qq update
-          apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-pip curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
+          apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-pip curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev rsync
 
       - name: Install aws cli tool
         run: |
@@ -113,16 +113,41 @@ jobs:
           name: linux-package_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Prepare artifacts for deploy
-        if: success()
-        run: python3 ./deploy/prepare_deployment.py linux_${{ matrix.type }}
+      - name: Prepare client artifacts for deploy
+        if: success() && matrix.type == 'client'
+        run: |
+          mkdir artifacts
+          cp client/boinc artifacts/
+          cp client/boinccmd artifacts/
+          cp client/scripts/boinc-client.service artifacts/
+          cp client/scripts/boinc-client artifacts/
+          cp client/scripts/boinc.bash artifacts/
+          cp client/scripts/boinc-client.conf artifacts/
+          cp packages/deb/* artifacts/
+          cp packages/generic/36x11-common_xhost-boinc artifacts/
+          cp win_build/installerv2/redist/all_projects_list.xml artifacts/
+          mkdir artifacts/locale
+          rsync -avm --include='*/' --include='BOINC-Client.mo' --exclude='*' locale/ artifacts/locale
+
+      - name: Prepare manager artifacts for deploy
+        if: success() && matrix.type == 'manager'
+        run: |
+          mkdir artifacts
+          cp clientgui/boincmgr artifacts/
+          cp clientgui/res/boinc.desktop artifacts/
+          cp clientgui/res/boinc.png artifacts/
+          cp clientgui/res/boinc.svg artifacts/
+          mkdir artifacts/locale
+          rsync -avm --include='*/' --include='BOINC-Manager.mo' --exclude='*' locale/ artifacts/locale/
+          mkdir artifacts/skins
+          rsync -avm --include='*/' --exclude='Makefile' --exclude='Makefile*' clientgui/skins/ artifacts/skins/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/linux_${{ matrix.type }}.7z
+          path: artifacts
 
   build-deb-package:
     name: Build DEB Package
@@ -175,7 +200,8 @@ jobs:
       - name: Prepare package
         if: success()
         run: |
-          ls -l pkgs/
+          find pkgs/ -type d -exec chmod 0775 {} \;
+          find pkgs/ -type f -exec chmod 0775 {} \;
           mkdir ${PKG_FULL}
           ${{ github.workspace }}/.github/workflows/debrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
 
@@ -293,6 +319,8 @@ jobs:
       - name: Create RPM folder
         if: success()
         run: |
+          find pkgs/ -type d -exec chmod 0775 {} \;
+          find pkgs/ -type f -exec chmod 0775 {} \;
           mkdir ${PKG_FULL}
           .github/workflows/rpmrepo/package_prepare.sh "${PKG_FULL}" "linux_${{ matrix.type }}"
 

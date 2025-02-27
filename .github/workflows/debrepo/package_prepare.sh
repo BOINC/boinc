@@ -49,24 +49,25 @@ function prepare_client() {
     exit_on_fail
 
     # copy files and directories
-    mv postinst DEBIAN/
+    cp $ROOT/pkgs/postinst DEBIAN/
     exit_on_fail
-    mv boinc boinccmd usr/local/bin/
+    cp $ROOT/pkgs/boinc usr/local/bin/
     exit_on_fail
-    mv boinc-client.service usr/lib/systemd/system/
+    cp $ROOT/pkgs/boinccmd usr/local/bin/
     exit_on_fail
-    mv boinc-client.conf etc/default/boinc-client
+    cp $ROOT/pkgs/boinc-client.service usr/lib/systemd/system/
     exit_on_fail
-    mv boinc-client etc/init.d/
+    cp $ROOT/pkgs/boinc-client.conf etc/default/boinc-client
     exit_on_fail
-    mv boinc.bash etc/bash_completion.d/
+    cp $ROOT/pkgs/boinc-client etc/init.d/
     exit_on_fail
-    mv 36x11-common_xhost-boinc etc/X11/Xsession.d/
+    cp $ROOT/pkgs/boinc.bash etc/bash_completion.d/
     exit_on_fail
-    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Client.mo); do mv $file usr/local/share/$dir/LC_MESSAGES/; done; done
+    cp $ROOT/pkgs/36x11-common_xhost-boinc etc/X11/Xsession.d/
     exit_on_fail
-    rm -rf locale/
-    mv all_projects_list.xml var/lib/boinc/
+    for dir in $(find $ROOT/pkgs/locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Client.mo); do cp $file usr/local/share/$dir/LC_MESSAGES/; done; done
+    exit_on_fail
+    cp $ROOT/pkgs/all_projects_list.xml var/lib/boinc/
     exit_on_fail
 }
 
@@ -80,20 +81,18 @@ function prepare_manager() {
     exit_on_fail
 
     # copy files and directories
-    mv boincmgr usr/local/bin/
+    cp $ROOT/pkgs/boincmgr usr/local/bin/
     exit_on_fail
-    mv boinc.desktop usr/local/share/applications/
+    cp $ROOT/pkgs/boinc.desktop usr/local/share/applications/
     exit_on_fail
-    mv boinc.png usr/local/share/icons/
+    cp $ROOT/pkgs/boinc.png usr/local/share/icons/
     exit_on_fail
-    mv boinc.svg usr/local/share/icons/
+    cp $ROOT/pkgs/boinc.svg usr/local/share/icons/
     exit_on_fail
-    mv skins/ usr/local/share/boinc-manager/
+    cp -r $ROOT/pkgs/skins/ usr/local/share/boinc-manager/
     exit_on_fail
-    for dir in $(find ./locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Manager.mo); do mv $file usr/local/share/$dir/LC_MESSAGES/; done; done
+    for dir in $(find $ROOT/pkgs/locale -maxdepth 1 -mindepth 1 -type d); do mkdir -p usr/local/share/$dir/LC_MESSAGES; for file in $(find $dir -type f -iname BOINC-Manager.mo); do cp $file usr/local/share/$dir/LC_MESSAGES/; done; done
     exit_on_fail
-    rm -rf locale/
-    rm -rf res/
 }
 
 ROOT=$(pwd)
@@ -117,15 +116,6 @@ exit_on_fail
 
 pushd "$ROOT/$FULLPKG"
 exit_on_fail
-
-stat "${ROOT}/pkgs/${BASEPKG}.7z"
-exit_on_fail
-
-# unpack the boinc archive
-7z x "${ROOT}/pkgs/${BASEPKG}.7z"
-exit_on_fail
-
-find .
 
 # specialized prepare
 case "$BASEPKG" in

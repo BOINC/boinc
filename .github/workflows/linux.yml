@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -194,16 +194,62 @@ jobs:
           name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Prepare artifacts for deploy
-        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
-        run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
+      - name: Prepare client artifacts for deploy
+        if: success() && contains(matrix.type, 'client')
+        run: |
+          mkdir ${{ github.workspace }}/artifacts
+          cp ${{ github.workspace }}/client/boinc ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/client/boinccmd ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/client/scripts/boinc-client.service ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/client/scripts/boinc-client ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/client/scripts/boinc.bash ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/client/scripts/boinc-client.conf ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/packages/deb/* ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/packages/generic/36x11-common_xhost-boinc ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/win_build/installerv2/redist/all_projects_list.xml ${{ github.workspace }}/artifacts/
+          mkdir ${{ github.workspace }}/artifacts/locale
+          rsync -avm --include='*/' --include='BOINC-Client.mo' --exclude='*' ${{ github.workspace }}/locale/ ${{ github.workspace }}/artifacts/locale
+
+      - name: Prepare apps artifacts for deploy
+        if: success() && contains(matrix.type, 'apps')
+        run: |
+          mkdir ${{ github.workspace }}/artifacts
+          cp ${{ github.workspace }}/samples/condor/boinc_gahp ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/example_app/uc2 ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/example_app/ucn ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/example_app/uc2_graphics ${{ github.workspace }}/artifacts/ || true
+          cp ${{ github.workspace }}/samples/example_app/slide_show ${{ github.workspace }}/artifacts/ || true
+          cp ${{ github.workspace }}/samples/multi_thread/multi_thread ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/sleeper/sleeper ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/vboxmonitor/vboxmonitor ${{ github.workspace }}/artifacts/ || true
+          cp ${{ github.workspace }}/samples/vboxwrapper/vboxwrapper*pc-linux-gnu ${{ github.workspace }}/artifacts/ || true
+          cp ${{ github.workspace }}/samples/worker/worker*pc-linux-gnu ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/wrapper/wrapper*pc-linux-gnu ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/openclapp/openclapp ${{ github.workspace }}/artifacts/ || true
+          cp ${{ github.workspace }}/samples/wrappture/wrappture_example ${{ github.workspace }}/artifacts/ || true
+          cp ${{ github.workspace }}/samples/wrappture/fermi ${{ github.workspace }}/artifacts/ || true
+          cp ${{ github.workspace }}/samples/sporadic/sporadic ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/docker_wrapper/docker_wrapper ${{ github.workspace }}/artifacts/
+
+      - name: Prepare manager artifacts for deploy
+        if: success() && contains(matrix.type, 'manager')
+        run: |
+          mkdir ${{ github.workspace }}/artifacts
+          cp ${{ github.workspace }}/clientgui/boincmgr ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/clientgui/res/boinc.desktop ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/clientgui/res/boinc.png ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/clientgui/res/boinc.svg ${{ github.workspace }}/artifacts/
+          mkdir ${{ github.workspace }}/artifacts/locale
+          rsync -avm --include='*/' --include='BOINC-Manager.mo' --exclude='*' ${{ github.workspace }}/locale/ ${{ github.workspace }}/artifacts/locale/
+          mkdir ${{ github.workspace }}/artifacts/skins
+          rsync -avm --include='*/' --exclude='Makefile' --exclude='Makefile*' ${{ github.workspace }}/clientgui/skins/ ${{ github.workspace }}/artifacts/skins/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/linux_${{ matrix.type }}.7z
+          path: ${{ github.workspace }}/artifacts
 
       - name: Upload Google Tests Results
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
@@ -304,11 +350,23 @@ jobs:
 
       - name: Prepare artifacts for deploy
         if: success()
-        run: python3 ./deploy/prepare_deployment.py linux_apps
+        run: |
+          mkdir artifacts
+          cp samples/condor/boinc_gahp artifacts/
+          cp samples/example_app/uc2 artifacts/
+          cp samples/example_app/ucn artifacts/
+          cp samples/multi_thread/multi_thread artifacts/
+          cp samples/sleeper/sleeper artifacts/
+          cp samples/vboxmonitor/vboxmonitor artifacts/ || true
+          cp samples/vboxwrapper/vboxwrapper*pc-linux-gnu artifacts/ || true
+          cp samples/worker/worker*pc-linux-gnu artifacts/
+          cp samples/wrapper/wrapper*pc-linux-gnu artifacts/
+          cp samples/sporadic/sporadic artifacts/
+          cp samples/docker_wrapper/docker_wrapper artifacts/
 
-      - name: Upload wrapper artifacts
+      - name: Upload artifacts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/linux_apps.7z
+          path: artifacts
