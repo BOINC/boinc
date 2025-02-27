@@ -75,7 +75,6 @@ static bool is_timestamp_newer(VBOX_TIMESTAMP& t1, VBOX_TIMESTAMP& t2) {
 VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     VBOX_JOB::clear();
     virtualbox_profile_directory.clear();
-    virtualbox_scratch_directory.clear();
     virtualbox_install_directory.clear();
     virtualbox_guest_additions.clear();
     virtualbox_version_raw.clear();
