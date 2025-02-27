@@ -4680,7 +4680,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -4690,7 +4689,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -4885,9 +4883,6 @@
 		DD9843DE09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_X86_VECTOR_INSTRUCTIONS = default;
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
 					../../curl/include,
 					../../openssl/include,
@@ -4909,7 +4904,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = (
 					../../curl/include,
 					../../openssl/include,
@@ -5081,9 +5075,6 @@
 		DD9E2366091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_X86_VECTOR_INSTRUCTIONS = default;
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
 					../../curl/include,
 					../../openssl/include,
@@ -5111,7 +5102,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = (
 					../../curl/include,
 					../../openssl/include,

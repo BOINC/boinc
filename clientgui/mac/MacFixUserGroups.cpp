@@ -22,15 +22,13 @@
 //
 // This must be called setuid root.
 
-#include "mac_spawn.h"
-#include <pwd.h>    // getpwnam
 #include <grp.h>
- #include <stdio.h>
+#include <stdio.h>
+#include "mac_spawn.h"
 
 int main(int argc, char *argv[])
 {
-    passwd              *pw;
-    group               *grp;
+    struct group    *grp;
     char cmd[1024];
 
     grp = getgrnam("boinc_master");
