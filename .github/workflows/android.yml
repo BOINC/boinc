@@ -162,22 +162,19 @@ jobs:
           name: android_logs_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Prepare artifacts for deploy
-        run: python ./deploy/prepare_deployment.py android_manager
-
       - name: Upload generic artifacts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ matrix.task == 'assembleRelease' }}
         with:
           name: android_manager_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_manager.7z
+          path: ${{ github.workspace }}/android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Upload armv6 only manager
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         if: ${{ matrix.task == 'assembleArmv6_release' }}
         with:
           name: android_armv6_manager_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_manager_armv6.7z
+          path: ${{ github.workspace }}/android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk
 
       - name: Upload JUnit Tests Results
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
@@ -255,12 +252,23 @@ jobs:
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: ${{ success() && ! contains(matrix.type, 'libs') }}
-        run: python ./deploy/prepare_deployment.py android_${{ matrix.type }}
+        if: ${{ success() && matrix.type == 'apps' }}
+        run: |
+          mkdir ${{ github.workspace }}/artifacts
+          cp ${{ github.workspace }}/samples/condor/android_*_boinc_gahp ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/example_app/android_*_uc2 ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/example_app/android_*_ucn ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/multi_thread/android_*_multi_thread ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/sleeper/android_*_sleeper ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/worker/android_*_worker ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/wrapper/android_*_wrapper ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/wrappture/android_*_wrappture_example ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/wrappture/android_*_fermi ${{ github.workspace }}/artifacts/
+          cp ${{ github.workspace }}/samples/sporadic/android_*_sporadic ${{ github.workspace }}/artifacts/
 
       - name: Upload generic artifacts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
-        if: ${{ ! contains(matrix.type, 'libs') }}
+        if: ${{ matrix.type == 'apps' }}
         with:
           name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/android_${{ matrix.type }}.7z
+          path: ${{ github.workspace }}/artifacts/

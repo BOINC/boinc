@@ -81,79 +81,6 @@ mingw_apps_vcpkg_list = [
     './samples/docker_wrapper/docker_wrapper.exe',
 ]
 
-android_manager_generic_list = [
-    './android/BOINC/app/build/outputs/apk/debug/app-debug.apk',
-    './android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk'
-]
-
-android_manager_armv6_list = [
-    './android/BOINC/app/build/outputs/apk/armv6_debug/app-armv6_debug.apk',
-    './android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk'
-]
-
-android_apps_list = [
-    # boinc_gahp
-    './samples/condor/android_armv6_boinc_gahp',
-    './samples/condor/android_arm_boinc_gahp',
-    './samples/condor/android_arm64_boinc_gahp',
-    './samples/condor/android_x86_boinc_gahp',
-    './samples/condor/android_x86_64_boinc_gahp',
-    # uc2
-    './samples/example_app/android_armv6_uc2',
-    './samples/example_app/android_arm_uc2',
-    './samples/example_app/android_arm64_uc2',
-    './samples/example_app/android_x86_uc2',
-    './samples/example_app/android_x86_64_uc2',
-    # ucn
-    './samples/example_app/android_armv6_ucn',
-    './samples/example_app/android_arm_ucn',
-    './samples/example_app/android_arm64_ucn',
-    './samples/example_app/android_x86_ucn',
-    './samples/example_app/android_x86_64_ucn',
-    # multi_thread
-    './samples/multi_thread/android_armv6_multi_thread',
-    './samples/multi_thread/android_arm_multi_thread',
-    './samples/multi_thread/android_arm64_multi_thread',
-    './samples/multi_thread/android_x86_multi_thread',
-    './samples/multi_thread/android_x86_64_multi_thread',
-    # sleeper
-    './samples/sleeper/android_armv6_sleeper',
-    './samples/sleeper/android_arm_sleeper',
-    './samples/sleeper/android_arm64_sleeper',
-    './samples/sleeper/android_x86_sleeper',
-    './samples/sleeper/android_x86_64_sleeper',
-    # worker
-    './samples/worker/android_armv6_worker',
-    './samples/worker/android_arm_worker',
-    './samples/worker/android_arm64_worker',
-    './samples/worker/android_x86_worker',
-    './samples/worker/android_x86_64_worker',
-    # wrapper
-    './samples/wrapper/android_armv6_wrapper',
-    './samples/wrapper/android_arm_wrapper',
-    './samples/wrapper/android_arm64_wrapper',
-    './samples/wrapper/android_x86_wrapper',
-    './samples/wrapper/android_x86_64_wrapper',
-    # wrappture_example
-    './samples/wrappture/android_armv6_wrappture_example',
-    './samples/wrappture/android_arm_wrappture_example',
-    './samples/wrappture/android_arm64_wrappture_example',
-    './samples/wrappture/android_x86_wrappture_example',
-    './samples/wrappture/android_x86_64_wrappture_example',
-    # fermi
-    './samples/wrappture/android_armv6_fermi',
-    './samples/wrappture/android_arm_fermi',
-    './samples/wrappture/android_arm64_fermi',
-    './samples/wrappture/android_x86_fermi',
-    './samples/wrappture/android_x86_64_fermi',
-    # sporadic
-    './samples/sporadic/android_armv6_sporadic',
-    './samples/sporadic/android_arm_sporadic',
-    './samples/sporadic/android_arm64_sporadic',
-    './samples/sporadic/android_x86_sporadic',
-    './samples/sporadic/android_x86_64_sporadic'
-]
-
 windows_apps_list = [
     './win_build/Build/x64/Release/htmlgfx*.exe',
     './win_build/Build/x64/Release/wrapper*.exe',
@@ -351,20 +278,6 @@ def prepare_win_apps_mingw(target_directory):
 def prepare_win_apps_mingw_vcpkg(target_directory):
     prepare_7z_archive('win_apps-mingw-vcpkg', target_directory, mingw_apps_vcpkg_list)
 
-def prepare_android_manager(target_directory):
-    prepare_7z_archive('android_manager', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager_armv6', target_directory, android_manager_armv6_list)
-
-def prepare_android_manager_vcpkg(target_directory):
-    prepare_7z_archive('android_manager-vcpkg', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager-vcpkg_armv6', target_directory, android_manager_armv6_list)
-
-def prepare_android_apps(target_directory):
-    prepare_7z_archive('android_apps', target_directory, android_apps_list)
-
-def prepare_android_apps_vcpkg(target_directory):
-    prepare_7z_archive('android_apps-vcpkg', target_directory, android_apps_list)
-
 def prepare_win_apps(target_directory):
     prepare_7z_archive('win_apps', target_directory, windows_apps_list)
 
@@ -407,10 +320,6 @@ boinc_types = {
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
     'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
-    'android_manager': prepare_android_manager,
-    'android_manager-vcpkg': prepare_android_manager_vcpkg,
-    'android_apps': prepare_android_apps,
-    'android_apps-vcpkg': prepare_android_apps_vcpkg,
     'win_apps': prepare_win_apps,
     'win_client': prepare_win_client,
     'win_manager': prepare_win_manager,
