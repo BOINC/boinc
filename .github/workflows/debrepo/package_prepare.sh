@@ -118,11 +118,7 @@ exit_on_fail
 pushd "$ROOT/$FULLPKG"
 exit_on_fail
 
-stat "${ROOT}/pkgs/${BASEPKG}.7z"
-exit_on_fail
-
-# unpack the boinc archive
-7z x "${ROOT}/pkgs/${BASEPKG}.7z"
+mv "${ROOT}/pkgs/*" .
 exit_on_fail
 
 find .

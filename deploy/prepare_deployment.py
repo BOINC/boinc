@@ -19,47 +19,6 @@
 import os
 import sys
 
-linux_client_list = [
-    './client/boinc',
-    './client/boinccmd',
-    './client/scripts/boinc-client.service',
-    './client/scripts/boinc-client',
-    './client/scripts/boinc.bash',
-    './client/scripts/boinc-client.conf',
-    './packages/deb/*',
-    './packages/generic/36x11-common_xhost-boinc',
-    'locale/*/*.mo',
-    './win_build/installerv2/redist/all_projects_list.xml'
-]
-
-linux_apps_list = [
-    './samples/condor/boinc_gahp',
-    './samples/example_app/uc2',
-    './samples/example_app/ucn',
-    './samples/example_app/uc2_graphics',
-    './samples/example_app/slide_show',
-    './samples/multi_thread/multi_thread',
-    './samples/sleeper/sleeper',
-    './samples/vboxmonitor/vboxmonitor',
-    './samples/vboxwrapper/vboxwrapper*pc-linux-gnu',
-    './samples/worker/worker*pc-linux-gnu',
-    './samples/wrapper/wrapper*pc-linux-gnu',
-    './samples/openclapp/openclapp',
-    './samples/wrappture/wrappture_example',
-    './samples/wrappture/fermi',
-    './samples/sporadic/sporadic',
-    './samples/docker_wrapper/docker_wrapper',
-]
-
-linux_manager_list = [
-    './clientgui/boincmgr',
-    './clientgui/skins',
-    './clientgui/res/boinc.desktop',
-    './clientgui/res/boinc.png',
-    './clientgui/res/boinc.svg',
-    'locale/*/*.mo',
-]
-
 mingw_apps_list = [
     './lib/wrapper.exe'
 ]
@@ -245,33 +204,6 @@ def help():
     print('Usage: python preprare_deployment.py BOINC_TYPE')
     print('BOINC_TYPE : [' + " | ".join(boinc_types.keys()) + ']')
 
-def prepare_linux_client(target_directory):
-    prepare_7z_archive('linux_client', target_directory, linux_client_list)
-
-def prepare_linux_client_vcpkg(target_directory):
-    prepare_7z_archive('linux_client-vcpkg', target_directory, linux_client_list)
-
-def prepare_linux_apps(target_directory):
-    prepare_7z_archive('linux_apps', target_directory, linux_apps_list)
-
-def prepare_linux_apps_arm64(target_directory):
-    prepare_7z_archive('linux_apps-arm64', target_directory, linux_apps_list)
-
-def prepare_linux_apps_vcpkg(target_directory):
-    prepare_7z_archive('linux_apps-vcpkg', target_directory, linux_apps_list)
-
-def prepare_linux_manager(target_directory):
-    prepare_7z_archive('linux_manager', target_directory, linux_manager_list)
-
-def prepare_linux_manager_with_webview(target_directory):
-    prepare_7z_archive('linux_manager-with-webview', target_directory, linux_manager_list)
-
-def prepare_linux_manager_with_webview_vcpkg(target_directory):
-    prepare_7z_archive('linux_manager-with-webview-vcpkg', target_directory, linux_manager_list)
-
-def prepare_linux_manager_without_webview(target_directory):
-    prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
-
 def prepare_win_apps_mingw(target_directory):
     prepare_7z_archive('win_apps-mingw', target_directory, mingw_apps_list)
 
@@ -309,15 +241,6 @@ def prepare_logs(target_directory):
     prepare_7z_archive('logs', target_directory, logs_list)
 
 boinc_types = {
-    'linux_client': prepare_linux_client,
-    'linux_client-vcpkg': prepare_linux_client_vcpkg,
-    'linux_apps': prepare_linux_apps,
-    'linux_apps-arm64': prepare_linux_apps_arm64,
-    'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
-    'linux_manager': prepare_linux_manager,
-    'linux_manager-with-webview': prepare_linux_manager_with_webview,
-    'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
-    'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
     'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
     'win_apps': prepare_win_apps,
