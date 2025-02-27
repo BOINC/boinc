@@ -23,10 +23,27 @@
 // This must be called setuid root.
 
 #include "mac_spawn.h"
+#include <pwd.h>    // getpwnam
+#include <grp.h>
+ #include <stdio.h>
 
 int main(int argc, char *argv[])
 {
-    callPosixSpawn ("dscl . -create /users/boinc_master PrimaryGroupID boinc_master");
-    callPosixSpawn ("dscl . -create /users/boinc_project PrimaryGroupID boinc_project");
+    passwd              *pw;
+    group               *grp;
+    char cmd[1024];
+
+    grp = getgrnam("boinc_master");
+    if (grp) {
+        snprintf(cmd, sizeof(cmd), "dscl . -create /users/boinc_master PrimaryGroupID %d", grp->gr_gid);
+        callPosixSpawn (cmd);
+    }
+
+    grp = getgrnam("boinc_project");
+    if (grp) {
+        snprintf(cmd, sizeof(cmd), "dscl . -create /users/boinc_project PrimaryGroupID %d", grp->gr_gid);
+        callPosixSpawn (cmd);
+    }
+
     return 0;
 }
