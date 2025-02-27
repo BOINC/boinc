@@ -19,47 +19,6 @@
 import os
 import sys
 
-linux_client_list = [
-    './client/boinc',
-    './client/boinccmd',
-    './client/scripts/boinc-client.service',
-    './client/scripts/boinc-client',
-    './client/scripts/boinc.bash',
-    './client/scripts/boinc-client.conf',
-    './packages/deb/*',
-    './packages/generic/36x11-common_xhost-boinc',
-    'locale/*/*.mo',
-    './win_build/installerv2/redist/all_projects_list.xml'
-]
-
-linux_apps_list = [
-    './samples/condor/boinc_gahp',
-    './samples/example_app/uc2',
-    './samples/example_app/ucn',
-    './samples/example_app/uc2_graphics',
-    './samples/example_app/slide_show',
-    './samples/multi_thread/multi_thread',
-    './samples/sleeper/sleeper',
-    './samples/vboxmonitor/vboxmonitor',
-    './samples/vboxwrapper/vboxwrapper*pc-linux-gnu',
-    './samples/worker/worker*pc-linux-gnu',
-    './samples/wrapper/wrapper*pc-linux-gnu',
-    './samples/openclapp/openclapp',
-    './samples/wrappture/wrappture_example',
-    './samples/wrappture/fermi',
-    './samples/sporadic/sporadic',
-    './samples/docker_wrapper/docker_wrapper',
-]
-
-linux_manager_list = [
-    './clientgui/boincmgr',
-    './clientgui/skins',
-    './clientgui/res/boinc.desktop',
-    './clientgui/res/boinc.png',
-    './clientgui/res/boinc.svg',
-    'locale/*/*.mo',
-]
-
 mingw_apps_list = [
     './lib/wrapper.exe'
 ]
@@ -79,79 +38,6 @@ mingw_apps_vcpkg_list = [
     './samples/sporadic/sporadic.exe',
     './samples/wsl_wrapper/wsl_wrapper.exe',
     './samples/docker_wrapper/docker_wrapper.exe',
-]
-
-android_manager_generic_list = [
-    './android/BOINC/app/build/outputs/apk/debug/app-debug.apk',
-    './android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk'
-]
-
-android_manager_armv6_list = [
-    './android/BOINC/app/build/outputs/apk/armv6_debug/app-armv6_debug.apk',
-    './android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk'
-]
-
-android_apps_list = [
-    # boinc_gahp
-    './samples/condor/android_armv6_boinc_gahp',
-    './samples/condor/android_arm_boinc_gahp',
-    './samples/condor/android_arm64_boinc_gahp',
-    './samples/condor/android_x86_boinc_gahp',
-    './samples/condor/android_x86_64_boinc_gahp',
-    # uc2
-    './samples/example_app/android_armv6_uc2',
-    './samples/example_app/android_arm_uc2',
-    './samples/example_app/android_arm64_uc2',
-    './samples/example_app/android_x86_uc2',
-    './samples/example_app/android_x86_64_uc2',
-    # ucn
-    './samples/example_app/android_armv6_ucn',
-    './samples/example_app/android_arm_ucn',
-    './samples/example_app/android_arm64_ucn',
-    './samples/example_app/android_x86_ucn',
-    './samples/example_app/android_x86_64_ucn',
-    # multi_thread
-    './samples/multi_thread/android_armv6_multi_thread',
-    './samples/multi_thread/android_arm_multi_thread',
-    './samples/multi_thread/android_arm64_multi_thread',
-    './samples/multi_thread/android_x86_multi_thread',
-    './samples/multi_thread/android_x86_64_multi_thread',
-    # sleeper
-    './samples/sleeper/android_armv6_sleeper',
-    './samples/sleeper/android_arm_sleeper',
-    './samples/sleeper/android_arm64_sleeper',
-    './samples/sleeper/android_x86_sleeper',
-    './samples/sleeper/android_x86_64_sleeper',
-    # worker
-    './samples/worker/android_armv6_worker',
-    './samples/worker/android_arm_worker',
-    './samples/worker/android_arm64_worker',
-    './samples/worker/android_x86_worker',
-    './samples/worker/android_x86_64_worker',
-    # wrapper
-    './samples/wrapper/android_armv6_wrapper',
-    './samples/wrapper/android_arm_wrapper',
-    './samples/wrapper/android_arm64_wrapper',
-    './samples/wrapper/android_x86_wrapper',
-    './samples/wrapper/android_x86_64_wrapper',
-    # wrappture_example
-    './samples/wrappture/android_armv6_wrappture_example',
-    './samples/wrappture/android_arm_wrappture_example',
-    './samples/wrappture/android_arm64_wrappture_example',
-    './samples/wrappture/android_x86_wrappture_example',
-    './samples/wrappture/android_x86_64_wrappture_example',
-    # fermi
-    './samples/wrappture/android_armv6_fermi',
-    './samples/wrappture/android_arm_fermi',
-    './samples/wrappture/android_arm64_fermi',
-    './samples/wrappture/android_x86_fermi',
-    './samples/wrappture/android_x86_64_fermi',
-    # sporadic
-    './samples/sporadic/android_armv6_sporadic',
-    './samples/sporadic/android_arm_sporadic',
-    './samples/sporadic/android_arm64_sporadic',
-    './samples/sporadic/android_x86_sporadic',
-    './samples/sporadic/android_x86_64_sporadic'
 ]
 
 windows_apps_list = [
@@ -240,10 +126,6 @@ wasm_client_debug_folder_list = [
     'client/boinc_client.wasm',
 ]
 
-snap_list = [
-    './boinc_*.snap',
-]
-
 macos_manager_list = [
     'mac_build/build/Deployment/AddRemoveUser',
     'mac_build/build/Deployment/BOINC\ Installer.app',
@@ -322,52 +204,11 @@ def help():
     print('Usage: python preprare_deployment.py BOINC_TYPE')
     print('BOINC_TYPE : [' + " | ".join(boinc_types.keys()) + ']')
 
-def prepare_linux_client(target_directory):
-    prepare_7z_archive('linux_client', target_directory, linux_client_list)
-
-def prepare_linux_client_vcpkg(target_directory):
-    prepare_7z_archive('linux_client-vcpkg', target_directory, linux_client_list)
-
-def prepare_linux_apps(target_directory):
-    prepare_7z_archive('linux_apps', target_directory, linux_apps_list)
-
-def prepare_linux_apps_arm64(target_directory):
-    prepare_7z_archive('linux_apps-arm64', target_directory, linux_apps_list)
-
-def prepare_linux_apps_vcpkg(target_directory):
-    prepare_7z_archive('linux_apps-vcpkg', target_directory, linux_apps_list)
-
-def prepare_linux_manager(target_directory):
-    prepare_7z_archive('linux_manager', target_directory, linux_manager_list)
-
-def prepare_linux_manager_with_webview(target_directory):
-    prepare_7z_archive('linux_manager-with-webview', target_directory, linux_manager_list)
-
-def prepare_linux_manager_with_webview_vcpkg(target_directory):
-    prepare_7z_archive('linux_manager-with-webview-vcpkg', target_directory, linux_manager_list)
-
-def prepare_linux_manager_without_webview(target_directory):
-    prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
-
 def prepare_win_apps_mingw(target_directory):
     prepare_7z_archive('win_apps-mingw', target_directory, mingw_apps_list)
 
 def prepare_win_apps_mingw_vcpkg(target_directory):
     prepare_7z_archive('win_apps-mingw-vcpkg', target_directory, mingw_apps_vcpkg_list)
-
-def prepare_android_manager(target_directory):
-    prepare_7z_archive('android_manager', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager_armv6', target_directory, android_manager_armv6_list)
-
-def prepare_android_manager_vcpkg(target_directory):
-    prepare_7z_archive('android_manager-vcpkg', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager-vcpkg_armv6', target_directory, android_manager_armv6_list)
-
-def prepare_android_apps(target_directory):
-    prepare_7z_archive('android_apps', target_directory, android_apps_list)
-
-def prepare_android_apps_vcpkg(target_directory):
-    prepare_7z_archive('android_apps-vcpkg', target_directory, android_apps_list)
 
 def prepare_win_apps(target_directory):
     prepare_7z_archive('win_apps', target_directory, windows_apps_list)
@@ -387,9 +228,6 @@ def prepare_wasm_client(target_directory):
 def prepare_wasm_client_debug(target_directory):
     prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
 
-def prepare_linux_snap(target_directory):
-    prepare_7z_archive('linux_snap', target_directory, snap_list)
-
 def prepare_macos_apps(target_directory):
     prepare_7z_archive('macos_manager', target_directory, macos_manager_list)
     prepare_7z_archive('macos_apps', target_directory, macos_apps_list)
@@ -403,28 +241,14 @@ def prepare_logs(target_directory):
     prepare_7z_archive('logs', target_directory, logs_list)
 
 boinc_types = {
-    'linux_client': prepare_linux_client,
-    'linux_client-vcpkg': prepare_linux_client_vcpkg,
-    'linux_apps': prepare_linux_apps,
-    'linux_apps-arm64': prepare_linux_apps_arm64,
-    'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
-    'linux_manager': prepare_linux_manager,
-    'linux_manager-with-webview': prepare_linux_manager_with_webview,
-    'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
-    'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
     'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
-    'android_manager': prepare_android_manager,
-    'android_manager-vcpkg': prepare_android_manager_vcpkg,
-    'android_apps': prepare_android_apps,
-    'android_apps-vcpkg': prepare_android_apps_vcpkg,
     'win_apps': prepare_win_apps,
     'win_client': prepare_win_client,
     'win_manager': prepare_win_manager,
     'win_installer': prepare_win_installer,
     'wasm_client': prepare_wasm_client,
     'wasm_client-debug': prepare_wasm_client_debug,
-    'linux_snap': prepare_linux_snap,
     'macos_manager': prepare_macos_apps,
     'macos_samples-makefile': prepare_macos_makefile_apps,
     'logs': prepare_logs,
