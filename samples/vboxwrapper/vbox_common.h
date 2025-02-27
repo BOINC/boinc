@@ -108,10 +108,29 @@ struct VBOX_BASE : VBOX_JOB {
     VBOX_BASE();
     ~VBOX_BASE();
 
-    string virtualbox_home_directory;
-    string virtualbox_scratch_directory;
+    // Was 'virtualbox_home_directory' in previous releases.
+    // The directory where VirtualBox stores
+    // global configuration files and
+    // global logfiles such as VBoxSVC.log.
+    // It is user based and in the documentation sometimes
+    // referred to as "home", sometimes a "profile".
+    // Renamed since the latter seems to be more precise and a user can switch
+    // between different locations (=profiles) using the VBOX_USER_HOME environment variable.
+    //
+    string virtualbox_profile_directory;
+
+    // Directory where VirtualBox installs it's executables.
+    //
     string virtualbox_install_directory;
+
+    // Path where the VirtualBox Guest Additions iso file is located.
+    // Never mix "VirtualBox Guest Additions" with "VirtualBox Extension Pack".
+    // The first is part of the base package and to be installed in the guest VM,
+    // the latter is to be installed on the host OS and published under a different license.
+    // See the VirtualBox documentation for further details.
+    //
     string virtualbox_guest_additions;
+
     string virtualbox_version_raw;
     string virtualbox_version_display;
 

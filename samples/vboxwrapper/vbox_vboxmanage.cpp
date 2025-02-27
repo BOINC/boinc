@@ -112,7 +112,7 @@ int VBOX_VM::initialize() {
     //
     char *p = getenv("VBOX_USER_HOME");
     if (p) {
-        virtualbox_home_directory = p;
+        virtualbox_profile_directory = p;
     } else {
 #ifdef _WIN32
         // Default vbox profile is located in '%USERPROFILE%\.VirtualBox'.
@@ -123,8 +123,8 @@ int VBOX_VM::initialize() {
         string vbox_profile_dir = getenv("USERPROFILE");
 
         if (vbox_profile_dir.size()) {
-            virtualbox_home_directory  = vbox_profile_dir;
-            virtualbox_home_directory += "/.VirtualBox";
+            virtualbox_profile_directory  = vbox_profile_dir;
+            virtualbox_profile_directory += "/.VirtualBox";
 
             // If necessary VirtualBox automatically creates required dirs
             // at the default locations.
@@ -132,12 +132,12 @@ int VBOX_VM::initialize() {
         } else {
             // If '%USERPROFILE%' is not set.
             //
-            virtualbox_home_directory = aid.boinc_dir;
-            virtualbox_home_directory += "/projects/VirtualBox";
+            virtualbox_profile_directory  = aid.boinc_dir;
+            virtualbox_profile_directory += "/projects/VirtualBox";
 
             // create if not there already
             //
-            boinc_mkdir(virtualbox_home_directory.c_str());
+            boinc_mkdir(virtualbox_profile_directory.c_str());
         }
 #else
 #ifdef __APPLE__
@@ -150,12 +150,12 @@ int VBOX_VM::initialize() {
         // 2) we can't put it in the BOINC data dir.
         //  boinc_projects can't write their either
         //
-        virtualbox_home_directory  = aid.boinc_dir;
-        virtualbox_home_directory += "/projects/VirtualBox";
+        virtualbox_profile_directory  = aid.boinc_dir;
+        virtualbox_profile_directory += "/projects/VirtualBox";
 
         // create if not there already
         //
-        boinc_mkdir(virtualbox_home_directory.c_str());
+        boinc_mkdir(virtualbox_profile_directory.c_str());
 #else
         // Default vbox profile is located in '/home/user/.config/VirtualBox'.
         // Check for '/home/user/.config' instead, since the vbox profile dir
@@ -168,33 +168,33 @@ int VBOX_VM::initialize() {
         vbox_profile_dir += "/.config";
 
         if (is_dir(vbox_profile_dir.c_str())) {
-            virtualbox_home_directory  = vbox_profile_dir;
-            virtualbox_home_directory += "/VirtualBox";
+            virtualbox_profile_directory  = vbox_profile_dir;
+            virtualbox_profile_directory += "/VirtualBox";
 
             // If necessary VirtualBox automatically creates required dirs
             // at the default locations.
             //
         } else {
-            // If BOINC runs as a service without a home directory.
+            // If BOINC runs as a service without a user's home directory.
             //
-            virtualbox_home_directory = aid.boinc_dir;
-            virtualbox_home_directory += "/projects/VirtualBox";
+            virtualbox_profile_directory  = aid.boinc_dir;
+            virtualbox_profile_directory += "/projects/VirtualBox";
 
             // create if not there already
             //
-            boinc_mkdir(virtualbox_home_directory.c_str());
+            boinc_mkdir(virtualbox_profile_directory.c_str());
         }
 #endif
 #endif
 
         // set env var telling VBox where to put log file
 #ifdef _WIN32
-        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()))) {
+        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_profile_directory.c_str()))) {
             vboxlog_msg("Failed to modify the search path.");
         }
 #else
         // putenv does not copy its input buffer, so we must use setenv
-        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
+        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_profile_directory.c_str()), 1)) {
             vboxlog_msg("Failed to modify the VBOX_USER_HOME path.");
         }
 #endif

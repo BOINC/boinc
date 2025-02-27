@@ -74,7 +74,7 @@ static bool is_timestamp_newer(VBOX_TIMESTAMP& t1, VBOX_TIMESTAMP& t2) {
 
 VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     VBOX_JOB::clear();
-    virtualbox_home_directory.clear();
+    virtualbox_profile_directory.clear();
     virtualbox_scratch_directory.clear();
     virtualbox_install_directory.clear();
     virtualbox_guest_additions.clear();
@@ -605,7 +605,7 @@ int VBOX_BASE::get_system_log(
     int retval = BOINC_SUCCESS;
 
     // Locate and read log file
-    virtualbox_system_log = virtualbox_home_directory + "/VBoxSVC.log";
+    virtualbox_system_log = virtualbox_profile_directory + "/VBoxSVC.log";
 
     if (boinc_file_exists(virtualbox_system_log.c_str())) {
         if (tail_only) {
@@ -862,7 +862,7 @@ int VBOX_BASE::launch_vboxsvc() {
                     TRUE,
                     CREATE_NO_WINDOW,
                     NULL,
-                    (LPTSTR)virtualbox_home_directory.c_str(),
+                    (LPTSTR)virtualbox_profile_directory.c_str(),
                     &si,
                     &pi
                 );
@@ -879,7 +879,7 @@ int VBOX_BASE::launch_vboxsvc() {
 #ifdef _DEBUG
                     vboxlog_msg("Vbox Version: '%s'", virtualbox_version_raw.c_str());
                     vboxlog_msg("Vbox Install Directory: '%s'", virtualbox_install_directory.c_str());
-                    vboxlog_msg("Vbox Home Directory: '%s'", virtualbox_home_directory.c_str());
+                    vboxlog_msg("Vbox Profile Directory: '%s'", virtualbox_profile_directory.c_str());
 #endif
                 }
 
