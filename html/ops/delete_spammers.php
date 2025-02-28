@@ -88,9 +88,12 @@
 // --forums
 //   delete accounts that
 //   - have no hosts
-//   - have message-board posts
-//   - don't belong to a team (to avoid deleting BOINC-wide team owners)
-//   Use this for spammers who create accounts and post spam
+//   - have message-board posts containing links or URLs
+//   - don't belong to a team (avoid deleting BOINC-wide team owners)
+//   Use this for spammers who create accounts and post spam.
+//   Don't use this for non-computing projects (like BOINC message boards).
+//   In fact, don't use this in general:
+//   it will delete users who join to participate in forums.
 //
 // --profiles_strict
 //  delete accounts that have a profile and no message-board posts.
@@ -177,8 +180,17 @@ function has_link($x) {
     return false;
 }
 
+// delete users with
+// - no hosts
+// - no team
+// - posts contain links and/or URLs
+//
 function delete_forums() {
     global $min_days, $max_days;
+
+    // if they've posted, they'll have forum prefs.
+    // This is faster than enumerating all users
+    //
     $prefs = BoincForumPrefs::enum("posts>0");
     $n = 0;
     foreach ($prefs as $p) {
@@ -198,6 +210,9 @@ function delete_forums() {
         }
         $h = BoincHost::count("userid=$p->userid");
         if ($h) continue;
+
+        $n = BoincPost::count("user=$user->id and (content like '%<a %' or content like '%[url%' or content like '%http://%' or content like '%https://%')");
+        if (!$n) continue;
         do_delete_user($user);
         $n++;
     }
