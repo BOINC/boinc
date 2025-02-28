@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -79,16 +79,6 @@ mingw_apps_vcpkg_list = [
     './samples/sporadic/sporadic.exe',
     './samples/wsl_wrapper/wsl_wrapper.exe',
     './samples/docker_wrapper/docker_wrapper.exe',
-]
-
-android_manager_generic_list = [
-    './android/BOINC/app/build/outputs/apk/debug/app-debug.apk',
-    './android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk'
-]
-
-android_manager_armv6_list = [
-    './android/BOINC/app/build/outputs/apk/armv6_debug/app-armv6_debug.apk',
-    './android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk'
 ]
 
 android_apps_list = [
@@ -240,10 +230,6 @@ wasm_client_debug_folder_list = [
     'client/boinc_client.wasm',
 ]
 
-snap_list = [
-    './boinc_*.snap',
-]
-
 macos_manager_list = [
     'mac_build/build/Deployment/AddRemoveUser',
     'mac_build/build/Deployment/BOINC\ Installer.app',
@@ -355,19 +341,8 @@ def prepare_win_apps_mingw(target_directory):
 def prepare_win_apps_mingw_vcpkg(target_directory):
     prepare_7z_archive('win_apps-mingw-vcpkg', target_directory, mingw_apps_vcpkg_list)
 
-def prepare_android_manager(target_directory):
-    prepare_7z_archive('android_manager', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager_armv6', target_directory, android_manager_armv6_list)
-
-def prepare_android_manager_vcpkg(target_directory):
-    prepare_7z_archive('android_manager-vcpkg', target_directory, android_manager_generic_list)
-    prepare_7z_archive('android_manager-vcpkg_armv6', target_directory, android_manager_armv6_list)
-
 def prepare_android_apps(target_directory):
     prepare_7z_archive('android_apps', target_directory, android_apps_list)
-
-def prepare_android_apps_vcpkg(target_directory):
-    prepare_7z_archive('android_apps-vcpkg', target_directory, android_apps_list)
 
 def prepare_win_apps(target_directory):
     prepare_7z_archive('win_apps', target_directory, windows_apps_list)
@@ -386,9 +361,6 @@ def prepare_wasm_client(target_directory):
 
 def prepare_wasm_client_debug(target_directory):
     prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
-
-def prepare_linux_snap(target_directory):
-    prepare_7z_archive('linux_snap', target_directory, snap_list)
 
 def prepare_macos_apps(target_directory):
     prepare_7z_archive('macos_manager', target_directory, macos_manager_list)
@@ -414,17 +386,13 @@ boinc_types = {
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
     'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
-    'android_manager': prepare_android_manager,
-    'android_manager-vcpkg': prepare_android_manager_vcpkg,
     'android_apps': prepare_android_apps,
-    'android_apps-vcpkg': prepare_android_apps_vcpkg,
     'win_apps': prepare_win_apps,
     'win_client': prepare_win_client,
     'win_manager': prepare_win_manager,
     'win_installer': prepare_win_installer,
     'wasm_client': prepare_wasm_client,
     'wasm_client-debug': prepare_wasm_client_debug,
-    'linux_snap': prepare_linux_snap,
     'macos_manager': prepare_macos_apps,
     'macos_samples-makefile': prepare_macos_makefile_apps,
     'logs': prepare_logs,
