@@ -163,7 +163,6 @@ struct VBOX_BASE : VBOX_JOB {
     std::streamoff log_pointer;
 
     int vm_pid;
-    int vboxsvc_pid;
 #ifdef _WIN32
     // the handle to the process for the VM
     // NOTE: we get a handle to the pid right after we parse it from the
@@ -172,9 +171,6 @@ struct VBOX_BASE : VBOX_JOB {
     //   handle to the process, the OS is free to reuse the pid for some other
     //   executable.
     HANDLE vm_pid_handle;
-
-    // the handle to the vboxsvc process created by us in the sandbox'ed environment
-    HANDLE vboxsvc_pid_handle;
 #endif
 
     void dump_vmguestlog_entries();

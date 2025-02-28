@@ -107,11 +107,9 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     headless = true;
     log_pointer = 0;
     vm_pid = 0;
-    vboxsvc_pid = 0;
 
 #ifdef _WIN32
     vm_pid_handle = 0;
-    vboxsvc_pid_handle = 0;
 #endif
 }
 
@@ -125,10 +123,6 @@ VBOX_BASE::~VBOX_BASE() {
     if (vm_pid_handle) {
         CloseHandle(vm_pid_handle);
         vm_pid_handle = NULL;
-    }
-    if (vboxsvc_pid_handle) {
-        CloseHandle(vboxsvc_pid_handle);
-        vboxsvc_pid_handle = NULL;
     }
 #endif
 }

@@ -1131,9 +1131,6 @@ int VBOX_VM::poll(bool log_state) {
     // Is our environment still sane?
     //
 #ifdef _WIN32
-    if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
-        vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
-    }
     if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
         vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
     }
@@ -1258,9 +1255,6 @@ int VBOX_VM::poll2(bool log_state) {
     // Is our environment still sane?
     //
 #ifdef _WIN32
-    if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
-        vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
-    }
     if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
         vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
     }
