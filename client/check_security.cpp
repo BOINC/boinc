@@ -163,8 +163,11 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
 #ifdef __APPLE__
     char DataDirPath[MAXPATHLEN];
+#ifdef _MAC_INSTALLER
+    strlcpy(DataDirPath, dataPath, sizeof(dir_path));  // Installer
+#else
     getcwd(DataDirPath, sizeof(DataDirPath));
-
+#endif
     snprintf(full_path, sizeof(full_path),
         "%s/%s", DataDirPath, FIX_BOINC_USERS_FILENAME
     );

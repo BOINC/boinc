@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -218,6 +218,14 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
             if (([bundleID compare:@"com.apple.dock"] != NSOrderedSame)
                     && ([bundleID compare:@"edu.berkeley.boinc"] != NSOrderedSame)) {
                 s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+                if ([ NSApp isHidden ]) {
+                // If Manager was hidden and was shut down by system when user last logged
+                // out, MacOS's "Reopen windows when logging in" functionality may relaunch
+                // us visible before our LaunchAgent launches us with the "autostart" arg.
+                // Set the WasShutDownBySystem in our configuraiton file to tell us to
+                // treat this as an autostart and launch hidden.
+                    wxGetApp().SetBOINCMGRWasShutDownBySystem(1);
+                }
                 // The following may no longer be needed under wxCocoa-3.0.0
                 wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
             }

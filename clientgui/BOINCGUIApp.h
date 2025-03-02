@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -123,6 +123,7 @@ protected:
     int                 m_iDisplayAnotherInstanceRunningDialog;
 #ifdef __WXMAC__
     int                 m_iHideMenuBarIcon;
+    int                 m_iWasShutDownBySystem;
 #endif
 
     bool                m_bGUIVisible;
@@ -202,6 +203,8 @@ public:
                                                     { return m_iHideMenuBarIcon; }
     void                SetBOINCMGRHideMenuBarIcon(int iHideMenuBarIcon)
                                                     { m_iHideMenuBarIcon = iHideMenuBarIcon; }
+    void                 SetBOINCMGRWasShutDownBySystem(int val)
+                                                    { m_iWasShutDownBySystem = val; }
 #endif
 
     bool                GetRunDaemon()
