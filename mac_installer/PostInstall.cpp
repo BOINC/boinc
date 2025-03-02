@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -61,7 +61,7 @@
 #if VERBOSE_TEST
 #define CREATE_LOG 1    /* for debugging */
 #else
-#define CREATE_LOG 0    /* for debugging */
+#define CREATE_LOG 1    /* for debugging */
 #endif
 
 #define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
@@ -693,12 +693,14 @@ int DeleteReceipt()
                 // Launch Manager hidden (in background, without opening windows)
                 sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\" --args -s'", pw->pw_name, appPath[brandID]);
                 err = callPosixSpawn(s);
-                printf("command: %s returned error %d\n", s, err);
-                fflush(stdout);
+                if (err) {
+                    REPORT_ERROR(true);
+                    printf("command: %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
            }
         }
     }
-
     return 0;
 }
 
@@ -1833,7 +1835,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
             if (compareOSVersionTo(13, 0) >= 0) {
                 deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
-                snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\"", brandName[brandID]);
+                // The -i argument tells BOINC_Finish_Install not to "Launchctl load" our
+                // LaunchAgent, because doing that launches the Mamager immediately (before
+                // we can finish setting things up) and the Mamager starts incorrectly,
+                // especially causing problems if starting in SimpleView.
+               snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" --args -i", brandName[brandID]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
                 if (err) {
