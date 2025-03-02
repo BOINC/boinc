@@ -75,7 +75,7 @@ jobs:
           ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
         with:
           path: |
             3rdParty/buildCache
@@ -214,7 +214,7 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.type == 'unit-test'
-        uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3
+        uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 

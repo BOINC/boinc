@@ -45,7 +45,7 @@ jobs:
           echo "PR_REQUIRED=$?" >> $GITHUB_ENV
       - name: Create PR
         if: ${{ success() &&  env.PR_REQUIRED == 1 }}
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        uses: peter-evans/create-pull-request@dd2324fc52d5d43c699a5636bcf19fceaa70c284
         with:
           commit-message: Update all_projects_list.xml
           title: Update all_projects_list.xml
