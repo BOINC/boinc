@@ -508,7 +508,7 @@ int main(int argc, char** argv) {
     } else {
         project_dir_path = aid.project_dir;
     }
-    getcwd(path, sizeof(path));
+    boinc_getcwd(path);
     slot_dir_path = path;
 
     vboxlog_msg("BOINC client version: %d.%d.%d",
