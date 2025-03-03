@@ -1318,6 +1318,7 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL,
             "%s failed: %s\n", buf, boincerror(retval)
         );
+        boinc_db.close();
         exit(retval);
     }
 
@@ -1347,6 +1348,7 @@ int main(int argc, char** argv) {
         retval = system(buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "Can't rename old stats\n");
+            boinc_db.close();
             exit(1);
         }
     }
@@ -1354,7 +1356,9 @@ int main(int argc, char** argv) {
     retval = system(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "Can't rename new stats\n");
+        boinc_db.close();
         exit(1);
     }
     log_messages.printf(MSG_NORMAL, "db_dump finished\n");
+    boinc_db.close();
 }
