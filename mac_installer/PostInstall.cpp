@@ -61,7 +61,7 @@
 #if VERBOSE_TEST
 #define CREATE_LOG 1    /* for debugging */
 #else
-#define CREATE_LOG 1    /* for debugging */
+#define CREATE_LOG 0    /* for debugging */
 #endif
 
 #define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
@@ -1837,7 +1837,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
                 // The -i argument tells BOINC_Finish_Install not to "Launchctl load" our
                 // LaunchAgent, because doing that launches the Mamager immediately (before
-                // we can finish setting things up) and the Mamager starts incorrectly,
+                // we can finish setting things up) and the Manager starts incorrectly,
                 // especially causing problems if starting in SimpleView.
                snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" --args -i", brandName[brandID]);
                 err = callPosixSpawn(s);
