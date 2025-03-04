@@ -50,7 +50,6 @@
 #include "ViewProjects.h"
 #include "ViewWork.h"
 #include "ViewTransfers.h"
-#include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
@@ -1567,6 +1566,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     if (IsShown()) {
         CMainDocument*  pDoc = wxGetApp().GetDocument();
         CBOINCBaseView* pView = NULL;
+        wxTimerEvent    timerEvent;
         wxString        strTabTitle = wxEmptyString;
         int             iCount = 0;
         static int      iLastCount = 0;
@@ -1996,6 +1996,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
     long bottomItem;
+    wxTimerEvent    timerEvent;
     int currentPage = _GetCurrentViewPage();
 
     StopTimers();

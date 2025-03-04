@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -149,6 +149,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iDisplayAnotherInstanceRunningDialog = 1;
 #ifdef __WXMAC__
     m_iHideMenuBarIcon = 0;
+    m_iWasShutDownBySystemWhileHidden = 0;
 #endif
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
@@ -232,6 +233,18 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("DisplayAnotherInstanceRunningDialog"), &m_iDisplayAnotherInstanceRunningDialog, 1L);
 #ifdef __WXMAC__
     m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
+    m_pConfig->Read(wxT("WasShutDownBySystemWhileHidden"), &m_iWasShutDownBySystemWhileHidden, 0L);
+    // If Manager was hidden and was shut down by system when user last logged
+    // out, MacOS's "Reopen windows when logging in" functionality may relaunch
+    // us visible before our LaunchAgent launches us with the "autostart" arg.
+    // QuitAppleEventHandler() set m_iWasShutDownBySystemWhileHidden to 1, causing
+    // CBOINCGUIApp::SaveState to set WasShutDownBySystemWhileHidden in our
+    // configuration file to tell us to treat this as an autostart and launch hidden.
+    if (m_iWasShutDownBySystemWhileHidden) {
+        m_iWasShutDownBySystemWhileHidden = 0;
+        m_bBOINCMGRAutoStarted = true;
+        m_bGUIVisible = false;
+    }
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
@@ -490,6 +503,10 @@ bool CBOINCGUIApp::OnInit() {
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
+#ifdef __WXMAC__
+        // Hack to work around an issue with the Mac Installer
+        if (m_bBOINCMGRAutoStarted) return false;
+#endif
         if (GetBOINCMGRDisplayAnotherInstanceRunningMessage()) {
             wxString appName = m_pSkinManager->GetAdvanced()->GetApplicationName();
             wxString message;
@@ -686,6 +703,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("DisplayAnotherInstanceRunningDialog"), m_iDisplayAnotherInstanceRunningDialog);
 #ifdef __WXMAC__
     m_pConfig->Write(wxT("HideMenuBarIcon"), m_iHideMenuBarIcon);
+    m_pConfig->Write(wxT("WasShutDownBySystemWhileHidden"), m_iWasShutDownBySystemWhileHidden);
 #endif
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
@@ -1104,7 +1122,6 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     m_bProcessingActivateAppEvent = true;
-
 
 #ifndef __WXMSW__  // On Win, the following raises the wrong window
     if (event.GetActive())

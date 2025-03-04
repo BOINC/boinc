@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -597,12 +597,14 @@ int DeleteReceipt()
     long                    brandID = 0;
     int                     i;
     pid_t                   installerPID = 0;
+    pid_t                   coreClientPID = 0;
     OSStatus                err;
     Boolean                 restartNeeded = true;
     char                    s[MAXPATHLEN];
     struct stat             sbuf;
     passwd                  *pw;
     Boolean                 launchForThisUser;
+    Boolean                 loginUserMayRunManager = true;
 
     if (Initialize() != noErr) {
         REPORT_ERROR(true);
@@ -618,11 +620,13 @@ int DeleteReceipt()
     strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
     brandID = GetBrandID(s);
 
+#if 0   // Rceipts are no longer stored in this location
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
     err = callPosixSpawn (s);
     REPORT_ERROR(err);
+#endif
 
     if (!restartNeeded) {
         // If system is set up to run BOINC Client as a daemon using launchd, launch it
@@ -640,7 +644,7 @@ int DeleteReceipt()
         if (pw) {
             Boolean isBMGroupMember = IsUserMemberOfGroup(pw->pw_name, boinc_master_group_name);
             if (!isBMGroupMember){
-                return 0;   // Current user is not authorized to run BOINC Manager
+                loginUserMayRunManager = false;   // Current user is not authorized to run BOINC Manager
             }
         }
 #endif
@@ -656,20 +660,27 @@ int DeleteReceipt()
             }
         }
 
-        CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
-                                                    kCFStringEncodingUTF8);
-        if (CFAppPath) {
-            // urlref = CFURLCreateWithFileSystemPath(NULL, "/Applications/GridRepublic Desktop.app", kCFURLPOSIXPathStyle, true);
-            CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFAppPath, kCFURLPOSIXPathStyle, true);
-            if (urlref) {
-                err = LSOpenCFURLRef(urlref, NULL);
-                REPORT_ERROR(err);
-                CFRelease(urlref);
-                CFRelease(CFAppPath);
+        if (loginUserMayRunManager) {
+            CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
+                                                        kCFStringEncodingUTF8);
+            if (CFAppPath) {
+                // urlref = CFURLCreateWithFileSystemPath(NULL, "/Applications/GridRepublic Desktop.app", kCFURLPOSIXPathStyle, true);
+                CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFAppPath, kCFURLPOSIXPathStyle, true);
+                if (urlref) {
+                    err = LSOpenCFURLRef(urlref, NULL);
+                    REPORT_ERROR(err);
+                    CFRelease(urlref);
+                    CFRelease(CFAppPath);
+                }
+            }
+
+            // Wait up to 10 seconds for current user's Manager to launch client
+            for (i=0; i<100; ++i) {
+                coreClientPID = FindProcessPID("boinc", 0);
+                if (coreClientPID) break;
+                boinc_sleep(0.1);    // Allow time for current user's Manager to launch client'
             }
         }
-
-        boinc_sleep(10);    // Allow time for current user's Manager to launch client'
 
         FindAllVisibleUsers();
 
@@ -678,7 +689,9 @@ int DeleteReceipt()
             if (pw == NULL) {
                 continue;
             }
-            if (strcmp(loginName, pw->pw_name) == 0) continue;
+            if (strcmp(loginName, pw->pw_name) == 0) {
+                continue; // We've already launched for logged in user
+            }
 #ifdef SANDBOX
             launchForThisUser = false;
             if (IsUserLoggedIn(pw->pw_name)) {
@@ -693,12 +706,14 @@ int DeleteReceipt()
                 // Launch Manager hidden (in background, without opening windows)
                 sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\" --args -s'", pw->pw_name, appPath[brandID]);
                 err = callPosixSpawn(s);
-                printf("command: %s returned error %d\n", s, err);
-                fflush(stdout);
+                if (err) {
+                    REPORT_ERROR(true);
+                    printf("command: %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
            }
         }
     }
-
     return 0;
 }
 
@@ -1833,7 +1848,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
             if (compareOSVersionTo(13, 0) >= 0) {
                 deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
-                snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\"", brandName[brandID]);
+                // The -i argument tells BOINC_Finish_Install not to "Launchctl load" our
+                // LaunchAgent, because doing that launches the Mamager immediately (before
+                // we can finish setting things up) and the Manager starts incorrectly,
+                // especially causing problems if starting in SimpleView.
+               snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" --args -i", brandName[brandID]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
                 if (err) {
