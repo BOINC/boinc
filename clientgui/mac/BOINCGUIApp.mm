@@ -191,7 +191,6 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     return false;
 }
 
-
 extern bool s_bSkipExitConfirmation;
 
 // Set s_bSkipExitConfirmation to true if cancelled because of logging out or shutting down
@@ -205,7 +204,6 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
     // Refuse to quit if a modal dialog is open.
     // Unfortunately, I know of no way to disable the Quit item in our Dock menu
     if (wxGetApp().IsModalDialogDisplayed()) {
-        NSBeep();
         return userCanceledErr;
     }
 
@@ -224,7 +222,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
                 // us visible before our LaunchAgent launches us with the "autostart" arg.
                 // Set the WasShutDownBySystem in our configuraiton file to tell us to
                 // treat this as an autostart and launch hidden.
-                    wxGetApp().SetBOINCMGRWasShutDownBySystem(1);
+                    wxGetApp().SetBOINCMGRWasShutDownBySystemWhileHidden(1);
                 }
                 // The following may no longer be needed under wxCocoa-3.0.0
                 wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames

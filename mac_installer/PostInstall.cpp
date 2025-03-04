@@ -597,12 +597,14 @@ int DeleteReceipt()
     long                    brandID = 0;
     int                     i;
     pid_t                   installerPID = 0;
+    pid_t                   coreClientPID = 0;
     OSStatus                err;
     Boolean                 restartNeeded = true;
     char                    s[MAXPATHLEN];
     struct stat             sbuf;
     passwd                  *pw;
     Boolean                 launchForThisUser;
+    Boolean                 loginUserMayRunManager = true;
 
     if (Initialize() != noErr) {
         REPORT_ERROR(true);
@@ -618,11 +620,13 @@ int DeleteReceipt()
     strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
     brandID = GetBrandID(s);
 
+#if 0   // Rceipts are no longer stored in this location
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
     err = callPosixSpawn (s);
     REPORT_ERROR(err);
+#endif
 
     if (!restartNeeded) {
         // If system is set up to run BOINC Client as a daemon using launchd, launch it
@@ -640,7 +644,7 @@ int DeleteReceipt()
         if (pw) {
             Boolean isBMGroupMember = IsUserMemberOfGroup(pw->pw_name, boinc_master_group_name);
             if (!isBMGroupMember){
-                return 0;   // Current user is not authorized to run BOINC Manager
+                loginUserMayRunManager = false;   // Current user is not authorized to run BOINC Manager
             }
         }
 #endif
@@ -656,20 +660,27 @@ int DeleteReceipt()
             }
         }
 
-        CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
-                                                    kCFStringEncodingUTF8);
-        if (CFAppPath) {
-            // urlref = CFURLCreateWithFileSystemPath(NULL, "/Applications/GridRepublic Desktop.app", kCFURLPOSIXPathStyle, true);
-            CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFAppPath, kCFURLPOSIXPathStyle, true);
-            if (urlref) {
-                err = LSOpenCFURLRef(urlref, NULL);
-                REPORT_ERROR(err);
-                CFRelease(urlref);
-                CFRelease(CFAppPath);
+        if (loginUserMayRunManager) {
+            CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
+                                                        kCFStringEncodingUTF8);
+            if (CFAppPath) {
+                // urlref = CFURLCreateWithFileSystemPath(NULL, "/Applications/GridRepublic Desktop.app", kCFURLPOSIXPathStyle, true);
+                CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFAppPath, kCFURLPOSIXPathStyle, true);
+                if (urlref) {
+                    err = LSOpenCFURLRef(urlref, NULL);
+                    REPORT_ERROR(err);
+                    CFRelease(urlref);
+                    CFRelease(CFAppPath);
+                }
+            }
+
+            // Wait up to 10 seconds for current user's Manager to launch client
+            for (i=0; i<100; ++i) {
+                coreClientPID = FindProcessPID("boinc", 0);
+                if (coreClientPID) break;
+                boinc_sleep(0.1);    // Allow time for current user's Manager to launch client'
             }
         }
-
-        boinc_sleep(10);    // Allow time for current user's Manager to launch client'
 
         FindAllVisibleUsers();
 
@@ -678,7 +689,9 @@ int DeleteReceipt()
             if (pw == NULL) {
                 continue;
             }
-            if (strcmp(loginName, pw->pw_name) == 0) continue;
+            if (strcmp(loginName, pw->pw_name) == 0) {
+                continue; // We've already launched for logged in user
+            }
 #ifdef SANDBOX
             launchForThisUser = false;
             if (IsUserLoggedIn(pw->pw_name)) {

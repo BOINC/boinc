@@ -123,7 +123,7 @@ protected:
     int                 m_iDisplayAnotherInstanceRunningDialog;
 #ifdef __WXMAC__
     int                 m_iHideMenuBarIcon;
-    int                 m_iWasShutDownBySystem;
+    int                 m_iWasShutDownBySystemWhileHidden;
 #endif
 
     bool                m_bGUIVisible;
@@ -203,8 +203,8 @@ public:
                                                     { return m_iHideMenuBarIcon; }
     void                SetBOINCMGRHideMenuBarIcon(int iHideMenuBarIcon)
                                                     { m_iHideMenuBarIcon = iHideMenuBarIcon; }
-    void                 SetBOINCMGRWasShutDownBySystem(int val)
-                                                    { m_iWasShutDownBySystem = val; }
+    void                 SetBOINCMGRWasShutDownBySystemWhileHidden(int val)
+                                                    { m_iWasShutDownBySystemWhileHidden = val; }
 #endif
 
     bool                GetRunDaemon()

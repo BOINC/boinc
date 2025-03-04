@@ -149,7 +149,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iDisplayAnotherInstanceRunningDialog = 1;
 #ifdef __WXMAC__
     m_iHideMenuBarIcon = 0;
-    m_iWasShutDownBySystem = 0;
+    m_iWasShutDownBySystemWhileHidden = 0;
 #endif
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
@@ -233,15 +233,15 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("DisplayAnotherInstanceRunningDialog"), &m_iDisplayAnotherInstanceRunningDialog, 1L);
 #ifdef __WXMAC__
     m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
-    m_pConfig->Read(wxT("WasShutDownBySystem"), &m_iWasShutDownBySystem, 0L);
+    m_pConfig->Read(wxT("WasShutDownBySystemWhileHidden"), &m_iWasShutDownBySystemWhileHidden, 0L);
     // If Manager was hidden and was shut down by system when user last logged
     // out, MacOS's "Reopen windows when logging in" functionality may relaunch
     // us visible before our LaunchAgent launches us with the "autostart" arg.
-    // QuitAppleEventHandler() set m_iWasShutDownBySystem to 1, causing
-    // CBOINCGUIApp::SaveState to set WasShutDownBySystem in our configuraiton
-    // file to tell us to treat this as an autostart and launch hidden.
-    if (m_iWasShutDownBySystem) {
-        m_iWasShutDownBySystem = 0;
+    // QuitAppleEventHandler() set m_iWasShutDownBySystemWhileHidden to 1, causing
+    // CBOINCGUIApp::SaveState to set WasShutDownBySystemWhileHidden in our
+    // configuration file to tell us to treat this as an autostart and launch hidden.
+    if (m_iWasShutDownBySystemWhileHidden) {
+        m_iWasShutDownBySystemWhileHidden = 0;
         m_bBOINCMGRAutoStarted = true;
         m_bGUIVisible = false;
     }
@@ -703,7 +703,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("DisplayAnotherInstanceRunningDialog"), m_iDisplayAnotherInstanceRunningDialog);
 #ifdef __WXMAC__
     m_pConfig->Write(wxT("HideMenuBarIcon"), m_iHideMenuBarIcon);
-    m_pConfig->Write(wxT("WasShutDownBySystem"), m_iWasShutDownBySystem);
+    m_pConfig->Write(wxT("WasShutDownBySystemWhileHidden"), m_iWasShutDownBySystemWhileHidden);
 #endif
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
