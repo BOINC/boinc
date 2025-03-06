@@ -119,8 +119,6 @@ struct VBOX_JOB {
         // use floppy io infrastructure
     bool enable_remotedesktop;
         // enable remote desktop functionality
-    bool enable_gbac;
-        // enable GBAC functionality
     bool enable_graphics_support;
         // enable graphics support by way of
         // https://github.com/BOINC/boinc/wiki/GraphicsApi#File
