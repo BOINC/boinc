@@ -127,13 +127,25 @@ struct CONFIG {
     string image_name;
         // use this as the image name, and don't delete it when done.
         // For testing.
+    bool use_gpu;
+    vector<string> mounts;
+        // -v args in create container
+    vector<string> portmaps;
+        // -p args in create container
     void print() {
-        fprintf(stderr, "Wrapper config file:\n");
+        fprintf(stderr, "docker_wrapper config:\n");
         if (!workdir.empty()) {
             fprintf(stderr, "   workdir: %s\n", workdir.c_str());
         }
         if (!project_dir_mount.empty()) {
             fprintf(stderr, "   project dir mounted at: %s\n", project_dir_mount.c_str());
+        }
+        fprintf(stderr, "   use GPU: %s\n", use_gpu?"yes":"no");
+        for (string& s: mounts) {
+            fprintf(stderr, "   mount: %s\n", s.c_str());
+        }
+        for (string& s: portmaps) {
+            fprintf(stderr, "   portmap: %s\n", s.c_str());
         }
     }
 };
@@ -155,6 +167,7 @@ vector<string> app_args;
 int parse_config_file() {
     // defaults
     config.workdir = "/app";
+    config.use_gpu = false;
 
     std::ifstream ifs(config_file);
     if (ifs.fail()) {
@@ -168,17 +181,42 @@ int parse_config_file() {
     }
     const toml::Value &v = r.value;
     const toml::Value *x;
+
     x = v.find("workdir");
     if (x) {
         config.workdir = x->as<string>();
     }
+
     x = v.find("project_dir_mount");
     if (x) {
         config.project_dir_mount = x->as<string>();
     }
+
     x = v.find("image_name");
     if (x) {
         config.image_name = x->as<string>();
+    }
+
+    x = v.find("use_gpu");
+    if (x) {
+        config.use_gpu = x->as<bool>();
+    }
+
+    x = v.find("mount");
+    if (x) {
+        const toml::Array& ar = x->as<toml::Array>();
+        for (const toml::Value& val: ar) {
+            string s = val.as<string>();
+            config.mounts.push_back(s);
+        }
+    }
+    x = v.find("portmap");
+    if (x) {
+        const toml::Array& ar = x->as<toml::Array>();
+        for (const toml::Value& val: ar) {
+            string s = val.as<string>();
+            config.portmaps.push_back(s);
+        }
     }
     return 0;
 }
@@ -279,7 +317,7 @@ int container_exists(bool &exists) {
 
 int create_container() {
     char cmd[1024];
-    char slot_cmd[256], project_cmd[256];
+    char slot_cmd[256], project_cmd[256], buf[256];
     vector<string> out;
     int retval;
 
@@ -306,13 +344,36 @@ int create_container() {
         container_name,
         slot_cmd, project_cmd
     );
+
     // add command-line args
-    strcat(cmd, " -e ARGS=\"");
-    for (string arg: app_args) {
-        strcat(cmd, " ");
-        strcat(cmd, arg.c_str());
+    //
+    if (app_args.size()) {
+        strcat(cmd, " -e ARGS=\"");
+        for (string arg: app_args) {
+            strcat(cmd, " ");
+            strcat(cmd, arg.c_str());
+        }
+        strcat(cmd, "\"");
     }
-    strcat(cmd, "\" ");
+
+    // add mounts and portmaps
+    //
+    for (string s: config.mounts) {
+        sprintf(buf, " -v %s", s.c_str());
+        strcat(cmd, buf);
+    }
+    for (string s: config.portmaps) {
+        sprintf(buf, " -p %s", s.c_str());
+        strcat(cmd, buf);
+    }
+
+    // GPU access
+    //
+    if (config.use_gpu) {
+        strcat(cmd, " --gpus all");
+    }
+
+    strcat(cmd, " ");
     strcat(cmd, image_name);
     retval = docker_conn.command(cmd, out);
     if (retval) return retval;
