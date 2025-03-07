@@ -379,11 +379,10 @@ struct HOST {
     WSL_DISTROS wsl_distros;
 
     // Docker info (non-Win only)
-    bool docker_available;
-        // present and allowed by config
-    bool docker_compose_available;
     char docker_version[256];
+    int docker_type;
     char docker_compose_version[256];
+    int docker_compose_type;
 
     // stuff from time_stats
     double cpu_and_network_available_frac;
