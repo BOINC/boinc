@@ -1405,10 +1405,10 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_double("n_bwup", n_bwup)) continue;
         if (xp.parse_double("n_bwdown", n_bwdown)) continue;
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
-        if (xp.parse_bool("docker_available", docker_available)) continue;
-        if (xp.parse_bool("docker_compose_available", docker_compose_available)) continue;
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
+        if (xp.parse_int("docker_type", docker_type)) continue;
         if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
+        if (xp.parse_int("docker_compose_type", docker_compose_type)) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
         if (xp.match_tag("opencl_cpu_prop")) {
