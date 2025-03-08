@@ -280,11 +280,11 @@ public:
     void                HideThisApp(void);
     void                getDisplayNameForThisApp(char* pathBuf, size_t bufSize);
     void                SetActivationPolicyAccessory(bool hideDock);
+    void                CheckPartialActivation();
 
     // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
     // to run properly when launched hidden on login via Login Item.
     bool                CallOnInit();
-    void                CheckPartialActivation();
 #endif
 
 DECLARE_EVENT_TABLE()

@@ -649,7 +649,6 @@ int DeleteReceipt()
 #endif
 
         installerPID = getPidIfRunning("com.apple.installer");
-printf("installer PID = %d\n", installerPID);
         if (installerPID) {
            // Launch BOINC Manager when user closes installer or after 15 seconds
             for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit

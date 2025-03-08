@@ -52,11 +52,6 @@
 #include "sg_BoincSimpleFrame.h"
 #include "DlgGenericMessage.h"
 
-#ifdef __WXMAC__
-#define CREATE_LOG 0    /* for debugging */
-
-void print_to_log_file(const char *format, ...);
-#endif
 
 bool s_bSkipExitConfirmation = false;
 
@@ -107,6 +102,7 @@ bool CBOINCGUIApp::OnInit() {
 #else
     g_use_sandbox = false;
 #endif
+
     m_isDarkMode = false;
 #if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
@@ -322,6 +318,7 @@ bool CBOINCGUIApp::OnInit() {
         BOINC_DIAG_TRACETOSTDOUT;
 
     diagnostics_init(dwDiagnosticsFlags, "stdoutgui", "stderrgui");
+
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();
     wxLog::SetActiveTarget(m_pLog);
@@ -461,7 +458,6 @@ bool CBOINCGUIApp::OnInit() {
                                     );
 
         pDlg->ShowModal();
-printf("Returned from alert\n");
         if (pDlg)
             pDlg->Destroy();
 
@@ -1631,53 +1627,3 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
 
     return -1;
 }
-
-
-#ifdef __WXMAC__
-
-#if CREATE_LOG
-void strip_cr(char *buf)
-{
-    char *theCR;
-
-    theCR = strrchr(buf, '\n');
-    if (theCR)
-        *theCR = '\0';
-    theCR = strrchr(buf, '\r');
-    if (theCR)
-        *theCR = '\0';
-}
-#endif    // CREATE_LOG
-
-void print_to_log_file(const char *format, ...) {
-#if CREATE_LOG
-    va_list args;
-    char buf[256];
-    time_t t;
-    safe_strcpy(buf, getenv("HOME"));
-    safe_strcat(buf, "/Documents/test_log_manager.txt");
-    FILE *f;
-    f = fopen(buf, "a");
-    if (!f) return;
-
-    // File may be owned by various users, so make it world readable & writable
-    chmod(buf, 0666);
-
-    time(&t);
-    strlcpy(buf, asctime(localtime(&t)), sizeof(buf));
-
-    strip_cr(buf);
-
-    fputs(buf, f);
-    fputs("   ", f);
-
-    va_start(args, format);
-    vfprintf(f, format, args);
-    va_end(args);
-
-    fputs("\n", f);
-    fflush(f);
-    fclose(f);
-#endif
-}
-#endif

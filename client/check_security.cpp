@@ -153,8 +153,6 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if (useFakeProjectUserAndGroup) {
             boinc_master_uid = sbuf.st_uid;
             boinc_master_gid = sbuf.st_gid;
-        } else {
-
         }
 #ifdef __WXMAC__
     if (!IsUserInGroup(REAL_BOINC_MASTER_NAME))

@@ -124,9 +124,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     mainSizer->Add(m_pBackgroundPanel, 1, wxLEFT | wxRIGHT | wxEXPAND, 0);
     SetSizerAndFit(mainSizer);
     RestoreState();
-//    if (wxGetApp().getBOINCMGRAutoStarted()) {
-//        wxGetApp().ShowApplication(false);
-//    }
 }
 
 bool CSimpleFrame::CreateMenus() {
@@ -145,7 +142,7 @@ bool CSimpleFrame::CreateMenus() {
         pDoc->rpc.acct_mgr_info(ami);
         is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
     }
-//else return true;
+
     // File menu
     wxMenu *menuFile = new wxMenu;
 
@@ -386,9 +383,6 @@ bool CSimpleFrame::CreateMenus() {
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
-//    if (wxGetApp().getBOINCMGRAutoStarted()) {
-//        wxGetApp().ShowApplication(false);
-//    }
 
 #ifdef __WXGTK__
     // Force a redraw of the menu under Ubuntu's new interface
