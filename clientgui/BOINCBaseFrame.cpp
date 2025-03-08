@@ -169,7 +169,7 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
         wxGetApp().OnFinishInit();
     }
 
-    wxGetApp().CheckPartialActivation();
+//    wxGetApp().CheckPartialActivation();
 #endif
 
     if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {

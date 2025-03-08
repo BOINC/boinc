@@ -182,7 +182,7 @@ public:
                                                     { return m_iBOINCMGRDisableAutoStart; }
     void                SetBOINCMGRDisableAutoStart(int iDisableAutoStart)
                                                     { m_iBOINCMGRDisableAutoStart = iDisableAutoStart; }
-
+    bool                getBOINCMGRAutoStarted() { return m_bBOINCMGRAutoStarted; }
     int                 GetBOINCMGRDisplayExitMessage()
                                                     { return m_iDisplayExitDialog; }
     void                SetBOINCMGRDisplayExitMessage(int iDisplayExitMessage)
@@ -279,16 +279,11 @@ public:
     bool                WasFileModifiedBeforeSystemBoot(char * filePath);
     void                HideThisApp(void);
     void                getDisplayNameForThisApp(char* pathBuf, size_t bufSize);
-
-#if !wxCHECK_VERSION(3,0,1)
-// This should be fixed after wxCocoa 3.0.0:
-// http://trac.wxwidgets.org/ticket/16156
+    void                SetActivationPolicyAccessory(bool hideDock);
 
     // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
     // to run properly when launched hidden on login via Login Item.
     bool                CallOnInit();
-#endif
-
     void                CheckPartialActivation();
 #endif
 

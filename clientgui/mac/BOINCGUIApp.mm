@@ -22,10 +22,6 @@
 #include "BOINCBaseFrame.h"
 #import <Cocoa/Cocoa.h>
 
-#if !wxCHECK_VERSION(3,0,1)
-// This should be fixed after wxCocoa 3.0.0:
-// http://trac.wxwidgets.org/ticket/16156
-
 #ifndef NSEventTypeApplicationDefined
 #define NSEventTypeApplicationDefined NSApplicationDefined
 #endif
@@ -45,12 +41,11 @@ bool CBOINCGUIApp::CallOnInit() {
                                          subtype:0 data1:0 data2:0];
         [NSApp postEvent:event atStart:FALSE];
 
-    bool retVal = wxApp::CallOnInit();
+   bool retVal = wxApp::CallOnInit();
 
     [mypool release];
     return retVal;
 }
-#endif
 
 
 // Our application can get into a strange state
@@ -189,6 +184,21 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     }
 
     return false;
+}
+
+// Each time a second instance of BOINC Managr is launched, it normally
+// nadds an additional BOINC icon to the "recently run apps" section
+// of the Dock, cluttering it up. To avoid this, we set the LSUIElement
+// key in its info.plist, which prevents the app from appearing in the
+// Dock. But if this is not a duplicate instance, we call this routine
+// to tell the system to show the icon in the Dock.
+// https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
+void CBOINCGUIApp::SetActivationPolicyAccessory(bool hideDock) {
+    if (hideDock) {
+        [NSApp setActivationPolicy: NSApplicationActivationPolicyAccessory];
+    } else {
+        [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
+    }
 }
 
 extern bool s_bSkipExitConfirmation;

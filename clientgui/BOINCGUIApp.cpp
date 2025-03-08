@@ -52,6 +52,11 @@
 #include "sg_BoincSimpleFrame.h"
 #include "DlgGenericMessage.h"
 
+#ifdef __WXMAC__
+#define CREATE_LOG 0    /* for debugging */
+
+void print_to_log_file(const char *format, ...);
+#endif
 
 bool s_bSkipExitConfirmation = false;
 
@@ -102,7 +107,6 @@ bool CBOINCGUIApp::OnInit() {
 #else
     g_use_sandbox = false;
 #endif
-
     m_isDarkMode = false;
 #if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
@@ -318,7 +322,6 @@ bool CBOINCGUIApp::OnInit() {
         BOINC_DIAG_TRACETOSTDOUT;
 
     diagnostics_init(dwDiagnosticsFlags, "stdoutgui", "stderrgui");
-
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();
     wxLog::SetActiveTarget(m_pLog);
@@ -408,7 +411,6 @@ bool CBOINCGUIApp::OnInit() {
             g_use_sandbox, true, path_to_error, sizeof(path_to_error)
         );
     }
-
     if (iErrorCode) {
 
 #if (defined(__WXMAC__) && (!defined (_DEBUG)))
@@ -459,6 +461,7 @@ bool CBOINCGUIApp::OnInit() {
                                     );
 
         pDlg->ShowModal();
+printf("Returned from alert\n");
         if (pDlg)
             pDlg->Destroy();
 
@@ -504,6 +507,7 @@ bool CBOINCGUIApp::OnInit() {
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
 #ifdef __WXMAC__
+SetActivationPolicyAccessory(true);
         // Hack to work around an issue with the Mac Installer
         if (m_bBOINCMGRAutoStarted) return false;
 #endif
@@ -522,7 +526,16 @@ bool CBOINCGUIApp::OnInit() {
         }
         return false;
     }
-
+#ifdef __WXMAC__
+    // Each time a second instance of BOINC Managr is launched, it normally
+    // nadds an additional BOINC icon to the "recently run apps" section
+    // of the Dock, cluttering it up. To avoid this, we set the LSUIElement
+    // key in its info.plist, which prevents the app from appearing in the
+    // Dock. But if this is not a duplicate instance, we call this routine
+    // to tell the system to show the icon in the Dock.
+    // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
+    SetActivationPolicyAccessory(false);    // Show our Dock tile
+#endif
     // Initialize the main document
     m_pDocument = new CMainDocument();
     wxASSERT(m_pDocument);
@@ -1128,24 +1141,36 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #endif
     {
 #ifdef __WXMAC__
-        ShowInterface();
-#elif defined(__WXGTK__)
-        // Linux allows the Event Log to be brought forward and made active
-        // even if we have a modal dialog displayed (associated with our
-        // main frame.) This test is needed to allow bringing the modal
-        // dialog forward again by clicking on its title bar.
-        if (!IsModalDialogDisplayed())
-        {
-            bool keepEventLogInFront = m_bEventLogWasActive;
+        // When our LaunchAgent / login item launches us at login, it activates
+        // this app, but we want it hidden. So we immediatly hide it upon the
+        // first activation when run as a login item.
+        static bool first = true;
 
-            if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
-                m_pEventLog->Raise();
-            }
-            if (m_pFrame) {
-                m_pFrame->Raise();
-            }
-            if (m_pEventLog && !m_pEventLog->IsIconized() && keepEventLogInFront) {
-                m_pEventLog->Raise();
+        CMainDocument*      pDoc = wxGetApp().GetDocument();
+        if (m_bBOINCMGRAutoStarted && (!pDoc->IsConnected()) && first) {
+            first = false;
+            ShowApplication(false);
+        } else
+#endif
+#if (defined (__WXMAC__) || defined(__WXGTK__))
+        {
+           // Linux allows the Event Log to be brought forward and made active
+            // even if we have a modal dialog displayed (associated with our
+            // main frame.) This test is needed to allow bringing the modal
+            // dialog forward again by clicking on its title bar.
+            if (!IsModalDialogDisplayed())
+            {
+                bool keepEventLogInFront = m_bEventLogWasActive;
+
+                if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
+                    m_pEventLog->Raise();
+                }
+                if (m_pFrame) {
+                    m_pFrame->Raise();
+                }
+                if (m_pEventLog && !m_pEventLog->IsIconized() && keepEventLogInFront) {
+                    m_pEventLog->Raise();
+                }
             }
         }
 #endif
@@ -1553,6 +1578,7 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     return false;
 }
 
+
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     int theEventType;
@@ -1606,3 +1632,52 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     return -1;
 }
 
+
+#ifdef __WXMAC__
+
+#if CREATE_LOG
+void strip_cr(char *buf)
+{
+    char *theCR;
+
+    theCR = strrchr(buf, '\n');
+    if (theCR)
+        *theCR = '\0';
+    theCR = strrchr(buf, '\r');
+    if (theCR)
+        *theCR = '\0';
+}
+#endif    // CREATE_LOG
+
+void print_to_log_file(const char *format, ...) {
+#if CREATE_LOG
+    va_list args;
+    char buf[256];
+    time_t t;
+    safe_strcpy(buf, getenv("HOME"));
+    safe_strcat(buf, "/Documents/test_log_manager.txt");
+    FILE *f;
+    f = fopen(buf, "a");
+    if (!f) return;
+
+    // File may be owned by various users, so make it world readable & writable
+    chmod(buf, 0666);
+
+    time(&t);
+    strlcpy(buf, asctime(localtime(&t)), sizeof(buf));
+
+    strip_cr(buf);
+
+    fputs(buf, f);
+    fputs("   ", f);
+
+    va_start(args, format);
+    vfprintf(f, format, args);
+    va_end(args);
+
+    fputs("\n", f);
+    fflush(f);
+    fclose(f);
+#endif
+}
+#endif
