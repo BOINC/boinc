@@ -503,9 +503,14 @@ bool CBOINCGUIApp::OnInit() {
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
 #ifdef __WXMAC__
-SetActivationPolicyAccessory(true);
+        SetActivationPolicyAccessory(true);
         // Hack to work around an issue with the Mac Installer
         if (m_bBOINCMGRAutoStarted) return false;
+        // TODO: Should we also ignore duplicate instances that occur within
+        // TODO: a short time after login (detemined by getlastlogxbyname(),
+        // TODO: in case MacOS's "Reopen windows when logging in" functionality
+        // TODO: relaunched us after our LaunchAgent autostarted us?
+
 #endif
         if (GetBOINCMGRDisplayAnotherInstanceRunningMessage()) {
             wxString appName = m_pSkinManager->GetAdvanced()->GetApplicationName();
@@ -518,7 +523,6 @@ SetActivationPolicyAccessory(true);
             CDlgGenericMessage dlg(NULL, &params);
             dlg.ShowModal();
             SetBOINCMGRDisplayAnotherInstanceRunningMessage(!dlg.GetDisableMessageValue());
-            SaveState();
         }
         return false;
     }
