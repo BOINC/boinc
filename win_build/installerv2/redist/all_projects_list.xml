@@ -262,7 +262,6 @@
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-3]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-Beta-3]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-3]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-2]</name>
