@@ -199,7 +199,7 @@ function create_templates($variant, $variant_desc, $dir) {
     $x = "<input_template>\n";
     $ninfiles = 1 + count($variant_desc->input_file_names) + count($variant_desc->app_files);
     for ($i=0; $i<$ninfiles; $i++) {
-        $x .= "   <file_info>\n      <no_delete/>\n   </file_info>\n";
+        $x .= "   <file_info>\n      <no_delete/>\n      <executable/>\n   </file_info>\n";
     }
     $x .= "   <workunit>\n";
     $x .= file_ref_in($variant_desc->dockerfile);

@@ -89,6 +89,7 @@ void HOST_INFO::clear_host_info() {
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
+    int i;
     clear_host_info();
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
@@ -144,8 +145,15 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         }
 #else
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
+        if (xp.parse_int("docker_type", i)) {
+            docker_type = (DOCKER_TYPE)i;
+            continue;
+        }
         if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
-        if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
+        if (xp.parse_int("docker_compose_type", i)) {
+            docker_compose_type = (DOCKER_TYPE)i;
+            continue;
+        }
 #endif
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
