@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -149,6 +149,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iDisplayAnotherInstanceRunningDialog = 1;
 #ifdef __WXMAC__
     m_iHideMenuBarIcon = 0;
+    m_iWasShutDownBySystemWhileHidden = 0;
 #endif
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
@@ -232,6 +233,18 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("DisplayAnotherInstanceRunningDialog"), &m_iDisplayAnotherInstanceRunningDialog, 1L);
 #ifdef __WXMAC__
     m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
+    m_pConfig->Read(wxT("WasShutDownBySystemWhileHidden"), &m_iWasShutDownBySystemWhileHidden, 0L);
+    // If Manager was hidden and was shut down by system when user last logged
+    // out, MacOS's "Reopen windows when logging in" functionality may relaunch
+    // us visible before our LaunchAgent launches us with the "autostart" arg.
+    // QuitAppleEventHandler() set m_iWasShutDownBySystemWhileHidden to 1, causing
+    // CBOINCGUIApp::SaveState to set WasShutDownBySystemWhileHidden in our
+    // configuration file to tell us to treat this as an autostart and launch hidden.
+    if (m_iWasShutDownBySystemWhileHidden) {
+        m_iWasShutDownBySystemWhileHidden = 0;
+        m_bBOINCMGRAutoStarted = true;
+        m_bGUIVisible = false;
+    }
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
@@ -395,7 +408,6 @@ bool CBOINCGUIApp::OnInit() {
             g_use_sandbox, true, path_to_error, sizeof(path_to_error)
         );
     }
-
     if (iErrorCode) {
 
 #if (defined(__WXMAC__) && (!defined (_DEBUG)))
@@ -490,6 +502,16 @@ bool CBOINCGUIApp::OnInit() {
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
+#ifdef __WXMAC__
+        SetActivationPolicyAccessory(true);
+        // Hack to work around an issue with the Mac Installer
+        if (m_bBOINCMGRAutoStarted) return false;
+        // TODO: Should we also ignore duplicate instances that occur within
+        // TODO: a short time after login (detemined by getlastlogxbyname(),
+        // TODO: in case MacOS's "Reopen windows when logging in" functionality
+        // TODO: relaunched us after our LaunchAgent autostarted us?
+
+#endif
         if (GetBOINCMGRDisplayAnotherInstanceRunningMessage()) {
             wxString appName = m_pSkinManager->GetAdvanced()->GetApplicationName();
             wxString message;
@@ -501,11 +523,19 @@ bool CBOINCGUIApp::OnInit() {
             CDlgGenericMessage dlg(NULL, &params);
             dlg.ShowModal();
             SetBOINCMGRDisplayAnotherInstanceRunningMessage(!dlg.GetDisableMessageValue());
-            SaveState();
         }
         return false;
     }
-
+#ifdef __WXMAC__
+    // Each time a second instance of BOINC Managr is launched, it normally
+    // nadds an additional BOINC icon to the "recently run apps" section
+    // of the Dock, cluttering it up. To avoid this, we set the LSUIElement
+    // key in its info.plist, which prevents the app from appearing in the
+    // Dock. But if this is not a duplicate instance, we call this routine
+    // to tell the system to show the icon in the Dock.
+    // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
+    SetActivationPolicyAccessory(false);    // Show our Dock tile
+#endif
     // Initialize the main document
     m_pDocument = new CMainDocument();
     wxASSERT(m_pDocument);
@@ -686,6 +716,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("DisplayAnotherInstanceRunningDialog"), m_iDisplayAnotherInstanceRunningDialog);
 #ifdef __WXMAC__
     m_pConfig->Write(wxT("HideMenuBarIcon"), m_iHideMenuBarIcon);
+    m_pConfig->Write(wxT("WasShutDownBySystemWhileHidden"), m_iWasShutDownBySystemWhileHidden);
 #endif
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
@@ -1105,30 +1136,41 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     m_bProcessingActivateAppEvent = true;
 
-
 #ifndef __WXMSW__  // On Win, the following raises the wrong window
     if (event.GetActive())
 #endif
     {
 #ifdef __WXMAC__
-        ShowInterface();
-#elif defined(__WXGTK__)
-        // Linux allows the Event Log to be brought forward and made active
-        // even if we have a modal dialog displayed (associated with our
-        // main frame.) This test is needed to allow bringing the modal
-        // dialog forward again by clicking on its title bar.
-        if (!IsModalDialogDisplayed())
-        {
-            bool keepEventLogInFront = m_bEventLogWasActive;
+        // When our LaunchAgent / login item launches us at login, it activates
+        // this app, but we want it hidden. So we immediatly hide it upon the
+        // first activation when run as a login item.
+        static bool first = true;
 
-            if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
-                m_pEventLog->Raise();
-            }
-            if (m_pFrame) {
-                m_pFrame->Raise();
-            }
-            if (m_pEventLog && !m_pEventLog->IsIconized() && keepEventLogInFront) {
-                m_pEventLog->Raise();
+        CMainDocument*      pDoc = wxGetApp().GetDocument();
+        if (m_bBOINCMGRAutoStarted && (!pDoc->IsConnected()) && first) {
+            first = false;
+            ShowApplication(false);
+        } else
+#endif
+#if (defined (__WXMAC__) || defined(__WXGTK__))
+        {
+           // Linux allows the Event Log to be brought forward and made active
+            // even if we have a modal dialog displayed (associated with our
+            // main frame.) This test is needed to allow bringing the modal
+            // dialog forward again by clicking on its title bar.
+            if (!IsModalDialogDisplayed())
+            {
+                bool keepEventLogInFront = m_bEventLogWasActive;
+
+                if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
+                    m_pEventLog->Raise();
+                }
+                if (m_pFrame) {
+                    m_pFrame->Raise();
+                }
+                if (m_pEventLog && !m_pEventLog->IsIconized() && keepEventLogInFront) {
+                    m_pEventLog->Raise();
+                }
             }
         }
 #endif
@@ -1536,6 +1578,7 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     return false;
 }
 
+
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     int theEventType;
@@ -1588,4 +1631,3 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
 
     return -1;
 }
-

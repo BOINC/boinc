@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -267,6 +267,10 @@ extern format_backtrace_line_t format_backtrace_line;
 #endif // __MINGW32__
 
 #endif // _DEBUG
+
+#elif defined(__APPLE__)
+
+#define BOINCTRACE(...)
 
 #else
 

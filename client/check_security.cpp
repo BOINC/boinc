@@ -82,6 +82,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
     char                dir_path[MAXPATHLEN], full_path[MAXPATHLEN];
     struct stat         sbuf;
     int                 retval;
+    int                 retval2;
     int                 useFakeProjectUserAndGroup = 0;
     int                 isMacInstaller = 0;
 
@@ -149,9 +150,10 @@ int use_sandbox, int isManager, char* path_to_error, int len
         if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
             return -1005;
 
-        boinc_master_uid = sbuf.st_uid;
-        boinc_master_gid = sbuf.st_gid;
-
+        if (useFakeProjectUserAndGroup) {
+            boinc_master_uid = sbuf.st_uid;
+            boinc_master_gid = sbuf.st_gid;
+        }
 #ifdef __WXMAC__
     if (!IsUserInGroup(REAL_BOINC_MASTER_NAME))
         return -1099;
@@ -161,10 +163,15 @@ int use_sandbox, int isManager, char* path_to_error, int len
         boinc_master_gid = getegid();
     }
 
+    retval2 = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
+
 #ifdef __APPLE__
     char DataDirPath[MAXPATHLEN];
+#ifdef _MAC_INSTALLER
+    strlcpy(DataDirPath, dataPath, sizeof(dir_path));  // Installer
+#else
     getcwd(DataDirPath, sizeof(DataDirPath));
-
+#endif
     snprintf(full_path, sizeof(full_path),
         "%s/%s", DataDirPath, FIX_BOINC_USERS_FILENAME
     );
@@ -184,18 +191,17 @@ int use_sandbox, int isManager, char* path_to_error, int len
     if (! isMacInstaller) {
     // MacOS updates often change the PrimaryGroupID of boinc_master and
     // boinc_project to 20 (staff.)
-        retval = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
-        if ((retval == -1301) || (retval == -1302)) {
+        if ((retval2 == -1301) || (retval2 == -1302)) {
             snprintf(full_path, sizeof(full_path),
                 "\"%s/%s\"", DataDirPath, FIX_BOINC_USERS_FILENAME
             );
             printf("Permissions error %d, calling %s\n", retval, full_path);
             callPosixSpawn(full_path);  // Try to fix it
-            retval = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
+            retval2 = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
         }
     }
-    if (retval)
-        return retval;
+    if (retval2)
+        return retval2;
 #endif
 
 #if 0   // Manager is no longer setgid
@@ -231,15 +237,11 @@ int use_sandbox, int isManager, char* path_to_error, int len
 #endif   // Manager is no longer setgid
 
 
-#ifdef _MAC_INSTALLER
+#if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
         // Require absolute owner and group boinc_master:boinc_master
         // Get the full path to BOINC Client inside this application's bundle
         //
-        snprintf(full_path, sizeof(full_path),
-            "%s/Contents/Resources/boinc", dir_path
-        );
-
-        retval = stat(full_path, &sbuf);
+        retval = stat("/Applications/BOINCManager.app/Contents/Resources/boinc", &sbuf);
         if (retval)
             return -1016;          // Should never happen
 
@@ -294,13 +296,13 @@ int use_sandbox, int isManager, char* path_to_error, int len
 #ifdef _MAC_INSTALLER
     strlcpy(dir_path, dataPath, sizeof(dir_path));  // Installer
 #else       // _MAC_INSTALLER
-    gid_t               egid = getegid();;
-    uid_t               euid = geteuid();;
+    gid_t               egid = getegid();
+    uid_t               euid = geteuid();
 
     getcwd(dir_path, sizeof(dir_path));             // Client or Manager
 
     if (! isManager) {                                   // If BOINC Client
-    if (egid != boinc_master_gid)
+        if (egid != boinc_master_gid)
             return -1019;     // Client should be running setgid boinc_master
 
         if (euid != boinc_master_uid)
@@ -502,7 +504,8 @@ static int check_boinc_users_primarygroupIds(int useFakeProjectUserAndGroup, int
         if (pw->pw_gid != grp->gr_gid) {
             return -1301;
         }
-    } else {    // Use current user and group (see comment above)
+    } else {    // Use current user and group. See comment near start of check_security()
+                // about "Debugging Mac client or Mac BOINC Manager")
 
         pw = getpwuid(boinc_master_uid);
         if (pw == NULL)

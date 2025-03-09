@@ -1,7 +1,24 @@
 #!/bin/sh
 
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
 ##
-# post-Upgrade Script for Macintosh BOINC Manager for OS X revised 7/2/15
+# post-Upgrade Script for Macintosh BOINC Manager for OS X revised 3/8/25
 ##
 
 echo "Starting BOINC postupgrade script"
@@ -22,15 +39,21 @@ echo "PostInstall.app path = $pipath"
 
 # Run the Postinstall Application
 if [ "${COMMAND_LINE_INSTALL}" = "1" ]; then
-"$pipath" -part1 > /tmp/BOINCInstallLog.txt 2>&1
-sleep 2
-"$pipath" -part2 >> /tmp/BOINCInstallLog.txt 2>&1 &
+    "$pipath" -part1 > /tmp/BOINCInstallLog.txt 2>&1
+    retval=$?
+    if [ $retval -eq 0 ]; then
+        sleep 2
+        "$pipath" -part2 >> /tmp/BOINCInstallLog.txt 2>&1 &
+    fi
 else
-"$pipath" -part1 2>&1 | tee /tmp/BOINCInstallLog.txt
-sleep 2
-# part2 continues to run after Installer finishes,
-# and fails unless we redirect stdout to a file
-"$pipath" -part2 >> /tmp/BOINCInstallLog.txt 2>&1 &
+    "$pipath" -part1 2>&1 | tee /tmp/BOINCInstallLog.txt
+    retval=$?
+    if [ $retval -eq 0 ]; then
+        sleep 2
+        # part2 continues to run after Installer finishes,
+        # and fails unless we redirect stdout to a file
+        "$pipath" -part2 >> /tmp/BOINCInstallLog.txt 2>&1 &
+    fi
 fi
 
-exit 0
+exit $retval
