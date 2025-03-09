@@ -645,7 +645,11 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     // This deals with cases where somehow a file didn't
     // get protected right when it was initially downloaded.
     //
-    if (status == FILE_PRESENT && new_info.executable) {
+    if (status == FILE_PRESENT && !executable && new_info.executable) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "%s has changed to executable", name
+        );
+        executable = true;
         int retval = set_permissions();
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
