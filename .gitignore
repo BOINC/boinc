@@ -158,6 +158,7 @@ lib/parse_test
 py/lib.*/
 py/build/
 samples/condor/*boinc_gahp
+samples/docker_wrapper/docker_wrapper
 samples/example_app/*uc2
 samples/example_app/*ucn
 samples/example_app/uc2_graphics
