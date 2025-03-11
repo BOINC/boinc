@@ -31,6 +31,11 @@ ifdef BUILD_APPS_WITH_VCPKG
     -L$(VCPKG_DIR)/lib
 endif
 
+ifdef BUILD_WITH_MINGW
+  MAKEFILE_LDFLAGS += \
+    -lws2_32
+endif
+
 all: docker_wrapper
 
 libstdc++.a:
