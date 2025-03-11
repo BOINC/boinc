@@ -17,6 +17,7 @@
 
 // docker_wrapper: run a BOINC job in a Docker container,
 //      and interface between the BOINC client and the container
+// See https://github.com/BOINC/boinc/wiki/Docker-apps#the-docker-wrapper
 //
 // docker_wrapper [options] arg1 arg2 ...
 // options:
@@ -92,6 +93,7 @@
 
 #include "util.h"
 #include "boinc_api.h"
+#include "network.h"
 
 #ifdef _WIN32
 #include "win_util.h"
@@ -128,6 +130,10 @@ struct CONFIG {
         // use this as the image name, and don't delete it when done.
         // For testing.
     bool use_gpu;
+        // tell Docker to enable GPU access
+    int web_graphics_guest_port;
+        // map this to a host port,
+        // and inform the client using boinc_web_graphics_url()
     vector<string> mounts;
         // -v args in create container
     vector<string> portmaps;
@@ -141,6 +147,11 @@ struct CONFIG {
             fprintf(stderr, "   project dir mounted at: %s\n", project_dir_mount.c_str());
         }
         fprintf(stderr, "   use GPU: %s\n", use_gpu?"yes":"no");
+        if (web_graphics_guest_port) {
+            fprintf(stderr, "   Web graphics guest port: %d\n",
+                web_graphics_guest_port
+            );
+        }
         for (string& s: mounts) {
             fprintf(stderr, "   mount: %s\n", s.c_str());
         }
@@ -200,6 +211,11 @@ int parse_config_file() {
     x = v.find("use_gpu");
     if (x) {
         config.use_gpu = x->as<bool>();
+    }
+
+    x = v.find("web_graphics_guest_port");
+    if (x) {
+        config.web_graphics_guest_port = x->as<int>();
     }
 
     x = v.find("mount");
@@ -371,6 +387,26 @@ int create_container() {
     //
     if (config.use_gpu) {
         strcat(cmd, " --gpus all");
+    }
+
+    // web graphics
+    //
+    if (config.web_graphics_guest_port) {
+        int host_port;
+        retval = boinc_get_port(false, host_port);
+        if (retval) {
+            fprintf(stderr, "can't allocated host port for web graphics\n");
+        } else {
+            fprintf(stderr, "web graphics: host port %d, guest port %d\n",
+                host_port, config.web_graphics_guest_port
+            );
+            snprintf(buf, sizeof(buf), " -p %d:%d",
+                host_port, config.web_graphics_guest_port
+            );
+            strcat(cmd, buf);
+            snprintf(buf, sizeof(buf), "http://localhost:%d", host_port);
+            boinc_web_graphics_url(buf);
+        }
     }
 
     strcat(cmd, " ");
