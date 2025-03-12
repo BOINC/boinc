@@ -701,8 +701,13 @@ string parse_ldd_libc(const char* input) {
     return s;
 }
 
+// Set up to issue Docker commands.
+// On Win this requires connecting to a shell in the WSL distro
+//
 #ifdef _WIN32
-int DOCKER_CONN::init(DOCKER_TYPE docker_type, string distro_name, bool _verbose) {
+int DOCKER_CONN::init(
+    DOCKER_TYPE docker_type, string distro_name, bool _verbose
+) {
     string err_msg;
     cli_prog = docker_cli_prog(docker_type);
     if (docker_type == DOCKER) {
@@ -727,6 +732,8 @@ int DOCKER_CONN::init(DOCKER_TYPE docker_type, bool _verbose) {
 }
 #endif
 
+// issue a Docker command and return its output in out
+//
 int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     char buf[1024];
     int retval;
@@ -765,9 +772,12 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     return 0;
 }
 
+// parse the output of 'docker images'
+// from the following, return 'boinc__app_test__test_wu'
+//
 // REPOSITORY                          TAG         IMAGE ID      CREATED       SIZE
 // localhost/boinc__app_test__test_wu  latest      cbc1498dfc49  43 hours ago  121 MB
-
+//
 int DOCKER_CONN::parse_image_name(string line, string &name) {
     char buf[1024];
     strcpy(buf, line.c_str());
@@ -781,9 +791,12 @@ int DOCKER_CONN::parse_image_name(string line, string &name) {
     return 0;
 }
 
+// parse the output of 'docker ps -all'.
+// from the following, return boinc__app_test__test_result
+//
 // CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS                   PORTS       NAMES
 // 6d4877e0d071  localhost/boinc__app_test__test_wu:latest  /bin/sh -c ./work...  43 hours ago   Exited (0) 21 hours ago              boinc__app_test__test_result
-
+//
 int DOCKER_CONN::parse_container_name(string line, string &name) {
     char buf[1024];
     strcpy(buf, line.c_str());
@@ -794,13 +807,16 @@ int DOCKER_CONN::parse_container_name(string line, string &name) {
     return 0;
 }
 
+// we name Docker images so that they're
+// - distinguishable from non-BOINC images (hence boinc__)
+// - unique per WU (hence projurl__wuname)
+// - lowercase (required by Docker)
+//
 string docker_image_name(
     const char* proj_url_esc, const char* wu_name
 ) {
-    char buf[1024], url_buf[1024], wu_buf[1024];;
+    char buf[1024], url_buf[1024], wu_buf[1024];
 
-    // Docker image names can't have upper case chars
-    //
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
     safe_strcpy(wu_buf, wu_name);
@@ -810,13 +826,14 @@ string docker_image_name(
     return string(buf);
 }
 
+// similar for Docker container names,
+// but they're unique per result rather than per WU
+//
 string docker_container_name(
     const char* proj_url_esc, const char* result_name
 ){
-    char buf[1024], url_buf[1024], result_buf[1024];;
+    char buf[1024], url_buf[1024], result_buf[1024];
 
-    // Docker image names can't have upper case chars
-    //
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
     safe_strcpy(result_buf, result_name);

@@ -89,7 +89,6 @@ void HOST_INFO::clear_host_info() {
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
-    int i;
     clear_host_info();
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
@@ -144,6 +143,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
             continue;
         }
 #else
+        int i;
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
         if (xp.parse_int("docker_type", i)) {
             docker_type = (DOCKER_TYPE)i;
