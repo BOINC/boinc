@@ -384,8 +384,7 @@ function link_results($n, $mq, $query, $clauses) {
     } else {
         if(strlen($clauses)) {
             return "<a href=\"db_action.php?table=result&query=$mq&$query&clauses=".urlencode($clauses)."&sort_by=mod_time&detail=low\">$n</a>";
-        }
-        else {
+        } else {
             return "<a href=\"db_action.php?table=result&query=$mq&$query&sort_by=mod_time&detail=low\">$n</a>";
         }
 
@@ -567,9 +566,9 @@ FROM result WHERE true
     start_table();
     echo "<tr valign=\"top\">";
     echo "<td><h2>" . link_results("$ntotal results", $urlquery, '', '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5", '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Success' results", $urlquery, "outcome=1", '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3", '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Over' results", $urlquery, sprintf('server_state=%d', RESULT_SERVER_STATE_OVER), '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Success' results", $urlquery, sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS), '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Client error' results", $urlquery, sprintf('outcome=%d', RESULT_OUTCOME_CLIENT_ERROR), '') . "</h2></td>";
     echo "</tr>";
     echo "<tr valign=\"top\">";
     echo "<td>";
@@ -579,7 +578,9 @@ FROM result WHERE true
         $res = new StdClass;
         $res->server_state = $ss;
         row2(result_server_state_string($res),
-             link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", '')
+            link_results(
+                "$server_state[$ss]",  $urlquery, "server_state=$ss", ''
+            )
         );
     }
     end_table();
@@ -593,7 +594,9 @@ FROM result WHERE true
         $res = new StdClass;
         $res->outcome = $ro;
         $res->exit_status = 0;
-        c_row2($outcome[$ro]?outcome_color($ro):'', result_outcome_string($res),
+        c_row2(
+            $outcome[$ro]?outcome_color($ro):'',
+            result_outcome_string($res),
             link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
     }
@@ -607,19 +610,44 @@ FROM result WHERE true
         $res = new StdClass;
         $res->validate_state = $vs;
         $res->exit_status = 0;
-        c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($res),
-        link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
+        c_row2(
+            $validate_state[$vs]?validate_color($vs):'',
+            validate_state_str($res),
+            link_results(
+                "$validate_state[$vs]",
+                $urlquery,
+                "validate_state=$vs",
+                sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS)
+            )
+        );
     }
     end_table();
     start_table('table-striped');
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
 
     for ($fds=0; $fds<4; $fds++) {
-        row2(file_delete_state_str($fds),
-        link_results("$file_delete[$fds]", $urlquery, "outcome=1", "file_delete_state=$fds"));
+        row2(
+            file_delete_state_str($fds),
+            link_results(
+                "$file_delete[$fds]",
+                $urlquery,
+                sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS),
+                "file_delete_state=$fds"
+            )
+        );
     }
-    row2("Total files deleted",
-    link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2 or file_delete_state=3)"));
+    row2(
+        "Total files deleted",
+        link_results(
+            "$nfile_deleted",
+            $urlquery,
+            sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS),
+            sprintf(
+                '(file_delete_state=%d or file_delete_state=%d or file_delete_state=%d)',
+                FILE_DELETE_READY, FILE_DELETE_DONE, FILE_DELETE_ERROR
+            )
+        )
+    );
     end_table();
     echo "</td>";
 
@@ -631,13 +659,17 @@ FROM result WHERE true
         $res->client_state = $cs;
         $res->exit_status = 0;
         row2(result_client_state_string($res),
-            link_results("$client_state[$cs]", $urlquery, "client_state=$cs", "outcome=3")
+            link_results(
+                "$client_state[$cs]",
+                $urlquery,
+                "client_state=$cs",
+                sprintf('outcome=%d', RESULT_OUTCOME_CLIENT_ERROR)
+            )
         );
     }
     end_table();
     echo "</td>";
     end_table();
-
 }
 
 function server_state_select() {
