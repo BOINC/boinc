@@ -175,6 +175,9 @@ function bb2html_aux($text, $export) {
     //     [2] => a.b.c
     // )
 
+    $email_addr_regex = "([A-Za-z0-9\.\-\_\@]*)";
+        // should match all valid email addrs,
+        // but not any hacker stuff like " alert(1)
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
     $bbtags = array (
@@ -198,8 +201,8 @@ function bb2html_aux($text, $export) {
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
         "@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
         "@\[size=([1-9]|[0-2][0-9])\](.*?)\[/size\]@is",
-        "@\[mailto\](.*?)\[/mailto\]@is",
-        "@\[email\](.*?)\[/email\]@is",
+        "@\[mailto\]$email_addr_regex\[/mailto\]@is",
+        "@\[email\]$email_addr_regex\[/email\]@is",
         "@\[github\](?:\#|ticket:)(\d+)\[/github\]@is",
         "@\[github\]wiki:(.*?)\[/github\]@is",
     );
