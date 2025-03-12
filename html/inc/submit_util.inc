@@ -252,7 +252,7 @@ function abort_workunit($wu) {
         sprintf(
             'server_state=%d, outcome=%d where server_state=%d and workunitid=%d',
             RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
-            RESULT_SERVER_STATE_UNSENT, 
+            RESULT_SERVER_STATE_UNSENT,
             $wu->id
         )
     );
