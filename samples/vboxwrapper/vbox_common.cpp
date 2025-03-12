@@ -74,8 +74,7 @@ static bool is_timestamp_newer(VBOX_TIMESTAMP& t1, VBOX_TIMESTAMP& t2) {
 
 VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     VBOX_JOB::clear();
-    virtualbox_home_directory.clear();
-    virtualbox_scratch_directory.clear();
+    virtualbox_profile_directory.clear();
     virtualbox_install_directory.clear();
     virtualbox_guest_additions.clear();
     virtualbox_version_raw.clear();
@@ -599,7 +598,7 @@ int VBOX_BASE::get_system_log(
     int retval = BOINC_SUCCESS;
 
     // Locate and read log file
-    virtualbox_system_log = virtualbox_home_directory + "/VBoxSVC.log";
+    virtualbox_system_log = virtualbox_profile_directory + "/VBoxSVC.log";
 
     if (boinc_file_exists(virtualbox_system_log.c_str())) {
         if (tail_only) {
