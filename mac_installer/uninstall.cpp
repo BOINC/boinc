@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,6 +25,8 @@
 #define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
 
 #include <Carbon/Carbon.h>
+#import <ServiceManagement/ServiceManagement.h>
+#import <Security/Authorization.h>
 
 #include <grp.h>
 
@@ -97,10 +99,22 @@ int main(int argc, char *argv[])
     char                        pathToSelf[MAXPATHLEN], pathToVBoxUninstallTool[MAXPATHLEN], *p;
     char                        cmd[MAXPATHLEN+64];
     Boolean                     cancelled = false;
-    pid_t                       activeAppPID = 0;
+    Boolean                     isPrivileged = false;
+    char *                      myArgv[2];
     struct stat                 sbuf;
-    FILE                        *f;
+    FILE                        *f = NULL;
+    FILE                        *pipe = NULL;
     OSStatus                    err = noErr;
+
+    FILE * stdout_file = freopen("/tmp/Uninstall_stdout", "w", stdout);
+    if (stdout_file) {
+        setbuf(stdout_file, 0);
+    }
+
+    FILE * stderr_file = freopen("/tmp/Uninstall_stderr", "w", stderr);
+    if (stderr_file) {
+        setbuf(stderr_file, 0);
+    }
 
     pathToSelf[0] = '\0';
     // Get the full path to our executable inside this application's bundle
@@ -138,28 +152,26 @@ int main(int argc, char *argv[])
     strlcpy(gBrandName, p, sizeof(gBrandName));
 
     // Determine whether this is the initial launch or the relaunch with privileges
-    if ( (argc == 3) && (strcmp(argv[1], "--privileged") == 0) ) {
-        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
-        activeAppPID = (pid_t)atol(argv[2]);
-        if (activeAppPID > 0) {
-            BringAppWithPidToFront(activeAppPID);   // Usually Finder
+    for (int i=0; i<argc; ++i) {
+        if (strcmp(argv[i], "--privileged") == 0) {
+            isPrivileged = true;
+            break;
         }
-        // Give the run loop a chance to handle the BringAppWithPidToFront call
-//        CFRunLoopRunInMode(kCFRunLoopCommonModes, (CFTimeInterval)0.5, false);
-        // Apparently, usleep() lets run loop run
-        usleep(100000);
+    }
+    if (isPrivileged) {
+        setuid(0);  // This is permitted bcause euid == 0
 
         LoadPreferredLanguages();
 
         if (geteuid() != 0) {        // Confirm that we are running as root
             ShowMessage(false, false, false, (char *)_("Permission error after relaunch"));
-            BOINCTranslationCleanup();
-            return permErr;
+            err = permErr;
         }
 
-        ShowMessage(false, true, false, (char *)_("Removal may take several minutes.\nPlease be patient."));
-
-        err = DoUninstall();
+        if (!err) {
+            ShowMessage(false, true, false, (char *)_("Removal may take several minutes.\nPlease be patient."));
+            err = DoUninstall();
+        }
 
         BOINCTranslationCleanup();
         return err;
@@ -188,14 +200,41 @@ int main(int argc, char *argv[])
             "This will remove the executables but will not touch %s data files."), p, p);
 
     if (! cancelled) {
-        // Prevent displaying "OSAScript" in menu bar on newer versions of OS X
-        activeAppPID = getActiveAppPid();
-//        ShowMessage(false, true, false, "active app = %d", activeAppPID);  // for debugging
+        // TODO: Upgrade this to use SMJobBless
+        // I have been trying to get the SMJobBless sample application to work
+        // but have not yet succeeded.
+        // Although SMJobBless is deprecated, the currently recomended SMAppService
+        // API is available only since MacOS 13.0, and we want to suppport older
+        // versions of MacOS. Also, it is not clear from the documentation how
+        // SMAppService allows you to run a helper tool as root after presenting
+        // an authorization dialog to the user.
+        myArgv[0] = "--privileged";
+        myArgv[1] = NULL;
+        AuthorizationItem authItem		= { kAuthorizationRightExecute, 0, NULL, 0 };
+        AuthorizationRights authRights	= { 1, &authItem };
+        AuthorizationFlags flags		=	kAuthorizationFlagInteractionAllowed	|
+                                            kAuthorizationFlagExtendRights;
 
-        // The "activate" command brings the password dialog to the front and makes it the active window.
-        // "with administrator privileges" launches the helper application as user root.
-        sprintf(cmd, "osascript -e 'activate' -e 'do shell script \"sudo \\\"%s\\\" --privileged %d\" with administrator privileges'", pathToSelf, activeAppPID);
-        err = callPosixSpawn(cmd, true);
+        AuthorizationRef authRef = NULL;
+
+        /* Obtain the right to install privileged helper tools (kSMRightBlessPrivilegedHelper). */
+        err = AuthorizationCreate(&authRights, kAuthorizationEmptyEnvironment, flags, &authRef);
+        if (err == errAuthorizationSuccess) {
+            err = AuthorizationExecuteWithPrivileges(authRef, pathToSelf, kAuthorizationFlagDefaults, myArgv, &pipe);
+        }
+        if (err == errAuthorizationSuccess) {
+            char buf[1024];
+
+            // TODO: Handle errors from privileged uninstall
+            while (true) {
+                fgets(buf, sizeof(buf), pipe);  // Receive stdout from privileged uninstall
+                if (feof(f)) {
+                    break;
+                }
+                puts(buf);  // Write stdout from privileged uninstall to stdout_file;
+            }
+            pclose(pipe);   // Should this be fclose(pipe)?
+        }
     }
 
     if (cancelled || (err != noErr)) {
@@ -353,10 +392,10 @@ int main(int argc, char *argv[])
         }
     }
 
+    // TODO: Change this message if there were errors in the privileged app
     ShowMessage(false, false, false, (char *)_("Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
      "the directory \"%s\"\n\nfor each user, the file\n"
      "\"%s\"."), BOINCDataPath, PathToPrefs);
-
 
     BOINCTranslationCleanup();
     return err;
@@ -378,6 +417,8 @@ static OSStatus DoUninstall(void) {
     int                     pathOffset;
 #endif
 
+fprintf(stderr, "Starting privileged tool\n");
+fprintf(stdout, "Starting privileged tool\n");
 #if TESTING
     showDebugMsg("Permission OK after relaunch");
 #endif
@@ -730,10 +771,10 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
 
         // Remove user from groups boinc_master and boinc_project
-        sprintf(s, "dscl . -delete /groups/boinc_master users \"%s\"", pw->pw_name);
+        sprintf(s, "dscl . -delete /groups/boinc_master GroupMembership \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
-        sprintf(s, "dscl . -delete /groups/boinc_project users \"%s\"", pw->pw_name);
+        sprintf(s, "dscl . -delete /groups/boinc_project GroupMembership \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
        // Set login item for this user
@@ -1052,7 +1093,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     }
 
     // Register this copy of BOINCFinish_Install.app. See comments on FixLaunchServicesDataBase.
-    sprintf(s, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_uid, pw->pw_name, brandName[brandID]);
+    sprintf(s, "sudo -u \"%s\" /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, pw->pw_name, brandName[brandID]);
     err = callPosixSpawn(s);
     if (err) {
         printf("*** user %s: lsregister call returned error %d for %s_Finish_Uninstall.app\n", pw->pw_name, err, brandName[brandID]);
@@ -1769,6 +1810,9 @@ int callPosixSpawn(const char *cmdline, bool delayForResult) {
     int status = 0;
     extern char **environ;
 
+    // Show  command in stderr_file to asociate error messages with their context
+    fprintf(stderr, "\ncmd: %s\n", cmdline);
+
     // Make a copy of cmdline because parse_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
     argc = parse_command_line(const_cast<char*>(command), argv);
@@ -1857,7 +1901,7 @@ static void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    sprintf(buf, "/Users/%s/Documents/test_log.txt", loginName);
+    sprintf(buf, "/Users/Shared/test_log_uninstallBOINC.txt");
     f = fopen(buf, "a");
     if (!f) return;
 

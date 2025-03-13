@@ -159,6 +159,7 @@
 		DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD3E15330A774397007E0084 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD3FCAEF2D8191D80090D6A7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD407A4D07D2FB6500163EF5 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DD407A4F07D2FB7100163EF5 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B6307C5ACEB0043025C /* base64.cpp */; };
 		DD407A5307D2FB7C00163EF5 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
@@ -1479,6 +1480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD0D32DD1E0ABEEE00A0FBAB /* AppKit.framework in Frameworks */,
+				DD3FCAEF2D8191D80090D6A7 /* Security.framework in Frameworks */,
 				DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
