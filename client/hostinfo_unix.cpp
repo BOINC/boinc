@@ -1255,9 +1255,12 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 }
 
 bool HOST_INFO::get_docker_version(){
+    // podman doesn't work on Linux with remote FS, so don't check for it
+#if defined(__APPLE__) || defined(_WIN32)
     if (get_docker_version_aux(PODMAN)) {
         return true;
     }
+#endif
     if (get_docker_version_aux(DOCKER)) {
         return true;
     }
@@ -1286,9 +1289,11 @@ bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
 }
 
 bool HOST_INFO::get_docker_compose_version(){
+#if defined(__APPLE__) || defined(_WIN32)
     if (get_docker_compose_version_aux(PODMAN)) {
         return true;
     }
+#endif
     if (get_docker_compose_version_aux(DOCKER)) {
         return true;
     }
