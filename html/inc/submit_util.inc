@@ -249,7 +249,12 @@ function get_outfile_paths($result) {
 
 function abort_workunit($wu) {
     BoincResult::update_aux(
-        "server_state=5, outcome=5 where server_state=2 and workunitid=$wu->id"
+        sprintf(
+            'server_state=%d, outcome=%d where server_state=%d and workunitid=%d',
+            RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
+            RESULT_SERVER_STATE_UNSENT,
+            $wu->id
+        )
     );
     $wu->update("error_mask=error_mask|16");
 }
@@ -259,7 +264,9 @@ function abort_batch($batch) {
     foreach ($wus as $wu) {
         abort_workunit($wu);
     }
-    $batch->update("state=".BATCH_STATE_ABORTED);
+    $batch->update(
+        sprintf('state=%d', BATCH_STATE_ABORTED)
+    );
     return 0;
 }
 

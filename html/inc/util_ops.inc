@@ -409,7 +409,10 @@ function in_rops() {
 
 function cancel_wus_where($clause) {
     $q1 = "CREATE TEMPORARY TABLE tmp SELECT id FROM workunit WHERE $clause;";
-    $q2 = "UPDATE result r INNER JOIN tmp t on r.workunitid=t.id SET server_state=5, outcome=5 WHERE server_state=2;";
+    $q2 = sprintf(
+        'UPDATE result r INNER JOIN tmp t on r.workunitid=t.id SET outcome=%d WHERE server_state=%d;',
+        RESULT_OUTCOME_DIDNT_NEED, RESULT_SERVER_STATE_UNSENT
+    );
     $q3 = "UPDATE workunit w INNER JOIN tmp t on w.id=t.id SET error_mask=error_mask|16, transition_time=0;";
     $q4 = "DROP TABLE tmp;";
 

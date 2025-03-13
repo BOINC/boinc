@@ -118,7 +118,7 @@ function result_granted_credit_string($result, $string_to_show) {
     }
 }
 
-// various states that we allow users to filter on
+// various result states that users can filter on
 
 define("STATE_ALL", 0);
 define("STATE_IN_PROGRESS", 1);
@@ -141,12 +141,35 @@ $state_name = array(
 
 $state_clause = array(
     "",
-    " and server_state=4 ",
-    " and server_state=5 and outcome=1 and validate_state=0 ",
-    " and server_state=5 and outcome=1 and validate_state=4 ",
-    " and server_state=5 and outcome=1 and validate_state=1 ",
-    " and server_state=5 and (outcome=6 or (outcome=1 and (validate_state=2 or validate_state=3 or validate_state=5))) ",
-    " and server_state=5 and (outcome=3 or outcome=4 or outcome=7) ",
+    sprintf(
+        ' and server_state=%d ',
+        RESULT_SERVER_STATE_IN_PROGRESS
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS, VALIDATE_STATE_INIT
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS,
+        VALIDATE_STATE_INCONCLUSIVE
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS, VALIDATE_STATE_VALID
+    ),
+    sprintf(
+        ' and server_state=%d and (outcome=%d or (outcome=%d and (validate_state=%d or validate_state=%d or validate_state=%d))) ',
+        RESULT_SERVER_STATE_OVER,
+        RESULT_OUTCOME_VALIDATE_ERROR, RESULT_OUTCOME_SUCCESS,
+        VALIDATE_STATE_INVALID, VALIDATE_STATE_NO_CHECK,
+        VALIDATE_STATE_TOO_LATE
+    ),
+    sprintf(
+        ' and server_state=%d and (outcome=%d or outcome=%d or outcome=%d) ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_CLIENT_ERROR,
+        RESULT_OUTCOME_NO_REPLY, RESULT_OUTCOME_CLIENT_DETACHED
+    )
 );
 
 function state_num($result) {
