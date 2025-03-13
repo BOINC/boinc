@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -85,6 +85,10 @@ int main(int argc, char** argv) {
     err = FixInfoPlist_Strings("./English.lproj/Installer-InfoPlist.strings", "BOINC Installer");
     if (err) retval = err;
     err = FixInfoPlistFile("Installer-Info.plist");
+    if (err) retval = err;
+
+    // BOINC_Finish_Install app
+    err = FixInfoPlistFile("Finish_Install-Info.plist");
     if (err) retval = err;
 
     // BOINC PostInstall app

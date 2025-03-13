@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -116,7 +116,7 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 static void DeleteScreenSaverLaunchAgent(passwd *pw);
-void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
+void SetSkinInSelectionAndShutdownBySystemFlagInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
 static void FixLaunchServicesDataBase(uid_t userID, char *pathToKeep, char *theBundleID);
 void SetEUIDBackToUser (void);
@@ -134,7 +134,7 @@ int TestRPCBind(void);
 int check_rosetta2_installed();
 int optionally_install_rosetta2();
 #endif  // __arm64__
-pid_t FindProcessPID(char* name, pid_t thePID);
+pid_t FindProcessPID(char* name, pid_t thePID, Boolean currentUserOnly);
 static void SleepSeconds(double seconds);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
@@ -251,7 +251,7 @@ int main(int argc, char *argv[])
     sleep(2);
 
     // Core Client may still be running if it was started without Manager
-    coreClientPID = FindProcessPID("boinc", 0);
+    coreClientPID = FindProcessPID("boinc", 0, false);
     if (coreClientPID)
         kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
 
@@ -541,7 +541,7 @@ int main(int argc, char *argv[])
         }
         waitPermissionsStartTime = time(NULL);
         for (i=0; i<15; i++) {     // Show "Please wait..." alert after 15 seconds
-            waitPermissionsPID = FindProcessPID("WaitPermissions", 0);
+            waitPermissionsPID = FindProcessPID("WaitPermissions", 0, false);
             if (waitPermissionsPID == 0) {
                 return 0;
             }
@@ -562,7 +562,6 @@ int main(int argc, char *argv[])
 #endif   // SANDBOX
 #endif  // WaitPermissions is not needed when using wrapper
 
-
     return 0;
 }
 
@@ -573,7 +572,7 @@ Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex
     pid_t               waitPermissionsPID = 0;
 
     if (now != lastCheckTime) {
-            waitPermissionsPID = FindProcessPID("WaitPermissions", 0);
+            waitPermissionsPID = FindProcessPID("WaitPermissions", 0, false);
             if (waitPermissionsPID == 0) {
                 *itemHit = kStdOkItemIndex;
                 return true;
@@ -597,12 +596,14 @@ int DeleteReceipt()
     long                    brandID = 0;
     int                     i;
     pid_t                   installerPID = 0;
+    pid_t                   coreClientPID = 0;
     OSStatus                err;
     Boolean                 restartNeeded = true;
     char                    s[MAXPATHLEN];
     struct stat             sbuf;
     passwd                  *pw;
     Boolean                 launchForThisUser;
+    Boolean                 loginUserMayRunManager = true;
 
     if (Initialize() != noErr) {
         REPORT_ERROR(true);
@@ -618,11 +619,13 @@ int DeleteReceipt()
     strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
     brandID = GetBrandID(s);
 
+#if 0   // Rceipts are no longer stored in this location
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
     sprintf(s, "rm -rf \"%s\"", receiptName[brandID]);
     err = callPosixSpawn (s);
     REPORT_ERROR(err);
+#endif
 
     if (!restartNeeded) {
         // If system is set up to run BOINC Client as a daemon using launchd, launch it
@@ -640,7 +643,7 @@ int DeleteReceipt()
         if (pw) {
             Boolean isBMGroupMember = IsUserMemberOfGroup(pw->pw_name, boinc_master_group_name);
             if (!isBMGroupMember){
-                return 0;   // Current user is not authorized to run BOINC Manager
+                loginUserMayRunManager = false;   // Current user is not authorized to run BOINC Manager
             }
         }
 #endif
@@ -650,26 +653,33 @@ int DeleteReceipt()
            // Launch BOINC Manager when user closes installer or after 15 seconds
             for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
                 sleep (1);
-                if (FindProcessPID(NULL, installerPID) == 0) {
+                if (FindProcessPID(NULL, installerPID, false) == 0) {
                     break;
                 }
             }
         }
 
-        CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
-                                                    kCFStringEncodingUTF8);
-        if (CFAppPath) {
-            // urlref = CFURLCreateWithFileSystemPath(NULL, "/Applications/GridRepublic Desktop.app", kCFURLPOSIXPathStyle, true);
-            CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFAppPath, kCFURLPOSIXPathStyle, true);
-            if (urlref) {
-                err = LSOpenCFURLRef(urlref, NULL);
-                REPORT_ERROR(err);
-                CFRelease(urlref);
-                CFRelease(CFAppPath);
+        if (loginUserMayRunManager) {
+            CFStringRef CFAppPath = CFStringCreateWithCString(kCFAllocatorDefault, appPath[brandID],
+                                                        kCFStringEncodingUTF8);
+            if (CFAppPath) {
+                // urlref = CFURLCreateWithFileSystemPath(NULL, "/Applications/GridRepublic Desktop.app", kCFURLPOSIXPathStyle, true);
+                CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFAppPath, kCFURLPOSIXPathStyle, true);
+                if (urlref) {
+                    err = LSOpenCFURLRef(urlref, NULL);
+                    REPORT_ERROR(err);
+                    CFRelease(urlref);
+                    CFRelease(CFAppPath);
+                }
+            }
+
+            // Wait up to 10 seconds for current user's Manager to launch client
+            for (i=0; i<100; ++i) {
+                coreClientPID = FindProcessPID("boinc", 0, true);
+                if (coreClientPID) break;
+                boinc_sleep(0.1);    // Allow time for current user's Manager to launch client'
             }
         }
-
-        boinc_sleep(10);    // Allow time for current user's Manager to launch client'
 
         FindAllVisibleUsers();
 
@@ -678,7 +688,9 @@ int DeleteReceipt()
             if (pw == NULL) {
                 continue;
             }
-            if (strcmp(loginName, pw->pw_name) == 0) continue;
+            if (strcmp(loginName, pw->pw_name) == 0) {
+                continue; // We've already launched for logged in user
+            }
 #ifdef SANDBOX
             launchForThisUser = false;
             if (IsUserLoggedIn(pw->pw_name)) {
@@ -693,12 +705,14 @@ int DeleteReceipt()
                 // Launch Manager hidden (in background, without opening windows)
                 sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\" --args -s'", pw->pw_name, appPath[brandID]);
                 err = callPosixSpawn(s);
-                printf("command: %s returned error %d\n", s, err);
-                fflush(stdout);
+                if (err) {
+                    REPORT_ERROR(true);
+                    printf("command: %s returned error %d\n", s, err);
+                    fflush(stdout);
+                }
            }
         }
     }
-
     return 0;
 }
 
@@ -936,7 +950,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         // it is running under a different user.
         fprintf(stdout, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
         fflush(stdout);
-        systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+        systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
         if (systemEventsPID != 0) {
             err = kill(systemEventsPID, SIGKILL);
         }
@@ -948,7 +962,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         // Wait for the process to be gone
         for (i=0; i<50; ++i) {      // 5 seconds max delay
             SleepSeconds(0.1);      // 1/10 second
-            systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+            systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
             if (systemEventsPID == 0) break;
         }
         if (i >= 50) {
@@ -976,7 +990,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
             // Wait for the process to start
             for (i=0; i<50; ++i) {      // 5 seconds max delay
                 SleepSeconds(0.1);      // 1/10 second
-                systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+                systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
                 if (systemEventsPID != 0) break;
             }
             if (i < 50) break;  // Exit j loop on success
@@ -1038,7 +1052,7 @@ cleanupSystemEvents:
     // Clean up in case this was our last user
     fprintf(stdout, "Telling System Events to quit (at end of SetLoginItemOSAScript)\n");
     fflush(stdout);
-    systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+    systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
     err2 = noErr;
     if (systemEventsPID != 0) {
         err2 = kill(systemEventsPID, SIGKILL);
@@ -1051,7 +1065,7 @@ cleanupSystemEvents:
     // Wait for the process to be gone
     for (i=0; i<50; ++i) {      // 5 seconds max delay
         SleepSeconds(0.1);      // 1/10 second
-        systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+        systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
         if (systemEventsPID == 0) break;
     }
     if (i >= 50) {
@@ -1157,54 +1171,64 @@ void DeleteScreenSaverLaunchAgent(passwd *pw) {
 
 
 // Sets the skin selection in the specified user's preferences to the specified skin
-void SetSkinInUserPrefs(char *userName, char *nameOfSkin)
+// Also set WasShutDownBySystemWhileHidden=1 so Manager will open hidden
+void SetSkinInSelectionAndShutdownBySystemFlagInUserPrefs(char *userName, char *nameOfSkin)
 {
     passwd              *pw;
     FILE                *oldPrefs, *newPrefs;
     char                oldFileName[MAXPATHLEN], tempFilename[MAXPATHLEN];
     char                buf[1024];
-    int                 wroteSkinName;
+    int                 wroteSkinName = 0;
+//    int                 wroteShutdownBySystemFlag = 0;
     struct stat         sbuf;
     group               *grp;
     OSStatus            statErr;
 
-    if (nameOfSkin[0]) {
-        sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", userName);
-        sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", userName);
-        newPrefs = fopen(tempFilename, "w");
-        REPORT_ERROR(!newPrefs);
-        if (newPrefs) {
-            wroteSkinName = 0;
-            statErr = stat(oldFileName, &sbuf);
+    sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", userName);
+    sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", userName);
+    newPrefs = fopen(tempFilename, "w");
+    REPORT_ERROR(!newPrefs);
+    if (newPrefs) {
+        statErr = stat(oldFileName, &sbuf);
 
-            oldPrefs = fopen(oldFileName, "r");
-            if (oldPrefs) {
-                while (fgets(buf, sizeof(buf), oldPrefs)) {
+        oldPrefs = fopen(oldFileName, "r");
+        if (oldPrefs) {
+            while (fgets(buf, sizeof(buf), oldPrefs)) {
+                if (nameOfSkin[0]) {
                     if (strstr(buf, "Skin=")) {
                         fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
                         wroteSkinName = 1;
-                    } else {
-                        fputs(buf, newPrefs);
+                        continue;
                     }
                 }
-                fclose(oldPrefs);
+                if (strstr(buf, "WasShutDownBySystemWhileHidden=")) {
+                   fprintf(newPrefs, "WasShutDownBySystemWhileHidden=0\n");
+//                    wroteShutdownBySystemFlag = 1;
+                    continue;
+                }
+                fputs(buf, newPrefs);
             }
+            fclose(oldPrefs);
+        }
 
-            if (! wroteSkinName)
-                fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
+        if (! wroteSkinName) {
+            fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
+        }
+//        if (!wroteShutdownBySystemFlag) {
+//            fprintf(newPrefs, "WasShutDownBySystemWhileHidden=1\n");
+//        }
 
-            fclose(newPrefs);
-            rename(tempFilename, oldFileName);  // Deletes old file
-            if (! statErr) {
-                chown(oldFileName, sbuf.st_uid, sbuf.st_gid);
-                chmod(oldFileName, sbuf.st_mode);
-            } else {
-                chmod(oldFileName, 0664);
-                pw = getpwnam(userName);
-                grp = getgrnam(userName);
-                if (pw && grp)
-                    chown(oldFileName, pw->pw_uid, grp->gr_gid);
-            }
+        fclose(newPrefs);
+        rename(tempFilename, oldFileName);  // Deletes old file
+        if (! statErr) {
+            chown(oldFileName, sbuf.st_uid, sbuf.st_gid);
+            chmod(oldFileName, sbuf.st_mode);
+        } else {
+            chmod(oldFileName, 0664);
+            pw = getpwnam(userName);
+            grp = getgrnam(userName);
+            if (pw && grp)
+                chown(oldFileName, pw->pw_uid, grp->gr_gid);
         }
     }
 }
@@ -1833,7 +1857,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
             if (compareOSVersionTo(13, 0) >= 0) {
                 deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
-                snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\"", brandName[brandID]);
+                // The -i argument tells BOINC_Finish_Install not to "Launchctl load" our
+                // LaunchAgent, because doing that launches the Manager immediately (before
+                // we can finish setting things up) and the Manager starts incorrectly,
+                // especially causing problems if starting in SimpleView.
+               snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" --args -i", brandName[brandID]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
                 if (err) {
@@ -1931,7 +1959,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 fflush(stdout);
                 continue;
             }
-            SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
+            SetSkinInSelectionAndShutdownBySystemFlagInUserPrefs(pw->pw_name, skinName[brandID]);
 
             if (setSaverForAllUsers) {
                 seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
@@ -2366,17 +2394,23 @@ int optionally_install_rosetta2() {
 #endif  // __arm64__
 
 
-pid_t FindProcessPID(char* name, pid_t thePID)
+pid_t FindProcessPID(char* name, pid_t thePID, Boolean currentUserOnly)
 {
     FILE *f;
     char buf[1024];
     size_t n = 0;
     pid_t aPID;
+    char cmd[1024];
 
+    if (currentUserOnly) {
+        sprintf(cmd, "ps -x -c -u %s -o command,pid", loginName);
+    } else {
+        sprintf(cmd, "ps -a -x -c -o command,pid");
+    }
     if (name != NULL)     // Search ny name
         n = strlen(name);
 
-    f = popen("ps -a -x -c -o command,pid", "r");
+    f = popen(cmd, "r");
     if (f == NULL) {
         REPORT_ERROR(true);
         return 0;

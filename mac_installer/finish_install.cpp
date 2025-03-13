@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,12 +31,10 @@
 
 #define VERBOSE_TEST 0  /* for debugging callPosixSpawn */
 #if VERBOSE_TEST
-#define CREATE_LOG 0    /* for debugging */
+#define CREATE_LOG 1    /* for debugging */
 #else
 #define CREATE_LOG 0    /* for debugging */
 #endif
-#define USE_SPECIAL_LOG_FILE 1
-
 
 #include <Carbon/Carbon.h>
 
@@ -72,6 +70,7 @@ int main(int argc, const char * argv[]) {
     passwd                  *pw;
     bool                    isUninstall = false;
     int                     iBrandId = 0;
+    bool                    calledFromInstaller = false;
 
     // Wait until we are the active login (in case of fast user switching)
     userName = getenv("USER");
@@ -92,10 +91,13 @@ int main(int argc, const char * argv[]) {
     }
 
     for (i=1; i<argc; i++) {
+        print_to_log_file("argv[%d] = '%s'", i, argv[i]);
         if (strcmp(argv[i], "-d") == 0) {
             isUninstall = true;
-        } else if (strcmp(argv[i], "-a") != 0) {
+        } else if (strcmp(argv[i], "-a") == 0) {
             iBrandId = atoi(argv[i]);
+        } else if (strcmp(argv[i], "-i") == 0) {
+            calledFromInstaller = true;
         }
     }   // end for (i=i; i<argc; i+=2)
 
@@ -150,12 +152,15 @@ int main(int argc, const char * argv[]) {
                 print_to_log_file("returned error %d\n", err);
             }
 
-            snprintf(cmd, sizeof(cmd), "launchctl load \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
-            err = callPosixSpawn(cmd);
-            if (err) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("returned error %d\n", err);
+            if (! calledFromInstaller) {
+                snprintf(cmd, sizeof(cmd), "launchctl load \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
+                err = callPosixSpawn(cmd);
+                if (err) {
+                    print_to_log_file("Command: %s\n", cmd);
+                    print_to_log_file("returned error %d\n", err);
+                }
             }
+
         } else {
             snprintf(cmd, sizeof(cmd), "open -jg \"%s\"", appPath[iBrandId]);
             err = callPosixSpawn(cmd);
@@ -527,18 +532,14 @@ static void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-#if USE_SPECIAL_LOG_FILE
-    strlcpy(buf, getenv("HOME"), sizeof(buf));
-    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
+    sprintf(buf, "/Users/Shared/test_log_finish_install.txt");
     FILE *f;
     f = fopen(buf, "a");
     if (!f) return;
 
-//  freopen(buf, "a", stdout);
-//  freopen(buf, "a", stderr);
-#else
-    #define f stderr
-#endif
+    // File may be owned by various users, so make it world readable & writable
+    chmod(buf, 0666);
+
     time(&t);
     strlcpy(buf, asctime(localtime(&t)), sizeof(buf));
 
@@ -552,9 +553,7 @@ static void print_to_log_file(const char *format, ...) {
     va_end(args);
 
     fputs("\n", f);
-#if USE_SPECIAL_LOG_FILE
     fflush(f);
     fclose(f);
-#endif
 #endif
 }

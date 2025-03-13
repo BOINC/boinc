@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,10 +22,6 @@
 #include "BOINCBaseFrame.h"
 #import <Cocoa/Cocoa.h>
 
-#if !wxCHECK_VERSION(3,0,1)
-// This should be fixed after wxCocoa 3.0.0:
-// http://trac.wxwidgets.org/ticket/16156
-
 #ifndef NSEventTypeApplicationDefined
 #define NSEventTypeApplicationDefined NSApplicationDefined
 #endif
@@ -45,12 +41,11 @@ bool CBOINCGUIApp::CallOnInit() {
                                          subtype:0 data1:0 data2:0];
         [NSApp postEvent:event atStart:FALSE];
 
-    bool retVal = wxApp::CallOnInit();
+   bool retVal = wxApp::CallOnInit();
 
     [mypool release];
     return retVal;
 }
-#endif
 
 
 // Our application can get into a strange state
@@ -191,6 +186,20 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     return false;
 }
 
+// Each time a second instance of BOINC Managr is launched, it normally
+// nadds an additional BOINC icon to the "recently run apps" section
+// of the Dock, cluttering it up. To avoid this, we set the LSUIElement
+// key in its info.plist, which prevents the app from appearing in the
+// Dock. But if this is not a duplicate instance, we call this routine
+// to tell the system to show the icon in the Dock.
+// https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
+void CBOINCGUIApp::SetActivationPolicyAccessory(bool hideDock) {
+    if (hideDock) {
+        [NSApp setActivationPolicy: NSApplicationActivationPolicyAccessory];
+    } else {
+        [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
+    }
+}
 
 extern bool s_bSkipExitConfirmation;
 
@@ -205,7 +214,6 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
     // Refuse to quit if a modal dialog is open.
     // Unfortunately, I know of no way to disable the Quit item in our Dock menu
     if (wxGetApp().IsModalDialogDisplayed()) {
-        NSBeep();
         return userCanceledErr;
     }
 
@@ -218,6 +226,14 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
             if (([bundleID compare:@"com.apple.dock"] != NSOrderedSame)
                     && ([bundleID compare:@"edu.berkeley.boinc"] != NSOrderedSame)) {
                 s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+                if ([ NSApp isHidden ]) {
+                // If Manager was hidden and was shut down by system when user last logged
+                // out, MacOS's "Reopen windows when logging in" functionality may relaunch
+                // us visible before our LaunchAgent launches us with the "autostart" arg.
+                // Set the WasShutDownBySystem in our configuraiton file to tell us to
+                // treat this as an autostart and launch hidden.
+                    wxGetApp().SetBOINCMGRWasShutDownBySystemWhileHidden(1);
+                }
                 // The following may no longer be needed under wxCocoa-3.0.0
                 wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
             }
