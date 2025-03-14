@@ -366,6 +366,10 @@ int run_command(char *cmd, vector<string> &out) {
         out.push_back(buf);
     }
     pclose(fp);
+    if (errno) {
+        fprintf(stderr, "popen() failed errno %d: %s\n", errno, cmd);
+        return -1;
+    }
 #endif
 #endif
     return 0;

@@ -21,7 +21,7 @@
 //
 // docker_wrapper [options] arg1 arg2 ...
 // options:
-// --verbose            write Docker commands and outputs to stderr
+// --verbose            write non-polling Docker commands and outputs to stderr
 // --config <filename>  config filename, default job.toml
 // --dockerfile         Dockerfile name, default Dockerfile
 // --sporadic           app is sporadic
@@ -117,6 +117,12 @@ struct RSC_USAGE {
     }
 };
 
+// verbosity levels
+#define VERBOSE_STD     1
+    // include only start/end commands
+#define VERBOSE_ALL     2
+    // include poll commands as well
+
 // parsed version of job.toml
 //
 struct CONFIG {
@@ -129,6 +135,11 @@ struct CONFIG {
     string image_name;
         // use this as the image name, and don't delete it when done.
         // For testing.
+    string build_args;
+        // additional args for docker build command
+    string create_args;
+        // additional args for docker create command
+    int verbose;
     bool use_gpu;
         // tell Docker to enable GPU access
     int web_graphics_guest_port;
@@ -158,6 +169,13 @@ struct CONFIG {
         for (string& s: portmaps) {
             fprintf(stderr, "   portmap: %s\n", s.c_str());
         }
+        if (!build_args.empty()) {
+            fprintf(stderr, "   build args: %s\n", build_args.c_str());
+        }
+        if (!create_args.empty()) {
+            fprintf(stderr, "   create args: %s\n", create_args.c_str());
+        }
+        fprintf(stderr, "   verbose: %d\n", verbose);
     }
 };
 
@@ -167,7 +185,6 @@ char container_name[512];
 APP_INIT_DATA aid;
 CONFIG config;
 bool running;
-bool verbose = false;
 const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
 DOCKER_CONN docker_conn;
@@ -234,6 +251,18 @@ int parse_config_file() {
             config.portmaps.push_back(s);
         }
     }
+    x = v.find("build_args");
+    if (x) {
+        config.build_args = x->as<string>();
+    }
+    x = v.find("create_args");
+    if (x) {
+        config.create_args = x->as<string>();
+    }
+    x = v.find("verbose");
+    if (x) {
+        config.verbose = x->as<int>();
+    }
     return 0;
 }
 
@@ -296,7 +325,7 @@ int get_image() {
         exit(1);
     }
     if (!exists) {
-        if (verbose) fprintf(stderr, "building image\n");
+        if (config.verbose) fprintf(stderr, "building image\n");
         retval = build_image();
         if (retval) {
             fprintf(stderr, "build_image() failed: %d\n", retval);
@@ -466,7 +495,7 @@ void poll_client_msgs() {
         exit(0);
     }
     if (status.suspended) {
-        if (verbose) {
+        if (config.verbose == VERBOSE_ALL) {
             fprintf(stderr, "client: suspended\n");
         }
         if (running) {
@@ -474,7 +503,7 @@ void poll_client_msgs() {
             running = false;
         }
     } else {
-        if (verbose) {
+        if (config.verbose == VERBOSE_ALL) {
             fprintf(stderr, "client: not suspended\n");
         }
         if (!running) {
@@ -564,7 +593,7 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
-    return docker_conn.init(docker_type, distro_name, verbose);
+    return docker_conn.init(docker_type, distro_name, config.verbose>0);
 }
 #endif
 
@@ -578,7 +607,7 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[j], "--sporadic")) {
             sporadic = true;
         } else if (!strcmp(argv[j], "--verbose")) {
-            verbose = true;
+            config.verbose = VERBOSE_STD;
         } else if (!strcmp(argv[j], "--config")) {
             config_file = argv[++j];
         } else if (!strcmp(argv[j], "--dockerfile")) {
@@ -599,7 +628,7 @@ int main(int argc, char** argv) {
     boinc_init_options(&options);
     retval = parse_config_file();
     if (boinc_is_standalone()) {
-        verbose = true;
+        config.verbose = VERBOSE_STD;
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         project_dir = "project";
@@ -614,7 +643,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "can't parse config file\n");
         exit(1);
     }
-    if (verbose) config.print();
+    if (config.verbose) config.print();
 
     if (sporadic) {
         retval = boinc_sporadic_dir(".");
@@ -632,7 +661,8 @@ int main(int argc, char** argv) {
     }
 #else
     docker_conn.init(
-        boinc_is_standalone()?DOCKER:aid.host_info.docker_type, verbose
+        boinc_is_standalone()?DOCKER:aid.host_info.docker_type,
+        config.verbose>0
     );
 #endif
 
@@ -642,14 +672,18 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
     if (!exists) {
-        if (verbose) fprintf(stderr, "creating container %s\n", container_name);
+        if (config.verbose) {
+            fprintf(stderr, "creating container %s\n", container_name);
+        }
         retval = create_container();
         if (retval) {
             fprintf(stderr, "create_container() failed: %d\n", retval);
             boinc_finish(1);
         }
     }
-    if (verbose) fprintf(stderr, "starting container\n");
+    if (config.verbose) {
+        fprintf(stderr, "starting container\n");
+    }
     retval = container_op("start");
     if (retval) {
         fprintf(stderr, "resume() failed: %d\n", retval);
@@ -659,6 +693,8 @@ int main(int argc, char** argv) {
     running = true;
     double cpu_time = 0;
     for (int i=0; ; i++) {
+        boinc_sleep(POLL_PERIOD);
+            // do this before poll to avoid race condition on startup
         poll_client_msgs();
         if (i%STATUS_PERIOD == 0) {
             switch(poll_app()) {
@@ -676,7 +712,7 @@ int main(int argc, char** argv) {
             retval = get_stats(ru);
             if (!retval) {
                 cpu_time += STATUS_PERIOD*ru.cpu_frac;
-                if (verbose) {
+                if (config.verbose == VERBOSE_ALL) {
                     fprintf(stderr, "reporting CPU %f WSS %f\n", cpu_time, ru.wss);
                 }
                 boinc_report_app_status_aux(
@@ -689,6 +725,5 @@ int main(int argc, char** argv) {
                 );
             }
         }
-        boinc_sleep(POLL_PERIOD);
     }
 }
