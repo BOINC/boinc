@@ -38,6 +38,21 @@ function return_link() {
     echo "<p><a href=submit.php>Return to job submission page</a>\n";
 }
 
+// get params of in-progress batches; they might not be in progress anymore.
+//
+function get_batches_params($batches) {
+    $b = [];
+    foreach ($batches as $batch) {
+        if ($batch->state == BATCH_STATE_IN_PROGRESS) {
+            $wus = BoincWorkunit::enum("batch = $batch->id");
+            $b[] = get_batch_params($batch, $wus);
+        } else {
+            $b[] = $batch;
+        }
+    }
+    return $b;
+}
+
 function state_count($batches, $state) {
     $n = 0;
     foreach ($batches as $batch) {
@@ -74,7 +89,7 @@ function show_in_progress($batches, $limit, $user, $app) {
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app);
             }
-            start_table();
+            start_table('table-striped');
             table_header(
                 "Name",
                 "ID",
@@ -82,8 +97,8 @@ function show_in_progress($batches, $limit, $user, $app) {
                 "App",
                 "# jobs",
                 "Progress",
-                "Submitted",
-                "Logical end time<br><small>Determines priority</small>"
+                "Submitted"
+                //"Logical end time<br><small>Determines priority</small>"
             );
         }
         $pct_done = (int)($batch->fraction_done*100);
@@ -94,8 +109,8 @@ function show_in_progress($batches, $limit, $user, $app) {
             $batch->app_name,
             $batch->njobs,
             "$pct_done%",
-            local_time_str($batch->create_time),
-            local_time_str($batch->logical_end_time)
+            local_time_str($batch->create_time)
+            //local_time_str($batch->logical_end_time)
         );
     }
     if ($first) {
@@ -118,8 +133,12 @@ function show_complete($batches, $limit, $user, $app) {
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
             }
-            start_table();
-            table_header("name", "ID", "user", "app", "# jobs", "submitted");
+            form_start('submit.php', 'get');
+            form_input_hidden('action', 'retire_multi');
+            start_table('table-striped');
+            table_header(
+                "Name", "ID", "User", "App", "# Jobs", "Submitted", "Select"
+            );
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
@@ -127,13 +146,15 @@ function show_complete($batches, $limit, $user, $app) {
             $batch->user_name,
             $batch->app_name,
             $batch->njobs,
-            local_time_str($batch->create_time)
+            local_time_str($batch->create_time),
+            sprintf('<input type=checkbox name=retire_%d>', $batch->id)
         );
     }
     if ($first) {
         echo "<p>No completed batches.\n";
     } else {
         end_table();
+        form_submit('Retire selected batches');
     }
 }
 
@@ -190,6 +211,7 @@ function fill_in_app_and_user_names(&$batches) {
 //
 function show_batches($batches, $limit, $user, $app) {
     fill_in_app_and_user_names($batches);
+    $batches = get_batches_params($batches);
     show_in_progress($batches, $limit, $user, $app);
     show_complete($batches, $limit, $user, $app);
     show_aborted($batches, $limit, $user, $app);
@@ -263,6 +285,7 @@ function handle_main($user) {
     }
 
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
+    get_batches_params($batches);
     show_batches($batches, PAGE_SIZE, $user, null);
 
     page_tail();
@@ -501,14 +524,14 @@ function handle_query_batch($user) {
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
         show_button(
-            "submit.php?action=abort_batch_confirm&batch_id=$batch_id",
+            "submit.php?action=abort_batch&batch_id=$batch_id",
             "Abort batch"
         );
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
         show_button(
-            "submit.php?action=retire_batch_confirm&batch_id=$batch_id",
+            "submit.php?action=retire_batch&batch_id=$batch_id",
             "Retire batch"
         );
         break;
@@ -672,22 +695,8 @@ function handle_query_job($user) {
     page_tail();
 }
 
-function handle_abort_batch_confirm() {
-    $batch_id = get_int('batch_id');
-    page_head("Confirm abort batch");
-    echo "
-        Aborting a batch will cancel all unstarted jobs.
-        Are you sure you want to do this?
-        <p>
-    ";
-    show_button(
-        "submit.php?action=abort_batch&batch_id=$batch_id",
-        "Yes - abort batch"
-    );
-    return_link();
-    page_tail();
-}
-
+// is user allowed to retire or abort this batch?
+//
 function check_access($user, $batch) {
     if ($user->id == $batch->user_id) return;
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
@@ -697,31 +706,31 @@ function check_access($user, $batch) {
     error_page("no access");
 }
 
-function handle_abort_batch($user) {
+function handle_abort_batch() {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) error_page("no such batch");
     check_access($user, $batch);
-    abort_batch($batch);
-    page_head("Batch aborted");
-    return_link();
-    page_tail();
-}
 
-function handle_retire_batch_confirm() {
-    $batch_id = get_int('batch_id');
-    page_head("Confirm retire batch");
-    echo "
-        Retiring a batch will remove all of its output files.
-        Are you sure you want to do this?
-        <p>
-    ";
-    show_button(
-        "submit.php?action=retire_batch&batch_id=$batch_id",
-        "Yes - retire batch"
-    );
-    return_link();
-    page_tail();
+    if (get_int('confirmed', true)) {
+        abort_batch($batch);
+        page_head("Batch aborted");
+        return_link();
+        page_tail();
+    } else {
+        page_head("Confirm abort batch");
+        echo "
+            Aborting a batch will cancel all unstarted jobs.
+            Are you sure you want to do this?
+            <p>
+        ";
+        show_button(
+            "submit.php?action=abort_batch&batch_id=$batch_id&confirmed=1",
+            "Yes - abort batch"
+        );
+        return_link();
+        page_tail();
+    }
 }
 
 function handle_retire_batch($user) {
@@ -729,8 +738,40 @@ function handle_retire_batch($user) {
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) error_page("no such batch");
     check_access($user, $batch);
-    retire_batch($batch);
-    page_head("Batch retired");
+
+    if (get_int('confirmed', true)) {
+        retire_batch($batch);
+        page_head("Batch retired");
+        return_link();
+        page_tail();
+    } else {
+        page_head("Confirm retire batch");
+        echo "
+            Retiring a batch will remove all of its output files.
+            Are you sure you want to do this?
+            <p>
+        ";
+        show_button(
+            "submit.php?action=retire_batch&batch_id=$batch_id&confirmed=1",
+            "Yes - retire batch"
+        );
+        return_link();
+        page_tail();
+    }
+}
+
+function handle_retire_multi($user) {
+    $batches = BoincBatch::enum(
+        sprintf('user_id=%d and state=%d', $user->id, BATCH_STATE_COMPLETE)
+    );
+    page_head('Retiring batches');
+    foreach ($batches as $batch) {
+        $x = sprintf('retire_%d', $batch->id);
+        if (get_str($x, true) == 'on') {
+            retire_batch($batch);
+            echo "<p>retired batch $batch->name\n";
+        }
+    }
     return_link();
     page_tail();
 }
@@ -789,7 +830,6 @@ $action = get_str('action', true);
 switch ($action) {
 case '': handle_main($user); break;
 case 'abort_batch': handle_abort_batch($user); break;
-case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'admin': handle_admin($user); break;
 case 'admin_app': handle_admin_app($user); break;
 case 'admin_all': handle_admin_all($user); break;
@@ -797,7 +837,7 @@ case 'batch_stats': handle_batch_stats($user); break;
 case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch($user); break;
-case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
+case 'retire_multi': handle_retire_multi($user); break;
 case 'show_all': handle_show_all($user); break;
 case 'toggle_loc': handle_toggle_loc($user); break;
 default:
