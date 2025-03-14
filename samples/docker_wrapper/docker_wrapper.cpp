@@ -189,6 +189,7 @@ const char* config_file = "job.toml";
 const char* dockerfile = "Dockerfile";
 DOCKER_CONN docker_conn;
 vector<string> app_args;
+DOCKER_TYPE docker_type;
 
 // parse job config file
 //
@@ -307,7 +308,9 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    sprintf(cmd, "build . -t %s -f %s", image_name, dockerfile);
+    sprintf(cmd, "build . -t %s -f %s %s",
+        image_name, dockerfile, config.build_args.c_str()
+    );
     int retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     return 0;
@@ -438,11 +441,28 @@ int create_container() {
         }
     }
 
+    if (!config.create_args.empty()) {
+        strcat(cmd, " ");
+        strcat(cmd, config.create_args.c_str());
+    }
+
+    // podman sends logging to journald otherwise
+    //
+    if (docker_type == PODMAN) {
+        strcat(cmd, " --log-driver=k8s-file");
+    }
+
     strcat(cmd, " ");
     strcat(cmd, image_name);
     retval = docker_conn.command(cmd, out);
-    if (retval) return retval;
-    if (error_output(out)) return -1;
+    if (retval) {
+        fprintf(stderr, "create command failed: %d\n", retval);
+        return retval;
+    }
+    if (error_output(out)) {
+        fprintf(stderr, "create command generated 'Error'\n");
+        return -1;
+    }
 
     return 0;
 }
@@ -583,13 +603,15 @@ int get_stats(RSC_USAGE &ru) {
 //
 int wsl_init() {
     string distro_name;
-    DOCKER_TYPE docker_type;
     if (boinc_is_standalone()) {
         distro_name = "Ubuntu";
         docker_type = PODMAN;
     } else {
         WSL_DISTRO* distro = aid.host_info.wsl_distros.find_docker();
-        if (!distro) return -1;
+        if (!distro) {
+            fprintf(stderr, "wsl_init(): no usable WSL distro\n");
+            return -1;
+        }
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
@@ -660,10 +682,8 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
 #else
-    docker_conn.init(
-        boinc_is_standalone()?DOCKER:aid.host_info.docker_type,
-        config.verbose>0
-    );
+    docker_type = boinc_is_standalone()?DOCKER:aid.host_info.docker_type;
+    docker_conn.init(docker_type, config.verbose>0);
 #endif
 
     retval = container_exists(exists);
