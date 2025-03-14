@@ -246,7 +246,10 @@ int WSL_CMD::setup_root(const char* distro_name) {
     char cmd[1024];
     sprintf(cmd, "wsl -d %s -u root", distro_name);
     int retval = run_program_pipe(cmd, in_write, out_read, proc_handle);
-    if (retval) return retval;
+    if (retval) {
+        fprintf(stderr, "WSL_CMD::setup_root() failed: %d\n", retval);
+        return retval;
+    }
     return 0;
 }
 
@@ -259,7 +262,10 @@ int WSL_CMD::run_program_in_wsl(
         use_cwd, in_read, out_write, out_write,
         &proc_handle
     );
-    return (ret == S_OK)?0:-1;
+    if (ret != S_OK) {
+        fprintf(stderr, "pWslLaunch failed: %d\n", ret);
+    }
+    return 0;
 }
 
 int read_from_pipe(
