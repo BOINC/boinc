@@ -52,7 +52,8 @@ WHERE
     received_time > '$query_received_time'
 GROUP BY
     app_version_id,
-    exit_status
+    exit_status,
+    host.os_name
 order by error_count desc
 ";
 

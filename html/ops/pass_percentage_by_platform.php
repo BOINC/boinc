@@ -106,7 +106,7 @@ WHERE
        $limit_app_versions
        received_time > '$query_received_time'
 GROUP BY
-       app_version_id DESC,
+       app_version_id,
        platform
 ORDER BY
        $query_order

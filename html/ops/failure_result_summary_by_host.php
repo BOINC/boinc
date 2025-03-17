@@ -27,7 +27,7 @@ $query_received_time = time() - $_GET['nsecs'];
 $main_query = "
 SELECT
        app_version_id,
-       app_version_num,
+       ANY_VALUE(app_version_num),
        hostid AS Host_ID,
        case
            when INSTR(host.os_name, 'Darwin') then 'Darwin'
