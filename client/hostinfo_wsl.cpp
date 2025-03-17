@@ -354,15 +354,15 @@ static bool get_docker_version_aux(
             msg_printf(0, MSG_INFO, "Docker detection in %s:",
                 wd.distro_name.c_str()
             );
-            msg_printf(0, MSG_INFO, "   cmd: %s", cmd.c_str());
-            msg_printf(0, MSG_INFO, "   output: %s", reply.c_str());
+            msg_printf(0, MSG_INFO, "-   cmd: %s", cmd.c_str());
+            msg_printf(0, MSG_INFO, "-   output: %s", reply.c_str());
         }
         CloseHandle(rs.proc_handle);
     } else {
         msg_printf(0, MSG_INFO, "Docker detection in %s:",
             wd.distro_name.c_str()
         );
-        msg_printf(0, MSG_INFO, "   cmd failed: %s", cmd.c_str());
+        msg_printf(0, MSG_INFO, "-   cmd failed: %s", cmd.c_str());
     }
     return ret;
 }
