@@ -21,8 +21,8 @@ require_once("../inc/util_ops.inc");
 db_init();
 admin_page_head("Failure summary by (app version, error)");
 
-$query_appid = $_GET['appid'];
-$query_received_time = time() - $_GET['nsecs'];
+$query_appid = get_int('appid');
+$query_received_time = time() - get_int('nsecs');
 
 $q = new SqlQueryString();
 $q->process_form_items();
@@ -31,25 +31,15 @@ $main_query = "
 SELECT
     app_version_id,
     app_version.plan_class,
-    case
-        when INSTR(host.os_name, 'Darwin') then 'Darwin'
-        when INSTR(host.os_name, 'Linux') then 'Linux'
-        when INSTR(host.os_name, 'Windows') then 'Windows'
-        when INSTR(host.os_name, 'SunOS') then 'SunOS'
-        when INSTR(host.os_name, 'Solaris') then 'Solaris'
-        when INSTR(host.os_name, 'Mac') then 'Mac'
-        else 'Unknown'
-    end AS OS_Name,
     exit_status,
     COUNT(*) AS error_count
 FROM   result
-        left join host on result.hostid = host.id
         left join app_version on result.app_version_id = app_version.id
 WHERE
-    result.appid = '$query_appid' and
-    server_state = '5' and
-    outcome = '3' and
-    received_time > '$query_received_time'
+    result.appid = $query_appid and
+    server_state = 5 and
+    outcome = 3 and
+    received_time > $query_received_time
 GROUP BY
     app_version_id,
     exit_status

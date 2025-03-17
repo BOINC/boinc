@@ -21,23 +21,13 @@ require_once("../inc/util_ops.inc");
 db_init();
 admin_page_head("Failures grouped by app version and host");
 
-$query_appid = $_GET['appid'];
-$query_received_time = time() - $_GET['nsecs'];
+$query_appid = get_int('appid');
+$query_received_time = time() - get_int('nsecs');
 
 $main_query = "
 SELECT
        app_version_id,
-       app_version_num,
-       hostid AS Host_ID,
-       case
-           when INSTR(host.os_name, 'Darwin') then 'Darwin'
-           when INSTR(host.os_name, 'Linux') then 'Linux'
-           when INSTR(host.os_name, 'Windows') then 'Windows'
-           when INSTR(host.os_name, 'SunOS') then 'SunOS'
-           when INSTR(host.os_name, 'Solaris') then 'Solaris'
-           when INSTR(host.os_name, 'Mac') then 'Mac'
-           else 'Unknown'
-       end AS OS_Name,
+       hostid,
        case
            when INSTR(host.os_name, 'Linux') then
                case
@@ -52,10 +42,10 @@ SELECT
 FROM   result
            left join host on result.hostid = host.id
 WHERE
-       appid = '$query_appid' and
-       server_state = '5' and
-       outcome = '3' and
-       received_time > '$query_received_time'
+       appid = $query_appid and
+       server_state = 5 and
+       outcome = 3 and
+       received_time > $query_received_time
 GROUP BY
        app_version_id,
        hostid
@@ -73,9 +63,9 @@ table_header(
 while ($res = _mysql_fetch_object($result)) {
     table_row(
         app_version_desc($res->app_version_id),
-        "<a href=".url_base()."show_host_detail.php?hostid=$res->Host_ID>$res->Host_ID</a>",
+        "<a href=".url_base()."show_host_detail.php?hostid=$res->hostid>$res->hostid</a>",
         $res->OS_Version, $res->Results_Today,
-        "<a href=db_action.php?table=result&detail=low&hostid=$res->Host_ID&app_version_id=$res->app_version_id&server_state=5&outcome=3>$res->error_count</a>"
+        "<a href=db_action.php?table=result&detail=low&hostid=$res->hostid&app_version_id=$res->app_version_id&server_state=5&outcome=3>$res->error_count</a>"
     );
 }
 _mysql_free_result($result);
