@@ -160,7 +160,10 @@ struct DOCKER_CONN {
 #endif
     int command(const char* cmd, std::vector<std::string> &out);
 
-    static const int TIMEOUT = 10;    // timeout for docker commands
+    static const int CMD_TIMEOUT = 600;
+        // timeout for docker commands.
+        // This includes build commands that may have to download 
+        // a lot of big files, so make it fairly large.
 
     // parse a line from "docker images" output; return name
     int parse_image_name(std::string line, std::string &name);

@@ -365,36 +365,33 @@ const char* docker_type_str(DOCKER_TYPE type) {
     return "unknown";
 }
 
+// parse a string like
+// Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1
+// or
+// podman version 4.9.3
+// ... possibly with a \n at the end.
+// Return the version (24.0.7 or 4.9.3)
+//
 bool HOST_INFO::get_docker_version_string(
-    DOCKER_TYPE type, const char* raw, string &version
+    DOCKER_TYPE /*type*/, const char* raw, string &version
 ) {
     char *p, *q;
     const char *prefix;
-    switch (type) {
-    case DOCKER:
-        // Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1
-        prefix = "Docker version ";
-        p = (char*)strstr(raw, prefix);
-        if (!p) return false;
-        p += strlen(prefix);
-        q = (char*)strstr(p, ",");
-        if (!q) return false;
-        *q = 0;
-        version = p;
-        return true;
-    case PODMAN:
-        // podman version 4.9.3
-        prefix = "podman version ";
-        p = (char*)strstr(raw, prefix);
-        if (!p) return false;
-        p += strlen(prefix);
-        q = (char*)strstr(p, "\n");
-        if (q) *q = 0;
-        version = p;
-        return true;
-    default: break;
+    prefix = "version ";
+    p = (char*)strstr(raw, prefix);
+    if (!p) return false;
+    p += strlen(prefix);
+    q = (char*)strstr(p, ",");
+    if (!q) {
+        q = (char*)strstr(p, " ");
     }
-    return false;
+    if (!q) {
+        q = (char*)strstr(p, "\n");
+    }
+    if (!q) return false;
+    *q = 0;
+    version = p;
+    return true;
 }
 
 bool HOST_INFO::get_docker_compose_version_string(
