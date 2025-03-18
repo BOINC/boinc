@@ -723,6 +723,9 @@ int DOCKER_CONN::init(
         int retval = ctl_wc.setup_root(distro_name.c_str());
         if (retval) return retval;
     } else {
+        fprintf(stderr,
+            "DOCKER_CONN::init(): bad docker type %d\n", docker_type
+        );
         return -1;
     }
     verbose = _verbose;

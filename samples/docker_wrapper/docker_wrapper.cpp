@@ -685,6 +685,7 @@ int main(int argc, char** argv) {
     docker_type = boinc_is_standalone()?DOCKER:aid.host_info.docker_type;
     docker_conn.init(docker_type, config.verbose>0);
 #endif
+    fprintf(stderr, "Using %s\n", docker_type_str(docker_type));
 
     retval = container_exists(exists);
     if (retval) {
