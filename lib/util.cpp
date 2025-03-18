@@ -357,6 +357,7 @@ int run_command(char *cmd, vector<string> &out) {
 #else
 #ifndef _USING_FCGI_
     char buf[256];
+    errno = 0;
     FILE* fp = popen(cmd, "r");
     if (!fp) {
         fprintf(stderr, "popen() failed: %s\n", cmd);
