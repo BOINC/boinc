@@ -162,7 +162,7 @@ struct DOCKER_CONN {
 
     static const int CMD_TIMEOUT = 600;
         // timeout for docker commands.
-        // This includes build commands that may have to download 
+        // This includes build commands that may have to download
         // a lot of big files, so make it fairly large.
         // Note: this is enforced only on Win.
 
