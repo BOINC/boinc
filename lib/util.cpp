@@ -357,6 +357,7 @@ int run_command(char *cmd, vector<string> &out) {
 #else
 #ifndef _USING_FCGI_
     char buf[256];
+    errno = 0;
     FILE* fp = popen(cmd, "r");
     if (!fp) {
         fprintf(stderr, "popen() failed: %s\n", cmd);
@@ -753,7 +754,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     sprintf(buf, "%s %s; echo EOM\n", cli_prog, cmd);
     write_to_pipe(ctl_wc.in_write, buf);
     retval = read_from_pipe(
-        ctl_wc.out_read, ctl_wc.proc_handle, output, TIMEOUT, "EOM"
+        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
     );
     if (retval) {
         fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
