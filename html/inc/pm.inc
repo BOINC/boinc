@@ -147,6 +147,15 @@ function pm_form_page($replyto, $userid, $error = null) {
         if (!$user) {
             error_page("Sender no longer exists");
         }
+        if (is_banished($user)) {
+            echo sprintf(
+                "<p>
+                This user is banished until %s.
+                You can send them a message, but they can't reply until then.
+                <p>",
+                time_str($user->prefs->banished_until)
+            );
+        }
         $writeto = UNIQUE_USER_NAME?$user->name:$userid." (".$user->name.")";
     } else {
         $writeto = sanitize_tags(post_str("to", true));
