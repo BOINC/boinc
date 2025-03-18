@@ -1118,7 +1118,7 @@ switch ($r->getName()) {
     case 'submit_batch': submit_batch($r); break;
     default:
         log_write("bad command");
-        xml_error(-1, "bad command: ".$r->getName());
+        xml_error(-1, "bad command");
         break;
 }
 
