@@ -424,7 +424,7 @@ int create_container() {
     // web graphics
     //
     if (config.web_graphics_guest_port) {
-        int host_port;
+        int host_port = 0;
         retval = boinc_get_port(false, host_port);
         if (retval) {
             fprintf(stderr, "can't allocated host port for web graphics\n");
