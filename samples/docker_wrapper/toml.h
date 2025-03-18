@@ -387,7 +387,7 @@ inline ParseResult parse(std::istream& is)
     if (v.valid())
         return ParseResult(std::move(v), std::string());
 
-    return ParseResult(std::move(v), parser.errorReason());
+    return ParseResult(std::move(v), std::move(parser.errorReason()));
 }
 
 inline ParseResult parseFile(const std::string& filename)
