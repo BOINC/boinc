@@ -164,6 +164,7 @@ struct DOCKER_CONN {
         // timeout for docker commands.
         // This includes build commands that may have to download 
         // a lot of big files, so make it fairly large.
+        // Note: this is enforced only on Win.
 
     // parse a line from "docker images" output; return name
     int parse_image_name(std::string line, std::string &name);
