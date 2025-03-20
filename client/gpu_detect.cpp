@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2009 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -782,16 +782,13 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         return retval;
     }
 
-    int status;
+    int status = 0;
     retval = get_exit_status(prog, status, 10);
     if (retval) {
         char buf[200];
 #ifdef _WIN32
-        char buf2[200];
-        windows_format_error_string(retval, buf2, sizeof(buf2));
         snprintf(buf, sizeof(buf),
-            "process exited with status 0x%x: %s", status, buf2
-        );
+            "process exited after the time-out interval elapsed");
 #else
         if (WIFEXITED(status)) {
             int code = WEXITSTATUS(status);
@@ -807,10 +804,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             snprintf(buf, sizeof(buf), "unknown status %d", status);
         }
 #endif
-        msg_printf(0, MSG_INFO,
-            "GPU detection failed: %s",
-            buf
-        );
+        msg_printf(0, MSG_INFO, "GPU detection failed: %s", buf);
     }
 
     return 0;
