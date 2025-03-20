@@ -150,7 +150,8 @@ std::tuple<std::string, std::string> FileTable::GetFileName(
         auto found = false;
         for (const auto& file : files) {
             if (file.getDirectory() == directory &&
-                file.getShortFileName() == name + extension) {
+                file.getShortFileName() == name + extension &&
+                file.getFilepath() != filePath) {
                 found = true;
                 break;
             }

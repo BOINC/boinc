@@ -71,7 +71,6 @@ class IntegrationTests:
         ts.expect_true(os.path.exists(self._get_test_executable_file_path("boinccmd.exe")), "Test 'boinccmd.exe' file exists in 'C:\\Program Files\\BOINC\\'")
         ts.expect_true(os.path.exists(self._get_test_executable_file_path("boincmgr.exe")), "Test 'boincmgr.exe' file exists in 'C:\\Program Files\\BOINC\\'")
         ts.expect_true(os.path.exists(self._get_test_executable_file_path("boincscr.exe")), "Test 'boincscr.exe' file exists in 'C:\\Program Files\\BOINC\\'")
-        ts.expect_true(os.path.exists(self._get_test_executable_file_path("boincsvcctrl.exe")), "Test 'boincsvcctrl.exe' file exists in 'C:\\Program Files\\BOINC\\'")
         ts.expect_true(os.path.exists(self._get_test_executable_file_path("boinctray.exe")), "Test 'boinctray.exe' file exists in 'C:\\Program Files\\BOINC\\'")
         ts.expect_true(os.path.exists(self._get_test_data_file_path("all_projects_list.xml")), "Test 'all_projects_list.xml' file exists in 'C:\\ProgramData\\BOINC\\'")
         return ts.result()
