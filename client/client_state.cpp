@@ -1276,18 +1276,20 @@ PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
 
     safe_strcpy(buf, master_url);
     canonicalize_master_url(buf, sizeof(buf));
-    char* p = strstr(buf, "//");
+    const char* p = strstr(buf, "//");
     if (!p) return NULL;
     p += 2;
     if (strcasestr(p, "www.") == p) p += 4;
+    strcpy(buf, p);
 
-    for (unsigned int i=0; i<projects.size(); i++) {
-        char* q = strstr(projects[i]->master_url, "//");
+    for (PROJECT *project: projects) {
+        const char* q = strstr(project->master_url, "//");
         if (!q) continue;
+        q += 2;
         if (strcasestr(q, "www.") == q) q += 4;
-        if (!strcasecmp(p, q)) {
+        if (!strcasecmp(buf, q)) {
             // note: canonicalize_master_url() doesn't lower-case
-            return projects[i];
+            return project;
         }
     }
     return 0;
