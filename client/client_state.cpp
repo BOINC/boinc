@@ -1267,22 +1267,29 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif // ifndef SIM
 
 // Find the project with the given master_url.
-// Ignore differences in protocol, case, and trailing /
+// Ignore differences in protocol, case, leading 'www.', and trailing /
+// (the URL could come from an account manager,
+// with differences from the real URL)
 //
 PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     char buf[256];
 
     safe_strcpy(buf, master_url);
     canonicalize_master_url(buf, sizeof(buf));
-    char* p = strstr(buf, "//");
+    const char* p = strstr(buf, "//");
     if (!p) return NULL;
+    p += 2;
+    if (strcasestr(p, "www.") == p) p += 4;
+    strcpy(buf, p);
 
-    for (unsigned int i=0; i<projects.size(); i++) {
-        char* q = strstr(projects[i]->master_url, "//");
+    for (PROJECT *project: projects) {
+        const char* q = strstr(project->master_url, "//");
         if (!q) continue;
-        if (!strcasecmp(p, q)) {
+        q += 2;
+        if (strcasestr(q, "www.") == q) q += 4;
+        if (!strcasecmp(buf, q)) {
             // note: canonicalize_master_url() doesn't lower-case
-            return projects[i];
+            return project;
         }
     }
     return 0;
