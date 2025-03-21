@@ -201,11 +201,11 @@ void escape_url_readable(char *in, char* out) {
 
 
 // Canonicalize a master url.
-//   - Convert the first part of a URL (before the "://") to http://,
-// or prepend it
+//   - Prepend http:// if protocol missing
 //   - Remove double slashes in the rest
+//   - strip leading 'www.'
 //   - Add a trailing slash if necessary
-//   - Convert all alphabet characters to lower case
+//   - Convert all alphabetic characters to lower case
 //
 void canonicalize_master_url(char* url, int len) {
     char buf[1024];
@@ -218,6 +218,12 @@ void canonicalize_master_url(char* url, int len) {
         strlcpy(buf, p+3, sizeof(buf));
     } else {
         strlcpy(buf, url, sizeof(buf));
+    }
+
+    // strip leading www.
+    //
+    if (strstr(buf, "www.") == buf) {
+        strcpy(buf, buf+4);
     }
     while (1) {
         p = strstr(buf, "//");
