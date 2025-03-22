@@ -1255,12 +1255,21 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 }
 
 bool HOST_INFO::get_docker_version(){
-    // podman doesn't work on Linux with remote FS, so don't check for it
-#if defined(__APPLE__) || defined(_WIN32)
-    if (get_docker_version_aux(PODMAN)) {
-        return true;
+    bool check_podman = true;
+#ifdef __linux__
+    // podman doesn't work on Linux with remote FS
+    bool remote;
+    int retval = is_filesystem_remote(".", remote);
+    if (!retval && remote) {
+        check_podman = false;
+        msg_printf(NULL, MSG_INFO, "Data dir is remote: not checking podman");
     }
 #endif
+    if (check_podman) {
+        if (get_docker_version_aux(PODMAN)) {
+            return true;
+        }
+    }
     if (get_docker_version_aux(DOCKER)) {
         return true;
     }
