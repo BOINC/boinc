@@ -1597,6 +1597,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     int                 i;
     int                 userIndex;
     char                path[MAXPATHLEN];
+    Boolean             hadLoginItemLaunchAgent = false;
 
 //    char                nameOfSkin[256];
 //    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
@@ -1730,6 +1731,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     fflush(stdout);
 
     for (userIndex=0; userIndex<(int)human_user_names.size(); ++userIndex) {
+        hadLoginItemLaunchAgent = false;
         strlcpy(human_user_name, human_user_names[userIndex].c_str(), sizeof(human_user_name));
 
         printf("[2] Checking user %s\n", human_user_name);
@@ -1855,7 +1857,9 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 }
             }
 
-            if (compareOSVersionTo(13, 0) >= 0) {
+            if (compareOSVersionTo(10, 13) >= 0) {
+                snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist", pw->pw_name);
+                if (boinc_file_exists(s)) hadLoginItemLaunchAgent = true;
                 deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
                 // The -i argument tells BOINC_Finish_Install not to "Launchctl load" our
                 // LaunchAgent, because doing that launches the Manager immediately (before
@@ -1869,11 +1873,15 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
             }
-            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n",
-                pw->pw_name, geteuid(), deleteLoginItem);
-            fflush(stdout);
-            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
-
+            // SetLoginItemOSAScript uses "System Events" which can trigger an aert which
+            // the user may find alraming. If we previously set a login item launch agent,
+            // we removed the old style login item at that time, so we avoid that alert.
+            if (!hadLoginItemLaunchAgent) {
+                printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n",
+                    pw->pw_name, geteuid(), deleteLoginItem);
+                fflush(stdout);
+                SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+            }
         } else {
 
             printf("[2] calling FixLaunchServicesDataBase for Finish_Install for user %s\n", pw->pw_name);
