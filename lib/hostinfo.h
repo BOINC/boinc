@@ -210,4 +210,8 @@ typedef double (*nxIdleTimeProc)(NXEventHandle handle);
 extern NXEventHandle gEventHandle;
 #endif
 
+// is the filesystem remote? (Linux only)
+//
+extern int is_filesystem_remote(const char* path, bool&);
+
 #endif
