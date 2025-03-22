@@ -1242,12 +1242,17 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     FILE* f = popen(cmd.c_str(), "r");
     if (f) {
         char buf[256];
-        fgets(buf, 256, f);
-        std::string version;
-        if (get_docker_version_string(type, buf, version)) {
-            safe_strcpy(docker_version, version.c_str());
-            docker_type = type;
-            ret = true;
+        // normally the version is on the first line,
+        // but it's on the 2nd line if using podman-docker
+        //
+        while (fgets(buf, 256, f)) {
+            string version;
+            if (get_docker_version_string(type, buf, version)) {
+                safe_strcpy(docker_version, version.c_str());
+                docker_type = type;
+                ret = true;
+                break;
+            }
         }
         pclose(f);
     }
@@ -1277,7 +1282,7 @@ bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     if (f) {
         char buf[256];
         fgets(buf, 256, f);
-        std::string version;
+        string version;
         if (get_docker_compose_version_string(type, buf, version)) {
             safe_strcpy(docker_compose_version, version.c_str());
             docker_compose_type = type;
