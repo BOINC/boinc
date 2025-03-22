@@ -34,6 +34,8 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+using std::string;
+
 #include "backend_lib.h"
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -577,17 +579,31 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-// modify host struct based on request.
-// Copy all fields that are determined by the client.
-//
-static int modify_host_struct(HOST& host) {
-    host.timezone = g_request->host.timezone;
-    strlcpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
+void get_docker_info(string &version, int &type) {
+    if (strstr(g_request->host.os_name, "Windows")) {
+        for (WSL_DISTRO &wd: g_request->host.wsl_distros.distros) {
+            if (wd.disallowed) continue;
+            if (wd.docker_version.empty()) continue;
+            version = wd.docker_version;
+            type = wd.docker_type;
+        }
+    } else {
+        version = g_request->host.docker_version;
+        type = g_request->host.docker_type;
+    }
+}
 
-    // assemble a string with info about BOINC client, GPUs, VBox, and Docker
-    // store it in host.serialnum
-    //
-    char buf[1024], buf2[1024];
+// assemble a string with miscellaneous host info:
+// BOINC client, GPUs, VBox, and Docker
+//
+// The string is a sequence of descriptors,
+// each of the form [name|info|info|...]
+// (at some point we should use JSON instead)
+//
+// This is stored in host.serialnum, which is 254 chars.
+//
+static void get_misc_info(char* info, int info_len) {
+    char result[1024], buf[1024];
     sprintf(buf, "[BOINC|%d.%d.%d",
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
@@ -598,17 +614,47 @@ static int modify_host_struct(HOST& host) {
         strcat(buf, g_request->client_brand);
     }
     strcat(buf, "]");
-    strlcpy(host.serialnum, buf, sizeof(host.serialnum));
-    g_request->coprocs.summary_string(buf2, sizeof(buf2));
-    strlcat(host.serialnum, buf2, sizeof(host.serialnum));
+    safe_strcpy(result, buf);
+
+    g_request->coprocs.summary_string(buf, sizeof(buf));
+    safe_strcat(result, buf);
+
     if (strlen(g_request->host.virtualbox_version)) {
-        sprintf(buf2, "[vbox|%s|%d|%d]",
+        sprintf(buf, "[vbox|%s|%d|%d]",
             g_request->host.virtualbox_version,
             (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?1:0,
             g_request->host.p_vm_extensions_disabled?0:1
         );
-        strlcat(host.serialnum, buf2, sizeof(host.serialnum));
+        safe_strcat(result, buf);
     }
+
+    string docker_version;
+    int docker_type;
+    get_docker_info(docker_version, docker_type);
+    if (!docker_version.empty()) {
+        sprintf(buf, "[docker|%s|%d]", docker_version.c_str(), docker_type);
+        safe_strcat(result, buf);
+    }
+    if (g_request->dont_use_docker) {
+        safe_strcat(result, "[dont_use_docker]");
+    }
+    if (g_request->dont_use_wsl) {
+        safe_strcat(result, "[dont_use_wsl]");
+    }
+
+    strlcpy(info, result, info_len);
+}
+
+// modify host struct based on request.
+// Copy all fields that are determined by the client.
+//
+static int modify_host_struct(HOST& host) {
+    host.timezone = g_request->host.timezone;
+    strlcpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
+
+    char buf[1024];
+    get_misc_info(buf, sizeof(buf));
+    safe_strcpy(host.serialnum, buf);
 
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
         strlcpy(
@@ -703,7 +749,7 @@ int send_result_abort() {
     int aborts_sent = 0;
     int retval = 0;
     DB_IN_PROGRESS_RESULT result;
-    std::string result_names;
+    string result_names;
     unsigned int i;
 
     if (g_request->other_results.size() == 0) {
