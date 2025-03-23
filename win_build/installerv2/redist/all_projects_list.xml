@@ -295,14 +295,12 @@
         <name>aarch64-unknown-linux-gnu</name>
         <name>x86_64-pc-freebsd[avx]</name>
         <name>x86_64-pc-freebsd[sse2]</name>
-        <name>i686-pc-linux-gnu[sse2]</name>
-        <name>aarch64-android-linux-gnu</name>
         <name>windows_x86_64[vbox64_mt_mcore_cms]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_cms]</name>
         <name>windows_x86_64[vbox64_theory]</name>
-        <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
         <name>x86_64-pc-linux-gnu[native_theory]</name>
+        <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
         <name>x86_64-apple-darwin[vbox64_theory]</name>
         <name>x86_64-pc-freebsd[vbox64_theory]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
