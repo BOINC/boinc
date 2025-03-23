@@ -682,7 +682,27 @@ int CLIENT_STATE::init() {
     check_app_config();
     show_app_config();
 
+    // fill in resource usage for app versions that are missing it
+    // (typically anonymous platform)
+    //
+    for (APP_VERSION* avp: app_versions) {
+        if (!avp->resource_usage.avg_ncpus) {
+            avp->resource_usage.avg_ncpus = 1;
+        }
+        if (!avp->resource_usage.flops) {
+            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
+
+            // for GPU apps, use conservative estimate:
+            // assume GPU runs at 10X peak CPU speed
+            //
+            if (avp->resource_usage.rsc_type) {
+                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
+            }
+        }
+    }
+
     // must go after check_app_config() and parse_state_file()
+    // and after the above app version stuff
     //
     for (RESULT* rp: results) {
         rp->init_resource_usage();
@@ -718,26 +738,6 @@ int CLIENT_STATE::init() {
             p->check_no_apps();
         } else {
             p->check_no_rsc_apps();
-        }
-    }
-
-    // fill in resource usage for app versions that are missing it
-    // (typically anonymous platform)
-    //
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION* avp = app_versions[i];
-        if (!avp->resource_usage.avg_ncpus) {
-            avp->resource_usage.avg_ncpus = 1;
-        }
-        if (!avp->resource_usage.flops) {
-            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
-
-            // for GPU apps, use conservative estimate:
-            // assume GPU runs at 10X peak CPU speed
-            //
-            if (avp->resource_usage.rsc_type) {
-                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
-            }
         }
     }
 
