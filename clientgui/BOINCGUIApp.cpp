@@ -283,7 +283,7 @@ bool CBOINCGUIApp::OnInit() {
     // Detect where BOINC Manager executable name.
     DetectExecutableName();
 
-    // Detect where BOINC Manager was installed too.
+    // Detect where BOINC Manager was installed to.
     DetectRootDirectory();
 
     // Detect where the BOINC Data files are.
