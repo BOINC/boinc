@@ -71,6 +71,8 @@ int main(int argc, const char * argv[]) {
     bool                    isUninstall = false;
     int                     iBrandId = 0;
     bool                    calledFromInstaller = false;
+    bool                    calledFromManager = false;
+    struct stat             buf;
 
     // Wait until we are the active login (in case of fast user switching)
     userName = getenv("USER");
@@ -80,13 +82,18 @@ int main(int argc, const char * argv[]) {
 
     pw = getpwuid(getuid());
 
-
-    for (i=0; i<NUMBRANDS; i++) {
-        snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", appName[i]);
-        err = callPosixSpawn(cmd);
-        if (err) {
-            print_to_log_file("Command: %s\n", cmd);
-            print_to_log_file("Delete login item containing %s returned error %d\n", appName[i], err);
+    // Using "System Events" which can trigger an alert which the user may find alraming.
+    // If we previously set a login item launch agent,  we removed the old style login
+    // item at that time, so we can avoid that alert.
+    snprintf(cmd, sizeof(cmd), "/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist", pw->pw_name);
+    if (!stat(cmd, &buf)) {
+        for (i=0; i<NUMBRANDS; i++) {
+            snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", appName[i]);
+            err = callPosixSpawn(cmd);
+            if (err) {
+                print_to_log_file("Command: %s\n", cmd);
+                print_to_log_file("Delete login item containing %s returned error %d\n", appName[i], err);
+            }
         }
     }
 
@@ -98,6 +105,8 @@ int main(int argc, const char * argv[]) {
             iBrandId = atoi(argv[i]);
         } else if (strcmp(argv[i], "-i") == 0) {
             calledFromInstaller = true;
+        } else if (strcmp(argv[i], "-m") == 0) {
+            calledFromManager = true;
         }
     }   // end for (i=i; i<argc; i+=2)
 
@@ -113,7 +122,7 @@ int main(int argc, const char * argv[]) {
             print_to_log_file("killall %s returned error %d\n", appName[iBrandId], err);
         }
 
-        if (compareOSVersionTo(13, 0) >= 0) {
+        if (compareOSVersionTo(10, 13) >= 0) {
             snprintf(cmd, sizeof(cmd), "launchctl unload \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
             err = callPosixSpawn(cmd);
             if (err) {
@@ -129,7 +138,7 @@ int main(int argc, const char * argv[]) {
         }
 
     } else {
-        if (compareOSVersionTo(13, 0) >= 0) {
+        if (compareOSVersionTo(10, 13) >= 0) {
             bool success = MakeLaunchManagerLaunchAgent(iBrandId, pw);
             if (!success) {
                 print_to_log_file("Command: %s\n", cmd);
@@ -144,7 +153,7 @@ int main(int argc, const char * argv[]) {
             }
         }
 
-        if (compareOSVersionTo(13, 0) >= 0) {
+        if (compareOSVersionTo(10, 13) >= 0) {
             snprintf(cmd, sizeof(cmd), "launchctl unload \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
             err = callPosixSpawn(cmd);
             if (err) {
@@ -152,7 +161,7 @@ int main(int argc, const char * argv[]) {
                 print_to_log_file("returned error %d\n", err);
             }
 
-            if (! calledFromInstaller) {
+            if (! (calledFromInstaller || calledFromManager)) {
                 snprintf(cmd, sizeof(cmd), "launchctl load \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
                 err = callPosixSpawn(cmd);
                 if (err) {
@@ -171,27 +180,31 @@ int main(int argc, const char * argv[]) {
         }
     }
 
-    FixLaunchServicesDataBase(iBrandId, isUninstall);
-
-    snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
-    callPosixSpawn(cmd);
-
-    // We can't delete ourselves while we are running,
-    // so launch a shell script to do it after we exit.
-    sprintf(scriptName, "/tmp/%s_Finish_%s_%s", brandName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
-    FILE* f = fopen(scriptName, "w");
-    fprintf(f, "#!/bin/bash\n\n");
-    fprintf(f, "sleep 3\n");
-    if (isUninstall) {
-        // Delete per-user BOINC Manager and screensaver files, including this executable
-        fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"\n", pw->pw_name);
-    } else {
-        // Delete only this executable
-        fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[iBrandId]);
+    if (! calledFromManager) {
+        FixLaunchServicesDataBase(iBrandId, isUninstall);
     }
-    fclose(f);
-    sprintf(cmd, "sh \"%s\"", scriptName);
-    callPosixSpawn (cmd);
+
+    if (! (calledFromInstaller || calledFromManager)) {
+        snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
+        callPosixSpawn(cmd);
+
+        // We can't delete ourselves while we are running,
+        // so launch a shell script to do it after we exit.
+        sprintf(scriptName, "/tmp/%s_Finish_%s_%s", brandName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
+        FILE* f = fopen(scriptName, "w");
+        fprintf(f, "#!/bin/bash\n\n");
+        fprintf(f, "sleep 3\n");
+        if (isUninstall) {
+            // Delete per-user BOINC Manager and screensaver files, including this executable
+            fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"\n", pw->pw_name);
+        } else {
+            // Delete only this executable
+            fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[iBrandId]);
+        }
+        fclose(f);
+        sprintf(cmd, "sh \"%s\"", scriptName);
+        callPosixSpawn (cmd);
+    }
 
     return 0;
 }

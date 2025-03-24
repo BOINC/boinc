@@ -689,7 +689,7 @@ int DeleteReceipt()
                 continue;
             }
             if (strcmp(loginName, pw->pw_name) == 0) {
-                continue; // We've already launched for logged in user
+                continue; // We've already launched for this user (who is running the installer)
             }
 #ifdef SANDBOX
             launchForThisUser = false;
@@ -703,7 +703,7 @@ int DeleteReceipt()
 
             if (launchForThisUser) {
                 // Launch Manager hidden (in background, without opening windows)
-                sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\" --args -s'", pw->pw_name, appPath[brandID]);
+                sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\" --args --autostart'", pw->pw_name, appPath[brandID]);
                 err = callPosixSpawn(s);
                 if (err) {
                     REPORT_ERROR(true);
@@ -787,17 +787,19 @@ void CheckUserAndGroupConflicts()
             }
         }
     }
+
     if ((boinc_master_gid < 501) || (entryCount > 1)) {
-        err = callPosixSpawn ("dscl . -delete /groups/boinc_master");
+        // Use of sudo here may help avoid a warning alert from MacOS
+        err = callPosixSpawn ("sudo dscl . -delete /groups/boinc_master");
         // User boinc_master must have group boinc_master as its primary group.
         // Since this group no longer exists, delete the user as well.
         if (err) {
-            fprintf(stdout, "dscl . -delete /groups/boinc_master returned %d\n", err);
+            fprintf(stdout, "sudo dscl . -delete /groups/boinc_master returned %d\n", err);
             fflush(stdout);
         }
-        err = callPosixSpawn ("dscl . -delete /users/boinc_master");
+        err = callPosixSpawn ("sudo dscl . -delete /users/boinc_master");
         if (err) {
-            fprintf(stdout, "dscl . -delete /users/boinc_master returned %d\n", err);
+            fprintf(stdout, "sudo dscl . -delete /users/boinc_master returned %d\n", err);
             fflush(stdout);
         }
         ResynchDSSystem();
@@ -825,16 +827,16 @@ void CheckUserAndGroupConflicts()
     }
 
     if ((boinc_project_gid < 501) || (entryCount > 1)) {
-        err = callPosixSpawn ("dscl . -delete /groups/boinc_project");
+        err = callPosixSpawn ("sudo dscl . -delete /groups/boinc_project");
         if (err) {
-            fprintf(stdout, "dscl . -delete /groups/boinc_project returned %d\n", err);
+            fprintf(stdout, "sudo dscl . -delete /groups/boinc_project returned %d\n", err);
             fflush(stdout);
         }
         // User boinc_project must have group boinc_project as its primary group.
         // Since this group no longer exists, delete the user as well.
-        err = callPosixSpawn ("dscl . -delete /users/boinc_project");
+        err = callPosixSpawn ("sudo dscl . -delete /users/boinc_project");
         if (err) {
-            fprintf(stdout, "dscl . -delete /users/boinc_project returned %d\n", err);
+            fprintf(stdout, "sudo dscl . -delete /users/boinc_project returned %d\n", err);
             fflush(stdout);
         }
         ResynchDSSystem();
@@ -865,10 +867,10 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        err = callPosixSpawn ("dscl . -delete /users/boinc_master");
+        err = callPosixSpawn ("sudo dscl . -delete /users/boinc_master");
         if (err) {
             REPORT_ERROR(true);
-            fprintf(stdout, "dscl . -delete /users/boinc_master returned %d\n", err);
+            fprintf(stdout, "sudo dscl . -delete /users/boinc_master returned %d\n", err);
             fflush(stdout);
         }
         ResynchDSSystem();
@@ -895,10 +897,10 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        err = callPosixSpawn ("dscl . -delete /users/boinc_project");
+        err = callPosixSpawn ("sudo dscl . -delete /users/boinc_project");
         if (err) {
             REPORT_ERROR(true);
-            fprintf(stdout, "dscl . -delete /users/boinc_project returned %d\n", err);
+            fprintf(stdout, "sudo dscl . -delete /users/boinc_project returned %d\n", err);
             fflush(stdout);
         }
         ResynchDSSystem();
@@ -1597,6 +1599,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     int                 i;
     int                 userIndex;
     char                path[MAXPATHLEN];
+    Boolean             hadLoginItemLaunchAgent = false;
 
 //    char                nameOfSkin[256];
 //    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
@@ -1730,6 +1733,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     fflush(stdout);
 
     for (userIndex=0; userIndex<(int)human_user_names.size(); ++userIndex) {
+        hadLoginItemLaunchAgent = false;
         strlcpy(human_user_name, human_user_names[userIndex].c_str(), sizeof(human_user_name));
 
         printf("[2] Checking user %s\n", human_user_name);
@@ -1767,7 +1771,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                         pw->pw_name, boinc_master_group_name, BMGroupMembershipCount);
             fflush(stdout);
             if (BMGroupMembershipCount == 0) {
-                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
+                sprintf(cmd, "sudo dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
                 err = callPosixSpawn(cmd);
                 REPORT_ERROR(err);
                 printf("[2] %s returned %d\n", cmd, err);
@@ -1776,7 +1780,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             } else {
                 isBMGroupMember = true;
                 for (i=1; i<BMGroupMembershipCount; ++i) {
-                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
+                    sprintf(cmd, "sudo dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_master_group_name, pw->pw_name);
                     err = callPosixSpawn(cmd);
                     REPORT_ERROR(err);
                     printf("[2] %s returned %d\n", cmd, err);
@@ -1789,14 +1793,14 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                    pw->pw_name, boinc_project_group_name, BPGroupMembershipCount);
             fflush(stdout);
             if (BPGroupMembershipCount == 0) {
-                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
+                sprintf(cmd, "sudo dscl . -merge /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
                 err = callPosixSpawn(cmd);
                 REPORT_ERROR(err);
                 printf("[2] %s returned %d\n", cmd, err);
                 fflush(stdout);
             } else {
                 for (i=1; i<BPGroupMembershipCount; ++i) {
-                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
+                    sprintf(cmd, "sudo dscl . -delete /groups/%s GroupMembership \"%s\"", boinc_project_group_name, pw->pw_name);
                     err = callPosixSpawn(cmd);
                     REPORT_ERROR(err);
                     printf("[2] %s returned %d\n", cmd, err);
@@ -1855,7 +1859,9 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 }
             }
 
-            if (compareOSVersionTo(13, 0) >= 0) {
+            if (compareOSVersionTo(10, 13) >= 0) {
+                snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist", pw->pw_name);
+                if (boinc_file_exists(s)) hadLoginItemLaunchAgent = true;
                 deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
                 // The -i argument tells BOINC_Finish_Install not to "Launchctl load" our
                 // LaunchAgent, because doing that launches the Manager immediately (before
@@ -1869,11 +1875,15 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
             }
-            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n",
-                pw->pw_name, geteuid(), deleteLoginItem);
-            fflush(stdout);
-            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
-
+            // SetLoginItemOSAScript uses "System Events" which can trigger an aert which
+            // the user may find alraming. If we previously set a login item launch agent,
+            // we removed the old style login item at that time, so we avoid that alert.
+            if (!hadLoginItemLaunchAgent) {
+                printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n",
+                    pw->pw_name, geteuid(), deleteLoginItem);
+                fflush(stdout);
+                SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+            }
         } else {
 
             printf("[2] calling FixLaunchServicesDataBase for Finish_Install for user %s\n", pw->pw_name);

@@ -106,12 +106,12 @@ int main(int argc, char *argv[])
     FILE                        *pipe = NULL;
     OSStatus                    err = noErr;
 
-    FILE * stdout_file = freopen("/tmp/Uninstall_stdout", "w", stdout);
+    FILE * stdout_file = freopen("/tmp/BOINC_Uninstall_log.txt", "w", stdout);
     if (stdout_file) {
         setbuf(stdout_file, 0);
     }
 
-    FILE * stderr_file = freopen("/tmp/Uninstall_stderr", "w", stderr);
+    FILE * stderr_file = freopen("/tmp/BOINC_Uninstall_log.txt", "a", stderr);
     if (stderr_file) {
         setbuf(stderr_file, 0);
     }
@@ -544,10 +544,11 @@ fprintf(stdout, "Starting privileged tool\n");
     // Phase 6: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
 
-    callPosixSpawn ("dscl . -delete /users/boinc_master");
-    callPosixSpawn ("dscl . -delete /groups/boinc_master");
-    callPosixSpawn ("dscl . -delete /users/boinc_project");
-    callPosixSpawn ("dscl . -delete /groups/boinc_project");
+    // Use of sudo here may help avoid a warning alert from MacOS
+    callPosixSpawn ("sudo dscl . -delete /users/boinc_master");
+    callPosixSpawn ("sudo dscl . -delete /groups/boinc_master");
+    callPosixSpawn ("sudo dscl . -delete /users/boinc_project");
+    callPosixSpawn ("sudo dscl . -delete /groups/boinc_project");
 
     return 0;
 }
@@ -676,6 +677,7 @@ static OSStatus CleanupAllVisibleUsers(void)
     OSStatus            err;
     Boolean             changeSaver;
     Boolean             isCatalinaOrLater = (compareOSVersionTo(10, 15) >= 0);
+    Boolean             hadLoginItemLaunchAgent = false;
 
 //    saved_uid = getuid();
     saved_euid = geteuid();
@@ -771,10 +773,10 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
 
         // Remove user from groups boinc_master and boinc_project
-        sprintf(s, "dscl . -delete /groups/boinc_master GroupMembership \"%s\"", pw->pw_name);
+        sprintf(s, "sudo dscl . -delete /groups/boinc_master GroupMembership \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
-        sprintf(s, "dscl . -delete /groups/boinc_project GroupMembership \"%s\"", pw->pw_name);
+        sprintf(s, "sudo dscl . -delete /groups/boinc_project GroupMembership \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
        // Set login item for this user
@@ -792,13 +794,20 @@ static OSStatus CleanupAllVisibleUsers(void)
         }
 #endif
        if (useOSASript) {
-            snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
+            hadLoginItemLaunchAgent = false;
+            snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist", pw->pw_name);
+            if (boinc_file_exists(s)) hadLoginItemLaunchAgent = true;
             boinc_delete_file(s);
+            // DeleteLoginItemOSAScript uses "System Events" which can trigger an aert which
+            // the user may find alraming. If we previously set a login item launch agent,
+            // we removed the old style login item at that time, so we avoid that alert.
+            if (!hadLoginItemLaunchAgent) {
 #if TESTING
-            showDebugMsg("calling DeleteLoginItemOSAScript for user %s, euid = %d\n",
-                pw->pw_name, geteuid());
+                showDebugMsg("calling DeleteLoginItemOSAScript for user %s, euid = %d\n",
+                    pw->pw_name, geteuid());
 #endif
-            DeleteLoginItemOSAScript(pw->pw_name);
+                DeleteLoginItemOSAScript(pw->pw_name);
+            }
 
             // Under OS 10.13 High Sierra or later, this code deletes the per-user BOINC
             // Manager files only for the user running this app. For each user other than
@@ -815,7 +824,7 @@ static OSStatus CleanupAllVisibleUsers(void)
             DeleteLoginItemLaunchAgent(brandID, pw);
         }
 
-        if (compareOSVersionTo(13, 0) >= 0) {
+        if (compareOSVersionTo(10, 13) >= 0) {
             sprintf(s, "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
             callPosixSpawn (s);
         }
