@@ -71,6 +71,7 @@ int main(int argc, const char * argv[]) {
     bool                    isUninstall = false;
     int                     iBrandId = 0;
     bool                    calledFromInstaller = false;
+    bool                    calledFromManager = false;
     struct stat             buf;
 
     // Wait until we are the active login (in case of fast user switching)
@@ -104,6 +105,8 @@ int main(int argc, const char * argv[]) {
             iBrandId = atoi(argv[i]);
         } else if (strcmp(argv[i], "-i") == 0) {
             calledFromInstaller = true;
+        } else if (strcmp(argv[i], "-m") == 0) {
+            calledFromManager = true;
         }
     }   // end for (i=i; i<argc; i+=2)
 
@@ -158,7 +161,7 @@ int main(int argc, const char * argv[]) {
                 print_to_log_file("returned error %d\n", err);
             }
 
-            if (! calledFromInstaller) {
+            if (! (calledFromInstaller || calledFromManager)) {
                 snprintf(cmd, sizeof(cmd), "launchctl load \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
                 err = callPosixSpawn(cmd);
                 if (err) {
@@ -177,27 +180,31 @@ int main(int argc, const char * argv[]) {
         }
     }
 
-    FixLaunchServicesDataBase(iBrandId, isUninstall);
-
-    snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
-    callPosixSpawn(cmd);
-
-    // We can't delete ourselves while we are running,
-    // so launch a shell script to do it after we exit.
-    sprintf(scriptName, "/tmp/%s_Finish_%s_%s", brandName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
-    FILE* f = fopen(scriptName, "w");
-    fprintf(f, "#!/bin/bash\n\n");
-    fprintf(f, "sleep 3\n");
-    if (isUninstall) {
-        // Delete per-user BOINC Manager and screensaver files, including this executable
-        fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"\n", pw->pw_name);
-    } else {
-        // Delete only this executable
-        fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[iBrandId]);
+    if (! calledFromManager) {
+        FixLaunchServicesDataBase(iBrandId, isUninstall);
     }
-    fclose(f);
-    sprintf(cmd, "sh \"%s\"", scriptName);
-    callPosixSpawn (cmd);
+    
+    if (! (calledFromInstaller || calledFromManager)) {
+        snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
+        callPosixSpawn(cmd);
+
+        // We can't delete ourselves while we are running,
+        // so launch a shell script to do it after we exit.
+        sprintf(scriptName, "/tmp/%s_Finish_%s_%s", brandName[iBrandId], isUninstall ? "Uninstall" : "Install", pw->pw_name);
+        FILE* f = fopen(scriptName, "w");
+        fprintf(f, "#!/bin/bash\n\n");
+        fprintf(f, "sleep 3\n");
+        if (isUninstall) {
+            // Delete per-user BOINC Manager and screensaver files, including this executable
+            fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"\n", pw->pw_name);
+        } else {
+            // Delete only this executable
+            fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[iBrandId]);
+        }
+        fclose(f);
+        sprintf(cmd, "sh \"%s\"", scriptName);
+        callPosixSpawn (cmd);
+    }
 
     return 0;
 }

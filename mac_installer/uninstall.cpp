@@ -106,12 +106,12 @@ int main(int argc, char *argv[])
     FILE                        *pipe = NULL;
     OSStatus                    err = noErr;
 
-    FILE * stdout_file = freopen("/tmp/Uninstall_stdout", "w", stdout);
+    FILE * stdout_file = freopen("/tmp/BOINC_Uninstall_log.txt", "w", stdout);
     if (stdout_file) {
         setbuf(stdout_file, 0);
     }
 
-    FILE * stderr_file = freopen("/tmp/Uninstall_stderr", "w", stderr);
+    FILE * stderr_file = freopen("/tmp/BOINC_Uninstall_log.txt", "a", stderr);
     if (stderr_file) {
         setbuf(stderr_file, 0);
     }
@@ -544,10 +544,11 @@ fprintf(stdout, "Starting privileged tool\n");
     // Phase 6: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
 
-    callPosixSpawn ("dscl . -delete /users/boinc_master");
-    callPosixSpawn ("dscl . -delete /groups/boinc_master");
-    callPosixSpawn ("dscl . -delete /users/boinc_project");
-    callPosixSpawn ("dscl . -delete /groups/boinc_project");
+    // Use of sudo here may help avoid a warning alert from MacOS
+    callPosixSpawn ("sudo dscl . -delete /users/boinc_master");
+    callPosixSpawn ("sudo dscl . -delete /groups/boinc_master");
+    callPosixSpawn ("sudo dscl . -delete /users/boinc_project");
+    callPosixSpawn ("sudo dscl . -delete /groups/boinc_project");
 
     return 0;
 }
@@ -772,10 +773,10 @@ static OSStatus CleanupAllVisibleUsers(void)
 #endif
 
         // Remove user from groups boinc_master and boinc_project
-        sprintf(s, "dscl . -delete /groups/boinc_master GroupMembership \"%s\"", pw->pw_name);
+        sprintf(s, "sudo dscl . -delete /groups/boinc_master GroupMembership \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
-        sprintf(s, "dscl . -delete /groups/boinc_project GroupMembership \"%s\"", pw->pw_name);
+        sprintf(s, "sudo dscl . -delete /groups/boinc_project GroupMembership \"%s\"", pw->pw_name);
         callPosixSpawn (s);
 
        // Set login item for this user

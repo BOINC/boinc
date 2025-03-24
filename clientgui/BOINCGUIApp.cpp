@@ -26,6 +26,7 @@
 #include "util.h"
 #include "mac_util.h"
 #include "sandbox.h"
+#include "mac_branding.h"
 #endif
 
 #include "stdwx.h"
@@ -496,6 +497,13 @@ bool CBOINCGUIApp::OnInit() {
                                         );
     if (WasFileModifiedBeforeSystemBoot((char *)(const char*)lockFilePath.utf8_str())) {
         boinc_delete_file(lockFilePath.utf8_str());
+    }
+
+    wxString launchAgentPath = wxFileName::GetHomeDir() + "/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist";
+    if (!wxFileName::FileExists(launchAgentPath)) { // If we are still using old style login item
+        char s[MAXPATHLEN];
+        snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" --args -m", brandName[GetBrandID()]);
+        callPosixSpawn(s);   // run BOINC_Finish_Install utility to update to launchagent
     }
 #endif
 
@@ -1519,7 +1527,26 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
 }
 
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
+long CBOINCGUIApp::GetBrandID()
+{
+    long iBrandId;
+
+    iBrandId = 0;   // Default value
+
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &iBrandId);
+        fclose(f);
+    }
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
+    return iBrandId;
+}
+
+
+#else
 // See clientgui/mac/BOINCGUIApp.mm for the Mac versions.
 ///
 /// Determines if the current process is visible.
