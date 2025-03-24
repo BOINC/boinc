@@ -183,7 +183,7 @@ int main(int argc, const char * argv[]) {
     if (! calledFromManager) {
         FixLaunchServicesDataBase(iBrandId, isUninstall);
     }
-    
+
     if (! (calledFromInstaller || calledFromManager)) {
         snprintf(cmd, sizeof(cmd), "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist\"", pw->pw_name);
         callPosixSpawn(cmd);
