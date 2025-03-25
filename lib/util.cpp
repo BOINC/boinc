@@ -280,7 +280,7 @@ int run_program(
 #endif
 
 // Run command, wait for exit.
-// Return its output as vector of lines.
+// Return its output as vector of lines (\n-terminated).
 // Win: output includes stdout and stderr
 // Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
@@ -349,8 +349,7 @@ int run_command(char *cmd, vector<string> &out) {
     while (*p) {
         char* q = strchr(p, '\n');
         if (!q) break;
-        *q = 0;
-        out.push_back(string(p));
+        out.push_back(string(p, q-p+1));    // include \n
         p = q + 1;
     }
     free(buf);
@@ -740,7 +739,8 @@ int DOCKER_CONN::init(DOCKER_TYPE docker_type, bool _verbose) {
 }
 #endif
 
-// issue a Docker command and return its output in out
+// issue a Docker command and return its output
+// as a vector of lines (\n-terminated)
 //
 int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     char buf[1024];
@@ -774,7 +774,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     if (verbose) {
         fprintf(stderr, "command output:\n");
         for (string line: out) {
-            fprintf(stderr, "%s\n", line.c_str());
+            fprintf(stderr, "%s", line.c_str());
         }
     }
     return 0;
