@@ -12,8 +12,10 @@
   </PropertyGroup>
   <Import Project="boinc.props" />
   <PropertyGroup>
+    <PlatformSuffix Condition="'$(Platform)'=='x64'">x86_x64</PlatformSuffix>
+    <PlatformSuffix Condition="'$(Platform)'=='ARM64'">ARM64</PlatformSuffix>
     <TargetVersion>26203</TargetVersion>
-    <TargetName>htmlgfx_$(TargetVersion)_windows_x86_64</TargetName>
+    <TargetName>$(ProjectName)_$(TargetVersion)_windows_$(PlatformSuffix)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

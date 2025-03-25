@@ -1,4 +1,12 @@
-
+ifdef ANDROID
+  DOCKERWRAPPER_RELEASE_SUFFIX =
+else
+  ifdef RELEASE_ARCH
+    DOCKERWRAPPER_RELEASE_SUFFIX = _$(DOCKERWRAPPER_RELEASE_VERSION)_$(RELEASE_ARCH)-pc-linux-gnu
+  else
+    DOCKERWRAPPER_RELEASE_SUFFIX = _$(DOCKERWRAPPER_RELEASE_VERSION)_x86_64-pc-linux-gnu
+  endif
+endif
 
 BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
@@ -36,7 +44,8 @@ ifdef BUILD_WITH_MINGW
     -lws2_32
 endif
 
-all: docker_wrapper
+PROGS = docker_wrapper$(DOCKERWRAPPER_RELEASE_SUFFIX)
+all: $(PROGS)
 
 libstdc++.a:
 	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
@@ -44,11 +53,11 @@ libstdc++.a:
 clean: distclean
 
 distclean:
-	/bin/rm -f docker_wrapper $(addsuffix .exe, docker_wrapper) *.o libstdc++.a
+	/bin/rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o libstdc++.a
 
 install: all
 
-docker_wrapper: docker_wrapper.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o docker_wrapper docker_wrapper.o \
+docker_wrapper$(DOCKERWRAPPER_RELEASE_SUFFIX): docker_wrapper.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o docker_wrapper$(DOCKERWRAPPER_RELEASE_SUFFIX) docker_wrapper.o \
 	-lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
 	$(STDCPPTC)
