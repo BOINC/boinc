@@ -29,6 +29,9 @@
 // worker version number
 #define WORKER_RELEASE @WORKER_RELEASE@
 
+// dockerwrapper version number
+#define DOCKERWRAPPER_RELEASE @DOCKERWRAPPER_RELEASE@
+
 // client version number as string
 #define BOINC_VERSION_STRING "@BOINC_VERSION_STRING@"
 
