@@ -201,8 +201,6 @@ bool CBOINCGUIApp::OnInit() {
         // failed" error if we try to connect too soon, so delay a bit.
         sleep(10);
     }
-#else
-        m_bGUIVisible = IsApplicationVisible();
 #endif
 
     if (g_use_sandbox) {
@@ -1145,6 +1143,7 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 }
 
 
+// TODO: Does the Mac really need the OnActivateApp() routine?
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     m_bProcessingActivateAppEvent = true;
 
