@@ -203,7 +203,6 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif
 
-
     if (g_use_sandbox) {
         wxCHANGE_UMASK(2);  // Set file creation mask to be writable by both user and group
                             // Our umask will be inherited by all our child processes
@@ -775,6 +774,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 #if defined(__WXMSW__) || defined(__WXMAC__)
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
+#ifdef __WXMAC__
+        m_bBOINCMGRAutoStarted = true;
+#endif
     }
 #endif
     if (parser.Found(wxT("insecure"))) {
@@ -1141,6 +1143,7 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 }
 
 
+// TODO: Does the Mac really need the OnActivateApp() routine?
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     m_bProcessingActivateAppEvent = true;
 
