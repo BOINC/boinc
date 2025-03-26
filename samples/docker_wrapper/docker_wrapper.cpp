@@ -488,8 +488,8 @@ void cleanup() {
     sprintf(cmd, "logs %s", container_name);
     docker_conn.command(cmd, out);
     fprintf(stderr, "stderr from container:\n");
-    for (string line : out) {
-        fprintf(stderr, "%s\n", line.c_str());
+    for (string line: out) {
+        fprintf(stderr, "%s", line.c_str());
     }
     fprintf(stderr, "stderr end\n");
 
