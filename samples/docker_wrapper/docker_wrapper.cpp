@@ -427,7 +427,9 @@ int create_container() {
         int host_port = 0;
         retval = boinc_get_port(false, host_port);
         if (retval) {
-            fprintf(stderr, "can't allocated host port for web graphics\n");
+            fprintf(stderr, "can't allocate host port for web graphics: %s\n",
+                boincerror(retval)
+            );
         } else {
             fprintf(stderr, "web graphics: host port %d, guest port %d\n",
                 host_port, config.web_graphics_guest_port
@@ -460,7 +462,7 @@ int create_container() {
         return retval;
     }
     if (error_output(out)) {
-        fprintf(stderr, "create command generated 'Error'\n");
+        fprintf(stderr, "create command output contains 'Error'\n");
         return -1;
     }
 

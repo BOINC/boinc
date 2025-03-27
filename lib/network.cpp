@@ -313,8 +313,10 @@ void reset_dns() {
 #endif
 }
 
-// Get an unused port number.
-// Used by vboxwrapper.
+// Get an unused port number by creating and binding a socket
+// note: there's a slight race condition here;
+// someone else might use the resulting port before you do.
+// Used by vboxwrapper and docker_wrapper.
 // I'm not sure if is_remote is relevant here - a port is a port, right?
 //
 int boinc_get_port(bool is_remote, int& port) {
