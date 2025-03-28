@@ -1238,6 +1238,12 @@ int HOST_INFO::get_virtualbox_version() {
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     bool ret = false;
+#ifdef __APPLE__
+    if (type == PODMAN) {
+        system("podman machine init");
+        system("podman machine start");
+    }
+#endif
     string cmd = string(docker_cli_prog(type)) + " --version 2>/dev/null";
     FILE* f = popen(cmd.c_str(), "r");
     if (f) {

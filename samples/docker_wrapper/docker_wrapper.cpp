@@ -682,7 +682,7 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
 #else
-    docker_type = boinc_is_standalone()?DOCKER:aid.host_info.docker_type;
+    docker_type = boinc_is_standalone()?PODMAN:aid.host_info.docker_type;
     docker_conn.init(docker_type, config.verbose>0);
 #endif
     fprintf(stderr, "Using %s\n", docker_type_str(docker_type));
