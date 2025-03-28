@@ -18,15 +18,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// script to create app versions,
-// and stage their files in the download dir.
+// Create app versions and stage their files in the download dir.
 // See https://github.com/BOINC/boinc/wiki/AppVersionNew
 //
 // options:
 // --noconfirm: don't ask for confirmation of anything
 // --verbose: print details
-
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -212,7 +209,7 @@ function get_api_version($a, $v, $p, $fds) {
     foreach ($fds as $fd) {
         if ($fd->main_program) {
             $path = "apps/$a/$v/$p/$fd->physical_name";
-            $handle = popen("strings $path | egrep --max-count=1 '^API_VERSION_[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'", "r");
+            $handle = popen("strings $path | egrep --max-count=1 'API_VERSION_[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'", "r");
             $x = fread($handle, 8192);
             pclose($handle);
             $x = strstr($x, "API_VERSION_");
@@ -312,7 +309,8 @@ function process_files($a, $v, $p, $fds) {
     while ($f = readdir_aux($d)) {
         if ($f == "version.xml") continue;
         if (strstr($f, ".sig") == ".sig") continue;
-        if (is_dir('apps/'.$a.'/'.$v.'/'.$p.'/'.$f)) { // Skip folder structure, it will get processed later
+        if (is_dir('apps/'.$a.'/'.$v.'/'.$p.'/'.$f)) {
+            // Skip folder structure, it will get processed later
             continue;
         }
         $fds = process_file($a, $v, $p, $f, $fds);
