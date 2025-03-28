@@ -1238,7 +1238,7 @@ int HOST_INFO::get_virtualbox_version() {
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     bool ret = false;
-#ifdef __apple__
+#ifdef __APPLE__
     if (type == PODMAN) {
         system("podman machine init");
         system("podman machine start");
