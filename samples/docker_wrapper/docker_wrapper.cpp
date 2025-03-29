@@ -309,7 +309,7 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    sprintf(cmd, "build . -t %s -f %s %s",
+    snprintf(cmd, sizeof(cmd), "build . -t %s -f %s %s",
         image_name, dockerfile, config.build_args.c_str()
     );
     int retval = docker_conn.command(cmd, out);
@@ -351,7 +351,7 @@ int container_exists(bool &exists) {
     int retval;
     vector<string> out;
 
-    sprintf(cmd, "ps --all --filter \"name=%s\"", container_name);
+    snprintf(cmd, sizeof(cmd), "ps --all --filter \"name=%s\"", container_name);
     retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     for (string line: out) {
@@ -410,11 +410,11 @@ int create_container() {
     // add mounts and portmaps
     //
     for (string s: config.mounts) {
-        sprintf(buf, " -v %s", s.c_str());
+        snprintf(buf, sizeof(buf), " -v %s", s.c_str());
         strcat(cmd, buf);
     }
     for (string s: config.portmaps) {
-        sprintf(buf, " -p %s", s.c_str());
+        snprintf(buf, sizeof(buf), " -p %s", s.c_str());
         strcat(cmd, buf);
     }
 
@@ -475,7 +475,7 @@ int create_container() {
 int container_op(const char *op) {
     char cmd[1024];
     vector<string> out;
-    sprintf(cmd, "%s %s", op, container_name);
+    snprintf(cmd, sizeof(cmd), "%s %s", op, container_name);
     int retval = docker_conn.command(cmd, out);
     return retval;
 }
@@ -488,7 +488,7 @@ void cleanup() {
     char cmd[1024];
     vector<string> out;
 
-    sprintf(cmd, "logs %s", container_name);
+    snprintf(cmd, sizeof(cmd), "logs %s", container_name);
     docker_conn.command(cmd, out);
     fprintf(stderr, "stderr from container:\n");
     for (string line: out) {
@@ -498,17 +498,19 @@ void cleanup() {
 
     container_op("stop");
 
-    sprintf(cmd, "container rm %s", container_name);
+    snprintf(cmd, sizeof(cmd), "container rm %s", container_name);
     docker_conn.command(cmd, out);
 
     // don't remove image if it was specified in config
     //
     if (config.image_name.empty()) {
-        sprintf(cmd, "image rm %s", image_name);
+        snprintf(cmd, sizeof(cmd), "image rm %s", image_name);
         docker_conn.command(cmd, out);
     }
 }
 
+// check for commands from the client
+//
 void poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
@@ -545,7 +547,7 @@ JOB_STATUS poll_app() {
     vector<string> out;
     int retval;
 
-    sprintf(cmd, "ps --all -f \"name=%s\"", container_name);
+    snprintf(cmd, sizeof(cmd), "ps --all -f \"name=%s\"", container_name);
     retval = docker_conn.command(cmd, out);
     if (retval) return JOB_FAIL;
     for (string line: out) {
@@ -553,8 +555,7 @@ JOB_STATUS poll_app() {
             string needle = "Exited (";
             if (strstr(line.c_str(), needle.c_str())) {
                 // JOB_SUCCESS means Docker/Podman succeeded.
-                // In this case get the exit code
-                // of the container payload.
+                // In this case get the exit code of the container payload.
                 //
                 line = line.substr(line.find(needle) + needle.size());
                 line = line.erase(line.find(')'), string::npos);
@@ -568,15 +569,16 @@ JOB_STATUS poll_app() {
     return JOB_FAIL;
 }
 
-// get CPU and mem usage
-// This is also surprisingly slow
+// Get CPU and mem usage.
+// This is also surprisingly slow.
+//
 int get_stats(RSC_USAGE &ru) {
     char cmd[1024];
     vector<string> out;
     int retval;
     size_t n;
 
-    sprintf(cmd,
+    snprintf(cmd, sizeof(cmd),
         "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
         container_name
     );
