@@ -239,22 +239,32 @@ function variant_action($user) {
     global $buda_root;
     $variant = get_str('variant');
     if (!$variant) $variant = 'cpu';
-    if (!is_valid_filename($variant)) die('bad arg');
+    if (!is_valid_filename($variant)) {
+        error_page(filename_rules());
+    }
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $dockerfile = get_str('dockerfile');
-    if (!is_valid_filename($dockerfile)) die('bad arg');
+    if (!is_valid_filename($dockerfile)) {
+        error_page("Invalid dockerfile name: ".filename_rules());
+    }
     $app_files = get_array('app_files');
     foreach ($app_files as $fname) {
-        if (!is_valid_filename($fname)) die('bad arg');
+        if (!is_valid_filename($fname)) {
+            error_page("Invalid app file name: ".filename_rules());
+        }
     }
     $input_file_names = explode(' ', get_str('input_file_names'));
     $output_file_names = explode(' ', get_str('output_file_names'));
     foreach ($input_file_names as $fname) {
-        if (!is_valid_filename($fname)) die('bad arg');
+        if (!is_valid_filename($fname)) {
+            error_page("Invalid input file name: ".filename_rules());
+        }
     }
     foreach ($output_file_names as $fname) {
-        if (!is_valid_filename($fname)) die('bad arg');
+        if (!is_valid_filename($fname)) {
+            error_page("Invalid output file name: ".filename_rules());
+        }
     }
 
     if (file_exists("$buda_root/$app/$variant")) {
@@ -374,7 +384,9 @@ function app_form() {
 function app_action() {
     global $buda_root;
     $name = get_str('name');
-    if (!is_valid_filename($name)) die("bad arg: $name");
+    if (!is_valid_filename($name)) {
+        error_page(filename_rules());
+    }
     $dir = "$buda_root/$name";
     if (file_exists($dir)) {
         error_page("App $name already exists.");

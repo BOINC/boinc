@@ -84,11 +84,10 @@ if (0) {
     page_tail();
 }
 
-function list_files($user) {
+function list_files($user, $notice=null) {
     $dir = sandbox_dir($user);
     if (!is_dir($dir)) error_page("Can't open sandbox directory");
     page_head("File sandbox");
-    $notice = htmlspecialchars(get_str('notice', true));
     if ($notice) {
         echo "<p>$notice<hr>";
     }
@@ -191,7 +190,7 @@ function upload_file($user) {
 
         $notice .= "Uploaded file <strong>$name</strong><br/>";
     }
-    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
+    list_files($user, $notice);
 }
 
 function add_file($user) {
@@ -212,7 +211,7 @@ function add_file($user) {
     write_info_file("$dir/.md5/$name", $md5, $size);
 
     $notice = "Added file <strong>$name</strong> ($size bytes)";
-    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
+    list_files($user, $notice);
 }
 
 function get_file($user) {
@@ -228,7 +227,7 @@ function get_file($user) {
     }
     copy($url, $path);
     $notice = "Fetched file from <strong>$url</strong><br/>";
-    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
+    list_files($user, $notice);
 }
 
 // delete a sandbox file.
@@ -242,7 +241,7 @@ function delete_file($user) {
     unlink("$dir/$name");
     unlink("$dir/.md5/$name");
     $notice = "<strong>$name</strong> was deleted from your sandbox<br/>";
-    header(sprintf('Location: sandbox.php?notice=%s', urlencode($notice)));
+    list_files($user, $notice);
 }
 
 function download_file($user) {

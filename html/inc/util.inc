@@ -109,8 +109,10 @@ if (!defined('SHOW_USER_PAGE')) {
 if (!defined('POST_MAX_LINKS')) {
     define('POST_MAX_LINKS', 0);
 }
+
+// support dark mode if user has selected it
 if (!defined('DARK_MODE')) {
-    define('DARK_MODE', false);
+    define('DARK_MODE', true);
 }
 if (!defined('VALIDATE_EMAIL_TO_POST')) {
     define('VALIDATE_EMAIL_TO_POST', false);
