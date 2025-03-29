@@ -33,7 +33,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
   AWS_DEFAULT_REGION: us-west-2
-  XCODE_VERSION: '15.4.0'
+  XCODE_VERSION: '16.2.0'
 
 jobs:
   build-dependencies:

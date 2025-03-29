@@ -1,54 +1,52 @@
 BOINC_DIR = ../..
-BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
-BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
-BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
+BOINC_API_DIR = $(BOINC_DIR)/api
+BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
-BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
+BOINC_MAC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 
-BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
-BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
-BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
-
-## MAKEFILE_LDFLAGS = -lpthread libstdc++.a
-## MAKEFILE_STDLIB  = libstdc++.a
-
-CXXFLAGS += -g  -std=gnu++17 \
-	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
-    -I$(BOINC_CONFIG_DIR) \
+CXXFLAGS_ALL = -g \
+    -std=gnu++17 \
+    -stdlib=libc++ \
+	  -Wall \
+    -W \
+    -Wshadow \
+    -Wpointer-arith \
+    -Wcast-qual \
+    -Wcast-align \
+    -Wwrite-strings \
+    -fno-common \
+    -I$(BOINC_MAC_CONFIG_DIR) \
     -I$(BOINC_DIR) \
-    -I$(BOINC_SOURCE_API_DIR) \
-    -I$(BOINC_SOURCE_LIB_DIR) \
-    -I$(BOINC_SOURCE_ZIP_DIR) \
-    -L$(BOINC_BUILD_DIR) \
-    -L.
+    -I$(BOINC_API_DIR) \
+    -I$(BOINC_LIB_DIR)
 
-ifdef BUILD_APPS_WITH_VCPKG
-  BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
-  VCPKG_DIR     ?= $(BUILD_DIR)/vcpkg/installed/x64-linux
+CXXFLAGS_X86_64 = -arch x86_64 $(CXXFLAGS_ALL)
+CXXFLAGS_ARM64 = -arch arm64 $(CXXFLAGS_ALL)
+LDFLAGS_x86_64 = -Wl,-arch,x86_64
+LDFLAGS_arm64 = -Wl,-arch,arm64
 
-  CXXFLAGS += \
-    -I$(VCPKG_DIR)/include \
-    -L$(VCPKG_DIR)/lib
-endif
+PROGS = docker_wrapper_x86_64 docker_wrapper_arm64
 
-ifdef BUILD_WITH_MINGW
-  MAKEFILE_LDFLAGS += \
-    -lws2_32
-endif
+all: $(PROGS)
 
-all: docker_wrapper
-
-##libstdc++.a:
-##	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
-
-clean: distclean
+clean:
+	/bin/rm -f $(PROGS) *.o
 
 distclean:
-	/bin/rm -f docker_wrapper $(addsuffix .exe, docker_wrapper) *.o ## libstdc++.a
+	/bin/rm -f $(PROGS) *.o
 
 install: all
 
-docker_wrapper: docker_wrapper.o $(MAKEFILE_STDLIB) $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o docker_wrapper docker_wrapper.o \
-	-lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
-	$(STDCPPTC)
+docker_wrapper_x86_64: docker_wrapper_x86_64.o
+	$(CXX) $(CXXFLAGS_X86_64) $(LDFLAGS_x86_64) -o docker_wrapper_x86_64 docker_wrapper_x86_64.o \
+	-lboinc_api -lboinc -L$(BOINC_BUILD_DIR)
+
+docker_wrapper_arm64: docker_wrapper_arm64.o
+	$(CXX) $(CXXFLAGS_ARM64) $(LDFLAGS_arm64) -o docker_wrapper_arm64 docker_wrapper_arm64.o \
+	-lboinc_api -lboinc -L$(BOINC_BUILD_DIR)
+
+docker_wrapper_x86_64.o: docker_wrapper.cpp
+	$(CXX) $(CXXFLAGS_X86_64) -c docker_wrapper.cpp -o docker_wrapper_x86_64.o
+
+docker_wrapper_arm64.o: docker_wrapper.cpp
+	$(CXX) $(CXXFLAGS_ARM64) -c docker_wrapper.cpp -o docker_wrapper_arm64.o
