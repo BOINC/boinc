@@ -123,7 +123,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		81483B952D94E90E00592A5B /* Debug */ = {
+		81483B952D94E90E00592A5B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -182,9 +182,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
-			name = Debug;
+			name = Development;
 		};
-		81483B962D94E90E00592A5B /* Release */ = {
+		81483B962D94E90E00592A5B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -236,9 +236,9 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 			};
-			name = Release;
+			name = Deployment;
 		};
-		81483B982D94E90E00592A5B /* Debug */ = {
+		81483B982D94E90E00592A5B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
@@ -259,9 +259,9 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = Debug;
+			name = Development;
 		};
-		81483B992D94E90E00592A5B /* Release */ = {
+		81483B992D94E90E00592A5B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
@@ -282,7 +282,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = Release;
+			name = Deployment;
 		};
 /* End XCBuildConfiguration section */
 
@@ -290,20 +290,20 @@
 		81483B8B2D94E90E00592A5B /* Build configuration list for PBXProject "docker_wrapper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				81483B952D94E90E00592A5B /* Debug */,
-				81483B962D94E90E00592A5B /* Release */,
+				81483B952D94E90E00592A5B /* Development */,
+				81483B962D94E90E00592A5B /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Deployment;
 		};
 		81483B972D94E90E00592A5B /* Build configuration list for PBXNativeTarget "docker_wrapper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				81483B982D94E90E00592A5B /* Debug */,
-				81483B992D94E90E00592A5B /* Release */,
+				81483B982D94E90E00592A5B /* Development */,
+				81483B992D94E90E00592A5B /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Deployment;
 		};
 /* End XCConfigurationList section */
 	};
