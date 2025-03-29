@@ -367,29 +367,31 @@ int container_exists(bool &exists) {
 int create_container() {
     char cmd[1024];
     char slot_cmd[256], project_cmd[256], buf[256];
+    char cwd[MAXPATHLEN];
     vector<string> out;
     int retval;
 
     retval = get_image();
     if (retval) return retval;
 
-    sprintf(slot_cmd, " -v .:%s",
-        config.workdir.c_str()
-    );
+    // on MacOS/podman, you need the full path, not .
+    //
+    getcwd(cwd, sizeof(cwd));
+    snprintf(slot_cmd, sizeof(slot_cmd), " -v %s:%s", cwd, config.workdir.c_str());
     if (config.project_dir_mount.empty()) {
         project_cmd[0] = 0;
     } else {
         if (boinc_is_standalone()) {
-            sprintf(project_cmd, " -v %s:%s",
-                project_dir, config.project_dir_mount.c_str()
+            snprintf(project_cmd, sizeof(project_cmd), " -v %s/%s:%s",
+                cwd, project_dir, config.project_dir_mount.c_str()
             );
         } else {
-            sprintf(project_cmd, " -v ../../projects/%s:%s",
-                project_dir, config.project_dir_mount.c_str()
+            snprintf(project_cmd, sizeof(project_cmd), " -v %s/../../projects/%s:%s",
+                cwd, project_dir, config.project_dir_mount.c_str()
             );
         }
     }
-    sprintf(cmd, "create --name %s %s %s",
+    snprintf(cmd, sizeof(cmd), "create --name %s %s %s",
         container_name,
         slot_cmd, project_cmd
     );
