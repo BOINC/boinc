@@ -329,4 +329,38 @@ echo "Verifying architecture (arm64) of openclapp_arm64...done"
 cd ../../mac_build/
 echo "Building ${target}...done"
 
+target="docker_wrapper"
+echo "Building ${target}..."
+cd ../samples/docker_wrapper
+export CXX="${GPPPATH}"
+make -f Makefile_mac clean; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
+    cd ../..; exit 1;
+fi
+make -f Makefile_mac all; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
+    cd ../..; exit 1;
+fi
+export CXX=""
+echo "Verifying architecture (x86_64) of docker_wrapper_x86_64..."
+lipo ./docker_wrapper_x86_64 -verify_arch x86_64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64) of docker_wrapper_x86_64...failed"
+    echo "Building ${target}...failed"
+    cd ../..; exit 1;
+fi
+echo "Verifying architecture (x86_64) of docker_wrapper_x86_64...done"
+echo "Verifying architecture (arm64) of docker_wrapper_arm64..."
+lipo ./docker_wrapper_arm64 -verify_arch arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (arm64) of docker_wrapper_arm64...failed"
+    echo "Building ${target}...failed"
+    cd ../..; exit 1;
+fi
+echo "Verifying architecture (arm64) of docker_wrapper_arm64...done"
+cd ../../mac_build/
+echo "Building ${target}...done"
+
 cd ..
