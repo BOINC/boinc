@@ -1280,14 +1280,13 @@ PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     if (!p) return NULL;
     p += 2;
     if (strcasestr(p, "www.") == p) p += 4;
-    strcpy(buf, p);
 
     for (PROJECT *project: projects) {
         const char* q = strstr(project->master_url, "//");
         if (!q) continue;
         q += 2;
         if (strcasestr(q, "www.") == q) q += 4;
-        if (!strcasecmp(buf, q)) {
+        if (!strcasecmp(p, q)) {
             // note: canonicalize_master_url() doesn't lower-case
             return project;
         }

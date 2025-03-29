@@ -1240,8 +1240,8 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     bool ret = false;
 #ifdef __APPLE__
     if (type == PODMAN) {
-        system("podman machine init");
-        system("podman machine start");
+        system("podman machine init 2>/dev/null");
+        system("podman machine start 2>/dev/null");
     }
 #endif
     string cmd = string(docker_cli_prog(type)) + " --version 2>/dev/null";
