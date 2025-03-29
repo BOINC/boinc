@@ -106,6 +106,7 @@ using std::vector;
 #define STATUS_PERIOD 10
     // reports status this often
 
+int container_exit_code = 0;
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
 
 struct RSC_USAGE {
@@ -547,7 +548,16 @@ JOB_STATUS poll_app() {
     if (retval) return JOB_FAIL;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
-            if (strstr(line.c_str(), "Exited")) {
+            string needle = "Exited (";
+            if (strstr(line.c_str(), needle.c_str())) {
+                // JOB_SUCCESS means Docker/Podman succeeded.
+                // In this case get the exit code
+                // of the container payload.
+                //
+                line = line.substr(line.find(needle) + needle.size());
+                line = line.erase(line.find(')'), string::npos);
+
+                container_exit_code = stoi(line);
                 return JOB_SUCCESS;
             }
             return JOB_IN_PROGRESS;
@@ -725,7 +735,11 @@ int main(int argc, char** argv) {
                 break;
             case JOB_SUCCESS:
                 cleanup();
-                boinc_finish(0);
+                // JOB_SUCCESS means Docker/Podman succeeded.
+                // In this case forward the exit code
+                // of the container payload.
+                //
+                boinc_finish(container_exit_code);
                 break;
             default:
                 break;
