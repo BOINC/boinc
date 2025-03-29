@@ -227,4 +227,8 @@ function is_valid_filename($x) {
     return preg_match('/^[\w\-.]+$/', $x);
 }
 
+function filename_rules() {
+    return 'Names can contain only A-Z a-z 0-9 . - _';
+}
+
 ?>
