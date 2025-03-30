@@ -1,0 +1,59 @@
+diff --git a/include/wx/osx/choice.h b/include/wx/osx/choice.h
+index 37486f8a7c..d80bf53766 100644
+--- a/include/wx/osx/choice.h
++++ b/include/wx/osx/choice.h
+@@ -73,6 +73,7 @@ public:
+     virtual int FindString(const wxString& s, bool bCase = false) const wxOVERRIDE;
+     virtual wxString GetString(unsigned int n) const wxOVERRIDE;
+     virtual void SetString(unsigned int pos, const wxString& s) wxOVERRIDE;
++    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
+     // osx specific event handling common for all osx-ports
+ 
+     virtual bool OSXHandleClicked(double timestampsec) wxOVERRIDE;
+diff --git a/include/wx/osx/core/private.h b/include/wx/osx/core/private.h
+index 429c8f7401..cae9f9eebe 100644
+--- a/include/wx/osx/core/private.h
++++ b/include/wx/osx/core/private.h
+@@ -820,6 +820,7 @@ public :
+     }
+ 
+     virtual void SetItem(int pos, const wxString& item) = 0;
++    virtual void SetItemBitmap(unsigned int n, const wxBitmap& bitmap) = 0;
+ };
+ 
+ 
+diff --git a/src/osx/choice_osx.cpp b/src/osx/choice_osx.cpp
+index 6df17b34e5..1fcb2a5fc4 100644
+--- a/src/osx/choice_osx.cpp
++++ b/src/osx/choice_osx.cpp
+@@ -217,6 +217,13 @@ wxString wxChoice::GetString(unsigned int n) const
+     return m_strings[n] ;
+ }
+ 
++void wxChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
++{
++    wxCHECK_RET( IsValid(n), wxT("wxChoice::SetItemBitmap(): invalid index") );
++
++    dynamic_cast<wxChoiceWidgetImpl*>(GetPeer())->SetItemBitmap(n, bitmap);
++}
++
+ // ----------------------------------------------------------------------------
+ // client data
+ // ----------------------------------------------------------------------------
+diff --git a/src/osx/cocoa/choice.mm b/src/osx/cocoa/choice.mm
+index 2f0eb4ba51..52eb85c17d 100644
+--- a/src/osx/cocoa/choice.mm
++++ b/src/osx/cocoa/choice.mm
+@@ -93,6 +93,12 @@ public:
+         m_popUpMenu->FindItemByPosition( pos )->SetItemLabel( s ) ;
+     }
+ 
++    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
++    {
++        if ( bitmap.Ok() )
++            m_popUpMenu->FindItemByPosition( n )->SetBitmap( bitmap ); ;
++    }
++
+ private:
+     wxMenu* m_popUpMenu;
+ };
