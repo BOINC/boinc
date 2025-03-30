@@ -253,6 +253,7 @@ macos_manager_list = [
 macos_apps_list = [
     'zip/build/Deployment/boinc_zip_test',
     'zip/build/Deployment/testzlibconflict',
+    'samples/docker_wrapper/build/Deployment/docker_wrapper',
     'samples/mac_build/build/Deployment/UC2-apple-darwin',
     'samples/mac_build/build/Deployment/UC2_graphics-apple-darwin',
     'samples/mac_build/build/Deployment/slide_show-apple-darwin',
@@ -265,6 +266,7 @@ macos_makefile_apps_list = [
 ]
 
 macos_apps_x86_64_list = [
+    'samples/docker_wrapper/docker_wrapper_x86_64',
     'samples/example_app/x86_64/uc2',
     'samples/example_app/uc2_x86_64',
     'samples/example_app/x86_64/uc2_graphics',
@@ -275,6 +277,7 @@ macos_apps_x86_64_list = [
 ]
 
 macos_apps_arm64_list = [
+    'samples/docker_wrapper/docker_wrapper_arm64',
     'samples/example_app/arm64/uc2',
     'samples/example_app/uc2_arm64',
     'samples/example_app/arm64/uc2_graphics',
