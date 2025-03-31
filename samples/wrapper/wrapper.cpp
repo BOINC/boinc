@@ -1183,6 +1183,7 @@ void usage() {
         "   --trickle X\n"
         "   --version\n"
         "   --use_tstp\n"
+        "   --passthrough_child\n"
     );
     boinc_finish(EXIT_INIT_FAILURE);
 }
@@ -1196,7 +1197,9 @@ int main(int argc, char** argv) {
         // total CPU time at last checkpoint
     char buf[256];
     bool is_sporadic = false;
-
+    bool passthrough_child = false;
+    int child_arg_count = 0;
+    char** child_args;
     // Log banner
     //
     fprintf(stderr, "%s wrapper (%d.%d.%d): starting\n",
@@ -1224,7 +1227,16 @@ int main(int argc, char** argv) {
 #endif
         } else if (!strcmp(argv[j], "--use_tstp")) {
             use_tstp = true;
-        } else {
+        } else if (!strcmp(argv[j], "--passthrough_child")) {
+            passthrough_child = true;
+            child_arg_count = (argc - (j-1));
+            child_args = (char**)malloc(sizeof(char*) * child_arg_count);
+            for (int k = j; k < argc; k++) {
+
+                child_args[k] = argv[k];
+            }
+            j = argc - 1;
+        } else if (!passthrough_child){
             fprintf(stderr, "Unrecognized option %s\n", argv[j]);
             usage();
         }
@@ -1313,7 +1325,12 @@ int main(int argc, char** argv) {
         double cpu_time = 0;
 
         task.starting_cpu = checkpoint_cpu_time;
-        retval = task.run(argc, argv);
+        if(passthrough_child){
+            retval = task.run(child_arg_count, child_args);
+        }else{
+            retval = task.run(argc, argv);
+        }
+
         if (retval) {
             boinc_finish(retval);
         }
