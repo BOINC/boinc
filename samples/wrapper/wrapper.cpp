@@ -29,6 +29,9 @@
 // --use_tstp       use SIGTSTP instead of SIGSTOP to suspend children
 //                  (Unix only).  SIGTSTP can be caught.
 //                  Use this if the wrapped program is itself a wrapper.
+// --passthrough_child
+//                  cmdline args beyond this one are passed to
+//                  tasks for which <append_cmdline_args> is set in job.xml
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -94,6 +97,8 @@ using std::string;
 
 bool use_tstp = false;
 
+//#define DEBUG
+
 #ifdef DEBUG
 inline void debug_msg(const char* x) {
     fprintf(stderr, "[DEBUG] %s\n", x);
@@ -139,6 +144,7 @@ struct TASK {
         // contribution of this task to overall fraction done
     bool is_daemon;
     bool append_cmdline_args;
+        // append wrapper args following --passthrough_child
     bool multi_process;
     bool forward_slashes;
     double time_limit;
@@ -167,7 +173,7 @@ struct TASK {
     int parse(XML_PARSER&);
     void substitute_macros();
     bool poll(int& status);
-    int run(int argc, char** argv);
+    int run(vector<string> &child_args);
     void kill();
     void stop();
     void resume();
@@ -281,41 +287,38 @@ void str_replace_all(string &str, const string& s1, const string& s2) {
 //
 void macro_substitute(string &str) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
-    str_replace_all(str, "$PROJECT_DIR", pd);
-#ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PROJECT_DIR", pd);
+    char nt[256], cwd[1024];
+
+    sprintf(nt, "%d", nthreads);
+#ifdef _WIN32
+    GetCurrentDirectory(sizeof(cwd), cwd);
+#else
+    getcwd(cwd, sizeof(cwd));
 #endif
 
-    char nt[256];
-    sprintf(nt, "%d", nthreads);
-    str_replace_all(str, "$NTHREADS", nt);
 #ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$NTHREADS", nt);
+    fprintf(stderr, "[DEBUG] macro_substitute '%s'\n", str.c_str());
+    fprintf(stderr, "[DEBUG] replacing $PROJECT_DIR with '%s'\n", pd);
+    fprintf(stderr, "[DEBUG] replacing $NTHREADS with '%s'\n", nt);
+    fprintf(stderr, "[DEBUG] replacing $PWD with '%s'\n", cwd);
 #endif
+    str_replace_all(str, "$PROJECT_DIR", pd);
+    str_replace_all(str, "$NTHREADS", nt);
+    str_replace_all(str, "$PWD", cwd);
 
     if (aid.gpu_device_num >= 0) {
         gpu_device_num = aid.gpu_device_num;
     }
     if (gpu_device_num >= 0) {
-        sprintf(nt, "%d", gpu_device_num);
-        str_replace_all(str, "$GPU_DEVICE_NUM", nt);
+        char buf[256];
+        sprintf(buf, "%d", gpu_device_num);
+        str_replace_all(str, "$GPU_DEVICE_NUM", buf);
 #ifdef DEBUG
-        fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$GPU_DEVICE_NUM", nt);
+        fprintf(stderr, "[DEBUG] replacing $GPU_DEVICE_NUM with '%s'\n", buf);
 #endif
     }
-
-#ifdef _WIN32
-    GetCurrentDirectory(sizeof(nt),nt);
-    str_replace_all(str, "$PWD", nt);
 #ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", nt);
-#endif
-#else
-    char cwd[1024];
-    str_replace_all(str, "$PWD", getcwd(cwd, sizeof(cwd)));
-#ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getcwd(cwd, sizeof(cwd)));
-#endif
+    fprintf(stderr, "[DEBUG] macro_substitute result '%s'\n", str.c_str());
 #endif
 }
 
@@ -596,9 +599,9 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
-int start_daemons(int argc, char** argv) {
+int start_daemons(vector<string> child_args) {
     for (TASK& task: daemons) {
-        int retval = task.run(argc, argv);
+        int retval = task.run(child_args);
         if (retval) return retval;
     }
     return 0;
@@ -675,7 +678,7 @@ void backslash_to_slash(char* p) {
     }
 }
 
-int TASK::run(int argct, char** argvt) {
+int TASK::run(vector<string> &child_args) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
 
@@ -697,13 +700,13 @@ int TASK::run(int argct, char** argvt) {
         exit(1);
     }
 
-    // Optionally append wrapper's command-line arguments
+    // Optionally append wrapper's pass-through args
     // to those in the job file.
     //
     if (append_cmdline_args) {
-        for (int i=1; i<argct; i++){
+        for (string arg: child_args) {
             command_line += string(" ");
-            command_line += argvt[i];
+            command_line += arg;
         }
     }
 
@@ -1198,10 +1201,8 @@ int main(int argc, char** argv) {
     char buf[256];
     bool is_sporadic = false;
     bool passthrough_child = false;
-    int child_arg_count = 0;
-    char** child_args;
-    // Log banner
-    //
+    vector<string> child_args;
+
     fprintf(stderr, "%s wrapper (%d.%d.%d): starting\n",
         boinc_msg_prefix(buf, sizeof(buf)),
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE
@@ -1212,7 +1213,9 @@ int main(int argc, char** argv) {
 #endif
 
     for (int j=1; j<argc; j++) {
-        if (!strcmp(argv[j], "--nthreads")) {
+        if (passthrough_child) {
+            child_args.push_back(argv[j]);
+        } else if (!strcmp(argv[j], "--nthreads")) {
             nthreads = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--device")) {
             gpu_device_num = atoi(argv[++j]);
@@ -1229,14 +1232,7 @@ int main(int argc, char** argv) {
             use_tstp = true;
         } else if (!strcmp(argv[j], "--passthrough_child")) {
             passthrough_child = true;
-            child_arg_count = (argc - (j-1));
-            child_args = (char**)malloc(sizeof(char*) * child_arg_count);
-            for (int k = j; k < argc; k++) {
-
-                child_args[k] = argv[k];
-            }
-            j = argc - 1;
-        } else if (!passthrough_child){
+        } else {
             fprintf(stderr, "Unrecognized option %s\n", argv[j]);
             usage();
         }
@@ -1302,7 +1298,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = start_daemons(argc, argv);
+    retval = start_daemons(child_args);
     if (retval) {
         fprintf(stderr,
             "%s start_daemons(): %d\n",
@@ -1325,11 +1321,7 @@ int main(int argc, char** argv) {
         double cpu_time = 0;
 
         task.starting_cpu = checkpoint_cpu_time;
-        if(passthrough_child){
-            retval = task.run(child_arg_count, child_args);
-        }else{
-            retval = task.run(argc, argv);
-        }
+        retval = task.run(child_args);
 
         if (retval) {
             boinc_finish(retval);
