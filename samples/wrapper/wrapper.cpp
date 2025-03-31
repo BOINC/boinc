@@ -167,7 +167,7 @@ struct TASK {
     int parse(XML_PARSER&);
     void substitute_macros();
     bool poll(int& status);
-    int run(int argc, char** argv);
+    int run(int argc, vector<string> argv);
     void kill();
     void stop();
     void resume();
@@ -596,7 +596,7 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
-int start_daemons(int argc, char** argv) {
+int start_daemons(int argc, vector<string> argv) {
     for (TASK& task: daemons) {
         int retval = task.run(argc, argv);
         if (retval) return retval;
@@ -675,7 +675,7 @@ void backslash_to_slash(char* p) {
     }
 }
 
-int TASK::run(int argct, char** argvt) {
+int TASK::run(int argct, vector<string> argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
 
@@ -701,7 +701,7 @@ int TASK::run(int argct, char** argvt) {
     // to those in the job file.
     //
     if (append_cmdline_args) {
-        for (int i=1; i<argct; i++){
+        for (int i=0; i<argct; i++){
             command_line += string(" ");
             command_line += argvt[i];
         }
@@ -1199,7 +1199,8 @@ int main(int argc, char** argv) {
     bool is_sporadic = false;
     bool passthrough_child = false;
     int child_arg_count = 0;
-    char** child_args;
+    vector<string> child_args = {};
+    vector<string> wrapper_args = {};
     // Log banner
     //
     fprintf(stderr, "%s wrapper (%d.%d.%d): starting\n",
@@ -1212,6 +1213,7 @@ int main(int argc, char** argv) {
 #endif
 
     for (int j=1; j<argc; j++) {
+        wrapper_args.push_back(argv[j]);
         if (!strcmp(argv[j], "--nthreads")) {
             nthreads = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--device")) {
@@ -1229,13 +1231,13 @@ int main(int argc, char** argv) {
             use_tstp = true;
         } else if (!strcmp(argv[j], "--passthrough_child")) {
             passthrough_child = true;
-            child_arg_count = (argc - (j-1));
-            child_args = (char**)malloc(sizeof(char*) * child_arg_count);
-            for (int k = j; k < argc; k++) {
+            child_arg_count = (argc - (j+1));
+            
+            for (int k = j+1; k < argc; k++) {
 
-                child_args[k] = argv[k];
+                child_args.push_back(argv[k]);
             }
-            j = argc - 1;
+            break;
         } else if (!passthrough_child){
             fprintf(stderr, "Unrecognized option %s\n", argv[j]);
             usage();
@@ -1302,7 +1304,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = start_daemons(argc, argv);
+    retval = start_daemons(argc, wrapper_args);
     if (retval) {
         fprintf(stderr,
             "%s start_daemons(): %d\n",
@@ -1328,7 +1330,7 @@ int main(int argc, char** argv) {
         if(passthrough_child){
             retval = task.run(child_arg_count, child_args);
         }else{
-            retval = task.run(argc, argv);
+            retval = task.run(argc, wrapper_args);
         }
 
         if (retval) {
