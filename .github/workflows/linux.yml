@@ -166,6 +166,7 @@ jobs:
         if: success() && matrix.type == 'apps-arm64'
         run: |
           export CI=yes
+          export RELEASE_ARCH=arm64
           ./linux/arm64/build_libraries_arm64.sh
           ./linux/arm64/build_openssl_arm64.sh
           ./linux/arm64/build_curl_arm64.sh
