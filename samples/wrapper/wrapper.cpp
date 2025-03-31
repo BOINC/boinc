@@ -596,7 +596,7 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
-int start_daemons(int argc, vector<string> argv) {
+int start_daemons(int argc, vector<string>& argv) {
     for (TASK& task: daemons) {
         int retval = task.run(argc, argv);
         if (retval) return retval;
@@ -675,7 +675,7 @@ void backslash_to_slash(char* p) {
     }
 }
 
-int TASK::run(int argct, vector<string> argvt) {
+int TASK::run(int argct, vector<string>& argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
 
