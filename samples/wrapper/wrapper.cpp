@@ -1232,7 +1232,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[j], "--passthrough_child")) {
             passthrough_child = true;
             child_arg_count = (argc - (j+1));
-            
+
             for (int k = j+1; k < argc; k++) {
 
                 child_args.push_back(argv[k]);
