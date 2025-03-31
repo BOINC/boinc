@@ -173,7 +173,7 @@ struct TASK {
     int parse(XML_PARSER&);
     void substitute_macros();
     bool poll(int& status);
-    int run(vector<string> &child_args);
+    int run(const vector<string> &child_args);
     void kill();
     void stop();
     void resume();
@@ -599,7 +599,7 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
-int start_daemons(vector<string> child_args) {
+int start_daemons(const vector<string>& child_args) {
     for (TASK& task: daemons) {
         int retval = task.run(child_args);
         if (retval) return retval;
@@ -678,7 +678,7 @@ void backslash_to_slash(char* p) {
     }
 }
 
-int TASK::run(vector<string> &child_args) {
+int TASK::run(const vector<string> &child_args) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
 
@@ -704,7 +704,7 @@ int TASK::run(vector<string> &child_args) {
     // to those in the job file.
     //
     if (append_cmdline_args) {
-        for (string arg: child_args) {
+        for (const string& arg: child_args) {
             command_line += string(" ");
             command_line += arg;
         }
