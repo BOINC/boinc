@@ -167,7 +167,7 @@ struct TASK {
     int parse(XML_PARSER&);
     void substitute_macros();
     bool poll(int& status);
-    int run(int argc, vector<string> argv);
+    int run(int argc, vector<string>& argv);
     void kill();
     void stop();
     void resume();
