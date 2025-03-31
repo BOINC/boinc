@@ -1199,8 +1199,8 @@ int main(int argc, char** argv) {
     bool is_sporadic = false;
     bool passthrough_child = false;
     int child_arg_count = 0;
-    vector<string> child_args = {};
-    vector<string> wrapper_args = {};
+    vector<string> child_args;
+    vector<string> wrapper_args;
     // Log banner
     //
     fprintf(stderr, "%s wrapper (%d.%d.%d): starting\n",
