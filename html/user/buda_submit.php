@@ -123,7 +123,7 @@ function parse_batch_dir($batch_dir, $variant_desc) {
             }
             $job_files[] = $f2;
         }
-        if (sort($job_files) != $unshared_files) {
+        if (array_values($job_files) != array_values($unshared_files)) {
             error_page("$fname doesn't have all input files");
         }
 

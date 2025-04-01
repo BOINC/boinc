@@ -37,7 +37,9 @@ function get_file() {
     if ($download) {
         do_download($path);
     } else {
-        readfile($path);
+        echo "<pre>\n";
+        echo htmlspecialchars(file_get_contents($path));
+        echo "</pre>\n";
     }
 }
 

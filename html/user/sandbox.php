@@ -115,7 +115,7 @@ function list_files($user, $notice=null) {
         $sort_rev = get_str('sort_rev', true);
         column_sort($files, $sort_field, $sort_rev);
 
-        start_table();
+        start_table('table-striped');
         table_header(
             column_sort_header(
                 'name',
