@@ -158,12 +158,13 @@ function variant_form($user) {
         Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#adding-a-variant>here</a>.
     ";
     $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
+    $sb2 = '<br><small>Use Ctrl+click to select multiple files</small>';
     form_start('buda.php');
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
     form_input_text('Plan class', 'variant');
     form_select("Dockerfile$sb", 'dockerfile', $sbitems);
-    form_select_multiple("Application files$sb", 'app_files', $sbitems);
+    form_select_multiple("Application files$sb$sb2", 'app_files', $sbitems, null, 12);
     form_input_text(
         'Input file names<br><small>Space-separated</small>',
         'input_file_names'
@@ -199,7 +200,7 @@ function create_templates($variant, $variant_desc, $dir) {
     $x = "<input_template>\n";
     $ninfiles = 1 + count($variant_desc->input_file_names) + count($variant_desc->app_files);
     for ($i=0; $i<$ninfiles; $i++) {
-        $x .= "   <file_info>\n      <no_delete/>\n      <executable/>\n   </file_info>\n";
+        $x .= "   <file_info>\n      <sticky/>\n      <no_delete/>\n      <executable/>\n   </file_info>\n";
     }
     $x .= "   <workunit>\n";
     $x .= file_ref_in($variant_desc->dockerfile);
@@ -254,12 +255,17 @@ function variant_action($user) {
             error_page("Invalid app file name: ".filename_rules());
         }
     }
-    $input_file_names = explode(' ', get_str('input_file_names'));
+    $input_file_names = get_str('input_file_names', true);
     $output_file_names = explode(' ', get_str('output_file_names'));
-    foreach ($input_file_names as $fname) {
-        if (!is_valid_filename($fname)) {
-            error_page("Invalid input file name: ".filename_rules());
+    if ($input_file_names) {
+        $input_file_names = explode(' ', $input_file_names);
+        foreach ($input_file_names as $fname) {
+            if (!is_valid_filename($fname)) {
+                error_page("Invalid input file name: ".filename_rules());
+            }
         }
+    } else {
+        $input_file_names = [];
     }
     foreach ($output_file_names as $fname) {
         if (!is_valid_filename($fname)) {
@@ -404,7 +410,8 @@ function view_file() {
     $fname = get_str('fname');
     if (!is_valid_filename($fname)) die('bad arg');
     echo "<pre>\n";
-    readfile("$buda_root/$app/$variant/$fname");
+    $x = file_get_contents("$buda_root/$app/$variant/$fname");
+    echo htmlspecialchars($x);
     echo "</pre>\n";
 }
 

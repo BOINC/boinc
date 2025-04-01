@@ -394,14 +394,14 @@ function form_select($label, $name, $items, $selected=null) {
 // same, for multiple select.
 // $selected, if non-null, is a list of selected values
 //
-function form_select_multiple($label, $name, $items, $selected=null) {
+function form_select_multiple($label, $name, $items, $selected=null, $size=0) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
-                <select multiple class="form-control" id="%s" name="%s[]">
+                <select multiple class="form-control" id="%s" name="%s[]" size=%d>
         ',
-        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name, $size
     );
     foreach ($items as $i) {
         echo sprintf(
