@@ -19,4 +19,3 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
 include(${VCPKG_ROOT}/triplets/x64-linux.cmake)
 
 set(VCPKG_BUILD_TYPE release)
-set(VCPKG_CMAKE_CONFIGURE_OPTIONS "-DCMAKE_POLICY_VERSION_MINIMUM=3.5")
