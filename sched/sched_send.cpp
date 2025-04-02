@@ -967,7 +967,7 @@ void check_buda_plan_class(
     }
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
-            "[version] plan class: %s\n", plan_class
+            "[version] BUDA WU plan class: %s\n", plan_class
         );
     }
     is_buda = true;
