@@ -20,3 +20,4 @@ include(${VCPKG_ROOT}/triplets/community/arm64-windows-static.cmake)
 
 set(VCPKG_CXX_FLAGS /Qspectre)
 set(VCPKG_C_FLAGS /Qspectre)
+set(VCPKG_CMAKE_CONFIGURE_OPTIONS "-DCMAKE_POLICY_VERSION_MINIMUM=3.5")
