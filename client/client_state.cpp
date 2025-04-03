@@ -463,6 +463,9 @@ static void set_client_priority() {
 #endif
 }
 
+// initialize the client, and print messages about
+// the host HW/SW and the configuration.
+//
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -915,6 +918,26 @@ int CLIENT_STATE::init() {
     throttle_thread.run(throttler, NULL);
 
     sporadic_init();
+
+    // if Docker not present, notify user
+    //
+#ifndef ANDROID
+    if (!host_info.have_docker()) {
+        msg_printf(NULL, MSG_INFO,
+            "Some projects require Docker."
+        );
+        msg_printf(NULL, MSG_INFO,
+            "To install Docker, visit https://github.com/BOINC/boinc/wiki/Installing-Docker"
+        );
+        NOTICE n;
+        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=https://github.com/BOINC/boinc/wiki/Installing-Docker>here</a>.";
+        strcpy(n.link, "https://github.com/BOINC/boinc/wiki/Installing-Docker");
+        n.create_time = now;
+        n.arrival_time = now;
+        strcpy(n.category, "client");
+        notices.append(n);
+    }
+#endif
 
     initialized = true;
     return 0;
