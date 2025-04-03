@@ -189,12 +189,17 @@ function show_aborted($batches, $limit, $user, $app) {
 }
 
 // fill in the app and user names in list of batches
+// TODO: speed this up by making list of app and user IDs
+// and doing lookup just once.
 //
 function fill_in_app_and_user_names(&$batches) {
     foreach ($batches as $batch) {
         $app = BoincApp::lookup_id($batch->app_id);
         if ($app) {
             $batch->app_name = $app->name;
+            if ($batch->description) {
+                $batch->app_name .= ": $batch->description";
+            }
         } else {
             $batch->app_name = "unknown";
         }
