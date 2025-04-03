@@ -31,9 +31,15 @@ require_once("../inc/bootstrap.inc");
 
 // parse config.xml (do it here for efficiency)
 //
+global $config;
 $config = get_config();
+
 global $master_url;
 $master_url = parse_config($config , "<master_url>");
+
+// the above 'globals' are solely for Drupal; see
+// https://stackoverflow.com/questions/29216392/scope-of-a-global-variable-in-drupal-module
+
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
