@@ -70,19 +70,19 @@ function app_list($notice=null) {
     text_start();
     echo "
         <p>BUDA (BOINC Universal Docker App)
-        lets you submit Docker jobs using a web interface;
-        you don't need to log into the BOINC server.
-        <p>
+        lets you submit Docker jobs using a web interface.
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-overview>BUDA overview</a>.
     ";
 
-    echo "<h2>Science apps</h2>";
     $dirs = scandir($buda_root);
     foreach ($dirs as $dir) {
         if ($dir[0] == '.') continue;
-        show_app($dir);
+        panel("Science app: <b>$dir</b>",
+            function() use ($dir) {
+                show_app($dir);
+            }
+        );
     }
-    echo '<hr>';
     show_button_small('buda.php?action=app_form', 'Add science app');
     text_end();
     page_tail();
@@ -90,9 +90,8 @@ function app_list($notice=null) {
 
 function show_app($dir) {
     global $buda_root;
-    echo "<hr><font size=+3>$dir</font>\n";
     start_table('table-striped');
-    table_header('Variant name<br><small>click for details</small>', 'Submit jobs');
+    table_header('Variant<br><small>click for details</small>', 'Submit jobs');
     $pcs = scandir("$buda_root/$dir");
     foreach ($pcs as $pc) {
         if ($pc[0] == '.') continue;
@@ -107,8 +106,11 @@ function show_app($dir) {
     echo "<p>";
     show_button_small("buda.php?action=variant_form&app=$dir", 'Add variant');
     echo "<p>";
-    show_button_small(
-        "buda.php?action=app_delete&app=$dir", "Delete science app '$dir'"
+    show_button(
+        "buda.php?action=app_delete&app=$dir",
+        "Delete science app '$dir'",
+        null,
+        'btn btn-xs btn-warning'
     );
 }
 
@@ -118,10 +120,16 @@ function variant_view() {
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
     if (!is_valid_filename($variant)) die('bad arg');
-    page_head("App $app variant $variant");
+    page_head("BUDA: variant '$variant' of science app '$app'");
     $dir = "$buda_root/$app/$variant";
-    start_table();
-    table_header('name', 'size', 'md5');
+    echo "
+        This variant includes the following files.
+        The template files and variant.json
+        were generated when you created the variant.
+        <p>
+    ";
+    start_table('table-striped');
+    table_header('File name', 'size', 'md5');
     foreach(scandir($dir) as $f) {
         if ($f[0] == '.') continue;
         [$md5, $size] = parse_info_file("$dir/.md5/$f");
@@ -132,9 +140,11 @@ function variant_view() {
         );
     }
     end_table();
-    show_button_small(
+    show_button(
         "buda.php?action=variant_delete&app=$app&variant=$variant",
-        'Delete variant'
+        'Delete variant',
+        null,
+        'btn btn-xs btn-warning'
     );
     page_tail();
 }
@@ -339,7 +349,7 @@ function variant_delete() {
         app_list($notice);
     } else {
         page_head("Confirm");
-        echo "Are you sure you want to delete variant $variant of app $app?  <p>";
+        echo "<p>Are you sure you want to delete variant $variant of BUDA app $app?  <p>";
         show_button(
             "buda.php?action=variant_delete&app=$app&variant=$variant&confirmed=yes",
             "Yes"
@@ -368,7 +378,7 @@ function app_delete() {
         app_list($notice);
     } else {
         page_head('Confirm');
-        echo "Are you sure you want to delete app $app?  <p>";
+        echo "<p>Are you sure you want to delete BUDA science app $app?  <p>";
         show_button(
             "buda.php?action=app_delete&app=$app&confirmed=yes",
             "Yes"
