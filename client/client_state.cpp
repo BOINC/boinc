@@ -918,7 +918,7 @@ int CLIENT_STATE::init() {
     throttle_thread.run(throttler, NULL);
 
     sporadic_init();
-    
+
     // if Docker not present, notify user
     //
 #ifndef ANDROID
