@@ -921,12 +921,23 @@ int CLIENT_STATE::init() {
     
     // if Docker not present, notify user
     //
-    msg_printf_notice(0, true, NULL,
-        "%s <a href=%s>%s</a>.",
-        _("Some projects require Docker. Learn how to install it"),
-        "https://github.com/BOINC/boinc/wiki/Installing-Docker",
-        _("here")
-    );
+#ifndef ANDROID
+    if (!host_info.have_docker()) {
+        msg_printf(NULL, MSG_INFO,
+            "Some projects require Docker."
+        );
+        msg_printf(NULL, MSG_INFO,
+            "To install Docker, visit https://github.com/BOINC/boinc/wiki/Installing-Docker"
+        );
+        NOTICE n;
+        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=https://github.com/BOINC/boinc/wiki/Installing-Docker>here</a>.";
+        strcpy(n.link, "https://github.com/BOINC/boinc/wiki/Installing-Docker");
+        n.create_time = now;
+        n.arrival_time = now;
+        strcpy(n.category, "client");
+        notices.append(n);
+    }
+#endif
 
     initialized = true;
     return 0;
