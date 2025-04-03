@@ -306,7 +306,16 @@ int get_wsl_information(WSL_DISTROS &distros) {
         // in case nothing worked
         update_os(wd, "unknown", "unknown");
 
-        // get the libc version
+        // get the libc version by running 'ldd --version'
+        // on most distros this generates something like
+        // ldd (Ubuntu GLIBC 2.27-3ubuntu1.6) 2.27
+        // ...
+        // NOTE: on Alpine this generates
+        // musl libc (x86_64)
+        // Version 1.2.5
+        // ...
+        // We currently don't parse this.
+        //
         if (!rs.run_program_in_wsl(
             wd.distro_name, "ldd --version"
         )) {
