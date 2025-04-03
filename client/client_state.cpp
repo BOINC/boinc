@@ -463,6 +463,9 @@ static void set_client_priority() {
 #endif
 }
 
+// initialize the client, and print messages about
+// the host HW/SW and the configuration.
+//
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -915,6 +918,15 @@ int CLIENT_STATE::init() {
     throttle_thread.run(throttler, NULL);
 
     sporadic_init();
+    
+    // if Docker not present, notify user
+    //
+    msg_printf_notice(0, true, NULL,
+        "%s <a href=%s>%s</a>.",
+        _("Some projects require Docker. Learn how to install it"),
+        "https://github.com/BOINC/boinc/wiki/Installing-Docker",
+        _("here")
+    );
 
     initialized = true;
     return 0;
