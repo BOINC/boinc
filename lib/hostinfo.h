@@ -134,6 +134,7 @@ public:
     int get_host_battery_state();
     int get_local_network_info();
     int get_virtualbox_version();
+    bool have_docker();
 #ifndef _WIN64
     // on Windows, Docker info is per WSL_DISTRO, not global
     bool get_docker_version();

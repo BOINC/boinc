@@ -415,3 +415,14 @@ bool HOST_INFO::get_docker_compose_version_string(
     }
     return false;
 }
+
+bool HOST_INFO::have_docker() {
+#ifdef __WIN32__
+    for (WSL_DISTRO &wd: wsl_distros.distros) {
+        if (strlen(wd.docker_version)>0) return true;
+    }
+    return false;
+#else
+    return strlen(docker_version)>0;
+#endif
+}
