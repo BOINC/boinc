@@ -252,7 +252,7 @@ $is_login_page = false;
 //
 // Page_head() is overridable so that projects that want to integrate BOINC
 // with an existing web framework can more easily do so.
-// To do so, define page_head() in the project include file.
+// To do so, define page_head() in html/project/project.inc
 //
 if (!function_exists("page_head")){
 function page_head(
@@ -304,6 +304,8 @@ function page_head(
         <html lang="en">
         <head>
     ';
+    echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>';
+
     if (defined('GLOBAL_HEAD_EXTRA')) {
         echo GLOBAL_HEAD_EXTRA;
     }
@@ -400,7 +402,6 @@ function page_tail(
     echo "<br>\n";
     project_footer($is_main, $show_date, $url_prefix);
     echo '
-        <script src="'.secure_url_base().'/jquery.min.js"></script>
         <script src="'.secure_url_base().'/bootstrap.min.js"></script>
         </div>
         </body>
@@ -1259,6 +1260,5 @@ function check_validated_email($user) {
         exit;
     }
 }
-
 
 ?>
