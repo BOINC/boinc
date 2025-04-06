@@ -465,6 +465,17 @@ string timediff_format(double diff) {
 
 }
 
+int64_t ParseStringtoInt64(const std::string& str)
+{
+    try {
+        return static_cast<int64_t>(std::stoll(str));
+    } catch (const std::invalid_argument& e){
+        throw;
+    } catch (const std::out_of_range& e){
+        throw;
+    }
+}
+
 void mysql_timestamp(double dt, char* p) {
     struct tm* tmp;
     time_t t = (time_t)dt;

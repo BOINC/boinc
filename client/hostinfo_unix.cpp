@@ -22,6 +22,7 @@
 #include "version.h"         // version numbers from autoconf
 #include "cpp.h"
 #include "config.h"
+#include "str_util.h"
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
@@ -35,6 +36,7 @@
 #undef _LARGEFILE_SOURCE
 #undef _LARGEFILE64_SOURCE
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <cstring>
@@ -914,7 +916,7 @@ static void get_cpu_info_mac(HOST_INFO& host) {
         FILE* fp = boinc_fopen(fpath, "r");
         if (fp) {
             fgets(features, sizeof(features), fp);
-	    feature_string += features;
+            feature_string += features;
             fclose(fp);
         } else if (log_flags.coproc_debug) {
             msg_printf(0, MSG_INFO, "[x86_64-M1] couldn't open file %s", fpath);
@@ -2139,10 +2141,10 @@ long xss_idle() {
         //
         if (disp == NULL) {
             if (log_flags.idle_detection_debug) {
-	            msg_printf(NULL, MSG_INFO,
-	                "[idle_detection] DISPLAY '%s' not found or insufficient access.",
-	                it->c_str()
-                );
+                msg_printf(NULL, MSG_INFO,
+                           "[idle_detection] DISPLAY '%s' not found or insufficient access.",
+                           it->c_str()
+                           );
             }
             continue;
         }
@@ -2155,10 +2157,10 @@ long xss_idle() {
             disp, &event_base_return, &error_base_return
         )){
             if (log_flags.idle_detection_debug) {
-	            msg_printf(NULL, MSG_INFO,
-	                "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
-	                it->c_str()
-                );
+                msg_printf(NULL, MSG_INFO,
+                           "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
+                           it->c_str()
+                           );
             }
             XCloseDisplay(disp);
             continue;
@@ -2203,35 +2205,103 @@ long xss_idle() {
 }
 #endif // HAVE_XSS
 
+
+// Reads the timestamp specifically from /run/event_detect/last_active_time.dat using std::ifstream.
+// Returns int64_t timestamp read from file, or -1 if the file cannot be opened/read/parsed.
+//
+int64_t ReadLastActiveTimeFromFile() { // Takes no arguments
+    const char* file_path = "/run/event_detect/last_active_time.dat";
+
+    std::ifstream infile(file_path); // Open the specific file
+
+    if (!infile.is_open()) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "[idle_detection] ReadLastActiveTimeFromFile(): Could not open file %s", file_path);
+        return -1;
+    }
+
+    std::string line;
+    int64_t timestamp = 0;
+
+    // Read the first line
+    if (std::getline(infile, line)) {
+        std::string trimmed_line = line;
+
+        strip_quotes(trimmed_line);
+        strip_whitespace(trimmed_line);
+
+        if (!trimmed_line.empty()) {
+            try {
+                timestamp = ParseStringtoInt64(trimmed_line);
+            } catch (const std::exception& e) {
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "[idle_detection] ReadLastActiveTimeFromFile(): Failed to parse timestamp "
+                                                     "line '%s' from %s: %s",
+                          trimmed_line.c_str(), file_path, e.what());
+                timestamp = -1; // Reset on error
+            }
+        } else {
+            msg_printf(NULL, MSG_INTERNAL_ERROR, "[idle_detection] ReadLastActiveTimeFromFile(): Read empty line after "
+                                                 "trimming from %s",
+                       file_path);
+            timestamp = -1;
+        }
+    } else {
+        if (infile.eof()) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR, "[idle_detection] ReadLastActiveTimeFromFile(): Failed to read line "
+                                                 "(EOF - file empty?) from %s",
+                       file_path);
+        } else {
+            msg_printf(NULL, MSG_INTERNAL_ERROR, "[idle_detection] ReadLastActiveTimeFromFile(): Failed to read line "
+                                                 "from file %s (stream error?)",
+                       file_path);
+        }
+        timestamp = -1;
+    }
+
+    // infile closed by RAII when function exits
+    return timestamp;
+}
+
 #endif // LINUX_LIKE_SYSTEM
+
+
 
 long HOST_INFO::user_idle_time(bool check_all_logins) {
     long idle_time = USER_IDLE_TIME_INF;
 
+    int64_t last_active_time_from_event_detect = ReadLastActiveTimeFromFile();
+
+    if (last_active_time_from_event_detect < 0) { // fall back to internal logic if ReadLastActiveTimeFromFile() failed
 #if HAVE_UTMP_H
-    if (check_all_logins) {
-        idle_time = min(idle_time, all_logins_idle());
-    }
+        if (check_all_logins) {
+            idle_time = min(idle_time, all_logins_idle());
+        }
 #endif
 
-    idle_time = min(idle_time, all_tty_idle_time());
+        idle_time = min(idle_time, all_tty_idle_time());
 
 #if LINUX_LIKE_SYSTEM
 
 #if HAVE_XSS
-    idle_time = min(idle_time, xss_idle());
+        idle_time = min(idle_time, xss_idle());
 #endif // HAVE_XSS
 
 #else
-    // We should find out which of the following are actually relevant
-    // on which systems (if any)
-    //
-    idle_time = min(idle_time, (long)device_idle_time("/dev/mouse"));
+        // We should find out which of the following are actually relevant
+        // on which systems (if any)
+        //
+        idle_time = min(idle_time, (long)device_idle_time("/dev/mouse"));
+
         // solaris, linux
-    idle_time = min(idle_time, (long)device_idle_time("/dev/input/mice"));
-    idle_time = min(idle_time, (long)device_idle_time("/dev/kbd"));
+        idle_time = min(idle_time, (long)device_idle_time("/dev/input/mice"));
+        idle_time = min(idle_time, (long)device_idle_time("/dev/kbd"));
         // solaris
 #endif // LINUX_LIKE_SYSTEM
+    } else { // use event_detect/idle_detect for idle time
+        long idle_time_from_event_detect = static_cast<long>((static_cast<int64_t>(gstate.now) - last_active_time_from_event_detect));
+
+        idle_time = min(idle_time, idle_time_from_event_detect);
+    }
+
     return idle_time;
 }
 
