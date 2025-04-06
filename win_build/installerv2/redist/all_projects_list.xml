@@ -10,10 +10,10 @@
         <description><![CDATA[Study drugs to fight SARS-CoV-2]]></description>
         <home>The COVID.SI project and the Karelian Research Center of the Russian Academy of Sciences</home>
     <platforms>
-        <name>windows_x86_64</name>
-        <name>x86_64-pc-linux-gnu</name>
         <name>arm-unknown-linux-gnueabihf</name>
+        <name>windows_x86_64</name>
         <name>x86_64-openwrt-linux-musl</name>
+        <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/sidock.png</image>
       <summary>Study drugs to fight SARS-CoV-2</summary>
@@ -299,10 +299,9 @@
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_cms]</name>
         <name>windows_x86_64[vbox64_theory]</name>
-        <name>x86_64-pc-linux-gnu[native_theory]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
         <name>x86_64-apple-darwin[vbox64_theory]</name>
-        <name>x86_64-pc-freebsd[vbox64_theory]</name>
+        <name>x86_64-apple-darwin[vbox64]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
@@ -937,12 +936,17 @@
         <name>arm-android-linux-gnu</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm64-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[libc_228]</name>
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
+        <name>windows_x86_64[docker]</name>
         <name>x86-android-linux-gnu</name>
         <name>x86_64-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[docker]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-pc-linux-gnu[libc_228]</name>
     </platforms>
       <summary>Support scientists from multiple institutions</summary>
