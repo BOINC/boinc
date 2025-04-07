@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// An interface to bootstrap navbars and grids.
+// An interface to bootstrap navbars, grids, and forms.
 
 $fixed_navbar = false;
 
@@ -413,7 +413,7 @@ function form_select_multiple($label, $name, $items, $selected=null, $size=0) {
     echo "</select></div></div>\n";
 }
 
-// return a list of string for checkbox items
+// return a list of strings for checkbox items
 //
 function checkbox_item_strings($items, $attrs='') {
     $x = [];
@@ -443,9 +443,12 @@ function form_checkboxes($label, $items, $attrs='') {
     ';
 }
 
-// $items is list of (value, label)
+// $items is list of [value, label]
 //
-function form_radio_buttons($label, $name, $items, $selected) {
+function form_radio_buttons(
+    $label, $name, $items, $selected,
+    $assign_ids=false       // assign IDs to buttons based on names
+) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s">%s</label>
@@ -455,9 +458,14 @@ function form_radio_buttons($label, $name, $items, $selected) {
     );
     foreach ($items as $i) {
         $checked = ($selected == $i[0])?"checked":"";
-        echo sprintf('<input type="radio" name="%s" value="%s" %s> %s <br>
+        if ($assign_ids) {
+            $id = sprintf('id="%s_%s"', $name, $i[0]);
+        } else {
+            $id = '';
+        }
+        echo sprintf('<input type="radio" name="%s" value="%s" %s %s> %s <br>
             ',
-            $name, $i[0], $checked, $i[1]
+            $name, $i[0], $checked, $id, $i[1]
         );
     }
     echo '</div>
@@ -511,3 +519,48 @@ function form_checkbox($label, $name, $checked=false) {
         ', $name, $checked?"checked":""
     );
 }
+
+// 'select2' is replacement for select boxed:
+// https://github.com/select2/select2
+//
+// To use it you must use this version of page_head():
+
+function page_head_select2($title) {
+    $head_extra = '
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    ';
+    page_head($title, null, false, '', $head_extra);
+    echo "<script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+        </script>
+    ";
+}
+
+// show a multi-select using select2.
+// $items is a list of [val, label] pairs;
+// $selected is the list of selected values.
+// $extra is e.g. id=foo
+//
+function form_select2_multi($label, $name, $items, $selected=null, $extra='') {
+    echo sprintf('
+        <div class="form-group">
+            <label align=right class="%s" for="%s">%s</label>
+            <div class="%s">
+                <select class="js-example-basic-multiple" name="%s[]" multiple="multiple" style="width: 100%%" %s>
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $extra
+    );
+    foreach ($items as $i) {
+        echo sprintf(
+            '<option %s value=%s>%s</option>',
+            ($selected && in_array($i[0], $selected))?'selected':'',
+            $i[0], $i[1]
+        );
+    }
+    echo "</select></div></div>\n";
+}
+
+?>
