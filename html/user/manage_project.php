@@ -71,7 +71,7 @@ function handle_list() {
     ";
 
     $us = BoincUserSubmit::enum("");
-    start_table();
+    start_table('table-striped');
     table_header(
         "User<br><small>Click to change permissions or quota</small>",
         "Can submit jobs for",
