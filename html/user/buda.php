@@ -163,18 +163,19 @@ function variant_form($user) {
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
 
-    page_head("Create a variant of Docker app $app");
+    page_head_select2("Create a variant of Docker app $app");
     echo "
         Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#adding-a-variant>here</a>.
     ";
     $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
-    $sb2 = '<br><small>Use Ctrl+click to select multiple files</small>';
+    $pc = '<br><small>Specify
+    <a href=https://github.com/BOINC/boinc/wiki/AppPlan>GPU and other requirements</a>';
     form_start('buda.php');
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
-    form_input_text('Plan class', 'variant');
+    form_input_text("Plan class$pc", 'variant');
     form_select("Dockerfile$sb", 'dockerfile', $sbitems);
-    form_select_multiple("Application files$sb$sb2", 'app_files', $sbitems, null, 12);
+    form_select2_multi("Application files$sb", 'app_files', $sbitems, null);
     form_input_text(
         'Input file names<br><small>Space-separated</small>',
         'input_file_names'
