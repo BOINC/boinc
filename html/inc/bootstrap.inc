@@ -533,7 +533,7 @@ function page_head_select2($title) {
     page_head($title, null, false, '', $head_extra);
     echo "<script>
         $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
+            $('.js-example-basic-multiple').select2({placeholder: 'click to select'});
         });
         </script>
     ";
