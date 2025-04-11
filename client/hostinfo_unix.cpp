@@ -115,6 +115,7 @@
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
@@ -2205,8 +2206,44 @@ long xss_idle() {
 
 #endif // LINUX_LIKE_SYSTEM
 
+// idle time detection.
+// old approach: do it ourselves by looking at devices
+//  and trying to get info from X11
+//  (big mess, permssions problems, doesn't generally work)
+// new approach: get last-input time from a separate daemon process,
+//  communicated via shmem
+
+// Used to name shmem segment.  Not written to after init
+
+#define IDLE_DETECT_SHMEM_PATH "/tmp/idle_detect_shmem"
+
+bool get_idle_time_from_daemon(long &idle_time) {
+    static uint64_t* seg_ptr = NULL;
+    if (!seg_ptr) {
+        attach_shmem_mmap(IDLE_DETECT_SHMEM_PATH, (void**)&seg_ptr);
+    }
+    if (!seg_ptr) return false;
+
+    // make sure the shmem is actually being updated
+    //
+    uint64_t update_time = seg_ptr[0];
+    if (update_time > gstate.now+10) return false;
+    if (update_time < gstate.now-60) return false;
+
+    uint64_t input_time = seg_ptr[1];
+    idle_time = gstate.now - input_time;
+    printf("idle time: %ld\n", idle_time);
+    return true;
+}
+
+// get idle time.  Try the new approach, if it fails use old
+//
 long HOST_INFO::user_idle_time(bool check_all_logins) {
     long idle_time = USER_IDLE_TIME_INF;
+
+    if (get_idle_time_from_daemon(idle_time)) {
+        return idle_time;
+    }
 
 #if HAVE_UTMP_H
     if (check_all_logins) {

@@ -124,7 +124,8 @@ public:
 
     bool host_is_running_on_batteries();
     long user_idle_time(bool check_all_logins);
-        // seconds since last user interaction
+        // seconds since last user interaction,
+        // or a large number (USER_IDLE_TIME_INF) if we have no info
     int get_host_info(bool init);
     int get_cpu_info();
     int get_cpu_count();
