@@ -2209,7 +2209,7 @@ long xss_idle() {
 // idle time detection.
 // old approach: do it ourselves by looking at devices
 //  and trying to get info from X11
-//  (big mess, permssions problems, doesn't generally work)
+//  (big mess, permissions problems, doesn't generally work)
 // new approach: get last-input time from a separate daemon process,
 //  communicated via shmem
 
@@ -2232,7 +2232,7 @@ bool get_idle_time_from_daemon(long &idle_time) {
 
     uint64_t input_time = seg_ptr[1];
     idle_time = gstate.now - input_time;
-    printf("idle time: %ld\n", idle_time);
+    //printf("idle time: %ld\n", idle_time);
     return true;
 }
 
