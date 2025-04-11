@@ -47,7 +47,7 @@
   <string name="attachproject_login_header_description">Descrizione:</string>
   <string name="attachproject_login_header_home">Home:</string>
   <string name="attachproject_login_header_url">Sito web:</string>
-  <string name="attachproject_login_header_id_email">email:</string>
+  <string name="attachproject_login_header_id_email">Indirizzo email:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Password:</string>
   <string name="attachproject_login_button_registration">Registra</string>
@@ -71,9 +71,9 @@
   <string name="attachproject_error_no_name">Per favore inserisci un nome utente</string>
   <string name="attachproject_error_unknown">fallito</string>
   <string name="attachproject_error_bad_username">Nome utente rifiutato</string>
-  <string name="attachproject_error_email_in_use">L\'email è già in uso da parte di un account</string>
+  <string name="attachproject_error_email_in_use">L\'indirizzo email specificato è già in uso</string>
   <string name="attachproject_error_project_down">Progetto offline</string>
-  <string name="attachproject_error_email_bad_syntax">email rifiutata</string>
+  <string name="attachproject_error_email_bad_syntax">Indirizzo email rifiutato</string>
   <string name="attachproject_error_bad_pwd">Password rifiutata</string>
   <string name="attachproject_error_creation_disabled">La creazione di nuovi account è disabilitata su questo progetto</string>
   <string name="attachproject_error_invalid_url">URL non valido</string>
@@ -130,6 +130,7 @@
   <string name="prefs_remote_header">Abilita il controllo remoto</string>
   <string name="prefs_remote_summary">Dopo la modifica il client BOINC verrà riavviato.</string>
   <string name="prefs_show_notification_notices_header">Visualizza notifiche delle notizie</string>
+  <string name="prefs_show_notification_suspended_header">Visualizza notifiche quando sospeso</string>
   <string name="prefs_cpu_number_cpus_header">Usa questo numero di core CPU</string>
   <string name="prefs_cpu_number_cpus_description">Limita il numero di core CPU che BOINC usa per l\'elaborazione.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausa con utilizzo CPU superiore a (%)</string>
@@ -140,9 +141,11 @@
   <string name="prefs_other_store_at_least_x_days_of_work_header">Buffer delle work unit (giorni)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Buffer unità di lavoro aggiuntiva (giorni)</string>
   <string name="prefs_remote_authentication_key">Chiave di autenticazione GUI</string>
+  <string name="prefs_remote_authentication_key_input_hint">Chiave di autenticazione</string>
   <string name="prefs_remote_empty_password">Modifica della password fallita: il valore non può essere vuoto</string>
   <string name="prefs_remote_boinc_relaunched">Il client BOINC verrà riavviato dopo la modifica della password.</string>
   <string name="prefs_client_log_flags_header">Flag di log del client BOINC</string>
+  <string name="prefs_gui_log_categories">BOINC GUI categorie log</string>
   <string name="prefs_gui_log_level_header">Livello di log della GUI</string>
   <string name="prefs_gui_log_level_description">Specifica la verbosità dei messaggi di log della GUI.</string>
   <string name="prefs_theme_light">Chiaro</string>
@@ -292,6 +295,8 @@
   <string name="social_invite_content_url_amazon">https://www.amazon.it/dp/B00DCCGLAG</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Visualizza notifiche di mancato avviso</string>
   <string name="notice_notification_channel_name">Avvisi</string>
   <string name="notice_notification_channel_description">Mostra avvisi dei tuoi progetti.</string>
+  <string name="prefs_expand_wu_data">Mostra sempre informazioni espanse sull\'attività</string>
 </resources>

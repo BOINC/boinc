@@ -118,7 +118,7 @@
   <string name="prefs_power_source_usb">Conexión USB</string>
   <string name="prefs_power_source_wireless">Cargador inalámbrico</string>
   <string name="prefs_power_source_battery">Batería</string>
-  <string name="battery_charge_min_pct_header">Nivel de bateria minimo (%)</string>
+  <string name="battery_charge_min_pct_header">Nivel de batería mínimo (%)</string>
   <string name="battery_temperature_max_header">Temperatura de la batería maxima (˚C)</string>
   <string name="prefs_disk_max_pct_header">Espacio de almacenamiento máximo utilizado(%)</string>
   <string name="prefs_disk_min_free_gb_header">Espacio mínimo de almacenamiento extra (GB)</string>
@@ -126,7 +126,7 @@
   <string name="prefs_network_daily_xfer_limit_mb_header">Límite de transferencia diaria (MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Límite de transferencia diaria (días)</string>
   <string name="prefs_network_wifi_only_header">Transmitir datos solo por WiFi</string>
-  <string name="prefs_autostart_header">Auto inciar</string>
+  <string name="prefs_autostart_header">Auto-iniciar</string>
   <string name="prefs_remote_header">Activar control remoto</string>
   <string name="prefs_remote_summary">Al cambiar, el cliente BOINC se reiniciará.</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificación para nuevas noticias</string>
@@ -243,7 +243,7 @@
   <string name="suspend_exclusiveapp">Se está ejecutando una aplicación de manera exclusiva.</string>
   <string name="suspend_cpu">Su dispositivo está ocupado con otras aplicaciones.</string>
   <string name="suspend_network_quota">BOINC ha alcanzado el ĺímite de transferencia de datos.</string>
-  <string name="suspend_os">Parado por Android</string>
+  <string name="suspend_os">Detenido por Android</string>
   <string name="suspend_wifi">No conectado al WiFi.</string>
   <string name="suspend_battery_charging">Esperando a la batería para cargar.</string>
   <string name="suspend_battery_charging_long">La computación se reanudará cuando la carga de la batería llegue a %1$d%% (actualmente es %2$d%%)</string>
@@ -297,6 +297,6 @@
   <string name="main_notification_channel_name">BOINC</string>
   <string name="main_notification_channel_description">Muestra notificaciones sin aviso.</string>
   <string name="notice_notification_channel_name">Avisos</string>
-  <string name="notice_notification_channel_description">Visualiza noticias de tus projectos.</string>
+  <string name="notice_notification_channel_description">Visualiza noticias de tus proyectos.</string>
   <string name="prefs_expand_wu_data">Ampliar siempre la información de la tarea</string>
 </resources>

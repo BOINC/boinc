@@ -6,6 +6,7 @@
 # 
 # Translators:
 # 233 666 <fenggaobuke@gmail.com>, 2017
+# . ., 2025
 # Asa Wang <xtremeaud@gmail.com>, 2017
 # Gavin Zheng <179873196@qq.com>, 2018
 # Mingye Wang <arthur200126@gmail.com>, 2019
@@ -26,7 +27,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
 "PO-Revision-Date: 2015-04-17 15:02+0000\n"
-"Last-Translator: inky, 2019\n"
+"Last-Translator: . ., 2025\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -872,7 +873,7 @@ msgstr "CPU 型号"
 #: host-details
 msgctxt "host-details"
 msgid "Number of processors"
-msgstr "数据器数量"
+msgstr "处理器数量"
 
 #: host-details
 msgctxt "host-details"

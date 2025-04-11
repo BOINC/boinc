@@ -104,7 +104,7 @@
   <!--preferences tab strings-->
   <string name="prefs_category_general">Général</string>
   <string name="prefs_category_network">Utilisation du réseau</string>
-  <string name="prefs_category_power">Allimentation</string>
+  <string name="prefs_category_power">Alimentation</string>
   <string name="prefs_category_cpu">Processeur</string>
   <string name="prefs_category_storage">Stockage</string>
   <string name="prefs_category_memory">Mémoire</string>
@@ -292,7 +292,7 @@
   <!--social integration-->
   <string name="social_invite_button">Inviter des amis</string>
   <string name="social_invite_intent_title">Comment voulez-vous partager ? </string>
-  <string name="social_invite_content_title">Je fais du calcul scientifique sur mon smatphone !</string>
+  <string name="social_invite_content_title">Je fais du calcul scientifique sur mon smartphone !</string>
   <string name="social_invite_content_body">J\'utilise mon %1$s pour faire du calcul scientifique. Vous pouvez le faire aussi ! Téléchargez l\'application à partir de : %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
