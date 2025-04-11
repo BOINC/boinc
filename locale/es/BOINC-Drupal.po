@@ -10,7 +10,7 @@
 # el buve, 2015
 # Gonzalo Pesquero <gpesquero@yahoo.es>, 2016
 # Jose Nuñez <jose87_jose87@hotmail.com>, 2016
-# Juan Jaramillo <juanda097@protonmail.ch>, 2015
+# JUAN DAVID JARAMILLO ORTIZ <juanda097@protonmail.ch>, 2015
 # kinoxl <kinoxl@gmail.com>, 2015
 # Liliana Faouen <liliana.faouen@gmail.com>, 2017
 # Miguel Raz Guzmán Macedo <miguelraz@ciencias.unam.mx>, 2015

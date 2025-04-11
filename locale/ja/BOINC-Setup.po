@@ -1,5 +1,5 @@
 # BOINC setup localization template
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -8,16 +8,16 @@
 # Masahiro Tagashira, 2015
 # Mita Ichiro <kokochandaisiki@icloud.com>, 2020
 # Soichiro Nitta <ns_theh1llzenk1d@outlook.com>, 2017
-# Norifumi Yamamura, 2023
+# 137d22ea58966cb94105d6af710be089_4a8c650, 2023
 # 当間充, 2020
 # -分身, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"POT-Creation-Date: 2025-02-09 02:28 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: Norifumi Yamamura, 2023\n"
+"Last-Translator: 137d22ea58966cb94105d6af710be089_4a8c650, 2023\n"
 "Language-Team: Japanese (http://app.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,12 +66,12 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "このコンピュータの管理者権限を持つユーザーは自動的に %s の動作および制御が可能になります。\nこの Mac で管理者権限を持たないユーザーによる %s の動作および制御を同様に可能にしますか？"
 
-#: mac_installer/PostInstall.cpp:1699
+#: mac_installer/PostInstall.cpp:1698
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "この Mac の全ての %s ユーザーに %s をスクリーンセーバーとして設定しますか？"
 
-#: mac_installer/PostInstall.cpp:2338
+#: mac_installer/PostInstall.cpp:2340
 msgid ""
 "BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
 "\n"
