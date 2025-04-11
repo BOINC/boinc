@@ -20,6 +20,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 #include <string.h>
 
 #include "str_replace.h"
@@ -42,6 +43,8 @@ extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern void secs_to_hmsf(double, char*);
 extern std::string timediff_format(double);
+int64_t ParseStringtoInt64(const std::string& str);
+
 
 inline bool empty(char* p) {
     return p[0] == 0;
