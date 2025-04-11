@@ -9747,8 +9747,7 @@
             "Description": "IDS_IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN"
         }
     ],
-    "Listbox": [
-    ],
+    "Listbox": [],
     "Property": [
         {
             "Property": "ARPCOMMENTS",
@@ -9856,7 +9855,7 @@
         },
         {
             "Property": "ProductVersion",
-            "Value": "8.1.0"
+            "Value": "8.2.0"
         },
         {
             "Property": "ProgressType0",
