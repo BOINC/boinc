@@ -2214,22 +2214,22 @@ long xss_idle() {
 //  communicated via shmem
 
 bool get_idle_time_from_daemon(long &idle_time) {
-    static uint64_t* seg_ptr = NULL;
+    static int64_t* seg_ptr = NULL;
     if (!seg_ptr) {
         int fd = shm_open("/idle_detect_shmem",  O_RDONLY, 0);
-        seg_ptr = (uint64_t*)mmap(
-            NULL, 2*sizeof(uint64_t), PROT_READ, MAP_SHARED, fd, 0
+        seg_ptr = (int64_t*)mmap(
+            NULL, 2*sizeof(int64_t), PROT_READ, MAP_SHARED, fd, 0
         );
     }
     if (!seg_ptr) return false;
 
     // make sure the shmem is actually being updated
     //
-    uint64_t update_time = seg_ptr[0];
+    int64_t update_time = seg_ptr[0];
     if (update_time > gstate.now+10) return false;
     if (update_time < gstate.now-60) return false;
 
-    uint64_t input_time = seg_ptr[1];
+    int64_t input_time = seg_ptr[1];
     idle_time = gstate.now - input_time;
     //printf("idle time: %ld\n", idle_time);
     return true;
