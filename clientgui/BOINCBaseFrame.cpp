@@ -761,17 +761,17 @@ bool CBOINCBaseFrame::SaveState() {
     // Retrieve existing computers in the config because
     // some computers may have been added by other BOINC manager windows.
     iIndex = 0;
-    strBuffer.Printf(wxT("%d"), iIndex);
+    strBuffer.Printf(wxT("%zu"), iIndex);
     while (pConfig->Exists(strBuffer)) {
 		wxString computer = pConfig->Read(strBuffer, wxEmptyString);
 		if (computer != wxEmptyString && existingComputers.Index(computer) == wxNOT_FOUND) {
 			existingComputers.Add(computer);
 		}
-        strBuffer.Printf(wxT("%d"), ++iIndex);
+        strBuffer.Printf(wxT("%zu"), ++iIndex);
     }
 
     for (iIndex = 0; iIndex < m_aSelectedComputerMRU.GetCount(); iIndex++) {
-        strBuffer.Printf(wxT("%d"), iIndex);
+        strBuffer.Printf(wxT("%zu"), iIndex);
         pConfig->Write(
             strBuffer,
             m_aSelectedComputerMRU.Item(iIndex)
