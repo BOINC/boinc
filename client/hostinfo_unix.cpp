@@ -58,7 +58,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <sys/param.h>
 
 #if HAVE_SYS_TYPES_H
@@ -73,8 +75,6 @@
 #if HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
 #endif
-
-#include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
@@ -2213,13 +2213,6 @@ long xss_idle() {
 // new approach: get last-input time from a separate daemon process,
 //  communicated via shmem
 
-// Used to name shmem segment.  Not written to after init
-
-#define IDLE_DETECT_SHMEM_PATH "/tmp/idle_detect_shmem"
-
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 bool get_idle_time_from_daemon(long &idle_time) {
     static uint64_t* seg_ptr = NULL;
     if (!seg_ptr) {
@@ -2238,7 +2231,7 @@ bool get_idle_time_from_daemon(long &idle_time) {
 
     uint64_t input_time = seg_ptr[1];
     idle_time = gstate.now - input_time;
-    printf("idle time: %ld\n", idle_time);
+    //printf("idle time: %ld\n", idle_time);
     return true;
 }
 
