@@ -841,8 +841,10 @@ bool CBOINCBaseFrame::RestoreState() {
     bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
     while (bKeepEnumerating) {
         pConfig->Read(strBuffer, &strValue);
+		if (m_aSelectedComputerMRU.Index(strValue) == wxNOT_FOUND) {
+            m_aSelectedComputerMRU.Add(strValue);
+		}
 
-        m_aSelectedComputerMRU.Add(strValue);
         bKeepEnumerating = pConfig->GetNextEntry(strBuffer, iIndex);
     }
 
