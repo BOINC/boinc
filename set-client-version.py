@@ -78,14 +78,15 @@ def set_version_h_in(version):
 
 def set_build_gradle(version):
     _, minor, _ = split_version(version)
-    if (is_release(minor)):
-        return
     with open('android/BOINC/app/build.gradle', 'r') as f:
         lines = f.readlines()
     with open('android/BOINC/app/build.gradle', 'w') as f:
         for line in lines:
             if line.startswith('    def version = '):
-                line = f'    def version = \'{version} : DEVELOPMENT\'\n'
+                if (is_release(minor)):
+                    line = f'    def version = \'{version}\'\n'
+                else:
+                    line = f'    def version = \'{version} : DEVELOPMENT\'\n'
             f.write(line)
 
 def set_boinc_json(version):
