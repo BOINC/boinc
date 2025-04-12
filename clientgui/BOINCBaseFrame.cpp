@@ -779,7 +779,7 @@ bool CBOINCBaseFrame::SaveState() {
     }
 
     // Write existing computers that are not in the MRU list into the config.
-    for (auto computer : existingComputers) {
+    for (const auto& computer : existingComputers) {
         if (m_aSelectedComputerMRU.Index(computer) == wxNOT_FOUND) {
             strBuffer.Printf(wxT("%zu"), iIndex++);
             pConfig->Write(strBuffer, computer);
