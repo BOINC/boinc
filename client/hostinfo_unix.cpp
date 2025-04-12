@@ -2217,10 +2217,16 @@ long xss_idle() {
 
 #define IDLE_DETECT_SHMEM_PATH "/tmp/idle_detect_shmem"
 
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 bool get_idle_time_from_daemon(long &idle_time) {
     static uint64_t* seg_ptr = NULL;
     if (!seg_ptr) {
-        attach_shmem_mmap(IDLE_DETECT_SHMEM_PATH, (void**)&seg_ptr);
+        int fd = shm_open("/idle_detect_shmem",  O_RDONLY, 0);
+        seg_ptr = (uint64_t*)mmap(
+            NULL, 2*sizeof(uint64_t), PROT_READ, MAP_SHARED, fd, 0
+        );
     }
     if (!seg_ptr) return false;
 
@@ -2232,7 +2238,7 @@ bool get_idle_time_from_daemon(long &idle_time) {
 
     uint64_t input_time = seg_ptr[1];
     idle_time = gstate.now - input_time;
-    //printf("idle time: %ld\n", idle_time);
+    printf("idle time: %ld\n", idle_time);
     return true;
 }
 

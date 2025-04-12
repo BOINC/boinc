@@ -19,6 +19,7 @@ endif
 endif ## ENABLE_CLIENT_RELEASE
 
 LIBS += $(CLIENTLIBS)
+LIBS += -lrt
 
 bin_PROGRAMS = boinc_client boinccmd boinc
 
