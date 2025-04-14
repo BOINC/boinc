@@ -559,12 +559,11 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 #if defined(__aarch64__) || defined(__arm__)
         if (
-            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            // Hardware is specifying the board this CPU is on,
+            // store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
         ) {
-            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
-            int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
-            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
             strip_whitespace(buf2);
             if (strlen(host.product_name)) {
                 safe_strcat(host.product_name, " ");
@@ -2206,6 +2205,7 @@ long xss_idle() {
 
 #endif // LINUX_LIKE_SYSTEM
 
+#ifndef ANDROID     // Android doesn't have shm_open()
 // idle time detection.
 // old approach: do it ourselves by looking at devices
 //  and trying to get info from X11
@@ -2234,15 +2234,18 @@ bool get_idle_time_from_daemon(long &idle_time) {
     //printf("idle time: %ld\n", idle_time);
     return true;
 }
+#endif      // !ANDROID
 
 // get idle time.  Try the new approach, if it fails use old
 //
 long HOST_INFO::user_idle_time(bool check_all_logins) {
     long idle_time = USER_IDLE_TIME_INF;
 
+#ifndef ANDROID
     if (get_idle_time_from_daemon(idle_time)) {
         return idle_time;
     }
+#endif
 
 #if HAVE_UTMP_H
     if (check_all_logins) {
