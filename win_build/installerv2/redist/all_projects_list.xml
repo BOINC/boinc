@@ -282,26 +282,12 @@
         <description><![CDATA[The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors.]]></description>
         <home>CERN (European Organization for Nuclear Research)</home>
     <platforms>
-        <name>windows_intelx86</name>
-        <name>windows_intelx86[avx]</name>
-        <name>windows_intelx86[sse2]</name>
-        <name>windows_x86_64[avx]</name>
-        <name>windows_x86_64[sse2]</name>
-        <name>x86_64-pc-linux-gnu[avx]</name>
-        <name>x86_64-pc-linux-gnu[sse2]</name>
-        <name>x86_64-apple-darwin[avx]</name>
-        <name>x86_64-apple-darwin[sse2]</name>
-        <name>aarch64-android-linux-gnu[android]</name>
-        <name>aarch64-unknown-linux-gnu</name>
-        <name>x86_64-pc-freebsd[avx]</name>
-        <name>x86_64-pc-freebsd[sse2]</name>
         <name>windows_x86_64[vbox64_mt_mcore_cms]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_cms]</name>
         <name>windows_x86_64[vbox64_theory]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
         <name>x86_64-apple-darwin[vbox64_theory]</name>
-        <name>x86_64-apple-darwin[vbox64]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
